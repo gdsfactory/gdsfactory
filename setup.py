@@ -9,7 +9,7 @@ def get_install_requires():
 setup(
     name="gdsfactory",
     url="https://github.com/PsiQ/gdsfactory",
-    version="1.1.0",
+    version="1.1.1",
     author="PsiQ",
     scripts=["pp/pf.py"],
     description="python libraries to generate GDS layouts",
