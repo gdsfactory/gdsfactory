@@ -9,8 +9,9 @@ else:
     KLAYOUT_FOLDER = ".klayout"
 
 
+CWD = pathlib.Path(__file__).resolve().parent
 HOME = pathlib.Path.home()
-MACRO_PATH = pathlib.Path.cwd() / "klive.lym"
+MACRO_PATH = CWD / "klive.lym"
 MACROS_PATH = HOME / KLAYOUT_FOLDER / "pymacros"
 
 
