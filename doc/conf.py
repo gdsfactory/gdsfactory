@@ -2,7 +2,7 @@ from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 
 project = "gdsfactory"
-version = "1.1.0"
+version = "1.1.1"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
