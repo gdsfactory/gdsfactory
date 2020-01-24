@@ -1,0 +1,4 @@
+[diff "gds_diff"]
+     command = python -m gdsdiff.gds_diff_git
+     binary = True
+

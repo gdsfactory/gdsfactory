@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>klive server</description>
+ <version/>
+ <category>pymacros</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>true</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+<text>
+from __future__ import print_function
+import pya
+import re
+import json
+import sys
+is_python3 = sys.version_info.major==3
+
+if is_python3:
+    import codecs
+
+class MyServer(pya.QTcpServer):
+    """
+    Implements a TCP server listening on port 8082.
+    You can use it to instantly load a GDS file, programmatically, from Python.
+    Just send a JSON-formatted command to localhost:8082.
+    See README for more details.
+    """
+
+    def new_connection(self):
+        """
+        Handler for a new connection
+        """
+
+        try:
+
+            url = None
+
+            # Get a new connection object
+            connection = self.nextPendingConnection()
+
+            # Read in the request
+            data = None
+            while connection.isOpen() and connection.state() == pya.QTcpSocket.ConnectedState:
+                if connection.canReadLine():
+                    line = connection.readLine()
+                    if is_python3:
+                        pass
+                    else: 
+                        line = line .decode("utf-8")
+                    data = json.loads(line)
+                else:
+                    connection.waitForReadyRead(100)
+
+            # Interpret the data
+            gds_path = data["gds"]
+
+            # Store the current view
+            window = pya.Application.instance().main_window()
+            current_view = window.current_view()
+            previous_view = current_view.box() if current_view else None
+
+            # Load the new layout
+            window.load_layout(gds_path, 0)
+
+            # Restore the previous position
+            view = window.current_view()
+            view.max_hier()
+            if previous_view and data["keep_position"]==True:
+                view.zoom_box(previous_view)
+
+            # Report progress
+            print("Loaded {}".format(gds_path))
+            connection.write("Loaded {}".format(gds_path))
+
+            # Ping the necessary event
+            if hasattr(window, "on_klive_update"): 
+                print (window.on_klive_update) # To avoid triggering a false error
+                if window.on_klive_update:
+                    window.on_klive_update()
+                             
+            # Disconnect
+            connection.disconnectFromHost()
+            signal = pya.qt_signal("disconnected()")
+            slot = pya.qt_slot("deleteLater()")
+            pya.QObject.connect(connection, signal, connection, slot)
+
+        except Exception as ex:
+            print("ERROR " + str(ex))
+
+    def __init__(self, parent=None):
+        """
+        Initialize the server and put into listen mode (port is 8082)
+        """
+
+        super(MyServer, self).__init__(parent)
+
+        ha = pya.QHostAddress.new_ip4(0)
+        self.listen(ha, 8082)
+
+        # install an event on a new connection
+        self.newConnection(self.new_connection)
+
+
+# Start the server
+server = MyServer()
+print("klive v0.0.6 is running")
+
+
+</text>
+</klayout-macro>

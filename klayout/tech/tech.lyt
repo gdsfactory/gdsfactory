@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<technology>
+ <name>generic</name>
+ <description/>
+ <original-base-path/>
+ <layer-properties_file>layers.lyp</layer-properties_file>
+ <add-other-layers>true</add-other-layers>
+ <layer-map/>
+ <create-other-layers>true</create-other-layers>
+ <lef-def-import>
+  <read-all-layers>true</read-all-layers>
+  <layer-map/>
+  <dbu>0.001</dbu>
+  <produce-net-names>true</produce-net-names>
+  <net-property-name>#1</net-property-name>
+  <produce-cell-outlines>true</produce-cell-outlines>
+  <cell-outline-layer>OUTLINE</cell-outline-layer>
+  <produce-placement-blockages>true</produce-placement-blockages>
+  <placement-blockage-layer>PLACEMENT_BLK</placement-blockage-layer>
+  <produce-via-geometry>true</produce-via-geometry>
+  <via-geometry-suffix/>
+  <via-geometry-datatype>0</via-geometry-datatype>
+  <produce-pins>true</produce-pins>
+  <pins-suffix>.PIN</pins-suffix>
+  <pins-datatype>2</pins-datatype>
+  <produce-obstructions>true</produce-obstructions>
+  <obstructions-suffix>.OBS</obstructions-suffix>
+  <obstructions-datatype>3</obstructions-datatype>
+  <produce-blockages>true</produce-blockages>
+  <blockages-suffix>.BLK</blockages-suffix>
+  <blockages-datatype>4</blockages-datatype>
+  <produce-labels>true</produce-labels>
+  <labels-suffix>.LABEL</labels-suffix>
+  <labels-datatype>1</labels-datatype>
+  <produce-routing>true</produce-routing>
+  <routing-suffix/>
+  <routing-datatype>0</routing-datatype>
+ </lef-def-import>
+ <connectivity>
+ </connectivity>
+</technology>

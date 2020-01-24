@@ -1,0 +1,6 @@
+include pp/components/csv_data/*.csv
+include pp/components/grating_coupler/csv_data/*.csv
+recursive-include pp/samples/*
+include requirements.txt
+include klive.lym
+global-include *.csv

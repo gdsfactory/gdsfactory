@@ -1,0 +1,258 @@
+*.py[cod]
+
+# C extensions
+*.so
+*.ports
+*.properties
+
+# Packages
+*.egg
+*.egg-info
+dist
+doc_pdks/
+pdk_docs/
+build
+gdslib/
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib/
+lib64
+__pycache__
+.mypy_cache/
+.pyre/
+extra/
+pp/components/doc
+cml/
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+notebooks/
+pp/gds/.gds/
+.gds/
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+tags
+
+# Icon must end with two \r
+Icon
+vim-markdown-preview.html
+
+# Thumbnails
+._*
+*.pyc
+*.pyo
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Rope project settings
+.ropeproject
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak
+.mypy_cache/
+
+.idea/
+*.cprof
+.ipynb_checkpoints/
+
+# Sphinx documentation
+doc/_build/
+
+Icon?
+*.h5
+*.log
+*.DS_Store
+*.lyrdb
+*.7z
+*.mpg
+*.pdf
+*.fsp
+*.lms
+*.icp
+*.ldf
+*.bak
+*.dat
+*.mat
+
+*.xml
+*.tar.gz
+*.gds
+*.json
+*.zip
+*.rdb
+*.sty
+*.blg
+*.aux
+*.bbl
+*.bib
+*.bst
+*.ppt
+*.gif
+*.pptx
+*.js
+*.prj
+*.swp
+*.lms
+*.wpr
+*.wpu
+.pytest_cache
+
+# Fab-specific
+*.gds
+*.gds2
+
+# Random stuff
+.noseids
+.tags
+
+# Python
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+
+# netlist stuff
+*.spi # lumerical
+*.nst # json netlist format

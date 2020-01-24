@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+click = "*"
+numpy = "*"
+pandas = "*"
+picwriter = "*"
+phidl = "==1.0.3"
+qrcode = "*"
+scipy = "*"
+HiYaPyCo = "*"
+GitPython = "*"
+Shapely = "*"
+
+[requires]
+python_version = "3.7"

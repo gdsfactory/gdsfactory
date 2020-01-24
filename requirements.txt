@@ -1,0 +1,15 @@
+click
+gitpython
+gdspy==1.4
+hiyapyco
+jsondiff
+klayout
+numpy
+pandas
+phidl==1.2.0
+picwriter
+pyqtree
+qrcode
+scipy
+shapely
+xlrd

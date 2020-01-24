@@ -1,0 +1,90 @@
+from pp.components import taper
+from pp.components import compass
+from pp.name import autoname
+from pp.component import Component
+import pp
+
+
+@autoname
+def grating_coupler_uniform(
+    num_teeth=20,
+    period=0.75,
+    fill_factor=0.5,
+    width_grating=11,
+    length_taper=150,
+    width=0.5,
+    partial_etch=False,
+):
+    """ Grating coupler uniform
+
+    Args:
+        num_teeth: 20
+        period: 0.75
+        fill_factor: 0.5
+        width_grating: 11
+        length_taper: 150
+        width: 0.5
+        partial_etch: False
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.grating_coupler_uniform()
+      pp.plotgds(c)
+
+    """
+    # returns a fiber grating
+    G = Component()
+    layer = 1
+    layer_partial_etch = 2
+
+    if partial_etch:
+        partetch_overhang = 5
+        _compass = compass(
+            size=[period * (1 - fill_factor), width_grating + partetch_overhang * 2],
+            layer=layer_partial_etch,
+        )
+
+        # make the etched areas (opposite to teeth)
+        for i in range(num_teeth):
+            cgrating = G.add_ref(_compass)
+            cgrating.x += i * period
+
+        # draw the deep etched square around the grating
+        deepbox = G.add_ref(
+            compass(size=[num_teeth * period, width_grating], layer=layer)
+        )
+        deepbox.movex(num_teeth * period / 2)
+    else:
+        for i in range(num_teeth):
+            cgrating = G.add_ref(
+                compass(size=[period * fill_factor, width_grating], layer=layer)
+            )
+            cgrating.x += i * period
+    # make the taper
+    tgrating = G.add_ref(
+        taper(
+            length=length_taper,
+            width1=width_grating,
+            width2=width,
+            port=None,
+            layer=layer,
+        )
+    )
+    tgrating.xmin = cgrating.xmax
+    # define the port of the grating
+    G.add_port(port=tgrating.ports["2"], name="E0")
+    return G
+
+
+def test_grating_coupler_uniform():
+    c = grating_coupler_uniform(name="gcu", partial_etch=False)
+    pp.write_gds(c)
+
+
+if __name__ == "__main__":
+    # c = grating_coupler_uniform(name='gcu', partial_etch=True)
+    c = grating_coupler_uniform(partial_etch=False)
+    pp.show(c)

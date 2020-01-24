@@ -1,0 +1,74 @@
+
+mask:
+      name: {{name}}
+      description: {{mask description}}
+      height: {{height (nm)}}
+      width: {{width (nm)}}
+
+tech:
+    name: {{tech}}
+
+chip:
+    rows: 1
+    cols: 1
+    spacing: 150000
+    lane_width: 100000
+
+modules:
+    - autoplacer
+    - pp
+
+test_protocols:
+    passive_optical_te_coarse:
+      function_name: passive_optical_te
+      settings:
+          polarization: te
+          wavelength_nm_min: 1500
+          wavelength_nm_max: 1600
+          wavelength_nm_step: 0.1
+          fiber_angle: 15
+
+
+    passive_optical_tm_coarse:
+      function_name: passive_optical_tm
+      settings:
+          polarization: tm
+          wavelength_nm_min: 1500
+          wavelength_nm_max: 1600
+          wavelength_nm_step: 0.1
+          fiber_angle: 15
+
+    obr:
+      function_name: obr
+
+data_analysis_protocols:
+    spiral_loss_vs_length:
+      - version: 0.0.1
+
+    coupling_vs_length:
+      - version: 0.0.1
+
+    cutback:
+      - version: 0.0.1
+
+    obr:
+      - version: 0.0.1
+
+does:
+    wg_loss_te_1000:
+      component: spiral_te
+      settings:
+        wg_width: [1.]
+        length: [2, 4, 6]
+      test: passive_optical_te_coarse
+      analysis: spiral_loss_vs_length
+
+    coupler_500_224:
+      component: coupler_te
+      settings:
+        wg_width: [0.5]
+        gap: [0.224]
+        length: [0, 18.24, 36.48, 54.72, 72.96, 91.2]
+      test: passive_optical_te_coarse
+      analysis: coupling_vs_length
+
