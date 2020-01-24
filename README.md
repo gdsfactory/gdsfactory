@@ -34,7 +34,6 @@ make install
   - routing: add waveguides to connect components
   - samples: python tutorial
   - tests
-- notebooks: tutorial using jupyter notebook 
 - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
 - klive: stream GDS direcly to klayout
 
