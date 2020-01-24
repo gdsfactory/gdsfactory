@@ -1,0 +1,56 @@
+from gds3xtrude.include import layer, Material
+
+""" layers """
+si = layer(1)
+n = layer(20)
+p = layer(21)
+npp = layer(24)
+ppp = layer(25)
+
+ge = layer(30)
+wgn = layer(34)
+
+via1 = layer(40)
+metal1 = layer(41)
+via2 = layer(44)
+metal2 = layer(45)
+via3 = layer(43)
+metal3 = layer(49)
+heater = layer(47)
+
+""" materials and colors """
+
+si.material= Material('si', color     = (0.4, 0.4, 0.4))
+wgn.material= Material('wgn', color    = (1, 191/255, 1))
+ge.material= Material('ge', color     = (0.4, 0.8, 0.4))
+ppp.material= Material('ppp', color    = (0, 0, 1))
+npp.material= Material('npp', color    = (1, 0, 0))
+heater.material= Material('mh', color = (0.8, 0.2, 0.2))
+metal1.material= Material('m1', color = (0, 0.2, 0))
+metal2.material= Material('m2', color = (0, 0.4, 0))
+metal3.material= Material('m3', color = (0, 0.8, 0))
+
+""" assign materials """
+# m_si= Material('si', color     = (0.4, 0.4, 0.4))
+# m_wgn= Material('wgn', color    = (1, 191/255, 1))
+# m_ge= Material('ge', color     = (0.4, 0.8, 0.4))
+# m_ppp= Material('ppp', color    = (0, 0, 1))
+# m_npp= Material('npp', color    = (1, 0, 0))
+# m_heater= Material('mh', color = (0.8, 0.2, 0.2))
+# m_metal1= Material('m1', color = (0, 0.2, 0))
+# m_metal2= Material('m2', color = (0, 0.4, 0))
+# m_metal3= Material('m3', color = (0, 0.8, 0))
+
+
+# Define additional layers from boolean operation
+
+layerstack = [
+    (220, [p, n, si]),
+    (400, [wgn, ge]),
+    (1200, via1),
+    (600, metal1),
+    (800, via2),
+    (600, metal2),
+    (1900, via3),
+    (2800, metal3),
+]

@@ -1,0 +1,135 @@
+import pp
+from pp.config import TAPER_LENGTH
+
+
+@pp.autoname
+def taper(length=TAPER_LENGTH, width1=0.5, width2=None, port=None, layer=pp.LAYER.WG):
+    """ Linear taper
+
+    Args:
+        length:
+        width1:
+        width2:
+        port:
+        layer:
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.taper(width1=4, width2=1)
+      pp.plotgds(c)
+
+    """
+    if type(port) is pp.Port and width1 is None:
+        width1 = port.width
+    if width2 is None:
+        width2 = width1
+
+    y1 = width1 / 2
+    y2 = width2 / 2
+
+    xpts = [0, length, length, 0]
+    ypts = [y1, y2, -y2, -y1]
+
+    c = pp.Component()
+    c.add_polygon((xpts, ypts), layer=layer)
+    c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
+    c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
+
+    c.info["length"] = length
+    c.info["width1"] = width1
+    c.info["width2"] = width2
+
+    return c
+
+
+@pp.autoname
+def taper_strip_to_ridge(
+    length=10.0, width1=0.5, width2=0.5, w_slab1=0.15, w_slab2=5.0
+):
+    """ taper strip to rib
+
+    Args:
+        length:
+        width1:
+        width2:
+        w_slab1
+        w_slab2
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.taper_strip_to_ridge()
+      pp.plotgds(c)
+
+    """
+
+    _taper_wg = taper(length=length, width1=width1, width2=width2, layer=pp.LAYER.WG)
+    _taper_slab = taper(
+        length=length, width1=w_slab1, width2=w_slab2, layer=pp.LAYER.SLAB90
+    )
+
+    c = pp.Component()
+    for _t in [_taper_wg, _taper_slab]:
+        taper_ref = _t.ref()
+        c.add(taper_ref)
+        c.absorb(taper_ref)
+
+    c.info["length"] = length
+    c.add_port(name="1", port=_taper_wg.ports["1"])
+    c.add_port(name="wg_2", port=_taper_wg.ports["2"])
+    c.add_port(name="slab_2", port=_taper_slab.ports["2"])
+
+    return c
+
+
+@pp.autoname
+def taper_strip_to_ridge_trenches(
+    length=10.0,
+    width=0.5,
+    slab_offset=3,
+    trench_width=2,
+    trench_layer=3,
+    wg_layer=1,
+    trench_offset_after_wg=0.1,
+):
+
+    c = pp.Component()
+    width = pp.bias.width(width)
+    y0 = width / 2 + trench_width - trench_offset_after_wg
+    yL = width / 2 + trench_width - trench_offset_after_wg + slab_offset
+
+    # waveguide
+    x = [0, length, length, 0]
+    yw = [y0, yL, -yL, -y0]
+    c.add_polygon((x, yw), layer=wg_layer)
+
+    # top trench
+    ymin0 = width / 2
+    yminL = width / 2
+    ymax0 = width / 2 + trench_width
+    ymaxL = width / 2 + trench_width + slab_offset
+    x = [0, length, length, 0]
+    ytt = [ymin0, yminL, ymaxL, ymax0]
+    ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
+    c.add_polygon((x, ytt), layer=trench_layer)
+    c.add_polygon((x, ytb), layer=trench_layer)
+
+    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=wg_layer)
+    c.add_port(
+        name="E0", midpoint=[length, 0], width=width, orientation=0, layer=wg_layer
+    )
+
+    return c
+
+
+if __name__ == "__main__":
+    c = taper(width2=1)
+    # c = taper_strip_to_ridge()
+    # print(c.get_optical_ports())
+    # c = taper_strip_to_ridge_trenches()
+    pp.show(c)

@@ -1,0 +1,33 @@
+from phidl import device_layout as pd
+import pp
+
+
+def label(text, position=(0, 0), layer=66):
+
+    gds_layer_label, gds_datatype_label = pd._parse_layer(layer)
+
+    label_ref = pd.Label(
+        text=text,
+        position=position,
+        anchor="o",
+        layer=gds_layer_label,
+        texttype=gds_datatype_label,
+    )
+    return label_ref
+
+
+def _demo_label():
+    """ there is two ways you can add labels
+
+    """
+    c = pp.Component()
+    c.add_ref(pp.c.circle(radius=3.0, angle_resolution=10.0, layer=66))
+    c.label(text="hi", position=(0, 1))
+    # c.add(label("hi", (0, 1)))
+    return c
+
+
+if __name__ == "__main__":
+
+    c = _demo_label()
+    pp.show(c)
