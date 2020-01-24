@@ -1,6 +1,6 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = photonics_pdk
+SPHINXPROJ    = gdsfactory
 SOURCEDIR     = .
 BUILDDIR      = build
 

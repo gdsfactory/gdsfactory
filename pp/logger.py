@@ -1,5 +1,5 @@
 """
-This module provides a fairly sophisticated logging system as an alternative to ``print``. It is already used by many parts of the PDK.You can use ``LOGGER.info(text)`` just like ``print``. However, there are some real advantages.
+This module provides a fairly sophisticated logging system as an alternative to ``print``. You can use ``LOGGER.info(text)`` just like ``print``. However, there are some real advantages.
 
 Rationale
 ----------
@@ -41,14 +41,11 @@ In 99% of cases all you need to do is this::
 
 If you want to emit an error or a warning, call ``LOGGER.error("Some text")`` or ``LOGGER.warning("Some text")``. If you want something to be logged but not printed to the terminal, use ``LOGGER.debug``.
 
-The PDK knows to store separate log files for each mask. You can easily review the logs just by reading the files, but you can also use ``pdk log``::
+gdsdactory stores separate log files for each mask. You can easily review the logs just by reading the files, but you can also use ``pf log show``::
 
-    $ pdk log debug | tail
-    ...
-    $ pdk log error | tail
-    ...
+    $ pf log show
 
-It can also post logs to Slack, which can be useful when running on Jenkins or a remote server. Just add a block like this to the local ``~/.pdk/pdk.yaml``:
+It can also post logs to Slack, which can be useful when running on Jenkins or a remote server. Just add a block like this to the local ``~/.gdsfactory/config.yml``:
 
 .. code-block:: yaml
 
