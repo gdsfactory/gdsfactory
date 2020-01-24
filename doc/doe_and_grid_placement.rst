@@ -69,7 +69,7 @@ It specifies a component grid and its DOEs.
 Define DOE
 --------------------
 
-In the previous section, we saw how to create a DOE based on standard component factories available in the pdk.
+In the previous section, we saw how to create a DOE based on standard component factories available.
 You may also want to create your own DOE based on arbitrary devices.
 To do that you need to:
 

@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=build
-set SPHINXPROJ=photonics_pdk
+set SPHINXPROJ=gdsfactory
 
 if "%1" == "" goto help
 

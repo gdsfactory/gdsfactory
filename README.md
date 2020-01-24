@@ -41,7 +41,6 @@ make install
 # Related repos
 
 - notebooks: jupyter-notebooks for training
-- pdkdocs: document different pdks
 - gdslib: separate repo where we store the component outputs
   - `component.nst`: netlist
   - `component.dat`: FDTD sparameter data
