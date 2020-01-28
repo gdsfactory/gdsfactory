@@ -53,6 +53,7 @@ def test_via(
     via_layer=3,
 ):
     """ Via cutback to extract via resistance
+    from phidl.geometry
 
     Args:
         num_vias=100

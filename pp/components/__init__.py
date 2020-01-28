@@ -56,7 +56,11 @@ from pp.components.spiral_circular import spiral_circular
 from pp.components.delay_snake import delay_snake
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 
-# electrical test structures
+# electrical
+from pp.components.electrical.pad import pad
+from pp.components.electrical.pad import pad_array
+
+# electrical PCM
 from pp.components.pcm.test_resistance import test_resistance
 from pp.components.pcm.test_via import test_via
 
@@ -101,6 +105,8 @@ component_type2factory = {
     "mmi2x2": mmi2x2,
     "mzi2x2": mzi2x2,
     "mzi1x2": mzi1x2,
+    "pad": pad,
+    "pad_array": pad_array,
     "rectangle": rectangle,
     "ring": ring,
     "ring_single_bus": ring_single_bus,
@@ -165,6 +171,8 @@ __all__ = [
     "mmi1x2",
     "mmi2x2",
     "mzi_arm",
+    "pad",
+    "pad_array",
     "rectangle",
     "rectangle_centered",
     "ring_single_bus",

@@ -1,8 +1,8 @@
+import pathlib
 import numpy as np
 from pp.component import Component
 import pp
 
-import pathlib
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 

@@ -16,7 +16,7 @@ def test_comb(
     comb_gnd_layer=None,
     overlap_pad_layer=None,
 ):
-    """ Superconducting heater device
+    """ Superconducting heater device from phidl.geometry
 
     Args:
         pad_size=(200, 200)
