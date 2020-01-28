@@ -100,12 +100,5 @@ def cd_bend_slot(gap=0.2, **kwargs):
 
 
 if __name__ == "__main__":
-    pass
-    # c = pcm_bend_slot(
-    #     width=[0.46, 0.5, 0.54, 0.46, 0.5, 0.54, 0.46, 0.5, 0.54],
-    #     gap=[0.2, 0.2, 0.2, 0.225, 0.225, 0.225, 0.25, 0.25, 0.25],
-    # )
-    # c = pcm_bend_strip(width=[0.46, 0.5, 0.54])
-    # c = pcm_bend_rib(width=[0.46, 0.5, 0.54])
-    # c = cd_bend()
-    # c = cd_bend_slot()
+    c = cd_bend_strip(width=0.46)
+    pp.show(c)

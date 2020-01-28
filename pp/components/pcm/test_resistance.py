@@ -19,7 +19,8 @@ def test_resistance(
     gnd_layer=None,
 ):
 
-    """ Creates an efficient meander to test resistance
+    """ meander to test resistance
+    from phidl.geometry
 
     Args:
         pad_size: Size of the two matched impedance pads (microns)
