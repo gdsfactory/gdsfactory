@@ -23,7 +23,7 @@ def pull_library(path_library=path_library):
             g = git.cmd.Git(path_library)
             g.pull()
     except:
-        print(f"error pulling {path_library} repo. Are you connected to the VPN?")
+        print(f"error pulling {path_library} repo")
 
 
 def lock_component(
@@ -94,11 +94,11 @@ def test_all_components(
     # pull_library(path_library)
 
     for component_type, _ in component_type2factory.items():
-        compare_component_hash(
+        assert compare_component_hash(
             component_type=component_type,
             component_type2factory=component_type2factory,
             path_library=path_library,
-        )
+        ), f"{component_type} changed from component locked in the library {path_library}"
 
 
 def rebuild_library(path_library=CONFIG["gdslib"]):
