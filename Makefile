@@ -3,12 +3,11 @@ help:
 	@echo 'make gitdiff:          Git diff GDS shows the boolean operation in klayout'
 	@echo 'make notebooks:        Download notebook samples repo'
 
-install: 
+install: gdslib
 	pip install -r requirements.txt --upgrade
 	pip install -e .
 	python install_klive.py
 	python install_gdsdiff.py
-
 
 install3:
 	pyenv shell 3.7.2
@@ -17,6 +16,9 @@ install3:
 	python -V # Print out python version for debugging
 	which python # Print out which python for debugging
 	python setup.py develop
+
+gdslib:
+	git clone git@github.com:PsiQ/gdslib.git
 
 gitdiff:
 	cd gdsdiff
