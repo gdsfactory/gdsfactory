@@ -6,7 +6,11 @@ git_config_path = home / ".gitconfig"
 git_attributes_path = home / ".gitattributes"
 
 
-git_config_str = open(git_config_path).read()
+if git_config_path.exists():
+    git_config_str = open(git_config_path).read()
+else:
+    git_config_str = 'empty'
+
 git_attributes_str = open(git_attributes_path).read()
 
 if "gds_diff" not in git_config_str:
@@ -23,7 +27,7 @@ if "gds_diff" not in git_config_str:
         config.set(key, "command", "python -m gdsdiff.gds_diff_git")
         config.set(key, "binary", "True")
 
-        with open(git_config_path, "w") as f:
+        with open(git_config_path, "w+") as f:
             config.write(f, space_around_delimiters=True)
 
 if "gds_diff" not in git_attributes_str:
