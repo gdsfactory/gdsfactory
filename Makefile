@@ -18,7 +18,7 @@ install3:
 	python setup.py develop
 
 gdslib:
-	git clone git@github.com:PsiQ/gdslib.git
+	git clone https://github.com/PsiQ/gdslib.git
 
 gitdiff:
 	cd gdsdiff
