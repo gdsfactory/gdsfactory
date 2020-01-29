@@ -9,9 +9,12 @@ git_attributes_path = home / ".gitattributes"
 if git_config_path.exists():
     git_config_str = open(git_config_path).read()
 else:
-    git_config_str = 'empty'
+    git_config_str = "empty"
 
-git_attributes_str = open(git_attributes_path).read()
+if git_attributes_path.exists():
+    git_attributes_str = open(git_attributes_path).read()
+else:
+    git_attributes_str = "empty"
 
 if "gds_diff" not in git_config_str:
     print("gdsdiff shows boolean differences in Klayout")
