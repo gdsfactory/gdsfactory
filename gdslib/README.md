@@ -1,3 +1,1 @@
-# Gds lib
-
-This library is just as a way to lock components and that [gdsfactory](https://github.com/PsiQ/gdsfactory) builds components with the same hash
+This library is just a way to compare the GDS [gdsfactory](https://github.com/PsiQ/gdsfactory) hashes with a library of verified components
