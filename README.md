@@ -13,7 +13,7 @@ This package adds some extra functionalities to [phidl](https://github.com/amcca
 
 # Documentation
 
-[read Documentation](https://github.com/PsiQ/gdsfactory)
+[read Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
 
 # Installation
 
