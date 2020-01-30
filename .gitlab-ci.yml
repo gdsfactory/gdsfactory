@@ -37,7 +37,7 @@ docs:
   stage: test
   script:
     - pip install sphinx sphinx_rtd_theme recommonmark sphinx-markdown-tables
-    - cd doc
+    - cd docs
     - make clean html upload
   only:
     - master
