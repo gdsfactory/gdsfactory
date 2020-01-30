@@ -42,7 +42,7 @@ make install
 # Related repos
 
 - notebooks: jupyter-notebooks for training
-- gdslib: separate repo where we store the component outputs. During tests we ensure the Geometric hash of the GDS does not change with the ones locked in the [library](https://github.com/PsiQ/gdslib)
+- gdslib: separate repo where we store the component outputs. Tests ensure the geometric hash of the GDS does not change with the ones locked in the [library](https://github.com/PsiQ/gdslib)
   - `component.nst`: netlist
   - `component.dat`: FDTD sparameter data
   - `component.ice`: interconnect
