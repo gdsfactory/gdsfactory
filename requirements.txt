@@ -1,3 +1,4 @@
+-e .
 click
 gitpython
 gdspy==1.4
