@@ -14,7 +14,7 @@ clean:
 	rm -rf build
 
 mask:
-	python write_mask.py
+	python test_mask.py
 
 metadata:
 	pf mask write_metadata

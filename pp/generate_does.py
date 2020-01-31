@@ -145,7 +145,7 @@ def _generate_doe(
 
 def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
     does = {}
-    data = hiyapyco.load(filepath)
+    data = hiyapyco.load(str(filepath))
     mask = data.pop("mask")
 
     for doe_name, doe in data.items():

@@ -1,7 +1,5 @@
-import numpy as np
 import itertools as it
-from shapely.geometry.polygon import Polygon
-from shapely import geometry
+import numpy as np
 from pp.geo_utils import polygon_grow
 
 DEG2RAD = np.pi / 180
@@ -56,6 +54,7 @@ def pixelate_path(
 
 
 def points_to_shapely(pts):
+    from shapely.geometry.polygon import Polygon
     p = Polygon(pts)
     return p
 
@@ -86,6 +85,7 @@ def _pixelate(
     Returns:
         A list of pixel bounding boxes
     """
+    from shapely import geometry
     shape = points_to_shapely(pts)  # convert to shapely
     if not shape:
         return []
