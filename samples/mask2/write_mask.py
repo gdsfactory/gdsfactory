@@ -10,11 +10,11 @@ from pp.components import component_type2factory
 
 def main():
     """
-    needs fix
 
     """
     workspace_folder = pathlib.Path(__file__).absolute().parent
     filepath_yml = workspace_folder / "config.yml"
+    filepath_does_yml = workspace_folder / "does.yml"
 
     CONFIG = load_config(filepath_yml)
 
@@ -26,7 +26,7 @@ def main():
     component_type2factory.update({"SPIRAL": SPIRAL})
 
     generate_does(CONFIG, component_type2factory=component_type2factory)
-    top_level = place_from_yaml(CONFIG['config_path'], CONFIG["cache_doe_directory"])
+    top_level = place_from_yaml(filepath_does_yml, CONFIG["cache_doe_directory"])
     top_level.write(filepath_gds)
     return filepath_gds
 

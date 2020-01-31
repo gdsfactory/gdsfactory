@@ -544,11 +544,7 @@ def place_from_yaml(
 
     placed_doe = None
     placed_does = {}
-    if mask_settings.get("name"):
-        top_level_name = mask_settings["name"]
-    else:
-        top_level_name = "TOP_LEVEL"
-
+    top_level_name = mask_settings.get("name", "TOP_LEVEL")
     layer_doe_label = mask_settings["layer_doe_label"]
     top_level_layout = pya.Layout()
 
@@ -829,7 +825,7 @@ def _demo():
     cell1_instance1 = pya.CellInstArray(cell1.cell_index(), pya.Trans(10, 0))
 
     layout2 = pya.Layout()
-    # cell2 = layout2.create_cell("TOP_LEVEL")
+    cell2 = layout2.create_cell("TOP_LEVEL")
 
     layout2.cell("TOP_LEVEL").insert(cell1_instance1)
     layout2.write("test.gds")
