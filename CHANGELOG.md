@@ -1,17 +1,22 @@
-# v1.0.2 2019-12-20
+# 1.1.1 2020-01-27
 
-- pf library lock
-- pf library pull
+- first public release
+
+# 1.0.2 2019-12-20
+
 - test components using gdshash
+- new CLI commands for `pf`
+    - pf library lock
+    - pf library pull
 
-# v1.0.1 2019-12-01
+# 1.0.1 2019-12-01
 
 - autoplacer and yaml placer
 - mask_merge functions (merge metadata, test protocols)
 - added mask samples
 - all the mask can be build now from a config.yml in the current directory using `pf mask write`
 
-# v1.0.0 2019-11-24
+# 1.0.0 2019-11-24
 
 - first relase
 
