@@ -8,6 +8,7 @@ install: gdslib
 	pip install -e .
 	python install_klive.py
 	python install_gdsdiff.py
+	python install_generic_tech.py
 
 install3:
 	pyenv shell 3.7.2
