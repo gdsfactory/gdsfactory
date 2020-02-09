@@ -18,11 +18,11 @@ dest_folder = home / klayout_folder / "pymacros"
 
 def install_klive():
     """ Builds and installs the extension """
-    if os.path.exists(dest):
+    if dest.exists():
         print("klive already installed")
         return
 
-    dest_folder.mkdir(exist_ok=True)
+    dest_folder.mkdir(exist_ok=True, parents=True)
     shutil.copyfile(src, dest)
     print("klive installed to {}".format(dest))
 
