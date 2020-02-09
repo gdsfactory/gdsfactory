@@ -22,11 +22,11 @@ dest = home / klayout_folder / "tech" / "generic"
 
 def install_generic_tech():
     """ installs generic layermap """
-    if os.path.exists(dest):
+    if dest.exists():
         print("generic tech already installed")
         return
 
-    dest_folder.mkdir(exist_ok=True)
+    dest_folder.mkdir(exist_ok=True, parents=True)
     os.symlink(src, dest)
     print(f"generic layermap installed to {dest}")
 
