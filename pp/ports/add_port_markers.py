@@ -6,6 +6,7 @@ from phidl import device_layout as pd
 from pp.layers import LAYER
 import pp
 
+
 def add_port_markers(
     component, port_length=0.2, port_layer=LAYER.PORT, label_layer=LAYER.TEXT,
 ):
@@ -29,23 +30,23 @@ def add_port_markers(
             # The port visualization pattern is a triangle with a right angle
             # The face opposite the right angle is the port width
             """
-            
+
             a = p.orientation
             ca = np.cos(a * np.pi / 180)
             sa = np.sin(a * np.pi / 180)
             rot_mat = np.array([[ca, -sa], [sa, ca]])
-            
+
             d = p.width / 2
-            
-            dbot = np.array([0, -d]) 
+
+            dbot = np.array([0, -d])
             dtop = np.array([0, d])
             dtip = np.array([d, 0])
-            
+
             p0 = p.position + _rotate(dbot, rot_mat)
             p1 = p.position + _rotate(dtop, rot_mat)
             ptip = p.position + _rotate(dtip, rot_mat)
             polygon = [p0, p1, ptip]
-            
+
             component.label(
                 text=str(p.name) + "," + str(p.layer),
                 position=p.midpoint,
@@ -55,19 +56,8 @@ def add_port_markers(
             component.add_polygon(polygon, layer=port_layer)
 
 
-def get_input_label(
-    port,
-    gc,
-    gc_index=None,
-    gc_port_name="W0",
-    layer_label=LAYER.LABEL,
-    component_name=None,
-):
-    """
-    Generate a label with component info for a given grating coupler.
-    This is the label used by T&M to extract grating coupler coordinates
-    and match it to the component.
-    """
+def get_optical_text(port, gc, gc_index=None, component_name=None):
+
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
 
@@ -88,10 +78,28 @@ def get_input_label(
             polarization, int(wavelength_nm), name, port.name
         )
 
+    return text
+
+
+def get_input_label(
+    port,
+    gc,
+    gc_index=None,
+    gc_port_name="W0",
+    layer_label=LAYER.LABEL,
+    component_name=None,
+):
+    """
+    Generate a label with component info for a given grating coupler.
+    This is the label used by T&M to extract grating coupler coordinates
+    and match it to the component.
+    """
+    text = get_optical_text(
+        port=port, gc=gc, gc_index=gc_index, component_name=component_name
+    )
+
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
-
-
     label = pd.Label(
         text=text,
         position=gc.ports[gc_port_name].midpoint,
