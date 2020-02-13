@@ -66,7 +66,7 @@ def mzi1x2(
 
     """
     if not with_elec_connections:
-        straight_heater_factory = waveguide
+        straight_heater_factory = straight_factory
 
     cpl = pp.call_if_func(coupler_factory)
 
