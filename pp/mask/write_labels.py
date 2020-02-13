@@ -2,6 +2,7 @@
 find GDS labels and write labels into a CSV file
 """
 
+import pathlib
 import os
 import csv
 import klayout.db as pya
@@ -51,6 +52,7 @@ def write_labels(gdspath, label_layer=201, label_purpose=0, csv_filename=None):
 
     # Save the coordinates somewhere sensible
     if csv_filename is None:
+        gdspath = pathlib.Path(gdspath)
         csv_filename = gdspath.with_suffix(".csv")
     _write_csv(labels, csv_filename)
 

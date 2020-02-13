@@ -215,14 +215,16 @@ def mask_merge():
     merge_test_metadata(gdspath=gdspath)
 
 
-@click.argument("gdspath", default=None)
 @click.command(name="write_labels")
-def write_mask_labels(gdspath):
+@click.argument("gdspath", default=None)
+@click.argument("label_layer", required=False, default=66)
+@click.argument("label_purpose", required=False, default=0)
+def write_mask_labels(gdspath, label_layer=66, label_purpose=0):
     """ find test and measurement labels """
     if gdspath is None:
         gdspath = CONFIG["mask"]["gds"]
 
-    write_labels(gdspath=gdspath)
+    write_labels(gdspath=gdspath, label_layer=label_layer, label_purpose=label_purpose)
 
 
 @click.command(name="write")
