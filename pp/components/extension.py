@@ -103,5 +103,6 @@ if __name__ == "__main__":
     import pp.components as pc
 
     c = pc.bend_circular()
+    # ce = extend_ports(c, port_list=['W0'])
     ce = extend_ports(c)
     pp.show(ce)

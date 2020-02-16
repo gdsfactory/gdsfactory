@@ -614,6 +614,7 @@ def _get_optical_io_elements(
             g,
             i,
             component_name=component_name,
+            layer_label=layer_label
         )
         elements += [label]
 
@@ -758,7 +759,7 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
 
     # print(cc.get_settings())
-    # c = coupler(gap=0.245, length=5.67)
-    # cc = add_io_optical(c, optical_routing_type=0)
-    cc = demo_te_and_tm()
+    c = pp.c.coupler(gap=0.2, length=5.6)
+    cc = add_io_optical(c, optical_routing_type=0, layer_label=66)
+    # cc = demo_te_and_tm()
     pp.show(cc)
