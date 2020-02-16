@@ -277,6 +277,7 @@ def _get_optical_io_elements(
     component_name=None,
     x_grating_offset=0,
     optical_port_labels=None,
+    taper_factory=taper
     # input_port_indexes=[0],
 ):
     """
@@ -634,6 +635,7 @@ def add_io_optical(
     grating_coupler=grating_coupler_te,
     gc_port_name="W0",
     component_name=None,
+    taper_factory=taper,
     **kwargs
 ):
     """ returns component with optical IO (tapers, south routes and grating_couplers)
@@ -663,6 +665,7 @@ def add_io_optical(
         layer_label=LAYER.LABEL
         input_port_indexes=[0]
         component_name: for the label
+        taper_factory=taper
 
     """
     if not c.ports:
@@ -690,7 +693,7 @@ def add_io_optical(
 
     if port_width_component != port_width_gc:
         c = add_tapers(
-            c, taper(length=10, width1=port_width_gc, width2=port_width_component)
+            c, taper_factory(length=10, width1=port_width_gc, width2=port_width_component)
         )
 
     elements, io_gratings_lines, _ = _get_optical_io_elements(
