@@ -38,7 +38,7 @@ def grating_coupler_tree(
     route_filter=connect_strip_way_points_no_taper,
     bend_factory=bend_circular,
     bend_radius=10.0,
-    layer_label=None,
+    layer_label=pp.LAYER.LABEL,
     **kwargs
     
 ):
