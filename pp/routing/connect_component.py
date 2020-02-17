@@ -1,6 +1,7 @@
 import numpy as np
 
 import phidl.device_layout as pd
+from pp.rotate import rotate
 
 from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
@@ -251,7 +252,47 @@ def route_all_ports_to_south(
     return elements, ports
 
 
-def _get_optical_io_elements(
+def get_route2individual_gratings(component, optical_io_spacing=50, **kwargs):
+    """
+    Returns component I/O for optical testing with input and oputput
+    """
+    west_ports = [p for p in component.get_optical_ports() if p.name.startswith("W")]
+    east_ports = [
+        p for p in component.get_optical_ports() if not p.name.startswith("W")
+    ]
+
+    # add west input grating couplers
+    component.ports = {p.name: p for p in west_ports}
+    component = component.rotate(90)
+
+    elements_east, io_grating_lines_east, _ = get_route2fiber_array(
+        component=component,
+        with_align_ports=False,
+        optical_io_spacing=optical_io_spacing,
+        # optical_routing_type=2,
+        **kwargs
+    )
+    component = rotate(component, angle=-90)
+
+    component.ports = {p.name: p for p in east_ports}
+    component = rotate(component, angle=-90)
+    elements_west, io_grating_lines_west, _ = get_route2fiber_array(
+        component=component,
+        with_align_ports=False,
+        optical_io_spacing=optical_io_spacing,
+        # optical_routing_type=2,
+        **kwargs
+    )
+    for e in elements_west:
+        elements_east.append(e.rotate(180))
+
+    for io in io_grating_lines_west[0]:
+        io_grating_lines_east.append(io.rotate(180))
+
+    return elements_east, io_grating_lines_east, None
+
+
+def get_route2fiber_array(
     component,
     optical_io_spacing=SPACING_GC,
     grating_coupler=grating_coupler_te,
@@ -277,7 +318,8 @@ def _get_optical_io_elements(
     component_name=None,
     x_grating_offset=0,
     optical_port_labels=None,
-    taper_factory=taper
+    taper_factory=taper,
+    route_factory=route_all_ports_to_south,
     # input_port_indexes=[0],
 ):
     """
@@ -492,7 +534,7 @@ def _get_optical_io_elements(
 
     # optical routing - type ``1 or 2``
     elif optical_routing_type in [1, 2]:
-        elems, to_route = route_all_ports_to_south(
+        elems, to_route = route_factory(
             component=component,
             bend_radius=bend_radius,
             optical_routing_type=optical_routing_type,
@@ -615,7 +657,7 @@ def _get_optical_io_elements(
             g,
             i,
             component_name=component_name,
-            layer_label=layer_label
+            layer_label=layer_label,
         )
         elements += [label]
 
@@ -636,6 +678,7 @@ def add_io_optical(
     gc_port_name="W0",
     component_name=None,
     taper_factory=taper,
+    get_route_factory=get_route2fiber_array,
     **kwargs
 ):
     """ returns component with optical IO (tapers, south routes and grating_couplers)
@@ -693,10 +736,11 @@ def add_io_optical(
 
     if port_width_component != port_width_gc:
         c = add_tapers(
-            c, taper_factory(length=10, width1=port_width_gc, width2=port_width_component)
+            c,
+            taper_factory(length=10, width1=port_width_gc, width2=port_width_component),
         )
 
-    elements, io_gratings_lines, _ = _get_optical_io_elements(
+    elements, io_gratings_lines, _ = get_route_factory(
         component=c,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
@@ -763,6 +807,12 @@ if __name__ == "__main__":
 
     # print(cc.get_settings())
     c = pp.c.coupler(gap=0.2, length=5.6)
-    cc = add_io_optical(c, optical_routing_type=0, layer_label=66)
+    cc = add_io_optical(
+        c,
+        optical_routing_type=0,
+        layer_label=66,
+        get_route_factory=get_route2individual_gratings,
+        # get_route_factory=get_route2fiber_array,
+    )
     # cc = demo_te_and_tm()
     pp.show(cc)
