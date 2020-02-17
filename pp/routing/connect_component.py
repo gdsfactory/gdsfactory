@@ -252,10 +252,23 @@ def route_all_ports_to_south(
     return elements, ports
 
 
-def get_route2individual_gratings(component, optical_io_spacing=50, **kwargs):
+def get_route2individual_gratings(
+    component,
+    optical_io_spacing=50,
+    grating_coupler=grating_coupler_te,
+    straight_factory=waveguide,
+    min_input2output_spacing=230,
+    **kwargs
+):
     """
     Returns component I/O for optical testing with input and oputput
     """
+    grating_coupler = pp.call_if_func(grating_coupler)
+    if component.xsize + 2 * grating_coupler.xsize < min_input2output_spacing:
+        fanout_length = (
+            min_input2output_spacing - component.xsize - 2 * grating_coupler.xsize
+        )
+
     west_ports = [p for p in component.get_optical_ports() if p.name.startswith("W")]
     east_ports = [
         p for p in component.get_optical_ports() if not p.name.startswith("W")
@@ -269,7 +282,7 @@ def get_route2individual_gratings(component, optical_io_spacing=50, **kwargs):
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
-        # optical_routing_type=2,
+        fanout_length=fanout_length / 2,
         **kwargs
     )
     component = rotate(component, angle=-90)
@@ -280,7 +293,7 @@ def get_route2individual_gratings(component, optical_io_spacing=50, **kwargs):
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
-        # optical_routing_type=2,
+        fanout_length=fanout_length / 2,
         **kwargs
     )
     for e in elements_west:
