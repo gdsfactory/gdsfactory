@@ -1,3 +1,7 @@
+# 1.1.4
+
+- bug fixes
+
 # 1.1.1 2020-01-27
 
 - first public release
