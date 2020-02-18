@@ -267,7 +267,9 @@ def get_route2individual_gratings(
     if component.xsize + 2 * grating_coupler.xsize < min_input2output_spacing:
         fanout_length = (
             min_input2output_spacing - component.xsize - 2 * grating_coupler.xsize
-        )
+        ) / 2
+    else:
+        fanout_length = None
 
     west_ports = [p for p in component.get_optical_ports() if p.name.startswith("W")]
     east_ports = [
@@ -282,7 +284,8 @@ def get_route2individual_gratings(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
-        fanout_length=fanout_length / 2,
+        fanout_length=fanout_length,
+        grating_coupler=grating_coupler,
         **kwargs
     )
     component = rotate(component, angle=-90)
@@ -294,6 +297,7 @@ def get_route2individual_gratings(
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length / 2,
+        grating_coupler=grating_coupler,
         **kwargs
     )
     for e in elements_west:
@@ -822,7 +826,9 @@ if __name__ == "__main__":
     c = pp.c.coupler(gap=0.2, length=5.6)
     cc = add_io_optical(
         c,
-        optical_routing_type=0,
+        # optical_routing_type=0,
+        # optical_routing_type=1,
+        optical_routing_type=2,
         layer_label=66,
         get_route_factory=get_route2individual_gratings,
         # get_route_factory=get_route2fiber_array,
