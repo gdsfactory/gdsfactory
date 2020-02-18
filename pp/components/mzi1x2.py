@@ -22,7 +22,7 @@ def mzi1x2(
     straight_heater_factory=waveguide_heater,
     straight_factory=waveguide,
     coupler_factory=mmi1x2,
-    with_elec_connections=True,
+    with_elec_connections=False,
 ):
     """ Mzi 1x2
 
