@@ -72,8 +72,6 @@ def connect_strip_way_points(
     
     taper_factory: can be either a taper component or a factory
     """
-    print(bend_factory)
-
     bend90 = bend_factory(radius=bend_radius, width=wg_width)
 
     if taper_factory:
