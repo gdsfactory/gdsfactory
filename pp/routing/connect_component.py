@@ -258,10 +258,29 @@ def get_route2individual_gratings(
     grating_coupler=grating_coupler_te,
     straight_factory=waveguide,
     min_input2output_spacing=230,
+    optical_routing_type=2,
     **kwargs
 ):
-    """
-    Returns component I/O for optical testing with input and oputput
+    """ Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
+
+    Args:
+        component: to add grating couplers
+        optical_io_spacing: between grating couplers
+        grating_coupler:
+        straight_factory
+        min_input2output_spacing: so opposite fibers do not touch
+        optical_routing_type: 0, 1, 2
+
+    .. plot::
+      :include-source:
+
+       import pp
+       from pp.routing import add_io_optical
+       from pp.routing import get_route2individual_gratings
+
+       c = pp.c.mmi1x2()
+       cc = add_io_optical(c, get_route_factory=get_route2individual_gratings)
+       pp.plotgds(cc)
     """
     grating_coupler = pp.call_if_func(grating_coupler)
     if component.xsize + 2 * grating_coupler.xsize < min_input2output_spacing:
@@ -286,6 +305,7 @@ def get_route2individual_gratings(
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_coupler,
+        optical_routing_type=optical_routing_type,
         **kwargs
     )
     component = rotate(component, angle=-90)
@@ -726,6 +746,16 @@ def add_io_optical(
         input_port_indexes=[0]
         component_name: for the label
         taper_factory=taper
+
+    .. plot::
+      :include-source:
+
+       import pp
+       from pp.routing import add_io_optical
+
+       c = pp.c.mmi1x2()
+       cc = add_io_optical(c)
+       pp.plotgds(cc)
 
     """
     if not c.ports:
