@@ -316,7 +316,7 @@ def get_route2individual_gratings(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
-        fanout_length=fanout_length / 2,
+        fanout_length=fanout_length,
         grating_coupler=grating_coupler,
         **kwargs
     )
@@ -853,12 +853,14 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
 
     # print(cc.get_settings())
-    c = pp.c.coupler(gap=0.2, length=5.6)
+    # c = pp.c.coupler(gap=0.2, length=5.6)
+    c = pp.c.mzi1x2()
+    c.y = 0
     cc = add_io_optical(
         c,
         # optical_routing_type=0,
         # optical_routing_type=1,
-        optical_routing_type=2,
+        # optical_routing_type=2,
         layer_label=66,
         get_route_factory=get_route2individual_gratings,
         # get_route_factory=get_route2fiber_array,
