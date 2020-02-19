@@ -19,7 +19,7 @@ This package adds some extra functionalities to [phidl](https://github.com/amcca
 
 If you are on Windows, you need to install a C++ compiler ["Build Tools for Visual Studio"](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017)
 
-Once you have `git` and `python3` we recommend to install the latest version from the gitlab repo by copy-pasting this 3 lines into a terminal.
+Once you have `git` and `python3` we recommend to install the latest version from the git repo by copy-pasting this 3 lines into a terminal.
 
 ```
 git clone https://github.com/PsiQ/gdsfactory.git
