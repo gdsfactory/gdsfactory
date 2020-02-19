@@ -8,7 +8,13 @@ __version__ = "0.0.1"
 
 
 @autoname
-def coupler90(bend_radius=10.0, width=0.5, gap=0.2):
+def coupler90(
+    bend_radius=10.0,
+    width=0.5,
+    gap=0.2,
+    waveguide_factory=waveguide,
+    bend90_factory=bend_circular,
+):
     """ Waveguide coupled to a bend with gap
 
     Args:
@@ -25,10 +31,10 @@ def coupler90(bend_radius=10.0, width=0.5, gap=0.2):
 
     """
     y = width + gap
-    _bend = bend_circular(radius=bend_radius, width=width).ref((0, y))
+    _bend = bend90_factory(radius=bend_radius, width=width).ref((0, y))
     c = Component()
 
-    _wg = c.add_ref(waveguide(length=bend_radius, width=width))
+    _wg = c.add_ref(waveguide_factory(length=bend_radius, width=width))
     c.add(_bend)
 
     # This component is a leaf cell => using absorb

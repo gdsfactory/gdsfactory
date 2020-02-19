@@ -8,6 +8,7 @@ from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
 
 
+
 @autoname
 def ring_single_bus(**kwargs):
     """ Ring single bus
@@ -68,11 +69,11 @@ def ring_single_bus_netlist(
     """
     assert_on_2nm_grid(gap)
 
-    bend = bend90_factory(radius=bend_radius)
+    bend = bend90_factory(width=wg_width, radius=bend_radius)
     cpl_bend = coupler90_factory(bend_radius=bend_radius, width=wg_width, gap=gap)
     cpl_straight = cpl_straight_factory(length=length_x, gap=gap, width=wg_width)
-    h1 = straight_factory(length=length_x)
-    v = straight_factory(length=length_y)
+    h1 = straight_factory(length=length_x, width=wg_width)
+    v = straight_factory(length=length_y, width=wg_width)
 
     components = {
         "CL": (cpl_bend, "mirror_y"),
@@ -102,6 +103,6 @@ def ring_single_bus_netlist(
 
 
 if __name__ == "__main__":
-    c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2)
+    c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2, wg_width=0.4)
     # c = ring_single_bus_biased(bend_radius=5.0, length_x=2, length_y=4, gap=0.2)
     pp.show(c)

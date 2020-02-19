@@ -6,7 +6,14 @@ __version__ = "0.0.1"
 
 
 @pp.autoname
-def coupler_straight(length=10, width=0.5, gap=0.27, layer=pp.LAYER.WG):
+def coupler_straight(
+    length=10,
+    width=0.5,
+    gap=0.27,
+    layer=pp.LAYER.WG,
+    layer_cladding=pp.layer("wgclad"),
+    cladding_offset=3,
+):
     """ straight coupled waveguides. Two multimode ports
 
     .. plot::
@@ -23,7 +30,6 @@ def coupler_straight(length=10, width=0.5, gap=0.27, layer=pp.LAYER.WG):
 
     # Top path
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-
     y = width + gap
 
     # Bottom path
@@ -39,6 +45,14 @@ def coupler_straight(length=10, width=0.5, gap=0.27, layer=pp.LAYER.WG):
 
     c.width = width
     c.length = length
+
+    # cladding
+    ymax = 2 * width + gap + cladding_offset
+    c.add_polygon(
+        [(0, -cladding_offset), (length, -cladding_offset), (length, ymax), (0, ymax)],
+        layer=layer_cladding,
+    )
+
     return c
 
 
