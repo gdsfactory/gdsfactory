@@ -55,7 +55,7 @@ def y0linespace(y0, height, pitch, ymax):
 
 @pp.autoname
 def cross(x0, y0, width, lw, layer):
-    """ Make cross with
+    """ cross 
 
     Args:
         x0,y0 : center
@@ -85,13 +85,11 @@ def cross(x0, y0, width, lw, layer):
 
 
 @pp.autoname
-def ppe():
+def ppe(layer=pp.layer("wgcore"), layer_cladding=pp.layer("wgclad"), cladding_offset=3):
     """
     pattern placement error
     """
     D = pp.Component()
-    layer = 1
-    NOOPC = 2
 
     # Define global variables
     xmax = 500
@@ -100,9 +98,18 @@ def ppe():
     ymin = 0
     xm = (xmax - xmin) / 2.0
     ym = (ymax - ymin) / 2.0
+    o = cladding_offset
 
     # Cover the entire macro
-    D.add_polygon([(0, 0), (xmax, 0), (xmax, ymax), (0, ymax)], layer=0)
+    D.add_polygon(
+        [
+            (0, -o),
+            (xmax + o, -o),
+            (xmax + o, ymax + o),
+            (0, ymax + o),
+        ],
+        layer=layer_cladding,
+    )
 
     # Place the pattern rec
     Cross = cross(x0=xm, y0=ym, width=100, lw=10, layer=layer)
@@ -200,7 +207,7 @@ def ppe():
             (xm + xt, ym + yt),
             (xm + xt, ym - yt),
         ],
-        layer=NOOPC,
+        layer=layer_cladding,
     )
     return D
 
