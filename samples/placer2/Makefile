@@ -1,4 +1,4 @@
-mask: clean devices does merge labels metadata 
+mask: clean devices does merge labels 
 help:
 	@echo 'make :                 makes devices, merges them'
 	@echo 'make devices:          makes devices'
@@ -20,7 +20,7 @@ devices:
 does:
 	pf mask build_does
 
-metadata:
+merge:
 	pf mask merge
 
 labels:
