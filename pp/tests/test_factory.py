@@ -180,7 +180,7 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    lock_components_with_changes()
+    # lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
     # test_all_components()
@@ -189,4 +189,5 @@ if __name__ == "__main__":
     # compare_component_hash("waveguide")
     # lock_component("ring_double_bus")
     # compare_component_hash("ring_double_bus")
+    compare_component_hash("coupler90")
     # print_components_with_changes()

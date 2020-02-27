@@ -1,4 +1,4 @@
-# GDS factory 1.1.3
+# GDS factory 1.1.4
 
 Python package to generate GDS layouts.
 

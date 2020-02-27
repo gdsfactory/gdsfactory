@@ -7,27 +7,30 @@ import pp
 
 
 @pp.autoname
-def ring(
-    coupler90=pp.c.coupler90,
-    coupler_straight=pp.c.coupler_straight,
-    waveguide=pp.c.waveguide,
-    bend=pp.c.bend_circular,
+def ring_single_bus(
+    coupler90_factory=pp.c.coupler90,
+    cpl_straight_factory=pp.c.coupler_straight,
+    straight_factory=pp.c.waveguide,
+    bend90_factory=pp.c.bend_circular,
     length_y=2.0,
     length_x=4.0,
     gap=0.2,
     wg_width=0.5,
+    bend_radius=5,
 ):
     """ single bus ring
     """
     c = pp.Component()
 
     # define subcells
-    coupler90 = pp.call_if_func(coupler90, gap=gap, width=wg_width)
-    waveguide_x = pp.call_if_func(waveguide, length=length_x, width=wg_width)
-    waveguide_y = pp.call_if_func(waveguide, length=length_y, width=wg_width)
-    bend = pp.call_if_func(bend, width=wg_width)
+    coupler90 = pp.call_if_func(
+        coupler90_factory, gap=gap, width=wg_width, bend_radius=bend_radius
+    )
+    waveguide_x = pp.call_if_func(straight_factory, length=length_x, width=wg_width)
+    waveguide_y = pp.call_if_func(straight_factory, length=length_y, width=wg_width)
+    bend = pp.call_if_func(bend90_factory, width=wg_width, radius=bend_radius)
     coupler_straight = pp.call_if_func(
-        coupler_straight, gap=gap, length=length_x, width=wg_width
+        cpl_straight_factory, gap=gap, length=length_x, width=wg_width
     )
 
     # add references to subcells
@@ -51,10 +54,22 @@ def ring(
     btl.connect(port="N0", destination=wyl.ports["W0"])
     btr.connect(port="W0", destination=wyr.ports["W0"])
     wx.connect(port="W0", destination=btl.ports["W0"])
+
+    c.add_port("W0", port=cbl.ports["E0"])
+    c.add_port("E0", port=cbr.ports["E0"])
     return c
 
 
 if __name__ == "__main__":
-    c = ring(wg_width=0.4)
-    pp.write_gds(c, "ring.gds")
+    c = pp.Component()
+    c1 = ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
+    c2 = pp.c.ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
+
+    r1 = c << c1
+    r2 = c << c2
+    r1.ymin = 0
+    r2.ymin = 0
+    r1.xmin = 0
+    r2.xmin = 0
     pp.show(c)
+    # pp.write_gds(c, "ring.gds")

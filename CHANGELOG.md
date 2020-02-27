@@ -1,6 +1,8 @@
-# 1.1.4
+# 1.1.4 2020-02-27
 
 - bug fixes
+- new coupler with less snaping errors
+- adding Klayout generic DRC rule deck
 
 # 1.1.1 2020-01-27
 

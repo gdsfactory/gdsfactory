@@ -141,6 +141,7 @@ def cdsem_straight(
     length=10.0,
     width_center=0.5,
     label="A",
+    waveguide_factory=waveguide
 ):
 
     c = pp.Component()
@@ -169,7 +170,7 @@ def cdsem_straight(
             _r1_ref = c.add_ref(_r)
             _r1_ref.move((x, y))
 
-            wg_line(length, width)
+            waveguide_factory(length=length, width=width)
             _r2_ref = c.add_ref(_r)
             _r2_ref.move((x, y + gap + width))
             c.absorb(_r1_ref)
@@ -199,6 +200,7 @@ def cdsem_straight_column(
     length=LINE_LENGTH,
     width_center=0.5,
     label="A",
+    waveguide_factory=waveguide
 ):
 
     c = pp.Component()
@@ -209,7 +211,7 @@ def cdsem_straight_column(
     y = 0
     for j, width in enumerate(widths):
         # iso line
-        _r = wg_line(length, width)
+        _r = waveguide_factory(length=length, width=width)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)
@@ -251,14 +253,14 @@ def cdsem_straight_column(
 
 
 @pp.autoname
-def cdsem_straight_all():
+def cdsem_straight_all(waveguide_factory=waveguide):
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     c = pp.Component()
     spacing_v = 10.0
     y = 0
     for width, label in zip(widths, labels):
-        _c = cdsem_straight_column(width_center=width, label=label)
+        _c = cdsem_straight_column(width_center=width, label=label, waveguide_factory=waveguide_factory)
         y -= _c.size_info.south
         cr = c.add_ref(_c)
         cr.movey(y)
@@ -269,7 +271,7 @@ def cdsem_straight_all():
 
 @pp.autoname
 def cdsem_straight_density(
-    wg_width=0.372, trench_width=0.304, x=LINE_LENGTH, y=50.0, margin=2.0, label=""
+    wg_width=0.372, trench_width=0.304, x=LINE_LENGTH, y=50.0, margin=2.0, label="", waveguide_factory=waveguide
 ):
     """ horizontal grating etch lines
     
@@ -285,18 +287,12 @@ def cdsem_straight_density(
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    slab = rectangle(x, y, layer=LAYER.WG)
-    slab_ref = c.add_ref(slab)
-    c.absorb(slab_ref)
-
-    tooth = rectangle(length, trench_width, layer=LAYER.SLAB150)
+    tooth = waveguide_factory(length=length, width=wg_width)
 
     for i in range(n_o_lines):
-        _tooth = c.add_ref(tooth)
-        _tooth.movey((-n_o_lines / 2 + 0.5 + i) * period)
-        c.absorb(_tooth)
-
-    c.move(c.size_info.cc, (0, 0))
+        tooth_ref = c.add_ref(tooth)
+        tooth_ref.movey((-n_o_lines / 2 + 0.5 + i) * period)
+        c.absorb(tooth_ref)
 
     marker_label = manhattan_text(text="{}".format(label), size=1.0, layer=LAYER.WG)
     _marker_label = c.add_ref(marker_label)
@@ -307,14 +303,14 @@ def cdsem_straight_density(
 
 
 @pp.autoname
-def cdsem_strip(**kwargs):
+def cdsem_strip(waveguide_factory=waveguide, **kwargs):
     return _cdsem_generic(
-        **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide
+        **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide_factory
     )
 
 
 @pp.autoname
-def cdsem_target(width_center=0.5, label=""):
+def cdsem_target(width_center=0.5, label="", layer=LAYER.WG):
     radii = [5.0, 10.0]
     c = pp.Component()
     a = 1.0
@@ -346,7 +342,7 @@ def cdsem_target(width_center=0.5, label=""):
         c.add([b_tr, b_tl, b_bl, b_br])
 
     if label:
-        marker_label = manhattan_text(text="{}".format(label), size=1.0, layer=LAYER.WG)
+        marker_label = manhattan_text(text="{}".format(label), size=1.0, layer=layer)
         _marker_label = c.add_ref(marker_label)
         _marker_label.movey(-max(radii) - 10.0)
         c.absorb(_marker_label)
@@ -361,7 +357,8 @@ def cdsem_uturn(
     symbol_bot="S",
     symbol_top="U",
     wg_length=LINE_LENGTH,
-    waveguide=pp.c.waveguide,
+    waveguide_factory=pp.c.waveguide,
+    bend90_factory=bend_circular,
     layer=pp.layer("wgcore"),
     layer_cladding=pp.layer("wgclad"),
     cladding_offset=3,
@@ -377,12 +374,12 @@ def cdsem_uturn(
     """
     c = pp.Component()
     r = radius
-    bend90 = bend_circular(
+    bend90 = bend90_factory(
         width=width, radius=r, layer=layer, cladding_layer=layer_cladding
     )
     if wg_length is None:
         wg_length = 2 * r
-    wg = waveguide(
+    wg = waveguide_factory(
         width=width,
         length=wg_length,
         layer=layer,
@@ -424,19 +421,19 @@ def cdsem_uturn(
 
 
 @pp.autoname
-def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506):
+def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506, waveguide_factory=waveguide, bend90_factory=bend_circular, layer=LAYER.WG):
     """ column with all optical PCMs
     Args:
         dw
     """
     c = pp.Component()
     spacing_v = 5.0
-    _c1 = cdsem_straight_all()
+    _c1 = cdsem_straight_all(waveguide_factory=waveguide_factory)
 
     all_devices = [_c1]
 
     all_devices += [
-        cdsem_uturn(width=w, symbol_top=s)
+        cdsem_uturn(width=w, symbol_top=s, waveguide_factory=waveguide_factory, bend90_factory=bend90_factory)
         for w, s in zip([0.46, 0.5, 0.54], ["L", "S", "H"])
     ]
 
@@ -452,7 +449,7 @@ def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506):
     ]
 
     all_devices += [
-        cdsem_straight_density(wg_width=w, trench_width=t, label=lbl)
+        cdsem_straight_density(wg_width=w, trench_width=t, label=lbl, waveguide_factory=waveguide_factory)
         for w, t, lbl in density_params
     ]
 
@@ -468,7 +465,7 @@ def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506):
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     targets = [
-        cdsem_target(width_center=w, label=lbl) for w, lbl in zip(widths, labels)
+        cdsem_target(width_center=w, label=lbl, layer=layer) for w, lbl in zip(widths, labels)
     ]
     y = -targets[0].size_info.height / 2 - spacing_v
     dx = targets[0].size_info.width + spacing_v
@@ -614,8 +611,8 @@ def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
 if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
-    c = cdsem_uturn()
+    # c = cdsem_uturn()
     # c = cdsem_straight_density()
     # c = pcm_bend()
-    # c = opcm()
+    c = opcm()
     pp.show(c)

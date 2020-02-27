@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>generic DRC</description>
+ <version/>
+ <category>drc</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut>Ctrl+Shift+D</shortcut>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path>soen_menu.drc.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
+ <text># generic DRC
+# Read about DRC scripts in the User Manual under "Design Rule Check (DRC)"
+# Based on SOEN pdk https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
+# http://klayout.de/doc/manual/drc_basic.html
+
+report("generic DRC")
+tiles(100)
+tile_borders(2)
+threads(3)
+
+######## Input the layers ########
+si_rib = input(1, 0)
+
+wmin = 0.13
+gmin = 0.13
+angle_limit = 40
+
+
+######## Width and gap checks ########
+
+# Silicon
+si_rib.width(wmin, angle_limit(angle_limit)).output("Si_width", "Si minimum feature size violation; min")
+si_rib.space(gmin, angle_limit(angle_limit)).output("Si_space", "Si minimum space violation; min")
+
+</text>
+</klayout-macro>
