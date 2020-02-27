@@ -30,31 +30,30 @@ def coupler90(
       pp.plotgds(c)
 
     """
-    y = width + gap
-    _bend = bend90_factory(radius=bend_radius, width=width).ref((0, y))
+    pp.drc.assert_on_1nm_grid((width + gap) / 2)
+    y = pp.drc.snap_to_1nm_grid((width + gap) / 2)
+
     c = Component()
 
-    _wg = c.add_ref(waveguide_factory(length=bend_radius, width=width))
-    c.add(_bend)
+    wg = c << waveguide_factory(length=bend_radius, width=width)
+    bend = c << bend90_factory(radius=bend_radius, width=width)
+
+    pbw = bend.ports["W0"]
+    bend.movey(pbw.midpoint[1] + gap + width)
 
     # This component is a leaf cell => using absorb
-    c.absorb(_wg)
-    c.absorb(_bend)
+    c.absorb(wg)
+    c.absorb(bend)
 
     port_width = 2 * width + gap
 
-    c.add_port(port=_wg.ports["E0"], name="E0")
-    c.add_port(port=_bend.ports["N0"], name="N0")
-    c.add_port(name="W0", midpoint=[0, y / 2], width=port_width, orientation=180)
-    c.y = y
+    c.add_port(port=wg.ports["E0"], name="E0")
+    c.add_port(port=bend.ports["N0"], name="N0")
+    c.add_port(name="W0", midpoint=[0, y], width=port_width, orientation=180)
     return c
 
 
-def _demo():
-    coupler = coupler90()
-    return coupler
-
-
 if __name__ == "__main__":
-    c = _demo()
+    c = coupler90(width=0.45, gap=0.3)
     pp.show(c)
+    # print(c.ports)

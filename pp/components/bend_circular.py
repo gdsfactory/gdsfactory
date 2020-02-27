@@ -340,9 +340,10 @@ def _demo_bend():
 
 if __name__ == "__main__":
     # c = bend_circular_trenches()
-    c = bend_circular_deep_rib()
-    print(c.ports)
+    # c = bend_circular_deep_rib()
+    # print(c.ports)
     # c = bend_circular180()
     # c = bend_circular_slot()
-    # c = bend_circular(start_angle=180, theta=-180)
+    c = bend_circular(width=0.45, radius=5)
+    print(c.ports)
     pp.show(c)

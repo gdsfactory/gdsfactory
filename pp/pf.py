@@ -29,7 +29,7 @@ from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.tests.test_factory import lock_components_with_changes
 
 
-VERSION = "1.1.3"
+VERSION = "1.1.4"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 

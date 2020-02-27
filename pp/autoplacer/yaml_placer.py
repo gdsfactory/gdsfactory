@@ -622,6 +622,9 @@ def place_from_yaml(
             settings.update(doe["placer"])
         else:
             placer_type = "pack_col"
+
+        if placer_type not in PLACER_NAME2FUNC:
+            raise ValueError(f'{placer_type} is not an available placer, Choose: {list(PLACER_NAME2FUNC.keys())}')
         _placer = PLACER_NAME2FUNC[placer_type]
 
         # All other attributes are assumed to be settings for the placer
