@@ -628,6 +628,7 @@ class Component(Device):
     - set data_analysis and test_protocols
 
     """
+
     def __init__(self, *args, **kwargs):
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 

@@ -113,7 +113,7 @@ def write_component_report(component, json_path=None):
 def write_component(
     component,
     gdspath=None,
-    path_library=CONFIG['gds_directory'],
+    path_library=CONFIG["gds_directory"],
     add_port_pins=True,
     settings=None,
     add_ports_to_all_cells=False,
@@ -135,7 +135,7 @@ def write_component(
     """
     if verbose:
         print("write_component", component.name, type(component))
-        
+
     if gdspath is None:
         gdspath = path_library / (component.name + ".gds")
 
@@ -191,7 +191,7 @@ def write_gds(
     unit=1e-6,
     precision=1e-9,
     remove_previous_markers=False,
-    auto_rename=False
+    auto_rename=False,
 ):
     """ write component to GDS and returs gdspath
 

@@ -141,7 +141,7 @@ def cdsem_straight(
     length=10.0,
     width_center=0.5,
     label="A",
-    waveguide_factory=waveguide
+    waveguide_factory=waveguide,
 ):
 
     c = pp.Component()
@@ -200,7 +200,7 @@ def cdsem_straight_column(
     length=LINE_LENGTH,
     width_center=0.5,
     label="A",
-    waveguide_factory=waveguide
+    waveguide_factory=waveguide,
 ):
 
     c = pp.Component()
@@ -260,7 +260,9 @@ def cdsem_straight_all(waveguide_factory=waveguide):
     spacing_v = 10.0
     y = 0
     for width, label in zip(widths, labels):
-        _c = cdsem_straight_column(width_center=width, label=label, waveguide_factory=waveguide_factory)
+        _c = cdsem_straight_column(
+            width_center=width, label=label, waveguide_factory=waveguide_factory
+        )
         y -= _c.size_info.south
         cr = c.add_ref(_c)
         cr.movey(y)
@@ -271,10 +273,16 @@ def cdsem_straight_all(waveguide_factory=waveguide):
 
 @pp.autoname
 def cdsem_straight_density(
-    wg_width=0.372, trench_width=0.304, x=LINE_LENGTH, y=50.0, margin=2.0, label="", waveguide_factory=waveguide
+    wg_width=0.372,
+    trench_width=0.304,
+    x=LINE_LENGTH,
+    y=50.0,
+    margin=2.0,
+    label="",
+    waveguide_factory=waveguide,
 ):
     """ horizontal grating etch lines
-    
+
     TE: 676nm pitch, 304nm gap, 372nm line
     TM: 1110nm pitch, 506nm gap, 604nm line
 
@@ -367,7 +375,7 @@ def cdsem_uturn(
 
     Args:
         width: of the line
-        cladding_offset: 
+        cladding_offset:
         radius: bend radius
         wg_length
 
@@ -421,7 +429,16 @@ def cdsem_uturn(
 
 
 @pp.autoname
-def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506, waveguide_factory=waveguide, bend90_factory=bend_circular, layer=LAYER.WG):
+def opcm(
+    dw=0.02,
+    wte=0.372,
+    tte=0.304,
+    wtm=0.604,
+    ttm=0.506,
+    waveguide_factory=waveguide,
+    bend90_factory=bend_circular,
+    layer=LAYER.WG,
+):
     """ column with all optical PCMs
     Args:
         dw
@@ -433,7 +450,12 @@ def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506, waveguide_factory=
     all_devices = [_c1]
 
     all_devices += [
-        cdsem_uturn(width=w, symbol_top=s, waveguide_factory=waveguide_factory, bend90_factory=bend90_factory)
+        cdsem_uturn(
+            width=w,
+            symbol_top=s,
+            waveguide_factory=waveguide_factory,
+            bend90_factory=bend90_factory,
+        )
         for w, s in zip([0.46, 0.5, 0.54], ["L", "S", "H"])
     ]
 
@@ -449,7 +471,9 @@ def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506, waveguide_factory=
     ]
 
     all_devices += [
-        cdsem_straight_density(wg_width=w, trench_width=t, label=lbl, waveguide_factory=waveguide_factory)
+        cdsem_straight_density(
+            wg_width=w, trench_width=t, label=lbl, waveguide_factory=waveguide_factory
+        )
         for w, t, lbl in density_params
     ]
 
@@ -465,7 +489,8 @@ def opcm(dw=0.02, wte=0.372, tte=0.304, wtm=0.604, ttm=0.506, waveguide_factory=
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     targets = [
-        cdsem_target(width_center=w, label=lbl, layer=layer) for w, lbl in zip(widths, labels)
+        cdsem_target(width_center=w, label=lbl, layer=layer)
+        for w, lbl in zip(widths, labels)
     ]
     y = -targets[0].size_info.height / 2 - spacing_v
     dx = targets[0].size_info.width + spacing_v

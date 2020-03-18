@@ -10,8 +10,8 @@ GDS | layer_name     | Description
 2   | 2 SLAB150      | 150nm Silicon slab (70nm shallow Etch for grating couplers)
 3   | 3 SLAB90       | 90nm Silicon slab (for modulators)
 47  | MH             | heater
-41  | M1             | metal 1 
-45  | M2             | metal 2 
+41  | M1             | metal 1
+45  | M2             | metal 2
 40  | VIA1           | VIA1
 44  | VIA2           | VIA2
 46  | PADOPEN        | Bond pad opening
@@ -45,4 +45,3 @@ from fab1pdk.mm1 import mm1x2
 component = mmi1x2()
 
 ```
-

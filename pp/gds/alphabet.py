@@ -19,5 +19,5 @@ def alphabet(dx=10):
 
 if __name__ == "__main__":
     c = alphabet()
-    pp.write_gds(c, 'alphabet.gds')
+    pp.write_gds(c, "alphabet.gds")
     pp.show(c)

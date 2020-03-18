@@ -61,7 +61,7 @@ def add_component(
     Arg:
         component <pp.Component>
         tech <str>
-        
+
     Add a component to a given tech
     """
 
@@ -73,12 +73,12 @@ def add_component(
 
     # Save component to make sure we have all the port and json files
     new_component_path = GDS_PATH_TMP / (component.name + ".gds")
-    
+
     params = {
         "add_port_pins": add_port_pins,
-        "add_ports_to_all_cells": add_ports_to_all_cells
+        "add_ports_to_all_cells": add_ports_to_all_cells,
     }
-    
+
     write_component(component, new_component_path, **params)
 
     # Reload component (to make sure ports info is added etc...)

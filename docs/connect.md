@@ -46,7 +46,7 @@ There are 3 ways of connecting:
         wx = c << waveguide_x
         btl = c << bend
         btr = c << bend
-        
+
 
         # connect references
         wyr.connect(port="E0", destination=cbr.ports["N0"])

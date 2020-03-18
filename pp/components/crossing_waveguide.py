@@ -180,17 +180,17 @@ def crossing45(crossing=crossing, port_spacing=20.0, dx=None, alpha=0.08):
         alpha: optimization parameter. Try with 0.1 to start with.
             - If the structure has too tight bends, diminish it.
             - If raise assertion angle errors, increase it
-            
-            
+
+
     A 45Deg crossing with bends
-    
+
     ----   ----
         \ /
-         X 
+         X
         / \
     ---    ----
-    
-    Implementation note: The 45 Degree crossing CANNOT be kept as an SRef since 
+
+    Implementation note: The 45 Degree crossing CANNOT be kept as an SRef since
     we only allow for multiples of 90Deg rotations in SRef
     """
 
@@ -272,15 +272,15 @@ def compensation_path(crossing45=crossing45, direction="top"):
         crossing45: the crossing45 component that we want to match in path length
             This component needs to have .info["components"] with bends and crossing
         direction: the direction in which the bend should go "top" / "bottom"
-    
+
     Returns:
         <pp.Component> a compensation path
-            
-    Path with same path length as crossing45 
+
+    Path with same path length as crossing45
     but with input and output ports having same y coordinates
-    
-    
-    crossing45:    
+
+
+    crossing45:
     ----       ----
         \     /
          \   /
@@ -288,16 +288,16 @@ def compensation_path(crossing45=crossing45, direction="top"):
            X
           / \
          /   \
-        /     \             
+        /     \
     ----       ----
-    
+
     Compensation path:
-    
+
          --+--
        _/     \_
     --/         \--
-    
-    
+
+
     """
     # Get total path length taken by the bends
     crossing45 = pp.call_if_func(crossing45)
@@ -328,12 +328,12 @@ def compensation_path(crossing45=crossing45, direction="top"):
         path_points = bezier_curve(t, control_points)
         return path_length(path_points) - target_bend_length
 
-    """ 
+    """
     # We know that the path length of the s-bend between two ports
     p0 and p1 is :
     # - larger than the euclidian distance L2(p0, p1)
     # - smaller than the manhattan distance L1(p0, p1)
-    # 
+    #
     # This gives the bounds for the brentq root finding
     """
 

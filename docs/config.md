@@ -16,5 +16,3 @@ import pp
 print(pp.CONFIG)
 
 ```
-
-

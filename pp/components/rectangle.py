@@ -70,7 +70,7 @@ def rectangle(
 @pp.autoname
 def rectangle_centered(w=1, h=1, x=None, y=None, layer=0):
     """ a rectangle size (x, y) in layer
-        bad naming with x and y. Replaced with w and h. Keeping x and y 
+        bad naming with x and y. Replaced with w and h. Keeping x and y
         for now for backwards compatibility
 
     .. plot::

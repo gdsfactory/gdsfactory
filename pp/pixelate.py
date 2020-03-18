@@ -55,6 +55,7 @@ def pixelate_path(
 
 def points_to_shapely(pts):
     from shapely.geometry.polygon import Polygon
+
     p = Polygon(pts)
     return p
 
@@ -86,6 +87,7 @@ def _pixelate(
         A list of pixel bounding boxes
     """
     from shapely import geometry
+
     shape = points_to_shapely(pts)  # convert to shapely
     if not shape:
         return []

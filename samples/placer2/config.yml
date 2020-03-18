@@ -20,11 +20,11 @@ does:
         settings:
             length_mmi: [11, 12]
             width_mmi: [3.6, 7.8]
-        do_permutation: False    
+        do_permutation: False
         shape: [2, 1]
         origin: [0, 0]
         spacing: [50, 50]
-        
+
     doe2:
         doe_name: doe2
         component: mmi1x2
@@ -35,7 +35,7 @@ does:
         shape: [1, 3]
         origin: [150, 0]
         spacing: [0, 50]
-        
+
     doe3:
         doe_name: doe3
         component: mzi2x2
@@ -44,7 +44,7 @@ does:
         shape: [3, 1]
         origin: [0, 200]
         spacing: [200, 200]
-            
+
     doe4:
         doe_name: doe4
         component: mzi2x2
@@ -55,4 +55,3 @@ does:
         shape: [3, 3]
         origin: [0, 500]
         spacing: [200, 300]
-    

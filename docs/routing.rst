@@ -10,7 +10,7 @@ Convenience functions are provided in `routing/connect.py`
 
 
 To make a route, we need to supply:
- - an input port 
+ - an input port
  - an output port
  - a bend, or a bend factory
  - a straight factory
@@ -76,7 +76,7 @@ Example with two arrays of ports connected using `link_optical_ports`
 .. autofunction:: pp.routing.u_groove_bundle.u_bundle_indirect
 
 
- - `route_ports_to_side`, connect all the ports towards one bank of ports facing in one direction 
+ - `route_ports_to_side`, connect all the ports towards one bank of ports facing in one direction
  - `link_optical_ports`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
  - `corner_bundle`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
  - `u_bundle_direct`, banks of ports with direct U-turns
@@ -93,18 +93,18 @@ of the banks of ports, it decides which sub-routine to call between:
  - `u_bundle_direct`
  - `u_bundle_indirect`
 
-For now it is not smart enough to decide whether it should call `route_ports_to_side`. 
+For now it is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
 use `route_ports_to_side` prior calling `connect_bundle`
- 
+
 Example of `connect_bundle` behavior when called with two banks of ports
 (one list of input ports, another list of output ports). Nothing else is changed.
 If different behaviors are required, several parameters can be used to tweak
 the exact routes.
 It is then recommended to explicitely call the wanted sub-routine with the wanted
-arguments. e.g 
+arguments. e.g
 
-`link_optical_ports`: `start_straight`, `end_straight`  
+`link_optical_ports`: `start_straight`, `end_straight`
 `u_bundle_indirect`: `extension_length`
 
 .. image:: images/connect_bundle.png
@@ -150,7 +150,7 @@ Routing banks of ports through pre-defined waypoints
         top_cell.add(elements)
 
         return top_cell
-        
+
     cell = test_connect_bundle_waypoints()
     pp.plotgds(cell)
 
@@ -167,4 +167,3 @@ generate the array of optical I/O and connect them to the component. The default
 You can also use individual fibers
 
 .. autofunction:: pp.routing.connect_component.get_route2individual_gratings
-

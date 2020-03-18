@@ -83,19 +83,19 @@ def centered_diff2(a):
 
 def curvature(points, t):
     """
-    
+
     Args:
         points : numpy.array shape (n, 2)
         t: numpy.array of size n
-    
+
     Return:
         The curvature at each point
-    
+
     Computes the curvature at every point excluding the first and last point
-    
-    For a planar curve parametrized as P(t) = (x(t), y(t)), the curvature is given 
-    by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)    
-    
+
+    For a planar curve parametrized as P(t) = (x(t), y(t)), the curvature is given
+    by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)
+
     """
 
     # Use centered difference for derivative
@@ -120,9 +120,9 @@ def radius_of_curvature(points, t):
 def path_length(points):
     """
     Args:
-        points: <np.array> 
+        points: <np.array>
             With shape (N, 2) representing N points with coordinates x, y
-    
+
     Returns:
         <float> The path length
     """
@@ -174,12 +174,12 @@ def extrude_path(
 ):
     """
     Extrude a path of width `width` along a curve defined by `points`
-    
+
     Args:
         points: numpy 2D array of shape (N, 2)
         width: float
-        
-    Return 
+
+    Return
         numpy 2D array of shape (2*N, 2)
     """
 

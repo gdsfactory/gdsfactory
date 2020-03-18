@@ -12,7 +12,7 @@ from pp.config import logging, load_config, CONFIG, write_config, get_git_hash
 def update_config_modules(config):
     """ update config with module git hashe and version (for each module in module_requirements section)
     """
-    if config.get('module_requirements'):
+    if config.get("module_requirements"):
         config.update({"git_hash": get_git_hash(), "module_versions": {}})
         for module_name in config["module_requirements"]:
             module = importlib.import_module(module_name)
@@ -35,7 +35,7 @@ def merge_json(config=CONFIG, json_version=6):
         mask_config_directory: defaults to current working directory
         json_version: for maskhub parser
         jsons_filepaths: if we want to supply individual json files
-        
+
     """
     if config.get("mask") is None:
         raise ValueError(f"mask config missing from {config['cwd']}")

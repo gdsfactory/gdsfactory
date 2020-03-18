@@ -6,6 +6,7 @@ import os
 import pp
 from pp.config import CONFIG
 
+
 def md5(fname):
     hash_md5 = hashlib.md5()
     with open(fname, "rb") as f:

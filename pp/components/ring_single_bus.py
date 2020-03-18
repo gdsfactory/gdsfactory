@@ -8,7 +8,6 @@ from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
 
 
-
 @autoname
 def ring_single_bus_deprecated(**kwargs):
     """ Ring single bus
@@ -153,15 +152,17 @@ def ring_single_bus(
     btr.connect(port="W0", destination=wyr.ports["W0"])
     wx.connect(port="W0", destination=btl.ports["W0"])
 
-    c.add_port('W0', port=cbl.ports['E0'])
-    c.add_port('E0', port=cbr.ports['E0'])
+    c.add_port("W0", port=cbl.ports["E0"])
+    c.add_port("E0", port=cbr.ports["E0"])
     return c
 
 
 def _compare_rings():
 
     c = pp.Component()
-    c1 = ring_single_bus_deprecated(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
+    c1 = ring_single_bus_deprecated(
+        wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13
+    )
     c2 = ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
 
     r1 = c << c1
@@ -171,7 +172,6 @@ def _compare_rings():
     r1.xmin = 0
     r2.xmin = 0
     pp.show(c)
-
 
 
 if __name__ == "__main__":

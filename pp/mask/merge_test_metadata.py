@@ -87,7 +87,7 @@ def merge_test_metadata(gdspath):
 
     Returns:
         saves json file with merged metadata
-        
+
     """
     mask_json_path = gdspath.with_suffix(".json")
     csv_labels_path = gdspath.with_suffix(".csv")

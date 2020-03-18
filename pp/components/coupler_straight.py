@@ -50,7 +50,12 @@ def coupler_straight(
     ymax = 2 * width + gap + cladding_offset
     for layer_cladding in layers_cladding:
         c.add_polygon(
-            [(0, -cladding_offset), (length, -cladding_offset), (length, ymax), (0, ymax)],
+            [
+                (0, -cladding_offset),
+                (length, -cladding_offset),
+                (length, ymax),
+                (0, ymax),
+            ],
             layer=layer_cladding,
         )
 

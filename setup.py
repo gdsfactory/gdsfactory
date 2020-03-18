@@ -17,8 +17,8 @@ setup(
     include_package_data=True,
     install_requires=get_install_requires(),
     python_requires=">=3.6",
-    entry_points='''
+    entry_points="""
         [console_scripts]
         pf=pp.pf:cli
-    ''',
+    """,
 )

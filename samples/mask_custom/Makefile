@@ -26,4 +26,3 @@ upload:
 	mh post mask
 
 .PHONY: devices
-

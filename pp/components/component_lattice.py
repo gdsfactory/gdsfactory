@@ -36,7 +36,7 @@ def get_sequence_cross(
         waveguides_end : list of the output port indices
         symbols : [`X` , `S`]
         symbols to be used in the returned sequence:
-        `X`: represents the crossing symbol: two Xs next 
+        `X`: represents the crossing symbol: two Xs next
             to each-other means that the two modes have to be swapped
         `S`: Straight waveguide, or compensation path typically
 
@@ -146,16 +146,16 @@ def component_lattice(
     A lattice of N inputs and outputs with components at given locations
     Columns must have components with the same x spacing between ports input/output ports
     Lines must have components with the same y spacing between input and output ports
-    
+
     Lattice example:
-    
+
     .. code::
 
         X-X
         XCX
         XCX
         X-X
-    
+
     .. plot::
       :include-source:
 

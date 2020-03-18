@@ -1,4 +1,4 @@
-mask: clean devices does merge labels 
+mask: clean devices does merge labels
 help:
 	@echo 'make :                 makes devices, merges them'
 	@echo 'make devices:          makes devices'
@@ -39,4 +39,3 @@ fill:
 	python fill.py
 
 .PHONY: devices
-

@@ -43,19 +43,19 @@ def route_all_ports_to_south(
     Args:
         component: The component to be connected
         bend_radius
-        optical_routing_type: routing heuristic ``1`` or ``2`` (see below) 
+        optical_routing_type: routing heuristic ``1`` or ``2`` (see below)
         excluded_ports=[]: list of port names to NOT route
         waveguide_separation
-        io_gratings_lines: list of ports to which the ports produced by this 
-            function will be connected. Supplying this information helps 
+        io_gratings_lines: list of ports to which the ports produced by this
+            function will be connected. Supplying this information helps
             avoiding waveguide collisions
-            
+
         routing_method: routing method to connect the waveguides
         gc_port_name: grating port name
-    
+
     Returns:
         list of elements, list of ports
-    
+
     Standard optical routing - type ``1`` or variant ``2``
         ``1`` uses the component size info to estimate the box size
         ``2`` only looks at the optical port positions to estimate the size
@@ -130,9 +130,9 @@ def route_all_ports_to_south(
 
     """
     ``x`` is the x-coord of the waypoint where the current component port is connected.
-    x starts as close as possible to the component. 
-    For each new port, the distance is increased by the separation.       
-    The starting x depends on the heuristic chosen : ``1`` or ``2``        
+    x starts as close as possible to the component.
+    For each new port, the distance is increased by the separation.
+    The starting x depends on the heuristic chosen : ``1`` or ``2``
     """
 
     # Set starting ``x`` on the west side
@@ -148,7 +148,7 @@ def route_all_ports_to_south(
     # First route the ports facing west
     for p in west_ports:
         """
-        In case we have to connect these ports to a line of grating,        
+        In case we have to connect these ports to a line of grating,
         Ensure that the port is aligned with the grating port or
         has enough space for manhattan routing (at least two bend radius)
         """
@@ -205,7 +205,7 @@ def route_all_ports_to_south(
     start_straight = 0.5
     for p in east_ports:
         """
-        In case we have to connect these ports to a line of grating,        
+        In case we have to connect these ports to a line of grating,
         Ensure that the port is aligned with the grating port or
         has enough space for manhattan routing (at least two bend radius)
         """
@@ -399,7 +399,7 @@ def get_route2fiber_array(
     elements = []
 
     """
-    # grating_coupler can either be a gratings/factories or a list of  gratings/factories        
+    # grating_coupler can either be a gratings/factories or a list of  gratings/factories
     """
 
     if isinstance(grating_coupler, list):
@@ -411,7 +411,7 @@ def get_route2fiber_array(
 
     """
     # Now:
-    # - grating_coupler is a single grating coupler 
+    # - grating_coupler is a single grating coupler
     # - grating_couplers is a list of grating couplers
     """
 
@@ -554,7 +554,7 @@ def get_route2fiber_array(
         """
         Basic optical routing, typically fine for small components
         No heuristic to avoid collisions between connectors.
-        
+
         If specified ports to connect in a specific order
         (i.e if connected_port_list_ids is not None and not empty)
         then grab these ports

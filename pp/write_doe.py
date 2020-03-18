@@ -18,11 +18,11 @@ def write_doe_report(
     Args:
         doe_name
         cell_names: list of klayout <Cell> or pp <Component>
-        cell_settings: list of cell settings 
+        cell_settings: list of cell settings
         description
         analysis
         test
-        
+
     """
 
     """ JSON  """

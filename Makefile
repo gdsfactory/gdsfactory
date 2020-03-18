@@ -9,6 +9,8 @@ install: gdslib
 	python install_klive.py
 	python install_gdsdiff.py
 	python install_generic_tech.py
+	pip install pre-commit
+	pre-commit install
 
 install3:
 	pyenv shell 3.7.2
@@ -37,7 +39,7 @@ hook-lint:
 
 hook-pytest:
 	cp .hooks/pre-push .git/hooks/pre-push
-	
+
 unhook:
 	rm .git/hooks/*
 
@@ -61,7 +63,7 @@ clean:
 build:
 	python setup.py sdist bdist_wheel
 
-release: 
+release:
 	pip install devpi-client wheel
 	devpi upload --format=bdist_wheel,sdist.tgz
 

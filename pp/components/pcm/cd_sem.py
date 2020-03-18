@@ -43,7 +43,7 @@ def cdsem_straight_density(
     wg_width=0.372, trench_width=0.304, x=500, y=50.0, margin=2.0
 ):
     """ horizontal grating etch lines
-    
+
     TE: 676nm pitch, 304nm gap, 372nm line
     TM: 1110nm pitch, 506nm gap, 604nm line
 

@@ -40,7 +40,6 @@ def grating_coupler_tree(
     bend_radius=10.0,
     layer_label=pp.LAYER.LABEL,
     **kwargs
-    
 ):
     """ array of waveguides connected with grating couplers
     useful to align the 4 corners of the chip

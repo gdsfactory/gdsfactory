@@ -121,5 +121,3 @@ How to export a GDS suitable for netlist extraction?
 When writing the GDS cell, use `write_gds` with the flag `add_ports_to_all_cells=True`::
 
     path = pp.write_gds(my_component, gdspath='my_component.gds', add_ports_to_all_cells=True)
-
-

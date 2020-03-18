@@ -23,7 +23,7 @@ class AutoPlacer(pya.Layout):
     - `AutoPlacer.pack_auto(cell, origin, direction)` automatically finds a location for the device. You can provide an `origin` argument, which can take any value from `autoplacer.SOUTH_WEST`, `autoplacer.SOUTH_EAST`, `autoplacer.NORTH_WEST`, `autoplacer.NORTH_EAST`. The autoplacer will search for a place to put the cell starting from that cardinal point. It can search in either `VERTICAL` or `HORIZONTAL` direction.
     - `AutoPlacer.pack_manual(cell, x, y, origin)` allows you to manually place a device at an absolute location.
     - `AutoPlacer.pack_many` behaves like `AutoPlacer.pack_auto` but accepts a list of devices.
-    
+
     """
 
     def __init__(self, name, max_width=1e8, max_height=1e8):

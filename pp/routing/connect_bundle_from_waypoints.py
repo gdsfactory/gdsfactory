@@ -83,9 +83,9 @@ def connect_bundle_waypoints(
     start_ports: a list of ports
     end_ports: a list of ports
     way_points: a list of points defining a route
-        with way_points[0] = start_ports[0] 
+        with way_points[0] = start_ports[0]
         way_points[-1] = end_ports[0]
-    
+
     """
     if len(end_ports) != len(start_ports):
         raise ValueError(
@@ -105,7 +105,7 @@ def connect_bundle_waypoints(
     end_angle = end_ports[0].orientation
 
     """
-    Sort the ports such that the bundle connect the correct 
+    Sort the ports such that the bundle connect the correct
     corresponding ports.
     """
 
@@ -138,7 +138,7 @@ def connect_bundle_waypoints(
     sp_st, ep_st = angles_to_sorttypes[key]
     start_port_sort = dict_sorts[sp_st]
     end_port_sort = dict_sorts[ep_st]
-    
+
     if auto_sort:
         start_ports.sort(key=start_port_sort)
         end_ports.sort(key=end_port_sort)
@@ -186,7 +186,7 @@ def _generate_manhattan_bundle_waypoints(
     Args:
         start_ports: list of start ports. Should all be facing in the same direction
         end_ports: list of end ports. Should all be facing in the same direction
-        route: going from one point somewhere within the start_ports bank to 
+        route: going from one point somewhere within the start_ports bank to
         another point within the end_ports bank
     """
     backbone_route = remove_flat_angles(backbone_route)

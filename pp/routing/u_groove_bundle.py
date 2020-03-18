@@ -32,22 +32,22 @@ def u_bundle_direct(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide 
-        
-    Returns: 
+            e.g `connect_strip_way_points` for deep etch strip waveguide
+
+    Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
-        
-        
+
+
     Used for routing multiple ports back to a bundled input in a component
-    
+
     ::
-        
+
         X: start ports
         D: End ports
-        
+
         On this example bellow, the axis is along X
-    
+
                            X------\
                                   |
                            X----\ |
@@ -223,24 +223,24 @@ def u_bundle_indirect(
     """
     Args:
         start_ports: list of start ports
-        end_ports: list of end ports       
+        end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide 
-    Returns: 
+            e.g `connect_strip_way_points` for deep etch strip waveguide
+    Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
-        
-            
+
+
     Used for routing multiple ports back to a bundled input in a component
-    
-    
+
+
     ::
-        
+
         X: start ports
         D: End ports
-                
 
-        #                           X------\ 
+
+        #                           X------\
         #                           X----\ |
         #                          ...   | |
         #                           X--\ | |
@@ -250,17 +250,17 @@ def u_bundle_indirect(
         #   | /--------------------------/ |
         #   | |                            |
         #   | | /--------------------------/
-        #   | | |                        
-        #   | | \--D                        
+        #   | | |
+        #   | | \--D
         #   | \----D
         #   |     ...
         #   \------D
         #   /------D
         #   |     ...
         #   | /----D
-        #   | | /--D                        
-        #   | | |                        
-        #   | | \--------------------------\ 
+        #   | | /--D
+        #   | | |
+        #   | | \--------------------------\
         #   | |                            |
         #   | \--------------------------\ |
         #   |                            | |
@@ -271,7 +271,7 @@ def u_bundle_indirect(
         #                           X----/ |
         #                           X------/
         '''
-    
+
     """
 
     routes = u_bundle_indirect_routes(
@@ -339,7 +339,7 @@ def u_bundle_indirect_routes(
     ys_end = [p.y for p in end_ports]
 
     """
-    # Compute the bundle axis 
+    # Compute the bundle axis
     """
 
     if start_ports[0].angle in [0, 180]:
@@ -348,7 +348,7 @@ def u_bundle_indirect_routes(
         axis = "Y"
 
     """
-     Split start ports in two groups: 
+     Split start ports in two groups:
         - the ones on the south/west of end ports (depending on bundle axis)
         - the ones on the north/east of end ports (depending on bundle axis)
     """
@@ -388,13 +388,13 @@ def u_bundle_indirect_routes(
 
         if start_ports[0].angle == 90 and end_ports[0].angle == 270:
             """
-              
+
               ^     ^
               |     |
               X     X
                  D
                  |
-                    
+
             """
             # To go back to a U bundle
             group1_route_directives = ["east", "south"]
@@ -407,7 +407,7 @@ def u_bundle_indirect_routes(
                  D
               X     X
               |     |
-                    
+
             """
             # To go back to a U bundle
             group1_route_directives = ["east", "north"]
@@ -435,7 +435,7 @@ def u_bundle_indirect_routes(
     def add_connections(conns):
         """
         Ensure that each section in a batch of connection
-        is added to the correct route. Also we don't know in which order the 
+        is added to the correct route. Also we don't know in which order the
         routes are given (from beginning to end or vice versa)
         """
 

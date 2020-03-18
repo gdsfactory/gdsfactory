@@ -20,6 +20,7 @@ def rotate(component, angle=90):
 
 if __name__ == "__main__":
     import pp
+
     c = pp.c.mmi1x2()
     cr = rotate(c)
     pp.show(cr)

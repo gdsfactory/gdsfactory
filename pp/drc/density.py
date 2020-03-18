@@ -26,7 +26,11 @@ def compute_area(c, target_layer):
             try:
                 _area += sum([abs(area(p)) for p in joined_polys.polygons])
             except:
-                print("Warning, {} joinedpoly {} could not be added".format(c.name, joined_polys))
+                print(
+                    "Warning, {} joinedpoly {} could not be added".format(
+                        c.name, joined_polys
+                    )
+                )
     return _area
 
 
@@ -69,14 +73,17 @@ def get_polygons_on_layer(c, layer):
     return polygons
 
 
-def boolops_hierarchical(c, layer1, layer2, layer_result, operation='or', func_check_to_flatten=None):
-    
+def boolops_hierarchical(
+    c, layer1, layer2, layer_result, operation="or", func_check_to_flatten=None
+):
+
     all_cells = c.get_dependencies(recursive=True)
     all_cells.update([c])
     cells_by_rank = bucket_cells_by_rank(all_cells)
     _print("Found the hierarchy...")
 
     if func_check_to_flatten is None:
+
         def _has_polygons(cell):
             n = 0
             for _layer in [layer1, layer2]:
@@ -85,24 +92,25 @@ def boolops_hierarchical(c, layer1, layer2, layer_result, operation='or', func_c
             return n
 
         func_check_to_flatten = _has_polygons
-    
+
     for rank, cells in cells_by_rank.items():
         for cell in cells:
             to_flatten = func_check_to_flatten(cell)
             if to_flatten:
-                _print("BOOL HIERARCHY", cell.name, '...', end='')
+                _print("BOOL HIERARCHY", cell.name, "...", end="")
                 polys_by_spec = cell.get_polygons(by_spec=True)
                 polys1 = polys_by_spec[layer1] if layer1 in polys_by_spec else []
                 polys2 = polys_by_spec[layer2] if layer2 in polys_by_spec else []
                 cell.remove_layers([layer_result])
-                    
+
                 res_polys = gp.boolean(polys1, polys2, operation=operation)
                 if res_polys is not None:
                     cell.add_polygon(res_polys, layer=layer_result)
-                    
+
                 _print("{} - done".format(res_polys), cell.name)
-                
+
     return cell
+
 
 def compute_area_hierarchical(
     c, layer, func_check_to_flatten=None, keep_zero_area_cells=False
@@ -173,6 +181,7 @@ def test_density():
     Return ratio of total area on a layer over the bounding box of the component
     """
     import pp
+
     layer = (1, 0)
     c = pp.c.rectangle(size=(4, 2), layer=layer)
     pp.write_gds(c)
