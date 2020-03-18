@@ -3,7 +3,15 @@ from pp.config import TAPER_LENGTH
 
 
 @pp.autoname
-def taper(length=TAPER_LENGTH, width1=0.5, width2=None, port=None, layer=pp.LAYER.WG):
+def taper(
+    length=TAPER_LENGTH,
+    width1=0.5,
+    width2=None,
+    port=None,
+    layer=pp.LAYER.WG,
+    layers_cladding=[],
+    cladding_offset=3,
+):
     """ Linear taper
 
     Args:
@@ -37,6 +45,12 @@ def taper(length=TAPER_LENGTH, width1=0.5, width2=None, port=None, layer=pp.LAYE
     c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
+
+    o = cladding_offset
+    ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
+
+    for layer in layers_cladding:
+        c.add_polygon((xpts, ypts), layer=layer)
 
     c.info["length"] = length
     c.info["width1"] = width1
@@ -128,7 +142,7 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1)
+    c = taper(width2=1, layers_cladding=[pp.layer("wgclad")])
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
