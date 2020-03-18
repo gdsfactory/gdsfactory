@@ -25,12 +25,12 @@ def connect_bundle(
     **kwargs,
 ):
     """
-    
+
     start_ports should all be facing in the same direction
-    
+
     end_ports should all be facing in the same direction
-    
-    
+
+
     Choose the correct u_bundle to use based on port angles
     """
     # Accept dict ot list
@@ -142,7 +142,7 @@ def link_ports(
     **routing_params,
 ):
     """Semi auto-routing for two lists of ports
-    
+
     Args:
         ports1: first list of ports
         ports2: second list of ports
@@ -152,18 +152,18 @@ def link_ports(
              compared using the X (resp. Y) axis
         bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide 
-                
+            e.g `connect_strip_way_points` for deep etch strip waveguide
+
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
         compute_array_separation_only: If True, returns the min distance which should be used between the two arrays instead of returning the connectors. Useful for budgeting space before instantiating other components.
 
-    Returns: 
+    Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
 
-    
+
     The routing assumes manhattan routing between the different ports.
     The strategy is to modify `start_straight` and `end_straight` for each
     waveguide such that waveguides do not collide.
@@ -171,15 +171,15 @@ def link_ports(
     ::
 
         Connection-cartoon
-        
+
         We want to connect something like this::
         1             X    X     X  X X  X
         |-----------|    |     |  | |  |-----------------------|
         |          |-----|     |  | |---------------|          |
         |          |          ||  |------|          |          |
         2 X          X          X          X          X          X
-        
-    
+
+
         ``start`` is at the top
         ``end`` is at the bottom
 
@@ -692,14 +692,14 @@ def link_optical_ports_no_grouping(
 
     e.g
     We want to connect something like this:
-   
-    :: 
-        # 2             X    X     X  X X  X                          
-        #   |-----------|    |     |  | |  |-----------------------| 
-        #   |          |-----|     |  | |---------------|          | 
-        #   |          |          ||  |------|          |          | 
-        # 1 X          X          X          X          X          X 
-   
+
+    ::
+        # 2             X    X     X  X X  X
+        #   |-----------|    |     |  | |  |-----------------------|
+        #   |          |-----|     |  | |---------------|          |
+        #   |          |          ||  |------|          |          |
+        # 1 X          X          X          X          X          X
+
     ``start`` is at the bottom
     ``end`` is at the top
 

@@ -60,4 +60,3 @@ Cross
 
 
 .. autofunction:: pp.c.cross
-

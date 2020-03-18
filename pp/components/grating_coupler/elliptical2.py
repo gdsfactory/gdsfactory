@@ -20,7 +20,7 @@ def grating_coupler_elliptical2(
     direction="EAST",
     **kwargs
 ):
-    """ 
+    """
     Grating coupler
 
     Args:

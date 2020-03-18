@@ -69,7 +69,7 @@ def connect_strip_way_points(
     """
     Returns a deep-etched route formed by the given way_points with
     bends instead of corners and optionally tapers in straight sections.
-    
+
     taper_factory: can be either a taper component or a factory
     """
     bend90 = bend_factory(radius=bend_radius, width=wg_width)

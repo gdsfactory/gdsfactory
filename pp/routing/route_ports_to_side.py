@@ -18,22 +18,22 @@ def route_ports_to_side(
     ports, side="north", x=None, y=None, routing_func=None, **kwargs
 ):
     """ Routes ports to a given side
-    
+
     Args:
         ports: the list of ports to be connected to the side
             can also be a dictionnary, a <pp.Component> or a phidl
             <ComponentReference>
-        side should be 'north', 'south', 'east' or 'west'    
-        
+        side should be 'north', 'south', 'east' or 'west'
+
         x: only for east/west side routing: the x position where the ports should be sent
             If None, will use the eastest/westest value
-            
-        y: only for south/north side routing: the y position where the ports should be send 
+
+        y: only for south/north side routing: the y position where the ports should be send
             If None, will use the southest/northest value
-        
+
         routing_func: the routing function. By default uses either `connect_elec`
         or `connect_strip` depending on the ports layer.
-        
+
         kwargs: may include:
             `bend_radius`
             `extend_bottom`, `extend_top` for east/west routing
@@ -120,11 +120,11 @@ def connect_ports_to_x(
                 if string: "west" -> route to west
 
      * ``backward_port_side_split_index``: integer
-            this integer represents and index in the list of backwards ports 
+            this integer represents and index in the list of backwards ports
                 (bottom to top)
             all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
-            
+
     Returns:
         - a list of connectors which can be added to an element list
         - a list of the new optical ports
@@ -195,8 +195,7 @@ def connect_ports_to_x(
     north_ports.sort(key=sort_key_north)
     south_ports.sort(key=sort_key_south)
     forward_ports.sort(key=sort_key_south_to_north)
-    
-    
+
     backward_ports.sort(key=sort_key_south_to_north)
     backward_ports_thru_south = backward_ports[0:backward_port_side_split_index]
     backward_ports_thru_north = backward_ports[backward_port_side_split_index:]
@@ -257,7 +256,7 @@ def connect_ports_to_x(
         )
         y_optical_top += separation
         start_straight += separation
-        
+
     start_straight = 0.01
     start_straight0 = 0
     for p in backward_ports_thru_south:
@@ -278,7 +277,7 @@ def connect_ports_to_x(
         )
         y_optical_bot -= separation
         start_straight += separation
-        
+
     return elements, ports
 
 
@@ -308,9 +307,9 @@ def connect_ports_to_y(
                 if float: y coordinate to which the ports will be routed
                 if string: "north" -> route to north
                 if string: "south" -> route to south
-    
-     * ``backward_port_side_split_index``: integer 
-            this integer represents and index in the list of backwards ports 
+
+     * ``backward_port_side_split_index``: integer
+            this integer represents and index in the list of backwards ports
                 (sorted from left to right)
             all ports with an index strictly larger are routed right
             all ports with an index lower or equal are routed left
@@ -390,11 +389,11 @@ def connect_ports_to_y(
     east_ports.sort(key=sort_key_east)
     forward_ports.sort(key=sort_key_west_to_east)
     backward_ports.sort(key=sort_key_east_to_west)
-    
+
     backward_ports.sort(key=sort_key_west_to_east)
     backward_ports_thru_west = backward_ports[0:backward_port_side_split_index]
     backward_ports_thru_east = backward_ports[backward_port_side_split_index:]
-    
+
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
     backward_ports_thru_east.sort(key=sort_key_east_to_west)
 
@@ -448,13 +447,13 @@ def connect_ports_to_y(
         add_port(p, x_optical_right, elements, ports, start_straight=start_straight)
         x_optical_right += separation
         start_straight += separation
-        
+
     start_straight = 0.01
     for p in backward_ports_thru_west:
         add_port(p, x_optical_left, elements, ports, start_straight=start_straight)
         x_optical_left -= separation
         start_straight += separation
-        
+
     return elements, ports
 
 

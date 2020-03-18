@@ -1,4 +1,3 @@
 #!/bin/sh
 
 pyflakes pp  || { echo '! Commit failed: fix the above syntax errors and commit again' ; exit 1; }
-

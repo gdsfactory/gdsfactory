@@ -52,7 +52,7 @@ class MyServer(pya.QTcpServer):
                     line = connection.readLine()
                     if is_python3:
                         pass
-                    else: 
+                    else:
                         line = line .decode("utf-8")
                     data = json.loads(line)
                 else:
@@ -80,11 +80,11 @@ class MyServer(pya.QTcpServer):
             connection.write("Loaded {}".format(gds_path))
 
             # Ping the necessary event
-            if hasattr(window, "on_klive_update"): 
+            if hasattr(window, "on_klive_update"):
                 print (window.on_klive_update) # To avoid triggering a false error
                 if window.on_klive_update:
                     window.on_klive_update()
-                             
+
             # Disconnect
             connection.disconnectFromHost()
             signal = pya.qt_signal("disconnected()")

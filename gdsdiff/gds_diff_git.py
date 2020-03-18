@@ -1,5 +1,5 @@
 """
-A GDS diff tool which can be called by git when doing 
+A GDS diff tool which can be called by git when doing
 
 `git diff ...`
 

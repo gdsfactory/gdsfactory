@@ -34,7 +34,7 @@ def gdsdiff(cellA, cellB):
     Args:
         CellA: gds cell (as pp.Component) or path to gds file
         CellB: gds cell (as pp.Component) or path to gds file
-        
+
     Output:
         gds file containing the diff between the two GDS files
     """

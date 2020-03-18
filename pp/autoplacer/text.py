@@ -63,4 +63,3 @@ def test_alphabet():
 
 if __name__ == "__main__":
     test_alphabet()
-

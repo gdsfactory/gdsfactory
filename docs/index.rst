@@ -12,7 +12,7 @@ Gdsfactory
    layers
    ports
    connect
-   netlist   
+   netlist
    component_sequence
    routing
    path_length_matching
@@ -24,4 +24,3 @@ Gdsfactory
    components0
    components1
    components
-   

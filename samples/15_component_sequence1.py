@@ -1,5 +1,5 @@
 """
-This is a convenience function for cascading components. Usecase, is composite 
+This is a convenience function for cascading components. Usecase, is composite
 waveguides such as phase modulators, where we need to keep track of multiple tapers,
 doped sections, undopped, heaters etc...
 

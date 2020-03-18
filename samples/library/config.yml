@@ -59,4 +59,3 @@ does:
         length: [0, 18.24, 36.48, 54.72, 72.96, 91.2]
       test: passive_optical_te_coarse
       analysis: coupling_vs_length
-

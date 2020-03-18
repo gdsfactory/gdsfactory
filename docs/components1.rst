@@ -24,5 +24,3 @@ Mzi
 -----------
 
 .. autofunction:: pp.components.mzi2x2.mzi2x2
-
-

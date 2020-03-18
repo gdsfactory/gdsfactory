@@ -94,5 +94,3 @@ does:
       next_to: mmi_tm
       align_x: W # x origin is west of current component
       align_y: N # y origin is south of current component
-
-

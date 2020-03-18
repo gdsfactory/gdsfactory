@@ -24,7 +24,7 @@ from git import Repo
 
 default_config = """
 tech: generic
-cache_url: 
+cache_url:
 BBOX_LAYER_EXCLUDE: "[]"
 """
 
@@ -40,6 +40,7 @@ home_path.mkdir(exist_ok=True)
 cwd_config = cwd / "config.yml"
 home_config = home_path / "config.yml"
 
+
 def load_config(cwd_config=cwd_config):
     """ loads config.yml and returns a dict with the config """
     cwd = cwd_config.parent
@@ -49,8 +50,8 @@ def load_config(cwd_config=cwd_config):
         if os.path.exists(cwd_config):
             break
         cwd = cwd.parent
-        
-        if str(cwd).count("\\")<=1 and str(cwd).endswith("\\"):
+
+        if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
             """
             Ensure the loop terminates on a windows machine
             """
@@ -67,7 +68,7 @@ def load_config(cwd_config=cwd_config):
     CONFIG["config_path"] = cwd_config.absolute()
     CONFIG["repo_path"] = repo_path
     CONFIG["module_path"] = module_path
-    CONFIG["font_path"] = module_path / 'gds' / 'alphabet.gds'
+    CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
     CONFIG["masks_path"] = repo_path / "mask"
     CONFIG["version"] = __version__
     CONFIG["home"] = home
@@ -101,7 +102,6 @@ def load_config(cwd_config=cwd_config):
     CONFIG["mask_root_directory"] = mask_root_directory
     CONFIG["gdspath"] = build_directory / "gds.gds"
     CONFIG["samples_path"] = repo_path / "samples"
-    CONFIG["templates"] = repo_path / "templates"
     CONFIG["components_path"] = module_path / "components"
 
     if "gds_resources" in CONFIG:

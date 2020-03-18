@@ -14,16 +14,16 @@ class SequenceGenerator:
 
         Component sequences have two ports by default. In case you'd need to access other ports, component sequences automatically add aliases for the components forming the sequence.
         They use the component local name and append a suffix index starting from 1, so you may access the ports from any subcomponent. But I don't think this is needed here
-        
+
         Usually we can break these components in 3 parts:
         - there is a starting pattern with input and possibly some special
         connections
         - then a repeating pattern
         - An ending pattern with an output
-       
-        
+
+
         Example of symbol meaning
-        
+
         A: bend connected with input W0
         B: bend connected with input N0
         I: taper with input '1'
@@ -71,18 +71,18 @@ def component_sequence(
     """
     This generates a component from a sequence and a dictionnary to interprete each
     symbol in the sequence.
-    
+
     Args
         sequence: a string or a list of symbols
         string_to_device_in_out_ports: maps symbols to (device, input, output)
         ports_map: (optional) extra port mapping using the convention
             {port_name: (alias_name, port_name)}
-    
-    Outputs a component containing the sequence of sub-components 
+
+    Outputs a component containing the sequence of sub-components
     instantiated and connected together in the sequence order
-    
+
     Return type <pp.Component>
-    
+
     """
     # Remove all None devices from the sequence
     sequence = sequence[:]

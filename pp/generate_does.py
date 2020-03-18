@@ -225,7 +225,7 @@ def generate_does(
             doe_name = doe["name"]
 
             """
-            Only launch a build process if we do not use the cache 
+            Only launch a build process if we do not use the cache
             Or if the DOE is not built
             """
 

@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
- 
+
   include RBA
 
   # Enter your Ruby code here ..

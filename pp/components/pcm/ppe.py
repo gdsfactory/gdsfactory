@@ -55,7 +55,7 @@ def y0linespace(y0, height, pitch, ymax):
 
 @pp.autoname
 def cross(x0, y0, width, lw, layer):
-    """ cross 
+    """ cross
 
     Args:
         x0,y0 : center

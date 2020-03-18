@@ -9,7 +9,7 @@
         y_spacing: 500 #  y spacing origin to origin between the components
         x_start: 500
         y_start: 100
- 
+
     mmi1x2_gap:
         doe_name: doe1
         component: mmi1x2
@@ -83,12 +83,12 @@ def pack_horizontal(
     margin_y=None,
 ):
     """
-    Args: 
+    Args:
         cells: a list of cells  (size n)
-        row_ids: a list of row ids (size n) 
+        row_ids: a list of row ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
-            
+
     returns a list of cell references
     """
     heights = [c.size_info.height for c in cells]
@@ -174,12 +174,12 @@ def pack_vertical(
     margin_y=None,
 ):
     """
-    Args: 
+    Args:
         cells: a list of cells  (size n)
-        col_ids: a list of column ids (size n) 
+        col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
-            
+
     returns a list of cell references
     """
     widths = [c.size_info.width for c in cells]
@@ -335,9 +335,7 @@ def save_doe(doe_name, components, doe_root_path=None, precision=1e-9):
 
     for c in components:
         gdspath = os.path.join(doe_dir, c.name + ".gds")
-        write_gds(
-            c, gdspath=gdspath, add_port_pins=False, precision=precision
-        )
+        write_gds(c, gdspath=gdspath, add_port_pins=False, precision=precision)
         write_component_report(c, json_path=gdspath[:-4] + ".json")
 
 

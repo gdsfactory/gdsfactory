@@ -36,7 +36,7 @@ l_fc    = layer("2/0")
 l_rib   = layer("3/0")
 
 l_wg_etch1  = l_wg.inverted()            # protects ridge
-l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib waveguides) 
+l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib waveguides)
 l_wg_etch3  = (l_rib.or(l_fc).or(l_wg)).inverted()  # protects ridge, grating couplers and rib waveguides from the final etch to form strip waveguides
 
 l_n   = layer("20/0")
@@ -44,7 +44,7 @@ l_npp = layer("24/0")
 l_p   = layer("21/0")
 l_ppp = layer("25/0")
 l_PDPp  = layer("27/0")
-l_bottom_implant = l_PDPp 
+l_bottom_implant = l_PDPp
 
 l_Ge    = layer("30/0")
 l_GePpp  = layer("42/0")
@@ -74,7 +74,7 @@ mask(l_wg_etch3).etch(h_etch3, 0.0, :mode => :round, :into => [si]) # etches the
 output("300/0",box)
 output("301/0",si)
 
-############### doping 
+############### doping
 mask(l_bottom_implant).etch(h_si, 0.0, :mode => :round, :into => [si])
 bottom_implant = mask(l_bottom_implant).grow(h_si, 0.0, :mode => :round)
 
@@ -106,7 +106,7 @@ output("315/0", Ge)
 ################# VIA1 and M1
 ox_si = deposit(h_oxide_si, h_oxide_si, :mode => :round)
 
-mask(l_via1).etch(h_oxide_si, :taper => 4, :into => [ox_si])    
+mask(l_via1).etch(h_oxide_si, :taper => 4, :into => [ox_si])
 via1 = deposit(h_metal1, h_metal1)
 mask(l_m1.inverted()).etch(h_metal1 + h_metal1, :taper => 4, :into => [via1])
 
@@ -119,7 +119,7 @@ output("303/0", via1)
 output("307/0", ox_m1)
 
 ################# MH
-mh = deposit(h_metalh, h_metalh) 
+mh = deposit(h_metalh, h_metalh)
 mask(l_mh.inverted()).etch(h_metalh + h_metalh, :taper => 4, :into => [mh])
 output("306/0",mh)
 

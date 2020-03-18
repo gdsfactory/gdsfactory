@@ -1,4 +1,4 @@
-default: clean mask metadata 
+default: clean mask metadata
 help:
 	@echo 'make :                 makes devices, merges them'
 	@echo 'make mask:             makes mask'
@@ -31,4 +31,3 @@ fill:
 	python fill.py
 
 .PHONY: devices
-

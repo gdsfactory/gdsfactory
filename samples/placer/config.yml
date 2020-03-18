@@ -11,8 +11,8 @@ does:
         settings:
             length_mmi: [11, 12]
             width_mmi: [3.6, 7.8]
-        do_permutation: False    
-        
+        do_permutation: False
+
         spacing: [800., 100.]
         origin: [500., 100.]
         shape: [2, 1]
@@ -24,7 +24,7 @@ does:
             L0: [60, 80, 100]
             gap: [0.23, 0.234, 0.24]
         do_permutation: True
-        
+
         spacing: [800., 500.]
         origin: [500., 200.]
         shape: [3, 3]

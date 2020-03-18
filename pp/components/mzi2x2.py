@@ -35,7 +35,7 @@ def mzi_arm(
 
     ::
 
-         L_top 
+         L_top
         |     |
         L1    L1
         |     |
@@ -144,7 +144,7 @@ def mzi2x2(
 
 
     .. code::
-        
+
                top_arm
         ==CL_1=       =CL_1===
                bot_arm
@@ -285,5 +285,5 @@ if __name__ == "__main__":
 
     # c = mzi2x2()
     c = mzi2x2(straight_heater_factory=waveguide_heater)
-    pp.write_gds(c, 'mzi.gds')
+    pp.write_gds(c, "mzi.gds")
     pp.show(c)

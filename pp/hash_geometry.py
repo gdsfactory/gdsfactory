@@ -25,8 +25,12 @@ def same_hash(gdspath1, gdspath2):
 if __name__ == "__main__":
     import pp
 
-    gdspath = pp.write_component_type("mmi1x2", width_mmi=4, overwrite=True, path_directory=pp.CONFIG['gdslib'])
+    gdspath = pp.write_component_type(
+        "mmi1x2", width_mmi=4, overwrite=True, path_directory=pp.CONFIG["gdslib"]
+    )
     print(hash_geometry(gdspath))
 
-    gdspath = pp.write_component_type("mmi1x2", width_mmi=5, overwrite=True, path_directory=pp.CONFIG['gdslib_test'])
+    gdspath = pp.write_component_type(
+        "mmi1x2", width_mmi=5, overwrite=True, path_directory=pp.CONFIG["gdslib_test"]
+    )
     print(hash_geometry(gdspath))

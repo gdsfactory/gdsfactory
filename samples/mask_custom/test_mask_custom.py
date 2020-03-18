@@ -16,6 +16,7 @@ from pp.generate_does import generate_does
 
 # from pp.placer import generate_does
 
+
 def _route_filter(*args, **kwargs):
     return connect_strip_way_points(
         *args, taper_factory=None, start_straight=5.0, end_straight=5.0, **kwargs

@@ -28,7 +28,7 @@ In a typical workflow, this file is parsed twice:
 The first time, by `generate_does` from pp library
 The second time, by `place_from_yaml` from the YAML placer to read the placing instructions for every DOE
 
-Example: 
+Example:
 
 ```
 import os

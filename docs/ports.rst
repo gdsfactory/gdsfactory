@@ -2,7 +2,7 @@ Ports
 =============================
 
 .. automodule:: pp.ports
- 
+
 
 .. plot::
    :include-source:
@@ -19,7 +19,7 @@ Ports
 
 Ports are mostly used to:
 
- - facilitate positioning of components with respect to one another 
+ - facilitate positioning of components with respect to one another
  - connect components between each other using routing sub-routines
 
 A component with a port can easily be referenced by the port.
@@ -29,13 +29,13 @@ A component with a port can easily be referenced by the port.
 
    import pp
 
-   coupler = pp.c.coupler() 
+   coupler = pp.c.coupler()
    c = pp.Component()
 
-   # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0) 
-   coupler1 = coupler.ref(port_id='W0', position=(0, 0)) 
+   # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
+   coupler1 = coupler.ref(port_id='W0', position=(0, 0))
 
-   # Instantiate another reference to `_cpl`, positioning 'W0' port at 
+   # Instantiate another reference to `_cpl`, positioning 'W0' port at
    # the position of the 'E0' port from cpl1
    coupler2 = coupler.ref(port_id='W0', position=coupler1.ports['E0'].position)
 
@@ -61,8 +61,8 @@ You will also need to add the ports of the child cells into the parent cell ::
  - `rotation` (0 / 90 / 180 / 270)
 
  They implement the transformation w.r.t the port position given by port_id If no port_id is given, transformation is done w.r.t (0,0)
-    
- 
+
+
 Ports can have flexible labelling and by default, the user chooses how to label the ports
 in the component with the constraint of giving name unique names within this component.
 
@@ -80,5 +80,3 @@ A function `auto_rename_ports` is provided to automatically label ports accordin
 
 .. autoclass:: phidl.device_layout.Port
    :members:
-
-

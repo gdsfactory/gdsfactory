@@ -7,7 +7,7 @@ the library is in a separate repo with:
 
 - `component.nst`: netlist
 - `component.dat`: FDTD sparameter data
-- `component.ice`: interconnect 
+- `component.ice`: interconnect
 - `component.md`: report
 - `component.ports`: csv with port information
 - `component.properties`: JSON file with component properties
@@ -30,8 +30,8 @@ We only test the components in the libary that are in ``pp/components/__init__.p
 gdsdiff
 ----------
 
-You can also `git diff` a component that has changed to ensure that the change was 
- 
+You can also `git diff` a component that has changed to ensure that the change was
+
 .. image:: images/git_diff_gds_ex1.png
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could ``png diff gdslib/mmi1x2.gds`` and see results of the GDS difference in Klayout

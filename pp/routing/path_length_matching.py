@@ -19,16 +19,16 @@ def path_length_matched_points(
         margin: some extra space to budget for in addition to the bend radius in most cases, the default is fine
         dL0: distance added to all path length compensation.  Useful is we want to add space for extra taper on all branches
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
-            
+
         nb_loops: number of extra loops added in the path
-            if nb_loops==0, no extra loop is added, instead, in each route, 
-            the segment indexed by `modify_segment_i` is elongated to match 
+            if nb_loops==0, no extra loop is added, instead, in each route,
+            the segment indexed by `modify_segment_i` is elongated to match
             the longuest route in `list_of_waypoints`
-            
+
     returns: another list of waypoints where
         - the path_lenth of each waypoints list are identical
         - the number of turns are identical
-    
+
     """
 
     common_params = {
@@ -123,34 +123,34 @@ def path_length_matched_points_add_waypoints(
     """
     Args:
         list_of_waypoints: a list of list_of_points:
-            [[p1, p2, p3,...], [q1, q2, q3,...], ...]            
-            - the number of turns have to be identical 
-                (usually means same number of points. exception is if there are 
+            [[p1, p2, p3,...], [q1, q2, q3,...], ...]
+            - the number of turns have to be identical
+                (usually means same number of points. exception is if there are
                 some flat angles)
-            
-        bend_radius: used to estimate the position of new waypoints to accommodate 
+
+        bend_radius: used to estimate the position of new waypoints to accommodate
                     bends with a given radius
-                    
+
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
-        
-        dL0: distance added to all path length compensation. 
+
+        dL0: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
-        
+
         modify_segment_i: index of the segment which accomodates the new turns
             default is next to last segment
-            
+
         nb_loops: number of extra loops added in the path
-        
+
     returns:
         another list of waypoints where:
             - the path_lenth of each waypoints list are identical
             - the number of turns are identical
-    
+
     Several types of paths won't match correctly. We do not try to handle
-    all the corner cases here. If the paths are not well behaved enough, 
+    all the corner cases here. If the paths are not well behaved enough,
     the input list_of_waypoints needs to be modified.
-    
+
     """
 
     print(list_of_waypoints[0])
@@ -181,11 +181,11 @@ def path_length_matched_points_add_waypoints(
     # To have flexibility in the path length, we need to add 4 bends
     """
     One path has to be converted in this way:
-    
+
                       ----
-                      |  |  
+                      |  |
                       |  |  This length is adjusted to make all path with the same length
-                      |  |   
+                      |  |
     --------  ===> ---|  |---
     """
 

@@ -418,7 +418,7 @@ def round_corners(
         straight_factory: the straight factory to use to generate straight portions
         taper: the taper to use in straight portion. If None, no tapering is done
             in straight portions
-            
+
         straight_factory_fall_back_no_taper: factory to use for straights
         in case there is no space to put a pair of tapers
         straight_ports: port names for straights
@@ -564,7 +564,7 @@ def round_corners(
     # Update name with uuid - too expensive to compute geometrical hash every time
     # Prefix with zz to make connectors appear at end of cell lists
 
-    # The geometrical hash lacks caching right now and ends up taking a 
+    # The geometrical hash lacks caching right now and ends up taking a
     # lot of time to compute on every single connector
     """
 
@@ -585,7 +585,7 @@ def generate_manhattan_waypoints(
     **kwargs
 ):
     """
-    
+
     """
 
     if bend90 == None and bend_radius == None:

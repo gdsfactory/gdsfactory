@@ -101,15 +101,15 @@ def waveguide_heater(
     """ waveguide with heater
 
     .. code::
-    
+
         TTTTTTTTTTTTT    TTTTTTTTTTTTT <-- trench
-        
+
         HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH <-- heater
-        
+
         ------------------------------ <-- waveguide
 
         HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH <-- heater
-        
+
         TTTTTTTTTTTTT    TTTTTTTTTTTTT <-- trench
 
     .. plot::
@@ -119,7 +119,7 @@ def waveguide_heater(
 
       c = pp.c.waveguide_heater()
       pp.plotgds(c)
-    
+
     """
     c = Component()
 

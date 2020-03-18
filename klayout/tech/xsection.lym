@@ -316,7 +316,7 @@ class MaskData &lt; LayoutData
               into = v
             end
             into.each do |i|
-              if !i.kind_of?(MaterialData) 
+              if !i.kind_of?(MaterialData)
                 raise "'#{method}' method: 'into' expects a material parameter or an array of such"
               end
             end
@@ -327,7 +327,7 @@ class MaskData &lt; LayoutData
               on = v
             end
             on.each do |i|
-              if !i.kind_of?(MaterialData) 
+              if !i.kind_of?(MaterialData)
                 raise "'#{method}' method: 'on' expects a material parameter or an array of such"
               end
             end
@@ -338,7 +338,7 @@ class MaskData &lt; LayoutData
               through = v
             end
             through.each do |i|
-              if !i.kind_of?(MaterialData) 
+              if !i.kind_of?(MaterialData)
                 raise "'#{method}' method: 'through' expects a material parameter or an array of such"
               end
             end
@@ -694,7 +694,7 @@ class XSectionGenerator
               downto = v
             end
             downto.each do |i|
-              if !i.kind_of?(MaterialData) 
+              if !i.kind_of?(MaterialData)
                 raise "'#{method}' method: 'into' expects a material parameter or an array of such"
               end
             end
@@ -705,7 +705,7 @@ class XSectionGenerator
               into = v
             end
             into.each do |i|
-              if !i.kind_of?(MaterialData) 
+              if !i.kind_of?(MaterialData)
                 raise "'#{method}' method: 'into' expects a material parameter or an array of such"
               end
             end
@@ -772,23 +772,23 @@ class XSectionGenerator
     end
 
     if to
-    
+
       less ||= 0
-      
+
       if @flipped
         removed_box = RBA::Box.new(-@extend, -self.depth_dbu - self.below_dbu, @line_dbu.length + @extend, to + less)
       else
         removed_box = RBA::Box.new(-@extend, to - less, @line_dbu.length + @extend, self.height_dbu)
       end
-      
+
       rem = LayoutData::new([], self)
       into.each do |i|
         rem.add(i.andp([RBA::Polygon.new(removed_box)]))
         i.subp([RBA::Polygon.new(removed_box)])
       end
-      
+
       self.air.add(rem)
-     
+
     end
 
   end
@@ -923,7 +923,7 @@ class XSectionGenerator
     eval(text, binding, @file_path)
 
     # Show all layers which were created in between
-    RBA::Application.instance.main_window.cm_lv_add_missing 
+    RBA::Application.instance.main_window.cm_lv_add_missing
     if @lyp_file
       @target_view.load_layer_props(@lyp_file)
     end
@@ -998,15 +998,15 @@ class XSectionMRUAction &lt; RBA::Action
     @action = action
   end
 
-  def triggered 
-    @action.call(self) 
+  def triggered
+    @action.call(self)
   end
 
   def script=(s)
     @script = s
     self.visible = (s != nil)
     if s
-      self.title = File.basename(s) 
+      self.title = File.basename(s)
     end
   end
 
@@ -1037,7 +1037,7 @@ class XSectionScriptEnvironment
       if !view
         raise "No view open for running the xsection script on"
       end
-        
+
       fn = RBA::FileDialog::get_open_file_name("Select Script", "", "XSection Scripts (*.xs);;All Files (*)");
       if fn.has_value?
         run_script(fn.value)

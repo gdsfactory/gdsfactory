@@ -53,7 +53,7 @@ def grating_coupler_elliptical_tm(
     layer=LAYER.WG,
     n_periods=16,
 ):
-    """ 
+    """
 
     Args:
         neff: tooth effective index

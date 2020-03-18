@@ -5,7 +5,7 @@ A component contains:
 
 - a list of elements
     - add_polygon
-        - boundary: defines the area inside a shape's points (requires shape and layer) 
+        - boundary: defines the area inside a shape's points (requires shape and layer)
         - path: defines a line with a certain width combining a shape’s points (requires shape, layer and a line_width)
     - add_ref (single reference)
     - add_array (array of references)
@@ -13,8 +13,8 @@ A component contains:
     - add_port()
 - convenient methods
     - write_gds(): saves to GDS
-    
-    
+
+
 .. image:: images/gds.png
 
 
@@ -26,7 +26,7 @@ Here is a step by step example below generating a waveguide crossing
 .. plot::
    :include-source:
 
-       
+
     import pp
 
 
@@ -157,4 +157,3 @@ Here is a step by step example below generating a waveguide crossing
 
 .. autoclass:: pp.component.ComponentReference
    :members:
-

@@ -121,7 +121,7 @@ def placer_grid_cell_refs(
     x0=0,
     y0=0,
     um_to_grid=UM_TO_GRID,
-    **settings
+    **settings,
 ):
     """ cells: list of cells - order matters for placing
     """
@@ -163,18 +163,18 @@ def pack_row(
     rotation=0,
 ):
     """
-    Args: 
+    Args:
         cells: a list of cells  (size n)
-        row_ids: a list of row ids (size n) 
+        row_ids: a list of row ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
-            
-            
-        period_x, period_y: not used by default, 
+
+
+        period_x, period_y: not used by default,
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
-            
-        
+
+
     returns a list of cell references
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
@@ -288,12 +288,12 @@ def pack_col(
     period_y=None,
 ):
     """
-    Args: 
+    Args:
         cells: a list of cells  (size n)
-        col_ids: a list of column ids (size n) 
+        col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
-            
+
     returns a list of cell references
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
@@ -528,7 +528,10 @@ def update_dicts_recurse(target_dict, default_dict):
 
 
 def place_from_yaml(
-    filepath_yaml, root_does=CONFIG["cache_doe_directory"], precision=1e-9, fontpath=text.FONT_PATH
+    filepath_yaml,
+    root_does=CONFIG["cache_doe_directory"],
+    precision=1e-9,
+    fontpath=text.FONT_PATH,
 ):
     """ Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
@@ -599,12 +602,16 @@ def place_from_yaml(
                         __dict_component_debug[_name] = 0
                     __dict_component_debug[_name] += 1
                 duplicates_components = [
-                    _name for _name, _count in __dict_component_debug.items() if _count > 1
+                    _name
+                    for _name, _count in __dict_component_debug.items()
+                    if _count > 1
                 ]
                 print("Please remove duplicate components at DOE entry level: ")
                 print(duplicates_components)
 
-            components = [import_cell(top_level_layout, _c.top_cell()) for _c in components]
+            components = [
+                import_cell(top_level_layout, _c.top_cell()) for _c in components
+            ]
 
         # Find placer information
         default_placer_settings = {
@@ -624,7 +631,9 @@ def place_from_yaml(
             placer_type = "pack_col"
 
         if placer_type not in PLACER_NAME2FUNC:
-            raise ValueError(f'{placer_type} is not an available placer, Choose: {list(PLACER_NAME2FUNC.keys())}')
+            raise ValueError(
+                f"{placer_type} is not an available placer, Choose: {list(PLACER_NAME2FUNC.keys())}"
+            )
         _placer = PLACER_NAME2FUNC[placer_type]
 
         # All other attributes are assumed to be settings for the placer
@@ -758,7 +767,9 @@ def place_from_yaml(
             idbu = 1 / top_level.layout().dbu
             x_text = _bbox.center().x + doe["dx_visual_label"] * idbu
             y_text = _bbox.bottom + (15.0 + doe["dy_visual_label"]) * idbu
-            _text = text.add_text(top_level, doe_name, position=(x_text, y_text), fontpath=fontpath)
+            _text = text.add_text(
+                top_level, doe_name, position=(x_text, y_text), fontpath=fontpath
+            )
             # _transform = pya.DTrans(x_text, y_text)
             # top_level.insert(pya.CellInstArray(_text.cell_index(), _transform))
 
@@ -767,7 +778,9 @@ def place_from_yaml(
     return top_level
 
 
-def place_and_write(filepath_yaml, root_does=CONFIG["cache_doe_directory"], filepath_gds="top_level.gds"):
+def place_and_write(
+    filepath_yaml, root_does=CONFIG["cache_doe_directory"], filepath_gds="top_level.gds"
+):
     c = place_from_yaml(filepath_yaml, root_does)
     _print("writing...")
     c.write(filepath_gds)
@@ -820,6 +833,7 @@ def assemble_subdies(
 
 def _demo():
     import pp
+
     c = pp.c.waveguide()
     gdspath = pp.write_component(c)
 

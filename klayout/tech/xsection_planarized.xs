@@ -42,7 +42,7 @@ l_fc    = layer("2/0")
 l_rib   = layer("3/0")
 
 l_wg_etch1  = l_wg.inverted()            # protects ridge
-l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib waveguides) 
+l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib waveguides)
 l_wg_etch3  = (l_rib.or(l_fc).or(l_wg)).inverted()  # protects ridge, grating couplers and rib waveguides from the final etch to form strip waveguides
 
 l_n   = layer("20/0")
@@ -52,7 +52,7 @@ l_p   = layer("21/0")
 l_pp  = layer("23/0")
 l_ppp = layer("25/0")
 l_PDPp  = layer("27/0")
-l_bottom_implant = l_PDPp 
+l_bottom_implant = l_PDPp
 
 l_nitride  = layer("34/0")
 l_Ge    = layer("30/0")
@@ -166,4 +166,3 @@ output("310/0",via3)
 ox_m3 = deposit(hoxidem3, hoxidem3, :mode => :round)
 mask(l_open).etch(hoxidem3 + hoxidem3, :into=>[ox_m3], :taper=>5) # etch oxide open
 output("311/0",ox_m3)
-

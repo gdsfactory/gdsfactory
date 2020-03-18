@@ -45,7 +45,7 @@ def version_stamp(
 
       c = pp.c.version_stamp()
       pp.plotgds(c)
-    
+
     """
 
     git_hash = pp.CONFIG["git_hash"]

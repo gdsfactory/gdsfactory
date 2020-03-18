@@ -58,46 +58,46 @@ def corner_bundle(
     """
     Args:
         start_ports: list of start ports
-        end_ports: list of end ports       
+        end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide 
-    Returns: 
+            e.g `connect_strip_way_points` for deep etch strip waveguide
+    Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
-        
-    
-    ::    
+
+
+    ::
 
         Bend-types
-        
+
         90 Deg bend
-                   A1 A2      AN 
-                   | |  ...  |  
-                   | |       /  
-                  / /      _/   
-                 / /      /     
-          B1 ----/ /     _/     
-          B2 -----/     /       
-                       /        
-            ...      _/         
-          BN -------/           
-        
-        
+                   A1 A2      AN
+                   | |  ...  |
+                   | |       /
+                  / /      _/
+                 / /      /
+          B1 ----/ /     _/
+          B2 -----/     /
+                       /
+            ...      _/
+          BN -------/
+
+
         270 Deg bend
-            /------------\       
-           /              \      
-          /  /-------\     \     
-         /  /         \     \    
-        |  /   /--\    |    |    
-        | /  /   |     | ...|    
-        | | /    B1    B2   BN   
-        | | |                     
-        | \ \--- A1              
-        |  ----- A2              
-        |    ...                 
-         \------ AN              
-        
-    
+            /------------\
+           /              \
+          /  /-------\     \
+         /  /         \     \
+        |  /   /--\    |    |
+        | /  /   |     | ...|
+        | | /    B1    B2   BN
+        | | |
+        | \ \--- A1
+        |  ----- A2
+        |    ...
+         \------ AN
+
+
     Connect banks of ports with either 90Deg or 270Deg angle between them
     """
 
