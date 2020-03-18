@@ -1,11 +1,8 @@
 [flake8]
-# Recommend matching the black default line length of 88,
-# rather than the flake8 default of 79:
 max-line-length = 88
-extend-ignore =
-    # See https://github.com/PyCQA/pycodestyle/issues/373
-    E203,
-
+max-complexity = 18
+select = B,C,E,F,W,T4,B9
+ignore = E203, E266, E501, W503, F403, F401
 
 exclude =
     # No need to traverse our git directory
@@ -19,5 +16,8 @@ exclude =
     # This contains our built documentation
     build,
     # This contains builds of flake8 that we don't want to check
-    dist
-    .ipynb_checkpoints
+    dist,
+    .ipynb_checkpoints,
+    .tox,
+    extra,
+    deprecated,
