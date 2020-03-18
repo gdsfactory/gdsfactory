@@ -2,12 +2,10 @@
 This is a sample on how to define custom components.
 You can make a repo out of this file, having one custom component per file
 """
-import pathlib
 import pp
 from pp.config import load_config
 from pp.config import CONFIG
 from pp.autoplacer.yaml_placer import place_from_yaml
-from pp.build import build_does
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.add_termination import add_gratings_and_loop_back
 from pp.routing.connect import connect_strip_way_points
@@ -93,7 +91,6 @@ component_type2factory["coupler_te"] = coupler_te
 
 
 def test_mask_custom():
-    # workspace_folder = pathlib.Path(__file__).parent
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     does_yml = workspace_folder / "does.yml"
     config_yml = workspace_folder / "config.yml"
