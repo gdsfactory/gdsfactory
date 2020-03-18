@@ -1,3 +1,9 @@
+# 1.1.5 2020-03-17
+
+- added pre-commit hook for code consitency
+- allows a list of cladding layers
+
+
 # 1.1.4 2020-02-27
 
 - bug fixes
