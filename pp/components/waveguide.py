@@ -11,7 +11,7 @@ def waveguide(
     length=10,
     width=0.5,
     layer=pp.layer("wgcore"),
-    layer_cladding=pp.layer("wgclad"),
+    layers_cladding=[pp.layer("wgclad")],
     cladding_offset=3,
 ):
     """ straight waveguide
@@ -31,9 +31,11 @@ def waveguide(
     """
     c = pp.Component()
     w = width / 2
-    wc = w + cladding_offset
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    if layer_cladding is not None:
+
+    wc = w + cladding_offset
+
+    for layer_cladding in layers_cladding:
         c.add_polygon(
             [(0, -wc), (length, -wc), (length, wc), (0, wc)], layer=layer_cladding
         )
@@ -111,7 +113,7 @@ def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.layer("sl
     width = pp.bias.width(width)
     ymin = width / 2
     ymax = ymin + cladding
-    windows = [(-ymin, ymin, pp.layer["wgcore"]), (-ymax, ymax, slab_layer)]
+    windows = [(-ymin, ymin, pp.layer("wgcore")), (-ymax, ymax, slab_layer)]
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
@@ -159,8 +161,8 @@ if __name__ == "__main__":
     pp.show(c)
 
     # print(c.ports)
-    # cc = pp.routing.add_io_optical(c)
-    # pp.show(cc)
+    cc = pp.routing.add_io_optical(c)
+    pp.show(cc)
 
     # c = waveguide_slab()
     # c = waveguide_trenches()

@@ -12,6 +12,8 @@ def mmi1x2(
     width_mmi=2.5,
     gap_mmi=0.25,
     layer=pp.LAYER.WG,
+    layers_cladding=[],
+    cladding_offset=3,
 ):
     """ mmi 1x2
 
@@ -42,7 +44,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    _mmi = pp.c.rectangle(
+    mmi = c << pp.c.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
         ports_parameters={
@@ -50,20 +52,26 @@ def mmi1x2(
             "W": [(w_mmi / 2, w_taper)],
         },
     )
+    mmi.y = 0
 
-    mmi_section = c.add_ref(_mmi)
+    for layer_cladding in layers_cladding:
+        dy = w_mmi + 2*cladding_offset
+        clad = c << pp.c.rectangle(
+            size=(length_mmi, w_mmi + 2 * cladding_offset), layer=layer_cladding
+        )
+        clad.y = 0
 
     # For each port on the MMI rectangle
-    for port_name, port in _mmi.ports.items():
+    for port_name, port in mmi.ports.items():
 
         # Create a taper
-        _taper_ref = c.add_ref(taper)
+        taper_ref = c.add_ref(taper)
 
         # Connect the taper to the mmi section
-        _taper_ref.connect(port="2", destination=mmi_section.ports[port_name])
+        taper_ref.connect(port="2", destination=mmi.ports[port_name])
 
         # Add the taper port
-        c.add_port(name=port_name, port=_taper_ref.ports["1"])
+        c.add_port(name=port_name, port=taper_ref.ports["1"])
 
     c.move(origin=c.ports["W0"].position, destination=(0, 0))
 

@@ -85,7 +85,9 @@ def cross(x0, y0, width, lw, layer):
 
 
 @pp.autoname
-def ppe(layer=pp.layer("wgcore"), layer_cladding=pp.layer("wgclad"), cladding_offset=3):
+def ppe(
+    layer=pp.layer("wgcore"), layers_cladding=[pp.layer("wgclad")], cladding_offset=3
+):
     """
     pattern placement error
     """
@@ -101,15 +103,11 @@ def ppe(layer=pp.layer("wgcore"), layer_cladding=pp.layer("wgclad"), cladding_of
     o = cladding_offset
 
     # Cover the entire macro
-    D.add_polygon(
-        [
-            (0, -o),
-            (xmax + o, -o),
-            (xmax + o, ymax + o),
-            (0, ymax + o),
-        ],
-        layer=layer_cladding,
-    )
+    for layer_cladding in layers_cladding:
+        D.add_polygon(
+            [(0, -o), (xmax + o, -o), (xmax + o, ymax + o), (0, ymax + o),],
+            layer=layer_cladding,
+        )
 
     # Place the pattern rec
     Cross = cross(x0=xm, y0=ym, width=100, lw=10, layer=layer)
@@ -200,15 +198,17 @@ def ppe(layer=pp.layer("wgcore"), layer_cladding=pp.layer("wgclad"), cladding_of
     # Add NOOPC cover on the pattern rec
     xt = xoff - 10
     yt = yoff - 10
-    D.add_polygon(
-        [
-            (xm - xt, ym - yt),
-            (xm - xt, ym + yt),
-            (xm + xt, ym + yt),
-            (xm + xt, ym - yt),
-        ],
-        layer=layer_cladding,
-    )
+
+    for layer_cladding in layers_cladding:
+        D.add_polygon(
+            [
+                (xm - xt, ym - yt),
+                (xm - xt, ym + yt),
+                (xm + xt, ym + yt),
+                (xm + xt, ym - yt),
+            ],
+            layer=layer_cladding,
+        )
     return D
 
 
