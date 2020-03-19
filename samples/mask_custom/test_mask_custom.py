@@ -90,7 +90,7 @@ component_type2factory["spiral_tm"] = spiral_tm
 component_type2factory["coupler_te"] = coupler_te
 
 
-def test_mask_custom():
+def test_mask_custom(precision=2e-9):
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     does_yml = workspace_folder / "does.yml"
     config_yml = workspace_folder / "config.yml"
@@ -103,10 +103,12 @@ def test_mask_custom():
 
     # Precision 1e-9 works, anything else the structure has issues
     generate_does(
-        str(does_yml), component_type2factory=component_type2factory, precision=5e-9
+        str(does_yml),
+        component_type2factory=component_type2factory,
+        precision=precision,
     )
 
-    top_level = place_from_yaml(does_yml)
+    top_level = place_from_yaml(does_yml, precision=precision)
     top_level.write(str(gdspath))
     assert gdspath.exists()
     return gdspath
