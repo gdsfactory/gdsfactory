@@ -140,6 +140,7 @@ def write_component(
     if gdspath is None:
         gdspath = path_library / (component.name + ".gds")
 
+    gdspath = pathlib.Path(gdspath)
     path_library.mkdir(exist_ok=True)
     ports_path = gdspath.with_suffix(".ports")
     json_path = gdspath.with_suffix(".json")
