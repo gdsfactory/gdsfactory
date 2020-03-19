@@ -100,7 +100,11 @@ def test_mask_custom():
     # Map the component factory names in the YAML file to the component factory
     # generate_does(config)
     # build_does(config, component_type2factory=component_type2factory)
-    generate_does(str(does_yml), component_type2factory=component_type2factory)
+
+    # Precision 1e-9 works, anything else the structure has issues
+    generate_does(
+        str(does_yml), component_type2factory=component_type2factory, precision=5e-9
+    )
 
     top_level = place_from_yaml(does_yml)
     top_level.write(str(gdspath))
