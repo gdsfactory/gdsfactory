@@ -849,8 +849,8 @@ if __name__ == "__main__":
     # from pprint import pprint
     from pp.layers import ls
 
-    layer_label = 66
-    layer_label = ls["txt"]
+    layer_label = 66  # works
+    layer_label = ls["txt"]  # fails
 
     # cc = demo_tapers()
     # cc = test_type1()
