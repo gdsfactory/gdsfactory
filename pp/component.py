@@ -358,7 +358,7 @@ class ComponentReference(DeviceReference):
     # ) for p in _bbox])
     # return bbox
 
-    def get_bounding_box(self):
+    def get_bounding_box2(self):
         """
         Returns the bounding box for this reference.
 
@@ -887,7 +887,7 @@ class Component(Device):
             self.aliases[alias] = d
         return d
 
-    def get_bounding_box(self, layers_excl=BBOX_LAYER_EXCLUDE, force=False):
+    def get_bounding_box2(self, layers_excl=BBOX_LAYER_EXCLUDE, force=False):
         """
         Calculate the bounding box for this cell.
 
