@@ -120,6 +120,7 @@ def write_component(
     store_hash_geometry=False,
     with_component_label=False,
     verbose=False,
+    precision=1e-9,
 ):
     """ write component GDS and metadata:
 
@@ -151,6 +152,7 @@ def write_component(
         add_ports_to_all_cells=add_ports_to_all_cells,
         store_hash_geometry=store_hash_geometry,
         with_component_label=with_component_label,
+        precision=precision,
     )
 
     """ write .ports in CSV"""
@@ -276,24 +278,33 @@ def show(component, gdspath=CONFIG["gdspath"], add_ports_to_all_cells=False, **k
     """
     if isinstance(component, pathlib.Path):
         component = str(component)
-    if isinstance(component, str):
+    elif isinstance(component, str):
         return klive.show(component)
-    if component is None:
+    elif hasattr(component, "path"):
+        return klive.show(component.path)
+    elif component is None:
         raise ValueError(
             "Component is None, make sure that your function returns the component"
         )
-    write_gds(
-        component, gdspath, add_ports_to_all_cells=add_ports_to_all_cells, **kwargs
-    )
-    klive.show(gdspath)
+
+    else:
+        write_gds(
+            component, gdspath, add_ports_to_all_cells=add_ports_to_all_cells, **kwargs
+        )
+        klive.show(gdspath)
 
 
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
-    pp.write_component(c)
+    c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
+    c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
+    c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
+    pp.write_component(c, precision=5e-9)
     pp.show(c)
+
+    # gdspath = pp.write_component(c, precision=5e-9)
+    # pp.show(gdspath)
 
     # cc = pp.routing.add_io_optical(c)
     # gdspath = write_component(cc)

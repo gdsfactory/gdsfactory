@@ -144,8 +144,14 @@ if __name__ == "__main__":
     # from pp.components import mmi1x2
     from pp.components import bend_circular
     from pp.add_grating_couplers import add_grating_couplers
+    from pp.layers import ls
 
     # c = mmi1x2(width_mmi=5)
+    # c = bend_circular()
+    # cc = add_grating_couplers(c, layer_label=ls['txt'])
+    # pp.show(cc)
+
     c = bend_circular()
-    cc = add_grating_couplers(c)
-    pp.show(cc)
+    gc = pp.c.grating_coupler_elliptical_te()
+    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=ls["txt"])
+    print(label)

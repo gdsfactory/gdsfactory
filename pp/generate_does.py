@@ -1,4 +1,11 @@
 import os
+import sys
+import collections
+from multiprocessing import Process
+import time
+import hiyapyco
+from pprint import pprint
+
 from pp.placer import save_doe
 from pp.placer import doe_exists
 from pp.placer import _gen_components
@@ -8,15 +15,9 @@ from pp.placer import load_doe_component_names
 from pp.config import CONFIG
 from pp.components import component_type2factory
 from pp.write_doe import write_doe_report
-from multiprocessing import Process
-import time
-import hiyapyco
 from pp.doe import get_settings_list
 
 from pp.logger import LOGGER
-import sys
-import collections
-from pprint import pprint
 
 
 def _print(*args, **kwargs):
@@ -168,7 +169,7 @@ def generate_does(
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
 ):
-    """ Returns a Component composed of DOEs/components given in a yaml file
+    """ Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """
 
@@ -301,3 +302,8 @@ def generate_does(
             does_running.pop(i)
 
         time.sleep(0.05)
+
+
+if __name__ == "__main__":
+    filepath = CONFIG["samples_path"] / "mask_custom" / "does.yml"
+    generate_does(filepath, precision=2e-9)
