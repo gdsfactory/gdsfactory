@@ -847,6 +847,10 @@ def demo_te_and_tm():
 
 if __name__ == "__main__":
     # from pprint import pprint
+    from pp.layers import ls
+
+    layer_label = 66
+    layer_label = ls["txt"]
 
     # cc = demo_tapers()
     # cc = test_type1()
@@ -861,7 +865,7 @@ if __name__ == "__main__":
         # optical_routing_type=0,
         # optical_routing_type=1,
         # optical_routing_type=2,
-        layer_label=66,
+        layer_label=layer_label,
         get_route_factory=get_route2individual_gratings,
         # get_route_factory=get_route2fiber_array,
     )
