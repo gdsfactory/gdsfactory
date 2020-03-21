@@ -8,23 +8,23 @@ else:
     klayout_folder = ".klayout"
 
 
-cwd = pathlib.Path(__file__).resolve().parent
 home = pathlib.Path.home()
-src = cwd / "klayout" / "pymacros" / "klive.lym"
-dest = home / klayout_folder / "pymacros" / "klive.lym"
 dest_folder = home / klayout_folder / "pymacros"
+dest_folder.mkdir(exist_ok=True, parents=True)
 
 
-def install_klive():
+def install_klive(src, dest):
     """ Builds and installs the extension """
     if dest.exists():
-        print("klive already installed")
+        print(f"klive already installed in {dest}")
         return
 
-    dest_folder.mkdir(exist_ok=True, parents=True)
-    shutil.copyfile(src, dest)
-    print("klive installed to {}".format(dest))
+    shutil.copy(src, dest)
+    print(f"klive installed to {dest}")
 
 
 if __name__ == "__main__":
-    install_klive()
+    cwd = pathlib.Path(__file__).resolve().parent
+    src = cwd / "klayout" / "pymacros" / "klive.lym"
+    dest = dest_folder / "klive.lym"
+    install_klive(src, dest)
