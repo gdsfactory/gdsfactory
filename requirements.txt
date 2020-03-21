@@ -1,13 +1,13 @@
 -e .
 click
 gitpython
-gdspy==1.4
+gdspy
 hiyapyco
 jsondiff
 klayout
 numpy
 pandas
-phidl==1.2.0
+phidl
 picwriter
 pyqtree
 qrcode
