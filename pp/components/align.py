@@ -62,7 +62,7 @@ def align_wafer(
 
     if with_tile_excl:
         rc_tile_excl = rectangle_centered(
-            w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.layer("no_tile_si")
+            w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.LAYER.NO_TILE_SI
         )
         c.add_ref(rc_tile_excl)
 
@@ -93,7 +93,7 @@ def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
     c.absorb(cref)
 
     rc = rectangle_centered(
-        w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.layer("no_tile_si")
+        w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.LAYER.NO_TILE_SI
     )
     c.add_ref(rc)
     return c

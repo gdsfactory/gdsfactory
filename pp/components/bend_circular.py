@@ -85,7 +85,7 @@ def bend_circular(
     start_angle=0,
     angle_resolution=2.5,
     layer=LAYER.WG,
-    layers_cladding=[pp.layer("wgclad")],
+    layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
 ):
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
@@ -169,18 +169,14 @@ def bend_circular(
 
 
 @pp.autoname
-def bend_circular_deep_rib(
-    layer=pp.layer("slab90"), layers_cladding=[pp.layer("slab90clad")], **kwargs
-):
+def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
     pp.ports.port_naming.rename_ports_by_orientation(c)
     return c
 
 
 @pp.autoname
-def bend_circular_shallow_rib(
-    layer=pp.layer("slab150"), layers_cladding=[pp.layer("slab150clad")], **kwargs
-):
+def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 

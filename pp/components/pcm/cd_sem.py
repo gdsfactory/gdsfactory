@@ -19,7 +19,7 @@ def square_middle(side=0.5, layer=LAYER.WG):
 
 
 def text(t="U"):
-    return pp.c.text(text=t, layer=pp.layer("wgcore"), size=5)
+    return pp.c.text(text=t, layer=pp.LAYER.WG, size=5)
 
 
 CENTER_SHAPES_MAP = {"S": square_middle, "U": text("U"), "D": text("L")}

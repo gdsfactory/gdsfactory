@@ -21,7 +21,7 @@ def sims_pad(width=500, height=500, pad=100, layer=1):
         [w / 2, h / 2],
         [w / 2, -h / 2.0],
     ]
-    c.add_polygon(points, layer=pp.layer("padding"))
+    c.add_polygon(points, layer=pp.LAYER.PADDING)
     return c
 
 

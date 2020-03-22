@@ -37,7 +37,7 @@ Here is a step by step example below generating a waveguide crossing
       c = pp.Component()
 
       # We need an ellipse, this is an existing primitive
-      c << pp.c.ellipse(radii=(r1, r2), layer=pp.layer('SLAB150'))
+      c << pp.c.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
 
       a = L + w / 2
       h = wg_width / 2
@@ -55,15 +55,15 @@ Here is a step by step example below generating a waveguide crossing
       ]
 
       # Add the polygon to the component on a specific layer
-      c.add_polygon(taper_pts, layer=pp.layer('WG'))
+      c.add_polygon(taper_pts, layer=pp.LAYER.WG)
 
       # Add ports (more on that later)
       c.add_port(
-          name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.layer('WG')
+          name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.LAYER.WG
       )
 
       c.add_port(
-          name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.layer('WG')
+          name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.LAYER.WG
       )
 
 
@@ -87,7 +87,7 @@ Here is a step by step example below generating a waveguide crossing
       c = pp.Component()
 
       # We need an ellipse, this is an existing primitive
-      c << pp.c.ellipse(radii=(r1, r2), layer=pp.layer('SLAB150'))
+      c << pp.c.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
 
       a = L + w / 2
       h = wg_width / 2
@@ -105,15 +105,15 @@ Here is a step by step example below generating a waveguide crossing
       ]
 
       # Add the polygon to the component on a specific layer
-      c.add_polygon(taper_pts, layer=pp.layer('WG'))
+      c.add_polygon(taper_pts, layer=pp.LAYER.WG)
 
       # Add ports (more on that later)
       c.add_port(
-          name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.layer('WG')
+          name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.LAYER.WG
       )
 
       c.add_port(
-          name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.layer('WG')
+          name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.LAYER.WG
       )
 
       return c

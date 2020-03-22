@@ -14,36 +14,40 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import Polygon
 
 
-generic_layermap = dict(
-    WG=1,
-    SLAB150=2,
-    SLAB90=3,
-    DEEPTRENCH=7,
-    WGN=34,
-    HEATER=47,
-    M1=41,
-    M2=45,
-    M3=49,
-    VIA1=40,
-    VIA2=44,
-    VIA3=43,
-    NBN=31,
-    TEXT=66,
-    PORT=60,
-    NO_TILE_SI=63,
-    FLOORPLAN=600,
-    FLOORPLAN_PACKAGING=601,
-    FLOORPLAN_WIREBOND_LANE=602,
-    FLOORPLAN_SI_REMOVAL=603,
-    FLOORPLAN_PACKAGING_OPTICAL=604,
-    FLOORPLAN_E_DIE=610,
-    FLOORPLAN_E_DIE_COMPONENTS=611,
-    FLOORPLAN_CU_HEAT_SINK=620,
-    LABEL=201,
-    INFO_GEO_HASH=202,
-    polarization_te=203,
-    polarization_tm=204,
+layermap = dict(
+    WG=(1, 0),
+    WGCLAD=(111, 0),
+    SLAB150=(2, 0),
+    SLAB90=(3, 0),
+    DEEPTRENCH=(7, 0),
+    WGN=(34, 0),
+    HEATER=(47, 0),
+    M1=(41, 0),
+    M2=(45, 0),
+    M3=(49, 0),
+    VIA1=(40, 0),
+    VIA2=(44, 0),
+    VIA3=(43, 0),
+    NBN=(31, 0),
+    TEXT=(66, 0),
+    PORT=(60, 0),
+    NO_TILE_SI=(63, 0),
+    PADDING=(68, 0),
+    FLOORPLAN=(600, 0),
+    FLOORPLAN_PACKAGING=(601, 0),
+    FLOORPLAN_WIREBOND_LANE=(602, 0),
+    FLOORPLAN_SI_REMOVAL=(603, 0),
+    FLOORPLAN_PACKAGING_OPTICAL=(604, 0),
+    FLOORPLAN_E_DIE=(610, 0),
+    FLOORPLAN_E_DIE_COMPONENTS=(611, 0),
+    FLOORPLAN_CU_HEAT_SINK=(620, 0),
+    LABEL=(201, 0),
+    INFO_GEO_HASH=(202, 0),
+    polarization_te=(203, 0),
+    polarization_tm=(204, 0),
 )
+
+LAYER = namedtuple("layer", layermap.keys())(*layermap.values())
 
 
 ls = LayerSet()  # Create a blank LayerSet
@@ -102,11 +106,8 @@ layer2material = {
     34: "Si3N4 (Silicon Nitride) - Phillip",
 }
 
-LAYER = namedtuple("layer", generic_layermap.keys())(*generic_layermap.values())
-generic_layermap.update(ls._layers)
 
-
-def layer(name, layermap=generic_layermap):
+def layer(name, layermap=layermap):
     """ returns the gds layer number from layermap dictionary"""
     layer = layermap.get(name)
     if layer:
@@ -180,10 +181,10 @@ def preview_layerset(ls=ls, size=100):
 
 
 # For port labelling purpose
-LAYERS_OPTICAL = [layer("wgcore")]
-LAYERS_ELECTRICAL = [layer("m1"), layer("m2"), layer("m3")]
-LAYERS_HEATER = [layer("mh")]
-LAYERS_SUPERCONDUCTING = [layer("nbn")]
+LAYERS_OPTICAL = [LAYER.WG]
+LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
+LAYERS_HEATER = [LAYER.HEATER]
+LAYERS_SUPERCONDUCTING = [LAYER.NBN]
 
 if __name__ == "__main__":
     import pp

@@ -47,10 +47,10 @@ def add_port_markers(
             ptip = p.position + _rotate(dtip, rot_mat)
             polygon = [p0, p1, ptip]
 
-            component.label(
+            component.add_label(
                 text=str(p.name) + "," + str(p.layer),
                 position=p.midpoint,
-                layer=label_layer,
+                layer=label_layer[0],
             )
 
             component.add_polygon(polygon, layer=port_layer)
@@ -100,11 +100,14 @@ def get_input_label(
 
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
+
+    layer, texttype = pd._parse_layer(layer_label)
     label = pd.Label(
         text=text,
         position=gc.ports[gc_port_name].midpoint,
         anchor="o",
-        layer=layer_label,
+        layer=layer,
+        texttype=texttype,
     )
     return label
 
@@ -128,14 +131,10 @@ def get_input_label_electrical(
 
     text = "elec_{}_({})_{}".format(index, name, port.name)
 
-    gds_layer_label, gds_datatype_label = pd._parse_layer(layer_label)
+    layer, texttype = pd._parse_layer(layer_label)
 
     label = pd.Label(
-        text=text,
-        position=port.midpoint,
-        anchor="o",
-        layer=gds_layer_label,
-        texttype=gds_datatype_label,
+        text=text, position=port.midpoint, anchor="o", layer=layer, texttype=texttype,
     )
     return label
 
@@ -144,14 +143,13 @@ if __name__ == "__main__":
     # from pp.components import mmi1x2
     from pp.components import bend_circular
     from pp.add_grating_couplers import add_grating_couplers
-    from pp.layers import ls
 
     # c = mmi1x2(width_mmi=5)
     # c = bend_circular()
-    # cc = add_grating_couplers(c, layer_label=ls['txt'])
+    # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
     # pp.show(cc)
 
     c = bend_circular()
     gc = pp.c.grating_coupler_elliptical_te()
-    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=ls["txt"])
+    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=pp.LAYER.LABEL)
     print(label)
