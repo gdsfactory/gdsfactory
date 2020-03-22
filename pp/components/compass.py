@@ -2,7 +2,7 @@ import pp
 
 
 @pp.autoname
-def compass(size=(4, 2), layer=1):
+def compass(size=(4, 2), layer=pp.LAYER.WG):
     """ Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
 
