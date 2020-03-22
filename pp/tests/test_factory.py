@@ -103,14 +103,18 @@ def test_all_components(
         ), f"{component_type} changed from component locked in the library {path_library}"
 
 
-def rebuild_library(path_library=CONFIG["gdslib"]):
-    """ saves all components in component_type2factory to the gdslib library
+def rebuild_library(
+    component_type2factory=component_type2factory, path_library=CONFIG["gdslib"]
+):
+    """ saves all component_type2factory components to the gdslib library
     """
     for component_type, _ in component_type2factory.items():
-        same_hash = compare_component_hash(component_type, path_library=path_library)
-        if not same_hash:
-            lock_component(component_type, path_library=path_library)
-            print(f"Replaced `{component_type}` by new one")
+        lock_component(
+            component_type=component_type,
+            component_type2factory=component_type2factory,
+            path_library=path_library,
+        )
+        print(f"Write `{component_type}`")
 
 
 def _copy_component(src, dest):
@@ -182,11 +186,11 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    lock_components_with_changes()
+    # lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
     # test_all_components()
-    # rebuild_library()
+    rebuild_library()
     # lock_component("waveguide")
     # compare_component_hash("waveguide")
     # lock_component("ring_double_bus")

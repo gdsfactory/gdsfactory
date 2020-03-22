@@ -34,7 +34,7 @@ def write_component_type(
     component_type2factory=component_type2factory,
     add_port_pins=True,
     flatten=False,
-    **kwargs
+    **kwargs,
 ):
     """ write_component by type or function
 
@@ -264,7 +264,7 @@ def write_gds(
     if with_component_label:
         for i, (k, v) in enumerate(component.settings.items()):
             component.label(
-                text="{}={}".format(clean_name(k), clean_value(v)),
+                text=f"{k}={v}",
                 position=component.center + [0, i * 0.4],
                 layer=LAYER.TEXT,
             )
@@ -307,6 +307,8 @@ if __name__ == "__main__":
     c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
     pp.write_component(c, precision=5e-9)
     pp.show(c)
+
+    print(c.settings)
 
     # gdspath = pp.write_component(c, precision=5e-9)
     # pp.show(gdspath)
