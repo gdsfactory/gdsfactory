@@ -738,7 +738,7 @@ class Component(Device):
         output["name"] = self.name
 
         if hasattr(self, "function_name"):
-            output["class"] = self.function_name
+            output["class"] = _clean_value(self.function_name)
 
         for key, value in kwargs.items():
             output[key] = _clean_value(value)
@@ -990,25 +990,26 @@ def recurse_structures(structure):
 
 def _clean_value(value):
     """ returns a clean value """
-    if type(value) in [int, float, str]:
+    if type(value) in [int, float, str, tuple]:
         value = value
     elif callable(value):
         value = value.__name__
-        # print(f'{value} callable')
     elif type(value) == pp.Component:
         value = value.name
-    # elif hasattr(value, "__iter__") and type(value) != str:
-    #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
+    elif hasattr(value, "__iter__"):
+        value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
+    # elif hasattr(value, "__iter__"):
+    #     try:
+    #         json.dumps(value)
+    #         value = value
+    #     except Exception:
+    #         value = str(value)
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):
         value = int(value)
     else:
-        try:
-            json.dumps(value)
-            value = value
-        except Exception:
-            value = str(value)
+        value = str(value)
 
     return value
 
@@ -1029,10 +1030,11 @@ if __name__ == "__main__":
     # print(c.get_json())
     # print(c.get_settings())
     # print(c.settings)
-    # print(c.get_settings())
+    print(c.get_settings())
+
     # print(json.dumps(c.get_settings()))
     # print(c.get_json()['cells'].keys())
-    print(c.get_json())
+    # print(c.get_json())
 
     # from pp.routing import add_io_optical
     # cc = add_io_optical(c)
