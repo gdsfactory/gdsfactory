@@ -2,6 +2,7 @@
 
 - added pre-commit hook for code consitency
 - allows a list of cladding layers
+- all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
 
 # 1.1.4 2020-02-27
