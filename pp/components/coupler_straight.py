@@ -11,7 +11,7 @@ def coupler_straight(
     width=0.5,
     gap=0.27,
     layer=pp.LAYER.WG,
-    layers_cladding=[pp.layer("wgclad")],
+    layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
 ):
     """ straight coupled waveguides. Two multimode ports

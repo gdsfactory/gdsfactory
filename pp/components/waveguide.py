@@ -10,8 +10,8 @@ __version__ = "0.0.1"
 def waveguide(
     length=10,
     width=0.5,
-    layer=pp.layer("wgcore"),
-    layers_cladding=[pp.layer("wgclad")],
+    layer=pp.LAYER.WG,
+    layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
 ):
     """ straight waveguide
@@ -49,22 +49,19 @@ def waveguide(
 
 
 @autoname
-def wg_shallow_rib(
-    width=0.5,
-    layer=pp.layer("slab150"),
-    layer_cladding=pp.layer("slab150clad"),
-    **kwargs
-):
+def wg_shallow_rib(width=0.5, layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
     width = pp.bias.width(width)
-    return waveguide(width=width, layer=layer, layer_cladding=layer_cladding, **kwargs)
+    return waveguide(
+        width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
+    )
 
 
 @autoname
-def wg_deep_rib(
-    width=0.5, layer=pp.layer("slab90"), layer_cladding=pp.layer("slab90clad"), **kwargs
-):
+def wg_deep_rib(width=0.5, layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
     width = pp.bias.width(width)
-    return waveguide(width=width, layer=layer, layer_cladding=layer_cladding, **kwargs)
+    return waveguide(
+        width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
+    )
 
 
 @autoname
@@ -109,11 +106,11 @@ def _arbitrary_straight_waveguide(length, windows):
 
 
 @autoname
-def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.layer("slab90")):
+def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB90):
     width = pp.bias.width(width)
     ymin = width / 2
     ymax = ymin + cladding
-    windows = [(-ymin, ymin, pp.layer("wgcore")), (-ymax, ymax, slab_layer)]
+    windows = [(-ymin, ymin, pp.LAYER.WG), (-ymax, ymax, slab_layer)]
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
@@ -121,10 +118,10 @@ def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.layer("sl
 def waveguide_trenches(
     length=10.0,
     width=0.5,
-    layer=pp.layer("wgcore"),
+    layer=pp.LAYER.WG,
     trench_width=3.0,
     trench_offset=0.2,
-    trench_layer=pp.layer("slab90"),
+    trench_layer=pp.LAYER.SLAB90,
 ):
     width = pp.bias.width(width)
     w = width / 2
@@ -138,7 +135,7 @@ waveguide_ridge = waveguide_slab
 
 
 @autoname
-def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.layer("wgcore")):
+def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
     width = pp.bias.width(width)
     gap = pp.bias.gap(gap)
     a = width / 2

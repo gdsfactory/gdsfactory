@@ -3,7 +3,7 @@ import numpy as np
 import pp
 
 
-def add_padding(component, padding=50, layers=[pp.layer("padding")]):
+def add_padding(component, padding=50, layers=[pp.LAYER.PADDING]):
     """ returns component width a padding layer on each side"""
     c = pp.Component(name=component.name + "_p")
     cr = c.add_ref(component)
@@ -21,7 +21,7 @@ def add_padding(component, padding=50, layers=[pp.layer("padding")]):
 
 
 def add_padding_to_grid(
-    component, grid_size=127, padding=10, bottom_padding=5, layers=[pp.layer("padding")]
+    component, grid_size=127, padding=10, bottom_padding=5, layers=[pp.LAYER.PADDING]
 ):
     """ returns component width a padding layer on each side
     matches a minimum size

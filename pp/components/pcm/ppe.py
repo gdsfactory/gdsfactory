@@ -85,9 +85,7 @@ def cross(x0, y0, width, lw, layer):
 
 
 @pp.autoname
-def ppe(
-    layer=pp.layer("wgcore"), layers_cladding=[pp.layer("wgclad")], cladding_offset=3
-):
+def ppe(layer=pp.LAYER.WG, layers_cladding=[pp.LAYER.WGCLAD], cladding_offset=3):
     """
     pattern placement error
     """

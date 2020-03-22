@@ -7,7 +7,7 @@ import pp
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
-def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.layer("wgclad")):
+def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCLAD):
     taper_data = pp.load_csv(csv_path)
     # taper_data = pd.read_csv(csv_path)
     # print(taper_data)

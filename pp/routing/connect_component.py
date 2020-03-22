@@ -851,7 +851,7 @@ if __name__ == "__main__":
     from pp.layers import ls
 
     layer_label = 66  # works
-    layer_label = ls["txt"]  # fails
+    layer_label = pp.LAYER.TEXT  # fails
 
     # cc = demo_tapers()
     # cc = test_type1()

@@ -367,8 +367,8 @@ def cdsem_uturn(
     wg_length=LINE_LENGTH,
     waveguide_factory=pp.c.waveguide,
     bend90_factory=bend_circular,
-    layer=pp.layer("wgcore"),
-    layer_cladding=pp.layer("wgclad"),
+    layer=pp.LAYER.WG,
+    layer_cladding=pp.LAYER.WGCLAD,
     cladding_offset=3,
 ):
     """
