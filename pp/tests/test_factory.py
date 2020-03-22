@@ -22,14 +22,16 @@ def pull_library(path_library=path_library):
             print("git pull: {}".format(path_library))
             g = git.cmd.Git(path_library)
             g.pull()
-    except:
-        print(f"error pulling {path_library} repo")
+    except Exception as e:
+        error = f"error pulling {path_library} repo"
+        raise ValueError(error, e)
 
 
 def lock_component(
     component_type,
     component_type2factory=component_type2factory,
     path_library=path_library,
+    add_port_pins=False,
     flatten=True,
 ):
     """ locks a component from the factory into the GDS lib
@@ -42,11 +44,11 @@ def lock_component(
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
         pp.write_component(
-            c, gdspath=gdspath, verbose=False,
+            c, gdspath=gdspath, verbose=False, add_port_pins=add_port_pins
         )
         return c
     except Exception as e:
-        error = f"error building {component_type} from {component_type2factory.keys()}"
+        error = f"error building {component_type}"
         raise ValueError(error, e)
 
 
@@ -147,14 +149,14 @@ def compare_component_hash(
     gdspath_new = path_test / (component_type + ".gds")
     gdspath_library = path_library / (component_type + ".gds")
 
-    if not os.path.isfile(gdspath_library):
+    if not gdspath_library.exists():
         lock_component(
             component_type=component_type,
             component_type2factory=component_type2factory,
             path_library=path_library,
         )
         print(f"writing new component {component_type} into {path_library}")
-        return
+        return True
 
     component_library = pp.load_component(
         component_name=component_type, component_path=path_library

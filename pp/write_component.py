@@ -6,6 +6,7 @@ write_component: write component and metadata
 import os
 import pathlib
 import json
+from phidl import device_layout as pd
 
 from pp import CONFIG
 from pp.name import get_component_name
@@ -160,14 +161,17 @@ def write_component(
     if len(component.ports) > 0:
         with open(ports_path, "w") as fw:
             for _, port in component.ports.items():
+                layer, texttype = pd._parse_layer(port.layer)
+
                 fw.write(
-                    "{}, {:.3f}, {:.3f}, {}, {:.3f}, {}\n".format(
+                    "{}, {:.3f}, {:.3f}, {}, {:.3f}, {}, {}\n".format(
                         port.name,
                         port.x,
                         port.y,
                         int(port.orientation),
                         port.width,
-                        port.layer,
+                        layer,
+                        texttype,
                     )
                 )
 
