@@ -736,6 +736,7 @@ class Component(Device):
         )
         params = set(dir(self)) - ignore
         output["name"] = self.name
+
         if hasattr(self, "function_name"):
             output["class"] = self.function_name
 
@@ -749,7 +750,7 @@ class Component(Device):
             value = getattr(self, param)
             output[param] = _clean_value(value)
 
-        output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
+        # output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # output["hash_geometry"] = str(self.hash_geometry())
         return output
 
@@ -993,16 +994,21 @@ def _clean_value(value):
         value = value
     elif callable(value):
         value = value.__name__
+        # print(f'{value} callable')
     elif type(value) == pp.Component:
         value = value.name
-    elif hasattr(value, "__iter__") and type(value) != str:
-        value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
+    # elif hasattr(value, "__iter__") and type(value) != str:
+    #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):
         value = int(value)
     else:
-        value = str(value)
+        try:
+            json.dumps(value)
+            value = value
+        except Exception:
+            value = str(value)
 
     return value
 
@@ -1014,15 +1020,25 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    c = pp.c.waveguide()
+    # c = pp.c.bend_circular180()
+    c = pp.c.coupler()
+    # c = pp.c.waveguide()
+    # c = pp.c.mzi1x2()
     # c = pp.c.ring_double_bus()
     # print(c.hash_geometry())
     # print(c.get_json())
     # print(c.get_settings())
-    print(c.settings)
+    # print(c.settings)
+    # print(c.get_settings())
+    # print(json.dumps(c.get_settings()))
+    # print(c.get_json()['cells'].keys())
+    print(c.get_json())
+
+    # from pp.routing import add_io_optical
+    # cc = add_io_optical(c)
+    # pp.write_component(cc)
 
     # from pprint import pprint
-    # from pp.routing import add_io_optical
 
     # c = pp.c.mmi1x2()
     # cc = add_io_optical(c)
