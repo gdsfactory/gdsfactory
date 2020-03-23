@@ -29,17 +29,18 @@ from pp.components.hline import hline
 from pp.components.version_stamp import version_stamp
 
 # basic shapes
+from pp.components.circle import circle
+from pp.components.compass import compass
+from pp.components.cross import cross
+from pp.components.crossing_waveguide import crossing
+from pp.components.ellipse import ellipse
+from pp.components.label import label
 from pp.components.rectangle import rectangle
 from pp.components.rectangle import rectangle_centered
-from pp.components.compass import compass
+from pp.components.ring import ring
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
 from pp.components.text import text
-from pp.components.cross import cross
-from pp.components.crossing_waveguide import crossing
-from pp.components.ring import ring
-from pp.components.ellipse import ellipse
-from pp.components.circle import circle
 
 # optical test structures
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -164,6 +165,7 @@ __all__ = [
     "grating_coupler_elliptical_tm",
     "grating_coupler_tree",
     "hline",
+    "label",
     "litho_calipers",
     "litho_star",
     "litho_steps",
