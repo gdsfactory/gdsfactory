@@ -19,6 +19,7 @@ modules:
     - Klive: send to klayout
     - layer: use layers
 """
+from phidl import quickplot as qp
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG
@@ -51,9 +52,7 @@ from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
 from pp.add_padding import add_padding
 from pp.import_gds import import_gds
-
-from phidl import quickplot as plotgds
-
+from pp.plotgds import plotgds
 
 __all__ = [
     "CONFIG",
@@ -77,6 +76,7 @@ __all__ = [
     "load_csv",
     "plotgds",
     "preview_layerset",
+    "qp",
     "routing",
     "show",
     "write_component",
