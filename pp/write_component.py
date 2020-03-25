@@ -15,8 +15,6 @@ from pp.ports import add_port_markers
 from pp import klive
 
 from pp.layers import LAYER
-from pp.name import clean_name
-from pp.name import clean_value
 
 
 def get_component_type(
@@ -42,6 +40,8 @@ def write_component_type(
         component_type: can be function or factory name
         overwrite:
         path_directory: to store GDS + metadata
+        component_type2factory: factory dictionary
+        flatten: False
         **kwargs: component args
     """
     if callable(component_type):
@@ -70,16 +70,9 @@ def write_component_type(
 def write_component_report(component, json_path=None):
     """ write component GDS and metadata:
 
-    - gds
-    - ports
-    - properties
-    - add_ports_to_all_cells: make sure that all sub-cells have port
-        necessary for netlist extraction
-
     Args:
         component:
         json_path
-        add_port_pins: adds port metadata
     """
 
     if json_path is None:
@@ -116,12 +109,11 @@ def write_component(
     gdspath=None,
     path_library=CONFIG["gds_directory"],
     add_port_pins=True,
-    settings=None,
     add_ports_to_all_cells=False,
     store_hash_geometry=False,
     with_component_label=False,
-    verbose=False,
     precision=1e-9,
+    settings=None,
 ):
     """ write component GDS and metadata:
 
@@ -131,16 +123,17 @@ def write_component(
 
     Args:
         component:
-        gdspath
-        add_ports_to_all_cells: make sure that all sub-cells have port (necessary for netlist extraction)
+        gdspath:
+        path_library
         add_port_pins: adds port metadata
+        add_ports_to_all_cells: make sure that all sub-cells have port (necessary for netlist extraction)
+        store_hash_geometry:
+        with_component_label: adds a label to component
+        precision: to save GDS points
+        settings: dict of settings
     """
-    if verbose:
-        print("write_component", component.name, type(component))
 
-    if gdspath is None:
-        gdspath = path_library / (component.name + ".gds")
-
+    gdspath = gdspath or path_library / (component.name + ".gds")
     gdspath = pathlib.Path(gdspath)
     path_library.mkdir(exist_ok=True)
     ports_path = gdspath.with_suffix(".ports")
@@ -216,9 +209,7 @@ def write_gds(
         gdspath
     """
 
-    if gdspath is None:
-        gdspath = CONFIG["gds_directory"] / (component.name + ".gds")
-
+    gdspath = gdspath or CONFIG["gds_directory"] / (component.name + ".gds")
     gdspath = str(gdspath)
 
     if remove_previous_markers:
@@ -274,7 +265,13 @@ def write_gds(
     return gdspath
 
 
-def show(component, gdspath=CONFIG["gdspath"], add_ports_to_all_cells=False, **kwargs):
+def show(
+    component,
+    gdspath=CONFIG["gdspath"],
+    add_ports_to_all_cells=False,
+    add_port_pins=True,
+    **kwargs,
+):
     """ write component GDS and shows it in klayout
 
     Args:
@@ -294,7 +291,11 @@ def show(component, gdspath=CONFIG["gdspath"], add_ports_to_all_cells=False, **k
 
     else:
         write_gds(
-            component, gdspath, add_ports_to_all_cells=add_ports_to_all_cells, **kwargs
+            component,
+            gdspath,
+            add_ports_to_all_cells=add_ports_to_all_cells,
+            add_port_pins=add_port_pins,
+            **kwargs,
         )
         klive.show(gdspath)
 
@@ -302,11 +303,13 @@ def show(component, gdspath=CONFIG["gdspath"], add_ports_to_all_cells=False, **k
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
-    c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
+    # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
+    # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
+
     c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
-    pp.write_component(c, precision=5e-9)
-    pp.show(c)
+    cc = pp.routing.add_io_optical(c)
+    pp.write_component(cc, precision=5e-9)
+    pp.show(cc)
 
     print(c.settings)
 

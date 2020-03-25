@@ -139,17 +139,22 @@ def get_input_label_electrical(
     return label
 
 
+def _demo_input_label():
+    c = pp.c.bend_circular()
+    gc = pp.c.grating_coupler_elliptical_te()
+    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=pp.LAYER.LABEL)
+    print(label)
+
+
 if __name__ == "__main__":
     # from pp.components import mmi1x2
-    from pp.components import bend_circular
-    from pp.add_grating_couplers import add_grating_couplers
+    # from pp.components import bend_circular
+    # from pp.add_grating_couplers import add_grating_couplers
 
     # c = mmi1x2(width_mmi=5)
     # c = bend_circular()
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
-    # pp.show(cc)
 
-    c = bend_circular()
-    gc = pp.c.grating_coupler_elliptical_te()
-    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=pp.LAYER.LABEL)
-    print(label)
+    c = pp.c.waveguide()
+    add_port_markers(c)
+    pp.show(c)

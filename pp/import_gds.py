@@ -7,7 +7,9 @@ import pp
 from pp.component import NAME_TO_DEVICE
 
 
-def import_gds(filename, cellname=None, flatten=False, overwrite_cache=False):
+def import_gds(
+    filename, cellname=None, flatten=False, overwrite_cache=False, snap_to_grid_nm=False
+):
     """ returns a Componenent from a GDS file
     """
     filename = str(filename)
@@ -31,7 +33,15 @@ def import_gds(filename, cellname=None, flatten=False, overwrite_cache=False):
             )
         )
 
-    if flatten == False:
+    if flatten:
+        D = pp.Component()
+        polygons = topcell.get_polygons(by_spec=True)
+
+        for layer_in_gds, polys in polygons.items():
+            D.add_polygon(polys, layer=layer_in_gds)
+        return D
+
+    else:
         D_list = []
         c2dmap = {}
         all_cells = topcell.get_dependencies(True)
@@ -75,6 +85,13 @@ def import_gds(filename, cellname=None, flatten=False, overwrite_cache=False):
             temp_polygons = list(D.polygons)
             D.polygons = []
             for p in temp_polygons:
+                if snap_to_grid_nm:
+                    points_on_grid = pp.drc.snap_to_grid(
+                        p.polygons[0], nm=snap_to_grid_nm
+                    )
+                    p = gdspy.Polygon(
+                        points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
+                    )
                 D.add_polygon(p)
                 # else:
                 #     warnings.warn('[PHIDL] import_gds(). Warning an element which was not a ' \
@@ -84,19 +101,11 @@ def import_gds(filename, cellname=None, flatten=False, overwrite_cache=False):
         topdevice = c2dmap[topcell.name]
         return topdevice
 
-    elif flatten == True:
-        D = pp.Component()
-        polygons = topcell.get_polygons(by_spec=True)
-
-        for layer_in_gds, polys in polygons.items():
-            D.add_polygon(polys, layer=layer_in_gds)
-        return D
-
 
 if __name__ == "__main__":
 
     filename = os.path.join(pp.CONFIG["gdslib"], "mzi2x2.gds")
     filename = pp.CONFIG["gdslib"] / "mzi2x2.gds"
-    c = import_gds(filename)
+    c = import_gds(filename, snap_to_grid_nm=5)
     print(c)
     pp.show(c)

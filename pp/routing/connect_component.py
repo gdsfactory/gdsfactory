@@ -286,8 +286,11 @@ def get_route2individual_gratings(
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
     if component.xsize + 2 * gc_port2center < min_input2output_spacing:
         fanout_length = (
-            min_input2output_spacing - component.xsize - 2 * gc_port2center
-        ) / 2
+            pp.drc.snap_to_5nm_grid(
+                min_input2output_spacing - component.xsize - 2 * gc_port2center
+            )
+            / 2
+        )
     else:
         fanout_length = None
 

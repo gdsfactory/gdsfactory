@@ -43,9 +43,7 @@ def lock_component(
         if flatten:
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
-        pp.write_component(
-            c, gdspath=gdspath, verbose=False, add_port_pins=add_port_pins
-        )
+        pp.write_component(c, gdspath=gdspath, add_port_pins=add_port_pins)
         return c
     except Exception as e:
         error = f"error building {component_type}"
