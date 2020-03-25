@@ -20,12 +20,20 @@ def assert_on_2nm_grid(x):
         raise ValueError("{} needs to be on 2nm grid".format(x))
 
 
+def snap_to_grid(x, nm=1):
+    return nm * np.round(x * 1e3 / nm) / 1e3
+
+
 def snap_to_1nm_grid(x):
-    return np.round(x * 1e3) / 1e3
+    return snap_to_grid(x, nm=1)
 
 
 def snap_to_2nm_grid(x):
-    return 2 * np.round(x * 1e3 / 2) / 1e3
+    return snap_to_grid(x, nm=2)
+
+
+def snap_to_5nm_grid(x):
+    return snap_to_grid(x, nm=5)
 
 
 def test_snap_to_1nm_grid():

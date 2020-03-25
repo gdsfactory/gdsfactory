@@ -1,3 +1,8 @@
+# dev
+
+- import_gds can snap points to a design grid
+
+
 # 1.1.5 2020-03-17
 
 - added pre-commit hook for code consitency
