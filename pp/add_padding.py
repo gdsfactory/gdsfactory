@@ -3,20 +3,19 @@ import numpy as np
 import pp
 
 
-def add_padding(component, padding=50, layers=[pp.LAYER.PADDING]):
-    """ returns component width a padding layer on each side"""
-    c = pp.Component(name=component.name + "_p")
-    cr = c.add_ref(component)
+def add_padding(component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING]):
+    """ adds padding layers to component"""
+    c = component
+    x = x or padding
+    y = y or padding
     points = [
-        [cr.xmin - padding, cr.ymin - padding],
-        [cr.xmax + padding, cr.ymin - padding],
-        [cr.xmax + padding, cr.ymax + padding],
-        [cr.xmin - padding, cr.ymax + padding],
+        [c.xmin - x, c.ymin - y],
+        [c.xmax + x, c.ymin - y],
+        [c.xmax + x, c.ymax + y],
+        [c.xmin - x, c.ymax + y],
     ]
     for layer in layers:
         c.add_polygon(points, layer=layer)
-    c.ports = cr.ports
-    c.settings = component.settings
     return c
 
 
@@ -28,13 +27,6 @@ def add_padding_to_grid(
     grating couplers are at ymin
     """
     c = component
-    c = pp.Component(
-        name=c.name + "_p",
-        settings=c.get_settings(),
-        test_protocol=c.test_protocol,
-        data_analysis_protocol=c.data_analysis_protocol,
-    )
-    cr = c.add_ref(component)
 
     if c.size_info.height < grid_size:
         y_padding = grid_size - c.size_info.height
@@ -52,10 +44,10 @@ def add_padding_to_grid(
     y_padding -= padding
 
     points = [
-        [cr.xmin - x_padding / 2, cr.ymin - bottom_padding],
-        [cr.xmax + x_padding / 2, cr.ymin - bottom_padding],
-        [cr.xmax + x_padding / 2, cr.ymax + y_padding - bottom_padding],
-        [cr.xmin - x_padding / 2, cr.ymax + y_padding - bottom_padding],
+        [c.xmin - x_padding / 2, c.ymin - bottom_padding],
+        [c.xmax + x_padding / 2, c.ymin - bottom_padding],
+        [c.xmax + x_padding / 2, c.ymax + y_padding - bottom_padding],
+        [c.xmin - x_padding / 2, c.ymax + y_padding - bottom_padding],
     ]
     for layer in layers:
         c.add_polygon(points, layer=layer)
@@ -64,7 +56,8 @@ def add_padding_to_grid(
 
 if __name__ == "__main__":
     c = pp.c.waveguide(length=128)
-    cc = add_padding(c)
+    # cc = add_padding(c, layers=[(2, 0)])
+    cc = add_padding_to_grid(c, layers=[(2, 0)])
     # cc = add_padding_to_grid(c)
     print(cc.settings)
     print(cc.ports)

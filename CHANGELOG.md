@@ -1,5 +1,6 @@
 # dev
 
+- add_padding works over the same component
 - import_gds can snap points to a design grid
 
 
