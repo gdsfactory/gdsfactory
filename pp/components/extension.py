@@ -71,8 +71,7 @@ def extend_ports(
         c = pp.Component(name=component.name + "_e")
         c << component
 
-    if port_list is None:
-        port_list = list(component.ports.keys())
+    port_list = port_list or list(component.ports.keys())
 
     if extension_factory is None:
         dummy_port = component.ports[port_list[0]]
@@ -84,11 +83,9 @@ def extend_ports(
 
     dummy_ext = extension_factory(length=length, width=0.5)
     port_labels = list(dummy_ext.ports.keys())
-    if input_port_ext is None:
-        input_port_ext = port_labels[0]
 
-    if output_port_ext is None:
-        output_port_ext = port_labels[-1]
+    input_port_ext = input_port_ext or port_labels[0]
+    output_port_ext = output_port_ext or port_labels[-1]
 
     for port_label in port_list:
         port = component.ports.pop(port_label)
