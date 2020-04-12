@@ -3,7 +3,6 @@
 """
 
 import json
-import os
 import importlib
 from git import Repo
 from pp.config import logging, load_config, CONFIG, write_config, get_git_hash

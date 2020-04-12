@@ -161,12 +161,12 @@ def library_lock(dirname):
     """ lock component with changes """
 
     if dirname:
-        path_directory = cwd / dirname
+        path_library = cwd / dirname
     else:
-        path_directory = CONFIG["gdslib"]
+        path_library = CONFIG["gdslib"]
 
-    if os.path.isdir(path_directory):
-        lock_components_with_changes(path_directory=path_directory)
+    if os.path.isdir(path_library):
+        lock_components_with_changes(path_directory=path_library)
 
 
 """

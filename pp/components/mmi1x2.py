@@ -55,7 +55,6 @@ def mmi1x2(
     mmi.y = 0
 
     for layer_cladding in layers_cladding:
-        dy = w_mmi + 2 * cladding_offset
         clad = c << pp.c.rectangle(
             size=(length_mmi, w_mmi + 2 * cladding_offset), layer=layer_cladding
         )

@@ -34,7 +34,7 @@ import hiyapyco
 import pp
 from pp.doe import get_settings_list, load_does
 from pp.write_doe import write_doe_report
-from pp.config import CONFIG, load_config
+from pp.config import CONFIG
 from pp.components import component_type2factory
 from pp.write_component import write_gds
 from pp.write_component import write_component_report

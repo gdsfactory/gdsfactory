@@ -3,13 +3,12 @@ from pp.ports.add_port_markers import get_optical_text
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.config import CONFIG
-from pp.layers import LAYER
 
 
 def add_grating_couplers(
     component,
     grating_coupler=grating_coupler_te,
-    layer_label=CONFIG["layer_label"],
+    layer_label=CONFIG["layers"]["LABEL"],
     input_port_indexes=[0],
 ):
     """ returns component with grating ports and labels on each port """
