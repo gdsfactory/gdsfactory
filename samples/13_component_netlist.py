@@ -25,10 +25,12 @@ def simple_mzi2x2(
     coupler_length=20.147, arm_length=40, gap=0.234, waveguide_factory=pp.c.waveguide
 ):
     """
-        arm_top
-       /-----\
+       arm_top
+        _____
+       |     |
    CP1=       =CP2=
-       \-----/
+       |_____|
+
         arm_bot
    """
 
