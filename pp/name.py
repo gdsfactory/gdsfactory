@@ -115,7 +115,7 @@ def dict2name(prefix=None, **kwargs):
 
 
 def clean_name(name):
-    """ Ensures that gds cells are composed of [a-zA-Z0-9_\-]
+    """ Ensures that gds cells are composed of [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis

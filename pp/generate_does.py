@@ -3,8 +3,8 @@ import sys
 import collections
 from multiprocessing import Process
 import time
-import hiyapyco
 from pprint import pprint
+import hiyapyco
 
 from pp.placer import save_doe
 from pp.placer import doe_exists
@@ -14,7 +14,7 @@ from pp.placer import load_doe_component_names
 
 from pp.config import CONFIG
 from pp.components import component_type2factory
-from pp.write_doe import write_doe_report
+from pp.write_doe import write_doe_metadata
 from pp.doe import get_settings_list
 
 from pp.logger import LOGGER
@@ -36,30 +36,6 @@ def _test(doe_params):
 
 def default_component_filter(x):
     return x
-
-
-def _generate_doe_report(doe, component_names, doe_json_root_path=None):
-    if doe_json_root_path is None:
-        doe_json_root_path = os.path.join(CONFIG["build_directory"], "devices")
-
-    doe_name = doe["name"]
-    print("Generating report {}".format(doe_name))
-    description = doe["description"] if "description" in doe else ""
-    test = doe["test"] if "test" in doe else ""
-    analysis = doe["analysis"] if "analysis" in doe else ""
-
-    doe_settings = {"description": description, "test": test, "analysis": analysis}
-    list_settings = doe["list_settings"]
-
-    json_doe_path = os.path.join(doe_json_root_path, doe_name + ".json")
-    # Write the json and md metadata / report
-    write_doe_report(
-        doe_name=doe_name,
-        cell_names=component_names,
-        list_settings=list_settings,
-        doe_settings=doe_settings,
-        json_doe_path=json_doe_path,
-    )
 
 
 def separate_does_from_templates(dicts):
@@ -111,11 +87,11 @@ def _generate_doe(
     doe,
     component_type2factory=component_type2factory,
     component_filter=default_component_filter,
-    doe_json_root_path=None,
     doe_root_path=None,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
     logger=LOGGER,
+    **kwargs
 ):
     doe_name = doe["name"]
     list_settings = doe["list_settings"]
@@ -141,7 +117,12 @@ def _generate_doe(
     component_names = [c.name for c in components]
     save_doe(doe_name, components, doe_root_path=doe_root_path, precision=precision)
 
-    _generate_doe_report(doe, component_names, doe_json_root_path)
+    write_doe_metadata(
+        doe_name=doe["name"],
+        cell_names=component_names,
+        list_settings=doe["list_settings"],
+        doe_settings=kwargs,
+    )
 
 
 def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
@@ -163,7 +144,6 @@ def generate_does(
     component_filter=default_component_filter,
     component_type2factory=component_type2factory,
     doe_root_path=None,
-    doe_json_root_path=None,
     n_cores=4,
     logger=LOGGER,
     regenerate_report_if_doe_exists=False,
@@ -171,13 +151,10 @@ def generate_does(
 ):
     """ Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
+    similar to write_doe
     """
 
-    if doe_root_path is None:
-        doe_root_path = CONFIG["cache_doe_directory"]
-
-    if doe_json_root_path is None:
-        doe_json_root_path = os.path.join(CONFIG["build_directory"], "devices")
+    doe_root_path = doe_root_path or CONFIG["cache_doe_directory"]
 
     dicts, mask_settings = load_does(filepath)
     does, templates_by_type = separate_does_from_templates(dicts)
@@ -252,7 +229,12 @@ def generate_does(
                     logger.info("Cached - {}".format(doe_name))
                     if regenerate_report_if_doe_exists:
                         component_names = load_doe_component_names(doe_name)
-                        _generate_doe_report(doe, component_names, doe_json_root_path)
+
+                        write_doe_metadata(
+                            doe_name=doe["name"],
+                            cell_names=component_names,
+                            list_settings=doe["list_settings"],
+                        )
 
             if not _doe_exists:
                 start_times[doe_name] = time.time()
@@ -262,7 +244,6 @@ def generate_does(
                     kwargs={
                         "component_filter": component_filter,
                         "doe_root_path": doe_root_path,
-                        "doe_json_root_path": doe_json_root_path,
                         "regenerate_report_if_doe_exists": regenerate_report_if_doe_exists,
                         "precision": precision,
                         "logger": logger,
@@ -305,5 +286,5 @@ def generate_does(
 
 
 if __name__ == "__main__":
-    filepath = CONFIG["samples_path"] / "mask_custom" / "does.yml"
+    filepath = CONFIG["samples_path"] / "mask" / "does.yml"
     generate_does(filepath, precision=2e-9)

@@ -33,7 +33,7 @@ import hiyapyco
 
 import pp
 from pp.doe import get_settings_list, load_does
-from pp.write_doe import write_doe_report
+from pp.write_doe import write_doe_metadata
 from pp.config import CONFIG
 from pp.components import component_type2factory
 from pp.write_component import write_gds
@@ -400,7 +400,7 @@ def generate_does(
     component_filter=lambda x: x,
     component_type2factory=component_type2factory,
     doe_root_path=CONFIG["cache_doe_directory"],
-    doe_json_root_path=CONFIG["build_directory"] / "devices",
+    doe_metadata_path=CONFIG["build_directory"] / "doe",
     precision=1e-9,
 ):
     """ Returns a Component composed of DOEs/components given in a yaml file
@@ -464,14 +464,14 @@ def generate_does(
 
         doe_settings = {"description": description, "test": test, "analysis": analysis}
 
-        json_doe_path = os.path.join(doe_json_root_path, doe_name + ".json")
+        report_path = doe_metadata_path / (doe_name + ".md")
         # Write the json and md metadata / report
-        write_doe_report(
+        write_doe_metadata(
             doe_name=doe_name,
             cell_names=component_names,
             list_settings=list_settings,
             doe_settings=doe_settings,
-            json_doe_path=json_doe_path,
+            report_path=report_path,
         )
 
 
@@ -618,7 +618,7 @@ def component_grid_from_yaml(filepath, precision=1e-9):
         placed_does[doe_name] = placed_doe
 
         # # Write the json and md metadata / report
-        # write_doe_report(
+        # write_doe_metadata(
         # doe_name=doe_name,
         # cells = placed_components,
         # list_settings=list_settings,
