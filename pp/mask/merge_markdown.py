@@ -9,7 +9,7 @@ def merge_markdown(config=CONFIG):
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """
     mask_name = config["mask"]["name"]
-    reports_directory = config["gds_directory"]
+    reports_directory = config["doe_directory"]
     report_path = config["mask_directory"] / (mask_name + ".md")
 
     with open(report_path, "w") as f:
@@ -33,7 +33,7 @@ def merge_markdown(config=CONFIG):
                     for line in infile:
                         f.write(line)
 
-    logging.info("Wrote {}".format(os.path.relpath(report_path)))
+    logging.info(f"Wrote {report_path}")
 
 
 if __name__ == "__main__":

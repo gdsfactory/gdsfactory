@@ -3,7 +3,7 @@
 
 import itertools as it
 import hiyapyco
-from pp.config import CONFIG, load_config
+from pp.config import CONFIG
 
 
 sample = """

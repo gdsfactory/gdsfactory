@@ -52,7 +52,7 @@ def write_doe_report(
         w("- Settings")
 
         if len(kwargs) > 0:
-            w(json.dumps(kwargs))
+            w(json.dumps(doe_settings, indent=2))
 
         # w(json.dumps(list_settings))
         if not list_settings:
@@ -95,9 +95,10 @@ def write_doe_report(
             w(fmt_line(fields))
 
         w()
-        w("- Cells:")
+        w("Cells: \n")
         for cell_name in cell_names:
-            w(cell_name)
+            w(f"- {cell_name}")
+
         w()
 
 
