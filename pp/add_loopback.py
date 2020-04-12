@@ -46,8 +46,7 @@ def gen_loopback(
     p1 = gca2.ports[gc_port_name].position
     a = bend_radius_align_ports + 0.5
     b = max(2 * a, grating_separation / 2)
-    if y_bot_align_route == None:
-        y_bot_align_route = -gsi.width - 5.0
+    y_bot_align_route = y_bot_align_route or -gsi.width - 5.0
 
     route = [
         p0,

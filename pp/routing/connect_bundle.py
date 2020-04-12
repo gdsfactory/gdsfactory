@@ -34,10 +34,10 @@ def connect_bundle(
     Choose the correct u_bundle to use based on port angles
     """
     # Accept dict ot list
-    if type(start_ports) == type("{}"):
+    if isinstance(start_ports, dict):
         start_ports = list(start_ports.values())
 
-    if type(end_ports) == type("{}"):
+    if isinstance(end_ports, dict):
         end_ports = list(end_ports.values())
 
     nb_ports = len(start_ports)

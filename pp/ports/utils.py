@@ -68,7 +68,7 @@ def move_copy(port, x=0, y=0):
 
 
 def get_ports_facing(ports, direction="W"):
-    if type(ports) == type({}):
+    if isinstance(ports, dict):
         ports = list(ports.values())
     elif isinstance(ports, pp.Component) or isinstance(ports, pp.ComponentReference):
         ports = list(ports.ports.values())
@@ -90,7 +90,7 @@ def get_ports_facing(ports, direction="W"):
 
 
 def get_non_optical_ports(ports):
-    if type(ports) == type({}):
+    if isinstance(ports, dict):
         ports = list(ports.values())
     elif isinstance(ports, pp.Component) or isinstance(ports, pp.ComponentReference):
         ports = list(ports.ports.values())

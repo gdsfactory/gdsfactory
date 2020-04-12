@@ -109,11 +109,11 @@ def _pixelate(
     width = east - west + 2 * margin_x
     height = north - south + 2 * margin_y
 
-    if min_pixel_size != None:
+    if min_pixel_size is not None:
         max_nb_pixels_x = int(np.ceil(width / min_pixel_size))
         nb_pixels_x = min(nb_pixels_x, max_nb_pixels_x)
 
-    if min_pixel_size != None:
+    if min_pixel_size is not None:
         max_nb_pixels_y = int(np.ceil(height / min_pixel_size))
         nb_pixels_y = min(nb_pixels_y, max_nb_pixels_y)
 

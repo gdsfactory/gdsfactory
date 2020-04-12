@@ -246,7 +246,7 @@ class ComponentReference(DeviceReference):
         a copy of the reference which is correctly rotated and translated"""
         try:
             alias_device = self.parent[val]
-        except:
+        except Exception:
             raise ValueError(
                 '[PHIDL] Tried to access alias "%s" from parent '
                 'Device "%s", which does not exist' % (val, self.parent.name)
@@ -835,7 +835,7 @@ class Component(Device):
             for polygonset in D.polygons:
                 polygon_layers = zip(polygonset.layers, polygonset.datatypes)
                 polygons_to_keep = [(pl in layers) for pl in polygon_layers]
-                if invert_selection == False:
+                if not invert_selection:
                     polygons_to_keep = [(not p) for p in polygons_to_keep]
                 polygonset.polygons = [
                     p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
@@ -847,7 +847,7 @@ class Component(Device):
                     p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
                 ]
 
-            if include_labels == True:
+            if include_labels:
                 new_labels = []
                 for l in D.labels:
                     original_layer = (l.layer, l.texttype)

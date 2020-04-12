@@ -77,7 +77,7 @@ def import_gds(
                         x_reflection=e.x_reflection,
                     )
                     converted_references.append(dr)
-                except:
+                except Exception:
                     print("WARNING - Could not import", e.ref_cell.name)
 
             D.references = converted_references

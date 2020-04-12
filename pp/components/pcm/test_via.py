@@ -184,10 +184,10 @@ def test_via(
             pc.compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
         )
 
-    if up == True and edge != True:
+    if up and not edge:
         tail.connect(port="W", destination=obj.ports["S"], overlap=wire_width)
         tail_overlay.connect(port="W", destination=obj.ports["S"], overlap=wire_width)
-    elif down == True and edge != True:
+    elif down and not edge:
         tail.connect(port="W", destination=obj.ports["N"], overlap=wire_width)
         tail_overlay.connect(port="W", destination=obj.ports["N"], overlap=wire_width)
     else:

@@ -161,7 +161,7 @@ def netlist_to_component(components, connections, ports_map, position=(0, 0)):
             _ref = cmp_name_to_sref[cmp1_name]
             try:
                 position = _ref.ports[port1].midpoint
-            except:
+            except Exception:
                 print("{} has not port {}".format(cmp1_name, port1))
 
             sref = gen_sref(component, transform_name, port2, position)

@@ -48,10 +48,8 @@ def _bend_points(
     inner_radius=None,
     outer_radius=None,
 ):
-    if inner_radius == None:
-        inner_radius = radius - width / 2
-    if outer_radius == None:
-        outer_radius = radius + width / 2
+    inner_radius = inner_radius or radius - width / 2
+    outer_radius = outer_radius or radius + width / 2
     angle1 = (start_angle) * pi / 180
     angle2 = (start_angle + theta) * pi / 180
     t = np.linspace(angle1, angle2, int(abs(theta) / angle_resolution))

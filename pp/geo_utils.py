@@ -194,11 +194,8 @@ def extrude_path(
         _start_angle = a[0] + 180
         _end_angle = a[-2]
 
-    if start_angle == None:
-        start_angle = _start_angle
-
-    if end_angle == None:
-        end_angle = _end_angle
+    start_angle = start_angle or _start_angle
+    end_angle = end_angle or _end_angle
 
     a2 = angles_rad(points) * 0.5
     a1 = np.roll(a2, 1)

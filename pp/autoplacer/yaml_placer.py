@@ -57,7 +57,7 @@ class SizeInfo:
         """
         layout is required if cell is a cell reference instead of a cell
         """
-        if type(cell) is pya.CellInstArray:
+        if isinstance(cell, pya.CellInstArray):
             bbox = cell.bbox(layout)
         else:
             parent_layout = cell.layout()
@@ -180,13 +180,10 @@ def pack_row(
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
 
-    if margin_x == None:
-        margin_x = margin
+    margin_x = margin_x or margin
+    margin_y = margin_y or margin
 
-    if margin_y == None:
-        margin_y = margin
-
-    if row_ids == None:
+    if row_ids is None:
         row_ids = []
         nb_cells = len(cells)
         if nb_cols is None:
@@ -298,13 +295,10 @@ def pack_col(
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
 
-    if margin_x == None:
-        margin_x = margin
+    margin_x = margin_x or margin
+    margin_y = margin_y or margin
 
-    if margin_y == None:
-        margin_y = margin
-
-    if col_ids == None:
+    if col_ids is None:
         col_ids = []
         nb_cells = len(cells)
         if nb_rows is None:
