@@ -33,8 +33,6 @@ def align_wafer(
     b = cross_length / 2 + spacing + width / 2
     w = width
 
-    c.add
-
     rh = rectangle_centered(w=2 * b + w, h=w, layer=layer)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
