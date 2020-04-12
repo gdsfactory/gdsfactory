@@ -1,4 +1,4 @@
 mask:
   width: 10000
   height: 10000
-  name: mask2
+  name: sample_mask

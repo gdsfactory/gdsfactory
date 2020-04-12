@@ -29,7 +29,7 @@ def write_doe_metadata(
     d = dict(
         type="doe",
         name=doe_name,
-        cells=cell_names,
+        cells={cell_name: {"name": cell_name} for cell_name in cell_names},
         settings=list_settings,
         doe_settings=doe_settings,
         **kwargs,
