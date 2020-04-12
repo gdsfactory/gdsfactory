@@ -45,7 +45,7 @@ def separate_does_from_templates(dicts):
     for name, d in dicts.items():
         if "type" in d.keys():
             template_type = d.pop("type")
-            if not template_type in type_to_dict:
+            if template_type not in type_to_dict:
                 type_to_dict[template_type] = {}
             type_to_dict[template_type][name] = d
         else:
@@ -181,7 +181,7 @@ def generate_does(
             for template in templates:
                 try:
                     doe = update_dicts_recurse(doe, dict_templates[template])
-                except:
+                except Exception:
                     print(template, "does not exist")
                     raise
 
@@ -253,7 +253,7 @@ def generate_does(
                 does_running += [doe_name]
                 try:
                     p.start()
-                except:
+                except Exception:
                     print("Issue starting process for {}".format(doe_name))
                     print(type(component_type2factory))
                     raise

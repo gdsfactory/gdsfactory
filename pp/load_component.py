@@ -32,7 +32,7 @@ def load_component(
     with_info_labels=True,
     overwrite_cache=False,
 ):
-    """ loads component GDS and ports from CSV file
+    """ loads GDS, ports (CSV) and metadata (JSON)
     returns a Device
 
     Args:
@@ -69,10 +69,7 @@ def load_component(
             reader = csv.reader(csvfile, delimiter=",", quotechar="|")
             for r in reader:
                 layer_type = int(r[5].strip().strip("("))
-                try:
-                    data_type = int(r[6].strip().strip(")"))
-                except:
-                    data_type = 0
+                data_type = int(r[6].strip().strip(")"))
                 c.add_port(
                     name=r[0],
                     midpoint=[float(r[1]), float(r[2])],
@@ -81,12 +78,13 @@ def load_component(
                     layer=(layer_type, data_type),
                 )
     except Exception:
+        print(
+            f"Could not find a port CSV file for {component_name} in {component_path}"
+        )
+        print(
+            "ports follow (name, x, y, width, angle, layer_gds_type, layer_gds_purpose)"
+        )
         pass
-        # print(
-        #     f"Could not find a port file associated with {component_name} in {component_path}"
-        # )
-        # print(e)
-        # print()
         # raise (e)
 
     """ add settings """
@@ -95,7 +93,7 @@ def load_component(
             data = json.load(f)
         cell_settings = data["cells"][c.name]
         c.settings.update(cell_settings)
-    except:
+    except Exception:
         pass
         print(f"could not load settings for {c.name} in {jsonpath}")
     return c

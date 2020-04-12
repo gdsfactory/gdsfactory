@@ -1,7 +1,7 @@
 import hashlib
-import numpy as np
 import sys
 import json
+import numpy as np
 
 """
 From two GDS files, find which cells are identical
@@ -217,7 +217,7 @@ def compare_gds_to_lib(teg, lib_cells=[]):
 
     with open("dbg.json", "w") as fw:
         fw.write(
-            json.dumps({"LIB": name_to_hash_lib, "TEG": name_to_hash_teg,}, indent=2)
+            json.dumps({"LIB": name_to_hash_lib, "TEG": name_to_hash_teg}, indent=2)
         )
 
     # hash_to_name_teg = {v: k for k, v in name_to_hash_teg.items()}

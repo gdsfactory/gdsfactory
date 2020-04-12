@@ -425,7 +425,7 @@ def round_corners(
             If not specified, will use some heuristic to find them
     """
     ## If there is a taper, make sure its length is known
-    if taper != None:
+    if taper:
         if not "length" in taper.info:
             _taper_ports = list(taper.ports.values())
             taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
@@ -466,7 +466,9 @@ def round_corners(
         elif dp[0] < 0:
             a0 = 180
 
-    assert a0 != None, "Points should be manhattan, got {} {}".format(p0_straight, p1)
+    assert a0 is not None, "Points should be manhattan, got {} {}".format(
+        p0_straight, p1
+    )
 
     pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
 
@@ -499,7 +501,7 @@ def round_corners(
 
         total_length += length
 
-        if taper != None and length > 2 * taper.info["length"] + 1.0:
+        if taper is not None and length > 2 * taper.info["length"] + 1.0:
             length = length - 2 * taper.info["length"]
             with_taper = True
 

@@ -73,15 +73,13 @@ def delay_snake(
     path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
 
     component = pp.Component()
-    if taper != None:
+    if taper:
         if callable(taper):
             _taper = taper(
                 width1=wg_width, width2=WG_EXPANDED_WIDTH, length=TAPER_LENGTH
             )
         else:
             _taper = taper
-    else:
-        _taper = None
     snake = round_corners(path, bend90, straight_factory, taper=_taper)
     component.add(snake)
     component.ports = snake.ports
