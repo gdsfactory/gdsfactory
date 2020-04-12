@@ -149,8 +149,8 @@ def connect_bundle_waypoints(
 
     bends90 = [bend_factory(radius=bend_radius, width=p.width) for p in start_ports]
 
-    if taper_factory != None:
-        if type(taper_factory) == type(lambda a: a):
+    if taper_factory:
+        if callable(taper_factory):
             taper = taper_factory(
                 length=TAPER_LENGTH,
                 width1=start_ports[0].width,

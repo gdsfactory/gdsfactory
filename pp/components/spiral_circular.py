@@ -126,11 +126,11 @@ def spiral_circular(
         np.c_[x_input, y_input], wg_width, layer=wg_layer, datatype=wg_datatype
     )
     ps.append(p)
-    l = start_2[1] - end_input[1]
+    length = start_2[1] - end_input[1]
     p, _, _ = straight(
-        l,
+        length,
         wg_width,
-        (end_input[0] - wg_width / 2.0, end_input[1] + l / 2.0),
+        (end_input[0] - wg_width / 2.0, end_input[1] + length / 2.0),
         layer=wg_layer,
         datatype=wg_datatype,
     )

@@ -426,7 +426,7 @@ def round_corners(
     """
     ## If there is a taper, make sure its length is known
     if taper:
-        if not "length" in taper.info:
+        if "length" not in taper.info:
             _taper_ports = list(taper.ports.values())
             taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
 
@@ -590,7 +590,7 @@ def generate_manhattan_waypoints(
 
     """
 
-    if bend90 == None and bend_radius == None:
+    if bend90 is None and bend_radius is None:
         raise ValueError(
             "Either bend90 or bend_radius must be set. \
         Got {} {}".format(
@@ -598,7 +598,7 @@ def generate_manhattan_waypoints(
             )
         )
 
-    if bend90 != None and bend_radius != None:
+    if bend90 is not None and bend_radius is not None:
         raise ValueError(
             "Either bend90 or bend_radius must be set. \
         Got {} {}".format(
@@ -614,7 +614,7 @@ def generate_manhattan_waypoints(
         bsx = p2[0] - p1[0]
         bsy = p2[1] - p1[1]
 
-    elif bend_radius != None:
+    elif bend_radius:
         bsx = bend_radius
         bsy = bend_radius
 

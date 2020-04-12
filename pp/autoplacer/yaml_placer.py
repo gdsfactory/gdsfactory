@@ -45,7 +45,7 @@ def to_grid(x, um_to_grid=UM_TO_GRID):
 
 DEFAULT_BBOX_LAYER_IGNORE = [(8484, 8484)]
 
-# layer_infos
+
 class SizeInfo:
     def __init__(
         self,

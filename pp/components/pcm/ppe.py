@@ -103,7 +103,7 @@ def ppe(layer=pp.LAYER.WG, layers_cladding=[pp.LAYER.WGCLAD], cladding_offset=3)
     # Cover the entire macro
     for layer_cladding in layers_cladding:
         D.add_polygon(
-            [(0, -o), (xmax + o, -o), (xmax + o, ymax + o), (0, ymax + o),],
+            [(0, -o), (xmax + o, -o), (xmax + o, ymax + o), (0, ymax + o)],
             layer=layer_cladding,
         )
 

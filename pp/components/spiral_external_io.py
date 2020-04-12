@@ -62,7 +62,7 @@ def spiral_external_io(
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory
 
-    if cutback_length != None:
+    if cutback_length:
         x_inner_length_cutback = cutback_length / (4 * (N - 1))
 
     x_inner_length_cutback += x_inner_offset
