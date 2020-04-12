@@ -252,7 +252,7 @@ def parse_lattice(lattice, components):
         if len(line) > 0:
             i = 0
             for c in line:
-                if not i in columns.keys():
+                if i not in columns.keys():
                     columns[i] = []
 
                 columns[i].append(c)

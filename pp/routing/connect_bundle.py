@@ -238,7 +238,7 @@ def link_ports_routes(
         return []
 
     if len(ports1) == 1 and len(ports2) == 1:
-        if end_straight_offset != None:
+        if end_straight_offset:
             kwargs["end_straight"] = end_straight_offset
         return [
             routing_func(
@@ -278,7 +278,7 @@ def link_ports_routes(
         x2_prev = get_port_y(ports2[0])
         y0 = get_port_x(ports2[0])
         y1 = get_port_x(ports1[0])
-    else:  ## X axis
+    else:  # X axis
         x1_prev = get_port_x(ports1[0])
         x2_prev = get_port_x(ports2[0])
         y0 = get_port_y(ports2[0])
@@ -287,8 +287,7 @@ def link_ports_routes(
     s = sign(y0 - y1)
     curr_end_straight = 0
 
-    if end_straight_offset == None:
-        end_straight_offset = 15.0
+    end_straight_offset = end_straight_offset or 15.0
 
     Le = end_straight_offset
 
@@ -544,7 +543,7 @@ def connect_bundle_path_length_match(
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation
 
-    if end_straight_offset == None:
+    if end_straight_offset is None:
         if modify_segment_i == -2:
             end_straight_offset = (
                 compute_ports_max_displacement(ports1, ports2) / (2 * nb_loops)

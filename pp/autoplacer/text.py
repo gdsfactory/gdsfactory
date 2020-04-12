@@ -19,6 +19,7 @@ def load_alphabet(filepath=FONT_PATH):
 def add_text(
     cell, text, position=(0, 0), align_x="center", align_y="top", fontpath=FONT_PATH
 ):
+    """ add text label"""
     text = text.upper()
     alphabet = load_alphabet(filepath=fontpath)
     idbu = 1 / cell.layout().dbu
@@ -46,8 +47,8 @@ def add_text(
     for i, char in enumerate(text):
         _l = import_cell(cell.layout(), alphabet[char])
         _transform = pya.DTrans((i * w + dx) * idbu, dy * idbu)
-        l = pya.CellInstArray(_l.cell_index(), _transform)
-        c.insert(l)
+        label = pya.CellInstArray(_l.cell_index(), _transform)
+        c.insert(label)
 
     cell.insert(pya.CellInstArray(c.cell_index(), pya.DTrans(x, y)))
     return c
