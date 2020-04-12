@@ -851,10 +851,9 @@ def demo_te_and_tm():
 
 if __name__ == "__main__":
     # from pprint import pprint
-    from pp.layers import ls
 
-    layer_label = 66  # works
-    layer_label = pp.LAYER.TEXT  # fails
+    layer_label = pp.LAYER.TEXT
+    layer_label = (66, 5)
 
     # cc = demo_tapers()
     # cc = test_type1()

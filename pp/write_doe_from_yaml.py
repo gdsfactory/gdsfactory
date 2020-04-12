@@ -3,7 +3,7 @@
 import sys
 import importlib
 
-from pp.config import CONFIG, load_config
+from pp.config import CONFIG
 from pp.doe import load_does
 from pp.write_doe import write_doe
 

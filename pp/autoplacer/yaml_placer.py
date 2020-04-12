@@ -842,7 +842,7 @@ def _demo():
     cell1_instance1 = pya.CellInstArray(cell1.cell_index(), pya.Trans(10, 0))
 
     layout2 = pya.Layout()
-    cell2 = layout2.create_cell("TOP_LEVEL")
+    layout2.create_cell("TOP_LEVEL")
 
     layout2.cell("TOP_LEVEL").insert(cell1_instance1)
     layout2.write("test.gds")
