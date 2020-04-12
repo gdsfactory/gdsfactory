@@ -6,7 +6,7 @@
 
 """
 
-__version__ = "1.1.5"
+__version__ = "1.1.6"
 __all__ = ["CONFIG", "load_config", "write_config"]
 
 import os
