@@ -21,6 +21,8 @@ import hiyapyco
 import numpy as np
 from git import Repo
 
+from pp.layers import LAYER
+
 
 default_config = """
 tech: generic
@@ -114,6 +116,8 @@ def load_config(cwd_config=cwd_config):
     CONFIG["mask_directory"].mkdir(exist_ok=True)
     CONFIG["gdslib_test"].mkdir(exist_ok=True)
 
+    CONFIG["layers"] = CONFIG.get("layers", LAYER._asdict())
+
     return CONFIG
 
 
@@ -189,5 +193,6 @@ CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
 if __name__ == "__main__":
     # print_config("gdslib")
-    # print_config()
-    print(CONFIG["git_hash"])
+    print_config()
+    # print(CONFIG["git_hash"])
+    # print(CONFIG)

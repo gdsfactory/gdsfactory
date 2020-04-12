@@ -62,6 +62,9 @@ def parse_csv_data(csv_labels_path):
 
 
 def get_cell_from_label(label):
+    """ get cell name from the label (cell_name is in parenthesis)
+    it
+    """
     return label.split("(")[1].split(")")[0]
 
 
@@ -77,7 +80,7 @@ def load_yaml(filepath):
     return data
 
 
-def merge_test_metadata(gdspath):
+def merge_test_metadata(gdspath, labels_prefix="opt"):
     """ from a gds mask combines test_protocols and labels positions for each DOE
     Do a map cell: does
     Usually each cell will have only one DOE. But in general it should be allowed for a cell to belong to multiple DOEs
@@ -92,16 +95,17 @@ def merge_test_metadata(gdspath):
     mask_json_path = gdspath.with_suffix(".json")
     csv_labels_path = gdspath.with_suffix(".csv")
     output_tm_path = gdspath.with_suffix(".tp.json")
-    tm_dict = {}
+    d = {}
 
     mask_directory = gdspath.parent
     mask_build_directory = mask_directory.parent
+    mask_cache_directory = mask_build_directory / "cache_doe"
     mask_root_directory = mask_build_directory.parent
     test_protocols_path = mask_root_directory / "test_protocols.yml"
     analysis_protocols_path = mask_root_directory / "data_analysis_protocols.yml"
 
-    assert os.path.isfile(mask_json_path), "missing {}".format(mask_json_path)
-    assert os.path.isfile(csv_labels_path), "missing {}".format(csv_labels_path)
+    assert mask_json_path.exists(), f"missing {mask_json_path}"
+    assert csv_labels_path.exists(), f"missing {csv_labels_path}"
 
     # mask_data = json.loads(open(mask_json_path).read())
     # mask_data = hiyapyco.load(mask_json_path)
@@ -109,10 +113,10 @@ def merge_test_metadata(gdspath):
 
     if os.path.isfile(test_protocols_path):
         test_protocols = load_yaml(test_protocols_path)
-        tm_dict["test_protocols"] = test_protocols
+        d["test_protocols"] = test_protocols
     if os.path.isfile(analysis_protocols_path):
         analysis_protocols = load_yaml(analysis_protocols_path)
-        tm_dict["analysis_protocols"] = analysis_protocols
+        d["analysis_protocols"] = analysis_protocols
 
     data = parse_csv_data(csv_labels_path)
     # cell_x_y = [(get_cell_from_label(l), x, y) for l, x, y in data]
@@ -127,8 +131,8 @@ def merge_test_metadata(gdspath):
                 cell_to_does[c] = set()
             cell_to_does[c].update([doe_name])
 
-    tm_dict["does"] = {}
-    doe_tm = tm_dict["does"]
+    d["does"] = {}
+    doe_tm = d["does"]
     doe_tm.update(does)
     for doe_name, doe in doe_tm.items():
         doe.pop("cells")
@@ -136,27 +140,35 @@ def merge_test_metadata(gdspath):
 
     ## Cell instances which need to be measured MUST have a unique cell name
     for label, x, y in data:
-        cell_name = get_cell_from_label(label)
-        if cell_name not in cell_to_does:
-            continue
-        cell_does = cell_to_does[cell_name]
-        for doe_name in cell_does:
-            _doe = doe_tm[doe_name]
+        if label.startswith(labels_prefix):
+            cell_name = get_cell_from_label(label)
+            if cell_name not in cell_to_does:
+                continue
+            cell_does = cell_to_does[cell_name]
+            for doe_name in cell_does:
+                _doe = doe_tm[doe_name]
 
-            if cell_name not in _doe["instances"]:
-                # Unique Cell instance to labels and coordinates
-                _doe["instances"][cell_name] = []
-            _doe["instances"][cell_name].append({"label": label, "x": x, "y": y})
+                if cell_name not in _doe["instances"]:
+                    # Unique Cell instance to labels and coordinates
+                    _doe["instances"][cell_name] = []
+                _doe["instances"][cell_name].append({"label": label, "x": x, "y": y})
 
     # Adding the cells settings
-    tm_dict["cells"] = cells
+    d["cells"] = cells
+
+    if mask_cache_directory.exists():
+        for c in mask_cache_directory.glob("*/*.json"):
+            d["cells"][c.stem] = json.loads(open(c).read())
 
     with open(output_tm_path, "w") as json_out:
-        json.dump(tm_dict, json_out, indent=2)
+        json.dump(d, json_out, indent=2)
+
+    return d
 
 
 if __name__ == "__main__":
-    from sample_mask.config import CONFIG
+    from pp import CONFIG
 
-    gdspath = CONFIG["repo_path"] / "build" / "mask" / "sample_mask.gds"
-    merge_test_metadata(gdspath)
+    gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask2.gds"
+    d = merge_test_metadata(gdspath)
+    print(d)

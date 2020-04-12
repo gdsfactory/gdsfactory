@@ -6,12 +6,12 @@ from pp.placer import component_grid_from_yaml
 
 
 def test_mask():
-    workspace_folder = pathlib.Path(__file__).parent
-    filepath_yml = workspace_folder / "config.yml"
-    config = load_config(filepath_yml)
+    cwd = pathlib.Path(__file__).parent
+    filepath = cwd / "config.yml"
+    config = load_config(filepath)
     gdspath = str(config["mask"]["gds"])
 
-    top_level = component_grid_from_yaml(config)
+    top_level = component_grid_from_yaml(filepath)
     pp.write_gds(top_level, gdspath)
     assert config["mask"]["gds"].exists()
     return gdspath

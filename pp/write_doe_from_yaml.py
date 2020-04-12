@@ -21,7 +21,7 @@ def import_custom_doe_factories():
             pass
 
 
-def write_doe_from_yaml(config=CONFIG):
+def write_doe_from_yaml(filepath):
     """ Loads DOE settings from yaml file and writes GDS into build_directory
 
     Args:
@@ -35,7 +35,7 @@ def write_doe_from_yaml(config=CONFIG):
     - ports CSV
     - markdown report, with DOE settings
     """
-    does = load_does(config)
+    does = load_does(filepath)
 
     gds_paths = []
     for doe_name, doe in does.items():
@@ -61,8 +61,9 @@ def write_doe_from_yaml(config=CONFIG):
 
 
 def test_write_doe_from_yaml():
-    config = load_config(CONFIG["samples_path"] / "mask" / "config.yml")
-    write_doe_from_yaml(config)
+    does_path = CONFIG["samples_path"] / "mask" / "does.yml"
+    gdspaths = write_doe_from_yaml(does_path)
+    print(gdspaths)
 
 
 if __name__ == "__main__":

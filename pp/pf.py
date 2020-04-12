@@ -32,6 +32,7 @@ from pp.tests.test_factory import lock_components_with_changes
 VERSION = "1.1.5"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
+LAYER_LABEL = CONFIG["layers"]["LABEL"]
 
 
 def shorten_command(cmd):
@@ -204,11 +205,12 @@ def build_does():
 
 
 @click.command(name="write_metadata")
-def mask_merge():
+@click.argument("label_layer", required=False, default=LAYER_LABEL)
+def mask_merge(label_layer):
     """ merge JSON/Markdown from build/devices into build/mask"""
 
     gdspath = CONFIG["mask"]["gds"]
-    write_labels(gdspath=gdspath)
+    write_labels(gdspath=gdspath, label_layer=label_layer)
 
     merge_json()
     merge_markdown()
@@ -217,18 +219,18 @@ def mask_merge():
 
 @click.command(name="write_labels")
 @click.argument("gdspath", default=None)
-@click.argument("label_layer", required=False, default=66)
-@click.argument("label_purpose", required=False, default=0)
-def write_mask_labels(gdspath, label_layer=66, label_purpose=0):
+@click.argument("label_layer", required=False, default=LAYER_LABEL)
+def write_mask_labels(gdspath, label_layer):
     """ find test and measurement labels """
     if gdspath is None:
         gdspath = CONFIG["mask"]["gds"]
 
-    write_labels(gdspath=gdspath, label_layer=label_layer, label_purpose=label_purpose)
+    write_labels(gdspath=gdspath, label_layer=label_layer)
 
 
 @click.command(name="write")
-def write_mask():
+@click.argument("label_layer", required=False, default=LAYER_LABEL)
+def write_mask(label_layer):
     """ build and place does from config.yml """
     gdspath = CONFIG["mask"]["gds"]
 
@@ -238,7 +240,7 @@ def write_mask():
     top_level = place_from_yaml(CONFIG["config_path"])
     top_level.write(str(gdspath))
 
-    write_labels(gdspath=gdspath)
+    write_labels(gdspath=gdspath, label_layer=label_layer)
 
     merge_json()
     merge_markdown()

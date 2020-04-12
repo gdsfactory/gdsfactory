@@ -1,4 +1,4 @@
-default: clean mask metadata
+default: clean mask
 help:
 	@echo 'make :                 makes devices, merges them'
 	@echo 'make mask:             makes mask'
@@ -14,20 +14,10 @@ clean:
 
 mask:
 	python write_mask.py
-
-metadata:
 	pf mask write_metadata
 
 show:
 	pf show build/mask/sample_mask.gds
 
-show2:
-	pf show build/mask/sample_mask_remapped.gds
-
-upload:
-	mh post mask
-
-fill:
-	python fill.py
 
 .PHONY: devices

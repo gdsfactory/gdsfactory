@@ -4,36 +4,33 @@ from pp.config import load_config
 
 from pp.autoplacer.samples.spiral import SPIRAL
 from pp.autoplacer.yaml_placer import place_from_yaml
-from pp.placer import generate_does
 from pp.components import component_type2factory
+from pp.generate_does import generate_does
 
 
 def main():
     """
 
     """
-    workspace_folder = pathlib.Path(__file__).absolute().parent
-    filepath_yml = workspace_folder / "config.yml"
-    filepath_does_yml = workspace_folder / "does.yml"
+    cwd = pathlib.Path(__file__).absolute().parent
+    config_path = cwd / "config.yml"
+    does_path = cwd / "does.yml"
 
-    CONFIG = load_config(filepath_yml)
-    doe_directory = CONFIG["cache_doe_directory"]
-
-    filepath_gds = str(
-        workspace_folder / "build" / "mask" / f"{CONFIG['mask']['name']}.gds"
-    )
+    config = load_config(config_path)
+    doe_directory = config["cache_doe_directory"]
+    gdspath = config["mask"]["gds"]
 
     # Map the component factory names in the YAML file to the component factory
     component_type2factory.update({"SPIRAL": SPIRAL})
 
     generate_does(
-        CONFIG,
+        str(does_path),
         component_type2factory=component_type2factory,
         doe_root_path=doe_directory,
     )
-    top_level = place_from_yaml(filepath_does_yml, doe_directory)
-    top_level.write(filepath_gds)
-    return filepath_gds
+    top_level = place_from_yaml(does_path, doe_directory)
+    top_level.write(str(gdspath))
+    return gdspath
 
 
 if __name__ == "__main__":
