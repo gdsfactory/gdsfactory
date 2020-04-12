@@ -138,7 +138,6 @@ CONFIG = load_config()
 CONFIG["grid_unit"] = 1e-6
 CONFIG["grid_resolution"] = 1e-9
 CONFIG["bend_radius"] = 10.0
-CONFIG["layer_label"] = 66
 
 try:
     CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha

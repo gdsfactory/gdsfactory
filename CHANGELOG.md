@@ -1,3 +1,9 @@
+# dev
+
+- flake8 is passing now
+- added flake8 to pre-commit hook
+
+
 # 1.1.6 2020-04-11
 
 - mask JSON works with cached GDS files for the klayout placer
