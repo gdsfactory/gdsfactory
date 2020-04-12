@@ -396,7 +396,7 @@ def doe_exists(doe_name, list_settings, doe_root_path=None):
 
 
 def generate_does(
-    config=CONFIG,
+    filepath,
     component_filter=lambda x: x,
     component_type2factory=component_type2factory,
     doe_root_path=CONFIG["cache_doe_directory"],
@@ -411,8 +411,9 @@ def generate_does(
     Maybe delete this generate_does, as it's already defined in pp.generate_does
     """
 
-    does = load_does(config)
-    mask_settings = config.get("mask")
+    input_does = hiyapyco.load(str(filepath))
+    mask_settings = input_does["mask"]
+    does = load_does(filepath)
 
     default_use_cached_does = (
         mask_settings["cache"] if "cache" in mask_settings else False
@@ -474,12 +475,14 @@ def generate_does(
         )
 
 
-def component_grid_from_yaml(config, precision=1e-9):
+def component_grid_from_yaml(filepath, precision=1e-9):
     """ Returns a Component composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """
-    mask_settings = config["mask"]
-    does = load_does(config)
+    input_does = hiyapyco.load(str(filepath))
+    mask_settings = input_does["mask"]
+    does = load_does(filepath)
+
     placed_doe = None
     placed_does = {}
     if mask_settings.get("name"):
@@ -664,12 +667,5 @@ def _gen_components_from_generator(
     return components
 
 
-def test_component_grid_method2():
-    config = load_config(CONFIG["samples_path"] / "placer2" / "config.yml")
-    component = component_grid_from_yaml(config)
-    pp.show(component)
-
-
 if __name__ == "__main__":
-    test_component_grid_method2()
-    # test_load_placer()
+    pass

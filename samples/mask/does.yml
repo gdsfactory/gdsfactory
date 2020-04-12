@@ -3,7 +3,6 @@ mask:
   height: 10000
   name: mask2
 
-
 mmi_width:
   doe_name: mmi_width
   component: mmi1x2

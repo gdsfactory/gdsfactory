@@ -7,9 +7,8 @@
 """
 
 from collections import namedtuple
-from phidl import LayerSet
-
 import gdspy as gp
+from phidl import LayerSet
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import Polygon
 

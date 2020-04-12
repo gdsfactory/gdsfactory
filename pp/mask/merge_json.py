@@ -45,6 +45,7 @@ def merge_json(config=CONFIG, json_version=6):
     mask_name = config["mask"]["name"]
     jsons_directory = config["gds_directory"]
     json_out_path = config["mask_directory"] / (mask_name + ".json")
+    mask_cache_directory = config["mask_directory"].parent / "cache_doe"
 
     cells = {}
     does = {}
@@ -59,15 +60,20 @@ def merge_json(config=CONFIG, json_version=6):
             else:
                 cells.update(data.get("cells"))
 
-    config.update({"json_version": json_version, "cells": cells, "does": does})
+    if mask_cache_directory.exists():
+        for c in mask_cache_directory.glob("*/*.json"):
+            cells[c.stem] = json.loads(open(c).read())
+            print(c.stem)
+
+    config.update(dict(json_version=json_version, cells=cells, does=does))
     write_config(config, json_out_path)
-    logging.info("Wrote {}".format(os.path.relpath(json_out_path)))
+    logging.info(f"Wrote  metadata in {json_out_path}")
     return config
 
 
 if __name__ == "__main__":
     config_path = CONFIG["samples_path"] / "mask" / "config.yml"
     config = load_config(config_path)
-    config = merge_json(config)
+    d = merge_json(config)
     # print(config["module_versions"])
-    print(config)
+    # print(d)

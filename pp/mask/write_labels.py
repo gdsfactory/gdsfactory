@@ -7,8 +7,10 @@ import os
 import csv
 import klayout.db as pya
 
+from pp.layers import LAYER
 
-def find_labels(gdspath, label_layer=201, label_purpose=0):
+
+def find_labels(gdspath, label_layer=LAYER.LABEL):
     """ finds labels and locations from a GDS file """
     # Load the layout
     gdspath = str(gdspath)
@@ -18,7 +20,7 @@ def find_labels(gdspath, label_layer=201, label_purpose=0):
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
     dbu = layout.dbu
-    layer = pya.LayerInfo(label_layer, label_purpose)
+    layer = pya.LayerInfo(label_layer[0], label_layer[1])
     layer_index = layout.layer(layer)
 
     # Extract locations
@@ -42,13 +44,9 @@ def _write_csv(labels, filename):
     print(("Wrote {}".format(os.path.abspath(filename))))
 
 
-def write_labels(gdspath, label_layer=201, label_purpose=0, csv_filename=None):
+def write_labels(gdspath, label_layer=LAYER.LABEL, csv_filename=None):
     """Load  GDS mask and extracts the labels and coordinates from a GDS file"""
-    labels = list(
-        find_labels(
-            gdspath, label_layer=int(label_layer), label_purpose=int(label_purpose)
-        )
-    )
+    labels = list(find_labels(gdspath, label_layer=label_layer))
 
     # Save the coordinates somewhere sensible
     if csv_filename is None:
