@@ -12,8 +12,9 @@ venv:
 clean:
 	rm -rf build
 
-mask:
+mask: clean
 	python test_mask_custom.py
+	pf mask write_metadata
 
 metadata:
 	pf mask write_metadata

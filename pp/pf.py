@@ -214,7 +214,7 @@ def mask_merge(label_layer):
 
     merge_json()
     merge_markdown()
-    merge_test_metadata(gdspath=gdspath)
+    merge_test_metadata(config_path=CONFIG["config_path"])
 
 
 @click.command(name="write_labels")
@@ -244,7 +244,7 @@ def write_mask(label_layer):
 
     merge_json()
     merge_markdown()
-    merge_test_metadata(gdspath=gdspath)
+    merge_test_metadata(config_path=CONFIG["config_path"])
     return gdspath
 
 

@@ -78,15 +78,15 @@ def load_config(cwd_config=cwd_config):
 
     if CONFIG.get("mask"):
         mask_name = CONFIG["mask"]["name"]
-        mask_root_directory = cwd
-        build_directory = mask_root_directory / "build"
-        CONFIG["devices_directory"] = mask_root_directory / "devices"
+        mask_config_directory = cwd
+        build_directory = mask_config_directory / "build"
+        CONFIG["devices_directory"] = mask_config_directory / "devices"
         CONFIG["mask"]["gds"] = (
-            mask_root_directory / "build" / "mask" / (mask_name + ".gds")
+            mask_config_directory / "build" / "mask" / (mask_name + ".gds")
         )
     else:
         build_directory = home_path / "build"
-        mask_root_directory = home_path / "build"
+        mask_config_directory = home_path / "build"
 
     if "custom_components" not in CONFIG:
         CONFIG["custom_components"] = None
@@ -101,7 +101,7 @@ def load_config(cwd_config=cwd_config):
     CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
     CONFIG["doe_directory"] = build_directory / "doe"
     CONFIG["mask_directory"] = build_directory / "mask"
-    CONFIG["mask_root_directory"] = mask_root_directory
+    CONFIG["mask_config_directory"] = mask_config_directory
     CONFIG["gdspath"] = build_directory / "gds.gds"
     CONFIG["samples_path"] = repo_path / "samples"
     CONFIG["components_path"] = module_path / "components"

@@ -1,7 +1,7 @@
 """ merges mask metadata with test and data analysis protocols
 
-
-mask_tm.json
+-------------------------------------
+config.yml
 
 test_protocols:
     passive_optical_te_coarse:
@@ -17,30 +17,32 @@ test_protocols:
         polarization: tm
     ...
 
-does:
-    doe01:
-        instances:
-            - cell_name1, x1, y1
-            - cell_name2, x2, y2
-            - cell_name3, x3, y3
+-------------------------------------
+does.yml
 
-        test_protocols:
-            - passive_optical_te_coarse
+doe01:
+    instances:
+        - cell_name1, x1, y1
+        - cell_name2, x2, y2
+        - cell_name3, x3, y3
 
-    doe02:
-        instances:
-            - cell_name21, x21, y21
-            - cell_name22, x22, y22
-            - cell_name23, x23, y23
+    test_protocols:
+        - passive_optical_te_coarse
 
-        test_protocols:
-            - passive_optical_te_coarse
-        ...
+doe02:
+    instances:
+        - cell_name21, x21, y21
+        - cell_name22, x22, y22
+        - cell_name23, x23, y23
+
+    test_protocols:
+        - passive_optical_te_coarse
+    ...
 """
 
-import os
 import json
 import yaml
+from pp.config import CONFIG, load_config
 
 
 def parse_csv_data(csv_labels_path):
@@ -80,7 +82,9 @@ def load_yaml(filepath):
     return data
 
 
-def merge_test_metadata(gdspath, labels_prefix="opt"):
+def merge_test_metadata(
+    config_path=CONFIG["cwd"] / "config.yml", does_path=None, labels_prefix="opt"
+):
     """ from a gds mask combines test_protocols and labels positions for each DOE
     Do a map cell: does
     Usually each cell will have only one DOE. But in general it should be allowed for a cell to belong to multiple DOEs
@@ -92,83 +96,52 @@ def merge_test_metadata(gdspath, labels_prefix="opt"):
         saves json file with merged metadata
 
     """
+    config = load_config(config_path)
+    gdspath = config["mask"]["gds"]
     mask_json_path = gdspath.with_suffix(".json")
     csv_labels_path = gdspath.with_suffix(".csv")
     output_tm_path = gdspath.with_suffix(".tp.json")
-    d = {}
 
-    mask_directory = gdspath.parent
-    mask_build_directory = mask_directory.parent
-    mask_cache_directory = mask_build_directory / "cache_doe"
-    mask_root_directory = mask_build_directory.parent
-    test_protocols_path = mask_root_directory / "test_protocols.yml"
-    analysis_protocols_path = mask_root_directory / "data_analysis_protocols.yml"
+    mask_config_directory = config_path.parent
+    does_path = does_path or mask_config_directory / "does.yml"
 
     assert mask_json_path.exists(), f"missing {mask_json_path}"
     assert csv_labels_path.exists(), f"missing {csv_labels_path}"
 
-    # mask_data = json.loads(open(mask_json_path).read())
-    # mask_data = hiyapyco.load(mask_json_path)
-    mask_data = load_json(mask_json_path)
+    metadata = load_json(mask_json_path)
+    labels_list = parse_csv_data(csv_labels_path)
 
-    if os.path.isfile(test_protocols_path):
-        test_protocols = load_yaml(test_protocols_path)
-        d["test_protocols"] = test_protocols
-    if os.path.isfile(analysis_protocols_path):
-        analysis_protocols = load_yaml(analysis_protocols_path)
-        d["analysis_protocols"] = analysis_protocols
+    if config.get("mask") is None:
+        raise ValueError(f"mask config missing from {config_path}")
 
-    data = parse_csv_data(csv_labels_path)
-    # cell_x_y = [(get_cell_from_label(l), x, y) for l, x, y in data]
+    does = metadata.pop("does")
+    cells = metadata.pop("cells")
 
-    does = mask_data["does"]
-    cells = mask_data["cells"]
+    cells_to_test = {
+        get_cell_from_label(label): dict(
+            x=x, y=y, label=label, cells=cells[get_cell_from_label(label)]
+        )
+        for label, x, y in labels_list
+    }
 
-    cell_to_does = {}
-    for doe_name, doe in does.items():
-        for c in doe["cells"]:
-            if c not in cell_to_does:
-                cell_to_does[c] = set()
-            cell_to_does[c].update([doe_name])
-
-    d["does"] = {}
-    doe_tm = d["does"]
-    doe_tm.update(does)
-    for doe_name, doe in doe_tm.items():
-        doe.pop("cells")
-        doe["instances"] = {}
-
-    ## Cell instances which need to be measured MUST have a unique cell name
-    for label, x, y in data:
-        if label.startswith(labels_prefix):
-            cell_name = get_cell_from_label(label)
-            if cell_name not in cell_to_does:
-                continue
-            cell_does = cell_to_does[cell_name]
-            for doe_name in cell_does:
-                _doe = doe_tm[doe_name]
-
-                if cell_name not in _doe["instances"]:
-                    # Unique Cell instance to labels and coordinates
-                    _doe["instances"][cell_name] = []
-                _doe["instances"][cell_name].append({"label": label, "x": x, "y": y})
-
-    # Adding the cells settings
-    d["cells"] = cells
-
-    if mask_cache_directory.exists():
-        for c in mask_cache_directory.glob("*/*.json"):
-            d["cells"][c.stem] = json.loads(open(c).read())
+    d = dict(cells_to_test=cells_to_test, metadata=metadata, does=does)
 
     with open(output_tm_path, "w") as json_out:
         json.dump(d, json_out, indent=2)
 
-    return d
+    return metadata
 
 
 if __name__ == "__main__":
     from pp import CONFIG
 
-    gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask2.gds"
+    gdspath = (
+        CONFIG["repo_path"]
+        / "samples"
+        / "mask_custom"
+        / "build"
+        / "mask"
+        / "sample_mask.gds"
+    )
     d = merge_test_metadata(gdspath)
     print(d)

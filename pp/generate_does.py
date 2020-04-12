@@ -1,4 +1,3 @@
-import os
 import sys
 import collections
 from multiprocessing import Process
@@ -61,8 +60,7 @@ def update_dicts_recurse(target_dict, default_dict):
         if k not in target_dict:
             target_dict[k] = v
         else:
-            vtype = type(target_dict[k])
-            if vtype == dict or vtype == collections.OrderedDict:
+            if isinstance(target_dict[k], (dict, collections.OrderedDict)):
                 target_dict[k] = update_dicts_recurse(target_dict[k], default_dict[k])
     return target_dict
 
@@ -73,12 +71,11 @@ def save_doe_use_template(doe, doe_root_path=None):
     """
     doe_name = doe["name"]
     doe_template = doe["doe_template"]
-    if doe_root_path is None:
-        doe_root_path = CONFIG["cache_doe_directory"]
-    doe_dir = os.path.join(doe_root_path, doe_name)
-    if not os.path.exists(doe_dir):
-        os.makedirs(doe_dir)
-    content_file = os.path.join(doe_dir, "content.txt")
+    doe_root_path = doe_root_path or CONFIG["cache_doe_directory"]
+    doe_dir = doe_root_path / doe_name
+    doe_dir.mkdir(exist_ok=True)
+    content_file = doe_dir / "content.txt"
+
     with open(content_file, "w") as fw:
         fw.write("TEMPLATE: {}".format(doe_template))
 
@@ -176,7 +173,7 @@ def generate_does(
             The keyword template is used to enrich the dictionnary from the template
             """
             templates = doe["template"]
-            if type(templates) != list:
+            if not isinstance(templates, list):
                 templates = [templates]
             for template in templates:
                 try:

@@ -26,7 +26,7 @@ def update_config_modules(config):
     return config
 
 
-def merge_json(config=CONFIG, json_version=6):
+def merge_json(config_path=CONFIG["cwd"] / "config.yml", json_version=6):
     """ Merge several JSON files from mask_config_directory
     requires a config.yml in the root of the mask directory
 
@@ -36,43 +36,45 @@ def merge_json(config=CONFIG, json_version=6):
         jsons_filepaths: if we want to supply individual json files
 
     """
+    logging.debug("Merging JSON files:")
+    config = load_config(config_path)
+
     if config.get("mask") is None:
-        raise ValueError(f"mask config missing from {config['cwd']}")
+        raise ValueError(f"mask config missing from {config_path}")
 
     config = update_config_modules(config)
 
     mask_name = config["mask"]["name"]
-    jsons_directory = config["gds_directory"]
+    cell_directory = config["gds_directory"]
     json_out_path = config["mask_directory"] / (mask_name + ".json")
-    mask_cache_directory = config["mask_directory"].parent / "cache_doe"
+    doe_directory = config["build_directory"] / "doe"
+    cache_doe_directory = config["cache_doe_directory"]
 
-    cells = {}
-    does = {}
-    logging.debug("Merging JSON files:")
+    cells = {
+        d.stem: json.loads(open(d).read()) for d in cache_doe_directory.glob("*/*.json")
+    }
+    cells.update(
+        {d.stem: json.loads(open(d).read()) for d in cell_directory.glob("*/*.json")}
+    )
 
-    for filename in jsons_directory.glob("*.json"):
-        logging.debug(filename)
-        with open(filename, "r") as f:
-            data = json.load(f)
-            if data.get("type") == "doe":
-                does[data["name"]] = data
-            else:
-                cells.update(data.get("cells"))
-
-    if mask_cache_directory.exists():
-        for c in mask_cache_directory.glob("*/*.json"):
-            cells[c.stem] = json.loads(open(c).read())
-            print(c.stem)
-
+    does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("*.json")}
     config.update(dict(json_version=json_version, cells=cells, does=does))
+
     write_config(config, json_out_path)
+    print(f"Wrote  metadata in {json_out_path}")
     logging.info(f"Wrote  metadata in {json_out_path}")
     return config
 
 
 if __name__ == "__main__":
-    config_path = CONFIG["samples_path"] / "mask" / "config.yml"
-    config = load_config(config_path)
-    d = merge_json(config)
+    # from pprint import pprint
+
+    config_path = CONFIG["samples_path"] / "mask_custom" / "config.yml"
+    json_path = config_path.parent / "build" / "mask" / "sample_mask.json"
+    d = merge_json(config_path)
+
     # print(config["module_versions"])
-    # print(d)
+    # pprint(d['does'])
+
+    # with open(json_path, "w") as f:
+    #     f.write(json.dumps(d, indent=2))
