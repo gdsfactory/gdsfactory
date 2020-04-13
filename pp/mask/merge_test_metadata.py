@@ -67,7 +67,10 @@ def get_cell_from_label(label):
     """ get cell name from the label (cell_name is in parenthesis)
     it
     """
-    return label.split("(")[1].split(")")[0]
+    cell_name = label.split("(")[1].split(")")[0]
+    if cell_name.startswith("loopback"):
+        cell_name = "_".join(cell_name.split("_")[1:])
+    return cell_name
 
 
 def load_json(filepath):
@@ -117,14 +120,16 @@ def merge_test_metadata(
     does = metadata.pop("does")
     cells = metadata.pop("cells")
 
-    cells_to_test = {
-        get_cell_from_label(label): dict(
-            x=x, y=y, label=label, cells=cells[get_cell_from_label(label)]
-        )
-        for label, x, y in labels_list
-    }
+    c = {}
 
-    d = dict(cells_to_test=cells_to_test, metadata=metadata, does=does)
+    for label, x, y in labels_list:
+        cell = get_cell_from_label(label)
+        c[cell] = c.get(cell, dict())
+        c[cell]["labels"] = c[cell].get("labels", dict())
+        c[cell]["cells"] = cells[cell]
+        c[cell]["labels"][label] = dict(x=x, y=y)
+
+    d = dict(cells_to_test=c, metadata=metadata, does=does)
 
     with open(output_tm_path, "w") as json_out:
         json.dump(d, json_out, indent=2)

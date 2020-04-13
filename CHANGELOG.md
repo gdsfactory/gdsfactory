@@ -2,13 +2,14 @@
 
 - flake8 is passing now
 - added flake8 to pre-commit hook
+- simpler JSON file for mask metadata
 
 
 # 1.1.6 2020-04-11
 
 - mask JSON works with cached GDS files for the klayout placer
 - added layers in the config
-- write_labels get layer from `CONFIG['layers']['LABEL']`
+- write_labels gets layer from `CONFIG['layers']['LABEL']`
 - add_padding works over the same component
 - import_gds can snap points to a design grid
 

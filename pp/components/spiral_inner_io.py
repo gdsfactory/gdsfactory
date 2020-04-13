@@ -211,17 +211,7 @@ def spiral_inner_io(
 
 @pp.autoname
 def spiral_inner_io_euler(
-    N=7,
-    x_straight_inner_right=0.0,
-    x_straight_inner_left=160.0,
-    y_straight_inner_top=0.0,
-    y_straight_inner_bottom=0.0,
-    grating_spacing=127.0,
-    dx=3.0,
-    dy=3.0,
-    wg_width=0.5,
-    bend_radius=40,
-    length=None,
+    bend90_function=bend_euler90, bend180_function=bend_euler180, **kwargs
 ):
     """
 
@@ -235,20 +225,7 @@ def spiral_inner_io_euler(
     """
 
     return spiral_inner_io(
-        N=N,
-        x_straight_inner_right=x_straight_inner_right,
-        x_straight_inner_left=x_straight_inner_left,
-        y_straight_inner_top=y_straight_inner_top,
-        y_straight_inner_bottom=y_straight_inner_bottom,
-        grating_spacing=grating_spacing,
-        dx=dx,
-        dy=dy,
-        straight_factory=waveguide,
-        bend90_function=bend_euler90,
-        bend180_function=bend_euler180,
-        wg_width=wg_width,
-        bend_radius=bend_radius,
-        length=length,
+        bend90_function=bend90_function, bend180_function=bend180_function, **kwargs
     )
 
 
@@ -363,11 +340,12 @@ def get_straight_length(length_cm, spiral_function, **kwargs):
 if __name__ == "__main__":
     from pp.add_termination import add_gratings_and_loop_back
 
-    c = spiral_inner_io_euler(y_straight_inner_top=0)
+    # c = spiral_inner_io()
+    c = spiral_inner_io_euler()
     # c = spiral_inner_io_euler(length=2, wg_width=0.4)
     # c = spiral_inner_io_euler(length=6, wg_width=0.4)
     cc = add_gratings_and_loop_back(c)
-    pp.show(cc)
+    pp.show(c)
 
     # c = spiral_inner_io_euler(wg_width=1)
     # from pp.routing import add_io_optical
