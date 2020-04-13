@@ -108,8 +108,8 @@ def merge_test_metadata(
     mask_config_directory = config_path.parent
     does_path = does_path or mask_config_directory / "does.yml"
 
-    assert mask_json_path.exists(), f"missing {mask_json_path}"
-    assert csv_labels_path.exists(), f"missing {csv_labels_path}"
+    assert mask_json_path.exists(), f"missing mask JSON metadata {mask_json_path}"
+    assert csv_labels_path.exists(), f"missing CSV labels {csv_labels_path}"
 
     metadata = load_json(mask_json_path)
     labels_list = parse_csv_data(csv_labels_path)

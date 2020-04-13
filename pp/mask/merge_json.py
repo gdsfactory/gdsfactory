@@ -27,13 +27,12 @@ def update_config_modules(config):
 
 
 def merge_json(config_path=CONFIG["cwd"] / "config.yml", json_version=6):
-    """ Merge several JSON files from mask_config_directory
-    requires a config.yml in the root of the mask directory
+    """ Merge several JSON files from config.yml
+    in the root of the mask directory, gets mask_name from there
 
     Args:
         mask_config_directory: defaults to current working directory
-        json_version: for maskhub parser
-        jsons_filepaths: if we want to supply individual json files
+        json_version:
 
     """
     logging.debug("Merging JSON files:")
