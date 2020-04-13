@@ -125,11 +125,9 @@ def merge_test_metadata(
     for label, x, y in labels_list:
         cell = get_cell_from_label(label)
         c[cell] = c.get(cell, dict())
-        c[cell]["labels"] = c[cell].get("labels", dict())
-        c[cell]["cells"] = cells[cell]
-        c[cell]["labels"][label] = dict(x=x, y=y)
+        c[cell][label] = dict(x=x, y=y)
 
-    d = dict(cells_to_test=c, metadata=metadata, does=does)
+    d = dict(cells_to_test=c, metadata=metadata, does=does, cells=cells)
 
     with open(output_tm_path, "w") as json_out:
         json.dump(d, json_out, indent=2)
