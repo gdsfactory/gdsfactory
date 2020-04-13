@@ -40,20 +40,18 @@ def add_gratings_and_loop_back(
     waveguide_separation=5.0,
     bend_factory=bend_circular,
     waveguide_factory=waveguide,
-    layer_label=pp.LAYER.TEXT,
-    # input_port_indexes=[0],
-    name=None,
+    layer_label=pp.CONFIG["layers"]["LABEL"],
     component_name=None,
 ):
     """ returns a component with grating_couplers and loopback
     """
+    gc = pp.call_if_func(grating_coupler)
 
     direction = "S"
-    component_name = component.name
-    name = name or component_name or f"{component_name}_c"
+    component_name = component_name or component.name
+    name = f"{component.name}_{gc.polarization}"
     c = pp.Component(name=name)
     c.add_ref(component)
-    gc = pp.call_if_func(grating_coupler)
 
     # Find grating port name if not specified
     if gc_port_name is None:

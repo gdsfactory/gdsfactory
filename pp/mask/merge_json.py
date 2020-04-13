@@ -50,12 +50,18 @@ def merge_json(config_path=CONFIG["cwd"] / "config.yml", json_version=6):
     doe_directory = config["build_directory"] / "doe"
     cache_doe_directory = config["cache_doe_directory"]
 
-    cells = {
-        d.stem: json.loads(open(d).read()) for d in cache_doe_directory.glob("*/*.json")
-    }
-    cells.update(
-        {d.stem: json.loads(open(d).read()) for d in cell_directory.glob("*/*.json")}
-    )
+    cells = {}
+    for filename in cache_doe_directory.glob("*/*.json"):
+        logging.debug(filename)
+        with open(filename, "r") as f:
+            data = json.load(f)
+            cells.update(data.get("cells"))
+
+    for filename in cell_directory.glob("*.json"):
+        logging.debug(filename)
+        with open(filename, "r") as f:
+            data = json.load(f)
+            cells.update(data.get("cells"))
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("*.json")}
     config.update(dict(json_version=json_version, cells=cells, does=does))

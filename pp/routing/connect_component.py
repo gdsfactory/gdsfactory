@@ -282,6 +282,7 @@ def get_route2individual_gratings(
        cc = add_io_optical(c, get_route_factory=get_route2individual_gratings)
        pp.plotgds(cc)
     """
+    component_name = component.name
     grating_coupler = pp.call_if_func(grating_coupler)
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
     if component.xsize + 2 * gc_port2center < min_input2output_spacing:
@@ -316,6 +317,7 @@ def get_route2individual_gratings(
 
     component.ports = {p.name: p for p in east_ports}
     component = rotate(component, angle=-90)
+    component.name = component_name
     elements_west, io_grating_lines_west, _ = get_route2fiber_array(
         component=component,
         with_align_ports=False,

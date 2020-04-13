@@ -21,9 +21,11 @@ def install_generic_tech(src, dest):
 
     dest_folder = dest.parent
     dest_folder.mkdir(exist_ok=True, parents=True)
-    if os.path.isfile(dest):
+    try:
+        os.symlink(src, dest)
+    except Exception:
         os.remove(dest)
-    os.symlink(src, dest)
+        os.symlink(src, dest)
     print(f"generic layermap installed to {dest}")
 
 
