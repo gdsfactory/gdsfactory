@@ -11,11 +11,11 @@ def add_tapers(component, taper, new_component=False):
     else:
         c = component
 
-    for i, port in enumerate(component.ports.copy().values()):
+    for port_name, port in component.ports.copy().items():
         taper_ref = c << pp.call_if_func(taper)
         taper_ref.connect(taper_ref.ports["2"].name, port)
-        if new_component:
-            c.add_port(name="{}".format(i), port=taper_ref.ports["1"])
+        c.ports.pop(port_name)
+        c.add_port(name=port_name, port=taper_ref.ports["1"])
     return c
 
 
