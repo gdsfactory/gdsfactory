@@ -13,7 +13,7 @@ def mzi(
     bend90_factory=pp.c.bend_circular,
     straight_factory=pp.c.waveguide,
     coupler_factory=pp.c.mmi1x2,
-    combiner_factory=pp.c.mmi2x2,
+    combiner_factory=None,
 ):
     """ Mzi adapted for using different coupler and combiner factories
 
@@ -52,6 +52,7 @@ def mzi(
 
     """
     c = pp.Component()
+    combiner_factory = combiner_factory or coupler_factory
 
     coupler = pp.call_if_func(coupler_factory)
     combiner = pp.call_if_func(combiner_factory)
