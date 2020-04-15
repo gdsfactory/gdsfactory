@@ -35,7 +35,7 @@ def mzi(
               |      |
      coupler==|      |==combiner
               |      |
-              L0     L0
+              L0     L0r
               |      |
               L1     L1
               |      |
@@ -72,7 +72,7 @@ def mzi(
         delta_length + L0 > 0
     ), f"input and output couplers height  offset (delta_length)  {delta_length} + {L0} >0"
 
-    l0r = straight_factory(length=L0 + delta_length)
+    l0r = straight_factory(length=L0 + delta_length / 2)
 
     l1 = straight_factory(length=L1)
     l2 = straight_factory(length=L2)
@@ -107,7 +107,7 @@ def mzi(
     l2t = c << l2
     brbr = c << b90
     l1r = c << l1
-    l0br = c << l0
+    l0br = c << l0r
     blbmrb = c << b90  # bend left medium right bottom
 
     blb.connect(port="N0", destination=cin.ports["E0"])
