@@ -22,6 +22,7 @@ def mzi1x2(
     straight_heater_factory=waveguide_heater,
     straight_factory=waveguide,
     coupler_factory=mmi1x2,
+    combiner_factory=mmi1x2,
     with_elec_connections=False,
 ):
     """ Mzi 1x2
@@ -68,7 +69,8 @@ def mzi1x2(
     if not with_elec_connections:
         straight_heater_factory = straight_factory
 
-    cpl = pp.call_if_func(coupler_factory)
+    coupler = pp.call_if_func(coupler_factory)
+    combiner = pp.call_if_func(combiner_factory)
 
     arm_defaults = {
         "L_top": L2,
@@ -83,8 +85,8 @@ def mzi1x2(
     arm_bot = mzi_arm(L0=L0 + L1, **arm_defaults)
 
     components = {
-        "CP1": (cpl, "None"),
-        "CP2": (cpl, "mirror_y"),
+        "CP1": (coupler, "None"),
+        "CP2": (combiner, "mirror_y"),
         "arm_top": (arm_top, "None"),
         "arm_bot": (arm_bot, "mirror_x"),
     }
