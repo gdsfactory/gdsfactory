@@ -3,13 +3,13 @@
 
 import pp
 
-from pp.routing.connect_component import get_route2individual_gratings
+from pp.routing import route_fiber_single
 from pp.ports.add_port_markers import get_optical_text
 
 
 def add_grating_couplers(
     component,
-    get_route_factory=get_route2individual_gratings,
+    get_route_factory=route_fiber_single,
     optical_io_spacing=50,
     min_input2output_spacing=200,
     optical_routing_type=2,
@@ -53,13 +53,13 @@ def add_grating_couplers(
         label = get_optical_text(
             port, grating_coupler, 0, component_name=f"loopback_{component.name}"
         )
-        c.label(label, position=port.midpoint, layer=layer_label)
+        c.add_label(label, position=port.midpoint, layer=layer_label)
 
         port = wg.ports["W0"]
         label = get_optical_text(
             port, grating_coupler, 1, component_name=f"loopback_{component.name}"
         )
-        c.label(label, position=port.midpoint, layer=layer_label)
+        c.add_label(label, position=port.midpoint, layer=layer_label)
 
     return c
 
