@@ -3,7 +3,7 @@ Route optical and electrical waveguides
 """
 
 from pp.routing.connect_component import add_io_optical
-from pp.routing.connect_component import get_route2individual_gratings
+from pp.routing.route_fiber_single import route_fiber_single
 from pp.routing.connect_bundle import connect_bundle
 from pp.routing.connect_bundle import link_optical_ports
 from pp.routing.connect_bundle import link_electrical_ports
@@ -14,7 +14,7 @@ from pp.routing.manhattan import route_manhattan
 
 __all__ = [
     "add_io_optical",
-    "get_route2individual_gratings",
+    "route_fiber_single",
     "link_optical_ports",
     "link_electrical_ports",
     "route_ports_to_side",
