@@ -85,7 +85,7 @@ def add_io_optical(
     if "polarization" in gc.settings:
         gc.polarization = gc.settings["polarization"]
 
-    cc.name = "{}_{}".format(c.name, gc.polarization)
+    cc.name = component_name or "{}_{}".format(c.name, gc.polarization)
 
     port_width_gc = list(gc.ports.values())[0].width
     port_width_component = list(c.ports.values())[0].width
