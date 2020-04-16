@@ -1,6 +1,6 @@
 import pp
 from pp.rotate import rotate
-from pp.routing.connect_component import get_route2fiber_array
+from pp.routing.connect_component import route_fiber_array
 
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -74,7 +74,7 @@ def route_fiber_single(
     component.ports = {p.name: p for p in west_ports}
     component = component.rotate(90)
 
-    elements_east, io_grating_lines_east, _ = get_route2fiber_array(
+    elements_east, io_grating_lines_east, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
@@ -88,7 +88,7 @@ def route_fiber_single(
     component.ports = {p.name: p for p in east_ports}
     component = rotate(component, angle=-90)
     component.name = component_name
-    elements_west, io_grating_lines_west, _ = get_route2fiber_array(
+    elements_west, io_grating_lines_west, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
