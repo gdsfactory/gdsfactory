@@ -1,6 +1,3 @@
-import numpy as np
-
-import phidl.device_layout as pd
 from pp.rotate import rotate
 
 from pp.components.bend_circular import bend_circular
@@ -11,12 +8,12 @@ from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.routing.manhattan import round_corners
 from pp.routing.connect_bundle import link_optical_ports
 from pp.routing.connect_bundle import get_min_spacing
+from pp.routing.route_south import route_south
 
 from pp.component import Component
 
 import pp
 from pp.layers import LAYER
-from pp.routing.utils import flip
 from pp.routing.utils import direction_ports_from_list_ports
 
 from pp.routing.connect import connect_strip_way_points
@@ -26,230 +23,7 @@ from pp.add_tapers import add_tapers
 from pp.components.taper import taper
 
 SPACING_GC = 127.0
-BEND_RADIUS = 10.0
-
-
-def route_all_ports_to_south(
-    component,
-    bend_radius=BEND_RADIUS,
-    optical_routing_type=1,
-    excluded_ports=[],
-    waveguide_separation=4.0,
-    io_gratings_lines=None,
-    route_filter=connect_strip_way_points,
-    gc_port_name="E0",
-):
-    """
-    Args:
-        component: The component to be connected
-        bend_radius
-        optical_routing_type: routing heuristic ``1`` or ``2`` (see below)
-        excluded_ports=[]: list of port names to NOT route
-        waveguide_separation
-        io_gratings_lines: list of ports to which the ports produced by this
-            function will be connected. Supplying this information helps
-            avoiding waveguide collisions
-
-        routing_method: routing method to connect the waveguides
-        gc_port_name: grating port name
-
-    Returns:
-        list of elements, list of ports
-
-    Standard optical routing - type ``1`` or variant ``2``
-        ``1`` uses the component size info to estimate the box size
-        ``2`` only looks at the optical port positions to estimate the size
-
-    Works well if the component looks rougly like a rectangular box with
-        north ports on the north of the box
-        south ports on the south of the box
-        east ports on the east of the box
-        west ports on the west of the box
-    """
-
-    optical_ports = component.get_optical_ports()
-    optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
-    csi = component.size_info
-    elements = []
-
-    # Handle empty list gracefully
-    if not optical_ports:
-        return [], []
-
-    conn_params = {"bend_radius": bend_radius}
-
-    route_filter_params = {
-        "bend_radius": bend_radius,
-        "wg_width": optical_ports[0].width,
-    }
-
-    def routing_method(p1, p2, **kwargs):
-        way_points = get_waypoints_connect_strip(p1, p2, **kwargs)
-        return route_filter(way_points, **route_filter_params)
-
-    # Used to avoid crossing between waveguides in special cases
-    # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
-    delta_gr_min = 2 * bend_radius + 1
-
-    sep = waveguide_separation
-
-    # Get lists of optical ports by orientation
-    direction_ports = direction_ports_from_list_ports(optical_ports)
-
-    north_ports = direction_ports["N"]
-    north_start = north_ports[0 : len(north_ports) // 2]
-    north_finish = north_ports[len(north_ports) // 2 :]
-
-    west_ports = direction_ports["W"]
-    west_ports.reverse()
-    east_ports = direction_ports["E"]
-    south_ports = direction_ports["S"]
-    north_finish.reverse()  # Sort right to left
-    north_start.reverse()  # Sort right to left
-    ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
-
-    def get_index_port_closest_to_x(x, list_ports):
-        return np.array([abs(x - p.ports[gc_port_name].x) for p in list_ports]).argmin()
-
-    def gen_port_from_port(x, y, p):
-        new_p = pd.Port(name=p.name, midpoint=(x, y), orientation=90.0, width=p.width)
-
-        return new_p
-
-    R = bend_radius
-    west_ports.reverse()
-
-    y0 = min([p.y for p in ordered_ports]) - R - 0.5
-
-    ports_to_route = []
-
-    i = 0
-    optical_xs_tmp = [p.x for p in ordered_ports]
-    x_optical_min = min(optical_xs_tmp)
-    x_optical_max = max(optical_xs_tmp)
-
-    """
-    ``x`` is the x-coord of the waypoint where the current component port is connected.
-    x starts as close as possible to the component.
-    For each new port, the distance is increased by the separation.
-    The starting x depends on the heuristic chosen : ``1`` or ``2``
-    """
-
-    # Set starting ``x`` on the west side
-    if optical_routing_type == 1:
-        ## `` use component size to know how far to route
-        x = csi.west - R - 1
-    elif optical_routing_type == 2:
-        ## `` use optical port to know how far to route
-        x = x_optical_min - R - 1
-    else:
-        raise ValueError("Invalid optical routing type")
-
-    # First route the ports facing west
-    for p in west_ports:
-        """
-        In case we have to connect these ports to a line of grating,
-        Ensure that the port is aligned with the grating port or
-        has enough space for manhattan routing (at least two bend radius)
-        """
-        if io_gratings_lines:
-            i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
-            if abs(x - x_gr) < delta_gr_min:
-                if x > x_gr:
-                    x = x_gr
-                elif x < x_gr:
-                    x = x_gr - delta_gr_min
-
-        tmp_port = gen_port_from_port(x, y0, p)
-        ports_to_route.append(tmp_port)
-        elements += [routing_method(p, tmp_port, **conn_params)]
-        x -= sep
-
-        i += 1
-    start_straight = 0.5
-
-    # First-half of north ports
-    # This ensures that north ports are routed above the top west one
-    north_start.reverse()  # We need them from left to right
-    if len(north_start) > 0:
-        y_max = max([p.y for p in west_ports + north_start])
-        for p in north_start:
-            tmp_port = gen_port_from_port(x, y0, p)
-
-            elements += [
-                routing_method(
-                    p,
-                    tmp_port,
-                    start_straight=start_straight + y_max - p.y,
-                    **conn_params
-                )
-            ]
-
-            ports_to_route.append(tmp_port)
-            x -= sep
-            start_straight += sep
-
-    # Set starting ``x`` on the east side
-    if optical_routing_type == 1:
-        ## `` use component size to know how far to route
-        x = csi.east + R + 1
-    elif optical_routing_type == 2:
-        ## `` use optical port to know how far to route
-        x = x_optical_max + R + 1
-    else:
-        raise ValueError("Invalid optical routing type")
-    i = 0
-
-    # Route the east ports
-    start_straight = 0.5
-    for p in east_ports:
-        """
-        In case we have to connect these ports to a line of grating,
-        Ensure that the port is aligned with the grating port or
-        has enough space for manhattan routing (at least two bend radius)
-        """
-        if io_gratings_lines:
-            i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
-            if abs(x - x_gr) < delta_gr_min:
-                if x < x_gr:
-                    x = x_gr
-                elif x > x_gr:
-                    x = x_gr + delta_gr_min
-
-        tmp_port = gen_port_from_port(x, y0, p)
-
-        elements += [
-            routing_method(p, tmp_port, start_straight=start_straight, **conn_params)
-        ]
-
-        ports_to_route.append(tmp_port)
-        x += sep
-        i += 1
-
-    # Route the remaining north ports
-    start_straight = 0.5
-    if len(north_finish) > 0:
-        y_max = max([p.y for p in east_ports + north_finish])
-        for p in north_finish:
-            tmp_port = gen_port_from_port(x, y0, p)
-            ports_to_route.append(tmp_port)
-            elements += [
-                routing_method(
-                    p,
-                    tmp_port,
-                    start_straight=start_straight + y_max - p.y,
-                    **conn_params
-                )
-            ]
-            x += sep
-            start_straight += sep
-
-    # Add south ports
-    ports = [flip(p) for p in ports_to_route] + south_ports
-
-    return elements, ports
+BEND_RADIUS = pp.CONFIG["bend_radius"]
 
 
 def get_route2individual_gratings(
@@ -259,6 +33,8 @@ def get_route2individual_gratings(
     straight_factory=waveguide,
     min_input2output_spacing=230,
     optical_routing_type=2,
+    optical_port_labels=None,
+    excluded_ports=[],
     **kwargs
 ):
     """ Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
@@ -283,7 +59,21 @@ def get_route2individual_gratings(
        pp.plotgds(cc)
     """
     component_name = component.name
-    grating_coupler = pp.call_if_func(grating_coupler)
+
+    if optical_port_labels is None:
+        optical_ports = component.get_optical_ports()
+    else:
+        optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
+    optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
+    N = len(optical_ports)
+
+    if isinstance(grating_coupler, list):
+        grating_couplers = [pp.call_if_func(g) for g in grating_coupler]
+        grating_coupler = grating_couplers[0]
+    else:
+        grating_coupler = pp.call_if_func(grating_coupler)
+        grating_couplers = [grating_coupler] * N
+
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
     if component.xsize + 2 * gc_port2center < min_input2output_spacing:
         fanout_length = (
@@ -309,7 +99,7 @@ def get_route2individual_gratings(
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length,
-        grating_coupler=grating_coupler,
+        grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
         **kwargs
     )
@@ -323,7 +113,7 @@ def get_route2individual_gratings(
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length,
-        grating_coupler=grating_coupler,
+        grating_coupler=grating_couplers[1:],
         **kwargs
     )
     for e in elements_west:
@@ -362,7 +152,7 @@ def get_route2fiber_array(
     x_grating_offset=0,
     optical_port_labels=None,
     taper_factory=taper,
-    route_factory=route_all_ports_to_south,
+    route_factory=route_south,
     # input_port_indexes=[0],
 ):
     """
@@ -852,6 +642,9 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
+    gcte = pp.c.grating_coupler_te
+    gctm = pp.c.grating_coupler_tm
+
     # from pprint import pprint
 
     layer_label = pp.LAYER.TEXT
@@ -863,16 +656,20 @@ if __name__ == "__main__":
 
     # print(cc.get_settings())
     # c = pp.c.coupler(gap=0.2, length=5.6)
-    c = pp.c.mzi1x2()
+
+    c = pp.c.mmi2x2()
+    # c = pp.c.waveguide()
+
     c.y = 0
     cc = add_io_optical(
         c,
         # optical_routing_type=0,
         # optical_routing_type=1,
         # optical_routing_type=2,
-        layer_label=layer_label,
+        # layer_label=layer_label,
         get_route_factory=get_route2individual_gratings,
         # get_route_factory=get_route2fiber_array,
+        grating_coupler=[gcte, gctm, gcte, gctm],
     )
     # cc = demo_te_and_tm()
     pp.show(cc)
