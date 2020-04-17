@@ -137,8 +137,6 @@ def mzi(
 
 
 if __name__ == "__main__":
-    import pp
-
     c = mzi()
     # print(c.ports)
     pp.show(c)

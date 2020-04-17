@@ -2,7 +2,7 @@ import pp
 
 
 @pp.ports.deco_rename_ports
-def add_tapers(component, taper, new_component=False):
+def add_tapers(component, taper, new_component=True):
     """ returns tapered component """
 
     if new_component:
@@ -14,7 +14,8 @@ def add_tapers(component, taper, new_component=False):
     for port_name, port in component.ports.copy().items():
         taper_ref = c << pp.call_if_func(taper)
         taper_ref.connect(taper_ref.ports["2"].name, port)
-        c.ports.pop(port_name)
+        if not new_component:
+            c.ports.pop(port_name)
         c.add_port(name=port_name, port=taper_ref.ports["1"])
     return c
 
