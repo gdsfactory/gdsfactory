@@ -3,7 +3,7 @@ import pp
 
 from pp.autoplacer.samples.spiral import SPIRAL
 from pp.autoplacer.yaml_placer import place_from_yaml
-from pp.placer import generate_does
+from pp.generate_does import generate_does
 
 
 def test_autoplacer():

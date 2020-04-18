@@ -4,7 +4,7 @@ from glob import glob
 from pp.config import logging, load_config, CONFIG
 
 
-def merge_markdown(config_path=CONFIG["cwd"] / "config.ylm"):
+def merge_markdown(config_path=CONFIG["cwd"] / "config.yml"):
     """ Merges all individual markdown reports (.md) into a single markdown
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """
