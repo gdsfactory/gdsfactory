@@ -1,7 +1,7 @@
 mask:
     width: 12000
     height: 4000
-    name: spirals_mask
+    name: sample_mask
     cache:
         True # Default cache settings. If a component is already generated.
         # Will not produce a new GDS for it
