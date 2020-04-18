@@ -85,6 +85,7 @@ def _generate_doe(
     component_type2factory=component_type2factory,
     component_filter=default_component_filter,
     doe_root_path=None,
+    doe_metadata_path=None,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
     logger=LOGGER,
@@ -119,6 +120,7 @@ def _generate_doe(
         cell_names=component_names,
         list_settings=doe["list_settings"],
         doe_settings=kwargs,
+        doe_metadata_path=doe_metadata_path,
     )
 
 
@@ -140,7 +142,8 @@ def generate_does(
     filepath,
     component_filter=default_component_filter,
     component_type2factory=component_type2factory,
-    doe_root_path=None,
+    doe_root_path=CONFIG["cache_doe_directory"],
+    doe_metadata_path=CONFIG["doe_directory"],
     n_cores=4,
     logger=LOGGER,
     regenerate_report_if_doe_exists=False,
@@ -151,7 +154,8 @@ def generate_does(
     similar to write_doe
     """
 
-    doe_root_path = doe_root_path or CONFIG["cache_doe_directory"]
+    doe_root_path.mkdir(parents=True, exist_ok=True)
+    doe_metadata_path.mkdir(parents=True, exist_ok=True)
 
     dicts, mask_settings = load_does(filepath)
     does, templates_by_type = separate_does_from_templates(dicts)
@@ -231,6 +235,7 @@ def generate_does(
                             doe_name=doe["name"],
                             cell_names=component_names,
                             list_settings=doe["list_settings"],
+                            doe_metadata_path=doe_metadata_path,
                         )
 
             if not _doe_exists:
@@ -241,6 +246,7 @@ def generate_does(
                     kwargs={
                         "component_filter": component_filter,
                         "doe_root_path": doe_root_path,
+                        "doe_metadata_path": doe_metadata_path,
                         "regenerate_report_if_doe_exists": regenerate_report_if_doe_exists,
                         "precision": precision,
                         "logger": logger,

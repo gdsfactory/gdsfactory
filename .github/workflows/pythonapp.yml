@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          git clone https://github.com/PsiQ/gdslib.git
+          git clone https://github.com/gdsfactory/gdslib.git
           make install
       - name: Lint with flake8
         run: |

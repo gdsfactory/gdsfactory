@@ -33,7 +33,6 @@ import hiyapyco
 
 import pp
 from pp.doe import get_settings_list, load_does
-from pp.write_doe import write_doe_metadata
 from pp.config import CONFIG
 from pp.components import component_type2factory
 from pp.write_component import write_gds
@@ -382,86 +381,6 @@ def doe_exists(doe_name, list_settings, doe_root_path=None):
         len(list_settings),
     )
     return False
-
-
-def generate_does(
-    filepath,
-    component_filter=lambda x: x,
-    component_type2factory=component_type2factory,
-    doe_root_path=CONFIG["cache_doe_directory"],
-    doe_metadata_path=CONFIG["build_directory"] / "doe",
-    precision=1e-9,
-):
-    """ Returns a Component composed of DOEs/components given in a yaml file
-    allows for each DOE to have its own x and y spacing (more flexible than method1)
-
-    Not sure why we need this function. We should use build_does_instead
-
-    Maybe delete this generate_does, as it's already defined in pp.generate_does
-    """
-
-    input_does = hiyapyco.load(str(filepath))
-    mask_settings = input_does["mask"]
-    does = load_does(filepath)
-
-    default_use_cached_does = (
-        mask_settings["cache"] if "cache" in mask_settings else False
-    )
-
-    for doe_name, doe in does.items():
-        list_settings = doe["settings"]
-
-        # If using cached DOE, and if the doe exists, then we are done
-        use_cached_does = (
-            default_use_cached_does if "cache" not in doe else doe["cache"]
-        )
-
-        _doe_exists = False
-        if use_cached_does:
-            if doe_exists(doe_name, list_settings):
-                component_names = load_doe_component_names(doe_name)
-                _doe_exists = True
-                print("{} - using cache".format(doe_name))
-
-        if not _doe_exists:
-            # Otherwise generate each component using the component factory
-            component_type = doe["component"]
-            print("{} - Generating components...".format(doe_name))
-            if "generator" in doe:
-                components = _gen_components_from_generator(
-                    doe["generator"],
-                    component_type,
-                    list_settings,
-                    component_type2factory=component_type2factory,
-                )
-            else:
-                components = _gen_components(
-                    component_type,
-                    list_settings,
-                    component_type2factory=component_type2factory,
-                )
-
-            components = [component_filter(c) for c in components]
-            component_names = [c.name for c in components]
-            save_doe(
-                doe_name, components, doe_root_path=doe_root_path, precision=precision
-            )
-
-        description = doe["description"] if "description" in doe else ""
-        test = doe["test"] if "test" in doe else ""
-        analysis = doe["analysis"] if "analysis" in doe else ""
-
-        doe_settings = {"description": description, "test": test, "analysis": analysis}
-
-        report_path = doe_metadata_path / (doe_name + ".md")
-        # Write the json and md metadata / report
-        write_doe_metadata(
-            doe_name=doe_name,
-            cell_names=component_names,
-            list_settings=list_settings,
-            doe_settings=doe_settings,
-            report_path=report_path,
-        )
 
 
 def component_grid_from_yaml(filepath, precision=1e-9):

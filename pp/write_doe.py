@@ -9,7 +9,12 @@ from pp.functions import name2function
 
 
 def write_doe_metadata(
-    doe_name, cell_names, list_settings, doe_settings=None, report_path=None, **kwargs
+    doe_name,
+    cell_names,
+    list_settings,
+    doe_settings=None,
+    doe_metadata_path=None,
+    **kwargs,
 ):
     """ writes DOE metadata (markdown report, JSON dict)
 
@@ -22,7 +27,8 @@ def write_doe_metadata(
 
     """
 
-    report_path = report_path or CONFIG["doe_directory"] / (doe_name + ".md")
+    doe_metadata_path = doe_metadata_path or CONFIG["doe_directory"]
+    report_path = doe_metadata_path / (doe_name + ".md")
     doe_settings = doe_settings or {}
     json_path = report_path.with_suffix(".json")
 
@@ -107,6 +113,7 @@ def write_doe(
     list_settings=None,
     doe_settings=None,
     path=None,
+    doe_metadata_path=None,
     **kwargs,
 ):
     """ writes each device GDS, together with metadata for each device:
@@ -141,7 +148,7 @@ def write_doe(
     assert isinstance(component_type, str), "{} not recognized".format(component_type)
 
     path = path or CONFIG["build_directory"] / "devices"
-    doe_path = path / doe_name
+    doe_metadata_path = doe_metadata_path or CONFIG["doe_directory"]
 
     doe_gds_paths = []
     cell_names = []
@@ -167,14 +174,13 @@ def write_doe(
         write_component(component, gdspath)
 
     """ write DOE metadata (report + JSON) """
-    report_path = doe_path.with_suffix(".md")
     write_doe_metadata(
         doe_name=doe_name,
         cell_names=cell_names,
         list_settings=list_settings,
         doe_settings=doe_settings,
         cell_settings=kwargs,
-        report_path=report_path,
+        doe_metadata_path=doe_metadata_path,
     )
 
     return doe_gds_paths
