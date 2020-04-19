@@ -114,8 +114,11 @@ def test_mask(precision=2e-9):
     build_path = workspace_folder / "build"
     doe_root_path = build_path / "cache_doe"
     doe_metadata_path = build_path / "doe"
+    mask_path = build_path / "mask"
     does_yml = workspace_folder / "does.yml"
     config_yml = workspace_folder / "config.yml"
+
+    mask_path.mkdir(parents=True, exist_ok=True)
 
     config = load_config(config_yml)
 
