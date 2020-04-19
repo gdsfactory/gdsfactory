@@ -7,6 +7,7 @@ it makes sure that some of the important settings are copied from the original c
 
 import functools
 from inspect import signature
+import pytest
 import pp
 
 
@@ -109,19 +110,13 @@ def test_container2():
     return new
 
 
-def test_container3():
+def test_container_error():
     old = pp.c.waveguide()
-    suffix = "p"
-    name = f"{old.name}_{suffix}"
-    new = add_padding(component2=old, suffix=suffix)
-    assert new != old, f"new component {new} should be different from {old}"
-    assert new.name == name, f"new name {new.name} should be {name}"
-    assert len(new.ports) == len(
-        old.ports
-    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    return new
+    with pytest.raises(ValueError):
+        add_padding(component2=old)
+    return old
 
 
 if __name__ == "__main__":
-    c = test_container3()
+    c = test_container2()
     pp.show(c)
