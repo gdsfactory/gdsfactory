@@ -12,7 +12,7 @@ from pp.layers import LAYER
 
 
 @pp.autoname
-def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
+def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
     """ crossing arm
     """
     c = pp.Component()
@@ -45,9 +45,9 @@ def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4
 
 @pp.ports.deco_rename_ports  # This decorator will auto-rename the ports
 @pp.autoname  # This decorator will generate a good name for the component
-def crossing():
+def test_crossing():
     c = pp.Component()
-    arm = crossing_arm()
+    arm = test_crossing_arm()
 
     # Create two arm references. One has a 90Deg rotation
     arm_h = arm.ref(position=(0, 0))
@@ -68,5 +68,5 @@ def crossing():
 
 
 if __name__ == "__main__":
-    c = crossing()
+    c = test_crossing()
     pp.show(c)

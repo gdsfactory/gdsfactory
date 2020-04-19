@@ -11,5 +11,11 @@ Some of which are just shapes, but we call them components as they all inherit f
 
 import pp
 
+
+def test_components_module():
+    assert len(dir(pp.c)) > 1
+
+
 if __name__ == "__main__":
     print(dir(pp.c))
+    print(len(dir(pp.c)))

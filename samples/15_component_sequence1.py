@@ -18,7 +18,7 @@ from pp.components.component_sequence import component_sequence
 
 
 @pp.autoname
-def cutback_heater():
+def test_cutback_heater():
     # Define subcomponents
     bend_radius = 10.0
     bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
@@ -39,10 +39,10 @@ def cutback_heater():
 
     sequence = "AB-H-H-H-H-BA"
     component = component_sequence(sequence, string_to_device_in_out_ports)
-
+    assert component
     return component
 
 
 if __name__ == "__main__":
-    c = cutback_heater()
+    c = test_cutback_heater()
     pp.show(c)

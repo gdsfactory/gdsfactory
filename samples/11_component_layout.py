@@ -17,7 +17,7 @@ from pp.layers import LAYER
 
 
 @pp.autoname
-def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
+def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
     """ crossing arm
     """
     c = pp.Component()
@@ -49,6 +49,6 @@ def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4
 
 
 if __name__ == "__main__":
-    c = crossing_arm()
+    c = test_crossing_arm()
     pp.show(c)
     qp(c)

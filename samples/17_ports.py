@@ -17,11 +17,10 @@ import pp
 
 
 @pp.autoname
-def component_with_port(length=5, wg_width=0.5):
+def test_component_with_port(length=5, wg_width=0.5):
     """
     component with one port on the west side
     """
-    import pp
 
     y = wg_width
     x = length
@@ -36,9 +35,10 @@ def component_with_port(length=5, wg_width=0.5):
         layer=1,
         port_type="optical",
     )
+    assert len(c.ports) == 1
     return c
 
 
 if __name__ == "__main__":
-    c = component_with_port()
+    c = test_component_with_port()
     pp.show(c)

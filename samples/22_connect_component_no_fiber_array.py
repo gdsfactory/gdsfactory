@@ -64,7 +64,15 @@ def add_grating_couplers(
     return c
 
 
+def test_add_grating_couplers(
+    c=pp.c.ring_single_bus(gap=0.3, bend_radius=5, wg_width=0.45)
+):
+    cc = add_grating_couplers(c)
+    assert cc
+    return cc
+
+
 if __name__ == "__main__":
     c = pp.c.ring_single_bus(gap=0.3, bend_radius=5, wg_width=0.45)
-    cc = add_grating_couplers(c)
+    cc = test_add_grating_couplers(c)
     pp.show(cc)
