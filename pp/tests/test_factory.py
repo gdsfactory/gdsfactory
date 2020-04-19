@@ -2,9 +2,9 @@
 Builds a library and compares the gdshash of the new built GDS with the reference ones
 """
 
-
 import os
 import shutil
+import pytest
 from jsondiff import diff
 import git
 
@@ -44,6 +44,7 @@ def lock_component(
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
         pp.write_component(c, gdspath=gdspath, add_port_pins=add_port_pins)
+        assert gdspath.exists()
         return c
     except Exception as e:
         error = f"error building {component_type}"
@@ -88,6 +89,7 @@ def print_components_with_changes(
             print(f"[X] {component_type} changed hash")
 
 
+@pytest.mark.noautofixt
 def test_all_components(
     component_type2factory=component_type2factory, path_library=CONFIG["gdslib"]
 ):
@@ -172,7 +174,7 @@ def compare_component_hash(
 
     same_hash = gdshash_new == gdshash_library
     if not same_hash:
-        error_hash = f"`{component_library}` hash(GDS) {gdspath_new} differs from the library {gdspath_library}, showing both cells in Klayout \n"
+        error_hash = f"`{component_library}` hash(GDS) {gdspath_new} differs from the library {gdspath_library}, showing both cells in Klayout \n library = {component_type2factory.keys()}"
         error_settings = f"different settings: {diff(component_library.get_settings(), component_new.get_settings())}"
         c = pp.Component(name=component_type)
         c << component_new
@@ -184,10 +186,10 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    lock_components_with_changes()
+    # lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
-    # test_all_components()
+    test_all_components()
     # rebuild_library()
     # lock_component("waveguide")
     # compare_component_hash("waveguide")

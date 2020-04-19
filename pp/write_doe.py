@@ -13,7 +13,7 @@ def write_doe_metadata(
     cell_names,
     list_settings,
     doe_settings=None,
-    doe_metadata_path=None,
+    doe_metadata_path=CONFIG["doe_directory"],
     **kwargs,
 ):
     """ writes DOE metadata (markdown report, JSON dict)
@@ -27,7 +27,7 @@ def write_doe_metadata(
 
     """
 
-    doe_metadata_path = doe_metadata_path or CONFIG["doe_directory"]
+    doe_metadata_path.mkdir(parents=True, exist_ok=True)
     report_path = doe_metadata_path / (doe_name + ".md")
     doe_settings = doe_settings or {}
     json_path = report_path.with_suffix(".json")
@@ -112,8 +112,8 @@ def write_doe(
     functions=None,
     list_settings=None,
     doe_settings=None,
-    path=None,
-    doe_metadata_path=None,
+    path=CONFIG["build_directory"],
+    doe_metadata_path=CONFIG["doe_directory"],
     **kwargs,
 ):
     """ writes each device GDS, together with metadata for each device:
@@ -147,8 +147,7 @@ def write_doe(
 
     assert isinstance(component_type, str), "{} not recognized".format(component_type)
 
-    path = path or CONFIG["build_directory"] / "devices"
-    doe_metadata_path = doe_metadata_path or CONFIG["doe_directory"]
+    path.mkdir(parents=True, exist_ok=True)
 
     doe_gds_paths = []
     cell_names = []
