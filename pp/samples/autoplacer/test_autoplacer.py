@@ -4,7 +4,7 @@ import shutil
 import pytest
 import pp
 
-from pp.autoplacer.samples.spiral import SPIRAL
+from pp.samples.autoplacer.spiral import SPIRAL
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 
@@ -40,13 +40,14 @@ def test_autoplacer():
     # Map the component factory names in the YAML file to the component factory
     name2factory = {"SPIRAL": SPIRAL}
 
+    print(doe_root_path)
     generate_does(
         str(config_yml),
         component_type2factory=name2factory,
         doe_root_path=doe_root_path,
         doe_metadata_path=doe_metadata_path,
     )
-    top_level = place_from_yaml(config_yml)
+    top_level = place_from_yaml(config_yml, doe_root_path)
     top_level.write(str(gdspath))
     write_labels(gdspath=gdspath)
 

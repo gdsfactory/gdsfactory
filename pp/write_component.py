@@ -3,7 +3,6 @@ write_component_type: try to load a component from library or creates if it does
 write_component: write component and metadata
 """
 
-import os
 import pathlib
 import json
 from phidl import device_layout as pd
@@ -49,13 +48,11 @@ def write_component_type(
 
     assert type(component_type) == str
 
-    if not os.path.isdir(path_directory):
-        os.makedirs(path_directory)
-
     component_name = get_component_name(component_type, **kwargs)
     gdspath = path_directory / (component_name + ".gds")
+    path_directory.mkdir(exist_ok=True)
 
-    if not os.path.isfile(gdspath) or overwrite:
+    if not gdspath.exists() or overwrite:
         component = component_type2factory[component_type](
             name=component_name, **kwargs
         )
@@ -75,11 +72,7 @@ def write_component_report(component, json_path=None):
         json_path
     """
 
-    if json_path is None:
-        json_path = CONFIG["gds_directory"] / component.name + ".json"
-
-    if not os.path.exists(os.path.dirname(json_path)):
-        os.makedirs(os.path.dirname(json_path))
+    json_path = json_path or CONFIG["gds_directory"] / component.name + ".json"
 
     ports_path = json_path[:-5] + ".ports"
 
@@ -135,7 +128,6 @@ def write_component(
 
     gdspath = gdspath or path_library / (component.name + ".gds")
     gdspath = pathlib.Path(gdspath)
-    path_library.mkdir(exist_ok=True)
     ports_path = gdspath.with_suffix(".ports")
     json_path = gdspath.with_suffix(".json")
 
@@ -210,7 +202,10 @@ def write_gds(
     """
 
     gdspath = gdspath or CONFIG["gds_directory"] / (component.name + ".gds")
+    gdspath = pathlib.Path(gdspath)
+    gdsdir = gdspath.parent
     gdspath = str(gdspath)
+    gdsdir.mkdir(exist_ok=True)
 
     if remove_previous_markers:
         # If the component HAS ports AND markers and we want to
@@ -228,10 +223,6 @@ def write_gds(
             add_port_markers(c)
     elif add_port_pins:
         add_port_markers(component)
-
-    folder = os.path.split(gdspath)[0]
-    if folder and not os.path.isdir(folder):
-        os.makedirs(folder)
 
     if store_hash_geometry:
         # Remove any label on hash layer

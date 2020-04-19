@@ -135,7 +135,7 @@ def test_mask(precision=2e-9):
         doe_metadata_path=doe_metadata_path,
     )
 
-    top_level = place_from_yaml(does_yml, precision=precision)
+    top_level = place_from_yaml(does_yml, precision=precision, root_does=doe_root_path)
     top_level.write(str(gdspath))
 
     write_labels(gdspath=gdspath, label_layer=CONFIG["layers"]["LABEL"])

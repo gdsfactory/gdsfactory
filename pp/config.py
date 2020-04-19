@@ -103,7 +103,7 @@ def load_config(cwd_config=cwd_config):
     CONFIG["mask_directory"] = build_directory / "mask"
     CONFIG["mask_config_directory"] = mask_config_directory
     CONFIG["gdspath"] = build_directory / "gds.gds"
-    CONFIG["samples_path"] = repo_path / "samples"
+    CONFIG["samples_path"] = module_path / "samples"
     CONFIG["components_path"] = module_path / "components"
 
     if "gds_resources" in CONFIG:
