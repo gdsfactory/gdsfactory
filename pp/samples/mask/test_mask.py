@@ -1,4 +1,5 @@
 import pathlib
+import pytest
 import pp
 from pp.config import load_config
 
@@ -6,6 +7,7 @@ from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 
 
+@pytest.mark.usefixtures("cleandir")
 def test_mask():
     """
 

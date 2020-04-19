@@ -50,7 +50,7 @@ def write_component_type(
 
     component_name = get_component_name(component_type, **kwargs)
     gdspath = path_directory / (component_name + ".gds")
-    path_directory.mkdir(exist_ok=True)
+    path_directory.mkdir(parents=True, exist_ok=True)
 
     if not gdspath.exists() or overwrite:
         component = component_type2factory[component_type](
@@ -205,7 +205,7 @@ def write_gds(
     gdspath = pathlib.Path(gdspath)
     gdsdir = gdspath.parent
     gdspath = str(gdspath)
-    gdsdir.mkdir(exist_ok=True)
+    gdsdir.mkdir(parents=True, exist_ok=True)
 
     if remove_previous_markers:
         # If the component HAS ports AND markers and we want to
