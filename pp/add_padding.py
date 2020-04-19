@@ -1,11 +1,16 @@
 import numpy as np
 
 import pp
+from pp.container import container
 
 
-def add_padding(component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING]):
+@container
+def add_padding(
+    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING], suffix="p"
+):
     """ adds padding layers to component"""
-    c = component
+    c = pp.Component(name=f"{component.name}_{suffix}")
+    c << component
     x = x or padding
     y = y or padding
     points = [
@@ -24,7 +29,6 @@ def add_padding_to_grid(
 ):
     """ returns component width a padding layer on each side
     matches a minimum size
-    grating couplers are at ymin
     """
     c = component
 
@@ -56,8 +60,8 @@ def add_padding_to_grid(
 
 if __name__ == "__main__":
     c = pp.c.waveguide(length=128)
-    # cc = add_padding(c, layers=[(2, 0)])
-    cc = add_padding_to_grid(c, layers=[(2, 0)])
+    cc = add_padding(component=c, layers=[(2, 0)], suffix="p")
+    # cc = add_padding_to_grid(c, layers=[(2, 0)])
     # cc = add_padding_to_grid(c)
     print(cc.settings)
     print(cc.ports)
