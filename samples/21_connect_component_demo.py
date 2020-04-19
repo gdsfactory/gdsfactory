@@ -58,24 +58,15 @@ def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width
     return component
 
 
-if __name__ == "__main__":
+def test_big_device():
     component = big_device(N=10)
     bend_radius = 5.0
-
-    # import cProfile, pstats, io
-
-    # pr = cProfile.Profile()
-
-    # pr.enable()
-    # Had to fix the fanout length by hand here to give enough space.
-
     c = add_io_optical(component, bend_radius=bend_radius, fanout_length=50.0)
-    # pr.disable()
+    assert c
+    return c
 
-    # s = io.StringIO()
-    # sortby = "cumtime"
-    # ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-    # ps.print_stats()
-    # print(s.getvalue())
+
+if __name__ == "__main__":
+    c = test_big_device()
 
     pp.show(c)

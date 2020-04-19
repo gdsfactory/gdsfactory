@@ -7,7 +7,7 @@ import pp
 
 
 @pp.autoname
-def ring_single_bus(
+def test_ring_single_bus(
     coupler90_factory=pp.c.coupler90,
     cpl_straight_factory=pp.c.coupler_straight,
     straight_factory=pp.c.waveguide,
@@ -57,19 +57,11 @@ def ring_single_bus(
 
     c.add_port("W0", port=cbl.ports["E0"])
     c.add_port("E0", port=cbr.ports["E0"])
+    assert c
     return c
 
 
 if __name__ == "__main__":
-    c = pp.Component()
-    c1 = ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
-    c2 = pp.c.ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
-
-    r1 = c << c1
-    r2 = c << c2
-    r1.ymin = 0
-    r2.ymin = 0
-    r1.xmin = 0
-    r2.xmin = 0
+    c = test_ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
     pp.show(c)
     # pp.write_gds(c, "ring.gds")

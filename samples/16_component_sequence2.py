@@ -32,7 +32,7 @@ def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=
 
 
 @pp.autoname
-def cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
+def test_cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
     # Define sub components
     bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
     pm_wg = phase_modulator_waveguide(length=straight_length)
@@ -49,7 +49,7 @@ def cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
         "P": (pm_wg, "W0", "E0"),
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W0", "E0"),
+        "H": (wg_heater, "W1", "E1"),
         "-": (wg_short2, "W0", "E0"),
     }
 
@@ -62,9 +62,10 @@ def cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
     sequence = repeated_sequence * n + "SIPO" + heater_seq
     component = component_sequence(sequence, string_to_device_in_out_ports)
 
+    assert component
     return component
 
 
 if __name__ == "__main__":
-    c = cutback_phase()
+    c = test_cutback_phase()
     pp.show(c)

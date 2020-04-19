@@ -21,7 +21,7 @@ from pp.netlist_to_gds import netlist_to_component
 
 
 @pp.autoname
-def simple_mzi2x2(
+def test_simple_mzi2x2(
     coupler_length=20.147, arm_length=40, gap=0.234, waveguide_factory=pp.c.waveguide
 ):
     """
@@ -74,15 +74,17 @@ def simple_mzi2x2(
     return component
 
 
-def demo1():
-    c = simple_mzi2x2()
+def test_mzi():
+    c = test_simple_mzi2x2()
+    assert c
     pp.show(c)
 
 
-def demo2():
-    c = simple_mzi2x2(waveguide_factory=pp.c.waveguide_heater)
+def test_mzi_heated():
+    c = test_simple_mzi2x2(waveguide_factory=pp.c.waveguide_heater)
+    assert c
     pp.show(c)
 
 
 if __name__ == "__main__":
-    demo1()
+    test_mzi_heated()
