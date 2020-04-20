@@ -107,9 +107,11 @@ def dict2name(prefix=None, **kwargs):
         label = [prefix]
     else:
         label = []
-    for key, value in kwargs.items():
+    for key in sorted(kwargs):
+        value = kwargs[key]
         key = join_first_letters(key)
-        label += ["{}{}".format(key.upper(), clean_value(value))]
+        value = clean_value(value)
+        label += [f"{key.upper()}{value}"]
     label = "_".join(label)
     return clean_name(label)
 
