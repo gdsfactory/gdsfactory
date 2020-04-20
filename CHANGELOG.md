@@ -2,21 +2,24 @@
 
 - flake8 is passing now
 - added flake8 to pre-commit hook
-- simpler JSON file for mask metadata
+- simpler JSON file for mask metadata mask.tp.json
+- added container decorator, can inherit ports, settings, test and data analysis protocols and still have a different name to avoid name collisions
+- samples run as part of the test suite, moved samples into pp
+- autoname sorts kwarg keys by alphabetical order and has tests
 
 
 # 1.1.6 2020-04-11
 
 - mask JSON works with cached GDS files for the klayout placer
-- added layers in the config
+- added layers to CONFIG['layers']
 - write_labels gets layer from `CONFIG['layers']['LABEL']`
-- add_padding works over the same component
+- add_padding works over the same component --> this was not a good idea, reverted in 1.1.7 to avoid name collisions
 - import_gds can snap points to a design grid
 
 
 # 1.1.5 2020-03-17
 
-- added pre-commit hook for code consitency
+- added pre-commit hook for code consistency
 - allows a list of cladding layers
 - all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
@@ -47,4 +50,4 @@
 
 # 1.0.0 2019-11-24
 
-- first relase
+- first release
