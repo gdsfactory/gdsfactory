@@ -30,35 +30,20 @@ def add_padding(
     return c
 
 
-def add_padding_to_component(
-    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING]
-):
-    """ adds padding layers to the SAME component
-    this function is dangerous as it returns the same component with the same name
-    because the component will have the same component as the unpadded component
-    one of them will overwrite the other one
-    """
-    c = component
-    x = x or padding
-    y = y or padding
-    points = [
-        [c.xmin - x, c.ymin - y],
-        [c.xmax + x, c.ymin - y],
-        [c.xmax + x, c.ymax + y],
-        [c.xmin - x, c.ymax + y],
-    ]
-    for layer in layers:
-        c.add_polygon(points, layer=layer)
-    return c
-
-
+@container
 def add_padding_to_grid(
-    component, grid_size=127, padding=10, bottom_padding=5, layers=[pp.LAYER.PADDING]
+    component,
+    grid_size=127,
+    padding=10,
+    bottom_padding=5,
+    layers=[pp.LAYER.PADDING],
+    suffix="p",
 ):
     """ returns component width a padding layer on each side
     matches a minimum size
     """
-    c = component
+    c = pp.Component(name=f"{component.name}_{suffix}")
+    c << component
 
     if c.size_info.height < grid_size:
         y_padding = grid_size - c.size_info.height
