@@ -37,6 +37,7 @@ def spiral_external_io(
     """
 
     Args:
+        cutback_length: length in um, it is the approximates total length
         N: number of loops
         x_straight_inner_right:
         x_straight_inner_left:
@@ -56,7 +57,7 @@ def spiral_external_io(
 
       import pp
 
-      c = pp.c.spiral_inner_io()
+      c = pp.c.spiral_external_io()
       pp.plotgds(c)
     """
     if straight_factory_fall_back_no_taper is None:
@@ -149,4 +150,5 @@ def spiral_external_io(
 
 if __name__ == "__main__":
     c = spiral_external_io(bend_radius=10, cutback_length=10000)
+    print(c.settings["total_length"] / 1e4)
     pp.show(c)

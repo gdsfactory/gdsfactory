@@ -53,9 +53,11 @@ from pp.components.grating_coupler.uniform import grating_coupler_uniform
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
-from pp.components.spiral_circular import spiral_circular
 from pp.components.delay_snake import delay_snake
 from pp.components.spiral_inner_io import spiral_inner_io_euler
+from pp.components.spiral_inner_io import spiral_inner_io
+from pp.components.spiral_external_io import spiral_external_io
+from pp.components.spiral_circular import spiral_circular
 
 # electrical
 from pp.components.electrical.pad import pad
@@ -113,6 +115,8 @@ component_type2factory = {
     "ring_single_bus": ring_single_bus,
     "ring_double_bus": ring_double_bus,
     "spiral_inner_io_euler": spiral_inner_io_euler,
+    "spiral_inner_io": spiral_inner_io,
+    "spiral_external_io": spiral_external_io,
     "taper": taper,
     "waveguide": waveguide,
     "waveguide_heater": waveguide_heater,
@@ -180,6 +184,9 @@ __all__ = [
     "ring_single_bus",
     "ring_double_bus",
     "spiral_circular",
+    "spiral_inner_io",
+    "spiral_inner_io_euler",
+    "spiral_external_io",
     "taper",
     "taper_strip_to_ridge",
     "text",
