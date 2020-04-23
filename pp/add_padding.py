@@ -8,9 +8,37 @@ from pp.container import container
 def add_padding(
     component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING], suffix="p"
 ):
-    """ adds padding layers to component"""
+    """ adds padding layers to a NEW component that has the same:
+    - ports
+    - settings
+    - test_protocols and data_analysis_protocols
+
+    as the old component
+    """
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
+    x = x or padding
+    y = y or padding
+    points = [
+        [c.xmin - x, c.ymin - y],
+        [c.xmax + x, c.ymin - y],
+        [c.xmax + x, c.ymax + y],
+        [c.xmin - x, c.ymax + y],
+    ]
+    for layer in layers:
+        c.add_polygon(points, layer=layer)
+    return c
+
+
+def add_padding_to_component(
+    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING]
+):
+    """ adds padding layers to the SAME component
+    this function is dangerous as it returns the same component with the same name
+    because the component will have the same component as the unpadded component
+    one of them will overwrite the other one
+    """
+    c = component
     x = x or padding
     y = y or padding
     points = [

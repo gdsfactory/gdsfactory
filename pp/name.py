@@ -22,7 +22,7 @@ def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs
     # If the name is too long, fall back on hashing the longuest arguments
     if len(name) > max_name_length:
         shorter_name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
-        print(f"{name} {len(name)} > {max_name_length} shorened to {shorter_name}")
+        # print(f"{name} -> {shorter_name} ({len(name)} -> {max_name_length})")
         name = shorter_name
 
     return name
