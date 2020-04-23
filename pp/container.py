@@ -14,7 +14,7 @@ import pp
 def container(component_function):
     """ decorator for creating a new component that copies some properties from the original component
 
-    Functions decorated with container will return a new component if you pass suffix kwarg
+    Functions decorated with container will return a new component
 
     .. plot::
       :include-source:
@@ -22,9 +22,10 @@ def container(component_function):
       import pp
 
       @pp.container
-      def add_padding(component):
+      def add_padding(component, suffix='p', layer=pp.LAYER.M1):
+          c = pp.Component(name=f"{component.name}_{suffix}")
+          c << component
           w, h = component.xsize, component.ysize
-          c = pp.Component()
           points = [[w, h], [w, 0], [0, 0], [0, h]]
           c.add_polygon(points, layer=layer)
           return c
@@ -113,7 +114,7 @@ def test_container2():
 def test_container_error():
     old = pp.c.waveguide()
     with pytest.raises(ValueError):
-        add_padding(component2=old)
+        add_padding(component2=old)  # will raise an error
     return old
 
 
