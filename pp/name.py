@@ -5,7 +5,7 @@ import hashlib
 import numpy as np
 from phidl import Device
 
-MAX_NAME_LENGTH = 127
+MAX_NAME_LENGTH = 32
 
 
 def join_first_letters(name):
@@ -21,7 +21,11 @@ def get_component_name(component_type, **kwargs):
 
     # If the name is too long, fall back on hashing the longuest arguments
     if len(name) > MAX_NAME_LENGTH:
-        name = "{}_{}".format(component_type, hashlib.md5(name.encode()).hexdigest())
+        shorter_name = "{}_{}".format(
+            component_type, hashlib.md5(name.encode()).hexdigest()
+        )
+        print(f"{name} is larger than {MAX_NAME_LENGTH} and changed to {shorter_name}")
+        name = shorter_name
 
     return name
 
@@ -53,10 +57,9 @@ def autoname(component_function):
     def wrapper(*args, **kwargs):
         if args:
             raise ValueError("autoname supports only Keyword args")
-        if "name" in kwargs:
-            name = kwargs.pop("name")
-        else:
-            name = get_component_name(component_function.__name__, **kwargs)
+        name = kwargs.pop(
+            "name", get_component_name(component_function.__name__, **kwargs)
+        )
 
         component = component_function(**kwargs)
         component.name = name
@@ -123,16 +126,22 @@ def clean_name(name):
         This function has been updated only on case-by-case basis
     """
     replace_map = {
-        "=": "",
-        ",": "_",
-        ")": "",
+        " ": "_",
+        "!": "_",
+        "#": "_",
+        "%": "_",
         "(": "",
+        ")": "",
+        "*": "_",
+        ",": "_",
         "-": "m",
         ".": "p",
+        "/": "_",
         ":": "_",
+        "=": "",
+        "@": "_",
         "[": "",
         "]": "",
-        " ": "_",
     }
     for k, v in list(replace_map.items()):
         name = name.replace(k, v)
@@ -144,9 +153,6 @@ def clean_value(value):
     if number is < 1:
         returns number units in nm (integer)
     """
-
-    def f():
-        return
 
     try:
         if isinstance(value, int):  # integer
@@ -169,17 +175,48 @@ def clean_value(value):
         return clean_name(str(value))
 
 
+class _Dummy:
+    pass
+
+
+@autoname
+def _dummy(length=3, wg_width=0.5):
+    c = _Dummy()
+    c.name = ""
+    c.settings = {}
+    return c
+
+
+def test_autoname():
+    name_base = _dummy().name
+    assert name_base == "_dummy"
+    name_int = _dummy(length=3).name
+    assert name_int == "_dummy_L3"
+    name_float = _dummy(wg_width=0.5).name
+    assert name_float == "_dummy_WW0p5"
+
+
+def test_clean_value():
+    assert clean_value(0.5) == "0p5"
+    assert clean_value(5) == "5"
+
+
+def test_clean_name():
+    assert clean_name("wg(:_=_2852") == "wg___2852"
+
+
 if __name__ == "__main__":
-    import pp
+    test_autoname()
+    # import pp
 
     # print(clean_value(pp.c.waveguide))
 
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
 
-    c = pp.c.waveguide(length=11)
-    print(c)
-    pp.show(c)
+    # c = pp.c.waveguide(length=11)
+    # print(c)
+    # pp.show(c)
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))
