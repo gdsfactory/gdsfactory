@@ -1,4 +1,4 @@
-""" You can import many components ::
+""" You can import many components from the components `c` module ::
 
     import pp
 

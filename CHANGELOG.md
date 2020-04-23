@@ -12,6 +12,8 @@
 - samples run as part of the test suite, moved samples into pp
 - autoname sorts kwarg keys by alphabetical order and has tests
 - autoname accepts max_name_length and ignore_from_name kwargs
+- pp.generate_does raises error if compnent does not exist in factory
+- zz_conn cleaner name using `from pp.name import clean_name`
 
 
 # 1.1.6 2020-04-11
