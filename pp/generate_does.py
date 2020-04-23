@@ -89,7 +89,7 @@ def _generate_doe(
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
     logger=LOGGER,
-    **kwargs
+    **kwargs,
 ):
     doe_name = doe["name"]
     list_settings = doe["list_settings"]
@@ -171,6 +171,10 @@ def generate_does(
     list_args = []
     for doe_name, doe in does.items():
         doe["name"] = doe_name
+        component = doe["component"]
+
+        if component not in component_type2factory:
+            raise ValueError(f"{component} not in {component_type2factory.keys()}")
 
         if "template" in doe:
             """
