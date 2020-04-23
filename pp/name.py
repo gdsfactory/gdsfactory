@@ -13,18 +13,16 @@ def join_first_letters(name):
     return "".join([x[0] for x in name.split("_") if x])
 
 
-def get_component_name(component_type, **kwargs):
+def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs):
     name = component_type
 
     if kwargs:
         name += "_" + dict2name(**kwargs)
 
     # If the name is too long, fall back on hashing the longuest arguments
-    if len(name) > MAX_NAME_LENGTH:
-        shorter_name = "{}_{}".format(
-            component_type, hashlib.md5(name.encode()).hexdigest()
-        )
-        print(f"{name} is larger than {MAX_NAME_LENGTH} and changed to {shorter_name}")
+    if len(name) > max_name_length:
+        shorter_name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+        print(f"{name} {len(name)} > {max_name_length} shorened to {shorter_name}")
         name = shorter_name
 
     return name
@@ -57,9 +55,14 @@ def autoname(component_function):
     def wrapper(*args, **kwargs):
         if args:
             raise ValueError("autoname supports only Keyword args")
+        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
         name = kwargs.pop(
-            "name", get_component_name(component_function.__name__, **kwargs)
+            "name",
+            get_component_name(
+                component_function.__name__, max_name_length=max_name_length, **kwargs
+            ),
         )
+        kwargs.pop("ignore_from_name", [])
 
         component = component_function(**kwargs)
         component.name = name
@@ -106,15 +109,18 @@ def autoname2(component_function):
 
 def dict2name(prefix=None, **kwargs):
     """ returns name from a dict """
+    ignore_from_name = kwargs.pop("ignore_from_name", [])
+
     if prefix:
         label = [prefix]
     else:
         label = []
     for key in sorted(kwargs):
-        value = kwargs[key]
-        key = join_first_letters(key)
-        value = clean_value(value)
-        label += [f"{key.upper()}{value}"]
+        if key not in ignore_from_name:
+            value = kwargs[key]
+            key = join_first_letters(key)
+            value = clean_value(value)
+            label += [f"{key.upper()}{value}"]
     label = "_".join(label)
     return clean_name(label)
 

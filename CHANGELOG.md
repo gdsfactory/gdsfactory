@@ -1,3 +1,8 @@
+# TODO
+
+- mzi2x2 with heaters have some issue, where waveguide connects to the heater
+
+
 # dev
 
 - flake8 is passing now
@@ -6,6 +11,7 @@
 - added container decorator, can inherit ports, settings, test and data analysis protocols and still have a different name to avoid name collisions
 - samples run as part of the test suite, moved samples into pp
 - autoname sorts kwarg keys by alphabetical order and has tests
+- autoname accepts max_name_length and ignore_from_name kwargs
 
 
 # 1.1.6 2020-04-11
