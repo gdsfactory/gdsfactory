@@ -166,4 +166,4 @@ generate the array of optical I/O and connect them to the component. The default
 
 You can also use individual fibers
 
-.. autofunction:: pp.routing.connect_component.route_fiber_single
+.. autofunction:: pp.routing.route_fiber_single

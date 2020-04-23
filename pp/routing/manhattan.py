@@ -1,6 +1,7 @@
 import uuid
 import numpy as np
 from pp.components import waveguide
+from pp.name import clean_name
 
 import pp
 from pp.geo_utils import angles_deg
@@ -570,8 +571,7 @@ def round_corners(
     # lot of time to compute on every single connector
     """
 
-    cell_name = "zz_conn_{}".format(uuid.uuid4())
-    cell.name = cell_name
+    cell.name = f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}"
     cell.info["length"] = total_length
     return cell
 
@@ -584,7 +584,7 @@ def generate_manhattan_waypoints(
     start_straight=0.01,
     end_straight=0.01,
     min_straight=0.01,
-    **kwargs
+    **kwargs,
 ):
     """
 
