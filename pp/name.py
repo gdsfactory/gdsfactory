@@ -78,35 +78,6 @@ def autoname(component_function):
     return wrapper
 
 
-def autoname2(component_function):
-    """ pass name to component
-
-    """
-
-    @functools.wraps(component_function)
-    def wrapper(*args, **kwargs):
-        if args:
-            raise ValueError("autoname supports only Keyword args")
-        if "name" in kwargs:
-            name = kwargs.pop("name")
-        else:
-            name = get_component_name(component_function.__name__, **kwargs)
-
-        component = component_function(name=name, **kwargs)
-        sig = signature(component_function)
-        component.settings.update(
-            **{p.name: p.default for p in sig.parameters.values()}
-        )
-
-        component.name = name
-        component.settings.pop("name")
-        component.settings.update(**kwargs)
-        component.function_name = component_function.__name__
-        return component
-
-    return wrapper
-
-
 def dict2name(prefix=None, **kwargs):
     """ returns name from a dict """
     ignore_from_name = kwargs.pop("ignore_from_name", [])

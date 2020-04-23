@@ -28,7 +28,6 @@ from pp.component import Component
 from pp.component import ComponentReference
 from pp.component import Port
 from pp.name import autoname
-from pp.name import autoname2
 from pp.layers import LAYER
 from pp.layers import layer
 from pp.layers import preview_layerset
@@ -61,7 +60,6 @@ __all__ = [
     "ComponentReference",
     "bias",
     "autoname",
-    "autoname2",
     "add_padding",
     "import_gds",
     "c",

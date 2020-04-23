@@ -33,7 +33,7 @@ def add_te(component, **kwargs):
         route_filter=_route_filter,
         **kwargs,
     )
-    # c.test = 'passive_optical_te'
+    c.test = "passive_optical_te"
     c = add_padding_to_grid(c)
     return c
 
@@ -50,16 +50,16 @@ def add_tm(component, **kwargs):
     return c
 
 
-@pp.autoname2
-def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5, name=None):
+@pp.autoname
+def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
     """ sample of component cutback """
     c = pp.c.coupler(wg_width=wg_width, gap=gap, length=length)
-    cc = add_te(c, component_name=name)
+    cc = add_te(c)
     return cc
 
 
-@pp.autoname2
-def spiral_te(wg_width=0.5, length=2, name=None):
+@pp.autoname
+def spiral_te(wg_width=0.5, length=2):
     """ sample of component cutback
 
     Args:
@@ -71,20 +71,18 @@ def spiral_te(wg_width=0.5, length=2, name=None):
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
         bend_factory=pp.c.bend_circular,
-        component_name=name,
     )
     return cc
 
 
-@pp.autoname2
-def spiral_tm(wg_width=0.5, length=2, name=None):
+@pp.autoname
+def spiral_tm(wg_width=0.5, length=2):
     """ sample of component cutback """
     c = spiral_inner_io_euler(wg_width=wg_width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         bend_factory=pp.c.bend_circular,
-        component_name=name,
     )
     return cc
 
@@ -158,3 +156,5 @@ if __name__ == "__main__":
     # pprint(component_type2factory)
     c = test_mask()
     pp.klive.show(c)
+    # c = coupler_te(gap=0.3, length=20)
+    # pp.show(c)
