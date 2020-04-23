@@ -89,10 +89,9 @@ def spiral_tm(wg_width=0.5, length=2, name=None):
     return cc
 
 
-component_type2factory = {}
-component_type2factory["spiral_te"] = spiral_te
-component_type2factory["spiral_tm"] = spiral_tm
-component_type2factory["coupler_te"] = coupler_te
+component_type2factory = dict(
+    spiral_te=spiral_te, spiral_tm=spiral_tm, coupler_te=coupler_te
+)
 
 
 @pytest.fixture
