@@ -42,7 +42,7 @@ doe02:
 
 import json
 import yaml
-from pp.config import CONFIG, load_config
+from pp.config import CONFIG
 
 
 def parse_csv_data(csv_labels_path):
@@ -85,9 +85,7 @@ def load_yaml(filepath):
     return data
 
 
-def merge_test_metadata(
-    config_path=CONFIG["cwd"] / "config.yml", does_path=None, labels_prefix="opt"
-):
+def merge_test_metadata(gdspath=CONFIG["mask_gds"], labels_prefix="opt"):
     """ from a gds mask combines test_protocols and labels positions for each DOE
     Do a map cell: does
     Usually each cell will have only one DOE. But in general it should be allowed for a cell to belong to multiple DOEs
@@ -99,23 +97,15 @@ def merge_test_metadata(
         saves json file with merged metadata
 
     """
-    config = load_config(config_path)
-    gdspath = config["mask"]["gds"]
     mask_json_path = gdspath.with_suffix(".json")
     csv_labels_path = gdspath.with_suffix(".csv")
     output_tm_path = gdspath.with_suffix(".tp.json")
-
-    mask_config_directory = config_path.parent
-    does_path = does_path or mask_config_directory / "does.yml"
 
     assert mask_json_path.exists(), f"missing mask JSON metadata {mask_json_path}"
     assert csv_labels_path.exists(), f"missing CSV labels {csv_labels_path}"
 
     metadata = load_json(mask_json_path)
     labels_list = parse_csv_data(csv_labels_path)
-
-    if config.get("mask") is None:
-        raise ValueError(f"mask config missing from {config_path}")
 
     does = metadata.pop("does")
     cells = metadata.pop("cells")
