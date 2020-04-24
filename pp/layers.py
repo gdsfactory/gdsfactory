@@ -28,8 +28,6 @@ layermap = dict(
     VIA2=(44, 0),
     VIA3=(43, 0),
     NBN=(31, 0),
-    TEXT=(66, 0),
-    PORT=(60, 0),
     NO_TILE_SI=(63, 0),
     PADDING=(68, 0),
     FLOORPLAN=(600, 0),
@@ -40,6 +38,8 @@ layermap = dict(
     FLOORPLAN_E_DIE=(610, 0),
     FLOORPLAN_E_DIE_COMPONENTS=(611, 0),
     FLOORPLAN_CU_HEAT_SINK=(620, 0),
+    TEXT=(66, 0),
+    PORT=(60, 0),
     LABEL=(201, 0),
     INFO_GEO_HASH=(202, 0),
     polarization_te=(203, 0),
@@ -49,6 +49,7 @@ layermap = dict(
 LAYER = namedtuple("layer", layermap.keys())(*layermap.values())
 
 
+# This is only for plotgds to look good
 ls = LayerSet()  # Create a blank LayerSet
 ls.add_layer("wgcore", 1, 0, "wgcore", "gray")
 ls.add_layer("wgclad", 111, 0, "wgclad", "gray", alpha=0)
