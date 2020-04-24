@@ -10,7 +10,6 @@ __version__ = "1.1.6"
 __all__ = ["CONFIG", "write_config", "load_config"]
 
 import os
-from collections import namedtuple
 import json
 import subprocess
 import pathlib
@@ -18,12 +17,28 @@ import ast
 import logging
 from pprint import pprint
 
+from dotmap import DotMap
 import hiyapyco
 import numpy as np
 from git import Repo
 
 
+class ConfigMap(DotMap):
+    def __getitem__(self, k):
+        if (
+            k not in self._map
+            and self._dynamic
+            and k != "_ipython_canary_method_should_not_exist_"
+        ):
+            # automatically extend to new DotMap
+            self[k] = self.__class__()
+            # print(f"{k} not in {sorted(list(self.keys()))}")
+            # raise KeyError(f"{k} not in {sorted(list(self.keys()))}")
+        return self._map[k]
+
+
 default_config = """
+tech: generic
 BBOX_LAYER_EXCLUDE: "[]"
 with_settings_label: True
 layers:
@@ -47,6 +62,7 @@ layers:
     PADDING: [68, 0]
     TEXT: [66, 0]
     PORT: [60, 0]
+    label: [60, 0]
     LABEL: [201, 0]
     INFO_GEO_HASH: [202, 0]
     polarization_te: [203, 0]
@@ -205,8 +221,9 @@ WG_EXPANDED_WIDTH = 2.5
 TAPER_LENGTH = 35.0
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
-layer = CONFIG["layers"]
-LAYER = namedtuple("layermap", layer.keys())(*layer.values())
+layermap = CONFIG["layers"]
+# LAYER = namedtuple("layermap", layer.keys())(*layer.values())
+LAYER = ConfigMap(**layermap)
 
 CONFIG.update(dict(cache_url=""))
 
