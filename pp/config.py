@@ -24,6 +24,11 @@ from git import Repo
 
 
 class ConfigMap(DotMap):
+    def __str__(self):
+        return ", ".join(
+            [str(i) for i in sorted(list(self.keys())) if not i.startswith("_")]
+        )
+
     def __getitem__(self, k):
         if (
             k not in self._map
@@ -236,7 +241,8 @@ except Exception:
 TAPER_LENGTH = 35.0
 
 if __name__ == "__main__":
-    print_config("grid_unit")
+    print(LAYER)
+    # print_config("grid_unit")
     # print_config()
     # print(CONFIG["git_hash"])
     # print(CONFIG)
