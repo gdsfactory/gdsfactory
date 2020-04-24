@@ -7,7 +7,7 @@
 """
 
 __version__ = "1.1.6"
-__all__ = ["CONFIG", "write_config", "load_config"]
+__all__ = ["CONFIG", "write_config"]
 
 import os
 import json
@@ -94,86 +94,81 @@ cwd_config = cwd / "config.yml"
 home_config = home_path / "config.yml"
 
 
-def load_config(path_config=cwd_config):
-    config_low_prioriy = hiyapyco.load(
-        default_config,
-        str(home_config),
-        failonmissingfiles=False,
-        loglevelmissingfiles=logging.DEBUG,
-    )
-    CONFIG = ConfigMap(**config_low_prioriy.copy())
-    mask_name = "not_defined"
-
-    # Find other cwd configs going up recursively
-    cwd = path_config.parent
-    while cwd not in roots:
-        cwd_config = cwd / "config.yml"
-        if cwd_config.exists():
-            print(f"Loaded {cwd_config}")
-            config_high_prioriy = hiyapyco.load(
-                str(cwd_config),
-                failonmissingfiles=False,
-                loglevelmissingfiles=logging.DEBUG,
-            )
-            CONFIG.update(**config_high_prioriy.copy())
-            if config_high_prioriy.get("mask"):
-                mask_name = config_high_prioriy["mask"]["name"]
-                CONFIG.build_directory = cwd / "build"
-
-        cwd = cwd.parent
-        if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
-            """
-            Ensure the loop terminates on a windows machine
-            """
-            break
-
-    if "custom_components" not in CONFIG:
-        CONFIG["custom_components"] = None
-
-    if "gdslib" not in CONFIG:
-        CONFIG["gdslib"] = repo_path / "gdslib"
-    CONFIG["gdslib_test"] = home_path / "gdslib_test"
-
-    CONFIG.grid_unit = float(CONFIG.grid_unit)
-    CONFIG.grid_resolution = float(CONFIG.grid_resolution)
-    CONFIG.bend_radius = float(CONFIG.bend_radius)
-
-    build_directory = CONFIG.get("build_directory", home_path / "build")
-    CONFIG["build_directory"] = build_directory
-    CONFIG["log_directory"] = build_directory / "log"
-    CONFIG["gds_directory"] = build_directory / "gds"
-    CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-    CONFIG["doe_directory"] = build_directory / "doe"
-    CONFIG["mask_directory"] = build_directory / "mask"
-    CONFIG["mask_gds"] = CONFIG.mask_directory / (mask_name + ".gds")
-    CONFIG["gdspath"] = build_directory / "gds.gds"
-    CONFIG["samples_path"] = module_path / "samples"
-    CONFIG["components_path"] = module_path / "components"
-
-    if "gds_resources" in CONFIG:
-        CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
-
-    build_directory.mkdir(exist_ok=True)
-    CONFIG["log_directory"].mkdir(exist_ok=True)
-    CONFIG["gds_directory"].mkdir(exist_ok=True)
-    CONFIG["doe_directory"].mkdir(exist_ok=True)
-    CONFIG["mask_directory"].mkdir(exist_ok=True)
-    CONFIG["gdslib_test"].mkdir(exist_ok=True)
-    return CONFIG
-
-
-necessary_config = dict(
-    cwd=cwd,
-    repo_path=repo_path,
-    module_path=module_path,
-    font_path=module_path / "gds" / "alphabet.gds",
-    version=__version__,
-    home=home,
+config_low_prioriy = hiyapyco.load(
+    default_config,
+    str(home_config),
+    failonmissingfiles=False,
+    loglevelmissingfiles=logging.DEBUG,
 )
+CONFIG = ConfigMap(**config_low_prioriy.copy())
+mask_name = "not_defined"
 
+# Find other cwd configs going up recursively
+while cwd not in roots:
+    cwd_config = cwd / "config.yml"
+    if cwd_config.exists():
+        print(f"Loaded {cwd_config}")
+        config_high_prioriy = hiyapyco.load(
+            str(cwd_config),
+            failonmissingfiles=False,
+            loglevelmissingfiles=logging.DEBUG,
+        )
+        CONFIG.update(**config_high_prioriy.copy())
+        if config_high_prioriy.get("mask"):
+            mask_name = config_high_prioriy["mask"]["name"]
+            CONFIG.build_directory = cwd / "build"
 
-CONFIG = load_config(cwd_config)
-CONFIG.update(**necessary_config)
+    cwd = cwd.parent
+    if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
+        """
+        Ensure the loop terminates on a windows machine
+        """
+        break
+
+if "custom_components" not in CONFIG:
+    CONFIG["custom_components"] = None
+
+if "gdslib" not in CONFIG:
+    CONFIG["gdslib"] = repo_path / "gdslib"
+CONFIG["gdslib_test"] = home_path / "gdslib_test"
+
+CONFIG.grid_unit = float(CONFIG.grid_unit)
+CONFIG.grid_resolution = float(CONFIG.grid_resolution)
+CONFIG.bend_radius = float(CONFIG.bend_radius)
+
+CONFIG.cwd = pathlib.Path.cwd()
+build_directory = CONFIG.get("build_directory", home_path / "build")
+CONFIG["build_directory"] = build_directory
+CONFIG["log_directory"] = build_directory / "log"
+CONFIG["gds_directory"] = build_directory / "gds"
+CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
+CONFIG["doe_directory"] = build_directory / "doe"
+CONFIG["mask_directory"] = build_directory / "mask"
+CONFIG["mask_gds"] = CONFIG.mask_directory / (mask_name + ".gds")
+CONFIG["gdspath"] = build_directory / "gds.gds"
+CONFIG["samples_path"] = module_path / "samples"
+CONFIG["components_path"] = module_path / "components"
+
+if "gds_resources" in CONFIG:
+    CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
+
+build_directory.mkdir(exist_ok=True)
+CONFIG["log_directory"].mkdir(exist_ok=True)
+CONFIG["gds_directory"].mkdir(exist_ok=True)
+CONFIG["doe_directory"].mkdir(exist_ok=True)
+CONFIG["mask_directory"].mkdir(exist_ok=True)
+CONFIG["gdslib_test"].mkdir(exist_ok=True)
+
+CONFIG.update(
+    dict(
+        cwd=cwd,
+        repo_path=repo_path,
+        module_path=module_path,
+        font_path=module_path / "gds" / "alphabet.gds",
+        version=__version__,
+        home=home,
+    )
+)
 
 
 def complex_encoder(z):
