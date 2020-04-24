@@ -19,7 +19,7 @@
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
 
 ```
-with_component_label: False
+with_settings_label: False
 
 ```
 

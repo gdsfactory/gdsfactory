@@ -109,6 +109,7 @@ def write_component(
     store_hash_geometry=False,
     precision=1e-9,
     settings=None,
+    with_settings_label=CONFIG["with_settings_label"],
 ):
     """ write component GDS and metadata:
 
@@ -183,6 +184,7 @@ def write_gds(
     precision=1e-9,
     remove_previous_markers=False,
     auto_rename=False,
+    with_settings_label=CONFIG["with_settings_label"],
 ):
     """ write component to GDS and returs gdspath
 
@@ -241,7 +243,7 @@ def write_gds(
         component.settings.update(dict(hash_geometry=component.hash_geometry()))
 
     # write component settings into text layer
-    if CONFIG["with_component_label"]:
+    if with_settings_label:
 
         i = 0
         for k in sorted(list(component.settings.keys())):
@@ -255,7 +257,9 @@ def write_gds(
             )
             i += 1
 
-    component.write_gds(gdspath, precision=precision, auto_rename=auto_rename)
+    component.write_gds(
+        gdspath, precision=precision, auto_rename=auto_rename,
+    )
     component.path = gdspath
     return gdspath
 

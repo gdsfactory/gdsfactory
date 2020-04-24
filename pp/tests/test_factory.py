@@ -33,6 +33,7 @@ def lock_component(
     path_library=path_library,
     add_port_pins=False,
     flatten=True,
+    with_settings_label=False,
 ):
     """ locks a component from the factory into the GDS lib
 
@@ -44,7 +45,10 @@ def lock_component(
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
         pp.write_component(
-            c, gdspath=gdspath, add_port_pins=add_port_pins,
+            c,
+            gdspath=gdspath,
+            add_port_pins=add_port_pins,
+            with_settings_label=with_settings_label,
         )
         assert gdspath.exists()
         return c
@@ -198,4 +202,4 @@ if __name__ == "__main__":
     # lock_component("ring_double_bus")
     # compare_component_hash("ring_double_bus")
     # compare_component_hash("coupler90")
-    # print_components_with_changes()
+    print_components_with_changes()
