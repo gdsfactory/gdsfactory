@@ -5,7 +5,7 @@
 import json
 import importlib
 from git import Repo
-from pp.config import logging, load_config, CONFIG, write_config, get_git_hash
+from pp.config import logging, CONFIG, write_config, get_git_hash
 
 
 def update_config_modules(config):
@@ -26,7 +26,13 @@ def update_config_modules(config):
     return config
 
 
-def merge_json(config_path=CONFIG["cwd"] / "config.yml", json_version=6):
+def merge_json(
+    doe_directory=CONFIG["doe_directory"],
+    extra_directories=[CONFIG["gds_directory"]],
+    jsonpath=CONFIG["mask_directory"] / "metadata.json",
+    json_version=6,
+    config=CONFIG,
+):
     """ Merge several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
 
@@ -36,50 +42,31 @@ def merge_json(config_path=CONFIG["cwd"] / "config.yml", json_version=6):
 
     """
     logging.debug("Merging JSON files:")
-    config = load_config(config_path)
-
-    if config.get("mask") is None:
-        raise ValueError(f"mask config missing from {config_path}")
-
-    config = update_config_modules(config)
-
-    mask_name = config["mask"]["name"]
-    cell_directory = config["gds_directory"]
-    json_out_path = config["mask_directory"] / (mask_name + ".json")
-    doe_directory = config["build_directory"] / "doe"
-    cache_doe_directory = config["cache_doe_directory"]
 
     cells = {}
-    for filename in cache_doe_directory.glob("*/*.json"):
-        logging.debug(filename)
-        with open(filename, "r") as f:
-            data = json.load(f)
-            cells.update(data.get("cells"))
 
-    for filename in cell_directory.glob("*.json"):
-        logging.debug(filename)
-        with open(filename, "r") as f:
-            data = json.load(f)
-            cells.update(data.get("cells"))
+    for directory in extra_directories + [doe_directory]:
+        for filename in directory.glob("*/*.json"):
+            logging.debug(filename)
+            with open(filename, "r") as f:
+                data = json.load(f)
+                cells.update(data.get("cells"))
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("*.json")}
-    config.update(dict(json_version=json_version, cells=cells, does=does))
+    metadata = dict(json_version=json_version, cells=cells, does=does, config=CONFIG)
 
-    write_config(config, json_out_path)
-    print(f"Wrote  metadata in {json_out_path}")
-    logging.info(f"Wrote  metadata in {json_out_path}")
-    return config
+    write_config(metadata, jsonpath)
+    print(f"Wrote  metadata in {jsonpath}")
+    logging.info(f"Wrote  metadata in {jsonpath}")
+    return metadata
 
 
 if __name__ == "__main__":
-    # from pprint import pprint
-
-    config_path = CONFIG["samples_path"] / "mask_custom" / "config.yml"
-    json_path = config_path.parent / "build" / "mask" / "sample_mask.json"
-    d = merge_json(config_path)
+    d = merge_json()
+    print(d)
 
     # print(config["module_versions"])
     # pprint(d['does'])
 
-    # with open(json_path, "w") as f:
+    # with open(jsonpath, "w") as f:
     #     f.write(json.dumps(d, indent=2))

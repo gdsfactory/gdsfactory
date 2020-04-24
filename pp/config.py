@@ -77,6 +77,8 @@ def load_config(cwd_config=cwd_config):
     CONFIG["home"] = home
     CONFIG["cwd"] = cwd
 
+    mask_name = "notDefined"
+
     if CONFIG.get("mask"):
         mask_name = CONFIG["mask"]["name"]
         mask_config_directory = cwd
@@ -102,6 +104,7 @@ def load_config(cwd_config=cwd_config):
     CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
     CONFIG["doe_directory"] = build_directory / "doe"
     CONFIG["mask_directory"] = build_directory / "mask"
+    CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
     CONFIG["mask_config_directory"] = mask_config_directory
     CONFIG["gdspath"] = build_directory / "gds.gds"
     CONFIG["samples_path"] = module_path / "samples"

@@ -4,7 +4,7 @@ Connecting a component with I/O
 
 import numpy as np
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp import Port
 from pp.routing.connect_component import add_io_optical
 
