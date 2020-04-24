@@ -13,8 +13,15 @@
 - autoname sorts kwarg keys by alphabetical order and has tests
 - autoname accepts max_name_length and ignore_from_name kwargs
 - pp.generate_does raises error if compnent does not exist in factory
-- zz_conn cleaner name using `from pp.name import clean_name`
+- replaces name_W20_L30 by name_hash for cell names  > 32
+- zz_conn cleaner name using `from pp.name import clean_name` no slashes
+- add_io is a container
+- write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
 
+```
+with_component_label: False
+
+```
 
 # 1.1.6 2020-04-11
 

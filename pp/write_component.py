@@ -251,7 +251,7 @@ def write_gds(
             component.add_label(
                 text=text,
                 position=component.center - [0, i * 1],
-                layer=CONFIG["layers"]["LABEL"],
+                layer=CONFIG["layers"]["TEXT"],
             )
             i += 1
 
@@ -262,9 +262,11 @@ def write_gds(
 
 def clean_value(value):
     if isinstance(value, Component):
-        return value.name
-    if callable(value):
-        return value.__name__
+        value = value.name
+    elif callable(value):
+        value = value.__name__
+    elif isinstance(value, dict):
+        value = {k: clean_value(v) for k, v in value.items()}
     return value
 
 
