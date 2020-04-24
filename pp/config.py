@@ -39,8 +39,11 @@ class ConfigMap(DotMap):
 
 default_config = """
 tech: generic
-BBOX_LAYER_EXCLUDE: "[]"
 with_settings_label: True
+grid_unit: 1e-6
+grid_resolution: 1e-9
+bend_radius: 10
+BBOX_LAYER_EXCLUDE: "[]"
 layers:
     WG: [1, 0]
     WGCLAD: [1, 9]
@@ -126,6 +129,10 @@ def load_config(path_config=cwd_config):
         CONFIG["gdslib"] = repo_path / "gdslib"
     CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
+    CONFIG.grid_unit = float(CONFIG.grid_unit)
+    CONFIG.grid_resolution = float(CONFIG.grid_resolution)
+    CONFIG.bend_radius = float(CONFIG.bend_radius)
+
     build_directory = CONFIG.get("build_directory", home_path / "build")
     CONFIG["build_directory"] = build_directory
     CONFIG["log_directory"] = build_directory / "log"
@@ -208,10 +215,6 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-CONFIG["grid_unit"] = 1e-6
-CONFIG["grid_resolution"] = 1e-9
-CONFIG["bend_radius"] = 10.0
-
 GRID_UNIT = CONFIG["grid_unit"]
 GRID_RESOLUTION = CONFIG["grid_resolution"]
 GRID_PER_UNIT = GRID_UNIT / GRID_RESOLUTION
@@ -221,7 +224,6 @@ WG_EXPANDED_WIDTH = 2.5
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
 layermap = CONFIG["layers"]
-# LAYER = namedtuple("layermap", layer.keys())(*layer.values())
 LAYER = ConfigMap(**layermap)
 
 CONFIG.update(dict(cache_url=""))
@@ -234,7 +236,7 @@ except Exception:
 TAPER_LENGTH = 35.0
 
 if __name__ == "__main__":
-    # print_config("gdslib")
-    print_config()
+    print_config("grid_unit")
+    # print_config()
     # print(CONFIG["git_hash"])
     # print(CONFIG)
