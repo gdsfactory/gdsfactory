@@ -50,9 +50,7 @@ def write_labels(gdspath, label_layer=LAYER.LABEL, csv_filename=None):
 
 
 if __name__ == "__main__":
-    from pp.config import CONFIG, load_config
+    from pp.config import CONFIG
 
-    config_path = CONFIG["samples_path"] / "mask" / "config.yml"
-    config = load_config(config_path)
-    gdspath = str(config["mask"]["gds"])
+    gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
     write_labels(gdspath)
