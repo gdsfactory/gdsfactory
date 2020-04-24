@@ -1,4 +1,5 @@
 -e .
+dotmap
 click
 gitpython
 gdspy
