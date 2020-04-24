@@ -6,7 +6,7 @@ from pp.components.hline import hline
 __version__ = "0.0.1"
 
 
-@autoname
+@pp.autoname
 def waveguide(
     length=10,
     width=0.5,
@@ -50,7 +50,6 @@ def waveguide(
 
 @autoname
 def wg_shallow_rib(width=0.5, layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
-    width = pp.bias.width(width)
     return waveguide(
         width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
     )
@@ -58,7 +57,6 @@ def wg_shallow_rib(width=0.5, layer=pp.LAYER.SLAB150, layers_cladding=[], **kwar
 
 @autoname
 def wg_deep_rib(width=0.5, layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
-    width = pp.bias.width(width)
     return waveguide(
         width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
     )

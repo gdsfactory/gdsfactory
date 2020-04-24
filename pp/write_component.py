@@ -253,7 +253,7 @@ def write_gds(
             component.add_label(
                 text=text,
                 position=component.center - [0, i * 1],
-                layer=CONFIG["layers"]["TEXT"],
+                layer=CONFIG["layers"]["label"],
             )
             i += 1
 

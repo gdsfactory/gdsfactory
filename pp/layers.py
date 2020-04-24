@@ -6,47 +6,10 @@
 
 """
 
-from collections import namedtuple
 import gdspy as gp
 from phidl import LayerSet
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import Polygon
-
-
-layermap = dict(
-    WG=(1, 0),
-    WGCLAD=(111, 0),
-    SLAB150=(2, 0),
-    SLAB90=(3, 0),
-    DEEPTRENCH=(7, 0),
-    WGN=(34, 0),
-    HEATER=(47, 0),
-    M1=(41, 0),
-    M2=(45, 0),
-    M3=(49, 0),
-    VIA1=(40, 0),
-    VIA2=(44, 0),
-    VIA3=(43, 0),
-    NBN=(31, 0),
-    NO_TILE_SI=(63, 0),
-    PADDING=(68, 0),
-    FLOORPLAN=(600, 0),
-    FLOORPLAN_PACKAGING=(601, 0),
-    FLOORPLAN_WIREBOND_LANE=(602, 0),
-    FLOORPLAN_SI_REMOVAL=(603, 0),
-    FLOORPLAN_PACKAGING_OPTICAL=(604, 0),
-    FLOORPLAN_E_DIE=(610, 0),
-    FLOORPLAN_E_DIE_COMPONENTS=(611, 0),
-    FLOORPLAN_CU_HEAT_SINK=(620, 0),
-    TEXT=(66, 0),
-    PORT=(60, 0),
-    LABEL=(201, 0),
-    INFO_GEO_HASH=(202, 0),
-    polarization_te=(203, 0),
-    polarization_tm=(204, 0),
-)
-
-LAYER = namedtuple("layer", layermap.keys())(*layermap.values())
 
 
 # This is only for plotgds to look good
@@ -107,21 +70,6 @@ layer2material = {
 }
 
 
-def layer(name, layermap=layermap):
-    """ returns the gds layer number from layermap dictionary"""
-    layer = layermap.get(name)
-    if layer:
-        if isinstance(layer, int):
-            return layer
-        return layer.gds_layer
-    else:
-        raise ValueError(
-            "{} is not a valid layer_name. Valid names are: \n{}".format(
-                name, "\n".join(layermap.keys())
-            )
-        )
-
-
 def get_gds_layers(device):
     """ Returns a set of layers in this cell.
 
@@ -179,12 +127,6 @@ def preview_layerset(ls=ls, size=100):
         D.add_ref(T).movex(200 * xloc * scale).movey(-200 * yloc * scale)
     return D
 
-
-# For port labelling purpose
-LAYERS_OPTICAL = [LAYER.WG]
-LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
-LAYERS_HEATER = [LAYER.HEATER]
-LAYERS_SUPERCONDUCTING = [LAYER.NBN]
 
 if __name__ == "__main__":
     import pp

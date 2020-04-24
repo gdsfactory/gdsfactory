@@ -283,9 +283,7 @@ def mini_block_mockup():
 
 
 @pp.autoname
-def reticle_mockup():
-    from pp.layers import LAYER
-
+def reticle_mockup(floorplan_layer=(60, 0)):
     dx = 9000.0
     dy = 8000.0
     a0 = 50.0
@@ -295,14 +293,14 @@ def reticle_mockup():
         b = x - a0
 
         component.add_polygon(
-            [(a, 0), (b, 0), (b, 3 * dy), (a, 3 * dy)], LAYER.FLOORPLAN
+            [(a, 0), (b, 0), (b, 3 * dy), (a, 3 * dy)], floorplan_layer
         )
 
     for y in [0, dy, 2 * dy, 3 * dy]:
         a = y + a0
         b = y - a0
         component.add_polygon(
-            [(0, a), (0, b), (3 * dx, b), (3 * dx, a)], LAYER.FLOORPLAN
+            [(0, a), (0, b), (3 * dx, b), (3 * dx, a)], floorplan_layer
         )
 
     c = mini_block_mockup()
