@@ -7,7 +7,7 @@
 """
 
 __version__ = "1.1.6"
-__all__ = ["CONFIG", "load_config", "write_config"]
+__all__ = ["CONFIG", "write_config"]
 
 import os
 from collections import namedtuple
@@ -32,26 +32,26 @@ layers:
     WGCLAD: [1, 9]
     LABEL: [66, 0]
     label: [66, 0]
-    WGCLAD: [111, 0],
-    SLAB150: [2, 0],
-    SLAB90: [3, 0],
-    DEEPTRENCH: [7, 0],
-    WGN: [34, 0],
-    HEATER: [47, 0],
-    M1: [41, 0],
-    M2: [45, 0],
-    M3: [49, 0],
-    VIA1: [40, 0],
-    VIA2: [44, 0],
-    VIA3: [43, 0],
-    NO_TILE_SI: [63, 0],
-    PADDING: [68, 0],
-    TEXT: [66, 0],
-    PORT: [60, 0],
-    LABEL: [201, 0],
-    INFO_GEO_HASH: [202, 0],
-    polarization_te: [203, 0],
-    polarization_tm: [204, 0],
+    WGCLAD: [111, 0]
+    SLAB150: [2, 0]
+    SLAB90: [3, 0]
+    DEEPTRENCH: [7, 0]
+    WGN: [34, 0]
+    HEATER: [47, 0]
+    M1: [41, 0]
+    M2: [45, 0]
+    M3: [49, 0]
+    VIA1: [40, 0]
+    VIA2: [44, 0]
+    VIA3: [43, 0]
+    NO_TILE_SI: [63, 0]
+    PADDING: [68, 0]
+    TEXT: [66, 0]
+    PORT: [60, 0]
+    LABEL: [201, 0]
+    INFO_GEO_HASH: [202, 0]
+    polarization_te: [203, 0]
+    polarization_tm: [204, 0]
 
 layer_colors:
     WG: ['gray', 1]
@@ -70,88 +70,79 @@ home_path.mkdir(exist_ok=True)
 cwd_config = cwd / "config.yml"
 home_config = home_path / "config.yml"
 
+cwd = cwd_config.parent
 
-def load_config(cwd_config=cwd_config):
-    """ loads config.yml and returns a dict with the config """
-    cwd = cwd_config.parent
+# Find cwd config going up recursively
+while cwd not in roots:
+    cwd_config = cwd / "config.yml"
+    if os.path.exists(cwd_config):
+        break
+    cwd = cwd.parent
 
-    # Find cwd config going up recursively
-    while cwd not in roots:
-        cwd_config = cwd / "config.yml"
-        if os.path.exists(cwd_config):
-            break
-        cwd = cwd.parent
+    if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
+        """
+        Ensure the loop terminates on a windows machine
+        """
+        break
 
-        if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
-            """
-            Ensure the loop terminates on a windows machine
-            """
-            break
 
-    if cwd_config in roots:
-        cwd_config = None
+CONFIG = hiyapyco.load(
+    default_config,
+    str(home_config),
+    str(cwd_config),
+    failonmissingfiles=False,
+    loglevelmissingfiles=logging.DEBUG,
+)
+print(CONFIG)
 
-    CONFIG = hiyapyco.load(
-        default_config,
-        str(home_config),
-        str(cwd_config),
-        failonmissingfiles=False,
-        loglevelmissingfiles=logging.DEBUG,
+CONFIG["config_path"] = cwd_config or "notFound"
+CONFIG["repo_path"] = repo_path
+CONFIG["module_path"] = module_path
+CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
+CONFIG["masks_path"] = repo_path / "mask"
+CONFIG["version"] = __version__
+CONFIG["home"] = home
+CONFIG["cwd"] = cwd
+
+if CONFIG.get("mask"):
+    mask_name = CONFIG["mask"]["name"]
+    mask_config_directory = cwd
+    build_directory = mask_config_directory / "build"
+    CONFIG["devices_directory"] = mask_config_directory / "devices"
+    CONFIG["mask"]["gds"] = (
+        mask_config_directory / "build" / "mask" / (mask_name + ".gds")
     )
-    print(CONFIG)
+else:
+    build_directory = home_path / "build"
+    mask_config_directory = home_path / "build"
 
-    CONFIG["config_path"] = cwd_config or "notFound"
-    CONFIG["repo_path"] = repo_path
-    CONFIG["module_path"] = module_path
-    CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
-    CONFIG["masks_path"] = repo_path / "mask"
-    CONFIG["version"] = __version__
-    CONFIG["home"] = home
-    CONFIG["cwd"] = cwd
+if "custom_components" not in CONFIG:
+    CONFIG["custom_components"] = None
 
-    if CONFIG.get("mask"):
-        mask_name = CONFIG["mask"]["name"]
-        mask_config_directory = cwd
-        build_directory = mask_config_directory / "build"
-        CONFIG["devices_directory"] = mask_config_directory / "devices"
-        CONFIG["mask"]["gds"] = (
-            mask_config_directory / "build" / "mask" / (mask_name + ".gds")
-        )
-    else:
-        build_directory = home_path / "build"
-        mask_config_directory = home_path / "build"
+if "gdslib" not in CONFIG:
+    CONFIG["gdslib"] = repo_path / "gdslib"
+CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
-    if "custom_components" not in CONFIG:
-        CONFIG["custom_components"] = None
+CONFIG["build_directory"] = build_directory
+CONFIG["log_directory"] = build_directory / "log"
+CONFIG["gds_directory"] = build_directory / "devices"
+CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
+CONFIG["doe_directory"] = build_directory / "doe"
+CONFIG["mask_directory"] = build_directory / "mask"
+CONFIG["mask_config_directory"] = mask_config_directory
+CONFIG["gdspath"] = build_directory / "gds.gds"
+CONFIG["samples_path"] = module_path / "samples"
+CONFIG["components_path"] = module_path / "components"
 
-    if "gdslib" not in CONFIG:
-        CONFIG["gdslib"] = repo_path / "gdslib"
-    CONFIG["gdslib_test"] = home_path / "gdslib_test"
+if "gds_resources" in CONFIG:
+    CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
 
-    CONFIG["build_directory"] = build_directory
-    CONFIG["log_directory"] = build_directory / "log"
-    CONFIG["gds_directory"] = build_directory / "devices"
-    CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-    CONFIG["doe_directory"] = build_directory / "doe"
-    CONFIG["mask_directory"] = build_directory / "mask"
-    CONFIG["mask_config_directory"] = mask_config_directory
-    CONFIG["gdspath"] = build_directory / "gds.gds"
-    CONFIG["samples_path"] = module_path / "samples"
-    CONFIG["components_path"] = module_path / "components"
-
-    if "gds_resources" in CONFIG:
-        CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
-
-    build_directory.mkdir(exist_ok=True)
-    CONFIG["log_directory"].mkdir(exist_ok=True)
-    CONFIG["gds_directory"].mkdir(exist_ok=True)
-    CONFIG["doe_directory"].mkdir(exist_ok=True)
-    CONFIG["mask_directory"].mkdir(exist_ok=True)
-    CONFIG["gdslib_test"].mkdir(exist_ok=True)
-
-    CONFIG["layers"] = CONFIG.get("layers", LAYER._asdict())
-
-    return CONFIG
+build_directory.mkdir(exist_ok=True)
+CONFIG["log_directory"].mkdir(exist_ok=True)
+CONFIG["gds_directory"].mkdir(exist_ok=True)
+CONFIG["doe_directory"].mkdir(exist_ok=True)
+CONFIG["mask_directory"].mkdir(exist_ok=True)
+CONFIG["gdslib_test"].mkdir(exist_ok=True)
 
 
 def complex_encoder(z):
@@ -198,15 +189,9 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-CONFIG = load_config()
 CONFIG["grid_unit"] = 1e-6
 CONFIG["grid_resolution"] = 1e-9
 CONFIG["bend_radius"] = 10.0
-
-try:
-    CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha
-except Exception:
-    CONFIG["git_hash"] = __version__
 
 GRID_UNIT = CONFIG["grid_unit"]
 GRID_RESOLUTION = CONFIG["grid_resolution"]
@@ -216,9 +201,17 @@ BEND_RADIUS = CONFIG["bend_radius"]
 WG_EXPANDED_WIDTH = 2.5
 TAPER_LENGTH = 35.0
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
+
 layer = CONFIG["layers"]
 LAYER = namedtuple("layer", layer.keys())(*layer.values())
+
 CONFIG.update(dict(cache_url=""))
+
+try:
+    CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha
+except Exception:
+    CONFIG["git_hash"] = __version__
+
 
 if __name__ == "__main__":
     # print_config("gdslib")
