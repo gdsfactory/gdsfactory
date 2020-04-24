@@ -1,8 +1,6 @@
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 
-from pp.component import Component
-
 import pp
 from pp.add_tapers import add_tapers
 from pp.components.taper import taper
@@ -81,8 +79,8 @@ def add_io_optical(
 
     gc_polarization = gc.polarization
 
-    cc = Component()
-    cc = pp.Component(name=f"{c.name}_{gc_polarization}")
+    name = component_name or f"{c.name}_{gc_polarization}"
+    cc = pp.Component(name=name)
     cc.function_name = "add_io_optical"
 
     port_width_gc = list(gc.ports.values())[0].width
