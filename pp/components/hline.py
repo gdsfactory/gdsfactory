@@ -1,5 +1,5 @@
 import pp
-from pp import LAYER
+from pp.config import LAYER
 from pp.name_and_cache import autoname_and_cache
 
 __version__ = "0.0.1"

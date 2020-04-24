@@ -22,21 +22,19 @@ modules:
 from phidl import quickplot as qp
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from pp.config import CONFIG
-from pp.config import call_if_func
-from pp.config import LAYER
-from pp.component import Component
-from pp.component import ComponentReference
-from pp.component import Port
+from pp.config import CONFIG, call_if_func, LAYER
+from pp.component import Component, ComponentReference, Port
 from pp.name import autoname
 from pp.load_component import load_component
 from pp.load_csv import load_csv
 
-from pp.write_component import get_component_type
-from pp.write_component import show
-from pp.write_component import write_gds
-from pp.write_component import write_component_type
-from pp.write_component import write_component
+from pp.write_component import (
+    get_component_type,
+    show,
+    write_component,
+    write_component_type,
+    write_gds,
+)
 from pp.write_doe import write_doe
 
 import pp.components as c
