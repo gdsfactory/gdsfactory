@@ -24,7 +24,6 @@ from git import Repo
 
 
 default_config = """
-tech: generic
 BBOX_LAYER_EXCLUDE: "[]"
 with_settings_label: True
 layers:
@@ -94,7 +93,6 @@ def load_config(path_config=cwd_config):
         failonmissingfiles=False,
         loglevelmissingfiles=logging.DEBUG,
     )
-    print(CONFIG)
 
     CONFIG["config_path"] = cwd_config or "notFound"
     CONFIG["repo_path"] = repo_path
@@ -208,7 +206,7 @@ TAPER_LENGTH = 35.0
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
 layer = CONFIG["layers"]
-LAYER = namedtuple("layer", layer.keys())(*layer.values())
+LAYER = namedtuple("layermap", layer.keys())(*layer.values())
 
 CONFIG.update(dict(cache_url=""))
 
