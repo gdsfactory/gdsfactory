@@ -6,7 +6,6 @@ import os
 import shutil
 import pytest
 import pp
-from pp.config import load_config
 from pp.config import CONFIG
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.components.spiral_inner_io import spiral_inner_io_euler
@@ -14,10 +13,8 @@ from pp.add_termination import add_gratings_and_loop_back
 from pp.routing.connect import connect_strip_way_points
 from pp.add_padding import add_padding_to_grid
 from pp.generate_does import generate_does
-from pp.mask.merge_json import merge_json
-from pp.mask.merge_markdown import merge_markdown
-from pp.mask.merge_test_metadata import merge_test_metadata
-from pp.mask.write_labels import write_labels
+
+from pp.mask import merge_metadata
 
 
 def _route_filter(*args, **kwargs):
@@ -113,13 +110,10 @@ def test_mask(precision=2e-9):
     doe_metadata_path = build_path / "doe"
     mask_path = build_path / "mask"
     does_yml = workspace_folder / "does.yml"
-    config_yml = workspace_folder / "config.yml"
 
     mask_path.mkdir(parents=True, exist_ok=True)
 
-    config = load_config(config_yml)
-
-    gdspath = config["mask"]["gds"]
+    gdspath = mask_path / "sample_mask.gds"
     markdown_path = gdspath.with_suffix(".md")
     json_path = gdspath.with_suffix(".json")
     test_metadata_path = gdspath.with_suffix(".tp.json")
@@ -135,10 +129,7 @@ def test_mask(precision=2e-9):
     top_level = place_from_yaml(does_yml, precision=precision, root_does=doe_root_path)
     top_level.write(str(gdspath))
 
-    write_labels(gdspath=gdspath, label_layer=CONFIG["layers"]["LABEL"])
-    merge_json(config_path=config_yml)
-    merge_markdown(config_path=config_yml)
-    merge_test_metadata(config_path=config_yml)
+    merge_metadata(gdspath=gdspath)
 
     assert gdspath.exists()
     assert markdown_path.exists()

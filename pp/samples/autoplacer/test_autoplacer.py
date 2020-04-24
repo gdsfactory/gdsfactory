@@ -8,10 +8,7 @@ from pp.samples.autoplacer.spiral import SPIRAL
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 
-from pp.mask.merge_json import merge_json
-from pp.mask.merge_markdown import merge_markdown
-from pp.mask.merge_test_metadata import merge_test_metadata
-from pp.mask.write_labels import write_labels
+from pp.mask import merge_metadata
 
 
 workspace_folder = pathlib.Path(__file__).parent
@@ -49,11 +46,8 @@ def test_autoplacer():
     )
     top_level = place_from_yaml(config_yml, doe_root_path)
     top_level.write(str(gdspath))
-    write_labels(gdspath=gdspath)
 
-    merge_json(config_path=config_yml)
-    merge_markdown(config_path=config_yml)
-    merge_test_metadata(config_path=config_yml)
+    merge_metadata(gdspath=gdspath)
 
     assert gdspath.exists()
     assert markdown_path.exists()

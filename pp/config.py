@@ -87,50 +87,37 @@ home_config = home_path / "config.yml"
 
 
 def load_config(path_config=cwd_config):
-    cwd = path_config.parent
+    config_low_prioriy = hiyapyco.load(
+        default_config,
+        str(home_config),
+        failonmissingfiles=False,
+        loglevelmissingfiles=logging.DEBUG,
+    )
+    CONFIG = ConfigMap(**config_low_prioriy.copy())
+    mask_name = "not_defined"
 
-    # Find cwd config going up recursively
+    # Find other cwd configs going up recursively
+    cwd = path_config.parent
     while cwd not in roots:
         cwd_config = cwd / "config.yml"
         if cwd_config.exists():
-            break
-        cwd = cwd.parent
+            print(f"Loaded {cwd_config}")
+            config_high_prioriy = hiyapyco.load(
+                str(cwd_config),
+                failonmissingfiles=False,
+                loglevelmissingfiles=logging.DEBUG,
+            )
+            CONFIG.update(**config_high_prioriy.copy())
+            if config_high_prioriy.get("mask"):
+                mask_name = config_high_prioriy["mask"]["name"]
+                CONFIG.build_directory = cwd / "build"
 
+        cwd = cwd.parent
         if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
             """
             Ensure the loop terminates on a windows machine
             """
             break
-
-    # print(cwd_config)
-    CONFIG = hiyapyco.load(
-        default_config,
-        str(home_config),
-        str(cwd_config),
-        failonmissingfiles=False,
-        loglevelmissingfiles=logging.DEBUG,
-    )
-
-    CONFIG["config_path"] = cwd_config or "notFound"
-    CONFIG["repo_path"] = repo_path
-    CONFIG["module_path"] = module_path
-    CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
-    CONFIG["masks_path"] = repo_path / "mask"
-    CONFIG["version"] = __version__
-    CONFIG["home"] = home
-    CONFIG["cwd"] = cwd
-
-    if CONFIG.get("mask"):
-        mask_name = CONFIG["mask"]["name"]
-        mask_config_directory = cwd
-        build_directory = mask_config_directory / "build"
-        CONFIG["devices_directory"] = mask_config_directory / "devices"
-        CONFIG["mask"]["gds"] = (
-            mask_config_directory / "build" / "mask" / (mask_name + ".gds")
-        )
-    else:
-        build_directory = home_path / "build"
-        mask_config_directory = home_path / "build"
 
     if "custom_components" not in CONFIG:
         CONFIG["custom_components"] = None
@@ -139,13 +126,14 @@ def load_config(path_config=cwd_config):
         CONFIG["gdslib"] = repo_path / "gdslib"
     CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
+    build_directory = CONFIG.get("build_directory", home_path / "build")
     CONFIG["build_directory"] = build_directory
     CONFIG["log_directory"] = build_directory / "log"
-    CONFIG["gds_directory"] = build_directory / "devices"
+    CONFIG["gds_directory"] = build_directory / "gds"
     CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
     CONFIG["doe_directory"] = build_directory / "doe"
     CONFIG["mask_directory"] = build_directory / "mask"
-    CONFIG["mask_config_directory"] = mask_config_directory
+    CONFIG["mask_gds"] = CONFIG.mask_directory / (mask_name + ".gds")
     CONFIG["gdspath"] = build_directory / "gds.gds"
     CONFIG["samples_path"] = module_path / "samples"
     CONFIG["components_path"] = module_path / "components"
@@ -162,7 +150,18 @@ def load_config(path_config=cwd_config):
     return CONFIG
 
 
-CONFIG = load_config()
+necessary_config = dict(
+    cwd=cwd,
+    repo_path=repo_path,
+    module_path=module_path,
+    font_path=module_path / "gds" / "alphabet.gds",
+    version=__version__,
+    home=home,
+)
+
+
+CONFIG = load_config(cwd_config)
+CONFIG.update(**necessary_config)
 
 
 def complex_encoder(z):
@@ -219,7 +218,6 @@ GRID_PER_UNIT = GRID_UNIT / GRID_RESOLUTION
 GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
 BEND_RADIUS = CONFIG["bend_radius"]
 WG_EXPANDED_WIDTH = 2.5
-TAPER_LENGTH = 35.0
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
 layermap = CONFIG["layers"]
@@ -233,6 +231,7 @@ try:
 except Exception:
     CONFIG["git_hash"] = __version__
 
+TAPER_LENGTH = 35.0
 
 if __name__ == "__main__":
     # print_config("gdslib")
