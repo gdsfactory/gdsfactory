@@ -43,7 +43,9 @@ def lock_component(
         if flatten:
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
-        pp.write_component(c, gdspath=gdspath, add_port_pins=add_port_pins)
+        pp.write_component(
+            c, gdspath=gdspath, add_port_pins=add_port_pins,
+        )
         assert gdspath.exists()
         return c
     except Exception as e:
@@ -186,10 +188,10 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    # lock_components_with_changes()
+    lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
-    test_all_components()
+    # test_all_components()
     # rebuild_library()
     # lock_component("waveguide")
     # compare_component_hash("waveguide")

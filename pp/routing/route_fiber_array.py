@@ -51,7 +51,8 @@ def route_fiber_array(
     # input_port_indexes=[0],
 ):
     """
-    Returns component I/O for optical testing.  Many components are fine with the default.
+    Returns component I/O elements for adding grating couplers with a fiber array input
+    Many components are fine with the default.
 
     Args:
         component: The component to connect.
@@ -75,6 +76,9 @@ def route_fiber_array(
             - nb_optical_ports_lines divides the total number of ports
             - the components have an equal number of inputs and outputs
         grating_indices: allows to fine skip some grating slots e.g [0,1,4,5] will put two gratings separated by the pitch. Then there will be two empty grating slots, and after that an additional two gratings.
+
+    Returns:
+        elements, io_grating_lines, y0_optical
     """
     if optical_port_labels is None:
         optical_ports = component.get_optical_ports()

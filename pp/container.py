@@ -53,6 +53,7 @@ def container(component_function):
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
         new.ports = new.ports or old.ports.copy()
         new.settings["component"] = old.settings.copy()
+        new.settings["component_name"] = old.name
         new.test_protocol = new.test_protocol or old.test_protocol.copy()
         new.data_analysis_protocol = (
             new.data_analysis_protocol or old.data_analysis_protocol.copy()

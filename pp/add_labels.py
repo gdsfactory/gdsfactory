@@ -2,9 +2,22 @@
 
 """
 
-
+import phidl.device_layout as pd
 import pp
 from pp.ports.add_port_markers import get_input_label_electrical
+
+
+def add_label(component, text, position=(0, 0), layer=pp.LAYER.LABEL):
+    gds_layer_label, gds_datatype_label = pd._parse_layer(layer)
+    label = pd.Label(
+        text=text,
+        position=position,
+        anchor="o",
+        layer=gds_layer_label,
+        texttype=gds_datatype_label,
+    )
+    component.add(label)
+    return component
 
 
 def add_labels(component):

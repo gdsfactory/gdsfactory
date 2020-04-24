@@ -6,6 +6,7 @@ from pp.component import Component
 import pp
 from pp.add_tapers import add_tapers
 from pp.components.taper import taper
+from pp.container import container
 
 from pp.routing.route_fiber_array import route_fiber_array
 
@@ -18,14 +19,15 @@ def add_io_optical_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
     return add_io_optical(*args, grating_coupler=grating_coupler, **kwargs)
 
 
+@container
 def add_io_optical(
-    c,
+    component,
     grating_coupler=grating_coupler_te,
     gc_port_name="W0",
     component_name=None,
     taper_factory=taper,
     get_route_factory=route_fiber_array,
-    **kwargs
+    **kwargs,
 ):
     """ returns component with optical IO (tapers, south routes and grating_couplers)
 
@@ -67,14 +69,9 @@ def add_io_optical(
        pp.plotgds(cc)
 
     """
+    c = component
     if not c.ports:
         return c
-    cc = Component(
-        settings=c.get_settings(),
-        test_protocol=c.test_protocol,
-        data_analysis_protocol=c.data_analysis_protocol,
-    )
-    cc.function_name = "add_io_optical"
 
     if isinstance(grating_coupler, list):
         gc = grating_coupler[0]
@@ -82,10 +79,11 @@ def add_io_optical(
         gc = grating_coupler
     gc = pp.call_if_func(gc)
 
-    if "polarization" in gc.settings:
-        gc.polarization = gc.settings["polarization"]
+    gc_polarization = gc.polarization
 
-    cc.name = component_name or "{}_{}".format(c.name, gc.polarization)
+    cc = Component()
+    cc = pp.Component(name=f"{c.name}_{gc_polarization}")
+    cc.function_name = "add_io_optical"
 
     port_width_gc = list(gc.ports.values())[0].width
     port_width_component = list(c.ports.values())[0].width
@@ -101,7 +99,7 @@ def add_io_optical(
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
         component_name=component_name,
-        **kwargs
+        **kwargs,
     )
     if len(elements) == 0:
         return c

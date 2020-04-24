@@ -1021,6 +1021,9 @@ def demo_component(port):
 if __name__ == "__main__":
     # c = pp.c.bend_circular180()
     c = pp.c.coupler()
+    c.add_labels()
+    pp.show(c)
+
     # c = pp.c.waveguide()
     # c = pp.c.mzi1x2()
     # c = pp.c.ring_double_bus()
@@ -1028,7 +1031,8 @@ if __name__ == "__main__":
     # print(c.get_json())
     # print(c.get_settings())
     # print(c.settings)
-    print(c.get_settings())
+
+    # print(c.get_settings())
 
     # print(json.dumps(c.get_settings()))
     # print(c.get_json()['cells'].keys())
