@@ -11,7 +11,7 @@ import time
 import re
 
 from pp.components import component_type2factory
-from pp.config import CONFIG, load_config
+from pp.config import CONFIG
 from pp.logger import LOGGER
 from pp.doe import load_does
 
@@ -145,8 +145,10 @@ def _build_doe(doe_name, config, component_type2factory=component_type2factory):
     )
 
 
-def build_does(config=CONFIG, component_type2factory=component_type2factory):
-    """ Writes DOE settings from config.yml file and writes GDS into build_directory
+def build_does(filepath, component_type2factory=component_type2factory):
+    """ this function is depreacted
+
+    Writes DOE settings from config.yml file and writes GDS into build_directory
 
     If you want to use cache use pp.generate_does instead
 
@@ -157,14 +159,12 @@ def build_does(config=CONFIG, component_type2factory=component_type2factory):
     - ports CSV
     - markdown report, with DOE settings
     """
-    if config.get("does") is None:
-        raise ValueError(f"no does defined in {CONFIG}")
 
-    does = load_does(config)
+    does = load_does(filepath)
     doe_names = does.keys()
 
     doe_params = zip(
-        doe_names, itertools.repeat(config), itertools.repeat(component_type2factory)
+        doe_names, itertools.repeat(filepath), itertools.repeat(component_type2factory)
     )
     p = multiprocessing.Pool(multiprocessing.cpu_count())
     p.starmap(_build_doe, doe_params)
@@ -175,7 +175,7 @@ def build_does(config=CONFIG, component_type2factory=component_type2factory):
 
 
 if __name__ == "__main__":
-    CONFIG = load_config(CONFIG["samples_path"] / "mask" / "config.yml")
-    build_does(CONFIG)
+    does_path = CONFIG["samples_path"] / "mask" / "does.yml"
+    build_does(does_path)
 
     # run_python("name.py")

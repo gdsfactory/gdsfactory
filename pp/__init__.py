@@ -24,13 +24,11 @@ from phidl import quickplot as qp
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG
 from pp.config import call_if_func
+from pp.config import LAYER
 from pp.component import Component
 from pp.component import ComponentReference
 from pp.component import Port
 from pp.name import autoname
-from pp.layers import LAYER
-from pp.layers import layer
-from pp.layers import preview_layerset
 from pp.load_component import load_component
 from pp.load_csv import load_csv
 
@@ -69,11 +67,9 @@ __all__ = [
     "extend_ports",
     "get_component_type",
     "klive",
-    "layer",
     "load_component",
     "load_csv",
     "plotgds",
-    "preview_layerset",
     "qp",
     "routing",
     "show",

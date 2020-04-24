@@ -8,7 +8,7 @@ from pp.config import CONFIG
 def add_grating_couplers(
     component,
     grating_coupler=grating_coupler_te,
-    layer_label=CONFIG["layers"]["LABEL"],
+    layer_label=CONFIG["layers"]["label"],
     input_port_indexes=[0],
 ):
     """ returns component with grating ports and labels on each port """

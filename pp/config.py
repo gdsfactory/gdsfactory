@@ -10,6 +10,7 @@ __version__ = "1.1.6"
 __all__ = ["CONFIG", "load_config", "write_config"]
 
 import os
+from collections import namedtuple
 import json
 import subprocess
 import pathlib
@@ -21,14 +22,40 @@ import hiyapyco
 import numpy as np
 from git import Repo
 
-from pp.layers import LAYER
-
 
 default_config = """
 tech: generic
-cache_url:
 BBOX_LAYER_EXCLUDE: "[]"
 with_settings_label: True
+layers:
+    WG: [1, 0]
+    WGCLAD: [1, 9]
+    LABEL: [66, 0]
+    label: [66, 0]
+    WGCLAD: [111, 0],
+    SLAB150: [2, 0],
+    SLAB90: [3, 0],
+    DEEPTRENCH: [7, 0],
+    WGN: [34, 0],
+    HEATER: [47, 0],
+    M1: [41, 0],
+    M2: [45, 0],
+    M3: [49, 0],
+    VIA1: [40, 0],
+    VIA2: [44, 0],
+    VIA3: [43, 0],
+    NO_TILE_SI: [63, 0],
+    PADDING: [68, 0],
+    TEXT: [66, 0],
+    PORT: [60, 0],
+    LABEL: [201, 0],
+    INFO_GEO_HASH: [202, 0],
+    polarization_te: [203, 0],
+    polarization_tm: [204, 0],
+
+layer_colors:
+    WG: ['gray', 1]
+
 """
 
 home = pathlib.Path.home()
@@ -47,6 +74,7 @@ home_config = home_path / "config.yml"
 def load_config(cwd_config=cwd_config):
     """ loads config.yml and returns a dict with the config """
     cwd = cwd_config.parent
+
     # Find cwd config going up recursively
     while cwd not in roots:
         cwd_config = cwd / "config.yml"
@@ -60,6 +88,9 @@ def load_config(cwd_config=cwd_config):
             """
             break
 
+    if cwd_config in roots:
+        cwd_config = None
+
     CONFIG = hiyapyco.load(
         default_config,
         str(home_config),
@@ -67,8 +98,9 @@ def load_config(cwd_config=cwd_config):
         failonmissingfiles=False,
         loglevelmissingfiles=logging.DEBUG,
     )
+    print(CONFIG)
 
-    CONFIG["config_path"] = cwd_config.absolute()
+    CONFIG["config_path"] = cwd_config or "notFound"
     CONFIG["repo_path"] = repo_path
     CONFIG["module_path"] = module_path
     CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
@@ -135,17 +167,6 @@ def write_config(config, json_out_path):
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
 
 
-CONFIG = load_config()
-CONFIG["grid_unit"] = 1e-6
-CONFIG["grid_resolution"] = 1e-9
-CONFIG["bend_radius"] = 10.0
-
-try:
-    CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha
-except Exception:
-    CONFIG["git_hash"] = __version__
-
-
 def print_config(key=None):
     if key:
         if CONFIG.get(key):
@@ -177,19 +198,27 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
+CONFIG = load_config()
+CONFIG["grid_unit"] = 1e-6
+CONFIG["grid_resolution"] = 1e-9
+CONFIG["bend_radius"] = 10.0
+
+try:
+    CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha
+except Exception:
+    CONFIG["git_hash"] = __version__
+
 GRID_UNIT = CONFIG["grid_unit"]
 GRID_RESOLUTION = CONFIG["grid_resolution"]
-
 GRID_PER_UNIT = GRID_UNIT / GRID_RESOLUTION
-
 GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
 BEND_RADIUS = CONFIG["bend_radius"]
-
 WG_EXPANDED_WIDTH = 2.5
 TAPER_LENGTH = 35.0
-
-
 CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
+layer = CONFIG["layers"]
+LAYER = namedtuple("layer", layer.keys())(*layer.values())
+CONFIG.update(dict(cache_url=""))
 
 if __name__ == "__main__":
     # print_config("gdslib")
