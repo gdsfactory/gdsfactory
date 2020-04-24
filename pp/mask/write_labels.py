@@ -35,9 +35,9 @@ def find_labels(gdspath, label_layer=LAYER.LABEL, prefix="opt_"):
                 yield text.string, transformed.x * dbu, transformed.y * dbu
 
 
-def write_labels(gdspath, label_layer=LAYER.LABEL, csv_filename=None):
+def write_labels(gdspath, label_layer=LAYER.LABEL, csv_filename=None, prefix="opt_"):
     """Load  GDS mask and extracts the labels and coordinates from a GDS file"""
-    labels = list(find_labels(gdspath, label_layer=label_layer))
+    labels = list(find_labels(gdspath, label_layer=label_layer, prefix=prefix))
 
     # Save the coordinates somewhere sensible
     if csv_filename is None:
