@@ -1,49 +1,32 @@
 import os
 from glob import glob
 
-from pp.config import logging, load_config, CONFIG
+from pp.config import logging, CONFIG
 
 
-def merge_markdown(config_path=CONFIG["cwd"] / "config.yml"):
+def merge_markdown(
+    reports_directory=CONFIG["doe_directory"],
+    mdpath=CONFIG["mask_directory"] / "report.md",
+):
     """ Merges all individual markdown reports (.md) into a single markdown
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """
     logging.debug("Merging Markdown files:")
-    config = load_config(config_path)
 
-    mask_name = config["mask"]["name"]
-    reports_directory = config["doe_directory"]
-    report_path = config["mask_directory"] / (mask_name + ".md")
-
-    with open(report_path, "w") as f:
+    with open(mdpath, "w") as f:
 
         def wl(line="", eol="\n"):
             f.write(line + eol)
 
-        doe_names_list = CONFIG.get("report")
-        """ check if reports follows a particular order """
-        if doe_names_list:
-            for doe_name in doe_names_list:
-                filename = os.path.join(reports_directory, doe_name + ".md")
-                with open(filename) as infile:
-                    for line in infile:
-                        f.write(line)
+        reports = sorted(glob(os.path.join(reports_directory, "*.md")))
+        for filename in reports:
+            with open(filename) as infile:
+                for line in infile:
+                    f.write(line)
 
-        else:
-            reports = sorted(glob(os.path.join(reports_directory, "*.md")))
-            for filename in reports:
-                with open(filename) as infile:
-                    for line in infile:
-                        f.write(line)
-
-    logging.info(f"Wrote {report_path}")
+    logging.info(f"Wrote {mdpath}")
 
 
 if __name__ == "__main__":
-    config_path = CONFIG["samples_path"] / "mask" / "config.yml"
-    config = load_config(config_path)
-    merge_markdown(config)
-
-    # print(config['gds_directory'])
-    # from pprint import pprint
-    # pprint(config)
+    reports_directory = CONFIG["samples_path"] / "mask" / "does"
+    merge_markdown(reports_directory)

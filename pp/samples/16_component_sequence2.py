@@ -5,7 +5,7 @@ from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
 from pp.components.taper import taper_strip_to_ridge as _taper
 
-from pp.layers import LAYER
+from pp import LAYER
 
 from pp.components.component_sequence import component_sequence
 
