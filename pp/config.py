@@ -92,7 +92,7 @@ def load_config(path_config=cwd_config):
     # Find cwd config going up recursively
     while cwd not in roots:
         cwd_config = cwd / "config.yml"
-        if os.path.exists(cwd_config):
+        if cwd_config.exists():
             break
         cwd = cwd.parent
 
@@ -102,6 +102,7 @@ def load_config(path_config=cwd_config):
             """
             break
 
+    # print(cwd_config)
     CONFIG = hiyapyco.load(
         default_config,
         str(home_config),
