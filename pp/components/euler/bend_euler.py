@@ -1,10 +1,10 @@
+import numpy as np
 import pp
 from pp.geo_utils import extrude_path
 from pp.components.euler.geo_euler import euler_bend_points
 from pp.components.euler.geo_euler import euler_length
 from pp.layers import LAYER
 from pp.ports.port_naming import auto_rename_ports
-import numpy as np
 
 
 def _bend_euler(theta=90, radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):

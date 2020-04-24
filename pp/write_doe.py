@@ -1,5 +1,6 @@
 import json
 
+import pp
 from pp.name import get_component_name
 from pp.components import component_type2factory
 from pp.write_component import write_component
@@ -236,8 +237,8 @@ def test_write_doe():
         doe_settings=dict(test="optical_tm"),
     )
     assert len(paths) == 4
-    import pp
 
+    # print(type(paths[0]))
     pp.show(paths[0])
 
     # paths = write_doe(

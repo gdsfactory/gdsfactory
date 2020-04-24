@@ -12,6 +12,7 @@ from pp.name import get_component_name
 from pp.components import component_type2factory
 from pp.ports import add_port_markers
 from pp import klive
+from pp.component import Component
 
 from pp.layers import LAYER
 
@@ -59,7 +60,9 @@ def write_component_type(
         component.type = component_type
         if flatten:
             component.flatten()
-        write_component(component, gdspath, add_port_pins=add_port_pins)
+        write_component(
+            component, gdspath, add_port_pins=add_port_pins,
+        )
 
     return gdspath
 
@@ -104,7 +107,6 @@ def write_component(
     add_port_pins=True,
     add_ports_to_all_cells=False,
     store_hash_geometry=False,
-    with_component_label=False,
     precision=1e-9,
     settings=None,
 ):
@@ -121,7 +123,6 @@ def write_component(
         add_port_pins: adds port metadata
         add_ports_to_all_cells: make sure that all sub-cells have port (necessary for netlist extraction)
         store_hash_geometry:
-        with_component_label: adds a label to component
         precision: to save GDS points
         settings: dict of settings
     """
@@ -138,7 +139,6 @@ def write_component(
         add_port_pins=add_port_pins,
         add_ports_to_all_cells=add_ports_to_all_cells,
         store_hash_geometry=store_hash_geometry,
-        with_component_label=with_component_label,
         precision=precision,
     )
 
@@ -179,7 +179,6 @@ def write_gds(
     add_ports_to_all_cells=False,
     add_port_pins=True,
     store_hash_geometry=False,
-    with_component_label=False,
     unit=1e-6,
     precision=1e-9,
     remove_previous_markers=False,
@@ -193,7 +192,6 @@ def write_gds(
         add_ports_to_all_cells: to child cells - required to export netlists
         add_port_pins: show port metadata
         auto_rename: False by default (otherwise it calls it top_cell)
-        with_component_label
         unit
         precission
 
@@ -243,17 +241,31 @@ def write_gds(
         component.settings.update(dict(hash_geometry=component.hash_geometry()))
 
     # write component settings into text layer
-    if with_component_label:
-        for i, (k, v) in enumerate(component.settings.items()):
-            component.label(
-                text=f"{k}={v}",
-                position=component.center + [0, i * 0.4],
-                layer=LAYER.TEXT,
+    if CONFIG["with_component_label"]:
+
+        i = 0
+        for k in sorted(list(component.settings.keys())):
+            v = component.settings.get(k)
+            text = f"{k} = {clean_value(v)}"
+            # print(text)
+            component.add_label(
+                text=text,
+                position=component.center - [0, i * 1],
+                layer=CONFIG["layers"]["LABEL"],
             )
+            i += 1
 
     component.write_gds(gdspath, precision=precision, auto_rename=auto_rename)
     component.path = gdspath
     return gdspath
+
+
+def clean_value(value):
+    if isinstance(value, Component):
+        return value.name
+    if callable(value):
+        return value.__name__
+    return value
 
 
 def show(
@@ -271,6 +283,7 @@ def show(
     """
     if isinstance(component, pathlib.Path):
         component = str(component)
+        return klive.show(component)
     elif isinstance(component, str):
         return klive.show(component)
     elif hasattr(component, "path"):
@@ -280,7 +293,7 @@ def show(
             "Component is None, make sure that your function returns the component"
         )
 
-    else:
+    elif isinstance(component, Component):
         write_gds(
             component,
             gdspath,
@@ -289,6 +302,10 @@ def show(
             **kwargs,
         )
         klive.show(gdspath)
+    else:
+        raise ValueError(
+            f"Component is {type(component)}, make sure pass a Component or a path"
+        )
 
 
 if __name__ == "__main__":

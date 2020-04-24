@@ -50,7 +50,7 @@ def add_port_markers(
             component.add_label(
                 text=str(p.name) + "," + str(p.layer),
                 position=p.midpoint,
-                layer=label_layer[0],
+                layer=label_layer,
             )
 
             component.add_polygon(polygon, layer=port_layer)
