@@ -1,5 +1,5 @@
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp import Component
 from pp.components.bend_circular import bend_circular
 from pp.name import autoname

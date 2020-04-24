@@ -4,7 +4,7 @@ from scipy.special import binom
 from scipy.optimize import minimize
 
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp.geo_utils import extrude_path
 from pp.geo_utils import angles_deg
 from pp.geo_utils import snap_angle

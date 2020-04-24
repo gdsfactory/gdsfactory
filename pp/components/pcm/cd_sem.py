@@ -7,7 +7,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular_trenches
 
 from pp.components.waveguide import waveguide_trenches
-from pp.layers import LAYER
+from pp import LAYER
 from pp.ports.port_naming import rename_ports_by_orientation
 
 

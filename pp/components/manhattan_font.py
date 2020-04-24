@@ -1,6 +1,6 @@
 import numpy as np
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp.name import clean_name
 
 """

@@ -1,4 +1,4 @@
-from pp.layers import LAYER
+from pp import LAYER
 from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te

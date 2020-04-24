@@ -7,7 +7,7 @@ from pp.components import taper as taper_factory
 from pp.components.electrical import wire, corner
 
 from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
-from pp.layers import LAYER
+from pp import LAYER
 
 
 def get_waypoints_connect_strip(*args, **kwargs):

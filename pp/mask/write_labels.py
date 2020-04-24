@@ -6,7 +6,7 @@ import pathlib
 import csv
 import klayout.db as pya
 
-from pp.layers import LAYER
+from pp import LAYER
 
 
 def find_labels(gdspath, label_layer=LAYER.LABEL, prefix="opt_"):

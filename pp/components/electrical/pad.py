@@ -1,5 +1,5 @@
 from pp.name import autoname
-from pp.layers import LAYER
+from pp import LAYER
 from pp.components.compass import compass
 import pp
 
