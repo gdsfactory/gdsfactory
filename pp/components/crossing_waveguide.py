@@ -10,7 +10,7 @@ from pp.components.bezier import find_min_curv_bezier_control_points
 from pp.geo_utils import path_length
 from pp.config import GRID_PER_UNIT
 from pp.components.ellipse import ellipse
-from pp.layers import LAYER
+from pp import LAYER
 
 
 def rnd(p):

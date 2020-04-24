@@ -1,7 +1,7 @@
 import datetime
 import platform
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp.components.text import text as Text
 
 

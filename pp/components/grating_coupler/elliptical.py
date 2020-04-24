@@ -2,7 +2,7 @@ import numpy as np
 import pp
 from pp.geo_utils import extrude_path
 from pp.geo_utils import DEG2RAD
-from pp.layers import LAYER
+from pp import LAYER
 
 
 def ellipse_arc(a, b, x0, theta_min, theta_max, angle_step=0.5):

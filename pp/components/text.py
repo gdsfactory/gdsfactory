@@ -5,7 +5,7 @@ from phidl.geometry import _indent
 from phidl.geometry import _glyph
 
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp.components.manhattan_font import manhattan_text
 from pp.name import clean_name
 

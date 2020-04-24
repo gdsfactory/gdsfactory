@@ -2,7 +2,7 @@ import numpy as np
 from pp import Component
 import pp
 from pp.name import autoname
-from pp.layers import LAYER
+from pp import LAYER
 from pp.ports import deco_rename_ports
 from pp.components.waveguide import waveguide
 from pp.components.hline import hline

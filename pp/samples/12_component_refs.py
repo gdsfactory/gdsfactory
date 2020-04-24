@@ -8,7 +8,7 @@ lets create a crossing component with two references to other components (crossi
 """
 
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 
 
 @pp.autoname

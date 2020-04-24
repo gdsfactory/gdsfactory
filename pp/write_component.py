@@ -14,7 +14,7 @@ from pp.ports import add_port_markers
 from pp import klive
 from pp.component import Component
 
-from pp.layers import LAYER
+from pp import LAYER
 
 
 def get_component_type(
@@ -141,6 +141,7 @@ def write_component(
         add_ports_to_all_cells=add_ports_to_all_cells,
         store_hash_geometry=store_hash_geometry,
         precision=precision,
+        with_settings_label=with_settings_label,
     )
 
     """ write .ports in CSV"""

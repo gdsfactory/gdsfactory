@@ -24,7 +24,7 @@ def add_keepout(c, target_layers, keepout_layers, margin=2.0):
 if __name__ == "__main__":
     from pp.components.crossing_waveguide import crossing_etched
     from pp.components.crossing_waveguide import crossing45
-    from pp.layers import LAYER
+    from pp import LAYER
 
     c = crossing45(alpha=0.5, crossing=crossing_etched)
 

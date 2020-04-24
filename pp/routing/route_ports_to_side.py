@@ -457,7 +457,7 @@ def connect_ports_to_y(
 
 def demo():
     from pp.component import Component
-    from pp.layers import LAYER
+    from pp import LAYER
 
     def dummy():
         cmp = Component()

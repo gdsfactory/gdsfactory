@@ -3,7 +3,7 @@
 """
 import numpy as np
 from phidl import device_layout as pd
-from pp.layers import LAYER
+from pp import LAYER
 import pp
 
 

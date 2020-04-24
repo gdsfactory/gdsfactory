@@ -1,5 +1,5 @@
 import pp
-from pp.layers import LAYER
+from pp import LAYER
 from pp.ports.port_naming import deco_rename_ports
 from pp.components.hline import hline
 

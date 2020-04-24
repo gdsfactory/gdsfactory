@@ -89,10 +89,10 @@ def print_components_with_changes(
             component_type2factory=component_type2factory,
             path_library=path_library,
         )
-        if same_hash:
-            print(f"[V] {component_type}")
-        else:
+        if not same_hash:
             print(f"[X] {component_type} changed hash")
+        # else:
+        #     print(f"[V] {component_type}")
 
 
 @pytest.mark.noautofixt
@@ -185,14 +185,14 @@ def compare_component_hash(
         c = pp.Component(name=component_type)
         c << component_new
         c << component_library
-        pp.show(c)
+        pp.show(c, with_settings_label=False)
         print(error_hash + error_settings)
 
     return same_hash
 
 
 if __name__ == "__main__":
-    lock_components_with_changes()
+    # lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
     # test_all_components()

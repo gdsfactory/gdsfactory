@@ -7,7 +7,7 @@
 """
 
 __version__ = "1.1.6"
-__all__ = ["CONFIG", "write_config"]
+__all__ = ["CONFIG", "write_config", "load_config"]
 
 import os
 from collections import namedtuple
@@ -70,79 +70,84 @@ home_path.mkdir(exist_ok=True)
 cwd_config = cwd / "config.yml"
 home_config = home_path / "config.yml"
 
-cwd = cwd_config.parent
 
-# Find cwd config going up recursively
-while cwd not in roots:
-    cwd_config = cwd / "config.yml"
-    if os.path.exists(cwd_config):
-        break
-    cwd = cwd.parent
+def load_config(path_config=cwd_config):
+    cwd = path_config.parent
 
-    if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
-        """
-        Ensure the loop terminates on a windows machine
-        """
-        break
+    # Find cwd config going up recursively
+    while cwd not in roots:
+        cwd_config = cwd / "config.yml"
+        if os.path.exists(cwd_config):
+            break
+        cwd = cwd.parent
 
+        if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
+            """
+            Ensure the loop terminates on a windows machine
+            """
+            break
 
-CONFIG = hiyapyco.load(
-    default_config,
-    str(home_config),
-    str(cwd_config),
-    failonmissingfiles=False,
-    loglevelmissingfiles=logging.DEBUG,
-)
-print(CONFIG)
-
-CONFIG["config_path"] = cwd_config or "notFound"
-CONFIG["repo_path"] = repo_path
-CONFIG["module_path"] = module_path
-CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
-CONFIG["masks_path"] = repo_path / "mask"
-CONFIG["version"] = __version__
-CONFIG["home"] = home
-CONFIG["cwd"] = cwd
-
-if CONFIG.get("mask"):
-    mask_name = CONFIG["mask"]["name"]
-    mask_config_directory = cwd
-    build_directory = mask_config_directory / "build"
-    CONFIG["devices_directory"] = mask_config_directory / "devices"
-    CONFIG["mask"]["gds"] = (
-        mask_config_directory / "build" / "mask" / (mask_name + ".gds")
+    CONFIG = hiyapyco.load(
+        default_config,
+        str(home_config),
+        str(cwd_config),
+        failonmissingfiles=False,
+        loglevelmissingfiles=logging.DEBUG,
     )
-else:
-    build_directory = home_path / "build"
-    mask_config_directory = home_path / "build"
+    print(CONFIG)
 
-if "custom_components" not in CONFIG:
-    CONFIG["custom_components"] = None
+    CONFIG["config_path"] = cwd_config or "notFound"
+    CONFIG["repo_path"] = repo_path
+    CONFIG["module_path"] = module_path
+    CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
+    CONFIG["masks_path"] = repo_path / "mask"
+    CONFIG["version"] = __version__
+    CONFIG["home"] = home
+    CONFIG["cwd"] = cwd
 
-if "gdslib" not in CONFIG:
-    CONFIG["gdslib"] = repo_path / "gdslib"
-CONFIG["gdslib_test"] = home_path / "gdslib_test"
+    if CONFIG.get("mask"):
+        mask_name = CONFIG["mask"]["name"]
+        mask_config_directory = cwd
+        build_directory = mask_config_directory / "build"
+        CONFIG["devices_directory"] = mask_config_directory / "devices"
+        CONFIG["mask"]["gds"] = (
+            mask_config_directory / "build" / "mask" / (mask_name + ".gds")
+        )
+    else:
+        build_directory = home_path / "build"
+        mask_config_directory = home_path / "build"
 
-CONFIG["build_directory"] = build_directory
-CONFIG["log_directory"] = build_directory / "log"
-CONFIG["gds_directory"] = build_directory / "devices"
-CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-CONFIG["doe_directory"] = build_directory / "doe"
-CONFIG["mask_directory"] = build_directory / "mask"
-CONFIG["mask_config_directory"] = mask_config_directory
-CONFIG["gdspath"] = build_directory / "gds.gds"
-CONFIG["samples_path"] = module_path / "samples"
-CONFIG["components_path"] = module_path / "components"
+    if "custom_components" not in CONFIG:
+        CONFIG["custom_components"] = None
 
-if "gds_resources" in CONFIG:
-    CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
+    if "gdslib" not in CONFIG:
+        CONFIG["gdslib"] = repo_path / "gdslib"
+    CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
-build_directory.mkdir(exist_ok=True)
-CONFIG["log_directory"].mkdir(exist_ok=True)
-CONFIG["gds_directory"].mkdir(exist_ok=True)
-CONFIG["doe_directory"].mkdir(exist_ok=True)
-CONFIG["mask_directory"].mkdir(exist_ok=True)
-CONFIG["gdslib_test"].mkdir(exist_ok=True)
+    CONFIG["build_directory"] = build_directory
+    CONFIG["log_directory"] = build_directory / "log"
+    CONFIG["gds_directory"] = build_directory / "devices"
+    CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
+    CONFIG["doe_directory"] = build_directory / "doe"
+    CONFIG["mask_directory"] = build_directory / "mask"
+    CONFIG["mask_config_directory"] = mask_config_directory
+    CONFIG["gdspath"] = build_directory / "gds.gds"
+    CONFIG["samples_path"] = module_path / "samples"
+    CONFIG["components_path"] = module_path / "components"
+
+    if "gds_resources" in CONFIG:
+        CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
+
+    build_directory.mkdir(exist_ok=True)
+    CONFIG["log_directory"].mkdir(exist_ok=True)
+    CONFIG["gds_directory"].mkdir(exist_ok=True)
+    CONFIG["doe_directory"].mkdir(exist_ok=True)
+    CONFIG["mask_directory"].mkdir(exist_ok=True)
+    CONFIG["gdslib_test"].mkdir(exist_ok=True)
+    return CONFIG
+
+
+CONFIG = load_config()
 
 
 def complex_encoder(z):
