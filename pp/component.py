@@ -627,7 +627,15 @@ class Component(Device):
 
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        polarization=None,
+        wavelength=None,
+        test_protocol=None,
+        data_analysis_protocol=None,
+        *args,
+        **kwargs,
+    ):
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 
         if "name" in kwargs:
@@ -639,8 +647,10 @@ class Component(Device):
 
         # print(_internal_name, len(args), len(kwargs))
 
-        self.data_analysis_protocol = kwargs.pop("data_analysis_protocol", {})
-        self.test_protocol = kwargs.pop("test_protocol", {})
+        self.data_analysis_protocol = data_analysis_protocol or {}
+        self.test_protocol = test_protocol or {}
+        self.wavelength = wavelength
+        self.polarization = polarization
 
         self.settings = kwargs
         self.__ports__ = {}

@@ -58,6 +58,8 @@ def container(component_function):
         new.data_analysis_protocol = (
             new.data_analysis_protocol or old.data_analysis_protocol.copy()
         )
+        new.wavelength = new.wavelength or old.wavelength
+        new.polarization = new.polarization or old.polarization
         return new
 
     return wrapper
