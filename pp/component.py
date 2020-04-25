@@ -629,6 +629,7 @@ class Component(Device):
 
     def __init__(
         self,
+        name="Unnamed",
         polarization=None,
         wavelength=None,
         test_protocol=None,
@@ -637,15 +638,6 @@ class Component(Device):
         **kwargs,
     ):
         # Allow name to be set like Component('arc') or Component(name = 'arc')
-
-        if "name" in kwargs:
-            _internal_name = kwargs.pop("name")
-        elif (len(args) == 1) and (len(kwargs) == 0):
-            _internal_name = args[0]
-        else:
-            _internal_name = "Unnamed"
-
-        # print(_internal_name, len(args), len(kwargs))
 
         self.data_analysis_protocol = data_analysis_protocol or {}
         self.test_protocol = test_protocol or {}
@@ -657,14 +649,12 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self._internal_name = _internal_name
-        gds_name = _internal_name
 
-        if "with_uuid" in kwargs or _internal_name == "Unnamed":
-            gds_name += "_" + self.uid
+        if "with_uuid" in kwargs or name == "Unnamed":
+            name += "_" + self.uid
 
-        super(Component, self).__init__(name=gds_name, exclude_from_current=True)
-        self.name = gds_name
+        super(Component, self).__init__(name=name, exclude_from_current=True)
+        self.name = name
 
     def get_optical_ports(self):
         """ returns a lit of optical ports """
