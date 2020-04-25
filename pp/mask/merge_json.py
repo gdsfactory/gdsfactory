@@ -32,6 +32,7 @@ def merge_json(
     jsonpath=CONFIG["mask_directory"] / "metadata.json",
     json_version=6,
     config=CONFIG,
+    **kwargs,
 ):
     """ Merge several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
@@ -53,7 +54,9 @@ def merge_json(
                 cells.update(data.get("cells"))
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("*.json")}
-    metadata = dict(json_version=json_version, cells=cells, does=does, config=CONFIG)
+    metadata = dict(
+        json_version=json_version, cells=cells, does=does, config=CONFIG, **kwargs
+    )
 
     write_config(metadata, jsonpath)
     print(f"Wrote  metadata in {jsonpath}")
