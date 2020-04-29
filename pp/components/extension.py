@@ -99,7 +99,11 @@ def extend_ports(
 if __name__ == "__main__":
     import pp.components as pc
 
-    c = pc.bend_circular()
+    # c = pc.bend_circular()
     # ce = extend_ports(c, port_list=['W0'])
-    ce = extend_ports(c)
+
+    c = pc.waveguide()
+    ce = extend_ports(c, in_place=True)
+    print(ce)
+    print(len(ce.ports))
     pp.show(ce)
