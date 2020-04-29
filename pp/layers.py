@@ -99,12 +99,11 @@ ls.add_layer("no_tile_m2", 45, 30, "no_tile_m2", "gray", alpha=0)
 ls.add_layer("no_tile_m3", 49, 30, "no_tile_m3", "gray", alpha=0)
 
 layer2m = {1: 220e-9, 2: 150e-9, 3: 90 - 3}
-layer2material = {
-    1: "Si (Silicon) - Palik",
-    2: "SiO2 (Glass) - Palik",
-    3: "Si (Silicon) - Palik",
-    34: "Si3N4 (Silicon Nitride) - Phillip",
-}
+layer2material = dict(
+    WG="Si (Silicon) - Palik",
+    WGCLAD="SiO2 (Glass) - Palik",
+    WGN="Si3N4 (Silicon Nitride) - Phillip",
+)
 
 
 def layer(name, layermap=layermap):

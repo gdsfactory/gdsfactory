@@ -25,7 +25,6 @@ from pp.mask.write_labels import write_labels
 
 import pp.build as pb
 
-from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.tests.test_factory import lock_components_with_changes
 
 
@@ -166,7 +165,7 @@ def library_lock(dirname):
         path_library = CONFIG["gdslib"]
 
     if os.path.isdir(path_library):
-        lock_components_with_changes(path_directory=path_library)
+        lock_components_with_changes(path_library=path_library)
 
 
 """
@@ -199,6 +198,7 @@ def build_devices(regex):
 @click.command(name="build_does")
 def build_does():
     """ Build does defined in doe.yml"""
+    print("this is deprecated")
     import_custom_doe_factories()
     # write_doe_from_yaml()
     pb.build_does()
@@ -226,26 +226,6 @@ def write_mask_labels(gdspath, label_layer):
         gdspath = CONFIG["mask"]["gds"]
 
     write_labels(gdspath=gdspath, label_layer=label_layer)
-
-
-@click.command(name="write")
-@click.argument("label_layer", required=False, default=LAYER_LABEL)
-def write_mask(label_layer):
-    """ build and place does from config.yml """
-    gdspath = CONFIG["mask"]["gds"]
-
-    pb.build_does()
-    # generate_does()
-
-    top_level = place_from_yaml(CONFIG["config_path"])
-    top_level.write(str(gdspath))
-
-    write_labels(gdspath=gdspath, label_layer=label_layer)
-
-    merge_json()
-    merge_markdown()
-    merge_test_metadata(config_path=CONFIG["config_path"])
-    return gdspath
 
 
 """
@@ -297,7 +277,6 @@ mask.add_command(build_devices)
 mask.add_command(build_does)
 mask.add_command(mask_merge)
 mask.add_command(write_mask_labels)
-mask.add_command(write_mask)
 
 cli.add_command(config_get)
 cli.add_command(library)
