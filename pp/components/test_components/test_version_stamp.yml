@@ -1,0 +1,10 @@
+class: version_stamp
+layer:
+- 1
+- 0
+name: version_stamp
+name_function: version_stamp
+pixel_size: 1
+text: ''
+text_size: 10
+with_qr_code: 'False'

@@ -1,0 +1,11 @@
+L0: 60
+L1: 0
+L_top: 10.0
+bend90_factory: bend_circular
+bend_radius: 10.0
+class: mzi_arm
+name: mzi_arm
+name_function: mzi_arm
+straight_factory: waveguide
+straight_heater_factory: wg_heater_connected
+with_elec_connections: 'True'

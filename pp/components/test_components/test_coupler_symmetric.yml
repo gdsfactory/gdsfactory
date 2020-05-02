@@ -1,0 +1,6 @@
+bend: bend_s
+class: coupler_symmetric
+gap: 0.234
+name: coupler_symmetric
+name_function: coupler_symmetric
+wg_width: 0.5
