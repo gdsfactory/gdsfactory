@@ -1,4 +1,3 @@
-import pp
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.components.coupler_symmetric import coupler_symmetric_biased
 from pp.components.coupler_straight import coupler_straight
@@ -82,14 +81,16 @@ def coupler_netlist(
 
 
 if __name__ == "__main__":
-    from pp.routing import add_io_optical
+    # import pp
+    # from pp.routing import add_io_optical
 
     # c = coupler(gap=0.245, length=5.67, wg_width=0.2)
     # c = coupler(gap=0.2, length=5, wg_width=0.4)
     # c = coupler_biased(gap=0.2, length=5, wg_width=0.5)
     c = coupler()
-    cc = add_io_optical(c)
-    pp.show(cc)
+    print(c.get_settings())
+    # cc = add_io_optical(c)
+    # pp.show(cc)
 
     # from pp.routing.connect_component import add_io_optical
     # cc = add_io_optical(c)

@@ -1,0 +1,9 @@
+class: test_resistance
+gnd_layer: None
+name: test_resistance
+name_function: test_resistance
+num_squares: 1000
+pad_layer: None
+pad_size: '50_50'
+res_layer: 0
+width: 1

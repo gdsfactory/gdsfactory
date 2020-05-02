@@ -1,0 +1,12 @@
+cladding_offset: 3
+class: taper
+layer:
+- 1
+- 0
+layers_cladding: ''
+length: 35.0
+name: taper
+name_function: taper
+port: None
+width1: 0.5
+width2: None

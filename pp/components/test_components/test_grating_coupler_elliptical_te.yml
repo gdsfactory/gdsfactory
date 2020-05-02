@@ -1,0 +1,17 @@
+big_last_tooth: 'False'
+class: grating_coupler_elliptical_te
+fiber_angle: 15.0
+grating_line_width: 0.343
+lambda_c: 1.554
+layer:
+- 1
+- 0
+n_periods: 24
+name: grating_coupler_elliptical_te
+name_function: grating_coupler_elliptical_te
+neff: 2.638
+p_start: 26
+polarization: te
+taper_angle: 40.0
+taper_length: 16.6
+wg_width: 0.5

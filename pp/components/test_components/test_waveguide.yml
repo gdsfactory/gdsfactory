@@ -1,0 +1,10 @@
+cladding_offset: 3
+class: waveguide
+layer:
+- 1
+- 0
+layers_cladding: (111, 0)
+length: 10
+name: waveguide
+name_function: waveguide
+width: 0.5

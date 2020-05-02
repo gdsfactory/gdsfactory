@@ -1,0 +1,10 @@
+centered: 'False'
+class: rectangle
+layer: 0
+name: rectangle
+name_function: rectangle
+port_settings: _empty
+ports_parameters: ''
+size:
+- 4
+- 2

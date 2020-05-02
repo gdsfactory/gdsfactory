@@ -23,7 +23,7 @@ def straight(width, length, start_coord, layer=pp.LAYER.WG, datatype=0):
 
 @pp.autoname
 def spiral_circular(
-    length,
+    length=1e3,
     wg_width=0.5,
     spacing=3,
     min_bend_radius=5,
@@ -31,6 +31,9 @@ def spiral_circular(
     wg_layer=pp.LAYER.WG,
 ):
     """ Returns a circular spiral
+
+    Args:
+        length(um):
 
     .. plot::
         :include-source:

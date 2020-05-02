@@ -199,5 +199,27 @@ __all__ = [
     "version_stamp",
 ]
 
+_skip_test = set(["label"])
+
+
+def write_test():
+    """ writes a regression test for all the metadata """
+    with open("test_components.py", "w") as f:
+        f.write(
+            "# this code has been automatically generated from pp/components/__init__.py\n"
+        )
+        f.write("import pp\n\n")
+
+        for c in set(__all__) - _skip_test:
+            f.write(
+                f"""
+def test_{c}(data_regression):
+    c = pp.c.{c}()
+    data_regression.check(c.get_settings())
+
+"""
+            )
+
+
 if __name__ == "__main__":
-    pass
+    write_test()
