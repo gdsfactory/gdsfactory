@@ -1,0 +1,6 @@
+angle_resolution: 2.5
+class: circle
+layer: 0
+name: circle
+name_function: circle
+radius: 10

@@ -1,0 +1,8 @@
+angle_resolution: 2.5
+class: ellipse
+layer: 0
+name: ellipse
+name_function: ellipse
+radii:
+- 10
+- 5

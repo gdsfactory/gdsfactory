@@ -1,0 +1,9 @@
+class: bend_euler180
+layer:
+- 1
+- 0
+name: bend_euler180
+name_function: bend_euler180
+radius: 10.0
+resolution: 150.0
+width: 0.5

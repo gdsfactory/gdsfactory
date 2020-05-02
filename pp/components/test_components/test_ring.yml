@@ -1,0 +1,7 @@
+angle_resolution: 2.5
+class: ring
+layer: 0
+name: ring
+name_function: ring
+radius: 10
+width: 0.5

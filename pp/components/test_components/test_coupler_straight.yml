@@ -1,0 +1,11 @@
+cladding_offset: 3
+class: coupler_straight
+gap: 0.27
+layer:
+- 1
+- 0
+layers_cladding: (111, 0)
+length: 10
+name: coupler_straight
+name_function: coupler_straight
+width: 0.5

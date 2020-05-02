@@ -1,0 +1,8 @@
+class: taper_strip_to_ridge
+length: 10.0
+name: taper_strip_to_ridge
+name_function: taper_strip_to_ridge
+w_slab1: 0.15
+w_slab2: 5.0
+width1: 0.5
+width2: 0.5
