@@ -1,0 +1,7 @@
+bend: bend_s
+class: coupler_asymmetric
+gap: 0.234
+name: coupler_asymmetric
+name_function: coupler_asymmetric
+waveguide: waveguide
+wg_width: 0.5

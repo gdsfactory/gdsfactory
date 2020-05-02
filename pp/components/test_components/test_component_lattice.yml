@@ -1,0 +1,5 @@
+class: component_lattice
+components: C_X_-
+lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+name: component_lattice
+name_function: component_lattice

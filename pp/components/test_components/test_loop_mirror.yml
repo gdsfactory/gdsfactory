@@ -1,0 +1,5 @@
+bend90: bend_euler90
+class: loop_mirror
+component: mmi1x2
+name: loop_mirror
+name_function: loop_mirror

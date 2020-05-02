@@ -1,9 +1,10 @@
 # TODO
 
 - mzi2x2 with heaters have some issue, where waveguide connects to the heater
+- had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
 
 
-# dev
+# current repo version (has no release yet)
 
 - flake8 is passing now
 - added flake8 to pre-commit hook
@@ -17,6 +18,7 @@
 - zz_conn cleaner name using `from pp.name import clean_name` no slashes
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
+- added pytest-regression
 
 ```
 with_settings_label: False

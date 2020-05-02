@@ -1,0 +1,11 @@
+L0: 2350.0
+bend_factory: bend_circular
+bend_radius: 10.0
+class: delay_snake
+n: 5
+name: delay_snake
+name_function: delay_snake
+straight_factory: waveguide
+taper: taper
+total_length: 160000
+wg_width: 0.5

@@ -1,0 +1,9 @@
+class: compass
+layer:
+- 1
+- 0
+name: compass
+name_function: compass
+size:
+- 4
+- 2

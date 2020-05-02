@@ -730,7 +730,7 @@ class Component(Device):
         output = {}
         ignore = set(
             dir(Component())
-            + ["path", "settings", "properties", "function_name", "type"]
+            + ["path", "settings", "properties", "function_name", "type", "netlist"]
         )
         params = set(dir(self)) - ignore
         output["name"] = self.name
@@ -828,7 +828,7 @@ class Component(Device):
         self, layers=(), include_labels=True, invert_selection=False, recursive=True
     ):
         """ remove a list of layers """
-        layers = [_parse_layer(l) for l in layers]
+        layers = [_parse_layer(layer) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]
         for D in all_D:
@@ -849,15 +849,15 @@ class Component(Device):
 
             if include_labels:
                 new_labels = []
-                for l in D.labels:
-                    original_layer = (l.layer, l.texttype)
+                for label in D.labels:
+                    original_layer = (label.layer, label.texttype)
                     original_layer = _parse_layer(original_layer)
                     if invert_selection:
                         keep_layer = original_layer in layers
                     else:
                         keep_layer = original_layer not in layers
                     if keep_layer:
-                        new_labels += [l]
+                        new_labels += [label]
                 D.labels = new_labels
         return self
 

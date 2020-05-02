@@ -1,0 +1,10 @@
+class: litho_calipers
+layer_bottom: 2
+layer_top: 1
+name: litho_calipers
+name_function: litho_calipers
+notch_size: '2_5'
+notch_spacing: 2
+num_notches: 11
+offset_per_notch: 0.1
+row_spacing: 0

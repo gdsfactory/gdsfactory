@@ -30,6 +30,10 @@ gitdiff:
 test:
 	pyflakes pp && pytest
 
+test-force:
+	echo 'we are going to fix the metadata of all components'
+	pytest --force-regen
+
 hook:
 	cp .hooks/pre-commit .git/hooks/pre-commit
 	cp .hooks/pre-push .git/hooks/pre-push
