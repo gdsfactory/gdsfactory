@@ -44,7 +44,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-notebooks/
 pp/gds/.gds/
 .gds/
 
@@ -94,7 +93,6 @@ venv.bak
 
 .idea/
 *.cprof
-.ipynb_checkpoints/
 
 # Sphinx documentation
 doc/_build/
