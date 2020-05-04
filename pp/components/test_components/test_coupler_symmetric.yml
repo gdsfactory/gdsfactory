@@ -1,6 +1,6 @@
 bend: bend_s
 class: coupler_symmetric
 gap: 0.234
+module: pp.components.coupler_symmetric
 name: coupler_symmetric
-name_function: coupler_symmetric
 wg_width: 0.5

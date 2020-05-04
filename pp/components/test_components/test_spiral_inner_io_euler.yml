@@ -8,8 +8,8 @@ dy: 3
 grating_spacing: 127
 kwargs: _empty
 length: '20914.664633974484'
+module: pp.components.spiral_inner_io
 name: spiral_inner_io_euler
-name_function: spiral_inner_io_euler
 straight_factory: waveguide
 taper: None
 wg_width: 0.5

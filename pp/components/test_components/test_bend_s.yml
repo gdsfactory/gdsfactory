@@ -4,7 +4,7 @@ layer:
 - 1
 - 0
 length: 10
+module: pp.components.bend_s
 name: bend_s
-name_function: bend_s
 nb_points: 99
 width: 0.5

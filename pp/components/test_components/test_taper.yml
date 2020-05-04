@@ -5,8 +5,8 @@ layer:
 - 0
 layers_cladding: ''
 length: 35.0
+module: pp.components.taper
 name: taper
-name_function: taper
 port: None
 width1: 0.5
 width2: None

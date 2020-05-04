@@ -5,8 +5,8 @@ layer:
 - 1
 - 0
 layers_cladding: (111, 0)
+module: pp.components.bend_circular
 name: bend_circular
-name_function: bend_circular
 radius: 10.0
 start_angle: 0
 theta: -90
