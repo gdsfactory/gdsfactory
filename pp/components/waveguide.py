@@ -154,12 +154,15 @@ def _demo_waveguide():
 if __name__ == "__main__":
 
     c = waveguide(length=4)
-    print(c.hash_geometry())
+
     pp.show(c)
 
+    # print(c.hash_geometry())
+    # pp.show(c)
+
     # print(c.ports)
-    cc = pp.routing.add_io_optical(c)
-    pp.show(cc)
+    # cc = pp.routing.add_io_optical(c)
+    # pp.show(cc)
 
     # c = waveguide_slab()
     # c = waveguide_trenches()

@@ -49,7 +49,8 @@ def autoname_and_cache(component_function):
         else:
             component = component_function(**kwargs)
             component.name = name
-            component.name_function = component_function.__name__
+            component.module = component_function.__module__
+            component.function_name = component_function.__name__
             sig = signature(component_function)
 
             update_dicts_recurse(component.settings, kwargs)
@@ -61,7 +62,6 @@ def autoname_and_cache(component_function):
             # **{p.name: p.default for p in sig.parameters.values()}
             # )
             # component.settings.update(**kwargs)
-            component.function_name = component_function.__name__
 
             NAME_TO_DEVICE[name] = component
 

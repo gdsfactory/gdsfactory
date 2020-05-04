@@ -7,8 +7,8 @@ layer_trench:
 layers_heater: (47, 0)
 length: 10.0
 metal_connection: 'True'
+module: pp.components.waveguide_heater
 name: waveguide_heater
-name_function: waveguide_heater
 sstw: 2.0
 trench_keep_out: 2.0
 trench_width: 0.5

@@ -11,9 +11,9 @@ kwargs: _empty
 layer_label:
 - 201
 - 0
+module: pp.components.grating_coupler.grating_coupler_tree
 n_waveguides: 4
 name: grating_coupler_tree
-name_function: grating_coupler_tree
 route_filter: connect_strip_way_points_no_taper
 taper_factory: taper
 waveguide_function: waveguide

@@ -1,6 +1,6 @@
 class: cross
 layer: 0
 length: 10
+module: pp.components.cross
 name: cross
-name_function: cross
 width: 3

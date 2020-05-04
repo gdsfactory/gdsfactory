@@ -7,8 +7,8 @@ dx: 3
 dy: 3
 grating_spacing: 127
 length: '16949.99081698724'
+module: pp.components.spiral_inner_io
 name: spiral_inner_io
-name_function: spiral_inner_io
 straight_factory: waveguide
 taper: None
 wg_width: 0.5
