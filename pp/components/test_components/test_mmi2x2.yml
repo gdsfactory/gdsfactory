@@ -5,8 +5,8 @@ layer:
 - 0
 length_mmi: 15.45
 length_taper: 10
+module: pp.components.mmi2x2
 name: mmi2x2
-name_function: mmi2x2
 wg_width: 0.5
 width_mmi: 2.1
 width_taper: 0.95

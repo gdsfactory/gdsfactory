@@ -21,7 +21,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
 
 test:
-	pyflakes pp && pytest
+	pytest
 
 test-force:
 	echo 'we are going to fix the metadata of all components'

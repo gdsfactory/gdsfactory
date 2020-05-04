@@ -1,4 +1,15 @@
-""" define names, clean names and values """
+""" define names, clean names and values
+autoname adds geometric hash
+
+```
+import importlib
+function_string = c.get_settings()['module']
+mod_name, func_name = function_string.rsplit('.',1)
+mod = importlib.import_module(mod_name)
+func = getattr(mod, func_name)
+result = func()
+```
+"""
 import functools
 from inspect import signature
 import hashlib
@@ -66,13 +77,15 @@ def autoname(component_function):
 
         component = component_function(**kwargs)
         component.name = name
-        component.name_function = component_function.__name__
+        component.module = component_function.__module__
+        component.function_name = component_function.__name__
         sig = signature(component_function)
         component.settings.update(
             **{p.name: p.default for p in sig.parameters.values()}
         )
         component.settings.update(**kwargs)
-        component.function_name = component_function.__name__
+        # if hasattr(component, 'hash_geometry'):
+        #     component.settings.update(hash=component.hash_geometry())
         return component
 
     return wrapper
