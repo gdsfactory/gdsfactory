@@ -1,5 +1,5 @@
 class: hline
 length: 10
+module: pp.components.hline
 name: hline
-name_function: hline
 width: 0.5

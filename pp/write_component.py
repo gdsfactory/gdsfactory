@@ -106,7 +106,6 @@ def write_component(
     path_library=CONFIG["gds_directory"],
     add_port_pins=True,
     add_ports_to_all_cells=False,
-    store_hash_geometry=False,
     precision=1e-9,
     settings=None,
     with_settings_label=CONFIG["with_settings_label"],
@@ -123,7 +122,6 @@ def write_component(
         path_library
         add_port_pins: adds port metadata
         add_ports_to_all_cells: make sure that all sub-cells have port (necessary for netlist extraction)
-        store_hash_geometry:
         precision: to save GDS points
         settings: dict of settings
     """
@@ -139,7 +137,6 @@ def write_component(
         gdspath=str(gdspath),
         add_port_pins=add_port_pins,
         add_ports_to_all_cells=add_ports_to_all_cells,
-        store_hash_geometry=store_hash_geometry,
         precision=precision,
         with_settings_label=with_settings_label,
     )
@@ -180,7 +177,6 @@ def write_gds(
     gdspath=None,
     add_ports_to_all_cells=False,
     add_port_pins=True,
-    store_hash_geometry=False,
     unit=1e-6,
     precision=1e-9,
     remove_previous_markers=False,
@@ -224,24 +220,6 @@ def write_gds(
             add_port_markers(c)
     elif add_port_pins:
         add_port_markers(component)
-
-    if store_hash_geometry:
-        # Remove any label on hash layer
-        old_label = [l for l in component.labels if l.layer == LAYER.INFO_GEO_HASH]
-        if len(old_label) > 0:
-            for l in old_label:
-                component.labels.remove(l)
-
-        # Add new hash label
-        # component.label(
-        # text=component.hash_geometry(),
-        # position=component.size_info.cc,
-        # layer=LAYER.INFO_GEO_HASH,
-        # )
-        # Add new hash label
-        if not hasattr(component, "settings"):
-            component.settings = {}
-        component.settings.update(dict(hash_geometry=component.hash_geometry()))
 
     # write component settings into text layer
     if with_settings_label:

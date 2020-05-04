@@ -2,7 +2,7 @@ bend90_factory: bend_circular
 bend_radius: 10.0
 class: coupler90
 gap: 0.2
+module: pp.components.coupler90
 name: coupler90
-name_function: coupler90
 waveguide_factory: waveguide
 width: 0.5

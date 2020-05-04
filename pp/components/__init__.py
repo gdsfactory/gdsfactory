@@ -26,7 +26,6 @@ from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.components.coupler_asymmetric import coupler_asymmetric
 from pp.components.hline import hline
-from pp.components.version_stamp import version_stamp
 
 # basic shapes
 from pp.components.circle import circle
@@ -196,7 +195,6 @@ __all__ = [
     "waveguide_heater",
     "wg_heater_connected",
     "component_lattice",
-    "version_stamp",
 ]
 
 _skip_test = set(["label"])

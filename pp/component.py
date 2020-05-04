@@ -740,7 +740,7 @@ class Component(Device):
             "Component {} does not have property {}".format(self.name, property)
         )
 
-    def get_settings(self, **kwargs):
+    def get_settings(self):
         """ Returns settings dictionary
         """
         output = {}
@@ -752,10 +752,7 @@ class Component(Device):
         output["name"] = self.name
 
         if hasattr(self, "function_name"):
-            output["class"] = _clean_value(self.function_name)
-
-        for key, value in kwargs.items():
-            output[key] = _clean_value(value)
+            output["class"] = self.function_name
 
         for key, value in self.settings.items():
             output[key] = _clean_value(value)
@@ -836,9 +833,12 @@ class Component(Device):
         """ returns geometrical hash
         """
         if self.references or self.polygons:
-            return hash_cells(self, {})[self.name]
+            h = hash_cells(self, {})[self.name]
         else:
-            return "empty_geometry"
+            h = "empty_geometry"
+
+        self.settings.update(hash=h)
+        return h
 
     def remove_layers(
         self, layers=(), include_labels=True, invert_selection=False, recursive=True
@@ -1036,11 +1036,11 @@ def demo_component(port):
 
 if __name__ == "__main__":
     # c = pp.c.bend_circular180()
-    c = pp.c.coupler()
-    c.add_labels()
-    pp.show(c)
+    # c = pp.c.coupler()
+    # c.add_labels()
+    # pp.show(c)
 
-    # c = pp.c.waveguide()
+    c = pp.c.waveguide()
     # c = pp.c.mzi1x2()
     # c = pp.c.ring_double_bus()
     # print(c.hash_geometry())
@@ -1048,7 +1048,7 @@ if __name__ == "__main__":
     # print(c.get_settings())
     # print(c.settings)
 
-    # print(c.get_settings())
+    print(c.get_settings())
 
     # print(json.dumps(c.get_settings()))
     # print(c.get_json()['cells'].keys())

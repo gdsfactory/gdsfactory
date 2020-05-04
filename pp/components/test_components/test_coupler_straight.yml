@@ -6,6 +6,6 @@ layer:
 - 0
 layers_cladding: (111, 0)
 length: 10
+module: pp.components.coupler_straight
 name: coupler_straight
-name_function: coupler_straight
 width: 0.5

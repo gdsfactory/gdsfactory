@@ -2,8 +2,8 @@ class: compass
 layer:
 - 1
 - 0
+module: pp.components.compass
 name: compass
-name_function: compass
 size:
 - 4
 - 2
