@@ -202,8 +202,8 @@ __all__ = [
 _skip_test = set(["label"])
 
 
-def write_test():
-    """ writes a regression test for all the metadata """
+def write_test_properties():
+    """ writes a regression test for all the component properties dict"""
     with open("test_components.py", "w") as f:
         f.write(
             "# this code has been automatically generated from pp/components/__init__.py\n"
@@ -221,5 +221,28 @@ def test_{c}(data_regression):
             )
 
 
+def write_test_ports():
+    """ writes a regression test for all the ports """
+    with open("test_ports.py", "w") as f:
+        f.write(
+            "# this code has been automatically generated from pp/components/__init__.py\n"
+        )
+        f.write("import pp\n\n")
+
+        for component_function in component_type2factory.values():
+            c = component_function.__name__
+            if component_function().ports:
+
+                f.write(
+                    f"""
+def test_{c}(num_regression):
+    c = pp.c.{c}()
+    num_regression.check(c.get_ports_array())
+
+    """
+                )
+
+
 if __name__ == "__main__":
-    write_test()
+    write_test_properties()
+    write_test_ports()

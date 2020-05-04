@@ -1,5 +1,11 @@
 class: grating_coupler_uniform
 fill_factor: 0.5
+layer:
+- 1
+- 0
+layer_partial_etch:
+- 2
+- 0
 length_taper: 150
 name: grating_coupler_uniform
 name_function: grating_coupler_uniform
