@@ -14,6 +14,8 @@ def grating_coupler_uniform(
     length_taper=150,
     width=0.5,
     partial_etch=False,
+    layer=pp.LAYER.WG,
+    layer_partial_etch=pp.LAYER.SLAB150,
 ):
     """ Grating coupler uniform
 
@@ -37,8 +39,6 @@ def grating_coupler_uniform(
     """
     # returns a fiber grating
     G = Component()
-    layer = 1
-    layer_partial_etch = 2
 
     if partial_etch:
         partetch_overhang = 5

@@ -1,7 +1,8 @@
 help:
 	@echo 'make install:          Install package, hook, notebooks and gdslib'
-	@echo 'make gitdiff:          Git diff GDS shows the boolean operation in klayout'
-	@echo 'make notebooks:        Download notebook samples repo'
+	@echo 'make waveguide:        Build a sample waveguide'
+	@echo 'make test:             Run tests with pytest'
+	@echo 'make test-force:       Rebuilds regression test'
 
 install: gdslib
 	pip install -r requirements.txt --upgrade
@@ -12,20 +13,12 @@ install: gdslib
 	pip install pre-commit
 	pre-commit install
 
-install3:
-	pyenv shell 3.7.2
-	virtualenv venv
-	source venv/bin/activate
-	python -V # Print out python version for debugging
-	which python # Print out which python for debugging
-	python setup.py develop
+waveguide:
+	python pp/components/waveguide.py
+
 
 gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
-
-gitdiff:
-	cd gdsdiff
-	python install.py
 
 test:
 	pyflakes pp && pytest
@@ -34,35 +27,20 @@ test-force:
 	echo 'we are going to fix the metadata of all components'
 	pytest --force-regen
 
-hook:
-	cp .hooks/pre-commit .git/hooks/pre-commit
-	cp .hooks/pre-push .git/hooks/pre-push
-
-hook-lint:
-	cp .hooks/pre-commit .git/hooks/pre-commit
-
-hook-pytest:
-	cp .hooks/pre-push .git/hooks/pre-push
-
-unhook:
-	rm .git/hooks/*
-
-notebooks:
-	pip install jupyterlab
-	mkdir -p $(HOME)/notebooks
-	ln -sf $(PWD)/notebooks $(HOME)/notebooks/gdsfactory
-
 venv:
 	python3 -m venv env
+
+pyenv3:
+	pyenv shell 3.7.2
+	virtualenv venv
+	source venv/bin/activate
+	python -V # Print out python version for debugging
+	which python # Print out which python for debugging
+	python setup.py develop
 
 mypy:
 	mypy . --ignore-missing-imports
 
-waveguide:
-	python pp/components/waveguide.py
-
-clean:
-	rm -rf build
 
 build:
 	python setup.py sdist bdist_wheel
@@ -71,7 +49,5 @@ release:
 	pip install devpi-client wheel
 	devpi upload --format=bdist_wheel,sdist.tgz
 
-lint:
-	pyflakes pp
 
 .PHONY: gdsdiff build

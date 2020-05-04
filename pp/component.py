@@ -660,6 +660,22 @@ class Component(Device):
         """ returns a lit of optical ports """
         return list(select_optical_ports(self.ports).values())
 
+    def get_ports_array(self):
+        """ returns ports as a dict of np arrays"""
+        return {
+            port_name: np.array(
+                [
+                    port.x,
+                    port.y,
+                    int(port.orientation),
+                    port.width,
+                    port.layer[0],
+                    port.layer[1],
+                ]
+            )
+            for port_name, port in self.ports.items()
+        }
+
     def get_electrical_ports(self):
         """ returns a list of optical ports """
         return list(select_electrical_ports(self.ports).values())
@@ -759,7 +775,7 @@ class Component(Device):
         width=1,
         orientation=45,
         port=None,
-        layer=1,
+        layer=(1, 0),
         port_type="optical",
     ):
         """ Can be called to copy an existing port like add_port(port = existing_port) or
