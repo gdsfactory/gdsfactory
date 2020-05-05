@@ -368,7 +368,7 @@ def cdsem_uturn(
     waveguide_factory=pp.c.waveguide,
     bend90_factory=bend_circular,
     layer=pp.LAYER.WG,
-    layer_cladding=pp.LAYER.WGCLAD,
+    layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
 ):
     """
@@ -383,7 +383,7 @@ def cdsem_uturn(
     c = pp.Component()
     r = radius
     bend90 = bend90_factory(
-        width=width, radius=r, layer=layer, cladding_layer=layer_cladding
+        width=width, radius=r, layer=layer, layers_cladding=layers_cladding
     )
     if wg_length is None:
         wg_length = 2 * r
@@ -391,7 +391,7 @@ def cdsem_uturn(
         width=width,
         length=wg_length,
         layer=layer,
-        layer_cladding=layer_cladding,
+        layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
     )
 

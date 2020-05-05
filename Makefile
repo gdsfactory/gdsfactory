@@ -24,7 +24,7 @@ test:
 	pytest
 
 test-force:
-	echo 'we are going to fix the metadata of all components'
+	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
 	pytest --force-regen
 
 venv:
