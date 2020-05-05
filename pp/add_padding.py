@@ -17,6 +17,7 @@ def add_padding(
     """
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
+    c.ports = component.ports
     x = x or padding
     y = y or padding
     points = [
@@ -44,6 +45,7 @@ def add_padding_to_grid(
     """
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
+    c.ports = component.ports
 
     if c.size_info.height < grid_size:
         y_padding = grid_size - c.size_info.height
