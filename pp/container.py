@@ -12,7 +12,12 @@ import pp
 
 
 def container(component_function):
-    """ decorator for creating a new component that copies some properties from the original component
+    """ decorator for creating a new component that copies properties from the original component
+
+    - polarization
+    - wavelength
+    - test_protocol
+    - data_analysis_protocol
 
     Functions decorated with container will return a new component
 
@@ -51,7 +56,6 @@ def container(component_function):
 
         sig = signature(component_function)
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
-        new.ports = new.ports or old.ports.copy()
         new.settings["component"] = old.settings.copy()
         new.settings["component_name"] = old.name
         new.test_protocol = new.test_protocol or old.test_protocol.copy()

@@ -181,4 +181,5 @@ if __name__ == "__main__":
         grating_coupler=[gcte, gctm, gcte, gctm],
     )
     # cc = demo_te_and_tm()
+    print(cc.ports.keys())
     pp.show(cc)

@@ -27,19 +27,12 @@ layermap = dict(
     VIA1=(40, 0),
     VIA2=(44, 0),
     VIA3=(43, 0),
-    NBN=(31, 0),
     NO_TILE_SI=(63, 0),
-    PADDING=(68, 0),
+    PADDING=(67, 0),
+    DEVREC=(68, 0),
     FLOORPLAN=(600, 0),
-    FLOORPLAN_PACKAGING=(601, 0),
-    FLOORPLAN_WIREBOND_LANE=(602, 0),
-    FLOORPLAN_SI_REMOVAL=(603, 0),
-    FLOORPLAN_PACKAGING_OPTICAL=(604, 0),
-    FLOORPLAN_E_DIE=(610, 0),
-    FLOORPLAN_E_DIE_COMPONENTS=(611, 0),
-    FLOORPLAN_CU_HEAT_SINK=(620, 0),
     TEXT=(66, 0),
-    PORT=(60, 0),
+    PORT=(1, 10),
     LABEL=(201, 0),
     INFO_GEO_HASH=(202, 0),
     polarization_te=(203, 0),
@@ -183,7 +176,6 @@ def preview_layerset(ls=ls, size=100):
 LAYERS_OPTICAL = [LAYER.WG]
 LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
 LAYERS_HEATER = [LAYER.HEATER]
-LAYERS_SUPERCONDUCTING = [LAYER.NBN]
 
 if __name__ == "__main__":
     import pp
