@@ -198,6 +198,7 @@ __all__ = [
 ]
 
 _skip_test = set(["label"])
+_skip_test_ports = set(["grating_coupler_tree"])
 
 
 def write_test_properties():
@@ -227,7 +228,9 @@ def write_test_ports():
         )
         f.write("import pp\n\n")
 
-        for component_function in component_type2factory.values():
+        for component_function in (
+            set(component_type2factory.values()) - _skip_test_ports
+        ):
             c = component_function.__name__
             if component_function().ports:
 
