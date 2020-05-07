@@ -1,4 +1,4 @@
-from recommonmark.parser import CommonMarkParser
+# from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 
 project = "gdsfactory"
@@ -9,7 +9,7 @@ author = "PsiQ"
 master_doc = "index"
 html_theme = "sphinx_rtd_theme"
 
-source_parsers = {".md": CommonMarkParser}
+# source_parsers = {".md": CommonMarkParser}
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
