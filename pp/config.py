@@ -6,7 +6,7 @@
 
 """
 
-__version__ = "1.1.6"
+__version__ = "1.1.7"
 __all__ = ["CONFIG", "load_config", "write_config"]
 
 import os
@@ -163,8 +163,8 @@ def call_if_func(f, **kwargs):
     return f(**kwargs) if callable(f) else f
 
 
-def parse_layer_exclude(l):
-    return list(ast.literal_eval(l))
+def parse_layer_exclude(layer):
+    return list(ast.literal_eval(layer))
 
 
 def get_git_hash():
