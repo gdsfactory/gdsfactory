@@ -5,13 +5,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install: gdslib
-	pip install -r requirements.txt --upgrade
-	pip install -e .
-	python install_klive.py
-	python install_gdsdiff.py
-	python install_generic_tech.py
-	pip install pre-commit
-	pre-commit install
+	bash install.sh
 
 waveguide:
 	python pp/components/waveguide.py

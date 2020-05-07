@@ -22,9 +22,9 @@ If you are on Windows, you need to install a C++ compiler ["Build Tools for Visu
 Once you have `git` and `python3` we recommend to install the latest version from the git repo by copy-pasting this 3 lines into a terminal.
 
 ```
-git clone https://github.com/PsiQ/gdsfactory.git
+git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
-make install
+bash install.sh
 ```
 
 # Submodules in this repo
