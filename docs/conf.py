@@ -46,4 +46,4 @@ def linkcode_resolve(domain, info):
     if not info["module"]:
         return None
     filename = info["module"].replace(".", "/")
-    return "https://github.com/PsiQ/gdsfactory/blob/master/{}.py".format(filename)
+    return "https://github.com/gdsfactory/gdsfactory/blob/master/{}.py".format(filename)
