@@ -6,6 +6,9 @@
 
 # current repo version (has no release yet)
 
+
+# 1.1.7 2020-05-07
+
 - flake8 is passing now
 - added flake8 to pre-commit hook
 - simpler JSON file for mask metadata mask.tp.json
