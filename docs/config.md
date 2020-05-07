@@ -7,7 +7,7 @@
 ```
 
 
-You can access the config dictinary
+You can access the config dictionary
 
 
 ```

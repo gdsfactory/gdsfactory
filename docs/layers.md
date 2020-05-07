@@ -2,7 +2,7 @@
 
 Each foundry uses different GDS numbers for each process step.
 
-We follow the generic layer numbers from  the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
+We follow the generic layer numbers from  the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `pp.LAYER` dict.
 
 GDS | layer_name     | Description
 --- | ------------   | ---
@@ -19,7 +19,6 @@ GDS | layer_name     | Description
 52  | DEEPTRENCH     | Deep trench
 66  | TEXT           | Text markup
 64  | FLORRPLAN      |
-65  | DICING         |
 
 Layers are available in `pp.LAYER` or `pp.layer(layer_name)`
 
@@ -30,17 +29,21 @@ Layers are available in `pp.LAYER` or `pp.layer(layer_name)`
 
 ```
 
+You can build PDKs for different foundries using gdsfactory, the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo.
+
+
 You basically have two options:
 
-1. You use the generic layermap from the table and use a script to remap the GDS layers into the specific foundry layer map.
+1. You create a PDK that has all the layer information for the foundry.
 
-2. You create a PDK that has all the layer information for the foundry (no remap needed)
+2. You use the generic layermap from the table and use a script to remap the GDS layers into the specific foundry layer map, using for example a klayout script or using the remap shows in `pp/samples/06_remaping_layers.py`
+
 
 
 ```
 
-from fab1pdk.layers import layer
-from fab1pdk.mm1 import mm1x2
+from fab.layers import layer
+from fab.mm1 import mm1x2
 
 component = mmi1x2()
 
