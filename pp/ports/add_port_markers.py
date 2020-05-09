@@ -106,7 +106,7 @@ def add_port_markers(
     component,
     add_port_marker_function=add_port_marker_square,
     add_device_metadata=True,
-    **kwargs
+    **kwargs,
 ):
 
     """ add port markers:
@@ -133,9 +133,16 @@ def add_port_markers(
 
 
 def get_optical_text(port, gc, gc_index=None, component_name=None):
-
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
+
+    assert polarization in [
+        "te",
+        "tm",
+    ], f"Not valid polarization {polarization} in [te, tm]"
+    assert (
+        isinstance(wavelength_nm, (int, float)) and 1000 < wavelength_nm < 2000
+    ), f"{wavelength_nm} is Not valid 1000 < wavelength < 2000"
 
     if component_name:
         name = component_name

@@ -1,6 +1,9 @@
 import pp
 
-from pp.ports.port_naming import deco_rename_ports
+from pp.ports.port_naming import deco_rename_ports, rename_ports_by_orientation
+from pp.components import bend_circular
+from pp.components import waveguide
+from pp.components import mmi1x2
 
 
 @deco_rename_ports
@@ -10,9 +13,9 @@ def mzi(
     L1=9,
     L2=10,
     bend_radius=10.0,
-    bend90_factory=pp.c.bend_circular,
-    straight_factory=pp.c.waveguide,
-    coupler_factory=pp.c.mmi1x2,
+    bend90_factory=bend_circular,
+    straight_factory=waveguide,
+    coupler_factory=mmi1x2,
     combiner_factory=None,
 ):
     """ Mzi adapted for using different coupler and combiner factories
@@ -59,6 +62,9 @@ def mzi(
 
     b90 = bend90_factory(radius=bend_radius)
     l0 = straight_factory(length=L0)
+
+    coupler = rename_ports_by_orientation(coupler)
+    combiner = rename_ports_by_orientation(combiner)
 
     y1l = coupler.ports["E0"].y
     y1r = combiner.ports["E0"].y
