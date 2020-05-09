@@ -13,7 +13,7 @@ from pp.routing.utils import direction_ports_from_list_ports
 
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.connect import get_waypoints_connect_strip
-from pp.ports.add_port_markers import get_input_label
+from pp.routing.get_input_labels import get_input_labels
 import pp
 
 SPACING_GC = 127.0
@@ -48,6 +48,7 @@ def route_fiber_array(
     optical_port_labels=None,
     taper_factory=taper,
     route_factory=route_south,
+    get_input_labels_function=get_input_labels
     # input_port_indexes=[0],
 ):
     """
@@ -387,16 +388,9 @@ def route_fiber_array(
         elements += [loop_back]
 
     """ input_label for automated testing opt_TE_1550_componentName_0_portLabel"""
-    for i, g in enumerate(io_gratings):
-        label = get_input_label(
-            port=ordered_ports[i],
-            gc=g,
-            gc_index=i,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        elements += [label]
+    elements += get_input_labels_function(
+        io_gratings, ordered_ports, component_name, layer_label, gc_port_name
+    )
 
     return elements, io_gratings_lines, y0_optical
 
