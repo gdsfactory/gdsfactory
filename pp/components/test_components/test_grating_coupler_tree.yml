@@ -4,6 +4,7 @@ class: grating_coupler_tree
 component: ''
 component_name: None
 gc_port_name: W0
+get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array
 grating_coupler: grating_coupler_te
 grating_coupler_function: grating_coupler_elliptical_te

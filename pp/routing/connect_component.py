@@ -7,6 +7,7 @@ from pp.components.taper import taper
 from pp.container import container
 
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.routing.get_input_labels import get_input_labels
 
 
 def add_io_optical_te(*args, **kwargs):
@@ -25,6 +26,7 @@ def add_io_optical(
     component_name=None,
     taper_factory=taper,
     get_route_factory=route_fiber_array,
+    get_input_labels_function=get_input_labels,
     **kwargs,
 ):
     """ returns component with optical IO (tapers, south routes and grating_couplers)
@@ -97,6 +99,7 @@ def add_io_optical(
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
         component_name=component_name,
+        get_input_labels_function=get_input_labels_function,
         **kwargs,
     )
     if len(elements) == 0:
