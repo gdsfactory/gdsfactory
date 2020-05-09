@@ -153,13 +153,11 @@ def get_optical_text(port, gc, gc_index=None, component_name=None):
         name = port.parent.ref_cell.name
 
     if isinstance(gc_index, int):
-        text = "opt_{}_{}_({})_{}_{}".format(
-            polarization, int(wavelength_nm), name, gc_index, port.name
+        text = (
+            f"opt_{polarization}_{int(wavelength_nm)}_({name})_{gc_index}_{port.name}"
         )
     else:
-        text = "opt_{}_{}_({})_{}".format(
-            polarization, int(wavelength_nm), name, port.name
-        )
+        text = f"opt_{polarization}_{int(wavelength_nm)}_({name})_{port.name}"
 
     return text
 
