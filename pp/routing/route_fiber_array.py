@@ -104,6 +104,10 @@ def route_fiber_array(
         grating_coupler = pp.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
+    assert (
+        gc_port_name in grating_coupler.ports
+    ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
+
     """
     # Now:
     # - grating_coupler is a single grating coupler
@@ -322,7 +326,7 @@ def route_fiber_array(
                 separation=sep,
                 end_straight_offset=end_straight_offset,
                 route_filter=route_filter,
-                **route_filter_params
+                **route_filter_params,
             )
 
         else:
@@ -338,7 +342,7 @@ def route_fiber_array(
                     separation=sep,
                     end_straight_offset=end_straight_offset,
                     route_filter=route_filter,
-                    **route_filter_params
+                    **route_filter_params,
                 )
                 del to_route[n0 - dn : n0 + dn]
 
@@ -385,11 +389,12 @@ def route_fiber_array(
     """ input_label for automated testing opt_TE_1550_componentName_0_portLabel"""
     for i, g in enumerate(io_gratings):
         label = get_input_label(
-            ordered_ports[i],
-            g,
-            i,
+            port=ordered_ports[i],
+            gc=g,
+            gc_index=i,
             component_name=component_name,
             layer_label=layer_label,
+            gc_port_name=gc_port_name,
         )
         elements += [label]
 

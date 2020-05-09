@@ -75,6 +75,7 @@ from pp.components.mmi2x2 import mmi2x2
 from pp.components.mzi2x2 import mzi_arm
 from pp.components.mzi2x2 import mzi2x2
 from pp.components.mzi1x2 import mzi1x2
+from pp.components.mzi import mzi
 from pp.components.loop_mirror import loop_mirror
 
 # level 2 components
@@ -105,6 +106,7 @@ component_type2factory = {
     "loop_mirror": loop_mirror,
     "mmi1x2": mmi1x2,
     "mmi2x2": mmi2x2,
+    "mzi": mzi,
     "mzi2x2": mzi2x2,
     "mzi1x2": mzi1x2,
     "pad": pad,
@@ -176,6 +178,7 @@ __all__ = [
     "mmi1x2",
     "mmi2x2",
     "mzi_arm",
+    "mzi",
     "pad",
     "pad_array",
     "rectangle",
