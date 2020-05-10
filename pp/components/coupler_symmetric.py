@@ -21,7 +21,7 @@ def coupler_symmetric(bend=bend_s, gap=0.234, wg_width=0.5):
       pp.plotgds(c)
 
     """
-    bend = pp.call_if_func(bend, width=wg_width)
+    bend = pp.call_if_func(bend, width=wg_width, with_pins=False)
 
     w = bend.ports["W0"].width
     y = (w + gap) / 2

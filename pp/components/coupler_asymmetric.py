@@ -25,7 +25,7 @@ def coupler_asymmetric(bend=bend_s, waveguide=waveguide, gap=0.234, wg_width=0.5
 
     """
     bend = pp.call_if_func(bend, width=wg_width)
-    wg = pp.call_if_func(waveguide, width=wg_width)
+    wg = pp.call_if_func(waveguide, width=wg_width, with_pins=False)
 
     w = bend.ports["W0"].width
     y = (w + gap) / 2

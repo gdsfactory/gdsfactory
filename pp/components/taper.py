@@ -11,6 +11,7 @@ def taper(
     layer=pp.LAYER.WG,
     layers_cladding=[],
     cladding_offset=3,
+    with_pins=True,
 ):
     """ Linear taper
 
@@ -55,7 +56,8 @@ def taper(
     c.info["length"] = length
     c.info["width1"] = width1
     c.info["width2"] = width2
-
+    if with_pins:
+        pp.add_pins(c)
     return c
 
 
@@ -98,6 +100,7 @@ def taper_strip_to_ridge(
     c.add_port(name="wg_2", port=_taper_wg.ports["2"])
     c.add_port(name="slab_2", port=_taper_slab.ports["2"])
 
+    pp.add_pins(c)
     return c
 
 
@@ -110,6 +113,7 @@ def taper_strip_to_ridge_trenches(
     trench_layer=3,
     wg_layer=1,
     trench_offset_after_wg=0.1,
+    with_pins=True,
 ):
 
     c = pp.Component()
@@ -138,6 +142,8 @@ def taper_strip_to_ridge_trenches(
         name="E0", midpoint=[length, 0], width=width, orientation=0, layer=wg_layer
     )
 
+    if with_pins:
+        pp.add_pins(c)
     return c
 
 

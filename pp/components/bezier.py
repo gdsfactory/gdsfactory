@@ -44,6 +44,7 @@ def bezier(
     control_points=[(0, 0), (5.0, 0), (5.0, 2.0), (10.0, 2.0)],
     t=np.linspace(0, 1, 201),
     layer=LAYER.WG,
+    with_pins=False,
     **extrude_path_params
 ):
     """ bezier bend """
@@ -84,7 +85,8 @@ def bezier(
     c.info["curvature"] = curv
     c.info["t"] = t
 
-    add_pins(c)
+    if with_pins:
+        add_pins(c)
     return c
 
 
