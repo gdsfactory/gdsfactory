@@ -30,7 +30,7 @@ def write_component_type(
     overwrite=False,
     path_directory=CONFIG["gds_directory"],
     component_type2factory=component_type2factory,
-    add_port_pins=True,
+    add_port_pins=CONFIG["add_port_pins"],
     flatten=False,
     **kwargs,
 ):
@@ -104,7 +104,7 @@ def write_component(
     component,
     gdspath=None,
     path_library=CONFIG["gds_directory"],
-    add_port_pins=True,
+    add_port_pins=CONFIG["add_port_pins"],
     add_ports_to_all_cells=False,
     precision=1e-9,
     settings=None,
@@ -176,7 +176,7 @@ def write_gds(
     component,
     gdspath=None,
     add_ports_to_all_cells=False,
-    add_port_pins=True,
+    add_port_pins=CONFIG["add_port_pins"],
     unit=1e-6,
     precision=1e-9,
     remove_previous_markers=False,
@@ -257,7 +257,7 @@ def show(
     component,
     gdspath=CONFIG["gdspath"],
     add_ports_to_all_cells=False,
-    add_port_pins=True,
+    add_port_pins=CONFIG["add_port_pins"],
     **kwargs,
 ):
     """ write component GDS and shows it in klayout
