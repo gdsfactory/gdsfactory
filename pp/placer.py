@@ -323,7 +323,7 @@ def save_doe(doe_name, components, doe_root_path=None, precision=1e-9):
 
     for c in components:
         gdspath = os.path.join(doe_dir, c.name + ".gds")
-        write_gds(c, gdspath=gdspath, add_port_pins=False, precision=precision)
+        write_gds(c, gdspath=gdspath, precision=precision)
         write_component_report(c, json_path=gdspath[:-4] + ".json")
 
 

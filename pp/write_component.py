@@ -10,7 +10,6 @@ from phidl import device_layout as pd
 from pp import CONFIG
 from pp.name import get_component_name
 from pp.components import component_type2factory
-from pp.ports import add_port_markers
 from pp import klive
 from pp.component import Component
 
@@ -30,8 +29,6 @@ def write_component_type(
     overwrite=False,
     path_directory=CONFIG["gds_directory"],
     component_type2factory=component_type2factory,
-    add_port_pins=CONFIG["add_port_pins"],
-    flatten=False,
     **kwargs,
 ):
     """ write_component by type or function
@@ -41,7 +38,6 @@ def write_component_type(
         overwrite:
         path_directory: to store GDS + metadata
         component_type2factory: factory dictionary
-        flatten: False
         **kwargs: component args
     """
     if callable(component_type):
@@ -58,11 +54,7 @@ def write_component_type(
             name=component_name, **kwargs
         )
         component.type = component_type
-        if flatten:
-            component.flatten()
-        write_component(
-            component, gdspath, add_port_pins=add_port_pins,
-        )
+        write_component(component, gdspath)
 
     return gdspath
 
@@ -104,8 +96,6 @@ def write_component(
     component,
     gdspath=None,
     path_library=CONFIG["gds_directory"],
-    add_port_pins=CONFIG["add_port_pins"],
-    add_ports_to_all_cells=False,
     precision=1e-9,
     settings=None,
     with_settings_label=CONFIG["with_settings_label"],
@@ -120,8 +110,6 @@ def write_component(
         component:
         gdspath:
         path_library
-        add_port_pins: adds port metadata
-        add_ports_to_all_cells: make sure that all sub-cells have port (necessary for netlist extraction)
         precision: to save GDS points
         settings: dict of settings
     """
@@ -135,8 +123,6 @@ def write_component(
     gdspath = write_gds(
         component=component,
         gdspath=str(gdspath),
-        add_port_pins=add_port_pins,
-        add_ports_to_all_cells=add_ports_to_all_cells,
         precision=precision,
         with_settings_label=with_settings_label,
     )
@@ -175,8 +161,6 @@ def write_json(json_path, **settings):
 def write_gds(
     component,
     gdspath=None,
-    add_ports_to_all_cells=False,
-    add_port_pins=CONFIG["add_port_pins"],
     unit=1e-6,
     precision=1e-9,
     remove_previous_markers=False,
@@ -188,8 +172,6 @@ def write_gds(
     Args:
         component (required)
         gdspath: by default saves it into CONFIG['gds_directory']
-        add_ports_to_all_cells: to child cells - required to export netlists
-        add_port_pins: show port metadata
         auto_rename: False by default (otherwise it calls it top_cell)
         unit
         precission
@@ -211,15 +193,6 @@ def write_gds(
         label_layer = (LAYER.TEXT,)
         component.remove_layers([port_layer])
         component.remove_layers([label_layer])
-
-    if add_port_pins and add_ports_to_all_cells:
-        referenced_cells = list(component.get_dependencies(recursive=True))
-        all_cells = [component] + referenced_cells
-        all_cells = list(set(all_cells))
-        for c in all_cells:
-            add_port_markers(c)
-    elif add_port_pins:
-        add_port_markers(component)
 
     # write component settings into text layer
     if with_settings_label:
@@ -254,11 +227,7 @@ def clean_value(value):
 
 
 def show(
-    component,
-    gdspath=CONFIG["gdspath"],
-    add_ports_to_all_cells=False,
-    add_port_pins=CONFIG["add_port_pins"],
-    **kwargs,
+    component, gdspath=CONFIG["gdspath"], **kwargs,
 ):
     """ write component GDS and shows it in klayout
 
@@ -280,11 +249,7 @@ def show(
 
     elif isinstance(component, Component):
         write_gds(
-            component,
-            gdspath,
-            add_ports_to_all_cells=add_ports_to_all_cells,
-            add_port_pins=add_port_pins,
-            **kwargs,
+            component, gdspath, **kwargs,
         )
         klive.show(gdspath)
     else:
@@ -313,7 +278,7 @@ if __name__ == "__main__":
     # gdspath = write_component(cc)
 
     # gdspath = write_component_type("ring_double_bus", overwrite=True, flatten=False)
-    # gdspath = write_component_type("waveguide", length=5, overwrite=True, add_port_pins=False)
+    # gdspath = write_component_type("waveguide", length=5, overwrite=True)
     # gdspath = write_component_type("mmi1x2", width_mmi=5, overwrite=True)
     # gdspath = write_component_type("mzi2x2", overwrite=True)
     # gdspath = write_component_type("bend_circular", overwrite=True)
