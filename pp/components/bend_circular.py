@@ -163,6 +163,7 @@ def bend_circular(
     component.move((0, radius))
 
     pp.ports.port_naming.rename_ports_by_orientation(component)
+    pp.add_pins(component)
     return component
 
 
@@ -341,4 +342,4 @@ if __name__ == "__main__":
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
     # print(c.ports)
-    # pp.show(c)
+    pp.show(c)

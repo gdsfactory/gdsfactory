@@ -10,6 +10,7 @@ from pp.geo_utils import angles_deg
 from pp.geo_utils import snap_angle
 from pp.geo_utils import path_length
 from pp.geo_utils import curvature
+from pp.add_pins import add_pins
 
 
 def bezier_curve(t, control_points):
@@ -83,6 +84,7 @@ def bezier(
     c.info["curvature"] = curv
     c.info["t"] = t
 
+    add_pins(c)
     return c
 
 

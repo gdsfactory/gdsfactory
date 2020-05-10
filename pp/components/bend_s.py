@@ -2,6 +2,7 @@ import numpy as np
 
 import pp
 from pp.components.bezier import bezier
+from pp.add_pins import add_pins
 
 
 __version__ = "0.0.2"
@@ -40,6 +41,7 @@ def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
 
     # c.ports["W0"] = c.ports.pop("0")
     # c.ports["E0"] = c.ports.pop("1")
+    add_pins(c)
     return c
 
 

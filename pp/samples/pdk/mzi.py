@@ -1,5 +1,4 @@
 import pp
-from pp.ports import add_port_markers
 
 from waveguide import waveguide
 from bend_circular import bend_circular
@@ -14,7 +13,6 @@ def mzi(delta_length=100):
         bend90_factory=bend_circular,
         coupler_factory=y_splitter,
     )
-    add_port_markers(c)
     return c
 
 

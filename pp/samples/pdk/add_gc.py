@@ -2,7 +2,7 @@ from phidl import device_layout as pd
 import pp
 from pp.routing.manhattan import round_corners
 from pp.rotate import rotate
-from pp.ports.add_port_markers import get_input_label
+from pp.add_labels import get_input_label
 
 from import_gds import import_gds
 from layers import LAYER

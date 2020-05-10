@@ -674,7 +674,6 @@ def test_manhattan():
         # output_port = Port("output_port", (90,-60), 0.5, 180)
 
         bend = bend_circular(radius=5.0)
-        pp.ports.add_port_markers(bend)
         cell = route_manhattan(
             input_port,
             output_port,
