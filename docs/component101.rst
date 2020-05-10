@@ -37,6 +37,7 @@ Here is a step by step example below generating a waveguide crossing
       c = pp.Component()
 
       # We need an ellipse, this is an existing primitive
+      # c << component is equivalent to c.add_ref(component)
       c << pp.c.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
 
       a = L + w / 2

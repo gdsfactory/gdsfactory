@@ -21,50 +21,48 @@ A DOE contains:
 - Any other field corresponds to a parameter of the component factory
 
 
-This is the content of the YAML file called `placer_example.yml`
-It specifies a component grid and its DOEs.
+This is the content of the YAML file called `does.yml`
+It specifies component DOEs, and where they should be placed after building them.
 
 .. code-block:: yaml
 
-    placer:
-        x_spacing: 1000 # x spacing origin to origin between the components
-        y_spacing: 500 #  y spacing origin to origin between the components
-        x_start: 500
-        y_start: 100
+    mask:
+      width: 10000
+      height: 10000
+      name: mask2
 
-    doe1:
-        doe_name: doe1
-        component: mmi1x2
+    mmi_width:
+      doe_name: mmi_width
+      component: mmi1x2
+      settings:
+        width_mmi: [4.5, 5.6]
+        length_mmi: 10
+      placer:
+        type: pack_row
+        x0: 0 # Absolute coordinate placing
+        y0: 0 # Absolute coordinate placing
+        align_x: W # x origin is west
+        align_y: S # y origin is south
+
+    mmi_width_length:
+      doe_name: mmi_width_length
+      component: mmi1x2
+      do_permutation: False
+      settings:
         length_mmi: [11, 12]
         width_mmi: [3.6, 7.8]
-        do_permutation: False
 
+      placer:
+        type: pack_row
+        next_to: mmi_width
+        x0: W # x0 is the west of the DOE specified in next_to
+        y0: S # y0 is the south of the DOE specified in next_to
+        align_x: W # x origin is west of current component
+        align_y: N # y origin is south of current component
+        inter_margin_y: 200 # y margin between this DOE and the one used for relative placement
+        margin_x: 50. # x margin between the components within this DOE
+        margin_y: 20. # y margin between the components within this DOE
 
-    doe2:
-        doe_name: doe2
-        component: mmi1x2
-        length_mmi: [13, 14, 15]
-        width_mmi: [3.6, 7.8, 9.4]
-        do_permutation: False
-
-    doe3:
-        doe_name: doe3
-        component: mzi2x2
-        L0: [60, 80, 100]
-
-
-    doe4:
-        doe_name: doe4
-        component: mzi2x2
-        L0: [60, 80, 100]
-        gap: [0.23, 0.234, 0.24]
-        do_permutation: True
-
-    placement:
-        A1-2: doe1
-        D-F4: doe2
-        A3-5: doe3
-        E-G5-7: doe4
 
 Define DOE
 --------------------
@@ -85,13 +83,10 @@ Define component factory
 
 .. code-block:: python
 
-    # Importing what I need from the pdk to make my new component factory
     import pp
     from pp.components.delay_snake import delay_snake
     from pp.components.waveguide import waveguide
     from pp.components.bend_circular import bend_circular
-
-    # Importing the I/O connector function
     from pp.routing.connect_component import add_io_optical
 
     @pp.autoname
@@ -121,22 +116,16 @@ Define component factory
         return component
 
 
-We now need to make sure that the `component_grid_from_yaml` placer knows about this new factory.
+We now need to make sure that the `does.yaml` placer knows about this new factory.
 
 .. code-block:: python
 
     import pp
-
-    # Import the placer
     from pp.placer import component_grid_from_yaml
-
-    # Import our custom factory
     from wg_te_cutback import wg_te_cutback
-
-    # Import the dictionnary of factories
     from pp.components import component_type2factory
 
-    # Add the custom DOE to the dictionnary of factories
+    # Add the custom DOE to the dictionary of factories
     component_type2factory["wg_te_cutback"] = wg_te_cutback
 
     def main():

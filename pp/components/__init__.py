@@ -1,12 +1,3 @@
-""" You can import many components from the components `c` module ::
-
-    import pp
-
-    c = pp.c.mmi1x2()
-    pp.show(c)
-
-"""
-
 # NOTE: import order matters. Only change the order if you know what you are doing
 # level 0 components
 from pp.components.waveguide import waveguide

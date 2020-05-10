@@ -18,9 +18,9 @@ If you are on Windows, you will need a C++ compiler - For Windows + Python 3, in
 Once you have `git` and `python3` copy-paste this 3 lines into a terminal (For windows use Git Bash)
 
 ```
-git clone https://github.com/PsiQ/gdsfactory
+git clone https://github.com/gdsfactory/gdsfactory
 cd gdsfactory
-make install
+bash install.sh
 ```
 
 ## Getting started
@@ -28,7 +28,7 @@ make install
 You can review:
 
 - jupyter notebooks
-- samples folder
+- samples inside the photonics package (pp/samples)
 
 ## Testing
 
@@ -36,10 +36,9 @@ You may also invoke `pf test` at any time from the command line.
 
 - runs functions that start with `test_function` in pp and tests folders
 
-`make hook` enables pre-commit hook to check syntax and and pre-push to run tests:
+`the pre-commit hook` enables pre-commit hook check syntax with pyflakes
 
-- Upon commit, `pyflakes` checks syntax/style and refuses commits with syntax errors.
-- Upon pushing, `pytest` is launched. The code is pushed only if `pytest` passes.
+- Upon commit, `pyflakes` checks syntax/style and `black` autoformatts the code
 
 ## Gdslib
 
@@ -53,5 +52,4 @@ If the component modification is correct, the library has to be relocked with th
 
 This is done by manually calling the function `test_factory.py` or by manually replacing the component GDS file in `gdslib`.
 Always invoke this function with care: all the components modified by this function become the new standards.
-
-- compares GDShash of the library with the gdslib repo, you can relock the library
+`test_factory` compares GDShash of the library with the gdslib repo, you can relock the library
