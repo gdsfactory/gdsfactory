@@ -15,6 +15,8 @@ from inspect import signature
 import hashlib
 import numpy as np
 from phidl import Device
+from pp.config import CONFIG
+from pp.ports import add_port_markers
 
 MAX_NAME_LENGTH = 32
 
@@ -74,6 +76,7 @@ def autoname(component_function):
             ),
         )
         kwargs.pop("ignore_from_name", [])
+        add_pins = kwargs.pop("add_pins", CONFIG["add_pins"])
 
         component = component_function(**kwargs)
         component.name = name
@@ -86,6 +89,9 @@ def autoname(component_function):
         component.settings.update(**kwargs)
         # if hasattr(component, 'hash_geometry'):
         #     component.settings.update(hash=component.hash_geometry())
+
+        if add_pins:
+            add_port_markers(component)
         return component
 
     return wrapper

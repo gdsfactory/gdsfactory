@@ -31,7 +31,6 @@ def lock_component(
     component_type,
     component_type2factory=component_type2factory,
     path_library=path_library,
-    add_port_pins=False,
     flatten=True,
     with_settings_label=False,
 ):
@@ -45,10 +44,7 @@ def lock_component(
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
         pp.write_component(
-            c,
-            gdspath=gdspath,
-            add_port_pins=add_port_pins,
-            with_settings_label=with_settings_label,
+            c, gdspath=gdspath, with_settings_label=with_settings_label,
         )
         assert gdspath.exists()
         return c
