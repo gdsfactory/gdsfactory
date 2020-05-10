@@ -35,8 +35,8 @@ def coupler90(
 
     c = Component()
 
-    wg = c << waveguide_factory(length=bend_radius, width=width)
-    bend = c << bend90_factory(radius=bend_radius, width=width)
+    wg = c << waveguide_factory(length=bend_radius, width=width, with_pins=False)
+    bend = c << bend90_factory(radius=bend_radius, width=width, with_pins=False)
 
     pbw = bend.ports["W0"]
     bend.movey(pbw.midpoint[1] + gap + width)

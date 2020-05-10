@@ -6,6 +6,7 @@ from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
 from pp.drc import assert_on_1nm_grid
+from pp.add_pins import add_pins
 
 
 @autoname
@@ -29,6 +30,7 @@ def coupler(**kwargs):
     """
     components, connections, ports_map = coupler_netlist(**kwargs)
     component = netlist_to_component(components, connections, ports_map)
+    add_pins(component)
     return component
 
 
@@ -81,7 +83,8 @@ def coupler_netlist(
 
 
 if __name__ == "__main__":
-    # import pp
+    import pp
+
     # from pp.routing import add_io_optical
 
     # c = coupler(gap=0.245, length=5.67, wg_width=0.2)
@@ -90,7 +93,7 @@ if __name__ == "__main__":
     c = coupler()
     print(c.get_settings())
     # cc = add_io_optical(c)
-    # pp.show(cc)
+    pp.show(c)
 
     # from pp.routing.connect_component import add_io_optical
     # cc = add_io_optical(c)

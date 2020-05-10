@@ -85,6 +85,7 @@ def bend_circular(
     layer=LAYER.WG,
     layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
+    with_pins=True,
 ):
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
@@ -163,7 +164,8 @@ def bend_circular(
     component.move((0, radius))
 
     pp.ports.port_naming.rename_ports_by_orientation(component)
-    pp.add_pins(component)
+    if with_pins:
+        pp.add_pins(component)
     return component
 
 
@@ -337,7 +339,7 @@ if __name__ == "__main__":
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
-    c = bend_circular180()
+    c = bend_circular180(with_pins=False)
     print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)

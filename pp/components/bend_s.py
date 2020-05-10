@@ -2,14 +2,15 @@ import numpy as np
 
 import pp
 from pp.components.bezier import bezier
-from pp.add_pins import add_pins
 
 
 __version__ = "0.0.2"
 
 
 @pp.autoname
-def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
+def bend_s(
+    width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99, with_pins=False
+):
     """ S bend
     Based on bezier curve
 
@@ -35,13 +36,13 @@ def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
         t=np.linspace(0, 1, nb_points),
         layer=layer,
+        with_pins=with_pins,
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
 
     # c.ports["W0"] = c.ports.pop("0")
     # c.ports["E0"] = c.ports.pop("1")
-    add_pins(c)
     return c
 
 
@@ -64,7 +65,7 @@ def _demo():
 
 
 if __name__ == "__main__":
-    c = bend_s()
-    c = bend_s_biased()
-    print(c.info["min_bend_radius"])
+    c = bend_s(with_pins=False)
+    # c = bend_s_biased()
+    # print(c.info["min_bend_radius"])
     pp.show(c)

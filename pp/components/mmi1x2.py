@@ -40,7 +40,11 @@ def mmi1x2(
     w_taper = width_taper
 
     taper = pp.c.taper(
-        length=length_taper, width1=wg_width, width2=w_taper, layer=layer
+        length=length_taper,
+        width1=wg_width,
+        width2=w_taper,
+        layer=layer,
+        with_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -73,7 +77,7 @@ def mmi1x2(
         c.add_port(name=port_name, port=taper_ref.ports["1"])
 
     c.move(origin=c.ports["W0"].position, destination=(0, 0))
-
+    pp.add_pins(c)
     return c
 
 
