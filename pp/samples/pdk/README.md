@@ -10,10 +10,8 @@ You can easily create a PDK by modifying the basic components of gdsfactory to a
 - bend_circular
 - add_gc (to connect to grating couplers)
 
-In this sample import the [SiEPIC PDK](https://github.com/lukasc-ubc/SiEPIC_EBeam_PDK)
+In this sample you can import the [SiEPIC PDK](https://github.com/lukasc-ubc/SiEPIC_EBeam_PDK)
 
+# How to make a PDK repo?
 
-
-# How to add regression tests?
-
-You can create a python package with the contents of this folder, then run `write_tests` to write your regression tests.
+The best way is to create a new repo with the PDK, similar to the one [here](https://github.com/gdsfactory/ubc)
