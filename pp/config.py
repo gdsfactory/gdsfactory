@@ -29,6 +29,7 @@ tech: generic
 cache_url:
 BBOX_LAYER_EXCLUDE: "[]"
 with_settings_label: True
+add_port_pins: False
 """
 
 home = pathlib.Path.home()
