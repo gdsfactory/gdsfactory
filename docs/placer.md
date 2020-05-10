@@ -1,6 +1,8 @@
 # Klayout autoplacer
 
-You can load GDS files and place them using a mix and match of specific or automatic placing
+You can load GDS files and place them using a mix and match of specific or automatic placing.
+
+This placer is a more complicated alternative to the YAML placer
 
 
 ## Library
