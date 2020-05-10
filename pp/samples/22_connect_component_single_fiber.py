@@ -4,7 +4,7 @@
 import pp
 
 from pp.routing import route_fiber_single
-from pp.ports.add_port_markers import get_optical_text
+from pp.add_labels import get_optical_text
 
 
 def add_grating_couplers(

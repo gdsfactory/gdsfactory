@@ -2,7 +2,6 @@
 
 """
 import numpy as np
-from phidl import device_layout as pd
 from pp.layers import LAYER
 import pp
 
@@ -11,9 +10,7 @@ def _rotate(v, m):
     return np.dot(m, v)
 
 
-def add_port_marker_triangle(
-    component, port, port_layer=LAYER.PORT, label_layer=LAYER.TEXT
-):
+def add_pin_triangle(component, port, port_layer=LAYER.PORT, label_layer=LAYER.TEXT):
     """
     # The port visualization pattern is a triangle with a right angle
     # The face opposite the right angle is the port width
@@ -43,7 +40,7 @@ def add_port_marker_triangle(
     component.add_polygon(polygon, layer=port_layer)
 
 
-def add_port_marker_square_inside(
+def add_pin_square_inside(
     component, port, port_length=0.1, port_layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
     """
@@ -71,7 +68,7 @@ def add_port_marker_square_inside(
     component.add_polygon(polygon, layer=port_layer)
 
 
-def add_port_marker_square(
+def add_pin_square(
     component, port, port_length=0.1, port_layer=LAYER.PORT, label_layer=LAYER.PORT
 ):
     """
@@ -97,16 +94,14 @@ def add_port_marker_square(
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=port_layer)
+
     component.add_label(
-        text=p.name, position=p.midpoint, layer=label_layer,
+        text=str(p.name), position=p.midpoint, layer=label_layer,
     )
 
 
-def add_port_markers(
-    component,
-    add_port_marker_function=add_port_marker_square,
-    add_device_metadata=True,
-    **kwargs,
+def add_pins(
+    component, add_port_marker_function=add_pin_square, add_outline=True, **kwargs,
 ):
 
     """ add port markers:
@@ -117,7 +112,7 @@ def add_port_markers(
     Add device recognition layer
 
     """
-    if add_device_metadata:
+    if add_outline:
         c = component
         points = [
             [c.xmin, c.ymin],
@@ -132,101 +127,6 @@ def add_port_markers(
             add_port_marker_function(component=component, port=p, **kwargs)
 
 
-def get_optical_text(port, gc, gc_index=None, component_name=None):
-    polarization = gc.get_property("polarization")
-    wavelength_nm = gc.get_property("wavelength")
-
-    assert polarization in [
-        "te",
-        "tm",
-    ], f"Not valid polarization {polarization} in [te, tm]"
-    assert (
-        isinstance(wavelength_nm, (int, float)) and 1000 < wavelength_nm < 2000
-    ), f"{wavelength_nm} is Not valid 1000 < wavelength < 2000"
-
-    if component_name:
-        name = component_name
-
-    elif type(port.parent) == pp.Component:
-        name = port.parent.name
-    else:
-        name = port.parent.ref_cell.name
-
-    if isinstance(gc_index, int):
-        text = (
-            f"opt_{polarization}_{int(wavelength_nm)}_({name})_{gc_index}_{port.name}"
-        )
-    else:
-        text = f"opt_{polarization}_{int(wavelength_nm)}_({name})_{port.name}"
-
-    return text
-
-
-def get_input_label(
-    port,
-    gc,
-    gc_index=None,
-    gc_port_name="W0",
-    layer_label=LAYER.LABEL,
-    component_name=None,
-):
-    """
-    Generate a label with component info for a given grating coupler.
-    This is the label used by T&M to extract grating coupler coordinates
-    and match it to the component.
-    """
-    text = get_optical_text(
-        port=port, gc=gc, gc_index=gc_index, component_name=component_name
-    )
-
-    if gc_port_name is None:
-        gc_port_name = list(gc.ports.values())[0].name
-
-    layer, texttype = pd._parse_layer(layer_label)
-    label = pd.Label(
-        text=text,
-        position=gc.ports[gc_port_name].midpoint,
-        anchor="o",
-        layer=layer,
-        texttype=texttype,
-    )
-    return label
-
-
-def get_input_label_electrical(
-    port, index=0, component_name=None, layer_label=LAYER.LABEL
-):
-    """
-    Generate a label to test component info for a given grating coupler.
-    This is the label used by T&M to extract grating coupler coordinates
-    and match it to the component.
-    """
-
-    if component_name:
-        name = component_name
-
-    elif type(port.parent) == pp.Component:
-        name = port.parent.name
-    else:
-        name = port.parent.ref_cell.name
-
-    text = "elec_{}_({})_{}".format(index, name, port.name)
-
-    layer, texttype = pd._parse_layer(layer_label)
-
-    label = pd.Label(
-        text=text, position=port.midpoint, anchor="o", layer=layer, texttype=texttype,
-    )
-    return label
-
-
-def _demo_input_label():
-    c = pp.c.bend_circular()
-    gc = pp.c.grating_coupler_elliptical_te()
-    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=pp.LAYER.LABEL)
-    print(label)
-
-
 if __name__ == "__main__":
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
@@ -238,5 +138,5 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide()
     c = pp.c.crossing()
-    # add_port_markers(c)
+    # add_pins(c)
     pp.show(c)

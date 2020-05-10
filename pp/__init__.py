@@ -50,6 +50,7 @@ from pp.components import component_factory
 from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
 from pp.add_padding import add_padding
+from pp.add_pins import add_pins
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
 
@@ -61,6 +62,7 @@ __all__ = [
     "bias",
     "autoname",
     "add_padding",
+    "add_pins",
     "import_gds",
     "c",
     "component_factory",

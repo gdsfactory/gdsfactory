@@ -6,7 +6,7 @@ from pp.routing.utils import direction_ports_from_list_ports
 from pp.routing.manhattan import round_corners
 from pp.components import waveguide
 from pp.components import bend_circular
-from pp.ports.add_port_markers import get_input_label
+from pp.add_labels import get_input_label
 
 
 def add_termination(component, terminator):

@@ -1,4 +1,5 @@
 import picwriter.components as pc
+from pp.ports import auto_rename_ports
 
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
@@ -52,6 +53,8 @@ def coupler_adiabatic(
     )
 
     c = picwriter2component(c)
+    c = auto_rename_ports(c)
+    pp.add_pins(c)
     return c
 
 
@@ -59,4 +62,5 @@ if __name__ == "__main__":
     import pp
 
     c = coupler_adiabatic(length3=5)
+    print(c.ports)
     pp.show(c)

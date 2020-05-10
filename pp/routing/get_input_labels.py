@@ -1,4 +1,4 @@
-from pp.ports.add_port_markers import get_input_label
+from pp.add_labels import get_input_label
 
 
 def get_input_labels(

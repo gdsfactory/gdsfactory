@@ -45,6 +45,7 @@ def waveguide(
 
     c.width = width
     c.length = length
+    pp.add_pins(c)
     return c
 
 
@@ -153,7 +154,7 @@ def _demo_waveguide():
 
 if __name__ == "__main__":
 
-    c = waveguide(length=4, add_pins=False)
+    c = waveguide(length=4)
 
     pp.show(c)
 

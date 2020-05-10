@@ -12,7 +12,6 @@ A port is defined by:
 
 
 from pp.ports.read_port_markers import read_port_markers
-from pp.ports.add_port_markers import add_port_markers
 from pp.ports.utils import flipped
 from pp.ports.utils import get_ports_facing
 from pp.ports.utils import get_non_optical_ports
@@ -26,7 +25,6 @@ from pp.ports.port_naming import auto_rename_ports
 
 __all__ = [
     "read_port_markers",
-    "add_port_markers",
     "flipped",
     "deco_rename_ports",
     "auto_rename_ports",

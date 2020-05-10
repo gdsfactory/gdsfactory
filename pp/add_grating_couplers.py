@@ -1,5 +1,5 @@
 import pp
-from pp.ports.add_port_markers import get_optical_text
+from pp.add_labels import get_optical_text
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.config import CONFIG
