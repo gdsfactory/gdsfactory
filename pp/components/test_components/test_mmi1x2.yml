@@ -12,3 +12,4 @@ name: mmi1x2
 wg_width: 0.5
 width_mmi: 2.5
 width_taper: 1.0
+with_pins: 'True'

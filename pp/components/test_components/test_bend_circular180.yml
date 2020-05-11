@@ -12,3 +12,4 @@ radius: 10.0
 start_angle: -90
 theta: 180
 width: 0.5
+with_pins: 'True'
