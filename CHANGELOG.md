@@ -3,9 +3,12 @@
 - mzi2x2 with heaters have some issue, where waveguide connects to the heater
 - had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
 
+# most recent changes with no release yet
 
-# current repo version (has no release yet)
 
+# 1.1.8 2020-05-11
+
+- leaf components (waveguide, bend, mmi ...) have now pins, for circuit simulation
 
 # 1.1.7 2020-05-07
 

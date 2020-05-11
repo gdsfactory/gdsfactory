@@ -191,6 +191,8 @@ __all__ = [
     "component_lattice",
 ]
 
+leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
+
 _skip_test = set(["label"])
 _skip_test_ports = set(["grating_coupler_tree"])
 
