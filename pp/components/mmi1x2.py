@@ -14,6 +14,7 @@ def mmi1x2(
     layer=pp.LAYER.WG,
     layers_cladding=[],
     cladding_offset=3,
+    with_pins=True,
 ):
     """ mmi 1x2
 
@@ -77,7 +78,8 @@ def mmi1x2(
         c.add_port(name=port_name, port=taper_ref.ports["1"])
 
     c.move(origin=c.ports["W0"].position, destination=(0, 0))
-    pp.add_pins(c)
+    if with_pins:
+        pp.add_pins(c)
     return c
 
 
