@@ -12,8 +12,9 @@ def mmi2x2(
     width_mmi=2.1,
     gap_mmi=0.2,
     layer=pp.LAYER.WG,
+    with_pins=True,
 ):
-    """ mmi 1x2
+    """ mmi 2x2
 
     Args:
         wg_width: input waveguides width
@@ -64,7 +65,8 @@ def mmi2x2(
         # Add the taper port
         component.add_port(name=port_name, port=_taper_ref.ports["1"])
 
-    pp.add_pins(component)
+    if with_pins:
+        pp.add_pins(component)
     return component
 
 
