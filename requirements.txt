@@ -15,4 +15,3 @@ scipy
 shapely
 xlrd
 pytest-regressions
-pre-commit
