@@ -8,7 +8,7 @@ length_taper: 10
 module: pp.components.mmi2x2
 name: mmi2x2
 simulation_settings:
-  port_width: 1.5
+  port_width: 1.5e-06
 wg_width: 0.5
 width_mmi: 2.1
 width_taper: 0.95
