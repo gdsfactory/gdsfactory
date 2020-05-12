@@ -5,6 +5,8 @@
 
 # most recent changes with no release yet
 
+- write and read Sparameters
+- pp.extend_ports is now a container
 
 # 1.1.8 2020-05-11
 
