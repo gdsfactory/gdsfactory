@@ -1,4 +1,5 @@
 import numpy as np
+from pp.container import container
 
 import pp
 
@@ -55,6 +56,7 @@ def extend_port(port, length):
     return c
 
 
+@container
 def extend_ports(
     component,
     port_list=None,
@@ -62,14 +64,11 @@ def extend_ports(
     extension_factory=None,
     input_port_ext=None,
     output_port_ext=None,
-    in_place=False,
 ):
-    """ returns a component with extended ports """
-    if in_place:
-        c = component
-    else:
-        c = pp.Component(name=component.name + "_e")
-        c << component
+    """ returns a component with extended ports
+    """
+    c = pp.Component(name=component.name + "_e")
+    c << component
 
     port_list = port_list or list(component.ports.keys())
 
@@ -88,12 +87,17 @@ def extend_ports(
     output_port_ext = output_port_ext or port_labels[-1]
 
     for port_label in port_list:
-        port = component.ports.pop(port_label)
-
+        port = component.ports.get(port_label)
         extension = c << extension_factory(length=length, width=port.width)
         extension.connect(input_port_ext, port)
         c.add_port(port_label, port=extension.ports[output_port_ext])
     return c
+
+
+def test_extend_ports():
+    c = pc.waveguide()
+    ce = extend_ports(c)
+    assert len(c.ports) == len(ce.ports)
 
 
 if __name__ == "__main__":
@@ -103,7 +107,7 @@ if __name__ == "__main__":
     # ce = extend_ports(c, port_list=['W0'])
 
     c = pc.waveguide()
-    ce = extend_ports(c, in_place=True)
+    ce = extend_ports(c)
     print(ce)
     print(len(ce.ports))
     pp.show(ce)
