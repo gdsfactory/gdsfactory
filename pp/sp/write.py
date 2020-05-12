@@ -61,6 +61,12 @@ def write(
         settings.update(component.simulation_settings)
     sim_settings = get_settings(**settings)
     ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
+
+    assert ss.port_width < 5e-6
+    assert ss.port_height < 5e-6
+    assert ss.zmargin < 5e-6
+    assert ss.ymargin < 5e-6
+
     ports = component.ports.copy()
 
     component.remove_layers(ss.remove_layers)
