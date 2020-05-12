@@ -7,6 +7,7 @@
 
 - write and read Sparameters
 - pp.extend_ports is now a container
+- any component decorated with @pp.autoname can accept `with_pins=True` flag, and function `add_pins_function`. They will be ignored from the Component `name` and `settings`
 
 # 1.1.8 2020-05-11
 
