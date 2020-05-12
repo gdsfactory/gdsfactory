@@ -145,25 +145,38 @@ def clean_value(value):
         returns number units in nm (integer)
     """
 
-    try:
-        if isinstance(value, int):  # integer
-            return str(value)
-        elif type(value) in [float, np.float64]:  # float
-            return "{:.4f}".format(value).replace(".", "p").rstrip("0").rstrip("p")
-        elif isinstance(value, list):
-            return "_".join(clean_value(v) for v in value)
-        elif isinstance(value, tuple):
-            return "_".join(clean_value(v) for v in value)
-        elif isinstance(value, dict):
-            return dict2name(**value)
-        elif isinstance(value, Device):
-            return clean_name(value.name)
-        elif callable(value):
-            return value.__name__
+    if isinstance(value, int):  # integer
+        value = str(value)
+    elif isinstance(value, (float, np.float64)):  # float
+        if 1e9 > value > 1e12:
+            value = f"{int(value/1e9)}G"
+        elif 1e6 > value > 1e9:
+            value = f"{int(value/1e6)}M"
+        elif 1e3 > value > 1e6:
+            value = f"{int(value/1e3)}K"
+        elif 1 > value > 1e-3:
+            value = f"{int(value*1e3)}m"
+        elif 1e-6 < value < 1e-3:
+            value = f"{int(value*1e6)}u"
+        elif 1e-9 < value < 1e-6:
+            value = f"{int(value*1e9)}n"
+        elif 1e-12 < value < 1e-9:
+            value = f"{int(value*1e12)}p"
         else:
-            return clean_name(str(value))
-    except TypeError:  # use the __str__ method
-        return clean_name(str(value))
+            value = f"{value:.2f}"
+    elif isinstance(value, list):
+        value = "_".join(clean_value(v) for v in value)
+    elif isinstance(value, tuple):
+        value = "_".join(clean_value(v) for v in value)
+    elif isinstance(value, dict):
+        value = dict2name(**value)
+    elif isinstance(value, Device):
+        value = clean_name(value.name)
+    elif callable(value):
+        value = value.__name__
+    else:
+        value = clean_name(str(value))
+    return value
 
 
 class _Dummy:
@@ -184,11 +197,18 @@ def test_autoname():
     name_int = _dummy(length=3).name
     assert name_int == "_dummy_L3"
     name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_WW0p5"
+    # assert name_float == "_dummy_WW500m"
+    name_length_first = _dummy(length=3, wg_width=0.5).name
+    name_width_first = _dummy(wg_width=0.5, length=3).name
+    assert name_length_first == name_width_first
+
+    name_float = _dummy(wg_width=0.5).name
+    # assert name_float == "_dummy_WW0p5"
+    print(name_float)
 
 
 def test_clean_value():
-    assert clean_value(0.5) == "0p5"
+    assert clean_value(0.5) == "500m"
     assert clean_value(5) == "5"
 
 
@@ -198,6 +218,7 @@ def test_clean_name():
 
 if __name__ == "__main__":
     test_autoname()
+    # test_autoname()
     # import pp
 
     # print(clean_value(pp.c.waveguide))
