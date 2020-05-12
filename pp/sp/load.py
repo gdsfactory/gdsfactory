@@ -1,3 +1,4 @@
+import re
 import numpy as np
 import pp
 
@@ -5,7 +6,16 @@ import pp
 def load(
     component, dirpath=pp.CONFIG["gdslib"],
 ):
-    """ returns 2 np.ndarray [frequency, s-parameters]
+    """
+    Args:
+        component: instance
+        dirpath: path for the Sparameters
+
+    Returns [port_names, F, S]
+        port_names: list of strings
+        F: frequency 1d np.array
+        S: Sparameters np.ndarray matrix
+
     inspired in https://github.com/BYUCamachoLab/simphony
     the Sparameters file have Lumerical format
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
@@ -15,15 +25,23 @@ def load(
     output_folder = dirpath / component.name
     filepath = output_folder / component.name
     filepath_sp = filepath.with_suffix(".dat")
-    assert filepath_sp.exists()
+    assert (
+        filepath_sp.exists()
+    ), f"Sparameters for {component} not found in {filepath_sp}"
 
     numports = len(component.ports)
 
     F = []
     S = []
+    port_names = []
+
     with open(filepath_sp, "r") as fid:
         for i in range(numports):
-            fid.readline()
+            port_line = fid.readline()
+            m = re.search('\[".*",', port_line)
+            if m:
+                port = m.group(0)
+                port_names.append(port[2:-2])
         line = fid.readline()
         line = fid.readline()
         numrows = int(tuple(line[1:-2].split(","))[0])
@@ -46,9 +64,10 @@ def load(
                     n += 1
                     if n == numports:
                         break
-    return (F, S)
+    return (port_names, F, S)
 
 
 if __name__ == "__main__":
-    s = load(pp.c.waveguide())
-    print(s)
+    s = load(pp.c.mmi2x2())
+    print(s[0])
+    # print(s)
