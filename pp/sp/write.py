@@ -67,7 +67,7 @@ def write(
     assert ss.zmargin < 5e-6
     assert ss.ymargin < 5e-6
 
-    ports = component.ports.copy()
+    ports = component.ports
 
     component.remove_layers(ss.remove_layers)
     component._bb_valid = False
@@ -241,5 +241,7 @@ def write(
 
 
 if __name__ == "__main__":
-    r = write(component=pp.c.mmi1x2())
-    print(r.keys())
+    c = pp.c.mmi1x2()
+    r = write(component=c)
+    # print(r.keys())
+    print(c.ports.keys())
