@@ -3,7 +3,9 @@ class: waveguide
 layer:
 - 1
 - 0
-layers_cladding: (111, 0)
+layers_cladding:
+- - 111
+  - 0
 length: 10
 module: pp.components.waveguide
 name: waveguide

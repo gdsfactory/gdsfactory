@@ -4,7 +4,7 @@ layer: 0
 module: pp.components.rectangle
 name: rectangle
 port_settings: _empty
-ports_parameters: ''
+ports_parameters: {}
 size:
 - 4
 - 2

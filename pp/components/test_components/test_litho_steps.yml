@@ -2,6 +2,11 @@ class: litho_steps
 height: 100
 layer: 0
 line_spacing: 10
-line_widths: '1_2_4_8_16'
+line_widths:
+- 1
+- 2
+- 4
+- 8
+- 16
 module: pp.components.pcm.litho_steps
 name: litho_steps

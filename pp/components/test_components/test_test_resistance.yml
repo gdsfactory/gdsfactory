@@ -4,6 +4,8 @@ module: pp.components.pcm.test_resistance
 name: test_resistance
 num_squares: 1000
 pad_layer: None
-pad_size: '50_50'
+pad_size:
+- 50
+- 50
 res_layer: 0
 width: 1

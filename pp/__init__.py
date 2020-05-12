@@ -45,6 +45,7 @@ import pp.components as c
 import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
+import pp.sp as sp
 
 from pp.components import component_factory
 from pp.components.extension import extend_port
@@ -79,6 +80,7 @@ __all__ = [
     "qp",
     "routing",
     "show",
+    "sp",
     "write_component",
     "write_component_type",
     "write_doe",
