@@ -196,10 +196,10 @@ def write_gds(
 
     # write component settings into text layer
     if with_settings_label:
+        settings = component.get_settings()
 
-        i = 0
-        for k in sorted(list(component.settings.keys())):
-            v = component.settings.get(k)
+        for i, k in enumerate(sorted(list(settings.keys()))):
+            v = settings.get(k)
             text = f"{k} = {clean_value(v)}"
             # print(text)
             component.add_label(
@@ -207,7 +207,6 @@ def write_gds(
                 position=component.center - [0, i * 1],
                 layer=CONFIG["layers"]["TEXT"],
             )
-            i += 1
 
     component.write_gds(
         gdspath, precision=precision, auto_rename=auto_rename,

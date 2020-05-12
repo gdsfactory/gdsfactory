@@ -8,4 +8,3 @@ module: pp.components.bend_s
 name: bend_s
 nb_points: 99
 width: 0.5
-with_pins: 'False'

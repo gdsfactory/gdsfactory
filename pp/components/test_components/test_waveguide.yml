@@ -10,4 +10,3 @@ length: 10
 module: pp.components.waveguide
 name: waveguide
 width: 0.5
-with_pins: 'True'

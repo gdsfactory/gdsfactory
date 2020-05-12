@@ -13,7 +13,6 @@ def waveguide(
     layer=pp.LAYER.WG,
     layers_cladding=[pp.LAYER.WGCLAD],
     cladding_offset=3,
-    with_pins=True,
 ):
     """ straight waveguide
 
@@ -46,8 +45,6 @@ def waveguide(
 
     c.width = width
     c.length = length
-    if with_pins:
-        pp.add_pins(c)
     return c
 
 

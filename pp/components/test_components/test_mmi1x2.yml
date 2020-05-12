@@ -14,4 +14,3 @@ simulation_settings:
 wg_width: 0.5
 width_mmi: 2.5
 width_taper: 1.0
-with_pins: 'True'

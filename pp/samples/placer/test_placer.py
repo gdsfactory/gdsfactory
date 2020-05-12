@@ -5,7 +5,7 @@ from pp.config import load_config
 from pp.placer import component_grid_from_yaml
 
 
-def test_mask():
+def test_placer():
     cwd = pathlib.Path(__file__).parent
     filepath = cwd / "config.yml"
     config = load_config(filepath)
@@ -18,5 +18,5 @@ def test_mask():
 
 
 if __name__ == "__main__":
-    c = test_mask()
+    c = test_placer()
     pp.show(c)

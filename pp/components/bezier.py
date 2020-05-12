@@ -10,7 +10,6 @@ from pp.geo_utils import angles_deg
 from pp.geo_utils import snap_angle
 from pp.geo_utils import path_length
 from pp.geo_utils import curvature
-from pp.add_pins import add_pins
 
 
 def bezier_curve(t, control_points):
@@ -44,7 +43,6 @@ def bezier(
     control_points=[(0, 0), (5.0, 0), (5.0, 2.0), (10.0, 2.0)],
     t=np.linspace(0, 1, 201),
     layer=LAYER.WG,
-    with_pins=False,
     **extrude_path_params
 ):
     """ bezier bend """
@@ -85,8 +83,6 @@ def bezier(
     c.info["curvature"] = curv
     c.info["t"] = t
 
-    if with_pins:
-        add_pins(c)
     return c
 
 

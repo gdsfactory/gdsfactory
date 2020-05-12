@@ -54,7 +54,6 @@ def coupler_adiabatic(
 
     c = picwriter2component(c)
     c = auto_rename_ports(c)
-    pp.add_pins(c)
     return c
 
 

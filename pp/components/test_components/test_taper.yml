@@ -10,4 +10,3 @@ name: taper
 port: None
 width1: 0.5
 width2: None
-with_pins: 'True'

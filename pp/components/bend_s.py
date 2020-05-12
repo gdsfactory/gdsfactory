@@ -8,9 +8,7 @@ __version__ = "0.0.2"
 
 
 @pp.autoname
-def bend_s(
-    width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99, with_pins=False
-):
+def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
     """ S bend
     Based on bezier curve
 
@@ -36,7 +34,6 @@ def bend_s(
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
         t=np.linspace(0, 1, nb_points),
         layer=layer,
-        with_pins=with_pins,
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))

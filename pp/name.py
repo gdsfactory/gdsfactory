@@ -15,6 +15,7 @@ from inspect import signature
 import hashlib
 import numpy as np
 from phidl import Device
+from pp.add_pins import add_pins
 
 MAX_NAME_LENGTH = 32
 
@@ -66,6 +67,8 @@ def autoname(component_function):
     def wrapper(*args, **kwargs):
         if args:
             raise ValueError("autoname supports only Keyword args")
+        with_pins = kwargs.pop("with_pins", False)
+        add_pins_function = kwargs.pop("add_pins_function", add_pins)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
         name = kwargs.pop(
             "name",
@@ -86,6 +89,8 @@ def autoname(component_function):
         component.settings.update(**kwargs)
         # if hasattr(component, 'hash_geometry'):
         #     component.settings.update(hash=component.hash_geometry())
+        if with_pins:
+            add_pins_function(component)
 
         return component
 
