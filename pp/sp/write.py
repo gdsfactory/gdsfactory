@@ -57,6 +57,8 @@ def write(
     Return:
         results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
     """
+    if hasattr(component, "simulation_settings"):
+        settings.update(component.simulation_settings)
     sim_settings = get_settings(**settings)
     ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
     ports = component.ports.copy()
@@ -233,5 +235,5 @@ def write(
 
 
 if __name__ == "__main__":
-    r = write(component=pp.c.waveguide())
+    r = write(component=pp.c.mmi1x2())
     print(r.keys())

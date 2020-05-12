@@ -80,6 +80,8 @@ def mmi1x2(
     c.move(origin=c.ports["W0"].position, destination=(0, 0))
     if with_pins:
         pp.add_pins(c)
+    c.simulation_settings = dict(port_width=1.5)
+
     return c
 
 

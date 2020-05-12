@@ -24,10 +24,10 @@ if __name__ == "__main__":
     remove_layers = []
     layer2nm = {(1, 0): 220}
 
-    r = write(component=pp.c.waveguide(), layer2nm=layer2nm)
+    # r = write(component=pp.c.waveguide(), layer2nm=layer2nm)
     # r = write(component=pp.c.mmi2x2(), layer2nm=layer2nm)
     # r = write(component=pp.c.mmi1x2(), layer2nm=layer2nm)
-    # r = write(component=pp.c.coupler(), layer2nm=layer2nm)
+    r = write(component=pp.c.coupler(), layer2nm=layer2nm)
     # r = write(component=pp.c.bend_circular(), layer2nm=layer2nm)
     plot(r, logscale=True)
     plt.show()
