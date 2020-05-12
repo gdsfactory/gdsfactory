@@ -4,7 +4,9 @@ gap: 0.27
 layer:
 - 1
 - 0
-layers_cladding: (111, 0)
+layers_cladding:
+- - 111
+  - 0
 length: 10
 module: pp.components.coupler_straight
 name: coupler_straight

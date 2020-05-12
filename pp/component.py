@@ -1,4 +1,5 @@
 import uuid
+import json
 from copy import deepcopy
 import numpy as np
 from numpy import pi, sin, cos, mod
@@ -1010,14 +1011,15 @@ def _clean_value(value):
         value = value.__name__
     elif type(value) == pp.Component:
         value = value.name
-    elif hasattr(value, "__iter__"):
-        value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
     # elif hasattr(value, "__iter__"):
-    #     try:
-    #         json.dumps(value)
-    #         value = value
-    #     except Exception:
-    #         value = str(value)
+    #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
+    elif hasattr(value, "__iter__"):
+        try:
+            json.dumps(value)
+            value = value
+        except Exception:
+            # value = str(value)
+            value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):

@@ -1,7 +1,7 @@
 bend_factory: bend_circular
 bend_radius: 10.0
 class: grating_coupler_tree
-component: ''
+component: {}
 component_name: None
 gc_port_name: W0
 get_input_labels_function: get_input_labels

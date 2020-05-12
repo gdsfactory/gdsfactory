@@ -4,11 +4,13 @@ gap_mmi: 0.25
 layer:
 - 1
 - 0
-layers_cladding: ''
+layers_cladding: []
 length_mmi: 5.496
 length_taper: 10
 module: pp.components.mmi1x2
 name: mmi1x2
+simulation_settings:
+  port_width: 1.5
 wg_width: 0.5
 width_mmi: 2.5
 width_taper: 1.0

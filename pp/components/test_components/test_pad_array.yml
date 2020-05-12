@@ -3,7 +3,8 @@ module: pp.components.electrical.pad
 n: 6
 name: pad_array
 pad: pad
-port_list: N
+port_list:
+- N
 spacing:
 - 150
 - 0

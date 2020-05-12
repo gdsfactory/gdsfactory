@@ -4,7 +4,9 @@ heater_width: 0.5
 layer_trench:
 - 7
 - 0
-layers_heater: (47, 0)
+layers_heater:
+- - 47
+  - 0
 length: 10.0
 metal_connection: 'True'
 module: pp.components.waveguide_heater
@@ -12,7 +14,12 @@ name: waveguide_heater
 sstw: 2.0
 trench_keep_out: 2.0
 trench_width: 0.5
-trenches: '{''nb_segments'': 2, ''lane'': 1, ''x_start_offset'': 0}_{''nb_segments'':
-  2, ''lane'': -1, ''x_start_offset'': 0}'
+trenches:
+- lane: 1
+  nb_segments: 2
+  x_start_offset: 0
+- lane: -1
+  nb_segments: 2
+  x_start_offset: 0
 waveguide_factory: waveguide
 width: 0.5

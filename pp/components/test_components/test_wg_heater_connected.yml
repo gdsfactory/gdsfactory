@@ -2,6 +2,18 @@ class: wg_heater_connected
 kwargs: _empty
 module: pp.components.waveguide_heater
 name: wg_heater_connected
-tlm_layers: (40, 0)_(41, 0)_(44, 0)_(45, 0)_(43, 0)_(49, 0)
+tlm_layers:
+- - 40
+  - 0
+- - 41
+  - 0
+- - 44
+  - 0
+- - 45
+  - 0
+- - 43
+  - 0
+- - 49
+  - 0
 waveguide_heater: waveguide_heater
 wg_heater_connector: wg_heater_connector

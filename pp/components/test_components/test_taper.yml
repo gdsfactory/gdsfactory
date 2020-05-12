@@ -3,7 +3,7 @@ class: taper
 layer:
 - 1
 - 0
-layers_cladding: ''
+layers_cladding: []
 length: 35.0
 module: pp.components.taper
 name: taper
