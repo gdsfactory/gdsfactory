@@ -67,7 +67,7 @@ def mmi2x2(
 
     if with_pins:
         pp.add_pins(component)
-    component.simulation_settings = dict(port_width=1.5)
+    component.simulation_settings = dict(port_width=1.5e-6)
     return component
 
 
