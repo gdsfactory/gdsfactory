@@ -1,5 +1,5 @@
 port_names:
-- port 1
-- port 2
-- port 3
-- port 4
+- E0
+- E1
+- W0
+- W1
