@@ -95,12 +95,15 @@ def extend_ports(
 
 
 def test_extend_ports():
+    import pp.components as pc
+
     c = pc.waveguide()
     ce = extend_ports(c)
     assert len(c.ports) == len(ce.ports)
 
 
 if __name__ == "__main__":
+    test_extend_ports()
     import pp.components as pc
 
     # c = pc.bend_circular()
