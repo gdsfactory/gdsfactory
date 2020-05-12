@@ -118,6 +118,7 @@ def ring_single_bus(
     """ single bus ring
     """
     c = pp.Component()
+    assert_on_2nm_grid(gap)
 
     # define subcells
     coupler90 = pp.call_if_func(

@@ -12,7 +12,6 @@ def mmi2x2(
     width_mmi=2.1,
     gap_mmi=0.2,
     layer=pp.LAYER.WG,
-    with_pins=True,
 ):
     """ mmi 2x2
 
@@ -65,8 +64,6 @@ def mmi2x2(
         # Add the taper port
         component.add_port(name=port_name, port=_taper_ref.ports["1"])
 
-    if with_pins:
-        pp.add_pins(component)
     component.simulation_settings = dict(port_width=1.5e-6)
     return component
 

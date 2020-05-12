@@ -747,7 +747,15 @@ class Component(Device):
         output = {}
         ignore = set(
             dir(Component())
-            + ["path", "settings", "properties", "function_name", "type", "netlist"]
+            + [
+                "path",
+                "settings",
+                "properties",
+                "function_name",
+                "type",
+                "netlist",
+                "with_pins",
+            ]
         )
         params = set(dir(self)) - ignore
         output["name"] = self.name

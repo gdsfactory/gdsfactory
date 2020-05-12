@@ -127,6 +127,12 @@ def add_pins(
             add_port_marker_function(component=component, port=p, **kwargs)
 
 
+def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kwargs):
+    return add_pins(
+        component=component, add_port_marker_function=add_port_marker_function, **kwargs
+    )
+
+
 if __name__ == "__main__":
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
