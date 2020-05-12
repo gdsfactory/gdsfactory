@@ -7,6 +7,8 @@ def load(
 ):
     """ returns 2 np.ndarray [frequency, s-parameters]
     inspired in https://github.com/BYUCamachoLab/simphony
+    the Sparameters file have Lumerical format
+    https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
     assert isinstance(component, pp.Component)
 
