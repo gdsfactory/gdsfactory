@@ -10,7 +10,7 @@ layer_trench:
 - 0
 module: pp.components.grating_coupler.elliptical_trenches
 n_periods: 30
-name: grating_coupler_elliptical_trenches_a8f7dcb9
+name: grating_coupler_elliptical_trenches_fa23b5c8
 neff: 1.8
 p_start: 26
 period: '1.072'
