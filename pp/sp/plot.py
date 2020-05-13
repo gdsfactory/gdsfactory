@@ -4,18 +4,27 @@ import pp
 from pp.sp.write import write
 
 
-def plot(r, logscale=True):
+def plot(r, logscale=True, keys=None):
     """ plots Sparameters
     """
+    if isinstance(r, pp.Component):
+        r = write(component=r)
     w = r["wavelength_nm"]
-    for key in r.keys():
-        if key.startswith("S") and key.endswith("m"):
-            if logscale:
-                y = 20 * np.log10(r[key])
-            else:
-                y = r[key]
 
-            plt.plot(w, y, label=key[:-1])
+    if keys:
+        assert isinstance(keys, list)
+        for key in keys:
+            assert key in r, f"{key} not in {r.keys()}"
+    else:
+        keys = [key for key in r.keys() if key.startswith("S") and key.endswith("m")]
+
+    for key in keys:
+        if logscale:
+            y = 20 * np.log10(r[key])
+        else:
+            y = r[key]
+
+        plt.plot(w, y, label=key[:-1])
     plt.legend()
     plt.xlabel("wavelength (nm)")
 

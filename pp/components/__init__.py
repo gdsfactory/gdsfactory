@@ -59,6 +59,7 @@ from pp.components.pcm.test_via import test_via
 
 # level 1 components
 from pp.components.coupler import coupler
+from pp.components.coupler_ring import coupler_ring
 from pp.components.ring_single_bus import ring_single_bus
 from pp.components.ring_double_bus import ring_double_bus
 from pp.components.mmi1x2 import mmi1x2
@@ -148,6 +149,7 @@ __all__ = [
     "ellipse",
     "circle",
     "coupler",
+    "coupler_ring",
     "coupler90",
     "coupler_straight",
     "coupler_symmetric",
