@@ -22,7 +22,7 @@ def mzi(
 
     Args:
         L0: vertical length for both and top arms
-        L1: bottom arm extra length
+        L1: bottom arm extra length, (delta_length = 2*L1)
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
