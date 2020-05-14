@@ -5,9 +5,13 @@
 
 # most recent changes with no release yet
 
+# 1.1.9 2020-05-13
+
 - write and read Sparameters
 - pp.extend_ports is now a container
 - any component decorated with @pp.autoname can accept `with_pins=True` flag, and function `add_pins_function`. They will be ignored from the Component `name` and `settings`
+- better json serializer for the settings
+- added units to names (m,K,G ...)
 
 # 1.1.8 2020-05-11
 
