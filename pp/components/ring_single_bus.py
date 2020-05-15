@@ -1,6 +1,5 @@
 import pp
 from pp.components.bend_circular import bend_circular
-from pp.components.coupler_ring import coupler_ring
 from pp.components.coupler90 import coupler90
 from pp.components.waveguide import waveguide
 from pp.components.coupler_straight import coupler_straight
@@ -105,47 +104,6 @@ def ring_single_bus_netlist(
 
 
 @pp.autoname
-def ring_single_bus2(
-    wg_width=0.5,
-    gap=0.2,
-    length_x=4,
-    bend_radius=5,
-    length_y=2,
-    coupler=coupler_ring,
-    waveguide=waveguide,
-):
-    """ single bus ring made of two couplers (ct: top, cb: bottom)
-    connected with two vertical waveguides (wyl: left, wyr: right)
-
-    .. code::
-
-           --ct--
-          |      |
-          wl     wr length_y
-          |      |
-           ==cb== gap
-
-          length_x
-    """
-
-    coupler = pp.call_if_func(
-        coupler, gap=gap, wg_width=wg_width, bend_radius=bend_radius, length_x=length_x
-    )
-    waveguide = pp.call_if_func(waveguide, width=wg_width, length=length_y)
-
-    c = pp.Component()
-    cb = c << coupler
-    ct = c << coupler
-    wl = c << waveguide
-    wr = c << waveguide
-
-    wl.connect(port="E0", destination=cb.ports["N0"])
-    ct.connect(port="N1", destination=wl.ports["W0"])
-    wr.connect(port="W0", destination=ct.ports["N0"])
-    return c
-
-
-@pp.autoname
 def ring_single_bus(
     coupler90_factory=coupler90,
     cpl_straight_factory=coupler_straight,
@@ -232,8 +190,7 @@ def _compare_rings():
 
 if __name__ == "__main__":
     # c = ring_single_bus(bend_radius=5.0, length_x=0.2, length_y=0.13, gap=0.15, wg_width=0.45)
-    # c = ring_single_bus(bend_radius=5.0, gap=0.3, wg_width=0.45)
-    c = ring_single_bus2(bend_radius=5.0, gap=0.3, wg_width=0.45)
+    c = ring_single_bus(bend_radius=5.0, gap=0.3, wg_width=0.45)
     print(c.get_settings())
     pp.show(c)
     # c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2, wg_width=0.4)
