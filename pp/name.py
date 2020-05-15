@@ -83,6 +83,9 @@ def autoname(component_function):
         component.module = component_function.__module__
         component.function_name = component_function.__name__
         sig = signature(component_function)
+
+        if not hasattr(component, "settings"):
+            component.settings = {}
         component.settings.update(
             **{p.name: p.default for p in sig.parameters.values()}
         )

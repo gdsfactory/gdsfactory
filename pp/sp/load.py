@@ -3,9 +3,7 @@ import numpy as np
 import pp
 
 
-def load(
-    component, dirpath=pp.CONFIG["gdslib"],
-):
+def load(component, dirpath=pp.CONFIG["sp"]):
     """
     Args:
         component: instance
