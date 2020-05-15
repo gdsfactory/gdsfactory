@@ -13,7 +13,16 @@ def coupler_ring(
     wg_width=0.5,
     bend_radius=5,
 ):
-    """ single bus ring
+    """ coupler for half a ring
+
+    .. code::
+
+           N0            N1
+           |             |
+            \           /
+             \         /
+           ---=========---
+        W0    length_x    E0
     """
     c = pp.Component()
     assert_on_2nm_grid(gap)
@@ -45,7 +54,7 @@ def coupler_ring(
 
 if __name__ == "__main__":
     # c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
-    c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45, with_pins=True)
+    c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
     # print(c.get_settings())
     print(c.name)
     pp.show(c)
