@@ -29,7 +29,7 @@ def write(
     session=None,
     run=True,
     overwrite=False,
-    dirpath=pp.CONFIG["gdslib"],
+    dirpath=pp.CONFIG["sp"],
     **settings,
 ):
     """

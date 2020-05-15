@@ -13,7 +13,7 @@ import pp
 from pp.components import component_type2factory
 from pp import CONFIG
 
-path_library = CONFIG["gdslib"]
+path_library = CONFIG["gds"]
 
 
 def pull_library(path_library=path_library):
@@ -93,7 +93,7 @@ def print_components_with_changes(
 
 @pytest.mark.noautofixt
 def test_all_components(
-    component_type2factory=component_type2factory, path_library=CONFIG["gdslib"]
+    component_type2factory=component_type2factory, path_library=path_library
 ):
     # pull_library(path_library)
 
@@ -106,7 +106,7 @@ def test_all_components(
 
 
 def rebuild_library(
-    component_type2factory=component_type2factory, path_library=CONFIG["gdslib"]
+    component_type2factory=component_type2factory, path_library=path_library
 ):
     """ saves all component_type2factory components to the gdslib library
     """
@@ -133,7 +133,7 @@ def _copy_component(src, dest):
 def compare_component_hash(
     component_type,
     component_type2factory=component_type2factory,
-    path_library=CONFIG["gdslib"],
+    path_library=path_library,
     path_test=CONFIG["gdslib_test"],
 ):
     """ raises Exception if component has changed from the library

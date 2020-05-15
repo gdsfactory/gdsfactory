@@ -97,6 +97,8 @@ def load_config(cwd_config=cwd_config):
 
     if "gdslib" not in CONFIG:
         CONFIG["gdslib"] = repo_path / "gdslib"
+    CONFIG["sp"] = CONFIG["gdslib"] / "sp"
+    CONFIG["gds"] = CONFIG["gdslib"] / "gds"
     CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
     CONFIG["build_directory"] = build_directory
