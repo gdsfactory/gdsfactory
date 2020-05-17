@@ -1,19 +1,22 @@
-# GDS factory 1.1.9
+# GDSfactory 1.1.9
 
-Python package to generate GDS layouts.
+gdsfactory provides you with a set of useful generic component templates to build your PDKs and send your masks to the foundry.
+
+You just need to adapt the templates to your foundry (see pp/samples/pdk)
 
 GDSII is the standard format to create masks sets in the CMOS industry.
 
-This package adds some extra functionalities to [phidl](https://github.com/amccaugh/phidl):
+Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) with some useful photonics functions (see photonics package `pp`)
 
-- define components by netlist
-- define component sweeps (Design of Experiments) in YAML files
 - define templates for basic components
-- route optical/electrical ports
+- define component sweeps (Design of Experiments or DOEs) in YAML files
+- route optical/electrical ports to pads and grating couplers
 
 # Documentation
 
-[read Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
+- [read Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
+- run gdsfactory/pp/samples
+- run gdsfactory/notebooks
 
 # Installation
 
@@ -27,17 +30,18 @@ cd gdsfactory
 bash install.sh
 ```
 
-# Submodules in this repo
+# Modules in this repo
 
 - pp photonic-package
   - components: define components
   - drc: check geometry
   - ports: to connect components
+  - klive: stream GDS direcly to klayout
   - routing: add waveguides to connect components
   - samples: python tutorial
-  - tests
+  - tests:
 - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
-- klive: stream GDS direcly to klayout
+- klayout: klayout generic tech layers and klive macro
 
 # Related repos
 
@@ -48,7 +52,7 @@ bash install.sh
   - `component.ice`: interconnect
   - `component.md`: report
   - `component.ports`: csv with port information
-  - `component.properties`: JSON file with component properties
+  - `component.json`: JSON file with component properties
   - `component.gds`: GDS
 
 # `pf` Photonic factory command line interface
@@ -68,5 +72,6 @@ Commands:
 
 # Acknowledgements
 
+- [gdspy](https://github.com/heitzmann/gdspy)
 - [phidl](https://github.com/amccaugh/phidl)
 - [picwriter](https://github.com/DerekK88/PICwriter)

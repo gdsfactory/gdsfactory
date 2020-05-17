@@ -13,7 +13,7 @@ clean:
 	rm -rf build
 
 mask:
-	python write_mask.py
+	python test_mask.py
 	pf mask write_metadata
 
 show:
