@@ -4,11 +4,12 @@ import pp
 from pp.sp.write import write
 
 
-def plot(r, logscale=True, keys=None):
+def plot(component_or_results_dict, logscale=True, keys=None, height_nm=220):
     """ plots Sparameters
     """
+    r = component_or_results_dict
     if isinstance(r, pp.Component):
-        r = write(component=r)
+        r = write(component=r, height_nm=height_nm)
     w = r["wavelength_nm"]
 
     if keys:

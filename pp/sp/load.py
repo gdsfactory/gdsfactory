@@ -3,11 +3,12 @@ import numpy as np
 import pp
 
 
-def load(component, dirpath=pp.CONFIG["sp"]):
+def load(component, dirpath=pp.CONFIG["sp"], height_nm=220):
     """
     Args:
         component: instance
         dirpath: path for the Sparameters
+        h: height (nm)
 
     Returns [port_names, F, S]
         port_names: list of strings
@@ -20,8 +21,8 @@ def load(component, dirpath=pp.CONFIG["sp"]):
     """
     assert isinstance(component, pp.Component)
 
-    output_folder = dirpath / component.name
-    filepath = output_folder / component.name
+    output_folder = dirpath / component.function_name
+    filepath = output_folder / f"{component.name}_{height_nm}"
     filepath_sp = filepath.with_suffix(".dat")
     assert (
         filepath_sp.exists()

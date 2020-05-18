@@ -75,9 +75,9 @@ def write(
     c = pp.extend_ports(component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    output_folder = dirpath / component.name
+    output_folder = dirpath / component.function_name
     output_folder.mkdir(exist_ok=True)
-    filepath = output_folder / component.name
+    filepath = output_folder / f"{component.name}_{max(ss.layer2nm.values())}"
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
     filepath_fsp = str(filepath.with_suffix(".fsp"))
@@ -241,7 +241,8 @@ def write(
 
 
 if __name__ == "__main__":
-    c = pp.c.mmi1x2()
+    c = pp.c.coupler_ring(length_x=3)
     r = write(component=c)
+    print(r)
     # print(r.keys())
-    print(c.ports.keys())
+    # print(c.ports.keys())
