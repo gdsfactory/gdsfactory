@@ -78,11 +78,18 @@ def autoname(component_function):
         )
         kwargs.pop("ignore_from_name", [])
 
+        sig = signature(component_function)
+
+        if "args" not in sig.parameters and "kwargs" not in sig.parameters:
+            for key in kwargs.keys():
+                assert (
+                    key in sig.parameters.keys()
+                ), f"{key} key not in {list(sig.parameters.keys())}"
+
         component = component_function(**kwargs)
         component.name = name
         component.module = component_function.__module__
         component.function_name = component_function.__name__
-        sig = signature(component_function)
 
         if not hasattr(component, "settings"):
             component.settings = {}
