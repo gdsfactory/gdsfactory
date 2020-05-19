@@ -94,7 +94,11 @@ def write(
     y_max = c.ymax * 1e-6 + ss.ymargin
 
     port_orientations = [p.orientation for p in ports.values()]
-    if 90 in port_orientations:
+    if 90 in port_orientations and len(ports) > 2:
+        y_max = c.ymax * 1e-6 - pe
+        x_max = c.xmax * 1e-6
+
+    elif 90 in port_orientations:
         y_max = c.ymax * 1e-6 - pe
         x_max = c.xmax * 1e-6 + ss.ymargin
 
@@ -132,10 +136,11 @@ def write(
     )
 
     for layer, nm in ss.layer2nm.items():
+        assert layer in ss.layer2material, f"{layer} not in {ss.layer2material.keys()}"
         s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
         silicon = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(silicon, "z span", nm * 1e-9)
-        s.setnamed(silicon, "material", layer2material[layer])
+        s.setnamed(silicon, "material", ss.layer2material[layer])
 
     for i, port in enumerate(ports.values()):
         s.addport()
