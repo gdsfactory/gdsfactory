@@ -3,11 +3,14 @@ import numpy as np
 import pp
 
 
-def load(component, dirpath=pp.CONFIG["sp"], height_nm=220):
+def load(
+    component=None, filepath=None, dirpath=pp.CONFIG["sp"], numports=None, height_nm=220
+):
     """
     Args:
         component: instance
-        dirpath: path for the Sparameters
+        filepath: Sparameters filepath (interconnect format)
+        dirpath: path where to look for the Sparameters
         h: height (nm)
 
     Returns [port_names, F, S]
@@ -19,22 +22,19 @@ def load(component, dirpath=pp.CONFIG["sp"], height_nm=220):
     the Sparameters file have Lumerical format
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
-    assert isinstance(component, pp.Component)
-
-    output_folder = dirpath / component.function_name
-    filepath = output_folder / f"{component.name}_{height_nm}"
-    filepath_sp = filepath.with_suffix(".dat")
-    assert (
-        filepath_sp.exists()
-    ), f"Sparameters for {component} not found in {filepath_sp}"
-
-    numports = len(component.ports)
+    if filepath is None:
+        assert isinstance(component, pp.Component)
+        output_folder = dirpath / component.function_name
+        filepath = output_folder / f"{component.name}_{height_nm}.dat"
+        numports = len(component.ports)
+    assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
+    assert numports > 1, f"{numports} needs to be > 1"
 
     F = []
     S = []
     port_names = []
 
-    with open(filepath_sp, "r") as fid:
+    with open(filepath, "r") as fid:
         for i in range(numports):
             port_line = fid.readline()
             m = re.search('\[".*",', port_line)
