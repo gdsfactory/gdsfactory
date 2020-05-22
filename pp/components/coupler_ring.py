@@ -54,7 +54,7 @@ def coupler_ring(
 
 if __name__ == "__main__":
     # c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
-    c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
+    c = coupler_ring(length_x=20, bend_radius=5.0, gap=0.3, wg_width=0.45)
     # print(c.get_settings())
     print(c.name)
     pp.show(c)

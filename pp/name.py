@@ -1,14 +1,4 @@
 """ define names, clean names and values
-autoname adds geometric hash
-
-```
-import importlib
-function_string = c.get_settings()['module']
-mod_name, func_name = function_string.rsplit('.',1)
-mod = importlib.import_module(mod_name)
-func = getattr(mod, func_name)
-result = func()
-```
 """
 import functools
 from inspect import signature
@@ -27,16 +17,8 @@ def join_first_letters(name):
 
 def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs):
     name = component_type
-
     if kwargs:
         name += "_" + dict2name(**kwargs)
-
-    # If the name is too long, fall back on hashing the longuest arguments
-    if len(name) > max_name_length:
-        shorter_name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
-        # print(f"{name} -> {shorter_name} ({len(name)} -> {max_name_length})")
-        name = shorter_name
-
     return name
 
 
@@ -70,14 +52,16 @@ def autoname(component_function):
         with_pins = kwargs.pop("with_pins", False)
         add_pins_function = kwargs.pop("add_pins_function", add_pins)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
+
+        component_type = component_function.__name__
         name = kwargs.pop(
             "name",
             get_component_name(
-                component_function.__name__, max_name_length=max_name_length, **kwargs
+                component_type, max_name_length=max_name_length, **kwargs
             ),
         )
-        kwargs.pop("ignore_from_name", [])
 
+        kwargs.pop("ignore_from_name", [])
         sig = signature(component_function)
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
@@ -90,6 +74,12 @@ def autoname(component_function):
         component.name = name
         component.module = component_function.__module__
         component.function_name = component_function.__name__
+
+        if len(name) > max_name_length:
+            component.name_long = name
+            component.name = (
+                f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+            )
 
         if not hasattr(component, "settings"):
             component.settings = {}

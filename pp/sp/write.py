@@ -75,13 +75,11 @@ def write(
     c = pp.extend_ports(component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    output_folder = dirpath / component.function_name
-    output_folder.mkdir(exist_ok=True)
-    filepath = output_folder / f"{component.name}_{max(ss.layer2nm.values())}"
+    filepath = component.get_sparameters_path(height_nm=max(ss.layer2nm.values()))
+
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
     filepath_fsp = str(filepath.with_suffix(".fsp"))
-    filepath_sp = str(filepath.with_suffix(".dat"))
 
     if run and filepath_json.exists() and not overwrite:
         return json.loads(open(filepath_json).read())
@@ -218,8 +216,8 @@ def write(
         # s.visualize(S_diagnostic);
 
         # export S-parameter data to file named s_params.dat to be loaded in INTERCONNECT
-        s.exportsweep("s-parameter sweep", filepath_sp)
-        print(f"wrote sparameters to {filepath_sp}")
+        s.exportsweep("s-parameter sweep", filepath)
+        print(f"wrote sparameters to {filepath}")
 
         keys = [key for key in sp.keys() if key.startswith("S")]
 

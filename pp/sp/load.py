@@ -24,8 +24,7 @@ def load(
     """
     if filepath is None:
         assert isinstance(component, pp.Component)
-        output_folder = dirpath / component.function_name
-        filepath = output_folder / f"{component.name}_{height_nm}.dat"
+        filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
         numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
     assert numports > 1, f"{numports} needs to be > 1"
