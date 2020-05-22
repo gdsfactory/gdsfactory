@@ -243,6 +243,20 @@ def write(
         return "you need to pass run=True to run the simulation"
 
 
+def write_coupler_ring():
+    [
+        write(
+            pp.c.coupler_ring(
+                wg_width=wg_width, length_x=length_x, bend_radius=bend_radius, gap=gap
+            )
+            for wg_width in [0.5]
+            for length_x in [0.1, 1, 2, 3, 4]
+            for gap in [0.15, 0.2]
+            for bend_radius in [5, 10]
+        )
+    ]
+
+
 if __name__ == "__main__":
     c = pp.c.coupler_ring(length_x=3)
     r = write(component=c)
