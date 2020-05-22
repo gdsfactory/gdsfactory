@@ -668,7 +668,7 @@ class Component(Device):
 
     def get_sparameters_path(self, dirpath=CONFIG["sp"], height_nm=220):
         output_folder = dirpath / self.function_name
-        output_folder.mkdir(exist_ok=True)
+        output_folder.mkdir(exist_ok=True, parents=True)
         return output_folder / f"{self.get_name_long()}_{height_nm}.dat"
 
     def get_optical_ports(self):
