@@ -76,10 +76,9 @@ def write(
     gdspath = pp.write_gds(c)
 
     filepath = component.get_sparameters_path(height_nm=max(ss.layer2nm.values()))
-
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
-    filepath_fsp = str(filepath.with_suffix(".fsp"))
+    filepath_fsp = filepath.with_suffix(".fsp")
 
     if run and filepath_json.exists() and not overwrite:
         return json.loads(open(filepath_json).read())
@@ -187,9 +186,9 @@ def write(
     s.setnamed("FDTD::ports", "monitor frequency points", 500)
 
     if run:
-        s.save(filepath_fsp)
+        s.save(str(filepath_fsp))
         # s.run()
-        # s.save(filepath_fsp)
+        # s.save(str(filepath_fsp))
 
         # if a sweep task named s-parameter sweep already exists, remove it
         s.deletesweep("s-parameter sweep")
@@ -216,7 +215,7 @@ def write(
         # s.visualize(S_diagnostic);
 
         # export S-parameter data to file named s_params.dat to be loaded in INTERCONNECT
-        s.exportsweep("s-parameter sweep", filepath)
+        s.exportsweep("s-parameter sweep", str(filepath))
         print(f"wrote sparameters to {filepath}")
 
         keys = [key for key in sp.keys() if key.startswith("S")]
