@@ -54,6 +54,7 @@ from pp.add_padding import add_padding
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
+from pp.pack import pack
 
 __all__ = [
     "CONFIG",
@@ -77,6 +78,7 @@ __all__ = [
     "load_csv",
     "plotgds",
     "preview_layerset",
+    "pack",
     "qp",
     "routing",
     "show",

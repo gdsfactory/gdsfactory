@@ -11,6 +11,7 @@ phidl
 picwriter
 pyqtree
 qrcode
+rectpack
 scipy
 shapely
 xlrd

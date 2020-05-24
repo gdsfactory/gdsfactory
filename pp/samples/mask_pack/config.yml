@@ -1,0 +1,47 @@
+mask:
+  name: sample_mask
+  description: sample_mask
+  width: 3000000
+  height: 3000000
+
+chip:
+  rows: 1
+  cols: 1
+  spacing: 150000
+  lane_width: 100000
+
+
+test_protocols:
+  passive_optical_te_coarse:
+    function_name: passive_optical_te
+    settings:
+      polarization: te
+      wavelength_nm_min: 1500
+      wavelength_nm_max: 1600
+      wavelength_nm_step: 0.1
+      fiber_angle: 15
+
+  passive_optical_tm_coarse:
+    function_name: passive_optical_tm
+    settings:
+      polarization: tm
+      wavelength_nm_min: 1500
+      wavelength_nm_max: 1600
+      wavelength_nm_step: 0.1
+      fiber_angle: 15
+
+  obr:
+    function_name: obr
+
+data_analysis_protocols:
+  spiral_loss_vs_length:
+    - version: 0.0.1
+
+  coupling_vs_length:
+    - version: 0.0.1
+
+  cutback:
+    - version: 0.0.1
+
+  obr:
+    - version: 0.0.1
