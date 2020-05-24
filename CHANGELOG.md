@@ -5,6 +5,8 @@
 
 # most recent changes with no release yet
 
+- addapted pp.pack from phidl as an easier way to pack masks
+
 # 1.1.9 2020-05-13
 
 - write and read Sparameters
@@ -24,14 +26,15 @@
 - simpler JSON file for mask metadata mask.tp.json
 - added container decorator, can inherit ports, settings, test and data analysis protocols and still have a different name to avoid name collisions
 - samples run as part of the test suite, moved samples into pp
-- autoname sorts kwarg keys by alphabetical order and has tests
+- autoname sorts kwarg keys by alphabetical order
+- added autoname tests
 - autoname accepts max_name_length and ignore_from_name kwargs
-- pp.generate_does raises error if compnent does not exist in factory
+- pp.generate_does raises error if component does not exist in factory
 - replaces name_W20_L30 by name_hash for cell names  > 32
 - zz_conn cleaner name using `from pp.name import clean_name` no slashes
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
-- added pytest-regression
+- added pytest-regression for component setting and ports
 
 ```
 with_settings_label: False
@@ -50,7 +53,7 @@ with_settings_label: False
 # 1.1.5 2020-03-17
 
 - added pre-commit hook for code consistency
-- allows a list of cladding layers
+- waveguide and bend allow a list of cladding layers
 - all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
 

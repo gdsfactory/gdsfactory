@@ -35,7 +35,7 @@ def offset(
         elif isinstance(e, (Polygon, gdspy.Polygon)):
             polygons_to_offset.append(e)
     if len(polygons_to_offset) == 0:
-        return Device("offset")
+        return pp.Component("offset")
     polygons_to_offset = _merge_floating_point_errors(
         polygons_to_offset, tol=precision / 1000
     )
