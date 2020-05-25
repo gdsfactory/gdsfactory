@@ -1,0 +1,9 @@
+bend_radius: 5
+class: coupler_ring
+coupler90_factory: coupler90
+cpl_straight_factory: coupler_straight
+gap: 0.2
+length_x: 4.0
+module: pp.components.coupler_ring
+name: coupler_ring
+wg_width: 0.5

@@ -1,0 +1,11 @@
+bend: bend_circular
+bend_radius: 5
+class: ring_single
+coupler: coupler_ring
+gap: 0.2
+length_x: 4
+length_y: 2
+module: pp.components.ring_single
+name: ring_single
+waveguide: waveguide
+wg_width: 0.5

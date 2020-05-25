@@ -1,11 +1,13 @@
-import pp
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide
 from pp.drc import assert_on_2nm_grid
+from pp.component import Component
+from pp.config import call_if_func
+from pp.name import autoname
 
 
-@pp.autoname
+@autoname
 def ring_single(
     wg_width=0.5,
     gap=0.2,
@@ -31,14 +33,14 @@ def ring_single(
     """
     assert_on_2nm_grid(gap)
 
-    coupler = pp.call_if_func(
+    coupler = call_if_func(
         coupler, gap=gap, wg_width=wg_width, bend_radius=bend_radius, length_x=length_x
     )
-    waveguide_side = pp.call_if_func(waveguide, width=wg_width, length=length_y)
-    waveguide_top = pp.call_if_func(waveguide, width=wg_width, length=length_x)
-    bend = pp.call_if_func(bend, width=wg_width, radius=bend_radius)
+    waveguide_side = call_if_func(waveguide, width=wg_width, length=length_y)
+    waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x)
+    bend = call_if_func(bend, width=wg_width, radius=bend_radius)
 
-    c = pp.Component()
+    c = Component()
     cb = c << coupler
     wl = c << waveguide_side
     wr = c << waveguide_side
@@ -52,9 +54,13 @@ def ring_single(
     wt.connect(port="W0", destination=bl.ports["W0"])
     br.connect(port="N0", destination=wt.ports["E0"])
     wr.connect(port="W0", destination=br.ports["W0"])
+    c.add_port("E0", port=cb.ports["E0"])
+    c.add_port("W0", port=cb.ports["W0"])
     return c
 
 
 if __name__ == "__main__":
-    c = ring_single()
+    import pp
+
+    c = ring_single(with_pins=True)
     pp.show(c)
