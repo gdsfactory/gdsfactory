@@ -57,11 +57,11 @@ def mzi(
     c = pp.Component()
     combiner_factory = combiner_factory or coupler_factory
 
-    coupler = pp.call_if_func(coupler_factory, with_pins=True)
-    combiner = pp.call_if_func(combiner_factory, with_pins=True)
+    coupler = pp.call_if_func(coupler_factory)
+    combiner = pp.call_if_func(combiner_factory)
 
-    b90 = bend90_factory(radius=bend_radius, with_pins=True)
-    l0 = straight_factory(length=L0, with_pins=True)
+    b90 = bend90_factory(radius=bend_radius)
+    l0 = straight_factory(length=L0)
 
     coupler = rename_ports_by_orientation(coupler)
     combiner = rename_ports_by_orientation(combiner)
@@ -79,9 +79,9 @@ def mzi(
         delta_length + L0 > 0
     ), f"input and output couplers height  offset (delta_length)  {delta_length} + {L0} >0"
 
-    l0r = straight_factory(length=L0 + delta_length / 2, with_pins=True)
-    l1 = straight_factory(length=L1, with_pins=True)
-    l2 = straight_factory(length=L2, with_pins=True)
+    l0r = straight_factory(length=L0 + delta_length / 2)
+    l1 = straight_factory(length=L1)
+    l2 = straight_factory(length=L2)
 
     cin = c << coupler
     cout = c << combiner
