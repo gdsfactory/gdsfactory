@@ -81,7 +81,8 @@ def add_io_optical(
 
     gc_polarization = gc.polarization
 
-    name = component_name or f"{c.name}_{gc_polarization}"
+    component_name = component_name or c.name
+    name = f"{component_name}_{gc_polarization}"
     cc = pp.Component(name=name)
     cc.function_name = "add_io_optical"
 

@@ -145,6 +145,7 @@ def spiral_external_io(
     component.ports = route_ref.ports
     component.length = route_ref.info["length"]
     component.settings["total_length"] = route_ref.info["length"]
+    component.settings["length"] = route_ref.info["length"]
     component.settings["cutback_length"] = cutback_length
 
     return component
