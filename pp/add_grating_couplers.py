@@ -1,15 +1,19 @@
 import pp
-from pp.add_labels import get_optical_text
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.config import CONFIG
+from pp.routing.get_input_labels import get_input_labels
+from pp.container import container
 
 
+@container
 def add_grating_couplers(
     component,
     grating_coupler=grating_coupler_te,
     layer_label=CONFIG["layers"]["LABEL"],
     input_port_indexes=[0],
+    gc_port_name="W0",
+    get_input_labels_function=get_input_labels,
 ):
     """ returns component with grating ports and labels on each port """
     component = pp.call_if_func(component)
@@ -17,11 +21,24 @@ def add_grating_couplers(
     c.add_ref(component)
     grating_coupler = pp.call_if_func(grating_coupler)
 
+    io_gratings = []
     for i, port in enumerate(component.ports.values()):
-        t_ref = c.add_ref(grating_coupler)
-        t_ref.connect(list(t_ref.ports.values())[0], port)
-        label = get_optical_text(port, grating_coupler, i)
-        c.label(label, position=port.midpoint, layer=layer_label)
+        gc_ref = grating_coupler.ref()
+        gc_ref.connect(list(gc_ref.ports.values())[0], port)
+        io_gratings.append(gc_ref)
+        c.add(gc_ref)
+
+        # label = get_optical_text(port, grating_coupler, i)
+        # c.add_label(label, position=port.midpoint, layer=layer_label)
+
+    labels = get_input_labels_function(
+        io_gratings,
+        list(component.ports.values()),
+        component_name=component.name,
+        layer_label=layer_label,
+        gc_port_name=gc_port_name,
+    )
+    c.add(labels)
 
     return c
 
@@ -35,6 +52,7 @@ def add_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
 
 
 if __name__ == "__main__":
+    # from pp.add_labels import get_optical_text
     # c = pp.c.grating_coupler_elliptical_te()
     # print(c.wavelength)
 

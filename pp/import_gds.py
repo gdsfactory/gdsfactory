@@ -20,15 +20,14 @@ def import_gds(
     if cellname is not None:
         if cellname not in gdsii_lib.cell_dict:
             raise ValueError(
-                "[PHIDL] import_gds() The requested cell (named %s) is not present in file %s"
-                % (cellname, filename)
+                f"import_gds() The requested cell {cellname} is not present in file {filename}"
             )
         topcell = gdsii_lib.cell_dict[cellname]
     elif cellname is None and len(top_level_cells) == 1:
         topcell = top_level_cells[0]
     elif cellname is None and len(top_level_cells) > 1:
         raise ValueError(
-            "[PHIDL] import_gds() There are multiple top-level cells in {}, you must specify `cellname` to select of one of them among {}".format(
+            "import_gds() There are multiple top-level cells in {}, you must specify `cellname` to select of one of them among {}".format(
                 filename, [_c.name for _c in top_level_cells]
             )
         )
