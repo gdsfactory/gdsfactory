@@ -100,8 +100,19 @@ def add_pin_square(
     )
 
 
+def add_outline(component, layer=LAYER.DEVREC):
+    c = component
+    points = [
+        [c.xmin, c.ymin],
+        [c.xmax, c.ymin],
+        [c.xmax, c.ymax],
+        [c.xmin, c.ymax],
+    ]
+    c.add_polygon(points, layer=LAYER.DEVREC)
+
+
 def add_pins(
-    component, add_port_marker_function=add_pin_square, add_outline=True, **kwargs,
+    component, add_port_marker_function=add_pin_square, **kwargs,
 ):
 
     """ add port markers:
@@ -112,15 +123,6 @@ def add_pins(
     Add device recognition layer
 
     """
-    if add_outline:
-        c = component
-        points = [
-            [c.xmin, c.ymin],
-            [c.xmax, c.ymin],
-            [c.xmax, c.ymax],
-            [c.xmin, c.ymax],
-        ]
-        c.add_polygon(points, layer=LAYER.DEVREC)
 
     if hasattr(component, "ports") and component.ports:
         for p in component.ports.values():

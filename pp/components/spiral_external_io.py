@@ -20,8 +20,7 @@ def spiral_external_io(
     N=6,
     x_inner_length_cutback=300.0,
     x_inner_offset=0,
-    y_straight_inner_top=5.0,
-    inner_loop_spacing=None,
+    y_straight_inner_top=0,
     dx=3,
     dy=3,
     bend90_function=bend_circular,
@@ -65,6 +64,8 @@ def spiral_external_io(
 
     if cutback_length:
         x_inner_length_cutback = cutback_length / (4 * (N - 1))
+
+    y_straight_inner_top += 5
 
     x_inner_length_cutback += x_inner_offset
     _bend180 = pp.call_if_func(bend180_function, radius=bend_radius, width=wg_width)
@@ -142,6 +143,7 @@ def spiral_external_io(
     component.absorb(route_ref)
 
     component.ports = route_ref.ports
+    component.length = route_ref.info["length"]
     component.settings["total_length"] = route_ref.info["length"]
     component.settings["cutback_length"] = cutback_length
 

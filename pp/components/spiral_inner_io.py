@@ -52,7 +52,8 @@ def spiral_inner_io(
         bend_radius
         wg_width
         straight_factory
-        taper
+        taper:
+        length: cm
 
     .. plot::
       :include-source:
@@ -362,4 +363,5 @@ if __name__ == "__main__":
     # c = reticle_mockup()
     # c = spiral_inner_io()
     # c = spiral_inner_io(bend_radius=20, wg_width=0.2)
-    # c = spirals_nested()
+    c = spirals_nested()
+    pp.show(c)
