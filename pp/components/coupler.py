@@ -18,6 +18,18 @@ def coupler(**kwargs):
         coupler_symmetric_factory
         coupler_straight
 
+    .. code::
+
+       W1 __             __ E1
+            \           /
+             \         /
+              ========= gap
+             /          \
+           _/            \_
+        W0      length    E0
+
+            coupler_straight  coupler_symmetric_factory
+
     .. plot::
       :include-source:
 
