@@ -48,6 +48,7 @@ from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.components.spiral_external_io import spiral_external_io
 from pp.components.spiral_circular import spiral_circular
+from pp.components.dbr import dbr
 
 # electrical
 from pp.components.electrical.pad import pad
@@ -58,6 +59,7 @@ from pp.components.pcm.test_resistance import test_resistance
 from pp.components.pcm.test_via import test_via
 
 # level 1 components
+from pp.components.cavity import cavity
 from pp.components.coupler import coupler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.ring_single import ring_single
@@ -145,6 +147,7 @@ __all__ = [
     "bend_euler180",
     "bend_s",
     "bezier",
+    "cavity",
     "compass",
     "cross",
     "ring",
@@ -157,6 +160,7 @@ __all__ = [
     "coupler_symmetric",
     "coupler_asymmetric",
     "crossing",
+    "dbr",
     "delay_snake",
     "grating_coupler_uniform",
     "grating_coupler_te",

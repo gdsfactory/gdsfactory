@@ -10,7 +10,6 @@ install: gdslib
 waveguide:
 	python pp/components/waveguide.py
 
-
 gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
 
@@ -34,7 +33,6 @@ pyenv3:
 
 mypy:
 	mypy . --ignore-missing-imports
-
 
 build:
 	python setup.py sdist bdist_wheel

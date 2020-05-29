@@ -1,8 +1,8 @@
 # GDSfactory 1.1.9
 
-gdsfactory provides you with a set of useful generic component templates to build your PDKs and send your masks to the foundry.
+gdsfactory provides you with a set of useful generic component templates to build your PDKs and build masks to different foundries.
 
-You just need to adapt the templates to your foundry (see pp/samples/pdk)
+You just need to adapt the templates to your foundry (see pp/samples/pdk) or check out how to use gdsfactory to build the [UBC PDK](https://github.com/gdsfactory/ubc)
 
 GDSII is the standard format to create masks sets in the CMOS industry.
 
@@ -14,9 +14,10 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 
 # Documentation
 
-- [read Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
+- [read online Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
 - run gdsfactory/pp/samples
 - run gdsfactory/notebooks
+- see latest changes in [CHANGELOG](CHANGELOG.md)
 
 # Installation
 
@@ -30,6 +31,18 @@ cd gdsfactory
 bash install.sh
 ```
 
+# Tests
+
+You can run tests with pytests. This will run 3 types of tests:
+
+- pytest will test any functions in the `pp` package that start with `test_`
+- test_factory: builds all components in the component_type2factory in `pp/components/__init__.py` and checks that the geometric hash is the same
+    - any changes in the library need to be approved by running the function `lock_components_with_changes` in `pp/tests/test_factory.py`
+- regressions tests: makes sures no unwanted regressions happen. Need to approve changes by running `make test-force` from the repo root directory.
+    - `pp/components/test_components.py` stores all the component settings in YAML
+    - `pp/components/test_ports.py` stores all port locations in a CSV file
+
+
 # Modules in this repo
 
 - pp photonic-package
@@ -42,18 +55,8 @@ bash install.sh
   - tests:
 - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
 - klayout: klayout generic tech layers and klive macro
-
-# Related repos
-
 - notebooks: jupyter-notebooks for training
-- gdslib: separate repo where we store the component outputs. Tests ensure the geometric hash of the GDS does not change with the ones locked in the [library](https://github.com/gdslib/gdslib)
-  - `component.nst`: netlist
-  - `component.dat`: FDTD sparameter data
-  - `component.ice`: interconnect
-  - `component.md`: report
-  - `component.ports`: csv with port information
-  - `component.json`: JSON file with component properties
-  - `component.gds`: GDS
+
 
 # `pf` Photonic factory command line interface
 
@@ -70,8 +73,16 @@ Commands:
   test     Run tests using pytest.
 ```
 
-# Acknowledgements
+# Links
 
+- [gdslib](https://github.com/gdsfactory/gdslib): separate repo where we store the component library. Tests ensure the geometric hash of the GDS does not change with the ones locked in the library
+  - `component.gds`: GDS
+  - `component.json`: JSON file with component properties
+  - `component.dat`: FDTD sparameter data
+  - `component.ports`: csv with port information
+  - `component.nst`: netlist (not implemented yet)
+- [ubc PDK](https://github.com/gdsfactory/ubc)
+- [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [gdspy](https://github.com/heitzmann/gdspy)
 - [phidl](https://github.com/amccaugh/phidl)
 - [picwriter](https://github.com/DerekK88/PICwriter)

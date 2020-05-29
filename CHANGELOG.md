@@ -2,17 +2,28 @@
 
 - mzi2x2 with heaters have some issue, where waveguide connects to the heater
 - had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
+- create a Klayout library so we can also place components from the klayout menu GUI
+- have a netlist extraction capability
 
-# most recent changes with no release yet
+# Maybe
 
+- units are in um by default, so instead of m to symbolize (1e-3) maybe just use nm
+
+# Most recent changes with no release yet
+
+- added link for [ubc PDK](https://github.com/gdsfactory/ubc) to README
+- added a jupyter notebook tutorial for references and array of references
+- added dbr and cavity components
+- rotate is now a container
 - addapted pp.pack from phidl as an easier way to pack masks
 
 # 1.1.9 2020-05-13
 
 - write and read Sparameters
 - pp.extend_ports is now a container
-- any component decorated with @pp.autoname can accept `with_pins=True` flag, and function `add_pins_function`. They will be ignored from the Component `name` and `settings`
-- better json serializer for the settings
+- any component decorated with @pp.autoname can accept `with_pins=True` flag, and a function `add_pins_function`.
+- Pins arguments will be ignored from the Component `name` and `settings`
+- better json serializer for settings
 - added units to names (m,K,G ...)
 
 # 1.1.8 2020-05-11
@@ -31,7 +42,7 @@
 - autoname accepts max_name_length and ignore_from_name kwargs
 - pp.generate_does raises error if component does not exist in factory
 - replaces name_W20_L30 by name_hash for cell names  > 32
-- zz_conn cleaner name using `from pp.name import clean_name` no slashes
+- zz_conn cleaner name using `from pp.name import clean_name` no slashes in the name
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
 - added pytest-regression for component setting and ports
