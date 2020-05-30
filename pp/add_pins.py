@@ -108,7 +108,7 @@ def add_outline(component, layer=LAYER.DEVREC):
         [c.xmax, c.ymax],
         [c.xmin, c.ymax],
     ]
-    c.add_polygon(points, layer=LAYER.DEVREC)
+    c.add_polygon(points, layer=layer)
 
 
 def add_pins(
