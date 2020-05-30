@@ -1,0 +1,9 @@
+class: dbr
+l1: 0.2
+l2: 0.3
+module: pp.components.dbr
+n: 10
+name: dbr
+w1: 0.5
+w2: 0.6
+waveguide_function: waveguide

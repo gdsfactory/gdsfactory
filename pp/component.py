@@ -122,6 +122,9 @@ class Port(PortPhidl):
             Port._next_uid -= 1
         return new_port
 
+    def snap_to_grid(self, nm=1):
+        self.midpoint = pp.drc.snap_to_grid(self.midpoint, nm=nm)
+
 
 class SizeInfo:
     def __init__(self, bbox):
@@ -677,7 +680,14 @@ class Component(Device):
 
     def get_ports_array(self):
         """ returns ports as a dict of np arrays"""
-        return {
+        for port_name, port in self.ports.items():
+            assert pp.drc.on_1nm_grid(
+                port.x
+            ), f"{port.name} for {self.name} not on 1nm grid x = {port.x}"
+            assert pp.drc.on_1nm_grid(
+                port.y
+            ), f"{port.name} for {self.name} not on 1nm grid y = {port.y}"
+        ports_array = {
             port_name: np.array(
                 [
                     port.x,
@@ -690,6 +700,7 @@ class Component(Device):
             )
             for port_name, port in self.ports.items()
         }
+        return ports_array
 
     def get_electrical_ports(self):
         """ returns a list of optical ports """
@@ -836,6 +847,10 @@ class Component(Device):
 
         self.ports[p.name] = p
         return p
+
+    def snap_ports_to_grid(self, nm=1):
+        for port in self.ports.values():
+            port.midpoint = pp.drc.snap_to_grid(port.midpoint, nm=nm)
 
     def get_json(self, **kwargs):
         """ returns JSON metadata """
@@ -1064,7 +1079,7 @@ if __name__ == "__main__":
     # c.add_labels()
     # pp.show(c)
 
-    c = pp.c.waveguide()
+    c = pp.c.mmi1x2()
     # c = pp.c.mzi1x2()
     # c = pp.c.ring_double_bus()
     # print(c.hash_geometry())
@@ -1072,7 +1087,8 @@ if __name__ == "__main__":
     # print(c.get_settings())
     # print(c.settings)
 
-    print(c.get_settings())
+    # print(c.get_settings())
+    print(c.get_ports_array())
 
     # print(json.dumps(c.get_settings()))
     # print(c.get_json()['cells'].keys())
