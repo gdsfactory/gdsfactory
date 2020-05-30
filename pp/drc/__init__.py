@@ -2,26 +2,28 @@
 import numpy as np
 
 
+def on_grid(x, nm=1):
+    return np.isclose(snap_to_grid(x, nm=nm), x)
+
+
 def on_1nm_grid(x):
-    return snap_to_1nm_grid(x) == x
+    return np.isclose(snap_to_1nm_grid(x), x)
 
 
 def on_2nm_grid(x):
-    return snap_to_2nm_grid(x) == x
+    return np.isclose(snap_to_2nm_grid(x), x)
 
 
 def assert_on_1nm_grid(x):
-    if snap_to_1nm_grid(x) != x:
-        raise ValueError("{} needs to be on 1nm grid".format(x))
+    assert np.isclose(snap_to_1nm_grid(x), x), f"{x} needs to be on 1nm grid"
 
 
 def assert_on_2nm_grid(x):
-    if snap_to_2nm_grid(x) != x:
-        raise ValueError("{} needs to be on 2nm grid".format(x))
+    assert np.isclose(snap_to_2nm_grid(x), x), f"{x} needs to be on 1nm grid"
 
 
 def snap_to_grid(x, nm=1):
-    return nm * np.round(x * 1e3 / nm) / 1e3
+    return nm * np.round(np.array(x) * 1e3 / nm) / 1e3
 
 
 def snap_to_1nm_grid(x):

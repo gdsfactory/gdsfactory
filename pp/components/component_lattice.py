@@ -136,11 +136,7 @@ def component_lattice(
         CXX
         C-X
         """,
-    components={
-        "C": package_optical2x2(component=coupler, port_spacing=40.0),
-        "X": crossing45(port_spacing=40.0),
-        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
-    },
+    components=None,
 ):
     """
     A lattice of N inputs and outputs with components at given locations
@@ -161,9 +157,20 @@ def component_lattice(
 
       import pp
 
-      c = pp.c.component_lattice()
+      components = components or {
+            "C": package_optical2x2(component=coupler, port_spacing=40.0),
+            "X": crossing45(port_spacing=40.0),
+            "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+      }
+
+      c = pp.c.component_lattice(components)
       pp.plotgds(c)
     """
+    components = components or {
+        "C": package_optical2x2(component=coupler, port_spacing=40.0),
+        "X": crossing45(port_spacing=40.0),
+        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+    }
 
     # Find y spacing and check that all components have same y spacing
 
@@ -182,10 +189,7 @@ def component_lattice(
                 else:
                     assert (
                         abs(y_spacing - _y_spacing) < 0.1 / GRID_PER_UNIT
-                    ), "All component must have the same y port spacing. Got {}, {}\
-                    ".format(
-                        y_spacing, _y_spacing
-                    )
+                    ), f"All component must have the same y port spacing. Got {y_spacing}, {_y_spacing} for {cmp.name}"
 
     a = y_spacing
     columns, columns_to_length = parse_lattice(lattice, components)

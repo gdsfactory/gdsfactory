@@ -22,12 +22,12 @@ def rnd(p):
 def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
     """
     """
-    cmp = pp.Component()
+    c = pp.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
-    cmp.add(_ellipse)
-    cmp.absorb(_ellipse)
+    c.add(_ellipse)
+    c.absorb(_ellipse)
 
-    a = L + w / 2
+    a = pp.drc.snap_to_1nm_grid(L + w / 2)
     h = wg_width / 2
 
     taper_pts = [
@@ -41,16 +41,16 @@ def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
         (-a, -h),
     ]
 
-    cmp.add_polygon(taper_pts, layer=LAYER.WG)
-    cmp.add_port(
+    c.add_polygon(taper_pts, layer=LAYER.WG)
+    c.add_port(
         name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=LAYER.WG
     )
 
-    cmp.add_port(
+    c.add_port(
         name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=LAYER.WG
     )
 
-    return cmp
+    return c
 
 
 @pp.autoname
@@ -212,7 +212,7 @@ def crossing45(crossing=crossing, port_spacing=20.0, dx=None, alpha=0.08):
     c.absorb(_crossing)
     if dx is None:
         dx = port_spacing
-    dy = port_spacing / 2  # - abs(p_e[1] - p_s[1]) / 2
+    dy = port_spacing / 2
 
     t = np.linspace(0, 1, 101)
 
@@ -260,7 +260,7 @@ def crossing45(crossing=crossing, port_spacing=20.0, dx=None, alpha=0.08):
     c.add_port("E1", port=b_tr.ports["1"])
     c.add_port("W0", port=b_bl.ports["1"])
     c.add_port("W1", port=b_tl.ports["1"])
-
+    c.snap_ports_to_grid()
     return c
 
 
@@ -405,8 +405,9 @@ def demo():
 
 if __name__ == "__main__":
     # c = crossing()
-    # demo()
-    # c = crossing45(alpha=0.5, crossing=crossing_etched)
-    # c = crossing_etched()
-    c = crossing_from_taper()
+    c = crossing45(port_spacing=40, with_pins=True)
     pp.show(c)
+    print(c.get_ports_array())
+    # demo()
+    # c = crossing_etched()
+    # c = crossing_from_taper()

@@ -48,8 +48,7 @@ def route_fiber_array(
     optical_port_labels=None,
     taper_factory=taper,
     route_factory=route_south,
-    get_input_labels_function=get_input_labels
-    # input_port_indexes=[0],
+    get_input_labels_function=get_input_labels,
 ):
     """
     Returns component I/O elements for adding grating couplers with a fiber array input

@@ -102,6 +102,7 @@ def mmi1x2_biased(
 if __name__ == "__main__":
     c = mmi1x2()
     print(c.ports)
+    print(c.get_ports_array())
     # c = mmi1x2_biased()
     # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())

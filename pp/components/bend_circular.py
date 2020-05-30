@@ -143,16 +143,18 @@ def bend_circular(
     for layer_cladding in layers_cladding:
         component.add_polygon(points=(xpts, ypts), layer=layer_cladding)
 
+    midpoint1 = (radius * cos(angle1), radius * sin(angle1))
     component.add_port(
         name="W0",
-        midpoint=(radius * cos(angle1), radius * sin(angle1)),
+        midpoint=midpoint1,
         width=width,
         orientation=start_angle - 90 + 180 * (theta < 0),
         layer=layer,
     )
+    midpoint2 = (radius * cos(angle2), radius * sin(angle2))
     component.add_port(
         name="N0",
-        midpoint=(radius * cos(angle2), radius * sin(angle2)),
+        midpoint=midpoint2,
         width=width,
         orientation=start_angle + theta + 90 - 180 * (theta < 0),
         layer=layer,
@@ -161,6 +163,13 @@ def bend_circular(
     component.radius = radius
     component.width = width
     component.move((0, radius))
+
+    assert pp.drc.on_grid(
+        midpoint1[1] - width / 2
+    ), f"x_input point is off grid {midpoint1[1] - width/2}"
+    assert pp.drc.on_grid(
+        midpoint2[0] - width / 2
+    ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
     pp.ports.port_naming.rename_ports_by_orientation(component)
     return component
@@ -227,7 +236,7 @@ def bend_circular180(
     start_angle=-90,
     angle_resolution=2.5,
     layer=LAYER.WG,
-    **kwargs
+    **kwargs,
 ):
     c = bend_circular(
         radius=radius,
@@ -236,7 +245,7 @@ def bend_circular180(
         start_angle=start_angle,
         angle_resolution=angle_resolution,
         layer=layer,
-        **kwargs
+        **kwargs,
     )
     return c
 
@@ -336,8 +345,9 @@ if __name__ == "__main__":
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
-    c = bend_circular180(with_pins=False)
-    print(c.settings)
+    c = bend_circular(radius=5.0005, width=1.002, with_pins=True)
+    print(c.ports["N0"].midpoint)
+    # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
     # print(c.ports)

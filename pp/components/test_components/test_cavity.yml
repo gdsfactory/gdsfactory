@@ -1,0 +1,8 @@
+class: cavity
+coupler: coupler
+gap: 0.2
+length: 0.1
+mirror: loop_mirror
+module: pp.components.cavity
+name: cavity
+wg_width: 0.5
