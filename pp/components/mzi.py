@@ -55,10 +55,11 @@ def mzi(
 
     """
     c = pp.Component()
-    combiner_factory = combiner_factory or coupler_factory
-
     coupler = pp.call_if_func(coupler_factory)
-    combiner = pp.call_if_func(combiner_factory)
+    if combiner_factory:
+        combiner = pp.call_if_func(combiner_factory)
+    else:
+        combiner = coupler
 
     b90 = bend90_factory(radius=bend_radius)
     l0 = straight_factory(length=L0)
