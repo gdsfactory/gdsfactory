@@ -123,7 +123,16 @@ class Port(PortPhidl):
         return new_port
 
     def snap_to_grid(self, nm=1):
-        self.midpoint = pp.drc.snap_to_grid(self.midpoint, nm=nm)
+        self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
+
+    def on_grid(self, nm=1):
+        if self.orientation in [0, 180]:
+            y_top = self.y + self.width / 2
+            return pp.drc.on_grid(y_top, nm=nm)
+        elif self.orientation in [90, 270]:
+            x_top = self.x + self.width / 2
+            return pp.drc.on_grid(x_top, nm=nm)
+        raise ValueError(f"{self.name} has invalid orientation {self.orientation}")
 
 
 class SizeInfo:
@@ -678,15 +687,14 @@ class Component(Device):
         """ returns a lit of optical ports """
         return list(select_optical_ports(self.ports).values())
 
+    def ports_on_grid(self):
+        """ asserts if all ports ar eon grid """
+        for port in self.ports.values():
+            assert port.on_grid()
+
     def get_ports_array(self):
         """ returns ports as a dict of np arrays"""
-        for port_name, port in self.ports.items():
-            assert pp.drc.on_1nm_grid(
-                port.x
-            ), f"{port.name} for {self.name} not on 1nm grid x = {port.x}"
-            assert pp.drc.on_1nm_grid(
-                port.y
-            ), f"{port.name} for {self.name} not on 1nm grid y = {port.y}"
+        self.ports_on_grid()
         ports_array = {
             port_name: np.array(
                 [
