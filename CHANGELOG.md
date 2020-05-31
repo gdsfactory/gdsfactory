@@ -16,6 +16,7 @@
 - added dbr and cavity components
 - rotate is now a container
 - addapted pp.pack from phidl as an easier way to pack masks
+- Autoname also has now a build in cache to avoid having two different cells with the same name
 
 # 1.1.9 2020-05-13
 
