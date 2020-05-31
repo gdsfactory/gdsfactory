@@ -6,7 +6,7 @@ from inspect import signature
 import hashlib
 import numpy as np
 from phidl import Device
-from pp.add_pins import add_pins
+from pp.add_pins import add_pins_and_outline
 from pp.component import NAME_TO_DEVICE
 
 MAX_NAME_LENGTH = 32
@@ -60,8 +60,8 @@ def autoname(component_function):
             raise ValueError("autoname supports only Keyword args")
         cache = kwargs.pop("cache", True)
         uid = kwargs.pop("uid", False)
-        with_pins = kwargs.pop("with_pins", False)
-        add_pins_function = kwargs.pop("add_pins_function", add_pins)
+        pins = kwargs.pop("pins", False)
+        add_pins_function = kwargs.pop("add_pins_function", add_pins_and_outline)
 
         component_type = component_function.__name__
         name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
@@ -98,7 +98,7 @@ def autoname(component_function):
                 **{p.name: p.default for p in sig.parameters.values()}
             )
             component.settings.update(**kwargs)
-            if with_pins:
+            if pins:
                 add_pins_function(component)
             NAME_TO_DEVICE[name] = component
             return component

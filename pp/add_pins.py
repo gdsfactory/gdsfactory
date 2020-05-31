@@ -129,6 +129,13 @@ def add_pins(
             add_port_marker_function(component=component, port=p, layer=layer, **kwargs)
 
 
+def add_pins_and_outline(
+    component, add_pins_function=add_pins, add_outline_function=add_outline
+):
+    add_outline_function(component)
+    add_pins_function(component)
+
+
 def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kwargs):
     return add_pins(
         component=component, add_port_marker_function=add_port_marker_function, **kwargs
@@ -145,6 +152,6 @@ if __name__ == "__main__":
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
     # c = pp.c.waveguide()
-    c = pp.c.crossing()
+    c = pp.c.crossing(pins=True)
     # add_pins(c)
     pp.show(c)

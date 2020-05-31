@@ -36,5 +36,5 @@ def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
 
 
 if __name__ == "__main__":
-    c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, with_pins=True)
+    c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, pins=True)
     pp.show(c)

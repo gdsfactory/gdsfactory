@@ -37,5 +37,5 @@ def cavity(mirror=loop_mirror, coupler=coupler, length=0.1, gap=0.2, wg_width=0.
 if __name__ == "__main__":
     from pp.components.dbr import dbr
 
-    c = cavity(mirror=dbr, with_pins=True)
+    c = cavity(mirror=dbr, pins=True)
     pp.show(c)

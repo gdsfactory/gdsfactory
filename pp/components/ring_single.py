@@ -62,5 +62,5 @@ def ring_single(
 if __name__ == "__main__":
     import pp
 
-    c = ring_single(with_pins=True)
+    c = ring_single(pins=True)
     pp.show(c)

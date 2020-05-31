@@ -55,5 +55,5 @@ def ring_double(
 if __name__ == "__main__":
     import pp
 
-    c = ring_double(with_pins=True)
+    c = ring_double(pins=True)
     pp.show(c)

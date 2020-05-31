@@ -405,7 +405,7 @@ def demo():
 
 if __name__ == "__main__":
     # c = crossing()
-    c = crossing45(port_spacing=40, with_pins=True)
+    c = crossing45(port_spacing=40, pins=True)
     pp.show(c)
     print(c.get_ports_array())
     # demo()

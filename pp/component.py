@@ -787,7 +787,7 @@ class Component(Device):
                 "function_name",
                 "type",
                 "netlist",
-                "with_pins",
+                "pins",
             ]
         )
         params = set(dir(self)) - ignore

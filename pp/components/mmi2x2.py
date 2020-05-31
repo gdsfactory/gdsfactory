@@ -36,9 +36,7 @@ def mmi2x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = pp.c.taper(
-        length=length_taper, width1=wg_width, width2=w_taper, with_pins=False
-    )
+    taper = pp.c.taper(length=length_taper, width1=wg_width, width2=w_taper, pins=False)
 
     a = gap_mmi / 2 + width_taper / 2
     _mmi = pp.c.rectangle(

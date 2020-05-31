@@ -153,7 +153,7 @@ def _demo_waveguide():
 
 if __name__ == "__main__":
 
-    c = waveguide(length=4)
+    c = waveguide(length=4, pins=True)
 
     pp.show(c)
 
