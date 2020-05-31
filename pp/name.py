@@ -61,7 +61,7 @@ def autoname(component_function):
         cache = kwargs.pop("cache", True)
         uid = kwargs.pop("uid", False)
         pins = kwargs.pop("pins", False)
-        add_pins_function = kwargs.pop("add_pins_function", add_pins_and_outline)
+        pins_function = kwargs.pop("pins_function", add_pins_and_outline)
 
         component_type = component_function.__name__
         name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
@@ -99,7 +99,7 @@ def autoname(component_function):
             )
             component.settings.update(**kwargs)
             if pins:
-                add_pins_function(component)
+                pins_function(component)
             NAME_TO_DEVICE[name] = component
             return component
 
