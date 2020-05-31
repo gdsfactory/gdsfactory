@@ -10,7 +10,7 @@ def _rotate(v, m):
     return np.dot(m, v)
 
 
-def add_pin_triangle(component, port, port_layer=LAYER.PORT, label_layer=LAYER.TEXT):
+def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
     """
     # The port visualization pattern is a triangle with a right angle
     # The face opposite the right angle is the port width
@@ -37,11 +37,11 @@ def add_pin_triangle(component, port, port_layer=LAYER.PORT, label_layer=LAYER.T
         text=p.name, position=p.midpoint, layer=label_layer,
     )
 
-    component.add_polygon(polygon, layer=port_layer)
+    component.add_polygon(polygon, layer=layer)
 
 
 def add_pin_square_inside(
-    component, port, port_length=0.1, port_layer=LAYER.PORT, label_layer=LAYER.TEXT
+    component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
     """
     square inside
@@ -65,11 +65,11 @@ def add_pin_square_inside(
     ptopin = p.position + _rotate(dtopin, rot_mat)
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=port_layer)
+    component.add_polygon(polygon, layer=layer)
 
 
 def add_pin_square(
-    component, port, port_length=0.1, port_layer=LAYER.PORT, label_layer=LAYER.PORT
+    component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.PORT
 ):
     """
     half out
@@ -93,7 +93,7 @@ def add_pin_square(
     ptopin = p.position + _rotate(dtopin, rot_mat)
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
-    component.add_polygon(polygon, layer=port_layer)
+    component.add_polygon(polygon, layer=layer)
 
     component.add_label(
         text=str(p.name), position=p.midpoint, layer=label_layer,
@@ -112,7 +112,7 @@ def add_outline(component, layer=LAYER.DEVREC):
 
 
 def add_pins(
-    component, add_port_marker_function=add_pin_square, **kwargs,
+    component, add_port_marker_function=add_pin_square, layer=LAYER.PORT, **kwargs,
 ):
 
     """ add port markers:
@@ -126,7 +126,7 @@ def add_pins(
 
     if hasattr(component, "ports") and component.ports:
         for p in component.ports.values():
-            add_port_marker_function(component=component, port=p, **kwargs)
+            add_port_marker_function(component=component, port=p, layer=layer, **kwargs)
 
 
 def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kwargs):

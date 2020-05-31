@@ -1,11 +1,10 @@
 import pp
 from pp.layers import LAYER
-from pp.name_and_cache import autoname_and_cache
 
 __version__ = "0.0.1"
 
 
-@autoname_and_cache
+@pp.autoname
 def hline(length=10, width=0.5, layer=LAYER.WG):
     """ horizonal line waveguide, with ports on east and west sides
 

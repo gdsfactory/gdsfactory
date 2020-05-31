@@ -1075,6 +1075,18 @@ def _clean_value(value):
     return value
 
 
+def test_same_uid():
+    c = Component()
+    c << pp.c.rectangle()
+    c << pp.c.rectangle()
+
+    r1 = c.references[0].parent
+    r2 = c.references[1].parent
+
+    print(r1.uid, r2.uid)
+    print(r1 == r2)
+
+
 def demo_component(port):
     c = pp.Component()
     c.add_port(name="p1", port=port)
@@ -1086,8 +1098,9 @@ if __name__ == "__main__":
     # c = pp.c.coupler()
     # c.add_labels()
     # pp.show(c)
+    test_same_uid()
 
-    c = pp.c.mmi1x2()
+    # c = pp.c.mmi1x2()
     # c = pp.c.mzi1x2()
     # c = pp.c.ring_double_bus()
     # print(c.hash_geometry())
@@ -1096,7 +1109,7 @@ if __name__ == "__main__":
     # print(c.settings)
 
     # print(c.get_settings())
-    print(c.get_ports_array())
+    # print(c.get_ports_array())
 
     # print(json.dumps(c.get_settings()))
     # print(c.get_json()['cells'].keys())

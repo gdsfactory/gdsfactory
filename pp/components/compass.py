@@ -35,5 +35,5 @@ def compass(size=(4, 2), layer=pp.LAYER.WG):
 
 
 if __name__ == "__main__":
-    c = compass()
+    c = compass(size=(1, 2), layer=pp.LAYER.WG)
     pp.show(c)

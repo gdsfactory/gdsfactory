@@ -9,7 +9,7 @@ import pp
 
 
 @pp.autoname
-def waveguide(width=10, height=1):
+def waveguide_autoname(width=10, height=1):
     wg = pp.Component("waveguide")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
     wg.add_port(name="wgport1", midpoint=[0, height / 2], width=height, orientation=180)
@@ -19,8 +19,8 @@ def waveguide(width=10, height=1):
     return wg
 
 
-c = waveguide()
+c = waveguide_autoname()
 print(c)
 
-c = waveguide(width=0.5)
+c = waveguide_autoname(width=0.5)
 print(c)
