@@ -39,7 +39,7 @@ def lock_component(
     TODO: flattening makes it slower for big mask
     """
     try:
-        c = component_type2factory[component_type]()
+        c = component_type2factory[component_type](cache=False)
         if flatten:
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
@@ -85,9 +85,7 @@ def print_components_with_changes(
             component_type2factory=component_type2factory,
             path_library=path_library,
         )
-        if same_hash:
-            print(f"[V] {component_type}")
-        else:
+        if not same_hash:
             print(f"[X] {component_type} changed hash")
 
 
@@ -188,10 +186,10 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    lock_components_with_changes()
+    # lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
-    # test_all_components()
+    test_all_components()
     # rebuild_library()
     # lock_component("waveguide")
     # compare_component_hash("waveguide")

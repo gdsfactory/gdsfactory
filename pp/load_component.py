@@ -78,12 +78,12 @@ def load_component(
                     layer=(layer_type, data_type),
                 )
     except Exception:
-        print(
-            f"Could not find a port CSV file for {component_name} in {component_path}"
-        )
-        print(
-            "ports follow (name, x, y, width, angle, layer_gds_type, layer_gds_purpose)"
-        )
+        # print(
+        #     f"Could not find a port CSV file for {component_name} in {portspath}"
+        # )
+        # print(
+        #     "ports follow (name, x, y, width, angle, layer_gds_type, layer_gds_purpose)"
+        # )
         pass
         # raise (e)
 

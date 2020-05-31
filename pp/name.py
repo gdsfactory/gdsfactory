@@ -6,6 +6,7 @@ import hashlib
 import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins
+from pp.component import NAME_TO_DEVICE
 
 MAX_NAME_LENGTH = 32
 
@@ -49,6 +50,7 @@ def autoname(component_function):
     def wrapper(*args, **kwargs):
         if args:
             raise ValueError("autoname supports only Keyword args")
+        cache = kwargs.pop("cache", True)
         with_pins = kwargs.pop("with_pins", False)
         add_pins_function = kwargs.pop("add_pins_function", add_pins)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
@@ -70,29 +72,32 @@ def autoname(component_function):
                     key in sig.parameters.keys()
                 ), f"{key} key not in {list(sig.parameters.keys())}"
 
-        component = component_function(**kwargs)
-        component.name = name
-        component.module = component_function.__module__
-        component.function_name = component_function.__name__
+        if cache and name in NAME_TO_DEVICE:
+            return NAME_TO_DEVICE[name]
+        else:
+            component = component_function(**kwargs)
+            component.name = name
+            component.module = component_function.__module__
+            component.function_name = component_function.__name__
 
-        if len(name) > max_name_length:
-            component.name_long = name
-            component.name = (
-                f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+            if len(name) > max_name_length:
+                component.name_long = name
+                component.name = (
+                    f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+                )
+
+            if not hasattr(component, "settings"):
+                component.settings = {}
+            component.settings.update(
+                **{p.name: p.default for p in sig.parameters.values()}
             )
-
-        if not hasattr(component, "settings"):
-            component.settings = {}
-        component.settings.update(
-            **{p.name: p.default for p in sig.parameters.values()}
-        )
-        component.settings.update(**kwargs)
-        # if hasattr(component, 'hash_geometry'):
-        #     component.settings.update(hash=component.hash_geometry())
-        if with_pins:
-            add_pins_function(component)
-
-        return component
+            component.settings.update(**kwargs)
+            # if hasattr(component, 'hash_geometry'):
+            #     component.settings.update(hash=component.hash_geometry())
+            if with_pins:
+                add_pins_function(component)
+            NAME_TO_DEVICE[name] = component
+            return component
 
     return wrapper
 

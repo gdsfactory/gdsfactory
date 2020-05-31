@@ -1,8 +1,8 @@
 bend_factory: bend_circular
 bend_radius: 10.0
 class: grating_coupler_tree
-component: {}
-component_name: None
+component: n_waveguides_waveguide_spacing_waveguide
+component_name: _grating_coupler_tree_73dc7b48
 gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array
@@ -17,6 +17,6 @@ n_waveguides: 4
 name: grating_coupler_tree
 route_filter: connect_strip_way_points_no_taper
 taper_factory: taper
-waveguide_function: waveguide
+waveguide: waveguide
 waveguide_spacing: 4
 with_loop_back: 'False'

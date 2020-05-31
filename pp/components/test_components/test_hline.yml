@@ -1,4 +1,7 @@
 class: hline
+layer:
+- 1
+- 0
 length: 10
 module: pp.components.hline
 name: hline

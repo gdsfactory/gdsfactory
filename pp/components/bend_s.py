@@ -62,7 +62,7 @@ def _demo():
 
 
 if __name__ == "__main__":
-    c = bend_s(with_pins=False)
+    c = bend_s(with_pins=True)
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     pp.show(c)
