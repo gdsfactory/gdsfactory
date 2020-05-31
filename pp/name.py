@@ -1,5 +1,6 @@
 """ define names, clean names and values
 """
+import uuid
 import functools
 from inspect import signature
 import hashlib
@@ -27,6 +28,13 @@ def autoname(component_function):
     """ decorator for auto-naming component functions
     if no Keyword argument `name`  is passed it creates a name by concenating all Keyword arguments
 
+    Args:
+        name (str):
+        cache (bool): caches functions with same name
+        uid (bool): adds a unique id to the name
+        pins (bool): add pins
+        pins_function (function): function to add pins
+
     .. plot::
       :include-source:
 
@@ -51,17 +59,15 @@ def autoname(component_function):
         if args:
             raise ValueError("autoname supports only Keyword args")
         cache = kwargs.pop("cache", True)
+        uid = kwargs.pop("uid", False)
         with_pins = kwargs.pop("with_pins", False)
         add_pins_function = kwargs.pop("add_pins_function", add_pins)
-        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
 
         component_type = component_function.__name__
-        name = kwargs.pop(
-            "name",
-            get_component_name(
-                component_type, max_name_length=max_name_length, **kwargs
-            ),
-        )
+        name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
+
+        if uid:
+            name += f"_{str(uuid.uuid4())[:8]}"
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(component_function)
@@ -80,7 +86,7 @@ def autoname(component_function):
             component.module = component_function.__module__
             component.function_name = component_function.__name__
 
-            if len(name) > max_name_length:
+            if len(name) > MAX_NAME_LENGTH:
                 component.name_long = name
                 component.name = (
                     f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
@@ -92,8 +98,6 @@ def autoname(component_function):
                 **{p.name: p.default for p in sig.parameters.values()}
             )
             component.settings.update(**kwargs)
-            # if hasattr(component, 'hash_geometry'):
-            #     component.settings.update(hash=component.hash_geometry())
             if with_pins:
                 add_pins_function(component)
             NAME_TO_DEVICE[name] = component
