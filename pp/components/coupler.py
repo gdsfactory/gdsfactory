@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # c = coupler(gap=0.245, length=5.67, wg_width=0.2)
     # c = coupler(gap=0.2, length=5, wg_width=0.4)
     # c = coupler_biased(gap=0.2, length=5, wg_width=0.5)
-    c = coupler(with_pins=True)
+    c = coupler(pins=True)
     # print(c.get_settings())
     # cc = add_io_optical(c)
     pp.show(c)

@@ -345,7 +345,7 @@ if __name__ == "__main__":
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
-    c = bend_circular(radius=5.0005, width=1.002, with_pins=True)
+    c = bend_circular(radius=5.0005, width=1.002, pins=True)
     print(c.ports["N0"].midpoint)
     # print(c.settings)
     # c = bend_circular_slot()

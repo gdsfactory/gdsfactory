@@ -132,13 +132,13 @@ def ring_single_bus(
         coupler90_factory, gap=gap, width=wg_width, bend_radius=bend_radius
     )
     waveguide_x = pp.call_if_func(
-        straight_factory, length=length_x, width=wg_width, with_pins=False
+        straight_factory, length=length_x, width=wg_width, pins=False
     )
     waveguide_y = pp.call_if_func(
-        straight_factory, length=length_y, width=wg_width, with_pins=False
+        straight_factory, length=length_y, width=wg_width, pins=False
     )
     bend = pp.call_if_func(
-        bend90_factory, width=wg_width, radius=bend_radius, with_pins=False
+        bend90_factory, width=wg_width, radius=bend_radius, pins=False
     )
     coupler_straight = pp.call_if_func(
         cpl_straight_factory, gap=gap, length=length_x, width=wg_width
