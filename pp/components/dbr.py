@@ -27,6 +27,8 @@ def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
                |_________
     """
     c = pp.Component()
+    l1 = pp.drc.snap_to_grid(l1)
+    l2 = pp.drc.snap_to_grid(l2)
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function)
     c.add_array(device=cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("W0", port=cell.ports["W0"])
