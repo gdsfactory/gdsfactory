@@ -201,5 +201,6 @@ __all__ = [
 
 leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
 
+_containers = set(["cavity"])
 _skip_test = set(["label"])
 _skip_test_ports = set(["grating_coupler_tree"])

@@ -1,0 +1,18 @@
+class: cavity
+component:
+  cladding_offset: 3
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10
+  width: 0.5
+component_name: waveguide
+coupler: coupler
+gap: 0.2
+length: 0.1
+module: pp.components.cavity
+name: cavity_Cwaveguide
+wg_width: 0.5
