@@ -1,13 +1,12 @@
-import hashlib
-import sys
-import json
-import numpy as np
-
 """
 From two GDS files, find which cells are identical
 and which cells with the same name are different
 This is not a diff tool
 """
+import hashlib
+import sys
+import json
+import numpy as np
 
 
 def _print(*args, **kwargs):
