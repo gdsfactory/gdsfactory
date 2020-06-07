@@ -176,5 +176,7 @@ def spiral_circular(
 
 if __name__ == "__main__":
     c = spiral_circular(length=1e3)
+    print(c.ports.keys())
+    print(c.get_ports_array())
     pp.show(c)
     pp.write_gds(c)

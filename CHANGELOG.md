@@ -1,6 +1,5 @@
 # TODO
 
-- mzi2x2 with heaters have some issue, where waveguide connects to the heater
 - had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
 - create a Klayout library so we can also place components from the klayout menu GUI
 - have a netlist extraction capability

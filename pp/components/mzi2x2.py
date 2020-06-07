@@ -69,10 +69,12 @@ def mzi_arm(
     straight_h = straight_factory(length=L_top)
     straight_v = straight_factory(length=L1) if L1 > 0 else None
 
+    port_number = 1 if with_elec_connections else 0
+
     string_to_device_in_out_ports = {
         "A": (_bend, "W0", "N0"),
         "B": (_bend, "N0", "W0"),
-        "H": (straight_vheater, "W0", "E0"),
+        "H": (straight_vheater, f"W{port_number}", f"E{port_number}"),
         "Sh": (straight_h, "W0", "E0"),
         "Sv": (straight_v, "W0", "E0"),
     }
@@ -111,7 +113,7 @@ def mzi2x2(
     straight_heater_factory=waveguide_heater,
     straight_factory=waveguide,
     coupler_factory=coupler,
-    with_elec_connections=True,
+    with_elec_connections=False,
 ):
     """ Mzi 2x2
 
@@ -159,6 +161,8 @@ def mzi2x2(
       pp.plotgds(c)
 
     """
+    if not with_elec_connections:
+        straight_heater_factory = straight_factory
 
     if callable(coupler_factory):
         cpl = coupler_factory(length=CL_1, gap=gap)
@@ -259,7 +263,7 @@ def mzi2x2(
         for k, p in component.ports.items():
             p.name = k
 
-    elif straight_heater_factory == waveguide:
+    else:
         ports_map = {
             "W0": ("CP1", "W0"),
             "W1": ("CP1", "W1"),
@@ -283,7 +287,8 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    # c = mzi2x2()
-    c = mzi2x2(straight_heater_factory=waveguide_heater)
-    pp.write_gds(c, "mzi.gds")
+    # c = mzi_arm()
+    c = mzi2x2()
+    # c = mzi2x2(straight_heater_factory=waveguide_heater)
+    # pp.write_gds(c, "mzi.gds")
     pp.show(c)
