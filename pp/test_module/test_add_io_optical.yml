@@ -1,0 +1,19 @@
+class: add_io_optical
+component:
+  cladding_offset: 3
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10
+  width: 0.5
+component_name: waveguide
+gc_port_name: W0
+get_input_labels_function: get_input_labels
+get_route_factory: route_fiber_array
+grating_coupler: grating_coupler_te
+kwargs: _empty
+name: waveguide_te
+taper_factory: taper

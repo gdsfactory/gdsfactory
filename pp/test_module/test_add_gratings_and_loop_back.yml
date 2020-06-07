@@ -1,0 +1,17 @@
+bend_factory: bend_circular
+bend_radius_align_ports: 10.0
+class: null
+component: N_x_straight_inner_right_x_straight_inner_left_y_straight_inner_top_y_straight_inner_bottom_grating_spacing_dx_dy_bend90_function_bend180_function_bend_radius_wg_width_wg_width_grating_coupler_straight_factory_taper_length
+component_name: spiral_inner_io
+excluded_ports: []
+gc_port_name: None
+gc_rotation: -90
+grating_coupler: grating_coupler_te
+grating_separation: 127.0
+layer_label:
+- 201
+- 0
+name: spiral_inner_io_te
+waveguide_factory: waveguide
+waveguide_separation: 5.0
+with_loopback: 'True'

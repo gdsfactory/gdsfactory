@@ -49,7 +49,7 @@ def container(component_function):
                 old = args[0]
             else:
                 raise ValueError(
-                    f"containers require a component keyword argument, or first non keyword argument"
+                    f"container {component_function.__name__} requires a component keyword argument, or first non keyword argument"
                 )
         old = old or kwargs.get("component")
         new = component_function(*args, **kwargs)

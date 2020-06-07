@@ -1,11 +1,13 @@
 import pp
 from pp.container import container
+from pp.components.taper import taper
 
 
 @pp.ports.deco_rename_ports
-def add_tapers(component, taper, new_component=True):
+def add_tapers(component, taper=taper, new_component=True):
     """ returns tapered component
     can add tapers over the same component or create a new component"""
+    taper = pp.call_if_func(taper)
 
     if new_component:
         c = pp.Component(name=component.name + "_t")
@@ -24,9 +26,10 @@ def add_tapers(component, taper, new_component=True):
 
 @container
 @pp.ports.deco_rename_ports
-def add_tapers2(component, taper, suffix="t"):
+def add_tapers2(component, taper=taper, suffix="t"):
     """ returns tapers for component """
 
+    taper = pp.call_if_func(taper)
     c = pp.Component(name=f"{component.name}_{suffix}")
 
     for port_name, port in component.ports.copy().items():

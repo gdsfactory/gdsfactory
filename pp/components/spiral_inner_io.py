@@ -341,10 +341,12 @@ def get_straight_length(length_cm, spiral_function, **kwargs):
 if __name__ == "__main__":
     from pp.add_termination import add_gratings_and_loop_back
 
-    # c = spiral_inner_io()
-    c = spiral_inner_io_euler()
+    c = spiral_inner_io()
+    # c = spiral_inner_io_euler()
     # c = spiral_inner_io_euler(length=2, wg_width=0.4)
     # c = spiral_inner_io_euler(length=6, wg_width=0.4)
+    print(c.name)
+    print(c.settings)
     cc = add_gratings_and_loop_back(c)
     pp.show(c)
 
@@ -363,5 +365,5 @@ if __name__ == "__main__":
     # c = reticle_mockup()
     # c = spiral_inner_io()
     # c = spiral_inner_io(bend_radius=20, wg_width=0.2)
-    c = spirals_nested()
+    # c = spirals_nested()
     pp.show(c)

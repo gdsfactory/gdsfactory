@@ -167,7 +167,6 @@ if __name__ == "__main__":
     # cc = test_type1()
     # pprint(cc.get_json())
 
-    # print(cc.get_settings())
     # c = pp.c.coupler(gap=0.2, length=5.6)
 
     c = pp.c.mmi2x2()
@@ -185,5 +184,6 @@ if __name__ == "__main__":
         grating_coupler=[gcte, gctm, gcte, gctm],
     )
     # cc = demo_te_and_tm()
-    print(cc.ports.keys())
+    # print(cc.ports.keys())
     pp.show(cc)
+    print(cc.get_settings()["component"])

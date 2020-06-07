@@ -1,0 +1,27 @@
+angle: 90
+class: null
+component:
+  cladding_offset: 3
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10
+  width: 0.5
+component_name: waveguide
+name: waveguide_r
+settings:
+  cladding_offset: 3
+  class: waveguide
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10
+  module: pp.components.waveguide
+  name: waveguide
+  width: 0.5
