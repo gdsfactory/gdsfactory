@@ -22,7 +22,10 @@ from pp.netlist_to_gds import netlist_to_component
 
 @pp.autoname
 def test_simple_mzi2x2(
-    coupler_length=20.147, arm_length=40, gap=0.234, waveguide_factory=pp.c.waveguide
+    coupler_length=20.147,
+    arm_length=40,
+    gap=0.234,
+    waveguide_factory=pp.c.waveguide_heater,
 ):
     """
        arm_top
@@ -54,10 +57,10 @@ def test_simple_mzi2x2(
     connections = [
         ## Top arm
         ("CP1", "E1", "arm_top", "W0"),
-        ("arm_top", "E0", "CP2", "W1"),
+        ("arm_top", "E1", "CP2", "W1"),
         ## Bottom arm
         ("CP1", "E0", "arm_bot", "W0"),
-        ("arm_bot", "E0", "CP2", "W0"),
+        ("arm_bot", "E1", "CP2", "W0"),
     ]
 
     # Create the ports for this component, choosing which ports from the subcomponents should be exposed
@@ -72,12 +75,6 @@ def test_simple_mzi2x2(
 
     component = netlist_to_component(components, connections, ports_map)
     return component
-
-
-def test_mzi():
-    c = test_simple_mzi2x2()
-    assert c
-    pp.show(c)
 
 
 def test_mzi_heated():

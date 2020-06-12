@@ -66,5 +66,5 @@ def test_{c}(num_regression):
 
 if __name__ == "__main__":
     # write_test_properties_containers()
-    # write_test_properties()
+    write_test_properties()
     write_test_ports()
