@@ -8,13 +8,14 @@ import pp
 
 @pp.autoname
 def grating_coupler_elliptical2(
+    wgt=wg_strip,
     theta=np.pi / 4.0,
     length=30.0,
     taper_length=10.0,
     period=1.0,
     dutycycle=0.7,
-    ridge=False,
-    ridge_layers=(3, 0),
+    ridge=True,
+    ridge_layers=(2, 0),
     teeth_list=None,
     port=(0, 0),
     direction="EAST",
@@ -57,5 +58,5 @@ def grating_coupler_elliptical2(
 if __name__ == "__main__":
     import pp
 
-    c = grating_coupler_elliptical2()
+    c = grating_coupler_elliptical2(pins=True)
     pp.show(c)

@@ -39,6 +39,7 @@ from pp.components.pcm.litho_steps import litho_steps
 
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_tm
+from pp.components.grating_coupler.elliptical2 import grating_coupler_elliptical2
 from pp.components.grating_coupler.uniform import grating_coupler_uniform
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -165,6 +166,7 @@ __all__ = [
     "grating_coupler_tm",
     "grating_coupler_elliptical_te",
     "grating_coupler_elliptical_tm",
+    "grating_coupler_elliptical2",
     "grating_coupler_tree",
     "hline",
     "label",

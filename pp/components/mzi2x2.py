@@ -289,6 +289,6 @@ if __name__ == "__main__":
 
     # c = mzi_arm()
     c = mzi2x2()
-    # c = mzi2x2(straight_heater_factory=waveguide_heater)
+    c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     pp.show(c)
