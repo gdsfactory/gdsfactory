@@ -1,6 +1,13 @@
 bend: bend_s
+cladding_offset: 3
 class: coupler_symmetric
 gap: 0.234
+layer:
+- 1
+- 0
+layers_cladding:
+- - 111
+  - 0
 module: pp.components.coupler_symmetric
 name: coupler_symmetric
 wg_width: 0.5

@@ -45,6 +45,7 @@ from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_t
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.components.delay_snake import delay_snake
+from pp.components.spiral import spiral
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.components.spiral_external_io import spiral_external_io
@@ -131,6 +132,7 @@ component_type2factory = {
     "ring_double_bus": ring_double_bus,
     "ring_single": ring_single,
     "ring_single_bus": ring_single_bus,
+    "spiral": spiral,
     "spiral_circular": spiral_circular,
     "spiral_external_io": spiral_external_io,
     "spiral_inner_io": spiral_inner_io,

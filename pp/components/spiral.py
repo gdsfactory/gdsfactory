@@ -8,8 +8,8 @@ import pp
 
 @pp.autoname
 def spiral(
-    width,
-    length,
+    width=500,
+    length=10e3,
     spacing=None,
     parity=1,
     port=(0, 0),
