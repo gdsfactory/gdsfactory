@@ -12,8 +12,10 @@ def _pack_single_bin(
     """ Takes a `rect_dict` argument of the form {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
-    reaches `max_size`.  Returns a dictionary of of the packed rectangles
-    in the form {id:(x,y,w,h)}, and a dictionary of remaining unpacked rects """
+    reaches `max_size`.
+
+    Returns: a dictionary of of the packed rectangles in the form {id:(x,y,w,h)}, and a dictionary of remaining unpacked rects
+    """
 
     # Compute total area and use it for an initial estimate of the bin size
     total_area = 0
@@ -86,7 +88,7 @@ def pack(
     precision=1e-2,
     verbose=False,
 ):
-    """ takes a list of components
+    """ takes a list of components and returns
 
     Args:
         D_list: Must be a list or tuple of Components
@@ -149,7 +151,7 @@ def pack(
     return D_packed_list
 
 
-if __name__ == "__main__":
+def _demo():
     import pp
     import phidl.geometry as pg
 
@@ -167,3 +169,22 @@ if __name__ == "__main__":
     )
     D = D_packed_list[0]  # Only one bin was created, so we plot that
     pp.show(D)  # show it in klayout
+
+
+if __name__ == "__main__":
+    import pp
+    import phidl.geometry as pg
+
+    spacing = 1
+    ellipses = pack(
+        [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)],
+        spacing=spacing,
+    )[0]
+    ellipses.name = "ellipses"
+    rectangles = pack(
+        [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)],
+        spacing=spacing,
+    )[0]
+    rectangles.name = "rectangles"
+    p = pack([ellipses, rectangles])
+    pp.show(p[0])
