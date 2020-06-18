@@ -154,6 +154,7 @@ def spiral_circular(
 
     """ component """
     c = pp.Component()
+    c.length = length
     c.add_polygon(ps, layer=wg_layer)
 
     c.add_port(
@@ -170,12 +171,12 @@ def spiral_circular(
         layer=wg_layer,
         width=wg_width,
     )
-    c.length = length
     return c
 
 
 if __name__ == "__main__":
-    c = spiral_circular(length=1e3)
+    c = spiral_circular(length=1e3, pins=True)
+    print(c.ports)
     print(c.ports.keys())
     print(c.get_ports_array())
     pp.show(c)
