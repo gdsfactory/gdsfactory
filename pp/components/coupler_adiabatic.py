@@ -15,7 +15,7 @@ def coupler_adiabatic(
     input_wg_sep=3.0,
     output_wg_sep=3.0,
     dw=0.1,
-    waveguide_template=wg_strip,
+    waveguide=wg_strip,
     port=(0, 0),
     direction="EAST",
     **kwargs
@@ -40,7 +40,7 @@ def coupler_adiabatic(
     """
 
     c = pc.AdiabaticCoupler(
-        pp.call_if_func(wg_strip, **kwargs),
+        pp.call_if_func(waveguide, **kwargs),
         length1=length1,
         length2=length2,
         length3=length3,

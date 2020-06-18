@@ -8,7 +8,15 @@ __version__ = "0.0.2"
 
 
 @pp.autoname
-def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
+def bend_s(
+    width=0.5,
+    height=2,
+    length=10,
+    layer=pp.LAYER.WG,
+    nb_points=99,
+    layers_cladding=[pp.LAYER.WGCLAD],
+    cladding_offset=3,
+):
     """ S bend
     Based on bezier curve
 
@@ -37,6 +45,16 @@ def bend_s(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
+
+    y = cladding_offset
+    points = [
+        [c.xmin, c.ymin - y],
+        [c.xmax, c.ymin - y],
+        [c.xmax, c.ymax + y],
+        [c.xmin, c.ymax + y],
+    ]
+    for layer in layers_cladding:
+        c.add_polygon(points, layer=layer)
 
     # c.ports["W0"] = c.ports.pop("0")
     # c.ports["E0"] = c.ports.pop("1")

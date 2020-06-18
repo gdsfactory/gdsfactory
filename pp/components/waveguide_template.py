@@ -9,6 +9,7 @@ def wg_strip(
     clad_layer=pp.LAYER.WGCLAD[0],
     clad_datatype=pp.LAYER.WGCLAD[1],
     bend_radius=10,
+    cladding_offset=3,
 ):
     return pc.WaveguideTemplate(
         bend_radius=bend_radius,
@@ -17,4 +18,5 @@ def wg_strip(
         wg_datatype=wg_datatype,
         clad_layer=clad_layer,
         clad_datatype=clad_datatype,
+        clad_width=cladding_offset,
     )

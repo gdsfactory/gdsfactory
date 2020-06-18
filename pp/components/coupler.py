@@ -6,6 +6,7 @@ from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
 from pp.drc import assert_on_1nm_grid
+from pp.layers import LAYER
 
 
 @autoname
@@ -63,6 +64,9 @@ def coupler_netlist(
     length=20.007,
     coupler_symmetric_factory=coupler_symmetric,
     coupler_straight=coupler_straight,
+    layer=LAYER.WG,
+    layers_cladding=[LAYER.WGCLAD],
+    cladding_offset=3,
 ):
     """
      SBEND_L-CS-SBEND_R
@@ -71,8 +75,21 @@ def coupler_netlist(
     assert_on_1nm_grid(length)
     assert_on_2nm_grid(gap)
 
-    _sbend = coupler_symmetric_factory(gap=gap, wg_width=wg_width)
-    _cpl_straight = coupler_straight(length=length, gap=gap, width=wg_width)
+    _sbend = coupler_symmetric_factory(
+        gap=gap,
+        wg_width=wg_width,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+    )
+    _cpl_straight = coupler_straight(
+        length=length,
+        gap=gap,
+        width=wg_width,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+    )
 
     components = {
         "SBEND_L": (_sbend, "mirror_y"),

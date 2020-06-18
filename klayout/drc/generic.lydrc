@@ -29,7 +29,7 @@ si_rib = input(1, 0)
 
 wmin = 0.13
 gmin = 0.13
-angle_limit = 40
+angle_limit = 90
 
 
 ######## Width and gap checks ########
