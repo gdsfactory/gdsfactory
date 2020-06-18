@@ -15,7 +15,15 @@ from pp import CONFIG
 
 path_library = CONFIG["gds"]
 
-_components = _components - set(["compass"])
+_components = _components - set(
+    [
+        "compass",
+        "component_lattice",
+        "grating_coupler_elliptical2",
+        "bezier",
+        "spiral_circular",
+    ]
+)
 
 
 def pull_library(path_library=path_library):

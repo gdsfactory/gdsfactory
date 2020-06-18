@@ -1,0 +1,11 @@
+class: spiral_circular
+length: '1694.8131705930423'
+min_bend_radius: 5
+module: pp.components.spiral_circular
+name: spiral_circular
+points: 1000
+spacing: 3
+wg_layer:
+- 1
+- 0
+wg_width: 0.5
