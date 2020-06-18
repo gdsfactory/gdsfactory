@@ -5,7 +5,14 @@ __version__ = "0.0.1"
 
 
 @pp.autoname
-def coupler_symmetric(bend=bend_s, gap=0.234, wg_width=0.5):
+def coupler_symmetric(
+    bend=bend_s,
+    gap=0.234,
+    wg_width=0.5,
+    layer=pp.LAYER.WG,
+    layers_cladding=[pp.LAYER.WGCLAD],
+    cladding_offset=3,
+):
     """ two coupled waveguides with bends
 
     Args:
@@ -21,7 +28,14 @@ def coupler_symmetric(bend=bend_s, gap=0.234, wg_width=0.5):
       pp.plotgds(c)
 
     """
-    bend = pp.call_if_func(bend, width=wg_width, pins=False)
+    bend = pp.call_if_func(
+        bend,
+        width=wg_width,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+        pins=False,
+    )
 
     w = bend.ports["W0"].width
     y = (w + gap) / 2
