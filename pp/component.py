@@ -805,6 +805,7 @@ class Component(Device):
 
         # output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # output["hash_geometry"] = str(self.hash_geometry())
+        output = {k: output[k] for k in sorted(output)}
         return output
 
     def add_port(

@@ -1,0 +1,12 @@
+class: spiral
+direction: NORTH
+length: 10000.0
+module: pp.components.spiral
+name: spiral
+parity: 1
+port:
+- 0
+- 0
+spacing: None
+waveguide: wg_strip
+width: 500
