@@ -1,0 +1,12 @@
+L0: 0.1
+L1: 9
+L2: 10
+bend90_factory: bend_circular
+bend_radius: 10.0
+class: mzi1x2
+coupler_factory: mmi1x2
+module: pp.components.mzi1x2
+name: mzi1x2
+straight_factory: waveguide
+straight_heater_factory: wg_heater_connected
+with_elec_connections: 'False'

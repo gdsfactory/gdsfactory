@@ -1,0 +1,14 @@
+CL_1: 20.147
+L0: 60
+L1: 7.38
+L2: 10.0
+bend90_factory: bend_circular
+bend_radius: 10.0
+class: mzi2x2
+coupler_factory: coupler
+gap: 0.234
+module: pp.components.mzi2x2
+name: mzi2x2
+straight_factory: waveguide
+straight_heater_factory: wg_heater_connected
+with_elec_connections: 'False'

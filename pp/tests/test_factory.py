@@ -10,10 +10,12 @@ import git
 
 import gdspy
 import pp
-from pp.components import component_type2factory
+from pp.components import component_type2factory, _components
 from pp import CONFIG
 
 path_library = CONFIG["gds"]
+
+_components = _components - set(["compass"])
 
 
 def pull_library(path_library=path_library):
@@ -54,12 +56,14 @@ def lock_component(
 
 
 def lock_components_with_changes(
-    component_type2factory=component_type2factory, path_library=path_library
+    components=_components,
+    component_type2factory=component_type2factory,
+    path_library=path_library,
 ):
 
     """  locks only components whose hash changed
     """
-    for component_type, _ in component_type2factory.items():
+    for component_type in components:
         same_hash = compare_component_hash(
             component_type=component_type,
             component_type2factory=component_type2factory,
@@ -89,18 +93,18 @@ def print_components_with_changes(
             print(f"[X] {component_type} changed hash")
 
 
+@pytest.mark.parametrize("component_type", _components)
 @pytest.mark.noautofixt
-def test_all_components(
-    component_type2factory=component_type2factory, path_library=path_library
+def test_components(
+    component_type,
+    component_type2factory=component_type2factory,
+    path_library=path_library,
 ):
-    # pull_library(path_library)
-
-    for component_type, _ in component_type2factory.items():
-        assert compare_component_hash(
-            component_type=component_type,
-            component_type2factory=component_type2factory,
-            path_library=path_library,
-        ), f"{component_type} changed from component locked in the library {path_library}"
+    assert compare_component_hash(
+        component_type=component_type,
+        component_type2factory=component_type2factory,
+        path_library=path_library,
+    ), f"{component_type} changed from component locked in the library {path_library}"
 
 
 def rebuild_library(
@@ -186,10 +190,11 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    # lock_components_with_changes()
+    # for component in list(_components):
+    #     test_components(component)
+    lock_components_with_changes()
     # lock_component("grating_coupler_tree")
     # compare_component_hash("grating_coupler_tree")
-    test_all_components()
     # rebuild_library()
     # lock_component("waveguide")
     # compare_component_hash("waveguide")
