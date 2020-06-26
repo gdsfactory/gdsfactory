@@ -21,17 +21,16 @@ def connect_bundle(
     route_filter=connect_strip_way_points,
     separation=5.0,
     bend_radius=10.0,
-    extension_length=0,  # for u_indirect_bundle
+    extension_length=0,
     **kwargs,
 ):
-    """
+    """ Connects a bungle of ports using river routing.
+    Chooses the correct u_bundle to use based on port angles
 
-    start_ports should all be facing in the same direction
+    Args:
+        start_ports should all be facing in the same direction
+        end_ports should all be facing in the same direction
 
-    end_ports should all be facing in the same direction
-
-
-    Choose the correct u_bundle to use based on port angles
     """
     # Accept dict ot list
     if isinstance(start_ports, dict):
@@ -168,7 +167,7 @@ def link_ports(
     The strategy is to modify `start_straight` and `end_straight` for each
     waveguide such that waveguides do not collide.
 
-    ::
+    .. code::
 
         Connection-cartoon
 
@@ -535,8 +534,10 @@ def connect_bundle_path_length_match(
         modify_segment_i=-2,
         route_filter=connect_strip_way_points,
         **kwargs: extra arguments for inner call to generate_waypoints_connect_bundle
+
     Returns:
         [route_filter(l) for l in list_of_waypoints]
+
     """
     kwargs["separation"] = separation
 
@@ -689,15 +690,14 @@ def link_optical_ports_no_grouping(
     waveguide such that waveguides do not collide.
 
 
-    e.g
     We want to connect something like this:
 
     ::
-        # 2             X    X     X  X X  X
-        #   |-----------|    |     |  | |  |-----------------------|
-        #   |          |-----|     |  | |---------------|          |
-        #   |          |          ||  |------|          |          |
-        # 1 X          X          X          X          X          X
+         2             X    X     X  X X  X
+           |-----------|    |     |  | |  |-----------------------|
+           |          |-----|     |  | |---------------|          |
+           |          |          ||  |------|          |          |
+         1 X          X          X          X          X          X
 
     ``start`` is at the bottom
     ``end`` is at the top
@@ -709,22 +709,18 @@ def link_optical_ports_no_grouping(
     otherwise, decrease ``start_straight``, and increase ``end_straight``
         (as seen on the last 3 right ports)
 
-    `` #******
-    ``ports1`` first list of optical ports
-    ``ports2`` second list of optical ports
-    ``axis``   specifies "X" or "Y"
-               direction along which the port is going
+    Args:
+        ports1: first list of optical ports
+        ports2: second list of optical ports
+        axis:   specifies "X" or "Y" direction along which the port is going
+        routing_func:   ManhattanExpandedWgConnector or ManhattanWgConnector or any other connector function with the same input
+        radius:         bend radius. If unspecified, uses the default radius
+        start_straight: offset on the starting length before the first bend
+        end_straight:   offset on the ending length after the last bend
+        sort_ports:     True -> sort the ports according to the axis. False -> no sort applied
 
-    ``routing_func``   ManhattanExpandedWgConnector or ManhattanWgConnector
-                       or any other connector function with the same input
-    ``radius``         bend radius
-                       If unspecified, uses the default radius
-    ``start_straight`` offset on the starting length before the first bend
-    ``end_straight``   offset on the ending length after the last bend
-    ``sort_ports``     * True -> sort the ports according to the axis.
-                       * False -> no sort applied
-    `` # ******
-    Returns : a list of elements containing the connecting waveguides
+    Returns:
+        a list of elements containing the connecting waveguides
 
     """
 

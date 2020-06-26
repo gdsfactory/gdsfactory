@@ -17,6 +17,8 @@ def dbr_cell(w1=0.5, w2=0.6, l1=0.2, l2=0.4, waveguide_function=waveguide):
 def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
     """ Distributed Bragg Reflector
 
+    .. code::
+
            l1      l2
         <-----><-------->
                 _________
@@ -25,6 +27,7 @@ def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
           w1       w2       ...  n times
         _______
                |_________
+
     """
     c = pp.Component()
     l1 = pp.drc.snap_to_grid(l1)
