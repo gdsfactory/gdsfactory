@@ -52,6 +52,7 @@ def grating_coupler_elliptical_tm(
     neff=1.8,  # tooth effective index
     layer=LAYER.WG,
     n_periods=16,
+    **kwargs
 ):
     """
 
@@ -79,6 +80,7 @@ def grating_coupler_elliptical_tm(
         layer=layer,
         n_periods=n_periods,
         big_last_tooth=False,
+        **kwargs
     )
 
 
@@ -94,6 +96,7 @@ def grating_coupler_elliptical_te(
     layer=LAYER.WG,
     p_start=26,
     n_periods=24,
+    **kwargs
 ):
     return grating_coupler_elliptical(
         polarization="te",
@@ -107,6 +110,7 @@ def grating_coupler_elliptical_te(
         layer=layer,
         p_start=p_start,
         n_periods=n_periods,
+        **kwargs
     )
 
 
@@ -124,6 +128,8 @@ def grating_coupler_elliptical(
     p_start=26,
     n_periods=30,
     big_last_tooth=False,
+    layer_slab=LAYER.SLAB150,
+    with_fiber_marker=True,
 ):
     """
 
@@ -220,9 +226,10 @@ def grating_coupler_elliptical(
     else:
         polarization_marker_layer = pp.LAYER.polarization_tm
 
-    circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)
-    circle_ref = c.add_ref(circle)
-    circle_ref.movex(taper_length + period * n_periods / 2)
+    if with_fiber_marker:
+        circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(taper_length + period * n_periods / 2)
 
     # Add port
     c.add_port(name="W0", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
@@ -231,14 +238,15 @@ def grating_coupler_elliptical(
     _rl = L + grating_line_width + 2.0
     _rhw = _rl * np.tan(fiber_angle * DEG2RAD) + 2.0
 
-    c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], LAYER.SLAB150)
+    if layer_slab:
+        c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], LAYER.SLAB150)
 
     return c
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_te()
     c = grating_coupler_elliptical_tm()
+    c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
     print(c.polarization)
     pp.write_gds(c)
     pp.show(c)

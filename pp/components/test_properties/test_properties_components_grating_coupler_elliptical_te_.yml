@@ -2,9 +2,13 @@ big_last_tooth: 'False'
 class: grating_coupler_elliptical_te
 fiber_angle: 15.0
 grating_line_width: 0.343
+kwargs: _empty
 lambda_c: 1.554
 layer:
 - 1
+- 0
+layer_slab:
+- 2
 - 0
 module: pp.components.grating_coupler.elliptical
 n_periods: 24
@@ -15,3 +19,4 @@ polarization: te
 taper_angle: 40.0
 taper_length: 16.6
 wg_width: 0.5
+with_fiber_marker: 'True'
