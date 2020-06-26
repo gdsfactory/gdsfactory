@@ -6,7 +6,11 @@ from pp.components import component_type2factory
 from pp.write_component import write_component
 from pp.config import CONFIG
 from pp.doe import get_settings_list
-from pp.functions import name2function
+from pp.routing.connect_component import add_io_optical_te, add_io_optical_tm
+
+name2function = dict(
+    add_io_optical_te=add_io_optical_te, add_io_optical_tm=add_io_optical_tm
+)
 
 
 def write_doe_metadata(
@@ -115,6 +119,7 @@ def write_doe(
     doe_settings=None,
     path=CONFIG["build_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
+    name2function=name2function,
     **kwargs,
 ):
     """ writes each device GDS, together with metadata for each device:
