@@ -1,22 +1,20 @@
 # GDSfactory 1.1.9
 
-gdsfactory provides you with a set of useful generic component templates to build your PDKs and build masks to different foundries.
+gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
-You just need to adapt the templates to your foundry (see pp/samples/pdk) or check out how to use gdsfactory to build the [UBC PDK](https://github.com/gdsfactory/ubc)
+You just need to adapt the functions to your foundry (see pp/samples/pdk) and build your own pdk (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
-GDSII is the standard format to create masks sets in the CMOS industry.
+Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) with some useful photonics functions (see photonics package `pp`) to generate GDS layouts (GDSII is the standard format to create masks sets in the CMOS industry)
 
-Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) with some useful photonics functions (see photonics package `pp`)
-
-- define templates for basic components
-- define component sweeps (Design of Experiments or DOEs) in YAML files
+- define functions for basic components
+- define component sweeps (Design of Experiments or DOEs) in YAML files and GDS masks (together with JSON metadata)
 - route optical/electrical ports to pads and grating couplers
 
 # Documentation
 
 - [read online Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
-- run gdsfactory/pp/samples
-- run gdsfactory/notebooks
+- run pp/samples
+- run notebooks
 - see latest changes in [CHANGELOG](CHANGELOG.md)
 
 # Installation
