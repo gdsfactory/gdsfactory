@@ -8,5 +8,5 @@ component_type2factory = dict(
     waveguide=waveguide, bend_circular=bend_circular, y_splitter=y_splitter, mzi=mzi
 )
 
-
-__all__ = list(component_type2factory.keys())
+_components = list(component_type2factory.keys())
+__all__ = _components
