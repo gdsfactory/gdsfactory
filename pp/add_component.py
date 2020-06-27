@@ -1,3 +1,6 @@
+""" functions to manage different GDS libraries
+"""
+
 import os
 import shutil
 from pp.write_component import write_component
