@@ -1,7 +1,7 @@
 """
-Utiilty to update Klayout dynamically.
-Requires the Klayout plugin installed in Klayout
-TODO: Ship Klayout plugin with gdsfactory.
+updates GDS view in Klayout dynamically.
+Requires the Klayout plugin installed in Klayout.
+This happens when you run `bash install.sh` from the top of the gdsfactory package
 """
 
 import os

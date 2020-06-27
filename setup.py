@@ -8,7 +8,7 @@ def get_install_requires():
 
 setup(
     name="gdsfactory",
-    url="https://github.com/PsiQ/gdsfactory",
+    url="https://github.com/gdsfactory/gdsfactory",
     version="1.1.9",
     author="PsiQ",
     scripts=["pp/pf.py"],

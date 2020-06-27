@@ -1,10 +1,10 @@
-""" pp Photonics package provides some GDS useful
+""" pp Photonics package
 
 functions:
 
     - pp.show(): writes and shows the GDS in Klayout using klive
-    - pp.plotgds(): plots GDS in matplotlib (good for notebooks)
-    - pp.import_gds(): returns a component from a GDS
+    - pp.plotgds(): plots GDS in matplotlib
+    - pp.import_gds(): returns a Component from a GDS
 
 classes:
 
@@ -16,8 +16,7 @@ modules:
 
     - c: components
     - routing
-    - Klive: send to klayout
-    - layer: use layers
+    - layer: GDS layers
 """
 from phidl import quickplot as qp
 
