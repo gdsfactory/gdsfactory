@@ -1,6 +1,0 @@
-#!/bin/sh
-
-cd gdslib
-git pull
-cd ..
-pytest
