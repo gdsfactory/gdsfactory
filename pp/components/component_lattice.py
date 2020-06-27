@@ -40,8 +40,8 @@ def get_sequence_cross(
             to each-other means that the two modes have to be swapped
         `S`: Straight waveguide, or compensation path typically
 
-    Returns the sequence of crossings to achieve the permutations between
-    two columns of I/O
+    Returns:
+        sequence of crossings to achieve the permutations between two columns of I/O
     """
     wgs = list(waveguides_start)
     waveguides_end = list(waveguides_end)

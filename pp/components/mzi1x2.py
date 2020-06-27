@@ -38,22 +38,22 @@ def mzi1x2(
 
     .. code::
 
-         __L2__
-        |      |
-        L0     L0
-        |      |
-      --|      |--
-        |      |
-        L0     L0
-        |      |
-        L1     L1
-        |      |
-        |__L2__|
+             __L2__
+            |      |
+            L0     L0
+            |      |
+          --|      |--
+            |      |
+            L0     L0
+            |      |
+            L1     L1
+            |      |
+            |__L2__|
 
 
-         top_arm
-    -CP1=       =CP2-
-         bot_arm
+             top_arm
+        -CP1=       =CP2-
+             bot_arm
 
 
     .. plot::
