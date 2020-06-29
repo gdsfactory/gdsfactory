@@ -5,7 +5,7 @@ Gdsfactory
 .. toctree::
    :maxdepth: 2
 
-   intro
+   README
    pp
    component101
    config
@@ -24,3 +24,4 @@ Gdsfactory
    components0
    components1
    components
+   CHANGELOG

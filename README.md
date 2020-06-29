@@ -1,4 +1,4 @@
-# GDSfactory 1.1.9
+# gdsfactory 1.1.9
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
@@ -10,14 +10,14 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 - define component sweeps (Design of Experiments or DOEs) in YAML files and GDS masks (together with JSON metadata)
 - route optical/electrical ports to pads and grating couplers
 
-# Documentation
+## Documentation
 
 - [read online Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
 - run pp/samples
 - run notebooks
 - see latest changes in [CHANGELOG](CHANGELOG.md)
 
-# Installation
+## Installation
 
 If you are on Windows, you need to install a C++ compiler ["Build Tools for Visual Studio"](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017)
 
@@ -29,11 +29,11 @@ cd gdsfactory
 bash install.sh
 ```
 
-# Tests
+## Tests
 
-You can run tests with pytests. This will run 3 types of tests:
+You can run tests with `pytest`. This will run 3 types of tests:
 
-- pytest will test any functions in the `pp` package that start with `test_`
+- pytest will test any function in the `pp` package that starts with `test_`
 - test_factory: builds all components in the component_type2factory in `pp/components/__init__.py` and checks that the geometric hash is the same
     - any changes in the library need to be approved by running the function `lock_components_with_changes` in `pp/tests/test_factory.py`
 - regressions tests: makes sures no unwanted regressions happen. Need to approve changes by running `make test-force` from the repo root directory.
@@ -41,7 +41,7 @@ You can run tests with pytests. This will run 3 types of tests:
     - `pp/components/test_ports.py` stores all port locations in a CSV file
 
 
-# Modules in this repo
+## Modules
 
 - pp photonic-package
   - components: define components
@@ -56,7 +56,7 @@ You can run tests with pytests. This will run 3 types of tests:
 - notebooks: jupyter-notebooks for training
 
 
-# `pf` Photonic factory command line interface
+## `pf` Photonic factory command line interface
 
 `pf` builds, tests, and configures masks and components from the command line. Just type `pf` in a terminal.
 
@@ -71,7 +71,7 @@ Commands:
   test     Run tests using pytest.
 ```
 
-# Links
+## Links
 
 - [gdslib](https://github.com/gdsfactory/gdslib): separate repo where we store the component library. Tests ensure the geometric hash of the GDS does not change with the ones locked in the library
   - `component.gds`: GDS
