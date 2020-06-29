@@ -1,14 +1,16 @@
-# TODO
+# CHANGELOG
+
+## TODO
 
 - had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
 - create a Klayout library so we can also place components from the klayout menu GUI
 - have a netlist extraction capability
 
-# Maybe
+## Maybe
 
 - units are in um by default, so instead of m to symbolize (1e-3) maybe just use nm
 
-# Most recent changes with no release yet
+## Most recent changes with no release yet
 
 - added link for [ubc PDK](https://github.com/gdsfactory/ubc) to README
 - added a jupyter notebook tutorial for references and array of references
@@ -17,7 +19,7 @@
 - addapted pp.pack from phidl as an easier way to pack masks
 - Autoname also has now a build in cache to avoid having two different cells with the same name
 
-# 1.1.9 2020-05-13
+## 1.1.9 2020-05-13
 
 - write and read Sparameters
 - pp.extend_ports is now a container
@@ -26,11 +28,11 @@
 - better json serializer for settings
 - added units to names (m,K,G ...)
 
-# 1.1.8 2020-05-11
+## 1.1.8 2020-05-11
 
 - leaf components (waveguide, bend, mmi ...) have now pins, for circuit simulation
 
-# 1.1.7 2020-05-07
+## 1.1.7 2020-05-07
 
 - flake8 is passing now
 - added flake8 to pre-commit hook
@@ -52,7 +54,7 @@ with_settings_label: False
 
 ```
 
-# 1.1.6 2020-04-11
+## 1.1.6 2020-04-11
 
 - mask JSON works with cached GDS files for the klayout placer
 - added layers to CONFIG['layers']
@@ -61,37 +63,37 @@ with_settings_label: False
 - import_gds can snap points to a design grid
 
 
-# 1.1.5 2020-03-17
+## 1.1.5 2020-03-17
 
 - added pre-commit hook for code consistency
 - waveguide and bend allow a list of cladding layers
 - all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
 
-# 1.1.4 2020-02-27
+## 1.1.4 2020-02-27
 
 - bug fixes
 - new coupler with less snaping errors
 - adding Klayout generic DRC rule deck
 
-# 1.1.1 2020-01-27
+## 1.1.1 2020-01-27
 
 - first public release
 
-# 1.0.2 2019-12-20
+## 1.0.2 2019-12-20
 
 - test components using gdshash
 - new CLI commands for `pf`
     - pf library lock
     - pf library pull
 
-# 1.0.1 2019-12-01
+## 1.0.1 2019-12-01
 
 - autoplacer and yaml placer
 - mask_merge functions (merge metadata, test protocols)
 - added mask samples
 - all the mask can be build now from a config.yml in the current directory using `pf mask write`
 
-# 1.0.0 2019-11-24
+## 1.0.0 2019-11-24
 
 - first release

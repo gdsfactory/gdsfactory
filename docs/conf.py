@@ -14,7 +14,6 @@ source_suffix = {
     ".md": "markdown",
 }
 
-html_static_path = ["_static"]
 htmlhelp_basename = project
 
 extensions = [

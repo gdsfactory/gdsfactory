@@ -1,4 +1,4 @@
-# pp photonics package
+# `pp` photonics package
 
 ```eval_rst
 .. automodule:: pp
