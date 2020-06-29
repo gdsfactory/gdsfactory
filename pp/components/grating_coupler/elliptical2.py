@@ -41,7 +41,7 @@ def grating_coupler_elliptical2(
 
       import pp
 
-      c = pp.grating_coupler_elliptical2()
+      c = pp.c.grating_coupler_elliptical2()
       pp.plotgds(c)
 
     """

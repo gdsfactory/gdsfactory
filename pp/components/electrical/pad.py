@@ -7,8 +7,17 @@ WIRE_WIDTH = 10.0
 
 
 @autoname
-def pad(width=100.0, height=100.0, layer=LAYER.M3):
+def pad(width=100, height=100, layer=LAYER.M3):
     """ rectangular pad
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.pad(width=100, height=100, layer=pp.LAYER.M3)
+      pp.plotgds(c)
+
     """
     c = pp.Component()
     _c = compass(size=(width, height), layer=layer).ref()
@@ -21,6 +30,15 @@ def pad(width=100.0, height=100.0, layer=LAYER.M3):
 @autoname
 def pad_array(pad=pad, start=(0, 0), spacing=(150, 0), n=6, port_list=["N"]):
     """ array of rectangular pads
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pad_array(pad=pp.c.pad, start=(0, 0), spacing=(150, 0), n=6, port_list=["N"])
+      pp.plotgds(c)
+
     """
     c = pp.Component()
 
