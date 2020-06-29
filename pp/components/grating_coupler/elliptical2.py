@@ -21,8 +21,7 @@ def grating_coupler_elliptical2(
     direction="EAST",
     **kwargs
 ):
-    """
-    Grating coupler
+    """ Grating coupler
 
     Args:
         waveguide_template: object or function
@@ -36,6 +35,15 @@ def grating_coupler_elliptical2(
         ridge (boolean): If True, adds another layer to the grating coupler that can be used for partial etched gratings
         ridge_layers (tuple): Tuple specifying the layer/datatype of the ridge region.  Defaults to (3,0)
         teeth_list (list): Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths for irregularly spaced gratings.  For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6, then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.  Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.grating_coupler_elliptical2()
+      pp.plotgds(c)
+
     """
 
     c = pc.GratingCoupler(

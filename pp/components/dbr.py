@@ -28,6 +28,14 @@ def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
         _______
                |_________
 
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
+      pp.plotgds(c)
+
     """
     c = pp.Component()
     l1 = pp.drc.snap_to_grid(l1)
