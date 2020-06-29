@@ -156,14 +156,17 @@ def component_lattice(
       :include-source:
 
       import pp
+      from pp.routing.repackage import package_optical2x2
+      from pp.components.crossing_waveguide import crossing45
+      from pp.components.crossing_waveguide import compensation_path
 
-      components = components or {
-            "C": package_optical2x2(component=coupler, port_spacing=40.0),
+      components =  {
+            "C": package_optical2x2(component=pp.c.coupler, port_spacing=40.0),
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
 
-      c = pp.c.component_lattice(components)
+      c = pp.c.component_lattice(components=components)
       pp.plotgds(c)
     """
     components = components or {

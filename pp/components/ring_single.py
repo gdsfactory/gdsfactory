@@ -30,6 +30,15 @@ def ring_single(
          --==cb==-- gap
 
           length_x
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.ring_single(wg_width=0.5, gap=0.2, length_x=4, length_y=0.1, bend_radius=5)
+      pp.plotgds(c)
+
     """
     assert_on_2nm_grid(gap)
 
