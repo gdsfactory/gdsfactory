@@ -165,9 +165,9 @@ def component_lattice(
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
-
       c = pp.c.component_lattice(components=components)
       pp.plotgds(c)
+
     """
     components = components or {
         "C": package_optical2x2(component=coupler, port_spacing=40.0),

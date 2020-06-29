@@ -15,7 +15,7 @@ Coupler
 Ring
 -----------
 
-.. autofunction:: pp.components.ring_single_bus.ring_single_bus
+.. autofunction:: pp.components.ring_single.ring_single
 
 
 
