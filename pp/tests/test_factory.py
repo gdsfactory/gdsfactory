@@ -20,6 +20,7 @@ _components = _components - set(
         "compass",
         "component_lattice",
         "grating_coupler_elliptical2",
+        "grating_coupler_tree",
         "bezier",
         "spiral_circular",
     ]

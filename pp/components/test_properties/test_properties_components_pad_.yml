@@ -1,8 +1,8 @@
 class: pad
-height: 100.0
+height: 100
 layer:
 - 49
 - 0
 module: pp.components.electrical.pad
 name: pad
-width: 100.0
+width: 100
