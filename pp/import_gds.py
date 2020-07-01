@@ -1,4 +1,3 @@
-import os
 import gdspy
 
 from phidl.device_layout import DeviceReference
@@ -101,10 +100,26 @@ def import_gds(
         return topdevice
 
 
+def test_import_gds_flat():
+    gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
+    c = import_gds(gdspath, snap_to_grid_nm=5)
+    assert len(c.get_polygons()) == 54
+
+    for x, y in c.get_polygons()[0]:
+        assert pp.drc.on_grid(x, 5)
+        assert pp.drc.on_grid(y, 5)
+
+
+def test_import_gds_hierarchy():
+    c0 = pp.c.mzi2x2()
+    gdspath = pp.write_gds(c0)
+    c = import_gds(gdspath)
+    assert len(c.get_dependencies()) == 3
+
+
 if __name__ == "__main__":
 
-    filename = os.path.join(pp.CONFIG["gdslib"], "mzi2x2.gds")
-    filename = pp.CONFIG["gdslib"] / "mzi2x2.gds"
+    filename = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     c = import_gds(filename, snap_to_grid_nm=5)
     print(c)
     pp.show(c)

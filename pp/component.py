@@ -1,3 +1,4 @@
+import itertools
 import uuid
 import json
 from copy import deepcopy
@@ -1008,6 +1009,33 @@ class Component(Device):
             gdspy._bounding_boxes[self] = bb
         return gdspy._bounding_boxes[self]
 
+    def get_layers(self):
+        """ returns a set of (layer, datatype)
+
+        >>> import pp
+        >>> pp.c.waveguide.get_layers() == {(1, 0), (111, 0)}
+
+        """
+        layers = set()
+        for element in itertools.chain(self.polygons, self.paths):
+            for layer, datatype in zip(element.layers, element.datatypes):
+                layers.add((layer, datatype))
+        for reference in self.references:
+            for layer, datatype in zip(
+                reference.ref_cell.get_layers(), reference.ref_cell.get_datatypes()
+            ):
+                layers.add((layer, datatype))
+        for label in self.labels:
+            layers.add((label.layer, 0))
+        return layers
+
+
+def test_get_layers():
+    c = pp.c.waveguide()
+    assert c.get_layers() == {(1, 0), (111, 0)}
+    c.remove_layers((111, 0))
+    assert c.get_layers() == {(1, 0)}
+
 
 def _filter_polys(polygons, layers_excl):
     return [
@@ -1095,11 +1123,15 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
+    # c = pp.c.waveguide()
+    # print(c.get_layers())
+    test_get_layers()
+
     # c = pp.c.bend_circular180()
     # c = pp.c.coupler()
     # c.add_labels()
     # pp.show(c)
-    test_same_uid()
+    # test_same_uid()
 
     # c = pp.c.mmi1x2()
     # c = pp.c.mzi1x2()
