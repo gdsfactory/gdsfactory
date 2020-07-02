@@ -36,6 +36,7 @@ from pp.components.text import text
 from pp.components.pcm.litho_calipers import litho_calipers
 from pp.components.pcm.litho_star import litho_star
 from pp.components.pcm.litho_steps import litho_steps
+from pp.components.pcm.verniers import verniers
 
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_tm
@@ -142,6 +143,7 @@ component_type2factory = dict(
     text=text,
     test_via=test_via,
     test_resistance=test_resistance,
+    verniers=verniers,
     waveguide=waveguide,
     waveguide_heater=waveguide_heater,
     wg_heater_connected=wg_heater_connected,

@@ -28,7 +28,7 @@ default_config = """
 tech: generic
 cache_url:
 BBOX_LAYER_EXCLUDE: "[]"
-with_settings_label: True
+with_settings_label: False
 add_pins: True
 """
 

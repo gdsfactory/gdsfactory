@@ -19,6 +19,7 @@ modules:
     - layer: GDS layers
 """
 from phidl import quickplot as qp
+import phidl.geometry as pg
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG
@@ -52,8 +53,10 @@ from pp.components.extension import extend_ports
 from pp.add_padding import add_padding
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
+from pp.import_phidl_component import import_phidl_component
 from pp.plotgds import plotgds
 from pp.pack import pack
+from pp.boolean import boolean
 
 
 __all__ = [
@@ -66,11 +69,13 @@ __all__ = [
     "add_padding",
     "add_pins",
     "import_gds",
+    "import_phidl_component",
     "c",
     "component_factory",
     "call_if_func",
     "extend_port",
     "extend_ports",
+    "boolean",
     "get_component_type",
     "klive",
     "layer",
@@ -80,6 +85,7 @@ __all__ = [
     "preview_layerset",
     "pack",
     "qp",
+    "pg",
     "routing",
     "show",
     "sp",

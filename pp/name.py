@@ -17,8 +17,13 @@ def join_first_letters(name):
     return "".join([x[0] for x in name.split("_") if x])
 
 
+component_type_to_name = dict(import_phidl_component="phidl")
+
+
 def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs):
     name = component_type
+    for k, v in component_type_to_name.items():
+        name = name.replace(k, v)
     if kwargs:
         name += "_" + dict2name(**kwargs)
     return name
