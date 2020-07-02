@@ -15,9 +15,9 @@ def coupler_adiabatic(
     input_wg_sep=3.0,
     output_wg_sep=3.0,
     dw=0.1,
-    waveguide=wg_strip,
     port=(0, 0),
     direction="EAST",
+    waveguide_template=wg_strip,
     **kwargs
 ):
     """ 50/50 adiabatic coupler
@@ -26,7 +26,6 @@ def coupler_adiabatic(
     In this design, Region I is the first half of the input S-bend waveguide where the input waveguides widths taper by +dw and -dw, Region II is the second half of the S-bend waveguide with constant, unbalanced widths, Region III is the region where the two asymmetric waveguides gradually come together, Region IV is the coupling region where the waveguides taper back to the original width at a fixed distance from one another, and Region IV is the  output S-bend waveguide.
 
     Args:
-        waveguide_template: object or function
         length1 (float): Length of the region that gradually brings the two assymetric waveguides together.  In this region the waveguide widths gradually change to be different by `dw`.
         length2 (float): Length of the coupling region, where the asymmetric waveguides gradually become the same width.
         length3 (float): Length of the output region where the two waveguides separate.
@@ -36,11 +35,12 @@ def coupler_adiabatic(
         dw (float): Change in waveguide width.  In Region 1, the top arm tapers to the waveguide width+dw/2.0, bottom taper to width-dw/2.0.
         port (tuple): Cartesian coordinate of the input port (top left).  Defaults to (0,0).
         direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).  Defaults to 'EAST'.
+        waveguide_template: object or function
 
     """
 
     c = pc.AdiabaticCoupler(
-        pp.call_if_func(waveguide, **kwargs),
+        pp.call_if_func(waveguide_template, **kwargs),
         length1=length1,
         length2=length2,
         length3=length3,

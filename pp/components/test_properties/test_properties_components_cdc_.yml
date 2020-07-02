@@ -1,0 +1,24 @@
+angle: 0.5235987755982988
+class: cdc
+contradc_wgt: None
+dc: 0.5
+direction: EAST
+dw_bot: None
+dw_top: None
+fin_size:
+- 0.2
+- 0.05
+fins: 'False'
+gap: 0.5
+input_bot: 'False'
+kwargs: _empty
+length: 30.0
+module: pp.components.cdc
+name: cdc
+period: 0.22
+port:
+- 0
+- 0
+waveguide_template: wg_strip
+width_bot: 0.75
+width_top: 2.0

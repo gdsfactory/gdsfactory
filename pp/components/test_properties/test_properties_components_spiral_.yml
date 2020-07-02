@@ -1,5 +1,6 @@
 class: spiral
 direction: NORTH
+kwargs: _empty
 length: 10000.0
 module: pp.components.spiral
 name: spiral
@@ -8,5 +9,5 @@ port:
 - 0
 - 0
 spacing: None
-waveguide: wg_strip
+waveguide_template: wg_strip
 width: 500
