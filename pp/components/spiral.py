@@ -14,7 +14,8 @@ def spiral(
     parity=1,
     port=(0, 0),
     direction="NORTH",
-    waveguide=wg_strip,
+    waveguide_template=wg_strip,
+    **kwargs
 ):
     """ Picwriter Spiral
 
@@ -25,20 +26,29 @@ def spiral(
        parity (int): If 1 spiral on right side, if -1 spiral on left side (mirror flip)
        port (tuple): Cartesian coordinate of the input port
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide: Picwriter waveguide definition
+       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
 
-    Members:
-       * **portlist** (dict): Dictionary with the relevant port information
+    Kwargs:
+        wg_width: 0.5
+        wg_layer: pp.LAYER.WG[0]
+        wg_datatype: pp.LAYER.WG[1]
+        clad_layer: pp.LAYER.WGCLAD[0]
+        clad_datatype: pp.LAYER.WGCLAD[1]
+        bend_radius: 10
+        cladding_offset: 3
 
-    Portlist format:
-       * portlist['input'] = {'port': (x1,y1), 'direction': 'dir1'}
-       * portlist['output'] = {'port': (x2, y2), 'direction': 'dir2'}
+    .. plot::
+      :include-source:
 
-        Where in the above (x1,y1) are the first elements of the spiral trace, (x2, y2) are the last elements of the spiral trace, and 'dir1', 'dir2' are of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, *or* an angle in *radians*.
-        'Direction' points *towards* the waveguide that will connect to it.
+      import pp
+
+      c = pp.c.spiral(width=500, length=10e3)
+      pp.plotgds(c)
+
+
     """
     c = pc.Spiral(
-        pp.call_if_func(waveguide),
+        pp.call_if_func(waveguide_template, **kwargs),
         width=width,
         length=length,
         spacing=spacing,
@@ -53,5 +63,5 @@ def spiral(
 
 
 if __name__ == "__main__":
-    c = spiral(length=10e3, width=500, pins=True)
+    c = spiral(length=10e3, width=500, bend_radius=20, pins=True)
     pp.show(c)

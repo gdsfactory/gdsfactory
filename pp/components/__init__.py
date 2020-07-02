@@ -51,7 +51,9 @@ from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.components.spiral_external_io import spiral_external_io
 from pp.components.spiral_circular import spiral_circular
+from pp.components.cdc import cdc
 from pp.components.dbr import dbr
+from pp.components.dbr2 import dbr2
 
 # electrical
 from pp.components.electrical.pad import pad
@@ -65,6 +67,9 @@ from pp.components.pcm.test_via import test_via
 from pp.components.cavity import cavity
 from pp.components.coupler import coupler
 from pp.components.coupler_ring import coupler_ring
+from pp.components.coupler_adiabatic import coupler_adiabatic
+from pp.components.coupler_full import coupler_full
+from pp.components.disk import disk
 from pp.components.ring_single import ring_single
 from pp.components.ring_double import ring_double
 from pp.components.ring_single_bus import ring_single_bus
@@ -92,17 +97,22 @@ component_type2factory = dict(
     bezier=bezier,
     cavity=cavity,
     circle=circle,
+    cdc=cdc,
     compass=compass,
     component_lattice=component_lattice,
     coupler=coupler,
     coupler90=coupler90,
+    coupler_adiabatic=coupler_adiabatic,
     coupler_asymmetric=coupler_asymmetric,
+    coupler_full=coupler_full,
     coupler_ring=coupler_ring,
     coupler_straight=coupler_straight,
     coupler_symmetric=coupler_symmetric,
     cross=cross,
     crossing=crossing,
     dbr=dbr,
+    dbr2=dbr2,
+    disk=disk,
     delay_snake=delay_snake,
     ellipse=ellipse,
     grating_coupler_elliptical2=grating_coupler_elliptical2,

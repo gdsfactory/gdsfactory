@@ -1,0 +1,14 @@
+angle: 0.5235987755982988
+class: coupler_full
+direction: EAST
+dw: 0.1
+gap: 0.5
+kwargs: _empty
+length: 40.0
+module: pp.components.coupler_full
+name: coupler_full
+parity: 1
+port:
+- 0
+- 0
+waveguide_template: wg_strip

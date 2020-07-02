@@ -1,0 +1,20 @@
+class: dbr2
+dc: 0.5
+direction: EAST
+fin_size:
+- 0.2
+- 0.05
+fins: 'False'
+kwargs: _empty
+length: 10
+module: pp.components.dbr2
+name: dbr2
+period: 0.85
+port:
+- 0
+- 0
+taper_length: 20.0
+w1: 0.4
+w2: 1
+waveguide_template: wg_strip
+waveguide_template_dbr: None
