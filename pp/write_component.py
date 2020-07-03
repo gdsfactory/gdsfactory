@@ -14,6 +14,8 @@ from pp import klive
 from pp.component import Component
 
 from pp.layers import LAYER
+from pathlib import PosixPath
+from typing import Optional
 
 
 def get_component_type(
@@ -159,14 +161,14 @@ def write_json(json_path, **settings):
 
 
 def write_gds(
-    component,
-    gdspath=None,
-    unit=1e-6,
-    precision=1e-9,
-    remove_previous_markers=False,
-    auto_rename=False,
-    with_settings_label=CONFIG["with_settings_label"],
-):
+    component: Component,
+    gdspath: Optional[PosixPath] = None,
+    unit: float = 1e-6,
+    precision: float = 1e-9,
+    remove_previous_markers: bool = False,
+    auto_rename: bool = False,
+    with_settings_label: bool = CONFIG["with_settings_label"],
+) -> str:
     """ write component to GDS and returs gdspath
 
     Args:
@@ -226,8 +228,8 @@ def clean_value(value):
 
 
 def show(
-    component, gdspath=CONFIG["gdspath"], **kwargs,
-):
+    component: Component, gdspath: PosixPath = CONFIG["gdspath"], **kwargs
+) -> None:
     """ write component GDS and shows it in klayout
 
     Args:

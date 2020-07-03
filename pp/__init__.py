@@ -29,8 +29,6 @@ from pp.component import ComponentReference
 from pp.component import Port
 from pp.name import autoname
 from pp.layers import LAYER
-from pp.layers import layer
-from pp.layers import preview_layerset
 from pp.load_component import load_component
 from pp.load_csv import load_csv
 
@@ -78,11 +76,9 @@ __all__ = [
     "boolean",
     "get_component_type",
     "klive",
-    "layer",
     "load_component",
     "load_csv",
     "plotgds",
-    "preview_layerset",
     "pack",
     "qp",
     "pg",

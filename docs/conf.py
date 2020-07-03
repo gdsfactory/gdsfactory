@@ -27,6 +27,8 @@ extensions = [
     "recommonmark",
 ]
 
+napoleon_use_param = True
+
 
 def setup(app):
     app.add_config_value(
