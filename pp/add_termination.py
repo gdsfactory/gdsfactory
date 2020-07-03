@@ -45,7 +45,7 @@ def add_gratings_and_loop_back(
     waveguide_separation=5.0,
     bend_factory=bend_circular,
     waveguide_factory=waveguide,
-    layer_label=pp.CONFIG["layers"]["LABEL"],
+    layer_label=pp.LAYER.LABEL,
     component_name=None,
     with_loopback=True,
 ):

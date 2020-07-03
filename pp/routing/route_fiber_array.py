@@ -15,41 +15,47 @@ from pp.routing.connect import connect_strip_way_points
 from pp.routing.connect import get_waypoints_connect_strip
 from pp.routing.get_input_labels import get_input_labels
 import pp
+from numpy import float64
+from phidl.device_layout import Label
+from pp.component import Component, ComponentReference
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 SPACING_GC = 127.0
 BEND_RADIUS = pp.CONFIG["bend_radius"]
 
 
 def route_fiber_array(
-    component,
-    optical_io_spacing=SPACING_GC,
-    grating_coupler=grating_coupler_te,
-    bend_factory=bend_circular,
-    straight_factory=waveguide,
-    fanout_length=None,
-    max_y0_optical=None,
-    with_align_ports=True,
-    waveguide_separation=4.0,
-    optical_routing_type=None,
-    bend_radius=BEND_RADIUS,
-    list_port_labels=None,
-    connected_port_list_ids=None,
-    nb_optical_ports_lines=1,
-    force_manhattan=False,
-    excluded_ports=[],
-    grating_indices=None,
-    routing_waveguide=None,
-    route_filter=connect_strip_way_points,
-    gc_port_name="W0",
-    gc_rotation=-90,
-    layer_label=LAYER.LABEL,
-    component_name=None,
-    x_grating_offset=0,
-    optical_port_labels=None,
-    taper_factory=taper,
-    route_factory=route_south,
-    get_input_labels_function=get_input_labels,
-):
+    component: Component,
+    optical_io_spacing: float = SPACING_GC,
+    grating_coupler: Callable = grating_coupler_te,
+    bend_factory: Callable = bend_circular,
+    straight_factory: Callable = waveguide,
+    fanout_length: Optional[int] = None,
+    max_y0_optical: None = None,
+    with_align_ports: bool = True,
+    waveguide_separation: float = 4.0,
+    optical_routing_type: Optional[int] = None,
+    bend_radius: float = BEND_RADIUS,
+    list_port_labels: None = None,
+    connected_port_list_ids: None = None,
+    nb_optical_ports_lines: int = 1,
+    force_manhattan: bool = False,
+    excluded_ports: List[Any] = [],
+    grating_indices: None = None,
+    routing_waveguide: None = None,
+    route_filter: Callable = connect_strip_way_points,
+    gc_port_name: str = "W0",
+    gc_rotation: int = -90,
+    layer_label: Tuple[int, int] = LAYER.LABEL,
+    component_name: Optional[str] = None,
+    x_grating_offset: int = 0,
+    optical_port_labels: None = None,
+    taper_factory: Callable = taper,
+    route_factory: Callable = route_south,
+    get_input_labels_function: Callable = get_input_labels,
+) -> Tuple[
+    List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
+]:
     """
     Returns component I/O elements for adding grating couplers with a fiber array input
     Many components are fine with the default.

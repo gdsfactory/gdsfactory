@@ -8,6 +8,7 @@ import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins_and_outline
 from pp.component import NAME_TO_DEVICE
+from typing import Callable
 
 MAX_NAME_LENGTH = 32
 
@@ -29,7 +30,7 @@ def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs
     return name
 
 
-def autoname(component_function):
+def autoname(component_function: Callable) -> Callable:
     """ decorator for auto-naming component functions
     if no Keyword argument `name`  is passed it creates a name by concenating all Keyword arguments
 
@@ -60,7 +61,7 @@ def autoname(component_function):
     """
 
     @functools.wraps(component_function)
-    def wrapper(*args, **kwargs):
+    def _autoname(*args, **kwargs):
         if args:
             raise ValueError("autoname supports only Keyword args")
         cache = kwargs.pop("cache", True)
@@ -108,7 +109,7 @@ def autoname(component_function):
             NAME_TO_DEVICE[name] = component
             return component
 
-    return wrapper
+    return _autoname
 
 
 def dict2name(prefix=None, **kwargs):

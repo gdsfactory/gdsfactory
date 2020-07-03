@@ -1,7 +1,8 @@
 import functools
+from typing import Callable
 
 
-def deco_rename_ports(component_factory):
+def deco_rename_ports(component_factory: Callable) -> Callable:
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args, **kwargs):
         device = component_factory(*args, **kwargs)

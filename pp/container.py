@@ -9,9 +9,10 @@ import functools
 from inspect import signature
 import pytest
 import pp
+from typing import Callable
 
 
-def container(component_function):
+def container(component_function: Callable) -> Callable:
     """ decorator for creating a new component that copies properties from the original component
 
     - polarization
