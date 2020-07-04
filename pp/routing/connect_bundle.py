@@ -9,6 +9,8 @@ from pp.routing.u_groove_bundle import u_bundle_direct
 from pp.routing.corner_bundle import corner_bundle
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.name import autoname
+from pp.component import Component
+from pp.port import Port
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = 10.0
@@ -813,8 +815,6 @@ def link_optical_ports_no_grouping(
 
 @autoname
 def test_connect_bundle():
-    import pp
-    from pp import Port
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
 
@@ -828,7 +828,7 @@ def test_connect_bundle():
         Port("bottom_{}".format(i), (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
-    top_cell = pp.Component(name="connect_bundle")
+    top_cell = Component(name="connect_bundle")
     elements = connect_bundle(top_ports, bottom_ports)
     for e in elements:
         top_cell.add(e)
@@ -839,13 +839,11 @@ def test_connect_bundle():
 
 @autoname
 def test_connect_corner(N=6, config="A"):
-    from pp.port import Port
-    import pp
 
     d = 10.0
 
     sep = 5.0
-    top_cell = pp.Component(name="connect_corner")
+    top_cell = Component(name="connect_corner")
 
     if config in ["A", "B"]:
         a = 100.0
@@ -928,8 +926,6 @@ def test_connect_corner(N=6, config="A"):
 
 @autoname
 def test_connect_bundle_udirect(dy=200, angle=270):
-    import pp
-    from pp.component import Port
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
 
@@ -953,7 +949,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
             Port("bottom_{}".format(i), (xs2[i], dy), 0.5, angle) for i in range(N)
         ]
 
-    top_cell = pp.Component(name="connect_bundle_udirect")
+    top_cell = Component(name="connect_bundle_udirect")
     elements = connect_bundle(ports1, ports2)
     for e in elements:
         top_cell.add(e)
@@ -963,8 +959,6 @@ def test_connect_bundle_udirect(dy=200, angle=270):
 
 @autoname
 def test_connect_bundle_u_indirect(dy=-200, angle=180):
-    import pp
-    from pp.component import Port
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
@@ -987,7 +981,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    top_cell = pp.Component("connect_bundle_u_indirect")
+    top_cell = Component("connect_bundle_u_indirect")
     elements = connect_bundle(ports1, ports2)
     for e in elements:
         top_cell.add(e)
@@ -997,8 +991,6 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
 @autoname
 def test_facing_ports():
-    from pp.port import Port
-
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -1013,7 +1005,7 @@ def test_facing_ports():
     ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
     ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    top_cell = pp.Component("test_facing_ports")
+    top_cell = Component("test_facing_ports")
     elements = connect_bundle(ports1, ports2)
     # elements = link_ports_path_length_match(ports1, ports2)
     top_cell.add(elements)
@@ -1028,7 +1020,7 @@ def demo_connect_bundle():
     x = 500
     y0 = 900
     dy = 200.0
-    cmp = pp.Component("connect_bundle")
+    cmp = Component("connect_bundle")
     for j, s in enumerate([-1, 1]):
         for i, angle in enumerate([0, 90, 180, 270]):
             _cmp = test_connect_bundle_u_indirect(dy=s * dy, angle=angle)
