@@ -25,7 +25,7 @@ class Port(PortPhidl):
         width: of the port
         orientation: 0
         parent: None, parent component (component to which this port belong to)
-        layer: 1
+        layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
 
     """
