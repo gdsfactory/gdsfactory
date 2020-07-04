@@ -1,6 +1,8 @@
-import pp
-from itertools import count
 import hashlib
+from itertools import count
+from typing import Dict, List, Tuple, Union
+from pp.component import Component
+import pp
 
 
 class SequenceGenerator:
@@ -40,7 +42,7 @@ class SequenceGenerator:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
-def _parse_component_name(name):
+def _parse_component_name(name: str) -> Tuple[str, bool]:
     """
     If the component name has more than one character and starts with "!"
     then we need to flip along the axis given by the input port angle
@@ -60,14 +62,16 @@ def _flip_ref(c_ref, port_name):
 
 
 def component_sequence(
-    sequence,
-    string_to_device_in_out_ports,
-    ports_map={},
-    input_port_name="in",
-    output_port_name="out",
-    start_orientation=0.0,
-    name_prefix=None,
-):
+    sequence: List[str],
+    string_to_device_in_out_ports: Dict[
+        str, Union[Tuple[Component, str, str], Tuple[None, str, str]]
+    ],
+    ports_map: Dict[str, Tuple[str, str]] = {},
+    input_port_name: str = "in",
+    output_port_name: str = "out",
+    start_orientation: float = 0.0,
+    name_prefix: None = None,
+) -> Component:
     """
     This generates a component from a sequence and a dictionnary to interprete each
     symbol in the sequence.

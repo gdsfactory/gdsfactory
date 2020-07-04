@@ -5,10 +5,12 @@ from pp.components.coupler_straight import coupler_straight
 from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
+from pp.component import Component
+from typing import Callable, Dict, List, Tuple
 
 
 @autoname
-def ring_double_bus(**kwargs):
+def ring_double_bus(**kwargs) -> Component:
     """ Ring double bus
 
     Args:
@@ -46,15 +48,19 @@ def ring_double_bus(**kwargs):
 
 
 def ring_double_bus_netlist(
-    bend_radius=5,
-    length_x=1,
-    length_y=1,
-    gap=0.2,
-    coupler90_factory=coupler90,
-    straight_factory=waveguide,
-    cpl_straight_factory=coupler_straight,
-    wg_width=0.5,
-):
+    bend_radius: float = 5.0,
+    length_x: float = 1.0,
+    length_y: float = 1.0,
+    gap: float = 0.2,
+    coupler90_factory: Callable = coupler90,
+    straight_factory: Callable = waveguide,
+    cpl_straight_factory: Callable = coupler_straight,
+    wg_width: float = 0.5,
+) -> Tuple[
+    Dict[str, Tuple[Component, str]],
+    List[Tuple[str, str, str, str]],
+    Dict[str, Tuple[str, str]],
+]:
     """
     .. code::
 

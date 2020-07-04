@@ -1,12 +1,19 @@
 import pp
 from pp.components.bend_s import bend_s
 from pp.components.waveguide import waveguide
+from pp.component import Component
+from typing import Callable
 
 __version__ = "0.0.1"
 
 
 @pp.autoname
-def coupler_asymmetric(bend=bend_s, waveguide=waveguide, gap=0.234, wg_width=0.5):
+def coupler_asymmetric(
+    bend: Callable = bend_s,
+    waveguide: Callable = waveguide,
+    gap: float = 0.234,
+    wg_width: float = 0.5,
+) -> Component:
     """ bend coupled to straight waveguide
 
     Args:

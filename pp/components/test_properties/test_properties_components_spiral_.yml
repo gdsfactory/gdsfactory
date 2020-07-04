@@ -10,4 +10,4 @@ port:
 - 0
 spacing: None
 waveguide_template: wg_strip
-width: 500
+width: 500.0

@@ -3,7 +3,7 @@ from pp.container import container
 from pp.components.taper import taper
 
 
-@pp.ports.deco_rename_ports
+@pp.port.deco_rename_ports
 def add_tapers(component, taper=taper, new_component=True):
     """ returns tapered component
     can add tapers over the same component or create a new component"""
@@ -25,7 +25,7 @@ def add_tapers(component, taper=taper, new_component=True):
 
 
 @container
-@pp.ports.deco_rename_ports
+@pp.port.deco_rename_ports
 def add_tapers2(component, taper=taper, suffix="t"):
     """ returns tapers for component """
 

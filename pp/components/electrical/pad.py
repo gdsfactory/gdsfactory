@@ -2,12 +2,16 @@ from pp.name import autoname
 from pp.layers import LAYER
 from pp.components.compass import compass
 import pp
+from pp.component import Component
+from typing import Callable, List, Tuple
 
 WIRE_WIDTH = 10.0
 
 
 @autoname
-def pad(width=100, height=100, layer=LAYER.M3):
+def pad(
+    width: int = 100, height: int = 100, layer: Tuple[int, int] = LAYER.M3
+) -> Component:
     """ rectangular pad
 
     .. plot::
@@ -28,7 +32,13 @@ def pad(width=100, height=100, layer=LAYER.M3):
 
 
 @autoname
-def pad_array(pad=pad, start=(0, 0), spacing=(150, 0), n=6, port_list=["N"]):
+def pad_array(
+    pad: Callable = pad,
+    start: Tuple[int, int] = (0, 0),
+    spacing: Tuple[int, int] = (150, 0),
+    n: int = 6,
+    port_list: List[str] = ["N"],
+) -> Component:
     """ array of rectangular pads
 
     .. plot::

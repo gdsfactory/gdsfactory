@@ -1,9 +1,17 @@
 import pp
 from pp.components.waveguide import waveguide
+from pp.component import Component
+from typing import Callable
 
 
 @pp.autoname
-def dbr_cell(w1=0.5, w2=0.6, l1=0.2, l2=0.4, waveguide_function=waveguide):
+def dbr_cell(
+    w1: float = 0.5,
+    w2: float = 0.6,
+    l1: float = 0.2,
+    l2: float = 0.4,
+    waveguide_function: Callable = waveguide,
+) -> Component:
     c = pp.Component()
     c1 = c << waveguide_function(length=l1, width=w1)
     c2 = c << waveguide_function(length=l2, width=w2)
@@ -14,8 +22,22 @@ def dbr_cell(w1=0.5, w2=0.6, l1=0.2, l2=0.4, waveguide_function=waveguide):
 
 
 @pp.autoname
-def dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, waveguide_function=waveguide):
+def dbr(
+    w1: float = 0.5,
+    w2: float = 0.6,
+    l1: float = 0.2,
+    l2: float = 0.3,
+    n: int = 10,
+    waveguide_function: Callable = waveguide,
+) -> Component:
     """ Distributed Bragg Reflector
+
+    Args:
+        w1: thin width
+        l1: thin length
+        w2: thick width
+        l2: thick length
+        n: number of periods
 
     .. code::
 

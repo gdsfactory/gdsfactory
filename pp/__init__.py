@@ -26,11 +26,9 @@ from pp.config import CONFIG
 from pp.config import call_if_func
 from pp.component import Component
 from pp.component import ComponentReference
-from pp.component import Port
+from pp.port import Port
 from pp.name import autoname
 from pp.layers import LAYER
-from pp.layers import layer
-from pp.layers import preview_layerset
 from pp.load_component import load_component
 from pp.load_csv import load_csv
 
@@ -46,6 +44,7 @@ import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
 import pp.sp as sp
+import pp.port as port
 
 from pp.components import component_factory
 from pp.components.extension import extend_port
@@ -78,14 +77,13 @@ __all__ = [
     "boolean",
     "get_component_type",
     "klive",
-    "layer",
     "load_component",
     "load_csv",
     "plotgds",
-    "preview_layerset",
     "pack",
     "qp",
     "pg",
+    "port",
     "routing",
     "show",
     "sp",
@@ -95,7 +93,7 @@ __all__ = [
     "write_gds",
     "Port",
 ]
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 
 
 if __name__ == "__main__":

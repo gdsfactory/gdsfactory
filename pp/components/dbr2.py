@@ -3,24 +3,26 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Optional, Tuple
 
 
 @pp.autoname
 def dbr2(
-    length=10,
-    period=0.85,
-    dc=0.5,
-    w1=0.4,
-    w2=1,
-    taper_length=20.0,
-    fins=False,
-    fin_size=(0.2, 0.05),
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
-    waveguide_template_dbr=None,
+    length: float = 10.0,
+    period: float = 0.85,
+    dc: float = 0.5,
+    w1: float = 0.4,
+    w2: float = 1.0,
+    taper_length: float = 20.0,
+    fins: bool = False,
+    fin_size: Tuple[float, float] = (0.2, 0.05),
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
+    waveguide_template_dbr: Optional[Callable] = None,
     **kwargs
-):
+) -> Component:
     """ Distributed Bragg Reflector Cell class.  Tapers the input waveguide to a periodic waveguide structure with varying width (1-D photonic crystal).
 
     Args:
@@ -38,14 +40,14 @@ def dbr2(
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
 
-    Kwargs:
-        wg_width: 0.5
-        wg_layer: pp.LAYER.WG[0]
-        wg_datatype: pp.LAYER.WG[1]
-        clad_layer: pp.LAYER.WGCLAD[0]
-        clad_datatype: pp.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+    Other Parameters:
+       wg_width: 0.5
+       wg_layer: pp.LAYER.WG[0]
+       wg_datatype: pp.LAYER.WG[1]
+       clad_layer: pp.LAYER.WGCLAD[0]
+       clad_datatype: pp.LAYER.WGCLAD[1]
+       bend_radius: 10
+       cladding_offset: 3
 
     .. code::
 

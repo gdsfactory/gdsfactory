@@ -11,6 +11,8 @@ from pp.geo_utils import path_length
 from pp.config import GRID_PER_UNIT
 from pp.components.ellipse import ellipse
 from pp.layers import LAYER
+from pp.component import Component
+from typing import Callable
 
 
 def rnd(p):
@@ -19,7 +21,13 @@ def rnd(p):
 
 
 @pp.autoname
-def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
+def crossing_arm(
+    wg_width: float = 0.5,
+    r1: float = 3.0,
+    r2: float = 1.1,
+    w: float = 1.2,
+    L: float = 3.4,
+) -> Component:
     """
     """
     c = pp.Component()
@@ -54,7 +62,7 @@ def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
 
 
 @pp.autoname
-def crossing(arm=crossing_arm):
+def crossing(arm: Callable = crossing_arm) -> Component:
     """ waveguide crossing
 
     .. plot::
@@ -78,7 +86,7 @@ def crossing(arm=crossing_arm):
         for p in c.ports.values():
             cx.add_port(name="{}".format(port_id), port=p)
             port_id += 1
-    cx = pp.ports.port_naming.rename_ports_by_orientation(cx)
+    cx = pp.port.rename_ports_by_orientation(cx)
     return cx
 
 
@@ -96,7 +104,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
         c.add_port(name="{}".format(i), port=_taper.ports["1"])
         c.absorb(_taper)
 
-    c = pp.ports.port_naming.rename_ports_by_orientation(c)
+    c = pp.port.rename_ports_by_orientation(c)
     return c
 
 
@@ -166,7 +174,7 @@ def crossing_etched(
         )
         i += 1
 
-    c = pp.ports.port_naming.rename_ports_by_orientation(c)
+    c = pp.port.rename_ports_by_orientation(c)
     return c
 
 

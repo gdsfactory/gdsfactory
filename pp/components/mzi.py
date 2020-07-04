@@ -1,23 +1,25 @@
 import pp
 
-from pp.ports.port_naming import deco_rename_ports, rename_ports_by_orientation
+from pp.port import deco_rename_ports, rename_ports_by_orientation
 from pp.components import bend_circular
 from pp.components import waveguide
 from pp.components import mmi1x2
+from pp.component import Component
+from typing import Callable, Optional
 
 
 @deco_rename_ports
 @pp.autoname
 def mzi(
-    L0=1,
-    L1=9,
-    L2=10,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_factory=waveguide,
-    coupler_factory=mmi1x2,
-    combiner_factory=None,
-):
+    L0: float = 1.0,
+    L1: float = 9.0,
+    L2: float = 10.0,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_factory: Callable = waveguide,
+    coupler_factory: Callable = mmi1x2,
+    combiner_factory: Optional[Callable] = None,
+) -> Component:
     """ Mzi adapted for using different coupler and combiner factories
 
     Args:

@@ -21,6 +21,13 @@ def cavity(component, coupler=coupler, length=0.1, gap=0.2, wg_width=0.5):
                 ---=========---
              W0    length      E0
 
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.cavity(component=pp.c.dbr())
+      pp.plotgds(c)
     """
     mirror = pp.call_if_func(component)
     coupler = pp.call_if_func(coupler, length=length, gap=gap, wg_width=wg_width)

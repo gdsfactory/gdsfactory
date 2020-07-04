@@ -8,6 +8,8 @@ import csv
 
 from pp import CONFIG
 import pp
+from pathlib import PosixPath
+from pp.component import Component
 
 
 def get_component_path(component_name, component_path=CONFIG["gdslib"]):
@@ -27,11 +29,11 @@ def load_component_path(component_name, component_path=CONFIG["gdslib"]):
 
 
 def load_component(
-    component_name,
-    component_path=CONFIG["gdslib"],
-    with_info_labels=True,
-    overwrite_cache=False,
-):
+    component_name: str,
+    component_path: PosixPath = CONFIG["gdslib"],
+    with_info_labels: bool = True,
+    overwrite_cache: bool = False,
+) -> Component:
     """ loads GDS, ports (CSV) and metadata (JSON)
     returns a Device
 
@@ -57,11 +59,13 @@ def load_component(
     if not with_info_labels:
         for component in list(c.get_dependencies(recursive=True)) + [c]:
             old_label = [
-                l for l in component.labels if l.layer == pp.LAYER.INFO_GEO_HASH
+                label
+                for label in component.labels
+                if label.layer == pp.LAYER.INFO_GEO_HASH
             ]
             if len(old_label) > 0:
-                for l in old_label:
-                    component.labels.remove(l)
+                for label in old_label:
+                    component.labels.remove(label)
 
     """ add ports """
     try:

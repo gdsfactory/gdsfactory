@@ -1,7 +1,6 @@
 import pp
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
-from pp.config import CONFIG
 from pp.routing.get_input_labels import get_input_labels
 from pp.container import container
 
@@ -10,7 +9,7 @@ from pp.container import container
 def add_grating_couplers(
     component,
     grating_coupler=grating_coupler_te,
-    layer_label=CONFIG["layers"]["LABEL"],
+    layer_label=pp.LAYER.LABEL,
     input_port_indexes=[0],
     gc_port_name="W0",
     get_input_labels_function=get_input_labels,

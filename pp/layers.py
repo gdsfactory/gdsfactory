@@ -6,41 +6,41 @@
 
 """
 
-from collections import namedtuple
+from dataclasses import dataclass
 import gdspy as gp
 from phidl import LayerSet
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import Polygon
 
 
-layermap = dict(
-    WG=(1, 0),
-    WGCLAD=(111, 0),
-    SLAB150=(2, 0),
-    SLAB90=(3, 0),
-    DEEPTRENCH=(7, 0),
-    WGN=(34, 0),
-    HEATER=(47, 0),
-    M1=(41, 0),
-    M2=(45, 0),
-    M3=(49, 0),
-    VIA1=(40, 0),
-    VIA2=(44, 0),
-    VIA3=(43, 0),
-    NO_TILE_SI=(63, 0),
-    PADDING=(67, 0),
-    DEVREC=(68, 0),
-    FLOORPLAN=(600, 0),
-    TEXT=(66, 0),
-    PORT=(1, 10),
-    LABEL=(201, 0),
-    INFO_GEO_HASH=(202, 0),
-    polarization_te=(203, 0),
-    polarization_tm=(204, 0),
-)
+@dataclass
+class Layer:
+    WG = (1, 0)
+    WGCLAD = (111, 0)
+    SLAB150 = (2, 0)
+    SLAB90 = (3, 0)
+    DEEPTRENCH = (7, 0)
+    WGN = (34, 0)
+    HEATER = (47, 0)
+    M1 = (41, 0)
+    M2 = (45, 0)
+    M3 = (49, 0)
+    VIA1 = (40, 0)
+    VIA2 = (44, 0)
+    VIA3 = (43, 0)
+    NO_TILE_SI = (63, 0)
+    PADDING = (67, 0)
+    DEVREC = (68, 0)
+    FLOORPLAN = (600, 0)
+    TEXT = (66, 0)
+    PORT = (1, 10)
+    LABEL = (201, 0)
+    INFO_GEO_HASH = (202, 0)
+    polarization_te = (203, 0)
+    polarization_tm = (204, 0)
 
-LAYER = namedtuple("layer", layermap.keys())(*layermap.values())
 
+LAYER = Layer()
 
 # This is only for plotgds to look good
 ls = LayerSet()  # Create a blank LayerSet
@@ -99,21 +99,6 @@ layer2material = {
 }
 
 
-def layer(name, layermap=layermap):
-    """ returns the gds layer number from layermap dictionary"""
-    layer = layermap.get(name)
-    if layer:
-        if isinstance(layer, int):
-            return layer
-        return layer.gds_layer
-    else:
-        raise ValueError(
-            "{} is not a valid layer_name. Valid names are: \n{}".format(
-                name, "\n".join(layermap.keys())
-            )
-        )
-
-
 def get_gds_layers(device):
     """ Returns a set of layers in this cell.
 
@@ -137,13 +122,6 @@ def preview_layerset(ls=ls, size=100):
     """ Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files
-
-    .. plot::
-      :include-source:
-
-      import pp
-      c = pp.preview_layerset()
-      pp.plotgds(c)
     """
     import pp
     import numpy as np

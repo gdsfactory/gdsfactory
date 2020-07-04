@@ -11,6 +11,7 @@ import click
 import git
 
 from pp import CONFIG
+from pp.layers import LAYER
 from pp.logger import LOGGER
 from pp import klive
 from pp.config import print_config
@@ -28,10 +29,10 @@ import pp.build as pb
 from pp.tests.test_factory import lock_components_with_changes
 
 
-VERSION = "1.1.9"
+VERSION = "1.2.0"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
-LAYER_LABEL = CONFIG["layers"]["LABEL"]
+LAYER_LABEL = LAYER.LABEL
 
 
 def shorten_command(cmd):

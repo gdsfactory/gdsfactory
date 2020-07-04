@@ -8,7 +8,6 @@ actions include movement, rotation, and reflection.
 """
 
 
-
 import pp
 
 c = pp.Component()

@@ -6,7 +6,7 @@ fin_size:
 - 0.05
 fins: 'False'
 kwargs: _empty
-length: 10
+length: 10.0
 module: pp.components.dbr2
 name: dbr2
 period: 0.85
@@ -15,6 +15,6 @@ port:
 - 0
 taper_length: 20.0
 w1: 0.4
-w2: 1
+w2: 1.0
 waveguide_template: wg_strip
 waveguide_template_dbr: None

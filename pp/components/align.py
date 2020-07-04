@@ -8,9 +8,9 @@ __version__ = "0.0.1"
 
 @pp.autoname
 def align_wafer(
-    width=10,
-    spacing=10,
-    cross_length=80,
+    width=10.0,
+    spacing=10.0,
+    cross_length=80.0,
     layer=pp.LAYER.WG,
     with_tile_excl=True,
     square_corner="bottom_left",
@@ -22,7 +22,7 @@ def align_wafer(
 
       import pp
 
-      c = pp.c.fidutial()
+      c = pp.c.align_wafer()
       pp.plotgds(c)
 
     """

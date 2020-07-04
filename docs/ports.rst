@@ -1,7 +1,7 @@
 Ports
 =============================
 
-.. automodule:: pp.ports
+.. automodule:: pp.port
 
 
 .. plot::

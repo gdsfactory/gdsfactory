@@ -2,7 +2,7 @@
 
 Each foundry uses different GDS numbers for each process step.
 
-We follow the generic layer numbers from  the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `pp.LAYER` dict.
+We follow the generic layer numbers from  the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `pp.LAYER`
 
 GDS | layer_name     | Description
 --- | ------------   | ---

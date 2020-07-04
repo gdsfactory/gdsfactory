@@ -3,19 +3,21 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Tuple
 
 
 @pp.autoname
 def disk(
-    radius=10.0,
-    gap=0.2,
-    wrap_angle=0,
-    parity=1,
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
+    radius: float = 10.0,
+    gap: float = 0.2,
+    wrap_angle: int = 0,
+    parity: int = 1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ Disk Resonator
 
     Args:
@@ -30,14 +32,14 @@ def disk(
     Where in the above (x1,y1) is the same as the 'port' input, (x2, y2) is the end of the component, and 'dir1', 'dir2' are of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, *or* an angle in *radians*.
     'Direction' points *towards* the waveguide that will connect to it.
 
-    Kwargs:
-        wg_width: 0.5
-        wg_layer: pp.LAYER.WG[0]
-        wg_datatype: pp.LAYER.WG[1]
-        clad_layer: pp.LAYER.WGCLAD[0]
-        clad_datatype: pp.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+    Other Parameters:
+       wg_width: 0.5
+       wg_layer: pp.LAYER.WG[0]
+       wg_datatype: pp.LAYER.WG[1]
+       clad_layer: pp.LAYER.WGCLAD[0]
+       clad_datatype: pp.LAYER.WGCLAD[1]
+       bend_radius: 10
+       cladding_offset: 3
 
     .. plot::
       :include-source:

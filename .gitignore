@@ -4,6 +4,7 @@
 *.so
 *.ports
 *.properties
+*.sqlite3
 
 # Packages
 *.egg

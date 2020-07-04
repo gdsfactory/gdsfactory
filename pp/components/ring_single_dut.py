@@ -1,5 +1,5 @@
 import pp
-from pp.ports.port_naming import rename_ports_by_orientation
+from pp.port import rename_ports_by_orientation
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide

@@ -2,10 +2,16 @@ import numpy as np
 from numpy import cos, sin, pi, sqrt
 
 import pp
+from pp.component import Component
+from typing import Tuple
 
 
 @pp.autoname
-def ellipse(radii=(10, 5), angle_resolution=2.5, layer=0):
+def ellipse(
+    radii: Tuple[float, float] = (10.0, 5.0),
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+) -> Component:
     """Generate an ellipse geometry.
 
     Args:

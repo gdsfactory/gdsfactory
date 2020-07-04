@@ -1,4 +1,4 @@
-cladding_offset: 3
+cladding_offset: 3.0
 class: mmi1x2
 gap_mmi: 0.25
 layer:
@@ -6,7 +6,7 @@ layer:
 - 0
 layers_cladding: []
 length_mmi: 5.496
-length_taper: 10
+length_taper: 10.0
 module: pp.components.mmi1x2
 name: mmi1x2
 simulation_settings:

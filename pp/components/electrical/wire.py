@@ -1,6 +1,6 @@
 import pp
 from pp.layers import LAYER
-from pp.ports.port_naming import deco_rename_ports
+from pp.port import deco_rename_ports
 from pp.components.hline import hline
 
 __version__ = "0.0.1"
