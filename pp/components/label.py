@@ -1,13 +1,12 @@
 from phidl import device_layout as pd
 import pp
-from numpy import float64
 from phidl.device_layout import Label
 from typing import Tuple
 
 
 def label(
     text: str = "abc",
-    position: Tuple[int, float64] = (0, 0),
+    position: Tuple[float, float] = (0.0, 0.0),
     layer: Tuple[int, int] = pp.LAYER.TEXT,
 ) -> Label:
 

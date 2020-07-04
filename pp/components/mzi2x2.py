@@ -10,14 +10,14 @@ from pp.port import select_electrical_ports
 from pp.components.extension import line
 from pp.components.component_sequence import component_sequence
 from pp.component import Component
-from typing import Callable, Union
+from typing import Callable
 
 
 @autoname
 def mzi_arm(
-    L0: Union[int, float] = 60,
-    L1: Union[int, float] = 0,
-    L_top: Union[int, float] = 10.0,
+    L0: float = 60.0,
+    L1: float = 0.0,
+    L_top: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
     straight_heater_factory: Callable = waveguide_heater,

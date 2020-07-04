@@ -1,14 +1,14 @@
+from typing import Tuple
 import numpy as np
 from numpy import cos, sin, pi
 
 import pp
 from pp.component import Component
-from typing import Tuple
 
 
 @pp.autoname
 def circle(
-    radius: int = 10.0,
+    radius: float = 10.0,
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:

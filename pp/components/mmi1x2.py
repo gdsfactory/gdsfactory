@@ -9,13 +9,13 @@ __version__ = "0.0.1"
 def mmi1x2(
     wg_width: float = 0.5,
     width_taper: float = 1.0,
-    length_taper: int = 10,
+    length_taper: float = 10.0,
     length_mmi: float = 5.496,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Any] = [],
-    cladding_offset: int = 3,
+    cladding_offset: float = 3.0,
 ) -> Component:
     """ mmi 1x2
 

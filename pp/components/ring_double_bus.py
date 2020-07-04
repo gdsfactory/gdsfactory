@@ -48,9 +48,9 @@ def ring_double_bus(**kwargs) -> Component:
 
 
 def ring_double_bus_netlist(
-    bend_radius: int = 5,
-    length_x: int = 1,
-    length_y: int = 1,
+    bend_radius: float = 5.0,
+    length_x: float = 1.0,
+    length_y: float = 1.0,
     gap: float = 0.2,
     coupler90_factory: Callable = coupler90,
     straight_factory: Callable = waveguide,

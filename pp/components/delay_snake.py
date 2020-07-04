@@ -11,7 +11,7 @@ from typing import Callable
 
 @pp.autoname
 def delay_snake(
-    total_length: int = 160000,
+    total_length: float = 160000.0,
     L0: float = 2350.0,
     n: int = 5,
     taper: Callable = taper,
@@ -26,7 +26,7 @@ def delay_snake(
     Args:
         total_length:
         L0:
-        n:
+        n: number of loops
         taper:
         bend_factory
         bend_radius

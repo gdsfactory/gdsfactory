@@ -1,14 +1,14 @@
 import pp
 from pp.component import Component
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Tuple
 
 DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 
 
 @pp.autoname
 def rectangle(
-    size: Any = (4, 2),
-    layer: Optional[Union[Tuple[int, int], int]] = 0,
+    size: Tuple[float, float] = (4.0, 2.0),
+    layer: Tuple[int, int] = pp.LAYER.WG,
     centered: bool = False,
     ports_parameters: Dict[str, List[Tuple[float, float]]] = {},
     **port_settings

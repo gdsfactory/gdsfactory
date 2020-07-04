@@ -12,12 +12,10 @@ from pp.geo_utils import path_length
 from pp.geo_utils import curvature
 from numpy import ndarray
 from pp.component import Component
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 
-def bezier_curve(
-    t: ndarray, control_points: List[Union[Tuple[int, int], Tuple[float, int]]]
-) -> ndarray:
+def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray:
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -45,9 +43,9 @@ def bezier_biased(width=0.5, **kwargs):
 def bezier(
     name: None = None,
     width: float = 0.5,
-    control_points: List[Union[Tuple[int, int], Tuple[float, int]]] = [
-        (0, 0),
-        (5.0, 0),
+    control_points: List[Tuple[float, float]] = [
+        (0.0, 0.0),
+        (5.0, 0.0),
         (5.0, 2.0),
         (10.0, 2.0),
     ],
