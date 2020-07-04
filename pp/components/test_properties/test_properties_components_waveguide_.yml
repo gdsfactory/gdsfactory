@@ -1,4 +1,4 @@
-cladding_offset: 3
+cladding_offset: 3.0
 class: waveguide
 layer:
 - 1
@@ -6,7 +6,7 @@ layer:
 layers_cladding:
 - - 111
   - 0
-length: 10
+length: 10.0
 module: pp.components.waveguide
 name: waveguide
 width: 0.5

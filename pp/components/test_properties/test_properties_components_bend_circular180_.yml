@@ -1,5 +1,5 @@
 angle_resolution: 2.5
-cladding_offset: 3
+cladding_offset: 3.0
 class: bend_circular180
 kwargs: _empty
 layer:

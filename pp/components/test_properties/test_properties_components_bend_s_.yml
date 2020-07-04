@@ -1,13 +1,13 @@
-cladding_offset: 3
+cladding_offset: 3.0
 class: bend_s
-height: 2
+height: 2.0
 layer:
 - 1
 - 0
 layers_cladding:
 - - 111
   - 0
-length: 10
+length: 10.0
 module: pp.components.bend_s
 name: bend_s
 nb_points: 99
