@@ -7,7 +7,7 @@ from pp.components import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
 from pp.netlist_to_gds import netlist_to_component
 from pp.routing import route_elec_ports_to_side
-from pp.ports.utils import select_electrical_ports
+from pp.port import select_electrical_ports
 
 from pp.components.extension import line
 

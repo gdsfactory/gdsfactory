@@ -26,7 +26,7 @@ from pp.config import CONFIG
 from pp.config import call_if_func
 from pp.component import Component
 from pp.component import ComponentReference
-from pp.component import Port
+from pp.port import Port
 from pp.name import autoname
 from pp.layers import LAYER
 from pp.load_component import load_component
@@ -44,6 +44,7 @@ import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
 import pp.sp as sp
+import pp.port as port
 
 from pp.components import component_factory
 from pp.components.extension import extend_port
@@ -82,6 +83,7 @@ __all__ = [
     "pack",
     "qp",
     "pg",
+    "port",
     "routing",
     "show",
     "sp",

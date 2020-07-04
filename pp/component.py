@@ -1,7 +1,6 @@
 import itertools
 import uuid
 import json
-from copy import deepcopy
 import numpy as np
 from numpy import pi, sin, cos, mod
 
@@ -11,129 +10,14 @@ from phidl.device_layout import Label
 from phidl.device_layout import Device
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
-from phidl.device_layout import Port as PortPhidl
 
-from pp.ports import select_optical_ports
-from pp.ports import select_electrical_ports
-import pp
+from pp.port import Port, select_optical_ports, select_electrical_ports
 from pp.config import CONFIG
 from pp.compare_cells import hash_cells
 
 NAME_TO_DEVICE = {}
 
 BBOX_LAYER_EXCLUDE = CONFIG["BBOX_LAYER_EXCLUDE"]
-
-
-class Port(PortPhidl):
-    """ Extends phidl port by adding layer and a port_type (optical, electrical)
-
-    Args:
-        name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
-        midpoint: (0, 0)
-        width: of the port
-        orientation: 0
-        parent: None, parent component (component to which this port belong to)
-        layer: 1
-        port_type: optical, dc, rf, detector, superconducting, trench
-
-    """
-
-    _next_uid = 0
-
-    def __init__(
-        self,
-        name=None,
-        midpoint=(0, 0),
-        width=1,
-        orientation=0,
-        parent=None,
-        layer=1,
-        port_type="optical",
-    ):
-        self.name = name
-        self.midpoint = np.array(midpoint, dtype="float64")
-        self.width = width
-        self.orientation = mod(orientation, 360)
-        self.parent = parent
-        self.info = {}
-        self.uid = Port._next_uid
-        self.layer = layer
-        self.port_type = port_type
-
-        if self.width < 0:
-            raise ValueError("[PHIDL] Port creation error: width must be >=0")
-        self._next_uid += 1
-
-    def __repr__(self):
-        return "Port (name {}, midpoint {}, width {}, orientation {}, layer {}, port_type {})".format(
-            self.name,
-            self.midpoint,
-            self.width,
-            self.orientation,
-            self.layer,
-            self.port_type,
-        )
-
-    @property
-    def angle(self):
-        """convenient alias"""
-        return self.orientation
-
-    @angle.setter
-    def angle(self, a):
-        self.orientation = a
-
-    @property
-    def position(self):
-        return self.midpoint
-
-    @position.setter
-    def position(self, p):
-        self.midpoint = np.array(p, dtype="float64")
-
-    def move(self, vector):
-        self.midpoint = self.midpoint + np.array(vector)
-
-    def move_polar_copy(self, d, angle):
-        port = self._copy()
-        DEG2RAD = np.pi / 180
-        dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
-        self.move(dp)
-        return port
-
-    def flip(self):
-        """ flips port """
-        port = self._copy()
-        port.angle = (port.angle + 180) % 360
-        return port
-
-    def _copy(self, new_uid=True):
-        new_port = Port(
-            name=self.name,
-            midpoint=self.midpoint,
-            width=self.width,
-            orientation=self.orientation,
-            parent=self.parent,
-            layer=self.layer,
-            port_type=self.port_type,
-        )
-        new_port.info = deepcopy(self.info)
-        if not new_uid:
-            new_port.uid = self.uid
-            Port._next_uid -= 1
-        return new_port
-
-    def snap_to_grid(self, nm=1):
-        self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
-
-    def on_grid(self, nm=1):
-        if self.orientation in [0, 180]:
-            y_top = self.y + self.width / 2
-            return pp.drc.on_grid(y_top, nm=nm)
-        elif self.orientation in [90, 270]:
-            x_top = self.x + self.width / 2
-            return pp.drc.on_grid(x_top, nm=nm)
-        raise ValueError(f"{self.name} has invalid orientation {self.orientation}")
 
 
 class SizeInfo:
@@ -860,7 +744,7 @@ class Component(Device):
 
     def snap_ports_to_grid(self, nm=1):
         for port in self.ports.values():
-            port.midpoint = pp.drc.snap_to_grid(port.midpoint, nm=nm)
+            port.snap_to_grid(nm=nm)
 
     def get_json(self, **kwargs):
         """ returns JSON metadata """
@@ -869,7 +753,7 @@ class Component(Device):
             "cells": recurse_structures(self),
             "test_protocol": self.test_protocol,
             "data_analysis_protocol": self.data_analysis_protocol,
-            "git_hash": pp.CONFIG["git_hash"],
+            "git_hash": CONFIG["git_hash"],
         }
 
         if hasattr(self, "analysis"):
@@ -1031,6 +915,8 @@ class Component(Device):
 
 
 def test_get_layers():
+    import pp
+
     c = pp.c.waveguide()
     assert c.get_layers() == {(1, 0), (111, 0)}
     c.remove_layers((111, 0))
@@ -1083,7 +969,7 @@ def _clean_value(value):
         value = value
     elif callable(value):
         value = value.__name__
-    elif type(value) == pp.Component:
+    elif type(value) == Component:
         value = value.name
     # elif hasattr(value, "__iter__"):
     #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
@@ -1105,6 +991,8 @@ def _clean_value(value):
 
 
 def test_same_uid():
+    import pp
+
     c = Component()
     c << pp.c.rectangle()
     c << pp.c.rectangle()
@@ -1117,15 +1005,16 @@ def test_same_uid():
 
 
 def demo_component(port):
-    c = pp.Component()
+    c = Component()
     c.add_port(name="p1", port=port)
     return c
 
 
 if __name__ == "__main__":
-    # c = pp.c.waveguide()
+    import pp
+
+    c = pp.c.waveguide()
     # print(c.get_layers())
-    test_get_layers()
 
     # c = pp.c.bend_circular180()
     # c = pp.c.coupler()
@@ -1179,4 +1068,4 @@ if __name__ == "__main__":
     # print(c.get_json())
     # print(c.get_settings())
     # print(c.get_settings(test="hi"))
-    # pp.show(c)
+    pp.show(c)

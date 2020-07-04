@@ -7,7 +7,7 @@ from pp.name import autoname
 __version__ = "0.0.1"
 
 
-@pp.ports.port_naming.deco_rename_ports
+@pp.port.deco_rename_ports
 @autoname
 def bend_circular_heater(radius=10.0, wg_width=0.5):
 

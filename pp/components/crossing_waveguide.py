@@ -78,7 +78,7 @@ def crossing(arm=crossing_arm):
         for p in c.ports.values():
             cx.add_port(name="{}".format(port_id), port=p)
             port_id += 1
-    cx = pp.ports.port_naming.rename_ports_by_orientation(cx)
+    cx = pp.port.rename_ports_by_orientation(cx)
     return cx
 
 
@@ -96,7 +96,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
         c.add_port(name="{}".format(i), port=_taper.ports["1"])
         c.absorb(_taper)
 
-    c = pp.ports.port_naming.rename_ports_by_orientation(c)
+    c = pp.port.rename_ports_by_orientation(c)
     return c
 
 
@@ -166,7 +166,7 @@ def crossing_etched(
         )
         i += 1
 
-    c = pp.ports.port_naming.rename_ports_by_orientation(c)
+    c = pp.port.rename_ports_by_orientation(c)
     return c
 
 

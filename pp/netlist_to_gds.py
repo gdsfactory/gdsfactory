@@ -1,7 +1,7 @@
 import numpy as np
 from pp.component import Component
 from pp.component import ComponentReference
-from pp.ports.utils import select_electrical_ports
+from pp.port import select_electrical_ports
 
 IDENTITY = (0, False)
 R90 = (90, False)

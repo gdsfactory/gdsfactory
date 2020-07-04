@@ -120,7 +120,7 @@ Here is a step by step example below generating a waveguide crossing
       return c
 
 
-    @pp.ports.deco_rename_ports # This decorator will auto-rename the ports
+    @pp.port.deco_rename_ports # This decorator will auto-rename the ports
     @pp.autoname # This decorator will generate a good name for the component
     def crossing():
      c = pp.Component()

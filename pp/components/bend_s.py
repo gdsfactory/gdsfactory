@@ -61,7 +61,7 @@ def bend_s(
     return c
 
 
-@pp.ports.port_naming.deco_rename_ports
+@pp.port.deco_rename_ports
 @pp.autoname
 def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
     l, h = length, height

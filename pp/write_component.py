@@ -95,13 +95,13 @@ def write_component_report(component, json_path=None):
 
 
 def write_component(
-    component,
-    gdspath=None,
-    path_library=CONFIG["gds_directory"],
-    precision=1e-9,
-    settings=None,
-    with_settings_label=CONFIG["with_settings_label"],
-):
+    component: Component,
+    gdspath: Optional[PosixPath] = None,
+    path_library: PosixPath = CONFIG["gds_directory"],
+    precision: float = 1e-9,
+    settings: None = None,
+    with_settings_label: bool = CONFIG["with_settings_label"],
+) -> str:
     """ write component GDS and metadata:
 
     - gds

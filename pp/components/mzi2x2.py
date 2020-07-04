@@ -5,7 +5,7 @@ from pp.components import coupler
 from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.routing import route_elec_ports_to_side
-from pp.ports.utils import select_electrical_ports
+from pp.port import select_electrical_ports
 
 from pp.components.extension import line
 from pp.components.component_sequence import component_sequence
