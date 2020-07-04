@@ -1,12 +1,11 @@
+from typing import Tuple
 import pp
 from pp.component import Component
-from typing import List, Tuple, Union
 
 
 @pp.autoname
 def compass(
-    size: Union[Tuple[int, int], List[Union[int, float]]] = (4, 2),
-    layer: Union[Tuple[int, int], int] = pp.LAYER.WG,
+    size: Tuple[float, float] = (4, 2), layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
     """ Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
