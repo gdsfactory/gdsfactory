@@ -32,14 +32,14 @@ def disk(
     Where in the above (x1,y1) is the same as the 'port' input, (x2, y2) is the end of the component, and 'dir1', 'dir2' are of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, *or* an angle in *radians*.
     'Direction' points *towards* the waveguide that will connect to it.
 
-    Kwargs:
-        wg_width: 0.5
-        wg_layer: pp.LAYER.WG[0]
-        wg_datatype: pp.LAYER.WG[1]
-        clad_layer: pp.LAYER.WGCLAD[0]
-        clad_datatype: pp.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+    Other Parameters:
+       wg_width: 0.5
+       wg_layer: pp.LAYER.WG[0]
+       wg_datatype: pp.LAYER.WG[1]
+       clad_layer: pp.LAYER.WGCLAD[0]
+       clad_datatype: pp.LAYER.WGCLAD[1]
+       bend_radius: 10
+       cladding_offset: 3
 
     .. plot::
       :include-source:
