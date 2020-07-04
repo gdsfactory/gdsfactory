@@ -8,7 +8,7 @@ from pp.samples.autoplacer.spiral import SPIRAL
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 
-from pp.mask import merge_metadata
+from pp.mask.merge_metadata import merge_metadata
 
 
 workspace_folder = pathlib.Path(__file__).parent
