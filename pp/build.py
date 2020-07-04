@@ -12,13 +12,13 @@ import re
 
 from pp.components import component_type2factory
 from pp.config import CONFIG
-from pp.logger import LOGGER
+from pp.config import logging
 from pp.doe import load_does
 
 
 def run_python(filename):
     """ Run a python script and keep track of some context """
-    LOGGER.debug("Running `{}`.".format(filename))
+    logging.debug("Running `{}`.".format(filename))
     command = ["python", filename]
 
     # Run the process
@@ -27,15 +27,15 @@ def run_python(filename):
     stdout, _ = process.communicate()
     total_time = time.time() - t
     if process.returncode == 0:
-        LOGGER.info("v {} ({:.1f}s)".format(os.path.relpath(filename), total_time))
+        logging.info("v {} ({:.1f}s)".format(os.path.relpath(filename), total_time))
     else:
-        LOGGER.info(
+        logging.info(
             "! Error in {} {:.1f}s)".format(os.path.relpath(filename), total_time)
         )
         # message = "! Error in `{}`".format(basename(filename))
-        # LOGGER.error(message, exc_info=(Exception, stderr.strip(), None))
+        # logging.error(message, exc_info=(Exception, stderr.strip(), None))
     if len(stdout.decode().strip()) > 0:
-        LOGGER.debug("Output of python {}:\n{}".format(filename, stdout.strip()))
+        logging.debug("Output of python {}:\n{}".format(filename, stdout.strip()))
     return filename, process.returncode
 
 
@@ -61,12 +61,12 @@ def build_devices(regex=".*", overwrite=True):
     all_files = [f for f in all_files if re.search(regex, f)]
 
     # Notify user
-    LOGGER.info(
+    logging.info(
         "Building splits on {} threads. {} files to run.".format(
             multiprocessing.cpu_count(), len(all_files)
         )
     )
-    LOGGER.info(
+    logging.info(
         "Debug information at {}".format(
             os.path.relpath(os.path.join(CONFIG["log_directory"], "debug.log"))
         )
@@ -75,14 +75,14 @@ def build_devices(regex=".*", overwrite=True):
     # Now run all the files in batches of $CPU_SIZE.
     with Pool(processes=multiprocessing.cpu_count()) as pool:
         for filename, rc in pool.imap_unordered(run_python, all_files):
-            LOGGER.debug("Finished {} {}".format(filename, rc))
+            logging.debug("Finished {} {}".format(filename, rc))
 
     # Report on what we did.
     devices = glob(os.path.join(CONFIG["gds_directory"], "*.gds"))
     countmsg = "There are now {} GDS files in {}.".format(
         len(devices), os.path.relpath(CONFIG["gds_directory"])
     )
-    LOGGER.info("Finished building devices. {}".format(countmsg))
+    logging.info("Finished building devices. {}".format(countmsg))
 
 
 def build_clean():
@@ -96,7 +96,7 @@ def build_clean():
 def build_cache_pull():
     """ Pull devices from the cache """
     if CONFIG.get("cache_url"):
-        LOGGER.info("Loading devices from cache...")
+        logging.info("Loading devices from cache...")
         check_call(
             [
                 "rsync",
@@ -111,11 +111,11 @@ def build_cache_pull():
 def build_cache_push():
     """ Push devices to the cache """
     if not os.listdir(CONFIG["build_directory"]):
-        LOGGER.info("Nothing to push")
+        logging.info("Nothing to push")
         return
 
     if CONFIG.get("cache_url"):
-        LOGGER.info("Uploading devices to cache...")
+        logging.info("Uploading devices to cache...")
         check_call(
             [
                 "rsync",

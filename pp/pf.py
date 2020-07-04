@@ -12,7 +12,7 @@ import git
 
 from pp import CONFIG
 from pp.layers import LAYER
-from pp.logger import LOGGER
+from pp.config import logging
 from pp import klive
 from pp.config import print_config
 
@@ -43,7 +43,7 @@ def shorten_command(cmd):
 
 def run_command(command):
     """ Run a command and keep track of some context """
-    LOGGER.info("Running `{}`".format(command))
+    logging.info("Running `{}`".format(command))
 
     # Run the process and handle errors
     time0 = time.time()
@@ -58,16 +58,16 @@ def run_command(command):
         message = "`{}` ran without errors in {:.2f}s.".format(
             shorten_command(command), total_time
         )
-        LOGGER.info(message)
+        logging.info(message)
         if stdout.strip():
             message = "Output of `{}`:".format(shorten_command(command))
-            LOGGER.info(message)
-            LOGGER.info(stdout.strip(), extra={"raw": True})
+            logging.info(message)
+            logging.info(stdout.strip(), extra={"raw": True})
     else:
         message = "Error in `{}`".format(shorten_command(command))
-        LOGGER.error(message)
+        logging.error(message)
         raw = stdout.strip() + "\n" + stderr.strip()
-        LOGGER.error(raw, extra={"raw": True})
+        logging.error(raw, extra={"raw": True})
 
     return command, process.returncode
 
@@ -210,7 +210,7 @@ def build_does():
 def mask_merge(label_layer):
     """ merge JSON/Markdown from build/devices into build/mask"""
 
-    gdspath = CONFIG["mask"]["gds"]
+    gdspath = CONFIG["mask_gds"]
     write_labels(gdspath=gdspath, label_layer=label_layer)
 
     merge_json()
@@ -224,7 +224,7 @@ def mask_merge(label_layer):
 def write_mask_labels(gdspath, label_layer):
     """ find test and measurement labels """
     if gdspath is None:
-        gdspath = CONFIG["mask"]["gds"]
+        gdspath = CONFIG["mask_gds"]
 
     write_labels(gdspath=gdspath, label_layer=label_layer)
 

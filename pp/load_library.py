@@ -4,7 +4,7 @@ import git
 import time
 import os
 import pp
-from pp.config import CONFIG
+from pp.config import CONFIG, conf
 
 
 def md5(fname):
@@ -15,7 +15,7 @@ def md5(fname):
     return hash_md5.hexdigest()
 
 
-def list_gds_files(gdslib=CONFIG["gdslib"], tech=CONFIG["tech"]):
+def list_gds_files(gdslib=CONFIG["gdslib"], tech=conf.tech.name):
     gdslib_path = pathlib.Path(gdslib) / tech
     return [gds for gds in gdslib_path.glob("*.gds")]
 
@@ -27,7 +27,7 @@ def pull_library(repo_path=CONFIG["gdslib"]):
         g.pull()
 
 
-def load_library(gdslib=CONFIG["gdslib"], tech=CONFIG["tech"]):
+def load_library(gdslib=CONFIG["gdslib"], tech=conf.tech.name):
     """
     Load a cell library from the tech
     """

@@ -59,7 +59,7 @@ def parse_csv_data(csv_labels_path):
         lines = [[s.strip() for s in splitted if s.strip()] for splitted in lines]
 
         # Remove empty lines
-        lines = [l for l in lines if l]
+        lines = [line for line in lines if line]
     return lines
 
 
@@ -128,13 +128,6 @@ def merge_test_metadata(gdspath=CONFIG["mask_gds"], labels_prefix="opt"):
 if __name__ == "__main__":
     from pp import CONFIG
 
-    gdspath = (
-        CONFIG["repo_path"]
-        / "samples"
-        / "mask_custom"
-        / "build"
-        / "mask"
-        / "sample_mask.gds"
-    )
+    gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask.gds"
     d = merge_test_metadata(gdspath)
     print(d)

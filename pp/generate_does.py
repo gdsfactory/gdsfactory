@@ -16,7 +16,7 @@ from pp.components import component_type2factory
 from pp.write_doe import write_doe_metadata
 from pp.doe import get_settings_list
 
-from pp.logger import LOGGER
+from pp.config import logging
 
 
 def _print(*args, **kwargs):
@@ -88,7 +88,7 @@ def _generate_doe(
     doe_metadata_path=None,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
-    logger=LOGGER,
+    logger=logging,
     **kwargs,
 ):
     doe_name = doe["name"]
@@ -145,7 +145,7 @@ def generate_does(
     doe_root_path=CONFIG["cache_doe_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
     n_cores=4,
-    logger=LOGGER,
+    logger=logging,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
 ):
