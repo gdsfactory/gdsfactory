@@ -50,14 +50,16 @@ def path_length_matched_points_modify_segment(list_of_waypoints, modify_segment_
         raise ValueError(
             "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
         )
-    list_of_waypoints = [remove_flat_angles(l) for l in list_of_waypoints]
-    lengths = [path_length(l) for l in list_of_waypoints]
+    list_of_waypoints = [
+        remove_flat_angles(waypoints) for waypoints in list_of_waypoints
+    ]
+    lengths = [path_length(waypoints) for waypoints in list_of_waypoints]
     L0 = max(lengths)
 
     N = len(list_of_waypoints[0])
 
     # Find how many turns there are per path
-    nb_turns = [len(l) - 2 for l in list_of_waypoints]
+    nb_turns = [len(waypoints) - 2 for waypoints in list_of_waypoints]
 
     # The paths have to have the same number of turns, otherwise this algo
     # cannot path length match
@@ -159,14 +161,16 @@ def path_length_matched_points_add_waypoints(
         raise ValueError(
             "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
         )
-    list_of_waypoints = [remove_flat_angles(l) for l in list_of_waypoints]
-    lengths = [path_length(l) for l in list_of_waypoints]
+    list_of_waypoints = [
+        remove_flat_angles(waypoints) for waypoints in list_of_waypoints
+    ]
+    lengths = [path_length(waypoints) for waypoints in list_of_waypoints]
     L0 = max(lengths)
 
     N = len(list_of_waypoints[0])
 
     # Find how many turns there are per path
-    nb_turns = [len(l) - 2 for l in list_of_waypoints]
+    nb_turns = [len(waypoints) - 2 for waypoints in list_of_waypoints]
 
     # The paths have to have the same number of turns, otherwise cannot path-length
     # match with this algorithm
