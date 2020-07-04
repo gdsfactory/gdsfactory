@@ -8,12 +8,12 @@ import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins_and_outline
 from pp.component import NAME_TO_DEVICE
-from typing import Callable
+from typing import Any, Callable
 
 MAX_NAME_LENGTH = 32
 
 
-def join_first_letters(name):
+def join_first_letters(name: str) -> str:
     """ join the first letter of a name separated with underscores (taper_length -> TL) """
     return "".join([x[0] for x in name.split("_") if x])
 
@@ -21,7 +21,9 @@ def join_first_letters(name):
 component_type_to_name = dict(import_phidl_component="phidl")
 
 
-def get_component_name(component_type, max_name_length=MAX_NAME_LENGTH, **kwargs):
+def get_component_name(
+    component_type: str, max_name_length: int = MAX_NAME_LENGTH, **kwargs
+) -> str:
     name = component_type
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
@@ -112,7 +114,7 @@ def autoname(component_function: Callable) -> Callable:
     return _autoname
 
 
-def dict2name(prefix=None, **kwargs):
+def dict2name(prefix: None = None, **kwargs) -> str:
     """ returns name from a dict """
     ignore_from_name = kwargs.pop("ignore_from_name", [])
 
@@ -130,7 +132,7 @@ def dict2name(prefix=None, **kwargs):
     return clean_name(label)
 
 
-def clean_name(name):
+def clean_name(name: str) -> str:
     """ Ensures that gds cells are composed of [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
@@ -159,7 +161,7 @@ def clean_name(name):
     return name
 
 
-def clean_value(value):
+def clean_value(value: Any) -> str:
     """ returns more readable value (integer)
     if number is < 1:
         returns number units in nm (integer)

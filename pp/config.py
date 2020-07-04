@@ -161,7 +161,7 @@ def print_config(key=None):
         pprint(CONFIG)
 
 
-def call_if_func(f, **kwargs):
+def call_if_func(f: Any, **kwargs):
     return f(**kwargs) if callable(f) else f
 
 
