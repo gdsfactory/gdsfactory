@@ -20,7 +20,7 @@ def parse_csv_data(csv_labels_path):
     with open(csv_labels_path) as f:
         lines = [line.replace("\n", "").split(",") for line in f.readlines()]
         lines = [[s.strip() for s in splitted if s.strip()] for splitted in lines]
-        lines = [l for l in lines if l]
+        lines = [line for line in lines if line]
     return lines
 
 
@@ -131,6 +131,6 @@ if __name__ == "__main__":
     import pp
 
     gdspath = os.path.join(
-        pp.CONFIG["masks_path"], "sample", "build", "mask", "sample.gds"
+        pp.CONFIG["samples"], "sample", "build", "mask", "sample.gds"
     )
     merge_all_metadata(gdspath)

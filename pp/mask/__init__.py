@@ -17,3 +17,10 @@ def merge_metadata(gdspath, labels_prefix="opt", label_layer=pp.LAYER.LABEL, **k
     merge_json(doe_directory=doe_directory, jsonpath=jsonpath, **kwargs)
     merge_markdown(reports_directory=doe_directory, mdpath=mdpath)
     merge_test_metadata(gdspath, labels_prefix=labels_prefix)
+
+
+if __name__ == "__main__":
+
+    gdspath = pp.CONFIG["samples_path"] / "mask" / "build" / "mask" / "mask.gds"
+    print(gdspath)
+    merge_metadata(gdspath)

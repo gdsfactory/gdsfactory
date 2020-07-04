@@ -5,7 +5,7 @@
 import json
 import importlib
 from git import Repo
-from pp.config import logging, CONFIG, write_config, get_git_hash
+from pp.config import CONFIG, logging, get_git_hash, write_config
 
 
 def update_config_modules(config):
