@@ -33,6 +33,13 @@ def dbr(
 ) -> Component:
     """ Distributed Bragg Reflector
 
+    Args:
+        w1: thin width
+        l1: thin length
+        w2: thick width
+        l2: thick length
+        n: number of periods
+
     .. code::
 
            l1      l2

@@ -25,6 +25,7 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "sphinx_markdown_tables",
     "recommonmark",
+    "sphinx_autodoc_typehints",
 ]
 
 napoleon_use_param = True

@@ -1,9 +1,9 @@
+from typing import List, Tuple
+
 import hashlib
 import pp
 from pp.name import autoname
 from pp.components.hline import hline
-from numpy import float64
-from typing import List, Tuple, Union
 
 from pp.component import Component
 
@@ -12,11 +12,11 @@ __version__ = "0.0.1"
 
 @autoname
 def waveguide(
-    length: Union[float64, int, float] = 10,
-    width: Union[float64, float] = 0.5,
+    length: float = 10.0,
+    width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: int = 3,
+    cladding_offset: float = 3.0,
 ) -> Component:
     """ straight waveguide
 
