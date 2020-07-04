@@ -1,13 +1,13 @@
 class: null
 component:
-  cladding_offset: 3
+  cladding_offset: 3.0
   layer:
   - 1
   - 0
   layers_cladding:
   - - 111
     - 0
-  length: 10
+  length: 10.0
   width: 0.5
 component_name: waveguide
 extension_factory: None

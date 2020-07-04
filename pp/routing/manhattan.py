@@ -2,12 +2,13 @@ import uuid
 import numpy as np
 from pp.components import waveguide
 from pp.name import clean_name
-from pp.component import Port, Component, ComponentReference
+from pp.component import Component, ComponentReference
 
 import pp
 from pp.geo_utils import angles_deg
 from numpy import bool_, float64, ndarray
 from typing import Callable, Dict, List, Optional, Tuple
+from pp.port import Port
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180

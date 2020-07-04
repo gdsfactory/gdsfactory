@@ -1,15 +1,21 @@
+from __future__ import annotations
 import functools
 
-from typing import Dict
+from typing import Any, List, Optional, Tuple, Union, Dict
 import csv
 import phidl.geometry as pg
 from typing import Callable
 
 from copy import deepcopy
 import numpy as np
-from numpy import mod
+from numpy import float64, int64, mod
 from phidl.device_layout import Port as PortPhidl
 from pp.drc import on_grid
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pp.component import Component, ComponentReference
 
 
 class Port(PortPhidl):
@@ -30,14 +36,14 @@ class Port(PortPhidl):
 
     def __init__(
         self,
-        name=None,
-        midpoint=(0, 0),
-        width=1,
-        orientation=0,
-        parent=None,
-        layer=1,
-        port_type="optical",
-    ):
+        name: Optional[str] = None,
+        midpoint: Any = (0, 0),
+        width: Union[float64, int, float] = 1,
+        orientation: Union[float64, int, int64, float] = 0,
+        parent: Optional[Union[Component, ComponentReference]] = None,
+        layer: Union[Tuple[int, int], int] = 1,
+        port_type: str = "optical",
+    ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
         self.width = width
@@ -52,7 +58,7 @@ class Port(PortPhidl):
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
         self._next_uid += 1
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Port (name {}, midpoint {}, width {}, orientation {}, layer {}, port_type {})".format(
             self.name,
             self.midpoint,
@@ -95,7 +101,7 @@ class Port(PortPhidl):
         port.angle = (port.angle + 180) % 360
         return port
 
-    def _copy(self, new_uid=True):
+    def _copy(self, new_uid: bool = True) -> Port:
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -263,7 +269,9 @@ def deco_rename_ports(component_factory: Callable) -> Callable:
     return auto_named_component_factory
 
 
-def _rename_ports_facing_side(direction_ports, prefix=""):
+def _rename_ports_facing_side(
+    direction_ports: Dict[str, List[Port]], prefix: str = ""
+) -> None:
     for direction, list_ports in list(direction_ports.items()):
 
         if direction in ["E", "W"]:
@@ -281,7 +289,9 @@ def _rename_ports_facing_side(direction_ports, prefix=""):
             p.name = lbl
 
 
-def rename_ports_by_orientation(device, layers_excluded=[]):
+def rename_ports_by_orientation(
+    device: Component, layers_excluded: List[Any] = []
+) -> Component:
     """
     Assign standard port names based on the layer of the port
     """
@@ -313,7 +323,7 @@ def rename_ports_by_orientation(device, layers_excluded=[]):
     return device
 
 
-def auto_rename_ports(device):
+def auto_rename_ports(device: Component) -> Component:
     """
     Assign standard port names based on the layer of the port
     """
