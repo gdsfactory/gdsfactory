@@ -3,12 +3,16 @@ import gdspy
 from phidl.device_layout import DeviceReference
 
 import pp
-from pp.component import NAME_TO_DEVICE
+from pp.component import Component, NAME_TO_DEVICE
 
 
 def import_gds(
-    filename, cellname=None, flatten=False, overwrite_cache=False, snap_to_grid_nm=False
-):
+    filename: str,
+    cellname: None = None,
+    flatten: bool = False,
+    overwrite_cache: bool = False,
+    snap_to_grid_nm: bool = False,
+) -> Component:
     """ returns a Componenent from a GDS file
     """
     filename = str(filename)

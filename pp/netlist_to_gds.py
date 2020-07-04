@@ -2,6 +2,8 @@ import numpy as np
 from pp.component import Component
 from pp.component import ComponentReference
 from pp.port import select_electrical_ports
+from numpy import ndarray
+from typing import Dict, List, Tuple, Union
 
 IDENTITY = (0, False)
 R90 = (90, False)
@@ -49,7 +51,12 @@ def get_elec_ports_from_component_names(component, names=[]):
     return e_ports
 
 
-def gen_sref(component, transformation_name, port_name, position):
+def gen_sref(
+    component: Component,
+    transformation_name: str,
+    port_name: str,
+    position: Union[Tuple[int, int], ndarray],
+) -> ComponentReference:
     """
     """
 
@@ -89,7 +96,12 @@ def gen_sref(component, transformation_name, port_name, position):
     return device_ref
 
 
-def netlist_to_component(components, connections, ports_map, position=(0, 0)):
+def netlist_to_component(
+    components: Dict[str, Tuple[Component, str]],
+    connections: List[Tuple[str, str, str, str]],
+    ports_map: Dict[str, Tuple[str, str]],
+    position: Tuple[int, int] = (0, 0),
+) -> Component:
     """
     Args:
         components:

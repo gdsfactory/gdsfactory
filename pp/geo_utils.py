@@ -1,5 +1,7 @@
 import numpy as np
-from numpy import cos, sin
+from numpy import float64, ndarray, cos, sin
+from pp.coord2 import Coord2
+from typing import List, Union
 
 
 RAD2DEG = 180.0 / np.pi
@@ -71,17 +73,17 @@ def remove_identicals(pts, grids_per_unit=1000, closed=True):
     return pts
 
 
-def centered_diff(a):
+def centered_diff(a: ndarray) -> ndarray:
     d = (np.roll(a, -1, axis=0) - np.roll(a, 1, axis=0)) / 2
     return d[1:-1]
 
 
-def centered_diff2(a):
+def centered_diff2(a: ndarray) -> ndarray:
     d = (np.roll(a, -1, axis=0) - a) - (a - np.roll(a, 1, axis=0))
     return d[1:-1]
 
 
-def curvature(points, t):
+def curvature(points: ndarray, t: ndarray) -> ndarray:
     """
 
     Args:
@@ -117,7 +119,7 @@ def radius_of_curvature(points, t):
     return 1 / curvature(points, t)
 
 
-def path_length(points):
+def path_length(points: ndarray) -> float64:
     """
     Args:
         points: <np.array>
@@ -132,7 +134,7 @@ def path_length(points):
     return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
 
 
-def snap_angle(a):
+def snap_angle(a: float64) -> int:
     """
     a: angle in deg
     Return angle snapped along manhattan angle
@@ -151,27 +153,27 @@ def snap_angle(a):
     return _a
 
 
-def angles_rad(pts):
+def angles_rad(pts: ndarray) -> ndarray:
     """ returns the angles (radians) of the connection between each point and the next """
     _pts = np.roll(pts, -1, 0)
     radians = np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
     return radians
 
 
-def angles_deg(pts):
+def angles_deg(pts: ndarray) -> ndarray:
     """ returns the angles (degrees) of the connection between each point and the next """
     return angles_rad(pts) * RAD2DEG
 
 
 def extrude_path(
-    points,
-    width,
-    with_manhattan_facing_angles=True,
-    spike_length=0,
-    start_angle=None,
-    end_angle=None,
-    grid=0.001,
-):
+    points: Union[List[Coord2], ndarray],
+    width: Union[float64, float],
+    with_manhattan_facing_angles: bool = True,
+    spike_length: Union[float64, int, float] = 0,
+    start_angle: None = None,
+    end_angle: None = None,
+    grid: float = 0.001,
+) -> ndarray:
     """
     Extrude a path of width `width` along a curve defined by `points`
 
