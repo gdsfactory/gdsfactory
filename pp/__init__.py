@@ -93,7 +93,7 @@ __all__ = [
     "write_gds",
     "Port",
 ]
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 
 
 if __name__ == "__main__":
