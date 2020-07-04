@@ -1,9 +1,12 @@
+from typing import Tuple
 import pp
 from pp.component import Component
 
 
 @pp.autoname
-def cross(length: float = 10.0, width: float = 3.0, layer: int = 0) -> Component:
+def cross(
+    length: float = 10.0, width: float = 3.0, layer: Tuple[int, int] = pp.LAYER.WG,
+) -> Component:
     """Generates a right-angle cross from two rectangles of specified length and width.
 
     Args:
