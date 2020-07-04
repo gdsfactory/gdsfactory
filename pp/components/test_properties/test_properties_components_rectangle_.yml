@@ -1,10 +1,12 @@
 centered: 'False'
 class: rectangle
-layer: 0
+layer:
+- 1
+- 0
 module: pp.components.rectangle
 name: rectangle
 port_settings: _empty
 ports_parameters: {}
 size:
-- 4
-- 2
+- 4.0
+- 2.0
