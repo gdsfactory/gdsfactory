@@ -40,14 +40,14 @@ def dbr2(
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
 
-    Kwargs:
-        wg_width: 0.5
-        wg_layer: pp.LAYER.WG[0]
-        wg_datatype: pp.LAYER.WG[1]
-        clad_layer: pp.LAYER.WGCLAD[0]
-        clad_datatype: pp.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+    Other Parameters:
+       wg_width: 0.5
+       wg_layer: pp.LAYER.WG[0]
+       wg_datatype: pp.LAYER.WG[1]
+       clad_layer: pp.LAYER.WGCLAD[0]
+       clad_datatype: pp.LAYER.WGCLAD[1]
+       bend_radius: 10
+       cladding_offset: 3
 
     .. code::
 
