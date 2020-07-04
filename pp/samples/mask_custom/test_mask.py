@@ -14,7 +14,7 @@ from pp.routing.connect import connect_strip_way_points
 from pp.add_padding import add_padding_to_grid
 from pp.generate_does import generate_does
 
-from pp.mask import merge_metadata
+from pp.mask.merge_metadata import merge_metadata
 
 
 def _route_filter(*args, **kwargs):
