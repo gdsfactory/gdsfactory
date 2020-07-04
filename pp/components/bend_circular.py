@@ -110,6 +110,7 @@ def bend_circular(
         start_angle=0,
       )
       pp.plotgds(c)
+
     """
     component = pp.Component()
 

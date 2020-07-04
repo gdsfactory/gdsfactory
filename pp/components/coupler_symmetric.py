@@ -13,7 +13,7 @@ def coupler_symmetric(
     wg_width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: int = 3,
+    cladding_offset: float = 3.0,
 ) -> Component:
     """ two coupled waveguides with bends
 

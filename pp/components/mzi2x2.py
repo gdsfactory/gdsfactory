@@ -106,7 +106,7 @@ def mzi_arm(
 @autoname
 def mzi2x2(
     CL_1: float = 20.147,
-    L0: int = 60,
+    L0: float = 60.0,
     L1: float = 7.38,
     L2: float = 10.0,
     gap: float = 0.234,
@@ -159,7 +159,7 @@ def mzi2x2(
 
       import pp
 
-      c = pp.c.mzi2x2(CL_1=10, gap=0.2)
+      c = pp.c.mzi2x2(CL_1=10., gap=0.2)
       pp.plotgds(c)
 
     """
