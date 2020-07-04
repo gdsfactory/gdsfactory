@@ -1,5 +1,7 @@
 class: cross
-layer: 0
+layer:
+- 1
+- 0
 length: 10.0
 module: pp.components.cross
 name: cross
