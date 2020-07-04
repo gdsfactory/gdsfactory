@@ -3,24 +3,26 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Optional, Tuple
 
 
 @pp.autoname
 def dbr2(
-    length=10,
-    period=0.85,
-    dc=0.5,
-    w1=0.4,
-    w2=1,
-    taper_length=20.0,
-    fins=False,
-    fin_size=(0.2, 0.05),
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
-    waveguide_template_dbr=None,
+    length: float = 10.0,
+    period: float = 0.85,
+    dc: float = 0.5,
+    w1: float = 0.4,
+    w2: float = 1.0,
+    taper_length: float = 20.0,
+    fins: bool = False,
+    fin_size: Tuple[float, float] = (0.2, 0.05),
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
+    waveguide_template_dbr: Optional[Callable] = None,
     **kwargs
-):
+) -> Component:
     """ Distributed Bragg Reflector Cell class.  Tapers the input waveguide to a periodic waveguide structure with varying width (1-D photonic crystal).
 
     Args:

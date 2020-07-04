@@ -7,10 +7,12 @@ from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
 from pp.drc import assert_on_1nm_grid
 from pp.layers import LAYER
+from pp.component import Component
+from typing import Callable, Dict, List, Tuple
 
 
 @autoname
-def coupler(**kwargs):
+def coupler(**kwargs) -> Component:
     """ symmetric coupler
 
     Args:
@@ -59,15 +61,19 @@ def coupler_biased(**kwargs):
 
 
 def coupler_netlist(
-    wg_width=0.5,
-    gap=0.236,
-    length=20.007,
-    coupler_symmetric_factory=coupler_symmetric,
-    coupler_straight=coupler_straight,
-    layer=LAYER.WG,
-    layers_cladding=[LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    wg_width: float = 0.5,
+    gap: float = 0.236,
+    length: float = 20.007,
+    coupler_symmetric_factory: Callable = coupler_symmetric,
+    coupler_straight: Callable = coupler_straight,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
+    cladding_offset: int = 3,
+) -> Tuple[
+    Dict[str, Tuple[Component, str]],
+    List[Tuple[str, str, str, str]],
+    Dict[str, Tuple[str, str]],
+]:
     """
      SBEND_L-CS-SBEND_R
     """

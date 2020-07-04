@@ -2,10 +2,13 @@ from pp.name import autoname
 from pp.components import rectangle
 
 import pp
+from pp.component import Component
 
 
 @autoname
-def litho_star(num_lines=20, line_width=2, diameter=200, layer=0):
+def litho_star(
+    num_lines: int = 20, line_width: int = 2, diameter: int = 200, layer: int = 0
+) -> Component:
     """ Creates a circular-star shape from lines, used as a lithographic
     resolution test pattern
 

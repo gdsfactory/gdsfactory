@@ -1,5 +1,6 @@
-from pp import Component
+from typing import List, Tuple
 import pp
+from pp.component import Component
 
 
 __version__ = "0.0.1"
@@ -7,13 +8,13 @@ __version__ = "0.0.1"
 
 @pp.autoname
 def coupler_straight(
-    length=10,
-    width=0.5,
-    gap=0.27,
-    layer=pp.LAYER.WG,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    length: float = 10.0,
+    width: float = 0.5,
+    gap: float = 0.27,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: float = 3.0,
+) -> Component:
     """ straight coupled waveguides. Two multimode ports
 
     .. plot::

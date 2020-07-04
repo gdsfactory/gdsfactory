@@ -1,9 +1,12 @@
 import numpy as np
 import pp
+from pp.component import Component
 
 
 @pp.autoname
-def verniers(width_min=0.1, width_max=0.5, gap=0.1, size_max=11):
+def verniers(
+    width_min: float = 0.1, width_max: float = 0.5, gap: float = 0.1, size_max: int = 11
+) -> Component:
     c = pp.Component()
     y = 0
 

@@ -1,20 +1,21 @@
 import pp
-from pp import Component
 from pp.components.waveguide import waveguide
 from pp.components.bend_circular import bend_circular
 from pp.name import autoname
+from pp.component import Component
+from typing import Callable
 
 __version__ = "0.0.1"
 
 
 @autoname
 def coupler90(
-    bend_radius=10.0,
-    width=0.5,
-    gap=0.2,
-    waveguide_factory=waveguide,
-    bend90_factory=bend_circular,
-):
+    bend_radius: float = 10.0,
+    width: float = 0.5,
+    gap: float = 0.2,
+    waveguide_factory: Callable = waveguide,
+    bend90_factory: Callable = bend_circular,
+) -> Component:
     """ Waveguide coupled to a bend with gap
 
     Args:

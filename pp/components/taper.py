@@ -1,17 +1,19 @@
 import pp
 from pp.config import TAPER_LENGTH
+from pp.component import Component
+from typing import Any, List, Optional, Tuple, Union
 
 
 @pp.autoname
 def taper(
-    length=TAPER_LENGTH,
-    width1=0.5,
-    width2=None,
-    port=None,
-    layer=pp.LAYER.WG,
-    layers_cladding=[],
-    cladding_offset=3,
-):
+    length: Union[int, float] = TAPER_LENGTH,
+    width1: Union[int, float] = 0.5,
+    width2: Optional[float] = None,
+    port: None = None,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Any] = [],
+    cladding_offset: int = 3,
+) -> Component:
     """ Linear taper
 
     Args:
@@ -60,8 +62,12 @@ def taper(
 
 @pp.autoname
 def taper_strip_to_ridge(
-    length=10.0, width1=0.5, width2=0.5, w_slab1=0.15, w_slab2=5.0
-):
+    length: float = 10.0,
+    width1: float = 0.5,
+    width2: float = 0.5,
+    w_slab1: float = 0.15,
+    w_slab2: float = 5.0,
+) -> Component:
     """ taper strip to rib
 
     Args:

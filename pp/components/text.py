@@ -8,9 +8,17 @@ import pp
 from pp.layers import LAYER
 from pp.components.manhattan_font import manhattan_text
 from pp.name import clean_name
+from pp.component import Component
+from typing import Tuple
 
 
-def text(text="abcd", size=10, position=(0, 0), justify="left", layer=LAYER.TEXT):
+def text(
+    text: str = "abcd",
+    size: float = 10,
+    position: Tuple[int, int] = (0, 0),
+    justify: str = "left",
+    layer: int = LAYER.TEXT,
+) -> Component:
     """ adds text
 
     .. plot::

@@ -9,19 +9,21 @@ from pp.port import select_electrical_ports
 
 from pp.components.extension import line
 from pp.components.component_sequence import component_sequence
+from pp.component import Component
+from typing import Callable, Union
 
 
 @autoname
 def mzi_arm(
-    L0=60,
-    L1=0,
-    L_top=10.0,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_heater_factory=waveguide_heater,
-    straight_factory=waveguide,
-    with_elec_connections=True,
-):
+    L0: Union[int, float] = 60,
+    L1: Union[int, float] = 0,
+    L_top: Union[int, float] = 10.0,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_heater_factory: Callable = waveguide_heater,
+    straight_factory: Callable = waveguide,
+    with_elec_connections: bool = True,
+) -> Component:
     """
 
     Args:
@@ -103,18 +105,18 @@ def mzi_arm(
 
 @autoname
 def mzi2x2(
-    CL_1=20.147,
-    L0=60,
-    L1=7.38,
-    L2=10.0,
-    gap=0.234,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_heater_factory=waveguide_heater,
-    straight_factory=waveguide,
-    coupler_factory=coupler,
-    with_elec_connections=False,
-):
+    CL_1: float = 20.147,
+    L0: int = 60,
+    L1: float = 7.38,
+    L2: float = 10.0,
+    gap: float = 0.234,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_heater_factory: Callable = waveguide_heater,
+    straight_factory: Callable = waveguide,
+    coupler_factory: Callable = coupler,
+    with_elec_connections: bool = False,
+) -> Component:
     """ Mzi 2x2
 
     Args:

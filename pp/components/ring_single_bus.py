@@ -6,6 +6,8 @@ from pp.components.coupler_straight import coupler_straight
 from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.drc import assert_on_2nm_grid
+from pp.component import Component
+from typing import Callable
 
 
 @autoname
@@ -105,16 +107,16 @@ def ring_single_bus_netlist(
 
 @pp.autoname
 def ring_single_bus(
-    coupler90_factory=coupler90,
-    cpl_straight_factory=coupler_straight,
-    straight_factory=waveguide,
-    bend90_factory=bend_circular,
-    length_y=2.0,
-    length_x=4.0,
-    gap=0.2,
-    wg_width=0.5,
-    bend_radius=5,
-):
+    coupler90_factory: Callable = coupler90,
+    cpl_straight_factory: Callable = coupler_straight,
+    straight_factory: Callable = waveguide,
+    bend90_factory: Callable = bend_circular,
+    length_y: float = 2.0,
+    length_x: float = 4.0,
+    gap: float = 0.2,
+    wg_width: float = 0.5,
+    bend_radius: int = 5,
+) -> Component:
     """ single bus ring
     .. code::
 

@@ -1,20 +1,22 @@
 import pp
+from pp.component import Component
+from typing import Any, List, Tuple
 
 __version__ = "0.0.1"
 
 
 @pp.autoname
 def mmi1x2(
-    wg_width=0.5,
-    width_taper=1.0,
-    length_taper=10,
-    length_mmi=5.496,
-    width_mmi=2.5,
-    gap_mmi=0.25,
-    layer=pp.LAYER.WG,
-    layers_cladding=[],
-    cladding_offset=3,
-):
+    wg_width: float = 0.5,
+    width_taper: float = 1.0,
+    length_taper: int = 10,
+    length_mmi: float = 5.496,
+    width_mmi: float = 2.5,
+    gap_mmi: float = 0.25,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Any] = [],
+    cladding_offset: int = 3,
+) -> Component:
     """ mmi 1x2
 
     Args:

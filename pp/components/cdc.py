@@ -1,3 +1,4 @@
+from typing import Callable, Tuple
 import numpy as np
 
 import picwriter.components as pc
@@ -5,28 +6,29 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
 
 
 @pp.autoname
 def cdc(
-    length=30.0,
-    gap=0.5,
-    period=0.220,
-    dc=0.5,
-    angle=np.pi / 6.0,
-    width_top=2.0,
-    width_bot=0.75,
-    input_bot=False,
-    dw_top=None,
-    dw_bot=None,
-    fins=False,
-    fin_size=(0.2, 0.05),
-    contradc_wgt=None,
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
+    length: float = 30.0,
+    gap: float = 0.5,
+    period: float = 0.220,
+    dc: float = 0.5,
+    angle: float = np.pi / 6.0,
+    width_top: float = 2.0,
+    width_bot: float = 0.75,
+    input_bot: bool = False,
+    dw_top: None = None,
+    dw_bot: None = None,
+    fins: bool = False,
+    fin_size: Tuple[float, float] = (0.2, 0.05),
+    contradc_wgt: None = None,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ Grating-Assisted Contra-Directional Coupler Cell class.
 
         Args:
