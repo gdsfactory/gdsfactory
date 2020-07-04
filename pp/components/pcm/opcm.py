@@ -7,7 +7,7 @@ import pp
 from pp.components.bend_circular import bend_circular
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
-from pp.ports.port_naming import rename_ports_by_orientation
+from pp.port import rename_ports_by_orientation
 from pp.components.manhattan_font import manhattan_text
 
 LINE_LENGTH = 420.0

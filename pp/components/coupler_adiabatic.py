@@ -1,5 +1,5 @@
 import picwriter.components as pc
-from pp.ports import auto_rename_ports
+from pp.port import auto_rename_ports
 
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component

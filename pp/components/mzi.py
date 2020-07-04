@@ -1,6 +1,6 @@
 import pp
 
-from pp.ports.port_naming import deco_rename_ports, rename_ports_by_orientation
+from pp.port import deco_rename_ports, rename_ports_by_orientation
 from pp.components import bend_circular
 from pp.components import waveguide
 from pp.components import mmi1x2

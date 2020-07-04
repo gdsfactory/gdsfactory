@@ -84,7 +84,7 @@ def delay_snake(
     component.add(snake)
     component.ports = snake.ports
 
-    pp.ports.port_naming.auto_rename_ports(component)
+    pp.port.auto_rename_ports(component)
     return component
 
 

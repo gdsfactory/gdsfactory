@@ -4,7 +4,7 @@ from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import crossing45
 from pp.components.crossing_waveguide import compensation_path
 from pp.routing.repackage import package_optical2x2
-from pp.ports import get_ports_facing
+from pp.port import get_ports_facing
 from pp.config import GRID_PER_UNIT
 
 COUNTER = itertools.count()
@@ -246,7 +246,7 @@ def component_lattice(
             j += 1
         x += L
 
-    component = pp.ports.port_naming.rename_ports_by_orientation(component)
+    component = pp.port.rename_ports_by_orientation(component)
     return component
 
 

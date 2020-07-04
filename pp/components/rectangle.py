@@ -63,7 +63,7 @@ def rectangle(
             )
             i += 1
 
-    pp.ports.auto_rename_ports(c)
+    pp.port.auto_rename_ports(c)
     return c
 
 

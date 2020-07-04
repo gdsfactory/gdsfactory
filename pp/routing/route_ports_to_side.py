@@ -2,8 +2,8 @@ import numpy as np
 import pp
 from pp.routing.connect import connect_strip
 from pp.routing.connect import connect_elec
-from pp.ports.utils import is_electrical_port
-from pp.ports.utils import flipped
+from pp.port import is_electrical_port
+from pp.port import flipped
 
 BEND_RADIUS = pp.config.BEND_RADIUS
 

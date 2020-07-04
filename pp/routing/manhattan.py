@@ -646,15 +646,15 @@ def generate_manhattan_waypoints(
 
 
 def route_manhattan(
-    input_port,
-    output_port,
-    bend90,
-    straight_factory,
-    taper=None,
-    start_straight=0.01,
-    end_straight=0.01,
-    min_straight=0.01,
-):
+    input_port: Port,
+    output_port: Port,
+    bend90: Component,
+    straight_factory: Callable,
+    taper: None = None,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    min_straight: float = 0.01,
+) -> ComponentReference:
     bend90 = pp.call_if_func(bend90)
 
     points = generate_manhattan_waypoints(
