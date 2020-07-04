@@ -123,13 +123,6 @@ def preview_layerset(ls=ls, size=100):
     """ Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files
-
-    .. plot::
-      :include-source:
-
-      import pp
-      c = pp.preview_layerset()
-      pp.plotgds(c)
     """
     import pp
     import numpy as np
