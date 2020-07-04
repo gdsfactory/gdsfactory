@@ -5,20 +5,22 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Tuple
 
 
 @pp.autoname
 def coupler_full(
-    length=40.0,
-    gap=0.5,
-    dw=0.1,
-    angle=np.pi / 6,
-    parity=1,
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
+    length: float = 40.0,
+    gap: float = 0.5,
+    dw: float = 0.1,
+    angle: float = np.pi / 6,
+    parity: int = 1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ Adiabatic Full Coupler.  Design based on asymmetric adiabatic full coupler designs, such as the one reported in 'Integrated Optic Adiabatic Devices on Silicon' by Y. Shani, et al (IEEE Journal of Quantum Electronics, Vol. 27, No. 3 March 1991).
 
     In this design, Region I is the first half of the input S-bend waveguide where the input waveguides widths taper by +dw and -dw, Region II is the second half of the S-bend waveguide with constant, unbalanced widths, Region III is the coupling region where the waveguides from unbalanced widths to balanced widths to reverse polarity unbalanced widths, Region IV is the fixed width waveguide that curves away from the coupling region, and Region V is the final curve where the waveguides taper back to the regular width specified in the waveguide template.

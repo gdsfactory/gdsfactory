@@ -1,8 +1,9 @@
 import pp
+from pp.component import Component
 
 
 @pp.autoname
-def cross(length=10, width=3, layer=0):
+def cross(length: int = 10, width: int = 3, layer: int = 0) -> Component:
     """Generates a right-angle cross from two rectangles of specified length and width.
 
     Args:

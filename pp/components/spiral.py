@@ -4,19 +4,21 @@ from pp.port import auto_rename_ports
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Optional, Tuple
 
 
 @pp.autoname
 def spiral(
-    width=500,
-    length=10e3,
-    spacing=None,
-    parity=1,
-    port=(0, 0),
-    direction="NORTH",
-    waveguide_template=wg_strip,
+    width: float = 500.0,
+    length: float = 10e3,
+    spacing: Optional[float] = None,
+    parity: int = 1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "NORTH",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ Picwriter Spiral
 
     Args:

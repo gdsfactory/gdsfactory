@@ -1,8 +1,15 @@
 from phidl import device_layout as pd
 import pp
+from numpy import float64
+from phidl.device_layout import Label
+from typing import Tuple
 
 
-def label(text="abc", position=(0, 0), layer=pp.LAYER.TEXT):
+def label(
+    text: str = "abc",
+    position: Tuple[int, float64] = (0, 0),
+    layer: Tuple[int, int] = pp.LAYER.TEXT,
+) -> Label:
 
     gds_layer_label, gds_datatype_label = pd._parse_layer(layer)
 

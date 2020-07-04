@@ -11,6 +11,8 @@ from pp.geo_utils import path_length
 from pp.config import GRID_PER_UNIT
 from pp.components.ellipse import ellipse
 from pp.layers import LAYER
+from pp.component import Component
+from typing import Callable
 
 
 def rnd(p):
@@ -19,7 +21,13 @@ def rnd(p):
 
 
 @pp.autoname
-def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
+def crossing_arm(
+    wg_width: float = 0.5,
+    r1: float = 3.0,
+    r2: float = 1.1,
+    w: float = 1.2,
+    L: float = 3.4,
+) -> Component:
     """
     """
     c = pp.Component()
@@ -54,7 +62,7 @@ def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
 
 
 @pp.autoname
-def crossing(arm=crossing_arm):
+def crossing(arm: Callable = crossing_arm) -> Component:
     """ waveguide crossing
 
     .. plot::

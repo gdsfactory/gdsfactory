@@ -1,12 +1,18 @@
 import pp
+from pp.component import Component
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 
 
 @pp.autoname
 def rectangle(
-    size=(4, 2), layer=0, centered=False, ports_parameters={}, **port_settings
-):
+    size: Any = (4, 2),
+    layer: Optional[Union[Tuple[int, int], int]] = 0,
+    centered: bool = False,
+    ports_parameters: Dict[str, List[Tuple[float, float]]] = {},
+    **port_settings
+) -> Component:
     """ rectangle
 
     Args:
@@ -68,7 +74,9 @@ def rectangle(
 
 
 @pp.autoname
-def rectangle_centered(w=1, h=1, x=None, y=None, layer=0):
+def rectangle_centered(
+    w: int = 1, h: int = 1, x: None = None, y: None = None, layer: int = 0
+) -> Component:
     """ a rectangle size (x, y) in layer
         bad naming with x and y. Replaced with w and h. Keeping x and y
         for now for backwards compatibility

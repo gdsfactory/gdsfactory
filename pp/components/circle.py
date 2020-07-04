@@ -2,10 +2,16 @@ import numpy as np
 from numpy import cos, sin, pi
 
 import pp
+from pp.component import Component
+from typing import Tuple, Union
 
 
 @pp.autoname
-def circle(radius=10, angle_resolution=2.5, layer=0):
+def circle(
+    radius: Union[int, float] = 10,
+    angle_resolution: float = 2.5,
+    layer: Union[Tuple[int, int], int] = 0,
+) -> Component:
     """ Generate a circle geometry.
 
     Args:

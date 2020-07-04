@@ -2,11 +2,15 @@ import numpy as np
 from pp.container import container
 
 import pp
+from numpy import float64, ndarray
+from typing import List, Optional
 
 DEG2RAD = np.pi / 180
 
 
-def line(p_start, p_end, width=None):
+def line(
+    p_start: ndarray, p_end: ndarray, width: Optional[float] = None
+) -> List[ndarray]:
     if isinstance(p_start, pp.Port):
         width = p_start.width
         p_start = p_start.midpoint
@@ -24,7 +28,7 @@ def line(p_start, p_end, width=None):
     return [p0, p1, p2, p3]
 
 
-def move_polar_rad_copy(pos, angle, length):
+def move_polar_rad_copy(pos: ndarray, angle: float64, length: float) -> ndarray:
     c = np.cos(angle)
     s = np.sin(angle)
     return pos + length * np.array([c, s])

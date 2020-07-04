@@ -4,22 +4,24 @@ from pp.port import auto_rename_ports
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Tuple
 
 
 @pp.autoname
 def coupler_adiabatic(
-    length1=20.0,
-    length2=50.0,
-    length3=30.0,
-    wg_sep=1.0,
-    input_wg_sep=3.0,
-    output_wg_sep=3.0,
-    dw=0.1,
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
+    length1: float = 20.0,
+    length2: float = 50.0,
+    length3: float = 30.0,
+    wg_sep: float = 1.0,
+    input_wg_sep: float = 3.0,
+    output_wg_sep: float = 3.0,
+    dw: float = 0.1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ 50/50 adiabatic coupler
     Adiabatic Coupler Cell class.  Design based on asymmetric adiabatic 3dB coupler designs, such as those from https://doi.org/10.1364/CLEO.2010.CThAA2, https://doi.org/10.1364/CLEO_SI.2017.SF1I.5, and https://doi.org/10.1364/CLEO_SI.2018.STh4B.4.  Uses Bezier curves for the input, with poles set to half of the x-length of the S-bend.
 

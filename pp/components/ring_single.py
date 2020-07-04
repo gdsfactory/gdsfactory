@@ -5,19 +5,20 @@ from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
 from pp.name import autoname
+from typing import Callable
 
 
 @autoname
 def ring_single(
-    wg_width=0.5,
-    gap=0.2,
-    length_x=4,
-    bend_radius=5,
-    length_y=2,
-    coupler=coupler_ring,
-    waveguide=waveguide,
-    bend=bend_circular,
-):
+    wg_width: float = 0.5,
+    gap: float = 0.2,
+    length_x: int = 4,
+    bend_radius: int = 5,
+    length_y: int = 2,
+    coupler: Callable = coupler_ring,
+    waveguide: Callable = waveguide,
+    bend: Callable = bend_circular,
+) -> Component:
     """ single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
 

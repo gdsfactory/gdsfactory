@@ -2,18 +2,22 @@ import hashlib
 import pp
 from pp.name import autoname
 from pp.components.hline import hline
+from numpy import float64
+from typing import List, Tuple, Union
+
+from pp.component import Component
 
 __version__ = "0.0.1"
 
 
 @autoname
 def waveguide(
-    length=10,
-    width=0.5,
-    layer=pp.LAYER.WG,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    length: Union[float64, int, float] = 10,
+    width: Union[float64, float] = 0.5,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: int = 3,
+) -> Component:
     """ straight waveguide
 
     Args:
@@ -29,7 +33,7 @@ def waveguide(
       pp.plotgds(c)
 
     """
-    c = pp.Component()
+    c = Component()
     w = width / 2
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
 
@@ -78,7 +82,7 @@ def _arbitrary_straight_waveguide(length, windows):
     for e in windows:
         md5.update(str(e).encode())
 
-    component = pp.Component()
+    component = Component()
     component.name = "ARB_SW_L{}_HASH{}".format(length, md5.hexdigest())
     y_min, y_max, layer0 = windows[0]
     y_min, y_max = min(y_min, y_max), max(y_min, y_max)

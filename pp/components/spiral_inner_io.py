@@ -10,32 +10,34 @@ from pp.components.euler.bend_euler import bend_euler90, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.routing import round_corners
 from pp.config import TAPER_LENGTH
+from pp.component import Component
+from typing import Callable, Optional, Tuple
 
 
-def get_bend_port_distances(bend):
+def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
 @pp.autoname
 def spiral_inner_io(
-    N=6,
-    x_straight_inner_right=150.0,
-    x_straight_inner_left=150.0,
-    y_straight_inner_top=50.0,
-    y_straight_inner_bottom=10,
-    grating_spacing=127,
-    dx=3,
-    dy=3,
-    bend90_function=bend_circular,
-    bend180_function=bend_circular180,
-    bend_radius=50,
-    wg_width=0.5,
-    wg_width_grating_coupler=0.5,
-    straight_factory=waveguide,
-    taper=None,
-    length=None,
-):
+    N: int = 6,
+    x_straight_inner_right: float = 150.0,
+    x_straight_inner_left: float = 150.0,
+    y_straight_inner_top: float = 50.0,
+    y_straight_inner_bottom: float = 10.0,
+    grating_spacing: float = 127.0,
+    dx: float = 3.0,
+    dy: float = 3.0,
+    bend90_function: Callable = bend_circular,
+    bend180_function: Callable = bend_circular180,
+    bend_radius: float = 50.0,
+    wg_width: float = 0.5,
+    wg_width_grating_coupler: float = 0.5,
+    straight_factory: Callable = waveguide,
+    taper: Optional[Callable] = None,
+    length: Optional[float] = None,
+) -> Component:
     """
 
     Args:
@@ -212,8 +214,10 @@ def spiral_inner_io(
 
 @pp.autoname
 def spiral_inner_io_euler(
-    bend90_function=bend_euler90, bend180_function=bend_euler180, **kwargs
-):
+    bend90_function: Callable = bend_euler90,
+    bend180_function: Callable = bend_euler180,
+    **kwargs
+) -> Component:
     """
 
     .. plot::

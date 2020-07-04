@@ -6,10 +6,14 @@ from pp.routing import route_manhattan
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.euler.bend_euler import bend_euler90
 from pp.components.spiral_external_io import spiral_external_io
+from pp.component import Component
+from typing import Callable
 
 
 @pp.autoname
-def loop_mirror(component=mmi1x2, bend90=bend_euler90):
+def loop_mirror(
+    component: Callable = mmi1x2, bend90: Callable = bend_euler90
+) -> Component:
     c = pp.Component()
     component = pp.call_if_func(component)
     bend90 = pp.call_if_func(bend90)

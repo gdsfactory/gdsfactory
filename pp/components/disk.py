@@ -3,19 +3,21 @@ import picwriter.components as pc
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
+from pp.component import Component
+from typing import Callable, Tuple
 
 
 @pp.autoname
 def disk(
-    radius=10.0,
-    gap=0.2,
-    wrap_angle=0,
-    parity=1,
-    port=(0, 0),
-    direction="EAST",
-    waveguide_template=wg_strip,
+    radius: float = 10.0,
+    gap: float = 0.2,
+    wrap_angle: int = 0,
+    parity: int = 1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    waveguide_template: Callable = wg_strip,
     **kwargs
-):
+) -> Component:
     """ Disk Resonator
 
     Args:

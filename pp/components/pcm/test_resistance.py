@@ -1,9 +1,11 @@
+from typing import Tuple, Optional
 import numpy as np
 
 from phidl.geometry import offset
 
 import pp
 from pp import components as pc
+from pp.component import Component
 
 
 __version__ = "0.0.1"
@@ -11,13 +13,13 @@ __version__ = "0.0.1"
 
 @pp.autoname
 def test_resistance(
-    pad_size=[50, 50],
-    num_squares=1000,
-    width=1,
-    res_layer=0,
-    pad_layer=None,
-    gnd_layer=None,
-):
+    pad_size: Tuple[float] = (50.0, 50.0),
+    num_squares: int = 1000,
+    width: float = 1.0,
+    res_layer: Optional[Tuple[int, int]] = 0,
+    pad_layer: Optional[Tuple[int, int]] = None,
+    gnd_layer: Optional[Tuple[int, int]] = None,
+) -> Component:
 
     """ meander to test resistance
     from phidl.geometry

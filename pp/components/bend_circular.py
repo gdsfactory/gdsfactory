@@ -3,6 +3,8 @@ import numpy as np
 
 import pp
 from pp.layers import LAYER
+from pp.component import Component
+from typing import List, Tuple, Union
 
 __version__ = "0.0.1"
 
@@ -77,15 +79,15 @@ def _disk_section_points(
 
 @pp.autoname
 def bend_circular(
-    radius=10.0,
-    width=0.5,
-    theta=-90,
-    start_angle=0,
-    angle_resolution=2.5,
-    layer=LAYER.WG,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    radius: float = 10.0,
+    width: float = 0.5,
+    theta: int = -90,
+    start_angle: int = 0,
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: float = 3.0,
+) -> Component:
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
@@ -230,14 +232,14 @@ def _bend_circular(
 
 @pp.autoname
 def bend_circular180(
-    radius=10.0,
-    width=0.5,
-    theta=180,
-    start_angle=-90,
-    angle_resolution=2.5,
-    layer=LAYER.WG,
+    radius: Union[int, float] = 10.0,
+    width: float = 0.5,
+    theta: int = 180,
+    start_angle: int = -90,
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = LAYER.WG,
     **kwargs,
-):
+) -> Component:
     c = bend_circular(
         radius=radius,
         width=width,

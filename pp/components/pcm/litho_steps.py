@@ -2,13 +2,20 @@ from pp.name import autoname
 from pp import components as pc
 
 import pp
+from pp.component import Component
+from typing import List
 
 
 __version__ = "0.0.1"
 
 
 @autoname
-def litho_steps(line_widths=[1, 2, 4, 8, 16], line_spacing=10, height=100, layer=0):
+def litho_steps(
+    line_widths: List[int] = [1, 2, 4, 8, 16],
+    line_spacing: int = 10,
+    height: int = 100,
+    layer: int = 0,
+) -> Component:
     """ Produces a positive + negative tone linewidth test, used for
     lithography resolution test patterning
 

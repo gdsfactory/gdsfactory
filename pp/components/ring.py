@@ -4,10 +4,13 @@ from numpy import cos
 from numpy import sin
 
 import pp
+from pp.component import Component
 
 
 @pp.autoname
-def ring(radius=10, width=0.5, angle_resolution=2.5, layer=0):
+def ring(
+    radius: int = 10, width: float = 0.5, angle_resolution: float = 2.5, layer: int = 0
+) -> Component:
     """ Returns ring geometry.
     The ring is formed by taking the radius out to the specified value, and then constructing the thickness by dividing the width in half and adding that value to either side of the radius.
     The angle_resolution alters the precision of the curve of the ring.

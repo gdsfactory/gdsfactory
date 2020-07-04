@@ -2,6 +2,8 @@ import numpy as np
 
 import pp
 from pp.components.bezier import bezier
+from pp.component import Component
+from typing import List, Tuple
 
 
 __version__ = "0.0.2"
@@ -9,14 +11,14 @@ __version__ = "0.0.2"
 
 @pp.autoname
 def bend_s(
-    width=0.5,
-    height=2,
-    length=10,
-    layer=pp.LAYER.WG,
-    nb_points=99,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    width: float = 0.5,
+    height: float = 2.0,
+    length: float = 10.0,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    nb_points: int = 99,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: float = 3.0,
+) -> Component:
     """ S bend
     Based on bezier curve
 
