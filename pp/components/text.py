@@ -14,10 +14,10 @@ from typing import Tuple
 
 def text(
     text: str = "abcd",
-    size: float = 10,
+    size: float = 10.0,
     position: Tuple[int, int] = (0, 0),
     justify: str = "left",
-    layer: int = LAYER.TEXT,
+    layer: Tuple[int, int] = LAYER.TEXT,
 ) -> Component:
     """ adds text
 

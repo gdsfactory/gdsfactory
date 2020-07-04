@@ -1,6 +1,5 @@
 import pp
 from pp.components.waveguide import waveguide
-from numpy import float64
 from pp.component import Component
 from typing import Callable
 
@@ -9,8 +8,8 @@ from typing import Callable
 def dbr_cell(
     w1: float = 0.5,
     w2: float = 0.6,
-    l1: float64 = 0.2,
-    l2: float64 = 0.4,
+    l1: float = 0.2,
+    l2: float = 0.4,
     waveguide_function: Callable = waveguide,
 ) -> Component:
     c = pp.Component()

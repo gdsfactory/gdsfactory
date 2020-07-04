@@ -3,14 +3,14 @@ import pp
 from pp.geo_utils import DEG2RAD
 from pp.components.grating_coupler.elliptical import grating_tooth_points
 from pp.component import Component
-from typing import Tuple, Union
+from typing import Tuple
 
 
 @pp.autoname
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,
-    taper_angle: Union[int, float] = 30.0,
+    taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
     lambda_c: float = 1.53,
     fiber_angle: float = 15.0,

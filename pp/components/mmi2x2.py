@@ -9,7 +9,7 @@ __version__ = "0.0.1"
 def mmi2x2(
     wg_width: float = 0.5,
     width_taper: float = 0.95,
-    length_taper: int = 10,
+    length_taper: float = 10.0,
     length_mmi: float = 15.45,
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,

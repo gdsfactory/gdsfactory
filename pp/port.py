@@ -1,18 +1,16 @@
 from __future__ import annotations
 import functools
+from typing import Callable
+from typing import TYPE_CHECKING
 
 from typing import Any, List, Optional, Tuple, Union, Dict
 import csv
 import phidl.geometry as pg
-from typing import Callable
 
 from copy import deepcopy
 import numpy as np
-from numpy import float64, int64, mod
 from phidl.device_layout import Port as PortPhidl
 from pp.drc import on_grid
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pp.component import Component, ComponentReference
@@ -37,17 +35,17 @@ class Port(PortPhidl):
     def __init__(
         self,
         name: Optional[str] = None,
-        midpoint: Any = (0, 0),
-        width: Union[float64, int, float] = 1,
-        orientation: Union[float64, int, int64, float] = 0,
+        midpoint: Tuple[float, float] = (0.0, 0.0),
+        width: float = 0.5,
+        orientation: int = 0,
         parent: Optional[Union[Component, ComponentReference]] = None,
-        layer: Union[Tuple[int, int], int] = 1,
+        layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
         self.width = width
-        self.orientation = mod(orientation, 360)
+        self.orientation = np.mod(orientation, 360)
         self.parent = parent
         self.info = {}
         self.uid = Port._next_uid

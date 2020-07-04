@@ -1,11 +1,10 @@
 import picwriter.components as pc
 import pp
 from picwriter.components.waveguide import WaveguideTemplate
-from typing import Union
 
 
 def wg_strip(
-    wg_width: Union[int, float] = 0.5,
+    wg_width: float = 0.5,
     wg_layer: int = pp.LAYER.WG[0],
     wg_datatype: int = pp.LAYER.WG[1],
     clad_layer: int = pp.LAYER.WGCLAD[0],

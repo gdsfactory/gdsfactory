@@ -11,9 +11,9 @@ from typing import Callable
 def ring_double(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: int = 4,
-    bend_radius: int = 5,
-    length_y: int = 2,
+    length_x: float = 4.0,
+    bend_radius: float = 5.0,
+    length_y: float = 2.0,
     coupler: Callable = coupler_ring,
     waveguide: Callable = waveguide,
 ) -> Component:

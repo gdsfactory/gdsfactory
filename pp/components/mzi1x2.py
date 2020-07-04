@@ -17,8 +17,8 @@ from typing import Callable
 @pp.autoname
 def mzi1x2(
     L0: float = 0.1,
-    L1: int = 9,
-    L2: int = 10,
+    L1: float = 9.0,
+    L2: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
     straight_heater_factory: Callable = waveguide_heater,

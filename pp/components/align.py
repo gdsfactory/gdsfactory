@@ -22,7 +22,7 @@ def align_wafer(
 
       import pp
 
-      c = pp.c.fidutial()
+      c = pp.c.align_wafer()
       pp.plotgds(c)
 
     """
