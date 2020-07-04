@@ -7,23 +7,25 @@ from pp.components import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
 from pp.netlist_to_gds import netlist_to_component
 from pp.routing import route_elec_ports_to_side
-from pp.ports.utils import select_electrical_ports
+from pp.port import select_electrical_ports
 
 from pp.components.extension import line
+from pp.component import Component
+from typing import Callable
 
 
 @pp.autoname
 def mzi1x2(
-    L0=0.1,
-    L1=9,
-    L2=10,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_heater_factory=waveguide_heater,
-    straight_factory=waveguide,
-    coupler_factory=mmi1x2,
-    with_elec_connections=False,
-):
+    L0: float = 0.1,
+    L1: float = 9.0,
+    L2: float = 10.0,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_heater_factory: Callable = waveguide_heater,
+    straight_factory: Callable = waveguide,
+    coupler_factory: Callable = mmi1x2,
+    with_elec_connections: bool = False,
+) -> Component:
     """ Mzi 1x2
 
     Args:

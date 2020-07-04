@@ -6,11 +6,11 @@ layer:
 layer_partial_etch:
 - 2
 - 0
-length_taper: 150
+length_taper: 150.0
 module: pp.components.grating_coupler.uniform
 name: grating_coupler_uniform
 num_teeth: 20
 partial_etch: 'False'
 period: 0.75
 width: 0.5
-width_grating: 11
+width_grating: 11.0

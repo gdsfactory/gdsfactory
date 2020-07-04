@@ -45,7 +45,7 @@ def add_gratings_and_loop_back(
     waveguide_separation=5.0,
     bend_factory=bend_circular,
     waveguide_factory=waveguide,
-    layer_label=pp.CONFIG["layers"]["LABEL"],
+    layer_label=pp.LAYER.LABEL,
     component_name=None,
     with_loopback=True,
 ):
@@ -134,7 +134,6 @@ if __name__ == "__main__":
     # gc = pp.c.grating_coupler_elliptical_te()
     # cc = add_termination(c, gc)
     from pp.components.spiral_inner_io import spiral_inner_io
-    from pp.components.waveguide import waveguide
 
     c = spiral_inner_io()
     # c = waveguide()

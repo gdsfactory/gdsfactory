@@ -5,23 +5,25 @@ from pp.components import coupler
 from pp.netlist_to_gds import netlist_to_component
 from pp.name import autoname
 from pp.routing import route_elec_ports_to_side
-from pp.ports.utils import select_electrical_ports
+from pp.port import select_electrical_ports
 
 from pp.components.extension import line
 from pp.components.component_sequence import component_sequence
+from pp.component import Component
+from typing import Callable
 
 
 @autoname
 def mzi_arm(
-    L0=60,
-    L1=0,
-    L_top=10.0,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_heater_factory=waveguide_heater,
-    straight_factory=waveguide,
-    with_elec_connections=True,
-):
+    L0: float = 60.0,
+    L1: float = 0.0,
+    L_top: float = 10.0,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_heater_factory: Callable = waveguide_heater,
+    straight_factory: Callable = waveguide,
+    with_elec_connections: bool = True,
+) -> Component:
     """
 
     Args:
@@ -103,18 +105,18 @@ def mzi_arm(
 
 @autoname
 def mzi2x2(
-    CL_1=20.147,
-    L0=60,
-    L1=7.38,
-    L2=10.0,
-    gap=0.234,
-    bend_radius=10.0,
-    bend90_factory=bend_circular,
-    straight_heater_factory=waveguide_heater,
-    straight_factory=waveguide,
-    coupler_factory=coupler,
-    with_elec_connections=False,
-):
+    CL_1: float = 20.147,
+    L0: float = 60.0,
+    L1: float = 7.38,
+    L2: float = 10.0,
+    gap: float = 0.234,
+    bend_radius: float = 10.0,
+    bend90_factory: Callable = bend_circular,
+    straight_heater_factory: Callable = waveguide_heater,
+    straight_factory: Callable = waveguide,
+    coupler_factory: Callable = coupler,
+    with_elec_connections: bool = False,
+) -> Component:
     """ Mzi 2x2
 
     Args:
@@ -157,7 +159,7 @@ def mzi2x2(
 
       import pp
 
-      c = pp.c.mzi2x2(CL_1=10, gap=0.2)
+      c = pp.c.mzi2x2(CL_1=10., gap=0.2)
       pp.plotgds(c)
 
     """

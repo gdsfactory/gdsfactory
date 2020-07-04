@@ -2,17 +2,19 @@ import pp
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.drc import assert_on_2nm_grid
+from pp.component import Component
+from typing import Callable, Union
 
 
 @pp.autoname
 def coupler_ring(
-    coupler90_factory=coupler90,
-    cpl_straight_factory=coupler_straight,
-    length_x=4.0,
-    gap=0.2,
-    wg_width=0.5,
-    bend_radius=5,
-):
+    coupler90_factory: Callable = coupler90,
+    cpl_straight_factory: Callable = coupler_straight,
+    length_x: Union[int, float] = 4.0,
+    gap: float = 0.2,
+    wg_width: float = 0.5,
+    bend_radius: int = 5,
+) -> Component:
     """ coupler for half a ring
 
     .. code::

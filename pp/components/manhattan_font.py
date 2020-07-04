@@ -349,7 +349,7 @@ _
 CHARAC_MAP = {}
 
 
-def load_font():
+def load_font() -> None:
     lines = FONT.split("\n")
     global CHARAC_MAP
     while lines:

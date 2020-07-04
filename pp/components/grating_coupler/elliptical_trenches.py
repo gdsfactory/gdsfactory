@@ -2,25 +2,27 @@ import numpy as np
 import pp
 from pp.geo_utils import DEG2RAD
 from pp.components.grating_coupler.elliptical import grating_tooth_points
+from pp.component import Component
+from typing import Tuple
 
 
 @pp.autoname
 def grating_coupler_elliptical_trenches(
-    polarization="te",
-    taper_length=16.6,
-    taper_angle=30.0,
-    trenches_extra_angle=9.0,
-    lambda_c=1.53,
-    fiber_angle=15.0,
-    grating_line_width=0.343,
-    wg_width=0.5,
-    neff=2.638,  # tooth effective index
-    layer=pp.LAYER.WG,
-    layer_trench=pp.LAYER.SLAB150,
-    p_start=26,
-    n_periods=30,
-    straight=0.2,
-):
+    polarization: str = "te",
+    taper_length: float = 16.6,
+    taper_angle: float = 30.0,
+    trenches_extra_angle: float = 9.0,
+    lambda_c: float = 1.53,
+    fiber_angle: float = 15.0,
+    grating_line_width: float = 0.343,
+    wg_width: float = 0.5,
+    neff: float = 2.638,  # tooth effective index
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layer_trench: Tuple[int, int] = pp.LAYER.SLAB150,
+    p_start: int = 26,
+    n_periods: int = 30,
+    straight: float = 0.2,
+) -> Component:
     """ Grating coupler
 
     Args:
@@ -125,7 +127,7 @@ def grating_coupler_elliptical_trenches(
     return c
 
 
-def grating_coupler_te(taper_angle=35, **kwargs):
+def grating_coupler_te(taper_angle: int = 35, **kwargs) -> Component:
     """
 
     .. plot::
@@ -141,7 +143,9 @@ def grating_coupler_te(taper_angle=35, **kwargs):
     )
 
 
-def grating_coupler_tm(neff=1.8, grating_line_width=0.6, **kwargs):
+def grating_coupler_tm(
+    neff: float = 1.8, grating_line_width: float = 0.6, **kwargs
+) -> Component:
     """
 
     .. plot::

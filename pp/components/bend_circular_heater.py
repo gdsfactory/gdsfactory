@@ -1,15 +1,15 @@
 import pp
 from pp.layers import LAYER
-from pp import Component
 from pp.components.bend_circular import bend_circular
 from pp.name import autoname
+from pp.component import Component
 
 __version__ = "0.0.1"
 
 
-@pp.ports.port_naming.deco_rename_ports
+@pp.port.deco_rename_ports
 @autoname
-def bend_circular_heater(radius=10.0, wg_width=0.5):
+def bend_circular_heater(radius: float = 10.0, wg_width: float = 0.5) -> Component:
 
     theta = -90
     start_angle = 0
@@ -29,14 +29,14 @@ def bend_circular_heater(radius=10.0, wg_width=0.5):
 
 
 def _bend_circular_heater(
-    radius=10,
-    wg_width=0.5,
-    theta=-90,
-    start_angle=0,
-    angle_resolution=2.5,
-    heater_to_wg_distance=1.2,
-    heater_width=0.5,
-):
+    radius: float = 10,
+    wg_width: float = 0.5,
+    theta: int = -90,
+    start_angle: int = 0,
+    angle_resolution: float = 2.5,
+    heater_to_wg_distance: float = 1.2,
+    heater_width: float = 0.5,
+) -> Component:
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:

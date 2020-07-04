@@ -1,23 +1,25 @@
 import numpy as np
+from numpy import float64
+from typing import Tuple
 
 
 class Coord2:
-    def __init__(self, x, y):
+    def __init__(self, x: float64, y: float64) -> None:
         self.point = np.array([x, y])
 
-    def __getitem__(self, i):
+    def __getitem__(self, i: int) -> float64:
         return self.point[i]
 
     @property
-    def x(self):
+    def x(self) -> float64:
         return self.point[0]
 
     @property
-    def y(self):
+    def y(self) -> float64:
         return self.point[1]
 
     @property
-    def xy(self):
+    def xy(self) -> Tuple[float64, float64]:
         return (self.x, self.y)
 
     def __add__(self, c2):

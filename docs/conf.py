@@ -1,7 +1,7 @@
 from recommonmark.transform import AutoStructify
 
 project = "gdsfactory"
-version = "1.1.9"
+version = "1.2.0"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
@@ -25,7 +25,10 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "sphinx_markdown_tables",
     "recommonmark",
+    "sphinx_autodoc_typehints",
 ]
+
+napoleon_use_param = True
 
 
 def setup(app):

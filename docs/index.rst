@@ -21,7 +21,5 @@ Gdsfactory
    placer
    gdslib
    shapes
-   components0
-   components1
    components
    CHANGELOG

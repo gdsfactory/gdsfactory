@@ -3,6 +3,7 @@ from pp.coord2 import Coord2
 from scipy.special import fresnel
 from numpy import pi, sqrt
 import numpy as np
+from typing import List, Union
 
 DEG2RAD = np.pi / 180
 
@@ -10,7 +11,12 @@ DEG2RAD = np.pi / 180
 __euler_bend_cache__ = dict()
 
 
-def euler_bend_points(angle_amount=90.0, radius=10.0, resolution=150.0, use_cache=True):
+def euler_bend_points(
+    angle_amount: int = 90.0,
+    radius: Union[int, float] = 10.0,
+    resolution: float = 150.0,
+    use_cache: bool = True,
+) -> List[Coord2]:
     """ Base euler bend, no transformation, emerging from the origin."""
     # Check if we've calculated this already
     key = (angle_amount, radius, resolution)
@@ -110,6 +116,6 @@ def euler_end_pt(
     return pt
 
 
-def euler_length(radius=10.0, angle_amount=90.0):
+def euler_length(radius: Union[int, float] = 10.0, angle_amount: int = 90.0) -> float:
     th = abs(angle_amount) * DEG2RAD / 2
     return 4 * radius * th

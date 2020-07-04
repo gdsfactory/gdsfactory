@@ -7,12 +7,14 @@ import gdspy
 from picwriter import toolkit as tk
 import picwriter.components as pc
 import pp
+import picwriter.toolkit as pt
+from pp.component import Component
 
 
 gdspy.current_library = gdspy.GdsLibrary()
 
 
-def direction_to_degree(direction):
+def direction_to_degree(direction: str) -> float:
     """ Converts a 'direction' (as used in picwriter) to an angle in degrees.
     picwriter 'direction's can be either a float (corresponding to an angle in radians)
     or a string, corresponding to a cardinal direction
@@ -30,8 +32,8 @@ def direction_to_degree(direction):
         return 270.0
 
 
-def picwriter2component(picwriter_object):
-    """ Generate a Component
+def picwriter2component(picwriter_object: Component) -> pt.Component:
+    """ Converts a Picwriter into a Gdsfactory Component
     """
     po = picwriter_object
     c = pp.Component(name=po.name_prefix)

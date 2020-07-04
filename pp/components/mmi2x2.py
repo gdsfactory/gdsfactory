@@ -1,18 +1,20 @@
 import pp
+from pp.component import Component
+from typing import Tuple
 
 __version__ = "0.0.1"
 
 
 @pp.autoname
 def mmi2x2(
-    wg_width=0.5,
-    width_taper=0.95,
-    length_taper=10,
-    length_mmi=15.45,
-    width_mmi=2.1,
-    gap_mmi=0.2,
-    layer=pp.LAYER.WG,
-):
+    wg_width: float = 0.5,
+    width_taper: float = 0.95,
+    length_taper: float = 10.0,
+    length_mmi: float = 15.45,
+    width_mmi: float = 2.1,
+    gap_mmi: float = 0.2,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+) -> Component:
     """ mmi 2x2
 
     Args:

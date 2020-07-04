@@ -4,10 +4,18 @@ from pp.geo_utils import extrude_path
 from pp.components.euler.geo_euler import euler_bend_points
 from pp.components.euler.geo_euler import euler_length
 from pp.layers import LAYER
-from pp.ports.port_naming import auto_rename_ports
+from pp.port import auto_rename_ports
+from pp.component import Component
+from typing import Tuple, Union
 
 
-def _bend_euler(theta=90, radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):
+def _bend_euler(
+    theta: int = 90,
+    radius: Union[int, float] = 10.0,
+    width: float = 0.5,
+    resolution: float = 150.0,
+    layer: Tuple[int, int] = LAYER.WG,
+) -> Component:
     c = pp.Component()
     backbone = euler_bend_points(theta, radius=radius, resolution=resolution)
     pts = extrude_path(backbone, width)
@@ -36,7 +44,12 @@ def _bend_euler(theta=90, radius=10.0, width=0.5, resolution=150.0, layer=LAYER.
 
 
 @pp.autoname
-def bend_euler90(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):
+def bend_euler90(
+    radius: Union[int, float] = 10.0,
+    width: float = 0.5,
+    resolution: float = 150.0,
+    layer: Tuple[int, int] = LAYER.WG,
+) -> Component:
     """
     .. plot::
       :include-source:
@@ -63,7 +76,12 @@ def bend_euler90_biased(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG
 
 
 @pp.autoname
-def bend_euler180(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):
+def bend_euler180(
+    radius: Union[int, float] = 10.0,
+    width: float = 0.5,
+    resolution: float = 150.0,
+    layer: Tuple[int, int] = LAYER.WG,
+) -> Component:
     """
     .. plot::
       :include-source:

@@ -1,7 +1,7 @@
 import pp
 from pp.components import waveguide
 from pp.routing.connect import connect_strip
-from pp.ports.utils import get_ports_facing
+from pp.port import get_ports_facing
 
 
 @pp.autoname

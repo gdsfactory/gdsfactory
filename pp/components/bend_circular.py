@@ -3,6 +3,8 @@ import numpy as np
 
 import pp
 from pp.layers import LAYER
+from pp.component import Component
+from typing import List, Tuple, Union
 
 __version__ = "0.0.1"
 
@@ -77,15 +79,15 @@ def _disk_section_points(
 
 @pp.autoname
 def bend_circular(
-    radius=10.0,
-    width=0.5,
-    theta=-90,
-    start_angle=0,
-    angle_resolution=2.5,
-    layer=LAYER.WG,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
-):
+    radius: float = 10.0,
+    width: float = 0.5,
+    theta: int = -90,
+    start_angle: int = 0,
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: float = 3.0,
+) -> Component:
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
@@ -108,6 +110,7 @@ def bend_circular(
         start_angle=0,
       )
       pp.plotgds(c)
+
     """
     component = pp.Component()
 
@@ -171,14 +174,14 @@ def bend_circular(
         midpoint2[0] - width / 2
     ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
-    pp.ports.port_naming.rename_ports_by_orientation(component)
+    pp.port.rename_ports_by_orientation(component)
     return component
 
 
 @pp.autoname
 def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
-    pp.ports.port_naming.rename_ports_by_orientation(c)
+    pp.port.rename_ports_by_orientation(c)
     return c
 
 
@@ -224,20 +227,20 @@ def _bend_circular(
     component.width = width
     component.move((0, radius))
 
-    pp.ports.auto_rename_ports(component)
+    pp.port.auto_rename_ports(component)
     return component
 
 
 @pp.autoname
 def bend_circular180(
-    radius=10.0,
-    width=0.5,
-    theta=180,
-    start_angle=-90,
-    angle_resolution=2.5,
-    layer=LAYER.WG,
+    radius: Union[int, float] = 10.0,
+    width: float = 0.5,
+    theta: int = 180,
+    start_angle: int = -90,
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = LAYER.WG,
     **kwargs,
-):
+) -> Component:
     c = bend_circular(
         radius=radius,
         width=width,
@@ -301,7 +304,7 @@ def _bend_circular_windows(
         orientation=start_angle + theta + 90 - 180 * (theta < 0),
         layer=layer0,
     )
-    pp.ports.auto_rename_ports(component)
+    pp.port.auto_rename_ports(component)
     return component
 
 

@@ -1,5 +1,7 @@
 import pp
 from pp import components as pc
+from pp.component import Component
+from typing import List
 
 
 __version__ = "0.0.1"
@@ -7,14 +9,14 @@ __version__ = "0.0.1"
 
 @pp.autoname
 def litho_calipers(
-    notch_size=[2, 5],
-    notch_spacing=2,
-    num_notches=11,
-    offset_per_notch=0.1,
-    row_spacing=0,
-    layer_top=1,
-    layer_bottom=2,
-):
+    notch_size: List[int] = [2, 5],
+    notch_spacing: int = 2,
+    num_notches: int = 11,
+    offset_per_notch: float = 0.1,
+    row_spacing: int = 0,
+    layer_top: int = 1,
+    layer_bottom: int = 2,
+) -> Component:
     """ vernier caliper structure to test lithography alignment
     Only the middle finger is aligned and the rest are offset.
 

@@ -1,5 +1,5 @@
 import pp
-from pp.ports import deco_rename_ports
+from pp.port import deco_rename_ports
 from pp.components import waveguide
 from pp.components.bend_circular import bend_circular
 from pp.components import grating_coupler_elliptical_te

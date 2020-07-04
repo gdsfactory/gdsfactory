@@ -6,7 +6,7 @@
 
 """
 
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 __all__ = ["CONFIG", "load_config", "write_config"]
 
 import os
@@ -21,7 +21,9 @@ import hiyapyco
 import numpy as np
 from git import Repo
 
-from pp.layers import LAYER
+from collections import OrderedDict
+from pathlib import PosixPath
+from typing import Any, List
 
 
 default_config = """
@@ -45,7 +47,7 @@ cwd_config = cwd / "config.yml"
 home_config = home_path / "config.yml"
 
 
-def load_config(cwd_config=cwd_config):
+def load_config(cwd_config: PosixPath = cwd_config) -> OrderedDict:
     """ loads config.yml and returns a dict with the config """
     cwd = cwd_config.parent
     # Find cwd config going up recursively
@@ -122,9 +124,6 @@ def load_config(cwd_config=cwd_config):
     CONFIG["doe_directory"].mkdir(exist_ok=True)
     CONFIG["mask_directory"].mkdir(exist_ok=True)
     CONFIG["gdslib_test"].mkdir(exist_ok=True)
-
-    CONFIG["layers"] = CONFIG.get("layers", LAYER._asdict())
-
     return CONFIG
 
 
@@ -162,11 +161,11 @@ def print_config(key=None):
         pprint(CONFIG)
 
 
-def call_if_func(f, **kwargs):
+def call_if_func(f: Any, **kwargs):
     return f(**kwargs) if callable(f) else f
 
 
-def parse_layer_exclude(layer):
+def parse_layer_exclude(layer: str) -> List[Any]:
     return list(ast.literal_eval(layer))
 
 

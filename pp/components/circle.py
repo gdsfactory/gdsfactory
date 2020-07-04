@@ -1,11 +1,17 @@
+from typing import Tuple
 import numpy as np
 from numpy import cos, sin, pi
 
 import pp
+from pp.component import Component
 
 
 @pp.autoname
-def circle(radius=10, angle_resolution=2.5, layer=0):
+def circle(
+    radius: float = 10.0,
+    angle_resolution: float = 2.5,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+) -> Component:
     """ Generate a circle geometry.
 
     Args:

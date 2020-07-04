@@ -1,5 +1,7 @@
 from numpy import floor
 import pp
+from pp.component import Component
+from typing import Any, List, Tuple
 
 
 @pp.autoname
@@ -39,11 +41,11 @@ def via3(**kwargs):
 
 @pp.autoname
 def tlm(
-    width=11.0,
-    height=11.0,
-    layers=[pp.LAYER.M1, pp.LAYER.M2, pp.LAYER.M3],
-    vias=[via2, via3],
-):
+    width: float = 11.0,
+    height: float = 11.0,
+    layers: List[Tuple[int, int]] = [pp.LAYER.M1, pp.LAYER.M2, pp.LAYER.M3],
+    vias: List[Any] = [via2, via3],
+) -> Component:
     """
     Rectangular transition thru metal layers
 

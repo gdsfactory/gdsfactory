@@ -1,13 +1,14 @@
 import numpy as np
-from pp import Component
 import pp
 from pp.name import autoname
 from pp.layers import LAYER
-from pp.ports import deco_rename_ports
+from pp.port import Port, deco_rename_ports
 from pp.components.waveguide import waveguide
 from pp.components.hline import hline
 from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
+from pp.component import Component
+from typing import Callable, Dict, List, Tuple
 
 
 __version__ = "0.0.1"
@@ -15,7 +16,11 @@ __version__ = "0.0.1"
 
 @deco_rename_ports
 @autoname
-def heater(length=10, width=0.5, layers_heater=[LAYER.HEATER]):
+def heater(
+    length: float = 10.0,
+    width: float = 0.5,
+    layers_heater: List[Tuple[int, int]] = [LAYER.HEATER],
+) -> Component:
     """ straight heater
     """
     c = pp.Component()
@@ -27,16 +32,16 @@ def heater(length=10, width=0.5, layers_heater=[LAYER.HEATER]):
 
 
 def add_trenches(
-    c,
-    sstw=2.0,
-    trench_width=0.5,
-    trench_keep_out=2.0,
-    trenches=[
+    c: Component,
+    sstw: float = 2.0,
+    trench_width: float = 0.5,
+    trench_keep_out: float = 2.0,
+    trenches: List[Dict[str, int]] = [
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ],
-    layer_trench=LAYER.DEEPTRENCH,
-):
+    layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
+) -> Component:
     """
     Add trenches to a waveguide-heater-like component
     """
@@ -82,22 +87,22 @@ def add_trenches(
 @deco_rename_ports
 @autoname
 def waveguide_heater(
-    length=10.0,
-    width=0.5,
-    heater_width=0.5,
-    heater_spacing=1.2,
-    metal_connection=True,
-    sstw=2.0,
-    trench_width=0.5,
-    trench_keep_out=2.0,
-    trenches=[
+    length: float = 10.0,
+    width: float = 0.5,
+    heater_width: float = 0.5,
+    heater_spacing: float = 1.2,
+    metal_connection: bool = True,
+    sstw: float = 2.0,
+    trench_width: float = 0.5,
+    trench_keep_out: float = 2.0,
+    trenches: List[Dict[str, int]] = [
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ],
-    layers_heater=[LAYER.HEATER],
-    waveguide_factory=waveguide,
-    layer_trench=LAYER.DEEPTRENCH,
-):
+    layers_heater: List[Tuple[int, int]] = [LAYER.HEATER],
+    waveguide_factory: Callable = waveguide,
+    layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
+) -> Component:
     """ waveguide with heater
 
     .. code::
@@ -161,10 +166,17 @@ def waveguide_heater(
 
 @autoname
 def wg_heater_connector(
-    heater_ports,
-    metal_width=10.0,
-    tlm_layers=[LAYER.VIA1, LAYER.M1, LAYER.VIA2, LAYER.M2, LAYER.VIA3, LAYER.M3],
-):
+    heater_ports: List[Port],
+    metal_width: float = 10.0,
+    tlm_layers: List[Tuple[int, int]] = [
+        LAYER.VIA1,
+        LAYER.M1,
+        LAYER.VIA2,
+        LAYER.M2,
+        LAYER.VIA3,
+        LAYER.M3,
+    ],
+) -> Component:
     """
     Connects together a pair of wg heaters and connect to a M3 port
     """
@@ -234,11 +246,18 @@ def wg_heater_connector(
 @deco_rename_ports
 @autoname
 def wg_heater_connected(
-    waveguide_heater=waveguide_heater,
-    wg_heater_connector=wg_heater_connector,
-    tlm_layers=[LAYER.VIA1, LAYER.M1, LAYER.VIA2, LAYER.M2, LAYER.VIA3, LAYER.M3],
-    **kwargs,
-):
+    waveguide_heater: Callable = waveguide_heater,
+    wg_heater_connector: Callable = wg_heater_connector,
+    tlm_layers: List[Tuple[int, int]] = [
+        LAYER.VIA1,
+        LAYER.M1,
+        LAYER.VIA2,
+        LAYER.M2,
+        LAYER.VIA3,
+        LAYER.M3,
+    ],
+    **kwargs
+) -> Component:
     """
     .. plot::
       :include-source:

@@ -3,20 +3,21 @@ from pp.components import compass
 from pp.name import autoname
 from pp.component import Component
 import pp
+from typing import Tuple
 
 
 @autoname
 def grating_coupler_uniform(
-    num_teeth=20,
-    period=0.75,
-    fill_factor=0.5,
-    width_grating=11,
-    length_taper=150,
-    width=0.5,
-    partial_etch=False,
-    layer=pp.LAYER.WG,
-    layer_partial_etch=pp.LAYER.SLAB150,
-):
+    num_teeth: int = 20,
+    period: float = 0.75,
+    fill_factor: float = 0.5,
+    width_grating: float = 11.0,
+    length_taper: float = 150.0,
+    width: float = 0.5,
+    partial_etch: bool = False,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
+) -> Component:
     """ Grating coupler uniform
 
     Args:

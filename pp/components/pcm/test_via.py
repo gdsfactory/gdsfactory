@@ -1,5 +1,7 @@
 import pp
 from pp import components as pc
+from pp.component import Component
+from typing import Tuple
 
 
 __version__ = "0.0.1"
@@ -7,8 +9,13 @@ __version__ = "0.0.1"
 
 @pp.autoname
 def _via_iterable(
-    via_spacing, wire_width, wiring1_layer, wiring2_layer, via_layer, via_width
-):
+    via_spacing: int,
+    wire_width: int,
+    wiring1_layer: int,
+    wiring2_layer: int,
+    via_layer: int,
+    via_width: int,
+) -> Component:
     VI = pp.Component()
     wire1 = VI.add_ref(pc.compass(size=(via_spacing, wire_width), layer=wiring1_layer))
     wire2 = VI.add_ref(pc.compass(size=(via_spacing, wire_width), layer=wiring2_layer))
@@ -41,17 +48,17 @@ def _via_iterable(
 
 @pp.autoname
 def test_via(
-    num_vias=100,
-    wire_width=10,
-    via_width=15,
-    via_spacing=40,
-    pad_size=(300, 300),
-    min_pad_spacing=0,
-    pad_layer=0,
-    wiring1_layer=1,
-    wiring2_layer=2,
-    via_layer=3,
-):
+    num_vias: int = 100,
+    wire_width: int = 10,
+    via_width: int = 15,
+    via_spacing: int = 40,
+    pad_size: Tuple[int, int] = (300, 300),
+    min_pad_spacing: int = 0,
+    pad_layer: int = 0,
+    wiring1_layer: int = 1,
+    wiring2_layer: int = 2,
+    via_layer: int = 3,
+) -> Component:
     """ Via cutback to extract via resistance
     from phidl.geometry
 

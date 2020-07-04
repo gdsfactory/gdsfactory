@@ -8,31 +8,34 @@ from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular180
 from pp.components import waveguide
 from pp.routing import round_corners
+from numpy import float64
+from pp.component import Component
+from typing import Callable, Optional, Tuple
 
 
-def get_bend_port_distances(bend):
+def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
 @pp.autoname
 def spiral_external_io(
-    N=6,
-    x_inner_length_cutback=300.0,
-    x_inner_offset=0,
-    y_straight_inner_top=0,
-    dx=3,
-    dy=3,
-    bend90_function=bend_circular,
-    bend180_function=bend_circular180,
-    bend_radius=50,
-    wg_width=0.5,
-    straight_factory=waveguide,
-    straight_factory_fall_back_no_taper=None,
-    taper=None,
-    cutback_length=None,
-    **kwargs_round_corner,
-):
+    N: int = 6,
+    x_inner_length_cutback: float = 300.0,
+    x_inner_offset: float = 0.0,
+    y_straight_inner_top: float = 0.0,
+    dx: float = 3.0,
+    dy: float = 3.0,
+    bend90_function: Callable = bend_circular,
+    bend180_function: Callable = bend_circular180,
+    bend_radius: float = 50.0,
+    wg_width: float = 0.5,
+    straight_factory: Callable = waveguide,
+    straight_factory_fall_back_no_taper: None = None,
+    taper: Optional[Callable] = None,
+    cutback_length: Optional[float] = None,
+    **kwargs_round_corner
+) -> Component:
     """
 
     Args:
