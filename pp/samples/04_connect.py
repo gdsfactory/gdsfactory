@@ -12,7 +12,7 @@ negative number, separate the ports).
 
 import pp
 
-c = pp.Component('waveguides_sample')
+c = pp.Component("waveguides_sample")
 
 
 wg1 = c << pp.c.waveguide(length=10, width=1)
