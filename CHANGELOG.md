@@ -8,9 +8,11 @@
 
 ## Maybe
 
-- units are in um by default, so instead of m to symbolize (1e-3) maybe just use nm
+- units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
 ## Most recent changes with no release yet
+
+## 1.2.0 2020-07-04
 
 - added link for [ubc PDK](https://github.com/gdsfactory/ubc) to README
 - added a jupyter notebook tutorial for references and array of references
@@ -18,6 +20,7 @@
 - rotate is now a container
 - addapted pp.pack from phidl as an easier way to pack masks
 - Autoname also has now a build in cache to avoid having two different cells with the same name
+- added type annotations
 
 ## 1.1.9 2020-05-13
 
