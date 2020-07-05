@@ -43,7 +43,7 @@ def delay_snake(
        |
        |------------------->
 
-       |        L1         |
+       |        DL         |
 
     .. plot::
       :include-source:
@@ -57,8 +57,8 @@ def delay_snake(
     epsilon = 0.1
     R = bend_radius
     bend90 = bend_factory(radius=R, width=wg_width)
-    L1 = (total_length + L0 - n * (pi * R + epsilon)) / (2 * n + 1)
-    L2 = L1 - L0
+    DL = (total_length + L0 - n * (pi * R + epsilon)) / (2 * n + 1)
+    L2 = DL - L0
     assert (
         L2 > 0
     ), "Snake is too short: either reduce L0, increase the total length,\

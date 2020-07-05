@@ -4,10 +4,10 @@ import uuid
 import functools
 from inspect import signature
 import hashlib
+from typing import Any, Callable
 import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins_and_outline
-from typing import Any, Callable
 
 MAX_NAME_LENGTH = 32
 
@@ -78,6 +78,7 @@ def autoname(component_function: Callable) -> Callable:
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(component_function)
+        # assert_first_letters_are_different(**sig.parameters)
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
             for key in kwargs.keys():
@@ -140,6 +141,18 @@ def dict2name(prefix: None = None, **kwargs) -> str:
             label += [f"{key.upper()}{value}"]
     label = "_".join(label)
     return clean_name(label)
+
+
+def assert_first_letters_are_different(**kwargs):
+    """ avoids having name colissions of different args with the same first letter """
+    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    assert len(set(first_letters)) == len(
+        first_letters
+    ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+    if not len(set(first_letters)) == len(first_letters):
+        print(
+            f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+        )
 
 
 def clean_name(name: str) -> str:

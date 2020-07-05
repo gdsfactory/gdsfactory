@@ -17,7 +17,7 @@ from typing import Callable
 @pp.autoname
 def mzi1x2(
     L0: float = 0.1,
-    L1: float = 9.0,
+    DL: float = 9.0,
     L2: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
@@ -30,7 +30,7 @@ def mzi1x2(
 
     Args:
         L0: vertical length for both and top arms
-        L1: bottom arm extra length
+        DL: bottom arm extra length
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
@@ -48,7 +48,7 @@ def mzi1x2(
             |      |
             L0     L0
             |      |
-            L1     L1
+            DL     DL
             |      |
             |__L2__|
 
@@ -63,7 +63,7 @@ def mzi1x2(
 
       import pp
 
-      c = pp.c.mzi1x2(L0=0.1, L1=0, L2=10)
+      c = pp.c.mzi1x2(L0=0.1, DL=0, L2=10)
       pp.plotgds(c)
 
     """
@@ -82,7 +82,7 @@ def mzi1x2(
     }
 
     arm_top = mzi_arm(L0=L0, **arm_defaults)
-    arm_bot = mzi_arm(L0=L0 + L1, **arm_defaults)
+    arm_bot = mzi_arm(L0=L0 + DL, **arm_defaults)
 
     components = {
         "CP1": (cpl, "None"),

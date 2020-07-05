@@ -22,6 +22,6 @@ def test_autoname():
 
 
 if __name__ == "__main__":
-    # test_autoname()
-    test_name_from_args()
+    test_autoname()
+    # test_name_from_args()
     # test_name_in_kwargs()

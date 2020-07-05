@@ -340,7 +340,7 @@ def compensation_path(crossing45=crossing45, direction="top"):
     # We know that the path length of the s-bend between two ports
     p0 and p1 is :
     # - larger than the euclidian distance L2(p0, p1)
-    # - smaller than the manhattan distance L1(p0, p1)
+    # - smaller than the manhattan distance DL(p0, p1)
     #
     # This gives the bounds for the brentq root finding
     """
@@ -401,9 +401,9 @@ def demo():
     bend_info1 = c.info["components"]["bezier_bend"].info
     bend_info2 = c2.info["components"]["sbend"].info
 
-    L1 = bend_info1["length"]
+    DL = bend_info1["length"]
     L2 = bend_info1["length"]
-    plt.plot(bend_info1["t"][1:-1] * L1, abs(bend_info1["curvature"]))
+    plt.plot(bend_info1["t"][1:-1] * DL, abs(bend_info1["curvature"]))
     plt.plot(bend_info2["t"][1:-1] * L2, abs(bend_info2["curvature"]))
     plt.xlabel("bend length (um)")
     plt.ylabel("curvature (um^-1)")
