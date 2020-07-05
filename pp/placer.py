@@ -29,7 +29,7 @@
 
 import os
 import sys
-import hiyapyco
+from omegaconf import OmegaConf
 
 import pp
 from pp.doe import get_settings_list, load_does
@@ -265,7 +265,7 @@ def load_placer_with_does(filepath, defaults={"do_permutation": True}):
 
     """
     does = {}
-    data = hiyapyco.load(filepath)
+    data = OmegaConf.load(filepath)
 
     placer_info = data.pop("placer")
     component_placement = data.pop("placement")
@@ -387,7 +387,7 @@ def component_grid_from_yaml(filepath, precision=1e-9):
     """ Returns a Component composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """
-    input_does = hiyapyco.load(str(filepath))
+    input_does = OmegaConf.load(str(filepath))
     mask_settings = input_does["mask"]
     does = load_does(filepath)
 
