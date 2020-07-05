@@ -44,6 +44,9 @@ import pp.klive as klive
 import pp.sp as sp
 import pp.port as port
 
+from pp.component_from_yaml import component_from_yaml
+from pp.netlist_from_yaml import netlist_from_yaml
+
 from pp.components import component_factory
 from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
@@ -91,6 +94,8 @@ __all__ = [
     "write_doe",
     "write_gds",
     "Port",
+    "component_from_yaml",
+    "netlist_from_yaml",
 ]
 __version__ = "1.2.1"
 

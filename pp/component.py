@@ -15,9 +15,8 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_optical_ports, select_electrical_ports
 from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
+from pp.name import dict2hash
 from typing import Any, Dict, List, Optional, Tuple, Union
-
-NAME_TO_DEVICE = {}
 
 
 class SizeInfo:
@@ -805,6 +804,10 @@ class Component(Device):
             jsondata["analysis"] = self.analysis
 
         return jsondata
+
+    def __hash__(self):
+        h = dict2hash(**self.settings)
+        return int(h, 16)
 
     def hash_geometry(self):
         """ returns geometrical hash

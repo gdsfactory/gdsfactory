@@ -12,6 +12,11 @@
 
 ## Most recent changes with no release yet
 
+## 1.2.1 2020-07-05
+
+- replaced hiyapyco with omegaconf (better YAML parser that can handle number with exponents 1e9)
+- separated conf (important to be saved) from CONFIG that contains useful paths
+
 ## 1.2.0 2020-07-04
 
 - added link for [ubc PDK](https://github.com/gdsfactory/ubc) to README

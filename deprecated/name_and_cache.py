@@ -1,7 +1,12 @@
+""" not used, maybe remove
+
+"""
+
+
 import functools
 import collections
 from inspect import signature
-from pp.component import NAME_TO_DEVICE
+from pp.name import NAME_TO_DEVICE
 from pp.name import get_component_name
 
 

@@ -7,10 +7,11 @@ import hashlib
 import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins_and_outline
-from pp.component import NAME_TO_DEVICE
 from typing import Any, Callable
 
 MAX_NAME_LENGTH = 32
+
+NAME_TO_DEVICE = {}
 
 
 def join_first_letters(name: str) -> str:
@@ -21,9 +22,7 @@ def join_first_letters(name: str) -> str:
 component_type_to_name = dict(import_phidl_component="phidl")
 
 
-def get_component_name(
-    component_type: str, max_name_length: int = MAX_NAME_LENGTH, **kwargs
-) -> str:
+def get_component_name(component_type: str, **kwargs) -> str:
     name = component_type
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
@@ -112,6 +111,17 @@ def autoname(component_function: Callable) -> Callable:
             return component
 
     return _autoname
+
+
+def dict2hash(**kwargs):
+    ignore_from_name = kwargs.pop("ignore_from_name", [])
+    h = hashlib.sha256()
+    for key in sorted(kwargs):
+        if key not in ignore_from_name:
+            value = kwargs[key]
+            value = clean_value(value)
+            h.update(f"{key}{value}".encode())
+    return h.hexdigest()
 
 
 def dict2name(prefix: None = None, **kwargs) -> str:

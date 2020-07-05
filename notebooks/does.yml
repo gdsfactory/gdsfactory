@@ -1,0 +1,34 @@
+mask:
+  width: 10000
+  height: 10000
+  name: mask2
+
+mmi_width:
+  component: mmi1x2
+  settings:
+    width_mmi: [4.5, 5.6]
+    length_mmi: 10
+  placer:
+    type: pack_row
+    x0: 0 # Absolute coordinate placing
+    y0: 0 # Absolute coordinate placing
+    align_x: W # x origin is west
+    align_y: S # y origin is south
+
+mmi_width_length:
+  component: mmi1x2
+  do_permutation: False
+  settings:
+    length_mmi: [11, 12]
+    width_mmi: [3.6, 7.8]
+
+  placer:
+    type: pack_row
+    next_to: mmi_width
+    x0: W # x0 is the west of the DOE specified in next_to
+    y0: S # y0 is the south of the DOE specified in next_to
+    align_x: W # x origin is west of current component
+    align_y: N # y origin is south of current component
+    inter_margin_y: 200 # y margin between this DOE and the one used for relative placement
+    margin_x: 50. # x margin between the components within this DOE
+    margin_y: 20. # y margin between the components within this DOE

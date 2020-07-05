@@ -13,16 +13,14 @@ clean:
 	rm -rf build
 
 mask:
-	python test_mask.py
+	python test_placer.py
 
 metadata:
 	pf mask write_metadata
 
 show:
-	pf show build/mask/sample_mask.gds
+	pf show build/mask/test_placer.gds
 
-show2:
-	pf show build/mask/sample_mask_remapped.gds
 
 
 .PHONY: devices
