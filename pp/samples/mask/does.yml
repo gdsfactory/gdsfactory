@@ -4,7 +4,6 @@ mask:
   name: mask2
 
 mmi_width:
-  doe_name: mmi_width
   component: mmi1x2
   settings:
     width_mmi: [4.5, 5.6]
@@ -17,7 +16,6 @@ mmi_width:
     align_y: S # y origin is south
 
 mmi_width_length:
-  doe_name: mmi_width_length
   component: mmi1x2
   do_permutation: False
   settings:

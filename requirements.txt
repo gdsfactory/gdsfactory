@@ -2,7 +2,6 @@
 click
 gitpython
 gdspy
-hiyapyco
 omegaconf
 jsondiff
 klayout

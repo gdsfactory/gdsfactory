@@ -3,7 +3,7 @@ import collections
 from multiprocessing import Process
 import time
 from pprint import pprint
-import hiyapyco
+from omegaconf import OmegaConf
 
 from pp.placer import save_doe
 from pp.placer import doe_exists
@@ -126,7 +126,8 @@ def _generate_doe(
 
 def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
     does = {}
-    data = hiyapyco.load(str(filepath))
+    data = OmegaConf.load(filepath)
+    data = OmegaConf.to_container(data)
     mask = data.pop("mask")
 
     for doe_name, doe in data.items():
