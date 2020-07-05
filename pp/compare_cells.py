@@ -96,7 +96,6 @@ def hash_cells(cell, dict_hashes={}, precision=1e-4, dbg_indent=0, dbg=False):
 
     final_hash = hashlib.sha1()
 
-    # if cell.name == "hline_L10p3_W0p48_L16_0":
     for layer in layers:
         layer_hash = hashlib.sha1(str(layer).encode()).hexdigest()
         polygons = polygons_by_spec[tuple(layer)]

@@ -16,7 +16,7 @@ from typing import Callable
 @autoname
 def mzi_arm(
     L0: float = 60.0,
-    L1: float = 0.0,
+    DL: float = 0.0,
     L_top: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
@@ -28,7 +28,7 @@ def mzi_arm(
 
     Args:
         L0: vertical length with heater
-        L1: extra vertical length without heater
+        DL: extra vertical length without heater
         L_top: 10.0, horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
@@ -39,7 +39,7 @@ def mzi_arm(
 
          L_top
         |     |
-        L1    L1
+        DL    DL
         |     |
         L0    L0
         |     |
@@ -69,7 +69,7 @@ def mzi_arm(
 
     straight_vheater = straight_heater_factory(length=L0)
     straight_h = straight_factory(length=L_top)
-    straight_v = straight_factory(length=L1) if L1 > 0 else None
+    straight_v = straight_factory(length=DL) if DL > 0 else None
 
     port_number = 1 if with_elec_connections else 0
 
@@ -107,7 +107,7 @@ def mzi_arm(
 def mzi2x2(
     CL_1: float = 20.147,
     L0: float = 60.0,
-    L1: float = 7.38,
+    DL: float = 7.38,
     L2: float = 10.0,
     gap: float = 0.234,
     bend_radius: float = 10.0,
@@ -122,7 +122,7 @@ def mzi2x2(
     Args:
         CL_1: coupler length
         L0: vertical length for both and top arms
-        L1: bottom arm extra length
+        DL: bottom arm extra length
         L2: L_top horizontal length
         gap: 0.235
         bend_radius: 10.0
@@ -142,7 +142,7 @@ def mzi2x2(
         |      |
         L0     L0
         |      |
-        L1     L1
+        DL     DL
         |      |
         |__L2__|
 
@@ -181,7 +181,7 @@ def mzi2x2(
     }
 
     arm_top = mzi_arm(L0=L0, **arm_defaults)
-    arm_bot = mzi_arm(L0=L0, L1=L1, **arm_defaults)
+    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults)
 
     components = {
         "CP1": (cpl, "None"),
@@ -289,7 +289,7 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    c = mzi_arm(L1=100)
+    c = mzi_arm(DL=100)
     # c = mzi2x2()
     # c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")

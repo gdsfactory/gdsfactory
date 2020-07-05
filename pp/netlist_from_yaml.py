@@ -36,12 +36,12 @@ components:
         component: mzi_arm
         settings:
             L0: 10
-            L1: 0
+            DL: 0
     arm_bot:
         component: mzi_arm
         settings:
             L0: 100
-            L1: 0
+            DL: 0
         transformations: mirror_x
 
 connections:
@@ -93,12 +93,12 @@ def netlist_from_yaml(file: Union[str, pathlib.Path, IO[Any]]) -> Component:
                 component: mzi_arm
                 settings:
                     L0: 10
-                    L1: 0
+                    DL: 0
             arm_bot:
                 component: mzi_arm
                 settings:
                     L0: 100
-                    L1: 0
+                    DL: 0
                 transformations: mirror_x
 
         connections:

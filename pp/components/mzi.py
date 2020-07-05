@@ -12,7 +12,7 @@ from typing import Callable, Optional
 @pp.autoname
 def mzi(
     L0: float = 1.0,
-    L1: float = 9.0,
+    DL: float = 9.0,
     L2: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
@@ -24,7 +24,7 @@ def mzi(
 
     Args:
         L0: vertical length for both and top arms
-        L1: bottom arm extra length, (delta_length = 2*L1)
+        DL: bottom arm extra length, (delta_length = 2*DL)
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
@@ -42,7 +42,7 @@ def mzi(
               |      |
               L0     L0r
               |      |
-              L1     L1
+              DL     DL
               |      |
               |__L2__|
 
@@ -52,7 +52,7 @@ def mzi(
 
       import pp
 
-      c = pp.c.mzi(L0=0.1, L1=0, L2=10)
+      c = pp.c.mzi(L0=0.1, DL=0, L2=10)
       pp.plotgds(c)
 
     """
@@ -83,7 +83,7 @@ def mzi(
     ), f"input and output couplers height  offset (delta_length)  {delta_length} + {L0} >0"
 
     l0r = straight_factory(length=L0 + delta_length / 2)
-    l1 = straight_factory(length=L1)
+    l1 = straight_factory(length=DL)
     l2 = straight_factory(length=L2)
 
     cin = c << coupler

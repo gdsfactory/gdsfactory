@@ -588,7 +588,7 @@ def TRCH_ISO(length=20.0, width=0.5):
 
 
 @pp.autoname
-def TRCH_ISO_L10(width=0.5, separation=2.0):
+def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
         width=width, separation=separation, length=10.0, n=5, label=next(lblit)
@@ -604,7 +604,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
 
 
 @pp.autoname
-def TRCH_DUO_L10(width=0.5, separation=2.0, gap=3.0):
+def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
         width=width, separation=separation, gap=gap, length=10.0, n=5, label=next(lblit)
