@@ -4,10 +4,8 @@
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the default_config is in this file (lowest priority)
 
-
 `CONFIG` has all the paths that we do not care
 `conf` has all the useful info
-
 """
 
 __version__ = "1.2.0"
@@ -40,7 +38,6 @@ try:
     config_cwd = OmegaConf.load(cwd_config)
 except:
     config_cwd = OmegaConf.create()
-
 try:
     config_home = OmegaConf.load(home_config)
 except:
@@ -52,7 +49,7 @@ conf.version = __version__
 try:
     conf["git_hash"] = Repo(repo_path).head.object.hexsha
 except Exception:
-    pass
+    conf["git_hash"] = None
 
 
 CONFIG = dict(
