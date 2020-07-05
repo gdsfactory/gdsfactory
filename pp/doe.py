@@ -2,7 +2,7 @@
 """
 
 import itertools as it
-import hiyapyco
+from omegaconf import OmegaConf
 from pp.config import CONFIG
 
 
@@ -47,7 +47,8 @@ def load_does(filepath):
 
     """
     does = {}
-    input_does = hiyapyco.load(str(filepath))
+    input_does = OmegaConf.load(filepath)
+    input_does = OmegaConf.to_container(input_does)
 
     for doe_name, doe in input_does.items():
         if doe_name == "mask":
@@ -61,15 +62,14 @@ def load_does(filepath):
             doe_name
         )
 
-        doe_settings = doe.pop("settings")
-        try:
+        doe_settings = doe.pop("settings", "")
+        if doe_settings:
             doe["settings"] = get_settings_list(do_permutation, **doe_settings)
-        except Exception:
-            print(doe_name, "DOE needs to be a dictionary")
-            print("got:", doe)
-            print("sample:", sample)
+        else:
+            raise ValueError(
+                "DOE {doe_name} needs to be a dictionary\n\t got: {doe}\n\t sample: {sample"
+            )
 
-            raise
         does[doe_name] = doe
 
     return does

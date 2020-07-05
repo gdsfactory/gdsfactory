@@ -3,17 +3,18 @@
 """
 
 import json
+from omegaconf import OmegaConf
 import importlib
 from git import Repo
-from pp.config import logging, CONFIG, write_config, get_git_hash
+from pp.config import CONFIG, logging, get_git_hash, write_config, conf
 
 
-def update_config_modules(config):
+def update_config_modules(config=conf):
     """ update config with module git hashe and version (for each module in module_requirements section)
     """
-    if config.get("module_requirements"):
+    if config.get("requirements"):
         config.update({"git_hash": get_git_hash(), "module_versions": {}})
-        for module_name in config["module_requirements"]:
+        for module_name in config["requirements"]:
             module = importlib.import_module(module_name)
             config["module_versions"].update(
                 {
@@ -31,8 +32,7 @@ def merge_json(
     extra_directories=[CONFIG["gds_directory"]],
     jsonpath=CONFIG["mask_directory"] / "metadata.json",
     json_version=6,
-    config=CONFIG,
-    **kwargs,
+    config=conf,
 ):
     """ Merge several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
@@ -43,8 +43,9 @@ def merge_json(
 
     """
     logging.debug("Merging JSON files:")
-
     cells = {}
+    config = config or {}
+    update_config_modules(config=config)
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):
@@ -55,7 +56,10 @@ def merge_json(
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("*.json")}
     metadata = dict(
-        json_version=json_version, cells=cells, does=does, config=CONFIG, **kwargs
+        json_version=json_version,
+        cells=cells,
+        does=does,
+        config=OmegaConf.to_container(config),
     )
 
     write_config(metadata, jsonpath)

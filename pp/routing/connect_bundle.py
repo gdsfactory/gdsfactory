@@ -11,9 +11,10 @@ from pp.routing.path_length_matching import path_length_matched_points
 from pp.name import autoname
 from pp.component import Component
 from pp.port import Port
+from pp.config import conf
 
 METAL_MIN_SEPARATION = 10.0
-BEND_RADIUS = 10.0
+BEND_RADIUS = conf.tech.bend_radius
 
 
 def connect_bundle(
@@ -21,7 +22,7 @@ def connect_bundle(
     end_ports,
     route_filter=connect_strip_way_points,
     separation=5.0,
-    bend_radius=10.0,
+    bend_radius=BEND_RADIUS,
     extension_length=0,
     **kwargs,
 ):

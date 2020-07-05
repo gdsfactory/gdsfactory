@@ -4,127 +4,120 @@
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the default_config is in this file (lowest priority)
 
+`CONFIG` has all the paths that we do not care
+`conf` has all the useful info
 """
 
-__version__ = "1.2.0"
-__all__ = ["CONFIG", "load_config", "write_config"]
-
+__version__ = "1.2.1"
 import os
 import json
 import subprocess
 import pathlib
-import ast
-import logging
 from pprint import pprint
+import logging
+from typing import Any
 
-import hiyapyco
+from omegaconf import OmegaConf
+
 import numpy as np
 from git import Repo
 
-from collections import OrderedDict
-from pathlib import PosixPath
-from typing import Any, List
-
-
-default_config = """
-tech: generic
-cache_url:
-BBOX_LAYER_EXCLUDE: "[]"
-with_settings_label: False
-add_pins: True
-"""
 
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
-roots = [pathlib.Path("/"), pathlib.Path("C:\\")]
-
 module_path = pathlib.Path(__file__).parent.absolute()
 repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 home_path.mkdir(exist_ok=True)
 
 cwd_config = cwd / "config.yml"
+module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
+config_base = OmegaConf.load(module_config)
+try:
+    config_cwd = OmegaConf.load(cwd_config)
+except:
+    config_cwd = OmegaConf.create()
+try:
+    config_home = OmegaConf.load(home_config)
+except:
+    config_home = OmegaConf.create()
+
+conf = OmegaConf.merge(config_base, config_home, config_cwd)
+conf.version = __version__
+
+try:
+    conf["git_hash"] = Repo(repo_path).head.object.hexsha
+except Exception:
+    conf["git_hash"] = None
 
 
-def load_config(cwd_config: PosixPath = cwd_config) -> OrderedDict:
-    """ loads config.yml and returns a dict with the config """
-    cwd = cwd_config.parent
-    # Find cwd config going up recursively
-    while cwd not in roots:
-        cwd_config = cwd / "config.yml"
-        if os.path.exists(cwd_config):
-            break
-        cwd = cwd.parent
+CONFIG = dict(
+    config_path=cwd_config.absolute(),
+    repo_path=repo_path,
+    module_path=module_path,
+    font_path=module_path / "gds" / "alphabet.gds",
+    masks_path=repo_path / "mask",
+    version=__version__,
+    home=home,
+    cwd=cwd,
+)
 
-        if str(cwd).count("\\") <= 1 and str(cwd).endswith("\\"):
-            """
-            Ensure the loop terminates on a windows machine
-            """
-            break
+mask_name = "notDefined"
 
-    CONFIG = hiyapyco.load(
-        default_config,
-        str(home_config),
-        str(cwd_config),
-        failonmissingfiles=False,
-        loglevelmissingfiles=logging.DEBUG,
-    )
+if conf.get("mask"):
+    mask_name = conf["mask"]["name"]
+    mask_config_directory = cwd
+    build_directory = mask_config_directory / "build"
+    CONFIG["devices_directory"] = mask_config_directory / "devices"
+    CONFIG["mask_gds"] = mask_config_directory / "build" / "mask" / (mask_name + ".gds")
+else:
+    build_directory = home_path / "build"
+    mask_config_directory = home_path / "build"
 
-    CONFIG["config_path"] = cwd_config.absolute()
-    CONFIG["repo_path"] = repo_path
-    CONFIG["module_path"] = module_path
-    CONFIG["font_path"] = module_path / "gds" / "alphabet.gds"
-    CONFIG["masks_path"] = repo_path / "mask"
-    CONFIG["version"] = __version__
-    CONFIG["home"] = home
-    CONFIG["cwd"] = cwd
+CONFIG["custom_components"] = conf.custom_components
+CONFIG["gdslib"] = conf.gdslib or repo_path / "gdslib"
+CONFIG["sp"] = CONFIG["gdslib"] / "sp"
+CONFIG["gds"] = CONFIG["gdslib"] / "gds"
+CONFIG["gdslib_test"] = home_path / "gdslib_test"
 
-    mask_name = "notDefined"
+CONFIG["build_directory"] = build_directory
+CONFIG["gds_directory"] = build_directory / "devices"
+CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
+CONFIG["doe_directory"] = build_directory / "doe"
+CONFIG["mask_directory"] = build_directory / "mask"
+CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
+CONFIG["mask_config_directory"] = mask_config_directory
+CONFIG["gdspath"] = build_directory / "gds.gds"
+CONFIG["samples_path"] = module_path / "samples"
+CONFIG["components_path"] = module_path / "components"
 
-    if CONFIG.get("mask"):
-        mask_name = CONFIG["mask"]["name"]
-        mask_config_directory = cwd
-        build_directory = mask_config_directory / "build"
-        CONFIG["devices_directory"] = mask_config_directory / "devices"
-        CONFIG["mask"]["gds"] = (
-            mask_config_directory / "build" / "mask" / (mask_name + ".gds")
-        )
+if "gds_resources" in CONFIG:
+    CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
+
+build_directory.mkdir(exist_ok=True)
+CONFIG["gds_directory"].mkdir(exist_ok=True)
+CONFIG["doe_directory"].mkdir(exist_ok=True)
+CONFIG["mask_directory"].mkdir(exist_ok=True)
+CONFIG["gdslib_test"].mkdir(exist_ok=True)
+
+
+logging.basicConfig(
+    filename=CONFIG["build_directory"] / "log.log",
+    filemode="w",
+    format="%(name)s - %(levelname)s - %(message)s",
+)
+logging.warning("This will get logged to a file")
+
+
+def print_config(key=None):
+    if key:
+        if CONFIG.get(key):
+            print(CONFIG[key])
+        else:
+            print(f"`{key}` key not found in {cwd_config}")
     else:
-        build_directory = home_path / "build"
-        mask_config_directory = home_path / "build"
-
-    if "custom_components" not in CONFIG:
-        CONFIG["custom_components"] = None
-
-    if "gdslib" not in CONFIG:
-        CONFIG["gdslib"] = repo_path / "gdslib"
-    CONFIG["sp"] = CONFIG["gdslib"] / "sp"
-    CONFIG["gds"] = CONFIG["gdslib"] / "gds"
-    CONFIG["gdslib_test"] = home_path / "gdslib_test"
-
-    CONFIG["build_directory"] = build_directory
-    CONFIG["log_directory"] = build_directory / "log"
-    CONFIG["gds_directory"] = build_directory / "devices"
-    CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-    CONFIG["doe_directory"] = build_directory / "doe"
-    CONFIG["mask_directory"] = build_directory / "mask"
-    CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
-    CONFIG["mask_config_directory"] = mask_config_directory
-    CONFIG["gdspath"] = build_directory / "gds.gds"
-    CONFIG["samples_path"] = module_path / "samples"
-    CONFIG["components_path"] = module_path / "components"
-
-    if "gds_resources" in CONFIG:
-        CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
-
-    build_directory.mkdir(exist_ok=True)
-    CONFIG["log_directory"].mkdir(exist_ok=True)
-    CONFIG["gds_directory"].mkdir(exist_ok=True)
-    CONFIG["doe_directory"].mkdir(exist_ok=True)
-    CONFIG["mask_directory"].mkdir(exist_ok=True)
-    CONFIG["gdslib_test"].mkdir(exist_ok=True)
-    return CONFIG
+        pprint(CONFIG)
 
 
 def complex_encoder(z):
@@ -140,33 +133,8 @@ def write_config(config, json_out_path):
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
 
 
-CONFIG = load_config()
-CONFIG["grid_unit"] = 1e-6
-CONFIG["grid_resolution"] = 1e-9
-CONFIG["bend_radius"] = 10.0
-
-try:
-    CONFIG["git_hash"] = Repo(repo_path).head.object.hexsha
-except Exception:
-    CONFIG["git_hash"] = __version__
-
-
-def print_config(key=None):
-    if key:
-        if CONFIG.get(key):
-            print(CONFIG[key])
-        else:
-            print(f"`{key}` key not found in {cwd_config}")
-    else:
-        pprint(CONFIG)
-
-
 def call_if_func(f: Any, **kwargs):
     return f(**kwargs) if callable(f) else f
-
-
-def parse_layer_exclude(layer: str) -> List[Any]:
-    return list(ast.literal_eval(layer))
 
 
 def get_git_hash():
@@ -182,22 +150,17 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-GRID_UNIT = CONFIG["grid_unit"]
-GRID_RESOLUTION = CONFIG["grid_resolution"]
-
-GRID_PER_UNIT = GRID_UNIT / GRID_RESOLUTION
-
+GRID_RESOLUTION = conf.tech.grid_resolution
+GRID_PER_UNIT = conf.tech.grid_unit / GRID_RESOLUTION
 GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
-BEND_RADIUS = CONFIG["bend_radius"]
+BEND_RADIUS = conf.tech.bend_radius
+TAPER_LENGTH = conf.tech.taper_length
+WG_EXPANDED_WIDTH = conf.tech.wg_expanded_width
 
-WG_EXPANDED_WIDTH = 2.5
-TAPER_LENGTH = 35.0
-
-
-CONFIG["BBOX_LAYER_EXCLUDE"] = parse_layer_exclude(CONFIG["BBOX_LAYER_EXCLUDE"])
 
 if __name__ == "__main__":
+    print(conf)
     # print_config("gdslib")
-    print_config()
+    # print_config()
     # print(CONFIG["git_hash"])
     # print(CONFIG)
