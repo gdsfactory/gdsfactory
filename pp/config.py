@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 import os
 import json
 import subprocess
