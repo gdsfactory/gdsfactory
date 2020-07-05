@@ -100,7 +100,7 @@ def netlist_to_component(
     components: Dict[str, Tuple[Component, str]],
     connections: List[Tuple[str, str, str, str]],
     ports_map: Dict[str, Tuple[str, str]],
-    position: Tuple[int, int] = (0, 0),
+    position: Tuple[float, float] = (0.0, 0.0),
 ) -> Component:
     """
     Args:

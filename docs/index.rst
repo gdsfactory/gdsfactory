@@ -17,6 +17,7 @@ Gdsfactory
    routing
    path_length_matching
    doe_and_grid_placement
+   yaml
    placer_yaml
    placer
    gdslib

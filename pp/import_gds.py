@@ -3,7 +3,8 @@ import gdspy
 from phidl.device_layout import DeviceReference
 
 import pp
-from pp.component import Component, NAME_TO_DEVICE
+from pp.component import Component
+from pp.name import NAME_TO_DEVICE
 
 
 def import_gds(

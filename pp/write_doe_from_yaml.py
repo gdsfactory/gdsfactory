@@ -1,4 +1,4 @@
-""" build DOE from YAML config file """
+""" write DOE from YAML file """
 
 import sys
 import importlib
@@ -26,7 +26,9 @@ def write_doe_from_yaml(filepath):
 
     Args:
         filepath: YAML file describing DOE
-        add_io_function: default add_io_optical
+
+    Returns:
+        gdspaths: list
 
     For each DOE save:
 
@@ -37,7 +39,7 @@ def write_doe_from_yaml(filepath):
     """
     does = load_does(filepath)
 
-    gds_paths = []
+    gdspaths = []
     for doe_name, doe in does.items():
         # print(doe_name)
         # print(doe.get("settings"))
@@ -56,8 +58,8 @@ def write_doe_from_yaml(filepath):
             test=doe.get("test"),
             functions=doe.get("functions"),
         )
-        gds_paths.append(d)
-    return gds_paths
+        gdspaths.append(d)
+    return gdspaths
 
 
 def test_write_doe_from_yaml():
