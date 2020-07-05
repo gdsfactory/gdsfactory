@@ -7,7 +7,7 @@ import pathlib
 import json
 from phidl import device_layout as pd
 
-from pp import CONFIG
+from pp.config import CONFIG, conf
 from pp.name import get_component_name
 from pp.components import component_type2factory
 from pp import klive
@@ -100,7 +100,7 @@ def write_component(
     path_library: PosixPath = CONFIG["gds_directory"],
     precision: float = 1e-9,
     settings: None = None,
-    with_settings_label: bool = CONFIG["with_settings_label"],
+    with_settings_label: bool = conf.tech.with_settings_label,
 ) -> str:
     """ write component GDS and metadata:
 
@@ -167,7 +167,7 @@ def write_gds(
     precision: float = 1e-9,
     remove_previous_markers: bool = False,
     auto_rename: bool = False,
-    with_settings_label: bool = CONFIG["with_settings_label"],
+    with_settings_label: bool = conf.tech.with_settings_label,
 ) -> str:
     """ write component to GDS and returs gdspath
 

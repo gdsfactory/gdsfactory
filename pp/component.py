@@ -13,13 +13,11 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_optical_ports, select_electrical_ports
-from pp.config import CONFIG
+from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 NAME_TO_DEVICE = {}
-
-BBOX_LAYER_EXCLUDE = CONFIG["BBOX_LAYER_EXCLUDE"]
 
 
 class SizeInfo:
@@ -796,11 +794,11 @@ class Component(Device):
     def get_json(self, **kwargs) -> Dict[str, Any]:
         """ returns JSON metadata """
         jsondata = {
-            "json_version": 6,
+            "json_version": 7,
             "cells": recurse_structures(self),
             "test_protocol": self.test_protocol,
             "data_analysis_protocol": self.data_analysis_protocol,
-            "git_hash": CONFIG["git_hash"],
+            "git_hash": conf["git_hash"],
         }
 
         if hasattr(self, "analysis"):
@@ -882,65 +880,6 @@ class Component(Device):
         if alias is not None:
             self.aliases[alias] = d
         return d
-
-    def get_bounding_box2(self, layers_excl=BBOX_LAYER_EXCLUDE, force=False):
-        """
-        Calculate the bounding box for this cell.
-
-        Returns
-            out : Numpy array[2, 2] or None
-                Bounding box of this cell [[x_min, y_min], [x_max, y_max]],
-                or None if the cell is empty.
-        """
-        if (
-            len(self.polygons) == 0
-            and len(self.paths) == 0
-            and len(self.references) == 0
-        ):
-            return None
-
-        if force or (
-            not (
-                self._bb_valid
-                and all(ref._bb_valid for ref in self.get_dependencies(True))
-            )
-        ):
-            bb = None  # np.array(((1e300, 1e300), (-1e300, -1e300)))
-            all_polygons = []
-            for polygon in self.polygons:
-
-                polygons = _filter_polys(polygon, layers_excl)
-
-                all_polygons.extend(polygons)
-            for path in self.paths:
-                all_polygons.extend(path.to_polygonset().polygons)
-            for reference in self.references:
-                reference_bb = reference.get_bounding_box()
-                if reference_bb is not None:
-                    if bb is None:
-                        bb = reference_bb.copy()
-                    else:
-                        bb[0, 0] = min(bb[0, 0], reference_bb[0, 0])
-                        bb[0, 1] = min(bb[0, 1], reference_bb[0, 1])
-                        bb[1, 0] = max(bb[1, 0], reference_bb[1, 0])
-                        bb[1, 1] = max(bb[1, 1], reference_bb[1, 1])
-
-            if len(all_polygons) > 0:
-                all_points = np.concatenate(all_polygons).transpose()
-                if bb is None:
-                    bb = np.zeros([2, 2])
-                    bb[0, 0] = all_points[0].min()
-                    bb[0, 1] = all_points[1].min()
-                    bb[1, 0] = all_points[0].max()
-                    bb[1, 1] = all_points[1].max()
-                else:
-                    bb[0, 0] = min(bb[0, 0], all_points[0].min())
-                    bb[0, 1] = min(bb[0, 1], all_points[1].min())
-                    bb[1, 0] = max(bb[1, 0], all_points[0].max())
-                    bb[1, 1] = max(bb[1, 1], all_points[1].max())
-            self._bb_valid = True
-            gdspy._bounding_boxes[self] = bb
-        return gdspy._bounding_boxes[self]
 
     def get_layers(self):
         """ returns a set of (layer, datatype)

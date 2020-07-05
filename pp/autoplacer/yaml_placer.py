@@ -22,7 +22,7 @@ iso_lines_coarse1:
 import os
 import sys
 import collections
-import hiyapyco
+from omegaconf import OmegaConf
 import numpy as np
 import klayout.db as pya
 
@@ -424,7 +424,8 @@ def load_yaml(filepath, defaults={"do_permutation": True}):
     """
 
     does = {}
-    data = hiyapyco.load(str(filepath))
+    data = OmegaConf.load(filepath)
+    data = OmegaConf.to_container(data)
     mask = data.pop("mask")
 
     if "layer_doe_label" not in mask:
@@ -781,7 +782,9 @@ def place_and_write(
 
 
 def assemble_subdies_from_yaml(filepath, subdies_directory, mask_directory=None):
-    data = hiyapyco.load(str(filepath))
+    data = OmegaConf.load(filepath)
+    data = OmegaConf.to_container(data)
+
     mask = data.pop("mask")
     mask_name = mask["name"]
 

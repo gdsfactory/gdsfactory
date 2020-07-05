@@ -22,10 +22,8 @@ from phidl import quickplot as qp
 import phidl.geometry as pg
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from pp.config import CONFIG
-from pp.config import call_if_func
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.config import CONFIG, call_if_func, conf
+from pp.component import Component, ComponentReference
 from pp.port import Port
 from pp.name import autoname
 from pp.layers import LAYER
@@ -70,6 +68,7 @@ __all__ = [
     "import_gds",
     "import_phidl_component",
     "c",
+    "conf",
     "component_factory",
     "call_if_func",
     "extend_port",
@@ -93,7 +92,7 @@ __all__ = [
     "write_gds",
     "Port",
 ]
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 
 
 if __name__ == "__main__":

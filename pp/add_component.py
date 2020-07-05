@@ -5,22 +5,22 @@ import os
 import shutil
 from pp.write_component import write_component
 import pp
-from pp.config import CONFIG
+from pp.config import CONFIG, conf
 from gdsdiff.gdsdiff import gdsdiff
 
 GDS_PATH_TMP = CONFIG["gdslib_test"]
 
 
-def get_library_path(tech=CONFIG["tech"]):
+def get_library_path(tech=conf.tech.name):
     return CONFIG["gdslib"] / tech
 
 
-def get_component_path(component, tech=CONFIG["tech"]):
+def get_component_path(component, tech=conf.tech.name):
     return get_library_path(tech) / (component.name + ".gds")
 
 
 def is_same_as_in_library(
-    component, tech=CONFIG["tech"], gdspath_tmp=CONFIG["gdslib_test"],
+    component, tech=conf.tech.name, gdspath_tmp=CONFIG["gdslib_test"],
 ):
     """
     component: a pp.Component
@@ -42,7 +42,7 @@ def is_same_as_in_library(
     return new_component_hash == lib_hash
 
 
-def component_is_in_library(component, tech=CONFIG["tech"]):
+def component_is_in_library(component, tech=conf.tech.name):
     lib_component_path = get_component_path(component, tech)
     return os.path.exists(lib_component_path)
 

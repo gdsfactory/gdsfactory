@@ -14,10 +14,9 @@ clean:
 
 mask:
 	python test_mask.py
-	pf mask write_metadata
 
 show:
-	pf show build/mask/sample_mask.gds
+	pf show build/mask/mask.gds
 
 
 .PHONY: devices

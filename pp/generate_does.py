@@ -3,7 +3,7 @@ import collections
 from multiprocessing import Process
 import time
 from pprint import pprint
-import hiyapyco
+from omegaconf import OmegaConf
 
 from pp.placer import save_doe
 from pp.placer import doe_exists
@@ -16,7 +16,7 @@ from pp.components import component_type2factory
 from pp.write_doe import write_doe_metadata
 from pp.doe import get_settings_list
 
-from pp.logger import LOGGER
+from pp.config import logging
 
 
 def _print(*args, **kwargs):
@@ -88,7 +88,7 @@ def _generate_doe(
     doe_metadata_path=None,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
-    logger=LOGGER,
+    logger=logging,
     **kwargs,
 ):
     doe_name = doe["name"]
@@ -126,7 +126,8 @@ def _generate_doe(
 
 def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
     does = {}
-    data = hiyapyco.load(str(filepath))
+    data = OmegaConf.load(filepath)
+    data = OmegaConf.to_container(data)
     mask = data.pop("mask")
 
     for doe_name, doe in data.items():
@@ -145,7 +146,7 @@ def generate_does(
     doe_root_path=CONFIG["cache_doe_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
     n_cores=4,
-    logger=LOGGER,
+    logger=logging,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
 ):

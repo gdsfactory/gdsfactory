@@ -12,7 +12,7 @@ from pp.add_termination import add_gratings_and_loop_back
 from pp.routing.connect import connect_strip_way_points
 from pp.add_padding import add_padding_to_grid
 
-from pp.mask import merge_metadata
+from pp.mask.merge_metadata import merge_metadata
 
 
 def _route_filter(*args, **kwargs):

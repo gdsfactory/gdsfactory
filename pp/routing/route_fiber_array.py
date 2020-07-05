@@ -21,7 +21,7 @@ from pp.component import Component, ComponentReference
 from typing import Any, Callable, List, Optional, Tuple, Union
 
 SPACING_GC = 127.0
-BEND_RADIUS = pp.CONFIG["bend_radius"]
+BEND_RADIUS = pp.conf.tech.bend_radius
 
 
 def route_fiber_array(

@@ -4,12 +4,12 @@ from pp.routing.connect import get_waypoints_connect_strip
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.utils import flip
-from pp.config import CONFIG
+from pp.config import conf
 
 
 def route_south(
     component,
-    bend_radius=CONFIG["bend_radius"],
+    bend_radius=conf.tech.bend_radius,
     optical_routing_type=1,
     excluded_ports=[],
     waveguide_separation=4.0,
