@@ -145,7 +145,7 @@ def dict2name(prefix: None = None, **kwargs) -> str:
 
 def assert_first_letters_are_different(**kwargs):
     """ avoids having name colissions of different args with the same first letter """
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
     assert len(set(first_letters)) == len(
         first_letters
     ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
