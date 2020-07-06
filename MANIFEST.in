@@ -1,3 +1,4 @@
+include pp/config.yml
 include pp/gds/alphabet.gds
 include pp/components/csv_data/*.csv
 include pp/components/grating_coupler/csv_data/*.csv
