@@ -96,7 +96,6 @@ def route_fiber_array(
     if N == 0:
         return [], [], 0
 
-    csi = component.size_info
     elements = []
 
     """
@@ -147,7 +146,7 @@ def route_fiber_array(
 
     # Get the center along x axis
     x_c = round(sum([p.x for p in optical_ports]) / N, 1)
-    y_min = csi.south  # min([p.y for p in optical_ports])
+    y_min = component.ymin  # min([p.y for p in optical_ports])
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(optical_ports)
@@ -159,7 +158,9 @@ def route_fiber_array(
     # Set routing type if not specified
     pxs = [p.x for p in optical_ports]
     is_big_component = (
-        (K > 2) or (max(pxs) - min(pxs) > io_sep - delta_gr_min) or (csi.width > io_sep)
+        (K > 2)
+        or (max(pxs) - min(pxs) > io_sep - delta_gr_min)
+        or (component.xsize > io_sep)
     )
     if optical_routing_type is None:
         if not is_big_component:
