@@ -97,7 +97,7 @@ __all__ = [
     "component_from_yaml",
     "netlist_from_yaml",
 ]
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
 
 if __name__ == "__main__":
