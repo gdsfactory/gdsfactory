@@ -63,8 +63,14 @@ def autoname(component_function: Callable) -> Callable:
 
     @functools.wraps(component_function)
     def _autoname(*args, **kwargs):
+        args_repr = [repr(a) for a in args]
+        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
+        arguments = ", ".join(args_repr + kwargs_repr)
+
         if args:
-            raise ValueError("autoname supports only Keyword args")
+            raise ValueError(
+                f"autoname supports only Keyword args for `{component_function.__name__}({arguments})`"
+            )
         cache = kwargs.pop("cache", True)
         uid = kwargs.pop("uid", False)
         pins = kwargs.pop("pins", False)
@@ -84,7 +90,7 @@ def autoname(component_function: Callable) -> Callable:
             for key in kwargs.keys():
                 assert (
                     key in sig.parameters.keys()
-                ), f"{key} key not in {list(sig.parameters.keys())}"
+                ), f"`{key}` key not in {list(sig.parameters.keys())} for {component_type}"
 
         if cache and name in NAME_TO_DEVICE:
             return NAME_TO_DEVICE[name]
@@ -262,16 +268,16 @@ def test_clean_name():
 
 
 if __name__ == "__main__":
-    test_autoname()
     # test_autoname()
-    # import pp
+    import pp
 
     # print(clean_value(pp.c.waveguide))
 
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
 
-    # c = pp.c.waveguide(length=11)
+    c = pp.c.waveguide(length=11)
+    print(c)
     # print(c)
     # pp.show(c)
 

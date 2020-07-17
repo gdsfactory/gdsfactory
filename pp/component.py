@@ -723,7 +723,7 @@ class Component(Device):
         output["name"] = self.name
 
         if hasattr(self, "function_name"):
-            output["class"] = self.function_name
+            output["function_name"] = self.function_name
 
         for key, value in self.settings.items():
             output[key] = _clean_value(value)

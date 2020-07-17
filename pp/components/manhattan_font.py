@@ -9,7 +9,13 @@ A pixel based font, guaranteed to be manhattan, without accute angles
 
 
 def manhattan_text(
-    text="abcd", size=10, position=(0, 0), justify="left", layer=LAYER.M1
+    text="abcd",
+    size=10,
+    position=(0, 0),
+    justify="left",
+    layer=LAYER.M1,
+    layers_cladding=[],
+    cladding_offset=3,
 ):
     """
 
@@ -61,6 +67,15 @@ def manhattan_text(
             ref.xmax = position[0]
         if justify == "center":
             ref.move(origin=ref.center, destination=position, axis="x")
+
+    points = [
+        [t.xmin - cladding_offset / 2, t.ymin - cladding_offset],
+        [t.xmax + cladding_offset / 2, t.ymin - cladding_offset],
+        [t.xmax + cladding_offset / 2, t.ymax + cladding_offset],
+        [t.xmin - cladding_offset / 2, t.ymax + cladding_offset],
+    ]
+    for layer in layers_cladding:
+        t.add_polygon(points, layer=layer)
     return t
 
 
@@ -369,5 +384,8 @@ load_font()
 
 
 if __name__ == "__main__":
-    c = manhattan_text(text="The mask is nearly done. only 12345 drc errors remaining")
+    c = manhattan_text(
+        text="The mask is nearly done. only 12345 drc errors remaining",
+        layers_cladding=[(33, 44)],
+    )
     pp.show(c)
