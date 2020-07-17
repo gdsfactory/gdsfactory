@@ -4,8 +4,8 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
     tags:
-      - '*' # Push events with any tag
-      # - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      # - '*' # Push events with any tag
 
 jobs:
   deploy:

@@ -13,28 +13,43 @@ from pp.components.manhattan_font import manhattan_text
 LINE_LENGTH = 420.0
 
 
-def square_middle(side=0.5, layer=LAYER.WG):
+@pp.autoname
+def square_middle(side=0.5, layer=LAYER.WG, cladding_offset=3, layers_cladding=[]):
     component = pp.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
+    a += cladding_offset
+    for l in layers_cladding:
+        component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=l)
     return component
 
 
-def double_square(side=0.5, layer=LAYER.WG):
+@pp.autoname
+def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=3):
     component = pp.Component()
     a = side / 2
     pts0 = [(-a, -a), (a, -a), (a, a), (-a, a)]
     for b in [-side / 2 - 0.25, side / 2 + 0.25]:
         pts = [(x, y + b) for x, y in pts0]
         component.add_polygon(pts, layer=layer)
+
+    a += cladding_offset
+    for layer in layers_cladding:
+        component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
+
     return component
 
 
-def rectangle(x, y, layer=LAYER.WG):
+@pp.autoname
+def rectangle(x, y, layer=LAYER.WG, layers_cladding=[], cladding_offset=3):
     component = pp.Component()
     a = x / 2
     b = y / 2
     component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+    a += cladding_offset
+    b += cladding_offset
+    for layer in layers_cladding:
+        component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
     return component
 
 
@@ -52,12 +67,14 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
     return component
 
 
-def char_H():
-    return manhattan_text("H", size=0.4, layer=LAYER.WG)
+@pp.autoname
+def char_H(layer=LAYER.WG, layers_cladding=[]):
+    return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
-def char_L():
-    return manhattan_text("L", size=0.4, layer=LAYER.WG)
+@pp.autoname
+def char_L(layer=LAYER.WG, layers_cladding=[]):
+    return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
 CENTER_SHAPES_MAP = {
@@ -78,7 +95,7 @@ def _cdsem_generic(
     waveguide_factory=waveguide,
     markers_with_slabs=False,
 ):
-    """ bends and straights connected together
+    """bends and straights connected together
     for CDSEM measurement
     """
 
@@ -125,9 +142,11 @@ def _cdsem_generic(
     return component
 
 
-def wg_line(length, width, offset=0.2):
+def wg_line(length, width, offset=0.2, layer=pp.LAYER.WG, layers_cladding=[]):
     c = pp.Component()
-    _wg = c.add_ref(rectangle(length, width, pp.LAYER.WG))
+    _wg = c.add_ref(
+        rectangle(x=length, y=width, layer=layer, layers_cladding=layers_cladding)
+    )
     c.absorb(_wg)
     return c
 
@@ -142,6 +161,8 @@ def cdsem_straight(
     width_center=0.5,
     label="A",
     waveguide_factory=waveguide,
+    layer=LAYER.WG,
+    layers_cladding=[],
 ):
 
     c = pp.Component()
@@ -150,7 +171,9 @@ def cdsem_straight(
 
     widths = [width_center * 0.92, width_center, width_center * 1.08]
 
-    marker_label = manhattan_text(text=label, size=0.4, layer=LAYER.WG)
+    marker_label = manhattan_text(
+        text=label, size=0.4, layer=layer, layers_cladding=layers_cladding
+    )
     _marker_label = c.add_ref(marker_label)
     _marker_label.move((2 * (length + spacing_h) + 2 * spacing_h, 1.5 * spacing_v))
     c.absorb(_marker_label)
@@ -158,7 +181,7 @@ def cdsem_straight(
     for width, marker_type in zip(widths, ["L", "S", "H"]):
         y = 0
         # iso line
-        _r = wg_line(length, width)
+        _r = wg_line(length, width, layer=layer, layers_cladding=layers_cladding)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)
@@ -166,7 +189,7 @@ def cdsem_straight(
         y += width + spacing_v
         # dual lines
         for gap, col_marker_type in zip(gaps, ["S", "L", "H"]):
-            wg_line(length, width)
+            wg_line(length, width, layer=layer, layers_cladding=layers_cladding)
             _r1_ref = c.add_ref(_r)
             _r1_ref.move((x, y))
 
@@ -177,7 +200,9 @@ def cdsem_straight(
             c.absorb(_r2_ref)
 
             if i < 2:
-                marker = CENTER_SHAPES_MAP[col_marker_type]()
+                marker = CENTER_SHAPES_MAP[col_marker_type](
+                    layer=layer, layers_cladding=layers_cladding
+                )
                 _marker = c.add_ref(marker)
                 _marker.move((x + length / 2 + spacing_h / 2, y + width + gap / 2))
                 c.absorb(_marker)
@@ -201,6 +226,8 @@ def cdsem_straight_column(
     width_center=0.5,
     label="A",
     waveguide_factory=waveguide,
+    layer=LAYER.WG,
+    layers_cladding=[],
 ):
 
     c = pp.Component()
@@ -219,28 +246,33 @@ def cdsem_straight_column(
         y += width + spacing_v
 
         marker_label = manhattan_text(
-            text="{}{}".format(label, j + 1), size=0.4, layer=LAYER.WG
+            text="{}{}".format(label, j + 1),
+            size=0.4,
+            layer=layer,
+            layers_cladding=layers_cladding,
         )
         _marker_label = c.add_ref(marker_label)
-        _marker_label.move((length / 2 + 2 * spacing_h, y))
+        _marker_label.move((length + 6, y))
         c.absorb(_marker_label)
 
         # dual lines
         for gap, col_marker_type in zip(gaps, ["S", "L", "H"]):
-            wg_line(length, width)
+            wg_line(length, width, layer=layer, layers_cladding=layers_cladding)
             _r1_ref = c.add_ref(_r)
             _r1_ref.move((x, y))
 
-            wg_line(length, width)
+            wg_line(length, width, layer=layer, layers_cladding=layers_cladding)
             _r2_ref = c.add_ref(_r)
             _r2_ref.move((x, y + gap + width))
             c.absorb(_r1_ref)
             c.absorb(_r2_ref)
 
             # if i < 2:
-            marker = CENTER_SHAPES_MAP[col_marker_type]()
+            marker = CENTER_SHAPES_MAP[col_marker_type](
+                layer=layer, layers_cladding=layers_cladding
+            )
             _marker = c.add_ref(marker)
-            _marker.move((x + length / 2 + spacing_h / 2, y + width + gap / 2))
+            _marker.move((length + 3, y + width + gap / 2))
             c.absorb(_marker)
 
             y += 2 * width + gap + spacing_v
@@ -253,7 +285,7 @@ def cdsem_straight_column(
 
 
 @pp.autoname
-def cdsem_straight_all(waveguide_factory=waveguide):
+def cdsem_straight_all(waveguide_factory=waveguide, layer=LAYER.WG, layers_cladding=[]):
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     c = pp.Component()
@@ -261,7 +293,11 @@ def cdsem_straight_all(waveguide_factory=waveguide):
     y = 0
     for width, label in zip(widths, labels):
         _c = cdsem_straight_column(
-            width_center=width, label=label, waveguide_factory=waveguide_factory
+            width_center=width,
+            label=label,
+            waveguide_factory=waveguide_factory,
+            layer=layer,
+            layers_cladding=layers_cladding,
         )
         y -= _c.size_info.south
         cr = c.add_ref(_c)
@@ -280,8 +316,10 @@ def cdsem_straight_density(
     margin=2.0,
     label="",
     waveguide_factory=waveguide,
+    layer=LAYER.WG,
+    layers_cladding=[],
 ):
-    """ horizontal grating etch lines
+    """horizontal grating etch lines
 
     TE: 676nm pitch, 304nm gap, 372nm line
     TM: 1110nm pitch, 506nm gap, 604nm line
@@ -302,9 +340,11 @@ def cdsem_straight_density(
         tooth_ref.movey((-n_o_lines / 2 + 0.5 + i) * period)
         c.absorb(tooth_ref)
 
-    marker_label = manhattan_text(text="{}".format(label), size=1.0, layer=LAYER.WG)
+    marker_label = manhattan_text(
+        text="{}".format(label), size=1.0, layer=layer, layers_cladding=layers_cladding
+    )
     _marker_label = c.add_ref(marker_label)
-    _marker_label.move((length / 2 + 10.0, 10.0))
+    _marker_label.move((length + 3, 10.0))
     c.absorb(_marker_label)
 
     return c
@@ -318,14 +358,20 @@ def cdsem_strip(waveguide_factory=waveguide, **kwargs):
 
 
 @pp.autoname
-def cdsem_target(width_center=0.5, label="", layer=LAYER.WG):
-    radii = [5.0, 10.0]
+def cdsem_target(
+    bend90_factory=bend_circular,
+    width_center=0.5,
+    label="",
+    layer=LAYER.WG,
+    layers_cladding=[],
+    radii=[5.0, 10.0],
+):
     c = pp.Component()
     a = 1.0
     w = 3 * a / 4
 
     for pos in [(0, 0), (w, w), (-w, w), (w, -w), (-w, -w)]:
-        _c = c.add_ref(square_middle())
+        _c = c.add_ref(square_middle(layer=layer, layers_cladding=layers_cladding))
         _c.move(pos)
         c.absorb(_c)
 
@@ -335,16 +381,16 @@ def cdsem_target(width_center=0.5, label="", layer=LAYER.WG):
 
     for radius in radii:
         b = a + radius
-        _b_tr = bend_circular(radius=radius, width=w0)
+        _b_tr = bend90_factory(radius=radius, width=w0)
         b_tr = _b_tr.ref(position=(b, a), rotation=90, port_id="W0")
 
-        _b_bl = bend_circular(radius=radius, width=w0)
+        _b_bl = bend90_factory(radius=radius, width=w0)
         b_bl = _b_bl.ref(position=(-b, -a), rotation=270, port_id="W0")
 
-        _b_br = bend_circular(radius=radius, width=w_max)
+        _b_br = bend90_factory(radius=radius, width=w_max)
         b_br = _b_br.ref(position=(a, -b), rotation=0, port_id="W0")
 
-        _b_tl = bend_circular(radius=radius, width=w_min)
+        _b_tl = bend90_factory(radius=radius, width=w_min)
         b_tl = _b_tl.ref(position=(-a, b), rotation=180, port_id="W0")
 
         c.add([b_tr, b_tl, b_bl, b_br])
@@ -367,9 +413,8 @@ def cdsem_uturn(
     wg_length=LINE_LENGTH,
     waveguide_factory=pp.c.waveguide,
     bend90_factory=bend_circular,
-    layer=pp.LAYER.WG,
-    layers_cladding=[pp.LAYER.WGCLAD],
-    cladding_offset=3,
+    layer=LAYER.WG,
+    layers_cladding=[],
 ):
     """
 
@@ -380,20 +425,13 @@ def cdsem_uturn(
         wg_length
 
     """
+    print(bend90_factory)
     c = pp.Component()
     r = radius
-    bend90 = bend90_factory(
-        width=width, radius=r, layer=layer, layers_cladding=layers_cladding
-    )
+    bend90 = bend90_factory(width=width, radius=r)
     if wg_length is None:
         wg_length = 2 * r
-    wg = waveguide_factory(
-        width=width,
-        length=wg_length,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-    )
+    wg = waveguide_factory(width=width, length=wg_length,)
 
     # bend90.ports()
     rename_ports_by_orientation(bend90)
@@ -412,10 +450,14 @@ def cdsem_uturn(
 
     # Add symbols
 
-    sym1 = c.add_ref(CENTER_SHAPES_MAP[symbol_bot]())
+    sym1 = c.add_ref(
+        CENTER_SHAPES_MAP[symbol_bot](layer=layer, layers_cladding=layers_cladding)
+    )
     sym1.rotate(-90)
     sym1.movey(r)
-    sym2 = c.add_ref(CENTER_SHAPES_MAP[symbol_top]())
+    sym2 = c.add_ref(
+        CENTER_SHAPES_MAP[symbol_top](layer=layer, layers_cladding=layers_cladding)
+    )
     sym2.rotate(-90)
     sym2.movey(2 * r)
     c.absorb(sym1)
@@ -438,14 +480,19 @@ def opcm(
     waveguide_factory=waveguide,
     bend90_factory=bend_circular,
     layer=LAYER.WG,
+    layers_cladding=[],
 ):
-    """ column with all optical PCMs
+    """column with all optical PCMs
     Args:
         dw
     """
     c = pp.Component()
     spacing_v = 5.0
-    _c1 = cdsem_straight_all(waveguide_factory=waveguide_factory)
+    _c1 = cdsem_straight_all(
+        waveguide_factory=waveguide_factory,
+        layer=layer,
+        layers_cladding=layers_cladding,
+    )
 
     all_devices = [_c1]
 
@@ -455,6 +502,8 @@ def opcm(
             symbol_top=s,
             waveguide_factory=waveguide_factory,
             bend90_factory=bend90_factory,
+            layer=layer,
+            layers_cladding=layers_cladding,
         )
         for w, s in zip([0.46, 0.5, 0.54], ["L", "S", "H"])
     ]
@@ -472,7 +521,12 @@ def opcm(
 
     all_devices += [
         cdsem_straight_density(
-            wg_width=w, trench_width=t, label=lbl, waveguide_factory=waveguide_factory
+            wg_width=w,
+            trench_width=t,
+            label=lbl,
+            waveguide_factory=waveguide_factory,
+            layer=layer,
+            layers_cladding=layers_cladding,
         )
         for w, t, lbl in density_params
     ]
@@ -489,7 +543,13 @@ def opcm(
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     targets = [
-        cdsem_target(width_center=w, label=lbl, layer=layer)
+        cdsem_target(
+            bend90_factory=bend90_factory,
+            width_center=w,
+            label=lbl,
+            layer=layer,
+            layers_cladding=layers_cladding,
+        )
         for w, lbl in zip(widths, labels)
     ]
     y = -targets[0].size_info.height / 2 - spacing_v
@@ -509,7 +569,7 @@ def opcm(
 
 def _TRCH_DASH_ISO(length=20.0, width=0.5, n=3, separation=2.0, label=""):
     c = pp.Component()
-    _r = rectangle(width, length, LAYER.UT)
+    _r = rectangle(x=width, y=length, layer=LAYER.WG)
     for i in range(n):
         r_ref = c.add_ref(_r)
         r_ref.movey(i * (length + separation))
@@ -574,7 +634,7 @@ class LabelIterator:
 @pp.autoname
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
-    _r = c.add_ref(rectangle(width, length, LAYER.SLAB150))
+    _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
     c.absorb(_r)
 
     lblit = gen_label_iterator("TA")
@@ -636,8 +696,7 @@ def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
 if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
-    # c = cdsem_uturn()
-    # c = cdsem_straight_density()
-    # c = pcm_bend()
-    c = opcm()
+    c = cdsem_uturn()
+    c = cdsem_straight_density()
+    # c = opcm()
     pp.show(c)

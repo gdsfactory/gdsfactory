@@ -37,9 +37,12 @@ mypy:
 build:
 	python setup.py sdist bdist_wheel
 
-release:
+devpi-release:
 	pip install devpi-client wheel
 	devpi upload --format=bdist_wheel,sdist.tgz
+
+release:
+	git push origin --tags
 
 
 .PHONY: gdsdiff build

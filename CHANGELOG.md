@@ -4,13 +4,15 @@
 
 - had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
 - create a Klayout library so we can also place components from the klayout menu GUI
-- have a netlist extraction capability
+- extract and represent netlists
 
 ## Maybe
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
 ## Most recent changes with no release yet
+
+- manhattan text can have cladding
 
 ## 1.2.1 2020-07-05
 
