@@ -1,4 +1,4 @@
-class: coupler
+function_name: coupler
 kwargs: _empty
 module: pp.components.coupler
 name: coupler

@@ -1,4 +1,4 @@
-class: ring_double_bus
+function_name: ring_double_bus
 kwargs: _empty
 module: pp.components.ring_double_bus
 name: ring_double_bus

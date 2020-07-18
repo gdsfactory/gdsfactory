@@ -1,5 +1,5 @@
-class: grating_coupler_elliptical_trenches
 fiber_angle: 15.0
+function_name: grating_coupler_elliptical_trenches
 grating_line_width: 0.6
 lambda_c: 1.53
 layer:

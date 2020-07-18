@@ -1,4 +1,4 @@
-class: taper_strip_to_ridge
+function_name: taper_strip_to_ridge
 length: 10.0
 module: pp.components.taper
 name: taper_strip_to_ridge

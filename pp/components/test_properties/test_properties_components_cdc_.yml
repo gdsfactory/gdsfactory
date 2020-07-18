@@ -1,5 +1,4 @@
 angle: 0.5235987755982988
-class: cdc
 contradc_wgt: None
 dc: 0.5
 direction: EAST
@@ -9,6 +8,7 @@ fin_size:
 - 0.2
 - 0.05
 fins: 'False'
+function_name: cdc
 gap: 0.5
 input_bot: 'False'
 kwargs: _empty

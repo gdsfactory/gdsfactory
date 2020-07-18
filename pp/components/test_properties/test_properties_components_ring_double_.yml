@@ -1,6 +1,6 @@
 bend_radius: 5.0
-class: ring_double
 coupler: coupler_ring
+function_name: ring_double
 gap: 0.2
 length_x: 4.0
 length_y: 2.0

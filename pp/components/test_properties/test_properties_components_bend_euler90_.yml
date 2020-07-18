@@ -1,4 +1,4 @@
-class: bend_euler90
+function_name: bend_euler90
 layer:
 - 1
 - 0

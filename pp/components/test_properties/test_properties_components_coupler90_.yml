@@ -1,6 +1,6 @@
 bend90_factory: bend_circular
 bend_radius: 10.0
-class: coupler90
+function_name: coupler90
 gap: 0.2
 module: pp.components.coupler90
 name: coupler90

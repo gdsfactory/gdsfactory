@@ -1,4 +1,4 @@
-class: pad_array
+function_name: pad_array
 module: pp.components.electrical.pad
 n: 6
 name: pad_array

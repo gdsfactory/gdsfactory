@@ -1,5 +1,5 @@
 cladding_offset: 3.0
-class: taper
+function_name: taper
 layer:
 - 1
 - 0
