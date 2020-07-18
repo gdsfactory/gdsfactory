@@ -1,4 +1,4 @@
-class: waveguide_heater
+function_name: waveguide_heater
 heater_spacing: 1.2
 heater_width: 0.5
 layer_trench:

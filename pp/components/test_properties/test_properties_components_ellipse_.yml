@@ -1,5 +1,5 @@
 angle_resolution: 2.5
-class: ellipse
+function_name: ellipse
 layer:
 - 1
 - 0

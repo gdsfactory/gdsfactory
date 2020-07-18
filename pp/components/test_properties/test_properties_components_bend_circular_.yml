@@ -1,6 +1,6 @@
 angle_resolution: 2.5
 cladding_offset: 3.0
-class: bend_circular
+function_name: bend_circular
 layer:
 - 1
 - 0

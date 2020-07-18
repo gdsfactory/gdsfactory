@@ -2,9 +2,9 @@ N: 6
 bend180_function: bend_euler180
 bend90_function: bend_euler90
 bend_radius: 50.0
-class: spiral_inner_io_euler
 dx: 3.0
 dy: 3.0
+function_name: spiral_inner_io_euler
 grating_spacing: 127.0
 kwargs: _empty
 length: '20914.664633974484'

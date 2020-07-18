@@ -1,4 +1,4 @@
-class: test_resistance
+function_name: test_resistance
 gnd_layer: None
 module: pp.components.pcm.test_resistance
 name: test_resistance

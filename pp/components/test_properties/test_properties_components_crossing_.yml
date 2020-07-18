@@ -1,4 +1,4 @@
 arm: crossing_arm
-class: crossing
+function_name: crossing
 module: pp.components.crossing_waveguide
 name: crossing

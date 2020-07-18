@@ -1,6 +1,6 @@
 bend: bend_s
 cladding_offset: 3.0
-class: coupler_symmetric
+function_name: coupler_symmetric
 gap: 0.234
 layer:
 - 1

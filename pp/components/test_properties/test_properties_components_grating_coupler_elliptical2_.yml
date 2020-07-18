@@ -1,6 +1,6 @@
-class: grating_coupler_elliptical2
 direction: EAST
 dutycycle: 0.7
+function_name: grating_coupler_elliptical2
 kwargs: _empty
 length: 30.0
 module: pp.components.grating_coupler.elliptical2

@@ -1,4 +1,4 @@
-class: verniers
+function_name: verniers
 gap: 0.1
 module: pp.components.pcm.verniers
 name: verniers

@@ -1,5 +1,5 @@
-class: litho_star
 diameter: 200
+function_name: litho_star
 layer: 0
 line_width: 2
 module: pp.components.pcm.litho_star

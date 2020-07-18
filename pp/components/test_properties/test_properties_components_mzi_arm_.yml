@@ -3,7 +3,7 @@ L0: 60.0
 L_top: 10.0
 bend90_factory: bend_circular
 bend_radius: 10.0
-class: mzi_arm
+function_name: mzi_arm
 module: pp.components.mzi2x2
 name: mzi_arm
 straight_factory: waveguide

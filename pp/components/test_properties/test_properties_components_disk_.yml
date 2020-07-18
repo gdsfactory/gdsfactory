@@ -1,5 +1,5 @@
-class: disk
 direction: EAST
+function_name: disk
 gap: 0.2
 kwargs: _empty
 module: pp.components.disk

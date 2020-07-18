@@ -1,5 +1,5 @@
 cladding_offset: 3.0
-class: coupler_straight
+function_name: coupler_straight
 gap: 0.27
 layer:
 - 1

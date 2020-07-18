@@ -64,6 +64,8 @@ def mzi_arm(
 
 
     """
+    if not with_elec_connections:
+        straight_heater_factory = straight_factory
 
     _bend = bend90_factory(radius=bend_radius)
 
@@ -289,11 +291,11 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    c = mzi_arm(DL=100)
-    # c = mzi2x2()
+    # c = mzi_arm(DL=100)
+    c = mzi2x2()
     # c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))
-    print(hash(c))
+    # print(hash(c))
     pp.show(c)

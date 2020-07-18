@@ -1,4 +1,4 @@
-class: pad
+function_name: pad
 height: 100
 layer:
 - 49

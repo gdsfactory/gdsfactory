@@ -1,4 +1,4 @@
-class: bend_circular_heater
+function_name: bend_circular_heater
 module: pp.components.bend_circular_heater
 name: bend_circular_heater
 radius: 10.0

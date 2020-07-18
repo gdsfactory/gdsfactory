@@ -44,6 +44,12 @@ components:
             DL: 0
         transformations: mirror_x
 
+connections:
+    - [CP1, E0, arm_bot, W0]
+    - [arm_bot, E0, CP2, E0]
+    - [CP1, E1, arm_top, W0]
+    - [arm_top, E0, CP2, E0]
+
 ports_map:
     W0: [CP1, W0]
     E0: [CP2, W0]
@@ -56,17 +62,14 @@ ports_map:
     E_BOT_2: [arm_bot, E_2]
     E_BOT_3: [arm_bot, E_3]
 
-connections:
-    - [CP1, E0, arm_bot, W0]
-    - [arm_bot, E0, CP2, E0]
-    - [CP1, E1, arm_top, W0]
-    - [arm_top, E0, CP2, E0]
-
 """
 )
 
 
-def netlist_from_yaml(file: Union[str, pathlib.Path, IO[Any]]) -> Component:
+def netlist_from_yaml(
+    file: Union[str, pathlib.Path, IO[Any]],
+    component_type2factory=component_type2factory,
+) -> Component:
     """ Loads Component settings from YAML file, and connections
 
     Args:

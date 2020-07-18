@@ -1,5 +1,5 @@
 cladding_offset: 3.0
-class: waveguide
+function_name: waveguide
 layer:
 - 1
 - 0

@@ -57,8 +57,7 @@ def gen_sref(
     port_name: str,
     position: Union[Tuple[int, int], ndarray],
 ) -> ComponentReference:
-    """
-    """
+    """"""
 
     if transformation_name not in TRANSFORMATION_MAP.values():
         raise ValueError(
@@ -183,7 +182,13 @@ def netlist_to_component(
     c = Component()
     c.add(list(cmp_name_to_sref.values()))
     for port_name, (cmp_id, internal_port_name) in ports_map.items():
-        c.add_port(port_name, port=cmp_name_to_sref[cmp_id].ports[internal_port_name])
+        component_ref = cmp_name_to_sref[cmp_id]
+        component = component_ref.parent
+        assert (
+            internal_port_name in component.ports
+        ), f"{internal_port_name} not in {component_ref.ports.keys()} for {component}"
+        port = component_ref.ports[internal_port_name]
+        c.add_port(port_name, port=port)
 
     # Set aliases
     for cmp_id, ref in cmp_name_to_sref.items():
@@ -223,11 +228,21 @@ def netlist_to_component(
     return c
 
 
-if __name__ == "__main__":
-    import pp
+def test_netlist_from_component():
     from pp.components.ring_single_bus import ring_single_bus_netlist
 
     components, connections, ports_map = ring_single_bus_netlist()
     c = netlist_to_component(components, connections, ports_map)
-    print(c.netlist)
+    # print((c.get_dependencies()))
+    # print(len(c.get_dependencies()))
+    assert len(c.get_dependencies()) == 4
+    return c
+
+
+if __name__ == "__main__":
+    import pp
+
+    # c = test_netlist_from_yaml()
+    c = test_netlist_from_component()
+    # print(c.netlist)
     pp.show(c)

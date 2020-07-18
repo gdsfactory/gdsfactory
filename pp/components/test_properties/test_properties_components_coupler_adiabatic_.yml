@@ -1,6 +1,6 @@
-class: coupler_adiabatic
 direction: EAST
 dw: 0.1
+function_name: coupler_adiabatic
 input_wg_sep: 3.0
 kwargs: _empty
 length1: 20.0

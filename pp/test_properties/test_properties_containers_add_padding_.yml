@@ -1,4 +1,3 @@
-class: null
 component:
   cladding_offset: 3.0
   layer:
@@ -10,6 +9,7 @@ component:
   length: 10.0
   width: 0.5
 component_name: waveguide
+function_name: null
 layers:
 - - 67
   - 0
