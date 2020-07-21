@@ -1,5 +1,5 @@
 centered: 'False'
-class: rectangle
+function_name: rectangle
 layer:
 - 1
 - 0

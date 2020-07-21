@@ -1,10 +1,10 @@
-class: dbr2
 dc: 0.5
 direction: EAST
 fin_size:
 - 0.2
 - 0.05
 fins: 'False'
+function_name: dbr2
 kwargs: _empty
 length: 10.0
 module: pp.components.dbr2

@@ -1,6 +1,6 @@
 big_last_tooth: 'False'
-class: grating_coupler_elliptical_tm
 fiber_angle: 15.0
+function_name: grating_coupler_elliptical_tm
 grating_line_width: 0.707
 kwargs: _empty
 lambda_c: 1.554

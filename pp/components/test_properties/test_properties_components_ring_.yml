@@ -1,5 +1,5 @@
 angle_resolution: 2.5
-class: ring
+function_name: ring
 layer:
 - 1
 - 0

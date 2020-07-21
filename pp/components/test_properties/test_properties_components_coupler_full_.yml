@@ -1,7 +1,7 @@
 angle: 0.5235987755982988
-class: coupler_full
 direction: EAST
 dw: 0.1
+function_name: coupler_full
 gap: 0.5
 kwargs: _empty
 length: 40.0

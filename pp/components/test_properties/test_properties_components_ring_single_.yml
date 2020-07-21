@@ -1,7 +1,7 @@
 bend: bend_circular
 bend_radius: 5.0
-class: ring_single
 coupler: coupler_ring
+function_name: ring_single
 gap: 0.2
 length_x: 4.0
 length_y: 2.0

@@ -1,4 +1,4 @@
-class: rectangle_centered
+function_name: rectangle_centered
 h: 1
 layer: 0
 module: pp.components.rectangle

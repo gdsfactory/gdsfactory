@@ -1,5 +1,5 @@
 cladding_offset: 3.0
-class: bend_s
+function_name: bend_s
 height: 2.0
 layer:
 - 1
