@@ -43,6 +43,7 @@ import pp.bias as bias
 import pp.klive as klive
 import pp.sp as sp
 import pp.port as port
+import pp.units as units
 
 from pp.component_from_yaml import component_from_yaml
 from pp.netlist_from_yaml import netlist_from_yaml
@@ -96,6 +97,7 @@ __all__ = [
     "Port",
     "component_from_yaml",
     "netlist_from_yaml",
+    "units",
 ]
 __version__ = "1.2.2"
 

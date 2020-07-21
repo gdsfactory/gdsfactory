@@ -11,7 +11,7 @@ picwriter = "*"
 phidl = "*"
 qrcode = "*"
 scipy = "*"
-HiYaPyCo = "*"
+omegaconf = "*"
 GitPython = "*"
 Shapely = "*"
 

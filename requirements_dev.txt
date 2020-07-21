@@ -1,4 +1,4 @@
-sphinx == 3.1.1
+sphinx
 sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
