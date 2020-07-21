@@ -289,8 +289,8 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    c = mzi_arm(DL=100)
-    # c = mzi2x2()
+    # c = mzi_arm(DL=100)
+    c = mzi2x2()
     # c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     # print(c)
