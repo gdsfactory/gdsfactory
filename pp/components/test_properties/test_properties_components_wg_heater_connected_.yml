@@ -1,4 +1,4 @@
-class: wg_heater_connected
+function_name: wg_heater_connected
 kwargs: _empty
 module: pp.components.waveguide_heater
 name: wg_heater_connected

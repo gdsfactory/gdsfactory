@@ -1,5 +1,5 @@
 angle_resolution: 2.5
-class: circle
+function_name: circle
 layer:
 - 1
 - 0

@@ -1,4 +1,3 @@
-class: null
 component:
   cladding_offset: 3.0
   layer:
@@ -11,6 +10,7 @@ component:
   width: 0.5
 component_name: waveguide
 extension_factory: None
+function_name: null
 input_port_ext: None
 length: 5
 name: waveguide_e

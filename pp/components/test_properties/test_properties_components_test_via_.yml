@@ -1,4 +1,4 @@
-class: test_via
+function_name: test_via
 min_pad_spacing: 0
 module: pp.components.pcm.test_via
 name: test_via

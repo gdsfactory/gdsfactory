@@ -2,9 +2,9 @@ N: 6
 bend180_function: bend_circular180
 bend90_function: bend_circular
 bend_radius: 50.0
-class: spiral_inner_io
 dx: 3.0
 dy: 3.0
+function_name: spiral_inner_io
 grating_spacing: 127.0
 length: '16949.99081698724'
 module: pp.components.spiral_inner_io

@@ -4,8 +4,8 @@ L0: 60.0
 L2: 10.0
 bend90_factory: bend_circular
 bend_radius: 10.0
-class: mzi2x2
 coupler_factory: coupler
+function_name: mzi2x2
 gap: 0.234
 module: pp.components.mzi2x2
 name: mzi2x2

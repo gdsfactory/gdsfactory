@@ -64,6 +64,8 @@ def mzi_arm(
 
 
     """
+    if not with_elec_connections:
+        straight_heater_factory = straight_factory
 
     _bend = bend90_factory(radius=bend_radius)
 
@@ -295,5 +297,5 @@ if __name__ == "__main__":
     # pp.write_gds(c, "mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))
-    print(hash(c))
+    # print(hash(c))
     pp.show(c)

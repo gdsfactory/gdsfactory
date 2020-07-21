@@ -1,5 +1,5 @@
 bend: bend_s
-class: coupler_asymmetric
+function_name: coupler_asymmetric
 gap: 0.234
 module: pp.components.coupler_asymmetric
 name: coupler_asymmetric
