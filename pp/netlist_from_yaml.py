@@ -20,7 +20,8 @@ from pp.netlist_to_gds import netlist_to_component
 
 sample = io.StringIO(
     """
-components:
+
+instances:
     CP1:
       component: mmi1x2
       settings:
@@ -126,22 +127,22 @@ def netlist_from_yaml(
 
     conf = OmegaConf.load(file)
 
-    components = {}
-    for component_name in conf.components:
-        component_conf = conf.components[component_name]
-        component_type = component_conf["component"]
-        component_settings = component_conf["settings"] or {}
-        component = component_type2factory[component_type](**component_settings)
-        component_transformations = component_conf["transformations"] or "None"
-        component_properties = component_conf["properties"] or {}
-        for k, v in component_properties:
-            setattr(component, k, v)
-        component.name = component_name
-        components[component_name] = (component, component_transformations)
+    instances = {}
+    for instance_name in conf.instances:
+        instance_conf = conf.instances[instance_name]
+        component_type = instance_conf["component"]
+        component_settings = instance_conf["settings"] or {}
+        instance = component_type2factory[component_type](**component_settings)
+        instance_transformations = instance_conf["transformations"] or "None"
+        instance_properties = instance_conf["properties"] or {}
+        for k, v in instance_properties.items():
+            setattr(instance, k, v)
+        instance.name = instance_name
+        instances[instance_name] = (instance, instance_transformations)
 
     connections = conf.connections
     ports_map = conf.ports_map
-    return netlist_to_component(components, connections, ports_map)
+    return netlist_to_component(instances, connections, ports_map)
 
 
 def test_netlist_from_yaml():

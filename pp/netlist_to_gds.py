@@ -31,16 +31,14 @@ STR_TO_TRANSFORMATION_MAP = {v: k for k, v in TRANSFORMATION_MAP.items()}
 def get_elec_ports_from_component_names(component, names=[]):
     """
     Args
-        component <pp.Component>; should have component.info["components"]
+        component <pp.Component>; should have component.info["instances"]
     """
     e_ports = {}
 
     for name in names:
         _ports = {
             "{}_{}".format(name, p.name): p
-            for p in select_electrical_ports(
-                component.info["components"][name]
-            ).values()
+            for p in select_electrical_ports(component.info["instances"][name]).values()
         }
         e_ports.update(_ports)
 
@@ -96,15 +94,15 @@ def gen_sref(
 
 
 def netlist_to_component(
-    components: Dict[str, Tuple[Component, str]],
+    instances: Dict[str, Tuple[Component, str]],
     connections: List[Tuple[str, str, str, str]],
     ports_map: Dict[str, Tuple[str, str]],
     position: Tuple[float, float] = (0.0, 0.0),
 ) -> Component:
     """
     Args:
-        components:
-            list of (component_id <str>, component <Component>, transform <tuple>)
+        instances:
+            list of (instance_id <str>, component <Component>, transform <tuple>)
 
         connections:
             list of (component_id1, port_name1, component_id2, port_name2)
@@ -112,7 +110,7 @@ def netlist_to_component(
             has already been placed (except for the first component)
 
         ports_map:
-            {port_name: (component_id, port_name)}
+            {port_name: (instance_id, port_name)}
 
     Returns: component
     the component has component.netlist
@@ -137,7 +135,7 @@ def netlist_to_component(
             "rank": 1,
             "type": "COMPOUND",
             "settings": {},
-            "components": [
+            "instances": [
                 "CP1, CP2x2, None, None, 0.0, 0.0",
                 "WG1, WG_CAVITY, None, None, 0.0, 0.0",
             ],
@@ -150,24 +148,24 @@ def netlist_to_component(
     """
     if len(connections) == 0:
         raise ValueError(
-            "Error number of connections", len(connections), len(components)
+            "Error number of connections", len(connections), len(instances)
         )
 
-    component_id, cmp_port, _, _ = connections[0]
+    instance_id, port, _, _ = connections[0]
 
-    component, transform_name = components[component_id]
+    component, transform_name = instances[instance_id]
 
     # First component reference
-    sref_start = gen_sref(component, transform_name, cmp_port, position)
-    cmp_name_to_sref = {component_id: sref_start}
+    sref_start = gen_sref(component, transform_name, port, position)
+    cmp_name_to_sref = {instance_id: sref_start}
 
-    # Iterate over all connections: create and place components
+    # Iterate over all connections: create and place instances
     for cmp1_name, port1, cmp2_name, port2 in connections:
         if cmp1_name not in cmp_name_to_sref:
             cmp1_name, port1, cmp2_name, port2 = cmp2_name, port2, cmp1_name, port1
 
         if cmp2_name not in cmp_name_to_sref:
-            component, transform_name = components[cmp2_name]
+            component, transform_name = instances[cmp2_name]
 
             _ref = cmp_name_to_sref[cmp1_name]
             try:
@@ -194,17 +192,17 @@ def netlist_to_component(
     for cmp_id, ref in cmp_name_to_sref.items():
         c[cmp_id] = ref
 
-    c.info["components"] = cmp_name_to_sref
+    c.info["instances"] = cmp_name_to_sref
     # c.components = components
     # c.connections = connections
     # c.ports_map = ports_map
     # c.cells = {
-    #     cname: c for cname, (c, transf) in components.items()
+    #     cname: c for cname, (c, transf) in instances.items()
     # }  # "CP1": (cpl, "None"),
 
     # add leaf cells to netlist
     netlist = []
-    for name, (component, _) in components.items():
+    for name, (component, _) in instances.items():
         netlist.append(
             dict(
                 name=name,
@@ -231,8 +229,8 @@ def netlist_to_component(
 def test_netlist_from_component():
     from pp.components.ring_single_bus import ring_single_bus_netlist
 
-    components, connections, ports_map = ring_single_bus_netlist()
-    c = netlist_to_component(components, connections, ports_map)
+    instances, connections, ports_map = ring_single_bus_netlist()
+    c = netlist_to_component(instances, connections, ports_map)
     # print((c.get_dependencies()))
     # print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 4
