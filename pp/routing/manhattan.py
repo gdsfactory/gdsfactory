@@ -595,6 +595,7 @@ def round_corners(
 
     cell.name = f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}"
     cell.info["length"] = total_length
+    cell.length = total_length
     return cell
 
 

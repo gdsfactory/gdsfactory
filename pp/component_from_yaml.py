@@ -46,18 +46,31 @@ mmi_short,E1: mmi_long,E0
 """
 )
 
+
+ports_sample = io.StringIO(
+    """
+E0: mmi_short,W0
+W0: mmi_long,W0
+"""
+)
+
+
 valid_placements = ["x", "y", "rotation"]
 
 
 def component_from_yaml(
-    instances_yaml_path: Union[str, pathlib.Path, IO[Any]],
-    placements_yaml_path: Optional[Union[str, pathlib.Path, IO[Any]]] = None,
-    routing_yaml_path: Optional[Union[str, pathlib.Path, IO[Any]]] = None,
+    instances: Union[str, pathlib.Path, IO[Any]],
+    placements: Optional[Union[str, pathlib.Path, IO[Any]]] = None,
+    routing: Optional[Union[str, pathlib.Path, IO[Any]]] = None,
+    ports: Optional[Union[str, pathlib.Path, IO[Any]]] = None,
 ) -> Component:
-    """Loads Component settings from YAML file
+    """Loads instance settings, placements, routing and ports from YAML
 
     Args:
         instances: YAML IO describing Component instances
+        placements: YAML IO describing component x, y, rotation
+        routing: YAML IO describing waveguide routes
+        ports: YAML IO describing output component ports
 
     Returns:
         Component
@@ -81,13 +94,13 @@ def component_from_yaml(
     """
     c = Component()
 
-    instances_conf = OmegaConf.load(instances_yaml_path)
-    placements_conf = (
-        OmegaConf.load(placements_yaml_path) if placements_yaml_path else None
-    )
-    routing_conf = OmegaConf.load(routing_yaml_path) if routing_yaml_path else None
+    instances_conf = OmegaConf.load(instances)
+    placements_conf = OmegaConf.load(placements) if placements else None
+    routing_conf = OmegaConf.load(routing) if routing else None
+    ports_conf = OmegaConf.load(ports) if ports else None
 
     instances = {}
+    routes = {}
 
     for instance_name in instances_conf:
         instance_conf = instances_conf[instance_name]
@@ -138,7 +151,21 @@ def component_from_yaml(
 
             route = link_optical_ports([port_in], [port_out])
             c.add(route)
+            routes[f"{port_in_string}->{port_out_string}"] = route
+    if ports_conf:
+        for port_name, instance_comma_port in ports_conf.items():
+            instance_name, instance_port_name = instance_comma_port.split(",")
+            assert (
+                instance_name in instances
+            ), f"{instance_name} not in {list(instances.keys())}"
+            instance = instances[instance_name]
+            assert instance_port_name in instance.ports, (
+                f"{instance_port_name} not in {list(instance.ports.keys())} for"
+                f" {instance_name} "
+            )
+            c.add_port(port_name, port=instance.ports[instance_port_name])
     c.instances = instances
+    c.routes = routes
     return c
 
 
@@ -148,14 +175,22 @@ def test_component_from_yaml():
 
 
 def test_component_from_yaml_with_routing():
-    c = component_from_yaml(instances_sample_copy, placements_sample, routing_sample)
+    c = component_from_yaml(
+        instances_sample_copy, placements_sample, routing_sample, ports_sample
+    )
     assert len(c.get_dependencies()) == 3
+    assert len(c.ports) == 2
 
 
 if __name__ == "__main__":
+    import pp
 
-    # c = component_from_yaml(instances_sample, placements_sample, routing_sample)
+    c = component_from_yaml(
+        instances_sample, placements_sample, routing_sample, ports_sample
+    )
     # assert len(c.get_dependencies()) == 3
-    test_component_from_yaml()
-    test_component_from_yaml_with_routing()
-    # pp.show(c)
+    # test_component_from_yaml()
+    # test_component_from_yaml_with_routing()
+    # print(c.ports)
+    # c = pp.routing.add_io_optical(c)
+    pp.show(c)

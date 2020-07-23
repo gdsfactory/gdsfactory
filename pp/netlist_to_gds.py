@@ -1,9 +1,10 @@
+from typing import Dict, List, Tuple, Union
 import numpy as np
+from numpy import ndarray
+
 from pp.component import Component
 from pp.component import ComponentReference
 from pp.port import select_electrical_ports
-from numpy import ndarray
-from typing import Dict, List, Tuple, Union
 
 IDENTITY = (0, False)
 R90 = (90, False)
