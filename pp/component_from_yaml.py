@@ -11,7 +11,7 @@ from pp.component import Component
 from pp.components import component_type2factory
 from pp.routing import link_optical_ports
 
-valid_placements = ["x", "y", "rotation"]
+valid_placements = ["x", "y", "rotation", "mirror"]
 valid_keys = ["instances", "placements", "connections", "ports", "routes"]
 
 sample = io.StringIO(
@@ -65,7 +65,45 @@ connections:
 )
 
 
-def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
+sample_mirror = io.StringIO(
+    """
+instances:
+    CP1:
+      component: mmi1x2
+      settings:
+          width_mmi: 4.5
+          length_mmi: 10
+    CP2:
+        component: mmi1x2
+        settings:
+            width_mmi: 4.5
+            length_mmi: 5
+    arm_top:
+        component: mzi_arm
+    arm_bot:
+        component: mzi_arm
+
+placements:
+    arm_bot:
+        mirror: [0, 0, 0, 10]
+        rotation: 180
+ports:
+    W0: CP1,W0
+    E0: CP2,W0
+
+connections:
+    arm_bot,W0: CP1,E0
+    arm_top,W0: CP1,E1
+    CP2,E0: arm_bot,E0
+    CP2,E0: arm_top,E0
+"""
+)
+
+
+def component_from_yaml(
+    yaml: Union[str, pathlib.Path, IO[Any]],
+    component_type2factory=component_type2factory,
+) -> Component:
     """Loads instance settings, placements, routing and ports from YAML
 
     instances: defines instance names, component and settings
@@ -96,6 +134,9 @@ def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
     for instance_name in conf.instances:
         instance_conf = conf.instances[instance_name]
         component_type = instance_conf["component"]
+        assert (
+            component_type in component_type2factory
+        ), f"{component_type} not in {list(component_type2factory.keys())}"
         component_settings = instance_conf["settings"] or {}
         component_settings.update(cache=False)
         ci = component_type2factory[component_type](**component_settings)
@@ -112,6 +153,8 @@ def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
                     )
                 elif k == "rotation":
                     ci.rotate(v, (ci.x, ci.y))
+                elif k == "mirror":
+                    ci.mirror((v[0], v[1]), (v[2], v[3]))
                 else:
                     setattr(ci, k, v)
 
@@ -119,6 +162,12 @@ def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
         for port_src_string, port_dst_string in connections_conf.items():
             instance_src_name, port_src_name = port_src_string.split(",")
             instance_dst_name, port_dst_name = port_dst_string.split(",")
+
+            instance_src_name = instance_src_name.strip()
+            instance_dst_name = instance_dst_name.strip()
+            port_src_name = port_src_name.strip()
+            port_dst_name = port_dst_name.strip()
+
             assert (
                 instance_src_name in instances
             ), f"{instance_src_name} not in {list(instances.keys())}"
@@ -140,39 +189,47 @@ def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
             instance_src.connect(port=port_src_name, destination=port_dst)
 
     if routing_conf:
-        for port_in_string, port_out_string in routing_conf.items():
-            instance_in_name, port_in_name = port_in_string.split(",")
-            instance_out_name, port_out_name = port_out_string.split(",")
+        for port_src_string, port_dst_string in routing_conf.items():
+            instance_src_name, port_src_name = port_src_string.split(",")
+            instance_dst_name, port_dst_name = port_dst_string.split(",")
+
+            instance_src_name = instance_src_name.strip()
+            instance_dst_name = instance_dst_name.strip()
+            port_src_name = port_src_name.strip()
+            port_dst_name = port_dst_name.strip()
 
             assert (
-                instance_in_name in instances
-            ), f"{instance_in_name} not in {list(instances.keys())}"
+                instance_src_name in instances
+            ), f"{instance_src_name} not in {list(instances.keys())}"
             assert (
-                instance_out_name in instances
-            ), f"{instance_out_name} not in {list(instances.keys())}"
+                instance_dst_name in instances
+            ), f"{instance_dst_name} not in {list(instances.keys())}"
 
-            instance_in = instances[instance_in_name]
-            instance_out = instances[instance_out_name]
+            instance_in = instances[instance_src_name]
+            instance_out = instances[instance_dst_name]
 
-            assert port_in_name in instance_in.ports, (
-                f"{port_in_name} not in {list(instance_in.ports.keys())} for"
-                f" {instance_in_name} "
+            assert port_src_name in instance_in.ports, (
+                f"{port_src_name} not in {list(instance_in.ports.keys())} for"
+                f" {instance_src_name} "
             )
-            assert port_out_name in instance_out.ports, (
-                f"{port_out_name} not in {list(instance_out.ports.keys())} for"
-                f" {instance_out_name}"
+            assert port_dst_name in instance_out.ports, (
+                f"{port_dst_name} not in {list(instance_out.ports.keys())} for"
+                f" {instance_dst_name}"
             )
 
-            port_in = instance_in.ports[port_in_name]
-            port_out = instance_out.ports[port_out_name]
+            port_src = instance_in.ports[port_src_name]
+            port_out = instance_out.ports[port_dst_name]
 
-            route = link_optical_ports([port_in], [port_out])
+            route = link_optical_ports([port_src], [port_out])
             c.add(route)
-            routes[f"{port_in_string}:{port_out_string}"] = route[0]
+            routes[f"{port_src_string}:{port_dst_string}"] = route[0]
 
     if ports_conf:
+        assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
         for port_name, instance_comma_port in ports_conf.items():
             instance_name, instance_port_name = instance_comma_port.split(",")
+            instance_name = instance_name.strip()
+            instance_port_name = instance_port_name.strip()
             assert (
                 instance_name in instances
             ), f"{instance_name} not in {list(instances.keys())}"
@@ -187,10 +244,21 @@ def component_from_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
     return c
 
 
-def test_component_from_yaml():
+def test_sample():
     c = component_from_yaml(sample)
     assert len(c.get_dependencies()) == 3
     assert len(c.ports) == 2
+    return c
+
+
+def test_connections():
+    c = component_from_yaml(sample_connections)
+    return c
+
+
+def test_mirror():
+    c = component_from_yaml(sample_mirror)
+    return c
 
 
 def test_netlist_write():
@@ -215,8 +283,11 @@ def test_netlist_read():
 if __name__ == "__main__":
     import pp
 
-    test_netlist_write()
-    c = test_netlist_read()
+    # test_netlist_write()
+    # c = test_netlist_read()
+
+    c = test_mirror()
+    pp.show(c)
 
     # c = component_from_yaml(sample)
     # c = component_from_yaml(sample_connections)
@@ -225,4 +296,3 @@ if __name__ == "__main__":
     # test_component_from_yaml_with_routing()
     # print(c.ports)
     # c = pp.routing.add_io_optical(c)
-    pp.show(c)

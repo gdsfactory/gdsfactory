@@ -1,3 +1,4 @@
+from typing import Callable, Dict, List, Tuple
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.components.coupler_symmetric import coupler_symmetric_biased
 from pp.components.coupler_straight import coupler_straight
@@ -8,12 +9,12 @@ from pp.drc import assert_on_2nm_grid
 from pp.drc import assert_on_1nm_grid
 from pp.layers import LAYER
 from pp.component import Component
-from typing import Callable, Dict, List, Tuple
 
 
 @autoname
 def coupler(**kwargs) -> Component:
     """ symmetric coupler
+    DEPRECATED: use pp.component_from_yaml instead!
 
     Args:
         gap

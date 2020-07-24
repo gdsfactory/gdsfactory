@@ -146,6 +146,8 @@ def netlist_to_component(
 
     mirror, rotation, x, y
     """
+
+    print("netlist_to_component is deprecated! use pp.componet_from_yaml instead")
     if len(connections) == 0:
         raise ValueError(
             "Error number of connections", len(connections), len(instances)

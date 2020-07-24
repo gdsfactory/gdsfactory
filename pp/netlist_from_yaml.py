@@ -5,7 +5,6 @@
              top_arm
         -CP1=       =CP2-
              bot_arm
-
 """
 
 from typing import Union, IO, Any
@@ -72,6 +71,8 @@ def netlist_from_yaml(
     component_type2factory=component_type2factory,
 ) -> Component:
     """ Loads Component settings from YAML file, and connections
+
+    Deprecated! use component_from_yaml instead
 
     Args:
         netlist: YAML IO describing instances, connections and ports_map
