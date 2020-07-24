@@ -1,4 +1,15 @@
+cladding_offset: 3
+coupler_straight: coupler_straight
+coupler_symmetric_factory: coupler_symmetric
 function_name: coupler
-kwargs: _empty
+gap: 0.236
+layer:
+- 1
+- 0
+layers_cladding:
+- - 111
+  - 0
+length: 20.007
 module: pp.components.coupler
 name: coupler
+wg_width: 0.5

@@ -1,10 +1,14 @@
 import io
 import pp
 from pp.component_from_yaml import component_from_yaml
+from pp.component import Component
+from pp.name import autoname
 
 
-@pp.autoname
-def coupler(wg_width: float = 0.5, gap: float = 0.236, length: float = 10.007):
+@autoname
+def coupler(
+    wg_width: float = 0.5, gap: float = 0.236, length: float = 10.007
+) -> Component:
 
     pp.drc.assert_on_1nm_grid(length)
     pp.drc.assert_on_2nm_grid(gap)
@@ -39,8 +43,8 @@ connections:
     sr,W0: cs,E0
 
 ports:
-    w0: sl,E0
-    w1: sl,E1
+    w1: sl,E0
+    w0: sl,E1
     e0: sr,E0
     e1: sr,E1
 
