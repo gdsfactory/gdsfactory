@@ -2,10 +2,10 @@ from __future__ import annotations
 import itertools
 import uuid
 import json
+from typing import Any, Dict, List, Optional, Tuple, Union
+from omegaconf import OmegaConf
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
-
-import gdspy
 
 from phidl.device_layout import Label
 from phidl.device_layout import Device
@@ -13,10 +13,9 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_optical_ports, select_electrical_ports
-from pp.config import CONFIG, conf
+from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
 from pp.name import dict2hash
-from typing import Any, Dict, List, Optional, Tuple, Union
 
 
 class SizeInfo:
@@ -75,7 +74,7 @@ def _rotate_points(
     angle: Union[float64, int, int64, float] = 45,
     center: Union[Tuple[int, int], List[int], ndarray] = (0, 0),
 ) -> ndarray:
-    """ Rotates points around a centerpoint defined by ``center``.  ``points`` may be
+    """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
     """
     # First check for common, easy values of angle
@@ -129,7 +128,8 @@ class ComponentReference(DeviceReference):
 
     def __repr__(self):
         return (
-            'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s, x_reflection %s)'
+            'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s,'
+            " x_reflection %s)"
             % (
                 self.parent.name,
                 list(self.ports.keys()),
@@ -143,7 +143,7 @@ class ComponentReference(DeviceReference):
         return self.__repr__()
 
     def __getitem__(self, val):
-        """ This allows you to access an alias from the reference's parent, and receive
+        """This allows you to access an alias from the reference's parent, and receive
         a copy of the reference which is correctly rotated and translated"""
         try:
             alias_device = self.parent[val]
@@ -209,7 +209,7 @@ class ComponentReference(DeviceReference):
 
     @property
     def ports(self) -> Dict[str, Port]:
-        """ This property allows you to access myref.ports, and receive a copy
+        """This property allows you to access myref.ports, and receive a copy
         of the ports dict which is correctly rotated and translated"""
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]
@@ -236,107 +236,6 @@ class ComponentReference(DeviceReference):
     @property
     def info(self) -> Dict[str, Union[float64, float]]:
         return self.parent.info
-
-    # @property
-    # def bbox(self):
-    # bbox = self.get_bounding_box()
-    # if bbox is None:
-    # bbox = ((0, 0), (0, 0))
-    # return np.array(bbox)
-
-    # def get_bounding_box(self):
-    # """
-    # WARNING ! This does not work as well as GDSPY method. But is cheaper.
-    # Comment this method if packing breaks
-
-    # the bounding box of a reference is the transformed
-    # bounding box of the parent cell
-    # """
-
-    # _bbox = self.parent.get_bounding_box()
-    # bbox = np.array([self._transform_point(
-    # p, self.origin, self.rotation, self.x_reflection
-    # ) for p in _bbox])
-    # return bbox
-
-    def get_bounding_box2(self):
-        """
-        Returns the bounding box for this reference.
-
-        Returns
-        -------
-        out : Numpy array[2,2] or ``None``
-            Bounding box of this cell [[x_min, y_min], [x_max, y_max]],
-            or ``None`` if the cell is empty.
-        """
-        if not isinstance(self.ref_cell, gdspy.Cell):
-            return None
-        if (
-            self.rotation is None
-            and self.magnification is None
-            and self.x_reflection is None
-        ):
-            key = self.ref_cell
-        else:
-            key = (self.ref_cell, self.rotation, self.magnification, self.x_reflection)
-
-        if key not in gdspy._bounding_boxes:
-            """
-            The bounding boxes are all valid, but this specific transformation
-            has not been registered yet. Fetch bbox, and apply transform
-            """
-            _bb = self.ref_cell.get_bounding_box()
-            if _bb is not None:
-                bb = np.array(
-                    [
-                        self._transform_point(
-                            p, (0, 0), self.rotation, self.x_reflection
-                        )
-                        for p in _bb
-                    ]
-                )
-                _x1, _x2 = bb[0, 0], bb[1, 0]
-                _y1, _y2 = bb[0, 1], bb[1, 1]
-
-                bb[0, 0] = min(_x1, _x2)
-                bb[1, 0] = max(_x1, _x2)
-                bb[0, 1] = min(_y1, _y2)
-                bb[1, 1] = max(_y1, _y2)
-                gdspy._bounding_boxes[key] = bb
-
-            else:
-                bb = None
-        else:
-            bb = gdspy._bounding_boxes[key]
-        if self.origin is None or bb is None:
-            return bb
-        else:
-            translation = np.array(
-                [(self.origin[0], self.origin[1]), (self.origin[0], self.origin[1])]
-            )
-            return bb + translation
-
-    @property
-    def bbox(self) -> ndarray:
-        _bbox = self.ref_cell.get_bounding_box()
-        bbox = np.array(
-            [
-                self._transform_point(p, self.origin, self.rotation, self.x_reflection)
-                for p in _bbox
-            ]
-        )
-
-        # Rearrange min,max
-        bbox[1][0], bbox[0][0] = (
-            max(bbox[1][0], bbox[0][0]),
-            min(bbox[1][0], bbox[0][0]),
-        )
-        bbox[1][1], bbox[0][1] = (
-            max(bbox[1][1], bbox[0][1]),
-            min(bbox[1][1], bbox[0][1]),
-        )
-
-        return bbox
 
     @property
     def size_info(self):
@@ -399,9 +298,9 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ) -> ComponentReference:
-        """ Moves the DeviceReference from the origin point to the destination.  Both
-         origin and destination can be 1x2 array-like, Port, or a key
-         corresponding to one of the Ports in this device_ref """
+        """Moves the DeviceReference from the origin point to the destination.  Both
+        origin and destination can be 1x2 array-like, Port, or a key
+        corresponding to one of the Ports in this device_ref"""
 
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
@@ -416,7 +315,8 @@ class ComponentReference(DeviceReference):
             o = self.ports[origin].midpoint
         else:
             raise ValueError(
-                "[ComponentReference.move()] ``origin`` not array-like, a port, or port name"
+                "[ComponentReference.move()] ``origin`` not array-like, a port, or port"
+                " name"
             )
 
         if isinstance(destination, Port):
@@ -427,7 +327,8 @@ class ComponentReference(DeviceReference):
             d = self.ports[destination].midpoint
         else:
             raise ValueError(
-                "[ComponentReference.move()] ``destination`` not array-like, a port, or port name"
+                "[ComponentReference.move()] ``destination`` not array-like, a port, or"
+                " port name"
             )
 
         # Lock one axis if necessary
@@ -518,7 +419,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(
-        self, port: str, destination: Port, overlap: Union[int, float] = 0
+        self, port: str, destination: Port, overlap: float = 0
     ) -> ComponentReference:
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
@@ -544,6 +445,12 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
+        if destination.parent:
+            global connections
+            # connections[f"{self.parent.uid}_{int(self.x)}_{int(self.y)},{port}"] = f"{destination.parent.get_property('uid')},{destination.name}"
+            connections[
+                f"{self.get_property('name')}_{int(self.x)}_{int(self.y)},{port}"
+            ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
     def get_property(self, property):
@@ -554,7 +461,7 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """ inherits from phidl.Device and extends some functionality
+    """adds some functions to phidl.Device
 
     - get/write JSON metadata
     - get ports by type (optical, electrical ...)
@@ -592,6 +499,37 @@ class Component(Device):
         self.name = name
         self.name_long = None
         self.function_name = None
+
+    def get_netlist(self):
+        """ returns netlist dict(instances, placements, connections)"""
+        instances = {}
+        placements = {}
+
+        for r in self.references:
+            i = r.parent
+            reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
+            instances[reference_name] = dict(
+                component=i.function_name, settings=i.settings
+            )
+            placements[reference_name] = dict(
+                x=float(r.x), y=float(r.y), rotation=int(r.rotation)
+            )
+
+        connections_connected = {}
+
+        # print(instances.keys())
+        for src, dst in connections.items():
+            # print(src.split(',')[0])
+            if src.split(",")[0] in instances:
+                connections_connected[src] = dst
+
+        return OmegaConf.create(
+            dict(
+                instances=instances,
+                placements=placements,
+                connections=connections_connected,
+            )
+        )
 
     def get_name_long(self):
         """ returns the long name if it's been truncated to MAX_NAME_LENGTH"""
@@ -638,7 +576,11 @@ class Component(Device):
 
     def get_properties(self):
         """ returns name, uid, ports, aliases and numer of references """
-        return f"name: {self._internal_name}, uid: {self.uid},  ports: {self.ports.keys()}, aliases {self.aliases.keys()}, number of references: {len(self.references)}"
+        return (
+            f"name: {self._internal_name}, uid: {self.uid},  ports:"
+            f" {self.ports.keys()}, aliases {self.aliases.keys()}, number of"
+            f" references: {len(self.references)}"
+        )
 
     def ref(
         self,
@@ -704,8 +646,7 @@ class Component(Device):
         )
 
     def get_settings(self) -> Dict[str, Any]:
-        """ Returns settings dictionary
-        """
+        """Returns settings dictionary"""
         output = {}
         ignore = set(
             dir(Component())
@@ -747,14 +688,15 @@ class Component(Device):
         layer: Union[Tuple[int, int], int] = (1, 0),
         port_type: str = "optical",
     ) -> Port:
-        """ Can be called to copy an existing port like add_port(port = existing_port) or
+        """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
         Can also be called to copy an existing port with a new name like add_port(port = existing_port, name = new_name)"""
         if port:
             if not isinstance(port, Port):
                 print(type(port))
                 raise ValueError(
-                    "[PHIDL] add_port() error: Argument `port` must be a Port for copying"
+                    "[PHIDL] add_port() error: Argument `port` must be a Port for"
+                    " copying"
                 )
             p = port._copy(new_uid=True)
             if name is not None:
@@ -779,8 +721,8 @@ class Component(Device):
             p.name = name
         if p.name in self.ports:
             raise ValueError(
-                '[DEVICE] add_port() error: Port name "%s" already exists in this Device (name "%s", uid %s)'
-                % (p.name, self._internal_name, self.uid)
+                '[DEVICE] add_port() error: Port name "%s" already exists in this'
+                ' Device (name "%s", uid %s)' % (p.name, self._internal_name, self.uid)
             )
 
         self.ports[p.name] = p
@@ -810,8 +752,7 @@ class Component(Device):
         return int(h, 16)
 
     def hash_geometry(self):
-        """ returns geometrical hash
-        """
+        """returns geometrical hash"""
         if self.references or self.polygons:
             h = hash_cells(self, {})[self.name]
         else:
@@ -867,8 +808,8 @@ class Component(Device):
     def add_ref(
         self, D: Union[Component, Device], alias: Optional[str] = None
     ) -> ComponentReference:
-        """ Takes a Device and adds it as a ComponentReference to the current
-        Device.  """
+        """Takes a Device and adds it as a ComponentReference to the current
+        Device."""
         if type(D) in (list, tuple):
             return [self.add_ref(E) for E in D]
         if not isinstance(D, Component) and not isinstance(D, Device):
@@ -885,7 +826,7 @@ class Component(Device):
         return d
 
     def get_layers(self):
-        """ returns a set of (layer, datatype)
+        """returns a set of (layer, datatype)
 
         >>> import pp
         >>> pp.c.waveguide.get_layers() == {(1, 0), (111, 0)}
@@ -995,6 +936,31 @@ def test_same_uid():
     print(r1 == r2)
 
 
+def test_netlist_simple():
+    import pp
+
+    c = pp.Component()
+    c1 = c << pp.c.waveguide(length=1, width=1)
+    c2 = c << pp.c.waveguide(length=2, width=2)
+    c2.connect(port="W0", destination=c1.ports["E0"])
+    c.add_port("W0", port=c1.ports["W0"])
+    c.add_port("E0", port=c2.ports["E0"])
+    netlist = c.get_netlist()
+    # print(netlist.pretty())
+    assert len(netlist["instances"]) == 2
+    assert len(netlist["connections"]) == 1
+
+
+def test_netlist_complex():
+    import pp
+
+    c = pp.c.mzi()
+    netlist = c.get_netlist()
+    print(netlist.pretty())
+    assert len(netlist["instances"]) == 18
+    assert len(netlist["connections"]) == 17
+
+
 def demo_component(port):
     c = Component()
     c.add_port(name="p1", port=port)
@@ -1002,9 +968,13 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    import pp
+    # import pp
+    # test_netlist_simple()
+    test_netlist_complex()
 
-    c = pp.c.waveguide()
+    # c = pp.c.waveguide()
+    # c = pp.c.dbr(n=1)
+
     # print(c.get_layers())
 
     # c = pp.c.bend_circular180()
@@ -1059,4 +1029,3 @@ if __name__ == "__main__":
     # print(c.get_json())
     # print(c.get_settings())
     # print(c.get_settings(test="hi"))
-    pp.show(c)

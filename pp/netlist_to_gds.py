@@ -97,7 +97,7 @@ def gen_sref(
 def netlist_to_component(
     instances: Dict[str, Tuple[Component, str]],
     connections: List[Tuple[str, str, str, str]],
-    ports_map: Dict[str, Tuple[str, str]],
+    ports_map: Dict[str, Tuple[str, str]] = None,
     position: Tuple[float, float] = (0.0, 0.0),
 ) -> Component:
     """
@@ -113,8 +113,7 @@ def netlist_to_component(
         ports_map:
             {port_name: (instance_id, port_name)}
 
-    Returns: component
-    the component has component.netlist
+    Returns: component with netlist stored in component.netlist
 
     [
         {
@@ -153,7 +152,7 @@ def netlist_to_component(
         )
 
     instance_id, port, _, _ = connections[0]
-
+    assert instance_id in instances, f"{instance_id} not in {list(instances.keys())}"
     component, transform_name = instances[instance_id]
 
     # First component reference
@@ -180,26 +179,24 @@ def netlist_to_component(
 
     c = Component()
     c.add(list(cmp_name_to_sref.values()))
-    for port_name, (cmp_id, internal_port_name) in ports_map.items():
-        component_ref = cmp_name_to_sref[cmp_id]
-        component = component_ref.parent
-        assert (
-            internal_port_name in component.ports
-        ), f"{internal_port_name} not in {component_ref.ports.keys()} for {component}"
-        port = component_ref.ports[internal_port_name]
-        c.add_port(port_name, port=port)
+
+    if ports_map:
+        for port_name, (cmp_id, internal_port_name) in ports_map.items():
+            component_ref = cmp_name_to_sref[cmp_id]
+            component = component_ref.parent
+            assert internal_port_name in component.ports, (
+                f"{internal_port_name} not in {component_ref.ports.keys()} for"
+                f" {component}"
+            )
+            port = component_ref.ports[internal_port_name]
+            c.add_port(port_name, port=port)
+            ports_map = {k: ", ".join(v) for k, v in ports_map.items()}
 
     # Set aliases
     for cmp_id, ref in cmp_name_to_sref.items():
         c[cmp_id] = ref
 
     c.info["instances"] = cmp_name_to_sref
-    # c.components = components
-    # c.connections = connections
-    # c.ports_map = ports_map
-    # c.cells = {
-    #     cname: c for cname, (c, transf) in instances.items()
-    # }  # "CP1": (cpl, "None"),
 
     # add leaf cells to netlist
     netlist = []
@@ -220,14 +217,14 @@ def netlist_to_component(
             type="COMPOUND",
             settings={},
             connections=[", ".join(i) for i in connections],
-            ports={k: ", ".join(v) for k, v in ports_map.items()},
+            ports=ports_map,
         )
     )
     c.netlist = netlist
     return c
 
 
-def test_netlist_from_component():
+def test_netlist_ring():
     from pp.components.ring_single_bus import ring_single_bus_netlist
 
     instances, connections, ports_map = ring_single_bus_netlist()
@@ -241,7 +238,6 @@ def test_netlist_from_component():
 if __name__ == "__main__":
     import pp
 
-    # c = test_netlist_from_yaml()
-    c = test_netlist_from_component()
     # print(c.netlist)
+    c = test_netlist_ring()
     pp.show(c)

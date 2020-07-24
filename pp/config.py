@@ -23,6 +23,7 @@ import numpy as np
 from git import Repo
 
 
+connections = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()

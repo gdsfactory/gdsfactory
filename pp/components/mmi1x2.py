@@ -73,9 +73,11 @@ def mmi1x2(
 
         # Add the taper port
         c.add_port(name=port_name, port=taper_ref.ports["1"])
+        c.absorb(taper_ref)
 
     c.move(origin=c.ports["W0"].position, destination=(0, 0))
     c.simulation_settings = dict(port_width=1.5e-6)
+    c.absorb(mmi)
 
     return c
 

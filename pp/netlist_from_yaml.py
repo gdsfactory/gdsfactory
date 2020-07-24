@@ -68,20 +68,20 @@ ports_map:
 
 
 def netlist_from_yaml(
-    file: Union[str, pathlib.Path, IO[Any]],
+    netlist: Union[str, pathlib.Path, IO[Any]],
     component_type2factory=component_type2factory,
 ) -> Component:
     """ Loads Component settings from YAML file, and connections
 
     Args:
-        file: YAML IO describing components, connections and ports_map
+        netlist: YAML IO describing instances, connections and ports_map
 
     Returns:
         Component
 
     .. code-block:: yaml
 
-        components:
+        instances:
             CP1:
               component: mmi1x2
               settings:
@@ -125,7 +125,7 @@ def netlist_from_yaml(
 
     """
 
-    conf = OmegaConf.load(file)
+    conf = OmegaConf.load(netlist)
 
     instances = {}
     for instance_name in conf.instances:
@@ -148,11 +148,12 @@ def netlist_from_yaml(
 def test_netlist_from_yaml():
     c = netlist_from_yaml(sample)
     assert len(c.get_dependencies()) == 4
+    return c
 
 
 if __name__ == "__main__":
     import pp
 
+    # c = test_netlist_from_yaml()
     c = netlist_from_yaml(sample)
     pp.show(c)
-    # test_netlist_from_yaml()
