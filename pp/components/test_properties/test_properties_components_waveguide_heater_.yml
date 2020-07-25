@@ -21,5 +21,4 @@ trenches:
 - lane: -1
   nb_segments: 2
   x_start_offset: 0
-waveguide_factory: waveguide
 width: 0.5

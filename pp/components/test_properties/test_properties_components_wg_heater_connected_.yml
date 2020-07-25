@@ -1,5 +1,4 @@
 function_name: wg_heater_connected
-kwargs: _empty
 module: pp.components.waveguide_heater
 name: wg_heater_connected
 tlm_layers:
@@ -15,5 +14,3 @@ tlm_layers:
   - 0
 - - 49
   - 0
-waveguide_heater: waveguide_heater
-wg_heater_connector: wg_heater_connector

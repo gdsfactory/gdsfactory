@@ -1,16 +1,12 @@
 N: 6
-bend180_function: bend_circular180
-bend90_function: bend_circular
 bend_radius: 50.0
 cutback_length: None
 dx: 3.0
 dy: 3.0
 function_name: spiral_external_io
-kwargs_round_corner: _empty
 length: '13610.831551628262'
 module: pp.components.spiral_external_io
 name: spiral_external_io
-straight_factory: waveguide
 straight_factory_fall_back_no_taper: None
 taper: None
 total_length: '13610.831551628262'

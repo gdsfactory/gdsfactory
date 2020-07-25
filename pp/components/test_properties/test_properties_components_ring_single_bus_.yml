@@ -1,12 +1,8 @@
-bend90_factory: bend_circular
 bend_radius: 5
-coupler90_factory: coupler90
-cpl_straight_factory: coupler_straight
 function_name: ring_single_bus
 gap: 0.2
 length_x: 4.0
 length_y: 2.0
 module: pp.components.ring_single_bus
 name: ring_single_bus
-straight_factory: waveguide
 wg_width: 0.5

@@ -10,8 +10,12 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
-## Most recent changes with no release yet
+## Next release
 
+- `Component.get_netlist()` returns its netlist
+- `Component.plot_netlist()` renders netlist graph
+- `component_from_yaml` accepts netlist
+- routing jupyter notebook
 - manhattan text can have cladding
 
 ## 1.2.1 2020-07-05

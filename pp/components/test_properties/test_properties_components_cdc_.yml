@@ -11,7 +11,6 @@ fins: 'False'
 function_name: cdc
 gap: 0.5
 input_bot: 'False'
-kwargs: _empty
 length: 30.0
 module: pp.components.cdc
 name: cdc
@@ -19,6 +18,5 @@ period: 0.22
 port:
 - 0
 - 0
-waveguide_template: wg_strip
 width_bot: 0.75
 width_top: 2.0

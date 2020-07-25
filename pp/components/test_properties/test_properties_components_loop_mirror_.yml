@@ -1,5 +1,3 @@
-bend90: bend_euler90
-component: mmi1x2
 function_name: loop_mirror
 module: pp.components.loop_mirror
 name: loop_mirror

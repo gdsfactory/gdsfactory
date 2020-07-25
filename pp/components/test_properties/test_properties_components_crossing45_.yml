@@ -1,0 +1,6 @@
+alpha: 0.08
+dx: None
+function_name: crossing45
+module: pp.components.crossing_waveguide
+name: crossing45
+port_spacing: 40.0

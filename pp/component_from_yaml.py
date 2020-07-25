@@ -276,7 +276,7 @@ def test_netlist_read():
     # print(len(c.get_netlist().connections))
     # print((c.get_netlist().connections.pretty()))
     assert len(c.get_dependencies()) == 18
-    assert len(c.get_netlist().connections) == 17
+    assert len(c.get_netlist().connections) == 18
     return c
 
 

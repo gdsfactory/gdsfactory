@@ -980,9 +980,9 @@ def test_netlist_complex():
 
     c = pp.c.mzi()
     netlist = c.get_netlist()
-    print(netlist.pretty())
+    # print(netlist.pretty())
     assert len(netlist["instances"]) == 18
-    assert len(netlist["connections"]) == 17
+    assert len(netlist["connections"]) == 18
 
 
 def demo_component(port):

@@ -2,7 +2,6 @@ function_name: pad_array
 module: pp.components.electrical.pad
 n: 6
 name: pad_array
-pad: pad
 port_list:
 - N
 spacing:
