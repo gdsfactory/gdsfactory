@@ -1,9 +1,9 @@
+from typing import Callable, Union
 import pp
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
-from typing import Callable, Union
 
 
 @pp.autoname

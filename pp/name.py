@@ -109,7 +109,11 @@ def autoname(component_function: Callable) -> Callable:
             if not hasattr(component, "settings"):
                 component.settings = {}
             component.settings.update(
-                **{p.name: p.default for p in sig.parameters.values()}
+                **{
+                    p.name: p.default
+                    for p in sig.parameters.values()
+                    if not callable(p.default)
+                }
             )
             component.settings.update(**kwargs)
             if pins:

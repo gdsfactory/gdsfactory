@@ -4,6 +4,8 @@ import uuid
 import json
 from typing import Any, Dict, List, Optional, Tuple, Union
 from omegaconf import OmegaConf
+import networkx as nx
+
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
 
@@ -500,6 +502,24 @@ class Component(Device):
         self.name_long = None
         self.function_name = None
 
+    def plot_netlist(self, with_labels=True, font_weight="bold"):
+        """ plots a netlist graph """
+        import matplotlib.pyplot as plt
+
+        G = self.get_netlist_graph()
+        nx.draw_spring(G, with_labels=with_labels, font_weight=font_weight)
+        plt.show()
+
+    def get_netlist_graph(self, netlist=None):
+        """ returns a networkx netlist graph """
+        netlist = netlist or self.get_netlist()
+        connections = netlist.connections
+        G = nx.Graph()
+        G.add_edges_from(
+            [(k.split(",")[0], v.split(",")[0]) for k, v in connections.items()]
+        )
+        return G
+
     def get_netlist(self):
         """ returns netlist dict(instances, placements, connections)"""
         instances = {}
@@ -520,16 +540,20 @@ class Component(Device):
         # print(instances.keys())
         for src, dst in connections.items():
             # print(src.split(',')[0])
+            # trim netlist:
+            # only instances that are part of the component are connected
             if src.split(",")[0] in instances:
                 connections_connected[src] = dst
 
-        return OmegaConf.create(
+        netlist = OmegaConf.create(
             dict(
                 instances=instances,
                 placements=placements,
                 connections=connections_connected,
             )
         )
+        self.netlist = netlist
+        return netlist
 
     def get_name_long(self):
         """ returns the long name if it's been truncated to MAX_NAME_LENGTH"""
