@@ -35,6 +35,10 @@ def autoname(component_function: Callable) -> Callable:
     """ decorator for auto-naming component functions
     if no Keyword argument `name`  is passed it creates a name by concenating all Keyword arguments
 
+    To avoid that 2 exact cells are not references of the same cell autoname has a cache where if component has already been build it will return the component from the cache
+    You can always over-ride this with `cache = False`
+    This is helpful when you are changing the code inside the function that is being cached.
+
     Args:
         name (str):
         cache (bool): caches functions with same name
@@ -200,9 +204,9 @@ def clean_value(value: Any) -> str:
         returns number units in nm (integer)
     """
 
-    if isinstance(value, int):  # integer
+    if isinstance(value, int):
         value = str(value)
-    elif isinstance(value, (float, np.float64)):  # float
+    elif isinstance(value, (float, np.float64)):
         if 1e9 > value > 1e12:
             value = f"{int(value/1e9)}G"
         elif 1e6 > value > 1e9:

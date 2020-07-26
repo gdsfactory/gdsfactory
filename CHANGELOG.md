@@ -15,7 +15,7 @@
 - `Component.get_netlist()` returns its netlist
 - `Component.plot_netlist()` renders netlist graph
 - `component_from_yaml` accepts netlist
-- routing jupyter notebook
+- routing jupyter notebooks
 - manhattan text can have cladding
 
 ## 1.2.1 2020-07-05
