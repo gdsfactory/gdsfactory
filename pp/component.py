@@ -687,6 +687,7 @@ class Component(Device):
                 "type",
                 "netlist",
                 "pins",
+                "settings_changed",
             ]
         )
         params = set(dir(self)) - ignore
