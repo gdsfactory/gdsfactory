@@ -5,6 +5,7 @@
 from typing import Union, IO, Any
 import pathlib
 import io
+import pytest
 from omegaconf import OmegaConf
 
 from pp.component import Component
@@ -244,23 +245,27 @@ def component_from_yaml(
     return c
 
 
+@pytest.fixture(scope="function")
 def test_sample():
     c = component_from_yaml(sample)
-    assert len(c.get_dependencies()) == 3
+    assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 2
     return c
 
 
+@pytest.fixture(scope="function")
 def test_connections():
     c = component_from_yaml(sample_connections)
     return c
 
 
+@pytest.fixture(scope="function")
 def test_mirror():
     c = component_from_yaml(sample_mirror)
     return c
 
 
+@pytest.fixture(scope="function")
 def test_netlist_write():
     from pp.components.mzi import mzi
 
@@ -270,6 +275,7 @@ def test_netlist_write():
     OmegaConf.save(netlist, "mzi.yml")
 
 
+@pytest.fixture(scope="function")
 def test_netlist_read():
     c = component_from_yaml("mzi.yml")
     # print(c.get_netlist().pretty())

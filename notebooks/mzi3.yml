@@ -261,3 +261,4 @@ connections:
   waveguide_L9p00_65_-16,W0: bend_circular_R10p00_62_-27,N0
   waveguide_L1p00_65_-11,W0: waveguide_L9p00_65_-16,E0
   bend_circular_R10p00_68_-4,N0: waveguide_L1p00_65_-11,E0
+  bend_circular_R10p00_68_-4,W0: mmi1x2_88_0,E1

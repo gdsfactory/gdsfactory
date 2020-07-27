@@ -120,6 +120,7 @@ def autoname(component_function: Callable) -> Callable:
                 }
             )
             component.settings.update(**kwargs)
+            component.settings_changed = kwargs.copy()
             if pins:
                 pins_function(component)
             NAME_TO_DEVICE[name] = component

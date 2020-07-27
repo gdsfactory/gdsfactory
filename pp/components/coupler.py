@@ -86,5 +86,6 @@ def coupler(
 if __name__ == "__main__":
     import pp
 
-    c = coupler(pins=True)
+    c = coupler(length=10, pins=True)
+    print(c.settings_changed)
     pp.show(c)

@@ -9,6 +9,13 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
+
+## 1.3.1 2020-07-27
+
+- get_netlist by default return a simpler netlist that captures only settings different from default. Full netlist component properties available with `full_settings=True`.
+- limited pytest scope to netlist build tests to avoid weird side effects that move ports locations from test_component_ports
+- sphinx==1.3.2 in requirements.txt
+
 ## 1.3.0 2020-07-26
 
 - `Component.get_netlist()` returns its netlist
