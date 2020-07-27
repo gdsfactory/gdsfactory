@@ -1,6 +1,19 @@
 bend_factory: bend_circular
 bend_radius_align_ports: 10.0
-component: N_x_straight_inner_right_x_straight_inner_left_y_straight_inner_top_y_straight_inner_bottom_grating_spacing_dx_dy_bend90_function_bend180_function_bend_radius_wg_width_wg_width_grating_coupler_straight_factory_taper_length
+component:
+  N: 6
+  bend_radius: 50.0
+  dx: 3.0
+  dy: 3.0
+  grating_spacing: 127.0
+  length: null
+  taper: null
+  wg_width: 0.5
+  wg_width_grating_coupler: 0.5
+  x_straight_inner_left: 150.0
+  x_straight_inner_right: 150.0
+  y_straight_inner_bottom: 10.0
+  y_straight_inner_top: 50.0
 component_name: spiral_inner_io
 excluded_ports: []
 function_name: null

@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "1.2.2"
+__version__ = "1.3.0"
 import os
 import json
 import subprocess
@@ -23,6 +23,7 @@ import numpy as np
 from git import Repo
 
 
+connections = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()

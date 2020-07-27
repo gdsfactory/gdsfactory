@@ -46,7 +46,6 @@ import pp.port as port
 import pp.units as units
 
 from pp.component_from_yaml import component_from_yaml
-from pp.netlist_from_yaml import netlist_from_yaml
 
 from pp.components import component_factory
 from pp.components.extension import extend_port
@@ -96,10 +95,9 @@ __all__ = [
     "write_gds",
     "Port",
     "component_from_yaml",
-    "netlist_from_yaml",
     "units",
 ]
-__version__ = "1.2.2"
+__version__ = "1.3.0"
 
 
 if __name__ == "__main__":

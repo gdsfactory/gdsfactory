@@ -1,0 +1,318 @@
+instances:
+  mmi1x2_12_0:
+    component: mmi1x2
+    settings:
+      wg_width: 0.5
+      width_taper: 1.0
+      length_taper: 10.0
+      length_mmi: 5.496
+      width_mmi: 2.5
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: []
+      cladding_offset: 3.0
+  mmi1x2_88_0:
+    component: mmi1x2
+    settings:
+      wg_width: 0.5
+      width_taper: 1.0
+      length_taper: 10.0
+      length_mmi: 5.496
+      width_mmi: 2.5
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: []
+      cladding_offset: 3.0
+  bend_circular_R10p00_32_4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_38_18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_62_18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_68_3:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L1p00_35_11:
+    component: waveguide
+    settings:
+      length: 1.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L10p00_50_21:
+    component: waveguide
+    settings:
+      length: 10.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L1p00_65_11:
+    component: waveguide
+    settings:
+      length: 1.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_32_-4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L1p00_35_-11:
+    component: waveguide
+    settings:
+      length: 1.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L9p00_35_-16:
+    component: waveguide
+    settings:
+      length: 9.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_38_-27:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L10p00_50_-30:
+    component: waveguide
+    settings:
+      length: 10.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_62_-27:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L9p00_65_-16:
+    component: waveguide
+    settings:
+      length: 9.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  waveguide_L1p00_65_-11:
+    component: waveguide
+    settings:
+      length: 1.0
+      width: 0.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+  bend_circular_R10p00_68_-4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+      theta: -90
+      start_angle: 0
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      cladding_offset: 3.0
+placements:
+  mmi1x2_12_0:
+    x: 12.748000000000001
+    y: 0.0
+    rotation: 0
+  mmi1x2_88_0:
+    x: 88.24400000000001
+    y: -1.1102230246251565e-16
+    rotation: 180
+  bend_circular_R10p00_32_4:
+    x: 32.121
+    y: 4.0
+    rotation: 0
+  bend_circular_R10p00_38_18:
+    x: 38.871
+    y: 18.25
+    rotation: 180
+  bend_circular_R10p00_62_18:
+    x: 62.12100000000001
+    y: 18.25
+    rotation: 90
+  bend_circular_R10p00_68_3:
+    x: 68.87100000000001
+    y: 3.999999999999999
+    rotation: 270
+  waveguide_L1p00_35_11:
+    x: 35.496
+    y: 11.125
+    rotation: 90
+  waveguide_L10p00_50_21:
+    x: 50.496
+    y: 21.625
+    rotation: 0
+  waveguide_L1p00_65_11:
+    x: 65.49600000000001
+    y: 11.125
+    rotation: 270
+  bend_circular_R10p00_32_-4:
+    x: 32.121
+    y: -4.0
+    rotation: 90
+  waveguide_L1p00_35_-11:
+    x: 35.496
+    y: -11.125
+    rotation: 270
+  waveguide_L9p00_35_-16:
+    x: 35.496
+    y: -16.125
+    rotation: 270
+  bend_circular_R10p00_38_-27:
+    x: 38.871
+    y: -27.25
+    rotation: 270
+  waveguide_L10p00_50_-30:
+    x: 50.496
+    y: -30.625
+    rotation: 0
+  bend_circular_R10p00_62_-27:
+    x: 62.12100000000001
+    y: -27.25
+    rotation: 0
+  waveguide_L9p00_65_-16:
+    x: 65.49600000000001
+    y: -16.125
+    rotation: 90
+  waveguide_L1p00_65_-11:
+    x: 65.49600000000001
+    y: -11.125
+    rotation: 90
+  bend_circular_R10p00_68_-4:
+    x: 68.87100000000001
+    y: -4.0
+    rotation: 180

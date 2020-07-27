@@ -23,6 +23,8 @@ from pp.components.circle import circle
 from pp.components.compass import compass
 from pp.components.cross import cross
 from pp.components.crossing_waveguide import crossing
+from pp.components.crossing_waveguide import crossing45
+from pp.components.crossing_waveguide import compensation_path
 from pp.components.ellipse import ellipse
 from pp.components.label import label
 from pp.components.rectangle import rectangle
@@ -84,6 +86,7 @@ from pp.components.loop_mirror import loop_mirror
 
 # level 2 components
 from pp.components.component_lattice import component_lattice
+from pp.components.component_sequence import component_sequence
 
 
 # we will test each factory component hash, ports and properties """
@@ -100,6 +103,7 @@ component_type2factory = dict(
     cdc=cdc,
     compass=compass,
     component_lattice=component_lattice,
+    component_sequence=component_sequence,
     coupler=coupler,
     coupler90=coupler90,
     coupler_adiabatic=coupler_adiabatic,
@@ -110,6 +114,8 @@ component_type2factory = dict(
     coupler_symmetric=coupler_symmetric,
     cross=cross,
     crossing=crossing,
+    crossing45=crossing45,
+    compensation_path=compensation_path,
     dbr=dbr,
     dbr2=dbr2,
     disk=disk,
@@ -181,5 +187,5 @@ def component_factory(component_type, **settings):
 __all__ = list(component_type2factory.keys())
 leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
 _containers = set(["cavity"])
-_skip_test = set(["label", "text", "spiral_circular"])
+_skip_test = set(["label", "text", "spiral_circular", "component_sequence"])
 _components = set(__all__) - _containers - _skip_test

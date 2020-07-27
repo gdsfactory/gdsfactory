@@ -1,4 +1,3 @@
-bend: bend_s
 cladding_offset: 3.0
 function_name: coupler_symmetric
 gap: 0.234

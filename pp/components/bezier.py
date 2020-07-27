@@ -146,6 +146,7 @@ def find_min_curv_bezier_control_points(
 
 def _demo():
     c = bezier()
+    print(c.ports["0"].y - c.ports["1"].y)
     pp.write_gds(c)
     pp.show(c)
 

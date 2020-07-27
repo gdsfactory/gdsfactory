@@ -1,4 +1,3 @@
-bend_factory: bend_circular
 bend_radius: 10.0
 component: n_waveguides_waveguide_spacing_waveguide
 component_name: _grating_coupler_tree_73dc7b48
@@ -7,7 +6,6 @@ gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array
 grating_coupler: grating_coupler_te
-grating_coupler_function: grating_coupler_elliptical_te
 kwargs: _empty
 layer_label:
 - 201
@@ -15,8 +13,6 @@ layer_label:
 module: pp.components.grating_coupler.grating_coupler_tree
 n_waveguides: 4
 name: grating_coupler_tree
-route_filter: connect_strip_way_points_no_taper
 taper_factory: taper
-waveguide: waveguide
 waveguide_spacing: 4
 with_loop_back: 'False'

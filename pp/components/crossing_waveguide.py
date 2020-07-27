@@ -1,3 +1,4 @@
+from typing import Callable
 import numpy as np
 import scipy.optimize as so
 import gdspy
@@ -12,7 +13,6 @@ from pp.config import GRID_PER_UNIT
 from pp.components.ellipse import ellipse
 from pp.layers import LAYER
 from pp.component import Component
-from typing import Callable
 
 
 def rnd(p):
@@ -28,8 +28,7 @@ def crossing_arm(
     w: float = 1.2,
     L: float = 3.4,
 ) -> Component:
-    """
-    """
+    """"""
     c = pp.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
@@ -63,7 +62,7 @@ def crossing_arm(
 
 @pp.autoname
 def crossing(arm: Callable = crossing_arm) -> Component:
-    """ waveguide crossing
+    """waveguide crossing
 
     .. plot::
       :include-source:
@@ -179,7 +178,7 @@ def crossing_etched(
 
 
 @pp.autoname
-def crossing45(crossing=crossing, port_spacing=20.0, dx=None, alpha=0.08):
+def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     """
     Args:
         crossing: <pp.Component> the 90D crossing to use
@@ -385,7 +384,8 @@ def compensation_path(crossing45=crossing45, direction="top"):
 
 
 def demo():
-    """ needs debugging, what does it do?
+    """ plot curvature of bends
+    FIXME: add more documentation
     """
     from matplotlib import pyplot as plt
 
@@ -413,9 +413,10 @@ def demo():
 
 if __name__ == "__main__":
     # c = crossing()
-    c = crossing45(port_spacing=40, pins=True)
+    c = crossing45(port_spacing=15, pins=True)
+    print(c.ports["E1"].y - c.ports["E0"].y)
     pp.show(c)
-    print(c.get_ports_array())
+    # print(c.get_ports_array())
     # demo()
     # c = crossing_etched()
     # c = crossing_from_taper()

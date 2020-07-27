@@ -2,7 +2,6 @@ import hashlib
 from itertools import count
 from typing import Dict, List, Tuple, Union
 from pp.component import Component
-import pp
 
 
 class SequenceGenerator:
@@ -76,16 +75,15 @@ def component_sequence(
     This generates a component from a sequence and a dictionnary to interprete each
     symbol in the sequence.
 
-    Args
+    Args:
         sequence: a string or a list of symbols
         string_to_device_in_out_ports: maps symbols to (device, input, output)
         ports_map: (optional) extra port mapping using the convention
             {port_name: (alias_name, port_name)}
 
-    Outputs a component containing the sequence of sub-components
+    Returns:
+        component containing the sequence of sub-components
     instantiated and connected together in the sequence order
-
-    Return type <pp.Component>
 
     """
     # Remove all None devices from the sequence
@@ -106,7 +104,7 @@ def component_sequence(
     def _next_id(name):
         return "{}{}".format(name, next(counters[name]))
 
-    component = pp.Component()
+    component = Component()
 
     # Add first device and input port
     name_start_device, do_flip = _parse_component_name(sequence[0])
@@ -159,5 +157,29 @@ def component_sequence(
         _md5.update(str(string_to_device_in_out_ports).encode())
         _md5.update(str(sequence).encode())
         component.name = "{}_{}".format(name_prefix, _md5.hexdigest())
-
     return component
+
+
+if __name__ == "__main__":
+    import pp
+
+    bend180 = pp.c.bend_circular180()
+    wg_heater = pp.c.waveguide_heater()
+    wg = pp.c.waveguide()
+
+    # Define a map between symbols and (component, input port, output port)
+    string_to_device_in_out_ports = {
+        "A": (bend180, "W0", "W1"),
+        "B": (bend180, "W1", "W0"),
+        "H": (wg_heater, "W1", "E1"),
+        "-": (wg, "W0", "E0"),
+    }
+
+    # Generate a sequence
+    # This is simply a chain of characters. Each of them represents a component
+    # with a given input and and a given output
+
+    sequence = "AB-H-H-H-H-BA"
+    component = pp.c.component_sequence(sequence, string_to_device_in_out_ports)
+    pp.qp(component)
+    pp.show(component)

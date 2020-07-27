@@ -1,3 +1,4 @@
+from typing import Callable
 from pp.components import bend_circular
 from pp.components import wg_heater_connected as waveguide_heater
 from pp.components import waveguide
@@ -10,7 +11,6 @@ from pp.port import select_electrical_ports
 from pp.components.extension import line
 from pp.components.component_sequence import component_sequence
 from pp.component import Component
-from typing import Callable
 
 
 @autoname
@@ -28,7 +28,7 @@ def mzi_arm(
 
     Args:
         L0: vertical length with heater
-        DL: extra vertical length without heater
+        DL: extra vertical length without heater (delat_length=2*DL)
         L_top: 10.0, horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular

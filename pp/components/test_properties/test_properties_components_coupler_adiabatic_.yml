@@ -2,7 +2,6 @@ direction: EAST
 dw: 0.1
 function_name: coupler_adiabatic
 input_wg_sep: 3.0
-kwargs: _empty
 length1: 20.0
 length2: 50.0
 length3: 30.0
@@ -12,5 +11,4 @@ output_wg_sep: 3.0
 port:
 - 0
 - 0
-waveguide_template: wg_strip
 wg_sep: 1.0
