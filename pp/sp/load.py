@@ -11,7 +11,7 @@ def load(
         component: instance
         filepath: Sparameters filepath (interconnect format)
         dirpath: path where to look for the Sparameters
-        h: height (nm)
+        height_nm: height (nm)
 
     Returns [port_names, F, S]
         port_names: list of strings
