@@ -702,6 +702,13 @@ class Component(Device):
         output = {k: output[k] for k in sorted(output)}
         return output
 
+    def get_settings_model(self):
+        """ returns important settings for a compact model"""
+        ignore = ["layer", "layers_cladding", "cladding_offset"]
+        s = self.get_settings()
+        [s.pop(i) for i in ignore]
+        return s
+
     def add_port(
         self,
         name: Optional[Union[str, int]] = None,

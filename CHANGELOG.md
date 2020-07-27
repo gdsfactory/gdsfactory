@@ -2,15 +2,14 @@
 
 ## TODO
 
-- had to ignore settings for netlist defined components to pass regression tests (ring_double_bus, coupler). Maybe we can define those components not as netlist or maybe standarize the netlist definition.
+- extract netlist from layout using PINS and check if connectivity matches intent
 - create a Klayout library so we can also place components from the klayout menu GUI
-- extract and represent netlists
 
 ## Maybe
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
-## Next release
+## 1.3.0 2020-07-26
 
 - `Component.get_netlist()` returns its netlist
 - `Component.plot_netlist()` renders netlist graph
