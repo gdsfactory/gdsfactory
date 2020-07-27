@@ -1,5 +1,7 @@
 """ write a Component from the YAML netlist
 
+Deprecated! use pp/component_from_yaml instead!
+
 .. code::
 
              top_arm

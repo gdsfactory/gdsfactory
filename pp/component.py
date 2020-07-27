@@ -3,11 +3,10 @@ import itertools
 import uuid
 import json
 from typing import Any, Dict, List, Optional, Tuple, Union
-from omegaconf import OmegaConf
-import networkx as nx
-
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
+from omegaconf import OmegaConf
+import networkx as nx
 
 from phidl.device_layout import Label
 from phidl.device_layout import Device
@@ -520,16 +519,22 @@ class Component(Device):
         )
         return G
 
-    def get_netlist(self):
-        """ returns netlist dict(instances, placements, connections)"""
+    def get_netlist(self, full_settings=False):
+        """ returns netlist dict(instances, placements, connections)
+        if full_settings: exports all the settings
+        """
         instances = {}
         placements = {}
 
         for r in self.references:
             i = r.parent
             reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
+            if full_settings:
+                settings = i.settings
+            else:
+                settings = i.settings_changed
             instances[reference_name] = dict(
-                component=i.function_name, settings=i.settings
+                component=i.function_name, settings=settings
             )
             placements[reference_name] = dict(
                 x=float(r.x), y=float(r.y), rotation=int(r.rotation)
@@ -682,6 +687,7 @@ class Component(Device):
                 "type",
                 "netlist",
                 "pins",
+                "settings_changed",
             ]
         )
         params = set(dir(self)) - ignore
