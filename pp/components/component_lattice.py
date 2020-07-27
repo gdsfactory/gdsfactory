@@ -190,9 +190,10 @@ def component_lattice(
                 if y_spacing is None:
                     y_spacing = _y_spacing
                 else:
-                    assert (
-                        abs(y_spacing - _y_spacing) < 0.1 / GRID_PER_UNIT
-                    ), f"All component must have the same y port spacing. Got {y_spacing}, {_y_spacing} for {cmp.name}"
+                    assert abs(y_spacing - _y_spacing) < 0.1 / GRID_PER_UNIT, (
+                        "All component must have the same y port spacing. Got"
+                        f" {y_spacing}, {_y_spacing} for {cmp.name}"
+                    )
 
     a = y_spacing
     columns, columns_to_length = parse_lattice(lattice, components)
@@ -237,10 +238,8 @@ def component_lattice(
 
             else:
                 raise ValueError(
-                    "component symbol {} is not part of \
-                components dictionnary".format(
-                        c
-                    )
+                    "component symbol {} is not part of                 components"
+                    " dictionnary".format(c)
                 )
 
             j += 1
@@ -272,6 +271,21 @@ def parse_lattice(lattice, components):
     return columns, columns_to_length
 
 
+def test_component_lattice():
+    import pp
+    from pp.routing.repackage import package_optical2x2
+    from pp.components.crossing_waveguide import crossing45
+    from pp.components.crossing_waveguide import compensation_path
+
+    components = {
+        "C": package_optical2x2(component=pp.c.coupler, port_spacing=40.0),
+        "X": crossing45(port_spacing=40.0),
+        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+    }
+    c = pp.c.component_lattice(components=components)
+    return c
+
+
 if __name__ == "__main__":
-    c = component_lattice()
+    c = test_component_lattice()
     pp.show(c)

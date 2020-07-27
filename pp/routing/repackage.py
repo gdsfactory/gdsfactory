@@ -9,11 +9,12 @@ def package_optical2x2(component, port_spacing=20.0, bend_length=None):
     """
 
     component = pp.call_if_func(component)
+    component.y = 0
 
     if bend_length is None:
         bend_length = port_spacing
     dx = bend_length
-    dy = port_spacing / 2
+    dy = port_spacing / 2.0
 
     p_w0 = component.ports["W0"].midpoint
     p_e0 = component.ports["E0"].midpoint
@@ -52,5 +53,6 @@ def package_optical2x2(component, port_spacing=20.0, bend_length=None):
 if __name__ == "__main__":
     from pp.components import coupler
 
-    c = package_optical2x2(component=coupler())
+    c = package_optical2x2(component=coupler(gap=0.3))
+    print(c.ports["E1"].y - c.ports["E0"].y)
     pp.show(c)

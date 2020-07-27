@@ -20,7 +20,7 @@ def mzi(
     coupler_factory: Callable = mmi1x2,
     combiner_factory: Optional[Callable] = None,
 ) -> Component:
-    """ Mzi adapted for using different coupler and combiner factories
+    """Mzi adapted for using different coupler and combiner factories
 
     Args:
         L0: vertical length for both and top arms
@@ -78,9 +78,10 @@ def mzi(
     dl = abs(y2l - y1l)  # splitter ports distance
     dr = abs(y2r - y1r)  # combiner ports distance
     delta_length = dl - dr
-    assert (
-        delta_length + L0 > 0
-    ), f"input and output couplers height  offset (delta_length)  {delta_length} + {L0} >0"
+    assert delta_length + L0 > 0, (
+        f"input and output couplers height  offset (delta_length)  {delta_length} +"
+        f" {L0} >0"
+    )
 
     l0r = straight_factory(length=L0 + delta_length / 2)
     l1 = straight_factory(length=DL)
@@ -129,6 +130,7 @@ def mzi(
     l1r.connect(port="W0", destination=brbr.ports["N0"])
     l0br.connect(port="W0", destination=l1r.ports["E0"])
     blbmrb.connect(port="N0", destination=l0br.ports["E0"])
+    blbmrb.connect(port="W0", destination=cout.ports["E1"])  # just for netlist
 
     # west ports
     for port_name, port in cin.ports.items():
@@ -146,6 +148,7 @@ def mzi(
 
 if __name__ == "__main__":
     c = mzi()
+    c.plot_netlist()
     # print(c.ports)
     pp.show(c)
     # print(c.get_settings())

@@ -1,4 +1,5 @@
-"""
+""" DEPRECATED: use pp.component_from_yaml instead!
+
 Sometimes, when a component is mostly composed of sub-components adjacent to each other, it can be easier to define the component by:
 
 - subcomponents
@@ -28,13 +29,16 @@ def test_simple_mzi2x2(
     waveguide_factory=pp.c.waveguide_heater,
 ):
     """
-       arm_top
-        _____
-       |     |
-   CP1=       =CP2=
-       |_____|
 
-        arm_bot
+    .. code::
+
+           arm_top
+            _____
+           |     |
+       CP1=       =CP2=
+           |_____|
+
+            arm_bot
    """
 
     # Define the components to use

@@ -1,3 +1,4 @@
+from typing import Callable
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide
@@ -5,7 +6,6 @@ from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
 from pp.name import autoname
-from typing import Callable
 
 
 @autoname
@@ -64,6 +64,8 @@ def ring_single(
     wt.connect(port="W0", destination=bl.ports["W0"])
     br.connect(port="N0", destination=wt.ports["E0"])
     wr.connect(port="W0", destination=br.ports["W0"])
+    wr.connect(port="E0", destination=cb.ports["N1"])  # just for netlist
+
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
     return c
@@ -73,4 +75,6 @@ if __name__ == "__main__":
     import pp
 
     c = ring_single(pins=True)
+    # print(c.settings)
+    # print(c.get_settings())
     pp.show(c)

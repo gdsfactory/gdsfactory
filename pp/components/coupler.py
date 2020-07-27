@@ -1,19 +1,24 @@
-from pp.components.coupler_symmetric import coupler_symmetric
-from pp.components.coupler_symmetric import coupler_symmetric_biased
-from pp.components.coupler_straight import coupler_straight
-from pp.components.coupler_straight import coupler_straight_biased
-from pp.netlist_to_gds import netlist_to_component
-from pp.name import autoname
-from pp.drc import assert_on_2nm_grid
-from pp.drc import assert_on_1nm_grid
-from pp.layers import LAYER
+from typing import Callable, List, Tuple
 from pp.component import Component
-from typing import Callable, Dict, List, Tuple
+from pp.name import autoname
+from pp.layers import LAYER
+from pp.drc import assert_on_1nm_grid
+from pp.components.coupler_symmetric import coupler_symmetric
+from pp.components.coupler_straight import coupler_straight
 
 
 @autoname
-def coupler(**kwargs) -> Component:
-    """ symmetric coupler
+def coupler(
+    wg_width: float = 0.5,
+    gap: float = 0.236,
+    length: float = 20.007,
+    coupler_symmetric_factory: Callable = coupler_symmetric,
+    coupler_straight: Callable = coupler_straight,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
+    cladding_offset: int = 3,
+) -> Component:
+    """symmetric coupler
 
     Args:
         gap
@@ -42,53 +47,21 @@ def coupler(**kwargs) -> Component:
       pp.plotgds(c)
 
     """
-    components, connections, ports_map = coupler_netlist(**kwargs)
-    component = netlist_to_component(components, connections, ports_map)
-    return component
-
-
-@autoname
-def coupler_biased(**kwargs):
-    """ symmetric coupler
-    """
-    components, connections, ports_map = coupler_netlist(
-        coupler_symmetric_factory=coupler_symmetric_biased,
-        coupler_straight=coupler_straight_biased,
-        **kwargs
-    )
-    component = netlist_to_component(components, connections, ports_map)
-    return component
-
-
-def coupler_netlist(
-    wg_width: float = 0.5,
-    gap: float = 0.236,
-    length: float = 20.007,
-    coupler_symmetric_factory: Callable = coupler_symmetric,
-    coupler_straight: Callable = coupler_straight,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
-    cladding_offset: int = 3,
-) -> Tuple[
-    Dict[str, Tuple[Component, str]],
-    List[Tuple[str, str, str, str]],
-    Dict[str, Tuple[str, str]],
-]:
-    """
-     SBEND_L-CS-SBEND_R
-    """
-
     assert_on_1nm_grid(length)
-    assert_on_2nm_grid(gap)
+    assert_on_1nm_grid(gap)
+    c = Component()
 
-    _sbend = coupler_symmetric_factory(
+    sbend = coupler_symmetric_factory(
         gap=gap,
         wg_width=wg_width,
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
     )
-    _cpl_straight = coupler_straight(
+
+    sr = c << sbend
+    sl = c << sbend
+    cs = c << coupler_straight(
         length=length,
         gap=gap,
         width=wg_width,
@@ -96,38 +69,22 @@ def coupler_netlist(
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
     )
+    sl.connect("W0", destination=cs.ports["W0"])
+    sr.connect("W0", destination=cs.ports["E0"])
 
-    components = {
-        "SBEND_L": (_sbend, "mirror_y"),
-        "SBEND_R": (_sbend, "None"),
-        "CS": (_cpl_straight, "None"),
-    }
+    c.add_port("W1", port=sl.ports["E0"])
+    c.add_port("W0", port=sl.ports["E1"])
+    c.add_port("E0", port=sr.ports["E0"])
+    c.add_port("E1", port=sr.ports["E1"])
 
-    connections = [("SBEND_L", "W0", "CS", "W0"), ("CS", "E0", "SBEND_R", "W0")]
-
-    ports_map = {
-        "W0": ("SBEND_L", "E0"),
-        "W1": ("SBEND_L", "E1"),
-        "E0": ("SBEND_R", "E0"),
-        "E1": ("SBEND_R", "E1"),
-    }
-
-    return components, connections, ports_map
+    c.absorb(sl)
+    c.absorb(sr)
+    c.absorb(cs)
+    return c
 
 
 if __name__ == "__main__":
     import pp
 
-    # from pp.routing import add_io_optical
-
-    # c = coupler(gap=0.245, length=5.67, wg_width=0.2)
-    # c = coupler(gap=0.2, length=5, wg_width=0.4)
-    # c = coupler_biased(gap=0.2, length=5, wg_width=0.5)
     c = coupler(pins=True)
-    # print(c.get_settings())
-    # cc = add_io_optical(c)
     pp.show(c)
-
-    # from pp.routing.connect_component import add_io_optical
-    # cc = add_io_optical(c)
-    # pp.show(cc)

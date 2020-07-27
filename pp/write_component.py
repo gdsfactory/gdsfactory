@@ -5,6 +5,8 @@ write_component: write component and metadata
 
 import pathlib
 import json
+from pathlib import PosixPath
+from typing import Optional
 from phidl import device_layout as pd
 
 from pp.config import CONFIG, conf
@@ -14,8 +16,6 @@ from pp import klive
 from pp.component import Component
 
 from pp.layers import LAYER
-from pathlib import PosixPath
-from typing import Optional
 
 
 def get_component_type(

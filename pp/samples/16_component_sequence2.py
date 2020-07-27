@@ -3,7 +3,7 @@ from pp.components import bend_circular
 from pp.components.waveguide import _arbitrary_straight_waveguide
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
-from pp.components.taper import taper_strip_to_ridge as _taper
+from pp.components.taper import taper_strip_to_ridge
 
 from pp import LAYER
 
@@ -33,13 +33,14 @@ def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=
 
 @pp.autoname
 def test_cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
+    """ Modulator sections connected by bends """
     # Define sub components
     bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
     pm_wg = phase_modulator_waveguide(length=straight_length)
     wg_short = waveguide(length=1.0)
     wg_short2 = waveguide(length=2.0)
     wg_heater = waveguide_heater(length=10.0)
-    taper = _taper()
+    taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)
     string_to_device_in_out_ports = {
