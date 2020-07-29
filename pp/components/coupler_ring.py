@@ -8,12 +8,12 @@ from pp.component import Component
 
 @pp.autoname
 def coupler_ring(
-    coupler90_factory: Callable = coupler90,
-    cpl_straight_factory: Callable = coupler_straight,
+    coupler90: Callable = coupler90,
+    coupler: Callable = coupler_straight,
     length_x: Union[int, float] = 4.0,
     gap: float = 0.2,
     wg_width: float = 0.5,
-    bend_radius: int = 5,
+    bend_radius: float = 5.0,
 ) -> Component:
     """ coupler for half a ring
 
@@ -40,10 +40,10 @@ def coupler_ring(
 
     # define subcells
     coupler90 = pp.call_if_func(
-        coupler90_factory, gap=gap, width=wg_width, bend_radius=bend_radius
+        coupler90, gap=gap, width=wg_width, bend_radius=bend_radius
     )
     coupler_straight = pp.call_if_func(
-        cpl_straight_factory, gap=gap, length=length_x, width=wg_width
+        coupler, gap=gap, length=length_x, width=wg_width
     )
 
     # add references to subcells

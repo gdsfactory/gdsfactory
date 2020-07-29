@@ -1,4 +1,4 @@
-bend_radius: 5
+bend_radius: 5.0
 function_name: coupler_ring
 gap: 0.2
 length_x: 4.0

@@ -41,6 +41,7 @@ def ring_single(
       pp.plotgds(c)
 
     """
+    bend_radius = float(bend_radius)
     assert_on_2nm_grid(gap)
 
     coupler = call_if_func(
