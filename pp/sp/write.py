@@ -1,3 +1,6 @@
+""" from a gdsfactory component write Sparameters from an FDTD Lumerical simulation
+"""
+
 import json
 
 from collections import namedtuple
@@ -171,7 +174,8 @@ def write(
 
         else:
             raise ValueError(
-                f"port {port.name} with orientation {port.orientation} is not a valid number "
+                f"port {port.name} with orientation {port.orientation} is not a valid"
+                " number "
             )
 
         s.setnamed(p, "direction", direction)
@@ -239,7 +243,21 @@ def write(
 
         return results
     else:
-        return "you need to pass run=True to run the simulation"
+        print(
+            """
+you need to pass `run=True` flag to run the simulation
+To debug, you can create a lumerical FDTD session and pass it to the simulator
+
+```
+import lumapi
+s = lumapi.FDTD()
+
+import pp
+c = pp.c.waveguide() # or whatever you want to simulate
+pp.sp.write(component=c, run=False, session=s)
+```
+"""
+        )
 
 
 def write_coupler_ring():
