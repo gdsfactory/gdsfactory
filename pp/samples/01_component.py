@@ -12,11 +12,11 @@ import pp
 # ==============================================================================
 
 
-def waveguide_sample(width=10, height=1):
+def waveguide_sample(length=5, width=1):
     wg = pp.Component("waveguide_sample")
-    wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
-    wg.add_port(name="W0", midpoint=[0, height / 2], width=height, orientation=180)
-    wg.add_port(name="E0", midpoint=[width, height / 2], width=height, orientation=0)
+    wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
+    wg.add_port(name="W0", midpoint=[0, width / 2], width=width, orientation=180)
+    wg.add_port(name="E0", midpoint=[length, width / 2], width=width, orientation=0)
     return wg
 
 
@@ -35,8 +35,8 @@ c = pp.Component("MultiWaveguide")
 # only this one has some geometry inside it.
 #
 # Let's create two of these Devices by calling the waveguide() function
-WG1 = waveguide_sample(width=10, height=1)
-WG2 = waveguide_sample(width=12, height=2)
+WG1 = waveguide_sample(length=10, width=1)
+WG2 = waveguide_sample(length=12, width=2)
 
 # Now we've made two waveguides Component WG1 and WG2, and we have a blank
 # Component c. We can add references from the devices WG1 and WG2 to our blank
@@ -48,7 +48,7 @@ wg1 = c.add_ref(WG1)  # Using the function add_ref()
 wg2 = c << WG2  # Using the << operator which is identical to add_ref()
 
 # Alternatively, we can do this all on one line
-wg3 = c.add_ref(waveguide_sample(width=14, height=3))
+wg3 = c.add_ref(waveguide_sample(length=14, width=3))
 
 pp.qp(c)  # quickplot it!
 pp.show(c)  # show it in Klayout
