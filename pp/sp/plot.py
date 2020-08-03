@@ -28,6 +28,10 @@ def plot(component_or_results_dict, logscale=True, keys=None, height_nm=220):
         plt.plot(w, y, label=key[:-1])
     plt.legend()
     plt.xlabel("wavelength (nm)")
+    if logscale:
+        plt.ylabel("Transmission (dB)")
+    else:
+        plt.ylabel("Transmission")
 
 
 if __name__ == "__main__":

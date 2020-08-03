@@ -29,3 +29,8 @@ def test_sp_load(component_type, data_regression):
     assert len(port_names) == len(c.ports)
     data_regression.check(dict(port_names=port_names))
     assert lenf == len(f)
+
+
+if __name__ == "__main__":
+    c = pp.c.waveguide(layer=(2, 0))
+    print(c.get_sparameters_path())
