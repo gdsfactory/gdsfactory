@@ -6,7 +6,8 @@ import pp
 def load(
     component=None, filepath=None, dirpath=pp.CONFIG["sp"], numports=None, height_nm=220
 ):
-    """
+    """ Load Sparameters from interconnect export
+
     Args:
         component: instance
         filepath: Sparameters filepath (interconnect format)

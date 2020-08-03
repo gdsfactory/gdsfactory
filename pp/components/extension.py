@@ -113,7 +113,7 @@ if __name__ == "__main__":
     # c = pc.bend_circular()
     # ce = extend_ports(c, port_list=['W0'])
 
-    c = pc.waveguide()
+    c = pc.waveguide(layer=(3, 0))
     ce = extend_ports(c)
     print(ce)
     print(len(ce.ports))
