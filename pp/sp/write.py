@@ -40,7 +40,7 @@ def write(
 
     Args:
         component: gdsfactory Component
-        sesssion: you can pass a session=lumapi.FDTD() for debugging
+        session: you can pass a session=lumapi.FDTD() for debugging
         run: True-> runs Lumerical , False -> only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
