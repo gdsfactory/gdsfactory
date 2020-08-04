@@ -6,11 +6,10 @@ import json
 from collections import namedtuple
 import numpy as np
 import pp
-from pp.layers import layer2material
+from pp.layers import layer2material, layer2nm
 
 
 def get_settings(**settings):
-    layer2nm = {(1, 0): 220}
     s = dict(
         layer2nm=layer2nm,
         layer2material=layer2material,
@@ -22,7 +21,14 @@ def get_settings(**settings):
         mesh_accuracy=2,
         zmargin=1e-6,
         ymargin=2e-6,
+        wavelength_start=1.2e-6,
+        wavelength_stop=1.6e-6,
+        wavelength_points=500,
     )
+    for setting in settings.keys():
+        assert (
+            setting in s
+        ), f"`{setting}` is not a valid setting ({list(settings.keys())})"
     s.update(**settings)
     return s
 
@@ -33,6 +39,7 @@ def write(
     run=True,
     overwrite=False,
     dirpath=pp.CONFIG["sp"],
+    height_nm=220,
     **settings,
 ):
     """
@@ -56,6 +63,9 @@ def write(
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
             zmargin: for the FDTD region 1e-6 (m)
             ymargin: for the FDTD region 2e-6 (m)
+            wavelength_start: 1.2e-6 (m)
+            wavelength_stop: 1.6e-6 (m)
+            wavelength_points: 500
 
     Return:
         results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
@@ -78,9 +88,7 @@ def write(
     c = pp.extend_ports(component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    filepath = component.get_sparameters_path(
-        dirpath=dirpath, height_nm=max(ss.layer2nm.values())
-    )
+    filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
     filepath_fsp = filepath.with_suffix(".fsp")
@@ -204,9 +212,9 @@ pp.sp.write(component=c, run=False, session=s)
         # s.setnamed(p, "theta", deg)
         s.setnamed(p, "name", port.name)
 
-    s.setglobalsource("wavelength start", 1e-6)
-    s.setglobalsource("wavelength stop", 2e-6)
-    s.setnamed("FDTD::ports", "monitor frequency points", 500)
+    s.setglobalsource("wavelength start", ss.wavelength_start)
+    s.setglobalsource("wavelength stop", ss.wavelength_stop)
+    s.setnamed("FDTD::ports", "monitor frequency points", ss.wavelength_points)
 
     if run:
         s.save(str(filepath_fsp))

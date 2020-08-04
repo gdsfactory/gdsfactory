@@ -4,7 +4,14 @@ import pp
 from pp.sp.write import write
 
 
-def plot(component_or_results_dict, logscale=True, keys=None, height_nm=220, **kwargs):
+def plot(
+    component_or_results_dict,
+    logscale=True,
+    keys=None,
+    height_nm=220,
+    dirpath=pp.CONFIG["sp"],
+    **kwargs,
+):
     """ plots Sparameters
 
     Args:
@@ -12,10 +19,8 @@ def plot(component_or_results_dict, logscale=True, keys=None, height_nm=220, **k
         logscale: plots 20*log10(results)
         keys: list of keys to plot
         height_nm: nm height
+        dirpath: where to store the simulations
         **kwargs:
-            dirpath: where to store the simulations
-            session: you can pass a session=lumapi.FDTD() for debugging
-            run: True-> runs Lumerical , False -> only draws simulation
             layer2nm: dict of {(1,0): 220}
             layer2material: dict of {(1,0): "Silicon ..."
             remove_layers: list of tuples (layers to remove)
@@ -26,11 +31,14 @@ def plot(component_or_results_dict, logscale=True, keys=None, height_nm=220, **k
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
             zmargin: for the FDTD region 1e-6 (m)
             ymargin: for the FDTD region 2e-6 (m)
+            wavelength_start: 1.2e-6 (m)
+            wavelength_stop: 1.6e-6 (m)
+            wavelength_points: 500
 
     """
     r = component_or_results_dict
     if isinstance(r, pp.Component):
-        r = write(component=r, height_nm=height_nm, **kwargs)
+        r = write(component=r, height_nm=height_nm, dirpath=dirpath, **kwargs)
     w = r["wavelength_nm"]
 
     if keys:
