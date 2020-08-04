@@ -88,6 +88,23 @@ def write(
     if run and filepath_json.exists() and not overwrite:
         return json.loads(open(filepath_json).read())
 
+    if not run and session is None:
+        print(
+            """
+you need to pass `run=True` flag to run the simulation
+To debug, you can create a lumerical FDTD session and pass it to the simulator
+
+```
+import lumapi
+s = lumapi.FDTD()
+
+import pp
+c = pp.c.waveguide() # or whatever you want to simulate
+pp.sp.write(component=c, run=False, session=s)
+```
+"""
+        )
+
     pe = ss.port_extension_um * 1e-6 / 2
     x_min = c.xmin * 1e-6 + pe
     x_max = c.xmax * 1e-6 - pe
@@ -244,22 +261,6 @@ def write(
             json.dump(s, f)
 
         return results
-    else:
-        print(
-            """
-you need to pass `run=True` flag to run the simulation
-To debug, you can create a lumerical FDTD session and pass it to the simulator
-
-```
-import lumapi
-s = lumapi.FDTD()
-
-import pp
-c = pp.c.waveguide() # or whatever you want to simulate
-pp.sp.write(component=c, run=False, session=s)
-```
-"""
-        )
 
 
 def write_coupler_ring():
