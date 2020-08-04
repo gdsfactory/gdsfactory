@@ -78,7 +78,9 @@ def write(
     c = pp.extend_ports(component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    filepath = component.get_sparameters_path(height_nm=max(ss.layer2nm.values()))
+    filepath = component.get_sparameters_path(
+        dirpath=dirpath, height_nm=max(ss.layer2nm.values())
+    )
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
     filepath_fsp = filepath.with_suffix(".fsp")
