@@ -9,6 +9,12 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
+# master
+
+- improve sparameters tutorial
+- fixed some issues when using `x = x or x_default` not valid for `x=0`
+- added tests for splitter_tree and splitter_chain
+
 
 ## 1.3.1 2020-07-27
 
