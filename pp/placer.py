@@ -92,8 +92,8 @@ def pack_horizontal(
     """
     heights = [c.size_info.height for c in cells]
 
-    margin_x = margin_x or margin
-    margin_y = margin_y or margin
+    margin_x = margin_x if margin_x is not None else margin
+    margin_y = margin_y if margin_y is not None else margin
     row_ids = row_ids or [0] * len(cells)
 
     if len(cells) != len(row_ids):
@@ -177,8 +177,8 @@ def pack_vertical(
     returns a list of cell references
     """
     widths = [c.size_info.width for c in cells]
-    margin_x = margin_x or margin
-    margin_y = margin_y or margin
+    margin_x = margin_x if margin_x is not None else margin
+    margin_y = margin_y if margin_y is not None else margin
     col_ids = col_ids or [0] * len(cells)
 
     if len(cells) != len(col_ids):

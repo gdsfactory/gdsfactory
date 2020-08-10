@@ -18,8 +18,9 @@ def add_padding(
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
     c.ports = component.ports
-    x = padding if x is None else x
-    y = padding if y is None else y
+
+    x = x if x is not None else padding
+    y = y if y is not None else padding
     points = [
         [c.xmin - x, c.ymin - y],
         [c.xmax + x, c.ymin - y],
