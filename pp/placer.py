@@ -1,4 +1,6 @@
-""" YAML defines component DOE settings and placement
+""" gdspy based placer
+
+YAML defines component DOE settings and placement
 
 .. code:: yaml
 
@@ -71,15 +73,7 @@ def placer_grid_cell_refs(
 
 
 def pack_horizontal(
-    cells,
-    row_ids=None,
-    margin=20.0,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin_x=None,
-    margin_y=None,
+    cells, row_ids=None, x0=0, y0=0, align_x="W", align_y="S", margin_x=20, margin_y=20,
 ):
     """
     Args:
@@ -92,8 +86,6 @@ def pack_horizontal(
     """
     heights = [c.size_info.height for c in cells]
 
-    margin_x = margin_x if margin_x is not None else margin
-    margin_y = margin_y if margin_y is not None else margin
     row_ids = row_ids or [0] * len(cells)
 
     if len(cells) != len(row_ids):
@@ -157,15 +149,7 @@ def pack_horizontal(
 
 
 def pack_vertical(
-    cells,
-    col_ids=None,
-    margin=20.0,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin_x=None,
-    margin_y=None,
+    cells, col_ids=None, x0=0, y0=0, align_x="W", align_y="S", margin_x=20, margin_y=20,
 ):
     """
     Args:
@@ -177,8 +161,6 @@ def pack_vertical(
     returns a list of cell references
     """
     widths = [c.size_info.width for c in cells]
-    margin_x = margin_x if margin_x is not None else margin
-    margin_y = margin_y if margin_y is not None else margin
     col_ids = col_ids or [0] * len(cells)
 
     if len(cells) != len(col_ids):

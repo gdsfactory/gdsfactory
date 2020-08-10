@@ -14,7 +14,6 @@ layers:
 - - 67
   - 0
 name: waveguide_p
-padding: 50
 suffix: p
-x: None
-y: None
+x: 50
+y: 50
