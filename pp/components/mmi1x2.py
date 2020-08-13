@@ -47,6 +47,7 @@ def mmi1x2(
         width2=w_taper,
         layer=layer,
         layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
     )
 
     a = gap_mmi / 2 + width_taper / 2

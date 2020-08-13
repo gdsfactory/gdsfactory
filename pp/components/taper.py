@@ -1,7 +1,7 @@
+from typing import Any, List, Optional, Tuple
 import pp
 from pp.config import TAPER_LENGTH
 from pp.component import Component
-from typing import Any, List, Optional, Tuple
 
 
 @pp.autoname
