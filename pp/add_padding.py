@@ -5,7 +5,9 @@ from pp.container import container
 
 
 @container
-def add_padding(component, x=50, y=50, layers=[pp.LAYER.PADDING], suffix="p"):
+def add_padding(
+    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING], suffix="p"
+):
     """ adds padding layers to a NEW component that has the same:
     - ports
     - settings
@@ -13,6 +15,9 @@ def add_padding(component, x=50, y=50, layers=[pp.LAYER.PADDING], suffix="p"):
 
     as the old component
     """
+    x = x if x is not None else padding
+    y = y if y is not None else padding
+
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
     c.ports = component.ports
