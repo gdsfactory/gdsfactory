@@ -149,8 +149,9 @@ def pack_row(
     y0=0,
     align_x="W",
     align_y="S",
-    margin_x=20,
-    margin_y=20,
+    margin=20,
+    margin_x=None,
+    margin_y=None,
     um_to_grid=UM_TO_GRID,
     period_x=None,
     period_y=None,
@@ -173,6 +174,8 @@ def pack_row(
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
+    margin_y = margin_y if margin_y is not None else margin
+    margin_x = margin_x if margin_x is not None else margin
 
     if row_ids is None:
         row_ids = []
@@ -267,8 +270,9 @@ def pack_col(
     y0=0,
     align_x="W",
     align_y="S",
-    margin_x=20,
-    margin_y=20,
+    margin=20,
+    margin_x=None,
+    margin_y=None,
     um_to_grid=UM_TO_GRID,
     period_x=None,
     period_y=None,
@@ -283,6 +287,8 @@ def pack_col(
     returns a list of cell references
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
+    margin_y = margin_y if margin_y is not None else margin
+    margin_x = margin_x if margin_x is not None else margin
 
     if col_ids is None:
         col_ids = []
@@ -596,8 +602,7 @@ def place_from_yaml(
         default_placer_settings = {
             "align_x": "W",
             "align_y": "S",
-            "margin_x": 10,
-            "margin_y": 10,
+            "margin": 10,
             "x0": "E",
             "y0": "S",
         }

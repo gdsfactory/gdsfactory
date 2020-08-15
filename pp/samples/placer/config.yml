@@ -12,8 +12,8 @@ mmi1x2:
         width_mmi: [3.6, 7.8]
     do_permutation: False
 
-    spacing: [800., 100.]
-    origin: [500., 100.]
+    spacing: [50., 100.]
+    origin: [0., 0.]
     shape: [2, 1]
 
 mzi2x2:
@@ -24,6 +24,6 @@ mzi2x2:
         gap: [0.23, 0.234, 0.24]
     do_permutation: True
 
-    spacing: [800., 500.]
-    origin: [500., 200.]
+    spacing: [200., 300.]
+    origin: [100., 100.]
     shape: [3, 3]
