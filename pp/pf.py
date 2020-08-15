@@ -29,7 +29,7 @@ import pp.build as pb
 from pp.tests.test_factory import lock_components_with_changes
 
 
-VERSION = "1.3.2"
+VERSION = "1.3.3"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
