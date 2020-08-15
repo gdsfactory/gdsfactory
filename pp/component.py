@@ -2,6 +2,7 @@ from __future__ import annotations
 import itertools
 import uuid
 import json
+import pathlib
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
@@ -568,9 +569,10 @@ class Component(Device):
             return self.name
 
     def get_sparameters_path(self, dirpath=CONFIG["sp"], height_nm=220):
-        output_folder = dirpath / self.function_name
-        output_folder.mkdir(exist_ok=True, parents=True)
-        return output_folder / f"{self.get_name_long()}_{height_nm}.dat"
+        dirpath = pathlib.Path(dirpath)
+        dirpath = dirpath / self.function_name if self.function_name else dirpath
+        dirpath.mkdir(exist_ok=True, parents=True)
+        return dirpath / f"{self.get_name_long()}_{height_nm}.dat"
 
     def get_optical_ports(self) -> List[Port]:
         """ returns a lit of optical ports """

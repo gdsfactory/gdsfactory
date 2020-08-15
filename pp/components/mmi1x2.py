@@ -42,7 +42,12 @@ def mmi1x2(
     w_taper = width_taper
 
     taper = pp.c.taper(
-        length=length_taper, width1=wg_width, width2=w_taper, layer=layer,
+        length=length_taper,
+        width1=wg_width,
+        width2=w_taper,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -61,6 +66,7 @@ def mmi1x2(
             size=(length_mmi, w_mmi + 2 * cladding_offset), layer=layer_cladding
         )
         clad.y = 0
+        c.absorb(clad)
 
     # For each port on the MMI rectangle
     for port_name, port in mmi.ports.items():

@@ -1,0 +1,4 @@
+function_name: splitter_chain
+module: pp.components.splitter_chain
+n_devices: 3
+name: splitter_chain

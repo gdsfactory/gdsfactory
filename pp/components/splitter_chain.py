@@ -1,13 +1,27 @@
+from typing import Callable
+from pp.components.mmi1x2 import mmi1x2
 import pp
 
 
 @pp.autoname
-def splitter_chain(component, n_devices=2):
-    """     __
-         __|
-      __|  |__
-    _|  |__
-     |__
+def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3):
+    """ Chain of splitters
+
+    .. code::
+                __
+             __|
+          __|  |__
+        _|  |__
+         |__
+
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.splitter_chain(component=pp.c.mmi1x2(), n_devices=3)
+      pp.plotgds(c)
 
     """
     c = pp.Component()

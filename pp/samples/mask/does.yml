@@ -13,6 +13,7 @@ mmi_width:
     x0: 0 # Absolute coordinate placing
     y0: 0 # Absolute coordinate placing
     align_x: W # x origin is west
+    margin: 25. # x margin between the components within this DOE
     align_y: S # y origin is south
 
 mmi_width_length:

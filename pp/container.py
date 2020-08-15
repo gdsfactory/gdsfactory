@@ -71,14 +71,10 @@ def container(component_function: Callable) -> Callable:
 
 
 @container
-def add_padding(
-    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING], suffix="p"
-):
+def add_padding(component, x=50, y=50, layers=[pp.LAYER.PADDING], suffix="p"):
     """ adds padding layers to component"""
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
-    x = x or padding
-    y = y or padding
     points = [
         [c.xmin - x, c.ymin - y],
         [c.xmax + x, c.ymin - y],
