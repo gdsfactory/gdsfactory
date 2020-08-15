@@ -22,13 +22,16 @@ iso_lines_coarse1:
 import os
 import sys
 import collections
-from omegaconf import OmegaConf
 import numpy as np
+from omegaconf import OmegaConf
 import klayout.db as pya
 
 import pp.autoplacer.text as text
 from pp.autoplacer.helpers import import_cell, load_gds, CELLS
 from pp.config import CONFIG
+
+UM_TO_GRID = 1e3
+DEFAULT_BBOX_LAYER_IGNORE = [(8484, 8484)]
 
 
 def _print(*args, **kwargs):
@@ -36,14 +39,8 @@ def _print(*args, **kwargs):
     sys.stdout.flush()
 
 
-UM_TO_GRID = 1e3
-
-
 def to_grid(x, um_to_grid=UM_TO_GRID):
     return int(x * um_to_grid)
-
-
-DEFAULT_BBOX_LAYER_IGNORE = [(8484, 8484)]
 
 
 class SizeInfo:
@@ -123,16 +120,14 @@ def placer_grid_cell_refs(
     um_to_grid=UM_TO_GRID,
     **settings,
 ):
-    """ cells: list of cells - order matters for placing
-    """
+    """cells: list of cells - order matters for placing"""
 
     indices = [(i, j) for j in range(cols) for i in range(rows)]
 
     if rows * cols < len(cells):
         raise ValueError(
-            "Shape ({}, {}): Not enough emplacements ({}) for all these components ({}).".format(
-                rows, cols, len(indices), len(cells)
-            )
+            "Shape ({}, {}): Not enough emplacements ({}) for all these components"
+            " ({}).".format(rows, cols, len(indices), len(cells))
         )
     components = []
     for cell, (i, j) in zip(cells, indices):
@@ -150,11 +145,11 @@ def pack_row(
     cells,
     row_ids=None,
     nb_cols=None,
-    margin=20.0,
     x0=0,
     y0=0,
     align_x="W",
     align_y="S",
+    margin=20,
     margin_x=None,
     margin_y=None,
     um_to_grid=UM_TO_GRID,
@@ -179,9 +174,8 @@ def pack_row(
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
-
-    margin_x = margin_x or margin
-    margin_y = margin_y or margin
+    margin_y = margin_y if margin_y is not None else margin
+    margin_x = margin_x if margin_x is not None else margin
 
     if row_ids is None:
         row_ids = []
@@ -198,8 +192,7 @@ def pack_row(
 
     if len(cells) != len(row_ids):
         raise ValueError(
-            "Each cell should be assigned a row id. \
-        Got {} cells for {} row ids".format(
+            "Each cell should be assigned a row id.         Got {} cells for {} row ids".format(
                 len(cells), len(row_ids)
             )
         )
@@ -273,11 +266,11 @@ def pack_col(
     cells,
     col_ids=None,
     nb_rows=None,
-    margin=20.0,
     x0=0,
     y0=0,
     align_x="W",
     align_y="S",
+    margin=20,
     margin_x=None,
     margin_y=None,
     um_to_grid=UM_TO_GRID,
@@ -294,9 +287,8 @@ def pack_col(
     returns a list of cell references
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
-
-    margin_x = margin_x or margin
-    margin_y = margin_y or margin
+    margin_y = margin_y if margin_y is not None else margin
+    margin_x = margin_x if margin_x is not None else margin
 
     if col_ids is None:
         col_ids = []
@@ -313,8 +305,7 @@ def pack_col(
 
     if len(cells) != len(col_ids):
         raise ValueError(
-            "Each cell should be assigned a row id. \
-        Got {} cells for {} col ids".format(
+            "Each cell should be assigned a row id.         Got {} cells for {} col ids".format(
                 len(cells), len(col_ids)
             )
         )
@@ -382,8 +373,7 @@ def pack_col(
 def placer_fixed_coords(
     cells, x, y, x0=0, y0=0, do_permutation=False, um_to_grid=UM_TO_GRID, **kwargs
 ):
-    """ place cells using a list of coordinates
-    """
+    """place cells using a list of coordinates"""
 
     # List all coordinates
     if do_permutation:
@@ -408,7 +398,7 @@ def placer_fixed_coords(
 
 
 def load_yaml(filepath, defaults={"do_permutation": True}):
-    """ load placer settings
+    """load placer settings
 
     Args:
         filepath: a yaml file containing the does and placer information
@@ -528,7 +518,7 @@ def place_from_yaml(
     precision=1e-9,
     fontpath=text.FONT_PATH,
 ):
-    """ Returns a gds cell composed of DOEs/components given in a yaml file
+    """Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
 
     Args:
@@ -627,7 +617,8 @@ def place_from_yaml(
 
         if placer_type not in PLACER_NAME2FUNC:
             raise ValueError(
-                f"{placer_type} is not an available placer, Choose: {list(PLACER_NAME2FUNC.keys())}"
+                f"{placer_type} is not an available placer, Choose:"
+                f" {list(PLACER_NAME2FUNC.keys())}"
             )
         _placer = PLACER_NAME2FUNC[placer_type]
 

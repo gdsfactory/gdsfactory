@@ -87,6 +87,8 @@ from pp.components.loop_mirror import loop_mirror
 # level 2 components
 from pp.components.component_lattice import component_lattice
 from pp.components.component_sequence import component_sequence
+from pp.components.splitter_tree import splitter_tree
+from pp.components.splitter_chain import splitter_chain
 
 
 # we will test each factory component hash, ports and properties """
@@ -154,6 +156,8 @@ component_type2factory = dict(
     spiral_external_io=spiral_external_io,
     spiral_inner_io=spiral_inner_io,
     spiral_inner_io_euler=spiral_inner_io_euler,
+    splitter_tree=splitter_tree,
+    splitter_chain=splitter_chain,
     taper=taper,
     taper_strip_to_ridge=taper_strip_to_ridge,
     text=text,

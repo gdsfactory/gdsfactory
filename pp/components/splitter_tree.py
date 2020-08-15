@@ -1,17 +1,46 @@
+from typing import Callable
 import pp
-from pp.components import waveguide
+
+from pp.components.mmi1x2 import mmi1x2
+from pp.components.waveguide import waveguide
 from pp.routing.connect import connect_strip
 from pp.port import get_ports_facing
 
 
 @pp.autoname
 def splitter_tree(
-    coupler,
-    n_o_outputs=4,
-    bend_radius=10.0,
-    separation=50,
-    termination_component=waveguide(length=0.1),
+    coupler: Callable = mmi1x2,
+    n_o_outputs: int = 4,
+    bend_radius: float = 10.0,
+    spacing: float = 50.0,
+    termination_component=None,
 ):
+    """tree of 1x2 splitters
+
+    Args:
+        coupler: 1x2 coupler factory
+        n_o_outputs:
+        bend_radius: for routing
+        spacing: 2X spacing
+        termination_component: factory or component for EAST termination
+
+    .. code::
+
+             __|
+          __|  |__
+        _|  |__
+         |__       spacing
+
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.splitter_tree(coupler=pp.c.mmi1x2(), n_o_outputs=4, spacing=50, bend_radius=10)
+      pp.plotgds(c)
+
+    """
     n_o_outputs = n_o_outputs
     c = pp.Component()
 
@@ -24,13 +53,22 @@ def splitter_tree(
             coupler=coupler,
             n_o_outputs=n_o_outputs // 2,
             bend_radius=bend_radius,
-            separation=separation / 2,
+            spacing=spacing / 2,
         )
     else:
-        _cmp = termination_component
+        termination_component = (
+            termination_component
+            if termination_component is not None
+            else waveguide(length=0.1)
+        )
+        _cmp = pp.call_if_func(termination_component)
 
-    a = separation or _cmp.ports["W0"].y - _coupler.size_info.south
-    if a < coupler_sep:
+    spacing = (
+        spacing
+        if spacing is not None
+        else _cmp.ports["W0"].y - _coupler.size_info.south
+    )
+    if spacing < coupler_sep:
         tree_top = _cmp.ref(port_id="W0", position=_coupler.ports["E1"])
         tree_bot = _cmp.ref(
             port_id="W0", position=_coupler.ports["E0"], v_mirror=False  # True
@@ -38,14 +76,14 @@ def splitter_tree(
 
     else:
         d = 2 * bend_radius + 1
-        a = max(a, d)
+        spacing = max(spacing, d)
 
         tree_top = _cmp.ref(
-            port_id="W0", position=_coupler.ports["E1"].position + (d, a)
+            port_id="W0", position=_coupler.ports["E1"].position + (d, spacing)
         )
         tree_bot = _cmp.ref(
             port_id="W0",
-            position=_coupler.ports["E0"].position + (d, -a),
+            position=_coupler.ports["E0"].position + (d, -spacing),
             v_mirror=False,  # True,
         )
 

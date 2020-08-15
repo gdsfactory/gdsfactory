@@ -1,13 +1,15 @@
+""" from a gdsfactory component write Sparameters from an FDTD Lumerical simulation
+"""
+
 import json
 
 from collections import namedtuple
 import numpy as np
 import pp
-from pp.layers import layer2material
+from pp.layers import layer2material, layer2nm
 
 
 def get_settings(**settings):
-    layer2nm = {(1, 0): 220}
     s = dict(
         layer2nm=layer2nm,
         layer2material=layer2material,
@@ -19,7 +21,14 @@ def get_settings(**settings):
         mesh_accuracy=2,
         zmargin=1e-6,
         ymargin=2e-6,
+        wavelength_start=1.2e-6,
+        wavelength_stop=1.6e-6,
+        wavelength_points=500,
     )
+    for setting in settings.keys():
+        assert (
+            setting in s
+        ), f"`{setting}` is not a valid setting ({list(settings.keys())})"
     s.update(**settings)
     return s
 
@@ -30,6 +39,7 @@ def write(
     run=True,
     overwrite=False,
     dirpath=pp.CONFIG["sp"],
+    height_nm=220,
     **settings,
 ):
     """
@@ -37,7 +47,7 @@ def write(
 
     Args:
         component: gdsfactory Component
-        sesssion: you can pass a session=lumapi.FDTD() for debugging
+        session: you can pass a session=lumapi.FDTD() for debugging
         run: True-> runs Lumerical , False -> only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
@@ -53,6 +63,9 @@ def write(
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
             zmargin: for the FDTD region 1e-6 (m)
             ymargin: for the FDTD region 2e-6 (m)
+            wavelength_start: 1.2e-6 (m)
+            wavelength_stop: 1.6e-6 (m)
+            wavelength_points: 500
 
     Return:
         results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
@@ -75,13 +88,30 @@ def write(
     c = pp.extend_ports(component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    filepath = component.get_sparameters_path(height_nm=max(ss.layer2nm.values()))
+    filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".settings.json")
     filepath_fsp = filepath.with_suffix(".fsp")
 
     if run and filepath_json.exists() and not overwrite:
         return json.loads(open(filepath_json).read())
+
+    if not run and session is None:
+        print(
+            """
+you need to pass `run=True` flag to run the simulation
+To debug, you can create a lumerical FDTD session and pass it to the simulator
+
+```
+import lumapi
+s = lumapi.FDTD()
+
+import pp
+c = pp.c.waveguide() # or whatever you want to simulate
+pp.sp.write(component=c, run=False, session=s)
+```
+"""
+        )
 
     pe = ss.port_extension_um * 1e-6 / 2
     x_min = c.xmin * 1e-6 + pe
@@ -171,7 +201,8 @@ def write(
 
         else:
             raise ValueError(
-                f"port {port.name} with orientation {port.orientation} is not a valid number "
+                f"port {port.name} with orientation {port.orientation} is not a valid"
+                " number "
             )
 
         s.setnamed(p, "direction", direction)
@@ -181,9 +212,9 @@ def write(
         # s.setnamed(p, "theta", deg)
         s.setnamed(p, "name", port.name)
 
-    s.setglobalsource("wavelength start", 1e-6)
-    s.setglobalsource("wavelength stop", 2e-6)
-    s.setnamed("FDTD::ports", "monitor frequency points", 500)
+    s.setglobalsource("wavelength start", ss.wavelength_start)
+    s.setglobalsource("wavelength stop", ss.wavelength_stop)
+    s.setnamed("FDTD::ports", "monitor frequency points", ss.wavelength_points)
 
     if run:
         s.save(str(filepath_fsp))
@@ -238,8 +269,6 @@ def write(
             json.dump(s, f)
 
         return results
-    else:
-        return "you need to pass run=True to run the simulation"
 
 
 def write_coupler_ring():

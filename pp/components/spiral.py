@@ -1,3 +1,4 @@
+from typing import Callable, Optional, Tuple
 import picwriter.components as pc
 from pp.port import auto_rename_ports
 
@@ -5,7 +6,6 @@ from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
 from pp.component import Component
-from typing import Callable, Optional, Tuple
 
 
 @pp.autoname
@@ -29,15 +29,13 @@ def spiral(
        port (tuple): Cartesian coordinate of the input port
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
-
-    Kwargs:
-        wg_width: 0.5
-        wg_layer: pp.LAYER.WG[0]
-        wg_datatype: pp.LAYER.WG[1]
-        clad_layer: pp.LAYER.WGCLAD[0]
-        clad_datatype: pp.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+       wg_width: 0.5
+       wg_layer: pp.LAYER.WG[0]
+       wg_datatype: pp.LAYER.WG[1]
+       clad_layer: pp.LAYER.WGCLAD[0]
+       clad_datatype: pp.LAYER.WGCLAD[1]
+       bend_radius: 10
+       cladding_offset: 3
 
     .. plot::
       :include-source:
@@ -46,7 +44,6 @@ def spiral(
 
       c = pp.c.spiral(width=500, length=10e3)
       pp.plotgds(c)
-
 
     """
     c = pc.Spiral(

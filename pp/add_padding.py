@@ -15,11 +15,13 @@ def add_padding(
 
     as the old component
     """
+    x = x if x is not None else padding
+    y = y if y is not None else padding
+
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
     c.ports = component.ports
-    x = x or padding
-    y = y or padding
+
     points = [
         [c.xmin - x, c.ymin - y],
         [c.xmax + x, c.ymin - y],
@@ -35,7 +37,8 @@ def add_padding(
 def add_padding_to_grid(
     component,
     grid_size=127,
-    padding=10,
+    x=10,
+    y=10,
     bottom_padding=5,
     layers=[pp.LAYER.PADDING],
     suffix="p",
@@ -59,8 +62,8 @@ def add_padding_to_grid(
         n_grids = np.ceil(c.size_info.width / grid_size)
         x_padding = n_grids * grid_size - c.size_info.width
 
-    x_padding -= padding
-    y_padding -= padding
+    x_padding -= x
+    y_padding -= y
 
     points = [
         [c.xmin - x_padding / 2, c.ymin - bottom_padding],
