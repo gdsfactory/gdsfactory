@@ -11,6 +11,13 @@ def cavity(component, coupler=coupler, length=0.1, gap=0.2, wg_width=0.5):
     """ creates a cavity from a coupler and a mirror
     it will connect the W0 port of the mirror to both E1 and W1 ports of the coupler creating a resonant cavity
 
+    Args:
+        component: mirror
+        coupler: coupler factory
+        length: coupler length
+        gap: coupler gap
+        wg_width: coupler wg_width
+
     .. code::
 
       ml (mirror left)              mr (mirror right)

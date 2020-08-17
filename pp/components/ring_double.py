@@ -1,10 +1,10 @@
+from typing import Callable
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
 from pp.name import autoname
-from typing import Callable
 
 
 @autoname
