@@ -1,7 +1,12 @@
+""" DBR gratings
+wavelength = 2*period*neff
+period = wavelength/2/neff
+"""
+
+from typing import Callable
 import pp
 from pp.components.waveguide import waveguide
 from pp.component import Component
-from typing import Callable
 
 
 @pp.autoname

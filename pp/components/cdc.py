@@ -24,12 +24,12 @@ def cdc(
     fins: bool = False,
     fin_size: Tuple[float, float] = (0.2, 0.05),
     contradc_wgt: None = None,
-    port: Tuple[int, int] = (0, 0),
+    port_midpoint: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
     waveguide_template: Callable = wg_strip,
     **kwargs
 ) -> Component:
-    """ Grating-Assisted Contra-Directional Coupler
+    """Grating-Assisted Contra-Directional Coupler
 
     Args:
        length (float): Length of the coupling region.
@@ -45,7 +45,7 @@ def cdc(
        fins (boolean): If `True`, adds fins to the input/output waveguides.  In this case a different template for the component must be specified.  This feature is useful when performing electron-beam lithography and using different beam currents for fine features (helps to reduce stitching errors).  Defaults to `False`
        fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`.  Defaults to 200 nm x 50 nm
        contradc_wgt (WaveguideTemplate): If `fins` above is True, a WaveguideTemplate (contradc_wgt) must be specified.  This defines the layertype / datatype of the ContraDC (which will be separate from the input/output waveguides).  Defaults to `None`
-       port (tuple): Cartesian coordinate of the input port (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).  Defaults to (0,0).
+       port_midpoint (tuple): Cartesian coordinate of the input port (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).  Defaults to (0,0).
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).  Defaults to 'EAST'.
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
 
@@ -75,15 +75,18 @@ def cdc(
         fins=fins,
         fin_size=fin_size,
         contradc_wgt=contradc_wgt,
-        port=port,
+        port=port_midpoint,
         direction=direction,
     )
 
-    return picwriter2component(c)
+    component = picwriter2component(c)
+    pp.port.rename_ports_by_orientation(component)
+    return component
 
 
 if __name__ == "__main__":
     import pp
 
     c = cdc()
+    print(c.ports.keys())
     pp.show(c)
