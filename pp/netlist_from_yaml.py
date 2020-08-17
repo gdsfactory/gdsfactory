@@ -19,8 +19,7 @@ from pp.components import component_type2factory
 from pp.netlist_to_gds import netlist_to_component
 
 
-sample = io.StringIO(
-    """
+sample = """
 
 instances:
     CP1:
@@ -65,11 +64,10 @@ ports_map:
     E_BOT_3: [arm_bot, E_3]
 
 """
-)
 
 
 def netlist_from_yaml(
-    netlist: Union[str, pathlib.Path, IO[Any]],
+    yaml: Union[str, pathlib.Path, IO[Any]],
     component_type2factory=component_type2factory,
 ) -> Component:
     """ Loads Component settings from YAML file, and connections
@@ -128,7 +126,8 @@ def netlist_from_yaml(
 
     """
 
-    conf = OmegaConf.load(netlist)
+    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    conf = OmegaConf.load(yaml)
 
     instances = {}
     for instance_name in conf.instances:

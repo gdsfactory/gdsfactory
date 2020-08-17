@@ -24,9 +24,8 @@ The code below illustrates how a simple MZI can be formed using this method.
     :include-source:
 
     import pp
-    import io
 
-    yaml = io.StringIO("""
+    yaml = """
     instances:
         mmi_long:
           component: mmi1x2
@@ -51,7 +50,7 @@ The code below illustrates how a simple MZI can be formed using this method.
     ports:
         E0: mmi_short,W0
         W0: mmi_long,W0
-    """)
+    """
 
     c = pp.component_from_yaml(yaml)
     pp.show(c)

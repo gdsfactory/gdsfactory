@@ -1,4 +1,3 @@
-import io
 import pp
 from pp.component_from_yaml import component_from_yaml
 from pp.component import Component
@@ -13,8 +12,7 @@ def coupler(
     pp.drc.assert_on_1nm_grid(length)
     pp.drc.assert_on_2nm_grid(gap)
 
-    netlist = io.StringIO(
-        f"""
+    netlist = f"""
 instances:
     sl:
       component: coupler_symmetric
@@ -49,7 +47,6 @@ ports:
     e1: sr,E1
 
     """
-    )
     return component_from_yaml(netlist)
 
 

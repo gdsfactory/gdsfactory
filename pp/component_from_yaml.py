@@ -15,8 +15,7 @@ from pp.routing import link_optical_ports
 valid_placements = ["x", "y", "rotation", "mirror"]
 valid_keys = ["instances", "placements", "connections", "ports", "routes"]
 
-sample = io.StringIO(
-    """
+sample = """
 instances:
     mmi_long:
       component: mmi1x2
@@ -42,11 +41,9 @@ ports:
     E0: mmi_short,W0
     W0: mmi_long,W0
 """
-)
 
 
-sample_connections = io.StringIO(
-    """
+sample_connections = """
 instances:
     wgw:
       component: waveguide
@@ -63,11 +60,9 @@ connections:
     wgw,E0: wgn,W0
 
 """
-)
 
 
-sample_mirror = io.StringIO(
-    """
+sample_mirror = """
 instances:
     CP1:
       component: mmi1x2
@@ -98,7 +93,6 @@ connections:
     CP2,E0: arm_bot,E0
     CP2,E0: arm_top,E0
 """
-)
 
 
 def component_from_yaml(
@@ -120,6 +114,7 @@ def component_from_yaml(
 
     """
     c = Component()
+    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
 
     conf = OmegaConf.load(yaml)
     for key in conf.keys():
@@ -291,11 +286,11 @@ if __name__ == "__main__":
 
     # test_netlist_write()
     # c = test_netlist_read()
+    # c = test_mirror()
 
-    c = test_mirror()
+    c = component_from_yaml(sample)
     pp.show(c)
 
-    # c = component_from_yaml(sample)
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()

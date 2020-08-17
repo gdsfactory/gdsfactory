@@ -9,6 +9,10 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
+# master
+
+- nicer netlist representations (adding location to each node in the graph)
+
 # 1.3.2 2020-08-15
 
 - improve sparameters tutorial
