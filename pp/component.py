@@ -502,26 +502,37 @@ class Component(Device):
         self.name_long = None
         self.function_name = None
 
-    def plot_netlist(self, with_labels=True, font_weight="bold"):
-        """ plots a netlist graph """
+    def plot_netlist(
+        self, label_index_end=1, with_labels=True, font_weight="normal",
+    ):
+        """plots a netlist graph with networkx
+        https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
+
+        Args:
+            label_index_end: name args separated with `_` to print (-1: all)
+            with_labels: label nodes
+            font_weight: normal, bold
+        """
         import matplotlib.pyplot as plt
 
-        G = self.get_netlist_graph()
-        nx.draw_spring(G, with_labels=with_labels, font_weight=font_weight)
-        plt.show()
-
-    def get_netlist_graph(self, netlist=None):
-        """ returns a networkx netlist graph """
-        netlist = netlist or self.get_netlist()
+        netlist = self.get_netlist()
         connections = netlist.connections
         G = nx.Graph()
         G.add_edges_from(
             [(k.split(",")[0], v.split(",")[0]) for k, v in connections.items()]
         )
-        return G
+        pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
+        labels = {
+            k: "_".join(k.split("_")[:label_index_end])
+            for k in netlist.placements.keys()
+        }
+        nx.draw(
+            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
+        )
+        plt.show()
 
     def get_netlist(self, full_settings=False):
-        """ returns netlist dict(instances, placements, connections)
+        """returns netlist dict(instances, placements, connections)
         if full_settings: exports all the settings
         """
         instances = {}
@@ -1007,9 +1018,14 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    # import pp
+    import pp
+
+    # c = pp.c.ring_single()
+    c = pp.c.mzi()
+    c.plot_netlist()
+
     # test_netlist_simple()
-    test_netlist_complex()
+    # test_netlist_complex()
 
     # c = pp.c.waveguide()
     # c = pp.c.dbr(n=1)
@@ -1024,7 +1040,7 @@ if __name__ == "__main__":
 
     # c = pp.c.mmi1x2()
     # c = pp.c.mzi1x2()
-    # c = pp.c.ring_double_bus()
+
     # print(c.hash_geometry())
     # print(c.get_json())
     # print(c.get_settings())

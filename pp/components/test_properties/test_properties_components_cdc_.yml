@@ -15,7 +15,7 @@ length: 30.0
 module: pp.components.cdc
 name: cdc
 period: 0.22
-port:
+port_midpoint:
 - 0
 - 0
 width_bot: 0.75
