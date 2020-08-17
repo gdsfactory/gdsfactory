@@ -1,16 +1,15 @@
 """ write Component from YAML file """
 
+import io
 from typing import Union, IO, Any
 import pathlib
-import io
 from omegaconf import OmegaConf
 
 from pp.component import Component
 from pp.components import component_type2factory
 
 
-sample = io.StringIO(
-    """
+sample = """
 mmi_long:
   component: mmi1x2
   settings:
@@ -28,22 +27,21 @@ mmi_short:
     x : 120
     y : 100
 """
-)
 
 
-def read_yaml(file: Union[str, pathlib.Path, IO[Any]]) -> Component:
+def read_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
     """ Loads Components settings from yaml file and writes the GDS into build_directory
 
     Args:
-        file: YAML IO describing DOE
+        yaml: YAML IO describing DOE
 
     Returns:
         Component
     """
     c = Component()
 
-    conf = OmegaConf.load(file)
-    # cd = OmegaConf.to_container(cd)
+    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    conf = OmegaConf.load(yaml)
 
     for component_name in conf:
         component_conf = conf[component_name]
