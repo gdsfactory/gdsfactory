@@ -63,9 +63,11 @@ Exporting connectivity map from a GDS is the first step towards verification.
 - Generating the netlist
 
 
+```eval_rst
 .. plot::
     :include-source:
 
     c = pp.c.mzi()
     pp.qp(c)
     c.plot_netlist()
+```

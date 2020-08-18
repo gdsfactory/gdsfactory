@@ -2,7 +2,7 @@
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
-3. the default_config is in this file (lowest priority)
+3. the default_config in pp/config.py (lowest priority)
 
 `CONFIG` has all the paths that we do not care
 `conf` has all the useful info

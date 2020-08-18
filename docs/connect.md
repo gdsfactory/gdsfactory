@@ -1,10 +1,10 @@
 # 1. Connect References
 
-There are 3 ways of connecting:
+You can connect:
 
 - As a component sequence
-- define a netlist
-- connect the references butt to butt
+- Defining a netlist
+- Connecting the references butt to butt
 
 ![component levels](images/lib_example.png)
 
