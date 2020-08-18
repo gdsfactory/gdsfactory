@@ -9,7 +9,7 @@ import pytest
 from omegaconf import OmegaConf
 
 from pp.component import Component
-from pp.components import component_type2factory
+from pp.components import component_type2factory as component_type2factory_default
 from pp.routing import link_optical_ports
 
 valid_placements = ["x", "y", "rotation", "mirror"]
@@ -96,8 +96,7 @@ connections:
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]],
-    component_type2factory=component_type2factory,
+    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None,
 ) -> Component:
     """Loads instance settings, placements, routing and ports from YAML
 
@@ -115,6 +114,7 @@ def component_from_yaml(
     """
     c = Component()
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    component_type2factory = component_type2factory or component_type2factory_default
 
     conf = OmegaConf.load(yaml)
     for key in conf.keys():

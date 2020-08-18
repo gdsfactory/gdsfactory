@@ -9,12 +9,13 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
-# master
+## master
 
 - nicer netlist representations (adding location to each node in the graph)
 - YAML loader accepts strings (no more io.StringIO)
+- better docs
 
-# 1.3.2 2020-08-15
+## 1.3.2 2020-08-15
 
 - improve sparameters tutorial
 - fixed some issues when using `x = x or x_default` not valid for `x=0`

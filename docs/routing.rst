@@ -9,7 +9,7 @@ Connections are made along manhattan routes using the `routing/manhattan.py` mod
 Convenience functions are provided in `routing/connect.py`
 
 
-To make a route, we need to supply:
+To make a route, you need to supply:
  - an input port
  - an output port
  - a bend, or a bend factory
@@ -17,7 +17,7 @@ To make a route, we need to supply:
  - a taper or a taper factory (optional)
 
 
-The steps to generate a waveguide route are:
+To generate a waveguide route:
  1. Generate the backbone of the route. This is a list of manhattan coordinates through which the route would pass through if it used only sharp bends (right angles)
 
  2. Replace the corners by bend references (with rotation and position computed from the manhattan backbone)

@@ -66,9 +66,8 @@ Here is a step by step example below generating a waveguide crossing
       c.add_port(
           name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.LAYER.WG
       )
-
-
       return c
+
 
     c = crossing_arm()
     pp.plotgds(c)
@@ -112,11 +111,9 @@ Here is a step by step example below generating a waveguide crossing
       c.add_port(
           name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.LAYER.WG
       )
-
       c.add_port(
           name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.LAYER.WG
       )
-
       return c
 
 
