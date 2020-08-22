@@ -879,7 +879,7 @@ class Component(Device):
         """returns a set of (layer, datatype)
 
         >>> import pp
-        >>> pp.c.waveguide.get_layers() == {(1, 0), (111, 0)}
+        >>> pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()
@@ -887,9 +887,7 @@ class Component(Device):
             for layer, datatype in zip(element.layers, element.datatypes):
                 layers.add((layer, datatype))
         for reference in self.references:
-            for layer, datatype in zip(
-                reference.ref_cell.get_layers(), reference.ref_cell.get_datatypes()
-            ):
+            for layer, datatype in reference.ref_cell.get_layers():
                 layers.add((layer, datatype))
         for label in self.labels:
             layers.add((label.layer, 0))
