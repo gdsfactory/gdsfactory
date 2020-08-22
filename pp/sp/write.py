@@ -7,30 +7,7 @@ from collections import namedtuple
 import numpy as np
 import pp
 from pp.layers import layer2material, layer2nm
-
-
-def get_settings(**settings):
-    s = dict(
-        layer2nm=layer2nm,
-        layer2material=layer2material,
-        remove_layers=[pp.LAYER.WGCLAD],
-        background_material="SiO2 (Glass) - Palik",
-        port_width=3e-6,
-        port_height=1.5e-6,
-        port_extension_um=1,
-        mesh_accuracy=2,
-        zmargin=1e-6,
-        ymargin=2e-6,
-        wavelength_start=1.2e-6,
-        wavelength_stop=1.6e-6,
-        wavelength_points=500,
-    )
-    for setting in settings.keys():
-        assert (
-            setting in s
-        ), f"`{setting}` is not a valid setting ({list(settings.keys())})"
-    s.update(**settings)
-    return s
+from pp.config import materials
 
 
 def write(
@@ -53,8 +30,8 @@ def write(
         dirpath: where to store the simulations
 
         **sim_settings:
-            layer2nm: dict of {(1,0): 220}
-            layer2material: dict of {(1,0): "Silicon ..."
+            layer2nm: dict of {(1, 0): 220}
+            layer2material: dict of {(1, 0): "si"}
             remove_layers: list of tuples (layers to remove)
             background_material: for the background
             port_width: port width (m)
@@ -72,8 +49,27 @@ def write(
     """
     if hasattr(component, "simulation_settings"):
         settings.update(component.simulation_settings)
-    sim_settings = get_settings(**settings)
-    ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
+    sim_settings = s = dict(
+        layer2nm=layer2nm,
+        layer2material=layer2material,
+        remove_layers=[pp.LAYER.WGCLAD],
+        background_material="sio2",
+        port_width=3e-6,
+        port_height=1.5e-6,
+        port_extension_um=1,
+        mesh_accuracy=2,
+        zmargin=1e-6,
+        ymargin=2e-6,
+        wavelength_start=1.2e-6,
+        wavelength_stop=1.6e-6,
+        wavelength_points=500,
+    )
+    for setting in settings.keys():
+        assert (
+            setting in s
+        ), f"`{setting}` is not a valid setting ({list(settings.keys())})"
+    s.update(**settings)
+    ss = namedtuple("sim_settings", s.keys())(*s.values())
 
     assert ss.port_width < 5e-6
     assert ss.port_height < 5e-6
@@ -148,7 +144,12 @@ pp.sp.write(component=c, run=False, session=s)
         index=1.5,
         name="SiO2",
     )
-    s.setnamed("SiO2", "material", ss.background_material)
+
+    material = ss.background_material
+    if material not in materials:
+        raise ValueError(f"{material} not in {list(materials.keys())}")
+    material = materials[material]
+    s.setnamed("SiO2", "material", material)
 
     s.addfdtd(
         dimension="3D",
@@ -164,10 +165,16 @@ pp.sp.write(component=c, run=False, session=s)
 
     for layer, nm in ss.layer2nm.items():
         assert layer in ss.layer2material, f"{layer} not in {ss.layer2material.keys()}"
+
+        material = ss.layer2material[layer]
+        if material not in materials:
+            raise ValueError(f"{material} not in {list(materials.keys())}")
+        material = materials[material]
+
         s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
         silicon = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(silicon, "z span", nm * 1e-9)
-        s.setnamed(silicon, "material", ss.layer2material[layer])
+        s.setnamed(silicon, "material", material)
 
     for i, port in enumerate(ports.values()):
         s.addport()
@@ -218,39 +225,22 @@ pp.sp.write(component=c, run=False, session=s)
 
     if run:
         s.save(str(filepath_fsp))
-        # s.run()
-        # s.save(str(filepath_fsp))
-
-        # if a sweep task named s-parameter sweep already exists, remove it
         s.deletesweep("s-parameter sweep")
 
-        # add s-parameter sweep task
         s.addsweep(3)
-
-        # un-check "Excite all ports" option
         s.setsweep("s-parameter sweep", "Excite all ports", 0)
-
-        # use auto-symmetry to populate the S-matrix setup table
         s.setsweep("S sweep", "auto symmetry", True)
-
-        # run s-parameter sweep
         s.runsweep("s-parameter sweep")
 
         # collect results
         # S_matrix = s.getsweepresult("s-parameter sweep", "S matrix")
         sp = s.getsweepresult("s-parameter sweep", "S parameters")
 
-        # visualize results
-        # s.visualize(S_matrix);
-        # s.visualize(S_parameters);
-        # s.visualize(S_diagnostic);
-
         # export S-parameter data to file named s_params.dat to be loaded in INTERCONNECT
         s.exportsweep("s-parameter sweep", str(filepath))
         print(f"wrote sparameters to {filepath}")
 
         keys = [key for key in sp.keys() if key.startswith("S")]
-
         ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
         rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
 

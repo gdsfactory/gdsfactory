@@ -17,9 +17,8 @@ from pprint import pprint
 import logging
 from typing import Any
 
-from omegaconf import OmegaConf
-
 import numpy as np
+from omegaconf import OmegaConf
 from git import Repo
 
 
@@ -157,6 +156,12 @@ GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
 BEND_RADIUS = conf.tech.bend_radius
 TAPER_LENGTH = conf.tech.taper_length
 WG_EXPANDED_WIDTH = conf.tech.wg_expanded_width
+
+materials = {
+    "si": "Si (Silicon) - Palik",
+    "sio2": "SiO2 (Glass) - Palik",
+    "sin": "Si3N4 (Silicon Nitride) - Phillip",
+}
 
 
 if __name__ == "__main__":
