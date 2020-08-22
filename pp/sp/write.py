@@ -28,21 +28,20 @@ def write(
         run: True-> runs Lumerical , False -> only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
-
-        **sim_settings:
-            layer2nm: dict of {(1, 0): 220}
-            layer2material: dict of {(1, 0): "si"}
-            remove_layers: list of tuples (layers to remove)
-            background_material: for the background
-            port_width: port width (m)
-            port_height: port height (m)
-            port_extension_um: port extension (um)
-            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-            zmargin: for the FDTD region 1e-6 (m)
-            ymargin: for the FDTD region 2e-6 (m)
-            wavelength_start: 1.2e-6 (m)
-            wavelength_stop: 1.6e-6 (m)
-            wavelength_points: 500
+        height_nm: height
+        layer2nm: dict of {(1, 0): 220}
+        layer2material: dict of {(1, 0): "si"}
+        remove_layers: list of tuples (layers to remove)
+        background_material: for the background
+        port_width: port width (m)
+        port_height: port height (m)
+        port_extension_um: port extension (um)
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+        zmargin: for the FDTD region 1e-6 (m)
+        ymargin: for the FDTD region 2e-6 (m)
+        wavelength_start: 1.2e-6 (m)
+        wavelength_stop: 1.6e-6 (m)
+        wavelength_points: 500
 
     Return:
         results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
@@ -142,14 +141,14 @@ pp.sp.write(component=c, run=False, session=s)
         z=z,
         z_span=z_span,
         index=1.5,
-        name="SiO2",
+        name="clad",
     )
 
     material = ss.background_material
     if material not in materials:
         raise ValueError(f"{material} not in {list(materials.keys())}")
     material = materials[material]
-    s.setnamed("SiO2", "material", material)
+    s.setnamed("clad", "material", material)
 
     s.addfdtd(
         dimension="3D",
@@ -163,7 +162,10 @@ pp.sp.write(component=c, run=False, session=s)
         use_early_shutoff=True,
     )
 
+    layers = component.get_layers()
     for layer, nm in ss.layer2nm.items():
+        if layer not in layers:
+            continue
         assert layer in ss.layer2material, f"{layer} not in {ss.layer2material.keys()}"
 
         material = ss.layer2material[layer]
