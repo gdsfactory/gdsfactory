@@ -91,11 +91,13 @@ ls.add_layer("no_tile_m1", 41, 30, "no_tile_m1", "gray", alpha=0)
 ls.add_layer("no_tile_m2", 45, 30, "no_tile_m2", "gray", alpha=0)
 ls.add_layer("no_tile_m3", 49, 30, "no_tile_m3", "gray", alpha=0)
 
-layer2nm = {LAYER.WG: 220, LAYER.SLAB150: 150, LAYER.SLAB90: 90}
+layer2nm = {LAYER.WG: 220}
 layer2material = {
-    LAYER.WG: "Si (Silicon) - Palik",
-    LAYER.WGCLAD: "SiO2 (Glass) - Palik",
-    LAYER.WGN: "Si3N4 (Silicon Nitride) - Phillip",
+    LAYER.WG: "si",
+    LAYER.SLAB90: "si",
+    LAYER.SLAB150: "si",
+    LAYER.WGCLAD: "sio2",
+    LAYER.WGN: "sin",
 }
 
 

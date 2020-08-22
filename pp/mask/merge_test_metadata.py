@@ -40,6 +40,7 @@ doe02:
     ...
 """
 
+import pathlib
 import json
 import yaml
 from pp.config import CONFIG
@@ -97,6 +98,7 @@ def merge_test_metadata(gdspath=CONFIG["mask_gds"], labels_prefix="opt"):
         saves json file with merged metadata
 
     """
+    gdspath = pathlib.Path(gdspath)
     mask_json_path = gdspath.with_suffix(".json")
     csv_labels_path = gdspath.with_suffix(".csv")
     output_tm_path = gdspath.with_suffix(".tp.json")
