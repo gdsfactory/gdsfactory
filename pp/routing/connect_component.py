@@ -37,10 +37,10 @@ def add_io_optical(
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
         straight_factory: waveguide
-        fanout_length: None,  # if None, automatic calculation of fanout length
+        fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
-        waveguide_separation=4.0
+        waveguide_separation: 4.0
         bend_radius: BEND_RADIUS
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
@@ -52,11 +52,11 @@ def add_io_optical(
         routing_method: connect_strip
         gc_port_name: W0
         optical_routing_type: None: autoselection, 0: no extension
-        gc_rotation=-90
-        layer_label=LAYER.LABEL
-        input_port_indexes=[0]
+        gc_rotation: -90
+        layer_label: LAYER.LABEL
+        input_port_indexes: [0]
         component_name: for the label
-        taper_factory=taper
+        taper_factory: taper
 
     .. plot::
       :include-source:
