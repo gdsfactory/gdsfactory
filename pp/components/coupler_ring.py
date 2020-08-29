@@ -1,4 +1,4 @@
-from typing import Callable, Union
+from typing import Callable
 import pp
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
@@ -10,7 +10,7 @@ from pp.component import Component
 def coupler_ring(
     coupler90: Callable = coupler90,
     coupler: Callable = coupler_straight,
-    length_x: Union[int, float] = 4.0,
+    length_x: float = 4.0,
     gap: float = 0.2,
     wg_width: float = 0.5,
     bend_radius: float = 5.0,

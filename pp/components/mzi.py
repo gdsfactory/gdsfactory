@@ -1,3 +1,4 @@
+from typing import Callable, Optional
 import pp
 
 from pp.port import deco_rename_ports, rename_ports_by_orientation
@@ -5,7 +6,6 @@ from pp.components import bend_circular
 from pp.components import waveguide
 from pp.components import mmi1x2
 from pp.component import Component
-from typing import Callable, Optional
 
 
 @deco_rename_ports
@@ -13,7 +13,7 @@ from typing import Callable, Optional
 def mzi(
     L0: float = 1.0,
     DL: float = 9.0,
-    L2: float = 10.0,
+    L2: float = 0.1,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
@@ -147,8 +147,11 @@ def mzi(
 
 
 if __name__ == "__main__":
-    c = mzi()
-    c.plot_netlist()
+    DL = 116.8 / 2
+    print(DL)
+    c = mzi(DL=DL)
+    print(c.ports["E0"].midpoint[1])
+    # c.plot_netlist()
     # print(c.ports)
     pp.show(c)
     # print(c.get_settings())

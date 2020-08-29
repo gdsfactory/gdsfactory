@@ -165,8 +165,9 @@ materials = {
 
 
 if __name__ == "__main__":
-    print(conf)
+    # print(conf)
     # print_config("gdslib")
     # print_config()
     # print(CONFIG["git_hash"])
+    print(CONFIG["sp"])
     # print(CONFIG)

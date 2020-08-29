@@ -1,10 +1,10 @@
+from typing import Callable, Optional, Tuple
 import picwriter.components as pc
 
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 import pp
 from pp.component import Component
-from typing import Callable, Optional, Tuple
 
 
 @pp.autoname
@@ -39,8 +39,6 @@ def dbr2(
        port (tuple): Cartesian coordinate of the input port.  Defaults to (0,0).
        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
-
-    Other Parameters:
        wg_width: 0.5
        wg_layer: pp.LAYER.WG[0]
        wg_datatype: pp.LAYER.WG[1]

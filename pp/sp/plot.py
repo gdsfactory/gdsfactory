@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pp
 from pp.sp.write import write
@@ -36,6 +35,8 @@ def plot(
             wavelength_points: 500
 
     """
+    import matplotlib.pyplot as plt
+
     r = component_or_results_dict
     if isinstance(r, pp.Component):
         r = write(component=r, height_nm=height_nm, dirpath=dirpath, **kwargs)
@@ -64,6 +65,8 @@ def plot(
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     remove_layers = []
     layer2nm = {(1, 0): 220}
 

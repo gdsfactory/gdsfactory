@@ -10,7 +10,7 @@ import phidl.geometry as pg
 from copy import deepcopy
 import numpy as np
 from phidl.device_layout import Port as PortPhidl
-from pp.drc import on_grid
+from pp.drc import snap_to_grid
 
 if TYPE_CHECKING:
     from pp.component import Component, ComponentReference
@@ -120,12 +120,19 @@ class Port(PortPhidl):
 
     def on_grid(self, nm=1):
         if self.orientation in [0, 180]:
-            y_top = self.y + self.width / 2
-            return on_grid(y_top, nm=nm)
+            x = self.y + self.width / 2
+            assert np.isclose(
+                snap_to_grid(x, nm=nm), x
+            ), f"{self.parent} port {self.name} has an off-grid point {x}"
         elif self.orientation in [90, 270]:
-            x_top = self.x + self.width / 2
-            return on_grid(x_top, nm=nm)
-        raise ValueError(f"{self.name} has invalid orientation {self.orientation}")
+            x = self.x + self.width / 2
+            assert np.isclose(
+                snap_to_grid(x, nm=nm), x
+            ), f"{self.parent} port {self.name} has an off-grid point {x}"
+        else:
+            raise ValueError(
+                f"{self.parent} port {self.name} has invalid orientation {self.orientation}"
+            )
 
 
 def read_port_markers(gdspath, layer=69):
