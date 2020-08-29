@@ -592,7 +592,7 @@ class Component(Device):
     def ports_on_grid(self):
         """ asserts if all ports ar eon grid """
         for port in self.ports.values():
-            assert port.on_grid()
+            port.on_grid()
 
     def get_ports_array(self):
         """ returns ports as a dict of np arrays"""

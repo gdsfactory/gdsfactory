@@ -1,6 +1,6 @@
 DL: 9.0
 L0: 1.0
-L2: 10.0
+L2: 0.1
 bend_radius: 10.0
 combiner_factory: None
 function_name: mzi

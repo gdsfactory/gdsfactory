@@ -17,7 +17,7 @@ def route_fiber_single(
     excluded_ports=[],
     **kwargs
 ):
-    """ Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
+    """Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
 
     Args:
         component: to add grating couplers
@@ -85,8 +85,10 @@ def route_fiber_single(
     )
     component = rotate(component, angle=-90)
 
+    # add EAST input grating couplers
     component.ports = {p.name: p for p in east_ports}
     component = rotate(component, angle=-90)
+
     component.name = component_name
     elements_west, io_grating_lines_west, _ = route_fiber_array(
         component=component,
@@ -99,8 +101,9 @@ def route_fiber_single(
     for e in elements_west:
         elements_east.append(e.rotate(180))
 
-    for io in io_grating_lines_west[0]:
-        io_grating_lines_east.append(io.rotate(180))
+    if len(io_grating_lines_west) > 0:
+        for io in io_grating_lines_west[0]:
+            io_grating_lines_east.append(io.rotate(180))
 
     return elements_east, io_grating_lines_east, None
 
@@ -109,8 +112,9 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
-    c = pp.c.mmi2x2()
+    # c = pp.c.mmi2x2()
     # c = pp.c.waveguide()
+    c = pp.c.ring_double()  # FIXME
 
     elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
     for e in elements:
