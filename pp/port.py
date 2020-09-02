@@ -2,13 +2,11 @@ from __future__ import annotations
 import functools
 from typing import Callable
 from typing import TYPE_CHECKING
-
 from typing import Any, List, Optional, Tuple, Union, Dict
-import csv
-import phidl.geometry as pg
-
 from copy import deepcopy
+import csv
 import numpy as np
+import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
 from pp.drc import snap_to_grid
 
@@ -17,7 +15,7 @@ if TYPE_CHECKING:
 
 
 class Port(PortPhidl):
-    """ Extends phidl port by adding layer and a port_type (optical, electrical)
+    """Extends phidl port by adding layer and a port_type (optical, electrical)
 
     Args:
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
@@ -57,13 +55,16 @@ class Port(PortPhidl):
         self._next_uid += 1
 
     def __repr__(self) -> str:
-        return "Port (name {}, midpoint {}, width {}, orientation {}, layer {}, port_type {})".format(
-            self.name,
-            self.midpoint,
-            self.width,
-            self.orientation,
-            self.layer,
-            self.port_type,
+        return (
+            "Port (name {}, midpoint {}, width {}, orientation {}, layer {},"
+            " port_type {})".format(
+                self.name,
+                self.midpoint,
+                self.width,
+                self.orientation,
+                self.layer,
+                self.port_type,
+            )
         )
 
     @property
@@ -131,12 +132,13 @@ class Port(PortPhidl):
             ), f"{self.parent} port {self.name} has an off-grid point {x}"
         else:
             raise ValueError(
-                f"{self.parent} port {self.name} has invalid orientation {self.orientation}"
+                f"{self.parent} port {self.name} has invalid orientation"
+                f" {self.orientation}"
             )
 
 
 def read_port_markers(gdspath, layer=69):
-    """ loads a GDS and read port
+    """loads a GDS and read port
 
     Args:
         gdspath:
@@ -149,7 +151,7 @@ def read_port_markers(gdspath, layer=69):
 
 
 def csv2port(csvpath):
-    """ loads and reads ports from a CSV file
+    """loads and reads ports from a CSV file
     returns a dict
     """
     ports = {}

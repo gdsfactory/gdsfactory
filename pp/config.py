@@ -10,6 +10,7 @@
 
 __version__ = "1.3.3"
 import os
+import io
 import json
 import subprocess
 import pathlib
@@ -33,14 +34,33 @@ home_path.mkdir(exist_ok=True)
 cwd_config = cwd / "config.yml"
 module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
-config_base = OmegaConf.load(module_config)
+
+
+config_base = OmegaConf.load(
+    io.StringIO(
+        """
+tech:
+    name: generic
+    cache_url:
+    with_settings_label: False
+    add_pins: True
+    wg_expanded_width: 2.5
+    taper_length: 35.0
+    grid_unit: 1e-6
+    grid_resolution: 1e-9
+    bend_radius: 10.0
+"""
+    )
+)
+
+
 try:
     config_cwd = OmegaConf.load(cwd_config)
-except:
+except Exception:
     config_cwd = OmegaConf.create()
 try:
     config_home = OmegaConf.load(home_config)
-except:
+except Exception:
     config_home = OmegaConf.create()
 
 conf = OmegaConf.merge(config_base, config_home, config_cwd)

@@ -23,6 +23,8 @@ If you are on Windows, you need to install a C++ compiler ["Build Tools for Visu
 
 Once you have `git` and `python3` we recommend to install the latest version from the git repo by copy-pasting this 3 lines into a terminal.
 
+Works only in python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/), as `pip install klayout` is not working yet for python3.8
+
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
