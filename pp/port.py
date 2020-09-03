@@ -1,17 +1,12 @@
-from __future__ import annotations
 import functools
 from typing import Callable
-from typing import TYPE_CHECKING
-from typing import Any, List, Optional, Tuple, Union, Dict
+from typing import Any, List, Optional, Tuple, Dict
 from copy import deepcopy
 import csv
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
 from pp.drc import snap_to_grid
-
-if TYPE_CHECKING:
-    from pp.component import Component, ComponentReference
 
 
 class Port(PortPhidl):
@@ -22,7 +17,7 @@ class Port(PortPhidl):
         midpoint: (0, 0)
         width: of the port
         orientation: 0
-        parent: None, parent component (component to which this port belong to)
+        parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
 
@@ -36,7 +31,7 @@ class Port(PortPhidl):
         midpoint: Tuple[float, float] = (0.0, 0.0),
         width: float = 0.5,
         orientation: int = 0,
-        parent: Optional[Union[Component, ComponentReference]] = None,
+        parent=None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
     ) -> None:
@@ -100,7 +95,7 @@ class Port(PortPhidl):
         port.angle = (port.angle + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> Port:
+    def _copy(self, new_uid: bool = True):
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -167,10 +162,10 @@ def is_electrical_port(port):
     return port.port_type in ["dc", "rf"]
 
 
-def select_ports(ports: Dict[str, Port], port_type: str) -> Dict[str, Port]:
+def select_ports(ports, port_type: str):
     """
     Args:
-        ports: a port dictionnary {port name: port} (as returned by Component.ports)
+        ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
         layers: a list of port layer or a port type (layer or string)
 
     Returns:
@@ -269,9 +264,9 @@ def get_non_optical_ports(ports):
 def deco_rename_ports(component_factory: Callable) -> Callable:
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args, **kwargs):
-        device = component_factory(*args, **kwargs)
-        auto_rename_ports(device)
-        return device
+        component = component_factory(*args, **kwargs)
+        auto_rename_ports(component)
+        return component
 
     return auto_named_component_factory
 
@@ -296,9 +291,7 @@ def _rename_ports_facing_side(
             p.name = lbl
 
 
-def rename_ports_by_orientation(
-    device: Component, layers_excluded: List[Any] = []
-) -> Component:
+def rename_ports_by_orientation(component, layers_excluded: List[Any] = []):
     """
     Assign standard port names based on the layer of the port
     """
@@ -308,12 +301,12 @@ def rename_ports_by_orientation(
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports_on_process = [
-        p for p in device.ports.values() if p.layer not in layers_excluded
+        p for p in component.ports.values() if p.layer not in layers_excluded
     ]
 
     for p in ports_on_process:
         # Make sure we can backtrack the parent component from the port
-        p.parent = device
+        p.parent = component
 
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
@@ -326,13 +319,15 @@ def rename_ports_by_orientation(
             direction_ports["S"].append(p)
 
     _rename_ports_facing_side(direction_ports)
-    device.ports = {p.name: p for p in device.ports.values()}
-    return device
+    component.ports = {p.name: p for p in component.ports.values()}
+    return component
 
 
-def auto_rename_ports(device: Component) -> Component:
-    """
-    Assign standard port names based on the layer of the port
+def auto_rename_ports(component):
+    """ Assign standard port names based on the layer of the port
+
+    Returns:
+        component with renamed ports
     """
 
     def _counter_clockwise(_direction_ports, prefix=""):
@@ -363,7 +358,7 @@ def auto_rename_ports(device: Component) -> Component:
 
     type_to_ports = {}
 
-    for p in device.ports.values():
+    for p in component.ports.values():
         if p.port_type not in type_to_ports:
             type_to_ports[p.port_type] = []
         type_to_ports[p.port_type] += [p]
@@ -373,8 +368,8 @@ def auto_rename_ports(device: Component) -> Component:
             _func_name_ports = type_to_ports_naming_functions[port_type]
         else:
             raise ValueError(
-                "Unknown port type <{}> in device {}, port {}".format(
-                    port_type, device.name, p
+                "Unknown port type <{}> in component {}, port {}".format(
+                    port_type, component.name, p
                 )
             )
 
@@ -382,7 +377,7 @@ def auto_rename_ports(device: Component) -> Component:
 
         direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
         for p in port_group:
-            p.parent = device
+            p.parent = component
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(p)
@@ -396,8 +391,8 @@ def auto_rename_ports(device: Component) -> Component:
         _func_name_ports(direction_ports)
 
     # Set the port dictionnary with the new names
-    device.ports = {p.name: p for p in device.ports.values()}
-    return device
+    component.ports = {p.name: p for p in component.ports.values()}
+    return component
 
 
 if __name__ == "__main__":

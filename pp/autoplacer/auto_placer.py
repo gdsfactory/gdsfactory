@@ -3,6 +3,7 @@ import math
 import pyqtree
 import klayout.db as pya
 import pp.autoplacer.functions as ap
+from pp.autoplacer.cell_list import CellList
 from pp.autoplacer.library import Library
 
 
@@ -237,7 +238,7 @@ class AutoPlacer(pya.Layout):
             except ap.OutOfSpaceError as e:
                 print(e)
                 failed.append(cell)
-        return ap.CellList(failed)
+        return CellList(failed)
 
     def shrink(self):
         """ Shrink-wrap """
