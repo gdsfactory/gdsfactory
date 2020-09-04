@@ -84,7 +84,7 @@ def dbr(
     l1 = pp.drc.snap_to_grid(l1)
     l2 = pp.drc.snap_to_grid(l2)
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function)
-    c.add_array(device=cell, columns=n, rows=1, spacing=(l1 + l2, 100))
+    c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("W0", port=cell.ports["W0"])
     p1 = c.add_port("E0", port=cell.ports["E0"])
     p1.midpoint = [(l1 + l2) * n, 0]
