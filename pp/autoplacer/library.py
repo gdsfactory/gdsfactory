@@ -4,7 +4,8 @@ import json
 from collections import defaultdict
 
 import klayout.db as pya
-import pp.autoplacer as ap
+from pp.autoplacer.functions import area, WORKING_MEMORY
+from pp.autoplacer.cell_list import CellList
 
 
 class Library(object):
@@ -66,7 +67,7 @@ class Library(object):
     def load_gds(self, filename):
         """ Load a GDS and append it into self.cells """
         layout = pya.Layout()
-        ap.WORKING_MEMORY[filename] = layout
+        WORKING_MEMORY[filename] = layout
         layout.read(str(filename))
         self.cells[layout.top_cell().name] = layout.top_cell()
         self.cells[layout.top_cell().name].metadata = {}
@@ -87,7 +88,7 @@ class Library(object):
             for key, cell in self.cells.items()
             if re.search(regex, key, flags=re.IGNORECASE)
         ]
-        return ap.CellList(cells)
+        return CellList(cells)
 
     def pop_doe(self, regex):
         """ pop out a set of cells """
@@ -96,12 +97,12 @@ class Library(object):
             cells = self.does[regex]
             del self.does[regex]
             self.delete_cells(cells)
-            cells = sorted(cells, key=ap.area, reverse=True)
+            cells = sorted(cells, key=area, reverse=True)
 
         else:
             print("Warning: no cells found for {}".format(regex))
 
-        return ap.CellList(cells)
+        return CellList(cells)
 
     def pop(self, regex, delete=True):
         """ pop cells """
@@ -121,11 +122,11 @@ class Library(object):
             for key in keys:
                 del self.cells[key]
         if cells:
-            cells = sorted(cells, key=ap.area, reverse=True)
+            cells = sorted(cells, key=area, reverse=True)
         else:
             print("Warning: no cells found for {}".format(regex))
 
-        return ap.CellList(cells)
+        return CellList(cells)
 
     def delete_cells(self, cells):
         for cell in cells:
@@ -156,4 +157,4 @@ class Library(object):
 
 
 if __name__ == "__main__":
-    lib = ap.Library()
+    lib = Library()

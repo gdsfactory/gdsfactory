@@ -11,6 +11,7 @@
 
 ## master
 
+- Works now for python3.6 and python3.7, before only working for python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/)
 - nicer netlist representations (adding location to each node in the graph)
 - YAML loader accepts strings (no more io.StringIO)
 - better docs
