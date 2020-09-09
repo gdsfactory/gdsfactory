@@ -5,3 +5,4 @@ sphinx-markdown-tables
 sphinx-autodoc-typehints
 matplotlib
 pytest-regressions
+pre-commit
