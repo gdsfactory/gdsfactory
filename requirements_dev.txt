@@ -1,6 +1,7 @@
-sphinx==3.1.2
+sphinx>=3.1.2
 sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
 sphinx-autodoc-typehints
 matplotlib
+pytest-regressions
