@@ -1,7 +1,7 @@
+from typing import Tuple
 import pp
 from pp import components as pc
 from pp.component import Component
-from typing import Tuple
 
 
 __version__ = "0.0.1"
