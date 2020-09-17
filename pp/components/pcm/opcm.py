@@ -1,7 +1,9 @@
 """ CD SEM structures
 """
 
+from typing import Callable, List
 import itertools as it
+from omegaconf.listconfig import ListConfig
 import numpy as np
 import pp
 from pp.components.bend_circular import bend_circular
@@ -9,12 +11,18 @@ from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
 from pp.components.manhattan_font import manhattan_text
+from pp.component import Component
 
 LINE_LENGTH = 420.0
 
 
 @pp.autoname
-def square_middle(side=0.5, layer=LAYER.WG, cladding_offset=3, layers_cladding=[]):
+def square_middle(
+    side: float = 0.5,
+    layer: ListConfig = LAYER.WG,
+    cladding_offset: int = 3,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     component = pp.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
@@ -41,7 +49,13 @@ def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=
 
 
 @pp.autoname
-def rectangle(x, y, layer=LAYER.WG, layers_cladding=[], cladding_offset=3):
+def rectangle(
+    x: float,
+    y: float,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+    cladding_offset: int = 3,
+) -> Component:
     component = pp.Component()
     a = x / 2
     b = y / 2
@@ -68,12 +82,16 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
 
 
 @pp.autoname
-def char_H(layer=LAYER.WG, layers_cladding=[]):
+def char_H(
+    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+) -> Component:
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
 @pp.autoname
-def char_L(layer=LAYER.WG, layers_cladding=[]):
+def char_L(
+    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+) -> Component:
     return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
@@ -142,7 +160,13 @@ def _cdsem_generic(
     return component
 
 
-def wg_line(length, width, offset=0.2, layer=pp.LAYER.WG, layers_cladding=[]):
+def wg_line(
+    length: float,
+    width: float,
+    offset: float = 0.2,
+    layer: ListConfig = pp.LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     c = pp.Component()
     _wg = c.add_ref(
         rectangle(x=length, y=width, layer=layer, layers_cladding=layers_cladding)
@@ -218,17 +242,17 @@ def cdsem_straight(
 
 @pp.autoname
 def cdsem_straight_column(
-    name=None,
-    spacing_h=5.0,
-    spacing_v=5.0,
-    gaps=[0.224, 0.234, 0.246],
-    length=LINE_LENGTH,
-    width_center=0.5,
-    label="A",
-    waveguide_factory=waveguide,
-    layer=LAYER.WG,
-    layers_cladding=[],
-):
+    name: None = None,
+    spacing_h: float = 5.0,
+    spacing_v: float = 5.0,
+    gaps: List[float] = [0.224, 0.234, 0.246],
+    length: float = LINE_LENGTH,
+    width_center: float = 0.5,
+    label: str = "A",
+    waveguide_factory: Callable = waveguide,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
 
     c = pp.Component()
     x = 0
@@ -285,7 +309,11 @@ def cdsem_straight_column(
 
 
 @pp.autoname
-def cdsem_straight_all(waveguide_factory=waveguide, layer=LAYER.WG, layers_cladding=[]):
+def cdsem_straight_all(
+    waveguide_factory: Callable = waveguide,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
     c = pp.Component()
@@ -309,16 +337,16 @@ def cdsem_straight_all(waveguide_factory=waveguide, layer=LAYER.WG, layers_cladd
 
 @pp.autoname
 def cdsem_straight_density(
-    wg_width=0.372,
-    trench_width=0.304,
-    x=LINE_LENGTH,
-    y=50.0,
-    margin=2.0,
-    label="",
-    waveguide_factory=waveguide,
-    layer=LAYER.WG,
-    layers_cladding=[],
-):
+    wg_width: float = 0.372,
+    trench_width: float = 0.304,
+    x: float = LINE_LENGTH,
+    y: float = 50.0,
+    margin: float = 2.0,
+    label: str = "",
+    waveguide_factory: Callable = waveguide,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     """horizontal grating etch lines
 
     TE: 676nm pitch, 304nm gap, 372nm line
@@ -359,13 +387,13 @@ def cdsem_strip(waveguide_factory=waveguide, **kwargs):
 
 @pp.autoname
 def cdsem_target(
-    bend90_factory=bend_circular,
-    width_center=0.5,
-    label="",
-    layer=LAYER.WG,
-    layers_cladding=[],
-    radii=[5.0, 10.0],
-):
+    bend90_factory: Callable = bend_circular,
+    width_center: float = 0.5,
+    label: str = "",
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+    radii: List[float] = [5.0, 10.0],
+) -> Component:
     c = pp.Component()
     a = 1.0
     w = 3 * a / 4
@@ -406,16 +434,16 @@ def cdsem_target(
 
 @pp.autoname
 def cdsem_uturn(
-    width=0.5,
-    radius=10.0,
-    symbol_bot="S",
-    symbol_top="U",
-    wg_length=LINE_LENGTH,
-    waveguide_factory=pp.c.waveguide,
-    bend90_factory=bend_circular,
-    layer=LAYER.WG,
-    layers_cladding=[],
-):
+    width: float = 0.5,
+    radius: float = 10.0,
+    symbol_bot: str = "S",
+    symbol_top: str = "U",
+    wg_length: float = LINE_LENGTH,
+    waveguide_factory: Callable = pp.c.waveguide,
+    bend90_factory: Callable = bend_circular,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     """
 
     Args:
@@ -472,16 +500,16 @@ def cdsem_uturn(
 
 @pp.autoname
 def opcm(
-    dw=0.02,
-    wte=0.372,
-    tte=0.304,
-    wtm=0.604,
-    ttm=0.506,
-    waveguide_factory=waveguide,
-    bend90_factory=bend_circular,
-    layer=LAYER.WG,
-    layers_cladding=[],
-):
+    dw: float = 0.02,
+    wte: float = 0.372,
+    tte: float = 0.304,
+    wtm: float = 0.604,
+    ttm: float = 0.506,
+    waveguide_factory: Callable = waveguide,
+    bend90_factory: Callable = bend_circular,
+    layer: ListConfig = LAYER.WG,
+    layers_cladding: List[ListConfig] = [],
+) -> Component:
     """column with all optical PCMs
     Args:
         dw

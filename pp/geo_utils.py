@@ -1,7 +1,7 @@
+from typing import List, Union
 import numpy as np
 from numpy import float64, ndarray, cos, sin
 from pp.coord2 import Coord2
-from typing import List, Union
 
 
 RAD2DEG = 180.0 / np.pi

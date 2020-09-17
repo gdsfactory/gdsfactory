@@ -1,13 +1,22 @@
+from typing import List, Union
 import numpy as np
 
 import pp
 from pp.container import container
+from omegaconf.listconfig import ListConfig
+from phidl.device_layout import Layer
+from pp.component import Component
 
 
 @container
 def add_padding(
-    component, padding=50, x=None, y=None, layers=[pp.LAYER.PADDING], suffix="p"
-):
+    component: Component,
+    padding: Union[float, int] = 50,
+    x: None = None,
+    y: None = None,
+    layers: Union[List[ListConfig], List[Layer]] = [pp.LAYER.PADDING],
+    suffix: str = "p",
+) -> Component:
     """ adds padding layers to a NEW component that has the same:
     - ports
     - settings

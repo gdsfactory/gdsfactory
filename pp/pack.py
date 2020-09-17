@@ -4,11 +4,19 @@
 import rectpack
 import numpy as np
 from pp.component import Component
+from numpy import ndarray
+from typing import Any, Dict, List, Tuple
 
 
 def _pack_single_bin(
-    rect_dict, aspect_ratio, max_size, sort_by_area, density, precision, verbose,
-):
+    rect_dict: Dict[int, Tuple[int, int]],
+    aspect_ratio: Tuple[int, int],
+    max_size: ndarray,
+    sort_by_area: bool,
+    density: float,
+    precision: float,
+    verbose: bool,
+) -> Tuple[Dict[int, Tuple[int, int, int, int]], Dict[Any, Any]]:
     """ Takes a `rect_dict` argument of the form {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
@@ -79,15 +87,15 @@ def _pack_single_bin(
 
 
 def pack(
-    D_list,
-    spacing=10,
-    aspect_ratio=(1, 1),
-    max_size=(None, None),
-    sort_by_area=True,
-    density=1.1,
-    precision=1e-2,
-    verbose=False,
-):
+    D_list: List[Component],
+    spacing: int = 10,
+    aspect_ratio: Tuple[int, int] = (1, 1),
+    max_size: Tuple[None, None] = (None, None),
+    sort_by_area: bool = True,
+    density: float = 1.1,
+    precision: float = 1e-2,
+    verbose: bool = False,
+) -> List[Component]:
     """ takes a list of components and returns
 
     Args:

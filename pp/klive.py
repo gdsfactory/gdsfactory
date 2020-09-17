@@ -7,9 +7,10 @@ This happens when you run `bash install.sh` from the top of the gdsfactory packa
 import os
 import socket
 import json
+from pathlib import PosixPath
 
 
-def show(gds_filename, keep_position=True):
+def show(gds_filename: PosixPath, keep_position: bool = True) -> None:
     """ Show GDS in klayout """
     if not os.path.isfile(gds_filename):
         raise ValueError("{} does not exist".format(gds_filename))
