@@ -52,8 +52,7 @@ def coupler(**kwargs) -> Component:
 
 @autoname
 def coupler_biased(**kwargs):
-    """ symmetric coupler
-    """
+    """symmetric coupler"""
     components, connections, ports_map = coupler_netlist(
         coupler_symmetric_factory=coupler_symmetric_biased,
         coupler_straight=coupler_straight_biased,
@@ -78,7 +77,7 @@ def coupler_netlist(
     Dict[str, Tuple[str, str]],
 ]:
     """
-     SBEND_L-CS-SBEND_R
+    SBEND_L-CS-SBEND_R
     """
 
     assert_on_1nm_grid(length)

@@ -1,9 +1,8 @@
 import functools
 from typing import Callable
 from typing import Any, List, Optional, Tuple, Dict
-import csv
 from copy import deepcopy
-import phidl.geometry as pg
+import csv
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
@@ -292,17 +291,12 @@ def _rename_ports_facing_side(
             p.name = lbl
 
 
-
 def rename_ports_by_orientation(
     component: object, layers_excluded: List[Any] = []
 ) -> object:
-    """ Returns Component with port names based on port orientation (E, N, W, S)
-    """
-
-    # Naming functions
+    """Returns Component with port names based on port orientation (E, N, W, S)"""
 
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
-
     ports_on_process = [
         p for p in component.ports.values() if p.layer not in layers_excluded
     ]
@@ -325,10 +319,9 @@ def rename_ports_by_orientation(
     component.ports = {p.name: p for p in component.ports.values()}
     return component
 
-  
+
 def auto_rename_ports(component: object) -> object:
-    """ Returns Component with port names based on port orientation (E, N, W, S)
-    """
+    """Returns Component with port names based on port orientation (E, N, W, S)"""
 
     def _counter_clockwise(_direction_ports, prefix=""):
 
