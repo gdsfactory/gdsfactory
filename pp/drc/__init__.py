@@ -36,7 +36,7 @@ def snap_to_2nm_grid(x: float) -> float64:
     return snap_to_grid(x, nm=2)
 
 
-def snap_to_5nm_grid(x):
+def snap_to_5nm_grid(x: float64) -> float64:
     return snap_to_grid(x, nm=5)
 
 

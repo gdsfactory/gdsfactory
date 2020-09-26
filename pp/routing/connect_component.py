@@ -1,3 +1,4 @@
+from typing import Callable
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 
@@ -8,6 +9,7 @@ from pp.container import container
 
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.routing.get_input_labels import get_input_labels
+from pp.component import Component
 
 
 def add_io_optical_te(*args, **kwargs):
@@ -20,15 +22,15 @@ def add_io_optical_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
 
 @container
 def add_io_optical(
-    component,
-    grating_coupler=grating_coupler_te,
-    gc_port_name="W0",
-    component_name=None,
-    taper_factory=taper,
-    get_route_factory=route_fiber_array,
-    get_input_labels_function=get_input_labels,
+    component: Component,
+    grating_coupler: Component = grating_coupler_te,
+    gc_port_name: str = "W0",
+    component_name: None = None,
+    taper_factory: Callable = taper,
+    get_route_factory: Callable = route_fiber_array,
+    get_input_labels_function: Callable = get_input_labels,
     **kwargs,
-):
+) -> Component:
     """ returns component with optical IO (tapers, south routes and grating_couplers)
 
     Args:

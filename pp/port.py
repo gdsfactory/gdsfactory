@@ -1,8 +1,9 @@
 import functools
 from typing import Callable
 from typing import Any, List, Optional, Tuple, Dict
-from copy import deepcopy
 import csv
+from copy import deepcopy
+import phidl.geometry as pg
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
@@ -31,7 +32,7 @@ class Port(PortPhidl):
         midpoint: Tuple[float, float] = (0.0, 0.0),
         width: float = 0.5,
         orientation: int = 0,
-        parent=None,
+        parent: Optional[object] = None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
     ) -> None:
@@ -114,7 +115,7 @@ class Port(PortPhidl):
     def snap_to_grid(self, nm=1):
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
-    def on_grid(self, nm=1):
+    def on_grid(self, nm: int = 1) -> None:
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
             assert np.isclose(
@@ -291,9 +292,11 @@ def _rename_ports_facing_side(
             p.name = lbl
 
 
-def rename_ports_by_orientation(component, layers_excluded: List[Any] = []):
-    """
-    Assign standard port names based on the layer of the port
+
+def rename_ports_by_orientation(
+    component: object, layers_excluded: List[Any] = []
+) -> object:
+    """ Returns Component with port names based on port orientation (E, N, W, S)
     """
 
     # Naming functions
@@ -322,12 +325,9 @@ def rename_ports_by_orientation(component, layers_excluded: List[Any] = []):
     component.ports = {p.name: p for p in component.ports.values()}
     return component
 
-
-def auto_rename_ports(component):
-    """ Assign standard port names based on the layer of the port
-
-    Returns:
-        component with renamed ports
+  
+def auto_rename_ports(component: object) -> object:
+    """ Returns Component with port names based on port orientation (E, N, W, S)
     """
 
     def _counter_clockwise(_direction_ports, prefix=""):

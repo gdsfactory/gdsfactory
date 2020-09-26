@@ -9,9 +9,11 @@ from pp.routing.u_groove_bundle import u_bundle_direct
 from pp.routing.corner_bundle import corner_bundle
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.name import autoname
-from pp.component import Component
+from pp.component import ComponentReference, Component
 from pp.port import Port
 from pp.config import conf
+from numpy import float64, ndarray
+from typing import Callable, List, Optional
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -113,7 +115,7 @@ def connect_bundle(
         raise NotImplementedError("Routing along different axis not implemented yet")
 
 
-def get_port_x(port):
+def get_port_x(port: Port) -> float64:
     return port.midpoint[0]
 
 
@@ -136,12 +138,12 @@ def are_decoupled(x1, x1p, x2, x2p, sep=METAL_MIN_SEPARATION):
 
 
 def link_ports(
-    start_ports,
-    end_ports,
-    separation=5.0,
-    route_filter=connect_strip_way_points,
+    start_ports: List[Port],
+    end_ports: List[Port],
+    separation: float = 5.0,
+    route_filter: Callable = connect_strip_way_points,
     **routing_params,
-):
+) -> List[ComponentReference]:
     """Semi auto-routing for two lists of ports
 
     Args:
@@ -212,18 +214,18 @@ def link_ports(
 
 
 def link_ports_routes(
-    start_ports,
-    end_ports,
-    separation,
-    bend_radius=BEND_RADIUS,
-    routing_func=generate_manhattan_waypoints,
-    sort_ports=True,
-    end_straight_offset=None,
-    compute_array_separation_only=False,
-    verbose=0,
-    tol=0.00001,
+    start_ports: List[Port],
+    end_ports: List[Port],
+    separation: float,
+    bend_radius: float = BEND_RADIUS,
+    routing_func: Callable = generate_manhattan_waypoints,
+    sort_ports: bool = True,
+    end_straight_offset: Optional[float] = None,
+    compute_array_separation_only: bool = False,
+    verbose: int = 0,
+    tol: float = 0.00001,
     **kwargs,
-):
+) -> List[ndarray]:
     """
     routing_func: Function used to connect two ports. Should be like `connect_strip`
     """
@@ -606,13 +608,13 @@ def link_electrical_ports(
 
 
 def link_optical_ports(
-    ports1,
-    ports2,
-    separation=5.0,
-    route_filter=connect_strip_way_points,
-    bend_radius=BEND_RADIUS,
+    ports1: List[Port],
+    ports2: List[Port],
+    separation: float = 5.0,
+    route_filter: Callable = connect_strip_way_points,
+    bend_radius: float = BEND_RADIUS,
     **kwargs,
-):
+) -> List[ComponentReference]:
     return link_ports(
         ports1,
         ports2,
@@ -630,7 +632,13 @@ def sign(x):
         return -1
 
 
-def get_min_spacing(ports1, ports2, sep=5.0, sort_ports=True, radius=BEND_RADIUS):
+def get_min_spacing(
+    ports1: List[Port],
+    ports2: List[Port],
+    sep: float = 5.0,
+    sort_ports: bool = True,
+    radius: float = BEND_RADIUS,
+) -> float:
     """
     Returns the minimum amount of spacing required to create a given fanout
     """

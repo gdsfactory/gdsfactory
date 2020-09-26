@@ -129,7 +129,7 @@ def autoname(component_function: Callable) -> Callable:
     return _autoname
 
 
-def dict2hash(**kwargs):
+def dict2hash(**kwargs) -> str:
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     h = hashlib.sha256()
     for key in sorted(kwargs):

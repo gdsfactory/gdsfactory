@@ -1,3 +1,4 @@
+from typing import List, Tuple
 import hashlib
 import numpy as np
 from scipy.special import binom
@@ -12,7 +13,6 @@ from pp.geo_utils import path_length
 from pp.geo_utils import curvature
 from numpy import ndarray
 from pp.component import Component
-from typing import List, Tuple
 
 
 def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray:

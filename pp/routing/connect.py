@@ -1,3 +1,7 @@
+from typing import Callable, Union
+from numpy import ndarray
+from phidl.device_layout import Port as PortPhidl
+
 from pp.routing.manhattan import route_manhattan
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.manhattan import round_corners
@@ -5,27 +9,29 @@ from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
 from pp.components import taper as taper_factory
 from pp.components.electrical import wire, corner
+from pp.component import ComponentReference
 
 from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
 from pp.layers import LAYER
+from pp.port import Port
 
 
-def get_waypoints_connect_strip(*args, **kwargs):
+def get_waypoints_connect_strip(*args, **kwargs) -> ndarray:
     return connect_strip(*args, **kwargs, route_factory=generate_manhattan_waypoints)
 
 
 def connect_strip(
-    input_port,
-    output_port,
-    bend_factory=bend_circular,
-    straight_factory=waveguide,
-    taper_factory=taper_factory,
-    start_straight=0.01,
-    end_straight=0.01,
-    min_straight=0.01,
-    bend_radius=10.0,
-    route_factory=route_manhattan,
-):
+    input_port: Port,
+    output_port: Union[Port, PortPhidl],
+    bend_factory: Callable = bend_circular,
+    straight_factory: Callable = waveguide,
+    taper_factory: Callable = taper_factory,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    min_straight: float = 0.01,
+    bend_radius: float = 10.0,
+    route_factory: Callable = route_manhattan,
+) -> ComponentReference:
 
     bend90 = bend_factory(radius=bend_radius, width=input_port.width)
 
@@ -161,6 +167,9 @@ def connect_elec(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
-    cc = connect_strip(c.ports["E0"], c.ports["W0"])
+    w = pp.c.waveguide()
+
+    c = pp.Component()
+    connector_ref = connect_strip(w.ports["E0"], w.ports["W0"])
+    cc = c.add(connector_ref)
     pp.show(cc)

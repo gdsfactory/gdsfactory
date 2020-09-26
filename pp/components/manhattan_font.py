@@ -1,4 +1,8 @@
 import numpy as np
+from omegaconf.listconfig import ListConfig
+from pp.component import Component
+from typing import List, Tuple
+
 import pp
 from pp.layers import LAYER
 from pp.name import clean_name
@@ -9,14 +13,14 @@ A pixel based font, guaranteed to be manhattan, without accute angles
 
 
 def manhattan_text(
-    text="abcd",
-    size=10,
-    position=(0, 0),
-    justify="left",
-    layer=LAYER.M1,
-    layers_cladding=[],
-    cladding_offset=3,
-):
+    text: str = "abcd",
+    size: float = 10,
+    position: Tuple[int, int] = (0, 0),
+    justify: str = "left",
+    layer: ListConfig = LAYER.M1,
+    layers_cladding: List[ListConfig] = [],
+    cladding_offset: int = 3,
+) -> Component:
     """
 
     .. plot::
@@ -81,16 +85,16 @@ def manhattan_text(
 
 @pp.autoname
 def pixel_array(
-    pixels="""
+    pixels: str = """
      XXX
     X   X
     XXXXX
     X   X
     X   X
     """,
-    pixel_size=10.0,
-    layer=LAYER.M1,
-):
+    pixel_size: float = 10.0,
+    layer: ListConfig = LAYER.M1,
+) -> Component:
     component = pp.Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]
     lines.reverse()

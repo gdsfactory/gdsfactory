@@ -5,18 +5,21 @@ from pp.routing.utils import direction_ports_from_list_ports
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.utils import flip
 from pp.config import conf
+from pp.component import Component, ComponentReference
+from pp.port import Port
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 
 def route_south(
-    component,
-    bend_radius=conf.tech.bend_radius,
-    optical_routing_type=1,
-    excluded_ports=[],
-    waveguide_separation=4.0,
-    io_gratings_lines=None,
-    route_filter=connect_strip_way_points,
-    gc_port_name="E0",
-):
+    component: Component,
+    bend_radius: float = conf.tech.bend_radius,
+    optical_routing_type: int = 1,
+    excluded_ports: List[Any] = [],
+    waveguide_separation: float = 4.0,
+    io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
+    route_filter: Callable = connect_strip_way_points,
+    gc_port_name: str = "E0",
+) -> Union[Tuple[List[Any], List[Port]], Tuple[List[ComponentReference], List[Port]]]:
     """
     Args:
         component: The component to be connected

@@ -3,11 +3,18 @@ from pp.components.coupler import coupler
 
 # from pp.components.loop_mirror import loop_mirror
 from pp.container import container
+from pp.component import Component
 
 
 @container
 @pp.autoname
-def cavity(component, coupler=coupler, length=0.1, gap=0.2, wg_width=0.5):
+def cavity(
+    component: Component,
+    coupler: Component = coupler,
+    length: float = 0.1,
+    gap: float = 0.2,
+    wg_width: float = 0.5,
+) -> Component:
     """ creates a cavity from a coupler and a mirror
     it will connect the W0 port of the mirror to both E1 and W1 ports of the coupler creating a resonant cavity
 

@@ -4,6 +4,11 @@
 
 import phidl.device_layout as pd
 import pp
+from omegaconf.listconfig import ListConfig
+from phidl.device_layout import Label
+from pp.component import Component, ComponentReference
+from pp.port import Port
+from typing import Optional, Union
 
 
 def add_label(component, text, position=(0, 0), layer=pp.LAYER.LABEL):
@@ -31,7 +36,12 @@ def add_labels(component):
     return c
 
 
-def get_optical_text(port, gc, gc_index=None, component_name=None):
+def get_optical_text(
+    port: Port,
+    gc: Union[ComponentReference, Component],
+    gc_index: Optional[int] = None,
+    component_name: Optional[str] = None,
+) -> str:
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
 
@@ -62,13 +72,13 @@ def get_optical_text(port, gc, gc_index=None, component_name=None):
 
 
 def get_input_label(
-    port,
-    gc,
-    gc_index=None,
-    gc_port_name="W0",
-    layer_label=pp.LAYER.LABEL,
-    component_name=None,
-):
+    port: Port,
+    gc: ComponentReference,
+    gc_index: Optional[int] = None,
+    gc_port_name: str = "W0",
+    layer_label: ListConfig = pp.LAYER.LABEL,
+    component_name: Optional[str] = None,
+) -> Label:
     """
     Generate a label with component info for a given grating coupler.
     This is the label used by T&M to extract grating coupler coordinates

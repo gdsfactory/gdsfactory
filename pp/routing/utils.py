@@ -1,11 +1,10 @@
-import pp
-from pp.component import Port
 from typing import Dict, List
+from pp.port import Port
 
 
-def flip(port):
+def flip(port: Port) -> Port:
     """ Flip a phidl Port """
-    return pp.Port(port.name, port.midpoint, port.width, port.orientation + 180)
+    return Port(port.name, port.midpoint, port.width, port.orientation + 180)
 
 
 def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List[Port]]:
