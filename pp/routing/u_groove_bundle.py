@@ -498,7 +498,7 @@ def u_bundle_indirect_routes(
     def _merge_connections(list_of_points):
 
         a = [list_of_points[0]]
-        a = a + [l[1:] for l in list_of_points[1:]]
+        a = a + [point[1:] for point in list_of_points[1:]]
         b = np.vstack(a)
         b = remove_identicals(b)
         b = remove_flat_angles(b)
