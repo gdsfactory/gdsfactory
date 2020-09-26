@@ -1,22 +1,32 @@
+from typing import Any, Callable, List, Tuple, Union
 import pp
 from pp.rotate import rotate
 from pp.routing.connect_component import route_fiber_array
 
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from phidl.device_layout import Label
+from pp.component import Component, ComponentReference
 
 
 def route_fiber_single(
-    component,
-    optical_io_spacing=50,
-    grating_coupler=grating_coupler_te,
-    straight_factory=waveguide,
-    min_input2output_spacing=230,
-    optical_routing_type=2,
-    optical_port_labels=None,
-    excluded_ports=[],
+    component: Component,
+    optical_io_spacing: int = 50,
+    grating_coupler: Component = grating_coupler_te,
+    straight_factory: Callable = waveguide,
+    min_input2output_spacing: int = 230,
+    optical_routing_type: int = 2,
+    optical_port_labels: None = None,
+    excluded_ports: List[Any] = [],
     **kwargs
-):
+) -> Union[
+    Tuple[List[Union[ComponentReference, Label]], List[List[ComponentReference]], None],
+    Tuple[
+        List[Union[ComponentReference, Label]],
+        List[Union[List[ComponentReference], ComponentReference]],
+        None,
+    ],
+]:
     """Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
 
     Args:

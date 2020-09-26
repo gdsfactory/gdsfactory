@@ -3,10 +3,19 @@
 
 import math
 import pp
+from omegaconf.listconfig import ListConfig
+from pp.component import Component
+from typing import List, Union
 
 
 @pp.autoname
-def line(x0, y0, width, height, layer):
+def line(
+    x0: Union[float, int],
+    y0: Union[float, int],
+    width: Union[float, int],
+    height: int,
+    layer: ListConfig,
+) -> Component:
     L = pp.Component()
     L.add_polygon(
         [(x0, y0), (x0 + width, y0), (x0 + width, y0 + height), (x0, y0 + height)],
@@ -16,7 +25,15 @@ def line(x0, y0, width, height, layer):
 
 
 @pp.autoname
-def linespace(x0, y0, width, height, pitch, ymax, layer):
+def linespace(
+    x0: Union[float, int],
+    y0: Union[float, int],
+    width: Union[float, int],
+    height: int,
+    pitch: int,
+    ymax: Union[float, int],
+    layer: ListConfig,
+) -> Component:
     """ # Creates a line space pattern in y-direction
     Args:
         x0: x coordinate of the lower left line
@@ -43,7 +60,7 @@ def linespace(x0, y0, width, height, pitch, ymax, layer):
     return LS
 
 
-def y0linespace(y0, height, pitch, ymax):
+def y0linespace(y0: float, height: int, pitch: int, ymax: float) -> float:
     if pitch > 0:
         while y0 + height <= ymax:
             y0 += pitch
@@ -54,7 +71,7 @@ def y0linespace(y0, height, pitch, ymax):
 
 
 @pp.autoname
-def cross(x0, y0, width, lw, layer):
+def cross(x0: float, y0: float, width: int, lw: int, layer: ListConfig) -> Component:
     """ cross
 
     Args:
@@ -85,7 +102,11 @@ def cross(x0, y0, width, lw, layer):
 
 
 @pp.autoname
-def ppe(layer=pp.LAYER.WG, layers_cladding=[pp.LAYER.WGCLAD], cladding_offset=3):
+def ppe(
+    layer: ListConfig = pp.LAYER.WG,
+    layers_cladding: List[ListConfig] = [pp.LAYER.WGCLAD],
+    cladding_offset: int = 3,
+) -> Component:
     """
     pattern placement error
     """

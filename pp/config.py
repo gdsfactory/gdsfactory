@@ -9,6 +9,7 @@
 """
 
 __version__ = "1.3.3"
+from typing import Any
 import os
 import io
 import json
@@ -16,7 +17,6 @@ import subprocess
 import pathlib
 from pprint import pprint
 import logging
-from typing import Any
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -153,7 +153,7 @@ def write_config(config, json_out_path):
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
 
 
-def call_if_func(f: Any, **kwargs):
+def call_if_func(f: Any, **kwargs) -> Any:
     return f(**kwargs) if callable(f) else f
 
 

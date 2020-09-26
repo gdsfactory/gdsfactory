@@ -4,10 +4,9 @@ https://picwriter.readthedocs.io/en/latest/component-documentation.html
 import numpy as np
 import gdspy
 
-from picwriter import toolkit as tk
+import picwriter.toolkit as pt
 import picwriter.components as pc
 import pp
-import picwriter.toolkit as pt
 from pp.component import Component
 
 
@@ -32,14 +31,14 @@ def direction_to_degree(direction: str) -> float:
         return 270.0
 
 
-def picwriter2component(picwriter_object: Component) -> pt.Component:
+def picwriter2component(picwriter_object: pt.Component) -> Component:
     """ Converts a Picwriter into a Gdsfactory Component
     """
     po = picwriter_object
     c = pp.Component(name=po.name_prefix)
 
     # Add the polygons
-    po_cell = tk.CURRENT_CELLS[
+    po_cell = pt.CURRENT_CELLS[
         po.cell_hash
     ]  # Extract the relevant cells from the picwriter global cell list
 

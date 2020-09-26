@@ -5,6 +5,11 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/hakancelik96/unimport
+    rev: stable
+    hooks:
+      - id: unimport
+        args: [--remove, --requirements, --include-star-import]
   - repo: https://github.com/psf/black
     rev: ''
     hooks:

@@ -1,10 +1,19 @@
 import phidl.geometry as pg
 from pp.import_phidl_component import import_phidl_component
+from omegaconf.listconfig import ListConfig
+from pp.component import Component
+from typing import List
 
 
 def boolean(
-    A, B, operation, precision=1e-4, num_divisions=[1, 1], max_points=4000, layer=0
-):
+    A: Component,
+    B: Component,
+    operation: str,
+    precision: float = 1e-4,
+    num_divisions: List[int] = [1, 1],
+    max_points: int = 4000,
+    layer: ListConfig = 0,
+) -> Component:
     """
     Performs boolean operations between 2 Device/DeviceReference objects,
     or lists of Devices/DeviceReferences.

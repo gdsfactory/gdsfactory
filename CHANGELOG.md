@@ -15,6 +15,7 @@
 - nicer netlist representations (adding location to each node in the graph)
 - YAML loader accepts strings (no more io.StringIO)
 - better docs
+- works for python>=3.6
 
 ## 1.3.2 2020-08-15
 

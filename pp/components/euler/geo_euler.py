@@ -1,9 +1,9 @@
-from pp.coord2 import Coord2
+from typing import List, Union
 
 from scipy.special import fresnel
 from numpy import pi, sqrt
 import numpy as np
-from typing import List, Union
+from pp.coord2 import Coord2
 
 DEG2RAD = np.pi / 180
 
@@ -12,8 +12,8 @@ __euler_bend_cache__ = dict()
 
 
 def euler_bend_points(
-    angle_amount: int = 90.0,
-    radius: Union[int, float] = 10.0,
+    angle_amount: float = 90.0,
+    radius: float = 10.0,
     resolution: float = 150.0,
     use_cache: bool = True,
 ) -> List[Coord2]:

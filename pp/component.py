@@ -20,7 +20,7 @@ from pp.name import dict2hash
 
 
 class SizeInfo:
-    def __init__(self, bbox):
+    def __init__(self, bbox: ndarray) -> None:
         self.west = bbox[0, 0]
         self.east = bbox[1, 0]
         self.south = bbox[0, 1]
@@ -239,7 +239,7 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def size_info(self):
+    def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
         # if self.__size_info__ == None:
         # return self.__size_info__
@@ -462,7 +462,7 @@ class ComponentReference(DeviceReference):
             ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
-    def get_property(self, property):
+    def get_property(self, property: str) -> Union[str, int]:
         if hasattr(self, property):
             return self.property
 
@@ -596,12 +596,12 @@ class Component(Device):
         """ returns a lit of optical ports """
         return list(select_optical_ports(self.ports).values())
 
-    def ports_on_grid(self):
+    def ports_on_grid(self) -> None:
         """ asserts if all ports ar eon grid """
         for port in self.ports.values():
             port.on_grid()
 
-    def get_ports_array(self):
+    def get_ports_array(self) -> Dict[str, ndarray]:
         """ returns ports as a dict of np arrays"""
         self.ports_on_grid()
         ports_array = {
@@ -673,7 +673,7 @@ class Component(Device):
         _ref.move(center, position)
         return _ref
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.name
 
     def __str__(self):
@@ -684,7 +684,7 @@ class Component(Device):
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
 
-    def get_property(self, property):
+    def get_property(self, property: str) -> Union[str, int]:
         if property in self.settings:
             return self.settings[property]
         if hasattr(self, property):
@@ -804,7 +804,7 @@ class Component(Device):
 
         return jsondata
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         h = dict2hash(**self.settings)
         return int(h, 16)
 
@@ -856,7 +856,7 @@ class Component(Device):
         return self
 
     @property
-    def size_info(self):
+    def size_info(self) -> SizeInfo:
         """ size info of the component """
         # if self.__size_info__ == None:
         # self.__size_info__  = SizeInfo(self.bbox)

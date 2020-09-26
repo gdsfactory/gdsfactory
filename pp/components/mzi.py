@@ -154,4 +154,5 @@ if __name__ == "__main__":
     # c.plot_netlist()
     # print(c.ports)
     pp.show(c)
+    pp.qp(c)
     # print(c.get_settings())
