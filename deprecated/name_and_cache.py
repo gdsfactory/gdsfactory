@@ -24,7 +24,7 @@ def update_dicts_recurse(target_dict, default_dict):
 
 
 def autoname_and_cache(component_function):
-    """ decorator for auto-naming component functions
+    """decorator for auto-naming component functions
 
     you can pass a name argument
     otherwise it creates a name by concenating all Keyword arguments
