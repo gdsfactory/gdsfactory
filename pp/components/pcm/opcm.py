@@ -27,8 +27,10 @@ def square_middle(
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
     a += cladding_offset
-    for l in layers_cladding:
-        component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=l)
+    for layer_cladding in layers_cladding:
+        component.add_polygon(
+            [(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer_cladding
+        )
     return component
 
 
