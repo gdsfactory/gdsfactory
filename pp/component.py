@@ -1,4 +1,3 @@
-from __future__ import annotations
 import itertools
 import uuid
 import json
@@ -105,7 +104,7 @@ def _rotate_points(
 class ComponentReference(DeviceReference):
     def __init__(
         self,
-        device: Union[Component, Device],
+        component,
         origin: Tuple[int, int] = (0, 0),
         rotation: int = 0,
         magnification: None = None,
@@ -113,18 +112,18 @@ class ComponentReference(DeviceReference):
         visual_label: str = "",
     ) -> None:
         super().__init__(
-            device=device,
+            device=component,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
         )
-        self.parent = device
+        self.parent = component
         # The ports of a DeviceReference have their own unique id (uid),
         # since two DeviceReferences of the same parent Device can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port._copy(new_uid=True) for name, port in device.ports.items()
+            name: port._copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
 
@@ -299,10 +298,14 @@ class ComponentReference(DeviceReference):
         ] = (0, 0),
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
-    ) -> ComponentReference:
+    ):
         """Moves the DeviceReference from the origin point to the destination.  Both
         origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this device_ref"""
+        corresponding to one of the Ports in this device_ref
+
+        Returns:
+            ComponentReference
+        """
 
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
@@ -349,7 +352,11 @@ class ComponentReference(DeviceReference):
         self,
         angle: Union[float64, int, int64, float] = 45,
         center: Union[Tuple[int, int], ndarray] = (0, 0),
-    ) -> ComponentReference:
+    ):
+        """
+        Returns:
+            ComponentReference
+        """
         if angle == 0:
             return self
         if type(center) == str or type(center) == int:
@@ -391,7 +398,7 @@ class ComponentReference(DeviceReference):
         self,
         p1: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 1),
         p2: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 0),
-    ) -> ComponentReference:
+    ):
         if type(p1) is Port:
             p1 = p1.midpoint
         if type(p2) is Port:
@@ -420,9 +427,9 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def connect(
-        self, port: str, destination: Port, overlap: float = 0
-    ) -> ComponentReference:
+    def connect(self, port: str, destination: Port, overlap: float = 0):
+        """ returns ComponentReference
+        """
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -855,10 +862,8 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
-    def add_ref(
-        self, D: Union[Component, Device], alias: Optional[str] = None
-    ) -> ComponentReference:
-        """Takes a Device and adds it as a ComponentReference to the current
+    def add_ref(self, D, alias: Optional[str] = None) -> ComponentReference:
+        """Takes a Component and adds it as a ComponentReference to the current
         Device."""
         if type(D) in (list, tuple):
             return [self.add_ref(E) for E in D]

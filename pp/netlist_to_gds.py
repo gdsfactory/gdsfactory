@@ -78,20 +78,20 @@ def gen_sref(
             )
         port_position = component.ports[port_name].midpoint
 
-    device_ref = ComponentReference(device=component, origin=(0, 0))
+    ref = ComponentReference(component=component, origin=(0, 0))
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
-        device_ref.reflect(p1=(0, y0), p2=(1, y0))
+        ref.reflect(p1=(0, y0), p2=(1, y0))
 
     if rotation_angle != 0:
-        device_ref.rotate(rotation_angle, center=port_position)
+        ref.rotate(rotation_angle, center=port_position)
 
     translation = np.array(position - port_position)
 
-    device_ref.move(destination=translation)
+    ref.move(destination=translation)
 
-    return device_ref
+    return ref
 
 
 def netlist_to_component(

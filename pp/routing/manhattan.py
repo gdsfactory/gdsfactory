@@ -87,17 +87,17 @@ def gen_sref(
     else:
         port_position = structure.ports[port_name].midpoint
 
-    device_ref = pp.ComponentReference(device=structure, origin=(0, 0))
+    ref = pp.ComponentReference(component=structure, origin=(0, 0))
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
-        device_ref.reflect(p1=(0, y0), p2=(1, y0))
+        ref.reflect(p1=(0, y0), p2=(1, y0))
 
-    device_ref.rotate(rotation_angle, center=port_position)
+    ref.rotate(rotation_angle, center=port_position)
 
-    device_ref.move(port_position, position)
+    ref.move(port_position, position)
 
-    return device_ref
+    return ref
 
 
 def _is_vertical(p0: ndarray, p1: ndarray) -> bool_:
@@ -194,8 +194,8 @@ def _generate_route_manhattan_points(
 ) -> ndarray:
     """
     Args:
-        input_port: phidl Device Port
-        output_port: phidl Device Port
+        input_port:
+        output_port:
         bs1, bs2: float, float : the bend size
 
     """

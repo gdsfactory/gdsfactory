@@ -1,25 +1,24 @@
-from __future__ import annotations
 import functools
 from typing import Callable
 from typing import Any, List, Optional, Tuple, Dict
 import csv
 from copy import deepcopy
 import phidl.geometry as pg
-
 import numpy as np
+import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
 from pp.drc import snap_to_grid
 
 
 class Port(PortPhidl):
-    """ Extends phidl port by adding layer and a port_type (optical, electrical)
+    """Extends phidl port by adding layer and a port_type (optical, electrical)
 
     Args:
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
         midpoint: (0, 0)
         width: of the port
         orientation: 0
-        parent: None, parent component (component to which this port belong to)
+        parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
 
@@ -52,13 +51,16 @@ class Port(PortPhidl):
         self._next_uid += 1
 
     def __repr__(self) -> str:
-        return "Port (name {}, midpoint {}, width {}, orientation {}, layer {}, port_type {})".format(
-            self.name,
-            self.midpoint,
-            self.width,
-            self.orientation,
-            self.layer,
-            self.port_type,
+        return (
+            "Port (name {}, midpoint {}, width {}, orientation {}, layer {},"
+            " port_type {})".format(
+                self.name,
+                self.midpoint,
+                self.width,
+                self.orientation,
+                self.layer,
+                self.port_type,
+            )
         )
 
     @property
@@ -94,7 +96,7 @@ class Port(PortPhidl):
         port.angle = (port.angle + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> Port:
+    def _copy(self, new_uid: bool = True):
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -126,12 +128,13 @@ class Port(PortPhidl):
             ), f"{self.parent} port {self.name} has an off-grid point {x}"
         else:
             raise ValueError(
-                f"{self.parent} port {self.name} has invalid orientation {self.orientation}"
+                f"{self.parent} port {self.name} has invalid orientation"
+                f" {self.orientation}"
             )
 
 
 def read_port_markers(gdspath, layer=69):
-    """ loads a GDS and read port
+    """loads a GDS and read port
 
     Args:
         gdspath:
@@ -144,7 +147,7 @@ def read_port_markers(gdspath, layer=69):
 
 
 def csv2port(csvpath):
-    """ loads and reads ports from a CSV file
+    """loads and reads ports from a CSV file
     returns a dict
     """
     ports = {}
@@ -160,10 +163,10 @@ def is_electrical_port(port):
     return port.port_type in ["dc", "rf"]
 
 
-def select_ports(ports: Dict[str, Port], port_type: str) -> Dict[str, Port]:
+def select_ports(ports, port_type: str):
     """
     Args:
-        ports: a port dictionnary {port name: port} (as returned by Component.ports)
+        ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
         layers: a list of port layer or a port type (layer or string)
 
     Returns:
@@ -289,11 +292,11 @@ def _rename_ports_facing_side(
             p.name = lbl
 
 
+
 def rename_ports_by_orientation(
     component: object, layers_excluded: List[Any] = []
 ) -> object:
-    """
-    Assign standard port names based on the layer of the port
+    """ Returns Component with port names based on port orientation (E, N, W, S)
     """
 
     # Naming functions
@@ -322,10 +325,9 @@ def rename_ports_by_orientation(
     component.ports = {p.name: p for p in component.ports.values()}
     return component
 
-
+  
 def auto_rename_ports(component: object) -> object:
-    """
-    Assign standard port names based on the layer of the port
+    """ Returns Component with port names based on port orientation (E, N, W, S)
     """
 
     def _counter_clockwise(_direction_ports, prefix=""):
