@@ -3,6 +3,7 @@
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
 from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.waveguide_pin import waveguide_pin
 
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular180
@@ -166,6 +167,7 @@ component_type2factory = dict(
     verniers=verniers,
     waveguide=waveguide,
     waveguide_heater=waveguide_heater,
+    waveguide_pin=waveguide_pin,
     wg_heater_connected=wg_heater_connected,
 )
 

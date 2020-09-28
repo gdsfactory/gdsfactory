@@ -23,6 +23,10 @@ _components = _components - set(
         "grating_coupler_tree",
         "bezier",
         "spiral_circular",
+        "coupler90",
+        "waveguide_pin",
+        "waveguide_heater",
+        "wg_heater_connected",
     ]
 )
 
