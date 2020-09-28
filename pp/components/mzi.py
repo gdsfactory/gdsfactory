@@ -1,26 +1,27 @@
 from typing import Callable, Optional
 import pp
 
+from pp.component import Component
 from pp.port import deco_rename_ports, rename_ports_by_orientation
 from pp.components import bend_circular
 from pp.components import waveguide
 from pp.components import mmi1x2
-from pp.component import Component
 
 
 @deco_rename_ports
 @pp.autoname
 def mzi(
     L0: float = 1.0,
-    DL: float = 9.0,
-    L2: float = 0.1,
+    DL: float = 0.1,
+    L2: float = 20.1,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
-    straight_factory: Callable = waveguide,
-    coupler_factory: Callable = mmi1x2,
-    combiner_factory: Optional[Callable] = None,
+    waveguide_vertical: Callable = waveguide,
+    waveguide_horizontal: Callable = waveguide,
+    coupler: Callable = mmi1x2,
+    combiner: Optional[Callable] = None,
 ) -> Component:
-    """Mzi adapted for using different coupler and combiner factories
+    """Mzi
 
     Args:
         L0: vertical length for both and top arms
@@ -28,9 +29,9 @@ def mzi(
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
-        straight_factory: waveguide
-        coupler_factory: coupler
-        combiner_factory: coupler
+        waveguide_vertical: waveguide
+        coupler: coupler
+        combiner: coupler
 
     .. code::
 
@@ -57,14 +58,14 @@ def mzi(
 
     """
     c = pp.Component()
-    coupler = pp.call_if_func(coupler_factory)
-    if combiner_factory:
-        combiner = pp.call_if_func(combiner_factory)
+    coupler = pp.call_if_func(coupler)
+    if combiner:
+        combiner = pp.call_if_func(combiner)
     else:
         combiner = coupler
 
     b90 = bend90_factory(radius=bend_radius)
-    l0 = straight_factory(length=L0)
+    l0 = waveguide_vertical(length=L0)
 
     coupler = rename_ports_by_orientation(coupler)
     combiner = rename_ports_by_orientation(combiner)
@@ -83,9 +84,9 @@ def mzi(
         f" {L0} >0"
     )
 
-    l0r = straight_factory(length=L0 + delta_length / 2)
-    l1 = straight_factory(length=DL)
-    l2 = straight_factory(length=L2)
+    l0r = waveguide_vertical(length=L0 + delta_length / 2)
+    l1 = waveguide_vertical(length=DL)
+    l2 = waveguide_horizontal(length=L2)
 
     cin = c << coupler
     cout = c << combiner
@@ -147,12 +148,13 @@ def mzi(
 
 
 if __name__ == "__main__":
+
     DL = 116.8 / 2
-    print(DL)
-    c = mzi(DL=DL)
-    print(c.ports["E0"].midpoint[1])
+    # print(DL)
+    c = mzi(DL=DL, pins=True)
+    # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
-    # print(c.ports)
+    print(c.ports.keys())
     pp.show(c)
     pp.qp(c)
     # print(c.get_settings())

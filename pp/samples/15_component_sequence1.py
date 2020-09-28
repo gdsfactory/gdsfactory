@@ -29,7 +29,7 @@ def test_cutback_heater():
     string_to_device_in_out_ports = {
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W1", "E1"),
+        "H": (wg_heater, "W0", "E0"),
         "-": (wg, "W0", "E0"),
     }
 

@@ -60,11 +60,11 @@ def test_simple_mzi2x2(
 
     connections = [
         ## Top arm
-        ("CP1", "E1", "arm_top", "W1"),
-        ("arm_top", "E1", "CP2", "W1"),
+        ("CP1", "E1", "arm_top", "W0"),
+        ("arm_top", "E0", "CP2", "W1"),
         ## Bottom arm
-        ("CP1", "E0", "arm_bot", "W1"),
-        ("arm_bot", "E1", "CP2", "W0"),
+        ("CP1", "E0", "arm_bot", "W0"),
+        ("arm_bot", "E0", "CP2", "W0"),
     ]
 
     # Create the ports for this component, choosing which ports from the subcomponents should be exposed
