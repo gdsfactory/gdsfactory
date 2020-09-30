@@ -6,3 +6,4 @@ sphinx-autodoc-typehints
 matplotlib
 pytest-regressions
 pre-commit
+pytest-cov
