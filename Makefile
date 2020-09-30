@@ -20,6 +20,9 @@ test-force:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
 	pytest --force-regen
 
+cov:
+	pytest --cov=pp
+
 venv:
 	python3 -m venv env
 
@@ -43,6 +46,7 @@ devpi-release:
 
 release:
 	git push origin --tags
+
 
 
 .PHONY: gdsdiff build

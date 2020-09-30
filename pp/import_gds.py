@@ -7,6 +7,14 @@ from pp.component import Component
 from pp.name import NAME_TO_DEVICE
 
 
+def import_gds_cells(filename):
+    """ returns top cells from GDS"""
+    gdsii_lib = gdspy.GdsLibrary()
+    gdsii_lib.read_gds(filename)
+    top_level_cells = gdsii_lib.top_level()
+    return top_level_cells
+
+
 def import_gds(
     filename: str,
     cellname: None = None,
@@ -20,13 +28,14 @@ def import_gds(
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(filename)
     top_level_cells = gdsii_lib.top_level()
+    cellnames = [c.name for c in top_level_cells]
 
     if cellname is not None:
-        if cellname not in gdsii_lib.cell_dict:
+        if cellname not in cellnames:
             raise ValueError(
-                f"import_gds() The requested cell {cellname} is not present in file {filename}"
+                f"import_gds() The requested cell {cellname} is not present in file {filename} with cells {cellnames}"
             )
-        topcell = gdsii_lib.cell_dict[cellname]
+        topcell = gdsii_lib.cells[cellname]
     elif cellname is None and len(top_level_cells) == 1:
         topcell = top_level_cells[0]
     elif cellname is None and len(top_level_cells) > 1:

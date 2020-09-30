@@ -6,6 +6,7 @@ import csv
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
+from phidl.device_layout import Device
 from pp.drc import snap_to_grid
 
 
@@ -132,17 +133,15 @@ class Port(PortPhidl):
             )
 
 
-def read_port_markers(gdspath, layer=69):
-    """loads a GDS and read port
+def read_port_markers(gdspath, layers=[(69, 0)]):
+    """loads a GDS and returns the extracted device for a particular layer
 
     Args:
-        gdspath:
+        gdspath: gdspath or Component
         layer: GDS layer
     """
-    D = pg.import_gds(gdspath)
-    D = pg.extract(D, layers=[layer])
-    for e in D.elements:
-        print(e.x, e.y)
+    D = gdspath if isinstance(gdspath, Device) else pg.import_gds(gdspath)
+    return pg.extract(D, layers=layers)
 
 
 def csv2port(csvpath):
