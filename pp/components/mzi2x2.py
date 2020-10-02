@@ -237,6 +237,7 @@ def mzi2x2(
             orientation=180,
             width=ports["E_BOT_2"].width,
             layer=ports["E_BOT_2"].layer,
+            port_type="dc",
         )
 
         component.ports["E_TOP_3"].orientation = 0
@@ -291,11 +292,16 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
+    c = mzi2x2(with_elec_connections=True, pins=True)
+    # for p in c.ports.values():
+    #     print(p.port_type)
+
     # c = mzi_arm(DL=100)
-    c = mzi2x2()
     # c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))
     # print(hash(c))
+
+    pp.write_gds(c, pp.CONFIG["gdsdir"] / "mzi2x2.gds")
     pp.show(c)
