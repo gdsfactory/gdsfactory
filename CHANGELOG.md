@@ -16,6 +16,9 @@
 - YAML loader accepts strings (no more io.StringIO)
 - better docs
 - works for python>=3.6
+- add_tapers only tapers optical ports in the new containered component
+- add_ports from polygon markers
+- add_io_optical maintains other ports
 
 ## 1.3.2 2020-08-15
 

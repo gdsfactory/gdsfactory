@@ -1,3 +1,5 @@
+from typing import Callable, List, Optional
+from numpy import float64, ndarray
 import numpy as np
 from pp.routing.connect import connect_strip
 from pp.routing.connect import connect_elec_waypoints
@@ -12,8 +14,6 @@ from pp.name import autoname
 from pp.component import ComponentReference, Component
 from pp.port import Port
 from pp.config import conf
-from numpy import float64, ndarray
-from typing import Callable, List, Optional
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -573,14 +573,34 @@ def connect_bundle_path_length_match(
 
 
 def link_electrical_ports(
-    ports1,
-    ports2,
-    separation=METAL_MIN_SEPARATION,
-    bend_radius=0.0001,
+    ports1: List[Port],
+    ports2: List[Port],
+    separation: float = METAL_MIN_SEPARATION,
+    bend_radius: float = 0.0001,
     link_dummy_ports=False,
-    route_filter=connect_elec_waypoints,
+    route_filter: Callable = connect_elec_waypoints,
     **kwargs,
-):
+) -> List[ComponentReference]:
+    """
+    Args:
+        ports1: first list of ports
+        ports2: second list of ports
+        separation: minimum separation between two waveguides
+        axis: specifies "X" or "Y"
+              X (resp. Y) -> indicates that the ports should be sorted and
+             compared using the X (resp. Y) axis
+        bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
+        route_filter: filter to apply to the manhattan waypoints
+            e.g `connect_strip_way_points` for deep etch strip waveguide
+
+        end_straight_offset: offset to add at the end of each waveguide
+        sort_ports: * True -> sort the ports according to the axis.
+                    * False -> no sort applied
+        compute_array_separation_only: If True, returns the min distance which should be used between the two arrays instead of returning the connectors. Useful for budgeting space before instantiating other components.
+
+    Returns:
+        list of references of the electrical routes
+    """
     if link_dummy_ports:
         new_ports1 = ports1
         new_ports2 = ports2
