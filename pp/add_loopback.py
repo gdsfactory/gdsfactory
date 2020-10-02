@@ -16,10 +16,18 @@ def gen_loopback(
     y_bot_align_route=None,
 ):
     """
-    Add a loopback w.r.t a start port and and end port
+    Add a loopback (grating coupler align reference) to a start port and and end port
     Input grating generated on the left of start_port
     Output grating generated on the right of end_port
+
+    .. code::
+        __________________________________________
+        | separation  |            |              |
+        |             |            |              |
+       GC          start_port  end_port          GC
     """
+
+    gc = gc() if callable(gc) else gc
 
     if hasattr(start_port, "y"):
         y0 = start_port.y
@@ -64,3 +72,11 @@ def gen_loopback(
     loop_back = round_corners(route, bend90, waveguide_factory)
     elements = [gca1, gca2, loop_back]
     return elements
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = waveguide()
+    c.add(gen_loopback(c.ports["W0"], c.ports["E0"], gc=pp.c.grating_coupler_te))
+    pp.show(c)

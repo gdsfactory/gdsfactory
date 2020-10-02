@@ -3,6 +3,7 @@
 """
 import numpy as np
 from pp.layers import LAYER, port_type2layer
+from pp.port import read_port_markers
 import pp
 
 
@@ -172,7 +173,25 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
     )
 
 
+def test_add_pins():
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    add_pins(component)
+
+    port_layer = port_type2layer["optical"]
+    port_markers = read_port_markers(component, [port_layer])
+    assert len(port_markers.polygons) == 4
+
+    port_layer = port_type2layer["dc"]
+    port_markers = read_port_markers(component, [port_layer])
+    assert len(port_markers.polygons) == 3
+
+    # for port_layer, port_type in port_layer2type.items():
+    #     port_markers = read_port_markers(component, [port_layer])
+    #     print(len(port_markers.polygons))
+
+
 if __name__ == "__main__":
+    test_add_pins()
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers
@@ -182,6 +201,6 @@ if __name__ == "__main__":
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
     # c = pp.c.waveguide()
-    c = pp.c.crossing(pins=True)
+    # c = pp.c.crossing(pins=True)
     # add_pins(c)
-    pp.show(c)
+    # pp.show(c)

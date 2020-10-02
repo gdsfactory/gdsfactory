@@ -21,7 +21,15 @@ def add_ports_from_markers_center(
     port_type2layer=port_type2layer,
     inside: bool = False,
 ):
-    """markers at port center, so half of the marker goes inside and half ouside the port
+    """ add ports from polygons in certain layers
+
+    markers at port center, so half of the marker goes inside and half ouside the port
+
+    Args:
+        component: to read polygons from and to write ports to
+        port_layer2type: dict of layer to port_type
+        port_type2layer: dict of port_type to layer
+        inside: True-> markers  inside. False-> markers at center
 
     .. code::
            _______________
