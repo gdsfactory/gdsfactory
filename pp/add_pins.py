@@ -2,7 +2,7 @@
 
 """
 import numpy as np
-from pp.layers import LAYER
+from pp.layers import LAYER, port_type2layer
 import pp
 
 
@@ -43,8 +43,20 @@ def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
 def add_pin_square_inside(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
-    """
-    square inside
+    """ square towards the inside of the port
+
+    .. code::
+           _______________
+          |               |
+          |               |
+          |               |
+          ||              |
+          ||              |
+          |               |
+          |      __       |
+          |_______________|
+
+
     """
     p = port
     a = p.orientation
@@ -71,8 +83,20 @@ def add_pin_square_inside(
 def add_pin_square(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.PORT
 ):
-    """
-    half out
+    """ half out
+
+    .. code::
+           _______________
+          |               |
+          |               |
+          |               |
+         |||              |
+         |||              |
+          |               |
+          |      __       |
+          |_______________|
+                 __
+
     """
     p = port
     a = p.orientation
@@ -112,21 +136,27 @@ def add_outline(component, layer=LAYER.DEVREC):
 
 
 def add_pins(
-    component, add_port_marker_function=add_pin_square, layer=LAYER.PORT, **kwargs,
+    component,
+    add_port_marker_function=add_pin_square,
+    port_type2layer=port_type2layer,
+    **kwargs,
 ):
-
     """ add port markers:
 
-    - rectangle
-    - triangle
+    Args:
+        component: to add ports
+        add_port_marker_function:
+        port_type2layer: dict mapping port types to marker layers for ports
 
     Add device recognition layer
-
     """
 
     if hasattr(component, "ports") and component.ports:
         for p in component.ports.values():
-            add_port_marker_function(component=component, port=p, layer=layer, **kwargs)
+            layer = port_type2layer[p.port_type]
+            add_port_marker_function(
+                component=component, port=p, layer=layer, label_layer=layer, **kwargs
+            )
 
 
 def add_pins_and_outline(

@@ -40,6 +40,7 @@ class Layer:
     FLOORPLAN = (600, 0)
     TEXT = (66, 0)
     PORT = (1, 10)
+    PORTE = (69, 0)
     LABEL = (201, 0)
     INFO_GEO_HASH = (202, 0)
     polarization_te = (203, 0)
@@ -105,6 +106,10 @@ layer2material = {
     LAYER.WGCLAD: "sio2",
     LAYER.WGN: "sin",
 }
+
+port_layer2type = {LAYER.PORT: "optical", LAYER.PORTE: "dc"}
+
+port_type2layer = {v: k for k, v in port_layer2type.items()}
 
 
 def get_gds_layers(device):
