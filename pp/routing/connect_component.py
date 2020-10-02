@@ -31,7 +31,7 @@ def add_io_optical(
     get_input_labels_function: Callable = get_input_labels,
     **kwargs,
 ) -> Component:
-    """ returns component with optical IO (tapers, south routes and grating_couplers)
+    """returns component with optical IO (tapers, south routes and grating_couplers)
 
     Args:
         component: to connect
@@ -89,13 +89,18 @@ def add_io_optical(
     cc.function_name = "add_io_optical"
 
     port_width_gc = list(gc.ports.values())[0].width
-    port_width_component = list(c.ports.values())[0].width
+
+    optical_ports = c.get_optical_ports()
+    port_width_component = optical_ports[0].width
 
     if port_width_component != port_width_gc:
         c = add_tapers(
             c,
             taper_factory(length=10, width1=port_width_gc, width2=port_width_component),
         )
+
+    # for pn, p in c.ports.items():
+    #     print(p.name, p.port_type, p.layer)
 
     elements, io_gratings_lines, _ = get_route_factory(
         component=c,
@@ -113,6 +118,10 @@ def add_io_optical(
         cc.add(io_gratings)
     cc.add(c.ref())
     cc.move(origin=io_gratings_lines[0][0].ports[gc_port_name], destination=(0, 0))
+
+    for pname, p in c.ports.items():
+        if p.port_type != "optical":
+            cc.add_port(pname, port=p)
 
     return cc
 

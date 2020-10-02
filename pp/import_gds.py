@@ -20,8 +20,9 @@ def add_ports_from_markers_center(
     port_layer2type=port_layer2type,
     port_type2layer=port_type2layer,
     inside: bool = False,
+    tol=0.1,
 ):
-    """ add ports from polygons in certain layers
+    """add ports from polygons in certain layers
 
     markers at port center, so half of the marker goes inside and half ouside the port
 
@@ -51,10 +52,18 @@ def add_ports_from_markers_center(
         y > yc: north
         y < yc: south
 
+    dx = dy
+        x > xc: east
+        x < xc: west
+
     """
     i = 0
     xc = component.x
     yc = component.y
+    xmax = component.xmax
+    xmin = component.xmin
+    ymax = component.ymax
+    ymin = component.ymin
 
     for port_layer, port_type in port_layer2type.items():
         port_markers = read_port_markers(component, [port_layer])
@@ -65,6 +74,10 @@ def add_ports_from_markers_center(
             x = p.x
             y = p.y
             layer = port_type2layer[port_type]
+            pxmax = p.xmax
+            pxmin = p.xmin
+            pymax = p.ymax
+            pymin = p.ymin
 
             if dx < dy and x > xc:  # east
                 orientation = 0
@@ -86,6 +99,24 @@ def add_ports_from_markers_center(
                 width = dx
                 if inside:
                     y = p.ymin
+            # port markers have same width and height
+            # check which edge (E, W, N, S) they are closer to
+            elif pxmax > xmax - tol:  # east
+                orientation = 0
+                width = dy
+                x = p.xmax
+            elif pxmin < xmin + tol:  # west
+                orientation = 180
+                width = dy
+                x = p.xmin
+            elif pymax > ymax - tol:  # north
+                orientation = 90
+                width = dx
+                y = p.ymax
+            elif pymin < ymin + tol:  # south
+                orientation = 270
+                width = dx
+                y = p.ymin
             else:
                 raise ValueError(f"port marker x={x} y={y}, dx={dx}, dy={dy}")
 
