@@ -1,6 +1,6 @@
-import functools
 from typing import Callable
-from typing import Any, List, Optional, Tuple, Dict
+from typing import Any, List, Optional, Tuple, Dict, Union
+import functools
 from copy import deepcopy
 import csv
 import numpy as np
@@ -161,7 +161,7 @@ def is_electrical_port(port):
     return port.port_type in ["dc", "rf"]
 
 
-def select_ports(ports, port_type: str):
+def select_ports(ports, port_type: Union[str, Tuple[int, int]]):
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
@@ -178,7 +178,11 @@ def select_ports(ports, port_type: str):
     if isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = ports.ports
 
-    return {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
+    return {
+        p_name: p
+        for p_name, p in ports.items()
+        if p.port_type == port_type or p.layer == port_type
+    }
 
 
 def select_heater_ports(ports):
