@@ -1,4 +1,8 @@
 function_name: pad_array
+height: 100
+layer:
+- 49
+- 0
 module: pp.components.electrical.pad
 n: 6
 name: pad_array
@@ -10,3 +14,4 @@ spacing:
 start:
 - 0
 - 0
+width: 100

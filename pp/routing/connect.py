@@ -104,24 +104,20 @@ def connect_strip_way_points_no_taper(*args, **kwargs):
 
 def connect_elec_waypoints(
     way_points=[],
-    bend_factory=bend_circular,
-    straight_factory=waveguide,
+    bend_factory=corner,
+    straight_factory=wire,
     taper_factory=taper_factory,
-    bend_radius=10.0,
-    wg_width=0.5,
-    layer=LAYER.WG,
+    wg_width=10.0,
+    layer=LAYER.M3,
     **kwargs
 ):
+    """ connect way_points with electrical traces
+    """
 
-    bend90 = bend_factory(width=wg_width, radius=bend_radius, layer=layer)
+    bend90 = bend_factory(width=wg_width, layer=layer)
 
     def _straight_factory(length=10.0, width=wg_width):
         return straight_factory(length=length, width=width, layer=layer)
-
-    if "bend_radius" in kwargs:
-        bend_radius = kwargs.pop("bend_radius")
-    else:
-        bend_radius = 10
 
     connector = round_corners(way_points, bend90, _straight_factory, taper=None)
     return connector
