@@ -1,5 +1,5 @@
 function_name: pad_array
-height: 100
+height: 100.0
 layer:
 - 49
 - 0
@@ -9,9 +9,6 @@ name: pad_array
 port_list:
 - N
 spacing:
-- 150
-- 0
-start:
-- 0
-- 0
-width: 100
+- 150.0
+- 0.0
+width: 100.0

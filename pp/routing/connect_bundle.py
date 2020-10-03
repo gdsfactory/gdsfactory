@@ -28,12 +28,16 @@ def connect_bundle(
     extension_length=0,
     **kwargs,
 ):
-    """ Connects a bungle of ports using river routing.
+    """ Connects bundle of ports using river routing.
     Chooses the correct u_bundle to use based on port angles
 
     Args:
         start_ports should all be facing in the same direction
         end_ports should all be facing in the same direction
+        route_filter: function to connect
+        separation: waveguide separation
+        bend_radius: for the routes
+        extension_length: adds waveguide extension
 
     """
     # Accept dict ot list
