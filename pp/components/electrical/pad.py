@@ -15,7 +15,8 @@ def pad(
 
     Args:
         width: pad width
-        height: pad
+        height: pad height
+        layer: pad layer
 
 
     .. plot::
@@ -38,29 +39,30 @@ def pad(
 @autoname
 def pad_array(
     pad: Callable = pad,
-    start: Tuple[int, int] = (0, 0),
-    spacing: Tuple[int, int] = (150, 0),
+    spacing: Tuple[int, int] = (150.0, 0.0),
     n: int = 6,
     port_list: List[str] = ["N"],
-    width: int = 100,
-    height: int = 100,
+    width: float = 100.0,
+    height: float = 100.0,
     layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
     """array of rectangular pads
 
     Args:
         pad: pad element
-        start: start coordinate
         spacing: (x, y) spacing
         n: number of pads
         port_list: list of port orientations (N, S, W, E) per pad
+        width: pad width
+        height: pad height
+        layer: pad layer
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.pad_array(pad=pp.c.pad, start=(0, 0), spacing=(150, 0), n=6, port_list=["N"])
+      c = pp.c.pad_array(pad=pp.c.pad, spacing=(150, 0), n=6, port_list=["N"])
       pp.plotgds(c)
 
     """
@@ -74,16 +76,16 @@ def pad_array(
             port_name_new = "{}{}".format(port_name, i)
             c.add_port(port=p.ports[port_name], name=port_name_new)
 
-    c.move(start)
     return c
 
 
 if __name__ == "__main__":
     import pp
 
-    # c = pad()
+    c = pad()
+    print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    c = pad_array()
+    # c = pad_array()
     pp.show(c)

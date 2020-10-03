@@ -1,3 +1,4 @@
+from typing import Any, Callable, List, Optional, Tuple, Union
 import numpy as np
 import phidl.device_layout as pd
 from pp.routing.connect import get_waypoints_connect_strip
@@ -7,7 +8,6 @@ from pp.routing.utils import flip
 from pp.config import conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
-from typing import Any, Callable, List, Optional, Tuple, Union
 
 
 def route_south(
@@ -22,7 +22,7 @@ def route_south(
 ) -> Union[Tuple[List[Any], List[Port]], Tuple[List[ComponentReference], List[Port]]]:
     """
     Args:
-        component: The component to be connected
+        component: component to route
         bend_radius
         optical_routing_type: routing heuristic ``1`` or ``2`` (see below)
         excluded_ports=[]: list of port names to NOT route
