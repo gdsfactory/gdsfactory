@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple
+from typing import Callable, Tuple
 import phidl.device_layout as pd
 from pp.config import call_if_func
 from pp.routing.connect_component import add_io_optical
@@ -18,7 +18,6 @@ def add_fiber_single(
     component: Component,
     grating_coupler: Callable = grating_coupler_te,
     layer_label: Tuple[int, int] = LAYER.LABEL,
-    input_port_indexes: List[int] = [0],
     optical_io_spacing: int = 50,
     bend_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
@@ -56,7 +55,6 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         layer_label: LAYER.LABEL
-        input_port_indexes: [0]
         component_name: for the label
         taper_factory: taper
 
@@ -95,7 +93,7 @@ def add_fiber_single(
         wg = c << straight_factory(length=length)
         wg.rotate(90)
         wg.xmax = (
-            c.xmin
+            c.xmin - optical_io_spacing
             if abs(c.xmin) > abs(optical_io_spacing)
             else c.xmin - optical_io_spacing
         )
