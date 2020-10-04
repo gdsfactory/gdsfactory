@@ -1,58 +1,61 @@
 from pp.container import container
 from pp.component import Component
-from pp.components.electrical.pad import pad
-from pp.routing.connect_electrical import connect_electrical_shortest_path
+from pp.routing.route_pad_array import route_pad_array
+from pp.rotate import rotate
 
 
 @container
-def add_electrical_pads(component, pad=pad, pad_port_spacing=50, **kwargs):
-    """add a pad to each closest electrical port
+def add_electrical_pads(component: Component, rotation=180, **kwargs):
+    """add compnent with top electrical pads and routes
     Args:
-        component:
-        pad: pad element or function
-        pad_port_spacing: between pad and port
-        width: pad width
-        height: pad height
-        layer: pad layer
+        component: Component,
+        pad_spacing: float = 150.,
+        pad: Callable = pad,
+        fanout_length: Optional[int] = None,
+        max_y0_optical: None = None,
+        waveguide_separation: float = 4.0,
+        bend_radius: float = 0.1,
+        connected_port_list_ids: None = None,
+        n_ports: int = 1,
+        excluded_ports: List[Any] = [],
+        pad_indices: None = None,
+        route_filter: Callable = connect_elec_waypoints,
+        port_name: str = "W",
+        pad_rotation: int = -90,
+        x_pad_offset: int = 0,
+        port_labels: None = None,
+        select_ports: Callable = select_electrical_ports,
 
     """
-    c = Component(f"{component}_e")
-    ports = component.get_electrical_ports()
-    c << component
 
-    pad = pad(**kwargs) if callable(pad) else pad
-    pad_port_spacing += pad.settings["width"] / 2
+    c = Component(f"{component.name}_pad")
 
-    for port in ports:
-        p = c << pad
-        if port.orientation == 0:
-            p.x = port.x + pad_port_spacing
-            p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["W"]))
-        elif port.orientation == 180:
-            p.x = port.x - pad_port_spacing
-            p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["E"]))
-        elif port.orientation == 90:
-            p.y = port.y + pad_port_spacing
-            p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["S"]))
-        elif port.orientation == 270:
-            p.y = port.y - pad_port_spacing
-            p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["N"]))
+    cr = component.rotate(rotation)
 
-    c.ports = component.ports
-    for port in ports:
-        c.ports.pop(port.name)
-    return c
+    elements, pads, _ = route_pad_array(component=cr, **kwargs,)
+
+    c << cr
+    for e in elements:
+        c.add(e)
+    for e in pads:
+        c.add(e)
+
+    for pname, p in cr.ports.items():
+        if p.port_type == "optical":
+            c.add_port(pname, port=p)
+
+    return rotate(c, -rotation)
 
 
 if __name__ == "__main__":
     import pp
 
     c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
+    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.c.waveguide_heater()
     c.move((20, 50))
-    cc = add_electrical_pads(c)
+    cc = add_electrical_pads(c, fanout_length=100)
+    print(cc.ports)
 
-    pp.show(cc)
+    ccc = pp.routing.add_fiber_array(cc)
+    pp.show(ccc)
