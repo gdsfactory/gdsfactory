@@ -50,6 +50,10 @@ def connect_electrical_pads_top(component, **kwargs):
     ports_pads = list(pads.ports.values())
     for p1, p2 in zip(ports_pads, ports):
         c.add(connect_electrical_shortest_path(p1, p2))
+
+    c.ports = component.ports
+    for port in ports:
+        c.ports.pop(port.name)
     return c
 
 
@@ -75,22 +79,25 @@ def connect_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **
     for port in ports:
         p = c << pad
         if port.orientation == 0:
-            p.movex(port.x + pad_port_spacing)
+            p.x = port.x + pad_port_spacing
             p.y = port.y
             c.add(connect_electrical_shortest_path(port, p.ports["W"]))
         elif port.orientation == 180:
-            p.movex(port.x - pad_port_spacing)
+            p.x = port.x - pad_port_spacing
             p.y = port.y
             c.add(connect_electrical_shortest_path(port, p.ports["E"]))
         elif port.orientation == 90:
-            p.movey(port.y + pad_port_spacing)
+            p.y = port.y + pad_port_spacing
             p.x = port.x
             c.add(connect_electrical_shortest_path(port, p.ports["S"]))
         elif port.orientation == 270:
-            p.movey(port.y - pad_port_spacing)
+            p.y = port.y - pad_port_spacing
             p.x = port.x
             c.add(connect_electrical_shortest_path(port, p.ports["N"]))
 
+    c.ports = component.ports
+    for port in ports:
+        c.ports.pop(port.name)
     return c
 
 
@@ -128,10 +135,11 @@ def demo2():
 if __name__ == "__main__":
     import pp
 
-    # c = pp.c.mzi2x2(with_elec_connections=True)
-    # cc = connect_electrical_pads_top(c)
+    c = pp.c.mzi2x2(with_elec_connections=True)
+    cc = connect_electrical_pads_top(c)
 
-    c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c.move((20, 50))
-    cc = connect_electrical_pads_shortest(c)
+    # c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
+    # c.move((20, 50))
+    # cc = connect_electrical_pads_shortest(c)
+
     pp.show(cc)
