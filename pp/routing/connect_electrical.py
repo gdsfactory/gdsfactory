@@ -1,7 +1,5 @@
 import uuid
 from pp.component import Component
-from pp.container import container
-from pp.components.electrical.pad import pad_array, pad
 
 
 def connect_electrical_shortest_path(port1, port2):
@@ -29,94 +27,9 @@ def connect_electrical_shortest_path(port1, port2):
     return c.ref()
 
 
-@container
-def connect_electrical_pads_top(component, **kwargs):
-    """connects component electrical ports with pad array at the top
-
-    Args:
-        component:
-        pad: pad element
-        spacing: pad array (x, y) spacing
-        width: pad width
-        height: pad height
-        layer: pad layer
-    """
-    c = Component(f"{component}_e")
-    ports = component.get_electrical_ports()
-    c << component
-    pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
-    pads.x = component.x
-    pads.y = component.ymax + 100
-    ports_pads = list(pads.ports.values())
-    for p1, p2 in zip(ports_pads, ports):
-        c.add(connect_electrical_shortest_path(p1, p2))
-
-    c.ports = component.ports
-    for port in ports:
-        c.ports.pop(port.name)
-    return c
-
-
-@container
-def connect_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **kwargs):
-    """add a pad to each closest electrical port
-    Args:
-        component:
-        pad: pad element or function
-        pad_port_spacing: between pad and port
-        width: pad width
-        height: pad height
-        layer: pad layer
-
-    """
-    c = Component(f"{component}_e")
-    ports = component.get_electrical_ports()
-    c << component
-
-    pad = pad(**kwargs) if callable(pad) else pad
-    pad_port_spacing += pad.settings["width"] / 2
-
-    for port in ports:
-        p = c << pad
-        if port.orientation == 0:
-            p.x = port.x + pad_port_spacing
-            p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["W"]))
-        elif port.orientation == 180:
-            p.x = port.x - pad_port_spacing
-            p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["E"]))
-        elif port.orientation == 90:
-            p.y = port.y + pad_port_spacing
-            p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["S"]))
-        elif port.orientation == 270:
-            p.y = port.y - pad_port_spacing
-            p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["N"]))
-
-    c.ports = component.ports
-    for port in ports:
-        c.ports.pop(port.name)
-    return c
-
-
-def demo():
+if __name__ == "__main__":
     import pp
-
-    c = Component()
-    p = pad()
-    p1 = p.ref(position=(0, 0))
-    p2 = p.ref(position=(200, 0))
-    c.add(p1)
-    c.add(p2)
-    route = connect_electrical_shortest_path(port1=p1.ports["E"], port2=p2.ports["W"])
-    c.add(route)
-    pp.show(c)
-
-
-def demo2():
-    import pp
+    from pp.components.electrical.pad import pad_array
 
     c = Component("mzi_with_pads")
     mzi = pp.c.mzi2x2(with_elec_connections=True)
@@ -130,16 +43,3 @@ def demo2():
     for p1, p2 in zip(ports_pads, ports_mzi):
         c.add(connect_electrical_shortest_path(p1, p2))
     pp.show(c)
-
-
-if __name__ == "__main__":
-    import pp
-
-    c = pp.c.mzi2x2(with_elec_connections=True)
-    cc = connect_electrical_pads_top(c)
-
-    # c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    # c.move((20, 50))
-    # cc = connect_electrical_pads_shortest(c)
-
-    pp.show(cc)

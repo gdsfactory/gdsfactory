@@ -13,11 +13,14 @@ from pp.routing.manhattan import round_corners, route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_fiber_single import route_fiber_single
 from pp.routing.route_ports_to_side import route_elec_ports_to_side, route_ports_to_side
-from pp.routing.connect_electrical import connect_electrical_pads_top
-from pp.routing.connect_electrical import connect_electrical_pads_shortest
+from pp.routing.add_electrical_pads_top import add_electrical_pads_top
+from pp.routing.add_electrical_pads import add_electrical_pads
+from pp.routing.add_fiber_array import add_fiber_array
+from pp.routing.add_fiber_single import add_fiber_single
 
 __all__ = [
     "add_io_optical",
+    "add_fiber_array",
     "connect_bundle",
     "connect_strip",
     "connect_strip_way_points",
@@ -30,8 +33,10 @@ __all__ = [
     "route_manhattan",
     "route_ports_to_side",
     "route_ports_to_side",
-    "connect_electrical_pads_top",
-    "connect_electrical_pads_shortest",
+    "add_electrical_pads_top",
+    "add_electrical_pads",
+    "add_fiber_array",
+    "add_fiber_single",
 ]
 
 if __name__ == "__main__":
