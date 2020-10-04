@@ -1,11 +1,11 @@
 from typing import Any, Callable, List, Tuple, Union
+from phidl.device_layout import Label
 import pp
 from pp.rotate import rotate
 from pp.routing.connect_component import route_fiber_array
 
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from phidl.device_layout import Label
 from pp.component import Component, ComponentReference
 
 
