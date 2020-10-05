@@ -1,3 +1,7 @@
+from typing import Any, Callable, List, Optional, Tuple, Union
+from numpy import float64
+from phidl.device_layout import Label
+from pp.component import Component, ComponentReference
 from pp.layers import LAYER
 from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
@@ -14,11 +18,8 @@ from pp.routing.utils import direction_ports_from_list_ports
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.connect import get_waypoints_connect_strip
 from pp.routing.get_input_labels import get_input_labels
+from pp.port import select_optical_ports
 import pp
-from numpy import float64
-from phidl.device_layout import Label
-from pp.component import Component, ComponentReference
-from typing import Any, Callable, List, Optional, Tuple, Union
 
 SPACING_GC = 127.0
 BEND_RADIUS = pp.conf.tech.bend_radius
@@ -53,6 +54,7 @@ def route_fiber_array(
     taper_factory: Callable = taper,
     route_factory: Callable = route_south,
     get_input_labels_function: Callable = get_input_labels,
+    select_optical_ports: Callable = select_optical_ports,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -87,7 +89,11 @@ def route_fiber_array(
         elements, io_grating_lines, y0_optical
     """
     if optical_port_labels is None:
-        optical_ports = component.get_optical_ports()
+        # for pn, p in component.ports.items():
+        #     print(p.name, p.port_type, p.layer)
+        # optical_ports = component.get_optical_ports()
+        optical_ports = list(select_optical_ports(component.ports).values())
+        # print(optical_ports)
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
 

@@ -50,7 +50,7 @@ def test_cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
         "P": (pm_wg, "W0", "E0"),
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W1", "E1"),
+        "H": (wg_heater, "W0", "E0"),
         "-": (wg_short2, "W0", "E0"),
     }
 

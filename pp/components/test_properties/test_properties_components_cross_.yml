@@ -5,4 +5,5 @@ layer:
 length: 10.0
 module: pp.components.cross
 name: cross
+port_type: optical
 width: 3.0

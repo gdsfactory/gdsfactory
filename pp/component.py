@@ -1,5 +1,6 @@
 import itertools
 import uuid
+import copy as python_copy
 import json
 import pathlib
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -13,10 +14,52 @@ from phidl.device_layout import Device
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
-from pp.port import Port, select_optical_ports, select_electrical_ports
+from pp.port import Port, select_optical_ports, select_electrical_ports, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
 from pp.name import dict2hash
+
+
+def copy(D):
+    """Copies a Component.
+
+    Parameters
+    ----------
+    D : Device
+        Device to be copied.
+
+    Returns
+    -------
+    D_copy : Device
+        Copied Device.
+    """
+    D_copy = Component(name=D._internal_name)
+    D_copy.info = python_copy.deepcopy(D.info)
+    for ref in D.references:
+        new_ref = ComponentReference(
+            ref.parent,
+            origin=ref.origin,
+            rotation=ref.rotation,
+            magnification=ref.magnification,
+            x_reflection=ref.x_reflection,
+        )
+        new_ref.owner = D_copy
+        D_copy.add(new_ref)
+        for alias_name, alias_ref in D.aliases.items():
+            if alias_ref == ref:
+                D_copy.aliases[alias_name] = new_ref
+
+    for port in D.ports.values():
+        D_copy.add_port(port=port)
+    for poly in D.polygons:
+        D_copy.add_polygon(poly)
+    for label in D.labels:
+        D_copy.add_label(
+            text=label.text,
+            position=label.position,
+            layer=(label.layer, label.texttype),
+        )
+    return D_copy
 
 
 class SizeInfo:
@@ -428,8 +471,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(self, port: str, destination: Port, overlap: float = 0):
-        """ returns ComponentReference
-        """
+        """returns ComponentReference"""
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -592,14 +634,20 @@ class Component(Device):
         dirpath.mkdir(exist_ok=True, parents=True)
         return dirpath / f"{self.get_name_long()}_{height_nm}.dat"
 
-    def get_optical_ports(self) -> List[Port]:
-        """ returns a lit of optical ports """
-        return list(select_optical_ports(self.ports).values())
-
     def ports_on_grid(self) -> None:
         """ asserts if all ports ar eon grid """
         for port in self.ports.values():
             port.on_grid()
+
+    def get_optical_ports(self, prefix=None) -> List[Port]:
+        """ returns a lit of optical ports """
+        return list(select_optical_ports(self.ports).values())
+
+    def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
+        """ returns a lit of  ports """
+        return list(
+            select_ports(self.ports, port_type=port_type, prefix=prefix).values()
+        )
 
     def get_ports_array(self) -> Dict[str, ndarray]:
         """ returns ports as a dict of np arrays"""
@@ -854,6 +902,9 @@ class Component(Device):
                         new_labels += [label]
                 D.labels = new_labels
         return self
+
+    def copy(self):
+        return copy(self)
 
     @property
     def size_info(self) -> SizeInfo:

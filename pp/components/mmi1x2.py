@@ -17,7 +17,7 @@ def mmi1x2(
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
 ) -> Component:
-    """ mmi 1x2
+    """mmi 1x2
 
     Args:
         wg_width: input waveguides width
@@ -110,11 +110,12 @@ def mmi1x2_biased(
 
 
 if __name__ == "__main__":
-    c = mmi1x2()
+    c = mmi1x2(pins=True)
     print(c.ports)
     # print(c.get_ports_array())
     # c = mmi1x2_biased()
     # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
+    pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
     pp.show(c)
     # print(c.get_settings())

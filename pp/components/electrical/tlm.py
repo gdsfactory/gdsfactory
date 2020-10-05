@@ -1,49 +1,48 @@
-from numpy import floor
-import pp
-from pp.component import Component
 from typing import Any, List, Tuple
+from numpy import floor
+from pp.layers import LAYER
+from pp.name import autoname
+from pp.component import Component
 
 
-@pp.autoname
-def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=pp.LAYER.VIA1):
+@autoname
+def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
+    """ Rectangular via
     """
-    Square via
-    """
-
-    cmp = pp.Component()
-    cmp.info["period"] = period
-    cmp.info["clearance"] = clearance
-    cmp.info["width"] = width
-    cmp.info["height"] = height
+    c = Component()
+    c.info["period"] = period
+    c.info["clearance"] = clearance
+    c.info["width"] = width
+    c.info["height"] = height
 
     a = width / 2
     b = height / 2
 
-    cmp.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+    c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
-    return cmp
+    return c
 
 
-@pp.autoname
+@autoname
 def via1(**kwargs):
-    return via(layer=pp.LAYER.VIA1, **kwargs)
+    return via(layer=LAYER.VIA1, **kwargs)
 
 
-@pp.autoname
+@autoname
 def via2(**kwargs):
-    return via(layer=pp.LAYER.VIA2, **kwargs)
+    return via(layer=LAYER.VIA2, **kwargs)
 
 
-@pp.autoname
+@autoname
 def via3(**kwargs):
-    return via(layer=pp.LAYER.VIA3, **kwargs)
+    return via(layer=LAYER.VIA3, **kwargs)
 
 
-@pp.autoname
+@autoname
 def tlm(
     width: float = 11.0,
     height: float = 11.0,
-    layers: List[Tuple[int, int]] = [pp.LAYER.M1, pp.LAYER.M2, pp.LAYER.M3],
+    layers: List[Tuple[int, int]] = [LAYER.M1, LAYER.M2, LAYER.M3],
     vias: List[Any] = [via2, via3],
 ) -> Component:
     """
@@ -56,7 +55,7 @@ def tlm(
         vias: vias to use to fill the rectangles
 
     Returns
-        <pp.Component>
+        <Component>
     """
 
     # assert len(layers) - 1 == len(vias), "tlm: There should be N layers for N-1 vias"
@@ -65,22 +64,22 @@ def tlm(
     b = height / 2
     rect_pts = [(-a, -b), (a, -b), (a, b), (-a, b)]
 
-    cmp = pp.Component()
+    c = Component()
     # Add metal rectangles
     for layer in layers:
-        cmp.add_polygon(rect_pts, layer=layer)
+        c.add_polygon(rect_pts, layer=layer)
 
     # Add vias
     for via in vias:
-        via = pp.call_if_func(via)
+        via = via() if callable(via) else via
 
         w = via.info["width"]
         h = via.info["height"]
-        c = via.info["clearance"]
+        g = via.info["clearance"]
         period = via.info["period"]
 
-        nb_vias_x = (width - w - 2 * c) / period + 1
-        nb_vias_y = (height - h - 2 * c) / period + 1
+        nb_vias_x = (width - w - 2 * g) / period + 1
+        nb_vias_y = (height - h - 2 * g) / period + 1
 
         nb_vias_x = int(floor(nb_vias_x))
         nb_vias_y = int(floor(nb_vias_y))
@@ -93,11 +92,13 @@ def tlm(
 
         for i in range(nb_vias_x):
             for j in range(nb_vias_y):
-                cmp.add(via.ref(position=(x0 + i * period, y0 + j * period)))
+                c.add(via.ref(position=(x0 + i * period, y0 + j * period)))
 
-    return cmp
+    return c
 
 
 if __name__ == "__main__":
+    import pp
+
     c = tlm()
     pp.show(c)

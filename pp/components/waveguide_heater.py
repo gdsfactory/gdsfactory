@@ -1,20 +1,17 @@
+from typing import Callable, Dict, List, Tuple
 import numpy as np
 import pp
 from pp.name import autoname
 from pp.layers import LAYER
-from pp.port import Port, deco_rename_ports
+from pp.port import Port
+from pp.port import deco_rename_ports
 from pp.components.waveguide import waveguide
 from pp.components.hline import hline
 from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
 from pp.component import Component
-from typing import Callable, Dict, List, Tuple
 
 
-__version__ = "0.0.1"
-
-
-@deco_rename_ports
 @autoname
 def heater(
     length: float = 10.0,
@@ -84,7 +81,6 @@ def add_trenches(
     return c
 
 
-@deco_rename_ports
 @autoname
 def waveguide_heater(
     length: float = 10.0,
@@ -269,13 +265,14 @@ def wg_heater_connected(
 
     """
     wg_heater = waveguide_heater(**kwargs)
+    # print(wg_heater.ports.keys())
     conn1 = wg_heater_connector(
-        heater_ports=[wg_heater.ports["E0"], wg_heater.ports["E2"]],
+        heater_ports=[wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]],
         tlm_layers=tlm_layers,
     )
 
     conn2 = wg_heater_connector(
-        heater_ports=[wg_heater.ports["W0"], wg_heater.ports["W2"]],
+        heater_ports=[wg_heater.ports["HBW0"], wg_heater.ports["HTW0"]],
         tlm_layers=tlm_layers,
     )
 
@@ -284,13 +281,11 @@ def wg_heater_connected(
         _c = cmp.add_ref(c)
         cmp.absorb(_c)
 
-    for i, p in enumerate(wg_heater.get_optical_ports()):
-        cmp.add_port(name=i, port=p)
+    for port_name, p in wg_heater.ports.items():
+        cmp.add_port(name=port_name, port=p)
 
-    i += 1
-    cmp.add_port(name=i, port=conn1.ports["0"])
-    i += 1
-    cmp.add_port(name=i, port=conn2.ports["0"])
+    cmp.add_port(name=1, port=conn1.ports["0"])
+    cmp.add_port(name=2, port=conn2.ports["0"])
 
     return cmp
 
@@ -302,8 +297,12 @@ def _demo_waveguide_heater():
 
 if __name__ == "__main__":
     # print(c.get_optical_ports())
-    c = wg_heater_connected(length=100.0, width=0.5)
 
-    # c = waveguide_heater()
-    # c = wg_heater_connector(heater_ports=[c.ports["W0"], c.ports["W1"]])
+    c = waveguide_heater(pins=True)
+    # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
+    # c = wg_heater_connected(length=100.0, width=0.5)
+    print(c.ports.keys())
+    for p in c.ports.values():
+        print(p.name, p.port_type)
+
     pp.show(c)

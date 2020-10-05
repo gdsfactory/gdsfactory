@@ -21,6 +21,12 @@ class Layer:
     SLAB90 = (3, 0)
     DEEPTRENCH = (7, 0)
     WGN = (34, 0)
+    N = (20, 0)
+    Np = (22, 0)
+    Npp = (24, 0)
+    P = (21, 0)
+    Pp = (23, 0)
+    Ppp = (25, 0)
     HEATER = (47, 0)
     M1 = (41, 0)
     M2 = (45, 0)
@@ -34,6 +40,8 @@ class Layer:
     FLOORPLAN = (600, 0)
     TEXT = (66, 0)
     PORT = (1, 10)
+    PORTE = (69, 0)
+    PORTH = (70, 0)
     LABEL = (201, 0)
     INFO_GEO_HASH = (202, 0)
     polarization_te = (203, 0)
@@ -99,6 +107,10 @@ layer2material = {
     LAYER.WGCLAD: "sio2",
     LAYER.WGN: "sin",
 }
+
+port_layer2type = {LAYER.PORT: "optical", LAYER.PORTE: "dc", LAYER.PORTH: "heater"}
+
+port_type2layer = {v: k for k, v in port_layer2type.items()}
 
 
 def get_gds_layers(device):

@@ -1,16 +1,19 @@
-import functools
 from typing import Callable
-from typing import Any, List, Optional, Tuple, Dict
+from typing import Any, List, Optional, Tuple, Dict, Union
+import functools
 from copy import deepcopy
 import csv
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Port as PortPhidl
+from phidl.device_layout import Device
 from pp.drc import snap_to_grid
+
+port_types = ["optical", "rf", "dc", "heater"]
 
 
 class Port(PortPhidl):
-    """Extends phidl port by adding layer and a port_type (optical, electrical)
+    """Extends phidl port with layer and port_type (optical, dc, rf)
 
     Args:
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
@@ -132,17 +135,15 @@ class Port(PortPhidl):
             )
 
 
-def read_port_markers(gdspath, layer=69):
-    """loads a GDS and read port
+def read_port_markers(gdspath, layers=[(69, 0)]):
+    """loads a GDS and returns the extracted device for a particular layer
 
     Args:
-        gdspath:
+        gdspath: gdspath or Component
         layer: GDS layer
     """
-    D = pg.import_gds(gdspath)
-    D = pg.extract(D, layers=[layer])
-    for e in D.elements:
-        print(e.x, e.y)
+    D = gdspath if isinstance(gdspath, Device) else pg.import_gds(gdspath)
+    return pg.extract(D, layers=layers)
 
 
 def csv2port(csvpath):
@@ -162,7 +163,11 @@ def is_electrical_port(port):
     return port.port_type in ["dc", "rf"]
 
 
-def select_ports(ports, port_type: str):
+def select_ports(
+    ports,
+    port_type: Union[str, Tuple[int, int]] = "optical",
+    prefix: Optional[str] = None,
+):
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
@@ -179,38 +184,23 @@ def select_ports(ports, port_type: str):
     if isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = ports.ports
 
-    return {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
+    ports = {
+        p_name: p
+        for p_name, p in ports.items()
+        if p.port_type == port_type or p.layer == port_type
+    }
+    if prefix:
+        ports = {p_name: p for p_name, p in ports.items() if p_name.startswith(prefix)}
+    return ports
 
 
-def select_heater_ports(ports):
-    return select_ports(ports, port_type="heater")
+def select_optical_ports(ports: Dict[str, Port], prefix=None) -> Dict[str, Port]:
+    return select_ports(ports, port_type="optical", prefix=prefix)
 
 
-def select_optical_ports(ports: Dict[str, Port]) -> Dict[str, Port]:
-    return select_ports(ports, port_type="optical")
-
-
-def get_optical_ports(ports):
-    return select_optical_ports(ports)
-
-
-def select_electrical_ports(ports):
-    d = select_ports(ports, port_type="dc")
+def select_electrical_ports(ports, port_type="dc", prefix=None):
+    d = select_ports(ports, port_type=port_type, prefix=prefix)
     d.update(select_ports(ports, port_type="electrical"))
-    return d
-
-
-def select_dc_ports(ports):
-    return select_ports(ports, port_type="dc")
-
-
-def select_rf_ports(ports):
-    return select_ports(ports, port_type="rf")
-
-
-def select_superconducting_ports(ports):
-    d = select_ports(ports, port_type="detector")
-    d.update(select_ports(ports, port_type="superconducting"))
     return d
 
 
@@ -388,7 +378,25 @@ def auto_rename_ports(component: object) -> object:
     return component
 
 
+def test_select_ports_prefix():
+    import pp
+
+    c = pp.c.waveguide()
+    ports = c.get_ports_list(prefix="W")
+    assert len(ports) == 1
+
+
+def test_select_ports_type():
+    import pp
+
+    c = pp.c.mzi2x2(with_elec_connections=True)
+    ports = c.get_ports_list(port_type="dc")
+    assert len(ports) == 3
+
+
 if __name__ == "__main__":
+    test_select_ports_type()
+
     import pp
 
     name = "mmi1x2"

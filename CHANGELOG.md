@@ -9,13 +9,21 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
-## master
+## 1.4.0 2020-10-04
 
-- Works now for python3.6 and python3.7, before only working for python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/)
+- Works now for python>=3.6, before only worked for python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/)
 - nicer netlist representations (adding location to each node in the graph)
 - YAML loader accepts strings (no more io.StringIO)
 - better docs
-- works for python>=3.6
+- add_tapers only tapers optical ports in the new containered component
+- add_ports from polygon markers
+- add_io_optical maintains other ports
+- added single fiber routing capabilities (pp.routing.add_fiber_single)
+- added Component.copy()
+- added basic electrical routing capabilities
+    - pp.routing.add_electrical_pads
+    - pp.routing.add_electrical_pads_top
+    - pp.routing.add_electrical_pads_shortest
 
 ## 1.3.2 2020-08-15
 
