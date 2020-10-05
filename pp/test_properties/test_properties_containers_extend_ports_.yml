@@ -8,7 +8,7 @@ component:
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
 extension_factory: None
-function_name: null
+function_name: extend_ports
 input_port_ext: None
 length: 5
 name: mzi2x2_WECTrue_e
