@@ -36,6 +36,7 @@ def route_fiber_single(
 
     """
     component = component.copy()
+    component_copy = component.copy()
 
     if optical_port_labels is None:
         optical_ports = component.get_ports_list(port_type="optical")
@@ -62,20 +63,35 @@ def route_fiber_single(
     else:
         fanout_length = None
 
-    west_ports = [
-        p
-        for p in component.get_ports_list(port_type="optical")
-        if p.name.startswith("W")
-    ]
-    east_ports = [
-        p
-        for p in component.get_ports_list(port_type="optical")
-        if not p.name.startswith("W")
-    ]
+    """
+         _________
+        |         |_E1
+     W0_|         |
+        |         |_E0
+        |_________|
 
-    # add west input grating couplers
-    component.ports = {p.name: p for p in west_ports}
+    rotate +90 deg and route West ports to South
+
+          E1  E0
+         _|___|_
+        |       |
+        |       |
+        |       |
+        |       |
+        |       |
+        |       |
+        |_______|
+            |
+            W0
+
+    """
+    # route west ports to south
     component = component.rotate(90)
+    west_ports = component.get_ports_dict(prefix="W")
+    north_ports = {
+        p.name: p for p in component.ports.values() if not p.name.startswith("W")
+    }
+    component.ports = west_ports
 
     elements_south, gratings_south, _ = route_fiber_array(
         component=component,
@@ -87,9 +103,12 @@ def route_fiber_single(
         **kwargs
     )
 
-    # add EAST input grating couplers
-    component.ports = {p.name: p for p in east_ports}
-    component = component.rotate(-90)
+    # route north ports
+    component = component_copy.rotate(-90)
+    north_ports = {
+        p.name: p for p in component.ports.values() if not p.name.startswith("W")
+    }
+    component.ports = north_ports
 
     elements_north, gratings_north, _ = route_fiber_array(
         component=component,
@@ -122,7 +141,9 @@ if __name__ == "__main__":
     elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 
     cc = pp.Component()
-    cc << c.rotate(90)
+    cr = cc << c.rotate(90)
+    cr.x = 0
+    cr.y = 0
 
     for e in elements:
         cc.add(e)
