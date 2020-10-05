@@ -9,7 +9,6 @@
 # Packages
 *.egg
 *.egg-info
-*.yml
 dist
 doc_pdks/
 pdk_docs/

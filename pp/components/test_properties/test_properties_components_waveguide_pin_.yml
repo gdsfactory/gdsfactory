@@ -1,0 +1,37 @@
+cladding_offset: 3.0
+function_name: waveguide_pin
+layer:
+- 1
+- 0
+layer_n:
+- 20
+- 0
+layer_np:
+- 22
+- 0
+layer_npp:
+- 24
+- 0
+layer_p:
+- 21
+- 0
+layer_pp:
+- 23
+- 0
+layer_ppp:
+- 25
+- 0
+layers_cladding:
+- - 111
+  - 0
+length: 10.0
+module: pp.components.waveguide_pin
+name: waveguide_pin
+width: 0.5
+width_i: 0.0
+width_n: 1.0
+width_np: 1.0
+width_npp: 1.0
+width_p: 1.0
+width_pp: 1.0
+width_ppp: 1.0

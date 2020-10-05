@@ -1,0 +1,9 @@
+function_name: pads_shorted
+layer:
+- 41
+- 0
+module: pp.components.electrical.pads_shorted
+n_pads: 8
+name: pads_shorted
+pad_spacing: 150
+width: 100

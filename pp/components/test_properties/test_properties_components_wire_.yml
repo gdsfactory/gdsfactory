@@ -1,0 +1,8 @@
+function_name: wire
+layer:
+- 49
+- 0
+length: 50
+module: pp.components.electrical.wire
+name: wire
+width: 10.0
