@@ -1,18 +1,16 @@
 component:
-  cladding_offset: 3.0
-  layer:
-  - 1
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
-  length: 10.0
-  width: 0.5
-component_name: waveguide
+  CL_1: 20.147
+  DL: 7.38
+  L0: 60.0
+  L2: 10.0
+  bend_radius: 10.0
+  gap: 0.234
+  with_elec_connections: true
+component_name: mzi2x2_WECTrue
 extension_factory: None
 function_name: null
 input_port_ext: None
 length: 5
-name: waveguide_e
+name: mzi2x2_WECTrue_e
 output_port_ext: None
 port_list: None
