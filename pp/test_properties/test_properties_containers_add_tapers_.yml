@@ -7,7 +7,7 @@ component:
   gap: 0.234
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
-function_name: null
+function_name: add_tapers
 name: mzi2x2_WECTrue_t
 port_type: optical
 suffix: t

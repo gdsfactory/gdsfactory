@@ -108,7 +108,6 @@ def add_fiber_single(
     c = Component(name=name)
     cr = c << component
     cr.rotate(90)
-    c.function_name = "add_fiber_array"
 
     for e in elements:
         c.add(e)

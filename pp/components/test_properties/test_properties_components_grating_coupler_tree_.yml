@@ -1,7 +1,7 @@
 bend_radius: 10.0
 component: n_waveguides_waveguide_spacing_waveguide
 component_name: _grating_coupler_tree_73dc7b48
-function_name: grating_coupler_tree
+function_name: add_fiber_array
 gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array

@@ -16,7 +16,7 @@ component:
   y_straight_inner_top: 50.0
 component_name: spiral_inner_io
 excluded_ports: []
-function_name: null
+function_name: add_gratings_and_loop_back
 gc_port_name: None
 gc_rotation: -90
 grating_coupler: grating_coupler_te

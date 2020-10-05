@@ -8,7 +8,7 @@ component:
   gap: 0.234
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
-function_name: add_fiber_array
+function_name: add_fiber_single
 gc_port_name: W0
 grating_coupler: grating_coupler_te
 kwargs: _empty

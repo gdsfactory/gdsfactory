@@ -8,7 +8,7 @@ component:
   gap: 0.234
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
-function_name: null
+function_name: add_electrical_pads
 kwargs: _empty
 name: mzi2x2_WECTrue_pad_r
 rotation: 180
