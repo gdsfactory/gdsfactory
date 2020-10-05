@@ -12,9 +12,6 @@ from pp.components.extension import line
 from pp.component import Component
 
 
-__version__ = "0.0.1"
-
-
 @autoname
 def heater(
     length: float = 10.0,
@@ -147,11 +144,9 @@ def waveguide_heater(
 
     # Add heater ports
     for p in heater_top.ports.values():
-        p.port_type = "heater"
         c.add_port(name="HT" + p.name, port=p)
 
     for p in heater_bot.ports.values():
-        p.port_type = "heater"
         c.add_port(name="HB" + p.name, port=p)
 
     c.settings["width"] = width
