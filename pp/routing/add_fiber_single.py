@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     c = pp.c.crossing()
     c = pp.c.mmi2x2()
-    c = pp.c.ring_double()  # FIXME
+    c = pp.c.ring_double(length_y=3)  # FIXME
     c = pp.c.waveguide(width=2, length=500)
 
     cc = add_fiber_single(c)

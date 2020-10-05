@@ -147,6 +147,7 @@ def mzi(
         if port.angle == 0:
             c.add_port(name=f"E{i}", port=port)
             i += 1
+
     return c
 
 
@@ -157,6 +158,7 @@ if __name__ == "__main__":
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
     print(c.ports.keys())
+    print(c.ports["E0"].midpoint)
     pp.show(c)
     pp.qp(c)
     # print(c.get_settings())
