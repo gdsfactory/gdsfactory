@@ -80,7 +80,7 @@ def route_fiber_array(
             - nb_optical_ports_lines divides the total number of ports
             - the components have an equal number of inputs and outputs
         force_manhattan: in some instances, the port linker defaults to an S-bend due to lack of space to do manhattan. Force manhattan offsets all the ports to replace the s-bend by a straight link.  This fails if multiple ports have the same issue
-        excluded_ports: ports excluded
+        excluded_ports: ports excluded from routing
         grating_indices: allows to fine skip some grating slots e.g [0,1,4,5] will put two gratings separated by the pitch. Then there will be two empty grating slots, and after that an additional two gratings.
         route_filter: waveguide and bend factories
         gc_port_name: grating_coupler port name, where to route waveguides
@@ -88,7 +88,7 @@ def route_fiber_array(
         layer_label: for TM labels
         component_name: name of component
         x_grating_offset: x offset
-        optical_port_labels
+        optical_port_labels: port labels that need connection
         route_factory: factories for route
         get_input_labels_function: functions to add labels
         select_ports: function to select ports
@@ -420,7 +420,8 @@ if __name__ == "__main__":
     gctm = pp.c.grating_coupler_tm
 
     c = pp.c.mmi2x2()
-    # c = pp.c.waveguide()
+    c = pp.c.waveguide(length=500)
+    c.ports = c.select_ports(prefix="E")
 
     elements, gc, _ = route_fiber_array(c, grating_coupler=[gcte, gctm, gcte, gctm])
     for e in elements:

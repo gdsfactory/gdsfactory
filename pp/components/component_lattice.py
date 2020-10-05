@@ -128,7 +128,6 @@ def get_sequence_cross_str(waveguides_start, waveguides_end, iter_max=100):
     return component_sequence_to_str(seq)
 
 
-@pp.autoname
 def component_lattice(
     lattice="""
         C-X
@@ -137,6 +136,7 @@ def component_lattice(
         C-X
         """,
     components=None,
+    name="lattice",
 ):
     """
     A lattice of N inputs and outputs with components at given locations
@@ -170,7 +170,7 @@ def component_lattice(
 
     """
     components = components or {
-        "C": package_optical2x2(component=coupler, port_spacing=40.0),
+        "C": package_optical2x2(component=coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
@@ -203,7 +203,7 @@ def component_lattice(
     for c in components.keys():
         components_to_nb_input_ports[c] = len(get_ports_facing(components[c], "W"))
 
-    component = pp.Component()
+    component = pp.Component(name)
     x = 0
     for i in keys:
         col = columns[i]
@@ -272,13 +272,8 @@ def parse_lattice(lattice, components):
 
 
 def test_component_lattice():
-    import pp
-    from pp.routing.repackage import package_optical2x2
-    from pp.components.crossing_waveguide import crossing45
-    from pp.components.crossing_waveguide import compensation_path
-
     components = {
-        "C": package_optical2x2(component=pp.c.coupler, port_spacing=40.0),
+        "C": package_optical2x2(component=pp.c.coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
