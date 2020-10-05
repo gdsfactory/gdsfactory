@@ -99,7 +99,7 @@ def route_fiber_array(
     if optical_port_labels is None:
         # for pn, p in component.ports.items():
         #     print(p.name, p.port_type, p.layer)
-        # optical_ports = component.get_optical_ports()
+        # optical_ports = component.get_ports_list(port_type='optical')
         optical_ports = list(select_ports(component.ports).values())
         # print(optical_ports)
     else:
@@ -421,7 +421,7 @@ if __name__ == "__main__":
 
     c = pp.c.mmi2x2()
     c = pp.c.waveguide(length=500)
-    c.ports = c.select_ports(prefix="E")
+    c.ports = c.get_ports_dict(prefix="W")
 
     elements, gc, _ = route_fiber_array(c, grating_coupler=[gcte, gctm, gcte, gctm])
     for e in elements:

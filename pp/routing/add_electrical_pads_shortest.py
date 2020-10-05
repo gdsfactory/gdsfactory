@@ -17,7 +17,7 @@ def add_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **kwar
 
     """
     c = Component(f"{component}_e")
-    ports = component.get_electrical_ports()
+    ports = component.get_ports_list(port_type="dc")
     c << component
 
     pad = pad(**kwargs) if callable(pad) else pad

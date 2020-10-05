@@ -14,7 +14,7 @@ from phidl.device_layout import Device
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
-from pp.port import Port, select_optical_ports, select_electrical_ports, select_ports
+from pp.port import Port, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
 from pp.name import dict2hash
@@ -639,9 +639,9 @@ class Component(Device):
         for port in self.ports.values():
             port.on_grid()
 
-    def get_optical_ports(self, prefix=None) -> List[Port]:
-        """ returns a lit of optical ports """
-        return list(select_optical_ports(self.ports).values())
+    def get_ports_dict(self, port_type="optical", prefix=None):
+        """ returns a list of ports """
+        return select_ports(self.ports, port_type=port_type, prefix=prefix)
 
     def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
         """ returns a lit of  ports """
@@ -666,10 +666,6 @@ class Component(Device):
             for port_name, port in self.ports.items()
         }
         return ports_array
-
-    def get_electrical_ports(self):
-        """ returns a list of optical ports """
-        return list(select_electrical_ports(self.ports).values())
 
     def get_properties(self):
         """ returns name, uid, ports, aliases and numer of references """

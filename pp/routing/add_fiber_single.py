@@ -78,7 +78,7 @@ def add_fiber_single(
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
     port_width_gc = grating_coupler.ports[gc_port_name].width
-    optical_ports = component.get_optical_ports()
+    optical_ports = component.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
     if port_width_component != port_width_gc:
