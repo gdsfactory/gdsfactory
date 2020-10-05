@@ -296,4 +296,4 @@ if __name__ == "__main__":
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()
     # print(c.ports)
-    # c = pp.routing.add_io_optical(c)
+    # c = pp.routing.add_fiber_array(c)

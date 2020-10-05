@@ -72,6 +72,6 @@ def cross(
 
 if __name__ == "__main__":
     c = cross()
-    cc = pp.routing.add_io_optical(c)
+    cc = pp.routing.add_fiber_array(c)
     # print(c.ports)
     pp.show(cc)

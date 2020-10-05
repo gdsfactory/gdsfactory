@@ -2,7 +2,7 @@ import pp
 from pp.components import bend_circular
 from pp.components import waveguide
 from pp.components.component_sequence import component_sequence
-from pp.routing.connect_component import add_io_optical
+from pp.routing.add_fiber_array import add_fiber_array
 
 
 def _get_bend_size(bend90):
@@ -173,7 +173,7 @@ def cutback_bend180(
 def cutback_bend_circular(bend_radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=bend_radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)
-    cc = add_io_optical(c, optical_routing_type=1)
+    cc = add_fiber_array(c, optical_routing_type=1)
     return cc
 
 

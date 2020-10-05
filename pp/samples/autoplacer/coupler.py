@@ -2,14 +2,14 @@
 Generate a coupler DOE
 """
 import pp
-from pp.routing.connect_component import add_io_optical
+from pp.routing.add_fiber_array import add_fiber_array
 from pp.components.coupler import coupler
 
 
 @pp.autoname
 def CP2x2(gap=0.3, length=10.0):
     c = coupler(gap=gap, length=length)
-    return add_io_optical(c)
+    return add_fiber_array(c)
 
 
 if __name__ == "__main__":

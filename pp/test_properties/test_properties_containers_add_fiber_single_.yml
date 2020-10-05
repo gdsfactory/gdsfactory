@@ -8,7 +8,8 @@ component:
   gap: 0.234
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
-function_name: add_io_optical
+function_name: add_fiber_array
+gc_port_name: W0
 grating_coupler: grating_coupler_te
 kwargs: _empty
 layer_label:
@@ -21,4 +22,5 @@ optical_routing_type: 2
 route_filter: connect_strip_way_points
 straight_factory: waveguide
 taper_factory: taper
+taper_length: 10.0
 with_align_ports: 'True'

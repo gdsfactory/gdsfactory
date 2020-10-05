@@ -10,8 +10,9 @@ from pp.routing.connect import connect_strip_way_points
 from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.taper import taper
 from pp.container import container
+from pp.components.taper import taper
+from pp.add_tapers import add_tapers
 
 
 @container
@@ -23,11 +24,13 @@ def add_fiber_single(
     bend_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
     taper_factory: Callable = taper,
+    taper_length: float = 10.0,
     route_filter: Callable = connect_strip_way_points,
     min_input2output_spacing: int = 127,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
     component_name=None,
+    gc_port_name: str = "W0",
     **kwargs,
 ) -> Component:
     """returns component with grating ports and labels on each port
@@ -50,7 +53,6 @@ def add_fiber_single(
         force_manhattan: False
         excluded_ports:
         grating_indices: None
-        routing_waveguide: None
         routing_method: connect_strip
         gc_port_name: W0
         optical_routing_type: None: autoselection, 0: no extension
@@ -59,11 +61,33 @@ def add_fiber_single(
         component_name: name of component
         taper_factory: taper
 
+
+    .. plot::
+      :include-source:
+
+       import pp
+       from pp.routing import add_fiber_array
+
+       c = pp.c.crossing()
+       cc = add_fiber_array(c)
+       pp.plotgds(cc)
+
     """
     component = component() if callable(component) else component
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
+    port_width_gc = grating_coupler.ports[gc_port_name].width
+    optical_ports = component.get_optical_ports()
+    port_width_component = optical_ports[0].width
+
+    if port_width_component != port_width_gc:
+        component = add_tapers(
+            component,
+            taper_factory(
+                length=taper_length, width1=port_width_gc, width2=port_width_component
+            ),
+        )
 
     elements, grating_couplers, _ = route_fiber_single(
         component,
@@ -73,9 +97,9 @@ def add_fiber_single(
         route_filter=route_filter,
         grating_coupler=grating_coupler,
         layer_label=layer_label,
-        taper_factory=taper_factory,
         optical_routing_type=optical_routing_type,
         min_input2output_spacing=min_input2output_spacing,
+        gc_port_name=gc_port_name,
         **kwargs,
     )
 
@@ -84,7 +108,7 @@ def add_fiber_single(
     c = Component(name=name)
     cr = c << component
     cr.rotate(90)
-    c.function_name = "add_io_optical"
+    c.function_name = "add_fiber_array"
 
     for e in elements:
         c.add(e)
@@ -152,7 +176,9 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.crossing()
-    c = pp.c.ring_double()  # FIXME
     c = pp.c.mmi2x2()
+    c = pp.c.ring_double()  # FIXME
+    c = pp.c.waveguide(width=2)
+
     cc = add_fiber_single(c)
     pp.show(cc)

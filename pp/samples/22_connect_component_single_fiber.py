@@ -25,7 +25,7 @@ def add_grating_couplers(
     component = pp.call_if_func(component)
     grating_coupler = pp.call_if_func(grating_coupler)
 
-    c = pp.routing.add_io_optical(
+    c = pp.routing.add_fiber_array(
         component,
         optical_io_spacing=optical_io_spacing,
         bend_factory=bend_factory,

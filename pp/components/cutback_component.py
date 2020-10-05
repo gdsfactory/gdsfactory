@@ -104,7 +104,7 @@ def cutback_polarization_rotator(n_devices_target, design=3):
     c = cutback_component(
         component=polarization_rotator(design=design), rows=rows, cols=cols
     )
-    cc = pp.routing.add_io_optical(
+    cc = pp.routing.add_fiber_array(
         c,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         optical_routing_type=0,

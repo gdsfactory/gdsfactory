@@ -355,9 +355,9 @@ if __name__ == "__main__":
     pp.show(c)
 
     # c = spiral_inner_io_euler(wg_width=1)
-    # from pp.routing import add_io_optical
+    # from pp.routing import add_fiber_array
     # c = spiral_inner_io_euler(length=4, wg_width=1)
-    # cc = pp.routing.add_io_optical(c)
+    # cc = pp.routing.add_fiber_array(c)
     # print(c.length)
     # print(get_straight_length(2, spiral_inner_io_euler))
     # print(get_straight_length(4, spiral_inner_io_euler))

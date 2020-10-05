@@ -266,7 +266,7 @@ if __name__ == "__main__":
     # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
 
     c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
-    cc = pp.routing.add_io_optical(c)
+    cc = pp.routing.add_fiber_array(c)
     pp.write_component(cc, precision=5e-9)
     pp.show(cc)
 
@@ -275,7 +275,7 @@ if __name__ == "__main__":
     # gdspath = pp.write_component(c, precision=5e-9)
     # pp.show(gdspath)
 
-    # cc = pp.routing.add_io_optical(c)
+    # cc = pp.routing.add_fiber_array(c)
     # gdspath = write_component(cc)
 
     # gdspath = write_component_type("ring_double_bus", overwrite=True, flatten=False)

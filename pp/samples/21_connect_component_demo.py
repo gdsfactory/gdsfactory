@@ -6,7 +6,7 @@ import numpy as np
 import pp
 from pp import LAYER
 from pp import Port
-from pp.routing.connect_component import add_io_optical
+from pp.routing.add_fiber_array import add_fiber_array
 
 
 @pp.autoname
@@ -61,7 +61,7 @@ def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width
 def test_big_device():
     component = big_device(N=10)
     bend_radius = 5.0
-    c = add_io_optical(component, bend_radius=bend_radius, fanout_length=50.0)
+    c = add_fiber_array(component, bend_radius=bend_radius, fanout_length=50.0)
     assert c
     return c
 
