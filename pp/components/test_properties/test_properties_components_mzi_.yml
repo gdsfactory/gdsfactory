@@ -6,3 +6,5 @@ combiner: None
 function_name: mzi
 module: pp.components.mzi
 name: mzi
+waveguide_horizontal: None
+waveguide_vertical: None

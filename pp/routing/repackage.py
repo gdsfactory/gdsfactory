@@ -1,12 +1,12 @@
 import numpy as np
 import pp
 from pp.components.bezier import bezier
+from pp.container import container
 
 
-@pp.autoname
+@container
 def package_optical2x2(component, port_spacing=20.0, bend_length=None):
-    """ returns component with port_spacing
-    """
+    """returns component with port_spacing"""
 
     component = pp.call_if_func(component)
     component.y = 0
@@ -21,7 +21,7 @@ def package_optical2x2(component, port_spacing=20.0, bend_length=None):
     p_w1 = component.ports["W1"].midpoint
     p_e1 = component.ports["E1"].midpoint
 
-    c = pp.Component()
+    c = pp.Component(f"{component.name}_{int(port_spacing)}")
     c.add_ref(component)
 
     t = np.linspace(0, 1, 101)
@@ -47,12 +47,20 @@ def package_optical2x2(component, port_spacing=20.0, bend_length=None):
 
     c.info["min_bend_radius"] = bezier_bend_t.info["min_bend_radius"]
 
+    for pname, p in c.ports.items():
+        if p.port_type != "optical":
+            c.add_port(pname, port=p)
+
     return c
 
 
 if __name__ == "__main__":
     from pp.components import coupler
 
-    c = package_optical2x2(component=coupler(gap=0.3))
+    component = coupler(gap=0.3)
+    component = pp.c.mzi2x2(with_elec_connections=True)
+
+    c = package_optical2x2(component=component)
     print(c.ports["E1"].y - c.ports["E0"].y)
+    print(c.ports)
     pp.show(c)

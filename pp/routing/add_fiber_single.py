@@ -114,6 +114,10 @@ def add_fiber_single(
     for gc in grating_couplers:
         c.add(gc)
 
+    for pname, p in component.ports.items():
+        if p.port_type != "optical":
+            c.add_port(pname, port=p)
+
     if isinstance(grating_coupler, list):
         grating_couplers = [call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
@@ -177,7 +181,7 @@ if __name__ == "__main__":
     c = pp.c.crossing()
     c = pp.c.mmi2x2()
     c = pp.c.ring_double()  # FIXME
-    c = pp.c.waveguide(width=2)
+    c = pp.c.waveguide(width=2, length=500)
 
     cc = add_fiber_single(c)
     pp.show(cc)

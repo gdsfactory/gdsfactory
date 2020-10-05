@@ -15,9 +15,10 @@ def mzi(
     DL: float = 0.1,
     L2: float = 20.1,
     bend_radius: float = 10.0,
-    bend90_factory: Callable = bend_circular,
-    waveguide_vertical: Callable = waveguide,
-    waveguide_horizontal: Callable = waveguide,
+    bend90: Callable = bend_circular,
+    waveguide: Callable = waveguide,
+    waveguide_vertical: Optional[Callable] = None,
+    waveguide_horizontal: Optional[Callable] = None,
     coupler: Callable = mmi1x2,
     combiner: Optional[Callable] = None,
 ) -> Component:
@@ -28,7 +29,7 @@ def mzi(
         DL: bottom arm extra length, (delta_length = 2*DL)
         L2: L_top horizontal length
         bend_radius: 10.0
-        bend90_factory: bend_circular
+        bend90: bend_circular
         waveguide_vertical: waveguide
         coupler: coupler
         combiner: coupler
@@ -64,7 +65,9 @@ def mzi(
     else:
         combiner = coupler
 
-    b90 = bend90_factory(radius=bend_radius)
+    waveguide_vertical = waveguide_vertical or waveguide
+    waveguide_horizontal = waveguide_horizontal or waveguide
+    b90 = bend90(radius=bend_radius) if callable(bend90) else bend90
     l0 = waveguide_vertical(length=L0)
 
     coupler = rename_ports_by_orientation(coupler)
@@ -148,7 +151,6 @@ def mzi(
 
 
 if __name__ == "__main__":
-
     DL = 116.8 / 2
     # print(DL)
     c = mzi(DL=DL, pins=True)

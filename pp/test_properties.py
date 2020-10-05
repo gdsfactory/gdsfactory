@@ -17,6 +17,7 @@ from pp.routing import add_fiber_single
 from pp.routing import add_electrical_pads
 from pp.routing import add_electrical_pads_top
 from pp.routing import add_electrical_pads_shortest
+from pp.routing import package_optical2x2
 
 
 _containers = [
@@ -31,6 +32,7 @@ _containers = [
     add_electrical_pads_top,
     add_electrical_pads_shortest,
     add_grating_couplers,
+    package_optical2x2,
 ]
 
 

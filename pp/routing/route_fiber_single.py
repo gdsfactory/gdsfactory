@@ -11,7 +11,7 @@ def route_fiber_single(
     optical_io_spacing: int = 50,
     grating_coupler: Component = grating_coupler_te,
     min_input2output_spacing: int = 230,
-    optical_routing_type: int = 2,
+    optical_routing_type: int = 1,
     optical_port_labels: None = None,
     excluded_ports: List[Any] = [],
     **kwargs
@@ -29,12 +29,12 @@ def route_fiber_single(
         component: to add grating couplers
         optical_io_spacing: between grating couplers
         grating_coupler:
-        straight_factory
         min_input2output_spacing: so opposite fibers do not touch
         optical_routing_type: 0, 1, 2
+        optical_port_labels: port labels that need connection
+        excluded_ports: ports excluded from routing
 
     """
-    component_name = component.name
     component = component.copy()
 
     if optical_port_labels is None:
@@ -71,7 +71,7 @@ def route_fiber_single(
     component.ports = {p.name: p for p in west_ports}
     component = component.rotate(90)
 
-    elements_east, io_grating_lines_east, _ = route_fiber_array(
+    elements_south, gratings_south, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
@@ -85,8 +85,7 @@ def route_fiber_single(
     component.ports = {p.name: p for p in east_ports}
     component = component.rotate(-90)
 
-    component.name = component_name
-    elements_west, io_grating_lines_west, _ = route_fiber_array(
+    elements_north, gratings_north, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
         optical_io_spacing=optical_io_spacing,
@@ -94,14 +93,14 @@ def route_fiber_single(
         grating_coupler=grating_couplers[1:],
         **kwargs
     )
-    for e in elements_west:
-        elements_east.append(e.rotate(180))
+    for e in elements_north:
+        elements_south.append(e.rotate(180))
 
-    if len(io_grating_lines_west) > 0:
-        for io in io_grating_lines_west[0]:
-            io_grating_lines_east.append(io.rotate(180))
+    if len(gratings_north) > 0:
+        for io in gratings_north[0]:
+            gratings_south.append(io.rotate(180))
 
-    return elements_east, io_grating_lines_east, None
+    return elements_south, gratings_south, None
 
 
 if __name__ == "__main__":
@@ -111,13 +110,16 @@ if __name__ == "__main__":
     # c = pp.c.crossing()
     # c = pp.c.mmi2x2()
     # c = pp.c.ring_double()  # FIXME
-    c = pp.c.waveguide(width=2)
+    c = pp.c.cross(length=500)
+    c = pp.c.waveguide(width=2, length=500)
 
     elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 
-    c = pp.Component()
+    cc = pp.Component()
+    cc << c.rotate(90)
+
     for e in elements:
-        c.add(e)
+        cc.add(e)
     for e in gc:
-        c.add(e)
-    pp.show(c)
+        cc.add(e)
+    pp.show(cc)
