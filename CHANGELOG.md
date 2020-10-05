@@ -9,6 +9,11 @@
 
 - units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
 
+# master
+
+- rename add_io_optical to add_fiber_array
+- add taper factory and length to add_fiber_single
+
 ## 1.4.0 2020-10-04
 
 - Works now for python>=3.6, before only worked for python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/)
