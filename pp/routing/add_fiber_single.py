@@ -82,7 +82,8 @@ def add_fiber_single(
     component_name = component_name or component.name
     name = f"{component_name}_{grating_coupler.polarization}"
     c = Component(name=name)
-    c << component
+    cr = c << component
+    cr.rotate(90)
     c.function_name = "add_io_optical"
 
     for e in elements:

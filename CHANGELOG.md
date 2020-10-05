@@ -19,6 +19,7 @@
 - add_ports from polygon markers
 - add_io_optical maintains other ports
 - added single fiber routing capabilities (pp.routing.add_fiber_single)
+- added Component.copy()
 - added basic electrical routing capabilities
     - pp.routing.add_electrical_pads
     - pp.routing.add_electrical_pads_top

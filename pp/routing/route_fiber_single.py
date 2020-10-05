@@ -46,6 +46,7 @@ def route_fiber_single(
        pp.plotgds(cc)
     """
     component_name = component.name
+    component = component.copy()
 
     if optical_port_labels is None:
         optical_ports = component.get_optical_ports()

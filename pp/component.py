@@ -1,5 +1,6 @@
 import itertools
 import uuid
+import copy as python_copy
 import json
 import pathlib
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -17,6 +18,48 @@ from pp.port import Port, select_optical_ports, select_electrical_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
 from pp.name import dict2hash
+
+
+def copy(D):
+    """ Copies a Component.
+
+    Parameters
+    ----------
+    D : Device
+        Device to be copied.
+
+    Returns
+    -------
+    D_copy : Device
+        Copied Device.
+    """
+    D_copy = Component(name=D._internal_name)
+    D_copy.info = python_copy.deepcopy(D.info)
+    for ref in D.references:
+        new_ref = ComponentReference(
+            ref.parent,
+            origin=ref.origin,
+            rotation=ref.rotation,
+            magnification=ref.magnification,
+            x_reflection=ref.x_reflection,
+        )
+        new_ref.owner = D_copy
+        D_copy.add(new_ref)
+        for alias_name, alias_ref in D.aliases.items():
+            if alias_ref == ref:
+                D_copy.aliases[alias_name] = new_ref
+
+    for port in D.ports.values():
+        D_copy.add_port(port=port)
+    for poly in D.polygons:
+        D_copy.add_polygon(poly)
+    for label in D.labels:
+        D_copy.add_label(
+            text=label.text,
+            position=label.position,
+            layer=(label.layer, label.texttype),
+        )
+    return D_copy
 
 
 class SizeInfo:
@@ -854,6 +897,9 @@ class Component(Device):
                         new_labels += [label]
                 D.labels = new_labels
         return self
+
+    def copy(self):
+        return copy(self)
 
     @property
     def size_info(self) -> SizeInfo:
