@@ -1,0 +1,8 @@
+function_name: corner
+layer:
+- 49
+- 0
+module: pp.components.electrical.wire
+name: corner
+radius: None
+width: 10.0

@@ -1,0 +1,13 @@
+function_name: tlm
+height: 11.0
+layers:
+- - 41
+  - 0
+- - 45
+  - 0
+- - 49
+  - 0
+module: pp.components.electrical.tlm
+name: tlm
+vias: <function via2 at 0x7f0159100670>_<function via3 at 0x7f0159100790>
+width: 11.0

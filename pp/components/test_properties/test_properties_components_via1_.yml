@@ -1,0 +1,10 @@
+clearance: 1.0
+function_name: via1
+height: 0.7
+layer:
+- 40
+- 0
+module: pp.components.electrical.tlm
+name: via1
+period: 2.0
+width: 0.7
