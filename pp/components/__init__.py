@@ -3,6 +3,7 @@
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
 from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.waveguide_pin import waveguide_pin
 
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular180
@@ -58,8 +59,16 @@ from pp.components.dbr import dbr
 from pp.components.dbr2 import dbr2
 
 # electrical
+from pp.components.electrical.wire import wire
+from pp.components.electrical.wire import corner
 from pp.components.electrical.pad import pad
 from pp.components.electrical.pad import pad_array
+from pp.components.electrical.tlm import via
+from pp.components.electrical.tlm import via1
+from pp.components.electrical.tlm import via2
+from pp.components.electrical.tlm import via3
+from pp.components.electrical.tlm import tlm
+from pp.components.electrical.pads_shorted import pads_shorted
 
 # electrical PCM
 from pp.components.pcm.test_resistance import test_resistance
@@ -93,21 +102,23 @@ from pp.components.splitter_chain import splitter_chain
 
 # we will test each factory component hash, ports and properties """
 component_type2factory = dict(
-    bend_circular=bend_circular,
     bend_circular180=bend_circular180,
+    bend_circular=bend_circular,
     bend_circular_heater=bend_circular_heater,
     bend_euler180=bend_euler180,
     bend_euler90=bend_euler90,
     bend_s=bend_s,
     bezier=bezier,
     cavity=cavity,
-    circle=circle,
     cdc=cdc,
+    circle=circle,
     compass=compass,
+    compensation_path=compensation_path,
     component_lattice=component_lattice,
     component_sequence=component_sequence,
-    coupler=coupler,
+    corner=corner,
     coupler90=coupler90,
+    coupler=coupler,
     coupler_adiabatic=coupler_adiabatic,
     coupler_asymmetric=coupler_asymmetric,
     coupler_full=coupler_full,
@@ -115,13 +126,12 @@ component_type2factory = dict(
     coupler_straight=coupler_straight,
     coupler_symmetric=coupler_symmetric,
     cross=cross,
-    crossing=crossing,
     crossing45=crossing45,
-    compensation_path=compensation_path,
-    dbr=dbr,
+    crossing=crossing,
     dbr2=dbr2,
-    disk=disk,
+    dbr=dbr,
     delay_snake=delay_snake,
+    disk=disk,
     ellipse=ellipse,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
@@ -138,12 +148,13 @@ component_type2factory = dict(
     loop_mirror=loop_mirror,
     mmi1x2=mmi1x2,
     mmi2x2=mmi2x2,
-    mzi=mzi,
-    mzi_arm=mzi_arm,
     mzi1x2=mzi1x2,
     mzi2x2=mzi2x2,
+    mzi=mzi,
+    mzi_arm=mzi_arm,
     pad=pad,
     pad_array=pad_array,
+    pads_shorted=pads_shorted,
     rectangle=rectangle,
     rectangle_centered=rectangle_centered,
     ring=ring,
@@ -156,17 +167,24 @@ component_type2factory = dict(
     spiral_external_io=spiral_external_io,
     spiral_inner_io=spiral_inner_io,
     spiral_inner_io_euler=spiral_inner_io_euler,
-    splitter_tree=splitter_tree,
     splitter_chain=splitter_chain,
+    splitter_tree=splitter_tree,
     taper=taper,
     taper_strip_to_ridge=taper_strip_to_ridge,
-    text=text,
-    test_via=test_via,
     test_resistance=test_resistance,
+    test_via=test_via,
+    text=text,
+    tlm=tlm,
     verniers=verniers,
+    via1=via1,
+    via2=via2,
+    via3=via3,
+    via=via,
     waveguide=waveguide,
     waveguide_heater=waveguide_heater,
+    waveguide_pin=waveguide_pin,
     wg_heater_connected=wg_heater_connected,
+    wire=wire,
 )
 
 
@@ -191,5 +209,5 @@ def component_factory(component_type, **settings):
 __all__ = list(component_type2factory.keys())
 leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
 _containers = set(["cavity"])
-_skip_test = set(["label", "text", "spiral_circular", "component_sequence"])
+_skip_test = set(["label", "text", "spiral_circular", "component_sequence", "tlm"])
 _components = set(__all__) - _containers - _skip_test

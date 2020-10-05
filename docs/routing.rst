@@ -161,9 +161,9 @@ Connecting optical I/O to a component
 In cases where individual components have to be tested, a function is provided to
 generate the array of optical I/O and connect them to the component. The default connector connects to a 127um pitch fiber array.
 
-.. autofunction:: pp.routing.connect_component.add_io_optical
+.. autofunction:: pp.routing.add_fiber_array.add_fiber_array
 
 
 You can also use individual fibers
 
-.. autofunction:: pp.routing.route_fiber_single
+.. autofunction:: pp.routing.add_fiber_single.add_fiber_single

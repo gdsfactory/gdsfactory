@@ -134,7 +134,7 @@ def component_from_yaml(
             component_type in component_type2factory
         ), f"{component_type} not in {list(component_type2factory.keys())}"
         component_settings = instance_conf["settings"] or {}
-        component_settings.update(cache=False)
+        # component_settings.update(cache=False)
         ci = component_type2factory[component_type](**component_settings)
         ci.name = instance_name
         instances[instance_name] = c << ci

@@ -2,7 +2,8 @@
 
 """
 import numpy as np
-from pp.layers import LAYER
+from pp.layers import LAYER, port_type2layer
+from pp.port import read_port_markers
 import pp
 
 
@@ -43,8 +44,20 @@ def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
 def add_pin_square_inside(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
-    """
-    square inside
+    """ square towards the inside of the port
+
+    .. code::
+           _______________
+          |               |
+          |               |
+          |               |
+          ||              |
+          ||              |
+          |               |
+          |      __       |
+          |_______________|
+
+
     """
     p = port
     a = p.orientation
@@ -71,8 +84,20 @@ def add_pin_square_inside(
 def add_pin_square(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.PORT
 ):
-    """
-    half out
+    """ half out
+
+    .. code::
+           _______________
+          |               |
+          |               |
+          |               |
+         |||              |
+         |||              |
+          |               |
+          |      __       |
+          |_______________|
+                 __
+
     """
     p = port
     a = p.orientation
@@ -112,21 +137,27 @@ def add_outline(component, layer=LAYER.DEVREC):
 
 
 def add_pins(
-    component, add_port_marker_function=add_pin_square, layer=LAYER.PORT, **kwargs,
+    component,
+    add_port_marker_function=add_pin_square,
+    port_type2layer=port_type2layer,
+    **kwargs,
 ):
-
     """ add port markers:
 
-    - rectangle
-    - triangle
+    Args:
+        component: to add ports
+        add_port_marker_function:
+        port_type2layer: dict mapping port types to marker layers for ports
 
     Add device recognition layer
-
     """
 
     if hasattr(component, "ports") and component.ports:
         for p in component.ports.values():
-            add_port_marker_function(component=component, port=p, layer=layer, **kwargs)
+            layer = port_type2layer[p.port_type]
+            add_port_marker_function(
+                component=component, port=p, layer=layer, label_layer=layer, **kwargs
+            )
 
 
 def add_pins_and_outline(
@@ -142,7 +173,25 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
     )
 
 
+def test_add_pins():
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    add_pins(component)
+
+    port_layer = port_type2layer["optical"]
+    port_markers = read_port_markers(component, [port_layer])
+    assert len(port_markers.polygons) == 4
+
+    port_layer = port_type2layer["dc"]
+    port_markers = read_port_markers(component, [port_layer])
+    assert len(port_markers.polygons) == 3
+
+    # for port_layer, port_type in port_layer2type.items():
+    #     port_markers = read_port_markers(component, [port_layer])
+    #     print(len(port_markers.polygons))
+
+
 if __name__ == "__main__":
+    test_add_pins()
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers
@@ -152,6 +201,6 @@ if __name__ == "__main__":
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
     # c = pp.c.waveguide()
-    c = pp.c.crossing(pins=True)
+    # c = pp.c.crossing(pins=True)
     # add_pins(c)
-    pp.show(c)
+    # pp.show(c)

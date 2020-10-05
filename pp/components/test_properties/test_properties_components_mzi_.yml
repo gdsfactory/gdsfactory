@@ -1,8 +1,8 @@
-DL: 9.0
+DL: 0.1
 L0: 1.0
-L2: 0.1
+L2: 20.1
 bend_radius: 10.0
-combiner_factory: None
+combiner: None
 function_name: mzi
 module: pp.components.mzi
 name: mzi

@@ -5,11 +5,10 @@ it makes sure that some of the important settings are copied from the original c
 
 """
 
+from typing import Callable
 import functools
 from inspect import signature
-import pytest
 import pp
-from typing import Callable
 
 
 def container(component_function: Callable) -> Callable:
@@ -116,6 +115,8 @@ def test_container2():
 
 
 def test_container_error():
+    import pytest
+
     old = pp.c.waveguide()
     with pytest.raises(ValueError):
         add_padding(component2=old)  # will raise an error

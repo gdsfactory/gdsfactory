@@ -1,11 +1,9 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, List, Tuple, Union
+from phidl.device_layout import Label
 import pp
 from pp.rotate import rotate
 from pp.routing.connect_component import route_fiber_array
-
-from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from phidl.device_layout import Label
 from pp.component import Component, ComponentReference
 
 
@@ -13,7 +11,6 @@ def route_fiber_single(
     component: Component,
     optical_io_spacing: int = 50,
     grating_coupler: Component = grating_coupler_te,
-    straight_factory: Callable = waveguide,
     min_input2output_spacing: int = 230,
     optical_routing_type: int = 2,
     optical_port_labels: None = None,
@@ -49,6 +46,7 @@ def route_fiber_single(
        pp.plotgds(cc)
     """
     component_name = component.name
+    component = component.copy()
 
     if optical_port_labels is None:
         optical_ports = component.get_optical_ports()
@@ -122,9 +120,10 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
+    c = pp.c.crossing()
     # c = pp.c.mmi2x2()
     # c = pp.c.waveguide()
-    c = pp.c.ring_double()  # FIXME
+    # c = pp.c.ring_double()  # FIXME
 
     elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
     for e in elements:

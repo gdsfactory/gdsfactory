@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "1.3.3"
+__version__ = "1.4.0"
 from typing import Any
 import os
 import io
@@ -76,6 +76,7 @@ CONFIG = dict(
     config_path=cwd_config.absolute(),
     repo_path=repo_path,
     module_path=module_path,
+    gdsdir=module_path / "gds",
     font_path=module_path / "gds" / "alphabet.gds",
     masks_path=repo_path / "mask",
     version=__version__,
