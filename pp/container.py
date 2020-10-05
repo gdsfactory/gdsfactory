@@ -12,7 +12,7 @@ import pp
 
 
 def container(component_function: Callable) -> Callable:
-    """ decorator for creating a new component that copies properties from the original component
+    """decorator for creating a new component that copies properties from the original component
 
     - polarization
     - wavelength
@@ -56,6 +56,7 @@ def container(component_function: Callable) -> Callable:
 
         sig = signature(component_function)
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
+        new.settings.update(**kwargs)
         new.settings["component"] = old.settings.copy()
         new.settings["component_name"] = old.name
         new.settings["function_name"] = component_function.__name__
@@ -65,6 +66,7 @@ def container(component_function: Callable) -> Callable:
         )
         new.wavelength = new.wavelength or old.wavelength
         new.polarization = new.polarization or old.polarization
+        new.settings.pop("kwargs", "")
         return new
 
     return wrapper

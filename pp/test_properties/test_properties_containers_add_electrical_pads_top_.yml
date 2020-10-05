@@ -8,5 +8,4 @@ component:
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
 function_name: add_electrical_pads_top
-kwargs: _empty
 name: mzi2x2_WECTrue_e

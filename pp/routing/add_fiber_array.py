@@ -87,7 +87,6 @@ def add_fiber_array(
     component_name = component_name or c.name
     name = f"{component_name}_{gc_polarization}"
     cc = pp.Component(name=name)
-    cc.function_name = "add_fiber_array"
 
     port_width_gc = gc.ports[gc_port_name].width
 
