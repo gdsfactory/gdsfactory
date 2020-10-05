@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "1.3.3"
+__version__ = "1.4.0"
 from typing import Any
 import os
 import io
