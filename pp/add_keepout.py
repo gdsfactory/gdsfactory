@@ -3,8 +3,7 @@ from pp.geo_utils import polygon_grow
 
 
 def add_keepout(c, target_layers, keepout_layers, margin=2.0):
-    """
-    Lookup all polygons in this cell. You can also use add_padding
+    """ Lookup all polygons in this cell. You can also use add_padding
     """
     all_cells = list(c.get_dependencies(True)) + [c]
     for _c in all_cells:

@@ -10,11 +10,11 @@ def add_grating_couplers(
     component,
     grating_coupler=grating_coupler_te,
     layer_label=pp.LAYER.LABEL,
-    input_port_indexes=[0],
     gc_port_name="W0",
     get_input_labels_function=get_input_labels,
 ):
-    """ returns component with grating ports and labels on each port """
+    """ returns component with grating ports and labels on each port
+    """
     component = pp.call_if_func(component)
     c = pp.Component(name=component.name + "_c")
     c.add_ref(component)
@@ -26,9 +26,6 @@ def add_grating_couplers(
         gc_ref.connect(list(gc_ref.ports.values())[0], port)
         io_gratings.append(gc_ref)
         c.add(gc_ref)
-
-        # label = get_optical_text(port, grating_coupler, i)
-        # c.add_label(label, position=port.midpoint, layer=layer_label)
 
     labels = get_input_labels_function(
         io_gratings,

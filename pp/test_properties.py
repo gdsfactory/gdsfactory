@@ -4,6 +4,7 @@ from pp.components.extension import extend_ports
 from pp.add_padding import add_padding
 from pp.add_tapers import add_tapers
 from pp.rotate import rotate
+from pp.add_grating_couplers import add_grating_couplers
 from pp.add_termination import add_termination, add_gratings_and_loop_back
 from pp.components.spiral_inner_io import spiral_inner_io
 
@@ -29,6 +30,7 @@ _containers = [
     add_electrical_pads,
     add_electrical_pads_top,
     add_electrical_pads_shortest,
+    add_grating_couplers,
 ]
 
 
