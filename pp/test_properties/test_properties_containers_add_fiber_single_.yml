@@ -11,7 +11,6 @@ component_name: mzi2x2_WECTrue
 function_name: add_fiber_single
 gc_port_name: W0
 grating_coupler: grating_coupler_te
-kwargs: _empty
 layer_label:
 - 201
 - 0

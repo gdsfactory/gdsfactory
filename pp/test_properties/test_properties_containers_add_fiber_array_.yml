@@ -12,7 +12,6 @@ gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array
 grating_coupler: grating_coupler_te
-kwargs: _empty
 name: mzi2x2_WECTrue_te
 taper_factory: taper
 taper_length: 10.0
