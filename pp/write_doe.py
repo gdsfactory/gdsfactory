@@ -1,15 +1,13 @@
 import json
-
-import pp
 from pp.name import get_component_name
 from pp.components import component_type2factory
 from pp.write_component import write_component
 from pp.config import CONFIG
 from pp.doe import get_settings_list
-from pp.routing.connect_component import add_io_optical_te, add_io_optical_tm
+from pp.routing.add_fiber_array import add_fiber_array_te, add_fiber_array_tm
 
 name2function = dict(
-    add_io_optical_te=add_io_optical_te, add_io_optical_tm=add_io_optical_tm
+    add_fiber_array_te=add_fiber_array_te, add_fiber_array_tm=add_fiber_array_tm
 )
 
 
@@ -114,11 +112,11 @@ def write_doe(
     component_type,
     doe_name=None,
     do_permutations=True,
-    functions=None,
     list_settings=None,
     doe_settings=None,
     path=CONFIG["build_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
+    functions=None,
     name2function=name2function,
     **kwargs,
 ):
@@ -137,9 +135,11 @@ def write_doe(
         component_type: component_name_or_function
         doe_name: autoname by default
         do_permutations: builds all permutations between the varying parameters
-        add_io_function: add_io_optical
         list_settings: you can pass a list of settings or the variations in the kwargs
         doe_settings: shared settings for a DOE
+        path: to store build artifacts
+        functions: list of function names to apply to DOE
+        name2function: function names to functions dict
         **kwargs: Doe default settings or variations
     """
     if hasattr(component_type, "__call__"):
@@ -238,18 +238,18 @@ def test_write_doe():
         width_mmi=[5, 10],
         length_mmi=[20, 30],
         do_permutations=True,
-        functions=["add_io_optical_tm"],
+        functions=["add_fiber_array_tm"],
         doe_settings=dict(test="optical_tm"),
     )
     assert len(paths) == 4
 
     # print(type(paths[0]))
-    pp.show(paths[0])
+    # pp.show(paths[0])
 
-    # paths = write_doe(
-    #     "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
-    # )
-    # assert len(paths) == 2
+    paths = write_doe(
+        "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
+    )
+    assert len(paths) == 2
 
 
 if __name__ == "__main__":

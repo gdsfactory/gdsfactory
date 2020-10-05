@@ -9,7 +9,7 @@ component:
   length: 10.0
   width: 0.5
 component_name: waveguide
-function_name: add_io_optical
+function_name: add_fiber_array
 gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array

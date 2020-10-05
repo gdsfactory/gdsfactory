@@ -14,5 +14,6 @@ module: pp.components.grating_coupler.grating_coupler_tree
 n_waveguides: 4
 name: grating_coupler_tree
 taper_factory: taper
+taper_length: 10.0
 waveguide_spacing: 4
 with_loop_back: 'False'

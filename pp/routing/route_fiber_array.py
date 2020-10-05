@@ -6,7 +6,6 @@ from pp.layers import LAYER
 from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.taper import taper
 
 from pp.routing.manhattan import round_corners
 from pp.routing.connect_bundle import link_optical_ports
@@ -37,13 +36,11 @@ def route_fiber_array(
     waveguide_separation: float = 4.0,
     optical_routing_type: Optional[int] = None,
     bend_radius: float = BEND_RADIUS,
-    list_port_labels: None = None,
     connected_port_list_ids: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
     excluded_ports: List[Any] = [],
     grating_indices: None = None,
-    routing_waveguide: None = None,
     route_filter: Callable = connect_strip_way_points,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
@@ -51,10 +48,9 @@ def route_fiber_array(
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
-    taper_factory: Callable = taper,
     route_factory: Callable = route_south,
     get_input_labels_function: Callable = get_input_labels,
-    select_optical_ports: Callable = select_optical_ports,
+    select_ports: Callable = select_optical_ports,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -65,9 +61,12 @@ def route_fiber_array(
     Args:
         component: The component to connect.
         optical_io_spacing: the wanted spacing between the optical I/O
-        fanout_length: Wanted distance between the gratings and the southest component port. If set to None, automatically calculated.
+        grating_coupler: grating coupler instance, function or list of functions
+        bend_factory: bend_circular
+        straight_factory: waveguide
+        fanout_length: Wanted distance between the gratings and the southest component port. If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set. Usually fine to leave at None.
-        with_align_ports: If True, add compact alignment ports
+        with_align_ports: If True, add compact loopback alignment ports
         waveguide_separation: min separation between the waveguides used to route grating couplers to the component I/O.
         optical_routing_type: There are three options for optical routing
            * ``0`` is very basic but can be more compact.  Can also be used in combination with ``connected_port_list_ids`` or to route some components which otherwise fail with type ``1``.
@@ -75,15 +74,24 @@ def route_fiber_array(
            * ``2`` uses the optical ports as a guideline for the component's physical size (instead of using the actual component size).  Useful where the component is large due to metal tracks
            * ``None: leads to an automatic decision based on size and number
            of I/O of the component.
-
         bend_radius: bend radius
-        list_port_labels: list of the port indices (e.g [0,3]) which require a T&M label.
         connected_port_list_ids: only for type 0 optical routing.  Can specify which ports goes to which grating assuming the gratings are ordered from left to right.  e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
-        force_manhattan: in some instances, the port linker defaults to an S-bend due to lack of space to do manhattan. Force manhattan offsets all the ports to replace the s-bend by a straight link.  This fails if multiple ports have the same issue
         nb_optical_ports_lines: number of lines with I/O grating couplers.  One line by default.  WARNING: Only works properly if:
             - nb_optical_ports_lines divides the total number of ports
             - the components have an equal number of inputs and outputs
+        force_manhattan: in some instances, the port linker defaults to an S-bend due to lack of space to do manhattan. Force manhattan offsets all the ports to replace the s-bend by a straight link.  This fails if multiple ports have the same issue
+        excluded_ports: ports excluded
         grating_indices: allows to fine skip some grating slots e.g [0,1,4,5] will put two gratings separated by the pitch. Then there will be two empty grating slots, and after that an additional two gratings.
+        route_filter: waveguide and bend factories
+        gc_port_name: grating_coupler port name, where to route waveguides
+        gc_rotation: grating_coupler rotation (deg)
+        layer_label: for TM labels
+        component_name: name of component
+        x_grating_offset: x offset
+        optical_port_labels
+        route_factory: factories for route
+        get_input_labels_function: functions to add labels
+        select_ports: function to select ports
 
     Returns:
         elements, io_grating_lines, y0_optical
@@ -92,7 +100,7 @@ def route_fiber_array(
         # for pn, p in component.ports.items():
         #     print(p.name, p.port_type, p.layer)
         # optical_ports = component.get_optical_ports()
-        optical_ports = list(select_optical_ports(component.ports).values())
+        optical_ports = list(select_ports(component.ports).values())
         # print(optical_ports)
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]

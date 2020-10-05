@@ -1,8 +1,7 @@
 from typing import Any, List, Tuple, Union
 from phidl.device_layout import Label
 import pp
-from pp.rotate import rotate
-from pp.routing.connect_component import route_fiber_array
+from pp.routing.route_fiber_array import route_fiber_array
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.component import Component, ComponentReference
 
@@ -34,16 +33,6 @@ def route_fiber_single(
         min_input2output_spacing: so opposite fibers do not touch
         optical_routing_type: 0, 1, 2
 
-    .. plot::
-      :include-source:
-
-       import pp
-       from pp.routing import add_io_optical
-       from pp.routing import route_fiber_single
-
-       c = pp.c.mmi1x2()
-       cc = add_io_optical(c, get_route_factory=route_fiber_single)
-       pp.plotgds(cc)
     """
     component_name = component.name
     component = component.copy()
@@ -91,11 +80,10 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         **kwargs
     )
-    component = rotate(component, angle=-90)
 
     # add EAST input grating couplers
     component.ports = {p.name: p for p in east_ports}
-    component = rotate(component, angle=-90)
+    component = component.rotate(-90)
 
     component.name = component_name
     elements_west, io_grating_lines_west, _ = route_fiber_array(
@@ -120,12 +108,14 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
-    c = pp.c.crossing()
+    # c = pp.c.crossing()
     # c = pp.c.mmi2x2()
-    # c = pp.c.waveguide()
     # c = pp.c.ring_double()  # FIXME
+    c = pp.c.waveguide(width=2)
 
     elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
+
+    c = pp.Component()
     for e in elements:
         c.add(e)
     for e in gc:

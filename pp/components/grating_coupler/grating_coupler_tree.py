@@ -55,7 +55,7 @@ def grating_coupler_tree(
         waveguide=waveguide,
     )
 
-    cc = pp.routing.add_io_optical(
+    cc = pp.routing.add_fiber_array(
         c,
         with_align_ports=with_loop_back,
         optical_routing_type=0,

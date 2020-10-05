@@ -1107,14 +1107,14 @@ if __name__ == "__main__":
     # print(c.get_json()['cells'].keys())
     # print(c.get_json())
 
-    # from pp.routing import add_io_optical
-    # cc = add_io_optical(c)
+    # from pp.routing import add_fiber_array
+    # cc = add_fiber_array(c)
     # pp.write_component(cc)
 
     # from pprint import pprint
 
     # c = pp.c.mmi1x2()
-    # cc = add_io_optical(c)
+    # cc = add_fiber_array(c)
     # cc.get_json()
     # pp.show(cc)
     # c.update_settings(
