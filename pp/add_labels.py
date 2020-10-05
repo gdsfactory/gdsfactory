@@ -26,7 +26,7 @@ def add_label(component, text, position=(0, 0), layer=pp.LAYER.LABEL):
 
 def add_labels(component):
     c = pp.Component()
-    electrical_ports = component.get_electrical_ports()
+    electrical_ports = component.get_ports_list(port_type="dc")
     c.add(component.ref())
 
     for i, port in enumerate(electrical_ports):

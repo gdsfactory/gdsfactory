@@ -38,7 +38,7 @@ def route_fiber_single(
     component = component.copy()
 
     if optical_port_labels is None:
-        optical_ports = component.get_optical_ports()
+        optical_ports = component.get_ports_list(port_type="optical")
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
@@ -62,9 +62,15 @@ def route_fiber_single(
     else:
         fanout_length = None
 
-    west_ports = [p for p in component.get_optical_ports() if p.name.startswith("W")]
+    west_ports = [
+        p
+        for p in component.get_ports_list(port_type="optical")
+        if p.name.startswith("W")
+    ]
     east_ports = [
-        p for p in component.get_optical_ports() if not p.name.startswith("W")
+        p
+        for p in component.get_ports_list(port_type="optical")
+        if not p.name.startswith("W")
     ]
 
     # add west input grating couplers

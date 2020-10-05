@@ -90,7 +90,7 @@ def add_fiber_array(
 
     port_width_gc = gc.ports[gc_port_name].width
 
-    optical_ports = c.get_optical_ports()
+    optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
     if port_width_component != port_width_gc:

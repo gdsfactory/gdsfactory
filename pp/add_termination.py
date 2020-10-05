@@ -64,7 +64,7 @@ def add_gratings_and_loop_back(
         gc_port_name = list(gc.ports.values())[0].name
 
     # List the optical ports to connect
-    optical_ports = component.get_optical_ports()
+    optical_ports = component.get_ports_list(port_type="optical")
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     optical_ports = direction_ports_from_list_ports(optical_ports)[direction]
 

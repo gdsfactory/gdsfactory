@@ -38,7 +38,7 @@ if __name__ == "__main__":
     c << mzi
     p.move((-150, 200))
     ports_pads = list(p.ports.values())
-    ports_mzi = mzi.get_electrical_ports()
+    ports_mzi = mzi.get_ports_list(port_type="dc")
 
     for p1, p2 in zip(ports_pads, ports_mzi):
         c.add(connect_electrical_shortest_path(p1, p2))

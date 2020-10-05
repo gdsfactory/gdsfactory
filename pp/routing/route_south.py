@@ -48,7 +48,7 @@ def route_south(
         west ports on the west of the box
     """
 
-    optical_ports = component.get_optical_ports()
+    optical_ports = component.get_ports_list(port_type="optical")
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     csi = component.size_info
     elements = []
