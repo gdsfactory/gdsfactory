@@ -7,6 +7,3 @@ matplotlib
 pytest
 pytest-regressions
 pytest-cov
-pytest-notebook
-pre-commit
-nbval
