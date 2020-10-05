@@ -147,9 +147,11 @@ def waveguide_heater(
 
     # Add heater ports
     for p in heater_top.ports.values():
+        p.port_type = "heater"
         c.add_port(name="HT" + p.name, port=p)
 
     for p in heater_bot.ports.values():
+        p.port_type = "heater"
         c.add_port(name="HB" + p.name, port=p)
 
     c.settings["width"] = width
@@ -305,4 +307,7 @@ if __name__ == "__main__":
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
     # c = wg_heater_connected(length=100.0, width=0.5)
     print(c.ports.keys())
+    for p in c.ports.values():
+        print(p.name, p.port_type)
+
     pp.show(c)

@@ -14,14 +14,14 @@ from phidl.device_layout import Device
 from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
-from pp.port import Port, select_optical_ports, select_electrical_ports
+from pp.port import Port, select_optical_ports, select_electrical_ports, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
 from pp.name import dict2hash
 
 
 def copy(D):
-    """ Copies a Component.
+    """Copies a Component.
 
     Parameters
     ----------
@@ -471,8 +471,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(self, port: str, destination: Port, overlap: float = 0):
-        """ returns ComponentReference
-        """
+        """returns ComponentReference"""
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -635,14 +634,20 @@ class Component(Device):
         dirpath.mkdir(exist_ok=True, parents=True)
         return dirpath / f"{self.get_name_long()}_{height_nm}.dat"
 
-    def get_optical_ports(self) -> List[Port]:
-        """ returns a lit of optical ports """
-        return list(select_optical_ports(self.ports).values())
-
     def ports_on_grid(self) -> None:
         """ asserts if all ports ar eon grid """
         for port in self.ports.values():
             port.on_grid()
+
+    def get_optical_ports(self, prefix=None) -> List[Port]:
+        """ returns a lit of optical ports """
+        return list(select_optical_ports(self.ports).values())
+
+    def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
+        """ returns a lit of  ports """
+        return list(
+            select_ports(self.ports, port_type=port_type, prefix=prefix).values()
+        )
 
     def get_ports_array(self) -> Dict[str, ndarray]:
         """ returns ports as a dict of np arrays"""
