@@ -1,4 +1,7 @@
-""" add markers to each port
+""" add markers to Devices:
+
+- pins
+- outline
 
 """
 import numpy as np
@@ -126,6 +129,7 @@ def add_pin_square(
 
 
 def add_outline(component, layer=LAYER.DEVREC):
+    """ adds devices outline in layer """
     c = component
     points = [
         [c.xmin, c.ymin],
