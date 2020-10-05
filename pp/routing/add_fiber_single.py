@@ -1,7 +1,6 @@
 from typing import Callable, Tuple
 import phidl.device_layout as pd
 from pp.config import call_if_func
-from pp.routing.connect_component import add_io_optical
 from pp.layers import LAYER
 from pp.component import Component
 from pp.add_labels import get_optical_text
@@ -12,8 +11,10 @@ from pp.components.bend_circular import bend_circular
 from pp.components import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.taper import taper
+from pp.container import container
 
 
+@container
 def add_fiber_single(
     component: Component,
     grating_coupler: Callable = grating_coupler_te,
@@ -24,9 +25,9 @@ def add_fiber_single(
     taper_factory: Callable = taper,
     route_filter: Callable = connect_strip_way_points,
     min_input2output_spacing: int = 127,
-    get_route_factory: Callable = route_fiber_single,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
+    component_name=None,
     **kwargs,
 ) -> Component:
     """returns component with grating ports and labels on each port
@@ -55,7 +56,7 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         layer_label: LAYER.LABEL
-        component_name: for the label
+        component_name: name of component
         taper_factory: taper
 
     """
@@ -64,7 +65,7 @@ def add_fiber_single(
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
 
-    c = add_io_optical(
+    elements, grating_couplers, _ = route_fiber_single(
         component,
         optical_io_spacing=optical_io_spacing,
         bend_factory=bend_factory,
@@ -73,11 +74,21 @@ def add_fiber_single(
         grating_coupler=grating_coupler,
         layer_label=layer_label,
         taper_factory=taper_factory,
-        get_route_factory=get_route_factory,
         optical_routing_type=optical_routing_type,
         min_input2output_spacing=min_input2output_spacing,
         **kwargs,
     )
+
+    component_name = component_name or component.name
+    name = f"{component_name}_{grating_coupler.polarization}"
+    c = Component(name=name)
+    c << component
+    c.function_name = "add_io_optical"
+
+    for e in elements:
+        c.add(e)
+    for gc in grating_couplers:
+        c.add(gc)
 
     if isinstance(grating_coupler, list):
         grating_couplers = [call_if_func(g) for g in grating_coupler]
@@ -140,5 +151,7 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.crossing()
+    c = pp.c.ring_double()  # FIXME
+    c = pp.c.mmi2x2()
     cc = add_fiber_single(c)
     pp.show(cc)

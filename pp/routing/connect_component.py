@@ -113,7 +113,8 @@ def add_io_optical(
     if len(elements) == 0:
         return c
 
-    cc.add(elements)
+    for e in elements:
+        cc.add(e)
     for io_gratings in io_gratings_lines:
         cc.add(io_gratings)
     cc.add(c.ref())

@@ -1,27 +1,23 @@
 angle: 90
 component:
-  cladding_offset: 3.0
-  layer:
-  - 1
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
-  length: 10.0
-  width: 0.5
-component_name: waveguide
+  CL_1: 20.147
+  DL: 7.38
+  L0: 60.0
+  L2: 10.0
+  bend_radius: 10.0
+  gap: 0.234
+  with_elec_connections: true
+component_name: mzi2x2_WECTrue
 function_name: null
-name: waveguide_r
+name: mzi2x2_WECTrue_r
 settings:
-  cladding_offset: 3.0
-  function_name: waveguide
-  layer:
-  - 1
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
-  length: 10.0
-  module: pp.components.waveguide
-  name: waveguide
-  width: 0.5
+  CL_1: 20.147
+  DL: 7.38
+  L0: 60.0
+  L2: 10.0
+  bend_radius: 10.0
+  function_name: mzi2x2
+  gap: 0.234
+  module: pp.components.mzi2x2
+  name: mzi2x2_WECTrue
+  with_elec_connections: 'True'
