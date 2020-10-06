@@ -3,13 +3,10 @@
 ## TODO
 
 - extract netlist from layout using PINS and check if connectivity matches intent
-- create a Klayout library so we can also place components from the klayout menu GUI
+- create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
+- bundle routing for component_from_yaml
 
-## Maybe
-
-- units are in um by default, so instead of using m to symbolize (1e-3) maybe just use nm
-
-# master
+## master branch (latest changes not released yet)
 
 - rename add_io_optical to add_fiber_array
 - add taper factory and length to add_fiber_single

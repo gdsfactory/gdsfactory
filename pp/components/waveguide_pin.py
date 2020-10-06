@@ -38,8 +38,16 @@ def waveguide_pin(
             __________________________________________________________________|
                                                                               |
                                      |width_i| width_n | width_np | width_npp |
-    |
                                         0    oi        on        onp         onpp
+
+    .. plot::
+      :include-source:
+
+      import pp
+
+      c = pp.c.waveguide_pin(length=10)
+      pp.plotgds(c)
+
     """
     c = waveguide_factory(length=length, width=width)
 

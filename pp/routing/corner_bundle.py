@@ -55,7 +55,7 @@ def corner_bundle(
     separation=5.0,
     **kwargs
 ):
-    """
+    r"""
     Args:
         start_ports: list of start ports
         end_ports: list of end ports
@@ -73,14 +73,14 @@ def corner_bundle(
         90 Deg bend
                    A1 A2      AN
                    | |  ...  |
-                   | |       /
-                  / /      _/
+                   | |      /
+                  / /      /
                  / /      /
-          B1 ----/ /     _/
+          B1 ----/ /    _/
           B2 -----/     /
                        /
             ...      _/
-          BN -------/
+          BN --------/
 
 
         270 Deg bend
