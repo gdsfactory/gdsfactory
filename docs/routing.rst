@@ -118,8 +118,11 @@ Routing banks of ports through pre-defined waypoints
 .. plot::
     :include-source:
 
+    import numpy as np
     import pp
     from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
+
+
     @pp.autoname
     def test_connect_bundle_waypoints():
         import pp

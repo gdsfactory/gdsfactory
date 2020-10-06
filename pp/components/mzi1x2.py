@@ -1,3 +1,4 @@
+from typing import Callable
 import pp
 
 from pp.components import bend_circular
@@ -11,7 +12,6 @@ from pp.port import select_electrical_ports
 
 from pp.components.extension import line
 from pp.component import Component
-from typing import Callable
 
 
 @pp.autoname

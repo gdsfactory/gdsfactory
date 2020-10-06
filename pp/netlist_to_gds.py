@@ -100,7 +100,9 @@ def netlist_to_component(
     ports_map: Dict[str, Tuple[str, str]] = None,
     position: Tuple[float, float] = (0.0, 0.0),
 ) -> Component:
-    """
+    """ Netlist_to_component is deprecated! use pp.componet_from_yaml instead
+    Returns a component from a netlist (instances, connections and ports map)
+
     Args:
         instances:
             list of (instance_id <str>, component <Component>, transform <tuple>)
@@ -147,11 +149,8 @@ def netlist_to_component(
     mirror, rotation, x, y
     """
 
-    print("netlist_to_component is deprecated! use pp.componet_from_yaml instead")
     if len(connections) == 0:
-        raise ValueError(
-            "Error number of connections", len(connections), len(instances)
-        )
+        raise ValueError("no connections defined")
 
     instance_id, port, _, _ = connections[0]
     assert instance_id in instances, f"{instance_id} not in {list(instances.keys())}"

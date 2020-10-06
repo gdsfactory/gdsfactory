@@ -439,13 +439,9 @@ def round_corners(
         points: manhattan route defined by waypoints
         bend90: the bend to use for 90Deg turns
         straight_factory: the straight factory to use to generate straight portions
-        taper: the taper to use in straight portion. If None, no tapering is done
-            in straight portions
-
-        straight_factory_fall_back_no_taper: factory to use for straights
-        in case there is no space to put a pair of tapers
-        straight_ports: port names for straights
-            If not specified, will use some heuristic to find them
+        taper: taper for straight portions. If None, no tapering
+        straight_factory_fall_back_no_taper: factory to use for straights in case there is no space to put a pair of tapers
+        straight_ports: port names for straights. If not specified, will use some heuristic to find them
     """
     ## If there is a taper, make sure its length is known
     if taper:
