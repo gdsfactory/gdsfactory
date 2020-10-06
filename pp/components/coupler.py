@@ -18,7 +18,7 @@ def coupler(
     layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
     cladding_offset: int = 3,
 ) -> Component:
-    """symmetric coupler
+    r""" symmetric coupler
 
     Args:
         gap
@@ -28,13 +28,13 @@ def coupler(
 
     .. code::
 
-       W1 __             __ E1
-            \           /
-             \         /
-              ========= gap
-             /          \
-           _/            \_
-        W0      length    E0
+       W1 __                           __ E1
+            \                         /
+             \        length         /
+              ======================= gap
+             /                        \
+           _/                          \_
+        W0                              E0
 
             coupler_straight  coupler_symmetric_factory
 

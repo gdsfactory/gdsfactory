@@ -9,6 +9,7 @@ from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
 from pp.routing.connect import connect_strip, connect_strip_way_points
 from pp.routing.connect_bundle import connect_bundle
+from pp.routing.connect_bundle import connect_bundle_path_length_match
 from pp.routing.connect_bundle import link_electrical_ports
 from pp.routing.connect_bundle import link_optical_ports
 from pp.routing.manhattan import round_corners, route_manhattan
@@ -24,6 +25,7 @@ __all__ = [
     "add_fiber_array",
     "add_fiber_single",
     "connect_bundle",
+    "connect_bundle_path_length_match",
     "connect_strip",
     "connect_strip_way_points",
     "link_electrical_ports",
