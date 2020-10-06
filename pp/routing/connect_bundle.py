@@ -1,3 +1,6 @@
+""" route bundles of port (river routing)
+"""
+
 from typing import Callable, List, Optional
 from numpy import float64, ndarray
 import numpy as np
@@ -585,7 +588,8 @@ def link_electrical_ports(
     route_filter: Callable = connect_elec_waypoints,
     **kwargs,
 ) -> List[ComponentReference]:
-    """
+    """ Connect bundle of electrical ports
+
     Args:
         ports1: first list of ports
         ports2: second list of ports
@@ -639,6 +643,8 @@ def link_optical_ports(
     bend_radius: float = BEND_RADIUS,
     **kwargs,
 ) -> List[ComponentReference]:
+    """ connect bundle of optical ports
+    """
     return link_ports(
         ports1,
         ports2,
@@ -1053,27 +1059,27 @@ def demo_connect_bundle():
     x = 500
     y0 = 900
     dy = 200.0
-    cmp = Component("connect_bundle")
+    c = Component("connect_bundle")
     for j, s in enumerate([-1, 1]):
         for i, angle in enumerate([0, 90, 180, 270]):
             _cmp = test_connect_bundle_u_indirect(dy=s * dy, angle=angle)
             _cmp_ref = _cmp.ref(position=(i * x, j * y))
-            cmp.add(_cmp_ref)
+            c.add(_cmp_ref)
 
             _cmp = test_connect_bundle_udirect(dy=s * dy, angle=angle)
             _cmp_ref = _cmp.ref(position=(i * x, j * y + y0))
-            cmp.add(_cmp_ref)
+            c.add(_cmp_ref)
 
     for i, config in enumerate(["A", "B", "C", "D"]):
         _cmp = test_connect_corner(config=config)
         _cmp_ref = _cmp.ref(position=(i * x, 1700))
-        cmp.add(_cmp_ref)
+        c.add(_cmp_ref)
 
     _cmp = test_facing_ports()
     _cmp_ref = _cmp.ref(position=(800, 1820))
-    cmp.add(_cmp_ref)
+    c.add(_cmp_ref)
 
-    return cmp
+    return c
 
 
 def demo_connect_bundle_small(bend_radius=5):
