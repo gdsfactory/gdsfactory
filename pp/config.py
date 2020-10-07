@@ -111,6 +111,7 @@ CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
 CONFIG["mask_config_directory"] = mask_config_directory
 CONFIG["gdspath"] = build_directory / "gds.gds"
 CONFIG["samples_path"] = module_path / "samples"
+CONFIG["netlists"] = module_path / "samples" / "netlists"
 CONFIG["components_path"] = module_path / "components"
 
 if "gds_resources" in CONFIG:

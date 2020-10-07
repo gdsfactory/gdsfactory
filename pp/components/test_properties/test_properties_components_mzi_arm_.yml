@@ -4,5 +4,5 @@ L_top: 10.0
 bend_radius: 10.0
 function_name: mzi_arm
 module: pp.components.mzi2x2
-name: mzi_arm
+name: arm_bot
 with_elec_connections: true

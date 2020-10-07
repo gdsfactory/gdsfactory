@@ -5,7 +5,6 @@
 from typing import Union, IO, Any
 import pathlib
 import io
-import pytest
 from omegaconf import OmegaConf
 
 from pp.component import Component
@@ -13,9 +12,12 @@ from pp.components import component_type2factory as component_type2factory_defau
 from pp.routing import link_optical_ports
 
 valid_placements = ["x", "y", "rotation", "mirror"]
-valid_keys = ["instances", "placements", "connections", "ports", "routes"]
+valid_keys = ["name", "instances", "placements", "connections", "ports", "routes"]
 
-sample = """
+sample_mmis = """
+name:
+    mmis
+
 instances:
     mmi_long:
       component: mmi1x2
@@ -63,6 +65,9 @@ connections:
 
 
 sample_mirror = """
+name:
+    mirror
+
 instances:
     CP1:
       component: mmi1x2
@@ -91,7 +96,7 @@ connections:
     arm_bot,W0: CP1,E0
     arm_top,W0: CP1,E1
     CP2,E0: arm_bot,E0
-    CP2,E0: arm_top,E0
+    CP2,E1: arm_top,E0
 """
 
 
@@ -112,7 +117,6 @@ def component_from_yaml(
         Component
 
     """
-    c = Component()
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
     component_type2factory = component_type2factory or component_type2factory_default
 
@@ -122,6 +126,8 @@ def component_from_yaml(
 
     instances = {}
     routes = {}
+    name = conf.get("name") or "Unnamed"
+    c = Component(name)
     placements_conf = conf.get("placements")
     routing_conf = conf.get("routes")
     ports_conf = conf.get("ports")
@@ -240,56 +246,44 @@ def component_from_yaml(
     return c
 
 
-@pytest.fixture(scope="function")
 def test_sample():
-    c = component_from_yaml(sample)
-    assert len(c.get_dependencies()) == 4
+    c = component_from_yaml(sample_mmis)
+    assert len(c.get_dependencies()) == 3
     assert len(c.ports) == 2
     return c
 
 
-@pytest.fixture(scope="function")
 def test_connections():
     c = component_from_yaml(sample_connections)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 2
+    assert len(c.ports) == 0
     return c
 
 
-@pytest.fixture(scope="function")
 def test_mirror():
     c = component_from_yaml(sample_mirror)
-    return c
-
-
-@pytest.fixture(scope="function")
-def test_netlist_write():
-    from pp.components.mzi import mzi
-
-    c = mzi()
-    netlist = c.get_netlist()
-    # netlist.pop('connections')
-    OmegaConf.save(netlist, "mzi.yml")
-
-
-@pytest.fixture(scope="function")
-def test_netlist_read():
-    c = component_from_yaml("mzi.yml")
-    # print(c.get_netlist().pretty())
-    # print(len(c.get_netlist().connections))
-    # print((c.get_netlist().connections.pretty()))
-    assert len(c.get_dependencies()) == 18
-    assert len(c.get_netlist().connections) == 18
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 3
+    assert len(c.ports) == 2
     return c
 
 
 if __name__ == "__main__":
-    import pp
+    pass
 
-    # test_netlist_write()
-    # c = test_netlist_read()
+    # test_sample()
+    # test_connections()
+    # test_mirror()
     # c = test_mirror()
 
-    c = component_from_yaml(sample)
-    pp.show(c)
+    # sample = sample_mmis
+    # sample = sample_connections
+    # sample = sample_mirror
+    # c = component_from_yaml(sample)
+    # pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
