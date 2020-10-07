@@ -1,4 +1,4 @@
-centered: 'False'
+centered: false
 function_name: rectangle
 layer:
 - 1

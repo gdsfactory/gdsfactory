@@ -10,7 +10,7 @@ length_taper: 150.0
 module: pp.components.grating_coupler.uniform
 name: grating_coupler_uniform
 num_teeth: 20
-partial_etch: 'False'
+partial_etch: false
 period: 0.75
 width: 0.5
 width_grating: 11.0

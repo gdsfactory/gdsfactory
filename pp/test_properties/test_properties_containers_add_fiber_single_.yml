@@ -22,4 +22,4 @@ route_filter: connect_strip_way_points
 straight_factory: waveguide
 taper_factory: taper
 taper_length: 10.0
-with_align_ports: 'True'
+with_align_ports: true

@@ -10,6 +10,7 @@
 
 - rename add_io_optical to add_fiber_array
 - add taper factory and length to add_fiber_single
+- fixed JSON metadata for callable elements
 
 ## 1.4.0 2020-10-04
 

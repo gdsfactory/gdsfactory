@@ -5,4 +5,4 @@ bend_radius: 10.0
 function_name: mzi_arm
 module: pp.components.mzi2x2
 name: mzi_arm
-with_elec_connections: 'True'
+with_elec_connections: true
