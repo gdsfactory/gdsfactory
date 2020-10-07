@@ -4,9 +4,6 @@ from pp import components as pc
 from pp.component import Component
 
 
-__version__ = "0.0.1"
-
-
 @pp.autoname
 def _via_iterable(
     via_spacing: int,

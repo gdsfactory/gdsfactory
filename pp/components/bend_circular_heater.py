@@ -4,8 +4,6 @@ from pp.components.bend_circular import bend_circular
 from pp.name import autoname
 from pp.component import Component
 
-__version__ = "0.0.1"
-
 
 @pp.port.deco_rename_ports
 @autoname

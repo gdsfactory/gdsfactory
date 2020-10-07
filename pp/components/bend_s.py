@@ -6,9 +6,6 @@ from pp.component import Component
 from typing import List, Tuple
 
 
-__version__ = "0.0.2"
-
-
 @pp.autoname
 def bend_s(
     width: float = 0.5,

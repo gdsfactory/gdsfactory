@@ -4,8 +4,6 @@ from pp.components.waveguide import waveguide
 from pp.component import Component
 from typing import Callable
 
-__version__ = "0.0.1"
-
 
 @pp.autoname
 def coupler_asymmetric(

@@ -151,7 +151,7 @@ def link_ports(
     route_filter: Callable = connect_strip_way_points,
     **routing_params,
 ) -> List[ComponentReference]:
-    """Semi auto-routing for two lists of ports
+    """Semi auto-routing for two lists of ports.
 
     Args:
         ports1: first list of ports
@@ -163,7 +163,6 @@ def link_ports(
         bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
         route_filter: filter to apply to the manhattan waypoints
             e.g `connect_strip_way_points` for deep etch strip waveguide
-
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
@@ -180,9 +179,6 @@ def link_ports(
 
     .. code::
 
-        Connection-cartoon
-
-        We want to connect something like this::
         1             X    X     X  X X  X
         |-----------|    |     |  | |  |-----------------------|
         |          |-----|     |  | |---------------|          |
@@ -190,22 +186,22 @@ def link_ports(
         2 X          X          X          X          X          X
 
 
-        ``start`` is at the top
-        ``end`` is at the bottom
+    start: at the top
+    end: at the bottom
 
-        The general strategy is:
-        Group tracks which would collide together and apply the following method
-        on each group:
+    The general strategy is:
+    Group tracks which would collide together and apply the following method
+    on each group:
 
-            if x2 >= x1, increase ``end_straight``
-                (as seen on the right 3 ports)
-            otherwise, decrease ``end_straight``
-                (as seen on the first 2 ports)
+        if x2 >= x1, increase ``end_straight``
+            (as seen on the right 3 ports)
+        otherwise, decrease ``end_straight``
+            (as seen on the first 2 ports)
 
-        We deal with negative end_straight by doing at the end
-            end_straights = end_straights - min(end_straights)
+    We deal with negative end_straight by doing at the end
+        end_straights = end_straights - min(end_straights)
 
-        This method deals with different metal track/wg/wire widths too.
+    This method deals with different metal track/wg/wire widths too.
 
     """
 
