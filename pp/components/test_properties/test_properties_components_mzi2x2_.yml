@@ -7,4 +7,4 @@ function_name: mzi2x2
 gap: 0.234
 module: pp.components.mzi2x2
 name: mzi2x2
-with_elec_connections: 'False'
+with_elec_connections: false

@@ -1,4 +1,4 @@
-big_last_tooth: 'False'
+big_last_tooth: false
 fiber_angle: 15.0
 function_name: grating_coupler_elliptical_te
 grating_line_width: 0.343
@@ -18,4 +18,4 @@ polarization: te
 taper_angle: 40.0
 taper_length: 16.6
 wg_width: 0.5
-with_fiber_marker: 'True'
+with_fiber_marker: true

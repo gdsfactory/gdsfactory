@@ -1,7 +1,6 @@
 import itertools
 import uuid
 import copy as python_copy
-import json
 import pathlib
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
@@ -17,7 +16,7 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
-from pp.name import dict2hash
+from pp.name import dict2hash, clean_dict, clean_list
 
 
 def copy(D):
@@ -997,25 +996,20 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
 
 def _clean_value(value: Any) -> Any:
     """ returns a clean value """
-    if type(value) in [int, float, str, tuple]:
+    if type(value) in [int, float, str, tuple, bool]:
         value = value
-    elif callable(value):
-        value = value.__name__
-    elif type(value) == Component:
-        value = value.name
-    # elif hasattr(value, "__iter__"):
-    #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
-    elif hasattr(value, "__iter__"):
-        try:
-            json.dumps(value)
-            value = value
-        except Exception:
-            # value = str(value)
-            value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):
         value = int(value)
+    elif callable(value):
+        value = value.__name__
+    elif type(value) == Component:
+        value = value.name
+    elif hasattr(value, "items"):
+        clean_dict(value)
+    elif hasattr(value, "__iter__"):
+        clean_list(value)
     else:
         value = str(value)
 
@@ -1071,8 +1065,8 @@ if __name__ == "__main__":
     import pp
 
     # c = pp.c.ring_single()
-    c = pp.c.mzi()
-    c.plot_netlist()
+    # c = pp.c.mzi()
+    # c.plot_netlist()
 
     # test_netlist_simple()
     # test_netlist_complex()
@@ -1131,6 +1125,8 @@ if __name__ == "__main__":
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
+    c = pp.c.waveguide()
+    c = pp.routing.add_fiber_array(c)
+    print(c.get_settings())
     # print(c.get_json())
-    # print(c.get_settings())
     # print(c.get_settings(test="hi"))

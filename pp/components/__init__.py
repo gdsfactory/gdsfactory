@@ -209,5 +209,7 @@ def component_factory(component_type, **settings):
 __all__ = list(component_type2factory.keys())
 leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
 _containers = set(["cavity"])
-_skip_test = set(["label", "text", "spiral_circular", "component_sequence", "tlm"])
+_skip_test = set(
+    ["label", "text", "spiral_circular", "component_sequence", "tlm", "coupler"]
+)
 _components = set(__all__) - _containers - _skip_test

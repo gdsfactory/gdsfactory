@@ -20,4 +20,4 @@ settings:
   gap: 0.234
   module: pp.components.mzi2x2
   name: mzi2x2_WECTrue
-  with_elec_connections: 'True'
+  with_elec_connections: true

@@ -3,7 +3,7 @@ direction: EAST
 fin_size:
 - 0.2
 - 0.05
-fins: 'False'
+fins: false
 function_name: dbr2
 length: 10.0
 module: pp.components.dbr2
