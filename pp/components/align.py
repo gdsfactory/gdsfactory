@@ -3,8 +3,6 @@ from pp.components.rectangle import rectangle_centered
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.add_padding import add_padding_to_grid
 
-__version__ = "0.0.1"
-
 
 @pp.autoname
 def align_wafer(

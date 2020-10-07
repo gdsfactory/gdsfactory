@@ -3,8 +3,6 @@ from pp.components.bend_s import bend_s
 from pp.component import Component
 from typing import Callable, List, Tuple
 
-__version__ = "0.0.1"
-
 
 @pp.autoname
 def coupler_symmetric(

@@ -57,10 +57,10 @@ def package_optical2x2(component, port_spacing=20.0, bend_length=None):
 if __name__ == "__main__":
     from pp.components import coupler
 
-    component = coupler(gap=0.3)
-    component = pp.c.mzi2x2(with_elec_connections=True)
+    # component = coupler(gap=0.3)
+    # component = pp.c.mzi2x2(with_elec_connections=True)
 
-    c = package_optical2x2(component=component)
+    c = package_optical2x2(coupler)
     print(c.ports["E1"].y - c.ports["E0"].y)
     print(c.ports)
     pp.show(c)

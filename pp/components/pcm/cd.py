@@ -6,9 +6,6 @@ import pp
 from pp.layers import LAYER
 
 
-__version__ = "0.0.1"
-
-
 def square_middle(side=0.5, layer=LAYER.WG):
     component = pp.Component()
     a = side / 2

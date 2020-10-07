@@ -6,9 +6,6 @@ from pp.component import Component
 from typing import List
 
 
-__version__ = "0.0.1"
-
-
 @autoname
 def litho_steps(
     line_widths: List[int] = [1, 2, 4, 8, 16],

@@ -5,8 +5,6 @@ from pp.name import autoname
 from pp.component import Component
 from typing import Callable
 
-__version__ = "0.0.1"
-
 
 @autoname
 def coupler90(

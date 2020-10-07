@@ -2,8 +2,6 @@ import pp
 from pp.component import Component
 from typing import Tuple
 
-__version__ = "0.0.1"
-
 
 @pp.autoname
 def mmi2x2(
