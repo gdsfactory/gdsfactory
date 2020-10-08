@@ -89,8 +89,12 @@ instances:
             length_mmi: 5
     arm_top:
         component: mzi_arm
+        settings:
+            L0: 30
     arm_bot:
         component: mzi_arm
+        settings:
+            L0: 30
 
 placements:
     arm_bot:
@@ -334,8 +338,12 @@ name:
 instances:
     mmi_bottom:
       component: mmi2x2
+      settings:
+            length_mmi: 5
     mmi_top:
       component: mmi2x2
+      settings:
+            length_mmi: 5
 
 placements:
     mmi_top:
@@ -350,11 +358,11 @@ routes:
 
 
 def test_connections_2x2_problem():
-    c = component_from_yaml(sample_2x2_connections_problem, pins=True)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
-    # assert len(c.get_dependencies()) == 4
-    # assert len(c.ports) == 0
+    c = component_from_yaml(sample_2x2_connections_problem, pins=True, cache=False)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 4
+    assert len(c.ports) == 0
     return c
 
 
@@ -365,8 +373,12 @@ name:
 instances:
     mmi_bottom:
       component: mmi2x2
+      settings:
+            length_mmi: 5
     mmi_top:
       component: mmi2x2
+      settings:
+            length_mmi: 5
 
 placements:
     mmi_top:
@@ -382,30 +394,29 @@ bundle_routes:
 
 
 def test_connections_2x2_solution():
-    c = component_from_yaml(sample_2x2_connections_solution)
+    c = component_from_yaml(sample_2x2_connections_solution, pins=True, cache=False)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
-    assert len(c.get_dependencies()) == 3
+    assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 0
     return c
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = test_connections_2x2_problem()
-    c = test_connections_2x2_solution()
-    pp.show(c)
+    # c = test_connections_2x2_solution()
+    # pp.show(c)
 
     # test_sample()
     # test_connections()
-    # test_mirror()
+    test_mirror()
     # c = test_mirror()
 
     # sample = sample_mmis
     # sample = sample_connections
-    # sample = sample_mirror
-    # c = component_from_yaml(sample)
+    sample = sample_mirror
+    c = component_from_yaml(sample)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
