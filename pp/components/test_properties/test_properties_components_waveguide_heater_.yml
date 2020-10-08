@@ -8,7 +8,7 @@ layers_heater:
 - - 47
   - 0
 length: 10.0
-metal_connection: 'True'
+metal_connection: true
 module: pp.components.waveguide_heater
 name: waveguide_heater
 sstw: 2.0

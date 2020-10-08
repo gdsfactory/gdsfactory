@@ -7,8 +7,6 @@ from pp.components.hline import hline
 
 from pp.component import Component
 
-__version__ = "0.0.1"
-
 
 @autoname
 def waveguide(

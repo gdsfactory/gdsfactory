@@ -28,7 +28,8 @@ def crossing_arm(
     w: float = 1.2,
     L: float = 3.4,
 ) -> Component:
-    """"""
+    """ arm of a crossing
+    """
     c = pp.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
@@ -291,15 +292,16 @@ def compensation_path(crossing45=crossing45, direction="top"):
     crossing45:
 
     .. code::
-        ----       ----
-            \     /
-             \   /
-              \ /
-               X
-              / \
-             /   \
-            /     \
-        ----       ----
+
+          ----       ----
+              \     /
+               \   /
+                \ /
+                 X
+                / \
+               /   \
+              /     \
+          ----       ----
 
     Compensation path:
 

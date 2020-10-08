@@ -3,9 +3,6 @@ import pp
 from pp.component import Component
 
 
-__version__ = "0.0.1"
-
-
 @pp.autoname
 def coupler_straight(
     length: float = 10.0,

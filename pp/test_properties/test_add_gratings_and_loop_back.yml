@@ -27,4 +27,4 @@ layer_label:
 name: spiral_inner_io_te
 waveguide_factory: waveguide
 waveguide_separation: 5.0
-with_loopback: 'True'
+with_loopback: true

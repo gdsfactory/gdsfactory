@@ -8,7 +8,7 @@ period: 1.0
 port:
 - 0
 - 0
-ridge: 'True'
+ridge: true
 ridge_layers:
 - 2
 - 0

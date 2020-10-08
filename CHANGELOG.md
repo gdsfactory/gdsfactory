@@ -8,8 +8,14 @@
 
 ## master branch (latest changes not released yet)
 
-- rename add_io_optical to add_fiber_array
-- add taper factory and length to add_fiber_single
+
+## 1.4.2 2020-10-07
+
+- renamed add_io_optical to add_fiber_array
+- added taper factory and length to add_fiber_single
+- fixed JSON metadata for Components with function kwargs
+- fixed reference positions in component_from_yaml
+- added bundle_routes option in component_from_yaml
 
 ## 1.4.0 2020-10-04
 

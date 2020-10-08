@@ -28,19 +28,22 @@ class Library(object):
     This will come at the cost of some space.
     If you are packing many disparate components, you should either group them into blocks first, or pass `normalize=False`.
 
-.. code:: python
+    .. code::
 
-    # Load all the GDS files from build/devices
-    library = Library()
+        import pp.autoplacer as ap
 
-    # Select all devices with "ring" and "euler" in the top-cell name.
-    library.pop("ring.*euler.*")
+        # Load all the GDS files from build/devices
+        library = ap.Library()
 
-    # Same selection, less padding
-    library.pop("ring.*euler.*", padding=0)
+        # Select all devices with "ring" and "euler" in the top-cell name.
+        library.pop("ring.*euler.*")
 
-    # Same selection, without attempting to align gratings
-    library.pop("ring.*euler.*", normalize=False)
+        # Same selection, less padding
+        library.pop("ring.*euler.*", padding=0)
+
+        # Same selection, without attempting to align gratings
+        library.pop("ring.*euler.*", normalize=False)
+
     """
 
     def __init__(self, root="build/devices"):

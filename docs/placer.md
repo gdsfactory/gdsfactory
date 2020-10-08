@@ -7,7 +7,7 @@ This placer is a more complicated alternative to the YAML placer
 
 ## Library
 ```eval_rst
-.. autoclass:: pp.autoplacer.Library
+.. autoclass:: pp.autoplacer.library.Library
 ```
 
 

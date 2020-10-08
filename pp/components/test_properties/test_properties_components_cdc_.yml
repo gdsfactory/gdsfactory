@@ -7,10 +7,10 @@ dw_top: None
 fin_size:
 - 0.2
 - 0.05
-fins: 'False'
+fins: false
 function_name: cdc
 gap: 0.5
-input_bot: 'False'
+input_bot: false
 length: 30.0
 module: pp.components.cdc
 name: cdc

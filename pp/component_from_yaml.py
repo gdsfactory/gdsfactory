@@ -5,7 +5,6 @@
 from typing import Union, IO, Any
 import pathlib
 import io
-import pytest
 from omegaconf import OmegaConf
 
 from pp.component import Component
@@ -13,9 +12,20 @@ from pp.components import component_type2factory as component_type2factory_defau
 from pp.routing import link_optical_ports
 
 valid_placements = ["x", "y", "rotation", "mirror"]
-valid_keys = ["instances", "placements", "connections", "ports", "routes"]
+valid_keys = [
+    "name",
+    "instances",
+    "placements",
+    "connections",
+    "ports",
+    "routes",
+    "bundle_routes",
+]
 
-sample = """
+sample_mmis = """
+name:
+    mmis
+
 instances:
     mmi_long:
       component: mmi1x2
@@ -63,6 +73,9 @@ connections:
 
 
 sample_mirror = """
+name:
+    mirror
+
 instances:
     CP1:
       component: mmi1x2
@@ -76,8 +89,12 @@ instances:
             length_mmi: 5
     arm_top:
         component: mzi_arm
+        settings:
+            L0: 30
     arm_bot:
         component: mzi_arm
+        settings:
+            L0: 30
 
 placements:
     arm_bot:
@@ -91,28 +108,35 @@ connections:
     arm_bot,W0: CP1,E0
     arm_top,W0: CP1,E1
     CP2,E0: arm_bot,E0
-    CP2,E0: arm_top,E0
+    CP2,E1: arm_top,E0
 """
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None,
+    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None, **kwargs
 ) -> Component:
-    """Loads instance settings, placements, routing and ports from YAML
+    """Returns a Component defined from YAML
 
-    instances: defines instance names, component and settings
+    name: name of Component
+    instances:
+        name
+        component
+        settings
     placements: x, y and rotations
+    connections: between instances
+    ports (Optional): defines ports to expose
     routes (Optional): defines routes
     ports (Optional): defines ports to expose
 
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
+        component_type2factory: dict of {factory_name: factory_function}
+        kwargs: cache, pins ... to pass to all factories
 
     Returns:
         Component
 
     """
-    c = Component()
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
     component_type2factory = component_type2factory or component_type2factory_default
 
@@ -122,8 +146,11 @@ def component_from_yaml(
 
     instances = {}
     routes = {}
+    name = conf.get("name") or "Unnamed"
+    c = Component(name)
     placements_conf = conf.get("placements")
-    routing_conf = conf.get("routes")
+    routes_conf = conf.get("routes")
+    bundle_routes_conf = conf.get("bundle_routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
 
@@ -134,10 +161,11 @@ def component_from_yaml(
             component_type in component_type2factory
         ), f"{component_type} not in {list(component_type2factory.keys())}"
         component_settings = instance_conf["settings"] or {}
-        # component_settings.update(cache=False)
+        component_settings.update(**kwargs)
         ci = component_type2factory[component_type](**component_settings)
         ci.name = instance_name
-        instances[instance_name] = c << ci
+        ref = c << ci
+        instances[instance_name] = ref
 
         if placements_conf:
             placement_settings = placements_conf[instance_name] or {}
@@ -148,11 +176,11 @@ def component_from_yaml(
                         f" {instance_name}"
                     )
                 elif k == "rotation":
-                    ci.rotate(v, (ci.x, ci.y))
+                    ref.rotate(v, (ci.x, ci.y))
                 elif k == "mirror":
-                    ci.mirror((v[0], v[1]), (v[2], v[3]))
+                    ref.mirror((v[0], v[1]), (v[2], v[3]))
                 else:
-                    setattr(ci, k, v)
+                    setattr(ref, k, v)
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
@@ -184,8 +212,8 @@ def component_from_yaml(
             port_dst = instance_dst.ports[port_dst_name]
             instance_src.connect(port=port_src_name, destination=port_dst)
 
-    if routing_conf:
-        for port_src_string, port_dst_string in routing_conf.items():
+    if routes_conf:
+        for port_src_string, port_dst_string in routes_conf.items():
             instance_src_name, port_src_name = port_src_string.split(",")
             instance_dst_name, port_dst_name = port_dst_string.split(",")
 
@@ -220,6 +248,44 @@ def component_from_yaml(
             c.add(route)
             routes[f"{port_src_string}:{port_dst_string}"] = route[0]
 
+    if bundle_routes_conf:
+        for route in bundle_routes_conf:
+            ports1 = []
+            ports2 = []
+            routes = bundle_routes_conf[route]
+            for port_src_string, port_dst_string in routes.items():
+                instance_src_name, port_src_name = port_src_string.split(",")
+                instance_dst_name, port_dst_name = port_dst_string.split(",")
+
+                instance_src_name = instance_src_name.strip()
+                instance_dst_name = instance_dst_name.strip()
+                port_src_name = port_src_name.strip()
+                port_dst_name = port_dst_name.strip()
+
+                assert (
+                    instance_src_name in instances
+                ), f"{instance_src_name} not in {list(instances.keys())}"
+                assert (
+                    instance_dst_name in instances
+                ), f"{instance_dst_name} not in {list(instances.keys())}"
+
+                instance_in = instances[instance_src_name]
+                instance_out = instances[instance_dst_name]
+
+                assert port_src_name in instance_in.ports, (
+                    f"{port_src_name} not in {list(instance_in.ports.keys())} for"
+                    f" {instance_src_name} "
+                )
+                assert port_dst_name in instance_out.ports, (
+                    f"{port_dst_name} not in {list(instance_out.ports.keys())} for"
+                    f" {instance_dst_name}"
+                )
+
+                ports1.append(instance_in.ports[port_src_name])
+                ports2.append(instance_out.ports[port_dst_name])
+            route = link_optical_ports(ports1, ports2)
+            c.add(route)
+
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
         for port_name, instance_comma_port in ports_conf.items():
@@ -240,56 +306,117 @@ def component_from_yaml(
     return c
 
 
-@pytest.fixture(scope="function")
 def test_sample():
-    c = component_from_yaml(sample)
-    assert len(c.get_dependencies()) == 4
+    c = component_from_yaml(sample_mmis)
+    assert len(c.get_dependencies()) == 3
     assert len(c.ports) == 2
     return c
 
 
-@pytest.fixture(scope="function")
 def test_connections():
     c = component_from_yaml(sample_connections)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 2
+    assert len(c.ports) == 0
     return c
 
 
-@pytest.fixture(scope="function")
 def test_mirror():
     c = component_from_yaml(sample_mirror)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 3
+    assert len(c.ports) == 2
     return c
 
 
-@pytest.fixture(scope="function")
-def test_netlist_write():
-    from pp.components.mzi import mzi
+sample_2x2_connections_problem = """
+name:
+    connections_2x2_problem
 
-    c = mzi()
-    netlist = c.get_netlist()
-    # netlist.pop('connections')
-    OmegaConf.save(netlist, "mzi.yml")
+instances:
+    mmi_bottom:
+      component: mmi2x2
+      settings:
+            length_mmi: 5
+    mmi_top:
+      component: mmi2x2
+      settings:
+            length_mmi: 5
+
+placements:
+    mmi_top:
+        x: 100
+        y: 100
+
+routes:
+    mmi_bottom,E0: mmi_top,W0
+    mmi_bottom,E1: mmi_top,W1
+
+"""
 
 
-@pytest.fixture(scope="function")
-def test_netlist_read():
-    c = component_from_yaml("mzi.yml")
-    # print(c.get_netlist().pretty())
-    # print(len(c.get_netlist().connections))
-    # print((c.get_netlist().connections.pretty()))
-    assert len(c.get_dependencies()) == 18
-    assert len(c.get_netlist().connections) == 18
+def test_connections_2x2_problem():
+    c = component_from_yaml(sample_2x2_connections_problem, pins=True, cache=False)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 4
+    assert len(c.ports) == 0
+    return c
+
+
+sample_2x2_connections_solution = """
+name:
+    connections_2x2_solution
+
+instances:
+    mmi_bottom:
+      component: mmi2x2
+      settings:
+            length_mmi: 5
+    mmi_top:
+      component: mmi2x2
+      settings:
+            length_mmi: 5
+
+placements:
+    mmi_top:
+        x: 100
+        y: 100
+
+bundle_routes:
+    mmis:
+        mmi_bottom,E0: mmi_top,W0
+        mmi_bottom,E1: mmi_top,W1
+
+"""
+
+
+def test_connections_2x2_solution():
+    c = component_from_yaml(sample_2x2_connections_solution, pins=True, cache=False)
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 4
+    assert len(c.ports) == 0
     return c
 
 
 if __name__ == "__main__":
-    import pp
 
-    # test_netlist_write()
-    # c = test_netlist_read()
+    # c = test_connections_2x2_problem()
+    # c = test_connections_2x2_solution()
+    # pp.show(c)
+
+    # test_sample()
+    # test_connections()
+    test_mirror()
     # c = test_mirror()
 
+    # sample = sample_mmis
+    # sample = sample_connections
+    sample = sample_mirror
     c = component_from_yaml(sample)
-    pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3

@@ -8,6 +8,7 @@ def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3):
     """ Chain of splitters
 
     .. code::
+
                 __
              __|
           __|  |__

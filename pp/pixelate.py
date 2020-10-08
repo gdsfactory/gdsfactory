@@ -168,3 +168,11 @@ def gen_pixels_op_blocking(pts, snap_res=0.05, margin=1.0, min_pixel_size=0.4):
 
 def gen_op_blocking(pts, snap_res=0.05, margin=0.3):
     return polygon_grow(pts, margin)
+
+
+if __name__ == "__main__":
+    import numpy as np
+
+    pts = [(x, x ** 2) for x in np.linspace(0, 1, 5)]
+    c = pixelate(pts)
+    print(c)

@@ -184,4 +184,5 @@ if __name__ == "__main__":
     c = pp.c.waveguide(width=2, length=500)
 
     cc = add_fiber_single(c)
+    print(cc.get_settings()["component"])
     pp.show(cc)
