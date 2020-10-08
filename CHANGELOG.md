@@ -8,6 +8,8 @@
 
 ## master branch (latest changes not released yet)
 
+## 1.4.3 2020-10-07
+
 - clean metadata dict recursively
 
 
