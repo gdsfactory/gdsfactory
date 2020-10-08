@@ -20,17 +20,7 @@ from pp.name import dict2hash, clean_dict, clean_list
 
 
 def copy(D):
-    """Copies a Component.
-
-    Parameters
-    ----------
-    D : Device
-        Device to be copied.
-
-    Returns
-    -------
-    D_copy : Device
-        Copied Device.
+    """returns a copy of a Component.
     """
     D_copy = Component(name=D._internal_name)
     D_copy.info = python_copy.deepcopy(D.info)
@@ -391,12 +381,10 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self,
-        angle: Union[float64, int, int64, float] = 45,
-        center: Union[Tuple[int, int], ndarray] = (0, 0),
+        self, angle: [int, float] = 45, center: Tuple[int, int] = (0.0, 0.0),
     ):
         """
-        Returns:
+        Returns a component
             ComponentReference
         """
         if angle == 0:
@@ -441,9 +429,9 @@ class ComponentReference(DeviceReference):
         p1: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 1),
         p2: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 0),
     ):
-        if type(p1) is Port:
+        if isinstance(p1, Port):
             p1 = p1.midpoint
-        if type(p2) is Port:
+        if isinstance(p2, Port):
             p2 = p2.midpoint
         p1 = np.array(p1)
         p2 = np.array(p2)

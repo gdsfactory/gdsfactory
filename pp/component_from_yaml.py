@@ -101,7 +101,7 @@ connections:
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None,
+    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None, **kwargs
 ) -> Component:
     """Loads instance settings, placements, routing and ports from YAML
 
@@ -112,6 +112,8 @@ def component_from_yaml(
 
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
+        component_type2factory: dict of {factory_name: factory_function}
+        kwargs: cache, pins
 
     Returns:
         Component
@@ -140,10 +142,11 @@ def component_from_yaml(
             component_type in component_type2factory
         ), f"{component_type} not in {list(component_type2factory.keys())}"
         component_settings = instance_conf["settings"] or {}
-        # component_settings.update(cache=False)
+        component_settings.update(**kwargs)
         ci = component_type2factory[component_type](**component_settings)
         ci.name = instance_name
-        instances[instance_name] = c << ci
+        ref = c << ci
+        instances[instance_name] = ref
 
         if placements_conf:
             placement_settings = placements_conf[instance_name] or {}
@@ -154,11 +157,11 @@ def component_from_yaml(
                         f" {instance_name}"
                     )
                 elif k == "rotation":
-                    ci.rotate(v, (ci.x, ci.y))
+                    ref.rotate(v, (ci.x, ci.y))
                 elif k == "mirror":
-                    ci.mirror((v[0], v[1]), (v[2], v[3]))
+                    ref.mirror((v[0], v[1]), (v[2], v[3]))
                 else:
-                    setattr(ci, k, v)
+                    setattr(ref, k, v)
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
@@ -271,8 +274,75 @@ def test_mirror():
     return c
 
 
+sample_2x2_connections_problem = """
+name:
+    connections_2x2_problem
+
+instances:
+    mmi_bottom:
+      component: mmi2x2
+    mmi_top:
+      component: mmi2x2
+
+placements:
+    mmi_top:
+        x: 100
+        y: 100
+
+routes:
+    mmi_bottom,E0: mmi_top,W0
+    mmi_bottom,E1: mmi_top,W1
+
+"""
+
+
+def test_connections_2x2_problem():
+    c = component_from_yaml(sample_2x2_connections_problem, pins=True)
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
+    # assert len(c.get_dependencies()) == 4
+    # assert len(c.ports) == 0
+    return c
+
+
+sample_2x2_connections_solution = """
+name:
+    connections_2x2_solution
+
+instances:
+    mmi_bottom:
+      component: mmi2x2
+    mmi_top:
+      component: mmi2x2
+
+placements:
+    mmi_top:
+        x: 100
+        y: 100
+
+bundle_routes:
+    mmis:
+        mmi_bottom,E0: mmi_top,W0
+        mmi_bottom,E1: mmi_top,W1
+
+"""
+
+
+def test_connections_2x2_solution():
+    c = component_from_yaml(sample_2x2_connections_solution)
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
+    # assert len(c.get_dependencies()) == 4
+    # assert len(c.ports) == 0
+    return c
+
+
 if __name__ == "__main__":
-    pass
+    import pp
+
+    # c = test_connections_2x2_problem()
+    c = test_connections_2x2_solution()
+    pp.show(c)
 
     # test_sample()
     # test_connections()
@@ -283,7 +353,6 @@ if __name__ == "__main__":
     # sample = sample_connections
     # sample = sample_mirror
     # c = component_from_yaml(sample)
-    # pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
