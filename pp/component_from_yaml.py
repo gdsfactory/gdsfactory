@@ -12,7 +12,15 @@ from pp.components import component_type2factory as component_type2factory_defau
 from pp.routing import link_optical_ports
 
 valid_placements = ["x", "y", "rotation", "mirror"]
-valid_keys = ["name", "instances", "placements", "connections", "ports", "routes"]
+valid_keys = [
+    "name",
+    "instances",
+    "placements",
+    "connections",
+    "ports",
+    "routes",
+    "bundle_routes",
+]
 
 sample_mmis = """
 name:
@@ -103,17 +111,23 @@ connections:
 def component_from_yaml(
     yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None, **kwargs
 ) -> Component:
-    """Loads instance settings, placements, routing and ports from YAML
+    """Returns a Component defined from YAML
 
-    instances: defines instance names, component and settings
+    name: name of Component
+    instances:
+        name
+        component
+        settings
     placements: x, y and rotations
+    connections: between instances
+    ports (Optional): defines ports to expose
     routes (Optional): defines routes
     ports (Optional): defines ports to expose
 
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
         component_type2factory: dict of {factory_name: factory_function}
-        kwargs: cache, pins
+        kwargs: cache, pins ... to pass to all factories
 
     Returns:
         Component
@@ -131,7 +145,8 @@ def component_from_yaml(
     name = conf.get("name") or "Unnamed"
     c = Component(name)
     placements_conf = conf.get("placements")
-    routing_conf = conf.get("routes")
+    routes_conf = conf.get("routes")
+    bundle_routes_conf = conf.get("bundle_routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
 
@@ -193,8 +208,8 @@ def component_from_yaml(
             port_dst = instance_dst.ports[port_dst_name]
             instance_src.connect(port=port_src_name, destination=port_dst)
 
-    if routing_conf:
-        for port_src_string, port_dst_string in routing_conf.items():
+    if routes_conf:
+        for port_src_string, port_dst_string in routes_conf.items():
             instance_src_name, port_src_name = port_src_string.split(",")
             instance_dst_name, port_dst_name = port_dst_string.split(",")
 
@@ -228,6 +243,44 @@ def component_from_yaml(
             route = link_optical_ports([port_src], [port_out])
             c.add(route)
             routes[f"{port_src_string}:{port_dst_string}"] = route[0]
+
+    if bundle_routes_conf:
+        for route in bundle_routes_conf:
+            ports1 = []
+            ports2 = []
+            routes = bundle_routes_conf[route]
+            for port_src_string, port_dst_string in routes.items():
+                instance_src_name, port_src_name = port_src_string.split(",")
+                instance_dst_name, port_dst_name = port_dst_string.split(",")
+
+                instance_src_name = instance_src_name.strip()
+                instance_dst_name = instance_dst_name.strip()
+                port_src_name = port_src_name.strip()
+                port_dst_name = port_dst_name.strip()
+
+                assert (
+                    instance_src_name in instances
+                ), f"{instance_src_name} not in {list(instances.keys())}"
+                assert (
+                    instance_dst_name in instances
+                ), f"{instance_dst_name} not in {list(instances.keys())}"
+
+                instance_in = instances[instance_src_name]
+                instance_out = instances[instance_dst_name]
+
+                assert port_src_name in instance_in.ports, (
+                    f"{port_src_name} not in {list(instance_in.ports.keys())} for"
+                    f" {instance_src_name} "
+                )
+                assert port_dst_name in instance_out.ports, (
+                    f"{port_dst_name} not in {list(instance_out.ports.keys())} for"
+                    f" {instance_dst_name}"
+                )
+
+                ports1.append(instance_in.ports[port_src_name])
+                ports2.append(instance_out.ports[port_dst_name])
+            route = link_optical_ports(ports1, ports2)
+            c.add(route)
 
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
@@ -330,10 +383,10 @@ bundle_routes:
 
 def test_connections_2x2_solution():
     c = component_from_yaml(sample_2x2_connections_solution)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
-    # assert len(c.get_dependencies()) == 4
-    # assert len(c.ports) == 0
+    # print(len(c.get_dependencies()))
+    # print(len(c.ports))
+    assert len(c.get_dependencies()) == 3
+    assert len(c.ports) == 0
     return c
 
 
