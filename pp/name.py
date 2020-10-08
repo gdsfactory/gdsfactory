@@ -170,6 +170,24 @@ def assert_first_letters_are_different(**kwargs):
         )
 
 
+def clean_dict(d):
+    """ cleans dictionary keys
+    """
+    for k, v in d.items():
+        if isinstance(v, dict):
+            clean_dict(v)
+        elif callable(v):
+            d[k] = v.__name__
+
+
+def clean_list(d):
+    for v in d:
+        if isinstance(v, list):
+            clean_list(v)
+        elif callable(v):
+            d.replace(v, v.__name__)
+
+
 def clean_name(name: str) -> str:
     """ Ensures that gds cells are composed of [a-zA-Z0-9]
 

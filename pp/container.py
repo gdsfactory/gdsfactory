@@ -43,14 +43,15 @@ def container(component_function: Callable) -> Callable:
 
     @functools.wraps(component_function)
     def wrapper(*args, **kwargs):
-        old = None
-        if "component" not in kwargs:
-            if args and isinstance(args[0], pp.Component):
-                old = args[0]
-            else:
-                raise ValueError(
-                    f"container {component_function.__name__} requires a component keyword argument, or first non keyword argument"
-                )
+        old = kwargs.get("component")
+        if not old and args:
+            old = args[0]
+        if callable(old):
+            old = old()
+        if not isinstance(old, pp.Component):
+            raise ValueError(
+                f"container {component_function.__name__} requires a component, got `{old}`"
+            )
         old = old or kwargs.get("component")
         new = component_function(*args, **kwargs)
 

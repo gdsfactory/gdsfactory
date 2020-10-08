@@ -1,0 +1,163 @@
+instances:
+  mmi1x2_12_0:
+    component: mmi1x2
+    settings: {}
+  mmi1x2_98_0:
+    component: mmi1x2
+    settings: {}
+  bend_circular_R10p00_32_4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  bend_circular_R10p00_38_18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  bend_circular_R10p00_72_18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  bend_circular_R10p00_78_3:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  waveguide_L1p00_35_11:
+    component: waveguide
+    settings:
+      length: 1.0
+  waveguide_L20p10_55_21:
+    component: waveguide
+    settings:
+      length: 20.1
+  waveguide_L1p00_75_11:
+    component: waveguide
+    settings:
+      length: 1.0
+  bend_circular_R10p00_32_-4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  waveguide_L1p00_35_-11:
+    component: waveguide
+    settings:
+      length: 1.0
+  waveguide_L100m_35_-11:
+    component: waveguide
+    settings:
+      length: 0.1
+  bend_circular_R10p00_38_-18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  waveguide_L20p10_55_-21:
+    component: waveguide
+    settings:
+      length: 20.1
+  bend_circular_R10p00_72_-18:
+    component: bend_circular
+    settings:
+      radius: 10.0
+  waveguide_L100m_75_-11:
+    component: waveguide
+    settings:
+      length: 0.1
+  waveguide_L1p00_75_-11:
+    component: waveguide
+    settings:
+      length: 1.0
+  bend_circular_R10p00_78_-4:
+    component: bend_circular
+    settings:
+      radius: 10.0
+placements:
+  mmi1x2_12_0:
+    x: 12.748000000000001
+    'y': 0.0
+    rotation: 0
+  mmi1x2_98_0:
+    x: 98.34400000000001
+    'y': -1.1102230246251565e-16
+    rotation: 180
+  bend_circular_R10p00_32_4:
+    x: 32.121
+    'y': 4.0
+    rotation: 0
+  bend_circular_R10p00_38_18:
+    x: 38.871
+    'y': 18.25
+    rotation: 180
+  bend_circular_R10p00_72_18:
+    x: 72.221
+    'y': 18.25
+    rotation: 90
+  bend_circular_R10p00_78_3:
+    x: 78.971
+    'y': 3.999999999999999
+    rotation: 270
+  waveguide_L1p00_35_11:
+    x: 35.496
+    'y': 11.125
+    rotation: 90
+  waveguide_L20p10_55_21:
+    x: 55.54600000000001
+    'y': 21.625
+    rotation: 0
+  waveguide_L1p00_75_11:
+    x: 75.596
+    'y': 11.125
+    rotation: 270
+  bend_circular_R10p00_32_-4:
+    x: 32.121
+    'y': -4.0
+    rotation: 90
+  waveguide_L1p00_35_-11:
+    x: 35.496
+    'y': -11.125
+    rotation: 270
+  waveguide_L100m_35_-11:
+    x: 35.496
+    'y': -11.675
+    rotation: 270
+  bend_circular_R10p00_38_-18:
+    x: 38.871
+    'y': -18.35
+    rotation: 270
+  waveguide_L20p10_55_-21:
+    x: 55.54600000000001
+    'y': -21.725
+    rotation: 0
+  bend_circular_R10p00_72_-18:
+    x: 72.221
+    'y': -18.35
+    rotation: 0
+  waveguide_L100m_75_-11:
+    x: 75.596
+    'y': -11.675
+    rotation: 90
+  waveguide_L1p00_75_-11:
+    x: 75.596
+    'y': -11.125000000000002
+    rotation: 90
+  bend_circular_R10p00_78_-4:
+    x: 78.971
+    'y': -4.000000000000002
+    rotation: 180
+connections:
+  bend_circular_R10p00_32_4,W0: mmi1x2_12_0,E1
+  waveguide_L1p00_35_11,W0: bend_circular_R10p00_32_4,N0
+  bend_circular_R10p00_38_18,N0: waveguide_L1p00_35_11,E0
+  waveguide_L20p10_55_21,W0: bend_circular_R10p00_38_18,W0
+  bend_circular_R10p00_72_18,N0: waveguide_L20p10_55_21,E0
+  waveguide_L1p00_75_11,W0: bend_circular_R10p00_72_18,W0
+  bend_circular_R10p00_78_3,W0: waveguide_L1p00_75_11,E0
+  mmi1x2_98_0,E0: bend_circular_R10p00_78_3,N0
+  bend_circular_R10p00_32_-4,N0: mmi1x2_12_0,E0
+  waveguide_L1p00_35_-11,W0: bend_circular_R10p00_32_-4,W0
+  waveguide_L100m_35_-11,W0: waveguide_L1p00_35_-11,E0
+  bend_circular_R10p00_38_-18,W0: waveguide_L100m_35_-11,E0
+  waveguide_L20p10_55_-21,W0: bend_circular_R10p00_38_-18,N0
+  bend_circular_R10p00_72_-18,W0: waveguide_L20p10_55_-21,E0
+  waveguide_L100m_75_-11,W0: bend_circular_R10p00_72_-18,N0
+  waveguide_L1p00_75_-11,W0: waveguide_L100m_75_-11,E0
+  bend_circular_R10p00_78_-4,N0: waveguide_L1p00_75_-11,E0
+  bend_circular_R10p00_78_-4,W0: mmi1x2_98_0,E1

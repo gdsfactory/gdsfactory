@@ -8,9 +8,6 @@ from pp import components as pc
 from pp.component import Component
 
 
-__version__ = "0.0.1"
-
-
 @pp.autoname
 def test_resistance(
     pad_size: Tuple[float] = (50.0, 50.0),

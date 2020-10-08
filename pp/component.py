@@ -1,7 +1,6 @@
 import itertools
 import uuid
 import copy as python_copy
-import json
 import pathlib
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
@@ -17,21 +16,11 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
-from pp.name import dict2hash
+from pp.name import dict2hash, clean_dict, clean_list
 
 
 def copy(D):
-    """Copies a Component.
-
-    Parameters
-    ----------
-    D : Device
-        Device to be copied.
-
-    Returns
-    -------
-    D_copy : Device
-        Copied Device.
+    """returns a copy of a Component.
     """
     D_copy = Component(name=D._internal_name)
     D_copy.info = python_copy.deepcopy(D.info)
@@ -392,12 +381,10 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self,
-        angle: Union[float64, int, int64, float] = 45,
-        center: Union[Tuple[int, int], ndarray] = (0, 0),
+        self, angle: [int, float] = 45, center: Tuple[int, int] = (0.0, 0.0),
     ):
         """
-        Returns:
+        Returns a component
             ComponentReference
         """
         if angle == 0:
@@ -442,9 +429,9 @@ class ComponentReference(DeviceReference):
         p1: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 1),
         p2: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 0),
     ):
-        if type(p1) is Port:
+        if isinstance(p1, Port):
             p1 = p1.midpoint
-        if type(p2) is Port:
+        if isinstance(p2, Port):
             p2 = p2.midpoint
         p1 = np.array(p1)
         p2 = np.array(p2)
@@ -997,25 +984,20 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
 
 def _clean_value(value: Any) -> Any:
     """ returns a clean value """
-    if type(value) in [int, float, str, tuple]:
+    if type(value) in [int, float, str, tuple, bool]:
         value = value
-    elif callable(value):
-        value = value.__name__
-    elif type(value) == Component:
-        value = value.name
-    # elif hasattr(value, "__iter__"):
-    #     value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
-    elif hasattr(value, "__iter__"):
-        try:
-            json.dumps(value)
-            value = value
-        except Exception:
-            # value = str(value)
-            value = "_".join(["{}".format(i) for i in value]).replace(".", "p")
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):
         value = int(value)
+    elif callable(value):
+        value = value.__name__
+    elif type(value) == Component:
+        value = value.name
+    elif hasattr(value, "items"):
+        clean_dict(value)
+    elif hasattr(value, "__iter__"):
+        clean_list(value)
     else:
         value = str(value)
 
@@ -1071,8 +1053,8 @@ if __name__ == "__main__":
     import pp
 
     # c = pp.c.ring_single()
-    c = pp.c.mzi()
-    c.plot_netlist()
+    # c = pp.c.mzi()
+    # c.plot_netlist()
 
     # test_netlist_simple()
     # test_netlist_complex()
@@ -1131,6 +1113,8 @@ if __name__ == "__main__":
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
+    c = pp.c.waveguide()
+    c = pp.routing.add_fiber_array(c)
+    print(c.get_settings())
     # print(c.get_json())
-    # print(c.get_settings())
     # print(c.get_settings(test="hi"))

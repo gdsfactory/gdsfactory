@@ -6,8 +6,6 @@ from pp.layers import LAYER
 from pp.component import Component
 from typing import List, Tuple, Union
 
-__version__ = "0.0.1"
-
 
 def _interpolate_segment(p0, p1, N=2):
     p0 = np.array(p0)

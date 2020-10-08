@@ -2,9 +2,6 @@ import pp
 from pp import components as pc
 
 
-__version__ = "0.0.1"
-
-
 @pp.autoname
 def test_comb(
     pad_size=(200, 200),

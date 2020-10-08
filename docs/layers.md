@@ -4,21 +4,21 @@ Each foundry uses different GDS numbers for each process step.
 
 We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `pp.LAYER`
 
-| GDS | layer_name | Description                                                 |
-| --- | ---------- | ----------------------------------------------------------- |
-| 1   | WG         | 220 nm Silicon core                                         |
-| 2   | SLAB150    | 150nm Silicon slab (70nm shallow Etch for grating couplers) |
-| 3   | SLAB90     | 90nm Silicon slab (for modulators)                          |
-| 47  | MH         | heater                                                      |
-| 41  | M1         | metal 1                                                     |
-| 45  | M2         | metal 2                                                     |
-| 40  | VIA1       | VIA1                                                        |
-| 44  | VIA2       | VIA2                                                        |
-| 46  | PADOPEN    | Bond pad opening                                            |
-| 51  | UNDERCUT   | Undercut                                                    |
-| 52  | DEEPTRENCH | Deep trench                                                 |
-| 66  | TEXT       | Text markup                                                 |
-| 64  | FLOORPLAN  | Mask floorplan
+| GDS (layer, purpose) | layer_name | Description                                                 |
+| -------------------- | ---------- | ----------------------------------------------------------- |
+| 1 , 0                | WG         | 220 nm Silicon core                                         |
+| 2 , 0                | SLAB150    | 150nm Silicon slab (70nm shallow Etch for grating couplers) |
+| 3 , 0                | SLAB90     | 90nm Silicon slab (for modulators)                          |
+| 47, 0                | MH         | heater                                                      |
+| 41, 0                | M1         | metal 1                                                     |
+| 45, 0                | M2         | metal 2                                                     |
+| 40, 0                | VIA1       | VIA1                                                        |
+| 44, 0                | VIA2       | VIA2                                                        |
+| 46, 0                | PADOPEN    | Bond pad opening                                            |
+| 51, 0                | UNDERCUT   | Undercut                                                    |
+| 52, 0                | DEEPTRENCH | Deep trench                                                 |
+| 66, 0                | TEXT       | Text markup                                                 |
+| 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 
 Layers are available in `pp.LAYER` as `pp.LAYER.WG`, `pp.LAYER.WGCLAD`
 
@@ -32,8 +32,11 @@ You basically have two options:
 
 ```
 
+import pp
 from fab.layers import layer
-from fab.mm1 import mm1x2
 
-component = mmi1x2()
+def waveguide(length=10, width=0.5):
+    return pp.c.waveguide(length=length, width=width, layer=layer.WGCORE, layers_cladding=[layer.WGCLAD])
+
+c = waveguide()
 ```
