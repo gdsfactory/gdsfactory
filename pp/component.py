@@ -725,9 +725,12 @@ class Component(Device):
             "Component {} does not have property {}".format(self.name, property)
         )
 
-    def get_settings(self) -> Dict[str, Any]:
-        """Returns settings dictionary"""
+    def get_settings(self, ignore=None) -> Dict[str, Any]:
+        """Returns settings dictionary
+        ignore can be a list of settings to ignore
+        """
         output = {}
+        ignore = ignore or []
         ignore = set(
             dir(Component())
             + [
@@ -740,19 +743,19 @@ class Component(Device):
                 "pins",
                 "settings_changed",
             ]
+            + ignore
         )
         params = set(dir(self)) - ignore
         output["name"] = self.name
 
-        if hasattr(self, "function_name"):
+        if hasattr(self, "function_name") and self.function_name:
             output["function_name"] = self.function_name
 
         for key, value in self.settings.items():
             output[key] = _clean_value(value)
 
         for param in params:
-            value = getattr(self, param)
-            output[param] = _clean_value(value)
+            output[param] = _clean_value(getattr(self, param))
 
         # output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # output["hash_geometry"] = str(self.hash_geometry())
@@ -992,7 +995,7 @@ def _clean_value(value: Any) -> Any:
         value = int(value)
     elif callable(value):
         value = value.__name__
-    elif type(value) == Component:
+    elif isinstance(value, Component):
         value = value.name
     elif hasattr(value, "items"):
         clean_dict(value)
