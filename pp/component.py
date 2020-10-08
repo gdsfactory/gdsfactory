@@ -725,12 +725,10 @@ class Component(Device):
             "Component {} does not have property {}".format(self.name, property)
         )
 
-    def get_settings(self, ignore=None) -> Dict[str, Any]:
+    def get_settings(self) -> Dict[str, Any]:
         """Returns settings dictionary
-        ignore can be a list of settings to ignore
         """
         output = {}
-        ignore = ignore or []
         ignore = set(
             dir(Component())
             + [
@@ -743,7 +741,6 @@ class Component(Device):
                 "pins",
                 "settings_changed",
             ]
-            + ignore
         )
         params = set(dir(self)) - ignore
         output["name"] = self.name
