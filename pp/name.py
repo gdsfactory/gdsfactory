@@ -1,10 +1,10 @@
 """ define names, clean names and values
 """
+from typing import Any, Callable
 import uuid
 import functools
 from inspect import signature
 import hashlib
-from typing import Any, Callable
 import numpy as np
 from phidl import Device
 from pp.add_pins import add_pins_and_outline
@@ -173,11 +173,13 @@ def assert_first_letters_are_different(**kwargs):
 def clean_dict(d):
     """ cleans dictionary keys
     """
+    from pp.component import _clean_value
+
     for k, v in d.items():
         if isinstance(v, dict):
             clean_dict(v)
-        elif callable(v):
-            d[k] = v.__name__
+        else:
+            d[k] = _clean_value(v)
 
 
 def clean_list(d):
