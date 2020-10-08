@@ -2,11 +2,11 @@
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
-You just need to adapt the functions to your foundry (see pp/samples/pdk) and build your own pdk (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
+You just need to adapt the functions to your foundry and build your own PDK (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
 Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) with some useful photonics functions (see photonics package `pp`) to generate GDS layouts (GDSII is the standard format to create masks sets in the CMOS industry)
 
-- define functions for basic components
+- functions easily adaptable to define components
 - define component sweeps (Design of Experiments or DOEs) in YAML files and GDS masks (together with JSON metadata)
 - route optical/electrical ports to pads and grating couplers
 
@@ -38,7 +38,8 @@ You can run tests with `pytest`. This will run 3 types of tests:
 - pytest will test any function in the `pp` package that starts with `test_`
 - test_factory: builds all components in the component_type2factory in `pp/components/__init__.py` and checks that the geometric hash is the same
     - any changes in the library need to be approved by running the function `lock_components_with_changes` in `pp/tests/test_factory.py`
-- regressions tests: makes sures no unwanted regressions happen. Need to approve changes by running `make test-force` from the repo root directory.
+- regressions tests: avoids unwanted regressions by storing Components ports position and metadata in YAML files. You can force to regenerate those files running `make test-force` from the repo root directory.
+    - `pp/test_properties.py` stores container function settings in YAML and port locations in a CSV file
     - `pp/components/test_components.py` stores all the component settings in YAML
     - `pp/components/test_ports.py` stores all port locations in a CSV file
 
@@ -49,7 +50,7 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - components: define components
   - drc: check geometry
   - ports: to connect components
-  - klive: stream GDS direcly to klayout
+  - klive: stream GDS directly to klayout
   - routing: add waveguides to connect components
   - samples: python tutorial
   - tests:
@@ -79,8 +80,7 @@ Commands:
   - `component.gds`: GDS
   - `component.json`: JSON file with component properties
   - `component.dat`: FDTD sparameter data
-  - `component.ports`: csv with port information
-  - `component.nst`: netlist (not implemented yet)
+  - `component.ports`: CSV with port information
 - [ubc PDK](https://github.com/gdsfactory/ubc)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [gdspy](https://github.com/heitzmann/gdspy)
