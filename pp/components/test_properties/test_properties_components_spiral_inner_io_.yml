@@ -4,7 +4,7 @@ dx: 3.0
 dy: 3.0
 function_name: spiral_inner_io
 grating_spacing: 127.0
-length: '16949.99081698724'
+length: 16949.99081698724
 module: pp.components.spiral_inner_io
 name: spiral_inner_io
 taper: None

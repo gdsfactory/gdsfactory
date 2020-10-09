@@ -35,7 +35,7 @@ def is_same_as_in_library(
     lib_component_dir = get_library_path(tech)
 
     lib_hash = None
-    lib_component = pp.load_component(component.name, lib_component_dir)
+    lib_component = pp.load_component(name=component.name, dirpath=lib_component_dir)
 
     lib_hash = lib_component.hash_geometry()
     new_component_hash = component.hash_geometry()

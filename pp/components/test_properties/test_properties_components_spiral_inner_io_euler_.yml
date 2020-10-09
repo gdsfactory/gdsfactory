@@ -6,7 +6,7 @@ dx: 3.0
 dy: 3.0
 function_name: spiral_inner_io_euler
 grating_spacing: 127.0
-length: '20914.664633974484'
+length: 20914.664633974484
 module: pp.components.spiral_inner_io
 name: spiral_inner_io_euler
 taper: None

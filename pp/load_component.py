@@ -1,59 +1,65 @@
+""" load component GDS, JSON metadata and CSV ports
 """
-load component gds, and ports
-"""
+from typing import Optional
 import os
 import pathlib
 import json
 import csv
 
+from pathlib import PosixPath
 from pp import CONFIG
 import pp
-from pathlib import PosixPath
 from pp.component import Component
 
 
-def get_component_path(component_name, component_path=CONFIG["gdslib"]):
-    return component_path / (component_name + ".gds")
+def get_component_path(name, dirpath=CONFIG["gdslib"]):
+    return dirpath / f"{name}.gds"
 
 
-def load_component_path(component_name, component_path=CONFIG["gdslib"]):
-    """ load component GDS from a library
+def load_component_path(name, dirpath=CONFIG["gdslib"]):
+    """load component GDS from a library
     returns a gdspath
     """
-    gdspath = component_path / (component_name + ".gds")
+    gdspath = dirpath / f"{name}.gds"
 
     if not os.path.isfile(gdspath):
-        raise ValueError("cannot load `{}`".format(gdspath))
+        raise ValueError(f"cannot load `{gdspath}`")
 
     return gdspath
 
 
 def load_component(
-    component_name: str,
-    component_path: PosixPath = CONFIG["gdslib"],
+    name: Optional[str] = None,
+    dirpath: PosixPath = CONFIG["gdslib"],
+    gdspath: Optional[PosixPath] = None,
     with_info_labels: bool = True,
     overwrite_cache: bool = False,
 ) -> Component:
-    """ loads GDS, ports (CSV) and metadata (JSON)
-    returns a Device
+    """Returns Component from GDS, ports (CSV) and metadata (JSON)
 
     Args:
-        component_name:
-        component_path: libary path
+        name:
+        dirpath: libary path
         with_info_labels: can remove labal info
         overwrite_cache
     """
-    component_path = pathlib.Path(component_path)
 
-    gdspath = component_path / (component_name + ".gds")
+    if gdspath is None:
+        if name is None:
+            raise ValueError(
+                f"you need to define `gdspath` or a component `name` from library in {dirpath}"
+            )
+
+        dirpath = pathlib.Path(dirpath)
+        gdspath = dirpath / f"{name}.gds"
+
     portspath = gdspath.with_suffix(".ports")
     jsonpath = gdspath.with_suffix(".json")
 
     if not os.path.isfile(gdspath):
-        raise ValueError("cannot load `{}`".format(gdspath))
+        raise ValueError(f"cannot load `{gdspath}`")
 
     c = pp.import_gds(str(gdspath), overwrite_cache=overwrite_cache)
-    c.name = component_name
 
     # Remove info labels if needed
     if not with_info_labels:
@@ -83,7 +89,7 @@ def load_component(
                 )
     except Exception:
         # print(
-        #     f"Could not find a port CSV file for {component_name} in {portspath}"
+        #     f"Could not find a port CSV file for {name} in {portspath}"
         # )
         # print(
         #     "ports follow (name, x, y, width, angle, layer_gds_type, layer_gds_purpose)"

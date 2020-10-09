@@ -13,7 +13,7 @@ n_periods: 30
 name: grating_coupler_elliptical_trenches_fa23b5c8
 neff: 1.8
 p_start: 26
-period: '1.072'
+period: 1.072
 polarization: tm
 straight: 0.2
 taper_angle: 30.0

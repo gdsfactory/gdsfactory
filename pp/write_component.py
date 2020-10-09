@@ -28,16 +28,16 @@ def get_component_type(
 
 def write_component_type(
     component_type,
-    overwrite=False,
+    overwrite=True,
     path_directory=CONFIG["gds_directory"],
     component_type2factory=component_type2factory,
     **kwargs,
 ):
-    """ write_component by type or function
+    """write_component by type or function
 
     Args:
         component_type: can be function or factory name
-        overwrite:
+        overwrite: if False and component exists
         path_directory: to store GDS + metadata
         component_type2factory: factory dictionary
         **kwargs: component args
@@ -62,7 +62,7 @@ def write_component_type(
 
 
 def write_component_report(component, json_path=None):
-    """ write component GDS and metadata:
+    """write component GDS and metadata:
 
     Args:
         component:
@@ -102,7 +102,7 @@ def write_component(
     settings: None = None,
     with_settings_label: bool = conf.tech.with_settings_label,
 ) -> str:
-    """ write component GDS and metadata:
+    """write component GDS and metadata:
 
     - gds
     - ports
@@ -169,7 +169,7 @@ def write_gds(
     auto_rename: bool = False,
     with_settings_label: bool = conf.tech.with_settings_label,
 ) -> str:
-    """ write component to GDS and returs gdspath
+    """write component to GDS and returs gdspath
 
     Args:
         component (required)
@@ -201,7 +201,7 @@ def write_gds(
         settings = component.get_settings()
 
         for i, k in enumerate(sorted(list(settings.keys()))):
-            v = settings.get(k)
+            v = clean_value(settings.get(k))
             text = f"{k} = {clean_value(v)}"
             # print(text)
             component.add_label(
@@ -218,19 +218,22 @@ def write_gds(
 
 
 def clean_value(value):
+    """ returns a JSON serializable value """
     if isinstance(value, Component):
         value = value.name
     elif callable(value):
         value = value.__name__
     elif isinstance(value, dict):
         value = {k: clean_value(v) for k, v in value.items()}
+    elif hasattr(value, "__iter__"):
+        value = [clean_value(v) for v in value]
     return value
 
 
 def show(
     component: Component, gdspath: PosixPath = CONFIG["gdspath"], **kwargs
 ) -> None:
-    """ write component GDS and shows it in klayout
+    """write component GDS and shows it in klayout
 
     Args:
         component

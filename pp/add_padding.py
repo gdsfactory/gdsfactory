@@ -1,9 +1,9 @@
 from typing import List, Union
 import numpy as np
 
+from omegaconf.listconfig import ListConfig
 import pp
 from pp.container import container
-from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Layer
 from pp.component import Component
 

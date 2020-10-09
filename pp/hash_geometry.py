@@ -10,7 +10,7 @@ def hash_geometry(gdspath):
     )
     name = gdspath.stem
     path = gdspath.parent
-    c = load_component(name, path)
+    c = load_component(name=name, dirpath=path)
     return c.hash_geometry()
 
 
