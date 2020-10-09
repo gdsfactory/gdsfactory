@@ -16,7 +16,7 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
-from pp.name import dict2hash, clean_dict, clean_list
+from pp.name import dict2hash
 
 
 def copy(D):
@@ -829,6 +829,7 @@ class Component(Device):
             "data_analysis_protocol": self.data_analysis_protocol,
             "git_hash": conf["git_hash"],
         }
+        jsondata.update(**kwargs)
 
         if hasattr(self, "analysis"):
             jsondata["analysis"] = self.analysis
@@ -969,8 +970,6 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     if not hasattr(structure, "get_json"):
         return {}
 
-    # if hasattr(structure, "function_name"):
-    #     print(structure.function_name)
     output = {structure.name: structure.get_settings()}
     for element in structure.references:
         if (
@@ -982,14 +981,28 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     return output
 
 
+def clean_dict(d):
+    """ cleans dictionary keys
+    """
+    from pp.component import _clean_value
+
+    for k, v in d.items():
+        if isinstance(v, dict):
+            clean_dict(v)
+        else:
+            d[k] = _clean_value(v)
+
+
 def _clean_value(value: Any) -> Any:
-    """ returns a clean value """
+    """ returns a clean value to be JSON serializable"""
     if type(value) in [int, float, str, tuple, bool]:
         value = value
     elif isinstance(value, np.int32):
         value = int(value)
     elif isinstance(value, np.int64):
         value = int(value)
+    elif isinstance(value, np.float64):
+        value = float(value)
     elif callable(value):
         value = value.__name__
     elif isinstance(value, Component):
@@ -997,7 +1010,7 @@ def _clean_value(value: Any) -> Any:
     elif hasattr(value, "items"):
         clean_dict(value)
     elif hasattr(value, "__iter__"):
-        clean_list(value)
+        value = [_clean_value(i) for i in value]
     else:
         value = str(value)
 
@@ -1114,7 +1127,7 @@ if __name__ == "__main__":
     # pprint(c.get_settings())
 
     c = pp.c.waveguide()
-    c = pp.routing.add_fiber_array(c)
-    print(c.get_settings())
-    # print(c.get_json())
+    # c = pp.routing.add_fiber_array(c)
+    # print(c.get_settings())
+    print(c.get_json())
     # print(c.get_settings(test="hi"))

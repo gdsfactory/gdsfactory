@@ -37,7 +37,7 @@ def load_library(gdslib=CONFIG["gdslib"], tech=conf.tech.name):
     for filepath in gds_files:
         filename = filepath.stem
         lib[filename] = pp.load_component(
-            filename, filepath.parent, with_info_labels=False
+            name=filename, dirpath=filepath.parent, with_info_labels=False
         )
 
     return lib
@@ -58,7 +58,7 @@ def print_lib_info(gdslib=CONFIG["gdslib"], dump_file=None):
     for filepath in gds_files:
         root, name = os.path.split(filepath)
         name = name[:-4]
-        geohash = pp.load_component(name, root).hash_geometry()
+        geohash = pp.load_component(name=name, dirpath=root).hash_geometry()
         names += [name]
         filepaths += [str(filepath)]
         geohashes += [geohash]

@@ -179,9 +179,7 @@ def compare_component_hash(
         print(f"writing new component {component_type} into {path_library}")
         return True
 
-    component_library = pp.load_component(
-        component_name=component_type, component_path=path_library
-    )
+    component_library = pp.load_component(name=component_type, dirpath=path_library)
     component_library.name += "_lib"
     gdshash_new = gdspy.gdsii_hash(gdspath_new)
     gdshash_library = gdspy.gdsii_hash(gdspath_library)
