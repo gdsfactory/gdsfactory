@@ -16,7 +16,6 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_ports
 from pp.config import CONFIG, conf, connections
 from pp.compare_cells import hash_cells
-from pp.name import dict2hash
 
 
 def copy(D):
@@ -836,9 +835,9 @@ class Component(Device):
 
         return jsondata
 
-    def __hash__(self) -> int:
-        h = dict2hash(**self.settings)
-        return int(h, 16)
+    # def __hash__(self) -> int:
+    #     h = dict2hash(**self.settings)
+    #     return int(h, 16)
 
     def hash_geometry(self):
         """returns geometrical hash"""

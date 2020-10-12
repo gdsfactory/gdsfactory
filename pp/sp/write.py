@@ -80,7 +80,7 @@ def write(
     component.remove_layers(ss.remove_layers)
     component._bb_valid = False
 
-    c = pp.extend_ports(component, length=ss.port_extension_um)
+    c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
     filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
