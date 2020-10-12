@@ -1,11 +1,11 @@
 """ adapted from phidl.Geometry
 """
 
+from typing import Any, Dict, List, Tuple
 import rectpack
+from numpy import ndarray
 import numpy as np
 from pp.component import Component
-from numpy import ndarray
-from typing import Any, Dict, List, Tuple
 
 
 def _pack_single_bin(
@@ -179,20 +179,40 @@ def _demo():
     pp.show(D)  # show it in klayout
 
 
-if __name__ == "__main__":
-    import pp
+def test_pack():
     import phidl.geometry as pg
 
-    spacing = 1
-    ellipses = pack(
-        [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)],
-        spacing=spacing,
-    )[0]
-    ellipses.name = "ellipses"
-    rectangles = pack(
-        [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)],
-        spacing=spacing,
-    )[0]
-    rectangles.name = "rectangles"
-    p = pack([ellipses, rectangles])
-    pp.show(p[0])
+    D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]
+    D_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(2)]
+
+    D_packed_list = pack(
+        D_list,  # Must be a list or tuple of Components
+        spacing=1.25,  # Minimum distance between adjacent shapes
+        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
+        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        density=1.05,  # Values closer to 1 pack tighter but require more computation
+        sort_by_area=True,  # Pre-sorts the shapes by area
+        verbose=False,
+    )
+    c = D_packed_list[0]  # Only one bin was created, so we plot that
+    # print(len(c.get_dependencies()))
+    assert len(c.get_dependencies()) == 4
+
+
+if __name__ == "__main__":
+    test_pack()
+
+    # import phidl.geometry as pg
+    # spacing = 1
+    # ellipses = pack(
+    #     [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)],
+    #     spacing=spacing,
+    # )[0]
+    # ellipses.name = "ellipses"
+    # rectangles = pack(
+    #     [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)],
+    #     spacing=spacing,
+    # )[0]
+    # rectangles.name = "rectangles"
+    # p = pack([ellipses, rectangles])
+    # pp.show(p[0])
