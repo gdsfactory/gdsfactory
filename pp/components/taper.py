@@ -20,15 +20,17 @@ def taper(
         length:
         width1:
         width2:
-        port:
+        port: can taper from a port instead of defining width1
         layer:
+        layers_cladding:
+        cladding_offset:
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.taper(width1=4, width2=1)
+      c = pp.c.taper(width1=0.5, width2=5, length=3)
       pp.plotgds(c)
 
     """

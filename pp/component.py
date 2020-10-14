@@ -19,8 +19,7 @@ from pp.compare_cells import hash_cells
 
 
 def copy(D):
-    """returns a copy of a Component.
-    """
+    """returns a copy of a Component."""
     D_copy = Component(name=D._internal_name)
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
@@ -704,10 +703,7 @@ class Component(Device):
         return _ref
 
     def __repr__(self) -> str:
-        return self.name
-
-    def __str__(self):
-        return self.__repr__()
+        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
     def update_settings(self, **kwargs):
         """ update settings dict """
@@ -725,8 +721,7 @@ class Component(Device):
         )
 
     def get_settings(self) -> Dict[str, Any]:
-        """Returns settings dictionary
-        """
+        """Returns settings dictionary"""
         output = {}
         ignore = set(
             dir(Component())
@@ -981,8 +976,7 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
 
 
 def clean_dict(d):
-    """ cleans dictionary keys
-    """
+    """cleans dictionary keys"""
     from pp.component import _clean_value
 
     for k, v in d.items():
@@ -1004,7 +998,7 @@ def _clean_value(value: Any) -> Any:
         value = float(value)
     elif callable(value):
         value = value.__name__
-    elif isinstance(value, Component):
+    elif hasattr(value, "name"):
         value = value.name
     elif hasattr(value, "items"):
         clean_dict(value)
@@ -1126,7 +1120,9 @@ if __name__ == "__main__":
     # pprint(c.get_settings())
 
     c = pp.c.waveguide()
-    # c = pp.routing.add_fiber_array(c)
-    # print(c.get_settings())
-    print(c.get_json())
+    c = pp.routing.add_fiber_array(c)
+    c = pp.routing.add_electrical_pads_top(c)
+    print(c)
+    # print(c.get_settings()["name"])
+    # print(c.get_json())
     # print(c.get_settings(test="hi"))

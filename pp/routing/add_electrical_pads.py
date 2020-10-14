@@ -55,6 +55,7 @@ if __name__ == "__main__":
     c = pp.c.waveguide_heater()
     c.move((20, 50))
     cc = add_electrical_pads(c, fanout_length=100)
+    print(cc.get_settings())
     print(cc.ports)
 
     ccc = pp.routing.add_fiber_array(cc)

@@ -50,7 +50,7 @@ from pp.component_from_yaml import component_from_yaml
 from pp.components import component_factory
 from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
-from pp.add_padding import add_padding
+from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
 from pp.import_phidl_component import import_phidl_component
@@ -78,6 +78,7 @@ __all__ = [
     "extend_ports",
     "boolean",
     "get_component_type",
+    "get_padding_points",
     "klive",
     "load_component",
     "load_csv",

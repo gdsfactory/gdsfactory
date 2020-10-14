@@ -2,9 +2,9 @@ from typing import List, Union
 import numpy as np
 
 from omegaconf.listconfig import ListConfig
+from phidl.device_layout import Layer
 import pp
 from pp.container import container
-from phidl.device_layout import Layer
 from pp.component import Component
 
 
@@ -17,7 +17,7 @@ def add_padding(
     layers: Union[List[ListConfig], List[Layer]] = [pp.LAYER.PADDING],
     suffix: str = "p",
 ) -> Component:
-    """ adds padding layers to a NEW component that has the same:
+    """adds padding layers to a NEW component that has the same:
     - ports
     - settings
     - test_protocols and data_analysis_protocols
@@ -42,6 +42,23 @@ def add_padding(
     return c
 
 
+def get_padding_points(
+    component: Component,
+    padding: Union[float, int] = 50,
+    x: None = None,
+    y: None = None,
+) -> list:
+    """ returns padding points for a component"""
+    x = x if x is not None else padding
+    y = y if y is not None else padding
+    return [
+        [c.xmin - x, c.ymin - y],
+        [c.xmax + x, c.ymin - y],
+        [c.xmax + x, c.ymax + y],
+        [c.xmin - x, c.ymax + y],
+    ]
+
+
 @container
 def add_padding_to_grid(
     component,
@@ -52,7 +69,7 @@ def add_padding_to_grid(
     layers=[pp.LAYER.PADDING],
     suffix="p",
 ):
-    """ returns component width a padding layer on each side
+    """returns component width a padding layer on each side
     matches a minimum size
     """
     c = pp.Component(name=f"{component.name}_{suffix}")
