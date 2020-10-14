@@ -20,6 +20,7 @@ modules:
 """
 from phidl import quickplot as qp
 import phidl.geometry as pg
+from phidl.device_layout import Group
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG, call_if_func, conf
@@ -64,6 +65,7 @@ __all__ = [
     "LAYER",
     "Component",
     "ComponentReference",
+    "Group",
     "bias",
     "autoname",
     "add_padding",

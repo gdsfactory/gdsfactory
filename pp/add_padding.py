@@ -49,6 +49,7 @@ def get_padding_points(
     y: None = None,
 ) -> list:
     """ returns padding points for a component"""
+    c = component
     x = x if x is not None else padding
     y = y if y is not None else padding
     return [
