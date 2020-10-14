@@ -36,6 +36,7 @@ from pp.components.taper import taper_strip_to_ridge
 from pp.components.text import text
 from pp.components.L import L
 from pp.components.C import C
+from pp.components.bbox import bbox
 
 # optical test structures
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -189,6 +190,7 @@ component_type2factory = dict(
     wire=wire,
     C=C,
     L=L,
+    bbox=bbox,
 )
 
 
