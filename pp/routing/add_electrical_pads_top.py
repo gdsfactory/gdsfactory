@@ -16,7 +16,7 @@ def add_electrical_pads_top(component, **kwargs):
         height: pad height
         layer: pad layer
     """
-    c = Component(f"{component}_e")
+    c = Component(f"{component.name}_e")
     ports = component.get_ports_list(port_type="dc")
     c << component
     pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)

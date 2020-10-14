@@ -139,7 +139,7 @@ def component_lattice(
     name="lattice",
 ):
     """
-    A lattice of N inputs and outputs with components at given locations
+    Returns a lattice Component of N inputs and outputs with components at given locations
     Columns must have components with the same x spacing between ports input/output ports
     Lines must have components with the same y spacing between input and output ports
 

@@ -26,5 +26,7 @@ def show(gds_filename: PosixPath, keep_position: bool = True) -> None:
         conn.sendall(data)
         conn.close()
     except socket.error:
-        print("warning, could not connect to the klive server")
+        print(
+            "error sending GDS to klayout. Did you installed gdsfactory from github and have Klayout opened?"
+        )
         pass
