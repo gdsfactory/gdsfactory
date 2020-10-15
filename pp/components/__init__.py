@@ -34,6 +34,9 @@ from pp.components.ring import ring
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
 from pp.components.text import text
+from pp.components.L import L
+from pp.components.C import C
+from pp.components.bbox import bbox
 
 # optical test structures
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -185,6 +188,9 @@ component_type2factory = dict(
     waveguide_pin=waveguide_pin,
     wg_heater_connected=wg_heater_connected,
     wire=wire,
+    C=C,
+    L=L,
+    bbox=bbox,
 )
 
 

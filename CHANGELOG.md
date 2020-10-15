@@ -8,10 +8,17 @@
 
 ## master branch (latest changes not released yet)
 
+
+## 1.4.4 2020-10-14
+
+- improved notebooks (thanks to phidl tutorial)
+- added C and L components from phidl
+- print(component) returns more info (similar to phidl)
+- support new way of defining waveguides with pp.Path, pp.CrossSection and pp.path (thanks to phidl)
+
 ## 1.4.3 2020-10-07
 
 - clean metadata dict recursively
-
 
 ## 1.4.2 2020-10-07
 
