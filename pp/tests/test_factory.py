@@ -17,15 +17,16 @@ path_library = CONFIG["gds"]
 
 _components = _components - set(
     [
+        "bezier",
         "compass",
         "component_lattice",
+        "coupler90",
         "grating_coupler_elliptical2",
         "grating_coupler_tree",
-        "bezier",
+        "mzi",
         "spiral_circular",
-        "coupler90",
-        "waveguide_pin",
         "waveguide_heater",
+        "waveguide_pin",
         "wg_heater_connected",
     ]
 )
