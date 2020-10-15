@@ -2,11 +2,12 @@ import pathlib
 import numpy as np
 from pp.component import Component
 import pp
-
+from pp.components.grating_coupler import grating_coupler
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
+@grating_coupler
 def grating_coupler_uniform_optimized(
     widths,
     width_grating=11,
@@ -16,6 +17,8 @@ def grating_coupler_uniform_optimized(
     layer=1,
     layer_partial_etch=2,
     taper=None,
+    polarization="te",
+    wavelength=1500,
 ):
     """ Grating coupler uniform (not focusing)
 
@@ -78,7 +81,9 @@ def grating_coupler_uniform_optimized(
     taper_ref = c.add_ref(taper)
     taper_ref.xmax = 0
     port = taper_ref.ports.get("W0") or taper_ref.ports.get("1")
-    c.add_port(port=taper_ref.ports[port.name], name="E0")
+    c.polarization = polarization
+    c.wavelength = wavelength
+    c.add_port(port=taper_ref.ports[port.name], name="W0")
     return c
 
 
@@ -138,4 +143,5 @@ if __name__ == "__main__":
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w11_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l100()
+    print(c.ports)
     pp.show(c)

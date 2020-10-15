@@ -3,9 +3,11 @@ import picwriter.components as pc
 
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
+from pp.port import deco_rename_ports
 import pp
 
 
+@deco_rename_ports
 @pp.autoname
 def grating_coupler_elliptical2(
     wgt=wg_strip,
@@ -19,6 +21,8 @@ def grating_coupler_elliptical2(
     teeth_list=None,
     port=(0, 0),
     direction="EAST",
+    polarization="te",
+    wavelength=1550,
     **kwargs
 ):
     """ Grating coupler
@@ -60,11 +64,16 @@ def grating_coupler_elliptical2(
         direction=direction,
     )
 
-    return picwriter2component(c)
+    c = picwriter2component(c)
+    c.polarization = polarization
+    c.wavelength = wavelength
+
+    return c
 
 
 if __name__ == "__main__":
     import pp
 
     c = grating_coupler_elliptical2(pins=True)
+    print(c.ports)
     pp.show(c)
