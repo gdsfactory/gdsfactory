@@ -20,7 +20,8 @@ modules:
 """
 from phidl import quickplot as qp
 import phidl.geometry as pg
-from phidl.device_layout import Group
+import phidl.path as path
+from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG, call_if_func, conf
@@ -65,7 +66,9 @@ __all__ = [
     "LAYER",
     "Component",
     "ComponentReference",
+    "CrossSection",
     "Group",
+    "Path",
     "bias",
     "autoname",
     "add_padding",
@@ -87,6 +90,7 @@ __all__ = [
     "plotgds",
     "pack",
     "qp",
+    "path",
     "pg",
     "port",
     "routing",

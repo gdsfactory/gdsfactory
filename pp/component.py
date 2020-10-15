@@ -342,7 +342,7 @@ class ComponentReference(DeviceReference):
             destination = origin
             origin = (0, 0)
 
-        if isinstance(origin, Port):
+        if hasattr(origin, "midpoint"):
             o = origin.midpoint
         elif np.array(origin).size == 2:
             o = origin
@@ -350,11 +350,10 @@ class ComponentReference(DeviceReference):
             o = self.ports[origin].midpoint
         else:
             raise ValueError(
-                "[ComponentReference.move()] ``origin`` not array-like, a port, or port"
-                " name"
+                f"{self.parent.name}.move(origin={origin}) not array-like, a port, or port name {list(self.ports.keys())}"
             )
 
-        if isinstance(destination, Port):
+        if hasattr(destination, "midpoint"):
             d = destination.midpoint
         elif np.array(destination).size == 2:
             d = destination
@@ -362,8 +361,7 @@ class ComponentReference(DeviceReference):
             d = self.ports[destination].midpoint
         else:
             raise ValueError(
-                "[ComponentReference.move()] ``destination`` not array-like, a port, or"
-                " port name"
+                f"{self.parent.name}.move(destination={destination}) not array-like, a port, or port name {list(self.ports.keys())}"
             )
 
         # Lock one axis if necessary
@@ -484,9 +482,22 @@ class ComponentReference(DeviceReference):
         if destination.parent:
             global connections
             # connections[f"{self.parent.uid}_{int(self.x)}_{int(self.y)},{port}"] = f"{destination.parent.get_property('uid')},{destination.name}"
+            # connections[
+            #     f"{self.get_property('name')}_{int(self.x)}_{int(self.y)},{port}"
+            # ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
+            if hasattr(self, "name"):
+                src = self.name
+            else:
+                src = self.parent.name
+
+            if hasattr(destination, "name"):
+                dst = destination.name
+            else:
+                dst = destination.parent.name
+
             connections[
-                f"{self.get_property('name')}_{int(self.x)}_{int(self.y)},{port}"
-            ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
+                f"{src}_{int(self.x)}_{int(self.y)},{port}"
+            ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -1049,6 +1060,41 @@ def test_netlist_complex():
     assert len(netlist["connections"]) == 18
 
 
+def test_path():
+    from pp import path as pa
+    from pp import CrossSection
+
+    X1 = CrossSection()
+    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))
+    X1.add(width=2.2, offset=0, layer=3, name="etch")
+    X1.add(width=1.1, offset=3, layer=1, name="wg2")
+
+    # Create the second CrossSection that we want to transition to
+    X2 = CrossSection()
+    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
+    X2.add(width=3.5, offset=0, layer=3, name="etch")
+    X2.add(width=3, offset=5, layer=1, name="wg2")
+
+    Xtrans = pa.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+
+    P1 = pa.straight(length=5)
+    P2 = pa.straight(length=5)
+    WG1 = P1.extrude(cross_section=X1)
+    WG2 = P2.extrude(cross_section=X2)
+
+    P4 = pa.euler(radius=25, angle=45, p=0.5, use_eff=False)
+    WG_trans = P4.extrude(Xtrans)
+
+    c = Component()
+    wg1 = c << WG1
+    wg2 = c << WG2
+    wgt = c << WG_trans
+
+    wgt.connect("in2", wg1.ports["out1"])
+    wg2.connect("in2", wgt.ports["out1"])
+    assert len(c.references) == 3
+
+
 def demo_component(port):
     c = Component()
     c.add_port(name="p1", port=port)
@@ -1056,7 +1102,7 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    import pp
+    pass
 
     # c = pp.c.ring_single()
     # c = pp.c.mzi()
@@ -1119,10 +1165,10 @@ if __name__ == "__main__":
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
-    c = pp.c.waveguide()
-    c = pp.routing.add_fiber_array(c)
-    c = pp.routing.add_electrical_pads_top(c)
-    print(c)
+    # c = pp.c.waveguide()
+    # c = pp.routing.add_fiber_array(c)
+    # c = pp.routing.add_electrical_pads_top(c)
+    # print(c)
     # print(c.get_settings()["name"])
     # print(c.get_json())
     # print(c.get_settings(test="hi"))

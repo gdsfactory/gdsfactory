@@ -1,8 +1,8 @@
 import copy
+from phidl.device_layout import Device
 from pp.component import Component, ComponentReference, Port
 from pp.config import call_if_func
 from pp.name import autoname
-from phidl.device_layout import Device
 
 
 @autoname
