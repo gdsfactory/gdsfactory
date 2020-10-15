@@ -29,6 +29,7 @@ __pycache__
 extra/
 pp/components/doc
 cml/
+mzi.yml
 
 # Installer logs
 pip-log.txt

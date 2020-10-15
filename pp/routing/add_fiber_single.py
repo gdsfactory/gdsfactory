@@ -74,9 +74,10 @@ def add_fiber_single(
 
     """
     component = component() if callable(component) else component
-    grating_coupler = (
+    gc = grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
+    gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
     port_width_gc = grating_coupler.ports[gc_port_name].width
     optical_ports = component.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
@@ -126,9 +127,7 @@ def add_fiber_single(
         grating_couplers = [grating_coupler]
 
     if with_align_ports:
-        gc_port_name = list(grating_coupler.ports.keys())[0]
-
-        length = c.ysize - 2 * grating_coupler.xsize
+        length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight_factory(length=length)
         wg.rotate(90)
         wg.xmax = (
@@ -136,7 +135,7 @@ def add_fiber_single(
             if abs(c.xmin) > abs(optical_io_spacing)
             else c.xmin - optical_io_spacing
         )
-        wg.ymin = c.ymin + grating_coupler.xsize
+        wg.ymin = c.ymin + gc_port_to_edge
 
         gci = c << grating_coupler
         gco = c << grating_coupler
