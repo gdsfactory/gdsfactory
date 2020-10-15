@@ -1,11 +1,11 @@
+from typing import Tuple, Union
+from numpy import float64, ndarray
 import numpy as np
 import pp
 from pp.geo_utils import extrude_path
 from pp.geo_utils import DEG2RAD
 from pp.layers import LAYER
-from numpy import float64, ndarray
 from pp.component import Component
-from typing import Tuple, Union
 
 
 def ellipse_arc(
@@ -162,7 +162,7 @@ def grating_coupler_elliptical(
     Args:
         taper_length: taper length from waveguide I/O
         taper_angle: grating flare angle
-        lambda_c: grating transmission central wavelength
+        lambda_c: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees
         grating_line_width
         wg_width: waveguide width
@@ -274,5 +274,6 @@ if __name__ == "__main__":
     c = grating_coupler_elliptical_tm()
     c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
     print(c.polarization)
+    print(c.wavelength)
     pp.write_gds(c)
     pp.show(c)

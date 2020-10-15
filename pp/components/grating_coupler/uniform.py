@@ -1,11 +1,13 @@
+from typing import Tuple
 from pp.components import taper
 from pp.components import compass
 from pp.name import autoname
 from pp.component import Component
+from pp.components.grating_coupler import grating_coupler
 import pp
-from typing import Tuple
 
 
+@grating_coupler
 @autoname
 def grating_coupler_uniform(
     num_teeth: int = 20,
@@ -17,8 +19,10 @@ def grating_coupler_uniform(
     partial_etch: bool = False,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
+    polarization="te",
+    wavelength=1500,
 ) -> Component:
-    """ Grating coupler uniform
+    """Grating coupler uniform
 
     Args:
         num_teeth: 20
@@ -75,17 +79,14 @@ def grating_coupler_uniform(
         )
     )
     tgrating.xmin = cgrating.xmax
-    # define the port of the grating
-    G.add_port(port=tgrating.ports["2"], name="E0")
+    G.add_port(port=tgrating.ports["2"], name="W0")
+    G.polarization = polarization
+    G.wavelength = wavelength
+    G.rotate(180)
     return G
-
-
-def test_grating_coupler_uniform():
-    c = grating_coupler_uniform(name="gcu", partial_etch=False)
-    pp.write_gds(c)
 
 
 if __name__ == "__main__":
     # c = grating_coupler_uniform(name='gcu', partial_etch=True)
-    c = grating_coupler_uniform(partial_etch=False)
+    c = grating_coupler_uniform(partial_etch=False, pins=True)
     pp.show(c)

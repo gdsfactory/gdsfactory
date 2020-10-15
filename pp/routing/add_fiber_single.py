@@ -36,6 +36,14 @@ def add_fiber_single(
     """returns component with grating ports and labels on each port
     can add align_ports reference structure
 
+
+    .. code::
+          ____
+         /
+      W0| GC
+         \____
+        xmin
+
     Args:
         component: to connect
         optical_io_spacing: SPACING_GC
@@ -178,10 +186,17 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.crossing()
-    c = pp.c.mmi2x2()
     c = pp.c.ring_double(length_y=3)  # FIXME
     c = pp.c.waveguide(width=2, length=500)
+    c = pp.c.mmi2x2()
+    c = pp.c.mmi1x2()
 
-    cc = add_fiber_single(c)
-    print(cc.get_settings()["component"])
+    gc = pp.c.grating_coupler_elliptical_te
+    # gc = pp.c.grating_coupler_elliptical2
+    # gc = pp.c.grating_coupler_te
+    # gc = pp.c.grating_coupler_uniform
+
+    cc = add_fiber_single(c, grating_coupler=gc, with_align_ports=False)
+
+    # print(cc.get_settings()["component"])
     pp.show(cc)

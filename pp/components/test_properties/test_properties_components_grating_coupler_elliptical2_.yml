@@ -5,6 +5,7 @@ length: 30.0
 module: pp.components.grating_coupler.elliptical2
 name: grating_coupler_elliptical2
 period: 1.0
+polarization: te
 port:
 - 0
 - 0
@@ -15,3 +16,4 @@ ridge_layers:
 taper_length: 10.0
 teeth_list: None
 theta: 0.7853981633974483
+wavelength: 1550
