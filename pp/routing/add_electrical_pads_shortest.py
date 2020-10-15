@@ -16,7 +16,7 @@ def add_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **kwar
         layer: pad layer
 
     """
-    c = Component(f"{component}_e")
+    c = Component(f"{component.name}_e")
     ports = component.get_ports_list(port_type="dc")
     c << component
 

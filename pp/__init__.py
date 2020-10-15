@@ -20,6 +20,8 @@ modules:
 """
 from phidl import quickplot as qp
 import phidl.geometry as pg
+import phidl.path as path
+from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.config import CONFIG, call_if_func, conf
@@ -50,7 +52,7 @@ from pp.component_from_yaml import component_from_yaml
 from pp.components import component_factory
 from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
-from pp.add_padding import add_padding
+from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
 from pp.import_phidl_component import import_phidl_component
@@ -64,6 +66,9 @@ __all__ = [
     "LAYER",
     "Component",
     "ComponentReference",
+    "CrossSection",
+    "Group",
+    "Path",
     "bias",
     "autoname",
     "add_padding",
@@ -78,12 +83,14 @@ __all__ = [
     "extend_ports",
     "boolean",
     "get_component_type",
+    "get_padding_points",
     "klive",
     "load_component",
     "load_csv",
     "plotgds",
     "pack",
     "qp",
+    "path",
     "pg",
     "port",
     "routing",
@@ -97,7 +104,7 @@ __all__ = [
     "component_from_yaml",
     "units",
 ]
-__version__ = "1.4.3"
+__version__ = "1.4.4"
 
 
 if __name__ == "__main__":
