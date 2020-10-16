@@ -6,7 +6,14 @@
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
 - bundle routing for component_from_yaml
 
+Maybe:
+
+- makse sure grating coupler main port is facing west
+
 ## master branch (latest changes not released yet)
+
+- addded grating coupler decorator to assert polarization and wavelength
+- component_from_yaml function allows route filter input
 
 
 ## 1.4.4 2020-10-14

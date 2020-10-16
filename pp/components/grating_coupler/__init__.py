@@ -3,6 +3,8 @@ import functools
 
 
 def grating_coupler(component_factory: Callable) -> Callable:
+    """ grating_coupler decorator """
+
     @functools.wraps(component_factory)
     def grating_coupler_component(*args, **kwargs):
         gc = component_factory(*args, **kwargs)
