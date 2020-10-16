@@ -30,6 +30,8 @@ extra/
 pp/components/doc
 cml/
 mzi.yml
+*.out
+mpb-sim/
 
 # Installer logs
 pip-log.txt
