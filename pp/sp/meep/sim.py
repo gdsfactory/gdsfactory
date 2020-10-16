@@ -153,7 +153,7 @@ def export_component_to_hdf5(filename, component, mstack, boolean_operations):
 def export_timestep_fields_to_png(directory):
     from subprocess import call
 
-    filename = "mcts"
+    filename = "meept.py"
 
     """ Export the epsilon slices to images """
     call(
@@ -416,7 +416,7 @@ def compute_transmission_spectra(
             )
         else:
             exec_str = (
-                "python mcts.py"
+                "python meept.py"
                 " -fields %r"
                 " -input_pol %s"
                 " -output_directory '%s/%s'"
@@ -504,7 +504,7 @@ def compute_transmission_spectra(
     if parallel:
         exec_str = (
             "mpirun -np %d"
-            " python mcts.py"
+            " python meept.py"
             " -fields %r"
             " -input_pol %s"
             " -output_directory '%s/%s'"
@@ -558,7 +558,7 @@ def compute_transmission_spectra(
         )
     else:
         exec_str = (
-            "python mcts.py"
+            "python meept.py"
             " -fields %r"
             " -input_pol %s"
             " -output_directory '%s/%s'"

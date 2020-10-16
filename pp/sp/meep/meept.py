@@ -10,9 +10,9 @@ Currently works well for 1 or 2 layer devices. Based on picwriter
 
 import argparse
 import operator
+import h5py
 import numpy as np
 import meep as mp
-import h5py
 
 
 def str2bool(v):
