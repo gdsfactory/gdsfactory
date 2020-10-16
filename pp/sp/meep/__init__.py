@@ -1,4 +1,4 @@
-from pp.sp.meep.sim import MaterialStack
-from pp.sp.meep.mpb_compute_mode import mpb_compute_mode
+from pp.sp.meep.mpb_mode import mpb_mode
+from pp.sp.meep.mpb_mode import MaterialStack
 
-__all__ = ["MaterialStack", "mpb_compute_mode"]
+__all__ = ["MaterialStack", "mpb_mode"]

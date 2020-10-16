@@ -1,21 +1,18 @@
-"""
-MCTS = "Meep Compute Transmission Spectra"
-Default MEEP launch-file for arbitrary PICwriter components.
+""" Default MEEP launch-file for arbitrary gdspy components.
 
 Launches a MEEP simulation to compute the transmission/reflection spectra from each of the component's ports when light
 enters at the input `port`.
 
 How this function maps the GDSII layers to the material stack is something that will be improved in the future.
-Currently works well for 1 or 2 layer devices.
+Currently works well for 1 or 2 layer devices. Based on picwriter
 
-@author: dkita
 """
 
+import argparse
+import operator
 import numpy as np
 import meep as mp
 import h5py
-import argparse
-import operator
 
 
 def str2bool(v):

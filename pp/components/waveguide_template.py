@@ -10,7 +10,7 @@ def wg_strip(
     clad_layer: int = LAYER.WGCLAD[0],
     clad_datatype: int = LAYER.WGCLAD[1],
     bend_radius: int = 10,
-    cladding_offset: int = 3,
+    clad_offset: int = 3,
 ) -> WaveguideTemplate:
     return pc.WaveguideTemplate(
         bend_radius=bend_radius,
@@ -19,7 +19,7 @@ def wg_strip(
         wg_datatype=wg_datatype,
         clad_layer=clad_layer,
         clad_datatype=clad_datatype,
-        clad_width=cladding_offset,
+        clad_width=clad_offset,
         wg_type="strip",
     )
 
@@ -31,7 +31,7 @@ def wg_rib(
     clad_layer: int = LAYER.SLAB90[0],
     clad_datatype: int = LAYER.SLAB90[1],
     bend_radius: int = 10,
-    cladding_offset: int = 3,
+    clad_offset: int = 3,
 ) -> WaveguideTemplate:
     return pc.WaveguideTemplate(
         bend_radius=bend_radius,
@@ -40,7 +40,7 @@ def wg_rib(
         wg_datatype=wg_datatype,
         clad_layer=clad_layer,
         clad_datatype=clad_datatype,
-        clad_width=cladding_offset,
+        clad_width=clad_offset,
         wg_type="strip",
     )
 
