@@ -209,7 +209,7 @@ def link_ports(
         start_ports,
         end_ports,
         separation=separation,
-        routing_func=generate_manhattan_waypoints,
+        route_filter=generate_manhattan_waypoints,
         **routing_params,
     )
 
@@ -221,7 +221,7 @@ def link_ports_routes(
     end_ports: List[Port],
     separation: float,
     bend_radius: float = BEND_RADIUS,
-    routing_func: Callable = generate_manhattan_waypoints,
+    route_filter: Callable = generate_manhattan_waypoints,
     sort_ports: bool = True,
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
@@ -230,7 +230,7 @@ def link_ports_routes(
     **kwargs,
 ) -> List[ndarray]:
     """
-    routing_func: Function used to connect two ports. Should be like `connect_strip`
+    route_filter: Function used to connect two ports. Should be like `connect_strip`
     """
     ports1 = start_ports
     ports2 = end_ports
@@ -247,7 +247,7 @@ def link_ports_routes(
         if end_straight_offset:
             kwargs["end_straight"] = end_straight_offset
         return [
-            routing_func(
+            route_filter(
                 ports1[0],
                 ports2[0],
                 start_straight=0.05,
@@ -388,7 +388,7 @@ def link_ports_routes(
         # If both ports are aligned, we just need a straight line
         if dx < tol:
             elems += [
-                routing_func(
+                route_filter(
                     ports1[i],
                     ports2[i],
                     start_straight=0,
@@ -458,7 +458,7 @@ def link_ports_routes(
                 tmp_port = prt.move_polar_copy(2 * bend_radius + 1.0, angle)
                 tmp_port.move(dp)
                 _route += [
-                    routing_func(
+                    route_filter(
                         prt, tmp_port.flip(), bend_radius=bend_radius, **kwargs
                     )
                 ]
@@ -473,7 +473,7 @@ def link_ports_routes(
                     ports2[i].position,
                 )
             _route += [
-                routing_func(
+                route_filter(
                     tmp_port,
                     ports2[i],
                     start_straight=0.05,
@@ -487,7 +487,7 @@ def link_ports_routes(
         # Usual case
         else:
             elems += [
-                routing_func(
+                route_filter(
                     ports1[i],
                     ports2[i],
                     start_straight=0.05,
@@ -709,7 +709,7 @@ def link_optical_ports_no_grouping(
     ports1,
     ports2,
     sep=5.0,
-    routing_func=connect_strip,
+    route_filter=connect_strip,
     radius=BEND_RADIUS,
     start_straight=None,
     end_straight=None,
@@ -749,7 +749,7 @@ def link_optical_ports_no_grouping(
         ports1: first list of optical ports
         ports2: second list of optical ports
         axis:   specifies "X" or "Y" direction along which the port is going
-        routing_func:   ManhattanExpandedWgConnector or ManhattanWgConnector or any other connector function with the same input
+        route_filter:   ManhattanExpandedWgConnector or ManhattanWgConnector or any other connector function with the same input
         radius:         bend radius. If unspecified, uses the default radius
         start_straight: offset on the starting length before the first bend
         end_straight:   offset on the ending length after the last bend
@@ -823,7 +823,7 @@ def link_optical_ports_no_grouping(
 
         if radius is None:
             elems += [
-                routing_func(
+                route_filter(
                     ports1[i],
                     ports2[i],
                     start_straight=s_straight,
@@ -832,7 +832,7 @@ def link_optical_ports_no_grouping(
             ]
         else:
             elems += [
-                routing_func(
+                route_filter(
                     ports1[i],
                     ports2[i],
                     start_straight=s_straight,
@@ -1078,11 +1078,33 @@ def demo_connect_bundle():
     return c
 
 
-def demo_connect_bundle_small(bend_radius=5):
+def demo_connect_bundle_small():
     import pp
 
-    c = pp.c.mmi1x2()
-    elements = connect_bundle([c.ports["E0"]], [c.ports["E1"]], bend_radius=5)
+    c = pp.Component()
+    c1 = c << pp.c.mmi2x2()
+    c2 = c << pp.c.mmi2x2()
+    c2.move((100, 40))
+    elements = connect_bundle(
+        [c1.ports["E0"], c1.ports["E1"]],
+        [c2.ports["W0"], c2.ports["W1"]],
+        bend_radius=5,
+    )
+    c.add(elements)
+    return c
+
+
+def demo_connect_bundle_small_electrical():
+    import pp
+
+    c = pp.Component()
+    c1 = c << pp.c.pad()
+    c2 = c << pp.c.pad()
+    c2.move((200, 100))
+    elements = connect_bundle(
+        [c1.ports["E"]], [c2.ports["W"]], route_filter=connect_elec_waypoints
+    )
+    # elements = link_electrical_ports([c1.ports["E"]], [c2.ports["W"]], route_filter=connect_elec_waypoints)
     c.add(elements)
     return c
 
@@ -1090,6 +1112,7 @@ def demo_connect_bundle_small(bend_radius=5):
 if __name__ == "__main__":
     import pp
 
-    c = demo_connect_bundle()
+    # c = demo_connect_bundle()
     # c = demo_connect_bundle_small()
+    c = demo_connect_bundle_small_electrical()
     pp.show(c)

@@ -163,9 +163,10 @@ def connect_elec(
 if __name__ == "__main__":
     import pp
 
-    w = pp.c.waveguide()
+    w = pp.c.mmi1x2()
 
     c = pp.Component()
+    c << w
     connector_ref = connect_strip(w.ports["E0"], w.ports["W0"])
     cc = c.add(connector_ref)
     pp.show(cc)

@@ -9,7 +9,7 @@ from omegaconf import OmegaConf
 
 from pp.component import Component
 from pp.components import component_type2factory as component_type2factory_default
-from pp.routing import link_optical_ports
+from pp.routing import link_optical_ports, connect_strip_way_points
 
 valid_placements = ["x", "y", "rotation", "mirror"]
 valid_keys = [
@@ -113,7 +113,10 @@ connections:
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None, **kwargs
+    yaml: Union[str, pathlib.Path, IO[Any]],
+    component_type2factory=None,
+    route_filter=connect_strip_way_points,
+    **kwargs,
 ) -> Component:
     """Returns a Component defined from YAML
 
@@ -126,11 +129,13 @@ def component_from_yaml(
     connections: between instances
     ports (Optional): defines ports to expose
     routes (Optional): defines routes
+    bundle_routes (Optional): define river routes
     ports (Optional): defines ports to expose
 
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
         component_type2factory: dict of {factory_name: factory_function}
+        route_filter: for routes
         kwargs: cache, pins ... to pass to all factories
 
     Returns:
@@ -244,7 +249,9 @@ def component_from_yaml(
             port_src = instance_in.ports[port_src_name]
             port_out = instance_out.ports[port_dst_name]
 
-            route = link_optical_ports([port_src], [port_out])
+            route = link_optical_ports(
+                [port_src], [port_out], route_filter=route_filter
+            )
             c.add(route)
             routes[f"{port_src_string}:{port_dst_string}"] = route[0]
 
@@ -283,7 +290,7 @@ def component_from_yaml(
 
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
-            route = link_optical_ports(ports1, ports2)
+            route = link_optical_ports(ports1, ports2, route_filter=route_filter)
             c.add(route)
 
     if ports_conf:

@@ -50,7 +50,6 @@ def route_fiber_single(
         grating_coupler = grating_couplers[0]
     else:
         grating_coupler = pp.call_if_func(grating_coupler)
-        grating_coupler.xmin = 0
         grating_couplers = [grating_coupler] * N
 
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
