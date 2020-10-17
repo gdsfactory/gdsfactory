@@ -1,10 +1,18 @@
 """ Convert Components polygons to hdf5 epsilon files for MEEP and MPB  simulations.
 Based on PICwriter
 """
+import os
+import time
+from subprocess import call
 
+from matplotlib import pyplot as plt
 import numpy as np
 import gdspy
 import h5py
+
+from pp.layers import LAYER
+from pp.sp.meep.mpb_mode import MaterialStack
+from pp.components.waveguide_template import wg_strip
 
 
 def export_component_to_hdf5(filename, component, mstack, boolean_operations):
@@ -151,7 +159,6 @@ def export_component_to_hdf5(filename, component, mstack, boolean_operations):
 
 
 def export_timestep_fields_to_png(directory):
-    from subprocess import call
 
     filename = "meept.py"
 
@@ -210,63 +217,57 @@ def export_timestep_fields_to_png(directory):
     call(exec_str, shell=True)
 
 
-def compute_transmission_spectra(
-    pic_component,
-    mstack,
-    wgt,
-    ports,
-    port_vcenter,
-    port_height,
-    port_width,
-    res,
-    wl_center,
-    wl_span,
+def meept(
+    component,
+    ncore: float = 3.55,
+    nclad: float = 1.444,
+    sim_height: float = 4.0,
+    wg_width: float = 0.5,
+    clad_offset: float = 3.0,
+    wg_thickness: float = 0.22,
+    slab_thickness: float = 0.0,
+    port_vcenter=0,
+    port_height=0,
+    port_width=0,
+    res=10,
+    wl_center=1.55,
+    wl_span=0.3,
     boolean_operations=None,
-    norm=False,
     input_pol="TE",
     nfreq=100,
     dpml=0.5,
     fields=False,
-    plot_window=False,
     source_offset=0.1,
-    symmetry=None,
     skip_sim=False,
     output_directory="meep-sim",
     parallel=False,
     n_p=2,
 ):
-
     """Launches a MEEP simulation to compute the transmission/reflection spectra from each of the component's ports when light enters at the input `port`.
 
     How this function maps the GDSII layers to the material stack is something that will be improved in the future.  Currently works well for 1 or 2 layer devices.
     **Currently only supports components with port-directions that are `EAST` (0) or `WEST` (pi)**
 
     Args:
-       * **pic_component** (gdspy.Cell): Cell object (component of the PICwriter library)
-       * **mstack** (MaterialStack): MaterialStack object that maps the gds layers to a physical stack
-       * **wgt** (WaveguideTemplate): Waveguide template
-       * **ports** (list of `Port` dicts): These are the ports to track the Poynting flux through.  **IMPORTANT** The first element of this list is where the Eigenmode source will be input.
-       * **port_vcenter** (float): Vertical center of the waveguide
-       * **port_height** (float): Height of the port cross-section (flux plane)
-       * **port_width** (float): Width of the port cross-section (flux plane)
-       * **res** (int): Resolution of the MEEP simulation
-       * **wl_center** (float): Center wavelength (in microns)
-       * **wl_span** (float): Wavelength span (determines the pulse width)
-
-    Keyword Args:
-       * **boolean_operations** (list): A list of specified boolean operations to be performed on the layers (ORDER MATTERS).  In the following format:
-           [((layer1/datatype1), (layer2/datatype2), operation), ...] where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1).  See below for example.
-       * **norm** (boolean):  If True, first computes a normalization run (transmission through a straight waveguide defined by `wgt` above.  Defaults to `False`.  If `True`, a WaveguideTemplate must be specified.
-       * **input_pol** (String): Input polarization of the waveguide mode.  Must be either "TE" or "TM".  Defaults to "TE" (z-antisymmetric).
-       * **nfreq** (int): Number of frequencies (wavelengths) to compute the spectrum over.  Defaults to 100.
-       * **dpml** (float): Length (in microns) of the perfectly-matched layer (PML) at simulation boundaries.  Defaults to 0.5 um.
-       * **fields** (boolean): If true, outputs the epsilon and cross-sectional fields.  Defaults to false.
-       * **plot_window** (boolean): If true, outputs the spectrum plot in a matplotlib window (in addition to saving).  Defaults to False.
-       * **source_offset** (float): Offset (in x-direction) between reflection monitor and source.  Defaults to 0.1 um.
-       * **skip_sim** (boolean): Defaults to False.  If True, skips the simulation (and hdf5 export).  Useful if you forgot to perform a normalization and don't want to redo the whole MEEP simulation.
-       * **output_directory** (string): Output directory for files generated.  Defaults to 'meep-sim'.
-       * **parallel** (boolean): If `True`, will run simulation on `np` cores (`np` must be specified below, and MEEP/MPB must be built from source with parallel-libraries).  Defaults to False.
-       * **n_p** (int): Number of processors to run meep simulation on.  Defaults to `2`.
+       component (gdspy.Cell): Cell object (component of the PICwriter library)
+       ports (list of `Port` dicts): These are the ports to track the Poynting flux through.  **IMPORTANT** The first element of this list is where the Eigenmode source will be input.
+       port_vcenter (float): Vertical center of the waveguide
+       port_height (float): Height of the port cross-section (flux plane)
+       port_width (float): Width of the port cross-section (flux plane)
+       res (int): Resolution of the MEEP simulation
+       wl_center (float): Center wavelength (in microns)
+       wl_span (float): Wavelength span (determines the pulse width)
+       boolean_operations (list): A list of specified boolean operations to be performed on the layers (ORDER MATTERS).  In the following format:
+       [((layer1/datatype1), (layer2/datatype2), operation), ...] where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1).  See below for example.
+       input_pol (String): Input polarization of the waveguide mode.  Must be either "TE" or "TM".  Defaults to "TE" (z-antisymmetric).
+       nfreq (int): Number of frequencies (wavelengths) to compute the spectrum over.  Defaults to 100.
+       dpml (float): Length (in microns) of the perfectly-matched layer (PML) at simulation boundaries.  Defaults to 0.5 um.
+       fields (boolean): If true, outputs the epsilon and cross-sectional fields.  Defaults to false.
+       source_offset (float): Offset (in x-direction) between reflection monitor and source.  Defaults to 0.1 um.
+       skip_sim (boolean): Defaults to False.  If True, skips the simulation (and hdf5 export).  Useful if you forgot to perform a normalization and don't want to redo the whole MEEP simulation.
+       output_directory** (string): Output directory for files generated.  Defaults to 'meep-sim'.
+       parallel (boolean): If `True`, will run simulation on `np` cores (`np` must be specified below, and MEEP/MPB must be built from source with parallel-libraries).  Defaults to False.
+       n_p (int): Number of processors to run meep simulation on.  Defaults to `2`.
 
 
     Example of **boolean_operations** (using the default):
@@ -277,9 +278,30 @@ def compute_transmission_spectra(
             boolean_operations = [((-1,-1), (2,0), 'and'), ((2,0), (1,0), 'xor')]
 
     """
-    from subprocess import call
-    import os
-    import time
+    eps_clad = nclad ** 2
+    eps_core = ncore ** 2
+
+    box = (sim_height - wg_thickness) / 2
+    clad_ridge = sim_height - box - wg_thickness
+    clad_slab = sim_height - box - slab_thickness
+
+    etch_stack = [(eps_clad, box), (eps_core, wg_thickness), (eps_clad, clad_ridge)]
+    waveguide_stack = [
+        (eps_clad, box),
+        (eps_core, wg_thickness),
+        (eps_clad, clad_ridge),
+    ]
+    clad_stack = [(eps_clad, box), (eps_core, slab_thickness), (eps_clad, clad_slab)]
+
+    mstack = MaterialStack(
+        vsize=sim_height, default_stack=etch_stack, name="Si waveguide"
+    )
+
+    mstack.addVStack(layer=LAYER.WG[0], datatype=LAYER.WG[1], stack=waveguide_stack)
+    mstack.addVStack(layer=LAYER.WGCLAD[0], datatype=LAYER.WGCLAD[1], stack=clad_stack)
+    wgt = wg_strip(wg_width=wg_width, clad_offset=clad_offset)
+
+    ports = component.get_ports_list()
 
     if boolean_operations is None:
         boolean_operations = [
@@ -294,211 +316,31 @@ def compute_transmission_spectra(
     """ For each port determine input_direction (useful for computing the sign of the power flux) """
     input_directions = []
     for port in ports:
-        if isinstance(port["direction"], float):
-            if abs(port["direction"]) < 1e-6:
-                input_directions.append(-1)
-            elif abs(port["direction"] - np.pi) < 1e-6:
-                input_directions.append(1)
-            else:
-                raise ValueError(
-                    "Warning! An invalid float port direction ("
-                    + str(port["direction"])
-                    + ") was provided.  Must be 0 or pi."
-                )
-        elif isinstance(port["direction"], (str, bytes)):
-            if port["direction"] == "EAST":
-                input_directions.append(-1)
-            elif port["direction"] == "WEST":
-                input_directions.append(1)
-            else:
-                raise ValueError(
-                    "Warning! An invalid string port direction ("
-                    + str(port["direction"])
-                    + ") was provided.  Must be `EAST` or `WEST`."
-                )
+        orientation = port.orientation
+        if orientation == 0:
+            input_directions.append(-1)
+        elif orientation == 180:
+            input_directions.append(1)
         else:
             raise ValueError(
-                "Warning! A port was given in `ports` that is not a valid type!"
+                f"port {port.name} orientation = {orientation}, only 0 or 180 degrees supported"
             )
-
-    if norm and wgt is None:
-        raise ValueError(
-            "Warning! A normalization run was called, but no WaveguideTemplate (wgt) was provided."
-        )
-
-    """ If a normalization run is specified, create short waveguide component, then simulate
-    """
-    if norm:
-        import picwriter.toolkit as tk
-        import picwriter.components as pc
-
-        norm_component = gdspy.Cell(tk.getCellName("norm_straightwg"))
-        wg1 = pc.Waveguide([(0, 0), (1, 0)], wgt)
-        wg2 = pc.Waveguide([(1, 0), (2, 0)], wgt)
-        wg3 = pc.Waveguide([(2, 0), (3, 0)], wgt)
-        tk.add(norm_component, wg1)
-        tk.add(norm_component, wg2)
-        tk.add(norm_component, wg3)
-
-        flatcell = norm_component.flatten()
-        bb = flatcell.get_bounding_box()
-        sx, sy, sz = bb[1][0] - bb[0][0], mstack.vsize, bb[1][1] - bb[0][1]
-        center = ((bb[1][0] + bb[0][0]) / 2.0, 0, (bb[1][1] + bb[0][1]) / 2.0)
-
-        norm_ports = [wg2.portlist["input"], wg2.portlist["output"]]
-
-        eps_norm_input_file = str("epsilon-norm.h5")
-        export_component_to_hdf5(
-            eps_norm_input_file, norm_component, mstack, boolean_operations
-        )
-        #        convert_to_hdf5(eps_norm_input_file, norm_component, mstack, sx, sz, 1.5*res)
-
-        # Launch MEEP simulation using correct inputs
-        port_string = ""
-        for port in norm_ports:
-            port_string += str(port["port"][0]) + " " + str(port["port"][1]) + " "
-        port_string = str(port_string[:-1])
-
-        if parallel:
-            exec_str = (
-                "mpirun -np %d"
-                " python mcts.py"
-                " -fields %r"
-                " -input_pol %s"
-                " -output_directory '%s/%s'"
-                " -eps_input_file '%s/%s'"
-                " -res %d"
-                " -nfreq %d"
-                " -input_direction %d"
-                " -dpml %0.3f"
-                " -wl_center %0.3f"
-                " -wl_span %0.3f"
-                " -port_vcenter %0.3f"
-                " -port_height %0.3f"
-                " -port_width %0.3f"
-                " -source_offset %0.3f"
-                " -center_x %0.3f"
-                " -center_y %0.3f"
-                " -center_z %0.3f"
-                " -sx %0.3f"
-                " -sy %0.3f"
-                " -sz %0.3f"
-                " -port_coords %r"
-                " > '%s/%s-norm-res%d.out'"
-            ) % (
-                int(n_p),
-                False,
-                input_pol,
-                str(os.getcwd()),
-                str(output_directory),
-                str(os.getcwd()),
-                eps_norm_input_file,
-                res,
-                nfreq,
-                input_directions[0],
-                float(dpml),
-                float(wl_center),
-                float(wl_span),
-                float(port_vcenter),
-                float(port_height),
-                float(port_width),
-                float(source_offset),
-                float(center[0]),
-                float(center[1]),
-                float(center[2]),
-                float(sx),
-                float(sy),
-                float(sz),
-                port_string,
-                str(os.getcwd()),
-                str(output_directory),
-                res,
-            )
-        else:
-            exec_str = (
-                "python meept.py"
-                " -fields %r"
-                " -input_pol %s"
-                " -output_directory '%s/%s'"
-                " -eps_input_file '%s/%s'"
-                " -res %d"
-                " -nfreq %d"
-                " -input_direction %d"
-                " -dpml %0.3f"
-                " -wl_center %0.3f"
-                " -wl_span %0.3f"
-                " -port_vcenter %0.3f"
-                " -port_height %0.3f"
-                " -port_width %0.3f"
-                " -source_offset %0.3f"
-                " -center_x %0.3f"
-                " -center_y %0.3f"
-                " -center_z %0.3f"
-                " -sx %0.3f"
-                " -sy %0.3f"
-                " -sz %0.3f"
-                " -port_coords %r"
-                " > '%s/%s-norm-res%d.out'"
-            ) % (
-                False,
-                input_pol,
-                str(os.getcwd()),
-                str(output_directory),
-                str(os.getcwd()),
-                eps_norm_input_file,
-                res,
-                nfreq,
-                input_directions[0],
-                float(dpml),
-                float(wl_center),
-                float(wl_span),
-                float(port_vcenter),
-                float(port_height),
-                float(port_width),
-                float(source_offset),
-                float(center[0]),
-                float(center[1]),
-                float(center[2]),
-                float(sx),
-                float(sy),
-                float(sz),
-                port_string,
-                str(os.getcwd()),
-                str(output_directory),
-                res,
-            )
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        print("Running MEEP normalization... (straight waveguide)")
-        start = time.time()
-        call(exec_str, shell=True, cwd=dir_path)
-        print(
-            "Time to run MEEP normalization = " + str(time.time() - start) + " seconds"
-        )
-
-        grep_str = "grep flux1: '%s/%s-norm-res%d.out' > '%s/%s-norm-res%d.dat'" % (
-            str(os.getcwd()),
-            str(output_directory),
-            res,
-            str(os.getcwd()),
-            str(output_directory),
-            res,
-        )
-        call(grep_str, shell="True")
 
     # Get size, center of simulation window
-    flatcell = pic_component.flatten()
+    flatcell = component.flatten()
     bb = flatcell.get_bounding_box()
     sx, sy, sz = bb[1][0] - bb[0][0], mstack.vsize, bb[1][1] - bb[0][1]
     center = ((bb[1][0] + bb[0][0]) / 2.0, 0, (bb[1][1] + bb[0][1]) / 2.0)
 
     # Convert the structure to an hdf5 file
     eps_input_file = str("epsilon-component.h5")
-    export_component_to_hdf5(eps_input_file, pic_component, mstack, boolean_operations)
+    export_component_to_hdf5(eps_input_file, component, mstack, boolean_operations)
 
     # Launch MEEP simulation using correct inputs
     port_string = ""
     for port in ports:
-        port_string += str(port["port"][0]) + " " + str(port["port"][1]) + " "
+        x, y = port.midpoint
+        port_string += f"{x} {y} "
     port_string = str(port_string[:-1])
 
     if parallel:
@@ -627,38 +469,54 @@ def compute_transmission_spectra(
     )
     call(grep_str, shell="True")
 
+
+def plot_results(
+    component,
+    wl_center=1.55,
+    wl_span=0.3,
+    res=10,
+    output_directory="meep-sim",
+    fields=False,
+    plot_window=False,
+):
     """ Grab data and plot transmission/reflection spectra
+
+       plot_window (boolean): If true, outputs the spectrum plot in a matplotlib window (in addition to saving).  Defaults to False.
+
     """
-    norm_data = np.genfromtxt(
-        "%s/%s-norm-res%d.dat" % (str(os.getcwd()), str(output_directory), res),
-        delimiter=",",
-    )
-    freq, refl0, trans0 = (
-        norm_data[:, 1],
-        -norm_data[:, 2],
-        norm_data[:, 3],
-    )  # refl0 = -norm_data[:,2]
     comp_data = np.genfromtxt(
         "%s/%s-res%d.dat" % (str(os.getcwd()), str(output_directory), res),
         delimiter=",",
     )
 
+    ports = component.get_ports_list()
+    input_directions = []
+    for port in ports:
+        orientation = port.orientation
+        if orientation == 0:
+            input_directions.append(-1)
+        elif orientation == 180:
+            input_directions.append(1)
+        else:
+            raise ValueError(
+                f"port {port.name} orientation = {orientation}, only 0 or 180 degrees supported"
+            )
+
+    # Get the power flux-data from the component simulation for each flux-plane
     flux_data = []
-    for i in range(
-        len(ports)
-    ):  # Get the power flux-data from the component simulation for each flux-plane
+    for i in range(len(ports)):
         flux_data.append((-1) * input_directions[i] * comp_data[:, i + 2])
 
-    wavelength = [1.0 / f for f in freq]
-    from matplotlib import pyplot as plt
+    # wavelength = [1.0 / f for f in freq]
+    wavelength = [wl_center - wl_span, wl_center, wl_center + wl_span]
 
     # Plot a spectrum corresponding to each port (sign is calculated from the port "direction")
     colorlist = ["r-", "b-", "g-", "c-", "m-", "y-"]
-    plt.plot(wavelength, (flux_data[0] - refl0) / trans0, colorlist[0], label="port 0")
+    plt.plot(wavelength, (flux_data[0]), colorlist[0], label="port 0")
     for i in range(len(flux_data) - 1):
         plt.plot(
             wavelength,
-            flux_data[i + 1] / trans0,
+            flux_data[i + 1],
             colorlist[(i + 1) % len(colorlist)],
             label="port " + str(i + 1),
         )
@@ -676,4 +534,9 @@ def compute_transmission_spectra(
         print("Outputting fields images to " + str(output_directory))
         export_timestep_fields_to_png(str(output_directory))
 
-    return None
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.c.waveguide()
+    meept(c)

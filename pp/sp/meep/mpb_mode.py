@@ -535,14 +535,14 @@ def _mpb_mode(
 
 
 def mpb_mode(
-    ncore=3.55,
-    nclad=1.444,
+    ncore: float = 3.55,
+    nclad: float = 1.444,
     nbackground: float = 1.44,
-    sim_height=4.0,
-    wg_width=0.5,
-    clad_offset=3.0,
-    wg_thickness=0.22,
-    slab_thickness=0,
+    sim_height: float = 4.0,
+    wg_width: float = 0.5,
+    clad_offset: float = 3.0,
+    wg_thickness: float = 0.22,
+    slab_thickness: float = 0.0,
     res: int = 10,
     wavelength: float = 1.55,
     sx: float = 4.0,
