@@ -490,13 +490,13 @@ class ComponentReference(DeviceReference):
             else:
                 src = self.parent.name
 
-            if hasattr(destination, "name"):
-                dst = destination.name
-            else:
+            if hasattr(destination.parent, "name"):
                 dst = destination.parent.name
+            else:
+                dst = destination.parent.parent.name
 
             connections[
-                f"{src}_{int(self.x)}_{int(self.y)},{port}"
+                f"{src}_{int(self.x)}_{int(self.y)},{p.name}"
             ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
@@ -558,8 +558,6 @@ class Component(Device):
             with_labels: label nodes
             font_weight: normal, bold
         """
-        import matplotlib.pyplot as plt
-
         netlist = self.get_netlist()
         connections = netlist.connections
         G = nx.Graph()
@@ -574,7 +572,6 @@ class Component(Device):
         nx.draw(
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
         )
-        plt.show()
 
     def get_netlist(self, full_settings=False):
         """returns netlist dict(instances, placements, connections)
@@ -1060,6 +1057,13 @@ def test_netlist_complex():
     assert len(netlist["connections"]) == 18
 
 
+def test_netlist_plot():
+    import pp
+
+    c = pp.c.mzi()
+    c.plot_netlist()
+
+
 def test_path():
     from pp import path as pa
     from pp import CrossSection
@@ -1102,11 +1106,15 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    pass
+    import pp
 
     # c = pp.c.ring_single()
-    # c = pp.c.mzi()
-    # c.plot_netlist()
+    c = pp.c.mzi()
+    n = c.get_netlist()
+    print(n.connections)
+    c.plot_netlist()
+    # import matplotlib.pyplot as plt
+    # plt.show()
 
     # test_netlist_simple()
     # test_netlist_complex()
