@@ -1,6 +1,7 @@
 """ Convert Components polygons to hdf5 epsilon files for MEEP and MPB  simulations.
 Based on PICwriter
 """
+import pathlib
 import os
 import time
 from subprocess import call
@@ -12,7 +13,6 @@ import h5py
 
 from pp.layers import LAYER
 from pp.sp.meep.mpb_mode import MaterialStack
-from pp.components.waveguide_template import wg_strip
 
 
 def export_component_to_hdf5(filename, component, mstack, boolean_operations):
@@ -31,7 +31,8 @@ def export_component_to_hdf5(filename, component, mstack, boolean_operations):
 
        boolean_opeartions = [((layer1/datatype1), (layer2/datatype2), operation), ...]
 
-    where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1). For example, the boolean_operation below::
+    where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1).
+    For example, the boolean_operation below::
 
        boolean_operations = [((-1,-1), (2,0), 'and'), ((2,0), (1,0), 'xor')]
 
@@ -159,7 +160,6 @@ def export_component_to_hdf5(filename, component, mstack, boolean_operations):
 
 
 def export_timestep_fields_to_png(directory):
-
     filename = "meept.py"
 
     """ Export the epsilon slices to images """
@@ -239,7 +239,7 @@ def meept(
     fields=False,
     source_offset=0.1,
     skip_sim=False,
-    output_directory="meep-sim",
+    dirpath=None,
     parallel=False,
     n_p=2,
 ):
@@ -249,25 +249,32 @@ def meept(
     **Currently only supports components with port-directions that are `EAST` (0) or `WEST` (pi)**
 
     Args:
-       component (gdspy.Cell): Cell object (component of the PICwriter library)
-       ports (list of `Port` dicts): These are the ports to track the Poynting flux through.  **IMPORTANT** The first element of this list is where the Eigenmode source will be input.
-       port_vcenter (float): Vertical center of the waveguide
-       port_height (float): Height of the port cross-section (flux plane)
-       port_width (float): Width of the port cross-section (flux plane)
-       res (int): Resolution of the MEEP simulation
-       wl_center (float): Center wavelength (in microns)
-       wl_span (float): Wavelength span (determines the pulse width)
-       boolean_operations (list): A list of specified boolean operations to be performed on the layers (ORDER MATTERS).  In the following format:
-       [((layer1/datatype1), (layer2/datatype2), operation), ...] where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1).  See below for example.
-       input_pol (String): Input polarization of the waveguide mode.  Must be either "TE" or "TM".  Defaults to "TE" (z-antisymmetric).
-       nfreq (int): Number of frequencies (wavelengths) to compute the spectrum over.  Defaults to 100.
-       dpml (float): Length (in microns) of the perfectly-matched layer (PML) at simulation boundaries.  Defaults to 0.5 um.
-       fields (boolean): If true, outputs the epsilon and cross-sectional fields.  Defaults to false.
-       source_offset (float): Offset (in x-direction) between reflection monitor and source.  Defaults to 0.1 um.
-       skip_sim (boolean): Defaults to False.  If True, skips the simulation (and hdf5 export).  Useful if you forgot to perform a normalization and don't want to redo the whole MEEP simulation.
-       output_directory** (string): Output directory for files generated.  Defaults to 'meep-sim'.
-       parallel (boolean): If `True`, will run simulation on `np` cores (`np` must be specified below, and MEEP/MPB must be built from source with parallel-libraries).  Defaults to False.
-       n_p (int): Number of processors to run meep simulation on.  Defaults to `2`.
+        component: gdsfactory component
+        ncore: index core
+        nclad: index cladding
+        sim_height: simulation region height (um)
+        wg_width: width of the waveguide (um)
+        clad_offset: offset of the cladding (um)
+        wg_thickness:  (um)
+        slab_thickness:  (um)
+        ports (list of `Port` dicts): These are the ports to track the Poynting flux through.  **IMPORTANT** The first element of this list is where the Eigenmode source will be input.
+        port_vcenter (float): Vertical center of the waveguide
+        port_height (float): Height of the port cross-section (flux plane)
+        port_width (float): Width of the port cross-section (flux plane)
+        res (int): Resolution of the MEEP simulation
+        wl_center (float): Center wavelength (in microns)
+        wl_span (float): Wavelength span (determines the pulse width)
+        boolean_operations (list): A list of specified boolean operations to be performed on the layers (ORDER MATTERS).  In the following format:
+        [((layer1/datatype1), (layer2/datatype2), operation), ...] where 'operation' can be 'xor', 'or', 'and', or 'not' and the resulting polygons are placed on (layer1, datatype1).  See below for example.
+        input_pol (String): Input polarization of the waveguide mode.  Must be either "TE" or "TM".  Defaults to "TE" (z-antisymmetric).
+        nfreq (int): Number of frequencies (wavelengths) to compute the spectrum over.  Defaults to 100.
+        dpml (float): Length (in microns) of the perfectly-matched layer (PML) at simulation boundaries.  Defaults to 0.5 um.
+        fields (boolean): If true, outputs the epsilon and cross-sectional fields.  Defaults to False.
+        source_offset (float): Offset (in x-direction) between reflection monitor and source.  Defaults to 0.1 um.
+        skip_sim (boolean): Defaults to False.  If True, skips the simulation (and hdf5 export).  Useful if you forgot to perform a normalization and don't want to redo the whole MEEP simulation.
+        dirpath (string): Output directory for files generated.  Defaults to 'meep-componentName'.
+        parallel (boolean): If `True`, will run simulation on `np` cores (`np` must be specified below, and MEEP/MPB must be built from source with parallel-libraries).  Defaults to False.
+        n_p (int): Number of processors to run meep simulation on.  Defaults to `2`.
 
 
     Example of **boolean_operations** (using the default):
@@ -299,19 +306,25 @@ def meept(
 
     mstack.addVStack(layer=LAYER.WG[0], datatype=LAYER.WG[1], stack=waveguide_stack)
     mstack.addVStack(layer=LAYER.WGCLAD[0], datatype=LAYER.WGCLAD[1], stack=clad_stack)
-    wgt = wg_strip(wg_width=wg_width, clad_offset=clad_offset)
 
     ports = component.get_ports_list()
 
-    if boolean_operations is None:
-        boolean_operations = [
-            ((-1, -1), (wgt.clad_layer, wgt.clad_datatype), "xor"),
-            (
-                (wgt.clad_layer, wgt.clad_datatype),
-                (wgt.wg_layer, wgt.wg_datatype),
-                "xor",
-            ),
-        ]
+    dirpath = dirpath or f"meep_{component.name}"
+    dirpath = pathlib.Path(dirpath)
+    dirpath.mkdir(exist_ok=True, parents=True)
+
+    boolean_operations = []
+    # wgt = wg_strip(wg_width=wg_width, clad_offset=clad_offset)
+
+    # if boolean_operations is None:
+    #     boolean_operations = [
+    #         ((-1, -1), (wgt.clad_layer, wgt.clad_datatype), "xor"),
+    #         (
+    #             (wgt.clad_layer, wgt.clad_datatype),
+    #             (wgt.wg_layer, wgt.wg_datatype),
+    #             "xor",
+    #         ),
+    #     ]
 
     """ For each port determine input_direction (useful for computing the sign of the power flux) """
     input_directions = []
@@ -333,7 +346,9 @@ def meept(
     center = ((bb[1][0] + bb[0][0]) / 2.0, 0, (bb[1][1] + bb[0][1]) / 2.0)
 
     # Convert the structure to an hdf5 file
-    eps_input_file = str("epsilon-component.h5")
+    eps_input_file = dirpath / f"{component.name}.h5"
+    logpath = dirpath / f"{component.name}.log"
+    datapath = dirpath / f"{component.name}.dat"
     export_component_to_hdf5(eps_input_file, component, mstack, boolean_operations)
 
     # Launch MEEP simulation using correct inputs
@@ -343,131 +358,21 @@ def meept(
         port_string += f"{x} {y} "
     port_string = str(port_string[:-1])
 
+    exec_str = f"python meept.py -fields {fields} -input_pol {input_pol} -output_directory {dirpath} -eps_input_file {eps_input_file} -res {res} -nfreq {nfreq} -input_direction {input_directions[0]} -dpml {dpml} -wl_center {wl_center:.3f} "
+    exec_str += f"-wl_span {wl_span:.3f} -port_vcenter {port_vcenter:.3f} -port_height {port_height:.3f} -port_width {port_width:.3f} -source_offset {source_offset:.3f} -center_x {center[0]} -center_y {center[1]} -center_z {center[2]} "
+    exec_str += f"-sx {sx} -sy {sy} -sz {sz} -port_coords {port_string} > {logpath}"
     if parallel:
-        exec_str = (
-            "mpirun -np %d"
-            " python meept.py"
-            " -fields %r"
-            " -input_pol %s"
-            " -output_directory '%s/%s'"
-            " -eps_input_file '%s/%s'"
-            " -res %d"
-            " -nfreq %d"
-            " -input_direction %d"
-            " -dpml %0.3f"
-            " -wl_center %0.3f"
-            " -wl_span %0.3f"
-            " -port_vcenter %0.3f"
-            " -port_height %0.3f"
-            " -port_width %0.3f"
-            " -source_offset %0.3f"
-            " -center_x %0.3f"
-            " -center_y %0.3f"
-            " -center_z %0.3f"
-            " -sx %0.3f"
-            " -sy %0.3f"
-            " -sz %0.3f"
-            " -port_coords %r"
-            " > '%s/%s-res%d.out'"
-        ) % (
-            int(n_p),
-            fields,
-            input_pol,
-            str(os.getcwd()),
-            str(output_directory),
-            str(os.getcwd()),
-            eps_input_file,
-            res,
-            nfreq,
-            input_directions[0],
-            float(dpml),
-            float(wl_center),
-            float(wl_span),
-            float(port_vcenter),
-            float(port_height),
-            float(port_width),
-            float(source_offset),
-            float(center[0]),
-            float(center[1]),
-            float(center[2]),
-            float(sx),
-            float(sy),
-            float(sz),
-            port_string,
-            str(os.getcwd()),
-            str(output_directory),
-            res,
-        )
-    else:
-        exec_str = (
-            "python meept.py"
-            " -fields %r"
-            " -input_pol %s"
-            " -output_directory '%s/%s'"
-            " -eps_input_file '%s/%s'"
-            " -res %d"
-            " -nfreq %d"
-            " -input_direction %d"
-            " -dpml %0.3f"
-            " -wl_center %0.3f"
-            " -wl_span %0.3f"
-            " -port_vcenter %0.3f"
-            " -port_height %0.3f"
-            " -port_width %0.3f"
-            " -source_offset %0.3f"
-            " -center_x %0.3f"
-            " -center_y %0.3f"
-            " -center_z %0.3f"
-            " -sx %0.3f"
-            " -sy %0.3f"
-            " -sz %0.3f"
-            " -port_coords %r"
-            " > '%s/%s-res%d.out'"
-        ) % (
-            fields,
-            input_pol,
-            str(os.getcwd()),
-            str(output_directory),
-            str(os.getcwd()),
-            eps_input_file,
-            res,
-            nfreq,
-            input_directions[0],
-            float(dpml),
-            float(wl_center),
-            float(wl_span),
-            float(port_vcenter),
-            float(port_height),
-            float(port_width),
-            float(source_offset),
-            float(center[0]),
-            float(center[1]),
-            float(center[2]),
-            float(sx),
-            float(sy),
-            float(sz),
-            port_string,
-            str(os.getcwd()),
-            str(output_directory),
-            res,
-        )
+        exec_str = f"mpirun -np {int(n_p)} {exec_str}"
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
     if not skip_sim:
-        print("Running MEEP simulation... (check .out file for current status)")
-        start = time.time()
-        call(exec_str, shell=True, cwd=dir_path)
-        print("Time to run MEEP simulation = " + str(time.time() - start) + " seconds")
+        print(f"Running MEEP simulation... (check {logpath} file for current status)")
+        print(exec_str)
 
-    grep_str = "grep flux1: '%s/%s-res%d.out' > '%s/%s-res%d.dat'" % (
-        str(os.getcwd()),
-        str(output_directory),
-        res,
-        str(os.getcwd()),
-        str(output_directory),
-        res,
-    )
-    call(grep_str, shell="True")
+        start = time.time()
+        call(exec_str, shell=True, cwd=dirpath)
+        print(f"Time to run MEEP simulation = {time.time() - start} seconds")
+
+    call(f"grep flux1: {logpath} > {datapath}", shell="True")
 
 
 def plot_results(
@@ -475,19 +380,19 @@ def plot_results(
     wl_center=1.55,
     wl_span=0.3,
     res=10,
-    output_directory="meep-sim",
+    dirpath=None,
     fields=False,
     plot_window=False,
 ):
-    """ Grab data and plot transmission/reflection spectra
+    """Grab data and plot transmission/reflection spectra
 
-       plot_window (boolean): If true, outputs the spectrum plot in a matplotlib window (in addition to saving).  Defaults to False.
+    plot_window (boolean): If true, outputs the spectrum plot in a matplotlib window (in addition to saving).  Defaults to False.
 
     """
-    comp_data = np.genfromtxt(
-        "%s/%s-res%d.dat" % (str(os.getcwd()), str(output_directory), res),
-        delimiter=",",
-    )
+    dirpath = dirpath or f"meep_{component.name}"
+    dirpath = pathlib.Path(dirpath)
+    datapath = f"{component.name}.dat"
+    comp_data = np.genfromtxt(datapath, delimiter=",")
 
     ports = component.get_ports_list()
     input_directions = []
@@ -525,14 +430,14 @@ def plot_results(
     plt.ylabel("Transmission")
     plt.xlim([min(wavelength), max(wavelength)])
     plt.legend(loc="best")
-    plt.savefig("%s/%s-res%d.png" % (str(os.getcwd()), str(output_directory), res))
+    plt.savefig("%s/%s-res%d.png" % (str(os.getcwd()), str(dirpath), res))
     if plot_window:
         plt.show()
     plt.close()
 
     if fields:
-        print("Outputting fields images to " + str(output_directory))
-        export_timestep_fields_to_png(str(output_directory))
+        print("Outputting fields images to " + str(dirpath))
+        export_timestep_fields_to_png(str(dirpath))
 
 
 if __name__ == "__main__":

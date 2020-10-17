@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import meep as mp
 import pp
 
@@ -7,7 +6,7 @@ from pp.sp.meep.add_monitors import add_monitors
 
 def simulate4(
     component,
-    CELL_LAYER=1,
+    layer_core=1,
     SOURCE_LAYER=200,
     PORT1_LAYER=201,
     PORT2_LAYER=202,
@@ -19,14 +18,14 @@ def simulate4(
     t_air=0.78,
     dpml=1,
     si_zmin=0,
-    oxide=mp.Medium(epsilon=2.25),
-    silicon=mp.Medium(epsilon=12),
+    clad_material=mp.Medium(epsilon=2.25),
+    core_material=mp.Medium(epsilon=12),
     wavelength=1.55,
     dfcen=0.2,
-    cladding_width=3,
+    ymargin=3,
+    xmargin=0,
     three_d=False,
     run=False,
-    extend_ports=2,
 ):
     """Simulate a 4 port device
 
@@ -37,8 +36,10 @@ def simulate4(
     if not isinstance(component, pp.Component):
         component = pp.load_component(component)
 
-    c = pp.extend_ports(component, length=extend_ports)
+    c = pp.extend_ports(component, length=2 * dpml)
     c.x = 0
+    c.y = 0
+    c.flatten()
     pp.show(c)
 
     gdspath = pp.write_gds(c)
@@ -52,11 +53,11 @@ def simulate4(
     si_zmax = 0.5 * t_Si if three_d else 10
     si_zmin = -0.5 * t_Si if three_d else -10
 
-    cell = mp.GDSII_vol(gdspath, CELL_LAYER, cell_zmin, cell_zmax)
-    cell.size += 2 * mp.Vector3(y=cladding_width)
-    cell.size += 2 * mp.Vector3(x=dpml)
+    cell = mp.GDSII_vol(gdspath, layer_core, cell_zmin, cell_zmax)
+    cell.size = mp.Vector3(c.xsize - dpml + 2 * xmargin, cell.size[1], cell.size[2])
+    cell.size += 2 * mp.Vector3(y=ymargin)
 
-    geometry = mp.get_GDSII_prisms(silicon, gdspath, CELL_LAYER, si_zmin, si_zmax)
+    geometry = mp.get_GDSII_prisms(core_material, gdspath, layer_core, si_zmin, si_zmax)
 
     src_vol = mp.GDSII_vol(gdspath, SOURCE_LAYER, si_zmin, si_zmax)
 
@@ -68,7 +69,9 @@ def simulate4(
     if three_d:
         oxide_center = mp.Vector3(z=-0.5 * t_oxide)
         oxide_size = mp.Vector3(cell.size.x, cell.size.y, t_oxide)
-        oxide_layer = [mp.Block(material=oxide, center=oxide_center, size=oxide_size)]
+        oxide_layer = [
+            mp.Block(material=clad_material, center=oxide_center, size=oxide_size)
+        ]
         geometry = geometry + oxide_layer
 
     sources = [
@@ -120,14 +123,13 @@ def simulate4(
 
         r = dict(p1=p1, p2=p2, p3=p3, p4=p4, t2=t2, t3=t3, t4=t4)
 
-    sim.plot2D(
-        output_plane=mp.Volume(center=mp.Vector3(), size=cell.size),
-        fields=mp.Ez,
-        field_parameters={"interpolation": "spline36", "cmap": "RdBu"},
-    )
-
-    plt.show()
-    plt.savefig("fields")
+    if not three_d:
+        sim.plot2D(
+            output_plane=mp.Volume(center=mp.Vector3(), size=cell.size),
+            fields=mp.Ez,
+            field_parameters={"interpolation": "spline36", "cmap": "RdBu"},
+        )
+    r["sim"] = sim
     return r
 
 

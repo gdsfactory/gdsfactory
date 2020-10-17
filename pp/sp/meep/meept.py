@@ -12,7 +12,6 @@ import argparse
 import operator
 import h5py
 import numpy as np
-import meep as mp
 
 
 def str2bool(v):
@@ -26,6 +25,8 @@ def str2bool(v):
 
 
 def get_prism_objects(eps_file):
+    import meep as mp
+
     with h5py.File(eps_file, "r") as hf:
         """ Write-format:
            * LL = layer
@@ -127,6 +128,8 @@ def main(args):
        * **sz** (float): Size of the simulation region in z-direction
        * **port_coords** (list): List of the port coordinates (variable length), in the format [x1, y1, x2, y2, x3, y3, ...] (*must* be even)
     """
+    import meep as mp
+
     # Boolean inputs
     fields = args.fields
 

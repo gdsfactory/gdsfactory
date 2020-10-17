@@ -1,15 +1,12 @@
 """ Compute electromagnetic waveguide modes in MPB. Based on PICwriter.
 
-Launches a MPB simulation to compute the electromagnetic mode profile for a given waveguide template and
-material stack.
+Launches a MPB simulation to compute the electromagnetic mode profile for a given waveguide template and material stack.
 """
 
 import pathlib
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
-import meep as mp
-from meep import mpb
 from pp.components.waveguide_template import wg_strip
 from pp.layers import LAYER
 
@@ -295,6 +292,8 @@ def _mpb_mode(
     Returns:
         neff, ng
     """
+    import meep as mp
+    from meep import mpb
 
     eps_input_file = str("epsilon.h5")
     export_wgt_to_hdf5(filename=eps_input_file, wgt=wgt, mstack=mstack, sx=sx)
