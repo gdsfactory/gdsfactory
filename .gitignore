@@ -31,6 +31,7 @@ pp/components/doc
 cml/
 mzi.yml
 *.out
+*.png
 mpb-sim/
 
 # Installer logs

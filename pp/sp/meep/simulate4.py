@@ -93,10 +93,10 @@ def simulate4(
         geometry=geometry,
     )
 
-    mode1 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p1))
-    mode2 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p2))
-    mode3 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p3))
-    mode4 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p4))
+    m1 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p1))
+    m2 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p2))
+    m3 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p3))
+    m4 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p4))
 
     r = dict()
     if run:
@@ -104,16 +104,16 @@ def simulate4(
 
         # S parameters
         p1 = sim.get_eigenmode_coefficients(
-            mode1, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
+            m1, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
         ).alpha[0, 0, 0]
         p2 = sim.get_eigenmode_coefficients(
-            mode2, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
+            m2, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
         ).alpha[0, 0, 1]
         p3 = sim.get_eigenmode_coefficients(
-            mode3, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
+            m3, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
         ).alpha[0, 0, 0]
         p4 = sim.get_eigenmode_coefficients(
-            mode4, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
+            m4, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
         ).alpha[0, 0, 0]
 
         # transmittance
