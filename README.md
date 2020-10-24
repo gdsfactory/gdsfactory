@@ -12,7 +12,7 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 
 ## Documentation
 
-- [read online Documentation](https://gdsfactory.readthedocs.io/en/latest/intro.html)
+- [read online Documentation](https://gdsfactory.readthedocs.io/en/latest)
 - run pp/samples
 - run notebooks
 - see latest changes in [CHANGELOG](CHANGELOG.md)
