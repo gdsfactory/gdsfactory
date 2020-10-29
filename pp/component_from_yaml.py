@@ -120,6 +120,17 @@ def component_from_yaml(
 ) -> Component:
     """Returns a Component defined from YAML
 
+
+    Args:
+        yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
+        component_type2factory: dict of {factory_name: factory_function}
+        route_filter: for routes
+        kwargs: cache, pins ... to pass to all factories
+
+    Returns:
+        Component
+
+    valid properties:
     name: name of Component
     instances:
         name
@@ -131,15 +142,6 @@ def component_from_yaml(
     routes (Optional): defines routes
     bundle_routes (Optional): define river routes
     ports (Optional): defines ports to expose
-
-    Args:
-        yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
-        component_type2factory: dict of {factory_name: factory_function}
-        route_filter: for routes
-        kwargs: cache, pins ... to pass to all factories
-
-    Returns:
-        Component
 
     """
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
@@ -168,7 +170,6 @@ def component_from_yaml(
         component_settings = instance_conf["settings"] or {}
         component_settings.update(**kwargs)
         ci = component_type2factory[component_type](**component_settings)
-        ci.name = instance_name
         ref = c << ci
         instances[instance_name] = ref
 
@@ -410,6 +411,7 @@ def test_connections_2x2_solution():
 
 
 if __name__ == "__main__":
+    import pp
 
     # c = test_connections_2x2_problem()
     # c = test_connections_2x2_solution()
@@ -417,13 +419,15 @@ if __name__ == "__main__":
 
     # test_sample()
     # test_connections()
-    test_mirror()
+    # test_mirror()
     # c = test_mirror()
 
     # sample = sample_mmis
     # sample = sample_connections
     sample = sample_mirror
+    sample = sample_2x2_connections_solution
     c = component_from_yaml(sample)
+    pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3

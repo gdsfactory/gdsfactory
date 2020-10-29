@@ -1,6 +1,7 @@
 from typing import List, Tuple
 import hashlib
 import numpy as np
+from numpy import ndarray
 from scipy.special import binom
 from scipy.optimize import minimize
 
@@ -11,7 +12,6 @@ from pp.geo_utils import angles_deg
 from pp.geo_utils import snap_angle
 from pp.geo_utils import path_length
 from pp.geo_utils import curvature
-from numpy import ndarray
 from pp.component import Component
 
 
@@ -28,8 +28,7 @@ def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray
 
 
 def bezier_points(control_points, width, t=np.linspace(0, 1, 101)):
-    """ t: 1D array of points varying between 0 and 1
-    """
+    """t: 1D array of points varying between 0 and 1"""
     points = bezier_curve(t, control_points)
     return extrude_path(points, width)
 
@@ -144,12 +143,9 @@ def find_min_curv_bezier_control_points(
     return [start_point] + array_1d_to_cpts(p) + [end_point]
 
 
-def _demo():
+if __name__ == "__main__":
     c = bezier()
+    print(c.ports)
     print(c.ports["0"].y - c.ports["1"].y)
     pp.write_gds(c)
     pp.show(c)
-
-
-if __name__ == "__main__":
-    _demo()
