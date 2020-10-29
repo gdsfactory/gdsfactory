@@ -8,7 +8,7 @@ import io
 from omegaconf import OmegaConf
 
 from pp.component import Component
-from pp.components import component_type2factory as component_type2factory_default
+from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing.connect_bundle import link_ports
 
@@ -115,7 +115,7 @@ connections:
 
 def component_from_yaml(
     yaml: Union[str, pathlib.Path, IO[Any]],
-    component_type2factory=None,
+    component_factory=None,
     route_factory=route_factory,
     **kwargs,
 ) -> Component:
@@ -124,7 +124,7 @@ def component_from_yaml(
 
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
-        component_type2factory: dict of {factory_name: factory_function}
+        component_factory: dict of {factory_name: factory_function}
         route_factory: for routes
         kwargs: cache, pins ... to pass to all factories
 
@@ -145,7 +145,7 @@ def component_from_yaml(
 
     """
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
-    component_type2factory = component_type2factory or component_type2factory_default
+    component_factory = component_factory or component_factory_default
 
     conf = OmegaConf.load(yaml)
     for key in conf.keys():
@@ -164,11 +164,11 @@ def component_from_yaml(
         instance_conf = conf.instances[instance_name]
         component_type = instance_conf["component"]
         assert (
-            component_type in component_type2factory
-        ), f"{component_type} not in {list(component_type2factory.keys())}"
+            component_type in component_factory
+        ), f"{component_type} not in {list(component_factory.keys())}"
         component_settings = instance_conf["settings"] or {}
         component_settings.update(**kwargs)
-        ci = component_type2factory[component_type](**component_settings)
+        ci = component_factory[component_type](**component_settings)
         ref = c << ci
         instances[instance_name] = ref
 

@@ -84,7 +84,7 @@ def spiral_tm(wg_width=0.5, length=2):
     return cc
 
 
-component_type2factory = dict(
+component_factory = dict(
     spiral_te=spiral_te, spiral_tm=spiral_tm, coupler_te=coupler_te
 )
 
@@ -120,7 +120,7 @@ def test_mask(precision=2e-9):
 
     generate_does(
         str(does_yml),
-        component_type2factory=component_type2factory,
+        component_factory=component_factory,
         precision=precision,
         doe_root_path=doe_root_path,
         doe_metadata_path=doe_metadata_path,
@@ -144,7 +144,7 @@ def test_mask(precision=2e-9):
 
 if __name__ == "__main__":
     # from pprint import pprint
-    # pprint(component_type2factory)
+    # pprint(component_factory)
     c = test_mask()
     pp.klive.show(c)
     # c = coupler_te(gap=0.3, length=20)

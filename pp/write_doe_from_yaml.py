@@ -10,7 +10,7 @@ from pp.write_doe import write_doe
 
 def import_custom_doe_factories():
     """ Find if we have custom DOEs on this config.
-    Make them available in component_type2factory
+    Make them available in component_factory
     """
 
     sys.path += [CONFIG["mask_root_directory"]]

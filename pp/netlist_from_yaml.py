@@ -15,7 +15,7 @@ import io
 from omegaconf import OmegaConf
 
 from pp.component import Component
-from pp.components import component_type2factory as component_type2factory_default
+from pp.components import component_factory as component_factory_default
 from pp.netlist_to_gds import netlist_to_component
 
 
@@ -67,7 +67,7 @@ ports_map:
 
 
 def netlist_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_type2factory=None,
+    yaml: Union[str, pathlib.Path, IO[Any]], component_factory=None,
 ) -> Component:
     """ Loads Component settings from YAML file, and connections
 
@@ -127,14 +127,14 @@ def netlist_from_yaml(
 
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
     conf = OmegaConf.load(yaml)
-    component_type2factory = component_type2factory or component_type2factory_default
+    component_factory = component_factory or component_factory_default
 
     instances = {}
     for instance_name in conf.instances:
         instance_conf = conf.instances[instance_name]
         component_type = instance_conf["component"]
         component_settings = instance_conf["settings"] or {}
-        instance = component_type2factory[component_type](**component_settings)
+        instance = component_factory[component_type](**component_settings)
         instance_transformations = instance_conf["transformations"] or "None"
         instance_properties = instance_conf["properties"] or {}
         for k, v in instance_properties.items():

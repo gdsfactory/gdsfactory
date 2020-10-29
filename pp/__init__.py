@@ -50,6 +50,7 @@ import pp.units as units
 from pp.component_from_yaml import component_from_yaml
 
 from pp.components import component_factory
+from pp.components import factory
 from pp.components.extension import extend_port
 from pp.components.extension import extend_ports
 from pp.add_padding import add_padding, get_padding_points
@@ -82,6 +83,7 @@ __all__ = [
     "extend_port",
     "extend_ports",
     "boolean",
+    "factory",
     "get_component_type",
     "get_padding_points",
     "klive",

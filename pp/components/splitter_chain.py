@@ -4,7 +4,7 @@ import pp
 
 
 @pp.autoname
-def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3):
+def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3, **kwargs):
     """ Chain of splitters
 
     .. code::
@@ -26,7 +26,7 @@ def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3):
 
     """
     c = pp.Component()
-    component = pp.component_factory(component)
+    component = pp.call_if_func(component, **kwargs)
     cref = c.add_ref(component)
 
     bend = pp.c.bezier()
