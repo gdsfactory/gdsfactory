@@ -45,6 +45,12 @@ cov:
 venv:
 	python3 -m venv env
 
+meep:
+	conda config --add channels conda-forge
+	pip install ipykernel
+	conda install -y pymeep
+
+
 pyenv3:
 	pyenv shell 3.7.2
 	virtualenv venv
