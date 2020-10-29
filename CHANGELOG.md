@@ -8,12 +8,14 @@
 
 Maybe:
 
-- makse sure grating coupler main port is facing west
+- make sure grating coupler main port is facing west
 
 ## master branch (latest changes not released yet)
 
 - addded grating coupler decorator to assert polarization and wavelength
 - component_from_yaml function allows route filter input
+- routes_factory: in pp.routing (optical, electrical)
+- routes: in component_from_yaml allows route_factory
 
 
 ## 1.4.4 2020-10-14

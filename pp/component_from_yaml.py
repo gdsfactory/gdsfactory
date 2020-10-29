@@ -9,7 +9,8 @@ from omegaconf import OmegaConf
 
 from pp.component import Component
 from pp.components import component_type2factory as component_type2factory_default
-from pp.routing import link_optical_ports, connect_strip_way_points
+from pp.routing import route_factory
+from pp.routing.connect_bundle import link_ports
 
 valid_placements = ["x", "y", "rotation", "mirror"]
 valid_keys = [
@@ -19,7 +20,6 @@ valid_keys = [
     "connections",
     "ports",
     "routes",
-    "bundle_routes",
 ]
 
 sample_mmis = """
@@ -45,7 +45,8 @@ placements:
         y: 100
 
 routes:
-    mmi_short,E1: mmi_long,E0
+    optical:
+        mmi_short,E1: mmi_long,E0
 
 ports:
     E0: mmi_short,W0
@@ -115,7 +116,7 @@ connections:
 def component_from_yaml(
     yaml: Union[str, pathlib.Path, IO[Any]],
     component_type2factory=None,
-    route_filter=connect_strip_way_points,
+    route_factory=route_factory,
     **kwargs,
 ) -> Component:
     """Returns a Component defined from YAML
@@ -124,7 +125,7 @@ def component_from_yaml(
     Args:
         yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
         component_type2factory: dict of {factory_name: factory_function}
-        route_filter: for routes
+        route_factory: for routes
         kwargs: cache, pins ... to pass to all factories
 
     Returns:
@@ -139,8 +140,7 @@ def component_from_yaml(
     placements: x, y and rotations
     connections: between instances
     ports (Optional): defines ports to expose
-    routes (Optional): defines routes
-    bundle_routes (Optional): define river routes
+    routes (Optional): defines bundles of routes
     ports (Optional): defines ports to expose
 
     """
@@ -157,7 +157,6 @@ def component_from_yaml(
     c = Component(name)
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
-    bundle_routes_conf = conf.get("bundle_routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
 
@@ -219,49 +218,16 @@ def component_from_yaml(
             instance_src.connect(port=port_src_name, destination=port_dst)
 
     if routes_conf:
-        for port_src_string, port_dst_string in routes_conf.items():
-            instance_src_name, port_src_name = port_src_string.split(",")
-            instance_dst_name, port_dst_name = port_dst_string.split(",")
-
-            instance_src_name = instance_src_name.strip()
-            instance_dst_name = instance_dst_name.strip()
-            port_src_name = port_src_name.strip()
-            port_dst_name = port_dst_name.strip()
-
-            assert (
-                instance_src_name in instances
-            ), f"{instance_src_name} not in {list(instances.keys())}"
-            assert (
-                instance_dst_name in instances
-            ), f"{instance_dst_name} not in {list(instances.keys())}"
-
-            instance_in = instances[instance_src_name]
-            instance_out = instances[instance_dst_name]
-
-            assert port_src_name in instance_in.ports, (
-                f"{port_src_name} not in {list(instance_in.ports.keys())} for"
-                f" {instance_src_name} "
-            )
-            assert port_dst_name in instance_out.ports, (
-                f"{port_dst_name} not in {list(instance_out.ports.keys())} for"
-                f" {instance_dst_name}"
-            )
-
-            port_src = instance_in.ports[port_src_name]
-            port_out = instance_out.ports[port_dst_name]
-
-            route = link_optical_ports(
-                [port_src], [port_out], route_filter=route_filter
-            )
-            c.add(route)
-            routes[f"{port_src_string}:{port_dst_string}"] = route[0]
-
-    if bundle_routes_conf:
-        for route in bundle_routes_conf:
+        for route_type in routes_conf:
+            route_names = []
             ports1 = []
             ports2 = []
-            routes = bundle_routes_conf[route]
-            for port_src_string, port_dst_string in routes.items():
+            routes_dict = routes_conf[route_type]
+            assert (
+                route_type in route_factory
+            ), f"route_type `{route_type}` not in route_factory {list(route_factory.keys())}"
+            route_filter = route_factory[route_type]
+            for port_src_string, port_dst_string in routes_dict.items():
                 instance_src_name, port_src_name = port_src_string.split(",")
                 instance_dst_name, port_dst_name = port_dst_string.split(",")
 
@@ -291,7 +257,11 @@ def component_from_yaml(
 
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
-            route = link_optical_ports(ports1, ports2, route_filter=route_filter)
+                route_names.append(f"{port_src_string}:{port_dst_string}")
+            route = link_ports(ports1, ports2, route_filter=route_filter)
+            for i, r in enumerate(route):
+                routes[route_names[i]] = r
+
             c.add(route)
 
     if ports_conf:
@@ -359,8 +329,9 @@ placements:
         y: 100
 
 routes:
-    mmi_bottom,E0: mmi_top,W0
-    mmi_bottom,E1: mmi_top,W1
+    optical:
+        mmi_bottom,E0: mmi_top,W0
+        mmi_bottom,E1: mmi_top,W1
 
 """
 
@@ -393,8 +364,8 @@ placements:
         x: 100
         y: 100
 
-bundle_routes:
-    mmis:
+routes:
+    optical:
         mmi_bottom,E0: mmi_top,W0
         mmi_bottom,E1: mmi_top,W1
 
@@ -407,6 +378,49 @@ def test_connections_2x2_solution():
     # print(len(c.ports))
     assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 0
+    length = c.routes["mmi_bottom,E1:mmi_top,W1"].parent.length
+    print(length)
+    # assert np.isclose(length, 162.86592653589793)
+    return c
+
+
+sample_order = """
+
+instances:
+    bl:
+      component: pad
+    tl:
+      component: pad
+    br:
+      component: pad
+    tr:
+      component: pad
+
+placements:
+    tl:
+        x: 0
+        y: 200
+
+    br:
+        x: 400
+        y: 400
+
+    tr:
+        x: 400
+        y: 600
+
+routes:
+    electrical:
+        tl,E: tr,W
+        bl,E: br,W
+    optical:
+        bl,S: br,E
+
+"""
+
+
+def test_connections_order():
+    c = component_from_yaml(sample_order, pins=True, cache=False)
     return c
 
 
@@ -426,7 +440,9 @@ if __name__ == "__main__":
     # sample = sample_connections
     sample = sample_mirror
     sample = sample_2x2_connections_solution
+    sample = sample_order
     c = component_from_yaml(sample)
+    print(c.routes)
     pp.show(c)
 
     # c = component_from_yaml(sample_connections)
