@@ -1,1 +1,5 @@
-../CHANGELOG.md
+# CHANGELOG
+
+## TODO
+
+- MVP

@@ -1,4 +1,0 @@
-direction: top
-function_name: compensation_path
-module: pp.components.crossing_waveguide
-name: compensation_path

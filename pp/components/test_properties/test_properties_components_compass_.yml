@@ -1,9 +1,0 @@
-function_name: compass
-layer:
-- 1
-- 0
-module: pp.components.compass
-name: compass
-size:
-- 4
-- 2

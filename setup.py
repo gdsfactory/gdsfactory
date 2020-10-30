@@ -7,18 +7,13 @@ def get_install_requires():
 
 
 setup(
-    name="gdsfactory",
+    name="gdsmp",
     url="https://github.com/gdsfactory/gdsfactory",
     version="1.4.4",
     author="PsiQ",
-    scripts=["pp/pf.py"],
-    description="python libraries to generate GDS layouts",
+    description="simulate GDS in meep",
     packages=find_packages(),
     include_package_data=True,
     install_requires=get_install_requires(),
     python_requires=">=3.6",
-    entry_points="""
-        [console_scripts]
-        pf=pp.pf:cli
-    """,
 )
