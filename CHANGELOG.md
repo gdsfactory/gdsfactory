@@ -22,6 +22,7 @@ Maybe:
 - no more routes and route_bundles: now it's all called routes, and you need to specify the routing factory function name [optical, electrical ...]
 - renamed component_type2factory to component_factory
 - explained factory operation in notebooks/02_components.ipynb
+- mzi.py DL is now the actual delta_length
 
 ## 1.4.4 2020-10-14
 
