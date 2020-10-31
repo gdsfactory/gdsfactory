@@ -1,0 +1,28 @@
+# https://www.klayout.de/forum/discussion/1513/can-i-run-drc-in-batch-mode
+
+if $input
+  source($input)
+end
+
+if $report
+  report("Description", $report)
+else
+  report("Description")
+end
+
+tiles(100)
+tile_borders(2)
+threads(3)
+
+######## Input the layers ########
+si_rib = input(1, 0)
+
+wmin = 0.13
+gmin = 0.13
+angle_limit = 90
+
+
+######## Width and gap checks ########
+# Silicon
+si_rib.width(wmin, angle_limit(angle_limit)).output("Si_width", "Si minimum feature size violation; min")
+si_rib.space(gmin, angle_limit(angle_limit)).output("Si_space", "Si minimum space violation; min")

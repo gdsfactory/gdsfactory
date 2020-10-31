@@ -46,7 +46,8 @@ def test_netlist_yaml():
             y: 100
 
     routes:
-        mmi_short,E1: mmi_long,E0
+        optical:
+            mmi_short,E1: mmi_long,E0
 
     ports:
         E0: mmi_short,W0

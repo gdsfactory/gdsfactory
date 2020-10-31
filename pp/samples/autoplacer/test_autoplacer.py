@@ -40,7 +40,7 @@ def test_autoplacer():
     print(doe_root_path)
     generate_does(
         str(config_yml),
-        component_type2factory=name2factory,
+        component_factory=name2factory,
         doe_root_path=doe_root_path,
         doe_metadata_path=doe_metadata_path,
     )

@@ -18,13 +18,13 @@ We hash the GDS geometry and compare it with the verified component for each com
 
 This check happens as part of the `pytest`. This avoids any unwanted changes in the GDS, that sometimes are hard to see.
 
-We only test the components in the libary that from the `component_type2factory` in `pp/components/__init__.py`
+We only test the components in the libary that from the `component_factory` in `pp/components/__init__.py`
 
 To lock your component to the library. You need to :
 
 - write your component to the gdslib ``pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)``
 - commit and push the gds and metadata to the gdslib repo
-- add it in `component_type2factory` so it will be tested
+- add it in `component_factory` so it will be tested
 
 
 ## gdsdiff

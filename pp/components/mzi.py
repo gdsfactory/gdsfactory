@@ -26,7 +26,7 @@ def mzi(
 
     Args:
         L0: vertical length for both and top arms
-        DL: bottom arm extra length, (delta_length = 2*DL)
+        DL: bottom arm extra length
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90: bend_circular
@@ -44,7 +44,7 @@ def mzi(
               |      |
               L0     L0r
               |      |
-              DL     DL
+             DL/2   DL/2
               |      |
               |__L2__|
 
@@ -81,14 +81,14 @@ def mzi(
 
     dl = abs(y2l - y1l)  # splitter ports distance
     dr = abs(y2r - y1r)  # combiner ports distance
-    delta_length = dl - dr
-    assert delta_length + L0 > 0, (
-        f"input and output couplers height  offset (delta_length)  {delta_length} +"
+    delta_length_combiner = dl - dr
+    assert delta_length_combiner + L0 > 0, (
+        f"coupler and combiner port height offset (delta_length)  {delta_length_combiner} +"
         f" {L0} >0"
     )
 
-    l0r = waveguide_vertical(length=L0 + delta_length / 2)
-    l1 = waveguide_vertical(length=DL)
+    l0r = waveguide_vertical(length=L0 + delta_length_combiner / 2)
+    l1 = waveguide_vertical(length=DL / 2)
     l2 = waveguide_horizontal(length=L2)
 
     cin = c << coupler

@@ -6,7 +6,7 @@ import pathlib
 from omegaconf import OmegaConf
 
 from pp.component import Component
-from pp.components import component_type2factory
+from pp.components import component_factory
 
 
 sample = """
@@ -47,7 +47,7 @@ def read_yaml(yaml: Union[str, pathlib.Path, IO[Any]]) -> Component:
         component_conf = conf[component_name]
         component_type = component_conf["component"]
         component_settings = component_conf["settings"]
-        ci = component_type2factory[component_type](**component_settings)
+        ci = component_factory[component_type](**component_settings)
         component_properties = component_conf["properties"]
         for k, v in component_properties.items():
             setattr(ci, k, v)

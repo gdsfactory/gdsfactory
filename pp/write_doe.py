@@ -1,6 +1,6 @@
 import json
 from pp.name import get_component_name
-from pp.components import component_type2factory
+from pp.components import component_factory
 from pp.write_component import write_component
 from pp.config import CONFIG
 from pp.doe import get_settings_list
@@ -118,6 +118,7 @@ def write_doe(
     doe_metadata_path=CONFIG["doe_directory"],
     functions=None,
     name2function=name2function,
+    component_factory=component_factory,
     **kwargs,
 ):
     """ writes each device GDS, together with metadata for each device:
@@ -162,9 +163,8 @@ def write_doe(
     for settings in list_settings:
         # print(settings)
         component_name = get_component_name(component_type, **settings)
-        component_factory = component_type2factory[component_type]
-        component = component_factory(name=component_name, **settings)
-        component.function_name = component_factory.__name__
+        component_function = component_factory[component_type]
+        component = component_function(name=component_name, **settings)
         if "test" in kwargs:
             component.test_protocol = kwargs.get("test")
         if "analysis" in kwargs:

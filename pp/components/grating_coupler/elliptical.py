@@ -248,9 +248,9 @@ def grating_coupler_elliptical(
     c.move((-x_output, 0))
 
     if polarization.lower() == "te":
-        polarization_marker_layer = pp.LAYER.polarization_te
+        polarization_marker_layer = pp.LAYER.TE
     else:
-        polarization_marker_layer = pp.LAYER.polarization_tm
+        polarization_marker_layer = pp.LAYER.TM
 
     if with_fiber_marker:
         circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)

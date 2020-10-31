@@ -11,26 +11,24 @@ from phidl import device_layout as pd
 
 from pp.config import CONFIG, conf
 from pp.name import get_component_name
-from pp.components import component_type2factory
+from pp.components import component_factory
 from pp import klive
 from pp.component import Component
 
 from pp.layers import LAYER
 
 
-def get_component_type(
-    component_type, component_type2factory=component_type2factory, **kwargs
-):
+def get_component_type(component_type, component_factory=component_factory, **kwargs):
     """ returns a component from the factory """
     component_name = get_component_name(component_type, **kwargs)
-    return component_type2factory[component_type](name=component_name, **kwargs)
+    return component_factory[component_type](name=component_name, **kwargs)
 
 
 def write_component_type(
     component_type,
     overwrite=True,
     path_directory=CONFIG["gds_directory"],
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     **kwargs,
 ):
     """write_component by type or function
@@ -39,7 +37,7 @@ def write_component_type(
         component_type: can be function or factory name
         overwrite: if False and component exists
         path_directory: to store GDS + metadata
-        component_type2factory: factory dictionary
+        component_factory: factory dictionary
         **kwargs: component args
     """
     if callable(component_type):
@@ -52,9 +50,7 @@ def write_component_type(
     path_directory.mkdir(parents=True, exist_ok=True)
 
     if not gdspath.exists() or overwrite:
-        component = component_type2factory[component_type](
-            name=component_name, **kwargs
-        )
+        component = component_factory[component_type](name=component_name, **kwargs)
         component.type = component_type
         write_component(component, gdspath)
 

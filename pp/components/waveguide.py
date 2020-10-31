@@ -154,10 +154,14 @@ def _demo_waveguide():
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+    from phidl.quickplotter import quickplot2
 
     c = waveguide(length=4, pins=True)
 
-    pp.show(c)
+    quickplot2(c)
+    plt.show()
+    # pp.show(c)
 
     # print(c.hash_geometry())
     # pp.show(c)

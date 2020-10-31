@@ -1,5 +1,5 @@
 errors:
-	python erorrs.py
+	python errors.py
 
-check:
-	klayout -b -r generic.lydrc gmin.gds
+drc:
+	klayout -b -rd input=errors.gds -rd report=report.lyrdb -r generic.drc
