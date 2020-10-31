@@ -937,6 +937,14 @@ class Component(Device):
             layers.add((label.layer, 0))
         return layers
 
+    def _repr_html_(self):
+        from phidl import quickplot as qp
+        from pp.write_component import show
+
+        qp(self)
+        show(self)
+        return self.__str__()
+
 
 def test_get_layers():
     import pp
