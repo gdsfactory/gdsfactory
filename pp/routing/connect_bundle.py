@@ -1112,7 +1112,7 @@ def demo_connect_bundle_small_electrical():
 if __name__ == "__main__":
     import pp
 
-    # c = demo_connect_bundle()
+    c = demo_connect_bundle()
     # c = demo_connect_bundle_small()
-    c = demo_connect_bundle_small_electrical()
+    # c = demo_connect_bundle_small_electrical()
     pp.show(c)

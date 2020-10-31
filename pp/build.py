@@ -10,7 +10,7 @@ import shutil
 import time
 import re
 
-from pp.components import component_type2factory
+from pp.components import component_factory
 from pp.config import CONFIG
 from pp.config import logging
 from pp.doe import load_does
@@ -127,12 +127,12 @@ def build_cache_push():
         )
 
 
-def _build_doe(doe_name, config, component_type2factory=component_type2factory):
+def _build_doe(doe_name, config, component_factory=component_factory):
     from pp.write_doe import write_doe
 
     doe = config["does"][doe_name]
     component_type = doe.get("component")
-    component_function = component_type2factory[component_type]
+    component_function = component_factory[component_type]
     write_doe(
         component_type=component_function,
         doe_name=doe_name,
@@ -145,7 +145,7 @@ def _build_doe(doe_name, config, component_type2factory=component_type2factory):
     )
 
 
-def build_does(filepath, component_type2factory=component_type2factory):
+def build_does(filepath, component_factory=component_factory):
     """ this function is depreacted
 
     Writes DOE settings from config.yml file and writes GDS into build_directory
@@ -164,13 +164,13 @@ def build_does(filepath, component_type2factory=component_type2factory):
     doe_names = does.keys()
 
     doe_params = zip(
-        doe_names, itertools.repeat(filepath), itertools.repeat(component_type2factory)
+        doe_names, itertools.repeat(filepath), itertools.repeat(component_factory)
     )
     p = multiprocessing.Pool(multiprocessing.cpu_count())
     p.starmap(_build_doe, doe_params)
 
     # for doe_name in doe_names:
-    #     p = multiprocessing.Process(target=_build_doe, args=(doe_name, config, component_type2factory=component_type2factory))
+    #     p = multiprocessing.Process(target=_build_doe, args=(doe_name, config, component_factory=component_factory))
     #     p.start()
 
 

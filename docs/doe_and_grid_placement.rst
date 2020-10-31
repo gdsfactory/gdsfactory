@@ -123,10 +123,10 @@ We now need to make sure that the `does.yaml` placer knows about this new factor
     import pp
     from pp.placer import component_grid_from_yaml
     from wg_te_cutback import wg_te_cutback
-    from pp.components import component_type2factory
+    from pp.components import component_factory
 
     # Add the custom DOE to the dictionary of factories
-    component_type2factory["wg_te_cutback"] = wg_te_cutback
+    component_factory["wg_te_cutback"] = wg_te_cutback
 
     def main():
         # We will show this YAML file in the next section

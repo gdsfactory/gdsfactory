@@ -7,12 +7,11 @@ from omegaconf import OmegaConf
 
 from pp.placer import save_doe
 from pp.placer import doe_exists
-from pp.placer import _gen_components
-from pp.placer import _gen_components_from_generator
+from pp.placer import build_components
 from pp.placer import load_doe_component_names
 
 from pp.config import CONFIG
-from pp.components import component_type2factory
+from pp.components import component_factory
 from pp.write_doe import write_doe_metadata
 from pp.doe import get_settings_list
 
@@ -80,9 +79,9 @@ def save_doe_use_template(doe, doe_root_path=None):
         fw.write("TEMPLATE: {}".format(doe_template))
 
 
-def _generate_doe(
+def write_doe(
     doe,
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     component_filter=default_component_filter,
     doe_root_path=None,
     doe_metadata_path=None,
@@ -99,17 +98,9 @@ def _generate_doe(
 
     # Otherwise generate each component using the component factory
     component_type = doe["component"]
-    if "generator" in doe:
-        components = _gen_components_from_generator(
-            doe["generator"],
-            component_type,
-            doe,
-            component_type2factory=component_type2factory,
-        )
-    else:
-        components = _gen_components(
-            component_type, list_settings, component_type2factory=component_type2factory
-        )
+    components = build_components(
+        component_type, list_settings, component_factory=component_factory
+    )
 
     components = [component_filter(c) for c in components]
     component_names = [c.name for c in components]
@@ -142,7 +133,7 @@ def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
 def generate_does(
     filepath,
     component_filter=default_component_filter,
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     doe_root_path=CONFIG["cache_doe_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
     n_cores=4,
@@ -174,8 +165,8 @@ def generate_does(
         doe["name"] = doe_name
         component = doe["component"]
 
-        if component not in component_type2factory:
-            raise ValueError(f"{component} not in {component_type2factory.keys()}")
+        if component not in component_factory:
+            raise ValueError(f"{component} not in {component_factory.keys()}")
 
         if "template" in doe:
             """
@@ -246,8 +237,8 @@ def generate_does(
             if not _doe_exists:
                 start_times[doe_name] = time.time()
                 p = Process(
-                    target=_generate_doe,
-                    args=(doe, component_type2factory),
+                    target=write_doe,
+                    args=(doe, component_factory),
                     kwargs={
                         "component_filter": component_filter,
                         "doe_root_path": doe_root_path,
@@ -263,7 +254,7 @@ def generate_does(
                     p.start()
                 except Exception:
                     print("Issue starting process for {}".format(doe_name))
-                    print(type(component_type2factory))
+                    print(type(component_factory))
                     raise
 
         to_rm = []

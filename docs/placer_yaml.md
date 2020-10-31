@@ -52,7 +52,7 @@ factories = [
 ]
 
 # This maps the factory names for the factories, enabling them to be used in the YAML file
-component_type2factory = {f.__name__ : f for f in factories}
+component_factory = {f.__name__ : f for f in factories}
 
 def top_level(mask_name="TEG_ILOT_PCM"):
     print(CONFIG["cache_doe_directory"])
@@ -60,7 +60,7 @@ def top_level(mask_name="TEG_ILOT_PCM"):
 
     folder = os.path.dirname(os.path.abspath(__file__))
     filepath_yml = os.path.join(folder, "{}.yml".format(mask_name))
-    generate_does(filepath_yml, component_type2factory=component_type2factory)
+    generate_does(filepath_yml, component_factory=component_factory)
 
     top_level = place_from_yaml(
         filepath_yml,

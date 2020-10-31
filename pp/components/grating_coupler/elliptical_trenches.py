@@ -113,9 +113,9 @@ def grating_coupler_elliptical_trenches(
     c.move((-x_output, 0))
 
     if polarization.lower() == "te":
-        polarization_marker_layer = pp.LAYER.polarization_te
+        polarization_marker_layer = pp.LAYER.TE
     else:
-        polarization_marker_layer = pp.LAYER.polarization_tm
+        polarization_marker_layer = pp.LAYER.TM
 
     circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)
     circle_ref = c.add_ref(circle)

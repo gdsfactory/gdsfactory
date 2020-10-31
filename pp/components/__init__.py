@@ -104,7 +104,7 @@ from pp.components.splitter_chain import splitter_chain
 
 
 # we will test each factory component hash, ports and properties """
-component_type2factory = dict(
+component_factory = dict(
     bend_circular180=bend_circular180,
     bend_circular=bend_circular,
     bend_circular_heater=bend_circular_heater,
@@ -194,7 +194,7 @@ component_type2factory = dict(
 )
 
 
-def component_factory(component_type, **settings):
+def factory(component_type, component_factory=component_factory, **settings):
     """ returns a component with settings """
     import pp
 
@@ -202,17 +202,17 @@ def component_factory(component_type, **settings):
         return component_type
     elif callable(component_type):
         return component_type(**settings)
-    elif component_type not in component_type2factory.keys():
+    elif component_type not in component_factory.keys():
         raise ValueError(
             "component types available: \n {}".format(
-                "\n".join(component_type2factory.keys())
+                "\n".join(component_factory.keys())
             )
         )
-    return component_type2factory[component_type](**settings)
+    return component_factory[component_type](**settings)
 
 
 # all this components are available as pp.c
-__all__ = list(component_type2factory.keys())
+__all__ = list(component_factory.keys())
 leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
 _containers = set(["cavity"])
 _skip_test = set(

@@ -1,6 +1,6 @@
 import pytest
 import pp
-from pp.components import component_type2factory
+from pp.components import component_factory
 
 component_types = [
     "waveguide",
@@ -14,7 +14,7 @@ component_types = [
 
 @pytest.mark.parametrize("component_type", component_types)
 def test_sp_load(component_type, data_regression):
-    c = component_type2factory[component_type]()
+    c = component_factory[component_type]()
     sp = pp.sp.load(c)
 
     port_names = sp[0]

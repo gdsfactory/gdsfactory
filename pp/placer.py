@@ -36,7 +36,7 @@ from omegaconf import OmegaConf
 import pp
 from pp.doe import get_settings_list, load_does
 from pp.config import CONFIG
-from pp.components import component_type2factory
+from pp.components import component_factory
 from pp.write_component import write_gds
 from pp.write_component import write_component_report
 
@@ -49,7 +49,6 @@ def _print(*args, **kwargs):
 def placer_grid_cell_refs(
     component_factory, cols=1, rows=1, dx=10.0, dy=10.0, x0=0, y0=0, **settings
 ):
-    print(component_factory)
     if callable(component_factory):
         settings_list = get_settings_list(**settings)
         component_list = [component_factory(**s) for s in settings_list]
@@ -409,14 +408,7 @@ def component_grid_from_yaml(filepath, precision=1e-9):
         # If no component is loaded, build them
         if components is None:
             print("{} - Generating components...".format(doe_name))
-            # If a generator is specified for the DOE, use it
-            if "generator" in doe:
-                components = _gen_components_from_generator(
-                    doe["generator"], component_type, list_settings
-                )
-            # Otherwise generate each component using the component factory
-            else:
-                components = _gen_components(component_type, list_settings)
+            components = build_components(component_type, list_settings)
 
             # After building the components, if cache enabled, save them
             if cache_enabled:
@@ -523,37 +515,23 @@ def component_grid_from_yaml(filepath, precision=1e-9):
     return component_grid
 
 
-def _gen_components(
-    component_type, list_settings, component_type2factory=component_type2factory
+def build_components(
+    component_type, list_settings, component_factory=component_factory
 ):
     components = []
 
     # If no settings passed, generate a single component with defaults
     if not list_settings:
-        component_factory = component_type2factory[component_type]
-        component = component_factory()
-        component.function_name = component_factory.__name__
+        component_function = component_factory[component_type]
+        component = component_function()
         components += [component]
         return components
 
     for settings in list_settings:
-        component_factory = component_type2factory[component_type]
-        component = component_factory(**settings)
-        component.function_name = component_factory.__name__
+        component_function = component_factory[component_type]
+        component = component_function(**settings)
         components += [component]
 
-    return components
-
-
-def _gen_components_from_generator(
-    components_generator,
-    component_type,
-    doe,
-    component_type2factory=component_type2factory,
-):
-    component_factory = component_type2factory[component_type]
-    generator_factory = component_type2factory[components_generator]
-    components = generator_factory(component_factory, doe)
     return components
 
 

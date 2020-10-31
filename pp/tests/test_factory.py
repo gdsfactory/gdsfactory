@@ -10,7 +10,7 @@ import git
 
 import gdspy
 import pp
-from pp.components import component_type2factory, _components
+from pp.components import component_factory, _components
 from pp import CONFIG
 
 path_library = CONFIG["gds"]
@@ -45,7 +45,7 @@ def pull_library(path_library=path_library):
 
 def lock_component(
     component_type,
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     path_library=path_library,
     flatten=True,
     with_settings_label=False,
@@ -55,7 +55,7 @@ def lock_component(
     TODO: flattening makes it slower for big mask
     """
     try:
-        c = component_type2factory[component_type](cache=False, pins=False)
+        c = component_factory[component_type](cache=False, pins=False)
         if flatten:
             c.flatten()
         gdspath = path_library / (component_type + ".gds")
@@ -71,7 +71,7 @@ def lock_component(
 
 def lock_components_with_changes(
     components=_components,
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     path_library=path_library,
 ):
 
@@ -80,27 +80,27 @@ def lock_components_with_changes(
     for component_type in components:
         same_hash = compare_component_hash(
             component_type=component_type,
-            component_type2factory=component_type2factory,
+            component_factory=component_factory,
             path_library=path_library,
         )
         if not same_hash:
             print(f"locking {component_type} to {path_library}")
             lock_component(
                 component_type=component_type,
-                component_type2factory=component_type2factory,
+                component_factory=component_factory,
                 path_library=path_library,
             )
 
 
 def print_components_with_changes(
-    component_type2factory=component_type2factory, path_library=path_library
+    component_factory=component_factory, path_library=path_library
 ):
     """  locks only components whose hash changed
     """
-    for component_type, _ in component_type2factory.items():
+    for component_type, _ in component_factory.items():
         same_hash = compare_component_hash(
             component_type,
-            component_type2factory=component_type2factory,
+            component_factory=component_factory,
             path_library=path_library,
         )
         if not same_hash:
@@ -110,26 +110,22 @@ def print_components_with_changes(
 @pytest.mark.parametrize("component_type", _components)
 @pytest.mark.noautofixt
 def test_components(
-    component_type,
-    component_type2factory=component_type2factory,
-    path_library=path_library,
+    component_type, component_factory=component_factory, path_library=path_library,
 ):
     assert compare_component_hash(
         component_type=component_type,
-        component_type2factory=component_type2factory,
+        component_factory=component_factory,
         path_library=path_library,
     ), f"{component_type} changed from component locked in the library {path_library}"
 
 
-def rebuild_library(
-    component_type2factory=component_type2factory, path_library=path_library
-):
-    """ saves all component_type2factory components to the gdslib library
+def rebuild_library(component_factory=component_factory, path_library=path_library):
+    """ saves all component_factory components to the gdslib library
     """
-    for component_type, _ in component_type2factory.items():
+    for component_type, _ in component_factory.items():
         lock_component(
             component_type=component_type,
-            component_type2factory=component_type2factory,
+            component_factory=component_factory,
             path_library=path_library,
         )
         print(f"Write `{component_type}`")
@@ -148,7 +144,7 @@ def _copy_component(src, dest):
 
 def compare_component_hash(
     component_type,
-    component_type2factory=component_type2factory,
+    component_factory=component_factory,
     path_library=path_library,
     path_test=CONFIG["gdslib_test"],
 ):
@@ -162,9 +158,7 @@ def compare_component_hash(
     """
 
     component_new = lock_component(
-        component_type,
-        component_type2factory=component_type2factory,
-        path_library=path_test,
+        component_type, component_factory=component_factory, path_library=path_test,
     )
     component_new.name += "_new"
 
@@ -174,7 +168,7 @@ def compare_component_hash(
     if not gdspath_library.exists():
         lock_component(
             component_type=component_type,
-            component_type2factory=component_type2factory,
+            component_factory=component_factory,
             path_library=path_library,
         )
         print(f"writing new component {component_type} into {path_library}")
@@ -190,7 +184,7 @@ def compare_component_hash(
 
     same_hash = gdshash_new == gdshash_library
     if not same_hash:
-        error_hash = f"`{component_library}` hash(GDS) {gdspath_new} differs from the library {gdspath_library}, showing both cells in Klayout \n library = {component_type2factory.keys()}"
+        error_hash = f"`{component_library}` hash(GDS) {gdspath_new} differs from the library {gdspath_library}, showing both cells in Klayout \n library = {component_factory.keys()}"
         error_settings = f"different settings: {diff(component_library.get_settings(), component_new.get_settings())}"
         c = pp.Component(name=component_type)
         c << component_new

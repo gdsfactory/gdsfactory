@@ -8,13 +8,21 @@
 
 Maybe:
 
-- makse sure grating coupler main port is facing west
+- make sure grating coupler main port is facing west
 
 ## master branch (latest changes not released yet)
 
+
+## 2.0.0 2020-10-30
+
 - addded grating coupler decorator to assert polarization and wavelength
 - component_from_yaml function allows route filter input
-
+- routes_factory: in pp.routing (optical, electrical)
+- routes: in component_from_yaml allows route_factory
+- no more routes and route_bundles: now it's all called routes, and you need to specify the routing factory function name [optical, electrical ...]
+- renamed component_type2factory to component_factory
+- explained factory operation in notebooks/02_components.ipynb
+- mzi.py DL is now the actual delta_length
 
 ## 1.4.4 2020-10-14
 
