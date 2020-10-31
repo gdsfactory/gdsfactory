@@ -13,7 +13,7 @@ Maybe:
 ## master branch (latest changes not released yet)
 
 
-## 2.0.0 coming release
+## 2.0.0 2020-10-30
 
 - addded grating coupler decorator to assert polarization and wavelength
 - component_from_yaml function allows route filter input
