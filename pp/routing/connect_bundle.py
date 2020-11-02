@@ -272,9 +272,10 @@ def link_ports_routes(
         f_key1 = get_port_x
         f_key2 = get_port_x
 
+    ports2_by1 = {p1: p2 for p1,p2 in zip(ports1, ports2)}
     if sort_ports:
         ports1.sort(key=f_key1)
-        ports2.sort(key=f_key2)
+        ports2 = [ports2_by1[p1] for p1 in ports1]
 
     ## Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
