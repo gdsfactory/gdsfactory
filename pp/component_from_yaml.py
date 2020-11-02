@@ -218,15 +218,17 @@ def component_from_yaml(
             instance_src.connect(port=port_src_name, destination=port_dst)
 
     if routes_conf:
-        for route_type in routes_conf:
+        for route_alias in routes_conf:
             route_names = []
             ports1 = []
             ports2 = []
-            routes_dict = routes_conf[route_type]
+            routes_dict = routes_conf[route_alias]
+            route_type = routes_dict.pop("factory", route_alias)
             assert (
                 route_type in route_factory
             ), f"route_type `{route_type}` not in route_factory {list(route_factory.keys())}"
             route_filter = route_factory[route_type]
+            route_settings = routes_dict.pop("settings", {})
             for port_src_string, port_dst_string in routes_dict.items():
                 instance_src_name, port_src_name = port_src_string.split(",")
                 instance_dst_name, port_dst_name = port_dst_string.split(",")
@@ -258,7 +260,9 @@ def component_from_yaml(
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
                 route_names.append(f"{port_src_string}:{port_dst_string}")
-            route = link_ports(ports1, ports2, route_filter=route_filter)
+            route = link_ports(
+                ports1, ports2, route_filter=route_filter, **route_settings
+            )
             for i, r in enumerate(route):
                 routes[route_names[i]] = r
 
