@@ -21,7 +21,7 @@ def simulate22(
     xmargin=0,
     three_d=False,
     run=True,
-    wavelengths=np.linspace(1.5, 1.6, 10),
+    wavelengths=np.linspace(1.5, 1.6, 50),
     monitor_point=(0, 0, 0),
     dfcen=0.2,
 ):
@@ -97,22 +97,32 @@ def simulate22(
         geometry=geometry,
     )
 
+    mon_size = 2
+    xpos = 1
     m1 = sim.add_mode_monitor(
         freqs,
-        mp.FluxRegion(center=[-length / 2, 0, 0], size=[0, cell_size.y, cell_size.z]),
+        mp.ModeRegion(center=[-xpos, 0, 0], size=[0, mon_size, mon_size]),
     )
     m2 = sim.add_mode_monitor(
         freqs,
-        mp.FluxRegion(center=[length / 2, 0, 0], size=[0, cell_size.y, cell_size.z]),
+        mp.ModeRegion(center=[xpos, 0, 0], size=[0, mon_size, mon_size]),
     )
+
+    if 0:
+        '''
+        Useful for debugging.
+        '''
+        sim.run(until=50)
+        sim.plot2D(fields=mp.Ez)
+        plt.show()
+        quit()
 
     r = dict(sim=sim)
     if run:
         sim.run(
             until_after_sources=mp.stop_when_fields_decayed(
-                dt=50, c=mp.Ez, pt=monitor_point, decay_by=1e-9
-            )
-        )
+                dt=50, c=mp.Ez, pt=(xpos,0,0), decay_by=1e-9
+            ))
 
         # look at simulation and measure component that we want to measure (Ez component)
         # when it decays below a certain
@@ -120,78 +130,60 @@ def simulate22(
         # 1e-9 field threshold
         # call this function every 50 time spes
 
-        # S parameters
-        p1 = sim.get_eigenmode_coefficients(
-            m1, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
-        ).alpha[
-            0, 0, 0
-        ]  # 0 means forward, 1: backward
-        p2 = sim.get_eigenmode_coefficients(
-            m2, [1], eig_parity=mp.NO_PARITY if three_d else mp.EVEN_Y + mp.ODD_Z
-        ).alpha[0, 0, 0]
-
-        # transmittance
-        t = abs(p2) ** 2 / abs(p1) ** 2
-
-        # S parameters
-        # Calculate the scattering params for each waveguide
-        bands = [1, 2, 3]  # just look at first, second, and third, TE modes
+        # Calculate the mode overlaps
         m1_results = sim.get_eigenmode_coefficients(
-            m1, [1], eig_parity=(mp.ODD_Z + mp.EVEN_Y)
+            m1, [1]
         ).alpha
         m2_results = sim.get_eigenmode_coefficients(
-            m2, bands, eig_parity=(mp.ODD_Z + mp.EVEN_Y)
+            m2, [1]
         ).alpha
 
+        # Parse out the overlaps
         a1 = m1_results[:, :, 0]  # forward wave
         b1 = m1_results[:, :, 1]  # backward wave
         a2 = m2_results[:, :, 0]  # forward wave
         b2 = m2_results[:, :, 1]  # backward wave
 
-        S12_mode1 = a2[0, :] / a1[0, :]
-        S12_mode2 = a2[1, :] / a1[0, :]
-        S12_mode3 = a2[2, :] / a1[0, :]
-
-        S11 = b1 / a1
-        S12 = b1 / a2
-        S22 = b2 / a2
-        S21 = b2 / a1
+        # Calculate the actual scattering parameters from the overlaps
+        S11 = np.squeeze(b1 / a1)
+        S12 = np.squeeze(a2 / a1)
+        S22 = S11.copy()
+        S21 = S12.copy()
+        
+        '''
+        To truly calculate S22 and S21,
+        that requires *another* simulation, this time
+        with the source on the *other* port.
+        Luckily, the device is symmetric, so we can assume
+        that S22=S11 and S21=S12.
+        '''
 
         # visualize results
         plt.figure()
         plt.plot(
             wavelengths,
-            10 * np.log(np.abs(S12_mode1) ** 2),
+            10*np.log10(np.abs(S11) ** 2),
             "-o",
-            label="S12 Input Mode 1 Output Mode 1",
+            label="Reflection",
         )
         plt.plot(
             wavelengths,
-            10 * np.log(np.abs(S12_mode2) ** 2),
+            10*np.log10(np.abs(S12) ** 2),
             "-o",
-            label="S12 Input Mode 1 Output Mode 2",
+            label="Transmission",
         )
-        plt.plot(
-            wavelengths,
-            10 * np.log(np.abs(S12_mode3) ** 2),
-            "-o",
-            label="S12 Input Mode 1 Output Mode 3",
-        )
-        plt.ylabel("Power")
-        plt.xlabel("Wavelength (microns)")
+        plt.ylabel("Power (dB)")
+        plt.xlabel("Wavelength ($\mu$m)")
         plt.legend()
         plt.grid(True)
 
         r.update(
             dict(
-                S12_mode1=S12_mode1,
-                S12_mode2=S12_mode2,
-                S12_mode3=S12_mode3,
                 S11=S11,
                 S12=S12,
                 S21=S21,
                 S22=S22,
-                t=t,
+                wavelengths=wavelengths,
                 cell_size=cell_size,
             )
         )
