@@ -12,6 +12,8 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+- fixing sorting of ports in bundle routing: Thanks to Troy Tamas
+
 
 ## 2.0.0 2020-10-30
 
