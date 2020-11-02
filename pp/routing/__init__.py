@@ -13,13 +13,21 @@ from pp.routing.connect_bundle import connect_bundle
 from pp.routing.connect_bundle import connect_bundle_path_length_match
 from pp.routing.connect_bundle import link_electrical_ports
 from pp.routing.connect_bundle import link_optical_ports
+from pp.routing.connect_bundle import link_ports
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_fiber_single import route_fiber_single
 from pp.routing.route_ports_to_side import route_elec_ports_to_side, route_ports_to_side
 
 route_factory = dict(
-    optical=connect_strip_way_points, electrical=connect_elec_waypoints
+    optical=connect_strip_way_points, electrical=connect_elec_waypoints,
+)
+
+link_factory = dict(
+    link_ports=link_ports,
+    link_ports_path_length_match=connect_bundle_path_length_match,
+    link_electrical_waypoints=connect_elec_waypoints,
+    link_optical_waypoints=connect_strip_way_points,
 )
 
 __all__ = [
