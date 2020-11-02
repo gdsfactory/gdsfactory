@@ -222,7 +222,7 @@ def link_ports_routes(
     separation: float,
     bend_radius: float = BEND_RADIUS,
     route_filter: Callable = generate_manhattan_waypoints,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
     verbose: int = 0,
@@ -267,12 +267,12 @@ def link_ports_routes(
     ## Axis along which we sort the ports
     if axis in ["X", "x"]:
         f_key1 = get_port_y
-        f_key2 = get_port_y
+        # f_key2 = get_port_y
     else:
         f_key1 = get_port_x
-        f_key2 = get_port_x
+        # f_key2 = get_port_x
 
-    ports2_by1 = {p1: p2 for p1,p2 in zip(ports1, ports2)}
+    ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
     if sort_ports:
         ports1.sort(key=f_key1)
         ports2 = [ports2_by1[p1] for p1 in ports1]
@@ -663,7 +663,7 @@ def get_min_spacing(
     ports1: List[Port],
     ports2: List[Port],
     sep: float = 5.0,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     radius: float = BEND_RADIUS,
 ) -> float:
     """
@@ -686,7 +686,7 @@ def get_min_spacing(
             ports1.sort(key=get_port_x)
             ports2.sort(key=get_port_x)
 
-    for i in range(len(ports1)):
+    for i, _ in enumerate(ports1):
         if axis in ["X", "x"]:
             x1 = get_port_y(ports1[i])
             x2 = get_port_y(ports2[i])
@@ -714,7 +714,7 @@ def link_optical_ports_no_grouping(
     radius=BEND_RADIUS,
     start_straight=None,
     end_straight=None,
-    sort_ports=True,
+    sort_ports=False,
 ):
     """
     Compared to link_ports, this function does not do any grouping.
@@ -810,7 +810,7 @@ def link_optical_ports_no_grouping(
     end_straight += -min_j * sep
 
     # Do case with wire direct if the ys are close to each other
-    for i in range(len(ports1)):
+    for i, _ in enumerate(ports1):
 
         if axis in ["X", "x"]:
             x1 = ports1[i].position.y
