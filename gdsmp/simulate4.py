@@ -98,7 +98,7 @@ def simulate4(
     m3 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p3))
     m4 = sim.add_mode_monitor(fcen, 0, 1, mp.ModeRegion(volume=p4))
 
-    r = dict()
+    r = dict(sim=sim)
     if run:
         sim.run(until_after_sources=100)
 
@@ -121,15 +121,7 @@ def simulate4(
         t3 = abs(p3) ** 2 / abs(p1) ** 2
         t4 = abs(p4) ** 2 / abs(p1) ** 2
 
-        r = dict(p1=p1, p2=p2, p3=p3, p4=p4, t2=t2, t3=t3, t4=t4)
-
-    if not three_d:
-        sim.plot2D(
-            output_plane=mp.Volume(center=mp.Vector3(), size=cell.size),
-            fields=mp.Ez,
-            field_parameters={"interpolation": "spline36", "cmap": "RdBu"},
-        )
-    r["sim"] = sim
+        r.update(dict(p1=p1, p2=p2, p3=p3, p4=p4, t2=t2, t3=t3, t4=t4))
     return r
 
 
