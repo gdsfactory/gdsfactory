@@ -1,5 +1,6 @@
 component:
   cladding_offset: 3.0
+  function_name: waveguide
   layer:
   - 1
   - 0
@@ -7,6 +8,8 @@ component:
   - - 111
     - 0
   length: 10.0
+  module: pp.components.waveguide
+  name: waveguide
   width: 0.5
 component_name: waveguide
 coupler: coupler

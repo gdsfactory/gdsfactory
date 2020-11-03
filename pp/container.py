@@ -58,7 +58,7 @@ def container(component_function: Callable) -> Callable:
         sig = signature(component_function)
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
         new.settings.update(**kwargs)
-        new.settings["component"] = old.settings.copy()
+        new.settings["component"] = old.get_settings()
         new.settings["component_name"] = old.name
         new.settings["function_name"] = component_function.__name__
         new.test_protocol = new.test_protocol or old.test_protocol.copy()

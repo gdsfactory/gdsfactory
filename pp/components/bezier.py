@@ -50,19 +50,19 @@ def bezier(
     ],
     t: ndarray = np.linspace(0, 1, 201),
     layer: Tuple[int, int] = LAYER.WG,
-    **extrude_path_params
+    **extrude_path_params,
 ) -> Component:
     """ bezier bend """
 
-    def _fmt_f(x):
+    def format_float(x):
         return "{:.3f}".format(x).rstrip("0").rstrip(".")
 
     def _fmt_cp(cps):
-        return "_".join(["({},{})".format(_fmt_f(p[0]), _fmt_f(p[1])) for p in cps])
+        return "_".join([f"({format_float(p[0])},{format_float(p[1])})" for p in cps])
 
     if name is None:
         points_hash = hashlib.md5(_fmt_cp(control_points).encode()).hexdigest()
-        name = "bezier_w{}_{}_{}".format(int(width * 1e3), points_hash, layer)
+        name = f"bezier_w{int(width*1e3)}_{points_hash}_{layer[0]}_{layer[1]}"
 
     c = pp.Component(name=name)
     path_points = bezier_curve(t, control_points)

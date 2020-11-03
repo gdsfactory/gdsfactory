@@ -21,3 +21,4 @@ exclude =
     .tox,
     extra,
     deprecated,
+    gdslib

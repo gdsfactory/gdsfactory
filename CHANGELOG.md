@@ -13,6 +13,9 @@ Maybe:
 ## master branch (latest changes not released yet)
 
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas
+- added more container metadata for component inside the container (function_name, module ....)
+- more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
+- CI/CD tests run also on pull requests
 
 
 ## 2.0.0 2020-10-30
