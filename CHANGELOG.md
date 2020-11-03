@@ -12,9 +12,11 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+## 2.0.1 2020-11-03
+
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas
-- added `factory: optical` and `settings:` in component_from_yaml
-- added more container metadata for component inside the container (function_name, module ....)
+- added `factory: optical` and `settings:` in component_from_yaml routes
+- write more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests
 - added pp.clear_cache()
