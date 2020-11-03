@@ -3,12 +3,13 @@ import pp
 from pp.components import (
     component_factory,
     _components,
+    _components_test_ports,
     _containers,
     waveguide,
 )
 
 
-@pytest.mark.parametrize("component_type", _components)
+@pytest.mark.parametrize("component_type", _components_test_ports)
 def test_components_ports(component_type, num_regression):
     c = component_factory[component_type]()
     if c.ports:
