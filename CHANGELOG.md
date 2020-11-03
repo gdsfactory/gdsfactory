@@ -12,7 +12,7 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
-## 2.0.1 2020-11-03
+## 2.0.2 2020-11-03
 
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas
 - added `factory: optical` and `settings:` in component_from_yaml routes
