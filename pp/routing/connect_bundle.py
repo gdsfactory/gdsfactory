@@ -234,6 +234,13 @@ def link_ports_routes(
     """
     ports1 = start_ports
     ports2 = end_ports
+    if not ports1 and not ports2:
+        return []
+    elif not ports1:
+        raise ValueError('start_ports was empty!')
+    elif not ports2:
+        raise ValueError('end_ports was empty!')
+
     if start_ports[0].angle in [0, 180]:
         axis = "X"
     else:
