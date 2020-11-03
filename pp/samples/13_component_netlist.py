@@ -47,6 +47,7 @@ def test_netlist_yaml():
 
     routes:
         optical:
+            factory: optical
             mmi_short,E1: mmi_long,E0
 
     ports:

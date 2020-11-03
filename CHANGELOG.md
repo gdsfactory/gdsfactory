@@ -13,6 +13,7 @@ Maybe:
 ## master branch (latest changes not released yet)
 
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas
+- added `factory: optical` and `settings:` in component_from_yaml
 - added more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests

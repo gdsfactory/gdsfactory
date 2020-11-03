@@ -46,6 +46,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_short,E1: mmi_long,E0
 
 ports:
@@ -223,10 +224,14 @@ def component_from_yaml(
             ports1 = []
             ports2 = []
             routes_dict = routes_conf[route_alias]
-            route_type = routes_dict.pop("factory", route_alias)
+            if "factory" not in routes_dict:
+                raise ValueError(
+                    f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
+                )
+            route_type = routes_dict.pop("factory")
             assert (
                 route_type in route_factory
-            ), f"route_type `{route_type}` not in route_factory {list(route_factory.keys())}"
+            ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"
             route_filter = route_factory[route_type]
             route_settings = routes_dict.pop("settings", {})
             for port_src_string, port_dst_string in routes_dict.items():
@@ -334,6 +339,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_bottom,E0: mmi_top,W0
         mmi_bottom,E1: mmi_top,W1
 
@@ -370,6 +376,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_bottom,E0: mmi_top,W0
         mmi_bottom,E1: mmi_top,W1
 
@@ -415,9 +422,11 @@ placements:
 
 routes:
     electrical:
+        factory: electrical
         tl,E: tr,W
         bl,E: br,W
     optical:
+        factory: optical
         bl,S: br,E
 
 """
