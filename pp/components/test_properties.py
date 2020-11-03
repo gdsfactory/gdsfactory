@@ -1,4 +1,5 @@
 import pytest
+import pp
 from pp.components import (
     component_factory,
     _components,
@@ -17,6 +18,7 @@ def test_components_ports(component_type, num_regression):
 @pytest.mark.parametrize("component_type", _components)
 def test_properties_components(component_type, data_regression):
     c = component_factory[component_type]()
+    pp.clear_cache()
     data_regression.check(c.get_settings())
 
 

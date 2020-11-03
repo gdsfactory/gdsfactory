@@ -343,6 +343,7 @@ def _demo_bend():
 
 
 if __name__ == "__main__":
+    # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
@@ -356,3 +357,4 @@ if __name__ == "__main__":
     # print(c.ports)
     pp.show(c)
     pp.plotgds(c)
+    # quickplot2(c)

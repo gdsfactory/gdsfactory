@@ -15,4 +15,3 @@ rectpack
 scipy
 shapely
 networkx
-h5py

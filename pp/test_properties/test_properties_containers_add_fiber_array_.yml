@@ -4,7 +4,10 @@ component:
   L0: 60.0
   L2: 10.0
   bend_radius: 10.0
+  function_name: mzi2x2
   gap: 0.234
+  module: pp.components.mzi2x2
+  name: mzi2x2_WECTrue
   with_elec_connections: true
 component_name: mzi2x2_WECTrue
 function_name: add_fiber_array
