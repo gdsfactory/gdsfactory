@@ -16,6 +16,8 @@ Maybe:
 - added more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests
+- added pp.clear_cache()
+- use pp.clear_cache() when testing component port positions
 
 
 ## 2.0.0 2020-10-30

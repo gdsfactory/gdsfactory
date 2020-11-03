@@ -28,7 +28,7 @@ def spiral_circular(
     spacing=3,
     min_bend_radius=5,
     points=1000,
-    wg_layer=pp.LAYER.WG,
+    layer=pp.LAYER.WG,
 ):
     """ Returns a circular spiral
 
@@ -44,8 +44,8 @@ def spiral_circular(
         pp.plotgds(c)
 
     """
-    wg_datatype = wg_layer[1]
-    wg_layer = wg_layer[0]
+    wg_datatype = layer[1]
+    wg_layer = layer[0]
 
     def pol_to_rect(radii, angles_deg):
         angles_rad = np.radians(angles_deg)
@@ -155,21 +155,13 @@ def spiral_circular(
     """ component """
     c = pp.Component()
     c.length = length
-    c.add_polygon(ps, layer=wg_layer)
+    c.add_polygon(ps, layer=layer)
 
     c.add_port(
-        name="W0",
-        midpoint=(s[0], s[1]),
-        orientation=180,
-        layer=wg_layer,
-        width=wg_width,
+        name="W0", midpoint=(s[0], s[1]), orientation=180, layer=layer, width=wg_width,
     )
     c.add_port(
-        name="E0",
-        midpoint=(e[0], e[1]),
-        orientation=180,
-        layer=wg_layer,
-        width=wg_width,
+        name="E0", midpoint=(e[0], e[1]), orientation=180, layer=layer, width=wg_width,
     )
     return c
 
