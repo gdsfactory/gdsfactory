@@ -46,6 +46,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_short,E1: mmi_long,E0
 
 ports:
@@ -218,15 +219,21 @@ def component_from_yaml(
             instance_src.connect(port=port_src_name, destination=port_dst)
 
     if routes_conf:
-        for route_type in routes_conf:
+        for route_alias in routes_conf:
             route_names = []
             ports1 = []
             ports2 = []
-            routes_dict = routes_conf[route_type]
+            routes_dict = routes_conf[route_alias]
+            if "factory" not in routes_dict:
+                raise ValueError(
+                    f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
+                )
+            route_type = routes_dict.pop("factory")
             assert (
                 route_type in route_factory
-            ), f"route_type `{route_type}` not in route_factory {list(route_factory.keys())}"
+            ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"
             route_filter = route_factory[route_type]
+            route_settings = routes_dict.pop("settings", {})
             for port_src_string, port_dst_string in routes_dict.items():
                 instance_src_name, port_src_name = port_src_string.split(",")
                 instance_dst_name, port_dst_name = port_dst_string.split(",")
@@ -258,7 +265,9 @@ def component_from_yaml(
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
                 route_names.append(f"{port_src_string}:{port_dst_string}")
-            route = link_ports(ports1, ports2, route_filter=route_filter)
+            route = link_ports(
+                ports1, ports2, route_filter=route_filter, **route_settings
+            )
             for i, r in enumerate(route):
                 routes[route_names[i]] = r
 
@@ -330,6 +339,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_bottom,E0: mmi_top,W0
         mmi_bottom,E1: mmi_top,W1
 
@@ -366,6 +376,7 @@ placements:
 
 routes:
     optical:
+        factory: optical
         mmi_bottom,E0: mmi_top,W0
         mmi_bottom,E1: mmi_top,W1
 
@@ -411,9 +422,11 @@ placements:
 
 routes:
     electrical:
+        factory: electrical
         tl,E: tr,W
         bl,E: br,W
     optical:
+        factory: optical
         bl,S: br,E
 
 """

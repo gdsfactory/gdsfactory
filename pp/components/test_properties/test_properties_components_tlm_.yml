@@ -9,5 +9,7 @@ layers:
   - 0
 module: pp.components.electrical.tlm
 name: tlm
-vias: <function via2 at 0x7f0159100670>_<function via3 at 0x7f0159100790>
+vias:
+- via2
+- via3
 width: 11.0

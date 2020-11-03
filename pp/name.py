@@ -14,6 +14,11 @@ MAX_NAME_LENGTH = 32
 NAME_TO_DEVICE = {}
 
 
+def clear_cache(components_cache=NAME_TO_DEVICE):
+    components_cache = {}
+    return components_cache
+
+
 def join_first_letters(name: str) -> str:
     """ join the first letter of a name separated with underscores (taper_length -> TL) """
     return "".join([x[0] for x in name.split("_") if x])
@@ -32,7 +37,7 @@ def get_component_name(component_type: str, **kwargs) -> str:
 
 
 def autoname(component_function: Callable) -> Callable:
-    """ decorator for auto-naming component functions
+    """decorator for auto-naming component functions
     if no Keyword argument `name`  is passed it creates a name by concenating all Keyword arguments
 
     To avoid that 2 exact cells are not references of the same cell autoname has a cache where if component has already been build it will return the component from the cache
@@ -171,7 +176,7 @@ def assert_first_letters_are_different(**kwargs):
 
 
 def clean_name(name: str) -> str:
-    """ Ensures that gds cells are composed of [a-zA-Z0-9]
+    """Ensures that gds cells are composed of [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis
@@ -200,7 +205,7 @@ def clean_name(name: str) -> str:
 
 
 def clean_value(value: Any) -> str:
-    """ returns more readable value (integer)
+    """returns more readable value (integer)
     if number is < 1:
         returns number units in nm (integer)
     """

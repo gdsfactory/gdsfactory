@@ -1,3 +1,4 @@
+import os
 import pathlib
 import shutil
 import sys
@@ -16,8 +17,8 @@ dest_folder.mkdir(exist_ok=True, parents=True)
 def install_klive(src, dest):
     """ Builds and installs the extension """
     if dest.exists():
-        print(f"klive already installed in {dest}")
-        return
+        print(f"removing klive already installed in {dest}")
+        os.remove(dest)
 
     shutil.copy(src, dest)
     print(f"klive installed to {dest}")

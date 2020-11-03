@@ -1,7 +1,7 @@
-from phidl import device_layout as pd
-import pp
-from phidl.device_layout import Label
 from typing import Tuple
+from phidl import device_layout as pd
+from phidl.device_layout import Label
+import pp
 
 
 def label(

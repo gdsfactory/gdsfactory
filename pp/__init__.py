@@ -28,6 +28,7 @@ from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
 from pp.name import autoname
+from pp.name import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
@@ -77,6 +78,7 @@ __all__ = [
     "import_gds",
     "import_phidl_component",
     "c",
+    "clear_cache",
     "conf",
     "component_factory",
     "call_if_func",

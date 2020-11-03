@@ -7,3 +7,5 @@ matplotlib
 pytest
 pytest-regressions
 pytest-cov
+flake8
+pre-commit

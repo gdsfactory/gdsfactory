@@ -1,7 +1,10 @@
 bend_factory: bend_circular
 bend_radius: 10.0
 component:
+  function_name: _grating_coupler_tree
+  module: pp.components.grating_coupler.grating_coupler_tree
   n_waveguides: 4
+  name: _grating_coupler_tree_73dc7b48
   waveguide: waveguide
   waveguide_spacing: 4
 component_name: _grating_coupler_tree_73dc7b48

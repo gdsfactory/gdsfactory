@@ -5,8 +5,11 @@ component:
   bend_radius: 50.0
   dx: 3.0
   dy: 3.0
+  function_name: spiral_inner_io
   grating_spacing: 127.0
-  length: None
+  length: 16949.99081698724
+  module: pp.components.spiral_inner_io
+  name: spiral_inner_io
   taper: None
   wg_width: 0.5
   wg_width_grating_coupler: 0.5

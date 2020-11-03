@@ -211,11 +211,8 @@ def factory(component_type, component_factory=component_factory, **settings):
     return component_factory[component_type](**settings)
 
 
-# all this components are available as pp.c
-__all__ = list(component_factory.keys())
-leaf_components = ["bend_circular", "bend_euler90", "coupler", "mmi1x2", "mmi2x2"]
-_containers = set(["cavity"])
-_skip_test = set(
-    ["label", "text", "spiral_circular", "component_sequence", "tlm", "coupler"]
-)
-_components = set(__all__) - _containers - _skip_test
+_containers = ["cavity"]
+_skip_test = ["label", "text", "component_sequence"]
+_decorators = ["grating_coupler"]
+_components = set(component_factory.keys()) - set(_containers) - set(_skip_test)
+__all__ = list(component_factory.keys()) + _decorators

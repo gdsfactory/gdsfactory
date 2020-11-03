@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 
 from phidl.geometry import _width
@@ -9,7 +10,6 @@ from pp.layers import LAYER
 from pp.components.manhattan_font import manhattan_text
 from pp.name import clean_name
 from pp.component import Component
-from typing import Tuple
 
 
 def text(
