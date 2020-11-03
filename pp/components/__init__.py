@@ -213,6 +213,9 @@ def factory(component_type, component_factory=component_factory, **settings):
 
 _containers = ["cavity"]
 _skip_test = ["label", "text", "component_sequence"]
+_skip_test_ports = ["coupler"]
 _decorators = ["grating_coupler"]
 _components = set(component_factory.keys()) - set(_containers) - set(_skip_test)
+_components_test_ports = _components - set(_skip_test_ports)
+
 __all__ = list(component_factory.keys()) + _decorators
