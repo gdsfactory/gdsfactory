@@ -28,6 +28,7 @@ _components = _components - set(
         "waveguide_heater",
         "waveguide_pin",
         "wg_heater_connected",
+        "test_via",
     ]
 )
 

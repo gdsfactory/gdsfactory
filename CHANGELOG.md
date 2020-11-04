@@ -12,6 +12,8 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+- test lenghts for routes
+
 ## 2.0.2 2020-11-03
 
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas

@@ -7,10 +7,10 @@ def test_comb(
     pad_size=(200, 200),
     wire_width=1,
     wire_gap=3,
-    comb_layer=0,
-    overlap_zigzag_layer=1,
-    comb_pad_layer=None,
-    comb_gnd_layer=None,
+    comb_layer=pp.LAYER.M1,
+    overlap_zigzag_layer=pp.LAYER.HEATER,
+    comb_pad_layer=pp.LAYER.M3,
+    comb_gnd_layer=pp.LAYER.M3,
     overlap_pad_layer=None,
 ):
     """ Superconducting heater device from phidl.geometry

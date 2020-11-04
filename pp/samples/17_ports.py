@@ -17,7 +17,7 @@ import pp
 
 
 @pp.autoname
-def test_component_with_port(length=5, wg_width=0.5):
+def test_component_with_port(length=5, wg_width=0.5, layer=pp.LAYER.WG):
     """
     component with one port on the west side
     """
@@ -26,13 +26,13 @@ def test_component_with_port(length=5, wg_width=0.5):
     x = length
 
     c = pp.Component()
-    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=1)
+    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
     c.add_port(
         name="W0",
         midpoint=(0, y / 2),
         width=y,
         orientation=180,
-        layer=1,
+        layer=layer,
         port_type="optical",
     )
     assert len(c.ports) == 1

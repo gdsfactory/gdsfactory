@@ -31,7 +31,7 @@ def connect_bundle(
     extension_length=0,
     **kwargs,
 ):
-    """ Connects bundle of ports using river routing.
+    """Connects bundle of ports using river routing.
     Chooses the correct u_bundle to use based on port angles
 
     Args:
@@ -222,7 +222,7 @@ def link_ports_routes(
     separation: float,
     bend_radius: float = BEND_RADIUS,
     route_filter: Callable = generate_manhattan_waypoints,
-    sort_ports: bool = False,
+    sort_ports: bool = True,
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
     verbose: int = 0,
@@ -230,16 +230,23 @@ def link_ports_routes(
     **kwargs,
 ) -> List[ndarray]:
     """
-    route_filter: Function used to connect two ports. Should be like `connect_strip`
+    Args:
+        start_ports: list of ports
+        end_ports: list of ports
+        separation: route spacing
+        bend_radius: for route
+        route_filter: Function used to connect two ports. Should be like `connect_strip`
+        sort_ports: if True sort ports
+        end_straight_offset: adds a straigth
     """
     ports1 = start_ports
     ports2 = end_ports
     if not ports1 and not ports2:
         return []
     elif not ports1:
-        raise ValueError('start_ports was empty!')
+        raise ValueError("start_ports was empty!")
     elif not ports2:
-        raise ValueError('end_ports was empty!')
+        raise ValueError("end_ports was empty!")
 
     if start_ports[0].angle in [0, 180]:
         axis = "X"
@@ -274,15 +281,14 @@ def link_ports_routes(
     ## Axis along which we sort the ports
     if axis in ["X", "x"]:
         f_key1 = get_port_y
-        # f_key2 = get_port_y
+        f_key2 = get_port_y
     else:
         f_key1 = get_port_x
-        # f_key2 = get_port_x
+        f_key2 = get_port_x
 
-    ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
     if sort_ports:
         ports1.sort(key=f_key1)
-        ports2 = [ports2_by1[p1] for p1 in ports1]
+        ports2.sort(key=f_key2)
 
     ## Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
@@ -592,7 +598,7 @@ def link_electrical_ports(
     route_filter: Callable = connect_elec_waypoints,
     **kwargs,
 ) -> List[ComponentReference]:
-    """ Connect bundle of electrical ports
+    """Connect bundle of electrical ports
 
     Args:
         ports1: first list of ports
@@ -647,8 +653,7 @@ def link_optical_ports(
     bend_radius: float = BEND_RADIUS,
     **kwargs,
 ) -> List[ComponentReference]:
-    """ connect bundle of optical ports
-    """
+    """connect bundle of optical ports"""
     return link_ports(
         ports1,
         ports2,
@@ -872,19 +877,33 @@ def test_connect_bundle():
     ]
 
     top_cell = Component(name="connect_bundle")
-    elements = connect_bundle(top_ports, bottom_ports)
-    for e in elements:
-        top_cell.add(e)
-    top_cell.name = "connect_bundle"
-
+    routes = connect_bundle(top_ports, bottom_ports)
+    top_cell.add(routes)
+    lengths = [
+        1180.4159265358978,
+        1063.4159265358978,
+        946.4159265358978,
+        899.4159265358979,
+        782.4159265358979,
+        665.4159265358979,
+        558.4159265358979,
+        441.41592653589794,
+        438.41592653589794,
+        555.4159265358979,
+        672.4159265358979,
+        794.4159265358979,
+        916.415926535898,
+        1038.415926535898,
+    ]
+    for route, length in zip(routes, lengths):
+        # print(route.parent.length)
+        assert np.isclose(route.parent.length, length)
     return top_cell
 
 
 @autoname
 def test_connect_corner(N=6, config="A"):
-
     d = 10.0
-
     sep = 5.0
     top_cell = Component(name="connect_corner")
 
@@ -956,13 +975,13 @@ def test_connect_corner(N=6, config="A"):
 
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            elements = connect_bundle(ports1, ports2)
-            top_cell.add(elements)
+            routes = connect_bundle(ports1, ports2)
+            top_cell.add(routes)
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            elements = connect_bundle(ports2, ports1)
-            top_cell.add(elements)
+            routes = connect_bundle(ports2, ports1)
+            top_cell.add(routes)
 
     return top_cell
 
@@ -993,18 +1012,29 @@ def test_connect_bundle_udirect(dy=200, angle=270):
         ]
 
     top_cell = Component(name="connect_bundle_udirect")
-    elements = connect_bundle(ports1, ports2)
-    for e in elements:
-        top_cell.add(e)
+    routes = connect_bundle(ports1, ports2)
+    lengths = [
+        237.4359265358979,
+        281.4359265358979,
+        336.4359265358979,
+        376.4359265358979,
+        421.4359265358979,
+        451.4359265358979,
+        481.4359265358979,
+        271.4359265358979,
+    ]
 
+    for route, length in zip(routes, lengths):
+        # print(route.parent.length)
+        assert np.isclose(route.parent.length, length)
+
+    top_cell.add(routes)
     return top_cell
 
 
 @autoname
 def test_connect_bundle_u_indirect(dy=-200, angle=180):
-
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
-
     axis = "X" if angle in [0, 180] else "Y"
 
     pitch = 10.0
@@ -1025,9 +1055,23 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     top_cell = Component("connect_bundle_u_indirect")
-    elements = connect_bundle(ports1, ports2)
-    for e in elements:
-        top_cell.add(e)
+    routes = connect_bundle(ports1, ports2)
+    lengths = [
+        341.41592653589794,
+        341.41592653589794,
+        341.41592653589794,
+        326.41592653589794,
+        316.41592653589794,
+        291.41592653589794,
+        291.41592653589794,
+        311.41592653589794,
+    ]
+
+    for route, length in zip(routes, lengths):
+        # print(route.parent.length)
+        assert np.isclose(route.parent.length, length)
+
+    top_cell.add(routes)
 
     return top_cell
 
@@ -1049,9 +1093,25 @@ def test_facing_ports():
     ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     top_cell = Component("test_facing_ports")
-    elements = connect_bundle(ports1, ports2)
-    # elements = link_ports_path_length_match(ports1, ports2)
-    top_cell.add(elements)
+    routes = connect_bundle(ports1, ports2)
+    top_cell.add(routes)
+    lengths = [
+        671.4159265358979,
+        481.41592653589794,
+        291.41592653589794,
+        291.41592653589794,
+        291.41592653589794,
+        276.41592653589794,
+        626.4159265358979,
+        401.41592653589794,
+        401.41592653589794,
+        381.41592653589794,
+        251.41592653589794,
+        391.41592653589794,
+    ]
+    for route, length in zip(routes, lengths):
+        # print(route.parent.length)
+        assert np.isclose(route.parent.length, length)
 
     return top_cell
 
@@ -1066,61 +1126,52 @@ def demo_connect_bundle():
     c = Component("connect_bundle")
     for j, s in enumerate([-1, 1]):
         for i, angle in enumerate([0, 90, 180, 270]):
-            _cmp = test_connect_bundle_u_indirect(dy=s * dy, angle=angle)
-            _cmp_ref = _cmp.ref(position=(i * x, j * y))
-            c.add(_cmp_ref)
+            c2 = test_connect_bundle_u_indirect(dy=s * dy, angle=angle)
+            c2ref = c2.ref(position=(i * x, j * y))
+            c.add(c2ref)
 
-            _cmp = test_connect_bundle_udirect(dy=s * dy, angle=angle)
-            _cmp_ref = _cmp.ref(position=(i * x, j * y + y0))
-            c.add(_cmp_ref)
+            c2 = test_connect_bundle_udirect(dy=s * dy, angle=angle)
+            c2ref = c2.ref(position=(i * x, j * y + y0))
+            c.add(c2ref)
 
     for i, config in enumerate(["A", "B", "C", "D"]):
-        _cmp = test_connect_corner(config=config)
-        _cmp_ref = _cmp.ref(position=(i * x, 1700))
-        c.add(_cmp_ref)
+        c2 = test_connect_corner(config=config)
+        c2ref = c2.ref(position=(i * x, 1700))
+        c.add(c2ref)
 
-    _cmp = test_facing_ports()
-    _cmp_ref = _cmp.ref(position=(800, 1820))
-    c.add(_cmp_ref)
+    c2 = test_facing_ports()
+    c2ref = c2.ref(position=(800, 1820))
+    c.add(c2ref)
 
     return c
 
 
-def demo_connect_bundle_small():
+def test_connect_bundle_small():
     import pp
 
     c = pp.Component()
     c1 = c << pp.c.mmi2x2()
     c2 = c << pp.c.mmi2x2()
     c2.move((100, 40))
-    elements = connect_bundle(
+    routes = connect_bundle(
         [c1.ports["E0"], c1.ports["E1"]],
         [c2.ports["W0"], c2.ports["W1"]],
         bend_radius=5,
     )
-    c.add(elements)
-    return c
-
-
-def demo_connect_bundle_small_electrical():
-    import pp
-
-    c = pp.Component()
-    c1 = c << pp.c.pad()
-    c2 = c << pp.c.pad()
-    c2.move((200, 100))
-    elements = connect_bundle(
-        [c1.ports["E"]], [c2.ports["W"]], route_filter=connect_elec_waypoints
-    )
-    # elements = link_electrical_ports([c1.ports["E"]], [c2.ports["W"]], route_filter=connect_elec_waypoints)
-    c.add(elements)
+    for route in routes:
+        # print(route.parent.length)
+        assert np.isclose(route.parent.length, 100.25796326794897)
+    c.add(routes)
     return c
 
 
 if __name__ == "__main__":
     import pp
 
-    c = demo_connect_bundle()
-    # c = demo_connect_bundle_small()
-    # c = demo_connect_bundle_small_electrical()
+    # c = demo_connect_bundle()
+    # c = test_connect_bundle_small()
+    # c = test_facing_ports()
+    # c = test_connect_bundle_u_indirect()
+    # c = test_connect_bundle_udirect()
+    c = test_connect_bundle()
     pp.show(c)

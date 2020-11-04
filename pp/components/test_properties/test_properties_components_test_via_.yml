@@ -3,13 +3,21 @@ min_pad_spacing: 0
 module: pp.components.pcm.test_via
 name: test_via
 num_vias: 100
-pad_layer: 0
+pad_layer:
+- 49
+- 0
 pad_size:
 - 300
 - 300
-via_layer: 3
+via_layer:
+- 40
+- 0
 via_spacing: 40
 via_width: 15
 wire_width: 10
-wiring1_layer: 1
-wiring2_layer: 2
+wiring1_layer:
+- 47
+- 0
+wiring2_layer:
+- 41
+- 0
