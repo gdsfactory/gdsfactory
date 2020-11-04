@@ -8,9 +8,9 @@ from pp.component import Component
 def _via_iterable(
     via_spacing: int,
     wire_width: int,
-    wiring1_layer: int,
-    wiring2_layer: int,
-    via_layer: int,
+    wiring1_layer: Tuple[int, int],
+    wiring2_layer: Tuple[int, int],
+    via_layer: Tuple[int, int],
     via_width: int,
 ) -> Component:
     VI = pp.Component()
@@ -51,10 +51,10 @@ def test_via(
     via_spacing: int = 40,
     pad_size: Tuple[int, int] = (300, 300),
     min_pad_spacing: int = 0,
-    pad_layer: int = 0,
-    wiring1_layer: int = 1,
-    wiring2_layer: int = 2,
-    via_layer: int = 3,
+    pad_layer: Tuple[int, int] = pp.LAYER.M3,
+    wiring1_layer: Tuple[int, int] = pp.LAYER.HEATER,
+    wiring2_layer: Tuple[int, int] = pp.LAYER.M1,
+    via_layer: Tuple[int, int] = pp.LAYER.VIA1,
 ) -> Component:
     """ Via cutback to extract via resistance
     from phidl.geometry

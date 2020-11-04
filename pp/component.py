@@ -777,7 +777,7 @@ class Component(Device):
         width: Union[float64, int, float] = 1,
         orientation: Union[int, int64, float] = 45,
         port: Optional[Port] = None,
-        layer: Union[Tuple[int, int], int] = (1, 0),
+        layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
@@ -800,6 +800,7 @@ class Component(Device):
             p.parent = self
             name = p.name
         else:
+            assert len(layer) == 2, f"{layer} needs to be Tuple of two ints"
             p = Port(
                 name=name,
                 midpoint=midpoint,

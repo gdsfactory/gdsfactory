@@ -155,8 +155,6 @@ def path_length_matched_points_add_waypoints(
 
     """
 
-    print(list_of_waypoints[0])
-
     if type(list_of_waypoints) != list:
         raise ValueError(
             "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))

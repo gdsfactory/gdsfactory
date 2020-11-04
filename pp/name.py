@@ -97,9 +97,11 @@ def autoname(component_function: Callable) -> Callable:
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
             for key in kwargs.keys():
-                assert (
-                    key in sig.parameters.keys()
-                ), f"`{key}` key not in {list(sig.parameters.keys())} for {component_type}"
+                if key not in sig.parameters.keys():
+                    raise TypeError(
+                        f"{component_type}() got an unexpected keyword argument `{key}`\n"
+                        f"valid keyword arguments are {list(sig.parameters.keys())}"
+                    )
 
         if cache and name in NAME_TO_DEVICE:
             return NAME_TO_DEVICE[name]
