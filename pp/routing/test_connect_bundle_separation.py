@@ -2,6 +2,7 @@ import pp
 
 
 if __name__ == "__main__":
+    """ this case needs a fix """
 
     w = h = 10
     c = pp.Component()

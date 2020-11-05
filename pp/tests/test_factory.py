@@ -27,6 +27,7 @@ _components = _components - set(
         "spiral_circular",
         "waveguide_heater",
         "waveguide_pin",
+        "waveguide_array",
         "wg_heater_connected",
         "test_via",
     ]

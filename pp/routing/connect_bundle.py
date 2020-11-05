@@ -225,7 +225,6 @@ def link_ports_routes(
     sort_ports: bool = True,
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
-    verbose: int = 0,
     tol: float = 0.00001,
     **kwargs,
 ) -> List[ndarray]:
@@ -243,19 +242,15 @@ def link_ports_routes(
     ports2 = end_ports
     if not ports1 and not ports2:
         return []
-    elif not ports1:
-        raise ValueError("start_ports was empty!")
-    elif not ports2:
-        raise ValueError("end_ports was empty!")
+
+    if len(ports1) == 0 or len(ports2) == 0:
+        print("WARNING! Not linking anything, empty list of ports")
+        return []
 
     if start_ports[0].angle in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
-
-    if len(ports1) == 0 or len(ports2) == 0:
-        print("WARNING! Not linking anything, empty list of ports")
-        return []
 
     if len(ports1) == 1 and len(ports2) == 1:
         if end_straight_offset:
@@ -281,14 +276,19 @@ def link_ports_routes(
     ## Axis along which we sort the ports
     if axis in ["X", "x"]:
         f_key1 = get_port_y
-        f_key2 = get_port_y
+        # f_key2 = get_port_y
     else:
         f_key1 = get_port_x
-        f_key2 = get_port_x
+        # f_key2 = get_port_x
 
+    # if sort_ports:
+    #     ports1.sort(key=f_key1)
+    #     ports2.sort(key=f_key2)
+
+    ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
     if sort_ports:
         ports1.sort(key=f_key1)
-        ports2.sort(key=f_key2)
+        ports2 = [ports2_by1[p1] for p1 in ports1]
 
     ## Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
@@ -479,13 +479,12 @@ def link_ports_routes(
 
             else:
                 tmp_port = prt
-            if verbose > 2:
-                print(
-                    "STEPPING",
-                    ports1[i].position,
-                    tmp_port.position,
-                    ports2[i].position,
-                )
+            # print(
+            #     "STEPPING",
+            #     ports1[i].position,
+            #     tmp_port.position,
+            #     ports2[i].position,
+            # )
             _route += [
                 route_filter(
                     tmp_port,
@@ -545,15 +544,15 @@ def connect_bundle_path_length_match(
 ):
     """
     Args:
-        ports1,
-        ports2,
-        separation: 30.0,
-        end_straight_offset,
-        bend_radius=BEND_RADIUS,
+        ports1: list of ports
+        ports2: list of ports
+        separation: 30.0
+        end_straight_offset
+        bend_radius: BEND_RADIUS
         extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
-        route_filter=connect_strip_way_points,
+        route_filter: connect_strip_way_points
         **kwargs: extra arguments for inner call to generate_waypoints_connect_bundle
 
     Returns:
@@ -676,7 +675,7 @@ def get_min_spacing(
     ports1: List[Port],
     ports2: List[Port],
     sep: float = 5.0,
-    sort_ports: bool = False,
+    sort_ports: bool = True,
     radius: float = BEND_RADIUS,
 ) -> float:
     """
@@ -727,9 +726,10 @@ def link_optical_ports_no_grouping(
     radius=BEND_RADIUS,
     start_straight=None,
     end_straight=None,
-    sort_ports=False,
+    sort_ports=True,
 ):
     """
+    Returns a list of route elements
     Compared to link_ports, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
     connection if needed. We can also specify longer start_straight and end_straight
@@ -798,11 +798,11 @@ def link_optical_ports_no_grouping(
     # Compute max_j and min_j
     for i in range(len(ports1)):
         if axis in ["X", "x"]:
-            x1 = ports1[i].position.y
-            x2 = ports2[i].position.y
+            x1 = ports1[i].position[1]
+            x2 = ports2[i].position[1]
         else:
-            x1 = ports1[i].position.x
-            x2 = ports2[i].position.x
+            x1 = ports1[i].position[0]
+            x2 = ports2[i].position[0]
         if x2 >= x1:
             j += 1
         else:
@@ -826,11 +826,11 @@ def link_optical_ports_no_grouping(
     for i, _ in enumerate(ports1):
 
         if axis in ["X", "x"]:
-            x1 = ports1[i].position.y
-            x2 = ports2[i].position.y
+            x1 = ports1[i].position[1]
+            x2 = ports2[i].position[1]
         else:
-            x1 = ports1[i].position.x
-            x2 = ports2[i].position.x
+            x1 = ports1[i].position[0]
+            x2 = ports2[i].position[0]
 
         s_straight = start_straight - j * sep
         e_straight = j * sep + end_straight

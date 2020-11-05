@@ -1,0 +1,5 @@
+function_name: waveguide_array
+module: pp.components.waveguide_array
+n_waveguides: 4
+name: waveguide_array
+spacing: 4.0
