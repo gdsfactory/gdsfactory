@@ -15,8 +15,8 @@ def test_path_length_matching():
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [pp.Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [pp.Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [pp.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+    ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.connect_bundle_path_length_match(ports1, ports2)
     for route in routes:
