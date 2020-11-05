@@ -23,8 +23,10 @@ def test_path_length_matching():
         # print(route.parent.length)
         assert np.isclose(route.parent.length, 2656.2477796076937)
     c.add(routes)
+    c.routes = routes
     return c
 
 
 if __name__ == "__main__":
     c = test_path_length_matching()
+    pp.show(c)
