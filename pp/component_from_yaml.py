@@ -288,16 +288,28 @@ def component_from_yaml(
 
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
-                route_names.append(f"{port_src_string}:{port_dst_string}")
-            route = link_function(
-                ports1,
-                ports2,
-                route_filter=route_filter,
-                **route_settings,
-                **link_settings,
-            )
-            for i, r in enumerate(route):
-                routes[route_names[i]] = r
+                route_name = f"{port_src_string}:{port_dst_string}"
+                route_names.append(route_name)
+
+            if link_function_name in [
+                "link_electrical_waypoints",
+                "link_optical_waypoints",
+            ]:
+                route = link_function(
+                    route_filter=route_filter, **route_settings, **link_settings,
+                )
+                routes[route_name] = route
+
+            else:
+                route = link_function(
+                    ports1,
+                    ports2,
+                    route_filter=route_filter,
+                    **route_settings,
+                    **link_settings,
+                )
+                for i, r in enumerate(route):
+                    routes[route_names[i]] = r
 
             c.add(route)
 
@@ -489,15 +501,56 @@ def test_connections_different_link_factory():
     return c
 
 
+sample_waypoints = """
+
+instances:
+    t:
+      component: pad_array
+      settings:
+          port_list: ['S']
+    b:
+      component: pad_array
+
+placements:
+    t:
+        x: 100
+        y: 1000
+routes:
+    route1:
+        factory: optical
+        link_factory: link_optical_waypoints
+        link_settings:
+            way_points:
+                - [0,0]
+                - [0, 600]
+                - [-250, 600]
+                - [-250, 1000]
+        links:
+            t,S5: b,N4
+"""
+
+
+def test_connections_waypoints():
+    c = component_from_yaml(sample_waypoints, pins=True, cache=False)
+    # print(c.routes['t,S5:b,N4'].parent.length)
+
+    length = 1241.415926535898
+    assert np.isclose(c.routes["t,S5:b,N4"].parent.length, length)
+    return c
+
+
 if __name__ == "__main__":
 
     # c = test_connections_2x2()
     # test_sample()
     # test_connections_different_factory()
-    test_connections_different_link_factory()
+    # test_connections_different_link_factory()
+    test_connections_waypoints()
     # test_mirror()
 
     # c = component_from_yaml(sample_different_link_factory)
+
+    # c = component_from_yaml(sample_waypoints, pins=True, cache=False)
     # pp.show(c)
 
     # c = component_from_yaml(sample_connections)

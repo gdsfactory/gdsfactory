@@ -14,6 +14,7 @@ from pp.name import get_component_name
 from pp.components import component_factory
 from pp import klive
 from pp.component import Component
+from pp.name import clear_cache
 
 from pp.layers import LAYER
 
@@ -256,6 +257,7 @@ def show(
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
         )
+    clear_cache()
 
 
 if __name__ == "__main__":
