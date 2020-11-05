@@ -28,8 +28,6 @@ def floorplan(
             i, midpoint=(x, y), width=wg_width, orientation=orientation, layer=layer
         )
         i += 1
-
-    c = pp.extend_ports(c)
     return c
 
 

@@ -1,5 +1,4 @@
 """ write Component from YAML file
-
 """
 
 from typing import Union, IO, Any
@@ -47,7 +46,8 @@ placements:
 routes:
     optical:
         factory: optical
-        mmi_short,E1: mmi_long,E0
+        links:
+            mmi_short,E1: mmi_long,E0
 
 ports:
     E0: mmi_short,W0
@@ -243,7 +243,13 @@ def component_from_yaml(
             link_function = link_factory[link_function_name]
             link_settings = routes_dict.pop("link_settings", {})
 
-            for port_src_string, port_dst_string in routes_dict.items():
+            if "links" not in routes_dict:
+                raise ValueError(
+                    f"You need to define links for the `{route_alias}` route"
+                )
+            links_dict = routes_dict["links"]
+
+            for port_src_string, port_dst_string in links_dict.items():
                 instance_src_name, port_src_name = port_src_string.split(",")
                 instance_dst_name, port_dst_name = port_dst_string.split(",")
 
@@ -353,8 +359,9 @@ placements:
 routes:
     optical:
         factory: optical
-        mmi_bottom,E0: mmi_top,W0
-        mmi_bottom,E1: mmi_top,W1
+        links:
+            mmi_bottom,E0: mmi_top,W0
+            mmi_bottom,E1: mmi_top,W1
 
 """
 
@@ -390,8 +397,9 @@ placements:
 routes:
     optical:
         factory: optical
-        mmi_bottom,E0: mmi_top,W0
-        mmi_bottom,E1: mmi_top,W1
+        links:
+            mmi_bottom,E0: mmi_top,W0
+            mmi_bottom,E1: mmi_top,W1
 
 """
 
@@ -436,13 +444,15 @@ placements:
 routes:
     electrical:
         factory: electrical
-        tl,E: tr,W
-        bl,E: br,W
         settings:
             separation: 240
+        links:
+            tl,E: tr,W
+            bl,E: br,W
     optical:
         factory: optical
-        bl,S: br,E
+        links:
+            bl,S: br,E
 
 """
 
