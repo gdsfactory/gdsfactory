@@ -1,0 +1,14 @@
+east: 4
+function_name: nxn
+layer:
+- 1
+- 0
+module: pp.components.nxn
+name: nxn
+north: 0
+south: 0
+west: 1
+wg_margin: 1.0
+wg_width: 0.5
+xsize: 8.0
+ysize: 8.0

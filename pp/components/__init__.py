@@ -4,6 +4,7 @@ from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
 from pp.components.waveguide_heater import wg_heater_connected
 from pp.components.waveguide_pin import waveguide_pin
+from pp.components.waveguide_array import waveguide_array
 
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular180
@@ -37,7 +38,7 @@ from pp.components.text import text
 from pp.components.L import L
 from pp.components.C import C
 from pp.components.bbox import bbox
-from pp.components.floorplan import floorplan
+from pp.components.nxn import nxn
 
 # optical test structures
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -137,7 +138,7 @@ component_factory = dict(
     delay_snake=delay_snake,
     disk=disk,
     ellipse=ellipse,
-    floorplan=floorplan,
+    nxn=nxn,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
@@ -186,6 +187,7 @@ component_factory = dict(
     via3=via3,
     via=via,
     waveguide=waveguide,
+    waveguide_array=waveguide_array,
     waveguide_heater=waveguide_heater,
     waveguide_pin=waveguide_pin,
     wg_heater_connected=wg_heater_connected,

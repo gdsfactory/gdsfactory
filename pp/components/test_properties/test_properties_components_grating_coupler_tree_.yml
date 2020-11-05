@@ -1,13 +1,13 @@
 bend_factory: bend_circular
 bend_radius: 10.0
 component:
-  function_name: _grating_coupler_tree
-  module: pp.components.grating_coupler.grating_coupler_tree
+  function_name: waveguide_array
+  module: pp.components.waveguide_array
   n_waveguides: 4
-  name: _grating_coupler_tree_73dc7b48
+  name: waveguide_array_c233fa40
+  spacing: 4
   waveguide: waveguide
-  waveguide_spacing: 4
-component_name: _grating_coupler_tree_73dc7b48
+component_name: waveguide_array_c233fa40
 fanout_length: 85.0
 function_name: add_fiber_array
 gc_port_name: W0

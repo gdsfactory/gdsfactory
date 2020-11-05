@@ -5,6 +5,7 @@ from typing import Union, IO, Any
 import pathlib
 import io
 from omegaconf import OmegaConf
+import numpy as np
 
 from pp.component import Component
 from pp.components import component_factory as component_factory_default
@@ -20,6 +21,8 @@ valid_keys = [
     "ports",
     "routes",
 ]
+
+valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
 
 sample_mmis = """
 name:
@@ -225,6 +228,12 @@ def component_from_yaml(
             ports1 = []
             ports2 = []
             routes_dict = routes_conf[route_alias]
+            for key in routes_dict.keys():
+                if key not in valid_route_keys:
+                    raise ValueError(
+                        f"`{route_alias}` has a key=`{key}` not in valid {valid_route_keys}"
+                    )
+
             if "factory" not in routes_dict:
                 raise ValueError(
                     f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
@@ -236,7 +245,7 @@ def component_from_yaml(
             route_filter = route_factory[route_type]
             route_settings = routes_dict.pop("settings", {})
 
-            link_function_name = routes_dict.pop("link_function", "link_ports")
+            link_function_name = routes_dict.pop("link_factory", "link_ports")
             assert (
                 link_function_name in link_factory
             ), f"function `{link_function_name}` not in link_factory {list(link_factory.keys())}"
@@ -337,45 +346,7 @@ def test_mirror():
     return c
 
 
-sample_2x2_connections_problem = """
-name:
-    connections_2x2_problem
-
-instances:
-    mmi_bottom:
-      component: mmi2x2
-      settings:
-            length_mmi: 5
-    mmi_top:
-      component: mmi2x2
-      settings:
-            length_mmi: 5
-
-placements:
-    mmi_top:
-        x: 100
-        y: 100
-
-routes:
-    optical:
-        factory: optical
-        links:
-            mmi_bottom,E0: mmi_top,W0
-            mmi_bottom,E1: mmi_top,W1
-
-"""
-
-
-def test_connections_2x2_problem():
-    c = component_from_yaml(sample_2x2_connections_problem, pins=True, cache=False)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
-    assert len(c.get_dependencies()) == 4
-    assert len(c.ports) == 0
-    return c
-
-
-sample_2x2_connections_solution = """
+sample_2x2_connections = """
 name:
     connections_2x2_solution
 
@@ -404,19 +375,19 @@ routes:
 """
 
 
-def test_connections_2x2_solution():
-    c = component_from_yaml(sample_2x2_connections_solution, pins=True, cache=False)
+def test_connections_2x2():
+    c = component_from_yaml(sample_2x2_connections, pins=True, cache=False)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
     assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 0
     length = c.routes["mmi_bottom,E1:mmi_top,W1"].parent.length
-    print(length)
-    # assert np.isclose(length, 162.86592653589793)
+    # print(length)
+    assert np.isclose(length, 162.86592653589793)
     return c
 
 
-sample_order = """
+sample_different_factory = """
 
 instances:
     bl:
@@ -451,37 +422,83 @@ routes:
             bl,E: br,W
     optical:
         factory: optical
+        settings:
+            bend_radius: 100
         links:
             bl,S: br,E
 
 """
 
 
-def test_connections_order():
-    c = component_from_yaml(sample_order, pins=True, cache=False)
+def test_connections_different_factory():
+    c = component_from_yaml(sample_different_factory, pins=True, cache=False)
+    assert np.isclose(c.routes["tl,E:tr,W"].parent.length, 700.0)
+    assert np.isclose(c.routes["bl,E:br,W"].parent.length, 850.1)
+    assert np.isclose(c.routes["bl,S:br,E"].parent.length, 1171.358898038469)
+    return c
+
+
+sample_different_link_factory = """
+
+instances:
+    bl:
+      component: pad
+    tl:
+      component: pad
+    br:
+      component: pad
+    tr:
+      component: pad
+
+placements:
+    tl:
+        x: 0
+        y: 200
+
+    br:
+        x: 900
+        y: 400
+
+    tr:
+        x: 900
+        y: 600
+
+routes:
+    route1:
+        factory: optical
+        settings:
+            bend_radius: 10
+        link_factory: link_ports_path_length_match
+        link_settings:
+            extra_length: 500
+        links:
+            tl,E: tr,W
+            bl,E: br,W
+
+"""
+
+
+def test_connections_different_link_factory():
+    c = component_from_yaml(sample_different_link_factory, pins=True, cache=False)
+    # print(c.routes['tl,E:tr,W'].parent.length)
+    # print(c.routes['bl,E:br,W'].parent.length)
+
+    length = 1716.2477796076937
+    assert np.isclose(c.routes["tl,E:tr,W"].parent.length, length)
+    assert np.isclose(c.routes["bl,E:br,W"].parent.length, length)
     return c
 
 
 if __name__ == "__main__":
-    import pp
 
-    # c = test_connections_2x2_problem()
-    # c = test_connections_2x2_solution()
-    # pp.show(c)
-
+    # c = test_connections_2x2()
     # test_sample()
-    # test_connections()
+    # test_connections_different_factory()
+    test_connections_different_link_factory()
     # test_mirror()
-    # c = test_mirror()
 
-    # sample = sample_mmis
-    # sample = sample_connections
-    sample = sample_mirror
-    sample = sample_2x2_connections_solution
-    sample = sample_order
-    c = component_from_yaml(sample)
-    print(c.routes)
-    pp.show(c)
+    # c = component_from_yaml(sample_different_link_factory)
+    # pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
