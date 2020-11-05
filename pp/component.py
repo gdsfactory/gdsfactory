@@ -506,6 +506,12 @@ class ComponentReference(DeviceReference):
 
         return self.ref_cell.get_property(property)
 
+    def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
+        """ returns a lit of  ports """
+        return list(
+            select_ports(self.ports, port_type=port_type, prefix=prefix).values()
+        )
+
 
 class Component(Device):
     """adds some functions to phidl.Device

@@ -537,7 +537,7 @@ def connect_bundle_path_length_match(
     separation=30.0,
     end_straight_offset=None,
     bend_radius=BEND_RADIUS,
-    dL0=0,
+    extra_length=0,
     nb_loops=1,
     modify_segment_i=-2,
     route_filter=connect_strip_way_points,
@@ -547,12 +547,12 @@ def connect_bundle_path_length_match(
     Args:
         ports1,
         ports2,
-        separation=30.0,
-        end_straight_offset=None,
+        separation: 30.0,
+        end_straight_offset,
         bend_radius=BEND_RADIUS,
-        dL0=0,
-        nb_loops=1,
-        modify_segment_i=-2,
+        extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
+        nb_loops: number of extra loops added in the path
+        modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
         route_filter=connect_strip_way_points,
         **kwargs: extra arguments for inner call to generate_waypoints_connect_bundle
 
@@ -560,6 +560,7 @@ def connect_bundle_path_length_match(
         [route_filter(l) for l in list_of_waypoints]
 
     """
+    extra_length = extra_length / 2
     kwargs["separation"] = separation
 
     # Heuristic to get a correct default end_straight_offset to leave
@@ -570,7 +571,7 @@ def connect_bundle_path_length_match(
             end_straight_offset = (
                 compute_ports_max_displacement(ports1, ports2) / (2 * nb_loops)
                 + separation
-                + dL0
+                + extra_length
             )
         else:
             end_straight_offset = 0
@@ -581,7 +582,7 @@ def connect_bundle_path_length_match(
 
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
-        dL0=dL0,
+        extra_length=extra_length,
         bend_radius=bend_radius,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,

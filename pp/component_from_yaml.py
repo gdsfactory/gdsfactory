@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 from pp.component import Component
 from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
-from pp.routing.connect_bundle import link_ports
+from pp.routing import link_factory
 
 valid_placements = ["x", "y", "rotation", "mirror"]
 valid_keys = [
@@ -118,6 +118,7 @@ def component_from_yaml(
     yaml: Union[str, pathlib.Path, IO[Any]],
     component_factory=None,
     route_factory=route_factory,
+    link_factory=link_factory,
     **kwargs,
 ) -> Component:
     """Returns a Component defined from YAML
@@ -234,6 +235,14 @@ def component_from_yaml(
             ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"
             route_filter = route_factory[route_type]
             route_settings = routes_dict.pop("settings", {})
+
+            link_function_name = routes_dict.pop("link_function", "link_ports")
+            assert (
+                link_function_name in link_factory
+            ), f"function `{link_function_name}` not in link_factory {list(link_factory.keys())}"
+            link_function = link_factory[link_function_name]
+            link_settings = routes_dict.pop("link_settings", {})
+
             for port_src_string, port_dst_string in routes_dict.items():
                 instance_src_name, port_src_name = port_src_string.split(",")
                 instance_dst_name, port_dst_name = port_dst_string.split(",")
@@ -265,8 +274,12 @@ def component_from_yaml(
                 ports1.append(instance_in.ports[port_src_name])
                 ports2.append(instance_out.ports[port_dst_name])
                 route_names.append(f"{port_src_string}:{port_dst_string}")
-            route = link_ports(
-                ports1, ports2, route_filter=route_filter, **route_settings
+            route = link_function(
+                ports1,
+                ports2,
+                route_filter=route_filter,
+                **route_settings,
+                **link_settings,
             )
             for i, r in enumerate(route):
                 routes[route_names[i]] = r
@@ -425,6 +438,8 @@ routes:
         factory: electrical
         tl,E: tr,W
         bl,E: br,W
+        settings:
+            separation: 240
     optical:
         factory: optical
         bl,S: br,E

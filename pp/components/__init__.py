@@ -37,6 +37,7 @@ from pp.components.text import text
 from pp.components.L import L
 from pp.components.C import C
 from pp.components.bbox import bbox
+from pp.components.floorplan import floorplan
 
 # optical test structures
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -136,6 +137,7 @@ component_factory = dict(
     delay_snake=delay_snake,
     disk=disk,
     ellipse=ellipse,
+    floorplan=floorplan,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
