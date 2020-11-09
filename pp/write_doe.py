@@ -6,7 +6,7 @@ from pp.config import CONFIG
 from pp.doe import get_settings_list
 from pp.routing.add_fiber_array import add_fiber_array_te, add_fiber_array_tm
 
-name2function = dict(
+function_factory = dict(
     add_fiber_array_te=add_fiber_array_te, add_fiber_array_tm=add_fiber_array_tm
 )
 
@@ -19,7 +19,7 @@ def write_doe_metadata(
     doe_metadata_path=CONFIG["doe_directory"],
     **kwargs,
 ):
-    """ writes DOE metadata (markdown report, JSON dict)
+    """writes DOE metadata (markdown report, JSON dict)
 
     Args:
         doe_name
@@ -117,11 +117,11 @@ def write_doe(
     path=CONFIG["build_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
     functions=None,
-    name2function=name2function,
+    function_factory=function_factory,
     component_factory=component_factory,
     **kwargs,
 ):
-    """ writes each device GDS, together with metadata for each device:
+    """writes each device GDS, together with metadata for each device:
     Returns a list of gdspaths
 
     - .gds geometry for each component
@@ -140,11 +140,13 @@ def write_doe(
         doe_settings: shared settings for a DOE
         path: to store build artifacts
         functions: list of function names to apply to DOE
-        name2function: function names to functions dict
+        function_factory: function names to functions dict
         **kwargs: Doe default settings or variations
     """
-    if hasattr(component_type, "__call__"):
-        component_type = component_type.__name__
+
+    component_type = (
+        component_type.__name__ if callable(component_type) else component_type
+    )
 
     doe_name = doe_name or component_type
     functions = functions or []
@@ -152,7 +154,7 @@ def write_doe(
         do_permutations=do_permutations, **kwargs
     )
 
-    assert isinstance(component_type, str), "{} not recognized".format(component_type)
+    assert isinstance(component_type, str), f"{component_type} not recognized"
 
     path.mkdir(parents=True, exist_ok=True)
 
@@ -170,11 +172,11 @@ def write_doe(
         if "analysis" in kwargs:
             component.data_analysis_protocol = kwargs.get("analysis")
         for f in functions:
-            component = name2function[f](component)
+            component = function_factory[f](component)
 
         cell_names.append(component.name)
         cell_settings.append(settings)
-        gdspath = path / (component.name + ".gds")
+        gdspath = path / f"{component.name}.gds"
         doe_gds_paths += [gdspath]
         write_component(component, gdspath)
 
@@ -192,8 +194,7 @@ def write_doe(
 
 
 def get_markdown_table(do_permutations=True, **kwargs):
-    """ returns the markdown table for a parameter sweep
-    """
+    """returns the markdown table for a parameter sweep"""
     list_settings = get_settings_list(do_permutations=do_permutations, **kwargs)
     # Convert table fields to strings
     head = [[str(field) for field in fields.keys()] for fields in list_settings][0]
@@ -234,6 +235,10 @@ def get_markdown_table(do_permutations=True, **kwargs):
 
 def test_write_doe():
     paths = write_doe(
+        "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
+    )
+    assert len(paths) == 2
+    paths = write_doe(
         "mmi1x2",
         width_mmi=[5, 10],
         length_mmi=[20, 30],
@@ -242,19 +247,15 @@ def test_write_doe():
         doe_settings=dict(test="optical_tm"),
     )
     assert len(paths) == 4
-
-    # print(type(paths[0]))
-    # pp.show(paths[0])
-
-    paths = write_doe(
-        "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
-    )
-    assert len(paths) == 2
+    return paths[0]
 
 
 if __name__ == "__main__":
+    import pp
+
+    path = test_write_doe()
+    pp.show(path)
     # print(get_markdown_table(width_mmi=[5, 6]))
-    test_write_doe()
     # paths = write_doe(
     #     "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
     # )
