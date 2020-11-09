@@ -1,3 +1,9 @@
+""" working with units
+
+- assert units are in um or m
+- assert units are in arbitrary dbu (database units)
+
+"""
 wm = 1e-9
 wm_min = 0.9e-9  # 1nm
 wm_max = 999e-9  # 1um

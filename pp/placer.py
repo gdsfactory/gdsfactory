@@ -31,6 +31,7 @@ YAML defines component DOE settings and placement
 
 import os
 import sys
+import pathlib
 from omegaconf import OmegaConf
 
 import pp
@@ -231,7 +232,7 @@ PLACER_NAME2FUNC = {
 
 
 def load_placer_with_does(filepath, defaults={"do_permutation": True}):
-    """ load placer settings
+    """load placer settings
 
     Args:
         filepath: a yaml file containing the does and placer information
@@ -286,26 +287,25 @@ def load_placer_with_does(filepath, defaults={"do_permutation": True}):
 CONTENT_SEP = " , "
 
 
-def save_doe(doe_name, components, doe_root_path=None, precision=1e-9):
+def save_doe(
+    doe_name, components, doe_root_path=CONFIG["cache_doe_directory"], precision=1e-9
+):
     """
     Save all components from this DOE in a tmp cache folder
     """
-    if doe_root_path is None:
-        doe_root_path = CONFIG["cache_doe_directory"]
-    doe_dir = os.path.join(doe_root_path, doe_name)
-    if not os.path.exists(doe_dir):
-        os.makedirs(doe_dir)
+    doe_dir = pathlib.Path(doe_root_path) / doe_name
+    doe_dir.mkdir(parents=True, exist_ok=True)
 
     # Store list of component names - order matters
     component_names = [c.name for c in components]
-    content_file = os.path.join(doe_dir, "content.txt")
+    content_file = doe_dir / "content.txt"
     with open(content_file, "w") as fw:
         fw.write(CONTENT_SEP.join(component_names))
 
     for c in components:
-        gdspath = os.path.join(doe_dir, c.name + ".gds")
+        gdspath = doe_dir / f"{c.name}.gds"
         write_gds(c, gdspath=gdspath, precision=precision)
-        write_component_report(c, json_path=gdspath[:-4] + ".json")
+        write_component_report(c, json_path=gdspath.with_suffix(".json"))
 
 
 def load_doe_from_cache(doe_name, doe_root_path=None):
@@ -365,7 +365,7 @@ def doe_exists(doe_name, list_settings, doe_root_path=None):
 
 
 def component_grid_from_yaml(filepath, precision=1e-9):
-    """ Returns a Component composed of DOEs/components given in a yaml file
+    """Returns a Component composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """
     input_does = OmegaConf.load(str(filepath))

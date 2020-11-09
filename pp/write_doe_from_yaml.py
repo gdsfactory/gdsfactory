@@ -1,5 +1,6 @@
 """ write DOE from YAML file """
 
+import io
 import sys
 import importlib
 
@@ -9,7 +10,7 @@ from pp.write_doe import write_doe
 
 
 def import_custom_doe_factories():
-    """ Find if we have custom DOEs on this config.
+    """Find if we have custom DOEs on this config.
     Make them available in component_factory
     """
 
@@ -21,11 +22,11 @@ def import_custom_doe_factories():
             pass
 
 
-def write_doe_from_yaml(filepath):
-    """ Loads DOE settings from yaml file and writes GDS into build_directory
+def write_doe_from_yaml(yaml):
+    """Loads DOE settings from yaml and writes GDS into build_directory
 
     Args:
-        filepath: YAML file describing DOE
+        filepath: YAML string or filepath describing DOEs
 
     Returns:
         gdspaths: list
@@ -37,7 +38,8 @@ def write_doe_from_yaml(filepath):
     - ports CSV
     - markdown report, with DOE settings
     """
-    does = load_does(filepath)
+    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    does = load_does(yaml)
 
     gdspaths = []
     for doe_name, doe in does.items():
@@ -65,8 +67,41 @@ def write_doe_from_yaml(filepath):
 def test_write_doe_from_yaml():
     does_path = CONFIG["samples_path"] / "mask" / "does.yml"
     gdspaths = write_doe_from_yaml(does_path)
-    print(gdspaths)
+    # print(len(gdspaths))
+    assert len(gdspaths) == 2  # 2 does
+    assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE
+    assert len(gdspaths[1]) == 2  # 2 GDS in the 2nd DOE
+
+
+sample_yaml = """
+mmi_width:
+  component: mmi1x2
+  settings:
+    width_mmi: [4.5, 5.6]
+    length_mmi: 10
+
+mmi_width_length:
+  component: mmi1x2
+  do_permutation: True
+  settings:
+    length_mmi: [11, 12]
+    width_mmi: [3.6, 7.8]
+
+"""
+
+
+def test_write_doe_from_yaml_string():
+    gdspaths = write_doe_from_yaml(sample_yaml)
+    # print(len(gdspaths))
+    assert len(gdspaths) == 2  # 2 does
+    assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE
+    assert len(gdspaths[1]) == 4  # 4 GDS in the 2nd DOE
 
 
 if __name__ == "__main__":
-    test_write_doe_from_yaml()
+    # test_write_doe_from_yaml()
+    test_write_doe_from_yaml_string()
+    # gdspaths = write_doe_from_yaml(sample_yaml)
+    # print(len(gdspaths))
+    # print(len(gdspaths[0]))
+    # print(len(gdspaths[1]))

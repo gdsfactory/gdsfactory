@@ -2,7 +2,7 @@ function_name: spiral_circular
 layer:
 - 1
 - 0
-length: 1694.8131705930423
+length: 1694.813
 min_bend_radius: 5
 module: pp.components.spiral_circular
 name: spiral_circular

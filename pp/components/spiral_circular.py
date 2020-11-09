@@ -1,6 +1,7 @@
 import gdspy as gds
 import numpy as np
 import pp
+from pp.drc import snap_to_1nm_grid
 
 
 def taper(start_width, end_width, length, start_coord, layer=pp.LAYER.WG, datatype=0):
@@ -154,7 +155,7 @@ def spiral_circular(
 
     """ component """
     c = pp.Component()
-    c.length = length
+    c.length = snap_to_1nm_grid(length)
     c.add_polygon(ps, layer=layer)
 
     c.add_port(

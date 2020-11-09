@@ -1,4 +1,5 @@
 name: Lint and Test
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
 
 on:
   pull_request:
@@ -8,14 +9,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
-      max-parallel: 3
+      max-parallel: 6
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -23,11 +25,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install tox tox-gh-actions
         git clone https://github.com/gdsfactory/gdslib.git
-        bash install.sh
+        pip install tox tox-gh-actions
+        make install
     - name: Test with tox
-      run: tox
+      run: tox -e py
     - name: Lint with flake8
       run: |
         flake8

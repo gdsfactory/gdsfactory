@@ -1,27 +1,9 @@
 import pp
-from pp.port import deco_rename_ports
-from pp.components import waveguide
 from pp.components.bend_circular import bend_circular
+from pp.components.waveguide_array import waveguide_array
+from pp.components import waveguide
 from pp.components import grating_coupler_elliptical_te
 from pp.routing.connect import connect_strip_way_points_no_taper
-
-
-@pp.autoname
-@deco_rename_ports
-def _grating_coupler_tree(n_waveguides=4, waveguide_spacing=4, waveguide=waveguide):
-    """ array of waveguides connected with grating couplers
-    useful to align the 4 corners of the chip
-    """
-
-    c = pp.Component()
-    w = pp.call_if_func(waveguide)
-
-    for i in range(n_waveguides):
-        wref = c.add_ref(w)
-        wref.y += i * (waveguide_spacing + w.width)
-        c.ports["E" + str(i)] = wref.ports["E0"]
-        c.ports["W" + str(i)] = wref.ports["W0"]
-    return c
 
 
 @pp.autoname
@@ -37,7 +19,7 @@ def grating_coupler_tree(
     layer_label=pp.LAYER.LABEL,
     **kwargs
 ):
-    """ array of waveguides connected with grating couplers
+    """array of waveguides connected with grating couplers
     useful to align the 4 corners of the chip
 
     .. plot::
@@ -49,10 +31,8 @@ def grating_coupler_tree(
       pp.plotgds(c)
 
     """
-    c = _grating_coupler_tree(
-        n_waveguides=n_waveguides,
-        waveguide_spacing=waveguide_spacing,
-        waveguide=waveguide,
+    c = waveguide_array(
+        n_waveguides=n_waveguides, spacing=waveguide_spacing, waveguide=waveguide,
     )
 
     cc = pp.routing.add_fiber_array(
@@ -74,5 +54,4 @@ def grating_coupler_tree(
 
 if __name__ == "__main__":
     c = grating_coupler_tree()
-    print(c.ports)
     pp.show(c)

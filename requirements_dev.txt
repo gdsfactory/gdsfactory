@@ -9,3 +9,4 @@ pytest-regressions
 pytest-cov
 flake8
 pre-commit
+tox
