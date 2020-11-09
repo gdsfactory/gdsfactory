@@ -32,10 +32,6 @@ def _test(doe_params):
     print(doe_params[0])
 
 
-def default_component_filter(x):
-    return x
-
-
 def separate_does_from_templates(dicts):
     type_to_dict = {}
 
@@ -82,7 +78,6 @@ def save_doe_use_template(doe, doe_root_path=None):
 def write_doe(
     doe,
     component_factory=component_factory,
-    component_filter=default_component_filter,
     doe_root_path=None,
     doe_metadata_path=None,
     regenerate_report_if_doe_exists=False,
@@ -102,7 +97,6 @@ def write_doe(
         component_type, list_settings, component_factory=component_factory
     )
 
-    components = [component_filter(c) for c in components]
     component_names = [c.name for c in components]
     save_doe(doe_name, components, doe_root_path=doe_root_path, precision=precision)
 
@@ -132,7 +126,6 @@ def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
 
 def generate_does(
     filepath,
-    component_filter=default_component_filter,
     component_factory=component_factory,
     doe_root_path=CONFIG["cache_doe_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
@@ -240,7 +233,6 @@ def generate_does(
                     target=write_doe,
                     args=(doe, component_factory),
                     kwargs={
-                        "component_filter": component_filter,
                         "doe_root_path": doe_root_path,
                         "doe_metadata_path": doe_metadata_path,
                         "regenerate_report_if_doe_exists": regenerate_report_if_doe_exists,
