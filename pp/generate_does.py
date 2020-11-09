@@ -1,8 +1,6 @@
-import sys
 import collections
 from multiprocessing import Process
 import time
-from pprint import pprint
 from omegaconf import OmegaConf
 
 from pp.placer import save_doe
@@ -16,20 +14,6 @@ from pp.write_doe import write_doe_metadata
 from pp.doe import get_settings_list
 
 from pp.config import logging
-
-
-def _print(*args, **kwargs):
-    print(*args, **kwargs)
-    sys.stdout.flush()
-
-
-def _pprint(*args, **kwargs):
-    pprint(*args, **kwargs)
-    sys.stdout.flush()
-
-
-def _test(doe_params):
-    print(doe_params[0])
 
 
 def separate_does_from_templates(dicts):
@@ -72,7 +56,7 @@ def save_doe_use_template(doe, doe_root_path=None):
     content_file = doe_dir / "content.txt"
 
     with open(content_file, "w") as fw:
-        fw.write("TEMPLATE: {}".format(doe_template))
+        fw.write(f"TEMPLATE: {doe_template}")
 
 
 def write_doe(
@@ -82,14 +66,10 @@ def write_doe(
     doe_metadata_path=None,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
-    logger=logging,
     **kwargs,
 ):
     doe_name = doe["name"]
     list_settings = doe["list_settings"]
-
-    line = "Building - {} ...".format(doe_name)
-    logger.info(line)
 
     # Otherwise generate each component using the component factory
     component_type = doe["component"]
@@ -129,12 +109,12 @@ def generate_does(
     component_factory=component_factory,
     doe_root_path=CONFIG["cache_doe_directory"],
     doe_metadata_path=CONFIG["doe_directory"],
-    n_cores=4,
+    n_cores=8,
     logger=logging,
     regenerate_report_if_doe_exists=False,
     precision=1e-9,
 ):
-    """ Generates a DOEs of components specified in a yaml file
+    """Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     similar to write_doe
     """
@@ -237,7 +217,6 @@ def generate_does(
                         "doe_metadata_path": doe_metadata_path,
                         "regenerate_report_if_doe_exists": regenerate_report_if_doe_exists,
                         "precision": precision,
-                        "logger": logger,
                     },
                 )
                 doe_name_to_process[doe_name] = p
