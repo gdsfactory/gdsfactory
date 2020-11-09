@@ -208,9 +208,8 @@ def factory(component_type, component_factory=component_factory, **settings):
         return component_type(**settings)
     elif component_type not in component_factory.keys():
         raise ValueError(
-            "component types available: \n {}".format(
-                "\n".join(component_factory.keys())
-            )
+            f"component_type = {component_type} not in: \n"
+            + "\n".join(component_factory.keys())
         )
     return component_factory[component_type](**settings)
 
@@ -223,3 +222,6 @@ _components = set(component_factory.keys()) - set(_containers) - set(_skip_test)
 _components_test_ports = _components - set(_skip_test_ports)
 
 __all__ = list(component_factory.keys()) + _decorators
+
+if __name__ == "__main__":
+    factory("asda")
