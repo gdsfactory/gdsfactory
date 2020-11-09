@@ -12,7 +12,14 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
-- test lenghts for routes
+## 2.1.0 2020-11-09
+
+- test lengths for routes
+- pytest are passing now for windows
+    - Fixed the spiral circular error by snapping length to 1nm (windows only)
+    - Testing now for windows and linux in the CICD
+    - Made the multiprocessing calls pickeable by removing the logger function (that wasn't doing much anyway)
+- extend_ports: maintains un-extended ports
 
 ## 2.0.2 2020-11-03
 
