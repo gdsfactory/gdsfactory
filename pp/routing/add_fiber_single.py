@@ -33,16 +33,22 @@ def add_fiber_single(
     gc_port_name: str = "W0",
     **kwargs,
 ) -> Component:
-    """returns component with grating ports and labels on each port
+    r"""returns component with grating ports and labels on each port
     can add align_ports reference structure
 
 
     .. code::
-          ____
-         /
-      W0| GC
-         \____
-        xmin
+
+              fiber
+             ______
+            /| | |
+           / | | |
+        W0|  | | |
+           \ | | |
+          | \|_|_|_
+
+          |
+         xmin = 0
 
     Args:
         component: to connect

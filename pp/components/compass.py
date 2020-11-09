@@ -12,14 +12,14 @@ def compass(
 
     Args:
         size: tuple (4, 2)
-        layer:
+        layer: tuple (int, int)
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.compass(size=(4, 2), layer=1)
+      c = pp.c.compass(size=(4, 2), layer=pp.LAYER.WG)
       pp.plotgds(c)
     """
 
