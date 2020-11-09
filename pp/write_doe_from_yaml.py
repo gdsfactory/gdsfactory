@@ -10,7 +10,7 @@ from pp.write_doe import write_doe
 
 
 def import_custom_doe_factories():
-    """ Find if we have custom DOEs on this config.
+    """Find if we have custom DOEs on this config.
     Make them available in component_factory
     """
 
@@ -23,10 +23,10 @@ def import_custom_doe_factories():
 
 
 def write_doe_from_yaml(yaml):
-    """ Loads DOE settings from yaml file and writes GDS into build_directory
+    """Loads DOE settings from yaml and writes GDS into build_directory
 
     Args:
-        filepath: YAML file describing DOE
+        filepath: YAML string or filepath describing DOEs
 
     Returns:
         gdspaths: list
@@ -92,7 +92,7 @@ mmi_width_length:
 
 def test_write_doe_from_yaml_string():
     gdspaths = write_doe_from_yaml(sample_yaml)
-    print(len(gdspaths))
+    # print(len(gdspaths))
     assert len(gdspaths) == 2  # 2 does
     assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE
     assert len(gdspaths[1]) == 4  # 4 GDS in the 2nd DOE
