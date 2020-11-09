@@ -1,0 +1,20 @@
+function_name: floorplan
+inputs:
+- - 0
+  - 4
+  - 180
+layer:
+- 1
+- 0
+module: pp.components.floorplan
+name: floorplan
+outputs:
+- - 8
+  - 2
+  - 0
+- - 8
+  - 6
+  - 0
+wg_width: 0.5
+xsize: 8
+ysize: 8

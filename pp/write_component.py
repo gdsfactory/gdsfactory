@@ -14,6 +14,7 @@ from pp.name import get_component_name
 from pp.components import component_factory
 from pp import klive
 from pp.component import Component
+from pp.name import clear_cache
 
 from pp.layers import LAYER
 
@@ -65,23 +66,15 @@ def write_component_report(component, json_path=None):
         json_path
     """
 
-    json_path = json_path or CONFIG["gds_directory"] / component.name + ".json"
-
-    ports_path = json_path[:-5] + ".ports"
+    json_path = json_path or CONFIG["gds_directory"] / f"{component.name}.json"
+    ports_path = json_path.with_suffix(".ports")
 
     """ write ports """
     if len(component.ports) > 0:
         with open(ports_path, "w") as fw:
-            for _, port in component.ports.items():
+            for port in component.ports.values():
                 fw.write(
-                    "{}, {:.3f}, {:.3f}, {}, {:.3f}, {}\n".format(
-                        port.name,
-                        port.x,
-                        port.y,
-                        int(port.orientation),
-                        port.width,
-                        port.layer,
-                    )
+                    f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {port.layer}\n"
                 )
 
     """ write json """
@@ -95,7 +88,6 @@ def write_component(
     gdspath: Optional[PosixPath] = None,
     path_library: PosixPath = CONFIG["gds_directory"],
     precision: float = 1e-9,
-    settings: None = None,
     with_settings_label: bool = conf.tech.with_settings_label,
 ) -> str:
     """write component GDS and metadata:
@@ -109,7 +101,6 @@ def write_component(
         gdspath:
         path_library
         precision: to save GDS points
-        settings: dict of settings
     """
 
     gdspath = gdspath or path_library / (component.name + ".gds")
@@ -128,19 +119,10 @@ def write_component(
     """ write .ports in CSV"""
     if len(component.ports) > 0:
         with open(ports_path, "w") as fw:
-            for _, port in component.ports.items():
-                layer, texttype = pd._parse_layer(port.layer)
-
+            for port in component.ports.values():
+                layer, purpose = pd._parse_layer(port.layer)
                 fw.write(
-                    "{}, {:.3f}, {:.3f}, {}, {:.3f}, {}, {}\n".format(
-                        port.name,
-                        port.x,
-                        port.y,
-                        int(port.orientation),
-                        port.width,
-                        layer,
-                        texttype,
-                    )
+                    f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {layer}, {purpose}\n"
                 )
 
     """ write JSON """
@@ -256,6 +238,7 @@ def show(
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
         )
+    clear_cache()
 
 
 if __name__ == "__main__":

@@ -15,9 +15,7 @@ def _rotate(v, m):
 
 
 def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
-    """
-    # The port visualization pattern is a triangle with a right angle
-    # The face opposite the right angle is the port width
+    """ add triangle pin with a right angle, pointing out of the port
     """
     p = port
 
@@ -47,7 +45,7 @@ def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
 def add_pin_square_inside(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
-    """ square towards the inside of the port
+    """ add square pin towards the inside of the port
 
     .. code::
            _______________
@@ -87,7 +85,7 @@ def add_pin_square_inside(
 def add_pin_square(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.PORT
 ):
-    """ half out
+    """ add half out pin to a component
 
     .. code::
            _______________
@@ -153,7 +151,6 @@ def add_pins(
         add_port_marker_function:
         port_type2layer: dict mapping port types to marker layers for ports
 
-    Add device recognition layer
     """
 
     if hasattr(component, "ports") and component.ports:

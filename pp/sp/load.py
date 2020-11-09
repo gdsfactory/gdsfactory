@@ -6,7 +6,7 @@ import pp
 def load(
     component=None, filepath=None, dirpath=pp.CONFIG["sp"], numports=None, height_nm=220
 ):
-    """ Load Sparameters from interconnect export
+    """ Load Sparameters from Lumerical interconnect export file
 
     Args:
         component: instance
@@ -28,7 +28,7 @@ def load(
         filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
         numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
-    assert numports > 1, f"{numports} needs to be > 1"
+    assert numports > 1, f"number of ports = {numports} and needs to be > 1"
 
     F = []
     S = []

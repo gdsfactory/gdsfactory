@@ -1,6 +1,6 @@
-from typing import Callable, Union
+from typing import Callable
+import numpy as np
 from numpy import ndarray
-from phidl.device_layout import Port as PortPhidl
 
 from pp.routing.manhattan import route_manhattan
 from pp.routing.manhattan import generate_manhattan_waypoints
@@ -22,7 +22,7 @@ def get_waypoints_connect_strip(*args, **kwargs) -> ndarray:
 
 def connect_strip(
     input_port: Port,
-    output_port: Union[Port, PortPhidl],
+    output_port: Port,
     bend_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
     taper_factory: Callable = taper_factory,
@@ -32,22 +32,20 @@ def connect_strip(
     bend_radius: float = 10.0,
     route_factory: Callable = route_manhattan,
 ) -> ComponentReference:
+    """ return an optical route """
 
     bend90 = bend_factory(radius=bend_radius, width=input_port.width)
 
-    if taper_factory:
-        if callable(taper_factory):
-            taper = taper_factory(
-                length=TAPER_LENGTH,
-                width1=input_port.width,
-                width2=WG_EXPANDED_WIDTH,
-                layer=input_port.layer,
-            )
-        else:
-            # In this case the taper is a fixed cell
-            taper = taper_factory
-    else:
-        taper = None
+    taper = (
+        taper_factory(
+            length=TAPER_LENGTH,
+            width1=input_port.width,
+            width2=WG_EXPANDED_WIDTH,
+            layer=input_port.layer,
+        )
+        if callable(taper_factory)
+        else taper_factory
+    )
 
     connector = route_factory(
         input_port,
@@ -72,27 +70,21 @@ def connect_strip_way_points(
     layer=LAYER.WG,
     **kwargs
 ):
-    """
-    Returns a deep-etched route formed by the given way_points with
+    """Returns a deep-etched route formed by the given way_points with
     bends instead of corners and optionally tapers in straight sections.
 
-    taper_factory: can be either a taper component or a factory
+    taper_factory: can be either a taper Component or a factory
     """
+    way_points = np.array(way_points)
     bend90 = bend_factory(radius=bend_radius, width=wg_width)
 
-    if taper_factory:
-        if callable(taper_factory):
-            taper = taper_factory(
-                length=TAPER_LENGTH,
-                width1=wg_width,
-                width2=WG_EXPANDED_WIDTH,
-                layer=layer,
-            )
-        else:
-            # In this case the taper is a fixed cell
-            taper = taper_factory
-    else:
-        taper = None
+    taper = (
+        taper_factory(
+            length=TAPER_LENGTH, width1=wg_width, width2=WG_EXPANDED_WIDTH, layer=layer,
+        )
+        if callable(taper_factory)
+        else taper_factory
+    )
 
     connector = round_corners(way_points, bend90, straight_factory, taper)
     return connector
@@ -111,8 +103,7 @@ def connect_elec_waypoints(
     layer=LAYER.M3,
     **kwargs
 ):
-    """ connect way_points with electrical traces
-    """
+    """returns a route with electrical traces"""
 
     bend90 = bend_factory(width=wg_width, layer=layer)
 

@@ -1,9 +1,9 @@
+from typing import List, Optional, Callable
 import numpy as np
-from pp.container import container
-
-import pp
 from numpy import float64, ndarray
-from typing import List, Optional
+from pp.container import container
+from pp.component import Component
+import pp
 
 DEG2RAD = np.pi / 180
 
@@ -62,14 +62,23 @@ def extend_port(port, length):
 
 @container
 def extend_ports(
-    component,
+    component: Component,
     port_list=None,
-    length=5,
-    extension_factory=None,
-    input_port_ext=None,
-    output_port_ext=None,
-):
-    """ returns a component with extended ports
+    length: float = 5.0,
+    extension_factory: Callable = None,
+    extension_port_name_input: Optional[str] = None,
+    extension_port_name_output: Optional[str] = None,
+) -> Component:
+    """returns a component with extended ports
+
+    Args:
+        component: component to extend ports
+        port_list: specify an iterable of ports or extends all ports
+        length: extension length
+        extension_factory: waveguide factory to extend ports
+        extension_port_name_input:
+        extension_port_name_output:
+
     """
     c = pp.Component(name=component.name + "_e")
     c << component
@@ -87,34 +96,49 @@ def extend_ports(
     dummy_ext = extension_factory(length=length, width=0.5)
     port_labels = list(dummy_ext.ports.keys())
 
-    input_port_ext = input_port_ext or port_labels[0]
-    output_port_ext = output_port_ext or port_labels[-1]
+    extension_port_name_input = extension_port_name_input or port_labels[0]
+    extension_port_name_output = extension_port_name_output or port_labels[-1]
 
-    for port_label in port_list:
-        port = component.ports.get(port_label)
-        extension = c << extension_factory(length=length, width=port.width)
-        extension.connect(input_port_ext, port)
-        c.add_port(port_label, port=extension.ports[output_port_ext])
+    for port_name in component.ports.keys():
+        if port_name in port_list:
+            port = component.ports.get(port_name)
+            extension = c << extension_factory(length=length, width=port.width)
+            extension.connect(extension_port_name_input, port)
+            c.add_port(port_name, port=extension.ports[extension_port_name_output])
+        else:
+            c.add_port(port_name, port=component.ports[port_name])
     return c
 
 
 def test_extend_ports():
     import pp.components as pc
 
-    c = pc.waveguide()
+    c = pc.waveguide(width=2)
+    c = pc.cross(width=2)
     ce = extend_ports(c)
     assert len(c.ports) == len(ce.ports)
+    return ce
+
+
+def test_extend_ports_selection():
+    import pp.components as pc
+
+    c = pc.cross(width=2)
+    ce = extend_ports(c, port_list=["W0", "S0", "N0"])
+    assert len(c.ports) == len(ce.ports)
+    return ce
 
 
 if __name__ == "__main__":
-    test_extend_ports()
-    import pp.components as pc
+    c = test_extend_ports_selection()
+    pp.show(c)
 
+    # import pp.components as pc
     # c = pc.bend_circular()
     # ce = extend_ports(c, port_list=['W0'])
 
-    c = pc.waveguide(layer=(3, 0))
-    ce = extend_ports(c)
-    print(ce)
-    print(len(ce.ports))
-    pp.show(ce)
+    # c = pc.waveguide(layer=(3, 0))
+    # ce = extend_ports(c)
+    # print(ce)
+    # print(len(ce.ports))
+    # pp.show(ce)
