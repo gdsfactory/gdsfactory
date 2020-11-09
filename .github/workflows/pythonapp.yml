@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 6
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -28,8 +28,7 @@ jobs:
         git clone https://github.com/gdsfactory/gdslib.git
         pip install tox tox-gh-actions
         make install
-
-    - name: Test with pytest
+    - name: Test with tox
       run: tox -e py
     - name: Lint with flake8
       run: |
