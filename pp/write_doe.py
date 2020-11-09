@@ -110,7 +110,7 @@ def write_doe_metadata(
 
 def write_doe(
     component_type,
-    doe_name=None,
+    doe_name,
     do_permutations=True,
     list_settings=None,
     doe_settings=None,
@@ -134,7 +134,7 @@ def write_doe(
 
     Args:
         component_type: component_name_or_function
-        doe_name: autoname by default
+        doe_name: name of the DOE
         do_permutations: builds all permutations between the varying parameters
         list_settings: you can pass a list of settings or the variations in the kwargs
         doe_settings: shared settings for a DOE
@@ -148,7 +148,6 @@ def write_doe(
         component_type.__name__ if callable(component_type) else component_type
     )
 
-    doe_name = doe_name or component_type
     functions = functions or []
     list_settings = list_settings or get_settings_list(
         do_permutations=do_permutations, **kwargs
@@ -235,11 +234,16 @@ def get_markdown_table(do_permutations=True, **kwargs):
 
 def test_write_doe():
     paths = write_doe(
-        "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False
+        component_type="mmi1x2",
+        doe_name="width_length",
+        width_mmi=[5, 10],
+        length_mmi=[20, 30],
+        do_permutations=False,
     )
     assert len(paths) == 2
     paths = write_doe(
-        "mmi1x2",
+        component_type="mmi1x2",
+        doe_name="width_length2",
         width_mmi=[5, 10],
         length_mmi=[20, 30],
         do_permutations=True,
