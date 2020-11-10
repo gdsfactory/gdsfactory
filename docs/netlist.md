@@ -45,7 +45,10 @@ The code below illustrates how a simple MZI can be formed using this method.
             y: 100
 
     routes:
-        mmi_short,E1: mmi_long,E0
+        route_name1:
+            factory: optical
+            links:
+                mmi_short,E1: mmi_long,E0
 
     ports:
         E0: mmi_short,W0

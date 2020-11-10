@@ -15,3 +15,5 @@ rectpack
 scipy
 shapely
 networkx
+matplotlib
+pytest

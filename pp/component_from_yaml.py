@@ -47,7 +47,7 @@ placements:
         y: 100
 
 routes:
-    optical:
+    route_name1:
         factory: optical
         links:
             mmi_short,E1: mmi_long,E0
@@ -136,17 +136,46 @@ def component_from_yaml(
     Returns:
         Component
 
-    valid properties:
-    name: name of Component
-    instances:
-        name
-        component
-        settings
-    placements: x, y and rotations
-    connections: between instances
-    ports (Optional): defines ports to expose
-    routes (Optional): defines bundles of routes
-    ports (Optional): defines ports to expose
+    .. code::
+
+        valid properties:
+        name: name of Component
+        instances:
+            name
+            component
+            settings
+        placements: x, y and rotations
+        connections: between instances
+        ports (Optional): defines ports to expose
+        routes (Optional): defines bundles of routes
+
+    .. code::
+
+        name:
+            connections_2x2_sample
+
+        instances:
+            mmi_bottom:
+              component: mmi2x2
+              settings:
+                    length_mmi: 5
+            mmi_top:
+              component: mmi2x2
+              settings:
+                    length_mmi: 5
+
+        placements:
+            mmi_top:
+                x: 100
+                y: 100
+
+        routes:
+            optical:
+                factory: optical
+                links:
+                    mmi_bottom,E0: mmi_top,W0
+                    mmi_bottom,E1: mmi_top,W1
+
 
     """
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
@@ -228,6 +257,9 @@ def component_from_yaml(
             ports1 = []
             ports2 = []
             routes_dict = routes_conf[route_alias]
+            if not hasattr(routes_dict, "__items__"):
+                print(f"Unvalid syntax for {routes_dict}\n", sample_mmis)
+                raise ValueError(f"Unvalid syntax for {routes_dict}")
             for key in routes_dict.keys():
                 if key not in valid_route_keys:
                     raise ValueError(

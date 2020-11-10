@@ -2,15 +2,20 @@
 
 ## TODO
 
+- document klayout placers
+- bundle routing with specific
 - extract netlist from layout using PINS and check if connectivity matches intent
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
-- bundle routing for component_from_yaml
 
 Maybe:
 
 - make sure grating coupler main port is facing west
 
 ## master branch (latest changes not released yet)
+
+## 2.1.1 2020-11-09
+
+- making a conda package so you can `conda install gdsfactory`
 
 ## 2.1.0 2020-11-09
 
