@@ -54,6 +54,10 @@ pyenv3:
 	which python # Print out which python for debugging
 	python setup.py develop
 
+conda:
+	conda env create -f environment.yml
+	echo 'conda env installed, run `conda activate pp` to activate it'
+
 mypy:
 	mypy . --ignore-missing-imports
 
@@ -69,4 +73,4 @@ release:
 
 
 
-.PHONY: gdsdiff build
+.PHONY: gdsdiff build conda
