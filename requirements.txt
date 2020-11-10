@@ -17,3 +17,4 @@ shapely
 networkx
 matplotlib
 pytest
+pytest-regressions

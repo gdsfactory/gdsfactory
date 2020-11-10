@@ -6,6 +6,7 @@
 - bundle routing with specific
 - extract netlist from layout using PINS and check if connectivity matches intent
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
+- make a conda package so you can `conda install gdsfactory`
 
 Maybe:
 
@@ -13,9 +14,10 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
-## 2.1.1 2020-11-09
+## 2.1.2 2020-11-09
 
-- making a conda package so you can `conda install gdsfactory`
+- write conda environment.yml so you can `make conda` to install the conda environment
+- klive, generate_tech and gitdiff
 
 ## 2.1.0 2020-11-09
 
