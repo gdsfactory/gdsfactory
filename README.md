@@ -1,4 +1,4 @@
-# gdsfactory 2.1.0
+# gdsfactory 2.1.1
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
@@ -19,11 +19,23 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 
 ## Installation
 
-If you are on Windows, you need to install a C++ compiler ["Build Tools for Visual Studio"](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017)
+If you are on Windows, you have 2 options:
+
+
+1. Install the wheel for the python version that you have (3.7 or 3.8)
+
+```
+pip install https://github.com/heitzmann/gdspy/releases/download/v1.6.1/gdspy-1.6.1-cp37-cp37m-win_amd64.whl
+```
+```
+pip install https://github.com/heitzmann/gdspy/releases/download/v1.6.1/gdspy-1.6.1-cp38-cp38-win_amd64.whl
+```
+
+2. Install a C++ compiler ["Build Tools for Visual Studio"](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017)
 
 Once you have `git` and `python3` we recommend to install the latest version from the git repo by copy-pasting this 3 lines into a terminal.
 
-Works for python>=3.6
+Works for python>=3.7
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git

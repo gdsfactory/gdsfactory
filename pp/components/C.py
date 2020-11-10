@@ -22,7 +22,7 @@ def C(
 
       import pp
 
-      c = pp.c.C(width1=1, size=(10, 20), layer=pp.LAYER.M3)
+      c = pp.c.C(width=1, size=(10, 20), layer=pp.LAYER.M3)
       pp.plotgds(c)
     """
     D = Component()

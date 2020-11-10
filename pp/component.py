@@ -441,8 +441,8 @@ class ComponentReference(DeviceReference):
 
         # Reflect across x-axis
         self.x_reflection = not self.x_reflection
-        self.origin[1] = -self.origin[1]
-        self.rotation = -self.rotation
+        self.origin[1] = -1 * self.origin[1]
+        self.rotation = -1 * self.rotation
 
         # Un-rotate and un-translate
         self.origin = _rotate_points(self.origin, angle=angle, center=[0, 0])

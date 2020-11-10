@@ -43,7 +43,8 @@ YAML is an easy to use human-friendly format to define components, circuits and 
         arm_bot,W0: CP1,E0
         arm_top,W0: CP1,E1
         CP2,E0: arm_bot,E0
-        CP2,E0: arm_top,E0
+        CP2,E1: arm_top,E0
+
     """
 
     c = pp.component_from_yaml(netlist)
