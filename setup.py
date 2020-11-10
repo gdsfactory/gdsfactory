@@ -118,7 +118,7 @@ class CustomInstallCommand(install):
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="2.1.1",
+    version="2.1.2",
     author="PsiQ",
     scripts=["pp/pf.py"],
     description="python libraries to generate GDS layouts",
