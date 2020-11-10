@@ -21,9 +21,9 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 
 Works for python>=3.6.
 
-If you are on Windows, I reccommend you install it with Anaconda3 or Miniconda3
+If you are on Windows, I reccommend you install it with Anaconda3 or Miniconda3.
 
-For Windows / Linux and MacOs you can install the latest released version:
+For Windows, Linux and MacOs you can install the latest released version:
 
 ```
 conda install -c conda-forge gdspy

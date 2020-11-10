@@ -3,7 +3,6 @@ sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
 sphinx-autodoc-typehints
-pytest-regressions
 pytest-cov
 flake8
 pre-commit
