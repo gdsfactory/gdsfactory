@@ -7,9 +7,12 @@ source:
 
 build:
     number: 0
-    script: python setup.py install --single-version-externally-managed --record=record.txt
+    noarch: python
+    script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
+    host:
+        - pip
     build:
         - python>=3.6
         - click
@@ -42,6 +45,11 @@ test:
         - gdsfactory
 
 about:
-    home: "https://github.com/gdsfactory/gdsfactory"
-    license: "MIT"
-summary: "python libraries to generate GDS layouts"
+  home: https://github.com/gdsfactory/gdsfactory
+  summary: python libraries to generate GDS layouts
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - joaquin
