@@ -257,7 +257,7 @@ def component_from_yaml(
             ports1 = []
             ports2 = []
             routes_dict = routes_conf[route_alias]
-            if not isinstance(routes_dict, dict):
+            if not hasattr(routes_dict, "__items__"):
                 print(f"Unvalid syntax for {routes_dict}\n", sample_mmis)
                 raise ValueError(f"Unvalid syntax for {routes_dict}")
             for key in routes_dict.keys():
