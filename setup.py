@@ -6,6 +6,10 @@ def get_install_requires():
         return [line.strip() for line in f.readlines() if not line.startswith("-")]
 
 
+with open("LICENSE") as f:
+    license = f.read()
+
+
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
@@ -17,6 +21,7 @@ setup(
     include_package_data=True,
     install_requires=get_install_requires(),
     python_requires=">=3.6",
+    license=license,
     entry_points="""
         [console_scripts]
         pf=pp.pf:cli

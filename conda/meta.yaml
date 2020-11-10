@@ -1,0 +1,47 @@
+package:
+    name: gdsfactory
+    version: "2.1.0"
+
+source:
+    path: ..
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python>=3.6
+        - click
+        - gitpython
+        - gdspy
+        - omegaconf
+        - jsondiff
+        - klayout
+        - numpy
+        - pandas
+        - phidl
+        - picwriter
+        - pyqtree
+        - qrcode
+        - rectpack
+        - scipy
+        - shapely
+        - networkx
+        - matplotlib
+        - pytest
+
+    run:
+        - python>=3.6
+        - numpy
+        - scipy
+        - opencv
+
+test:
+    imports:
+        - gdsfactory
+
+about:
+    home: "https://github.com/gdsfactory/gdsfactory"
+    license: "MIT"
+summary: "python libraries to generate GDS layouts"
