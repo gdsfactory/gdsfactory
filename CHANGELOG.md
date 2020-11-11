@@ -17,7 +17,7 @@ Maybe:
 ## 2.1.3 2020-11-09
 
 - `pf install` installs klive, generate_tech and gitdiff
-- `pf diff` makes boolean difference between
+- `pf diff` makes boolean difference between 2 GDS files
 
 ## 2.1.2 2020-11-09
 
