@@ -28,6 +28,7 @@ For Windows, Linux and MacOs you can install the latest released version:
 ```
 conda install -c conda-forge gdspy
 pip install gdsfactory
+pf install
 ```
 
 Or you can install the development version:
