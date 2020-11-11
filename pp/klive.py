@@ -12,7 +12,7 @@ from pathlib import PosixPath
 def show(gds_filename: PosixPath, keep_position: bool = True) -> None:
     """ Show GDS in klayout """
     if not os.path.isfile(gds_filename):
-        raise ValueError("{} does not exist".format(gds_filename))
+        raise ValueError(f"{gds_filename} does not exist")
     data = {
         "gds": os.path.abspath(gds_filename),
         "keep_position": keep_position,

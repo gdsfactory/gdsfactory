@@ -7,9 +7,6 @@
 """
 
 from dataclasses import dataclass
-import gdspy as gp
-from phidl.device_layout import DeviceReference
-from phidl.device_layout import Polygon
 from phidl.device_layout import LayerSet as LayerSetPhidl
 from phidl.device_layout import Layer
 
@@ -49,9 +46,8 @@ class LayerSet(LayerSetPhidl):
         )
         if name in self._layers:
             raise ValueError(
-                "[PHIDL] LayerSet: Tried to add layer named "
-                '"%s"' % (name) + ", but a layer with that "
-                "name already exists in this LayerSet"
+                '[PHIDL] LayerSet: Tried to add layer named "%s"' % (name)
+                + ", but a layer with that name already exists in this LayerSet"
             )
         else:
             self._layers[name] = new_layer
@@ -114,25 +110,6 @@ layer2material = {
 port_layer2type = {LAYER.PORT: "optical", LAYER.PORTE: "dc", LAYER.PORTH: "heater"}
 
 port_type2layer = {v: k for k, v in port_layer2type.items()}
-
-
-def get_gds_layers(device):
-    """Returns a set of layers in this cell.
-
-    Returns:
-        out : Set of the layers used in this cell.
-    """
-    layers = set()
-    for element in device.references:
-        if isinstance(element, Polygon):
-            gds_layer = (element.layers[0], element.datatypes[0])
-            layers.update([gds_layer])
-        elif isinstance(element, DeviceReference) or isinstance(element, gp.CellArray):
-            layers.update(get_gds_layers(element.ref_cell))
-    for label in device.labels:
-        datatype = label.datatype if hasattr(label, "datatype") else 0
-        layers.update([(label.layer, datatype)])
-    return layers
 
 
 def preview_layerset(ls=ls, size=100):
