@@ -3,7 +3,6 @@ import pathlib
 import gdspy as gp
 
 from pp import import_gds
-from pp.layers import get_gds_layers
 import pp
 
 COUNTER = itertools.count()
@@ -48,8 +47,8 @@ def gdsdiff(cellA, cellB):
         cellB = import_gds(cellB, flatten=True)
 
     layers = set()
-    layers.update(get_gds_layers(cellA))
-    layers.update(get_gds_layers(cellB))
+    layers.update(cellA.get_layers())
+    layers.update(cellB.get_layers())
 
     diff = pp.Component(name="diff")
     for layer in layers:

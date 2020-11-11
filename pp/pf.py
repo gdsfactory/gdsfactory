@@ -27,6 +27,10 @@ from pp.mask.write_labels import write_labels
 import pp.build as pb
 
 from pp.tests.test_factory import lock_components_with_changes
+from pp.install import install_klive
+from pp.install import install_generic_tech
+from pp.install import install_gdsdiff
+from pp.gdsdiff.gdsdiff import gdsdiff
 
 
 VERSION = "2.1.2"
@@ -222,7 +226,7 @@ def mask_merge(label_layer):
 @click.argument("gdspath", default=None)
 @click.argument("label_layer", required=False, default=LAYER_LABEL)
 def write_mask_labels(gdspath, label_layer):
-    """ find test and measurement labels """
+    """Find test and measurement labels."""
     if gdspath is None:
         gdspath = CONFIG["mask_gds"]
 
@@ -237,13 +241,32 @@ EXTRA
 @click.command()
 @click.argument("filename")
 def show(filename):
-    """ Show a GDS file using KLive """
+    """Show a GDS file using klive """
     klive.show(filename)
 
 
 @click.command()
+@click.argument("gdspath1")
+@click.argument("gdspath2")
+def diff(gdspath1, gdspath2):
+    """Show boolean difference between two GDS files."""
+    import pp
+
+    diff = gdsdiff(str(gdspath1), str(gdspath2))
+    pp.show(diff)
+
+
+@click.command()
+def install():
+    """Install Klive, gdsdiff and generic tech """
+    install_generic_tech()
+    install_klive()
+    install_gdsdiff()
+
+
+@click.command()
 def test():
-    """ Run tests using pytest.
+    """Run tests using pytest.
     Strictly speaking you should just run `pytest` directly."""
 
     os.chdir(CONFIG["repo_path"])
@@ -261,7 +284,7 @@ def test():
     help="Show the version number.",
 )
 def cli():
-    """ `pf` is the photonics factory command line tool.
+    """`pf` is the photonics factory command line tool.
     It helps to build, test, and configure masks and components.
     """
     pass
@@ -285,6 +308,8 @@ cli.add_command(log)
 cli.add_command(mask)
 cli.add_command(show)
 cli.add_command(test)
+cli.add_command(install)
+cli.add_command(diff)
 
 
 if __name__ == "__main__":
