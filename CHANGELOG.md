@@ -14,10 +14,15 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+## 2.1.3 2020-11-09
+
+- `pf install` installs klive, generate_tech and gitdiff
+- `pf diff` makes boolean difference between 2 GDS files
+
 ## 2.1.2 2020-11-09
 
 - write conda environment.yml so you can `make conda` to install the conda environment
-- klive, generate_tech and gitdiff
+- setup.py installs klive, generate_tech and gitdiff
 
 ## 2.1.0 2020-11-09
 

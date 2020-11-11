@@ -6,5 +6,12 @@ global-include *.csv
 global-include *.yaml
 include requirements.txt
 include requirements_dev.txt
-include klayout/pymacros/klive.lym
-recursive-include klayout/tech/*
+include pp/klayout/pymacros/klive.lym
+include pp/klayout/drc/generic.lydrc
+include pp/klayout/tech/generic.layerstack
+include pp/klayout/tech/layers.lyp
+include pp/klayout/tech/tech.lyt
+include pp/klayout/tech/xsection.lym
+include pp/klayout/tech/xsection_generic.lym
+include pp/klayout/tech/xsection_generic.xs
+include pp/klayout/tech/xsection_planarized.xs

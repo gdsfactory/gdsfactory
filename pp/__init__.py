@@ -106,7 +106,7 @@ __all__ = [
     "component_from_yaml",
     "units",
 ]
-__version__ = "2.1.2"
+__version__ = "2.1.3"
 
 
 if __name__ == "__main__":
