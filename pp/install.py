@@ -65,15 +65,22 @@ def install_klive():
 
 
 def copy(src, dest):
-    """ installs generic layermap """
+    """ overwrite file or directory
+    """
     dest_folder = dest.parent
     dest_folder.mkdir(exist_ok=True, parents=True)
 
     if dest.exists():
         print(f"removing {dest} already installed")
-        os.remove(dest)
+        if dest.is_dir():
+            shutil.rmtree(dest)
+        else:
+            os.remove(dest)
 
-    shutil.copy(src, dest)
+    if src.is_dir():
+        shutil.copytree(src, dest)
+    else:
+        shutil.copy(src, dest)
     print(f"{src} copied to {dest}")
 
 
@@ -96,6 +103,10 @@ def install_generic_tech():
 
 
 if __name__ == "__main__":
+    cwd = pathlib.Path(__file__).resolve().parent
+    home = pathlib.Path.home()
+    src = cwd / "klayout" / "tech"
+
     install_gdsdiff()
     install_klive()
     install_generic_tech()
