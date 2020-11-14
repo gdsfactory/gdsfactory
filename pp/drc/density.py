@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 import gdspy as gp
 from pp.geo_utils import area
 
@@ -26,11 +25,7 @@ def compute_area(c, target_layer):
             try:
                 _area += sum([abs(area(p)) for p in joined_polys.polygons])
             except:
-                print(
-                    "Warning, {} joinedpoly {} could not be added".format(
-                        c.name, joined_polys
-                    )
-                )
+                print(f"Warning, {c.name} joinedpoly {joined_polys} could not be added")
     return _area
 
 
@@ -176,23 +171,8 @@ def compute_area_hierarchical(
     return cell_to_data
 
 
-def test_density():
-    """
-    Return ratio of total area on a layer over the bounding box of the component
-    """
+if __name__ == "__main__":
     import pp
 
-    layer = (1, 0)
-    c = pp.c.rectangle(size=(4, 2), layer=layer)
-    pp.write_gds(c)
-    area = compute_area(c, layer)
-    assert np.isclose(8, area)
-
-
-if __name__ == "__main__":
-    test_density()
-
-    # pp.show(c)
-
-    # c = pp.c.mzi2x2()
-    # print(bucket_cells_by_rank([c] + list(c.get_dependencies(recursive=True))))
+    c = pp.c.mzi2x2()
+    print(bucket_cells_by_rank([c] + list(c.get_dependencies(recursive=True))))

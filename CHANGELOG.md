@@ -3,16 +3,20 @@
 ## TODO
 
 - document klayout placers
-- bundle routing with specific
+- bundle routing with specific waypoints
+- connect_with_waypoints can accept ports
 - extract netlist from layout using PINS and check if connectivity matches intent
-- create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
-- make a conda package so you can `conda install gdsfactory`
 
 Maybe:
 
 - make sure grating coupler main port is facing west
+- add grating coupler vertical ports
+- make a conda package so you can `conda install gdsfactory`
+- create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
 
 ## master branch (latest changes not released yet)
+
+- fixed installer for windows using copy instead of symlink
 
 ## 2.1.3 2020-11-09
 
