@@ -16,6 +16,8 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+## 2.1.4 2020-11-14
+
 - fixed installer for windows using copy instead of symlink
 
 ## 2.1.3 2020-11-09

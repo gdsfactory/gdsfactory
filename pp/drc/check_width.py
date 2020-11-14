@@ -43,8 +43,8 @@ def demo():
     # space check (here: separation between a and b, s < 200 DBU)
     too_close = a.separation_check(b, 200)
     # NOTE: "too_small" and "too_close" are pya.EdgePairs collections of error markers
-    print("too_small is: " + str(too_small))
-    print("too_close is: " + str(too_close))
+    print("too_small is: ", too_small)
+    print("too_close is: ", too_close)
 
 
 if __name__ == "__main__":
