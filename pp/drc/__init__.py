@@ -1,7 +1,10 @@
 """ design rule checking """
+from typing import Union
 import numpy as np
 from numpy import bool_, float64
-from typing import Union
+from pp.drc.check_width import check_width
+from pp.drc.check_space import check_space
+from pp.drc.density import compute_area
 
 
 def on_grid(x: float64, nm: int = 1) -> bool_:
@@ -58,6 +61,22 @@ def test_on_2nm_grid():
     assert not on_2nm_grid(1.1e-3)
     assert not on_2nm_grid(1e-3)
     assert on_2nm_grid(2e-3)
+
+
+__all__ = [
+    "check_space",
+    "check_width",
+    "compute_area",
+    "on_grid",
+    "on_1nm_grid",
+    "on_2nm_grid",
+    "assert_on_1nm_grid",
+    "assert_on_2nm_grid",
+    "snap_to_grid",
+    "snap_to_1nm_grid",
+    "snap_to_2nm_grid",
+    "snap_to_5nm_grid",
+]
 
 
 if __name__ == "__main__":

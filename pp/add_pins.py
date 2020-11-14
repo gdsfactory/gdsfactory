@@ -15,8 +15,7 @@ def _rotate(v, m):
 
 
 def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
-    """ add triangle pin with a right angle, pointing out of the port
-    """
+    """add triangle pin with a right angle, pointing out of the port"""
     p = port
 
     a = p.orientation
@@ -45,7 +44,7 @@ def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
 def add_pin_square_inside(
     component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
-    """ add square pin towards the inside of the port
+    """add square pin towards the inside of the port
 
     .. code::
            _______________
@@ -83,9 +82,14 @@ def add_pin_square_inside(
 
 
 def add_pin_square(
-    component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.PORT
+    component,
+    port,
+    port_length=0.1,
+    layer=LAYER.PORT,
+    label_layer=LAYER.PORT,
+    port_margin=0,
 ):
-    """ add half out pin to a component
+    """add half out pin to a component
 
     .. code::
            _______________
@@ -106,7 +110,7 @@ def add_pin_square(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.width / 2
+    d = p.width / 2 + port_margin
     dx = port_length
 
     dbot = np.array([dx / 2, -d])
@@ -144,7 +148,7 @@ def add_pins(
     port_type2layer=port_type2layer,
     **kwargs,
 ):
-    """ add port markers:
+    """add port markers:
 
     Args:
         component: to add ports
@@ -198,16 +202,16 @@ def test_add_pins():
 
 
 if __name__ == "__main__":
-    test_add_pins()
+    # test_add_pins()
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers
 
     # c = mmi1x2(width_mmi=5)
-    # c = bend_circular()
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
     # c = pp.c.waveguide()
     # c = pp.c.crossing(pins=True)
-    # add_pins(c)
-    # pp.show(c)
+    c = pp.c.bend_circular()
+    add_pins(c)
+    pp.show(c)

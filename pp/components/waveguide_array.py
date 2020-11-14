@@ -8,6 +8,11 @@ from pp.components import waveguide
 def waveguide_array(n_waveguides: int = 4, spacing: float = 4.0, waveguide=waveguide):
     """array of waveguides connected with grating couplers
     useful to align the 4 corners of the chip
+
+    Args:
+        n_waveguides: number of waveguides
+        spacing: edge to edge waveguide spacing
+        waveguide: waveguide Component or factory
     """
 
     c = pp.Component()
