@@ -6,6 +6,7 @@ from pp.drc.check_width import check_width
 from pp.drc.check_space import check_space
 from pp.drc.density import compute_area
 from pp.drc.check_exclusion import check_exclusion
+from pp.drc.check_inclusion import check_inclusion
 
 
 def on_grid(x: float64, nm: int = 1) -> bool_:
@@ -68,6 +69,7 @@ __all__ = [
     "check_space",
     "check_width",
     "check_exclusion",
+    "check_inclusion",
     "compute_area",
     "on_grid",
     "on_1nm_grid",
