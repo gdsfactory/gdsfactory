@@ -9,7 +9,7 @@ https://git-scm.com/docs/git/2.18.0#git-codeGITEXTERNALDIFFcode
 """
 import sys
 
-from gdsdiff import gdsdiff
+from pp.gdsdiff.gdsdiff import gdsdiff
 import pp
 
 
@@ -20,7 +20,7 @@ def gds_diff_git(
     We do not use most of the arguments
     """
     print(old_hex, "->", new_hex)
-    diff = gdsdiff.gdsdiff(old_file, new_file)
+    diff = gdsdiff(old_file, new_file)
     pp.show(diff)
 
 

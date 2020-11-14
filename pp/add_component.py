@@ -6,7 +6,7 @@ import shutil
 from pp.write_component import write_component
 import pp
 from pp.config import CONFIG, conf
-from gdsdiff.gdsdiff import gdsdiff
+from pp.gdsdiff.gdsdiff import gdsdiff
 
 GDS_PATH_TMP = CONFIG["gdslib_test"]
 
