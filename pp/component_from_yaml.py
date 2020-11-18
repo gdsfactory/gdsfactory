@@ -12,7 +12,8 @@ from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing import link_factory
 
-valid_placements = ["x", "y", "rotation", "mirror", "anchor"]
+
+valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "anchor"]
 valid_keys = [
     "name",
     "instances",
@@ -23,6 +24,78 @@ valid_keys = [
 ]
 
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
+
+
+def place(placements_conf, instances, instance_name=None):
+    """using a placements_conf dict places instance_name
+    instances is a dict
+    """
+    if instance_name is None:
+        instance_name = list(placements_conf.keys())[0]
+    ref = instances[instance_name]
+    placement_settings = placements_conf[instance_name] or {}
+    for k, v in placement_settings.items():
+        if k not in valid_placements:
+            raise ValueError(
+                f"`{k}` not valid placement {valid_placements} for" f" {instance_name}"
+            )
+    x = placement_settings.get("x")
+    y = placement_settings.get("y")
+    dx = placement_settings.get("dx")
+    dy = placement_settings.get("dy")
+    anchor = placement_settings.get("anchor")
+    rotation = placement_settings.get("rotation")
+    mirror = placement_settings.get("mirror")
+
+    if anchor:
+        a = ref.ports[anchor]
+        ref.x -= a.x
+        ref.y -= a.y
+    if x:
+        if not hasattr(x, "__iter__") or isinstance(x, str):
+            x = [x]
+        for xi in x:
+            if isinstance(xi, str):
+                instance_name_ref, port_name = xi.split(",")
+                if instance_name_ref in placements_conf:
+                    place(placements_conf, instances, instance_name_ref)
+                xi = instances[instance_name_ref].ports[port_name].x
+            ref.x += xi
+    if y:
+        if not hasattr(y, "__iter__") or isinstance(y, str):
+            y = [y]
+        for yi in y:
+            if isinstance(yi, str):
+                instance_name_ref, port_name = yi.split(",")
+                if instance_name_ref in placements_conf:
+                    place(placements_conf, instances, instance_name_ref)
+                yi = instances[instance_name_ref].ports[port_name].y
+            ref.y += yi
+    if dx:
+        ref.x += dx
+    if dy:
+        ref.y += dy
+    if mirror:
+        if mirror is True:
+            ref.reflect_h()
+        elif mirror is False:
+            pass
+        elif isinstance(mirror, str):
+            ref.reflect_h(port_name=mirror)
+        elif isinstance(mirror, (int, float)):
+            ref.reflect_h(x0=mirror)
+        else:
+            raise ValueError(
+                f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
+            )
+
+    if rotation:
+        if anchor:
+            ref.rotate(rotation, center=ref.ports[anchor])
+        else:
+            ref.rotate(rotation, center=(ref.x, ref.y))
+    placements_conf.pop(instance_name)
+
 
 sample_mmis = """
 name:
@@ -103,7 +176,7 @@ instances:
 
 placements:
     arm_bot:
-        mirror: [0, 0, 0, 10]
+        mirror: True
         rotation: 180
 ports:
     W0: CP1,W0
@@ -206,47 +279,8 @@ def component_from_yaml(
         ref = c << ci
         instances[instance_name] = ref
 
-        if placements_conf:
-            placement_settings = placements_conf[instance_name] or {}
-            for k, v in placement_settings.items():
-                if k not in valid_placements:
-                    raise ValueError(
-                        f"`{k}` not valid placement {valid_placements} for"
-                        f" {instance_name}"
-                    )
-            x = placement_settings.get("x")
-            y = placement_settings.get("y")
-            anchor = placement_settings.get("anchor")
-            rotation = placement_settings.get("rotation")
-            mirror = placement_settings.get("mirror")
-
-            if anchor:
-                a = ref.ports[anchor]
-                ref.x -= a.x
-                ref.y -= a.y
-            if x:
-                ref.x += x
-            if y:
-                ref.y += y
-            if mirror:
-                if mirror is True:
-                    ref.reflect_h()
-                elif mirror is False:
-                    pass
-                elif isinstance(mirror, str):
-                    ref.reflect_h(port_name=mirror)
-                elif isinstance(mirror, (int, float)):
-                    ref.reflect_h(x0=mirror)
-                else:
-                    raise ValueError(
-                        f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
-                    )
-
-            if rotation:
-                if anchor:
-                    ref.rotate(rotation, center=ref.ports[anchor])
-                else:
-                    ref.rotate(rotation, center=(ref.x, ref.y))
+    while placements_conf:
+        place(placements_conf=placements_conf, instances=instances)
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
@@ -453,8 +487,7 @@ def test_connections_2x2():
     assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 0
     length = c.routes["mmi_bottom,E1:mmi_top,W1"].parent.length
-    # print(length)
-    assert np.isclose(length, 162.86592653589793)
+    assert np.isclose(length, 166.41592653589794)
     return c
 
 
@@ -589,6 +622,33 @@ routes:
 """
 
 
+sample_anchor = """
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        anchor: W0
+        x: 0
+        y: 0
+    mmi_long:
+        anchor: W0
+        x: mmi_short,E1
+        y:
+            - mmi_short,E1
+            - 10
+"""
+
+
 def test_connections_waypoints():
     c = component_from_yaml(sample_waypoints, pins=True, cache=False)
     # print(c.routes['t,S5:b,N4'].parent.length)
@@ -601,9 +661,9 @@ def test_connections_waypoints():
 if __name__ == "__main__":
     import pp
 
-    c = component_from_yaml(sample_2x2_connections, pins=True, cache=False)
+    # c = component_from_yaml(sample_anchor)
 
-    # c = test_connections_2x2()
+    c = test_connections_2x2()
     # test_sample()
     # test_connections_different_factory()
     # test_connections_different_link_factory()
