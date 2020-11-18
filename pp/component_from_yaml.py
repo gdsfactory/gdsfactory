@@ -77,7 +77,8 @@ def place(placements_conf, instances, instance_name=None):
         ref.y += dy
     if mirror:
         if mirror is True:
-            ref.reflect_h()
+            if anchor:
+                ref.reflect_h(port_name=anchor)
         elif mirror is False:
             pass
         elif isinstance(mirror, str):
