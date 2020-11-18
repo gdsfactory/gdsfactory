@@ -13,7 +13,7 @@ from pp.routing import route_factory
 from pp.routing import link_factory
 
 
-valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "anchor"]
+valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 valid_keys = [
     "name",
     "instances",
@@ -43,40 +43,68 @@ def place(placements_conf, instances, instance_name=None):
     y = placement_settings.get("y")
     dx = placement_settings.get("dx")
     dy = placement_settings.get("dy")
-    anchor = placement_settings.get("anchor")
+    port = placement_settings.get("port")
     rotation = placement_settings.get("rotation")
     mirror = placement_settings.get("mirror")
 
-    if anchor:
-        a = ref.ports[anchor]
+    if port:
+        a = ref.ports[port]
         ref.x -= a.x
         ref.y -= a.y
     if x:
-        if not hasattr(x, "__iter__") or isinstance(x, str):
-            x = [x]
-        for xi in x:
-            if isinstance(xi, str):
-                instance_name_ref, port_name = xi.split(",")
-                if instance_name_ref in placements_conf:
-                    place(placements_conf, instances, instance_name_ref)
-                xi = instances[instance_name_ref].ports[port_name].x
-            ref.x += xi
+        if isinstance(x, str):
+            if not len(x.split(",")) == 2:
+                raise ValueError(
+                    f"You can define x as `x: instaceName,portName` got `x: {x}`"
+                )
+            instance_name_ref, port_name = x.split(",")
+            if instance_name_ref in placements_conf:
+                place(placements_conf, instances, instance_name_ref)
+            if instance_name_ref not in instances:
+                raise ValueError(
+                    f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                    f"you can define x as `x: instaceName,portName`, got `x: {x}`"
+                )
+            if port_name not in instances[instance_name_ref].ports:
+                raise ValueError(
+                    f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                    f"for {instance_name_ref}, "
+                    f"you can define x as `x: instaceName,portName`, got `x: {x}`"
+                )
+
+            x = instances[instance_name_ref].ports[port_name].x
+        ref.x += x
     if y:
-        if not hasattr(y, "__iter__") or isinstance(y, str):
-            y = [y]
-        for yi in y:
-            if isinstance(yi, str):
-                instance_name_ref, port_name = yi.split(",")
-                if instance_name_ref in placements_conf:
-                    place(placements_conf, instances, instance_name_ref)
-                yi = instances[instance_name_ref].ports[port_name].y
-            ref.y += yi
+        if isinstance(y, str):
+            if not len(y.split(",")) == 2:
+                raise ValueError(
+                    f"You can define y as `y: instaceName,portName` got `y: {y}`"
+                )
+            instance_name_ref, port_name = y.split(",")
+            if instance_name_ref in placements_conf:
+                place(placements_conf, instances, instance_name_ref)
+            if instance_name_ref not in instances:
+                raise ValueError(
+                    f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                    f"you can define y as `y: instaceName,portName`, got `y: {y}`"
+                )
+            if port_name not in instances[instance_name_ref].ports:
+                raise ValueError(
+                    f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                    f"for {instance_name_ref}, "
+                    f"you can define y as `y: instaceName,portName`, got `y: {y}`"
+                )
+
+            y = instances[instance_name_ref].ports[port_name].y
+        ref.y += y
     if dx:
         ref.x += dx
     if dy:
         ref.y += dy
     if mirror:
-        if mirror is True:
+        if mirror is True and port:
+            ref.reflect_h(port_name=port)
+        elif mirror is True:
             ref.reflect_h()
         elif mirror is False:
             pass
@@ -90,8 +118,8 @@ def place(placements_conf, instances, instance_name=None):
             )
 
     if rotation:
-        if anchor:
-            ref.rotate(rotation, center=ref.ports[anchor])
+        if port:
+            ref.rotate(rotation, center=ref.ports[port])
         else:
             ref.rotate(rotation, center=(ref.x, ref.y))
     placements_conf.pop(instance_name)
@@ -622,7 +650,7 @@ routes:
 """
 
 
-sample_anchor = """
+sample_port = """
 instances:
     mmi_long:
       component: mmi1x2
@@ -637,11 +665,11 @@ instances:
 
 placements:
     mmi_short:
-        anchor: W0
+        port: W0
         x: 0
         y: 0
     mmi_long:
-        anchor: W0
+        port: W0
         x: mmi_short,E1
         y:
             - mmi_short,E1
@@ -661,7 +689,7 @@ def test_connections_waypoints():
 if __name__ == "__main__":
     import pp
 
-    # c = component_from_yaml(sample_anchor)
+    # c = component_from_yaml(sample_port)
 
     c = test_connections_2x2()
     # test_sample()
