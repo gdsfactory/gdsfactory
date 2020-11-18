@@ -12,7 +12,7 @@ from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing import link_factory
 
-valid_placements = ["x", "y", "rotation", "mirror"]
+valid_placements = ["x", "y", "rotation", "mirror", "anchor"]
 valid_keys = [
     "name",
     "instances",
@@ -214,12 +214,39 @@ def component_from_yaml(
                         f"`{k}` not valid placement {valid_placements} for"
                         f" {instance_name}"
                     )
-                elif k == "rotation":
-                    ref.rotate(v, (ci.x, ci.y))
-                elif k == "mirror":
-                    ref.mirror((v[0], v[1]), (v[2], v[3]))
+            x = placement_settings.get("x")
+            y = placement_settings.get("y")
+            anchor = placement_settings.get("anchor")
+            rotation = placement_settings.get("rotation")
+            mirror = placement_settings.get("mirror")
+
+            if anchor:
+                a = ref.ports[anchor]
+                ref.x -= a.x
+                ref.y -= a.y
+            if x:
+                ref.x += x
+            if y:
+                ref.y += y
+            if mirror:
+                if mirror is True:
+                    ref.reflect_h()
+                elif mirror is False:
+                    pass
+                elif isinstance(mirror, str):
+                    ref.reflect_h(port_name=mirror)
+                elif isinstance(mirror, (int, float)):
+                    ref.reflect_h(x0=mirror)
                 else:
-                    setattr(ref, k, v)
+                    raise ValueError(
+                        f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
+                    )
+
+            if rotation:
+                if anchor:
+                    ref.rotate(rotation, center=ref.ports[anchor])
+                else:
+                    ref.rotate(rotation, center=(ref.x, ref.y))
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
@@ -572,18 +599,21 @@ def test_connections_waypoints():
 
 
 if __name__ == "__main__":
+    import pp
+
+    c = component_from_yaml(sample_2x2_connections, pins=True, cache=False)
 
     # c = test_connections_2x2()
     # test_sample()
     # test_connections_different_factory()
     # test_connections_different_link_factory()
-    test_connections_waypoints()
+    # test_connections_waypoints()
     # test_mirror()
 
     # c = component_from_yaml(sample_different_link_factory)
 
     # c = component_from_yaml(sample_waypoints, pins=True, cache=False)
-    # pp.show(c)
+    pp.show(c)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
