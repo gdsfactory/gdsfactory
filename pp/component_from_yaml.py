@@ -26,12 +26,17 @@ valid_keys = [
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
 
 
-def place(placements_conf, instances, instance_name=None):
+def place(placements_conf, instances, encountered_insts, instance_name=None):
     """using a placements_conf dict places instance_name
     instances is a dict
     """
     if instance_name is None:
         instance_name = list(placements_conf.keys())[0]
+    if instance_name in encountered_insts:
+        encountered_insts.append(instance_name)
+        loop_str = ' -> '.join(encountered_insts)
+        raise ValueError(f"circular reference in placement definition for {instance_name}! Loop: {loop_str}")
+    encountered_insts.append(instance_name)
     ref = instances[instance_name]
     placement_settings = placements_conf[instance_name] or {}
     for k, v in placement_settings.items():
@@ -59,7 +64,7 @@ def place(placements_conf, instances, instance_name=None):
                 )
             instance_name_ref, port_name = x.split(",")
             if instance_name_ref in placements_conf:
-                place(placements_conf, instances, instance_name_ref)
+                place(placements_conf, instances, encountered_insts, instance_name_ref)
             if instance_name_ref not in instances:
                 raise ValueError(
                     f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
@@ -82,7 +87,7 @@ def place(placements_conf, instances, instance_name=None):
                 )
             instance_name_ref, port_name = y.split(",")
             if instance_name_ref in placements_conf:
-                place(placements_conf, instances, instance_name_ref)
+                place(placements_conf, instances, encountered_insts, instance_name_ref)
             if instance_name_ref not in instances:
                 raise ValueError(
                     f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
@@ -308,7 +313,7 @@ def component_from_yaml(
         instances[instance_name] = ref
 
     while placements_conf:
-        place(placements_conf=placements_conf, instances=instances)
+        place(placements_conf=placements_conf, instances=instances, encountered_insts=list())
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
