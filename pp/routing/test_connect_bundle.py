@@ -19,7 +19,7 @@ def test_connect_bundle():
     )
     c.add(route)
     # print(route[0].parent.length)
-    assert np.isclose(route[0].parent.length, 440.0)
+    assert np.isclose(route[0].parent.length, 440.12)
     return c
 
 

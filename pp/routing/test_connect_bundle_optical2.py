@@ -1,9 +1,9 @@
+import numpy as np
 import pp
 
 
-if __name__ == "__main__":
+def test_connect_bundle_optical2():
     """ connect forward """
-    """ this case needs some fixing """
     c = pp.Component()
 
     w = c << pp.c.waveguide_array(n_waveguides=4, spacing=200)
@@ -20,6 +20,14 @@ if __name__ == "__main__":
         d.ports["W0"],
     ]
 
-    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=False)
+    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
+    # print(r[0].parent.length)
+    assert np.isclose(r[0].parent.length, 489.4159265358979)
+
     c.add(r)
+    return c
+
+
+if __name__ == "__main__":
+    c = test_connect_bundle_optical2()
     pp.show(c)

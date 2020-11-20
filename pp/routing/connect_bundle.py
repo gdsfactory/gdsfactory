@@ -11,7 +11,6 @@ from pp.routing.manhattan import generate_manhattan_waypoints
 
 from pp.routing.u_groove_bundle import u_bundle_indirect
 from pp.routing.u_groove_bundle import u_bundle_direct
-from pp.routing.corner_bundle import corner_bundle
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.name import autoname
 from pp.component import ComponentReference, Component
@@ -118,7 +117,8 @@ def connect_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
-        return corner_bundle(**params, **kwargs)
+        # return corner_bundle(**params, **kwargs)
+        return link_ports(**params, **kwargs)
         raise NotImplementedError("Routing along different axis not implemented yet")
 
 

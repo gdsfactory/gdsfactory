@@ -27,6 +27,7 @@ from phidl.device_layout import Group, Path, CrossSection
 from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
+from pp.port import port_array
 from pp.name import autoname
 from pp.name import clear_cache
 from pp.layers import LAYER
@@ -95,6 +96,7 @@ __all__ = [
     "path",
     "pg",
     "port",
+    "port_array",
     "routing",
     "show",
     "sp",

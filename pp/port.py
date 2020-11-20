@@ -135,6 +135,14 @@ class Port(PortPhidl):
             )
 
 
+def port_array(midpoint=(0, 0), width=0.5, orientation=0, delta=(10, 0), n=2):
+    """ returns list of ports """
+    return [
+        Port(midpoint=np.array(midpoint) + i * np.array(delta), orientation=orientation)
+        for i in range(n)
+    ]
+
+
 def read_port_markers(gdspath, layers=[(69, 0)]):
     """loads a GDS and returns the extracted device for a particular layer
 
