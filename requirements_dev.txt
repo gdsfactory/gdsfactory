@@ -4,6 +4,8 @@ recommonmark
 sphinx-markdown-tables
 sphinx-autodoc-typehints
 pytest-cov
+nbval
 flake8
 pre-commit
 tox
+gdslib
