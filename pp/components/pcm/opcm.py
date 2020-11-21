@@ -1,9 +1,8 @@
 """ CD SEM structures
 """
 
-from typing import Callable, List
+from typing import Callable, List, Tuple
 import itertools as it
-from omegaconf.listconfig import ListConfig
 import numpy as np
 import pp
 from pp.components.bend_circular import bend_circular
@@ -19,9 +18,9 @@ LINE_LENGTH = 420.0
 @pp.autoname
 def square_middle(
     side: float = 0.5,
-    layer: ListConfig = LAYER.WG,
-    cladding_offset: int = 3,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    cladding_offset: float = 3.0,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     component = pp.Component()
     a = side / 2
@@ -35,7 +34,9 @@ def square_middle(
 
 
 @pp.autoname
-def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=3):
+def double_square(
+    side=0.5, layer: Tuple[int, int] = LAYER.WG, layers_cladding=[], cladding_offset=3.0
+):
     component = pp.Component()
     a = side / 2
     pts0 = [(-a, -a), (a, -a), (a, a), (-a, a)]
@@ -54,9 +55,9 @@ def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=
 def rectangle(
     x: float,
     y: float,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
-    cladding_offset: int = 3,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
+    cladding_offset: float = 3.0,
 ) -> Component:
     component = pp.Component()
     a = x / 2
@@ -85,14 +86,14 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
 
 @pp.autoname
 def char_H(
-    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
 @pp.autoname
 def char_L(
-    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
     return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
@@ -166,8 +167,8 @@ def wg_line(
     length: float,
     width: float,
     offset: float = 0.2,
-    layer: ListConfig = pp.LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     c = pp.Component()
     _wg = c.add_ref(
@@ -252,8 +253,8 @@ def cdsem_straight_column(
     width_center: float = 0.5,
     label: str = "A",
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
 
     c = pp.Component()
@@ -313,8 +314,8 @@ def cdsem_straight_column(
 @pp.autoname
 def cdsem_straight_all(
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
@@ -346,8 +347,8 @@ def cdsem_straight_density(
     margin: float = 2.0,
     label: str = "",
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """horizontal grating etch lines
 
@@ -392,8 +393,8 @@ def cdsem_target(
     bend90_factory: Callable = bend_circular,
     width_center: float = 0.5,
     label: str = "",
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
     radii: List[float] = [5.0, 10.0],
 ) -> Component:
     c = pp.Component()
@@ -443,8 +444,8 @@ def cdsem_uturn(
     wg_length: float = LINE_LENGTH,
     waveguide_factory: Callable = pp.c.waveguide,
     bend90_factory: Callable = bend_circular,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """
 
@@ -509,8 +510,8 @@ def opcm(
     ttm: float = 0.506,
     waveguide_factory: Callable = waveguide,
     bend90_factory: Callable = bend_circular,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """column with all optical PCMs
     Args:
@@ -726,7 +727,7 @@ def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
 if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
-    c = cdsem_uturn()
+    # c = cdsem_uturn()
     c = cdsem_straight_density()
     # c = opcm()
     pp.show(c)
