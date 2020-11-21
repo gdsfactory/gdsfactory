@@ -1,7 +1,7 @@
 """ write Component from YAML file
 """
 
-from typing import Union, IO, Any
+from typing import Union, IO, Any, Optional, List
 import pathlib
 import io
 from omegaconf import OmegaConf
@@ -26,7 +26,12 @@ valid_keys = [
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
 
 
-def place(placements_conf, instances, encountered_insts, instance_name=None):
+def place(
+    placements_conf,
+    instances,
+    encountered_insts: List[str],
+    instance_name: Optional[str] = None,
+):
     """using a placements_conf dict places instance_name
     instances is a dict
     """
@@ -130,99 +135,6 @@ def place(placements_conf, instances, encountered_insts, instance_name=None):
         else:
             ref.rotate(rotation, center=(ref.x, ref.y))
     placements_conf.pop(instance_name)
-
-
-sample_mmis = """
-name:
-    mmis
-
-instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_short:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
-
-placements:
-    mmi_long:
-        rotation: 180
-        x: 100
-        y: 100
-
-routes:
-    route_name1:
-        factory: optical
-        links:
-            mmi_short,E1: mmi_long,E0
-
-ports:
-    E0: mmi_short,W0
-    W0: mmi_long,W0
-"""
-
-
-sample_connections = """
-instances:
-    wgw:
-      component: waveguide
-      settings:
-        width: 1
-        length: 1
-    wgn:
-      component: waveguide
-      settings:
-        width: 0.5
-        length: 0.5
-
-connections:
-    wgw,E0: wgn,W0
-
-"""
-
-
-sample_mirror = """
-name:
-    mirror
-
-instances:
-    CP1:
-      component: mmi1x2
-      settings:
-          width_mmi: 4.5
-          length_mmi: 10
-    CP2:
-        component: mmi1x2
-        settings:
-            width_mmi: 4.5
-            length_mmi: 5
-    arm_top:
-        component: mzi_arm
-        settings:
-            L0: 30
-    arm_bot:
-        component: mzi_arm
-        settings:
-            L0: 30
-
-placements:
-    arm_bot:
-        mirror: True
-        rotation: 180
-ports:
-    W0: CP1,W0
-    E0: CP2,W0
-
-connections:
-    arm_bot,W0: CP1,E0
-    arm_top,W0: CP1,E1
-    CP2,E0: arm_bot,E0
-    CP2,E1: arm_top,E0
-"""
 
 
 def component_from_yaml(
@@ -471,6 +383,99 @@ def component_from_yaml(
     c.instances = instances
     c.routes = routes
     return c
+
+
+sample_mmis = """
+name:
+    mmis
+
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_long:
+        rotation: 180
+        x: 100
+        y: 100
+
+routes:
+    route_name1:
+        factory: optical
+        links:
+            mmi_short,E1: mmi_long,E0
+
+ports:
+    E0: mmi_short,W0
+    W0: mmi_long,W0
+"""
+
+
+sample_connections = """
+instances:
+    wgw:
+      component: waveguide
+      settings:
+        width: 1
+        length: 1
+    wgn:
+      component: waveguide
+      settings:
+        width: 0.5
+        length: 0.5
+
+connections:
+    wgw,E0: wgn,W0
+
+"""
+
+
+sample_mirror = """
+name:
+    mirror
+
+instances:
+    CP1:
+      component: mmi1x2
+      settings:
+          width_mmi: 4.5
+          length_mmi: 10
+    CP2:
+        component: mmi1x2
+        settings:
+            width_mmi: 4.5
+            length_mmi: 5
+    arm_top:
+        component: mzi_arm
+        settings:
+            L0: 30
+    arm_bot:
+        component: mzi_arm
+        settings:
+            L0: 30
+
+placements:
+    arm_bot:
+        mirror: True
+        rotation: 180
+ports:
+    W0: CP1,W0
+    E0: CP2,W0
+
+connections:
+    arm_bot,W0: CP1,E0
+    arm_top,W0: CP1,E1
+    CP2,E0: arm_bot,E0
+    CP2,E1: arm_top,E0
+"""
 
 
 def test_sample():
