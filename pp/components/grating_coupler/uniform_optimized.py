@@ -14,8 +14,8 @@ def grating_coupler_uniform_optimized(
     length_taper=150,
     width=0.5,
     partial_etch=False,
-    layer=1,
-    layer_partial_etch=2,
+    layer=pp.LAYER.WG,
+    layer_partial_etch=pp.LAYER.SLAB150,
     taper=None,
     polarization="te",
     wavelength=1500,
@@ -34,7 +34,7 @@ def grating_coupler_uniform_optimized(
 
       import pp
 
-      c = pp.c.grating_coupler_uniform()
+      c = pp.c.grating_coupler_uniform_optimized()
       pp.plotgds(c)
 
     """

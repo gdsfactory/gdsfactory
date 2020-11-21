@@ -42,21 +42,22 @@ def connect_bundle(
         extension_length: adds waveguide extension
 
     """
-    # Accept dict ot list
+    # Accept dict or list
     if isinstance(start_ports, dict):
         start_ports = list(start_ports.values())
 
     if isinstance(end_ports, dict):
         end_ports = list(end_ports.values())
 
-    nb_ports = len(start_ports)
     for p in start_ports:
         p.angle = int(p.angle) % 360
 
     for p in end_ports:
         p.angle = int(p.angle) % 360
 
-    assert len(end_ports) == nb_ports
+    assert len(end_ports) == len(
+        start_ports
+    ), f"end_ports={len(end_ports)} and start_ports={len(start_ports)} must be equal"
     assert (
         len(set([p.angle for p in start_ports])) <= 1
     ), "All start port angles should be the same"
