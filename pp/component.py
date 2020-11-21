@@ -507,7 +507,7 @@ class ComponentReference(DeviceReference):
         return self.ref_cell.get_property(property)
 
     def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
-        """ returns a list of ports. Useful for routing bundles of ports
+        """returns a list of ports. Useful for routing bundles of ports
 
         Args:
             port_type: str or (int, int) layer
@@ -583,6 +583,10 @@ class Component(Device):
         nx.draw(
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
         )
+
+    def get_netlist_yaml(self, full_settings=False):
+        """Return YAML netlist."""
+        return OmegaConf.to_yaml(self.get_netlist(full_settings=full_settings))
 
     def get_netlist(self, full_settings=False):
         """returns netlist dict(instances, placements, connections)

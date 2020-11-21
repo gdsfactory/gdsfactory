@@ -34,8 +34,10 @@ def place(placements_conf, instances, encountered_insts, instance_name=None):
         instance_name = list(placements_conf.keys())[0]
     if instance_name in encountered_insts:
         encountered_insts.append(instance_name)
-        loop_str = ' -> '.join(encountered_insts)
-        raise ValueError(f"circular reference in placement definition for {instance_name}! Loop: {loop_str}")
+        loop_str = " -> ".join(encountered_insts)
+        raise ValueError(
+            f"circular reference in placement definition for {instance_name}! Loop: {loop_str}"
+        )
     encountered_insts.append(instance_name)
     ref = instances[instance_name]
     placement_settings = placements_conf[instance_name] or {}
@@ -247,41 +249,49 @@ def component_from_yaml(
         valid properties:
         name: name of Component
         instances:
-            name
-            component
-            settings
-        placements: x, y and rotations
+            name:
+                component:
+                settings (Optional)
+        placements:
+            x: Optional[float, str]  str can be instanceName,portName
+            y: Optional[float, str]
+            rotation: Optional[float]
+            mirror: Optional[bool, float] float is x mirror axis
+            port: Optional[str] port anchor
         connections: between instances
         ports (Optional): defines ports to expose
         routes (Optional): defines bundles of routes
 
     .. code::
 
-        name:
-            connections_2x2_sample
-
         instances:
-            mmi_bottom:
-              component: mmi2x2
+            mmi_bot:
+              component: mmi1x2
               settings:
-                    length_mmi: 5
+                width_mmi: 4.5
+                length_mmi: 10
             mmi_top:
-              component: mmi2x2
+              component: mmi1x2
               settings:
-                    length_mmi: 5
+                width_mmi: 4.5
+                length_mmi: 5
 
         placements:
             mmi_top:
-                x: 100
-                y: 100
-
+                port: W0
+                x: 0
+                y: 0
+            mmi_bot:
+                port: W0
+                x: mmi_top,E1
+                y: mmi_top,E1
+                dx: 30
+                dy: -30
         routes:
             optical:
                 factory: optical
                 links:
-                    mmi_bottom,E0: mmi_top,W0
-                    mmi_bottom,E1: mmi_top,W1
-
+                    mmi_top,E0: mmi_bot,W0
 
     """
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
@@ -313,7 +323,11 @@ def component_from_yaml(
         instances[instance_name] = ref
 
     while placements_conf:
-        place(placements_conf=placements_conf, instances=instances, encountered_insts=list())
+        place(
+            placements_conf=placements_conf,
+            instances=instances,
+            encountered_insts=list(),
+        )
 
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
@@ -655,30 +669,35 @@ routes:
 """
 
 
-sample_port = """
+sample_docstring = """
 instances:
-    mmi_long:
+    mmi_bot:
       component: mmi1x2
       settings:
         width_mmi: 4.5
         length_mmi: 10
-    mmi_short:
+    mmi_top:
       component: mmi1x2
       settings:
         width_mmi: 4.5
         length_mmi: 5
 
 placements:
-    mmi_short:
+    mmi_top:
         port: W0
         x: 0
         y: 0
-    mmi_long:
+    mmi_bot:
         port: W0
-        x: mmi_short,E1
-        y:
-            - mmi_short,E1
-            - 10
+        x: mmi_top,E1
+        y: mmi_top,E1
+        dx: 30
+        dy: -30
+routes:
+    optical:
+        factory: optical
+        links:
+            mmi_top,E0: mmi_bot,W0
 """
 
 
@@ -691,12 +710,21 @@ def test_connections_waypoints():
     return c
 
 
+def test_docstring_sample():
+    c = component_from_yaml(sample_docstring)
+    route_name = "mmi_top,E0:mmi_bot,W0"
+    length = 50.16592653589793
+    # print(c.routes[route_name].parent.length)
+    assert np.isclose(c.routes[route_name].parent.length, length)
+    return c
+
+
 if __name__ == "__main__":
     import pp
 
-    # c = component_from_yaml(sample_port)
+    c = test_docstring_sample()
 
-    c = test_connections_2x2()
+    # c = test_connections_2x2()
     # test_sample()
     # test_connections_different_factory()
     # test_connections_different_link_factory()
