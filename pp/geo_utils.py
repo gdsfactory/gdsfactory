@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Optional
 import numpy as np
 from numpy import float64, ndarray, cos, sin
 from pp.coord2 import Coord2
@@ -167,11 +167,11 @@ def angles_deg(pts: ndarray) -> ndarray:
 
 def extrude_path(
     points: Union[List[Coord2], ndarray],
-    width: Union[float64, float],
+    width: float,
     with_manhattan_facing_angles: bool = True,
     spike_length: Union[float64, int, float] = 0,
-    start_angle: None = None,
-    end_angle: None = None,
+    start_angle: Optional[int] = None,
+    end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
     """

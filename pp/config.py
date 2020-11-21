@@ -9,7 +9,7 @@
 """
 
 __version__ = "2.1.4"
-from typing import Any
+from typing import Any, Dict
 import os
 import io
 import json
@@ -21,9 +21,10 @@ import logging
 import numpy as np
 from omegaconf import OmegaConf
 from git import Repo
+from git import InvalidGitRepositoryError
 
 
-connections = {}  # global variable to store connections in a dict
+connections: Dict[str, str] = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -36,7 +37,7 @@ module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
 
 
-config_base = OmegaConf.load(
+conf = OmegaConf.load(
     io.StringIO(
         """
 tech:
@@ -54,22 +55,20 @@ tech:
 )
 
 
-try:
-    config_cwd = OmegaConf.load(cwd_config)
-except Exception:
-    config_cwd = OmegaConf.create()
-try:
+if home_config.exists():
     config_home = OmegaConf.load(home_config)
-except Exception:
-    config_home = OmegaConf.create()
+    conf = OmegaConf.merge(conf, config_home)
 
-conf = OmegaConf.merge(config_base, config_home, config_cwd)
+if cwd_config.exists():
+    config_cwd = OmegaConf.load(cwd_config)
+    conf = OmegaConf.merge(conf, config_cwd)
+
 conf.version = __version__
 
 try:
-    conf["git_hash"] = Repo(repo_path).head.object.hexsha
-except Exception:
-    conf["git_hash"] = None
+    conf.git_hash = Repo(repo_path).head.object.hexsha
+except InvalidGitRepositoryError:
+    conf.git_hash = None
 
 
 CONFIG = dict(
@@ -86,12 +85,12 @@ CONFIG = dict(
 
 mask_name = "notDefined"
 
-if conf.get("mask"):
-    mask_name = conf["mask"]["name"]
+if "mask" in conf:
+    mask_name = conf.mask.name
     mask_config_directory = cwd
     build_directory = mask_config_directory / "build"
     CONFIG["devices_directory"] = mask_config_directory / "devices"
-    CONFIG["mask_gds"] = mask_config_directory / "build" / "mask" / (mask_name + ".gds")
+    CONFIG["mask_gds"] = mask_config_directory / "build" / "mask" / f"{mask_name}.gds"
 else:
     build_directory = home_path / "build"
     mask_config_directory = home_path / "build"
