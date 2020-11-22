@@ -16,6 +16,17 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+- component_from_yaml updates:
+    - placements:
+        - port: you can define an anchor port
+        - dx: delta x
+        - dy: delta x
+        - mirror: boolean or float (x axis for the mirror)
+        - x: number or can also be a port from another instance
+    - routes:
+        - you can define a route range (left,E:0:3 : rigth,W:0:3)
+
+
 ## 2.1.4 2020-11-14
 
 - fixed installer for windows using copy instead of symlink
