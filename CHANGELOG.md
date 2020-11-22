@@ -57,7 +57,7 @@ Maybe:
 - write more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests
-- added pp.clear_cache()
+- added pp.clear_cache() and call it when we run `pp.show(c)`
 - use pp.clear_cache() when testing component port positions
 
 

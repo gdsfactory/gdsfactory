@@ -57,12 +57,12 @@ You can run tests with `pytest`. This will run 3 types of tests:
 - pp photonic-package
   - components: define components
   - drc: check geometry
-  - ports: to connect components
+  - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
   - klive: stream GDS directly to klayout
+  - ports: to connect components
   - routing: add waveguides to connect components
   - samples: python tutorial
   - tests:
-- gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
 - klayout: klayout generic tech layers and klive macro
 - notebooks: jupyter-notebooks for training
 

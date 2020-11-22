@@ -8,4 +8,3 @@ nbval
 flake8
 pre-commit
 tox
-gdslib
