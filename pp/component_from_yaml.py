@@ -173,6 +173,11 @@ def component_from_yaml(
         connections: between instances
         ports (Optional): defines ports to expose
         routes (Optional): defines bundles of routes
+            routeName:
+            factory: optical
+            links:
+                instance1,port1: instance2,port2
+
 
     .. code::
 
@@ -311,37 +316,98 @@ def component_from_yaml(
             links_dict = routes_dict["links"]
 
             for port_src_string, port_dst_string in links_dict.items():
-                instance_src_name, port_src_name = port_src_string.split(",")
-                instance_dst_name, port_dst_name = port_dst_string.split(",")
+                # print(port_src_string)
 
-                instance_src_name = instance_src_name.strip()
-                instance_dst_name = instance_dst_name.strip()
-                port_src_name = port_src_name.strip()
-                port_dst_name = port_dst_name.strip()
+                if ":" in port_src_string:
+                    src, src0, src1 = port_src_string.split(":")
+                    dst, dst0, dst1 = port_dst_string.split(":")
+                    instance_src_name, port_src_name = src.split(",")
+                    instance_dst_name, port_dst_name = dst.split(",")
 
-                assert (
-                    instance_src_name in instances
-                ), f"{instance_src_name} not in {list(instances.keys())}"
-                assert (
-                    instance_dst_name in instances
-                ), f"{instance_dst_name} not in {list(instances.keys())}"
+                    src0 = int(src0)
+                    src1 = int(src1)
+                    dst0 = int(dst0)
+                    dst1 = int(dst1)
 
-                instance_in = instances[instance_src_name]
-                instance_out = instances[instance_dst_name]
+                    if src1 > src0:
+                        ports1names = [
+                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                        ]
+                    else:
+                        ports1names = [
+                            f"{port_src_name}{i}" for i in range(src0, src1 - 1, -1)
+                        ]
 
-                assert port_src_name in instance_in.ports, (
-                    f"{port_src_name} not in {list(instance_in.ports.keys())} for"
-                    f" {instance_src_name} "
-                )
-                assert port_dst_name in instance_out.ports, (
-                    f"{port_dst_name} not in {list(instance_out.ports.keys())} for"
-                    f" {instance_dst_name}"
-                )
+                    if dst1 > dst0:
+                        ports2names = [
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                        ]
+                    else:
+                        ports2names = [
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
+                        ]
 
-                ports1.append(instance_in.ports[port_src_name])
-                ports2.append(instance_out.ports[port_dst_name])
-                route_name = f"{port_src_string}:{port_dst_string}"
-                route_names.append(route_name)
+                    # print(ports1names)
+                    # print(ports2names)
+
+                    assert len(ports1names) == len(ports2names)
+                    route_names += [
+                        f"{instance_src_name},{i}:{instance_dst_name},{j}"
+                        for i, j in zip(ports1names, ports2names)
+                    ]
+
+                    instance_src = instances[instance_src_name]
+                    instance_dst = instances[instance_dst_name]
+
+                    for port_src_name in ports1names:
+                        assert port_src_name in instance_src.ports, (
+                            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+                            f" {instance_src_name} "
+                        )
+                        ports1.append(instance_src.ports[port_src_name])
+
+                    for port_dst_name in ports2names:
+                        assert port_dst_name in instance_dst.ports, (
+                            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
+                            f" {instance_dst_name}"
+                        )
+                        ports2.append(instance_dst.ports[port_dst_name])
+
+                    # print(ports1)
+                    # print(ports2)
+                    print(route_names)
+
+                else:
+                    instance_src_name, port_src_name = port_src_string.split(",")
+                    instance_dst_name, port_dst_name = port_dst_string.split(",")
+
+                    instance_src_name = instance_src_name.strip()
+                    instance_dst_name = instance_dst_name.strip()
+                    port_src_name = port_src_name.strip()
+                    port_dst_name = port_dst_name.strip()
+                    assert (
+                        instance_src_name in instances
+                    ), f"{instance_src_name} not in {list(instances.keys())}"
+                    assert (
+                        instance_dst_name in instances
+                    ), f"{instance_dst_name} not in {list(instances.keys())}"
+
+                    instance_src = instances[instance_src_name]
+                    instance_dst = instances[instance_dst_name]
+
+                    assert port_src_name in instance_src.ports, (
+                        f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+                        f" {instance_src_name} "
+                    )
+                    assert port_dst_name in instance_dst.ports, (
+                        f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
+                        f" {instance_dst_name}"
+                    )
+
+                    ports1.append(instance_src.ports[port_src_name])
+                    ports2.append(instance_dst.ports[port_dst_name])
+                    route_name = f"{port_src_string}:{port_dst_string}"
+                    route_names.append(route_name)
 
             if link_function_name in [
                 "link_electrical_waypoints",
@@ -706,6 +772,79 @@ routes:
 """
 
 
+sample_regex_connections = """
+instances:
+    left:
+      component: nxn
+      settings:
+        west: 0
+        east: 3
+        ysize: 20
+    right:
+      component: nxn
+      settings:
+        west: 3
+        east: 0
+        ysize: 20
+
+placements:
+    right:
+        x: 20
+routes:
+    optical:
+        factory: optical
+        links:
+            left,E:0:2: right,W:0:2
+"""
+
+sample_regex_connections_backwards = """
+instances:
+    left:
+      component: nxn
+      settings:
+        west: 0
+        east: 3
+        ysize: 20
+    right:
+      component: nxn
+      settings:
+        west: 3
+        east: 0
+        ysize: 20
+
+placements:
+    right:
+        x: 20
+routes:
+    optical:
+        factory: optical
+        links:
+            left,E:2:0: right,W:2:0
+"""
+
+
+def test_connections_regex():
+    c = component_from_yaml(sample_regex_connections)
+    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
+
+    length = 12.0
+    for route_name in route_names:
+        print(c.routes[route_name].parent.length)
+        assert np.isclose(c.routes[route_name].parent.length, length)
+    return c
+
+
+def test_connections_regex_backwargs():
+    c = component_from_yaml(sample_regex_connections_backwards)
+    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
+
+    length = 12.0
+    for route_name in route_names:
+        print(c.routes[route_name].parent.length)
+        assert np.isclose(c.routes[route_name].parent.length, length)
+    return c
+
+
 def test_connections_waypoints():
     c = component_from_yaml(sample_waypoints, pins=True, cache=False)
     # print(c.routes['t,S5:b,N4'].parent.length)
@@ -727,7 +866,10 @@ def test_docstring_sample():
 if __name__ == "__main__":
     import pp
 
-    c = test_docstring_sample()
+    c = test_connections_regex()
+    # c = component_from_yaml(sample_regex_connections)
+    # c = component_from_yaml(sample_regex_connections_backwards)
+    # c = test_docstring_sample()
 
     # c = test_connections_2x2()
     # test_sample()
