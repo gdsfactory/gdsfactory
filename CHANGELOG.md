@@ -25,7 +25,7 @@ Maybe:
         - x: number or can also be a port from another instance
     - routes:
         - you can define a route range (left,E:0:3 : rigth,W:0:3)
-
+- connect bundle is now the default way to connect groups of ports in component_from_yaml
 
 ## 2.1.4 2020-11-14
 
