@@ -319,10 +319,10 @@ def component_from_yaml(
                 # print(port_src_string)
 
                 if ":" in port_src_string:
-                    src, src0, src1 = port_src_string.split(":")
-                    dst, dst0, dst1 = port_dst_string.split(":")
-                    instance_src_name, port_src_name = src.split(",")
-                    instance_dst_name, port_dst_name = dst.split(",")
+                    src, src0, src1 = [s.strip() for s in port_src_string.split(":")]
+                    dst, dst0, dst1 = [s.strip() for s in port_dst_string.split(":")]
+                    instance_src_name, port_src_name = [s.strip() for s in src.split(",")]
+                    instance_dst_name, port_dst_name = [s.strip() for s in dst.split(",")]
 
                     src0 = int(src0)
                     src1 = int(src1)
