@@ -8,3 +8,4 @@ nbval
 flake8
 pre-commit
 tox
+flake8-rst-docstrings

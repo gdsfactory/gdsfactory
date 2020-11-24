@@ -93,7 +93,6 @@ Here is a step by step example below generating a waveguide crossing
 
 ```eval_rst
 .. autoclass:: pp.component.Component
-    :members:
     :show-inheritance:
 
 ```

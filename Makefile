@@ -56,5 +56,10 @@ release:
 	git push origin --tags
 
 
+lint:
+	flake8
+
+lintdocs:
+	flake8 --select RST
 
 .PHONY: gdsdiff build conda

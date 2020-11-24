@@ -450,7 +450,15 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(self, port: str, destination: Port, overlap: float = 0):
-        """returns ComponentReference"""
+        """Returns a reference of the Component where a origin port_name connects to a destination
+
+        Args:
+            port: origin port name
+            destination: destination port
+
+        Returns:
+            ComponentReference
+        """
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -515,7 +523,7 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """adds some functions to phidl.Device
+    """adds some functions to phidl.Device:
 
     - get/write JSON metadata
     - get ports by type (optical, electrical ...)
@@ -837,7 +845,10 @@ class Component(Device):
             port.snap_to_grid(nm=nm)
 
     def get_json(self, **kwargs) -> Dict[str, Any]:
-        """ returns JSON metadata """
+        """
+        Returns:
+            Dict with component metadata
+        """
         jsondata = {
             "json_version": 7,
             "cells": recurse_structures(self),
@@ -856,7 +867,7 @@ class Component(Device):
     #     h = dict2hash(**self.settings)
     #     return int(h, 16)
 
-    def hash_geometry(self):
+    def hash_geometry(self) -> str:
         """returns geometrical hash"""
         if self.references or self.polygons:
             h = hash_cells(self, {})[self.name]
@@ -869,7 +880,7 @@ class Component(Device):
     def remove_layers(
         self, layers=(), include_labels=True, invert_selection=False, recursive=True
     ):
-        """ remove a list of layers """
+        """Remove a list of layers."""
         layers = [_parse_layer(layer) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]
@@ -934,8 +945,10 @@ class Component(Device):
     def get_layers(self):
         """returns a set of (layer, datatype)
 
-        >>> import pp
-        >>> pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
+        .. code ::
+
+            import pp
+            pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()

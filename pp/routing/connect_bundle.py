@@ -152,7 +152,7 @@ def link_ports(
     route_filter: Callable = connect_strip_way_points,
     **routing_params,
 ) -> List[ComponentReference]:
-    """Semi auto-routing for two lists of ports.
+    r"""Semi auto-routing for two lists of ports.
 
     Args:
         ports1: first list of ports
@@ -729,7 +729,7 @@ def link_optical_ports_no_grouping(
     end_straight=None,
     sort_ports=True,
 ):
-    """
+    r"""
     Returns a list of route elements
     Compared to link_ports, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
@@ -744,6 +744,7 @@ def link_optical_ports_no_grouping(
     We want to connect something like this:
 
     ::
+
          2             X    X     X  X X  X
            |-----------|    |     |  | |  |-----------------------|
            |          |-----|     |  | |---------------|          |
