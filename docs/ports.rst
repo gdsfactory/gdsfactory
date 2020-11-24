@@ -1,20 +1,18 @@
 Ports
 =============================
 
-.. automodule:: pp.port
-
 
 .. plot::
-   :include-source:
+    :include-source:
 
-   import pp
+    import pp
 
-   y = 0.5
-   x = 2
-   c = pp.Component()
-   c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=1)
-   c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=1)
-   pp.plotgds(c)
+    y = 0.5
+    x = 2
+    c = pp.Component()
+    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=1)
+    c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=1)
+    pp.plotgds(c)
 
 
 Ports are mostly used to:
@@ -25,32 +23,32 @@ Ports are mostly used to:
 A component with a port can easily be referenced by the port.
 
 .. plot::
-   :include-source:
+    :include-source:
 
-   import pp
+    import pp
 
-   coupler = pp.c.coupler()
-   c = pp.Component()
+    coupler = pp.c.coupler()
+    c = pp.Component()
 
-   # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
-   coupler1 = coupler.ref(port_id='W0', position=(0, 0))
+     # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
+     coupler1 = coupler.ref(port_id='W0', position=(0, 0))
 
-   # Instantiate another reference to `_cpl`, positioning 'W0' port at
-   # the position of the 'E0' port from cpl1
-   coupler2 = coupler.ref(port_id='W0', position=coupler1.ports['E0'].position)
+    # Instantiate another reference to `_cpl`, positioning 'W0' port at
+    # the position of the 'E0' port from cpl1
+    coupler2 = coupler.ref(port_id='W0', position=coupler1.ports['E0'].position)
 
-   c.add(coupler1)
-   c.add(coupler2)
-   pp.plotgds(c)
+    c.add(coupler1)
+    c.add(coupler2)
+    pp.plotgds(c)
 
 
 You will also need to add the ports of the child cells into the parent cell ::
 
 
-   c.add_port(port=coupler1.ports['W0'])
-   c.add_port(port=coupler1.ports['W1'])
-   c.add_port(port=coupler2.ports['E0'])
-   c.add_port(port=coupler2.ports['E1'])
+    c.add_port(port=coupler1.ports['W0'])
+    c.add_port(port=coupler1.ports['W1'])
+    c.add_port(port=coupler2.ports['E0'])
+    c.add_port(port=coupler2.ports['E1'])
 
 
 
@@ -72,11 +70,14 @@ A function `auto_rename_ports` is provided to automatically label ports accordin
  - other ports are labelled from a prefix and numbered counter-clockwise starting from the east port
 
 
-.. automodule:: pp.port
-   :members:
-
 .. image:: images/ports.png
 
 
-.. autoclass:: phidl.device_layout.Port
-   :members:
+.. autoclass:: pp.port.Port
+    :inherited-members:
+    :show-inheritance:
+
+
+.. automodule:: pp.port
+    :members:
+    :exclude-members: Port

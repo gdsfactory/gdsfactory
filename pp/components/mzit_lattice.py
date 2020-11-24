@@ -14,6 +14,7 @@ def mzit_lattice(
     r"""Mzi fab tolerant lattice filter.
 
     .. code::
+
                            cp1
            W3  W1 __                  __ E1___w0_t2   _w2___
                     \                /                      \

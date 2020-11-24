@@ -1,4 +1,5 @@
-""" For port naming we follow the IPKISS standard
+"""
+For port naming we follow the IPKISS standard
 
 .. code::
 
@@ -37,6 +38,19 @@ class Port(PortPhidl):
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
+
+
+    For port naming we follow the W,E,S,N prefix (west, east, south, north)
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
 
     """
 

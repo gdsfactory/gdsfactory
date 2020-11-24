@@ -53,6 +53,7 @@ def mzit(
         kwargs: shared kwargs for all factories
 
     .. code::
+
                            cp1
            W3  W1 __                  __ E1___w0_t2   _w2___
                     \                /                      \

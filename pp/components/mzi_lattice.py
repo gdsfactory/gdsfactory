@@ -18,6 +18,7 @@ def mzi_lattice(
     r"""Mzi lattice filter.
 
     .. code::
+
                ______             ______
               |      |           |      |
               |      |           |      |

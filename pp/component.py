@@ -329,8 +329,8 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ):
-        """Moves the DeviceReference from the origin point to the destination.  Both
-        origin and destination can be 1x2 array-like, Port, or a key
+        """Moves the DeviceReference from the origin point to the destination.
+        Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
         Returns:
@@ -397,9 +397,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def reflect_h(self, port_name=None, x0=None):
-        """
-        Perform horizontal mirror (w.r.t vertical axis)
-        """
+        """Perform horizontal mirror using x0 as axis (default, x0=0)."""
         if port_name is None and x0 is None:
             x0 = 0
 
@@ -409,9 +407,7 @@ class ComponentReference(DeviceReference):
         self.reflect((x0, 1), (x0, 0))
 
     def reflect_v(self, port_name: Optional[str] = None, y0: None = None) -> None:
-        """
-        Perform vertical mirror (w.r.t horizontal axis)
-        """
+        """Perform vertical mirror using y0 as axis (default, y0=0)"""
         if port_name is None and y0 is None:
             y0 = 0
 

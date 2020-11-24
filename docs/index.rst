@@ -3,11 +3,11 @@ Gdsfactory
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    README
    pp
-   component101
+   component_intro
    config
    layers
    ports
