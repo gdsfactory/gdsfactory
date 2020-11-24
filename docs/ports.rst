@@ -72,8 +72,8 @@ A function `auto_rename_ports` is provided to automatically label ports accordin
  - other ports are labelled from a prefix and numbered counter-clockwise starting from the east port
 
 
-.. automodule:: pp
-   :members: Port
+.. automodule:: pp.port
+   :members:
 
 .. image:: images/ports.png
 
