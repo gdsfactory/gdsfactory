@@ -1,3 +1,4 @@
+"""Straight waveguides"""
 from typing import List, Tuple
 
 import hashlib
@@ -16,11 +17,14 @@ def waveguide(
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
     cladding_offset: float = 3.0,
 ) -> Component:
-    """ straight waveguide
+    """Straight waveguide
 
     Args:
         length: in X direction
         width: in Y direction
+        layer
+        layers_cladding
+        cladding_offset
 
     .. plot::
       :include-source:
@@ -51,30 +55,17 @@ def waveguide(
 
 
 @autoname
-def wg_shallow_rib(width=0.5, layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
-    width = pp.bias.width(width)
-    return waveguide(
-        width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
-    )
-
-
-@autoname
-def wg_deep_rib(width=0.5, layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
-    width = pp.bias.width(width)
-    return waveguide(
-        width=width, layer=layer, layers_cladding=layers_cladding, **kwargs
-    )
-
-
-@autoname
 def waveguide_biased(width=0.5, **kwargs):
+    """Waveguide with etch bias"""
     width = pp.bias.width(width)
     return waveguide(width=width, **kwargs)
 
 
 def _arbitrary_straight_waveguide(length, windows):
     """
-    windows: [(y_start, y_stop, layer), ...]
+    Args:
+        length: length
+        windows: [(y_start, y_stop, layer), ...]
     """
     md5 = hashlib.md5()
     for e in windows:
@@ -108,8 +99,8 @@ def _arbitrary_straight_waveguide(length, windows):
 
 
 @autoname
-def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB90):
-    width = pp.bias.width(width)
+def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB150):
+    """Waveguide with thinner top Silicon."""
     ymin = width / 2
     ymax = ymin + cladding
     windows = [(-ymin, ymin, pp.LAYER.WG), (-ymax, ymax, slab_layer)]
@@ -125,7 +116,7 @@ def waveguide_trenches(
     trench_offset=0.2,
     trench_layer=pp.LAYER.SLAB90,
 ):
-    width = pp.bias.width(width)
+    """Waveguide with trenches on both sides."""
     w = width / 2
     ww = w + trench_width
     wt = ww + trench_offset
@@ -138,7 +129,7 @@ waveguide_ridge = waveguide_slab
 
 @autoname
 def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
-    width = pp.bias.width(width)
+    """Waveguide with a slot in the middle."""
     gap = pp.bias.gap(gap)
     a = width / 2
     d = a + gap / 2

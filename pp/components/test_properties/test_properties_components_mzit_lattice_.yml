@@ -1,0 +1,11 @@
+coupler_gaps:
+- 0.2
+- 0.3
+coupler_lengths:
+- 10
+- 20
+delta_lengths:
+- 10
+function_name: mzit_lattice
+module: pp.components.mzit_lattice
+name: mzit_lattice

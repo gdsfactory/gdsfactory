@@ -96,6 +96,9 @@ from pp.components.mzi2x2 import mzi_arm
 from pp.components.mzi2x2 import mzi2x2
 from pp.components.mzi1x2 import mzi1x2
 from pp.components.mzi import mzi
+from pp.components.mzit import mzit
+from pp.components.mzi_lattice import mzi_lattice
+from pp.components.mzit_lattice import mzit_lattice
 from pp.components.loop_mirror import loop_mirror
 
 # level 2 components
@@ -157,6 +160,9 @@ component_factory = dict(
     mzi1x2=mzi1x2,
     mzi2x2=mzi2x2,
     mzi=mzi,
+    mzit=mzit,
+    mzi_lattice=mzi_lattice,
+    mzit_lattice=mzit_lattice,
     mzi_arm=mzi_arm,
     pad=pad,
     pad_array=pad_array,

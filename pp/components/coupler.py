@@ -16,25 +16,27 @@ def coupler(
     coupler_straight: Callable = coupler_straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
-    cladding_offset: int = 3,
+    cladding_offset: float = 3.0,
+    dy: float = 5.0,
 ) -> Component:
-    r""" symmetric coupler
+    r"""symmetric coupler
 
     Args:
         gap
         length
         coupler_symmetric_factory
         coupler_straight
+        dy: port to port vertical spacing
 
     .. code::
 
        W1 __                           __ E1
-            \                         /
-             \        length         /
-              ======================= gap
-             /                        \
-           _/                          \_
-        W0                              E0
+            \                         /       |
+             \        length         /        |
+              ======================= gap     | dy
+             /                       \        |
+           _/                         \_      |
+        W0                             E0     |
 
             coupler_straight  coupler_symmetric_factory
 
@@ -57,6 +59,7 @@ def coupler(
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
+        dy=dy,
     )
 
     sr = c << sbend
@@ -86,6 +89,12 @@ def coupler(
 if __name__ == "__main__":
     import pp
 
-    c = coupler(length=10, pins=True)
-    print(c.settings_changed)
+    # c = pp.Component()
+    # cp1 = c << coupler(gap=0.2)
+    # cp2 = c << coupler(gap=0.5)
+    # cp1.ymin = 0
+    # cp2.ymin = 0
+
+    c = coupler(length=1, dy=1, gap=0.2, pins=True)
+    # print(c.settings_changed)
     pp.show(c)

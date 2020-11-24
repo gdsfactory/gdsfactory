@@ -8,3 +8,4 @@ module: pp.components.mzi
 name: mzi
 waveguide_horizontal: None
 waveguide_vertical: None
+with_coupler: true

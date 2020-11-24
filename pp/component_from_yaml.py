@@ -1,13 +1,13 @@
 """ write Component from YAML file
 """
 
-from typing import Union, IO, Any, Optional, List
+from typing import Union, IO, Any, Optional, List, Dict
 import pathlib
 import io
 from omegaconf import OmegaConf
 import numpy as np
 
-from pp.component import Component
+from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing import link_factory
@@ -28,7 +28,7 @@ valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settin
 
 def place(
     placements_conf,
-    instances,
+    instances: Dict[str, ComponentReference],
     encountered_insts: List[str],
     instance_name: Optional[str] = None,
 ):
@@ -220,7 +220,7 @@ def component_from_yaml(
 
     instances = {}
     routes = {}
-    name = conf.get("name") or "Unnamed"
+    name = conf.get("name", "Unnamed")
     c = Component(name)
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")

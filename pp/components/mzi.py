@@ -3,9 +3,9 @@ import pp
 
 from pp.component import Component
 from pp.port import deco_rename_ports, rename_ports_by_orientation
-from pp.components import bend_circular
-from pp.components import waveguide
-from pp.components import mmi1x2
+from pp.components.bend_circular import bend_circular
+from pp.components.waveguide import waveguide
+from pp.components.mmi1x2 import mmi1x2
 
 
 @deco_rename_ports
@@ -21,6 +21,8 @@ def mzi(
     waveguide_horizontal: Optional[Callable] = None,
     coupler: Callable = mmi1x2,
     combiner: Optional[Callable] = None,
+    with_coupler: bool = True,
+    **coupler_settings,
 ) -> Component:
     """Mzi
 
@@ -59,7 +61,7 @@ def mzi(
 
     """
     c = pp.Component()
-    coupler = pp.call_if_func(coupler)
+    coupler = coupler(**coupler_settings) if callable(coupler) else coupler
     if combiner:
         combiner = pp.call_if_func(combiner)
     else:
@@ -91,7 +93,7 @@ def mzi(
     l1 = waveguide_vertical(length=DL / 2)
     l2 = waveguide_horizontal(length=L2)
 
-    cin = c << coupler
+    cin = coupler.ref()
     cout = c << combiner
 
     # top arm
@@ -137,9 +139,14 @@ def mzi(
     blbmrb.connect(port="W0", destination=cout.ports["E1"])  # just for netlist
 
     # west ports
-    for port_name, port in cin.ports.items():
-        if port.angle == 180:
-            c.add_port(name=port_name, port=port)
+    if with_coupler:
+        c.add(cin)
+        for port_name, port in cin.ports.items():
+            if port.angle == 180:
+                c.add_port(name=port_name, port=port)
+    else:
+        c.add_port(name="W1", port=blt.ports["W0"])
+        c.add_port(name="W0", port=blb.ports["N0"])
 
     # east ports
     i = 0
@@ -154,7 +161,7 @@ def mzi(
 if __name__ == "__main__":
     DL = 116.8 / 2
     # print(DL)
-    c = mzi(DL=DL, pins=True)
+    c = mzi(DL=DL, pins=True, with_coupler=False)
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
     print(c.ports.keys())

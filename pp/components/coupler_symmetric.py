@@ -1,7 +1,7 @@
+from typing import Callable, List, Tuple
 import pp
 from pp.components.bend_s import bend_s
 from pp.component import Component
-from typing import Callable, List, Tuple
 
 
 @pp.autoname
@@ -12,12 +12,18 @@ def coupler_symmetric(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
     cladding_offset: float = 3.0,
+    dy: float = 5.0,
 ) -> Component:
-    """ two coupled waveguides with bends
+    r"""two coupled waveguides with bends
 
     Args:
-        bend:
-        gap: um
+        bend: bend or factory
+        gap:
+        wg_width:
+        layer
+        layers_cladding
+        cladding_offset
+        dy: port to port vertical spacing
 
     .. plot::
       :include-source:
@@ -27,6 +33,16 @@ def coupler_symmetric(
       c = pp.c.coupler_symmetric()
       pp.plotgds(c)
 
+    .. code::
+
+            _ E1
+           /     |
+          /      |
+         = gap   | dy
+          \      |
+           \_    |
+              E0
+
     """
     bend = pp.call_if_func(
         bend,
@@ -35,6 +51,7 @@ def coupler_symmetric(
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
         pins=False,
+        height=(dy - gap - wg_width) / 2,
     )
 
     w = bend.ports["W0"].width

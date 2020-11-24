@@ -1,10 +1,10 @@
+from typing import List, Tuple, Union
 from numpy import pi, cos, sin
 import numpy as np
 
 import pp
 from pp.layers import LAYER
 from pp.component import Component
-from typing import List, Tuple, Union
 
 
 def _interpolate_segment(p0, p1, N=2):
@@ -349,12 +349,13 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = bend_circular(radius=5.0005, width=1.002, theta=180, pins=True)
     c = bend_circular(theta=180, pins=True)
+    c = bend_circular(pins=True)
     print(c.ports.keys())
     # print(c.ports["N0"].midpoint)
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
-    # print(c.ports)
+    print(c.ports)
     pp.show(c)
-    pp.plotgds(c)
+    # pp.plotgds(c)
     # quickplot2(c)
