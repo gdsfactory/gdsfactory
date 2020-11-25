@@ -227,6 +227,7 @@ def link_ports_routes(
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
     tol: float = 0.00001,
+    start_straight=0.05,
     **kwargs,
 ) -> List[ndarray]:
     """
@@ -260,7 +261,7 @@ def link_ports_routes(
             route_filter(
                 ports1[0],
                 ports2[0],
-                start_straight=0.05,
+                start_straight=start_straight,
                 bend_radius=bend_radius,
                 **kwargs,
             )
@@ -406,105 +407,19 @@ def link_ports_routes(
                 route_filter(
                     ports1[i],
                     ports2[i],
-                    start_straight=0,
+                    start_straight=start_straight,
                     end_straight=end_straights[i],
                     bend_radius=bend_radius,
                     **kwargs,
                 )
             ]  #
 
-        # Annoying case where it is too tight for direct manhattan routing
-        elif dx < close_ports_thresh:
-
-            a = close_ports_thresh + abs(dx)
-            prt = ports1[i]
-            angle = prt.angle
-            dp_w = (0, -a) if axis in ["X", "x"] else (-a, 0)
-            dp_e = (0, a) if axis in ["X", "x"] else (a, 0)
-            do_step_aside = False
-            if i == 0:
-                ## If westest port, then we can safely step on the west further
-
-                ## First check whether we have to step
-
-                dx2 = ports1[i + 1].x - prt.x
-                req_x = 2 * bend_radius + ports2[i].x - ports1[i].x
-
-                if dx2 < req_x:
-                    do_step_aside = True
-                dp = dp_w
-
-            elif i == N - 1:
-                ## If eastest port, then we can safely step on the east further
-
-                ## First check whether we have to step
-
-                dx2 = prt.x - ports1[i - 1].x
-                req_x = 2 * bend_radius + ports1[i].x - ports2[i].x
-
-                if dx2 < req_x:
-                    do_step_aside = True
-
-                dp = dp_e
-
-            else:
-                ## Otherwise find closest port and escape where/if space permit
-
-                dx1 = prt.x - ports1[i - 1].x
-                dx2 = ports1[i + 1].x - prt.x
-                do_step_aside = True
-                if dx2 > dx1:
-                    dp = dp_e
-                else:
-                    dp = dp_w
-
-                ## If there is not enough space to step away, put a warning.
-                ## This requires inspection on the mask. Raising an error
-                ## would likely make it harder to debug. Here we will see
-                ## a DRC error or an unwanted crossing on the mask.
-
-                if max(dx1, dx2) < a:
-                    print(
-                        "WARNING - high risk of collision in routing. \
-                    Ports too close to each other."
-                    )
-            _route = []
-            if do_step_aside:
-                tmp_port = prt.move_polar_copy(2 * bend_radius + 1.0, angle)
-                tmp_port.move(dp)
-                _route += [
-                    route_filter(
-                        prt, tmp_port.flip(), bend_radius=bend_radius, **kwargs
-                    )
-                ]
-
-            else:
-                tmp_port = prt
-            # print(
-            #     "STEPPING",
-            #     ports1[i].position,
-            #     tmp_port.position,
-            #     ports2[i].position,
-            # )
-            _route += [
-                route_filter(
-                    tmp_port,
-                    ports2[i],
-                    start_straight=0.05,
-                    end_straight=end_straights[i],
-                    bend_radius=bend_radius,
-                    **kwargs,
-                )
-            ]
-
-            elems += _route
-        # Usual case
         else:
             elems += [
                 route_filter(
                     ports1[i],
                     ports2[i],
-                    start_straight=0.05,
+                    start_straight=start_straight,
                     end_straight=end_straights[i],
                     bend_radius=bend_radius,
                     **kwargs,

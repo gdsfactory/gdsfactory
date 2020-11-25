@@ -54,6 +54,7 @@ from pp.component_from_yaml import component_from_yaml
 from pp.components import component_factory
 from pp.components import factory
 from pp.components.extension import extend_ports
+from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
@@ -75,6 +76,7 @@ __all__ = [
     "autoname",
     "add_padding",
     "add_pins",
+    "add_termination",
     "import_gds",
     "import_phidl_component",
     "c",
