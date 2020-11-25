@@ -321,8 +321,12 @@ def component_from_yaml(
                 if ":" in port_src_string:
                     src, src0, src1 = [s.strip() for s in port_src_string.split(":")]
                     dst, dst0, dst1 = [s.strip() for s in port_dst_string.split(":")]
-                    instance_src_name, port_src_name = [s.strip() for s in src.split(",")]
-                    instance_dst_name, port_dst_name = [s.strip() for s in dst.split(",")]
+                    instance_src_name, port_src_name = [
+                        s.strip() for s in src.split(",")
+                    ]
+                    instance_dst_name, port_dst_name = [
+                        s.strip() for s in dst.split(",")
+                    ]
 
                     src0 = int(src0)
                     src1 = int(src1)
@@ -654,9 +658,10 @@ routes:
 
 def test_connections_different_factory():
     c = component_from_yaml(sample_different_factory, pins=True, cache=False)
+    # print(c.routes["bl,S:br,E"].parent.length)
     assert np.isclose(c.routes["tl,E:tr,W"].parent.length, 700.0)
-    assert np.isclose(c.routes["bl,E:br,W"].parent.length, 850.1)
-    assert np.isclose(c.routes["bl,S:br,E"].parent.length, 1171.358898038469)
+    assert np.isclose(c.routes["bl,E:br,W"].parent.length, 850.0)
+    assert np.isclose(c.routes["bl,S:br,E"].parent.length, 1171.258898038469)
     return c
 
 
@@ -866,14 +871,14 @@ def test_docstring_sample():
 if __name__ == "__main__":
     import pp
 
-    c = test_connections_regex()
+    # c = test_connections_regex()
     # c = component_from_yaml(sample_regex_connections)
     # c = component_from_yaml(sample_regex_connections_backwards)
     # c = test_docstring_sample()
 
     # c = test_connections_2x2()
     # test_sample()
-    # test_connections_different_factory()
+    c = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()

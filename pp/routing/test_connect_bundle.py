@@ -15,11 +15,14 @@ def test_connect_bundle():
     assert np.isclose(route[0].parent.length, 200.0)
 
     route = pp.routing.connect_bundle(
-        [c1.ports["S"]], [c2.ports["E"]], route_filter=pp.routing.connect_elec_waypoints
+        [c1.ports["S"]],
+        [c2.ports["E"]],
+        route_filter=pp.routing.connect_elec_waypoints,
+        start_straight=20.0,
     )
     c.add(route)
-    # print(route[0].parent.length)
-    assert np.isclose(route[0].parent.length, 440.12)
+    print(route[0].parent.length)
+    assert np.isclose(route[0].parent.length, 480.02)
     return c
 
 

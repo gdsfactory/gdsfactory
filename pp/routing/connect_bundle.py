@@ -227,7 +227,7 @@ def link_ports_routes(
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
     tol: float = 0.00001,
-    start_straight=0.05,
+    start_straight: float = 0.0,
     **kwargs,
 ) -> List[ndarray]:
     """
