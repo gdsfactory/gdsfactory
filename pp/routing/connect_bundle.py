@@ -34,8 +34,8 @@ def connect_bundle(
     Chooses the correct u_bundle to use based on port angles
 
     Args:
-        start_ports should all be facing in the same direction
-        end_ports should all be facing in the same direction
+        start_ports: should all be facing in the same direction
+        end_ports: should all be facing in the same direction
         route_filter: function to connect
         separation: waveguide separation
         bend_radius: for the routes
@@ -43,6 +43,12 @@ def connect_bundle(
 
     """
     # Accept dict or list
+    if isinstance(start_ports, Port):
+        start_ports = [start_ports]
+
+    if isinstance(end_ports, Port):
+        end_ports = [end_ports]
+
     if isinstance(start_ports, dict):
         start_ports = list(start_ports.values())
 
