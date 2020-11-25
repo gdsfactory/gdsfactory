@@ -14,7 +14,7 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_ports
-from pp.config import CONFIG, conf, connections
+from pp.config import CONFIG, conf, connections, add_to_global_netlist
 from pp.compare_cells import hash_cells
 
 
@@ -455,6 +455,7 @@ class ComponentReference(DeviceReference):
         Args:
             port: origin port name
             destination: destination port
+            overlap: how deep does the port go inside
 
         Returns:
             ComponentReference
@@ -484,24 +485,17 @@ class ComponentReference(DeviceReference):
             )
         )
         if destination.parent:
-            global connections
-            # connections[f"{self.parent.uid}_{int(self.x)}_{int(self.y)},{port}"] = f"{destination.parent.get_property('uid')},{destination.name}"
-            # connections[
-            #     f"{self.get_property('name')}_{int(self.x)}_{int(self.y)},{port}"
-            # ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
-            if hasattr(self, "name"):
-                src = self.name
-            else:
-                src = self.parent.name
-
-            if hasattr(destination.parent, "name"):
-                dst = destination.parent.name
-            else:
-                dst = destination.parent.parent.name
-
-            connections[
-                f"{src}_{int(self.x)}_{int(self.y)},{p.name}"
-            ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
+            add_to_global_netlist(p, destination)
+        #     global connections
+        #     src = self.name if hasattr(self, "name") else self.parent.name
+        #     dst = (
+        #         destination.parent.name
+        #         if hasattr(destination.parent, "name")
+        #         else destination.parent.parent.name
+        #     )
+        #     connections[
+        #         f"{src}_{int(self.x)}_{int(self.y)},{p.name}"
+        #     ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -615,13 +609,15 @@ class Component(Device):
                 x=float(r.x), y=float(r.y), rotation=int(r.rotation)
             )
 
+        # print(connections)
+        # print(instances.keys())
         connections_connected = {}
 
-        # print(instances.keys())
         for src, dst in connections.items():
             # print(src.split(',')[0])
             # trim netlist:
             # only instances that are part of the component are connected
+            # print(src.split(",")[0])
             if src.split(",")[0] in instances:
                 connections_connected[src] = dst
 
@@ -804,9 +800,8 @@ class Component(Device):
         Can also be called to copy an existing port with a new name like add_port(port = existing_port, name = new_name)"""
         if port:
             if not isinstance(port, Port):
-                print(type(port))
                 raise ValueError(
-                    "[PHIDL] add_port() error: Argument `port` must be a Port for"
+                    f"[PHIDL] add_port({type(port)}) error: Argument `port` must be a Port for"
                     " copying"
                 )
             p = port._copy(new_uid=True)
@@ -1146,8 +1141,9 @@ if __name__ == "__main__":
     # c = pp.c.ring_single()
     c = pp.c.mzi()
     n = c.get_netlist()
-    print(n.connections)
-    c.plot_netlist()
+    # print(n.connections)
+    # c.plot_netlist()
+
     # import matplotlib.pyplot as plt
     # plt.show()
 

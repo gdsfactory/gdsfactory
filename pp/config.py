@@ -37,6 +37,20 @@ module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
 
 
+def add_to_global_netlist(port1, port2):
+    """Add port1 to port2 connection to the connections global netlist dict."""
+    global connections
+
+    src = port1.parent
+    dst = port2.parent
+
+    src_name = src.name if hasattr(src, "name") else src.parent.name
+    dst_name = dst.name if hasattr(dst, "name") else dst.parent.name
+    connections[
+        f"{src_name}_{int(src.x)}_{int(src.y)},{port1.name}"
+    ] = f"{dst_name}_{int(dst.x)}_{int(dst.y)},{port2.name}"
+
+
 conf = OmegaConf.load(
     io.StringIO(
         """

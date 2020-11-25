@@ -2,6 +2,7 @@
 maybe: need to add grating coupler loopback as well
 """
 
+from typing import Callable, Optional, Tuple
 import numpy as np
 import pp
 from pp.components.bend_circular import bend_circular
@@ -11,7 +12,6 @@ from pp.components.waveguide import waveguide
 from pp.routing import round_corners
 from pp.config import TAPER_LENGTH
 from pp.component import Component
-from typing import Callable, Optional, Tuple
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -38,7 +38,7 @@ def spiral_inner_io(
     taper: Optional[Callable] = None,
     length: Optional[float] = None,
 ) -> Component:
-    """
+    """Spiral with grating couplers inside.
 
     Args:
         N: number of loops

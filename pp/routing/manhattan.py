@@ -458,7 +458,7 @@ def round_corners(
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory
 
-    ## Remove any flat angle, otherwise the algorithm won't work
+    # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
 
     cell = pp.Component(f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}")
