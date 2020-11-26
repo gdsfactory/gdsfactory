@@ -4,7 +4,7 @@ import pp
 def test_netlist_with_routes():
     """ Needs FIX
     routes are not connected using connect,
-    therefore they are not being tracked in the netlist
+    but we still need to add them to the netlist
     """
     c = pp.Component()
     w = c << pp.c.waveguide()

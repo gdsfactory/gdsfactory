@@ -486,16 +486,6 @@ class ComponentReference(DeviceReference):
         )
         if destination.parent:
             add_to_global_netlist(p, destination)
-        #     global connections
-        #     src = self.name if hasattr(self, "name") else self.parent.name
-        #     dst = (
-        #         destination.parent.name
-        #         if hasattr(destination.parent, "name")
-        #         else destination.parent.parent.name
-        #     )
-        #     connections[
-        #         f"{src}_{int(self.x)}_{int(self.y)},{p.name}"
-        #     ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -695,7 +685,7 @@ class Component(Device):
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> ComponentReference:
-        """ returns a reference of the component """
+        """Returns Component reference."""
         _ref = ComponentReference(self)
 
         if port_id and port_id not in self.ports:
@@ -715,6 +705,7 @@ class Component(Device):
         if rotation != 0:
             _ref.rotate(rotation, origin)
         _ref.move(origin, position)
+
         return _ref
 
     def ref_center(self, position=(0, 0)):
