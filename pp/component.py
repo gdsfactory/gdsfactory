@@ -578,34 +578,15 @@ class Component(Device):
 
     def get_netlist(self, full_settings=False):
         """returns netlist dict(instances, placements, connections)
-        if full_settings: exports all the settings
+
+        Args:
+            full_settings: exports all the settings, when false only exports settings_changed
         """
-        instances = {}
-        placements = {}
-
-        for r in self.references:
-            i = r.parent
-            reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
-            if hasattr(i, "settings") and full_settings:
-                settings = i.settings
-            else:
-                settings = i.get_property("settings_changed")
-            instances[reference_name] = dict(
-                component=i.function_name, settings=settings
-            )
-            placements[reference_name] = dict(
-                x=float(r.x), y=float(r.y), rotation=int(r.rotation)
-            )
-
-        # print(connections)
-        # print(instances.keys())
+        instances, placements = recurse_instances(self, full_settings=full_settings)
         connections_connected = {}
 
         for src, dst in connections.items():
-            # print(src.split(',')[0])
-            # trim netlist:
-            # only instances that are part of the component are connected
-            # print(src.split(",")[0])
+            # trim netlist: store only instances connections from the component
             if src.split(",")[0] in instances:
                 connections_connected[src] = dst
 
@@ -996,6 +977,29 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
             output.update(recurse_structures(element.ref_cell))
 
     return output
+
+
+def recurse_instances(component, instances=None, placements=None, full_settings=False):
+    """From a component returns instances and placements dicts."""
+    placements = placements or {}
+    instances = instances or {}
+
+    for r in component.references:
+        i = r.parent
+        reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
+        if hasattr(i, "settings") and full_settings:
+            settings = i.settings
+        else:
+            settings = i.get_property("settings_changed")
+        instances[reference_name] = dict(
+            component=i.function_name, settings=clean_dict(settings)
+        )
+        placements[reference_name] = dict(
+            x=float(r.x), y=float(r.y), rotation=int(r.rotation)
+        )
+        if i.references:
+            recurse_instances(i, instances=instances, placements=placements)
+    return instances, placements
 
 
 def clean_dict(d):
