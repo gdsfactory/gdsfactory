@@ -484,7 +484,7 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
-        if destination.parent:
+        if hasattr(destination, "parent"):
             add_to_global_netlist(p, destination)
         return self
 
@@ -1132,7 +1132,7 @@ if __name__ == "__main__":
     # c = pp.c.ring_single()
     c = pp.c.mzi()
     n = c.get_netlist()
-    # print(n.connections)
+    print(n.connections)
     # c.plot_netlist()
 
     # import matplotlib.pyplot as plt

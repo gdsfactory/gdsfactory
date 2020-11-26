@@ -16,6 +16,7 @@ from pp.name import autoname
 from pp.component import ComponentReference, Component
 from pp.port import Port
 from pp.config import conf
+from pp.config import add_to_global_netlist
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -220,7 +221,19 @@ def link_ports(
         **routing_params,
     )
 
-    return [route_filter(route, **routing_params) for route in routes]
+    route_with_waveguides = [route_filter(route, **routing_params) for route in routes]
+
+    for p1, p2, route in zip(start_ports, end_ports, route_with_waveguides):
+        if (
+            isinstance(route, ComponentReference)
+            and p1.parent
+            and p2.parent
+            and hasattr(route, "ports")
+        ):
+            route_ports = route.get_ports_list()
+            add_to_global_netlist(p1, route_ports[0])
+            add_to_global_netlist(route_ports[1], p2)
+    return route_with_waveguides
 
 
 def link_ports_routes(
@@ -794,10 +807,10 @@ def test_connect_bundle():
     N = len(xs_top)
     xs_bottom = [(i - N / 2) * pitch for i in range(N)]
 
-    top_ports = [Port("top_{}".format(i), (xs_top[i], 0), 0.5, 270) for i in range(N)]
+    top_ports = [Port(f"top_{i}", (xs_top[i], 0), 0.5, 270) for i in range(N)]
 
     bottom_ports = [
-        Port("bottom_{}".format(i), (xs_bottom[i], -400), 0.5, 90) for i in range(N)
+        Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
     top_cell = Component(name="connect_bundle")

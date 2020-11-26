@@ -582,6 +582,7 @@ def round_corners(
     cell.add_port(name="input", port=list(wg_refs[0].ports.values())[0])
     cell.add_port(name="output", port=list(wg_refs[-1].ports.values())[port_index_out])
     cell.info["length"] = total_length
+    cell.settings["length"] = total_length
     cell.length = total_length
     return cell
 
