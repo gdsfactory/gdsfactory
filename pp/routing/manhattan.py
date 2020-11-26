@@ -581,9 +581,15 @@ def round_corners(
 
     cell.add_port(name="input", port=list(wg_refs[0].ports.values())[0])
     cell.add_port(name="output", port=list(wg_refs[-1].ports.values())[port_index_out])
+    total_length = float(total_length)
     cell.info["length"] = total_length
     cell.settings["length"] = total_length
+    cell.settings_changed = (
+        cell.settings_changed if hasattr(cell, "settings_changed") else {}
+    )
+    cell.settings_changed["length"] = total_length
     cell.length = total_length
+    cell.function_name = "waveguide"
     return cell
 
 
@@ -597,8 +603,7 @@ def generate_manhattan_waypoints(
     min_straight: float = 0.01,
     **kwargs,
 ) -> ndarray:
-    """ Returns waypoints for a Manhattan route between two ports.
-    """
+    """Returns waypoints for a Manhattan route between two ports."""
 
     if bend90 is None and bend_radius is None:
         raise ValueError(

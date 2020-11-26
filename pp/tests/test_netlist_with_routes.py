@@ -4,7 +4,9 @@ import pp
 def test_netlist_with_routes():
     """Needs FIX
     routes are not connected using connect,
-    but we still need to add them to the netlist
+    Using a hack we add the route to the netlist inside function round_corners
+    from pp.routing.manhattan
+    ideally we would extract the exact route composition (bends, tapers and waveguides)
     """
     c = pp.Component()
     w = c << pp.c.waveguide(length=3)
@@ -14,6 +16,7 @@ def test_netlist_with_routes():
 
     routes = pp.routing.connect_bundle(w.ports["E0"], b.ports["W0"])
     c.add(routes)
+
     # print(routes[0].get_settings())
     # print(c.get_netlist().connections)
     print(c.get_netlist().instances)

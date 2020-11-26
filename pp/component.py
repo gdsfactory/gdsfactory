@@ -588,10 +588,8 @@ class Component(Device):
             reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
             if hasattr(i, "settings") and full_settings:
                 settings = i.settings
-            elif hasattr(i, "settings_changed"):
-                settings = i.settings_changed
             else:
-                settings = {}
+                settings = i.get_property("settings_changed")
             instances[reference_name] = dict(
                 component=i.function_name, settings=settings
             )
