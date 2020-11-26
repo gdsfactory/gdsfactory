@@ -724,15 +724,11 @@ class Component(Device):
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
 
-    def get_property(self, property: str) -> Union[str, int]:
+    def get_property(self, property: str) -> Union[str, int, float]:
         if property in self.settings:
             return self.settings[property]
         if hasattr(self, property):
             return getattr(self, property)
-
-        raise ValueError(
-            "Component {} does not have property {}".format(self.name, property)
-        )
 
     def get_settings(self) -> Dict[str, Any]:
         """Returns settings dictionary"""
