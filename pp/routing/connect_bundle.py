@@ -224,12 +224,8 @@ def link_ports(
     route_with_waveguides = [route_filter(route, **routing_params) for route in routes]
 
     for p1, p2, route in zip(start_ports, end_ports, route_with_waveguides):
-        if (
-            isinstance(route, ComponentReference)
-            and p1.parent
-            and p2.parent
-            and hasattr(route, "ports")
-        ):
+        # if ports are part of components (have parents) add connections to netlist
+        if isinstance(route, ComponentReference) and p1.parent and p2.parent:
             route_ports = route.get_ports_list()
             add_to_global_netlist(p1, route_ports[0])
             add_to_global_netlist(route_ports[1], p2)
