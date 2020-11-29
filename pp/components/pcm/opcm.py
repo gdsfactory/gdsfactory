@@ -15,7 +15,7 @@ from pp.component import Component
 LINE_LENGTH = 420.0
 
 
-@pp.autoname
+@pp.cell
 def square_middle(
     side: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -33,7 +33,7 @@ def square_middle(
     return component
 
 
-@pp.autoname
+@pp.cell
 def double_square(
     side=0.5, layer: Tuple[int, int] = LAYER.WG, layers_cladding=[], cladding_offset=3.0
 ):
@@ -51,7 +51,7 @@ def double_square(
     return component
 
 
-@pp.autoname
+@pp.cell
 def rectangle(
     x: float,
     y: float,
@@ -84,14 +84,14 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
     return component
 
 
-@pp.autoname
+@pp.cell
 def char_H(
     layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
-@pp.autoname
+@pp.cell
 def char_L(
     layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
@@ -178,7 +178,7 @@ def wg_line(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight(
     name=None,
     spacing_h=5.0,
@@ -243,7 +243,7 @@ def cdsem_straight(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_column(
     name: None = None,
     spacing_h: float = 5.0,
@@ -311,7 +311,7 @@ def cdsem_straight_column(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_all(
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
@@ -338,7 +338,7 @@ def cdsem_straight_all(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_density(
     wg_width: float = 0.372,
     trench_width: float = 0.304,
@@ -381,14 +381,14 @@ def cdsem_straight_density(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_strip(waveguide_factory=waveguide, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide_factory
     )
 
 
-@pp.autoname
+@pp.cell
 def cdsem_target(
     bend90_factory: Callable = bend_circular,
     width_center: float = 0.5,
@@ -435,7 +435,7 @@ def cdsem_target(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_uturn(
     width: float = 0.5,
     radius: float = 10.0,
@@ -501,7 +501,7 @@ def cdsem_uturn(
     return c
 
 
-@pp.autoname
+@pp.cell
 def opcm(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -662,7 +662,7 @@ class LabelIterator:
         return self
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
     _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
@@ -678,7 +678,7 @@ def TRCH_ISO(length=20.0, width=0.5):
     return c
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -686,7 +686,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -694,7 +694,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -702,7 +702,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -710,7 +710,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(

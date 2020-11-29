@@ -20,7 +20,7 @@ def rnd(p):
     return np.round(p * GRID_PER_UNIT) / GRID_PER_UNIT
 
 
-@pp.autoname
+@pp.cell
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -61,7 +61,7 @@ def crossing_arm(
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing(arm: Callable = crossing_arm) -> Component:
     """waveguide crossing
 
@@ -90,7 +90,7 @@ def crossing(arm: Callable = crossing_arm) -> Component:
     return cx
 
 
-@pp.autoname
+@pp.cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     """
     Crossing based on a taper. The default is a dummy taper
@@ -108,7 +108,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,
@@ -178,7 +178,7 @@ def crossing_etched(
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     r""" 45Deg crossing with bends
 
@@ -274,7 +274,7 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     return c
 
 
-@pp.autoname
+@pp.cell
 def compensation_path(crossing45=crossing45, direction="top"):
     r""" Path with same path length as crossing45 but with input and output ports having same y coordinates
 

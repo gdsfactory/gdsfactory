@@ -16,7 +16,7 @@ You can connect:
 
     import pp
 
-    @pp.autoname
+    @pp.cell
     def ring(
         coupler90=pp.c.coupler90,
         coupler_straight=pp.c.coupler_straight,

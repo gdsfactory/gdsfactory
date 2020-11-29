@@ -6,7 +6,7 @@ from pp.component import Component
 from typing import Tuple
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,

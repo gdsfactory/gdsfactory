@@ -5,7 +5,7 @@ from pp.component import Component
 from typing import Callable
 
 
-@pp.autoname
+@pp.cell
 def coupler_asymmetric(
     bend: Callable = bend_s,
     waveguide: Callable = waveguide,

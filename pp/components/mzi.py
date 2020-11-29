@@ -9,7 +9,7 @@ from pp.components.mmi1x2 import mmi1x2
 
 
 @deco_rename_ports
-@pp.autoname
+@pp.cell
 def mzi(
     L0: float = 1.0,
     DL: float = 0.1,

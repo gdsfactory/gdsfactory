@@ -1,6 +1,6 @@
 """
 
-When we decorate a function with autoname we can also pass a flat `with_ports` that will add port markers to our component
+When we decorate a function with cell we can also pass a flat `with_ports` that will add port markers to our component
 
 """
 import pp

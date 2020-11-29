@@ -2,7 +2,7 @@ import pp
 from pp.components.pcm.cd import CENTER_SHAPES_MAP
 
 
-@pp.autoname
+@pp.cell
 def cd_straight(
     spacing_h=5.0,
     spacing_v=8.0,

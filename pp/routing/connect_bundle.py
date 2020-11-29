@@ -12,7 +12,7 @@ from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.u_groove_bundle import u_bundle_indirect
 from pp.routing.u_groove_bundle import u_bundle_direct
 from pp.routing.path_length_matching import path_length_matched_points
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import ComponentReference, Component
 from pp.port import Port
 from pp.config import conf
@@ -794,7 +794,7 @@ def link_optical_ports_no_grouping(
     return elems
 
 
-@autoname
+@cell
 def test_connect_bundle():
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
@@ -834,7 +834,7 @@ def test_connect_bundle():
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_corner(N=6, config="A"):
     d = 10.0
     sep = 5.0
@@ -919,7 +919,7 @@ def test_connect_corner(N=6, config="A"):
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_bundle_udirect(dy=200, angle=270):
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -965,7 +965,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_bundle_u_indirect(dy=-200, angle=180):
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
@@ -1009,7 +1009,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
     return top_cell
 
 
-@autoname
+@cell
 def test_facing_ports():
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]

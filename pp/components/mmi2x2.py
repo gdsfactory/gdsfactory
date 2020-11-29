@@ -3,7 +3,7 @@ from pp.component import Component
 from typing import Tuple
 
 
-@pp.autoname
+@pp.cell
 def mmi2x2(
     wg_width: float = 0.5,
     width_taper: float = 0.95,
@@ -68,7 +68,7 @@ def mmi2x2(
     return component
 
 
-@pp.autoname
+@pp.cell
 def mmi2x2_biased(
     wg_width=0.5,
     width_taper=0.95,

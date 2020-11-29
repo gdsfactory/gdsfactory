@@ -4,7 +4,7 @@ from pp.components.bend_s import bend_s
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def coupler_symmetric(
     bend: Callable = bend_s,
     gap: float = 0.234,
@@ -77,7 +77,7 @@ def coupler_symmetric(
     return c
 
 
-@pp.autoname
+@pp.cell
 def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
     return coupler_symmetric(
         bend=bend, gap=pp.bias.gap(gap), wg_width=pp.bias.width(wg_width)

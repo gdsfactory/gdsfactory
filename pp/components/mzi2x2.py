@@ -4,7 +4,7 @@ from pp.components import wg_heater_connected as waveguide_heater
 from pp.components import waveguide
 from pp.components import coupler
 from pp.netlist_to_gds import netlist_to_component
-from pp.name import autoname
+from pp.cell import cell
 from pp.routing import route_elec_ports_to_side
 from pp.port import select_electrical_ports
 
@@ -13,7 +13,7 @@ from pp.components.component_sequence import component_sequence
 from pp.component import Component
 
 
-@autoname
+@cell
 def mzi_arm(
     L0: float = 60.0,
     DL: float = 0.0,
@@ -105,7 +105,7 @@ def mzi_arm(
     return component
 
 
-@autoname
+@cell
 def mzi2x2(
     CL_1: float = 20.147,
     L0: float = 60.0,

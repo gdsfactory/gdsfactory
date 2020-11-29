@@ -6,7 +6,7 @@ from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def coupler_ring(
     coupler90: Callable = coupler90,
     coupler: Callable = coupler_straight,

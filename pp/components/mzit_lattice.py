@@ -4,7 +4,7 @@ from pp.components.mzit import mzit
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def mzit_lattice(
     coupler_lengths: List[float] = [10, 20],
     coupler_gaps: List[float] = [0.2, 0.3],

@@ -3,13 +3,13 @@ import pp
 layer = pp.LAYER.WG
 
 
-@pp.autoname
+@pp.cell
 def width_min(size=(0.1, 0.1)):
     c = pp.c.rectangle(size=size, layer=layer)
     return c
 
 
-@pp.autoname
+@pp.cell
 def gap_min(gap=0.1):
     c = pp.Component()
     r1 = c << pp.c.rectangle(size=(1, 1), layer=layer)
@@ -19,7 +19,7 @@ def gap_min(gap=0.1):
     return c
 
 
-@pp.autoname
+@pp.cell
 def snapping_error(gap=1e-3):
     c = pp.Component()
     r1 = c << pp.c.rectangle(size=(1, 1), layer=layer)
@@ -29,7 +29,7 @@ def snapping_error(gap=1e-3):
     return c
 
 
-@pp.autoname
+@pp.cell
 def errors():
     D_list = [width_min(), gap_min()]
     c = pp.pack(D_list, spacing=1.5)

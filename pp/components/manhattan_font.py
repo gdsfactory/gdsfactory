@@ -1,15 +1,11 @@
+from typing import List, Tuple
 import numpy as np
 from omegaconf.listconfig import ListConfig
 from pp.component import Component
-from typing import List, Tuple
 
 import pp
 from pp.layers import LAYER
 from pp.name import clean_name
-
-"""
-A pixel based font, guaranteed to be manhattan, without accute angles
-"""
 
 
 def manhattan_text(
@@ -21,14 +17,14 @@ def manhattan_text(
     layers_cladding: List[ListConfig] = [],
     cladding_offset: int = 3,
 ) -> Component:
-    """
+    """Pixel based font, guaranteed to be manhattan, without accute angles.
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.text(text="abcd", size=10, position=(0, 0), justify="left", layer=1)
+      c = pp.c.manhattan_text(text="abcd", size=10, position=(0, 0), justify="left", layer=1)
       pp.plotgds(c)
 
     """
@@ -83,7 +79,7 @@ def manhattan_text(
     return t
 
 
-@pp.autoname
+@pp.cell
 def pixel_array(
     pixels: str = """
      XXX

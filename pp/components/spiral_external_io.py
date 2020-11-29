@@ -18,7 +18,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@pp.autoname
+@pp.cell
 def spiral_external_io(
     N: int = 6,
     x_inner_length_cutback: float = 300.0,

@@ -9,7 +9,7 @@ from pp.component import Component
 from typing import Callable
 
 
-@pp.autoname
+@pp.cell
 def delay_snake(
     total_length: float = 160000.0,
     L0: float = 2350.0,

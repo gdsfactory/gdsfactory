@@ -26,7 +26,7 @@ def test_connect_bundle():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_corner(N=6, config="A"):
 
     d = 10.0
@@ -113,7 +113,7 @@ def test_connect_corner(N=6, config="A"):
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_udirect(dy=200, angle=270):
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -146,7 +146,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
@@ -178,7 +178,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_facing_ports():
 
     dy = 200.0

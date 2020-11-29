@@ -38,7 +38,7 @@ def bezier_biased(width=0.5, **kwargs):
     return bezier(width=width, **kwargs)
 
 
-# Not using autoname on bezier due to control_points and t spacing
+# Not using cell on bezier due to control_points and t spacing
 def bezier(
     name: None = None,
     width: float = 0.5,

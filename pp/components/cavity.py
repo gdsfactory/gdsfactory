@@ -7,7 +7,7 @@ from pp.component import Component
 
 
 @container
-@pp.autoname
+@pp.cell
 def cavity(
     component: Component,
     coupler: Component = coupler,

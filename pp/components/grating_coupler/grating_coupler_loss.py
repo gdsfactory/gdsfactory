@@ -26,7 +26,7 @@ def connect_loop_back(port0, port1, a, b, R, y_bot_align_route):
     return loop_back
 
 
-@pp.autoname
+@pp.cell
 def loss_deembedding_ch13_24(
     io_sep=127.0,
     R=10.0,
@@ -64,7 +64,7 @@ def loss_deembedding_ch13_24(
     return c
 
 
-@pp.autoname
+@pp.cell
 def loss_deembedding_ch12_34(
     io_sep=127.0,
     R=10.0,
@@ -95,7 +95,7 @@ def loss_deembedding_ch12_34(
     return c
 
 
-@pp.autoname
+@pp.cell
 def loss_deembedding_ch14_23(
     io_sep=127.0,
     R=10.0,
@@ -126,7 +126,7 @@ def loss_deembedding_ch14_23(
     return c
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_loss_te(io_sep=127.0, grating_coupler_function=grating_coupler_te):
     c = pp.Component()
     _c1 = loss_deembedding_ch13_24(grating_coupler_function=grating_coupler_function)
@@ -141,7 +141,7 @@ def grating_coupler_loss_te(io_sep=127.0, grating_coupler_function=grating_coupl
     return c
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_loss_tm(io_sep=127.0, grating_coupler_function=grating_coupler_tm):
     c = pp.Component()
     _c1 = loss_deembedding_ch13_24(grating_coupler_function=grating_coupler_function)

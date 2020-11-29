@@ -6,7 +6,7 @@ from pp.components.bezier import bezier
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def bend_s(
     width: float = 0.5,
     height: float = 2.0,
@@ -61,7 +61,7 @@ def bend_s(
 
 
 @pp.port.deco_rename_ports
-@pp.autoname
+@pp.cell
 def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
     l, h = length, height
     return bezier(

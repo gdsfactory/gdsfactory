@@ -28,8 +28,8 @@ from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
 from pp.port import port_array
-from pp.name import autoname
-from pp.name import clear_cache
+from pp.cell import cell
+from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
@@ -73,7 +73,7 @@ __all__ = [
     "Group",
     "Path",
     "bias",
-    "autoname",
+    "cell",
     "add_padding",
     "add_pins",
     "add_termination",

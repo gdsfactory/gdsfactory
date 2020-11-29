@@ -8,7 +8,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def spiral(
     width: float = 500.0,
     length: float = 10e3,

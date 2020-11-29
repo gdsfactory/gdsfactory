@@ -6,7 +6,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def ring(
     radius: float = 10.0,
     width: float = 0.5,

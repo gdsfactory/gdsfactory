@@ -3,13 +3,13 @@ from pp.components.coupler90 import coupler90
 from pp.components.waveguide import waveguide
 from pp.components.coupler_straight import coupler_straight
 from pp.netlist_to_gds import netlist_to_component
-from pp.name import autoname
+from pp.cell import cell
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from typing import Callable, Dict, List, Tuple
 
 
-@autoname
+@cell
 def ring_double_bus(**kwargs) -> Component:
     """ Ring double bus
 

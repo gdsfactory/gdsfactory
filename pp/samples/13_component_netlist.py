@@ -11,7 +11,7 @@ Sometimes, when a component is mostly composed of sub-components adjacent to eac
 import pp
 
 
-@pp.autoname
+@pp.cell
 def test_netlist_yaml():
     """
 

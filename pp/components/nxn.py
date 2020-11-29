@@ -4,7 +4,7 @@ from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@pp.autoname
+@pp.cell
 def nxn(
     west: int = 1,
     east: int = 4,

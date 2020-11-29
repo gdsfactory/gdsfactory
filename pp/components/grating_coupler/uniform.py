@@ -1,14 +1,14 @@
 from typing import Tuple
 from pp.components import taper
 from pp.components import compass
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler import grating_coupler
 import pp
 
 
 @grating_coupler
-@autoname
+@cell
 def grating_coupler_uniform(
     num_teeth: int = 20,
     period: float = 0.75,

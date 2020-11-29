@@ -6,7 +6,7 @@ from phidl.device_layout import DeviceReference
 
 import pp
 from pp.component import Component
-from pp.name import NAME_TO_DEVICE
+from pp.cell import NAME_TO_DEVICE
 from pp.port import read_port_markers, auto_rename_ports
 from pp.layers import port_layer2type, port_type2layer
 

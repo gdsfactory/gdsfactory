@@ -4,7 +4,7 @@ from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_t
 from pp.add_padding import add_padding_to_grid
 
 
-@pp.autoname
+@pp.cell
 def align_wafer(
     width=10.0,
     spacing=10.0,
@@ -65,7 +65,7 @@ def align_wafer(
     return c
 
 
-@pp.autoname
+@pp.cell
 def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
     """ returns component with a frame around it
     """
@@ -95,7 +95,7 @@ def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
     return c
 
 
-@pp.autoname
+@pp.cell
 def triangle(x, y, layer=1):
     c = pp.Component()
     points = [[x, 0], [0, 0], [0, y]]
@@ -103,7 +103,7 @@ def triangle(x, y, layer=1):
     return c
 
 
-@pp.autoname
+@pp.cell
 def align_cryo_bottom_right(x=60, y=60, layer=1):
     c = align_cryo_top_left()
     cr = c.ref(rotation=180)
@@ -112,7 +112,7 @@ def align_cryo_bottom_right(x=60, y=60, layer=1):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def align_cryo_top_right(x=60, y=60, layer=1):
     c = align_cryo_top_left()
     cr = c.ref(rotation=270)
@@ -121,7 +121,7 @@ def align_cryo_top_right(x=60, y=60, layer=1):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def align_cryo_bottom_left(x=60, y=60, layer=1):
     c = align_cryo_top_left()
     cr = c.ref(rotation=90)
@@ -130,7 +130,7 @@ def align_cryo_bottom_left(x=60, y=60, layer=1):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
     c = pp.Component()
     points = [[0, 0], [s, 0], [x - s, y - s], [x - s, y], [0, y]]
@@ -140,7 +140,7 @@ def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def align_tree_top_left(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_tl"
@@ -153,7 +153,7 @@ def align_tree_top_left(**kwargs):
     return c
 
 
-@pp.autoname
+@pp.cell
 def align_tree_top_left_with_cross(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_tl_x"
@@ -169,7 +169,7 @@ def align_tree_top_left_with_cross(**kwargs):
     return c
 
 
-@pp.autoname
+@pp.cell
 def align_tree_top_right(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_tr"
@@ -182,7 +182,7 @@ def align_tree_top_right(**kwargs):
     return c
 
 
-@pp.autoname
+@pp.cell
 def align_tree_bottom_left(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_bl"
@@ -195,7 +195,7 @@ def align_tree_bottom_left(**kwargs):
     return c
 
 
-@pp.autoname
+@pp.cell
 def align_tree_bottom_right(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_br"

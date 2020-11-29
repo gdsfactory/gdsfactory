@@ -17,7 +17,7 @@ from pp.components.waveguide_heater import waveguide_heater
 from pp.components.component_sequence import component_sequence
 
 
-@pp.autoname
+@pp.cell
 def test_cutback_heater():
     # Define subcomponents
     bend_radius = 10.0

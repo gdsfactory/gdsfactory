@@ -3,7 +3,7 @@ from pp.components.mmi1x2 import mmi1x2
 import pp
 
 
-@pp.autoname
+@pp.cell
 def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3, **kwargs):
     """ Chain of splitters
 

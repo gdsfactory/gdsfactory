@@ -14,7 +14,7 @@ def shorted_pads(width=100, n_pads=8, pad_spacing=150, layer=pp.LAYER.WG):
     return c
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_tree_with_pads():
     c = pp.Component()
 

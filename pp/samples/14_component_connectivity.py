@@ -6,7 +6,7 @@ Lets define the references from a component and then connect them together
 import pp
 
 
-@pp.autoname
+@pp.cell
 def test_ring_single_bus(
     coupler90_factory=pp.c.coupler90,
     cpl_straight_factory=pp.c.coupler_straight,

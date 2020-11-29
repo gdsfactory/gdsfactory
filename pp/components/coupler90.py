@@ -1,12 +1,12 @@
 import pp
 from pp.components.waveguide import waveguide
 from pp.components.bend_circular import bend_circular
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 from typing import Callable
 
 
-@autoname
+@cell
 def coupler90(
     bend_radius: float = 10.0,
     width: float = 0.5,

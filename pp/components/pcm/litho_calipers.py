@@ -4,7 +4,7 @@ from pp.component import Component
 from typing import List
 
 
-@pp.autoname
+@pp.cell
 def litho_calipers(
     notch_size: List[int] = [2, 5],
     notch_spacing: int = 2,

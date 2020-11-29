@@ -7,7 +7,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def dbr2(
     length: float = 10.0,
     period: float = 0.85,

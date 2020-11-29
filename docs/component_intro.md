@@ -27,7 +27,7 @@ Here is a step by step example below generating a waveguide crossing
     import pp
 
 
-    @pp.autoname
+    @pp.cell
     def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
         c = pp.Component()
 
@@ -63,7 +63,7 @@ Here is a step by step example below generating a waveguide crossing
 
 
     @pp.port.deco_rename_ports  # This decorator will auto-rename the ports
-    @pp.autoname  # This decorator will generate a good name for the component
+    @pp.cell  # This decorator will generate a good name for the component
     def crossing():
         c = pp.Component()
         arm = crossing_arm()

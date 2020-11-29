@@ -12,7 +12,7 @@ def Pixel(size=1.0, layer=LAYER.WG):
     return c
 
 
-@pp.autoname
+@pp.cell
 def qrcode(data, psize=1, layer=LAYER.WG):
     """ A utility to render a list of pixels as a block """
     import qrcode
@@ -31,7 +31,7 @@ def qrcode(data, psize=1, layer=LAYER.WG):
     return c
 
 
-@pp.autoname
+@pp.cell
 def version_stamp(
     text=[], with_qr_code=False, layer=LAYER.WG, pixel_size=1, text_size=10
 ):

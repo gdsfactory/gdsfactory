@@ -8,7 +8,7 @@ from pp.components.coupler import coupler
 from pp.components.taper import taper
 
 
-@pp.autoname
+@pp.cell
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,

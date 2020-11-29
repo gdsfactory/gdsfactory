@@ -75,7 +75,7 @@ def _disk_section_points(
     return xpts, ypts
 
 
-@pp.autoname
+@pp.cell
 def bend_circular(
     radius: float = 10.0,
     width: float = 0.5,
@@ -176,19 +176,19 @@ def bend_circular(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
     pp.port.rename_ports_by_orientation(c)
     return c
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def _bend_circular(
     radius=10.0,
     width=0.5,
@@ -229,7 +229,7 @@ def _bend_circular(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular180(
     radius: Union[int, float] = 10.0,
     width: float = 0.5,
@@ -306,7 +306,7 @@ def _bend_circular_windows(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_trenches(
     width=0.5, trench_width=3.0, trench_offset=0.2, trench_layer=LAYER.SLAB90, **kwargs
 ):
@@ -318,7 +318,7 @@ def bend_circular_trenches(
     return _bend_circular_windows(windows=windows, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwargs):
     a = width / 2
     b = a + cladding
@@ -329,7 +329,7 @@ def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwarg
 bend_circular_ridge = bend_circular_trenches
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_slot(width=0.5, gap=0.2, **kwargs):
     a = width / 2
     d = a + gap / 2

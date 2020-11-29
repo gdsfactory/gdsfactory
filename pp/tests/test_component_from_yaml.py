@@ -2,7 +2,7 @@ import pp
 
 yaml = """
 name:
-    test_component_from_yaml_without_autoname
+    test_component_from_yaml_without_cell
 
 instances:
     mmi:
@@ -16,16 +16,16 @@ connections:
 """
 
 
-def test_component_from_yaml_without_autoname():
-    """ bezier does not have autoname """
+def test_component_from_yaml_without_cell():
+    """ bezier does not have cell """
     c = pp.component_from_yaml(yaml)
-    assert c.name == "test_component_from_yaml_without_autoname"
+    assert c.name == "test_component_from_yaml_without_cell"
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0
     return c
 
 
 if __name__ == "__main__":
-    c = test_component_from_yaml_without_autoname()
+    c = test_component_from_yaml_without_cell()
     print(c.name)
     pp.show(c)

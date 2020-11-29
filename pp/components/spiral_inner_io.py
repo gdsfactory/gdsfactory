@@ -19,7 +19,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@pp.autoname
+@pp.cell
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -212,7 +212,7 @@ def spiral_inner_io(
     return component
 
 
-@pp.autoname
+@pp.cell
 def spiral_inner_io_euler(
     bend90_function: Callable = bend_euler90,
     bend180_function: Callable = bend_euler180,
@@ -234,7 +234,7 @@ def spiral_inner_io_euler(
     )
 
 
-@pp.autoname
+@pp.cell
 def spirals_nested(bend_radius=100):
     component = pp.Component()
     c = spiral_inner_io(
@@ -273,7 +273,7 @@ def spirals_nested(bend_radius=100):
     return component
 
 
-@pp.autoname
+@pp.cell
 def mini_block_mockup():
     component = pp.Component()
 
@@ -287,7 +287,7 @@ def mini_block_mockup():
     return component
 
 
-@pp.autoname
+@pp.cell
 def reticle_mockup():
     from pp.layers import LAYER
 
@@ -332,7 +332,7 @@ def get_straight_length(length_cm, spiral_function, **kwargs):
     return (length_cm - p[1]) / p[0]
 
 
-# @pp.autoname
+# @pp.cell
 # def spiral_inner_io_with_gratings(
 #     spiral=spiral_inner_io, grating_coupler=pp.c.grating_coupler_elliptical_te, **kwargs
 # ):

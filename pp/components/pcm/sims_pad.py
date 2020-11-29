@@ -1,7 +1,7 @@
 import pp
 
 
-@pp.autoname
+@pp.cell
 def sims_pad(width=500, height=500, pad=100, layer=1):
     c = pp.Component()
     w = width

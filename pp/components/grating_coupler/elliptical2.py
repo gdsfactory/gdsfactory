@@ -8,7 +8,7 @@ import pp
 
 
 @deco_rename_ports
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical2(
     wgt=wg_strip,
     theta=np.pi / 4.0,

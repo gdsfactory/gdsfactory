@@ -4,7 +4,7 @@ from pp.component import Component
 from typing import Tuple
 
 
-@pp.autoname
+@pp.cell
 def hline(
     length: float = 10.0, width: float = 0.5, layer: Tuple[int, int] = LAYER.WG,
 ) -> Component:

@@ -148,7 +148,7 @@ Maybe:
 
 - write and read Sparameters
 - pp.extend_ports is now a container
-- any component decorated with @pp.autoname can accept `pins=True` flag, and a function `pins_function`.
+- any component decorated with @pp.cell can accept `pins=True` flag, and a function `pins_function`.
 - Pins arguments will be ignored from the Component `name` and `settings`
 - better json serializer for settings
 - added units to names (m,K,G ...)
@@ -164,12 +164,12 @@ Maybe:
 - simpler JSON file for mask metadata mask.tp.json
 - added container decorator, can inherit ports, settings, test and data analysis protocols and still have a different name to avoid name collisions
 - samples run as part of the test suite, moved samples into pp
-- autoname sorts kwarg keys by alphabetical order
-- added autoname tests
-- autoname accepts max_name_length and ignore_from_name kwargs
+- cell sorts kwarg keys by alphabetical order
+- added cell tests
+- cell accepts max_name_length and ignore_from_name kwargs
 - pp.generate_does raises error if component does not exist in factory
 - replaces name_W20_L30 by name_hash for cell names  > 32
-- zz_conn cleaner name using `from pp.name import clean_name` no slashes in the name
+- zz_conn cleaner name using `from pp.cell import clean_name` no slashes in the name
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
 - added pytest-regression for component setting and ports

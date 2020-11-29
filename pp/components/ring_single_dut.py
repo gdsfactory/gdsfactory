@@ -6,11 +6,11 @@ from pp.components.waveguide import waveguide
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
-from pp.name import autoname
+from pp.cell import cell
 from pp.components.taper import taper
 
 
-@autoname
+@cell
 def ring_single_dut(
     component,
     wg_width=0.5,

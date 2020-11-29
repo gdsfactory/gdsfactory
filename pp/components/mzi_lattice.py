@@ -6,7 +6,7 @@ from pp.component import Component
 import pp
 
 
-@pp.autoname
+@pp.cell
 def mzi_lattice(
     coupler_lengths: List[float] = [10, 20],
     coupler_gaps: List[float] = [0.2, 0.3],
