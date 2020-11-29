@@ -146,15 +146,18 @@ def write_gds(
     remove_previous_markers: bool = False,
     auto_rename: bool = False,
     with_settings_label: bool = conf.tech.with_settings_label,
+    label_layer=LAYER.LABEL,
 ) -> str:
-    """write component to GDS and returs gdspath
+    """Write component to GDS and returs gdspath
 
     Args:
-        component (required)
-        gdspath: by default saves it into CONFIG['gds_directory']
-        auto_rename: False by default (otherwise it calls it top_cell)
-        unit
-        precission
+        component: gdsfactory Component.
+        gdspath: GDS file path to write to.
+        unit unit size for objects in library.
+        precision: for the dimensions of the objects in the library (m).
+        remove_previous_markers: clear previous ones to avoid duplicates.
+        auto_rename: If True, fixes any duplicate cell names.
+        with_settings_label: write component settings into a label.
 
     Returns:
         gdspath
@@ -167,36 +170,27 @@ def write_gds(
     gdsdir.mkdir(parents=True, exist_ok=True)
 
     if remove_previous_markers:
-        # If the component HAS ports AND markers and we want to
-        # avoid duplicate port markers, then we clear the previous ones
         port_layer = (LAYER.PORT,)
         label_layer = (LAYER.TEXT,)
         component.remove_layers([port_layer])
         component.remove_layers([label_layer])
 
-    # write component settings into text layer
+    # write component settings into a label
     if with_settings_label:
         settings = component.get_settings()
-
-        for i, k in enumerate(sorted(list(settings.keys()))):
-            v = clean_value(settings.get(k))
-            text = f"{k} = {clean_value(v)}"
-            # print(text)
-            component.add_label(
-                text=text,
-                position=component.center - [0, i * 1],
-                layer=CONFIG["layers"]["TEXT"],
-            )
+        component.add_label(
+            position=component.center, text=json.dumps(settings), layer=label_layer
+        )
 
     component.write_gds(
-        gdspath, precision=precision, auto_rename=auto_rename,
+        gdspath, unit=unit, precision=precision, auto_rename=auto_rename,
     )
     component.path = gdspath
     return gdspath
 
 
 def clean_value(value):
-    """ returns a JSON serializable value """
+    """Returns JSON serializable value """
     if isinstance(value, Component):
         value = value.name
     elif callable(value):
@@ -247,13 +241,16 @@ if __name__ == "__main__":
     # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
     # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
 
-    c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
-    cc = pp.routing.add_fiber_array(c)
-    pp.write_component(cc, precision=5e-9)
-    pp.show(cc)
+    # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
+    # cc = pp.routing.add_fiber_array(c)
+    # pp.write_component(cc, precision=5e-9)
+    # pp.show(cc)
 
-    print(c.settings)
+    c = pp.c.waveguide(length=1.009, pins=True)
+    pp.write_component(c, gdspath="wg.gds", with_settings_label=True)
+    pp.show(c)
 
+    # print(c.settings)
     # gdspath = pp.write_component(c, precision=5e-9)
     # pp.show(gdspath)
 

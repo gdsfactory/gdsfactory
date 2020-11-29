@@ -7,7 +7,7 @@ from inspect import signature
 import hashlib
 import numpy as np
 from phidl import Device
-from pp.add_pins import add_pins_and_outline
+from pp.add_pins import add_pins_factory
 
 MAX_NAME_LENGTH = 32
 
@@ -83,7 +83,8 @@ def autoname(component_function: Callable) -> Callable:
         cache = kwargs.pop("cache", True)
         uid = kwargs.pop("uid", False)
         pins = kwargs.pop("pins", False)
-        pins_function = kwargs.pop("pins_function", add_pins_and_outline)
+        pins_function_name = kwargs.pop("pins_function", "add_pins_and_outline")
+        pins_function = add_pins_factory[pins_function_name]
 
         component_type = component_function.__name__
         name = kwargs.pop("name", get_component_name(component_type, **kwargs),)

@@ -1,4 +1,4 @@
-""" add markers to Devices:
+"""add_pin adss a Pin to a port, add_pins adds Pins to all ports:
 
 - pins
 - outline
@@ -176,6 +176,11 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
     return add_pins(
         component=component, add_port_marker_function=add_port_marker_function, **kwargs
     )
+
+
+add_pins_factory = dict(
+    add_pins_and_outline=add_pins_and_outline, add_pins_triangle=add_pins_triangle
+)
 
 
 def test_add_pins():

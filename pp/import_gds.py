@@ -249,7 +249,7 @@ def import_gds(
 def test_import_gds_snap_to_grid():
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
-    print(len(c.get_polygons()))
+    # print(len(c.get_polygons()))
     assert len(c.get_polygons()) == 8
 
     for x, y in c.get_polygons()[0]:
@@ -264,8 +264,8 @@ def test_import_gds_hierarchy():
     assert len(c.get_dependencies()) == 3
 
 
-def test_import_gds_with_port_markers_optical():
-    """ """
+def demo_optical():
+    """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.c.mmi1x2()
     # for p in c.ports.values():
     #     print(p)
@@ -280,8 +280,8 @@ def test_import_gds_with_port_markers_optical():
     #     print(p)
 
 
-def test_import_gds_with_port_markers_optical_electrical():
-    """"""
+def demo_electrical():
+    """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.c.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p)
@@ -298,7 +298,7 @@ def test_import_gds_with_port_markers_optical_electrical():
 
 
 if __name__ == "__main__":
-    test_import_gds_with_port_markers_optical_electrical()
+    # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
     # test_import_gds_snap_to_grid()
     # test_import_gds_snap_to_grid()
@@ -307,3 +307,7 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, snap_to_grid_nm=5)
     # print(c)
     # pp.show(c)
+
+    c = import_gds("wg.gds")
+    add_ports_from_markers_center(c)
+    print(c.ports)
