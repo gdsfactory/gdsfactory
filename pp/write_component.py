@@ -3,10 +3,10 @@ write_component_type: try to load a component from library or creates if it does
 write_component: write component and metadata
 """
 
-import pathlib
-import json
-from pathlib import PosixPath
 from typing import Optional
+import pathlib
+from pathlib import PosixPath
+import json
 from phidl import device_layout as pd
 
 from pp.config import CONFIG, conf
@@ -178,8 +178,9 @@ def write_gds(
     # write component settings into a label
     if with_settings_label:
         settings = component.get_settings()
+        settings_string = f"settings={json.dumps(settings)}"
         component.add_label(
-            position=component.center, text=json.dumps(settings), layer=label_layer
+            position=component.center, text=settings_string, layer=label_layer
         )
 
     component.write_gds(

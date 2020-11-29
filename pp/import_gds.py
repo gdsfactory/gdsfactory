@@ -1,4 +1,5 @@
 from typing import Optional
+import json
 import gdspy
 
 from phidl.device_layout import DeviceReference
@@ -297,6 +298,13 @@ def demo_electrical():
         print(p)
 
 
+def add_settings_from_label(component):
+    """Adds settings from label."""
+    for label in component.labels:
+        if label.text.startswith("settings="):
+            component.settings = json.loads(label.text[9:])
+
+
 if __name__ == "__main__":
     # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
@@ -309,5 +317,8 @@ if __name__ == "__main__":
     # pp.show(c)
 
     c = import_gds("wg.gds")
-    add_ports_from_markers_center(c)
-    print(c.ports)
+    add_settings_from_label(c)
+    print(c.settings)
+
+    # add_ports_from_markers_center(c)
+    # print(c.ports)

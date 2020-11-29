@@ -178,11 +178,6 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
     )
 
 
-add_pins_factory = dict(
-    add_pins_and_outline=add_pins_and_outline, add_pins_triangle=add_pins_triangle
-)
-
-
 def test_add_pins():
     component = pp.c.mzi2x2(with_elec_connections=True)
     # print(len(component.get_polygons()))
