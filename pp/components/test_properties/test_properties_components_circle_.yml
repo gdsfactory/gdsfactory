@@ -1,8 +1,9 @@
-angle_resolution: 2.5
 function_name: circle
-layer:
-- 1
-- 0
 module: pp.components.circle
 name: circle
-radius: 10.0
+settings:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radius: 10.0

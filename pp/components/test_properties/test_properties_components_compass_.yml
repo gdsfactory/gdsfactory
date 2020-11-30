@@ -1,9 +1,10 @@
 function_name: compass
-layer:
-- 1
-- 0
 module: pp.components.compass
 name: compass
-size:
-- 4
-- 2
+settings:
+  layer:
+  - 1
+  - 0
+  size:
+  - 4
+  - 2

@@ -302,7 +302,10 @@ def add_settings_from_label(component):
     """Adds settings from label."""
     for label in component.labels:
         if label.text.startswith("settings="):
-            component.settings = json.loads(label.text[9:])
+            d = json.loads(label.text[9:])
+            component.settings = d.pop("settings", {})
+            for k, v in d.items():
+                setattr(component, k, v)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
-bend_radius: 10.0
 function_name: splitter_tree
 module: pp.components.splitter_tree
-n_o_outputs: 4
 name: splitter_tree
-spacing: 50.0
-termination_component: None
+settings:
+  bend_radius: 10.0
+  n_o_outputs: 4
+  spacing: 50.0
+  termination_component: None

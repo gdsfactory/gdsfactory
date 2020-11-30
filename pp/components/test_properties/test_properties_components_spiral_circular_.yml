@@ -1,11 +1,13 @@
 function_name: spiral_circular
-layer:
-- 1
-- 0
 length: 1694.813
-min_bend_radius: 5
 module: pp.components.spiral_circular
 name: spiral_circular
-points: 1000
-spacing: 3
-wg_width: 0.5
+settings:
+  layer:
+  - 1
+  - 0
+  length: 1000.0
+  min_bend_radius: 5
+  points: 1000
+  spacing: 3
+  wg_width: 0.5

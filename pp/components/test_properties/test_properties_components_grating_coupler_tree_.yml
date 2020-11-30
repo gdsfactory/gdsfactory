@@ -1,30 +1,33 @@
-bend_factory: bend_circular
-bend_radius: 10.0
-component:
-  function_name: waveguide_array
-  module: pp.components.waveguide_array
-  n_waveguides: 4
-  name: waveguide_array_c233fa40
-  spacing: 4
-  waveguide: waveguide
-component_name: waveguide_array_c233fa40
-fanout_length: 85.0
 function_name: grating_coupler_tree
-gc_port_name: W0
-get_input_labels_function: get_input_labels
-get_route_factory: route_fiber_array
-grating_coupler: grating_coupler_elliptical_te
-layer_label:
-- 201
-- 0
 module: pp.components.grating_coupler.grating_coupler_tree
-n_waveguides: 4
 name: grating_coupler_tree
-optical_routing_type: 0
-route_filter: connect_strip_way_points_no_taper
-straight_factory: waveguide
-taper_factory: taper
-taper_length: 10.0
-waveguide_spacing: 4
-with_align_ports: false
-with_loop_back: false
+settings:
+  bend_factory: bend_circular
+  bend_radius: 10.0
+  component:
+    function_name: waveguide_array
+    module: pp.components.waveguide_array
+    name: waveguide_array_c233fa40
+    settings:
+      n_waveguides: 4
+      spacing: 4
+      waveguide: waveguide
+  component_name: waveguide_array_c233fa40
+  fanout_length: 85.0
+  function_name: add_fiber_array
+  gc_port_name: W0
+  get_input_labels_function: get_input_labels
+  get_route_factory: route_fiber_array
+  grating_coupler: grating_coupler_elliptical_te
+  layer_label:
+  - 201
+  - 0
+  n_waveguides: 4
+  optical_routing_type: 0
+  route_filter: connect_strip_way_points_no_taper
+  straight_factory: waveguide
+  taper_factory: taper
+  taper_length: 10.0
+  waveguide_spacing: 4
+  with_align_ports: false
+  with_loop_back: false

@@ -709,7 +709,8 @@ class Component(Device):
 
     def get_settings(self) -> Dict[str, Any]:
         """Returns settings dictionary. Ignores items from self.ignore set."""
-        output = {}
+        d = {}
+        d["settings"] = {}
         include = {"name"}
         ignore = set(
             dir(Component())
@@ -729,18 +730,18 @@ class Component(Device):
 
         for k in include:
             if hasattr(self, k):
-                output[k] = getattr(self, k)
+                d[k] = getattr(self, k)
 
         for key, value in self.settings.items():
             if key not in self.ignore:
-                output[key] = _clean_value(value)
+                d["settings"][key] = _clean_value(value)
 
         for param in params:
-            output[param] = _clean_value(getattr(self, param))
+            d[param] = _clean_value(getattr(self, param))
 
-        # output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
-        # output["hash_geometry"] = str(self.hash_geometry())
-        output = {k: output[k] for k in sorted(output)}
+        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
+        # d["hash_geometry"] = str(self.hash_geometry())
+        output = {k: d[k] for k in sorted(d)}
         return output
 
     def get_settings_model(self):

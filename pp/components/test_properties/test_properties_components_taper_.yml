@@ -1,12 +1,13 @@
-cladding_offset: 3.0
 function_name: taper
-layer:
-- 1
-- 0
-layers_cladding: []
-length: 35.0
 module: pp.components.taper
 name: taper
-port: None
-width1: 0.5
-width2: None
+settings:
+  cladding_offset: 3.0
+  layer:
+  - 1
+  - 0
+  layers_cladding: []
+  length: 35.0
+  port: None
+  width1: 0.5
+  width2: None

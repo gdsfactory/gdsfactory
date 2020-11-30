@@ -1,12 +1,14 @@
-end_angle: None
 function_name: bezier
-grid: 0.001
-layer:
-- 1
-- 0
 module: pp.components.bezier
-name: None
-spike_length: 0.0
-start_angle: None
-width: 0.5
-with_manhattan_facing_angles: true
+name: bezier_w500_7de58b7a50a078c1f8629433efa7bddf_1_0
+settings:
+  end_angle: None
+  grid: 0.001
+  layer:
+  - 1
+  - 0
+  name: None
+  spike_length: 0.0
+  start_angle: None
+  width: 0.5
+  with_manhattan_facing_angles: true

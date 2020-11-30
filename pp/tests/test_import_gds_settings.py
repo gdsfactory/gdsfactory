@@ -21,6 +21,8 @@ def tuplify(iterable: Union[List, Dict]):
 
 @pytest.mark.parametrize("component_type", _components)
 def test_properties_components(component_type):
+    """Write component to GDS with setttings_label
+    """
     c1 = component_factory[component_type]()
     gdspath = pp.write_component(c1, with_settings_label=True)
     c2 = import_gds(gdspath)
@@ -37,4 +39,5 @@ if __name__ == "__main__":
     # test_properties_components(component_type=list(_components)[0])
     # test_properties_components(component_type="ring")
     # test_properties_components(component_type="bezier")
-    test_properties_components(component_type="bend_s")
+    # test_properties_components(component_type="bend_s")
+    test_properties_components(component_type="waveguide")

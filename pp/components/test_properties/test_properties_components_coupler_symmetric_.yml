@@ -1,13 +1,14 @@
-cladding_offset: 3.0
-dy: 5.0
 function_name: coupler_symmetric
-gap: 0.234
-layer:
-- 1
-- 0
-layers_cladding:
-- - 111
-  - 0
 module: pp.components.coupler_symmetric
 name: coupler_symmetric
-wg_width: 0.5
+settings:
+  cladding_offset: 3.0
+  dy: 5.0
+  gap: 0.234
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  wg_width: 0.5

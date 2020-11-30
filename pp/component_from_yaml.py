@@ -170,7 +170,7 @@ def component_from_yaml(
             rotation: Optional[float]
             mirror: Optional[bool, float] float is x mirror axis
             port: Optional[str] port anchor
-        connections: between instances
+        connections (Optional): between instances
         ports (Optional): defines ports to expose
         routes (Optional): defines bundles of routes
             routeName:

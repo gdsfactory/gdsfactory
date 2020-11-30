@@ -1,19 +1,21 @@
-cladding_offset: 0.0
-end_angle: None
 function_name: bend_s
-grid: 0.001
-height: 2.0
-layer:
-- 1
-- 0
-layers_cladding:
-- - 111
-  - 0
-length: 10.0
 module: pp.components.bend_s
-name: None
-nb_points: 99
-spike_length: 0.0
-start_angle: None
-width: 0.5
-with_manhattan_facing_angles: true
+name: bend_s
+settings:
+  cladding_offset: 0.0
+  end_angle: None
+  grid: 0.001
+  height: 2.0
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10.0
+  name: None
+  nb_points: 99
+  spike_length: 0.0
+  start_angle: None
+  width: 0.5
+  with_manhattan_facing_angles: true
