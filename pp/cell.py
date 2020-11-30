@@ -55,7 +55,7 @@ def cell(func=None, *, autoname=True) -> Callable:
         kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
         arguments = ", ".join(args_repr + kwargs_repr)
 
-        autoname = kwargs.pop("autoname", True)
+        kwargs.pop("autoname", autoname)
         uid = kwargs.pop("uid", False)
         cache = kwargs.pop("cache", True)
         pins = kwargs.pop("pins", False)
@@ -130,6 +130,28 @@ def wg(length=3, width=0.5):
     return c
 
 
+@cell(autoname=False)
+def wg2(length=3, width=0.5):
+    from pp.component import Component
+
+    c = Component("waveguide")
+    w = width / 2
+    layer = (1, 0)
+    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
+    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
+    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
+    return c
+
+
+def test_autoname_true():
+    assert wg(length=3).name == "wg_L3"
+
+
+def test_autoname_false():
+    # print(wg2(length=3).name)
+    assert wg2(length=3).name == "waveguide"
+
+
 class _Dummy:
     pass
 
@@ -160,6 +182,9 @@ def test_cell():
 
 if __name__ == "__main__":
     import pp
+
+    test_autoname_true()
+    test_autoname_false()
 
     c = wg(length=3, pins=False, autoname=False)
     print(c)
