@@ -27,6 +27,7 @@ Maybe:
         - you can define a route range (left,E:0:3 : rigth,W:0:3)
 - connect bundle is now the default way to connect groups of ports in component_from_yaml
 - coupler: can change the vertical distance (dy) between outputs
+- replace @pp.autoname with @pp.cell as a decorator with cells options (autoname, pins ...)
 
 ## 2.1.4 2020-11-14
 
