@@ -1,7 +1,6 @@
 import pp
 from pp.components.coupler import coupler
 
-# from pp.components.loop_mirror import loop_mirror
 from pp.container import container
 from pp.component import Component
 
@@ -43,8 +42,12 @@ def cavity(
       c = pp.c.cavity(component=pp.c.dbr())
       pp.plotgds(c)
     """
-    mirror = pp.call_if_func(component)
-    coupler = pp.call_if_func(coupler, length=length, gap=gap, wg_width=wg_width)
+    mirror = component() if callable(component) else component
+    coupler = (
+        coupler(length=length, gap=gap, wg_width=wg_width)
+        if callable(coupler)
+        else coupler
+    )
 
     c = pp.Component()
     cr = c << coupler

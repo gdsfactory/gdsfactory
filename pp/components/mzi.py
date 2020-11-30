@@ -159,13 +159,18 @@ def mzi(
 
 
 if __name__ == "__main__":
+
     delta_length = 116.8 / 2
     # print(delta_length)
-    c = mzi(DL=delta_length, pins=True, with_coupler=False)
+
+    c = mzi(DL=delta_length, with_coupler=False)
+
+    # add_pins_and_outline(c)
+
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
-    print(c.ports.keys())
-    print(c.ports["E0"].midpoint)
+    # print(c.ports.keys())
+    # print(c.ports["E0"].midpoint)
     pp.show(c)
-    pp.qp(c)
+    # pp.qp(c)
     # print(c.get_settings())

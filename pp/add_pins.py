@@ -167,9 +167,9 @@ def add_pins(
 
 
 def add_settings_label(component, label_layer=LAYER.LABEL):
-    """Adds settings label. Ignores self.ingore set."""
+    """Add settings in label, ignores component.ignore keys."""
     settings = component.get_settings()
-    settings_string = f"settings={json.dumps(settings)}"
+    settings_string = f"settings={json.dumps(settings, sort_keys=True, indent=2)}"
     component.add_label(
         position=component.center, text=settings_string, layer=label_layer
     )
@@ -178,7 +178,9 @@ def add_settings_label(component, label_layer=LAYER.LABEL):
 def add_pins_and_outline(
     component, pins_function=add_pins, add_outline_function=add_outline
 ):
+    # print(component)
     add_outline_function(component)
+    add_settings_label(component)
     pins_function(component)
 
 

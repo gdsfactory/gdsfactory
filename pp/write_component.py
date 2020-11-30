@@ -29,7 +29,7 @@ def write_component_type(
     component_type,
     overwrite=True,
     path_directory=CONFIG["gds_directory"],
-    component_factory=component_factory,
+    factory=component_factory,
     **kwargs,
 ):
     """write_component by type or function
@@ -51,8 +51,7 @@ def write_component_type(
     path_directory.mkdir(parents=True, exist_ok=True)
 
     if not gdspath.exists() or overwrite:
-        component = component_factory[component_type](name=component_name, **kwargs)
-        component.type = component_type
+        component = factory[component_type](name=component_name, **kwargs)
         write_component(component, gdspath)
 
     return gdspath
@@ -69,7 +68,6 @@ def write_component_report(component, json_path=None):
     json_path = json_path or CONFIG["gds_directory"] / f"{component.name}.json"
     ports_path = json_path.with_suffix(".ports")
 
-    """ write ports """
     if len(component.ports) > 0:
         with open(ports_path, "w") as fw:
             for port in component.ports.values():
@@ -77,7 +75,6 @@ def write_component_report(component, json_path=None):
                     f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {port.layer}\n"
                 )
 
-    """ write json """
     with open(json_path, "w+") as fw:
         fw.write(json.dumps(component.get_json(), indent=2))
     return json_path
@@ -189,7 +186,7 @@ def write_gds(
 
 
 def clean_value(value):
-    """Returns JSON serializable value """
+    """Returns JSON serializable value."""
     if isinstance(value, Component):
         value = value.name
     elif callable(value):
