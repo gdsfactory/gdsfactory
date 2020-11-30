@@ -1,11 +1,11 @@
 from typing import Any, List, Tuple
 from numpy import floor
 from pp.layers import LAYER
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 
 
-@autoname
+@cell
 def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
     """ Rectangular via
     """
@@ -23,22 +23,22 @@ def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
     return c
 
 
-@autoname
+@cell
 def via1(**kwargs):
     return via(layer=LAYER.VIA1, **kwargs)
 
 
-@autoname
+@cell
 def via2(**kwargs):
     return via(layer=LAYER.VIA2, **kwargs)
 
 
-@autoname
+@cell
 def via3(**kwargs):
     return via(layer=LAYER.VIA3, **kwargs)
 
 
-@autoname
+@cell
 def tlm(
     width: float = 11.0,
     height: float = 11.0,

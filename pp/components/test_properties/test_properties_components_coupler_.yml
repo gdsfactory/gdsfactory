@@ -1,13 +1,15 @@
-cladding_offset: 3
 function_name: coupler
-gap: 0.236
-layer:
-- 1
-- 0
-layers_cladding:
-- - 111
-  - 0
-length: 20.007
 module: pp.components.coupler
 name: coupler
-wg_width: 0.5
+settings:
+  cladding_offset: 0.0
+  dy: 5.0
+  gap: 0.236
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 20.007
+  wg_width: 0.5

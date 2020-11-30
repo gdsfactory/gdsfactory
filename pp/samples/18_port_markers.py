@@ -1,6 +1,6 @@
 """
 
-When we decorate a function with autoname we can also pass a flat `with_ports` that will add port markers to our component
+When we decorate a function with cell we can also pass a flat `with_ports` that will add port markers to our component
 
 """
 import pp
@@ -14,7 +14,6 @@ def test_pins():
 
 def test_pins_custom():
     """ We can even define the `pins_function` that we use to add markers to each port
-
     """
     c = pp.c.waveguide(pins=True, pins_function=add_pins_triangle)
     return c

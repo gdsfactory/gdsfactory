@@ -3,18 +3,32 @@
 ## TODO
 
 - document klayout placers
+- extract netlist from layout
 - bundle routing with specific waypoints
 - connect_with_waypoints can accept ports
-- extract netlist from layout using PINS and check if connectivity matches intent
 
 Maybe:
 
 - make sure grating coupler main port is facing west
 - add grating coupler vertical ports
-- make a conda package so you can `conda install gdsfactory`
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
 
 ## master branch (latest changes not released yet)
+
+# 2.2.0 2020-11-29
+
+- component_from_yaml updates:
+    - placements:
+        - port: you can define an anchor port
+        - dx: delta x
+        - dy: delta x
+        - mirror: boolean or float (x axis for the mirror)
+        - x: number or can also be a port from another instance
+    - routes:
+        - you can define a route range (left,E:0:3 : rigth,W:0:3)
+- connect bundle is now the default way to connect groups of ports in component_from_yaml
+- coupler: can change the vertical distance (dy) between outputs
+- replace @pp.autoname with @pp.cell as a decorator with cells options (autoname, pins ...)
 
 ## 2.1.4 2020-11-14
 
@@ -46,7 +60,7 @@ Maybe:
 - write more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests
-- added pp.clear_cache()
+- added pp.clear_cache() and call it when we run `pp.show(c)`
 - use pp.clear_cache() when testing component port positions
 
 
@@ -136,7 +150,7 @@ Maybe:
 
 - write and read Sparameters
 - pp.extend_ports is now a container
-- any component decorated with @pp.autoname can accept `pins=True` flag, and a function `pins_function`.
+- any component decorated with @pp.cell can accept `pins=True` flag, and a function `pins_function`.
 - Pins arguments will be ignored from the Component `name` and `settings`
 - better json serializer for settings
 - added units to names (m,K,G ...)
@@ -152,12 +166,12 @@ Maybe:
 - simpler JSON file for mask metadata mask.tp.json
 - added container decorator, can inherit ports, settings, test and data analysis protocols and still have a different name to avoid name collisions
 - samples run as part of the test suite, moved samples into pp
-- autoname sorts kwarg keys by alphabetical order
-- added autoname tests
-- autoname accepts max_name_length and ignore_from_name kwargs
+- cell sorts kwarg keys by alphabetical order
+- added cell tests
+- cell accepts max_name_length and ignore_from_name kwargs
 - pp.generate_does raises error if component does not exist in factory
 - replaces name_W20_L30 by name_hash for cell names  > 32
-- zz_conn cleaner name using `from pp.name import clean_name` no slashes in the name
+- zz_conn cleaner name using `from pp.cell import clean_name` no slashes in the name
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
 - added pytest-regression for component setting and ports

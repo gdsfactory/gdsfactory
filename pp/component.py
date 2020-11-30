@@ -14,7 +14,7 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_ports
-from pp.config import CONFIG, conf, connections
+from pp.config import CONFIG, conf, connections, add_to_global_netlist
 from pp.compare_cells import hash_cells
 
 
@@ -329,8 +329,8 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ):
-        """Moves the DeviceReference from the origin point to the destination.  Both
-        origin and destination can be 1x2 array-like, Port, or a key
+        """Moves the DeviceReference from the origin point to the destination.
+        Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
         Returns:
@@ -397,9 +397,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def reflect_h(self, port_name=None, x0=None):
-        """
-        Perform horizontal mirror (w.r.t vertical axis)
-        """
+        """Perform horizontal mirror using x0 as axis (default, x0=0)."""
         if port_name is None and x0 is None:
             x0 = 0
 
@@ -409,9 +407,7 @@ class ComponentReference(DeviceReference):
         self.reflect((x0, 1), (x0, 0))
 
     def reflect_v(self, port_name: Optional[str] = None, y0: None = None) -> None:
-        """
-        Perform vertical mirror (w.r.t horizontal axis)
-        """
+        """Perform vertical mirror using y0 as axis (default, y0=0)"""
         if port_name is None and y0 is None:
             y0 = 0
 
@@ -454,7 +450,16 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(self, port: str, destination: Port, overlap: float = 0):
-        """returns ComponentReference"""
+        """Returns a reference of the Component where a origin port_name connects to a destination
+
+        Args:
+            port: origin port name
+            destination: destination port
+            overlap: how deep does the port go inside
+
+        Returns:
+            ComponentReference
+        """
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -479,25 +484,8 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
-        if destination.parent:
-            global connections
-            # connections[f"{self.parent.uid}_{int(self.x)}_{int(self.y)},{port}"] = f"{destination.parent.get_property('uid')},{destination.name}"
-            # connections[
-            #     f"{self.get_property('name')}_{int(self.x)}_{int(self.y)},{port}"
-            # ] = f"{destination.parent.get_property('name')}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
-            if hasattr(self, "name"):
-                src = self.name
-            else:
-                src = self.parent.name
-
-            if hasattr(destination.parent, "name"):
-                dst = destination.parent.name
-            else:
-                dst = destination.parent.parent.name
-
-            connections[
-                f"{src}_{int(self.x)}_{int(self.y)},{p.name}"
-            ] = f"{dst}_{int(destination.parent.x)}_{int(destination.parent.y)},{destination.name}"
+        if hasattr(destination, "parent"):
+            add_to_global_netlist(p, destination)
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -507,43 +495,45 @@ class ComponentReference(DeviceReference):
         return self.ref_cell.get_property(property)
 
     def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
-        """ returns a lit of  ports """
+        """returns a list of ports. Useful for routing bundles of ports
+
+        Args:
+            port_type: str or (int, int) layer
+            prefix: for example "E" for east, "W" for west ...
+        """
         return list(
             select_ports(self.ports, port_type=port_type, prefix=prefix).values()
         )
 
 
 class Component(Device):
-    """adds some functions to phidl.Device
+    """adds some functions to phidl.Device:
 
     - get/write JSON metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
+    Args:
+        name:
+        polarization: 'te' or 'tm'
+        wavelength: (nm)
+        test_protocol: dict
+        data_analysis_protocol: dict
+        ignore: list of settings to ingnore
+
     """
 
-    def __init__(
-        self,
-        name: str = "Unnamed",
-        polarization: None = None,
-        wavelength: None = None,
-        test_protocol: None = None,
-        data_analysis_protocol: None = None,
-        *args,
-        **kwargs,
-    ) -> None:
+    def __init__(self, name: str = "Unnamed", *args, **kwargs,) -> None:
         # Allow name to be set like Component('arc') or Component(name = 'arc')
-
-        self.data_analysis_protocol = data_analysis_protocol or {}
-        self.test_protocol = test_protocol or {}
-        self.wavelength = wavelength
-        self.polarization = polarization
 
         self.settings = kwargs
         self.__ports__ = {}
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
+        self.ignore = set()
+        self.test_protocol = {}
+        self.data_analysis_protocol = {}
 
         if "with_uuid" in kwargs or name == "Unnamed":
             name += "_" + self.uid
@@ -551,7 +541,6 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name
         self.name_long = None
-        self.function_name = None
 
     def plot_netlist(
         self, label_index_end=1, with_labels=True, font_weight="normal",
@@ -579,36 +568,21 @@ class Component(Device):
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
         )
 
+    def get_netlist_yaml(self, full_settings=False):
+        """Return YAML netlist."""
+        return OmegaConf.to_yaml(self.get_netlist(full_settings=full_settings))
+
     def get_netlist(self, full_settings=False):
         """returns netlist dict(instances, placements, connections)
-        if full_settings: exports all the settings
+
+        Args:
+            full_settings: exports all the settings, when false only exports settings_changed
         """
-        instances = {}
-        placements = {}
-
-        for r in self.references:
-            i = r.parent
-            reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
-            if hasattr(i, "settings") and full_settings:
-                settings = i.settings
-            elif hasattr(i, "settings_changed"):
-                settings = i.settings_changed
-            else:
-                settings = {}
-            instances[reference_name] = dict(
-                component=i.function_name, settings=settings
-            )
-            placements[reference_name] = dict(
-                x=float(r.x), y=float(r.y), rotation=int(r.rotation)
-            )
-
+        instances, placements = recurse_instances(self, full_settings=full_settings)
         connections_connected = {}
 
-        # print(instances.keys())
         for src, dst in connections.items():
-            # print(src.split(',')[0])
-            # trim netlist:
-            # only instances that are part of the component are connected
+            # trim netlist: store only instances connections from the component
             if src.split(",")[0] in instances:
                 connections_connected[src] = dst
 
@@ -686,7 +660,7 @@ class Component(Device):
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> ComponentReference:
-        """ returns a reference of the component """
+        """Returns Component reference."""
         _ref = ComponentReference(self)
 
         if port_id and port_id not in self.ports:
@@ -706,6 +680,7 @@ class Component(Device):
         if rotation != 0:
             _ref.rotate(rotation, origin)
         _ref.move(origin, position)
+
         return _ref
 
     def ref_center(self, position=(0, 0)):
@@ -726,47 +701,47 @@ class Component(Device):
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
 
-    def get_property(self, property: str) -> Union[str, int]:
+    def get_property(self, property: str) -> Union[str, int, float]:
         if property in self.settings:
             return self.settings[property]
         if hasattr(self, property):
             return getattr(self, property)
 
-        raise ValueError(
-            "Component {} does not have property {}".format(self.name, property)
-        )
-
     def get_settings(self) -> Dict[str, Any]:
-        """Returns settings dictionary"""
-        output = {}
+        """Returns settings dictionary. Ignores items from self.ignore set."""
+        d = {}
+        d["settings"] = {}
+        include = {"name"}
         ignore = set(
             dir(Component())
             + [
-                "path",
-                "settings",
-                "properties",
-                "function_name",
-                "type",
+                "ignore",
                 "netlist",
+                "path",
                 "pins",
+                "properties",
+                "settings",
                 "settings_changed",
+                "type",
             ]
         )
+        ignore = ignore.union(self.ignore)
         params = set(dir(self)) - ignore
-        output["name"] = self.name
 
-        if hasattr(self, "function_name") and self.function_name:
-            output["function_name"] = self.function_name
+        for k in include:
+            if hasattr(self, k):
+                d[k] = getattr(self, k)
 
         for key, value in self.settings.items():
-            output[key] = _clean_value(value)
+            if key not in self.ignore:
+                d["settings"][key] = _clean_value(value)
 
         for param in params:
-            output[param] = _clean_value(getattr(self, param))
+            d[param] = _clean_value(getattr(self, param))
 
-        # output["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
-        # output["hash_geometry"] = str(self.hash_geometry())
-        output = {k: output[k] for k in sorted(output)}
+        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
+        # d["hash_geometry"] = str(self.hash_geometry())
+        output = {k: d[k] for k in sorted(d)}
         return output
 
     def get_settings_model(self):
@@ -791,9 +766,8 @@ class Component(Device):
         Can also be called to copy an existing port with a new name like add_port(port = existing_port, name = new_name)"""
         if port:
             if not isinstance(port, Port):
-                print(type(port))
                 raise ValueError(
-                    "[PHIDL] add_port() error: Argument `port` must be a Port for"
+                    f"[PHIDL] add_port({type(port)}) error: Argument `port` must be a Port for"
                     " copying"
                 )
             p = port._copy(new_uid=True)
@@ -832,7 +806,10 @@ class Component(Device):
             port.snap_to_grid(nm=nm)
 
     def get_json(self, **kwargs) -> Dict[str, Any]:
-        """ returns JSON metadata """
+        """
+        Returns:
+            Dict with component metadata
+        """
         jsondata = {
             "json_version": 7,
             "cells": recurse_structures(self),
@@ -851,7 +828,7 @@ class Component(Device):
     #     h = dict2hash(**self.settings)
     #     return int(h, 16)
 
-    def hash_geometry(self):
+    def hash_geometry(self) -> str:
         """returns geometrical hash"""
         if self.references or self.polygons:
             h = hash_cells(self, {})[self.name]
@@ -864,7 +841,7 @@ class Component(Device):
     def remove_layers(
         self, layers=(), include_labels=True, invert_selection=False, recursive=True
     ):
-        """ remove a list of layers """
+        """Remove a list of layers."""
         layers = [_parse_layer(layer) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]
@@ -929,8 +906,10 @@ class Component(Device):
     def get_layers(self):
         """returns a set of (layer, datatype)
 
-        >>> import pp
-        >>> pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
+        .. code ::
+
+            import pp
+            pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()
@@ -998,6 +977,29 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
             output.update(recurse_structures(element.ref_cell))
 
     return output
+
+
+def recurse_instances(component, instances=None, placements=None, full_settings=False):
+    """From a component returns instances and placements dicts."""
+    placements = placements or {}
+    instances = instances or {}
+
+    for r in component.references:
+        i = r.parent
+        reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
+        if hasattr(i, "settings") and full_settings:
+            settings = i.settings
+        else:
+            settings = i.get_property("settings_changed")
+        instances[reference_name] = dict(
+            component=i.function_name, settings=clean_dict(settings)
+        )
+        placements[reference_name] = dict(
+            x=float(r.x), y=float(r.y), rotation=int(r.rotation)
+        )
+        if i.references:
+            recurse_instances(i, instances=instances, placements=placements)
+    return instances, placements
 
 
 def clean_dict(d):
@@ -1126,17 +1128,19 @@ if __name__ == "__main__":
     import pp
 
     # c = pp.c.ring_single()
-    c = pp.c.mzi()
-    n = c.get_netlist()
-    print(n.connections)
-    c.plot_netlist()
+    # c = pp.c.mzi()
+    # n = c.get_netlist()
+    # print(n.connections)
+    # c.plot_netlist()
+
     # import matplotlib.pyplot as plt
     # plt.show()
 
     # test_netlist_simple()
     # test_netlist_complex()
 
-    # c = pp.c.waveguide()
+    c = pp.c.waveguide()
+    print(c.get_settings())
     # c = pp.c.dbr(n=1)
 
     # print(c.get_layers())

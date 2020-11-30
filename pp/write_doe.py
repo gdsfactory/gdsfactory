@@ -1,5 +1,5 @@
 import json
-from pp.name import get_component_name
+from pp.cell import get_component_name
 from pp.components import component_factory
 from pp.write_component import write_component
 from pp.config import CONFIG

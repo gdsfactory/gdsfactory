@@ -8,7 +8,7 @@ from pp import components as pc
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def test_resistance(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,

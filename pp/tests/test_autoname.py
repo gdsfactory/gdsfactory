@@ -1,7 +1,7 @@
 import pp
 
 
-def test_autoname():
+def test_cell():
     wg1 = pp.c.waveguide(length=10, width=0.5)
     wg2 = pp.c.waveguide(width=0.5, length=10)
     assert (
@@ -11,6 +11,6 @@ def test_autoname():
 
 
 if __name__ == "__main__":
-    wg1, wg2 = test_autoname()
+    wg1, wg2 = test_cell()
     print(wg1)
     print(wg2)

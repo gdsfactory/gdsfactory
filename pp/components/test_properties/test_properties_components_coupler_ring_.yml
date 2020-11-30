@@ -1,7 +1,8 @@
-bend_radius: 5.0
 function_name: coupler_ring
-gap: 0.2
-length_x: 4.0
 module: pp.components.coupler_ring
 name: coupler_ring
-wg_width: 0.5
+settings:
+  bend_radius: 5.0
+  gap: 0.2
+  length_x: 4.0
+  wg_width: 0.5

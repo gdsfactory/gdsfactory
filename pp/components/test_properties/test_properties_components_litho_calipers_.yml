@@ -1,12 +1,13 @@
 function_name: litho_calipers
-layer_bottom: 2
-layer_top: 1
 module: pp.components.pcm.litho_calipers
 name: litho_calipers
-notch_size:
-- 2
-- 5
-notch_spacing: 2
-num_notches: 11
-offset_per_notch: 0.1
-row_spacing: 0
+settings:
+  layer_bottom: 2
+  layer_top: 1
+  notch_size:
+  - 2
+  - 5
+  notch_spacing: 2
+  num_notches: 11
+  offset_per_notch: 0.1
+  row_spacing: 0

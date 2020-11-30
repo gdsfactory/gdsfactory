@@ -3,7 +3,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def compass(
     size: Tuple[float, float] = (4, 2), layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:

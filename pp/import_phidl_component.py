@@ -2,10 +2,10 @@ import copy
 from phidl.device_layout import Device
 from pp.component import Component, ComponentReference, Port
 from pp.config import call_if_func
-from pp.name import autoname
+from pp.cell import cell
 
 
-@autoname
+@cell
 def import_phidl_component(component: Device, **kwargs) -> Component:
     """ returns a gdsfactory Component from a phidl Device or function
     """

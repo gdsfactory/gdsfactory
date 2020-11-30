@@ -38,37 +38,37 @@ def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCL
     return c
 
 
-@pp.autoname
+@pp.cell
 def taper_w3_l36(**kwargs):
     csv_path = data_path / "taper_strip_0p5_3_36.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def taper_w10_l100(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_100.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def taper_w10_l150(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_150.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def taper_w10_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def taper_w11_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_11_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def taper_w12_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_12_200.csv"
     return taper_from_csv(csv_path, **kwargs)

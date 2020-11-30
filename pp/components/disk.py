@@ -7,7 +7,7 @@ from pp.component import Component
 from typing import Callable, Tuple
 
 
-@pp.autoname
+@pp.cell
 def disk(
     radius: float = 10.0,
     gap: float = 0.2,

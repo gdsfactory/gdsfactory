@@ -23,7 +23,7 @@ The actual chain of components is supplied by a string or a list
     from pp.components.waveguide_heater import waveguide_heater
     from pp.components.component_sequence import component_sequence
 
-    @pp.autoname
+    @pp.cell
     def test():
         # Define sub components
         bend_radius=10.0
@@ -71,7 +71,7 @@ The actual chain of components is supplied by a string or a list
 
     from pp.components.component_sequence import component_sequence
 
-    @pp.autoname
+    @pp.cell
     def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=1.0):
         """
         Phase modulator waveguide mockup

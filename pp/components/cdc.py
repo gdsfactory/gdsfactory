@@ -9,7 +9,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def cdc(
     length: float = 30.0,
     gap: float = 0.5,

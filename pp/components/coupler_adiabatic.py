@@ -8,7 +8,7 @@ from pp.component import Component
 from typing import Callable, Tuple
 
 
-@pp.autoname
+@pp.cell
 def coupler_adiabatic(
     length1: float = 20.0,
     length2: float = 50.0,

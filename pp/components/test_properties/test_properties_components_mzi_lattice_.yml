@@ -1,0 +1,12 @@
+function_name: mzi_lattice
+module: pp.components.mzi_lattice
+name: mzi_lattice
+settings:
+  coupler_gaps:
+  - 0.2
+  - 0.3
+  coupler_lengths:
+  - 10
+  - 20
+  delta_lengths:
+  - 10

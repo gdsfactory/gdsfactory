@@ -3,7 +3,7 @@ from pp.components import bend_euler180
 from pp.components.component_sequence import component_sequence
 
 
-@pp.autoname
+@pp.cell
 def cutback_component(
     component,
     cols=4,
@@ -52,7 +52,7 @@ def cutback_component(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cutback_component_flipped(
     component,
     cols=4,
@@ -94,7 +94,7 @@ def cutback_component_flipped(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cutback_polarization_rotator(n_devices_target, design=3):
     """ sample of component cutback """
     rows = 4

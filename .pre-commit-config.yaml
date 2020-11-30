@@ -1,25 +1,30 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: ''
-    hooks:
-      # - id: check-yaml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-  - repo: https://github.com/hakancelik96/unimport
-    rev: stable
-    hooks:
-      - id: unimport
-        args: [--remove, --requirements, --include-star-import]
-  - repo: https://github.com/psf/black
-    rev: ''
-    hooks:
-      - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: ''
-    hooks:
-      - id: flake8
-  - repo: https://github.com/kynan/nbstripout
-    rev: master
-    hooks:
-      - id: nbstripout
-        files: '.ipynb'
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: ""
+      hooks:
+          # - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+    - repo: https://github.com/hakancelik96/unimport
+      rev: stable
+      hooks:
+          - id: unimport
+            args: [--remove, --requirements, --include-star-import]
+    - repo: https://github.com/psf/black
+      rev: ""
+      hooks:
+          - id: black
+    - repo: https://gitlab.com/pycqa/flake8
+      rev: ""
+      hooks:
+          - id: flake8
+    - repo: https://github.com/kynan/nbstripout
+      rev: master
+      hooks:
+          - id: nbstripout
+            files: ".ipynb"
+
+    # - repo: https://github.com/terrencepreilly/darglint
+    #   rev: master
+    #   hooks:
+    #       - id: darglint

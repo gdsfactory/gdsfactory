@@ -1,13 +1,16 @@
-cladding_offset: 3.0
 function_name: coupler_straight
-gap: 0.27
-layer:
-- 1
-- 0
-layers_cladding:
-- - 111
-  - 0
 length: 10.0
 module: pp.components.coupler_straight
 name: coupler_straight
+settings:
+  cladding_offset: 3.0
+  gap: 0.27
+  layer:
+  - 1
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 10.0
+  width: 0.5
 width: 0.5

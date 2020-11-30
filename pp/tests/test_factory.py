@@ -109,6 +109,7 @@ def print_components_with_changes(
             print(f"[X] {component_type} changed hash")
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize("component_type", _components)
 @pytest.mark.noautofixt
 def test_components(

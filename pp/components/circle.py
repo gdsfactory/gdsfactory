@@ -6,7 +6,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def circle(
     radius: float = 10.0,
     angle_resolution: float = 2.5,

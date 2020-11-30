@@ -1,9 +1,10 @@
-import pp
+from typing import Tuple, Callable
 from pp.component import Component
-from typing import Tuple
+from pp.components.taper import taper
+import pp
 
 
-@pp.autoname
+@pp.cell(pins=True)
 def mmi2x2(
     wg_width: float = 0.5,
     width_taper: float = 0.95,
@@ -12,8 +13,9 @@ def mmi2x2(
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
+    taper_factory: Callable = taper,
 ) -> Component:
-    """ mmi 2x2
+    """Mmi 2x2
 
     Args:
         wg_width: input waveguides width
@@ -36,12 +38,15 @@ def mmi2x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = pp.c.taper(length=length_taper, width1=wg_width, width2=w_taper, pins=False)
+    taper = taper_factory(
+        length=length_taper, width1=wg_width, width2=w_taper, pins=False
+    )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = pp.c.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
+        pins=False,
         ports_parameters={
             "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
             "W": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
@@ -68,7 +73,7 @@ def mmi2x2(
     return component
 
 
-@pp.autoname
+@pp.cell
 def mmi2x2_biased(
     wg_width=0.5,
     width_taper=0.95,

@@ -3,7 +3,7 @@ from pp.port import deco_rename_ports
 from pp.components import waveguide
 
 
-@pp.autoname
+@pp.cell
 @deco_rename_ports
 def waveguide_array(n_waveguides: int = 4, spacing: float = 4.0, waveguide=waveguide):
     """array of waveguides connected with grating couplers

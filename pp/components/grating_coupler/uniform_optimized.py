@@ -14,8 +14,8 @@ def grating_coupler_uniform_optimized(
     length_taper=150,
     width=0.5,
     partial_etch=False,
-    layer=1,
-    layer_partial_etch=2,
+    layer=pp.LAYER.WG,
+    layer_partial_etch=pp.LAYER.SLAB150,
     taper=None,
     polarization="te",
     wavelength=1500,
@@ -34,7 +34,7 @@ def grating_coupler_uniform_optimized(
 
       import pp
 
-      c = pp.c.grating_coupler_uniform()
+      c = pp.c.grating_coupler_uniform_optimized()
       pp.plotgds(c)
 
     """
@@ -87,7 +87,7 @@ def grating_coupler_uniform_optimized(
     return c
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_1etch_h220_e70.csv"
     import pandas as pd
@@ -98,7 +98,7 @@ def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     )
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_2etch_h220_e70_e220.csv"
     import pandas as pd
@@ -109,7 +109,7 @@ def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     )
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     from pp.components.taper_from_csv import taper_w11_l200
 
@@ -117,7 +117,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper)
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     from pp.components.taper_from_csv import taper_w10_l200
 
@@ -125,7 +125,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper, width_grating=10)
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l100(**kwargs):
     from pp.components.taper_from_csv import taper_w10_l100
 

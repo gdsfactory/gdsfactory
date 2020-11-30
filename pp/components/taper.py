@@ -4,7 +4,7 @@ from pp.config import TAPER_LENGTH
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell(pins=True)
 def taper(
     length: float = TAPER_LENGTH,
     width1: float = 0.5,
@@ -14,7 +14,7 @@ def taper(
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
 ) -> Component:
-    """ Linear taper
+    """ Linear taper.
 
     Args:
         length:
@@ -62,7 +62,7 @@ def taper(
     return c
 
 
-@pp.autoname
+@pp.cell
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -108,7 +108,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@pp.autoname
+@pp.cell
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,

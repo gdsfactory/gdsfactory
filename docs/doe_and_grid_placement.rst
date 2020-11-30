@@ -89,7 +89,7 @@ Define component factory
     from pp.components.bend_circular import bend_circular
     from pp.routing.connect_component import add_io_optical
 
-    @pp.autoname
+    @pp.cell
     def wg_te_cutback(L=2000.0, wg_width=0.5, bend_radius=10.0):
         """
         All the parameters from this function will be accessible for defining the DOE

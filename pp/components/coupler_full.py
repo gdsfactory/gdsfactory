@@ -9,7 +9,7 @@ from pp.component import Component
 from typing import Callable, Tuple
 
 
-@pp.autoname
+@pp.cell
 def coupler_full(
     length: float = 40.0,
     gap: float = 0.5,

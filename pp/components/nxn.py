@@ -4,7 +4,7 @@ from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@pp.autoname
+@pp.cell
 def nxn(
     west: int = 1,
     east: int = 4,
@@ -16,7 +16,29 @@ def nxn(
     layer=pp.LAYER.WG,
     wg_margin: float = 1.0,
 ):
-    """returns a nxn component"""
+    """returns a nxn component with nxn ports (west, east, north, south)
+
+    Args:
+        west: number of west ports
+        east: number of east ports
+        north: number of north ports
+        south: number of south ports
+        xsize: size in X
+        ysize: size in Y
+        wg_width: width of the waveguide ports
+        wg_margin: margin from waveguide to component edge
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
     c = pp.Component()
     c << pp.c.rectangle(size=(xsize, ysize), layer=layer)
 

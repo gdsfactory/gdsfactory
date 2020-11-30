@@ -9,7 +9,7 @@ from pp import Port
 from pp.routing.add_fiber_array import add_fiber_array
 
 
-@pp.autoname
+@pp.cell
 def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width=0.5):
     """ big device with N ports on each side """
     component = pp.Component()

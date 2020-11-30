@@ -67,7 +67,7 @@ def grating_taper_points(
     return points
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical_tm(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
@@ -83,7 +83,7 @@ def grating_coupler_elliptical_tm(
     """
 
     Args:
-        neff: tooth effective index
+        neff: tooth effective index is lower for TM polarization
 
     .. plot::
       :include-source:
@@ -110,7 +110,7 @@ def grating_coupler_elliptical_tm(
     )
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical_te(
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
@@ -140,7 +140,7 @@ def grating_coupler_elliptical_te(
     )
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical(
     polarization: str,
     taper_length: float = 16.6,
@@ -157,7 +157,7 @@ def grating_coupler_elliptical(
     layer_slab: Tuple[int, int] = LAYER.SLAB150,
     with_fiber_marker: bool = True,
 ) -> Component:
-    """
+    r""" Grating coupler with parametrization based on Lumerical FDTD simulation
 
     Args:
         taper_length: taper length from waveguide I/O
@@ -178,6 +178,14 @@ def grating_coupler_elliptical(
 
       c = pp.c.grating_coupler_elliptical_te()
       pp.plotgds(c)
+
+    .. code::
+
+                 \  \  \  \
+                  \  \  \  \
+                _|-|_|-|_|-|___
+               |_______________  W0
+
     """
 
     # Define some constants
@@ -275,5 +283,5 @@ if __name__ == "__main__":
     c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
     print(c.polarization)
     print(c.wavelength)
-    pp.write_gds(c)
+    print(c.ports)
     pp.show(c)

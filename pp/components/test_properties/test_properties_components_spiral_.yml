@@ -1,11 +1,12 @@
-direction: NORTH
 function_name: spiral
-length: 10000.0
 module: pp.components.spiral
 name: spiral
-parity: 1
-port:
-- 0
-- 0
-spacing: None
-width: 500.0
+settings:
+  direction: NORTH
+  length: 10000.0
+  parity: 1
+  port:
+  - 0
+  - 0
+  spacing: None
+  width: 500.0

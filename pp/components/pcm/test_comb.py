@@ -2,7 +2,7 @@ import pp
 from pp import components as pc
 
 
-@pp.autoname
+@pp.cell
 def test_comb(
     pad_size=(200, 200),
     wire_width=1,

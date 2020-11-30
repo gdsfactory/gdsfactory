@@ -5,10 +5,10 @@ from pp.components.waveguide import waveguide
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
-from pp.name import autoname
+from pp.cell import cell
 
 
-@autoname
+@cell
 def ring_single(
     wg_width: float = 0.5,
     gap: float = 0.2,

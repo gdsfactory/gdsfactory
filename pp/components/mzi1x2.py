@@ -14,7 +14,7 @@ from pp.components.extension import line
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def mzi1x2(
     L0: float = 0.1,
     DL: float = 9.0,
@@ -26,7 +26,7 @@ def mzi1x2(
     coupler_factory: Callable = mmi1x2,
     with_elec_connections: bool = False,
 ) -> Component:
-    """ Mzi 1x2
+    """Mzi 1x2
 
     Args:
         L0: vertical length for both and top arms

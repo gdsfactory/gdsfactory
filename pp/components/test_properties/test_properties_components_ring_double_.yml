@@ -1,8 +1,9 @@
-bend_radius: 5.0
 function_name: ring_double
-gap: 0.2
-length_x: 4.0
-length_y: 2.0
 module: pp.components.ring_double
 name: ring_double
-wg_width: 0.5
+settings:
+  bend_radius: 5.0
+  gap: 0.2
+  length_x: 4.0
+  length_y: 2.0
+  wg_width: 0.5

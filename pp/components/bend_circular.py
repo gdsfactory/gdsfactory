@@ -1,10 +1,11 @@
+from typing import List, Tuple, Union
 from numpy import pi, cos, sin
 import numpy as np
 
 import pp
 from pp.layers import LAYER
 from pp.component import Component
-from typing import List, Tuple, Union
+from pp.config import conf
 
 
 def _interpolate_segment(p0, p1, N=2):
@@ -75,7 +76,7 @@ def _disk_section_points(
     return xpts, ypts
 
 
-@pp.autoname
+@pp.cell(pins=True)
 def bend_circular(
     radius: float = 10.0,
     width: float = 0.5,
@@ -84,9 +85,9 @@ def bend_circular(
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: float = 3.0,
+    cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
-    """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
+    """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
         radius
@@ -160,7 +161,10 @@ def bend_circular(
         orientation=start_angle + theta + 90 - 180 * (theta < 0),
         layer=layer,
     )
-    component.info["length"] = (abs(theta) * pi / 180) * radius
+
+    length = (abs(theta) * pi / 180) * radius
+    component.info["length"] = length
+    component.length = length
     component.radius = radius
     component.width = width
     component.move((0, radius))
@@ -176,19 +180,19 @@ def bend_circular(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
     pp.port.rename_ports_by_orientation(c)
     return c
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def _bend_circular(
     radius=10.0,
     width=0.5,
@@ -229,7 +233,7 @@ def _bend_circular(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular180(
     radius: Union[int, float] = 10.0,
     width: float = 0.5,
@@ -306,7 +310,7 @@ def _bend_circular_windows(
     return component
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_trenches(
     width=0.5, trench_width=3.0, trench_offset=0.2, trench_layer=LAYER.SLAB90, **kwargs
 ):
@@ -318,7 +322,7 @@ def bend_circular_trenches(
     return _bend_circular_windows(windows=windows, **kwargs)
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwargs):
     a = width / 2
     b = a + cladding
@@ -329,7 +333,7 @@ def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwarg
 bend_circular_ridge = bend_circular_trenches
 
 
-@pp.autoname
+@pp.cell
 def bend_circular_slot(width=0.5, gap=0.2, **kwargs):
     a = width / 2
     d = a + gap / 2
@@ -349,12 +353,14 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = bend_circular(radius=5.0005, width=1.002, theta=180, pins=True)
     c = bend_circular(theta=180, pins=True)
+    print(c.length, np.pi * 10)
+    c = bend_circular(pins=True)
     print(c.ports.keys())
     # print(c.ports["N0"].midpoint)
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
-    # print(c.ports)
+    print(c.ports)
     pp.show(c)
-    pp.plotgds(c)
+    # pp.plotgds(c)
     # quickplot2(c)

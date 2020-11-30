@@ -4,7 +4,7 @@ from pp import components as pc
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def _via_iterable(
     via_spacing: int,
     wire_width: int,
@@ -43,7 +43,7 @@ def _via_iterable(
     return VI
 
 
-@pp.autoname
+@pp.cell
 def test_via(
     num_vias: int = 100,
     wire_width: int = 10,

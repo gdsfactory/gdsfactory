@@ -10,7 +10,7 @@ from pp import LAYER
 from pp.components.component_sequence import component_sequence
 
 
-@pp.autoname
+@pp.cell
 def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=1.0):
     """
     Phase modulator waveguide mockup
@@ -31,7 +31,7 @@ def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=
     return component
 
 
-@pp.autoname
+@pp.cell
 def test_cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
     """ Modulator sections connected by bends """
     # Define sub components

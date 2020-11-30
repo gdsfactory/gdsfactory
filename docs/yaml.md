@@ -34,7 +34,7 @@ YAML is an easy to use human-friendly format to define components, circuits and 
 
     placements:
         arm_bot:
-            mirror: [0,0,0,10]
+            mirror: True
     ports:
         W0: CP1,W0
         E0: CP2,W0

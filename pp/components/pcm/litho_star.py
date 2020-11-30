@@ -1,11 +1,11 @@
-from pp.name import autoname
+from pp.cell import cell
 from pp.components import rectangle
 
 import pp
 from pp.component import Component
 
 
-@autoname
+@cell
 def litho_star(
     num_lines: int = 20, line_width: int = 2, diameter: int = 200, layer: int = 0
 ) -> Component:

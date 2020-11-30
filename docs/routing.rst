@@ -123,7 +123,7 @@ Routing banks of ports through pre-defined waypoints
     from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
 
 
-    @pp.autoname
+    @pp.cell
     def test_connect_bundle_waypoints():
         import pp
         from pp.component import Port

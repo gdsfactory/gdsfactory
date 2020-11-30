@@ -1,12 +1,13 @@
+from typing import List, Tuple
 import numpy as np
 
 import pp
 from pp.components.bezier import bezier
 from pp.component import Component
-from typing import List, Tuple
+from pp.config import conf
 
 
-@pp.autoname
+@pp.cell
 def bend_s(
     width: float = 0.5,
     height: float = 2.0,
@@ -14,10 +15,9 @@ def bend_s(
     layer: Tuple[int, int] = pp.LAYER.WG,
     nb_points: int = 99,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: float = 3.0,
+    cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
-    """ S bend
-    Based on bezier curve
+    """S bend with bezier curve
 
     Args:
         width
@@ -41,6 +41,7 @@ def bend_s(
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
         t=np.linspace(0, 1, nb_points),
         layer=layer,
+        pins=False,
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
@@ -60,8 +61,7 @@ def bend_s(
     return c
 
 
-@pp.port.deco_rename_ports
-@pp.autoname
+@pp.cell
 def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
     l, h = length, height
     return bezier(
@@ -72,14 +72,8 @@ def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=9
     )
 
 
-def _demo():
-    c = bend_s()
-    pp.write_gds(c)
-    return c
-
-
 if __name__ == "__main__":
-    c = bend_s(pins=True)
+    c = bend_s(pins=False)
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     pp.show(c)

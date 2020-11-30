@@ -3,7 +3,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def verniers(
     width_min: float = 0.1, width_max: float = 0.5, gap: float = 0.1, size_max: int = 11
 ) -> Component:

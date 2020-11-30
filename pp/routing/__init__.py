@@ -1,5 +1,4 @@
-"""
-Route optical and electrical waveguides
+""" Add optical and electrical routes
 """
 
 from pp.routing.add_electrical_pads import add_electrical_pads
@@ -14,7 +13,6 @@ from pp.routing.connect_bundle import connect_bundle_path_length_match
 from pp.routing.connect_bundle import link_electrical_ports
 from pp.routing.connect_bundle import link_optical_ports
 from pp.routing.connect_bundle import link_optical_ports_no_grouping
-from pp.routing.connect_bundle import link_ports
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_fiber_single import route_fiber_single
@@ -26,7 +24,7 @@ route_factory = dict(
 )
 
 link_factory = dict(
-    link_ports=link_ports,
+    link_ports=connect_bundle,
     link_ports_path_length_match=connect_bundle_path_length_match,
     link_electrical_waypoints=connect_elec_waypoints,
     link_optical_waypoints=connect_strip_way_points,

@@ -1,11 +1,11 @@
 from typing import Tuple
 import pp
 from pp.component import Component
-from pp.name import autoname
+from pp.cell import cell
 from pp.layers import LAYER
 
 
-@autoname
+@cell
 def cross(
     length: float = 10.0,
     width: float = 3.0,

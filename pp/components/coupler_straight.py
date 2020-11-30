@@ -3,7 +3,7 @@ import pp
 from pp.component import Component
 
 
-@pp.autoname
+@pp.cell
 def coupler_straight(
     length: float = 10.0,
     width: float = 0.5,
@@ -60,7 +60,7 @@ def coupler_straight(
     return c
 
 
-@pp.autoname
+@pp.cell
 def coupler_straight_biased(length=10, width=0.5, gap=0.27, layer=pp.LAYER.WG):
     return coupler_straight(
         width=pp.bias.width(width), gap=pp.bias.gap(gap), length=length, layer=layer

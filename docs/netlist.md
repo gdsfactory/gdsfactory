@@ -12,9 +12,9 @@ new components.
 
 This can be done using a netlist based approach where these 3 parts are defined:
 
-- components: a dictionnary of `{component reference name: (component, transform)}`
+- components: a dictionary of `{component reference name: (component, transform)}`
 - connections: a list of `(component ref name 1, port name A, component ref name 2, port name B)`
-- ports_map: a dictionnary of which ports are being exposed together with their new name `{port_name: (component ref name, port name)}`
+- ports_map: a dictionary of which ports are being exposed together with their new name `{port_name: (component ref name, port name)}`
 
 The code below illustrates how a simple MZI can be formed using this method.
 

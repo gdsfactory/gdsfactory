@@ -6,7 +6,7 @@ from pp.component import Component
 from typing import Tuple
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,
@@ -23,7 +23,7 @@ def grating_coupler_elliptical_trenches(
     n_periods: int = 30,
     straight: float = 0.2,
 ) -> Component:
-    """ Grating coupler
+    r""" Returns Grating coupler with defined trenches
 
     Args:
         polarization: 'te' or 'tm'
@@ -48,6 +48,14 @@ def grating_coupler_elliptical_trenches(
 
       c = grating_coupler_elliptical_trenches()
       pp.plotgds(c)
+
+
+    .. code::
+
+                 \  \  \  \
+                  \  \  \  \
+                _|-|_|-|_|-|___
+               |_______________  W0
     """
 
     # Define some constants
