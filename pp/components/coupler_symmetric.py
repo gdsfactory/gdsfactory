@@ -14,7 +14,7 @@ def coupler_symmetric(
     cladding_offset: float = 3.0,
     dy: float = 5.0,
 ) -> Component:
-    r"""two coupled waveguides with bends
+    r"""Two coupled waveguides with bends.
 
     Args:
         bend: bend or factory
@@ -44,14 +44,17 @@ def coupler_symmetric(
               E0
 
     """
-    bend = pp.call_if_func(
-        bend,
-        width=wg_width,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-        pins=False,
-        height=(dy - gap - wg_width) / 2,
+    bend = (
+        bend(
+            width=wg_width,
+            layer=layer,
+            layers_cladding=layers_cladding,
+            cladding_offset=cladding_offset,
+            pins=False,
+            height=(dy - gap - wg_width) / 2,
+        )
+        if callable(bend)
+        else bend
     )
 
     w = bend.ports["W0"].width
@@ -64,8 +67,6 @@ def coupler_symmetric(
     c.add(top_bend)
     c.add(bottom_bend)
 
-    # Using absorb here to have a flat cell and avoid
-    # to have deeper hierarchy than needed
     c.absorb(top_bend)
     c.absorb(bottom_bend)
 
@@ -73,7 +74,6 @@ def coupler_symmetric(
     c.add_port(name="W0", midpoint=[0, 0], width=port_width, orientation=180)
     c.add_port(port=bottom_bend.ports["E0"], name="E0")
     c.add_port(port=top_bend.ports["E0"], name="E1")
-
     return c
 
 
@@ -84,13 +84,6 @@ def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
     )
 
 
-def _demo_coupler_symmetric(wg_width=0.5, gap=0.2):
-    # c = coupler_symmetric(gap=gap, wg_width=wg_width)
-    c = coupler_symmetric_biased(gap=gap, wg_width=wg_width)
-    pp.write_gds(c)
-    return c
-
-
 if __name__ == "__main__":
-    c = _demo_coupler_symmetric()
+    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5, pins=False)
     pp.show(c)

@@ -34,21 +34,18 @@ def dict2hash(**kwargs) -> str:
     return h.hexdigest()
 
 
-def dict2name(prefix: None = None, **kwargs) -> str:
-    """ returns name from a dict """
+def dict2name(prefix: str = "", **kwargs) -> str:
+    """Return name from a dict."""
     ignore_from_name = kwargs.pop("ignore_from_name", [])
+    kv = []
 
-    if prefix:
-        label = [prefix]
-    else:
-        label = []
     for key in sorted(kwargs):
         if key not in ignore_from_name:
             value = kwargs[key]
             key = join_first_letters(key)
             value = clean_value(value)
-            label += [f"{key.upper()}{value}"]
-    label = "_".join(label)
+            kv += [f"{key.upper()}{value}"]
+    label = prefix + "_".join(kv)
     return clean_name(label)
 
 

@@ -163,6 +163,7 @@ def mzit(
     c.add_port("W1", port=cp2.ports["W1"])
     c.add_port("W0", port=cp2.ports["W0"])
 
+    c.pins = False
     return c
 
 

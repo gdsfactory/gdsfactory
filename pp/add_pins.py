@@ -4,6 +4,7 @@
 - outline
 
 """
+import json
 import numpy as np
 from pp.layers import LAYER, port_type2layer
 from pp.port import read_port_markers
@@ -165,6 +166,15 @@ def add_pins(
             )
 
 
+def add_settings_label(component, label_layer=LAYER.LABEL):
+    """Adds settings label. Ignores self.ingore set."""
+    settings = component.get_settings()
+    settings_string = f"settings={json.dumps(settings)}"
+    component.add_label(
+        position=component.center, text=settings_string, layer=label_layer
+    )
+
+
 def add_pins_and_outline(
     component, pins_function=add_pins, add_outline_function=add_outline
 ):
@@ -179,8 +189,8 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
 
 
 def test_add_pins():
-    component = pp.c.mzi2x2(with_elec_connections=True)
-    # print(len(component.get_polygons()))
+    component = pp.c.mzi2x2(pins=False, with_elec_connections=True)
+    print(len(component.get_polygons()))
     assert len(component.get_polygons()) == 194
 
     add_pins(component)
@@ -202,7 +212,7 @@ def test_add_pins():
 
 
 if __name__ == "__main__":
-    # test_add_pins()
+    test_add_pins()
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers
@@ -212,6 +222,6 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide()
     # c = pp.c.crossing(pins=True)
-    c = pp.c.bend_circular()
-    add_pins(c)
-    pp.show(c)
+    # c = pp.c.bend_circular()
+    # add_pins(c)
+    # pp.show(c)

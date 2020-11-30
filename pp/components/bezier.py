@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 import hashlib
 import numpy as np
 from numpy import ndarray
@@ -38,7 +38,7 @@ def bezier_biased(width=0.5, **kwargs):
     return bezier(width=width, **kwargs)
 
 
-# Not using cell on bezier due to control_points and t spacing
+@pp.cell(autoname=False)
 def bezier(
     name: None = None,
     width: float = 0.5,
@@ -50,9 +50,21 @@ def bezier(
     ],
     t: ndarray = np.linspace(0, 1, 201),
     layer: Tuple[int, int] = LAYER.WG,
-    **extrude_path_params,
+    with_manhattan_facing_angles: bool = True,
+    spike_length: float = 0.0,
+    start_angle: Optional[int] = None,
+    end_angle: Optional[int] = None,
+    grid: float = 0.001,
 ) -> Component:
-    """ bezier bend """
+    """Bezier bend
+    We avoid autoname control_points and t spacing
+
+    Args:
+        width: waveguide width
+        control_points: list of points
+        t: 1D array of points varying between 0 and 1
+        layer: layer
+    """
 
     def format_float(x):
         return "{:.3f}".format(x).rstrip("0").rstrip(".")
@@ -65,8 +77,18 @@ def bezier(
         name = f"bezier_w{int(width*1e3)}_{points_hash}_{layer[0]}_{layer[1]}"
 
     c = pp.Component(name=name)
+    c.ignore.add("control_points")
+    c.ignore.add("t")
     path_points = bezier_curve(t, control_points)
-    polygon_points = extrude_path(path_points, width, **extrude_path_params)
+    polygon_points = extrude_path(
+        path_points,
+        width=width,
+        with_manhattan_facing_angles=with_manhattan_facing_angles,
+        spike_length=spike_length,
+        start_angle=start_angle,
+        end_angle=end_angle,
+        grid=grid,
+    )
     angles = angles_deg(path_points)
 
     c.info["start_angle"] = angles[0]
@@ -89,7 +111,6 @@ def bezier(
     c.info["min_bend_radius"] = 1 / max(np.abs(curv))
     c.info["curvature"] = curv
     c.info["t"] = t
-
     return c
 
 
@@ -144,8 +165,10 @@ def find_min_curv_bezier_control_points(
 
 
 if __name__ == "__main__":
-    c = bezier()
-    print(c.ports)
-    print(c.ports["0"].y - c.ports["1"].y)
+    c = bezier(pins=True)
+    # print(c.ports)
+    # print(c.ports["0"].y - c.ports["1"].y)
+    print(c.get_settings())
+    # print(c.ignore)
     pp.write_gds(c)
     pp.show(c)

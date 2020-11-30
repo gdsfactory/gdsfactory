@@ -170,10 +170,8 @@ def write_gds(
     gdsdir.mkdir(parents=True, exist_ok=True)
 
     if remove_previous_markers:
-        port_layer = (LAYER.PORT,)
-        label_layer = (LAYER.TEXT,)
-        component.remove_layers([port_layer])
-        component.remove_layers([label_layer])
+        component.remove_layers([LAYER.PORT])
+        component.remove_layers([LAYER.TEXT])
 
     # write component settings into a label
     if with_settings_label:

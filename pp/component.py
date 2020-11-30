@@ -513,30 +513,31 @@ class Component(Device):
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
+    Args:
+        name:
+        polarization: 'te' or 'tm'
+        wavelength: (nm)
+        test_protocol: dict
+        data_analysis_protocol: dict
+        pins: if True adds pin to device
+        ignore: list of settings to ingnore
+
     """
 
     def __init__(
-        self,
-        name: str = "Unnamed",
-        polarization: None = None,
-        wavelength: None = None,
-        test_protocol: None = None,
-        data_analysis_protocol: None = None,
-        *args,
-        **kwargs,
+        self, name: str = "Unnamed", pins: bool = True, *args, **kwargs,
     ) -> None:
         # Allow name to be set like Component('arc') or Component(name = 'arc')
-
-        self.data_analysis_protocol = data_analysis_protocol or {}
-        self.test_protocol = test_protocol or {}
-        self.wavelength = wavelength
-        self.polarization = polarization
 
         self.settings = kwargs
         self.__ports__ = {}
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
+        self.pins = pins
+        self.ignore = set()
+        self.test_protocol = {}
+        self.data_analysis_protocol = {}
 
         if "with_uuid" in kwargs or name == "Unnamed":
             name += "_" + self.uid
@@ -544,7 +545,6 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name
         self.name_long = None
-        self.function_name = None
 
     def plot_netlist(
         self, label_index_end=1, with_labels=True, font_weight="normal",
@@ -712,29 +712,32 @@ class Component(Device):
             return getattr(self, property)
 
     def get_settings(self) -> Dict[str, Any]:
-        """Returns settings dictionary"""
+        """Returns settings dictionary. Ignores items from self.ignore set."""
         output = {}
+        include = {"name"}
         ignore = set(
             dir(Component())
             + [
-                "path",
-                "settings",
-                "properties",
-                "function_name",
-                "type",
+                "ignore",
                 "netlist",
+                "path",
                 "pins",
+                "properties",
+                "settings",
                 "settings_changed",
+                "type",
             ]
         )
+        ignore = ignore.union(self.ignore)
         params = set(dir(self)) - ignore
-        output["name"] = self.name
 
-        if hasattr(self, "function_name") and self.function_name:
-            output["function_name"] = self.function_name
+        for k in include:
+            if hasattr(self, k):
+                output[k] = getattr(self, k)
 
         for key, value in self.settings.items():
-            output[key] = _clean_value(value)
+            if key not in self.ignore:
+                output[key] = _clean_value(value)
 
         for param in params:
             output[param] = _clean_value(getattr(self, param))
@@ -1128,9 +1131,9 @@ if __name__ == "__main__":
     import pp
 
     # c = pp.c.ring_single()
-    c = pp.c.mzi()
-    n = c.get_netlist()
-    print(n.connections)
+    # c = pp.c.mzi()
+    # n = c.get_netlist()
+    # print(n.connections)
     # c.plot_netlist()
 
     # import matplotlib.pyplot as plt
@@ -1139,7 +1142,8 @@ if __name__ == "__main__":
     # test_netlist_simple()
     # test_netlist_complex()
 
-    # c = pp.c.waveguide()
+    c = pp.c.waveguide()
+    print(c.get_settings())
     # c = pp.c.dbr(n=1)
 
     # print(c.get_layers())

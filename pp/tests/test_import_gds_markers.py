@@ -12,3 +12,17 @@ def test_components_ports(gdspath, num_regression):
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
     num_regression.check(c.get_ports_array())
+
+
+if __name__ == "__main__":
+    c = import_gds(gdspaths[0])
+    add_ports_from_markers_center(c)
+    auto_rename_ports(c)
+    print(c.ports.keys())
+    print(c.name)
+
+    c = import_gds(gdspaths[1])
+    add_ports_from_markers_center(c)
+    auto_rename_ports(c)
+    print(c.ports.keys())
+    print(c.name)

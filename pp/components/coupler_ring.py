@@ -15,7 +15,7 @@ def coupler_ring(
     wg_width: float = 0.5,
     bend_radius: float = 5.0,
 ) -> Component:
-    """ coupler for half a ring
+    """Coupler for ring
 
     .. code::
 
@@ -39,11 +39,15 @@ def coupler_ring(
     assert_on_2nm_grid(gap)
 
     # define subcells
-    coupler90 = pp.call_if_func(
-        coupler90, gap=gap, width=wg_width, bend_radius=bend_radius
+    coupler90 = (
+        coupler90(gap=gap, width=wg_width, bend_radius=bend_radius, pins=False)
+        if callable(coupler90)
+        else coupler90
     )
-    coupler_straight = pp.call_if_func(
-        coupler, gap=gap, length=length_x, width=wg_width
+    coupler_straight = (
+        coupler(gap=gap, length=length_x, width=wg_width, pins=False)
+        if callable(coupler)
+        else coupler
     )
 
     # add references to subcells

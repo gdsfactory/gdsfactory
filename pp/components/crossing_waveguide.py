@@ -4,7 +4,7 @@ import scipy.optimize as so
 import gdspy
 
 import pp
-from pp.components import taper
+from pp.components.taper import taper
 from pp.components.bezier import bezier
 from pp.components.bezier import bezier_curve
 from pp.components.bezier import find_min_curv_bezier_control_points
@@ -28,8 +28,7 @@ def crossing_arm(
     w: float = 1.2,
     L: float = 3.4,
 ) -> Component:
-    """ arm of a crossing
-    """
+    """arm of a crossing"""
     c = pp.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
@@ -204,11 +203,9 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
 
     """
 
-    # Instantiate the crossing if it is a factory
-    crossing = pp.call_if_func(crossing)
+    crossing = crossing(pins=False) if callable(crossing) else crossing
 
     c = pp.Component()
-
     _crossing = crossing.ref(rotation=45)
     c.add(_crossing)
 
@@ -238,7 +235,11 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     )
 
     _bez_bend = bezier(
-        control_points=cpts, t=t, start_angle=start_angle, end_angle=end_angle
+        control_points=cpts,
+        t=t,
+        start_angle=start_angle,
+        end_angle=end_angle,
+        pins=False,
     )
 
     tol = 1e-2
@@ -391,7 +392,7 @@ def compensation_path(crossing45=crossing45, direction="top"):
 
 
 def demo():
-    """ plot curvature of bends
+    """plot curvature of bends
     FIXME: add more documentation
     """
     from matplotlib import pyplot as plt

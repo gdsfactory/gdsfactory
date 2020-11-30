@@ -5,6 +5,7 @@ from pp.layers import LAYER
 from pp.drc import assert_on_1nm_grid
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.components.coupler_straight import coupler_straight
+from pp.config import conf
 
 
 @cell
@@ -13,10 +14,10 @@ def coupler(
     gap: float = 0.236,
     length: float = 20.007,
     coupler_symmetric_factory: Callable = coupler_symmetric,
-    coupler_straight: Callable = coupler_straight,
+    coupler_straight_factory: Callable = coupler_straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
-    cladding_offset: float = 3.0,
+    cladding_offset: float = conf.tech.cladding_offset,
     dy: float = 5.0,
 ) -> Component:
     r"""symmetric coupler
@@ -25,7 +26,10 @@ def coupler(
         gap
         length
         coupler_symmetric_factory
-        coupler_straight
+        coupler_straight_factory
+        layer:
+        layers_cladding: list of cladding layers
+        cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
 
     .. code::
@@ -38,7 +42,7 @@ def coupler(
            _/                         \_      |
         W0                             E0     |
 
-            coupler_straight  coupler_symmetric_factory
+            coupler_straight_factory  coupler_symmetric_factory
 
     .. plot::
       :include-source:
@@ -60,17 +64,19 @@ def coupler(
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
         dy=dy,
+        pins=False,
     )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight(
+    cs = c << coupler_straight_factory(
         length=length,
         gap=gap,
         width=wg_width,
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
+        pins=False,
     )
     sl.connect("W0", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
@@ -95,6 +101,6 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    c = coupler(length=1, dy=1, gap=0.2, pins=True)
+    c = coupler(length=1, dy=1, gap=0.2)
     # print(c.settings_changed)
     pp.show(c)

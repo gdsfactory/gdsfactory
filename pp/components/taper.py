@@ -149,7 +149,7 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1, layers_cladding=[pp.LAYER.WGCLAD])
+    c = taper(width2=1, layers_cladding=[pp.LAYER.WGCLAD], pins=False)
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()

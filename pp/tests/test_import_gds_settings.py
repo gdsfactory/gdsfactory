@@ -24,18 +24,17 @@ def test_properties_components(component_type):
     c1 = component_factory[component_type]()
     gdspath = pp.write_component(c1, with_settings_label=True)
     c2 = import_gds(gdspath)
-
     add_settings_from_label(c2)
     c1s = tuplify(c1.get_settings())
     c2s = tuplify(c2.get_settings())
-
     d = diff(c1s, c2s)
-    # print(c1s)
-    # print(c2s)
-    # print(d)
+    print(c1s)
+    print(c2s)
     assert len(d) == 0
 
 
 if __name__ == "__main__":
     # test_properties_components(component_type=list(_components)[0])
-    test_properties_components(component_type="ring")
+    # test_properties_components(component_type="ring")
+    # test_properties_components(component_type="bezier")
+    test_properties_components(component_type="bend_s")

@@ -17,5 +17,6 @@ p_start: 26
 polarization: tm
 taper_angle: 30.0
 taper_length: 16.6
+wavelength: 1554
 wg_width: 0.5
 with_fiber_marker: true

@@ -17,5 +17,6 @@ p_start: 26
 polarization: te
 taper_angle: 40.0
 taper_length: 16.6
+wavelength: 1554
 wg_width: 0.5
 with_fiber_marker: true

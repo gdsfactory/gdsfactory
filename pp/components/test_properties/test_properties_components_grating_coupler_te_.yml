@@ -19,4 +19,5 @@ straight: 0.2
 taper_angle: 35
 taper_length: 16.6
 trenches_extra_angle: 9.0
+wavelength: 1530
 wg_width: 0.5

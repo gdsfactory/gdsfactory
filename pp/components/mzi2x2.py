@@ -102,6 +102,7 @@ def mzi_arm(
         input_port_name="W0",
         output_port_name="E0",
     )
+    component.pins = False
     return component
 
 
@@ -278,6 +279,7 @@ def mzi2x2(
 
         component = netlist_to_component(components, connections, ports_map)
 
+    component.pins = False
     return component
 
 
@@ -292,7 +294,7 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    c = mzi2x2(with_elec_connections=True, pins=True)
+    c = mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p.port_type)
 

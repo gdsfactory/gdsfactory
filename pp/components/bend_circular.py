@@ -5,6 +5,7 @@ import numpy as np
 import pp
 from pp.layers import LAYER
 from pp.component import Component
+from pp.config import conf
 
 
 def _interpolate_segment(p0, p1, N=2):
@@ -84,7 +85,7 @@ def bend_circular(
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: float = 3.0,
+    cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 

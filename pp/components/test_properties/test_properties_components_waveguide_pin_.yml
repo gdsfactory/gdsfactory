@@ -1,4 +1,4 @@
-cladding_offset: 3.0
+cladding_offset: 0.0
 function_name: waveguide_pin
 layer:
 - 1

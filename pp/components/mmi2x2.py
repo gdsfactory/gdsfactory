@@ -1,6 +1,6 @@
-import pp
-from pp.component import Component
 from typing import Tuple
+from pp.component import Component
+import pp
 
 
 @pp.cell
@@ -13,7 +13,7 @@ def mmi2x2(
     gap_mmi: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
-    """ mmi 2x2
+    """Mmi 2x2
 
     Args:
         wg_width: input waveguides width
@@ -42,6 +42,7 @@ def mmi2x2(
     mmi = pp.c.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
+        pins=False,
         ports_parameters={
             "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
             "W": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],

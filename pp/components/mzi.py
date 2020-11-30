@@ -60,7 +60,7 @@ def mzi(
       pp.plotgds(c)
 
     """
-    c = pp.Component()
+    c = pp.Component(pins=False)
     coupler = coupler(**coupler_settings) if callable(coupler) else coupler
     if combiner:
         combiner = pp.call_if_func(combiner)
@@ -159,9 +159,9 @@ def mzi(
 
 
 if __name__ == "__main__":
-    DL = 116.8 / 2
-    # print(DL)
-    c = mzi(DL=DL, pins=True, with_coupler=False)
+    delta_length = 116.8 / 2
+    # print(delta_length)
+    c = mzi(DL=delta_length, pins=True, with_coupler=False)
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
     print(c.ports.keys())

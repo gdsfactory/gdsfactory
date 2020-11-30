@@ -180,8 +180,13 @@ def extrude_path(
     Args:
         points: numpy 2D array of shape (N, 2)
         width: float
+        with_manhattan_facing_angles: bool
+        spike_length:
+        start_angle:
+        end_angle:
+        grid:
 
-    Return
+    Returns:
         numpy 2D array of shape (2*N, 2)
     """
 

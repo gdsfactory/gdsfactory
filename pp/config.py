@@ -65,7 +65,7 @@ tech:
     grid_unit: 1e-6
     grid_resolution: 1e-9
     bend_radius: 10.0
-    cladding_offset: 3.0
+    cladding_offset: 0.0
 """
     )
 )

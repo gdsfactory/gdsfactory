@@ -1,6 +1,6 @@
+from typing import Any, List, Tuple
 import pp
 from pp.component import Component
-from typing import Any, List, Tuple
 
 
 @pp.cell
@@ -15,7 +15,7 @@ def mmi1x2(
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
 ) -> Component:
-    """mmi 1x2
+    """Mmi 1x2.
 
     Args:
         wg_width: input waveguides width
@@ -25,6 +25,7 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         layer: gds layer
+        layers_cladding: list of layers
 
     .. plot::
       :include-source:
@@ -46,6 +47,7 @@ def mmi1x2(
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
+        pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -56,6 +58,7 @@ def mmi1x2(
             "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
             "W": [(w_mmi / 2, w_taper)],
         },
+        pins=False,
     )
     mmi.y = 0
 
@@ -108,7 +111,7 @@ def mmi1x2_biased(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(pins=True)
+    c = mmi1x2()
     print(c.ports)
     # print(c.get_ports_array())
     # c = mmi1x2_biased()

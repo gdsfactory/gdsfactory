@@ -1,5 +1,5 @@
 angle_resolution: 2.5
-cladding_offset: 3.0
+cladding_offset: 0.0
 function_name: bend_circular180
 layer:
 - 1

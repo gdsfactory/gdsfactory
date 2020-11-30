@@ -2,7 +2,7 @@ from typing import Callable
 from inspect import signature
 import uuid
 import hashlib
-import functools
+from functools import wraps, partial
 from pp.add_pins import add_pins_and_outline
 from pp.name import get_component_name
 
@@ -16,14 +16,14 @@ def clear_cache(components_cache=NAME_TO_DEVICE):
     return components_cache
 
 
-def cell(_func=None, *, autoname=True) -> Callable:
+def cell(func=None, *, autoname=True) -> Callable:
     """Cell Decorator:
 
     Args:
         autoname (bool): renames Component by concenating all Keyword arguments if no Keyword argument `name`
         name (str): Optional (ignored when autoname=True)
-        cache (bool): To avoid that 2 exact cells are not references of the same cell cell has a cache where if component has already been build it will return the component from the cache. You can always over-ride this with `cache = False`.
         uid (bool): adds a unique id to the name
+        cache (bool): To avoid that 2 exact cells are not references of the same cell cell has a cache where if component has already been build it will return the component from the cache. You can always over-ride this with `cache = False`.
         pins (bool): add pins
         pins_function (function): function to add pins
 
@@ -46,80 +46,78 @@ def cell(_func=None, *, autoname=True) -> Callable:
 
     """
 
-    def decorator_cell(component_function):
-        @functools.wraps(component_function)
-        def _cell(*args, **kwargs):
-            args_repr = [repr(a) for a in args]
-            kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
-            arguments = ", ".join(args_repr + kwargs_repr)
+    if func is None:
+        return partial(cell, autoname=autoname,)
 
-            if args:
-                raise ValueError(
-                    f"cell supports only Keyword args for `{component_function.__name__}({arguments})`"
-                )
-            cache = kwargs.pop("cache", True)
-            uid = kwargs.pop("uid", False)
-            pins = kwargs.pop("pins", False)
-            pins_function = kwargs.pop("pins_function", add_pins_and_outline)
+    @wraps(func)
+    def _cell(*args, **kwargs):
+        args_repr = [repr(a) for a in args]
+        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
+        arguments = ", ".join(args_repr + kwargs_repr)
 
-            component_type = component_function.__name__
-            name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
+        autoname = kwargs.pop("autoname", True)
+        uid = kwargs.pop("uid", False)
+        cache = kwargs.pop("cache", True)
+        pins = kwargs.pop("pins", False)
+        pins_function = kwargs.pop("pins_function", add_pins_and_outline)
 
-            if uid:
-                name += f"_{str(uuid.uuid4())[:8]}"
+        if args:
+            raise ValueError(
+                f"cell supports only Keyword args for `{func.__name__}({arguments})`"
+            )
 
-            kwargs.pop("ignore_from_name", [])
-            sig = signature(component_function)
-            # assert_first_letters_are_different(**sig.parameters)
+        component_type = func.__name__
+        # print(component_type, pins)
+        name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
 
-            if "args" not in sig.parameters and "kwargs" not in sig.parameters:
-                for key in kwargs.keys():
-                    if key not in sig.parameters.keys():
-                        raise TypeError(
-                            f"{component_type}() got an unexpected keyword argument `{key}`\n"
-                            f"valid keyword arguments are {list(sig.parameters.keys())}"
-                        )
+        if uid:
+            name += f"_{str(uuid.uuid4())[:8]}"
 
-            if cache and autoname and name in NAME_TO_DEVICE:
-                return NAME_TO_DEVICE[name]
-            else:
-                component = component_function(**kwargs)
-                component.module = component_function.__module__
-                component.function_name = component_function.__name__
+        kwargs.pop("ignore_from_name", [])
+        sig = signature(func)
+        # assert_first_letters_are_different(**sig.parameters)
 
-                if len(name) > MAX_NAME_LENGTH:
-                    component.name_long = name
-                    name = (
-                        f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+        if "args" not in sig.parameters and "kwargs" not in sig.parameters:
+            for key in kwargs.keys():
+                if key not in sig.parameters.keys():
+                    raise TypeError(
+                        f"{component_type}() got an unexpected keyword argument `{key}`\n"
+                        f"valid keyword arguments are {list(sig.parameters.keys())}"
                     )
-                if autoname:
-                    component.name = name
 
-                if not hasattr(component, "settings"):
-                    component.settings = {}
-                component.settings.update(
-                    **{
-                        p.name: p.default
-                        for p in sig.parameters.values()
-                        if not callable(p.default)
-                    }
-                )
-                component.settings.update(**kwargs)
-                component.settings_changed = kwargs.copy()
-                if pins:
-                    pins_function(component)
-                NAME_TO_DEVICE[name] = component
-                return component
+        if cache and autoname and name in NAME_TO_DEVICE:
+            return NAME_TO_DEVICE[name]
+        else:
+            component = func(**kwargs)
+            component.module = func.__module__
+            component.function_name = func.__name__
 
-        return _cell
+            if len(name) > MAX_NAME_LENGTH:
+                component.name_long = name
+                name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+            if autoname:
+                component.name = name
 
-    if _func is None:
-        return decorator_cell
-    else:
-        return decorator_cell(_func)
+            if not hasattr(component, "settings"):
+                component.settings = {}
+            component.settings.update(
+                **{
+                    p.name: p.default
+                    for p in sig.parameters.values()
+                    if not callable(p.default)
+                }
+            )
+            component.settings.update(**kwargs)
+            component.settings_changed = kwargs.copy()
+            if pins and component.pins:
+                pins_function(component)
+            NAME_TO_DEVICE[name] = component
+            return component
+
+    return _cell
 
 
-@cell(autoname=False)
+@cell(autoname=True)
 def wg(length=3, width=0.5):
     from pp.component import Component
 
@@ -163,6 +161,6 @@ def test_cell():
 if __name__ == "__main__":
     import pp
 
-    c = wg(length=3, pins=True)
+    c = wg(length=3, pins=False, autoname=False)
     print(c)
     pp.show(c)

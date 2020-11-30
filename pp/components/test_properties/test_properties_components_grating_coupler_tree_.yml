@@ -9,7 +9,7 @@ component:
   waveguide: waveguide
 component_name: waveguide_array_c233fa40
 fanout_length: 85.0
-function_name: add_fiber_array
+function_name: grating_coupler_tree
 gc_port_name: W0
 get_input_labels_function: get_input_labels
 get_route_factory: route_fiber_array

@@ -26,7 +26,7 @@ def mzi1x2(
     coupler_factory: Callable = mmi1x2,
     with_elec_connections: bool = False,
 ) -> Component:
-    """ Mzi 1x2
+    """Mzi 1x2
 
     Args:
         L0: vertical length for both and top arms
@@ -164,6 +164,7 @@ def mzi1x2(
         ports_map = {"W0": ("CP1", "W0"), "E0": ("CP2", "W0")}
         component = netlist_to_component(components, connections, ports_map)
 
+    component.pins = False
     return component
 
 

@@ -5,7 +5,7 @@ import hashlib
 import pp
 from pp.cell import cell
 from pp.components.hline import hline
-
+from pp.config import conf
 from pp.component import Component
 
 
@@ -15,7 +15,7 @@ def waveguide(
     width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: float = 3.0,
+    cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """Straight waveguide
 

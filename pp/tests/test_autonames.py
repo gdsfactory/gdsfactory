@@ -23,5 +23,5 @@ def test_cell():
 
 if __name__ == "__main__":
     test_cell()
-    # test_name_from_args()
-    # test_name_in_kwargs()
+    test_name_from_args()
+    test_name_in_kwargs()
