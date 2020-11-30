@@ -988,11 +988,11 @@ def recurse_instances(component, instances=None, placements=None, full_settings=
         i = r.parent
         reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
         if hasattr(i, "settings") and full_settings:
-            settings = i.settings
+            settings = i.settings or {}
         else:
-            settings = i.get_property("settings_changed")
+            settings = i.get_property("settings_changed") or {}
         instances[reference_name] = dict(
-            component=i.function_name, settings=clean_dict(settings)
+            component=i.function_name, settings=clean_dict(settings) or {}
         )
         placements[reference_name] = dict(
             x=float(r.x), y=float(r.y), rotation=int(r.rotation)
