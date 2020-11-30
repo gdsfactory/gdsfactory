@@ -3,7 +3,16 @@ import pp
 
 
 def test_connect_bundle_optical2():
-    """ connect forward """
+    """FIXME. Actual length of the route = 499
+    for some reason the route length is 10um shorter than the layout.
+
+    b = 15.708
+    route_length = 10+35+95.05+35+b+35+208+35+b+15
+    print(route_length) = 499.46
+
+    route_length = 10+t+89.55+t+b+t+9.44+t+b+20.5
+    print(route_length) = 300.906
+    """
     c = pp.Component()
 
     w = c << pp.c.waveguide_array(n_waveguides=4, spacing=200)
@@ -20,9 +29,13 @@ def test_connect_bundle_optical2():
         d.ports["W0"],
     ]
 
-    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
-    # print(r[0].parent.length)
-    assert np.isclose(r[0].parent.length, 489.4159265358979)
+    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True, bend_radius=10)
+
+    print(r[0].parent.length)
+    assert np.isclose(r[0].parent.length, 489.46592653589795, atol=0.1)
+
+    print(r[1].parent.length)
+    assert np.isclose(r[1].parent.length, 290.798926535898)
 
     c.add(r)
     return c

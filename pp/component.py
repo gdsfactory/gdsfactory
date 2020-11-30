@@ -519,14 +519,11 @@ class Component(Device):
         wavelength: (nm)
         test_protocol: dict
         data_analysis_protocol: dict
-        pins: if True adds pin to device
         ignore: list of settings to ingnore
 
     """
 
-    def __init__(
-        self, name: str = "Unnamed", pins: bool = True, *args, **kwargs,
-    ) -> None:
+    def __init__(self, name: str = "Unnamed", *args, **kwargs,) -> None:
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 
         self.settings = kwargs
@@ -534,7 +531,6 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.pins = pins
         self.ignore = set()
         self.test_protocol = {}
         self.data_analysis_protocol = {}

@@ -102,7 +102,6 @@ def mzi_arm(
         input_port_name="W0",
         output_port_name="E0",
     )
-    component.pins = False
     return component
 
 
@@ -279,7 +278,6 @@ def mzi2x2(
 
         component = netlist_to_component(components, connections, ports_map)
 
-    component.pins = False
     return component
 
 

@@ -76,7 +76,7 @@ def _disk_section_points(
     return xpts, ypts
 
 
-@pp.cell
+@pp.cell(pins=True)
 def bend_circular(
     radius: float = 10.0,
     width: float = 0.5,
@@ -87,7 +87,7 @@ def bend_circular(
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
-    """ Creates an arc of arclength ``theta`` starting at angle ``start_angle``
+    """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
         radius
@@ -161,7 +161,10 @@ def bend_circular(
         orientation=start_angle + theta + 90 - 180 * (theta < 0),
         layer=layer,
     )
-    component.info["length"] = (abs(theta) * pi / 180) * radius
+
+    length = (abs(theta) * pi / 180) * radius
+    component.info["length"] = length
+    component.length = length
     component.radius = radius
     component.width = width
     component.move((0, radius))
@@ -350,6 +353,7 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = bend_circular(radius=5.0005, width=1.002, theta=180, pins=True)
     c = bend_circular(theta=180, pins=True)
+    print(c.length, np.pi * 10)
     c = bend_circular(pins=True)
     print(c.ports.keys())
     # print(c.ports["N0"].midpoint)

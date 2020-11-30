@@ -16,7 +16,15 @@ def clear_cache(components_cache=NAME_TO_DEVICE):
     return components_cache
 
 
-def cell(func=None, *, autoname=True) -> Callable:
+def cell(
+    func=None,
+    *,
+    pins=False,
+    autoname=True,
+    uid=False,
+    cache=True,
+    pins_function=add_pins_and_outline,
+) -> Callable:
     """Cell Decorator:
 
     Args:
@@ -47,19 +55,28 @@ def cell(func=None, *, autoname=True) -> Callable:
     """
 
     if func is None:
-        return partial(cell, autoname=autoname,)
+        return partial(
+            cell,
+            pins=pins,
+            autoname=autoname,
+            uid=uid,
+            cache=cache,
+            pins_function=pins_function,
+        )
 
     @wraps(func)
-    def _cell(*args, **kwargs):
+    def _cell(
+        autoname=autoname,
+        pins=pins,
+        uid=uid,
+        cache=cache,
+        pins_function=pins_function,
+        *args,
+        **kwargs,
+    ):
         args_repr = [repr(a) for a in args]
         kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
         arguments = ", ".join(args_repr + kwargs_repr)
-
-        kwargs.pop("autoname", autoname)
-        uid = kwargs.pop("uid", False)
-        cache = kwargs.pop("cache", True)
-        pins = kwargs.pop("pins", False)
-        pins_function = kwargs.pop("pins_function", add_pins_and_outline)
 
         if args:
             raise ValueError(
@@ -67,7 +84,6 @@ def cell(func=None, *, autoname=True) -> Callable:
             )
 
         component_type = func.__name__
-        # print(component_type, pins)
         name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
 
         if uid:
@@ -109,8 +125,9 @@ def cell(func=None, *, autoname=True) -> Callable:
             )
             component.settings.update(**kwargs)
             component.settings_changed = kwargs.copy()
-            if pins and component.pins:
+            if pins:
                 pins_function(component)
+
             NAME_TO_DEVICE[name] = component
             return component
 
@@ -132,6 +149,19 @@ def wg(length=3, width=0.5):
 
 @cell(autoname=False)
 def wg2(length=3, width=0.5):
+    from pp.component import Component
+
+    c = Component("waveguide")
+    w = width / 2
+    layer = (1, 0)
+    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
+    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
+    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
+    return c
+
+
+@cell
+def wg3(length=3, width=0.5):
     from pp.component import Component
 
     c = Component("waveguide")
@@ -183,9 +213,13 @@ def test_cell():
 if __name__ == "__main__":
     import pp
 
-    test_autoname_true()
-    test_autoname_false()
+    # test_autoname_true()
+    # test_autoname_false()
 
-    c = wg(length=3, pins=False, autoname=False)
+    # c = wg(length=3)
+    # c = wg(length=3, pins=False, autoname=False)
+
+    # c = pp.c.waveguide()
+    c = wg3(pins=True)
     print(c)
     pp.show(c)

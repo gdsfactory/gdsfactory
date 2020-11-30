@@ -4,7 +4,7 @@ from pp.config import TAPER_LENGTH
 from pp.component import Component
 
 
-@pp.cell
+@pp.cell(pins=True)
 def taper(
     length: float = TAPER_LENGTH,
     width1: float = 0.5,
@@ -14,7 +14,7 @@ def taper(
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
 ) -> Component:
-    """ Linear taper
+    """ Linear taper.
 
     Args:
         length:
@@ -149,7 +149,7 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1, layers_cladding=[pp.LAYER.WGCLAD], pins=False)
+    c = taper(width2=1, layers_cladding=[pp.LAYER.WGCLAD])
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()

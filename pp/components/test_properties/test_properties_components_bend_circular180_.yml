@@ -7,6 +7,7 @@ layer:
 layers_cladding:
 - - 111
   - 0
+length: 31.41592653589793
 module: pp.components.bend_circular
 name: bend_circular180
 radius: 10.0

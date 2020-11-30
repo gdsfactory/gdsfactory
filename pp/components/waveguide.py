@@ -3,13 +3,12 @@ from typing import List, Tuple
 
 import hashlib
 import pp
-from pp.cell import cell
 from pp.components.hline import hline
 from pp.config import conf
 from pp.component import Component
 
 
-@cell
+@pp.cell(pins=True)
 def waveguide(
     length: float = 10.0,
     width: float = 0.5,
@@ -54,7 +53,7 @@ def waveguide(
     return c
 
 
-@cell
+@pp.cell
 def waveguide_biased(width=0.5, **kwargs):
     """Waveguide with etch bias"""
     width = pp.bias.width(width)
@@ -98,7 +97,7 @@ def _arbitrary_straight_waveguide(length, windows):
     return component
 
 
-@cell
+@pp.cell
 def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB150):
     """Waveguide with thinner top Silicon."""
     ymin = width / 2
@@ -107,7 +106,7 @@ def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLA
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
-@cell
+@pp.cell
 def waveguide_trenches(
     length=10.0,
     width=0.5,
@@ -124,10 +123,7 @@ def waveguide_trenches(
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
-waveguide_ridge = waveguide_slab
-
-
-@cell
+@pp.cell
 def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
     """Waveguide with a slot in the middle."""
     gap = pp.bias.gap(gap)
@@ -145,11 +141,8 @@ def _demo_waveguide():
 
 
 if __name__ == "__main__":
-    c = waveguide(length=4, pins=True)
-
-    # pp.show(c)
+    c = waveguide()
     # print(c.hash_geometry())
-    # pp.show(c)
 
     # print(c.ports)
     # cc = pp.routing.add_fiber_array(c)

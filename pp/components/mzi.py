@@ -9,7 +9,7 @@ from pp.components.mmi1x2 import mmi1x2
 
 
 @deco_rename_ports
-@pp.cell
+@pp.cell(pins=False)
 def mzi(
     L0: float = 1.0,
     DL: float = 0.1,
@@ -60,7 +60,7 @@ def mzi(
       pp.plotgds(c)
 
     """
-    c = pp.Component(pins=False)
+    c = pp.Component()
     coupler = coupler(**coupler_settings) if callable(coupler) else coupler
     if combiner:
         combiner = pp.call_if_func(combiner)

@@ -1,9 +1,10 @@
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Callable
 import pp
 from pp.component import Component
+from pp.components.taper import taper
 
 
-@pp.cell
+@pp.cell(pins=True)
 def mmi1x2(
     wg_width: float = 0.5,
     width_taper: float = 1.0,
@@ -14,6 +15,7 @@ def mmi1x2(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
+    taper_factory: Callable = taper,
 ) -> Component:
     """Mmi 1x2.
 
@@ -40,7 +42,7 @@ def mmi1x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = pp.c.taper(
+    taper = taper_factory(
         length=length_taper,
         width1=wg_width,
         width2=w_taper,

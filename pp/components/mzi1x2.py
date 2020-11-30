@@ -164,7 +164,6 @@ def mzi1x2(
         ports_map = {"W0": ("CP1", "W0"), "E0": ("CP2", "W0")}
         component = netlist_to_component(components, connections, ports_map)
 
-    component.pins = False
     return component
 
 

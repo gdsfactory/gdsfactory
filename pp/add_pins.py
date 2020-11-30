@@ -192,20 +192,23 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
 
 def test_add_pins():
     component = pp.c.mzi2x2(pins=False, with_elec_connections=True)
+    polygons = 252
+
     print(len(component.get_polygons()))
-    assert len(component.get_polygons()) == 194
+    assert len(component.get_polygons()) == polygons
 
     add_pins(component)
-    assert len(component.get_polygons()) == 194 + 7
-
-    # print(len(component.get_polygons()))
+    print(len(component.get_polygons()))
+    assert len(component.get_polygons()) == polygons + 7
 
     port_layer = port_type2layer["optical"]
     port_markers = read_port_markers(component, [port_layer])
-    assert len(port_markers.polygons) == 4
+    print(len(port_markers.polygons))
+    assert len(port_markers.polygons) == 44
 
     port_layer = port_type2layer["dc"]
     port_markers = read_port_markers(component, [port_layer])
+    print(len(port_markers.polygons))
     assert len(port_markers.polygons) == 3
 
     # for port_layer, port_type in port_layer2type.items():

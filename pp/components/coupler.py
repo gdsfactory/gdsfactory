@@ -8,7 +8,7 @@ from pp.components.coupler_straight import coupler_straight
 from pp.config import conf
 
 
-@cell
+@cell(pins=True)
 def coupler(
     wg_width: float = 0.5,
     gap: float = 0.236,

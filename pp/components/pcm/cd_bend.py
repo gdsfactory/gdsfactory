@@ -9,7 +9,7 @@ from pp.components.bend_circular import bend_circular_ridge
 from pp.components.bend_circular import bend_circular_slot
 
 from pp.components.waveguide import waveguide
-from pp.components.waveguide import waveguide_ridge
+from pp.components.waveguide import waveguide_slab
 from pp.components.waveguide import waveguide_slot
 
 
@@ -83,7 +83,7 @@ def cd_bend_rib(cladding=0.3, **kwargs):
         return bend_circular_ridge(*a, cladding=cladding, **k)
 
     def wg(*a, **k):
-        return waveguide_ridge(*a, cladding=cladding, **k)
+        return waveguide_slab(*a, cladding=cladding, **k)
 
     return cd_bend(**kwargs, bend90_factory=bend, waveguide_factory=wg)
 
