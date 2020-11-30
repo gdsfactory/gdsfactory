@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "2.1.4"
+__version__ = "2.2.0"
 from typing import Any, Dict
 import os
 import io

@@ -1,4 +1,4 @@
-# gdsfactory 2.1.4
+# gdsfactory 2.2.0
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
