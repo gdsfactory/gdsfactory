@@ -1,10 +1,9 @@
 from omegaconf import OmegaConf
+import pp
 
 
 def test_netlist_write():
-    from pp.components.mzi import mzi
-
-    c = mzi()
+    c = pp.c.mzi()
     netlist = c.get_netlist()
     # netlist.pop('connections')
     OmegaConf.save(netlist, "mzi.yml")
