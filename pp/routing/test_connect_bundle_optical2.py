@@ -35,7 +35,7 @@ def test_connect_bundle_optical2():
     assert np.isclose(r[0].parent.length, 489.46592653589795, atol=0.1)
 
     print(r[1].parent.length)
-    assert np.isclose(r[1].parent.length, 290.798926535898)
+    assert np.isclose(r[1].parent.length, 290.798926535898, atol=0.1)
 
     c.add(r)
     return c

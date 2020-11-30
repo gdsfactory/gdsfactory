@@ -19,10 +19,11 @@ def clear_cache(components_cache=NAME_TO_DEVICE):
 def cell(
     func=None,
     *,
-    pins=False,
     autoname=True,
+    name=None,
     uid=False,
     cache=True,
+    pins=False,
     pins_function=add_pins_and_outline,
 ) -> Callable:
     """Cell Decorator:
@@ -57,16 +58,18 @@ def cell(
     if func is None:
         return partial(
             cell,
-            pins=pins,
             autoname=autoname,
+            name=name,
             uid=uid,
             cache=cache,
+            pins=pins,
             pins_function=pins_function,
         )
 
     @wraps(func)
     def _cell(
         autoname=autoname,
+        name=name,
         pins=pins,
         uid=uid,
         cache=cache,
@@ -84,7 +87,7 @@ def cell(
             )
 
         component_type = func.__name__
-        name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
+        name = name or get_component_name(component_type, **kwargs)
 
         if uid:
             name += f"_{str(uuid.uuid4())[:8]}"
