@@ -1,9 +1,9 @@
+from typing import Callable
 import pp
 from pp.components.waveguide import waveguide
 from pp.components.bend_circular import bend_circular
 from pp.cell import cell
 from pp.component import Component
-from typing import Callable
 
 
 @cell
@@ -33,7 +33,6 @@ def coupler90(
     y = pp.drc.snap_to_1nm_grid((width + gap) / 2)
 
     c = Component()
-
     wg = c << waveguide_factory(length=bend_radius, width=width, pins=False)
     bend = c << bend90_factory(radius=bend_radius, width=width, pins=False)
 
@@ -45,7 +44,6 @@ def coupler90(
     c.absorb(bend)
 
     port_width = 2 * width + gap
-
     c.add_port(port=wg.ports["E0"], name="E0")
     c.add_port(port=bend.ports["N0"], name="N0")
     c.add_port(name="W0", midpoint=[0, y], width=port_width, orientation=180)

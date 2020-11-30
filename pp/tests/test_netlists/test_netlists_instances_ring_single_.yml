@@ -1,0 +1,51 @@
+connections:
+  bend_circular_R5p00_W500m_-6_10,N0: waveguide_L2p00_W500m_-9_6,W0
+  bend_circular_R5p00_W500m_2_10,N0: waveguide_L4p00_W500m_-2_12,E0
+  waveguide_L2p00_W500m_-9_6,E0: coupler90_BR5_G200m_W500m_-6_2,N0
+  waveguide_L2p00_W500m_5_6,E0: coupler90_BR5_G200m_W500m_2_2,N0
+  waveguide_L2p00_W500m_5_6,W0: bend_circular_R5p00_W500m_2_10,W0
+  waveguide_L4p00_W500m_-2_12,W0: bend_circular_R5_W500m_-6_10,W0
+instances:
+  bend_circular_R5p00_W500m_-6_10:
+    component: bend_circular
+    settings: {}
+  bend_circular_R5p00_W500m_2_10:
+    component: bend_circular
+    settings: {}
+  coupler_ring_8a8f8eb7_-2_1:
+    component: coupler_ring
+    settings: {}
+  waveguide_L2p00_W500m_-9_6:
+    component: waveguide
+    settings: {}
+  waveguide_L2p00_W500m_5_6:
+    component: waveguide
+    settings: {}
+  waveguide_L4p00_W500m_-2_12:
+    component: waveguide
+    settings: {}
+placements:
+  bend_circular_R5p00_W500m_-6_10:
+    rotation: 180
+    x: -6.6
+    y: 10.3
+  bend_circular_R5p00_W500m_2_10:
+    rotation: 90
+    x: 2.6
+    y: 10.299999999999999
+  coupler_ring_8a8f8eb7_-2_1:
+    rotation: 0
+    x: -2.0
+    y: 1.25
+  waveguide_L2p00_W500m_-9_6:
+    rotation: 270
+    x: -9.0
+    y: 6.7
+  waveguide_L2p00_W500m_5_6:
+    rotation: 270
+    x: 5.0
+    y: 6.7
+  waveguide_L4p00_W500m_-2_12:
+    rotation: 0
+    x: -2.0
+    y: 12.7

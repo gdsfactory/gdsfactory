@@ -1,7 +1,7 @@
 from typing import Callable
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
-from pp.components.waveguide import waveguide
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
@@ -16,7 +16,7 @@ def ring_single(
     bend_radius: float = 5.0,
     length_y: float = 2.0,
     coupler: Callable = coupler_ring,
-    waveguide: Callable = waveguide,
+    waveguide: Callable = waveguide_function,
     bend: Callable = bend_circular,
 ) -> Component:
     """ single bus ring made of two couplers (ct: top, cb: bottom)
@@ -49,14 +49,18 @@ def ring_single(
     )
     waveguide_side = call_if_func(waveguide, width=wg_width, length=length_y)
     waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x)
-    bend = call_if_func(bend, width=wg_width, radius=bend_radius)
+    bend_ref = (
+        bend(width=wg_width, radius=bend_radius, cache=False)
+        if callable(bend)
+        else bend
+    )
 
     c = Component()
     cb = c << coupler
     wl = c << waveguide_side
     wr = c << waveguide_side
-    bl = c << bend
-    br = c << bend
+    bl = c << bend_ref
+    br = c << bend_ref
     wt = c << waveguide_top
 
     wl.connect(port="E0", destination=cb.ports["N0"])
@@ -75,7 +79,7 @@ def ring_single(
 if __name__ == "__main__":
     import pp
 
-    c = ring_single(pins=True)
+    c = ring_single()
     # print(c.settings)
     # print(c.get_settings())
     pp.show(c)

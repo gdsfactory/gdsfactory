@@ -6,6 +6,7 @@ import pp
 from pp.layers import LAYER
 from pp.component import Component
 from pp.config import conf
+from pp.port import deco_rename_ports
 
 
 def _interpolate_segment(p0, p1, N=2):
@@ -76,6 +77,7 @@ def _disk_section_points(
     return xpts, ypts
 
 
+@deco_rename_ports
 @pp.cell(pins=True)
 def bend_circular(
     radius: float = 10.0,
@@ -96,6 +98,8 @@ def bend_circular(
         start_angle:
         angle_resolution
         layer
+        layers_cladding
+        cladding_offset
 
     .. plot::
       :include-source:
@@ -176,7 +180,6 @@ def bend_circular(
         midpoint2[0] - width / 2
     ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
-    pp.port.rename_ports_by_orientation(component)
     return component
 
 
@@ -190,47 +193,6 @@ def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
 @pp.cell
 def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
-
-
-@pp.cell
-def _bend_circular(
-    radius=10.0,
-    width=0.5,
-    theta=-90,
-    start_angle=0,
-    angle_resolution=2.5,
-    layer=LAYER.WG,
-):
-
-    component = pp.Component()
-
-    xpts, ypts = _bend_points(radius, width, theta, start_angle, angle_resolution)
-    angle1 = (start_angle) * pi / 180
-    angle2 = (start_angle + theta) * pi / 180
-
-    component.add_polygon(points=(xpts, ypts), layer=layer)
-
-    component.add_port(
-        name="W0",
-        midpoint=(radius * cos(angle1), radius * sin(angle1)),
-        width=width,
-        orientation=start_angle - 90 + 180 * (theta < 0),
-        layer=layer,
-    )
-    component.add_port(
-        name="N0",
-        midpoint=(radius * cos(angle2), radius * sin(angle2)),
-        width=width,
-        orientation=start_angle + theta + 90 - 180 * (theta < 0),
-        layer=layer,
-    )
-    component.info["length"] = (abs(theta) * pi / 180) * radius
-    component.radius = radius
-    component.width = width
-    component.move((0, radius))
-
-    pp.port.auto_rename_ports(component)
-    return component
 
 
 @pp.cell
@@ -352,15 +314,13 @@ if __name__ == "__main__":
     # c = bend_circular_deep_rib()
     # print(c.ports)
     # c = bend_circular(radius=5.0005, width=1.002, theta=180, pins=True)
-    c = bend_circular(theta=180, pins=True)
-    print(c.length, np.pi * 10)
-    c = bend_circular(pins=True)
-    print(c.ports.keys())
+    c = bend_circular()
+    # print(c.length, np.pi * 10)
+    # print(c.ports.keys())
     # print(c.ports["N0"].midpoint)
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
-    print(c.ports)
     pp.show(c)
     # pp.plotgds(c)
     # quickplot2(c)

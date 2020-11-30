@@ -49,9 +49,12 @@ def grating_coupler_tree(
         layer_label=layer_label,
         **kwargs
     )
+    cc.ignore.add("route_filter")
+    cc.ignore.add("module")
     return cc
 
 
 if __name__ == "__main__":
     c = grating_coupler_tree()
+    print(c.get_settings())
     pp.show(c)

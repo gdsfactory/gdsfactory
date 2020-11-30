@@ -169,7 +169,7 @@ def add_pins(
 def add_settings_label(component, label_layer=LAYER.LABEL):
     """Add settings in label, ignores component.ignore keys."""
     settings = component.get_settings()
-    settings_string = f"settings={json.dumps(settings, sort_keys=True, indent=2)}"
+    settings_string = f"settings={json.dumps(settings, indent=2)}"
     component.add_label(
         position=component.center, text=settings_string, layer=label_layer
     )

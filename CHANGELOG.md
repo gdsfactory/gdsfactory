@@ -15,7 +15,7 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
-# 2.2.0 2020-11-29
+## 2.2.0 2020-11-29
 
 - component_from_yaml updates:
     - placements:

@@ -71,7 +71,7 @@ def container(component_function: Callable) -> Callable:
         new.settings["function_name"] = component_function.__name__
 
         for key in propagate_attributes:
-            if hasattr(old, key):
+            if hasattr(old, key) and key not in old.ignore:
                 value = getattr(old, key)
                 if value:
                     setattr(new, key, value)

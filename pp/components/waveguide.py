@@ -142,6 +142,7 @@ def _demo_waveguide():
 
 if __name__ == "__main__":
     c = waveguide()
+    # pp.write_gds(c)
     # print(c.hash_geometry())
 
     # print(c.ports)
