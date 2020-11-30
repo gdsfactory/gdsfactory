@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 
 
-@pp.autoname
+@pp.cell
 def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Tuple[int, int] = pp.LAYER.WG,
@@ -73,7 +73,7 @@ def rectangle(
     return c
 
 
-@pp.autoname
+@pp.cell
 def rectangle_centered(
     w: int = 1, h: int = 1, x: None = None, y: None = None, layer: int = 0
 ) -> Component:

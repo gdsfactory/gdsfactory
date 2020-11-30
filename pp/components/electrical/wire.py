@@ -1,4 +1,4 @@
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
@@ -9,7 +9,7 @@ WIRE_WIDTH = 10.0
 
 
 @deco_rename_ports
-@autoname
+@cell
 def wire(length=50.0, width=WIRE_WIDTH, layer=LAYER.M3):
     """ electrical straight wire
 
@@ -25,7 +25,7 @@ def wire(length=50.0, width=WIRE_WIDTH, layer=LAYER.M3):
 
 
 @deco_rename_ports
-@autoname
+@cell
 def corner(width=WIRE_WIDTH, radius=None, layer=LAYER.M3):
     """ 90 degrees electrical bend
 

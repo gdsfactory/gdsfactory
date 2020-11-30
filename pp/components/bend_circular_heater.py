@@ -1,12 +1,12 @@
 import pp
 from pp.layers import LAYER
 from pp.components.bend_circular import bend_circular
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 
 
 @pp.port.deco_rename_ports
-@autoname
+@cell
 def bend_circular_heater(radius: float = 10.0, wg_width: float = 0.5) -> Component:
 
     theta = -90

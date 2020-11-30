@@ -1,10 +1,11 @@
-CL_1: 20.147
-DL: 7.38
-L0: 60.0
-L2: 10.0
-bend_radius: 10.0
 function_name: mzi2x2
-gap: 0.234
 module: pp.components.mzi2x2
 name: mzi2x2
-with_elec_connections: false
+settings:
+  CL_1: 20.147
+  DL: 7.38
+  L0: 60.0
+  L2: 10.0
+  bend_radius: 10.0
+  gap: 0.234
+  with_elec_connections: false

@@ -1,3 +1,18 @@
+"""
+For port naming we follow the IPKISS standard
+
+.. code::
+
+         N0  N1
+         |___|_
+    W1 -|      |- E1
+        |      |
+    W0 -|______|- E0
+         |   |
+        S0   S1
+
+"""
+
 from typing import Callable
 from typing import Any, List, Optional, Tuple, Dict, Union
 import functools
@@ -23,6 +38,19 @@ class Port(PortPhidl):
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
+
+
+    For port naming we follow the W,E,S,N prefix (west, east, south, north)
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
 
     """
 
@@ -133,6 +161,14 @@ class Port(PortPhidl):
                 f"{self.parent} port {self.name} has invalid orientation"
                 f" {self.orientation}"
             )
+
+
+def port_array(midpoint=(0, 0), width=0.5, orientation=0, delta=(10, 0), n=2):
+    """ returns list of ports """
+    return [
+        Port(midpoint=np.array(midpoint) + i * np.array(delta), orientation=orientation)
+        for i in range(n)
+    ]
 
 
 def read_port_markers(gdspath, layers=[(69, 0)]):
@@ -284,7 +320,19 @@ def _rename_ports_facing_side(
 def rename_ports_by_orientation(
     component: object, layers_excluded: List[Any] = []
 ) -> object:
-    """Returns Component with port names based on port orientation (E, N, W, S)"""
+    """Returns Component with port names based on port orientation (E, N, W, S)
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
 
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     ports_on_process = [
@@ -311,7 +359,19 @@ def rename_ports_by_orientation(
 
 
 def auto_rename_ports(component: object) -> object:
-    """Returns Component with port names based on port orientation (E, N, W, S)"""
+    """Returns Component with port names based on port orientation (E, N, W, S)
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
 
     def _counter_clockwise(_direction_ports, prefix=""):
 

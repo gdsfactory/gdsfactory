@@ -1,8 +1,8 @@
 from pp.component import Component
-from pp.name import autoname
+from pp.cell import cell
 
 
-@autoname
+@cell
 def bbox(bbox=[(-1, -1), (3, 4)], layer=(1, 0)):
     """ Creates a bounding box rectangle from coordinates, to allow
     creation of a rectangle bounding box directly form another shape.

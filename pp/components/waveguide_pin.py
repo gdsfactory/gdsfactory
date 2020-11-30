@@ -1,11 +1,11 @@
 from typing import Callable, Tuple
 from pp.component import Component
 from pp.layers import LAYER
-from pp.name import autoname
+from pp.cell import cell
 from pp.components.waveguide import waveguide
 
 
-@autoname
+@cell
 def waveguide_pin(
     length: float = 10.0,
     width: float = 0.5,

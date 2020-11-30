@@ -1,9 +1,10 @@
-angle_resolution: 2.5
 function_name: ring
-layer:
-- 1
-- 0
 module: pp.components.ring
 name: ring
-radius: 10.0
-width: 0.5
+settings:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radius: 10.0
+  width: 0.5

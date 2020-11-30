@@ -27,8 +27,9 @@ from phidl.device_layout import Group, Path, CrossSection
 from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
-from pp.name import autoname
-from pp.name import clear_cache
+from pp.port import port_array
+from pp.cell import cell
+from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
@@ -53,6 +54,7 @@ from pp.component_from_yaml import component_from_yaml
 from pp.components import component_factory
 from pp.components import factory
 from pp.components.extension import extend_ports
+from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins
 from pp.import_gds import import_gds
@@ -71,9 +73,10 @@ __all__ = [
     "Group",
     "Path",
     "bias",
-    "autoname",
+    "cell",
     "add_padding",
     "add_pins",
+    "add_termination",
     "import_gds",
     "import_phidl_component",
     "c",
@@ -95,6 +98,7 @@ __all__ = [
     "path",
     "pg",
     "port",
+    "port_array",
     "routing",
     "show",
     "sp",
@@ -106,7 +110,7 @@ __all__ = [
     "component_from_yaml",
     "units",
 ]
-__version__ = "2.1.4"
+__version__ = "2.2.0"
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ from phidl.device_layout import Label
 from pp.component import Component, ComponentReference
 from pp.layers import LAYER
 from pp.components.bend_circular import bend_circular
-from pp.components import waveguide
+from pp.components.waveguide import waveguide
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 
 from pp.routing.manhattan import round_corners

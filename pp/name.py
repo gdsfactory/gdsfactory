@@ -1,22 +1,9 @@
 """ define names, clean names and values
 """
-from typing import Any, Callable
-import uuid
-import functools
-from inspect import signature
+from typing import Any
 import hashlib
 import numpy as np
 from phidl import Device
-from pp.add_pins import add_pins_and_outline
-
-MAX_NAME_LENGTH = 32
-
-NAME_TO_DEVICE = {}
-
-
-def clear_cache(components_cache=NAME_TO_DEVICE):
-    components_cache = {}
-    return components_cache
 
 
 def join_first_letters(name: str) -> str:
@@ -36,106 +23,6 @@ def get_component_name(component_type: str, **kwargs) -> str:
     return name
 
 
-def autoname(component_function: Callable) -> Callable:
-    """decorator for auto-naming component functions
-    if no Keyword argument `name`  is passed it creates a name by concenating all Keyword arguments
-
-    To avoid that 2 exact cells are not references of the same cell autoname has a cache where if component has already been build it will return the component from the cache
-    You can always over-ride this with `cache = False`
-    This is helpful when you are changing the code inside the function that is being cached.
-
-    Args:
-        name (str):
-        cache (bool): caches functions with same name
-        uid (bool): adds a unique id to the name
-        pins (bool): add pins
-        pins_function (function): function to add pins
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      @pp.autoname
-      def rectangle(size=(4,2), layer=0):
-          c = pp.Component()
-          w, h = size
-          points = [[w, h], [w, 0], [0, 0], [0, h]]
-          c.add_polygon(points, layer=layer)
-          return c
-
-      c = rectangle(layer=1)
-      c << pp.c.text(text=c.name, size=1)
-      pp.plotgds(c)
-
-    """
-
-    @functools.wraps(component_function)
-    def _autoname(*args, **kwargs):
-        args_repr = [repr(a) for a in args]
-        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
-        arguments = ", ".join(args_repr + kwargs_repr)
-
-        if args:
-            raise ValueError(
-                f"autoname supports only Keyword args for `{component_function.__name__}({arguments})`"
-            )
-        cache = kwargs.pop("cache", True)
-        uid = kwargs.pop("uid", False)
-        pins = kwargs.pop("pins", False)
-        pins_function = kwargs.pop("pins_function", add_pins_and_outline)
-
-        component_type = component_function.__name__
-        name = kwargs.pop("name", get_component_name(component_type, **kwargs),)
-
-        if uid:
-            name += f"_{str(uuid.uuid4())[:8]}"
-
-        kwargs.pop("ignore_from_name", [])
-        sig = signature(component_function)
-        # assert_first_letters_are_different(**sig.parameters)
-
-        if "args" not in sig.parameters and "kwargs" not in sig.parameters:
-            for key in kwargs.keys():
-                if key not in sig.parameters.keys():
-                    raise TypeError(
-                        f"{component_type}() got an unexpected keyword argument `{key}`\n"
-                        f"valid keyword arguments are {list(sig.parameters.keys())}"
-                    )
-
-        if cache and name in NAME_TO_DEVICE:
-            return NAME_TO_DEVICE[name]
-        else:
-            component = component_function(**kwargs)
-            component.name = name
-            component.module = component_function.__module__
-            component.function_name = component_function.__name__
-
-            if len(name) > MAX_NAME_LENGTH:
-                component.name_long = name
-                component.name = (
-                    f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
-                )
-
-            if not hasattr(component, "settings"):
-                component.settings = {}
-            component.settings.update(
-                **{
-                    p.name: p.default
-                    for p in sig.parameters.values()
-                    if not callable(p.default)
-                }
-            )
-            component.settings.update(**kwargs)
-            component.settings_changed = kwargs.copy()
-            if pins:
-                pins_function(component)
-            NAME_TO_DEVICE[name] = component
-            return component
-
-    return _autoname
-
-
 def dict2hash(**kwargs) -> str:
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     h = hashlib.sha256()
@@ -147,21 +34,18 @@ def dict2hash(**kwargs) -> str:
     return h.hexdigest()
 
 
-def dict2name(prefix: None = None, **kwargs) -> str:
-    """ returns name from a dict """
+def dict2name(prefix: str = "", **kwargs) -> str:
+    """Return name from a dict."""
     ignore_from_name = kwargs.pop("ignore_from_name", [])
+    kv = []
 
-    if prefix:
-        label = [prefix]
-    else:
-        label = []
     for key in sorted(kwargs):
         if key not in ignore_from_name:
             value = kwargs[key]
             key = join_first_letters(key)
             value = clean_value(value)
-            label += [f"{key.upper()}{value}"]
-    label = "_".join(label)
+            kv += [f"{key.upper()}{value}"]
+    label = prefix + "_".join(kv)
     return clean_name(label)
 
 
@@ -246,34 +130,6 @@ def clean_value(value: Any) -> str:
     return value
 
 
-class _Dummy:
-    pass
-
-
-@autoname
-def _dummy(length=3, wg_width=0.5):
-    c = _Dummy()
-    c.name = ""
-    c.settings = {}
-    return c
-
-
-def test_autoname():
-    name_base = _dummy().name
-    assert name_base == "_dummy"
-    name_int = _dummy(length=3).name
-    assert name_int == "_dummy_L3"
-    name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW500m"
-    name_length_first = _dummy(length=3, wg_width=0.5).name
-    name_width_first = _dummy(wg_width=0.5, length=3).name
-    assert name_length_first == name_width_first
-
-    name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW0p5"
-    print(name_float)
-
-
 def test_clean_value():
     assert clean_value(0.5) == "500m"
     assert clean_value(5) == "5"
@@ -284,7 +140,7 @@ def test_clean_name():
 
 
 if __name__ == "__main__":
-    # test_autoname()
+    # test_cell()
     import pp
 
     # print(clean_value(pp.c.waveguide))

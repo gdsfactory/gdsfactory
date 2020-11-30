@@ -1,7 +1,7 @@
 from typing import Callable, Dict, List, Tuple
 import numpy as np
 import pp
-from pp.name import autoname
+from pp.cell import cell
 from pp.layers import LAYER
 from pp.port import Port
 from pp.port import deco_rename_ports
@@ -12,7 +12,7 @@ from pp.components.extension import line
 from pp.component import Component
 
 
-@autoname
+@cell
 def heater(
     length: float = 10.0,
     width: float = 0.5,
@@ -81,7 +81,7 @@ def add_trenches(
     return c
 
 
-@autoname
+@cell
 def waveguide_heater(
     length: float = 10.0,
     width: float = 0.5,
@@ -160,7 +160,7 @@ def waveguide_heater(
     return c
 
 
-@autoname
+@cell
 def wg_heater_connector(
     heater_ports: List[Port],
     metal_width: float = 10.0,
@@ -240,7 +240,7 @@ def wg_heater_connector(
 
 
 @deco_rename_ports
-@autoname
+@cell
 def wg_heater_connected(
     waveguide_heater: Callable = waveguide_heater,
     wg_heater_connector: Callable = wg_heater_connector,

@@ -1,11 +1,12 @@
 from typing import Optional
+import json
 import gdspy
 
 from phidl.device_layout import DeviceReference
 
 import pp
 from pp.component import Component
-from pp.name import NAME_TO_DEVICE
+from pp.cell import NAME_TO_DEVICE
 from pp.port import read_port_markers, auto_rename_ports
 from pp.layers import port_layer2type, port_type2layer
 
@@ -249,7 +250,7 @@ def import_gds(
 def test_import_gds_snap_to_grid():
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
-    print(len(c.get_polygons()))
+    # print(len(c.get_polygons()))
     assert len(c.get_polygons()) == 8
 
     for x, y in c.get_polygons()[0]:
@@ -264,8 +265,8 @@ def test_import_gds_hierarchy():
     assert len(c.get_dependencies()) == 3
 
 
-def test_import_gds_with_port_markers_optical():
-    """ """
+def demo_optical():
+    """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.c.mmi1x2()
     # for p in c.ports.values():
     #     print(p)
@@ -280,8 +281,8 @@ def test_import_gds_with_port_markers_optical():
     #     print(p)
 
 
-def test_import_gds_with_port_markers_optical_electrical():
-    """"""
+def demo_electrical():
+    """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.c.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p)
@@ -297,8 +298,18 @@ def test_import_gds_with_port_markers_optical_electrical():
         print(p)
 
 
+def add_settings_from_label(component):
+    """Adds settings from label."""
+    for label in component.labels:
+        if label.text.startswith("settings="):
+            d = json.loads(label.text[9:])
+            component.settings = d.pop("settings", {})
+            for k, v in d.items():
+                setattr(component, k, v)
+
+
 if __name__ == "__main__":
-    test_import_gds_with_port_markers_optical_electrical()
+    # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
     # test_import_gds_snap_to_grid()
     # test_import_gds_snap_to_grid()
@@ -307,3 +318,10 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, snap_to_grid_nm=5)
     # print(c)
     # pp.show(c)
+
+    c = import_gds("wg.gds")
+    add_settings_from_label(c)
+    print(c.settings)
+
+    # add_ports_from_markers_center(c)
+    # print(c.ports)

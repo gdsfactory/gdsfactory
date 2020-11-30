@@ -6,7 +6,7 @@ from pp.component import Component
 from typing import Tuple
 
 
-@pp.autoname
+@pp.cell
 def ellipse(
     radii: Tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,

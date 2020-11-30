@@ -8,7 +8,7 @@ import pp
 
 
 @deco_rename_ports
-@pp.autoname
+@pp.cell
 def grating_coupler_elliptical2(
     wgt=wg_strip,
     theta=np.pi / 4.0,
@@ -25,7 +25,7 @@ def grating_coupler_elliptical2(
     wavelength=1550,
     **kwargs
 ):
-    """ Grating coupler
+    r""" Returns Grating coupler from Picwriter
 
     Args:
         waveguide_template: object or function
@@ -47,6 +47,13 @@ def grating_coupler_elliptical2(
 
       c = pp.c.grating_coupler_elliptical2()
       pp.plotgds(c)
+
+    .. code::
+
+                 \  \  \  \
+                  \  \  \  \
+                _|-|_|-|_|-|___
+               |_______________  W0
 
     """
 

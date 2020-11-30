@@ -1,21 +1,24 @@
-big_last_tooth: false
-fiber_angle: 15.0
 function_name: grating_coupler_elliptical_tm
-grating_line_width: 0.707
-lambda_c: 1.554
-layer:
-- 1
-- 0
-layer_slab:
-- 2
-- 0
 module: pp.components.grating_coupler.elliptical
-n_periods: 16
 name: grating_coupler_elliptical_tm
-neff: 1.8
-p_start: 26
 polarization: tm
-taper_angle: 30.0
-taper_length: 16.6
-wg_width: 0.5
-with_fiber_marker: true
+settings:
+  big_last_tooth: false
+  fiber_angle: 15.0
+  grating_line_width: 0.707
+  lambda_c: 1.554
+  layer:
+  - 1
+  - 0
+  layer_slab:
+  - 2
+  - 0
+  n_periods: 16
+  neff: 1.8
+  p_start: 26
+  polarization: tm
+  taper_angle: 30.0
+  taper_length: 16.6
+  wg_width: 0.5
+  with_fiber_marker: true
+wavelength: 1554

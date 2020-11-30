@@ -22,7 +22,7 @@ def straight(width, length, start_coord, layer=pp.LAYER.WG, datatype=0):
     return t, s, e
 
 
-@pp.autoname
+@pp.cell
 def spiral_circular(
     length=1e3,
     wg_width=0.5,

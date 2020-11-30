@@ -1,14 +1,14 @@
 from typing import Tuple
 from pp.components import taper
 from pp.components import compass
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler import grating_coupler
 import pp
 
 
 @grating_coupler
-@autoname
+@cell
 def grating_coupler_uniform(
     num_teeth: int = 20,
     period: float = 0.75,
@@ -22,7 +22,9 @@ def grating_coupler_uniform(
     polarization="te",
     wavelength=1500,
 ) -> Component:
-    """Grating coupler uniform
+    r"""Grating coupler uniform (grating with rectangular shape not elliptical).
+    Therefore it needs a longer taper.
+    Grating teeth are straight instead of elliptical.
 
     Args:
         num_teeth: 20
@@ -41,8 +43,14 @@ def grating_coupler_uniform(
       c = pp.c.grating_coupler_uniform()
       pp.plotgds(c)
 
+    .. code::
+
+                 \  \  \  \
+                  \  \  \  \
+                _|-|_|-|_|-|___
+               |_______________  W0
+
     """
-    # returns a fiber grating
     G = Component()
 
     if partial_etch:
@@ -89,4 +97,5 @@ def grating_coupler_uniform(
 if __name__ == "__main__":
     # c = grating_coupler_uniform(name='gcu', partial_etch=True)
     c = grating_coupler_uniform(partial_etch=False, pins=True)
+    print(c.ports)
     pp.show(c)

@@ -5,6 +5,5 @@ REM Windows installation script.
 conda install -c conda-forge gdspy
 pip install -r requirements.txt --upgrade
 pip install -r requirements_dev.txt --upgrade
-pip install pre-commit
 pre-commit install
 pf install

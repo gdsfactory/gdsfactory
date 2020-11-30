@@ -8,7 +8,7 @@ from pp.component import Component
 from typing import List, Union
 
 
-@pp.autoname
+@pp.cell
 def line(
     x0: Union[float, int],
     y0: Union[float, int],
@@ -24,7 +24,7 @@ def line(
     return L
 
 
-@pp.autoname
+@pp.cell
 def linespace(
     x0: Union[float, int],
     y0: Union[float, int],
@@ -70,7 +70,7 @@ def y0linespace(y0: float, height: int, pitch: int, ymax: float) -> float:
     return y0
 
 
-@pp.autoname
+@pp.cell
 def cross(x0: float, y0: float, width: int, lw: int, layer: ListConfig) -> Component:
     """ cross
 
@@ -101,7 +101,7 @@ def cross(x0: float, y0: float, width: int, lw: int, layer: ListConfig) -> Compo
     return cross
 
 
-@pp.autoname
+@pp.cell
 def ppe(
     layer: ListConfig = pp.LAYER.WG,
     layers_cladding: List[ListConfig] = [pp.LAYER.WGCLAD],

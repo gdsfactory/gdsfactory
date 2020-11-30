@@ -10,7 +10,7 @@ from pp.component import Component
 from typing import Callable
 
 
-@pp.autoname
+@pp.cell
 def loop_mirror(
     component: Callable = mmi1x2, bend90: Callable = bend_euler90
 ) -> Component:
@@ -30,7 +30,7 @@ def loop_mirror(
     return c
 
 
-@pp.autoname
+@pp.cell
 def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler90):
     c = pp.Component()
     component = pp.call_if_func(component)
@@ -42,7 +42,7 @@ def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler90):
     return c
 
 
-@pp.autoname
+@pp.cell
 def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     """
     delay = 13e-12

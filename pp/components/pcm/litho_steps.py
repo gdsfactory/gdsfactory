@@ -1,4 +1,4 @@
-from pp.name import autoname
+from pp.cell import cell
 from pp import components as pc
 
 import pp
@@ -6,7 +6,7 @@ from pp.component import Component
 from typing import List
 
 
-@autoname
+@cell
 def litho_steps(
     line_widths: List[int] = [1, 2, 4, 8, 16],
     line_spacing: int = 10,

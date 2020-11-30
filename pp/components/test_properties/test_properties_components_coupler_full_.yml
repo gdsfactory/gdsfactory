@@ -1,12 +1,13 @@
-angle: 0.5235987755982988
-direction: EAST
-dw: 0.1
 function_name: coupler_full
-gap: 0.5
-length: 40.0
 module: pp.components.coupler_full
 name: coupler_full
-parity: 1
-port:
-- 0
-- 0
+settings:
+  angle: 0.5235987755982988
+  direction: EAST
+  dw: 0.1
+  gap: 0.5
+  length: 40.0
+  parity: 1
+  port:
+  - 0
+  - 0

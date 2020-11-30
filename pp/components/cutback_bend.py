@@ -12,7 +12,7 @@ def _get_bend_size(bend90):
     return max(bsx, bsy)
 
 
-@pp.autoname
+@pp.cell
 def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
     """ Deprecated! use cutback_bend90 instead!
     this is a stair
@@ -45,7 +45,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
     return c
 
 
-@pp.autoname
+@pp.cell
 def cutback_bend90(
     bend90=pp.c.bend_euler90,
     straight_length=5.0,
@@ -119,7 +119,7 @@ def staircase(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cutback_bend180(
     bend180=pp.c.bend_euler180,
     straight_length=5.0,
@@ -169,7 +169,7 @@ def cutback_bend180(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cutback_bend_circular(bend_radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=bend_radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)

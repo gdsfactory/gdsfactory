@@ -4,6 +4,9 @@ max-complexity = 18
 select = B,C,E,F,W,T4,B9
 ignore = E203, E266, E501, W503, F403, W605, C901, E722, E731
 
+extend-ignore =
+    RST303
+
 exclude =
     # No need to traverse our git directory
     .git,

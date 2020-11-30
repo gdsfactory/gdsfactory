@@ -1,14 +1,15 @@
-direction: EAST
-dw: 0.1
 function_name: coupler_adiabatic
-input_wg_sep: 3.0
-length1: 20.0
-length2: 50.0
-length3: 30.0
 module: pp.components.coupler_adiabatic
 name: coupler_adiabatic
-output_wg_sep: 3.0
-port:
-- 0
-- 0
-wg_sep: 1.0
+settings:
+  direction: EAST
+  dw: 0.1
+  input_wg_sep: 3.0
+  length1: 20.0
+  length2: 50.0
+  length3: 30.0
+  output_wg_sep: 3.0
+  port:
+  - 0
+  - 0
+  wg_sep: 1.0

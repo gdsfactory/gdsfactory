@@ -6,7 +6,7 @@ from pp.components import grating_coupler_elliptical_te
 from pp.routing.connect import connect_strip_way_points_no_taper
 
 
-@pp.autoname
+@pp.cell
 def grating_coupler_tree(
     n_waveguides=4,
     waveguide_spacing=4,

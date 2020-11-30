@@ -1,3 +1,4 @@
+from typing import Tuple, Union
 import numpy as np
 import pp
 from pp.geo_utils import extrude_path
@@ -6,7 +7,6 @@ from pp.components.euler.geo_euler import euler_length
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
 from pp.component import Component
-from typing import Tuple, Union
 
 
 def _bend_euler(
@@ -43,7 +43,7 @@ def _bend_euler(
     return c
 
 
-@pp.autoname
+@pp.cell
 def bend_euler90(
     radius: Union[int, float] = 10.0,
     width: float = 0.5,
@@ -66,7 +66,7 @@ def bend_euler90(
     return auto_rename_ports(c)
 
 
-@pp.autoname
+@pp.cell
 def bend_euler90_biased(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):
     width = pp.bias.width(width)
     c = _bend_euler(
@@ -75,7 +75,7 @@ def bend_euler90_biased(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG
     return auto_rename_ports(c)
 
 
-@pp.autoname
+@pp.cell
 def bend_euler180(
     radius: Union[int, float] = 10.0,
     width: float = 0.5,
@@ -98,7 +98,7 @@ def bend_euler180(
     return auto_rename_ports(c)
 
 
-@pp.autoname
+@pp.cell
 def bend_euler180_biased(radius=10.0, width=0.5, resolution=150.0, layer=LAYER.WG):
     width = pp.bias.width(width)
     c = _bend_euler(

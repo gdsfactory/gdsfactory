@@ -1,9 +1,8 @@
 """ CD SEM structures
 """
 
-from typing import Callable, List
+from typing import Callable, List, Tuple
 import itertools as it
-from omegaconf.listconfig import ListConfig
 import numpy as np
 import pp
 from pp.components.bend_circular import bend_circular
@@ -16,12 +15,12 @@ from pp.component import Component
 LINE_LENGTH = 420.0
 
 
-@pp.autoname
+@pp.cell
 def square_middle(
     side: float = 0.5,
-    layer: ListConfig = LAYER.WG,
-    cladding_offset: int = 3,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    cladding_offset: float = 3.0,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     component = pp.Component()
     a = side / 2
@@ -34,8 +33,10 @@ def square_middle(
     return component
 
 
-@pp.autoname
-def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=3):
+@pp.cell
+def double_square(
+    side=0.5, layer: Tuple[int, int] = LAYER.WG, layers_cladding=[], cladding_offset=3.0
+):
     component = pp.Component()
     a = side / 2
     pts0 = [(-a, -a), (a, -a), (a, a), (-a, a)]
@@ -50,13 +51,13 @@ def double_square(side=0.5, layer=LAYER.WG, layers_cladding=[], cladding_offset=
     return component
 
 
-@pp.autoname
+@pp.cell
 def rectangle(
     x: float,
     y: float,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
-    cladding_offset: int = 3,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
+    cladding_offset: float = 3.0,
 ) -> Component:
     component = pp.Component()
     a = x / 2
@@ -83,16 +84,16 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
     return component
 
 
-@pp.autoname
+@pp.cell
 def char_H(
-    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
-@pp.autoname
+@pp.cell
 def char_L(
-    layer: ListConfig = LAYER.WG, layers_cladding: List[ListConfig] = []
+    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
 ) -> Component:
     return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
@@ -166,8 +167,8 @@ def wg_line(
     length: float,
     width: float,
     offset: float = 0.2,
-    layer: ListConfig = pp.LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     c = pp.Component()
     _wg = c.add_ref(
@@ -177,7 +178,7 @@ def wg_line(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight(
     name=None,
     spacing_h=5.0,
@@ -242,7 +243,7 @@ def cdsem_straight(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_column(
     name: None = None,
     spacing_h: float = 5.0,
@@ -252,8 +253,8 @@ def cdsem_straight_column(
     width_center: float = 0.5,
     label: str = "A",
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
 
     c = pp.Component()
@@ -310,11 +311,11 @@ def cdsem_straight_column(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_all(
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
     labels = ["A", "B", "C", "D", "E", "F"]
@@ -337,7 +338,7 @@ def cdsem_straight_all(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_straight_density(
     wg_width: float = 0.372,
     trench_width: float = 0.304,
@@ -346,8 +347,8 @@ def cdsem_straight_density(
     margin: float = 2.0,
     label: str = "",
     waveguide_factory: Callable = waveguide,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """horizontal grating etch lines
 
@@ -380,20 +381,20 @@ def cdsem_straight_density(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_strip(waveguide_factory=waveguide, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide_factory
     )
 
 
-@pp.autoname
+@pp.cell
 def cdsem_target(
     bend90_factory: Callable = bend_circular,
     width_center: float = 0.5,
     label: str = "",
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
     radii: List[float] = [5.0, 10.0],
 ) -> Component:
     c = pp.Component()
@@ -434,7 +435,7 @@ def cdsem_target(
     return c
 
 
-@pp.autoname
+@pp.cell
 def cdsem_uturn(
     width: float = 0.5,
     radius: float = 10.0,
@@ -443,8 +444,8 @@ def cdsem_uturn(
     wg_length: float = LINE_LENGTH,
     waveguide_factory: Callable = pp.c.waveguide,
     bend90_factory: Callable = bend_circular,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """
 
@@ -500,7 +501,7 @@ def cdsem_uturn(
     return c
 
 
-@pp.autoname
+@pp.cell
 def opcm(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -509,8 +510,8 @@ def opcm(
     ttm: float = 0.506,
     waveguide_factory: Callable = waveguide,
     bend90_factory: Callable = bend_circular,
-    layer: ListConfig = LAYER.WG,
-    layers_cladding: List[ListConfig] = [],
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
     """column with all optical PCMs
     Args:
@@ -661,7 +662,7 @@ class LabelIterator:
         return self
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
     _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
@@ -677,7 +678,7 @@ def TRCH_ISO(length=20.0, width=0.5):
     return c
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -685,7 +686,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -693,7 +694,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -701,7 +702,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -709,7 +710,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.autoname
+@pp.cell
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(
@@ -726,7 +727,7 @@ def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
 if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
-    c = cdsem_uturn()
+    # c = cdsem_uturn()
     c = cdsem_straight_density()
     # c = opcm()
     pp.show(c)

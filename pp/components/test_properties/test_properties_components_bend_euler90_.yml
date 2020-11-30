@@ -1,9 +1,11 @@
 function_name: bend_euler90
-layer:
-- 1
-- 0
 module: pp.components.euler.bend_euler
 name: bend_euler90
 radius: 10.0
-resolution: 150.0
-width: 0.5
+settings:
+  layer:
+  - 1
+  - 0
+  radius: 10.0
+  resolution: 150.0
+  width: 0.5

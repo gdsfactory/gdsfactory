@@ -6,7 +6,7 @@ from pp.routing.add_fiber_array import add_fiber_array
 from pp.components.coupler import coupler
 
 
-@pp.autoname
+@pp.cell
 def CP2x2(gap=0.3, length=10.0):
     c = coupler(gap=gap, length=length)
     return add_fiber_array(c)

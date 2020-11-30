@@ -1,8 +1,11 @@
 function_name: hline
-layer:
-- 1
-- 0
 length: 10.0
 module: pp.components.hline
 name: hline
+settings:
+  layer:
+  - 1
+  - 0
+  length: 10.0
+  width: 0.5
 width: 0.5

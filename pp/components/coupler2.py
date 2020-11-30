@@ -1,10 +1,10 @@
 import pp
 from pp.component_from_yaml import component_from_yaml
 from pp.component import Component
-from pp.name import autoname
+from pp.cell import cell
 
 
-@autoname
+@cell
 def coupler(
     wg_width: float = 0.5, gap: float = 0.236, length: float = 10.007
 ) -> Component:

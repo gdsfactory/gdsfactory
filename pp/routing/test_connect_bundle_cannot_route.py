@@ -2,7 +2,7 @@ import pp
 
 
 if __name__ == "__main__":
-    """ this case needs a fix """
+    """ this case needs to be implemented for connect_bundle"""
 
     w = h = 10
     c = pp.Component()
@@ -15,7 +15,6 @@ if __name__ == "__main__":
     pbports = pb.get_ports_list()
     ptports = pl.get_ports_list()
 
-    # routes = pp.routing.connect_bundle(pbports, ptports)
-    routes = pp.routing.link_ports(pbports, ptports)
+    routes = pp.routing.connect_bundle(pbports, ptports)
     c.add(routes)
     pp.show(c)

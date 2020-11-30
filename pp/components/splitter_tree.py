@@ -7,7 +7,7 @@ from pp.routing.connect import connect_strip
 from pp.port import get_ports_facing
 
 
-@pp.autoname
+@pp.cell
 def splitter_tree(
     coupler: Callable = mmi1x2,
     n_o_outputs: int = 4,

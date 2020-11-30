@@ -3,18 +3,18 @@ write_component_type: try to load a component from library or creates if it does
 write_component: write component and metadata
 """
 
-import pathlib
-import json
-from pathlib import PosixPath
 from typing import Optional
+import pathlib
+from pathlib import PosixPath
+import json
 from phidl import device_layout as pd
 
 from pp.config import CONFIG, conf
-from pp.name import get_component_name
+from pp.cell import get_component_name
 from pp.components import component_factory
 from pp import klive
 from pp.component import Component
-from pp.name import clear_cache
+from pp.cell import clear_cache
 
 from pp.layers import LAYER
 
@@ -29,7 +29,7 @@ def write_component_type(
     component_type,
     overwrite=True,
     path_directory=CONFIG["gds_directory"],
-    component_factory=component_factory,
+    factory=component_factory,
     **kwargs,
 ):
     """write_component by type or function
@@ -51,8 +51,7 @@ def write_component_type(
     path_directory.mkdir(parents=True, exist_ok=True)
 
     if not gdspath.exists() or overwrite:
-        component = component_factory[component_type](name=component_name, **kwargs)
-        component.type = component_type
+        component = factory[component_type](name=component_name, **kwargs)
         write_component(component, gdspath)
 
     return gdspath
@@ -69,7 +68,6 @@ def write_component_report(component, json_path=None):
     json_path = json_path or CONFIG["gds_directory"] / f"{component.name}.json"
     ports_path = json_path.with_suffix(".ports")
 
-    """ write ports """
     if len(component.ports) > 0:
         with open(ports_path, "w") as fw:
             for port in component.ports.values():
@@ -77,7 +75,6 @@ def write_component_report(component, json_path=None):
                     f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {port.layer}\n"
                 )
 
-    """ write json """
     with open(json_path, "w+") as fw:
         fw.write(json.dumps(component.get_json(), indent=2))
     return json_path
@@ -146,15 +143,18 @@ def write_gds(
     remove_previous_markers: bool = False,
     auto_rename: bool = False,
     with_settings_label: bool = conf.tech.with_settings_label,
+    label_layer=LAYER.LABEL,
 ) -> str:
-    """write component to GDS and returs gdspath
+    """Write component to GDS and returs gdspath
 
     Args:
-        component (required)
-        gdspath: by default saves it into CONFIG['gds_directory']
-        auto_rename: False by default (otherwise it calls it top_cell)
-        unit
-        precission
+        component: gdsfactory Component.
+        gdspath: GDS file path to write to.
+        unit unit size for objects in library.
+        precision: for the dimensions of the objects in the library (m).
+        remove_previous_markers: clear previous ones to avoid duplicates.
+        auto_rename: If True, fixes any duplicate cell names.
+        with_settings_label: write component settings into a label.
 
     Returns:
         gdspath
@@ -167,36 +167,26 @@ def write_gds(
     gdsdir.mkdir(parents=True, exist_ok=True)
 
     if remove_previous_markers:
-        # If the component HAS ports AND markers and we want to
-        # avoid duplicate port markers, then we clear the previous ones
-        port_layer = (LAYER.PORT,)
-        label_layer = (LAYER.TEXT,)
-        component.remove_layers([port_layer])
-        component.remove_layers([label_layer])
+        component.remove_layers([LAYER.PORT])
+        component.remove_layers([LAYER.TEXT])
 
-    # write component settings into text layer
+    # write component settings into a label
     if with_settings_label:
         settings = component.get_settings()
-
-        for i, k in enumerate(sorted(list(settings.keys()))):
-            v = clean_value(settings.get(k))
-            text = f"{k} = {clean_value(v)}"
-            # print(text)
-            component.add_label(
-                text=text,
-                position=component.center - [0, i * 1],
-                layer=CONFIG["layers"]["TEXT"],
-            )
+        settings_string = f"settings={json.dumps(settings)}"
+        component.add_label(
+            position=component.center, text=settings_string, layer=label_layer
+        )
 
     component.write_gds(
-        gdspath, precision=precision, auto_rename=auto_rename,
+        gdspath, unit=unit, precision=precision, auto_rename=auto_rename,
     )
     component.path = gdspath
     return gdspath
 
 
 def clean_value(value):
-    """ returns a JSON serializable value """
+    """Returns JSON serializable value."""
     if isinstance(value, Component):
         value = value.name
     elif callable(value):
@@ -247,13 +237,16 @@ if __name__ == "__main__":
     # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
     # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
 
-    c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
-    cc = pp.routing.add_fiber_array(c)
-    pp.write_component(cc, precision=5e-9)
-    pp.show(cc)
+    # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
+    # cc = pp.routing.add_fiber_array(c)
+    # pp.write_component(cc, precision=5e-9)
+    # pp.show(cc)
 
-    print(c.settings)
+    c = pp.c.waveguide(length=1.009, pins=True)
+    pp.write_component(c, gdspath="wg.gds", with_settings_label=True)
+    pp.show(c)
 
+    # print(c.settings)
     # gdspath = pp.write_component(c, precision=5e-9)
     # pp.show(gdspath)
 

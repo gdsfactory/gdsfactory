@@ -1,9 +1,10 @@
+from typing import Any, List, Tuple, Callable
 import pp
 from pp.component import Component
-from typing import Any, List, Tuple
+from pp.components.taper import taper
 
 
-@pp.autoname
+@pp.cell(pins=True)
 def mmi1x2(
     wg_width: float = 0.5,
     width_taper: float = 1.0,
@@ -14,8 +15,9 @@ def mmi1x2(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Any] = [],
     cladding_offset: float = 3.0,
+    taper_factory: Callable = taper,
 ) -> Component:
-    """mmi 1x2
+    """Mmi 1x2.
 
     Args:
         wg_width: input waveguides width
@@ -25,6 +27,7 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         layer: gds layer
+        layers_cladding: list of layers
 
     .. plot::
       :include-source:
@@ -39,13 +42,14 @@ def mmi1x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = pp.c.taper(
+    taper = taper_factory(
         length=length_taper,
         width1=wg_width,
         width2=w_taper,
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
+        pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -56,6 +60,7 @@ def mmi1x2(
             "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
             "W": [(w_mmi / 2, w_taper)],
         },
+        pins=False,
     )
     mmi.y = 0
 
@@ -86,7 +91,7 @@ def mmi1x2(
     return c
 
 
-@pp.autoname
+@pp.cell
 def mmi1x2_biased(
     wg_width=0.5,
     width_taper=1.0,
@@ -108,7 +113,7 @@ def mmi1x2_biased(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(pins=True)
+    c = mmi1x2()
     print(c.ports)
     # print(c.get_ports_array())
     # c = mmi1x2_biased()

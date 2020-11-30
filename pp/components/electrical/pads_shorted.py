@@ -1,10 +1,10 @@
 from pp.component import Component
-from pp.name import autoname
+from pp.cell import cell
 from pp.layers import LAYER
 from pp.components.rectangle import rectangle_centered
 
 
-@autoname
+@cell
 def pads_shorted(width=100, n_pads=8, pad_spacing=150, layer=LAYER.M1):
     c = Component(name="shorted_pads")
     pad = rectangle_centered(x=width, y=width, layer=layer)

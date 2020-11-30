@@ -5,12 +5,12 @@ from pp.components.coupler90 import coupler90
 from pp.components.waveguide import waveguide
 from pp.components.coupler_straight import coupler_straight
 from pp.netlist_to_gds import netlist_to_component
-from pp.name import autoname
+from pp.cell import cell
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 
 
-@autoname
+@cell
 def ring_single_bus_deprecated(**kwargs):
     """ Ring single bus
 
@@ -105,7 +105,7 @@ def ring_single_bus_netlist(
     return components, connections, ports_map
 
 
-@pp.autoname
+@pp.cell
 def ring_single_bus(
     coupler90_factory: Callable = coupler90,
     cpl_straight_factory: Callable = coupler_straight,

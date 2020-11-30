@@ -19,7 +19,7 @@ def text(
     justify: str = "left",
     layer: Tuple[int, int] = LAYER.TEXT,
 ) -> Component:
-    """ adds text
+    """Text shapes.
 
     .. plot::
       :include-source:
@@ -67,7 +67,7 @@ def text(
     return t
 
 
-@pp.autoname
+@pp.cell
 def githash(text=[], size=0.4, hash_length=6, layer=LAYER.WG):
     """ returns the photonics_pdk git hash
     allows a list of text, that will print on separate lines ::

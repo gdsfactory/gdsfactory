@@ -1,4 +1,4 @@
-# gdsfactory 2.1.4
+# gdsfactory 2.2.0
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
@@ -57,12 +57,12 @@ You can run tests with `pytest`. This will run 3 types of tests:
 - pp photonic-package
   - components: define components
   - drc: check geometry
-  - ports: to connect components
+  - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
   - klive: stream GDS directly to klayout
+  - ports: to connect components
   - routing: add waveguides to connect components
   - samples: python tutorial
   - tests:
-- gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
 - klayout: klayout generic tech layers and klive macro
 - notebooks: jupyter-notebooks for training
 
@@ -84,6 +84,7 @@ Commands:
 
 ## Links
 
+- [gdsfactory](https://github.com/gdsfactory/gdsfactory): Github repo where we store the gdsfactory code
 - [gdslib](https://github.com/gdsfactory/gdslib): separate repo where we store the component library. Tests ensure the geometric hash of the GDS does not change with the ones locked in the library
   - `component.gds`: GDS
   - `component.json`: JSON file with component properties

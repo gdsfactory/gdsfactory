@@ -4,7 +4,7 @@ import scipy.optimize as so
 import gdspy
 
 import pp
-from pp.components import taper
+from pp.components.taper import taper
 from pp.components.bezier import bezier
 from pp.components.bezier import bezier_curve
 from pp.components.bezier import find_min_curv_bezier_control_points
@@ -20,7 +20,7 @@ def rnd(p):
     return np.round(p * GRID_PER_UNIT) / GRID_PER_UNIT
 
 
-@pp.autoname
+@pp.cell
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -28,8 +28,7 @@ def crossing_arm(
     w: float = 1.2,
     L: float = 3.4,
 ) -> Component:
-    """ arm of a crossing
-    """
+    """arm of a crossing"""
     c = pp.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
@@ -61,7 +60,7 @@ def crossing_arm(
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing(arm: Callable = crossing_arm) -> Component:
     """waveguide crossing
 
@@ -90,7 +89,7 @@ def crossing(arm: Callable = crossing_arm) -> Component:
     return cx
 
 
-@pp.autoname
+@pp.cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     """
     Crossing based on a taper. The default is a dummy taper
@@ -108,7 +107,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,
@@ -178,7 +177,7 @@ def crossing_etched(
     return c
 
 
-@pp.autoname
+@pp.cell
 def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     r""" 45Deg crossing with bends
 
@@ -204,11 +203,9 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
 
     """
 
-    # Instantiate the crossing if it is a factory
-    crossing = pp.call_if_func(crossing)
+    crossing = crossing(pins=False) if callable(crossing) else crossing
 
     c = pp.Component()
-
     _crossing = crossing.ref(rotation=45)
     c.add(_crossing)
 
@@ -238,7 +235,11 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     )
 
     _bez_bend = bezier(
-        control_points=cpts, t=t, start_angle=start_angle, end_angle=end_angle
+        control_points=cpts,
+        t=t,
+        start_angle=start_angle,
+        end_angle=end_angle,
+        pins=False,
     )
 
     tol = 1e-2
@@ -274,7 +275,7 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     return c
 
 
-@pp.autoname
+@pp.cell
 def compensation_path(crossing45=crossing45, direction="top"):
     r""" Path with same path length as crossing45 but with input and output ports having same y coordinates
 
@@ -391,7 +392,7 @@ def compensation_path(crossing45=crossing45, direction="top"):
 
 
 def demo():
-    """ plot curvature of bends
+    """plot curvature of bends
     FIXME: add more documentation
     """
     from matplotlib import pyplot as plt

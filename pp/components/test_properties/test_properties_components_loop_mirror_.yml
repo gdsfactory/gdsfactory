@@ -1,3 +1,4 @@
 function_name: loop_mirror
 module: pp.components.loop_mirror
 name: loop_mirror
+settings: {}

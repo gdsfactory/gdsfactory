@@ -1,10 +1,10 @@
+from typing import Callable, List, Tuple
 import pp
 from pp.components.bend_s import bend_s
 from pp.component import Component
-from typing import Callable, List, Tuple
 
 
-@pp.autoname
+@pp.cell
 def coupler_symmetric(
     bend: Callable = bend_s,
     gap: float = 0.234,
@@ -12,12 +12,18 @@ def coupler_symmetric(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
     cladding_offset: float = 3.0,
+    dy: float = 5.0,
 ) -> Component:
-    """ two coupled waveguides with bends
+    r"""Two coupled waveguides with bends.
 
     Args:
-        bend:
-        gap: um
+        bend: bend or factory
+        gap:
+        wg_width:
+        layer
+        layers_cladding
+        cladding_offset
+        dy: port to port vertical spacing
 
     .. plot::
       :include-source:
@@ -27,14 +33,28 @@ def coupler_symmetric(
       c = pp.c.coupler_symmetric()
       pp.plotgds(c)
 
+    .. code::
+
+            _ E1
+           /     |
+          /      |
+         = gap   | dy
+          \      |
+           \_    |
+              E0
+
     """
-    bend = pp.call_if_func(
-        bend,
-        width=wg_width,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-        pins=False,
+    bend = (
+        bend(
+            width=wg_width,
+            layer=layer,
+            layers_cladding=layers_cladding,
+            cladding_offset=cladding_offset,
+            pins=False,
+            height=(dy - gap - wg_width) / 2,
+        )
+        if callable(bend)
+        else bend
     )
 
     w = bend.ports["W0"].width
@@ -47,8 +67,6 @@ def coupler_symmetric(
     c.add(top_bend)
     c.add(bottom_bend)
 
-    # Using absorb here to have a flat cell and avoid
-    # to have deeper hierarchy than needed
     c.absorb(top_bend)
     c.absorb(bottom_bend)
 
@@ -56,24 +74,16 @@ def coupler_symmetric(
     c.add_port(name="W0", midpoint=[0, 0], width=port_width, orientation=180)
     c.add_port(port=bottom_bend.ports["E0"], name="E0")
     c.add_port(port=top_bend.ports["E0"], name="E1")
-
     return c
 
 
-@pp.autoname
+@pp.cell
 def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
     return coupler_symmetric(
         bend=bend, gap=pp.bias.gap(gap), wg_width=pp.bias.width(wg_width)
     )
 
 
-def _demo_coupler_symmetric(wg_width=0.5, gap=0.2):
-    # c = coupler_symmetric(gap=gap, wg_width=wg_width)
-    c = coupler_symmetric_biased(gap=gap, wg_width=wg_width)
-    pp.write_gds(c)
-    return c
-
-
 if __name__ == "__main__":
-    c = _demo_coupler_symmetric()
+    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5, pins=False)
     pp.show(c)

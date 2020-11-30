@@ -34,7 +34,7 @@ def move_polar_rad_copy(pos: ndarray, angle: float64, length: float) -> ndarray:
     return pos + length * np.array([c, s])
 
 
-@pp.autoname
+@pp.cell
 def extend_port(port, length):
     """ returns a port extended by length """
     c = pp.Component()

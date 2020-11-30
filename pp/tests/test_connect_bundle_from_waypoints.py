@@ -4,12 +4,12 @@ from pp import Port
 from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypoints():
     return test_connect_bundle_waypointsA()
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsA():
 
     xs1 = np.arange(10) * 5 - 500.0
@@ -40,7 +40,7 @@ def test_connect_bundle_waypointsA():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsB():
 
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
@@ -68,7 +68,7 @@ def test_connect_bundle_waypointsB():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsC():
 
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
@@ -94,7 +94,7 @@ def test_connect_bundle_waypointsC():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsD():
 
     ys1 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 100.0

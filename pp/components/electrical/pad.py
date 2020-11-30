@@ -1,5 +1,5 @@
 from typing import Callable, List, Tuple
-from pp.name import autoname
+from pp.cell import cell
 from pp.layers import LAYER
 from pp.components.compass import compass
 from pp.component import Component
@@ -7,7 +7,7 @@ from pp.component import Component
 WIRE_WIDTH = 10.0
 
 
-@autoname
+@cell
 def pad(
     width: int = 100, height: int = 100, layer: Tuple[int, int] = LAYER.M3
 ) -> Component:
@@ -36,7 +36,7 @@ def pad(
     return c
 
 
-@autoname
+@cell
 def pad_array(
     pad: Callable = pad,
     spacing: Tuple[int, int] = (150.0, 0.0),

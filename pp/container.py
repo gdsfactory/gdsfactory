@@ -11,6 +11,14 @@ from inspect import signature
 import pp
 
 
+propagate_attributes = {
+    "test_protocol",
+    "data_analysis_protocol",
+    "wavelength",
+    "polarization",
+}
+
+
 def container(component_function: Callable) -> Callable:
     """decorator for creating a new component that copies properties from the original component
 
@@ -61,12 +69,20 @@ def container(component_function: Callable) -> Callable:
         new.settings["component"] = old.get_settings()
         new.settings["component_name"] = old.name
         new.settings["function_name"] = component_function.__name__
-        new.test_protocol = new.test_protocol or old.test_protocol.copy()
-        new.data_analysis_protocol = (
-            new.data_analysis_protocol or old.data_analysis_protocol.copy()
-        )
-        new.wavelength = new.wavelength or old.wavelength
-        new.polarization = new.polarization or old.polarization
+
+        for key in propagate_attributes:
+            if hasattr(old, key):
+                value = getattr(old, key)
+                if value:
+                    setattr(new, key, value)
+
+        # new.test_protocol = new.test_protocol or old.test_protocol.copy()
+        # new.data_analysis_protocol = (
+        #     new.data_analysis_protocol or old.data_analysis_protocol.copy()
+        # )
+        # new.wavelength = new.wavelength or old.wavelength
+        # new.polarization = new.polarization or old.polarization
+
         new.settings.pop("kwargs", "")
         return new
 

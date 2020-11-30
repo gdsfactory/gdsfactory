@@ -1,9 +1,10 @@
-""" add markers to Devices:
+"""add_pin adss a Pin to a port, add_pins adds Pins to all ports:
 
 - pins
 - outline
 
 """
+import json
 import numpy as np
 from pp.layers import LAYER, port_type2layer
 from pp.port import read_port_markers
@@ -165,10 +166,21 @@ def add_pins(
             )
 
 
+def add_settings_label(component, label_layer=LAYER.LABEL):
+    """Add settings in label, ignores component.ignore keys."""
+    settings = component.get_settings()
+    settings_string = f"settings={json.dumps(settings, sort_keys=True, indent=2)}"
+    component.add_label(
+        position=component.center, text=settings_string, layer=label_layer
+    )
+
+
 def add_pins_and_outline(
     component, pins_function=add_pins, add_outline_function=add_outline
 ):
+    # print(component)
     add_outline_function(component)
+    add_settings_label(component)
     pins_function(component)
 
 
@@ -179,21 +191,24 @@ def add_pins_triangle(component, add_port_marker_function=add_pin_triangle, **kw
 
 
 def test_add_pins():
-    component = pp.c.mzi2x2(with_elec_connections=True)
-    # print(len(component.get_polygons()))
-    assert len(component.get_polygons()) == 194
+    component = pp.c.mzi2x2(pins=False, with_elec_connections=True)
+    polygons = 252
+
+    print(len(component.get_polygons()))
+    assert len(component.get_polygons()) == polygons
 
     add_pins(component)
-    assert len(component.get_polygons()) == 194 + 7
-
-    # print(len(component.get_polygons()))
+    print(len(component.get_polygons()))
+    assert len(component.get_polygons()) == polygons + 7
 
     port_layer = port_type2layer["optical"]
     port_markers = read_port_markers(component, [port_layer])
-    assert len(port_markers.polygons) == 4
+    print(len(port_markers.polygons))
+    assert len(port_markers.polygons) == 44
 
     port_layer = port_type2layer["dc"]
     port_markers = read_port_markers(component, [port_layer])
+    print(len(port_markers.polygons))
     assert len(port_markers.polygons) == 3
 
     # for port_layer, port_type in port_layer2type.items():
@@ -202,7 +217,7 @@ def test_add_pins():
 
 
 if __name__ == "__main__":
-    # test_add_pins()
+    test_add_pins()
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers
@@ -212,6 +227,6 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide()
     # c = pp.c.crossing(pins=True)
-    c = pp.c.bend_circular()
-    add_pins(c)
-    pp.show(c)
+    # c = pp.c.bend_circular()
+    # add_pins(c)
+    # pp.show(c)

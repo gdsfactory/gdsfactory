@@ -1,10 +1,10 @@
 from typing import Union, Tuple
 from pp.component import Component
-from pp.name import autoname
+from pp.cell import cell
 from pp.layers import LAYER
 
 
-@autoname
+@cell
 def C(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),

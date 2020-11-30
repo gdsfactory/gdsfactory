@@ -33,7 +33,7 @@ from pp.install import install_gdsdiff
 from pp.gdsdiff.gdsdiff import gdsdiff
 
 
-VERSION = "2.1.4"
+VERSION = "2.2.0"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL

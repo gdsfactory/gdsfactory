@@ -45,7 +45,7 @@ def add_tm(component, **kwargs):
     return c
 
 
-@pp.autoname
+@pp.cell
 def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
     """ sample of component cutback """
     c = pp.c.coupler(wg_width=wg_width, gap=gap, length=length)
@@ -53,7 +53,7 @@ def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def spiral_te(wg_width=0.5, length=2):
     """ sample of component cutback
 
@@ -70,7 +70,7 @@ def spiral_te(wg_width=0.5, length=2):
     return cc
 
 
-@pp.autoname
+@pp.cell
 def spiral_tm(wg_width=0.5, length=2):
     """ sample of component cutback """
     c = spiral_inner_io_euler(wg_width=wg_width, length=length, dx=10, dy=10, N=5)

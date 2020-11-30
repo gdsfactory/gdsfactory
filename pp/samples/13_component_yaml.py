@@ -22,7 +22,7 @@ def test_mzi():
 
     placements:
         arm_bot:
-            mirror: [0,0,0,10]
+            mirror: True
     ports:
         W0: CP1,W0
         E0: CP2,W0

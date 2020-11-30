@@ -1,13 +1,12 @@
+from typing import Callable, Dict, List, Optional, Tuple
 import uuid
 import numpy as np
+from numpy import bool_, float64, ndarray
 from pp.components import waveguide
 from pp.name import clean_name
 from pp.component import Component, ComponentReference
-
 import pp
 from pp.geo_utils import angles_deg
-from numpy import bool_, float64, ndarray
-from typing import Callable, Dict, List, Optional, Tuple
 from pp.port import Port
 
 TOLERANCE = 0.0001
@@ -75,10 +74,10 @@ def gen_sref(
 ) -> ComponentReference:
     """
     place sref of `port_name` of `structure` at `position`
-    # Keep this convention, otherwise phidl port transform won't work
-    # 1 ) Mirror
-    # 2 ) Rotate
-    # 3 ) Move
+    Keep this convention, otherwise phidl port transform won't work
+    - 1 Mirror
+    - 2 Rotate
+    - 3 Move
     """
     position = np.array(position)
 
@@ -186,18 +185,22 @@ def reverse_transform(
 def _generate_route_manhattan_points(
     input_port: Port,
     output_port: Port,
-    bs1: float64,
-    bs2: float64,
+    bs1: float,
+    bs2: float,
     start_straight: float = 0.01,
     end_straight: float = 0.01,
     min_straight: float = 0.01,
 ) -> ndarray:
     """
+
     Args:
         input_port:
         output_port:
-        bs1, bs2: float, float : the bend size
-
+        bs1: bend size
+        bs2: bend size
+        start_straight:
+        end_straight:
+        min_straight:
     """
 
     threshold = TOLERANCE
@@ -433,14 +436,17 @@ def round_corners(
     mirror_straight=False,
     straight_ports=None,
 ):
-    """
-    returns a rounded waveguide route from a list of manhattan points
+    """Returns cell with rounded waveguide route from a list of manhattan points.
+    To ensure a unique cell name
+    We Prefix with zz to make connectors appear at end of cell lists
+
     Args:
         points: manhattan route defined by waypoints
         bend90: the bend to use for 90Deg turns
         straight_factory: the straight factory to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
         straight_factory_fall_back_no_taper: factory to use for straights in case there is no space to put a pair of tapers
+        mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If not specified, will use some heuristic to find them
     """
     ## If there is a taper, make sure its length is known
@@ -452,13 +458,10 @@ def round_corners(
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory
 
-    ## Remove any flat angle, otherwise the algorithm won't work
+    # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
 
-    cell_tmp_name = "connector_{}".format(uuid.uuid4())
-
-    cell = pp.Component(name=cell_tmp_name)
-
+    cell = pp.Component(f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}")
     points = np.array(points)
 
     straight_sections = []  # (p0, angle, length)
@@ -525,8 +528,6 @@ def round_corners(
             with_taper = True
 
         if with_taper:
-
-            # First taper:
             # Taper starts where straight would have started
             taper_origin = straight_origin
 
@@ -580,18 +581,15 @@ def round_corners(
 
     cell.add_port(name="input", port=list(wg_refs[0].ports.values())[0])
     cell.add_port(name="output", port=list(wg_refs[-1].ports.values())[port_index_out])
-
-    """
-    # Update name with uuid - too expensive to compute geometrical hash every time
-    # Prefix with zz to make connectors appear at end of cell lists
-
-    # The geometrical hash lacks caching right now and ends up taking a
-    # lot of time to compute on every single connector
-    """
-
-    cell.name = f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}"
+    total_length = float(total_length)
     cell.info["length"] = total_length
+    cell.settings["length"] = total_length
+    cell.settings_changed = (
+        cell.settings_changed if hasattr(cell, "settings_changed") else {}
+    )
+    cell.settings_changed["length"] = total_length
     cell.length = total_length
+    cell.function_name = "waveguide"
     return cell
 
 
@@ -605,24 +603,19 @@ def generate_manhattan_waypoints(
     min_straight: float = 0.01,
     **kwargs,
 ) -> ndarray:
-    """
-
-    """
+    """Returns waypoints for a Manhattan route between two ports."""
 
     if bend90 is None and bend_radius is None:
         raise ValueError(
-            "Either bend90 or bend_radius must be set. \
-        Got {} {}".format(
-                bend90, bend_radius
-            )
+            f"Either bend90 or bend_radius must be set. \
+        Got bend0={bend90} bend_radius={bend_radius}"
         )
 
     if bend90 is not None and bend_radius is not None:
         raise ValueError(
-            "Either bend90 or bend_radius must be set. \
-        Got {} {}".format(
-                bend90, bend_radius
-            )
+            f"Either bend90 or bend_radius must be set. \
+        Got bend0={bend90} bend_radius={bend_radius}"
+            "Make sure that you only set one of them."
         )
 
     if bend90:

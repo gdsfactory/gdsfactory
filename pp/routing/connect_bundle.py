@@ -11,12 +11,12 @@ from pp.routing.manhattan import generate_manhattan_waypoints
 
 from pp.routing.u_groove_bundle import u_bundle_indirect
 from pp.routing.u_groove_bundle import u_bundle_direct
-from pp.routing.corner_bundle import corner_bundle
 from pp.routing.path_length_matching import path_length_matched_points
-from pp.name import autoname
+from pp.cell import cell
 from pp.component import ComponentReference, Component
 from pp.port import Port
 from pp.config import conf
+from pp.config import add_to_global_netlist
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -35,29 +35,36 @@ def connect_bundle(
     Chooses the correct u_bundle to use based on port angles
 
     Args:
-        start_ports should all be facing in the same direction
-        end_ports should all be facing in the same direction
+        start_ports: should all be facing in the same direction
+        end_ports: should all be facing in the same direction
         route_filter: function to connect
         separation: waveguide separation
         bend_radius: for the routes
         extension_length: adds waveguide extension
 
     """
-    # Accept dict ot list
+    # Accept dict or list
+    if isinstance(start_ports, Port):
+        start_ports = [start_ports]
+
+    if isinstance(end_ports, Port):
+        end_ports = [end_ports]
+
     if isinstance(start_ports, dict):
         start_ports = list(start_ports.values())
 
     if isinstance(end_ports, dict):
         end_ports = list(end_ports.values())
 
-    nb_ports = len(start_ports)
     for p in start_ports:
         p.angle = int(p.angle) % 360
 
     for p in end_ports:
         p.angle = int(p.angle) % 360
 
-    assert len(end_ports) == nb_ports
+    assert len(end_ports) == len(
+        start_ports
+    ), f"end_ports={len(end_ports)} and start_ports={len(start_ports)} must be equal"
     assert (
         len(set([p.angle for p in start_ports])) <= 1
     ), "All start port angles should be the same"
@@ -118,7 +125,8 @@ def connect_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
-        return corner_bundle(**params, **kwargs)
+        # return corner_bundle(**params, **kwargs)
+        return link_ports(**params, **kwargs)
         raise NotImplementedError("Routing along different axis not implemented yet")
 
 
@@ -151,7 +159,7 @@ def link_ports(
     route_filter: Callable = connect_strip_way_points,
     **routing_params,
 ) -> List[ComponentReference]:
-    """Semi auto-routing for two lists of ports.
+    r"""Semi auto-routing for two lists of ports.
 
     Args:
         ports1: first list of ports
@@ -213,7 +221,15 @@ def link_ports(
         **routing_params,
     )
 
-    return [route_filter(route, **routing_params) for route in routes]
+    route_with_waveguides = [route_filter(route, **routing_params) for route in routes]
+
+    for p1, p2, route in zip(start_ports, end_ports, route_with_waveguides):
+        # if ports are part of components (have parents) add connections to netlist
+        if isinstance(route, ComponentReference) and p1.parent and p2.parent:
+            route_ports = route.get_ports_list()
+            add_to_global_netlist(p1, route_ports[0])
+            add_to_global_netlist(route_ports[1], p2)
+    return route_with_waveguides
 
 
 def link_ports_routes(
@@ -226,6 +242,7 @@ def link_ports_routes(
     end_straight_offset: Optional[float] = None,
     compute_array_separation_only: bool = False,
     tol: float = 0.00001,
+    start_straight: float = 0.0,
     **kwargs,
 ) -> List[ndarray]:
     """
@@ -259,7 +276,7 @@ def link_ports_routes(
             route_filter(
                 ports1[0],
                 ports2[0],
-                start_straight=0.05,
+                start_straight=start_straight,
                 bend_radius=bend_radius,
                 **kwargs,
             )
@@ -405,105 +422,19 @@ def link_ports_routes(
                 route_filter(
                     ports1[i],
                     ports2[i],
-                    start_straight=0,
+                    start_straight=start_straight,
                     end_straight=end_straights[i],
                     bend_radius=bend_radius,
                     **kwargs,
                 )
             ]  #
 
-        # Annoying case where it is too tight for direct manhattan routing
-        elif dx < close_ports_thresh:
-
-            a = close_ports_thresh + abs(dx)
-            prt = ports1[i]
-            angle = prt.angle
-            dp_w = (0, -a) if axis in ["X", "x"] else (-a, 0)
-            dp_e = (0, a) if axis in ["X", "x"] else (a, 0)
-            do_step_aside = False
-            if i == 0:
-                ## If westest port, then we can safely step on the west further
-
-                ## First check whether we have to step
-
-                dx2 = ports1[i + 1].x - prt.x
-                req_x = 2 * bend_radius + ports2[i].x - ports1[i].x
-
-                if dx2 < req_x:
-                    do_step_aside = True
-                dp = dp_w
-
-            elif i == N - 1:
-                ## If eastest port, then we can safely step on the east further
-
-                ## First check whether we have to step
-
-                dx2 = prt.x - ports1[i - 1].x
-                req_x = 2 * bend_radius + ports1[i].x - ports2[i].x
-
-                if dx2 < req_x:
-                    do_step_aside = True
-
-                dp = dp_e
-
-            else:
-                ## Otherwise find closest port and escape where/if space permit
-
-                dx1 = prt.x - ports1[i - 1].x
-                dx2 = ports1[i + 1].x - prt.x
-                do_step_aside = True
-                if dx2 > dx1:
-                    dp = dp_e
-                else:
-                    dp = dp_w
-
-                ## If there is not enough space to step away, put a warning.
-                ## This requires inspection on the mask. Raising an error
-                ## would likely make it harder to debug. Here we will see
-                ## a DRC error or an unwanted crossing on the mask.
-
-                if max(dx1, dx2) < a:
-                    print(
-                        "WARNING - high risk of collision in routing. \
-                    Ports too close to each other."
-                    )
-            _route = []
-            if do_step_aside:
-                tmp_port = prt.move_polar_copy(2 * bend_radius + 1.0, angle)
-                tmp_port.move(dp)
-                _route += [
-                    route_filter(
-                        prt, tmp_port.flip(), bend_radius=bend_radius, **kwargs
-                    )
-                ]
-
-            else:
-                tmp_port = prt
-            # print(
-            #     "STEPPING",
-            #     ports1[i].position,
-            #     tmp_port.position,
-            #     ports2[i].position,
-            # )
-            _route += [
-                route_filter(
-                    tmp_port,
-                    ports2[i],
-                    start_straight=0.05,
-                    end_straight=end_straights[i],
-                    bend_radius=bend_radius,
-                    **kwargs,
-                )
-            ]
-
-            elems += _route
-        # Usual case
         else:
             elems += [
                 route_filter(
                     ports1[i],
                     ports2[i],
-                    start_straight=0.05,
+                    start_straight=start_straight,
                     end_straight=end_straights[i],
                     bend_radius=bend_radius,
                     **kwargs,
@@ -728,7 +659,7 @@ def link_optical_ports_no_grouping(
     end_straight=None,
     sort_ports=True,
 ):
-    """
+    r"""
     Returns a list of route elements
     Compared to link_ports, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
@@ -743,6 +674,7 @@ def link_optical_ports_no_grouping(
     We want to connect something like this:
 
     ::
+
          2             X    X     X  X X  X
            |-----------|    |     |  | |  |-----------------------|
            |          |-----|     |  | |---------------|          |
@@ -862,7 +794,7 @@ def link_optical_ports_no_grouping(
     return elems
 
 
-@autoname
+@cell
 def test_connect_bundle():
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
@@ -871,10 +803,10 @@ def test_connect_bundle():
     N = len(xs_top)
     xs_bottom = [(i - N / 2) * pitch for i in range(N)]
 
-    top_ports = [Port("top_{}".format(i), (xs_top[i], 0), 0.5, 270) for i in range(N)]
+    top_ports = [Port(f"top_{i}", (xs_top[i], 0), 0.5, 270) for i in range(N)]
 
     bottom_ports = [
-        Port("bottom_{}".format(i), (xs_bottom[i], -400), 0.5, 90) for i in range(N)
+        Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
     top_cell = Component(name="connect_bundle")
@@ -902,7 +834,7 @@ def test_connect_bundle():
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_corner(N=6, config="A"):
     d = 10.0
     sep = 5.0
@@ -987,7 +919,7 @@ def test_connect_corner(N=6, config="A"):
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_bundle_udirect(dy=200, angle=270):
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -1033,7 +965,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
     return top_cell
 
 
-@autoname
+@cell
 def test_connect_bundle_u_indirect(dy=-200, angle=180):
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
@@ -1077,7 +1009,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
     return top_cell
 
 
-@autoname
+@cell
 def test_facing_ports():
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]

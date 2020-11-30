@@ -275,12 +275,12 @@ def _generate_manhattan_bundle_waypoints(
     return routes
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypoints():
     return test_connect_bundle_waypointsA()
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsA():
     import pp
     from pp.component import Port
@@ -313,7 +313,7 @@ def test_connect_bundle_waypointsA():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsB():
     import pp
     from pp.component import Port
@@ -343,7 +343,7 @@ def test_connect_bundle_waypointsB():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsC():
     import pp
     from pp.component import Port
@@ -371,7 +371,7 @@ def test_connect_bundle_waypointsC():
     return top_cell
 
 
-@pp.autoname
+@pp.cell
 def test_connect_bundle_waypointsD():
     import pp
     from pp.component import Port

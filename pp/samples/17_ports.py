@@ -16,7 +16,7 @@ Ports define where each port has:
 import pp
 
 
-@pp.autoname
+@pp.cell
 def test_component_with_port(length=5, wg_width=0.5, layer=pp.LAYER.WG):
     """
     component with one port on the west side

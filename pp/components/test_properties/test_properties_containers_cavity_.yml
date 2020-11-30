@@ -1,21 +1,26 @@
-component:
-  cladding_offset: 3.0
-  function_name: waveguide
-  layer:
-  - 1
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
-  length: 10.0
-  module: pp.components.waveguide
-  name: waveguide
-  width: 0.5
-component_name: waveguide
-coupler: coupler
 function_name: cavity
-gap: 0.2
-length: 0.1
 module: pp.components.cavity
 name: cavity_Cwaveguide
-wg_width: 0.5
+settings:
+  component:
+    function_name: waveguide
+    length: 10.0
+    module: pp.components.waveguide
+    name: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10.0
+      width: 0.5
+    width: 0.5
+  component_name: waveguide
+  coupler: coupler
+  function_name: cavity
+  gap: 0.2
+  length: 0.1
+  wg_width: 0.5
