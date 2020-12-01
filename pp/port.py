@@ -14,7 +14,7 @@ For port naming we follow the IPKISS standard
 """
 
 from typing import Callable
-from typing import Any, List, Optional, Tuple, Dict, Union
+from typing import List, Optional, Tuple, Dict, Union
 import functools
 from copy import deepcopy
 import csv
@@ -318,8 +318,8 @@ def _rename_ports_facing_side(
 
 
 def rename_ports_by_orientation(
-    component: object, layers_excluded: List[Any] = []
-) -> object:
+    component: Device, layers_excluded: List[Tuple[int, int]] = []
+) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::

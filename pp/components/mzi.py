@@ -3,9 +3,9 @@ import pp
 
 from pp.component import Component
 from pp.port import deco_rename_ports, rename_ports_by_orientation
-from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
-from pp.components.mmi1x2 import mmi1x2
+from pp.components.bend_circular import bend_circular as bend_circular_factory
+from pp.components.waveguide import waveguide as waveguide_factory
+from pp.components.mmi1x2 import mmi1x2 as mmi1x2_factory
 
 
 @deco_rename_ports
@@ -15,11 +15,11 @@ def mzi(
     DL: float = 0.1,
     L2: float = 20.1,
     bend_radius: float = 10.0,
-    bend90: Callable = bend_circular,
-    waveguide: Callable = waveguide,
+    bend90: Callable = bend_circular_factory,
+    waveguide: Callable = waveguide_factory,
     waveguide_vertical: Optional[Callable] = None,
     waveguide_horizontal: Optional[Callable] = None,
-    coupler: Callable = mmi1x2,
+    coupler: Callable = mmi1x2_factory,
     combiner: Optional[Callable] = None,
     with_coupler: bool = True,
     **coupler_settings,
@@ -38,17 +38,17 @@ def mzi(
 
     .. code::
 
-               __L2__
-              |      |
-              L0     L0r
-              |      |
-     coupler==|      |==combiner
-              |      |
-              L0     L0r
-              |      |
-             DL/2   DL/2
-              |      |
-              |__L2__|
+                   __L2__
+                  |      |
+                  L0     L0r
+                  |      |
+         coupler==|      |==combiner
+                  |      |
+                  L0     L0r
+                  |      |
+                 DL/2   DL/2
+                  |      |
+                  |__L2__|
 
 
     .. plot::
@@ -63,7 +63,7 @@ def mzi(
     c = pp.Component()
     coupler = coupler(**coupler_settings) if callable(coupler) else coupler
     if combiner:
-        combiner = pp.call_if_func(combiner)
+        combiner = combiner() if callable(combiner) else combiner
     else:
         combiner = coupler
 

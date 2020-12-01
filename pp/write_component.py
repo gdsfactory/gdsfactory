@@ -60,7 +60,7 @@ def write_component_type(
     return gdspath
 
 
-def write_component_report(component, json_path=None):
+def write_component_report(component: Component, json_path=None):
     """write component GDS and metadata:
 
     Args:
@@ -86,7 +86,7 @@ def write_component_report(component, json_path=None):
 def write_component(
     component: Component,
     gdspath: Optional[PosixPath] = None,
-    gdsdir: str = tmp,
+    gdsdir: PosixPath = tmp,
     precision: float = 1e-9,
 ) -> str:
     """write component GDS and metadata:
@@ -134,7 +134,7 @@ def write_json(json_path, **settings):
 def write_gds(
     component: Component,
     gdspath: Optional[PosixPath] = None,
-    gdsdir: str = tmp,
+    gdsdir: PosixPath = tmp,
     unit: float = 1e-6,
     precision: float = 1e-9,
     auto_rename: bool = False,
