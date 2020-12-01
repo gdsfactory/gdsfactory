@@ -1,2 +1,7 @@
+function_name: component_lattice
+module: pp.components.component_lattice
 name: lattice
-settings: {}
+settings:
+  components: None
+  lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+  name: lattice

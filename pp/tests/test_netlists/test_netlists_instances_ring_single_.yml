@@ -3,7 +3,7 @@ connections:
   bend_circular_R5p00_W500m_2_10,N0: waveguide_L4p00_W500m_-2_12,E0
   waveguide_L2p00_W500m_-9_6,E0: coupler90_BR5_G200m_W500m_-6_2,N0
   waveguide_L2p00_W500m_5_6,E0: coupler90_BR5_G200m_W500m_2_2,N0
-  waveguide_L2p00_W500m_5_6,W0: bend_circular_R5p00_W500m_2_10,W0
+  waveguide_L2p00_W500m_5_6,W0: coupler_ring_8a8f8eb7_-2_12,N0
   waveguide_L4p00_W500m_-2_12,W0: bend_circular_R5_W500m_-6_10,W0
 instances:
   bend_circular_R5p00_W500m_-6_10:

@@ -1,3 +1,4 @@
+function_name: rotate
 name: mzi2x2_WECTrue_r
 settings:
   angle: 90
@@ -13,5 +14,3 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: mzi2x2_WECTrue
-  function_name: rotate

@@ -1,3 +1,4 @@
+function_name: add_fiber_single
 name: mzi2x2_WECTrue_te
 settings:
   bend_factory: bend_circular
@@ -13,8 +14,7 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: mzi2x2_WECTrue
-  function_name: add_fiber_single
+  component_name: None
   gc_port_name: W0
   grating_coupler: grating_coupler_te
   layer_label:

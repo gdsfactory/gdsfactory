@@ -15,6 +15,14 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
+- klayout DEVREC shown by default
+- pp.qp hides DEVREC layer
+- test netlist of more _circuits
+- sort the keys when loading YAML file for test_netlists
+- better docstrings
+- add function_name to container
+- remove duplicated keys for container
+
 ## 2.2.0 2020-11-29
 
 - component_from_yaml updates:

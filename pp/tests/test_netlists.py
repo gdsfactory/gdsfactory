@@ -10,7 +10,7 @@ def test_netlists_instances(component_type, data_regression):
     pp.clear_cache()
     c = component_factory[component_type]()
     n = c.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n)
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     d = yaml.load(yaml_str)
     data_regression.check(d)
 
@@ -18,7 +18,8 @@ def test_netlists_instances(component_type, data_regression):
 if __name__ == "__main__":
     # c = component_factory["mzi"]()
     # c = component_factory["ring_single"]()
-    c = component_factory["ring_double"]()
+    # c = component_factory["ring_double"]()
+    c = component_factory["component_lattice"]()
     n = c.get_netlist()
     print(n)
     pp.show(c)

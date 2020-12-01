@@ -67,22 +67,13 @@ def container(component_function: Callable) -> Callable:
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
         new.settings.update(**kwargs)
         new.settings["component"] = old.get_settings()
-        new.settings["component_name"] = old.name
-        new.settings["function_name"] = component_function.__name__
+        new.function_name = component_function.__name__
 
         for key in propagate_attributes:
             if hasattr(old, key) and key not in old.ignore:
                 value = getattr(old, key)
                 if value:
                     setattr(new, key, value)
-
-        # new.test_protocol = new.test_protocol or old.test_protocol.copy()
-        # new.data_analysis_protocol = (
-        #     new.data_analysis_protocol or old.data_analysis_protocol.copy()
-        # )
-        # new.wavelength = new.wavelength or old.wavelength
-        # new.polarization = new.polarization or old.polarization
-
         new.settings.pop("kwargs", "")
         return new
 

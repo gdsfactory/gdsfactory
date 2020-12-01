@@ -1,3 +1,4 @@
+function_name: add_electrical_pads_shortest
 name: mzi2x2_WECTrue_e
 settings:
   component:
@@ -12,7 +13,5 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: mzi2x2_WECTrue
-  function_name: add_electrical_pads_shortest
   pad: pad
   pad_port_spacing: 50

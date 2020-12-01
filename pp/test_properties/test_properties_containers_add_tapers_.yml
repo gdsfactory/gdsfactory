@@ -1,3 +1,4 @@
+function_name: add_tapers
 name: mzi2x2_WECTrue_t
 settings:
   component:
@@ -12,8 +13,6 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: mzi2x2_WECTrue
-  function_name: add_tapers
   port_type: optical
   suffix: t
   taper: taper

@@ -1,3 +1,4 @@
+function_name: add_fiber_array
 name: mzi2x2_WECTrue_te
 settings:
   component:
@@ -12,8 +13,7 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: mzi2x2_WECTrue
-  function_name: add_fiber_array
+  component_name: None
   gc_port_name: W0
   get_input_labels_function: get_input_labels
   get_route_factory: route_fiber_array

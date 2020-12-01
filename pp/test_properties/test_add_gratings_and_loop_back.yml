@@ -1,3 +1,4 @@
+function_name: add_gratings_and_loop_back
 name: spiral_inner_io_te
 settings:
   bend_factory: bend_circular
@@ -21,9 +22,8 @@ settings:
       x_straight_inner_right: 150.0
       y_straight_inner_bottom: 10.0
       y_straight_inner_top: 50.0
-  component_name: spiral_inner_io
+  component_name: None
   excluded_ports: []
-  function_name: add_gratings_and_loop_back
   gc_port_name: None
   gc_rotation: -90
   grating_coupler: grating_coupler_te
