@@ -28,24 +28,24 @@ placements:
   bend_circular_R10p00_W500m_-9_15:
     rotation: 180
     x: -9.102
-    y: 15.801000000000002
+    y: 15.8
   bend_circular_R10p00_W500m_5_15:
     rotation: 90
     x: 5.1
-    y: 15.801000000000002
+    y: 15.8
   coupler_ring_92c05bc6_-2_3:
     rotation: 0
     x: -2.0009999999999994
-    y: 3.75
+    y: 3.750000000000001
   waveguide_L0p00_W500m_-14_10:
     rotation: 270
     x: -14.001999999999999
-    y: 10.700499999999998
+    y: 10.7
   waveguide_L0p00_W500m_10_10:
     rotation: 270
     x: 10.0
-    y: 10.700499999999998
+    y: 10.7
   waveguide_L4p00_W500m_-2_20:
     rotation: 0
     x: -2.001
-    y: 20.701
+    y: 20.7

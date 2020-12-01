@@ -1,30 +1,31 @@
-from typing import Callable
+from typing import Callable, Dict, Optional
 from inspect import signature
 import uuid
 import hashlib
 from functools import wraps, partial
 from pp.add_pins import add_pins_and_outline
 from pp.name import get_component_name
+from pp.component import Component
 
 
-NAME_TO_DEVICE = {}
+NAME_TO_DEVICE: Dict[str, Component] = {}
 MAX_NAME_LENGTH = 32
 
 
-def clear_cache(components_cache=NAME_TO_DEVICE):
+def clear_cache(components_cache: Dict[str, Component] = NAME_TO_DEVICE):
     components_cache = {}
     return components_cache
 
 
 def cell(
-    func=None,
+    func: Callable = None,
     *,
-    autoname=True,
-    name=None,
-    uid=False,
-    cache=True,
-    pins=False,
-    pins_function=add_pins_and_outline,
+    autoname: bool = True,
+    name: Optional[str] = None,
+    uid: bool = False,
+    cache: bool = True,
+    pins: bool = False,
+    pins_function: Callable = add_pins_and_outline,
 ) -> Callable:
     """Cell Decorator:
 

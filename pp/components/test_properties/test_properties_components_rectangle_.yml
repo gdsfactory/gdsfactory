@@ -6,7 +6,7 @@ settings:
   layer:
   - 1
   - 0
-  ports_parameters: {}
+  ports: {}
   size:
   - 4.0
   - 2.0

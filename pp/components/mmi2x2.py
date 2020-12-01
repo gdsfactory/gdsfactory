@@ -47,9 +47,10 @@ def mmi2x2(
         size=(length_mmi, w_mmi),
         layer=layer,
         pins=False,
-        ports_parameters={
-            "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
-            "W": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
+        centered=True,
+        ports={
+            "E": [(+length_mmi / 2, -a, w_taper), (+length_mmi / 2, +a, w_taper)],
+            "W": [(-length_mmi / 2, -a, w_taper), (-length_mmi / 2, +a, w_taper)],
         },
     )
 

@@ -1,8 +1,8 @@
+from typing import Any, Dict, List, Optional, Tuple, Union
 import itertools
 import uuid
 import copy as python_copy
 import pathlib
-from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
 from omegaconf import OmegaConf
@@ -271,8 +271,6 @@ class ComponentReference(DeviceReference):
     @property
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
-        # if self.__size_info__ == None:
-        # return self.__size_info__
 
     def _transform_port(
         self,

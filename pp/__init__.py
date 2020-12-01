@@ -18,6 +18,7 @@ modules:
     - routing
     - layer: GDS layers
 """
+
 from phidl import quickplot as qp
 import phidl.geometry as pg
 import phidl.path as path
@@ -33,6 +34,7 @@ from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
+from pp.types import Factory
 
 from pp.write_component import get_component_type
 from pp.write_component import show
@@ -40,6 +42,7 @@ from pp.write_component import write_gds
 from pp.write_component import write_component_type
 from pp.write_component import write_component
 from pp.write_doe import write_doe
+
 
 import pp.components as c
 import pp.routing as routing
@@ -109,6 +112,7 @@ __all__ = [
     "write_gds",
     "Port",
     "component_from_yaml",
+    "Factory",
     "units",
 ]
 __version__ = "2.2.0"

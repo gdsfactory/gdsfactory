@@ -1,20 +1,16 @@
-from typing import Callable
 import pp
-
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.waveguide import waveguide
-from pp.routing.connect import connect_strip
-from pp.port import get_ports_facing
 
 
 @pp.cell
 def splitter_tree(
-    coupler: Callable = mmi1x2,
+    coupler: pp.Factory = mmi1x2,
     n_o_outputs: int = 4,
     bend_radius: float = 10.0,
     spacing: float = 50.0,
-    termination_component=None,
-):
+    termination_component: pp.Factory = waveguide,
+) -> pp.Component:
     """tree of 1x2 splitters
 
     Args:
@@ -56,12 +52,11 @@ def splitter_tree(
             spacing=spacing / 2,
         )
     else:
-        termination_component = (
-            termination_component
-            if termination_component is not None
-            else waveguide(length=0.1)
+        _cmp = (
+            termination_component()
+            if callable(termination_component)
+            else termination_component
         )
-        _cmp = pp.call_if_func(termination_component)
 
     spacing = (
         spacing
@@ -87,15 +82,15 @@ def splitter_tree(
             v_mirror=False,  # True,
         )
 
-        c.add(connect_strip(coupler.ports["E1"], tree_top.ports["W0"]))
-        c.add(connect_strip(coupler.ports["E0"], tree_bot.ports["W0"]))
+        c.add(pp.routing.connect_strip(coupler.ports["E1"], tree_top.ports["W0"]))
+        c.add(pp.routing.connect_strip(coupler.ports["E0"], tree_bot.ports["W0"]))
 
     i = 0
-    for p in get_ports_facing(tree_bot, "E"):
+    for p in pp.port.get_ports_facing(tree_bot, "E"):
         c.add_port(name="{}".format(i), port=p)
         i += 1
 
-    for p in get_ports_facing(tree_top, "E"):
+    for p in pp.port.get_ports_facing(tree_top, "E"):
         c.add_port(name="{}".format(i), port=p)
         i += 1
 

@@ -56,11 +56,13 @@ def cdsem_straight_density(
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    slab = pp.c.rectangle_centered(x=x, y=y, layer=LAYER.WG)
+    slab = pp.c.rectangle(size=(x, y), layer=LAYER.WG, centered=True)
     slab_ref = c.add_ref(slab)
     c.absorb(slab_ref)
 
-    tooth = pp.c.rectangle_centered(x=length, y=trench_width, layer=LAYER.SLAB150)
+    tooth = pp.c.rectangle(
+        size=(length, trench_width), layer=LAYER.SLAB150, centered=True
+    )
 
     for i in range(n_o_lines):
         _tooth = c.add_ref(tooth)

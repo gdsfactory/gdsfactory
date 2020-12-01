@@ -24,6 +24,7 @@ from phidl.device_layout import Port as PortPhidl
 from phidl.device_layout import Device
 from pp.drc import snap_to_grid
 
+
 port_types = ["optical", "rf", "dc", "heater"]
 
 
@@ -252,7 +253,7 @@ def move_copy(port, x=0, y=0):
     return _port
 
 
-def get_ports_facing(ports, direction="W"):
+def get_ports_facing(ports: List[Port], direction: str = "W"):
     from pp.component import Component, ComponentReference
 
     if isinstance(ports, dict):
@@ -358,7 +359,7 @@ def rename_ports_by_orientation(
     return component
 
 
-def auto_rename_ports(component: object) -> object:
+def auto_rename_ports(component: Device) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::

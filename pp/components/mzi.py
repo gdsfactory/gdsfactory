@@ -61,19 +61,19 @@ def mzi(
 
     """
     c = pp.Component()
-    coupler = coupler(**coupler_settings) if callable(coupler) else coupler
+    cp1 = coupler(**coupler_settings) if callable(coupler) else coupler
     if combiner:
-        combiner = combiner() if callable(combiner) else combiner
+        cp2 = combiner() if callable(combiner) else combiner
     else:
-        combiner = coupler
+        cp2 = cp1
 
     waveguide_vertical = waveguide_vertical or waveguide
     waveguide_horizontal = waveguide_horizontal or waveguide
     b90 = bend90(radius=bend_radius) if callable(bend90) else bend90
     l0 = waveguide_vertical(length=L0)
 
-    coupler = rename_ports_by_orientation(coupler)
-    combiner = rename_ports_by_orientation(combiner)
+    coupler = rename_ports_by_orientation(cp1)
+    combiner = rename_ports_by_orientation(cp2)
 
     y1l = coupler.ports["E0"].y
     y1r = combiner.ports["E0"].y

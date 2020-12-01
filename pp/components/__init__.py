@@ -30,7 +30,6 @@ from pp.components.crossing_waveguide import compensation_path
 from pp.components.ellipse import ellipse
 from pp.components.label import label
 from pp.components.rectangle import rectangle
-from pp.components.rectangle import rectangle_centered
 from pp.components.ring import ring
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
@@ -168,7 +167,6 @@ component_factory = dict(
     pad_array=pad_array,
     pads_shorted=pads_shorted,
     rectangle=rectangle,
-    rectangle_centered=rectangle_centered,
     ring=ring,
     ring_double=ring_double,
     ring_double_bus=ring_double_bus,

@@ -6,7 +6,7 @@ from pp.components import waveguide
 from pp.routing.manhattan import round_corners
 from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
 from pp.component import Component
-from typing import Callable
+from pp.types import Factory
 
 
 @pp.cell
@@ -14,10 +14,10 @@ def delay_snake(
     total_length: float = 160000.0,
     L0: float = 2350.0,
     n: int = 5,
-    taper: Callable = taper,
-    bend_factory: Callable = bend_circular,
+    taper: Factory = taper,
+    bend_factory: Factory = bend_circular,
     bend_radius: float = 10.0,
-    straight_factory: Callable = waveguide,
+    straight_factory: Factory = waveguide,
     wg_width: float = 0.5,
 ) -> Component:
     """ Snake input facing west
