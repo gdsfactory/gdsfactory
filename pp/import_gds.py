@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Optional, Union
+from pathlib import Path
 import json
 import gdspy
 
@@ -141,7 +142,7 @@ def import_gds_cells(gdspath):
 
 
 def import_gds(
-    gdspath: str,
+    gdspath: Union[str, Path],
     cellname: None = None,
     flatten: bool = False,
     overwrite_cache: bool = True,
