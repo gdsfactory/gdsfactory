@@ -69,15 +69,15 @@ def cell(
 
     @wraps(func)
     def _cell(
-        autoname=autoname,
-        name=name,
-        pins=pins,
-        uid=uid,
-        cache=cache,
-        pins_function=pins_function,
+        autoname: bool = autoname,
+        name: Optional[str] = name,
+        pins: bool = pins,
+        uid: bool = uid,
+        cache: bool = cache,
+        pins_function: Callable = pins_function,
         *args,
         **kwargs,
-    ):
+    ) -> Component:
         args_repr = [repr(a) for a in args]
         kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
         arguments = ", ".join(args_repr + kwargs_repr)

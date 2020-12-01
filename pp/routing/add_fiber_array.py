@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 
@@ -25,7 +25,7 @@ def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
     gc_port_name: str = "W0",
-    component_name: None = None,
+    component_name: Optional[str] = None,
     taper_factory: Callable = taper,
     taper_length: float = 10.0,
     get_route_factory: Callable = route_fiber_array,
