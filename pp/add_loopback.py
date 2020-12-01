@@ -21,10 +21,12 @@ def gen_loopback(
     Output grating generated on the right of end_port
 
     .. code::
+
         __________________________________________
         | separation  |            |              |
         |             |            |              |
        GC          start_port  end_port          GC
+
     """
 
     gc = gc() if callable(gc) else gc

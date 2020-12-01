@@ -6,7 +6,7 @@ import pp
 def load(
     component=None, filepath=None, dirpath=pp.CONFIG["sp"], numports=None, height_nm=220
 ):
-    """ Load Sparameters from Lumerical interconnect export file
+    r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
         component: instance
@@ -20,6 +20,7 @@ def load(
         S: Sparameters np.ndarray matrix
 
     inspired in https://github.com/BYUCamachoLab/simphony
+
     the Sparameters file have Lumerical format
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
@@ -37,7 +38,7 @@ def load(
     with open(filepath, "r") as fid:
         for i in range(numports):
             port_line = fid.readline()
-            m = re.search('\[".*",', port_line)
+            m = re.search(r'\[".*",', port_line)
             if m:
                 port = m.group(0)
                 port_names.append(port[2:-2])

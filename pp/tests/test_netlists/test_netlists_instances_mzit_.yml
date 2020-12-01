@@ -1,0 +1,139 @@
+connections:
+  bend_circular_R10p00_W450m_30_16,W0: bend_circular_R10p00_W450m_30_6,N0
+  bend_circular_R10p00_W450m_30_6,W0: taper_L5p00_W500m_W450m_22_1,2
+  bend_circular_R10p00_W550m_33_18,W0: waveguide_L4p00_W550m_38_11,E0
+  bend_circular_R10p00_W550m_33_4,W0: waveguide_L3p00_W550m_26_0,E0
+  coupler_D2p00_G200m_L5p00_WW500m_1_22,E0: taper_L5p00_W550m_W500m_16_21,2
+  coupler_D2p00_G200m_L5p00_WW500m_1_22,E1: taper_L5p00_W450m_W500m_16_23,2
+  taper_L5p00_W450m_W500m_16_23,1: waveguide_L1p00_W450m_19_23,E0
+  taper_L5p00_W450m_W550m_22_21,1: bend_circular_R10p00_W450m_30_16,N0
+  taper_L5p00_W500m_W450m_22_1,1: coupler_ebb2127d_5_0,E1
+  taper_L5p00_W500m_W550m_22_0,1: coupler_ebb2127d_5_0,E0
+  taper_L5p00_W550m_W450m_22_23,1: waveguide_L3p00_W550m_26_23,E0
+  taper_L5p00_W550m_W500m_16_21,1: waveguide_L1p00_W550m_19_21,E0
+  waveguide_L1p00_W450m_19_23,W0: taper_L5p00_W550m_W450m_22_23,2
+  waveguide_L1p00_W550m_19_21,W0: taper_L5p00_W450m_W550m_22_21,2
+  waveguide_L3p00_W550m_26_0,W0: taper_L5p00_W500m_W550m_22_0,2
+  waveguide_L3p00_W550m_26_23,W0: bend_circular_R10p00_W550m_33_18,N0
+  waveguide_L4p00_W550m_38_11,W0: bend_circular_R10p00_W550m_33_4,N0
+instances:
+  bend_circular_R10p00_W450m_30_16:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_W450m_30_6:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_W550m_33_18:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_W550m_33_4:
+    component: bend_circular
+    settings: {}
+  coupler_D2p00_G200m_L5p00_WW500m_1_22:
+    component: coupler
+    settings: {}
+  coupler_ebb2127d_5_0:
+    component: coupler
+    settings: {}
+  taper_L5p00_W450m_W500m_16_23:
+    component: taper
+    settings: {}
+  taper_L5p00_W450m_W550m_22_21:
+    component: taper
+    settings: {}
+  taper_L5p00_W500m_W450m_22_1:
+    component: taper
+    settings: {}
+  taper_L5p00_W500m_W550m_22_0:
+    component: taper
+    settings: {}
+  taper_L5p00_W550m_W450m_22_23:
+    component: taper
+    settings: {}
+  taper_L5p00_W550m_W500m_16_21:
+    component: taper
+    settings: {}
+  waveguide_L1p00_W450m_19_23:
+    component: waveguide
+    settings: {}
+  waveguide_L1p00_W550m_19_21:
+    component: waveguide
+    settings: {}
+  waveguide_L3p00_W550m_26_0:
+    component: waveguide
+    settings: {}
+  waveguide_L3p00_W550m_26_23:
+    component: waveguide
+    settings: {}
+  waveguide_L4p00_W550m_38_11:
+    component: waveguide
+    settings: {}
+placements:
+  bend_circular_R10p00_W450m_30_16:
+    rotation: 90
+    x: 30.0875
+    y: 16.7375
+  bend_circular_R10p00_W450m_30_6:
+    rotation: 0
+    x: 30.0875
+    y: 6.5625
+  bend_circular_R10p00_W550m_33_18:
+    rotation: 90
+    x: 33.1125
+    y: 18.762500000000003
+  bend_circular_R10p00_W550m_33_4:
+    rotation: 0
+    x: 33.1125
+    y: 4.5375000000000005
+  coupler_D2p00_G200m_L5p00_WW500m_1_22:
+    rotation: 0
+    x: 1.5
+    y: 22.65
+  coupler_ebb2127d_5_0:
+    rotation: 0
+    x: 5.0
+    y: 0.6500000000000006
+  taper_L5p00_W450m_W500m_16_23:
+    rotation: 180
+    x: 16.5
+    y: 23.65
+  taper_L5p00_W450m_W550m_22_21:
+    rotation: 180
+    x: 22.5
+    y: 21.65
+  taper_L5p00_W500m_W450m_22_1:
+    rotation: 0
+    x: 22.5
+    y: 1.65
+  taper_L5p00_W500m_W550m_22_0:
+    rotation: 0
+    x: 22.5
+    y: -0.34999999999999987
+  taper_L5p00_W550m_W450m_22_23:
+    rotation: 180
+    x: 22.5
+    y: 23.65
+  taper_L5p00_W550m_W500m_16_21:
+    rotation: 180
+    x: 16.5
+    y: 21.65
+  waveguide_L1p00_W450m_19_23:
+    rotation: 180
+    x: 19.5
+    y: 23.65
+  waveguide_L1p00_W550m_19_21:
+    rotation: 180
+    x: 19.5
+    y: 21.65
+  waveguide_L3p00_W550m_26_0:
+    rotation: 0
+    x: 26.5
+    y: -0.34999999999999987
+  waveguide_L3p00_W550m_26_23:
+    rotation: 180
+    x: 26.5
+    y: 23.65
+  waveguide_L4p00_W550m_38_11:
+    rotation: 90
+    x: 38.0
+    y: 11.649999999999999

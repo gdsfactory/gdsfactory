@@ -1,7 +1,7 @@
-"""
-you can define both DOEs and placer information in a YAML file
-all the placer information need to be nested inside a placer section
+""" You can define both DOEs and placer information in a YAML file
+All the placer information need to be nested inside a placer section
 
+```yaml
 iso_lines_coarse1:
   component: ISO_COARS_OPT1
   settings:
@@ -15,6 +15,7 @@ iso_lines_coarse1:
     align_x: W
     align_y: S
     next_to: iso_lines_coarse1
+```
 
 """
 
@@ -157,20 +158,18 @@ def pack_row(
     period_y=None,
     rotation=0,
 ):
-    """
+    """Pack row.
     Args:
         cells: a list of cells  (size n)
         row_ids: a list of row ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
 
-
         period_x, period_y: not used by default,
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
 
-
-    returns a list of cell references
+    Returns:list of cell references
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
@@ -278,13 +277,15 @@ def pack_col(
     period_y=None,
 ):
     """
+
     Args:
         cells: a list of cells  (size n)
         col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
 
-    returns a list of cell references
+    Returns:
+        list of cell references
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
     margin_y = margin_y if margin_y is not None else margin
