@@ -40,6 +40,12 @@ dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 
 
+def clear_connections(connections=connections):
+    """Clears the connections that have been stored in connections dict."""
+    connections = {}
+    return connections
+
+
 def add_to_global_netlist(port1, port2):
     """Add port1 to port2 connection to the connections global netlist dict."""
     global connections

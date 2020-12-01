@@ -1,7 +1,3 @@
-import pytest
-
-
-@pytest.fixture(scope="function")
 def test_netlist_read():
     import pp
 

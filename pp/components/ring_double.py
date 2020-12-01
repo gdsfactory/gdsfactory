@@ -54,6 +54,7 @@ def ring_double(
     wl.connect(port="E0", destination=cb.ports["N0"])
     ct.connect(port="N1", destination=wl.ports["W0"])
     wr.connect(port="W0", destination=ct.ports["N0"])
+    cb.connect(port="N1", destination=wr.ports["E0"])
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
     c.add_port("E1", port=ct.ports["W0"])
@@ -64,5 +65,5 @@ def ring_double(
 if __name__ == "__main__":
     import pp
 
-    c = ring_double(pins=True)
+    c = ring_double()
     pp.show(c)

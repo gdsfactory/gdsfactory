@@ -12,9 +12,9 @@ from pp.cell import cell
 def ring_single(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 4.0,
-    bend_radius: float = 5.0,
-    length_y: float = 2.0,
+    length_x: float = 4.002,
+    bend_radius: float = 10.0,
+    length_y: float = 0.001,
     coupler: Callable = coupler_ring,
     waveguide: Callable = waveguide_function,
     bend: Callable = bend_circular,
