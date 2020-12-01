@@ -22,6 +22,7 @@ Maybe:
 - better docstrings
 - add function_name to container
 - remove duplicated keys for container
+- pp.clear_cache() in pytest fixture in `pp/conftest.py`
 
 ## 2.2.0 2020-11-29
 
