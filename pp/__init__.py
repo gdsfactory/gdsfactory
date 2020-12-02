@@ -34,7 +34,7 @@ from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
-from pp.typing import Factory
+from pp.types import Factory
 
 from pp.write_component import get_component_type
 from pp.write_component import show

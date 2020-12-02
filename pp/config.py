@@ -46,8 +46,17 @@ def clear_connections(connections=connections):
     return connections
 
 
-def add_to_global_netlist(port1, port2):
-    """Add port1 to port2 connection to the connections global netlist dict."""
+def add_to_global_netlist(port1, port2) -> Dict[str, str]:
+    """Add port1 to port2 connection to the connections global netlist dict.
+
+    Args:
+        port1: src port
+        port1: dst port
+
+    Returns:
+        Dict: src_name
+
+    """
     global connections
 
     src = port1.parent if port1.parent else port1
@@ -56,9 +65,15 @@ def add_to_global_netlist(port1, port2):
     src_name = src.name if hasattr(src, "name") else src.parent.name
     dst_name = dst.name if hasattr(dst, "name") else dst.parent.name
 
+    src_uid = src.parent.uid if hasattr(src, "parent") else -1
+    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
+
+    src_uid = src.parent.uid if hasattr(src, "parent") else -1
+    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
+
     connections[
-        f"{src_name}_{int(src.x)}_{int(src.y)},{port1.name}"
-    ] = f"{dst_name}_{int(dst.x)}_{int(dst.y)},{port2.name}"
+        f"{src_name},{src_uid},{int(src.x)},{int(src.y)},{port1.name},{port1.uid}"
+    ] = f"{dst_name},{dst_uid},{int(dst.x)},{int(dst.y)},{port2.name},{port2.uid}"
 
 
 conf = OmegaConf.load(

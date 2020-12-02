@@ -1,146 +1,26 @@
-connections:
-  bend_circular_R10p00_W450m_40_16,W0: bend_circular_R10p00_W450m_40_6,N0
-  bend_circular_R10p00_W450m_40_6,W0: taper_L5p00_W500m_W450m_32_1,2
-  bend_circular_R10p00_W550m_43_18,W0: waveguide_L4p00_W550m_48_11,E0
-  bend_circular_R10p00_W550m_43_4,W0: waveguide_L3p00_W550m_36_0,E0
-  coupler_D2p00_G200m_L10_WW500m_9_22,E0: taper_L5p00_W550m_W500m_26_21,2
-  coupler_D2p00_G200m_L10_WW500m_9_22,E1: taper_L5p00_W450m_W500m_26_23,2
-  taper_L5p00_W450m_W500m_26_23,1: waveguide_L1p00_W450m_29_23,E0
-  taper_L5p00_W450m_W550m_32_21,1: bend_circular_R10p00_W450m_40_16,N0
-  taper_L5p00_W500m_W450m_32_1,1: coupler_D2p00_G300m_L20_WW500m_10_0,E1
-  taper_L5p00_W500m_W550m_32_0,1: coupler_D2p00_G300m_L20_WW500m_10_0,E0
-  taper_L5p00_W550m_W450m_32_23,1: waveguide_L3p00_W550m_36_23,E0
-  taper_L5p00_W550m_W500m_26_21,1: waveguide_L1p00_W550m_29_21,E0
-  waveguide_L1p00_W450m_29_23,W0: taper_L5p00_W550m_W450m_32_23,2
-  waveguide_L1p00_W550m_29_21,W0: taper_L5p00_W450m_W550m_32_21,2
-  waveguide_L3p00_W550m_36_0,W0: taper_L5p00_W500m_W550m_32_0,2
-  waveguide_L3p00_W550m_36_23,W0: bend_circular_R10p00_W550m_43_18,N0
-  waveguide_L4p00_W550m_48_11,W0: bend_circular_R10p00_W550m_43_4,N0
+connections: {}
 instances:
-  bend_circular_R10p00_W450m_40_16:
-    component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W450m_40_6:
-    component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W550m_43_18:
-    component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W550m_43_4:
-    component: bend_circular
-    settings: {}
-  coupler_D2p00_G200m_L10_WW500m_9_22:
-    component: coupler
-    settings: {}
-  coupler_D2p00_G300m_L20_WW500m_10_0:
-    component: coupler
-    settings: {}
-  mzit_79969bd5_19_11:
+  mzit_79969bd5,19,11:
     component: mzit
-    settings: {}
-  taper_L5p00_W450m_W500m_26_23:
-    component: taper
-    settings: {}
-  taper_L5p00_W450m_W550m_32_21:
-    component: taper
-    settings: {}
-  taper_L5p00_W500m_W450m_32_1:
-    component: taper
-    settings: {}
-  taper_L5p00_W500m_W550m_32_0:
-    component: taper
-    settings: {}
-  taper_L5p00_W550m_W450m_32_23:
-    component: taper
-    settings: {}
-  taper_L5p00_W550m_W500m_26_21:
-    component: taper
-    settings: {}
-  waveguide_L1p00_W450m_29_23:
-    component: waveguide
-    settings: {}
-  waveguide_L1p00_W550m_29_21:
-    component: waveguide
-    settings: {}
-  waveguide_L3p00_W550m_36_0:
-    component: waveguide
-    settings: {}
-  waveguide_L3p00_W550m_36_23:
-    component: waveguide
-    settings: {}
-  waveguide_L4p00_W550m_48_11:
-    component: waveguide
-    settings: {}
+    settings:
+      function_name: mzit
+      module: pp.components.mzit
+      name: mzit_79969bd5
+      settings:
+        Ls: 1.0
+        bend_radius: 10.0
+        coupler_gap1: 0.2
+        coupler_gap2: 0.3
+        coupler_length1: 10
+        coupler_length2: 20
+        delta_length: 10
+        dy: 2.0
+        taper_length: 5.0
+        w0: 0.5
+        w1: 0.45
+        w2: 0.55
 placements:
-  bend_circular_R10p00_W450m_40_16:
-    rotation: 90
-    x: 40.088
-    y: 16.738
-  bend_circular_R10p00_W450m_40_6:
-    rotation: 0
-    x: 40.088
-    y: 6.562
-  bend_circular_R10p00_W550m_43_18:
-    rotation: 90
-    x: 43.112
-    y: 18.763
-  bend_circular_R10p00_W550m_43_4:
-    rotation: 0
-    x: 43.112
-    y: 4.538
-  coupler_D2p00_G200m_L10_WW500m_9_22:
-    rotation: 0
-    x: 9.0
-    y: 22.65
-  coupler_D2p00_G300m_L20_WW500m_10_0:
-    rotation: 0
-    x: 10.0
-    y: 0.65
-  mzit_79969bd5_19_11:
+  mzit_79969bd5,19,11:
     rotation: 0
     x: 19.112
-    y: 11.65
-  taper_L5p00_W450m_W500m_26_23:
-    rotation: 180
-    x: 26.5
-    y: 23.65
-  taper_L5p00_W450m_W550m_32_21:
-    rotation: 180
-    x: 32.5
-    y: 21.65
-  taper_L5p00_W500m_W450m_32_1:
-    rotation: 0
-    x: 32.5
-    y: 1.65
-  taper_L5p00_W500m_W550m_32_0:
-    rotation: 0
-    x: 32.5
-    y: -0.35
-  taper_L5p00_W550m_W450m_32_23:
-    rotation: 180
-    x: 32.5
-    y: 23.65
-  taper_L5p00_W550m_W500m_26_21:
-    rotation: 180
-    x: 26.5
-    y: 21.65
-  waveguide_L1p00_W450m_29_23:
-    rotation: 180
-    x: 29.5
-    y: 23.65
-  waveguide_L1p00_W550m_29_21:
-    rotation: 180
-    x: 29.5
-    y: 21.65
-  waveguide_L3p00_W550m_36_0:
-    rotation: 0
-    x: 36.5
-    y: -0.35
-  waveguide_L3p00_W550m_36_23:
-    rotation: 180
-    x: 36.5
-    y: 23.65
-  waveguide_L4p00_W550m_48_11:
-    rotation: 90
-    x: 48.0
     y: 11.65

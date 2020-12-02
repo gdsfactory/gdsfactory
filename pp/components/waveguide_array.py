@@ -1,5 +1,5 @@
 import pp
-from pp.typing import Factory
+from pp.types import Factory
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import deco_rename_ports
 

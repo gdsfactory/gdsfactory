@@ -29,7 +29,8 @@ port_types = ["optical", "rf", "dc", "heater"]
 
 
 class Port(PortPhidl):
-    """Extends phidl port with layer and port_type (optical, dc, rf)
+    """Ports are useful to connect Components with each other.
+    Extends phidl port with layer and port_type (optical, dc, rf)
 
     Args:
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
@@ -79,7 +80,7 @@ class Port(PortPhidl):
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
-        self._next_uid += 1
+        Port._next_uid += 1
 
     def __repr__(self) -> str:
         return (

@@ -1,139 +1,398 @@
 connections:
-  bend_circular_R10p00_W450m_30_16,W0: bend_circular_R10p00_W450m_30_6,N0
-  bend_circular_R10p00_W450m_30_6,W0: taper_L5p00_W500m_W450m_22_1,2
-  bend_circular_R10p00_W550m_33_18,W0: waveguide_L4p00_W550m_38_11,E0
-  bend_circular_R10p00_W550m_33_4,W0: waveguide_L3p00_W550m_26_0,E0
-  coupler_D2p00_G200m_L5p00_WW500m_1_22,E0: taper_L5p00_W550m_W500m_16_21,2
-  coupler_D2p00_G200m_L5p00_WW500m_1_22,E1: taper_L5p00_W450m_W500m_16_23,2
-  taper_L5p00_W450m_W500m_16_23,1: waveguide_L1p00_W450m_19_23,E0
-  taper_L5p00_W450m_W550m_22_21,1: bend_circular_R10p00_W450m_30_16,N0
-  taper_L5p00_W500m_W450m_22_1,1: coupler_ebb2127d_5_0,E1
-  taper_L5p00_W500m_W550m_22_0,1: coupler_ebb2127d_5_0,E0
-  taper_L5p00_W550m_W450m_22_23,1: waveguide_L3p00_W550m_26_23,E0
-  taper_L5p00_W550m_W500m_16_21,1: waveguide_L1p00_W550m_19_21,E0
-  waveguide_L1p00_W450m_19_23,W0: taper_L5p00_W550m_W450m_22_23,2
-  waveguide_L1p00_W550m_19_21,W0: taper_L5p00_W450m_W550m_22_21,2
-  waveguide_L3p00_W550m_26_0,W0: taper_L5p00_W500m_W550m_22_0,2
-  waveguide_L3p00_W550m_26_23,W0: bend_circular_R10p00_W550m_33_18,N0
-  waveguide_L4p00_W550m_38_11,W0: bend_circular_R10p00_W550m_33_4,N0
+  bend_circular_R10p00_W450m,30,6,N0: bend_circular_R10p00_W450m,30,16,W0
+  bend_circular_R10p00_W450m,30,6,W0: taper_L5p00_W500m_W450m,22,1,2
+  bend_circular_R10p00_W550m,33,4,W0: waveguide_L3p00_W550m,26,0,E0
+  coupler_D2p00_G200m_L5p00_WW500m,1,22,E0: taper_L5p00_W550m_W500m,16,21,2
+  coupler_D2p00_G200m_L5p00_WW500m,1,22,E1: taper_L5p00_W450m_W500m,16,23,2
+  taper_L5p00_W450m_W500m,16,23,1: waveguide_L1p00_W450m,19,23,E0
+  taper_L5p00_W450m_W550m,22,21,1: bend_circular_R10p00_W450m,30,16,N0
+  taper_L5p00_W500m_W450m,22,1,1: coupler_ebb2127d,5,0,E1
+  taper_L5p00_W500m_W550m,22,0,1: coupler_ebb2127d,5,0,E0
+  taper_L5p00_W550m_W450m,22,23,1: waveguide_L3p00_W550m,26,23,E0
+  taper_L5p00_W550m_W500m,16,21,1: waveguide_L1p00_W550m,19,21,E0
+  waveguide_L1p00_W450m,19,23,W0: taper_L5p00_W550m_W450m,22,23,2
+  waveguide_L1p00_W550m,19,21,W0: taper_L5p00_W450m_W550m,22,21,2
+  waveguide_L3p00_W550m,26,0,W0: taper_L5p00_W500m_W550m,22,0,2
+  waveguide_L3p00_W550m,26,23,W0: bend_circular_R10p00_W550m,33,18,N0
+  waveguide_L4p00_W550m,38,11,E0: bend_circular_R10p00_W550m,33,18,W0
+  waveguide_L4p00_W550m,38,11,W0: bend_circular_R10p00_W550m,33,4,N0
 instances:
-  bend_circular_R10p00_W450m_30_16:
+  bend_circular_R10p00_W450m,30,16:
     component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W450m_30_6:
+    settings:
+      function_name: bend_circular
+      length: 15.707963267948966
+      module: pp.components.bend_circular
+      name: bend_circular_R10p00_W450m
+      radius: 10.0
+      settings:
+        angle_resolution: 2.5
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        radius: 10.0
+        start_angle: 0
+        theta: -90
+        width: 0.45
+      width: 0.45
+  bend_circular_R10p00_W450m,30,6:
     component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W550m_33_18:
+    settings:
+      function_name: bend_circular
+      length: 15.707963267948966
+      module: pp.components.bend_circular
+      name: bend_circular_R10p00_W450m
+      radius: 10.0
+      settings:
+        angle_resolution: 2.5
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        radius: 10.0
+        start_angle: 0
+        theta: -90
+        width: 0.45
+      width: 0.45
+  bend_circular_R10p00_W550m,33,18:
     component: bend_circular
-    settings: {}
-  bend_circular_R10p00_W550m_33_4:
+    settings:
+      function_name: bend_circular
+      length: 15.707963267948966
+      module: pp.components.bend_circular
+      name: bend_circular_R10p00_W550m
+      radius: 10.0
+      settings:
+        angle_resolution: 2.5
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        radius: 10.0
+        start_angle: 0
+        theta: -90
+        width: 0.55
+      width: 0.55
+  bend_circular_R10p00_W550m,33,4:
     component: bend_circular
-    settings: {}
-  coupler_D2p00_G200m_L5p00_WW500m_1_22:
+    settings:
+      function_name: bend_circular
+      length: 15.707963267948966
+      module: pp.components.bend_circular
+      name: bend_circular_R10p00_W550m
+      radius: 10.0
+      settings:
+        angle_resolution: 2.5
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        radius: 10.0
+        start_angle: 0
+        theta: -90
+        width: 0.55
+      width: 0.55
+  coupler_D2p00_G200m_L5p00_WW500m,1,22:
     component: coupler
-    settings: {}
-  coupler_ebb2127d_5_0:
+    settings:
+      function_name: coupler
+      module: pp.components.coupler
+      name: coupler_D2p00_G200m_L5p00_WW500m
+      settings:
+        cladding_offset: 0.0
+        dy: 2.0
+        gap: 0.2
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 5.0
+        wg_width: 0.5
+  coupler_ebb2127d,5,0:
     component: coupler
-    settings: {}
-  taper_L5p00_W450m_W500m_16_23:
+    settings:
+      function_name: coupler
+      module: pp.components.coupler
+      name: coupler_ebb2127d
+      settings:
+        cladding_offset: 0.0
+        dy: 2.0
+        gap: 0.3
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 10.0
+        wg_width: 0.5
+  taper_L5p00_W450m_W500m,16,23:
     component: taper
-    settings: {}
-  taper_L5p00_W450m_W550m_22_21:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W450m_W500m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.45
+        width2: 0.5
+  taper_L5p00_W450m_W550m,22,21:
     component: taper
-    settings: {}
-  taper_L5p00_W500m_W450m_22_1:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W450m_W550m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.45
+        width2: 0.55
+  taper_L5p00_W500m_W450m,22,1:
     component: taper
-    settings: {}
-  taper_L5p00_W500m_W550m_22_0:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W500m_W450m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.5
+        width2: 0.45
+  taper_L5p00_W500m_W550m,22,0:
     component: taper
-    settings: {}
-  taper_L5p00_W550m_W450m_22_23:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W500m_W550m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.5
+        width2: 0.55
+  taper_L5p00_W550m_W450m,22,23:
     component: taper
-    settings: {}
-  taper_L5p00_W550m_W500m_16_21:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W550m_W450m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.55
+        width2: 0.45
+  taper_L5p00_W550m_W500m,16,21:
     component: taper
-    settings: {}
-  waveguide_L1p00_W450m_19_23:
+    settings:
+      function_name: taper
+      module: pp.components.taper
+      name: taper_L5p00_W550m_W500m
+      settings:
+        cladding_offset: 3.0
+        layer:
+        - 1
+        - 0
+        layers_cladding: []
+        length: 5.0
+        port: None
+        width1: 0.55
+        width2: 0.5
+  waveguide_L1p00_W450m,19,23:
     component: waveguide
-    settings: {}
-  waveguide_L1p00_W550m_19_21:
+    settings:
+      function_name: waveguide
+      length: 1.0
+      module: pp.components.waveguide
+      name: waveguide_L1p00_W450m
+      settings:
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 1.0
+        width: 0.45
+      width: 0.45
+  waveguide_L1p00_W550m,19,21:
     component: waveguide
-    settings: {}
-  waveguide_L3p00_W550m_26_0:
+    settings:
+      function_name: waveguide
+      length: 1.0
+      module: pp.components.waveguide
+      name: waveguide_L1p00_W550m
+      settings:
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 1.0
+        width: 0.55
+      width: 0.55
+  waveguide_L3p00_W550m,26,0:
     component: waveguide
-    settings: {}
-  waveguide_L3p00_W550m_26_23:
+    settings:
+      function_name: waveguide
+      length: 3.0
+      module: pp.components.waveguide
+      name: waveguide_L3p00_W550m
+      settings:
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 3.0
+        width: 0.55
+      width: 0.55
+  waveguide_L3p00_W550m,26,23:
     component: waveguide
-    settings: {}
-  waveguide_L4p00_W550m_38_11:
+    settings:
+      function_name: waveguide
+      length: 3.0
+      module: pp.components.waveguide
+      name: waveguide_L3p00_W550m
+      settings:
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 3.0
+        width: 0.55
+      width: 0.55
+  waveguide_L4p00_W550m,38,11:
     component: waveguide
-    settings: {}
+    settings:
+      function_name: waveguide
+      length: 4.0
+      module: pp.components.waveguide
+      name: waveguide_L4p00_W550m
+      settings:
+        cladding_offset: 0.0
+        layer:
+        - 1
+        - 0
+        layers_cladding:
+        - - 111
+          - 0
+        length: 4.0
+        width: 0.55
+      width: 0.55
 placements:
-  bend_circular_R10p00_W450m_30_16:
+  bend_circular_R10p00_W450m,30,16:
     rotation: 90
     x: 30.088
     y: 16.738
-  bend_circular_R10p00_W450m_30_6:
+  bend_circular_R10p00_W450m,30,6:
     rotation: 0
     x: 30.088
     y: 6.562
-  bend_circular_R10p00_W550m_33_18:
+  bend_circular_R10p00_W550m,33,18:
     rotation: 90
     x: 33.112
     y: 18.763
-  bend_circular_R10p00_W550m_33_4:
+  bend_circular_R10p00_W550m,33,4:
     rotation: 0
     x: 33.112
     y: 4.538
-  coupler_D2p00_G200m_L5p00_WW500m_1_22:
+  coupler_D2p00_G200m_L5p00_WW500m,1,22:
     rotation: 0
     x: 1.5
     y: 22.65
-  coupler_ebb2127d_5_0:
+  coupler_ebb2127d,5,0:
     rotation: 0
     x: 5.0
     y: 0.65
-  taper_L5p00_W450m_W500m_16_23:
+  taper_L5p00_W450m_W500m,16,23:
     rotation: 180
     x: 16.5
     y: 23.65
-  taper_L5p00_W450m_W550m_22_21:
+  taper_L5p00_W450m_W550m,22,21:
     rotation: 180
     x: 22.5
     y: 21.65
-  taper_L5p00_W500m_W450m_22_1:
+  taper_L5p00_W500m_W450m,22,1:
     rotation: 0
     x: 22.5
     y: 1.65
-  taper_L5p00_W500m_W550m_22_0:
+  taper_L5p00_W500m_W550m,22,0:
     rotation: 0
     x: 22.5
     y: -0.35
-  taper_L5p00_W550m_W450m_22_23:
+  taper_L5p00_W550m_W450m,22,23:
     rotation: 180
     x: 22.5
     y: 23.65
-  taper_L5p00_W550m_W500m_16_21:
+  taper_L5p00_W550m_W500m,16,21:
     rotation: 180
     x: 16.5
     y: 21.65
-  waveguide_L1p00_W450m_19_23:
+  waveguide_L1p00_W450m,19,23:
     rotation: 180
     x: 19.5
     y: 23.65
-  waveguide_L1p00_W550m_19_21:
+  waveguide_L1p00_W550m,19,21:
     rotation: 180
     x: 19.5
     y: 21.65
-  waveguide_L3p00_W550m_26_0:
+  waveguide_L3p00_W550m,26,0:
     rotation: 0
     x: 26.5
     y: -0.35
-  waveguide_L3p00_W550m_26_23:
+  waveguide_L3p00_W550m,26,23:
     rotation: 180
     x: 26.5
     y: 23.65
-  waveguide_L4p00_W550m_38_11:
+  waveguide_L4p00_W550m,38,11:
     rotation: 90
     x: 38.0
     y: 11.65

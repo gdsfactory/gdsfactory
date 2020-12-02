@@ -14,8 +14,9 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_ports
-from pp.config import CONFIG, conf, connections, add_to_global_netlist
+from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
+from pp.drc import snap_to_1nm_grid
 
 
 def copy(D):
@@ -102,8 +103,8 @@ class SizeInfo:
 
 def _rotate_points(
     points: Union[Tuple[int, int], ndarray],
-    angle: Union[float64, int, int64, float] = 45,
-    center: Union[Tuple[int, int], List[int], ndarray] = (0, 0),
+    angle: int = 45,
+    center: Tuple[float, float] = (0.0, 0,),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
@@ -375,7 +376,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: [int, float] = 45, center: Tuple[int, int] = (0.0, 0.0),
+        self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
         """
         Returns a component
@@ -404,10 +405,12 @@ class ComponentReference(DeviceReference):
             x0 = position.x
         self.reflect((x0, 1), (x0, 0))
 
-    def reflect_v(self, port_name: Optional[str] = None, y0: None = None) -> None:
+    def reflect_v(
+        self, port_name: Optional[str] = None, y0: Optional[float] = None
+    ) -> None:
         """Perform vertical mirror using y0 as axis (default, y0=0)"""
         if port_name is None and y0 is None:
-            y0 = 0
+            y0 = 0.0
 
         if port_name is not None:
             position = self.ports[port_name]
@@ -416,8 +419,8 @@ class ComponentReference(DeviceReference):
 
     def reflect(
         self,
-        p1: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 1),
-        p2: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 0),
+        p1: Tuple[float, float] = (0.0, 1.0),
+        p2: Tuple[float, float] = (0.0, 0.0),
     ):
         if isinstance(p1, Port):
             p1 = p1.midpoint
@@ -430,7 +433,7 @@ class ComponentReference(DeviceReference):
 
         # Rotate so reflection axis aligns with x-axis
         angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
-        self.origin = _rotate_points(self.origin, angle=-angle, center=[0, 0])
+        self.origin = _rotate_points(self.origin, angle=-angle, center=(0, 0))
         self.rotation -= angle
 
         # Reflect across x-axis
@@ -439,7 +442,7 @@ class ComponentReference(DeviceReference):
         self.rotation = -1 * self.rotation
 
         # Un-rotate and un-translate
-        self.origin = _rotate_points(self.origin, angle=angle, center=[0, 0])
+        self.origin = _rotate_points(self.origin, angle=angle, center=(0, 0))
         self.rotation += angle
         self.rotation = self.rotation % 360
         self.origin = self.origin + p1
@@ -447,7 +450,7 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def connect(self, port: str, destination: Port, overlap: float = 0):
+    def connect(self, port: Union[str, Port], destination: Port, overlap: float = 0.0):
         """Returns a reference of the Component where a origin port_name connects to a destination
 
         Args:
@@ -482,8 +485,8 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
-        if hasattr(destination, "parent"):
-            add_to_global_netlist(p, destination)
+        # if hasattr(destination, "parent"):
+        #     add_to_global_netlist(p, destination)
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -555,41 +558,38 @@ class Component(Device):
         connections = netlist.connections
         G = nx.Graph()
         G.add_edges_from(
-            [(k.split(",")[0], v.split(",")[0]) for k, v in connections.items()]
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
         )
         pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
         labels = {
-            k: "_".join(k.split("_")[:label_index_end])
+            k: ",".join(k.split(",")[:label_index_end])
             for k in netlist.placements.keys()
         }
         nx.draw(
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
         )
 
-    def get_netlist_yaml(self, full_settings=False):
+    def get_netlist_yaml(self):
         """Return YAML netlist."""
-        return OmegaConf.to_yaml(self.get_netlist(full_settings=full_settings))
+        return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self, full_settings=False):
+    def get_netlist(self):
         """returns netlist dict(instances, placements, connections)
+
+        instances = {instances}
+        placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
+        connections = {instance_name_src,uid,x,y,portName,portId: instance_name_dst,uid,x,y,portName,portId}
 
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
         """
-        instances, placements = recurse_instances(self, full_settings=full_settings)
-        connections_connected = {}
-
-        for src, dst in connections.items():
-            # trim netlist: store only instances connections from the component
-            if src.split(",")[0] in instances:
-                connections_connected[src] = dst
+        connections, instances, placements = recurse_references(self)
 
         netlist = OmegaConf.create(
-            dict(
-                instances=instances,
-                placements=placements,
-                connections=connections_connected,
-            )
+            dict(instances=instances, placements=placements, connections=connections,)
         )
         self.netlist = netlist
         return netlist
@@ -977,29 +977,78 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     return output
 
 
-def recurse_instances(component, instances=None, placements=None, full_settings=False):
-    """From a component returns instances and placements dicts."""
+def recurse_references(
+    component: Component,
+    instances: Dict[str, ComponentReference] = None,
+    placements=None,
+    connections=None,
+    port_locations=None,
+    dx: float = 0.0,
+    dy: float = 0.0,
+    recursive=False,
+):
+    """From a component returns instances and placements dicts.
+
+    FIXME: Need to decide the recursive case.
+
+    Args:
+        component: to recurse
+        instances: instance_name to settings dict
+        placements: instance_name to x,y,rotation dict
+        connections: instance_name_src,portName: instance_name_dst,portName
+        port_locations: dict((x,y): set([referenceName, Port]))
+        dx: port displacement in x (for recursice case)
+        dy: port displacement in y (for recursive case)
+
+    Returns:
+        connections
+        instances
+        placements
+    """
     placements = placements or {}
     instances = instances or {}
+    connections = connections or {}
+    port_locations = port_locations or {
+        snap_to_1nm_grid((port.x, port.y)): [] for port in component.get_ports()
+    }
 
     for r in component.references:
-        i = r.parent
-        reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
-        if hasattr(i, "settings") and full_settings:
-            settings = i.settings or {}
-        else:
-            settings = i.get_property("settings_changed") or {}
-        instances[reference_name] = dict(
-            component=i.function_name, settings=clean_dict(settings) or {}
-        )
-        placements[reference_name] = dict(
-            x=float(np.round(r.x * 1e3) / 1e3),
-            y=float(np.round(r.y * 1e3) / 1e3),
-            rotation=int(r.rotation),
-        )
-        if i.references:
-            recurse_instances(i, instances=instances, placements=placements)
-    return instances, placements
+        c = r.parent
+        x = snap_to_1nm_grid(r.x + dx)
+        y = snap_to_1nm_grid(r.y + dy)
+        reference_name = f"{c.name},{int(x)},{int(y)}"
+        settings = c.get_settings()
+        instances[reference_name] = dict(component=c.function_name, settings=settings)
+        placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation),)
+        for port in r.get_ports_list():
+            src = f"{reference_name},{port.name}"
+            xy = snap_to_1nm_grid((port.x, port.y))
+            # print(c.name)
+            # assert xy in port_locations, f'{xy} not in {port_locations}'
+            src_list = port_locations[xy]
+            if len(src_list) > 0:
+                for dst in src_list:
+                    connections[src] = dst
+            else:
+                src_list.append(src)
+        if recursive and c.references:
+            c2, i2, p2 = recurse_references(
+                component=c,
+                instances=instances,
+                placements=placements,
+                connections=connections,
+                dx=c.x,
+                dy=c.y,
+                port_locations=port_locations,
+            )
+            placements.update(p2)
+            instances.update(i2)
+            connections.update(c2)
+
+    placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
+    instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
+    connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
+    return connections_sorted, instances_sorted, placements_sorted
 
 
 def clean_dict(d):
@@ -1129,8 +1178,10 @@ if __name__ == "__main__":
 
     # c = pp.c.ring_single()
     # c = pp.c.mzi()
-    # n = c.get_netlist()
-    # print(n.connections)
+    c = pp.c.mzi_lattice()
+    n = c.get_netlist()
+    print(n.placements)
+    print(n.connections)
     # c.plot_netlist()
 
     # import matplotlib.pyplot as plt
@@ -1139,8 +1190,8 @@ if __name__ == "__main__":
     # test_netlist_simple()
     # test_netlist_complex()
 
-    c = pp.c.waveguide()
-    print(c.get_settings())
+    # c = pp.c.waveguide()
+    # print(c.get_settings())
     # c = pp.c.dbr(n=1)
 
     # print(c.get_layers())
