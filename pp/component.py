@@ -993,7 +993,9 @@ def recurse_instances(component, instances=None, placements=None, full_settings=
             component=i.function_name, settings=clean_dict(settings) or {}
         )
         placements[reference_name] = dict(
-            x=float(r.x), y=float(r.y), rotation=int(r.rotation)
+            x=float(np.round(r.x * 1e3) / 1e3),
+            y=float(np.round(r.y * 1e3) / 1e3),
+            rotation=int(r.rotation),
         )
         if i.references:
             recurse_instances(i, instances=instances, placements=placements)

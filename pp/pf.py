@@ -8,7 +8,6 @@ import subprocess
 import time
 import pathlib
 import click
-import git
 
 from pp import CONFIG
 from pp.layers import LAYER
@@ -25,8 +24,6 @@ from pp.mask.merge_test_metadata import merge_test_metadata
 from pp.mask.write_labels import write_labels
 
 import pp.build as pb
-
-from pp.tests.test_factory import lock_components_with_changes
 from pp.install import install_klive
 from pp.install import install_generic_tech
 from pp.install import install_gdsdiff
@@ -84,31 +81,6 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 
-"""
-LOGS
-"""
-
-
-@click.group()
-def log():
-    """ Work with logs """
-    pass
-
-
-@click.command(name="show")
-@click.argument("logfile", default="main", required=False)
-def log_show(logfile):
-    """ Show logs """
-    if not os.path.exists(log_directory):
-        print("No logs found.")
-        return
-
-    filename = os.path.join(log_directory, "{}.log".format(logfile))
-    with open(filename) as f:
-        data = f.read()
-        print(data.strip() if data else "Logs are empty")
-
-
 @click.command(name="delete")
 @click.argument("logfile", default="main", required=False)
 def log_delete(logfile):
@@ -131,46 +103,6 @@ CONFIG
 def config_get(key):
     """ Shows key values from CONFIG """
     print_config(key)
-
-
-"""
-LIBRARY
-"""
-
-
-@click.group()
-def library():
-    """ Commands for managing libraries """
-    pass
-
-
-@click.argument("dirname", required=False, default=None)
-@click.command(name="pull")
-def library_pull(dirname):
-    """ Pull the library repo """
-    if dirname:
-        repo_path = cwd / dirname
-    else:
-        repo_path = CONFIG["gdslib"]
-
-    if os.path.isdir(repo_path):
-        print("git pull: {}".format(repo_path))
-        g = git.cmd.Git(repo_path)
-        g.pull()
-
-
-@click.command(name="lock")
-@click.argument("dirname", required=False, default=None)
-def library_lock(dirname):
-    """ lock component with changes """
-
-    if dirname:
-        path_library = cwd / dirname
-    else:
-        path_library = CONFIG["gdslib"]
-
-    if os.path.isdir(path_library):
-        lock_components_with_changes(path_library=path_library)
 
 
 """
@@ -290,12 +222,6 @@ def cli():
     pass
 
 
-log.add_command(log_show)
-log.add_command(log_delete)
-
-library.add_command(library_pull)
-library.add_command(library_lock)
-
 mask.add_command(build_clean)
 mask.add_command(build_devices)
 mask.add_command(build_does)
@@ -303,8 +229,6 @@ mask.add_command(mask_merge)
 mask.add_command(write_mask_labels)
 
 cli.add_command(config_get)
-cli.add_command(library)
-cli.add_command(log)
 cli.add_command(mask)
 cli.add_command(show)
 cli.add_command(test)

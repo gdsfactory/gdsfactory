@@ -87,7 +87,6 @@ def waveguide_heater(
     width: float = 0.5,
     heater_width: float = 0.5,
     heater_spacing: float = 1.2,
-    metal_connection: bool = True,
     sstw: float = 2.0,
     trench_width: float = 0.5,
     trench_keep_out: float = 2.0,

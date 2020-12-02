@@ -6,7 +6,7 @@ from pp.components import waveguide
 from pp.routing.manhattan import round_corners
 from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
 from pp.component import Component
-from pp.types import Factory
+from pp.typing import Factory
 
 
 @pp.cell

@@ -11,7 +11,6 @@ settings:
   - - 47
     - 0
   length: 10.0
-  metal_connection: true
   sstw: 2.0
   trench_keep_out: 2.0
   trench_width: 0.5

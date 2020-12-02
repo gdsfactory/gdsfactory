@@ -71,20 +71,20 @@ instances:
 placements:
   bend_circular_R10p00_W450m_30_16:
     rotation: 90
-    x: 30.0875
-    y: 16.7375
+    x: 30.088
+    y: 16.738
   bend_circular_R10p00_W450m_30_6:
     rotation: 0
-    x: 30.0875
-    y: 6.5625
+    x: 30.088
+    y: 6.562
   bend_circular_R10p00_W550m_33_18:
     rotation: 90
-    x: 33.1125
-    y: 18.762500000000003
+    x: 33.112
+    y: 18.763
   bend_circular_R10p00_W550m_33_4:
     rotation: 0
-    x: 33.1125
-    y: 4.5375000000000005
+    x: 33.112
+    y: 4.538
   coupler_D2p00_G200m_L5p00_WW500m_1_22:
     rotation: 0
     x: 1.5
@@ -92,7 +92,7 @@ placements:
   coupler_ebb2127d_5_0:
     rotation: 0
     x: 5.0
-    y: 0.6500000000000006
+    y: 0.65
   taper_L5p00_W450m_W500m_16_23:
     rotation: 180
     x: 16.5
@@ -108,7 +108,7 @@ placements:
   taper_L5p00_W500m_W550m_22_0:
     rotation: 0
     x: 22.5
-    y: -0.34999999999999987
+    y: -0.35
   taper_L5p00_W550m_W450m_22_23:
     rotation: 180
     x: 22.5
@@ -128,7 +128,7 @@ placements:
   waveguide_L3p00_W550m_26_0:
     rotation: 0
     x: 26.5
-    y: -0.34999999999999987
+    y: -0.35
   waveguide_L3p00_W550m_26_23:
     rotation: 180
     x: 26.5
@@ -136,4 +136,4 @@ placements:
   waveguide_L4p00_W550m_38_11:
     rotation: 90
     x: 38.0
-    y: 11.649999999999999
+    y: 11.65

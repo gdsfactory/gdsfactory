@@ -33,8 +33,10 @@ def coupler90(
     y = pp.drc.snap_to_1nm_grid((width + gap) / 2)
 
     c = Component()
-    wg = c << waveguide_factory(length=bend_radius, width=width, pins=False)
-    bend = c << bend90_factory(radius=bend_radius, width=width, pins=False)
+    wg = c << waveguide_factory(
+        length=bend_radius, width=width, pins=False, cache=False
+    )
+    bend = c << bend90_factory(radius=bend_radius, width=width, pins=False, cache=False)
 
     pbw = bend.ports["W0"]
     bend.movey(pbw.midpoint[1] + gap + width)

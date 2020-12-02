@@ -75,16 +75,16 @@ instances:
 placements:
   bend_circular_R10p00_30_-5:
     rotation: 90
-    x: 30.596000000000004
-    y: -5.5249999999999995
+    x: 30.596
+    y: -5.525
   bend_circular_R10p00_30_5:
     rotation: 0
-    x: 30.596000000000004
+    x: 30.596
     y: 5.525
   bend_circular_R10p00_40_-16:
     rotation: 270
     x: 40.396
-    y: -16.775000000000002
+    y: -16.775
   bend_circular_R10p00_40_16:
     rotation: 180
     x: 40.396
@@ -92,27 +92,27 @@ placements:
   bend_circular_R10p00_70_-16:
     rotation: 0
     x: 70.696
-    y: -16.775000000000006
+    y: -16.775
   bend_circular_R10p00_70_16:
     rotation: 90
     x: 70.696
     y: 16.725
   bend_circular_R10p00_80_-5:
     rotation: 180
-    x: 80.49600000000001
+    x: 80.496
     y: -5.525
   bend_circular_R10p00_80_5:
     rotation: 270
-    x: 80.49600000000001
-    y: 5.524999999999999
+    x: 80.496
+    y: 5.525
   mmi1x2_12_0:
     rotation: 0
-    x: 12.748000000000001
+    x: 12.748
     y: 0.0
   mmi1x2_98_0:
     rotation: 180
-    x: 98.34400000000001
-    y: -2.220446049250313e-16
+    x: 98.344
+    y: -0.0
   waveguide_L1p00_35_-11:
     rotation: 270
     x: 35.496
@@ -124,24 +124,24 @@ placements:
   waveguide_L1p00_75_-11:
     rotation: 90
     x: 75.596
-    y: -11.125000000000004
+    y: -11.125
   waveguide_L1p00_75_11:
     rotation: 270
     x: 75.596
     y: 11.125
   waveguide_L20p10_55_-21:
     rotation: 0
-    x: 55.54600000000001
-    y: -21.675000000000004
+    x: 55.546
+    y: -21.675
   waveguide_L20p10_55_21:
     rotation: 0
-    x: 55.54600000000001
+    x: 55.546
     y: 21.625
   waveguide_L50m_35_-11:
     rotation: 270
     x: 35.496
-    y: -11.649999999999999
+    y: -11.65
   waveguide_L50m_75_-11:
     rotation: 90
     x: 75.596
-    y: -11.650000000000006
+    y: -11.65
