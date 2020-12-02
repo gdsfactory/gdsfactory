@@ -33,6 +33,8 @@ mzi.yml
 *.out
 *.png
 mpb-sim/
+ref_layouts
+run_layouts
 
 # Installer logs
 pip-log.txt

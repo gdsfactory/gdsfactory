@@ -3,7 +3,6 @@ connections:
   bend_circular_R10p00_W500m_5_15,N0: waveguide_L4p00_W500m_-2_20,E0
   waveguide_L0p00_W500m_-14_10,E0: coupler_ring_92c05bc6_-2_3,N0
   waveguide_L0p00_W500m_10_10,E0: coupler_ring_92c05bc6_-2_3,N1
-  waveguide_L0p00_W500m_10_10,W0: bend_circular_R10p00_W500m_5_15,W0
   waveguide_L4p00_W500m_-2_20,W0: bend_circular_R10p00_W500m_-9_15,W0
 instances:
   bend_circular_R10p00_W500m_-9_15:
@@ -31,7 +30,7 @@ placements:
     y: 15.8
   bend_circular_R10p00_W500m_5_15:
     rotation: 90
-    x: 5.1
+    x: 5.098000000000001
     y: 15.8
   coupler_ring_92c05bc6_-2_3:
     rotation: 0
@@ -47,5 +46,5 @@ placements:
     y: 10.7
   waveguide_L4p00_W500m_-2_20:
     rotation: 0
-    x: -2.001
+    x: -2.002
     y: 20.7

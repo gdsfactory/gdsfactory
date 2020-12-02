@@ -49,7 +49,9 @@ def waveguide_pin(
       pp.plotgds(c)
 
     """
-    c = waveguide_factory(length=length, width=width)
+    c = Component()
+    w = c << waveguide_factory(length=length, width=width)
+    c.absorb(w)
 
     oi = width_i / 2
     on = oi + width_n

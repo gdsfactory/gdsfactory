@@ -51,6 +51,10 @@ def gdsdiff(cellA, cellB):
     layers.update(cellB.get_layers())
 
     diff = pp.Component(name="diff")
+    cellA.name = "old"
+    cellB.name = "new"
+    diff << cellA
+    diff << cellB
     for layer in layers:
         # We go to "process" layer beyond 1000 to put the diff
         diff_process = layer[0] + 1000
