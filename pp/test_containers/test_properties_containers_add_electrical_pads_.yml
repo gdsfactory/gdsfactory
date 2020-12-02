@@ -1,7 +1,6 @@
 function_name: add_electrical_pads
-name: mzi2x2_WECTrue_pad_r
+name: mzi2x2_WECTrue_pad
 settings:
-  angle: 90
   component:
     function_name: mzi2x2
     module: pp.components.mzi2x2

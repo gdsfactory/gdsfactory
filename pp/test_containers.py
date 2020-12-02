@@ -20,20 +20,20 @@ from pp.routing import add_electrical_pads_shortest
 from pp.routing import package_optical2x2
 
 
-_containers = [
-    extend_ports,
-    add_padding,
-    add_tapers,
-    rotate,
-    add_termination,
-    add_fiber_single,
-    add_fiber_array,
-    add_electrical_pads,
-    add_electrical_pads_top,
-    add_electrical_pads_shortest,
-    add_grating_couplers,
-    package_optical2x2,
-]
+container_factory = dict(
+    extend_ports=extend_ports,
+    add_padding=add_padding,
+    add_tapers=add_tapers,
+    rotate=rotate,
+    add_termination=add_termination,
+    add_fiber_single=add_fiber_single,
+    add_fiber_array=add_fiber_array,
+    add_electrical_pads=add_electrical_pads,
+    add_electrical_pads_top=add_electrical_pads_top,
+    add_electrical_pads_shortest=add_electrical_pads_shortest,
+    add_grating_couplers=add_grating_couplers,
+    package_optical2x2=package_optical2x2,
+)
 
 
 def test_add_gratings_and_loop_back(data_regression):
@@ -41,8 +41,9 @@ def test_add_gratings_and_loop_back(data_regression):
     data_regression.check(c.get_settings())
 
 
-@pytest.mark.parametrize("function", _containers)
-def test_properties_containers(function, data_regression):
+@pytest.mark.parametrize("container_type", container_factory.keys())
+def test_properties_containers(container_type, data_regression):
     component = mzi2x2(with_elec_connections=True)
+    function = container_factory[container_type]
     c = function(component=component)
     data_regression.check(c.get_settings())

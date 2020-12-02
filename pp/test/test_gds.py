@@ -1,4 +1,5 @@
 import pp
+from pp.test_containers import container_factory
 from lytest import contained_phidlDevice, difftest_it
 
 
@@ -840,3 +841,159 @@ def wire(TOP):
 
 def test_gds_wire():
     difftest_it(wire)()
+
+
+@contained_phidlDevice
+def extend_ports(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["extend_ports"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_extend_ports():
+    difftest_it(extend_ports)()
+
+
+@contained_phidlDevice
+def add_padding(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_padding"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_padding():
+    difftest_it(add_padding)()
+
+
+@contained_phidlDevice
+def add_tapers(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_tapers"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_tapers():
+    difftest_it(add_tapers)()
+
+
+@contained_phidlDevice
+def rotate(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["rotate"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_rotate():
+    difftest_it(rotate)()
+
+
+@contained_phidlDevice
+def add_termination(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_termination"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_termination():
+    difftest_it(add_termination)()
+
+
+@contained_phidlDevice
+def add_fiber_single(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_fiber_single"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_fiber_single():
+    difftest_it(add_fiber_single)()
+
+
+@contained_phidlDevice
+def add_fiber_array(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_fiber_array"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_fiber_array():
+    difftest_it(add_fiber_array)()
+
+
+@contained_phidlDevice
+def add_electrical_pads(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_electrical_pads"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_electrical_pads():
+    difftest_it(add_electrical_pads)()
+
+
+@contained_phidlDevice
+def add_electrical_pads_top(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_electrical_pads_top"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_electrical_pads_top():
+    difftest_it(add_electrical_pads_top)()
+
+
+@contained_phidlDevice
+def add_electrical_pads_shortest(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_electrical_pads_shortest"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_electrical_pads_shortest():
+    difftest_it(add_electrical_pads_shortest)()
+
+
+@contained_phidlDevice
+def add_grating_couplers(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["add_grating_couplers"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_add_grating_couplers():
+    difftest_it(add_grating_couplers)()
+
+
+@contained_phidlDevice
+def package_optical2x2(TOP):
+    pp.clear_cache()
+    component = pp.c.mzi2x2(with_elec_connections=True)
+    container_function = container_factory["package_optical2x2"]
+    container = container_function(component=component)
+    TOP.add_ref(container)
+
+
+def test_gds_package_optical2x2():
+    difftest_it(package_optical2x2)()
