@@ -12,7 +12,7 @@ from pp.cell import cell
 def ring_single(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 4.002,
+    length_x: float = 4.0,
     bend_radius: float = 10.0,
     length_y: float = 0.001,
     coupler: Callable = coupler_ring,
@@ -49,11 +49,7 @@ def ring_single(
     )
     waveguide_side = call_if_func(waveguide, width=wg_width, length=length_y)
     waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x)
-    bend_ref = (
-        bend(width=wg_width, radius=bend_radius, cache=False)
-        if callable(bend)
-        else bend
-    )
+    bend_ref = bend(width=wg_width, radius=bend_radius) if callable(bend) else bend
 
     c = Component()
     cb = c << coupler

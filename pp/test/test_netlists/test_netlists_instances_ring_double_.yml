@@ -1,32 +1,32 @@
 connections:
-  waveguide_L2p00_W500m,-9,6,E0: coupler_ring_8a8f8eb7,-2,1,N0
-  waveguide_L2p00_W500m,-9,6,W0: coupler_ring_8a8f8eb7,-2,12,N1
-  waveguide_L2p00_W500m,5,6,E0: coupler_ring_8a8f8eb7,-2,1,N1
-  waveguide_L2p00_W500m,5,6,W0: coupler_ring_8a8f8eb7,-2,12,N0
+  waveguide_L2p00_W500m,-8,6,E0: coupler_ring_1c997ff0,-1,1,N0
+  waveguide_L2p00_W500m,-8,6,W0: coupler_ring_1c997ff0,-1,12,N1
+  waveguide_L2p00_W500m,5,6,E0: coupler_ring_1c997ff0,-1,1,N1
+  waveguide_L2p00_W500m,5,6,W0: coupler_ring_1c997ff0,-1,12,N0
 instances:
-  coupler_ring_8a8f8eb7,-2,1:
+  coupler_ring_1c997ff0,-1,1:
     component: coupler_ring
     settings:
       function_name: coupler_ring
       module: pp.components.coupler_ring
-      name: coupler_ring_8a8f8eb7
+      name: coupler_ring_1c997ff0
       settings:
         bend_radius: 5.0
         gap: 0.2
-        length_x: 4.0
+        length_x: 3.0
         wg_width: 0.5
-  coupler_ring_8a8f8eb7,-2,12:
+  coupler_ring_1c997ff0,-1,12:
     component: coupler_ring
     settings:
       function_name: coupler_ring
       module: pp.components.coupler_ring
-      name: coupler_ring_8a8f8eb7
+      name: coupler_ring_1c997ff0
       settings:
         bend_radius: 5.0
         gap: 0.2
-        length_x: 4.0
+        length_x: 3.0
         wg_width: 0.5
-  waveguide_L2p00_W500m,-9,6:
+  waveguide_L2p00_W500m,-8,6:
     component: waveguide
     settings:
       function_name: waveguide
@@ -63,17 +63,17 @@ instances:
         width: 0.5
       width: 0.5
 placements:
-  coupler_ring_8a8f8eb7,-2,1:
+  coupler_ring_1c997ff0,-1,1:
     rotation: 0
-    x: -2.0
-    y: 1.25
-  coupler_ring_8a8f8eb7,-2,12:
+    x: -1.5
+    y: 1.225
+  coupler_ring_1c997ff0,-1,12:
     rotation: 180
-    x: -2.0
-    y: 12.15
-  waveguide_L2p00_W500m,-9,6:
+    x: -1.5
+    y: 12.175
+  waveguide_L2p00_W500m,-8,6:
     rotation: 270
-    x: -9.0
+    x: -8.0
     y: 6.7
   waveguide_L2p00_W500m,5,6:
     rotation: 270

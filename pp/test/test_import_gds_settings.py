@@ -6,9 +6,9 @@ from pp.components import (
     component_factory,
     _components,
 )
-from pp.add_pins import add_settings_label
 from pp.import_gds import add_settings_from_label
 from pp.import_gds import import_gds
+from pp.add_pins import add_settings_label
 
 
 def tuplify(iterable: Union[List, Dict]):
@@ -20,18 +20,22 @@ def tuplify(iterable: Union[List, Dict]):
     return iterable
 
 
+def sort_dict(d):
+    return {k: d[k] for k in sorted(d)}
+
+
 @pytest.mark.parametrize("component_type", _components)
 def test_properties_components(component_type):
-    """Write component to GDS with setttings_label
-    """
+    """Write component to GDS with setttings_label"""
+    pp.clear_cache()
     c1 = component_factory[component_type]()
-    print(c1.get_settings())
     add_settings_label(c1)
+
     gdspath = pp.write_component(c1)
     c2 = import_gds(gdspath)
     add_settings_from_label(c2)
-    c1s = tuplify(c1.get_settings())
-    c2s = tuplify(c2.get_settings())
+    c1s = sort_dict(tuplify(c1.get_settings()))
+    c2s = sort_dict(tuplify(c2.get_settings()))
     d = diff(c1s, c2s)
     print(c1s)
     print(c2s)
@@ -41,9 +45,9 @@ def test_properties_components(component_type):
 
 if __name__ == "__main__":
     # c = test_properties_components(component_type=list(_components)[0])
-    # c = test_properties_components(component_type="ring")
+    c = test_properties_components(component_type="ring_single")
     # c = test_properties_components(component_type="bezier")
     # c = test_properties_components(component_type="bend_s")
     # c = test_properties_components(component_type="waveguide")
-    c = test_properties_components(component_type="grating_coupler_tree")
+    # c = test_properties_components(component_type="grating_coupler_tree")
     pp.show(c)

@@ -64,5 +64,5 @@ def cavity(
 if __name__ == "__main__":
     from pp.components.dbr import dbr
 
-    c = cavity(component=dbr(), pins=True)
+    c = cavity(component=dbr())
     pp.show(c)

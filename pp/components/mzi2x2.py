@@ -292,7 +292,6 @@ if __name__ == "__main__":
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
 
-    c = mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p.port_type)
 
@@ -303,5 +302,6 @@ if __name__ == "__main__":
     # print(hash(frozenset(c.settings.items())))
     # print(hash(c))
 
-    pp.write_gds(c, pp.CONFIG["gdsdir"] / "mzi2x2.gds")
-    pp.show(c)
+    c = mzi2x2(with_elec_connections=True)
+    c2 = pp.add_pins_container(c)
+    pp.show(c2)

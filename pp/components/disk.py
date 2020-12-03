@@ -67,5 +67,5 @@ def disk(
 if __name__ == "__main__":
     import pp
 
-    c = disk(wrap_angle=3.14 / 4, pins=True)
+    c = disk(wrap_angle=3.14 / 4)
     pp.show(c)

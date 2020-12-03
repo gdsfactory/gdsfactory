@@ -52,7 +52,6 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c.move((20, 50))
+    c = pp.c.mzi2x2(with_elec_connections=True)
     cc = add_electrical_pads_shortest(c)
-
     pp.show(cc)

@@ -8,7 +8,8 @@ it makes sure that some of the important settings are copied from the original c
 from typing import Callable
 import functools
 from inspect import signature
-import pp
+from pp.component import Component
+from pp.layers import LAYER
 
 
 propagate_attributes = {
@@ -56,10 +57,11 @@ def container(component_function: Callable) -> Callable:
             old = args[0]
         if callable(old):
             old = old()
-        if not isinstance(old, pp.Component):
+        if not isinstance(old, Component):
             raise ValueError(
                 f"container {component_function.__name__} requires a component, got `{old}`"
             )
+        name = kwargs.pop("name", "")
         old = old or kwargs.get("component")
         new = component_function(*args, **kwargs)
 
@@ -75,15 +77,25 @@ def container(component_function: Callable) -> Callable:
                 if value:
                     setattr(new, key, value)
         new.settings.pop("kwargs", "")
+        if name:
+            new.name = name
         return new
 
     return wrapper
 
 
 @container
-def add_padding(component, x=50, y=50, layers=[pp.LAYER.PADDING], suffix="p"):
+def container_instance(component):
+    """Returns a container instance."""
+    c = Component(name=f"i_{component.name}")
+    c << component
+    return c
+
+
+@container
+def add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
     """ adds padding layers to component"""
-    c = pp.Component(name=f"{component.name}_{suffix}")
+    c = Component(name=f"{component.name}_{suffix}")
     c << component
     points = [
         [c.xmin - x, c.ymin - y],
@@ -97,6 +109,8 @@ def add_padding(component, x=50, y=50, layers=[pp.LAYER.PADDING], suffix="p"):
 
 
 def test_container():
+    import pp
+
     old = pp.c.waveguide()
     suffix = "p"
     name = f"{old.name}_{suffix}"
@@ -113,6 +127,8 @@ def test_container():
 
 
 def test_container2():
+    import pp
+
     old = pp.c.waveguide()
     suffix = "p"
     name = f"{old.name}_{suffix}"
@@ -127,6 +143,7 @@ def test_container2():
 
 def test_container_error():
     import pytest
+    import pp
 
     old = pp.c.waveguide()
     with pytest.raises(ValueError):
@@ -135,5 +152,11 @@ def test_container_error():
 
 
 if __name__ == "__main__":
-    c = test_container2()
-    pp.show(c)
+    import pp
+
+    c1 = pp.c.waveguide(length=3, width=0.9)
+    c2 = pp.c.waveguide(length=3)
+    cc1 = container_instance(c1)
+    cc2 = container_instance(c2)
+
+    pp.show(cc2)

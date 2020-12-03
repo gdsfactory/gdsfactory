@@ -203,7 +203,7 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
 
     """
 
-    crossing = crossing(pins=False) if callable(crossing) else crossing
+    crossing = crossing() if callable(crossing) else crossing
 
     c = pp.Component()
     _crossing = crossing.ref(rotation=45)
@@ -235,11 +235,7 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
     )
 
     _bez_bend = bezier(
-        control_points=cpts,
-        t=t,
-        start_angle=start_angle,
-        end_angle=end_angle,
-        pins=False,
+        control_points=cpts, t=t, start_angle=start_angle, end_angle=end_angle,
     )
 
     tol = 1e-2
@@ -421,7 +417,7 @@ def demo():
 
 if __name__ == "__main__":
     # c = crossing()
-    c = crossing45(port_spacing=15, pins=True)
+    c = crossing45(port_spacing=15)
     print(c.ports["E1"].y - c.ports["E0"].y)
     pp.show(c)
     # print(c.get_ports_array())

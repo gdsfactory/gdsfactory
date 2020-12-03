@@ -4,6 +4,7 @@
 
 - document klayout placers
 - extract netlist from layout
+- circuit simulations notebook needs fix.
 - bundle routing with specific waypoints
 - connect_with_waypoints can accept ports
 
@@ -15,15 +16,21 @@ Maybe:
 
 ## master branch (latest changes not released yet)
 
-- klayout DEVREC shown by default
 - pp.qp hides DEVREC layer
-- test netlist of more _circuits
+- test netlist of _circuits
 - sort the keys when loading YAML file for test_netlists
 - better docstrings
 - add function_name to container
 - remove duplicated keys for container
 - pp.clear_cache() in pytest fixture in `pp/conftest.py`
-- added lytest
+- fixed pp.clear_cache() by using a global variable.
+- added lytest tests, which test geometry booleans using klayout
+- fixed `pf diff` to show (diffs, common, only_old, only_new, old, new) using same layers in different cells. Thanks to Troy Tamas.
+- removed `pins` argument from cell decorator as it changes the geometry of a cell with the same name (it was problematic).
+- new recurse_instances function. No need to track connections in a global netlist dict. We can extract netlist connections from devices sharing ports.
+- component_from_yaml adds label with. instance name. Thanks to Troy Tamas.
+- write a pp.add_pins_to_references that adds pins and labels to references.
+
 
 ## 2.2.0 2020-11-29
 

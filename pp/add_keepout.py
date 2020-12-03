@@ -33,7 +33,7 @@ def add_keepout(component, target_layers, keepout_layers, margin=2.0) -> Compone
 def test_add_keepout():
     from pp.components.waveguide import waveguide
 
-    c = waveguide(pins=False, cache=False)
+    c = waveguide()
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
     print(len(c.get_polygons()))

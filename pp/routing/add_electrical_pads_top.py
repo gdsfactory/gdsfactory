@@ -5,7 +5,7 @@ from pp.routing.connect_electrical import connect_electrical_shortest_path
 
 
 @container
-def add_electrical_pads_top(component, **kwargs):
+def add_electrical_pads_top(component: Component, **kwargs) -> Component:
     """connects component electrical ports with pad array at the top
 
     Args:
@@ -37,3 +37,4 @@ if __name__ == "__main__":
 
     c = pp.c.mzi2x2(with_elec_connections=True)
     cc = add_electrical_pads_top(c)
+    pp.show(cc)

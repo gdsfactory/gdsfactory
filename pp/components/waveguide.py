@@ -7,7 +7,7 @@ from pp.components.hline import hline
 from pp.component import Component
 
 
-@pp.cell(pins=True)
+@pp.cell
 def waveguide(
     length: float = 10.0,
     width: float = 0.5,
@@ -134,7 +134,9 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
 
 
 if __name__ == "__main__":
-    c = waveguide()
+    c = waveguide(name="hi")
+    print(c.settings)
+    print(c.settings_changed)
     # pp.write_gds(c)
     # print(c.hash_geometry())
 

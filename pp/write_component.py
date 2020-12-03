@@ -217,7 +217,7 @@ if __name__ == "__main__":
     # pp.write_component(cc, precision=5e-9)
     # pp.show(cc)
 
-    c = pp.c.waveguide(length=1.009, pins=True)
+    c = pp.c.waveguide(length=1.009)
     pp.write_component(c, gdspath="wg.gds")
     pp.show(c)
 

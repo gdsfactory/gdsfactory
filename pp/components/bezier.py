@@ -165,7 +165,7 @@ def find_min_curv_bezier_control_points(
 
 
 if __name__ == "__main__":
-    c = bezier(pins=True)
+    c = bezier()
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
     print(c.get_settings())

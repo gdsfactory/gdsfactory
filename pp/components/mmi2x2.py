@@ -1,10 +1,10 @@
 from typing import Tuple, Callable
 from pp.component import Component
-from pp.components.taper import taper
+from pp.components.taper import taper as taper_function
 import pp
 
 
-@pp.cell(pins=True)
+@pp.cell
 def mmi2x2(
     wg_width: float = 0.5,
     width_taper: float = 0.95,
@@ -13,7 +13,7 @@ def mmi2x2(
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    taper_factory: Callable = taper,
+    taper_factory: Callable = taper_function,
 ) -> Component:
     """Mmi 2x2
 
@@ -38,15 +38,12 @@ def mmi2x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper_factory(
-        length=length_taper, width1=wg_width, width2=w_taper, pins=False
-    )
+    taper = taper_factory(length=length_taper, width1=wg_width, width2=w_taper)
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = pp.c.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
-        pins=False,
         centered=True,
         ports={
             "E": [(+length_mmi / 2, -a, w_taper), (+length_mmi / 2, +a, w_taper)],
@@ -56,16 +53,9 @@ def mmi2x2(
 
     mmi_section = component.add_ref(mmi)
 
-    # For each port on the MMI rectangle
     for port_name, port in mmi.ports.items():
-
-        # Create a taper
-        taper_ref = component.add_ref(taper)
-
-        # Connect the taper to the mmi section
+        taper_ref = component << taper
         taper_ref.connect(port="2", destination=mmi_section.ports[port_name])
-
-        # Add the taper port
         component.add_port(name=port_name, port=taper_ref.ports["1"])
         component.absorb(taper_ref)
 

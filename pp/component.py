@@ -506,6 +506,10 @@ class ComponentReference(DeviceReference):
             select_ports(self.ports, port_type=port_type, prefix=prefix).values()
         )
 
+    def get_settings(self):
+        """Returns settings from the Comonent."""
+        return self.parent.get_settings()
+
 
 class Component(Device):
     """adds some functions to phidl.Device:

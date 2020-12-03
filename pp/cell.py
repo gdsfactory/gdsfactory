@@ -3,18 +3,18 @@ from inspect import signature
 import uuid
 import hashlib
 from functools import wraps, partial
-from pp.add_pins import add_pins_and_outline
 from pp.name import get_component_name
 from pp.component import Component
 
 
-NAME_TO_DEVICE: Dict[str, Component] = {}
+CACHE: Dict[str, Component] = {}
 MAX_NAME_LENGTH = 32
 
 
-def clear_cache(components_cache: Dict[str, Component] = NAME_TO_DEVICE):
-    components_cache = {}
-    return components_cache
+def clear_cache():
+    """Clears the cache of components."""
+    global CACHE
+    CACHE = {}
 
 
 def cell(
@@ -24,8 +24,6 @@ def cell(
     name: Optional[str] = None,
     uid: bool = False,
     cache: bool = True,
-    pins: bool = False,
-    pins_function: Callable = add_pins_and_outline,
 ) -> Callable:
     """Cell Decorator:
 
@@ -34,8 +32,6 @@ def cell(
         name (str): Optional (ignored when autoname=True)
         uid (bool): adds a unique id to the name
         cache (bool): To avoid that 2 exact cells are not references of the same cell cell has a cache where if component has already been build it will return the component from the cache. You can always over-ride this with `cache = False`.
-        pins (bool): add pins
-        pins_function (function): function to add pins
 
     .. plot::
       :include-source:
@@ -51,30 +47,19 @@ def cell(
           return c
 
       c = rectangle(layer=1)
-      c << pp.c.text(text=c.name, size=1)
       pp.plotgds(c)
 
     """
 
     if func is None:
-        return partial(
-            cell,
-            autoname=autoname,
-            name=name,
-            uid=uid,
-            cache=cache,
-            pins=pins,
-            pins_function=pins_function,
-        )
+        return partial(cell, autoname=autoname, name=name, uid=uid, cache=cache,)
 
     @wraps(func)
     def _cell(
         autoname: bool = autoname,
         name: Optional[str] = name,
-        pins: bool = pins,
         uid: bool = uid,
         cache: bool = cache,
-        pins_function: Callable = pins_function,
         *args,
         **kwargs,
     ) -> Component:
@@ -105,8 +90,8 @@ def cell(
                         f"valid keyword arguments are {list(sig.parameters.keys())}"
                     )
 
-        if cache and autoname and name in NAME_TO_DEVICE:
-            return NAME_TO_DEVICE[name]
+        if cache and autoname and name in CACHE:
+            return CACHE[name]
         else:
             component = func(**kwargs)
             component.module = func.__module__
@@ -129,10 +114,8 @@ def cell(
             )
             component.settings.update(**kwargs)
             component.settings_changed = kwargs.copy()
-            if pins:
-                pins_function(component)
 
-            NAME_TO_DEVICE[name] = component
+            CACHE[name] = component
             return component
 
     return _cell
@@ -215,15 +198,16 @@ def test_cell():
 
 
 if __name__ == "__main__":
-    import pp
+
+    print(CACHE)
 
     # test_autoname_true()
     # test_autoname_false()
 
     # c = wg(length=3)
-    # c = wg(length=3, pins=False, autoname=False)
+    # c = wg(length=3, autoname=False)
 
     # c = pp.c.waveguide()
-    c = wg3(pins=True)
-    print(c)
-    pp.show(c)
+    # c = wg3()
+    # print(c)
+    # pp.show(c)

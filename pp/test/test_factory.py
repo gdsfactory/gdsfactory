@@ -56,7 +56,7 @@ def lock_component(
     TODO: flattening makes it slower for big mask
     """
     try:
-        c = component_factory[component_type](cache=False, pins=False)
+        c = component_factory[component_type](cache=False)
         if flatten:
             c.flatten()
         gdspath = path_library / (component_type + ".gds")

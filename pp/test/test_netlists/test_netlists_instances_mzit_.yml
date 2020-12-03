@@ -330,20 +330,20 @@ instances:
 placements:
   bend_circular_R10p00_W450m,30,16:
     rotation: 90
-    x: 30.088
-    y: 16.738
+    x: 30.112
+    y: 16.762
   bend_circular_R10p00_W450m,30,6:
     rotation: 0
-    x: 30.088
-    y: 6.562
+    x: 30.112
+    y: 6.538
   bend_circular_R10p00_W550m,33,18:
     rotation: 90
-    x: 33.112
-    y: 18.763
+    x: 33.138
+    y: 18.788
   bend_circular_R10p00_W550m,33,4:
     rotation: 0
-    x: 33.112
-    y: 4.538
+    x: 33.138
+    y: 4.512
   coupler_D2p00_G200m_L5p00_WW500m,1,22:
     rotation: 0
     x: 1.5

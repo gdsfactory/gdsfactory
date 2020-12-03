@@ -9,7 +9,7 @@ from pp.components.mmi1x2 import mmi1x2 as mmi1x2_factory
 
 
 @deco_rename_ports
-@pp.cell(pins=False)
+@pp.cell
 def mzi(
     L0: float = 1.0,
     DL: float = 0.1,
@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     c = mzi(DL=delta_length, with_coupler=False)
 
-    # add_pins_and_outline(c)
+    # add_markers(c)
 
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()

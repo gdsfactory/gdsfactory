@@ -81,5 +81,5 @@ if __name__ == "__main__":
     # cpg = [0.2, 0.3, 0.5, 0.5]
     # dl0 = [0, 50, 100]
 
-    c = mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, pins=True)
+    c = mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
     pp.show(c)

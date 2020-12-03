@@ -78,7 +78,7 @@ def _disk_section_points(
 
 
 @deco_rename_ports
-@pp.cell(pins=True)
+@pp.cell
 def bend_circular(
     radius: float = 10.0,
     width: float = 0.5,
@@ -313,7 +313,7 @@ if __name__ == "__main__":
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
-    # c = bend_circular(radius=5.0005, width=1.002, theta=180, pins=True)
+    # c = bend_circular(radius=5.0005, width=1.002, theta=180)
     c = bend_circular()
     # print(c.length, np.pi * 10)
     # print(c.ports.keys())

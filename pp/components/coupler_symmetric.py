@@ -50,7 +50,6 @@ def coupler_symmetric(
             layer=layer,
             layers_cladding=layers_cladding,
             cladding_offset=cladding_offset,
-            pins=False,
             height=(dy - gap - wg_width) / 2,
         )
         if callable(bend)
@@ -85,5 +84,5 @@ def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5, pins=False)
+    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5)
     pp.show(c)

@@ -7,7 +7,9 @@ settings:
   layer:
   - 1
   - 0
-  layers_cladding: []
+  layers_cladding:
+  - - 111
+    - 0
   length_mmi: 5.496
   length_taper: 10.0
   wg_width: 0.5
@@ -15,4 +17,3 @@ settings:
   width_taper: 1.0
 simulation_settings:
   port_width: 1.5e-06
-wg_width: 0.5

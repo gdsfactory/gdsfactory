@@ -87,7 +87,5 @@ if __name__ == "__main__":
     cpg = [0.2, 0.3, 0.5, 0.5]
     dl0 = [10, 20, 30]
 
-    c = mzit_lattice(
-        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, pins=True
-    )
+    c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
     pp.show(c)

@@ -83,9 +83,11 @@ class LayerMap:
     PORTE = (69, 0)
     PORTH = (70, 0)
     LABEL = (201, 0)
-    INFO_GEO_HASH = (202, 0)
+    LABEL_SETTINGS = (202, 0)
     TE = (203, 0)
     TM = (204, 0)
+    DRC_MARKER = (205, 0)
+    LABEL_INSTANCE = (206, 0)
 
 
 LAYER = LayerMap()

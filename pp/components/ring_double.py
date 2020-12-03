@@ -11,7 +11,7 @@ from pp.cell import cell
 def ring_double(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 4.0,
+    length_x: float = 3.0,
     bend_radius: float = 5.0,
     length_y: float = 2.0,
     coupler: Callable = coupler_ring,

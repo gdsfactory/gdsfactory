@@ -1,10 +1,8 @@
 connections:
-  bend_circular_R10p00_W500m,-9,15,N0: coupler_ring_92c05bc6,-2,3,N0
-  bend_circular_R10p00_W500m,5,15,W0: coupler_ring_92c05bc6,-2,3,N1
+  bend_circular_R10p00_W500m,-9,15,N0: waveguide_L0p00_W500m,-14,10,W0
+  bend_circular_R10p00_W500m,5,15,W0: waveguide_L0p00_W500m,10,10,W0
   waveguide_L0p00_W500m,-14,10,E0: coupler_ring_92c05bc6,-2,3,N0
-  waveguide_L0p00_W500m,-14,10,W0: coupler_ring_92c05bc6,-2,3,N0
   waveguide_L0p00_W500m,10,10,E0: coupler_ring_92c05bc6,-2,3,N1
-  waveguide_L0p00_W500m,10,10,W0: coupler_ring_92c05bc6,-2,3,N1
   waveguide_L4p00_W500m,-2,20,E0: bend_circular_R10p00_W500m,5,15,N0
   waveguide_L4p00_W500m,-2,20,W0: bend_circular_R10p00_W500m,-9,15,W0
 instances:
@@ -61,13 +59,13 @@ instances:
       settings:
         bend_radius: 10.0
         gap: 0.2
-        length_x: 4.002
+        length_x: 4.0
         wg_width: 0.5
   waveguide_L0p00_W500m,-14,10:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 0.0
+      length: 0.001
       module: pp.components.waveguide
       name: waveguide_L0p00_W500m
       settings:
@@ -78,14 +76,14 @@ instances:
         layers_cladding:
         - - 111
           - 0
-        length: 0.0
+        length: 0.001
         width: 0.5
       width: 0.5
   waveguide_L0p00_W500m,10,10:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 0.0
+      length: 0.001
       module: pp.components.waveguide
       name: waveguide_L0p00_W500m
       settings:
@@ -96,14 +94,14 @@ instances:
         layers_cladding:
         - - 111
           - 0
-        length: 0.0
+        length: 0.001
         width: 0.5
       width: 0.5
   waveguide_L4p00_W500m,-2,20:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 4.002
+      length: 4.0
       module: pp.components.waveguide
       name: waveguide_L4p00_W500m
       settings:
@@ -114,25 +112,25 @@ instances:
         layers_cladding:
         - - 111
           - 0
-        length: 4.002
+        length: 4.0
         width: 0.5
       width: 0.5
 placements:
   bend_circular_R10p00_W500m,-9,15:
     rotation: 180
-    x: -9.102
-    y: 15.8
+    x: -9.125
+    y: 15.826
   bend_circular_R10p00_W500m,5,15:
     rotation: 90
-    x: 5.1
-    y: 15.8
+    x: 5.125
+    y: 15.826
   coupler_ring_92c05bc6,-2,3:
     rotation: 0
-    x: -2.001
-    y: 3.75
+    x: -2.0
+    y: 3.725
   waveguide_L0p00_W500m,-14,10:
     rotation: 270
-    x: -14.002
+    x: -14.0
     y: 10.7
   waveguide_L0p00_W500m,10,10:
     rotation: 270
@@ -140,5 +138,5 @@ placements:
     y: 10.7
   waveguide_L4p00_W500m,-2,20:
     rotation: 0
-    x: -2.001
-    y: 20.7
+    x: -2.0
+    y: 20.701

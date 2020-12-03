@@ -59,7 +59,7 @@ from pp.components import factory
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points
-from pp.add_pins import add_pins
+from pp.add_pins import add_pins, add_pins_to_references, add_pins_container
 from pp.import_gds import import_gds
 from pp.import_phidl_component import import_phidl_component
 from pp.plotgds import plotgds
@@ -79,6 +79,8 @@ __all__ = [
     "cell",
     "add_padding",
     "add_pins",
+    "add_pins_to_references",
+    "add_pins_container",
     "add_termination",
     "import_gds",
     "import_phidl_component",

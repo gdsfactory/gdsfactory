@@ -6,7 +6,7 @@ from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 
 
-@pp.cell(pins=True)
+@pp.cell
 def coupler_ring(
     coupler90: Callable = coupler90,
     coupler: Callable = coupler_straight,
@@ -40,12 +40,12 @@ def coupler_ring(
 
     # define subcells
     coupler90 = (
-        coupler90(gap=gap, width=wg_width, bend_radius=bend_radius, pins=False)
+        coupler90(gap=gap, width=wg_width, bend_radius=bend_radius)
         if callable(coupler90)
         else coupler90
     )
     coupler_straight = (
-        coupler(gap=gap, length=length_x, width=wg_width, pins=False)
+        coupler(gap=gap, length=length_x, width=wg_width)
         if callable(coupler)
         else coupler
     )

@@ -3,8 +3,8 @@ import pp
 
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
-from pp.components.coupler import coupler
+from pp.components.waveguide import waveguide as waveguide_function
+from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
 
 
@@ -24,9 +24,9 @@ def mzit(
     taper_factory: Callable = taper,
     taper_length: float = 5.0,
     bend90: Callable = bend_circular,
-    waveguide_factory: Callable = waveguide,
-    coupler1: Optional[Callable] = coupler,
-    coupler2: Callable = coupler,
+    waveguide_factory: Callable = waveguide_function,
+    coupler1: Optional[Callable] = coupler_function,
+    coupler2: Callable = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi tolerant to fab variations
@@ -163,14 +163,13 @@ def mzit(
     c.add_port("W1", port=cp2.ports["W1"])
     c.add_port("W0", port=cp2.ports["W0"])
 
-    c.pins = False
     return c
 
 
 if __name__ == "__main__":
-    # c = mzit(coupler1=None, pins=True)
-    # c = mzit(delta_length=20, layer=(2, 0), pins=True)
+    # c = mzit(coupler1=None)
+    # c = mzit(delta_length=20, layer=(2, 0))
     # c = mzit(delta_length=20, pins=True)
-    c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5, pins=True)
-    c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1, pins=True)
+    c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
+    c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     pp.show(c)
