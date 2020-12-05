@@ -98,7 +98,7 @@ ls.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
 ls.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
 ls.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
 ls.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
-ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0)
+ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
 
 
 layer2nm = {LAYER.WG: 220}

@@ -105,6 +105,7 @@ def extend_ports(
             extension = c << extension_factory(length=length, width=port.width)
             extension.connect(extension_port_name_input, port)
             c.add_port(port_name, port=extension.ports[extension_port_name_output])
+            c.absorb(extension)
         else:
             c.add_port(port_name, port=component.ports[port_name])
     return c

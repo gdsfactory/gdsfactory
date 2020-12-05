@@ -65,9 +65,12 @@ from pp.import_phidl_component import import_phidl_component
 from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.boolean import boolean
+from pp.container import container, containerize
 
 
 __all__ = [
+    "container",
+    "containerize",
     "CONFIG",
     "LAYER",
     "Component",

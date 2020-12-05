@@ -7,9 +7,11 @@ it makes sure that some of the important settings are copied from the original c
 
 from typing import Callable
 import functools
+import hashlib
 from inspect import signature
 from pp.component import Component
 from pp.layers import LAYER
+from pp.name import get_component_name
 
 
 propagate_attributes = {
@@ -21,12 +23,13 @@ propagate_attributes = {
 
 
 def container(component_function: Callable) -> Callable:
-    """decorator for creating a new component that copies properties from the original component
+    """Decorator for creating a new component that copies properties from the original component
 
     - polarization
     - wavelength
     - test_protocol
     - data_analysis_protocol
+    - ports (only if new component has no ports)
 
     Functions decorated with container will return a new component
 
@@ -70,6 +73,8 @@ def container(component_function: Callable) -> Callable:
         new.settings.update(**kwargs)
         new.settings["component"] = old.get_settings()
         new.function_name = component_function.__name__
+        if len(new.ports) == 0:
+            new.ports = old.ports
 
         for key in propagate_attributes:
             if hasattr(old, key) and key not in old.ignore:
@@ -82,6 +87,47 @@ def container(component_function: Callable) -> Callable:
         return new
 
     return wrapper
+
+
+@container
+def containerize(component: Component, function: Callable, **kwargs):
+    """Returns a containerize component after applying a function.
+
+    This is an alternative of using the @container decorator.
+
+    .. code::
+
+        import pp
+
+        def add_label(component, text='hi'):
+            return component.add_label(text)
+
+        c = pp.c.waveguide()
+        cc = pp.containerize(c, function=add_label, text='hi')
+
+    """
+    c = Component()
+    component_type = f"{component.name}_{function.__name__}"
+    name = get_component_name(component_type, **kwargs)
+    if len(name) > 32:
+        c.name_long = name
+        name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+    c.name = name
+    c << component
+    function(c, **kwargs)
+    return c
+
+
+def add_label(component, text="hi"):
+    return component.add_label(text)
+
+
+def test_containerize():
+    import pp
+
+    c = pp.c.waveguide()
+    cc = pp.containerize(c, function=add_label, text="hi")
+    return cc
 
 
 @container
@@ -154,9 +200,10 @@ def test_container_error():
 if __name__ == "__main__":
     import pp
 
-    c1 = pp.c.waveguide(length=3, width=0.9)
-    c2 = pp.c.waveguide(length=3)
-    cc1 = container_instance(c1)
-    cc2 = container_instance(c2)
+    # c1 = pp.c.waveguide(length=3, width=0.9)
+    # c2 = pp.c.waveguide(length=3)
+    # cc1 = container_instance(c1)
+    # cc2 = container_instance(c2)
 
-    pp.show(cc2)
+    c = test_containerize()
+    pp.show(c)

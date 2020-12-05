@@ -19,7 +19,14 @@ def _rotate(v, m):
 
 
 def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
-    """add triangle pin with a right angle, pointing out of the port"""
+    """add triangle pin with a right angle, pointing out of the port
+
+    Args:
+        component:
+        port: Port
+        layer: for the pin marker
+        label_layer: for the label
+    """
     p = port
 
     a = p.orientation
@@ -46,11 +53,20 @@ def add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
 
 
 def add_pin_square_inside(
-    component, port, port_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
+    component, port, pin_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
 ):
     """add square pin towards the inside of the port
 
+    Args:
+        component:
+        port: Port
+        pin_length: length of the pin marker for the port
+        layer: for the pin marker
+        label_layer: for the label
+        port_margin: margin to port edge
+
     .. code::
+
            _______________
           |               |
           |               |
@@ -70,12 +86,11 @@ def add_pin_square_inside(
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
     d = p.width / 2
-    dx = port_length
 
     dbot = np.array([0, -d])
     dtop = np.array([0, d])
-    dbotin = np.array([-dx, -d])
-    dtopin = np.array([-dx, +d])
+    dbotin = np.array([-pin_length, -d])
+    dtopin = np.array([-pin_length, +d])
 
     p0 = p.position + _rotate(dbot, rot_mat)
     p1 = p.position + _rotate(dtop, rot_mat)
@@ -88,14 +103,24 @@ def add_pin_square_inside(
 def add_pin_square(
     component,
     port,
-    port_length=0.1,
+    pin_length=0.1,
     layer=LAYER.PORT,
     label_layer=LAYER.PORT,
     port_margin=0,
 ):
-    """add half out pin to a component
+    """Add half out pin to a component.
+
+    Args:
+        component:
+        port: Port
+        pin_length: length of the pin marker for the port
+        layer: for the pin marker
+        label_layer: for the label
+        port_margin: margin to port edge
+
 
     .. code::
+
            _______________
           |               |
           |               |
@@ -115,12 +140,11 @@ def add_pin_square(
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
     d = p.width / 2 + port_margin
-    dx = port_length
 
-    dbot = np.array([dx / 2, -d])
-    dtop = np.array([dx / 2, d])
-    dbotin = np.array([-dx / 2, -d])
-    dtopin = np.array([-dx / 2, +d])
+    dbot = np.array([pin_length / 2, -d])
+    dtop = np.array([pin_length / 2, d])
+    dbotin = np.array([-pin_length / 2, -d])
+    dtopin = np.array([-pin_length / 2, +d])
 
     p0 = p.position + _rotate(dbot, rot_mat)
     p1 = p.position + _rotate(dtop, rot_mat)
@@ -134,9 +158,15 @@ def add_pin_square(
     )
 
 
-def add_outline(component, reference: ComponentReference, layer=LAYER.DEVREC):
-    """Adds devices outline bounding box in layer."""
-    c = reference
+def add_outline(
+    component,
+    reference: Optional[ComponentReference] = None,
+    layer=LAYER.DEVREC,
+    **kwargs,
+):
+    """Adds devices outline bounding box in layer.
+    """
+    c = reference or component
     points = [
         [c.xmin, c.ymin],
         [c.xmax, c.ymin],
@@ -326,6 +356,9 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide()
     # c = pp.c.crossing()
-    # c = pp.c.bend_circular()
     # add_pins(c)
-    # pp.show(c)
+
+    # c = pp.c.bend_circular()
+    # cc = pp.containerize(component=c, function=add_outline)
+    # print(cc.name)
+    # pp.show(cc)
