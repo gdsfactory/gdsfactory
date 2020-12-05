@@ -10,6 +10,7 @@ def mzit_lattice(
     coupler_gaps: List[float] = [0.2, 0.3],
     delta_lengths: List[float] = [10],
     mzi_factory: Callable = mzit,
+    pins: bool = False,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
@@ -48,6 +49,7 @@ def mzit_lattice(
         coupler_length1=coupler_lengths[0],
         coupler_length2=coupler_lengths[1],
         delta_length=delta_lengths[0],
+        pins=pins,
     )
 
     couplers = [
@@ -57,6 +59,7 @@ def mzit_lattice(
             coupler_length2=coupler_length,
             coupler1=None,
             delta_length=delta_length,
+            pins=pins,
         )
         for coupler_length, coupler_gap, delta_length in zip(
             coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
@@ -75,6 +78,8 @@ def mzit_lattice(
     c.add_port("W2", port=cp1.ports["W2"])
     c.add_port("W3", port=cp1.ports["W3"])
 
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 

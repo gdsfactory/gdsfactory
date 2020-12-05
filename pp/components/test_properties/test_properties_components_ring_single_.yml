@@ -6,4 +6,5 @@ settings:
   gap: 0.2
   length_x: 4.0
   length_y: 0.001
+  pins: false
   wg_width: 0.5

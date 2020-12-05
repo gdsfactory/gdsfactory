@@ -8,7 +8,7 @@ from pp.components import (
 )
 from pp.import_gds import add_settings_from_label
 from pp.import_gds import import_gds
-from pp.add_pins import add_settings_label
+from pp.add_pins import _add_settings_label
 
 
 def tuplify(iterable: Union[List, Dict]):
@@ -29,7 +29,7 @@ def test_properties_components(component_type):
     """Write component to GDS with setttings_label"""
     pp.clear_cache()
     c1 = component_factory[component_type]()
-    add_settings_label(c1)
+    _add_settings_label(c1)
 
     gdspath = pp.write_component(c1)
     c2 = import_gds(gdspath)

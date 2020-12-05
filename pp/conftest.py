@@ -2,12 +2,13 @@ import shutil
 import pytest
 
 from pp import CONFIG
-from pp import clear_cache
+
+# from pp import clear_cache
 
 
 @pytest.fixture(autouse=True)
 def cleandir(request):
-    clear_cache()
+    # clear_cache()
     build_folder = CONFIG["build_directory"]
     module_path = CONFIG["module_path"]
 

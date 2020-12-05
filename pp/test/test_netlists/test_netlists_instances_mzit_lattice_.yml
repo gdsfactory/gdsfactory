@@ -1,11 +1,11 @@
 connections: {}
 instances:
-  mzit_79969bd5,19,11:
+  mzit_d9b57f20,19,11:
     component: mzit
     settings:
       function_name: mzit
       module: pp.components.mzit
-      name: mzit_79969bd5
+      name: mzit_d9b57f20
       settings:
         Ls: 1.0
         bend_radius: 10.0
@@ -15,12 +15,13 @@ instances:
         coupler_length2: 20
         delta_length: 10
         dy: 2.0
+        pins: false
         taper_length: 5.0
         w0: 0.5
         w1: 0.45
         w2: 0.55
 placements:
-  mzit_79969bd5,19,11:
+  mzit_d9b57f20,19,11:
     rotation: 0
     x: 19.138
     y: 11.65

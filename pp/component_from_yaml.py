@@ -11,7 +11,7 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing import link_factory
-from pp.add_pins import add_instance_label
+from pp.add_pins import _add_instance_label
 
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -144,7 +144,7 @@ def component_from_yaml(
     component_factory=None,
     route_factory=route_factory,
     link_factory=link_factory,
-    label_instance_function=add_instance_label,
+    label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
     """Returns a Component defined from YAML

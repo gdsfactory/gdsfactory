@@ -18,10 +18,10 @@ def get_padding_points(
     Args:
         component
         default: default padding
-        top: North padding
-        bottom
-        right
-        left
+        top: north padding
+        bottom: south padding
+        right: east padding
+        left: west padding
     """
     c = component
     top = top if top else default
@@ -49,11 +49,11 @@ def add_padding(
         component
         layers: list of layers
         suffix for name
-        padding
-        top
-        bottom
-        right
-        left
+        default: default padding
+        top: north padding
+        bottom: south padding
+        right: east padding
+        left: west padding
     """
 
     c = pp.Component(name=f"{component.name}_{suffix}")

@@ -14,6 +14,7 @@ def mzi_lattice(
     mzi_factory: Callable = mzi,
     coupler_factory: Callable = coupler,
     waveguide_factory: Callable = waveguide,
+    pins: bool = True,
 ) -> Component:
     r"""Mzi lattice filter.
 
@@ -52,6 +53,7 @@ def mzi_lattice(
             DL=delta_length,
             with_coupler=False,
             waveguide=waveguide_factory,
+            pins=pins,
         )
         for coupler_length, couler_gap, delta_length in zip(
             coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
@@ -68,6 +70,9 @@ def mzi_lattice(
 
     for port in sprevious.get_ports_list(prefix="E"):
         c.add_port(port.name, port=port)
+
+    if pins:
+        pp.add_pins_to_references(c)
 
     return c
 

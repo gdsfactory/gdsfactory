@@ -22,6 +22,7 @@ def mzi(
     coupler: Callable = mmi1x2_factory,
     combiner: Optional[Callable] = None,
     with_coupler: bool = True,
+    pins: bool = False,
     **coupler_settings,
 ) -> Component:
     """Mzi
@@ -155,6 +156,8 @@ def mzi(
             c.add_port(name=f"E{i}", port=port)
             i += 1
 
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 

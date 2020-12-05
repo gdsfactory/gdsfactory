@@ -27,6 +27,7 @@ def mzit(
     waveguide_factory: Callable = waveguide_function,
     coupler1: Optional[Callable] = coupler_function,
     coupler2: Callable = coupler_function,
+    pins: bool = True,
     **kwargs,
 ) -> Component:
     r"""Mzi tolerant to fab variations
@@ -163,6 +164,8 @@ def mzit(
     c.add_port("W1", port=cp2.ports["W1"])
     c.add_port("W0", port=cp2.ports["W0"])
 
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 

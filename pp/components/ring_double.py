@@ -16,6 +16,7 @@ def ring_double(
     length_y: float = 2.0,
     coupler: Callable = coupler_ring,
     waveguide: Callable = waveguide_function,
+    pins: bool = False,
 ) -> Component:
     """ double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -59,6 +60,8 @@ def ring_double(
     c.add_port("W0", port=cb.ports["W0"])
     c.add_port("E1", port=ct.ports["W0"])
     c.add_port("W1", port=ct.ports["E0"])
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 

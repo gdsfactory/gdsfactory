@@ -18,6 +18,7 @@ def ring_single(
     coupler: Callable = coupler_ring,
     waveguide: Callable = waveguide_function,
     bend: Callable = bend_circular,
+    pins: bool = False,
 ) -> Component:
     """ single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -69,6 +70,8 @@ def ring_single(
 
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 
@@ -76,6 +79,7 @@ if __name__ == "__main__":
     import pp
 
     c = ring_single()
+    cc = pp.add_pins(c)
     # print(c.settings)
     # print(c.get_settings())
-    pp.show(c)
+    pp.show(cc)

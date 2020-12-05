@@ -2,13 +2,13 @@
 
 """
 import pp
-from pp.add_pins import add_pins_triangle
+from pp.add_pins import _add_pins_triangle
 
 
 def test_pins_custom():
     """We can even define the `pins_function` that we use to add markers to each port"""
     c = pp.c.waveguide()
-    cc = pp.add_pins_container(component=c, function=add_pins_triangle)
+    cc = pp.add_pins(component=c, function=_add_pins_triangle)
     return cc
 
 
