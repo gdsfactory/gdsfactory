@@ -187,7 +187,9 @@ def _compare_rings():
 if __name__ == "__main__":
     # c = ring_single_bus(bend_radius=5.0, length_x=0.2, length_y=0.13, gap=0.15, wg_width=0.45)
     c = ring_single_bus(bend_radius=5.0, gap=0.3, wg_width=0.45)
+    c = ring_single_bus(gap=0.3, wg_width=0.45)
     print(c.get_settings())
+    print(c.name)
     pp.show(c)
     # c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2, wg_width=0.4)
     # _compare_rings()

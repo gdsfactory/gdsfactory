@@ -1,6 +1,6 @@
 function_name: grating_coupler_elliptical_trenches
 module: pp.components.grating_coupler.elliptical_trenches
-name: grating_coupler_elliptical_trenches_fa23b5c8
+name: grating_coupler_elliptical_trenches_43119c9e
 polarization: tm
 settings:
   fiber_angle: 15.0

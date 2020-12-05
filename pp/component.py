@@ -993,11 +993,11 @@ def recurse_references(
 ):
     """From a component returns instances and placements dicts.
 
-    FIXME: Need to decide the recursive case.
+    FIXME: Need to fix the recursive case.
 
     Args:
         component: to recurse
-        instances: instance_name to settings dict
+        instances: instance_name to settings dict. Instances are name by ComponentName.x.y
         placements: instance_name to x,y,rotation dict
         connections: instance_name_src,portName: instance_name_dst,portName
         port_locations: dict((x,y): set([referenceName, Port]))
@@ -1020,7 +1020,7 @@ def recurse_references(
         c = r.parent
         x = snap_to_1nm_grid(r.x + dx)
         y = snap_to_1nm_grid(r.y + dy)
-        reference_name = f"{c.name},{int(x)},{int(y)}"
+        reference_name = f"{c.name}_{int(x)}_{int(y)}"
         settings = c.get_settings()
         instances[reference_name] = dict(component=c.function_name, settings=settings)
         placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation),)

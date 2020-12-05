@@ -94,25 +94,27 @@ def clean_value(value: Any) -> str:
     """returns more readable value (integer)
     if number is < 1:
         returns number units in nm (integer)
+
+    units are in um by default. Therefore when we multiply by 1e3 we get nm.
     """
 
     if isinstance(value, int):
         value = str(value)
     elif isinstance(value, (float, np.float64)):
-        if 1e9 > value > 1e12:
-            value = f"{int(value/1e9)}G"
-        elif 1e6 > value > 1e9:
-            value = f"{int(value/1e6)}M"
-        elif 1e3 > value > 1e6:
-            value = f"{int(value/1e3)}K"
-        elif 1 > value > 1e-3:
-            value = f"{int(value*1e3)}m"
+        # if 1e12 > value > 1e9:
+        #     value = f"{int(value/1e9)}G"
+        # elif 1e9 > value > 1e6:
+        #     value = f"{int(value/1e6)}M"
+        # elif 1e6 > value > 1e3:
+        #     value = f"{int(value/1e3)}K"
+        if 1 > value > 1e-3:
+            value = f"{int(value*1e3)}n"
         elif 1e-6 < value < 1e-3:
-            value = f"{int(value*1e6)}u"
+            value = f"{int(value*1e6)}p"
         elif 1e-9 < value < 1e-6:
-            value = f"{int(value*1e9)}n"
+            value = f"{int(value*1e9)}f"
         elif 1e-12 < value < 1e-9:
-            value = f"{int(value*1e12)}p"
+            value = f"{int(value*1e12)}a"
         else:
             value = f"{value:.2f}"
     elif isinstance(value, list):

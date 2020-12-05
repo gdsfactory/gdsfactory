@@ -1,11 +1,11 @@
 connections: {}
 instances:
-  mzit_d9b57f20,19,11:
+  mzit_57d3e173_19_11:
     component: mzit
     settings:
       function_name: mzit
       module: pp.components.mzit
-      name: mzit_d9b57f20
+      name: mzit_57d3e173
       settings:
         Ls: 1.0
         bend_radius: 10.0
@@ -21,7 +21,7 @@ instances:
         w1: 0.45
         w2: 0.55
 placements:
-  mzit_d9b57f20,19,11:
+  mzit_57d3e173_19_11:
     rotation: 0
     x: 19.138
     y: 11.65

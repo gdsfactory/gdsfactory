@@ -134,9 +134,10 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
 
 
 if __name__ == "__main__":
-    c = waveguide(name="hi")
-    print(c.settings)
-    print(c.settings_changed)
+    c = waveguide(length=0.3)
+    print(c.name)
+    # print(c.settings)
+    # print(c.settings_changed)
     # pp.write_gds(c)
     # print(c.hash_geometry())
 
