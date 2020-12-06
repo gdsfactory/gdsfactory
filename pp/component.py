@@ -548,7 +548,7 @@ class Component(Device):
         self.name_long = None
 
     def plot_netlist(
-        self, label_index_end=1, with_labels=True, font_weight="normal",
+        self, label_index_end=1, with_labels=True, font_weight="normal", recursive=True
     ):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
@@ -558,7 +558,7 @@ class Component(Device):
             with_labels: label nodes
             font_weight: normal, bold
         """
-        netlist = self.get_netlist()
+        netlist = self.get_netlist(recursive=recursive)
         connections = netlist.connections
         G = nx.Graph()
         G.add_edges_from(
@@ -580,7 +580,7 @@ class Component(Device):
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self):
+    def get_netlist(self, recursive=True):
         """returns netlist dict(instances, placements, connections)
 
         instances = {instances}
@@ -590,10 +590,12 @@ class Component(Device):
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
         """
-        connections, instances, placements = recurse_references(self)
+        connections, instances, placements = recurse_references(
+            component=self, recursive=recursive
+        )
 
         netlist = OmegaConf.create(
-            dict(instances=instances, placements=placements, connections=connections,)
+            dict(instances=instances, placements=placements, connections=connections)
         )
         self.netlist = netlist
         return netlist
@@ -989,11 +991,11 @@ def recurse_references(
     port_locations=None,
     dx: float = 0.0,
     dy: float = 0.0,
-    recursive=False,
+    recursive=True,
 ):
     """From a component returns instances and placements dicts.
 
-    FIXME: Need to fix the recursive case.
+    FIXME: Need to add recursive case.
 
     Args:
         component: to recurse
@@ -1027,7 +1029,6 @@ def recurse_references(
         for port in r.get_ports_list():
             src = f"{reference_name},{port.name}"
             xy = snap_to_1nm_grid((port.x, port.y))
-            # print(c.name)
             # assert xy in port_locations, f'{xy} not in {port_locations}'
             src_list = port_locations[xy]
             if len(src_list) > 0:
@@ -1035,14 +1036,15 @@ def recurse_references(
                     connections[src] = dst
             else:
                 src_list.append(src)
-        if recursive and c.references:
+
+        if recursive and len(c.references) > 0:
             c2, i2, p2 = recurse_references(
                 component=c,
                 instances=instances,
                 placements=placements,
                 connections=connections,
-                dx=c.x,
-                dy=c.y,
+                dx=x - c.x,
+                dy=y - c.y,
                 port_locations=port_locations,
             )
             placements.update(p2)
@@ -1182,10 +1184,20 @@ if __name__ == "__main__":
 
     # c = pp.c.ring_single()
     # c = pp.c.mzi()
-    c = pp.c.mzi_lattice()
+
+    coupler_lengths = [10, 20, 30]
+    coupler_gaps = [0.1, 0.2, 0.4]
+    delta_lengths = [10, 100]
+
+    c = pp.c.mzi_lattice(
+        coupler_lengths=coupler_lengths,
+        coupler_gaps=coupler_gaps,
+        delta_lengths=delta_lengths,
+    )
     n = c.get_netlist()
     print(n.placements)
     print(n.connections)
+
     # c.plot_netlist()
 
     # import matplotlib.pyplot as plt
