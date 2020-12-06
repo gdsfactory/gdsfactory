@@ -995,8 +995,6 @@ def recurse_references(
 ):
     """From a component returns instances and placements dicts.
 
-    FIXME: Need to add recursive case.
-
     Args:
         component: to recurse
         instances: instance_name to settings dict. Instances are name by ComponentName.x.y
@@ -1028,8 +1026,8 @@ def recurse_references(
         placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation),)
         for port in r.get_ports_list():
             src = f"{reference_name},{port.name}"
-            xy = snap_to_1nm_grid((port.x, port.y))
-            # assert xy in port_locations, f'{xy} not in {port_locations}'
+            xy = snap_to_1nm_grid((port.x + dx, port.y + dy))
+            assert xy in port_locations, f"{xy} for {c.name} not in {port_locations}"
             src_list = port_locations[xy]
             if len(src_list) > 0:
                 for dst in src_list:
