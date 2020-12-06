@@ -1184,7 +1184,7 @@ if __name__ == "__main__":
     # c = pp.c.mzi()
 
     coupler_lengths = [10, 20, 30]
-    coupler_gaps = [0.1, 0.2, 0.4]
+    coupler_gaps = [0.1, 0.2, 0.3]
     delta_lengths = [10, 100]
 
     c = pp.c.mzi_lattice(
@@ -1193,8 +1193,8 @@ if __name__ == "__main__":
         delta_lengths=delta_lengths,
     )
     n = c.get_netlist()
-    print(n.placements)
-    print(n.connections)
+    # print(n.placements)
+    # print(n.connections)
 
     # c.plot_netlist()
 
