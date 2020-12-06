@@ -3,8 +3,9 @@
 - pins
 - outline
 
-Do not use functions with name starting with underscore directly.
-Make sure they are in a container as they modify the geometry of a component (add pins, labels, grating couplers ...) without modifying the cell name
+Do not use functions with name starting with underscore directly as they modify a component without changing its name.
+Make sure underscore functions are inside a new Component as they modify the geometry of a component (add pins, labels, grating couplers ...) without modifying the cell name
+You can use the @container decorator
 
 """
 from typing import Optional, Tuple, Callable, List
@@ -12,6 +13,7 @@ import json
 import numpy as np
 from pp.layers import LAYER, port_type2layer
 from pp.port import read_port_markers
+from pp.port import Port
 import pp
 from pp.add_padding import get_padding_points
 from pp.container import container
@@ -22,7 +24,12 @@ def _rotate(v, m):
     return np.dot(m, v)
 
 
-def _add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT):
+def _add_pin_triangle(
+    component: Component,
+    port: Port,
+    layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Tuple[int, int] = LAYER.TEXT,
+) -> None:
     """Add triangle pin with a right angle, pointing out of the port
 
     Args:
@@ -57,8 +64,12 @@ def _add_pin_triangle(component, port, layer=LAYER.PORT, label_layer=LAYER.TEXT)
 
 
 def _add_pin_square_inside(
-    component, port, pin_length=0.1, layer=LAYER.PORT, label_layer=LAYER.TEXT
-):
+    component: Component,
+    port: Port,
+    pin_length: float = 0.1,
+    layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Tuple[int, int] = LAYER.TEXT,
+) -> None:
     """Add square pin towards the inside of the port
 
     Args:
@@ -105,13 +116,13 @@ def _add_pin_square_inside(
 
 
 def _add_pin_square(
-    component,
-    port,
-    pin_length=0.1,
-    layer=LAYER.PORT,
-    label_layer=LAYER.PORT,
-    port_margin=0,
-):
+    component: Component,
+    port: Port,
+    pin_length: float = 0.1,
+    layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Tuple[int, int] = LAYER.PORT,
+    port_margin: float = 0.0,
+) -> None:
     """Add half out pin to a component.
 
     Args:
@@ -163,11 +174,11 @@ def _add_pin_square(
 
 
 def _add_outline(
-    component,
+    component: Component,
     reference: Optional[ComponentReference] = None,
-    layer=LAYER.DEVREC,
+    layer: Tuple[int, int] = LAYER.DEVREC,
     **kwargs,
-):
+) -> None:
     """Adds devices outline bounding box in layer.
 
     Args:
@@ -181,47 +192,44 @@ def _add_outline(
         left
     """
     c = reference or component
+    if hasattr(component, "parent"):
+        component = component.parent
     points = get_padding_points(component=c, default=0, **kwargs)
     component.add_polygon(points, layer=layer)
 
 
 def _add_pins(
-    component,
-    reference: Optional[ComponentReference] = None,
-    add_port_marker_function=_add_pin_square,
+    component: Component,
+    reference: ComponentReference,
+    add_port_marker_function: Callable = _add_pin_square,
     port_type2layer=port_type2layer,
     **kwargs,
-):
+) -> None:
     """Add Pin port markers.
 
     Args:
         component: to add ports
-        reference: take ports from a reference
         add_port_marker_function:
         port_type2layer: dict mapping port types to marker layers for ports
 
     """
-    reference = component or reference
-
-    if hasattr(reference, "ports") and reference.ports:
-        for p in reference.ports.values():
-            layer = port_type2layer[p.port_type]
-            add_port_marker_function(
-                component=component, port=p, layer=layer, label_layer=layer, **kwargs
-            )
+    for p in reference.ports.values():
+        layer = port_type2layer[p.port_type]
+        add_port_marker_function(
+            component=component, port=p, layer=layer, label_layer=layer, **kwargs
+        )
 
 
-def _add_pins_triangle(**kwargs):
+def _add_pins_triangle(**kwargs) -> None:
     return _add_pins(add_port_marker_function=_add_pin_triangle, **kwargs)
 
 
 def _add_settings_label(
-    component,
-    reference: Optional[ComponentReference] = None,
-    label_layer=LAYER.LABEL_SETTINGS,
-):
+    component: Component,
+    reference: ComponentReference,
+    label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
+) -> None:
     """Add settings in label, ignores component.ignore keys."""
-    reference = reference or component
     settings = reference.get_settings()
     settings_string = f"settings={json.dumps(settings, indent=2)}"
     component.add_label(
@@ -234,8 +242,9 @@ def _add_instance_label(
     reference: ComponentReference,
     instance_name: Optional[str] = None,
     layer: Tuple[int, int] = LAYER.LABEL_INSTANCE,
-):
-    """Adds label."""
+) -> None:
+    """Adds label to a reference in a component."""
+
     instance_name = (
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
@@ -251,8 +260,8 @@ def _add_pins_labels_and_outline(
     add_outline_function: Optional[Callable] = _add_outline,
     add_pins_function: Optional[Callable] = _add_pins,
     add_settings_function: Optional[Callable] = _add_settings_label,
-    add_instance_label_function: Optional[Callable] = _add_instance_label,
-):
+    add_instance_label_function: Optional[Callable] = _add_settings_label,
+) -> None:
     """Add markers:
     - outline
     - pins for the ports
@@ -261,17 +270,10 @@ def _add_pins_labels_and_outline(
 
     Args:
         component: where to add the markers
-        reference:
         pins_function: function to add pins to ports
         add_outline_function: function to add outline around the device
 
     """
-    from pp.component import Component, ComponentReference
-
-    assert isinstance(component, Component), f"{component} needs to be a Component"
-    assert isinstance(
-        reference, ComponentReference
-    ), f"{reference} needs to be a ComponentReference"
     if add_outline_function:
         add_outline_function(component=component, reference=reference)
     if add_pins_function:
@@ -286,7 +288,7 @@ def add_pins_to_references(
     component: Component,
     references: Optional[List[ComponentReference]] = None,
     function: Callable = _add_pins_labels_and_outline,
-):
+) -> None:
     """Add pins to a Component.
 
     Args:
@@ -295,8 +297,8 @@ def add_pins_to_references(
         function: function to add pins
     """
     references = references or component.references
-    for r in references:
-        function(component=component, reference=r)
+    for reference in references:
+        function(component=component, reference=reference)
 
 
 @container
@@ -304,29 +306,33 @@ def add_pins(
     component: Component,
     function: Callable = _add_pins_labels_and_outline,
     recursive: bool = False,
-):
+) -> Component:
     """Add pins to a Component and returns a container
 
     Args:
         component:
         function: function to add pins
         recursive: goes down the hierarchy
+
+    Returns:
+        New component
     """
 
-    c = pp.Component(f"{component.name}_pins")
-    reference = c << component
-    function(component=c, reference=reference)
+    component_new = pp.Component(f"{component.name}_pins")
+    reference = component_new << component
+    function(component=component_new, reference=reference)
 
     if recursive:
         for reference in component.references:
-            function(component=c, reference=reference)
+            function(component=component_new, reference=reference)
 
-    return c
+    return component_new
 
 
 def test_add_pins():
     c1 = pp.c.mzi2x2(with_elec_connections=True)
-    c2 = add_pins(c1)
+    c2 = add_pins(c1, recursive=False)
+    pp.show(c2)
 
     n_optical_expected = 4
     n_dc_expected = 3
@@ -351,16 +357,48 @@ def test_add_pins():
     assert n_dc_expected == n_dc_expected
 
 
-if __name__ == "__main__":
-    # cpl = [10, 20, 30]
-    # cpg = [0.2, 0.3, 0.5]
-    # dl0 = [10, 20]
+def test_add_pins_recursive():
+    c1 = pp.c.mzi2x2(with_elec_connections=True)
+    c2 = add_pins(c1, recursive=True)
+    pp.show(c2)
 
+    n_optical_expected = 22
+    n_dc_expected = 11
+
+    port_layer_optical = port_type2layer["optical"]
+    port_markers_optical = read_port_markers(c2, [port_layer_optical])
+    n_optical = len(port_markers_optical.polygons)
+
+    port_layer_dc = port_type2layer["dc"]
+    port_markers_dc = read_port_markers(c2, [port_layer_dc])
+    n_dc = len(port_markers_dc.polygons)
+
+    print(n_optical)
+    print(n_dc)
+
+    assert n_optical == n_optical_expected
+    assert n_dc_expected == n_dc_expected
+
+
+if __name__ == "__main__":
+    cpl = [10, 20, 30]
+    cpg = [0.2, 0.3, 0.5]
+    dl0 = [10, 20]
     # c = pp.c.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
-    # cc = add_pins(component=c, recursive=True)
+
+    # c = pp.c.mzi()
+    # add_pins_to_references(c)
+    # c = add_pins(c, recursive=True)
+    # c = add_pins(c, recursive=False)
+    # pp.show(c)
+
+    # c = pp.c.mzi2x2(with_elec_connections=True)
+    # cc = add_pins(c)
     # pp.show(cc)
 
-    test_add_pins()
+    # test_add_pins()
+    test_add_pins_recursive()
+
     # from pp.components import mmi1x2
     # from pp.components import bend_circular
     # from pp.add_grating_couplers import add_grating_couplers

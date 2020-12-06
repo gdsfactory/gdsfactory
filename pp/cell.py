@@ -93,7 +93,13 @@ def cell(
         if cache and autoname and name in CACHE:
             return CACHE[name]
         else:
+            assert callable(
+                func
+            ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
             component = func(**kwargs)
+            assert isinstance(
+                component, Component
+            ), f"`{func.__name__}` function needs to return a Component, it returned `{component}` "
             component.module = func.__module__
             component.function_name = func.__name__
 
@@ -169,40 +175,34 @@ def test_autoname_false():
     assert wg2(length=3).name == "waveguide"
 
 
-class _Dummy:
-    pass
-
-
 @cell
 def _dummy(length=3, wg_width=0.5):
-    c = _Dummy()
-    c.name = ""
-    c.settings = {}
+    c = Component()
     return c
 
 
-def test_cell():
+def test_autoname():
     name_base = _dummy().name
     assert name_base == "_dummy"
+
     name_int = _dummy(length=3).name
     assert name_int == "_dummy_L3"
+
     name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW500m"
+    assert name_float == "_dummy_WW500n"
+
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
     assert name_length_first == name_width_first
 
     name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW0p5"
-    print(name_float)
+    assert name_float == "_dummy_WW500n"
 
 
 if __name__ == "__main__":
-
-    print(CACHE)
-
     # test_autoname_true()
     # test_autoname_false()
+    test_autoname()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)

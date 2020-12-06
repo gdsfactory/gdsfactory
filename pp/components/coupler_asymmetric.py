@@ -1,14 +1,14 @@
+from typing import Callable
 import pp
 from pp.components.bend_s import bend_s
-from pp.components.waveguide import waveguide
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.component import Component
-from typing import Callable
 
 
 @pp.cell
 def coupler_asymmetric(
     bend: Callable = bend_s,
-    waveguide: Callable = waveguide,
+    waveguide: Callable = waveguide_function,
     gap: float = 0.234,
     wg_width: float = 0.5,
 ) -> Component:
@@ -29,8 +29,8 @@ def coupler_asymmetric(
       pp.plotgds(c)
 
     """
-    bend = pp.call_if_func(bend, width=wg_width)
-    wg = pp.call_if_func(waveguide, width=wg_width)
+    bend = bend(width=wg_width)
+    wg = waveguide(width=wg_width)
 
     w = bend.ports["W0"].width
     y = (w + gap) / 2

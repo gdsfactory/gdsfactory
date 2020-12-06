@@ -34,7 +34,6 @@ from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
-from pp.types import Factory
 
 from pp.write_component import get_component_type
 from pp.write_component import show
@@ -116,7 +115,6 @@ __all__ = [
     "write_gds",
     "Port",
     "component_from_yaml",
-    "Factory",
     "units",
 ]
 __version__ = "2.2.0"

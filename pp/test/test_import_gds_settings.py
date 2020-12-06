@@ -27,11 +27,12 @@ def sort_dict(d):
 @pytest.mark.parametrize("component_type", _components)
 def test_properties_components(component_type):
     """Write component to GDS with setttings_label"""
-    pp.clear_cache()
+    cnew = pp.Component()
     c1 = component_factory[component_type]()
-    _add_settings_label(c1)
+    c1ref = cnew << c1
+    _add_settings_label(cnew, reference=c1ref)
+    gdspath = pp.write_component(cnew)
 
-    gdspath = pp.write_component(c1)
     c2 = import_gds(gdspath)
     add_settings_from_label(c2)
     c1s = sort_dict(tuplify(c1.get_settings()))
@@ -45,7 +46,8 @@ def test_properties_components(component_type):
 
 if __name__ == "__main__":
     # c = test_properties_components(component_type=list(_components)[0])
-    c = test_properties_components(component_type="ring_single")
+    # c = test_properties_components(component_type="ring_single")
+    c = test_properties_components(component_type="mzit")
     # c = test_properties_components(component_type="bezier")
     # c = test_properties_components(component_type="bend_s")
     # c = test_properties_components(component_type="waveguide")

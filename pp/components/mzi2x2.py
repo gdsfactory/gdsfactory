@@ -2,7 +2,7 @@ from typing import Callable
 from pp.components import bend_circular
 from pp.components import wg_heater_connected as waveguide_heater
 from pp.components import waveguide
-from pp.components import coupler
+from pp.components.coupler import coupler
 from pp.netlist_to_gds import netlist_to_component
 from pp.cell import cell
 from pp.routing import route_elec_ports_to_side
@@ -168,10 +168,7 @@ def mzi2x2(
     if not with_elec_connections:
         straight_heater_factory = straight_factory
 
-    if callable(coupler_factory):
-        cpl = coupler_factory(length=CL_1, gap=gap)
-    else:
-        cpl = coupler_factory
+    cpl = coupler_factory(length=CL_1, gap=gap)
 
     arm_defaults = {
         "L_top": L2,

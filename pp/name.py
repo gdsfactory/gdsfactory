@@ -101,20 +101,8 @@ def clean_value(value: Any) -> str:
     if isinstance(value, int):
         value = str(value)
     elif isinstance(value, (float, np.float64)):
-        # if 1e12 > value > 1e9:
-        #     value = f"{int(value/1e9)}G"
-        # elif 1e9 > value > 1e6:
-        #     value = f"{int(value/1e6)}M"
-        # elif 1e6 > value > 1e3:
-        #     value = f"{int(value/1e3)}K"
         if 1 > value > 1e-3:
             value = f"{int(value*1e3)}n"
-        elif 1e-6 < value < 1e-3:
-            value = f"{int(value*1e6)}p"
-        elif 1e-9 < value < 1e-6:
-            value = f"{int(value*1e9)}f"
-        elif 1e-12 < value < 1e-9:
-            value = f"{int(value*1e12)}a"
         else:
             value = f"{value:.2f}"
     elif isinstance(value, list):
@@ -133,7 +121,7 @@ def clean_value(value: Any) -> str:
 
 
 def test_clean_value():
-    assert clean_value(0.5) == "500m"
+    assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
 
 
