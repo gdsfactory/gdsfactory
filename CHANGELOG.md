@@ -24,6 +24,11 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.2 2020-12-06
+
+- rename coupler ports inside mzi function
+
+
 ## 2.2.1 2020-12-06
 
 - pp.qp hides DEVREC layer
