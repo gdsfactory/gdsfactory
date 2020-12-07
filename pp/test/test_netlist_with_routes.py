@@ -1,6 +1,7 @@
 import pp
 
 
+@pp.cell
 def test_netlist_with_routes():
     """Needs FIX
     routes are not connected using connect,
@@ -18,11 +19,12 @@ def test_netlist_with_routes():
     c.add(routes)
 
     # print(routes[0].get_settings())
-    # print(c.get_netlist().connections)
+    print(c.get_netlist().connections)
     print(c.get_netlist().instances)
+    print(len(c.get_netlist().connections))
 
     assert len(c.get_dependencies()) == 3
-    assert len(c.get_netlist().connections) == 2
+    assert len(c.get_netlist().connections) == 3  # 2 components + 1 flat netlist
     return c
 
 

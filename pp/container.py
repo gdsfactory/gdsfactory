@@ -144,7 +144,9 @@ def container_instance(component):
 
 @container
 def _add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
-    """ adds padding layers to component"""
+    """Adds padding layers to component.
+    This is just an example. For the real function see pp.add_padding.
+    """
     c = Component(name=f"{component.name}_{suffix}")
     c << component
     points = [
@@ -155,7 +157,7 @@ def _add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
     ]
     for layer in layers:
         c.add_polygon(points, layer=layer)
-    # return c
+    return c
 
 
 def test_container():

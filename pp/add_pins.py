@@ -333,7 +333,6 @@ def add_pins(
 def test_add_pins():
     c1 = pp.c.mzi2x2(with_elec_connections=True)
     c2 = add_pins(c1, recursive=False)
-    pp.show(c2)
 
     n_optical_expected = 4
     n_dc_expected = 3
@@ -347,8 +346,8 @@ def test_add_pins():
     port_markers_dc = read_port_markers(c2, [port_layer_dc])
     n_dc = len(port_markers_dc.polygons)
 
-    print(len(c1.get_polygons()))
-    print(len(c2.get_polygons()))
+    # print(len(c1.get_polygons()))
+    # print(len(c2.get_polygons()))
     print(n_optical)
     print(n_dc)
 

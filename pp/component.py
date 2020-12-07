@@ -556,15 +556,16 @@ class Component(Device):
             font_weight: normal, bold
         """
         netlist = self.get_netlist(recursive=recursive)
-        connections = netlist.connections
+        connections_level = netlist.connections
 
         G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections
-            ]
-        )
+        for connections in connections_level.values():
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
         pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
         nx.draw(
@@ -578,6 +579,9 @@ class Component(Device):
     def get_netlist(self, recursive=True):
         """returns netlist dict(instances, placements, connections)
 
+        Args:
+            recursive: iterates over lower hierarchical levels
+
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
         connections = {instance_name_src,uid,x,y,portName,portId: instance_name_dst,uid,x,y,portName,portId}
@@ -590,11 +594,7 @@ class Component(Device):
         )
 
         netlist = OmegaConf.create(
-            dict(
-                instances=instances,
-                placements=placements,
-                connections=sorted(list(connections)),
-            )
+            dict(instances=instances, placements=placements, connections=connections)
         )
         self.netlist = netlist
         return netlist
@@ -1043,7 +1043,6 @@ def test_netlist_simple():
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2
-    assert len(netlist["connections"]) == 1
 
 
 def test_netlist_complex():
@@ -1053,7 +1052,6 @@ def test_netlist_complex():
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 18
-    assert len(netlist["connections"]) == 18
 
 
 def test_netlist_plot():
@@ -1105,32 +1103,30 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-    import pp
+    # import matplotlib.pyplot as plt
 
     # c = pp.c.ring_single()
     # c = pp.c.mzi()
 
-    coupler_lengths = [10, 20, 30]
-    coupler_gaps = [0.1, 0.2, 0.3]
-    delta_lengths = [10, 100]
+    # coupler_lengths = [10, 20, 30]
+    # coupler_gaps = [0.1, 0.2, 0.3]
+    # delta_lengths = [10, 100]
 
-    c = pp.c.mzi_lattice(
-        coupler_lengths=coupler_lengths,
-        coupler_gaps=coupler_gaps,
-        delta_lengths=delta_lengths,
-    )
-    n = c.get_netlist()
-    print(n.placements)
-    print(n.connections)
+    # c = pp.c.mzi_lattice(
+    #     coupler_lengths=coupler_lengths,
+    #     coupler_gaps=coupler_gaps,
+    #     delta_lengths=delta_lengths,
+    # )
+    # n = c.get_netlist()
+    # print(n.placements)
+    # print(n.connections)
 
-    c.plot_netlist()
-    plt.show()
-
-    # import matplotlib.pyplot as plt
+    # c.plot_netlist()
     # plt.show()
 
-    # test_netlist_simple()
+    # plt.show()
+
+    test_netlist_simple()
     # test_netlist_complex()
 
     # c = pp.c.waveguide()

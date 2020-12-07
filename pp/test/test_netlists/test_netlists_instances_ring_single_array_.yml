@@ -1,40 +1,42 @@
 connections:
-- - waveguide_L20p00_W500n_30_20,W0
-  - bend_circular_R10p00_W500n_14_15,W0
-- - waveguide_L10p00_W500n_-5_10,W0
-  - bend_circular_R5p00_W500n_-12_8,W0
-- - waveguide_L10p00_W500n_-5_10,E0
-  - bend_circular_R5p00_W500n_2_8,N0
-- - coupler_ring_d0314e53_30_3,W0
-  - ring_single_BR10p00_LX20p00_30_8,W0
-- - bend_circular_R5p00_W500n_2_8,W0
-  - waveguide_L0p00_W500n_5_5,W0
-- - waveguide_L5p00_7_0,E0
-  - ring_single_BR10p00_LX20p00_30_8,W0
-- - coupler_ring_404ca807_-5_1,E0
-  - ring_single_BR5p00_LX10p00_-5_3,E0
-- - waveguide_L5p00_7_0,W0
-  - ring_single_BR5p00_LX10p00_-5_3,E0
-- - waveguide_L20p00_W500n_30_20,E0
-  - bend_circular_R10p00_W500n_45_15,N0
-- - coupler_ring_d0314e53_30_3,E0
-  - ring_single_BR10p00_LX20p00_30_8,E0
-- - bend_circular_R10p00_W500n_14_15,N0
-  - waveguide_L0p00_W500n_10_10,W0
-- - bend_circular_R10p00_W500n_45_15,W0
-  - waveguide_L0p00_W500n_50_10,W0
-- - waveguide_L0p00_W500n_5_5,E0
-  - coupler_ring_404ca807_-5_1,N1
-- - waveguide_L0p00_W500n_10_10,E0
-  - coupler_ring_d0314e53_30_3,N0
-- - coupler_ring_404ca807_-5_1,W0
-  - ring_single_BR5p00_LX10p00_-5_3,W0
-- - waveguide_L0p00_W500n_-15_5,E0
-  - coupler_ring_404ca807_-5_1,N0
-- - waveguide_L0p00_W500n_50_10,E0
-  - coupler_ring_d0314e53_30_3,N1
-- - bend_circular_R5p00_W500n_-12_8,N0
-  - waveguide_L0p00_W500n_-15_5,W0
+  0_ring_single_array:
+    ring_single_BR10p00_LX20p00_30_8,W0: waveguide_L5p00_7_0,E0
+    ring_single_BR5p00_LX10p00_-5_3,E0: waveguide_L5p00_7_0,W0
+  1_ring_single_BR10p00_LX20p00:
+    bend_circular_R10p00_W500n_14_15,W0: waveguide_L20p00_W500n_30_20,W0
+    bend_circular_R10p00_W500n_45_15,N0: waveguide_L20p00_W500n_30_20,E0
+    coupler_ring_d0314e53_30_3,N0: waveguide_L0p00_W500n_10_10,E0
+    coupler_ring_d0314e53_30_3,N1: waveguide_L0p00_W500n_50_10,E0
+    ring_single_BR10p00_LX20p00_30_8,E0: coupler_ring_d0314e53_30_3,E0
+    ring_single_BR10p00_LX20p00_30_8,W0: coupler_ring_d0314e53_30_3,W0
+    waveguide_L0p00_W500n_10_10,W0: bend_circular_R10p00_W500n_14_15,N0
+    waveguide_L0p00_W500n_50_10,W0: bend_circular_R10p00_W500n_45_15,W0
+  1_ring_single_BR5p00_LX10p00:
+    bend_circular_R5p00_W500n_-12_8,W0: waveguide_L10p00_W500n_-5_10,W0
+    bend_circular_R5p00_W500n_2_8,N0: waveguide_L10p00_W500n_-5_10,E0
+    coupler_ring_404ca807_-5_1,N0: waveguide_L0p00_W500n_-15_5,E0
+    coupler_ring_404ca807_-5_1,N1: waveguide_L0p00_W500n_5_5,E0
+    ring_single_BR5p00_LX10p00_-5_3,E0: coupler_ring_404ca807_-5_1,E0
+    ring_single_BR5p00_LX10p00_-5_3,W0: coupler_ring_404ca807_-5_1,W0
+    waveguide_L0p00_W500n_-15_5,W0: bend_circular_R5p00_W500n_-12_8,N0
+    waveguide_L0p00_W500n_5_5,W0: bend_circular_R5p00_W500n_2_8,W0
+  flat:
+    bend_circular_R10p00_W500n_14_15,W0: waveguide_L20p00_W500n_30_20,W0
+    bend_circular_R10p00_W500n_45_15,N0: waveguide_L20p00_W500n_30_20,E0
+    bend_circular_R5p00_W500n_-12_8,W0: waveguide_L10p00_W500n_-5_10,W0
+    bend_circular_R5p00_W500n_2_8,N0: waveguide_L10p00_W500n_-5_10,E0
+    coupler_ring_404ca807_-5_1,N0: waveguide_L0p00_W500n_-15_5,E0
+    coupler_ring_404ca807_-5_1,N1: waveguide_L0p00_W500n_5_5,E0
+    coupler_ring_d0314e53_30_3,N0: waveguide_L0p00_W500n_10_10,E0
+    coupler_ring_d0314e53_30_3,N1: waveguide_L0p00_W500n_50_10,E0
+    ring_single_BR10p00_LX20p00_30_8,E0: coupler_ring_d0314e53_30_3,E0
+    ring_single_BR10p00_LX20p00_30_8,W0: coupler_ring_d0314e53_30_3,W0
+    ring_single_BR5p00_LX10p00_-5_3,E0: coupler_ring_404ca807_-5_1,E0
+    ring_single_BR5p00_LX10p00_-5_3,W0: coupler_ring_404ca807_-5_1,W0
+    waveguide_L0p00_W500n_-15_5,W0: bend_circular_R5p00_W500n_-12_8,N0
+    waveguide_L0p00_W500n_10_10,W0: bend_circular_R10p00_W500n_14_15,N0
+    waveguide_L0p00_W500n_50_10,W0: bend_circular_R10p00_W500n_45_15,W0
+    waveguide_L0p00_W500n_5_5,W0: bend_circular_R5p00_W500n_2_8,W0
 instances:
   bend_circular_R10p00_W500n_14_15:
     component: bend_circular
