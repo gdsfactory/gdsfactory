@@ -166,7 +166,6 @@ def _cdsem_generic(
 def wg_line(
     length: float,
     width: float,
-    offset: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [],
 ) -> Component:
@@ -180,7 +179,6 @@ def wg_line(
 
 @pp.cell
 def cdsem_straight(
-    name=None,
     spacing_h=5.0,
     spacing_v=5.0,
     gaps=[0.224, 0.234, 0.246],
@@ -245,8 +243,6 @@ def cdsem_straight(
 
 @pp.cell
 def cdsem_straight_column(
-    name: None = None,
-    spacing_h: float = 5.0,
     spacing_v: float = 5.0,
     gaps: List[float] = [0.224, 0.234, 0.246],
     length: float = LINE_LENGTH,

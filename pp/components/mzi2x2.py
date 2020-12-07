@@ -1,7 +1,7 @@
 from typing import Callable
-from pp.components import bend_circular
-from pp.components import wg_heater_connected as waveguide_heater
-from pp.components import waveguide
+from pp.components.bend_circular import bend_circular
+from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.waveguide import waveguide
 from pp.components.coupler import coupler
 from pp.netlist_to_gds import netlist_to_component
 from pp.cell import cell
@@ -20,8 +20,8 @@ def mzi_arm(
     L_top: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
-    straight_heater_factory: Callable = waveguide_heater,
-    straight_factory: Callable = waveguide,
+    waveguide_heater_function: Callable = wg_heater_connected,
+    waveguide_function: Callable = waveguide,
     with_elec_connections: bool = True,
 ) -> Component:
     """
@@ -32,8 +32,8 @@ def mzi_arm(
         L_top: 10.0, horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
-        straight_heater_factory: waveguide_heater
-        straight_factory: waveguide
+        waveguide_heater_function: wg_heater_connected
+        waveguide_function: waveguide
 
     ::
 
@@ -65,13 +65,13 @@ def mzi_arm(
 
     """
     if not with_elec_connections:
-        straight_heater_factory = straight_factory
+        waveguide_heater_function = waveguide_function
 
     _bend = bend90_factory(radius=bend_radius)
 
-    straight_vheater = straight_heater_factory(length=L0)
-    straight_h = straight_factory(length=L_top)
-    straight_v = straight_factory(length=DL) if DL > 0 else None
+    straight_vheater = waveguide_heater_function(length=L0)
+    straight_h = waveguide_function(length=L_top)
+    straight_v = waveguide_function(length=DL) if DL > 0 else None
 
     port_number = 1 if with_elec_connections else 0
 
@@ -114,12 +114,12 @@ def mzi2x2(
     gap: float = 0.234,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
-    straight_heater_factory: Callable = waveguide_heater,
-    straight_factory: Callable = waveguide,
-    coupler_factory: Callable = coupler,
+    waveguide_heater_function: Callable = wg_heater_connected,
+    waveguide_function: Callable = waveguide,
+    coupler_function: Callable = coupler,
     with_elec_connections: bool = False,
 ) -> Component:
-    """ Mzi 2x2
+    """Mzi 2x2
 
     Args:
         CL_1: coupler length
@@ -129,9 +129,9 @@ def mzi2x2(
         gap: 0.235
         bend_radius: 10.0
         bend90_factory: bend_circular
-        straight_heater_factory: waveguide_heater or waveguide
-        straight_factory: waveguide
-        coupler_factory: coupler
+        waveguide_heater_function: wg_heater_connected or waveguide
+        waveguide_function: waveguide
+        coupler_function: coupler
 
 
     .. code::
@@ -166,16 +166,16 @@ def mzi2x2(
 
     """
     if not with_elec_connections:
-        straight_heater_factory = straight_factory
+        waveguide_heater_function = waveguide_function
 
-    cpl = coupler_factory(length=CL_1, gap=gap)
+    cpl = coupler_function(length=CL_1, gap=gap)
 
     arm_defaults = {
         "L_top": L2,
         "bend_radius": bend_radius,
         "bend90_factory": bend90_factory,
-        "straight_heater_factory": straight_heater_factory,
-        "straight_factory": straight_factory,
+        "waveguide_heater_function": waveguide_heater_function,
+        "waveguide_function": waveguide_function,
         "with_elec_connections": with_elec_connections,
     }
 
@@ -293,12 +293,12 @@ if __name__ == "__main__":
     #     print(p.port_type)
 
     # c = mzi_arm(DL=100)
-    # c = mzi2x2(straight_heater_factory=waveguide_heater, with_elec_connections=True)
+    # c = mzi2x2(waveguide_heater_function=wg_heater_connected, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))
     # print(hash(c))
 
     c = mzi2x2(with_elec_connections=True)
-    c2 = pp.add_pins_container(c)
-    pp.show(c2)
+    cc = pp.add_pins(c)
+    pp.show(cc)

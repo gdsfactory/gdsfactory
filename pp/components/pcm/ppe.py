@@ -29,7 +29,8 @@ def linespace(
     ymax: float,
     layer: Tuple[int, int],
 ) -> Component:
-    """# Creates a line space pattern in y-direction
+    """Creates a line space pattern in y-direction.
+
     Args:
         x0: x coordinate of the lower left line
         y0: y coordinate of the lower left line
@@ -38,9 +39,7 @@ def linespace(
         pitch: pitch of each line
         pitch > height
     """
-    if abs(pitch) < abs(height):
-        print("pitch must be greater then height")
-        return
+    assert abs(pitch) < abs(height), "pitch must be greater then height"
     LS = pp.Component()
     if pitch > 0:
         while y0 + height <= ymax:
