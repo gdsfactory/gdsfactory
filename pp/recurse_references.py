@@ -50,34 +50,34 @@ def recurse_references(
         reference_name = f"{c.name}_{int(x)}_{int(y)}"
         settings = c.get_settings()
         instances[reference_name] = dict(component=c.function_name, settings=settings)
-        placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation),)
+        placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation))
         for port in r.get_ports_list():
             src = f"{reference_name},{port.name}"
             xy = snap_to_1nm_grid((port.x + dx, port.y + dy))
             assert (
                 xy in port_locations
-            ), f"{xy} for {c.name} in level {level} not in {port_locations}"
+            ), f"{xy} for {port.name} {c.name} in level {level} not in {port_locations}"
             src_list = port_locations[xy]
             if len(src_list) > 0:
                 for src2 in src_list:
                     connections[level_name][src2] = src
-                    connections[level_name][src] = src2
             else:
                 src_list.append(src)
 
     if recursive:
         for r in component.references:
             c = r.parent
-            x = snap_to_1nm_grid(r.x + dx)
-            y = snap_to_1nm_grid(r.y + dy)
+            dx = r.x - c.x
+            dy = r.y - c.y
+            # print(level, c.name, r.x, dx, c.x)
             if len(c.references) > 0:
                 c2, i2, p2 = recurse_references(
                     component=c,
                     instances=instances,
                     placements=placements,
                     connections=connections,
-                    dx=x - c.x,
-                    dy=y - c.y,
+                    dx=dx,
+                    dy=dy,
                     port_locations=port_locations,
                     level=level + 1,
                 )
@@ -90,13 +90,35 @@ def recurse_references(
     return connections, instances_sorted, placements_sorted
 
 
+def test_ring_single_array():
+    import pp
+
+    c = pp.c.ring_single_array()
+    c.get_netlist()
+
+
+def test_mzi_lattice():
+    import pp
+
+    coupler_lengths = [10, 20, 30, 40]
+    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
+    delta_lengths = [10, 100, 200]
+
+    c = pp.c.mzi_lattice(
+        coupler_lengths=coupler_lengths,
+        coupler_gaps=coupler_gaps,
+        delta_lengths=delta_lengths,
+    )
+    c.get_netlist()
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     import pp
 
     c = pp.c.ring_single_array()
-    c.plot_netlist()
     pp.show(c)
+    c.plot_netlist()
 
-    c, i, p = recurse_references(c)
+    x, i, p = recurse_references(c)
     plt.show()
