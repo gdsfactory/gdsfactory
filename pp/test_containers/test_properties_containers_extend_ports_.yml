@@ -1,0 +1,20 @@
+function_name: extend_ports
+name: mzi2x2_WECTrue_e
+settings:
+  component:
+    function_name: mzi2x2
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60.0
+      L2: 10.0
+      bend_radius: 10.0
+      gap: 0.234
+      with_elec_connections: true
+  extension_factory: None
+  extension_port_name_input: None
+  extension_port_name_output: None
+  length: 5.0
+  port_list: None

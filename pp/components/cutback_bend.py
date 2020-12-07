@@ -16,11 +16,13 @@ def _get_bend_size(bend90):
 def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
     """ Deprecated! use cutback_bend90 instead!
     this is a stair
-        _
-      _|
-    _|
 
-    _: this is a step
+    .. code::
+            _
+          _|
+        _|
+
+        _ this is a step
 
     """
 
@@ -56,8 +58,11 @@ def cutback_bend90(
     waveguide_factory=waveguide,
 ):
     """
-       _
-    |_| |
+
+    .. code::
+
+           _
+        |_| |
 
     """
     bend90 = pp.call_if_func(bend90)
@@ -129,13 +134,13 @@ def cutback_bend180(
     waveguide_factory=waveguide,
 ):
     """
-      _
-    _| |_|
 
-    this is a stair
+    .. code::
 
-    _: this is a step
+          _
+        _| |_| this is a stair
 
+        _ this is a step
 
     """
     bend180 = pp.call_if_func(bend180)

@@ -11,6 +11,7 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import route_factory
 from pp.routing import link_factory
+from pp.add_pins import _add_instance_label
 
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -134,6 +135,7 @@ def place(
             ref.rotate(rotation, center=ref.ports[port])
         else:
             ref.rotate(rotation, center=(ref.x, ref.y))
+
     placements_conf.pop(instance_name)
 
 
@@ -142,6 +144,7 @@ def component_from_yaml(
     component_factory=None,
     route_factory=route_factory,
     link_factory=link_factory,
+    label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
     """Returns a Component defined from YAML
@@ -244,6 +247,11 @@ def component_from_yaml(
             placements_conf=placements_conf,
             instances=instances,
             encountered_insts=list(),
+        )
+
+    for instance_name in conf.instances:
+        label_instance_function(
+            component=c, instance_name=instance_name, reference=instances[instance_name]
         )
 
     if connections_conf:
@@ -585,7 +593,7 @@ instances:
     mmi_top:
       component: mmi2x2
       settings:
-            length_mmi: 5
+            length_mmi: 10
 
 placements:
     mmi_top:
@@ -603,13 +611,14 @@ routes:
 
 
 def test_connections_2x2():
-    c = component_from_yaml(sample_2x2_connections, pins=True, cache=False)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
+    c = component_from_yaml(sample_2x2_connections)
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
     assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 0
     length = c.routes["mmi_bottom,E1:mmi_top,W1"].parent.length
-    assert np.isclose(length, 166.41592653589794)
+    print(length)
+    assert np.isclose(length, 163.91592653589794)
     return c
 
 
@@ -657,7 +666,7 @@ routes:
 
 
 def test_connections_different_factory():
-    c = component_from_yaml(sample_different_factory, pins=True, cache=False)
+    c = component_from_yaml(sample_different_factory)
     # print(c.routes["bl,S:br,E"].parent.length)
     assert np.isclose(c.routes["tl,E:tr,W"].parent.length, 700.0)
     assert np.isclose(c.routes["bl,E:br,W"].parent.length, 850.0)
@@ -706,7 +715,7 @@ routes:
 
 
 def test_connections_different_link_factory():
-    c = component_from_yaml(sample_different_link_factory, pins=True, cache=False)
+    c = component_from_yaml(sample_different_link_factory)
     # print(c.routes['tl,E:tr,W'].parent.length)
     # print(c.routes['bl,E:br,W'].parent.length)
 
@@ -851,7 +860,7 @@ def test_connections_regex_backwargs():
 
 
 def test_connections_waypoints():
-    c = component_from_yaml(sample_waypoints, pins=True, cache=False)
+    c = component_from_yaml(sample_waypoints)
     # print(c.routes['t,S5:b,N4'].parent.length)
 
     length = 1241.415926535898
@@ -876,16 +885,16 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_regex_connections_backwards)
     # c = test_docstring_sample()
 
-    # c = test_connections_2x2()
+    c = test_connections_2x2()
     # test_sample()
-    c = test_connections_different_factory()
+    # c = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
 
     # c = component_from_yaml(sample_different_link_factory)
 
-    # c = component_from_yaml(sample_waypoints, pins=True, cache=False)
+    # c = component_from_yaml(sample_waypoints)
     pp.show(c)
 
     # c = component_from_yaml(sample_connections)

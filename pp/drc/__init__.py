@@ -14,7 +14,7 @@ def on_grid(x: float64, nm: int = 1) -> bool_:
 
 
 def on_1nm_grid(x):
-    return np.isclose(snap_to_1nm_grid(x), x)
+    return snap_to_1nm_grid(x) == x
 
 
 def on_2nm_grid(x):
@@ -30,7 +30,12 @@ def assert_on_2nm_grid(x: float) -> None:
 
 
 def snap_to_grid(x: Union[float64, float], nm: int = 1) -> float64:
-    return nm * np.round(np.array(x) * 1e3 / nm) / 1e3
+    y = nm * np.round(np.array(x) * 1e3 / nm) / 1e3
+    if type(x) is tuple:
+        return tuple(y)
+    elif type(x) in [int, float, str, float64]:
+        return float(y)
+    return y
 
 
 def snap_to_1nm_grid(x: float) -> float64:
@@ -55,7 +60,7 @@ def test_snap_to_2nm_grid():
 
 
 def test_on_1nm_grid():
-    assert not on_1nm_grid(1.1e-3)
+    assert not on_1nm_grid(0.1e-3)
     assert on_1nm_grid(1e-3)
 
 
@@ -84,6 +89,7 @@ __all__ = [
 
 
 if __name__ == "__main__":
+    test_on_1nm_grid()
     # print(snap_to_1nm_grid(1.1e-3))
     # print(snap_to_2nm_grid(1.1e-3))
     # print(snap_to_2nm_grid(3.1e-3))
@@ -91,6 +97,6 @@ if __name__ == "__main__":
     # print(on_1nm_grid(1.1e-3))
     # print(on_1nm_grid(1e-3))
 
-    print(on_2nm_grid(1.1e-3))
-    print(on_2nm_grid(1e-3))
-    print(on_2nm_grid(2e-3))
+    # print(on_2nm_grid(1.1e-3))
+    # print(on_2nm_grid(1e-3))
+    # print(on_2nm_grid(2e-3))

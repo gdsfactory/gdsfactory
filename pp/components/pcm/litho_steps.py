@@ -1,17 +1,17 @@
+from typing import List, Tuple
 from pp.cell import cell
 from pp import components as pc
 
 import pp
 from pp.component import Component
-from typing import List
 
 
 @cell
 def litho_steps(
-    line_widths: List[int] = [1, 2, 4, 8, 16],
-    line_spacing: int = 10,
-    height: int = 100,
-    layer: int = 0,
+    line_widths: List[float] = [1.0, 2.0, 4.0, 8.0, 16.0],
+    line_spacing: float = 10,
+    height: float = 100,
+    layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
     """ Produces a positive + negative tone linewidth test, used for
     lithography resolution test patterning

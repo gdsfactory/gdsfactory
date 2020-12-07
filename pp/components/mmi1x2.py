@@ -1,10 +1,10 @@
-from typing import Any, List, Tuple, Callable
+from typing import List, Tuple, Callable, Optional
 import pp
 from pp.component import Component
-from pp.components.taper import taper
+from pp.components.taper import taper as taper_function
 
 
-@pp.cell(pins=True)
+@pp.cell
 def mmi1x2(
     wg_width: float = 0.5,
     width_taper: float = 1.0,
@@ -13,11 +13,11 @@ def mmi1x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Any] = [],
+    layers_cladding: Optional[List[Tuple]] = [pp.LAYER.WGCLAD],
     cladding_offset: float = 3.0,
-    taper_factory: Callable = taper,
+    taper_factory: Callable = taper_function,
 ) -> Component:
-    """Mmi 1x2.
+    r"""Mmi 1x2.
 
     Args:
         wg_width: input waveguides width
@@ -36,9 +36,27 @@ def mmi1x2(
       c = pp.c.mmi1x2(width_mmi=2, length_mmi=2.8)
       pp.plotgds(c)
 
+
+    .. code::
+
+               length_mmi
+                <------>
+                ________
+               |        |
+               |         \__
+               |          __
+            __/          /
+            __          |
+              \          \__
+               |          __
+               |         /
+               |________|
+
+             <->
+        length_taper
+
     """
     c = pp.Component()
-    c.wg_width = wg_width
     w_mmi = width_mmi
     w_taper = width_taper
 
@@ -49,45 +67,36 @@ def mmi1x2(
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
-        pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << pp.c.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
-        ports_parameters={
-            "E": [(w_mmi / 2 - a, w_taper), (w_mmi / 2 + a, w_taper)],
-            "W": [(w_mmi / 2, w_taper)],
+        centered=True,
+        ports={
+            "E": [(+length_mmi / 2, -a, w_taper), (+length_mmi / 2, +a, w_taper)],
+            "W": [(-length_mmi / 2, 0, w_taper)],
         },
-        pins=False,
     )
-    mmi.y = 0
 
-    for layer_cladding in layers_cladding:
-        clad = c << pp.c.rectangle(
-            size=(length_mmi, w_mmi + 2 * cladding_offset), layer=layer_cladding
-        )
-        clad.y = 0
-        c.absorb(clad)
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            clad = c << pp.c.rectangle(
+                size=(length_mmi, w_mmi + 2 * cladding_offset),
+                layer=layer_cladding,
+                centered=True,
+            )
+            c.absorb(clad)
 
-    # For each port on the MMI rectangle
     for port_name, port in mmi.ports.items():
-
-        # Create a taper
-        taper_ref = c.add_ref(taper)
-
-        # Connect the taper to the mmi section
+        taper_ref = c << taper
         taper_ref.connect(port="2", destination=mmi.ports[port_name])
-
-        # Add the taper port
         c.add_port(name=port_name, port=taper_ref.ports["1"])
         c.absorb(taper_ref)
 
-    c.move(origin=c.ports["W0"].position, destination=(0, 0))
     c.simulation_settings = dict(port_width=1.5e-6)
     c.absorb(mmi)
-
     return c
 
 
@@ -114,11 +123,11 @@ def mmi1x2_biased(
 
 if __name__ == "__main__":
     c = mmi1x2()
-    print(c.ports)
+    # print(c.ports)
     # print(c.get_ports_array())
     # c = mmi1x2_biased()
     # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
-    pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
+    # pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
     pp.show(c)
     # print(c.get_settings())

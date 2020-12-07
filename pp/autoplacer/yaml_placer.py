@@ -1,7 +1,7 @@
-"""
-you can define both DOEs and placer information in a YAML file
-all the placer information need to be nested inside a placer section
+""" You can define both DOEs and placer information in a YAML file
+All the placer information need to be nested inside a placer section
 
+```yaml
 iso_lines_coarse1:
   component: ISO_COARS_OPT1
   settings:
@@ -15,6 +15,7 @@ iso_lines_coarse1:
     align_x: W
     align_y: S
     next_to: iso_lines_coarse1
+```
 
 """
 
@@ -157,20 +158,18 @@ def pack_row(
     period_y=None,
     rotation=0,
 ):
-    """
+    """Pack row.
     Args:
         cells: a list of cells  (size n)
         row_ids: a list of row ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
 
-
         period_x, period_y: not used by default,
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
 
-
-    returns a list of cell references
+    Returns:list of cell references
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
@@ -278,13 +277,15 @@ def pack_col(
     period_y=None,
 ):
     """
+
     Args:
         cells: a list of cells  (size n)
         col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
 
-    returns a list of cell references
+    Returns:
+        list of cell references
     """
     widths = [SizeInfo(c, um_to_grid=um_to_grid).width for c in cells]
     margin_y = margin_y if margin_y is not None else margin
@@ -517,6 +518,11 @@ def place_from_yaml(
     root_does=CONFIG["cache_doe_directory"],
     precision=1e-9,
     fontpath=text.FONT_PATH,
+    default_align_x="W",
+    default_align_y="S",
+    default_margin=10,
+    default_x0="E",
+    default_y0="S",
 ):
     """Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
@@ -571,12 +577,10 @@ def place_from_yaml(
         # Get all the components
         components = load_doe(doe_name, root_does)
 
-        """
         # Check that the high level components are all unique
         # For now this is mostly to circumvent a bug
         # But the design manual also specifies that DOE components should have
         # unique names. So one instance per cell
-        """
 
         if components:
             if len(components) != len(set([_c.top_cell().name for _c in components])):
@@ -598,13 +602,12 @@ def place_from_yaml(
                 import_cell(top_level_layout, _c.top_cell()) for _c in components
             ]
 
-        # Find placer information
         default_placer_settings = {
-            "align_x": "W",
-            "align_y": "S",
-            "margin": 10,
-            "x0": "E",
-            "y0": "S",
+            "align_x": default_align_x,
+            "align_y": default_align_y,
+            "margin": default_margin,
+            "x0": default_x0,
+            "y0": default_y0,
         }
         settings = default_placer_settings.copy()
         placer = doe.get("placer")
@@ -640,7 +643,7 @@ def place_from_yaml(
             # If no parent specified, insert the DOE at top level
             doe_parent_cell = top_level
 
-        ## Check if we should create a DOE cell which regroups the DOEs
+        # Check if we should create a DOE cell which regroups the DOEs
         if "with_doe_cell" in settings:
             with_doe_cell = settings.pop("with_doe_cell")
         else:
@@ -681,8 +684,8 @@ def place_from_yaml(
         if "next_to" in settings:
             placed_doe = placed_does[settings.pop("next_to")]
 
-        print(placed_doe)
-        print(placed_does)
+        # print(placed_doe)
+        # print(placed_does)
 
         # Otherwise, use previously placed DOE as starting point
         doe_si = (

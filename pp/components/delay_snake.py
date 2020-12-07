@@ -1,37 +1,37 @@
+from typing import Callable
 from numpy import pi
 import pp
-from pp.components import taper
+from pp.components import taper as taper_function
 from pp.components import bend_circular
-from pp.components import waveguide
+from pp.components import waveguide as waveguide_function
 from pp.routing.manhattan import round_corners
 from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
 from pp.component import Component
-from typing import Callable
 
 
 @pp.cell
 def delay_snake(
+    wg_width: float = 0.5,
     total_length: float = 160000.0,
     L0: float = 2350.0,
     n: int = 5,
-    taper: Callable = taper,
+    taper: Callable = taper_function,
     bend_factory: Callable = bend_circular,
     bend_radius: float = 10.0,
-    straight_factory: Callable = waveguide,
-    wg_width: float = 0.5,
+    straight_factory: Callable = waveguide_function,
 ) -> Component:
     """ Snake input facing west
     Snake output facing east
 
     Args:
+        wg_width
         total_length:
-        L0:
+        L0: initial offset
         n: number of loops
-        taper:
+        taper: taper factory
         bend_factory
         bend_radius
         straight_factory
-        wg_width
 
     .. code::
 
@@ -76,12 +76,7 @@ def delay_snake(
 
     component = pp.Component()
     if taper:
-        if callable(taper):
-            _taper = taper(
-                width1=wg_width, width2=WG_EXPANDED_WIDTH, length=TAPER_LENGTH
-            )
-        else:
-            _taper = taper
+        _taper = taper(width1=wg_width, width2=WG_EXPANDED_WIDTH, length=TAPER_LENGTH)
     snake = round_corners(path, bend90, straight_factory, taper=_taper)
     component.add(snake)
     component.ports = snake.ports

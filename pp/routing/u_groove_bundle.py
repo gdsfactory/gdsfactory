@@ -220,7 +220,7 @@ def u_bundle_indirect(
     start_straight_offset=0.0,
     **routing_params
 ):
-    """
+    r"""
     Args:
         start_ports: list of start ports
         end_ports: list of end ports

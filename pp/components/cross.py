@@ -67,6 +67,8 @@ def cross(
         orientation=270,
         midpoint=(0, -length / 2),
     )
+    c.absorb(r1)
+    c.absorb(r2)
     return c
 
 

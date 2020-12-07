@@ -1,12 +1,7 @@
 function_name: waveguide_pin
-length: 10.0
 module: pp.components.waveguide_pin
 name: waveguide_pin
 settings:
-  cladding_offset: 0.0
-  layer:
-  - 1
-  - 0
   layer_n:
   - 20
   - 0
@@ -25,9 +20,6 @@ settings:
   layer_ppp:
   - 25
   - 0
-  layers_cladding:
-  - - 111
-    - 0
   length: 10.0
   width: 0.5
   width_i: 0.0
@@ -37,4 +29,3 @@ settings:
   width_p: 1.0
   width_pp: 1.0
   width_ppp: 1.0
-width: 0.5

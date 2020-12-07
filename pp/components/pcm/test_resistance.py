@@ -1,4 +1,4 @@
-from typing import Tuple, Optional
+from typing import Tuple
 import numpy as np
 
 from phidl.geometry import offset
@@ -13,9 +13,9 @@ def test_resistance(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
-    res_layer: Optional[Tuple[int, int]] = 0,
-    pad_layer: Optional[Tuple[int, int]] = None,
-    gnd_layer: Optional[Tuple[int, int]] = None,
+    res_layer: Tuple[int, int] = pp.LAYER.M3,
+    pad_layer: Tuple[int, int] = pp.LAYER.M3,
+    gnd_layer: Tuple[int, int] = pp.LAYER.M3,
 ) -> Component:
 
     """ meander to test resistance
@@ -106,7 +106,6 @@ def test_resistance(
     P.add_ref(N).y = pad1.y
     gnd2.center = pad2.center
     gnd2.movex(2.5)
-
     return P
 
 

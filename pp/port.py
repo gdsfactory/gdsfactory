@@ -14,7 +14,7 @@ For port naming we follow the IPKISS standard
 """
 
 from typing import Callable
-from typing import Any, List, Optional, Tuple, Dict, Union
+from typing import List, Optional, Tuple, Dict, Union
 import functools
 from copy import deepcopy
 import csv
@@ -24,11 +24,13 @@ from phidl.device_layout import Port as PortPhidl
 from phidl.device_layout import Device
 from pp.drc import snap_to_grid
 
+
 port_types = ["optical", "rf", "dc", "heater"]
 
 
 class Port(PortPhidl):
-    """Extends phidl port with layer and port_type (optical, dc, rf)
+    """Ports are useful to connect Components with each other.
+    Extends phidl port with layer and port_type (optical, dc, rf)
 
     Args:
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
@@ -78,7 +80,7 @@ class Port(PortPhidl):
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
-        self._next_uid += 1
+        Port._next_uid += 1
 
     def __repr__(self) -> str:
         return (
@@ -252,7 +254,7 @@ def move_copy(port, x=0, y=0):
     return _port
 
 
-def get_ports_facing(ports, direction="W"):
+def get_ports_facing(ports: List[Port], direction: str = "W"):
     from pp.component import Component, ComponentReference
 
     if isinstance(ports, dict):
@@ -318,8 +320,8 @@ def _rename_ports_facing_side(
 
 
 def rename_ports_by_orientation(
-    component: object, layers_excluded: List[Any] = []
-) -> object:
+    component: Device, layers_excluded: List[Tuple[int, int]] = []
+) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::
@@ -358,7 +360,7 @@ def rename_ports_by_orientation(
     return component
 
 
-def auto_rename_ports(component: object) -> object:
+def auto_rename_ports(component: Device) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::

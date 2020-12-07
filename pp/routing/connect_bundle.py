@@ -331,7 +331,7 @@ def link_ports_routes(
     has_close_x_ports = False
     close_ports_thresh = 2 * bend_radius + 1.0
 
-    ## First pass - loop on all the ports to find the tentative end_straights
+    # First pass - loop on all the ports to find the tentative end_straights
 
     _w = get_port_width
 
@@ -349,10 +349,7 @@ def link_ports_routes(
         if dx < close_ports_thresh:
             has_close_x_ports = True
 
-        """
-        Compute the metal separation to use. This depends on the adjacent
-        metal track widths
-        """
+        # Compute the metal separation to use. This depends on the adjacent metal track widths
         if i != len(ports1) - 1 and i != 0:
             # Deal with any track which is not on the edge
             max_width = max(_w(ports1[i + 1]), _w(ports1[i - 1]))
@@ -367,10 +364,7 @@ def link_ports_routes(
             curr_sep = separation + 0.5 * (_w(ports1[-2]) + _w(ports1[-1]))
 
         if are_decoupled(x2, x2_prev, x1, x1_prev, sep=curr_sep):
-            """
-            If this metal track does not impact the previous one, then
-            start a new group.
-            """
+            # If this metal track does not impact the previous one, then start a new group.
             L = min(end_straights_in_group)
             end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
 
@@ -404,7 +398,7 @@ def link_ports_routes(
         else:
             return max(end_straights) + 4 * bend_radius
 
-    ## Second pass - route the ports pairwise
+    # Second pass - route the ports pairwise
     N = len(ports1)
     for i in range(N):
         if axis in ["X", "x"]:

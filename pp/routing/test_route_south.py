@@ -2,18 +2,19 @@ import pp
 import numpy as np
 
 
+@pp.cell
 def test_route_south():
-    c = pp.c.mmi2x2()
-    routes, ports = pp.routing.route_south(c)
-    lengths = [
-        17.257963267948966,
-        22.407963267948965,
-        17.257963267948966,
-        22.40796326794897,
-    ]
+    c = pp.Component()
+    cr = c << pp.c.mmi2x2()
+    routes, ports = pp.routing.route_south(cr)
+
+    l1 = 17.207963267948966
+    l2 = 22.35796326794896
+    lengths = [l1, l2, l1, l2]
+    for r, length in zip(routes, lengths):
+        print(r.parent.length)
 
     for r, length in zip(routes, lengths):
-        # print(r.parent.length)
         assert np.isclose(r.parent.length, length)
     c.add(routes)
     return c

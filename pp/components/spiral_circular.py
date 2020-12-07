@@ -168,7 +168,7 @@ def spiral_circular(
 
 
 if __name__ == "__main__":
-    c = spiral_circular(length=1e3, pins=True)
+    c = spiral_circular(length=1e3)
     print(c.ports)
     print(c.ports.keys())
     print(c.get_ports_array())

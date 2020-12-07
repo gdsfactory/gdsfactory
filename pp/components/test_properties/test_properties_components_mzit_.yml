@@ -10,6 +10,7 @@ settings:
   coupler_length2: 10.0
   delta_length: 10.0
   dy: 2.0
+  pins: true
   taper_length: 5.0
   w0: 0.5
   w1: 0.45

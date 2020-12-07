@@ -40,12 +40,12 @@ def coupler_ring(
 
     # define subcells
     coupler90 = (
-        coupler90(gap=gap, width=wg_width, bend_radius=bend_radius, pins=False)
+        coupler90(gap=gap, width=wg_width, bend_radius=bend_radius)
         if callable(coupler90)
         else coupler90
     )
     coupler_straight = (
-        coupler(gap=gap, length=length_x, width=wg_width, pins=False)
+        coupler(gap=gap, length=length_x, width=wg_width)
         if callable(coupler)
         else coupler
     )
@@ -60,6 +60,10 @@ def coupler_ring(
     cbl.reflect(p1=(0, coupler90.y), p2=(1, coupler90.y))
     cbl.connect(port="W0", destination=cs.ports["W0"])
 
+    c.absorb(cbl)
+    c.absorb(cbr)
+    c.absorb(cs)
+
     c.add_port("W0", port=cbl.ports["E0"])
     c.add_port("N0", port=cbl.ports["N0"])
     c.add_port("E0", port=cbr.ports["E0"])
@@ -68,8 +72,8 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-    # c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
-    c = coupler_ring(length_x=20, bend_radius=5.0, gap=0.3, wg_width=0.45)
+    c = coupler_ring(bend_radius=5.0, gap=0.3, wg_width=0.45)
+    # c = coupler_ring(length_x=20, bend_radius=5.0, gap=0.3, wg_width=0.45)
     # print(c.get_settings())
     print(c.name)
     pp.show(c)

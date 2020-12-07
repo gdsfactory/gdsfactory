@@ -1,6 +1,6 @@
 from typing import Callable
 from pp.components.coupler_ring import coupler_ring
-from pp.components.waveguide import waveguide
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.drc import assert_on_2nm_grid
 from pp.component import Component
 from pp.config import call_if_func
@@ -11,11 +11,12 @@ from pp.cell import cell
 def ring_double(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 4.0,
+    length_x: float = 3.0,
     bend_radius: float = 5.0,
     length_y: float = 2.0,
     coupler: Callable = coupler_ring,
-    waveguide: Callable = waveguide,
+    waveguide: Callable = waveguide_function,
+    pins: bool = False,
 ) -> Component:
     """ double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -54,15 +55,18 @@ def ring_double(
     wl.connect(port="E0", destination=cb.ports["N0"])
     ct.connect(port="N1", destination=wl.ports["W0"])
     wr.connect(port="W0", destination=ct.ports["N0"])
+    cb.connect(port="N1", destination=wr.ports["E0"])
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
     c.add_port("E1", port=ct.ports["W0"])
     c.add_port("W1", port=ct.ports["E0"])
+    if pins:
+        pp.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
     import pp
 
-    c = ring_double(pins=True)
+    c = ring_double()
     pp.show(c)

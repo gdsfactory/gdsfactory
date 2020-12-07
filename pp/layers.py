@@ -83,19 +83,22 @@ class LayerMap:
     PORTE = (69, 0)
     PORTH = (70, 0)
     LABEL = (201, 0)
-    INFO_GEO_HASH = (202, 0)
+    LABEL_SETTINGS = (202, 0)
     TE = (203, 0)
     TM = (204, 0)
+    DRC_MARKER = (205, 0)
+    LABEL_INSTANCE = (206, 0)
 
 
 LAYER = LayerMap()
 
 ls = LayerSet()  # Layerset makes plotgds look good
-ls.add_layer("WG", 1, 0, "wg", color="gray", alpha=1)
-ls.add_layer("WGCLAD", 111, 0, "", color="gray", alpha=0)
-ls.add_layer("SLAB150", 2, 0, "", color="lightblue", alpha=0.6)
-ls.add_layer("SLAB90", 3, 0, "", color="lightblue", alpha=0.2)
-ls.add_layer("WGN", 34, 0, "", color="orange", alpha=1)
+ls.add_layer("WG", LAYER.WG[0], LAYER.WG[1], "wg", color="gray", alpha=1)
+ls.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
+ls.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
+ls.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
+ls.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
+ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
 
 
 layer2nm = {LAYER.WG: 220}

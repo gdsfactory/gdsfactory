@@ -8,8 +8,9 @@
 `conf` has all the useful info
 """
 
-__version__ = "2.2.0"
+__version__ = "2.2.1"
 from typing import Any, Dict
+import tempfile
 import os
 import io
 import json
@@ -30,15 +31,33 @@ cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()
 repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
-home_path.mkdir(exist_ok=True)
 
 cwd_config = cwd / "config.yml"
 module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
 
+dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
+dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
+MAX_NAME_LENGTH = 32
 
-def add_to_global_netlist(port1, port2):
-    """Add port1 to port2 connection to the connections global netlist dict."""
+
+def clear_connections(connections=connections):
+    """Clears the connections that have been stored in connections dict."""
+    connections = {}
+    return connections
+
+
+def add_to_global_netlist(port1, port2) -> Dict[str, str]:
+    """Add port1 to port2 connection to the connections global netlist dict.
+
+    Args:
+        port1: src port
+        port1: dst port
+
+    Returns:
+        Dict: src_name
+
+    """
     global connections
 
     src = port1.parent if port1.parent else port1
@@ -47,9 +66,15 @@ def add_to_global_netlist(port1, port2):
     src_name = src.name if hasattr(src, "name") else src.parent.name
     dst_name = dst.name if hasattr(dst, "name") else dst.parent.name
 
+    src_uid = src.parent.uid if hasattr(src, "parent") else -1
+    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
+
+    src_uid = src.parent.uid if hasattr(src, "parent") else -1
+    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
+
     connections[
-        f"{src_name}_{int(src.x)}_{int(src.y)},{port1.name}"
-    ] = f"{dst_name}_{int(dst.x)}_{int(dst.y)},{port2.name}"
+        f"{src_name},{src_uid},{int(src.x)},{int(src.y)},{port1.name},{port1.uid}"
+    ] = f"{dst_name},{dst_uid},{int(dst.x)},{int(dst.y)},{port2.name},{port2.uid}"
 
 
 conf = OmegaConf.load(
@@ -58,8 +83,6 @@ conf = OmegaConf.load(
 tech:
     name: generic
     cache_url:
-    with_settings_label: False
-    add_pins: True
     wg_expanded_width: 2.5
     taper_length: 35.0
     grid_unit: 1e-6
@@ -108,14 +131,15 @@ if "mask" in conf:
     CONFIG["devices_directory"] = mask_config_directory / "devices"
     CONFIG["mask_gds"] = mask_config_directory / "build" / "mask" / f"{mask_name}.gds"
 else:
-    build_directory = home_path / "build"
-    mask_config_directory = home_path / "build"
+    dirpath_build.mkdir(exist_ok=True)
+    build_directory = dirpath_build
+    mask_config_directory = dirpath_build
 
 CONFIG["custom_components"] = conf.custom_components
 CONFIG["gdslib"] = conf.gdslib or repo_path / "gdslib"
 CONFIG["sp"] = CONFIG["gdslib"] / "sp"
 CONFIG["gds"] = CONFIG["gdslib"] / "gds"
-CONFIG["gdslib_test"] = home_path / "gdslib_test"
+CONFIG["gdslib_test"] = dirpath_test
 
 CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
@@ -124,7 +148,6 @@ CONFIG["doe_directory"] = build_directory / "doe"
 CONFIG["mask_directory"] = build_directory / "mask"
 CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
 CONFIG["mask_config_directory"] = mask_config_directory
-CONFIG["gdspath"] = build_directory / "gds.gds"
 CONFIG["samples_path"] = module_path / "samples"
 CONFIG["netlists"] = module_path / "samples" / "netlists"
 CONFIG["components_path"] = module_path / "components"

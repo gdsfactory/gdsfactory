@@ -4,7 +4,7 @@ from pp.config import TAPER_LENGTH
 from pp.component import Component
 
 
-@pp.cell(pins=True)
+@pp.cell
 def taper(
     length: float = TAPER_LENGTH,
     width1: float = 0.5,

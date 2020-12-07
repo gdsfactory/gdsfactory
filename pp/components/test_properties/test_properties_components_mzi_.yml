@@ -7,6 +7,9 @@ settings:
   L2: 20.1
   bend_radius: 10.0
   combiner: None
+  combiner_settings: None
+  coupler_settings: None
+  pins: false
   waveguide_horizontal: None
   waveguide_vertical: None
   with_coupler: true

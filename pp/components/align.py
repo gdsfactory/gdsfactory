@@ -1,5 +1,5 @@
 import pp
-from pp.components.rectangle import rectangle_centered
+from pp.components.rectangle import rectangle
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.add_padding import add_padding_to_grid
 
@@ -31,20 +31,20 @@ def align_wafer(
     b = cross_length / 2 + spacing + width / 2
     w = width
 
-    rh = rectangle_centered(w=2 * b + w, h=w, layer=layer)
+    rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
     rtop.movey(+b)
     rbot.movey(-b)
 
-    rv = rectangle_centered(w=w, h=2 * b, layer=layer)
+    rv = rectangle(w=w, h=2 * b, layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
     rl.movex(-b)
     rr.movex(+b)
 
     wsq = (cross_length + 2 * spacing) / 4
-    square_mark = c << rectangle_centered(w=wsq, h=wsq, layer=layer)
+    square_mark = c << rectangle(size=(wsq, wsq), layer=layer, centered=True)
     a = width / 2 + wsq / 2 + spacing
 
     corner_to_position = {
@@ -57,8 +57,10 @@ def align_wafer(
     square_mark.move(corner_to_position[square_corner])
 
     if with_tile_excl:
-        rc_tile_excl = rectangle_centered(
-            w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.LAYER.NO_TILE_SI
+        rc_tile_excl = rectangle(
+            size=(2 * (b + spacing), 2 * (b + spacing)),
+            layer=pp.LAYER.NO_TILE_SI,
+            centered=True,
         )
         c.add_ref(rc_tile_excl)
 
@@ -75,21 +77,23 @@ def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
     b = component.size_info.height / 2 + spacing + width / 2
     w = width
 
-    rh = rectangle_centered(w=2 * b + w, h=w, layer=layer)
+    rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
     rtop.movey(+b)
     rbot.movey(-b)
 
-    rv = rectangle_centered(w=w, h=2 * b, layer=layer)
+    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
     rl.movex(-b)
     rr.movex(+b)
     c.absorb(cref)
 
-    rc = rectangle_centered(
-        w=2 * (b + spacing), h=2 * (b + spacing), layer=pp.LAYER.NO_TILE_SI
+    rc = rectangle(
+        size=(2 * (b + spacing), 2 * (b + spacing)),
+        layer=pp.LAYER.NO_TILE_SI,
+        centered=True,
     )
     c.add_ref(rc)
     return c

@@ -1,0 +1,22 @@
+function_name: add_fiber_array
+name: mzi2x2_WECTrue_te
+settings:
+  component:
+    function_name: mzi2x2
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60.0
+      L2: 10.0
+      bend_radius: 10.0
+      gap: 0.234
+      with_elec_connections: true
+  component_name: None
+  gc_port_name: W0
+  get_input_labels_function: get_input_labels
+  get_route_factory: route_fiber_array
+  grating_coupler: grating_coupler_te
+  taper_factory: taper
+  taper_length: 10.0

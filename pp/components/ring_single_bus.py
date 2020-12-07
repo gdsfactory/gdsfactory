@@ -133,15 +133,9 @@ def ring_single_bus(
     coupler90 = pp.call_if_func(
         coupler90_factory, gap=gap, width=wg_width, bend_radius=bend_radius
     )
-    waveguide_x = pp.call_if_func(
-        straight_factory, length=length_x, width=wg_width, pins=False
-    )
-    waveguide_y = pp.call_if_func(
-        straight_factory, length=length_y, width=wg_width, pins=False
-    )
-    bend = pp.call_if_func(
-        bend90_factory, width=wg_width, radius=bend_radius, pins=False
-    )
+    waveguide_x = pp.call_if_func(straight_factory, length=length_x, width=wg_width)
+    waveguide_y = pp.call_if_func(straight_factory, length=length_y, width=wg_width)
+    bend = pp.call_if_func(bend90_factory, width=wg_width, radius=bend_radius)
     coupler_straight = pp.call_if_func(
         cpl_straight_factory, gap=gap, length=length_x, width=wg_width
     )
@@ -193,7 +187,9 @@ def _compare_rings():
 if __name__ == "__main__":
     # c = ring_single_bus(bend_radius=5.0, length_x=0.2, length_y=0.13, gap=0.15, wg_width=0.45)
     c = ring_single_bus(bend_radius=5.0, gap=0.3, wg_width=0.45)
+    c = ring_single_bus(gap=0.3, wg_width=0.45)
     print(c.get_settings())
+    print(c.name)
     pp.show(c)
     # c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2, wg_width=0.4)
     # _compare_rings()

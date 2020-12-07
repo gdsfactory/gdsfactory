@@ -81,6 +81,6 @@ def grating_coupler_elliptical2(
 if __name__ == "__main__":
     import pp
 
-    c = grating_coupler_elliptical2(pins=True)
+    c = grating_coupler_elliptical2()
     print(c.ports)
     pp.show(c)

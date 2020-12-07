@@ -87,7 +87,6 @@ def waveguide_heater(
     width: float = 0.5,
     heater_width: float = 0.5,
     heater_spacing: float = 1.2,
-    metal_connection: bool = True,
     sstw: float = 2.0,
     trench_width: float = 0.5,
     trench_keep_out: float = 2.0,
@@ -298,7 +297,7 @@ def _demo_waveguide_heater():
 if __name__ == "__main__":
     # print(c.get_optical_ports())
 
-    c = waveguide_heater(pins=True)
+    c = waveguide_heater()
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
     # c = wg_heater_connected(length=100.0, width=0.5)
     print(c.ports.keys())

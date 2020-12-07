@@ -1,30 +1,29 @@
-from typing import Callable
+from typing import Callable, Dict, Optional
 from inspect import signature
 import uuid
 import hashlib
 from functools import wraps, partial
-from pp.add_pins import add_pins_and_outline
 from pp.name import get_component_name
+from pp.component import Component
+from pp.config import MAX_NAME_LENGTH
 
 
-NAME_TO_DEVICE = {}
-MAX_NAME_LENGTH = 32
+CACHE: Dict[str, Component] = {}
 
 
-def clear_cache(components_cache=NAME_TO_DEVICE):
-    components_cache = {}
-    return components_cache
+def clear_cache():
+    """Clears the cache of components."""
+    global CACHE
+    CACHE = {}
 
 
 def cell(
-    func=None,
+    func: Callable = None,
     *,
-    autoname=True,
-    name=None,
-    uid=False,
-    cache=True,
-    pins=False,
-    pins_function=add_pins_and_outline,
+    autoname: bool = True,
+    name: Optional[str] = None,
+    uid: bool = False,
+    cache: bool = True,
 ) -> Callable:
     """Cell Decorator:
 
@@ -33,8 +32,6 @@ def cell(
         name (str): Optional (ignored when autoname=True)
         uid (bool): adds a unique id to the name
         cache (bool): To avoid that 2 exact cells are not references of the same cell cell has a cache where if component has already been build it will return the component from the cache. You can always over-ride this with `cache = False`.
-        pins (bool): add pins
-        pins_function (function): function to add pins
 
     .. plot::
       :include-source:
@@ -50,33 +47,22 @@ def cell(
           return c
 
       c = rectangle(layer=1)
-      c << pp.c.text(text=c.name, size=1)
       pp.plotgds(c)
 
     """
 
     if func is None:
-        return partial(
-            cell,
-            autoname=autoname,
-            name=name,
-            uid=uid,
-            cache=cache,
-            pins=pins,
-            pins_function=pins_function,
-        )
+        return partial(cell, autoname=autoname, name=name, uid=uid, cache=cache,)
 
     @wraps(func)
     def _cell(
-        autoname=autoname,
-        name=name,
-        pins=pins,
-        uid=uid,
-        cache=cache,
-        pins_function=pins_function,
+        autoname: bool = autoname,
+        name: Optional[str] = name,
+        uid: bool = uid,
+        cache: bool = cache,
         *args,
         **kwargs,
-    ):
+    ) -> Component:
         args_repr = [repr(a) for a in args]
         kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
         arguments = ", ".join(args_repr + kwargs_repr)
@@ -104,10 +90,16 @@ def cell(
                         f"valid keyword arguments are {list(sig.parameters.keys())}"
                     )
 
-        if cache and autoname and name in NAME_TO_DEVICE:
-            return NAME_TO_DEVICE[name]
+        if cache and autoname and name in CACHE:
+            return CACHE[name]
         else:
+            assert callable(
+                func
+            ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
             component = func(**kwargs)
+            assert isinstance(
+                component, Component
+            ), f"`{func.__name__}` function needs to return a Component, it returned `{component}` "
             component.module = func.__module__
             component.function_name = func.__name__
 
@@ -128,10 +120,8 @@ def cell(
             )
             component.settings.update(**kwargs)
             component.settings_changed = kwargs.copy()
-            if pins:
-                pins_function(component)
 
-            NAME_TO_DEVICE[name] = component
+            CACHE[name] = component
             return component
 
     return _cell
@@ -185,44 +175,39 @@ def test_autoname_false():
     assert wg2(length=3).name == "waveguide"
 
 
-class _Dummy:
-    pass
-
-
 @cell
 def _dummy(length=3, wg_width=0.5):
-    c = _Dummy()
-    c.name = ""
-    c.settings = {}
+    c = Component()
     return c
 
 
-def test_cell():
+def test_autoname():
     name_base = _dummy().name
     assert name_base == "_dummy"
+
     name_int = _dummy(length=3).name
     assert name_int == "_dummy_L3"
+
     name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW500m"
+    assert name_float == "_dummy_WW500n"
+
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
     assert name_length_first == name_width_first
 
     name_float = _dummy(wg_width=0.5).name
-    # assert name_float == "_dummy_WW0p5"
-    print(name_float)
+    assert name_float == "_dummy_WW500n"
 
 
 if __name__ == "__main__":
-    import pp
-
     # test_autoname_true()
     # test_autoname_false()
+    test_autoname()
 
     # c = wg(length=3)
-    # c = wg(length=3, pins=False, autoname=False)
+    # c = wg(length=3, autoname=False)
 
     # c = pp.c.waveguide()
-    c = wg3(pins=True)
-    print(c)
-    pp.show(c)
+    # c = wg3()
+    # print(c)
+    # pp.show(c)

@@ -41,41 +41,37 @@ def gdsdiff(cellA, cellB):
         cellA = str(cellA)
     if isinstance(cellB, pathlib.PosixPath):
         cellB = str(cellB)
-    if type(cellA) == str:
+    if isinstance(cellA, str):
         cellA = import_gds(cellA, flatten=True)
-    if type(cellB) == str:
+    if isinstance(cellB, str):
         cellB = import_gds(cellB, flatten=True)
 
     layers = set()
     layers.update(cellA.get_layers())
     layers.update(cellB.get_layers())
 
-    diff = pp.Component(name="diff")
+    top = pp.Component(name="TOP")
+    diff = pp.Component(name="xor")
+    common = pp.Component(name="common")
+    old_only = pp.Component(name="only_in_old")
+    new_only = pp.Component(name="only_in_new")
+
+    cellA.name = "old"
+    cellB.name = "new"
+    top << cellA
+    top << cellB
+
     for layer in layers:
-        # We go to "process" layer beyond 1000 to put the diff
-        diff_process = layer[0] + 1000
-
-        """
-        # datatype is used to differentiate the diff
-        # 0: unchanged
-        # 1: removed (assuming B is the updated version of A)
-        # 2: added (assuming B is the updated version of A)
-        """
-
-        layer_common = (diff_process, 0)
-        layer_only_A = (diff_process, 1)
-        layer_only_B = (diff_process, 2)
-
         A = get_polygons_on_layer(cellA, layer)
         B = get_polygons_on_layer(cellB, layer)
 
         if A is None and B is None:
             continue
         elif B is None:
-            diff.add_polygon(A, layer_only_A)
+            diff.add_polygon(A, layer)
             continue
         elif A is None:
-            diff.add_polygon(B, layer_only_B)
+            diff.add_polygon(B, layer)
             continue
 
         # Common bits
@@ -91,13 +87,17 @@ def gdsdiff(cellA, cellB):
         only_in_B = boolean(B, either_AB, operation="and", precision=0.001)
 
         if common_AB is not None:
-            diff.add_polygon(common_AB, layer_common)
+            common.add_polygon(common_AB, layer)
         if only_in_A is not None:
-            diff.add_polygon(only_in_A, layer_only_A)
+            old_only.add_polygon(only_in_A, layer)
         if only_in_B is not None:
-            diff.add_polygon(only_in_B, layer_only_B)
+            new_only.add_polygon(only_in_B, layer)
 
-    return diff
+    top << diff
+    top << common
+    top << old_only
+    top << new_only
+    return top
 
 
 if __name__ == "__main__":

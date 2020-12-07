@@ -1,8 +1,8 @@
-""" merges mask metadata with test and data analysis protocols
+"""Merge mask metadata with test and data analysis protocols
 
--------------------------------------
 config.yml
 
+```yaml
 test_protocols:
     passive_optical_te_coarse:
         wl_min:
@@ -17,9 +17,12 @@ test_protocols:
         polarization: tm
     ...
 
--------------------------------------
+```
+
+
 does.yml
 
+```yaml
 doe01:
     instances:
         - cell_name1, x1, y1
@@ -38,6 +41,7 @@ doe02:
     test_protocols:
         - passive_optical_te_coarse
     ...
+```
 """
 
 import pathlib
@@ -66,7 +70,6 @@ def parse_csv_data(csv_labels_path):
 
 def get_cell_from_label(label):
     """ get cell name from the label (cell_name is in parenthesis)
-    it
     """
     cell_name = label.split("(")[1].split(")")[0]
     if cell_name.startswith("loopback"):
@@ -93,6 +96,7 @@ def merge_test_metadata(gdspath=CONFIG["mask_gds"], labels_prefix="opt"):
 
     Args:
         gdspath
+        labels_prefix
 
     Returns:
         saves json file with merged metadata

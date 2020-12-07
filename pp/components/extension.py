@@ -1,6 +1,6 @@
 from typing import List, Optional, Callable
 import numpy as np
-from numpy import float64, ndarray
+from numpy import ndarray
 from pp.container import container
 from pp.component import Component
 import pp
@@ -28,7 +28,7 @@ def line(
     return [p0, p1, p2, p3]
 
 
-def move_polar_rad_copy(pos: ndarray, angle: float64, length: float) -> ndarray:
+def move_polar_rad_copy(pos: ndarray, angle: float, length: float) -> ndarray:
     c = np.cos(angle)
     s = np.sin(angle)
     return pos + length * np.array([c, s])
@@ -105,6 +105,7 @@ def extend_ports(
             extension = c << extension_factory(length=length, width=port.width)
             extension.connect(extension_port_name_input, port)
             c.add_port(port_name, port=extension.ports[extension_port_name_output])
+            c.absorb(extension)
         else:
             c.add_port(port_name, port=component.ports[port_name])
     return c
