@@ -35,13 +35,10 @@ def recurse_references(
     """
     placements = placements or {}
     instances = instances or {}
-    connections = connections or {}
+    connections = connections or set()
     port_locations = port_locations or {
-        snap_to_1nm_grid((port.x, port.y)): [] for port in component.get_ports()
+        snap_to_1nm_grid((port.x, port.y)): set() for port in component.get_ports()
     }
-
-    level_name = f"{level}_{component.name}"
-    connections[level_name] = {}
 
     for r in component.references:
         c = r.parent
@@ -60,9 +57,10 @@ def recurse_references(
             src_list = port_locations[xy]
             if len(src_list) > 0:
                 for src2 in src_list:
-                    connections[level_name][src2] = src
-            else:
-                src_list.append(src)
+                    connections.add((src, src2))
+                    print(src2)
+            else:  # first time that port appears
+                src_list.add(src)
 
     if recursive:
         for r in component.references:
@@ -83,7 +81,7 @@ def recurse_references(
                 )
                 placements.update(p2)
                 instances.update(i2)
-                connections.update(c2)
+                connections.union(c2)
 
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
@@ -113,7 +111,7 @@ def test_mzi_lattice():
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
     import pp
 
     c = pp.c.ring_single_array()
@@ -121,4 +119,4 @@ if __name__ == "__main__":
     c.plot_netlist()
 
     x, i, p = recurse_references(c)
-    plt.show()
+    # plt.show()

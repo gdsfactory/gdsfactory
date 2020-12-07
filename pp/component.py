@@ -558,23 +558,18 @@ class Component(Device):
         netlist = self.get_netlist(recursive=recursive)
         connections = netlist.connections
 
-        for level, connections_level in connections.items():
-            G = nx.Graph()
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections_level.items()
-                ]
-            )
-            pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
-            labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
-            nx.draw(
-                G,
-                with_labels=with_labels,
-                font_weight=font_weight,
-                labels=labels,
-                pos=pos,
-            )
+        G = nx.Graph()
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections
+            ]
+        )
+        pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
+        nx.draw(
+            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
+        )
 
     def get_netlist_yaml(self):
         """Return YAML netlist."""
@@ -595,7 +590,11 @@ class Component(Device):
         )
 
         netlist = OmegaConf.create(
-            dict(instances=instances, placements=placements, connections=connections)
+            dict(
+                instances=instances,
+                placements=placements,
+                connections=sorted(list(connections)),
+            )
         )
         self.netlist = netlist
         return netlist
