@@ -2,7 +2,7 @@ from typing import Callable, Optional
 import pp
 
 from pp.component import Component
-from pp.port import deco_rename_ports
+from pp.port import deco_rename_ports, rename_ports_by_orientation
 from pp.components.bend_circular import bend_circular as bend_circular_function
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
@@ -78,8 +78,8 @@ def mzi(
     b90 = bend90(radius=bend_radius)
     l0 = waveguide_vertical(length=L0)
 
-    # cp1 = rename_ports_by_orientation(cp1)
-    # cp2 = rename_ports_by_orientation(cp2)
+    cp1 = rename_ports_by_orientation(cp1)
+    cp2 = rename_ports_by_orientation(cp2)
 
     y1l = cp1.ports["E0"].y
     y1r = cp2.ports["E0"].y
