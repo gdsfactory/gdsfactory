@@ -128,6 +128,7 @@ def get_sequence_cross_str(waveguides_start, waveguides_end, iter_max=100):
     return component_sequence_to_str(seq)
 
 
+@pp.cell(autoname=False)
 def component_lattice(
     lattice="""
         C-X

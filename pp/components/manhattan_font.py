@@ -10,12 +10,12 @@ from pp.name import clean_name
 
 def manhattan_text(
     text: str = "abcd",
-    size: float = 10,
-    position: Tuple[int, int] = (0, 0),
+    size: float = 10.0,
+    position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: ListConfig = LAYER.M1,
+    layer: Tuple[int, int] = LAYER.M1,
     layers_cladding: List[ListConfig] = [],
-    cladding_offset: int = 3,
+    cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
 

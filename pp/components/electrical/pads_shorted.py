@@ -1,18 +1,18 @@
 from pp.component import Component
 from pp.cell import cell
 from pp.layers import LAYER
-from pp.components.rectangle import rectangle_centered
+from pp.components.rectangle import rectangle
 
 
 @cell
 def pads_shorted(width=100, n_pads=8, pad_spacing=150, layer=LAYER.M1):
     c = Component(name="shorted_pads")
-    pad = rectangle_centered(x=width, y=width, layer=layer)
+    pad = rectangle(size=(width, width), layer=layer, centered=True)
     for i in range(n_pads):
         pad_ref = c.add_ref(pad)
         pad_ref.movex(i * pad_spacing - n_pads / 2 * pad_spacing + pad_spacing / 2)
 
-    short = rectangle_centered(x=pad_spacing * (n_pads - 1), y=10, layer=layer)
+    short = rectangle(size=(pad_spacing * (n_pads - 1), 10), layer=layer, centered=True)
     c.add_ref(short)
     return c
 

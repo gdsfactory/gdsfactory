@@ -1,8 +1,8 @@
+from typing import Any, Dict, List, Optional, Tuple, Union
 import itertools
 import uuid
 import copy as python_copy
 import pathlib
-from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 from numpy import float64, int64, ndarray, pi, sin, cos, mod
 from omegaconf import OmegaConf
@@ -14,8 +14,9 @@ from phidl.device_layout import DeviceReference
 from phidl.device_layout import _parse_layer
 
 from pp.port import Port, select_ports
-from pp.config import CONFIG, conf, connections, add_to_global_netlist
+from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
+from pp.recurse_references import recurse_references
 
 
 def copy(D):
@@ -102,8 +103,8 @@ class SizeInfo:
 
 def _rotate_points(
     points: Union[Tuple[int, int], ndarray],
-    angle: Union[float64, int, int64, float] = 45,
-    center: Union[Tuple[int, int], List[int], ndarray] = (0, 0),
+    angle: int = 45,
+    center: Tuple[float, float] = (0.0, 0,),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
@@ -201,7 +202,7 @@ class ComponentReference(DeviceReference):
         return new_reference
 
     def get_labels(
-        self, recursive: None = True, associate_visual_labels: bool = True
+        self, recursive: bool = True, associate_visual_labels: bool = True
     ) -> List[Any]:
         """
         access all labels correctly rotated, mirrored and translated
@@ -271,8 +272,6 @@ class ComponentReference(DeviceReference):
     @property
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
-        # if self.__size_info__ == None:
-        # return self.__size_info__
 
     def _transform_port(
         self,
@@ -377,7 +376,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: [int, float] = 45, center: Tuple[int, int] = (0.0, 0.0),
+        self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
         """
         Returns a component
@@ -406,10 +405,12 @@ class ComponentReference(DeviceReference):
             x0 = position.x
         self.reflect((x0, 1), (x0, 0))
 
-    def reflect_v(self, port_name: Optional[str] = None, y0: None = None) -> None:
+    def reflect_v(
+        self, port_name: Optional[str] = None, y0: Optional[float] = None
+    ) -> None:
         """Perform vertical mirror using y0 as axis (default, y0=0)"""
         if port_name is None and y0 is None:
-            y0 = 0
+            y0 = 0.0
 
         if port_name is not None:
             position = self.ports[port_name]
@@ -418,8 +419,8 @@ class ComponentReference(DeviceReference):
 
     def reflect(
         self,
-        p1: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 1),
-        p2: Union[Tuple[float64, float64], Tuple[int, float64]] = (0, 0),
+        p1: Tuple[float, float] = (0.0, 1.0),
+        p2: Tuple[float, float] = (0.0, 0.0),
     ):
         if isinstance(p1, Port):
             p1 = p1.midpoint
@@ -432,7 +433,7 @@ class ComponentReference(DeviceReference):
 
         # Rotate so reflection axis aligns with x-axis
         angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
-        self.origin = _rotate_points(self.origin, angle=-angle, center=[0, 0])
+        self.origin = _rotate_points(self.origin, angle=-angle, center=(0, 0))
         self.rotation -= angle
 
         # Reflect across x-axis
@@ -441,7 +442,7 @@ class ComponentReference(DeviceReference):
         self.rotation = -1 * self.rotation
 
         # Un-rotate and un-translate
-        self.origin = _rotate_points(self.origin, angle=angle, center=[0, 0])
+        self.origin = _rotate_points(self.origin, angle=angle, center=(0, 0))
         self.rotation += angle
         self.rotation = self.rotation % 360
         self.origin = self.origin + p1
@@ -449,7 +450,7 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def connect(self, port: str, destination: Port, overlap: float = 0):
+    def connect(self, port: Union[str, Port], destination: Port, overlap: float = 0.0):
         """Returns a reference of the Component where a origin port_name connects to a destination
 
         Args:
@@ -484,8 +485,8 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
-        if hasattr(destination, "parent"):
-            add_to_global_netlist(p, destination)
+        # if hasattr(destination, "parent"):
+        #     add_to_global_netlist(p, destination)
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -504,6 +505,10 @@ class ComponentReference(DeviceReference):
         return list(
             select_ports(self.ports, port_type=port_type, prefix=prefix).values()
         )
+
+    def get_settings(self):
+        """Returns settings from the Comonent."""
+        return self.parent.get_settings()
 
 
 class Component(Device):
@@ -542,56 +547,54 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(
-        self, label_index_end=1, with_labels=True, font_weight="normal",
-    ):
+    def plot_netlist(self, with_labels=True, font_weight="normal", recursive=True):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
         Args:
-            label_index_end: name args separated with `_` to print (-1: all)
             with_labels: label nodes
             font_weight: normal, bold
         """
-        netlist = self.get_netlist()
-        connections = netlist.connections
+        netlist = self.get_netlist(recursive=recursive)
+        connections_level = netlist.connections
+
         G = nx.Graph()
-        G.add_edges_from(
-            [(k.split(",")[0], v.split(",")[0]) for k, v in connections.items()]
-        )
+        for connections in connections_level.values():
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
         pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
-        labels = {
-            k: "_".join(k.split("_")[:label_index_end])
-            for k in netlist.placements.keys()
-        }
+        labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
         nx.draw(
-            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
+            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
         )
 
-    def get_netlist_yaml(self, full_settings=False):
+    def get_netlist_yaml(self):
         """Return YAML netlist."""
-        return OmegaConf.to_yaml(self.get_netlist(full_settings=full_settings))
+        return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self, full_settings=False):
+    def get_netlist(self, recursive=True):
         """returns netlist dict(instances, placements, connections)
+
+        Args:
+            recursive: iterates over lower hierarchical levels
+
+        instances = {instances}
+        placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
+        connections = {instance_name_src,uid,x,y,portName,portId: instance_name_dst,uid,x,y,portName,portId}
 
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
         """
-        instances, placements = recurse_instances(self, full_settings=full_settings)
-        connections_connected = {}
-
-        for src, dst in connections.items():
-            # trim netlist: store only instances connections from the component
-            if src.split(",")[0] in instances:
-                connections_connected[src] = dst
+        connections, instances, placements = recurse_references(
+            component=self, recursive=recursive
+        )
 
         netlist = OmegaConf.create(
-            dict(
-                instances=instances,
-                placements=placements,
-                connections=connections_connected,
-            )
+            dict(instances=instances, placements=placements, connections=connections)
         )
         self.netlist = netlist
         return netlist
@@ -979,31 +982,8 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     return output
 
 
-def recurse_instances(component, instances=None, placements=None, full_settings=False):
-    """From a component returns instances and placements dicts."""
-    placements = placements or {}
-    instances = instances or {}
-
-    for r in component.references:
-        i = r.parent
-        reference_name = f"{i.name}_{int(r.x)}_{int(r.y)}"
-        if hasattr(i, "settings") and full_settings:
-            settings = i.settings or {}
-        else:
-            settings = i.get_property("settings_changed") or {}
-        instances[reference_name] = dict(
-            component=i.function_name, settings=clean_dict(settings) or {}
-        )
-        placements[reference_name] = dict(
-            x=float(r.x), y=float(r.y), rotation=int(r.rotation)
-        )
-        if i.references:
-            recurse_instances(i, instances=instances, placements=placements)
-    return instances, placements
-
-
 def clean_dict(d):
-    """cleans dictionary keys"""
+    """Cleans dictionary keys"""
     from pp.component import _clean_value
 
     for k, v in d.items():
@@ -1014,7 +994,7 @@ def clean_dict(d):
 
 
 def _clean_value(value: Any) -> Any:
-    """ returns a clean value to be JSON serializable"""
+    """Returns a clean value that is JSON serializable"""
     if type(value) in [int, float, str, tuple, bool]:
         value = value
     elif isinstance(value, np.int32):
@@ -1063,7 +1043,6 @@ def test_netlist_simple():
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2
-    assert len(netlist["connections"]) == 1
 
 
 def test_netlist_complex():
@@ -1073,7 +1052,6 @@ def test_netlist_complex():
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 18
-    assert len(netlist["connections"]) == 18
 
 
 def test_netlist_plot():
@@ -1125,22 +1103,34 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
-    import pp
+    # import matplotlib.pyplot as plt
 
     # c = pp.c.ring_single()
     # c = pp.c.mzi()
-    # n = c.get_netlist()
-    # print(n.connections)
-    # c.plot_netlist()
 
-    # import matplotlib.pyplot as plt
+    # coupler_lengths = [10, 20, 30]
+    # coupler_gaps = [0.1, 0.2, 0.3]
+    # delta_lengths = [10, 100]
+
+    # c = pp.c.mzi_lattice(
+    #     coupler_lengths=coupler_lengths,
+    #     coupler_gaps=coupler_gaps,
+    #     delta_lengths=delta_lengths,
+    # )
+    # n = c.get_netlist()
+    # print(n.placements)
+    # print(n.connections)
+
+    # c.plot_netlist()
     # plt.show()
 
-    # test_netlist_simple()
+    # plt.show()
+
+    test_netlist_simple()
     # test_netlist_complex()
 
-    c = pp.c.waveguide()
-    print(c.get_settings())
+    # c = pp.c.waveguide()
+    # print(c.get_settings())
     # c = pp.c.dbr(n=1)
 
     # print(c.get_layers())

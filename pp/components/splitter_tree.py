@@ -1,10 +1,7 @@
 from typing import Callable
 import pp
-
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.waveguide import waveguide
-from pp.routing.connect import connect_strip
-from pp.port import get_ports_facing
 
 
 @pp.cell
@@ -13,8 +10,8 @@ def splitter_tree(
     n_o_outputs: int = 4,
     bend_radius: float = 10.0,
     spacing: float = 50.0,
-    termination_component=None,
-):
+    terminator: Callable = waveguide,
+) -> pp.Component:
     """tree of 1x2 splitters
 
     Args:
@@ -22,7 +19,7 @@ def splitter_tree(
         n_o_outputs:
         bend_radius: for routing
         spacing: 2X spacing
-        termination_component: factory or component for EAST termination
+        termination: factory for terminating ports
 
     .. code::
 
@@ -49,28 +46,21 @@ def splitter_tree(
     coupler_sep = coupler.ports["E1"].y - coupler.ports["E0"].y
 
     if n_o_outputs > 2:
-        _cmp = splitter_tree(
+        c2 = splitter_tree(
             coupler=coupler,
             n_o_outputs=n_o_outputs // 2,
             bend_radius=bend_radius,
             spacing=spacing / 2,
         )
     else:
-        termination_component = (
-            termination_component
-            if termination_component is not None
-            else waveguide(length=0.1)
-        )
-        _cmp = pp.call_if_func(termination_component)
+        c2 = terminator()
 
     spacing = (
-        spacing
-        if spacing is not None
-        else _cmp.ports["W0"].y - _coupler.size_info.south
+        spacing if spacing is not None else c2.ports["W0"].y - _coupler.size_info.south
     )
     if spacing < coupler_sep:
-        tree_top = _cmp.ref(port_id="W0", position=_coupler.ports["E1"])
-        tree_bot = _cmp.ref(
+        tree_top = c2.ref(port_id="W0", position=_coupler.ports["E1"])
+        tree_bot = c2.ref(
             port_id="W0", position=_coupler.ports["E0"], v_mirror=False  # True
         )
 
@@ -78,24 +68,24 @@ def splitter_tree(
         d = 2 * bend_radius + 1
         spacing = max(spacing, d)
 
-        tree_top = _cmp.ref(
+        tree_top = c2.ref(
             port_id="W0", position=_coupler.ports["E1"].position + (d, spacing)
         )
-        tree_bot = _cmp.ref(
+        tree_bot = c2.ref(
             port_id="W0",
             position=_coupler.ports["E0"].position + (d, -spacing),
             v_mirror=False,  # True,
         )
 
-        c.add(connect_strip(coupler.ports["E1"], tree_top.ports["W0"]))
-        c.add(connect_strip(coupler.ports["E0"], tree_bot.ports["W0"]))
+        c.add(pp.routing.connect_strip(coupler.ports["E1"], tree_top.ports["W0"]))
+        c.add(pp.routing.connect_strip(coupler.ports["E0"], tree_bot.ports["W0"]))
 
     i = 0
-    for p in get_ports_facing(tree_bot, "E"):
+    for p in pp.port.get_ports_facing(tree_bot, "E"):
         c.add_port(name="{}".format(i), port=p)
         i += 1
 
-    for p in get_ports_facing(tree_top, "E"):
+    for p in pp.port.get_ports_facing(tree_top, "E"):
         c.add_port(name="{}".format(i), port=p)
         i += 1
 

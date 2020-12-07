@@ -1,0 +1,17 @@
+function_name: add_pins
+name: mzi2x2_WECTrue_pins
+settings:
+  component:
+    function_name: mzi2x2
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60.0
+      L2: 10.0
+      bend_radius: 10.0
+      gap: 0.234
+      with_elec_connections: true
+  function: _add_pins_labels_and_outline
+  recursive: false

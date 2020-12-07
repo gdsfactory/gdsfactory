@@ -21,7 +21,7 @@ def cd_straight(
     for width, marker_type in zip(widths, ["D", "S", "U"]):
         y = 0
         # iso line
-        _r = pp.c.rectangle_centered(x=length, y=width, layer=layer)
+        _r = pp.c.rectangle(size=(length, width), layer=layer, centered=True)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)

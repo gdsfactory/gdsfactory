@@ -1,0 +1,147 @@
+instances:
+  mmi1x2_98_0:
+    component: mmi1x2
+    settings: {}
+  bend_circular_R10p00_30_5:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_40_16:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_70_16:
+    component: bend_circular
+    settings: {}
+  bend_circular_R10p00_80_5:
+    component: bend_circular
+    settings: {}
+  waveguide_L1p00_35_11:
+    component: waveguide
+    settings: {}
+  waveguide_L20p10_55_21:
+    component: waveguide
+    settings: {}
+  waveguide_L1p00_75_11:
+    component: waveguide
+    settings: {}
+  bend_circular_R10p00_30_-5:
+    component: bend_circular
+    settings: {}
+  waveguide_L1p00_35_-11:
+    component: waveguide
+    settings: {}
+  waveguide_L50m_35_-11:
+    component: waveguide
+    settings: {}
+  bend_circular_R10p00_40_-16:
+    component: bend_circular
+    settings: {}
+  waveguide_L20p10_55_-21:
+    component: waveguide
+    settings: {}
+  bend_circular_R10p00_70_-16:
+    component: bend_circular
+    settings: {}
+  waveguide_L50m_75_-11:
+    component: waveguide
+    settings: {}
+  waveguide_L1p00_75_-11:
+    component: waveguide
+    settings: {}
+  bend_circular_R10p00_80_-5:
+    component: bend_circular
+    settings: {}
+  mmi1x2_12_0:
+    component: mmi1x2
+    settings: {}
+placements:
+  mmi1x2_98_0:
+    x: 98.34400000000001
+    'y': -2.220446049250313e-16
+    rotation: 180
+  bend_circular_R10p00_30_5:
+    x: 30.596000000000004
+    'y': 5.525
+    rotation: 0
+  bend_circular_R10p00_40_16:
+    x: 40.396
+    'y': 16.725
+    rotation: 180
+  bend_circular_R10p00_70_16:
+    x: 70.696
+    'y': 16.725
+    rotation: 90
+  bend_circular_R10p00_80_5:
+    x: 80.49600000000001
+    'y': 5.524999999999999
+    rotation: 270
+  waveguide_L1p00_35_11:
+    x: 35.496
+    'y': 11.125
+    rotation: 90
+  waveguide_L20p10_55_21:
+    x: 55.54600000000001
+    'y': 21.625
+    rotation: 0
+  waveguide_L1p00_75_11:
+    x: 75.596
+    'y': 11.125
+    rotation: 270
+  bend_circular_R10p00_30_-5:
+    x: 30.596000000000004
+    'y': -5.5249999999999995
+    rotation: 90
+  waveguide_L1p00_35_-11:
+    x: 35.496
+    'y': -11.125
+    rotation: 270
+  waveguide_L50m_35_-11:
+    x: 35.496
+    'y': -11.649999999999999
+    rotation: 270
+  bend_circular_R10p00_40_-16:
+    x: 40.396
+    'y': -16.775000000000002
+    rotation: 270
+  waveguide_L20p10_55_-21:
+    x: 55.54600000000001
+    'y': -21.675000000000004
+    rotation: 0
+  bend_circular_R10p00_70_-16:
+    x: 70.696
+    'y': -16.775000000000006
+    rotation: 0
+  waveguide_L50m_75_-11:
+    x: 75.596
+    'y': -11.650000000000006
+    rotation: 90
+  waveguide_L1p00_75_-11:
+    x: 75.596
+    'y': -11.125000000000004
+    rotation: 90
+  bend_circular_R10p00_80_-5:
+    x: 80.49600000000001
+    'y': -5.525
+    rotation: 180
+  mmi1x2_12_0:
+    x: 12.748000000000001
+    'y': 0.0
+    rotation: 0
+connections:
+  bend_circular_R10p00_30_5,W0: mmi1x2_12_0,E1
+  waveguide_L1p00_35_11,W0: bend_circular_R10p00_30_5,N0
+  bend_circular_R10p00_40_16,N0: waveguide_L1p00_35_11,E0
+  waveguide_L20p10_55_21,W0: bend_circular_R10p00_40_16,W0
+  bend_circular_R10p00_70_16,N0: waveguide_L20p10_55_21,E0
+  waveguide_L1p00_75_11,W0: bend_circular_R10p00_70_16,W0
+  bend_circular_R10p00_80_5,W0: waveguide_L1p00_75_11,E0
+  mmi1x2_98_0,E0: bend_circular_R10p00_80_5,N0
+  bend_circular_R10p00_30_-5,N0: mmi1x2_12_0,E0
+  waveguide_L1p00_35_-11,W0: bend_circular_R10p00_30_-5,W0
+  waveguide_L50m_35_-11,W0: waveguide_L1p00_35_-11,E0
+  bend_circular_R10p00_40_-16,W0: waveguide_L50m_35_-11,E0
+  waveguide_L20p10_55_-21,W0: bend_circular_R10p00_40_-16,N0
+  bend_circular_R10p00_70_-16,W0: waveguide_L20p10_55_-21,E0
+  waveguide_L50m_75_-11,W0: bend_circular_R10p00_70_-16,N0
+  waveguide_L1p00_75_-11,W0: waveguide_L50m_75_-11,E0
+  bend_circular_R10p00_80_-5,N0: waveguide_L1p00_75_-11,E0
+  bend_circular_R10p00_80_-5,W0: mmi1x2_98_0,E1

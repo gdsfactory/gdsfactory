@@ -33,8 +33,8 @@ def dbr_cell(
     w1 = pp.drc.snap_to_grid(w1, 2)
     w2 = pp.drc.snap_to_grid(w2, 2)
     c = pp.Component()
-    c1 = c << waveguide_function(length=l1, width=w1, pins=False)
-    c2 = c << waveguide_function(length=l2, width=w2, pins=False)
+    c1 = c << waveguide_function(length=l1, width=w1)
+    c2 = c << waveguide_function(length=l2, width=w2)
     c2.connect(port="W0", destination=c1.ports["E0"])
     c.add_port("W0", port=c1.ports["W0"])
     c.add_port("E0", port=c2.ports["E0"])
@@ -83,9 +83,7 @@ def dbr(
     c = pp.Component()
     l1 = pp.drc.snap_to_grid(l1)
     l2 = pp.drc.snap_to_grid(l2)
-    cell = dbr_cell(
-        w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function, pins=False
-    )
+    cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function,)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("W0", port=cell.ports["W0"])
     p1 = c.add_port("E0", port=cell.ports["E0"])
@@ -94,7 +92,7 @@ def dbr(
 
 
 if __name__ == "__main__":
-    # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10, pins=True)
+    # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
     # c = dbr()
     c = dbr_cell()
     c.ports_on_grid()

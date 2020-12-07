@@ -4,17 +4,16 @@ from typing import List, Tuple
 import hashlib
 import pp
 from pp.components.hline import hline
-from pp.config import conf
 from pp.component import Component
 
 
-@pp.cell(pins=True)
+@pp.cell
 def waveguide(
     length: float = 10.0,
     width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
-    cladding_offset: float = conf.tech.cladding_offset,
+    cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Straight waveguide
 
@@ -54,7 +53,7 @@ def waveguide(
 
 
 @pp.cell
-def waveguide_biased(width=0.5, **kwargs):
+def waveguide_biased(width: float = 0.5, **kwargs) -> Component:
     """Waveguide with etch bias"""
     width = pp.bias.width(width)
     return waveguide(width=width, **kwargs)
@@ -134,14 +133,12 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
-def _demo_waveguide():
-    c = waveguide()
-    pp.write_gds(c)
-    return c
-
-
 if __name__ == "__main__":
-    c = waveguide()
+    c = waveguide(length=0.3)
+    print(c.name)
+    # print(c.settings)
+    # print(c.settings_changed)
+    # pp.write_gds(c)
     # print(c.hash_geometry())
 
     # print(c.ports)

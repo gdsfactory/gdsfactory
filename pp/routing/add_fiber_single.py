@@ -36,20 +36,6 @@ def add_fiber_single(
     r"""returns component with grating ports and labels on each port
     can add align_ports reference structure
 
-
-    .. code::
-
-              fiber
-             ______
-            /| | |
-           / | | |
-        W0|  | | |
-           \ | | |
-          | \|_|_|_
-
-          |
-         xmin = 0
-
     Args:
         component: to connect
         optical_io_spacing: SPACING_GC
@@ -75,6 +61,18 @@ def add_fiber_single(
         component_name: name of component
         taper_factory: taper
 
+    .. code::
+
+              fiber
+             ______
+            /| | |
+           / | | |
+        W0|  | | |
+           \ | | |
+          | \|_|_|_
+
+          |
+         xmin = 0
 
     .. plot::
       :include-source:

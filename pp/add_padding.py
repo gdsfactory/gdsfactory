@@ -1,63 +1,68 @@
-from typing import List, Union
+from typing import List, Optional, Tuple
 import numpy as np
-
-from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Layer
 import pp
 from pp.container import container
 from pp.component import Component
 
 
+def get_padding_points(
+    component: Component,
+    default: float = 50.0,
+    top: Optional[float] = None,
+    bottom: Optional[float] = None,
+    right: Optional[float] = None,
+    left: Optional[float] = None,
+) -> list:
+    """Returns padding points for a component outline.
+
+    Args:
+        component
+        default: default padding
+        top: north padding
+        bottom: south padding
+        right: east padding
+        left: west padding
+    """
+    c = component
+    top = top if top else default
+    bottom = bottom if bottom else default
+    right = right if right else default
+    left = left if left else default
+    return [
+        [c.xmin - left, c.ymin - bottom],
+        [c.xmax + right, c.ymin - bottom],
+        [c.xmax + right, c.ymax + top],
+        [c.xmin - left, c.ymax + top],
+    ]
+
+
 @container
 def add_padding(
     component: Component,
-    padding: Union[float, int] = 50,
-    x: None = None,
-    y: None = None,
-    layers: Union[List[ListConfig], List[Layer]] = [pp.LAYER.PADDING],
+    layers: List[Tuple[int, int]] = [pp.LAYER.PADDING],
     suffix: str = "p",
+    **kwargs,
 ) -> Component:
-    """adds padding layers to a NEW component that has the same:
-    - ports
-    - settings
-    - test_protocols and data_analysis_protocols
+    """Adds padding layers to a container.
 
-    as the old component
+    Args:
+        component
+        layers: list of layers
+        suffix for name
+        default: default padding
+        top: north padding
+        bottom: south padding
+        right: east padding
+        left: west padding
     """
-    x = x if x is not None else padding
-    y = y if y is not None else padding
 
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component
-    c.ports = component.ports
 
-    points = [
-        [c.xmin - x, c.ymin - y],
-        [c.xmax + x, c.ymin - y],
-        [c.xmax + x, c.ymax + y],
-        [c.xmin - x, c.ymax + y],
-    ]
+    points = get_padding_points(component, **kwargs)
     for layer in layers:
         c.add_polygon(points, layer=layer)
     return c
-
-
-def get_padding_points(
-    component: Component,
-    padding: Union[float, int] = 50,
-    x: None = None,
-    y: None = None,
-) -> list:
-    """ returns padding points for a component"""
-    c = component
-    x = x if x is not None else padding
-    y = y if y is not None else padding
-    return [
-        [c.xmin - x, c.ymin - y],
-        [c.xmax + x, c.ymin - y],
-        [c.xmax + x, c.ymax + y],
-        [c.xmin - x, c.ymax + y],
-    ]
 
 
 @container
@@ -108,6 +113,6 @@ if __name__ == "__main__":
     cc = add_padding(component=c, layers=[(2, 0)], suffix="p")
     # cc = add_padding_to_grid(c, layers=[(2, 0)])
     # cc = add_padding_to_grid(c)
-    print(cc.settings)
-    print(cc.ports)
+    # print(cc.settings)
+    # print(cc.ports)
     pp.show(cc)

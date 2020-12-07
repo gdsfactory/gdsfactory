@@ -1,20 +1,15 @@
 """ based on https://github.com/niladri18/Phidl/blob/master/src/ppe.py
 """
 
+from typing import List, Tuple
 import math
 import pp
-from omegaconf.listconfig import ListConfig
 from pp.component import Component
-from typing import List, Union
 
 
 @pp.cell
 def line(
-    x0: Union[float, int],
-    y0: Union[float, int],
-    width: Union[float, int],
-    height: int,
-    layer: ListConfig,
+    x0: float, y0: float, width: float, height: float, layer: Tuple[int, int],
 ) -> Component:
     L = pp.Component()
     L.add_polygon(
@@ -26,15 +21,16 @@ def line(
 
 @pp.cell
 def linespace(
-    x0: Union[float, int],
-    y0: Union[float, int],
-    width: Union[float, int],
-    height: int,
-    pitch: int,
-    ymax: Union[float, int],
-    layer: ListConfig,
+    x0: float,
+    y0: float,
+    width: float,
+    height: float,
+    pitch: float,
+    ymax: float,
+    layer: Tuple[int, int],
 ) -> Component:
-    """ # Creates a line space pattern in y-direction
+    """Creates a line space pattern in y-direction.
+
     Args:
         x0: x coordinate of the lower left line
         y0: y coordinate of the lower left line
@@ -43,9 +39,7 @@ def linespace(
         pitch: pitch of each line
         pitch > height
     """
-    if abs(pitch) < abs(height):
-        print("pitch must be greater then height")
-        return
+    assert abs(pitch) < abs(height), "pitch must be greater then height"
     LS = pp.Component()
     if pitch > 0:
         while y0 + height <= ymax:
@@ -60,7 +54,7 @@ def linespace(
     return LS
 
 
-def y0linespace(y0: float, height: int, pitch: int, ymax: float) -> float:
+def y0linespace(y0: float, height: float, pitch: float, ymax: float) -> float:
     if pitch > 0:
         while y0 + height <= ymax:
             y0 += pitch
@@ -71,8 +65,10 @@ def y0linespace(y0: float, height: int, pitch: int, ymax: float) -> float:
 
 
 @pp.cell
-def cross(x0: float, y0: float, width: int, lw: int, layer: ListConfig) -> Component:
-    """ cross
+def cross(
+    x0: float, y0: float, width: float, lw: float, layer: Tuple[int, int]
+) -> Component:
+    """cross
 
     Args:
         x0,y0 : center
@@ -103,9 +99,9 @@ def cross(x0: float, y0: float, width: int, lw: int, layer: ListConfig) -> Compo
 
 @pp.cell
 def ppe(
-    layer: ListConfig = pp.LAYER.WG,
-    layers_cladding: List[ListConfig] = [pp.LAYER.WGCLAD],
-    cladding_offset: int = 3,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    cladding_offset: float = 3.0,
 ) -> Component:
     """
     pattern placement error
@@ -138,9 +134,9 @@ def ppe(
     yoff = math.sqrt(100 * 50)
 
     # Top left 1
-    x0 = 10
+    x0 = 10.0
     y0 = ym
-    pitch = 20
+    pitch = 20.0
     LS1 = linespace(
         x0=x0,
         y0=y0,
@@ -154,7 +150,7 @@ def ppe(
     D.add_ref(LS1)
 
     # Top left 2
-    x0 = 10
+    x0 = 10.0
     y0 = y0
     LS1 = linespace(x0=x0, y0=y0, width=240, height=10, pitch=20, ymax=500, layer=layer)
     D.add_ref(LS1)
@@ -162,12 +158,12 @@ def ppe(
     # Top right 1
     x0 = xm + xoff
     y0 = ym
-    pitch = 30
+    pitch = 30.0
     LS2 = linespace(
         x0=x0,
         y0=y0,
-        width=240 - xoff + 10,
-        height=10,
+        width=240.0 - xoff + 10.0,
+        height=10.0,
         pitch=pitch,
         ymax=ym + yoff,
         layer=layer,
@@ -181,16 +177,16 @@ def ppe(
     D.add_ref(LS2)
 
     # Lower left 1
-    x0 = 10
-    y0 = 0
-    pitch = 30
+    x0 = 10.0
+    y0 = 0.0
+    pitch = 30.0
     LS3 = linespace(
         x0=x0, y0=y0, width=240, height=10, pitch=30, ymax=xm - yoff, layer=layer
     )
     D.add_ref(LS3)
 
     # Lower left 2
-    x0 = 10
+    x0 = 10.0
     y0 += pitch
     LS3 = linespace(
         x0=x0, y0=y0, width=240 - xoff, height=10, pitch=30, ymax=240, layer=layer
@@ -198,11 +194,11 @@ def ppe(
     D.add_ref(LS3)
 
     # Lower right 1
-    x0 = xm + 10
-    y0 = 0
-    pitch = 20
+    x0 = xm + 10.0
+    y0 = 0.0
+    pitch = 20.0
     LS4 = linespace(
-        x0=x0, y0=y0, width=240, height=10, pitch=20, ymax=xm - yoff, layer=layer
+        x0=x0, y0=y0, width=240, height=10, pitch=20.0, ymax=xm - yoff, layer=layer
     )
     D.add_ref(LS4)
 
@@ -210,13 +206,19 @@ def ppe(
     x0 = xm + xoff
     y0 += pitch
     LS4 = linespace(
-        x0=x0, y0=y0, width=240 - xoff + 10, height=10, pitch=20, ymax=240, layer=layer
+        x0=x0,
+        y0=y0,
+        width=240 - xoff + 10,
+        height=10.0,
+        pitch=20.0,
+        ymax=240,
+        layer=layer,
     )
     D.add_ref(LS4)
 
     # Add NOOPC cover on the pattern rec
-    xt = xoff - 10
-    yt = yoff - 10
+    xt = xoff - 10.0
+    yt = yoff - 10.0
 
     for layer_cladding in layers_cladding:
         D.add_polygon(

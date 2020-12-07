@@ -30,7 +30,6 @@ from pp.components.crossing_waveguide import compensation_path
 from pp.components.ellipse import ellipse
 from pp.components.label import label
 from pp.components.rectangle import rectangle
-from pp.components.rectangle import rectangle_centered
 from pp.components.ring import ring
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
@@ -87,6 +86,7 @@ from pp.components.coupler_adiabatic import coupler_adiabatic
 from pp.components.coupler_full import coupler_full
 from pp.components.disk import disk
 from pp.components.ring_single import ring_single
+from pp.components.ring_single_array import ring_single_array
 from pp.components.ring_double import ring_double
 from pp.components.ring_single_bus import ring_single_bus
 from pp.components.ring_double_bus import ring_double_bus
@@ -168,11 +168,11 @@ component_factory = dict(
     pad_array=pad_array,
     pads_shorted=pads_shorted,
     rectangle=rectangle,
-    rectangle_centered=rectangle_centered,
     ring=ring,
     ring_double=ring_double,
     ring_double_bus=ring_double_bus,
     ring_single=ring_single,
+    ring_single_array=ring_single_array,
     ring_single_bus=ring_single_bus,
     spiral=spiral,
     spiral_circular=spiral_circular,
@@ -226,7 +226,15 @@ _skip_test_ports = ["coupler"]
 _decorators = ["grating_coupler"]
 _components = set(component_factory.keys()) - set(_containers) - set(_skip_test)
 _components_test_ports = _components - set(_skip_test_ports)
-_circuits = {"mzi"}
+_circuits = {
+    "mzi",
+    "ring_single",
+    "ring_single_array",
+    "ring_double",
+    "mzit_lattice",
+    "mzit",
+    "component_lattice",
+}
 
 __all__ = list(component_factory.keys()) + _decorators
 

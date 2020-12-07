@@ -8,7 +8,7 @@ from pp.components.coupler_straight import coupler_straight
 from pp.config import conf
 
 
-@cell(pins=True)
+@cell
 def coupler(
     wg_width: float = 0.5,
     gap: float = 0.236,
@@ -64,7 +64,6 @@ def coupler(
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
         dy=dy,
-        pins=False,
     )
 
     sr = c << sbend
@@ -76,7 +75,6 @@ def coupler(
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
-        pins=False,
     )
     sl.connect("W0", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])

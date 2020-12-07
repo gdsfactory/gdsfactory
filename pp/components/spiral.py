@@ -62,5 +62,5 @@ def spiral(
 
 
 if __name__ == "__main__":
-    c = spiral(length=10e3, width=500, bend_radius=20, pins=True)
+    c = spiral(length=10e3, width=500, bend_radius=20)
     pp.show(c)

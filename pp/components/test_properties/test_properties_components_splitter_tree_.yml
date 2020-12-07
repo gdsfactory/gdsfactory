@@ -5,4 +5,3 @@ settings:
   bend_radius: 10.0
   n_o_outputs: 4
   spacing: 50.0
-  termination_component: None

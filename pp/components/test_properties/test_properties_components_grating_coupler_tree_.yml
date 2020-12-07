@@ -1,5 +1,4 @@
 function_name: grating_coupler_tree
-module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
   bend_factory: bend_circular
@@ -14,7 +13,6 @@ settings:
       waveguide: waveguide
   component_name: waveguide_array_c233fa40
   fanout_length: 85.0
-  function_name: add_fiber_array
   gc_port_name: W0
   get_input_labels_function: get_input_labels
   get_route_factory: route_fiber_array
@@ -24,7 +22,6 @@ settings:
   - 0
   n_waveguides: 4
   optical_routing_type: 0
-  route_filter: connect_strip_way_points_no_taper
   straight_factory: waveguide
   taper_factory: taper
   taper_length: 10.0

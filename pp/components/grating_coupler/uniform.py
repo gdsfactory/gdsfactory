@@ -96,6 +96,6 @@ def grating_coupler_uniform(
 
 if __name__ == "__main__":
     # c = grating_coupler_uniform(name='gcu', partial_etch=True)
-    c = grating_coupler_uniform(partial_etch=False, pins=True)
+    c = grating_coupler_uniform(partial_etch=False)
     print(c.ports)
     pp.show(c)

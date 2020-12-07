@@ -1,4 +1,4 @@
-# gdsfactory 2.2.0
+# gdsfactory 2.2.1
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
@@ -44,10 +44,10 @@ bash install.sh
 You can run tests with `pytest`. This will run 3 types of tests:
 
 - pytest will test any function in the `pp` package that starts with `test_`
-- test_factory: builds all components in the component_factory in `pp/components/__init__.py` and checks that the geometric hash is the same
-    - any changes in the library need to be approved by running the function `lock_components_with_changes` in `pp/tests/test_factory.py`
+- lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
+    - you can check out any changes in the library with `pf diff ref_layouts/bbox.gds run_layouts/bbox.gds`
 - regressions tests: avoids unwanted regressions by storing Components ports position and metadata in YAML files. You can force to regenerate those files running `make test-force` from the repo root directory.
-    - `pp/test_properties.py` stores container function settings in YAML and port locations in a CSV file
+    - `pp/test_containers.py` stores container function settings in YAML and port locations in a CSV file
     - `pp/components/test_components.py` stores all the component settings in YAML
     - `pp/components/test_ports.py` stores all port locations in a CSV file
 

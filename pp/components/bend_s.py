@@ -41,7 +41,6 @@ def bend_s(
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
         t=np.linspace(0, 1, nb_points),
         layer=layer,
-        pins=False,
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
@@ -73,7 +72,7 @@ def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=9
 
 
 if __name__ == "__main__":
-    c = bend_s(pins=False)
+    c = bend_s()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     pp.show(c)

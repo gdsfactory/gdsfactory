@@ -29,10 +29,10 @@ TRANSFORMATION_MAP = {
 STR_TO_TRANSFORMATION_MAP = {v: k for k, v in TRANSFORMATION_MAP.items()}
 
 
-def get_elec_ports_from_component_names(component, names=[]):
+def get_elec_ports_from_component_names(component: Component, names=[]):
     """
-    Args
-        component <pp.Component>; should have component.info["instances"]
+    Args:
+        component: should have component.info["instances"]
     """
     e_ports = {}
 
@@ -56,7 +56,7 @@ def gen_sref(
     port_name: str,
     position: Union[Tuple[int, int], ndarray],
 ) -> ComponentReference:
-    """"""
+    """Returns a Reference."""
 
     if transformation_name not in TRANSFORMATION_MAP.values():
         raise ValueError(
@@ -117,6 +117,8 @@ def netlist_to_component(
 
     Returns: component with netlist stored in component.netlist
 
+    ```
+
     [
         {
             "name": "CP2x2",
@@ -145,6 +147,7 @@ def netlist_to_component(
             "ports": {"in1": "CP1, in2", "out1": "CP1, out2"},
         },
     ]
+    ```
 
     mirror, rotation, x, y
     """

@@ -29,8 +29,7 @@ def add_electrical_pads(component: Component, rotation=180, **kwargs):
     """
 
     c = Component(f"{component.name}_pad")
-
-    cr = component.rotate(rotation)
+    cr = rotate(component, rotation)
 
     elements, pads, _ = route_pad_array(component=cr, **kwargs,)
 
@@ -44,19 +43,21 @@ def add_electrical_pads(component: Component, rotation=180, **kwargs):
         if p.port_type == "optical":
             c.add_port(pname, port=p)
 
-    return rotate(c, -rotation)
+    return c.rotate(angle=-rotation)
 
 
 if __name__ == "__main__":
     import pp
 
     c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.waveguide_heater()
+    c = pp.c.mzi2x2(with_elec_connections=True)
     c.move((20, 50))
     cc = add_electrical_pads(c, fanout_length=100)
-    print(cc.get_settings())
-    print(cc.ports)
+    pp.show(cc)
 
-    ccc = pp.routing.add_fiber_array(cc)
-    pp.show(ccc)
+    # print(cc.get_settings())
+    # print(cc.ports)
+
+    # ccc = pp.routing.add_fiber_array(cc)
+    # pp.show(ccc)

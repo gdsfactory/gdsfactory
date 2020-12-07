@@ -4,12 +4,14 @@ from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_t
 
 def shorted_pads(width=100, n_pads=8, pad_spacing=150, layer=pp.LAYER.WG):
     c = pp.Component(name="shorted_pads")
-    pad = pp.c.rectangle_centered(x=width, y=width, layer=layer)
+    pad = pp.c.rectangle(size=(width, width), layer=layer, centered=True)
     for i in range(n_pads):
         pad_ref = c.add_ref(pad)
         pad_ref.movex(i * pad_spacing - n_pads / 2 * pad_spacing + pad_spacing / 2)
 
-    short = pp.c.rectangle_centered(x=pad_spacing * (n_pads - 1), y=10, layer=layer)
+    short = pp.c.rectangle(
+        size=(pad_spacing * (n_pads - 1), 10), layer=layer, centered=True
+    )
     c.add_ref(short)
     return c
 

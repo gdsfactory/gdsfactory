@@ -51,5 +51,5 @@ ports:
 
 
 if __name__ == "__main__":
-    c = coupler(pins=True)
+    c = coupler()
     pp.show(c)

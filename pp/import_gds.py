@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Optional, Union
+from pathlib import Path
 import json
 import gdspy
 
@@ -6,7 +7,7 @@ from phidl.device_layout import DeviceReference
 
 import pp
 from pp.component import Component
-from pp.cell import NAME_TO_DEVICE
+from pp.cell import CACHE
 from pp.port import read_port_markers, auto_rename_ports
 from pp.layers import port_layer2type, port_type2layer
 
@@ -141,7 +142,7 @@ def import_gds_cells(gdspath):
 
 
 def import_gds(
-    gdspath: str,
+    gdspath: Union[str, Path],
     cellname: None = None,
     flatten: bool = False,
     overwrite_cache: bool = True,
@@ -194,7 +195,7 @@ def import_gds(
 
         for cell in all_cells:
             cell_name = cell.name
-            if overwrite_cache or cell_name not in NAME_TO_DEVICE:
+            if overwrite_cache or cell_name not in CACHE:
                 D = pp.Component()
                 D.name = cell.name
                 D.polygons = cell.polygons
@@ -202,7 +203,7 @@ def import_gds(
                 D.name = cell_name
                 D.labels = cell.labels
             else:
-                D = NAME_TO_DEVICE[cell_name]
+                D = CACHE[cell_name]
 
             c2dmap.update({cell_name: D})
             D_list += [D]
@@ -250,7 +251,7 @@ def import_gds(
 def test_import_gds_snap_to_grid():
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
-    # print(len(c.get_polygons()))
+    print(len(c.get_polygons()))
     assert len(c.get_polygons()) == 8
 
     for x, y in c.get_polygons()[0]:
@@ -311,17 +312,16 @@ def add_settings_from_label(component):
 if __name__ == "__main__":
     # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
-    # test_import_gds_snap_to_grid()
-    # test_import_gds_snap_to_grid()
+    test_import_gds_snap_to_grid()
 
     # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5)
     # print(c)
     # pp.show(c)
 
-    c = import_gds("wg.gds")
-    add_settings_from_label(c)
-    print(c.settings)
+    # c = import_gds("wg.gds")
+    # add_settings_from_label(c)
+    # print(c.settings)
 
     # add_ports_from_markers_center(c)
     # print(c.ports)

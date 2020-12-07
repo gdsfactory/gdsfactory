@@ -1,10 +1,10 @@
 from typing import Callable
 import pp
 
-from pp.components import bend_circular
-from pp.components import wg_heater_connected as waveguide_heater
-from pp.components import waveguide
-from pp.components import mmi1x2
+from pp.components.bend_circular import bend_circular
+from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.waveguide import waveguide
+from pp.components.mmi1x2 import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
 from pp.netlist_to_gds import netlist_to_component
 from pp.routing import route_elec_ports_to_side
@@ -21,9 +21,9 @@ def mzi1x2(
     L2: float = 10.0,
     bend_radius: float = 10.0,
     bend90_factory: Callable = bend_circular,
-    straight_heater_factory: Callable = waveguide_heater,
-    straight_factory: Callable = waveguide,
-    coupler_factory: Callable = mmi1x2,
+    waveguide_heater_function: Callable = wg_heater_connected,
+    waveguide_function: Callable = waveguide,
+    coupler_function: Callable = mmi1x2,
     with_elec_connections: bool = False,
 ) -> Component:
     """Mzi 1x2
@@ -34,9 +34,9 @@ def mzi1x2(
         L2: L_top horizontal length
         bend_radius: 10.0
         bend90_factory: bend_circular
-        straight_heater_factory: waveguide_heater or waveguide
-        straight_factory: waveguide
-        coupler_factory: coupler
+        waveguide_heater_function: wg_heater_connected or waveguide
+        waveguide_function: waveguide
+        coupler_function: coupler
 
     .. code::
 
@@ -68,16 +68,16 @@ def mzi1x2(
 
     """
     if not with_elec_connections:
-        straight_heater_factory = straight_factory
+        waveguide_heater_function = waveguide_function
 
-    cpl = pp.call_if_func(coupler_factory)
+    cpl = coupler_function()
 
     arm_defaults = {
         "L_top": L2,
         "bend_radius": bend_radius,
         "bend90_factory": bend90_factory,
-        "straight_heater_factory": straight_heater_factory,
-        "straight_factory": straight_factory,
+        "waveguide_heater_function": waveguide_heater_function,
+        "waveguide_function": waveguide_function,
         "with_elec_connections": with_elec_connections,
     }
 
@@ -170,7 +170,7 @@ def mzi1x2(
 if __name__ == "__main__":
     import pp
 
-    c = mzi1x2(coupler_factory=mmi1x2, with_elec_connections=False)
+    c = mzi1x2(coupler_function=mmi1x2, with_elec_connections=False)
     # print(c.ports)
     pp.show(c)
     # print(c.get_settings())

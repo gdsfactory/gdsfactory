@@ -4,15 +4,15 @@ from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.routing.utils import check_ports_have_equal_spacing
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.routing.manhattan import round_corners
-from pp.components import waveguide
-from pp.components import bend_circular
-from pp.components.taper import taper
+from pp.components.waveguide import waveguide as waveguide_function
+from pp.components.bend_circular import bend_circular as bend_circular_function
+from pp.components.taper import taper as taper_function
 from pp.add_labels import get_input_label
 from pp.container import container
 
 
 @container
-def add_termination(component, terminator=taper):
+def add_termination(component, terminator=taper_function):
     """ returns component containing a comonent with all ports terminated """
     terminator = pp.call_if_func(terminator)
     c = pp.Component(name=component.name + "_t")
@@ -43,8 +43,8 @@ def add_gratings_and_loop_back(
     gc_port_name=None,
     gc_rotation=-90,
     waveguide_separation=5.0,
-    bend_factory=bend_circular,
-    waveguide_factory=waveguide,
+    bend_factory=bend_circular_function,
+    waveguide_factory=waveguide_function,
     layer_label=pp.LAYER.LABEL,
     component_name=None,
     with_loopback=True,
@@ -140,5 +140,5 @@ if __name__ == "__main__":
     cc = add_gratings_and_loop_back(c, with_loopback=False)
 
     # cc = add_termination(component=c)
-    print(cc.get_settings()["component"])
+    print(cc.get_settings()["settings"]["component"])
     pp.show(cc)

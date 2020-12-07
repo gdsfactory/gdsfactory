@@ -67,7 +67,7 @@ def load_component(
             old_label = [
                 label
                 for label in component.labels
-                if label.layer == pp.LAYER.INFO_GEO_HASH
+                if label.layer == pp.LAYER.LABEL_SETTINGS
             ]
             if len(old_label) > 0:
                 for label in old_label:

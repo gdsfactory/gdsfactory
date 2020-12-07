@@ -1,0 +1,17 @@
+function_name: package_optical2x2
+name: mzi2x2_WECTrue_20
+settings:
+  bend_length: None
+  component:
+    function_name: mzi2x2
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60.0
+      L2: 10.0
+      bend_radius: 10.0
+      gap: 0.234
+      with_elec_connections: true
+  port_spacing: 20.0
