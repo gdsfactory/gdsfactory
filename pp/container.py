@@ -12,6 +12,7 @@ from inspect import signature
 from pp.component import Component
 from pp.layers import LAYER
 from pp.name import get_component_name
+from pp.config import MAX_NAME_LENGTH
 
 
 propagate_attributes = {
@@ -22,7 +23,7 @@ propagate_attributes = {
 }
 
 
-def container(component_function: Callable) -> Callable:
+def container(func: Callable) -> Callable:
     """Decorator for creating a new component that copies properties from the original component
 
     - polarization
@@ -39,7 +40,7 @@ def container(component_function: Callable) -> Callable:
       import pp
 
       @pp.container
-      def add_padding(component, suffix='p', layer=pp.LAYER.M1):
+      def _add_padding(component, suffix='p', layer=pp.LAYER.M1):
           c = pp.Component(name=f"{component.name}_{suffix}")
           c << component
           w, h = component.xsize, component.ysize
@@ -48,12 +49,12 @@ def container(component_function: Callable) -> Callable:
           return c
 
       c = pp.c.waveguide()
-      cp = add_padding(c)
+      cp = _add_padding(c)
       pp.plotgds(c)
 
     """
 
-    @functools.wraps(component_function)
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         old = kwargs.get("component")
         if not old and args:
@@ -62,17 +63,20 @@ def container(component_function: Callable) -> Callable:
             old = old()
         if not isinstance(old, Component):
             raise ValueError(
-                f"container {component_function.__name__} requires a component, got `{old}`"
+                f"container {func.__name__} requires a component, got `{old}`"
             )
         name = kwargs.pop("name", "")
         old = old or kwargs.get("component")
-        new = component_function(*args, **kwargs)
+        new = func(*args, **kwargs)
+        assert isinstance(
+            new, Component
+        ), f"`{func.__name__}` function needs to return a Component, it returned `{new}` "
 
-        sig = signature(component_function)
+        sig = signature(func)
         new.settings.update(**{p.name: p.default for p in sig.parameters.values()})
         new.settings.update(**kwargs)
         new.settings["component"] = old.get_settings()
-        new.function_name = component_function.__name__
+        new.function_name = func.__name__
         if len(new.ports) == 0:
             new.ports = old.ports
 
@@ -109,7 +113,7 @@ def containerize(component: Component, function: Callable, **kwargs):
     c = Component()
     component_type = f"{component.name}_{function.__name__}"
     name = get_component_name(component_type, **kwargs)
-    if len(name) > 32:
+    if len(name) > MAX_NAME_LENGTH:
         c.name_long = name
         name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
     c.name = name
@@ -139,7 +143,7 @@ def container_instance(component):
 
 
 @container
-def add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
+def _add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
     """ adds padding layers to component"""
     c = Component(name=f"{component.name}_{suffix}")
     c << component
@@ -151,7 +155,7 @@ def add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
     ]
     for layer in layers:
         c.add_polygon(points, layer=layer)
-    return c
+    # return c
 
 
 def test_container():
@@ -160,12 +164,12 @@ def test_container():
     old = pp.c.waveguide()
     suffix = "p"
     name = f"{old.name}_{suffix}"
-    new = add_padding(component=old, suffix=suffix)
+    new = _add_padding(component=old, suffix=suffix)
     assert new != old, f"new component {new} should be different from {old}"
     assert new.name == name, f"new name {new.name} should be {name}"
-    # assert len(new.ports) == len(
-    #     old.ports
-    # ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
+    assert len(new.ports) == len(
+        old.ports
+    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
     # assert len(new.settings) == len(
     #     old.settings
     # ), f"new component {new.settings} settings should match original {old.settings} settings"
@@ -178,7 +182,7 @@ def test_container2():
     old = pp.c.waveguide()
     suffix = "p"
     name = f"{old.name}_{suffix}"
-    new = add_padding(old, suffix=suffix)
+    new = _add_padding(old, suffix=suffix)
     assert new != old, f"new component {new} should be different from {old}"
     assert new.name == name, f"new name {new.name} should be {name}"
     # assert len(new.ports) == len(
@@ -193,7 +197,7 @@ def test_container_error():
 
     old = pp.c.waveguide()
     with pytest.raises(ValueError):
-        add_padding(component2=old)  # will raise an error
+        _add_padding(component2=old)  # will raise an error
     return old
 
 
@@ -205,5 +209,7 @@ if __name__ == "__main__":
     # cc1 = container_instance(c1)
     # cc2 = container_instance(c2)
 
-    c = test_containerize()
+    # c = test_containerize()
+
+    c = test_container()
     pp.show(c)

@@ -38,6 +38,7 @@ home_config = home_path / "config.yml"
 
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
+MAX_NAME_LENGTH = 32
 
 
 def clear_connections(connections=connections):

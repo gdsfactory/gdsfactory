@@ -86,6 +86,7 @@ from pp.components.coupler_adiabatic import coupler_adiabatic
 from pp.components.coupler_full import coupler_full
 from pp.components.disk import disk
 from pp.components.ring_single import ring_single
+from pp.components.ring_single_array import ring_single_array
 from pp.components.ring_double import ring_double
 from pp.components.ring_single_bus import ring_single_bus
 from pp.components.ring_double_bus import ring_double_bus
@@ -171,6 +172,7 @@ component_factory = dict(
     ring_double=ring_double,
     ring_double_bus=ring_double_bus,
     ring_single=ring_single,
+    ring_single_array=ring_single_array,
     ring_single_bus=ring_single_bus,
     spiral=spiral,
     spiral_circular=spiral_circular,
@@ -227,6 +229,7 @@ _components_test_ports = _components - set(_skip_test_ports)
 _circuits = {
     "mzi",
     "ring_single",
+    "ring_single_array",
     "ring_double",
     "mzit_lattice",
     "mzit",

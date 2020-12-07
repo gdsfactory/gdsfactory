@@ -16,7 +16,7 @@ from phidl.device_layout import _parse_layer
 from pp.port import Port, select_ports
 from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
-from pp.drc import snap_to_1nm_grid
+from pp.recurse_references import recurse_references
 
 
 def copy(D):
@@ -202,7 +202,7 @@ class ComponentReference(DeviceReference):
         return new_reference
 
     def get_labels(
-        self, recursive: None = True, associate_visual_labels: bool = True
+        self, recursive: bool = True, associate_visual_labels: bool = True
     ) -> List[Any]:
         """
         access all labels correctly rotated, mirrored and translated
@@ -547,34 +547,34 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(
-        self, label_index_end=1, with_labels=True, font_weight="normal", recursive=True
-    ):
+    def plot_netlist(self, with_labels=True, font_weight="normal", recursive=True):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
         Args:
-            label_index_end: name args separated with `_` to print (-1: all)
             with_labels: label nodes
             font_weight: normal, bold
         """
         netlist = self.get_netlist(recursive=recursive)
         connections = netlist.connections
-        G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
-        pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
-        labels = {
-            k: ",".join(k.split(",")[:label_index_end])
-            for k in netlist.placements.keys()
-        }
-        nx.draw(
-            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos
-        )
+
+        for level, connections_level in connections.items():
+            G = nx.Graph()
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections_level.items()
+                ]
+            )
+            pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
+            labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
+            nx.draw(
+                G,
+                with_labels=with_labels,
+                font_weight=font_weight,
+                labels=labels,
+                pos=pos,
+            )
 
     def get_netlist_yaml(self):
         """Return YAML netlist."""
@@ -983,80 +983,8 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     return output
 
 
-def recurse_references(
-    component: Component,
-    instances: Dict[str, ComponentReference] = None,
-    placements=None,
-    connections=None,
-    port_locations=None,
-    dx: float = 0.0,
-    dy: float = 0.0,
-    recursive=True,
-):
-    """From a component returns instances and placements dicts.
-
-    Args:
-        component: to recurse
-        instances: instance_name to settings dict. Instances are name by ComponentName.x.y
-        placements: instance_name to x,y,rotation dict
-        connections: instance_name_src,portName: instance_name_dst,portName
-        port_locations: dict((x,y): set([referenceName, Port]))
-        dx: port displacement in x (for recursice case)
-        dy: port displacement in y (for recursive case)
-
-    Returns:
-        connections
-        instances
-        placements
-    """
-    placements = placements or {}
-    instances = instances or {}
-    connections = connections or {}
-    port_locations = port_locations or {
-        snap_to_1nm_grid((port.x, port.y)): [] for port in component.get_ports()
-    }
-
-    for r in component.references:
-        c = r.parent
-        x = snap_to_1nm_grid(r.x + dx)
-        y = snap_to_1nm_grid(r.y + dy)
-        reference_name = f"{c.name}_{int(x)}_{int(y)}"
-        settings = c.get_settings()
-        instances[reference_name] = dict(component=c.function_name, settings=settings)
-        placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation),)
-        for port in r.get_ports_list():
-            src = f"{reference_name},{port.name}"
-            xy = snap_to_1nm_grid((port.x + dx, port.y + dy))
-            assert xy in port_locations, f"{xy} for {c.name} not in {port_locations}"
-            src_list = port_locations[xy]
-            if len(src_list) > 0:
-                for dst in src_list:
-                    connections[src] = dst
-            else:
-                src_list.append(src)
-
-        if recursive and len(c.references) > 0:
-            c2, i2, p2 = recurse_references(
-                component=c,
-                instances=instances,
-                placements=placements,
-                connections=connections,
-                dx=x - c.x,
-                dy=y - c.y,
-                port_locations=port_locations,
-            )
-            placements.update(p2)
-            instances.update(i2)
-            connections.update(c2)
-
-    placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
-    instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
-    return connections_sorted, instances_sorted, placements_sorted
-
-
 def clean_dict(d):
-    """cleans dictionary keys"""
+    """Cleans dictionary keys"""
     from pp.component import _clean_value
 
     for k, v in d.items():
@@ -1067,7 +995,7 @@ def clean_dict(d):
 
 
 def _clean_value(value: Any) -> Any:
-    """ returns a clean value to be JSON serializable"""
+    """Returns a clean value that is JSON serializable"""
     if type(value) in [int, float, str, tuple, bool]:
         value = value
     elif isinstance(value, np.int32):
@@ -1178,6 +1106,7 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
     import pp
 
     # c = pp.c.ring_single()
@@ -1193,10 +1122,11 @@ if __name__ == "__main__":
         delta_lengths=delta_lengths,
     )
     n = c.get_netlist()
-    # print(n.placements)
-    # print(n.connections)
+    print(n.placements)
+    print(n.connections)
 
-    # c.plot_netlist()
+    c.plot_netlist()
+    plt.show()
 
     # import matplotlib.pyplot as plt
     # plt.show()

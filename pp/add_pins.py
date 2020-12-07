@@ -200,7 +200,7 @@ def _add_outline(
 
 def _add_pins(
     component: Component,
-    reference: ComponentReference,
+    reference: Optional[ComponentReference] = None,
     add_port_marker_function: Callable = _add_pin_square,
     port_type2layer=port_type2layer,
     **kwargs,
@@ -213,6 +213,7 @@ def _add_pins(
         port_type2layer: dict mapping port types to marker layers for ports
 
     """
+    reference = reference or component
     for p in reference.ports.values():
         layer = port_type2layer[p.port_type]
         add_port_marker_function(

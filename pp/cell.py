@@ -5,10 +5,10 @@ import hashlib
 from functools import wraps, partial
 from pp.name import get_component_name
 from pp.component import Component
+from pp.config import MAX_NAME_LENGTH
 
 
 CACHE: Dict[str, Component] = {}
-MAX_NAME_LENGTH = 32
 
 
 def clear_cache():

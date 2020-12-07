@@ -16,6 +16,7 @@ from pp.components import component_factory
 from pp import klive
 from pp.component import Component
 from pp.cell import clear_cache
+from pp.add_pins import _add_pins
 
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name)
@@ -178,7 +179,7 @@ def clean_value(value):
     return value
 
 
-def show(component: Component, **kwargs) -> None:
+def show(component: Component, pins=True, **kwargs) -> None:
     """write component GDS and shows it in klayout
 
     Args:
@@ -197,6 +198,8 @@ def show(component: Component, **kwargs) -> None:
         )
 
     elif isinstance(component, Component):
+        if pins:
+            _add_pins(component)
         gdspath = write_gds(component, **kwargs)
         klive.show(gdspath)
     else:
