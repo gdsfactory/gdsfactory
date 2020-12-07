@@ -24,26 +24,28 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.2.1
+## 2.2.1 2020-12-06
 
 - pp.qp hides DEVREC layer
-- test netlist of _circuits
+- test netlist of `_circuits`
 - sort the keys when loading YAML file for test_netlists
 - better docstrings
 - add function_name to container
 - remove duplicated keys for container
 - pp.clear_cache() in pytest fixture in `pp/conftest.py`
 - fixed pp.clear_cache() by using a global variable.
-- added lytest tests, which test geometry booleans using klayout
+- added lytest tests, which test GDS boolean diffs using klayout
 - fixed `pf diff` to show (diffs, common, only_old, only_new, old, new) using same layers in different cells. Thanks to Troy Tamas.
 - removed `pins` argument from cell decorator as it changes the geometry of a cell with the same name (it was problematic).
 - new recurse_instances function. No need to track connections in a global netlist dict. We can extract netlist connections from devices sharing ports.
 - component_from_yaml adds label with. instance name. Thanks to Troy Tamas.
 - write a pp.add_pins_to_references that adds pins and labels to references.
 - make sure @cell decorator checks that it returns a Component
-- rename 0.5 as 500n (it makes more sense as default units are in um) and submicron features are named in nm
 - remove other types of units conversions from
-
+- better type hints
+- export hierarchical and flat netlists
+- rename 0.5 as 500n (it makes more sense as default units are in um) and submicron features are named in nm
+- remove other renames
 ```
 if 1e12 > value > 1e9:
     value = f"{int(value/1e9)}G"
