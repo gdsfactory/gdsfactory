@@ -1,3 +1,7 @@
+""" Deprecated, use componet_from_yaml instead
+
+"""
+
 from typing import Dict, List, Tuple, Union
 import numpy as np
 from numpy import ndarray
@@ -29,11 +33,13 @@ TRANSFORMATION_MAP = {
 STR_TO_TRANSFORMATION_MAP = {v: k for k, v in TRANSFORMATION_MAP.items()}
 
 
-def get_elec_ports_from_component_names(component: Component, names=[]):
+def get_elec_ports_from_component_names(component: Component, names=None):
     """
     Args:
         component: should have component.info["instances"]
+        names:
     """
+    names = names or []
     e_ports = {}
 
     for name in names:

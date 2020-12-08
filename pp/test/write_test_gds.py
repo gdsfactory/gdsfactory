@@ -20,9 +20,9 @@ if __name__ == "__main__":
                 f"""
 
 @contained_phidlDevice
-def {component_type}(TOP):
+def {component_type}(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.{component_type}())
+    top.add_ref(pp.c.{component_type}())
 
 
 def test_gds_{component_type}():
@@ -34,12 +34,12 @@ def test_gds_{component_type}():
                 f"""
 
 @contained_phidlDevice
-def {container_type}(TOP):
+def {container_type}(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["{container_type}"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_{container_type}():

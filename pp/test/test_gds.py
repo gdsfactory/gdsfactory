@@ -4,9 +4,9 @@ from lytest import contained_phidlDevice, difftest_it
 
 
 @contained_phidlDevice
-def C(TOP):
+def C(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.C())
+    top.add_ref(pp.c.C())
 
 
 def test_gds_C():
@@ -14,9 +14,9 @@ def test_gds_C():
 
 
 @contained_phidlDevice
-def L(TOP):
+def L(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.L())
+    top.add_ref(pp.c.L())
 
 
 def test_gds_L():
@@ -24,9 +24,9 @@ def test_gds_L():
 
 
 @contained_phidlDevice
-def bbox(TOP):
+def bbox(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bbox())
+    top.add_ref(pp.c.bbox())
 
 
 def test_gds_bbox():
@@ -34,9 +34,9 @@ def test_gds_bbox():
 
 
 @contained_phidlDevice
-def bend_circular(TOP):
+def bend_circular(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_circular())
+    top.add_ref(pp.c.bend_circular())
 
 
 def test_gds_bend_circular():
@@ -44,9 +44,9 @@ def test_gds_bend_circular():
 
 
 @contained_phidlDevice
-def bend_circular180(TOP):
+def bend_circular180(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_circular180())
+    top.add_ref(pp.c.bend_circular180())
 
 
 def test_gds_bend_circular180():
@@ -54,9 +54,9 @@ def test_gds_bend_circular180():
 
 
 @contained_phidlDevice
-def bend_circular_heater(TOP):
+def bend_circular_heater(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_circular_heater())
+    top.add_ref(pp.c.bend_circular_heater())
 
 
 def test_gds_bend_circular_heater():
@@ -64,9 +64,9 @@ def test_gds_bend_circular_heater():
 
 
 @contained_phidlDevice
-def bend_euler180(TOP):
+def bend_euler180(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_euler180())
+    top.add_ref(pp.c.bend_euler180())
 
 
 def test_gds_bend_euler180():
@@ -74,9 +74,9 @@ def test_gds_bend_euler180():
 
 
 @contained_phidlDevice
-def bend_euler90(TOP):
+def bend_euler90(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_euler90())
+    top.add_ref(pp.c.bend_euler90())
 
 
 def test_gds_bend_euler90():
@@ -84,9 +84,9 @@ def test_gds_bend_euler90():
 
 
 @contained_phidlDevice
-def bend_s(TOP):
+def bend_s(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bend_s())
+    top.add_ref(pp.c.bend_s())
 
 
 def test_gds_bend_s():
@@ -94,9 +94,9 @@ def test_gds_bend_s():
 
 
 @contained_phidlDevice
-def bezier(TOP):
+def bezier(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.bezier())
+    top.add_ref(pp.c.bezier())
 
 
 def test_gds_bezier():
@@ -104,9 +104,9 @@ def test_gds_bezier():
 
 
 @contained_phidlDevice
-def cdc(TOP):
+def cdc(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.cdc())
+    top.add_ref(pp.c.cdc())
 
 
 def test_gds_cdc():
@@ -114,9 +114,9 @@ def test_gds_cdc():
 
 
 @contained_phidlDevice
-def circle(TOP):
+def circle(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.circle())
+    top.add_ref(pp.c.circle())
 
 
 def test_gds_circle():
@@ -124,9 +124,9 @@ def test_gds_circle():
 
 
 @contained_phidlDevice
-def compass(TOP):
+def compass(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.compass())
+    top.add_ref(pp.c.compass())
 
 
 def test_gds_compass():
@@ -134,9 +134,9 @@ def test_gds_compass():
 
 
 @contained_phidlDevice
-def compensation_path(TOP):
+def compensation_path(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.compensation_path())
+    top.add_ref(pp.c.compensation_path())
 
 
 def test_gds_compensation_path():
@@ -144,9 +144,9 @@ def test_gds_compensation_path():
 
 
 @contained_phidlDevice
-def component_lattice(TOP):
+def component_lattice(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.component_lattice())
+    top.add_ref(pp.c.component_lattice())
 
 
 def test_gds_component_lattice():
@@ -154,9 +154,9 @@ def test_gds_component_lattice():
 
 
 @contained_phidlDevice
-def corner(TOP):
+def corner(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.corner())
+    top.add_ref(pp.c.corner())
 
 
 def test_gds_corner():
@@ -164,9 +164,9 @@ def test_gds_corner():
 
 
 @contained_phidlDevice
-def coupler(TOP):
+def coupler(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler())
+    top.add_ref(pp.c.coupler())
 
 
 def test_gds_coupler():
@@ -174,9 +174,9 @@ def test_gds_coupler():
 
 
 @contained_phidlDevice
-def coupler90(TOP):
+def coupler90(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler90())
+    top.add_ref(pp.c.coupler90())
 
 
 def test_gds_coupler90():
@@ -184,9 +184,9 @@ def test_gds_coupler90():
 
 
 @contained_phidlDevice
-def coupler_adiabatic(TOP):
+def coupler_adiabatic(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_adiabatic())
+    top.add_ref(pp.c.coupler_adiabatic())
 
 
 def test_gds_coupler_adiabatic():
@@ -194,9 +194,9 @@ def test_gds_coupler_adiabatic():
 
 
 @contained_phidlDevice
-def coupler_asymmetric(TOP):
+def coupler_asymmetric(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_asymmetric())
+    top.add_ref(pp.c.coupler_asymmetric())
 
 
 def test_gds_coupler_asymmetric():
@@ -204,9 +204,9 @@ def test_gds_coupler_asymmetric():
 
 
 @contained_phidlDevice
-def coupler_full(TOP):
+def coupler_full(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_full())
+    top.add_ref(pp.c.coupler_full())
 
 
 def test_gds_coupler_full():
@@ -214,9 +214,9 @@ def test_gds_coupler_full():
 
 
 @contained_phidlDevice
-def coupler_ring(TOP):
+def coupler_ring(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_ring())
+    top.add_ref(pp.c.coupler_ring())
 
 
 def test_gds_coupler_ring():
@@ -224,9 +224,9 @@ def test_gds_coupler_ring():
 
 
 @contained_phidlDevice
-def coupler_straight(TOP):
+def coupler_straight(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_straight())
+    top.add_ref(pp.c.coupler_straight())
 
 
 def test_gds_coupler_straight():
@@ -234,9 +234,9 @@ def test_gds_coupler_straight():
 
 
 @contained_phidlDevice
-def coupler_symmetric(TOP):
+def coupler_symmetric(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.coupler_symmetric())
+    top.add_ref(pp.c.coupler_symmetric())
 
 
 def test_gds_coupler_symmetric():
@@ -244,9 +244,9 @@ def test_gds_coupler_symmetric():
 
 
 @contained_phidlDevice
-def cross(TOP):
+def cross(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.cross())
+    top.add_ref(pp.c.cross())
 
 
 def test_gds_cross():
@@ -254,9 +254,9 @@ def test_gds_cross():
 
 
 @contained_phidlDevice
-def crossing(TOP):
+def crossing(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.crossing())
+    top.add_ref(pp.c.crossing())
 
 
 def test_gds_crossing():
@@ -264,9 +264,9 @@ def test_gds_crossing():
 
 
 @contained_phidlDevice
-def crossing45(TOP):
+def crossing45(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.crossing45())
+    top.add_ref(pp.c.crossing45())
 
 
 def test_gds_crossing45():
@@ -274,9 +274,9 @@ def test_gds_crossing45():
 
 
 @contained_phidlDevice
-def dbr(TOP):
+def dbr(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.dbr())
+    top.add_ref(pp.c.dbr())
 
 
 def test_gds_dbr():
@@ -284,9 +284,9 @@ def test_gds_dbr():
 
 
 @contained_phidlDevice
-def dbr2(TOP):
+def dbr2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.dbr2())
+    top.add_ref(pp.c.dbr2())
 
 
 def test_gds_dbr2():
@@ -294,9 +294,9 @@ def test_gds_dbr2():
 
 
 @contained_phidlDevice
-def delay_snake(TOP):
+def delay_snake(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.delay_snake())
+    top.add_ref(pp.c.delay_snake())
 
 
 def test_gds_delay_snake():
@@ -304,9 +304,9 @@ def test_gds_delay_snake():
 
 
 @contained_phidlDevice
-def disk(TOP):
+def disk(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.disk())
+    top.add_ref(pp.c.disk())
 
 
 def test_gds_disk():
@@ -314,9 +314,9 @@ def test_gds_disk():
 
 
 @contained_phidlDevice
-def ellipse(TOP):
+def ellipse(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ellipse())
+    top.add_ref(pp.c.ellipse())
 
 
 def test_gds_ellipse():
@@ -324,9 +324,9 @@ def test_gds_ellipse():
 
 
 @contained_phidlDevice
-def grating_coupler_elliptical2(TOP):
+def grating_coupler_elliptical2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_elliptical2())
+    top.add_ref(pp.c.grating_coupler_elliptical2())
 
 
 def test_gds_grating_coupler_elliptical2():
@@ -334,9 +334,9 @@ def test_gds_grating_coupler_elliptical2():
 
 
 @contained_phidlDevice
-def grating_coupler_elliptical_te(TOP):
+def grating_coupler_elliptical_te(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_elliptical_te())
+    top.add_ref(pp.c.grating_coupler_elliptical_te())
 
 
 def test_gds_grating_coupler_elliptical_te():
@@ -344,9 +344,9 @@ def test_gds_grating_coupler_elliptical_te():
 
 
 @contained_phidlDevice
-def grating_coupler_elliptical_tm(TOP):
+def grating_coupler_elliptical_tm(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_elliptical_tm())
+    top.add_ref(pp.c.grating_coupler_elliptical_tm())
 
 
 def test_gds_grating_coupler_elliptical_tm():
@@ -354,9 +354,9 @@ def test_gds_grating_coupler_elliptical_tm():
 
 
 @contained_phidlDevice
-def grating_coupler_te(TOP):
+def grating_coupler_te(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_te())
+    top.add_ref(pp.c.grating_coupler_te())
 
 
 def test_gds_grating_coupler_te():
@@ -364,9 +364,9 @@ def test_gds_grating_coupler_te():
 
 
 @contained_phidlDevice
-def grating_coupler_tm(TOP):
+def grating_coupler_tm(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_tm())
+    top.add_ref(pp.c.grating_coupler_tm())
 
 
 def test_gds_grating_coupler_tm():
@@ -374,9 +374,9 @@ def test_gds_grating_coupler_tm():
 
 
 @contained_phidlDevice
-def grating_coupler_tree(TOP):
+def grating_coupler_tree(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_tree())
+    top.add_ref(pp.c.grating_coupler_tree())
 
 
 def test_gds_grating_coupler_tree():
@@ -384,9 +384,9 @@ def test_gds_grating_coupler_tree():
 
 
 @contained_phidlDevice
-def grating_coupler_uniform(TOP):
+def grating_coupler_uniform(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.grating_coupler_uniform())
+    top.add_ref(pp.c.grating_coupler_uniform())
 
 
 def test_gds_grating_coupler_uniform():
@@ -394,9 +394,9 @@ def test_gds_grating_coupler_uniform():
 
 
 @contained_phidlDevice
-def hline(TOP):
+def hline(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.hline())
+    top.add_ref(pp.c.hline())
 
 
 def test_gds_hline():
@@ -404,9 +404,9 @@ def test_gds_hline():
 
 
 @contained_phidlDevice
-def litho_calipers(TOP):
+def litho_calipers(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.litho_calipers())
+    top.add_ref(pp.c.litho_calipers())
 
 
 def test_gds_litho_calipers():
@@ -414,9 +414,9 @@ def test_gds_litho_calipers():
 
 
 @contained_phidlDevice
-def litho_star(TOP):
+def litho_star(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.litho_star())
+    top.add_ref(pp.c.litho_star())
 
 
 def test_gds_litho_star():
@@ -424,9 +424,9 @@ def test_gds_litho_star():
 
 
 @contained_phidlDevice
-def litho_steps(TOP):
+def litho_steps(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.litho_steps())
+    top.add_ref(pp.c.litho_steps())
 
 
 def test_gds_litho_steps():
@@ -434,9 +434,9 @@ def test_gds_litho_steps():
 
 
 @contained_phidlDevice
-def loop_mirror(TOP):
+def loop_mirror(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.loop_mirror())
+    top.add_ref(pp.c.loop_mirror())
 
 
 def test_gds_loop_mirror():
@@ -444,9 +444,9 @@ def test_gds_loop_mirror():
 
 
 @contained_phidlDevice
-def mmi1x2(TOP):
+def mmi1x2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mmi1x2())
+    top.add_ref(pp.c.mmi1x2())
 
 
 def test_gds_mmi1x2():
@@ -454,9 +454,9 @@ def test_gds_mmi1x2():
 
 
 @contained_phidlDevice
-def mmi2x2(TOP):
+def mmi2x2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mmi2x2())
+    top.add_ref(pp.c.mmi2x2())
 
 
 def test_gds_mmi2x2():
@@ -464,9 +464,9 @@ def test_gds_mmi2x2():
 
 
 @contained_phidlDevice
-def mzi(TOP):
+def mzi(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzi())
+    top.add_ref(pp.c.mzi())
 
 
 def test_gds_mzi():
@@ -474,9 +474,9 @@ def test_gds_mzi():
 
 
 @contained_phidlDevice
-def mzi1x2(TOP):
+def mzi1x2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzi1x2())
+    top.add_ref(pp.c.mzi1x2())
 
 
 def test_gds_mzi1x2():
@@ -484,9 +484,9 @@ def test_gds_mzi1x2():
 
 
 @contained_phidlDevice
-def mzi2x2(TOP):
+def mzi2x2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzi2x2())
+    top.add_ref(pp.c.mzi2x2())
 
 
 def test_gds_mzi2x2():
@@ -494,9 +494,9 @@ def test_gds_mzi2x2():
 
 
 @contained_phidlDevice
-def mzi_arm(TOP):
+def mzi_arm(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzi_arm())
+    top.add_ref(pp.c.mzi_arm())
 
 
 def test_gds_mzi_arm():
@@ -504,9 +504,9 @@ def test_gds_mzi_arm():
 
 
 @contained_phidlDevice
-def mzi_lattice(TOP):
+def mzi_lattice(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzi_lattice())
+    top.add_ref(pp.c.mzi_lattice())
 
 
 def test_gds_mzi_lattice():
@@ -514,9 +514,9 @@ def test_gds_mzi_lattice():
 
 
 @contained_phidlDevice
-def mzit(TOP):
+def mzit(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzit())
+    top.add_ref(pp.c.mzit())
 
 
 def test_gds_mzit():
@@ -524,9 +524,9 @@ def test_gds_mzit():
 
 
 @contained_phidlDevice
-def mzit_lattice(TOP):
+def mzit_lattice(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.mzit_lattice())
+    top.add_ref(pp.c.mzit_lattice())
 
 
 def test_gds_mzit_lattice():
@@ -534,9 +534,9 @@ def test_gds_mzit_lattice():
 
 
 @contained_phidlDevice
-def nxn(TOP):
+def nxn(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.nxn())
+    top.add_ref(pp.c.nxn())
 
 
 def test_gds_nxn():
@@ -544,9 +544,9 @@ def test_gds_nxn():
 
 
 @contained_phidlDevice
-def pad(TOP):
+def pad(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.pad())
+    top.add_ref(pp.c.pad())
 
 
 def test_gds_pad():
@@ -554,9 +554,9 @@ def test_gds_pad():
 
 
 @contained_phidlDevice
-def pad_array(TOP):
+def pad_array(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.pad_array())
+    top.add_ref(pp.c.pad_array())
 
 
 def test_gds_pad_array():
@@ -564,9 +564,9 @@ def test_gds_pad_array():
 
 
 @contained_phidlDevice
-def pads_shorted(TOP):
+def pads_shorted(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.pads_shorted())
+    top.add_ref(pp.c.pads_shorted())
 
 
 def test_gds_pads_shorted():
@@ -574,9 +574,9 @@ def test_gds_pads_shorted():
 
 
 @contained_phidlDevice
-def rectangle(TOP):
+def rectangle(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.rectangle())
+    top.add_ref(pp.c.rectangle())
 
 
 def test_gds_rectangle():
@@ -584,9 +584,9 @@ def test_gds_rectangle():
 
 
 @contained_phidlDevice
-def ring(TOP):
+def ring(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ring())
+    top.add_ref(pp.c.ring())
 
 
 def test_gds_ring():
@@ -594,9 +594,9 @@ def test_gds_ring():
 
 
 @contained_phidlDevice
-def ring_double(TOP):
+def ring_double(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ring_double())
+    top.add_ref(pp.c.ring_double())
 
 
 def test_gds_ring_double():
@@ -604,9 +604,9 @@ def test_gds_ring_double():
 
 
 @contained_phidlDevice
-def ring_double_bus(TOP):
+def ring_double_bus(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ring_double_bus())
+    top.add_ref(pp.c.ring_double_bus())
 
 
 def test_gds_ring_double_bus():
@@ -614,9 +614,9 @@ def test_gds_ring_double_bus():
 
 
 @contained_phidlDevice
-def ring_single(TOP):
+def ring_single(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ring_single())
+    top.add_ref(pp.c.ring_single())
 
 
 def test_gds_ring_single():
@@ -624,9 +624,19 @@ def test_gds_ring_single():
 
 
 @contained_phidlDevice
-def ring_single_bus(TOP):
+def ring_single_array(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.ring_single_bus())
+    top.add_ref(pp.c.ring_single_array())
+
+
+def test_gds_ring_single_array():
+    difftest_it(ring_single_array)()
+
+
+@contained_phidlDevice
+def ring_single_bus(top):
+    # pp.clear_cache()
+    top.add_ref(pp.c.ring_single_bus())
 
 
 def test_gds_ring_single_bus():
@@ -634,9 +644,9 @@ def test_gds_ring_single_bus():
 
 
 @contained_phidlDevice
-def spiral(TOP):
+def spiral(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.spiral())
+    top.add_ref(pp.c.spiral())
 
 
 def test_gds_spiral():
@@ -644,9 +654,9 @@ def test_gds_spiral():
 
 
 @contained_phidlDevice
-def spiral_circular(TOP):
+def spiral_circular(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.spiral_circular())
+    top.add_ref(pp.c.spiral_circular())
 
 
 def test_gds_spiral_circular():
@@ -654,9 +664,9 @@ def test_gds_spiral_circular():
 
 
 @contained_phidlDevice
-def spiral_external_io(TOP):
+def spiral_external_io(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.spiral_external_io())
+    top.add_ref(pp.c.spiral_external_io())
 
 
 def test_gds_spiral_external_io():
@@ -664,9 +674,9 @@ def test_gds_spiral_external_io():
 
 
 @contained_phidlDevice
-def spiral_inner_io(TOP):
+def spiral_inner_io(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.spiral_inner_io())
+    top.add_ref(pp.c.spiral_inner_io())
 
 
 def test_gds_spiral_inner_io():
@@ -674,9 +684,9 @@ def test_gds_spiral_inner_io():
 
 
 @contained_phidlDevice
-def spiral_inner_io_euler(TOP):
+def spiral_inner_io_euler(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.spiral_inner_io_euler())
+    top.add_ref(pp.c.spiral_inner_io_euler())
 
 
 def test_gds_spiral_inner_io_euler():
@@ -684,9 +694,9 @@ def test_gds_spiral_inner_io_euler():
 
 
 @contained_phidlDevice
-def splitter_chain(TOP):
+def splitter_chain(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.splitter_chain())
+    top.add_ref(pp.c.splitter_chain())
 
 
 def test_gds_splitter_chain():
@@ -694,9 +704,9 @@ def test_gds_splitter_chain():
 
 
 @contained_phidlDevice
-def splitter_tree(TOP):
+def splitter_tree(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.splitter_tree())
+    top.add_ref(pp.c.splitter_tree())
 
 
 def test_gds_splitter_tree():
@@ -704,9 +714,9 @@ def test_gds_splitter_tree():
 
 
 @contained_phidlDevice
-def taper(TOP):
+def taper(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.taper())
+    top.add_ref(pp.c.taper())
 
 
 def test_gds_taper():
@@ -714,9 +724,9 @@ def test_gds_taper():
 
 
 @contained_phidlDevice
-def taper_strip_to_ridge(TOP):
+def taper_strip_to_ridge(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.taper_strip_to_ridge())
+    top.add_ref(pp.c.taper_strip_to_ridge())
 
 
 def test_gds_taper_strip_to_ridge():
@@ -724,9 +734,9 @@ def test_gds_taper_strip_to_ridge():
 
 
 @contained_phidlDevice
-def tlm(TOP):
+def tlm(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.tlm())
+    top.add_ref(pp.c.tlm())
 
 
 def test_gds_tlm():
@@ -734,9 +744,9 @@ def test_gds_tlm():
 
 
 @contained_phidlDevice
-def verniers(TOP):
+def verniers(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.verniers())
+    top.add_ref(pp.c.verniers())
 
 
 def test_gds_verniers():
@@ -744,9 +754,9 @@ def test_gds_verniers():
 
 
 @contained_phidlDevice
-def via(TOP):
+def via(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.via())
+    top.add_ref(pp.c.via())
 
 
 def test_gds_via():
@@ -754,9 +764,9 @@ def test_gds_via():
 
 
 @contained_phidlDevice
-def via1(TOP):
+def via1(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.via1())
+    top.add_ref(pp.c.via1())
 
 
 def test_gds_via1():
@@ -764,9 +774,9 @@ def test_gds_via1():
 
 
 @contained_phidlDevice
-def via2(TOP):
+def via2(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.via2())
+    top.add_ref(pp.c.via2())
 
 
 def test_gds_via2():
@@ -774,9 +784,9 @@ def test_gds_via2():
 
 
 @contained_phidlDevice
-def via3(TOP):
+def via3(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.via3())
+    top.add_ref(pp.c.via3())
 
 
 def test_gds_via3():
@@ -784,9 +794,9 @@ def test_gds_via3():
 
 
 @contained_phidlDevice
-def waveguide(TOP):
+def waveguide(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.waveguide())
+    top.add_ref(pp.c.waveguide())
 
 
 def test_gds_waveguide():
@@ -794,9 +804,9 @@ def test_gds_waveguide():
 
 
 @contained_phidlDevice
-def waveguide_array(TOP):
+def waveguide_array(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.waveguide_array())
+    top.add_ref(pp.c.waveguide_array())
 
 
 def test_gds_waveguide_array():
@@ -804,9 +814,9 @@ def test_gds_waveguide_array():
 
 
 @contained_phidlDevice
-def waveguide_heater(TOP):
+def waveguide_heater(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.waveguide_heater())
+    top.add_ref(pp.c.waveguide_heater())
 
 
 def test_gds_waveguide_heater():
@@ -814,9 +824,9 @@ def test_gds_waveguide_heater():
 
 
 @contained_phidlDevice
-def waveguide_pin(TOP):
+def waveguide_pin(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.waveguide_pin())
+    top.add_ref(pp.c.waveguide_pin())
 
 
 def test_gds_waveguide_pin():
@@ -824,9 +834,9 @@ def test_gds_waveguide_pin():
 
 
 @contained_phidlDevice
-def wg_heater_connected(TOP):
+def wg_heater_connected(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.wg_heater_connected())
+    top.add_ref(pp.c.wg_heater_connected())
 
 
 def test_gds_wg_heater_connected():
@@ -834,9 +844,9 @@ def test_gds_wg_heater_connected():
 
 
 @contained_phidlDevice
-def wire(TOP):
+def wire(top):
     # pp.clear_cache()
-    TOP.add_ref(pp.c.wire())
+    top.add_ref(pp.c.wire())
 
 
 def test_gds_wire():
@@ -844,12 +854,12 @@ def test_gds_wire():
 
 
 @contained_phidlDevice
-def add_electrical_pads(TOP):
+def add_electrical_pads(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_electrical_pads"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_electrical_pads():
@@ -857,12 +867,12 @@ def test_gds_add_electrical_pads():
 
 
 @contained_phidlDevice
-def add_electrical_pads_shortest(TOP):
+def add_electrical_pads_shortest(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_electrical_pads_shortest"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_electrical_pads_shortest():
@@ -870,12 +880,12 @@ def test_gds_add_electrical_pads_shortest():
 
 
 @contained_phidlDevice
-def add_electrical_pads_top(TOP):
+def add_electrical_pads_top(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_electrical_pads_top"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_electrical_pads_top():
@@ -883,12 +893,12 @@ def test_gds_add_electrical_pads_top():
 
 
 @contained_phidlDevice
-def add_fiber_array(TOP):
+def add_fiber_array(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_fiber_array"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_fiber_array():
@@ -896,12 +906,12 @@ def test_gds_add_fiber_array():
 
 
 @contained_phidlDevice
-def add_fiber_single(TOP):
+def add_fiber_single(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_fiber_single"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_fiber_single():
@@ -909,12 +919,12 @@ def test_gds_add_fiber_single():
 
 
 @contained_phidlDevice
-def add_grating_couplers(TOP):
+def add_grating_couplers(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_grating_couplers"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_grating_couplers():
@@ -922,12 +932,12 @@ def test_gds_add_grating_couplers():
 
 
 @contained_phidlDevice
-def add_padding(TOP):
+def add_padding(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_padding"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_padding():
@@ -935,12 +945,12 @@ def test_gds_add_padding():
 
 
 @contained_phidlDevice
-def add_tapers(TOP):
+def add_tapers(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_tapers"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_tapers():
@@ -948,12 +958,12 @@ def test_gds_add_tapers():
 
 
 @contained_phidlDevice
-def add_termination(TOP):
+def add_termination(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_termination"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_termination():
@@ -961,12 +971,12 @@ def test_gds_add_termination():
 
 
 @contained_phidlDevice
-def add_pins(TOP):
+def add_pins(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["add_pins"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_add_pins():
@@ -974,12 +984,12 @@ def test_gds_add_pins():
 
 
 @contained_phidlDevice
-def extend_ports(TOP):
+def extend_ports(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["extend_ports"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_extend_ports():
@@ -987,12 +997,12 @@ def test_gds_extend_ports():
 
 
 @contained_phidlDevice
-def package_optical2x2(TOP):
+def package_optical2x2(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["package_optical2x2"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_package_optical2x2():
@@ -1000,12 +1010,12 @@ def test_gds_package_optical2x2():
 
 
 @contained_phidlDevice
-def rotate(TOP):
+def rotate(top):
     # pp.clear_cache()
     component = pp.c.mzi2x2(with_elec_connections=True)
     container_function = container_factory["rotate"]
     container = container_function(component=component)
-    TOP.add_ref(container)
+    top.add_ref(container)
 
 
 def test_gds_rotate():
