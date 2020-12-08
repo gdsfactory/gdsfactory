@@ -11,7 +11,7 @@ def taper(
     width2: Optional[float] = None,
     port: None = None,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Any] = [],
+    layers_cladding: List[Any] = None,
     cladding_offset: float = 3.0,
 ) -> Component:
     """ Linear taper.
@@ -34,6 +34,7 @@ def taper(
       pp.plotgds(c)
 
     """
+    layers_cladding = layers_cladding or []
     if type(port) is pp.Port and width1 is None:
         width1 = port.width
     if width2 is None:

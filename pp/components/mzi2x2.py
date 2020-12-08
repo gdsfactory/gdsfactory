@@ -190,10 +190,10 @@ def mzi2x2(
     }
 
     connections = [
-        ## Top arm
+        # Top arm
         ("CP1", "E1", "arm_top", "W0"),
         ("arm_top", "E0", "CP2", "W1"),
-        ## Bottom arm
+        # Bottom arm
         ("CP1", "E0", "arm_bot", "W0"),
         ("arm_bot", "E0", "CP2", "W0"),
     ]

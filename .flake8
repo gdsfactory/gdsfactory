@@ -1,8 +1,8 @@
 [flake8]
 max-line-length = 88
-max-complexity = 18
+max-complexity = 38
 select = B,C,E,F,W,T4,B9
-ignore = E203, E266, E501, W503, F403, W605, C901, E722, E731
+ignore = E501, E503, E722, W503, W503, E203
 
 extend-ignore =
     RST303
@@ -24,4 +24,5 @@ exclude =
     .tox,
     extra,
     deprecated,
-    gdslib
+    gdslib,
+    .tox

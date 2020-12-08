@@ -284,13 +284,13 @@ def link_ports_routes(
 
     elems = []
 
-    ## Contains end_straight of tracks which need to be adjusted together
+    # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
 
-    ## Once a group is finished, all the lengths are appended to end_straights
+    # Once a group is finished, all the lengths are appended to end_straights
     end_straights = []
 
-    ## Axis along which we sort the ports
+    # Axis along which we sort the ports
     if axis in ["X", "x"]:
         f_key1 = get_port_y
         # f_key2 = get_port_y
@@ -307,7 +307,7 @@ def link_ports_routes(
         ports1.sort(key=f_key1)
         ports2 = [ports2_by1[p1] for p1 in ports1]
 
-    ## Keep track of how many ports should be routed together
+    # Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
 
     if axis in ["X", "x"]:

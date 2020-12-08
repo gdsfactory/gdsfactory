@@ -171,7 +171,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.45
@@ -187,7 +187,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.45
@@ -203,7 +203,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.5
@@ -219,7 +219,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.5
@@ -235,7 +235,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.55
@@ -251,7 +251,7 @@ instances:
         layer:
         - 1
         - 0
-        layers_cladding: []
+        layers_cladding: None
         length: 5.0
         port: None
         width1: 0.55

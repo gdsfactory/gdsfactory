@@ -627,7 +627,7 @@ def place_from_yaml(
 
         # All other attributes are assumed to be settings for the placer
 
-        ## Check if the cell should be attached to a specific parent cell
+        # Check if the cell should be attached to a specific parent cell
         if "parent" in settings:
             parent_name = settings.pop("parent")
             if parent_name not in CELLS:
@@ -678,7 +678,7 @@ def place_from_yaml(
         align_x = settings["align_x"]
         align_y = settings["align_y"]
 
-        ## Making sure that the alignment is sensible depending on how we stack
+        # Make sure that the alignment is sensible depending on how we stack
 
         # If we specify a DOE to place next to, use it
         if "next_to" in settings:

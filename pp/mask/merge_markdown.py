@@ -13,7 +13,7 @@ def merge_markdown(
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """
     logging.debug("Merging Markdown files:")
-    configpath = CONFIG["mask_directory"] / "config.yml"
+    configpath = mdpath.with_suffix(".yml")
 
     with open(configpath, "w") as f:
         conf.update(**kwargs)
@@ -31,6 +31,7 @@ def merge_markdown(
                     f.write(line)
 
     logging.info(f"Wrote {mdpath}")
+    logging.info(f"Wrote {configpath}")
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ settings:
   layer:
   - 1
   - 0
-  layers_cladding: []
+  layers_cladding: None
   length: 35.0
   port: None
   width1: 0.5

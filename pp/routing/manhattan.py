@@ -449,7 +449,7 @@ def round_corners(
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If not specified, will use some heuristic to find them
     """
-    ## If there is a taper, make sure its length is known
+    # If there is a taper, make sure its length is known
     if taper:
         if "length" not in taper.info:
             _taper_ports = list(taper.ports.values())

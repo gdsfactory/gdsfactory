@@ -15,7 +15,6 @@ def _pack_single_bin(
     sort_by_area: bool,
     density: float,
     precision: float,
-    verbose: bool,
 ) -> Tuple[Dict[int, Tuple[int, int, int, int]], Dict[Any, Any]]:
     """ Takes a `rect_dict` argument of the form {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
@@ -60,20 +59,11 @@ def _pack_single_bin(
         # Adjust the box size for next time
         box_size *= density  # Increase area to try to fit
         box_size = np.clip(box_size, None, max_size)
-        if verbose:
-            print(
-                "Trying to pack in bin size (%0.2f, %0.2f)"
-                % tuple(box_size * precision)
-            )
 
         # Quit the loop if we've packed all the rectangles or reached the max size
         if len(rect_packer.rect_list()) == len(rect_dict):
-            if verbose:
-                print("Success!")
             break
         elif all(box_size >= max_size):
-            if verbose:
-                print("Reached max_size, creating an additional bin")
             break
 
     # Separate packed from unpacked rectangles, make dicts of form {id:(x,y,w,h)}
@@ -94,7 +84,6 @@ def pack(
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    verbose: bool = False,
 ) -> List[Component]:
     """ takes a list of components and returns
 
@@ -105,7 +94,6 @@ def pack(
         max_size: Limits the size into which the shapes will be packed
         density:  Values closer to 1 pack tighter but require more computation
         sort_by_area (Boolean): Pre-sorts the shapes by area
-        verbose: False
     """
 
     if density < 1.01:
@@ -141,7 +129,6 @@ def pack(
             sort_by_area=sort_by_area,
             density=density,
             precision=precision,
-            verbose=verbose,
         )
         packed_list.append(packed_rect_dict)
 
@@ -173,7 +160,6 @@ def _demo():
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
-        verbose=False,
     )
     D = D_packed_list[0]  # Only one bin was created, so we plot that
     pp.show(D)  # show it in klayout
@@ -192,7 +178,6 @@ def test_pack():
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
-        verbose=False,
     )
     c = D_packed_list[0]  # Only one bin was created, so we plot that
     # print(len(c.get_dependencies()))

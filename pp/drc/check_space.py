@@ -12,10 +12,10 @@ def check_space(
     min_projection=None,
     max_projection=None,
 ):
-    """reads layer from top cell and returns a the area that violates min space
+    r"""Reads layer from top cell and returns a the area that violates min space
     If "whole_edges" is true, the resulting \EdgePairs collection will receive the whole edges which contribute in the space check.
 
-    "metrics" can be one of the constants \Euclidian, \Square or \Projection. See there for a description of these constants.
+    "metrics" can be one of the constants Euclidian, Square or Projection. See there for a description of these constants.
     Use nil for this value to select the default (Euclidian metrics).
 
     "ignore_angle" specifies the angle limit of two edges. If two edges form an angle equal or above the given value, they will not contribute in
@@ -37,6 +37,7 @@ def check_space(
         metrics: Specify the metrics type
         min_projection The lower threshold of the projected length of one edge onto another
         max_projection The upper limit of the projected length of one edge onto another
+
     """
     from pp.component import Component
     from pp.write_component import write_gds

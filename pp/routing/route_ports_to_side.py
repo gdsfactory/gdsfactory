@@ -14,10 +14,26 @@ def route_elec_ports_to_side(ports, side="north", wire_sep=20.0, x=None, y=None)
     )
 
 
+def sort_key_west_to_east(port):
+    return port.x
+
+
+def sort_key_east_to_west(port):
+    return -port.x
+
+
+def sort_key_south_to_north(port):
+    return port.y
+
+
+def sort_key_north_to_south(port):
+    return -port.y
+
+
 def route_ports_to_side(
     ports, side="north", x=None, y=None, routing_func=None, **kwargs
 ):
-    """ Routes ports to a given side
+    """Routes ports to a given side
 
     Args:
         ports: the list of ports to be connected to the side
@@ -161,12 +177,6 @@ def connect_ports_to_x(
     else:
         pass
         # raise ValueError('``x`` should be a float or "east" or "west"')
-
-    sort_key_west_to_east = lambda p: p.x
-    sort_key_east_to_west = lambda p: -p.x
-
-    sort_key_south_to_north = lambda p: p.y
-    sort_key_north_to_south = lambda p: -p.y
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
@@ -354,11 +364,6 @@ def connect_ports_to_y(
     else:
         pass
         # raise ValueError('``y`` should be a float or "north" or "south"')
-
-    sort_key_west_to_east = lambda p: p.x
-    sort_key_east_to_west = lambda p: -p.x
-    sort_key_south_to_north = lambda p: p.y
-    sort_key_north_to_south = lambda p: -p.y
 
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north

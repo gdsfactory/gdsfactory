@@ -59,7 +59,13 @@ release:
 lint:
 	flake8
 
+pylint:
+	pylint --rcfile .pylintrc pp
+
 lintdocs:
 	flake8 --select RST
+
+doc8:
+	doc8 docs/
 
 .PHONY: gdsdiff build conda

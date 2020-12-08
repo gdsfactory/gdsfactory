@@ -15,7 +15,7 @@ def coupler_ring(
     wg_width: float = 0.5,
     bend_radius: float = 5.0,
 ) -> Component:
-    """Coupler for ring
+    r"""Coupler for ring.
 
     .. code::
 

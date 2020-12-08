@@ -38,8 +38,6 @@ def pixelate_path(
         abs(thetas_deg) * DEG2RAD
     )  # + middle_offset * (1 - np.cos(abs(thetas_deg) * DEG2RAD) )
 
-    print(scalings)
-
     def _snap(x):
         return round(int(x / snap_res), 0) * snap_res
 
@@ -154,9 +152,6 @@ def pixelate(pts, N=100, margin=0.4, **kwargs):
 
     pixels = _pixelate(pts, N=N, margin=margin, **kwargs)
     return [rect_to_coords(pixel) for pixel in pixels]
-
-
-## TODO REFACTOR - THE CODE BELOW SHOULD BE IN A SEPARATE FILE
 
 
 def gen_pixels_op_blocking(pts, snap_res=0.05, margin=1.0, min_pixel_size=0.4):

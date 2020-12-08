@@ -20,6 +20,7 @@ doe_metadata_path = build_path / "doe"
 
 gdspath = mask_path / "sample_mask.gds"
 markdown_path = gdspath.with_suffix(".md")
+config_path = gdspath.with_suffix(".yml")
 json_path = gdspath.with_suffix(".json")
 test_metadata_path = gdspath.with_suffix(".tp.json")
 

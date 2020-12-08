@@ -128,12 +128,12 @@ def pack_horizontal(
                 component_origin = c.size_info.nw
             try:
                 components += [c.ref(position=-component_origin + (x, y))]
-            except:
+            except ValueError as e:
                 if align_x not in ["W", "E"]:
                     print("align_x should be `W`, `E` or a float")
                 if align_y not in ["N", "S"]:
                     print("align_y should be `N`, `S` or a float")
-                raise
+                raise e
 
             if align_x == "W":
                 x += c.size_info.width + margin_x
@@ -451,7 +451,7 @@ def component_grid_from_yaml(filepath, precision=1e-9):
             align_x = settings["align_x"]
             align_y = settings["align_y"]
 
-            ## Making sure that the alignment is sensible depending on how we stack
+            # Making sure that the alignment is sensible depending on how we stack
 
             # If we specify a DOE to place next to, use it
             if "next_to" in settings:

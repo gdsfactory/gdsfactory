@@ -1,5 +1,5 @@
 import pp
-from pp.components.coupler import coupler
+from pp.components.coupler import coupler as coupler_function
 
 from pp.container import container
 from pp.component import Component
@@ -9,12 +9,12 @@ from pp.component import Component
 @pp.cell
 def cavity(
     component: Component,
-    coupler: Component = coupler,
+    coupler: Component = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,
     wg_width: float = 0.5,
 ) -> Component:
-    """ creates a cavity from a coupler and a mirror
+    r"""Creates a cavity from a coupler and a mirror
     it will connect the W0 port of the mirror to both E1 and W1 ports of the coupler creating a resonant cavity
 
     Args:

@@ -18,9 +18,9 @@ def _interpolate_segment(p0, p1, N=2):
 
 
 def _bend_path_from_pts(pts, n_interp=2):
-    N = len(pts)
-    pts0 = pts[: N // 2]
-    pts1 = pts[N // 2 :][::-1]
+    n = len(pts) // 2
+    pts0 = pts[:n]
+    pts1 = pts[n:][::-1]
 
     pts = [((x0 + x1) * 0.5, (y0 + y1) * 0.5) for (x0, y0), (x1, y1) in zip(pts0, pts1)]
 

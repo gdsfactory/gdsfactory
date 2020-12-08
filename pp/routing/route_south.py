@@ -24,7 +24,9 @@ def route_south(
     Args:
         component: component to route
         bend_radius
-        optical_routing_type: routing heuristic ``1`` or ``2`` (see below)
+        optical_routing_type: routing heuristic `1` or `2`
+            `1` uses the component size info to estimate the box size.
+            `2` only looks at the optical port positions to estimate the size
         excluded_ports=[]: list of port names to NOT route
         waveguide_separation
         io_gratings_lines: list of ports to which the ports produced by this
@@ -37,9 +39,6 @@ def route_south(
     Returns:
         list of elements, list of ports
 
-    Standard optical routing - type ``1`` or variant ``2``
-        ``1`` uses the component size info to estimate the box size
-        ``2`` only looks at the optical port positions to estimate the size
 
     Works well if the component looks rougly like a rectangular box with
         north ports on the north of the box
@@ -47,6 +46,10 @@ def route_south(
         east ports on the east of the box
         west ports on the west of the box
     """
+    assert optical_routing_type in [
+        1,
+        2,
+    ], f"optical_routing_type = {optical_routing_type}, not supported "
 
     optical_ports = component.get_ports_list(port_type="optical")
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
@@ -118,10 +121,10 @@ def route_south(
 
     # Set starting ``x`` on the west side
     if optical_routing_type == 1:
-        ## `` use component size to know how far to route
+        # use component size to know how far to route
         x = csi.west - R - 1
     elif optical_routing_type == 2:
-        ## `` use optical port to know how far to route
+        # use optical port to know how far to route
         x = x_optical_min - R - 1
     else:
         raise ValueError("Invalid optical routing type")
@@ -163,7 +166,7 @@ def route_south(
                     p,
                     tmp_port,
                     start_straight=start_straight + y_max - p.y,
-                    **conn_params
+                    **conn_params,
                 )
             ]
 
@@ -173,13 +176,15 @@ def route_south(
 
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
-        ## `` use component size to know how far to route
+        #  use component size to know how far to route
         x = csi.east + R + 1
     elif optical_routing_type == 2:
-        ## `` use optical port to know how far to route
+        # use optical port to know how far to route
         x = x_optical_max + R + 1
     else:
-        raise ValueError("Invalid optical routing type")
+        raise ValueError(
+            f"Invalid optical routing type. Got {optical_routing_type}, only (1, 2 supported) "
+        )
     i = 0
 
     # Route the east ports
@@ -221,7 +226,7 @@ def route_south(
                     p,
                     tmp_port,
                     start_straight=start_straight + y_max - p.y,
-                    **conn_params
+                    **conn_params,
                 )
             ]
             x += sep
