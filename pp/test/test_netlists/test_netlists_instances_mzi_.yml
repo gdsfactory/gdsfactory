@@ -1,5 +1,5 @@
 connections:
-  0_mzi:
+  flat:
     bend_circular_R10p00_17_-5,N0: mmi1x2_0_0,E0
     bend_circular_R10p00_17_-5,W0: waveguide_L1p00_22_-11,W0
     bend_circular_R10p00_17_5,N0: waveguide_L1p00_22_11,W0
@@ -18,7 +18,7 @@ connections:
     waveguide_L20p10_42_-21,E0: bend_circular_R10p00_57_-16,W0
     waveguide_L50n_22_-11,E0: bend_circular_R10p00_27_-16,W0
     waveguide_L50n_62_-11,E0: waveguide_L1p00_62_-11,W0
-  flat:
+  mzi:
     bend_circular_R10p00_17_-5,N0: mmi1x2_0_0,E0
     bend_circular_R10p00_17_-5,W0: waveguide_L1p00_22_-11,W0
     bend_circular_R10p00_17_5,N0: waveguide_L1p00_22_11,W0

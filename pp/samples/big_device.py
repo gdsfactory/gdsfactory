@@ -1,12 +1,7 @@
-"""
-Connecting a component with I/O
-"""
-
 import numpy as np
 import pp
 from pp import LAYER
 from pp import Port
-from pp.routing.add_fiber_array import add_fiber_array
 
 
 @pp.cell
@@ -22,51 +17,42 @@ def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width
     port_params = {"layer": layer, "width": wg_width}
     for i in range(N):
         port = Port(
-            name="W{}".format(i),
+            name=f"W{i}",
             midpoint=p0 + (-dx, (i - N / 2) * port_pitch),
             orientation=180,
-            **port_params
+            **port_params,
         )
         component.add_port(port)
 
     for i in range(N):
         port = Port(
-            name="E{}".format(i),
+            name=f"E{i}",
             midpoint=p0 + (dx, (i - N / 2) * port_pitch),
             orientation=0,
-            **port_params
+            **port_params,
         )
         component.add_port(port)
 
     for i in range(N):
         port = Port(
-            name="N{}".format(i),
+            name=f"N{i}",
             midpoint=p0 + ((i - N / 2) * port_pitch, dy),
             orientation=90,
-            **port_params
+            **port_params,
         )
         component.add_port(port)
 
     for i in range(N):
         port = Port(
-            name="S{}".format(i),
+            name=f"S{i}",
             midpoint=p0 + ((i - N / 2) * port_pitch, -dy),
             orientation=-90,
-            **port_params
+            **port_params,
         )
         component.add_port(port)
     return component
 
 
-def test_big_device():
-    component = big_device(N=10)
-    bend_radius = 5.0
-    c = add_fiber_array(component, bend_radius=bend_radius, fanout_length=50.0)
-    assert c
-    return c
-
-
 if __name__ == "__main__":
-    c = test_big_device()
-
+    c = big_device()
     pp.show(c)

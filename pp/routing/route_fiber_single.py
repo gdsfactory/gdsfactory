@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple, Union
+from typing import List, Tuple, Union, Optional
 from phidl.device_layout import Label
 import pp
 from pp.routing.route_fiber_array import route_fiber_array
@@ -12,18 +12,11 @@ def route_fiber_single(
     grating_coupler: Component = grating_coupler_te,
     min_input2output_spacing: int = 230,
     optical_routing_type: int = 1,
-    optical_port_labels: None = None,
-    excluded_ports: List[Any] = [],
+    optical_port_labels: Optional[List[str]] = None,
+    excluded_ports: Optional[List[str]] = None,
     **kwargs
-) -> Union[
-    Tuple[List[Union[ComponentReference, Label]], List[List[ComponentReference]], None],
-    Tuple[
-        List[Union[ComponentReference, Label]],
-        List[Union[List[ComponentReference], ComponentReference]],
-        None,
-    ],
-]:
-    """Returns component I/O for optical testing with single input and oputput fibers (no fiber array)
+) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
+    """Returns routes with grating couplers for single fiber input/output.
 
     Args:
         component: to add grating couplers
@@ -34,6 +27,10 @@ def route_fiber_single(
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
 
+    Returns:
+        elements: list of routes ComponentReference
+        grating_couplers: list of grating_couplers ComponentReferences
+
     """
     component = component.copy()
     component_copy = component.copy()
@@ -42,6 +39,8 @@ def route_fiber_single(
         optical_ports = component.get_ports_list(port_type="optical")
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
+
+    excluded_ports = excluded_ports or []
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     N = len(optical_ports)
 
@@ -125,7 +124,7 @@ def route_fiber_single(
         for io in gratings_north[0]:
             gratings_south.append(io.rotate(180))
 
-    return elements_south, gratings_south, None
+    return elements_south, gratings_south
 
 
 if __name__ == "__main__":

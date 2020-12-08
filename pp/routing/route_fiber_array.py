@@ -96,6 +96,7 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
+    component_name = component_name or component.name
     if optical_port_labels is None:
         # for pn, p in component.ports.items():
         #     print(p.name, p.port_type, p.layer)

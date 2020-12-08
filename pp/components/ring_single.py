@@ -12,15 +12,15 @@ from pp.cell import cell
 def ring_single(
     wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 4.0,
     bend_radius: float = 10.0,
+    length_x: float = 4.0,
     length_y: float = 0.001,
     coupler: Callable = coupler_ring,
     waveguide: Callable = waveguide_function,
     bend: Callable = bend_circular,
     pins: bool = False,
 ) -> Component:
-    """ single bus ring made of two couplers (ct: top, cb: bottom)
+    """Single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
 
     .. code::

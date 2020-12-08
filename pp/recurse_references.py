@@ -40,7 +40,7 @@ def recurse_references(
         snap_to_1nm_grid((port.x, port.y)): set() for port in component.get_ports()
     }
 
-    level_name = f"{level}_{component.name}"
+    level_name = component.name
     connections[level_name] = {}
 
     for r in component.references:

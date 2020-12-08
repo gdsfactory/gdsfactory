@@ -1,10 +1,10 @@
 connections:
-  0_ring_double:
+  flat:
     coupler_ring_93965797_-1_1,N0: waveguide_L2p00_W500n_-8_6,E0
     coupler_ring_93965797_-1_1,N1: waveguide_L2p00_W500n_5_6,E0
     coupler_ring_93965797_-1_12,N0: waveguide_L2p00_W500n_5_6,W0
     coupler_ring_93965797_-1_12,N1: waveguide_L2p00_W500n_-8_6,W0
-  flat:
+  ring_double:
     coupler_ring_93965797_-1_1,N0: waveguide_L2p00_W500n_-8_6,E0
     coupler_ring_93965797_-1_1,N1: waveguide_L2p00_W500n_5_6,E0
     coupler_ring_93965797_-1_12,N0: waveguide_L2p00_W500n_5_6,W0

@@ -115,9 +115,10 @@ def ring_single_bus(
     length_x: float = 4.0,
     gap: float = 0.2,
     wg_width: float = 0.5,
-    bend_radius: int = 5,
+    bend_radius: float = 5.0,
 ) -> Component:
-    """ single bus ring
+    """Single bus ring.
+
     .. code::
 
          ctl--wx--ctr

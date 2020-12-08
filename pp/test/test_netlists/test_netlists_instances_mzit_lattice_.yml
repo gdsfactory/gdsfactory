@@ -1,27 +1,4 @@
 connections:
-  0_mzit_lattice: {}
-  1_mzit_57d3e173:
-    bend_circular_R10p00_W450n_40_16,N0: taper_L5p00_W450n_W550n_32_21,1
-    bend_circular_R10p00_W450n_40_16,W0: bend_circular_R10p00_W450n_40_6,N0
-    bend_circular_R10p00_W550n_43_18,N0: waveguide_L3p00_W550n_36_23,W0
-    bend_circular_R10p00_W550n_43_18,W0: waveguide_L4p00_W550n_48_11,E0
-    bend_circular_R10p00_W550n_43_4,N0: waveguide_L4p00_W550n_48_11,W0
-    coupler_D2p00_G300n_L20_WW500n_10_0,E0: taper_L5p00_W500n_W550n_32_0,1
-    coupler_D2p00_G300n_L20_WW500n_10_0,E1: taper_L5p00_W500n_W450n_32_1,1
-    mzit_57d3e173_19_11,W0: coupler_D2p00_G300n_L20_WW500n_10_0,W0
-    mzit_57d3e173_19_11,W1: coupler_D2p00_G300n_L20_WW500n_10_0,W1
-    mzit_57d3e173_19_11,W2: coupler_D2p00_G200n_L10_WW500n_9_22,W0
-    mzit_57d3e173_19_11,W3: coupler_D2p00_G200n_L10_WW500n_9_22,W1
-    taper_L5p00_W450n_W500n_26_23,2: coupler_D2p00_G200n_L10_WW500n_9_22,E1
-    taper_L5p00_W450n_W550n_32_21,2: waveguide_L1p00_W550n_29_21,W0
-    taper_L5p00_W500n_W450n_32_1,2: bend_circular_R10p00_W450n_40_6,W0
-    taper_L5p00_W500n_W550n_32_0,2: waveguide_L3p00_W550n_36_0,W0
-    taper_L5p00_W550n_W450n_32_23,2: waveguide_L1p00_W450n_29_23,W0
-    taper_L5p00_W550n_W500n_26_21,2: coupler_D2p00_G200n_L10_WW500n_9_22,E0
-    waveguide_L1p00_W450n_29_23,E0: taper_L5p00_W450n_W500n_26_23,1
-    waveguide_L1p00_W550n_29_21,E0: taper_L5p00_W550n_W500n_26_21,1
-    waveguide_L3p00_W550n_36_0,E0: bend_circular_R10p00_W550n_43_4,W0
-    waveguide_L3p00_W550n_36_23,E0: taper_L5p00_W550n_W450n_32_23,1
   flat:
     bend_circular_R10p00_W450n_40_16,N0: taper_L5p00_W450n_W550n_32_21,1
     bend_circular_R10p00_W450n_40_16,W0: bend_circular_R10p00_W450n_40_6,N0
@@ -44,6 +21,29 @@ connections:
     waveguide_L1p00_W550n_29_21,E0: taper_L5p00_W550n_W500n_26_21,1
     waveguide_L3p00_W550n_36_0,E0: bend_circular_R10p00_W550n_43_4,W0
     waveguide_L3p00_W550n_36_23,E0: taper_L5p00_W550n_W450n_32_23,1
+  mzit_57d3e173:
+    bend_circular_R10p00_W450n_40_16,N0: taper_L5p00_W450n_W550n_32_21,1
+    bend_circular_R10p00_W450n_40_16,W0: bend_circular_R10p00_W450n_40_6,N0
+    bend_circular_R10p00_W550n_43_18,N0: waveguide_L3p00_W550n_36_23,W0
+    bend_circular_R10p00_W550n_43_18,W0: waveguide_L4p00_W550n_48_11,E0
+    bend_circular_R10p00_W550n_43_4,N0: waveguide_L4p00_W550n_48_11,W0
+    coupler_D2p00_G300n_L20_WW500n_10_0,E0: taper_L5p00_W500n_W550n_32_0,1
+    coupler_D2p00_G300n_L20_WW500n_10_0,E1: taper_L5p00_W500n_W450n_32_1,1
+    mzit_57d3e173_19_11,W0: coupler_D2p00_G300n_L20_WW500n_10_0,W0
+    mzit_57d3e173_19_11,W1: coupler_D2p00_G300n_L20_WW500n_10_0,W1
+    mzit_57d3e173_19_11,W2: coupler_D2p00_G200n_L10_WW500n_9_22,W0
+    mzit_57d3e173_19_11,W3: coupler_D2p00_G200n_L10_WW500n_9_22,W1
+    taper_L5p00_W450n_W500n_26_23,2: coupler_D2p00_G200n_L10_WW500n_9_22,E1
+    taper_L5p00_W450n_W550n_32_21,2: waveguide_L1p00_W550n_29_21,W0
+    taper_L5p00_W500n_W450n_32_1,2: bend_circular_R10p00_W450n_40_6,W0
+    taper_L5p00_W500n_W550n_32_0,2: waveguide_L3p00_W550n_36_0,W0
+    taper_L5p00_W550n_W450n_32_23,2: waveguide_L1p00_W450n_29_23,W0
+    taper_L5p00_W550n_W500n_26_21,2: coupler_D2p00_G200n_L10_WW500n_9_22,E0
+    waveguide_L1p00_W450n_29_23,E0: taper_L5p00_W450n_W500n_26_23,1
+    waveguide_L1p00_W550n_29_21,E0: taper_L5p00_W550n_W500n_26_21,1
+    waveguide_L3p00_W550n_36_0,E0: bend_circular_R10p00_W550n_43_4,W0
+    waveguide_L3p00_W550n_36_23,E0: taper_L5p00_W550n_W450n_32_23,1
+  mzit_lattice: {}
 instances:
   bend_circular_R10p00_W450n_40_16:
     component: bend_circular
