@@ -21,7 +21,9 @@ def _pack_single_bin(
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
 
-    Returns: a dictionary of of the packed rectangles in the form {id:(x,y,w,h)}, and a dictionary of remaining unpacked rects
+    Returns:
+        packed rectangles dict {id:(x,y,w,h)},
+        dict of remaining unpacked rectangles
     """
 
     # Compute total area and use it for an initial estimate of the bin size

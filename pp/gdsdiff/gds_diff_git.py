@@ -10,7 +10,7 @@ https://git-scm.com/docs/git/2.18.0#git-codeGITEXTERNALDIFFcode
 import sys
 
 from pp.gdsdiff.gdsdiff import gdsdiff
-import pp
+from pp.write_component import show
 
 
 def gds_diff_git(
@@ -21,7 +21,7 @@ def gds_diff_git(
     """
     print(old_hex, "->", new_hex)
     diff = gdsdiff(old_file, new_file)
-    pp.show(diff)
+    show(diff)
 
 
 if __name__ == "__main__":

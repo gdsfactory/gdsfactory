@@ -151,7 +151,8 @@ def component_from_yaml(
 
 
     Args:
-        yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
+        yaml: YAML IO describing Component
+            (instances, placements, routing, ports, connections)
         component_factory: dict of {factory_name: factory_function}
         route_factory: for routes
         kwargs: cache, pins ... to pass to all factories
@@ -373,15 +374,15 @@ def component_from_yaml(
 
                     for port_src_name in ports1names:
                         assert port_src_name in instance_src.ports, (
-                            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-                            f" {instance_src_name} "
+                            f"{port_src_name} not in {list(instance_src.ports.keys())}"
+                            f"for {instance_src_name} "
                         )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
                         assert port_dst_name in instance_dst.ports, (
-                            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-                            f" {instance_dst_name}"
+                            f"{port_dst_name} not in {list(instance_dst.ports.keys())}"
+                            f"for {instance_dst_name}"
                         )
                         ports2.append(instance_dst.ports[port_dst_name])
 
@@ -880,26 +881,26 @@ def test_docstring_sample():
 if __name__ == "__main__":
     import pp
 
-    # c = test_connections_regex()
-    # c = component_from_yaml(sample_regex_connections)
-    # c = component_from_yaml(sample_regex_connections_backwards)
-    # c = test_docstring_sample()
+    # cc = test_connections_regex()
+    # cc = component_from_yaml(sample_regex_connections)
+    # cc = component_from_yaml(sample_regex_connections_backwards)
+    # cc = test_docstring_sample()
 
-    c = test_connections_2x2()
+    cc = test_connections_2x2()
     # test_sample()
-    # c = test_connections_different_factory()
+    # cc = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
 
-    # c = component_from_yaml(sample_different_link_factory)
+    # cc = component_from_yaml(sample_different_link_factory)
 
-    # c = component_from_yaml(sample_waypoints)
-    pp.show(c)
+    # cc = component_from_yaml(sample_waypoints)
+    pp.show(cc)
 
-    # c = component_from_yaml(sample_connections)
-    # assert len(c.get_dependencies()) == 3
+    # cc = component_from_yaml(sample_connections)
+    # assert len(cc.get_dependencies()) == 3
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()
-    # print(c.ports)
-    # c = pp.routing.add_fiber_array(c)
+    # print(cc.ports)
+    # cc = pp.routing.add_fiber_array(cc)

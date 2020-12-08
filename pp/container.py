@@ -1,14 +1,14 @@
+"""A container is a new component that contains the original component
+- adds some extra elements (routes, grating couplers, labels ...)
+- copies settings from the original component to the new component
+- if you don't define ports on the new component also takes the ports from the original
+
 """
-a container creates a new component that contains the original component inside with some extra elements:
 
-it makes sure that some of the important settings are copied from the original component to the new component
-
-"""
-
-from typing import Callable
 import functools
 import hashlib
 from inspect import signature
+from typing import Callable
 from pp.component import Component
 from pp.layers import LAYER
 from pp.name import get_component_name
@@ -24,7 +24,10 @@ propagate_attributes = {
 
 
 def container(func: Callable) -> Callable:
-    """Decorator for creating a new component that copies properties from the original component
+    """Decorator for creating a new component
+    contains the original component
+    adds some geometry (labels, routes ...)
+    copies properties from the original component
 
     - polarization
     - wavelength
@@ -172,9 +175,6 @@ def test_container():
     assert len(new.ports) == len(
         old.ports
     ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    # assert len(new.settings) == len(
-    #     old.settings
-    # ), f"new component {new.settings} settings should match original {old.settings} settings"
     return new
 
 
@@ -187,9 +187,9 @@ def test_container2():
     new = _add_padding(old, suffix=suffix)
     assert new != old, f"new component {new} should be different from {old}"
     assert new.name == name, f"new name {new.name} should be {name}"
-    # assert len(new.ports) == len(
-    #     old.ports
-    # ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
+    assert len(new.ports) == len(
+        old.ports
+    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
     return new
 
 
