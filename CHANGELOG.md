@@ -24,6 +24,9 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+- store config.yml in mask build directory
+- add tests for add_fiber_single and add_fiber_array labels
+
 ## 2.2.2 2020-12-06
 
 - rename coupler ports inside mzi function

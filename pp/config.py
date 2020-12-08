@@ -105,9 +105,10 @@ if cwd_config.exists():
 conf.version = __version__
 
 try:
-    conf.git_hash = Repo(repo_path).head.object.hexsha
+    conf.git_hash = Repo(repo_path, search_parent_directories=True).head.object.hexsha
+    conf.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
 except InvalidGitRepositoryError:
-    conf.git_hash = None
+    pass
 
 
 CONFIG = dict(
