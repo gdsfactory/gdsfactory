@@ -1,8 +1,10 @@
 from typing import List, Optional, Tuple
+
 import numpy as np
+
 import pp
-from pp.container import container
 from pp.component import Component
+from pp.container import container
 
 
 def get_padding_points(

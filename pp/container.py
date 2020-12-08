@@ -9,11 +9,11 @@ import functools
 import hashlib
 from inspect import signature
 from typing import Callable
+
 from pp.component import Component
+from pp.config import MAX_NAME_LENGTH
 from pp.layers import LAYER
 from pp.name import get_component_name
-from pp.config import MAX_NAME_LENGTH
-
 
 propagate_attributes = {
     "test_protocol",
@@ -195,6 +195,7 @@ def test_container2():
 
 def test_container_error():
     import pytest
+
     import pp
 
     old = pp.c.waveguide()
@@ -210,7 +211,6 @@ if __name__ == "__main__":
     # c2 = pp.c.waveguide(length=3)
     # cc1 = container_instance(c1)
     # cc2 = container_instance(c2)
-
     # c = test_containerize()
 
     c = test_container()

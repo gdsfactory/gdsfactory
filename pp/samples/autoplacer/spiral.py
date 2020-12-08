@@ -2,8 +2,8 @@
 Generate a spiral DOE
 """
 import pp
-from pp.routing.add_fiber_array import add_fiber_array
 from pp.components.spiral_external_io import spiral_external_io
+from pp.routing.add_fiber_array import add_fiber_array
 
 
 @pp.cell

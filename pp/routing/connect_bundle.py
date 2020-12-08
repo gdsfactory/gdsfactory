@@ -2,21 +2,22 @@
 """
 
 from typing import Callable, List, Optional
-from numpy import float64, ndarray
-import numpy as np
-from pp.routing.connect import connect_strip
-from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.manhattan import generate_manhattan_waypoints
 
-from pp.routing.u_groove_bundle import u_bundle_indirect
-from pp.routing.u_groove_bundle import u_bundle_direct
-from pp.routing.path_length_matching import path_length_matched_points
+import numpy as np
+from numpy import float64, ndarray
+
 from pp.cell import cell
-from pp.component import ComponentReference, Component
+from pp.component import Component, ComponentReference
+from pp.config import add_to_global_netlist, conf
 from pp.port import Port
-from pp.config import conf
-from pp.config import add_to_global_netlist
+from pp.routing.connect import (
+    connect_elec_waypoints,
+    connect_strip,
+    connect_strip_way_points,
+)
+from pp.routing.manhattan import generate_manhattan_waypoints
+from pp.routing.path_length_matching import path_length_matched_points
+from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius

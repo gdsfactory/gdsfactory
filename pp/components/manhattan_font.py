@@ -1,9 +1,10 @@
 from typing import List, Tuple
+
 import numpy as np
 from omegaconf.listconfig import ListConfig
-from pp.component import Component
 
 import pp
+from pp.component import Component
 from pp.layers import LAYER
 from pp.name import clean_name
 

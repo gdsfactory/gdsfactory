@@ -1,9 +1,10 @@
 from typing import List, Tuple
+
 import numpy as np
 
 import pp
-from pp.components.bezier import bezier
 from pp.component import Component
+from pp.components.bezier import bezier
 from pp.config import conf
 
 

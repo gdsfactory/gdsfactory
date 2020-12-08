@@ -1,12 +1,12 @@
-from typing import Callable, Tuple, Optional
-import numpy as np
+from typing import Callable, Optional, Tuple
 
+import numpy as np
 import picwriter.components as pc
 
-from pp.components.waveguide_template import wg_strip
-from pp.picwriter2component import picwriter2component
 import pp
 from pp.component import Component
+from pp.components.waveguide_template import wg_strip
+from pp.picwriter2component import picwriter2component
 
 
 @pp.cell

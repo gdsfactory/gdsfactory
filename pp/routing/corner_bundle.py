@@ -1,5 +1,6 @@
 import numpy as np
 from phidl.device_layout import _rotate_points
+
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.manhattan import generate_manhattan_waypoints
 

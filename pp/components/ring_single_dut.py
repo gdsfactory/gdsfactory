@@ -1,13 +1,13 @@
 import pp
-from pp.port import rename_ports_by_orientation
+from pp.cell import cell
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
-from pp.components.waveguide import waveguide
-from pp.drc import assert_on_2nm_grid
-from pp.component import Component
-from pp.config import call_if_func
-from pp.cell import cell
 from pp.components.taper import taper
+from pp.components.waveguide import waveguide
+from pp.config import call_if_func
+from pp.drc import assert_on_2nm_grid
+from pp.port import rename_ports_by_orientation
 
 
 @cell

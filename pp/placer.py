@@ -30,16 +30,16 @@ YAML defines component DOE settings and placement
 """
 
 import os
-import sys
 import pathlib
+import sys
+
 from omegaconf import OmegaConf
 
 import pp
-from pp.doe import get_settings_list, load_does
-from pp.config import CONFIG
 from pp.components import component_factory
-from pp.write_component import write_gds
-from pp.write_component import write_component_report
+from pp.config import CONFIG
+from pp.doe import get_settings_list, load_does
+from pp.write_component import write_component_report, write_gds
 
 
 def _print(*args, **kwargs):

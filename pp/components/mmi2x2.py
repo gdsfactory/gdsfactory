@@ -1,7 +1,8 @@
-from typing import Tuple, Callable
+from typing import Callable, Tuple
+
+import pp
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-import pp
 
 
 @pp.cell

@@ -1,9 +1,9 @@
 import pytest
 import yaml
 from omegaconf import OmegaConf
+
 import pp
 from pp.components import _circuits, component_factory
-
 
 _circuits = _circuits - {"ring_single"}
 

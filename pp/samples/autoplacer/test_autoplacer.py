@@ -2,14 +2,12 @@ import pathlib
 import shutil
 
 import pytest
-import pp
 
-from pp.samples.autoplacer.spiral import SPIRAL
+import pp
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
-
 from pp.mask.merge_metadata import merge_metadata
-
+from pp.samples.autoplacer.spiral import SPIRAL
 
 workspace_folder = pathlib.Path(__file__).parent
 build_path = workspace_folder / "build"

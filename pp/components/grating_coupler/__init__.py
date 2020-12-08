@@ -1,5 +1,5 @@
-from typing import Callable
 import functools
+from typing import Callable
 
 
 def grating_coupler(component_factory: Callable) -> Callable:

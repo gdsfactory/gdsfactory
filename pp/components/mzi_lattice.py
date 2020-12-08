@@ -1,9 +1,10 @@
 from typing import Callable, List
-from pp.components.waveguide import waveguide as waveguide_function
+
+import pp
+from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
 from pp.components.mzi import mzi
-from pp.component import Component
-import pp
+from pp.components.waveguide import waveguide as waveguide_function
 
 
 @pp.cell

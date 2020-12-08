@@ -1,7 +1,9 @@
 import os
 from glob import glob
+
 from omegaconf import OmegaConf
-from pp.config import logging, CONFIG, conf
+
+from pp.config import CONFIG, conf, logging
 
 
 def merge_markdown(

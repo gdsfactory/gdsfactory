@@ -1,6 +1,6 @@
+import pp
 from pp.components.ring_single import ring_single
 from pp.components.waveguide import waveguide
-import pp
 
 
 @pp.cell

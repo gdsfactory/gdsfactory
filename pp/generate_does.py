@@ -1,19 +1,14 @@
 import collections
-from multiprocessing import Process
 import time
+from multiprocessing import Process
+
 from omegaconf import OmegaConf
 
-from pp.placer import save_doe
-from pp.placer import doe_exists
-from pp.placer import build_components
-from pp.placer import load_doe_component_names
-
-from pp.config import CONFIG
 from pp.components import component_factory
-from pp.write_doe import write_doe_metadata
+from pp.config import CONFIG, logging
 from pp.doe import get_settings_list
-
-from pp.config import logging
+from pp.placer import build_components, doe_exists, load_doe_component_names, save_doe
+from pp.write_doe import write_doe_metadata
 
 
 def separate_does_from_templates(dicts):

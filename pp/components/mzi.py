@@ -1,11 +1,11 @@
 from typing import Callable, Optional
-import pp
 
+import pp
 from pp.component import Component
-from pp.port import deco_rename_ports, rename_ports_by_orientation
 from pp.components.bend_circular import bend_circular as bend_circular_function
-from pp.components.waveguide import waveguide as waveguide_function
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
+from pp.components.waveguide import waveguide as waveguide_function
+from pp.port import deco_rename_ports, rename_ports_by_orientation
 
 
 @deco_rename_ports

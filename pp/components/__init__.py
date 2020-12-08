@@ -1,4 +1,8 @@
-# NOTE: import order matters. Only change the order if you know what you are doing
+""" NOTE: import order matters.
+Only change the order if you know what you are doing
+
+isort:skip_file
+"""
 # level 0 components
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater

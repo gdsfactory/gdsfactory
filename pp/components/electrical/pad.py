@@ -1,8 +1,9 @@
 from typing import Callable, List, Tuple
+
 from pp.cell import cell
-from pp.layers import LAYER
-from pp.components.compass import compass
 from pp.component import Component
+from pp.components.compass import compass
+from pp.layers import LAYER
 
 WIRE_WIDTH = 10.0
 

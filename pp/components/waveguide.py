@@ -1,10 +1,10 @@
 """Straight waveguides"""
+import hashlib
 from typing import List, Tuple
 
-import hashlib
 import pp
-from pp.components.hline import hline
 from pp.component import Component
+from pp.components.hline import hline
 
 
 @pp.cell

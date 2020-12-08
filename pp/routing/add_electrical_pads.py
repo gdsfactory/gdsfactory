@@ -1,7 +1,7 @@
-from pp.container import container
 from pp.component import Component
-from pp.routing.route_pad_array import route_pad_array
+from pp.container import container
 from pp.rotate import rotate
+from pp.routing.route_pad_array import route_pad_array
 
 
 @container

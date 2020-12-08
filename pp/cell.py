@@ -1,12 +1,12 @@
-from typing import Callable, Dict, Optional
-from inspect import signature
-import uuid
 import hashlib
-from functools import wraps, partial
-from pp.name import get_component_name
+import uuid
+from functools import partial, wraps
+from inspect import signature
+from typing import Callable, Dict, Optional
+
 from pp.component import Component
 from pp.config import MAX_NAME_LENGTH
-
+from pp.name import get_component_name
 
 CACHE: Dict[str, Component] = {}
 

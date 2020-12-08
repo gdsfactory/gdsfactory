@@ -1,4 +1,5 @@
 from typing import Callable
+
 import pp
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import deco_rename_ports

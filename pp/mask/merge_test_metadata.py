@@ -44,9 +44,11 @@ doe02:
 ```
 """
 
-import pathlib
 import json
+import pathlib
+
 import yaml
+
 from pp.config import CONFIG
 
 

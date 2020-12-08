@@ -1,11 +1,11 @@
 import itertools
+
 import pp
 from pp.components.coupler import coupler
-from pp.components.crossing_waveguide import crossing45
-from pp.components.crossing_waveguide import compensation_path
-from pp.routing.repackage import package_optical2x2
-from pp.port import get_ports_facing
+from pp.components.crossing_waveguide import compensation_path, crossing45
 from pp.config import GRID_PER_UNIT
+from pp.port import get_ports_facing
+from pp.routing.repackage import package_optical2x2
 
 COUNTER = itertools.count()
 

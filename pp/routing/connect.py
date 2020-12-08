@@ -1,19 +1,21 @@
 from typing import Callable
+
 import numpy as np
 from numpy import ndarray
 
-from pp.routing.manhattan import route_manhattan
-from pp.routing.manhattan import generate_manhattan_waypoints
-from pp.routing.manhattan import round_corners
-from pp.components.bend_circular import bend_circular
-from pp.components import waveguide
-from pp.components import taper as taper_factory
-from pp.components.electrical import wire, corner
 from pp.component import ComponentReference
-
-from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
+from pp.components import taper as taper_factory
+from pp.components import waveguide
+from pp.components.bend_circular import bend_circular
+from pp.components.electrical import corner, wire
+from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
+from pp.routing.manhattan import (
+    generate_manhattan_waypoints,
+    round_corners,
+    route_manhattan,
+)
 
 
 def get_waypoints_connect_strip(*args, **kwargs) -> ndarray:

@@ -1,9 +1,8 @@
 from pp.cell import cell
 from pp.component import Component
+from pp.components.hline import hline
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
-from pp.components.hline import hline
-
 
 WIRE_WIDTH = 10.0
 

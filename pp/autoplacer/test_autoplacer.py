@@ -1,6 +1,6 @@
 from pp import klive
-from pp.autoplacer.library import Library
 from pp.autoplacer.chip_array import ChipArray
+from pp.autoplacer.library import Library
 
 
 def test_autplacer():

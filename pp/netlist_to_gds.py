@@ -3,11 +3,11 @@
 """
 
 from typing import Dict, List, Tuple, Union
+
 import numpy as np
 from numpy import ndarray
 
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.port import select_electrical_ports
 
 IDENTITY = (0, False)

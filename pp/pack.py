@@ -2,9 +2,11 @@
 """
 
 from typing import Any, Dict, List, Tuple
+
+import numpy as np
 import rectpack
 from numpy import ndarray
-import numpy as np
+
 from pp.component import Component
 
 
@@ -149,8 +151,9 @@ def pack(
 
 
 def _demo():
-    import pp
     import phidl.geometry as pg
+
+    import pp
 
     D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)]
     D_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)]

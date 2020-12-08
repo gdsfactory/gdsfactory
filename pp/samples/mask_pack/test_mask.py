@@ -4,15 +4,16 @@ You can make a repo out of this file, having one custom component per file
 """
 import os
 import shutil
-import pytest
-import pp
-from pp.config import CONFIG
-from pp.components.spiral_inner_io import spiral_inner_io_euler
-from pp.add_termination import add_gratings_and_loop_back
-from pp.routing.connect import connect_strip_way_points
-from pp.add_padding import add_padding_to_grid
 
+import pytest
+
+import pp
+from pp.add_padding import add_padding_to_grid
+from pp.add_termination import add_gratings_and_loop_back
+from pp.components.spiral_inner_io import spiral_inner_io_euler
+from pp.config import CONFIG
 from pp.mask.merge_metadata import merge_metadata
+from pp.routing.connect import connect_strip_way_points
 
 
 def _route_filter(*args, **kwargs):

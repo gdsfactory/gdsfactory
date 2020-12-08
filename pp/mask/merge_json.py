@@ -2,11 +2,13 @@
 
 """
 
-import json
-from omegaconf import OmegaConf
 import importlib
+import json
+
 from git import Repo
-from pp.config import CONFIG, logging, get_git_hash, write_config, conf
+from omegaconf import OmegaConf
+
+from pp.config import CONFIG, conf, get_git_hash, logging, write_config
 
 
 def update_config_modules(config=conf):

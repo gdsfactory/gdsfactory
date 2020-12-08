@@ -1,8 +1,10 @@
-import phidl.geometry as pg
-from pp.import_phidl_component import import_phidl_component
-from omegaconf.listconfig import ListConfig
-from pp.component import Component
 from typing import List
+
+import phidl.geometry as pg
+from omegaconf.listconfig import ListConfig
+
+from pp.component import Component
+from pp.import_phidl_component import import_phidl_component
 
 
 def boolean(

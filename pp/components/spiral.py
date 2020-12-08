@@ -1,11 +1,12 @@
 from typing import Callable, Optional, Tuple
-import picwriter.components as pc
-from pp.port import auto_rename_ports
 
-from pp.components.waveguide_template import wg_strip
-from pp.picwriter2component import picwriter2component
+import picwriter.components as pc
+
 import pp
 from pp.component import Component
+from pp.components.waveguide_template import wg_strip
+from pp.picwriter2component import picwriter2component
+from pp.port import auto_rename_ports
 
 
 @pp.cell

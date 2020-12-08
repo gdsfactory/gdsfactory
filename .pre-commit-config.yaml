@@ -10,6 +10,13 @@ repos:
       hooks:
           - id: unimport
             args: [--remove, --requirements, --include-star-import]
+    - repo: https://github.com/pycqa/isort
+      rev: ""
+      hooks:
+          - id: isort
+            files: "pp/.*"
+            args: ["--profile", "black", "--filter-files"]
+
     - repo: https://github.com/psf/black
       rev: ""
       hooks:
@@ -23,7 +30,6 @@ repos:
       hooks:
           - id: nbstripout
             files: ".ipynb"
-
     # - repo: https://github.com/terrencepreilly/darglint
     #   rev: master
     #   hooks:

@@ -17,6 +17,8 @@ modules:
     - c: components
     - routing
     - layer: GDS layers
+
+isort:skip_file
 """
 
 from phidl import quickplot as qp
@@ -41,7 +43,6 @@ from pp.write_component import write_gds
 from pp.write_component import write_component_type
 from pp.write_component import write_component
 from pp.write_doe import write_doe
-
 
 import pp.components as c
 import pp.routing as routing

@@ -1,6 +1,8 @@
-from collections import defaultdict
 import math
+from collections import defaultdict
+
 import klayout.db as pya
+
 import pp.autoplacer.functions as ap
 
 

@@ -1,7 +1,7 @@
 import numpy as np
+
 import pp
-from pp import LAYER
-from pp import Port
+from pp import LAYER, Port
 
 
 @pp.cell

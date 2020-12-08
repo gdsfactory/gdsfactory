@@ -1,21 +1,18 @@
-from typing import Any, Dict, List, Optional, Tuple, Union
-import itertools
-import uuid
 import copy as python_copy
+import itertools
 import pathlib
-import numpy as np
-from numpy import float64, int64, ndarray, pi, sin, cos, mod
-from omegaconf import OmegaConf
+import uuid
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import networkx as nx
+import numpy as np
+from numpy import cos, float64, int64, mod, ndarray, pi, sin
+from omegaconf import OmegaConf
+from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
-from phidl.device_layout import Label
-from phidl.device_layout import Device
-from phidl.device_layout import DeviceReference
-from phidl.device_layout import _parse_layer
-
-from pp.port import Port, select_ports
-from pp.config import CONFIG, conf
 from pp.compare_cells import hash_cells
+from pp.config import CONFIG, conf
+from pp.port import Port, select_ports
 from pp.recurse_references import recurse_references
 
 
@@ -928,6 +925,7 @@ class Component(Device):
 
     def _repr_html_(self):
         from phidl import quickplot as qp
+
         from pp.write_component import show
 
         qp(self)
@@ -1062,8 +1060,8 @@ def test_netlist_plot():
 
 
 def test_path():
-    from pp import path as pa
     from pp import CrossSection
+    from pp import path as pa
 
     X1 = CrossSection()
     X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))

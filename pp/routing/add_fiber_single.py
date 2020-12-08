@@ -1,18 +1,19 @@
-from typing import Callable, Tuple, Optional
-import phidl.device_layout as pd
-from pp.config import call_if_func
-from pp.layers import LAYER
-from pp.component import Component
-from pp.add_labels import get_optical_text
-from pp.routing.route_fiber_single import route_fiber_single
-from pp.routing.connect import connect_strip_way_points
+from typing import Callable, Optional, Tuple
 
-from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.container import container
-from pp.components.taper import taper
+import phidl.device_layout as pd
+
+from pp.add_labels import get_optical_text
 from pp.add_tapers import add_tapers
+from pp.component import Component
+from pp.components.bend_circular import bend_circular
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.taper import taper
+from pp.components.waveguide import waveguide
+from pp.config import call_if_func
+from pp.container import container
+from pp.layers import LAYER
+from pp.routing.connect import connect_strip_way_points
+from pp.routing.route_fiber_single import route_fiber_single
 
 
 @container

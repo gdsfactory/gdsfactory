@@ -9,21 +9,19 @@
 """
 
 __version__ = "2.2.2"
-from typing import Any, Dict
-import tempfile
-import os
 import io
 import json
-import subprocess
-import pathlib
-from pprint import pprint
 import logging
+import os
+import pathlib
+import subprocess
+import tempfile
+from pprint import pprint
+from typing import Any, Dict
 
 import numpy as np
+from git import InvalidGitRepositoryError, Repo
 from omegaconf import OmegaConf
-from git import Repo
-from git import InvalidGitRepositoryError
-
 
 connections: Dict[str, str] = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()

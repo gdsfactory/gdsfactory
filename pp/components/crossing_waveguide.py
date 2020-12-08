@@ -1,18 +1,21 @@
 from typing import Callable
+
+import gdspy
 import numpy as np
 import scipy.optimize as so
-import gdspy
 
 import pp
-from pp.components.taper import taper
-from pp.components.bezier import bezier
-from pp.components.bezier import bezier_curve
-from pp.components.bezier import find_min_curv_bezier_control_points
-from pp.geo_utils import path_length
-from pp.config import GRID_PER_UNIT
-from pp.components.ellipse import ellipse
-from pp.layers import LAYER
 from pp.component import Component
+from pp.components.bezier import (
+    bezier,
+    bezier_curve,
+    find_min_curv_bezier_control_points,
+)
+from pp.components.ellipse import ellipse
+from pp.components.taper import taper
+from pp.config import GRID_PER_UNIT
+from pp.geo_utils import path_length
+from pp.layers import LAYER
 
 
 def rnd(p):

@@ -1,8 +1,8 @@
 from typing import List, Tuple
-from pp.cell import cell
-from pp import components as pc
 
 import pp
+from pp import components as pc
+from pp.cell import cell
 from pp.component import Component
 
 

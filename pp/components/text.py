@@ -1,15 +1,13 @@
 from typing import Tuple
-import numpy as np
 
-from phidl.geometry import _width
-from phidl.geometry import _indent
-from phidl.geometry import _glyph
+import numpy as np
+from phidl.geometry import _glyph, _indent, _width
 
 import pp
-from pp.layers import LAYER
-from pp.components.manhattan_font import manhattan_text
-from pp.name import clean_name
 from pp.component import Component
+from pp.components.manhattan_font import manhattan_text
+from pp.layers import LAYER
+from pp.name import clean_name
 
 
 def text(

@@ -2,9 +2,10 @@
 """
 
 import itertools as it
-from omegaconf import OmegaConf
-from pp.config import CONFIG
 
+from omegaconf import OmegaConf
+
+from pp.config import CONFIG
 
 sample = """
 does:

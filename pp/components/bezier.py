@@ -1,18 +1,15 @@
-from typing import List, Optional, Tuple
 import hashlib
+from typing import List, Optional, Tuple
+
 import numpy as np
 from numpy import ndarray
-from scipy.special import binom
 from scipy.optimize import minimize
+from scipy.special import binom
 
 import pp
-from pp.layers import LAYER
-from pp.geo_utils import extrude_path
-from pp.geo_utils import angles_deg
-from pp.geo_utils import snap_angle
-from pp.geo_utils import path_length
-from pp.geo_utils import curvature
 from pp.component import Component
+from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
+from pp.layers import LAYER
 
 
 def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray:

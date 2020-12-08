@@ -1,6 +1,6 @@
 import pp
-from pp.container import container
 from pp.components.taper import taper
+from pp.container import container
 
 
 def add_taper_elements(component, taper=taper):

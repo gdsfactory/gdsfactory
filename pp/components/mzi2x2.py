@@ -1,16 +1,16 @@
 from typing import Callable
-from pp.components.bend_circular import bend_circular
-from pp.components.waveguide_heater import wg_heater_connected
-from pp.components.waveguide import waveguide
-from pp.components.coupler import coupler
-from pp.netlist_to_gds import netlist_to_component
-from pp.cell import cell
-from pp.routing import route_elec_ports_to_side
-from pp.port import select_electrical_ports
 
-from pp.components.extension import line
-from pp.components.component_sequence import component_sequence
+from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_circular import bend_circular
+from pp.components.component_sequence import component_sequence
+from pp.components.coupler import coupler
+from pp.components.extension import line
+from pp.components.waveguide import waveguide
+from pp.components.waveguide_heater import wg_heater_connected
+from pp.netlist_to_gds import netlist_to_component
+from pp.port import select_electrical_ports
+from pp.routing import route_elec_ports_to_side
 
 
 @cell
@@ -288,10 +288,8 @@ if __name__ == "__main__":
 
     # print(get_mzi_delta_length(m=15))
     # print(get_mzi_delta_length(m=150))
-
     # for p in c.ports.values():
     #     print(p.port_type)
-
     # c = mzi_arm(DL=100)
     # c = mzi2x2(waveguide_heater_function=wg_heater_connected, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")

@@ -1,5 +1,7 @@
 import itertools as it
+
 import numpy as np
+
 from pp.geo_utils import polygon_grow
 
 DEG2RAD = np.pi / 180

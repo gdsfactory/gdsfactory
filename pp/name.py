@@ -1,7 +1,8 @@
 """ define names, clean names and values
 """
-from typing import Any
 import hashlib
+from typing import Any
+
 import numpy as np
 from phidl import Device
 
@@ -134,7 +135,6 @@ if __name__ == "__main__":
     import pp
 
     # print(clean_value(pp.c.waveguide))
-
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
 

@@ -4,8 +4,9 @@ and which cells with the same name are different
 This is not a diff tool
 """
 import hashlib
-import sys
 import json
+import sys
+
 import numpy as np
 
 

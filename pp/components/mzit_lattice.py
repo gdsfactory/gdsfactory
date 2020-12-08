@@ -1,7 +1,8 @@
 from typing import Callable, List
+
 import pp
-from pp.components.mzit import mzit
 from pp.component import Component
+from pp.components.mzit import mzit
 
 
 @pp.cell

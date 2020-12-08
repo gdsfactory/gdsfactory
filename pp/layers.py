@@ -7,8 +7,9 @@
 """
 
 from dataclasses import dataclass
-from phidl.device_layout import LayerSet as LayerSetPhidl
+
 from phidl.device_layout import Layer
+from phidl.device_layout import LayerSet as LayerSetPhidl
 
 
 class LayerSet(LayerSetPhidl):
@@ -120,8 +121,9 @@ def preview_layerset(ls=ls, size=100):
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files
     """
-    import pp
     import numpy as np
+
+    import pp
 
     D = pp.Component(name="layerset")
     scale = size / 100

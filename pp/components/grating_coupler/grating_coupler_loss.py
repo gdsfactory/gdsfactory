@@ -1,10 +1,10 @@
 import inspect
+
 import pp
-from pp.components import grating_coupler_te
-from pp.components import grating_coupler_tm
+from pp.add_labels import get_input_label
+from pp.components import grating_coupler_te, grating_coupler_tm
 from pp.routing.connect import connect_strip
 from pp.routing.manhattan import round_corners
-from pp.add_labels import get_input_label
 
 
 def connect_loop_back(port0, port1, a, b, R, y_bot_align_route):

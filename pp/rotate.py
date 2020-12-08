@@ -1,6 +1,6 @@
-from pp.port import deco_rename_ports
-from pp.container import container
 from pp.component import Component
+from pp.container import container
+from pp.port import deco_rename_ports
 
 
 @container

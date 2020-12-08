@@ -1,15 +1,14 @@
 from typing import Any, Callable, List, Optional, Tuple, Union
+
 from numpy import float64
 from phidl.device_layout import Label
-from pp.component import Component, ComponentReference
 
-from pp.routing.utils import direction_ports_from_list_ports
-
-from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect import get_waypoints_connect_strip
-from pp.port import select_electrical_ports
-from pp.components.electrical.pad import pad
 import pp
+from pp.component import Component, ComponentReference
+from pp.components.electrical.pad import pad
+from pp.port import select_electrical_ports
+from pp.routing.connect import connect_elec_waypoints, get_waypoints_connect_strip
+from pp.routing.utils import direction_ports_from_list_ports
 
 
 def route_pad_array(

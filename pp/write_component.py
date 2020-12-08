@@ -3,20 +3,19 @@ write_component_type: try to load a component from library or creates if it does
 write_component: write component and metadata
 """
 
-from typing import Optional
-import tempfile
-import pathlib
-from pathlib import PosixPath
 import json
+import pathlib
+import tempfile
+from pathlib import PosixPath
+from typing import Optional
+
 from phidl import device_layout as pd
 
-from pp.config import CONFIG
-from pp.cell import get_component_name
-from pp.components import component_factory
 from pp import klive
+from pp.cell import clear_cache, get_component_name
 from pp.component import Component
-from pp.cell import clear_cache
-
+from pp.components import component_factory
+from pp.config import CONFIG
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name)
 tmp.mkdir(exist_ok=True)
@@ -211,7 +210,6 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
     # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
-
     # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
     # cc = pp.routing.add_fiber_array(c)
     # pp.write_component(cc, precision=5e-9)

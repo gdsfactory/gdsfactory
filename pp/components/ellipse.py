@@ -1,9 +1,10 @@
+from typing import Tuple
+
 import numpy as np
-from numpy import cos, sin, pi, sqrt
+from numpy import cos, pi, sin, sqrt
 
 import pp
 from pp.component import Component
-from typing import Tuple
 
 
 @pp.cell

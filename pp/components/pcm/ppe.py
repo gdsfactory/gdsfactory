@@ -1,8 +1,9 @@
 """ based on https://github.com/niladri18/Phidl/blob/master/src/ppe.py
 """
 
-from typing import List, Tuple
 import math
+from typing import List, Tuple
+
 import pp
 from pp.component import Component
 

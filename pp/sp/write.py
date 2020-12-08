@@ -2,12 +2,13 @@
 """
 
 import json
-
 from collections import namedtuple
+
 import numpy as np
+
 import pp
-from pp.layers import layer2material, layer2nm
 from pp.config import materials
+from pp.layers import layer2material, layer2nm
 
 
 def write(

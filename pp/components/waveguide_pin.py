@@ -1,8 +1,9 @@
 from typing import Callable, Tuple
-from pp.component import Component
-from pp.layers import LAYER
+
 from pp.cell import cell
+from pp.component import Component
 from pp.components.waveguide import waveguide
+from pp.layers import LAYER
 
 
 @cell

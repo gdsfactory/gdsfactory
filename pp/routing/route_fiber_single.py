@@ -1,9 +1,11 @@
-from typing import List, Tuple, Union, Optional
+from typing import List, Optional, Tuple, Union
+
 from phidl.device_layout import Label
+
 import pp
-from pp.routing.route_fiber_array import route_fiber_array
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.component import Component, ComponentReference
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.routing.route_fiber_array import route_fiber_array
 
 
 def route_fiber_single(

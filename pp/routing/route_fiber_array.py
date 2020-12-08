@@ -1,24 +1,21 @@
 from typing import Any, Callable, List, Optional, Tuple, Union
+
 from numpy import float64
 from phidl.device_layout import Label
-from pp.component import Component, ComponentReference
-from pp.layers import LAYER
-from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 
-from pp.routing.manhattan import round_corners
-from pp.routing.connect_bundle import link_optical_ports
-from pp.routing.connect_bundle import get_min_spacing
-from pp.routing.route_south import route_south
-
-from pp.routing.utils import direction_ports_from_list_ports
-
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.connect import get_waypoints_connect_strip
-from pp.routing.get_input_labels import get_input_labels
-from pp.port import select_optical_ports
 import pp
+from pp.component import Component, ComponentReference
+from pp.components.bend_circular import bend_circular
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.waveguide import waveguide
+from pp.layers import LAYER
+from pp.port import select_optical_ports
+from pp.routing.connect import connect_strip_way_points, get_waypoints_connect_strip
+from pp.routing.connect_bundle import get_min_spacing, link_optical_ports
+from pp.routing.get_input_labels import get_input_labels
+from pp.routing.manhattan import round_corners
+from pp.routing.route_south import route_south
+from pp.routing.utils import direction_ports_from_list_ports
 
 SPACING_GC = 127.0
 BEND_RADIUS = pp.conf.tech.bend_radius

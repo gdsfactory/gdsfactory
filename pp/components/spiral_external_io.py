@@ -2,15 +2,16 @@
 maybe: need to add grating coupler loopback as well
 """
 
-import numpy as np
-import pp
-from pp.components.bend_circular import bend_circular
-from pp.components.bend_circular import bend_circular180
-from pp.components import waveguide
-from pp.routing import round_corners
-from numpy import float64
-from pp.component import Component
 from typing import Callable, Optional, Tuple
+
+import numpy as np
+from numpy import float64
+
+import pp
+from pp.component import Component
+from pp.components import waveguide
+from pp.components.bend_circular import bend_circular, bend_circular180
+from pp.routing import round_corners
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:

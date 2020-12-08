@@ -1,12 +1,14 @@
-from typing import Callable, Dict, List, Optional, Tuple
 import uuid
+from typing import Callable, Dict, List, Optional, Tuple
+
 import numpy as np
 from numpy import bool_, float64, ndarray
-from pp.components import waveguide
-from pp.name import clean_name
-from pp.component import Component, ComponentReference
+
 import pp
+from pp.component import Component, ComponentReference
+from pp.components import waveguide
 from pp.geo_utils import angles_deg
+from pp.name import clean_name
 from pp.port import Port
 
 TOLERANCE = 0.0001

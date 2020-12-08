@@ -1,12 +1,14 @@
 from typing import Callable
+
 from numpy import pi
+
 import pp
-from pp.components import taper as taper_function
-from pp.components import bend_circular
-from pp.components import waveguide as waveguide_function
-from pp.routing.manhattan import round_corners
-from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
 from pp.component import Component
+from pp.components import bend_circular
+from pp.components import taper as taper_function
+from pp.components import waveguide as waveguide_function
+from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.routing.manhattan import round_corners
 
 
 @pp.cell

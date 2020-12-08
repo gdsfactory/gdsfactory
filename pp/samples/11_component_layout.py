@@ -12,6 +12,7 @@ Lets build waveguide crossing out of a vertical and horizonal arm
 """
 
 from phidl import quickplot as qp
+
 import pp
 from pp import LAYER
 

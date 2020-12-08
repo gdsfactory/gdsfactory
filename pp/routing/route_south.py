@@ -1,13 +1,13 @@
 from typing import Any, Callable, List, Optional, Tuple, Union
+
 import numpy as np
 import phidl.device_layout as pd
-from pp.routing.connect import get_waypoints_connect_strip
-from pp.routing.utils import direction_ports_from_list_ports
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.utils import flip
-from pp.config import conf
+
 from pp.component import Component, ComponentReference
+from pp.config import conf
 from pp.port import Port
+from pp.routing.connect import connect_strip_way_points, get_waypoints_connect_strip
+from pp.routing.utils import direction_ports_from_list_ports, flip
 
 
 def route_south(

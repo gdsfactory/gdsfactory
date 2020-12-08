@@ -1,8 +1,9 @@
 from phidl.device_layout import _parse_layer
+
+from pp.component import Component
+from pp.container import container
 from pp.geo_utils import polygon_grow
 from pp.layers import LAYER
-from pp.container import container
-from pp.component import Component
 
 
 @container

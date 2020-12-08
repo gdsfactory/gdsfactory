@@ -1,8 +1,9 @@
+import os
+import sys
+
+from pp.config import CONFIG
 from pp.import_gds import import_gds
 from pp.write_component import write_gds
-import os
-from pp.config import CONFIG
-import sys
 
 
 def remove_cell(device, cell_name):

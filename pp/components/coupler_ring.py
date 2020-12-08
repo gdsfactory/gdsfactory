@@ -1,9 +1,10 @@
 from typing import Callable
+
 import pp
+from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.drc import assert_on_2nm_grid
-from pp.component import Component
 
 
 @pp.cell

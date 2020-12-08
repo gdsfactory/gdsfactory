@@ -1,14 +1,18 @@
 import pp
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
-from pp.routing.utils import check_ports_have_equal_spacing
-from pp.routing.utils import direction_ports_from_list_ports
-from pp.routing.manhattan import round_corners
-from pp.components.waveguide import waveguide as waveguide_function
-from pp.components.bend_circular import bend_circular as bend_circular_function
-from pp.components.taper import taper as taper_function
 from pp.add_labels import get_input_label
+from pp.components.bend_circular import bend_circular as bend_circular_function
+from pp.components.grating_coupler.elliptical_trenches import (
+    grating_coupler_te,
+    grating_coupler_tm,
+)
+from pp.components.taper import taper as taper_function
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.container import container
+from pp.routing.manhattan import round_corners
+from pp.routing.utils import (
+    check_ports_have_equal_spacing,
+    direction_ports_from_list_ports,
+)
 
 
 @container

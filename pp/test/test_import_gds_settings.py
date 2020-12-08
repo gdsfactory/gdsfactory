@@ -1,14 +1,12 @@
-from typing import Union, List, Dict
+from typing import Dict, List, Union
+
 import pytest
 from jsondiff import diff
+
 import pp
-from pp.components import (
-    component_factory,
-    _components,
-)
-from pp.import_gds import add_settings_from_label
-from pp.import_gds import import_gds
 from pp.add_pins import _add_settings_label
+from pp.components import _components, component_factory
+from pp.import_gds import add_settings_from_label, import_gds
 
 
 def tuplify(iterable: Union[List, Dict]):

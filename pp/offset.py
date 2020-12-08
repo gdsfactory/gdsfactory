@@ -1,14 +1,14 @@
 import gdspy
 import numpy as np
-
 from phidl.geometry import (
     Device,
     DeviceReference,
-    _merge_floating_point_errors,
-    _parse_layer,
     Polygon,
+    _merge_floating_point_errors,
     _offset_polygons_parallel,
+    _parse_layer,
 )
+
 import pp
 
 

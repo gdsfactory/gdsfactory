@@ -1,9 +1,11 @@
 import pp
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
-from pp.routing.get_input_labels import get_input_labels
-from pp.container import container
 from pp.component import Component
+from pp.components.grating_coupler.elliptical_trenches import (
+    grating_coupler_te,
+    grating_coupler_tm,
+)
+from pp.container import container
+from pp.routing.get_input_labels import get_input_labels
 
 
 @container

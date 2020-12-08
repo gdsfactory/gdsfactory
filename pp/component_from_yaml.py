@@ -1,18 +1,17 @@
 """ write Component from YAML file
 """
 
-from typing import Union, IO, Any, Optional, List, Dict
-import pathlib
 import io
-from omegaconf import OmegaConf
-import numpy as np
+import pathlib
+from typing import IO, Any, Dict, List, Optional, Union
 
+import numpy as np
+from omegaconf import OmegaConf
+
+from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.routing import route_factory
-from pp.routing import link_factory
-from pp.add_pins import _add_instance_label
-
+from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 valid_keys = [

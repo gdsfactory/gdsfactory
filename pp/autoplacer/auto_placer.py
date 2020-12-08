@@ -1,7 +1,9 @@
 import itertools
 import math
-import pyqtree
+
 import klayout.db as pya
+import pyqtree
+
 import pp.autoplacer.functions as ap
 from pp.autoplacer.cell_list import CellList
 from pp.autoplacer.library import Library

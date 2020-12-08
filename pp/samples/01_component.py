@@ -3,7 +3,6 @@
 
 import pp
 
-
 # ==============================================================================
 # We'll start by assuming we have a function waveguide() which already exists
 # and makes us a simple waveguide rectangle.  Many functions like this

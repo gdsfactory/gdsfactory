@@ -1,11 +1,12 @@
 from typing import List, Tuple, Union
-from numpy import pi, cos, sin
+
 import numpy as np
+from numpy import cos, pi, sin
 
 import pp
-from pp.layers import LAYER
 from pp.component import Component
 from pp.config import conf
+from pp.layers import LAYER
 from pp.port import deco_rename_ports
 
 

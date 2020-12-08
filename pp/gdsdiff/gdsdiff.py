@@ -1,5 +1,6 @@
 import itertools
 import pathlib
+
 import gdspy as gp
 
 from pp import import_gds
@@ -101,8 +102,9 @@ def gdsdiff(cellA, cellB):
 
 
 if __name__ == "__main__":
-    from pp.write_component import show
     import sys
+
+    from pp.write_component import show
 
     if len(sys.argv) != 3:
         print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")

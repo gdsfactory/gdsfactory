@@ -1,14 +1,13 @@
 """ Picwriter is a photonics library written by Derek Kita
 https://picwriter.readthedocs.io/en/latest/component-documentation.html
 """
-import numpy as np
 import gdspy
-
-import picwriter.toolkit as pt
+import numpy as np
 import picwriter.components as pc
+import picwriter.toolkit as pt
+
 import pp
 from pp.component import Component
-
 
 gdspy.current_library = gdspy.GdsLibrary()
 

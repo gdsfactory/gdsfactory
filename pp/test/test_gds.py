@@ -1,6 +1,7 @@
+from lytest import contained_phidlDevice, difftest_it
+
 import pp
 from pp.test_containers import container_factory
-from lytest import contained_phidlDevice, difftest_it
 
 
 @contained_phidlDevice

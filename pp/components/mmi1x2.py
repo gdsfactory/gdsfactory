@@ -1,4 +1,5 @@
-from typing import List, Tuple, Callable, Optional
+from typing import Callable, List, Optional, Tuple
+
 import pp
 from pp.component import Component
 from pp.components.taper import taper as taper_function

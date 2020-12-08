@@ -1,15 +1,15 @@
-from typing import Optional, Union
-from pathlib import Path
 import json
-import gdspy
+from pathlib import Path
+from typing import Optional, Union
 
+import gdspy
 from phidl.device_layout import DeviceReference
 
 import pp
-from pp.component import Component
 from pp.cell import CACHE
-from pp.port import read_port_markers, auto_rename_ports
+from pp.component import Component
 from pp.layers import port_layer2type, port_type2layer
+from pp.port import auto_rename_ports, read_port_markers
 
 
 def add_ports_from_markers_inside(*args, **kwargs):

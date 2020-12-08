@@ -20,15 +20,16 @@ iso_lines_coarse1:
 """
 
 
+import collections
 import os
 import sys
-import collections
+
+import klayout.db as pya
 import numpy as np
 from omegaconf import OmegaConf
-import klayout.db as pya
 
 import pp.autoplacer.text as text
-from pp.autoplacer.helpers import import_cell, load_gds, CELLS
+from pp.autoplacer.helpers import CELLS, import_cell, load_gds
 from pp.config import CONFIG
 
 UM_TO_GRID = 1e3

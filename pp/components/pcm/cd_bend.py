@@ -1,16 +1,13 @@
 import numpy as np
 
 import pp
-from pp.components.pcm.cd import CENTER_SHAPES_MAP
-from pp.components.pcm.cd import square_middle
-
-from pp.components.bend_circular import bend_circular
-from pp.components.bend_circular import bend_circular_ridge
-from pp.components.bend_circular import bend_circular_slot
-
-from pp.components.waveguide import waveguide
-from pp.components.waveguide import waveguide_slab
-from pp.components.waveguide import waveguide_slot
+from pp.components.bend_circular import (
+    bend_circular,
+    bend_circular_ridge,
+    bend_circular_slot,
+)
+from pp.components.pcm.cd import CENTER_SHAPES_MAP, square_middle
+from pp.components.waveguide import waveguide, waveguide_slab, waveguide_slot
 
 
 @pp.cell

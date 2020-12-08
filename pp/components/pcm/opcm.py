@@ -1,16 +1,18 @@
 """ CD SEM structures
 """
 
-from typing import Callable, List, Tuple
 import itertools as it
+from typing import Callable, List, Tuple
+
 import numpy as np
+
 import pp
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
+from pp.components.manhattan_font import manhattan_text
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
-from pp.components.manhattan_font import manhattan_text
-from pp.component import Component
 
 LINE_LENGTH = 420.0
 

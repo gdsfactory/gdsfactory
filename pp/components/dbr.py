@@ -9,9 +9,10 @@ Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
 
 from typing import Callable
+
 import pp
-from pp.components.waveguide import waveguide
 from pp.component import Component
+from pp.components.waveguide import waveguide
 
 period = 318e-3
 w0 = 0.5

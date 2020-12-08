@@ -13,17 +13,17 @@ For port naming we follow the IPKISS standard
 
 """
 
-from typing import Callable
-from typing import List, Optional, Tuple, Dict, Union
+import csv
 import functools
 from copy import deepcopy
-import csv
+from typing import Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import phidl.geometry as pg
-from phidl.device_layout import Port as PortPhidl
 from phidl.device_layout import Device
-from pp.drc import snap_to_grid
+from phidl.device_layout import Port as PortPhidl
 
+from pp.drc import snap_to_grid
 
 port_types = ["optical", "rf", "dc", "heater"]
 
