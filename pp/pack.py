@@ -18,13 +18,13 @@ def _pack_single_bin(
     density: float,
     precision: float,
 ) -> Tuple[Dict[int, Tuple[int, int, int, int]], Dict[Any, Any]]:
-    """ Takes a `rect_dict` argument of the form {id:(w,h)} and tries to
+    """Packs a dict of rectangles {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
 
     Returns:
-        packed rectangles dict {id:(x,y,w,h)},
+        packed rectangles dict {id:(x,y,w,h)}
         dict of remaining unpacked rectangles
     """
 
@@ -89,7 +89,7 @@ def pack(
     density: float = 1.1,
     precision: float = 1e-2,
 ) -> List[Component]:
-    """ takes a list of components and returns
+    """Pack a list of components into as few Components as possible.
 
     Args:
         D_list: Must be a list or tuple of Components
@@ -118,7 +118,7 @@ def pack(
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
-                "pack() failed because one of the objects "
+                f"pack() failed because one of the objects (D)"
                 + "in `D_list` is has an x or y dimension larger than `max_size` and "
                 + "so cannot be packed"
             )

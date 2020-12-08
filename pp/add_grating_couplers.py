@@ -1,3 +1,4 @@
+"""Add grating_couplers to a component."""
 import pp
 from pp.component import Component
 from pp.components.grating_coupler.elliptical_trenches import (
@@ -16,7 +17,7 @@ def add_grating_couplers(
     gc_port_name: str = "W0",
     get_input_labels_function=get_input_labels,
 ):
-    """Returns component with grating couplers and labels."""
+    """Return component with grating couplers and labels."""
 
     cnew = Component(name=component.name + "_c")
     cnew.add_ref(component)

@@ -30,13 +30,14 @@ def get_polygons_on_layer(cell, layer):
 
 
 def gdsdiff(cellA, cellB):
-    """
-    Args:
-        CellA: gds cell (as Component) or path to gds file
-        CellB: gds cell (as Component) or path to gds file
+    """Compare two Components.
 
-    Output:
-        gds file containing the diff between the two GDS files
+    Args:
+        CellA: Component or path to gds file
+        CellB: Component or path to gds file
+
+    Returns:
+        Component with both cells (xor, common and diffs)
     """
     if isinstance(cellA, pathlib.PosixPath):
         cellA = str(cellA)

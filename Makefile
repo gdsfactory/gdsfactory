@@ -65,7 +65,11 @@ pylint:
 lintdocs:
 	flake8 --select RST
 
+lintdocs2:
+	pydocstyle pp
+
 doc8:
 	doc8 docs/
+
 
 .PHONY: gdsdiff build conda

@@ -26,7 +26,7 @@ def mzi(
     coupler_settings=None,
     combiner_settings=None,
 ) -> Component:
-    """Mzi
+    """Mzi.
 
     Args:
         L0: vertical length for both and top arms
@@ -171,7 +171,9 @@ if __name__ == "__main__":
     delta_length = 116.8 / 2
     # print(delta_length)
 
-    c = mzi(DL=delta_length, with_coupler=False)
+    # c = mzi(DL=delta_length, with_coupler=False)
+    c = mzi(DL=10)
+    print(c.name)
 
     # add_markers(c)
 
@@ -179,6 +181,7 @@ if __name__ == "__main__":
     # c.plot_netlist()
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
+
     pp.show(c)
     # pp.qp(c)
     # print(c.get_settings())

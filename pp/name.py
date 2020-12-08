@@ -51,11 +51,19 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 
 
 def assert_first_letters_are_different(**kwargs):
-    """ avoids having name colissions of different args with the same first letter """
+    """Avoid name colissions of different args that start with the same first letter."""
     first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
     assert len(set(first_letters)) == len(
         first_letters
     ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+
+
+def print_first_letters(**kwargs):
+    """Avoid name colissions of different args that start with the same first letter.
+
+    Prints kwargs that have same cell.
+    """
+    first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
     if not len(set(first_letters)) == len(first_letters):
         print(
             f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
@@ -63,7 +71,9 @@ def assert_first_letters_are_different(**kwargs):
 
 
 def clean_name(name: str) -> str:
-    """Ensures that gds cells are composed of [a-zA-Z0-9]
+    """Return a string with correct characters for a cell name.
+
+    [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis

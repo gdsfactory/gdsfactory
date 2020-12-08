@@ -10,3 +10,4 @@ pre-commit
 tox
 flake8-rst-docstrings
 doc8
+pydocstyle

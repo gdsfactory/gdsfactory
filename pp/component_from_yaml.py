@@ -27,13 +27,18 @@ valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settin
 
 
 def place(
-    placements_conf,
+    placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
     instances: Dict[str, ComponentReference],
     encountered_insts: List[str],
     instance_name: Optional[str] = None,
-):
-    """using a placements_conf dict places instance_name
-    instances is a dict
+) -> None:
+    """Place instance_name with placements_conf config.
+
+    Args:
+        placements_conf: Dict of instance_name to placement (x, y, rotation ...)
+        instances: Dict of references
+        encountered_insts: list of encountered_instances
+        instance_name: instance_name to place
     """
     if instance_name is None:
         instance_name = list(placements_conf.keys())[0]
@@ -146,8 +151,7 @@ def component_from_yaml(
     label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined from YAML
-
+    """Returns a Component defined from YAML.
 
     Args:
         yaml: YAML IO describing Component

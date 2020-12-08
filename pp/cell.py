@@ -80,7 +80,7 @@ def cell(
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(func)
-        # assert_first_letters_are_different(**sig.parameters)
+        # print_first_letters(**sig.parameters)
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
             for key in kwargs.keys():

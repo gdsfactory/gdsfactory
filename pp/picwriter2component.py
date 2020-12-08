@@ -1,5 +1,7 @@
-""" Picwriter is a photonics library written by Derek Kita
+"""Picwriter is a photonics library written by Derek Kita.
+
 https://picwriter.readthedocs.io/en/latest/component-documentation.html
+As it is based on gdspy it's easier to wrap picwriter components
 """
 import gdspy
 import numpy as np
@@ -15,7 +17,7 @@ direction_to_orientation = dict(EAST=0.0, NORTH=90.0, WEST=180.0, SOUTH=270.0)
 
 
 def direction_to_degree(direction: str) -> float:
-    """Converts a 'direction' (as used in picwriter) to an angle in degrees.
+    """Convert a 'direction' (as used in picwriter) to an angle in degrees.
     picwriter 'direction's can be either a float (corresponding to an angle in radians)
     or a string, corresponding to a cardinal direction
     """
@@ -26,7 +28,7 @@ def direction_to_degree(direction: str) -> float:
 
 
 def picwriter2component(picwriter_object: pt.Component) -> Component:
-    """Converts a Picwriter into a Gdsfactory Component."""
+    """Convert a Picwriter into a Gdsfactory Component."""
     po = picwriter_object
     c = pp.Component(name=po.name_prefix)
 
