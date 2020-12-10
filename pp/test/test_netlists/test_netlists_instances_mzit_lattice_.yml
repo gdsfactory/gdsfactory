@@ -49,90 +49,38 @@ instances:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00_W450n
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
         width: 0.45
-      width: 0.45
   bend_circular_R10p00_W450n_40_6:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00_W450n
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
         width: 0.45
-      width: 0.45
   bend_circular_R10p00_W550n_43_18:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00_W550n
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
         width: 0.55
-      width: 0.55
   bend_circular_R10p00_W550n_43_4:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00_W550n
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
         width: 0.55
-      width: 0.55
   coupler_D2p00_G200n_L10_WW500n_9_22:
     component: coupler
     settings:
@@ -140,15 +88,8 @@ instances:
       module: pp.components.coupler
       name: coupler_D2p00_G200n_L10_WW500n
       settings:
-        cladding_offset: 0.0
         dy: 2.0
         gap: 0.2
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 10
         wg_width: 0.5
   coupler_D2p00_G300n_L20_WW500n_10_0:
@@ -158,15 +99,8 @@ instances:
       module: pp.components.coupler
       name: coupler_D2p00_G300n_L20_WW500n
       settings:
-        cladding_offset: 0.0
         dy: 2.0
         gap: 0.3
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 20
         wg_width: 0.5
   mzit_57d3e173_19_11:
@@ -176,19 +110,12 @@ instances:
       module: pp.components.mzit
       name: mzit_57d3e173
       settings:
-        Ls: 1.0
-        bend_radius: 10.0
         coupler_gap1: 0.2
         coupler_gap2: 0.3
         coupler_length1: 10
         coupler_length2: 20
         delta_length: 10
-        dy: 2.0
         pins: false
-        taper_length: 5.0
-        w0: 0.5
-        w1: 0.45
-        w2: 0.55
   taper_L5p00_W450n_W500n_26_23:
     component: taper
     settings:
@@ -196,13 +123,7 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W450n_W500n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.45
         width2: 0.5
   taper_L5p00_W450n_W550n_32_21:
@@ -212,13 +133,7 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W450n_W550n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.45
         width2: 0.55
   taper_L5p00_W500n_W450n_32_1:
@@ -228,13 +143,7 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W500n_W450n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.5
         width2: 0.45
   taper_L5p00_W500n_W550n_32_0:
@@ -244,13 +153,7 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W500n_W550n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.5
         width2: 0.55
   taper_L5p00_W550n_W450n_32_23:
@@ -260,13 +163,7 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W550n_W450n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.55
         width2: 0.45
   taper_L5p00_W550n_W500n_26_21:
@@ -276,105 +173,54 @@ instances:
       module: pp.components.taper
       name: taper_L5p00_W550n_W500n
       settings:
-        cladding_offset: 3.0
-        layer:
-        - 1
-        - 0
-        layers_cladding: None
         length: 5.0
-        port: None
         width1: 0.55
         width2: 0.5
   waveguide_L1p00_W450n_29_23:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
       name: waveguide_L1p00_W450n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 1.0
         width: 0.45
-      width: 0.45
   waveguide_L1p00_W550n_29_21:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
       name: waveguide_L1p00_W550n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 1.0
         width: 0.55
-      width: 0.55
   waveguide_L3p00_W550n_36_0:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 3.0
       module: pp.components.waveguide
       name: waveguide_L3p00_W550n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 3.0
         width: 0.55
-      width: 0.55
   waveguide_L3p00_W550n_36_23:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 3.0
       module: pp.components.waveguide
       name: waveguide_L3p00_W550n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 3.0
         width: 0.55
-      width: 0.55
   waveguide_L4p00_W550n_48_11:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 4.0
       module: pp.components.waveguide
       name: waveguide_L4p00_W550n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 4.0
         width: 0.55
-      width: 0.55
 placements:
   bend_circular_R10p00_W450n_40_16:
     rotation: 90

@@ -1,42 +1,29 @@
 import re
+from typing import Dict, Tuple
 
 import numpy as np
 
 import pp
+from pp.layers import layer2material, layer2nm
+from pp.sp.get_sparameters_path import get_sparameters_path
 
 
-def load(
-    component=None, filepath=None, dirpath=pp.CONFIG["sp"], numports=None, height_nm=220
-):
+def read_sparameters(filepath, numports: int):
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
-        component: instance
         filepath: Sparameters filepath (interconnect format)
-        dirpath: path where to look for the Sparameters
-        height_nm: height (nm)
+        numports: number of ports
 
     Returns [port_names, F, S]
         port_names: list of strings
         F: frequency 1d np.array
         S: Sparameters np.ndarray matrix
 
-    inspired in https://github.com/BYUCamachoLab/simphony
-
-    the Sparameters file have Lumerical format
-    https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
-    if filepath is None:
-        assert isinstance(component, pp.Component)
-        filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
-        numports = len(component.ports)
-    assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
-    assert numports > 1, f"number of ports = {numports} and needs to be > 1"
-
     F = []
     S = []
     port_names = []
-
     with open(filepath, "r") as fid:
         for i in range(numports):
             port_line = fid.readline()
@@ -66,7 +53,42 @@ def load(
                     n += 1
                     if n == numports:
                         break
-    return (port_names, F, S)
+    return (port_names, np.array(F), S)
+
+
+def load(
+    component,
+    dirpath=pp.CONFIG["sp"],
+    layer2material: Dict[Tuple[int, int], str] = layer2material,
+    layer2nm: [Tuple[int, int], int] = layer2nm,
+):
+    r"""Returns Sparameters from Lumerical interconnect export file.
+
+    Args:
+        component: Component
+        dirpath: path where to look for the Sparameters
+        layer2nm:
+
+    Returns [port_names, F, S]
+        port_names: list of strings
+        F: frequency 1d np.array
+        S: Sparameters np.ndarray matrix
+
+
+    the Sparameters file have Lumerical format
+    https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
+    """
+    assert isinstance(component, pp.Component)
+    filepath = get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        layer2material=layer2material,
+        layer2nm=layer2nm,
+    )
+    numports = len(component.ports)
+    assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
+    assert numports > 1, f"number of ports = {numports} and needs to be > 1"
+    return read_sparameters(filepath=filepath, numports=numports)
 
 
 if __name__ == "__main__":

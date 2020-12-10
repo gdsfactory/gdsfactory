@@ -234,6 +234,7 @@ def _add_settings_label(
     """Add settings in label, ignores component.ignore keys."""
     settings = reference.get_settings()
     settings_string = f"settings={json.dumps(settings, indent=2)}"
+    print(settings_string)
     component.add_label(
         position=reference.center, text=settings_string, layer=label_layer
     )

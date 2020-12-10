@@ -1,7 +1,6 @@
 function_name: grating_coupler_elliptical_trenches
 module: pp.components.grating_coupler.elliptical_trenches
 name: grating_coupler_elliptical_trenches_e050cf58
-polarization: te
 settings:
   fiber_angle: 15.0
   grating_line_width: 0.343
@@ -22,4 +21,3 @@ settings:
   taper_length: 16.6
   trenches_extra_angle: 9.0
   wg_width: 0.5
-wavelength: 1530

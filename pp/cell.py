@@ -80,7 +80,14 @@ def cell(
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(func)
-        # print_first_letters(**sig.parameters)
+
+        # first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
+        # keys = set(kwargs.keys()) - set(["layer"])
+        # if not len(set(first_letters)) == len(first_letters):
+        #     print(
+        #         f"Warning! Possible Duplicated name in {component_type}. "
+        #         f"Args {keys} have repeated first letters {first_letters}"
+        #     )
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
             for key in kwargs.keys():

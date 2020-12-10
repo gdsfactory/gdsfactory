@@ -1,4 +1,5 @@
 function_name: grating_coupler_tree
+module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
   bend_factory: bend_circular

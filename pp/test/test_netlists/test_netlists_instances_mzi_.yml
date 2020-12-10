@@ -1,407 +1,185 @@
 connections:
   flat:
     bend_circular_R10p00_17_-5,N0: mmi1x2_0_0,E0
-    bend_circular_R10p00_17_-5,W0: waveguide_L1p00_22_-11,W0
-    bend_circular_R10p00_17_5,N0: waveguide_L1p00_22_11,W0
+    bend_circular_R10p00_17_-5,W0: waveguide_L4p00_22_-12,W0
+    bend_circular_R10p00_17_5,N0: waveguide_L4p00_22_12,W0
     bend_circular_R10p00_17_5,W0: mmi1x2_0_0,E1
-    bend_circular_R10p00_27_-16,N0: waveguide_L20p10_42_-21,W0
-    bend_circular_R10p00_27_16,N0: waveguide_L1p00_22_11,E0
-    bend_circular_R10p00_27_16,W0: waveguide_L20p10_42_21,W0
-    bend_circular_R10p00_57_-16,N0: waveguide_L50n_62_-11,W0
-    bend_circular_R10p00_57_16,N0: waveguide_L20p10_42_21,E0
-    bend_circular_R10p00_57_16,W0: waveguide_L1p00_62_11,W0
-    bend_circular_R10p00_67_5,W0: waveguide_L1p00_62_11,E0
-    mmi1x2_85_0,E0: bend_circular_R10p00_67_5,N0
-    mmi1x2_85_0,E1: bend_circular_R10p00_67_-5,W0
-    waveguide_L1p00_22_-11,E0: waveguide_L50n_22_-11,W0
-    waveguide_L1p00_62_-11,E0: bend_circular_R10p00_67_-5,N0
-    waveguide_L20p10_42_-21,E0: bend_circular_R10p00_57_-16,W0
-    waveguide_L50n_22_-11,E0: bend_circular_R10p00_27_-16,W0
-    waveguide_L50n_62_-11,E0: waveguide_L1p00_62_-11,W0
+    bend_circular_R10p00_27_-24,N0: waveguide_L100n_32_-29,W0
+    bend_circular_R10p00_27_19,N0: waveguide_L4p00_22_12,E0
+    bend_circular_R10p00_27_19,W0: waveguide_L100n_32_24,W0
+    bend_circular_R10p00_37_-24,N0: waveguide_L5p00_42_-17,W0
+    bend_circular_R10p00_37_19,N0: waveguide_L100n_32_24,E0
+    bend_circular_R10p00_37_19,W0: waveguide_L4p00_42_12,W0
+    bend_circular_R10p00_47_5,W0: waveguide_L4p00_42_12,E0
+    mmi1x2_65_0,E0: bend_circular_R10p00_47_5,N0
+    mmi1x2_65_0,E1: bend_circular_R10p00_47_-5,W0
+    waveguide_L100n_32_-29,E0: bend_circular_R10p00_37_-24,W0
+    waveguide_L4p00_22_-12,E0: waveguide_L5p00_22_-17,W0
+    waveguide_L4p00_42_-12,E0: bend_circular_R10p00_47_-5,N0
+    waveguide_L5p00_22_-17,E0: bend_circular_R10p00_27_-24,W0
+    waveguide_L5p00_42_-17,E0: waveguide_L4p00_42_-12,W0
   mzi:
     bend_circular_R10p00_17_-5,N0: mmi1x2_0_0,E0
-    bend_circular_R10p00_17_-5,W0: waveguide_L1p00_22_-11,W0
-    bend_circular_R10p00_17_5,N0: waveguide_L1p00_22_11,W0
+    bend_circular_R10p00_17_-5,W0: waveguide_L4p00_22_-12,W0
+    bend_circular_R10p00_17_5,N0: waveguide_L4p00_22_12,W0
     bend_circular_R10p00_17_5,W0: mmi1x2_0_0,E1
-    bend_circular_R10p00_27_-16,N0: waveguide_L20p10_42_-21,W0
-    bend_circular_R10p00_27_16,N0: waveguide_L1p00_22_11,E0
-    bend_circular_R10p00_27_16,W0: waveguide_L20p10_42_21,W0
-    bend_circular_R10p00_57_-16,N0: waveguide_L50n_62_-11,W0
-    bend_circular_R10p00_57_16,N0: waveguide_L20p10_42_21,E0
-    bend_circular_R10p00_57_16,W0: waveguide_L1p00_62_11,W0
-    bend_circular_R10p00_67_5,W0: waveguide_L1p00_62_11,E0
-    mmi1x2_85_0,E0: bend_circular_R10p00_67_5,N0
-    mmi1x2_85_0,E1: bend_circular_R10p00_67_-5,W0
-    waveguide_L1p00_22_-11,E0: waveguide_L50n_22_-11,W0
-    waveguide_L1p00_62_-11,E0: bend_circular_R10p00_67_-5,N0
-    waveguide_L20p10_42_-21,E0: bend_circular_R10p00_57_-16,W0
-    waveguide_L50n_22_-11,E0: bend_circular_R10p00_27_-16,W0
-    waveguide_L50n_62_-11,E0: waveguide_L1p00_62_-11,W0
+    bend_circular_R10p00_27_-24,N0: waveguide_L100n_32_-29,W0
+    bend_circular_R10p00_27_19,N0: waveguide_L4p00_22_12,E0
+    bend_circular_R10p00_27_19,W0: waveguide_L100n_32_24,W0
+    bend_circular_R10p00_37_-24,N0: waveguide_L5p00_42_-17,W0
+    bend_circular_R10p00_37_19,N0: waveguide_L100n_32_24,E0
+    bend_circular_R10p00_37_19,W0: waveguide_L4p00_42_12,W0
+    bend_circular_R10p00_47_5,W0: waveguide_L4p00_42_12,E0
+    mmi1x2_65_0,E0: bend_circular_R10p00_47_5,N0
+    mmi1x2_65_0,E1: bend_circular_R10p00_47_-5,W0
+    waveguide_L100n_32_-29,E0: bend_circular_R10p00_37_-24,W0
+    waveguide_L4p00_22_-12,E0: waveguide_L5p00_22_-17,W0
+    waveguide_L4p00_42_-12,E0: bend_circular_R10p00_47_-5,N0
+    waveguide_L5p00_22_-17,E0: bend_circular_R10p00_27_-24,W0
+    waveguide_L5p00_42_-17,E0: waveguide_L4p00_42_-12,W0
 instances:
   bend_circular_R10p00_17_-5:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
   bend_circular_R10p00_17_5:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_27_-16:
+  bend_circular_R10p00_27_-24:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_27_16:
+  bend_circular_R10p00_27_19:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_57_-16:
+  bend_circular_R10p00_37_-24:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_57_16:
+  bend_circular_R10p00_37_19:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_67_-5:
+  bend_circular_R10p00_47_-5:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
-  bend_circular_R10p00_67_5:
+  bend_circular_R10p00_47_5:
     component: bend_circular
     settings:
       function_name: bend_circular
-      length: 15.707963267948966
       module: pp.components.bend_circular
       name: bend_circular_R10p00
-      radius: 10.0
       settings:
-        angle_resolution: 2.5
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         radius: 10.0
-        start_angle: 0
-        theta: -90
-        width: 0.5
-      width: 0.5
   mmi1x2_0_0:
     component: mmi1x2
     settings:
       function_name: mmi1x2
       module: pp.components.mmi1x2
       name: mmi1x2
-      settings:
-        cladding_offset: 3.0
-        gap_mmi: 0.25
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length_mmi: 5.496
-        length_taper: 10.0
-        wg_width: 0.5
-        width_mmi: 2.5
-        width_taper: 1.0
-      simulation_settings:
-        port_width: 1.5e-06
-  mmi1x2_85_0:
+      settings: {}
+  mmi1x2_65_0:
     component: mmi1x2
     settings:
       function_name: mmi1x2
       module: pp.components.mmi1x2
       name: mmi1x2
-      settings:
-        cladding_offset: 3.0
-        gap_mmi: 0.25
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length_mmi: 5.496
-        length_taper: 10.0
-        wg_width: 0.5
-        width_mmi: 2.5
-        width_taper: 1.0
-      simulation_settings:
-        port_width: 1.5e-06
-  waveguide_L1p00_22_-11:
+      settings: {}
+  waveguide_L100n_32_-29:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
-      name: waveguide_L1p00
+      name: waveguide_L100n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 1.0
-        width: 0.5
-      width: 0.5
-  waveguide_L1p00_22_11:
+        length: 0.1
+  waveguide_L100n_32_24:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
-      name: waveguide_L1p00
+      name: waveguide_L100n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 1.0
-        width: 0.5
-      width: 0.5
-  waveguide_L1p00_62_-11:
+        length: 0.1
+  waveguide_L4p00_22_-12:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
-      name: waveguide_L1p00
+      name: waveguide_L4p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 1.0
-        width: 0.5
-      width: 0.5
-  waveguide_L1p00_62_11:
+        length: 4.0
+  waveguide_L4p00_22_12:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 1.0
       module: pp.components.waveguide
-      name: waveguide_L1p00
+      name: waveguide_L4p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 1.0
-        width: 0.5
-      width: 0.5
-  waveguide_L20p10_42_-21:
+        length: 4.0
+  waveguide_L4p00_42_-12:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 20.1
       module: pp.components.waveguide
-      name: waveguide_L20p10
+      name: waveguide_L4p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 20.1
-        width: 0.5
-      width: 0.5
-  waveguide_L20p10_42_21:
+        length: 4.0
+  waveguide_L4p00_42_12:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 20.1
       module: pp.components.waveguide
-      name: waveguide_L20p10
+      name: waveguide_L4p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 20.1
-        width: 0.5
-      width: 0.5
-  waveguide_L50n_22_-11:
+        length: 4.0
+  waveguide_L5p00_22_-17:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 0.05
       module: pp.components.waveguide
-      name: waveguide_L50n
+      name: waveguide_L5p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 0.05
-        width: 0.5
-      width: 0.5
-  waveguide_L50n_62_-11:
+        length: 5.0
+  waveguide_L5p00_42_-17:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 0.05
       module: pp.components.waveguide
-      name: waveguide_L50n
+      name: waveguide_L5p00
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 0.05
-        width: 0.5
-      width: 0.5
+        length: 5.0
 placements:
   bend_circular_R10p00_17_-5:
     rotation: 90
@@ -411,67 +189,67 @@ placements:
     rotation: 0
     x: 17.873
     y: 5.5
-  bend_circular_R10p00_27_-16:
+  bend_circular_R10p00_27_-24:
     rotation: 270
     x: 27.623
-    y: -16.8
-  bend_circular_R10p00_27_16:
+    y: -24.75
+  bend_circular_R10p00_27_19:
     rotation: 180
     x: 27.623
-    y: 16.75
-  bend_circular_R10p00_57_-16:
+    y: 19.75
+  bend_circular_R10p00_37_-24:
     rotation: 0
-    x: 57.973
-    y: -16.8
-  bend_circular_R10p00_57_16:
+    x: 37.973
+    y: -24.75
+  bend_circular_R10p00_37_19:
     rotation: 90
-    x: 57.973
-    y: 16.75
-  bend_circular_R10p00_67_-5:
+    x: 37.973
+    y: 19.75
+  bend_circular_R10p00_47_-5:
     rotation: 180
-    x: 67.723
+    x: 47.723
     y: -5.5
-  bend_circular_R10p00_67_5:
+  bend_circular_R10p00_47_5:
     rotation: 270
-    x: 67.723
+    x: 47.723
     y: 5.5
   mmi1x2_0_0:
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_85_0:
+  mmi1x2_65_0:
     rotation: 180
-    x: 85.596
+    x: 65.596
     y: -0.0
-  waveguide_L1p00_22_-11:
-    rotation: 270
-    x: 22.748
-    y: -11.125
-  waveguide_L1p00_22_11:
-    rotation: 90
-    x: 22.748
-    y: 11.125
-  waveguide_L1p00_62_-11:
-    rotation: 90
-    x: 62.848
-    y: -11.125
-  waveguide_L1p00_62_11:
-    rotation: 270
-    x: 62.848
-    y: 11.125
-  waveguide_L20p10_42_-21:
+  waveguide_L100n_32_-29:
     rotation: 0
-    x: 42.798
-    y: -21.675
-  waveguide_L20p10_42_21:
+    x: 32.798
+    y: -29.625
+  waveguide_L100n_32_24:
     rotation: 0
-    x: 42.798
-    y: 21.625
-  waveguide_L50n_22_-11:
+    x: 32.798
+    y: 24.625
+  waveguide_L4p00_22_-12:
     rotation: 270
     x: 22.748
-    y: -11.65
-  waveguide_L50n_62_-11:
+    y: -12.625
+  waveguide_L4p00_22_12:
     rotation: 90
-    x: 62.848
-    y: -11.65
+    x: 22.748
+    y: 12.625
+  waveguide_L4p00_42_-12:
+    rotation: 90
+    x: 42.848
+    y: -12.625
+  waveguide_L4p00_42_12:
+    rotation: 270
+    x: 42.848
+    y: 12.625
+  waveguide_L5p00_22_-17:
+    rotation: 270
+    x: 22.748
+    y: -17.125
+  waveguide_L5p00_42_-17:
+    rotation: 90
+    x: 42.848
+    y: -17.125

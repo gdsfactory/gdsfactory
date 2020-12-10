@@ -1,14 +1,46 @@
-""" from a gdsfactory component write Sparameters from an FDTD Lumerical simulation
+"""Write component Sparameters with FDTD Lumerical simulations.
 """
 
 import json
 from collections import namedtuple
 
 import numpy as np
+import yaml
 
 import pp
 from pp.config import materials
 from pp.layers import layer2material, layer2nm
+from pp.sp.get_sparameters_path import get_sparameters_path
+
+run_false_warning = """
+you need to pass `run=True` flag to run the simulation
+To debug, you can create a lumerical FDTD session and pass it to the simulator
+
+```
+import lumapi
+s = lumapi.FDTD()
+
+import pp
+c = pp.c.waveguide() # or whatever you want to simulate
+pp.sp.write(component=c, run=False, session=s)
+```
+"""
+
+default_simulation_settings = dict(
+    layer2nm=layer2nm,
+    layer2material=layer2material,
+    remove_layers=[pp.LAYER.WGCLAD],
+    background_material="sio2",
+    port_width=3e-6,
+    port_height=1.5e-6,
+    port_extension_um=1,
+    mesh_accuracy=2,
+    zmargin=1e-6,
+    ymargin=2e-6,
+    wavelength_start=1.2e-6,
+    wavelength_stop=1.6e-6,
+    wavelength_points=500,
+)
 
 
 def write(
@@ -17,11 +49,9 @@ def write(
     run=True,
     overwrite=False,
     dirpath=pp.CONFIG["sp"],
-    height_nm=220,
     **settings,
 ):
-    """
-    writes Sparameters from a gdsfactory component using Lumerical FDTD
+    """Write Sparameters from a gdsfactory component using Lumerical FDTD.
 
     Args:
         component: gdsfactory Component
@@ -29,8 +59,7 @@ def write(
         run: True-> runs Lumerical , False -> only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
-        height_nm: height
-        layer2nm: dict of {(1, 0): 220}
+        layer2nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
         layer2material: dict of {(1, 0): "si"}
         remove_layers: list of tuples (layers to remove)
         background_material: for the background
@@ -47,29 +76,19 @@ def write(
     Return:
         results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
     """
+    sim_settings = default_simulation_settings
+
     if hasattr(component, "simulation_settings"):
-        settings.update(component.simulation_settings)
-    sim_settings = s = dict(
-        layer2nm=layer2nm,
-        layer2material=layer2material,
-        remove_layers=[pp.LAYER.WGCLAD],
-        background_material="sio2",
-        port_width=3e-6,
-        port_height=1.5e-6,
-        port_extension_um=1,
-        mesh_accuracy=2,
-        zmargin=1e-6,
-        ymargin=2e-6,
-        wavelength_start=1.2e-6,
-        wavelength_stop=1.6e-6,
-        wavelength_points=500,
-    )
-    for setting in settings.keys():
+        sim_settings.update(component.simulation_settings)
+    for setting in sim_settings.keys():
         assert (
-            setting in s
-        ), f"`{setting}` is not a valid setting ({list(settings.keys())})"
-    s.update(**settings)
-    ss = namedtuple("sim_settings", s.keys())(*s.values())
+            setting in sim_settings
+        ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+
+    sim_settings.update(**settings)
+
+    # easier to access dict in a namedtuple `ss.port_width`
+    ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
 
     assert ss.port_width < 5e-6
     assert ss.port_height < 5e-6
@@ -84,30 +103,21 @@ def write(
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    filepath = component.get_sparameters_path(dirpath=dirpath, height_nm=height_nm)
+    filepath = get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        layer2material=ss.layer2material,
+        layer2nm=ss.layer2nm,
+    )
     filepath_json = filepath.with_suffix(".json")
-    filepath_sim_settings = filepath.with_suffix(".settings.json")
+    filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
 
     if run and filepath_json.exists() and not overwrite:
         return json.loads(open(filepath_json).read())
 
     if not run and session is None:
-        print(
-            """
-you need to pass `run=True` flag to run the simulation
-To debug, you can create a lumerical FDTD session and pass it to the simulator
-
-```
-import lumapi
-s = lumapi.FDTD()
-
-import pp
-c = pp.c.waveguide() # or whatever you want to simulate
-pp.sp.write(component=c, run=False, session=s)
-```
-"""
-        )
+        print(run_false_warning)
 
     pe = ss.port_extension_um * 1e-6 / 2
     x_min = c.xmin * 1e-6 + pe
@@ -128,7 +138,16 @@ pp.sp.write(component=c, run=False, session=s)
     z = 0
     z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
 
-    import lumapi
+    try:
+        import lumapi
+    except ModuleNotFoundError as e:
+        print(
+            "Cannot import lumapi (Python Lumerical API). "
+            "You can add set the PYTHONPATH variable or add it with `sys.path.append()`"
+        )
+        raise e
+    except OSError as e:
+        raise e
 
     s = session or lumapi.FDTD(hide=False)
     s.newproject()
@@ -250,21 +269,20 @@ pp.sp.write(component=c, run=False, session=s)
         results = {"wavelength_nm": list(sp["lambda"].flatten() * 1e9)}
         results.update(ra)
         results.update(rm)
-        with open(filepath_json, "w") as f:
-            json.dump(results, f)
 
-        with open(filepath_sim_settings, "w") as f:
-            s = sim_settings
-            s["layer2nm"] = [f"{k[0]}_{k[1]}_{v}" for k, v in s["layer2nm"].items()]
-            s["layer2material"] = [
-                f"{k[0]}_{k[1]}_{v}" for k, v in s["layer2material"].items()
-            ]
-            json.dump(s, f)
-
+        sim_settings["layer2nm"] = [
+            f"{k[0]}_{k[1]}_{v}" for k, v in s["layer2nm"].items()
+        ]
+        sim_settings["layer2material"] = [
+            f"{k[0]}_{k[1]}_{v}" for k, v in s["layer2material"].items()
+        ]
+        filepath_json.write_text(json.dumps(results))
+        filepath_sim_settings.write_text(yaml.dump(sim_settings))
         return results
 
 
-def write_coupler_ring():
+def sample_write_coupler_ring():
+    """Sample on how to write a sweep of Sparameters."""
     [
         write(
             pp.c.coupler_ring(

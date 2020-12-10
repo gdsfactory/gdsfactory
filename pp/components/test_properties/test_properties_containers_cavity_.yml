@@ -4,7 +4,6 @@ name: cavity_Cwaveguide
 settings:
   component:
     function_name: waveguide
-    length: 10.0
     module: pp.components.waveguide
     name: waveguide
     settings:
@@ -17,7 +16,6 @@ settings:
         - 0
       length: 10.0
       width: 0.5
-    width: 0.5
   coupler: coupler
   gap: 0.2
   length: 0.1

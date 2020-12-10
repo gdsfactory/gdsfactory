@@ -1,8 +1,6 @@
 function_name: bend_circular180
-length: 31.41592653589793
 module: pp.components.bend_circular
 name: bend_circular180
-radius: 10.0
 settings:
   angle_resolution: 2.5
   cladding_offset: 0.0
@@ -16,4 +14,3 @@ settings:
   start_angle: -90
   theta: 180
   width: 0.5
-width: 0.5

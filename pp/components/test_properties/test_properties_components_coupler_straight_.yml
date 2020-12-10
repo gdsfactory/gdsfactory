@@ -1,5 +1,4 @@
 function_name: coupler_straight
-length: 10.0
 module: pp.components.coupler_straight
 name: coupler_straight
 settings:
@@ -13,4 +12,3 @@ settings:
     - 0
   length: 10.0
   width: 0.5
-width: 0.5

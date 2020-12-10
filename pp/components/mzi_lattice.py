@@ -3,7 +3,7 @@ from typing import Callable, List
 import pp
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
-from pp.components.mzi import mzi
+from pp.components.mzi import mzi as mzi_function
 from pp.components.waveguide import waveguide as waveguide_function
 
 
@@ -12,8 +12,8 @@ def mzi_lattice(
     coupler_lengths: List[float] = [10, 20],
     coupler_gaps: List[float] = [0.2, 0.3],
     delta_lengths: List[float] = [10],
-    mzi_factory: Callable = mzi,
-    coupler: Callable = coupler_function,
+    mzi_factory: Callable = mzi_function,
+    splitter: Callable = coupler_function,
     waveguide: Callable = waveguide_function,
     pins: bool = False,
     **kwargs
@@ -39,19 +39,20 @@ def mzi_lattice(
 
     c = Component()
 
-    coupler_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
+    splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
 
     combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
 
-    cp1 = coupler(**coupler_settings)
+    cp1 = splitter(**splitter_settings)
 
     sprevious = c << mzi_factory(
-        coupler=coupler,
-        combiner=coupler,
-        DL=delta_lengths[0],
+        splitter=splitter,
+        combiner=splitter,
+        with_splitter=True,
+        delta_length=delta_lengths[0],
         waveguide=waveguide,
         combiner_settings=combiner_settings,
-        coupler_settings=coupler_settings,
+        splitter_settings=splitter_settings,
         pins=pins,
         **kwargs
     )
@@ -62,21 +63,21 @@ def mzi_lattice(
         coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
     ):
 
-        coupler_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
+        splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
 
         stage = c << mzi_factory(
-            coupler=coupler,
-            combiner=coupler,
-            DL=delta_length,
-            with_coupler=False,
+            splitter=splitter,
+            combiner=splitter,
+            with_splitter=False,
+            delta_length=delta_length,
             waveguide=waveguide,
             pins=pins,
-            coupler_settings=coupler_settings,
+            splitter_settings=splitter_settings,
             combiner_settings=combiner_settings,
             **kwargs
         )
-        coupler_settings = combiner_settings
+        splitter_settings = combiner_settings
 
         stages.append(stage)
 
@@ -107,6 +108,6 @@ if __name__ == "__main__":
     # dl0 = [0, 50, 100]
 
     c = mzi_lattice(
-        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, L0=10, pins=True
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=10, pins=True
     )
     pp.show(c)

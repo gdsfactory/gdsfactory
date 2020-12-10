@@ -1,7 +1,6 @@
 function_name: grating_coupler_uniform
 module: pp.components.grating_coupler.uniform
 name: grating_coupler_uniform
-polarization: te
 settings:
   fill_factor: 0.5
   layer:
@@ -18,4 +17,3 @@ settings:
   wavelength: 1500
   width: 0.5
   width_grating: 11.0
-wavelength: 1500

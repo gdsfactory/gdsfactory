@@ -8,7 +8,10 @@ from phidl import Device
 
 
 def join_first_letters(name: str) -> str:
-    """ join the first letter of a name separated with underscores (taper_length -> TL) """
+    """Join the first letter of a name separated with underscores.
+
+    taper_length -> TL
+    """
     return "".join([x[0] for x in name.split("_") if x])
 
 
@@ -51,19 +54,20 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 
 
 def assert_first_letters_are_different(**kwargs):
-    """Avoid name colissions of different args that start with the same first letter."""
-    first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
+    """Assert that the first letters for each key are different.
+
+    Avoid name colissions of different args that start with the same first letter.
+    """
+    first_letters = [join_first_letters(k) for k in kwargs.keys()]
     assert len(set(first_letters)) == len(
         first_letters
     ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+    "you can separate your arguments with underscores (delta_length -> DL, delta_width -> DW"
 
 
-def print_first_letters(**kwargs):
-    """Avoid name colissions of different args that start with the same first letter.
-
-    Prints kwargs that have same cell.
-    """
-    first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
+def print_first_letters_warning(**kwargs):
+    """ Prints kwargs that have same cell."""
+    first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):
         print(
             f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"

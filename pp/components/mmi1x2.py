@@ -15,8 +15,8 @@ def mmi1x2(
     gap_mmi: float = 0.25,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: Optional[List[Tuple]] = [pp.LAYER.WGCLAD],
+    taper: Callable = taper_function,
     cladding_offset: float = 3.0,
-    taper_factory: Callable = taper_function,
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -29,6 +29,8 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg
         layer: gds layer
         layers_cladding: list of layers
+        taper: taper function
+        cladding_offset: for taper
 
     .. plot::
       :include-source:
@@ -46,8 +48,8 @@ def mmi1x2(
                |        |
                |         \__
                |          __
-            __/          /
-            __          |
+            __/          /_ _ _ _
+            __          | _ _ _ _| gap_mmi
               \          \__
                |          __
                |         /
@@ -61,7 +63,7 @@ def mmi1x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper_factory(
+    taper = taper(
         length=length_taper,
         width1=wg_width,
         width2=w_taper,

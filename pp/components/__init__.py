@@ -243,4 +243,5 @@ _circuits = {
 __all__ = list(component_factory.keys()) + _decorators
 
 if __name__ == "__main__":
-    factory("asda")
+    for c in _components:
+        ci = component_factory[c]()

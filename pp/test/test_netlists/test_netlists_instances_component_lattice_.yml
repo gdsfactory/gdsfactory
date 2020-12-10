@@ -56,15 +56,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31:
     component: bezier
     settings:
@@ -73,15 +65,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-8:
     component: bezier
     settings:
@@ -90,15 +74,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88:
     component: bezier
     settings:
@@ -107,15 +83,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111:
     component: bezier
     settings:
@@ -124,15 +92,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31:
     component: bezier
     settings:
@@ -141,15 +101,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8:
     component: bezier
     settings:
@@ -158,15 +110,7 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88:
     component: bezier
     settings:
@@ -175,83 +119,35 @@ instances:
       name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
       settings:
         end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
         start_angle: 0
-        width: 0.5
-        with_manhattan_facing_angles: true
   bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_-110:
     component: bezier
     settings:
       function_name: bezier
       module: pp.components.bezier
       name: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0
-      settings:
-        end_angle: None
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
-        start_angle: None
-        width: 0.5
-        with_manhattan_facing_angles: true
+      settings: {}
   bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_9:
     component: bezier
     settings:
       function_name: bezier
       module: pp.components.bezier
       name: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0
-      settings:
-        end_angle: None
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
-        start_angle: None
-        width: 0.5
-        with_manhattan_facing_angles: true
+      settings: {}
   bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110:
     component: bezier
     settings:
       function_name: bezier
       module: pp.components.bezier
       name: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0
-      settings:
-        end_angle: None
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
-        start_angle: None
-        width: 0.5
-        with_manhattan_facing_angles: true
+      settings: {}
   bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_9:
     component: bezier
     settings:
       function_name: bezier
       module: pp.components.bezier
       name: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0
-      settings:
-        end_angle: None
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: None
-        spike_length: 0.0
-        start_angle: None
-        width: 0.5
-        with_manhattan_facing_angles: true
+      settings: {}
   compensation_path_c6763821_160_-108:
     component: compensation_path
     settings:
@@ -260,7 +156,6 @@ instances:
       name: compensation_path_c6763821
       settings:
         crossing45: crossing45_PS40p00
-        direction: top
   compensation_path_c6763821_160_11:
     component: compensation_path
     settings:
@@ -269,7 +164,6 @@ instances:
       name: compensation_path_c6763821
       settings:
         crossing45: crossing45_PS40p00
-        direction: top
   coupler_40_60_-100:
     component: package_optical2x2
     settings:
@@ -324,36 +218,14 @@ instances:
       function_name: coupler
       module: pp.components.coupler
       name: coupler
-      settings:
-        cladding_offset: 0.0
-        dy: 5.0
-        gap: 0.236
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 20.007
-        wg_width: 0.5
+      settings: {}
   coupler_60_-20:
     component: coupler
     settings:
       function_name: coupler
       module: pp.components.coupler
       name: coupler
-      settings:
-        cladding_offset: 0.0
-        dy: 5.0
-        gap: 0.236
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
-        length: 20.007
-        wg_width: 0.5
+      settings: {}
   crossing45_PS40p00_160_-60:
     component: crossing45
     settings:
@@ -361,8 +233,6 @@ instances:
       module: pp.components.crossing_waveguide
       name: crossing45_PS40p00
       settings:
-        alpha: 0.08
-        dx: None
         port_spacing: 40.0
   crossing45_PS40p00_240_-100:
     component: crossing45
@@ -371,8 +241,6 @@ instances:
       module: pp.components.crossing_waveguide
       name: crossing45_PS40p00
       settings:
-        alpha: 0.08
-        dx: None
         port_spacing: 40.0
   crossing45_PS40p00_240_-20:
     component: crossing45
@@ -381,8 +249,6 @@ instances:
       module: pp.components.crossing_waveguide
       name: crossing45_PS40p00
       settings:
-        alpha: 0.08
-        dx: None
         port_spacing: 40.0
   crossing_160_-101:
     component: crossing

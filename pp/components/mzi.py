@@ -11,47 +11,51 @@ from pp.port import deco_rename_ports, rename_ports_by_orientation
 @deco_rename_ports
 @pp.cell
 def mzi(
-    L0: float = 1.0,
-    DL: float = 0.1,
-    L2: float = 20.1,
+    delta_length: float = 10.0,
+    length_y: float = 4.0,
+    length_x: float = 0.1,
     bend_radius: float = 10.0,
     bend90: Callable = bend_circular_function,
     waveguide: Callable = waveguide_function,
     waveguide_vertical: Optional[Callable] = None,
     waveguide_horizontal: Optional[Callable] = None,
-    coupler: Callable = mmi1x2_function,
+    splitter: Callable = mmi1x2_function,
     combiner: Optional[Callable] = None,
-    with_coupler: bool = True,
+    with_splitter: bool = True,
     pins: bool = False,
-    coupler_settings=None,
+    splitter_settings=None,
     combiner_settings=None,
 ) -> Component:
     """Mzi.
 
     Args:
-        L0: vertical length for both and top arms
-        DL: bottom arm extra length
-        L2: L_top horizontal length
+        delta_length: bottom arm vertical extra length
+        length_y: vertical length for both and top arms
+        length_x: horizontal length
         bend_radius: 10.0
         bend90: bend_circular
+        waveguide: waveguide function
         waveguide_vertical: waveguide
-        coupler: coupler
-        combiner: coupler
-        with_coupler: if False removes coupler
+        splitter: splitter function
+        combiner: combiner function
+        with_splitter: if False removes splitter
+        pins: add pins cell and child cells
+        combiner_settings: settings dict for combiner function
+        splitter_settings: settings dict for splitter function
 
     .. code::
 
-                   __L2__
+                   __Lx__
                   |      |
-                  L0     L0r
+                  Ly     Lyr
                   |      |
-         coupler==|      |==combiner
+        splitter==|      |==combiner
                   |      |
-                  L0     L0r
+                  Ly     Lyr
                   |      |
                  DL/2   DL/2
                   |      |
-                  |__L2__|
+                  |__Lx__|
 
 
     .. plot::
@@ -59,15 +63,19 @@ def mzi(
 
       import pp
 
-      c = pp.c.mzi(L0=0.1, DL=0, L2=10)
+      c = pp.c.mzi(delta_length=10.)
       pp.plotgds(c)
 
     """
-    coupler_settings = coupler_settings or {}
+    L2 = length_x
+    L0 = length_y
+    DL = delta_length
+
+    splitter_settings = splitter_settings or {}
     combiner_settings = combiner_settings or {}
 
     c = pp.Component()
-    cp1 = coupler(**coupler_settings)
+    cp1 = splitter(**splitter_settings)
     if combiner:
         cp2 = combiner(**combiner_settings)
     else:
@@ -92,7 +100,7 @@ def mzi(
     delta_length_combiner = dl - dr
     assert delta_length_combiner + L0 > 0, (
         f"cp1 and cp2 port height offset delta_length ({delta_length_combiner}) +"
-        f" L0 ({L0}) >0"
+        f" length_y ({length_y}) >0"
     )
 
     l0r = waveguide_vertical(length=L0 + delta_length_combiner / 2)
@@ -145,7 +153,7 @@ def mzi(
     blbmrb.connect(port="W0", destination=cout.ports["E1"])  # just for netlist
 
     # west ports
-    if with_coupler:
+    if with_splitter:
         c.add(cin)
         for port_name, port in cin.ports.items():
             if port.angle == 180:
@@ -171,8 +179,8 @@ if __name__ == "__main__":
     delta_length = 116.8 / 2
     # print(delta_length)
 
-    # c = mzi(DL=delta_length, with_coupler=False)
-    c = mzi(DL=10)
+    # c = mzi(delta_length=delta_length, with_splitter=False)
+    c = mzi(delta_length=10)
     print(c.name)
 
     # add_markers(c)

@@ -1,5 +1,4 @@
 function_name: spiral_inner_io
-length: 16949.99081698724
 module: pp.components.spiral_inner_io
 name: spiral_inner_io
 settings:

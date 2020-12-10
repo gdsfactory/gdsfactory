@@ -10,6 +10,7 @@ def recurse_references(
     dx: float = 0.0,
     dy: float = 0.0,
     recursive=True,
+    full_settings=False,
     level: int = 0,
 ):
     """From a component returns instances and placements dicts.
@@ -18,7 +19,7 @@ def recurse_references(
 
     Args:
         component: to recurse
-        instances: instance_name to settings dict. Instances are name by ComponentName.x.y
+        instances: instance_name_x_y to settings dict
         placements: instance_name to x,y,rotation dict
         connections: instance_name_src,portName: instance_name_dst,portName
         port_locations: dict((x,y): set([referenceName, Port]))
@@ -48,7 +49,7 @@ def recurse_references(
         x = snap_to_1nm_grid(r.x + dx)
         y = snap_to_1nm_grid(r.y + dy)
         reference_name = f"{c.name}_{int(x)}_{int(y)}"
-        settings = c.get_settings()
+        settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(component=c.function_name, settings=settings)
         placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation))
         for port in r.get_ports_list():
@@ -80,6 +81,7 @@ def recurse_references(
                     dy=dy,
                     port_locations=port_locations,
                     level=level + 1,
+                    full_settings=full_settings,
                 )
                 placements.update(p2)
                 instances.update(i2)
@@ -134,7 +136,9 @@ if __name__ == "__main__":
     # import matplotlib.pyplot as plt
     import pp
 
-    c = pp.c.ring_single_array()
+    # c = pp.c.ring_single_array()
+    c = pp.c.mzi(delta_length=100.0)
+    print(c.get_netlist_yaml())
     pp.show(c)
     c.plot_netlist()
 

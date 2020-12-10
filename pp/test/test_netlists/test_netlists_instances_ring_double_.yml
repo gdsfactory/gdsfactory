@@ -36,38 +36,20 @@ instances:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 2.0
       module: pp.components.waveguide
       name: waveguide_L2p00_W500n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 2.0
         width: 0.5
-      width: 0.5
   waveguide_L2p00_W500n_5_6:
     component: waveguide
     settings:
       function_name: waveguide
-      length: 2.0
       module: pp.components.waveguide
       name: waveguide_L2p00_W500n
       settings:
-        cladding_offset: 0.0
-        layer:
-        - 1
-        - 0
-        layers_cladding:
-        - - 111
-          - 0
         length: 2.0
         width: 0.5
-      width: 0.5
 placements:
   coupler_ring_93965797_-1_1:
     rotation: 0

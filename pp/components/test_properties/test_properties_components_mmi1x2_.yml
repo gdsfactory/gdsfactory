@@ -15,5 +15,3 @@ settings:
   wg_width: 0.5
   width_mmi: 2.5
   width_taper: 1.0
-simulation_settings:
-  port_width: 1.5e-06

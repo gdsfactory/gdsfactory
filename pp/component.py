@@ -1,6 +1,5 @@
 import copy as python_copy
 import itertools
-import pathlib
 import uuid
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -11,7 +10,7 @@ from omegaconf import OmegaConf
 from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
 from pp.compare_cells import hash_cells
-from pp.config import CONFIG, conf
+from pp.config import conf
 from pp.port import Port, select_ports
 from pp.recurse_references import recurse_references
 
@@ -529,6 +528,7 @@ class Component(Device):
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 
         self.settings = kwargs
+        self.settings_changed = kwargs
         self.__ports__ = {}
         self.info = {}
         self.aliases = {}
@@ -551,6 +551,7 @@ class Component(Device):
         Args:
             with_labels: label nodes
             font_weight: normal, bold
+            recursive: recurses hierarchy
         """
         netlist = self.get_netlist(recursive=recursive)
         connections_level = netlist.connections
@@ -602,12 +603,6 @@ class Component(Device):
             return self.name_long
         else:
             return self.name
-
-    def get_sparameters_path(self, dirpath=CONFIG["sp"], height_nm=220):
-        dirpath = pathlib.Path(dirpath)
-        dirpath = dirpath / self.function_name if self.function_name else dirpath
-        dirpath.mkdir(exist_ok=True, parents=True)
-        return dirpath / f"{self.get_name_long()}_{height_nm}.dat"
 
     def ports_on_grid(self) -> None:
         """ asserts if all ports ar eon grid """
@@ -707,49 +702,56 @@ class Component(Device):
         if hasattr(self, property):
             return getattr(self, property)
 
-    def get_settings(self) -> Dict[str, Any]:
-        """Returns settings dictionary. Ignores items from self.ignore set."""
+    def get_settings(
+        self,
+        ignore=("layer", "layers_cladding", "cladding_offset"),
+        include=("name", "function_name", "module"),
+        full_settings=True,
+    ) -> Dict[str, Any]:
+        """Returns settings dictionary.
+        Ignores items from self.ignore set.
+
+        Args:
+            ignore: settings to ignore
+            include: settings to include
+            full_settings: export full settings or only changed settings
+
+        """
+        settings = self.settings if full_settings else self.settings_changed
         d = {}
         d["settings"] = {}
-        include = {"name"}
-        ignore = set(
-            dir(Component())
-            + [
-                "ignore",
-                "netlist",
-                "path",
-                "pins",
-                "properties",
-                "settings",
-                "settings_changed",
-                "type",
-            ]
-        )
-        ignore = ignore.union(self.ignore)
-        params = set(dir(self)) - ignore
+        include = set(include)
+        ignore = set(ignore).union(self.ignore)
 
-        for k in include:
-            if hasattr(self, k):
-                d[k] = getattr(self, k)
+        # ignore = set(
+        #     dir(Component())
+        #     + [
+        #         "ignore",
+        #         "netlist",
+        #         "path",
+        #         "pins",
+        #         "properties",
+        #         "settings",
+        #         "settings_changed",
+        #         "type",
+        #     ]
+        # )
+        # params = set(dir(self)) - ignore
+        # for param in params:
+        #     d[param] = _clean_value(getattr(self, param))
+        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
+        # d["hash_geometry"] = str(self.hash_geometry())
 
-        for key, value in self.settings.items():
+        for setting in include:
+            if hasattr(self, setting):
+                d[setting] = getattr(self, setting)
+
+        for key, value in settings.items():
             if key not in self.ignore:
                 d["settings"][key] = _clean_value(value)
 
-        for param in params:
-            d[param] = _clean_value(getattr(self, param))
-
-        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
-        # d["hash_geometry"] = str(self.hash_geometry())
         output = {k: d[k] for k in sorted(d)}
         return output
-
-    def get_settings_model(self):
-        """ returns important settings for a compact model"""
-        ignore = ["layer", "layers_cladding", "cladding_offset"]
-        s = self.get_settings()
-        [s.pop(i) for i in ignore]
-        return s
 
     def add_port(
         self,
@@ -1101,6 +1103,10 @@ def demo_component(port):
 
 
 if __name__ == "__main__":
+    import pp
+
+    c = pp.c.waveguide(length=3.0)
+    print(c.get_settings())
     # import matplotlib.pyplot as plt
 
     # c = pp.c.ring_single()
@@ -1124,7 +1130,7 @@ if __name__ == "__main__":
 
     # plt.show()
 
-    test_netlist_simple()
+    # test_netlist_simple()
     # test_netlist_complex()
 
     # c = pp.c.waveguide()

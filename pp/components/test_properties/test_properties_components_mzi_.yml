@@ -2,14 +2,14 @@ function_name: mzi
 module: pp.components.mzi
 name: mzi
 settings:
-  DL: 0.1
-  L0: 1.0
-  L2: 20.1
   bend_radius: 10.0
   combiner: None
   combiner_settings: None
-  coupler_settings: None
+  delta_length: 10.0
+  length_x: 0.1
+  length_y: 4.0
   pins: false
+  splitter_settings: None
   waveguide_horizontal: None
   waveguide_vertical: None
-  with_coupler: true
+  with_splitter: true
