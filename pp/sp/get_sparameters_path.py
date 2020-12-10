@@ -1,13 +1,27 @@
 import pathlib
+from pathlib import PosixPath
+from typing import Dict, Tuple
 
+from pp.component import Component
 from pp.config import CONFIG
 from pp.layers import LAYER, layer2material, layer2nm
 from pp.name import dict2name
 
 
 def get_sparameters_path(
-    component, dirpath=CONFIG["sp"], layer2material=layer2material, layer2nm=layer2nm
-):
+    component: Component,
+    dirpath: PosixPath = CONFIG["sp"],
+    layer2material: Dict[Tuple[int, int], str] = layer2material,
+    layer2nm: Dict[Tuple[int, int], int] = layer2nm,
+) -> PosixPath:
+    """Returns Sparameters filepath.
+
+    Args:
+        component:
+        dirpath
+        layer2material: GDSlayer to material alias (see aliases in pp.sp.write)
+        layer2nm: GDSlayer to thickness (nm)
+    """
     dirpath = pathlib.Path(dirpath)
     dirpath = dirpath / component.function_name if component.function_name else dirpath
     dirpath.mkdir(exist_ok=True, parents=True)

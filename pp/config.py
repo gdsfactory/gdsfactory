@@ -216,12 +216,6 @@ BEND_RADIUS = conf.tech.bend_radius
 TAPER_LENGTH = conf.tech.taper_length
 WG_EXPANDED_WIDTH = conf.tech.wg_expanded_width
 
-materials = {
-    "si": "Si (Silicon) - Palik",
-    "sio2": "SiO2 (Glass) - Palik",
-    "sin": "Si3N4 (Silicon Nitride) - Phillip",
-}
-
 
 if __name__ == "__main__":
     # print(conf)
