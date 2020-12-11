@@ -92,9 +92,6 @@ def write(
         ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
 
     sim_settings.update(**settings)
-    layer2nm = sim_settings.pop("layer2nm")
-    layer2material = sim_settings.pop("layer2material")
-    remove_layers = sim_settings.pop("remove_layers")
 
     # easier to access dict in a namedtuple `ss.port_width`
     ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
@@ -106,24 +103,17 @@ def write(
 
     ports = component.ports
 
-    component.remove_layers(remove_layers)
+    component.remove_layers(ss.remove_layers)
     component._bb_valid = False
 
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
 
-    material2nm = {
-        layer2material[layer]: layer2nm[layer]
-        for layer in layer2nm.keys()
-        if layer in component.get_layers()
-    }
-    sim_settings["material2nm"] = material2nm
-
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=layer2material,
-        layer2nm=layer2nm,
+        layer2material=ss.layer2material,
+        layer2nm=ss.layer2nm,
     )
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".yml")
@@ -152,7 +142,23 @@ def write(
         x_max = c.xmax * 1e-6 + ss.ymargin
 
     z = 0
-    z_span = 2 * ss.zmargin + max(layer2nm.values()) * 1e-9
+    z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
+
+    layers = component.get_layers()
+    sim_settings["layer2nm"] = [
+        f"{k[0]}_{k[1]}_{v}" for k, v in sim_settings["layer2nm"].items() if k in layers
+    ]
+    sim_settings["layer2material"] = [
+        f"{k[0]}_{k[1]}_{v}"
+        for k, v in sim_settings["layer2material"].items()
+        if k in layers
+    ]
+    sim_settings["remove_layers"] = [f"{k[0]}_{k[1]}" for k in ss.remove_layers]
+
+    # Uncomment to debug
+    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
+    # print(filepath_sim_settings)
+    # return
 
     try:
         import lumapi
@@ -198,13 +204,12 @@ def write(
         use_early_shutoff=True,
     )
 
-    layers = component.get_layers()
-    for layer, nm in layer2nm.items():
+    for layer, nm in ss.layer2nm.items():
         if layer not in layers:
             continue
-        assert layer in layer2material, f"{layer} not in {layer2material.keys()}"
+        assert layer in ss.layer2material, f"{layer} not in {ss.layer2material.keys()}"
 
-        material = layer2material[layer]
+        material = ss.layer2material[layer]
         if material not in materials:
             raise ValueError(f"{material} not in {list(materials.keys())}")
         material = materials[material]
@@ -309,7 +314,7 @@ def sample_write_coupler_ring():
 if __name__ == "__main__":
     # c = pp.c.coupler_ring(length_x=3)
     c = pp.c.mmi1x2()
-    r = write(component=c, layer2nm={(1, 0): 210})
+    r = write(component=c, layer2nm={(1, 0): 200})
     print(r)
     # print(r.keys())
     # print(c.ports.keys())
