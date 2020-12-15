@@ -1,3 +1,7 @@
+"""Flat or hierarchical
+
+"""
+
 from pp.drc import snap_to_1nm_grid
 
 
@@ -130,23 +134,25 @@ def test_mzi_lattice():
         delta_lengths=delta_lengths,
     )
     c.get_netlist()
+    print(c.get_netlist_yaml())
 
 
 if __name__ == "__main__":
+    # test_mzi_lattice()
     # import matplotlib.pyplot as plt
     import pp
 
-    # c = pp.c.ring_single_array()
-    c = pp.c.mzi(delta_length=100.0)
-    print(c.get_netlist_yaml())
+    c = pp.c.ring_single_array()
     pp.show(c)
-    c.plot_netlist()
+    # c = pp.c.mzi(delta_length=100.0)
+    # print(c.get_netlist_yaml())
 
-    x, i, p = recurse_references(c)
+#     pp.show(c)
+#     c.plot_netlist()
 
-    flat = {}
-    for connections_per_level in x.values():
-        for k, v in connections_per_level.items():
-            flat[k] = v
+#     x, i, p = recurse_references(c)
 
-    # plt.show()
+#     flat = {}
+#     for connections_per_level in x.values():
+#         for k, v in connections_per_level.items():
+#             flat[k] = v

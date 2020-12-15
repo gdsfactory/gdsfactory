@@ -1,6 +1,6 @@
 connections:
-  compensation_path_c6763821:
-    compensation_path_c6763821_160_-108,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,0
+  compensation_path_4fb023b1:
+    compensation_path_4fb023b1_160_-108,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,0
     coupler_40_60_-100,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_-110,0
     crossing_160_-101,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,1
     crossing_160_-101,W0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_-110,1
@@ -14,10 +14,10 @@ connections:
     coupler_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,0
     coupler_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,0
   flat:
-    compensation_path_c6763821_160_-108,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,0
-    compensation_path_c6763821_160_11,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_9,0
+    compensation_path_4fb023b1_160_-108,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,0
+    compensation_path_4fb023b1_160_11,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_9,0
     coupler_40_60_-100,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_-110,0
-    coupler_40_60_-100,E1: crossing45_PS40p00_160_-60,W0
+    coupler_40_60_-100,E1: crossing45_PS40_160_-60,W0
     coupler_40_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,1
     coupler_40_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,1
     coupler_40_60_-20,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31,1
@@ -32,21 +32,21 @@ connections:
     coupler_60_-20,E1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-8,0
     coupler_60_-20,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31,0
     coupler_60_-20,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8,0
-    crossing45_PS40p00_160_-60,E0: crossing45_PS40p00_240_-100,W1
-    crossing45_PS40p00_160_-60,E1: crossing45_PS40p00_240_-20,W0
+    crossing45_PS40_160_-60,E0: crossing45_PS40_240_-100,W1
+    crossing45_PS40_160_-60,E1: crossing45_PS40_240_-20,W0
     crossing_160_-101,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_-110,1
     crossing_160_-101,W0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_-110,1
     crossing_160_18,E0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_182_9,1
     crossing_160_18,W0: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0_138_9,1
   lattice:
-    compensation_path_c6763821_160_-108,E0: crossing45_PS40p00_240_-100,W0
-    compensation_path_c6763821_160_11,E0: crossing45_PS40p00_240_-20,W1
-    coupler_40_60_-100,E0: compensation_path_c6763821_160_-108,W0
-    coupler_40_60_-100,E1: crossing45_PS40p00_160_-60,W0
-    coupler_40_60_-20,E0: crossing45_PS40p00_160_-60,W1
-    coupler_40_60_-20,E1: compensation_path_c6763821_160_11,W0
-    crossing45_PS40p00_160_-60,E0: crossing45_PS40p00_240_-100,W1
-    crossing45_PS40p00_160_-60,E1: crossing45_PS40p00_240_-20,W0
+    compensation_path_4fb023b1_160_-108,E0: crossing45_PS40_240_-100,W0
+    compensation_path_4fb023b1_160_11,E0: crossing45_PS40_240_-20,W1
+    coupler_40_60_-100,E0: compensation_path_4fb023b1_160_-108,W0
+    coupler_40_60_-100,E1: crossing45_PS40_160_-60,W0
+    coupler_40_60_-20,E0: crossing45_PS40_160_-60,W1
+    coupler_40_60_-20,E1: compensation_path_4fb023b1_160_11,W0
+    crossing45_PS40_160_-60,E0: crossing45_PS40_240_-100,W1
+    crossing45_PS40_160_-60,E1: crossing45_PS40_240_-20,W0
 instances:
   bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111:
     component: bezier
@@ -148,22 +148,22 @@ instances:
       module: pp.components.bezier
       name: bezier_w500_aa34631182221f95432cb7b5f838d234_1_0
       settings: {}
-  compensation_path_c6763821_160_-108:
+  compensation_path_4fb023b1_160_-108:
     component: compensation_path
     settings:
       function_name: compensation_path
       module: pp.components.crossing_waveguide
-      name: compensation_path_c6763821
+      name: compensation_path_4fb023b1
       settings:
-        crossing45: crossing45_PS40p00
-  compensation_path_c6763821_160_11:
+        crossing45: crossing45_PS40
+  compensation_path_4fb023b1_160_11:
     component: compensation_path
     settings:
       function_name: compensation_path
       module: pp.components.crossing_waveguide
-      name: compensation_path_c6763821
+      name: compensation_path_4fb023b1
       settings:
-        crossing45: crossing45_PS40p00
+        crossing45: crossing45_PS40
   coupler_40_60_-100:
     component: package_optical2x2
     settings:
@@ -226,28 +226,28 @@ instances:
       module: pp.components.coupler
       name: coupler
       settings: {}
-  crossing45_PS40p00_160_-60:
+  crossing45_PS40_160_-60:
     component: crossing45
     settings:
       function_name: crossing45
       module: pp.components.crossing_waveguide
-      name: crossing45_PS40p00
+      name: crossing45_PS40
       settings:
         port_spacing: 40.0
-  crossing45_PS40p00_240_-100:
+  crossing45_PS40_240_-100:
     component: crossing45
     settings:
       function_name: crossing45
       module: pp.components.crossing_waveguide
-      name: crossing45_PS40p00
+      name: crossing45_PS40
       settings:
         port_spacing: 40.0
-  crossing45_PS40p00_240_-20:
+  crossing45_PS40_240_-20:
     component: crossing45
     settings:
       function_name: crossing45
       module: pp.components.crossing_waveguide
-      name: crossing45_PS40p00
+      name: crossing45_PS40
       settings:
         port_spacing: 40.0
   crossing_160_-101:
@@ -313,11 +313,11 @@ placements:
     rotation: 180
     x: 182.007
     y: 9.435
-  compensation_path_c6763821_160_-108:
+  compensation_path_4fb023b1_160_-108:
     rotation: 0
     x: 160.007
     y: -108.69
-  compensation_path_c6763821_160_11:
+  compensation_path_4fb023b1_160_11:
     rotation: 0
     x: 160.007
     y: 11.31
@@ -337,15 +337,15 @@ placements:
     rotation: 0
     x: 60.004
     y: -20.0
-  crossing45_PS40p00_160_-60:
+  crossing45_PS40_160_-60:
     rotation: 0
     x: 160.007
     y: -60.0
-  crossing45_PS40p00_240_-100:
+  crossing45_PS40_240_-100:
     rotation: 0
     x: 240.007
     y: -100.0
-  crossing45_PS40p00_240_-20:
+  crossing45_PS40_240_-20:
     rotation: 0
     x: 240.007
     y: -20.0

@@ -1,5 +1,4 @@
-"""
-Work with SParameters
+"""Work with SParameters.
 """
 
 from pp.sp.get_sparameters_path import get_sparameters_path

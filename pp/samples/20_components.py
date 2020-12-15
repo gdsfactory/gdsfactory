@@ -1,5 +1,4 @@
-"""
-# Components
+"""# Components.
 
 We store our component functions inside the `pp.components` module. Each function there returns a Component object
 

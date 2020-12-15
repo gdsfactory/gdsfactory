@@ -24,8 +24,12 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-- store config.yml in mask build directory
+- store config.yml in mask build directory (reproduce environment)
 - add tests for add_fiber_single and add_fiber_array labels
+- snap name to 1nm grid, try to name it with floats when possible
+- more sensitive defaults parameter names for MZI
+- sim settings output in yaml file
+- fix sparameters sorting of ports
 
 ## 2.2.2 2020-12-06
 

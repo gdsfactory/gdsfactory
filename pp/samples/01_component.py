@@ -1,14 +1,13 @@
-""" based on phidl tutorial
+"""Based on phidl tutorial.
+
+We'll start by assuming we have a function waveguide() which already exists
+and makes us a simple waveguide rectangle.  Many functions like this
+exist in the pp.components library and are ready-for-use.  We write this
+one out fully just so it's explicitly clear what's happening
+
 """
 
 import pp
-
-# ==============================================================================
-# We'll start by assuming we have a function waveguide() which already exists
-# and makes us a simple waveguide rectangle.  Many functions like this
-# exist in the pp.components library and are ready-for-use.  We write this
-# one out fully just so it's explicitly clear what's happening
-# ==============================================================================
 
 
 def waveguide_sample(length=5, width=1):
@@ -25,29 +24,30 @@ def waveguide_sample(length=5, width=1):
 # Let's create a new Component ``c`` which will act as a blank canvas (c can be
 # thought of as a blank GDS cell with some special features). Note that when we
 # make a Component
-c = pp.Component("MultiWaveguide")
 
-# Now say we want to add a few waveguides to to our  Component" c.
-# First we create the waveguides.  As you can see from the waveguide() function
-# definition, the waveguide() function creates another Component ("WG").
-# This can be thought of as the waveguide() function creating another GDS cell,
-# only this one has some geometry inside it.
-#
-# Let's create two of these Devices by calling the waveguide() function
-WG1 = waveguide_sample(length=10, width=1)
-WG2 = waveguide_sample(length=12, width=2)
+if __name__ == "__main__":
+    c = pp.Component("MultiWaveguide")
 
-# Now we've made two waveguides Component WG1 and WG2, and we have a blank
-# Component c. We can add references from the devices WG1 and WG2 to our blank
-# Component byz using the add_ref() function.
-# After adding WG1, we see that the add_ref() function returns a handle to our
-# reference, which we will label with lowercase letters wg1 and wg2.  This
-# handle will be useful later when we want to move wg1 and wg2 around in c.
-wg1 = c.add_ref(WG1)  # Using the function add_ref()
-wg2 = c << WG2  # Using the << operator which is identical to add_ref()
+    # Now say we want to add a few waveguides to to our  Component" c.
+    # First we create the waveguides.  As you can see from the waveguide() function
+    # definition, the waveguide() function creates another Component ("WG").
+    # This can be thought of as the waveguide() function creating another GDS cell,
+    # only this one has some geometry inside it.
+    #
+    # Let's create two of these Devices by calling the waveguide() function
+    WG1 = waveguide_sample(length=10, width=1)
+    WG2 = waveguide_sample(length=12, width=2)
 
-# Alternatively, we can do this all on one line
-wg3 = c.add_ref(waveguide_sample(length=14, width=3))
+    # Now we've made two waveguides Component WG1 and WG2, and we have a blank
+    # Component c. We can add references from the devices WG1 and WG2 to our blank
+    # Component byz using the add_ref() function.
+    # After adding WG1, we see that the add_ref() function returns a handle to our
+    # reference, which we will label with lowercase letters wg1 and wg2.  This
+    # handle will be useful later when we want to move wg1 and wg2 around in c.
+    wg1 = c.add_ref(WG1)  # Using the function add_ref()
+    wg2 = c << WG2  # Using the << operator which is identical to add_ref()
 
-pp.qp(c)  # quickplot it!
-pp.show(c)  # show it in Klayout
+    # Alternatively, we can do this all on one line
+    wg3 = c.add_ref(waveguide_sample(length=14, width=3))
+
+    pp.show(c)  # show it in Klayout

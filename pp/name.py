@@ -1,10 +1,12 @@
-""" define names, clean names and values
+"""Define names, clean values for names.
 """
 import hashlib
 from typing import Any
 
 import numpy as np
 from phidl import Device
+
+from pp.drc import snap_to_1nm_grid
 
 
 def join_first_letters(name: str) -> str:
@@ -118,8 +120,10 @@ def clean_value(value: Any) -> str:
     elif isinstance(value, (float, np.float64)):
         if 1 > value > 1e-3:
             value = f"{int(value*1e3)}n"
+        elif float(int(value)) == value:
+            value = str(int(value))
         else:
-            value = f"{value:.2f}"
+            value = str(snap_to_1nm_grid(value)).replace(".", "p")
     elif isinstance(value, list):
         value = "_".join(clean_value(v) for v in value)
     elif isinstance(value, tuple):
@@ -138,6 +142,8 @@ def clean_value(value: Any) -> str:
 def test_clean_value():
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
+    assert clean_value(5.0) == "5"
+    assert clean_value(11.001) == "11p001"
 
 
 def test_clean_name():
@@ -152,8 +158,9 @@ if __name__ == "__main__":
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
 
-    c = pp.c.waveguide(length=11)
-    print(c)
+    print(clean_value(11.001))
+    c = pp.c.waveguide(length=11.001)
+    print(c.name)
     # print(c)
     # pp.show(c)
 

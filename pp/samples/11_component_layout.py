@@ -1,5 +1,4 @@
-"""
-Lets create a new component.
+""" Lets create a new component.
 
 We create a function which returns a pp.Component instance.
 

@@ -1,6 +1,6 @@
 function_name: grating_coupler_elliptical_trenches
 module: pp.components.grating_coupler.elliptical_trenches
-name: grating_coupler_elliptical_trenches_43119c9e
+name: grating_coupler_elliptical_trenches_34b21071
 settings:
   fiber_angle: 15.0
   grating_line_width: 0.6

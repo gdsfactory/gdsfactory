@@ -153,6 +153,7 @@ class ComponentReference(DeviceReference):
             name: port._copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
+        self.uid = str(uuid.uuid4())[:8]
 
     def __repr__(self):
         return (
@@ -818,6 +819,7 @@ class Component(Device):
             "test_protocol": self.test_protocol,
             "data_analysis_protocol": self.data_analysis_protocol,
             "git_hash": conf["git_hash"],
+            "version": conf["version"],
         }
         jsondata.update(**kwargs)
 

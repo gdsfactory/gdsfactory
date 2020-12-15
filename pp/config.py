@@ -116,7 +116,6 @@ CONFIG = dict(
     gdsdir=module_path / "gds",
     font_path=module_path / "gds" / "alphabet.gds",
     masks_path=repo_path / "mask",
-    version=__version__,
     home=home,
     cwd=cwd,
 )

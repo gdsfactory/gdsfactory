@@ -1,4 +1,4 @@
-""" this example shows how to add_grating couplers for single fiber in single fiber out (no fiber array)
+"""This example shows how to add_grating couplers for single fiber in single fiber out (no fiber array).
 """
 
 import pp

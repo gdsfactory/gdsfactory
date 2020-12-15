@@ -1,5 +1,4 @@
-"""
-Connecting a component with I/O
+"""Connecting a component with I/O.
 """
 
 import pp

@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 
@@ -8,15 +8,25 @@ from pp.layers import layer2material, layer2nm
 from pp.sp.get_sparameters_path import get_sparameters_path
 
 
-def read_sparameters(filepath, numports: int):
+def get_ports(line: str) -> Tuple[str, str]:
+    """Returns 2 port labels strings from interconnect file."""
+    line = line.replace('"', "")
+    line = line.replace("(", "")
+    line_fields = line.split(",")
+    port1 = line_fields[0]
+    port2 = line_fields[3]
+    return port1, port2
+
+
+def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
         filepath: Sparameters filepath (interconnect format)
         numports: number of ports
 
-    Returns [port_names, F, S]
-        port_names: list of strings
+    Returns:
+        port_names: list of port labels
         F: frequency 1d np.array
         S: Sparameters np.ndarray matrix
 
@@ -24,6 +34,7 @@ def read_sparameters(filepath, numports: int):
     F = []
     S = []
     port_names = []
+
     with open(filepath, "r") as fid:
         for i in range(numports):
             port_line = fid.readline()
@@ -32,18 +43,24 @@ def read_sparameters(filepath, numports: int):
                 port = m.group(0)
                 port_names.append(port[2:-2])
         line = fid.readline()
+        port1, port2 = get_ports(line)
         line = fid.readline()
         numrows = int(tuple(line[1:-2].split(","))[0])
         S = np.zeros((numrows, numports, numports), dtype="complex128")
         r = m = n = 0
         for line in fid:
             if line[0] == "(":
+                if "transmission" in line:
+                    port1, port2 = get_ports(line)
                 continue
             data = line.split()
             data = list(map(float, data))
             if m == 0 and n == 0:
                 F.append(data[0])
-            S[r, m, n] = data[1] * np.exp(1j * data[2])
+
+            i = port_names.index(port1)
+            j = port_names.index(port2)
+            S[r, i, j] = data[1] * np.exp(1j * data[2])
             r += 1
             if r == numrows:
                 r = 0
@@ -53,7 +70,41 @@ def read_sparameters(filepath, numports: int):
                     n += 1
                     if n == numports:
                         break
+
+    # port_names.reverse()
+    # print(len(F), S.shape, len(port_names))
     return (port_names, np.array(F), S)
+
+
+def test_read_sparameters_2port_bend():
+    filepath = pp.CONFIG["sp"] / "bend_circular" / "bend_circular_S220.dat"
+    port_names, f, s = read_sparameters(filepath=filepath, numports=2)
+    print(port_names)
+    assert port_names == ["N0", "W0"]
+
+
+def test_read_sparameters_2port_waveguide():
+    filepath = pp.CONFIG["sp"] / "waveguide" / "waveguide_S220.dat"
+    port_names, f, s = read_sparameters(filepath=filepath, numports=2)
+    print(port_names)
+    assert len(f) == 500
+    assert port_names == ["E0", "W0"]
+
+
+def test_read_sparameters_3port_mmi1x2():
+    filepath = pp.CONFIG["sp"] / "mmi1x2" / "mmi1x2_S220.dat"
+    port_names, f, s = read_sparameters(filepath=filepath, numports=3)
+    print(port_names)
+    assert len(f) == 500
+    assert port_names == ["E0", "E1", "W0"]
+
+
+def test_read_sparameters_4port_mmi2x2():
+    filepath = pp.CONFIG["sp"] / "mmi2x2" / "mmi2x2_S220.dat"
+    port_names, f, s = read_sparameters(filepath=filepath, numports=4)
+    print(port_names)
+    assert len(f) == 500
+    assert port_names == ["E0", "E1", "W0", "W1"]
 
 
 def load(
@@ -61,16 +112,17 @@ def load(
     dirpath=pp.CONFIG["sp"],
     layer2material: Dict[Tuple[int, int], str] = layer2material,
     layer2nm: [Tuple[int, int], int] = layer2nm,
-):
+) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
         component: Component
         dirpath: path where to look for the Sparameters
+        layer2material: layer to material
         layer2nm:
 
-    Returns [port_names, F, S]
-        port_names: list of strings
+    Returns:
+        port_names: list of port labels
         F: frequency 1d np.array
         S: Sparameters np.ndarray matrix
 
@@ -92,6 +144,10 @@ def load(
 
 
 if __name__ == "__main__":
-    s = load(pp.c.mmi2x2())
-    print(s[0])
+    test_read_sparameters_2port_waveguide()
+    # test_read_sparameters_2port_bend()
+    # test_read_sparameters_3port_mmi1x2()
+    # test_read_sparameters_4port_mmi2x2()
+    # s = load(pp.c.mmi2x2())
+    # print(s[0])
     # print(s)

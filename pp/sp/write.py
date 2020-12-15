@@ -3,11 +3,16 @@
 
 import json
 from collections import namedtuple
+from pathlib import PosixPath
+from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 import yaml
+from omegaconf import OmegaConf
 
 import pp
+from pp.component import Component
+from pp.config import __version__
 from pp.layers import layer2material, layer2nm
 from pp.sp.get_sparameters_path import get_sparameters_path
 
@@ -49,12 +54,28 @@ default_simulation_settings = dict(
 )
 
 
+def clean_dict(
+    d: Dict[str, Any], layers: List[Tuple[int, int]]
+) -> Dict[str, Union[str, float, int]]:
+    """Returns same dict after converting tuple keys into list of strings."""
+    d["layer2nm"] = [
+        f"{k[0]}_{k[1]}_{v}" for k, v in d.get("layer2nm", {}).items() if k in layers
+    ]
+    d["layer2material"] = [
+        f"{k[0]}_{k[1]}_{v}"
+        for k, v in d.get("layer2material", {}).items()
+        if k in layers
+    ]
+    d["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
+    return d
+
+
 def write(
-    component,
-    session=None,
-    run=True,
-    overwrite=False,
-    dirpath=pp.CONFIG["sp"],
+    component: Component,
+    session: bool = None,
+    run: bool = True,
+    overwrite: bool = False,
+    dirpath: PosixPath = pp.CONFIG["sp"],
     **settings,
 ):
     """Write Sparameters from a gdsfactory component using Lumerical FDTD.
@@ -145,18 +166,16 @@ def write(
     z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
 
     layers = component.get_layers()
-    sim_settings["layer2nm"] = [
-        f"{k[0]}_{k[1]}_{v}" for k, v in sim_settings["layer2nm"].items() if k in layers
-    ]
-    sim_settings["layer2material"] = [
-        f"{k[0]}_{k[1]}_{v}"
-        for k, v in sim_settings["layer2material"].items()
-        if k in layers
-    ]
-    sim_settings["remove_layers"] = [f"{k[0]}_{k[1]}" for k in ss.remove_layers]
+    sim_settings = OmegaConf.create(
+        dict(
+            simulation_settings=clean_dict(sim_settings, layers=layers),
+            component=component.get_settings(),
+            version=__version__,
+        )
+    )
 
     # Uncomment to debug
-    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
+    # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
     # print(filepath_sim_settings)
     # return
 
