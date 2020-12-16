@@ -53,7 +53,7 @@ import pp.port as port
 import pp.units as units
 
 from pp.component_from_yaml import component_from_yaml
-from pp.component import recurse_references
+from pp.recurse_references import recurse_references
 
 from pp.components import component_factory
 from pp.components import factory

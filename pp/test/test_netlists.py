@@ -45,6 +45,7 @@ if __name__ == "__main__":
     component_type = "ring_single"
     c1 = component_factory[component_type]()
     n = c1.get_netlist()
+    # n.pop("connections")
     pp.clear_cache()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     print(yaml_str)

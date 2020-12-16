@@ -59,6 +59,8 @@ def get_netlist(component, full_settings=False):
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"]
         )
+        # dx = snap_to_1nm_grid(reference.x - component.x)
+        # dy = snap_to_1nm_grid(reference.y - component.y)
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
     # store where ports are located
