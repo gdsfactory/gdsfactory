@@ -170,12 +170,15 @@ logging.warning("This will get logged to a file")
 
 def print_config(key=None):
     if key:
-        if CONFIG.get(key):
+        if conf.get(key):
+            print(conf[key])
+        elif CONFIG.get(key):
             print(CONFIG[key])
         else:
             print(f"`{key}` key not found in {cwd_config}")
     else:
         pprint(CONFIG)
+        print(OmegaConf.to_yaml(conf))
 
 
 def complex_encoder(z):

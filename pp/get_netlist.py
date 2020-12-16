@@ -24,7 +24,11 @@ def get_instance_name(component, reference, layer_label=LAYER.LABEL_INSTANCE):
     Loop over references and find the reference under and associate reference with instance label
     map instance names to references
     """
-    return reference.uid
+    # TODO: check if it has a instance name label
+    # return f"{reference.parent.name}_{reference.uid}"
+    x = snap_to_1nm_grid(reference.x)
+    y = snap_to_1nm_grid(reference.y)
+    return f"{reference.parent.name}_{x}_{y}"
 
 
 def get_netlist(component, full_settings=False):
@@ -43,45 +47,65 @@ def get_netlist(component, full_settings=False):
     placements = {}
     instances = {}
     connections = {}
+    top_ports = {}
+    top_ports_list = set()
 
     for reference in component.references:
         c = reference.parent
         x = snap_to_1nm_grid(reference.x)
         y = snap_to_1nm_grid(reference.y)
-        reference_name = f"{c.name}_{int(x)}_{int(y)}"
+        reference_name = get_instance_name(component, reference)
         settings = c.get_settings(full_settings=full_settings)
-        instances[reference_name] = dict(component=c.function_name, settings=settings)
+        instances[reference_name] = dict(
+            component=c.function_name, settings=settings["settings"]
+        )
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
-    # get top level ports are not connected
-    ports = component.get_ports(depth=0)
-    # for port in ports:
-    #     connections[f'TOP,{port.name}'] = None
+    # store where ports are located
+    name2port = {}
 
     # Initialize a dict of port locations to Instance1Name,PortNames
-    port_locations = {snap_to_1nm_grid((port.x, port.y)): set() for port in ports}
+    port_locations = {}
 
+    # TOP level ports
+    ports = component.get_ports(depth=0)
+    for port in ports:
+        src = port.name
+        name2port[src] = port
+        top_ports_list.add(src)
+
+    # lower level ports
     for reference in component.references:
-        for port in reference.ports:
-            instance_name = get_instance_name(component, reference)
-            src = f"{instance_name},{port.name}"
-            xy = snap_to_1nm_grid((port.x, port.y))
-            assert (
-                xy in port_locations
-            ), f"{xy} for {port.name} {c.name} in  not in {port_locations}"
-            src_list = port_locations[xy]
+        for port in reference.ports.values():
+            reference_name = get_instance_name(component, reference)
+            src = f"{reference_name},{port.name}"
+            name2port[src] = port
 
-            # first time encountered ports append to port_locations dict
-            if len(src_list) == 0:
-                src_list.add(src)
+    # build connectivity as a set of portNames
+    for name, port in name2port.items():
+        xy = snap_to_1nm_grid((port.x, port.y))
+        if xy not in port_locations:
+            port_locations[xy] = set()
+        port_locations[xy].add(name)
+
+    for xy, names_set in port_locations.items():
+        if len(names_set) > 2:
+            raise ValueError(f"more than 2 connections at {xy} {list(names_set)}")
+        if len(names_set) == 2:
+            names_list = list(names_set)
+            src = names_list[0]
+            dst = names_list[1]
+            if src in top_ports_list:
+                top_ports[src] = dst
+            elif dst in top_ports_list:
+                top_ports[dst] = src
             else:
-                for src2 in src_list:
-                    connections[src2] = src
-                    # connections[src] = src2
+                connections[src] = dst
 
+    connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return connections, instances_sorted, placements_sorted
+    return connections_sorted, instances_sorted, placements_sorted, top_ports
 
 
 def demo_ring_single_array():
@@ -116,8 +140,9 @@ if __name__ == "__main__":
     # pp.show(c)
 
     c = pp.c.ring_single()
+    ports = c.get_ports(depth=0)
     pp.show(c)
 
-    connections, instances, placements = get_netlist(c)
+    connections, instances, placements, ports = get_netlist(c)
     # connections, instances, placements = get_netlist(c.references[0].parent)
     print(connections)

@@ -30,6 +30,7 @@ from pydantic import validate_arguments
 - more sensitive defaults parameter names for MZI
 - sim settings output in yaml file
 - fix sparameters sorting of ports
+- get netlist can retreive the top level ports for a component
 
 ## 2.2.2 2020-12-06
 

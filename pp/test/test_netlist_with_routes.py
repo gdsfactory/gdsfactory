@@ -3,11 +3,7 @@ import pp
 
 @pp.cell
 def test_netlist_with_routes():
-    """Needs FIX
-    routes are not connected using connect,
-    Using a hack we add the route to the netlist inside function round_corners
-    from pp.routing.manhattan
-    ideally we would extract the exact route composition (bends, tapers and waveguides)
+    """
     """
     c = pp.Component()
     w = c << pp.c.waveguide(length=3)
@@ -24,7 +20,7 @@ def test_netlist_with_routes():
     print(len(c.get_netlist().connections))
 
     assert len(c.get_dependencies()) == 3
-    assert len(c.get_netlist().connections) == 3  # 2 components + 1 flat netlist
+    assert len(c.get_netlist().connections) == 2  # 2 components + 1 flat netlist
     return c
 
 

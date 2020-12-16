@@ -11,8 +11,8 @@ from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
 from pp.compare_cells import hash_cells
 from pp.config import conf
+from pp.get_netlist import get_netlist
 from pp.port import Port, select_ports
-from pp.recurse_references import recurse_references
 
 
 def copy(D):
@@ -545,26 +545,24 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(self, with_labels=True, font_weight="normal", recursive=True):
+    def plot_netlist(self, with_labels=True, font_weight="normal"):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
         Args:
             with_labels: label nodes
             font_weight: normal, bold
-            recursive: recurses hierarchy
         """
-        netlist = self.get_netlist(recursive=recursive)
-        connections_level = netlist.connections
+        netlist = self.get_netlist()
+        connections = netlist.connections
 
         G = nx.Graph()
-        for connections in connections_level.values():
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
+        )
         pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
         nx.draw(
@@ -575,7 +573,7 @@ class Component(Device):
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self, recursive=True):
+    def get_netlist(self, full_settings=False):
         """returns netlist dict(instances, placements, connections)
 
         Args:
@@ -588,12 +586,20 @@ class Component(Device):
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
         """
-        connections, instances, placements = recurse_references(
-            component=self, recursive=recursive
+        # connections, instances, placements = recurse_references(
+        #     component=self, recursive=recursive
+        # )
+        connections, instances, placements, ports = get_netlist(
+            component=self, full_settings=full_settings
         )
 
         netlist = OmegaConf.create(
-            dict(instances=instances, placements=placements, connections=connections)
+            dict(
+                instances=instances,
+                placements=placements,
+                connections=connections,
+                ports=ports,
+            )
         )
         self.netlist = netlist
         return netlist
@@ -1111,8 +1117,9 @@ if __name__ == "__main__":
     print(c.get_settings())
     # import matplotlib.pyplot as plt
 
-    # c = pp.c.ring_single()
+    c = pp.c.ring_single()
     # c = pp.c.mzi()
+    c.plot_netlist()
 
     # coupler_lengths = [10, 20, 30]
     # coupler_gaps = [0.1, 0.2, 0.3]
@@ -1127,7 +1134,6 @@ if __name__ == "__main__":
     # print(n.placements)
     # print(n.connections)
 
-    # c.plot_netlist()
     # plt.show()
 
     # plt.show()
