@@ -118,7 +118,7 @@ def pack(
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
-                f"pack() failed because one of the objects (D)"
+                "pack() failed because one of the objects (D)"
                 + "in `D_list` is has an x or y dimension larger than `max_size` and "
                 + "so cannot be packed"
             )

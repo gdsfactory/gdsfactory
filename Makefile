@@ -55,7 +55,6 @@ devpi-release:
 release:
 	git push origin --tags
 
-
 lint:
 	flake8
 
