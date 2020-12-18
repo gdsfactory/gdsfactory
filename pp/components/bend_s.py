@@ -74,6 +74,7 @@ def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=9
 
 if __name__ == "__main__":
     c = bend_s()
+    c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     pp.show(c)

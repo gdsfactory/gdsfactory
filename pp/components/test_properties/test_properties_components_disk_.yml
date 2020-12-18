@@ -1,4 +1,5 @@
 function_name: disk
+info: {}
 module: pp.components.disk
 name: disk
 settings:

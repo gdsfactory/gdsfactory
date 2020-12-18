@@ -9,7 +9,7 @@ You can use the @container decorator
 
 """
 import json
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -121,7 +121,7 @@ def _add_pin_square(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Optional[Tuple[int, int]] = LAYER.PORT,
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -169,9 +169,10 @@ def _add_pin_square(
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
-    component.add_label(
-        text=str(p.name), position=p.midpoint, layer=label_layer,
-    )
+    if label_layer:
+        component.add_label(
+            text=str(p.name), position=p.midpoint, layer=label_layer,
+        )
 
 
 def _add_outline(
@@ -203,7 +204,7 @@ def _add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     add_port_marker_function: Callable = _add_pin_square,
-    port_type2layer=port_type2layer,
+    port_type2layer: Dict[str, Tuple[int, int]] = port_type2layer,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -234,7 +235,6 @@ def _add_settings_label(
     """Add settings in label, ignores component.ignore keys."""
     settings = reference.get_settings()
     settings_string = f"settings={json.dumps(settings, indent=2)}"
-    print(settings_string)
     component.add_label(
         position=reference.center, text=settings_string, layer=label_layer
     )

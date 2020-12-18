@@ -1,4 +1,5 @@
 function_name: ring_double
+info: {}
 module: pp.components.ring_double
 name: ring_double
 settings:

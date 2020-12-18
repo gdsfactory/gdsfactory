@@ -1,6 +1,7 @@
 import copy as python_copy
 import itertools
 import uuid
+from pprint import pprint
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import networkx as nx
@@ -13,6 +14,7 @@ from pp.compare_cells import hash_cells
 from pp.config import conf
 from pp.get_netlist import get_netlist
 from pp.port import Port, select_ports
+from pp.recurse_references import recurse_references
 
 
 def copy(D):
@@ -545,7 +547,7 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(self, with_labels=True, font_weight="normal"):
+    def plot_netlist(self, recursive=False, with_labels=True, font_weight="normal"):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
@@ -553,16 +555,29 @@ class Component(Device):
             with_labels: label nodes
             font_weight: normal, bold
         """
-        netlist = self.get_netlist()
+        netlist = self.get_netlist(recursive=recursive)
         connections = netlist.connections
 
         G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
+
+        if recursive:
+            connections_level = netlist.connections
+            for connections in connections_level.values():
+                G.add_edges_from(
+                    [
+                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                        for k, v in connections.items()
+                    ]
+                )
+
+        else:
+            G.add_edges_from(
+                [
+                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                    for k, v in connections.items()
+                ]
+            )
+
         pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
         nx.draw(
@@ -573,25 +588,27 @@ class Component(Device):
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self, full_settings=False):
-        """returns netlist dict(instances, placements, connections)
-
-        Args:
-            recursive: iterates over lower hierarchical levels
+    def get_netlist(self, recursive=False, full_settings=False):
+        """Returns netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
         connections = {instance_name_src,uid,x,y,portName,portId: instance_name_dst,uid,x,y,portName,portId}
+        ports: {portName: instace_name,portName}
 
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
+            recursive: b
         """
-        # connections, instances, placements = recurse_references(
-        #     component=self, recursive=recursive
-        # )
-        connections, instances, placements, ports = get_netlist(
-            component=self, full_settings=full_settings
-        )
+        if recursive:
+            connections, instances, placements = recurse_references(
+                component=self, recursive=recursive
+            )
+            ports = {}
+        else:
+            connections, instances, placements, ports = get_netlist(
+                component=self, full_settings=full_settings
+            )
 
         netlist = OmegaConf.create(
             dict(
@@ -601,7 +618,7 @@ class Component(Device):
                 ports=ports,
             )
         )
-        self.netlist = netlist
+
         return netlist
 
     def get_name_long(self):
@@ -709,10 +726,14 @@ class Component(Device):
         if hasattr(self, property):
             return getattr(self, property)
 
+    def pprint(self):
+        """Prints component settings."""
+        pprint(self.get_settings())
+
     def get_settings(
         self,
-        ignore=("layer", "layers_cladding", "cladding_offset"),
-        include=("name", "function_name", "module"),
+        ignore=("layer", "layers_cladding", "cladding_offset", "path", "netlist"),
+        include=("name", "function_name", "module", "info"),
         full_settings=True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
@@ -726,32 +747,24 @@ class Component(Device):
         """
         settings = self.settings if full_settings else self.settings_changed
         d = {}
-        d["settings"] = {}
-        include = set(include)
-        ignore = set(ignore).union(self.ignore)
+        d["settings"] = {}  # function arguments
+        d["info"] = {}  # function arguments
 
-        # ignore = set(
-        #     dir(Component())
-        #     + [
-        #         "ignore",
-        #         "netlist",
-        #         "path",
-        #         "pins",
-        #         "properties",
-        #         "settings",
-        #         "settings_changed",
-        #         "type",
-        #     ]
-        # )
-        # params = set(dir(self)) - ignore
+        include = set(include)
+        ignore = set(ignore).union(self.ignore).union(set(dir(Component()))) - include
+
+        params = set(dir(self)) - ignore - include
+        for param in params:
+            self.info[param] = _clean_value(getattr(self, param))
+
         # for param in params:
-        #     d[param] = _clean_value(getattr(self, param))
+        #     d['info'][param] = _clean_value(getattr(self, param))
         # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # d["hash_geometry"] = str(self.hash_geometry())
 
         for setting in include:
             if hasattr(self, setting):
-                d[setting] = getattr(self, setting)
+                d[setting] = _clean_value(getattr(self, setting))
 
         for key, value in settings.items():
             if key not in self.ignore:
@@ -1113,13 +1126,16 @@ def demo_component(port):
 if __name__ == "__main__":
     import pp
 
+    c0 = pp.c.waveguide()
     c = pp.c.waveguide(length=3.0)
-    print(c.get_settings())
+    c.info["c"] = c0
+    c.pprint()
+
     # import matplotlib.pyplot as plt
 
-    c = pp.c.ring_single()
+    # c = pp.c.ring_single()
     # c = pp.c.mzi()
-    c.plot_netlist()
+    # c.plot_netlist()
 
     # coupler_lengths = [10, 20, 30]
     # coupler_gaps = [0.1, 0.2, 0.3]

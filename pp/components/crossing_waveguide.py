@@ -342,14 +342,11 @@ def compensation_path(crossing45=crossing45, direction="top"):
         path_points = bezier_curve(t, control_points)
         return path_length(path_points) - target_bend_length
 
-    """
-    # We know that the path length of the s-bend between two ports
-    p0 and p1 is :
+    # the path length of the s-bend between two ports p0 and p1 is :
     # - larger than the euclidian distance L2(p0, p1)
     # - smaller than the manhattan distance DL(p0, p1)
     #
     # This gives the bounds for the brentq root finding
-    """
 
     ya = target_bend_length - x0
     yb = np.sqrt(target_bend_length ** 2 - x0 ** 2)
@@ -392,7 +389,6 @@ def compensation_path(crossing45=crossing45, direction="top"):
 
 def demo():
     """plot curvature of bends
-    FIXME: add more documentation
     """
     from matplotlib import pyplot as plt
 
@@ -419,10 +415,12 @@ def demo():
 
 
 if __name__ == "__main__":
+    c = compensation_path()
+    c.pprint()
     # c = crossing()
-    c = crossing45(port_spacing=15)
-    print(c.ports["E1"].y - c.ports["E0"].y)
-    pp.show(c)
+    # c = crossing45(port_spacing=15)
+    # print(c.ports["E1"].y - c.ports["E0"].y)
+    # pp.show(c)
     # print(c.get_ports_array())
     # demo()
     # c = crossing_etched()

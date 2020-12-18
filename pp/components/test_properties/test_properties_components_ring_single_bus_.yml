@@ -1,4 +1,5 @@
 function_name: ring_single_bus
+info: {}
 module: pp.components.ring_single_bus
 name: ring_single_bus
 settings:

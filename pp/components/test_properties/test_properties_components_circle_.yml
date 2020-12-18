@@ -1,4 +1,5 @@
 function_name: circle
+info: {}
 module: pp.components.circle
 name: circle
 settings:

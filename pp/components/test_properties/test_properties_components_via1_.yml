@@ -1,4 +1,9 @@
 function_name: via1
+info:
+  clearance: 1.0
+  height: 0.7
+  period: 2.0
+  width: 0.7
 module: pp.components.electrical.tlm
 name: via1
 settings:

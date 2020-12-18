@@ -17,7 +17,7 @@ from pp.component import Component
 from pp.components import component_factory
 from pp.config import CONFIG
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name)
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
 
 
@@ -28,12 +28,12 @@ def get_component_type(component_type, component_factory=component_factory, **kw
 
 
 def write_component_type(
-    component_type,
+    component_type: str,
     overwrite=True,
     path_directory=CONFIG["gds_directory"],
     factory=component_factory,
     **kwargs,
-):
+) -> PosixPath:
     """write_component by type or function
 
     Args:
@@ -59,7 +59,7 @@ def write_component_type(
     return gdspath
 
 
-def write_component_report(component: Component, json_path=None):
+def write_component_report(component: Component, json_path=None) -> PosixPath:
     """write component GDS and metadata:
 
     Args:
@@ -87,7 +87,7 @@ def write_component(
     gdspath: Optional[PosixPath] = None,
     gdsdir: PosixPath = tmp,
     precision: float = 1e-9,
-) -> str:
+) -> PosixPath:
     """write component GDS and metadata:
 
     - gds
@@ -137,7 +137,7 @@ def write_gds(
     unit: float = 1e-6,
     precision: float = 1e-9,
     auto_rename: bool = False,
-) -> str:
+) -> PosixPath:
     """Write component to GDS and returs gdspath
 
     Args:
@@ -155,10 +155,9 @@ def write_gds(
     gdsdir = pathlib.Path(gdsdir)
     gdspath = gdspath or gdsdir / (component.name + ".gds")
     gdspath = pathlib.Path(gdspath)
-    gdspath = str(gdspath)
 
     component.write_gds(
-        gdspath, unit=unit, precision=precision, auto_rename=auto_rename,
+        str(gdspath), unit=unit, precision=precision, auto_rename=auto_rename,
     )
     component.path = gdspath
     return gdspath

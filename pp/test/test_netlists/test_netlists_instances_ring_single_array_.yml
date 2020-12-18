@@ -1,34 +1,273 @@
 connections:
-  ring_single_BR10_LX20_30.0_8.85,W0: waveguide_L5_7.5_0.0,E0
-  waveguide_L5_7.5_0.0,W0: ring_single_BR5_LX10_-5.0_3.851,E0
+  flat:
+    bend_circular_R10_W500n_14_15,W0: waveguide_L20_W500n_30_20,W0
+    bend_circular_R10_W500n_45_15,N0: waveguide_L20_W500n_30_20,E0
+    bend_circular_R5_W500n_-12_8,W0: waveguide_L10_W500n_-5_10,W0
+    bend_circular_R5_W500n_2_8,N0: waveguide_L10_W500n_-5_10,E0
+    coupler_ring_54a5d217_30_3,N0: waveguide_L0p001_W500n_10_10,E0
+    coupler_ring_54a5d217_30_3,N1: waveguide_L0p001_W500n_50_10,E0
+    coupler_ring_eb650d98_-5_1,N0: waveguide_L0p001_W500n_-15_5,E0
+    coupler_ring_eb650d98_-5_1,N1: waveguide_L0p001_W500n_5_5,E0
+    ring_single_BR10_LX20_30_8,E0: coupler_ring_54a5d217_30_3,E0
+    ring_single_BR10_LX20_30_8,W0: coupler_ring_54a5d217_30_3,W0
+    ring_single_BR5_LX10_-5_3,E0: coupler_ring_eb650d98_-5_1,E0
+    ring_single_BR5_LX10_-5_3,W0: coupler_ring_eb650d98_-5_1,W0
+    waveguide_L0p001_W500n_-15_5,W0: bend_circular_R5_W500n_-12_8,N0
+    waveguide_L0p001_W500n_10_10,W0: bend_circular_R10_W500n_14_15,N0
+    waveguide_L0p001_W500n_50_10,W0: bend_circular_R10_W500n_45_15,W0
+    waveguide_L0p001_W500n_5_5,W0: bend_circular_R5_W500n_2_8,W0
+  ring_single_BR10_LX20:
+    bend_circular_R10_W500n_14_15,W0: waveguide_L20_W500n_30_20,W0
+    bend_circular_R10_W500n_45_15,N0: waveguide_L20_W500n_30_20,E0
+    coupler_ring_54a5d217_30_3,N0: waveguide_L0p001_W500n_10_10,E0
+    coupler_ring_54a5d217_30_3,N1: waveguide_L0p001_W500n_50_10,E0
+    ring_single_BR10_LX20_30_8,E0: coupler_ring_54a5d217_30_3,E0
+    ring_single_BR10_LX20_30_8,W0: coupler_ring_54a5d217_30_3,W0
+    waveguide_L0p001_W500n_10_10,W0: bend_circular_R10_W500n_14_15,N0
+    waveguide_L0p001_W500n_50_10,W0: bend_circular_R10_W500n_45_15,W0
+  ring_single_BR5_LX10:
+    bend_circular_R5_W500n_-12_8,W0: waveguide_L10_W500n_-5_10,W0
+    bend_circular_R5_W500n_2_8,N0: waveguide_L10_W500n_-5_10,E0
+    coupler_ring_eb650d98_-5_1,N0: waveguide_L0p001_W500n_-15_5,E0
+    coupler_ring_eb650d98_-5_1,N1: waveguide_L0p001_W500n_5_5,E0
+    ring_single_BR5_LX10_-5_3,E0: coupler_ring_eb650d98_-5_1,E0
+    ring_single_BR5_LX10_-5_3,W0: coupler_ring_eb650d98_-5_1,W0
+    waveguide_L0p001_W500n_-15_5,W0: bend_circular_R5_W500n_-12_8,N0
+    waveguide_L0p001_W500n_5_5,W0: bend_circular_R5_W500n_2_8,W0
+  ring_single_array:
+    ring_single_BR10_LX20_30_8,W0: waveguide_L5_7_0,E0
+    ring_single_BR5_LX10_-5_3,E0: waveguide_L5_7_0,W0
 instances:
-  ring_single_BR10_LX20_30.0_8.85:
+  bend_circular_R10_W500n_14_15:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W500n
+      settings:
+        radius: 10.0
+        width: 0.5
+  bend_circular_R10_W500n_45_15:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W500n
+      settings:
+        radius: 10.0
+        width: 0.5
+  bend_circular_R5_W500n_-12_8:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 7.854
+      module: pp.components.bend_circular
+      name: bend_circular_R5_W500n
+      settings:
+        radius: 5.0
+        width: 0.5
+  bend_circular_R5_W500n_2_8:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 7.854
+      module: pp.components.bend_circular
+      name: bend_circular_R5_W500n
+      settings:
+        radius: 5.0
+        width: 0.5
+  coupler_ring_54a5d217_30_3:
+    component: coupler_ring
+    settings:
+      function_name: coupler_ring
+      info: {}
+      module: pp.components.coupler_ring
+      name: coupler_ring_54a5d217
+      settings:
+        bend_radius: 10.0
+        gap: 0.2
+        length_x: 20.0
+        wg_width: 0.5
+  coupler_ring_eb650d98_-5_1:
+    component: coupler_ring
+    settings:
+      function_name: coupler_ring
+      info: {}
+      module: pp.components.coupler_ring
+      name: coupler_ring_eb650d98
+      settings:
+        bend_radius: 5.0
+        gap: 0.2
+        length_x: 10.0
+        wg_width: 0.5
+  ring_single_BR10_LX20_30_8:
     component: ring_single
     settings:
-      bend_radius: 10.0
-      length_x: 20.0
-  ring_single_BR5_LX10_-5.0_3.851:
+      function_name: ring_single
+      info: {}
+      module: pp.components.ring_single
+      name: ring_single_BR10_LX20
+      settings:
+        bend_radius: 10.0
+        length_x: 20.0
+  ring_single_BR5_LX10_-5_3:
     component: ring_single
     settings:
-      bend_radius: 5.0
-      length_x: 10.0
-  waveguide_L5_7.5_0.0:
+      function_name: ring_single
+      info: {}
+      module: pp.components.ring_single
+      name: ring_single_BR5_LX10
+      settings:
+        bend_radius: 5.0
+        length_x: 10.0
+  waveguide_L0p001_W500n_-15_5:
     component: waveguide
     settings:
-      length: 5.0
+      function_name: waveguide
+      info:
+        length: 0.001
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L0p001_W500n
+      settings:
+        length: 0.001
+        width: 0.5
+  waveguide_L0p001_W500n_10_10:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 0.001
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L0p001_W500n
+      settings:
+        length: 0.001
+        width: 0.5
+  waveguide_L0p001_W500n_50_10:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 0.001
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L0p001_W500n
+      settings:
+        length: 0.001
+        width: 0.5
+  waveguide_L0p001_W500n_5_5:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 0.001
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L0p001_W500n
+      settings:
+        length: 0.001
+        width: 0.5
+  waveguide_L10_W500n_-5_10:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 10.0
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L10_W500n
+      settings:
+        length: 10.0
+        width: 0.5
+  waveguide_L20_W500n_30_20:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 20.0
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L20_W500n
+      settings:
+        length: 20.0
+        width: 0.5
+  waveguide_L5_7_0:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 5.0
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L5
+      settings:
+        length: 5.0
 placements:
-  ring_single_BR10_LX20_30.0_8.85:
+  bend_circular_R10_W500n_14_15:
+    rotation: 180
+    x: 14.875
+    y: 15.826
+  bend_circular_R10_W500n_45_15:
+    rotation: 90
+    x: 45.125
+    y: 15.826
+  bend_circular_R5_W500n_-12_8:
+    rotation: 180
+    x: -12.625
+    y: 8.326
+  bend_circular_R5_W500n_2_8:
+    rotation: 90
+    x: 2.625
+    y: 8.326
+  coupler_ring_54a5d217_30_3:
+    rotation: 0
+    x: 30.0
+    y: 3.725
+  coupler_ring_eb650d98_-5_1:
+    rotation: 0
+    x: -5.0
+    y: 1.225
+  ring_single_BR10_LX20_30_8:
     rotation: 0
     x: 30.0
     y: 8.85
-  ring_single_BR5_LX10_-5.0_3.851:
+  ring_single_BR5_LX10_-5_3:
     rotation: 0
     x: -5.0
     y: 3.851
-  waveguide_L5_7.5_0.0:
+  waveguide_L0p001_W500n_-15_5:
+    rotation: 270
+    x: -15.0
+    y: 5.7
+  waveguide_L0p001_W500n_10_10:
+    rotation: 270
+    x: 10.0
+    y: 10.7
+  waveguide_L0p001_W500n_50_10:
+    rotation: 270
+    x: 50.0
+    y: 10.7
+  waveguide_L0p001_W500n_5_5:
+    rotation: 270
+    x: 5.0
+    y: 5.7
+  waveguide_L10_W500n_-5_10:
+    rotation: 0
+    x: -5.0
+    y: 10.701
+  waveguide_L20_W500n_30_20:
+    rotation: 0
+    x: 30.0
+    y: 20.701
+  waveguide_L5_7_0:
     rotation: 0
     x: 7.5
     y: 0.0
-ports:
-  E0: ring_single_BR10_LX20_30.0_8.85,E0
-  W0: ring_single_BR5_LX10_-5.0_3.851,W0
+ports: {}

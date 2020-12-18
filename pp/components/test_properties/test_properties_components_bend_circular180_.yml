@@ -1,4 +1,6 @@
 function_name: bend_circular180
+info:
+  length: 31.416
 module: pp.components.bend_circular
 name: bend_circular180
 settings:

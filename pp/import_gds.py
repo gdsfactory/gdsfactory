@@ -155,7 +155,7 @@ def import_gds(
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
         overwrite_cache: overwrites device cache (caching by name)
-        snap_to_grid_nm: snap
+        snap_to_grid_nm: snap to different nm grid
 
     """
     gdspath = str(gdspath)

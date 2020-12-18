@@ -167,11 +167,8 @@ def bend_circular(
         layer=layer,
     )
 
-    length = (abs(theta) * pi / 180) * radius
+    length = pp.drc.snap_to_1nm_grid(abs(theta) * pi / 180 * radius)
     component.info["length"] = length
-    component.length = length
-    component.radius = radius
-    component.width = width
     component.move((0, radius))
 
     assert pp.drc.on_grid(
@@ -310,18 +307,22 @@ def _demo_bend():
 
 
 if __name__ == "__main__":
+    from pprint import pprint
+
+    c = bend_circular()
+    pp.show(c)
+    pprint(c.get_settings())
+
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
     # c = bend_circular(radius=5.0005, width=1.002, theta=180)
-    c = bend_circular()
     # print(c.length, np.pi * 10)
     # print(c.ports.keys())
     # print(c.ports["N0"].midpoint)
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
-    pp.show(c)
     # pp.plotgds(c)
     # quickplot2(c)

@@ -1,4 +1,5 @@
 function_name: coupler_asymmetric
+info: {}
 module: pp.components.coupler_asymmetric
 name: coupler_asymmetric
 settings:

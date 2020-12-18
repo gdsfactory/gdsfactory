@@ -13,7 +13,7 @@ def test_netlists_instances(component_type, data_regression):
     """OmegaConf.save(netlist, "mzi.yml")"""
     pp.clear_cache()
     c = component_factory[component_type]()
-    n = c.get_netlist()
+    n = c.get_netlist(recursive=True)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
 
     # convert YAML netlist

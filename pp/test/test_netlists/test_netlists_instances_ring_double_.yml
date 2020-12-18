@@ -1,52 +1,78 @@
 connections:
-  coupler_ring_178006f7_-1.5_1.2250000000000005,N0: waveguide_L2_W500n_-8.0_6.7,E0
-  coupler_ring_178006f7_-1.5_12.174999999999999,N0: waveguide_L2_W500n_5.0_6.7,W0
-  waveguide_L2_W500n_-8.0_6.7,W0: coupler_ring_178006f7_-1.5_12.174999999999999,N1
-  waveguide_L2_W500n_5.0_6.7,E0: coupler_ring_178006f7_-1.5_1.2250000000000005,N1
+  flat:
+    coupler_ring_178006f7_-1_1,N0: waveguide_L2_W500n_-8_6,E0
+    coupler_ring_178006f7_-1_1,N1: waveguide_L2_W500n_5_6,E0
+    coupler_ring_178006f7_-1_12,N0: waveguide_L2_W500n_5_6,W0
+    coupler_ring_178006f7_-1_12,N1: waveguide_L2_W500n_-8_6,W0
+  ring_double:
+    coupler_ring_178006f7_-1_1,N0: waveguide_L2_W500n_-8_6,E0
+    coupler_ring_178006f7_-1_1,N1: waveguide_L2_W500n_5_6,E0
+    coupler_ring_178006f7_-1_12,N0: waveguide_L2_W500n_5_6,W0
+    coupler_ring_178006f7_-1_12,N1: waveguide_L2_W500n_-8_6,W0
 instances:
-  coupler_ring_178006f7_-1.5_1.2250000000000005:
+  coupler_ring_178006f7_-1_1:
     component: coupler_ring
     settings:
-      bend_radius: 5.0
-      gap: 0.2
-      length_x: 3.0
-      wg_width: 0.5
-  coupler_ring_178006f7_-1.5_12.174999999999999:
+      function_name: coupler_ring
+      info: {}
+      module: pp.components.coupler_ring
+      name: coupler_ring_178006f7
+      settings:
+        bend_radius: 5.0
+        gap: 0.2
+        length_x: 3.0
+        wg_width: 0.5
+  coupler_ring_178006f7_-1_12:
     component: coupler_ring
     settings:
-      bend_radius: 5.0
-      gap: 0.2
-      length_x: 3.0
-      wg_width: 0.5
-  waveguide_L2_W500n_-8.0_6.7:
+      function_name: coupler_ring
+      info: {}
+      module: pp.components.coupler_ring
+      name: coupler_ring_178006f7
+      settings:
+        bend_radius: 5.0
+        gap: 0.2
+        length_x: 3.0
+        wg_width: 0.5
+  waveguide_L2_W500n_-8_6:
     component: waveguide
     settings:
-      length: 2.0
-      width: 0.5
-  waveguide_L2_W500n_5.0_6.7:
+      function_name: waveguide
+      info:
+        length: 2.0
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L2_W500n
+      settings:
+        length: 2.0
+        width: 0.5
+  waveguide_L2_W500n_5_6:
     component: waveguide
     settings:
-      length: 2.0
-      width: 0.5
+      function_name: waveguide
+      info:
+        length: 2.0
+        width: 0.5
+      module: pp.components.waveguide
+      name: waveguide_L2_W500n
+      settings:
+        length: 2.0
+        width: 0.5
 placements:
-  coupler_ring_178006f7_-1.5_1.2250000000000005:
+  coupler_ring_178006f7_-1_1:
     rotation: 0
     x: -1.5
     y: 1.225
-  coupler_ring_178006f7_-1.5_12.174999999999999:
+  coupler_ring_178006f7_-1_12:
     rotation: 180
     x: -1.5
     y: 12.175
-  waveguide_L2_W500n_-8.0_6.7:
+  waveguide_L2_W500n_-8_6:
     rotation: 270
     x: -8.0
     y: 6.7
-  waveguide_L2_W500n_5.0_6.7:
+  waveguide_L2_W500n_5_6:
     rotation: 270
     x: 5.0
     y: 6.7
-ports:
-  E0: coupler_ring_178006f7_-1.5_1.2250000000000005,E0
-  E1: coupler_ring_178006f7_-1.5_12.174999999999999,W0
-  W0: coupler_ring_178006f7_-1.5_1.2250000000000005,W0
-  W1: coupler_ring_178006f7_-1.5_12.174999999999999,E0
+ports: {}

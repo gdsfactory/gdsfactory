@@ -207,9 +207,7 @@ def spiral_inner_io(
         + route_ref_w.info["length"]
         + bend180_ref.info["length"]
     )
-    component.length = length + 2 * y_straight_inner_top
-    # print(length * 1e-6 * 1e2, "cm")
-
+    component.length = pp.drc.snap_to_1nm_grid(length + 2 * y_straight_inner_top)
     return component
 
 

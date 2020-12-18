@@ -1,4 +1,9 @@
 function_name: bezier
+info:
+  end_angle: 0.115
+  length: 10.278
+  min_bend_radius: 9.957
+  start_angle: 0.115
 module: pp.components.bezier
 name: bezier_w500_7de58b7a50a078c1f8629433efa7bddf_1_0
 settings:

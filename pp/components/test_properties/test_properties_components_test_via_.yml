@@ -1,4 +1,5 @@
 function_name: test_via
+info: {}
 module: pp.components.pcm.test_via
 name: test_via
 settings:

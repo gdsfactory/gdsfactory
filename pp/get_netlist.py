@@ -1,4 +1,6 @@
-"""Simpler netlist. FIXME. Still work in progress
+"""Simpler netlist.
+
+FIXME. Would be nice to go back from netlist to layout
 
 
 .. code:: yaml
@@ -48,7 +50,6 @@ def get_netlist(component, full_settings=False):
     instances = {}
     connections = {}
     top_ports = {}
-    top_ports_list = set()
 
     for reference in component.references:
         c = reference.parent
@@ -71,6 +72,7 @@ def get_netlist(component, full_settings=False):
 
     # TOP level ports
     ports = component.get_ports(depth=0)
+    top_ports_list = set()
     for port in ports:
         src = port.name
         name2port[src] = port
@@ -83,7 +85,7 @@ def get_netlist(component, full_settings=False):
             src = f"{reference_name},{port.name}"
             name2port[src] = port
 
-    # build connectivity as a set of portNames
+    # build connectivity port_locations = Dict[Tuple(x,y), set of portNames]
     for name, port in name2port.items():
         xy = snap_to_1nm_grid((port.x, port.y))
         if xy not in port_locations:
@@ -103,6 +105,35 @@ def get_netlist(component, full_settings=False):
                 top_ports[dst] = src
             else:
                 connections[src] = dst
+
+    # connections_sorted = connections
+    # track connections starting from an arbitrary port (src0)
+    # connections are defined as sourceInstance,port: destinationInstance,port
+    # find other connections to destinationInstance,port2
+    # connections_sorted = {}
+    # while connections:
+    #     src0 = list(connections.keys())[0]
+    #     dst0 = connections.pop(src0)
+    #     connections_sorted[src0] = dst0
+    #     next_instance_name = dst0.split(',')[0]
+    #     remanining_connections = list(connections.keys())
+
+    #     for src in remanining_connections:
+    #         dst = connections[src]
+    #         src_instance_name = src.split(',')[0]
+    #         dst_instance_name = dst.split(',')[0]
+
+    #         # next
+    #         if src_instance_name == next_instance_name:
+    #             connections.pop(src)
+    #             connections_sorted[dst] = dst0
+    #             dst0 = dst
+    #             continue
+    #         elif dst_instance_name == next_instance_name:
+    #             connections.pop(src)
+    #             connections_sorted[src] = dst0
+    #             dst0 = src
+    #             continue
 
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
@@ -136,6 +167,8 @@ def demo_mzi_lattice():
 if __name__ == "__main__":
     # test_mzi_lattice()
     # import matplotlib.pyplot as plt
+    from omegaconf import OmegaConf
+
     import pp
 
     # c = pp.c.ring_single_array()
@@ -148,3 +181,14 @@ if __name__ == "__main__":
     connections, instances, placements, ports = get_netlist(c)
     # connections, instances, placements = get_netlist(c.references[0].parent)
     print(connections)
+    # print(ports)
+    # print(instances)
+
+    n = c.get_netlist()
+    # n.pop('connections')
+    # n.pop('placements')
+
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # print(yaml_str)
+    c2 = pp.component_from_yaml(yaml_str)
+    pp.show(c2)

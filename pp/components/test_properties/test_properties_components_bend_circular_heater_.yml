@@ -1,4 +1,8 @@
 function_name: bend_circular_heater
+info:
+  length: 15.708
+  radius: 10.0
+  width: 0.5
 module: pp.components.bend_circular_heater
 name: bend_circular_heater
 settings:

@@ -1,4 +1,6 @@
 function_name: spiral_inner_io
+info:
+  length: 16950.0
 module: pp.components.spiral_inner_io
 name: spiral_inner_io
 settings:

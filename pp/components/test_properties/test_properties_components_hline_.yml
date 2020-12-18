@@ -1,4 +1,7 @@
 function_name: hline
+info:
+  length: 10.0
+  width: 0.5
 module: pp.components.hline
 name: hline
 settings:

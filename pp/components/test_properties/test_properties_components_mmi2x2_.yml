@@ -1,4 +1,7 @@
 function_name: mmi2x2
+info:
+  simulation_settings:
+    port_width: 1.5e-06
 module: pp.components.mmi2x2
 name: mmi2x2
 settings:

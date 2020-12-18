@@ -1,4 +1,5 @@
 function_name: verniers
+info: {}
 module: pp.components.pcm.verniers
 name: verniers
 settings:

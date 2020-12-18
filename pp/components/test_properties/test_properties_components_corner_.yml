@@ -1,4 +1,6 @@
 function_name: corner
+info:
+  length: 10.0
 module: pp.components.electrical.wire
 name: corner
 settings:

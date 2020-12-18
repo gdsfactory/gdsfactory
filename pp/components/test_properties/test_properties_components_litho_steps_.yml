@@ -1,4 +1,5 @@
 function_name: litho_steps
+info: {}
 module: pp.components.pcm.litho_steps
 name: litho_steps
 settings:

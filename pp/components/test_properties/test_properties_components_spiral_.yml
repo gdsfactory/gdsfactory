@@ -1,4 +1,5 @@
 function_name: spiral
+info: {}
 module: pp.components.spiral
 name: spiral
 settings:

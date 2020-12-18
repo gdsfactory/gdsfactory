@@ -1,4 +1,5 @@
 function_name: ring_single
+info: {}
 module: pp.components.ring_single
 name: ring_single
 settings:

@@ -1,21 +1,347 @@
-connections: {}
+connections:
+  flat:
+    bend_circular_R10_W450n_40_16,N0: taper_L5_W450n_W550n_32_21,1
+    bend_circular_R10_W450n_40_16,W0: bend_circular_R10_W450n_40_6,N0
+    bend_circular_R10_W550n_43_18,N0: waveguide_L3_W550n_36_23,W0
+    bend_circular_R10_W550n_43_18,W0: waveguide_L4_W550n_48_11,E0
+    bend_circular_R10_W550n_43_4,N0: waveguide_L4_W550n_48_11,W0
+    coupler_D2_G300n_L20_WW500n_10_0,E0: taper_L5_W500n_W550n_32_0,1
+    coupler_D2_G300n_L20_WW500n_10_0,E1: taper_L5_W500n_W450n_32_1,1
+    mzit_57d3e173_19_11,W0: coupler_D2_G300n_L20_WW500n_10_0,W0
+    mzit_57d3e173_19_11,W1: coupler_D2_G300n_L20_WW500n_10_0,W1
+    mzit_57d3e173_19_11,W2: coupler_D2_G200n_L10_WW500n_9_22,W0
+    mzit_57d3e173_19_11,W3: coupler_D2_G200n_L10_WW500n_9_22,W1
+    taper_L5_W450n_W500n_26_23,2: coupler_D2_G200n_L10_WW500n_9_22,E1
+    taper_L5_W450n_W550n_32_21,2: waveguide_L1_W550n_29_21,W0
+    taper_L5_W500n_W450n_32_1,2: bend_circular_R10_W450n_40_6,W0
+    taper_L5_W500n_W550n_32_0,2: waveguide_L3_W550n_36_0,W0
+    taper_L5_W550n_W450n_32_23,2: waveguide_L1_W450n_29_23,W0
+    taper_L5_W550n_W500n_26_21,2: coupler_D2_G200n_L10_WW500n_9_22,E0
+    waveguide_L1_W450n_29_23,E0: taper_L5_W450n_W500n_26_23,1
+    waveguide_L1_W550n_29_21,E0: taper_L5_W550n_W500n_26_21,1
+    waveguide_L3_W550n_36_0,E0: bend_circular_R10_W550n_43_4,W0
+    waveguide_L3_W550n_36_23,E0: taper_L5_W550n_W450n_32_23,1
+  mzit_57d3e173:
+    bend_circular_R10_W450n_40_16,N0: taper_L5_W450n_W550n_32_21,1
+    bend_circular_R10_W450n_40_16,W0: bend_circular_R10_W450n_40_6,N0
+    bend_circular_R10_W550n_43_18,N0: waveguide_L3_W550n_36_23,W0
+    bend_circular_R10_W550n_43_18,W0: waveguide_L4_W550n_48_11,E0
+    bend_circular_R10_W550n_43_4,N0: waveguide_L4_W550n_48_11,W0
+    coupler_D2_G300n_L20_WW500n_10_0,E0: taper_L5_W500n_W550n_32_0,1
+    coupler_D2_G300n_L20_WW500n_10_0,E1: taper_L5_W500n_W450n_32_1,1
+    mzit_57d3e173_19_11,W0: coupler_D2_G300n_L20_WW500n_10_0,W0
+    mzit_57d3e173_19_11,W1: coupler_D2_G300n_L20_WW500n_10_0,W1
+    mzit_57d3e173_19_11,W2: coupler_D2_G200n_L10_WW500n_9_22,W0
+    mzit_57d3e173_19_11,W3: coupler_D2_G200n_L10_WW500n_9_22,W1
+    taper_L5_W450n_W500n_26_23,2: coupler_D2_G200n_L10_WW500n_9_22,E1
+    taper_L5_W450n_W550n_32_21,2: waveguide_L1_W550n_29_21,W0
+    taper_L5_W500n_W450n_32_1,2: bend_circular_R10_W450n_40_6,W0
+    taper_L5_W500n_W550n_32_0,2: waveguide_L3_W550n_36_0,W0
+    taper_L5_W550n_W450n_32_23,2: waveguide_L1_W450n_29_23,W0
+    taper_L5_W550n_W500n_26_21,2: coupler_D2_G200n_L10_WW500n_9_22,E0
+    waveguide_L1_W450n_29_23,E0: taper_L5_W450n_W500n_26_23,1
+    waveguide_L1_W550n_29_21,E0: taper_L5_W550n_W500n_26_21,1
+    waveguide_L3_W550n_36_0,E0: bend_circular_R10_W550n_43_4,W0
+    waveguide_L3_W550n_36_23,E0: taper_L5_W550n_W450n_32_23,1
+  mzit_lattice: {}
 instances:
-  mzit_57d3e173_19.1375_11.65:
+  bend_circular_R10_W450n_40_16:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W450n
+      settings:
+        radius: 10.0
+        width: 0.45
+  bend_circular_R10_W450n_40_6:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W450n
+      settings:
+        radius: 10.0
+        width: 0.45
+  bend_circular_R10_W550n_43_18:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W550n
+      settings:
+        radius: 10.0
+        width: 0.55
+  bend_circular_R10_W550n_43_4:
+    component: bend_circular
+    settings:
+      function_name: bend_circular
+      info:
+        length: 15.708
+      module: pp.components.bend_circular
+      name: bend_circular_R10_W550n
+      settings:
+        radius: 10.0
+        width: 0.55
+  coupler_D2_G200n_L10_WW500n_9_22:
+    component: coupler
+    settings:
+      function_name: coupler
+      info: {}
+      module: pp.components.coupler
+      name: coupler_D2_G200n_L10_WW500n
+      settings:
+        dy: 2.0
+        gap: 0.2
+        length: 10
+        wg_width: 0.5
+  coupler_D2_G300n_L20_WW500n_10_0:
+    component: coupler
+    settings:
+      function_name: coupler
+      info: {}
+      module: pp.components.coupler
+      name: coupler_D2_G300n_L20_WW500n
+      settings:
+        dy: 2.0
+        gap: 0.3
+        length: 20
+        wg_width: 0.5
+  mzit_57d3e173_19_11:
     component: mzit
     settings:
-      coupler_gap1: 0.2
-      coupler_gap2: 0.3
-      coupler_length1: 10
-      coupler_length2: 20
-      delta_length: 10
-      pins: false
+      function_name: mzit
+      info: {}
+      module: pp.components.mzit
+      name: mzit_57d3e173
+      settings:
+        coupler_gap1: 0.2
+        coupler_gap2: 0.3
+        coupler_length1: 10
+        coupler_length2: 20
+        delta_length: 10
+        pins: false
+  taper_L5_W450n_W500n_26_23:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.45
+        width2: 0.5
+      module: pp.components.taper
+      name: taper_L5_W450n_W500n
+      settings:
+        length: 5.0
+        width1: 0.45
+        width2: 0.5
+  taper_L5_W450n_W550n_32_21:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.45
+        width2: 0.55
+      module: pp.components.taper
+      name: taper_L5_W450n_W550n
+      settings:
+        length: 5.0
+        width1: 0.45
+        width2: 0.55
+  taper_L5_W500n_W450n_32_1:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.5
+        width2: 0.45
+      module: pp.components.taper
+      name: taper_L5_W500n_W450n
+      settings:
+        length: 5.0
+        width1: 0.5
+        width2: 0.45
+  taper_L5_W500n_W550n_32_0:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.5
+        width2: 0.55
+      module: pp.components.taper
+      name: taper_L5_W500n_W550n
+      settings:
+        length: 5.0
+        width1: 0.5
+        width2: 0.55
+  taper_L5_W550n_W450n_32_23:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.55
+        width2: 0.45
+      module: pp.components.taper
+      name: taper_L5_W550n_W450n
+      settings:
+        length: 5.0
+        width1: 0.55
+        width2: 0.45
+  taper_L5_W550n_W500n_26_21:
+    component: taper
+    settings:
+      function_name: taper
+      info:
+        length: 5.0
+        width1: 0.55
+        width2: 0.5
+      module: pp.components.taper
+      name: taper_L5_W550n_W500n
+      settings:
+        length: 5.0
+        width1: 0.55
+        width2: 0.5
+  waveguide_L1_W450n_29_23:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 1.0
+        width: 0.45
+      module: pp.components.waveguide
+      name: waveguide_L1_W450n
+      settings:
+        length: 1.0
+        width: 0.45
+  waveguide_L1_W550n_29_21:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 1.0
+        width: 0.55
+      module: pp.components.waveguide
+      name: waveguide_L1_W550n
+      settings:
+        length: 1.0
+        width: 0.55
+  waveguide_L3_W550n_36_0:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 3.0
+        width: 0.55
+      module: pp.components.waveguide
+      name: waveguide_L3_W550n
+      settings:
+        length: 3.0
+        width: 0.55
+  waveguide_L3_W550n_36_23:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 3.0
+        width: 0.55
+      module: pp.components.waveguide
+      name: waveguide_L3_W550n
+      settings:
+        length: 3.0
+        width: 0.55
+  waveguide_L4_W550n_48_11:
+    component: waveguide
+    settings:
+      function_name: waveguide
+      info:
+        length: 4.0
+        width: 0.55
+      module: pp.components.waveguide
+      name: waveguide_L4_W550n
+      settings:
+        length: 4.0
+        width: 0.55
 placements:
-  mzit_57d3e173_19.1375_11.65:
+  bend_circular_R10_W450n_40_16:
+    rotation: 90
+    x: 40.112
+    y: 16.762
+  bend_circular_R10_W450n_40_6:
+    rotation: 0
+    x: 40.112
+    y: 6.538
+  bend_circular_R10_W550n_43_18:
+    rotation: 90
+    x: 43.138
+    y: 18.788
+  bend_circular_R10_W550n_43_4:
+    rotation: 0
+    x: 43.138
+    y: 4.512
+  coupler_D2_G200n_L10_WW500n_9_22:
+    rotation: 0
+    x: 9.0
+    y: 22.65
+  coupler_D2_G300n_L20_WW500n_10_0:
+    rotation: 0
+    x: 10.0
+    y: 0.65
+  mzit_57d3e173_19_11:
     rotation: 0
     x: 19.138
     y: 11.65
-ports:
-  W0: mzit_57d3e173_19.1375_11.65,W0
-  W1: mzit_57d3e173_19.1375_11.65,W1
-  W2: mzit_57d3e173_19.1375_11.65,W2
-  W3: mzit_57d3e173_19.1375_11.65,W3
+  taper_L5_W450n_W500n_26_23:
+    rotation: 180
+    x: 26.5
+    y: 23.65
+  taper_L5_W450n_W550n_32_21:
+    rotation: 180
+    x: 32.5
+    y: 21.65
+  taper_L5_W500n_W450n_32_1:
+    rotation: 0
+    x: 32.5
+    y: 1.65
+  taper_L5_W500n_W550n_32_0:
+    rotation: 0
+    x: 32.5
+    y: -0.35
+  taper_L5_W550n_W450n_32_23:
+    rotation: 180
+    x: 32.5
+    y: 23.65
+  taper_L5_W550n_W500n_26_21:
+    rotation: 180
+    x: 26.5
+    y: 21.65
+  waveguide_L1_W450n_29_23:
+    rotation: 180
+    x: 29.5
+    y: 23.65
+  waveguide_L1_W550n_29_21:
+    rotation: 180
+    x: 29.5
+    y: 21.65
+  waveguide_L3_W550n_36_0:
+    rotation: 0
+    x: 36.5
+    y: -0.35
+  waveguide_L3_W550n_36_23:
+    rotation: 180
+    x: 36.5
+    y: 23.65
+  waveguide_L4_W550n_48_11:
+    rotation: 90
+    x: 48.0
+    y: 11.65
+ports: {}

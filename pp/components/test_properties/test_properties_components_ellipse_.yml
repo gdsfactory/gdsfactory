@@ -1,4 +1,5 @@
 function_name: ellipse
+info: {}
 module: pp.components.ellipse
 name: ellipse
 settings:

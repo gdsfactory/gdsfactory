@@ -1,4 +1,7 @@
 function_name: grating_coupler_uniform
+info:
+  polarization: te
+  wavelength: 1500
 module: pp.components.grating_coupler.uniform
 name: grating_coupler_uniform
 settings:

@@ -1,4 +1,7 @@
 function_name: grating_coupler_elliptical_te
+info:
+  polarization: te
+  wavelength: 1554
 module: pp.components.grating_coupler.elliptical
 name: grating_coupler_elliptical_te
 settings:

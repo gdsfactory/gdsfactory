@@ -1,9 +1,13 @@
 function_name: cavity
+info: {}
 module: pp.components.cavity
 name: cavity_Cwaveguide
 settings:
   component:
     function_name: waveguide
+    info:
+      length: 10.0
+      width: 0.5
     module: pp.components.waveguide
     name: waveguide
     settings:

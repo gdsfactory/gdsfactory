@@ -1,4 +1,5 @@
 function_name: cross
+info: {}
 module: pp.components.cross
 name: cross
 settings:

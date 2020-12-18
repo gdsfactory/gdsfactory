@@ -1,4 +1,5 @@
 function_name: coupler_symmetric
+info: {}
 module: pp.components.coupler_symmetric
 name: coupler_symmetric
 settings:

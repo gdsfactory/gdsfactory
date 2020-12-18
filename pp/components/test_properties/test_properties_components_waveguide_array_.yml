@@ -1,4 +1,5 @@
 function_name: waveguide_array
+info: {}
 module: pp.components.waveguide_array
 name: waveguide_array
 settings:
