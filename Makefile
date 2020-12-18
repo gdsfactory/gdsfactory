@@ -56,10 +56,10 @@ release:
 	git push origin --tags
 
 lint:
-	flake8
+	flake8 pp
 
 pylint:
-	pylint --rcfile .pylintrc pp
+	pylint --rcfile .pylintrc pp/
 
 lintdocs:
 	flake8 --select RST
