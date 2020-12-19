@@ -11,7 +11,7 @@ def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Tuple[int, int] = pp.LAYER.WG,
     centered: bool = False,
-    ports: Dict[str, List[Tuple[float, float, float]]] = {},
+    ports: Dict[str, List[Tuple[float, float, float]]] = None,
     **port_settings
 ) -> Component:
     """rectangle
@@ -46,19 +46,20 @@ def rectangle(
     c.add_polygon(points, layer=layer)
 
     i = 0
-    for direction, list_port_params in ports.items():
-        assert direction in "NESW"
-        angle = DIRECTION_TO_ANGLE[direction]
-        for x, y, width in list_port_params:
-            c.add_port(
-                name="{}".format(i),
-                orientation=angle,
-                midpoint=(x, y),
-                width=width,
-                layer=layer,
-                **port_settings
-            )
-            i += 1
+    if ports:
+        for direction, list_port_params in ports.items():
+            assert direction in "NESW"
+            angle = DIRECTION_TO_ANGLE[direction]
+            for x, y, width in list_port_params:
+                c.add_port(
+                    name="{}".format(i),
+                    orientation=angle,
+                    midpoint=(x, y),
+                    width=width,
+                    layer=layer,
+                    **port_settings
+                )
+                i += 1
 
     pp.port.auto_rename_ports(c)
     return c

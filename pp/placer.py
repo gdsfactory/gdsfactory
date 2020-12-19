@@ -231,7 +231,7 @@ PLACER_NAME2FUNC = {
 }
 
 
-def load_placer_with_does(filepath, defaults={"do_permutation": True}):
+def load_placer_with_does(filepath, defaults=None):
     """load placer settings
 
     Args:
@@ -246,6 +246,7 @@ def load_placer_with_does(filepath, defaults={"do_permutation": True}):
         }
 
     """
+    defaults = defaults or {"do_permutation": True}
     does = {}
     data = OmegaConf.load(filepath)
 

@@ -14,7 +14,7 @@ def route_south(
     component: Component,
     bend_radius: float = conf.tech.bend_radius,
     optical_routing_type: int = 1,
-    excluded_ports: List[Any] = [],
+    excluded_ports: List[str] = None,
     waveguide_separation: float = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
     route_filter: Callable = connect_strip_way_points,
@@ -46,6 +46,7 @@ def route_south(
         east ports on the east of the box
         west ports on the west of the box
     """
+    excluded_ports = excluded_ports or []
     assert optical_routing_type in [
         1,
         2,

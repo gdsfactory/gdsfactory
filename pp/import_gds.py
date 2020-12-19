@@ -167,16 +167,15 @@ def import_gds(
     if cellname is not None:
         if cellname not in cellnames:
             raise ValueError(
-                f"import_gds() The requested cell {cellname} is not present in file {gdspath} with cells {cellnames}"
+                f"cell {cellname} is not in file {gdspath} with cells {cellnames}"
             )
         topcell = gdsii_lib.cells[cellname]
     elif cellname is None and len(top_level_cells) == 1:
         topcell = top_level_cells[0]
     elif cellname is None and len(top_level_cells) > 1:
         raise ValueError(
-            "import_gds() There are multiple top-level cells in {}, you must specify `cellname` to select of one of them among {}".format(
-                gdspath, [_c.name for _c in top_level_cells]
-            )
+            f"import_gds() There are multiple top-level cells in {gdspath}, "
+            f"you must specify `cellname` to select of one of them among {cellnames}"
         )
 
     if flatten:
@@ -239,10 +238,6 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-                # else:
-                #     warnings.warn('[PHIDL] import_gds(). Warning an element which was not a ' \
-                #         'polygon or reference exists in the GDS, and was not able to be imported. ' \
-                #         'The element was a: "%s"' % e)
 
         topdevice = c2dmap[topcell.name]
         return topdevice

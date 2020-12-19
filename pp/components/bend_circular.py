@@ -1,4 +1,4 @@
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import cos, pi, sin
@@ -87,7 +87,7 @@ def bend_circular(
     start_angle: int = 0,
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
@@ -147,8 +147,9 @@ def bend_circular(
     xpts = inner_points_x + outer_points_x[::-1]
     ypts = inner_points_y + outer_points_y[::-1]
 
-    for layer_cladding in layers_cladding:
-        component.add_polygon(points=(xpts, ypts), layer=layer_cladding)
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            component.add_polygon(points=(xpts, ypts), layer=layer_cladding)
 
     midpoint1 = (radius * cos(angle1), radius * sin(angle1))
     component.add_port(
@@ -182,14 +183,14 @@ def bend_circular(
 
 
 @pp.cell
-def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=[], **kwargs):
+def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=None, **kwargs):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
     pp.port.rename_ports_by_orientation(c)
     return c
 
 
 @pp.cell
-def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=[], **kwargs):
+def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=None, **kwargs):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 

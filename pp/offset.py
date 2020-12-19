@@ -17,7 +17,7 @@ def offset(
     distance=0.1,
     join_first=True,
     precision=1e-4,
-    num_divisions=[1, 1],
+    num_divisions=(1, 1),
     join="miter",
     tolerance=2,
     max_points=4000,

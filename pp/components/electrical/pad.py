@@ -42,7 +42,7 @@ def pad_array(
     pad: Callable = pad,
     spacing: Tuple[int, int] = (150.0, 0.0),
     n: int = 6,
-    port_list: List[str] = ["N"],
+    port_list: List[str] = ("N",),
     width: float = 100.0,
     height: float = 100.0,
     layer: Tuple[int, int] = LAYER.M3,
@@ -88,5 +88,5 @@ if __name__ == "__main__":
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    # c = pad_array()
+    c = pad_array()
     pp.show(c)

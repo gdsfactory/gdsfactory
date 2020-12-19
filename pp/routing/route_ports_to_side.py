@@ -118,8 +118,8 @@ def connect_ports_to_x(
     y0_bottom=None,
     y0_top=None,
     routing_func=connect_strip,
-    routing_func_args={},
     backward_port_side_split_index=0,
+    **routing_func_args,
 ):
     """
      * ``list_ports``: reasonably well behaved list of ports
@@ -224,7 +224,7 @@ def connect_ports_to_x(
                 new_port,
                 start_straight=start_straight,
                 bend_radius=bend_radius,
-                **routing_func_args
+                **routing_func_args,
             )
         ]
         l_ports += [flipped(new_port)]
@@ -301,8 +301,8 @@ def connect_ports_to_y(
     extend_left=0,
     extend_right=0,
     routing_func=connect_strip,
-    routing_func_args={},
     backward_port_side_split_index=0,
+    **routing_func_args,
 ):
     """
      * ``list_ports``: reasonably well behaved list of ports
@@ -418,7 +418,7 @@ def connect_ports_to_y(
                     new_port,
                     start_straight=start_straight,
                     bend_radius=bend_radius,
-                    **routing_func_args
+                    **routing_func_args,
                 )
             ]
             l_ports += [flipped(new_port)]

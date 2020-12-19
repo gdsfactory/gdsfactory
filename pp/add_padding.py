@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 
@@ -41,7 +41,7 @@ def get_padding_points(
 @container
 def add_padding(
     component: Component,
-    layers: List[Tuple[int, int]] = [pp.LAYER.PADDING],
+    layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
     suffix: str = "p",
     **kwargs,
 ) -> Component:
@@ -74,7 +74,7 @@ def add_padding_to_grid(
     x=10,
     y=10,
     bottom_padding=5,
-    layers=[pp.LAYER.PADDING],
+    layers=(pp.LAYER.PADDING),
     suffix="p",
 ):
     """returns component width a padding layer on each side

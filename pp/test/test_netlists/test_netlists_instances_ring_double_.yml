@@ -1,16 +1,16 @@
 connections:
   flat:
-    coupler_ring_178006f7_-1_1,N0: waveguide_L2_W500n_-8_6,E0
-    coupler_ring_178006f7_-1_1,N1: waveguide_L2_W500n_5_6,E0
-    coupler_ring_178006f7_-1_12,N0: waveguide_L2_W500n_5_6,W0
-    coupler_ring_178006f7_-1_12,N1: waveguide_L2_W500n_-8_6,W0
+    coupler_ring_178006f7_-1_10,N0: waveguide_L2_W500n_5_6,W0
+    coupler_ring_178006f7_-1_10,N1: waveguide_L2_W500n_-8_6,W0
+    coupler_ring_178006f7_-1_2,N0: waveguide_L2_W500n_-8_6,E0
+    coupler_ring_178006f7_-1_2,N1: waveguide_L2_W500n_5_6,E0
   ring_double:
-    coupler_ring_178006f7_-1_1,N0: waveguide_L2_W500n_-8_6,E0
-    coupler_ring_178006f7_-1_1,N1: waveguide_L2_W500n_5_6,E0
-    coupler_ring_178006f7_-1_12,N0: waveguide_L2_W500n_5_6,W0
-    coupler_ring_178006f7_-1_12,N1: waveguide_L2_W500n_-8_6,W0
+    coupler_ring_178006f7_-1_10,N0: waveguide_L2_W500n_5_6,W0
+    coupler_ring_178006f7_-1_10,N1: waveguide_L2_W500n_-8_6,W0
+    coupler_ring_178006f7_-1_2,N0: waveguide_L2_W500n_-8_6,E0
+    coupler_ring_178006f7_-1_2,N1: waveguide_L2_W500n_5_6,E0
 instances:
-  coupler_ring_178006f7_-1_1:
+  coupler_ring_178006f7_-1_10:
     component: coupler_ring
     settings:
       function_name: coupler_ring
@@ -22,7 +22,7 @@ instances:
         gap: 0.2
         length_x: 3.0
         wg_width: 0.5
-  coupler_ring_178006f7_-1_12:
+  coupler_ring_178006f7_-1_2:
     component: coupler_ring
     settings:
       function_name: coupler_ring
@@ -59,14 +59,14 @@ instances:
         length: 2.0
         width: 0.5
 placements:
-  coupler_ring_178006f7_-1_1:
-    rotation: 0
-    x: -1.5
-    y: 1.225
-  coupler_ring_178006f7_-1_12:
+  coupler_ring_178006f7_-1_10:
     rotation: 180
     x: -1.5
-    y: 12.175
+    y: 10.675
+  coupler_ring_178006f7_-1_2:
+    rotation: 0
+    x: -1.5
+    y: 2.725
   waveguide_L2_W500n_-8_6:
     rotation: 270
     x: -8.0

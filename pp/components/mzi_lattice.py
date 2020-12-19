@@ -9,9 +9,9 @@ from pp.components.waveguide import waveguide as waveguide_function
 
 @pp.cell
 def mzi_lattice(
-    coupler_lengths: List[float] = [10, 20],
-    coupler_gaps: List[float] = [0.2, 0.3],
-    delta_lengths: List[float] = [10],
+    coupler_lengths: List[float] = (10, 20),
+    coupler_gaps: List[float] = (0.2, 0.3),
+    delta_lengths: List[float] = (10,),
     mzi_factory: Callable = mzi_function,
     splitter: Callable = coupler_function,
     waveguide: Callable = waveguide_function,

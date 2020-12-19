@@ -25,6 +25,8 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.3 2020-12-18
+
 - store config.yml in mask build directory (reproduce environment when building masks)
 - add tests for add_fiber_single and add_fiber_array labels
 - snap name to 1nm grid, try to name it without decimals when possible (L1p00 -> L1)
@@ -33,6 +35,7 @@ from pydantic import validate_arguments
 - fix sparameters sorting of ports when in pp.sp.read_sparameters
 - pp.get_netlist() can retreive the top level ports for a component
 - output parameters that change in component (c.polarization='te') in get_settings()['info']
+- fixed bug in get_settings to clean tuple settings
 
 ## 2.2.2 2020-12-06
 

@@ -1,6 +1,4 @@
 """ Write component GDS + metadata
-write_component_type: try to load a component from library or creates if it does not exist
-write_component: write component and metadata
 """
 
 import json

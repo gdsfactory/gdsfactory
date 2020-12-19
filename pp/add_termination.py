@@ -41,7 +41,7 @@ def add_gratings_and_loop_back_tm(*args, grating_coupler=grating_coupler_tm, **k
 def add_gratings_and_loop_back(
     component,
     grating_coupler=grating_coupler_te,
-    excluded_ports=[],
+    excluded_ports=None,
     grating_separation=127.0,
     bend_radius_align_ports=10.0,
     gc_port_name=None,
@@ -55,6 +55,7 @@ def add_gratings_and_loop_back(
 ):
     """ returns a component with grating_couplers and loopback
     """
+    excluded_ports = excluded_ports or []
     gc = pp.call_if_func(grating_coupler)
 
     direction = "S"

@@ -146,7 +146,7 @@ def container_instance(component):
 
 
 @container
-def _add_padding(component, x=50, y=50, layers=[LAYER.PADDING], suffix="p"):
+def _add_padding(component, x=50, y=50, layers=(LAYER.PADDING), suffix="p"):
     """Adds padding layers to component.
     This is just an example. For the real function see pp.add_padding.
     """

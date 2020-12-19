@@ -31,7 +31,7 @@ def loss_deembedding_ch13_24(
     io_sep=127.0,
     R=10.0,
     grating_coupler_function=grating_coupler_te,
-    input_port_indexes=[0, 1],
+    input_port_indexes=(0, 1),
 ):
 
     gc = grating_coupler_function()
@@ -100,7 +100,7 @@ def loss_deembedding_ch14_23(
     io_sep=127.0,
     R=10.0,
     grating_coupler_function=grating_coupler_te,
-    input_port_indexes=[0, 1],
+    input_port_indexes=(0, 1),
 ):
     gc = grating_coupler_function()
 

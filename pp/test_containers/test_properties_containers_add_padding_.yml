@@ -16,6 +16,6 @@ settings:
       gap: 0.234
       with_elec_connections: true
   layers:
-  - - 67
-    - 0
+  - 67
+  - 0
   suffix: p

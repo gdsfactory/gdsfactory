@@ -15,7 +15,7 @@ def bend_s(
     length: float = 10.0,
     layer: Tuple[int, int] = pp.LAYER.WG,
     nb_points: int = 99,
-    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    layers_cladding: List[Tuple[int, int]] = (pp.LAYER.WGCLAD),
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """S bend with bezier curve

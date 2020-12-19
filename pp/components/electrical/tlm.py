@@ -9,8 +9,7 @@ from pp.layers import LAYER
 
 @cell
 def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
-    """ Rectangular via
-    """
+    """Rectangular via"""
     c = Component()
     c.info["period"] = period
     c.info["clearance"] = clearance
@@ -44,8 +43,8 @@ def via3(**kwargs):
 def tlm(
     width: float = 11.0,
     height: float = 11.0,
-    layers: List[Tuple[int, int]] = [LAYER.M1, LAYER.M2, LAYER.M3],
-    vias: List[Any] = [via2, via3],
+    layers: List[Tuple[int, int]] = (LAYER.M1, LAYER.M2, LAYER.M3),
+    vias: List[Any] = (via2, via3),
 ) -> Component:
     """
     Rectangular transition thru metal layers
@@ -102,5 +101,7 @@ def tlm(
 if __name__ == "__main__":
     import pp
 
-    c = via()
+    # c = via()
+    c = tlm()
+    c.pprint()
     pp.show(c)

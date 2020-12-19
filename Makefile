@@ -56,7 +56,7 @@ release:
 	git push origin --tags
 
 lint:
-	flake8 pp
+	tox -e flake8
 
 pylint:
 	pylint --rcfile .pylintrc pp/

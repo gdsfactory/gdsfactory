@@ -21,7 +21,7 @@ def route_pad_array(
     bend_radius: float = 0.1,
     connected_port_list_ids: None = None,
     n_ports: int = 1,
-    excluded_ports: List[Any] = [],
+    excluded_ports: List[Any] = None,
     pad_indices: None = None,
     route_filter: Callable = connect_elec_waypoints,
     port_name: str = "W",
@@ -58,6 +58,7 @@ def route_pad_array(
     Returns:
         elements, pads, y0_optical
     """
+    excluded_ports = excluded_ports or []
     if port_labels is None:
         ports = list(select_ports(component.ports).values())
     else:

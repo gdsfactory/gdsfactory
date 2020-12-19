@@ -769,9 +769,10 @@ class Component(Device):
         for key, value in settings.items():
             if key not in self.ignore:
                 d["settings"][key] = _clean_value(value)
+                # print(_clean_value(value))
 
-        output = {k: d[k] for k in sorted(d)}
-        return output
+        d = {k: d[k] for k in sorted(d)}
+        return d
 
     def add_port(
         self,
@@ -959,7 +960,7 @@ class Component(Device):
 def test_get_layers():
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.c.waveguide(layers_cladding=[(111, 0)])
     assert c.get_layers() == {(1, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(1, 0)}
@@ -1016,11 +1017,9 @@ def clean_dict(d):
 
 def _clean_value(value: Any) -> Any:
     """Returns a clean value that is JSON serializable"""
-    if type(value) in [int, float, str, tuple, bool]:
+    if type(value) in [int, float, str, bool]:
         value = value
-    elif isinstance(value, np.int32):
-        value = int(value)
-    elif isinstance(value, np.int64):
+    elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.float64):
         value = float(value)
@@ -1028,9 +1027,9 @@ def _clean_value(value: Any) -> Any:
         value = value.__name__
     elif hasattr(value, "name"):
         value = value.name
-    elif hasattr(value, "items"):
+    elif isinstance(value, dict):
         clean_dict(value)
-    elif hasattr(value, "__iter__"):
+    elif isinstance(value, (tuple, list)):
         value = [_clean_value(i) for i in value]
     else:
         value = str(value)
@@ -1126,10 +1125,14 @@ def demo_component(port):
 if __name__ == "__main__":
     import pp
 
-    c0 = pp.c.waveguide()
-    c = pp.c.waveguide(length=3.0)
-    c.info["c"] = c0
+    c = pp.c.tlm()
+    c.get_settings()
     c.pprint()
+
+    # c0 = pp.c.waveguide()
+    # c = pp.c.waveguide(length=3.0)
+    # c.info["c"] = c0
+    # c.pprint()
 
     # import matplotlib.pyplot as plt
 

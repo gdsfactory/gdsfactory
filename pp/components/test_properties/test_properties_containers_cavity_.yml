@@ -15,9 +15,7 @@ settings:
       layer:
       - 1
       - 0
-      layers_cladding:
-      - - 111
-        - 0
+      layers_cladding: None
       length: 10.0
       width: 0.5
   coupler: coupler

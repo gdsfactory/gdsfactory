@@ -116,6 +116,9 @@ port_layer2type = {LAYER.PORT: "optical", LAYER.PORTE: "dc", LAYER.PORTH: "heate
 port_type2layer = {v: k for k, v in port_layer2type.items()}
 
 
+layer_cladding_waveguide = [LAYER.WGCLAD]
+
+
 def preview_layerset(ls=ls, size=100):
     """Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds

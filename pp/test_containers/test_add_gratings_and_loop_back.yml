@@ -25,7 +25,7 @@ settings:
       y_straight_inner_bottom: 10.0
       y_straight_inner_top: 50.0
   component_name: None
-  excluded_ports: []
+  excluded_ports: None
   gc_port_name: None
   gc_rotation: -90
   grating_coupler: grating_coupler_te

@@ -15,8 +15,8 @@ settings:
   - 1
   - 0
   layers_cladding:
-  - - 111
-    - 0
+  - 111
+  - 0
   length: 10.0
   name: None
   nb_points: 99

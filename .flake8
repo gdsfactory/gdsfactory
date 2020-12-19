@@ -18,4 +18,5 @@ exclude =
     extra,
     deprecated,
     gdslib,
-    .tox
+    .tox,
+    .mypy_cache
