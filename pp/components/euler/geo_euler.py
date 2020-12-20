@@ -1,8 +1,9 @@
 from typing import List, Union
 
-from scipy.special import fresnel
-from numpy import pi, sqrt
 import numpy as np
+from numpy import pi, sqrt
+from scipy.special import fresnel
+
 from pp.coord2 import Coord2
 
 DEG2RAD = np.pi / 180

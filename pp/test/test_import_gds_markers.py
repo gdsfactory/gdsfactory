@@ -1,6 +1,7 @@
 import pytest
+
 import pp
-from pp.import_gds import import_gds, add_ports_from_markers_center
+from pp.import_gds import add_ports_from_markers_center, import_gds
 from pp.port import auto_rename_ports
 
 gdspaths = [pp.CONFIG["gdsdir"] / name for name in ["mmi1x2.gds", "mzi2x2.gds"]]

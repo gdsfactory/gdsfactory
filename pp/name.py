@@ -1,13 +1,19 @@
-""" define names, clean names and values
+"""Define names, clean values for names.
 """
-from typing import Any
 import hashlib
+from typing import Any
+
 import numpy as np
 from phidl import Device
 
+from pp.drc import snap_to_1nm_grid
+
 
 def join_first_letters(name: str) -> str:
-    """ join the first letter of a name separated with underscores (taper_length -> TL) """
+    """Join the first letter of a name separated with underscores.
+
+    taper_length -> TL
+    """
     return "".join([x[0] for x in name.split("_") if x])
 
 
@@ -50,11 +56,20 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 
 
 def assert_first_letters_are_different(**kwargs):
-    """ avoids having name colissions of different args with the same first letter """
-    first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
+    """Assert that the first letters for each key are different.
+
+    Avoid name colissions of different args that start with the same first letter.
+    """
+    first_letters = [join_first_letters(k) for k in kwargs.keys()]
     assert len(set(first_letters)) == len(
         first_letters
     ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+    "you can separate your arguments with underscores (delta_length -> DL, delta_width -> DW"
+
+
+def print_first_letters_warning(**kwargs):
+    """ Prints kwargs that have same cell."""
+    first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):
         print(
             f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
@@ -62,7 +77,9 @@ def assert_first_letters_are_different(**kwargs):
 
 
 def clean_name(name: str) -> str:
-    """Ensures that gds cells are composed of [a-zA-Z0-9]
+    """Return a string with correct characters for a cell name.
+
+    [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis
@@ -103,8 +120,10 @@ def clean_value(value: Any) -> str:
     elif isinstance(value, (float, np.float64)):
         if 1 > value > 1e-3:
             value = f"{int(value*1e3)}n"
+        elif float(int(value)) == value:
+            value = str(int(value))
         else:
-            value = f"{value:.2f}"
+            value = str(snap_to_1nm_grid(value)).replace(".", "p")
     elif isinstance(value, list):
         value = "_".join(clean_value(v) for v in value)
     elif isinstance(value, tuple):
@@ -123,6 +142,8 @@ def clean_value(value: Any) -> str:
 def test_clean_value():
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
+    assert clean_value(5.0) == "5"
+    assert clean_value(11.001) == "11p001"
 
 
 def test_clean_name():
@@ -134,12 +155,12 @@ if __name__ == "__main__":
     import pp
 
     # print(clean_value(pp.c.waveguide))
-
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
 
-    c = pp.c.waveguide(length=11)
-    print(c)
+    print(clean_value(11.001))
+    c = pp.c.waveguide(length=11.001)
+    print(c.name)
     # print(c)
     # pp.show(c)
 

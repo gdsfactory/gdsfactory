@@ -1,9 +1,10 @@
 from typing import Callable
+
 import pp
-from pp.components.waveguide import waveguide
-from pp.components.bend_circular import bend_circular
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_circular import bend_circular
+from pp.components.waveguide import waveguide
 
 
 @cell

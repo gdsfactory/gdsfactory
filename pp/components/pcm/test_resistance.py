@@ -1,6 +1,6 @@
 from typing import Tuple
-import numpy as np
 
+import numpy as np
 from phidl.geometry import offset
 
 import pp

@@ -2,8 +2,9 @@
 find GDS labels and write labels into a CSV file
 """
 
-import pathlib
 import csv
+import pathlib
+
 import klayout.db as pya
 
 from pp import LAYER

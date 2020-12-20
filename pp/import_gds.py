@@ -1,15 +1,15 @@
-from typing import Optional, Union
-from pathlib import Path
 import json
-import gdspy
+from pathlib import Path
+from typing import Optional, Union
 
+import gdspy
 from phidl.device_layout import DeviceReference
 
 import pp
-from pp.component import Component
 from pp.cell import CACHE
-from pp.port import read_port_markers, auto_rename_ports
+from pp.component import Component
 from pp.layers import port_layer2type, port_type2layer
+from pp.port import auto_rename_ports, read_port_markers
 
 
 def add_ports_from_markers_inside(*args, **kwargs):
@@ -155,7 +155,7 @@ def import_gds(
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
         overwrite_cache: overwrites device cache (caching by name)
-        snap_to_grid_nm: snap
+        snap_to_grid_nm: snap to different nm grid
 
     """
     gdspath = str(gdspath)
@@ -167,16 +167,15 @@ def import_gds(
     if cellname is not None:
         if cellname not in cellnames:
             raise ValueError(
-                f"import_gds() The requested cell {cellname} is not present in file {gdspath} with cells {cellnames}"
+                f"cell {cellname} is not in file {gdspath} with cells {cellnames}"
             )
         topcell = gdsii_lib.cells[cellname]
     elif cellname is None and len(top_level_cells) == 1:
         topcell = top_level_cells[0]
     elif cellname is None and len(top_level_cells) > 1:
         raise ValueError(
-            "import_gds() There are multiple top-level cells in {}, you must specify `cellname` to select of one of them among {}".format(
-                gdspath, [_c.name for _c in top_level_cells]
-            )
+            f"import_gds() There are multiple top-level cells in {gdspath}, "
+            f"you must specify `cellname` to select of one of them among {cellnames}"
         )
 
     if flatten:
@@ -239,10 +238,6 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-                # else:
-                #     warnings.warn('[PHIDL] import_gds(). Warning an element which was not a ' \
-                #         'polygon or reference exists in the GDS, and was not able to be imported. ' \
-                #         'The element was a: "%s"' % e)
 
         topdevice = c2dmap[topcell.name]
         return topdevice

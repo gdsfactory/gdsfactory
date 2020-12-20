@@ -1,6 +1,7 @@
 from typing import Callable
-from pp.components.mmi1x2 import mmi1x2
+
 import pp
+from pp.components.mmi1x2 import mmi1x2
 
 
 @pp.cell

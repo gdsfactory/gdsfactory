@@ -2,33 +2,27 @@
 """
 
 import os
+import pathlib
 import re
 import shlex
 import subprocess
 import time
-import pathlib
+
 import click
 
-from pp import CONFIG
+import pp.build as pb
+from pp import CONFIG, klive
+from pp.config import logging, print_config
+from pp.gdsdiff.gdsdiff import gdsdiff
+from pp.install import install_gdsdiff, install_generic_tech, install_klive
 from pp.layers import LAYER
-from pp.config import logging
-from pp import klive
-from pp.config import print_config
-
-# from pp.write_doe_from_yaml import write_doe_from_yaml
-from pp.write_doe_from_yaml import import_custom_doe_factories
-
 from pp.mask.merge_json import merge_json
 from pp.mask.merge_markdown import merge_markdown
 from pp.mask.merge_test_metadata import merge_test_metadata
 from pp.mask.write_labels import write_labels
 
-import pp.build as pb
-from pp.install import install_klive
-from pp.install import install_generic_tech
-from pp.install import install_gdsdiff
-from pp.gdsdiff.gdsdiff import gdsdiff
-
+# from pp.write_doe_from_yaml import write_doe_from_yaml
+from pp.write_doe_from_yaml import import_custom_doe_factories
 
 VERSION = "2.2.2"
 log_directory = CONFIG.get("log_directory")

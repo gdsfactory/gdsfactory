@@ -1,11 +1,12 @@
 import glob
-import re
 import json
+import re
 from collections import defaultdict
 
 import klayout.db as pya
-from pp.autoplacer.functions import area, WORKING_MEMORY
+
 from pp.autoplacer.cell_list import CellList
+from pp.autoplacer.functions import WORKING_MEMORY, area
 
 
 class Library(object):

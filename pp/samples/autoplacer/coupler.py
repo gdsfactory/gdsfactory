@@ -2,8 +2,8 @@
 Generate a coupler DOE
 """
 import pp
-from pp.routing.add_fiber_array import add_fiber_array
 from pp.components.coupler import coupler
+from pp.routing.add_fiber_array import add_fiber_array
 
 
 @pp.cell

@@ -1,8 +1,7 @@
-from pp.cell import cell
-from pp.components import rectangle
-
 import pp
+from pp.cell import cell
 from pp.component import Component
+from pp.components import rectangle
 
 
 @cell

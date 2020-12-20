@@ -1,11 +1,11 @@
 from typing import Callable, Optional
-import pp
 
+import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide as waveguide_function
 from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
+from pp.components.waveguide import waveguide as waveguide_function
 
 
 @pp.cell

@@ -1,4 +1,5 @@
 import shutil
+
 import pytest
 
 from pp import CONFIG

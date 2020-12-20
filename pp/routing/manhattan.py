@@ -1,12 +1,14 @@
-from typing import Callable, Dict, List, Optional, Tuple
 import uuid
+from typing import Callable, Dict, List, Optional, Tuple
+
 import numpy as np
 from numpy import bool_, float64, ndarray
-from pp.components import waveguide
-from pp.name import clean_name
-from pp.component import Component, ComponentReference
+
 import pp
+from pp.component import Component, ComponentReference
+from pp.components import waveguide
 from pp.geo_utils import angles_deg
+from pp.name import clean_name
 from pp.port import Port
 
 TOLERANCE = 0.0001
@@ -38,9 +40,10 @@ def _get_unique_port_facing(ports: Dict[str, Port], orientation: int = 0) -> Lis
 
 
 def _get_bend_ports(bend: Component) -> List[Port]:
-    """
+    """ Returns West and North facing ports for bend.
+
     Any standard bend/corner has two ports: one facing west and one facing north
-    Returns these two ports in this order
+    Returns these two ports in this order.
     """
 
     ports = bend.ports
@@ -52,10 +55,10 @@ def _get_bend_ports(bend: Component) -> List[Port]:
 
 
 def _get_straight_ports(straight: Component) -> List[Port]:
-    """
+    """Return West and east facing ports for straight waveguide.
+
     Any standard straight wire/waveguide has two ports:
     one facing west and one facing east
-    Returns these two ports in this order
     """
     ports = straight.ports
 
@@ -72,8 +75,8 @@ def gen_sref(
     port_name: str,
     position: ndarray,
 ) -> ComponentReference:
-    """
-    place sref of `port_name` of `structure` at `position`
+    """Place reference of `port_name` of `structure` at `position`.
+
     Keep this convention, otherwise phidl port transform won't work
     - 1 Mirror
     - 2 Rotate
@@ -122,7 +125,8 @@ def transform(
     angle_deg: float64 = 0,
     x_reflection: bool = False,
 ) -> ndarray:
-    """
+    """Transform points.
+
     Args:
         points (np.array of shape (N,2) ): points to be transformed
         translation (2d like array): translation vector
@@ -191,7 +195,7 @@ def _generate_route_manhattan_points(
     end_straight: float = 0.01,
     min_straight: float = 0.01,
 ) -> ndarray:
-    """
+    """Return list of ports for the route.
 
     Args:
         input_port:
@@ -334,9 +338,12 @@ def _generate_route_manhattan_points(
 def _get_bend_reference_parameters(
     p0: ndarray, p1: ndarray, p2: ndarray, bend_cell: Component
 ) -> Tuple[ndarray, int, bool]:
-    """
+    """Return bend reference settings.
+
     8 possible configurations
-    First mirror , Then rotate
+    First mirror, Then rotate
+
+    .. code::
 
        p2        p2
         |         |
@@ -436,9 +443,10 @@ def round_corners(
     mirror_straight=False,
     straight_ports=None,
 ):
-    """Returns cell with rounded waveguide route from a list of manhattan points.
-    To ensure a unique cell name
-    We Prefix with zz to make connectors appear at end of cell lists
+    """Return cell with rounded waveguide route from a list of manhattan points.
+
+    To ensure a unique cell name we Prefix with zz
+    so that connectors cells appear at end of the lists of cells
 
     Args:
         points: manhattan route defined by waypoints
@@ -449,7 +457,7 @@ def round_corners(
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If not specified, will use some heuristic to find them
     """
-    ## If there is a taper, make sure its length is known
+    # If there is a taper, make sure its length is known
     if taper:
         if "length" not in taper.info:
             _taper_ports = list(taper.ports.values())
@@ -603,7 +611,7 @@ def generate_manhattan_waypoints(
     min_straight: float = 0.01,
     **kwargs,
 ) -> ndarray:
-    """Returns waypoints for a Manhattan route between two ports."""
+    """Return waypoints for a Manhattan route between two ports."""
 
     if bend90 is None and bend_radius is None:
         raise ValueError(

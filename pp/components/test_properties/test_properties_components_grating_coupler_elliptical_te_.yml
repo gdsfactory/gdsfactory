@@ -1,7 +1,9 @@
 function_name: grating_coupler_elliptical_te
+info:
+  polarization: te
+  wavelength: 1554
 module: pp.components.grating_coupler.elliptical
 name: grating_coupler_elliptical_te
-polarization: te
 settings:
   big_last_tooth: false
   fiber_angle: 15.0
@@ -21,4 +23,3 @@ settings:
   taper_length: 16.6
   wg_width: 0.5
   with_fiber_marker: true
-wavelength: 1554

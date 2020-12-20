@@ -1,4 +1,5 @@
 function_name: pad
+info: {}
 module: pp.components.electrical.pad
 name: pad
 settings:

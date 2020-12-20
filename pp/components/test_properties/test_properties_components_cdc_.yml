@@ -1,4 +1,5 @@
 function_name: cdc
+info: {}
 module: pp.components.cdc
 name: cdc
 settings:

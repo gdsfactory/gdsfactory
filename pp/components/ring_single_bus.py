@@ -1,13 +1,14 @@
 from typing import Callable
+
 import pp
+from pp.cell import cell
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
-from pp.components.waveguide import waveguide
 from pp.components.coupler_straight import coupler_straight
-from pp.netlist_to_gds import netlist_to_component
-from pp.cell import cell
+from pp.components.waveguide import waveguide
 from pp.drc import assert_on_2nm_grid
-from pp.component import Component
+from pp.netlist_to_gds import netlist_to_component
 
 
 @cell
@@ -115,9 +116,10 @@ def ring_single_bus(
     length_x: float = 4.0,
     gap: float = 0.2,
     wg_width: float = 0.5,
-    bend_radius: int = 5,
+    bend_radius: float = 5.0,
 ) -> Component:
-    """ single bus ring
+    """Single bus ring.
+
     .. code::
 
          ctl--wx--ctr

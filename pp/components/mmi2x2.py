@@ -1,7 +1,8 @@
-from typing import Tuple, Callable
+from typing import Callable, List, Optional, Tuple
+
+import pp
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-import pp
 
 
 @pp.cell
@@ -13,7 +14,9 @@ def mmi2x2(
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    taper_factory: Callable = taper_function,
+    layers_cladding: Optional[List[Tuple]] = [pp.LAYER.WGCLAD],
+    taper: Callable = taper_function,
+    cladding_offset: float = 3.0,
 ) -> Component:
     """Mmi 2x2
 
@@ -25,6 +28,9 @@ def mmi2x2(
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
         layer: gds layer
+        layers_cladding: list of layers
+        taper: taper function
+        cladding_offset: for taper
 
     .. plot::
       :include-source:
@@ -38,7 +44,14 @@ def mmi2x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper_factory(length=length_taper, width1=wg_width, width2=w_taper)
+    taper = taper(
+        length=length_taper,
+        width1=wg_width,
+        width2=w_taper,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+    )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = pp.c.rectangle(
@@ -50,6 +63,14 @@ def mmi2x2(
             "W": [(-length_mmi / 2, -a, w_taper), (-length_mmi / 2, +a, w_taper)],
         },
     )
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            clad = component << pp.c.rectangle(
+                size=(length_mmi, w_mmi + 2 * cladding_offset),
+                layer=layer_cladding,
+                centered=True,
+            )
+            component.absorb(clad)
 
     mmi_section = component.add_ref(mmi)
 

@@ -1,5 +1,6 @@
-from typing import Union
 import json
+from typing import Union
+
 from pp.component import Component
 from pp.layers import LAYER
 from pp.port import read_port_markers

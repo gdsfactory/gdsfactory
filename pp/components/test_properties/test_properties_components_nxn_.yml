@@ -1,4 +1,5 @@
 function_name: nxn
+info: {}
 module: pp.components.nxn
 name: nxn
 settings:

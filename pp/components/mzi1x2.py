@@ -1,17 +1,16 @@
 from typing import Callable
-import pp
 
+import pp
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.waveguide_heater import wg_heater_connected
-from pp.components.waveguide import waveguide
+from pp.components.extension import line
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
+from pp.components.waveguide import waveguide
+from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
-from pp.routing import route_elec_ports_to_side
 from pp.port import select_electrical_ports
-
-from pp.components.extension import line
-from pp.component import Component
+from pp.routing import route_elec_ports_to_side
 
 
 @pp.cell

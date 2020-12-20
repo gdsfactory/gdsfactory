@@ -1,4 +1,3 @@
-from pp.components.electrical.wire import wire, corner
-
+from pp.components.electrical.wire import corner, wire
 
 __all__ = ["wire", "corner"]

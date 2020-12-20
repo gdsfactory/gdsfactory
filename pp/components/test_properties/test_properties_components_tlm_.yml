@@ -1,4 +1,5 @@
 function_name: tlm
+info: {}
 module: pp.components.electrical.tlm
 name: tlm
 settings:

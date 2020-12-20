@@ -13,17 +13,17 @@ For port naming we follow the IPKISS standard
 
 """
 
-from typing import Callable
-from typing import List, Optional, Tuple, Dict, Union
+import csv
 import functools
 from copy import deepcopy
-import csv
+from typing import Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import phidl.geometry as pg
-from phidl.device_layout import Port as PortPhidl
 from phidl.device_layout import Device
-from pp.drc import snap_to_grid
+from phidl.device_layout import Port as PortPhidl
 
+from pp.drc import snap_to_grid
 
 port_types = ["optical", "rf", "dc", "heater"]
 
@@ -173,7 +173,7 @@ def port_array(midpoint=(0, 0), width=0.5, orientation=0, delta=(10, 0), n=2):
     ]
 
 
-def read_port_markers(gdspath, layers=[(69, 0)]):
+def read_port_markers(gdspath, layers=((69, 0))):
     """loads a GDS and returns the extracted device for a particular layer
 
     Args:
@@ -320,7 +320,7 @@ def _rename_ports_facing_side(
 
 
 def rename_ports_by_orientation(
-    component: Device, layers_excluded: List[Tuple[int, int]] = []
+    component: Device, layers_excluded: List[Tuple[int, int]] = None
 ) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
@@ -336,6 +336,7 @@ def rename_ports_by_orientation(
 
     """
 
+    layers_excluded = layers_excluded or []
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     ports_on_process = [
         p for p in component.ports.values() if p.layer not in layers_excluded

@@ -1,19 +1,14 @@
 import collections
-from multiprocessing import Process
 import time
+from multiprocessing import Process
+
 from omegaconf import OmegaConf
 
-from pp.placer import save_doe
-from pp.placer import doe_exists
-from pp.placer import build_components
-from pp.placer import load_doe_component_names
-
-from pp.config import CONFIG
 from pp.components import component_factory
-from pp.write_doe import write_doe_metadata
+from pp.config import CONFIG, logging
 from pp.doe import get_settings_list
-
-from pp.config import logging
+from pp.placer import build_components, doe_exists, load_doe_component_names, save_doe
+from pp.write_doe import write_doe_metadata
 
 
 def separate_does_from_templates(dicts):
@@ -64,7 +59,7 @@ def write_doe(
     component_factory=component_factory,
     doe_root_path=None,
     doe_metadata_path=None,
-    regenerate_report_if_doe_exists=False,
+    overwrite=False,
     precision=1e-9,
     **kwargs,
 ):
@@ -89,8 +84,10 @@ def write_doe(
     )
 
 
-def load_does(filepath, defaults={"do_permutation": True, "settings": {}}):
+def load_does(filepath, defaults=None):
+    """Load_does from file."""
     does = {}
+    defaults = defaults or {"do_permutation": True, "settings": {}}
     data = OmegaConf.load(filepath)
     data = OmegaConf.to_container(data)
     mask = data.pop("mask")
@@ -111,7 +108,7 @@ def generate_does(
     doe_metadata_path=CONFIG["doe_directory"],
     n_cores=8,
     logger=logging,
-    regenerate_report_if_doe_exists=False,
+    overwrite=False,
     precision=1e-9,
 ):
     """Generates a DOEs of components specified in a yaml file
@@ -172,10 +169,8 @@ def generate_does(
             doe = list_args.pop()
             doe_name = doe["name"]
 
-            """
-            Only launch a build process if we do not use the cache
-            Or if the DOE is not built
-            """
+            # Only launch a build process if we do not use the cache
+            # Or if the DOE is not built
 
             list_settings = doe["list_settings"]
 
@@ -186,9 +181,7 @@ def generate_does(
             _doe_exists = False
 
             if "doe_template" in doe:
-                """
-                In that case, the DOE is not built: this DOE points to another existing component
-                """
+                # this DOE points to another existing component
                 _doe_exists = True
                 logger.info("Using template - {}".format(doe_name))
                 save_doe_use_template(doe)
@@ -197,7 +190,7 @@ def generate_does(
                 _doe_exists = doe_exists(doe_name, list_settings)
                 if _doe_exists:
                     logger.info("Cached - {}".format(doe_name))
-                    if regenerate_report_if_doe_exists:
+                    if overwrite:
                         component_names = load_doe_component_names(doe_name)
 
                         write_doe_metadata(
@@ -215,7 +208,7 @@ def generate_does(
                     kwargs={
                         "doe_root_path": doe_root_path,
                         "doe_metadata_path": doe_metadata_path,
-                        "regenerate_report_if_doe_exists": regenerate_report_if_doe_exists,
+                        "overwrite": overwrite,
                         "precision": precision,
                     },
                 )

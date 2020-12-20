@@ -1,5 +1,6 @@
 function_name: spiral_circular
-length: 1694.813
+info:
+  length: 1694.813
 module: pp.components.spiral_circular
 name: spiral_circular
 settings:

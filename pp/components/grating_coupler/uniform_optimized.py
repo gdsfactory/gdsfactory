@@ -1,7 +1,9 @@
 import pathlib
+
 import numpy as np
-from pp.component import Component
+
 import pp
+from pp.component import Component
 from pp.components.grating_coupler import grating_coupler
 
 data_path = pathlib.Path(__file__).parent / "csv_data"

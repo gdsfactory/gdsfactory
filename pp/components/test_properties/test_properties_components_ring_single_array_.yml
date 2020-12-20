@@ -1,4 +1,5 @@
 function_name: ring_single_array
+info: {}
 module: pp.components.ring_single_array
 name: ring_single_array
 settings:

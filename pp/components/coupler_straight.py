@@ -1,4 +1,5 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
+
 import pp
 from pp.component import Component
 
@@ -9,7 +10,7 @@ def coupler_straight(
     width: float = 0.5,
     gap: float = 0.27,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
     cladding_offset: float = 3.0,
 ) -> Component:
     """ straight coupled waveguides. Two multimode ports
@@ -46,16 +47,17 @@ def coupler_straight(
 
     # cladding
     ymax = 2 * width + gap + cladding_offset
-    for layer_cladding in layers_cladding:
-        c.add_polygon(
-            [
-                (0, -cladding_offset),
-                (length, -cladding_offset),
-                (length, ymax),
-                (0, ymax),
-            ],
-            layer=layer_cladding,
-        )
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            c.add_polygon(
+                [
+                    (0, -cladding_offset),
+                    (length, -cladding_offset),
+                    (length, ymax),
+                    (0, ymax),
+                ],
+                layer=layer_cladding,
+            )
 
     return c
 

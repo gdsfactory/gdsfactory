@@ -1,4 +1,5 @@
 function_name: mzi1x2
+info: {}
 module: pp.components.mzi1x2
 name: mzi1x2
 settings:

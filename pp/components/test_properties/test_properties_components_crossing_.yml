@@ -1,4 +1,5 @@
 function_name: crossing
+info: {}
 module: pp.components.crossing_waveguide
 name: crossing
 settings: {}

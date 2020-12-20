@@ -1,9 +1,11 @@
-from typing import List, Optional, Callable
+from typing import Callable, List, Optional
+
 import numpy as np
 from numpy import ndarray
-from pp.container import container
-from pp.component import Component
+
 import pp
+from pp.component import Component
+from pp.container import container
 
 DEG2RAD = np.pi / 180
 

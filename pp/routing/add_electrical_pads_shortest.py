@@ -1,6 +1,6 @@
-from pp.container import container
 from pp.component import Component
 from pp.components.electrical.pad import pad
+from pp.container import container
 from pp.routing.connect_electrical import connect_electrical_shortest_path
 
 

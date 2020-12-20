@@ -1,6 +1,6 @@
 import pathlib
-from phidl import quickplot
 
+from phidl import quickplot
 
 from pp.import_gds import import_gds
 

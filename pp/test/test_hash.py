@@ -1,7 +1,8 @@
 import gdspy
+
+import pp
 from pp.compare_cells import hash_cells
 from pp.components.mzi2x2 import mzi2x2
-import pp
 
 
 def debug():

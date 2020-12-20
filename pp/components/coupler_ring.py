@@ -1,9 +1,10 @@
 from typing import Callable
+
 import pp
+from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.drc import assert_on_2nm_grid
-from pp.component import Component
 
 
 @pp.cell
@@ -15,7 +16,7 @@ def coupler_ring(
     wg_width: float = 0.5,
     bend_radius: float = 5.0,
 ) -> Component:
-    """Coupler for ring
+    r"""Coupler for ring.
 
     .. code::
 

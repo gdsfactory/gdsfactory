@@ -2,10 +2,11 @@
 The choice of font file is configurable from the YAML file
 """
 import functools
-import klayout.db as pya
-import pp
-from pp.autoplacer.helpers import load_gds, import_cell
 
+import klayout.db as pya
+
+import pp
+from pp.autoplacer.helpers import import_cell, load_gds
 
 FONT_PATH = pp.CONFIG.get("font_path")
 

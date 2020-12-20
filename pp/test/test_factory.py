@@ -4,14 +4,15 @@ Builds a library and compares the gdshash of the new built GDS with the referenc
 
 import os
 import shutil
-import pytest
-from jsondiff import diff
-import git
 
 import gdspy
+import git
+import pytest
+from jsondiff import diff
+
 import pp
-from pp.components import component_factory, _components
 from pp import CONFIG
+from pp.components import _components, component_factory
 
 path_library = CONFIG["gds"]
 

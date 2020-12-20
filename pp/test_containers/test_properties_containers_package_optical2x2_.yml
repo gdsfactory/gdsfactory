@@ -1,9 +1,12 @@
 function_name: package_optical2x2
+info:
+  min_bend_radius: 20.753
 name: mzi2x2_WECTrue_20
 settings:
   bend_length: None
   component:
     function_name: mzi2x2
+    info: {}
     module: pp.components.mzi2x2
     name: mzi2x2_WECTrue
     settings:

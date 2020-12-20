@@ -1,9 +1,11 @@
-import os
 import itertools
+import os
+
 import klayout.db as pya
+
 import pp.autoplacer.functions as ap
-from pp.autoplacer.library import Library
 from pp.autoplacer.auto_placer import AutoPlacer
+from pp.autoplacer.library import Library
 
 
 class ChipArray(AutoPlacer):

@@ -1,10 +1,11 @@
 import json
+
 from pp.cell import get_component_name
 from pp.components import component_factory
-from pp.write_component import write_component
 from pp.config import CONFIG
 from pp.doe import get_settings_list
 from pp.routing.add_fiber_array import add_fiber_array_te, add_fiber_array_tm
+from pp.write_component import write_component
 
 function_factory = dict(
     add_fiber_array_te=add_fiber_array_te, add_fiber_array_tm=add_fiber_array_tm

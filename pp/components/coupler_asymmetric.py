@@ -1,8 +1,9 @@
 from typing import Callable
+
 import pp
+from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.component import Component
 
 
 @pp.cell

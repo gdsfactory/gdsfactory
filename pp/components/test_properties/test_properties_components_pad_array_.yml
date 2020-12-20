@@ -1,4 +1,5 @@
 function_name: pad_array
+info: {}
 module: pp.components.electrical.pad
 name: pad_array
 settings:

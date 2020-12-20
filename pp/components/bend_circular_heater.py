@@ -1,8 +1,8 @@
 import pp
-from pp.layers import LAYER
-from pp.components.bend_circular import bend_circular
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_circular import bend_circular
+from pp.layers import LAYER
 
 
 @pp.port.deco_rename_ports

@@ -1,4 +1,5 @@
 function_name: rectangle
+info: {}
 module: pp.components.rectangle
 name: rectangle
 settings:
@@ -6,7 +7,7 @@ settings:
   layer:
   - 1
   - 0
-  ports: {}
+  ports: None
   size:
   - 4.0
   - 2.0

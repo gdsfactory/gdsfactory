@@ -1,11 +1,13 @@
 function_name: add_gratings_and_loop_back
+info: {}
 name: spiral_inner_io_te
 settings:
   bend_factory: bend_circular
   bend_radius_align_ports: 10.0
   component:
     function_name: spiral_inner_io
-    length: 16949.99081698724
+    info:
+      length: 16950.0
     module: pp.components.spiral_inner_io
     name: spiral_inner_io
     settings:
@@ -23,7 +25,7 @@ settings:
       y_straight_inner_bottom: 10.0
       y_straight_inner_top: 50.0
   component_name: None
-  excluded_ports: []
+  excluded_ports: None
   gc_port_name: None
   gc_rotation: -90
   grating_coupler: grating_coupler_te

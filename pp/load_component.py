@@ -1,14 +1,14 @@
 """ load component GDS, JSON metadata and CSV ports
 """
-from typing import Optional
+import csv
+import json
 import os
 import pathlib
-import json
-import csv
-
 from pathlib import PosixPath
-from pp import CONFIG
+from typing import Optional
+
 import pp
+from pp import CONFIG
 from pp.component import Component
 
 

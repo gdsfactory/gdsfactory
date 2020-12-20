@@ -1,10 +1,10 @@
 """Straight waveguides"""
-from typing import List, Tuple
-
 import hashlib
+from typing import List, Optional, Tuple
+
 import pp
-from pp.components.hline import hline
 from pp.component import Component
+from pp.components.hline import hline
 
 
 @pp.cell
@@ -12,7 +12,7 @@ def waveguide(
     length: float = 10.0,
     width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
     cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Straight waveguide
@@ -39,10 +39,11 @@ def waveguide(
 
     wc = w + cladding_offset
 
-    for layer_cladding in layers_cladding:
-        c.add_polygon(
-            [(0, -wc), (length, -wc), (length, wc), (0, wc)], layer=layer_cladding
-        )
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            c.add_polygon(
+                [(0, -wc), (length, -wc), (length, wc), (0, wc)], layer=layer_cladding
+            )
 
     c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
     c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
@@ -135,7 +136,9 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
 
 if __name__ == "__main__":
     c = waveguide(length=0.3)
-    print(c.name)
+    c.pprint()
+
+    # print(c.name)
     # print(c.settings)
     # print(c.settings_changed)
     # pp.write_gds(c)

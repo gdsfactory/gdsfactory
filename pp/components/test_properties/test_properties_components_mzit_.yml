@@ -1,4 +1,5 @@
 function_name: mzit
+info: {}
 module: pp.components.mzit
 name: mzit
 settings:

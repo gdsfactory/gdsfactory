@@ -1,6 +1,6 @@
 import pytest
-import pp
 
+import pp
 
 yaml_fail = """
 instances:

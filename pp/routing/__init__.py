@@ -6,13 +6,18 @@ from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
-from pp.routing.connect import connect_strip, connect_strip_way_points
-from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect_bundle import connect_bundle
-from pp.routing.connect_bundle import connect_bundle_path_length_match
-from pp.routing.connect_bundle import link_electrical_ports
-from pp.routing.connect_bundle import link_optical_ports
-from pp.routing.connect_bundle import link_optical_ports_no_grouping
+from pp.routing.connect import (
+    connect_elec_waypoints,
+    connect_strip,
+    connect_strip_way_points,
+)
+from pp.routing.connect_bundle import (
+    connect_bundle,
+    connect_bundle_path_length_match,
+    link_electrical_ports,
+    link_optical_ports,
+    link_optical_ports_no_grouping,
+)
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_fiber_single import route_fiber_single

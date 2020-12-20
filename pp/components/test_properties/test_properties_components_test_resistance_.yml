@@ -1,4 +1,5 @@
 function_name: test_resistance
+info: {}
 module: pp.components.pcm.test_resistance
 name: test_resistance
 settings:

@@ -12,9 +12,9 @@ The actual chain of components is supplied by a string or a list
 
 import pp
 from pp.components import bend_circular
+from pp.components.component_sequence import component_sequence
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
-from pp.components.component_sequence import component_sequence
 
 
 @pp.cell

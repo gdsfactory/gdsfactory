@@ -1,5 +1,7 @@
 function_name: wire
-length: 50.0
+info:
+  length: 50.0
+  width: 10.0
 module: pp.components.electrical.wire
 name: wire
 settings:
@@ -8,4 +10,3 @@ settings:
   - 0
   length: 50.0
   width: 10.0
-width: 10.0

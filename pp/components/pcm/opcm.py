@@ -1,16 +1,18 @@
 """ CD SEM structures
 """
 
-from typing import Callable, List, Tuple
 import itertools as it
+from typing import Callable, List, Tuple
+
 import numpy as np
+
 import pp
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
+from pp.components.manhattan_font import manhattan_text
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
-from pp.components.manhattan_font import manhattan_text
-from pp.component import Component
 
 LINE_LENGTH = 420.0
 
@@ -20,22 +22,26 @@ def square_middle(
     side: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
     cladding_offset: float = 3.0,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
     component = pp.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
     a += cladding_offset
-    for layer_cladding in layers_cladding:
-        component.add_polygon(
-            [(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer_cladding
-        )
+    if layers_cladding:
+        for layer_cladding in layers_cladding:
+            component.add_polygon(
+                [(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer_cladding
+            )
     return component
 
 
 @pp.cell
 def double_square(
-    side=0.5, layer: Tuple[int, int] = LAYER.WG, layers_cladding=[], cladding_offset=3.0
+    side=0.5,
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding=None,
+    cladding_offset=3.0,
 ):
     component = pp.Component()
     a = side / 2
@@ -45,8 +51,9 @@ def double_square(
         component.add_polygon(pts, layer=layer)
 
     a += cladding_offset
-    for layer in layers_cladding:
-        component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
+    if layers_cladding:
+        for layer in layers_cladding:
+            component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
 
     return component
 
@@ -56,7 +63,7 @@ def rectangle(
     x: float,
     y: float,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
     cladding_offset: float = 3.0,
 ) -> Component:
     component = pp.Component()
@@ -65,8 +72,9 @@ def rectangle(
     component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
     a += cladding_offset
     b += cladding_offset
-    for layer in layers_cladding:
-        component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+    if layers_cladding:
+        for layer in layers_cladding:
+            component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
     return component
 
 
@@ -167,7 +175,7 @@ def wg_line(
     length: float,
     width: float,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
     c = pp.Component()
     _wg = c.add_ref(
@@ -181,13 +189,13 @@ def wg_line(
 def cdsem_straight(
     spacing_h=5.0,
     spacing_v=5.0,
-    gaps=[0.224, 0.234, 0.246],
+    gaps=(0.224, 0.234, 0.246),
     length=10.0,
     width_center=0.5,
     label="A",
     waveguide_factory=waveguide,
     layer=LAYER.WG,
-    layers_cladding=[],
+    layers_cladding=None,
 ):
 
     c = pp.Component()
@@ -244,13 +252,13 @@ def cdsem_straight(
 @pp.cell
 def cdsem_straight_column(
     spacing_v: float = 5.0,
-    gaps: List[float] = [0.224, 0.234, 0.246],
+    gaps: List[float] = (0.224, 0.234, 0.246),
     length: float = LINE_LENGTH,
     width_center: float = 0.5,
     label: str = "A",
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
 
     c = pp.Component()
@@ -311,10 +319,10 @@ def cdsem_straight_column(
 def cdsem_straight_all(
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
-    widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
-    labels = ["A", "B", "C", "D", "E", "F"]
+    widths = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0)
+    labels = ("A", "B", "C", "D", "E", "F")
     c = pp.Component()
     spacing_v = 10.0
     y = 0
@@ -344,7 +352,7 @@ def cdsem_straight_density(
     label: str = "",
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
     """horizontal grating etch lines
 
@@ -390,8 +398,8 @@ def cdsem_target(
     width_center: float = 0.5,
     label: str = "",
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
-    radii: List[float] = [5.0, 10.0],
+    layers_cladding: List[Tuple[int, int]] = None,
+    radii: List[float] = (5.0, 10.0),
 ) -> Component:
     c = pp.Component()
     a = 1.0
@@ -441,7 +449,7 @@ def cdsem_uturn(
     waveguide_factory: Callable = pp.c.waveguide,
     bend90_factory: Callable = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
     """
 
@@ -507,7 +515,7 @@ def opcm(
     waveguide_factory: Callable = waveguide,
     bend90_factory: Callable = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [],
+    layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
     """column with all optical PCMs
     Args:

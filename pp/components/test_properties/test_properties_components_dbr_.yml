@@ -1,4 +1,5 @@
 function_name: dbr
+info: {}
 module: pp.components.dbr
 name: dbr
 settings:

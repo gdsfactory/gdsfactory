@@ -1,9 +1,10 @@
 import itertools
 import pathlib
+
 import gdspy as gp
 
 from pp import import_gds
-import pp
+from pp.component import Component
 
 COUNTER = itertools.count()
 
@@ -29,13 +30,14 @@ def get_polygons_on_layer(cell, layer):
 
 
 def gdsdiff(cellA, cellB):
-    """
-    Args:
-        CellA: gds cell (as pp.Component) or path to gds file
-        CellB: gds cell (as pp.Component) or path to gds file
+    """Compare two Components.
 
-    Output:
-        gds file containing the diff between the two GDS files
+    Args:
+        CellA: Component or path to gds file
+        CellB: Component or path to gds file
+
+    Returns:
+        Component with both cells (xor, common and diffs)
     """
     if isinstance(cellA, pathlib.PosixPath):
         cellA = str(cellA)
@@ -50,11 +52,11 @@ def gdsdiff(cellA, cellB):
     layers.update(cellA.get_layers())
     layers.update(cellB.get_layers())
 
-    top = pp.Component(name="TOP")
-    diff = pp.Component(name="xor")
-    common = pp.Component(name="common")
-    old_only = pp.Component(name="only_in_old")
-    new_only = pp.Component(name="only_in_new")
+    top = Component(name="TOP")
+    diff = Component(name="xor")
+    common = Component(name="common")
+    old_only = Component(name="only_in_old")
+    new_only = Component(name="only_in_new")
 
     cellA.name = "old"
     cellB.name = "new"
@@ -103,10 +105,12 @@ def gdsdiff(cellA, cellB):
 if __name__ == "__main__":
     import sys
 
+    from pp.write_component import show
+
     if len(sys.argv) != 3:
         print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
         print("Note that you need to have KLayout opened with klive running")
         sys.exit()
 
     diff = gdsdiff(sys.argv[1], sys.argv[2])
-    pp.show(diff)
+    show(diff)

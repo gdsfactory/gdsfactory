@@ -1,5 +1,5 @@
-from pp.component import Component
 from pp.cell import cell
+from pp.component import Component
 
 
 @cell

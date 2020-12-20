@@ -1,9 +1,13 @@
+""" Deprecated, use componet_from_yaml instead
+
+"""
+
 from typing import Dict, List, Tuple, Union
+
 import numpy as np
 from numpy import ndarray
 
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.port import select_electrical_ports
 
 IDENTITY = (0, False)
@@ -29,17 +33,19 @@ TRANSFORMATION_MAP = {
 STR_TO_TRANSFORMATION_MAP = {v: k for k, v in TRANSFORMATION_MAP.items()}
 
 
-def get_elec_ports_from_component_names(component: Component, names=[]):
+def get_elec_ports_from_component_names(component: Component, names=None):
     """
     Args:
-        component: should have component.info["instances"]
+        component: should have component.netlist
+        names:
     """
+    names = names or []
     e_ports = {}
 
     for name in names:
         _ports = {
             "{}_{}".format(name, p.name): p
-            for p in select_electrical_ports(component.info["instances"][name]).values()
+            for p in select_electrical_ports(component.netlist[name]).values()
         }
         e_ports.update(_ports)
 
@@ -200,7 +206,7 @@ def netlist_to_component(
     for cmp_id, ref in cmp_name_to_sref.items():
         c[cmp_id] = ref
 
-    c.info["instances"] = cmp_name_to_sref
+    c.netlist = cmp_name_to_sref
 
     # add leaf cells to netlist
     netlist = []
