@@ -8,7 +8,7 @@
 `conf` has all the useful info
 """
 
-__version__ = "2.2.2"
+__version__ = "2.2.3"
 import io
 import json
 import logging
