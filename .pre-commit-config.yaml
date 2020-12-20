@@ -30,7 +30,18 @@ repos:
       hooks:
           - id: nbstripout
             files: ".ipynb"
+
     # - repo: https://github.com/terrencepreilly/darglint
     #   rev: master
     #   hooks:
     #       - id: darglint
+    #
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: ""
+    #   hooks:
+    #       - id: mypy
+    #         exclude: ^(docs/|example-plugin/|tests/fixtures)
+    # - repo: https://github.com/pycqa/pydocstyle
+    #   rev: ""
+    #   hooks:
+    #       - id: pydocstyle

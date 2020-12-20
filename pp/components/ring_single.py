@@ -21,8 +21,21 @@ def ring_single(
     bend: Callable = bend_circular,
     pins: bool = False,
 ) -> Component:
-    """Single bus ring made of two couplers (ct: top, cb: bottom)
-    connected with two vertical waveguides (wyl: left, wyr: right)
+    """Single bus ring made of a ring coupler (cb: bottom)
+    connected with two vertical waveguides (wl: left, wr: right)
+    two bends (bl, br) and horizontal waveguide (wg: top)
+
+    Args:
+        wg_width: waveguide width
+        gap: gap between for coupler
+        bend_radius: for the bend and coupler
+        length_x: ring coupler length
+        length_y: vertical waveguide length
+        coupler: ring coupler function
+        waveguide: waveguide function
+        bend: bend function
+        pins: add pins
+
 
     .. code::
 
