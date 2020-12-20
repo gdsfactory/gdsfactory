@@ -1,7 +1,8 @@
 from typing import Callable, List, Tuple
+
 import pp
-from pp.components.bend_s import bend_s
 from pp.component import Component
+from pp.components.bend_s import bend_s
 
 
 @pp.cell

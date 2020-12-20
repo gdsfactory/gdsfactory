@@ -1,13 +1,10 @@
 import pp
-from pp.components import bend_circular
-from pp.components.waveguide import _arbitrary_straight_waveguide
-from pp.components.waveguide import waveguide
-from pp.components.waveguide_heater import waveguide_heater
-from pp.components.taper import taper_strip_to_ridge
-
 from pp import LAYER
-
+from pp.components import bend_circular
 from pp.components.component_sequence import component_sequence
+from pp.components.taper import taper_strip_to_ridge
+from pp.components.waveguide import _arbitrary_straight_waveguide, waveguide
+from pp.components.waveguide_heater import waveguide_heater
 
 
 @pp.cell

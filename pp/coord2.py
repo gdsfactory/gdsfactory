@@ -1,6 +1,7 @@
+from typing import Tuple
+
 import numpy as np
 from numpy import float64
-from typing import Tuple
 
 
 class Coord2:

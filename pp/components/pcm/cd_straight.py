@@ -6,7 +6,7 @@ from pp.components.pcm.cd import CENTER_SHAPES_MAP
 def cd_straight(
     spacing_h=5.0,
     spacing_v=8.0,
-    gaps=[0.224, 0.234, 0.246],
+    gaps=(0.224, 0.234, 0.246),
     length=10.0,
     width_center=0.5,
     layer=pp.LAYER.WG,

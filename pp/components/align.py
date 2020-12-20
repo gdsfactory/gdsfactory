@@ -1,7 +1,7 @@
 import pp
-from pp.components.rectangle import rectangle
-from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.add_padding import add_padding_to_grid
+from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
+from pp.components.rectangle import rectangle
 
 
 @pp.cell

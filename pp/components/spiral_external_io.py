@@ -2,15 +2,16 @@
 maybe: need to add grating coupler loopback as well
 """
 
-import numpy as np
-import pp
-from pp.components.bend_circular import bend_circular
-from pp.components.bend_circular import bend_circular180
-from pp.components import waveguide
-from pp.routing import round_corners
-from numpy import float64
-from pp.component import Component
 from typing import Callable, Optional, Tuple
+
+import numpy as np
+from numpy import float64
+
+import pp
+from pp.component import Component
+from pp.components import waveguide
+from pp.components.bend_circular import bend_circular, bend_circular180
+from pp.routing import round_corners
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -146,15 +147,14 @@ def spiral_external_io(
     component.absorb(route_ref)
 
     component.ports = route_ref.ports
-    component.length = route_ref.info["length"]
-    component.settings["total_length"] = route_ref.info["length"]
-    component.settings["length"] = route_ref.info["length"]
-    component.settings["cutback_length"] = cutback_length
 
+    length = pp.drc.snap_to_1nm_grid(route_ref.info["length"])
+    component.length = length
     return component
 
 
 if __name__ == "__main__":
     c = spiral_external_io(bend_radius=10, cutback_length=10000)
-    print(c.settings["total_length"] / 1e4)
+    print(c.length)
+    print(c.length / 1e4, "cm")
     pp.show(c)

@@ -1,10 +1,13 @@
 function_name: grating_coupler_tree
+info: {}
+module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
   bend_factory: bend_circular
   bend_radius: 10.0
   component:
     function_name: waveguide_array
+    info: {}
     module: pp.components.waveguide_array
     name: waveguide_array_c233fa40
     settings:

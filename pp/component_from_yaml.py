@@ -1,18 +1,17 @@
 """ write Component from YAML file
 """
 
-from typing import Union, IO, Any, Optional, List, Dict
-import pathlib
 import io
-from omegaconf import OmegaConf
-import numpy as np
+import pathlib
+from typing import IO, Any, Dict, List, Optional, Union
 
+import numpy as np
+from omegaconf import OmegaConf
+
+from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.routing import route_factory
-from pp.routing import link_factory
-from pp.add_pins import _add_instance_label
-
+from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 valid_keys = [
@@ -28,13 +27,18 @@ valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settin
 
 
 def place(
-    placements_conf,
+    placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
     instances: Dict[str, ComponentReference],
     encountered_insts: List[str],
     instance_name: Optional[str] = None,
-):
-    """using a placements_conf dict places instance_name
-    instances is a dict
+) -> None:
+    """Place instance_name with placements_conf config.
+
+    Args:
+        placements_conf: Dict of instance_name to placement (x, y, rotation ...)
+        instances: Dict of references
+        encountered_insts: list of encountered_instances
+        instance_name: instance_name to place
     """
     if instance_name is None:
         instance_name = list(placements_conf.keys())[0]
@@ -147,11 +151,11 @@ def component_from_yaml(
     label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined from YAML
-
+    """Returns a Component defined from YAML.
 
     Args:
-        yaml: YAML IO describing Component (instances, placements, routing, ports, connections)
+        yaml: YAML IO describing Component
+            (instances, placements, routing, ports, connections)
         component_factory: dict of {factory_name: factory_function}
         route_factory: for routes
         kwargs: cache, pins ... to pass to all factories
@@ -373,15 +377,15 @@ def component_from_yaml(
 
                     for port_src_name in ports1names:
                         assert port_src_name in instance_src.ports, (
-                            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-                            f" {instance_src_name} "
+                            f"{port_src_name} not in {list(instance_src.ports.keys())}"
+                            f"for {instance_src_name} "
                         )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
                         assert port_dst_name in instance_dst.ports, (
-                            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-                            f" {instance_dst_name}"
+                            f"{port_dst_name} not in {list(instance_dst.ports.keys())}"
+                            f"for {instance_dst_name}"
                         )
                         ports2.append(instance_dst.ports[port_dst_name])
 
@@ -880,26 +884,26 @@ def test_docstring_sample():
 if __name__ == "__main__":
     import pp
 
-    # c = test_connections_regex()
-    # c = component_from_yaml(sample_regex_connections)
-    # c = component_from_yaml(sample_regex_connections_backwards)
-    # c = test_docstring_sample()
+    # cc = test_connections_regex()
+    # cc = component_from_yaml(sample_regex_connections)
+    # cc = component_from_yaml(sample_regex_connections_backwards)
+    # cc = test_docstring_sample()
 
-    c = test_connections_2x2()
+    cc = test_connections_2x2()
     # test_sample()
-    # c = test_connections_different_factory()
+    # cc = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
 
-    # c = component_from_yaml(sample_different_link_factory)
+    # cc = component_from_yaml(sample_different_link_factory)
 
-    # c = component_from_yaml(sample_waypoints)
-    pp.show(c)
+    # cc = component_from_yaml(sample_waypoints)
+    pp.show(cc)
 
-    # c = component_from_yaml(sample_connections)
-    # assert len(c.get_dependencies()) == 3
+    # cc = component_from_yaml(sample_connections)
+    # assert len(cc.get_dependencies()) == 3
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()
-    # print(c.ports)
-    # c = pp.routing.add_fiber_array(c)
+    # print(cc.ports)
+    # cc = pp.routing.add_fiber_array(cc)

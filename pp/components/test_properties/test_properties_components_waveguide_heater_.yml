@@ -1,4 +1,5 @@
 function_name: waveguide_heater
+info: {}
 module: pp.components.waveguide_heater
 name: waveguide_heater
 settings:

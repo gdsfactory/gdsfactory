@@ -1,10 +1,10 @@
 import inspect
+
 import pp
-from pp.components import grating_coupler_te
-from pp.components import grating_coupler_tm
+from pp.add_labels import get_input_label
+from pp.components import grating_coupler_te, grating_coupler_tm
 from pp.routing.connect import connect_strip
 from pp.routing.manhattan import round_corners
-from pp.add_labels import get_input_label
 
 
 def connect_loop_back(port0, port1, a, b, R, y_bot_align_route):
@@ -31,7 +31,7 @@ def loss_deembedding_ch13_24(
     io_sep=127.0,
     R=10.0,
     grating_coupler_function=grating_coupler_te,
-    input_port_indexes=[0, 1],
+    input_port_indexes=(0, 1),
 ):
 
     gc = grating_coupler_function()
@@ -100,7 +100,7 @@ def loss_deembedding_ch14_23(
     io_sep=127.0,
     R=10.0,
     grating_coupler_function=grating_coupler_te,
-    input_port_indexes=[0, 1],
+    input_port_indexes=(0, 1),
 ):
     gc = grating_coupler_function()
 

@@ -1,7 +1,9 @@
 function_name: bend_euler180
+info:
+  length: 62.83185307179586
+  radius: 10.0
 module: pp.components.euler.bend_euler
 name: bend_euler180
-radius: 10.0
 settings:
   layer:
   - 1

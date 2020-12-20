@@ -3,6 +3,7 @@
 ## TODO
 
 - document klayout placers
+- get_netlist() would be nice to extract netlist from component, then use pp.component_from_yaml to rebuild component
 - extract netlist from layout
 - bundle routing with specific waypoints
 - connect_with_waypoints can accept ports
@@ -23,6 +24,18 @@ from pydantic import validate_arguments
 ```
 
 ## master branch (latest changes not released yet)
+
+## 2.2.3 2020-12-19
+
+- store config.yml in mask build directory (reproduce environment when building masks)
+- add tests for add_fiber_single and add_fiber_array labels
+- snap name to 1nm grid, try to name it without decimals when possible (L1p00 -> L1)
+- more sensitive defaults parameter names for MZI (coupler -> splitter)
+- sim settings outputs in YAML file
+- fix sparameters sorting of ports when in pp.sp.read_sparameters
+- pp.get_netlist() returns top level ports for a component
+- output parameters that change in component (c.polarization='te') in get_settings()['info']
+- fixed bug in get_settings to clean tuple settings export
 
 ## 2.2.2 2020-12-06
 

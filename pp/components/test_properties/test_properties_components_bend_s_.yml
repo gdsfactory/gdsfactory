@@ -1,4 +1,9 @@
 function_name: bend_s
+info:
+  end_angle: 0.235
+  length: 10.278
+  min_bend_radius: 9.959
+  start_angle: 0.235
 module: pp.components.bend_s
 name: bend_s
 settings:
@@ -10,8 +15,8 @@ settings:
   - 1
   - 0
   layers_cladding:
-  - - 111
-    - 0
+  - 111
+  - 0
   length: 10.0
   name: None
   nb_points: 99

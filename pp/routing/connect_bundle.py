@@ -2,21 +2,22 @@
 """
 
 from typing import Callable, List, Optional
-from numpy import float64, ndarray
-import numpy as np
-from pp.routing.connect import connect_strip
-from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.manhattan import generate_manhattan_waypoints
 
-from pp.routing.u_groove_bundle import u_bundle_indirect
-from pp.routing.u_groove_bundle import u_bundle_direct
-from pp.routing.path_length_matching import path_length_matched_points
+import numpy as np
+from numpy import float64, ndarray
+
 from pp.cell import cell
-from pp.component import ComponentReference, Component
+from pp.component import Component, ComponentReference
+from pp.config import add_to_global_netlist, conf
 from pp.port import Port
-from pp.config import conf
-from pp.config import add_to_global_netlist
+from pp.routing.connect import (
+    connect_elec_waypoints,
+    connect_strip,
+    connect_strip_way_points,
+)
+from pp.routing.manhattan import generate_manhattan_waypoints
+from pp.routing.path_length_matching import path_length_matched_points
+from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -284,13 +285,13 @@ def link_ports_routes(
 
     elems = []
 
-    ## Contains end_straight of tracks which need to be adjusted together
+    # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
 
-    ## Once a group is finished, all the lengths are appended to end_straights
+    # Once a group is finished, all the lengths are appended to end_straights
     end_straights = []
 
-    ## Axis along which we sort the ports
+    # Axis along which we sort the ports
     if axis in ["X", "x"]:
         f_key1 = get_port_y
         # f_key2 = get_port_y
@@ -307,7 +308,7 @@ def link_ports_routes(
         ports1.sort(key=f_key1)
         ports2 = [ports2_by1[p1] for p1 in ports1]
 
-    ## Keep track of how many ports should be routed together
+    # Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
 
     if axis in ["X", "x"]:

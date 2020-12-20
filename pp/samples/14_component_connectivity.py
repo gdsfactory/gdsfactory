@@ -1,6 +1,4 @@
-"""
-Lets define the references from a component and then connect them together
-
+"""Lets define the references from a component and then connect them together.
 """
 
 import pp

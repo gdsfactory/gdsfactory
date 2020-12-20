@@ -1,7 +1,6 @@
-import pathlib
 import configparser
+import pathlib
 import shutil
-
 
 if __name__ == "__main__":
 

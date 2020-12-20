@@ -1,6 +1,8 @@
 from typing import List
+
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Label
+
 from pp.add_labels import get_input_label
 from pp.component import ComponentReference
 from pp.port import Port

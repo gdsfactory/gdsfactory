@@ -1,14 +1,11 @@
 import numpy as np
+
 import pp
-from pp.routing.manhattan import remove_flat_angles
-from pp.routing.manhattan import round_corners
-
 from pp.components import bend_circular
-from pp.components import waveguide
 from pp.components import taper as taper_factory
-
-from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
-
+from pp.components import waveguide
+from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
 
 

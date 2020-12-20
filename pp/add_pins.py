@@ -8,16 +8,17 @@ Make sure underscore functions are inside a new Component as they modify the geo
 You can use the @container decorator
 
 """
-from typing import Optional, Tuple, Callable, List
 import json
+from typing import Callable, Dict, List, Optional, Tuple
+
 import numpy as np
-from pp.layers import LAYER, port_type2layer
-from pp.port import read_port_markers
-from pp.port import Port
+
 import pp
 from pp.add_padding import get_padding_points
-from pp.container import container
 from pp.component import Component, ComponentReference
+from pp.container import container
+from pp.layers import LAYER, port_type2layer
+from pp.port import Port, read_port_markers
 
 
 def _rotate(v, m):
@@ -120,7 +121,7 @@ def _add_pin_square(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Optional[Tuple[int, int]] = LAYER.PORT,
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -168,9 +169,10 @@ def _add_pin_square(
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
-    component.add_label(
-        text=str(p.name), position=p.midpoint, layer=label_layer,
-    )
+    if label_layer:
+        component.add_label(
+            text=str(p.name), position=p.midpoint, layer=label_layer,
+        )
 
 
 def _add_outline(
@@ -202,7 +204,7 @@ def _add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     add_port_marker_function: Callable = _add_pin_square,
-    port_type2layer=port_type2layer,
+    port_type2layer: Dict[str, Tuple[int, int]] = port_type2layer,
     **kwargs,
 ) -> None:
     """Add Pin port markers.

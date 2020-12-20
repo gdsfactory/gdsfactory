@@ -1,11 +1,12 @@
 from typing import Callable, List, Tuple
-from pp.component import Component
+
 from pp.cell import cell
-from pp.layers import LAYER
-from pp.drc import assert_on_1nm_grid
-from pp.components.coupler_symmetric import coupler_symmetric
+from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
+from pp.components.coupler_symmetric import coupler_symmetric
 from pp.config import conf
+from pp.drc import assert_on_1nm_grid
+from pp.layers import LAYER
 
 
 @cell

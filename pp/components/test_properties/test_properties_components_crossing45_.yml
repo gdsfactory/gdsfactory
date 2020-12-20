@@ -1,4 +1,9 @@
 function_name: crossing45
+info:
+  components:
+    bezier_bend: bezier_w500_a173ddaa851af9fd0aed87a67faba657_1_0
+    crossing: crossing
+  min_bend_radius: 44.312
 module: pp.components.crossing_waveguide
 name: crossing45
 settings:

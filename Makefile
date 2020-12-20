@@ -55,11 +55,20 @@ devpi-release:
 release:
 	git push origin --tags
 
-
 lint:
-	flake8
+	tox -e flake8
+
+pylint:
+	pylint --rcfile .pylintrc pp/
 
 lintdocs:
 	flake8 --select RST
+
+lintdocs2:
+	pydocstyle pp
+
+doc8:
+	doc8 docs/
+
 
 .PHONY: gdsdiff build conda

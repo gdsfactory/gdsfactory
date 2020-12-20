@@ -1,11 +1,11 @@
-"""
-From two GDS files, find which cells are identical
+"""From two GDS files, find which cells are identical
 and which cells with the same name are different
 This is not a diff tool
 """
 import hashlib
-import sys
 import json
+import sys
+
 import numpy as np
 
 
@@ -60,8 +60,9 @@ def normalize_polygon_start_point(p, dbg=False):
     return np.roll(p, -i0, axis=0)
 
 
-def hash_cells(cell, dict_hashes={}, precision=1e-4, dbg_indent=0, dbg=False):
+def hash_cells(cell, dict_hashes=None, precision=1e-4, dbg_indent=0, dbg=False):
     """
+
     Algorithm:
     For each polygon directly within this cell:
          - sort the layers
@@ -76,6 +77,7 @@ def hash_cells(cell, dict_hashes={}, precision=1e-4, dbg_indent=0, dbg=False):
         sort all the hashes for the hash to stay constant regardless of cell instance order
 
     """
+    dict_hashes = dict_hashes or {}
     if cell.name in dict_hashes:
         return dict_hashes
 
@@ -150,15 +152,14 @@ def is_leaf_cell(cell):
     return len(cell.references) == 0
 
 
-def get_cell_status(cell, name_to_hash_teg, name_to_hash_lib, cells_status={}):
+def get_cell_status(cell, name_to_hash_teg, name_to_hash_lib, cells_status=None):
+    cells_status = cells_status or {}
     if cell.name in cells_status:
         return cells_status[cell.name]
 
     sub_cells_names = []
     if cell.name in name_to_hash_lib:
-        """
-        Known leaf cell: it ether matches the lib or not
-        """
+        # Known leaf cell: it ether matches the lib or not
 
         # _print("Known",cell.name , name_to_hash_teg[cell.name][:8], name_to_hash_lib[cell.name][:8])
 
@@ -168,15 +169,11 @@ def get_cell_status(cell, name_to_hash_teg, name_to_hash_lib, cells_status={}):
             cell_status = 2
 
     elif is_leaf_cell(cell):
-        """
-        Unknown leaf cell
-        """
+        # Unknown leaf cell
         cell_status = 1
 
     else:
-        """
-        Compound cell not in lib: inherit status from subcells
-        """
+        # Compound cell not in lib: inherit status from subcells
         sub_cells = [_c.ref_cell for _c in cell.references]
         cell_status = max(
             [

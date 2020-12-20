@@ -1,4 +1,5 @@
 function_name: compass
+info: {}
 module: pp.components.compass
 name: compass
 settings:

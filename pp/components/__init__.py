@@ -1,4 +1,8 @@
-# NOTE: import order matters. Only change the order if you know what you are doing
+""" NOTE: import order matters.
+Only change the order if you know what you are doing
+
+isort:skip_file
+"""
 # level 0 components
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import waveguide_heater
@@ -239,4 +243,5 @@ _circuits = {
 __all__ = list(component_factory.keys()) + _decorators
 
 if __name__ == "__main__":
-    factory("asda")
+    for c in _components:
+        ci = component_factory[c]()

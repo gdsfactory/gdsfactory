@@ -1,18 +1,15 @@
-from typing import List, Optional, Tuple
 import hashlib
+from typing import List, Optional, Tuple
+
 import numpy as np
 from numpy import ndarray
-from scipy.special import binom
 from scipy.optimize import minimize
+from scipy.special import binom
 
 import pp
-from pp.layers import LAYER
-from pp.geo_utils import extrude_path
-from pp.geo_utils import angles_deg
-from pp.geo_utils import snap_angle
-from pp.geo_utils import path_length
-from pp.geo_utils import curvature
 from pp.component import Component
+from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
+from pp.layers import LAYER
 
 
 def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray:
@@ -91,8 +88,8 @@ def bezier(
     )
     angles = angles_deg(path_points)
 
-    c.info["start_angle"] = angles[0]
-    c.info["end_angle"] = angles[-2]
+    c.info["start_angle"] = pp.drc.snap_to_1nm_grid(angles[0])
+    c.info["end_angle"] = pp.drc.snap_to_1nm_grid(angles[-2])
 
     a0 = angles[0] + 180
     a1 = angles[-2]
@@ -106,11 +103,11 @@ def bezier(
     c.add_port(name="0", midpoint=p0, width=width, orientation=a0, layer=layer)
     c.add_port(name="1", midpoint=p1, width=width, orientation=a1, layer=layer)
 
-    c.info["length"] = path_length(path_points)
     curv = curvature(path_points, t)
-    c.info["min_bend_radius"] = 1 / max(np.abs(curv))
-    c.info["curvature"] = curv
-    c.info["t"] = t
+    c.info["length"] = pp.drc.snap_to_1nm_grid(path_length(path_points))
+    c.info["min_bend_radius"] = pp.drc.snap_to_1nm_grid(1 / max(np.abs(curv)))
+    # c.info["curvature"] = curv
+    # c.info["t"] = t
     return c
 
 
@@ -166,9 +163,9 @@ def find_min_curv_bezier_control_points(
 
 if __name__ == "__main__":
     c = bezier()
+    c.pprint()
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
-    print(c.get_settings())
     # print(c.ignore)
-    pp.write_gds(c)
+    # pp.write_gds(c)
     pp.show(c)

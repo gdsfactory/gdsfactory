@@ -1,24 +1,21 @@
 """ Write component GDS + metadata
-write_component_type: try to load a component from library or creates if it does not exist
-write_component: write component and metadata
 """
 
-from typing import Optional
-import tempfile
-import pathlib
-from pathlib import PosixPath
 import json
+import pathlib
+import tempfile
+from pathlib import PosixPath
+from typing import Optional
+
 from phidl import device_layout as pd
 
-from pp.config import CONFIG
-from pp.cell import get_component_name
-from pp.components import component_factory
 from pp import klive
+from pp.cell import clear_cache, get_component_name
 from pp.component import Component
-from pp.cell import clear_cache
+from pp.components import component_factory
+from pp.config import CONFIG
 
-
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name)
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
 
 
@@ -29,12 +26,12 @@ def get_component_type(component_type, component_factory=component_factory, **kw
 
 
 def write_component_type(
-    component_type,
+    component_type: str,
     overwrite=True,
     path_directory=CONFIG["gds_directory"],
     factory=component_factory,
     **kwargs,
-):
+) -> PosixPath:
     """write_component by type or function
 
     Args:
@@ -60,7 +57,7 @@ def write_component_type(
     return gdspath
 
 
-def write_component_report(component: Component, json_path=None):
+def write_component_report(component: Component, json_path=None) -> PosixPath:
     """write component GDS and metadata:
 
     Args:
@@ -88,7 +85,7 @@ def write_component(
     gdspath: Optional[PosixPath] = None,
     gdsdir: PosixPath = tmp,
     precision: float = 1e-9,
-) -> str:
+) -> PosixPath:
     """write component GDS and metadata:
 
     - gds
@@ -138,7 +135,7 @@ def write_gds(
     unit: float = 1e-6,
     precision: float = 1e-9,
     auto_rename: bool = False,
-) -> str:
+) -> PosixPath:
     """Write component to GDS and returs gdspath
 
     Args:
@@ -156,10 +153,9 @@ def write_gds(
     gdsdir = pathlib.Path(gdsdir)
     gdspath = gdspath or gdsdir / (component.name + ".gds")
     gdspath = pathlib.Path(gdspath)
-    gdspath = str(gdspath)
 
     component.write_gds(
-        gdspath, unit=unit, precision=precision, auto_rename=auto_rename,
+        str(gdspath), unit=unit, precision=precision, auto_rename=auto_rename,
     )
     component.path = gdspath
     return gdspath
@@ -211,7 +207,6 @@ if __name__ == "__main__":
 
     # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
     # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
-
     # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
     # cc = pp.routing.add_fiber_array(c)
     # pp.write_component(cc, precision=5e-9)

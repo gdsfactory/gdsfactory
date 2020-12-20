@@ -1,6 +1,5 @@
 import pp
-from pp.components import bend_circular
-from pp.components import waveguide
+from pp.components import bend_circular, waveguide
 from pp.components.component_sequence import component_sequence
 from pp.routing.add_fiber_array import add_fiber_array
 

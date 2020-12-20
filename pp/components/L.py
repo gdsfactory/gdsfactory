@@ -1,6 +1,7 @@
-from typing import Union, Tuple
-from pp.component import Component
+from typing import Tuple, Union
+
 from pp.cell import cell
+from pp.component import Component
 from pp.layers import LAYER
 
 

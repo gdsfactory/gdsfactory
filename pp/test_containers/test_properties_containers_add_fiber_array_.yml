@@ -1,8 +1,10 @@
 function_name: add_fiber_array
+info: {}
 name: mzi2x2_WECTrue_te
 settings:
   component:
     function_name: mzi2x2
+    info: {}
     module: pp.components.mzi2x2
     name: mzi2x2_WECTrue
     settings:

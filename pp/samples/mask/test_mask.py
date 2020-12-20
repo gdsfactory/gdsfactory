@@ -1,7 +1,8 @@
 import pathlib
-import pytest
-import pp
 
+import pytest
+
+import pp
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata

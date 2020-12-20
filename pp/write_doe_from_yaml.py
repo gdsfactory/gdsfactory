@@ -1,8 +1,8 @@
 """ write DOE from YAML file """
 
+import importlib
 import io
 import sys
-import importlib
 
 from pp.config import CONFIG
 from pp.doe import load_does

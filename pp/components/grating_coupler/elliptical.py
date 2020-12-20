@@ -1,11 +1,12 @@
 from typing import Tuple, Union
-from numpy import float64, ndarray
+
 import numpy as np
+from numpy import float64, ndarray
+
 import pp
-from pp.geo_utils import extrude_path
-from pp.geo_utils import DEG2RAD
-from pp.layers import LAYER
 from pp.component import Component
+from pp.geo_utils import DEG2RAD, extrude_path
+from pp.layers import LAYER
 
 
 def ellipse_arc(

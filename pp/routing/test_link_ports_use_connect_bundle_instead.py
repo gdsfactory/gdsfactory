@@ -1,6 +1,5 @@
 import pp
 
-
 if __name__ == "__main__":
     """ this case needs a fix
     link_ports does not work for this case

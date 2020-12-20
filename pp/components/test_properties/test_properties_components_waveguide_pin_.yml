@@ -1,4 +1,5 @@
 function_name: waveguide_pin
+info: {}
 module: pp.components.waveguide_pin
 name: waveguide_pin
 settings:

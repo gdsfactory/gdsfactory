@@ -1,4 +1,5 @@
 function_name: wg_heater_connected
+info: {}
 module: pp.components.waveguide_heater
 name: wg_heater_connected
 settings:

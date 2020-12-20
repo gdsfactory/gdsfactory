@@ -1,10 +1,10 @@
 import numpy as np
 import picwriter.components as pc
 
+import pp
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 from pp.port import deco_rename_ports
-import pp
 
 
 @deco_rename_ports

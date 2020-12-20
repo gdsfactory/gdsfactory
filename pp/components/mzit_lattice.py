@@ -1,14 +1,15 @@
 from typing import Callable, List
+
 import pp
-from pp.components.mzit import mzit
 from pp.component import Component
+from pp.components.mzit import mzit
 
 
 @pp.cell
 def mzit_lattice(
-    coupler_lengths: List[float] = [10, 20],
-    coupler_gaps: List[float] = [0.2, 0.3],
-    delta_lengths: List[float] = [10],
+    coupler_lengths: List[float] = (10, 20),
+    coupler_gaps: List[float] = (0.2, 0.3),
+    delta_lengths: List[float] = (10,),
     mzi_factory: Callable = mzit,
     pins: bool = False,
 ) -> Component:
@@ -84,13 +85,14 @@ def mzit_lattice(
 
 
 if __name__ == "__main__":
-    cpl = [10, 20, 30]
-    cpg = [0.2, 0.3, 0.5]
-    dl0 = [10, 20]
+    # cpl = [10, 20, 30]
+    # cpg = [0.2, 0.3, 0.5]
+    # dl0 = [10, 20]
 
-    cpl = [10, 20, 30, 40]
-    cpg = [0.2, 0.3, 0.5, 0.5]
-    dl0 = [10, 20, 30]
+    # cpl = [10, 20, 30, 40]
+    # cpg = [0.2, 0.3, 0.5, 0.5]
+    # dl0 = [10, 20, 30]
 
-    c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
+    # c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
+    c = mzit_lattice()
     pp.show(c)

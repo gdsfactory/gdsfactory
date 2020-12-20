@@ -1,18 +1,16 @@
-from glob import glob
 import itertools
-from subprocess import Popen, PIPE, check_call
-import os
-import sys
-from multiprocessing import Pool
 import multiprocessing
-import shutil
-
-import time
+import os
 import re
+import shutil
+import sys
+import time
+from glob import glob
+from multiprocessing import Pool
+from subprocess import PIPE, Popen, check_call
 
 from pp.components import component_factory
-from pp.config import CONFIG
-from pp.config import logging
+from pp.config import CONFIG, logging
 from pp.doe import load_does
 
 

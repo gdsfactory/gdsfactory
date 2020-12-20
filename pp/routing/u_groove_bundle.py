@@ -1,9 +1,9 @@
 import numpy as np
-from pp.routing.route_ports_to_side import route_ports_to_side
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.manhattan import generate_manhattan_waypoints
-from pp.routing.manhattan import remove_flat_angles
+
 from pp.geo_utils import remove_identicals
+from pp.routing.connect import connect_strip_way_points
+from pp.routing.manhattan import generate_manhattan_waypoints, remove_flat_angles
+from pp.routing.route_ports_to_side import route_ports_to_side
 
 
 def _groups(ports, cut, axis="X"):

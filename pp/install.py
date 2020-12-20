@@ -1,8 +1,8 @@
+import configparser
 import os
+import pathlib
 import shutil
 import sys
-import configparser
-import pathlib
 
 
 def install_gdsdiff():

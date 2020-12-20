@@ -1,4 +1,5 @@
 function_name: mzi_lattice
+info: {}
 module: pp.components.mzi_lattice
 name: mzi_lattice
 settings:

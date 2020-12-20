@@ -1,8 +1,9 @@
 from phidl.device_layout import _parse_layer
+
+from pp.component import Component
+from pp.container import container
 from pp.geo_utils import polygon_grow
 from pp.layers import LAYER
-from pp.container import container
-from pp.component import Component
 
 
 @container
@@ -34,14 +35,15 @@ def test_add_keepout():
     from pp.components.waveguide import waveguide
 
     c = waveguide()
+    polygons = 1
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
     print(len(c.get_polygons()))
 
-    assert len(c.get_polygons()) == 2
+    assert len(c.get_polygons()) == polygons
     c = add_keepout(c, target_layers=target_layers, keepout_layers=keepout_layers)
     # print(len(c.get_polygons()))
-    assert len(c.get_polygons()) == 3
+    assert len(c.get_polygons()) == polygons + 1
 
 
 if __name__ == "__main__":

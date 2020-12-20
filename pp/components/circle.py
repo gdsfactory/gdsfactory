@@ -1,6 +1,7 @@
 from typing import Tuple
+
 import numpy as np
-from numpy import cos, sin, pi
+from numpy import cos, pi, sin
 
 import pp
 from pp.component import Component

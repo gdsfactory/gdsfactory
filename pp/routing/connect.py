@@ -1,19 +1,21 @@
-from typing import Callable
+from typing import Callable, List, Tuple
+
 import numpy as np
 from numpy import ndarray
 
-from pp.routing.manhattan import route_manhattan
-from pp.routing.manhattan import generate_manhattan_waypoints
-from pp.routing.manhattan import round_corners
-from pp.components.bend_circular import bend_circular
-from pp.components import waveguide
-from pp.components import taper as taper_factory
-from pp.components.electrical import wire, corner
 from pp.component import ComponentReference
-
-from pp.config import WG_EXPANDED_WIDTH, TAPER_LENGTH
+from pp.components import taper as taper_factory
+from pp.components import waveguide
+from pp.components.bend_circular import bend_circular
+from pp.components.electrical import corner, wire
+from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
+from pp.routing.manhattan import (
+    generate_manhattan_waypoints,
+    round_corners,
+    route_manhattan,
+)
 
 
 def get_waypoints_connect_strip(*args, **kwargs) -> ndarray:
@@ -32,7 +34,7 @@ def connect_strip(
     bend_radius: float = 10.0,
     route_factory: Callable = route_manhattan,
 ) -> ComponentReference:
-    """ return an optical route """
+    """Returns an optical route Reference"""
 
     bend90 = bend_factory(radius=bend_radius, width=input_port.width)
 
@@ -61,12 +63,12 @@ def connect_strip(
 
 
 def connect_strip_way_points(
-    way_points=[],
-    bend_factory=bend_circular,
-    straight_factory=waveguide,
-    taper_factory=taper_factory,
-    bend_radius=10.0,
-    wg_width=0.5,
+    way_points: List[Tuple[float, float]],
+    bend_factory: Callable = bend_circular,
+    straight_factory: Callable = waveguide,
+    taper_factory: Callable = taper_factory,
+    bend_radius: float = 10.0,
+    wg_width: float = 0.5,
     layer=LAYER.WG,
     **kwargs
 ):
@@ -95,7 +97,7 @@ def connect_strip_way_points_no_taper(*args, **kwargs):
 
 
 def connect_elec_waypoints(
-    way_points=[],
+    way_points,
     bend_factory=corner,
     straight_factory=wire,
     taper_factory=taper_factory,

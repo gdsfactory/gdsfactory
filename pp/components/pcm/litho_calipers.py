@@ -1,7 +1,8 @@
+from typing import List
+
 import pp
 from pp import components as pc
 from pp.component import Component
-from typing import List
 
 
 @pp.cell

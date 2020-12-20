@@ -3,11 +3,11 @@ Requires the Klayout plugin installed in Klayout.
 This happens when you run `bash install.sh` from the top of the gdsfactory package
 """
 
-from typing import Union
+import json
 import os
 import socket
-import json
 from pathlib import PosixPath
+from typing import Union
 
 
 def show(gds_filename: Union[PosixPath, str], keep_position: bool = True) -> None:

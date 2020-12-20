@@ -1,5 +1,4 @@
-from pp.components import bend_circular
-from pp.components import waveguide
+from pp.components import bend_circular, waveguide
 from pp.routing.manhattan import round_corners
 
 

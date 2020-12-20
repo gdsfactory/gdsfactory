@@ -1,4 +1,5 @@
 from typing import Callable
+
 import pp
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.waveguide import waveguide

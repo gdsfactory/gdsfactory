@@ -1,5 +1,6 @@
-import pytest
 import numpy as np
+import pytest
+
 import pp
 from pp.drc import check_inclusion
 

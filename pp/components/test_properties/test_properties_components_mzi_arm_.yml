@@ -1,4 +1,5 @@
 function_name: mzi_arm
+info: {}
 module: pp.components.mzi2x2
 name: mzi_arm
 settings:

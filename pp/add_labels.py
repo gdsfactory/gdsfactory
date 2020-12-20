@@ -2,13 +2,15 @@
 
 """
 
+from typing import Optional, Union
+
 import phidl.device_layout as pd
-import pp
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Label
+
+import pp
 from pp.component import Component, ComponentReference
 from pp.port import Port
-from typing import Optional, Union
 
 
 def add_label(component, text, position=(0, 0), layer=pp.LAYER.LABEL):

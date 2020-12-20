@@ -1,19 +1,16 @@
 function_name: bend_circular
-length: 15.707963267948966
+info:
+  length: 15.708
 module: pp.components.bend_circular
 name: bend_circular
-radius: 10.0
 settings:
   angle_resolution: 2.5
   cladding_offset: 0.0
   layer:
   - 1
   - 0
-  layers_cladding:
-  - - 111
-    - 0
+  layers_cladding: None
   radius: 10.0
   start_angle: 0
   theta: -90
   width: 0.5
-width: 0.5

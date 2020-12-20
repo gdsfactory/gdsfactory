@@ -1,12 +1,12 @@
-from typing import Callable, Dict, Optional
-from inspect import signature
-import uuid
 import hashlib
-from functools import wraps, partial
-from pp.name import get_component_name
+import uuid
+from functools import partial, wraps
+from inspect import signature
+from typing import Callable, Dict, Optional
+
 from pp.component import Component
 from pp.config import MAX_NAME_LENGTH
-
+from pp.name import get_component_name
 
 CACHE: Dict[str, Component] = {}
 
@@ -28,10 +28,14 @@ def cell(
     """Cell Decorator:
 
     Args:
-        autoname (bool): renames Component by concenating all Keyword arguments if no Keyword argument `name`
+        autoname (bool): renames Component by with Keyword arguments
         name (str): Optional (ignored when autoname=True)
         uid (bool): adds a unique id to the name
-        cache (bool): To avoid that 2 exact cells are not references of the same cell cell has a cache where if component has already been build it will return the component from the cache. You can always over-ride this with `cache = False`.
+        cache (bool): get component from the cache if it already exists
+
+    To avoid that 2 exact cells are not references of the same cell
+    this Decorator has a cache where if a component has already been build it will return the component from the cache.
+    You can always over-ride this with `cache = False`.
 
     .. plot::
       :include-source:
@@ -80,7 +84,14 @@ def cell(
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(func)
-        # assert_first_letters_are_different(**sig.parameters)
+
+        # first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
+        # keys = set(kwargs.keys()) - set(["layer"])
+        # if not len(set(first_letters)) == len(first_letters):
+        #     print(
+        #         f"Warning! Possible Duplicated name in {component_type}. "
+        #         f"Args {keys} have repeated first letters {first_letters}"
+        #     )
 
         if "args" not in sig.parameters and "kwargs" not in sig.parameters:
             for key in kwargs.keys():

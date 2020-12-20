@@ -9,21 +9,19 @@
 """
 
 __version__ = "2.2.2"
-from typing import Any, Dict
-import tempfile
-import os
 import io
 import json
-import subprocess
-import pathlib
-from pprint import pprint
 import logging
+import os
+import pathlib
+import subprocess
+import tempfile
+from pprint import pprint
+from typing import Any, Dict
 
 import numpy as np
+from git import InvalidGitRepositoryError, Repo
 from omegaconf import OmegaConf
-from git import Repo
-from git import InvalidGitRepositoryError
-
 
 connections: Dict[str, str] = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()
@@ -105,9 +103,10 @@ if cwd_config.exists():
 conf.version = __version__
 
 try:
-    conf.git_hash = Repo(repo_path).head.object.hexsha
+    conf.git_hash = Repo(repo_path, search_parent_directories=True).head.object.hexsha
+    conf.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
 except InvalidGitRepositoryError:
-    conf.git_hash = None
+    pass
 
 
 CONFIG = dict(
@@ -117,7 +116,6 @@ CONFIG = dict(
     gdsdir=module_path / "gds",
     font_path=module_path / "gds" / "alphabet.gds",
     masks_path=repo_path / "mask",
-    version=__version__,
     home=home,
     cwd=cwd,
 )
@@ -172,12 +170,15 @@ logging.warning("This will get logged to a file")
 
 def print_config(key=None):
     if key:
-        if CONFIG.get(key):
+        if conf.get(key):
+            print(conf[key])
+        elif CONFIG.get(key):
             print(CONFIG[key])
         else:
             print(f"`{key}` key not found in {cwd_config}")
     else:
         pprint(CONFIG)
+        print(OmegaConf.to_yaml(conf))
 
 
 def complex_encoder(z):
@@ -216,12 +217,6 @@ GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
 BEND_RADIUS = conf.tech.bend_radius
 TAPER_LENGTH = conf.tech.taper_length
 WG_EXPANDED_WIDTH = conf.tech.wg_expanded_width
-
-materials = {
-    "si": "Si (Silicon) - Palik",
-    "sio2": "SiO2 (Glass) - Palik",
-    "sin": "Si3N4 (Silicon Nitride) - Phillip",
-}
 
 
 if __name__ == "__main__":

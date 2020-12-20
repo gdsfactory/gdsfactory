@@ -9,15 +9,15 @@ Deprecated! use pp/component_from_yaml instead!
              bot_arm
 """
 
-from typing import Union, IO, Any
-import pathlib
 import io
+import pathlib
+from typing import IO, Any, Union
+
 from omegaconf import OmegaConf
 
 from pp.component import Component
 from pp.components import component_factory as component_factory_default
 from pp.netlist_to_gds import netlist_to_component
-
 
 sample = """
 

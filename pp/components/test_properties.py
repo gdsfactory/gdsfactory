@@ -1,9 +1,10 @@
 import pytest
+
 from pp.components import (
-    component_factory,
     _components,
     _components_test_ports,
     _containers,
+    component_factory,
     waveguide,
 )
 

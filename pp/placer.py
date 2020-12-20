@@ -30,16 +30,16 @@ YAML defines component DOE settings and placement
 """
 
 import os
-import sys
 import pathlib
+import sys
+
 from omegaconf import OmegaConf
 
 import pp
-from pp.doe import get_settings_list, load_does
-from pp.config import CONFIG
 from pp.components import component_factory
-from pp.write_component import write_gds
-from pp.write_component import write_component_report
+from pp.config import CONFIG
+from pp.doe import get_settings_list, load_does
+from pp.write_component import write_component_report, write_gds
 
 
 def _print(*args, **kwargs):
@@ -128,12 +128,12 @@ def pack_horizontal(
                 component_origin = c.size_info.nw
             try:
                 components += [c.ref(position=-component_origin + (x, y))]
-            except:
+            except ValueError as e:
                 if align_x not in ["W", "E"]:
                     print("align_x should be `W`, `E` or a float")
                 if align_y not in ["N", "S"]:
                     print("align_y should be `N`, `S` or a float")
-                raise
+                raise e
 
             if align_x == "W":
                 x += c.size_info.width + margin_x
@@ -231,7 +231,7 @@ PLACER_NAME2FUNC = {
 }
 
 
-def load_placer_with_does(filepath, defaults={"do_permutation": True}):
+def load_placer_with_does(filepath, defaults=None):
     """load placer settings
 
     Args:
@@ -246,6 +246,7 @@ def load_placer_with_does(filepath, defaults={"do_permutation": True}):
         }
 
     """
+    defaults = defaults or {"do_permutation": True}
     does = {}
     data = OmegaConf.load(filepath)
 
@@ -451,7 +452,7 @@ def component_grid_from_yaml(filepath, precision=1e-9):
             align_x = settings["align_x"]
             align_y = settings["align_y"]
 
-            ## Making sure that the alignment is sensible depending on how we stack
+            # Making sure that the alignment is sensible depending on how we stack
 
             # If we specify a DOE to place next to, use it
             if "next_to" in settings:

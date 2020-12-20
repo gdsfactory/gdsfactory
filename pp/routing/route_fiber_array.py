@@ -1,24 +1,21 @@
 from typing import Any, Callable, List, Optional, Tuple, Union
+
 from numpy import float64
 from phidl.device_layout import Label
-from pp.component import Component, ComponentReference
-from pp.layers import LAYER
-from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 
-from pp.routing.manhattan import round_corners
-from pp.routing.connect_bundle import link_optical_ports
-from pp.routing.connect_bundle import get_min_spacing
-from pp.routing.route_south import route_south
-
-from pp.routing.utils import direction_ports_from_list_ports
-
-from pp.routing.connect import connect_strip_way_points
-from pp.routing.connect import get_waypoints_connect_strip
-from pp.routing.get_input_labels import get_input_labels
-from pp.port import select_optical_ports
 import pp
+from pp.component import Component, ComponentReference
+from pp.components.bend_circular import bend_circular
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.waveguide import waveguide
+from pp.layers import LAYER
+from pp.port import select_optical_ports
+from pp.routing.connect import connect_strip_way_points, get_waypoints_connect_strip
+from pp.routing.connect_bundle import get_min_spacing, link_optical_ports
+from pp.routing.get_input_labels import get_input_labels
+from pp.routing.manhattan import round_corners
+from pp.routing.route_south import route_south
+from pp.routing.utils import direction_ports_from_list_ports
 
 SPACING_GC = 127.0
 BEND_RADIUS = pp.conf.tech.bend_radius
@@ -39,7 +36,7 @@ def route_fiber_array(
     connected_port_list_ids: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
-    excluded_ports: List[Any] = [],
+    excluded_ports: List[Any] = None,
     grating_indices: None = None,
     route_filter: Callable = connect_strip_way_points,
     gc_port_name: str = "W0",
@@ -96,6 +93,8 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
+    component_name = component_name or component.name
+    excluded_ports = excluded_ports or []
     if optical_port_labels is None:
         # for pn, p in component.ports.items():
         #     print(p.name, p.port_type, p.layer)
@@ -112,9 +111,8 @@ def route_fiber_array(
 
     elements = []
 
-    """
-    # grating_coupler can either be a gratings/factories or a list of  gratings/factories
-    """
+    # grating_coupler can either be a component/function
+    # or a list of components/functions
 
     if isinstance(grating_coupler, list):
         grating_couplers = [pp.call_if_func(g) for g in grating_coupler]
@@ -127,15 +125,10 @@ def route_fiber_array(
         gc_port_name in grating_coupler.ports
     ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
 
-    """
     # Now:
     # - grating_coupler is a single grating coupler
     # - grating_couplers is a list of grating couplers
-    """
-
-    """
     # Define the route filter to apply to connection methods
-    """
 
     route_filter_params = {
         "bend_radius": bend_radius,
@@ -148,10 +141,8 @@ def route_fiber_array(
 
     R = bend_radius
 
-    """
     # `delta_gr_min` Used to avoid crossing between waveguides in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
-    """
 
     delta_gr_min = 2 * bend_radius + 1
 
@@ -181,6 +172,7 @@ def route_fiber_array(
             optical_routing_type = 0
         else:
             optical_routing_type = 1
+
     """
     Look at a bunch of conditions to choose the default length
     if the default fanout distance is not set

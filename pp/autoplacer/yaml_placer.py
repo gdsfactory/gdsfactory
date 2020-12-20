@@ -20,15 +20,16 @@ iso_lines_coarse1:
 """
 
 
+import collections
 import os
 import sys
-import collections
+
+import klayout.db as pya
 import numpy as np
 from omegaconf import OmegaConf
-import klayout.db as pya
 
 import pp.autoplacer.text as text
-from pp.autoplacer.helpers import import_cell, load_gds, CELLS
+from pp.autoplacer.helpers import CELLS, import_cell, load_gds
 from pp.config import CONFIG
 
 UM_TO_GRID = 1e3
@@ -627,7 +628,7 @@ def place_from_yaml(
 
         # All other attributes are assumed to be settings for the placer
 
-        ## Check if the cell should be attached to a specific parent cell
+        # Check if the cell should be attached to a specific parent cell
         if "parent" in settings:
             parent_name = settings.pop("parent")
             if parent_name not in CELLS:
@@ -678,7 +679,7 @@ def place_from_yaml(
         align_x = settings["align_x"]
         align_y = settings["align_y"]
 
-        ## Making sure that the alignment is sensible depending on how we stack
+        # Make sure that the alignment is sensible depending on how we stack
 
         # If we specify a DOE to place next to, use it
         if "next_to" in settings:

@@ -1,4 +1,5 @@
 function_name: delay_snake
+info: {}
 module: pp.components.delay_snake
 name: delay_snake
 settings:

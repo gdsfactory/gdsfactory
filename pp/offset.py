@@ -1,14 +1,14 @@
 import gdspy
 import numpy as np
-
 from phidl.geometry import (
     Device,
     DeviceReference,
-    _merge_floating_point_errors,
-    _parse_layer,
     Polygon,
+    _merge_floating_point_errors,
     _offset_polygons_parallel,
+    _parse_layer,
 )
+
 import pp
 
 
@@ -17,7 +17,7 @@ def offset(
     distance=0.1,
     join_first=True,
     precision=1e-4,
-    num_divisions=[1, 1],
+    num_divisions=(1, 1),
     join="miter",
     tolerance=2,
     max_points=4000,

@@ -1,9 +1,8 @@
 import numpy as np
+
 import pp
-from pp.routing.connect import connect_strip
-from pp.routing.connect import connect_elec
-from pp.port import is_electrical_port
-from pp.port import flipped
+from pp.port import flipped, is_electrical_port
+from pp.routing.connect import connect_elec, connect_strip
 
 BEND_RADIUS = pp.config.BEND_RADIUS
 
@@ -14,10 +13,26 @@ def route_elec_ports_to_side(ports, side="north", wire_sep=20.0, x=None, y=None)
     )
 
 
+def sort_key_west_to_east(port):
+    return port.x
+
+
+def sort_key_east_to_west(port):
+    return -port.x
+
+
+def sort_key_south_to_north(port):
+    return port.y
+
+
+def sort_key_north_to_south(port):
+    return -port.y
+
+
 def route_ports_to_side(
     ports, side="north", x=None, y=None, routing_func=None, **kwargs
 ):
-    """ Routes ports to a given side
+    """Routes ports to a given side
 
     Args:
         ports: the list of ports to be connected to the side
@@ -103,8 +118,8 @@ def connect_ports_to_x(
     y0_bottom=None,
     y0_top=None,
     routing_func=connect_strip,
-    routing_func_args={},
     backward_port_side_split_index=0,
+    **routing_func_args,
 ):
     """
      * ``list_ports``: reasonably well behaved list of ports
@@ -162,12 +177,6 @@ def connect_ports_to_x(
         pass
         # raise ValueError('``x`` should be a float or "east" or "west"')
 
-    sort_key_west_to_east = lambda p: p.x
-    sort_key_east_to_west = lambda p: -p.x
-
-    sort_key_south_to_north = lambda p: p.y
-    sort_key_north_to_south = lambda p: -p.y
-
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
         sort_key_south = sort_key_west_to_east
@@ -215,7 +224,7 @@ def connect_ports_to_x(
                 new_port,
                 start_straight=start_straight,
                 bend_radius=bend_radius,
-                **routing_func_args
+                **routing_func_args,
             )
         ]
         l_ports += [flipped(new_port)]
@@ -292,8 +301,8 @@ def connect_ports_to_y(
     extend_left=0,
     extend_right=0,
     routing_func=connect_strip,
-    routing_func_args={},
     backward_port_side_split_index=0,
+    **routing_func_args,
 ):
     """
      * ``list_ports``: reasonably well behaved list of ports
@@ -355,11 +364,6 @@ def connect_ports_to_y(
         pass
         # raise ValueError('``y`` should be a float or "north" or "south"')
 
-    sort_key_west_to_east = lambda p: p.x
-    sort_key_east_to_west = lambda p: -p.x
-    sort_key_south_to_north = lambda p: p.y
-    sort_key_north_to_south = lambda p: -p.y
-
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north
         sort_key_west = sort_key_south_to_north
@@ -414,7 +418,7 @@ def connect_ports_to_y(
                     new_port,
                     start_straight=start_straight,
                     bend_radius=bend_radius,
-                    **routing_func_args
+                    **routing_func_args,
                 )
             ]
             l_ports += [flipped(new_port)]

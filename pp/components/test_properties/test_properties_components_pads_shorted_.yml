@@ -1,4 +1,5 @@
 function_name: pads_shorted
+info: {}
 module: pp.components.electrical.pads_shorted
 name: pads_shorted
 settings:

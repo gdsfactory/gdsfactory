@@ -1,15 +1,17 @@
-""" design rule checking """
+"""Basic checks."""
 from typing import Union
+
 import numpy as np
-from numpy import bool_, float64
-from pp.drc.check_width import check_width
-from pp.drc.check_space import check_space
-from pp.drc.density import compute_area
+from numpy import float64
+
 from pp.drc.check_exclusion import check_exclusion
 from pp.drc.check_inclusion import check_inclusion
+from pp.drc.check_space import check_space
+from pp.drc.check_width import check_width
+from pp.drc.density import compute_area
 
 
-def on_grid(x: float64, nm: int = 1) -> bool_:
+def on_grid(x: float64, nm: int = 1) -> bool:
     return np.isclose(snap_to_grid(x, nm=nm), x)
 
 

@@ -1,3 +1,7 @@
+"""Flat or hierarchical
+
+"""
+
 from pp.drc import snap_to_1nm_grid
 
 
@@ -10,6 +14,7 @@ def recurse_references(
     dx: float = 0.0,
     dy: float = 0.0,
     recursive=True,
+    full_settings=False,
     level: int = 0,
 ):
     """From a component returns instances and placements dicts.
@@ -18,7 +23,7 @@ def recurse_references(
 
     Args:
         component: to recurse
-        instances: instance_name to settings dict. Instances are name by ComponentName.x.y
+        instances: instance_name_x_y to settings dict
         placements: instance_name to x,y,rotation dict
         connections: instance_name_src,portName: instance_name_dst,portName
         port_locations: dict((x,y): set([referenceName, Port]))
@@ -40,7 +45,7 @@ def recurse_references(
         snap_to_1nm_grid((port.x, port.y)): set() for port in component.get_ports()
     }
 
-    level_name = f"{level}_{component.name}"
+    level_name = component.name
     connections[level_name] = {}
 
     for r in component.references:
@@ -48,7 +53,7 @@ def recurse_references(
         x = snap_to_1nm_grid(r.x + dx)
         y = snap_to_1nm_grid(r.y + dy)
         reference_name = f"{c.name}_{int(x)}_{int(y)}"
-        settings = c.get_settings()
+        settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(component=c.function_name, settings=settings)
         placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation))
         for port in r.get_ports_list():
@@ -80,6 +85,7 @@ def recurse_references(
                     dy=dy,
                     port_locations=port_locations,
                     level=level + 1,
+                    full_settings=full_settings,
                 )
                 placements.update(p2)
                 instances.update(i2)
@@ -128,21 +134,25 @@ def test_mzi_lattice():
         delta_lengths=delta_lengths,
     )
     c.get_netlist()
+    print(c.get_netlist_yaml())
 
 
 if __name__ == "__main__":
+    # test_mzi_lattice()
     # import matplotlib.pyplot as plt
     import pp
 
     c = pp.c.ring_single_array()
     pp.show(c)
-    c.plot_netlist()
+    # c = pp.c.mzi(delta_length=100.0)
+    # print(c.get_netlist_yaml())
 
-    x, i, p = recurse_references(c)
+#     pp.show(c)
+#     c.plot_netlist()
 
-    flat = {}
-    for connections_per_level in x.values():
-        for k, v in connections_per_level.items():
-            flat[k] = v
+#     x, i, p = recurse_references(c)
 
-    # plt.show()
+#     flat = {}
+#     for connections_per_level in x.values():
+#         for k, v in connections_per_level.items():
+#             flat[k] = v

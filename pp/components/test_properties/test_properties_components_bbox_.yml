@@ -1,4 +1,5 @@
 function_name: bbox
+info: {}
 module: pp.components.bbox
 name: bbox
 settings:

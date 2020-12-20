@@ -1,55 +1,48 @@
-""" Picwriter is a photonics library written by Derek Kita
-https://picwriter.readthedocs.io/en/latest/component-documentation.html
-"""
-import numpy as np
-import gdspy
+"""Picwriter is a photonics library written by Derek Kita.
 
-import picwriter.toolkit as pt
+https://picwriter.readthedocs.io/en/latest/component-documentation.html
+As it is based on gdspy it's easier to wrap picwriter components
+"""
+import gdspy
+import numpy as np
 import picwriter.components as pc
+import picwriter.toolkit as pt
+
 import pp
 from pp.component import Component
 
-
 gdspy.current_library = gdspy.GdsLibrary()
+
+direction_to_orientation = dict(EAST=0.0, NORTH=90.0, WEST=180.0, SOUTH=270.0)
 
 
 def direction_to_degree(direction: str) -> float:
-    """ Converts a 'direction' (as used in picwriter) to an angle in degrees.
+    """Convert a 'direction' (as used in picwriter) to an angle in degrees.
     picwriter 'direction's can be either a float (corresponding to an angle in radians)
     or a string, corresponding to a cardinal direction
     """
     if isinstance(direction, float):
         # direction is a float in radians, but rotation should be a float in degrees
         return direction * 180.0 / np.pi
-    elif str(direction) == "EAST":
-        return 0.0
-    elif str(direction) == "NORTH":
-        return 90.0
-    elif str(direction) == "WEST":
-        return 180.0
-    elif str(direction) == "SOUTH":
-        return 270.0
+    return direction_to_orientation[direction]
 
 
 def picwriter2component(picwriter_object: pt.Component) -> Component:
-    """ Converts a Picwriter into a Gdsfactory Component
-    """
+    """Convert a Picwriter into a Gdsfactory Component."""
     po = picwriter_object
     c = pp.Component(name=po.name_prefix)
 
-    # Add the polygons
-    po_cell = pt.CURRENT_CELLS[
-        po.cell_hash
-    ]  # Extract the relevant cells from the picwriter global cell list
+    # Extract the relevant cells from the picwriter global cell list
+    po_cell = pt.CURRENT_CELLS[po.cell_hash]
 
-    ps = po_cell.get_polygonsets()
-    for i in range(len(ps)):
-        polygons = ps[i].polygons
-        layers = ps[i].layers
-        datatypes = ps[i].datatypes
+    polygons = po_cell.get_polygonsets()
+    for poly in polygons:
+        polygons = poly.polygons
+        layers = poly.layers
+        datatypes = poly.datatypes
 
-        for j in range(len(polygons)):
-            c.add_polygon(polygons[j], layer=(layers[j], datatypes[j]))
+        for polygon, layer, datatype in zip(polygons, layers, datatypes):
+            c.add_polygon(polygon, layer=(layer, datatype))
 
     translate_by = po.port
     rotate_by = direction_to_degree(po.direction)
@@ -57,7 +50,6 @@ def picwriter2component(picwriter_object: pt.Component) -> Component:
     c.rotate(rotate_by)  # First rotate about (0,0)
     c.move(translate_by)  # Next translate
 
-    """ Add the ports """
     for port in po.portlist.keys():
         port_loc = po.portlist[port]["port"]
         direction = direction_to_degree(po.portlist[port]["direction"])

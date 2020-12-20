@@ -2,9 +2,11 @@
 """
 
 from typing import Any, Dict, List, Tuple
+
+import numpy as np
 import rectpack
 from numpy import ndarray
-import numpy as np
+
 from pp.component import Component
 
 
@@ -15,14 +17,15 @@ def _pack_single_bin(
     sort_by_area: bool,
     density: float,
     precision: float,
-    verbose: bool,
 ) -> Tuple[Dict[int, Tuple[int, int, int, int]], Dict[Any, Any]]:
-    """ Takes a `rect_dict` argument of the form {id:(w,h)} and tries to
+    """Packs a dict of rectangles {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
 
-    Returns: a dictionary of of the packed rectangles in the form {id:(x,y,w,h)}, and a dictionary of remaining unpacked rects
+    Returns:
+        packed rectangles dict {id:(x,y,w,h)}
+        dict of remaining unpacked rectangles
     """
 
     # Compute total area and use it for an initial estimate of the bin size
@@ -60,20 +63,11 @@ def _pack_single_bin(
         # Adjust the box size for next time
         box_size *= density  # Increase area to try to fit
         box_size = np.clip(box_size, None, max_size)
-        if verbose:
-            print(
-                "Trying to pack in bin size (%0.2f, %0.2f)"
-                % tuple(box_size * precision)
-            )
 
         # Quit the loop if we've packed all the rectangles or reached the max size
         if len(rect_packer.rect_list()) == len(rect_dict):
-            if verbose:
-                print("Success!")
             break
         elif all(box_size >= max_size):
-            if verbose:
-                print("Reached max_size, creating an additional bin")
             break
 
     # Separate packed from unpacked rectangles, make dicts of form {id:(x,y,w,h)}
@@ -94,9 +88,8 @@ def pack(
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    verbose: bool = False,
 ) -> List[Component]:
-    """ takes a list of components and returns
+    """Pack a list of components into as few Components as possible.
 
     Args:
         D_list: Must be a list or tuple of Components
@@ -105,7 +98,6 @@ def pack(
         max_size: Limits the size into which the shapes will be packed
         density:  Values closer to 1 pack tighter but require more computation
         sort_by_area (Boolean): Pre-sorts the shapes by area
-        verbose: False
     """
 
     if density < 1.01:
@@ -126,7 +118,7 @@ def pack(
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
-                "pack() failed because one of the objects "
+                "pack() failed because one of the objects (D)"
                 + "in `D_list` is has an x or y dimension larger than `max_size` and "
                 + "so cannot be packed"
             )
@@ -141,7 +133,6 @@ def pack(
             sort_by_area=sort_by_area,
             density=density,
             precision=precision,
-            verbose=verbose,
         )
         packed_list.append(packed_rect_dict)
 
@@ -160,8 +151,9 @@ def pack(
 
 
 def _demo():
-    import pp
     import phidl.geometry as pg
+
+    import pp
 
     D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)]
     D_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)]
@@ -173,7 +165,6 @@ def _demo():
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
-        verbose=False,
     )
     D = D_packed_list[0]  # Only one bin was created, so we plot that
     pp.show(D)  # show it in klayout
@@ -192,7 +183,6 @@ def test_pack():
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
-        verbose=False,
     )
     c = D_packed_list[0]  # Only one bin was created, so we plot that
     # print(len(c.get_dependencies()))

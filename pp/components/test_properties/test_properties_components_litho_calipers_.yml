@@ -1,4 +1,5 @@
 function_name: litho_calipers
+info: {}
 module: pp.components.pcm.litho_calipers
 name: litho_calipers
 settings:

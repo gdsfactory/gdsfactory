@@ -1,9 +1,11 @@
-import numpy as np
-import pp
-from pp.geo_utils import DEG2RAD
-from pp.components.grating_coupler.elliptical import grating_tooth_points
-from pp.component import Component
 from typing import Tuple
+
+import numpy as np
+
+import pp
+from pp.component import Component
+from pp.components.grating_coupler.elliptical import grating_tooth_points
+from pp.geo_utils import DEG2RAD
 
 
 @pp.cell

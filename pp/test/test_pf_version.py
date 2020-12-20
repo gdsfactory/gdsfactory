@@ -1,6 +1,7 @@
 from click.testing import CliRunner
-from pp.pf import cli
+
 from pp import __version__
+from pp.pf import cli
 
 
 def test_pf_version():
