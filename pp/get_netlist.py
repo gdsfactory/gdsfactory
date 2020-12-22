@@ -75,14 +75,17 @@ def get_netlist(component, full_settings=False):
 
     for reference in component.references:
         c = reference.parent
-        x = snap_to_1nm_grid(reference.x)
-        y = snap_to_1nm_grid(reference.y)
+        origin = reference.origin
+        # x = snap_to_1nm_grid(reference.x)
+        # y = snap_to_1nm_grid(reference.y)
+        x = snap_to_1nm_grid(origin[0])
+        y = snap_to_1nm_grid(origin[1])
         reference_name = get_instance_name(component, reference)
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"]
         )
-        # dx = snap_to_1nm_grid(reference.x - component.x)
+        # dx = snap_to_1nm_grid(reference.x - reference.parent.c)
         # dy = snap_to_1nm_grid(reference.y - component.y)
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
@@ -214,7 +217,7 @@ if __name__ == "__main__":
     instances = n["instances"]
     ports = n["ports"]
 
-    pprint(instances)
+    pprint(placements)
     # print(placements)
 
     # connections, instances, placements = get_netlist(c.references[0].parent)

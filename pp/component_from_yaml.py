@@ -142,7 +142,9 @@ def place(
         if port:
             ref.rotate(rotation, center=ref.ports[port])
         else:
-            ref.rotate(rotation, center=(ref.x, ref.y))
+            x, y = ref.origin
+            ref.rotate(rotation, center=(x, y))
+            # ref.rotate(rotation, center=(ref.x, ref.y))
 
     placements_conf.pop(instance_name)
 

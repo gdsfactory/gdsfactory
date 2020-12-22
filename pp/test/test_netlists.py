@@ -1,3 +1,4 @@
+import pytest
 from omegaconf import OmegaConf
 
 import pp
@@ -6,16 +7,15 @@ from pp.components import _circuits, component_factory
 _circuits = _circuits - {"ring_single"}
 
 
-# @pytest.mark.parametrize("component_type", _circuits)
-# def test_netlists_instances(component_type, data_regression):
-#     """OmegaConf.save(netlist, "mzi.yml")"""
-#     pp.clear_cache()
-#     c = component_factory[component_type]()
-#     n = c.get_netlist()
-#     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-
-#     d = yaml.load(yaml_str)
-#     data_regression.check(d)
+@pytest.mark.parametrize("component_type", _circuits)
+def test_netlists_instances(component_type, data_regression):
+    """Write netlists or hierarchical circuits."""
+    # pp.clear_cache()
+    c = component_factory[component_type]()
+    n = c.get_netlist()
+    data_regression.check(n)
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # d = yaml.load(yaml_str)
 
 
 def demo_netlist(component_type):
