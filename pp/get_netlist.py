@@ -17,15 +17,24 @@ FIXME. Would be nice to go back from netlist to layout
 
 """
 
+from typing import Tuple
+
 from pp.drc import snap_to_1nm_grid
 from pp.layers import LAYER
 
 
-def get_instance_name(component, reference, layer_label=LAYER.LABEL_INSTANCE):
-    """Takes a component.
+def get_instance_name(
+    component, reference, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+) -> str:
+    """Takes a component names the instance based on its XY location or a label in layer_label
     Loop over references and find the reference under and associate reference with instance label
     map instance names to references
     Check if it has a instance name label and return the instance name from the label
+
+    Args:
+        component: with labels
+        reference: reference that needs naming
+        layer_label: layer of the label (ignores layer_label[1]). Phidl ignores purpose of labels.
     """
 
     x = snap_to_1nm_grid(reference.x)
@@ -33,12 +42,13 @@ def get_instance_name(component, reference, layer_label=LAYER.LABEL_INSTANCE):
     labels = component.labels
 
     text = f"{reference.parent.name}_{x}_{y}"
+    # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
     # text = f"{reference.parent.name}_{reference.uid}"
 
     for label in labels:
         xl = snap_to_1nm_grid(label.x)
         yl = snap_to_1nm_grid(label.y)
-        if x == xl and y == yl:
+        if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
 
