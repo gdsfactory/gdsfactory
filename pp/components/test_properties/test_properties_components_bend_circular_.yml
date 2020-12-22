@@ -9,7 +9,7 @@ settings:
   layer:
   - 1
   - 0
-  layers_cladding: None
+  layers_cladding: null
   radius: 10.0
   start_angle: 0
   theta: -90

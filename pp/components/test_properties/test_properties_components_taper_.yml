@@ -10,8 +10,8 @@ settings:
   layer:
   - 1
   - 0
-  layers_cladding: None
+  layers_cladding: null
   length: 35.0
-  port: None
+  port: null
   width1: 0.5
-  width2: None
+  width2: null

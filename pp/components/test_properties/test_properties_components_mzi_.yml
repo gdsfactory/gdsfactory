@@ -4,13 +4,13 @@ module: pp.components.mzi
 name: mzi
 settings:
   bend_radius: 10.0
-  combiner: None
-  combiner_settings: None
+  combiner: null
+  combiner_settings: null
   delta_length: 10.0
   length_x: 0.1
   length_y: 4.0
   pins: false
-  splitter_settings: None
-  waveguide_horizontal: None
-  waveguide_vertical: None
+  splitter_settings: null
+  waveguide_horizontal: null
+  waveguide_vertical: null
   with_splitter: true

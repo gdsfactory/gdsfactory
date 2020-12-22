@@ -7,5 +7,5 @@ settings:
   layer:
   - 49
   - 0
-  radius: None
+  radius: null
   width: 10.0

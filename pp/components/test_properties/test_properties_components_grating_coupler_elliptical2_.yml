@@ -18,6 +18,6 @@ settings:
   - 2
   - 0
   taper_length: 10.0
-  teeth_list: None
+  teeth_list: null
   theta: 0.7853981633974483
   wavelength: 1550

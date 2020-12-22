@@ -22,15 +22,27 @@ from pp.layers import LAYER
 
 
 def get_instance_name(component, reference, layer_label=LAYER.LABEL_INSTANCE):
-    """Takes a component
+    """Takes a component.
     Loop over references and find the reference under and associate reference with instance label
     map instance names to references
+    Check if it has a instance name label and return the instance name from the label
     """
-    # TODO: check if it has a instance name label
-    # return f"{reference.parent.name}_{reference.uid}"
+
     x = snap_to_1nm_grid(reference.x)
     y = snap_to_1nm_grid(reference.y)
-    return f"{reference.parent.name}_{x}_{y}"
+    labels = component.labels
+
+    text = f"{reference.parent.name}_{x}_{y}"
+    # text = f"{reference.parent.name}_{reference.uid}"
+
+    for label in labels:
+        xl = snap_to_1nm_grid(label.x)
+        yl = snap_to_1nm_grid(label.y)
+        if x == xl and y == yl:
+            # print(label.text, xl, yl, x, y)
+            return label.text
+
+    return text
 
 
 def get_netlist(component, full_settings=False):
@@ -138,7 +150,12 @@ def get_netlist(component, full_settings=False):
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return connections_sorted, instances_sorted, placements_sorted, top_ports
+    return dict(
+        connections=connections_sorted,
+        instances=instances_sorted,
+        placements=placements_sorted,
+        ports=top_ports,
+    )
 
 
 def demo_ring_single_array():
@@ -167,20 +184,31 @@ def demo_mzi_lattice():
 if __name__ == "__main__":
     # test_mzi_lattice()
     # import matplotlib.pyplot as plt
+    from pprint import pprint
+
     from omegaconf import OmegaConf
 
     import pp
 
     # c = pp.c.ring_single_array()
+    # c = pp.c.mzi()
     # pp.show(c)
 
     c = pp.c.ring_single()
-    ports = c.get_ports(depth=0)
+
     pp.show(c)
 
-    connections, instances, placements, ports = get_netlist(c)
+    n = get_netlist(c)
+    connections = n["connections"]
+    placements = n["placements"]
+    instances = n["instances"]
+    ports = n["ports"]
+
+    pprint(instances)
+    # print(placements)
+
     # connections, instances, placements = get_netlist(c.references[0].parent)
-    print(connections)
+    # print(connections)
     # print(ports)
     # print(instances)
 

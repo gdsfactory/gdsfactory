@@ -253,7 +253,9 @@ def _add_instance_label(
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
     component.add_label(
-        text=instance_name, position=(reference.x, reference.y), layer=layer
+        text=instance_name,
+        position=pp.drc.snap_to_1nm_grid((reference.x, reference.y)),
+        layer=layer,
     )
 
 

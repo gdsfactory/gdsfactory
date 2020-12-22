@@ -7,13 +7,13 @@ info:
 module: pp.components.bezier
 name: bezier_w500_7de58b7a50a078c1f8629433efa7bddf_1_0
 settings:
-  end_angle: None
+  end_angle: null
   grid: 0.001
   layer:
   - 1
   - 0
-  name: None
+  name: null
   spike_length: 0.0
-  start_angle: None
+  start_angle: null
   width: 0.5
   with_manhattan_facing_angles: true

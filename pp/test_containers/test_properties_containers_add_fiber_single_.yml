@@ -16,7 +16,7 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
-  component_name: None
+  component_name: null
   gc_port_name: W0
   grating_coupler: grating_coupler_te
   layer_label:

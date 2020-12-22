@@ -257,11 +257,6 @@ def component_from_yaml(
             encountered_insts=list(),
         )
 
-    for instance_name in conf.instances:
-        label_instance_function(
-            component=c, instance_name=instance_name, reference=instances[instance_name]
-        )
-
     if connections_conf:
         for port_src_string, port_dst_string in connections_conf.items():
             instance_src_name, port_src_name = port_src_string.split(",")
@@ -291,6 +286,11 @@ def component_from_yaml(
             )
             port_dst = instance_dst.ports[port_dst_name]
             instance_src.connect(port=port_src_name, destination=port_dst)
+
+    for instance_name in conf.instances:
+        label_instance_function(
+            component=c, instance_name=instance_name, reference=instances[instance_name]
+        )
 
     if routes_conf:
         for route_alias in routes_conf:

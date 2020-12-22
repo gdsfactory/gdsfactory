@@ -1,5 +1,5 @@
-"""Flat or hierarchical
-
+"""Returns Flat or hierarchical Netlist.
+Deprecated! use pp.get_netlist instead.
 """
 
 from pp.drc import snap_to_1nm_grid
@@ -20,6 +20,7 @@ def recurse_references(
     """From a component returns instances and placements dicts.
     it assumes that ports with same x,y are connected.
     Ensures that connections are at the same level of hierarchy.
+    Deprecated! use pp.get_netlist instead.
 
     Args:
         component: to recurse
