@@ -122,7 +122,11 @@ def place(
         if mirror is True and port:
             ref.reflect_h(port_name=port)
         elif mirror is True:
-            ref.reflect_h()
+            if x:
+                ref.reflect_h(x0=x)
+            else:
+                ref.reflect_h()
+
         elif mirror is False:
             pass
         elif isinstance(mirror, str):
@@ -308,6 +312,7 @@ def component_from_yaml(
                     f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
                 )
             route_type = routes_dict.pop("factory")
+            assert isinstance(route_factory, dict), "route_factory needs to be a dict"
             assert (
                 route_type in route_factory
             ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"

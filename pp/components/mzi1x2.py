@@ -125,8 +125,7 @@ def mzi1x2(
         ]:
             component.add_polygon(line(ports[ls], ports[le]), layer=ports[ls].layer)
 
-        # Add GND
-        ("E_BOT_2", "E_TOP_2")
+        # Add GND ("E_BOT_2", "E_TOP_2")
         component.add_port(
             name="GND",
             midpoint=0.5 * (ports["E_BOT_2"].midpoint + ports["E_TOP_2"].midpoint),
@@ -169,7 +168,8 @@ def mzi1x2(
 if __name__ == "__main__":
     import pp
 
-    c = mzi1x2(coupler_function=mmi1x2, with_elec_connections=False)
+    # c = mzi1x2(coupler_function=mmi1x2, with_elec_connections=False)
+    c = mzi1x2(coupler_function=mmi1x2, L0=10, with_elec_connections=True)
     # print(c.ports)
     pp.show(c)
     # print(c.get_settings())

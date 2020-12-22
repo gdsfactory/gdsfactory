@@ -377,9 +377,11 @@ class ComponentReference(DeviceReference):
     def rotate(
         self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
-        """
-        Returns a component
-            ComponentReference
+        """Return ComponentReference rotated:
+
+        Args:
+            angle: in degrees
+            center: x,y
         """
         if angle == 0:
             return self
@@ -395,9 +397,9 @@ class ComponentReference(DeviceReference):
         return self
 
     def reflect_h(self, port_name=None, x0=None):
-        """Perform horizontal mirror using x0 as axis (default, x0=0)."""
+        """Perform horizontal mirror using x0 or port as axis (default, x0=0)."""
         if port_name is None and x0 is None:
-            x0 = 0
+            x0 = -self.x
 
         if port_name is not None:
             position = self.ports[port_name]

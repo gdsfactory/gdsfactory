@@ -2,7 +2,7 @@
 """
 
 import itertools as it
-from typing import Callable, List, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 
@@ -28,6 +28,8 @@ def square_middle(
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
     a += cladding_offset
+
+    layers_cladding = layers_cladding or []
     if layers_cladding:
         for layer_cladding in layers_cladding:
             component.add_polygon(
@@ -51,6 +53,7 @@ def double_square(
         component.add_polygon(pts, layer=layer)
 
     a += cladding_offset
+    layers_cladding = layers_cladding or []
     if layers_cladding:
         for layer in layers_cladding:
             component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
@@ -72,6 +75,7 @@ def rectangle(
     component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
     a += cladding_offset
     b += cladding_offset
+    layers_cladding = layers_cladding or []
     if layers_cladding:
         for layer in layers_cladding:
             component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
@@ -94,14 +98,16 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
 
 @pp.cell
 def char_H(
-    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
 ) -> Component:
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
 @pp.cell
 def char_L(
-    layer: Tuple[int, int] = LAYER.WG, layers_cladding: List[Tuple[int, int]] = []
+    layer: Tuple[int, int] = LAYER.WG,
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
 ) -> Component:
     return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
 

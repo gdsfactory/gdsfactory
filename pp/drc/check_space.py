@@ -1,19 +1,22 @@
+from typing import Tuple
+
 import klayout.db as pya
 
 
 def check_space(
     gdspath,
-    layer=(1, 0),
-    min_space=0.150,
-    dbu=1e3,
-    ignore_angle_deg=80,
-    whole_edges=False,
+    layer: Tuple[int, int] = (1, 0),
+    min_space: float = 0.150,
+    dbu: float = 1e3,
+    ignore_angle_deg: int = 80,
+    whole_edges: bool = False,
     metrics=None,
     min_projection=None,
     max_projection=None,
-):
-    r"""Reads layer from top cell and returns a the area that violates min space
-    If "whole_edges" is true, the resulting \EdgePairs collection will receive the whole edges which contribute in the space check.
+) -> int:
+    """Reads layer from top cell and returns a the area that violates min space.
+
+    If "whole_edges" is true, the resulting EdgePairs collection will receive the whole edges which contribute in the space check.
 
     "metrics" can be one of the constants Euclidian, Square or Projection. See there for a description of these constants.
     Use nil for this value to select the default (Euclidian metrics).
@@ -27,7 +30,7 @@ def check_space(
     ction". If you don't want to specify one limit, pass nil to the respective value.
 
     Args:
-        gdspath: path to GDS
+        gdspath: path to GDS or Component
         layer: tuple
         min_space: in um
         dbu: database units (1000 um/nm)
@@ -80,5 +83,5 @@ if __name__ == "__main__":
     cell = layout.top_cell()
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
 
-    d = region.space_check(min_space * dbu)
+    d = region.space_check(min_space * dbu, False, "Square", 80, None, None)
     print(d.polygons().area())
