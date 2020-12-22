@@ -1,12 +1,3 @@
-connections:
-  compensation_path_4fb023b1_160.007_11.31,W0: coupler_40_60.004_-20.0,E1
-  coupler_40_60.004_-100.0,E0: compensation_path_4fb023b1_160.007_-108.69,W0
-  coupler_40_60.004_-100.0,E1: crossing45_PS40_160.007_-60.0,W0
-  coupler_40_60.004_-20.0,E0: crossing45_PS40_160.007_-60.0,W1
-  crossing45_PS40_160.007_-60.0,E0: crossing45_PS40_240.007_-100.0,W1
-  crossing45_PS40_160.007_-60.0,E1: crossing45_PS40_240.007_-20.0,W0
-  crossing45_PS40_240.007_-100.0,W0: compensation_path_4fb023b1_160.007_-108.69,E0
-  crossing45_PS40_240.007_-20.0,W1: compensation_path_4fb023b1_160.007_11.31,E0
 instances:
   compensation_path_4fb023b1_160.007_-108.69:
     component: compensation_path

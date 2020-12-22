@@ -1,6 +1,3 @@
-connections:
-  ring_single_BR10_LX20_30.0_10.35,W0: waveguide_L5_7.5_0.0,E0
-  waveguide_L5_7.5_0.0,W0: ring_single_BR5_LX10_-5.0_5.35,E0
 instances:
   ring_single_BR10_LX20_30.0_10.35:
     component: ring_single
@@ -16,6 +13,7 @@ instances:
     component: waveguide
     settings:
       length: 5.0
+name: ring_single_array
 placements:
   ring_single_BR10_LX20_30.0_10.35:
     rotation: 0

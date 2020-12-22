@@ -25,6 +25,11 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+- get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor. Added name to netlist.
+    - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
+    - you have to ignore netlist['connections'] as we don't have a way to extract them consistently.
+    - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
+
 ## 2.2.3 2020-12-19
 
 - store config.yml in mask build directory (reproduce environment when building masks)

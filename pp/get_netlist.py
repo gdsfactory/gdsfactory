@@ -1,8 +1,5 @@
 """Simpler netlist.
 
-FIXME. Would be nice to go back from netlist to layout
-
-
 .. code:: yaml
 
     connections:
@@ -67,6 +64,7 @@ def get_netlist(component, full_settings=False):
         instances: Dict of instances and settings
         placements: Dict of instances and placements (x, y, rotation)
 
+    FIXME! consistent get_netlist() connections
     """
     placements = {}
     instances = {}
@@ -75,9 +73,7 @@ def get_netlist(component, full_settings=False):
 
     for reference in component.references:
         c = reference.parent
-        origin = reference.origin
-        # x = snap_to_1nm_grid(reference.x)
-        # y = snap_to_1nm_grid(reference.y)
+        origin = snap_to_1nm_grid(reference.origin)
         x = snap_to_1nm_grid(origin[0])
         y = snap_to_1nm_grid(origin[1])
         reference_name = get_instance_name(component, reference)
@@ -85,8 +81,6 @@ def get_netlist(component, full_settings=False):
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"]
         )
-        # dx = snap_to_1nm_grid(reference.x - reference.parent.c)
-        # dy = snap_to_1nm_grid(reference.y - component.y)
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
     # store where ports are located
@@ -168,6 +162,7 @@ def get_netlist(component, full_settings=False):
         instances=instances_sorted,
         placements=placements_sorted,
         ports=top_ports,
+        name=component.name,
     )
 
 

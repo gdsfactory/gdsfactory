@@ -1,4 +1,3 @@
-connections: {}
 instances:
   mzit_57d3e173_19.138_11.65:
     component: mzit
@@ -9,6 +8,7 @@ instances:
       coupler_length2: 20
       delta_length: 10
       pins: false
+name: mzit_lattice
 placements:
   mzit_57d3e173_19.138_11.65:
     rotation: 0
