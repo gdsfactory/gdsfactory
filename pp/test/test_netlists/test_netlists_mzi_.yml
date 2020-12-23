@@ -20,72 +20,90 @@ connections:
 instances:
   bend_circular_R10_17.873_-5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_17.873_5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_27.623_-24.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_27.623_19.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_37.973_-24.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_37.973_19.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_47.723_-5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   bend_circular_R10_47.723_5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       radius: 10.0
   mmi1x2_0.0_0.0:
     component: mmi1x2
+    component_name: mmi1x2
     settings: {}
   mmi1x2_65.596_-0.0:
     component: mmi1x2
+    component_name: mmi1x2
     settings: {}
   waveguide_L100n_32.798_-29.625:
     component: waveguide
+    component_name: waveguide_L100n
     settings:
       length: 0.1
   waveguide_L100n_32.798_24.625:
     component: waveguide
+    component_name: waveguide_L100n
     settings:
       length: 0.1
   waveguide_L4_22.748_-12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       length: 4.0
   waveguide_L4_22.748_12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       length: 4.0
   waveguide_L4_42.848_-12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       length: 4.0
   waveguide_L4_42.848_12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       length: 4.0
   waveguide_L5_22.748_-17.125:
     component: waveguide
+    component_name: waveguide_L5
     settings:
       length: 5.0
   waveguide_L5_42.848_-17.125:
     component: waveguide
+    component_name: waveguide_L5
     settings:
       length: 5.0
 name: mzi

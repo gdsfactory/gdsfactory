@@ -8,6 +8,7 @@ connections:
 instances:
   bend_circular_R10_W500n_-9.125_15.826:
     component: bend_circular
+    component_name: bend_circular_R10_W500n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -21,6 +22,7 @@ instances:
       width: 0.5
   bend_circular_R10_W500n_5.125_15.826:
     component: bend_circular
+    component_name: bend_circular_R10_W500n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -34,6 +36,7 @@ instances:
       width: 0.5
   coupler_ring_edf8f53f_-2.0_5.225:
     component: coupler_ring
+    component_name: coupler_ring_edf8f53f
     settings:
       bend_radius: 10.0
       gap: 0.2
@@ -41,6 +44,7 @@ instances:
       wg_width: 0.5
   waveguide_L0p001_W500n_-14.0_10.7:
     component: waveguide
+    component_name: waveguide_L0p001_W500n
     settings:
       cladding_offset: 0.0
       layer:
@@ -51,6 +55,7 @@ instances:
       width: 0.5
   waveguide_L0p001_W500n_10.0_10.7:
     component: waveguide
+    component_name: waveguide_L0p001_W500n
     settings:
       cladding_offset: 0.0
       layer:
@@ -61,6 +66,7 @@ instances:
       width: 0.5
   waveguide_L4_W500n_-2.0_20.701:
     component: waveguide
+    component_name: waveguide_L4_W500n
     settings:
       cladding_offset: 0.0
       layer:

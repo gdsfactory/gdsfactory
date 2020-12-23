@@ -20,6 +20,7 @@ connections:
 instances:
   bend_circular_R10_17.873_-5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -33,6 +34,7 @@ instances:
       width: 0.5
   bend_circular_R10_17.873_5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -46,6 +48,7 @@ instances:
       width: 0.5
   bend_circular_R10_27.623_-24.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -59,6 +62,7 @@ instances:
       width: 0.5
   bend_circular_R10_27.623_19.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -72,6 +76,7 @@ instances:
       width: 0.5
   bend_circular_R10_37.973_-24.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -85,6 +90,7 @@ instances:
       width: 0.5
   bend_circular_R10_37.973_19.75:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -98,6 +104,7 @@ instances:
       width: 0.5
   bend_circular_R10_47.723_-5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -111,6 +118,7 @@ instances:
       width: 0.5
   bend_circular_R10_47.723_5.5:
     component: bend_circular
+    component_name: bend_circular_R10
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -124,6 +132,7 @@ instances:
       width: 0.5
   mmi1x2_0.0_0.0:
     component: mmi1x2
+    component_name: mmi1x2
     settings:
       cladding_offset: 3.0
       gap_mmi: 0.25
@@ -140,6 +149,7 @@ instances:
       width_taper: 1.0
   mmi1x2_65.596_-0.0:
     component: mmi1x2
+    component_name: mmi1x2
     settings:
       cladding_offset: 3.0
       gap_mmi: 0.25
@@ -156,6 +166,7 @@ instances:
       width_taper: 1.0
   waveguide_L100n_32.798_-29.625:
     component: waveguide
+    component_name: waveguide_L100n
     settings:
       cladding_offset: 0.0
       layer:
@@ -166,6 +177,7 @@ instances:
       width: 0.5
   waveguide_L100n_32.798_24.625:
     component: waveguide
+    component_name: waveguide_L100n
     settings:
       cladding_offset: 0.0
       layer:
@@ -176,6 +188,7 @@ instances:
       width: 0.5
   waveguide_L4_22.748_-12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       cladding_offset: 0.0
       layer:
@@ -186,6 +199,7 @@ instances:
       width: 0.5
   waveguide_L4_22.748_12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       cladding_offset: 0.0
       layer:
@@ -196,6 +210,7 @@ instances:
       width: 0.5
   waveguide_L4_42.848_-12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       cladding_offset: 0.0
       layer:
@@ -206,6 +221,7 @@ instances:
       width: 0.5
   waveguide_L4_42.848_12.625:
     component: waveguide
+    component_name: waveguide_L4
     settings:
       cladding_offset: 0.0
       layer:
@@ -216,6 +232,7 @@ instances:
       width: 0.5
   waveguide_L5_22.748_-17.125:
     component: waveguide
+    component_name: waveguide_L5
     settings:
       cladding_offset: 0.0
       layer:
@@ -226,6 +243,7 @@ instances:
       width: 0.5
   waveguide_L5_42.848_-17.125:
     component: waveguide
+    component_name: waveguide_L5
     settings:
       cladding_offset: 0.0
       layer:

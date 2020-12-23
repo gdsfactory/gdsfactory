@@ -14,7 +14,7 @@
 
 """
 
-from typing import Tuple
+from typing import Dict, Tuple
 
 from pp.drc import snap_to_1nm_grid
 from pp.layers import LAYER
@@ -38,10 +38,12 @@ def get_instance_name(
     y = snap_to_1nm_grid(reference.y)
     labels = component.labels
 
+    # default instance name follows componetName_x_y
     text = f"{reference.parent.name}_{x}_{y}"
     # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
     # text = f"{reference.parent.name}_{reference.uid}"
 
+    # try to get the instance name from a label
     for label in labels:
         xl = snap_to_1nm_grid(label.x)
         yl = snap_to_1nm_grid(label.y)
@@ -52,19 +54,23 @@ def get_instance_name(
     return text
 
 
-def get_netlist(component, full_settings=False):
+def get_netlist(
+    component, full_settings=False, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+) -> Dict[str, Dict]:
     """From a component returns instances and placements dicts.
     it assumes that ports with same x,y are connected.
 
     Args:
         full_settings: True returns all settings, false only the ones that have changed
+        layer_label: label to read instanceNames from (if any)
 
     Returns:
         connections: Dict of Instance1Name,portName: Instace2Name,portName
         instances: Dict of instances and settings
         placements: Dict of instances and placements (x, y, rotation)
+        port: Dict portName: CompoentName,port
+        name: name of component
 
-    FIXME! consistent get_netlist() connections
     """
     placements = {}
     instances = {}
@@ -76,10 +82,14 @@ def get_netlist(component, full_settings=False):
         origin = snap_to_1nm_grid(reference.origin)
         x = snap_to_1nm_grid(origin[0])
         y = snap_to_1nm_grid(origin[1])
-        reference_name = get_instance_name(component, reference)
+        reference_name = get_instance_name(
+            component, reference, layer_label=layer_label
+        )
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
-            component=c.function_name, settings=settings["settings"]
+            component=c.function_name,
+            settings=settings["settings"],
+            component_name=c.name,
         )
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
@@ -100,7 +110,9 @@ def get_netlist(component, full_settings=False):
     # lower level ports
     for reference in component.references:
         for port in reference.ports.values():
-            reference_name = get_instance_name(component, reference)
+            reference_name = get_instance_name(
+                component, reference, layer_label=layer_label
+            )
             src = f"{reference_name},{port.name}"
             name2port[src] = port
 
@@ -125,38 +137,6 @@ def get_netlist(component, full_settings=False):
             else:
                 src_dest = sorted([src, dst])
                 connections[src_dest[0]] = src_dest[1]
-
-                # connections[src] = dst
-                # connections[dst] = src
-
-    # connections_sorted = connections
-    # track connections starting from an arbitrary port (src0)
-    # connections are defined as sourceInstance,port: destinationInstance,port
-    # find other connections to destinationInstance,port2
-    # connections_sorted = {}
-    # while connections:
-    #     src0 = list(connections.keys())[0]
-    #     dst0 = connections.pop(src0)
-    #     connections_sorted[src0] = dst0
-    #     next_instance_name = dst0.split(',')[0]
-    #     remanining_connections = list(connections.keys())
-
-    #     for src in remanining_connections:
-    #         dst = connections[src]
-    #         src_instance_name = src.split(',')[0]
-    #         dst_instance_name = dst.split(',')[0]
-
-    #         # next
-    #         if src_instance_name == next_instance_name:
-    #             connections.pop(src)
-    #             connections_sorted[dst] = dst0
-    #             dst0 = dst
-    #             continue
-    #         elif dst_instance_name == next_instance_name:
-    #             connections.pop(src)
-    #             connections_sorted[src] = dst0
-    #             dst0 = src
-    #             continue
 
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
