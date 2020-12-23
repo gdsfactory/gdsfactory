@@ -19,7 +19,6 @@ connections:
 instances:
   bend_circular_R10_W450n_30.112_16.762:
     component: bend_circular
-    component_name: bend_circular_R10_W450n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -33,7 +32,6 @@ instances:
       width: 0.45
   bend_circular_R10_W450n_30.112_6.538:
     component: bend_circular
-    component_name: bend_circular_R10_W450n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -47,7 +45,6 @@ instances:
       width: 0.45
   bend_circular_R10_W550n_33.138_18.788:
     component: bend_circular
-    component_name: bend_circular_R10_W550n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -61,7 +58,6 @@ instances:
       width: 0.55
   bend_circular_R10_W550n_33.138_4.512:
     component: bend_circular
-    component_name: bend_circular_R10_W550n
     settings:
       angle_resolution: 2.5
       cladding_offset: 0.0
@@ -75,7 +71,6 @@ instances:
       width: 0.55
   coupler_D2_G200n_L5_WW500n_1.5_22.65:
     component: coupler
-    component_name: coupler_D2_G200n_L5_WW500n
     settings:
       cladding_offset: 0.0
       dy: 2.0
@@ -90,7 +85,6 @@ instances:
       wg_width: 0.5
   coupler_D2_G300n_L10_WW500n_5.0_0.65:
     component: coupler
-    component_name: coupler_D2_G300n_L10_WW500n
     settings:
       cladding_offset: 0.0
       dy: 2.0
@@ -105,7 +99,6 @@ instances:
       wg_width: 0.5
   taper_L5_W450n_W500n_16.5_23.65:
     component: taper
-    component_name: taper_L5_W450n_W500n
     settings:
       cladding_offset: 3.0
       layer:
@@ -118,7 +111,6 @@ instances:
       width2: 0.5
   taper_L5_W450n_W550n_22.5_21.65:
     component: taper
-    component_name: taper_L5_W450n_W550n
     settings:
       cladding_offset: 3.0
       layer:
@@ -131,7 +123,6 @@ instances:
       width2: 0.55
   taper_L5_W500n_W450n_22.5_1.65:
     component: taper
-    component_name: taper_L5_W500n_W450n
     settings:
       cladding_offset: 3.0
       layer:
@@ -144,7 +135,6 @@ instances:
       width2: 0.45
   taper_L5_W500n_W550n_22.5_-0.35:
     component: taper
-    component_name: taper_L5_W500n_W550n
     settings:
       cladding_offset: 3.0
       layer:
@@ -157,7 +147,6 @@ instances:
       width2: 0.55
   taper_L5_W550n_W450n_22.5_23.65:
     component: taper
-    component_name: taper_L5_W550n_W450n
     settings:
       cladding_offset: 3.0
       layer:
@@ -170,7 +159,6 @@ instances:
       width2: 0.45
   taper_L5_W550n_W500n_16.5_21.65:
     component: taper
-    component_name: taper_L5_W550n_W500n
     settings:
       cladding_offset: 3.0
       layer:
@@ -183,7 +171,6 @@ instances:
       width2: 0.5
   waveguide_L1_W450n_19.5_23.65:
     component: waveguide
-    component_name: waveguide_L1_W450n
     settings:
       cladding_offset: 0.0
       layer:
@@ -194,7 +181,6 @@ instances:
       width: 0.45
   waveguide_L1_W550n_19.5_21.65:
     component: waveguide
-    component_name: waveguide_L1_W550n
     settings:
       cladding_offset: 0.0
       layer:
@@ -205,7 +191,6 @@ instances:
       width: 0.55
   waveguide_L3_W550n_26.5_-0.35:
     component: waveguide
-    component_name: waveguide_L3_W550n
     settings:
       cladding_offset: 0.0
       layer:
@@ -216,7 +201,6 @@ instances:
       width: 0.55
   waveguide_L3_W550n_26.5_23.65:
     component: waveguide
-    component_name: waveguide_L3_W550n
     settings:
       cladding_offset: 0.0
       layer:
@@ -227,7 +211,6 @@ instances:
       width: 0.55
   waveguide_L4_W550n_38.0_11.65:
     component: waveguide
-    component_name: waveguide_L4_W550n
     settings:
       cladding_offset: 0.0
       layer:

@@ -1,5 +1,4 @@
-""" write Component from YAML file
-"""
+"""Get Component from YAML file."""
 
 import io
 import pathlib
@@ -12,9 +11,6 @@ from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import link_factory, route_factory
-
-# import yaml
-
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 valid_keys = [
@@ -160,13 +156,15 @@ def component_from_yaml(
     label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined from YAML.
+    """Returns a Component defined in YAML file or string.
 
     Args:
-        yaml: YAML IO describing Component
-            (instances, placements, routing, ports, connections)
+        yaml: YAML IO describing Component file or string (with newlines)
+            (instances, placements, routes, ports, connections, names)
         component_factory: dict of {factory_name: factory_function}
         route_factory: for routes
+        link_factory: for links
+        label_instance_function: to label each instance
         kwargs: cache, pins ... to pass to all factories
 
     Returns:
@@ -234,8 +232,7 @@ def component_from_yaml(
     )
     component_factory = component_factory or component_factory_default
 
-    conf = OmegaConf.load(yaml_str)
-    # conf = yaml.safe_load(yaml_str)
+    conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
         assert key in valid_keys, f"{key} not in {list(valid_keys)}"
 

@@ -11,13 +11,14 @@ _circuits = _circuits - {"component_lattice"}
 @pytest.mark.parametrize("component_type", _circuits)
 def test_netlists(component_type, data_regression):
     """Write netlists or hierarchical circuits."""
+    full_settings = False
     c = component_factory[component_type]()
-    n = c.get_netlist(full_settings=False)
+    n = c.get_netlist(full_settings=full_settings)
     data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = pp.component_from_yaml(yaml_str)
-    n2 = c2.get_netlist()
+    n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
     assert len(d) == 0
 
@@ -26,16 +27,15 @@ def test_netlists(component_type, data_regression):
 def test_netlists_full_settings(component_type, data_regression):
     """Write netlists or hierarchical circuits."""
     c = component_factory[component_type]()
-    n = c.get_netlist(full_settings=True)
+    full_settings = True
+    n = c.get_netlist(full_settings=full_settings)
     data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    pp.component_from_yaml(yaml_str)
-    # c2 = pp.component_from_yaml(yaml_str)
-    # n2 = c2.get_netlist()
-    # n2.pop('connections')
-    # d = jsondiff.diff(n, n2)
-    # assert len(d) == 0
+    c2 = pp.component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0
 
 
 def demo_netlist(component_type):
@@ -65,14 +65,16 @@ if __name__ == "__main__":
     component_type = "ring_single"
     c1 = component_factory[component_type]()
 
-    n = c1.get_netlist()
+    full_settings = True
+
+    n = c1.get_netlist(full_settings=full_settings)
     # n.pop("connections")
     # n.pop("placements")
     # pp.clear_cache()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
 
     c2 = pp.component_from_yaml(yaml_str)
-    n2 = c2.get_netlist()
+    n2 = c2.get_netlist(full_settings=full_settings)
 
     d = jsondiff.diff(n, n2)
     print(d)

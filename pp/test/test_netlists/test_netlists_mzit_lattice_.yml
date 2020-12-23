@@ -2,7 +2,6 @@ connections: {}
 instances:
   mzit_57d3e173_19.138_11.65:
     component: mzit
-    component_name: mzit_57d3e173
     settings:
       coupler_gap1: 0.2
       coupler_gap2: 0.3

@@ -8,6 +8,7 @@ import networkx as nx
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
+from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
 from pp.compare_cells import hash_cells
@@ -993,8 +994,8 @@ def clean_dict(d):
 def _clean_value(value: Any) -> Any:
     """Returns a clean value that is JSON serializable"""
     if type(value) in [int, float, str, bool]:
-        value = value
-    elif isinstance(value, (np.int64, np.int32)):
+        return value
+    if isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.float64):
         value = float(value)
@@ -1004,11 +1005,12 @@ def _clean_value(value: Any) -> Any:
         value = value.name
     elif isinstance(value, dict):
         clean_dict(value)
-    elif isinstance(value, (tuple, list)):
+    elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
     elif value is None:
         value = None
     else:
+        print(type(value))
         value = str(value)
 
     return value

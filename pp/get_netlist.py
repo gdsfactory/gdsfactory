@@ -87,9 +87,7 @@ def get_netlist(
         )
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
-            component=c.function_name,
-            settings=settings["settings"],
-            component_name=c.name,
+            component=c.function_name, settings=settings["settings"],
         )
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
