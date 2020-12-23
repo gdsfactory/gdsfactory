@@ -1,22 +1,22 @@
 connections:
   bend_circular_R10_17.873_-5.5,N0: mmi1x2_0.0_0.0,E0
   bend_circular_R10_17.873_-5.5,W0: waveguide_L4_22.748_-12.625,W0
+  bend_circular_R10_17.873_5.5,N0: waveguide_L4_22.748_12.625,W0
+  bend_circular_R10_17.873_5.5,W0: mmi1x2_0.0_0.0,E1
   bend_circular_R10_27.623_-24.75,N0: waveguide_L100n_32.798_-29.625,W0
   bend_circular_R10_27.623_-24.75,W0: waveguide_L5_22.748_-17.125,E0
+  bend_circular_R10_27.623_19.75,N0: waveguide_L4_22.748_12.625,E0
+  bend_circular_R10_27.623_19.75,W0: waveguide_L100n_32.798_24.625,W0
+  bend_circular_R10_37.973_-24.75,N0: waveguide_L5_42.848_-17.125,W0
+  bend_circular_R10_37.973_-24.75,W0: waveguide_L100n_32.798_-29.625,E0
   bend_circular_R10_37.973_19.75,N0: waveguide_L100n_32.798_24.625,E0
   bend_circular_R10_37.973_19.75,W0: waveguide_L4_42.848_12.625,W0
+  bend_circular_R10_47.723_-5.5,N0: waveguide_L4_42.848_-12.625,E0
+  bend_circular_R10_47.723_-5.5,W0: mmi1x2_65.596_-0.0,E1
   bend_circular_R10_47.723_5.5,N0: mmi1x2_65.596_-0.0,E0
-  mmi1x2_0.0_0.0,E1: bend_circular_R10_17.873_5.5,W0
-  mmi1x2_65.596_-0.0,E1: bend_circular_R10_47.723_-5.5,W0
-  waveguide_L100n_32.798_-29.625,E0: bend_circular_R10_37.973_-24.75,W0
-  waveguide_L100n_32.798_24.625,W0: bend_circular_R10_27.623_19.75,W0
+  bend_circular_R10_47.723_5.5,W0: waveguide_L4_42.848_12.625,E0
   waveguide_L4_22.748_-12.625,E0: waveguide_L5_22.748_-17.125,W0
-  waveguide_L4_22.748_12.625,E0: bend_circular_R10_27.623_19.75,N0
-  waveguide_L4_22.748_12.625,W0: bend_circular_R10_17.873_5.5,N0
-  waveguide_L4_42.848_-12.625,E0: bend_circular_R10_47.723_-5.5,N0
   waveguide_L4_42.848_-12.625,W0: waveguide_L5_42.848_-17.125,E0
-  waveguide_L4_42.848_12.625,E0: bend_circular_R10_47.723_5.5,W0
-  waveguide_L5_42.848_-17.125,W0: bend_circular_R10_37.973_-24.75,N0
 instances:
   bend_circular_R10_17.873_-5.5:
     component: bend_circular
@@ -310,3 +310,4 @@ placements:
 ports:
   W0: mmi1x2_0.0_0.0,W0
   E0: mmi1x2_65.596_-0.0,W0
+name: mzi

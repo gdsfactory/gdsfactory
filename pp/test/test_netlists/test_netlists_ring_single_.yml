@@ -1,3 +1,10 @@
+connections:
+  bend_circular_R10_W500n_-9.125_15.826,N0: waveguide_L0p001_W500n_-14.0_10.7,W0
+  bend_circular_R10_W500n_-9.125_15.826,W0: waveguide_L4_W500n_-2.0_20.701,W0
+  bend_circular_R10_W500n_5.125_15.826,N0: waveguide_L4_W500n_-2.0_20.701,E0
+  bend_circular_R10_W500n_5.125_15.826,W0: waveguide_L0p001_W500n_10.0_10.7,W0
+  coupler_ring_edf8f53f_-2.0_5.225,N0: waveguide_L0p001_W500n_-14.0_10.7,E0
+  coupler_ring_edf8f53f_-2.0_5.225,N1: waveguide_L0p001_W500n_10.0_10.7,E0
 instances:
   bend_circular_R10_W500n_-9.125_15.826:
     component: bend_circular

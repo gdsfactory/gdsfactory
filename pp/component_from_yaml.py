@@ -13,6 +13,9 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import link_factory, route_factory
 
+# import yaml
+
+
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 valid_keys = [
     "name",
@@ -150,7 +153,7 @@ def place(
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]],
+    yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory=None,
     route_factory=route_factory,
     link_factory=link_factory,
@@ -224,10 +227,15 @@ def component_from_yaml(
                     mmi_top,E0: mmi_bot,W0
 
     """
-    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    yaml_str = (
+        io.StringIO(yaml_str)
+        if isinstance(yaml_str, str) and "\n" in yaml_str
+        else yaml_str
+    )
     component_factory = component_factory or component_factory_default
 
-    conf = OmegaConf.load(yaml)
+    conf = OmegaConf.load(yaml_str)
+    # conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
         assert key in valid_keys, f"{key} not in {list(valid_keys)}"
 
@@ -239,9 +247,10 @@ def component_from_yaml(
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
+    instances_dict = conf["instances"]
 
-    for instance_name in conf.instances:
-        instance_conf = conf.instances[instance_name]
+    for instance_name in instances_dict:
+        instance_conf = instances_dict[instance_name]
         component_type = instance_conf["component"]
         assert (
             component_type in component_factory
@@ -289,7 +298,7 @@ def component_from_yaml(
             port_dst = instance_dst.ports[port_dst_name]
             instance_src.connect(port=port_src_name, destination=port_dst)
 
-    for instance_name in conf.instances:
+    for instance_name in instances_dict:
         label_instance_function(
             component=c, instance_name=instance_name, reference=instances[instance_name]
         )

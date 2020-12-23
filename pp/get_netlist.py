@@ -123,7 +123,11 @@ def get_netlist(component, full_settings=False):
             elif dst in top_ports_list:
                 top_ports[dst] = src
             else:
-                connections[src] = dst
+                src_dest = sorted([src, dst])
+                connections[src_dest[0]] = src_dest[1]
+
+                # connections[src] = dst
+                # connections[dst] = src
 
     # connections_sorted = connections
     # track connections starting from an arbitrary port (src0)
@@ -212,7 +216,8 @@ if __name__ == "__main__":
     instances = n["instances"]
     ports = n["ports"]
 
-    pprint(placements)
+    # pprint(placements)
+    pprint(instances)
     # print(placements)
 
     # connections, instances, placements = get_netlist(c.references[0].parent)

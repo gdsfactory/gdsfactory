@@ -1,3 +1,21 @@
+connections:
+  bend_circular_R10_W450n_30.112_16.762,N0: taper_L5_W450n_W550n_22.5_21.65,1
+  bend_circular_R10_W450n_30.112_16.762,W0: bend_circular_R10_W450n_30.112_6.538,N0
+  bend_circular_R10_W450n_30.112_6.538,W0: taper_L5_W500n_W450n_22.5_1.65,2
+  bend_circular_R10_W550n_33.138_18.788,N0: waveguide_L3_W550n_26.5_23.65,W0
+  bend_circular_R10_W550n_33.138_18.788,W0: waveguide_L4_W550n_38.0_11.65,E0
+  bend_circular_R10_W550n_33.138_4.512,N0: waveguide_L4_W550n_38.0_11.65,W0
+  bend_circular_R10_W550n_33.138_4.512,W0: waveguide_L3_W550n_26.5_-0.35,E0
+  coupler_D2_G200n_L5_WW500n_1.5_22.65,E0: taper_L5_W550n_W500n_16.5_21.65,2
+  coupler_D2_G200n_L5_WW500n_1.5_22.65,E1: taper_L5_W450n_W500n_16.5_23.65,2
+  coupler_D2_G300n_L10_WW500n_5.0_0.65,E0: taper_L5_W500n_W550n_22.5_-0.35,1
+  coupler_D2_G300n_L10_WW500n_5.0_0.65,E1: taper_L5_W500n_W450n_22.5_1.65,1
+  taper_L5_W450n_W500n_16.5_23.65,1: waveguide_L1_W450n_19.5_23.65,E0
+  taper_L5_W450n_W550n_22.5_21.65,2: waveguide_L1_W550n_19.5_21.65,W0
+  taper_L5_W500n_W550n_22.5_-0.35,2: waveguide_L3_W550n_26.5_-0.35,W0
+  taper_L5_W550n_W450n_22.5_23.65,1: waveguide_L3_W550n_26.5_23.65,E0
+  taper_L5_W550n_W450n_22.5_23.65,2: waveguide_L1_W450n_19.5_23.65,W0
+  taper_L5_W550n_W500n_16.5_21.65,1: waveguide_L1_W550n_19.5_21.65,E0
 instances:
   bend_circular_R10_W450n_30.112_16.762:
     component: bend_circular
