@@ -11,4 +11,3 @@ tox
 flake8-rst-docstrings
 doc8
 pydocstyle
-tox-conda
