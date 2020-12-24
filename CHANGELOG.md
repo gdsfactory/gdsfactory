@@ -3,14 +3,12 @@
 ## TODO
 
 - document klayout placers
-- get_netlist() would be nice to extract netlist from component, then use pp.component_from_yaml to rebuild component
-- extract netlist from layout
 - bundle routing with specific waypoints
 - connect_with_waypoints can accept ports
 
 Maybe:
 
-- make sure grating coupler main port is facing west
+- extract netlist from layout markers
 - add grating coupler vertical ports
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
 - add contracts, or enforcers, either in cell decorator or using
@@ -30,6 +28,7 @@ from pydantic import validate_arguments
     - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
 - ListConfig iterates as a list in _clean_value
 - test component.get_netlist() -> YAML-> pp.component_from_yaml(YAML) = component both for settings_changed and full_settings
+- add pp.testing with difftest(component) function for boolean GDS testing.
 
 ## 2.2.3 2020-12-19
 

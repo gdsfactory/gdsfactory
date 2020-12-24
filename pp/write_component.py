@@ -153,6 +153,8 @@ def write_gds(
     gdsdir = pathlib.Path(gdsdir)
     gdspath = gdspath or gdsdir / (component.name + ".gds")
     gdspath = pathlib.Path(gdspath)
+    gdsdir = gdspath.parent
+    gdsdir.mkdir(exist_ok=True, parents=True)
 
     component.write_gds(
         str(gdspath), unit=unit, precision=precision, auto_rename=auto_rename,
