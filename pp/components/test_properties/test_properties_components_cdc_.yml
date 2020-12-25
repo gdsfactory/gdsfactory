@@ -4,11 +4,11 @@ module: pp.components.cdc
 name: cdc
 settings:
   angle: 0.5235987755982988
-  contradc_wgt: None
+  contradc_wgt: null
   dc: 0.5
   direction: EAST
-  dw_bot: None
-  dw_top: None
+  dw_bot: null
+  dw_top: null
   fin_size:
   - 0.2
   - 0.05

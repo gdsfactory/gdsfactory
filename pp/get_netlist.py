@@ -1,8 +1,5 @@
 """Simpler netlist.
 
-FIXME. Would be nice to go back from netlist to layout
-
-
 .. code:: yaml
 
     connections:
@@ -17,33 +14,62 @@ FIXME. Would be nice to go back from netlist to layout
 
 """
 
+from typing import Dict, Tuple
+
 from pp.drc import snap_to_1nm_grid
 from pp.layers import LAYER
 
 
-def get_instance_name(component, reference, layer_label=LAYER.LABEL_INSTANCE):
-    """Takes a component
+def get_instance_name(
+    component, reference, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+) -> str:
+    """Takes a component names the instance based on its XY location or a label in layer_label
     Loop over references and find the reference under and associate reference with instance label
     map instance names to references
+    Check if it has a instance name label and return the instance name from the label
+
+    Args:
+        component: with labels
+        reference: reference that needs naming
+        layer_label: layer of the label (ignores layer_label[1]). Phidl ignores purpose of labels.
     """
-    # TODO: check if it has a instance name label
-    # return f"{reference.parent.name}_{reference.uid}"
+
     x = snap_to_1nm_grid(reference.x)
     y = snap_to_1nm_grid(reference.y)
-    return f"{reference.parent.name}_{x}_{y}"
+    labels = component.labels
+
+    # default instance name follows componetName_x_y
+    text = f"{reference.parent.name}_{x}_{y}"
+    # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
+    # text = f"{reference.parent.name}_{reference.uid}"
+
+    # try to get the instance name from a label
+    for label in labels:
+        xl = snap_to_1nm_grid(label.x)
+        yl = snap_to_1nm_grid(label.y)
+        if x == xl and y == yl and label.layer == layer_label[0]:
+            # print(label.text, xl, yl, x, y)
+            return label.text
+
+    return text
 
 
-def get_netlist(component, full_settings=False):
+def get_netlist(
+    component, full_settings=False, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+) -> Dict[str, Dict]:
     """From a component returns instances and placements dicts.
     it assumes that ports with same x,y are connected.
 
     Args:
         full_settings: True returns all settings, false only the ones that have changed
+        layer_label: label to read instanceNames from (if any)
 
     Returns:
         connections: Dict of Instance1Name,portName: Instace2Name,portName
         instances: Dict of instances and settings
         placements: Dict of instances and placements (x, y, rotation)
+        port: Dict portName: CompoentName,port
+        name: name of component
 
     """
     placements = {}
@@ -53,15 +79,16 @@ def get_netlist(component, full_settings=False):
 
     for reference in component.references:
         c = reference.parent
-        x = snap_to_1nm_grid(reference.x)
-        y = snap_to_1nm_grid(reference.y)
-        reference_name = get_instance_name(component, reference)
+        origin = snap_to_1nm_grid(reference.origin)
+        x = snap_to_1nm_grid(origin[0])
+        y = snap_to_1nm_grid(origin[1])
+        reference_name = get_instance_name(
+            component, reference, layer_label=layer_label
+        )
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
-            component=c.function_name, settings=settings["settings"]
+            component=c.function_name, settings=settings["settings"],
         )
-        # dx = snap_to_1nm_grid(reference.x - component.x)
-        # dy = snap_to_1nm_grid(reference.y - component.y)
         placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
 
     # store where ports are located
@@ -81,7 +108,9 @@ def get_netlist(component, full_settings=False):
     # lower level ports
     for reference in component.references:
         for port in reference.ports.values():
-            reference_name = get_instance_name(component, reference)
+            reference_name = get_instance_name(
+                component, reference, layer_label=layer_label
+            )
             src = f"{reference_name},{port.name}"
             name2port[src] = port
 
@@ -104,41 +133,19 @@ def get_netlist(component, full_settings=False):
             elif dst in top_ports_list:
                 top_ports[dst] = src
             else:
-                connections[src] = dst
-
-    # connections_sorted = connections
-    # track connections starting from an arbitrary port (src0)
-    # connections are defined as sourceInstance,port: destinationInstance,port
-    # find other connections to destinationInstance,port2
-    # connections_sorted = {}
-    # while connections:
-    #     src0 = list(connections.keys())[0]
-    #     dst0 = connections.pop(src0)
-    #     connections_sorted[src0] = dst0
-    #     next_instance_name = dst0.split(',')[0]
-    #     remanining_connections = list(connections.keys())
-
-    #     for src in remanining_connections:
-    #         dst = connections[src]
-    #         src_instance_name = src.split(',')[0]
-    #         dst_instance_name = dst.split(',')[0]
-
-    #         # next
-    #         if src_instance_name == next_instance_name:
-    #             connections.pop(src)
-    #             connections_sorted[dst] = dst0
-    #             dst0 = dst
-    #             continue
-    #         elif dst_instance_name == next_instance_name:
-    #             connections.pop(src)
-    #             connections_sorted[src] = dst0
-    #             dst0 = src
-    #             continue
+                src_dest = sorted([src, dst])
+                connections[src_dest[0]] = src_dest[1]
 
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return connections_sorted, instances_sorted, placements_sorted, top_ports
+    return dict(
+        connections=connections_sorted,
+        instances=instances_sorted,
+        placements=placements_sorted,
+        ports=top_ports,
+        name=component.name,
+    )
 
 
 def demo_ring_single_array():
@@ -167,20 +174,32 @@ def demo_mzi_lattice():
 if __name__ == "__main__":
     # test_mzi_lattice()
     # import matplotlib.pyplot as plt
+    from pprint import pprint
+
     from omegaconf import OmegaConf
 
     import pp
 
     # c = pp.c.ring_single_array()
+    # c = pp.c.mzi()
     # pp.show(c)
 
     c = pp.c.ring_single()
-    ports = c.get_ports(depth=0)
+
     pp.show(c)
 
-    connections, instances, placements, ports = get_netlist(c)
+    n = get_netlist(c)
+    connections = n["connections"]
+    placements = n["placements"]
+    instances = n["instances"]
+    ports = n["ports"]
+
+    # pprint(placements)
+    pprint(instances)
+    # print(placements)
+
     # connections, instances, placements = get_netlist(c.references[0].parent)
-    print(connections)
+    # print(connections)
     # print(ports)
     # print(instances)
 

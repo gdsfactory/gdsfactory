@@ -1,0 +1,296 @@
+connections:
+  bend_circular_R10_W450n_30.112_16.762,N0: taper_L5_W450n_W550n_22.5_21.65,1
+  bend_circular_R10_W450n_30.112_16.762,W0: bend_circular_R10_W450n_30.112_6.538,N0
+  bend_circular_R10_W450n_30.112_6.538,W0: taper_L5_W500n_W450n_22.5_1.65,2
+  bend_circular_R10_W550n_33.138_18.788,N0: waveguide_L3_W550n_26.5_23.65,W0
+  bend_circular_R10_W550n_33.138_18.788,W0: waveguide_L4_W550n_38.0_11.65,E0
+  bend_circular_R10_W550n_33.138_4.512,N0: waveguide_L4_W550n_38.0_11.65,W0
+  bend_circular_R10_W550n_33.138_4.512,W0: waveguide_L3_W550n_26.5_-0.35,E0
+  coupler_D2_G200n_L5_WW500n_1.5_22.65,E0: taper_L5_W550n_W500n_16.5_21.65,2
+  coupler_D2_G200n_L5_WW500n_1.5_22.65,E1: taper_L5_W450n_W500n_16.5_23.65,2
+  coupler_D2_G300n_L10_WW500n_5.0_0.65,E0: taper_L5_W500n_W550n_22.5_-0.35,1
+  coupler_D2_G300n_L10_WW500n_5.0_0.65,E1: taper_L5_W500n_W450n_22.5_1.65,1
+  taper_L5_W450n_W500n_16.5_23.65,1: waveguide_L1_W450n_19.5_23.65,E0
+  taper_L5_W450n_W550n_22.5_21.65,2: waveguide_L1_W550n_19.5_21.65,W0
+  taper_L5_W500n_W550n_22.5_-0.35,2: waveguide_L3_W550n_26.5_-0.35,W0
+  taper_L5_W550n_W450n_22.5_23.65,1: waveguide_L3_W550n_26.5_23.65,E0
+  taper_L5_W550n_W450n_22.5_23.65,2: waveguide_L1_W450n_19.5_23.65,W0
+  taper_L5_W550n_W500n_16.5_21.65,1: waveguide_L1_W550n_19.5_21.65,E0
+instances:
+  bend_circular_R10_W450n_30.112_16.762:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.45
+  bend_circular_R10_W450n_30.112_6.538:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.45
+  bend_circular_R10_W550n_33.138_18.788:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.55
+  bend_circular_R10_W550n_33.138_4.512:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.55
+  coupler_D2_G200n_L5_WW500n_1.5_22.65:
+    component: coupler
+    settings:
+      cladding_offset: 0.0
+      dy: 2.0
+      gap: 0.2
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 5.0
+      wg_width: 0.5
+  coupler_D2_G300n_L10_WW500n_5.0_0.65:
+    component: coupler
+    settings:
+      cladding_offset: 0.0
+      dy: 2.0
+      gap: 0.3
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10.0
+      wg_width: 0.5
+  taper_L5_W450n_W500n_16.5_23.65:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.45
+      width2: 0.5
+  taper_L5_W450n_W550n_22.5_21.65:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.45
+      width2: 0.55
+  taper_L5_W500n_W450n_22.5_1.65:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.5
+      width2: 0.45
+  taper_L5_W500n_W550n_22.5_-0.35:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.5
+      width2: 0.55
+  taper_L5_W550n_W450n_22.5_23.65:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.55
+      width2: 0.45
+  taper_L5_W550n_W500n_16.5_21.65:
+    component: taper
+    settings:
+      cladding_offset: 3.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 5.0
+      port: null
+      width1: 0.55
+      width2: 0.5
+  waveguide_L1_W450n_19.5_23.65:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 1.0
+      width: 0.45
+  waveguide_L1_W550n_19.5_21.65:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 1.0
+      width: 0.55
+  waveguide_L3_W550n_26.5_-0.35:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 3.0
+      width: 0.55
+  waveguide_L3_W550n_26.5_23.65:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 3.0
+      width: 0.55
+  waveguide_L4_W550n_38.0_11.65:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 4.0
+      width: 0.55
+name: mzit
+placements:
+  bend_circular_R10_W450n_30.112_16.762:
+    rotation: 90
+    x: 35.0
+    y: 11.65
+  bend_circular_R10_W450n_30.112_6.538:
+    rotation: 0
+    x: 25.0
+    y: 1.65
+  bend_circular_R10_W550n_33.138_18.788:
+    rotation: 90
+    x: 38.0
+    y: 13.65
+  bend_circular_R10_W550n_33.138_4.512:
+    rotation: 0
+    x: 28.0
+    y: -0.35
+  coupler_D2_G200n_L5_WW500n_1.5_22.65:
+    rotation: 0
+    x: -1.0
+    y: 22.05
+  coupler_D2_G300n_L10_WW500n_5.0_0.65:
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  taper_L5_W450n_W500n_16.5_23.65:
+    rotation: 180
+    x: 19.0
+    y: 23.65
+  taper_L5_W450n_W550n_22.5_21.65:
+    rotation: 180
+    x: 25.0
+    y: 21.65
+  taper_L5_W500n_W450n_22.5_1.65:
+    rotation: 0
+    x: 20.0
+    y: 1.65
+  taper_L5_W500n_W550n_22.5_-0.35:
+    rotation: 0
+    x: 20.0
+    y: -0.35
+  taper_L5_W550n_W450n_22.5_23.65:
+    rotation: 180
+    x: 25.0
+    y: 23.65
+  taper_L5_W550n_W500n_16.5_21.65:
+    rotation: 180
+    x: 19.0
+    y: 21.65
+  waveguide_L1_W450n_19.5_23.65:
+    rotation: 180
+    x: 20.0
+    y: 23.65
+  waveguide_L1_W550n_19.5_21.65:
+    rotation: 180
+    x: 20.0
+    y: 21.65
+  waveguide_L3_W550n_26.5_-0.35:
+    rotation: 0
+    x: 25.0
+    y: -0.35
+  waveguide_L3_W550n_26.5_23.65:
+    rotation: 180
+    x: 28.0
+    y: 23.65
+  waveguide_L4_W550n_38.0_11.65:
+    rotation: 90
+    x: 38.0
+    y: 9.65
+ports:
+  W0: coupler_D2_G300n_L10_WW500n_5.0_0.65,W0
+  W1: coupler_D2_G300n_L10_WW500n_5.0_0.65,W1
+  W2: coupler_D2_G200n_L5_WW500n_1.5_22.65,W0
+  W3: coupler_D2_G200n_L5_WW500n_1.5_22.65,W1

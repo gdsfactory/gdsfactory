@@ -3,7 +3,7 @@ info:
   min_bend_radius: 20.753
 name: mzi2x2_WECTrue_20
 settings:
-  bend_length: None
+  bend_length: null
   component:
     function_name: mzi2x2
     info: {}

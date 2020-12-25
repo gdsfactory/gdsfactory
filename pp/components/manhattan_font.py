@@ -15,7 +15,7 @@ def manhattan_text(
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: Tuple[int, int] = LAYER.M1,
-    layers_cladding: List[ListConfig] = [],
+    layers_cladding: List[ListConfig] = None,
     cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
@@ -75,8 +75,9 @@ def manhattan_text(
         [t.xmax + cladding_offset / 2, t.ymax + cladding_offset],
         [t.xmin - cladding_offset / 2, t.ymax + cladding_offset],
     ]
-    for layer in layers_cladding:
-        t.add_polygon(points, layer=layer)
+    if layers_cladding:
+        for layer in layers_cladding:
+            t.add_polygon(points, layer=layer)
     return t
 
 

@@ -1,0 +1,22 @@
+connections: {}
+instances:
+  mzit_57d3e173_19.138_11.65:
+    component: mzit
+    settings:
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 10
+      coupler_length2: 20
+      delta_length: 10
+      pins: false
+name: mzit_lattice
+placements:
+  mzit_57d3e173_19.138_11.65:
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports:
+  W0: mzit_57d3e173_19.138_11.65,W0
+  W1: mzit_57d3e173_19.138_11.65,W1
+  W2: mzit_57d3e173_19.138_11.65,W2
+  W3: mzit_57d3e173_19.138_11.65,W3

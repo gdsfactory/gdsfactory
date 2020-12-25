@@ -3,6 +3,6 @@ info: {}
 module: pp.components.component_lattice
 name: lattice
 settings:
-  components: None
+  components: null
   lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
   name: lattice

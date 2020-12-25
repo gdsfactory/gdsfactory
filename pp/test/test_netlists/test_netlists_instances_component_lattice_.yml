@@ -1,453 +1,112 @@
 connections:
-  compensation_path_4fb023b1:
-    compensation_path_4fb023b1_160_-108,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110,0
-    coupler_40_60_-100,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110,0
-    crossing_160_-101,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110,1
-    crossing_160_-101,W0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110,1
-  coupler_40:
-    coupler_40_60_-100,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111,1
-    coupler_40_60_-100,E1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88,1
-    coupler_40_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,1
-    coupler_40_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,1
-    coupler_60_-100,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111,0
-    coupler_60_-100,E1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88,0
-    coupler_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,0
-    coupler_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,0
-  flat:
-    compensation_path_4fb023b1_160_-108,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110,0
-    compensation_path_4fb023b1_160_11,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_9,0
-    coupler_40_60_-100,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110,0
-    coupler_40_60_-100,E1: crossing45_PS40_160_-60,W0
-    coupler_40_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,1
-    coupler_40_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,1
-    coupler_40_60_-20,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31,1
-    coupler_40_60_-20,E1: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_9,0
-    coupler_40_60_-20,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31,1
-    coupler_40_60_-20,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8,1
-    coupler_60_-100,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111,0
-    coupler_60_-100,E1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88,0
-    coupler_60_-100,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111,0
-    coupler_60_-100,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88,0
-    coupler_60_-20,E0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31,0
-    coupler_60_-20,E1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-8,0
-    coupler_60_-20,W0: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31,0
-    coupler_60_-20,W1: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8,0
-    crossing45_PS40_160_-60,E0: crossing45_PS40_240_-100,W1
-    crossing45_PS40_160_-60,E1: crossing45_PS40_240_-20,W0
-    crossing_160_-101,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110,1
-    crossing_160_-101,W0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110,1
-    crossing_160_18,E0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_9,1
-    crossing_160_18,W0: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_9,1
-  lattice:
-    compensation_path_4fb023b1_160_-108,E0: crossing45_PS40_240_-100,W0
-    compensation_path_4fb023b1_160_11,E0: crossing45_PS40_240_-20,W1
-    coupler_40_60_-100,E0: compensation_path_4fb023b1_160_-108,W0
-    coupler_40_60_-100,E1: crossing45_PS40_160_-60,W0
-    coupler_40_60_-20,E0: crossing45_PS40_160_-60,W1
-    coupler_40_60_-20,E1: compensation_path_4fb023b1_160_11,W0
-    crossing45_PS40_160_-60,E0: crossing45_PS40_240_-100,W1
-    crossing45_PS40_160_-60,E1: crossing45_PS40_240_-20,W0
+  compensation_path_4fb023b1_160.007_11.31,W0: coupler_40_60.004_-20.0,E1
+  coupler_40_60.004_-100.0,E0: compensation_path_4fb023b1_160.007_-108.69,W0
+  coupler_40_60.004_-100.0,E1: crossing45_PS40_160.007_-60.0,W0
+  coupler_40_60.004_-20.0,E0: crossing45_PS40_160.007_-60.0,W1
+  crossing45_PS40_160.007_-60.0,E0: crossing45_PS40_240.007_-100.0,W1
+  crossing45_PS40_160.007_-60.0,E1: crossing45_PS40_240.007_-20.0,W0
+  crossing45_PS40_240.007_-100.0,W0: compensation_path_4fb023b1_160.007_-108.69,E0
+  crossing45_PS40_240.007_-20.0,W1: compensation_path_4fb023b1_160.007_11.31,E0
 instances:
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.301
-        length: 42.087
-        min_bend_radius: 18.226
-        start_angle: 0.301
-      module: pp.components.bezier
-      name: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-      settings: {}
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_9:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.301
-        length: 42.087
-        min_bend_radius: 18.226
-        start_angle: 0.301
-      module: pp.components.bezier
-      name: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-      settings: {}
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.301
-        length: 42.087
-        min_bend_radius: 18.226
-        start_angle: 0.301
-      module: pp.components.bezier
-      name: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-      settings: {}
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_9:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.301
-        length: 42.087
-        min_bend_radius: 18.226
-        start_angle: 0.301
-      module: pp.components.bezier
-      name: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-      settings: {}
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-8:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88:
-    component: bezier
-    settings:
-      function_name: bezier
-      info:
-        end_angle: 0.503
-        length: 44.891
-        min_bend_radius: 22.662
-        start_angle: 0.503
-      module: pp.components.bezier
-      name: bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0
-      settings:
-        end_angle: 0
-        start_angle: 0
-  compensation_path_4fb023b1_160_-108:
+  compensation_path_4fb023b1_160.007_-108.69:
     component: compensation_path
     settings:
-      function_name: compensation_path
-      info:
-        components:
-          sbend: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-        min_bend_radius: 18.226
-      module: pp.components.crossing_waveguide
-      name: compensation_path_4fb023b1
-      settings:
-        crossing45: crossing45_PS40
-  compensation_path_4fb023b1_160_11:
+      crossing45: crossing45_PS40
+  compensation_path_4fb023b1_160.007_11.31:
     component: compensation_path
     settings:
-      function_name: compensation_path
-      info:
-        components:
-          sbend: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-        min_bend_radius: 18.226
-      module: pp.components.crossing_waveguide
-      name: compensation_path_4fb023b1
-      settings:
-        crossing45: crossing45_PS40
-  coupler_40_60_-100:
+      crossing45: crossing45_PS40
+  coupler_40_60.004_-100.0:
     component: package_optical2x2
     settings:
-      function_name: package_optical2x2
-      info:
-        min_bend_radius: 22.662
-      name: coupler_40
-      settings:
-        bend_length: None
-        component:
-          function_name: coupler
-          info: {}
-          module: pp.components.coupler
-          name: coupler
-          settings:
-            cladding_offset: 0.0
-            dy: 5.0
-            gap: 0.236
-            layer:
-            - 1
+      bend_length: null
+      component:
+        function_name: coupler
+        info: {}
+        module: pp.components.coupler
+        name: coupler
+        settings:
+          cladding_offset: 0.0
+          dy: 5.0
+          gap: 0.236
+          layer:
+          - 1
+          - 0
+          layers_cladding:
+          - - 111
             - 0
-            layers_cladding:
-            - - 111
-              - 0
-            length: 20.007
-            wg_width: 0.5
-        port_spacing: 40.0
-  coupler_40_60_-20:
+          length: 20.007
+          wg_width: 0.5
+      port_spacing: 40.0
+  coupler_40_60.004_-20.0:
     component: package_optical2x2
     settings:
-      function_name: package_optical2x2
-      info:
-        min_bend_radius: 22.662
-      name: coupler_40
-      settings:
-        bend_length: None
-        component:
-          function_name: coupler
-          info: {}
-          module: pp.components.coupler
-          name: coupler
-          settings:
-            cladding_offset: 0.0
-            dy: 5.0
-            gap: 0.236
-            layer:
-            - 1
+      bend_length: null
+      component:
+        function_name: coupler
+        info: {}
+        module: pp.components.coupler
+        name: coupler
+        settings:
+          cladding_offset: 0.0
+          dy: 5.0
+          gap: 0.236
+          layer:
+          - 1
+          - 0
+          layers_cladding:
+          - - 111
             - 0
-            layers_cladding:
-            - - 111
-              - 0
-            length: 20.007
-            wg_width: 0.5
-        port_spacing: 40.0
-  coupler_60_-100:
-    component: coupler
-    settings:
-      function_name: coupler
-      info: {}
-      module: pp.components.coupler
-      name: coupler
-      settings: {}
-  coupler_60_-20:
-    component: coupler
-    settings:
-      function_name: coupler
-      info: {}
-      module: pp.components.coupler
-      name: coupler
-      settings: {}
-  crossing45_PS40_160_-60:
+          length: 20.007
+          wg_width: 0.5
+      port_spacing: 40.0
+  crossing45_PS40_160.007_-60.0:
     component: crossing45
     settings:
-      function_name: crossing45
-      info:
-        components:
-          bezier_bend: bezier_w500_a173ddaa851af9fd0aed87a67faba657_1_0
-          crossing: crossing
-        min_bend_radius: 44.312
-      module: pp.components.crossing_waveguide
-      name: crossing45_PS40
-      settings:
-        port_spacing: 40.0
-  crossing45_PS40_240_-100:
+      port_spacing: 40.0
+  crossing45_PS40_240.007_-100.0:
     component: crossing45
     settings:
-      function_name: crossing45
-      info:
-        components:
-          bezier_bend: bezier_w500_a173ddaa851af9fd0aed87a67faba657_1_0
-          crossing: crossing
-        min_bend_radius: 44.312
-      module: pp.components.crossing_waveguide
-      name: crossing45_PS40
-      settings:
-        port_spacing: 40.0
-  crossing45_PS40_240_-20:
+      port_spacing: 40.0
+  crossing45_PS40_240.007_-20.0:
     component: crossing45
     settings:
-      function_name: crossing45
-      info:
-        components:
-          bezier_bend: bezier_w500_a173ddaa851af9fd0aed87a67faba657_1_0
-          crossing: crossing
-        min_bend_radius: 44.312
-      module: pp.components.crossing_waveguide
-      name: crossing45_PS40
-      settings:
-        port_spacing: 40.0
-  crossing_160_-101:
-    component: crossing
-    settings:
-      function_name: crossing
-      info: {}
-      module: pp.components.crossing_waveguide
-      name: crossing
-      settings: {}
-  crossing_160_18:
-    component: crossing
-    settings:
-      function_name: crossing
-      info: {}
-      module: pp.components.crossing_waveguide
-      name: crossing
-      settings: {}
+      port_spacing: 40.0
 placements:
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_-110:
-    rotation: 0
-    x: 138.007
-    y: -110.566
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_138_9:
-    rotation: 0
-    x: 138.007
-    y: 9.434
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_-110:
-    rotation: 180
-    x: 182.007
-    y: -110.566
-  bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0_182_9:
-    rotation: 180
-    x: 182.007
-    y: 9.435
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-111:
-    rotation: 0
-    x: 100.007
-    y: -111.25
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-31:
-    rotation: 0
-    x: 100.007
-    y: -31.25
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-8:
-    rotation: 0
-    x: 100.007
-    y: -8.75
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_100_-88:
-    rotation: 0
-    x: 100.007
-    y: -88.75
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-111:
-    rotation: 180
-    x: 20.0
-    y: -111.25
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-31:
-    rotation: 180
-    x: 20.0
-    y: -31.25
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-8:
-    rotation: 180
-    x: 20.0
-    y: -8.75
-  bezier_w500_6283a975a38f280ed8d912fc4c39a066_1_0_20_-88:
-    rotation: 180
-    x: 20.0
-    y: -88.75
-  compensation_path_4fb023b1_160_-108:
-    rotation: 0
-    x: 160.007
-    y: -108.69
-  compensation_path_4fb023b1_160_11:
-    rotation: 0
-    x: 160.007
-    y: 11.31
-  coupler_40_60_-100:
-    rotation: 0
-    x: 60.004
-    y: -100.0
-  coupler_40_60_-20:
-    rotation: 0
-    x: 60.004
-    y: -20.0
-  coupler_60_-100:
-    rotation: 0
-    x: 60.004
-    y: -100.0
-  coupler_60_-20:
-    rotation: 0
-    x: 60.004
-    y: -20.0
-  crossing45_PS40_160_-60:
-    rotation: 0
-    x: 160.007
-    y: -60.0
-  crossing45_PS40_240_-100:
-    rotation: 0
-    x: 240.007
-    y: -100.0
-  crossing45_PS40_240_-20:
-    rotation: 0
-    x: 240.007
-    y: -20.0
-  crossing_160_-101:
+  compensation_path_4fb023b1_160.007_-108.69:
     rotation: 0
     x: 160.007
     y: -101.131
-  crossing_160_18:
+  compensation_path_4fb023b1_160.007_11.31:
     rotation: 0
     x: 160.007
     y: 18.869
-ports: {}
+  coupler_40_60.004_-100.0:
+    rotation: 0
+    x: 50.0
+    y: -100.0
+  coupler_40_60.004_-20.0:
+    rotation: 0
+    x: 50.0
+    y: -20.0
+  crossing45_PS40_160.007_-60.0:
+    rotation: 0
+    x: 160.007
+    y: -60.0
+  crossing45_PS40_240.007_-100.0:
+    rotation: 0
+    x: 240.007
+    y: -100.0
+  crossing45_PS40_240.007_-20.0:
+    rotation: 0
+    x: 240.007
+    y: -20.0
+ports:
+  E0: crossing45_PS40_240.007_-100.0,E0
+  E1: crossing45_PS40_240.007_-100.0,E1
+  E2: crossing45_PS40_240.007_-20.0,E0
+  E3: crossing45_PS40_240.007_-20.0,E1
+  W0: coupler_40_60.004_-100.0,W0
+  W1: coupler_40_60.004_-100.0,W1
+  W2: coupler_40_60.004_-20.0,W0
+  W3: coupler_40_60.004_-20.0,W1

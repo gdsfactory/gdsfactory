@@ -1,320 +1,188 @@
 connections:
-  flat:
-    bend_circular_R10_W450n_30_16,N0: taper_L5_W450n_W550n_22_21,1
-    bend_circular_R10_W450n_30_16,W0: bend_circular_R10_W450n_30_6,N0
-    bend_circular_R10_W550n_33_18,N0: waveguide_L3_W550n_26_23,W0
-    bend_circular_R10_W550n_33_18,W0: waveguide_L4_W550n_38_11,E0
-    bend_circular_R10_W550n_33_4,N0: waveguide_L4_W550n_38_11,W0
-    coupler_D2_G300n_L10_WW500n_5_0,E0: taper_L5_W500n_W550n_22_0,1
-    coupler_D2_G300n_L10_WW500n_5_0,E1: taper_L5_W500n_W450n_22_1,1
-    taper_L5_W450n_W500n_16_23,2: coupler_D2_G200n_L5_WW500n_1_22,E1
-    taper_L5_W450n_W550n_22_21,2: waveguide_L1_W550n_19_21,W0
-    taper_L5_W500n_W450n_22_1,2: bend_circular_R10_W450n_30_6,W0
-    taper_L5_W500n_W550n_22_0,2: waveguide_L3_W550n_26_0,W0
-    taper_L5_W550n_W450n_22_23,2: waveguide_L1_W450n_19_23,W0
-    taper_L5_W550n_W500n_16_21,2: coupler_D2_G200n_L5_WW500n_1_22,E0
-    waveguide_L1_W450n_19_23,E0: taper_L5_W450n_W500n_16_23,1
-    waveguide_L1_W550n_19_21,E0: taper_L5_W550n_W500n_16_21,1
-    waveguide_L3_W550n_26_0,E0: bend_circular_R10_W550n_33_4,W0
-    waveguide_L3_W550n_26_23,E0: taper_L5_W550n_W450n_22_23,1
-  mzit:
-    bend_circular_R10_W450n_30_16,N0: taper_L5_W450n_W550n_22_21,1
-    bend_circular_R10_W450n_30_16,W0: bend_circular_R10_W450n_30_6,N0
-    bend_circular_R10_W550n_33_18,N0: waveguide_L3_W550n_26_23,W0
-    bend_circular_R10_W550n_33_18,W0: waveguide_L4_W550n_38_11,E0
-    bend_circular_R10_W550n_33_4,N0: waveguide_L4_W550n_38_11,W0
-    coupler_D2_G300n_L10_WW500n_5_0,E0: taper_L5_W500n_W550n_22_0,1
-    coupler_D2_G300n_L10_WW500n_5_0,E1: taper_L5_W500n_W450n_22_1,1
-    taper_L5_W450n_W500n_16_23,2: coupler_D2_G200n_L5_WW500n_1_22,E1
-    taper_L5_W450n_W550n_22_21,2: waveguide_L1_W550n_19_21,W0
-    taper_L5_W500n_W450n_22_1,2: bend_circular_R10_W450n_30_6,W0
-    taper_L5_W500n_W550n_22_0,2: waveguide_L3_W550n_26_0,W0
-    taper_L5_W550n_W450n_22_23,2: waveguide_L1_W450n_19_23,W0
-    taper_L5_W550n_W500n_16_21,2: coupler_D2_G200n_L5_WW500n_1_22,E0
-    waveguide_L1_W450n_19_23,E0: taper_L5_W450n_W500n_16_23,1
-    waveguide_L1_W550n_19_21,E0: taper_L5_W550n_W500n_16_21,1
-    waveguide_L3_W550n_26_0,E0: bend_circular_R10_W550n_33_4,W0
-    waveguide_L3_W550n_26_23,E0: taper_L5_W550n_W450n_22_23,1
+  bend_circular_R10_W450n_30.112_16.762,N0: taper_L5_W450n_W550n_22.5_21.65,1
+  bend_circular_R10_W450n_30.112_16.762,W0: bend_circular_R10_W450n_30.112_6.538,N0
+  bend_circular_R10_W450n_30.112_6.538,W0: taper_L5_W500n_W450n_22.5_1.65,2
+  bend_circular_R10_W550n_33.138_18.788,N0: waveguide_L3_W550n_26.5_23.65,W0
+  bend_circular_R10_W550n_33.138_18.788,W0: waveguide_L4_W550n_38.0_11.65,E0
+  coupler_D2_G200n_L5_WW500n_1.5_22.65,E1: taper_L5_W450n_W500n_16.5_23.65,2
+  coupler_D2_G300n_L10_WW500n_5.0_0.65,E1: taper_L5_W500n_W450n_22.5_1.65,1
+  taper_L5_W450n_W500n_16.5_23.65,1: waveguide_L1_W450n_19.5_23.65,E0
+  taper_L5_W450n_W550n_22.5_21.65,2: waveguide_L1_W550n_19.5_21.65,W0
+  taper_L5_W500n_W550n_22.5_-0.35,1: coupler_D2_G300n_L10_WW500n_5.0_0.65,E0
+  taper_L5_W500n_W550n_22.5_-0.35,2: waveguide_L3_W550n_26.5_-0.35,W0
+  taper_L5_W550n_W450n_22.5_23.65,1: waveguide_L3_W550n_26.5_23.65,E0
+  taper_L5_W550n_W500n_16.5_21.65,2: coupler_D2_G200n_L5_WW500n_1.5_22.65,E0
+  waveguide_L1_W450n_19.5_23.65,W0: taper_L5_W550n_W450n_22.5_23.65,2
+  waveguide_L1_W550n_19.5_21.65,E0: taper_L5_W550n_W500n_16.5_21.65,1
+  waveguide_L3_W550n_26.5_-0.35,E0: bend_circular_R10_W550n_33.138_4.512,W0
+  waveguide_L4_W550n_38.0_11.65,W0: bend_circular_R10_W550n_33.138_4.512,N0
 instances:
-  bend_circular_R10_W450n_30_16:
+  bend_circular_R10_W450n_30.112_16.762:
     component: bend_circular
     settings:
-      function_name: bend_circular
-      info:
-        length: 15.708
-      module: pp.components.bend_circular
-      name: bend_circular_R10_W450n
-      settings:
-        radius: 10.0
-        width: 0.45
-  bend_circular_R10_W450n_30_6:
+      radius: 10.0
+      width: 0.45
+  bend_circular_R10_W450n_30.112_6.538:
     component: bend_circular
     settings:
-      function_name: bend_circular
-      info:
-        length: 15.708
-      module: pp.components.bend_circular
-      name: bend_circular_R10_W450n
-      settings:
-        radius: 10.0
-        width: 0.45
-  bend_circular_R10_W550n_33_18:
+      radius: 10.0
+      width: 0.45
+  bend_circular_R10_W550n_33.138_18.788:
     component: bend_circular
     settings:
-      function_name: bend_circular
-      info:
-        length: 15.708
-      module: pp.components.bend_circular
-      name: bend_circular_R10_W550n
-      settings:
-        radius: 10.0
-        width: 0.55
-  bend_circular_R10_W550n_33_4:
+      radius: 10.0
+      width: 0.55
+  bend_circular_R10_W550n_33.138_4.512:
     component: bend_circular
     settings:
-      function_name: bend_circular
-      info:
-        length: 15.708
-      module: pp.components.bend_circular
-      name: bend_circular_R10_W550n
-      settings:
-        radius: 10.0
-        width: 0.55
-  coupler_D2_G200n_L5_WW500n_1_22:
+      radius: 10.0
+      width: 0.55
+  coupler_D2_G200n_L5_WW500n_1.5_22.65:
     component: coupler
     settings:
-      function_name: coupler
-      info: {}
-      module: pp.components.coupler
-      name: coupler_D2_G200n_L5_WW500n
-      settings:
-        dy: 2.0
-        gap: 0.2
-        length: 5.0
-        wg_width: 0.5
-  coupler_D2_G300n_L10_WW500n_5_0:
+      dy: 2.0
+      gap: 0.2
+      length: 5.0
+      wg_width: 0.5
+  coupler_D2_G300n_L10_WW500n_5.0_0.65:
     component: coupler
     settings:
-      function_name: coupler
-      info: {}
-      module: pp.components.coupler
-      name: coupler_D2_G300n_L10_WW500n
-      settings:
-        dy: 2.0
-        gap: 0.3
-        length: 10.0
-        wg_width: 0.5
-  taper_L5_W450n_W500n_16_23:
+      dy: 2.0
+      gap: 0.3
+      length: 10.0
+      wg_width: 0.5
+  taper_L5_W450n_W500n_16.5_23.65:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.45
-        width2: 0.5
-      module: pp.components.taper
-      name: taper_L5_W450n_W500n
-      settings:
-        length: 5.0
-        width1: 0.45
-        width2: 0.5
-  taper_L5_W450n_W550n_22_21:
+      length: 5.0
+      width1: 0.45
+      width2: 0.5
+  taper_L5_W450n_W550n_22.5_21.65:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.45
-        width2: 0.55
-      module: pp.components.taper
-      name: taper_L5_W450n_W550n
-      settings:
-        length: 5.0
-        width1: 0.45
-        width2: 0.55
-  taper_L5_W500n_W450n_22_1:
+      length: 5.0
+      width1: 0.45
+      width2: 0.55
+  taper_L5_W500n_W450n_22.5_1.65:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.5
-        width2: 0.45
-      module: pp.components.taper
-      name: taper_L5_W500n_W450n
-      settings:
-        length: 5.0
-        width1: 0.5
-        width2: 0.45
-  taper_L5_W500n_W550n_22_0:
+      length: 5.0
+      width1: 0.5
+      width2: 0.45
+  taper_L5_W500n_W550n_22.5_-0.35:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.5
-        width2: 0.55
-      module: pp.components.taper
-      name: taper_L5_W500n_W550n
-      settings:
-        length: 5.0
-        width1: 0.5
-        width2: 0.55
-  taper_L5_W550n_W450n_22_23:
+      length: 5.0
+      width1: 0.5
+      width2: 0.55
+  taper_L5_W550n_W450n_22.5_23.65:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.55
-        width2: 0.45
-      module: pp.components.taper
-      name: taper_L5_W550n_W450n
-      settings:
-        length: 5.0
-        width1: 0.55
-        width2: 0.45
-  taper_L5_W550n_W500n_16_21:
+      length: 5.0
+      width1: 0.55
+      width2: 0.45
+  taper_L5_W550n_W500n_16.5_21.65:
     component: taper
     settings:
-      function_name: taper
-      info:
-        length: 5.0
-        width1: 0.55
-        width2: 0.5
-      module: pp.components.taper
-      name: taper_L5_W550n_W500n
-      settings:
-        length: 5.0
-        width1: 0.55
-        width2: 0.5
-  waveguide_L1_W450n_19_23:
+      length: 5.0
+      width1: 0.55
+      width2: 0.5
+  waveguide_L1_W450n_19.5_23.65:
     component: waveguide
     settings:
-      function_name: waveguide
-      info:
-        length: 1.0
-        width: 0.45
-      module: pp.components.waveguide
-      name: waveguide_L1_W450n
-      settings:
-        length: 1.0
-        width: 0.45
-  waveguide_L1_W550n_19_21:
+      length: 1.0
+      width: 0.45
+  waveguide_L1_W550n_19.5_21.65:
     component: waveguide
     settings:
-      function_name: waveguide
-      info:
-        length: 1.0
-        width: 0.55
-      module: pp.components.waveguide
-      name: waveguide_L1_W550n
-      settings:
-        length: 1.0
-        width: 0.55
-  waveguide_L3_W550n_26_0:
+      length: 1.0
+      width: 0.55
+  waveguide_L3_W550n_26.5_-0.35:
     component: waveguide
     settings:
-      function_name: waveguide
-      info:
-        length: 3.0
-        width: 0.55
-      module: pp.components.waveguide
-      name: waveguide_L3_W550n
-      settings:
-        length: 3.0
-        width: 0.55
-  waveguide_L3_W550n_26_23:
+      length: 3.0
+      width: 0.55
+  waveguide_L3_W550n_26.5_23.65:
     component: waveguide
     settings:
-      function_name: waveguide
-      info:
-        length: 3.0
-        width: 0.55
-      module: pp.components.waveguide
-      name: waveguide_L3_W550n
-      settings:
-        length: 3.0
-        width: 0.55
-  waveguide_L4_W550n_38_11:
+      length: 3.0
+      width: 0.55
+  waveguide_L4_W550n_38.0_11.65:
     component: waveguide
     settings:
-      function_name: waveguide
-      info:
-        length: 4.0
-        width: 0.55
-      module: pp.components.waveguide
-      name: waveguide_L4_W550n
-      settings:
-        length: 4.0
-        width: 0.55
+      length: 4.0
+      width: 0.55
 placements:
-  bend_circular_R10_W450n_30_16:
+  bend_circular_R10_W450n_30.112_16.762:
     rotation: 90
-    x: 30.112
-    y: 16.762
-  bend_circular_R10_W450n_30_6:
+    x: 35.0
+    y: 11.65
+  bend_circular_R10_W450n_30.112_6.538:
     rotation: 0
-    x: 30.112
-    y: 6.538
-  bend_circular_R10_W550n_33_18:
-    rotation: 90
-    x: 33.138
-    y: 18.788
-  bend_circular_R10_W550n_33_4:
-    rotation: 0
-    x: 33.138
-    y: 4.512
-  coupler_D2_G200n_L5_WW500n_1_22:
-    rotation: 0
-    x: 1.5
-    y: 22.65
-  coupler_D2_G300n_L10_WW500n_5_0:
-    rotation: 0
-    x: 5.0
-    y: 0.65
-  taper_L5_W450n_W500n_16_23:
-    rotation: 180
-    x: 16.5
-    y: 23.65
-  taper_L5_W450n_W550n_22_21:
-    rotation: 180
-    x: 22.5
-    y: 21.65
-  taper_L5_W500n_W450n_22_1:
-    rotation: 0
-    x: 22.5
+    x: 25.0
     y: 1.65
-  taper_L5_W500n_W550n_22_0:
-    rotation: 0
-    x: 22.5
-    y: -0.35
-  taper_L5_W550n_W450n_22_23:
-    rotation: 180
-    x: 22.5
-    y: 23.65
-  taper_L5_W550n_W500n_16_21:
-    rotation: 180
-    x: 16.5
-    y: 21.65
-  waveguide_L1_W450n_19_23:
-    rotation: 180
-    x: 19.5
-    y: 23.65
-  waveguide_L1_W550n_19_21:
-    rotation: 180
-    x: 19.5
-    y: 21.65
-  waveguide_L3_W550n_26_0:
-    rotation: 0
-    x: 26.5
-    y: -0.35
-  waveguide_L3_W550n_26_23:
-    rotation: 180
-    x: 26.5
-    y: 23.65
-  waveguide_L4_W550n_38_11:
+  bend_circular_R10_W550n_33.138_18.788:
     rotation: 90
     x: 38.0
-    y: 11.65
-ports: {}
+    y: 13.65
+  bend_circular_R10_W550n_33.138_4.512:
+    rotation: 0
+    x: 28.0
+    y: -0.35
+  coupler_D2_G200n_L5_WW500n_1.5_22.65:
+    rotation: 0
+    x: -1.0
+    y: 22.05
+  coupler_D2_G300n_L10_WW500n_5.0_0.65:
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  taper_L5_W450n_W500n_16.5_23.65:
+    rotation: 180
+    x: 19.0
+    y: 23.65
+  taper_L5_W450n_W550n_22.5_21.65:
+    rotation: 180
+    x: 25.0
+    y: 21.65
+  taper_L5_W500n_W450n_22.5_1.65:
+    rotation: 0
+    x: 20.0
+    y: 1.65
+  taper_L5_W500n_W550n_22.5_-0.35:
+    rotation: 0
+    x: 20.0
+    y: -0.35
+  taper_L5_W550n_W450n_22.5_23.65:
+    rotation: 180
+    x: 25.0
+    y: 23.65
+  taper_L5_W550n_W500n_16.5_21.65:
+    rotation: 180
+    x: 19.0
+    y: 21.65
+  waveguide_L1_W450n_19.5_23.65:
+    rotation: 180
+    x: 20.0
+    y: 23.65
+  waveguide_L1_W550n_19.5_21.65:
+    rotation: 180
+    x: 20.0
+    y: 21.65
+  waveguide_L3_W550n_26.5_-0.35:
+    rotation: 0
+    x: 25.0
+    y: -0.35
+  waveguide_L3_W550n_26.5_23.65:
+    rotation: 180
+    x: 28.0
+    y: 23.65
+  waveguide_L4_W550n_38.0_11.65:
+    rotation: 90
+    x: 38.0
+    y: 9.65
+ports:
+  W0: coupler_D2_G300n_L10_WW500n_5.0_0.65,W0
+  W1: coupler_D2_G300n_L10_WW500n_5.0_0.65,W1
+  W2: coupler_D2_G200n_L5_WW500n_1.5_22.65,W0
+  W3: coupler_D2_G200n_L5_WW500n_1.5_22.65,W1
