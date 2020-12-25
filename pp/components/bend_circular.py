@@ -147,9 +147,10 @@ def bend_circular(
     xpts = inner_points_x + outer_points_x[::-1]
     ypts = inner_points_y + outer_points_y[::-1]
 
-    if layers_cladding:
-        for layer_cladding in layers_cladding:
-            component.add_polygon(points=(xpts, ypts), layer=layer_cladding)
+    layers_cladding = layers_cladding or []
+    for layer_cladding in layers_cladding:
+        print(layer_cladding)
+        component.add_polygon(points=(xpts, ypts), layer=layer_cladding)
 
     midpoint1 = (radius * cos(angle1), radius * sin(angle1))
     component.add_port(

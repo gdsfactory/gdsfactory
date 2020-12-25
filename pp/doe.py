@@ -20,10 +20,10 @@ does:
 
 
 def load_does(filepath):
-    """ returns a dictionary with the information loaded from does.yml
+    """Return dictionary with the information loaded from does.yml
 
     Args:
-        filepath: yaml file describes does
+        filepath: yaml file describing does
 
     Returns:
         a dictionnary of DOEs with:
@@ -54,21 +54,23 @@ def load_does(filepath):
     for doe_name, doe in input_does.items():
         if doe_name == "mask":
             continue
+        if doe.get("type", "") == "template":
+            continue
 
         if "do_permutation" in doe:
             do_permutation = doe.pop("do_permutation")
         else:
             do_permutation = True
-        assert doe.get("settings"), "need to define settings for doe {}".format(
-            doe_name
-        )
+        if not doe.get("settings"):
+            raise ValueError(f"Error, missing settings: for {doe_name}")
 
         doe_settings = doe.pop("settings", "")
         if doe_settings:
             doe["settings"] = get_settings_list(do_permutation, **doe_settings)
         else:
             raise ValueError(
-                "DOE {doe_name} needs to be a dictionary\n\t got: {doe}\n\t sample: {sample"
+                f"DOE {doe_name} is not a dictionary",
+                f"\n\t got: {doe}\n\t sample: {sample}",
             )
 
         does[doe_name] = doe
@@ -77,8 +79,7 @@ def load_does(filepath):
 
 
 def get_settings_list(do_permutations=True, **kwargs):
-    """
-    Returns a list of settings
+    """Return a list of settings
 
     Args:
         do_permutations: if False, will only zip the values passed for each parameter
@@ -90,8 +91,10 @@ def get_settings_list(do_permutations=True, **kwargs):
         import pp
 
         pp.doe.get_settings_list(length=[30, 40])  # adds different lengths
-        pp.doe.get_settings_list(length=[30, 40], width=[4, 8])  # if do_permutations=False, zips arguments (L30W4, L40W8)
-        pp.doe.get_settings_list(length=[30, 40], width=[4, 8])  # if do_permutations=True, does all combinations (L30W4, L30W8, L40W4, L40W8)
+        pp.doe.get_settings_list(length=[30, 40], width=[4, 8])
+        pp.doe.get_settings_list(length=[30, 40], width=[4, 8])
+        # if do_permutations=True, does all combinations (L30W4, L30W8, L40W4, L40W8)
+        # if do_permutations=False, zips arguments (L30W4, L40W8)
 
 
     add variations of self.baseclass in self.components
@@ -122,7 +125,7 @@ def get_settings_list(do_permutations=True, **kwargs):
 def test_load_does():
     filepath = CONFIG["samples_path"] / "mask" / "does.yml"
     does = load_does(filepath)
-    assert len(does) == 2
+    assert len(does) == 4
     return does
 
 

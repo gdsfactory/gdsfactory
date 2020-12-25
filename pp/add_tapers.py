@@ -42,13 +42,13 @@ if __name__ == "__main__":
     c = pp.c.waveguide(width=2)
     t = pp.c.taper(width2=2)
 
-    # cc = add_tapers(component=c, taper=t, suffix="t")
-    # print(cc.ports.keys())
-    # print(cc.settings.keys())
-    # pp.show(cc)
+    cc = add_tapers(component=c, taper=t, suffix="t")
+    print(cc.ports.keys())
+    print(cc.settings.keys())
+    pp.show(cc)
 
-    ports, elements = add_taper_elements(component=c, taper=t)
-    c.ports = ports
-    c.add(elements)
-    pp.show(c)
-    print(c.ports)
+    # ports, elements = add_taper_elements(component=c, taper=t)
+    # c.ports = ports
+    # c.add(elements)
+    # pp.show(c)
+    # print(c.ports)

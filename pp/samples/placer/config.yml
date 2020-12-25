@@ -1,5 +1,6 @@
 # This is a simple placer which generates a collection of DOEs and puts them in wanted places
 # The positions are given by grid coordinates using letters for X axis and digits for Y axis
+# Deprecated, we  don't use this placer anymore
 mask:
     width: 10000
     height: 10000

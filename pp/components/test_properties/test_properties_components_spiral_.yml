@@ -9,5 +9,5 @@ settings:
   port:
   - 0
   - 0
-  spacing: None
+  spacing: null
   width: 500.0

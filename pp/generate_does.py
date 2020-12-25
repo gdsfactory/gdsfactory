@@ -110,6 +110,7 @@ def generate_does(
     logger=logging,
     overwrite=False,
     precision=1e-9,
+    cache=False,
 ):
     """Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
@@ -127,7 +128,7 @@ def generate_does(
     )
 
     default_use_cached_does = (
-        mask_settings["cache"] if "cache" in mask_settings else False
+        mask_settings["cache"] if "cache" in mask_settings else cache
     )
 
     list_args = []
@@ -139,9 +140,7 @@ def generate_does(
             raise ValueError(f"{component} not in {component_factory.keys()}")
 
         if "template" in doe:
-            """
-            The keyword template is used to enrich the dictionnary from the template
-            """
+            # The keyword template is used to enrich the dictionary from the template
             templates = doe["template"]
             if not isinstance(templates, list):
                 templates = [templates]

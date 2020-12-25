@@ -12,8 +12,7 @@ The YAML Placer addresses the following requirements:
 - multirow / multi-column packing
 
 The YAML Placer does not check for collisions and does not guarantee a valid placing.
-It is a tool to put together a mask and rapidly iterate whether floorplan changes or
-as new devices or DOEs are added.
+It just puts together a mask allows you to change components placements.
 
 ```eval_rst
 .. autofunction:: pp.autoplacer.place_from_yaml
@@ -21,85 +20,73 @@ as new devices or DOEs are added.
 
 ## Workflow
 
-While the YAML placer can work as a standalone tool, it is designed to be used with gds_factory (pp)
-A single YAML file is used for both DOE specification and placing instructions.
+While the YAML placer can work as a standalone tool, it is designed to be used with gdsfactory (pp)
+You can specify DOEs (Design Of Experiments) and placement in a single YAML file.
 
 In a typical workflow, this file is parsed twice:
-The first time, by `generate_does` from pp library
-The second time, by `place_from_yaml` from the YAML placer to read the placing instructions for every DOE
+The first time, `generate_does` builds the GDS files for each Design of Experiment variation.
+The second time, `place_from_yaml` reads the placing instructions for every DOE and places them in a new GDS file.
 
 Example:
 
 ```
-import os
+
 import pp
-from pp.config import CONFIG
-from pp.generate_does import generate_does
 from pp.autoplacer.yaml_placer import place_from_yaml
+from pp.generate_does import generate_does
+from pp.mask.merge_metadata import merge_metadata
 
 
-# =========
-# GDS factories used for the Devices/DOEs
-# =========
-from chipedge import CHIPEDGE_ILOTS
-from ilots import ILOT01
-from coupler import CP2x2
+def test_mask():
+    """Returns gdspath for a Mask
 
-factories = [
-    CHIPEDGE_ILOTS,
-    ILOT01,
-	CP2x2,
-]
+    - Write GDS files defined in does.yml (with JSON metadata)
+    - place them into a mask following placer information in does.yml
+    - merge mask JSON metadata into a combined JSON file
 
-# This maps the factory names for the factories, enabling them to be used in the YAML file
-component_factory = {f.__name__ : f for f in factories}
+    """
+    cwd = pathlib.Path(__file__).absolute().parent
+    does_path = cwd / "does.yml"
 
-def top_level(mask_name="TEG_ILOT_PCM"):
-    print(CONFIG["cache_doe_directory"])
-    c = pp.Component()
+    doe_root_path = cwd / "build" / "cache_doe_directory"
+    mask_path = cwd / "build" / "mask"
+    gdspath = mask_path / "mask.gds"
+    mask_path.mkdir(parents=True, exist_ok=True)
 
-    folder = os.path.dirname(os.path.abspath(__file__))
-    filepath_yml = os.path.join(folder, "{}.yml".format(mask_name))
-    generate_does(filepath_yml, component_factory=component_factory)
-
-    top_level = place_from_yaml(
-        filepath_yml,
-        root_does=CONFIG["cache_doe_directory"]
+    generate_does(
+        str(does_path), doe_root_path=doe_root_path,
     )
-
-    filepath_gds = os.path.join(CONFIG["mask_directory"], "{}.gds".format(mask_name))
-    top_level.name = mask_name
-    top_level.write(filepath_gds)
-    return filepath_gds
+    top_level = place_from_yaml(does_path, root_does=doe_root_path)
+    top_level.write(str(gdspath))
+    merge_metadata(gdspath)
+    return gdspath
 
 
 if __name__ == "__main__":
-    gdspath = top_level()
-    pp.show(gdspath)
+    c = test_mask()
+    pp.show(c)
 
 ```
 
 Corresponding YAML
 
-```
+```yaml
+
 mask:
-    width: 24090
-    height: 4500
-    name: TEG_ILOT_PCM
-    layer_doe_label: [102, 6]
+    width: 10000
+    height: 10000
+    name: mask2
 
-	# Setting cache to `true`: By default, all generated GDS are cached and won't be regenerated
-	# This default behaviour can be overwritten within each DOE.
-
-	# To rebuild the full mask from scratch, just set this to `false`, and ensure there is no
-	# cache: true specified in any other component
+    # Setting cache to `true`: By default, all generated GDS are cached and won't be regenerated
+    # This default behaviour can be overwritten within each DOE.
+    # To rebuild the full mask from scratch, just set this to `false`, and ensure there is no
+    # cache: true specified in any other component
     cache: true
 
-
 ## =======================================================================
-## Templates - DOEs which refer to templates inherit the template settings
+## Templates - global settings for DOEs (Optional)
 ## =======================================================================
-template_east_align_S:
+template_align_east_south:
     type: template
     placer:
         type: pack_row
@@ -109,7 +96,7 @@ template_east_align_S:
         align_y: S
         margin: 0
 
-template_south_align_W:
+template_align_south_west:
     type: template
     placer:
         x0: W
@@ -118,63 +105,69 @@ template_south_align_W:
         align_y: N
         margin: 0
 
-ilot_template:
+template_add_labels:
     type: template
     add_doe_label: true
     with_doe_name: false
 
-CHIPEDGE_ILOTS:
-    component: CHIPEDGE_ILOTS
-    settings:
-        width: 24090
-        height: 4500
+## =============================
+## Does (Design Of exeriments)
+## =============================
+
+mmi2x2_width:
+    component: mmi2x2
+    settings: # Uses the combination of settings to produce 9 devices
+        width_mmi: [4.5, 5.6]
+        length_mmi: 10
     placer:
-        x0: 0
+        type: pack_row
+        x0: 0 # Absolute coordinate placing
         y0: 0
+        align_x: W # x origin is west
+        margin: 25. # x and y margin between the components within this DOE
+        align_y: S # y origin is south
 
-## =============================
-## ILOTS
-## =============================
-ILOT01:
-    component: ILOT01
-    template: ilot_template
-	cache: false # Assuming I am working on this ILOT, it is convenient to
-		# set cache to false here. The full mask rebuilds quickly thanks to
-		# the default being true for all other DOEs, but all the changes to
-		# this ILOT are captured at every iteration
+mmi1x2_width_length:
+    component: mmi1x2
+    do_permutation: False
+    settings:
+        length_mmi: [10, 20]
+        width_mmi: [5, 10]
 
     placer:
-		# Absolute coordinate placing
-        x0: 0
-        y0: 4500
-
-		# The west side of the device is aligned to x0
-		# The north side of the device is aligned to y0
+        type: pack_row
+        next_to: mmi2x2_width
+# Relative placing: this DOE is using the West South of the previous DOE as the origin
+        x0: W # x0 is the west of the DOE specified in next_to
+        y0: S # y0 is the south of the DOE specified in next_to
+# The West side of the device is aligned to x0 + margin
+# The North side of the device is aligned to y0 + margin
         align_x: W
         align_y: N
+        inter_margin_y: 100 # y margin between this DOE and the one used for relative placement
+        margin_x: 50. # x margin between the components within this DOE
+        margin_y: 20. # y margin between the components within this DOE
 
-COUPLERS:
+bend_south_west:
+    component: bend_circular
+    template: template_align_south_west
+    settings:
+        radius: [5, 10]
+    placer:
+        type: pack_col # These devices are packed in a column
 
-	component: CP2x2 # Using CP2x2 factory, generate the DOE with
-
-	# Uses the combination of settings to produce 9 devices
-	settings:
-		gap: [0.3, 0.4, 0.5]
-		length: [0.1, 5., 10.2]
-
-	placer:
-
-		type: pack_col 	# These devices are packed in a column
-		# Relative placing: this DOE is using the South East of the previous DOE as the origin
-		x0: E
-		y0: S
-
-		# The West side of the device is aligned to x0 + margin
-		# The South side of the device is aligned to y0 + margin
-
-		align_x: W
-		align_y: S
-		margin: 10. # 10um between every device
+ring_with_labels:
+    component: ring_single
+    template: template_add_labels
+    cache: False
+    settings:
+        bend_radius: [5, 10]
+    placer:
+        next_to: mmi1x2_width_length
+# Assuming I am working on this DOE, it is convenient to set cache to false here.
+# The full mask rebuilds quickly thanks to
+# the default cahe=true for all other DOEs, but all the changes to
+# this DOE are captured at every iteration
 ```
 
 ## Placer arguments
@@ -183,9 +176,9 @@ COUPLERS:
 
 
 DOE003:
-	component: MMI1x2
+	component: mmi1x2
 	settings:
-		L: [5, 10, 15]
+		length: [5, 10, 15]
 	placer:
 		type: pack_row / pack_col # placer type
 		row_ids / col_ids: list of integers, if specified, should have the same length as the total number of components within the DOE

@@ -1,5 +1,4 @@
-""" write Component from YAML file
-"""
+"""Get Component from YAML file."""
 
 import io
 import pathlib
@@ -122,7 +121,11 @@ def place(
         if mirror is True and port:
             ref.reflect_h(port_name=port)
         elif mirror is True:
-            ref.reflect_h()
+            if x:
+                ref.reflect_h(x0=x)
+            else:
+                ref.reflect_h()
+
         elif mirror is False:
             pass
         elif isinstance(mirror, str):
@@ -138,26 +141,30 @@ def place(
         if port:
             ref.rotate(rotation, center=ref.ports[port])
         else:
-            ref.rotate(rotation, center=(ref.x, ref.y))
+            x, y = ref.origin
+            ref.rotate(rotation, center=(x, y))
+            # ref.rotate(rotation, center=(ref.x, ref.y))
 
     placements_conf.pop(instance_name)
 
 
 def component_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]],
+    yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory=None,
     route_factory=route_factory,
     link_factory=link_factory,
     label_instance_function=_add_instance_label,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined from YAML.
+    """Returns a Component defined in YAML file or string.
 
     Args:
-        yaml: YAML IO describing Component
-            (instances, placements, routing, ports, connections)
+        yaml: YAML IO describing Component file or string (with newlines)
+            (instances, placements, routes, ports, connections, names)
         component_factory: dict of {factory_name: factory_function}
         route_factory: for routes
+        link_factory: for links
+        label_instance_function: to label each instance
         kwargs: cache, pins ... to pass to all factories
 
     Returns:
@@ -218,10 +225,14 @@ def component_from_yaml(
                     mmi_top,E0: mmi_bot,W0
 
     """
-    yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
+    yaml_str = (
+        io.StringIO(yaml_str)
+        if isinstance(yaml_str, str) and "\n" in yaml_str
+        else yaml_str
+    )
     component_factory = component_factory or component_factory_default
 
-    conf = OmegaConf.load(yaml)
+    conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
         assert key in valid_keys, f"{key} not in {list(valid_keys)}"
 
@@ -233,9 +244,10 @@ def component_from_yaml(
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
+    instances_dict = conf["instances"]
 
-    for instance_name in conf.instances:
-        instance_conf = conf.instances[instance_name]
+    for instance_name in instances_dict:
+        instance_conf = instances_dict[instance_name]
         component_type = instance_conf["component"]
         assert (
             component_type in component_factory
@@ -251,11 +263,6 @@ def component_from_yaml(
             placements_conf=placements_conf,
             instances=instances,
             encountered_insts=list(),
-        )
-
-    for instance_name in conf.instances:
-        label_instance_function(
-            component=c, instance_name=instance_name, reference=instances[instance_name]
         )
 
     if connections_conf:
@@ -288,6 +295,11 @@ def component_from_yaml(
             port_dst = instance_dst.ports[port_dst_name]
             instance_src.connect(port=port_src_name, destination=port_dst)
 
+    for instance_name in instances_dict:
+        label_instance_function(
+            component=c, instance_name=instance_name, reference=instances[instance_name]
+        )
+
     if routes_conf:
         for route_alias in routes_conf:
             route_names = []
@@ -308,6 +320,7 @@ def component_from_yaml(
                     f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
                 )
             route_type = routes_dict.pop("factory")
+            assert isinstance(route_factory, dict), "route_factory needs to be a dict"
             assert (
                 route_type in route_factory
             ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"

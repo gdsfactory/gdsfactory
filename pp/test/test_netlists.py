@@ -1,24 +1,41 @@
+import jsondiff
 import pytest
-import yaml
 from omegaconf import OmegaConf
 
 import pp
 from pp.components import _circuits, component_factory
 
-_circuits = _circuits - {"ring_single"}
+_circuits = _circuits - {"component_lattice"}
 
 
 @pytest.mark.parametrize("component_type", _circuits)
-def test_netlists_instances(component_type, data_regression):
-    """OmegaConf.save(netlist, "mzi.yml")"""
-    pp.clear_cache()
+def test_netlists(component_type, data_regression):
+    """Write netlists or hierarchical circuits."""
+    full_settings = False
     c = component_factory[component_type]()
-    n = c.get_netlist(recursive=True)
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    n = c.get_netlist(full_settings=full_settings)
+    data_regression.check(n)
 
-    # convert YAML netlist
-    d = yaml.load(yaml_str)
-    data_regression.check(d)
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = pp.component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0
+
+
+@pytest.mark.parametrize("component_type", _circuits)
+def test_netlists_full_settings(component_type, data_regression):
+    """Write netlists or hierarchical circuits."""
+    c = component_factory[component_type]()
+    full_settings = True
+    n = c.get_netlist(full_settings=full_settings)
+    data_regression.check(n)
+
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = pp.component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0
 
 
 def demo_netlist(component_type):
@@ -30,6 +47,7 @@ def demo_netlist(component_type):
 
 
 if __name__ == "__main__":
+
     # c = component_factory["mzi"]()
     # c = component_factory["ring_double"]()
 
@@ -42,12 +60,22 @@ if __name__ == "__main__":
     # pp.show(c)
 
     # c = component_factory["ring_single"]()
+
+    component_type = "mzi"
     component_type = "ring_single"
     c1 = component_factory[component_type]()
-    n = c1.get_netlist()
+
+    full_settings = True
+
+    n = c1.get_netlist(full_settings=full_settings)
     # n.pop("connections")
-    pp.clear_cache()
+    # n.pop("placements")
+    # pp.clear_cache()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
+
     c2 = pp.component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+
+    d = jsondiff.diff(n, n2)
+    print(d)
     pp.show(c2)

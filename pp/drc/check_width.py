@@ -1,8 +1,12 @@
+from typing import Tuple
+
 import klayout.db as pya
 
 
-def check_width(gdspath, layer=(1, 0), min_width=0.150, dbu=1e3):
-    """reads layer from top cell and returns a list of edges violating min width
+def check_width(
+    gdspath, layer: Tuple[int, int] = (1, 0), min_width: float = 0.150, dbu: float = 1e3
+):
+    """Reads layer from top cell and returns a number of edges violating min width
 
     Args:
         gdspath: path to GDS or Component
@@ -22,7 +26,7 @@ def check_width(gdspath, layer=(1, 0), min_width=0.150, dbu=1e3):
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
     # print(region)
     # print(min_width*1e3)
-    return region.width_check(min_width * dbu)
+    return len(region.width_check(min_width * dbu))
 
 
 def demo():

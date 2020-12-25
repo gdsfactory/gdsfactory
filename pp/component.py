@@ -8,13 +8,13 @@ import networkx as nx
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
+from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
 from pp.compare_cells import hash_cells
 from pp.config import conf
 from pp.get_netlist import get_netlist
 from pp.port import Port, select_ports
-from pp.recurse_references import recurse_references
 
 
 def copy(D):
@@ -377,9 +377,11 @@ class ComponentReference(DeviceReference):
     def rotate(
         self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
-        """
-        Returns a component
-            ComponentReference
+        """Return ComponentReference rotated:
+
+        Args:
+            angle: in degrees
+            center: x,y
         """
         if angle == 0:
             return self
@@ -395,9 +397,9 @@ class ComponentReference(DeviceReference):
         return self
 
     def reflect_h(self, port_name=None, x0=None):
-        """Perform horizontal mirror using x0 as axis (default, x0=0)."""
+        """Perform horizontal mirror using x0 or port as axis (default, x0=0)."""
         if port_name is None and x0 is None:
-            x0 = 0
+            x0 = -self.x
 
         if port_name is not None:
             position = self.ports[port_name]
@@ -547,7 +549,7 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(self, recursive=False, with_labels=True, font_weight="normal"):
+    def plot_netlist(self, with_labels=True, font_weight="normal"):
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
@@ -555,31 +557,21 @@ class Component(Device):
             with_labels: label nodes
             font_weight: normal, bold
         """
-        netlist = self.get_netlist(recursive=recursive)
-        connections = netlist.connections
+        netlist = self.get_netlist()
+        connections = netlist["connections"]
+        placements = netlist["placements"]
 
         G = nx.Graph()
 
-        if recursive:
-            connections_level = netlist.connections
-            for connections in connections_level.values():
-                G.add_edges_from(
-                    [
-                        (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                        for k, v in connections.items()
-                    ]
-                )
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
+        )
 
-        else:
-            G.add_edges_from(
-                [
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                    for k, v in connections.items()
-                ]
-            )
-
-        pos = {k: (v["x"], v["y"]) for k, v in netlist.placements.items()}
-        labels = {k: ",".join(k.split(",")[:1]) for k in netlist.placements.keys()}
+        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
         nx.draw(
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
         )
@@ -588,7 +580,11 @@ class Component(Device):
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def get_netlist(self, recursive=False, full_settings=False):
+    def write_netlist(self, filepath, full_settings=False):
+        netlist = self.get_netlist(full_settings=full_settings)
+        OmegaConf.save(netlist, filepath)
+
+    def get_netlist(self, full_settings=False):
         """Returns netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
@@ -598,28 +594,8 @@ class Component(Device):
 
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
-            recursive: b
         """
-        if recursive:
-            connections, instances, placements = recurse_references(
-                component=self, recursive=recursive
-            )
-            ports = {}
-        else:
-            connections, instances, placements, ports = get_netlist(
-                component=self, full_settings=full_settings
-            )
-
-        netlist = OmegaConf.create(
-            dict(
-                instances=instances,
-                placements=placements,
-                connections=connections,
-                ports=ports,
-            )
-        )
-
-        return netlist
+        return get_netlist(component=self, full_settings=full_settings)
 
     def get_name_long(self):
         """ returns the long name if it's been truncated to MAX_NAME_LENGTH"""
@@ -726,9 +702,9 @@ class Component(Device):
         if hasattr(self, property):
             return getattr(self, property)
 
-    def pprint(self):
+    def pprint(self, **kwargs):
         """Prints component settings."""
-        pprint(self.get_settings())
+        pprint(self.get_settings(**kwargs))
 
     def get_settings(
         self,
@@ -803,7 +779,10 @@ class Component(Device):
             p.parent = self
             name = p.name
         else:
-            assert len(layer) == 2, f"{layer} needs to be Tuple of two ints"
+            assert len(layer) == 2, (
+                f"Error defining a port with `layer = {layer}`. "
+                + "You need to represent GDS layers with two integer numbers (gdslayer, gdspurpose)"
+            )
             p = Port(
                 name=name,
                 midpoint=midpoint,
@@ -1018,8 +997,8 @@ def clean_dict(d):
 def _clean_value(value: Any) -> Any:
     """Returns a clean value that is JSON serializable"""
     if type(value) in [int, float, str, bool]:
-        value = value
-    elif isinstance(value, (np.int64, np.int32)):
+        return value
+    if isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.float64):
         value = float(value)
@@ -1029,9 +1008,12 @@ def _clean_value(value: Any) -> Any:
         value = value.name
     elif isinstance(value, dict):
         clean_dict(value)
-    elif isinstance(value, (tuple, list)):
+    elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
+    elif value is None:
+        value = None
     else:
+        print(type(value))
         value = str(value)
 
     return value
@@ -1125,8 +1107,8 @@ def demo_component(port):
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.tlm()
-    c.get_settings()
+    c = pp.c.bend_circular()
+    # c.get_settings()
     c.pprint()
 
     # c0 = pp.c.waveguide()

@@ -10,7 +10,11 @@ from pp.mask.merge_metadata import merge_metadata
 
 @pytest.mark.usefixtures("cleandir")
 def test_mask():
-    """
+    """Returns gdspath for a Mask
+
+    - Write GDS files defined in does.yml (with JSON metadata)
+    - place them into a mask following placer information in does.yml
+    - merge mask JSON metadata into a combined JSON file
 
     """
     cwd = pathlib.Path(__file__).absolute().parent

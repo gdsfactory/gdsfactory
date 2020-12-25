@@ -8,7 +8,7 @@ module: pp.components.bend_s
 name: bend_s
 settings:
   cladding_offset: 0.0
-  end_angle: None
+  end_angle: null
   grid: 0.001
   height: 2.0
   layer:
@@ -18,9 +18,9 @@ settings:
   - 111
   - 0
   length: 10.0
-  name: None
+  name: null
   nb_points: 99
   spike_length: 0.0
-  start_angle: None
+  start_angle: null
   width: 0.5
   with_manhattan_facing_angles: true
