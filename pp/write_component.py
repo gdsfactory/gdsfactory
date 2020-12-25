@@ -44,7 +44,7 @@ def write_component_type(
     if callable(component_type):
         component_type = component_type.__name__
 
-    assert type(component_type) == str
+    assert isinstance(component_type, str)
 
     component_name = get_component_name(component_type, **kwargs)
     gdspath = path_directory / (component_name + ".gds")

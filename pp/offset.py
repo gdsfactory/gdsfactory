@@ -26,7 +26,7 @@ def offset(
     """ returns an element containing all polygons with an offset
     from phidl geometry
     """
-    if type(elements) is not list:
+    if not isinstance(elements, list):
         elements = [elements]
     polygons_to_offset = []
     for e in elements:
