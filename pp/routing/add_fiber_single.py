@@ -39,8 +39,9 @@ def add_fiber_single(
 
     Args:
         component: to connect
-        optical_io_spacing: SPACING_GC
         grating_coupler: grating coupler instance, function or list of functions
+        layer_label: LAYER.LABEL
+        optical_io_spacing: SPACING_GC
         bend_factory: bend_circular
         straight_factory: waveguide
         fanout_length: None  # if None, automatic calculation of fanout length
@@ -58,7 +59,6 @@ def add_fiber_single(
         gc_port_name: W0
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
-        layer_label: LAYER.LABEL
         component_name: name of component
         taper_factory: taper
 

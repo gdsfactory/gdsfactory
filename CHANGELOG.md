@@ -23,12 +23,15 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-- get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor. Added name to netlist.
+## 2.2.4 2020-12-25
+
+- get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.
     - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
     - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
 - ListConfig iterates as a list in _clean_value
-- test component.get_netlist() -> YAML-> pp.component_from_yaml(YAML) = component both for settings_changed and full_settings
+- test component.get_netlist() -> YAML-> pp.component_from_yaml(YAML) = component (both for settings_changed and full_settings)
 - add pp.testing with difftest(component) function for boolean GDS testing.
+- improved placer documentation and comments in pp/samples/mask/does.yml
 
 ## 2.2.3 2020-12-19
 

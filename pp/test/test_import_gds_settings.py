@@ -22,7 +22,9 @@ def sort_dict(d):
     return {k: d[k] for k in sorted(d)}
 
 
-@pytest.mark.parametrize("component_type", _components - set(["grating_coupler_tree"]))
+@pytest.mark.parametrize(
+    "component_type", _components - set(["grating_coupler_tree", "compensation_path"])
+)
 def test_properties_components(component_type):
     """Write component to GDS with setttings_label"""
     cnew = pp.Component()

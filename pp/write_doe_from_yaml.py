@@ -68,7 +68,7 @@ def test_write_doe_from_yaml():
     does_path = CONFIG["samples_path"] / "mask" / "does.yml"
     gdspaths = write_doe_from_yaml(does_path)
     # print(len(gdspaths))
-    assert len(gdspaths) == 2  # 2 does
+    assert len(gdspaths) == 4  # 2 does
     assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE
     assert len(gdspaths[1]) == 2  # 2 GDS in the 2nd DOE
 
@@ -99,8 +99,8 @@ def test_write_doe_from_yaml_string():
 
 
 if __name__ == "__main__":
-    # test_write_doe_from_yaml()
-    test_write_doe_from_yaml_string()
+    test_write_doe_from_yaml()
+    # test_write_doe_from_yaml_string()
     # gdspaths = write_doe_from_yaml(sample_yaml)
     # print(len(gdspaths))
     # print(len(gdspaths[0]))
