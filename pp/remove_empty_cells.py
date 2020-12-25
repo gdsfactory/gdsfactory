@@ -28,7 +28,7 @@ def remove_empty_cells(gds, recursive=True, recurse_depth=0):
     """
     returns the list of removed cells
     """
-    if type(gds) == str:
+    if isinstance(gds, str):
         gds = import_gds(gds)
 
     cells = gds.get_dependencies(recursive=True)

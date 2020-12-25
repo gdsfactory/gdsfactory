@@ -54,7 +54,7 @@ def remove_flat_angles(points):
     da[-1] = 1
 
     to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
-    if type(points) == list:
+    if isinstance(points, list):
         while to_rm:
             i = to_rm.pop()
             points.pop(i)
@@ -191,7 +191,7 @@ def extrude_path(
         numpy 2D array of shape (2*N, 2)
     """
 
-    if type(points) == list:
+    if isinstance(points, list):
         points = np.stack([(p[0], p[1]) for p in points], axis=0)
 
     a = angles_deg(points)

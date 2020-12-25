@@ -58,7 +58,7 @@ def get_optical_text(
     if component_name:
         name = component_name
 
-    elif type(port.parent) == pp.Component:
+    elif isinstance(port.parent, pp.Component):
         name = port.parent.name
     else:
         name = port.parent.ref_cell.name
@@ -116,7 +116,7 @@ def get_input_label_electrical(
     if component_name:
         name = component_name
 
-    elif type(port.parent) == pp.Component:
+    elif isinstance(port.parent, pp.Component):
         name = port.parent.name
     else:
         name = port.parent.ref_cell.name

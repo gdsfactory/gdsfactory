@@ -385,10 +385,10 @@ class ComponentReference(DeviceReference):
         """
         if angle == 0:
             return self
-        if type(center) == str or type(center) == int:
+        if isinstance(center, str) or isinstance(center, int):
             center = self.ports[center].position
 
-        if type(center) is Port:
+        if isinstance(center, Port):
             center = center.midpoint
         self.rotation += angle
         self.rotation = self.rotation % 360
@@ -465,7 +465,7 @@ class ComponentReference(DeviceReference):
         # ``port`` can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
-        elif type(port) is Port:
+        elif isinstance(port, Port):
             p = port
         else:
             raise ValueError(
