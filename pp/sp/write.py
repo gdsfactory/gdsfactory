@@ -298,7 +298,8 @@ def write(
         # S_matrix = s.getsweepresult("s-parameter sweep", "S matrix")
         sp = s.getsweepresult("s-parameter sweep", "S parameters")
 
-        # export S-parameter data to file named s_params.dat to be loaded in INTERCONNECT
+        # export S-parameter data to file named s_params.dat to be loaded in
+        # INTERCONNECT
         s.exportsweep("s-parameter sweep", str(filepath))
         print(f"wrote sparameters to {filepath}")
 

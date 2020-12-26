@@ -36,7 +36,7 @@ def taper(
 
     """
     layers_cladding = layers_cladding or []
-    if type(port) is pp.Port and width1 is None:
+    if isinstance(port, pp.Port) and width1 is None:
         width1 = port.width
     if width2 is None:
         width2 = width1

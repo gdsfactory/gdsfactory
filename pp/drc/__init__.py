@@ -33,7 +33,7 @@ def assert_on_2nm_grid(x: float) -> None:
 
 def snap_to_grid(x: Union[float64, float], nm: int = 1) -> float64:
     y = nm * np.round(np.array(x) * 1e3 / nm) / 1e3
-    if type(x) is tuple:
+    if isinstance(x, tuple):
         return tuple(y)
     elif type(x) in [int, float, str, float64]:
         return float(y)

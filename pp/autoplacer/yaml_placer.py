@@ -237,7 +237,7 @@ def pack_row(
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
 
-            except:
+            except BaseException:
                 print(x, component_origin[0], um_to_grid)
                 print("ISSUE PLACING AT", _x, _y)
                 if align_x not in ["W", "E"]:
@@ -351,7 +351,7 @@ def pack_col(
                 transform = pya.Trans(_x, _y)
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
-            except:
+            except BaseException:
                 print(x, component_origin[0], um_to_grid)
                 print(y, component_origin[1], um_to_grid)
                 print("ISSUE PLACING AT", _x, _y)
@@ -570,7 +570,7 @@ def place_from_yaml(
                 try:
                     doe = update_dicts_recurse(doe, templates[doe_template])
 
-                except:
+                except BaseException:
                     print(doe_template, "does not exist")
                     raise
         doe = update_dicts_recurse(doe, default_doe_settings)

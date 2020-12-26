@@ -42,7 +42,7 @@ def manhattan_text(
                 if c not in CHARAC_MAP:
                     c = c.upper()
                 pixels = CHARAC_MAP[c]
-            except:
+            except BaseException:
                 print(
                     "character {} could not be written (probably not part of dictionnary)".format(
                         c

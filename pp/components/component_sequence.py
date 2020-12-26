@@ -145,7 +145,7 @@ def component_sequence(
     # Add output port
     try:
         component.add_port(name=output_port_name, port=device.ports[next_port])
-    except:
+    except BaseException:
         print(sequence)
         raise
 
