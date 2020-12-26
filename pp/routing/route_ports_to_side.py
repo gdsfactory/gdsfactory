@@ -171,7 +171,7 @@ def connect_ports_to_x(
         x = max([p.x for p in list_ports]) + a
     elif x == "west":
         x = min([p.x for p in list_ports]) - a
-    elif type(x) == float:
+    elif isinstance(x, float):
         pass
     else:
         pass
@@ -358,7 +358,7 @@ def connect_ports_to_y(
             min([p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
             - epsilon
         )
-    elif type(y) == float:
+    elif isinstance(y, float):
         pass
     else:
         pass

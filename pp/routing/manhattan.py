@@ -229,7 +229,7 @@ def _generate_route_manhattan_points(
     count = 0
     points = [p]
 
-    while 1:
+    while True:
         count += 1
         if count > 40:
             raise AttributeError(
@@ -295,7 +295,8 @@ def _generate_route_manhattan_points(
                 end_straight + bs1
             ) > -threshold:
                 # go to the west, and then turn upward
-                # this will sometimes result in too sharp bends, but there is no avoiding this!
+                # this will sometimes result in too sharp bends, but there is no
+                # avoiding this!
 
                 _y = min(
                     max(min(min_straight, 0.5 * abs(p[1])), abs(p[1]) - s - bs1),
@@ -422,7 +423,7 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     da[-1] = 1
 
     to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
-    if type(points) == list:
+    if isinstance(points, list):
         while to_rm:
             i = to_rm.pop()
             points.pop(i)

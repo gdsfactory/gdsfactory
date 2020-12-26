@@ -22,6 +22,7 @@ if __name__ == "__main__":
 
     # wg2.rotate(45) # Rotate waveguide by 45 degrees around (0,0)
     # wg2.rotate(45, center=[5, 0])  # Rotate waveguide by 45 degrees around (5, 0)
-    # wg2.reflect(p1=[1, 1], p2=[1, 3])  # Reflects wg across the line formed by p1 and p2
+    # wg2.reflect(p1=[1, 1], p2=[1, 3])  # Reflects wg across the line formed
+    # by p1 and p2
 
     pp.show(c)

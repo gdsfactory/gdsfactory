@@ -51,7 +51,7 @@ def path_length_matched_points(
 def path_length_matched_points_modify_segment(
     list_of_waypoints, modify_segment_i, extra_length
 ):
-    if type(list_of_waypoints) != list:
+    if not isinstance(list_of_waypoints, list):
         raise ValueError(
             "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
         )
@@ -126,7 +126,6 @@ def path_length_matched_points_add_waypoints(
     extra_length=0.0,
     nb_loops=1,
 ):
-
     """
     Args:
         list_of_waypoints: a list of list_of_points:
@@ -160,7 +159,7 @@ def path_length_matched_points_add_waypoints(
 
     """
 
-    if type(list_of_waypoints) != list:
+    if not isinstance(list_of_waypoints, list):
         raise ValueError(
             "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
         )

@@ -26,7 +26,7 @@ def compute_area(c, target_layer):
             _print(joined_polys)
             try:
                 _area += sum([abs(area(p)) for p in joined_polys.polygons])
-            except:
+            except BaseException:
                 print(f"Warning, {c.name} joinedpoly {joined_polys} could not be added")
     return _area
 

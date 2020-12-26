@@ -74,7 +74,6 @@ def lock_components_with_changes(
     component_factory=component_factory,
     path_library=path_library,
 ):
-
     """  locks only components whose hash changed
     """
     for component_type in components:
@@ -139,7 +138,7 @@ def _copy_component(src, dest):
     for ext in [".ports"]:
         try:
             shutil.copy(src.with_suffix(ext), dest.with_suffix(ext))
-        except:
+        except BaseException:
             pass
 
 

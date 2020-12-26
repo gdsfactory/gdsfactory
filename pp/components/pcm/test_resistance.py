@@ -17,7 +17,6 @@ def test_resistance(
     pad_layer: Tuple[int, int] = pp.LAYER.M3,
     gnd_layer: Tuple[int, int] = pp.LAYER.M3,
 ) -> Component:
-
     """ meander to test resistance
     from phidl.geometry
 

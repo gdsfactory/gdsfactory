@@ -83,7 +83,8 @@ def get_sequence_cross(
                 wgs = swap(wgs, i, i + 1)
                 swaps += [X, X]
                 i += 1
-                # We cannot swap twice the same waveguide on the same iteration, so we skip the next waveguide by incrementing
+                # We cannot swap twice the same waveguide on the same iteration, so we
+                # skip the next waveguide by incrementing
 
                 # Edge case: Cannot swap if only one wg left so it has to be a straight
                 if i == N - 2:
