@@ -17,13 +17,12 @@ import pathlib
 import subprocess
 import tempfile
 from pprint import pprint
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 from git import InvalidGitRepositoryError, Repo
 from omegaconf import OmegaConf
 
-connections: Dict[str, str] = {}  # global variable to store connections in a dict
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -37,42 +36,6 @@ home_config = home_path / "config.yml"
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
-
-
-def clear_connections(connections=connections):
-    """Clears the connections that have been stored in connections dict."""
-    connections = {}
-    return connections
-
-
-def add_to_global_netlist(port1, port2) -> Dict[str, str]:
-    """Add port1 to port2 connection to the connections global netlist dict.
-
-    Args:
-        port1: src port
-        port1: dst port
-
-    Returns:
-        Dict: src_name
-
-    """
-    global connections
-
-    src = port1.parent if port1.parent else port1
-    dst = port2.parent if port2.parent else port2
-
-    src_name = src.name if hasattr(src, "name") else src.parent.name
-    dst_name = dst.name if hasattr(dst, "name") else dst.parent.name
-
-    src_uid = src.parent.uid if hasattr(src, "parent") else -1
-    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
-
-    src_uid = src.parent.uid if hasattr(src, "parent") else -1
-    dst_uid = dst.parent.uid if hasattr(dst, "parent") else -1
-
-    connections[
-        f"{src_name},{src_uid},{int(src.x)},{int(src.y)},{port1.name},{port1.uid}"
-    ] = f"{dst_name},{dst_uid},{int(dst.x)},{int(dst.y)},{port2.name},{port2.uid}"
 
 
 conf = OmegaConf.load(

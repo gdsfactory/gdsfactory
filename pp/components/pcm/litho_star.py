@@ -1,7 +1,6 @@
-import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components import rectangle
+from pp.components.rectangle import rectangle
 
 
 @cell
@@ -19,7 +18,7 @@ def litho_star(
       c = pp.c.litho_star()
       pp.plotgds(c)
     """
-    D = pp.Component()
+    D = Component()
 
     degree = 180 / num_lines
     R1 = rectangle(size=(line_width, diameter), layer=layer)
@@ -31,5 +30,7 @@ def litho_star(
 
 
 if __name__ == "__main__":
+    import pp
+
     c = litho_star()
     pp.show(c)

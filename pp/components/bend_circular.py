@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import Iterable, Optional, Tuple, Union
 
 import numpy as np
 from numpy import cos, pi, sin
@@ -87,7 +87,7 @@ def bend_circular(
     start_angle: int = 0,
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[List[Tuple[int, int]]] = None,
+    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``

@@ -15,6 +15,7 @@ from pp.compare_cells import hash_cells
 from pp.config import conf
 from pp.get_netlist import get_netlist
 from pp.port import Port, select_ports
+from pp.types import Real
 
 
 def copy(D):
@@ -375,7 +376,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
+        self, angle: Real = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
         """Return ComponentReference rotated:
 

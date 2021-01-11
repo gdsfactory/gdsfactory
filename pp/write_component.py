@@ -41,9 +41,6 @@ def write_component_type(
         component_factory: factory dictionary
         **kwargs: component args
     """
-    if callable(component_type):
-        component_type = component_type.__name__
-
     assert isinstance(component_type, str)
 
     component_name = get_component_name(component_type, **kwargs)

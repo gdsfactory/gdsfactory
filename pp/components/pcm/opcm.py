@@ -2,7 +2,7 @@
 """
 
 import itertools as it
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Iterable, List, Optional, Tuple
 
 import numpy as np
 
@@ -258,7 +258,7 @@ def cdsem_straight(
 @pp.cell
 def cdsem_straight_column(
     spacing_v: float = 5.0,
-    gaps: List[float] = (0.224, 0.234, 0.246),
+    gaps: Iterable[float] = (0.224, 0.234, 0.246),
     length: float = LINE_LENGTH,
     width_center: float = 0.5,
     label: str = "A",
@@ -358,7 +358,7 @@ def cdsem_straight_density(
     label: str = "",
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = None,
+    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> Component:
     """horizontal grating etch lines
 
@@ -405,7 +405,7 @@ def cdsem_target(
     label: str = "",
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
-    radii: List[float] = (5.0, 10.0),
+    radii: Iterable[float] = (5.0, 10.0),
 ) -> Component:
     c = pp.Component()
     a = 1.0

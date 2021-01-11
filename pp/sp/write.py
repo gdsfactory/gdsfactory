@@ -4,7 +4,7 @@
 import json
 from collections import namedtuple
 from pathlib import PosixPath
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import yaml
@@ -72,7 +72,7 @@ def clean_dict(
 
 def write(
     component: Component,
-    session: bool = None,
+    session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
     dirpath: PosixPath = pp.CONFIG["sp"],

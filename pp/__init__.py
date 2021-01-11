@@ -27,7 +27,7 @@ import phidl.path as path
 from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from pp.config import CONFIG, call_if_func, conf, clear_connections
+from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
 from pp.port import port_array
@@ -89,7 +89,6 @@ __all__ = [
     "import_phidl_component",
     "c",
     "clear_cache",
-    "clear_connections",
     "conf",
     "component_factory",
     "call_if_func",
