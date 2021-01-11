@@ -51,6 +51,7 @@ import pp.klive as klive
 import pp.sp as sp
 import pp.port as port
 import pp.units as units
+import pp.types as types
 
 from pp.component_from_yaml import component_from_yaml
 from pp.recurse_references import recurse_references
@@ -111,6 +112,7 @@ __all__ = [
     "recurse_references",
     "show",
     "sp",
+    "types",
     "write_component",
     "write_component_type",
     "write_doe",

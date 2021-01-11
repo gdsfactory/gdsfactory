@@ -2,11 +2,11 @@
 
 from typing import Callable, Dict, Tuple, Union
 
-from phidl.device_layout import Device as Component
+from pp.component import Component
 
 Layer = Tuple[int, int]
 ComponentOrFunction = Union[Callable, Component]
 NameToFunctionDict = Dict[str, Callable]
-Real = Union[float, int]
+Number = Union[float, int]
 
-__all__ = ["Layer", "ComponentOrFunction", "NameToFunctionDict", "Real"]
+__all__ = ["Layer", "ComponentOrFunction", "NameToFunctionDict", "Number"]
