@@ -27,20 +27,28 @@ valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settin
 
 def place(
     placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
+        connections_by_transformed_inst: Dict[str, Dict[str, str]],
     instances: Dict[str, ComponentReference],
     encountered_insts: List[str],
     instance_name: Optional[str] = None,
+    all_remaining_insts: Optional[List[str]] = None,
 ) -> None:
     """Place instance_name with placements_conf config.
 
     Args:
         placements_conf: Dict of instance_name to placement (x, y, rotation ...)
+        connections_by_transformed_inst: Dict of connection attributes, keyed by the name of the instance which should be transformed
         instances: Dict of references
         encountered_insts: list of encountered_instances
         instance_name: instance_name to place
+        all_remaining_insts: a list of all the remaining instances which must be placed by this method. Items will be popped from this list as they are placed.
     """
+    if not all_remaining_insts:
+        return
     if instance_name is None:
-        instance_name = list(placements_conf.keys())[0]
+        instance_name = all_remaining_insts.pop(0)
+    else:
+        all_remaining_insts.remove(instance_name)
     if instance_name in encountered_insts:
         encountered_insts.append(instance_name)
         loop_str = " -> ".join(encountered_insts)
@@ -49,104 +57,153 @@ def place(
         )
     encountered_insts.append(instance_name)
     ref = instances[instance_name]
-    placement_settings = placements_conf[instance_name] or {}
-    for k, v in placement_settings.items():
-        if k not in valid_placements:
-            raise ValueError(
-                f"`{k}` not valid placement {valid_placements} for" f" {instance_name}"
-            )
-    x = placement_settings.get("x")
-    y = placement_settings.get("y")
-    dx = placement_settings.get("dx")
-    dy = placement_settings.get("dy")
-    port = placement_settings.get("port")
-    rotation = placement_settings.get("rotation")
-    mirror = placement_settings.get("mirror")
+    if instance_name in connections_by_transformed_inst:
+        conn_info = connections_by_transformed_inst[instance_name]
+        instance_dst_name = conn_info['instance_dst_name']
+        if instance_dst_name in all_remaining_insts:
+            place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_dst_name, all_remaining_insts)
+        make_connection(instances=instances, **conn_info)
+    else:
+        placement_settings = placements_conf[instance_name] or {}
+        for k, v in placement_settings.items():
+            if k not in valid_placements:
+                raise ValueError(
+                    f"`{k}` not valid placement {valid_placements} for" f" {instance_name}"
+                )
+        x = placement_settings.get("x")
+        y = placement_settings.get("y")
+        dx = placement_settings.get("dx")
+        dy = placement_settings.get("dy")
+        port = placement_settings.get("port")
+        rotation = placement_settings.get("rotation")
+        mirror = placement_settings.get("mirror")
 
-    if port:
-        a = ref.ports[port]
-        ref.x -= a.x
-        ref.y -= a.y
-    if x:
-        if isinstance(x, str):
-            if not len(x.split(",")) == 2:
-                raise ValueError(
-                    f"You can define x as `x: instaceName,portName` got `x: {x}`"
-                )
-            instance_name_ref, port_name = x.split(",")
-            if instance_name_ref in placements_conf:
-                place(placements_conf, instances, encountered_insts, instance_name_ref)
-            if instance_name_ref not in instances:
-                raise ValueError(
-                    f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
-                    f"you can define x as `x: instaceName,portName`, got `x: {x}`"
-                )
-            if port_name not in instances[instance_name_ref].ports:
-                raise ValueError(
-                    f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
-                    f"for {instance_name_ref}, "
-                    f"you can define x as `x: instaceName,portName`, got `x: {x}`"
-                )
-
-            x = instances[instance_name_ref].ports[port_name].x
-        ref.x += x
-    if y:
-        if isinstance(y, str):
-            if not len(y.split(",")) == 2:
-                raise ValueError(
-                    f"You can define y as `y: instaceName,portName` got `y: {y}`"
-                )
-            instance_name_ref, port_name = y.split(",")
-            if instance_name_ref in placements_conf:
-                place(placements_conf, instances, encountered_insts, instance_name_ref)
-            if instance_name_ref not in instances:
-                raise ValueError(
-                    f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
-                    f"you can define y as `y: instaceName,portName`, got `y: {y}`"
-                )
-            if port_name not in instances[instance_name_ref].ports:
-                raise ValueError(
-                    f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
-                    f"for {instance_name_ref}, "
-                    f"you can define y as `y: instaceName,portName`, got `y: {y}`"
-                )
-
-            y = instances[instance_name_ref].ports[port_name].y
-        ref.y += y
-    if dx:
-        ref.x += dx
-    if dy:
-        ref.y += dy
-    if mirror:
-        if mirror is True and port:
-            ref.reflect_h(port_name=port)
-        elif mirror is True:
-            if x:
-                ref.reflect_h(x0=x)
-            else:
-                ref.reflect_h()
-
-        elif mirror is False:
-            pass
-        elif isinstance(mirror, str):
-            ref.reflect_h(port_name=mirror)
-        elif isinstance(mirror, (int, float)):
-            ref.reflect_h(x0=mirror)
-        else:
-            raise ValueError(
-                f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
-            )
-
-    if rotation:
         if port:
-            ref.rotate(rotation, center=ref.ports[port])
-        else:
-            x, y = ref.origin
-            ref.rotate(rotation, center=(x, y))
-            # ref.rotate(rotation, center=(ref.x, ref.y))
+            a = ref.ports[port]
+            ref.x -= a.x
+            ref.y -= a.y
+        if x:
+            if isinstance(x, str):
+                if not len(x.split(",")) == 2:
+                    raise ValueError(
+                        f"You can define x as `x: instaceName,portName` got `x: {x}`"
+                    )
+                instance_name_ref, port_name = x.split(",")
+                if instance_name_ref in all_remaining_insts:
+                    place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_name_ref, all_remaining_insts)
+                if instance_name_ref not in instances:
+                    raise ValueError(
+                        f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                        f"you can define x as `x: instaceName,portName`, got `x: {x}`"
+                    )
+                if port_name not in instances[instance_name_ref].ports:
+                    raise ValueError(
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"for {instance_name_ref}, "
+                        f"you can define x as `x: instaceName,portName`, got `x: {x}`"
+                    )
 
-    placements_conf.pop(instance_name)
+                x = instances[instance_name_ref].ports[port_name].x
+            ref.x += x
+        if y:
+            if isinstance(y, str):
+                if not len(y.split(",")) == 2:
+                    raise ValueError(
+                        f"You can define y as `y: instaceName,portName` got `y: {y}`"
+                    )
+                instance_name_ref, port_name = y.split(",")
+                if instance_name_ref in all_remaining_insts:
+                    place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_name_ref, all_remaining_insts)
+                if instance_name_ref not in instances:
+                    raise ValueError(
+                        f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                        f"you can define y as `y: instaceName,portName`, got `y: {y}`"
+                    )
+                if port_name not in instances[instance_name_ref].ports:
+                    raise ValueError(
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"for {instance_name_ref}, "
+                        f"you can define y as `y: instaceName,portName`, got `y: {y}`"
+                    )
 
+                y = instances[instance_name_ref].ports[port_name].y
+            ref.y += y
+        if dx:
+            ref.x += dx
+        if dy:
+            ref.y += dy
+        if mirror:
+            if mirror is True and port:
+                ref.reflect_h(port_name=port)
+            elif mirror is True:
+                if x:
+                    ref.reflect_h(x0=x)
+                else:
+                    ref.reflect_h()
+
+            elif mirror is False:
+                pass
+            elif isinstance(mirror, str):
+                ref.reflect_h(port_name=mirror)
+            elif isinstance(mirror, (int, float)):
+                ref.reflect_h(x0=mirror)
+            else:
+                raise ValueError(
+                    f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
+                )
+
+        if rotation:
+            if port:
+                ref.rotate(rotation, center=ref.ports[port])
+            else:
+                x, y = ref.origin
+                ref.rotate(rotation, center=(x, y))
+                # ref.rotate(rotation, center=(ref.x, ref.y))
+
+        # placements_conf.pop(instance_name)
+
+
+def transform_connections_dict(connections_conf):
+    if not connections_conf:
+        return None
+    attrs_by_src_inst = {}
+    for port_src_string, port_dst_string in connections_conf.items():
+        instance_src_name, port_src_name = port_src_string.split(",")
+        instance_dst_name, port_dst_name = port_dst_string.split(",")
+        attrs_by_src_inst[instance_src_name] = {
+            'instance_src_name': instance_src_name,
+            'port_src_name': port_src_name,
+            'instance_dst_name': instance_dst_name,
+            'port_dst_name': port_dst_name,
+        }
+    return attrs_by_src_inst
+
+
+def make_connection(instance_src_name, port_src_name, instance_dst_name, port_dst_name, instances):
+    instance_src_name = instance_src_name.strip()
+    instance_dst_name = instance_dst_name.strip()
+    port_src_name = port_src_name.strip()
+    port_dst_name = port_dst_name.strip()
+
+    assert (
+            instance_src_name in instances
+    ), f"{instance_src_name} not in {list(instances.keys())}"
+    assert (
+            instance_dst_name in instances
+    ), f"{instance_dst_name} not in {list(instances.keys())}"
+    instance_src = instances[instance_src_name]
+    instance_dst = instances[instance_dst_name]
+
+    assert port_src_name in instance_src.ports, (
+        f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+        f" {instance_src_name} "
+    )
+    assert port_dst_name in instance_dst.ports, (
+        f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
+        f" {instance_dst_name}"
+    )
+    port_dst = instance_dst.ports[port_dst_name]
+    instance_src.connect(port=port_src_name, destination=port_dst)
 
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
@@ -258,42 +315,23 @@ def component_from_yaml(
         ref = c << ci
         instances[instance_name] = ref
 
-    while placements_conf:
+
+
+    connections_by_transformed_inst = transform_connections_dict(connections_conf)
+    components_to_place = set(placements_conf.keys())
+    components_with_placement_conflicts = components_to_place.intersection(connections_by_transformed_inst.keys())
+    if components_with_placement_conflicts:
+        raise ValueError(f'The following components in yaml pic had both instructions to place via connection and explicit placement. Please only use one or the other: {", ".join(components_with_placement_conflicts)}')
+
+    all_remaining_insts = list(placements_conf.keys()) + list(connections_by_transformed_inst.keys())
+    while all_remaining_insts:
         place(
             placements_conf=placements_conf,
+            connections_by_transformed_inst=connections_by_transformed_inst,
             instances=instances,
             encountered_insts=list(),
+            all_remaining_insts=all_remaining_insts,
         )
-
-    if connections_conf:
-        for port_src_string, port_dst_string in connections_conf.items():
-            instance_src_name, port_src_name = port_src_string.split(",")
-            instance_dst_name, port_dst_name = port_dst_string.split(",")
-
-            instance_src_name = instance_src_name.strip()
-            instance_dst_name = instance_dst_name.strip()
-            port_src_name = port_src_name.strip()
-            port_dst_name = port_dst_name.strip()
-
-            assert (
-                instance_src_name in instances
-            ), f"{instance_src_name} not in {list(instances.keys())}"
-            assert (
-                instance_dst_name in instances
-            ), f"{instance_dst_name} not in {list(instances.keys())}"
-            instance_src = instances[instance_src_name]
-            instance_dst = instances[instance_dst_name]
-
-            assert port_src_name in instance_src.ports, (
-                f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-                f" {instance_src_name} "
-            )
-            assert port_dst_name in instance_dst.ports, (
-                f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-                f" {instance_dst_name}"
-            )
-            port_dst = instance_dst.ports[port_dst_name]
-            instance_src.connect(port=port_src_name, destination=port_dst)
 
     for instance_name in instances_dict:
         label_instance_function(
