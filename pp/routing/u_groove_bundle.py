@@ -489,11 +489,13 @@ def u_bundle_indirect_routes(
     conn1 = u_bundle_direct_routes(
         tmp_ports1, end_ports[: len(tmp_ports1)], **bundle_params
     )
-    conn2 = u_bundle_direct_routes(
-        tmp_ports2, end_ports[len(tmp_ports1) :], **bundle_params
-    )
-
-    add_connections(conn1 + conn2)
+    if tmp_ports2:
+        conn2 = u_bundle_direct_routes(
+            tmp_ports2, end_ports[len(tmp_ports1) :], **bundle_params
+        )
+        add_connections(conn1 + conn2)
+    else:
+        add_connections(conn1)
 
     def _merge_connections(list_of_points):
 
