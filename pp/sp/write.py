@@ -113,6 +113,10 @@ def write(
         assert (
             setting in sim_settings
         ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+    for setting in settings.keys():
+        assert (
+            setting in sim_settings
+        ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
 
     sim_settings.update(**settings)
 
