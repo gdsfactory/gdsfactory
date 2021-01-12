@@ -1,4 +1,6 @@
 """Write component Sparameters with FDTD Lumerical simulations.
+
+Notice that this is the only file where units are in SI units (meters instead of um).
 """
 
 import json
@@ -129,12 +131,15 @@ def write(
 
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
+    layer2material = settings.pop("layer2material", ss.layer2material)
+    layer2nm = settings.pop("layer2nm", ss.layer2nm)
 
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=ss.layer2material,
-        layer2nm=ss.layer2nm,
+        layer2material=layer2material,
+        layer2nm=layer2nm,
+        **settings,
     )
     filepath_json = filepath.with_suffix(".json")
     filepath_sim_settings = filepath.with_suffix(".yml")
@@ -317,7 +322,7 @@ def write(
 
 
 def sample_write_coupler_ring():
-    """Sample on how to write a sweep of Sparameters."""
+    """Write Sparameters when changing a component setting."""
     [
         write(
             pp.c.coupler_ring(
@@ -331,10 +336,26 @@ def sample_write_coupler_ring():
     ]
 
 
+def sample_convergence_mesh():
+    [
+        write(component=pp.c.waveguide(length=2), mesh_accuracy=mesh_accuracy)
+        for mesh_accuracy in [1, 2, 3]
+    ]
+
+
+def sample_convergence_wavelength():
+    [
+        write(component=pp.c.waveguide(length=2), wavelength_start=wavelength_start)
+        for wavelength_start in [1.222323e-6, 1.4e-6]
+    ]
+
+
 if __name__ == "__main__":
     # c = pp.c.coupler_ring(length_x=3)
     c = pp.c.mmi1x2()
-    r = write(component=c, layer2nm={(1, 0): 200})
-    print(r)
+    # r = write(component=c, layer2nm={(1, 0): 200}, run=False)
+    # print(r)
     # print(r.keys())
     # print(c.ports.keys())
+    # sample_convergence_mesh()
+    sample_convergence_wavelength()
