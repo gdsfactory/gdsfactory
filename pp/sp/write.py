@@ -2,8 +2,8 @@
 
 Notice that this is the only file where units are in SI units (meters instead of um).
 """
-
 import json
+import time
 from collections import namedtuple
 from pathlib import PosixPath
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -199,6 +199,7 @@ def write(
     except OSError as e:
         raise e
 
+    start = time.time()
     s = session or lumapi.FDTD(hide=False)
     s.newproject()
     s.selectall()
@@ -320,6 +321,8 @@ def write(
         results.update(ra)
         results.update(rm)
 
+        end = time.time()
+        sim_settings.update(compute_time=end - start)
         filepath_json.write_text(json.dumps(results))
         filepath_sim_settings.write_text(yaml.dump(sim_settings))
         return results
