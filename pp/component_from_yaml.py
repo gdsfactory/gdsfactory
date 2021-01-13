@@ -10,6 +10,7 @@ from omegaconf import OmegaConf
 from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
+from pp.components.extension import move_polar_rad_copy
 from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -27,7 +28,7 @@ valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settin
 
 def place(
     placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
-        connections_by_transformed_inst: Dict[str, Dict[str, str]],
+    connections_by_transformed_inst: Dict[str, Dict[str, str]],
     instances: Dict[str, ComponentReference],
     encountered_insts: List[str],
     instance_name: Optional[str] = None,
@@ -57,18 +58,41 @@ def place(
         )
     encountered_insts.append(instance_name)
     ref = instances[instance_name]
+
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
-        instance_dst_name = conn_info['instance_dst_name']
+        instance_dst_name = conn_info["instance_dst_name"]
         if instance_dst_name in all_remaining_insts:
-            place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_dst_name, all_remaining_insts)
+            place(
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                instance_dst_name,
+                all_remaining_insts,
+            )
+        if instance_name in placements_conf:
+            placement_settings = placements_conf[instance_name] or {}
+            mirror = placement_settings.get("mirror")
+            port = placement_settings.get("port")
+            if mirror:
+                port_object = ref.ports[port]
+                p1 = port_object.midpoint
+                p2 = move_polar_rad_copy(
+                    p1, angle=port_object.orientation * np.pi / 180, length=0.2
+                )
+                ref.reflect(p1=p1, p2=p2)
+
         make_connection(instances=instances, **conn_info)
+
+    # if instance_name in placements_conf:
     else:
         placement_settings = placements_conf[instance_name] or {}
         for k, v in placement_settings.items():
             if k not in valid_placements:
                 raise ValueError(
-                    f"`{k}` not valid placement {valid_placements} for" f" {instance_name}"
+                    f"`{k}` not valid placement {valid_placements} for"
+                    f" {instance_name}"
                 )
         x = placement_settings.get("x")
         y = placement_settings.get("y")
@@ -90,7 +114,14 @@ def place(
                     )
                 instance_name_ref, port_name = x.split(",")
                 if instance_name_ref in all_remaining_insts:
-                    place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_name_ref, all_remaining_insts)
+                    place(
+                        placements_conf,
+                        connections_by_transformed_inst,
+                        instances,
+                        encountered_insts,
+                        instance_name_ref,
+                        all_remaining_insts,
+                    )
                 if instance_name_ref not in instances:
                     raise ValueError(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
@@ -113,7 +144,14 @@ def place(
                     )
                 instance_name_ref, port_name = y.split(",")
                 if instance_name_ref in all_remaining_insts:
-                    place(placements_conf, connections_by_transformed_inst, instances, encountered_insts, instance_name_ref, all_remaining_insts)
+                    place(
+                        placements_conf,
+                        connections_by_transformed_inst,
+                        instances,
+                        encountered_insts,
+                        instance_name_ref,
+                        all_remaining_insts,
+                    )
                 if instance_name_ref not in instances:
                     raise ValueError(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
@@ -134,13 +172,17 @@ def place(
             ref.y += dy
         if mirror:
             if mirror is True and port:
-                ref.reflect_h(port_name=port)
+                port_object = ref.ports[port]
+                p1 = port_object.midpoint
+                p2 = move_polar_rad_copy(
+                    p1, angle=port_object.orientation * np.pi / 180, length=0.2
+                )
+                ref.reflect(p1=p1, p2=p2)
             elif mirror is True:
                 if x:
                     ref.reflect_h(x0=x)
                 else:
                     ref.reflect_h()
-
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
@@ -163,33 +205,40 @@ def place(
         # placements_conf.pop(instance_name)
 
 
-def transform_connections_dict(connections_conf):
+def transform_connections_dict(connections_conf: Dict[str, str]) -> Dict[str, Dict]:
+    """"""
     if not connections_conf:
-        return None
+        return {}
     attrs_by_src_inst = {}
     for port_src_string, port_dst_string in connections_conf.items():
         instance_src_name, port_src_name = port_src_string.split(",")
         instance_dst_name, port_dst_name = port_dst_string.split(",")
         attrs_by_src_inst[instance_src_name] = {
-            'instance_src_name': instance_src_name,
-            'port_src_name': port_src_name,
-            'instance_dst_name': instance_dst_name,
-            'port_dst_name': port_dst_name,
+            "instance_src_name": instance_src_name,
+            "port_src_name": port_src_name,
+            "instance_dst_name": instance_dst_name,
+            "port_dst_name": port_dst_name,
         }
     return attrs_by_src_inst
 
 
-def make_connection(instance_src_name, port_src_name, instance_dst_name, port_dst_name, instances):
+def make_connection(
+    instance_src_name: str,
+    port_src_name: str,
+    instance_dst_name: str,
+    port_dst_name: str,
+    instances,
+) -> None:
     instance_src_name = instance_src_name.strip()
     instance_dst_name = instance_dst_name.strip()
     port_src_name = port_src_name.strip()
     port_dst_name = port_dst_name.strip()
 
     assert (
-            instance_src_name in instances
+        instance_src_name in instances
     ), f"{instance_src_name} not in {list(instances.keys())}"
     assert (
-            instance_dst_name in instances
+        instance_dst_name in instances
     ), f"{instance_dst_name} not in {list(instances.keys())}"
     instance_src = instances[instance_src_name]
     instance_dst = instances[instance_dst_name]
@@ -204,6 +253,7 @@ def make_connection(instance_src_name, port_src_name, instance_dst_name, port_ds
     )
     port_dst = instance_dst.ports[port_dst_name]
     instance_src.connect(port=port_src_name, destination=port_dst)
+
 
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
@@ -315,15 +365,22 @@ def component_from_yaml(
         ref = c << ci
         instances[instance_name] = ref
 
-
+    placements_conf = dict() if placements_conf is None else placements_conf
 
     connections_by_transformed_inst = transform_connections_dict(connections_conf)
     components_to_place = set(placements_conf.keys())
-    components_with_placement_conflicts = components_to_place.intersection(connections_by_transformed_inst.keys())
+    components_with_placement_conflicts = components_to_place.intersection(
+        connections_by_transformed_inst.keys()
+    )
     if components_with_placement_conflicts:
-        raise ValueError(f'The following components in yaml pic had both instructions to place via connection and explicit placement. Please only use one or the other: {", ".join(components_with_placement_conflicts)}')
+        # raise ValueError(
+        #     f'The following components in yaml pic had both instructions to place via connection and explicit placement. Please only use one or the other: {", ".join(components_with_placement_conflicts)}'
+        # )
+        print("defining placement and connections")
 
-    all_remaining_insts = list(placements_conf.keys()) + list(connections_by_transformed_inst.keys())
+    all_remaining_insts = list(placements_conf.keys()) + list(
+        connections_by_transformed_inst.keys()
+    )
     while all_remaining_insts:
         place(
             placements_conf=placements_conf,
@@ -442,7 +499,7 @@ def component_from_yaml(
 
                     # print(ports1)
                     # print(ports2)
-                    print(route_names)
+                    # print(route_names)
 
                 else:
                     instance_src_name, port_src_name = port_src_string.split(",")
@@ -481,7 +538,9 @@ def component_from_yaml(
                 "link_optical_waypoints",
             ]:
                 route = link_function(
-                    route_filter=route_filter, **route_settings, **link_settings,
+                    route_filter=route_filter,
+                    **route_settings,
+                    **link_settings,
                 )
                 routes[route_name] = route
 
@@ -570,10 +629,23 @@ connections:
 
 """
 
+#
+#        __Lx__
+#       |      |
+#       Ly     Lyr
+#       |      |
+#  CP1==|      |==CP2
+#       |      |
+#       Ly     Lyr
+#       |      |
+#      DL/2   DL/2
+#       |      |
+#       |__Lx__|
+#
 
 sample_mirror = """
 name:
-    mirror
+    mzi_with_mirrored_arm
 
 instances:
     CP1:
@@ -593,12 +665,13 @@ instances:
     arm_bot:
         component: mzi_arm
         settings:
-            L0: 30
+            L0: 15
 
 placements:
     arm_bot:
+        port: E0
         mirror: True
-        rotation: 180
+
 ports:
     W0: CP1,W0
     E0: CP2,W0
@@ -608,6 +681,26 @@ connections:
     arm_top,W0: CP1,E1
     CP2,E0: arm_bot,E0
     CP2,E1: arm_top,E0
+"""
+
+
+sample_mirror_simple = """
+
+instances:
+    w:
+        component: waveguide
+
+    b:
+        component: bend_circular
+
+placements:
+    b:
+        mirror: True
+        port: W0
+
+connections:
+    b,W0: w,E0
+
 """
 
 
@@ -631,7 +724,7 @@ def test_mirror():
     c = component_from_yaml(sample_mirror)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
-    assert len(c.get_dependencies()) == 3
+    assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 2
     return c
 
@@ -939,16 +1032,17 @@ if __name__ == "__main__":
     # cc = component_from_yaml(sample_regex_connections)
     # cc = component_from_yaml(sample_regex_connections_backwards)
     # cc = test_docstring_sample()
+    # cc = test_connections()
+    # cc = test_mirror()
+    cc = component_from_yaml(sample_mirror_simple)
 
-    cc = test_connections_2x2()
+    # cc = test_connections_2x2()
     # test_sample()
     # cc = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
-
     # cc = component_from_yaml(sample_different_link_factory)
-
     # cc = component_from_yaml(sample_waypoints)
     pp.show(cc)
 

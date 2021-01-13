@@ -35,7 +35,7 @@ def move_polar_rad_copy(pos: ndarray, angle: float, length: float) -> ndarray:
 
     Args:
         pos: position
-        angle: in deg
+        angle: in radians
         length: extension length
 
     """

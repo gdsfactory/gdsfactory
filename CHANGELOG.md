@@ -23,6 +23,15 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.5 2021-01-13
+
+- added common types in pp.types
+- added simulation settings in name of sparameters
+- reduce some type errors when running mypy
+- fix error in u_bundle_direct_routes for a single route (thanks to tvt173)
+- When a component has both a placement and a connection are defined and transform over a component, we raise an error.
+
+
 ## 2.2.4 2020-12-25
 
 - get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.
