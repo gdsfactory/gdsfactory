@@ -364,10 +364,9 @@ def component_from_yaml(
     for instance_name in components_with_placement_conflicts:
         placement_settings = placements_conf[instance_name]
         if "x" in placement_settings or "y" in placement_settings:
-            raise ValueError(
-                "The following components in yaml pic had both instructions to place",
-                "via connection and explicit placement.",
-                f'Please only use one or the other: {", ".join(components_with_placement_conflicts)}',
+            print(
+                f"YAML defined: ({', '.join(components_with_placement_conflicts)}) "
+                + "with both connection and placement. Please use one or the other.",
             )
 
     all_remaining_insts = list(
@@ -531,9 +530,7 @@ def component_from_yaml(
                 "link_optical_waypoints",
             ]:
                 route = link_function(
-                    route_filter=route_filter,
-                    **route_settings,
-                    **link_settings,
+                    route_filter=route_filter, **route_settings, **link_settings,
                 )
                 routes[route_name] = route
 
