@@ -486,14 +486,23 @@ def u_bundle_indirect_routes(
     }
 
     end_ports.sort(key=lambda p: p.y)
-    conn1 = u_bundle_direct_routes(
-        tmp_ports1, end_ports[: len(tmp_ports1)], **bundle_params
-    )
-    conn2 = u_bundle_direct_routes(
-        tmp_ports2, end_ports[len(tmp_ports1) :], **bundle_params
-    )
-
-    add_connections(conn1 + conn2)
+    conns = []
+    if tmp_ports1:
+        conn1 = u_bundle_direct_routes(
+            tmp_ports1, end_ports[: len(tmp_ports1)], **bundle_params
+        )
+        conns.append(conn1)
+    if tmp_ports2:
+        conn2 = u_bundle_direct_routes(
+            tmp_ports2, end_ports[len(tmp_ports1) :], **bundle_params
+        )
+        conns.append(conn2)
+    if len(conns) > 1:
+        add_connections(conn1 + conn2)
+    elif len(conns) == 1:
+        add_connections(conns[0])
+    else:
+        raise ValueError('No connections generated!')
 
     def _merge_connections(list_of_points):
 
