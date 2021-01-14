@@ -10,7 +10,6 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import yaml
-from omegaconf import OmegaConf
 
 import pp
 from pp.component import Component
@@ -60,16 +59,17 @@ def clean_dict(
     d: Dict[str, Any], layers: List[Tuple[int, int]]
 ) -> Dict[str, Union[str, float, int]]:
     """Returns same dict after converting tuple keys into list of strings."""
-    d["layer2nm"] = [
+    output = {}
+    output["layer2nm"] = [
         f"{k[0]}_{k[1]}_{v}" for k, v in d.get("layer2nm", {}).items() if k in layers
     ]
-    d["layer2material"] = [
+    output["layer2material"] = [
         f"{k[0]}_{k[1]}_{v}"
         for k, v in d.get("layer2material", {}).items()
         if k in layers
     ]
-    d["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
-    return d
+    output["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
+    return output
 
 
 def write(
@@ -175,17 +175,13 @@ def write(
     z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
 
     layers = component.get_layers()
-    sim_settings = OmegaConf.create(
-        dict(
-            simulation_settings=clean_dict(sim_settings, layers=layers),
-            component=component.get_settings(),
-            version=__version__,
-        )
+    sim_settings = dict(
+        simulation_settings=clean_dict(sim_settings, layers),
+        component=component.get_settings(),
+        version=__version__,
     )
 
-    # Uncomment to debug
-    # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
-    # print(filepath_sim_settings)
+    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
     # return
 
     try:
@@ -360,7 +356,7 @@ def sample_convergence_wavelength():
 if __name__ == "__main__":
     # c = pp.c.coupler_ring(length_x=3)
     c = pp.c.mmi1x2()
-    # r = write(component=c, layer2nm={(1, 0): 200}, run=False)
+    r = write(component=c, layer2nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
     # print(c.ports.keys())
