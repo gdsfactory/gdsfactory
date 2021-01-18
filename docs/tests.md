@@ -14,4 +14,4 @@ This will run 3 types of tests:
     - `pp/components/test_ports.py` stores all port locations in a CSV file
 
 
-I reccommend that you also write tests for the new cells that you write. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
+I recommend that you also write tests for the new cells that you write. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)

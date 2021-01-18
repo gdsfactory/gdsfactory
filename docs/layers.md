@@ -24,7 +24,7 @@ Layers are available in `pp.LAYER` as `pp.LAYER.WG`, `pp.LAYER.WGCLAD`
 
 You can build PDKs for different foundries using gdsfactory, the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo. See [UBC PDK](https://github.com/gdsfactory/ubc) as an example.
 
-I reccommend that you create the PDK repo using a cookiecutter template. For example, you can use this one.
+I recommend that you create the PDK repo using a cookiecutter template. For example, you can use this one.
 
 ```
 pip install cookiecutter

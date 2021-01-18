@@ -31,10 +31,10 @@ gdsfactory is all written in python and requires some basic knowledge of python.
 Works for python>=3.7 for Windows, MacOs and Linux.
 [Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
 
-If you are on Windows, I reccommend you install it with Anaconda3 or Miniconda3.
+If you are on Windows, I recommend you install it with Anaconda3 or Miniconda3.
 
 
-I also reccommend that you install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
+I also recommend that you install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
 
 For Windows, Linux and MacOs you can install the latest released version:
 
