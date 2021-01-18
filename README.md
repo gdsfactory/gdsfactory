@@ -1,6 +1,6 @@
-<div align="center">
-  <img src="https://github.com/gdsfactory/gdsfactory/blob/225/docs/images/logo.png"><br>
-</div>
+
+![](https://i.imgur.com/v4wpHpg.png)
+
 
 -----------------
 

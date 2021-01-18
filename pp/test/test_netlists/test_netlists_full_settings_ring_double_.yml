@@ -41,18 +41,22 @@ instances:
 name: ring_double
 placements:
   coupler_ring_178006f7_-1.5_10.675:
+    mirror: false
     rotation: 180
     x: -3.0
     y: 13.4
   coupler_ring_178006f7_-1.5_2.725:
+    mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
   waveguide_L2_W500n_-8.0_6.7:
+    mirror: false
     rotation: 270
     x: -8.0
     y: 7.7
   waveguide_L2_W500n_5.0_6.7:
+    mirror: false
     rotation: 270
     x: 5.0
     y: 7.7

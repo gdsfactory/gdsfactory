@@ -12,6 +12,7 @@ instances:
 name: mzit_lattice
 placements:
   mzit_57d3e173_19.138_11.65:
+    mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
