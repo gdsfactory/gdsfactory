@@ -7,3 +7,6 @@ example:
 
 generic:
 	gds3xtrude --tech generic.layerstack --input mzi.gds --view
+
+logo:
+	gds3xtrude --tech generic.layerstack --input gds/logo.gds --view

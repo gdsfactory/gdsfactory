@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="https://github.com/gdsfactory/gdsfactory/blob/225/docs/images/logo.png"><br>
+</div>
+
+-----------------
+
 # gdsfactory 2.2.4
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
