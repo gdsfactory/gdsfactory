@@ -935,7 +935,16 @@ class Component(Device):
         return self.__str__()
 
     def plot(self, **kwargs) -> None:
-        """Plot component in matplotlib"""
+        """Plot component in matplotlib
+
+        Args:
+            show_ports: True
+            show_subports:
+            label_ports:
+            label_aliases:
+            new_window
+
+        """
         from phidl import quickplot as qp
 
         from pp.cell import clear_cache

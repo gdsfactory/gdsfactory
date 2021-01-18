@@ -23,11 +23,18 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 - run notebooks
 - see latest changes in [CHANGELOG](CHANGELOG.md)
 
+gdsfactory is all written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
+
+
 ## Installation
 
-Works for python>=3.6.
+Works for python>=3.7 for Windows, MacOs and Linux.
+[Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
 
 If you are on Windows, I reccommend you install it with Anaconda3 or Miniconda3.
+
+
+I also reccommend that you install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
 
 For Windows, Linux and MacOs you can install the latest released version:
 
@@ -69,7 +76,7 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - routing: add waveguides to connect components
   - samples: python tutorial
   - tests:
-- klayout: klayout generic tech layers and klive macro
+  - klayout: klayout generic tech layers and klive macro
 - notebooks: jupyter-notebooks for training
 
 

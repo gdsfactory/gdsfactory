@@ -6,6 +6,15 @@
 
 `CONFIG` has all the paths that we do not care
 `conf` has all the useful info
+
+You can access all the config dictionary with `print_config` as well as a particular key
+
+```
+from pp.config import print_config
+
+print_config()
+
+```
 """
 
 __version__ = "2.2.5"
@@ -132,6 +141,7 @@ logging.warning("This will get logged to a file")
 
 
 def print_config(key=None):
+    """Prints a key for the config or all the keys"""
     if key:
         if conf.get(key):
             print(conf[key])
@@ -153,6 +163,7 @@ def complex_encoder(z):
 
 
 def write_config(config, json_out_path):
+    """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
 
@@ -162,7 +173,7 @@ def call_if_func(f: Any, **kwargs) -> Any:
 
 
 def get_git_hash():
-    """ Get the current git hash """
+    """Returns repository git hash."""
     try:
         with open(os.devnull, "w") as shutup:
             return (
