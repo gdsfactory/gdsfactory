@@ -195,7 +195,7 @@ def place(
 
 
 def transform_connections_dict(connections_conf: Dict[str, str]) -> Dict[str, Dict]:
-    """Detects conflicts"""
+    """Returns Dict with source_instance_name key and connection properties."""
     if not connections_conf:
         return {}
     attrs_by_src_inst = {}
@@ -1015,15 +1015,43 @@ def test_docstring_sample():
     return c
 
 
+yaml_fail = """
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        port: W0
+        x: mmi_long,E1
+        y: mmi_long,E1
+    mmi_long:
+        port: W0
+        x: mmi_short,E1
+        y: mmi_short,E1
+        dx : 10
+        dy: 20
+"""
+
+
 if __name__ == "__main__":
     import pp
+
+    cc = component_from_yaml(yaml_fail)  # this should fail
 
     # cc = test_connections_regex()
     # cc = component_from_yaml(sample_regex_connections)
     # cc = component_from_yaml(sample_regex_connections_backwards)
     # cc = test_docstring_sample()
     # cc = test_connections()
-    cc = test_mirror()
     # cc = component_from_yaml(sample_mirror_simple)
 
     # cc = test_connections_2x2()
@@ -1034,6 +1062,7 @@ if __name__ == "__main__":
     # test_mirror()
     # cc = component_from_yaml(sample_different_link_factory)
     # cc = component_from_yaml(sample_waypoints)
+    # cc = test_mirror()
     pp.show(cc)
 
     # cc = component_from_yaml(sample_connections)
