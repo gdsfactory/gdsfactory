@@ -2,13 +2,13 @@
 
 Notice that this is the only file where units are in SI units (meters instead of um).
 """
-import json
 import time
 from collections import namedtuple
 from pathlib import PosixPath
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pandas as pd
 import yaml
 
 import pp
@@ -59,7 +59,7 @@ def clean_dict(
     d: Dict[str, Any], layers: List[Tuple[int, int]]
 ) -> Dict[str, Union[str, float, int]]:
     """Returns same dict after converting tuple keys into list of strings."""
-    output = {}
+    output = d.copy()
     output["layer2nm"] = [
         f"{k[0]}_{k[1]}_{v}" for k, v in d.get("layer2nm", {}).items() if k in layers
     ]
@@ -79,8 +79,11 @@ def write(
     overwrite: bool = False,
     dirpath: PosixPath = pp.CONFIG["sp"],
     **settings,
-):
-    """Write Sparameters from a gdsfactory component using Lumerical FDTD.
+) -> pd.DataFrame:
+    """Return and write component Sparameters from Lumerical FDTD.
+
+    if simulation exists and returns the Sparameters directly
+    unless overwrite=False
 
     Args:
         component: gdsfactory Component
@@ -103,7 +106,9 @@ def write(
         wavelength_points: 500
 
     Return:
-        results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
+        Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
+        suffix `a` for angle and `m` for module
+
     """
     sim_settings = default_simulation_settings
 
@@ -145,12 +150,12 @@ def write(
         layer2nm=layer2nm,
         **settings,
     )
-    filepath_json = filepath.with_suffix(".json")
+    filepath_csv = filepath.with_suffix(".csv")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
 
-    if run and filepath_json.exists() and not overwrite:
-        return json.loads(open(filepath_json).read())
+    if run and filepath_csv.exists() and not overwrite:
+        return pd.read_csv(filepath_csv)
 
     if not run and session is None:
         print(run_false_warning)
@@ -182,6 +187,7 @@ def write(
     )
 
     # filepath_sim_settings.write_text(yaml.dump(sim_settings))
+    # print(filepath_sim_settings)
     # return
 
     try:
@@ -313,15 +319,18 @@ def write(
         ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
         rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
 
-        results = {"wavelength_nm": list(sp["lambda"].flatten() * 1e9)}
+        wavelength_nm = sp["lambda"].flatten() * 1e9
+
+        results = {"wavelength_nm": wavelength_nm}
         results.update(ra)
         results.update(rm)
+        df = pd.DataFrame(results, index=wavelength_nm)
 
         end = time.time()
-        sim_settings.update(compute_time=end - start)
-        filepath_json.write_text(json.dumps(results))
+        sim_settings.update(compute_time_seconds=end - start)
+        df.to_csv(filepath_csv, index=False)
         filepath_sim_settings.write_text(yaml.dump(sim_settings))
-        return results
+        return df
 
 
 def sample_write_coupler_ring():
@@ -354,11 +363,13 @@ def sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
+    c = pp.c.waveguide(length=2)
+    r = write(component=c, mesh_accuracy=1, run=False)
     # c = pp.c.coupler_ring(length_x=3)
-    c = pp.c.mmi1x2()
-    r = write(component=c, layer2nm={(1, 0): 200}, run=False)
+    # c = pp.c.mmi1x2()
+    # r = write(component=c, layer2nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
     # print(c.ports.keys())
     # sample_convergence_mesh()
-    sample_convergence_wavelength()
+    # sample_convergence_wavelength()

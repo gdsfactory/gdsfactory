@@ -1,15 +1,17 @@
 from pathlib import PosixPath
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+from pandas import DataFrame
 
 import pp
+from pp.component import Component
 from pp.sp.write import write
 
 
 def plot(
-    component_or_results_dict,
+    component_or_df: Union[Component, DataFrame],
     logscale: bool = True,
     keys: Optional[Iterable[str]] = None,
     dirpath: PosixPath = pp.CONFIG["sp"],
@@ -18,7 +20,7 @@ def plot(
     """Plots Sparameters.
 
     Args:
-        component_or_results_dict:
+        component_or_df: Component or Sparameters in pandas DataFrame
         logscale: plots 20*log10(results)
         keys: list of keys to plot
         dirpath: where to store the simulations
@@ -26,8 +28,8 @@ def plot(
 
     """
 
-    r = component_or_results_dict
-    if isinstance(r, pp.Component):
+    r = component_or_df
+    if isinstance(r, Component):
         r = write(component=r, dirpath=dirpath, **sim_settings)
     w = r["wavelength_nm"]
 
