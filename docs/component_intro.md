@@ -1,3 +1,14 @@
+Now that you have installed gdsfactory lets create your first component.
+
+You'll need to keep 3 windows open:
+
+1. A text editor or IDE (Visual Studio Code, Pycharm, Spyer, neovim, Atom, Jupyterlab ...)
+2. Klayout to Visualize the GDS files.
+3. An Ipython terminal / jupyter notebook (interactive python to run).
+
+![windows](https://i.imgur.com/DyVL6IE.png)
+
+
 # Component
 
 A Component contains:

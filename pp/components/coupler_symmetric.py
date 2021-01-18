@@ -45,7 +45,7 @@ def coupler_symmetric(
               E0
 
     """
-    bend = (
+    bend_component = (
         bend(
             width=wg_width,
             layer=layer,
@@ -57,12 +57,12 @@ def coupler_symmetric(
         else bend
     )
 
-    w = bend.ports["W0"].width
+    w = bend_component.ports["W0"].width
     y = (w + gap) / 2
 
     c = pp.Component()
-    top_bend = bend.ref(position=(0, y), port_id="W0")
-    bottom_bend = bend.ref(position=(0, -y), port_id="W0", v_mirror=True)
+    top_bend = bend_component.ref(position=(0, y), port_id="W0")
+    bottom_bend = bend_component.ref(position=(0, -y), port_id="W0", v_mirror=True)
 
     c.add(top_bend)
     c.add(bottom_bend)

@@ -375,7 +375,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: int = 45, center: Tuple[float, float] = (0.0, 0.0),
+        self, angle: Union[float, int] = 45, center: Tuple[float, float] = (0.0, 0.0),
     ):
         """Return ComponentReference rotated:
 
@@ -927,13 +927,38 @@ class Component(Device):
         return layers
 
     def _repr_html_(self):
+        """Print component, show geometry in matplotlib and in klayout
+        when using jupyter notebooks
+        """
+        self.show()
+        self.plot()
+        return self.__str__()
+
+    def plot(self, **kwargs) -> None:
+        """Plot component in matplotlib
+
+        Args:
+            show_ports: True
+            show_subports:
+            label_ports:
+            label_aliases:
+            new_window
+
+        """
         from phidl import quickplot as qp
 
+        from pp.cell import clear_cache
+
+        qp(self, **kwargs)
+        clear_cache()
+
+    def show(self) -> None:
+        """Show component in klayout"""
+        from pp.cell import clear_cache
         from pp.write_component import show
 
-        qp(self)
         show(self)
-        return self.__str__()
+        clear_cache()
 
 
 def test_get_layers():

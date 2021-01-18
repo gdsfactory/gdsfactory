@@ -23,6 +23,19 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.5 2021-01-13
+
+- added common types in pp.types
+- added simulation settings in name of sparameters
+- store Sparameters in .csv as well as in Lumerical interconnect format .dat
+- reduce some type errors when running mypy
+- fix error in u_bundle_direct_routes for a single route (thanks to tvt173)
+- When a component has both a placement and a connection are defined and transform over a component, we raise an error.
+- add Component().plot() in matplotlib and Component.show() in Klayout
+- clear_cache when running plot() or show(). Useful for Jupyter notebooks
+- add logo
+
+
 ## 2.2.4 2020-12-25
 
 - get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.

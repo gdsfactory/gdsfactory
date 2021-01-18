@@ -91,74 +91,92 @@ instances:
 name: mzi
 placements:
   bend_circular_R10_17.873_-5.5:
+    mirror: false
     rotation: 90
     x: 22.748
     y: -10.625
   bend_circular_R10_17.873_5.5:
+    mirror: false
     rotation: 0
     x: 12.748
     y: 0.625
   bend_circular_R10_27.623_-24.75:
+    mirror: false
     rotation: 270
     x: 22.748
     y: -19.625
   bend_circular_R10_27.623_19.75:
+    mirror: false
     rotation: 180
     x: 32.748
     y: 24.625
   bend_circular_R10_37.973_-24.75:
+    mirror: false
     rotation: 0
     x: 32.848
     y: -29.625
   bend_circular_R10_37.973_19.75:
+    mirror: false
     rotation: 90
     x: 42.848
     y: 14.625
   bend_circular_R10_47.723_-5.5:
+    mirror: false
     rotation: 180
     x: 52.848
     y: -0.625
   bend_circular_R10_47.723_5.5:
+    mirror: false
     rotation: 270
     x: 42.848
     y: 10.625
   mmi1x2_0.0_0.0:
+    mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
   mmi1x2_65.596_-0.0:
+    mirror: false
     rotation: 180
     x: 65.596
     y: -0.0
   waveguide_L100n_32.798_-29.625:
+    mirror: false
     rotation: 0
     x: 32.748
     y: -29.625
   waveguide_L100n_32.798_24.625:
+    mirror: false
     rotation: 0
     x: 32.748
     y: 24.625
   waveguide_L4_22.748_-12.625:
+    mirror: false
     rotation: 270
     x: 22.748
     y: -10.625
   waveguide_L4_22.748_12.625:
+    mirror: false
     rotation: 90
     x: 22.748
     y: 10.625
   waveguide_L4_42.848_-12.625:
+    mirror: false
     rotation: 90
     x: 42.848
     y: -14.625
   waveguide_L4_42.848_12.625:
+    mirror: false
     rotation: 270
     x: 42.848
     y: 14.625
   waveguide_L5_22.748_-17.125:
+    mirror: false
     rotation: 270
     x: 22.748
     y: -14.625
   waveguide_L5_42.848_-17.125:
+    mirror: false
     rotation: 90
     x: 42.848
     y: -19.625

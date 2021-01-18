@@ -3,8 +3,9 @@ from typing import Tuple
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components import compass, taper
+from pp.components.compass import compass
 from pp.components.grating_coupler import grating_coupler
+from pp.components.taper import taper
 
 
 @grating_coupler

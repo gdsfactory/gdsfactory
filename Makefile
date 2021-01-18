@@ -70,5 +70,10 @@ lintdocs2:
 doc8:
 	doc8 docs/
 
+autopep8:
+	autopep8 --in-place --aggressive --aggressive **/*.py
+
+codestyle:
+	pycodestyle --max-line-length=88
 
 .PHONY: gdsdiff build conda

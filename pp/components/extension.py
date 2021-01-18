@@ -31,6 +31,14 @@ def line(
 
 
 def move_polar_rad_copy(pos: ndarray, angle: float, length: float) -> ndarray:
+    """Returns the points of a position (pos) with angle, by shifted by certain length
+
+    Args:
+        pos: position
+        angle: in radians
+        length: extension length
+
+    """
     c = np.cos(angle)
     s = np.sin(angle)
     return pos + length * np.array([c, s])

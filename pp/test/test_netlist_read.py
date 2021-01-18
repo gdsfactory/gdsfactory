@@ -28,18 +28,20 @@ def test_netlist_read_full():
 
 
 if __name__ == "__main__":
+    import pp
 
     # filepath = "ring_single.yml"
     # c = pp.component_from_yaml(filepath)
-
     # c = pp.c.mzi()
     # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     # c.write_netlist(filepath, full_settings=True)
 
     c = test_netlist_read_full()
+    pp.show(c)
+
     n = c.get_netlist()
     i = n["instances"]
     b = i["bend_circular_R10_17.873_-5.5"]
     layer = b["settings"]["layer"]
     print(type(layer))
-    # pp.show(c)
+    pp.show(c)

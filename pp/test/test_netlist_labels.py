@@ -42,18 +42,6 @@ instances:
       length: 4.0
       width: 0.5
 placements:
-  bend_left:
-    rotation: 180
-    x: -9.125
-    'y': 15.826
-  bend_right:
-    rotation: 90
-    x: 5.125
-    'y': 15.826
-  coupler_ring_edf8f53f:
-    rotation: 0
-    x: -2.0
-    'y': 5.225
   waveguide_left:
     rotation: 270
     x: -14.0
@@ -62,10 +50,6 @@ placements:
     rotation: 270
     x: 10.0
     'y': 10.7
-  waveguide_top:
-    rotation: 0
-    x: -2.0
-    'y': 20.701
 ports:
   E0: coupler_ring_edf8f53f,E0
   W0: coupler_ring_edf8f53f,W0

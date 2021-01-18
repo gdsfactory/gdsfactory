@@ -112,14 +112,15 @@ def load(
     dirpath=pp.CONFIG["sp"],
     layer2material: Dict[Tuple[int, int], str] = layer2material,
     layer2nm: [Tuple[int, int], int] = layer2nm,
+    **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
         component: Component
         dirpath: path where to look for the Sparameters
-        layer2material: layer to material
-        layer2nm:
+        layer2material: layer to material dict
+        layer2nm: layer to thickness (nm)
 
     Returns:
         port_names: list of port labels
@@ -136,6 +137,7 @@ def load(
         dirpath=dirpath,
         layer2material=layer2material,
         layer2nm=layer2nm,
+        **kwargs,
     )
     numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
@@ -144,10 +146,10 @@ def load(
 
 
 if __name__ == "__main__":
-    test_read_sparameters_2port_waveguide()
+    # test_read_sparameters_2port_waveguide()
     # test_read_sparameters_2port_bend()
     # test_read_sparameters_3port_mmi1x2()
     # test_read_sparameters_4port_mmi2x2()
-    # s = load(pp.c.mmi2x2())
+    s = load(pp.c.mmi2x2())
     # print(s[0])
     # print(s)

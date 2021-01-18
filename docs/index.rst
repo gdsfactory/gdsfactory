@@ -6,7 +6,6 @@ Gdsfactory
    :maxdepth: 3
 
    README
-   pp
    component_intro
    config
    layers
@@ -21,6 +20,10 @@ Gdsfactory
    placer_yaml
    placer
    gdslib
+   tests
+   gdsdiff
+   pp
    shapes
    components
+   contribution
    CHANGELOG

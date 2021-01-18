@@ -33,14 +33,17 @@ instances:
 name: ring_single_array
 placements:
   ring_single_BR10_LX20_30.0_10.35:
+    mirror: false
     rotation: 0
     x: 40.0
     y: 0.0
   ring_single_BR5_LX10_-5.0_5.35:
+    mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
   waveguide_L5_7.5_0.0:
+    mirror: false
     rotation: 0
     x: 5.0
     y: 0.0
