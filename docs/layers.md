@@ -22,21 +22,34 @@ We follow the generic layer numbers from the book "Silicon Photonics Design: Fro
 
 Layers are available in `pp.LAYER` as `pp.LAYER.WG`, `pp.LAYER.WGCLAD`
 
-You can build PDKs for different foundries using gdsfactory, the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo.
+You can build PDKs for different foundries using gdsfactory, the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo. See [UBC PDK](https://github.com/gdsfactory/ubc) as an example.
 
-You basically have two options:
+I recommend that you create the PDK repo using a cookiecutter template. For example, you can use this one.
 
-1. You create a PDK that has all the layer information for the foundry.
+```
+pip install cookiecutter
+cookiecutter https://github.com/joamatab/cookiecutter-pypackage-minimal
+```
 
-2. You use the generic layermap from the table and use a script to remap the GDS layers into the specific foundry layer map, using for example a klayout script or using the remap shows in `pp/samples/06_remaping_layers.py`
+Or you can fork the UBC PDK and create new cell functions that use the correct layers for your foundry. For example.
 
 ```
 
+from dataclasses import dataclass
 import pp
-from fab.layers import layer
 
+
+@dataclass
+class Layer:
+    WGCORE = (3, 0)
+    LABEL = (100, 0)
+
+
+LAYER = Layer()
+
+
+@pp.cell
 def waveguide(length=10, width=0.5):
-    return pp.c.waveguide(length=length, width=width, layer=layer.WGCORE, layers_cladding=[layer.WGCLAD])
+    return pp.c.waveguide(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
 
-c = waveguide()
 ```

@@ -2,7 +2,7 @@
 """
 
 import math
-from typing import List, Tuple
+from typing import Iterable, Tuple
 
 import pp
 from pp.component import Component
@@ -101,7 +101,7 @@ def cross(
 @pp.cell
 def ppe(
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = (pp.LAYER.WGCLAD),
+    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD),
     cladding_offset: float = 3.0,
 ) -> Component:
     """

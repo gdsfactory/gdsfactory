@@ -17,10 +17,12 @@ def join_first_letters(name: str) -> str:
     return "".join([x[0] for x in name.split("_") if x])
 
 
+# replace function_name prefix for some components
 component_type_to_name = dict(import_phidl_component="phidl")
 
 
 def get_component_name(component_type: str, **kwargs) -> str:
+    """Returns concatenated kwargs Key_Value."""
     name = component_type
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
@@ -122,6 +124,12 @@ def clean_value(value: Any) -> str:
             value = f"{int(value*1e3)}n"
         elif float(int(value)) == value:
             value = str(int(value))
+        elif 1e-6 < value < 1e-3:
+            value = f"{snap_to_1nm_grid(value*1e6)}u"
+        elif 1e-9 < value < 1e-6:
+            value = f"{snap_to_1nm_grid(value*1e9)}n"
+        elif 1e-12 < value < 1e-9:
+            value = f"{snap_to_1nm_grid(value*1e12)}p"
         else:
             value = str(snap_to_1nm_grid(value)).replace(".", "p")
     elif isinstance(value, list):

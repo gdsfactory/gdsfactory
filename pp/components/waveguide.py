@@ -1,6 +1,6 @@
 """Straight waveguides"""
 import hashlib
-from typing import List, Optional, Tuple
+from typing import Iterable, Optional, Tuple
 
 import pp
 from pp.component import Component
@@ -12,7 +12,7 @@ def waveguide(
     length: float = 10.0,
     width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[List[Tuple[int, int]]] = None,
+    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
     cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Straight waveguide

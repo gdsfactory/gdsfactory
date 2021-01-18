@@ -9,7 +9,7 @@ repos:
       rev: stable
       hooks:
           - id: unimport
-            args: [--remove, --requirements, --include-star-import]
+            args: [--remove, --include-star-import]
     - repo: https://github.com/pycqa/isort
       rev: ""
       hooks:

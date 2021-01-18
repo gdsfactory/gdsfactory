@@ -27,7 +27,7 @@ import phidl.path as path
 from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from pp.config import CONFIG, call_if_func, conf, clear_connections
+from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
 from pp.port import port_array
@@ -51,6 +51,7 @@ import pp.klive as klive
 import pp.sp as sp
 import pp.port as port
 import pp.units as units
+import pp.types as types
 
 from pp.component_from_yaml import component_from_yaml
 from pp.recurse_references import recurse_references
@@ -89,7 +90,6 @@ __all__ = [
     "import_phidl_component",
     "c",
     "clear_cache",
-    "clear_connections",
     "conf",
     "component_factory",
     "call_if_func",
@@ -112,6 +112,7 @@ __all__ = [
     "recurse_references",
     "show",
     "sp",
+    "types",
     "write_component",
     "write_component_type",
     "write_doe",
@@ -120,7 +121,7 @@ __all__ = [
     "component_from_yaml",
     "units",
 ]
-__version__ = "2.2.4"
+__version__ = "2.2.5"
 
 
 if __name__ == "__main__":

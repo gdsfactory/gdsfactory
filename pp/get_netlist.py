@@ -89,7 +89,7 @@ def get_netlist(
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"],
         )
-        placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation))
+        placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection)
 
     # store where ports are located
     name2port = {}

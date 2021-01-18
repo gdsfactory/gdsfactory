@@ -1,14 +1,15 @@
 """Write component Sparameters with FDTD Lumerical simulations.
-"""
 
-import json
+Notice that this is the only file where units are in SI units (meters instead of um).
+"""
+import time
 from collections import namedtuple
 from pathlib import PosixPath
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pandas as pd
 import yaml
-from omegaconf import OmegaConf
 
 import pp
 from pp.component import Component
@@ -58,27 +59,31 @@ def clean_dict(
     d: Dict[str, Any], layers: List[Tuple[int, int]]
 ) -> Dict[str, Union[str, float, int]]:
     """Returns same dict after converting tuple keys into list of strings."""
-    d["layer2nm"] = [
+    output = d.copy()
+    output["layer2nm"] = [
         f"{k[0]}_{k[1]}_{v}" for k, v in d.get("layer2nm", {}).items() if k in layers
     ]
-    d["layer2material"] = [
+    output["layer2material"] = [
         f"{k[0]}_{k[1]}_{v}"
         for k, v in d.get("layer2material", {}).items()
         if k in layers
     ]
-    d["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
-    return d
+    output["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
+    return output
 
 
 def write(
     component: Component,
-    session: bool = None,
+    session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
     dirpath: PosixPath = pp.CONFIG["sp"],
     **settings,
-):
-    """Write Sparameters from a gdsfactory component using Lumerical FDTD.
+) -> pd.DataFrame:
+    """Return and write component Sparameters from Lumerical FDTD.
+
+    if simulation exists and returns the Sparameters directly
+    unless overwrite=False
 
     Args:
         component: gdsfactory Component
@@ -101,13 +106,19 @@ def write(
         wavelength_points: 500
 
     Return:
-        results: dict(wavelength_nm, S11, S12 ...) after simulation, or if simulation exists and returns the Sparameters directly
+        Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
+        suffix `a` for angle and `m` for module
+
     """
     sim_settings = default_simulation_settings
 
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
     for setting in sim_settings.keys():
+        assert (
+            setting in sim_settings
+        ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+    for setting in settings.keys():
         assert (
             setting in sim_settings
         ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
@@ -129,19 +140,22 @@ def write(
 
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
+    layer2material = settings.pop("layer2material", ss.layer2material)
+    layer2nm = settings.pop("layer2nm", ss.layer2nm)
 
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=ss.layer2material,
-        layer2nm=ss.layer2nm,
+        layer2material=layer2material,
+        layer2nm=layer2nm,
+        **settings,
     )
-    filepath_json = filepath.with_suffix(".json")
+    filepath_csv = filepath.with_suffix(".csv")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
 
-    if run and filepath_json.exists() and not overwrite:
-        return json.loads(open(filepath_json).read())
+    if run and filepath_csv.exists() and not overwrite:
+        return pd.read_csv(filepath_csv)
 
     if not run and session is None:
         print(run_false_warning)
@@ -166,16 +180,13 @@ def write(
     z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
 
     layers = component.get_layers()
-    sim_settings = OmegaConf.create(
-        dict(
-            simulation_settings=clean_dict(sim_settings, layers=layers),
-            component=component.get_settings(),
-            version=__version__,
-        )
+    sim_settings = dict(
+        simulation_settings=clean_dict(sim_settings, layers),
+        component=component.get_settings(),
+        version=__version__,
     )
 
-    # Uncomment to debug
-    # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
     # print(filepath_sim_settings)
     # return
 
@@ -190,6 +201,7 @@ def write(
     except OSError as e:
         raise e
 
+    start = time.time()
     s = session or lumapi.FDTD(hide=False)
     s.newproject()
     s.selectall()
@@ -307,17 +319,22 @@ def write(
         ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
         rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
 
-        results = {"wavelength_nm": list(sp["lambda"].flatten() * 1e9)}
+        wavelength_nm = sp["lambda"].flatten() * 1e9
+
+        results = {"wavelength_nm": wavelength_nm}
         results.update(ra)
         results.update(rm)
+        df = pd.DataFrame(results, index=wavelength_nm)
 
-        filepath_json.write_text(json.dumps(results))
+        end = time.time()
+        sim_settings.update(compute_time_seconds=end - start)
+        df.to_csv(filepath_csv, index=False)
         filepath_sim_settings.write_text(yaml.dump(sim_settings))
-        return results
+        return df
 
 
 def sample_write_coupler_ring():
-    """Sample on how to write a sweep of Sparameters."""
+    """Write Sparameters when changing a component setting."""
     [
         write(
             pp.c.coupler_ring(
@@ -331,10 +348,28 @@ def sample_write_coupler_ring():
     ]
 
 
+def sample_convergence_mesh():
+    [
+        write(component=pp.c.waveguide(length=2), mesh_accuracy=mesh_accuracy)
+        for mesh_accuracy in [1, 2, 3]
+    ]
+
+
+def sample_convergence_wavelength():
+    [
+        write(component=pp.c.waveguide(length=2), wavelength_start=wavelength_start)
+        for wavelength_start in [1.222323e-6, 1.4e-6]
+    ]
+
+
 if __name__ == "__main__":
+    c = pp.c.waveguide(length=2)
+    r = write(component=c, mesh_accuracy=1, run=False)
     # c = pp.c.coupler_ring(length_x=3)
-    c = pp.c.mmi1x2()
-    r = write(component=c, layer2nm={(1, 0): 200})
-    print(r)
+    # c = pp.c.mmi1x2()
+    # r = write(component=c, layer2nm={(1, 0): 200}, run=False)
+    # print(r)
     # print(r.keys())
     # print(c.ports.keys())
+    # sample_convergence_mesh()
+    # sample_convergence_wavelength()

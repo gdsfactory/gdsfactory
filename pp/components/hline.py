@@ -9,7 +9,7 @@ from pp.layers import LAYER
 def hline(
     length: float = 10.0, width: float = 0.5, layer: Tuple[int, int] = LAYER.WG,
 ) -> Component:
-    """ horizonal line waveguide, with ports on east and west sides
+    """horizonal line waveguide, with ports on east and west sides
 
     .. plot::
       :include-source:

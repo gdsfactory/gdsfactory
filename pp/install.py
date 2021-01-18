@@ -65,8 +65,7 @@ def install_klive():
 
 
 def copy(src, dest):
-    """ overwrite file or directory
-    """
+    """overwrite file or directory"""
     dest_folder = dest.parent
     dest_folder.mkdir(exist_ok=True, parents=True)
 

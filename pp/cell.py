@@ -25,7 +25,7 @@ def cell(
     uid: bool = False,
     cache: bool = True,
 ) -> Callable:
-    """Cell Decorator:
+    """Cell Decorator.
 
     Args:
         autoname (bool): renames Component by with Keyword arguments
@@ -33,8 +33,9 @@ def cell(
         uid (bool): adds a unique id to the name
         cache (bool): get component from the cache if it already exists
 
-    To avoid that 2 exact cells are not references of the same cell
-    this Decorator has a cache where if a component has already been build it will return the component from the cache.
+    Implements a cache so that if a component has already been build
+    it will return the component from the cache.
+    This avoids 2 exact cells that are not references of the same cell
     You can always over-ride this with `cache = False`.
 
     .. plot::
