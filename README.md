@@ -1,6 +1,7 @@
 # gdsfactory 2.2.5
 
 
+![pypi](https://badgen.net/pypi/v/gdsfactory?maxAge=2592000)
 ![isues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)
 ![GitHub forks badge](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
 ![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
