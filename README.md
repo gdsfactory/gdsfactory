@@ -2,7 +2,7 @@
 
 
 ![isues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)
-![GitHub forks badge]](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
+![GitHub forks badge](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
 ![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
 ![GitHub license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)
 ![codecov](/coveralls/github/gdsfactory/gdsfactory)
