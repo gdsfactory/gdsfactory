@@ -5,7 +5,7 @@
 ![GitHub forks badge](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
 ![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
 ![GitHub license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)
-![codecov](/coveralls/github/gdsfactory/gdsfactory)
+![codecov](![Codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)
 
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
