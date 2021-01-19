@@ -7,6 +7,7 @@
 ![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
 ![GitHub license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)
 ![Codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
