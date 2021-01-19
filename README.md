@@ -1,10 +1,14 @@
-
-![](https://i.imgur.com/v4wpHpg.png)
-
-
------------------
-
 # gdsfactory 2.2.5
+
+
+![isues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)
+![GitHub forks badge]](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
+![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
+![GitHub license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)
+![codecov](/coveralls/github/gdsfactory/gdsfactory)
+
+
+![logo](https://i.imgur.com/v4wpHpg.png)
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 
