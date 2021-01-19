@@ -7,7 +7,7 @@
 ![GitHub forks badge](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
 ![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
 [![MIT license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-![Codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)
+[![Codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/pp)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
