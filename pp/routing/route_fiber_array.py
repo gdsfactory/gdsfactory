@@ -299,10 +299,8 @@ def route_fiber_array(
             """
             1) find the min x_distance between each grating port and
             each component port.
-
             2) If abs(min distance) < 2* bend radius
                 then offset io_gratings by -min_distance
-
             """
             min_dist = 2 * R + 10.0
             min_dist_threshold = 2 * R + 1.0
@@ -360,9 +358,6 @@ def route_fiber_array(
                 del to_route[n0 - dn : n0 + dn]
 
     if with_align_ports:
-        """
-        Add loop back with alignment ports
-        """
         gca1, gca2 = [
             grating_coupler.ref(
                 position=(
@@ -399,7 +394,6 @@ def route_fiber_array(
         loop_back = round_corners(route, bend90, straight_factory)
         elements += [loop_back]
 
-    """ input_label for automated testing opt_TE_1550_componentName_0_portLabel"""
     elements += get_input_labels_function(
         io_gratings, ordered_ports, component_name, layer_label, gc_port_name
     )
