@@ -51,6 +51,8 @@ from pp.components.logo import logo
 from pp.components.align import align_wafer
 from pp.components.cutback_bend import cutback_bend90
 from pp.components.cutback_bend import cutback_bend180
+from pp.components.cutback_component import cutback_component
+from pp.components.cutback_component import cutback_component_flipped
 
 
 from pp.components.pcm.litho_calipers import litho_calipers
@@ -155,6 +157,8 @@ component_factory = dict(
     crossing=crossing,
     cutback_bend90=cutback_bend90,
     cutback_bend180=cutback_bend180,
+    cutback_component=cutback_component,
+    cutback_component_flipped=cutback_component_flipped,
     dbr2=dbr2,
     dbr=dbr,
     delay_snake=delay_snake,
