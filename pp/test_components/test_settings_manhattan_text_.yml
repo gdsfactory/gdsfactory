@@ -1,0 +1,16 @@
+function_name: manhattan_text
+info: {}
+module: pp.components.manhattan_font
+name: manhattan_text
+settings:
+  cladding_offset: 0.0
+  justify: left
+  layer:
+  - 41
+  - 0
+  layers_cladding: null
+  position:
+  - 0.0
+  - 0.0
+  size: 10.0
+  text: abcd

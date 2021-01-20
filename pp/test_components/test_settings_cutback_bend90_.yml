@@ -1,0 +1,11 @@
+function_name: cutback_bend90
+info: {}
+module: pp.components.cutback_bend
+name: cutback_bend90
+settings:
+  cols: 6
+  n_bends: 144
+  n_steps: 6
+  spacing: 5
+  straight_length: 5.0
+  wg_loop_length: null

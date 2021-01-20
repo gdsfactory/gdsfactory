@@ -37,6 +37,7 @@ from pp.components.rectangle import rectangle
 from pp.components.ring import ring
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
+from pp.components.taper_from_csv import taper_0p5_to_3_l36
 from pp.components.text import text
 from pp.components.L import L
 from pp.components.C import C
@@ -44,6 +45,14 @@ from pp.components.bbox import bbox
 from pp.components.nxn import nxn
 
 # optical test structures
+from pp.components.version_stamp import version_stamp
+from pp.components.manhattan_font import manhattan_text
+from pp.components.logo import logo
+from pp.components.align import align_wafer
+from pp.components.cutback_bend import cutback_bend90
+from pp.components.cutback_bend import cutback_bend180
+
+
 from pp.components.pcm.litho_calipers import litho_calipers
 from pp.components.pcm.litho_star import litho_star
 from pp.components.pcm.litho_steps import litho_steps
@@ -117,6 +126,7 @@ from pp.components.splitter_chain import splitter_chain
 
 # we will test each factory component hash, ports and properties """
 component_factory = dict(
+    align_wafer=align_wafer,
     bend_circular180=bend_circular180,
     bend_circular=bend_circular,
     bend_circular_heater=bend_circular_heater,
@@ -143,6 +153,8 @@ component_factory = dict(
     cross=cross,
     crossing45=crossing45,
     crossing=crossing,
+    cutback_bend90=cutback_bend90,
+    cutback_bend180=cutback_bend180,
     dbr2=dbr2,
     dbr=dbr,
     delay_snake=delay_snake,
@@ -190,6 +202,7 @@ component_factory = dict(
     splitter_chain=splitter_chain,
     splitter_tree=splitter_tree,
     taper=taper,
+    taper_0p5_to_3_l36=taper_0p5_to_3_l36,
     taper_strip_to_ridge=taper_strip_to_ridge,
     test_resistance=test_resistance,
     test_via=test_via,
@@ -200,6 +213,9 @@ component_factory = dict(
     via2=via2,
     via3=via3,
     via=via,
+    manhattan_text=manhattan_text,
+    version_stamp=version_stamp,
+    logo=logo,
     waveguide=waveguide,
     waveguide_array=waveguide_array,
     waveguide_heater=waveguide_heater,

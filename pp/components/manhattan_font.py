@@ -9,6 +9,7 @@ from pp.layers import LAYER
 from pp.name import clean_name
 
 
+@pp.cell
 def manhattan_text(
     text: str = "abcd",
     size: float = 10.0,

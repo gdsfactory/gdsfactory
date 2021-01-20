@@ -1,6 +1,8 @@
 import pp
-from pp.components import bend_circular, waveguide
+from pp.components.bend_circular import bend_circular
 from pp.components.component_sequence import component_sequence
+from pp.components.euler.bend_euler import bend_euler90, bend_euler180
+from pp.components.waveguide import waveguide
 from pp.routing.add_fiber_array import add_fiber_array
 
 
@@ -26,6 +28,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
     """
 
     wg = waveguide(length=straight_length, width=bend90.ports["W0"].width)
+
     # Define a map between symbols and (component, input port, output port)
     string_to_device_in_out_ports = {
         "A": (bend90, "W0", "N0"),
@@ -48,7 +51,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
 @pp.cell
 def cutback_bend90(
-    bend90=pp.c.bend_euler90,
+    bend90=bend_euler90,
     straight_length=5.0,
     n_steps=6,
     cols=6,
@@ -95,7 +98,7 @@ def cutback_bend90(
 
 
 def staircase(
-    bend90=pp.c.bend_euler90,
+    bend90=bend_euler90,
     length_v=5.0,
     length_h=5.0,
     n_steps=4,
@@ -125,7 +128,7 @@ def staircase(
 
 @pp.cell
 def cutback_bend180(
-    bend180=pp.c.bend_euler180,
+    bend180=bend_euler180,
     straight_length=5.0,
     n_steps=6,
     cols=6,
@@ -184,7 +187,7 @@ def cutback_bend_circular(bend_radius=10.0, n_steps=3, n_stairs=4):
 if __name__ == "__main__":
     # c = cutback_bend_circular(n_steps=7, n_stairs=4, bend_radius=5) #62
     # c = cutback_bend_circular(n_steps=14, n_stairs=4) #118
-    # c = cutback_bend_circular(n_steps=3, n_stairs=4)  # 30
-    c = cutback_bend180()
+    c = cutback_bend_circular(n_steps=3, n_stairs=4)  # 30
+    # c = cutback_bend180()
     # c = cutback_bend90()
     pp.show(c)

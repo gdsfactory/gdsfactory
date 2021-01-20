@@ -3,10 +3,11 @@ import platform
 
 import pp
 from pp.components.text import text as Text
+from pp.config import conf
 from pp.layers import LAYER
 
 
-def Pixel(size=1.0, layer=LAYER.WG):
+def pixel(size=1.0, layer=LAYER.WG):
     c = pp.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
@@ -18,7 +19,7 @@ def qrcode(data, psize=1, layer=LAYER.WG):
     """ A utility to render a list of pixels as a block """
     import qrcode
 
-    pixel = Pixel(size=psize, layer=layer)
+    pix = pixel(size=psize, layer=layer)
     q = qrcode.QRCode()
     q.add_data(data)
     matrix = q.get_matrix()
@@ -26,9 +27,9 @@ def qrcode(data, psize=1, layer=LAYER.WG):
     for i, row in enumerate(matrix):
         for j, value in enumerate(row):
             if value:
-                _p = pixel.ref((i * psize, j * psize))
-                c.add(_p)
-                c.absorb(_p)
+                pix_ref = pix.ref((i * psize, j * psize))
+                c.add(pix_ref)
+                c.absorb(pix_ref)
     return c
 
 
@@ -49,7 +50,7 @@ def version_stamp(
 
     """
 
-    git_hash = pp.CONFIG["git_hash"]
+    git_hash = conf.git_hash
     now = datetime.datetime.now()
     timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)
     short_stamp = "{:%y.%m.%d.%H.%M.%S}".format(now)
@@ -89,7 +90,7 @@ def version_stamp(
 
 
 if __name__ == "__main__":
-    print(pp.CONFIG["git_hash"])
+    print(conf.git_hash)
     c = version_stamp(
         pixel_size=4,
         layer=LAYER.M1,
