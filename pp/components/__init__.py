@@ -53,6 +53,9 @@ from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_tm
 from pp.components.grating_coupler.elliptical2 import grating_coupler_elliptical2
 from pp.components.grating_coupler.uniform import grating_coupler_uniform
+from pp.components.grating_coupler.uniform_optimized import (
+    grating_coupler_uniform_optimized,
+)
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
@@ -153,6 +156,7 @@ component_factory = dict(
     grating_coupler_tm=grating_coupler_tm,
     grating_coupler_tree=grating_coupler_tree,
     grating_coupler_uniform=grating_coupler_uniform,
+    grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
     hline=hline,
     label=label,
     litho_calipers=litho_calipers,
@@ -209,7 +213,7 @@ component_factory = dict(
 
 
 def factory(component_type, component_factory=component_factory, **settings):
-    """ returns a component with settings """
+    """Returns a component with settings."""
     import pp
 
     if isinstance(component_type, pp.Component):
@@ -224,13 +228,23 @@ def factory(component_type, component_factory=component_factory, **settings):
     return component_factory[component_type](**settings)
 
 
-_containers = ["cavity"]
-_skip_test = ["label", "text", "component_sequence"]
-_skip_test_ports = ["coupler"]
-_decorators = ["grating_coupler"]
-_components = set(component_factory.keys()) - set(_containers) - set(_skip_test)
-_components_test_ports = _components - set(_skip_test_ports)
-_circuits = {
+component_names_skip_test = [
+    "label",
+    "text",
+    "component_sequence",
+    "compensation_path",
+    "component_lattice",
+]
+component_names_skip_test_ports = ["coupler"]
+
+container_names = ["cavity"]
+component_names = (
+    set(component_factory.keys())
+    - set(component_names_skip_test)
+    - set(container_names)
+)
+component_names_test_ports = component_names - set(component_names_skip_test_ports)
+circuit_names = {
     "mzi",
     "ring_single",
     "ring_single_array",
@@ -240,8 +254,8 @@ _circuits = {
     "component_lattice",
 }
 
-__all__ = list(component_factory.keys()) + _decorators
+__all__ = list(component_factory.keys())
 
 if __name__ == "__main__":
-    for c in _components:
+    for c in component_names:
         ci = component_factory[c]()

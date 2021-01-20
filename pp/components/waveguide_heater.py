@@ -17,15 +17,16 @@ from pp.port import Port, deco_rename_ports
 def heater(
     length: float = 10.0,
     width: float = 0.5,
-    layers_heater: List[Tuple[int, int]] = [LAYER.HEATER],
+    layer_heater: Tuple[int, int] = LAYER.HEATER,
 ) -> Component:
-    """ straight heater
-    """
+    """straight heater"""
     c = pp.Component()
-    for layer in layers_heater:
-        _ref = c.add_ref(hline(length=length, width=width, layer=layer))
-        c.ports = _ref.ports  # Use ports from latest layer as heater ports
-        c.absorb(_ref)
+    _ref = c.add_ref(hline(length=length, width=width, layer=layer_heater))
+    c.ports = _ref.ports  # Use ports from latest layer as heater ports
+    for p in c.ports.values():
+        p.layer = layer_heater
+        p.port_type = "heater"
+    c.absorb(_ref)
     return c
 
 
@@ -95,11 +96,11 @@ def waveguide_heater(
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ],
-    layers_heater: List[Tuple[int, int]] = [LAYER.HEATER],
+    layer_heater: Tuple[int, int] = LAYER.HEATER,
     waveguide_factory: Callable = waveguide,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
 ) -> Component:
-    """ waveguide with heater
+    """waveguide with heater
 
     .. code::
 
@@ -124,7 +125,7 @@ def waveguide_heater(
     """
     c = Component()
 
-    _heater = heater(length=length, width=heater_width, layers_heater=layers_heater)
+    _heater = heater(length=length, width=heater_width, layer_heater=layer_heater)
 
     y_heater = heater_spacing + (width + heater_width) / 2
     heater_top = c << _heater
@@ -286,6 +287,8 @@ def wg_heater_connected(
 
     cmp.add_port(name=1, port=conn1.ports["0"])
     cmp.add_port(name=2, port=conn2.ports["0"])
+    cmp.ports[1].orientation = 90
+    cmp.ports[2].orientation = 90
 
     return cmp
 
@@ -300,9 +303,9 @@ if __name__ == "__main__":
 
     c = waveguide_heater()
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
-    # c = wg_heater_connected(length=100.0, width=0.5)
+    c = wg_heater_connected(length=100.0, width=0.5)
     print(c.ports.keys())
     for p in c.ports.values():
-        print(p.name, p.port_type)
+        print(p.name, p.port_type, p.orientation)
 
     pp.show(c)

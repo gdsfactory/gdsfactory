@@ -2,7 +2,6 @@
 
 ## TODO
 
-- document klayout placers
 - bundle routing with specific waypoints
 - connect_with_waypoints can accept ports
 
@@ -22,6 +21,15 @@ from pydantic import validate_arguments
 ```
 
 ## master branch (latest changes not released yet)
+
+## 2.2.6
+
+- added badges from github in README (codecoverage, docs ... )
+- pp.import_gds can import and move cells with labels
+- add margin option to read_ports_from_markers
+- replace grating_coupler decorator with a simpler pp.assert_grating_coupler_properties() function
+- rename _containers to container_names and _components to component_names
+- simplify tests for components, containers and circuits
 
 ## 2.2.5 2021-01-13
 

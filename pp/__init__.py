@@ -27,6 +27,7 @@ import phidl.path as path
 from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
+from pp.assert_grating_coupler_properties import assert_grating_coupler_properties
 from pp.config import CONFIG, call_if_func, conf
 from pp.component import Component, ComponentReference
 from pp.port import Port
@@ -67,12 +68,12 @@ from pp.import_phidl_component import import_phidl_component
 from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.boolean import boolean
-from pp.container import container, containerize
+from pp.container import container
 
 
 __all__ = [
+    "assert_grating_coupler_properties",
     "container",
-    "containerize",
     "CONFIG",
     "LAYER",
     "Component",

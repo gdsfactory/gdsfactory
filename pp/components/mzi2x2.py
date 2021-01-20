@@ -73,12 +73,10 @@ def mzi_arm(
     straight_h = waveguide_function(length=L_top)
     straight_v = waveguide_function(length=DL) if DL > 0 else None
 
-    port_number = 1 if with_elec_connections else 0
-
     string_to_device_in_out_ports = {
         "A": (_bend, "W0", "N0"),
         "B": (_bend, "N0", "W0"),
-        "H": (straight_vheater, f"W{port_number}", f"E{port_number}"),
+        "H": (straight_vheater, f"W0", f"E0"),
         "Sh": (straight_h, "W0", "E0"),
         "Sv": (straight_v, "W0", "E0"),
     }

@@ -1,15 +1,17 @@
 import json
 from pathlib import Path
-from typing import Optional, Union
+from typing import Dict, Optional, Union
 
 import gdspy
-from phidl.device_layout import DeviceReference
+import numpy as np
+from phidl.device_layout import CellArray, DeviceReference
 
 import pp
-from pp.cell import CACHE
 from pp.component import Component
-from pp.layers import port_layer2type, port_type2layer
+from pp.layers import port_layer2type as port_layer2type_default
+from pp.layers import port_type2layer as port_type2layer_default
 from pp.port import auto_rename_ports, read_port_markers
+from pp.types import Layer
 
 
 def add_ports_from_markers_inside(*args, **kwargs):
@@ -19,10 +21,11 @@ def add_ports_from_markers_inside(*args, **kwargs):
 
 def add_ports_from_markers_center(
     component: Component,
-    port_layer2type=port_layer2type,
-    port_type2layer=port_type2layer,
+    port_layer2type: Dict[Layer, str] = port_layer2type_default,
+    port_type2layer: Dict[str, Layer] = port_type2layer_default,
     inside: bool = False,
-    tol=0.1,
+    tol: float = 0.1,
+    pin_extra_width: float = 0.0,
 ):
     """add ports from polygons in certain layers
 
@@ -33,18 +36,38 @@ def add_ports_from_markers_center(
         port_layer2type: dict of layer to port_type
         port_type2layer: dict of port_type to layer
         inside: True-> markers  inside. False-> markers at center
+        tol: tolerance for asuming
+        pin_extra_width: 2*offset from pin to waveguide
+
+    For the default center case (inside=False)
+
+    .. code::
+           _______________
+          |               |
+          |               |
+         |||             |||____  | pin_extra_width/2 > 0
+         |||             |||
+         |||             |||____
+         |||             |||
+          |      __       |
+          |_______________|
+                 __
+
+
+    For the inside case (inside=True)
 
     .. code::
            _______________
           |               |
           |               |
           |               |
-         |||              |
-         |||              |
-          |               |
+          | |             |
+          | |             |
           |      __       |
+          |               |
           |_______________|
-                 __
+
+
 
     dx < dy: port is east or west
         x > xc: east
@@ -125,7 +148,7 @@ def add_ports_from_markers_center(
             component.add_port(
                 i,
                 midpoint=(x, y),
-                width=width,
+                width=width - pin_extra_width,
                 orientation=orientation,
                 port_type=port_type,
                 layer=layer,
@@ -145,27 +168,26 @@ def import_gds(
     gdspath: Union[str, Path],
     cellname: None = None,
     flatten: bool = False,
-    overwrite_cache: bool = True,
     snap_to_grid_nm: Optional[int] = None,
 ) -> Component:
-    """returns a Componenent from a GDS file
+    """Returns a Componenent from a GDS file.
+
+    Adapted from phidl/geometry.py
 
     Args:
         gdspath: path of GDS file
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
-        overwrite_cache: overwrites device cache (caching by name)
-        snap_to_grid_nm: snap to different nm grid
+        snap_to_grid_nm: snap to different nm grid (does not snap if False)
 
     """
-    gdspath = str(gdspath)
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(gdspath)
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
 
     if cellname is not None:
-        if cellname not in cellnames:
+        if cellname not in gdsii_lib.cells:
             raise ValueError(
                 f"cell {cellname} is not in file {gdspath} with cells {cellnames}"
             )
@@ -178,42 +200,35 @@ def import_gds(
             f"you must specify `cellname` to select of one of them among {cellnames}"
         )
 
-    if flatten:
-        D = pp.Component()
-        polygons = topcell.get_polygons(by_spec=True)
-
-        for layer_in_gds, polys in polygons.items():
-            D.add_polygon(polys, layer=layer_in_gds)
-        return D
-
-    else:
+    if not flatten:
         D_list = []
         c2dmap = {}
-        all_cells = topcell.get_dependencies(True)
-        all_cells.update([topcell])
-
-        for cell in all_cells:
-            cell_name = cell.name
-            if overwrite_cache or cell_name not in CACHE:
-                D = pp.Component()
-                D.name = cell.name
-                D.polygons = cell.polygons
-                D.references = cell.references
-                D.name = cell_name
-                D.labels = cell.labels
-            else:
-                D = CACHE[cell_name]
-
-            c2dmap.update({cell_name: D})
+        for cell in gdsii_lib.cells.values():
+            D = Component(name=cell.name)
+            D.polygons = cell.polygons
+            D.references = cell.references
+            D.name = cell.name
+            for label in cell.labels:
+                rotation = label.rotation
+                if rotation is None:
+                    rotation = 0
+                label_ref = D.add_label(
+                    text=label.text,
+                    position=np.asfarray(label.position),
+                    magnification=label.magnification,
+                    rotation=rotation * 180 / np.pi,
+                    layer=(label.layer, label.texttype),
+                )
+                label_ref.anchor = label.anchor
+            c2dmap.update({cell: D})
             D_list += [D]
 
         for D in D_list:
             # First convert each reference so it points to the right Device
             converted_references = []
             for e in D.references:
-                try:
-                    ref_device = c2dmap[e.ref_cell.name]
-
+                ref_device = c2dmap[e.ref_cell]
+                if isinstance(e, gdspy.CellReference):
                     dr = DeviceReference(
                         device=ref_device,
                         origin=e.origin,
@@ -221,11 +236,29 @@ def import_gds(
                         magnification=e.magnification,
                         x_reflection=e.x_reflection,
                     )
+                    dr.owner = D
                     converted_references.append(dr)
-                except Exception:
-                    print("WARNING - Could not import", e.ref_cell.name)
-
+                elif isinstance(e, gdspy.CellArray):
+                    dr = CellArray(
+                        device=ref_device,
+                        columns=e.columns,
+                        rows=e.rows,
+                        spacing=e.spacing,
+                        origin=e.origin,
+                        rotation=e.rotation,
+                        magnification=e.magnification,
+                        x_reflection=e.x_reflection,
+                    )
+                    dr.owner = D
+                    converted_references.append(dr)
             D.references = converted_references
+
+            # Next convert each Polygon
+            # temp_polygons = list(D.polygons)
+            # D.polygons = []
+            # for p in temp_polygons:
+            #     D.add_polygon(p)
+
             # Next convert each Polygon
             temp_polygons = list(D.polygons)
             D.polygons = []
@@ -238,9 +271,15 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-
-        topdevice = c2dmap[topcell.name]
+        topdevice = c2dmap[topcell]
         return topdevice
+    if flatten:
+        D = pp.Component()
+        polygons = topcell.get_polygons(by_spec=True)
+
+        for layer_in_gds, polys in polygons.items():
+            D.add_polygon(polys, layer=layer_in_gds)
+        return D
 
 
 def test_import_gds_snap_to_grid():

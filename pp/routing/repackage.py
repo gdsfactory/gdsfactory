@@ -1,29 +1,35 @@
+from typing import Optional
+
 import numpy as np
 
 import pp
+from pp.component import Component
 from pp.components.bezier import bezier
 from pp.container import container
 
 
 @container
-def package_optical2x2(component, port_spacing=20.0, bend_length=None):
+def package_optical2x2(
+    component: Component,
+    port_spacing: float = 20.0,
+    bend_length: Optional[float] = None,
+):
     """returns component with port_spacing"""
 
-    component = pp.call_if_func(component)
-    component.y = 0
+    comp = component() if callable(component) else component
 
     if bend_length is None:
         bend_length = port_spacing
     dx = bend_length
     dy = port_spacing / 2.0
 
-    p_w0 = component.ports["W0"].midpoint
-    p_e0 = component.ports["E0"].midpoint
-    p_w1 = component.ports["W1"].midpoint
-    p_e1 = component.ports["E1"].midpoint
+    p_w0 = comp.ports["W0"].midpoint
+    p_e0 = comp.ports["E0"].midpoint
+    p_w1 = comp.ports["W1"].midpoint
+    p_e1 = comp.ports["E1"].midpoint
 
-    c = pp.Component(f"{component.name}_{int(port_spacing)}")
-    c.add_ref(component)
+    c = pp.Component(f"{comp.name}_{int(port_spacing)}")
+    c << comp
 
     t = np.linspace(0, 1, 101)
 

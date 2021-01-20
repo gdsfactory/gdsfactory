@@ -1,9 +1,0 @@
-function_name: compensation_path
-info:
-  components:
-    sbend: bezier_w500_4f9b9b48b7be6ee1b871ae7a32f5d17d_1_0
-  min_bend_radius: 18.226
-module: pp.components.crossing_waveguide
-name: compensation_path
-settings:
-  direction: top

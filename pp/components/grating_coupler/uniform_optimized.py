@@ -4,14 +4,13 @@ import numpy as np
 
 import pp
 from pp.component import Component
-from pp.components.grating_coupler import grating_coupler
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
-@grating_coupler
+@pp.cell
 def grating_coupler_uniform_optimized(
-    widths,
+    widths=(0.5, 0.2, 0.3),
     width_grating=11,
     length_taper=150,
     width=0.5,
@@ -86,6 +85,7 @@ def grating_coupler_uniform_optimized(
     c.polarization = polarization
     c.wavelength = wavelength
     c.add_port(port=taper_ref.ports[port.name], name="W0")
+    pp.assert_grating_coupler_properties(c)
     return c
 
 
