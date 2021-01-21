@@ -146,13 +146,14 @@ def place(
             ref.y += dy
         if mirror:
             if mirror is True and port:
-                port_object = ref.ports[port]
-                p1 = port_object.midpoint
-                p2 = move_polar_rad_copy(
-                    p1, angle=port_object.orientation * np.pi / 180, length=0.2
-                )
-                ref.reflect(p1=p1, p2=p2)
-                # print(port_object.name, p1, p2)
+                ref.reflect_h(port_name=port)
+                # port_object = ref.ports[port]
+                # p1 = port_object.midpoint
+                # p2 = move_polar_rad_copy(
+                #     p1, angle=port_object.orientation * np.pi / 180, length=0.2
+                # )
+                # ref.reflect(p1=p1, p2=p2)
+                # # print(port_object.name, p1, p2)
             elif mirror is True:
                 if x:
                     ref.reflect_h(x0=x)
