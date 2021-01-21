@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import picwriter.components as pc
 
@@ -5,24 +7,25 @@ import pp
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 from pp.port import deco_rename_ports
+from pp.types import Layer
 
 
 @deco_rename_ports
 @pp.cell
 def grating_coupler_elliptical2(
     wgt=wg_strip,
-    theta=np.pi / 4.0,
-    length=30.0,
-    taper_length=10.0,
+    theta: float = np.pi / 4.0,
+    length: float = 30.0,
+    taper_length: float = 10.0,
     period=1.0,
-    dutycycle=0.7,
+    dutycycle: float = 0.7,
     ridge=True,
-    ridge_layers=(2, 0),
-    teeth_list=None,
-    port=(0, 0),
-    direction="EAST",
-    polarization="te",
-    wavelength=1550,
+    layer: Layer = (2, 0),
+    teeth_list: Optional[bool] = None,
+    port=(0.0, 0.0),
+    direction: str = "EAST",
+    polarization: str = "te",
+    wavelength: str = 1550,
     **kwargs
 ):
     r""" Returns Grating coupler from Picwriter
@@ -37,7 +40,7 @@ def grating_coupler_elliptical2(
         period (float): Grating period.  Defaults to 1.0
         dutycycle (float): dutycycle, determines the size of the 'gap' by dutycycle=(period-gap)/period.  Defaults to 0.7
         ridge (boolean): If True, adds another layer to the grating coupler that can be used for partial etched gratings
-        ridge_layers (tuple): Tuple specifying the layer/datatype of the ridge region.  Defaults to (3,0)
+        layer (tuple): Tuple specifying the layer/datatype of the ridge region.  Defaults to (3,0)
         teeth_list (list): Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths for irregularly spaced gratings.  For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6, then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.  Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
 
     .. plot::
@@ -65,7 +68,7 @@ def grating_coupler_elliptical2(
         period=period,
         dutycycle=dutycycle,
         ridge=ridge,
-        ridge_layers=ridge_layers,
+        ridge_layers=layer,
         teeth_list=teeth_list,
         port=port,
         direction=direction,

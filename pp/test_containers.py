@@ -66,6 +66,9 @@ def test_gds(container_type, data_regression):
     difftest(c)
 
 
+# Special test cases for exotic components
+
+
 def test_add_gratings_and_loop_back(data_regression):
     """This container requires all ports to face the same direction."""
     c = add_gratings_and_loop_back(component=spiral_inner_io())

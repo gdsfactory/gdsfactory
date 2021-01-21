@@ -76,7 +76,7 @@ def mzi_arm(
     string_to_device_in_out_ports = {
         "A": (_bend, "W0", "N0"),
         "B": (_bend, "N0", "W0"),
-        "H": (straight_vheater, f"W0", f"E0"),
+        "H": (straight_vheater, "W0", "E0"),
         "Sh": (straight_h, "W0", "E0"),
         "Sv": (straight_v, "W0", "E0"),
     }

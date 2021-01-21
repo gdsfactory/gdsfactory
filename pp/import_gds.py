@@ -26,6 +26,7 @@ def add_ports_from_markers_center(
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
+    min_pin_area_um2: Optional[float] = None,
 ):
     """add ports from polygons in certain layers
 
@@ -38,6 +39,7 @@ def add_ports_from_markers_center(
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for asuming
         pin_extra_width: 2*offset from pin to waveguide
+        min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
 
     For the default center case (inside=False)
 
@@ -98,6 +100,8 @@ def add_ports_from_markers_center(
             dx = p.xmax - p.xmin
             x = p.x
             y = p.y
+            if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
+                continue
             layer = port_type2layer[port_type]
             pxmax = p.xmax
             pxmin = p.xmin

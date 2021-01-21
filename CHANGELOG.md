@@ -25,8 +25,8 @@ from pydantic import validate_arguments
 ## 2.2.6
 
 - added badges from github in README (codecoverage, docs ... )
-- pp.import_gds can import and move cells with labels
-- add margin option to read_ports_from_markers
+- pp.import_gds can import and move cells with labels (thanks to Adam McCaughan)
+- add margin and min_pin_area_um2 to read_ports_from_markers
 - replace grating_coupler decorator with a simpler pp.assert_grating_coupler_properties() function
 - rename _containers to container_names and _components to component_names
 - simplify tests for components, containers and circuits

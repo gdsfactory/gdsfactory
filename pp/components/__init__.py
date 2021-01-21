@@ -46,6 +46,7 @@ from pp.components.nxn import nxn
 
 # optical test structures
 from pp.components.version_stamp import version_stamp
+from pp.components.version_stamp import qrcode
 from pp.components.manhattan_font import manhattan_text
 from pp.components.logo import logo
 from pp.components.align import align_wafer
@@ -218,6 +219,7 @@ component_factory = dict(
     via3=via3,
     via=via,
     manhattan_text=manhattan_text,
+    qrcode=qrcode,
     version_stamp=version_stamp,
     logo=logo,
     waveguide=waveguide,
@@ -254,6 +256,7 @@ component_names_skip_test = [
     "component_sequence",
     "compensation_path",
     "component_lattice",
+    "version_stamp",
 ]
 component_names_skip_test_ports = ["coupler"]
 
