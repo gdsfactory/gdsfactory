@@ -39,7 +39,6 @@ from pp.load_component import load_component
 
 from pp.write_component import show
 from pp.write_component import write_gds
-from pp.write_component import write_component_type
 from pp.write_component import write_component
 from pp.write_doe import write_doe
 
@@ -105,7 +104,6 @@ __all__ = [
     "sp",
     "types",
     "write_component",
-    "write_component_type",
     "write_doe",
     "write_gds",
     "Port",

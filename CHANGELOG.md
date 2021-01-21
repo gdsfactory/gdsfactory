@@ -22,6 +22,12 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.7
+
+- using mirror (port) in pp.component_from_yaml
+- remove old, untested code to deal with libraries. Libraries should use factory
+- add pp.get_name_to_function_dict to build factories as dict(func_name=func)
+
 ## 2.2.6 2021-01-20
 
 - added badges from github in README (codecoverage, docs ... )

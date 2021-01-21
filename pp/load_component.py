@@ -3,14 +3,11 @@
 import csv
 import json
 import os
-import pathlib
 from pathlib import PosixPath
-from typing import Optional
 
 import pp
 from pp import CONFIG
 from pp.component import Component
-from pp.write_component import get_component_type
 
 
 def get_component_path(name, dirpath=CONFIG["gdslib"]):
@@ -29,54 +26,32 @@ def load_component_path(name, dirpath=CONFIG["gdslib"]):
     return gdspath
 
 
-def load_component(
-    name: Optional[str] = None,
-    dirpath: PosixPath = CONFIG["gdslib"],
-    gdspath: Optional[PosixPath] = None,
-    with_info_labels: bool = True,
-    overwrite_cache: bool = False,
-) -> Component:
-    """Returns Component from GDS, ports (CSV) and metadata (JSON)
+def remove_gds_labels(component: Component, layer=pp.LAYER.LABEL_SETTINGS) -> None:
+    """Returns same component without labels"""
+    for component in list(component.get_dependencies(recursive=True)) + [component]:
+        old_label = [
+            label
+            for label in component.labels
+            if label.layer == pp.LAYER.LABEL_SETTINGS
+        ]
+        if len(old_label) > 0:
+            for label in old_label:
+                component.labels.remove(label)
 
-    Args:
-        name:
-        dirpath: libary path
-        with_info_labels: can remove labal info
-        overwrite_cache
-    """
 
-    if gdspath is None:
-        if name is None:
-            raise ValueError(
-                f"you need to define `gdspath` or a component `name` from library in {dirpath}"
-            )
+def load_component(gdspath: PosixPath) -> Component:
+    """Returns Component from gdspath, with ports (CSV) and metadata (JSON) info (if any)"""
 
-        dirpath = pathlib.Path(dirpath)
-        gdspath = dirpath / f"{name}.gds"
+    if not gdspath.exists():
+        raise FileNotFoundError(f"No such file '{gdspath}'")
 
-    portspath = gdspath.with_suffix(".ports")
-    jsonpath = gdspath.with_suffix(".json")
+    ports_filepath = gdspath.with_suffix(".ports")
+    metadata_filepath = gdspath.with_suffix(".json")
 
-    if not os.path.isfile(gdspath):
-        raise ValueError(f"cannot load `{gdspath}`")
+    c = pp.import_gds(gdspath)
 
-    c = pp.import_gds(str(gdspath), overwrite_cache=overwrite_cache)
-
-    # Remove info labels if needed
-    if not with_info_labels:
-        for component in list(c.get_dependencies(recursive=True)) + [c]:
-            old_label = [
-                label
-                for label in component.labels
-                if label.layer == pp.LAYER.LABEL_SETTINGS
-            ]
-            if len(old_label) > 0:
-                for label in old_label:
-                    component.labels.remove(label)
-
-    """ add ports """
-    try:
-        with open(str(portspath), newline="") as csvfile:
+    if ports_filepath.exists():
+        with open(str(ports_filepath), newline="") as csvfile:
             reader = csv.reader(csvfile, delimiter=",", quotechar="|")
             for r in reader:
                 layer_type = int(r[5].strip().strip("("))
@@ -88,38 +63,32 @@ def load_component(
                     width=float(r[4]),
                     layer=(layer_type, data_type),
                 )
-    except Exception:
-        # print(
-        #     f"Could not find a port CSV file for {name} in {portspath}"
-        # )
-        # print(
-        #     "ports follow (name, x, y, width, angle, layer_gds_type, layer_gds_purpose)"
-        # )
-        pass
-        # raise (e)
 
-    """ add settings """
-    try:
-        with open(jsonpath) as f:
+    if metadata_filepath.exists():
+        with open(metadata_filepath) as f:
             data = json.load(f)
         cell_settings = data["cells"][c.name]
         c.settings.update(cell_settings)
-    except Exception:
-        pass
-        print(f"could not load settings for {c.name} in {jsonpath}")
     return c
 
 
-def _compare_hash():
-    component_type = "coupler90"
-    c = load_component(component_type)
-    c2 = get_component_type(component_type, gap=0.1)
-    print(c.hash_geometry())
-    print(c2.hash_geometry())
-    pp.show(c)
+def test_load_component_gds():
+    gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
+    c = load_component(gdspath)
+    assert c.hash_geometry() == "acbc8481cf28bc9930ecbd373cafcd17b39c5c27"
+
+
+def test_load_component_ports(num_regression):
+    gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
+    c = load_component(gdspath)
+    num_regression.check(c.get_ports_array())
+
+
+def test_load_component_settings(data_regression):
+    gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
+    c = load_component(gdspath)
+    data_regression.check(c.get_settings())
 
 
 if __name__ == "__main__":
-    component_type = "waveguide"
-    component = load_component(component_type)
-    print(component.settings)
+    test_load_component_gds()
