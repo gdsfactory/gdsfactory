@@ -7,5 +7,6 @@ settings:
   layer:
   - 49
   - 0
+  port_type: dc
   radius: null
   width: 10.0

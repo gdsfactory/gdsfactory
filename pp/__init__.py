@@ -36,7 +36,6 @@ from pp.cell import cell
 from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
-from pp.load_csv import load_csv
 
 from pp.write_component import show
 from pp.write_component import write_gds
@@ -56,11 +55,9 @@ from pp.component_from_yaml import component_from_yaml
 from pp.recurse_references import recurse_references
 from pp.types import get_name_to_function_dict
 
-from pp.components import component_factory
-from pp.components import factory
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
-from pp.add_padding import add_padding, get_padding_points
+from pp.add_padding import add_padding
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
@@ -89,16 +86,12 @@ __all__ = [
     "c",
     "clear_cache",
     "conf",
-    "component_factory",
     "call_if_func",
     "extend_ports",
     "boolean",
-    "factory",
-    "get_padding_points",
     "get_name_to_function_dict",
     "klive",
     "load_component",
-    "load_csv",
     "plotgds",
     "pack",
     "qp",

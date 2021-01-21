@@ -3,12 +3,13 @@
 import pathlib
 
 import pp
+from pp.load_csv import load_csv
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
 def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCLAD):
-    taper_data = pp.load_csv(csv_path)
+    taper_data = load_csv(csv_path)
     # taper_data = pd.read_csv(csv_path)
     # print(taper_data)
     xs = taper_data["x"] * 1e6
