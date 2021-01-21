@@ -138,10 +138,11 @@ def add_gratings_and_loop_back(
 if __name__ == "__main__":
     # gc = pp.c.grating_coupler_elliptical_te()
     # cc = add_termination(c, gc)
+    # import pp
+    # c = pp.c.waveguide()
     from pp.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()
-    # c = waveguide()
     cc = add_gratings_and_loop_back(c, with_loopback=False)
 
     # cc = add_termination(component=c)

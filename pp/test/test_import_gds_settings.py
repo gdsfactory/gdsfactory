@@ -5,7 +5,7 @@ from jsondiff import diff
 
 import pp
 from pp.add_pins import _add_settings_label
-from pp.components import _components, component_factory
+from pp.components import component_factory, component_names
 from pp.import_gds import add_settings_from_label, import_gds
 
 
@@ -23,10 +23,13 @@ def sort_dict(d):
 
 
 @pytest.mark.parametrize(
-    "component_type", _components - set(["grating_coupler_tree", "compensation_path"])
+    "component_type",
+    component_names - set(["grating_coupler_tree", "compensation_path"]),
 )
 def test_properties_components(component_type):
-    """Write component to GDS with setttings_label"""
+    """Write component to GDS with setttings written on a label.
+    Then import the GDS and check that the settings imported match the original.
+    """
     cnew = pp.Component()
     c1 = component_factory[component_type]()
     c1ref = cnew << c1
@@ -46,7 +49,7 @@ def test_properties_components(component_type):
 
 
 if __name__ == "__main__":
-    # c = test_properties_components(component_type=list(_components)[0])
+    # c = test_properties_components(component_type=list(component_names)[0])
     # c = test_properties_components(component_type="ring_single")
     # c = test_properties_components(component_type="mzit")
     # c = test_properties_components(component_type="bezier")

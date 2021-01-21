@@ -2,6 +2,7 @@ import pp
 from pp.add_padding import add_padding_to_grid
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.rectangle import rectangle
+from pp.container import container
 
 
 @pp.cell
@@ -13,7 +14,7 @@ def align_wafer(
     with_tile_excl=True,
     square_corner="bottom_left",
 ):
-    """ returns cross inside a frame to align wafer
+    """returns cross inside a frame to align wafer
 
     .. plot::
       :include-source:
@@ -37,7 +38,7 @@ def align_wafer(
     rtop.movey(+b)
     rbot.movey(-b)
 
-    rv = rectangle(w=w, h=2 * b, layer=layer, centered=True)
+    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
     rl.movex(-b)
@@ -67,11 +68,10 @@ def align_wafer(
     return c
 
 
-@pp.cell
+@container
 def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
-    """ returns component with a frame around it
-    """
-    c = pp.Component()
+    """returns component with a frame around it"""
+    c = pp.Component(f"{component.name}_f")
     cref = c.add_ref(component)
     cref.move(-c.size_info.center)
     b = component.size_info.height / 2 + spacing + width / 2
@@ -140,7 +140,6 @@ def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
     points = [[0, 0], [s, 0], [x - s, y - s], [x - s, y], [0, y]]
     c.add_polygon(points, layer=layer)
     cc = add_frame(component=c)
-    cc.name = "align_cryo_top_left"
     return cc
 
 
@@ -148,7 +147,7 @@ def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
 def align_tree_top_left(**kwargs):
     c = pp.Component()
     c.name = "grating_coupler_tree_tl"
-    gc = grating_coupler_tree(component_name=c.name, **kwargs)
+    gc = grating_coupler_tree(**kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
     align = align_cryo_top_left()
@@ -213,8 +212,12 @@ def align_tree_bottom_right(**kwargs):
 
 
 if __name__ == "__main__":
+    c = pp.c.waveguide()
+    c = add_frame(component=c)
+    c = align_wafer()
+
     # c = align_tree_top_left_with_cross()
-    c = align_tree_top_left()
+    # c = align_tree_top_left()
     # c = triangle(x=60, y=60)
     # c = align_wafer()
     # c = pp.c.cross(length=80, width=10)

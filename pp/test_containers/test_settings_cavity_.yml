@@ -1,0 +1,22 @@
+function_name: cavity
+info: {}
+module: pp.components.cavity
+name: cavity_Cmzi2x2_WECTrue
+settings:
+  component:
+    function_name: mzi2x2
+    info: {}
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60.0
+      L2: 10.0
+      bend_radius: 10.0
+      gap: 0.234
+      with_elec_connections: true
+  coupler: coupler
+  gap: 0.2
+  length: 0.1
+  wg_width: 0.5

@@ -39,7 +39,7 @@ def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCL
 
 
 @pp.cell
-def taper_w3_l36(**kwargs):
+def taper_0p5_to_3_l36(**kwargs):
     csv_path = data_path / "taper_strip_0p5_3_36.csv"
     return taper_from_csv(csv_path, **kwargs)
 
@@ -75,7 +75,7 @@ def taper_w12_l200(**kwargs):
 
 
 if __name__ == "__main__":
-    c = taper_w3_l36()
+    c = taper_0p5_to_3_l36()
     # c = taper_w10_l100()
     # c = taper_w11_l200()
     pp.show(c)

@@ -237,32 +237,28 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
         alpha=alpha,
     )
 
-    _bez_bend = bezier(
+    bend = bezier(
         control_points=cpts, t=t, start_angle=start_angle, end_angle=end_angle,
     )
 
     tol = 1e-2
-    assert abs(_bez_bend.info["start_angle"] - start_angle) < tol, _bez_bend.info[
-        "start_angle"
-    ]
-    assert abs(_bez_bend.info["end_angle"] - end_angle) < tol, _bez_bend.info[
-        "end_angle"
-    ]
+    assert abs(bend.info["start_angle"] - start_angle) < tol, bend.info["start_angle"]
+    assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
-    # print(abs(_bez_bend.info["start_angle"] - start_angle))
-    # print(abs(_bez_bend.info["end_angle"] - end_angle))
+    # print(abs(bend.info["start_angle"] - start_angle))
+    # print(abs(bend.info["end_angle"] - end_angle))
 
-    b_tr = _bez_bend.ref(position=p_e, port_id="0")
-    b_tl = _bez_bend.ref(position=p_n, port_id="0", h_mirror=True)
-    b_bl = _bez_bend.ref(position=p_w, port_id="0", rotation=180)
-    b_br = _bez_bend.ref(position=p_s, port_id="0", v_mirror=True)
+    b_tr = bend.ref(position=p_e, port_id="0")
+    b_tl = bend.ref(position=p_n, port_id="0", h_mirror=True)
+    b_bl = bend.ref(position=p_w, port_id="0", rotation=180)
+    b_br = bend.ref(position=p_s, port_id="0", v_mirror=True)
 
     for cmp_ref in [b_tr, b_br, b_tl, b_bl]:
         # cmp_ref = _cmp.ref()
         c.add(cmp_ref)
         c.absorb(cmp_ref)
 
-    c.info["components"] = {"bezier_bend": _bez_bend, "crossing": crossing}
+    c.info["components"] = {"bezier_bend": bend, "crossing": crossing}
 
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
     # print (b_tr.info["min_bend_radius"])
@@ -377,13 +373,11 @@ def compensation_path(crossing45=crossing45, direction="top"):
     component.add(sbend_left)
     component.add(sbend_right)
 
-    # Add ports
     component.add_port("W0", port=sbend_left.ports["0"])
     component.add_port("E0", port=sbend_right.ports["0"])
 
     component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     component.info["components"] = {"sbend": sbend}
-
     return component
 
 
@@ -417,6 +411,7 @@ def demo():
 if __name__ == "__main__":
     c = compensation_path()
     c.pprint()
+    pp.show(c)
     # c = crossing()
     # c = crossing45(port_spacing=15)
     # print(c.ports["E1"].y - c.ports["E0"].y)

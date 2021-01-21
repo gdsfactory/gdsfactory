@@ -1,9 +1,0 @@
-function_name: rectangle_centered
-module: pp.components.rectangle
-name: rectangle_centered
-settings:
-  h: 1
-  layer: 0
-  w: 1
-  x: None
-  y: None

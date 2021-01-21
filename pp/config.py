@@ -17,7 +17,7 @@ print_config()
 ```
 """
 
-__version__ = "2.2.5"
+__version__ = "2.2.6"
 import io
 import json
 import logging

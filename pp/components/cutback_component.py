@@ -1,11 +1,12 @@
 import pp
 from pp.components import bend_euler180
 from pp.components.component_sequence import component_sequence
+from pp.components.taper_from_csv import taper_0p5_to_3_l36
 
 
 @pp.cell
 def cutback_component(
-    component,
+    component=taper_0p5_to_3_l36,
     cols=4,
     rows=5,
     bend_radius=10,
@@ -13,13 +14,15 @@ def cutback_component(
     port2_id="E0",
     middle_couples=2,
 ):
-    """ Flips the component, good for tapers that end in wide waveguides
+    """Flips the component, good for tapers that end in wide waveguides
+
     Args:
         component
         cols
         rows
 
     """
+    component = component() if callable(component) else component
     bend180 = bend_euler180(radius=bend_radius)
 
     # Define a map between symbols and (component, input port, output port)
@@ -54,7 +57,7 @@ def cutback_component(
 
 @pp.cell
 def cutback_component_flipped(
-    component,
+    component=taper_0p5_to_3_l36,
     cols=4,
     rows=5,
     bend_radius=10,
@@ -62,6 +65,7 @@ def cutback_component_flipped(
     port2_id="W0",
     middle_couples=2,
 ):
+    component = component() if callable(component) else component
     bend180 = bend_euler180(radius=bend_radius)
 
     # Define a map between symbols and (component, input port, output port)
@@ -94,25 +98,6 @@ def cutback_component_flipped(
     return c
 
 
-@pp.cell
-def cutback_polarization_rotator(n_devices_target, design=3):
-    """ sample of component cutback """
-    rows = 4
-    cols = n_devices_target // (rows * 2)
-    from pp.components.polarization_rotator import polarization_rotator
-
-    c = cutback_component(
-        component=polarization_rotator(design=design), rows=rows, cols=cols
-    )
-    cc = pp.routing.add_fiber_array(
-        c,
-        grating_coupler=pp.c.grating_coupler_elliptical_tm,
-        optical_routing_type=0,
-        connected_port_list_ids=["out", "in"],
-    )
-
-    return cc
-
-
 if __name__ == "__main__":
-    pass
+    c = cutback_component()
+    pp.show(c)
