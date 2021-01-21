@@ -7,16 +7,16 @@ name: grating_coupler_elliptical2
 settings:
   direction: EAST
   dutycycle: 0.7
+  layer:
+  - 2
+  - 0
   length: 30.0
   period: 1.0
   polarization: te
   port:
-  - 0
-  - 0
+  - 0.0
+  - 0.0
   ridge: true
-  ridge_layers:
-  - 2
-  - 0
   taper_length: 10.0
   teeth_list: null
   theta: 0.7853981633974483

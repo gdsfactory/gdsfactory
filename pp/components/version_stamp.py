@@ -15,7 +15,7 @@ def pixel(size=1.0, layer=LAYER.WG):
 
 
 @pp.cell
-def qrcode(data, psize=1, layer=LAYER.WG):
+def qrcode(data="gdsfactory", psize=1, layer=LAYER.WG):
     """ A utility to render a list of pixels as a block """
     import qrcode
 

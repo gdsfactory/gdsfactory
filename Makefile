@@ -14,7 +14,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
 
 test:
-	pytest -x
+	pytest --workers auto
 
 test-force:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
