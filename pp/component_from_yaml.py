@@ -21,6 +21,25 @@ valid_keys = [
     "ports",
     "routes",
 ]
+valid_anchors_double_number = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+]
+
+valid_anchors_single_number = [
+    "south",
+    "west",
+    "east",
+    "north",
+]
+valid_anchors = valid_anchors_double_number + valid_anchors_single_number
 
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
 
@@ -102,14 +121,25 @@ def place(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
-                if port_name not in instances[instance_name_ref].ports:
+                if (
+                    port_name not in instances[instance_name_ref].ports
+                    and port_name not in valid_anchors
+                ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchors} "
                         f"for {instance_name_ref}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
 
-                x = instances[instance_name_ref].ports[port_name].x
+                if port_name in valid_anchors:
+                    if port_name in valid_anchors_single_number:
+                        x = getattr(instances[instance_name_ref].size_info, port_name)
+                    else:
+                        x, _ = getattr(
+                            instances[instance_name_ref].size_info, port_name
+                        )
+                else:
+                    x = instances[instance_name_ref].ports[port_name].x
             ref.x += x
         if y:
             if isinstance(y, str):
@@ -132,14 +162,26 @@ def place(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
-                if port_name not in instances[instance_name_ref].ports:
+                if (
+                    port_name not in instances[instance_name_ref].ports
+                    and port_name not in valid_anchors
+                ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchors} "
                         f"for {instance_name_ref}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
 
-                y = instances[instance_name_ref].ports[port_name].y
+                if port_name in valid_anchors:
+                    if port_name in valid_anchors_single_number:
+                        y = getattr(instances[instance_name_ref].size_info, port_name)
+                    else:
+                        _, y = getattr(
+                            instances[instance_name_ref].size_info, port_name
+                        )
+
+                else:
+                    y = instances[instance_name_ref].ports[port_name].y
             ref.y += y
         if dx:
             ref.x += dx
@@ -1035,12 +1077,49 @@ placements:
         dx : 10
         dy: 20
 """
+#                      ______
+#                     |      |
+#           dx  W0----| short|
+#                |    |______|
+#                | dy
+#   ______ north |
+#   |     |
+#   |long |
+#   |_____|
+#       east
+
+yaml_anchor = """
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        port: E0
+        x: 0
+        y: 0
+    mmi_long:
+        port: W0
+        x: mmi_short,east
+        y: mmi_short,north
+        dx : 10
+        dy: 10
+"""
 
 
 if __name__ == "__main__":
     import pp
 
-    cc = component_from_yaml(yaml_fail)  # this should fail
+    # cc = component_from_yaml(yaml_fail)  # this should fail
+    cc = component_from_yaml(yaml_anchor)
 
     # cc = test_connections_regex()
     # cc = component_from_yaml(sample_regex_connections)
