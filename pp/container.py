@@ -80,6 +80,8 @@ def container(func: Callable) -> Callable:
         new.settings.update(**kwargs)
         new.settings["component"] = old.get_settings()
         new.function_name = func.__name__
+
+        # if no ports defined it takes
         if len(new.ports) == 0:
             new.ports = old.ports
 
@@ -99,8 +101,13 @@ def container(func: Callable) -> Callable:
 @container
 def containerize(component: Component, function: Callable, **kwargs):
     """Returns a containerize component after applying a function.
-
     This is an alternative of using the @container decorator.
+    However I recommend using the decorator when possible
+
+    Args:
+        component: to containerize
+        function: that applies to component
+        **kwargs: for the function
 
     .. code::
 
@@ -132,9 +139,18 @@ def add_label(component, text="hi"):
 def test_containerize():
     import pp
 
-    c = pp.c.waveguide()
-    cc = pp.containerize(c, function=add_label, text="hi")
-    return cc
+    name = "waveguide_with_label"
+
+    old = pp.c.waveguide()
+    new = containerize(old, function=add_label, text="hi", name=name)
+
+    print(new.name)
+    assert new != old, f"new component {new} should be different from {old}"
+    assert new.name == name, f"new name {new.name} should be {name}"
+    assert len(new.ports) == len(
+        old.ports
+    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
+    return new
 
 
 @container
@@ -178,21 +194,6 @@ def test_container():
     return new
 
 
-def test_container2():
-    import pp
-
-    old = pp.c.waveguide()
-    suffix = "p"
-    name = f"{old.name}_{suffix}"
-    new = _add_padding(old, suffix=suffix)
-    assert new != old, f"new component {new} should be different from {old}"
-    assert new.name == name, f"new name {new.name} should be {name}"
-    assert len(new.ports) == len(
-        old.ports
-    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    return new
-
-
 def test_container_error():
     import pytest
 
@@ -212,6 +213,6 @@ if __name__ == "__main__":
     # cc1 = container_instance(c1)
     # cc2 = container_instance(c2)
     # c = test_containerize()
-
-    c = test_container()
+    # c = test_container()
+    c = test_containerize()
     pp.show(c)

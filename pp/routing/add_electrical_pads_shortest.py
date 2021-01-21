@@ -42,7 +42,7 @@ def add_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **kwar
             p.x = port.x
             c.add(connect_electrical_shortest_path(port, p.ports["N"]))
 
-    c.ports = component.ports
+    c.ports = component.ports.copy()
     for port in ports:
         c.ports.pop(port.name)
     return c

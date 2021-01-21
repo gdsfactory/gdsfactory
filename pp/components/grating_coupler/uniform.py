@@ -4,11 +4,9 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
-from pp.components.grating_coupler import grating_coupler
 from pp.components.taper import taper
 
 
-@grating_coupler
 @cell
 def grating_coupler_uniform(
     num_teeth: int = 20,
@@ -92,6 +90,7 @@ def grating_coupler_uniform(
     G.polarization = polarization
     G.wavelength = wavelength
     G.rotate(180)
+    pp.assert_grating_coupler_properties(G)
     return G
 
 

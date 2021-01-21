@@ -212,9 +212,13 @@ def test_autoname():
 
 
 if __name__ == "__main__":
+    import pp
+
+    c = pp.c.waveguide()
+
     # test_autoname_true()
     # test_autoname_false()
-    test_autoname()
+    # test_autoname()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)

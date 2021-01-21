@@ -1,11 +1,19 @@
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.container import container
+from pp.routing.connect import connect_elec_waypoints
+from pp.routing.connect_bundle import connect_bundle
 from pp.routing.connect_electrical import connect_electrical_shortest_path
 
 
 @container
-def add_electrical_pads_top(component: Component, **kwargs) -> Component:
+def add_electrical_pads_top(
+    component: Component,
+    component_top_to_pad_bottom_distance: float = 100.0,
+    route_filter=connect_elec_waypoints,
+    sort_ports=False,
+    **kwargs,
+) -> Component:
     """connects component electrical ports with pad array at the top
 
     Args:
@@ -21,12 +29,20 @@ def add_electrical_pads_top(component: Component, **kwargs) -> Component:
     c << component
     pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
     pads.x = component.x
-    pads.y = component.ymax + 100
+    pads.ymin = component.ymax + component_top_to_pad_bottom_distance
     ports_pads = list(pads.ports.values())
-    for p1, p2 in zip(ports_pads, ports):
-        c.add(connect_electrical_shortest_path(p1, p2))
 
-    c.ports = component.ports
+    if sort_ports:
+        r = connect_bundle(
+            ports_pads, ports, sort_ports=True, route_filter=route_filter
+        )
+        c.add(r)
+
+    else:
+        for p1, p2 in zip(ports_pads, ports):
+            c.add(connect_electrical_shortest_path(p1, p2))
+
+    c.ports = component.ports.copy()
     for port in ports:
         c.ports.pop(port.name)
     return c

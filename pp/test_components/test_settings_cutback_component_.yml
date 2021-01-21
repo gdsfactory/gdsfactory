@@ -1,0 +1,12 @@
+function_name: cutback_component
+info: {}
+module: pp.components.cutback_component
+name: cutback_component
+settings:
+  bend_radius: 10
+  cols: 4
+  middle_couples: 2
+  n_devices: 92
+  port1_id: W0
+  port2_id: E0
+  rows: 5

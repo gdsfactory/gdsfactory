@@ -1,0 +1,106 @@
+connections:
+  bend_circular_R10_W500n_-9.125_15.826,N0: waveguide_L0p001_W500n_-14.0_10.7,W0
+  bend_circular_R10_W500n_-9.125_15.826,W0: waveguide_L4_W500n_-2.0_20.701,W0
+  bend_circular_R10_W500n_5.125_15.826,N0: waveguide_L4_W500n_-2.0_20.701,E0
+  bend_circular_R10_W500n_5.125_15.826,W0: waveguide_L0p001_W500n_10.0_10.7,W0
+  coupler_ring_edf8f53f_-2.0_5.225,N0: waveguide_L0p001_W500n_-14.0_10.7,E0
+  coupler_ring_edf8f53f_-2.0_5.225,N1: waveguide_L0p001_W500n_10.0_10.7,E0
+instances:
+  bend_circular_R10_W500n_-9.125_15.826:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.5
+  bend_circular_R10_W500n_5.125_15.826:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.5
+  coupler_ring_edf8f53f_-2.0_5.225:
+    component: coupler_ring
+    settings:
+      bend_radius: 10.0
+      gap: 0.2
+      length_x: 4.0
+      wg_width: 0.5
+  waveguide_L0p001_W500n_-14.0_10.7:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 0.001
+      width: 0.5
+  waveguide_L0p001_W500n_10.0_10.7:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 0.001
+      width: 0.5
+  waveguide_L4_W500n_-2.0_20.701:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 4.0
+      width: 0.5
+name: ring_single
+placements:
+  bend_circular_R10_W500n_-9.125_15.826:
+    mirror: false
+    rotation: 180
+    x: -4.0
+    y: 20.701
+  bend_circular_R10_W500n_5.125_15.826:
+    mirror: false
+    rotation: 90
+    x: 10.0
+    y: 10.701
+  coupler_ring_edf8f53f_-2.0_5.225:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  waveguide_L0p001_W500n_-14.0_10.7:
+    mirror: false
+    rotation: 270
+    x: -14.0
+    y: 10.701
+  waveguide_L0p001_W500n_10.0_10.7:
+    mirror: false
+    rotation: 270
+    x: 10.0
+    y: 10.701
+  waveguide_L4_W500n_-2.0_20.701:
+    mirror: false
+    rotation: 0
+    x: -4.0
+    y: 20.701
+ports:
+  E0: coupler_ring_edf8f53f_-2.0_5.225,E0
+  W0: coupler_ring_edf8f53f_-2.0_5.225,W0

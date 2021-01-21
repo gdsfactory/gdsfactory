@@ -12,11 +12,11 @@ from jsondiff import diff
 
 import pp
 from pp import CONFIG
-from pp.components import _components, component_factory
+from pp.components import component_factory, component_names
 
 path_library = CONFIG["gds"]
 
-_components = _components - set(
+component_names_test = component_names - set(
     [
         "bezier",
         "compass",
@@ -70,7 +70,7 @@ def lock_component(
 
 
 def lock_components_with_changes(
-    components=_components,
+    components=component_names_test,
     component_factory=component_factory,
     path_library=path_library,
 ):
@@ -107,7 +107,7 @@ def print_components_with_changes(
 
 
 @pytest.mark.skip
-@pytest.mark.parametrize("component_type", _components)
+@pytest.mark.parametrize("component_type", component_names_test)
 @pytest.mark.noautofixt
 def test_components(
     component_type, component_factory=component_factory, path_library=path_library,
@@ -196,7 +196,7 @@ def compare_component_hash(
 
 
 if __name__ == "__main__":
-    # for component in list(_components):
+    # for component in list(component_names_test):
     #     test_components(component)
     lock_components_with_changes()
     # lock_component("grating_coupler_tree")

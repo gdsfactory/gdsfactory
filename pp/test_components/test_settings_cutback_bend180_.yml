@@ -1,0 +1,10 @@
+function_name: cutback_bend180
+info: {}
+module: pp.components.cutback_bend
+name: cutback_bend180
+settings:
+  cols: 6
+  n_bends: 82
+  n_steps: 6
+  spacing: 3
+  straight_length: 5.0

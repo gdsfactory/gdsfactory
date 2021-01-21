@@ -104,7 +104,7 @@ def add_fiber_single(
         )
 
     component_name = component_name or component.name
-    name = f"{component_name}_{grating_coupler.polarization}"
+    name = f"{component_name}_{grating_coupler.name}"
 
     elements, grating_couplers = route_fiber_single(
         component,

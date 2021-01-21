@@ -1,6 +1,7 @@
 import pp
-from pp.components import grating_coupler_elliptical_te, waveguide
 from pp.components.bend_circular import bend_circular
+from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
+from pp.components.waveguide import waveguide
 from pp.components.waveguide_array import waveguide_array
 from pp.routing.connect import connect_strip_way_points_no_taper
 

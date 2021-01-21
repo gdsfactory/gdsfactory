@@ -469,7 +469,7 @@ class ComponentReference(DeviceReference):
             p = port
         else:
             raise ValueError(
-                f"{self}.connect({port}) valid ports are {self.ports.keys()}"
+                f"{self.parent.name}.connect({port}): {port} not in {list(self.ports.keys())}"
             )
 
         angle = 180 + destination.orientation - p.orientation
