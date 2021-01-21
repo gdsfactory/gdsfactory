@@ -10,7 +10,6 @@ from omegaconf import OmegaConf
 from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.components.extension import move_polar_rad_copy
 from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -38,11 +37,13 @@ def place(
 
     Args:
         placements_conf: Dict of instance_name to placement (x, y, rotation ...)
-        connections_by_transformed_inst: Dict of connection attributes, keyed by the name of the instance which should be transformed
+        connections_by_transformed_inst: Dict of connection attributes.
+            keyed by the name of the instance which should be transformed
         instances: Dict of references
         encountered_insts: list of encountered_instances
         instance_name: instance_name to place
-        all_remaining_insts: a list of all the remaining instances which must be placed by this method. Items will be popped from this list as they are placed.
+        all_remaining_insts: list of all the remaining instances which must be placed by this method.
+            Items will be popped from this list as they are placed.
     """
     if not all_remaining_insts:
         return
@@ -146,13 +147,7 @@ def place(
             ref.y += dy
         if mirror:
             if mirror is True and port:
-                port_object = ref.ports[port]
-                p1 = port_object.midpoint
-                p2 = move_polar_rad_copy(
-                    p1, angle=port_object.orientation * np.pi / 180, length=0.2
-                )
-                ref.reflect(p1=p1, p2=p2)
-                # print(port_object.name, p1, p2)
+                ref.reflect_h(port_name=port)
             elif mirror is True:
                 if x:
                     ref.reflect_h(x0=x)

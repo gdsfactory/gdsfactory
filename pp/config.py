@@ -169,6 +169,10 @@ def write_config(config, json_out_path):
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
+    """Calls function if it's a function
+    Useful to create objects from functions
+    if it's an object it just returns the object
+    """
     return f(**kwargs) if callable(f) else f
 
 

@@ -10,6 +10,7 @@ from typing import Optional
 import pp
 from pp import CONFIG
 from pp.component import Component
+from pp.write_component import get_component_type
 
 
 def get_component_path(name, dirpath=CONFIG["gdslib"]):
@@ -112,7 +113,7 @@ def load_component(
 def _compare_hash():
     component_type = "coupler90"
     c = load_component(component_type)
-    c2 = pp.get_component_type(component_type, gap=0.1)
+    c2 = get_component_type(component_type, gap=0.1)
     print(c.hash_geometry())
     print(c2.hash_geometry())
     pp.show(c)
@@ -120,5 +121,5 @@ def _compare_hash():
 
 if __name__ == "__main__":
     component_type = "waveguide"
-    c = load_component(component_type)
-    print(c.settings)
+    component = load_component(component_type)
+    print(component.settings)

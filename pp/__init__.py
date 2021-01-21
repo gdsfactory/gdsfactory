@@ -38,7 +38,6 @@ from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.load_csv import load_csv
 
-from pp.write_component import get_component_type
 from pp.write_component import show
 from pp.write_component import write_gds
 from pp.write_component import write_component_type
@@ -51,11 +50,11 @@ import pp.bias as bias
 import pp.klive as klive
 import pp.sp as sp
 import pp.port as port
-import pp.units as units
 import pp.types as types
 
 from pp.component_from_yaml import component_from_yaml
 from pp.recurse_references import recurse_references
+from pp.types import get_name_to_function_dict
 
 from pp.components import component_factory
 from pp.components import factory
@@ -64,7 +63,6 @@ from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
-from pp.import_phidl_component import import_phidl_component
 from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.boolean import boolean
@@ -88,7 +86,6 @@ __all__ = [
     "add_pins_to_references",
     "add_termination",
     "import_gds",
-    "import_phidl_component",
     "c",
     "clear_cache",
     "conf",
@@ -97,8 +94,8 @@ __all__ = [
     "extend_ports",
     "boolean",
     "factory",
-    "get_component_type",
     "get_padding_points",
+    "get_name_to_function_dict",
     "klive",
     "load_component",
     "load_csv",
@@ -120,10 +117,10 @@ __all__ = [
     "write_gds",
     "Port",
     "component_from_yaml",
-    "units",
 ]
 __version__ = "2.2.6"
 
 
 if __name__ == "__main__":
-    print(__all__)
+    # print(__all__)
+    print(get_name_to_function_dict(container, boolean))

@@ -1,5 +1,4 @@
-"""" add electrical labels to each device port
-
+""""Add labels to each component port
 """
 
 from typing import Optional, Union
