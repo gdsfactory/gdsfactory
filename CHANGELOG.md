@@ -22,7 +22,7 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.2.6
+## 2.2.6 2021-01-20
 
 - added badges from github in README (codecoverage, docs ... )
 - pp.import_gds can import and move cells with labels (thanks to Adam McCaughan)
