@@ -1,0 +1,58 @@
+connections:
+  mmi_bot,W0: zz_conn_5baf95cc396bb19d_40.0_-15.0,output
+  mmi_top,E0: zz_conn_5baf95cc396bb19d_40.0_-15.0,input
+instances:
+  mmi_bot:
+    component: mmi1x2
+    settings:
+      cladding_offset: 3.0
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length_mmi: 10
+      length_taper: 10.0
+      wg_width: 0.5
+      width_mmi: 4.5
+      width_taper: 1.0
+  mmi_top:
+    component: mmi1x2
+    settings:
+      cladding_offset: 3.0
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length_mmi: 5
+      length_taper: 10.0
+      wg_width: 0.5
+      width_mmi: 4.5
+      width_taper: 1.0
+  zz_conn_5baf95cc396bb19d_40.0_-15.0:
+    component: waveguide
+    settings:
+      length: 50.166000000000004
+name: sample_docstring
+placements:
+  mmi_bot:
+    mirror: false
+    rotation: 0
+    x: 70.0
+    y: -29.375
+  mmi_top:
+    mirror: false
+    rotation: 0
+    x: 12.5
+    y: 0.0
+  zz_conn_5baf95cc396bb19d_40.0_-15.0:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

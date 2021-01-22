@@ -1,0 +1,52 @@
+connections: {}
+instances:
+  b:
+    component: pad_array
+    settings:
+      height: 100.0
+      layer:
+      - 49
+      - 0
+      n: 6
+      port_list:
+      - N
+      spacing:
+      - 150.0
+      - 0.0
+      width: 100.0
+  t:
+    component: pad_array
+    settings:
+      height: 100.0
+      layer:
+      - 49
+      - 0
+      n: 6
+      port_list:
+      - S
+      spacing:
+      - 150.0
+      - 0.0
+      width: 100.0
+  zz_conn_56119df9aeba8802_-125.0_500.0:
+    component: waveguide
+    settings:
+      length: 1241.4160000000002
+name: sample_waypoints
+placements:
+  b:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  t:
+    mirror: false
+    rotation: 0
+    x: 100.0
+    y: 1000.0
+  zz_conn_56119df9aeba8802_-125.0_500.0:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

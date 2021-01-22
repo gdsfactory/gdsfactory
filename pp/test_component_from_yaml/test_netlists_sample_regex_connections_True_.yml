@@ -1,0 +1,76 @@
+connections:
+  left,E0: zz_conn_bd78140a553112b6_14.0_1.25,input
+  left,E1: zz_conn_9325a15c05a3909c_14.0_10.0,input
+  left,E2: zz_conn_db5622e16984eeca_14.0_18.75,input
+  right,W0: zz_conn_bd78140a553112b6_14.0_1.25,output
+  right,W1: zz_conn_9325a15c05a3909c_14.0_10.0,output
+  right,W2: zz_conn_db5622e16984eeca_14.0_18.75,output
+instances:
+  left:
+    component: nxn
+    settings:
+      east: 3
+      layer:
+      - 1
+      - 0
+      north: 0
+      south: 0
+      west: 0
+      wg_margin: 1.0
+      wg_width: 0.5
+      xsize: 8.0
+      ysize: 20
+  right:
+    component: nxn
+    settings:
+      east: 0
+      layer:
+      - 1
+      - 0
+      north: 0
+      south: 0
+      west: 3
+      wg_margin: 1.0
+      wg_width: 0.5
+      xsize: 8.0
+      ysize: 20
+  zz_conn_9325a15c05a3909c_14.0_10.0:
+    component: waveguide
+    settings:
+      length: 12.0
+  zz_conn_bd78140a553112b6_14.0_1.25:
+    component: waveguide
+    settings:
+      length: 12.0
+  zz_conn_db5622e16984eeca_14.0_18.75:
+    component: waveguide
+    settings:
+      length: 12.0
+name: sample_regex_connections
+placements:
+  left:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  right:
+    mirror: false
+    rotation: 0
+    x: 20.0
+    y: 0.0
+  zz_conn_9325a15c05a3909c_14.0_10.0:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  zz_conn_bd78140a553112b6_14.0_1.25:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  zz_conn_db5622e16984eeca_14.0_18.75:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

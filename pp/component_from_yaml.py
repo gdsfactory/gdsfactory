@@ -664,7 +664,6 @@ def component_from_yaml(
                 f" {instance_name} "
             )
             c.add_port(port_name, port=instance.ports[instance_port_name])
-    c.instances = instances
     c.routes = routes
     return c
 
@@ -673,6 +672,7 @@ if __name__ == "__main__":
     import pp
 
     cc = component_from_yaml(sample_mmis)
+    print(cc.get_settings()["info"])
 
     # from pp.test_component_from_yaml import yaml_anchor
     # cc = component_from_yaml(yaml_anchor)

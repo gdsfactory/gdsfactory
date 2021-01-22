@@ -1,9 +1,0 @@
-info:
-  instances:
-    mmi_long: DeviceReference (parent Device "mmi1x2_LM10_WM4p5", ports ['E0', 'E1',
-      'W0'], origin [50.    20.625], rotation 0, x_reflection False)
-    mmi_short: DeviceReference (parent Device "mmi1x2_LM5_WM4p5", ports ['E0', 'E1',
-      'W0'], origin [77.5  21.25], rotation 0, x_reflection False)
-  routes: {}
-name: yaml_fail
-settings: {}

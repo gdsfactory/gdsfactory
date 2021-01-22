@@ -1,0 +1,79 @@
+connections:
+  bl,E: zz_conn_510d926c0c150d44_450.0_200.0,input
+  br,W: zz_conn_510d926c0c150d44_450.0_200.0,output
+  tl,E: zz_conn_11ab64a88b4704e8_450.0_400.5,input
+  tr,W: zz_conn_11ab64a88b4704e8_450.0_400.5,output
+instances:
+  bl:
+    component: pad
+    settings:
+      height: 100
+      layer:
+      - 49
+      - 0
+      width: 100
+  br:
+    component: pad
+    settings:
+      height: 100
+      layer:
+      - 49
+      - 0
+      width: 100
+  tl:
+    component: pad
+    settings:
+      height: 100
+      layer:
+      - 49
+      - 0
+      width: 100
+  tr:
+    component: pad
+    settings:
+      height: 100
+      layer:
+      - 49
+      - 0
+      width: 100
+  zz_conn_11ab64a88b4704e8_450.0_400.5:
+    component: waveguide
+    settings:
+      length: 1716.248
+  zz_conn_510d926c0c150d44_450.0_200.0:
+    component: waveguide
+    settings:
+      length: 1716.248
+name: sample_different_link_factory
+placements:
+  bl:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  br:
+    mirror: false
+    rotation: 0
+    x: 900.0
+    y: 400.0
+  tl:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 200.0
+  tr:
+    mirror: false
+    rotation: 0
+    x: 900.0
+    y: 600.0
+  zz_conn_11ab64a88b4704e8_450.0_400.5:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  zz_conn_510d926c0c150d44_450.0_200.0:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

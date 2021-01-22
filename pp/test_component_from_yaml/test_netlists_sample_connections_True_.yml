@@ -1,0 +1,36 @@
+connections:
+  wgn,W0: wgw,E0
+instances:
+  wgn:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 0.5
+      width: 0.5
+  wgw:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 1
+      width: 1
+name: sample_connections
+placements:
+  wgn:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  wgw:
+    mirror: false
+    rotation: 0
+    x: -1.0
+    y: 0.0
+ports: {}

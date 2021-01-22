@@ -1,0 +1,47 @@
+connections: {}
+instances:
+  mmi_long:
+    component: mmi1x2
+    settings:
+      cladding_offset: 3.0
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length_mmi: 10
+      length_taper: 10.0
+      wg_width: 0.5
+      width_mmi: 4.5
+      width_taper: 1.0
+  mmi_short:
+    component: mmi1x2
+    settings:
+      cladding_offset: 3.0
+      gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length_mmi: 5
+      length_taper: 10.0
+      wg_width: 0.5
+      width_mmi: 4.5
+      width_taper: 1.0
+name: yaml_anchor
+placements:
+  mmi_long:
+    mirror: false
+    rotation: 0
+    x: 25.0
+    y: 15.875
+  mmi_short:
+    mirror: false
+    rotation: 0
+    x: -12.5
+    y: 0.625
+ports: {}

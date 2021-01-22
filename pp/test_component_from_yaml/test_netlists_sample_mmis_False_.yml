@@ -1,0 +1,38 @@
+connections:
+  mmi_long,E0: zz_conn_580f75ea2c07a6d8_48.75_50.625,output
+  mmi_short,E1: zz_conn_580f75ea2c07a6d8_48.75_50.625,input
+instances:
+  mmi_long:
+    component: mmi1x2
+    settings:
+      length_mmi: 10
+      width_mmi: 4.5
+  mmi_short:
+    component: mmi1x2
+    settings:
+      length_mmi: 5
+      width_mmi: 4.5
+  zz_conn_580f75ea2c07a6d8_48.75_50.625:
+    component: waveguide
+    settings:
+      length: 163.916
+name: mmis
+placements:
+  mmi_long:
+    mirror: false
+    rotation: 180
+    x: 100.0
+    y: 100.0
+  mmi_short:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  zz_conn_580f75ea2c07a6d8_48.75_50.625:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports:
+  E0: mmi_short,W0
+  W0: mmi_long,W0
