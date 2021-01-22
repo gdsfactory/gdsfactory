@@ -13,6 +13,8 @@ from pp.components import component_factory as component_factory_default
 from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
+"""Recognized keys within a placements definition"""
+
 valid_keys = [
     "name",
     "instances",
@@ -21,7 +23,9 @@ valid_keys = [
     "ports",
     "routes",
 ]
-valid_anchors_double_number = [
+"""Recognized top-level sections of a Component YAML"""
+
+valid_anchor_point_keywords = [
     "ce",
     "cw",
     "nc",
@@ -31,17 +35,53 @@ valid_anchors_double_number = [
     "se",
     "sw",
     "center",
+    "cc",
 ]
+"""Anchor keywords which refer to an (x,y) Point"""
 
-valid_anchors_single_number = [
+valid_anchor_value_keywords = [
     "south",
     "west",
     "east",
     "north",
 ]
-valid_anchors = valid_anchors_double_number + valid_anchors_single_number
+"""Anchor keywords which refer to a singular (x or y) value"""
+
+valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
+"""The full set of valid anchor keywords (either referring to points or values)"""
 
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
+"""Recognized keys within a YAML route definition"""
+
+
+def _get_anchor_point_from_name(ref: ComponentReference, anchor_name: str) -> Optional[np.ndarray]:
+    if anchor_name in valid_anchor_point_keywords:
+        pt = getattr(
+            ref.size_info, anchor_name
+        )
+        return pt
+    elif anchor_name in ref.ports:
+        return ref.ports[anchor_name].position
+    else:
+        return None
+
+
+def _get_anchor_value_from_name(ref: ComponentReference, anchor_name: str, return_value: str) -> Optional[float]:
+    if anchor_name in valid_anchor_value_keywords:
+        v = getattr(
+            ref.size_info, anchor_name
+        )
+        return v
+    else:
+        anchor_point = _get_anchor_point_from_name(ref, anchor_name)
+        if anchor_point is None:
+            return None
+        if return_value == 'x':
+            return anchor_point[0]
+        elif return_value == 'y':
+            return anchor_point[1]
+        else:
+            raise ValueError('Expected x or y as return_value.')
 
 
 def place(
@@ -97,9 +137,11 @@ def place(
         mirror = placement_settings.get("mirror")
 
         if port:
-            a = ref.ports[port]
-            ref.x -= a.x
-            ref.y -= a.y
+            a = _get_anchor_point_from_name(ref, port)
+            if a is None:
+                raise KeyError(f'Supplied port is neither a valid port on {ref.parent.name}, nor is it a recognized anchor keyword. Valid ports: {list(ref.ports.keys())}. Valid keywords: {valid_anchor_point_keywords}')
+            ref.x -= a[0]
+            ref.y -= a[1]
         if x:
             if isinstance(x, str):
                 if not len(x.split(",")) == 2:
@@ -123,23 +165,15 @@ def place(
                     )
                 if (
                     port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchors
+                    and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchors} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
                         f"for {instance_name_ref}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
 
-                if port_name in valid_anchors:
-                    if port_name in valid_anchors_single_number:
-                        x = getattr(instances[instance_name_ref].size_info, port_name)
-                    else:
-                        x, _ = getattr(
-                            instances[instance_name_ref].size_info, port_name
-                        )
-                else:
-                    x = instances[instance_name_ref].ports[port_name].x
+                x = _get_anchor_value_from_name(instances[instance_name_ref], port_name, 'x')
             ref.x += x
         if y:
             if isinstance(y, str):
@@ -164,24 +198,15 @@ def place(
                     )
                 if (
                     port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchors
+                    and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchors} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
                         f"for {instance_name_ref}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
 
-                if port_name in valid_anchors:
-                    if port_name in valid_anchors_single_number:
-                        y = getattr(instances[instance_name_ref].size_info, port_name)
-                    else:
-                        _, y = getattr(
-                            instances[instance_name_ref].size_info, port_name
-                        )
-
-                else:
-                    y = instances[instance_name_ref].ports[port_name].y
+                y = _get_anchor_value_from_name(instances[instance_name_ref], port_name, 'y')
             ref.y += y
         if dx:
             ref.x += dx
