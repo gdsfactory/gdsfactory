@@ -1,7 +1,9 @@
 import itertools as it
 
+import jsondiff
 import numpy as np
 import pytest
+from omegaconf import OmegaConf
 
 from pp.component_from_yaml import component_from_yaml, sample_mmis
 from pp.testing import difftest
@@ -551,16 +553,20 @@ def test_netlists(yaml_key, full_settings, data_regression):
     n = c.get_netlist(full_settings=full_settings)
     data_regression.check(n)
 
-    # the second part needs fixing
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c2 = component_from_yaml(yaml_str)
-    # n2 = c2.get_netlist(full_settings=full_settings)
-    # d = jsondiff.diff(n, n2)
-    # assert len(d) == 0
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0
 
 
 if __name__ == "__main__":
     import pp
 
     c = component_from_yaml(sample_2x2_connections)
-    pp.show(c)
+    full_settings = True
+    n = c.get_netlist(full_settings=full_settings)
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    pp.show(c2)

@@ -799,7 +799,6 @@ def test_connect_bundle():
 
     top_cell = Component(name="connect_bundle")
     routes = connect_bundle(top_ports, bottom_ports)
-    top_cell.add(routes)
     lengths = [
         1180.4159265358978,
         1063.4159265358978,
@@ -818,7 +817,8 @@ def test_connect_bundle():
     ]
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route.parent.length, length)
+        top_cell.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return top_cell
 
 
@@ -897,12 +897,12 @@ def test_connect_corner(N=6, config="A"):
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = connect_bundle(ports1, ports2)
-            top_cell.add(routes)
+            top_cell.add(routes["references"])
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = connect_bundle(ports2, ports1)
-            top_cell.add(routes)
+            top_cell.add(routes["references"])
 
     return top_cell
 
@@ -919,18 +919,14 @@ def test_connect_bundle_udirect(dy=200, angle=270):
     xs2 = [50 + i * pitch for i in range(N)]
 
     if axis == "X":
-        ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, angle) for i in range(N)]
+        ports1 = [Port(f"top_{i}", (0, xs1[i]), 0.5, angle) for i in range(N)]
 
-        ports2 = [
-            Port("bottom_{}".format(i), (dy, xs2[i]), 0.5, angle) for i in range(N)
-        ]
+        ports2 = [Port(f"bottom_{i}", (dy, xs2[i]), 0.5, angle) for i in range(N)]
 
     else:
-        ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, angle) for i in range(N)]
+        ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, angle) for i in range(N)]
 
-        ports2 = [
-            Port("bottom_{}".format(i), (xs2[i], dy), 0.5, angle) for i in range(N)
-        ]
+        ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
     top_cell = Component(name="connect_bundle_udirect")
     routes = connect_bundle(ports1, ports2)
@@ -947,9 +943,8 @@ def test_connect_bundle_udirect(dy=200, angle=270):
 
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route.parent.length, length)
-
-    top_cell.add(routes)
+        assert np.isclose(route["settings"]["length"], length)
+        top_cell.add(route["references"])
     return top_cell
 
 
@@ -990,9 +985,8 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route.parent.length, length)
-
-    top_cell.add(routes)
+        assert np.isclose(route["settings"]["length"], length)
+        top_cell.add(route["references"])
 
     return top_cell
 
@@ -1015,7 +1009,6 @@ def test_facing_ports():
 
     top_cell = Component("test_facing_ports")
     routes = connect_bundle(ports1, ports2)
-    top_cell.add(routes)
     lengths = [
         671.4159265358979,
         481.41592653589794,
@@ -1032,39 +1025,10 @@ def test_facing_ports():
     ]
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route.parent.length, length)
+        assert np.isclose(route["settings"]["length"], length)
+        top_cell.add(route["references"])
 
     return top_cell
-
-
-def demo_connect_bundle():
-    """ combines all the connect_bundle tests """
-
-    y = 400.0
-    x = 500
-    y0 = 900
-    dy = 200.0
-    c = Component("connect_bundle")
-    for j, s in enumerate([-1, 1]):
-        for i, angle in enumerate([0, 90, 180, 270]):
-            c2 = test_connect_bundle_u_indirect(dy=s * dy, angle=angle)
-            c2ref = c2.ref(position=(i * x, j * y))
-            c.add(c2ref)
-
-            c2 = test_connect_bundle_udirect(dy=s * dy, angle=angle)
-            c2ref = c2.ref(position=(i * x, j * y + y0))
-            c.add(c2ref)
-
-    for i, config in enumerate(["A", "B", "C", "D"]):
-        c2 = test_connect_corner(config=config)
-        c2ref = c2.ref(position=(i * x, 1700))
-        c.add(c2ref)
-
-    c2 = test_facing_ports()
-    c2ref = c2.ref(position=(800, 1820))
-    c.add(c2ref)
-
-    return c
 
 
 def test_connect_bundle_small():
@@ -1081,7 +1045,8 @@ def test_connect_bundle_small():
     )
     for route in routes:
         # print(route.parent.length)
-        assert np.isclose(route.parent.length, 100.25796326794897)
+        assert np.isclose(route["settings"]["length"], 100.25796326794897)
+        c.add(route["references"])
     c.add(routes)
     return c
 

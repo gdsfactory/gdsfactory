@@ -160,6 +160,6 @@ if __name__ == "__main__":
 
     c = pp.Component()
     c << w
-    connector_ref = connect_strip(w.ports["E0"], w.ports["W0"])
-    cc = c.add(connector_ref)
+    connector = connect_strip(w.ports["E0"], w.ports["W0"])
+    cc = c.add(connector["references"])
     pp.show(cc)

@@ -85,12 +85,13 @@ def get_netlist(
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
+
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"],
         )
         placements[reference_name] = dict(
-            x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection
+            x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection,
         )
 
     # store where ports are located
@@ -176,8 +177,16 @@ def demo_mzi_lattice():
 if __name__ == "__main__":
     from pprint import pprint
 
+    from omegaconf import OmegaConf
+
     import pp
     from pp.test_component_from_yaml import sample_2x2_connections
 
     c = pp.component_from_yaml(sample_2x2_connections)
+    pp.show(c)
     pprint(c.get_netlist())
+
+    n = c.get_netlist()
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = pp.component_from_yaml(yaml_str)
+    pp.show(c2)

@@ -1,6 +1,6 @@
 import numpy as np
 
-import pp
+from pp.cell import cell
 from pp.components import bend_circular
 from pp.components import taper as taper_factory
 from pp.components import waveguide
@@ -272,13 +272,7 @@ def _generate_manhattan_bundle_waypoints(
     return routes
 
 
-@pp.cell
-def test_connect_bundle_waypoints():
-    return test_connect_bundle_waypointsA()
-
-
-@pp.cell
-def test_connect_bundle_waypointsA():
+def test_connect_bundle_waypointsA(data_regression):
     import pp
     from pp.component import Port
 
@@ -290,7 +284,7 @@ def test_connect_bundle_waypointsA():
     ports1 = [Port("A_{}".format(i), (xs1[i], 0), 0.5, 90) for i in range(N)]
     ports2 = [Port("B_{}".format(i), (0, ys2[i]), 0.5, 180) for i in range(N)]
 
-    top_cell = pp.Component()
+    c = pp.Component("A")
     p0 = ports1[0].position + (22, 0)
     way_points = [
         p0,
@@ -304,14 +298,18 @@ def test_connect_bundle_waypointsA():
         ports2[-1].position,
     ]
 
-    elements = connect_bundle_waypoints(ports1, ports2, way_points)
-    top_cell.add(elements)
+    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    lengths = np.zeros_like(routes)
+    for i, route in enumerate(routes):
+        c.add(route["references"])
+        lengths[i] = route["settings"]["length"]
 
-    return top_cell
+    lengths = {str(i): i for i in lengths}
+    data_regression.check(lengths)
+    return c
 
 
-@pp.cell
-def test_connect_bundle_waypointsB():
+def test_connect_bundle_waypointsB(data_regression):
     import pp
     from pp.component import Port
 
@@ -324,7 +322,7 @@ def test_connect_bundle_waypointsB():
 
     p0 = ports1[0].position + (0, 22.5)
 
-    top_cell = pp.Component()
+    c = pp.Component("B")
     way_points = [
         p0,
         p0 + (200, 0),
@@ -334,15 +332,19 @@ def test_connect_bundle_waypointsB():
         ports2[0].position,
     ]
 
-    elements = connect_bundle_waypoints(ports1, ports2, way_points)
-    top_cell.add(elements)
+    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    lengths = np.zeros_like(routes, dtype=float)
+    for i, route in enumerate(routes):
+        c.add(route["references"])
+        lengths[i] = route["settings"]["length"]
 
-    return top_cell
+    lengths = {str(i): i for i in lengths}
+    # data_regression.check(lengths)
+    return c
 
 
-@pp.cell
+@cell
 def test_connect_bundle_waypointsC():
-    import pp
     from pp.component import Port
 
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
@@ -352,7 +354,7 @@ def test_connect_bundle_waypointsC():
     ports1 = [Port("A_{}".format(i), (0, ys1[i]), 0.5, 0) for i in range(N)]
     ports2 = [Port("B_{}".format(i), (600, ys2[i]), 0.5, 180) for i in range(N)]
 
-    top_cell = pp.Component()
+    c = pp.Component()
     way_points = [
         ports1[0].position,
         ports1[0].position + (200, 0),
@@ -362,15 +364,31 @@ def test_connect_bundle_waypointsC():
         ports2[0].position,
     ]
 
-    elements = connect_bundle_waypoints(ports1, ports2, way_points)
-    top_cell.add(elements)
+    routes = connect_bundle_waypoints(ports1, ports2, way_points)
 
-    return top_cell
+    lengths = [
+        1082.832,
+        1082.832,
+        1082.832,
+        1077.832,
+        1077.832,
+        1112.832,
+        1112.832,
+        1107.832,
+        1142.832,
+        1142.832,
+    ]
+
+    for route, length in zip(routes, lengths):
+        c.add(route["references"])
+        # print(route["settings"]["length"])
+        assert route["settings"]["length"] == length
+
+    return c
 
 
-@pp.cell
+@cell
 def test_connect_bundle_waypointsD():
-    import pp
     from pp.component import Port
 
     ys1 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 100.0
@@ -386,15 +404,35 @@ def test_connect_bundle_waypointsD():
     yc1 = _mean_y(ports1)
     yc2 = _mean_y(ports2)
 
-    top_cell = pp.Component()
+    c = pp.Component()
     way_points = [(0, yc1), (200, yc1), (200, yc2), (0, yc2)]
 
-    elements = connect_bundle_waypoints(ports1, ports2, way_points)
-    top_cell.add(elements)
+    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    lengths = [
+        855.416,
+        835.416,
+        815.416,
+        775.416,
+        755.416,
+        735.416,
+        695.416,
+        635.416,
+        615.416,
+        555.416,
+    ]
 
-    return top_cell
+    for route, length in zip(routes, lengths):
+        c.add(route["references"])
+        # print(route["settings"]["length"])
+        assert route["settings"]["length"] == length
+
+    return c
 
 
 if __name__ == "__main__":
-    cell = test_connect_bundle_waypointsD()
-    pp.show(cell)
+    import pp
+
+    # c = test_connect_bundle_waypointsD()
+    # c = test_connect_bundle_waypointsC()
+    c = test_connect_bundle_waypointsB()
+    pp.show(c)

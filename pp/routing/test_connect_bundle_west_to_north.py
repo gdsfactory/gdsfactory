@@ -3,6 +3,7 @@ import numpy as np
 import pp
 
 
+@pp.cell
 def test_connect_bundle_west_to_north():
     w = h = 10
     c = pp.Component()
@@ -19,13 +20,14 @@ def test_connect_bundle_west_to_north():
     routes = pp.routing.connect_bundle(
         pbports, ptports, route_filter=pp.routing.connect_elec_waypoints
     )
-    c.add(routes)
-    # print(routes[0].parent.length)
-    # print(routes[1].parent.length)
-    # print(routes[2].parent.length)
-    assert np.isclose(routes[0].parent.length, 190.0)
-    assert np.isclose(routes[1].parent.length, 220.0)
-    assert np.isclose(routes[2].parent.length, 250.0)
+
+    lengths = [190, 220, 250]
+
+    for route, length in zip(routes, lengths):
+        # print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
+
     return c
 
 

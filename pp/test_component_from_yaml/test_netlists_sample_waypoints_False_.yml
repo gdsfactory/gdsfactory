@@ -1,17 +1,102 @@
-connections: {}
+connections:
+  bend_circular_R10_W500n_-245.125_604.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_627.5,1
+  bend_circular_R10_W500n_-245.125_604.875,W0: taper_L1_0_L35_W500n_W2p5_-222.5_600.0,1
+  bend_circular_R10_W500n_-4.875_595.125,N0: taper_L1_0_L35_W500n_W2p5_-27.5_600.0,1
+  bend_circular_R10_W500n_-4.875_595.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_572.5,1
+  taper_L1_0_L35_W500n_W2p5_-222.5_600.0,2: waveguide_L160_W2p5_-125.0_600.0,E0
+  taper_L1_0_L35_W500n_W2p5_-250.0_627.5,2: waveguide_L320_W2p5_-250.0_805.0,W0
+  taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2: waveguide_L320_W2p5_-250.0_805.0,E0
+  taper_L1_0_L35_W500n_W2p5_-27.5_600.0,2: waveguide_L160_W2p5_-125.0_600.0,W0
+  taper_L1_0_L35_W500n_W2p5_0.0_17.5,2: waveguide_L520_W2p5_0.0_295.0,W0
+  taper_L1_0_L35_W500n_W2p5_0.0_572.5,2: waveguide_L520_W2p5_0.0_295.0,E0
 instances:
   b:
     component: pad_array
     settings: {}
+  bend_circular_R10_W500n_-245.125_604.875:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+  bend_circular_R10_W500n_-4.875_595.125:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
   t:
     component: pad_array
     settings:
       port_list:
       - S
-  zz_conn_56119df9aeba8802_-125.0_500.0:
+  taper_L1_0_L35_W500n_W2p5_-222.5_600.0:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_-250.0_627.5:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_-27.5_600.0:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_0.0_572.5:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  waveguide_L160_W2p5_-125.0_600.0:
     component: waveguide
     settings:
-      length: 1241.4160000000002
+      length: 160.0
+      width: 2.5
+  waveguide_L320_W2p5_-250.0_805.0:
+    component: waveguide
+    settings:
+      length: 320.0
+      width: 2.5
+  waveguide_L520_W2p5_0.0_295.0:
+    component: waveguide
+    settings:
+      length: 520.0
+      width: 2.5
 name: sample_waypoints
 placements:
   b:
@@ -19,14 +104,64 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
+  bend_circular_R10_W500n_-245.125_604.875:
+    mirror: true
+    rotation: 180
+    x: -240.0
+    y: 600.0
+  bend_circular_R10_W500n_-4.875_595.125:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 590.0
   t:
     mirror: false
     rotation: 0
     x: 100.0
     y: 1000.0
-  zz_conn_56119df9aeba8802_-125.0_500.0:
+  taper_L1_0_L35_W500n_W2p5_-222.5_600.0:
     mirror: false
     rotation: 0
+    x: -240.0
+    y: 600.0
+  taper_L1_0_L35_W500n_W2p5_-250.0_627.5:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 610.0
+  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+    mirror: false
+    rotation: 270
+    x: -250.0
+    y: 1000.0
+  taper_L1_0_L35_W500n_W2p5_-27.5_600.0:
+    mirror: false
+    rotation: 180
+    x: -10.0
+    y: 600.0
+  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+    mirror: false
+    rotation: 90
     x: 0.0
     y: 0.0
+  taper_L1_0_L35_W500n_W2p5_0.0_572.5:
+    mirror: false
+    rotation: 270
+    x: 0.0
+    y: 590.0
+  waveguide_L160_W2p5_-125.0_600.0:
+    mirror: false
+    rotation: 180
+    x: -45.0
+    y: 600.0
+  waveguide_L320_W2p5_-250.0_805.0:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 645.0
+  waveguide_L520_W2p5_0.0_295.0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 35.0
 ports: {}

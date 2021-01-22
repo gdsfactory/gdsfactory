@@ -9,15 +9,13 @@ def test_route_south():
     cr = c << pp.c.mmi2x2()
     routes, ports = pp.routing.route_south(cr)
 
-    l1 = 17.207963267948966
-    l2 = 22.35796326794896
+    l1 = 17.208
+    l2 = 22.358
     lengths = [l1, l2, l1, l2]
-    for r, length in zip(routes, lengths):
-        print(r.parent.length)
-
-    for r, length in zip(routes, lengths):
-        assert np.isclose(r.parent.length, length)
-    c.add(routes)
+    for route, length in zip(routes, lengths):
+        print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 

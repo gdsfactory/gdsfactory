@@ -435,7 +435,6 @@ def component_from_yaml(
         assert key in valid_keys, f"{key} not in {list(valid_keys)}"
 
     instances = {}
-    routes = {}
     name = conf.get("name", "Unnamed")
     c = Component(name)
     placements_conf = conf.get("placements")
@@ -631,23 +630,21 @@ def component_from_yaml(
                 "link_electrical_waypoints",
                 "link_optical_waypoints",
             ]:
-                route = link_function(
+                routes = link_function(
                     route_filter=route_filter, **route_settings, **link_settings,
                 )
-                routes[route_name] = route
 
             else:
-                route = link_function(
+                routes = link_function(
                     ports1,
                     ports2,
                     route_filter=route_filter,
                     **route_settings,
                     **link_settings,
                 )
-                for i, r in enumerate(route):
-                    routes[route_names[i]] = r
 
-            c.add(route)
+            for route in routes:
+                c.add(route["references"])
 
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
@@ -664,7 +661,6 @@ def component_from_yaml(
                 f" {instance_name} "
             )
             c.add_port(port_name, port=instance.ports[instance_port_name])
-    c.routes = routes
     return c
 
 

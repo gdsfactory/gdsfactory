@@ -139,9 +139,9 @@ if __name__ == "__main__":
     c = pp.c.cross(length=500)
     c = pp.c.waveguide(width=2, length=500)
 
-    elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
+    elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 
-    cc = pp.Component()
+    cc = pp.Component("sample_route_fiber_single")
     cr = cc << c.rotate(90)
 
     for e in elements:
