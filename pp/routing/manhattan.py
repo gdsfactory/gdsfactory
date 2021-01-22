@@ -1,4 +1,3 @@
-import uuid
 from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -8,7 +7,7 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components import waveguide
 from pp.geo_utils import angles_deg
-from pp.name import clean_name
+from pp.hash_points import hash_points
 from pp.port import Port
 
 TOLERANCE = 0.0001
@@ -470,7 +469,7 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
 
-    cell = pp.Component(f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}")
+    cell = pp.Component(f"zz_conn_{hash_points(points)[:16]}")
     points = np.array(points)
 
     straight_sections = []  # (p0, angle, length)

@@ -1,0 +1,11 @@
+info:
+  instances:
+    mmi_long: DeviceReference (parent Device "mmi1x2_LM10_WM4p5", ports ['E0', 'E1',
+      'W0'], origin [100. 100.], rotation 180, x_reflection False)
+    mmi_short: DeviceReference (parent Device "mmi1x2_LM5_WM4p5", ports ['E0', 'E1',
+      'W0'], origin (0, 0), rotation 0, x_reflection False)
+  routes:
+    mmi_short,E1:mmi_long,E0: DeviceReference (parent Device "zz_conn_580f75ea2c07a6d8",
+      ports ['input', 'output'], origin [0 0], rotation 0, x_reflection False)
+name: mmis
+settings: {}
