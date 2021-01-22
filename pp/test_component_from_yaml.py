@@ -560,4 +560,7 @@ def test_netlists(yaml_key, full_settings, data_regression):
 
 
 if __name__ == "__main__":
-    c = component_from_yaml(sample_connections)
+    import pp
+
+    c = component_from_yaml(sample_2x2_connections)
+    pp.show(c)

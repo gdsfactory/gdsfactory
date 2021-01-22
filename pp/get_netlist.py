@@ -89,7 +89,9 @@ def get_netlist(
         instances[reference_name] = dict(
             component=c.function_name, settings=settings["settings"],
         )
-        placements[reference_name] = dict(x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection)
+        placements[reference_name] = dict(
+            x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection
+        )
 
     # store where ports are located
     name2port = {}
@@ -172,42 +174,10 @@ def demo_mzi_lattice():
 
 
 if __name__ == "__main__":
-    # test_mzi_lattice()
-    # import matplotlib.pyplot as plt
     from pprint import pprint
 
-    from omegaconf import OmegaConf
-
     import pp
+    from pp.test_component_from_yaml import sample_2x2_connections
 
-    # c = pp.c.ring_single_array()
-    # c = pp.c.mzi()
-    # pp.show(c)
-
-    c = pp.c.ring_single()
-
-    pp.show(c)
-
-    n = get_netlist(c)
-    connections = n["connections"]
-    placements = n["placements"]
-    instances = n["instances"]
-    ports = n["ports"]
-
-    # pprint(placements)
-    pprint(instances)
-    # print(placements)
-
-    # connections, instances, placements = get_netlist(c.references[0].parent)
-    # print(connections)
-    # print(ports)
-    # print(instances)
-
-    n = c.get_netlist()
-    # n.pop('connections')
-    # n.pop('placements')
-
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
-    c2 = pp.component_from_yaml(yaml_str)
-    pp.show(c2)
+    c = pp.component_from_yaml(sample_2x2_connections)
+    pprint(c.get_netlist())

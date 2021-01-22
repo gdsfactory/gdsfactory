@@ -27,6 +27,8 @@ from pydantic import validate_arguments
 - using mirror (port) in pp.component_from_yaml
 - remove old, untested code to deal with libraries. Libraries should use factory
 - add pp.get_name_to_function_dict to build factories as dict(func_name=func)
+- component_from_yaml can also use (north, east, west, ne, nw ...) for placement
+- added regression tests for component_from_yaml
 
 ## 2.2.6 2021-01-20
 
