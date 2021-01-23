@@ -671,6 +671,7 @@ def component_from_yaml(
             )
             c.add_port(port_name, port=instance.ports[instance_port_name])
     c.routes = routes
+    c.instances = instances
     return c
 
 

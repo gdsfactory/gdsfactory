@@ -1,5 +1,6 @@
 import numpy as np
 
+import pp
 from pp.cell import cell
 from pp.components import bend_circular
 from pp.components import taper as taper_factory
@@ -273,7 +274,6 @@ def _generate_manhattan_bundle_waypoints(
 
 
 def test_connect_bundle_waypointsA(data_regression):
-    import pp
     from pp.component import Port
 
     xs1 = np.arange(10) * 5 - 500.0
@@ -310,7 +310,6 @@ def test_connect_bundle_waypointsA(data_regression):
 
 
 def test_connect_bundle_waypointsB(data_regression):
-    import pp
     from pp.component import Port
 
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
@@ -430,7 +429,6 @@ def test_connect_bundle_waypointsD():
 
 
 if __name__ == "__main__":
-    import pp
 
     c = test_connect_bundle_waypointsD()
     # c = test_connect_bundle_waypointsC()

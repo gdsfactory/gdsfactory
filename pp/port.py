@@ -414,12 +414,9 @@ def auto_rename_ports(component: Device) -> Device:
             _func_name_ports = type_to_ports_naming_functions[port_type]
         else:
             raise ValueError(
-                "Unknown port type <{}> in component {}, port {}".format(
-                    port_type, component.name, p
-                )
+                f"Port type <{port_type}> in component {component.name}, port {p} is not valid ",
+                f"valid types = {list(type_to_ports_naming_functions.keys())}",
             )
-
-        # Make sure we can backtrack the parent component from the port
 
         direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
         for p in port_group:
