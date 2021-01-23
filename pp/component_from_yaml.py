@@ -435,6 +435,7 @@ def component_from_yaml(
         assert key in valid_keys, f"{key} not in {list(valid_keys)}"
 
     instances = {}
+    routes = {}
     name = conf.get("name", "Unnamed")
     c = Component(name)
     placements_conf = conf.get("placements")
@@ -630,12 +631,12 @@ def component_from_yaml(
                 "link_electrical_waypoints",
                 "link_optical_waypoints",
             ]:
-                routes = link_function(
+                route_dict_or_list = link_function(
                     route_filter=route_filter, **route_settings, **link_settings,
                 )
 
             else:
-                routes = link_function(
+                route_dict_or_list = link_function(
                     ports1,
                     ports2,
                     route_filter=route_filter,
@@ -643,8 +644,16 @@ def component_from_yaml(
                     **link_settings,
                 )
 
-            for route in routes:
-                c.add(route["references"])
+            # FIXME, make all routers to return lists
+            if isinstance(route_dict_or_list, list):
+                for route_name, route_dict in zip(route_names, route_dict_or_list):
+                    c.add(route_dict["references"])
+                    routes[route_name] = route_dict["settings"]
+            elif isinstance(route_dict_or_list, dict):
+                c.add(route_dict_or_list["references"])
+                routes[route_name] = route_dict_or_list["settings"]
+            else:
+                raise ValueError(f"{route_dict_or_list} needs to be dict or list")
 
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
@@ -661,6 +670,7 @@ def component_from_yaml(
                 f" {instance_name} "
             )
             c.add_port(port_name, port=instance.ports[instance_port_name])
+    c.routes = routes
     return c
 
 
@@ -680,7 +690,6 @@ if __name__ == "__main__":
     # cc = component_from_yaml(sample_mirror_simple)
 
     # cc = test_connections_2x2()
-    # test_sample()
     # cc = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()

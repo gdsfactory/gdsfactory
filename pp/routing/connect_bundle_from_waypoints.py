@@ -432,7 +432,7 @@ def test_connect_bundle_waypointsD():
 if __name__ == "__main__":
     import pp
 
-    # c = test_connect_bundle_waypointsD()
+    c = test_connect_bundle_waypointsD()
     # c = test_connect_bundle_waypointsC()
-    c = test_connect_bundle_waypointsB()
+    # c = test_connect_bundle_waypointsB()
     pp.show(c)

@@ -120,7 +120,11 @@ def route_fiber_single(
         **kwargs
     )
     for e in elements_north:
-        elements_south.append(e.rotate(180))
+        if isinstance(e, list):
+            for ei in e:
+                elements_south.append(ei.rotate(180))
+        else:
+            elements_south.append(e.rotate(180))
 
     if len(gratings_north) > 0:
         for io in gratings_north[0]:

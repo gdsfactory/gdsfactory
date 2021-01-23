@@ -39,7 +39,7 @@ def spiral_inner_io(
     taper: Optional[Callable] = None,
     length: Optional[float] = None,
 ) -> Component:
-    """Spiral with grating couplers inside.
+    """Spiral with ports inside the spiral circle.
 
     Args:
         N: number of loops
@@ -164,15 +164,14 @@ def spiral_inner_io(
 
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
-    route_ref_w = round_corners(
+    route_west = round_corners(
         pts_w, bend90=_bend90, straight_factory=straight_factory, taper=taper
     )
-    component.add(route_ref_w)
-    component.absorb(route_ref_w)
+    component.add(route_west["references"])
 
     # Add loop back
     bend180_ref = _bend180.ref(
-        port_id="W1", position=route_ref_w.ports["output"], rotation=90
+        port_id="W1", position=route_west["ports"]["output"], rotation=90
     )
     component.add(bend180_ref)
     component.absorb(bend180_ref)
@@ -196,15 +195,14 @@ def spiral_inner_io(
 
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
-    route_ref_e = round_corners(
+    route_east = round_corners(
         pts_e, bend90=_bend90, straight_factory=straight_factory, taper=taper
     )
-    component.add(route_ref_e)
-    component.absorb(route_ref_e)
+    component.add(route_east["references"])
 
     length = (
-        route_ref_e.info["length"]
-        + route_ref_w.info["length"]
+        route_east["settings"]["length"]
+        + route_west["settings"]["length"]
         + bend180_ref.info["length"]
     )
     component.length = pp.drc.snap_to_1nm_grid(length + 2 * y_straight_inner_top)

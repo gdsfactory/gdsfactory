@@ -3,8 +3,7 @@ import pp
 
 @pp.cell
 def test_netlist_with_routes():
-    """
-    """
+    """"""
     c = pp.Component()
     w = c << pp.c.waveguide(length=3)
     b = c << pp.c.bend_circular()
@@ -12,7 +11,8 @@ def test_netlist_with_routes():
     b.xmin = 10
 
     routes = pp.routing.connect_bundle(w.ports["E0"], b.ports["W0"])
-    c.add(routes)
+    for route in routes:
+        c.add(route["references"])
     n = c.get_netlist()
     connections = n["connections"]
 

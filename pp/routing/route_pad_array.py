@@ -5,7 +5,7 @@ from phidl.device_layout import Label
 
 import pp
 from pp.component import Component, ComponentReference
-from pp.components.electrical.pad import pad
+from pp.components.electrical.pad import pad as pad_function
 from pp.port import select_electrical_ports
 from pp.routing.connect import connect_elec_waypoints, get_waypoints_connect_strip
 from pp.routing.utils import direction_ports_from_list_ports
@@ -14,7 +14,7 @@ from pp.routing.utils import direction_ports_from_list_ports
 def route_pad_array(
     component: Component,
     pad_spacing: float = 150.0,
-    pad: Callable = pad,
+    pad: Callable = pad_function,
     fanout_length: Optional[int] = None,
     max_y0_optical: None = None,
     waveguide_separation: float = 4.0,
@@ -32,8 +32,8 @@ def route_pad_array(
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
-    """
-    Returns component I/O elements for adding pads to south
+    """Returns component I/O elements for adding pads to south
+
     Basic routing, typically fine for small components
     No heuristic to avoid collisions between connectors.
 
@@ -43,17 +43,25 @@ def route_pad_array(
 
     Args:
         component: The component to connect.
-        pad_spacing: the wanted spacing between the  pads
-        fanout_length: Wanted distance between the gratings and the southest component port. If set to None, automatically calculated.
-        max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set. Usually fine to leave at None.
-        waveguide_separation: min separation between the waveguides used to route pads to the component I/O.
+        pad_spacing: the wanted spacing between the pads
+        fanout_length: Wanted distance between the gratings and the southest component port.
+            If set to None, automatically calculated.
+        max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
+            Usually fine to leave at None.
+        waveguide_separation: min spacing between the waveguides that route component to pads
         bend_radius: bend radius
         list_port_labels: list of the port indices (e.g [0,3]) which require a T&M label.
-        connected_port_list_ids: only for type 0 optical routing.  Can specify which ports goes to which pads assuming the gratings are ordered from left to right.  e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
-        n_ports: number of lines with I/O pads.  One line by default.  WARNING: Only works properly if:
+        connected_port_list_ids: only for type 0 optical routing.
+            Can specify which ports goes to which pads
+            assuming the gratings are ordered from left to right.
+            e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
+        n_ports: number of lines with I/O pads. One line by default.
+            WARNING: Only works properly if:
             - n_ports divides the total number of ports
             - the components have an equal number of inputs and outputs
-        pad_indices: allows to fine skip some grating slots e.g [0,1,4,5] will put two gratings separated by the pitch. Then there will be two empty pads slots, and after that an additional two gratings.
+        pad_indices: allows to fine skip some grating slots e.g [0,1,4,5]
+            will put two gratings separated by the pitch.
+            Then there will be two empty pads slots, and after that an additional two gratings.
 
     Returns:
         elements, pads, y0_optical
@@ -204,7 +212,9 @@ def route_pad_array(
         for i in range(N):
             p0 = pads[i].ports[port_name]
             p1 = ordered_ports[i]
-            elements += [routing_method(p0, p1, bend_radius=bend_radius)]
+            elements.extend(
+                routing_method(p0, p1, bend_radius=bend_radius)["references"]
+            )
 
     return elements, io_pad_lines, y0_optical
 

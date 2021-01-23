@@ -78,16 +78,24 @@ def splitter_tree(
             v_mirror=False,  # True,
         )
 
-        c.add(pp.routing.connect_strip(coupler.ports["E1"], tree_top.ports["W0"]))
-        c.add(pp.routing.connect_strip(coupler.ports["E0"], tree_bot.ports["W0"]))
+        c.add(
+            pp.routing.connect_strip(coupler.ports["E1"], tree_top.ports["W0"])[
+                "references"
+            ]
+        )
+        c.add(
+            pp.routing.connect_strip(coupler.ports["E0"], tree_bot.ports["W0"])[
+                "references"
+            ]
+        )
 
     i = 0
     for p in pp.port.get_ports_facing(tree_bot, "E"):
-        c.add_port(name="{}".format(i), port=p)
+        c.add_port(name=f"{i}", port=p)
         i += 1
 
     for p in pp.port.get_ports_facing(tree_top, "E"):
-        c.add_port(name="{}".format(i), port=p)
+        c.add_port(name=f"{i}", port=p)
         i += 1
 
     c.add(tree_bot)

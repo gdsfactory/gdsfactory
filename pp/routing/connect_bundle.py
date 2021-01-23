@@ -897,12 +897,14 @@ def test_connect_corner(N=6, config="A"):
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = connect_bundle(ports1, ports2)
-            top_cell.add(routes["references"])
+            for route in routes:
+                top_cell.add(route["references"])
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = connect_bundle(ports2, ports1)
-            top_cell.add(routes["references"])
+            for route in routes:
+                top_cell.add(route["references"])
 
     return top_cell
 
@@ -1031,6 +1033,7 @@ def test_facing_ports():
     return top_cell
 
 
+@cell
 def test_connect_bundle_small():
     import pp
 
@@ -1047,7 +1050,6 @@ def test_connect_bundle_small():
         # print(route.parent.length)
         assert np.isclose(route["settings"]["length"], 100.25796326794897)
         c.add(route["references"])
-    c.add(routes)
     return c
 
 
@@ -1055,9 +1057,10 @@ if __name__ == "__main__":
     import pp
 
     # c = demo_connect_bundle()
-    # c = test_connect_bundle_small()
+    c = test_connect_bundle_small()
     # c = test_facing_ports()
     # c = test_connect_bundle_u_indirect()
     # c = test_connect_bundle_udirect()
-    c = test_connect_bundle()
+    # c = test_connect_bundle()
+    # c = test_connect_corner()
     pp.show(c)

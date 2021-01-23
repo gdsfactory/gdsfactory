@@ -589,8 +589,7 @@ def round_corners(
 
     ports["input"] = list(wg_refs[0].ports.values())[0]
     ports["output"] = list(wg_refs[-1].ports.values())[port_index_out]
-    total_length = snap_to_1nm_grid(float(total_length))
-    settings["length"] = total_length
+    settings["length"] = snap_to_1nm_grid(float(total_length))
     return dict(references=references, ports=ports, settings=settings)
 
 

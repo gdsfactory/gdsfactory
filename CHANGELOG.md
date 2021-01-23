@@ -22,6 +22,10 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.8
+
+- flat routes with no more zz_conn
+
 ## 2.2.7
 
 - using mirror (port) in pp.component_from_yaml
