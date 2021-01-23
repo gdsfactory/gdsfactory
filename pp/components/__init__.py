@@ -71,6 +71,7 @@ from pp.components.grating_coupler.uniform_optimized import (
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
+from pp.components.grating_coupler.grating_coupler_loss import grating_coupler_loss
 from pp.components.delay_snake import delay_snake
 from pp.components.spiral import spiral
 from pp.components.spiral_inner_io import spiral_inner_io_euler
@@ -171,6 +172,7 @@ component_factory = dict(
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
     grating_coupler_te=grating_coupler_te,
     grating_coupler_tm=grating_coupler_tm,
+    grating_coupler_loss=grating_coupler_loss,
     grating_coupler_tree=grating_coupler_tree,
     grating_coupler_uniform=grating_coupler_uniform,
     grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
