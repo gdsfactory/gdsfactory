@@ -538,7 +538,8 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = set()
+        self.ignore = {"path", "netlist"}
+        self.include = {"name", "function_name", "module", "info"}
         self.test_protocol = {}
         self.data_analysis_protocol = {}
 
@@ -707,10 +708,7 @@ class Component(Device):
         pprint(self.get_settings(**kwargs))
 
     def get_settings(
-        self,
-        ignore=("layer", "layers_cladding", "cladding_offset", "path", "netlist"),
-        include=("name", "function_name", "module", "info"),
-        full_settings=True,
+        self, ignore=None, include=None, full_settings=True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
         Ignores items from self.ignore set.
@@ -726,26 +724,32 @@ class Component(Device):
         d["settings"] = {}  # function arguments
         d["info"] = {}  # function arguments
 
-        include = set(include)
-        ignore = set(ignore).union(self.ignore).union(set(dir(Component()))) - include
+        ignore_keys = ignore or set()
+        include_keys = include or set()
+        ignore_keys = set(ignore_keys)
+        include_keys = set(include_keys)
 
-        params = set(dir(self)) - ignore - include
+        include = set(include_keys).union(self.include) - ignore_keys
+        ignore = (
+            set(ignore_keys).union(self.ignore).union(set(dir(Component()))) - include
+        )
+
+        params = set(dir(self)) - ignore - include - ignore_keys
         for param in params:
-            self.info[param] = _clean_value(getattr(self, param))
-
+            if param not in ignore:
+                self.info[param] = _clean_value(getattr(self, param))
         # for param in params:
         #     d['info'][param] = _clean_value(getattr(self, param))
         # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # d["hash_geometry"] = str(self.hash_geometry())
 
         for setting in include:
-            if hasattr(self, setting):
+            if hasattr(self, setting) and setting not in ignore:
                 d[setting] = _clean_value(getattr(self, setting))
 
         for key, value in settings.items():
             if key not in self.ignore:
                 d["settings"][key] = _clean_value(value)
-                # print(_clean_value(value))
 
         d = {k: d[k] for k in sorted(d)}
         return d
@@ -1133,7 +1137,7 @@ if __name__ == "__main__":
 
     c = pp.c.bend_circular()
     # c.get_settings()
-    c.pprint()
+    c.pprint(ignore=("length",))
 
     # c0 = pp.c.waveguide()
     # c = pp.c.waveguide(length=3.0)

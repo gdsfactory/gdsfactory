@@ -524,14 +524,15 @@ def test_gds(yaml_key, data_regression):
     difftest(c)
 
 
-# @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-# def test_settings(yaml_key, data_regression):
-#     """Avoid regressions when exporting settings."""
-#     yaml_string = yaml_strings[yaml_key]
-#     c = component_from_yaml(yaml_string)
+@pytest.mark.parametrize("yaml_key", yaml_strings.keys())
+def test_settings(yaml_key, data_regression):
+    """Avoid regressions when exporting settings."""
+    yaml_string = yaml_strings[yaml_key]
+    c = component_from_yaml(yaml_string)
 
-#     settings = c.get_settings()
-#     data_regression.check(settings)
+    settings = c.get_settings()
+    routes = settings.get("info", {}).get("routes", {})
+    data_regression.check(routes)
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
