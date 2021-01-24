@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 
 import pp
@@ -70,14 +72,15 @@ def connect_bundle_waypoints(
     start_ports,
     end_ports,
     way_points,
-    straight_factory=waveguide,
-    taper_factory=taper_factory,
-    bend_factory=bend_circular,
-    bend_radius=10.0,
-    auto_sort=True,
-    **kwargs
+    straight_factory: Callable = waveguide,
+    taper_factory: Callable = taper_factory,
+    bend_factory: Callable = bend_circular,
+    bend_radius: float = 10.0,
+    auto_sort: bool = True,
+    **kwargs,
 ):
-    """
+    """Connect bundle of ports with bundle of routes following a list of waypoints.
+
     Args:
         start_ports: list of ports
         end_ports: list of ports
@@ -86,10 +89,8 @@ def connect_bundle_waypoints(
     """
     if len(end_ports) != len(start_ports):
         raise ValueError(
-            "Number of start ports should match number of end ports.\
-        Got {} {}".format(
-                len(start_ports), len(end_ports)
-            )
+            f"Number of start ports should match number of end ports.\
+        Got {len(start_ports)} {len(end_ports)}"
         )
 
     for p in start_ports:
