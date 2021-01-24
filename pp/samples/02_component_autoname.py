@@ -19,6 +19,14 @@ def waveguide_cell(width=10, height=1):
     return wg
 
 
+def test_autoname():
+    c = waveguide_cell()
+    assert c.name == "waveguide_cell"
+
+    c = waveguide_cell(width=0.5)
+    assert c.name == "waveguide_cell_W500n"
+
+
 if __name__ == "__main__":
     c = waveguide_cell()
     print(c)

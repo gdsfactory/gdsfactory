@@ -185,9 +185,7 @@ def read_port_markers(gdspath, layers=((69, 0))):
 
 
 def csv2port(csvpath):
-    """loads and reads ports from a CSV file
-    returns a dict
-    """
+    """Reads ports from a CSV file and returns a Dict"""
     ports = {}
     with open(csvpath, "r") as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
@@ -202,10 +200,10 @@ def is_electrical_port(port):
 
 
 def select_ports(
-    ports,
+    ports: Dict[str, Port],
     port_type: Union[str, Tuple[int, int]] = "optical",
     prefix: Optional[str] = None,
-):
+) -> List[Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
@@ -414,12 +412,9 @@ def auto_rename_ports(component: Device) -> Device:
             _func_name_ports = type_to_ports_naming_functions[port_type]
         else:
             raise ValueError(
-                "Unknown port type <{}> in component {}, port {}".format(
-                    port_type, component.name, p
-                )
+                f"Port type <{port_type}> in component {component.name}, port {p} is not valid ",
+                f"valid types = {list(type_to_ports_naming_functions.keys())}",
             )
-
-        # Make sure we can backtrack the parent component from the port
 
         direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
         for p in port_group:

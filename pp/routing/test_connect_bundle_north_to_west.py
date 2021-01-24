@@ -17,11 +17,10 @@ def test_connect_bundle_west_to_north():
         route_filter=pp.routing.connect_elec_waypoints,
         # bend_radius=50
     )
-    c.add(routes)
-    # print(routes[0].parent.length)
-    # print(routes[1].parent.length)
-    assert np.isclose(routes[0].parent.length, 200)
-    assert np.isclose(routes[1].parent.length, 140)
+    lengths = [200, 140]
+    for route, length in zip(routes, lengths):
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
 
     return c
 

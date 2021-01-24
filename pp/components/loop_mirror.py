@@ -19,13 +19,13 @@ def loop_mirror(
     component = pp.call_if_func(component)
     bend90 = pp.call_if_func(bend90)
     cref = c.add_ref(component)
-    elements = route_manhattan(
+    routes = route_manhattan(
         cref.ports["E0"],
         cref.ports["E1"],
         bend90=bend90,
         straight_factory=pp.c.waveguide,
     )
-    c.add(elements)
+    c.add(routes["references"])
     c.add_port(name="W0", port=cref.ports["W0"])
     c.absorb(cref)
     return c
@@ -61,7 +61,7 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
 
 
 if __name__ == "__main__":
-    # c = loop_mirror()
+    c = loop_mirror()
     # c = loop_mirror_rotated()
-    c = loop_mirror_with_delay()
+    # c = loop_mirror_with_delay()
     pp.show(c)

@@ -1,0 +1,39 @@
+connections:
+  b,W0: w,E0
+instances:
+  b:
+    component: bend_circular
+    settings:
+      angle_resolution: 2.5
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      radius: 10.0
+      start_angle: 0
+      theta: -90
+      width: 0.5
+  w:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 10.0
+      width: 0.5
+name: sample_mirror_simple
+placements:
+  b:
+    mirror: true
+    rotation: 0
+    x: 10.0
+    y: 0.0
+  w:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

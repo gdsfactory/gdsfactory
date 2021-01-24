@@ -20,11 +20,11 @@ def test_path_length_matching():
     ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.connect_bundle_path_length_match(ports1, ports2)
-    for route in routes:
-        # print(route.parent.length)
-        assert np.isclose(route.parent.length, 2656.2477796076937)
-    c.add(routes)
-    c.routes = routes
+    lengths = [2656.248]
+    for route, length in zip(routes, lengths):
+        print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 
@@ -47,11 +47,11 @@ def test_path_length_matching_extra_length():
     routes = pp.routing.connect_bundle_path_length_match(
         ports1, ports2, extra_length=40
     )
-    for route in routes:
-        # print(route.parent.length)
-        assert np.isclose(route.parent.length, 2656.2477796076937 + 40)
-    c.add(routes)
-    c.routes = routes
+    lengths = [2656.248 + 40]
+    for route, length in zip(routes, lengths):
+        print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 
@@ -72,16 +72,16 @@ def test_path_length_matching_nb_loops():
     ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.connect_bundle_path_length_match(ports1, ports2, nb_loops=2)
-    for route in routes:
-        # print(route.parent.length)
-        assert np.isclose(route.parent.length, 2681.07963267949)
-    c.add(routes)
-    c.routes = routes
+    lengths = [2681.080]
+    for route, length in zip(routes, lengths):
+        print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 
 if __name__ == "__main__":
-    # c = test_path_length_matching()
+    c = test_path_length_matching()
     # c = test_path_length_matching_extra_length()
-    c = test_path_length_matching_nb_loops()
+    # c = test_path_length_matching_nb_loops()
     pp.show(c)

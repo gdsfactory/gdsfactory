@@ -279,7 +279,9 @@ def route_fiber_array(
             for i in range(N):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
-                elements += [routing_method(p0, p1, bend_radius=bend_radius)]
+                elements.extend(
+                    routing_method(p0, p1, bend_radius=bend_radius)["references"]
+                )
 
     # optical routing - type ``1 or 2``
     elif optical_routing_type in [1, 2]:
@@ -293,7 +295,7 @@ def route_fiber_array(
             gc_port_name=gc_port_name,
             route_filter=route_filter,
         )
-        elements += elems
+        elements.extend(elems)
 
         if force_manhattan:
             """
@@ -331,7 +333,7 @@ def route_fiber_array(
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-            elements += link_optical_ports(
+            routes = link_optical_ports(
                 to_route,
                 gc_ports,
                 separation=sep,
@@ -339,6 +341,7 @@ def route_fiber_array(
                 route_filter=route_filter,
                 **route_filter_params,
             )
+            elements.extend([route["references"] for route in routes])
 
         else:
             for io_gratings in io_gratings_lines:
@@ -347,7 +350,7 @@ def route_fiber_array(
                 nb_ports_to_route = len(to_route)
                 n0 = nb_ports_to_route / 2
                 dn = nb_gc_ports / 2
-                elements += link_optical_ports(
+                routes = link_optical_ports(
                     to_route[n0 - dn : n0 + dn],
                     gc_ports,
                     separation=sep,
@@ -355,6 +358,7 @@ def route_fiber_array(
                     route_filter=route_filter,
                     **route_filter_params,
                 )
+                elements.extend([route["references"] for route in routes])
                 del to_route[n0 - dn : n0 + dn]
 
     if with_align_ports:
@@ -388,14 +392,16 @@ def route_fiber_array(
             p1 + (0, a),
             p1,
         ]
-        elements += [gca1, gca2]
+        elements.extend([gca1, gca2])
 
         bend90 = bend_factory(radius=bend_radius)
-        loop_back = round_corners(route, bend90, straight_factory)
-        elements += [loop_back]
+        route = round_corners(route, bend90, straight_factory)
+        elements.extend(route["references"])
 
-    elements += get_input_labels_function(
-        io_gratings, ordered_ports, component_name, layer_label, gc_port_name
+    elements.extend(
+        get_input_labels_function(
+            io_gratings, ordered_ports, component_name, layer_label, gc_port_name
+        )
     )
 
     return elements, io_gratings_lines, y0_optical
@@ -407,10 +413,15 @@ if __name__ == "__main__":
 
     c = pp.c.mmi2x2()
     c = pp.c.waveguide(length=500)
-    c.ports = c.get_ports_dict(prefix="W")
+    # c.ports = c.get_ports_dict(prefix="W")
 
-    elements, gc, _ = route_fiber_array(c, grating_coupler=[gcte, gctm, gcte, gctm])
+    elements, gc, _ = route_fiber_array(
+        c, grating_coupler=[gcte, gctm, gcte, gctm], with_align_ports=True
+    )
     for e in elements:
+        if isinstance(e, list):
+            print(len(e))
+            print(e)
         c.add(e)
     for e in gc:
         c.add(e)

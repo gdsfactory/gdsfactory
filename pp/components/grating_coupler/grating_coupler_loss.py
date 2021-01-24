@@ -1,13 +1,18 @@
 import inspect
+from typing import Callable, Iterable
 
 import pp
 from pp.add_labels import get_input_label
-from pp.components import grating_coupler_te, grating_coupler_tm
+from pp.component import Component, ComponentReference
+from pp.components import grating_coupler_te
+from pp.port import Port
 from pp.routing.connect import connect_strip
 from pp.routing.manhattan import round_corners
 
 
-def connect_loop_back(port0, port1, a, b, R, y_bot_align_route):
+def connect_loop_back(
+    port0: Port, port1: Port, a, b, R, y_bot_align_route
+) -> ComponentReference:
     p0 = port0.position
     p1 = port1.position
     route = [
@@ -22,17 +27,16 @@ def connect_loop_back(port0, port1, a, b, R, y_bot_align_route):
     ]
 
     bend90 = pp.c.bend_circular(radius=R)
-    loop_back = round_corners(route, bend90, pp.c.waveguide)
-    return loop_back
+    return round_corners(route, bend90, pp.c.waveguide)["references"]
 
 
 @pp.cell
 def loss_deembedding_ch13_24(
-    io_sep=127.0,
-    R=10.0,
-    grating_coupler_function=grating_coupler_te,
-    input_port_indexes=(0, 1),
-):
+    io_sep: float = 127.0,
+    R: float = 10.0,
+    grating_coupler_function: Callable = grating_coupler_te,
+    input_port_indexes: Iterable[int] = (0, 1),
+) -> Component:
 
     gc = grating_coupler_function()
     c = pp.Component()
@@ -43,7 +47,9 @@ def loss_deembedding_ch13_24(
     c.add(gcs)
 
     c.add(
-        connect_strip(gc_ports[0], gc_ports[2], start_straight=40.0, taper_factory=None)
+        connect_strip(
+            gc_ports[0], gc_ports[2], start_straight=40.0, taper_factory=None
+        )["references"]
     )
 
     gsi = gc.size_info
@@ -66,11 +72,11 @@ def loss_deembedding_ch13_24(
 
 @pp.cell
 def loss_deembedding_ch12_34(
-    io_sep=127.0,
-    R=10.0,
-    grating_coupler_function=grating_coupler_te,
-    input_port_indexes=[0, 2],
-):
+    io_sep: float = 127.0,
+    R: float = 10.0,
+    grating_coupler_function: Callable = grating_coupler_te,
+    input_port_indexes: Iterable[int] = (0, 2),
+) -> Component:
     gc = grating_coupler_function()
 
     c = pp.Component()
@@ -81,10 +87,14 @@ def loss_deembedding_ch12_34(
     c.add(gcs)
 
     c.add(
-        connect_strip(gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None)
+        connect_strip(
+            gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None
+        )["references"]
     )
     c.add(
-        connect_strip(gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None)
+        connect_strip(
+            gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None
+        )["references"]
     )
     for i, index in enumerate(input_port_indexes):
         label = get_input_label(
@@ -97,11 +107,11 @@ def loss_deembedding_ch12_34(
 
 @pp.cell
 def loss_deembedding_ch14_23(
-    io_sep=127.0,
-    R=10.0,
-    grating_coupler_function=grating_coupler_te,
-    input_port_indexes=(0, 1),
-):
+    io_sep: float = 127.0,
+    R: float = 10.0,
+    grating_coupler_function: Callable = grating_coupler_te,
+    input_port_indexes: Iterable[int] = (0, 1),
+) -> Component:
     gc = grating_coupler_function()
 
     c = pp.Component()
@@ -112,10 +122,14 @@ def loss_deembedding_ch14_23(
     c.add(gcs)
 
     c.add(
-        connect_strip(gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None)
+        connect_strip(
+            gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None
+        )["references"]
     )
     c.add(
-        connect_strip(gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None)
+        connect_strip(
+            gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None
+        )["references"]
     )
     for i, index in enumerate(input_port_indexes):
         label = get_input_label(
@@ -127,22 +141,9 @@ def loss_deembedding_ch14_23(
 
 
 @pp.cell
-def grating_coupler_loss_te(io_sep=127.0, grating_coupler_function=grating_coupler_te):
-    c = pp.Component()
-    _c1 = loss_deembedding_ch13_24(grating_coupler_function=grating_coupler_function)
-    _c2 = loss_deembedding_ch14_23(grating_coupler_function=grating_coupler_function)
-    _c3 = loss_deembedding_ch12_34(grating_coupler_function=grating_coupler_function)
-    c.add_ref(_c1)
-    c2 = c.add_ref(_c2)
-    c3 = c.add_ref(_c3)
-    c2.movex(io_sep * 4)
-    c3.movex(io_sep * 8)
-
-    return c
-
-
-@pp.cell
-def grating_coupler_loss_tm(io_sep=127.0, grating_coupler_function=grating_coupler_tm):
+def grating_coupler_loss(
+    io_sep: float = 127.0, grating_coupler_function: Callable = grating_coupler_te
+) -> Component:
     c = pp.Component()
     _c1 = loss_deembedding_ch13_24(grating_coupler_function=grating_coupler_function)
     _c2 = loss_deembedding_ch14_23(grating_coupler_function=grating_coupler_function)
@@ -160,6 +161,5 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
-    c = grating_coupler_loss_te()
-    # c = grating_coupler_loss_tm()
+    c = grating_coupler_loss()
     pp.show(c)

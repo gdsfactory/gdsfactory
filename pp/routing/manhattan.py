@@ -1,4 +1,3 @@
-import uuid
 from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -7,8 +6,8 @@ from numpy import bool_, float64, ndarray
 import pp
 from pp.component import Component, ComponentReference
 from pp.components import waveguide
+from pp.drc import snap_to_1nm_grid
 from pp.geo_utils import angles_deg
-from pp.name import clean_name
 from pp.port import Port
 
 TOLERANCE = 0.0001
@@ -40,7 +39,7 @@ def _get_unique_port_facing(ports: Dict[str, Port], orientation: int = 0) -> Lis
 
 
 def _get_bend_ports(bend: Component) -> List[Port]:
-    """ Returns West and North facing ports for bend.
+    """Returns West and North facing ports for bend.
 
     Any standard bend/corner has two ports: one facing west and one facing north
     Returns these two ports in this order.
@@ -434,7 +433,6 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
-@make_ref
 def round_corners(
     points,
     bend90,
@@ -444,10 +442,9 @@ def round_corners(
     mirror_straight=False,
     straight_ports=None,
 ):
-    """Return cell with rounded waveguide route from a list of manhattan points.
-
-    To ensure a unique cell name we Prefix with zz
-    so that connectors cells appear at end of the lists of cells
+    """Return dict with reference list with rounded waveguide route from a list of manhattan points.
+    Also returns a dict of ports
+    As well as settings
 
     Args:
         points: manhattan route defined by waypoints
@@ -458,6 +455,10 @@ def round_corners(
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If not specified, will use some heuristic to find them
     """
+    references = []
+    ports = dict()
+    settings = dict()
+
     # If there is a taper, make sure its length is known
     if taper:
         if "length" not in taper.info:
@@ -469,8 +470,6 @@ def round_corners(
 
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
-
-    cell = pp.Component(f"zz_conn_{clean_name(str(uuid.uuid4()))[:16]}")
     points = np.array(points)
 
     straight_sections = []  # (p0, angle, length)
@@ -512,7 +511,7 @@ def round_corners(
         )
 
         bend_ref = gen_sref(bend90, rotation, x_reflection, pname_west, bend_origin)
-        cell.add(bend_ref)
+        references.append(bend_ref)
 
         straight_sections += [
             (p0_straight, a0, get_straight_distance(p0_straight, bend_origin))
@@ -547,7 +546,7 @@ def round_corners(
 
             wg_width = taper.ports[pname_east].width
 
-            cell.add(taper_ref)
+            references.append(taper_ref)
             wg_refs += [taper_ref]
 
             # Update start straight position
@@ -570,7 +569,7 @@ def round_corners(
 
         wg_ref.rotate(angle)
         wg_ref.move(straight_origin)
-        cell.add(wg_ref)
+        references.append(wg_ref)
         wg_refs += [wg_ref]
 
         port_index_out = 1
@@ -584,22 +583,14 @@ def round_corners(
                 position=taper_origin, port_id=pname_east, rotation=angle + 180
             )
 
-            cell.add(taper_ref)
+            references.append(taper_ref)
             wg_refs += [taper_ref]
             port_index_out = 0
 
-    cell.add_port(name="input", port=list(wg_refs[0].ports.values())[0])
-    cell.add_port(name="output", port=list(wg_refs[-1].ports.values())[port_index_out])
-    total_length = float(total_length)
-    cell.info["length"] = total_length
-    cell.settings["length"] = total_length
-    cell.settings_changed = (
-        cell.settings_changed if hasattr(cell, "settings_changed") else {}
-    )
-    cell.settings_changed["length"] = total_length
-    cell.length = total_length
-    cell.function_name = "waveguide"
-    return cell
+    ports["input"] = list(wg_refs[0].ports.values())[0]
+    ports["output"] = list(wg_refs[-1].ports.values())[port_index_out]
+    settings["length"] = snap_to_1nm_grid(float(total_length))
+    return dict(references=references, ports=ports, settings=settings)
 
 
 def generate_manhattan_waypoints(
@@ -687,13 +678,15 @@ def test_manhattan():
         Port("in4", (-150, -65), 0.5, 270),
     ]
 
-    for input_port, output_port in zip(inputs, outputs):
+    lengths = [158.562, 121.43600000000002, 160.70800000000003, 231.416]
+
+    for input_port, output_port, length in zip(inputs, outputs, lengths):
 
         # input_port = Port("input_port", (10,5), 0.5, 90)
         # output_port = Port("output_port", (90,-60), 0.5, 180)
 
         bend = bend_circular(radius=5.0)
-        cell = route_manhattan(
+        route = route_manhattan(
             input_port,
             output_port,
             bend,
@@ -702,7 +695,8 @@ def test_manhattan():
             end_straight=5.0,
         )
 
-        top_cell.add(cell)
+        top_cell.add(route["references"])
+        np.isclose(route["settings"]["length"], length)
     return top_cell
 
 

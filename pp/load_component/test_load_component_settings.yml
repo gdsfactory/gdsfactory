@@ -1,0 +1,17 @@
+info: {}
+name: waveguide
+settings:
+  function_name: waveguide
+  info:
+    length: 10.0
+    width: 0.5
+  module: pp.components.waveguide
+  name: waveguide
+  settings:
+    cladding_offset: 0.0
+    layer:
+    - 1
+    - 0
+    layers_cladding: null
+    length: 10.0
+    width: 0.5

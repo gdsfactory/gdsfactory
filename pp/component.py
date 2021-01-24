@@ -1038,7 +1038,6 @@ def _clean_value(value: Any) -> Any:
     elif value is None:
         value = None
     else:
-        print(type(value))
         value = str(value)
 
     return value

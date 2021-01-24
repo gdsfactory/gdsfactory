@@ -99,3 +99,8 @@ def test_components_ports(yaml_index, num_regression):
     c = pp.component_from_yaml(yaml)
     if c.ports:
         num_regression.check(c.get_ports_array())
+
+
+if __name__ == "__main__":
+    c = pp.component_from_yaml(mirror_port)
+    pp.show(c)

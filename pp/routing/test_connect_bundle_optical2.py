@@ -3,6 +3,7 @@ import numpy as np
 import pp
 
 
+@pp.cell
 def test_connect_bundle_optical2():
     """FIXME. Actual length of the route = 499
     for some reason the route length is 10um shorter than the layout.
@@ -30,15 +31,16 @@ def test_connect_bundle_optical2():
         d.ports["W0"],
     ]
 
-    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True, bend_radius=10)
+    routes = pp.routing.link_optical_ports(
+        ports1, ports2, sort_ports=True, bend_radius=10
+    )
 
-    print(r[0].parent.length)
-    assert np.isclose(r[0].parent.length, 489.46592653589795, atol=0.1)
+    lengths = [489.46592653589795, 290.798926535898]
 
-    print(r[1].parent.length)
-    assert np.isclose(r[1].parent.length, 290.798926535898, atol=0.1)
+    for route, length in zip(routes, lengths):
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length, atol=0.1)
 
-    c.add(r)
     return c
 
 

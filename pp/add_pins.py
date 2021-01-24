@@ -357,8 +357,12 @@ def test_add_pins():
 
     # assert len(c1.get_polygons()) == polygons
     # assert len(c2.get_polygons()) == polygons + 41
-    assert n_optical == n_optical_expected
-    assert n_dc_expected == n_dc_expected
+    assert (
+        n_optical == n_optical_expected
+    ), f"{n_optical} different from {n_optical_expected}"
+    assert (
+        n_dc_expected == n_dc_expected
+    ), f"{n_dc_expected} different from {n_dc_expected}"
 
 
 def test_add_pins_recursive():
@@ -366,7 +370,7 @@ def test_add_pins_recursive():
     c2 = add_pins(c1, recursive=True)
     pp.show(c2)
 
-    n_optical_expected = 22
+    n_optical_expected = 16
     n_dc_expected = 11
 
     port_layer_optical = port_type2layer["optical"]
@@ -380,8 +384,12 @@ def test_add_pins_recursive():
     print(n_optical)
     print(n_dc)
 
-    assert n_optical == n_optical_expected
-    assert n_dc_expected == n_dc_expected
+    assert (
+        n_optical == n_optical_expected
+    ), f"{n_optical} different from {n_optical_expected}"
+    assert (
+        n_dc_expected == n_dc_expected
+    ), f"{n_dc_expected} different from {n_dc_expected}"
 
 
 if __name__ == "__main__":

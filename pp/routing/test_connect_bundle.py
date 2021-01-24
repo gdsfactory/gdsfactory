@@ -8,22 +8,23 @@ def test_connect_bundle():
     c1 = c << pp.c.pad()
     c2 = c << pp.c.pad()
     c2.move((200, 100))
-    route = pp.routing.connect_bundle(
+    routes = pp.routing.connect_bundle(
         [c1.ports["E"]], [c2.ports["W"]], route_filter=pp.routing.connect_elec_waypoints
     )
-    c.add(route)
-    # print(route[0].parent.length)
-    assert np.isclose(route[0].parent.length, 200.0)
 
-    route = pp.routing.connect_bundle(
+    route = routes[0]
+    assert np.isclose(route["settings"]["length"], 200)
+    c.add(route["references"])
+
+    routes = pp.routing.connect_bundle(
         [c1.ports["S"]],
         [c2.ports["E"]],
         route_filter=pp.routing.connect_elec_waypoints,
         start_straight=20.0,
     )
-    c.add(route)
-    print(route[0].parent.length)
-    assert np.isclose(route[0].parent.length, 480.02)
+    route = routes[0]
+    assert np.isclose(route["settings"]["length"], 480.02)
+    c.add(route["references"])
     return c
 
 

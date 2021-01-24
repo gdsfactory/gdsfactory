@@ -1,11 +1,12 @@
-import uuid
-
 from pp.component import Component
+from pp.hash_points import hash_points
 
 
 def connect_electrical_shortest_path(port1, port2):
     """connects two ports with a polygon that takes the shortest path"""
-    c = Component(name="zz_conn_{}".format(uuid.uuid4()))
+    points = [port1.midpoint, port2.midpoint]
+    name = f"zz_conn_{hash_points(points)}"
+    c = Component(name=name)
     layer = port1.layer
     p1x0 = port1.endpoints[0][0]
     p1y0 = port1.endpoints[0][1]

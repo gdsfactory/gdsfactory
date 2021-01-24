@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Dict, Iterable, Optional, Union
 
 import gdspy
 import numpy as np
@@ -8,6 +8,7 @@ from phidl.device_layout import CellArray, DeviceReference
 
 import pp
 from pp.component import Component
+from pp.drc import snap_to_1nm_grid
 from pp.layers import port_layer2type as port_layer2type_default
 from pp.layers import port_type2layer as port_type2layer_default
 from pp.port import auto_rename_ports, read_port_markers
@@ -17,6 +18,50 @@ from pp.types import Layer
 def add_ports_from_markers_inside(*args, **kwargs):
     """markers inside the device"""
     return add_ports_from_markers_center(inside=True, *args, **kwargs)
+
+
+def add_ports_from_markers_square(
+    component: Component,
+    layer: Layer = pp.LAYER.PORTE,
+    port_type: "str" = "dc",
+    orientation: int = 90,
+    min_pin_area_um2: float = 0,
+    pin_extra_width: float = 0.0,
+    port_names: Optional[Iterable[str]] = None,
+):
+    """add ports from markers in port_layer
+
+    adds ports at the marker center
+
+    Args:
+        component: to read polygons from and to write ports to
+        layer: for port markers
+        port_type: electrical, dc, optical
+        orientation: orientation in degrees
+            90: north, 0: east, 180: west, 270: south
+        pin_extra_width: 2*offset from pin to waveguide
+        min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
+        port_names: names of the ports (defaults to f"{port_type}_{i}")
+
+    """
+    port_markers = read_port_markers(component, [layer])
+
+    port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
+
+    for port_name, p in zip(port_names, port_markers.polygons):
+        dy = snap_to_1nm_grid(p.ymax - p.ymin)
+        dx = snap_to_1nm_grid(p.xmax - p.xmin)
+        x = p.x
+        y = p.y
+        if dx == dy and dx * dy > min_pin_area_um2:
+            component.add_port(
+                port_name,
+                midpoint=(x, y),
+                width=dx - pin_extra_width,
+                orientation=orientation,
+                port_type=port_type,
+                layer=layer,
+            )
 
 
 def add_ports_from_markers_center(
@@ -30,16 +75,18 @@ def add_ports_from_markers_center(
 ):
     """add ports from polygons in certain layers
 
-    markers at port center, so half of the marker goes inside and half ouside the port
+    markers at port center, so half of the marker goes inside and half ouside the port. Works only for rectangular pins.
 
     Args:
         component: to read polygons from and to write ports to
         port_layer2type: dict of layer to port_type
         port_type2layer: dict of port_type to layer
         inside: True-> markers  inside. False-> markers at center
-        tol: tolerance for asuming
+        tol: tolerance for comparing how rectangular is the pin
         pin_extra_width: 2*offset from pin to waveguide
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
+        orientation_for_square_pins: electrical square points orientation in degrees
+            90: north, 0: east, 180: west, 270: south
 
     For the default center case (inside=False)
 
@@ -102,6 +149,10 @@ def add_ports_from_markers_center(
             y = p.y
             if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
                 continue
+
+            # skip square ports as they have no clear orientation
+            if snap_to_1nm_grid(dx) == snap_to_1nm_grid(dy):
+                continue
             layer = port_type2layer[port_type]
             pxmax = p.xmax
             pxmin = p.xmin
@@ -146,8 +197,6 @@ def add_ports_from_markers_center(
                 orientation = 270
                 width = dx
                 y = p.ymin
-            else:
-                raise ValueError(f"port marker x={x} y={y}, dx={dx}, dy={dy}")
 
             component.add_port(
                 i,

@@ -17,7 +17,7 @@ print_config()
 ```
 """
 
-__version__ = "2.2.6"
+__version__ = "2.2.8"
 import io
 import json
 import logging
@@ -64,13 +64,14 @@ tech:
 )
 
 
-if home_config.exists():
+if os.access(home_config, os.R_OK) and home_config.exists():
     config_home = OmegaConf.load(home_config)
     conf = OmegaConf.merge(conf, config_home)
 
-if cwd_config.exists():
+if os.access(cwd_config, os.R_OK) and cwd_config.exists():
     config_cwd = OmegaConf.load(cwd_config)
     conf = OmegaConf.merge(conf, config_cwd)
+
 
 conf.version = __version__
 
@@ -169,6 +170,10 @@ def write_config(config, json_out_path):
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
+    """Calls function if it's a function
+    Useful to create objects from functions
+    if it's an object it just returns the object
+    """
     return f(**kwargs) if callable(f) else f
 
 

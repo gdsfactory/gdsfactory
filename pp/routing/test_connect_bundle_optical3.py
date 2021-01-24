@@ -15,18 +15,19 @@ def test_connect_bundle_optical3():
     ports1 = w.get_ports_list(prefix="E")
     ports2 = d.get_ports_list(prefix="W")
 
-    r = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
-    # print(r[0].parent.length)
-    # print(r[1].parent.length)
-    # print(r[2].parent.length)
-    # print(r[3].parent.length)
+    routes = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
 
-    assert np.isclose(r[0].parent.length, 489.4159265358979)
-    assert np.isclose(r[3].parent.length, 489.4159265358979)
+    lengths = [
+        489.416,
+        290.749,
+        290.749,
+        489.416,
+    ]
 
-    assert np.isclose(r[1].parent.length, 290.74892653589797)
-    assert np.isclose(r[2].parent.length, 290.74892653589797)
-    c.add(r)
+    for route, length in zip(routes, lengths):
+        # print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 
