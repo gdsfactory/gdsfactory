@@ -64,13 +64,14 @@ tech:
 )
 
 
-if home_config.exists():
+if os.access(home_config, os.R_OK) and home_config.exists():
     config_home = OmegaConf.load(home_config)
     conf = OmegaConf.merge(conf, config_home)
 
-if cwd_config.exists():
+if os.access(cwd_config, os.R_OK) and cwd_config.exists():
     config_cwd = OmegaConf.load(cwd_config)
     conf = OmegaConf.merge(conf, config_cwd)
+
 
 conf.version = __version__
 
