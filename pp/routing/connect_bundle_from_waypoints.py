@@ -303,7 +303,7 @@ def test_connect_bundle_waypointsA(data_regression):
     lengths = np.zeros_like(routes)
     for i, route in enumerate(routes):
         c.add(route["references"])
-        lengths[i] = route["settings"]["length"]
+        lengths[i] = route["length"]
 
     lengths = {str(i): i for i in lengths}
     data_regression.check(lengths)
@@ -336,7 +336,7 @@ def test_connect_bundle_waypointsB(data_regression):
     lengths = np.zeros_like(routes, dtype=float)
     for i, route in enumerate(routes):
         c.add(route["references"])
-        lengths[i] = route["settings"]["length"]
+        lengths[i] = route["length"]
 
     lengths = {str(i): i for i in lengths}
     # data_regression.check(lengths)
@@ -381,8 +381,8 @@ def test_connect_bundle_waypointsC():
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        # print(route["settings"]["length"])
-        assert route["settings"]["length"] == length
+        # print(route["length"])
+        assert route["length"] == length
 
     return c
 
@@ -423,8 +423,8 @@ def test_connect_bundle_waypointsD():
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        # print(route["settings"]["length"])
-        assert route["settings"]["length"] == length
+        # print(route["length"])
+        assert route["length"] == length
 
     return c
 

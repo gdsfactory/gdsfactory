@@ -818,7 +818,7 @@ def test_connect_bundle():
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
         top_cell.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return top_cell
 
 
@@ -945,7 +945,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
 
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
         top_cell.add(route["references"])
     return top_cell
 
@@ -987,7 +987,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
         top_cell.add(route["references"])
 
     return top_cell
@@ -1027,7 +1027,7 @@ def test_facing_ports():
     ]
     for route, length in zip(routes, lengths):
         # print(route.parent.length)
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
         top_cell.add(route["references"])
 
     return top_cell
@@ -1048,7 +1048,7 @@ def test_connect_bundle_small():
     )
     for route in routes:
         # print(route.parent.length)
-        assert np.isclose(route["settings"]["length"], 100.25796326794897)
+        assert np.isclose(route["length"], 100.25796326794897)
         c.add(route["references"])
     return c
 

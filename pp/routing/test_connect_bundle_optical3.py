@@ -25,9 +25,9 @@ def test_connect_bundle_optical3():
     ]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 

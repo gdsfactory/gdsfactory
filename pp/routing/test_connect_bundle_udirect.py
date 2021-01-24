@@ -23,9 +23,9 @@ def test_connect_u_direct():
     lengths = [36.436, 76.436, 116.436, 156.436, 196.436]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 

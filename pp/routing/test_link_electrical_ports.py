@@ -15,18 +15,18 @@ def test_link_electrical_ports():
     )
     lengths = [209.98]
     for route, length in zip(routes, lengths):
-        print(route["settings"]["length"])
+        print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     routes = pp.routing.link_electrical_ports(
         [c1.ports["S"]], [c2.ports["E"]], route_filter=pp.routing.connect_elec_waypoints
     )
     lengths = [420.0]
     for route, length in zip(routes, lengths):
-        print(route["settings"]["length"])
+        print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 

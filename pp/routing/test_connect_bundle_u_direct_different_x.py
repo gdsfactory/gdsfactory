@@ -29,9 +29,9 @@ def test_connect_bundle_u_direct_different_x():
     lengths = [316.936, 529.269]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 

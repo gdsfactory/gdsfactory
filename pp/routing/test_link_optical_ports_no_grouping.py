@@ -29,9 +29,9 @@ def test_link_optical_ports_no_grouping():
     routes = pp.routing.link_optical_ports_no_grouping(ports1, ports2, sort_ports=True)
     lengths = [489.416]
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 

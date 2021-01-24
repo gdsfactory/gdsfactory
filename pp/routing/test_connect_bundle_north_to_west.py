@@ -20,7 +20,7 @@ def test_connect_bundle_west_to_north():
     lengths = [200, 140]
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 
