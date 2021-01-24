@@ -17,4 +17,3 @@ settings:
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100.0
   route_filter: connect_elec_waypoints
-  sort_ports: false

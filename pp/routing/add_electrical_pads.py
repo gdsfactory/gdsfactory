@@ -49,11 +49,12 @@ def add_electrical_pads(component: Component, rotation=180, **kwargs):
 if __name__ == "__main__":
     import pp
 
+    # c.move((20, 50))
     c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c = pp.c.waveguide_heater()
     c = pp.c.mzi2x2(with_elec_connections=True)
-    c.move((20, 50))
+    c = pp.c.wg_heater_connected(length=200)
     cc = add_electrical_pads(c, fanout_length=100)
+    # cc = add_electrical_pads(c)
     pp.show(cc)
 
     # print(cc.get_settings())

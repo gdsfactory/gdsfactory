@@ -2,11 +2,11 @@ from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.container import container
 from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect_electrical import connect_electrical_shortest_path
+from pp.routing.connect_bundle import connect_bundle
 
 
 @container
-def add_electrical_pads_top(
+def add_electrical_pads_top_dc(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,
     route_filter=connect_elec_waypoints,
@@ -34,8 +34,9 @@ def add_electrical_pads_top(
     ports_pads.sort(key=lambda p: p.x)
     ports.sort(key=lambda p: p.x)
 
-    for p1, p2 in zip(ports_pads, ports):
-        c.add(connect_electrical_shortest_path(p1, p2))
+    routes = connect_bundle(ports_pads, ports, route_filter=route_filter)
+    for route in routes:
+        c.add(route["references"])
 
     c.ports = component.ports.copy()
     for port in ports:
@@ -48,5 +49,5 @@ if __name__ == "__main__":
 
     c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.wg_heater_connected()
-    cc = add_electrical_pads_top(c)
+    cc = add_electrical_pads_top_dc(c)
     pp.show(cc)
