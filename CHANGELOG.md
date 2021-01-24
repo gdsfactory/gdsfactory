@@ -22,9 +22,9 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.2.8
+## 2.2.8 2021-01-23
 
-- flat routes with no more zz_conn
+- flat routes with no more zz_conn cells
 - added from pp.import_gds import add_ports_from_markers_square
 
 ## 2.2.7
@@ -41,7 +41,7 @@ from pydantic import validate_arguments
 - pp.import_gds can import and move cells with labels (thanks to Adam McCaughan)
 - add margin and min_pin_area_um2 to read_ports_from_markers
 - replace grating_coupler decorator with a simpler pp.assert_grating_coupler_properties() function
-- rename _containers to container_names and _components to component_names
+- rename \_containers to container_names and \_components to component_names
 - simplify tests for components, containers and circuits
 
 ## 2.2.5 2021-01-13
@@ -56,13 +56,12 @@ from pydantic import validate_arguments
 - clear_cache when running plot() or show(). Useful for Jupyter notebooks
 - add logo
 
-
 ## 2.2.4 2020-12-25
 
 - get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.
-    - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
-    - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
-- ListConfig iterates as a list in _clean_value
+  - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
+  - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
+- ListConfig iterates as a list in \_clean_value
 - test component.get_netlist() -> YAML-> pp.component_from_yaml(YAML) = component (both for settings_changed and full_settings)
 - add pp.testing with difftest(component) function for boolean GDS testing.
 - improved placer documentation and comments in pp/samples/mask/does.yml
@@ -82,7 +81,6 @@ from pydantic import validate_arguments
 ## 2.2.2 2020-12-06
 
 - rename coupler ports inside mzi function
-
 
 ## 2.2.1 2020-12-06
 
@@ -106,6 +104,7 @@ from pydantic import validate_arguments
 - export hierarchical and flat netlists
 - rename 0.5 as 500n (it makes more sense as default units are in um) and submicron features are named in nm
 - remove other renames
+
 ```
 if 1e12 > value > 1e9:
     value = f"{int(value/1e9)}G"
@@ -125,18 +124,17 @@ else:
     value = f"{value:.2f}"
 ```
 
-
 ## 2.2.0 2020-11-29
 
 - component_from_yaml updates:
-    - placements:
-        - port: you can define an anchor port
-        - dx: delta x
-        - dy: delta x
-        - mirror: boolean or float (x axis for the mirror)
-        - x: number or can also be a port from another instance
-    - routes:
-        - you can define a route range (left,E:0:3 : rigth,W:0:3)
+  - placements:
+    - port: you can define an anchor port
+    - dx: delta x
+    - dy: delta x
+    - mirror: boolean or float (x axis for the mirror)
+    - x: number or can also be a port from another instance
+  - routes:
+    - you can define a route range (left,E:0:3 : rigth,W:0:3)
 - connect bundle is now the default way to connect groups of ports in component_from_yaml
 - coupler: can change the vertical distance (dy) between outputs
 - replace @pp.autoname with @pp.cell as a decorator with cells options (autoname, pins ...)
@@ -159,9 +157,9 @@ else:
 
 - test lengths for routes
 - pytest are passing now for windows
-    - Fixed the spiral circular error by snapping length to 1nm (windows only)
-    - Testing now for windows and linux in the CICD
-    - Made the multiprocessing calls pickeable by removing the logger function (that wasn't doing much anyway)
+  - Fixed the spiral circular error by snapping length to 1nm (windows only)
+  - Testing now for windows and linux in the CICD
+  - Made the multiprocessing calls pickeable by removing the logger function (that wasn't doing much anyway)
 - extend_ports: maintains un-extended ports
 
 ## 2.0.2 2020-11-03
@@ -173,7 +171,6 @@ else:
 - CI/CD tests run also on pull requests
 - added pp.clear_cache() and call it when we run `pp.show(c)`
 - use pp.clear_cache() when testing component port positions
-
 
 ## 2.0.0 2020-10-30
 
@@ -217,16 +214,15 @@ else:
 - added single fiber routing capabilities (pp.routing.add_fiber_single)
 - added Component.copy()
 - added basic electrical routing capabilities
-    - pp.routing.add_electrical_pads
-    - pp.routing.add_electrical_pads_top
-    - pp.routing.add_electrical_pads_shortest
+  - pp.routing.add_electrical_pads
+  - pp.routing.add_electrical_pads_top
+  - pp.routing.add_electrical_pads_shortest
 
 ## 1.3.2 2020-08-15
 
 - improve sparameters tutorial
 - fixed some issues when using `x = x or x_default` not valid for `x=0`
 - added tests for splitter_tree and splitter_chain
-
 
 ## 1.3.1 2020-07-27
 
@@ -281,7 +277,7 @@ else:
 - added cell tests
 - cell accepts max_name_length and ignore_from_name kwargs
 - pp.generate_does raises error if component does not exist in factory
-- replaces name_W20_L30 by name_hash for cell names  > 32
+- replaces name_W20_L30 by name_hash for cell names > 32
 - zz_conn cleaner name using `from pp.cell import clean_name` no slashes in the name
 - add_io is a container
 - write labels settings in the middle of the component by default, you can always turn it off by adding `config.yml` in your project
@@ -300,13 +296,11 @@ with_settings_label: False
 - add_padding works over the same component --> this was not a good idea, reverted in 1.1.7 to avoid name collisions
 - import_gds can snap points to a design grid
 
-
 ## 1.1.5 2020-03-17
 
 - added pre-commit hook for code consistency
 - waveguide and bend allow a list of cladding layers
 - all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
-
 
 ## 1.1.4 2020-02-27
 
@@ -322,8 +316,8 @@ with_settings_label: False
 
 - test components using gdshash
 - new CLI commands for `pf`
-    - pf library lock
-    - pf library pull
+  - pf library lock
+  - pf library pull
 
 ## 1.0.1 2019-12-01
 
