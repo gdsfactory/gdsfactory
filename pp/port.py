@@ -185,9 +185,7 @@ def read_port_markers(gdspath, layers=((69, 0))):
 
 
 def csv2port(csvpath):
-    """loads and reads ports from a CSV file
-    returns a dict
-    """
+    """Reads ports from a CSV file and returns a Dict"""
     ports = {}
     with open(csvpath, "r") as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
@@ -202,10 +200,10 @@ def is_electrical_port(port):
 
 
 def select_ports(
-    ports,
+    ports: Dict[str, Port],
     port_type: Union[str, Tuple[int, int]] = "optical",
     prefix: Optional[str] = None,
-):
+) -> List[Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)

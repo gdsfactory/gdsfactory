@@ -24,6 +24,9 @@ def add_electrical_pads_top(
     """
     c = Component(f"{component.name}_e")
     ports = component.get_ports_list(port_type="dc")
+    # for port in ports:
+    #     print(port.name)
+    # print(len(ports))
     c << component
     pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
     pads.x = component.x
@@ -49,4 +52,4 @@ if __name__ == "__main__":
     c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.wg_heater_connected()
     cc = add_electrical_pads_top(c)
-    pp.show(cc)
+    cc.show()

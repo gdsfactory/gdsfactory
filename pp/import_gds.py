@@ -49,11 +49,11 @@ def add_ports_from_markers_square(
     port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = p.ymax - p.ymin
-        dx = p.xmax - p.xmin
+        dy = snap_to_1nm_grid(p.ymax - p.ymin)
+        dx = snap_to_1nm_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
-        if dx * dy > min_pin_area_um2:
+        if dx == dy and dx * dy > min_pin_area_um2:
             component.add_port(
                 port_name,
                 midpoint=(x, y),
