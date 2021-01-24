@@ -166,7 +166,7 @@ def test_connections_2x2():
     assert len(c.ports) == 0
 
     print(c.routes)
-    length = c.routes["mmi_bottom,E1:mmi_top,W1"]["length"]
+    length = c.routes["mmi_bottom,E1:mmi_top,W1"]
     print(length)
     assert length == 163.916
     return c
@@ -218,10 +218,9 @@ routes:
 
 def test_connections_different_factory():
     c = component_from_yaml(sample_different_factory)
-    # print(c.routes["bl,S:br,E"].parent.length)
-    assert np.isclose(c.routes["tl,E:tr,W"]["length"], 700.0)
-    assert np.isclose(c.routes["bl,E:br,W"]["length"], 850.0)
-    assert np.isclose(c.routes["bl,S:br,E"]["length"], 1171.259)
+    assert np.isclose(c.routes["tl,E:tr,W"], 700.0)
+    assert np.isclose(c.routes["bl,E:br,W"], 850.0)
+    assert np.isclose(c.routes["bl,S:br,E"], 1171.259)
     return c
 
 
@@ -268,12 +267,10 @@ routes:
 
 def test_connections_different_link_factory():
     c = component_from_yaml(sample_different_link_factory)
-    # print(c.routes['tl,E:tr,W'].parent.length)
-    # print(c.routes['bl,E:br,W'].parent.length)
 
     length = 1716.248
-    assert np.isclose(c.routes["tl,E:tr,W"]["length"], length)
-    assert np.isclose(c.routes["bl,E:br,W"]["length"], length)
+    assert np.isclose(c.routes["tl,E:tr,W"], length)
+    assert np.isclose(c.routes["bl,E:br,W"], length)
     return c
 
 
@@ -402,7 +399,7 @@ def test_connections_regex():
 
     length = 12.0
     for route_name in route_names:
-        assert np.isclose(c.routes[route_name]["length"], length)
+        assert np.isclose(c.routes[route_name], length)
     return c
 
 
@@ -412,18 +409,17 @@ def test_connections_regex_backwargs():
 
     length = 12.0
     for route_name in route_names:
-        print(c.routes[route_name]["length"])
-        assert np.isclose(c.routes[route_name]["length"], length)
+        print(c.routes[route_name])
+        assert np.isclose(c.routes[route_name], length)
     return c
 
 
 def test_connections_waypoints():
     c = component_from_yaml(sample_waypoints)
-    # print(c.routes['t,S5:b,N4'].parent.length)
 
     length = 1241.415926535898
     route_name = "t,S5:b,N4"
-    assert np.isclose(c.routes[route_name]["length"], length)
+    assert np.isclose(c.routes[route_name], length)
     return c
 
 
@@ -431,8 +427,8 @@ def test_docstring_sample():
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,E0:mmi_bot,W0"
     length = 50.16592653589793
-    print(c.routes[route_name]["length"])
-    assert np.isclose(c.routes[route_name]["length"], length)
+    print(c.routes[route_name])
+    assert np.isclose(c.routes[route_name], length)
     return c
 
 
@@ -592,5 +588,6 @@ if __name__ == "__main__":
 
     # c = test_sample()
     # c = test_connections_2x2()
-    c = test_connections_different_factory()
+    # c = test_connections_different_factory()
+    c = test_connections_regex()
     pp.show(c)
