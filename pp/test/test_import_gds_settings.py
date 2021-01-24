@@ -41,10 +41,13 @@ def test_properties_components(component_type):
     add_settings_from_label(c2)
     c1s = sort_dict(tuplify(c1.get_settings()))
     c2s = sort_dict(tuplify(c2.get_settings()))
+    c1s.pop("properties")
+    c2s.pop("properties")
     d = diff(c1s, c2s)
-    print(c1s)
-    print(c2s)
-    assert len(d) == 0
+    # print(c1s)
+    # print(c2s)
+    # print(d)
+    assert len(d) == 0, f"imported settings are different from original {d}"
     return c2
 
 
@@ -55,5 +58,7 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="bezier")
     # c = test_properties_components(component_type="bend_s")
     # c = test_properties_components(component_type="waveguide")
-    c = test_properties_components(component_type="grating_coupler_tree")
+    # c = test_properties_components(component_type="grating_coupler_tree")
+    # c = test_properties_components(component_type="wire")
+    c = test_properties_components(component_type="bend_circular")
     pp.show(c)

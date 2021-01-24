@@ -22,6 +22,11 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.2.9
+
+- better settings export
+- fixed docs
+
 ## 2.2.8 2021-01-23
 
 - flat routes with no more zz_conn cells

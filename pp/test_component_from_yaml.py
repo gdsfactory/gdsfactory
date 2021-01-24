@@ -531,8 +531,9 @@ def test_settings(yaml_key, data_regression):
     c = component_from_yaml(yaml_string)
 
     settings = c.get_settings()
-    routes = settings.get("info", {}).get("routes", {})
-    data_regression.check(routes)
+    # routes = settings.get("info", {}).get("routes", {})
+    # data_regression.check(routes)
+    data_regression.check(settings)
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())

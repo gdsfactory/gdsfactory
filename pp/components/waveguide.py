@@ -5,6 +5,7 @@ from typing import Iterable, Optional, Tuple
 import pp
 from pp.component import Component
 from pp.components.hline import hline
+from pp.drc import snap_to_1nm_grid
 
 
 @pp.cell
@@ -49,7 +50,7 @@ def waveguide(
     c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
 
     c.width = width
-    c.length = length
+    c.length = snap_to_1nm_grid(length)
     return c
 
 

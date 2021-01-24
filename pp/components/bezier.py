@@ -98,10 +98,14 @@ def bezier(
     c.add_port(name="1", midpoint=p1, width=width, orientation=a1, layer=layer)
 
     curv = curvature(path_points, t)
-    c.info["length"] = pp.drc.snap_to_1nm_grid(path_length(path_points))
-    c.info["min_bend_radius"] = pp.drc.snap_to_1nm_grid(1 / max(np.abs(curv)))
+    length = pp.drc.snap_to_1nm_grid(path_length(path_points))
+    min_bend_radius = pp.drc.snap_to_1nm_grid(1 / max(np.abs(curv)))
+    c.info["length"] = length
+    c.info["min_bend_radius"] = min_bend_radius
     # c.info["curvature"] = curv
     # c.info["t"] = t
+    c.length = length
+    c.min_bend_radius = min_bend_radius
     return c
 
 

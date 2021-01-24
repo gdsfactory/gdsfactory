@@ -25,8 +25,7 @@ def test_route_south():
     ]
     for route, length in zip(routes, lengths):
         c.add(route)
-        route_length = route.parent.get_settings()["info"]["length"]
-        print(route_length)
+        route_length = route.parent.length
         assert np.isclose(route_length, length)
     return c
 

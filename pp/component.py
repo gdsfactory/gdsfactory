@@ -538,8 +538,8 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = {"path", "netlist"}
-        self.include = {"name", "function_name", "module", "info"}
+        self.ignore = {"path", "netlist", "properties"}
+        self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
         self.data_analysis_protocol = {}
 
@@ -734,22 +734,29 @@ class Component(Device):
             set(ignore_keys).union(self.ignore).union(set(dir(Component()))) - include
         )
 
-        params = set(dir(self)) - ignore - include - ignore_keys
-        for param in params:
-            if param not in ignore:
-                self.info[param] = _clean_value(getattr(self, param))
-        # for param in params:
-        #     d['info'][param] = _clean_value(getattr(self, param))
-        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
-        # d["hash_geometry"] = str(self.hash_geometry())
+        params = set(dir(self)) - ignore - ignore_keys - include
 
+        # Properties from self.info and self.someThing
+        for param in params:
+            d["info"][param] = _clean_value(getattr(self, param))
+
+        for k, v in self.info.items():
+            d["info"][k] = _clean_value(v)
+
+        # TOP Level (name, module, function_name)
         for setting in include:
             if hasattr(self, setting) and setting not in ignore:
                 d[setting] = _clean_value(getattr(self, setting))
 
+        # Settings from the function call
         for key, value in settings.items():
             if key not in self.ignore:
                 d["settings"][key] = _clean_value(value)
+
+        # for param in params:
+        #     d['info'][param] = _clean_value(getattr(self, param))
+        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
+        # d["hash_geometry"] = str(self.hash_geometry())
 
         d = {k: d[k] for k in sorted(d)}
         return d
@@ -1136,8 +1143,12 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.bend_circular()
+    c.info["curvature_info"] = 10
+    # c.curvature = 5
     # c.get_settings()
-    c.pprint(ignore=("length",))
+    # c.pprint(ignore=("length",))
+    # c = pp.c.waveguide()
+    c.pprint()
 
     # c0 = pp.c.waveguide()
     # c = pp.c.waveguide(length=3.0)
