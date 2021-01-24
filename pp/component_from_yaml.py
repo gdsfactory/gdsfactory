@@ -10,10 +10,11 @@ from omegaconf import OmegaConf
 from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.components.extension import move_polar_rad_copy
 from pp.routing import link_factory, route_factory
 
 valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
+"""Recognized keys within a placements definition"""
+
 valid_keys = [
     "name",
     "instances",
@@ -22,8 +23,65 @@ valid_keys = [
     "ports",
     "routes",
 ]
+"""Recognized top-level sections of a Component YAML"""
+
+valid_anchor_point_keywords = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
+"""Anchor keywords which refer to an (x,y) Point"""
+
+valid_anchor_value_keywords = [
+    "south",
+    "west",
+    "east",
+    "north",
+]
+"""Anchor keywords which refer to a singular (x or y) value"""
+
+valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
+"""The full set of valid anchor keywords (either referring to points or values)"""
 
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
+"""Recognized keys within a YAML route definition"""
+
+
+def _get_anchor_point_from_name(
+    ref: ComponentReference, anchor_name: str
+) -> Optional[np.ndarray]:
+    if anchor_name in valid_anchor_point_keywords:
+        pt = getattr(ref.size_info, anchor_name)
+        return pt
+    elif anchor_name in ref.ports:
+        return ref.ports[anchor_name].position
+    else:
+        return None
+
+
+def _get_anchor_value_from_name(
+    ref: ComponentReference, anchor_name: str, return_value: str
+) -> Optional[float]:
+    if anchor_name in valid_anchor_value_keywords:
+        v = getattr(ref.size_info, anchor_name)
+        return v
+    else:
+        anchor_point = _get_anchor_point_from_name(ref, anchor_name)
+        if anchor_point is None:
+            return None
+        if return_value == "x":
+            return anchor_point[0]
+        elif return_value == "y":
+            return anchor_point[1]
+        else:
+            raise ValueError("Expected x or y as return_value.")
 
 
 def place(
@@ -38,11 +96,13 @@ def place(
 
     Args:
         placements_conf: Dict of instance_name to placement (x, y, rotation ...)
-        connections_by_transformed_inst: Dict of connection attributes, keyed by the name of the instance which should be transformed
+        connections_by_transformed_inst: Dict of connection attributes.
+            keyed by the name of the instance which should be transformed
         instances: Dict of references
         encountered_insts: list of encountered_instances
         instance_name: instance_name to place
-        all_remaining_insts: a list of all the remaining instances which must be placed by this method. Items will be popped from this list as they are placed.
+        all_remaining_insts: list of all the remaining instances which must be placed by this method.
+            Items will be popped from this list as they are placed.
     """
     if not all_remaining_insts:
         return
@@ -77,9 +137,13 @@ def place(
         mirror = placement_settings.get("mirror")
 
         if port:
-            a = ref.ports[port]
-            ref.x -= a.x
-            ref.y -= a.y
+            a = _get_anchor_point_from_name(ref, port)
+            if a is None:
+                raise KeyError(
+                    f"Supplied port is neither a valid port on {ref.parent.name}, nor is it a recognized anchor keyword. Valid ports: {list(ref.ports.keys())}. Valid keywords: {valid_anchor_point_keywords}"
+                )
+            ref.x -= a[0]
+            ref.y -= a[1]
         if x:
             if isinstance(x, str):
                 if not len(x.split(",")) == 2:
@@ -101,14 +165,19 @@ def place(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
-                if port_name not in instances[instance_name_ref].ports:
+                if (
+                    port_name not in instances[instance_name_ref].ports
+                    and port_name not in valid_anchor_keywords
+                ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
                         f"for {instance_name_ref}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
 
-                x = instances[instance_name_ref].ports[port_name].x
+                x = _get_anchor_value_from_name(
+                    instances[instance_name_ref], port_name, "x"
+                )
             ref.x += x
         if y:
             if isinstance(y, str):
@@ -131,14 +200,19 @@ def place(
                         f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
-                if port_name not in instances[instance_name_ref].ports:
+                if (
+                    port_name not in instances[instance_name_ref].ports
+                    and port_name not in valid_anchor_keywords
+                ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
                         f"for {instance_name_ref}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
 
-                y = instances[instance_name_ref].ports[port_name].y
+                y = _get_anchor_value_from_name(
+                    instances[instance_name_ref], port_name, "y"
+                )
             ref.y += y
         if dx:
             ref.x += dx
@@ -146,13 +220,7 @@ def place(
             ref.y += dy
         if mirror:
             if mirror is True and port:
-                port_object = ref.ports[port]
-                p1 = port_object.midpoint
-                p2 = move_polar_rad_copy(
-                    p1, angle=port_object.orientation * np.pi / 180, length=0.2
-                )
-                ref.reflect(p1=p1, p2=p2)
-                # print(port_object.name, p1, p2)
+                ref.reflect_h(port_name=port)
             elif mirror is True:
                 if x:
                     ref.reflect_h(x0=x)
@@ -242,6 +310,40 @@ def make_connection(
     )
     port_dst = instance_dst.ports[port_dst_name]
     instance_src.connect(port=port_src_name, destination=port_dst)
+
+
+sample_mmis = """
+name:
+    mmis
+
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_long:
+        rotation: 180
+        x: 100
+        y: 100
+
+routes:
+    route_name1:
+        factory: optical
+        links:
+            mmi_short,E1: mmi_long,E0
+
+ports:
+    E0: mmi_short,W0
+    W0: mmi_long,W0
+"""
 
 
 def component_from_yaml(
@@ -529,23 +631,29 @@ def component_from_yaml(
                 "link_electrical_waypoints",
                 "link_optical_waypoints",
             ]:
-                route = link_function(
+                route_dict_or_list = link_function(
                     route_filter=route_filter, **route_settings, **link_settings,
                 )
-                routes[route_name] = route
 
             else:
-                route = link_function(
+                route_dict_or_list = link_function(
                     ports1,
                     ports2,
                     route_filter=route_filter,
                     **route_settings,
                     **link_settings,
                 )
-                for i, r in enumerate(route):
-                    routes[route_names[i]] = r
 
-            c.add(route)
+            # FIXME, make all routers to return lists
+            if isinstance(route_dict_or_list, list):
+                for route_name, route_dict in zip(route_names, route_dict_or_list):
+                    c.add(route_dict["references"])
+                    routes[route_name] = route_dict["settings"]
+            elif isinstance(route_dict_or_list, dict):
+                c.add(route_dict_or_list["references"])
+                routes[route_name] = route_dict_or_list["settings"]
+            else:
+                raise ValueError(f"{route_dict_or_list} needs to be dict or list")
 
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
@@ -562,491 +670,19 @@ def component_from_yaml(
                 f" {instance_name} "
             )
             c.add_port(port_name, port=instance.ports[instance_port_name])
-    c.instances = instances
     c.routes = routes
+    c.instances = instances
     return c
-
-
-sample_mmis = """
-name:
-    mmis
-
-instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_short:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
-
-placements:
-    mmi_long:
-        rotation: 180
-        x: 100
-        y: 100
-
-routes:
-    route_name1:
-        factory: optical
-        links:
-            mmi_short,E1: mmi_long,E0
-
-ports:
-    E0: mmi_short,W0
-    W0: mmi_long,W0
-"""
-
-
-sample_connections = """
-instances:
-    wgw:
-      component: waveguide
-      settings:
-        width: 1
-        length: 1
-    wgn:
-      component: waveguide
-      settings:
-        width: 0.5
-        length: 0.5
-
-connections:
-    wgw,E0: wgn,W0
-
-"""
-
-#
-#        __Lx__
-#       |      |
-#       Ly     Lyr
-#       |      |
-#  CP1==|      |==CP2
-#       |      |
-#       Ly     Lyr
-#       |      |
-#      DL/2   DL/2
-#       |      |
-#       |__Lx__|
-#
-
-sample_mirror = """
-name:
-    mzi_with_mirrored_arm
-
-instances:
-    CP1:
-      component: mmi1x2
-      settings:
-          width_mmi: 4.5
-          length_mmi: 10
-    CP2:
-        component: mmi1x2
-        settings:
-            width_mmi: 4.5
-            length_mmi: 5
-    arm_top:
-        component: mzi_arm
-        settings:
-            L0: 30
-    arm_bot:
-        component: mzi_arm
-        settings:
-            L0: 15
-
-placements:
-    arm_bot:
-        port: E0
-        mirror: True
-
-ports:
-    W0: CP1,W0
-    E0: CP2,W0
-
-connections:
-    arm_bot,W0: CP1,E0
-    arm_top,W0: CP1,E1
-    CP2,E0: arm_bot,E0
-    CP2,E1: arm_top,E0
-"""
-
-
-sample_mirror_simple = """
-
-instances:
-    w:
-        component: waveguide
-
-    b:
-        component: bend_circular
-
-placements:
-    b:
-        mirror: True
-        port: W0
-
-connections:
-    b,W0: w,E0
-
-"""
-
-
-def test_sample():
-    c = component_from_yaml(sample_mmis)
-    assert len(c.get_dependencies()) == 3
-    assert len(c.ports) == 2
-    return c
-
-
-def test_connections():
-    c = component_from_yaml(sample_connections)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
-    assert len(c.get_dependencies()) == 2
-    assert len(c.ports) == 0
-    return c
-
-
-def test_mirror():
-    c = component_from_yaml(sample_mirror)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
-    assert len(c.get_dependencies()) == 4
-    assert len(c.ports) == 2
-    return c
-
-
-sample_2x2_connections = """
-name:
-    connections_2x2_solution
-
-instances:
-    mmi_bottom:
-      component: mmi2x2
-      settings:
-            length_mmi: 5
-    mmi_top:
-      component: mmi2x2
-      settings:
-            length_mmi: 10
-
-placements:
-    mmi_top:
-        x: 100
-        y: 100
-
-routes:
-    optical:
-        factory: optical
-        links:
-            mmi_bottom,E0: mmi_top,W0
-            mmi_bottom,E1: mmi_top,W1
-
-"""
-
-
-def test_connections_2x2():
-    c = component_from_yaml(sample_2x2_connections)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
-    assert len(c.get_dependencies()) == 4
-    assert len(c.ports) == 0
-    length = c.routes["mmi_bottom,E1:mmi_top,W1"].parent.length
-    print(length)
-    assert np.isclose(length, 163.91592653589794)
-    return c
-
-
-sample_different_factory = """
-
-instances:
-    bl:
-      component: pad
-    tl:
-      component: pad
-    br:
-      component: pad
-    tr:
-      component: pad
-
-placements:
-    tl:
-        x: 0
-        y: 200
-
-    br:
-        x: 400
-        y: 400
-
-    tr:
-        x: 400
-        y: 600
-
-routes:
-    electrical:
-        factory: electrical
-        settings:
-            separation: 240
-        links:
-            tl,E: tr,W
-            bl,E: br,W
-    optical:
-        factory: optical
-        settings:
-            bend_radius: 100
-        links:
-            bl,S: br,E
-
-"""
-
-
-def test_connections_different_factory():
-    c = component_from_yaml(sample_different_factory)
-    # print(c.routes["bl,S:br,E"].parent.length)
-    assert np.isclose(c.routes["tl,E:tr,W"].parent.length, 700.0)
-    assert np.isclose(c.routes["bl,E:br,W"].parent.length, 850.0)
-    assert np.isclose(c.routes["bl,S:br,E"].parent.length, 1171.258898038469)
-    return c
-
-
-sample_different_link_factory = """
-
-instances:
-    bl:
-      component: pad
-    tl:
-      component: pad
-    br:
-      component: pad
-    tr:
-      component: pad
-
-placements:
-    tl:
-        x: 0
-        y: 200
-
-    br:
-        x: 900
-        y: 400
-
-    tr:
-        x: 900
-        y: 600
-
-routes:
-    route1:
-        factory: optical
-        settings:
-            bend_radius: 10
-        link_factory: link_ports_path_length_match
-        link_settings:
-            extra_length: 500
-        links:
-            tl,E: tr,W
-            bl,E: br,W
-
-"""
-
-
-def test_connections_different_link_factory():
-    c = component_from_yaml(sample_different_link_factory)
-    # print(c.routes['tl,E:tr,W'].parent.length)
-    # print(c.routes['bl,E:br,W'].parent.length)
-
-    length = 1716.2477796076937
-    assert np.isclose(c.routes["tl,E:tr,W"].parent.length, length)
-    assert np.isclose(c.routes["bl,E:br,W"].parent.length, length)
-    return c
-
-
-sample_waypoints = """
-
-instances:
-    t:
-      component: pad_array
-      settings:
-          port_list: ['S']
-    b:
-      component: pad_array
-
-placements:
-    t:
-        x: 100
-        y: 1000
-routes:
-    route1:
-        factory: optical
-        link_factory: link_optical_waypoints
-        link_settings:
-            way_points:
-                - [0,0]
-                - [0, 600]
-                - [-250, 600]
-                - [-250, 1000]
-        links:
-            t,S5: b,N4
-"""
-
-
-sample_docstring = """
-instances:
-    mmi_bot:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_top:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
-
-placements:
-    mmi_top:
-        port: W0
-        x: 0
-        y: 0
-    mmi_bot:
-        port: W0
-        x: mmi_top,E1
-        y: mmi_top,E1
-        dx: 30
-        dy: -30
-routes:
-    optical:
-        factory: optical
-        links:
-            mmi_top,E0: mmi_bot,W0
-"""
-
-
-sample_regex_connections = """
-instances:
-    left:
-      component: nxn
-      settings:
-        west: 0
-        east: 3
-        ysize: 20
-    right:
-      component: nxn
-      settings:
-        west: 3
-        east: 0
-        ysize: 20
-
-placements:
-    right:
-        x: 20
-routes:
-    optical:
-        factory: optical
-        links:
-            left,E:0:2: right,W:0:2
-"""
-
-sample_regex_connections_backwards = """
-instances:
-    left:
-      component: nxn
-      settings:
-        west: 0
-        east: 3
-        ysize: 20
-    right:
-      component: nxn
-      settings:
-        west: 3
-        east: 0
-        ysize: 20
-
-placements:
-    right:
-        x: 20
-routes:
-    optical:
-        factory: optical
-        links:
-            left,E:2:0: right,W:2:0
-"""
-
-
-def test_connections_regex():
-    c = component_from_yaml(sample_regex_connections)
-    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
-
-    length = 12.0
-    for route_name in route_names:
-        print(c.routes[route_name].parent.length)
-        assert np.isclose(c.routes[route_name].parent.length, length)
-    return c
-
-
-def test_connections_regex_backwargs():
-    c = component_from_yaml(sample_regex_connections_backwards)
-    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
-
-    length = 12.0
-    for route_name in route_names:
-        print(c.routes[route_name].parent.length)
-        assert np.isclose(c.routes[route_name].parent.length, length)
-    return c
-
-
-def test_connections_waypoints():
-    c = component_from_yaml(sample_waypoints)
-    # print(c.routes['t,S5:b,N4'].parent.length)
-
-    length = 1241.415926535898
-    assert np.isclose(c.routes["t,S5:b,N4"].parent.length, length)
-    return c
-
-
-def test_docstring_sample():
-    c = component_from_yaml(sample_docstring)
-    route_name = "mmi_top,E0:mmi_bot,W0"
-    length = 50.16592653589793
-    # print(c.routes[route_name].parent.length)
-    assert np.isclose(c.routes[route_name].parent.length, length)
-    return c
-
-
-yaml_fail = """
-instances:
-    mmi_long:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 10
-    mmi_short:
-      component: mmi1x2
-      settings:
-        width_mmi: 4.5
-        length_mmi: 5
-
-placements:
-    mmi_short:
-        port: W0
-        x: mmi_long,E1
-        y: mmi_long,E1
-    mmi_long:
-        port: W0
-        x: mmi_short,E1
-        y: mmi_short,E1
-        dx : 10
-        dy: 20
-"""
 
 
 if __name__ == "__main__":
     import pp
 
-    cc = component_from_yaml(yaml_fail)  # this should fail
+    cc = component_from_yaml(sample_mmis)
+    print(cc.get_settings()["info"])
 
+    # from pp.test_component_from_yaml import yaml_anchor
+    # cc = component_from_yaml(yaml_anchor)
     # cc = test_connections_regex()
     # cc = component_from_yaml(sample_regex_connections)
     # cc = component_from_yaml(sample_regex_connections_backwards)
@@ -1055,7 +691,6 @@ if __name__ == "__main__":
     # cc = component_from_yaml(sample_mirror_simple)
 
     # cc = test_connections_2x2()
-    # test_sample()
     # cc = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()

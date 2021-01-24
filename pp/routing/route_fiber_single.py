@@ -120,7 +120,11 @@ def route_fiber_single(
         **kwargs
     )
     for e in elements_north:
-        elements_south.append(e.rotate(180))
+        if isinstance(e, list):
+            for ei in e:
+                elements_south.append(ei.rotate(180))
+        else:
+            elements_south.append(e.rotate(180))
 
     if len(gratings_north) > 0:
         for io in gratings_north[0]:
@@ -139,9 +143,9 @@ if __name__ == "__main__":
     c = pp.c.cross(length=500)
     c = pp.c.waveguide(width=2, length=500)
 
-    elements, gc, _ = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
+    elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 
-    cc = pp.Component()
+    cc = pp.Component("sample_route_fiber_single")
     cr = cc << c.rotate(90)
 
     for e in elements:

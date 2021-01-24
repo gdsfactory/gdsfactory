@@ -3,6 +3,7 @@ import numpy as np
 import pp
 
 
+@pp.cell
 def test_link_optical_ports_no_grouping():
     c = pp.Component()
 
@@ -25,10 +26,13 @@ def test_link_optical_ports_no_grouping():
         d.ports["W0"],
     ]
 
-    r = pp.routing.link_optical_ports_no_grouping(ports1, ports2, sort_ports=True)
-    c.add(r)
-    # print(r[0].parent.length)
-    assert np.isclose(r[0].parent.length, 489.41592653589794)
+    routes = pp.routing.link_optical_ports_no_grouping(ports1, ports2, sort_ports=True)
+    lengths = [489.416]
+    for route, length in zip(routes, lengths):
+        # print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
+
     return c
 
 

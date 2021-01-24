@@ -1,19 +1,26 @@
+"""Add reference for a grating coupler array."""
+from typing import Callable, List
+
+import pp
+from pp.component import ComponentReference
 from pp.components import bend_circular, waveguide
+from pp.port import Port
 from pp.routing.manhattan import round_corners
+from pp.testing import difftest
 
 
 def gen_loopback(
-    start_port,
-    end_port,
-    gc,
-    grating_separation=127.0,
-    gc_rotation=-90,
-    gc_port_name="W0",
-    bend_radius_align_ports=10.0,
-    bend_factory=bend_circular,
-    waveguide_factory=waveguide,
+    start_port: Port,
+    end_port: Port,
+    gc: Callable,
+    grating_separation: float = 127.0,
+    gc_rotation: int = -90,
+    gc_port_name: str = "W0",
+    bend_radius_align_ports: float = 10.0,
+    bend_factory: Callable = bend_circular,
+    waveguide_factory: Callable = waveguide,
     y_bot_align_route=None,
-):
+) -> List[ComponentReference]:
     """
     Add a loopback (grating coupler align reference) to a start port and and end port
     Input grating generated on the left of start_port
@@ -70,14 +77,25 @@ def gen_loopback(
         p1,
     ]
     bend90 = bend_factory(radius=bend_radius_align_ports)
-    loop_back = round_corners(route, bend90, waveguide_factory)
-    elements = [gca1, gca2, loop_back]
+    route = round_corners(route, bend90, waveguide_factory)
+    elements = [gca1, gca2]
+    elements.extend(route["references"])
     return elements
 
 
-if __name__ == "__main__":
-    import pp
-
+@pp.cell
+def waveguide_with_loopback() -> pp.Component:
     c = waveguide()
     c.add(gen_loopback(c.ports["W0"], c.ports["E0"], gc=pp.c.grating_coupler_te))
-    pp.show(c)
+    return c
+
+
+def test_add_loopback():
+    c = waveguide_with_loopback()
+    difftest(c)
+    return c
+
+
+if __name__ == "__main__":
+    c = waveguide_with_loopback()
+    c.show()

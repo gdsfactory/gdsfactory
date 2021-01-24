@@ -1,7 +1,7 @@
 import pp
 
 if __name__ == "__main__":
-    """ this case needs to be implemented for connect_bundle"""
+    """FIXME: this case needs to be implemented for connect_bundle."""
 
     w = h = 10
     c = pp.Component()
@@ -15,5 +15,6 @@ if __name__ == "__main__":
     ptports = pl.get_ports_list()
 
     routes = pp.routing.connect_bundle(pbports, ptports)
-    c.add(routes)
+    for route in routes:
+        c.add(route["references"])
     pp.show(c)

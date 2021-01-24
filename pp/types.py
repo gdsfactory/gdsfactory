@@ -9,4 +9,16 @@ ComponentOrFunction = Union[Callable, Component]
 NameToFunctionDict = Dict[str, Callable]
 Number = Union[float, int]
 
-__all__ = ["Layer", "ComponentOrFunction", "NameToFunctionDict", "Number"]
+
+def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
+    """Returns a dict with function name as key and function as value"""
+    return {func.__name__: func for func in functions}
+
+
+__all__ = [
+    "Layer",
+    "ComponentOrFunction",
+    "NameToFunctionDict",
+    "Number",
+    "get_name_to_function_dict",
+]

@@ -31,7 +31,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_17.873_5.5:
     component: bend_circular
     settings:
@@ -45,7 +44,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_27.623_-24.75:
     component: bend_circular
     settings:
@@ -59,7 +57,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_27.623_19.75:
     component: bend_circular
     settings:
@@ -73,7 +70,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_37.973_-24.75:
     component: bend_circular
     settings:
@@ -87,7 +83,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_37.973_19.75:
     component: bend_circular
     settings:
@@ -101,7 +96,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_47.723_-5.5:
     component: bend_circular
     settings:
@@ -115,7 +109,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   bend_circular_R10_47.723_5.5:
     component: bend_circular
     settings:
@@ -129,7 +122,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: bend_circular_R10
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings:
@@ -146,7 +138,6 @@ instances:
       - - 111
         - 0
       cladding_offset: 3.0
-    component_name: mmi1x2
   mmi1x2_65.596_-0.0:
     component: mmi1x2
     settings:
@@ -163,7 +154,6 @@ instances:
       - - 111
         - 0
       cladding_offset: 3.0
-    component_name: mmi1x2
   waveguide_L100n_32.798_-29.625:
     component: waveguide
     settings:
@@ -174,7 +164,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L100n
   waveguide_L100n_32.798_24.625:
     component: waveguide
     settings:
@@ -185,7 +174,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L100n
   waveguide_L4_22.748_-12.625:
     component: waveguide
     settings:
@@ -196,7 +184,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L4
   waveguide_L4_22.748_12.625:
     component: waveguide
     settings:
@@ -207,7 +194,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L4
   waveguide_L4_42.848_-12.625:
     component: waveguide
     settings:
@@ -218,7 +204,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L4
   waveguide_L4_42.848_12.625:
     component: waveguide
     settings:
@@ -229,7 +214,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L4
   waveguide_L5_22.748_-17.125:
     component: waveguide
     settings:
@@ -240,7 +224,6 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L5
   waveguide_L5_42.848_-17.125:
     component: waveguide
     settings:
@@ -251,80 +234,97 @@ instances:
       - 0
       layers_cladding: null
       cladding_offset: 0.0
-    component_name: waveguide_L5
 placements:
   bend_circular_R10_17.873_-5.5:
     x: 22.748
     'y': -10.625
     rotation: 90
+    mirror: false
   bend_circular_R10_17.873_5.5:
     x: 12.748
     'y': 0.625
     rotation: 0
+    mirror: false
   bend_circular_R10_27.623_-24.75:
     x: 22.748
     'y': -19.625
     rotation: 270
+    mirror: false
   bend_circular_R10_27.623_19.75:
     x: 32.748
     'y': 24.625
     rotation: 180
+    mirror: false
   bend_circular_R10_37.973_-24.75:
     x: 32.848
     'y': -29.625
     rotation: 0
+    mirror: false
   bend_circular_R10_37.973_19.75:
     x: 42.848
     'y': 14.625
     rotation: 90
+    mirror: false
   bend_circular_R10_47.723_-5.5:
     x: 52.848
     'y': -0.625
     rotation: 180
+    mirror: false
   bend_circular_R10_47.723_5.5:
     x: 42.848
     'y': 10.625
     rotation: 270
+    mirror: false
   mmi1x2_0.0_0.0:
     x: 0.0
     'y': 0.0
     rotation: 0
+    mirror: false
   mmi1x2_65.596_-0.0:
     x: 65.596
     'y': -0.0
     rotation: 180
+    mirror: false
   waveguide_L100n_32.798_-29.625:
     x: 32.748
     'y': -29.625
     rotation: 0
+    mirror: false
   waveguide_L100n_32.798_24.625:
     x: 32.748
     'y': 24.625
     rotation: 0
+    mirror: false
   waveguide_L4_22.748_-12.625:
     x: 22.748
     'y': -10.625
     rotation: 270
+    mirror: false
   waveguide_L4_22.748_12.625:
     x: 22.748
     'y': 10.625
     rotation: 90
+    mirror: false
   waveguide_L4_42.848_-12.625:
     x: 42.848
     'y': -14.625
     rotation: 90
+    mirror: false
   waveguide_L4_42.848_12.625:
     x: 42.848
     'y': 14.625
     rotation: 270
+    mirror: false
   waveguide_L5_22.748_-17.125:
     x: 22.748
     'y': -14.625
     rotation: 270
+    mirror: false
   waveguide_L5_42.848_-17.125:
     x: 42.848
     'y': -19.625
     rotation: 90
+    mirror: false
 ports:
   W0: mmi1x2_0.0_0.0,W0
   E0: mmi1x2_65.596_-0.0,W0

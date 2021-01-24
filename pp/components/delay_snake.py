@@ -79,9 +79,9 @@ def delay_snake(
     component = pp.Component()
     if taper:
         _taper = taper(width1=wg_width, width2=WG_EXPANDED_WIDTH, length=TAPER_LENGTH)
-    snake = round_corners(path, bend90, straight_factory, taper=_taper)
-    component.add(snake)
-    component.ports = snake.ports
+    route_snake = round_corners(path, bend90, straight_factory, taper=_taper)
+    component.add(route_snake["references"])
+    component.ports = route_snake["ports"]
 
     pp.port.auto_rename_ports(component)
     return component

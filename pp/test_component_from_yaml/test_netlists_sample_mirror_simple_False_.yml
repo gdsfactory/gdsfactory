@@ -1,0 +1,22 @@
+connections:
+  b,W0: w,E0
+instances:
+  b:
+    component: bend_circular
+    settings: {}
+  w:
+    component: waveguide
+    settings: {}
+name: sample_mirror_simple
+placements:
+  b:
+    mirror: true
+    rotation: 0
+    x: 10.0
+    y: 0.0
+  w:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

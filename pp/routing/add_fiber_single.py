@@ -197,6 +197,7 @@ if __name__ == "__main__":
     c = pp.c.waveguide(width=2, length=500)
     c = pp.c.mmi2x2()
     c = pp.c.mmi1x2()
+    c = pp.c.mzi2x2()
 
     gc = pp.c.grating_coupler_elliptical_te
     # gc = pp.c.grating_coupler_elliptical2

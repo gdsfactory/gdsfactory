@@ -9,4 +9,5 @@ settings:
   - 49
   - 0
   length: 50.0
+  port_type: dc
   width: 10.0

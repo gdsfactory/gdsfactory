@@ -1,4 +1,5 @@
-""" Write component GDS + metadata
+"""Write component GDS, metadata in JSON and ports in CSV
+
 """
 
 import json
@@ -10,48 +11,12 @@ from typing import Optional
 from phidl import device_layout as pd
 
 from pp import klive
-from pp.cell import clear_cache, get_component_name
+from pp.cell import clear_cache
 from pp.component import Component
-from pp.components import component_factory
 from pp.config import CONFIG
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
-
-
-def get_component_type(component_type, component_factory=component_factory, **kwargs):
-    """Returns factory component."""
-    component_name = get_component_name(component_type, **kwargs)
-    return component_factory[component_type](name=component_name, **kwargs)
-
-
-def write_component_type(
-    component_type: str,
-    overwrite=True,
-    path_directory=CONFIG["gds_directory"],
-    factory=component_factory,
-    **kwargs,
-) -> PosixPath:
-    """write_component by type or function
-
-    Args:
-        component_type: can be function or factory name
-        overwrite: if False and component exists
-        path_directory: to store GDS + metadata
-        component_factory: factory dictionary
-        **kwargs: component args
-    """
-    assert isinstance(component_type, str)
-
-    component_name = get_component_name(component_type, **kwargs)
-    gdspath = path_directory / (component_name + ".gds")
-    path_directory.mkdir(parents=True, exist_ok=True)
-
-    if not gdspath.exists() or overwrite:
-        component = factory[component_type](name=component_name, **kwargs)
-        write_component(component, gdspath)
-
-    return gdspath
 
 
 def write_component_report(component: Component, json_path=None) -> PosixPath:
@@ -211,8 +176,9 @@ if __name__ == "__main__":
     # pp.write_component(cc, precision=5e-9)
     # pp.show(cc)
 
-    c = pp.c.waveguide(length=1.009)
-    pp.write_component(c, gdspath="wg.gds")
+    gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
+    c = pp.c.waveguide()
+    pp.write_component(c, gdspath=gdspath)
     pp.show(c)
 
     # print(c.settings)

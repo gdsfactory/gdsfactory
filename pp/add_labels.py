@@ -1,41 +1,15 @@
-"""" add electrical labels to each device port
-
+"""Add labels to component ports for lab measurements
 """
 
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 
 import phidl.device_layout as pd
-from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Label
 
 import pp
 from pp.component import Component, ComponentReference
 from pp.port import Port
-
-
-def add_label(component, text, position=(0, 0), layer=pp.LAYER.LABEL):
-    gds_layer_label, gds_datatype_label = pd._parse_layer(layer)
-    label = pd.Label(
-        text=text,
-        position=position,
-        anchor="o",
-        layer=gds_layer_label,
-        texttype=gds_datatype_label,
-    )
-    component.add(label)
-    return component
-
-
-def add_labels(component):
-    c = pp.Component()
-    electrical_ports = component.get_ports_list(port_type="dc")
-    c.add(component.ref())
-
-    for i, port in enumerate(electrical_ports):
-        label = get_input_label_electrical(port, i, component_name=component.name)
-        c.add(label)
-
-    return c
+from pp.types import Layer
 
 
 def get_optical_text(
@@ -44,6 +18,7 @@ def get_optical_text(
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
 ) -> str:
+    """Get test and measurement label for an optical port"""
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
 
@@ -78,7 +53,7 @@ def get_input_label(
     gc: ComponentReference,
     gc_index: Optional[int] = None,
     gc_port_name: str = "W0",
-    layer_label: ListConfig = pp.LAYER.LABEL,
+    layer_label: Layer = pp.LAYER.LABEL,
     component_name: Optional[str] = None,
 ) -> Label:
     """
@@ -105,12 +80,23 @@ def get_input_label(
 
 
 def get_input_label_electrical(
-    port, index=0, component_name=None, layer_label=pp.LAYER.LABEL
+    port: Port,
+    gc_index: int = 0,
+    component_name: Optional[str] = None,
+    layer_label: Layer = pp.LAYER.LABEL,
+    gc: Optional[ComponentReference] = None,
 ):
     """
-    Generate a label to test component info for a given grating coupler.
+    Generate a label to test component info for a given electrical port.
     This is the label used by T&M to extract grating coupler coordinates
     and match it to the component.
+
+    Args:
+        port:
+        gc_index: index of the label
+        component_name:
+        layer_label:
+        gc: ignored
     """
 
     if component_name:
@@ -121,27 +107,84 @@ def get_input_label_electrical(
     else:
         name = port.parent.ref_cell.name
 
-    text = "elec_{}_({})_{}".format(index, name, port.name)
-
+    text = f"elec_{gc_index}_({name})_{port.name}"
     layer, texttype = pd._parse_layer(layer_label)
-
     label = pd.Label(
         text=text, position=port.midpoint, anchor="o", layer=layer, texttype=texttype,
     )
     return label
 
 
-def _demo_input_label():
-    c = pp.c.bend_circular()
+def add_labels(
+    component: Component,
+    port_type: str = "dc",
+    get_label_function: Callable = get_input_label_electrical,
+    layer_label: Layer = pp.LAYER.LABEL,
+    gc: Optional[Component] = None,
+) -> Component:
+    """Add labels a particular type of ports
+
+    Args:
+        component: to add labels to
+        port_type: type of port ('dc', 'optical', 'electrical')
+        get_label_function: function to get label
+        layer_label: layer_label
+
+    Returns:
+        original component with labels
+
+    """
+    ports = component.get_ports_list(port_type=port_type)
+
+    for i, port in enumerate(ports):
+        label = get_label_function(
+            port=port,
+            gc=gc,
+            gc_index=i,
+            component_name=component.name,
+            layer_label=layer_label,
+        )
+        component.add(label)
+
+    return component
+
+
+def test_optical_labels():
+    c = pp.c.waveguide()
     gc = pp.c.grating_coupler_elliptical_te()
-    label = get_input_label(port=c.ports["W0"], gc=gc, layer_label=pp.LAYER.LABEL)
-    print(label)
+    label1 = get_input_label(
+        port=c.ports["W0"], gc=gc, gc_index=0, layer_label=pp.LAYER.LABEL
+    )
+    label2 = get_input_label(
+        port=c.ports["E0"], gc=gc, gc_index=1, layer_label=pp.LAYER.LABEL
+    )
+    add_labels(c, port_type="optical", get_label_function=get_input_label, gc=gc)
+    labels_text = [c.labels[0].text, c.labels[1].text]
+    # print(label1)
+    # print(label2)
+
+    assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
+    assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
+    return c
+
+
+def test_electrical_labels():
+    c = pp.c.wire()
+    label1 = get_input_label_electrical(
+        port=c.ports["E_1"], layer_label=pp.LAYER.LABEL, gc_index=0
+    )
+    label2 = get_input_label_electrical(
+        port=c.ports["E_0"], layer_label=pp.LAYER.LABEL, gc_index=1
+    )
+    add_labels(c, port_type="dc", get_label_function=get_input_label_electrical)
+    labels_text = [c.labels[0].text, c.labels[1].text]
+
+    assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
+    assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
+    return c
 
 
 if __name__ == "__main__":
-    from pp.components.electrical.pad import pad
-
-    c = pad(width=10, height=10)
-    print(c.ports)
-    c2 = add_labels(c)
-    pp.show(c2)
+    # c = test_optical_labels()
+    c = test_electrical_labels()
+    pp.show(c)

@@ -33,15 +33,21 @@ def grating_coupler_elliptical2(
     Args:
         waveguide_template: object or function
         port (tuple): Cartesian coordinate of the input port
-        direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-        theta (float): Angle of the waveguide.  Defaults to pi/4.0
-        length (float): Length of the total grating coupler region, measured from the output port.  Defaults to 30.0
-        taper_length (float): Length of the taper before the grating coupler.  Defaults to 10.0
+        direction (string): Direction that the component will point *towards*,
+            can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
+            OR an angle (float, in radians)
+        theta (float): Angle of the waveguide. Defaults to pi/4.0
+        length (float): Length of the total grating coupler region, measured from the output port.
+        taper_length (float): Length of the taper before the grating coupler.
         period (float): Grating period.  Defaults to 1.0
-        dutycycle (float): dutycycle, determines the size of the 'gap' by dutycycle=(period-gap)/period.  Defaults to 0.7
+        dutycycle (float): dutycycle, determines the size of the 'gap' by dutycycle=(period-gap)/period.
         ridge (boolean): If True, adds another layer to the grating coupler that can be used for partial etched gratings
         layer (tuple): Tuple specifying the layer/datatype of the ridge region.  Defaults to (3,0)
-        teeth_list (list): Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths for irregularly spaced gratings.  For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6, then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.  Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
+        teeth_list (list): Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths
+            for irregularly spaced gratings.
+            For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
+            then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.
+            Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
 
     .. plot::
       :include-source:

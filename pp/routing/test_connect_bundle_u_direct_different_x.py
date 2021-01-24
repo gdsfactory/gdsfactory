@@ -3,8 +3,9 @@ import numpy as np
 import pp
 
 
+@pp.cell
 def test_connect_bundle_u_direct_different_x():
-    """ u direct with different x """
+    """u direct with different x."""
     c = pp.Component()
 
     w = c << pp.c.waveguide_array(n_waveguides=4, spacing=200)
@@ -24,12 +25,13 @@ def test_connect_bundle_u_direct_different_x():
         d.ports["E0"],
     ]
 
-    r = pp.routing.connect_bundle(ports1, ports2, sort_ports=True)
-    # print(r[0].parent.length)
-    # print(r[1].parent.length)
-    assert np.isclose(r[0].parent.length, 316.9359265358979)
-    assert np.isclose(r[1].parent.length, 529.268926535898)
-    c.add(r)
+    routes = pp.routing.connect_bundle(ports1, ports2, sort_ports=True)
+    lengths = [316.936, 529.269]
+
+    for route, length in zip(routes, lengths):
+        # print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
     return c
 
 

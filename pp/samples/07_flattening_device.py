@@ -9,19 +9,26 @@ Also, if you specify the `single_layer` argument it will move all of the
 polyons to that single layer.
 
 """
+import pp
 
 
-if __name__ == "__main__":
-    import pp
+def test_flatten_device():
 
-    c = pp.Component("waveguides_sample")
+    c = pp.Component("test_remap_layers")
 
-    wg1 = c << pp.c.waveguide(length=10, width=1)
+    wg1 = c << pp.c.waveguide(length=10, width=1, layer=pp.LAYER.WG)
     wg2 = c << pp.c.waveguide(length=10, width=2, layer=pp.LAYER.SLAB90)
     wg3 = c << pp.c.waveguide(length=10, width=3, layer=pp.LAYER.SLAB150)
 
     wg2.connect(port="W0", destination=wg1.ports["E0"])
     wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)
-    c.flatten()
 
-    pp.show(c)  # show it in klayout
+    assert len(c.references) == 3
+    c.flatten()
+    assert len(c.references) == 0
+    return c
+
+
+if __name__ == "__main__":
+    c = test_flatten_device()
+    c.show()

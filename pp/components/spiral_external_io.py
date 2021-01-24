@@ -135,7 +135,7 @@ def spiral_external_io(
     pts_e = pts_e[:-2]
 
     # Join the two bits of paths and extrude the spiral geometry
-    route_ref = round_corners(
+    route = round_corners(
         pts_w[::-1] + pts_e,
         bend90=_bend90,
         straight_factory=straight_factory,
@@ -143,12 +143,11 @@ def spiral_external_io(
         taper=taper,
         **kwargs_round_corner,
     )
-    component.add(route_ref)
-    component.absorb(route_ref)
 
-    component.ports = route_ref.ports
+    component.add(route["references"])
+    component.ports = route["ports"]
 
-    length = pp.drc.snap_to_1nm_grid(route_ref.info["length"])
+    length = route["settings"]["length"]
     component.length = length
     return component
 

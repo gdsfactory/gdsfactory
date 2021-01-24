@@ -3,6 +3,7 @@ import numpy as np
 import pp
 
 
+@pp.cell
 def test_connect_u_direct():
     w = h = 10
     c = pp.Component()
@@ -18,21 +19,14 @@ def test_connect_u_direct():
 
     pbports.reverse()
 
-    r = pp.routing.connect_bundle(pbports, ptports)
-    # r = pp.routing.link_ports(pbports, ptports) # does not work
-    c.add(r)
-    # print(r[0].parent.length)
-    # print(r[1].parent.length)
-    # print(r[2].parent.length)
-    # print(r[3].parent.length)
-    # print(r[4].parent.length)
-    # print(r[5].parent.length)
-    assert np.isclose(r[0].parent.length, 36.435926535897934)
-    assert np.isclose(r[1].parent.length, 76.43592653589793)
-    assert np.isclose(r[2].parent.length, 116.43592653589793)
-    assert np.isclose(r[3].parent.length, 156.43592653589792)
-    assert np.isclose(r[4].parent.length, 196.43592653589795)
-    assert np.isclose(r[5].parent.length, 236.43592653589795)
+    routes = pp.routing.connect_bundle(pbports, ptports)
+    lengths = [36.436, 76.436, 116.436, 156.436, 196.436]
+
+    for route, length in zip(routes, lengths):
+        # print(route["settings"]["length"])
+        c.add(route["references"])
+        assert np.isclose(route["settings"]["length"], length)
+
     return c
 
 

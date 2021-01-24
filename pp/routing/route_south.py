@@ -148,7 +148,7 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p)
         ports_to_route.append(tmp_port)
-        elements += [routing_method(p, tmp_port, **conn_params)]
+        elements.extend(routing_method(p, tmp_port, **conn_params)["references"])
         x -= sep
 
         i += 1
@@ -162,14 +162,14 @@ def route_south(
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p)
 
-            elements += [
+            elements.extend(
                 routing_method(
                     p,
                     tmp_port,
                     start_straight=start_straight + y_max - p.y,
                     **conn_params,
-                )
-            ]
+                )["references"]
+            )
 
             ports_to_route.append(tmp_port)
             x -= sep
@@ -207,9 +207,11 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p)
 
-        elements += [
-            routing_method(p, tmp_port, start_straight=start_straight, **conn_params)
-        ]
+        elements.extend(
+            routing_method(p, tmp_port, start_straight=start_straight, **conn_params)[
+                "references"
+            ]
+        )
 
         ports_to_route.append(tmp_port)
         x += sep
@@ -222,14 +224,14 @@ def route_south(
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p)
             ports_to_route.append(tmp_port)
-            elements += [
+            elements.extend(
                 routing_method(
                     p,
                     tmp_port,
                     start_straight=start_straight + y_max - p.y,
                     **conn_params,
-                )
-            ]
+                )["references"]
+            )
             x += sep
             start_straight += sep
 
@@ -245,6 +247,10 @@ if __name__ == "__main__":
     c = pp.c.mmi2x2()
     elements, ports = route_south(c)
     for e in elements:
+        if isinstance(e, list):
+            print(len(e))
+            print(e)
+        # print(e)
         c.add(e)
 
     pp.show(c)
