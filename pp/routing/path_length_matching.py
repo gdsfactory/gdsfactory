@@ -1,16 +1,19 @@
+from typing import List, Union
+
 import numpy as np
+from numpy import ndarray
 
 from pp.geo_utils import path_length
 from pp.routing.manhattan import _is_horizontal, _is_vertical, remove_flat_angles
 
 
 def path_length_matched_points(
-    list_of_waypoints,
-    modify_segment_i=-2,
-    bend_radius=10.0,
-    extra_length=0.0,
-    nb_loops=1,
-):
+    list_of_waypoints: List[ndarray],
+    modify_segment_i: int = -2,
+    bend_radius: Union[float, int] = 10.0,
+    extra_length: float = 0.0,
+    nb_loops: int = 1,
+) -> List[ndarray]:
     """
     Several types of paths won't match correctly.
     We do not try to handle all the corner cases here.
@@ -119,13 +122,13 @@ def path_length_matched_points_modify_segment(
 
 
 def path_length_matched_points_add_waypoints(
-    list_of_waypoints,
-    modify_segment_i=-2,
-    bend_radius=10.0,
-    margin=0.5,
-    extra_length=0.0,
-    nb_loops=1,
-):
+    list_of_waypoints: List[ndarray],
+    modify_segment_i: int = -2,
+    bend_radius: Union[float, int] = 10.0,
+    margin: float = 0.5,
+    extra_length: float = 0.0,
+    nb_loops: int = 1,
+) -> List[ndarray]:
     """
     Args:
         list_of_waypoints: a list of list_of_points:

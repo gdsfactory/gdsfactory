@@ -659,7 +659,7 @@ def route_manhattan(
     return round_corners(points, bend90, straight_factory, taper)
 
 
-def test_manhattan():
+def test_manhattan() -> Component:
     from pp.components.bend_circular import bend_circular
 
     top_cell = pp.Component()

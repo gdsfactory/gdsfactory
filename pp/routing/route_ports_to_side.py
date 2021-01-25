@@ -2,6 +2,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64
+from pytest_regressions.data_regression import DataRegressionFixture
 
 from pp.cell import cell
 from pp.component import Component, ComponentReference
@@ -33,15 +34,15 @@ def route_elec_ports_to_side(
     )
 
 
-def sort_key_west_to_east(port):
+def sort_key_west_to_east(port: Port) -> float64:
     return port.x
 
 
-def sort_key_east_to_west(port):
+def sort_key_east_to_west(port: Port) -> float64:
     return -port.x
 
 
-def sort_key_south_to_north(port):
+def sort_key_south_to_north(port: Port) -> float64:
     return port.y
 
 
@@ -133,19 +134,21 @@ def route_ports_to_east(list_ports, **kwargs):
 
 
 def connect_ports_to_x(
-    list_ports,
-    x="east",
-    separation=10.0,
-    bend_radius=BEND_RADIUS,
-    extend_bottom=0,
-    extend_top=0,
-    extension_length=0,
-    y0_bottom=None,
-    y0_top=None,
-    routing_func=connect_strip,
-    backward_port_side_split_index=0,
+    list_ports: List[Port],
+    x: str = "east",
+    separation: float = 10.0,
+    bend_radius: float = BEND_RADIUS,
+    extend_bottom: int = 0,
+    extend_top: int = 0,
+    extension_length: int = 0,
+    y0_bottom: None = None,
+    y0_top: None = None,
+    routing_func: Callable = connect_strip,
+    backward_port_side_split_index: int = 0,
     **routing_func_args,
-):
+) -> Tuple[
+    List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]], List[Port]
+]:
     """
      * ``list_ports``: reasonably well behaved list of ports
             i.e
@@ -535,7 +538,7 @@ def sample_route_sides() -> Component:
     return c
 
 
-def test_sample_route_sides(data_regression) -> None:
+def test_sample_route_sides(data_regression: DataRegressionFixture) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c = sample_route_sides()
     difftest(c)
