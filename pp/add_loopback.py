@@ -97,5 +97,5 @@ def test_add_loopback():
 
 
 if __name__ == "__main__":
-    c = waveguide_with_loopback()
-    c.show()
+    component = waveguide_with_loopback()
+    component.show()
