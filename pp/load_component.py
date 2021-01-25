@@ -3,7 +3,7 @@
 import csv
 import json
 import os
-from pathlib import PosixPath
+from pathlib import Path
 
 import pp
 from pp import CONFIG
@@ -39,7 +39,7 @@ def remove_gds_labels(component: Component, layer=pp.LAYER.LABEL_SETTINGS) -> No
                 component.labels.remove(label)
 
 
-def load_component(gdspath: PosixPath) -> Component:
+def load_component(gdspath: Path) -> Component:
     """Returns Component from gdspath, with ports (CSV) and metadata (JSON) info (if any)"""
 
     if not gdspath.exists():

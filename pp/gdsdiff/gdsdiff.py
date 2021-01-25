@@ -39,9 +39,9 @@ def gdsdiff(cellA, cellB):
     Returns:
         Component with both cells (xor, common and diffs)
     """
-    if isinstance(cellA, pathlib.PosixPath):
+    if isinstance(cellA, pathlib.Path):
         cellA = str(cellA)
-    if isinstance(cellB, pathlib.PosixPath):
+    if isinstance(cellB, pathlib.Path):
         cellB = str(cellB)
     if isinstance(cellA, str):
         cellA = import_gds(cellA, flatten=True)

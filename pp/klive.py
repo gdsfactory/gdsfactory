@@ -6,11 +6,11 @@ This happens when you run `bash install.sh` from the top of the gdsfactory packa
 import json
 import os
 import socket
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Union
 
 
-def show(gds_filename: Union[PosixPath, str], keep_position: bool = True) -> None:
+def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
     """ Show GDS in klayout """
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")

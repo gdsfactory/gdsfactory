@@ -1,5 +1,5 @@
 import pathlib
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Dict, Tuple
 
 from pp.component import Component
@@ -12,11 +12,11 @@ from pp.name import dict2name
 
 def get_sparameters_path(
     component: Component,
-    dirpath: PosixPath = CONFIG["sp"],
+    dirpath: Path = CONFIG["sp"],
     layer2material: Dict[Tuple[int, int], str] = layer2material_default,
     layer2nm: Dict[Tuple[int, int], int] = layer2nm_default,
     **kwargs,
-) -> PosixPath:
+) -> Path:
     """Returns Sparameters filepath.
 
     Args:
