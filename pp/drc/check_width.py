@@ -1,4 +1,4 @@
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Tuple, Union
 
 import klayout.db as pya
@@ -8,7 +8,7 @@ from pp.component import Component
 
 
 def check_width(
-    gdspath: Union[PosixPath, Component, str],
+    gdspath: Union[Path, Component, str],
     layer: Tuple[int, int] = (1, 0),
     min_width: float = 0.150,
     dbu: float = 1e3,

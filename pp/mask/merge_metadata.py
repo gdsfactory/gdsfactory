@@ -1,4 +1,4 @@
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Tuple
 
 import pp
@@ -9,7 +9,7 @@ from pp.mask.write_labels import write_labels
 
 
 def merge_metadata(
-    gdspath: PosixPath,
+    gdspath: Path,
     labels_prefix: str = "opt",
     label_layer: Tuple[int, int] = pp.LAYER.LABEL,
     **kwargs

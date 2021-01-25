@@ -1,4 +1,4 @@
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Iterable, Optional, Union
 
 import matplotlib.pyplot as plt
@@ -14,7 +14,7 @@ def plot(
     component_or_df: Union[Component, DataFrame],
     logscale: bool = True,
     keys: Optional[Iterable[str]] = None,
-    dirpath: PosixPath = pp.CONFIG["sp"],
+    dirpath: Path = pp.CONFIG["sp"],
     **sim_settings,
 ):
     """Plots Sparameters.

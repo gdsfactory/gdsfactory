@@ -19,7 +19,7 @@ import os
 import pathlib
 import subprocess
 import tempfile
-from pathlib import PosixPath
+from pathlib import Path
 from pprint import pprint
 from typing import Any, Optional
 
@@ -158,7 +158,7 @@ def complex_encoder(z):
         raise TypeError(f"Object {z} of type {type_name} is not serializable")
 
 
-def write_config(config: Any, json_out_path: PosixPath) -> None:
+def write_config(config: Any, json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)

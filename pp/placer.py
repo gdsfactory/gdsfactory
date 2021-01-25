@@ -32,7 +32,7 @@ YAML defines component DOE settings and placement
 import os
 import pathlib
 import sys
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Callable, Dict, List, Union
 
 from omegaconf import OmegaConf
@@ -379,7 +379,7 @@ def doe_exists(
     return False
 
 
-def component_grid_from_yaml(filepath: PosixPath, precision: float = 1e-9) -> Component:
+def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Component:
     """Returns a Component composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """

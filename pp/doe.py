@@ -3,7 +3,7 @@
 
 import itertools as it
 from io import StringIO
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Any, Dict, List, Union
 
 from omegaconf import OmegaConf
@@ -22,7 +22,7 @@ does:
 """
 
 
-def load_does(filepath: Union[PosixPath, StringIO]) -> Dict[str, Any]:
+def load_does(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
     """Return dictionary with the information loaded from does.yml
 
     Args:

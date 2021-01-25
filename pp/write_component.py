@@ -5,7 +5,7 @@
 import json
 import pathlib
 import tempfile
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Optional
 
 from phidl import device_layout as pd
@@ -19,7 +19,7 @@ tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
 
 
-def write_component_report(component: Component, json_path=None) -> PosixPath:
+def write_component_report(component: Component, json_path=None) -> Path:
     """write component GDS and metadata:
 
     Args:
@@ -44,10 +44,10 @@ def write_component_report(component: Component, json_path=None) -> PosixPath:
 
 def write_component(
     component: Component,
-    gdspath: Optional[PosixPath] = None,
-    gdsdir: PosixPath = tmp,
+    gdspath: Optional[Path] = None,
+    gdsdir: Path = tmp,
     precision: float = 1e-9,
-) -> PosixPath:
+) -> Path:
     """write component GDS and metadata:
 
     - gds
@@ -92,12 +92,12 @@ def write_json(json_path, **settings):
 
 def write_gds(
     component: Component,
-    gdspath: Optional[PosixPath] = None,
-    gdsdir: PosixPath = tmp,
+    gdspath: Optional[Path] = None,
+    gdsdir: Path = tmp,
     unit: float = 1e-6,
     precision: float = 1e-9,
     auto_rename: bool = False,
-) -> PosixPath:
+) -> Path:
     """Write component to GDS and returs gdspath
 
     Args:

@@ -23,7 +23,7 @@ iso_lines_coarse1:
 import collections
 import os
 import sys
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import klayout.db as pya
@@ -404,7 +404,7 @@ def placer_fixed_coords(
 
 
 def load_yaml(
-    filepath: PosixPath, defaults: Dict[str, bool] = {"do_permutation": True}
+    filepath: Path, defaults: Dict[str, bool] = {"do_permutation": True}
 ) -> Union[
     Tuple[
         Dict[
@@ -541,7 +541,7 @@ def load_yaml(
 DOE_CELLS = {}
 
 
-def load_doe(doe_name: str, doe_root: PosixPath) -> List[Layout]:
+def load_doe(doe_name: str, doe_root: Path) -> List[Layout]:
     """
     Load all components for this DOE from the cache
     """
@@ -721,10 +721,10 @@ def update_dicts_recurse(
 
 
 def place_from_yaml(
-    filepath_yaml: PosixPath,
-    root_does: PosixPath = CONFIG["cache_doe_directory"],
+    filepath_yaml: Path,
+    root_does: Path = CONFIG["cache_doe_directory"],
     precision: float = 1e-9,
-    fontpath: PosixPath = text.FONT_PATH,
+    fontpath: Path = text.FONT_PATH,
     default_align_x: str = "W",
     default_align_y: str = "S",
     default_margin: int = 10,
