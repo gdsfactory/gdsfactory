@@ -1,5 +1,7 @@
 function_name: coupler_symmetric
-info: {}
+info:
+  length: 10.315
+  min_bend_radius: 9.447
 module: pp.components.coupler_symmetric
 name: coupler_symmetric
 settings:
