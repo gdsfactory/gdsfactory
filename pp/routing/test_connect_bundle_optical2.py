@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_optical2():
+def test_connect_bundle_optical2() -> Component:
     """FIXME. Actual length of the route = 499
     for some reason the route length is 10um shorter than the layout.
 

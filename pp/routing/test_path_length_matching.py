@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_path_length_matching():
+def test_path_length_matching() -> Component:
     c = pp.Component("path_length_match_sample")
 
     dy = 2000.0
@@ -28,7 +29,7 @@ def test_path_length_matching():
     return c
 
 
-def test_path_length_matching_extra_length():
+def test_path_length_matching_extra_length() -> Component:
     c = pp.Component("path_length_match_sample")
 
     dy = 2000.0
@@ -55,7 +56,7 @@ def test_path_length_matching_extra_length():
     return c
 
 
-def test_path_length_matching_nb_loops():
+def test_path_length_matching_nb_loops() -> Component:
     c = pp.Component("path_length_match_sample")
 
     dy = 2000.0

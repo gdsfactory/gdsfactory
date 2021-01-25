@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_link_optical_ports_no_grouping():
+def test_link_optical_ports_no_grouping() -> Component:
     c = pp.Component()
 
     w = c << pp.c.waveguide_array(n_waveguides=4, spacing=200)

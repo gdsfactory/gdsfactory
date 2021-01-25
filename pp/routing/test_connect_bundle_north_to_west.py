@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle_west_to_north():
+def test_connect_bundle_west_to_north() -> Component:
     c = pp.Component()
 
     pbottom_facing_north = pp.port_array(midpoint=(0, 0), orientation=90, delta=(30, 0))

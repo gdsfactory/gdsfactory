@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_link_electrical_ports():
+def test_link_electrical_ports() -> Component:
     """I recommend using connect_bundle instead"""
     c = pp.Component("demo_connect_bundle_small_electrical")
     c1 = c << pp.c.pad()

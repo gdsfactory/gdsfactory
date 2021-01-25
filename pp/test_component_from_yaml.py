@@ -4,7 +4,10 @@ import jsondiff
 import numpy as np
 import pytest
 from omegaconf import OmegaConf
+from pytest_regressions.data_regression import DataRegressionFixture
+from pytest_regressions.num_regression import NumericRegressionFixture
 
+from pp.component import Component
 from pp.component_from_yaml import component_from_yaml, sample_mmis
 from pp.testing import difftest
 
@@ -103,7 +106,7 @@ connections:
 """
 
 
-def test_sample():
+def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
@@ -112,7 +115,7 @@ def test_sample():
     return c
 
 
-def test_connections():
+def test_connections() -> Component:
     c = component_from_yaml(sample_connections)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
@@ -121,7 +124,7 @@ def test_connections():
     return c
 
 
-def test_mirror():
+def test_mirror() -> Component:
     c = component_from_yaml(sample_mirror)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
@@ -158,7 +161,7 @@ routes:
 """
 
 
-def test_connections_2x2():
+def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
     # print(len(c.get_dependencies()))
     # print(len(c.ports))
@@ -216,7 +219,7 @@ routes:
 """
 
 
-def test_connections_different_factory():
+def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
     assert np.isclose(c.routes["tl,E:tr,W"], 700.0)
     assert np.isclose(c.routes["bl,E:br,W"], 850.0)
@@ -265,7 +268,7 @@ routes:
 """
 
 
-def test_connections_different_link_factory():
+def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
     length = 1716.248
@@ -393,7 +396,7 @@ routes:
 """
 
 
-def test_connections_regex():
+def test_connections_regex() -> Component:
     c = component_from_yaml(sample_regex_connections)
     route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
 
@@ -403,7 +406,7 @@ def test_connections_regex():
     return c
 
 
-def test_connections_regex_backwargs():
+def test_connections_regex_backwargs() -> Component:
     c = component_from_yaml(sample_regex_connections_backwards)
     route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
 
@@ -414,7 +417,7 @@ def test_connections_regex_backwargs():
     return c
 
 
-def test_connections_waypoints():
+def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
     length = 1241.415926535898
@@ -423,7 +426,7 @@ def test_connections_waypoints():
     return c
 
 
-def test_docstring_sample():
+def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,E0:mmi_bot,W0"
     length = 50.16592653589793
@@ -517,7 +520,7 @@ yaml_strings = dict(
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_gds(yaml_key, data_regression):
+def test_gds(yaml_key: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     yaml_string = yaml_strings[yaml_key]
     c = component_from_yaml(yaml_string)
@@ -525,7 +528,7 @@ def test_gds(yaml_key, data_regression):
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_settings(yaml_key, data_regression):
+def test_settings(yaml_key: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     yaml_string = yaml_strings[yaml_key]
     c = component_from_yaml(yaml_string)
@@ -537,7 +540,7 @@ def test_settings(yaml_key, data_regression):
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_ports(yaml_key, num_regression):
+def test_ports(yaml_key: str, num_regression: NumericRegressionFixture) -> None:
     """Avoid regressions in port names and locations."""
     yaml_string = yaml_strings[yaml_key]
     c = component_from_yaml(yaml_string)
@@ -548,7 +551,9 @@ def test_ports(yaml_key, num_regression):
 @pytest.mark.parametrize(
     "yaml_key,full_settings", it.product(yaml_strings.keys(), [True, False])
 )
-def test_netlists(yaml_key, full_settings, data_regression):
+def test_netlists(
+    yaml_key: str, full_settings: bool, data_regression: DataRegressionFixture
+) -> None:
     """Write netlists for hierarchical circuits.
     Checks that both netlists are the same
     jsondiff does a hierarchical diff

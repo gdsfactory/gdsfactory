@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_route_south():
+def test_route_south() -> Component:
     c = pp.Component()
     cr = c << pp.c.mmi2x2()
     routes, ports = pp.routing.route_south(cr)

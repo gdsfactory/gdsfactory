@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_connect_u_direct():
+def test_connect_u_direct() -> Component:
     w = h = 10
     c = pp.Component()
     pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h)

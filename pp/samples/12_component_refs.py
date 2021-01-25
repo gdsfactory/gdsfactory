@@ -9,6 +9,7 @@ lets create a crossing component with two references to other components (crossi
 
 import pp
 from pp import LAYER
+from pp.component import Component
 
 
 @pp.cell
@@ -45,7 +46,7 @@ def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_lengt
 
 @pp.port.deco_rename_ports  # This decorator will auto-rename the ports
 @pp.cell  # This decorator will generate a good name for the component
-def test_crossing():
+def test_crossing() -> Component:
     c = pp.Component()
     arm = test_crossing_arm()
 

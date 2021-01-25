@@ -1,8 +1,9 @@
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_netlist_with_routes():
+def test_netlist_with_routes() -> Component:
     """"""
     c = pp.Component()
     w = c << pp.c.waveguide(length=3)

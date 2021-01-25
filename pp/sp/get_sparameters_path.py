@@ -39,7 +39,7 @@ def get_sparameters_path(
     return dirpath / f"{component.get_name_long()}_{suffix}.dat"
 
 
-def test_get_sparameters_path():
+def test_get_sparameters_path() -> None:
     import pp
 
     layer2nm_sample = {

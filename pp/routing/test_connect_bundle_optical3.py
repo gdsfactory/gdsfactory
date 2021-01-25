@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle_optical3():
+def test_connect_bundle_optical3() -> Component:
     """ connect 4 waveguides into a 4x1 component """
     c = pp.Component()
 

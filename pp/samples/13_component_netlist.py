@@ -9,10 +9,11 @@ Sometimes, when a component is mostly composed of sub-components adjacent to eac
 """
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_netlist_yaml():
+def test_netlist_yaml() -> Component:
     """
 
     .. code::

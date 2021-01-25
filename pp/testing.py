@@ -9,7 +9,7 @@ from pp.gdsdiff.gdsdiff import gdsdiff
 cwd = pathlib.Path.cwd()
 
 
-def difftest(component: Component):
+def difftest(component: Component) -> None:
     """Runs an XOR over a component and makes boolean comparison with a GDS reference.
     If it runs for the fist time it just stores the GDS reference.
     raises GeometryDifference if there are differences and show differences in klayout.

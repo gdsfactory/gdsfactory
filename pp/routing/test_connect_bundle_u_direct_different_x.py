@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_u_direct_different_x():
+def test_connect_bundle_u_direct_different_x() -> Component:
     """u direct with different x."""
     c = pp.Component()
 

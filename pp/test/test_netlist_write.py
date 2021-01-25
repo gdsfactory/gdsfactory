@@ -1,7 +1,8 @@
 import pp
+from pp.component import Component
 
 
-def test_netlist_write():
+def test_netlist_write() -> Component:
     c = pp.c.mzi()
     # netlist = c.get_netlist()
     # netlist.pop('connections')

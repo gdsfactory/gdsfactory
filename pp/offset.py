@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import gdspy
 import numpy as np
 from phidl.geometry import (
@@ -10,20 +12,21 @@ from phidl.geometry import (
 )
 
 import pp
+from pp.component import Component
 from pp.testing import difftest
 
 
 def offset(
-    elements,
-    distance=0.1,
-    join_first=True,
-    precision=1e-4,
-    num_divisions=(1, 1),
-    join="miter",
-    tolerance=2,
-    max_points=4000,
-    layer=0,
-):
+    elements: Component,
+    distance: float = 0.1,
+    join_first: bool = True,
+    precision: float = 1e-4,
+    num_divisions: Tuple[int, int] = (1, 1),
+    join: str = "miter",
+    tolerance: int = 2,
+    max_points: int = 4000,
+    layer: int = 0,
+) -> Component:
     """returns an element containing all polygons with an offset
     from phidl geometry
     """
@@ -73,7 +76,7 @@ def offset(
     return D
 
 
-def test_offset():
+def test_offset() -> None:
     c = pp.c.ring()
     co = offset(c, distance=0.5)
     difftest(co)

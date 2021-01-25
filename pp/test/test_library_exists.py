@@ -4,7 +4,7 @@
 import pp
 
 
-def test_gdslib_exists():
+def test_gdslib_exists() -> None:
     assert pp.CONFIG["gdslib"].exists()
 
 

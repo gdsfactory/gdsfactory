@@ -198,7 +198,8 @@ def compare_gds_to_lib(teg, lib_cells=[]):
         where status is:
             0 if the cell matches the library, or is composed of cells with status 0
             1 if the cell does not match any lib cell of at least one cell with status 1 and all the others with status 0
-            2 if the cell name is in the library but the hashes do not match, OR if the cell is composed of at least one cell with status 2
+            2 if the cell name is in the library but the hashes do not match,
+            OR if the cell is composed of at least one cell with status 2
     """
 
     name_to_hash_teg = {}

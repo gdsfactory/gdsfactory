@@ -11,6 +11,7 @@ The actual chain of components is supplied by a string or a list
 """
 
 import pp
+from pp.component import Component
 from pp.components import bend_circular
 from pp.components.component_sequence import component_sequence
 from pp.components.waveguide import waveguide
@@ -18,7 +19,7 @@ from pp.components.waveguide_heater import waveguide_heater
 
 
 @pp.cell
-def test_cutback_heater():
+def test_cutback_heater() -> Component:
     # Define subcomponents
     bend_radius = 10.0
     bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)

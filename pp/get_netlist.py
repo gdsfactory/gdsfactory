@@ -16,12 +16,15 @@
 
 from typing import Dict, Tuple
 
+from pp.component import Component, ComponentReference
 from pp.drc import snap_to_1nm_grid
 from pp.layers import LAYER
 
 
 def get_instance_name(
-    component, reference, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+    component: Component,
+    reference: ComponentReference,
+    layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
 ) -> str:
     """Takes a component names the instance based on its XY location or a label in layer_label
     Loop over references and find the reference under and associate reference with instance label
@@ -55,7 +58,9 @@ def get_instance_name(
 
 
 def get_netlist(
-    component, full_settings=False, layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE
+    component: Component,
+    full_settings: bool = False,
+    layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
 ) -> Dict[str, Dict]:
     """From a component returns instances and placements dicts.
     it assumes that ports with same x,y are connected.

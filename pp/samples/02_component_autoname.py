@@ -4,11 +4,14 @@ The photonics package `pp` has a cell decorator that names the objects that it p
 """
 
 
+from typing import Union
+
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def waveguide_cell(width=10, height=1):
+def waveguide_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
     """Returns waveguide with automatic name."""
     wg = pp.Component("waveguide")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
@@ -19,7 +22,7 @@ def waveguide_cell(width=10, height=1):
     return wg
 
 
-def test_autoname():
+def test_autoname() -> None:
     c = waveguide_cell()
     assert c.name == "waveguide_cell"
 

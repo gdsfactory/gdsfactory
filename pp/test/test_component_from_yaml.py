@@ -1,4 +1,5 @@
 import pp
+from pp.component import Component
 
 yaml = """
 name:
@@ -16,7 +17,7 @@ connections:
 """
 
 
-def test_component_from_yaml_without_cell():
+def test_component_from_yaml_without_cell() -> Component:
     """ bezier does not have cell """
     c = pp.component_from_yaml(yaml)
     assert c.name == "test_component_from_yaml_without_cell"

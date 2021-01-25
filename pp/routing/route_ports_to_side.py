@@ -1,13 +1,33 @@
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
+from numpy import float64
 
-import pp
-from pp.port import flipped, is_electrical_port
+from pp.cell import cell
+from pp.component import Component, ComponentReference
+from pp.config import conf
+from pp.layers import LAYER
+from pp.port import Port, flipped, is_electrical_port
 from pp.routing.connect import connect_elec, connect_strip
+from pp.testing import difftest
+from pp.types import Route
 
-BEND_RADIUS = pp.config.BEND_RADIUS
+BEND_RADIUS = conf.tech.bend_radius
 
 
-def route_elec_ports_to_side(ports, side="north", wire_sep=20.0, x=None, y=None):
+def route_elec_ports_to_side(
+    ports: Dict[str, Port],
+    side: str = "north",
+    wire_sep: float = 20.0,
+    x: None = None,
+    y: Optional[float64] = None,
+) -> Union[
+    Tuple[List[ComponentReference], List[Port]],
+    Tuple[
+        List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]],
+        List[Port],
+    ],
+]:
     return route_ports_to_side(
         ports, side=side, bend_radius=0, separation=wire_sep, x=x, y=y
     )
@@ -25,13 +45,18 @@ def sort_key_south_to_north(port):
     return port.y
 
 
-def sort_key_north_to_south(port):
+def sort_key_north_to_south(port: Port) -> float64:
     return -port.y
 
 
 def route_ports_to_side(
-    ports, side="north", x=None, y=None, routing_func=None, **kwargs
-):
+    ports: Dict[str, Port],
+    side: str = "north",
+    x: None = None,
+    y: Optional[float64] = None,
+    routing_func: None = None,
+    **kwargs,
+) -> List[Route]:
     """Routes ports to a given side
 
     Args:
@@ -62,7 +87,7 @@ def route_ports_to_side(
     if isinstance(ports, dict):
         ports = list(ports.values())
 
-    elif isinstance(ports, pp.Component) or isinstance(ports, pp.ComponentReference):
+    elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = list(ports.ports.values())
 
     # Convenient default selection for connection function point to point
@@ -291,19 +316,25 @@ def connect_ports_to_x(
 
 
 def connect_ports_to_y(
-    list_ports,
-    y="north",
-    separation=10.0,
-    bend_radius=BEND_RADIUS,
-    x0_left=None,
-    x0_right=None,
-    extension_length=0,
-    extend_left=0,
-    extend_right=0,
-    routing_func=connect_strip,
-    backward_port_side_split_index=0,
-    **routing_func_args,
-):
+    list_ports: List[Port],
+    y: float64 = "north",
+    separation: float = 10.0,
+    bend_radius: int = BEND_RADIUS,
+    x0_left: None = None,
+    x0_right: None = None,
+    extension_length: int = 0,
+    extend_left: int = 0,
+    extend_right: int = 0,
+    routing_func: Callable = connect_strip,
+    backward_port_side_split_index: int = 0,
+    **routing_func_args: Dict[Any, Any],
+) -> Union[
+    Tuple[List[ComponentReference], List[Port]],
+    Tuple[
+        List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]],
+        List[Port],
+    ],
+]:
     """
      * ``list_ports``: reasonably well behaved list of ports
             i.e
@@ -459,53 +490,57 @@ def connect_ports_to_y(
     return elements, ports
 
 
-def demo():
-    from pp.component import Component
-    from pp.layers import LAYER
+@cell
+def sample_route_side() -> Component:
+    c = Component()
+    xs = [0.0, 10.0, 25.0, 50.0]
+    ys = [0.0, 10.0, 25.0, 50.0]
+    a = 5
+    xl = min(xs) - a
+    xr = max(xs) + a
+    yb = min(ys) - a
+    yt = max(ys) + a
 
-    def dummy():
-        cmp = Component()
-        xs = [0.0, 10.0, 25.0, 50.0]
-        ys = [0.0, 10.0, 25.0, 50.0]
-        a = 5
-        xl = min(xs) - a
-        xr = max(xs) + a
-        yb = min(ys) - a
-        yt = max(ys) + a
+    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], LAYER.WG)
 
-        cmp.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], LAYER.WG)
+    for i, y in enumerate(ys):
+        p0 = (xl, y)
+        p1 = (xr, y)
+        c.add_port(name="W{}".format(i), midpoint=p0, orientation=180, width=0.5)
+        c.add_port(name="E{}".format(i), midpoint=p1, orientation=0, width=0.5)
 
-        for i, y in enumerate(ys):
-            p0 = (xl, y)
-            p1 = (xr, y)
-            cmp.add_port(name="W{}".format(i), midpoint=p0, orientation=180, width=0.5)
-            cmp.add_port(name="E{}".format(i), midpoint=p1, orientation=0, width=0.5)
+    for i, x in enumerate(xs):
+        p0 = (x, yb)
+        p1 = (x, yt)
+        c.add_port(name="S{}".format(i), midpoint=p0, orientation=270, width=0.5)
+        c.add_port(name="N{}".format(i), midpoint=p1, orientation=90, width=0.5)
 
-        for i, x in enumerate(xs):
-            p0 = (x, yb)
-            p1 = (x, yt)
-            cmp.add_port(name="S{}".format(i), midpoint=p0, orientation=270, width=0.5)
-            cmp.add_port(name="N{}".format(i), midpoint=p1, orientation=90, width=0.5)
+    return c
 
-        return cmp
 
-    def top_level():
-        cmp = Component()
-        _dummy_t = dummy()
-        sides = ["north", "south", "east", "west"]
-        positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
-        for pos, side in zip(positions, sides):
-            dummy_ref = _dummy_t.ref(position=pos)
-            cmp.add(dummy_ref)
-            conns, ports = route_ports_to_side(dummy_ref, side)
-            for e in conns:
-                cmp.add(e)
-            for i, p in enumerate(ports):
-                cmp.add_port(name="{}{}".format(side[0], i), port=p)
-        return cmp
+@cell
+def sample_route_sides() -> Component:
+    c = Component()
+    _dummy_t = sample_route_side()
+    sides = ["north", "south", "east", "west"]
+    positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
+    for pos, side in zip(positions, sides):
+        dummy_ref = _dummy_t.ref(position=pos)
+        c.add(dummy_ref)
+        routes, ports = route_ports_to_side(dummy_ref, side)
+        for route in routes:
+            c.add(route["references"])
+        for i, p in enumerate(ports):
+            c.add_port(name=f"{side[0]}{i}", port=p)
+    return c
 
-    pp.show(top_level())
+
+def test_sample_route_sides(data_regression) -> None:
+    """Avoid regressions in GDS geometry shapes and layers."""
+    c = sample_route_sides()
+    difftest(c)
 
 
 if __name__ == "__main__":
-    demo()
+    component = sample_route_sides()
+    component.show()

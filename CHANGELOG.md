@@ -2,12 +2,10 @@
 
 ## TODO
 
-- bundle routing with specific waypoints
-- connect_with_waypoints can accept ports
+- fix some FIXME
 
 Maybe:
 
-- extract netlist from layout markers
 - add grating coupler vertical ports
 - create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
 - add contracts, or enforcers, either in cell decorator or using
@@ -22,7 +20,7 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.2.9
+## 2.2.9 2021-01-24
 
 - better settings export
 - fixed docs

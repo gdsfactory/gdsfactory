@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle():
+def test_connect_bundle() -> Component:
     c = pp.Component("test_connect_bundle")
     c1 = c << pp.c.pad()
     c2 = c << pp.c.pad()
