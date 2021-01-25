@@ -7,8 +7,8 @@ import gdspy as gp
 from gdspy.polygon import PolygonSet
 from numpy import int64, ndarray
 
-from pp import import_gds
 from pp.component import Component
+from pp.import_gds import import_gds
 
 COUNTER = itertools.count()
 

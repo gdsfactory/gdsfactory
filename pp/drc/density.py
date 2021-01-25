@@ -1,19 +1,20 @@
 import sys
+from typing import Tuple
 
 import gdspy as gp
+from numpy import float64
 
+from pp.component import Component
 from pp.geo_utils import area
 
 
-def _print(*args, **kwargs):
+def _print(*args, **kwargs) -> None:
     print(*args, **kwargs)
     sys.stdout.flush()
 
 
-def compute_area(c, target_layer):
-    """
-    Compute area of the component on a given layer
-    """
+def compute_area(c: Component, target_layer: Tuple[int, int]) -> float64:
+    """Returns Computed area of the component for a given layer."""
     _print("Computing area ", c.name)
     c.flatten()
     # return c.area(by_spec=True)[layer]

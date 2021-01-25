@@ -170,7 +170,7 @@ def _demo():
     pp.show(D)  # show it in klayout
 
 
-def test_pack():
+def test_pack() -> None:
     import phidl.geometry as pg
 
     D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]

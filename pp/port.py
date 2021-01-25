@@ -24,8 +24,6 @@ import phidl.geometry as pg
 from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
-from pp.drc import snap_to_grid
-
 port_types = ["optical", "rf", "dc", "heater"]
 
 
@@ -149,6 +147,8 @@ class Port(PortPhidl):
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
     def on_grid(self, nm: int = 1) -> None:
+        from pp.drc.snap_to_grid import snap_to_grid
+
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
             assert np.isclose(
