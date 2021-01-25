@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict, List, Tuple
 
 import pp
 from pp.cell import cell
@@ -52,16 +52,20 @@ def ring_single_bus_deprecated(**kwargs):
 
 
 def ring_single_bus_netlist(
-    bend_radius=5,
-    length_x=1,
-    length_y=1,
-    gap=0.2,
-    bend90_factory=bend_circular,
-    coupler90_factory=coupler90,
-    straight_factory=waveguide,
-    cpl_straight_factory=coupler_straight,
-    wg_width=0.5,
-):
+    bend_radius: int = 5,
+    length_x: int = 1,
+    length_y: int = 1,
+    gap: float = 0.2,
+    bend90_factory: Callable = bend_circular,
+    coupler90_factory: Callable = coupler90,
+    straight_factory: Callable = waveguide,
+    cpl_straight_factory: Callable = coupler_straight,
+    wg_width: float = 0.5,
+) -> Tuple[
+    Dict[str, Tuple[Component, str]],
+    List[Tuple[str, str, str, str]],
+    Dict[str, Tuple[str, str]],
+]:
     """
     .. code::
 

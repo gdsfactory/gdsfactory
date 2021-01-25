@@ -8,7 +8,13 @@ from pp.layers import LAYER
 
 
 @cell
-def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
+def via(
+    width: float = 0.7,
+    height: float = 0.7,
+    period: float = 2.0,
+    clearance: float = 1.0,
+    layer: Tuple[int, int] = LAYER.VIA1,
+) -> Component:
     """Rectangular via"""
     c = Component()
     c.info["period"] = period
@@ -25,17 +31,17 @@ def via(width=0.7, height=0.7, period=2.0, clearance=1.0, layer=LAYER.VIA1):
 
 
 @cell
-def via1(**kwargs):
+def via1(**kwargs) -> Component:
     return via(layer=LAYER.VIA1, **kwargs)
 
 
 @cell
-def via2(**kwargs):
+def via2(**kwargs) -> Component:
     return via(layer=LAYER.VIA2, **kwargs)
 
 
 @cell
-def via3(**kwargs):
+def via3(**kwargs) -> Component:
     return via(layer=LAYER.VIA3, **kwargs)
 
 

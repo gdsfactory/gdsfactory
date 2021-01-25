@@ -1,6 +1,6 @@
 """Straight waveguides"""
 import hashlib
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 import pp
 from pp.component import Component
@@ -61,7 +61,9 @@ def waveguide_biased(width: float = 0.5, **kwargs) -> Component:
     return waveguide(width=width, **kwargs)
 
 
-def _arbitrary_straight_waveguide(length, windows):
+def _arbitrary_straight_waveguide(
+    length: float, windows: List[Tuple[float, float, Tuple[int, int]]]
+) -> Component:
     """
     Args:
         length: length

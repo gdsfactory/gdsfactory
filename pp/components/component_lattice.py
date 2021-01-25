@@ -1,6 +1,10 @@
 import itertools
+from typing import Dict, List, Tuple
+
+from numpy import float64
 
 import pp
+from pp.component import Component
 from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import compensation_path, crossing45
 from pp.config import GRID_PER_UNIT
@@ -10,7 +14,7 @@ from pp.routing.repackage import package_optical2x2
 COUNTER = itertools.count()
 
 
-def gen_tmp_port_name():
+def gen_tmp_port_name() -> str:
     return "{}".format(next(COUNTER))
 
 
@@ -131,15 +135,15 @@ def get_sequence_cross_str(waveguides_start, waveguides_end, iter_max=100):
 
 @pp.cell(autoname=False)
 def component_lattice(
-    lattice="""
+    lattice: str = """
         C-X
         CXX
         CXX
         C-X
         """,
-    components=None,
-    name="lattice",
-):
+    components: None = None,
+    name: str = "lattice",
+) -> Component:
     """
     Returns a lattice Component of N inputs and outputs with components at given locations
     Columns must have components with the same x spacing between ports input/output ports
@@ -251,7 +255,9 @@ def component_lattice(
     return component
 
 
-def parse_lattice(lattice, components):
+def parse_lattice(
+    lattice: str, components: Dict[str, Component]
+) -> Tuple[Dict[int, List[str]], Dict[int, float64]]:
     # extract each column
     lines = lattice.replace(" ", "").split("\n")
     columns = {}

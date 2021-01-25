@@ -5,6 +5,7 @@ maybe: need to add grating coupler loopback as well
 from typing import Callable, Optional, Tuple
 
 import numpy as np
+from numpy import float64
 
 import pp
 from pp.component import Component
@@ -311,7 +312,7 @@ def reticle_mockup():
     return component
 
 
-def get_straight_length(length_cm, spiral_function, **kwargs):
+def get_straight_length(length_cm: int, spiral_function: Callable, **kwargs) -> float64:
     """ returns y_spiral to achieve a particular spiral length """
     y0 = 50
     y1 = 400

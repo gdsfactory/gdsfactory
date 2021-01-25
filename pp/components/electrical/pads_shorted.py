@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.rectangle import rectangle
@@ -5,7 +7,12 @@ from pp.layers import LAYER
 
 
 @cell
-def pads_shorted(width=100, n_pads=8, pad_spacing=150, layer=LAYER.M1):
+def pads_shorted(
+    width: int = 100,
+    n_pads: int = 8,
+    pad_spacing: int = 150,
+    layer: Tuple[int, int] = LAYER.M1,
+) -> Component:
     c = Component(name="shorted_pads")
     pad = rectangle(size=(width, width), layer=layer, centered=True)
     for i in range(n_pads):

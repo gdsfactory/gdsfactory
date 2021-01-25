@@ -1,8 +1,9 @@
-from typing import Callable
+from typing import Callable, Union
 
 import gdspy
 import numpy as np
 import scipy.optimize as so
+from numpy import float64
 
 import pp
 from pp.component import Component
@@ -18,7 +19,7 @@ from pp.geo_utils import path_length
 from pp.layers import LAYER
 
 
-def rnd(p):
+def rnd(p: float) -> float64:
     """ round """
     return np.round(p * GRID_PER_UNIT) / GRID_PER_UNIT
 
@@ -181,7 +182,12 @@ def crossing_etched(
 
 
 @pp.cell
-def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
+def crossing45(
+    crossing: Callable = crossing,
+    port_spacing: float = 40.0,
+    dx: None = None,
+    alpha: float = 0.08,
+) -> Component:
     r""" 45Deg crossing with bends
 
     Args:
@@ -271,7 +277,9 @@ def crossing45(crossing=crossing, port_spacing=40.0, dx=None, alpha=0.08):
 
 
 @pp.cell
-def compensation_path(crossing45=crossing45, direction="top"):
+def compensation_path(
+    crossing45: Union[Component, Callable] = crossing45, direction: str = "top"
+) -> Component:
     r""" Path with same path length as crossing45 but with input and output ports having same y coordinates
 
     Args:

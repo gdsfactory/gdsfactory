@@ -1,7 +1,7 @@
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
-from numpy import ndarray
+from numpy import float64, ndarray
 from scipy.optimize import minimize
 from scipy.special import binom
 
@@ -110,14 +110,14 @@ def bezier(
 
 
 def find_min_curv_bezier_control_points(
-    start_point,
-    end_point,
-    start_angle,
-    end_angle,
-    t=np.linspace(0, 1, 201),
-    alpha=0.05,
-    nb_pts=2,
-):
+    start_point: ndarray,
+    end_point: Tuple[float, float],
+    start_angle: int,
+    end_angle: int,
+    t: ndarray = np.linspace(0, 1, 201),
+    alpha: float = 0.05,
+    nb_pts: int = 2,
+) -> List[Union[ndarray, Tuple[float64, float64], Tuple[float, float]]]:
     def array_1d_to_cpts(a):
         xs = a[::2]
         ys = a[1::2]

@@ -1,11 +1,14 @@
 from typing import Callable
 
 import pp
+from pp.component import Component
 from pp.components.mmi1x2 import mmi1x2
 
 
 @pp.cell
-def splitter_chain(component: Callable = mmi1x2, n_devices: int = 3, **kwargs):
+def splitter_chain(
+    component: Callable = mmi1x2, n_devices: int = 3, **kwargs
+) -> Component:
     """ Chain of splitters
 
     .. code::

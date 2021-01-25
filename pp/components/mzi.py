@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, Dict, Optional, Union
 
 import pp
 from pp.component import Component
@@ -23,8 +23,8 @@ def mzi(
     combiner: Optional[Callable] = None,
     with_splitter: bool = True,
     pins: bool = False,
-    splitter_settings=None,
-    combiner_settings=None,
+    splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
+    combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
 ) -> Component:
     """Mzi.
 

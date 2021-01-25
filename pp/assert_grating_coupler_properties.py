@@ -1,7 +1,4 @@
-from pp.component import Component
-
-
-def assert_grating_coupler_properties(gc: Component) -> None:
+def assert_grating_coupler_properties(gc: object) -> None:
     assert hasattr(
         gc, "polarization"
     ), f"{gc.name} does not have polarization attribute"
