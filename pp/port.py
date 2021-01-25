@@ -465,23 +465,12 @@ def test_select_ports_type() -> None:
     assert len(ports) == 3
 
 
-def test_csv2port(data_regression):
-    import pp
-
-    name = "waveguide"
-    csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
-    # gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
-    # read_port_markers(gdspath, layer=66)
-    ports = csv2port(csvpath)
-    data_regression.check(ports)
-
-
 if __name__ == "__main__":
     test_select_ports_type()
 
     import pp
 
-    name = "waveguide"
+    name = "waveguide_with_pins"
     gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
     csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
     pp.show(gdspath)

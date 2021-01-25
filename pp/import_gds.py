@@ -396,10 +396,22 @@ def add_settings_from_label(component):
                 setattr(component, k, v)
 
 
+def demo_import_gds_markers():
+    import pp
+
+    name = "mmi1x2"
+    gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
+    c = import_gds(gdspath)
+    add_ports_from_markers_center(c)
+    assert len(c.ports) == 3
+    return c
+
+
 if __name__ == "__main__":
+    c = demo_import_gds_markers()
     # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
-    test_import_gds_snap_to_grid()
+    # test_import_gds_snap_to_grid()
 
     # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5)
