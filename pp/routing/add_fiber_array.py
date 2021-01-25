@@ -17,7 +17,9 @@ def add_fiber_array_te(*args, **kwargs):
     return add_fiber_array(*args, **kwargs)
 
 
-def add_fiber_array_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
+def add_fiber_array_tm(
+    *args, grating_coupler=grating_coupler_tm, **kwargs
+) -> Component:
     return add_fiber_array(*args, grating_coupler=grating_coupler, **kwargs)
 
 
@@ -130,21 +132,21 @@ def add_fiber_array(
     return cc
 
 
-def test_type0():
+def test_type0() -> Component:
     component = pp.c.coupler(gap=0.244, length=5.67)
     cc = add_fiber_array(component, optical_routing_type=0)
     pp.write_gds(cc)
     return cc
 
 
-def test_type1():
+def test_type1() -> Component:
     component = pp.c.coupler(gap=0.2, length=5.0)
     cc = add_fiber_array(component, optical_routing_type=1)
     pp.write_gds(cc)
     return cc
 
 
-def test_type2():
+def test_type2() -> Component:
     c = pp.c.coupler(gap=0.244, length=5.67)
     c.polarization = "tm"
     cc = add_fiber_array(c, optical_routing_type=2)

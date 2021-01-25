@@ -2,10 +2,10 @@
 from tqdm import tqdm
 
 
-py.test --monkeytype-output=./monkeytype.sqlite3
+# py.test --monkeytype-output=./monkeytype.sqlite3
 
-for m in tqdm($(monkeytype list-modules).split('\n')):
+for i, m in enumerate(tqdm($(monkeytype list-modules).split('\n'))[131:]):
     if m.startswith('pp'):
-        print(m)
-        monkeytype stub @(m)
-        monkeytype apply @(m)
+        print(i, m)
+        # monkeytype stub @(m)
+        # monkeytype apply @(m)

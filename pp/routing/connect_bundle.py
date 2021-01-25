@@ -1,7 +1,7 @@
 """ route bundles of port (river routing)
 """
 
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy import float64, ndarray
@@ -136,15 +136,21 @@ def get_port_x(port: Port) -> float64:
     return port.midpoint[0]
 
 
-def get_port_y(port):
+def get_port_y(port: Port) -> float64:
     return port.midpoint[1]
 
 
-def get_port_width(port):
+def get_port_width(port: Port) -> Union[float, int]:
     return port.width
 
 
-def are_decoupled(x1, x1p, x2, x2p, sep=METAL_MIN_SEPARATION) -> bool:
+def are_decoupled(
+    x1: float64,
+    x1p: float64,
+    x2: float64,
+    x2p: float64,
+    sep: float = METAL_MIN_SEPARATION,
+) -> bool:
     if x2p + sep > x1:
         return False
     if x2 < x1p + sep:
@@ -435,14 +441,16 @@ def link_ports_routes(
     return elems
 
 
-def generate_waypoints_connect_bundle(*args, **kwargs):
+def generate_waypoints_connect_bundle(*args, **kwargs) -> List[ndarray]:
     """
     returns a list of waypoints for each path generated with link_ports
     """
     return connect_bundle(*args, route_filter=lambda x, **params: x, **kwargs)
 
 
-def compute_ports_max_displacement(start_ports, end_ports):
+def compute_ports_max_displacement(
+    start_ports: List[Port], end_ports: List[Port]
+) -> float64:
     if start_ports[0].angle in [0, 180]:
         a1 = [p.y for p in start_ports]
         a2 = [p.y for p in end_ports]
@@ -457,7 +465,7 @@ def connect_bundle_path_length_match(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30.0,
-    end_straight_offset=None,
+    end_straight_offset: None = None,
     bend_radius: float = BEND_RADIUS,
     extra_length: float = 0.0,
     nb_loops: int = 1,
@@ -515,7 +523,7 @@ def link_electrical_ports(
     ports2: List[Port],
     separation: float = METAL_MIN_SEPARATION,
     bend_radius: float = 0.0001,
-    link_dummy_ports=False,
+    link_dummy_ports: bool = False,
     route_filter: Callable = connect_elec_waypoints,
     **kwargs,
 ) -> List[Route]:
@@ -585,7 +593,7 @@ def link_optical_ports(
     )
 
 
-def sign(x):
+def sign(x: float64) -> int:
     if x > 0:
         return 1
     else:
@@ -786,7 +794,7 @@ def link_optical_ports_no_grouping(
 
 
 @cell
-def test_connect_bundle():
+def test_connect_bundle() -> Component:
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
 
@@ -826,7 +834,7 @@ def test_connect_bundle():
 
 
 @cell
-def test_connect_corner(N=6, config="A"):
+def test_connect_corner(N: int = 6, config: str = "A") -> Component:
     d = 10.0
     sep = 5.0
     top_cell = Component(name="connect_corner")
@@ -913,7 +921,7 @@ def test_connect_corner(N=6, config="A"):
 
 
 @cell
-def test_connect_bundle_udirect(dy=200, angle=270):
+def test_connect_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
 
@@ -954,7 +962,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
 
 
 @cell
-def test_connect_bundle_u_indirect(dy=-200, angle=180):
+def test_connect_bundle_u_indirect(dy: int = -200, angle: int = 180) -> Component:
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
@@ -997,7 +1005,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
 
 
 @cell
-def test_facing_ports():
+def test_facing_ports() -> Component:
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -1037,7 +1045,7 @@ def test_facing_ports():
 
 
 @cell
-def test_connect_bundle_small():
+def test_connect_bundle_small() -> Component:
     import pp
 
     c = pp.Component()

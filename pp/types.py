@@ -1,5 +1,6 @@
 """Common data types."""
 
+from pathlib import PosixPath
 from typing import Callable, Dict, List, Tuple, Union
 
 from pp.component import Component, ComponentReference
@@ -7,6 +8,7 @@ from pp.port import Port
 
 Layer = Tuple[int, int]
 ComponentOrFunction = Union[Callable, Component]
+ComponentOrPath = Union[PosixPath, Component]
 NameToFunctionDict = Dict[str, Callable]
 Number = Union[float, int]
 Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]
