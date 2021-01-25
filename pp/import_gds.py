@@ -72,7 +72,7 @@ def add_ports_from_markers_center(
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: Optional[float] = None,
-):
+) -> None:
     """add ports from polygons in certain layers
 
     markers at port center, so half of the marker goes inside and half ouside the port. Works only for rectangular pins.
@@ -335,7 +335,7 @@ def import_gds(
         return D
 
 
-def test_import_gds_snap_to_grid():
+def test_import_gds_snap_to_grid() -> None:
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
     print(len(c.get_polygons()))
@@ -346,7 +346,7 @@ def test_import_gds_snap_to_grid():
         assert pp.drc.on_grid(y, 5)
 
 
-def test_import_gds_hierarchy():
+def test_import_gds_hierarchy() -> None:
     c0 = pp.c.mzi2x2()
     gdspath = pp.write_gds(c0)
     c = import_gds(gdspath)
@@ -386,7 +386,7 @@ def demo_electrical():
         print(p)
 
 
-def add_settings_from_label(component):
+def add_settings_from_label(component: Component) -> None:
     """Adds settings from label."""
     for label in component.labels:
         if label.text.startswith("settings="):
@@ -396,10 +396,22 @@ def add_settings_from_label(component):
                 setattr(component, k, v)
 
 
+def demo_import_gds_markers():
+    import pp
+
+    name = "mmi1x2"
+    gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
+    c = import_gds(gdspath)
+    add_ports_from_markers_center(c)
+    assert len(c.ports) == 3
+    return c
+
+
 if __name__ == "__main__":
+    c = demo_import_gds_markers()
     # test_import_gds_with_port_markers_optical_electrical()
     # test_import_gds_with_port_markers_optical()
-    test_import_gds_snap_to_grid()
+    # test_import_gds_snap_to_grid()
 
     # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5)

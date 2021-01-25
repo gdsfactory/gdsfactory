@@ -1,6 +1,7 @@
 import shutil
 
 import pytest
+from _pytest.fixtures import SubRequest
 
 from pp import CONFIG
 
@@ -8,7 +9,7 @@ from pp import CONFIG
 
 
 @pytest.fixture(autouse=True)
-def cleandir(request):
+def cleandir(request: SubRequest) -> None:
     # clear_cache()
     build_folder = CONFIG["build_directory"]
     module_path = CONFIG["module_path"]

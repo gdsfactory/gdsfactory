@@ -7,9 +7,9 @@ import gdspy
 import numpy as np
 import picwriter.components as pc
 import picwriter.toolkit as pt
+from picwriter.toolkit import Component
 
 import pp
-from pp.component import Component
 
 gdspy.current_library = gdspy.GdsLibrary()
 

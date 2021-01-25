@@ -11,7 +11,7 @@ Some of which are just shapes, but we call them components as they all inherit f
 import pp
 
 
-def test_components_module():
+def test_components_module() -> None:
     assert len(dir(pp.c)) > 1
 
 

@@ -1,5 +1,6 @@
 import pp
 from pp import LAYER
+from pp.component import Component
 from pp.components import bend_circular
 from pp.components.component_sequence import component_sequence
 from pp.components.taper import taper_strip_to_ridge
@@ -8,7 +9,12 @@ from pp.components.waveguide_heater import waveguide_heater
 
 
 @pp.cell
-def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=1.0):
+def phase_modulator_waveguide(
+    length: float,
+    wg_width: float = 0.5,
+    cladding: float = 3.0,
+    si_outer_clad: float = 1.0,
+) -> Component:
     """
     Phase modulator waveguide mockup
     """
@@ -29,7 +35,9 @@ def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=
 
 
 @pp.cell
-def test_cutback_phase(straight_length=100.0, bend_radius=10.0, n=2):
+def test_cutback_phase(
+    straight_length: float = 100.0, bend_radius: float = 10.0, n: int = 2
+) -> Component:
     """ Modulator sections connected by bends """
     # Define sub components
     bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)

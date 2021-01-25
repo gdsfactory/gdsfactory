@@ -2,6 +2,9 @@
 """
 
 import itertools as it
+from io import StringIO
+from pathlib import PosixPath
+from typing import Any, Dict, List, Union
 
 from omegaconf import OmegaConf
 
@@ -19,7 +22,7 @@ does:
 """
 
 
-def load_does(filepath):
+def load_does(filepath: Union[PosixPath, StringIO]) -> Dict[str, Any]:
     """Return dictionary with the information loaded from does.yml
 
     Args:
@@ -78,7 +81,13 @@ def load_does(filepath):
     return does
 
 
-def get_settings_list(do_permutations=True, **kwargs):
+def get_settings_list(
+    do_permutations: bool = True, **kwargs
+) -> Union[
+    List[Union[Dict[str, Union[int, float]], Dict[str, float]]],
+    List[Dict[str, Union[int, float]]],
+    List[Dict[str, int]],
+]:
     """Return a list of settings
 
     Args:
@@ -122,7 +131,22 @@ def get_settings_list(do_permutations=True, **kwargs):
     return settings
 
 
-def test_load_does():
+def test_load_does() -> Dict[
+    str,
+    Union[
+        Dict[
+            str,
+            Union[
+                str,
+                Dict[str, Union[str, float, int]],
+                List[Dict[str, Union[int, float]]],
+            ],
+        ],
+        Dict[str, Union[str, Dict[str, Union[str, float, int]], List[Dict[str, int]]]],
+        Dict[str, Union[str, Dict[str, str], List[Dict[str, int]]]],
+        Dict[str, Union[str, bool, Dict[str, str], List[Dict[str, int]]]],
+    ],
+]:
     filepath = CONFIG["samples_path"] / "mask" / "does.yml"
     does = load_does(filepath)
     assert len(does) == 4

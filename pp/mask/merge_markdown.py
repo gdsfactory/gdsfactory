@@ -1,5 +1,6 @@
 import os
 from glob import glob
+from pathlib import PosixPath
 
 from omegaconf import OmegaConf
 
@@ -7,10 +8,10 @@ from pp.config import CONFIG, conf, logging
 
 
 def merge_markdown(
-    reports_directory=CONFIG["doe_directory"],
-    mdpath=CONFIG["mask_directory"] / "report.md",
+    reports_directory: PosixPath = CONFIG["doe_directory"],
+    mdpath: PosixPath = CONFIG["mask_directory"] / "report.md",
     **kwargs,
-):
+) -> None:
     """Merges all individual markdown reports (.md) into a single markdown
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """

@@ -1,4 +1,5 @@
 import pathlib
+from typing import Tuple
 
 import numpy as np
 
@@ -10,17 +11,17 @@ data_path = pathlib.Path(__file__).parent / "csv_data"
 
 @pp.cell
 def grating_coupler_uniform_optimized(
-    widths=(0.5, 0.2, 0.3),
-    width_grating=11,
-    length_taper=150,
-    width=0.5,
-    partial_etch=False,
-    layer=pp.LAYER.WG,
-    layer_partial_etch=pp.LAYER.SLAB150,
-    taper=None,
-    polarization="te",
-    wavelength=1500,
-):
+    widths: Tuple[float, float, float] = (0.5, 0.2, 0.3),
+    width_grating: int = 11,
+    length_taper: int = 150,
+    width: float = 0.5,
+    partial_etch: bool = False,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
+    taper: None = None,
+    polarization: str = "te",
+    wavelength: int = 1500,
+) -> Component:
     """ Grating coupler uniform (not focusing)
 
     Args:

@@ -16,14 +16,13 @@ For port naming we follow the IPKISS standard
 import csv
 import functools
 from copy import deepcopy
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from pathlib import PosixPath
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import phidl.geometry as pg
 from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
-
-from pp.drc import snap_to_grid
 
 port_types = ["optical", "rf", "dc", "heater"]
 
@@ -115,7 +114,7 @@ class Port(PortPhidl):
     def move(self, vector):
         self.midpoint = self.midpoint + np.array(vector)
 
-    def move_polar_copy(self, d, angle):
+    def move_polar_copy(self, d, angle) -> PortPhidl:
         port = self._copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
@@ -128,7 +127,7 @@ class Port(PortPhidl):
         port.angle = (port.angle + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True):
+    def _copy(self, new_uid: bool = True) -> PortPhidl:
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -144,10 +143,12 @@ class Port(PortPhidl):
             Port._next_uid -= 1
         return new_port
 
-    def snap_to_grid(self, nm=1):
+    def snap_to_grid(self, nm: int = 1) -> None:
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
     def on_grid(self, nm: int = 1) -> None:
+        from pp.drc.snap_to_grid import snap_to_grid
+
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
             assert np.isclose(
@@ -165,7 +166,13 @@ class Port(PortPhidl):
             )
 
 
-def port_array(midpoint=(0, 0), width=0.5, orientation=0, delta=(10, 0), n=2):
+def port_array(
+    midpoint: Tuple[int, int] = (0, 0),
+    width: float = 0.5,
+    orientation: int = 0,
+    delta: Tuple[int, int] = (10, 0),
+    n: int = 2,
+) -> List[Port]:
     """ returns list of ports """
     return [
         Port(midpoint=np.array(midpoint) + i * np.array(delta), orientation=orientation)
@@ -173,12 +180,14 @@ def port_array(midpoint=(0, 0), width=0.5, orientation=0, delta=(10, 0), n=2):
     ]
 
 
-def read_port_markers(gdspath, layers=((69, 0))):
-    """loads a GDS and returns the extracted device for a particular layer
+def read_port_markers(
+    gdspath: Union[object, PosixPath], layers: Iterable[Tuple[int, int]] = ((1, 10),)
+) -> Device:
+    """loads a GDS and returns the extracted ports from layer markers
 
     Args:
         gdspath: gdspath or Component
-        layer: GDS layer
+        layers: GDS layer
     """
     D = gdspath if isinstance(gdspath, Device) else pg.import_gds(gdspath)
     return pg.extract(D, layers=layers)
@@ -195,7 +204,7 @@ def csv2port(csvpath):
     return ports
 
 
-def is_electrical_port(port):
+def is_electrical_port(port: Port) -> bool:
     return port.port_type in ["dc", "rf"]
 
 
@@ -230,17 +239,21 @@ def select_ports(
     return ports
 
 
-def select_optical_ports(ports: Dict[str, Port], prefix=None) -> Dict[str, Port]:
+def select_optical_ports(
+    ports: Dict[str, Port], prefix: None = None
+) -> Dict[str, Port]:
     return select_ports(ports, port_type="optical", prefix=prefix)
 
 
-def select_electrical_ports(ports, port_type="dc", prefix=None):
+def select_electrical_ports(
+    ports: Dict[str, Port], port_type: str = "dc", prefix: None = None
+) -> Dict[str, Port]:
     d = select_ports(ports, port_type=port_type, prefix=prefix)
     d.update(select_ports(ports, port_type="electrical"))
     return d
 
 
-def flipped(port):
+def flipped(port: Port) -> Port:
     _port = port._copy()
     _port.orientation = (_port.orientation + 180) % 360
     return _port
@@ -252,7 +265,7 @@ def move_copy(port, x=0, y=0):
     return _port
 
 
-def get_ports_facing(ports: List[Port], direction: str = "W"):
+def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     from pp.component import Component, ComponentReference
 
     if isinstance(ports, dict):
@@ -436,7 +449,7 @@ def auto_rename_ports(component: Device) -> Device:
     return component
 
 
-def test_select_ports_prefix():
+def test_select_ports_prefix() -> None:
     import pp
 
     c = pp.c.waveguide()
@@ -444,7 +457,7 @@ def test_select_ports_prefix():
     assert len(ports) == 1
 
 
-def test_select_ports_type():
+def test_select_ports_type() -> None:
     import pp
 
     c = pp.c.mzi2x2(with_elec_connections=True)
@@ -457,10 +470,10 @@ if __name__ == "__main__":
 
     import pp
 
-    name = "mmi1x2"
-    gdspath = pp.CONFIG["gdslib"] / "gds" / f"{name}.gds"
-    csvpath = pp.CONFIG["gdslib"] / "gds" / f"{name}.ports"
+    name = "waveguide_with_pins"
+    gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
+    csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
     pp.show(gdspath)
-    # read_port_markers(gdspath, layer=66)
+    c = read_port_markers(gdspath)
     p = csv2port(csvpath)
     print(p)

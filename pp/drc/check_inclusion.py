@@ -1,18 +1,22 @@
+from typing import Tuple
+
 import klayout.db as pya
+
+from pp.types import ComponentOrPath
 
 
 def check_inclusion(
-    gdspath,
-    layer_in=(1, 0),
-    layer_out=(2, 0),
-    min_inclusion=0.150,
-    dbu=1e3,
-    ignore_angle_deg=80,
-    whole_edges=False,
-    metrics=None,
-    min_projection=None,
-    max_projection=None,
-):
+    gdspath: ComponentOrPath,
+    layer_in: Tuple[int, int] = (1, 0),
+    layer_out: Tuple[int, int] = (2, 0),
+    min_inclusion: float = 0.150,
+    dbu: float = 1e3,
+    ignore_angle_deg: int = 80,
+    whole_edges: bool = False,
+    metrics: None = None,
+    min_projection: None = None,
+    max_projection: None = None,
+) -> int:
     """reads layer from top cell and returns a the area that violates min inclusion
     if 0 no area violates exclusion
 

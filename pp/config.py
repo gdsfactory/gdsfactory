@@ -1,23 +1,17 @@
-""" gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
+"""gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the default_config in pp/config.py (lowest priority)
 
-`CONFIG` has all the paths that we do not care
-`conf` has all the useful info
+`CONFIG` has all your computer specific paths that we do not care to store
+`conf` has all the useful info that we will store to have reproduceable layouts.
 
 You can access all the config dictionary with `print_config` as well as a particular key
 
-```
-from pp.config import print_config
-
-print_config()
-
-```
 """
 
-__version__ = "2.2.8"
+__version__ = "2.2.9"
 import io
 import json
 import logging
@@ -25,8 +19,9 @@ import os
 import pathlib
 import subprocess
 import tempfile
+from pathlib import PosixPath
 from pprint import pprint
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from git import InvalidGitRepositoryError, Repo
@@ -141,7 +136,7 @@ logging.basicConfig(
 logging.warning("This will get logged to a file")
 
 
-def print_config(key=None):
+def print_config(key: Optional[str] = None) -> None:
     """Prints a key for the config or all the keys"""
     if key:
         if conf.get(key):
@@ -163,7 +158,7 @@ def complex_encoder(z):
         raise TypeError(f"Object {z} of type {type_name} is not serializable")
 
 
-def write_config(config, json_out_path):
+def write_config(config: Any, json_out_path: PosixPath) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)

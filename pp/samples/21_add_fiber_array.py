@@ -2,10 +2,11 @@
 """
 
 import pp
+from pp.component import Component
 from pp.samples.big_device import big_device
 
 
-def test_big_device():
+def test_big_device() -> Component:
     component = big_device(N=10)
     bend_radius = 5.0
     c = pp.routing.add_fiber_array(

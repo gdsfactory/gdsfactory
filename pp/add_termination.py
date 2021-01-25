@@ -1,5 +1,8 @@
+from typing import Callable, Tuple
+
 import pp
 from pp.add_labels import get_input_label
+from pp.component import Component
 from pp.components.bend_circular import bend_circular as bend_circular_function
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
@@ -16,7 +19,9 @@ from pp.routing.utils import (
 
 
 @container
-def add_termination(component, terminator=taper_function):
+def add_termination(
+    component: Component, terminator: Callable = taper_function
+) -> Component:
     """ returns component containing a comonent with all ports terminated """
     terminator = pp.call_if_func(terminator)
     c = pp.Component(name=component.name + "_t")
@@ -39,20 +44,20 @@ def add_gratings_and_loop_back_tm(*args, grating_coupler=grating_coupler_tm, **k
 
 @container
 def add_gratings_and_loop_back(
-    component,
-    grating_coupler=grating_coupler_te,
-    excluded_ports=None,
-    grating_separation=127.0,
-    bend_radius_align_ports=10.0,
-    gc_port_name=None,
-    gc_rotation=-90,
-    waveguide_separation=5.0,
-    bend_factory=bend_circular_function,
-    waveguide_factory=waveguide_function,
-    layer_label=pp.LAYER.LABEL,
-    component_name=None,
-    with_loopback=True,
-):
+    component: Component,
+    grating_coupler: Callable = grating_coupler_te,
+    excluded_ports: None = None,
+    grating_separation: float = 127.0,
+    bend_radius_align_ports: float = 10.0,
+    gc_port_name: None = None,
+    gc_rotation: int = -90,
+    waveguide_separation: float = 5.0,
+    bend_factory: Callable = bend_circular_function,
+    waveguide_factory: Callable = waveguide_function,
+    layer_label: Tuple[int, int] = pp.LAYER.LABEL,
+    component_name: None = None,
+    with_loopback: bool = True,
+) -> Component:
     """ returns a component with grating_couplers and loopback
     """
     excluded_ports = excluded_ports or []

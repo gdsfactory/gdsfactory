@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_optical2():
+def test_connect_bundle_optical2() -> Component:
     """FIXME. Actual length of the route = 499
     for some reason the route length is 10um shorter than the layout.
 
@@ -39,7 +40,7 @@ def test_connect_bundle_optical2():
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length, atol=0.1)
+        assert np.isclose(route["length"], length, atol=0.1)
 
     return c
 

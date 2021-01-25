@@ -1,8 +1,10 @@
 import itertools
 import math
+from typing import Tuple
 
 import klayout.db as pya
 import pyqtree
+from klayout.dbcore import Cell
 
 import pp.autoplacer.functions as ap
 from pp.autoplacer.cell_list import CellList
@@ -29,7 +31,9 @@ class AutoPlacer(pya.Layout):
 
     """
 
-    def __init__(self, name, max_width=1e8, max_height=1e8):
+    def __init__(
+        self, name: str, max_width: float = 1e8, max_height: float = 1e8
+    ) -> None:
         """ constructor """
         # Construct
         super(AutoPlacer, self).__init__()
@@ -66,7 +70,7 @@ class AutoPlacer(pya.Layout):
         elif direction == ap.WEST:
             return max(w for (w, s, e, n) in collisions) - ap.GRID - bbox.width()
 
-    def import_cell(self, cell):
+    def import_cell(self, cell: Cell) -> Cell:
         """ Imports a cell from another Layout """
         # If the cell is already in the library, skip loading
         if self.cell(cell.name):
@@ -183,7 +187,14 @@ class AutoPlacer(pya.Layout):
                 return
             sy = min(edge) if ap.SOUTH in origin else max(edge)
 
-    def pack_manual(self, cell, x, y, origin=ap.SOUTH_WEST, tboxes=None):
+    def pack_manual(
+        self,
+        cell: Cell,
+        x: float,
+        y: float,
+        origin: Tuple[int, int] = ap.SOUTH_WEST,
+        tboxes: None = None,
+    ) -> None:
         """
         Pack a cell at a manually selected position
         """
@@ -248,14 +259,14 @@ class AutoPlacer(pya.Layout):
         self.max_width = bbox.width()
         self.max_height = bbox.height()
 
-    def draw_boundary(self, layer=ap.DEVREC_LAYER):
+    def draw_boundary(self, layer: int = ap.DEVREC_LAYER) -> None:
         """ Draw a box into the topcell """
         layer = self.layer(layer, 0)
         self.cell(self.name).shapes(layer).insert(
             pya.Box(0, 0, self.max_width, self.max_height)
         )
 
-    def write(self, *args, **kwargs):
+    def write(self, *args, **kwargs) -> None:
         """ Draw boundary on write """
         if not kwargs.get("shrink", False):
             self.draw_boundary()
@@ -293,17 +304,17 @@ class AutoPlacer(pya.Layout):
 
     def pack_grid(
         self,
-        cells,
-        cols=None,
-        rows=None,
-        aspect=3,
-        direction=ap.VERTICAL,
-        align=ap.BOTH,
-        normalization_origin=ap.SOUTH_WEST,
-        origin=ap.SOUTH_WEST,
-        name=None,
-        padding=ap.PADDING,
-    ):
+        cells: CellList,
+        cols: None = None,
+        rows: None = None,
+        aspect: int = 3,
+        direction: int = ap.VERTICAL,
+        align: int = ap.BOTH,
+        normalization_origin: Tuple[int, int] = ap.SOUTH_WEST,
+        origin: Tuple[int, int] = ap.SOUTH_WEST,
+        name: None = None,
+        padding: int = ap.PADDING,
+    ) -> None:
         """
         Pack onto a grid, assuming that all cells are the same size
         """

@@ -4,6 +4,7 @@ You can make a repo out of this file, having one custom component per file
 """
 import os
 import shutil
+from pathlib import PosixPath
 
 import pytest
 
@@ -104,7 +105,7 @@ def chdir():
 
 
 @pytest.mark.usefixtures("cleandir")
-def test_mask(precision=2e-9):
+def test_mask(precision: float = 2e-9) -> PosixPath:
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     build_path = workspace_folder / "build"
     doe_root_path = build_path / "cache_doe"

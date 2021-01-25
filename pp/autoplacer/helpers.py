@@ -1,12 +1,15 @@
 import functools
+from pathlib import PosixPath
+from typing import Union
 
 import klayout.db as pya
+from klayout.dbcore import Cell, Layout
 
 CELLS = {}
 
 
 @functools.lru_cache()
-def load_gds(filepath):
+def load_gds(filepath: Union[PosixPath, str]) -> Layout:
     filepath = str(filepath)
     layout = pya.Layout()
     try:
@@ -23,7 +26,7 @@ def load_gds(filepath):
     return layout
 
 
-def import_cell(layout, cell):
+def import_cell(layout: Layout, cell: Cell) -> Cell:
     """ Imports a cell from another Layout into a given layout"""
     # If the cell is already in the library, skip loading
     if layout.cell(cell.name):

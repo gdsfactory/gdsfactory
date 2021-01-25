@@ -1,5 +1,6 @@
 import math
 from collections import defaultdict
+from typing import Any, List
 
 import klayout.db as pya
 
@@ -10,7 +11,7 @@ class CellList:
     """ just a list of components,
     with the ability to normalize size and shape """
 
-    def __init__(self, cells):
+    def __init__(self, cells: List[Any]) -> None:
         self.cells = cells
 
     def find_origin(self, cell):
@@ -127,7 +128,7 @@ class CellList:
         """ allow for cell in celllist """
         return self.cells[index]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.cells)
 
     def __str__(self):

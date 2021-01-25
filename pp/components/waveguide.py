@@ -1,10 +1,11 @@
 """Straight waveguides"""
 import hashlib
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 import pp
 from pp.component import Component
 from pp.components.hline import hline
+from pp.drc import snap_to_1nm_grid
 
 
 @pp.cell
@@ -49,7 +50,7 @@ def waveguide(
     c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
 
     c.width = width
-    c.length = length
+    c.length = snap_to_1nm_grid(length)
     return c
 
 
@@ -60,7 +61,9 @@ def waveguide_biased(width: float = 0.5, **kwargs) -> Component:
     return waveguide(width=width, **kwargs)
 
 
-def _arbitrary_straight_waveguide(length, windows):
+def _arbitrary_straight_waveguide(
+    length: float, windows: List[Tuple[float, float, Tuple[int, int]]]
+) -> Component:
     """
     Args:
         length: length

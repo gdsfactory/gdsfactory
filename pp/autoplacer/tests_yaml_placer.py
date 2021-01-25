@@ -1,7 +1,7 @@
 from pp.autoplacer.yaml_placer import update_dicts_recurse
 
 
-def test1():
+def test1() -> None:
     target_dict = {
         "placer": {"x0": 1, "y0": 1},
         "nested": {"nested1": {"nested2": {"toto": "toto"}}},

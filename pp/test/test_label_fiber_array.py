@@ -1,7 +1,8 @@
 import pp
+from pp.component import Component
 
 
-def test_label_fiber_array():
+def test_label_fiber_array() -> Component:
     c = pp.c.waveguide()
     assert len(c.labels) == 0
 
@@ -18,7 +19,7 @@ def test_label_fiber_array():
     return c
 
 
-def test_label_fiber_array_align_ports():
+def test_label_fiber_array_align_ports() -> Component:
     """Test that adds the correct label for measurements."""
     c = pp.c.waveguide()
     assert len(c.labels) == 0

@@ -5,8 +5,12 @@ This is not a diff tool
 import hashlib
 import json
 import sys
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+from numpy import int64, ndarray
+
+from pp.component import Component
 
 
 def _print(*args, **kwargs):
@@ -28,7 +32,11 @@ def get_transform(cell_ref, precision=1e-4):
     )
 
 
-def get_polygons_by_spec(cell):
+def get_polygons_by_spec(
+    cell: Component,
+) -> Union[
+    Dict[Tuple[int, int], List[ndarray]], Dict[Tuple[int64, int64], List[ndarray]]
+]:
     d = {}
     for _pset in cell.polygons:
         for poly, layer, datatype in zip(_pset.polygons, _pset.layers, _pset.datatypes):
@@ -44,7 +52,7 @@ def get_dependencies_names(cell):
     return [_c.ref_cell.name for _c in cell.references]
 
 
-def normalize_polygon_start_point(p, dbg=False):
+def normalize_polygon_start_point(p: ndarray, dbg: bool = False) -> ndarray:
     args_min_x = np.where(p[:, 0] == p[:, 0].min())[0]
     if len(args_min_x) == 1:
         i0 = args_min_x[0]
@@ -60,7 +68,13 @@ def normalize_polygon_start_point(p, dbg=False):
     return np.roll(p, -i0, axis=0)
 
 
-def hash_cells(cell, dict_hashes=None, precision=1e-4, dbg_indent=0, dbg=False):
+def hash_cells(
+    cell: Component,
+    dict_hashes: Optional[Dict[Any, Any]] = None,
+    precision: float = 1e-4,
+    dbg_indent: int = 0,
+    dbg: bool = False,
+) -> Dict[str, str]:
     """
 
     Algorithm:
@@ -198,7 +212,8 @@ def compare_gds_to_lib(teg, lib_cells=[]):
         where status is:
             0 if the cell matches the library, or is composed of cells with status 0
             1 if the cell does not match any lib cell of at least one cell with status 1 and all the others with status 0
-            2 if the cell name is in the library but the hashes do not match, OR if the cell is composed of at least one cell with status 2
+            2 if the cell name is in the library but the hashes do not match,
+            OR if the cell is composed of at least one cell with status 2
     """
 
     name_to_hash_teg = {}

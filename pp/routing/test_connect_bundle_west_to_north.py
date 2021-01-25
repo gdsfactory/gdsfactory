@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_west_to_north():
+def test_connect_bundle_west_to_north() -> Component:
     w = h = 10
     c = pp.Component()
     pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h, n=3)
@@ -24,9 +25,9 @@ def test_connect_bundle_west_to_north():
     lengths = [190, 220, 250]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 

@@ -4,7 +4,7 @@ from pp import __version__
 from pp.pf import cli
 
 
-def test_pf_version():
+def test_pf_version() -> None:
     """ checks that the CLI returns the correct version """
     runner = CliRunner()
     result = runner.invoke(cli, ["config", "version"])

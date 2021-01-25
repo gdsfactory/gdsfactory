@@ -23,9 +23,13 @@ iso_lines_coarse1:
 import collections
 import os
 import sys
+from pathlib import PosixPath
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import klayout.db as pya
 import numpy as np
+from klayout.dbcore import Cell, CellInstArray, Layout
+from numpy import float64
 from omegaconf import OmegaConf
 
 import pp.autoplacer.text as text
@@ -41,18 +45,18 @@ def _print(*args, **kwargs):
     sys.stdout.flush()
 
 
-def to_grid(x, um_to_grid=UM_TO_GRID):
+def to_grid(x: float64, um_to_grid: int = UM_TO_GRID) -> int:
     return int(x * um_to_grid)
 
 
 class SizeInfo:
     def __init__(
         self,
-        cell,
-        layout=None,
-        ignore_layers=DEFAULT_BBOX_LAYER_IGNORE,
-        um_to_grid=UM_TO_GRID,
-    ):
+        cell: Cell,
+        layout: Optional[Layout] = None,
+        ignore_layers: List[Tuple[int, int]] = DEFAULT_BBOX_LAYER_IGNORE,
+        um_to_grid: int = UM_TO_GRID,
+    ) -> None:
         """
         layout is required if cell is a cell reference instead of a cell
         """
@@ -144,21 +148,21 @@ def placer_grid_cell_refs(
 
 
 def pack_row(
-    cells,
-    row_ids=None,
-    nb_cols=None,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin=20,
-    margin_x=None,
-    margin_y=None,
-    um_to_grid=UM_TO_GRID,
-    period_x=None,
-    period_y=None,
-    rotation=0,
-):
+    cells: List[Cell],
+    row_ids: Optional[List[int]] = None,
+    nb_cols: None = None,
+    x0: Union[float, int] = 0,
+    y0: Union[float, int] = 0,
+    align_x: str = "W",
+    align_y: str = "S",
+    margin: Union[float, int] = 20,
+    margin_x: Optional[Union[float, int]] = None,
+    margin_y: Optional[Union[float, int]] = None,
+    um_to_grid: int = UM_TO_GRID,
+    period_x: None = None,
+    period_y: None = None,
+    rotation: int = 0,
+) -> List[CellInstArray]:
     """Pack row.
     Args:
         cells: a list of cells  (size n)
@@ -263,20 +267,20 @@ def pack_row(
 
 
 def pack_col(
-    cells,
-    col_ids=None,
-    nb_rows=None,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin=20,
-    margin_x=None,
-    margin_y=None,
-    um_to_grid=UM_TO_GRID,
-    period_x=None,
-    period_y=None,
-):
+    cells: List[Cell],
+    col_ids: None = None,
+    nb_rows: None = None,
+    x0: float = 0,
+    y0: float = 0,
+    align_x: str = "W",
+    align_y: str = "S",
+    margin: int = 20,
+    margin_x: Optional[int] = None,
+    margin_y: Optional[int] = None,
+    um_to_grid: int = UM_TO_GRID,
+    period_x: None = None,
+    period_y: None = None,
+) -> List[CellInstArray]:
     """
 
     Args:
@@ -399,7 +403,108 @@ def placer_fixed_coords(
     return [pya.CellInstArray(c.cell_index(), t) for c, t in zip(cells, transforms)]
 
 
-def load_yaml(filepath, defaults={"do_permutation": True}):
+def load_yaml(
+    filepath: PosixPath, defaults: Dict[str, bool] = {"do_permutation": True}
+) -> Union[
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[str, Union[str, Dict[str, Union[int, str]]]],
+                Dict[str, Union[str, bool]],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, List[int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[str, Union[int, str, bool, Tuple[int, int]]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], List[Union[int, float]]]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
+            ],
+        ],
+        Dict[str, Union[str, int, Tuple[int, int]]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, Union[List[int], List[float]]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[str, Union[str, int, Tuple[int, int]]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, Union[List[int], int]], Dict[str, str]]],
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[float, str, List[int], int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[str, Union[int, str, bool, Tuple[int, int]]],
+    ],
+]:
     """load placer settings
 
     Args:
@@ -436,7 +541,7 @@ def load_yaml(filepath, defaults={"do_permutation": True}):
 DOE_CELLS = {}
 
 
-def load_doe(doe_name, doe_root):
+def load_doe(doe_name: str, doe_root: PosixPath) -> List[Layout]:
     """
     Load all components for this DOE from the cache
     """
@@ -481,7 +586,106 @@ PLACER_NAME2FUNC = {
 }
 
 
-def separate_does_from_templates(dicts):
+def separate_does_from_templates(
+    dicts: Dict[str, Any]
+) -> Union[
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, Union[List[int], int]], Dict[str, str]]],
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[float, str, List[int], int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, Union[List[int], List[float]]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, List[int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[str, Union[Dict[str, Dict[str, Union[int, str]]], Dict[str, bool]]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], List[Union[int, float]]]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+]:
     templates = {}
     does = {}
     for name, d in dicts.items():
@@ -497,7 +701,9 @@ def separate_does_from_templates(dicts):
     return does, templates
 
 
-def update_dicts_recurse(target_dict, default_dict):
+def update_dicts_recurse(
+    target_dict: Dict[str, Any], default_dict: Dict[str, Any]
+) -> Dict[str, Any]:
     target_dict = target_dict.copy()
     default_dict = default_dict.copy()
     for k, v in default_dict.items():
@@ -515,16 +721,16 @@ def update_dicts_recurse(target_dict, default_dict):
 
 
 def place_from_yaml(
-    filepath_yaml,
-    root_does=CONFIG["cache_doe_directory"],
-    precision=1e-9,
-    fontpath=text.FONT_PATH,
-    default_align_x="W",
-    default_align_y="S",
-    default_margin=10,
-    default_x0="E",
-    default_y0="S",
-):
+    filepath_yaml: PosixPath,
+    root_does: PosixPath = CONFIG["cache_doe_directory"],
+    precision: float = 1e-9,
+    fontpath: PosixPath = text.FONT_PATH,
+    default_align_x: str = "W",
+    default_align_y: str = "S",
+    default_margin: int = 10,
+    default_x0: str = "E",
+    default_y0: str = "S",
+) -> Cell:
     """Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
 

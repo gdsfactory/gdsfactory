@@ -1,26 +1,58 @@
+from typing import Callable, List, Tuple, Union
+
 import numpy as np
+from numpy import bool_, float64, int64, ndarray
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.cell import cell
-from pp.components import bend_circular
-from pp.components import taper as taper_factory
-from pp.components import waveguide
+from pp.component import Component
+from pp.components.bend_circular import bend_circular
+from pp.components.taper import taper as taper_function
+from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
+from pp.types import Route
 
 
-def _is_vertical(segment, tol=1e-5):
+def _is_vertical(
+    segment: Union[
+        Tuple[Tuple[float64, float64], ndarray],
+        Tuple[ndarray, Tuple[float64, float64]],
+        Tuple[Tuple[int, float64], Tuple[int, float64]],
+        Tuple[ndarray, ndarray],
+        List[ndarray],
+    ],
+    tol: float = 1e-5,
+) -> Union[bool, bool_]:
     p0, p1 = segment
     return abs(p0[0] - p1[0]) < tol
 
 
-def _is_horizontal(segment, tol=1e-5):
+def _is_horizontal(
+    segment: Union[
+        Tuple[Tuple[float64, float64], ndarray],
+        Tuple[ndarray, Tuple[float64, float64]],
+        Tuple[ndarray, ndarray],
+        Tuple[Tuple[int, float64], Tuple[int, float64]],
+        List[ndarray],
+    ],
+    tol: float = 1e-5,
+) -> bool_:
     p0, p1 = segment
     return abs(p0[1] - p1[1]) < tol
 
 
-def _segment_sign(s):
+def _segment_sign(
+    s: Union[
+        Tuple[Tuple[float64, float64], ndarray],
+        Tuple[ndarray, ndarray],
+        Tuple[ndarray, Tuple[float64, float64]],
+        Tuple[Tuple[int, float64], Tuple[int, float64]],
+    ]
+) -> Union[int64, float64]:
     p0, p1 = s
     if _is_vertical(s):
         return np.sign(p1[1] - p0[1])
@@ -29,7 +61,9 @@ def _segment_sign(s):
         return np.sign(p1[0] - p0[0])
 
 
-def get_ports_x_or_y_distances(list_ports, ref_point):
+def get_ports_x_or_y_distances(
+    list_ports: List[Port], ref_point: Union[Tuple[int, float64], ndarray]
+) -> List[float64]:
     if not list_ports:
         return []
 
@@ -67,17 +101,21 @@ def _distance(port1, port2):
 
 
 def connect_bundle_waypoints(
-    start_ports,
-    end_ports,
-    way_points,
-    straight_factory=waveguide,
-    taper_factory=taper_factory,
-    bend_factory=bend_circular,
-    bend_radius=10.0,
-    auto_sort=True,
-    **kwargs
-):
-    """
+    start_ports: List[Port],
+    end_ports: List[Port],
+    way_points: Union[
+        List[Tuple[int, float64]], List[Union[ndarray, Tuple[float64, float64]]]
+    ],
+    straight_factory: Callable = waveguide,
+    taper_factory: Callable = taper_function,
+    bend_factory: Callable = bend_circular,
+    bend_radius: float = 10.0,
+    auto_sort: bool = True,
+    **kwargs,
+) -> List[Route]:
+    """Returns list of routes that connect bundle of ports with bundle of routes
+    where routes follow a list of waypoints.
+
     Args:
         start_ports: list of ports
         end_ports: list of ports
@@ -86,10 +124,8 @@ def connect_bundle_waypoints(
     """
     if len(end_ports) != len(start_ports):
         raise ValueError(
-            "Number of start ports should match number of end ports.\
-        Got {} {}".format(
-                len(start_ports), len(end_ports)
-            )
+            f"Number of start ports should match number of end ports.\
+        Got {len(start_ports)} {len(end_ports)}"
         )
 
     for p in start_ports:
@@ -168,14 +204,21 @@ def snap_route_to_end_point_x(route, x):
     return route[:-2] + [(x, y1), (x, y2)]
 
 
-def snap_route_to_end_point_y(route, y):
+def snap_route_to_end_point_y(
+    route: List[Union[ndarray, Tuple[float64, float64]]], y: float64
+) -> List[Union[ndarray, Tuple[float64, float64]]]:
     x1, x2 = [p[0] for p in route[-2:]]
     return route[:-2] + [(x1, y), (x2, y)]
 
 
 def _generate_manhattan_bundle_waypoints(
-    start_ports, end_ports, backbone_route, **kwargs
-):
+    start_ports: List[Port],
+    end_ports: List[Port],
+    backbone_route: Union[
+        List[Union[ndarray, Tuple[float64, float64]]], List[Tuple[int, float64]]
+    ],
+    **kwargs,
+) -> List[List[Union[ndarray, Tuple[float64, float64]]]]:
     """
     Args:
         start_ports: list of start ports. Should all be facing in the same direction
@@ -273,8 +316,7 @@ def _generate_manhattan_bundle_waypoints(
     return routes
 
 
-def test_connect_bundle_waypointsA(data_regression):
-    from pp.component import Port
+def test_connect_bundle_waypointsA(data_regression: DataRegressionFixture) -> Component:
 
     xs1 = np.arange(10) * 5 - 500.0
 
@@ -302,15 +344,14 @@ def test_connect_bundle_waypointsA(data_regression):
     lengths = np.zeros_like(routes)
     for i, route in enumerate(routes):
         c.add(route["references"])
-        lengths[i] = route["settings"]["length"]
+        lengths[i] = route["length"]
 
     lengths = {str(i): i for i in lengths}
     data_regression.check(lengths)
     return c
 
 
-def test_connect_bundle_waypointsB(data_regression):
-    from pp.component import Port
+def test_connect_bundle_waypointsB(data_regression: DataRegressionFixture) -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
     ys2 = np.array([0, 10, 20, 30, 70, 90, 110, 120]) + 500.0
@@ -335,7 +376,7 @@ def test_connect_bundle_waypointsB(data_regression):
     lengths = np.zeros_like(routes, dtype=float)
     for i, route in enumerate(routes):
         c.add(route["references"])
-        lengths[i] = route["settings"]["length"]
+        lengths[i] = route["length"]
 
     lengths = {str(i): i for i in lengths}
     # data_regression.check(lengths)
@@ -343,8 +384,7 @@ def test_connect_bundle_waypointsB(data_regression):
 
 
 @cell
-def test_connect_bundle_waypointsC():
-    from pp.component import Port
+def test_connect_bundle_waypointsC() -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
     ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 65]) - 500.0
@@ -380,15 +420,14 @@ def test_connect_bundle_waypointsC():
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        # print(route["settings"]["length"])
-        assert route["settings"]["length"] == length
+        # print(route["length"])
+        assert route["length"] == length
 
     return c
 
 
 @cell
-def test_connect_bundle_waypointsD():
-    from pp.component import Port
+def test_connect_bundle_waypointsD() -> Component:
 
     ys1 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 100.0
     ys2 = np.array([0, -5, -10, -20, -25, -30, -40, -55, -60, -75]) + 500.0
@@ -422,8 +461,8 @@ def test_connect_bundle_waypointsD():
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        # print(route["settings"]["length"])
-        assert route["settings"]["length"] == length
+        # print(route["length"])
+        assert route["length"] == length
 
     return c
 

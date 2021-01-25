@@ -1,8 +1,9 @@
 """ You can remap layers."""
 import pp
+from pp.component import Component
 
 
-def test_remap_layers():
+def test_remap_layers() -> Component:
     c = pp.Component("test_remap_layers_sample")
 
     wg1 = c << pp.c.waveguide(length=11, width=1, layer=pp.LAYER.WG)

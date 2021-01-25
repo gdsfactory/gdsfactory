@@ -13,7 +13,7 @@ def merge_metadata(
     labels_prefix: str = "opt",
     label_layer: Tuple[int, int] = pp.LAYER.LABEL,
     **kwargs
-):
+) -> None:
     """Merges all JSON metadata into a big JSON.
 
     Args:

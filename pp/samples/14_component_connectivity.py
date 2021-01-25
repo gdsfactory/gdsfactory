@@ -1,21 +1,24 @@
 """Lets define the references from a component and then connect them together.
 """
 
+from typing import Callable
+
 import pp
+from pp.component import Component
 
 
 @pp.cell
 def test_ring_single_bus(
-    coupler90_factory=pp.c.coupler90,
-    cpl_straight_factory=pp.c.coupler_straight,
-    straight_factory=pp.c.waveguide,
-    bend90_factory=pp.c.bend_circular,
-    length_y=2.0,
-    length_x=4.0,
-    gap=0.2,
-    wg_width=0.5,
-    bend_radius=5,
-):
+    coupler90_factory: Callable = pp.c.coupler90,
+    cpl_straight_factory: Callable = pp.c.coupler_straight,
+    straight_factory: Callable = pp.c.waveguide,
+    bend90_factory: Callable = pp.c.bend_circular,
+    length_y: float = 2.0,
+    length_x: float = 4.0,
+    gap: float = 0.2,
+    wg_width: float = 0.5,
+    bend_radius: int = 5,
+) -> Component:
     """ single bus ring
     """
     c = pp.Component()

@@ -1,4 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Union
+
+from numpy import float64
 
 from pp.port import Port
 
@@ -31,7 +33,7 @@ def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List
     return direction_ports
 
 
-def check_ports_have_equal_spacing(list_ports):
+def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
     if not list_ports:
         raise ValueError("list_ports should not be empty")
 
@@ -54,7 +56,7 @@ def check_ports_have_equal_spacing(list_ports):
     return different_seps.pop()
 
 
-def get_list_ports_angle(list_ports):
+def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
     if not list_ports:
         return None
     if len(set([p.angle for p in list_ports])) > 1:

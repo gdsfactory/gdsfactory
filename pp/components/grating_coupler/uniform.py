@@ -18,8 +18,8 @@ def grating_coupler_uniform(
     partial_etch: bool = False,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
-    polarization="te",
-    wavelength=1500,
+    polarization: str = "te",
+    wavelength: int = 1500,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.

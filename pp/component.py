@@ -2,7 +2,7 @@ import copy as python_copy
 import itertools
 import uuid
 from pprint import pprint
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import networkx as nx
 import numpy as np
@@ -11,13 +11,11 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
-from pp.compare_cells import hash_cells
 from pp.config import conf
-from pp.get_netlist import get_netlist
 from pp.port import Port, select_ports
 
 
-def copy(D):
+def copy(D: Device) -> Device:
     """returns a copy of a Component."""
     D_copy = Component(name=D._internal_name)
     D_copy.info = python_copy.deepcopy(D.info)
@@ -133,7 +131,7 @@ def _rotate_points(
 class ComponentReference(DeviceReference):
     def __init__(
         self,
-        component,
+        component: Device,
         origin: Tuple[int, int] = (0, 0),
         rotation: int = 0,
         magnification: None = None,
@@ -157,7 +155,7 @@ class ComponentReference(DeviceReference):
         self.visual_label = visual_label
         self.uid = str(uuid.uuid4())[:8]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s,'
             " x_reflection %s)"
@@ -170,7 +168,7 @@ class ComponentReference(DeviceReference):
             )
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__repr__()
 
     def __getitem__(self, val):
@@ -326,7 +324,7 @@ class ComponentReference(DeviceReference):
         ] = (0, 0),
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
-    ):
+    ) -> object:
         """Moves the DeviceReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
@@ -376,7 +374,7 @@ class ComponentReference(DeviceReference):
 
     def rotate(
         self, angle: Union[float, int] = 45, center: Tuple[float, float] = (0.0, 0.0),
-    ):
+    ) -> object:
         """Return ComponentReference rotated:
 
         Args:
@@ -396,7 +394,9 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def reflect_h(self, port_name=None, x0=None):
+    def reflect_h(
+        self, port_name: Optional[str] = None, x0: Optional[Union[float, int]] = None
+    ) -> None:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0)."""
         if port_name is None and x0 is None:
             x0 = -self.x
@@ -422,7 +422,7 @@ class ComponentReference(DeviceReference):
         self,
         p1: Tuple[float, float] = (0.0, 1.0),
         p2: Tuple[float, float] = (0.0, 0.0),
-    ):
+    ) -> object:
         if isinstance(p1, Port):
             p1 = p1.midpoint
         if isinstance(p2, Port):
@@ -451,7 +451,9 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def connect(self, port: Union[str, Port], destination: Port, overlap: float = 0.0):
+    def connect(
+        self, port: Union[str, Port], destination: Port, overlap: float = 0.0
+    ) -> object:
         """Returns a reference of the Component where a origin port_name connects to a destination
 
         Args:
@@ -496,7 +498,9 @@ class ComponentReference(DeviceReference):
 
         return self.ref_cell.get_property(property)
 
-    def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
+    def get_ports_list(
+        self, port_type: str = "optical", prefix: Optional[str] = None
+    ) -> List[Port]:
         """returns a list of ports. Useful for routing bundles of ports
 
         Args:
@@ -507,7 +511,7 @@ class ComponentReference(DeviceReference):
             select_ports(self.ports, port_type=port_type, prefix=prefix).values()
         )
 
-    def get_settings(self):
+    def get_settings(self) -> Dict[str, Any]:
         """Returns settings from the Comonent."""
         return self.parent.get_settings()
 
@@ -529,7 +533,7 @@ class Component(Device):
 
     """
 
-    def __init__(self, name: str = "Unnamed", *args, **kwargs,) -> None:
+    def __init__(self, name: str = "Unnamed", *args, **kwargs) -> None:
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 
         self.settings = kwargs
@@ -538,7 +542,8 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = set()
+        self.ignore = {"path", "netlist", "properties"}
+        self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
         self.data_analysis_protocol = {}
 
@@ -549,7 +554,9 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
-    def plot_netlist(self, with_labels=True, font_weight="normal"):
+    def plot_netlist(
+        self, with_labels: bool = True, font_weight: str = "normal"
+    ) -> None:
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
@@ -576,15 +583,15 @@ class Component(Device):
             G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
         )
 
-    def get_netlist_yaml(self):
+    def get_netlist_yaml(self) -> str:
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def write_netlist(self, filepath, full_settings=False):
+    def write_netlist(self, filepath: str, full_settings: bool = False) -> None:
         netlist = self.get_netlist(full_settings=full_settings)
         OmegaConf.save(netlist, filepath)
 
-    def get_netlist(self, full_settings=False):
+    def get_netlist(self, full_settings: bool = False) -> Any:
         """Returns netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
@@ -595,9 +602,11 @@ class Component(Device):
         Args:
             full_settings: exports all the settings, when false only exports settings_changed
         """
+        from pp.get_netlist import get_netlist
+
         return get_netlist(component=self, full_settings=full_settings)
 
-    def get_name_long(self):
+    def get_name_long(self) -> str:
         """ returns the long name if it's been truncated to MAX_NAME_LENGTH"""
         if self.name_long:
             return self.name_long
@@ -609,11 +618,15 @@ class Component(Device):
         for port in self.ports.values():
             port.on_grid()
 
-    def get_ports_dict(self, port_type="optical", prefix=None):
+    def get_ports_dict(
+        self, port_type: str = "optical", prefix: Optional[str] = None
+    ) -> Dict[str, Port]:
         """ returns a list of ports """
         return select_ports(self.ports, port_type=port_type, prefix=prefix)
 
-    def get_ports_list(self, port_type="optical", prefix=None) -> List[Port]:
+    def get_ports_list(
+        self, port_type: str = "optical", prefix: Optional[str] = None
+    ) -> List[Port]:
         """ returns a lit of  ports """
         return list(
             select_ports(self.ports, port_type=port_type, prefix=prefix).values()
@@ -691,7 +704,7 @@ class Component(Device):
     def __repr__(self) -> str:
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
-    def update_settings(self, **kwargs):
+    def update_settings(self, **kwargs) -> None:
         """ update settings dict """
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
@@ -707,10 +720,7 @@ class Component(Device):
         pprint(self.get_settings(**kwargs))
 
     def get_settings(
-        self,
-        ignore=("layer", "layers_cladding", "cladding_offset", "path", "netlist"),
-        include=("name", "function_name", "module", "info"),
-        full_settings=True,
+        self, ignore: None = None, include: None = None, full_settings: bool = True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
         Ignores items from self.ignore set.
@@ -726,26 +736,39 @@ class Component(Device):
         d["settings"] = {}  # function arguments
         d["info"] = {}  # function arguments
 
-        include = set(include)
-        ignore = set(ignore).union(self.ignore).union(set(dir(Component()))) - include
+        ignore_keys = ignore or set()
+        include_keys = include or set()
+        ignore_keys = set(ignore_keys)
+        include_keys = set(include_keys)
 
-        params = set(dir(self)) - ignore - include
+        include = set(include_keys).union(self.include) - ignore_keys
+        ignore = (
+            set(ignore_keys).union(self.ignore).union(set(dir(Component()))) - include
+        )
+
+        params = set(dir(self)) - ignore - ignore_keys - include
+
+        # Properties from self.info and self.someThing
         for param in params:
-            self.info[param] = _clean_value(getattr(self, param))
+            d["info"][param] = _clean_value(getattr(self, param))
+
+        for k, v in self.info.items():
+            d["info"][k] = _clean_value(v)
+
+        # TOP Level (name, module, function_name)
+        for setting in include:
+            if hasattr(self, setting) and setting not in ignore:
+                d[setting] = _clean_value(getattr(self, setting))
+
+        # Settings from the function call
+        for key, value in settings.items():
+            if key not in self.ignore:
+                d["settings"][key] = _clean_value(value)
 
         # for param in params:
         #     d['info'][param] = _clean_value(getattr(self, param))
         # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # d["hash_geometry"] = str(self.hash_geometry())
-
-        for setting in include:
-            if hasattr(self, setting):
-                d[setting] = _clean_value(getattr(self, setting))
-
-        for key, value in settings.items():
-            if key not in self.ignore:
-                d["settings"][key] = _clean_value(value)
-                # print(_clean_value(value))
 
         d = {k: d[k] for k in sorted(d)}
         return d
@@ -803,7 +826,7 @@ class Component(Device):
         self.ports[p.name] = p
         return p
 
-    def snap_ports_to_grid(self, nm=1):
+    def snap_ports_to_grid(self, nm: int = 1) -> None:
         for port in self.ports.values():
             port.snap_to_grid(nm=nm)
 
@@ -833,6 +856,8 @@ class Component(Device):
 
     def hash_geometry(self) -> str:
         """returns geometrical hash"""
+        from pp.compare_cells import hash_cells
+
         if self.references or self.polygons:
             h = hash_cells(self, {})[self.name]
         else:
@@ -842,8 +867,12 @@ class Component(Device):
         return h
 
     def remove_layers(
-        self, layers=(), include_labels=True, invert_selection=False, recursive=True
-    ):
+        self,
+        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+        include_labels: bool = True,
+        invert_selection: bool = False,
+        recursive: bool = True,
+    ) -> Device:
         """Remove a list of layers."""
         layers = [_parse_layer(layer) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
@@ -878,7 +907,7 @@ class Component(Device):
                 D.labels = new_labels
         return self
 
-    def copy(self):
+    def copy(self) -> Device:
         return copy(self)
 
     @property
@@ -888,7 +917,7 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
-    def add_ref(self, D, alias: Optional[str] = None) -> ComponentReference:
+    def add_ref(self, D: Device, alias: Optional[str] = None) -> ComponentReference:
         """Takes a Component and adds it as a ComponentReference to the current
         Device."""
         if type(D) in (list, tuple):
@@ -906,7 +935,7 @@ class Component(Device):
             self.aliases[alias] = d
         return d
 
-    def get_layers(self):
+    def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """returns a set of (layer, datatype)
 
         .. code ::
@@ -961,7 +990,7 @@ class Component(Device):
         clear_cache()
 
 
-def test_get_layers():
+def test_get_layers() -> None:
     import pp
 
     c = pp.c.waveguide(layers_cladding=[(111, 0)])
@@ -1008,7 +1037,7 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
     return output
 
 
-def clean_dict(d):
+def clean_dict(d: Dict[str, Any]) -> None:
     """Cleans dictionary keys"""
     from pp.component import _clean_value
 
@@ -1043,7 +1072,7 @@ def _clean_value(value: Any) -> Any:
     return value
 
 
-def test_same_uid():
+def test_same_uid() -> None:
     import pp
 
     c = Component()
@@ -1057,7 +1086,7 @@ def test_same_uid():
     print(r1 == r2)
 
 
-def test_netlist_simple():
+def test_netlist_simple() -> None:
     import pp
 
     c = pp.Component()
@@ -1071,7 +1100,7 @@ def test_netlist_simple():
     assert len(netlist["instances"]) == 2
 
 
-def test_netlist_complex():
+def test_netlist_complex() -> None:
     import pp
 
     c = pp.c.mzi()
@@ -1080,14 +1109,14 @@ def test_netlist_complex():
     assert len(netlist["instances"]) == 18
 
 
-def test_netlist_plot():
+def test_netlist_plot() -> None:
     import pp
 
     c = pp.c.mzi()
     c.plot_netlist()
 
 
-def test_path():
+def test_path() -> None:
     from pp import CrossSection
     from pp import path as pa
 
@@ -1132,7 +1161,11 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.bend_circular()
+    c.info["curvature_info"] = 10
+    # c.curvature = 5
     # c.get_settings()
+    # c.pprint(ignore=("length",))
+    # c = pp.c.waveguide()
     c.pprint()
 
     # c0 = pp.c.waveguide()

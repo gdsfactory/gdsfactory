@@ -147,7 +147,7 @@ def spiral_external_io(
     component.add(route["references"])
     component.ports = route["ports"]
 
-    length = route["settings"]["length"]
+    length = route["length"]
     component.length = length
     return component
 

@@ -1,8 +1,9 @@
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def logo(text="GDS_FACTORY"):
+def logo(text: str = "GDS_FACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = pp.Component()
     elements = []

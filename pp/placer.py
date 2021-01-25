@@ -32,10 +32,13 @@ YAML defines component DOE settings and placement
 import os
 import pathlib
 import sys
+from pathlib import PosixPath
+from typing import Callable, Dict, List, Union
 
 from omegaconf import OmegaConf
 
 import pp
+from pp.component import Component, ComponentReference
 from pp.components import component_factory
 from pp.config import CONFIG
 from pp.doe import get_settings_list, load_does
@@ -48,8 +51,15 @@ def _print(*args, **kwargs):
 
 
 def placer_grid_cell_refs(
-    component_factory, cols=1, rows=1, dx=10.0, dy=10.0, x0=0, y0=0, **settings
-):
+    component_factory: List[Component],
+    cols: int = 1,
+    rows: int = 1,
+    dx: float = 10.0,
+    dy: float = 10.0,
+    x0: float = 0,
+    y0: float = 0,
+    **settings,
+) -> List[ComponentReference]:
     if callable(component_factory):
         settings_list = get_settings_list(**settings)
         component_list = [component_factory(**s) for s in settings_list]
@@ -336,7 +346,11 @@ def load_doe_component_names(doe_name, doe_root_path=None):
     return component_names
 
 
-def doe_exists(doe_name, list_settings, doe_root_path=None):
+def doe_exists(
+    doe_name: str,
+    list_settings: Union[List[Dict[str, Union[float, int]]], List[Dict[str, int]]],
+    doe_root_path: None = None,
+) -> bool:
     """
     Check whether the folder exists and that the number of items in content.txt
     matches the number of items in list_settings
@@ -365,7 +379,7 @@ def doe_exists(doe_name, list_settings, doe_root_path=None):
     return False
 
 
-def component_grid_from_yaml(filepath, precision=1e-9):
+def component_grid_from_yaml(filepath: PosixPath, precision: float = 1e-9) -> Component:
     """Returns a Component composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     """
@@ -517,8 +531,10 @@ def component_grid_from_yaml(filepath, precision=1e-9):
 
 
 def build_components(
-    component_type, list_settings, component_factory=component_factory
-):
+    component_type: str,
+    list_settings: List[Dict[str, Union[float, int]]],
+    component_factory: Dict[str, Callable] = component_factory,
+) -> List[Component]:
     components = []
 
     # If no settings passed, generate a single component with defaults

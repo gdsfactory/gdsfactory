@@ -10,7 +10,7 @@ def hline(
     length: float = 10.0,
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
-    port_type="optical",
+    port_type: str = "optical",
 ) -> Component:
     """horizonal line waveguide, with ports on east and west sides
 

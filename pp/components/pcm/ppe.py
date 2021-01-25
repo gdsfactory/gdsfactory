@@ -38,7 +38,8 @@ def linespace(
         width: width of each line
         height: height of each line
         pitch: pitch of each line
-        pitch > height
+        ymax: max y
+        layer: layer
     """
     assert abs(pitch) < abs(height), "pitch must be greater then height"
     LS = pp.Component()
@@ -101,12 +102,10 @@ def cross(
 @pp.cell
 def ppe(
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD),
+    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),
     cladding_offset: float = 3.0,
 ) -> Component:
-    """
-    pattern placement error
-    """
+    """Pattern placement error."""
     D = pp.Component()
 
     # Define global variables

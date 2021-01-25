@@ -1,3 +1,5 @@
+from typing import Callable
+
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.container import container
@@ -9,7 +11,7 @@ from pp.routing.connect_electrical import connect_electrical_shortest_path
 def add_electrical_pads_top(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,
-    route_filter=connect_elec_waypoints,
+    route_filter: Callable = connect_elec_waypoints,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top

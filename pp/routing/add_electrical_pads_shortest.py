@@ -2,11 +2,18 @@ from pp.component import Component
 from pp.components.electrical.pad import pad
 from pp.container import container
 from pp.routing.connect_electrical import connect_electrical_shortest_path
+from pp.types import ComponentOrFunction
 
 
 @container
-def add_electrical_pads_shortest(component, pad=pad, pad_port_spacing=50, **kwargs):
+def add_electrical_pads_shortest(
+    component: Component,
+    pad: ComponentOrFunction = pad,
+    pad_port_spacing: float = 50.0,
+    **kwargs,
+) -> Component:
     """add a pad to each closest electrical port
+
     Args:
         component:
         pad: pad element or function

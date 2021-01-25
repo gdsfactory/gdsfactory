@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Callable, Optional, Tuple, Union
 
 import numpy as np
 import picwriter.components as pc
 
 import pp
+from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 from pp.port import deco_rename_ports
@@ -13,21 +14,21 @@ from pp.types import Layer
 @deco_rename_ports
 @pp.cell
 def grating_coupler_elliptical2(
-    wgt=wg_strip,
+    wgt: Callable = wg_strip,
     theta: float = np.pi / 4.0,
     length: float = 30.0,
     taper_length: float = 10.0,
-    period=1.0,
+    period: float = 1.0,
     dutycycle: float = 0.7,
-    ridge=True,
+    ridge: bool = True,
     layer: Layer = (2, 0),
     teeth_list: Optional[bool] = None,
-    port=(0.0, 0.0),
+    port: Union[Tuple[float, float], Tuple[int, int]] = (0.0, 0.0),
     direction: str = "EAST",
     polarization: str = "te",
     wavelength: str = 1550,
     **kwargs
-):
+) -> Component:
     r""" Returns Grating coupler from Picwriter
 
     Args:

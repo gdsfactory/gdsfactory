@@ -1,4 +1,5 @@
 import pytest
+from pytest_regressions.num_regression import NumericRegressionFixture
 
 import pp
 
@@ -94,7 +95,9 @@ yaml_list = [mirror_port, mirror_x, rotation, dxdy]
 
 
 @pytest.mark.parametrize("yaml_index", range(len(yaml_list)))
-def test_components_ports(yaml_index, num_regression):
+def test_components_ports(
+    yaml_index: int, num_regression: NumericRegressionFixture
+) -> None:
     yaml = yaml_list[yaml_index]
     c = pp.component_from_yaml(yaml)
     if c.ports:

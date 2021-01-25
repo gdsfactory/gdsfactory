@@ -8,7 +8,9 @@
 import functools
 import hashlib
 from inspect import signature
-from typing import Callable
+from typing import Callable, Tuple
+
+from phidl.device_layout import Label
 
 from pp.component import Component
 from pp.config import MAX_NAME_LENGTH
@@ -99,7 +101,7 @@ def container(func: Callable) -> Callable:
 
 
 @container
-def containerize(component: Component, function: Callable, **kwargs):
+def containerize(component: Component, function: Callable, **kwargs) -> Component:
     """Returns a containerize component after applying a function.
     This is an alternative of using the @container decorator.
     However I recommend using the decorator when possible
@@ -132,11 +134,11 @@ def containerize(component: Component, function: Callable, **kwargs):
     return c
 
 
-def add_label(component, text="hi"):
+def add_label(component: Component, text: str = "hi") -> Label:
     return component.add_label(text)
 
 
-def test_containerize():
+def test_containerize() -> Component:
     import pp
 
     name = "waveguide_with_label"
@@ -162,7 +164,13 @@ def container_instance(component):
 
 
 @container
-def _add_padding(component, x=50, y=50, layers=(LAYER.PADDING), suffix="p"):
+def _add_padding(
+    component: Component,
+    x: int = 50,
+    y: int = 50,
+    layers: Tuple[int, int] = (LAYER.PADDING),
+    suffix: str = "p",
+) -> Component:
     """Adds padding layers to component.
     This is just an example. For the real function see pp.add_padding.
     """
@@ -179,7 +187,7 @@ def _add_padding(component, x=50, y=50, layers=(LAYER.PADDING), suffix="p"):
     return c
 
 
-def test_container():
+def test_container() -> Component:
     import pp
 
     old = pp.c.waveguide()
@@ -194,7 +202,7 @@ def test_container():
     return new
 
 
-def test_container_error():
+def test_container_error() -> Component:
     import pytest
 
     import pp

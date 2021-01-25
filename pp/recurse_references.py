@@ -115,14 +115,14 @@ def recurse_references(
     return connections, instances_sorted, placements_sorted
 
 
-def test_ring_single_array():
+def test_ring_single_array() -> None:
     import pp
 
     c = pp.c.ring_single_array()
     c.get_netlist()
 
 
-def test_mzi_lattice():
+def test_mzi_lattice() -> None:
     import pp
 
     coupler_lengths = [10, 20, 30, 40]

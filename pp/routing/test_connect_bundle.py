@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle():
+def test_connect_bundle() -> Component:
     c = pp.Component("test_connect_bundle")
     c1 = c << pp.c.pad()
     c2 = c << pp.c.pad()
@@ -13,7 +14,7 @@ def test_connect_bundle():
     )
 
     route = routes[0]
-    assert np.isclose(route["settings"]["length"], 200)
+    assert np.isclose(route["length"], 200)
     c.add(route["references"])
 
     routes = pp.routing.connect_bundle(
@@ -23,7 +24,7 @@ def test_connect_bundle():
         start_straight=20.0,
     )
     route = routes[0]
-    assert np.isclose(route["settings"]["length"], 480.02)
+    assert np.isclose(route["length"], 480.02)
     c.add(route["references"])
     return c
 

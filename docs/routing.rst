@@ -46,28 +46,36 @@ Example with two arrays of ports connected using `link_optical_ports`
 .. plot::
     :include-source:
 
-    import pp
-    from pp.component import Port
-    from pp.routing.connect_bundle import link_optical_ports
+     import pp
 
-    dy = 200.0
-    xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+    @pp.cell
+    def test_north_to_south():
+        dy = 200.0
+        xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
-    pitch = 10.0
-    N = len(xs1)
-    xs2 = [-20 + i * pitch for i in range(N // 2)]
-    xs2 += [400 + i * pitch for i in range(N // 2)]
+        pitch = 10.0
+        N = len(xs1)
+        xs2 = [-20 + i * pitch for i in range(N // 2)]
+        xs2 += [400 + i * pitch for i in range(N // 2)]
 
-    a1 = 90
-    a2 = a1 + 180
+        a1 = 90
+        a2 = a1 + 180
 
-    ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
+        ports1 = [pp.Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
+        ports2 = [pp.Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    top_cell = pp.Component()
-    connections = link_optical_ports(ports1, ports2)
-    top_cell.add(connections)
-    pp.plotgds(top_cell)
+        c = pp.Component()
+        routes = pp.routing.connect_bundle(ports1, ports2)
+        for route in routes:
+            c.add(route['references'])
+
+        return c
+
+
+    c = test_north_to_south()
+    c.plot()
+    c.show()
+
 
 
 .. autofunction:: pp.routing.connect_bundle.link_ports
@@ -120,23 +128,19 @@ Routing banks of ports through pre-defined waypoints
 
     import numpy as np
     import pp
-    from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
 
 
     @pp.cell
     def test_connect_bundle_waypoints():
-        import pp
-        from pp.component import Port
-
+        """Connect bundle of ports with bundle of routes following a list of waypoints."""
         xs1 = np.arange(10) * 5 - 500.0
-
         N = xs1.size
         ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 500.0
 
-        ports1 = [Port("A_{}".format(i), (xs1[i], 0), 0.5, 90) for i in range(N)]
-        ports2 = [Port("B_{}".format(i), (0, ys2[i]), 0.5, 180) for i in range(N)]
+        ports1 = [pp.Port(f"A_{i}", (xs1[i], 0), 0.5, 90) for i in range(N)]
+        ports2 = [pp.Port(f"B_{i}", (0, ys2[i]), 0.5, 180) for i in range(N)]
 
-        top_cell = pp.Component()
+        c = pp.Component()
         way_points = [
             ports1[0].position,
             ports1[0].position + (0, 100),
@@ -149,13 +153,15 @@ Routing banks of ports through pre-defined waypoints
             ports2[-1].position,
         ]
 
-        elements = connect_bundle_waypoints(ports1, ports2, way_points)
-        top_cell.add(elements)
+        routes = pp.routing.connect_bundle_waypoints(ports1, ports2, way_points)
+        for route in routes:
+            c.add(route['references'])
 
-        return top_cell
+        return c
 
     cell = test_connect_bundle_waypoints()
-    pp.plotgds(cell)
+    cell.plot()
+
 
 
 Connecting optical I/O to a component

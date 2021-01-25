@@ -40,9 +40,9 @@ def test_connect_bundle():
     ]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 
@@ -155,16 +155,16 @@ def test_connect_corner(N=6, config="A"):
                 length = lengths[i]
                 i += 1
                 assert np.isclose(
-                    route["settings"]["length"], length
+                    route["length"], length
                 ), f"{route['settings']['length']} should be {length}"
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = connect_bundle(ports2, ports1)
             for route, length in zip(routes, lengths):
-                print(route["settings"]["length"])
+                print(route["length"])
                 c.add(route["references"])
-                # assert np.isclose(route["settings"]["length"], length)
+                # assert np.isclose(route["length"], length)
 
     return c
 
@@ -196,9 +196,9 @@ def test_connect_bundle_udirect(dy=200, angle=270):
     routes = connect_bundle(ports1, ports2)
     lengths = [0] * len(routes)
     for route, length in zip(routes, lengths):
-        print(route["settings"]["length"])
+        print(route["length"])
         c.add(route["references"])
-        # assert np.isclose(route["settings"]["length"], length)
+        # assert np.isclose(route["length"], length)
     return c
 
 
@@ -239,9 +239,9 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
         311.416,
     ]
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 
@@ -279,9 +279,9 @@ def test_facing_ports():
         391.416,
     ]
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 

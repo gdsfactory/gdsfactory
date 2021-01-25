@@ -1,6 +1,5 @@
 """ Command line interface for gdsfactory
 """
-
 import os
 import pathlib
 import re
@@ -9,6 +8,7 @@ import subprocess
 import time
 
 import click
+from click.core import Context, Option
 
 import pp.build as pb
 from pp import CONFIG, klive
@@ -24,7 +24,7 @@ from pp.mask.write_labels import write_labels
 # from pp.write_doe_from_yaml import write_doe_from_yaml
 from pp.write_doe_from_yaml import import_custom_doe_factories
 
-VERSION = "2.2.8"
+VERSION = "2.2.9"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
@@ -67,7 +67,7 @@ def run_command(command):
     return command, process.returncode
 
 
-def print_version(ctx, param, value):
+def print_version(ctx: Context, param: Option, value: bool) -> None:
     """ Prints the version """
     if not value or ctx.resilient_parsing:
         return

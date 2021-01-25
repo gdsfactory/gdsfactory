@@ -3,6 +3,7 @@ import itertools as it
 import jsondiff
 import pytest
 from omegaconf import OmegaConf
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.components import circuit_names, component_factory
@@ -13,7 +14,9 @@ circuit_names_test = circuit_names - {"component_lattice"}  # set of component n
 @pytest.mark.parametrize(
     "component_type,full_settings", it.product(circuit_names_test, [True, False])
 )
-def test_netlists(component_type, full_settings, data_regression):
+def test_netlists(
+    component_type: str, full_settings: bool, data_regression: DataRegressionFixture
+) -> None:
     """Write netlists for hierarchical circuits.
     Checks that both netlists are the same
     jsondiff does a hierarchical diff

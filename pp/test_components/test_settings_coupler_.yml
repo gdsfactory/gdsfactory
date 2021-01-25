@@ -1,5 +1,7 @@
 function_name: coupler
-info: {}
+info:
+  length: 10.314
+  min_bend_radius: 9.451
 module: pp.components.coupler
 name: coupler
 settings:

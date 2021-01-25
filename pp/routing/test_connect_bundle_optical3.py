@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle_optical3():
+def test_connect_bundle_optical3() -> Component:
     """ connect 4 waveguides into a 4x1 component """
     c = pp.Component()
 
@@ -25,9 +26,9 @@ def test_connect_bundle_optical3():
     ]
 
     for route, length in zip(routes, lengths):
-        # print(route["settings"]["length"])
+        # print(route["length"])
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 

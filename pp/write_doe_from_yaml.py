@@ -3,6 +3,8 @@
 import importlib
 import io
 import sys
+from pathlib import PosixPath
+from typing import List, Union
 
 from pp.config import CONFIG
 from pp.doe import load_does
@@ -22,7 +24,7 @@ def import_custom_doe_factories():
             pass
 
 
-def write_doe_from_yaml(yaml):
+def write_doe_from_yaml(yaml: Union[str, PosixPath]) -> List[List[PosixPath]]:
     """Loads DOE settings from yaml and writes GDS into build_directory
 
     Args:
@@ -64,7 +66,7 @@ def write_doe_from_yaml(yaml):
     return gdspaths
 
 
-def test_write_doe_from_yaml():
+def test_write_doe_from_yaml() -> None:
     does_path = CONFIG["samples_path"] / "mask" / "does.yml"
     gdspaths = write_doe_from_yaml(does_path)
     # print(len(gdspaths))
@@ -90,7 +92,7 @@ mmi_width_length:
 """
 
 
-def test_write_doe_from_yaml_string():
+def test_write_doe_from_yaml_string() -> None:
     gdspaths = write_doe_from_yaml(sample_yaml)
     # print(len(gdspaths))
     assert len(gdspaths) == 2  # 2 does

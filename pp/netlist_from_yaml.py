@@ -67,7 +67,7 @@ ports_map:
 
 
 def netlist_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_factory=None,
+    yaml: Union[str, pathlib.Path, IO[Any]], component_factory: None = None,
 ) -> Component:
     """ Loads Component settings from YAML file, and connections
 
@@ -147,7 +147,7 @@ def netlist_from_yaml(
     return netlist_to_component(instances, connections, ports_map)
 
 
-def test_netlist_from_yaml():
+def test_netlist_from_yaml() -> Component:
     c = netlist_from_yaml(sample)
     assert len(c.get_dependencies()) == 4
     return c

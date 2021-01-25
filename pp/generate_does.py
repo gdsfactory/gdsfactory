@@ -1,6 +1,7 @@
 import collections
 import time
 from multiprocessing import Process
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 
@@ -11,7 +12,119 @@ from pp.placer import build_components, doe_exists, load_doe_component_names, sa
 from pp.write_doe import write_doe_metadata
 
 
-def separate_does_from_templates(dicts):
+def separate_does_from_templates(
+    dicts: Dict[str, Any]
+) -> Union[
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], List[Union[int, float]]]],
+                        Dict[str, Union[int, str]],
+                        bool,
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[str, Dict[str, Union[List[int], int]], Dict[str, str], bool],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[float, str, List[int], int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                        bool,
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, List[int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[
+            str,
+            Dict[
+                str,
+                Union[
+                    Dict[str, Union[Dict[str, Union[int, str]], bool]], Dict[str, bool]
+                ],
+            ],
+        ],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                        bool,
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, Union[List[int], List[float]]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[Any, Any],
+    ],
+]:
     type_to_dict = {}
 
     does = {}
@@ -27,7 +140,12 @@ def separate_does_from_templates(dicts):
     return does, type_to_dict
 
 
-def update_dicts_recurse(target_dict, default_dict):
+def update_dicts_recurse(
+    target_dict: Dict[
+        str, Union[List[int], str, Dict[str, List[int]], Dict[str, str], bool]
+    ],
+    default_dict: Dict[str, Union[bool, Dict[str, Union[int, str]], int, str]],
+) -> Dict[str, Any]:
     target_dict = target_dict.copy()
     default_dict = default_dict.copy()
     for k, v in default_dict.items():
@@ -84,7 +202,113 @@ def write_doe(
     )
 
 
-def load_does(filepath, defaults=None):
+def load_does(
+    filepath: str, defaults: Optional[Dict[str, bool]] = None
+) -> Union[
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[str, Union[str, Dict[str, Union[int, str]], bool]],
+                Dict[str, Union[str, bool]],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                        bool,
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, List[int]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[str, Union[int, str, bool]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[int, str]],
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[str, Dict[str, Union[List[int], int]], Dict[str, str], bool],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        bool,
+                        str,
+                        Dict[str, Union[List[int], int]],
+                        Dict[str, Union[float, str, List[int], int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[str, Union[int, str, bool]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], List[Union[int, float]]]],
+                        Dict[str, Union[int, str]],
+                        bool,
+                    ],
+                ],
+                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
+            ],
+        ],
+        Dict[str, Union[int, str]],
+    ],
+    Tuple[
+        Dict[
+            str,
+            Union[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, Union[List[float], int]],
+                        Dict[str, Union[str, float, int]],
+                        bool,
+                    ],
+                ],
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        bool,
+                        Dict[str, Union[List[int], List[float]]],
+                        Dict[str, Union[str, float, int]],
+                    ],
+                ],
+            ],
+        ],
+        Dict[str, Union[int, str]],
+    ],
+]:
     """Load_does from file."""
     does = {}
     defaults = defaults or {"do_permutation": True, "settings": {}}

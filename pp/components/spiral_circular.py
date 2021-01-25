@@ -1,11 +1,23 @@
+from typing import Tuple, Union
+
 import gdspy as gds
 import numpy as np
+from gdspy.polygon import Polygon
+from numpy import float64
 
 import pp
+from pp.component import Component
 from pp.drc import snap_to_1nm_grid
 
 
-def taper(start_width, end_width, length, start_coord, layer=pp.LAYER.WG, datatype=0):
+def taper(
+    start_width: Union[float, float64],
+    end_width: Union[float, float64],
+    length: Union[float, float64],
+    start_coord: Tuple[float64, float64],
+    layer: int = pp.LAYER.WG,
+    datatype: int = 0,
+) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
     s = start_coord
     top_left = (s[0], s[1] + start_width / 2.0)
     bot_left = (s[0], s[1] - start_width / 2.0)
@@ -18,20 +30,26 @@ def taper(start_width, end_width, length, start_coord, layer=pp.LAYER.WG, dataty
     return p, s, e
 
 
-def straight(width, length, start_coord, layer=pp.LAYER.WG, datatype=0):
+def straight(
+    width: Union[float, float64],
+    length: Union[float, float64],
+    start_coord: Tuple[float64, float64],
+    layer: int = pp.LAYER.WG,
+    datatype: int = 0,
+) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
     t, s, e = taper(width, width, length, start_coord, layer=layer, datatype=datatype)
     return t, s, e
 
 
 @pp.cell
 def spiral_circular(
-    length=1e3,
-    wg_width=0.5,
-    spacing=3,
-    min_bend_radius=5,
-    points=1000,
-    layer=pp.LAYER.WG,
-):
+    length: float = 1e3,
+    wg_width: float = 0.5,
+    spacing: int = 3,
+    min_bend_radius: int = 5,
+    points: int = 1000,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+) -> Component:
     """ Returns a circular spiral
 
     Args:

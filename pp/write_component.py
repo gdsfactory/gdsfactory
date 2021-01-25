@@ -176,8 +176,9 @@ if __name__ == "__main__":
     # pp.write_component(cc, precision=5e-9)
     # pp.show(cc)
 
-    gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
     c = pp.c.waveguide()
+    c = pp.add_pins(c)
+    gdspath = pp.CONFIG["gdsdir"] / "waveguide_with_pins.gds"
     pp.write_component(c, gdspath=gdspath)
     pp.show(c)
 

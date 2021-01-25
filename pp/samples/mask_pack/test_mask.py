@@ -4,25 +4,34 @@ You can make a repo out of this file, having one custom component per file
 """
 import os
 import shutil
+from pathlib import PosixPath
+from typing import Dict, List, Union
 
 import pytest
 
 import pp
 from pp.add_padding import add_padding_to_grid
 from pp.add_termination import add_gratings_and_loop_back
+from pp.component import Component, ComponentReference
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
 from pp.mask.merge_metadata import merge_metadata
+from pp.port import Port
 from pp.routing.connect import connect_strip_way_points
 
 
-def _route_filter(*args, **kwargs):
+def _route_filter(
+    *args, **kwargs
+) -> Union[
+    Dict[str, Union[List[ComponentReference], Dict[str, Port], float]],
+    ComponentReference,
+]:
     return connect_strip_way_points(
         *args, taper_factory=None, start_straight=5.0, end_straight=5.0, **kwargs
     )
 
 
-def add_te(component, **kwargs):
+def add_te(component: Component, **kwargs) -> Component:
     c = pp.routing.add_fiber_array(
         component,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
@@ -47,7 +56,9 @@ def add_tm(component, **kwargs):
 
 
 @pp.cell
-def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
+def coupler_te(
+    gap: float, length: int, wg_width: float = 0.5, nominal_wg_width: float = 0.5
+) -> Component:
     """ sample of component cutback """
     c = pp.c.coupler(wg_width=wg_width, gap=gap, length=length)
     cc = add_te(c)
@@ -55,7 +66,7 @@ def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
 
 
 @pp.cell
-def spiral_te(wg_width=0.5, length=2):
+def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
     """ sample of component cutback
 
     Args:
@@ -97,7 +108,7 @@ def chdir():
 
 
 @pytest.mark.usefixtures("cleandir")
-def test_mask(precision=1e-9):
+def test_mask(precision: float = 1e-9) -> PosixPath:
     workspace_folder = CONFIG["samples_path"] / "mask_pack"
     build_path = workspace_folder / "build"
     mask_path = build_path / "mask"
