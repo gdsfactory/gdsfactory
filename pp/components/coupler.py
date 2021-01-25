@@ -88,11 +88,12 @@ def coupler(
     c.absorb(sl)
     c.absorb(sr)
     c.absorb(cs)
+    c.length = sbend.length
+    c.min_bend_radius = sbend.min_bend_radius
     return c
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = pp.Component()
     # cp1 = c << coupler(gap=0.2)
@@ -100,6 +101,7 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    c = coupler(length=1, dy=1, gap=0.2)
+    c = coupler(length=1, dy=2, gap=0.2)
+    c = coupler(gap=0.2)
     # print(c.settings_changed)
-    pp.show(c)
+    c.show()

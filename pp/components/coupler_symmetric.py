@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple
+from typing import Callable, Iterable, Tuple
 
 import pp
 from pp.component import Component
@@ -11,7 +11,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     wg_width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [pp.LAYER.WGCLAD],
+    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),
     cladding_offset: float = 3.0,
     dy: float = 5.0,
 ) -> Component:
@@ -74,6 +74,8 @@ def coupler_symmetric(
     c.add_port(name="W0", midpoint=[0, 0], width=port_width, orientation=180)
     c.add_port(port=bottom_bend.ports["E0"], name="E0")
     c.add_port(port=top_bend.ports["E0"], name="E1")
+    c.length = bend_component.length
+    c.min_bend_radius = bend_component.min_bend_radius
     return c
 
 
@@ -86,4 +88,9 @@ def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
 
 if __name__ == "__main__":
     c = coupler_symmetric_biased(gap=0.2, wg_width=0.5)
-    pp.show(c)
+    # c.show()
+    # c.pprint()
+
+    for dy in [2, 3, 4, 5]:
+        c = coupler_symmetric(gap=0.2, wg_width=0.5, dy=dy)
+        print(f"dy={dy}, min_bend_radius = {c.min_bend_radius}")
