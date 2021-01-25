@@ -1,15 +1,17 @@
-from typing import Callable
+from typing import Callable, List
 
 import numpy as np
 
 import pp
 from pp.cell import cell
 from pp.components import bend_circular
-from pp.components import taper as taper_factory
+from pp.components import taper as taper_function
 from pp.components import waveguide
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
+from pp.types import Route
 
 
 def _is_vertical(segment, tol=1e-5):
@@ -69,17 +71,18 @@ def _distance(port1, port2):
 
 
 def connect_bundle_waypoints(
-    start_ports,
-    end_ports,
+    start_ports: List[Port],
+    end_ports: List[Port],
     way_points,
     straight_factory: Callable = waveguide,
-    taper_factory: Callable = taper_factory,
+    taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_circular,
     bend_radius: float = 10.0,
     auto_sort: bool = True,
     **kwargs,
-):
-    """Connect bundle of ports with bundle of routes following a list of waypoints.
+) -> List[Route]:
+    """Returns list of routes that connect bundle of ports with bundle of routes
+    where routes follow a list of waypoints.
 
     Args:
         start_ports: list of ports

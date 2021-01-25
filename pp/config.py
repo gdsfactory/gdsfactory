@@ -1,20 +1,14 @@
-""" gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
+"""gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the default_config in pp/config.py (lowest priority)
 
-`CONFIG` has all the paths that we do not care
-`conf` has all the useful info
+`CONFIG` has all your computer specific paths that we do not care to store
+`conf` has all the useful info that we will store to have reproduceable layouts.
 
 You can access all the config dictionary with `print_config` as well as a particular key
 
-```
-from pp.config import print_config
-
-print_config()
-
-```
 """
 
 __version__ = "2.2.8"

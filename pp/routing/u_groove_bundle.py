@@ -28,6 +28,7 @@ def u_bundle_direct(
     **routing_params
 ):
     r"""
+
     Args:
         start_ports: list of start ports
         end_ports: list of end ports
@@ -502,7 +503,7 @@ def u_bundle_indirect_routes(
     elif len(conns) == 1:
         add_connections(conns[0])
     else:
-        raise ValueError('No connections generated!')
+        raise ValueError("No connections generated!")
 
     def _merge_connections(list_of_points):
 
@@ -515,3 +516,7 @@ def u_bundle_indirect_routes(
 
     connections = [_merge_connections(c) for c in dict_connections.values()]
     return connections
+
+
+if __name__ == "__main__":
+    pass

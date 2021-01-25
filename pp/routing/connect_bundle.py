@@ -7,7 +7,7 @@ import numpy as np
 from numpy import float64, ndarray
 
 from pp.cell import cell
-from pp.component import Component, ComponentReference
+from pp.component import Component
 from pp.config import conf
 from pp.port import Port
 from pp.routing.connect import (
@@ -18,20 +18,21 @@ from pp.routing.connect import (
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
+from pp.types import Route
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
 
 
 def connect_bundle(
-    start_ports,
-    end_ports,
-    route_filter=connect_strip_way_points,
-    separation=5.0,
-    bend_radius=BEND_RADIUS,
-    extension_length=0,
+    start_ports: List[Port],
+    end_ports: List[Port],
+    route_filter: Callable = connect_strip_way_points,
+    separation: float = 5.0,
+    bend_radius: float = BEND_RADIUS,
+    extension_length: float = 0.0,
     **kwargs,
-):
+) -> List[Route]:
     """Connects bundle of ports using river routing.
     Chooses the correct u_bundle to use based on port angles
 
@@ -143,7 +144,7 @@ def get_port_width(port):
     return port.width
 
 
-def are_decoupled(x1, x1p, x2, x2p, sep=METAL_MIN_SEPARATION):
+def are_decoupled(x1, x1p, x2, x2p, sep=METAL_MIN_SEPARATION) -> bool:
     if x2p + sep > x1:
         return False
     if x2 < x1p + sep:
@@ -159,7 +160,7 @@ def link_ports(
     separation: float = 5.0,
     route_filter: Callable = connect_strip_way_points,
     **routing_params,
-) -> List[ComponentReference]:
+) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
 
     Args:
@@ -169,17 +170,20 @@ def link_ports(
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
+        bend_radius: If None, use waveguide definition from start_ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `connect_strip_way_points` for deep etch strip waveguide
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
-        compute_array_separation_only: If True, returns the min distance which should be used between the two arrays instead of returning the connectors. Useful for budgeting space before instantiating other components.
+        compute_array_separation_only: If True, returns min distance between the two arrays
+            instead of returning the connectors.
+            Useful for budgeting space before instantiating other components.
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
+        e.g with default `connect_strip_way_points`,
+        returns a list of elements which can be added to a component
 
 
     The routing assumes manhattan routing between the different ports.
@@ -450,18 +454,19 @@ def compute_ports_max_displacement(start_ports, end_ports):
 
 
 def connect_bundle_path_length_match(
-    ports1,
-    ports2,
-    separation=30.0,
+    ports1: List[Port],
+    ports2: List[Port],
+    separation: float = 30.0,
     end_straight_offset=None,
-    bend_radius=BEND_RADIUS,
-    extra_length=0,
-    nb_loops=1,
-    modify_segment_i=-2,
-    route_filter=connect_strip_way_points,
+    bend_radius: float = BEND_RADIUS,
+    extra_length: float = 0.0,
+    nb_loops: int = 1,
+    modify_segment_i: int = -2,
+    route_filter: Callable = connect_strip_way_points,
     **kwargs,
-):
-    """
+) -> List[Route]:
+    """Returns list of routes
+
     Args:
         ports1: list of ports
         ports2: list of ports
@@ -473,9 +478,6 @@ def connect_bundle_path_length_match(
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
         route_filter: connect_strip_way_points
         **kwargs: extra arguments for inner call to generate_waypoints_connect_bundle
-
-    Returns:
-        [route_filter(l) for l in list_of_waypoints]
 
     """
     extra_length = extra_length / 2
@@ -516,7 +518,7 @@ def link_electrical_ports(
     link_dummy_ports=False,
     route_filter: Callable = connect_elec_waypoints,
     **kwargs,
-) -> List[ComponentReference]:
+) -> List[Route]:
     """Connect bundle of electrical ports
 
     Args:
@@ -571,7 +573,7 @@ def link_optical_ports(
     route_filter: Callable = connect_strip_way_points,
     bend_radius: float = BEND_RADIUS,
     **kwargs,
-) -> List[ComponentReference]:
+) -> List[Route]:
     """connect bundle of optical ports"""
     return link_ports(
         ports1,
@@ -638,17 +640,17 @@ def get_min_spacing(
 
 
 def link_optical_ports_no_grouping(
-    ports1,
-    ports2,
-    sep=5.0,
-    route_filter=connect_strip,
-    radius=BEND_RADIUS,
-    start_straight=None,
-    end_straight=None,
-    sort_ports=True,
-):
-    r"""
-    Returns a list of route elements
+    ports1: List[Port],
+    ports2: List[Port],
+    sep: float = 5.0,
+    route_filter: Callable = connect_strip,
+    radius: float = BEND_RADIUS,
+    start_straight: Optional[float] = None,
+    end_straight: Optional[float] = None,
+    sort_ports: bool = True,
+) -> List[Route]:
+    r""" Returns a list of route elements.
+
     Compared to link_ports, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
     connection if needed. We can also specify longer start_straight and end_straight
@@ -682,15 +684,16 @@ def link_optical_ports_no_grouping(
     Args:
         ports1: first list of optical ports
         ports2: second list of optical ports
-        axis:   specifies "X" or "Y" direction along which the port is going
-        route_filter:   ManhattanExpandedWgConnector or ManhattanWgConnector or any other connector function with the same input
-        radius:         bend radius. If unspecified, uses the default radius
+        axis: specifies "X" or "Y" direction along which the port is going
+        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector
+            or any other connector function with the same input
+        radius: bend radius. If unspecified, uses the default radius
         start_straight: offset on the starting length before the first bend
-        end_straight:   offset on the ending length after the last bend
-        sort_ports:     True -> sort the ports according to the axis. False -> no sort applied
+        end_straight: offset on the ending length after the last bend
+        sort_ports: True -> sort the ports according to the axis. False -> no sort applied
 
     Returns:
-        a list of elements containing the connecting waveguides
+        a list of routes the connecting waveguides
 
     """
 

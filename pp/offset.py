@@ -10,6 +10,7 @@ from phidl.geometry import (
 )
 
 import pp
+from pp.testing import difftest
 
 
 def offset(
@@ -23,7 +24,7 @@ def offset(
     max_points=4000,
     layer=0,
 ):
-    """ returns an element containing all polygons with an offset
+    """returns an element containing all polygons with an offset
     from phidl geometry
     """
     if not isinstance(elements, list):
@@ -72,7 +73,14 @@ def offset(
     return D
 
 
-if __name__ == "__main__":
+def test_offset():
     c = pp.c.ring()
-    co = offset(c)
+    co = offset(c, distance=0.5)
+    difftest(co)
+
+
+if __name__ == "__main__":
+    c = pp.c.rectangle(size=(1, 2))
+    c = pp.c.ring()
+    co = offset(c, distance=0.5)
     pp.show(co)

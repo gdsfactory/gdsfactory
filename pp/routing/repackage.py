@@ -13,7 +13,7 @@ def package_optical2x2(
     component: Component,
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
-):
+) -> Component:
     """returns component with port_spacing"""
 
     comp = component() if callable(component) else component
