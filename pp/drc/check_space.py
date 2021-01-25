@@ -3,10 +3,11 @@ from typing import Tuple
 import klayout.db as pya
 
 from pp.component import Component
+from pp.types import ComponentOrPath
 
 
 def check_space(
-    gdspath: Component,
+    gdspath: ComponentOrPath,
     layer: Tuple[int, int] = (1, 0),
     min_space: float = 0.150,
     dbu: float = 1e3,
@@ -76,7 +77,7 @@ if __name__ == "__main__":
     gdspath = pp.c.waveguide_array(spacing=space)
     pp.show(gdspath)
 
-    if isinstance(gdspath, pp.Component):
+    if isinstance(gdspath, Component):
         gdspath.flatten()
         gdspath = pp.write_gds(gdspath)
     layout = pya.Layout()
