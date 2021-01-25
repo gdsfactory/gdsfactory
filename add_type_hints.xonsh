@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 # py.test --monkeytype-output=./monkeytype.sqlite3
 
-for i, m in enumerate(tqdm($(monkeytype list-modules).split('\n')[131+24:])):
+for i, m in enumerate(tqdm($(monkeytype list-modules).split('\n')[131+24+89:])):
     if m.startswith('pp'):
         print(i, m)
         monkeytype stub @(m)

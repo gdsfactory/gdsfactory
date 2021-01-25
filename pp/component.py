@@ -11,7 +11,6 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
-from pp.compare_cells import hash_cells
 from pp.config import conf
 from pp.port import Port, select_ports
 
@@ -857,6 +856,8 @@ class Component(Device):
 
     def hash_geometry(self) -> str:
         """returns geometrical hash"""
+        from pp.compare_cells import hash_cells
+
         if self.references or self.polygons:
             h = hash_cells(self, {})[self.name]
         else:

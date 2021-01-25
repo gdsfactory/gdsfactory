@@ -1,4 +1,6 @@
 """Add grating_couplers to a component."""
+from typing import Callable, Tuple
+
 import pp
 from pp.component import Component
 from pp.components.grating_coupler.elliptical_trenches import (
@@ -12,11 +14,11 @@ from pp.routing.get_input_labels import get_input_labels
 @container
 def add_grating_couplers(
     component: Component,
-    grating_coupler=grating_coupler_te,
-    layer_label=pp.LAYER.LABEL,
+    grating_coupler: Callable = grating_coupler_te,
+    layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     gc_port_name: str = "W0",
-    get_input_labels_function=get_input_labels,
-):
+    get_input_labels_function: Callable = get_input_labels,
+) -> Component:
     """Return component with grating couplers and labels."""
 
     cnew = Component(name=component.name + "_c")

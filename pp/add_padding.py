@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -69,14 +69,14 @@ def add_padding(
 
 @container
 def add_padding_to_grid(
-    component,
-    grid_size=127,
-    x=10,
-    y=10,
-    bottom_padding=5,
-    layers=(pp.LAYER.PADDING),
-    suffix="p",
-):
+    component: Component,
+    grid_size: int = 127,
+    x: int = 10,
+    y: int = 10,
+    bottom_padding: int = 5,
+    layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (pp.LAYER.PADDING),
+    suffix: str = "p",
+) -> Component:
     """returns component width a padding layer on each side
     matches a minimum size
     """

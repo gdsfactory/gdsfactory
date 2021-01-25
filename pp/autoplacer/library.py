@@ -47,14 +47,14 @@ class Library(object):
 
     """
 
-    def __init__(self, root="build/devices"):
+    def __init__(self, root: str = "build/devices") -> None:
         self.root = root
         self.cells = {}
         self.does = defaultdict(list)
         self.load_all_gds()
         self.load_all_json()
 
-    def load_all_gds(self):
+    def load_all_gds(self) -> None:
         """ Loads all the gds files """
         filenames = glob.glob(self.root + "/*.gds")
         print("Loading {} GDS files...".format(len(filenames)))
@@ -62,7 +62,7 @@ class Library(object):
             self.load_gds(filename)
         print("Done")
 
-    def load_all_json(self):
+    def load_all_json(self) -> None:
         """ loads all the json files """
         filenames = glob.glob(self.root + "/*.json")
         for filename in filenames:
@@ -108,7 +108,7 @@ class Library(object):
 
         return CellList(cells)
 
-    def pop(self, regex, delete=True):
+    def pop(self, regex: str, delete: bool = True) -> CellList:
         """ pop cells """
         # pop out the cells
         # cells = [

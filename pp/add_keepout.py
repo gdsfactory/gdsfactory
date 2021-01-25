@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from phidl.device_layout import _parse_layer
 
 from pp.component import Component
@@ -7,7 +9,12 @@ from pp.layers import LAYER
 
 
 @container
-def add_keepout(component, target_layers, keepout_layers, margin=2.0) -> Component:
+def add_keepout(
+    component: Component,
+    target_layers: List[Tuple[int, int]],
+    keepout_layers: List[Tuple[int, int]],
+    margin: float = 2.0,
+) -> Component:
     """Adds keepout after Looking up all polygons in a cell.
     You can also use add_padding
 
@@ -31,7 +38,7 @@ def add_keepout(component, target_layers, keepout_layers, margin=2.0) -> Compone
     return c
 
 
-def test_add_keepout():
+def test_add_keepout() -> None:
     from pp.components.waveguide import waveguide
 
     c = waveguide()
