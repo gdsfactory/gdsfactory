@@ -1,0 +1,10 @@
+info:
+  instances:
+    mmi_bot: DeviceReference (parent Device "CP1", ports ['E0', 'E1', 'W0'], origin
+      [ 70.    -29.375], rotation 0, x_reflection False)
+    mmi_top: DeviceReference (parent Device "CP2", ports ['E0', 'E1', 'W0'], origin
+      [12.5  0. ], rotation 0, x_reflection False)
+  routes:
+    mmi_top,E0:mmi_bot,W0: 50.166
+name: sample_docstring
+settings: {}

@@ -170,6 +170,7 @@ def bend_circular(
     )
 
     length = pp.drc.snap_to_1nm_grid(abs(theta) * pi / 180 * radius)
+    component.length = length
     component.info["length"] = length
     component.move((0, radius))
 

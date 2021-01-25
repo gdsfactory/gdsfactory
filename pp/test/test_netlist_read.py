@@ -1,4 +1,7 @@
-def test_netlist_read():
+from pp.component import Component
+
+
+def test_netlist_read() -> Component:
     import pp
 
     filepath = pp.CONFIG["netlists"] / "mzi.yml"
@@ -13,7 +16,7 @@ def test_netlist_read():
     return c
 
 
-def test_netlist_read_full():
+def test_netlist_read_full() -> Component:
     import pp
 
     filepath = pp.CONFIG["netlists"] / "mzi_full.yml"

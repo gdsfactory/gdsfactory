@@ -16,4 +16,4 @@ settings:
       gap: 0.234
       with_elec_connections: true
   pad: pad
-  pad_port_spacing: 50
+  pad_port_spacing: 50.0

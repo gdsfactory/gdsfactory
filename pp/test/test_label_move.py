@@ -1,7 +1,8 @@
 import pp
+from pp.component import Component
 
 
-def test_label_move():
+def test_label_move() -> Component:
     """ test that when we move a device its label also moves """
     c = pp.Component("ellipse_with_label")
     c << pp.c.ellipse()

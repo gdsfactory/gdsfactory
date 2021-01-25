@@ -12,6 +12,7 @@ import json
 from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
+from numpy import ndarray
 
 import pp
 from pp.add_padding import get_padding_points
@@ -21,7 +22,7 @@ from pp.layers import LAYER, port_type2layer
 from pp.port import Port, read_port_markers
 
 
-def _rotate(v, m):
+def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
@@ -334,7 +335,7 @@ def add_pins(
     return component_new
 
 
-def test_add_pins():
+def test_add_pins() -> None:
     c1 = pp.c.mzi2x2(with_elec_connections=True)
     c2 = add_pins(c1, recursive=False)
 
@@ -365,7 +366,7 @@ def test_add_pins():
     ), f"{n_dc_expected} different from {n_dc_expected}"
 
 
-def test_add_pins_recursive():
+def test_add_pins_recursive() -> None:
     c1 = pp.c.mzi2x2(with_elec_connections=True)
     c2 = add_pins(c1, recursive=True)
     pp.show(c2)

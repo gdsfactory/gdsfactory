@@ -4,16 +4,18 @@
 
 import importlib
 import json
+from pathlib import PosixPath
+from typing import Any, Dict, List
 
 from git import Repo
 from omegaconf import OmegaConf
+from omegaconf.dictconfig import DictConfig
 
 from pp.config import CONFIG, conf, get_git_hash, logging, write_config
 
 
-def update_config_modules(config=conf):
-    """ update config with module git hashe and version (for each module in module_requirements section)
-    """
+def update_config_modules(config: DictConfig = conf) -> DictConfig:
+    """update config with module git hashe and version (for each module in module_requirements section)"""
     if config.get("requirements"):
         config.update({"git_hash": get_git_hash(), "module_versions": {}})
         for module_name in config["requirements"]:
@@ -30,13 +32,13 @@ def update_config_modules(config=conf):
 
 
 def merge_json(
-    doe_directory=CONFIG["doe_directory"],
-    extra_directories=[CONFIG["gds_directory"]],
-    jsonpath=CONFIG["mask_directory"] / "metadata.json",
-    json_version=6,
-    config=conf,
-):
-    """ Merge several JSON files from config.yml
+    doe_directory: PosixPath = CONFIG["doe_directory"],
+    extra_directories: List[PosixPath] = [CONFIG["gds_directory"]],
+    jsonpath: PosixPath = CONFIG["mask_directory"] / "metadata.json",
+    json_version: int = 6,
+    config: DictConfig = conf,
+) -> Dict[str, Any]:
+    """Merge several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
 
     Args:

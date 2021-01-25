@@ -1,4 +1,6 @@
 import json
+from pathlib import PosixPath
+from typing import Callable, Dict, List, Optional, Union
 
 from pp.cell import get_component_name
 from pp.components import component_factory
@@ -13,13 +15,13 @@ function_factory = dict(
 
 
 def write_doe_metadata(
-    doe_name,
-    cell_names,
-    list_settings,
-    doe_settings=None,
-    doe_metadata_path=CONFIG["doe_directory"],
+    doe_name: str,
+    cell_names: List[str],
+    list_settings: Union[List[Dict[str, Union[float, int]]], List[Dict[str, int]]],
+    doe_settings: Optional[Dict[str, str]] = None,
+    doe_metadata_path: PosixPath = CONFIG["doe_directory"],
     **kwargs,
-):
+) -> None:
     """writes DOE metadata (markdown report, JSON dict)
 
     Args:
@@ -110,18 +112,20 @@ def write_doe_metadata(
 
 
 def write_doe(
-    component_type,
-    doe_name,
-    do_permutations=True,
-    list_settings=None,
-    doe_settings=None,
-    path=CONFIG["build_directory"],
-    doe_metadata_path=CONFIG["doe_directory"],
-    functions=None,
-    function_factory=function_factory,
-    component_factory=component_factory,
+    component_type: str,
+    doe_name: str,
+    do_permutations: bool = True,
+    list_settings: Optional[
+        Union[List[Dict[str, Union[float, int]]], List[Dict[str, int]]]
+    ] = None,
+    doe_settings: Optional[Dict[str, str]] = None,
+    path: PosixPath = CONFIG["build_directory"],
+    doe_metadata_path: PosixPath = CONFIG["doe_directory"],
+    functions: Optional[List[str]] = None,
+    function_factory: Dict[str, Callable] = function_factory,
+    component_factory: Dict[str, Callable] = component_factory,
     **kwargs,
-):
+) -> List[PosixPath]:
     """writes each device GDS, together with metadata for each device:
     Returns a list of gdspaths
 
@@ -233,7 +237,7 @@ def get_markdown_table(do_permutations=True, **kwargs):
     return t
 
 
-def test_write_doe():
+def test_write_doe() -> PosixPath:
     paths = write_doe(
         component_type="mmi1x2",
         doe_name="width_length",

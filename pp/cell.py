@@ -11,7 +11,7 @@ from pp.name import get_component_name
 CACHE: Dict[str, Component] = {}
 
 
-def clear_cache():
+def clear_cache() -> None:
     """Clears the cache of components."""
     global CACHE
     CACHE = {}
@@ -140,7 +140,7 @@ def cell(
 
 
 @cell(autoname=True)
-def wg(length=3, width=0.5):
+def wg(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
     c = Component("waveguide")
@@ -153,7 +153,7 @@ def wg(length=3, width=0.5):
 
 
 @cell(autoname=False)
-def wg2(length=3, width=0.5):
+def wg2(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
     c = Component("waveguide")
@@ -178,22 +178,22 @@ def wg3(length=3, width=0.5):
     return c
 
 
-def test_autoname_true():
+def test_autoname_true() -> None:
     assert wg(length=3).name == "wg_L3"
 
 
-def test_autoname_false():
+def test_autoname_false() -> None:
     # print(wg2(length=3).name)
     assert wg2(length=3).name == "waveguide"
 
 
 @cell
-def _dummy(length=3, wg_width=0.5):
+def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     c = Component()
     return c
 
 
-def test_autoname():
+def test_autoname() -> None:
     name_base = _dummy().name
     assert name_base == "_dummy"
 

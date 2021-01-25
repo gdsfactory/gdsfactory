@@ -1,4 +1,7 @@
+from pathlib import PosixPath
+
 import pytest
+from pytest_regressions.num_regression import NumericRegressionFixture
 
 import pp
 from pp.import_gds import add_ports_from_markers_center, import_gds
@@ -8,7 +11,9 @@ gdspaths = [pp.CONFIG["gdsdir"] / name for name in ["mmi1x2.gds", "mzi2x2.gds"]]
 
 
 @pytest.mark.parametrize("gdspath", gdspaths)
-def test_components_ports(gdspath, num_regression):
+def test_components_ports(
+    gdspath: PosixPath, num_regression: NumericRegressionFixture
+) -> None:
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)

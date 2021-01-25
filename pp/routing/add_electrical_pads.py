@@ -5,7 +5,9 @@ from pp.routing.route_pad_array import route_pad_array
 
 
 @container
-def add_electrical_pads(component: Component, rotation=180, **kwargs):
+def add_electrical_pads(
+    component: Component, rotation: int = 180, **kwargs
+) -> Component:
     """add compnent with top electrical pads and routes
     Args:
         component: Component,

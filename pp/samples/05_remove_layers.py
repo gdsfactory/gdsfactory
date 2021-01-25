@@ -2,9 +2,10 @@
 
 
 import pp
+from pp.component import Component
 
 
-def test_remove_layers():
+def test_remove_layers() -> Component:
     c = pp.Component("test_remove_layers")
 
     wg1 = c << pp.c.waveguide(length=10, width=1, layer=pp.LAYER.WG)

@@ -4,13 +4,17 @@ find GDS labels and write labels into a CSV file
 
 import csv
 import pathlib
+from pathlib import PosixPath
+from typing import Iterator, Tuple
 
 import klayout.db as pya
 
 from pp import LAYER
 
 
-def find_labels(gdspath, label_layer=LAYER.LABEL, prefix="opt_"):
+def find_labels(
+    gdspath: PosixPath, label_layer: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
+) -> Iterator[Tuple[str, float, float]]:
     """ finds labels and locations from a GDS file """
     # Load the layout
     gdspath = str(gdspath)
@@ -36,7 +40,12 @@ def find_labels(gdspath, label_layer=LAYER.LABEL, prefix="opt_"):
                 yield text.string, transformed.x * dbu, transformed.y * dbu
 
 
-def write_labels(gdspath, label_layer=LAYER.LABEL, csv_filename=None, prefix="opt_"):
+def write_labels(
+    gdspath: PosixPath,
+    label_layer: Tuple[int, int] = LAYER.LABEL,
+    csv_filename: None = None,
+    prefix: str = "opt_",
+) -> None:
     """Load  GDS mask and extracts the labels and coordinates from a GDS file"""
     labels = list(find_labels(gdspath, label_layer=label_layer, prefix=prefix))
 

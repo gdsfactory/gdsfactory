@@ -1,0 +1,9 @@
+info:
+  instances:
+    b: DeviceReference (parent Device "bend_circular", ports ['N0', 'W0'], origin
+      [10.  0.], rotation 0.0, x_reflection True)
+    w: DeviceReference (parent Device "waveguide", ports ['W0', 'E0'], origin (0,
+      0), rotation 0, x_reflection False)
+  routes: {}
+name: sample_mirror_simple
+settings: {}

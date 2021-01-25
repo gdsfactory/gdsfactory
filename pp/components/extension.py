@@ -73,7 +73,7 @@ def extend_port(port, length):
 @container
 def extend_ports(
     component: Component,
-    port_list=None,
+    port_list: Optional[List[str]] = None,
     length: float = 5.0,
     extension_factory: Callable = None,
     extension_port_name_input: Optional[str] = None,
@@ -121,7 +121,7 @@ def extend_ports(
     return c
 
 
-def test_extend_ports():
+def test_extend_ports() -> Component:
     import pp.components as pc
 
     c = pc.waveguide(width=2)
@@ -131,7 +131,7 @@ def test_extend_ports():
     return ce
 
 
-def test_extend_ports_selection():
+def test_extend_ports_selection() -> Component:
     import pp.components as pc
 
     c = pc.cross(width=2)

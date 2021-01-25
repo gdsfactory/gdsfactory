@@ -1,0 +1,12 @@
+info:
+  instances:
+    left: DeviceReference (parent Device "nxn_E3_W0_Y20", ports ['E0', 'E1', 'E2'],
+      origin (0, 0), rotation 0, x_reflection False)
+    right: DeviceReference (parent Device "nxn_E0_W3_Y20", ports ['W0', 'W1', 'W2'],
+      origin [20.  0.], rotation 0, x_reflection False)
+  routes:
+    left,E0:right,W0: 12.0
+    left,E1:right,W1: 12.0
+    left,E2:right,W2: 12.0
+name: sample_regex_connections_backwards
+settings: {}

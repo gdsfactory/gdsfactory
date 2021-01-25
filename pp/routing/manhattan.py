@@ -9,6 +9,7 @@ from pp.components import waveguide
 from pp.drc import snap_to_1nm_grid
 from pp.geo_utils import angles_deg
 from pp.port import Port
+from pp.types import Route
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -434,14 +435,14 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 
 def round_corners(
-    points,
-    bend90,
-    straight_factory,
-    taper=None,
-    straight_factory_fall_back_no_taper=None,
-    mirror_straight=False,
-    straight_ports=None,
-):
+    points: ndarray,
+    bend90: Component,
+    straight_factory: Callable,
+    taper: Optional[Callable] = None,
+    straight_factory_fall_back_no_taper: Optional[Callable] = None,
+    mirror_straight: bool = False,
+    straight_ports: Optional[List[str]] = None,
+) -> Route:
     """Return dict with reference list with rounded waveguide route from a list of manhattan points.
     Also returns a dict of ports
     As well as settings
@@ -457,7 +458,6 @@ def round_corners(
     """
     references = []
     ports = dict()
-    settings = dict()
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -589,8 +589,8 @@ def round_corners(
 
     ports["input"] = list(wg_refs[0].ports.values())[0]
     ports["output"] = list(wg_refs[-1].ports.values())[port_index_out]
-    settings["length"] = snap_to_1nm_grid(float(total_length))
-    return dict(references=references, ports=ports, settings=settings)
+    length = snap_to_1nm_grid(float(total_length))
+    return dict(references=references, ports=ports, length=length)
 
 
 def generate_manhattan_waypoints(
@@ -645,7 +645,7 @@ def route_manhattan(
     start_straight: float = 0.01,
     end_straight: float = 0.01,
     min_straight: float = 0.01,
-) -> ComponentReference:
+) -> Route:
     bend90 = pp.call_if_func(bend90)
 
     points = generate_manhattan_waypoints(
@@ -659,7 +659,7 @@ def route_manhattan(
     return round_corners(points, bend90, straight_factory, taper)
 
 
-def test_manhattan():
+def test_manhattan() -> Component:
     from pp.components.bend_circular import bend_circular
 
     top_cell = pp.Component()
@@ -696,7 +696,7 @@ def test_manhattan():
         )
 
         top_cell.add(route["references"])
-        np.isclose(route["settings"]["length"], length)
+        np.isclose(route["length"], length)
     return top_cell
 
 

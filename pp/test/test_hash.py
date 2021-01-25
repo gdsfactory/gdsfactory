@@ -38,7 +38,7 @@ def debug():
     print(gdspy.gdsii_hash(gdspath3))
 
 
-def test_hash():
+def test_hash() -> None:
     c1 = pp.c.waveguide(length=10)
     c2 = pp.c.waveguide(length=11)
     h1 = c1.hash_geometry()

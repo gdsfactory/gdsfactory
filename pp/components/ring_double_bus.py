@@ -6,7 +6,7 @@ from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.waveguide import waveguide
-from pp.drc import assert_on_2nm_grid
+from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.netlist_to_gds import netlist_to_component
 
 

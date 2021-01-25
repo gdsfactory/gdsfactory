@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
-from pp.drc import assert_on_2nm_grid
+from pp.drc.snap_to_grid import assert_on_2nm_grid
 
 
 @cell

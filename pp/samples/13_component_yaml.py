@@ -1,4 +1,5 @@
 import pp
+from pp.component import Component
 
 netlist = """
 instances:
@@ -32,7 +33,7 @@ connections:
 """
 
 
-def test_mzi():
+def test_mzi() -> Component:
     return pp.component_from_yaml(netlist)
 
 

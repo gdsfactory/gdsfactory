@@ -1,3 +1,7 @@
+from typing import Optional, Tuple, Union
+
+from numpy import float64
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.hline import hline
@@ -9,7 +13,12 @@ WIRE_WIDTH = 10.0
 
 @deco_rename_ports
 @cell
-def wire(length=50.0, width=WIRE_WIDTH, layer=LAYER.M3, port_type="dc"):
+def wire(
+    length: Union[float, float64] = 50.0,
+    width: float = WIRE_WIDTH,
+    layer: Tuple[int, int] = LAYER.M3,
+    port_type: str = "dc",
+) -> Component:
     """electrical straight wire
 
     .. plot::
@@ -25,7 +34,12 @@ def wire(length=50.0, width=WIRE_WIDTH, layer=LAYER.M3, port_type="dc"):
 
 @deco_rename_ports
 @cell
-def corner(width=WIRE_WIDTH, radius=None, layer=LAYER.M3, port_type="dc"):
+def corner(
+    width: float = WIRE_WIDTH,
+    radius: Optional[int] = None,
+    layer: Tuple[int, int] = LAYER.M3,
+    port_type: str = "dc",
+) -> Component:
     """90 degrees electrical bend
 
     Args:

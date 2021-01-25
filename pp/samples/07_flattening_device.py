@@ -10,9 +10,10 @@ polyons to that single layer.
 
 """
 import pp
+from pp.component import Component
 
 
-def test_flatten_device():
+def test_flatten_device() -> Component:
 
     c = pp.Component("test_remap_layers")
 

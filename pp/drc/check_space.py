@@ -2,17 +2,20 @@ from typing import Tuple
 
 import klayout.db as pya
 
+from pp.component import Component
+from pp.types import ComponentOrPath
+
 
 def check_space(
-    gdspath,
+    gdspath: ComponentOrPath,
     layer: Tuple[int, int] = (1, 0),
     min_space: float = 0.150,
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,
     whole_edges: bool = False,
-    metrics=None,
-    min_projection=None,
-    max_projection=None,
+    metrics: None = None,
+    min_projection: None = None,
+    max_projection: None = None,
 ) -> int:
     """Reads layer from top cell and returns a the area that violates min space.
 
@@ -42,7 +45,6 @@ def check_space(
         max_projection The upper limit of the projected length of one edge onto another
 
     """
-    from pp.component import Component
     from pp.write_component import write_gds
 
     if isinstance(gdspath, Component):
@@ -75,13 +77,12 @@ if __name__ == "__main__":
     gdspath = pp.c.waveguide_array(spacing=space)
     pp.show(gdspath)
 
-    if isinstance(gdspath, pp.Component):
+    if isinstance(gdspath, Component):
         gdspath.flatten()
         gdspath = pp.write_gds(gdspath)
     layout = pya.Layout()
     layout.read(str(gdspath))
     cell = layout.top_cell()
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
-
-    d = region.space_check(min_space * dbu, False, "Square", 80, None, None)
-    print(d.polygons().area())
+    # print(region.polygons().area())
+    # d = region.space_check(min_space * dbu, False, "Square", 80, None, None)

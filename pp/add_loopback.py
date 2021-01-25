@@ -2,7 +2,7 @@
 from typing import Callable, List
 
 import pp
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.components import bend_circular, waveguide
 from pp.port import Port
 from pp.routing.manhattan import round_corners
@@ -19,7 +19,7 @@ def gen_loopback(
     bend_radius_align_ports: float = 10.0,
     bend_factory: Callable = bend_circular,
     waveguide_factory: Callable = waveguide,
-    y_bot_align_route=None,
+    y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
     """
     Add a loopback (grating coupler align reference) to a start port and and end port
@@ -90,12 +90,12 @@ def waveguide_with_loopback() -> pp.Component:
     return c
 
 
-def test_add_loopback():
+def test_add_loopback() -> Component:
     c = waveguide_with_loopback()
     difftest(c)
     return c
 
 
 if __name__ == "__main__":
-    c = waveguide_with_loopback()
-    c.show()
+    component = waveguide_with_loopback()
+    component.show()

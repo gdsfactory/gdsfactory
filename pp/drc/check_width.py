@@ -1,11 +1,18 @@
-from typing import Tuple
+from pathlib import PosixPath
+from typing import Tuple, Union
 
 import klayout.db as pya
+from klayout.dbcore import EdgePairs
+
+from pp.component import Component
 
 
 def check_width(
-    gdspath, layer: Tuple[int, int] = (1, 0), min_width: float = 0.150, dbu: float = 1e3
-):
+    gdspath: Union[PosixPath, Component, str],
+    layer: Tuple[int, int] = (1, 0),
+    min_width: float = 0.150,
+    dbu: float = 1e3,
+) -> Union[int, EdgePairs]:
     """Reads layer from top cell and returns a number of edges violating min width
 
     Args:

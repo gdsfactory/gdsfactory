@@ -1,14 +1,22 @@
 """ adiabatic tapers from CSV files
 """
 import pathlib
+from pathlib import PosixPath
+from typing import Tuple
 
 import pp
+from pp.component import Component
 from pp.load_csv import load_csv
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
-def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCLAD):
+def taper_from_csv(
+    csv_path: PosixPath,
+    wg_layer: int = 1,
+    clad_offset: int = 3,
+    clad_layer: Tuple[int, int] = pp.LAYER.WGCLAD,
+) -> Component:
     taper_data = load_csv(csv_path)
     # taper_data = pd.read_csv(csv_path)
     # print(taper_data)
@@ -40,7 +48,7 @@ def taper_from_csv(csv_path, wg_layer=1, clad_offset=3, clad_layer=pp.LAYER.WGCL
 
 
 @pp.cell
-def taper_0p5_to_3_l36(**kwargs):
+def taper_0p5_to_3_l36(**kwargs) -> Component:
     csv_path = data_path / "taper_strip_0p5_3_36.csv"
     return taper_from_csv(csv_path, **kwargs)
 

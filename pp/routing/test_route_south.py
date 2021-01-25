@@ -1,10 +1,11 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_route_south():
+def test_route_south() -> Component:
     c = pp.Component()
     cr = c << pp.c.mmi2x2()
     routes, ports = pp.routing.route_south(cr)
@@ -25,8 +26,7 @@ def test_route_south():
     ]
     for route, length in zip(routes, lengths):
         c.add(route)
-        route_length = route.parent.get_settings()["info"]["length"]
-        print(route_length)
+        route_length = route.parent.length
         assert np.isclose(route_length, length)
     return c
 

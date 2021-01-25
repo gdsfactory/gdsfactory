@@ -13,11 +13,16 @@ Ports define where each port has:
 """
 
 
+from typing import Tuple
+
 import pp
+from pp.component import Component
 
 
 @pp.cell
-def test_component_with_port(length=5, wg_width=0.5, layer=pp.LAYER.WG):
+def test_component_with_port(
+    length: int = 5, wg_width: float = 0.5, layer: Tuple[int, int] = pp.LAYER.WG
+) -> Component:
     """
     component with one port on the west side
     """

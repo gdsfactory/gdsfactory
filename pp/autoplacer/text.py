@@ -2,8 +2,11 @@
 The choice of font file is configurable from the YAML file
 """
 import functools
+from pathlib import PosixPath
+from typing import Dict, Tuple
 
 import klayout.db as pya
+from klayout.dbcore import Cell
 
 import pp
 from pp.autoplacer.helpers import import_cell, load_gds
@@ -12,14 +15,19 @@ FONT_PATH = pp.CONFIG.get("font_path")
 
 
 @functools.lru_cache()
-def load_alphabet(filepath=FONT_PATH):
+def load_alphabet(filepath: PosixPath = FONT_PATH) -> Dict[str, Cell]:
     c = load_gds(filepath)
     return {_c.name: _c for _c in c.each_cell()}
 
 
 def add_text(
-    cell, text, position=(0, 0), align_x="center", align_y="top", fontpath=FONT_PATH
-):
+    cell: Cell,
+    text: str,
+    position: Tuple[int, int] = (0, 0),
+    align_x: str = "center",
+    align_y: str = "top",
+    fontpath: PosixPath = FONT_PATH,
+) -> Cell:
     """ add text label"""
     text = text.upper()
     alphabet = load_alphabet(filepath=fontpath)
@@ -55,7 +63,7 @@ def add_text(
     return c
 
 
-def test_alphabet():
+def test_alphabet() -> None:
     ly = pya.Layout()
     top_cell = ly.create_cell("TOP")
     add_text(top_cell, "HELLO-WORLD_0123456789+_-")

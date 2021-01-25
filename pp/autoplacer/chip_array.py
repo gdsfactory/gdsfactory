@@ -14,16 +14,16 @@ class ChipArray(AutoPlacer):
 
     def __init__(
         self,
-        name,
-        mask_width,
-        mask_height,
-        cols,
-        rows,
-        lib,
-        spacing=25000,
-        lane_width=50000,
-        align=None,
-    ):
+        name: str,
+        mask_width: float,
+        mask_height: float,
+        cols: int,
+        rows: int,
+        lib: Library,
+        spacing: int = 25000,
+        lane_width: int = 50000,
+        align: None = None,
+    ) -> None:
         super(ChipArray, self).__init__(name, mask_width, mask_height)
         self.lib = lib
         self.rows = rows
@@ -39,7 +39,7 @@ class ChipArray(AutoPlacer):
         self.make_chips()
         # self.make_dicing_lanes()
 
-    def make_chips(self):
+    def make_chips(self) -> None:
         """ Make all the chips """
         # Get the aligntree
         if self.align:
@@ -100,7 +100,7 @@ class ChipArray(AutoPlacer):
                     box = pya.Box(x - lw, y1, x + lw, y2)
                     container.shapes(layer).insert(box)
 
-    def write(self, *args, **kwargs):
+    def write(self, *args, **kwargs) -> None:
         """ Write to disk. We pack the chips at the last minute. """
         self.draw_boundary(ap.DEVREC_LAYER)
         self.draw_boundary(ap.FLOORPLAN_LAYER)

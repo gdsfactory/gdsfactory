@@ -85,7 +85,7 @@ def get_input_label_electrical(
     component_name: Optional[str] = None,
     layer_label: Layer = pp.LAYER.LABEL,
     gc: Optional[ComponentReference] = None,
-):
+) -> Label:
     """
     Generate a label to test component info for a given electrical port.
     This is the label used by T&M to extract grating coupler coordinates
@@ -149,7 +149,7 @@ def add_labels(
     return component
 
 
-def test_optical_labels():
+def test_optical_labels() -> Component:
     c = pp.c.waveguide()
     gc = pp.c.grating_coupler_elliptical_te()
     label1 = get_input_label(
@@ -168,7 +168,7 @@ def test_optical_labels():
     return c
 
 
-def test_electrical_labels():
+def test_electrical_labels() -> Component:
     c = pp.c.wire()
     label1 = get_input_label_electrical(
         port=c.ports["E_1"], layer_label=pp.LAYER.LABEL, gc_index=0

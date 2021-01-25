@@ -1,11 +1,21 @@
+from typing import Tuple, Union
+
 import numpy as np
 
 import pp
 from pp import LAYER, Port
+from pp.component import Component
 
 
 @pp.cell
-def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width=0.5):
+def big_device(
+    w: Union[float, int] = 400.0,
+    h: Union[float, int] = 400.0,
+    N: int = 16,
+    port_pitch: float = 15.0,
+    layer: Tuple[int, int] = LAYER.WG,
+    wg_width: float = 0.5,
+) -> Component:
     """ big device with N ports on each side """
     component = pp.Component()
     p0 = np.array((0, 0))

@@ -18,6 +18,7 @@ from pp.routing.connect_bundle import (
     link_optical_ports,
     link_optical_ports_no_grouping,
 )
+from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_fiber_single import route_fiber_single
@@ -45,6 +46,7 @@ __all__ = [
     "add_fiber_single",
     "connect_bundle",
     "connect_bundle_path_length_match",
+    "connect_bundle_waypoints",
     "connect_strip",
     "connect_strip_way_points",
     "link_electrical_ports",

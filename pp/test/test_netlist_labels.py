@@ -56,7 +56,7 @@ ports:
 """
 
 
-def test_netlist_labels():
+def test_netlist_labels() -> None:
     c = pp.component_from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]

@@ -1,5 +1,8 @@
+from typing import Tuple
+
 import pp
 from pp.add_padding import add_padding_to_grid
+from pp.component import Component
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.rectangle import rectangle
 from pp.container import container
@@ -7,13 +10,13 @@ from pp.container import container
 
 @pp.cell
 def align_wafer(
-    width=10.0,
-    spacing=10.0,
-    cross_length=80.0,
-    layer=pp.LAYER.WG,
-    with_tile_excl=True,
-    square_corner="bottom_left",
-):
+    width: float = 10.0,
+    spacing: float = 10.0,
+    cross_length: float = 80.0,
+    layer: Tuple[int, int] = pp.LAYER.WG,
+    with_tile_excl: bool = True,
+    square_corner: str = "bottom_left",
+) -> Component:
     """returns cross inside a frame to align wafer
 
     .. plot::

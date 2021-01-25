@@ -58,7 +58,7 @@ placements:
 #         pp.component_from_yaml(yaml_fail)
 
 
-def test_circular_import_pass():
+def test_circular_import_pass() -> None:
     pp.component_from_yaml(yaml_pass)
 
 

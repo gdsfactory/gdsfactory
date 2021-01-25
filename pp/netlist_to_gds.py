@@ -234,7 +234,7 @@ def netlist_to_component(
     return c
 
 
-def test_netlist_ring():
+def test_netlist_ring() -> Component:
     from pp.components.ring_single_bus import ring_single_bus_netlist
 
     instances, connections, ports_map = ring_single_bus_netlist()

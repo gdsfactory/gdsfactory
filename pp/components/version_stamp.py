@@ -1,13 +1,15 @@
 import datetime
 import platform
+from typing import Tuple
 
 import pp
+from pp.component import Component
 from pp.components.text import text as Text
 from pp.config import conf
 from pp.layers import LAYER
 
 
-def pixel(size=1.0, layer=LAYER.WG):
+def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
     c = pp.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
@@ -15,7 +17,9 @@ def pixel(size=1.0, layer=LAYER.WG):
 
 
 @pp.cell
-def qrcode(data="gdsfactory", psize=1, layer=LAYER.WG):
+def qrcode(
+    data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
+) -> Component:
     """ A utility to render a list of pixels as a block """
     import qrcode
 

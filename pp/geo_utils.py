@@ -9,14 +9,14 @@ RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
 
 
-def sign_shape(pts):
+def sign_shape(pts: ndarray) -> float64:
     pts2 = np.roll(pts, 1, axis=0)
     dx = pts2[:, 0] - pts[:, 0]
     y = pts2[:, 1] + pts[:, 1]
     return np.sign((dx * y).sum())
 
 
-def area(pts):
+def area(pts: ndarray) -> float64:
     pts2 = np.roll(pts, 1, axis=0)
     dx = pts2[:, 0] - pts[:, 0]
     y = pts2[:, 1] + pts[:, 1]
@@ -44,7 +44,7 @@ def manhattan_direction(p0, p1, tol=1e-5):
     return np.array((sx, sy))
 
 
-def remove_flat_angles(points):
+def remove_flat_angles(points: ndarray) -> ndarray:
     a = angles_deg(np.vstack(points))
     da = a - np.roll(a, 1)
     da = np.mod(np.round(da, 3), 180)
@@ -65,7 +65,9 @@ def remove_flat_angles(points):
     return points
 
 
-def remove_identicals(pts, grids_per_unit=1000, closed=True):
+def remove_identicals(
+    pts: ndarray, grids_per_unit: int = 1000, closed: bool = True
+) -> ndarray:
     if len(pts) > 1:
         identicals = np.prod(abs(pts - np.roll(pts, -1, 0)) < 0.5 / grids_per_unit, 1)
         if not closed:
@@ -234,7 +236,7 @@ def extrude_path(
     return pts
 
 
-def polygon_grow(polygon, offset):
+def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     """
     polygon has to be a closed shape
     """

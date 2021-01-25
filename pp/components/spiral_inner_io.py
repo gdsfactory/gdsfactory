@@ -5,6 +5,7 @@ maybe: need to add grating coupler loopback as well
 from typing import Callable, Optional, Tuple
 
 import numpy as np
+from numpy import float64
 
 import pp
 from pp.component import Component
@@ -200,11 +201,7 @@ def spiral_inner_io(
     )
     component.add(route_east["references"])
 
-    length = (
-        route_east["settings"]["length"]
-        + route_west["settings"]["length"]
-        + bend180_ref.info["length"]
-    )
+    length = route_east["length"] + route_west["length"] + bend180_ref.info["length"]
     component.length = pp.drc.snap_to_1nm_grid(length + 2 * y_straight_inner_top)
     return component
 
@@ -315,7 +312,7 @@ def reticle_mockup():
     return component
 
 
-def get_straight_length(length_cm, spiral_function, **kwargs):
+def get_straight_length(length_cm: int, spiral_function: Callable, **kwargs) -> float64:
     """ returns y_spiral to achieve a particular spiral length """
     y0 = 50
     y1 = 400

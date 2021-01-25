@@ -14,10 +14,17 @@ from phidl import quickplot as qp
 
 import pp
 from pp import LAYER
+from pp.component import Component
 
 
 @pp.cell
-def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
+def test_crossing_arm(
+    wg_width: float = 0.5,
+    r1: float = 3.0,
+    r2: float = 1.1,
+    taper_width: float = 1.2,
+    taper_length: float = 3.4,
+) -> Component:
     """ crossing arm
     """
     c = pp.Component()

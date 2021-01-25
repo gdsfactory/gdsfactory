@@ -282,7 +282,8 @@ def grating_coupler_elliptical(
 if __name__ == "__main__":
     c = grating_coupler_elliptical_tm()
     c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
-    print(c.polarization)
-    print(c.wavelength)
-    print(c.ports)
+    # print(c.polarization)
+    # print(c.wavelength)
+    # print(c.ports)
+    c.pprint()
     pp.show(c)

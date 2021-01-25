@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict, List, Tuple
 
 import pp
 from pp.cell import cell
@@ -7,7 +7,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.waveguide import waveguide
-from pp.drc import assert_on_2nm_grid
+from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.netlist_to_gds import netlist_to_component
 
 
@@ -52,16 +52,20 @@ def ring_single_bus_deprecated(**kwargs):
 
 
 def ring_single_bus_netlist(
-    bend_radius=5,
-    length_x=1,
-    length_y=1,
-    gap=0.2,
-    bend90_factory=bend_circular,
-    coupler90_factory=coupler90,
-    straight_factory=waveguide,
-    cpl_straight_factory=coupler_straight,
-    wg_width=0.5,
-):
+    bend_radius: int = 5,
+    length_x: int = 1,
+    length_y: int = 1,
+    gap: float = 0.2,
+    bend90_factory: Callable = bend_circular,
+    coupler90_factory: Callable = coupler90,
+    straight_factory: Callable = waveguide,
+    cpl_straight_factory: Callable = coupler_straight,
+    wg_width: float = 0.5,
+) -> Tuple[
+    Dict[str, Tuple[Component, str]],
+    List[Tuple[str, str, str, str]],
+    Dict[str, Tuple[str, str]],
+]:
     """
     .. code::
 

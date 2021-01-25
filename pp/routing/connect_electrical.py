@@ -1,9 +1,16 @@
-from pp.component import Component
+from pp.component import Component, ComponentReference
 from pp.hash_points import hash_points
+from pp.port import Port
 
 
-def connect_electrical_shortest_path(port1, port2):
-    """connects two ports with a polygon that takes the shortest path"""
+def connect_electrical_shortest_path(port1: Port, port2: Port) -> ComponentReference:
+    """Returns polygon reference that connects two ports
+    with a polygon that takes the shortest path
+
+    Args:
+        port1: src
+        port2: dst
+    """
     points = [port1.midpoint, port2.midpoint]
     name = f"zz_conn_{hash_points(points)}"
     c = Component(name=name)

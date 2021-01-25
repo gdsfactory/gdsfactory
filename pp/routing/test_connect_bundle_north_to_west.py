@@ -1,9 +1,10 @@
 import numpy as np
 
 import pp
+from pp.component import Component
 
 
-def test_connect_bundle_west_to_north():
+def test_connect_bundle_west_to_north() -> Component:
     c = pp.Component()
 
     pbottom_facing_north = pp.port_array(midpoint=(0, 0), orientation=90, delta=(30, 0))
@@ -20,7 +21,7 @@ def test_connect_bundle_west_to_north():
     lengths = [200, 140]
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        assert np.isclose(route["settings"]["length"], length)
+        assert np.isclose(route["length"], length)
 
     return c
 

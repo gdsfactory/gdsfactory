@@ -2,10 +2,11 @@
 """
 
 import pp
+from pp.component import Component
 from pp.samples.big_device import big_device
 
 
-def test_fiber_single():
+def test_fiber_single() -> Component:
     w = h = 18 * 50
     c = big_device(port_pitch=50.0, h=h, w=w)
     return pp.routing.add_fiber_single(component=c)

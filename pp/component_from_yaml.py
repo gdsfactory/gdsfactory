@@ -12,10 +12,9 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing import link_factory, route_factory
 
-valid_placements = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
-"""Recognized keys within a placements definition"""
+valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
-valid_keys = [
+valid_top_level_keys = [
     "name",
     "instances",
     "placements",
@@ -23,7 +22,6 @@ valid_keys = [
     "ports",
     "routes",
 ]
-"""Recognized top-level sections of a Component YAML"""
 
 valid_anchor_point_keywords = [
     "ce",
@@ -37,7 +35,7 @@ valid_anchor_point_keywords = [
     "center",
     "cc",
 ]
-"""Anchor keywords which refer to an (x,y) Point"""
+# refer to an (x,y) Point
 
 valid_anchor_value_keywords = [
     "south",
@@ -45,13 +43,13 @@ valid_anchor_value_keywords = [
     "east",
     "north",
 ]
-"""Anchor keywords which refer to a singular (x or y) value"""
+# refer to a singular (x or y) value
 
 valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
-"""The full set of valid anchor keywords (either referring to points or values)"""
+# full set of valid anchor keywords (either referring to points or values)
 
 valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
-"""Recognized keys within a YAML route definition"""
+# Recognized keys within a YAML route definition
 
 
 def _get_anchor_point_from_name(
@@ -123,9 +121,9 @@ def place(
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
         for k, v in placement_settings.items():
-            if k not in valid_placements:
+            if k not in valid_placement_keys:
                 raise ValueError(
-                    f"`{k}` not valid placement {valid_placements} for"
+                    f"`{k}` not valid placement {valid_placement_keys} for"
                     f" {instance_name}"
                 )
         x = placement_settings.get("x")
@@ -432,7 +430,7 @@ def component_from_yaml(
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
-        assert key in valid_keys, f"{key} not in {list(valid_keys)}"
+        assert key in valid_top_level_keys, f"{key} not in {list(valid_top_level_keys)}"
 
     instances = {}
     routes = {}
@@ -648,10 +646,10 @@ def component_from_yaml(
             if isinstance(route_dict_or_list, list):
                 for route_name, route_dict in zip(route_names, route_dict_or_list):
                     c.add(route_dict["references"])
-                    routes[route_name] = route_dict["settings"]
+                    routes[route_name] = route_dict["length"]
             elif isinstance(route_dict_or_list, dict):
                 c.add(route_dict_or_list["references"])
-                routes[route_name] = route_dict_or_list["settings"]
+                routes[route_name] = route_dict_or_list["length"]
             else:
                 raise ValueError(f"{route_dict_or_list} needs to be dict or list")
 

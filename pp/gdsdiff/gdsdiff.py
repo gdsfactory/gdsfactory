@@ -1,15 +1,24 @@
 import itertools
 import pathlib
+from pathlib import PosixPath
+from typing import List, Optional, Tuple, Union
 
 import gdspy as gp
+from gdspy.polygon import PolygonSet
+from numpy import int64, ndarray
 
-from pp import import_gds
 from pp.component import Component
+from pp.import_gds import import_gds
 
 COUNTER = itertools.count()
 
 
-def boolean(A, B, operation, precision):
+def boolean(
+    A: List[ndarray],
+    B: Optional[Union[List[ndarray], PolygonSet]],
+    operation: str,
+    precision: float,
+) -> Optional[PolygonSet]:
     p = gp.boolean(
         operand1=A,
         operand2=B,
@@ -20,7 +29,9 @@ def boolean(A, B, operation, precision):
     return p
 
 
-def get_polygons_on_layer(cell, layer):
+def get_polygons_on_layer(
+    cell: Component, layer: Union[Tuple[int64, int64], Tuple[int, int]]
+) -> Optional[List[ndarray]]:
     polygons = cell.get_polygons(by_spec=True)
     # pprint ({k: len(v) for k, v in polygons.items()})
     if layer in polygons:
@@ -29,7 +40,9 @@ def get_polygons_on_layer(cell, layer):
         return None
 
 
-def gdsdiff(cellA, cellB):
+def gdsdiff(
+    cellA: Union[PosixPath, Component], cellB: Union[PosixPath, Component]
+) -> Component:
     """Compare two Components.
 
     Args:

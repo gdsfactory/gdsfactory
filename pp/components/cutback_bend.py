@@ -1,4 +1,9 @@
+from typing import Callable
+
+from numpy import float64
+
 import pp
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.component_sequence import component_sequence
 from pp.components.euler.bend_euler import bend_euler90, bend_euler180
@@ -6,7 +11,7 @@ from pp.components.waveguide import waveguide
 from pp.routing.add_fiber_array import add_fiber_array
 
 
-def _get_bend_size(bend90):
+def _get_bend_size(bend90: Component) -> float64:
     p1, p2 = list(bend90.ports.values())[:2]
     bsx = abs(p2.x - p1.x)
     bsy = abs(p2.y - p1.y)
@@ -51,14 +56,14 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
 @pp.cell
 def cutback_bend90(
-    bend90=bend_euler90,
-    straight_length=5.0,
-    n_steps=6,
-    cols=6,
-    spacing=5,
-    wg_loop_length=None,
-    waveguide_factory=waveguide,
-):
+    bend90: Callable = bend_euler90,
+    straight_length: float = 5.0,
+    n_steps: int = 6,
+    cols: int = 6,
+    spacing: int = 5,
+    wg_loop_length: None = None,
+    waveguide_factory: Callable = waveguide,
+) -> Component:
     """
 
     .. code::
@@ -128,13 +133,13 @@ def staircase(
 
 @pp.cell
 def cutback_bend180(
-    bend180=bend_euler180,
-    straight_length=5.0,
-    n_steps=6,
-    cols=6,
-    spacing=3,
-    waveguide_factory=waveguide,
-):
+    bend180: Callable = bend_euler180,
+    straight_length: float = 5.0,
+    n_steps: int = 6,
+    cols: int = 6,
+    spacing: int = 3,
+    waveguide_factory: Callable = waveguide,
+) -> Component:
     """
 
     .. code::

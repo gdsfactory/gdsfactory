@@ -1,18 +1,21 @@
+from typing import Tuple
+
 import pp
 from pp import components as pc
+from pp.component import Component
 
 
 @pp.cell
 def test_comb(
-    pad_size=(200, 200),
-    wire_width=1,
-    wire_gap=3,
-    comb_layer=pp.LAYER.M1,
-    overlap_zigzag_layer=pp.LAYER.HEATER,
-    comb_pad_layer=pp.LAYER.M3,
-    comb_gnd_layer=pp.LAYER.M3,
-    overlap_pad_layer=None,
-):
+    pad_size: Tuple[int, int] = (200, 200),
+    wire_width: int = 1,
+    wire_gap: int = 3,
+    comb_layer: Tuple[int, int] = pp.LAYER.M1,
+    overlap_zigzag_layer: Tuple[int, int] = pp.LAYER.HEATER,
+    comb_pad_layer: Tuple[int, int] = pp.LAYER.M3,
+    comb_gnd_layer: Tuple[int, int] = pp.LAYER.M3,
+    overlap_pad_layer: None = None,
+) -> Component:
     """ Superconducting heater device from phidl.geometry
 
     Args:

@@ -1,12 +1,19 @@
+from typing import Any, Callable, List, Tuple, Union
+
 import numpy as np
+from numpy import float64, ndarray
 
 from pp.geo_utils import remove_identicals
+from pp.port import Port
 from pp.routing.connect import connect_strip_way_points
 from pp.routing.manhattan import generate_manhattan_waypoints, remove_flat_angles
 from pp.routing.route_ports_to_side import route_ports_to_side
+from pp.types import Route
 
 
-def _groups(ports, cut, axis="X"):
+def _groups(
+    ports: List[Port], cut: float64, axis: str = "X"
+) -> Union[Tuple[List[Port], List[Any]], Tuple[List[Port], List[Port]]]:
     if axis == "Y":
         group1 = [p for p in ports if p.x <= cut]
         group2 = [p for p in ports if p.x > cut]
@@ -17,17 +24,18 @@ def _groups(ports, cut, axis="X"):
 
 
 def u_bundle_direct(
-    start_ports,
-    end_ports,
-    route_filter=connect_strip_way_points,
-    separation=5.0,
-    start_straight=0.01,
-    end_straight=0.01,
-    start_straight_offset=0.0,
-    end_straight_offset=0.0,
+    start_ports: List[Port],
+    end_ports: List[Port],
+    route_filter: Callable = connect_strip_way_points,
+    separation: float = 5.0,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    start_straight_offset: float = 0.0,
+    end_straight_offset: float = 0.0,
     **routing_params
-):
+) -> List[Route]:
     r"""
+
     Args:
         start_ports: list of start ports
         end_ports: list of end ports
@@ -86,16 +94,16 @@ def u_bundle_direct(
 
 
 def u_bundle_direct_routes(
-    start_ports,
-    end_ports,
-    routing_func=generate_manhattan_waypoints,
-    separation=5.0,
-    start_straight=0.01,
-    end_straight=0.01,
-    end_straight_offset=0.0,
-    start_straight_offset=0.0,
+    start_ports: List[Port],
+    end_ports: List[Port],
+    routing_func: Callable = generate_manhattan_waypoints,
+    separation: float = 5.0,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    end_straight_offset: float = 0.0,
+    start_straight_offset: float = 0.0,
     **routing_func_params
-):
+) -> List[ndarray]:
 
     nb_ports = len(start_ports)
     for p in start_ports:
@@ -360,9 +368,9 @@ def u_bundle_indirect_routes(
 
         if start_ports[0].angle == 0 and end_ports[0].angle == 180:
             """
-                    X->
-               <-D
-                    X->
+                 X->
+            <-D
+                 X->
             """
             # To go back to a U bundle
             group1_route_directives = ["north", "west"]
@@ -370,9 +378,9 @@ def u_bundle_indirect_routes(
 
         elif start_ports[0].angle == 180 and end_ports[0].angle == 0:
             """
-               <-X
-                    D->
-               <-X
+            <-X
+                 D->
+            <-X
             """
             # To go back to a U bundle
             group1_route_directives = ["north", "east"]
@@ -389,11 +397,11 @@ def u_bundle_indirect_routes(
         if start_ports[0].angle == 90 and end_ports[0].angle == 270:
             """
 
-              ^     ^
-              |     |
-              X     X
-                 D
-                 |
+            ^     ^
+            |     |
+            X     X
+               D
+               |
 
             """
             # To go back to a U bundle
@@ -402,11 +410,11 @@ def u_bundle_indirect_routes(
 
         elif start_ports[0].angle == 270 and end_ports[0].angle == 90:
             """
-                 ^
-                 |
-                 D
-              X     X
-              |     |
+               ^
+               |
+               D
+            X     X
+            |     |
 
             """
             # To go back to a U bundle
@@ -502,7 +510,7 @@ def u_bundle_indirect_routes(
     elif len(conns) == 1:
         add_connections(conns[0])
     else:
-        raise ValueError('No connections generated!')
+        raise ValueError("No connections generated!")
 
     def _merge_connections(list_of_points):
 
@@ -515,3 +523,7 @@ def u_bundle_indirect_routes(
 
     connections = [_merge_connections(c) for c in dict_connections.values()]
     return connections
+
+
+if __name__ == "__main__":
+    pass

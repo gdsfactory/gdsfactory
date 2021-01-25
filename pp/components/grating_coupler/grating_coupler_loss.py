@@ -1,6 +1,8 @@
 import inspect
 from typing import Callable, Iterable
 
+from numpy import float64
+
 import pp
 from pp.add_labels import get_input_label
 from pp.component import Component, ComponentReference
@@ -11,7 +13,7 @@ from pp.routing.manhattan import round_corners
 
 
 def connect_loop_back(
-    port0: Port, port1: Port, a, b, R, y_bot_align_route
+    port0: Port, port1: Port, a: float, b: float, R: float, y_bot_align_route: float64
 ) -> ComponentReference:
     p0 = port0.position
     p1 = port1.position

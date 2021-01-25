@@ -1,4 +1,5 @@
 import pytest
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.components import component_factory
@@ -14,7 +15,7 @@ component_types = [
 
 
 @pytest.mark.parametrize("component_type", component_types)
-def test_sp_load(component_type, data_regression):
+def test_sp_load(component_type: str, data_regression: DataRegressionFixture) -> None:
     c = component_factory[component_type]()
     sp = pp.sp.load(c)
 

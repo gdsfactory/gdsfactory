@@ -1,4 +1,7 @@
+from typing import Callable, Tuple
+
 import pp
+from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
 from pp.components.waveguide import waveguide
@@ -8,17 +11,17 @@ from pp.routing.connect import connect_strip_way_points_no_taper
 
 @pp.cell
 def grating_coupler_tree(
-    n_waveguides=4,
-    waveguide_spacing=4,
-    waveguide=waveguide,
-    grating_coupler_function=grating_coupler_elliptical_te,
-    with_loop_back=False,
-    route_filter=connect_strip_way_points_no_taper,
-    bend_factory=bend_circular,
-    bend_radius=10.0,
-    layer_label=pp.LAYER.LABEL,
+    n_waveguides: int = 4,
+    waveguide_spacing: int = 4,
+    waveguide: Callable = waveguide,
+    grating_coupler_function: Callable = grating_coupler_elliptical_te,
+    with_loop_back: bool = False,
+    route_filter: Callable = connect_strip_way_points_no_taper,
+    bend_factory: Callable = bend_circular,
+    bend_radius: float = 10.0,
+    layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     **kwargs
-):
+) -> Component:
     """array of waveguides connected with grating couplers
     useful to align the 4 corners of the chip
 

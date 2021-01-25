@@ -1,7 +1,10 @@
+from typing import Tuple
+
 import pp
+from pp.component import Component
 
 
-def test_cell():
+def test_cell() -> Tuple[Component, Component]:
     wg1 = pp.c.waveguide(length=10, width=0.5)
     wg2 = pp.c.waveguide(width=0.5, length=10)
     assert (

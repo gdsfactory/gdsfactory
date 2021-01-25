@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Iterable, Tuple
 
 import numpy as np
 
@@ -6,6 +6,7 @@ import pp
 from pp.component import Component
 from pp.components.bezier import bezier
 from pp.config import conf
+from pp.types import Layer
 
 
 @pp.cell
@@ -15,7 +16,7 @@ def bend_s(
     length: float = 10.0,
     layer: Tuple[int, int] = pp.LAYER.WG,
     nb_points: int = 99,
-    layers_cladding: List[Tuple[int, int]] = (pp.LAYER.WGCLAD),
+    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
     """S bend with bezier curve
@@ -58,11 +59,18 @@ def bend_s(
 
     # c.ports["W0"] = c.ports.pop("0")
     # c.ports["E0"] = c.ports.pop("1")
+    # print(c.min_bend_radius)
     return c
 
 
 @pp.cell
-def bend_s_biased(width=0.5, height=2, length=10, layer=pp.LAYER.WG, nb_points=99):
+def bend_s_biased(
+    width: float = 0.5,
+    height: float = 2.0,
+    length: float = 10.0,
+    layer: Layer = pp.LAYER.WG,
+    nb_points: int = 99,
+):
     l, h = length, height
     return bezier(
         width=pp.bias.width(width),

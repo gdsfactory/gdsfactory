@@ -1,3 +1,5 @@
+from typing import Callable, Dict, List
+
 import pp
 from pp.components.ring_single import ring_single
 from pp.components.waveguide import waveguide
@@ -5,10 +7,10 @@ from pp.components.waveguide import waveguide
 
 @pp.cell
 def ring_single_array(
-    ring_function=ring_single,
-    waveguide_function=waveguide,
-    spacing=5.0,
-    list_of_dicts=[
+    ring_function: Callable = ring_single,
+    waveguide_function: Callable = waveguide,
+    spacing: float = 5.0,
+    list_of_dicts: List[Dict[str, float]] = [
         dict(length_x=10.0, bend_radius=5.0),
         dict(length_x=20.0, bend_radius=10.0),
     ],
