@@ -1,5 +1,5 @@
 import functools
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Union
 
 import klayout.db as pya
@@ -9,7 +9,7 @@ CELLS = {}
 
 
 @functools.lru_cache()
-def load_gds(filepath: Union[PosixPath, str]) -> Layout:
+def load_gds(filepath: Union[Path, str]) -> Layout:
     filepath = str(filepath)
     layout = pya.Layout()
     try:

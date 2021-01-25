@@ -1,7 +1,7 @@
 """ adiabatic tapers from CSV files
 """
 import pathlib
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Tuple
 
 import pp
@@ -12,7 +12,7 @@ data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
 def taper_from_csv(
-    csv_path: PosixPath,
+    csv_path: Path,
     wg_layer: int = 1,
     clad_offset: int = 3,
     clad_layer: Tuple[int, int] = pp.LAYER.WGCLAD,

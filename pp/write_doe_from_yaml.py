@@ -3,7 +3,7 @@
 import importlib
 import io
 import sys
-from pathlib import PosixPath
+from pathlib import Path
 from typing import List, Union
 
 from pp.config import CONFIG
@@ -24,7 +24,7 @@ def import_custom_doe_factories():
             pass
 
 
-def write_doe_from_yaml(yaml: Union[str, PosixPath]) -> List[List[PosixPath]]:
+def write_doe_from_yaml(yaml: Union[str, Path]) -> List[List[Path]]:
     """Loads DOE settings from yaml and writes GDS into build_directory
 
     Args:

@@ -2,7 +2,7 @@
 The choice of font file is configurable from the YAML file
 """
 import functools
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Dict, Tuple
 
 import klayout.db as pya
@@ -15,7 +15,7 @@ FONT_PATH = pp.CONFIG.get("font_path")
 
 
 @functools.lru_cache()
-def load_alphabet(filepath: PosixPath = FONT_PATH) -> Dict[str, Cell]:
+def load_alphabet(filepath: Path = FONT_PATH) -> Dict[str, Cell]:
     c = load_gds(filepath)
     return {_c.name: _c for _c in c.each_cell()}
 
@@ -26,7 +26,7 @@ def add_text(
     position: Tuple[int, int] = (0, 0),
     align_x: str = "center",
     align_y: str = "top",
-    fontpath: PosixPath = FONT_PATH,
+    fontpath: Path = FONT_PATH,
 ) -> Cell:
     """ add text label"""
     text = text.upper()

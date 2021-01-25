@@ -46,7 +46,7 @@ doe02:
 
 import json
 import pathlib
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Dict, List, Optional, Union
 
 import yaml
@@ -54,7 +54,7 @@ import yaml
 from pp.config import CONFIG
 
 
-def parse_csv_data(csv_labels_path: PosixPath) -> List[List[str]]:
+def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
     with open(csv_labels_path) as f:
         # Get all lines
         lines = [line.replace("\n", "") for line in f.readlines()]
@@ -82,7 +82,7 @@ def get_cell_from_label(label: str) -> str:
 
 
 def load_json(
-    filepath: PosixPath,
+    filepath: Path,
 ) -> Dict[
     str,
     Union[
@@ -120,7 +120,7 @@ def load_yaml(filepath):
 
 
 def merge_test_metadata(
-    gdspath: PosixPath = CONFIG["mask_gds"], labels_prefix: str = "opt"
+    gdspath: Path = CONFIG["mask_gds"], labels_prefix: str = "opt"
 ) -> Dict[
     str,
     Union[

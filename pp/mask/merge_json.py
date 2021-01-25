@@ -4,7 +4,7 @@
 
 import importlib
 import json
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Any, Dict, List
 
 from git import Repo
@@ -32,9 +32,9 @@ def update_config_modules(config: DictConfig = conf) -> DictConfig:
 
 
 def merge_json(
-    doe_directory: PosixPath = CONFIG["doe_directory"],
-    extra_directories: List[PosixPath] = [CONFIG["gds_directory"]],
-    jsonpath: PosixPath = CONFIG["mask_directory"] / "metadata.json",
+    doe_directory: Path = CONFIG["doe_directory"],
+    extra_directories: List[Path] = [CONFIG["gds_directory"]],
+    jsonpath: Path = CONFIG["mask_directory"] / "metadata.json",
     json_version: int = 6,
     config: DictConfig = conf,
 ) -> Dict[str, Any]:

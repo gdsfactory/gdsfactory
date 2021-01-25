@@ -4,7 +4,7 @@ Notice that this is the only file where units are in SI units (meters instead of
 """
 import time
 from collections import namedtuple
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -77,7 +77,7 @@ def write(
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
-    dirpath: PosixPath = pp.CONFIG["sp"],
+    dirpath: Path = pp.CONFIG["sp"],
     **settings,
 ) -> pd.DataFrame:
     """Return and write component Sparameters from Lumerical FDTD.

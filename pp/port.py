@@ -16,7 +16,7 @@ For port naming we follow the IPKISS standard
 import csv
 import functools
 from copy import deepcopy
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
@@ -181,7 +181,7 @@ def port_array(
 
 
 def read_port_markers(
-    gdspath: Union[object, PosixPath], layers: Iterable[Tuple[int, int]] = ((1, 10),)
+    gdspath: Union[object, Path], layers: Iterable[Tuple[int, int]] = ((1, 10),)
 ) -> Device:
     """loads a GDS and returns the extracted ports from layer markers
 

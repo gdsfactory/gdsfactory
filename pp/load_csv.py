@@ -1,12 +1,12 @@
 import csv
-from pathlib import PosixPath
+from pathlib import Path
 from typing import Dict
 
 import numpy as np
 from numpy import ndarray
 
 
-def load_csv(csv_path: PosixPath) -> Dict[str, ndarray]:
+def load_csv(csv_path: Path) -> Dict[str, ndarray]:
     """ loads csv and returs a dict
     the key for each column is taken from the first row
     """

@@ -1,6 +1,6 @@
 import itertools
 import pathlib
-from pathlib import PosixPath
+from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
 import gdspy as gp
@@ -40,9 +40,7 @@ def get_polygons_on_layer(
         return None
 
 
-def gdsdiff(
-    cellA: Union[PosixPath, Component], cellB: Union[PosixPath, Component]
-) -> Component:
+def gdsdiff(cellA: Union[Path, Component], cellB: Union[Path, Component]) -> Component:
     """Compare two Components.
 
     Args:
@@ -52,9 +50,9 @@ def gdsdiff(
     Returns:
         Component with both cells (xor, common and diffs)
     """
-    if isinstance(cellA, pathlib.PosixPath):
+    if isinstance(cellA, pathlib.Path):
         cellA = str(cellA)
-    if isinstance(cellB, pathlib.PosixPath):
+    if isinstance(cellB, pathlib.Path):
         cellB = str(cellB)
     if isinstance(cellA, str):
         cellA = import_gds(cellA, flatten=True)
