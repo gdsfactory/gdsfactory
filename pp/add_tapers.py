@@ -1,14 +1,15 @@
-from typing import Callable
+from typing import Callable, List, Tuple
 
 import pp
-from pp.component import Component
+from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
 from pp.container import container
+from pp.port import Port
 
 
 def add_taper_elements(
     component: Component, taper: Callable = taper_function
-) -> Component:
+) -> Tuple[List[Port], List[ComponentReference]]:
     """returns ports and taper elements for a component"""
     ports = []
     elements = []

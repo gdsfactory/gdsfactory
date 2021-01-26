@@ -108,7 +108,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 0.010000000000005116
+      length: 0.010000000000012221
       width: 0.5
   waveguide_L52p49_W500n_38.745_0.625:
     component: waveguide

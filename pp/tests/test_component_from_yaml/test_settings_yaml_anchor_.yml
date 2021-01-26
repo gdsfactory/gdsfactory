@@ -1,9 +1,9 @@
 info:
   instances:
-    mmi_long: DeviceReference (parent Device "mmi1x2_LM10_WM4p5", ports ['E0', 'E1',
-      'W0'], origin [25.    15.875], rotation 0, x_reflection False)
-    mmi_short: DeviceReference (parent Device "mmi1x2_LM5_WM4p5", ports ['E0', 'E1',
-      'W0'], origin [-12.5     0.625], rotation 0, x_reflection False)
+    mmi_long: DeviceReference (parent Device "CP1", ports ['E0', 'E1', 'W0'], origin
+      [25.    15.875], rotation 0, x_reflection False)
+    mmi_short: DeviceReference (parent Device "CP2", ports ['E0', 'E1', 'W0'], origin
+      [-12.5     0.625], rotation 0, x_reflection False)
   routes: {}
 name: yaml_anchor
 settings: {}

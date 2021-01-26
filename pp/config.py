@@ -24,7 +24,6 @@ from pprint import pprint
 from typing import Any, Optional
 
 import numpy as np
-from git import InvalidGitRepositoryError, Repo
 from omegaconf import OmegaConf
 
 home = pathlib.Path.home()
@@ -71,9 +70,17 @@ if os.access(cwd_config, os.R_OK) and cwd_config.exists():
 conf.version = __version__
 
 try:
-    conf.git_hash = Repo(repo_path, search_parent_directories=True).head.object.hexsha
-    conf.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
-except InvalidGitRepositoryError:
+    from git import InvalidGitRepositoryError, Repo
+
+    try:
+        conf.git_hash = Repo(
+            repo_path, search_parent_directories=True
+        ).head.object.hexsha
+        conf.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
+    except InvalidGitRepositoryError:
+        pass
+
+except (ImportError, ModuleNotFoundError):
     pass
 
 
