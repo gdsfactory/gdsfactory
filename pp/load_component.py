@@ -31,19 +31,17 @@ def load_component_path(name, dirpath=CONFIG["gdslib"]):
 
 def remove_gds_labels(component: Component, layer=pp.LAYER.LABEL_SETTINGS) -> None:
     """Returns same component without labels"""
-    for component in list(component.get_dependencies(recursive=True)) + [component]:
+    for c in list(component.get_dependencies(recursive=True)) + [component]:
         old_label = [
-            label
-            for label in component.labels
-            if label.layer == pp.LAYER.LABEL_SETTINGS
+            label for label in c.labels if label.layer == pp.LAYER.LABEL_SETTINGS
         ]
         if len(old_label) > 0:
             for label in old_label:
-                component.labels.remove(label)
+                c.labels.remove(label)
 
 
 def load_component(gdspath: Path) -> Component:
-    """Returns Component from gdspath, with ports (CSV) and metadata (JSON) info (if any)"""
+    """Returns Component  with ports (CSV) and metadata (JSON) info (if any)"""
 
     if not gdspath.exists():
         raise FileNotFoundError(f"No such file '{gdspath}'")
