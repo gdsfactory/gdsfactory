@@ -308,22 +308,22 @@ instances:
   waveguide_L1_W500n_130.0_589.5:
     component: waveguide
     settings:
-      length: 1
+      length: 1.0
       width: 0.5
   waveguide_L1_W500n_260.0_389.5:
     component: waveguide
     settings:
-      length: 1
+      length: 1.0
       width: 0.5
   waveguide_L1_W500n_401.0_568.5:
     component: waveguide
     settings:
-      length: 1
+      length: 1.0
       width: 0.5
   waveguide_L1_W500n_531.0_368.5:
     component: waveguide
     settings:
-      length: 1
+      length: 1.0
       width: 0.5
   waveguide_L268_W2p5_130.0_379.0:
     component: waveguide
