@@ -3,7 +3,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.components import component_factory, component_names, component_names_test_ports
-from pp.testing import difftest
+from pp.difftest import difftest
 
 
 @pytest.mark.parametrize("component_type", component_names)

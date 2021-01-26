@@ -2,7 +2,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64
-from pytest_regressions.data_regression import DataRegressionFixture
 
 from pp.cell import cell
 from pp.component import Component, ComponentReference
@@ -10,7 +9,6 @@ from pp.config import conf
 from pp.layers import LAYER
 from pp.port import Port, flipped, is_electrical_port
 from pp.routing.connect import connect_elec, connect_strip
-from pp.testing import difftest
 from pp.types import Route
 
 BEND_RADIUS = conf.tech.bend_radius
@@ -536,12 +534,6 @@ def sample_route_sides() -> Component:
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
     return c
-
-
-def test_sample_route_sides(data_regression: DataRegressionFixture) -> None:
-    """Avoid regressions in GDS geometry shapes and layers."""
-    c = sample_route_sides()
-    difftest(c)
 
 
 if __name__ == "__main__":

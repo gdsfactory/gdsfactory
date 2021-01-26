@@ -20,6 +20,11 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.3.0
+
+- move tests to tests/ folder
+- rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
+
 ## 2.2.9 2021-01-24
 
 - better settings export
