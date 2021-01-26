@@ -7,8 +7,14 @@ name: grating_coupler_elliptical2
 settings:
   direction: EAST
   dutycycle: 0.7
-  layer:
+  layer_cladding:
   - 2
+  - 0
+  layer_core:
+  - 111
+  - 0
+  layer_trenches:
+  - 1
   - 0
   length: 30.0
   period: 1.0

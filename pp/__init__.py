@@ -46,7 +46,6 @@ import pp.components as c
 import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
-import pp.sp as sp
 import pp.port as port
 import pp.types as types
 
@@ -101,7 +100,6 @@ __all__ = [
     "routing",
     "recurse_references",
     "show",
-    "sp",
     "types",
     "write_component",
     "write_doe",
