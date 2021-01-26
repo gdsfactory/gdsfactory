@@ -9,7 +9,7 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
 from pp.component_from_yaml import component_from_yaml, sample_mmis
-from pp.testing import difftest
+from pp.difftest import difftest
 
 sample_connections = """
 name: sample_connections

@@ -1,6 +1,6 @@
 import pp
+from pp.difftest import difftest
 from pp.gdsdiff.gdsdiff import gdsdiff
-from pp.testing import difftest
 
 
 def test_gdsdiff() -> None:

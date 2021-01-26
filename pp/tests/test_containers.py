@@ -16,6 +16,7 @@ from pp.components.extension import extend_ports
 # from pp.components.waveguide_heater import waveguide_heater
 from pp.components.mzi2x2 import mzi2x2
 from pp.components.spiral_inner_io import spiral_inner_io
+from pp.difftest import difftest
 from pp.rotate import rotate
 from pp.routing import (
     add_electrical_pads,
@@ -25,7 +26,6 @@ from pp.routing import (
     add_fiber_single,
     package_optical2x2,
 )
-from pp.testing import difftest
 
 container_factory = dict(
     add_electrical_pads=add_electrical_pads,
