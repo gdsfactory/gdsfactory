@@ -21,7 +21,9 @@ def grating_coupler_elliptical2(
     period: float = 1.0,
     dutycycle: float = 0.7,
     ridge: bool = True,
-    layer: Layer = (2, 0),
+    layer_trenches: Layer = pp.LAYER.WG,
+    layer_core: Layer = pp.LAYER.WGCLAD,
+    layer_cladding: Layer = pp.LAYER.SLAB150,
     teeth_list: Optional[bool] = None,
     port: Union[Tuple[float, float], Tuple[int, int]] = (0.0, 0.0),
     direction: str = "EAST",
@@ -68,14 +70,21 @@ def grating_coupler_elliptical2(
     """
 
     c = pc.GratingCoupler(
-        pp.call_if_func(wg_strip, **kwargs),
+        pp.call_if_func(
+            wgt,
+            wg_layer=layer_trenches[0],
+            wg_datatype=layer_trenches[1],
+            clad_layer=layer_cladding[0],
+            clad_datatype=layer_cladding[1],
+            **kwargs
+        ),
         theta=theta,
         length=length,
         taper_length=taper_length,
         period=period,
-        dutycycle=dutycycle,
+        dutycycle=1 - dutycycle,
         ridge=ridge,
-        ridge_layers=layer,
+        ridge_layers=layer_core,
         teeth_list=teeth_list,
         port=port,
         direction=direction,

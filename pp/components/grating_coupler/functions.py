@@ -1,12 +1,17 @@
+from typing import Tuple
+
 from numpy import pi, sin, sqrt
 
 neff_ridge = 2.8
 neff_shallow = 2.5
 
 
-def calc_curved_grating_periods(
-    fiber_angle=15, wavelength=1.55, n_slab=(neff_ridge + neff_shallow) / 2, n_clad=1.0
-):
+def get_grating_period_curved(
+    fiber_angle: float = 15.0,
+    wavelength: float = 1.55,
+    n_slab: float = (neff_ridge + neff_shallow) / 2,
+    n_clad: float = 1.0,
+) -> Tuple[float, float]:
     """
     The following function calculates the confocal grating periods
     n_slab is the "average slab index" of the grating.
@@ -16,6 +21,12 @@ def calc_curved_grating_periods(
     not the index of the layer above the waveguide.
     If the fiber is in air, then it is 1.0.
     If you use an index matching fluid or glue, then it should be 1.45
+
+    Args:
+        fiber_angle: in degrees
+        wavelength: um
+        n_slab: slab refractive index
+        n_clad: cladding refractive index
     """
 
     DEG2RAD = pi / 180
@@ -27,20 +38,23 @@ def calc_curved_grating_periods(
     return (h_period, v_period)
 
 
-def calc_grating_period(
-    fiber_angle=13.45,
-    wavelength=1.55,
-    neff_high=neff_ridge,
-    neff_low=neff_shallow,
-    n_clad=1.45,
-):
-    # from lumerical slides
+def get_grating_period(
+    fiber_angle: float = 13.45,
+    wavelength: float = 1.55,
+    neff_high: float = neff_ridge,
+    neff_low: float = neff_shallow,
+    n_clad: float = 1.45,
+) -> float:
+    """Return grating coupler period.
+    based on lumerical slides.
+    """
     DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2
     return wavelength / (neff - sin(DEG2RAD * fiber_angle) * n_clad)
 
 
 if __name__ == "__main__":
-    p = calc_curved_grating_periods()
-    p = calc_grating_period()
+    pc = get_grating_period_curved()
+    p = get_grating_period()
+    print(pc)
     print(p)

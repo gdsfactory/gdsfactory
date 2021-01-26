@@ -48,123 +48,79 @@ def test_connect_bundle():
 
 
 @pp.cell
-def test_connect_corner(N=6, config="A"):
+def test_connect_corner(N=6):
     d = 10.0
     sep = 5.0
     c = pp.Component()
 
-    if config in ["A", "B"]:
-        a = 100.0
-        ports_A_TR = [
-            Port("A_TR_{}".format(i), (d, a / 2 + i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_TL = [
-            Port("A_TL_{}".format(i), (-d, a / 2 + i * sep), 0.5, 180) for i in range(N)
-        ]
-        ports_A_BR = [
-            Port("A_BR_{}".format(i), (d, -a / 2 - i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_BL = [
-            Port("A_BL_{}".format(i), (-d, -a / 2 - i * sep), 0.5, 180)
-            for i in range(N)
-        ]
+    a = 100.0
+    ports_A_TR = [
+        Port("A_TR_{}".format(i), (d, a / 2 + i * sep), 0.5, 0) for i in range(N)
+    ]
+    ports_A_TL = [
+        Port("A_TL_{}".format(i), (-d, a / 2 + i * sep), 0.5, 180) for i in range(N)
+    ]
+    ports_A_BR = [
+        Port("A_BR_{}".format(i), (d, -a / 2 - i * sep), 0.5, 0) for i in range(N)
+    ]
+    ports_A_BL = [
+        Port("A_BL_{}".format(i), (-d, -a / 2 - i * sep), 0.5, 180) for i in range(N)
+    ]
 
-        ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
+    ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
 
-        ports_B_TR = [
-            Port("B_TR_{}".format(i), (a / 2 + i * sep, d), 0.5, 90) for i in range(N)
-        ]
-        ports_B_TL = [
-            Port("B_TL_{}".format(i), (-a / 2 - i * sep, d), 0.5, 90) for i in range(N)
-        ]
-        ports_B_BR = [
-            Port("B_BR_{}".format(i), (a / 2 + i * sep, -d), 0.5, 270) for i in range(N)
-        ]
-        ports_B_BL = [
-            Port("B_BL_{}".format(i), (-a / 2 - i * sep, -d), 0.5, 270)
-            for i in range(N)
-        ]
+    ports_B_TR = [
+        Port("B_TR_{}".format(i), (a / 2 + i * sep, d), 0.5, 90) for i in range(N)
+    ]
+    ports_B_TL = [
+        Port("B_TL_{}".format(i), (-a / 2 - i * sep, d), 0.5, 90) for i in range(N)
+    ]
+    ports_B_BR = [
+        Port("B_BR_{}".format(i), (a / 2 + i * sep, -d), 0.5, 270) for i in range(N)
+    ]
+    ports_B_BL = [
+        Port("B_BL_{}".format(i), (-a / 2 - i * sep, -d), 0.5, 270) for i in range(N)
+    ]
 
-        ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
+    ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
 
-    elif config in ["C", "D"]:
-        a = N * sep + 2 * d
-        ports_A_TR = [
-            Port("A_TR_{}".format(i), (a, d + i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_TL = [
-            Port("A_TL_{}".format(i), (-a, d + i * sep), 0.5, 180) for i in range(N)
-        ]
-        ports_A_BR = [
-            Port("A_BR_{}".format(i), (a, -d - i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_BL = [
-            Port("A_BL_{}".format(i), (-a, -d - i * sep), 0.5, 180) for i in range(N)
-        ]
+    lengths = [
+        75.708,
+        85.708,
+        95.708,
+        105.708,
+        115.708,
+        125.708,
+        75.708,
+        85.708,
+        95.708,
+        105.708,
+        115.708,
+        125.708,
+        125.708,
+        115.708,
+        105.708,
+        95.708,
+        85.708,
+        75.708,
+        125.708,
+        115.708,
+        105.708,
+        95.708,
+        85.708,
+        75.708,
+    ]
+    i = 0
 
-        ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
-
-        ports_B_TR = [
-            Port("B_TR_{}".format(i), (d + i * sep, a), 0.5, 90) for i in range(N)
-        ]
-        ports_B_TL = [
-            Port("B_TL_{}".format(i), (-d - i * sep, a), 0.5, 90) for i in range(N)
-        ]
-        ports_B_BR = [
-            Port("B_BR_{}".format(i), (d + i * sep, -a), 0.5, 270) for i in range(N)
-        ]
-        ports_B_BL = [
-            Port("B_BL_{}".format(i), (-d - i * sep, -a), 0.5, 270) for i in range(N)
-        ]
-
-        ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
-
-    if config in ["A", "C"]:
-        lengths = [
-            75.708,
-            85.708,
-            95.708,
-            105.708,
-            115.708,
-            125.708,
-            75.708,
-            85.708,
-            95.708,
-            105.708,
-            115.708,
-            125.708,
-            125.708,
-            115.708,
-            105.708,
-            95.708,
-            85.708,
-            75.708,
-            125.708,
-            115.708,
-            105.708,
-            95.708,
-            85.708,
-            75.708,
-        ]
-        i = 0
-
-        for ports1, ports2 in zip(ports_A, ports_B):
-            routes = connect_bundle(ports1, ports2)
-            for route in routes:
-                c.add(route["references"])
-                length = lengths[i]
-                i += 1
-                assert np.isclose(
-                    route["length"], length
-                ), f"{route['settings']['length']} should be {length}"
-
-    elif config in ["B", "D"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
-            routes = connect_bundle(ports2, ports1)
-            for route, length in zip(routes, lengths):
-                print(route["length"])
-                c.add(route["references"])
-                # assert np.isclose(route["length"], length)
+    for ports1, ports2 in zip(ports_A, ports_B):
+        routes = connect_bundle(ports1, ports2)
+        for route in routes:
+            c.add(route["references"])
+            length = lengths[i]
+            i += 1
+            assert np.isclose(
+                route["length"], length
+            ), f"{route['length']} should be {length}"
 
     return c
 
@@ -289,7 +245,7 @@ if __name__ == "__main__":
     import pp
 
     # c = test_connect_bundle()
-    # c = test_connect_corner(config="A")
+    c = test_connect_corner()
     # c = test_connect_bundle_u_indirect()
-    c = test_facing_ports()
+    # c = test_facing_ports()
     pp.show(c)

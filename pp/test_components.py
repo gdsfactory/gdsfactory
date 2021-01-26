@@ -7,7 +7,7 @@ from pp.testing import difftest
 
 
 @pytest.mark.parametrize("component_type", component_names)
-def test_gds(component_type: str, data_regression: DataRegressionFixture) -> None:
+def test_gds(component_type: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c = component_factory[component_type]()
     difftest(c)
