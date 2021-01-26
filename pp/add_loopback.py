@@ -84,8 +84,9 @@ def gen_loopback(
 
 @pp.cell
 def waveguide_with_loopback() -> pp.Component:
-    c = waveguide()
-    c.add(gen_loopback(c.ports["W0"], c.ports["E0"], gc=pp.c.grating_coupler_te))
+    c = pp.Component("waveguide_with_loopback")
+    wg = c << waveguide()
+    c.add(gen_loopback(wg.ports["W0"], wg.ports["E0"], gc=pp.c.grating_coupler_te))
     return c
 
 

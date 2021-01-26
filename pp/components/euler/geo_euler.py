@@ -93,30 +93,6 @@ def euler_bend_points(
     return points
 
 
-def euler_end_pt(
-    start_point=(0.0, 0.0), radius=10.0, input_angle=0.0, angle_amount=90.0
-):
-    """Gives the end point of a simple Euler bend as a Coord2"""
-
-    th = abs(angle_amount) * DEG2RAD / 2.0
-    R = radius
-    clockwise = bool(angle_amount < 0)
-
-    (fsin, fcos) = fresnel(sqrt(2 * th / pi))
-
-    a = 2 * sqrt(2 * pi * th) * (np.cos(th) * fcos + np.sin(th) * fsin)
-    r = a * R
-    X = r * np.cos(th)
-    Y = r * np.sin(th)
-
-    if clockwise:
-        Y *= -1
-
-    pt = Coord2(X, Y) + start_point
-    pt.rotate(rotation_center=start_point, rotation=input_angle)
-    return pt
-
-
 def euler_length(radius: Union[int, float] = 10.0, angle_amount: int = 90.0) -> float:
     th = abs(angle_amount) * DEG2RAD / 2
     return 4 * radius * th

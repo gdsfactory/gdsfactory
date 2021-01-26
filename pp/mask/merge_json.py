@@ -1,34 +1,13 @@
-""" merges multiple JSONs:
+"""Combine multiple JSONs into one."""
 
-"""
-
-import importlib
 import json
 from pathlib import Path
 from typing import Any, Dict, List
 
-from git import Repo
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 
-from pp.config import CONFIG, conf, get_git_hash, logging, write_config
-
-
-def update_config_modules(config: DictConfig = conf) -> DictConfig:
-    """update config with module git hashe and version (for each module in module_requirements section)"""
-    if config.get("requirements"):
-        config.update({"git_hash": get_git_hash(), "module_versions": {}})
-        for module_name in config["requirements"]:
-            module = importlib.import_module(module_name)
-            config["module_versions"].update(
-                {
-                    module_name: {
-                        "version": module.__version__,
-                        "git_hash": Repo(module.CONFIG["repo_path"]).head.object.hexsha,
-                    }
-                }
-            )
-    return config
+from pp.config import CONFIG, conf, logging, write_config
 
 
 def merge_json(
@@ -38,18 +17,20 @@ def merge_json(
     json_version: int = 6,
     config: DictConfig = conf,
 ) -> Dict[str, Any]:
-    """Merge several JSON files from config.yml
+    """Combine several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
 
     Args:
-        mask_config_directory: defaults to current working directory
+        doe_directory: defaults to current working directory
+        extra_directories: list of extra_directories
+        jsonpath
         json_version:
+        config
 
     """
     logging.debug("Merging JSON files:")
     cells = {}
     config = config or {}
-    update_config_modules(config=config)
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):
