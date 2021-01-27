@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Iterable, Tuple
 
 import numpy as np
 from phidl.geometry import _glyph, _indent, _width
@@ -8,12 +8,13 @@ from pp.component import Component
 from pp.components.manhattan_font import manhattan_text
 from pp.layers import LAYER
 from pp.name import clean_name
+from pp.types import Coordinate, Layer, Number
 
 
 def text(
     text: str = "abcd",
     size: float = 10.0,
-    position: Tuple[int, int] = (0, 0),
+    position: Coordinate = (0, 0),
     justify: str = "left",
     layer: Tuple[int, int] = LAYER.TEXT,
 ) -> Component:
@@ -66,8 +67,13 @@ def text(
 
 
 @pp.cell
-def githash(text=[], size=0.4, hash_length=6, layer=LAYER.WG):
-    """ returns the photonics_pdk git hash
+def githash(
+    text: Iterable[str] = ("",),
+    size: Number = 0.4,
+    hash_length: int = 6,
+    layer: Layer = LAYER.WG,
+) -> Component:
+    """returns the photonics_pdk git hash
     allows a list of text, that will print on separate lines ::
 
     text = [
