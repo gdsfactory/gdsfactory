@@ -212,7 +212,7 @@ def select_ports(
     ports: Dict[str, Port],
     port_type: Union[str, Tuple[int, int]] = "optical",
     prefix: Optional[str] = None,
-) -> List[Port]:
+) -> Dict[str, Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)

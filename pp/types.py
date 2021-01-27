@@ -9,6 +9,7 @@ from pp.port import Port
 Layer = Tuple[int, int]
 ComponentOrFunction = Union[Callable, Component]
 ComponentOrPath = Union[Path, Component]
+ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, Callable]
 Number = Union[float, int]
 Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]

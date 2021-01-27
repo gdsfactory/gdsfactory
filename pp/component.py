@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import copy as python_copy
 import itertools
 import uuid
@@ -13,6 +15,10 @@ from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
 
 from pp.config import conf
 from pp.port import Port, select_ports
+
+Number = Union[float64, int64, float, int]
+Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
+Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 
 
 def copy(D: Device) -> Device:
@@ -98,9 +104,7 @@ class SizeInfo:
 
 
 def _rotate_points(
-    points: Union[Tuple[int, int], ndarray],
-    angle: int = 45,
-    center: Tuple[float, float] = (0.0, 0,),
+    points: Coordinates, angle: Number = 45, center: Coordinate = (0.0, 0,),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
@@ -132,8 +136,8 @@ class ComponentReference(DeviceReference):
     def __init__(
         self,
         component: Device,
-        origin: Tuple[int, int] = (0, 0),
-        rotation: int = 0,
+        origin: Coordinate = (0, 0),
+        rotation: Number = 0,
         magnification: None = None,
         x_reflection: bool = False,
         visual_label: str = "",
@@ -263,7 +267,7 @@ class ComponentReference(DeviceReference):
         return self._local_ports
 
     @property
-    def info(self) -> Dict[str, Union[float64, float]]:
+    def info(self) -> Dict[str, Any]:
         return self.parent.info
 
     @property
@@ -273,11 +277,11 @@ class ComponentReference(DeviceReference):
     def _transform_port(
         self,
         point: ndarray,
-        orientation: Union[float64, int64],
-        origin: Union[Tuple[int, int], ndarray] = (0, 0),
-        rotation: Optional[Union[float64, int, int64]] = None,
+        orientation: Number,
+        origin: Coordinate = (0, 0),
+        rotation: Optional[Number] = None,
         x_reflection: bool = False,
-    ) -> Union[Tuple[ndarray, float64], Tuple[ndarray, int64]]:
+    ) -> Tuple[ndarray, Number]:
         # Apply GDS-type transformations to a port (x_ref)
         new_point = np.array(point)
         new_orientation = orientation
@@ -297,8 +301,8 @@ class ComponentReference(DeviceReference):
     def _transform_point(
         self,
         point: ndarray,
-        origin: Union[Tuple[int, int], ndarray] = (0, 0),
-        rotation: Optional[Union[int64, int, float]] = None,
+        origin: Coordinate = (0, 0),
+        rotation: Optional[Number] = None,
         x_reflection: bool = False,
     ) -> ndarray:
         # Apply GDS-type transformations to a port (x_ref)
@@ -315,16 +319,10 @@ class ComponentReference(DeviceReference):
 
     def move(
         self,
-        origin: Union[
-            Port,
-            ndarray,
-            List[Union[float, float64]],
-            Tuple[int, int],
-            List[Union[int, float]],
-        ] = (0, 0),
+        origin: Union[Port, Coordinate] = (0, 0),
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
-    ) -> object:
+    ) -> ComponentReference:
         """Moves the DeviceReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
@@ -372,9 +370,7 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def rotate(
-        self, angle: Union[float, int] = 45, center: Tuple[float, float] = (0.0, 0.0),
-    ) -> object:
+    def rotate(self, angle: Number = 45, center: Coordinate = (0.0, 0.0),) -> object:
         """Return ComponentReference rotated:
 
         Args:
@@ -395,7 +391,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def reflect_h(
-        self, port_name: Optional[str] = None, x0: Optional[Union[float, int]] = None
+        self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> None:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0)."""
         if port_name is None and x0 is None:
@@ -407,7 +403,7 @@ class ComponentReference(DeviceReference):
         self.reflect((x0, 1), (x0, 0))
 
     def reflect_v(
-        self, port_name: Optional[str] = None, y0: Optional[float] = None
+        self, port_name: Optional[str] = None, y0: Optional[Number] = None
     ) -> None:
         """Perform vertical mirror using y0 as axis (default, y0=0)"""
         if port_name is None and y0 is None:
@@ -419,9 +415,7 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
 
     def reflect(
-        self,
-        p1: Tuple[float, float] = (0.0, 1.0),
-        p2: Tuple[float, float] = (0.0, 0.0),
+        self, p1: Coordinate = (0.0, 1.0), p2: Coordinate = (0.0, 0.0),
     ) -> object:
         if isinstance(p1, Port):
             p1 = p1.midpoint
@@ -452,7 +446,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(
-        self, port: Union[str, Port], destination: Port, overlap: float = 0.0
+        self, port: Union[str, Port], destination: Port, overlap: Number = 0.0
     ) -> object:
         """Returns a reference of the Component where a origin port_name connects to a destination
 
@@ -660,11 +654,9 @@ class Component(Device):
 
     def ref(
         self,
-        position: Union[
-            Tuple[float, float], Port, Tuple[int, float], ndarray, Tuple[int, int]
-        ] = (0, 0),
+        position: Coordinate = (0, 0),
         port_id: Optional[str] = None,
-        rotation: Union[float64, int, int64] = 0,
+        rotation: Number = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> ComponentReference:
@@ -709,7 +701,7 @@ class Component(Device):
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
 
-    def get_property(self, property: str) -> Union[str, int, float]:
+    def get_property(self, property: str) -> Any:
         if property in self.settings:
             return self.settings[property]
         if hasattr(self, property):
@@ -777,8 +769,8 @@ class Component(Device):
         self,
         name: Optional[Union[str, int]] = None,
         midpoint: Any = (0, 0),
-        width: Union[float64, int, float] = 1,
-        orientation: Union[int, int64, float] = 45,
+        width: Number = 1,
+        orientation: Number = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
@@ -920,13 +912,9 @@ class Component(Device):
     def add_ref(self, D: Device, alias: Optional[str] = None) -> ComponentReference:
         """Takes a Component and adds it as a ComponentReference to the current
         Device."""
-        if type(D) in (list, tuple):
-            return [self.add_ref(E) for E in D]
         if not isinstance(D, Component) and not isinstance(D, Device):
             raise TypeError(
-                """[PP] add_ref() was passed a {}. This is not a Component object. """.format(
-                    type(D)
-                )
+                f"[PP] add_ref({D}) type = {type(D)} needs to be a Component object."
             )
         d = ComponentReference(D)  # Create a ComponentReference (CellReference)
         self.add(d)  # Add ComponentReference (CellReference) to Device (Cell)
@@ -1038,9 +1026,7 @@ def recurse_structures(structure: Component) -> Dict[str, Any]:
 
 
 def clean_dict(d: Dict[str, Any]) -> None:
-    """Cleans dictionary keys"""
-    from pp.component import _clean_value
-
+    """Cleans dictionary keys recursively."""
     for k, v in d.items():
         if isinstance(v, dict):
             clean_dict(v)

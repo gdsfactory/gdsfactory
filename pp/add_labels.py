@@ -101,7 +101,6 @@ def get_input_label_electrical(
 
     if component_name:
         name = component_name
-
     elif isinstance(port.parent, pp.Component):
         name = port.parent.name
     else:
@@ -176,7 +175,9 @@ def test_electrical_labels() -> Component:
     label2 = get_input_label_electrical(
         port=c.ports["E_0"], layer_label=pp.LAYER.LABEL, gc_index=1
     )
-    add_labels(c, port_type="dc", get_label_function=get_input_label_electrical)
+    add_labels(
+        component=c, port_type="dc", get_label_function=get_input_label_electrical
+    )
     labels_text = [c.labels[0].text, c.labels[1].text]
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
@@ -187,4 +188,4 @@ def test_electrical_labels() -> Component:
 if __name__ == "__main__":
     # c = test_optical_labels()
     c = test_electrical_labels()
-    pp.show(c)
+    c.show()
