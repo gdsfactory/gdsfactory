@@ -1,7 +1,7 @@
 from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
-from numpy import bool_, float64, ndarray
+from numpy import bool_, ndarray
 
 import pp
 from pp.component import Component, ComponentReference
@@ -9,7 +9,7 @@ from pp.components import waveguide
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
-from pp.types import Route
+from pp.types import Coordinate, Coordinates, Number, Route
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -73,7 +73,7 @@ def gen_sref(
     rotation_angle: int,
     x_reflection: bool,
     port_name: str,
-    position: ndarray,
+    position: Coordinate,
 ) -> ComponentReference:
     """Place reference of `port_name` of `structure` at `position`.
 
@@ -110,19 +110,19 @@ def _is_horizontal(p0: ndarray, p1: ndarray) -> bool_:
     return np.abs(p0[1] - p1[1]) < TOLERANCE
 
 
-def get_straight_distance(p0: ndarray, p1: ndarray) -> float64:
+def get_straight_distance(p0: ndarray, p1: ndarray) -> Number:
     if _is_vertical(p0, p1):
         return np.abs(p0[1] - p1[1])
     if _is_horizontal(p0, p1):
         return np.abs(p0[0] - p1[0])
 
-    raise ValueError("Waveguide {} {} is not manhattan".format(p0, p1))
+    raise ValueError(f"Waveguide points {p0} {p1} are not manhattan")
 
 
 def transform(
     points: ndarray,
     translation: ndarray = (0, 0),
-    angle_deg: float64 = 0,
+    angle_deg: Number = 0,
     x_reflection: bool = False,
 ) -> ndarray:
     """Transform points.
@@ -130,7 +130,7 @@ def transform(
     Args:
         points (np.array of shape (N,2) ): points to be transformed
         translation (2d like array): translation vector
-        angle_deg (float): rotation angle
+        angle_deg: rotation angle
         x_reflection (bool): if True, mirror the shape across the x axis  (y -> -y)
     """
     # Copy
@@ -154,16 +154,16 @@ def transform(
 
 def reverse_transform(
     points: ndarray,
-    translation: ndarray = (0, 0),
-    angle_deg: float64 = 0,
+    translation: Coordinate = (0, 0),
+    angle_deg: Number = 0,
     x_reflection: bool = False,
 ) -> ndarray:
     """
     Args:
         points (np.array of shape (N,2) ): points to be transformed
         translation (2d like array): translation vector
-        angle_deg (float): rotation angle
-        x_reflection (bool): if True, mirror the shape across the x axis  (y -> -y)
+        angle_deg: rotation angle
+        x_reflection: if True, mirror the shape across the x axis  (y -> -y)
     """
     angle_deg = -angle_deg
 
@@ -189,11 +189,11 @@ def reverse_transform(
 def _generate_route_manhattan_points(
     input_port: Port,
     output_port: Port,
-    bs1: float,
-    bs2: float,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    bs1: Number,
+    bs2: Number,
+    start_straight: Number = 0.01,
+    end_straight: Number = 0.01,
+    min_straight: Number = 0.01,
 ) -> ndarray:
     """Return list of ports for the route.
 
@@ -435,7 +435,7 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 
 def round_corners(
-    points: ndarray,
+    points: Coordinates,
     bend90: Component,
     straight_factory: Callable,
     taper: Optional[Callable] = None,
@@ -598,9 +598,9 @@ def generate_manhattan_waypoints(
     output_port: Port,
     bend90: Optional[Component] = None,
     bend_radius: None = None,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    start_straight: Number = 0.01,
+    end_straight: Number = 0.01,
+    min_straight: Number = 0.01,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
@@ -642,9 +642,9 @@ def route_manhattan(
     bend90: Component,
     straight_factory: Callable,
     taper: None = None,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    start_straight: Number = 0.01,
+    end_straight: Number = 0.01,
+    min_straight: Number = 0.01,
 ) -> Route:
     bend90 = pp.call_if_func(bend90)
 

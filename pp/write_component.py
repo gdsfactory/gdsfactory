@@ -14,6 +14,7 @@ from pp import klive
 from pp.cell import clear_cache
 from pp.component import Component
 from pp.config import CONFIG
+from pp.types import PathType
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
@@ -44,8 +45,8 @@ def write_component_report(component: Component, json_path=None) -> Path:
 
 def write_component(
     component: Component,
-    gdspath: Optional[Path] = None,
-    gdsdir: Path = tmp,
+    gdspath: Optional[PathType] = None,
+    gdsdir: PathType = tmp,
     precision: float = 1e-9,
 ) -> Path:
     """write component GDS and metadata:
@@ -92,8 +93,8 @@ def write_json(json_path, **settings):
 
 def write_gds(
     component: Component,
-    gdspath: Optional[Path] = None,
-    gdsdir: Path = tmp,
+    gdspath: Optional[PathType] = None,
+    gdsdir: PathType = tmp,
     unit: float = 1e-6,
     precision: float = 1e-9,
     auto_rename: bool = False,
