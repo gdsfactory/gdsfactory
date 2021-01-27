@@ -62,6 +62,7 @@ from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.boolean import boolean
 from pp.container import container
+from pp.snap import snap_to_grid
 
 
 __all__ = [
@@ -100,6 +101,7 @@ __all__ = [
     "routing",
     "recurse_references",
     "show",
+    "snap_to_grid",
     "types",
     "write_component",
     "write_doe",

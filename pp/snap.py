@@ -9,7 +9,7 @@ def on_grid(x: float64, nm: int = 1) -> bool:
 
 
 def on_1nm_grid(x):
-    return snap_to_1nm_grid(x) == x
+    return snap_to_grid(x) == x
 
 
 def on_2nm_grid(x):
@@ -17,7 +17,7 @@ def on_2nm_grid(x):
 
 
 def assert_on_1nm_grid(x: float) -> None:
-    assert np.isclose(snap_to_1nm_grid(x), x), f"{x} needs to be on 1nm grid"
+    assert np.isclose(snap_to_grid(x), x), f"{x} needs to be on 1nm grid"
 
 
 def assert_on_2nm_grid(x: float) -> None:
@@ -33,10 +33,6 @@ def snap_to_grid(x: Union[float64, float], nm: int = 1) -> float64:
     return y
 
 
-def snap_to_1nm_grid(x: float) -> float64:
-    return snap_to_grid(x, nm=1)
-
-
 def snap_to_2nm_grid(x: float) -> float64:
     return snap_to_grid(x, nm=2)
 
@@ -45,8 +41,8 @@ def snap_to_5nm_grid(x: float64) -> float64:
     return snap_to_grid(x, nm=5)
 
 
-def test_snap_to_1nm_grid():
-    assert snap_to_1nm_grid(1.1e-3) == 0.001
+def test_snap_to_grid():
+    assert snap_to_grid(1.1e-3) == 0.001
 
 
 def test_snap_to_2nm_grid():
@@ -67,7 +63,7 @@ def test_on_2nm_grid():
 
 if __name__ == "__main__":
     test_on_1nm_grid()
-    # print(snap_to_1nm_grid(1.1e-3))
+    # print(snap_to_grid(1.1e-3))
     # print(snap_to_2nm_grid(1.1e-3))
     # print(snap_to_2nm_grid(3.1e-3))
 

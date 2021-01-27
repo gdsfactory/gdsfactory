@@ -29,10 +29,10 @@ def dbr_cell(
     l2: float = period / 2,
     waveguide_function: Callable = waveguide,
 ) -> Component:
-    l1 = pp.drc.snap_to_grid(l1)
-    l2 = pp.drc.snap_to_grid(l2)
-    w1 = pp.drc.snap_to_grid(w1, 2)
-    w2 = pp.drc.snap_to_grid(w2, 2)
+    l1 = pp.snap_to_grid(l1)
+    l2 = pp.snap_to_grid(l2)
+    w1 = pp.snap_to_grid(w1, 2)
+    w2 = pp.snap_to_grid(w2, 2)
     c = pp.Component()
     c1 = c << waveguide_function(length=l1, width=w1)
     c2 = c << waveguide_function(length=l2, width=w2)
@@ -82,8 +82,8 @@ def dbr(
 
     """
     c = pp.Component()
-    l1 = pp.drc.snap_to_grid(l1)
-    l2 = pp.drc.snap_to_grid(l2)
+    l1 = pp.snap_to_grid(l1)
+    l2 = pp.snap_to_grid(l2)
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function,)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("W0", port=cell.ports["W0"])

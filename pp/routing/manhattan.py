@@ -6,9 +6,9 @@ from numpy import bool_, float64, ndarray
 import pp
 from pp.component import Component, ComponentReference
 from pp.components import waveguide
-from pp.drc import snap_to_1nm_grid
 from pp.geo_utils import angles_deg
 from pp.port import Port
+from pp.snap import snap_to_grid
 from pp.types import Route
 
 TOLERANCE = 0.0001
@@ -589,7 +589,7 @@ def round_corners(
 
     ports["input"] = list(wg_refs[0].ports.values())[0]
     ports["output"] = list(wg_refs[-1].ports.values())[port_index_out]
-    length = snap_to_1nm_grid(float(total_length))
+    length = snap_to_grid(float(total_length))
     return dict(references=references, ports=ports, length=length)
 
 

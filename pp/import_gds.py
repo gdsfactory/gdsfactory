@@ -8,10 +8,10 @@ from phidl.device_layout import CellArray, DeviceReference
 
 import pp
 from pp.component import Component
-from pp.drc import snap_to_1nm_grid
 from pp.layers import port_layer2type as port_layer2type_default
 from pp.layers import port_type2layer as port_type2layer_default
 from pp.port import auto_rename_ports, read_port_markers
+from pp.snap import on_grid, snap_to_grid
 from pp.types import Layer
 
 
@@ -49,8 +49,8 @@ def add_ports_from_markers_square(
     port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = snap_to_1nm_grid(p.ymax - p.ymin)
-        dx = snap_to_1nm_grid(p.xmax - p.xmin)
+        dy = snap_to_grid(p.ymax - p.ymin)
+        dx = snap_to_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
         if dx == dy and dx * dy > min_pin_area_um2:
@@ -151,7 +151,7 @@ def add_ports_from_markers_center(
                 continue
 
             # skip square ports as they have no clear orientation
-            if snap_to_1nm_grid(dx) == snap_to_1nm_grid(dy):
+            if snap_to_grid(dx) == snap_to_grid(dy):
                 continue
             layer = port_type2layer[port_type]
             pxmax = p.xmax
@@ -317,9 +317,7 @@ def import_gds(
             D.polygons = []
             for p in temp_polygons:
                 if snap_to_grid_nm:
-                    points_on_grid = pp.drc.snap_to_grid(
-                        p.polygons[0], nm=snap_to_grid_nm
-                    )
+                    points_on_grid = snap_to_grid(p.polygons[0], nm=snap_to_grid_nm)
                     p = gdspy.Polygon(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
@@ -342,8 +340,8 @@ def test_import_gds_snap_to_grid() -> None:
     assert len(c.get_polygons()) == 8
 
     for x, y in c.get_polygons()[0]:
-        assert pp.drc.on_grid(x, 5)
-        assert pp.drc.on_grid(y, 5)
+        assert on_grid(x, 5)
+        assert on_grid(y, 5)
 
 
 def test_import_gds_hierarchy() -> None:

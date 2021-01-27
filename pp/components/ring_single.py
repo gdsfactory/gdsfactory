@@ -6,7 +6,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
-from pp.drc.snap_to_grid import assert_on_2nm_grid
+from pp.snap import assert_on_2nm_grid
 
 
 @cell

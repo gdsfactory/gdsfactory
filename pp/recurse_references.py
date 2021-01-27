@@ -2,7 +2,7 @@
 Deprecated! use pp.get_netlist instead.
 """
 
-from pp.drc import snap_to_1nm_grid
+from pp.snap import snap_to_grid
 
 
 def recurse_references(
@@ -43,7 +43,7 @@ def recurse_references(
     instances = instances or {}
     connections = connections or {}
     port_locations = port_locations or {
-        snap_to_1nm_grid((port.x, port.y)): set() for port in component.get_ports()
+        snap_to_grid((port.x, port.y)): set() for port in component.get_ports()
     }
 
     level_name = component.name
@@ -51,15 +51,15 @@ def recurse_references(
 
     for r in component.references:
         c = r.parent
-        x = snap_to_1nm_grid(r.x + dx)
-        y = snap_to_1nm_grid(r.y + dy)
+        x = snap_to_grid(r.x + dx)
+        y = snap_to_grid(r.y + dy)
         reference_name = f"{c.name}_{int(x)}_{int(y)}"
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(component=c.function_name, settings=settings)
         placements[reference_name] = dict(x=x, y=y, rotation=int(r.rotation))
         for port in r.get_ports_list():
             src = f"{reference_name},{port.name}"
-            xy = snap_to_1nm_grid((port.x + dx, port.y + dy))
+            xy = snap_to_grid((port.x + dx, port.y + dy))
             assert (
                 xy in port_locations
             ), f"{xy} for {port.name} {c.name} in level {level} not in {port_locations}"

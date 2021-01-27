@@ -17,8 +17,8 @@
 from typing import Dict, Tuple
 
 from pp.component import Component, ComponentReference
-from pp.drc import snap_to_1nm_grid
 from pp.layers import LAYER
+from pp.snap import snap_to_grid
 
 
 def get_instance_name(
@@ -37,8 +37,8 @@ def get_instance_name(
         layer_label: layer of the label (ignores layer_label[1]). Phidl ignores purpose of labels.
     """
 
-    x = snap_to_1nm_grid(reference.x)
-    y = snap_to_1nm_grid(reference.y)
+    x = snap_to_grid(reference.x)
+    y = snap_to_grid(reference.y)
     labels = component.labels
 
     # default instance name follows componetName_x_y
@@ -48,8 +48,8 @@ def get_instance_name(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_1nm_grid(label.x)
-        yl = snap_to_1nm_grid(label.y)
+        xl = snap_to_grid(label.x)
+        yl = snap_to_grid(label.y)
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -84,9 +84,9 @@ def get_netlist(
 
     for reference in component.references:
         c = reference.parent
-        origin = snap_to_1nm_grid(reference.origin)
-        x = snap_to_1nm_grid(origin[0])
-        y = snap_to_1nm_grid(origin[1])
+        origin = snap_to_grid(reference.origin)
+        x = snap_to_grid(origin[0])
+        y = snap_to_grid(origin[1])
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
@@ -124,7 +124,7 @@ def get_netlist(
 
     # build connectivity port_locations = Dict[Tuple(x,y), set of portNames]
     for name, port in name2port.items():
-        xy = snap_to_1nm_grid((port.x, port.y))
+        xy = snap_to_grid((port.x, port.y))
         if xy not in port_locations:
             port_locations[xy] = set()
         port_locations[xy].add(name)

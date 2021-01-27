@@ -202,7 +202,7 @@ def spiral_inner_io(
     component.add(route_east["references"])
 
     length = route_east["length"] + route_west["length"] + bend180_ref.info["length"]
-    component.length = pp.drc.snap_to_1nm_grid(length + 2 * y_straight_inner_top)
+    component.length = pp.snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 

@@ -38,7 +38,7 @@ def crossing_arm(
     c.add(_ellipse)
     c.absorb(_ellipse)
 
-    a = pp.drc.snap_to_1nm_grid(L + w / 2)
+    a = pp.snap_to_grid(L + w / 2)
     h = wg_width / 2
 
     taper_pts = [

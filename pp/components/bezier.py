@@ -82,8 +82,8 @@ def bezier(
     )
     angles = angles_deg(path_points)
 
-    c.info["start_angle"] = pp.drc.snap_to_1nm_grid(angles[0])
-    c.info["end_angle"] = pp.drc.snap_to_1nm_grid(angles[-2])
+    c.info["start_angle"] = pp.snap_to_grid(angles[0])
+    c.info["end_angle"] = pp.snap_to_grid(angles[-2])
 
     a0 = angles[0] + 180
     a1 = angles[-2]
@@ -98,8 +98,8 @@ def bezier(
     c.add_port(name="1", midpoint=p1, width=width, orientation=a1, layer=layer)
 
     curv = curvature(path_points, t)
-    length = pp.drc.snap_to_1nm_grid(path_length(path_points))
-    min_bend_radius = pp.drc.snap_to_1nm_grid(1 / max(np.abs(curv)))
+    length = pp.snap_to_grid(path_length(path_points))
+    min_bend_radius = pp.snap_to_grid(1 / max(np.abs(curv)))
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
     # c.info["curvature"] = curv

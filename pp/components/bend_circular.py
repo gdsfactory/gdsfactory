@@ -8,6 +8,7 @@ from pp.component import Component
 from pp.config import conf
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
+from pp.snap import on_grid
 
 
 def _interpolate_segment(p0, p1, N=2):
@@ -169,15 +170,15 @@ def bend_circular(
         layer=layer,
     )
 
-    length = pp.drc.snap_to_1nm_grid(abs(theta) * pi / 180 * radius)
+    length = pp.snap_to_grid(abs(theta) * pi / 180 * radius)
     component.length = length
     component.info["length"] = length
     component.move((0, radius))
 
-    assert pp.drc.on_grid(
+    assert on_grid(
         midpoint1[1] - width / 2
     ), f"x_input point is off grid {midpoint1[1] - width/2}"
-    assert pp.drc.on_grid(
+    assert on_grid(
         midpoint2[0] - width / 2
     ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
