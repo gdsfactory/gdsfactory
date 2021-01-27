@@ -2,6 +2,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.component_from_yaml import component_from_yaml
+from pp.snap import assert_on_1nm_grid, assert_on_2nm_grid
 
 
 @cell
@@ -9,8 +10,8 @@ def coupler(
     wg_width: float = 0.5, gap: float = 0.236, length: float = 10.007
 ) -> Component:
 
-    pp.drc.assert_on_1nm_grid(length)
-    pp.drc.assert_on_2nm_grid(gap)
+    assert_on_1nm_grid(length)
+    assert_on_2nm_grid(gap)
 
     netlist = f"""
 instances:

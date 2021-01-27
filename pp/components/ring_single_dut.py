@@ -6,8 +6,8 @@ from pp.components.coupler_ring import coupler_ring
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide
 from pp.config import call_if_func
-from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.port import rename_ports_by_orientation
+from pp.snap import assert_on_2nm_grid
 
 
 @cell

@@ -30,8 +30,7 @@ def coupler90(
       pp.plotgds(c)
 
     """
-    # pp.drc.assert_on_1nm_grid((width + gap) / 2)
-    y = pp.drc.snap_to_1nm_grid((width + gap) / 2)
+    y = pp.snap_to_grid((width + gap) / 2)
 
     c = Component()
     wg = c << waveguide_factory(length=bend_radius, width=width,)
