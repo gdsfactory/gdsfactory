@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import copy as python_copy
 import itertools
 import uuid
@@ -322,7 +320,7 @@ class ComponentReference(DeviceReference):
         origin: Union[Port, Coordinate] = (0, 0),
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
-    ) -> ComponentReference:
+    ) -> object:
         """Moves the DeviceReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
@@ -909,7 +907,7 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
-    def add_ref(self, D: Device, alias: Optional[str] = None) -> ComponentReference:
+    def add_ref(self, D: Device, alias: Optional[str] = None) -> object:
         """Takes a Component and adds it as a ComponentReference to the current
         Device."""
         if not isinstance(D, Component) and not isinstance(D, Device):

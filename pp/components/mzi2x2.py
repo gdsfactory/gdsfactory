@@ -77,11 +77,12 @@ def mzi_arm(
         "A": (_bend, "W0", "N0"),
         "B": (_bend, "N0", "W0"),
         "H": (straight_vheater, "W0", "E0"),
-        "Sh": (straight_h, "W0", "E0"),
-        "Sv": (straight_v, "W0", "E0"),
+        "h": (straight_h, "W0", "E0"),
+        "v": (straight_v, "W0", "E0"),
     }
 
-    sequence = ["A", "Sv", "H", "B", "Sh", "B", "H", "Sv", "A"]
+    # sequence = ["A", "v", "H", "B", "Sh", "B", "H", "v", "A"]
+    sequence = "AvHBhBHvA"
 
     if with_elec_connections:
         ports_map = {

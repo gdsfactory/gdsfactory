@@ -62,7 +62,7 @@ def _flip_ref(c_ref, port_name):
 
 
 def component_sequence(
-    sequence: List[str],
+    sequence: Union[str, List[str]],
     string_to_device_in_out_ports: Dict[
         str, Union[Tuple[Component, str, str], Tuple[None, str, str]]
     ],
@@ -88,7 +88,7 @@ def component_sequence(
 
     """
     # Remove all None devices from the sequence
-    sequence = sequence[:]
+    sequence = list(sequence[:])
     to_rm = []
     for i, d in enumerate(sequence):
         _name_device, _ = _parse_component_name(d)
@@ -157,7 +157,7 @@ def component_sequence(
         _md5 = hashlib.md5()
         _md5.update(str(string_to_device_in_out_ports).encode())
         _md5.update(str(sequence).encode())
-        component.name = "{}_{}".format(name_prefix, _md5.hexdigest())
+        component.name = f"{name_prefix}_{_md5.digest()}"
     return component
 
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     string_to_device_in_out_ports = {
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W1", "E1"),
+        "H": (wg_heater, "W0", "E0"),
         "-": (wg, "W0", "E0"),
     }
 
