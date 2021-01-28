@@ -1,7 +1,7 @@
 import itertools
 import pathlib
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Tuple, Union
 
 import gdspy as gp
 from gdspy.polygon import PolygonSet
@@ -9,13 +9,14 @@ from numpy import int64, ndarray
 
 from pp.component import Component
 from pp.import_gds import import_gds
+from pp.types import ComponentOrReference
 
 COUNTER = itertools.count()
 
 
 def boolean(
-    A: List[ndarray],
-    B: Optional[Union[List[ndarray], PolygonSet]],
+    A: Iterable[ComponentOrReference],
+    B: Iterable[ComponentOrReference],
     operation: str,
     precision: float,
 ) -> Optional[PolygonSet]:
@@ -40,7 +41,9 @@ def get_polygons_on_layer(
         return None
 
 
-def gdsdiff(cellA: Union[Path, Component], cellB: Union[Path, Component]) -> Component:
+def gdsdiff(
+    cellA: Union[Path, Component, str], cellB: Union[Path, Component, str]
+) -> Component:
     """Compare two Components.
 
     Args:

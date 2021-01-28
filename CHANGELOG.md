@@ -24,6 +24,8 @@ from pydantic import validate_arguments
 
 - move tests to tests/ folder
 - rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
+- remove pp.container containerize
+- better type annontations
 
 ## 2.2.9 2021-01-24
 
