@@ -25,7 +25,7 @@ settings:
   min_input2output_spacing: 127
   optical_io_spacing: 50
   optical_routing_type: 2
-  route_filter: connect_strip_way_points
+  route_filter: get_route_from_waypoints
   straight_factory: waveguide
   taper_factory: taper
   taper_length: 10.0

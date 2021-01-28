@@ -54,9 +54,9 @@ def add_fiber_array(
         excluded_ports:
         grating_indices: None
         routing_waveguide: None
-        routing_method: connect_strip
+        routing_method: get_route
         gc_port_name: W0
-        optical_routing_type: None: autoselection, 0: no extension, 1: standard, 2: check
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
@@ -172,6 +172,7 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
+    test_type0()
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 

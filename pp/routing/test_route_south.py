@@ -8,7 +8,8 @@ from pp.component import Component
 def test_route_south() -> Component:
     c = pp.Component()
     cr = c << pp.c.mmi2x2()
-    routes, ports = pp.routing.route_south(cr)
+    route = pp.routing.route_south(cr)
+    references = route["references"]
 
     lengths = [
         15.708,
@@ -24,9 +25,9 @@ def test_route_south() -> Component:
         5.0,
         1.6499999999999968,
     ]
-    for route, length in zip(routes, lengths):
-        c.add(route)
-        route_length = route.parent.length
+    for reference, length in zip(references, lengths):
+        c.add(reference)
+        route_length = reference.parent.length
         assert np.isclose(route_length, length)
     return c
 

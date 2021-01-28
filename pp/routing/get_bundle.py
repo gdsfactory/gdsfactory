@@ -10,10 +10,10 @@ from pp.cell import cell
 from pp.component import Component
 from pp.config import conf
 from pp.port import Port
-from pp.routing.connect import (
-    connect_elec_waypoints,
-    connect_strip,
-    connect_strip_way_points,
+from pp.routing.get_route import (
+    get_route,
+    get_route_from_waypoints,
+    get_route_from_waypoints_electrical,
 )
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
@@ -24,10 +24,10 @@ METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
 
 
-def connect_bundle(
+def get_bundle(
     start_ports: List[Port],
     end_ports: List[Port],
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     bend_radius: float = BEND_RADIUS,
     extension_length: float = 0.0,
@@ -164,7 +164,7 @@ def link_ports(
     start_ports: List[Port],
     end_ports: List[Port],
     separation: float = 5.0,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     **routing_params,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -178,7 +178,7 @@ def link_ports(
              compared using the X (resp. Y) axis
         bend_radius: If None, use waveguide definition from start_ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip waveguide
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
@@ -188,7 +188,7 @@ def link_ports(
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `connect_strip_way_points`,
+        e.g with default `get_route_from_waypoints`,
         returns a list of elements which can be added to a component
 
 
@@ -253,7 +253,7 @@ def link_ports_routes(
         end_ports: list of ports
         separation: route spacing
         bend_radius: for route
-        route_filter: Function used to connect two ports. Should be like `connect_strip`
+        route_filter: Function used to connect two ports. Should be like `get_route`
         sort_ports: if True sort ports
         end_straight_offset: adds a straigth
     """
@@ -441,11 +441,11 @@ def link_ports_routes(
     return elems
 
 
-def generate_waypoints_connect_bundle(*args, **kwargs) -> List[ndarray]:
+def generate_waypoints_get_bundle(*args, **kwargs) -> List[ndarray]:
     """
     returns a list of waypoints for each path generated with link_ports
     """
-    return connect_bundle(*args, route_filter=lambda x, **params: x, **kwargs)
+    return get_bundle(*args, route_filter=lambda x, **params: x, **kwargs)
 
 
 def compute_ports_max_displacement(
@@ -461,7 +461,7 @@ def compute_ports_max_displacement(
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def connect_bundle_path_length_match(
+def get_bundle_path_length_match(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30.0,
@@ -470,7 +470,7 @@ def connect_bundle_path_length_match(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes
@@ -484,8 +484,8 @@ def connect_bundle_path_length_match(
         extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
-        route_filter: connect_strip_way_points
-        **kwargs: extra arguments for inner call to generate_waypoints_connect_bundle
+        route_filter: get_route_from_waypoints
+        **kwargs: extra arguments for inner call to generate_waypoints_get_bundle
 
     """
     extra_length = extra_length / 2
@@ -506,7 +506,7 @@ def connect_bundle_path_length_match(
 
     kwargs["end_straight_offset"] = end_straight_offset
     kwargs["bend_radius"] = bend_radius
-    list_of_waypoints = generate_waypoints_connect_bundle(ports1, ports2, **kwargs)
+    list_of_waypoints = generate_waypoints_get_bundle(ports1, ports2, **kwargs)
 
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
@@ -524,7 +524,7 @@ def link_electrical_ports(
     separation: float = METAL_MIN_SEPARATION,
     bend_radius: float = 0.0001,
     link_dummy_ports: bool = False,
-    route_filter: Callable = connect_elec_waypoints,
+    route_filter: Callable = get_route_from_waypoints_electrical,
     **kwargs,
 ) -> List[Route]:
     """Connect bundle of electrical ports
@@ -538,7 +538,7 @@ def link_electrical_ports(
              compared using the X (resp. Y) axis
         bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip waveguide
 
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
@@ -578,7 +578,7 @@ def link_optical_ports(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 5.0,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     bend_radius: float = BEND_RADIUS,
     **kwargs,
 ) -> List[Route]:
@@ -651,7 +651,7 @@ def link_optical_ports_no_grouping(
     ports1: List[Port],
     ports2: List[Port],
     sep: float = 5.0,
-    route_filter: Callable = connect_strip,
+    route_filter: Callable = get_route,
     radius: float = BEND_RADIUS,
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
@@ -794,7 +794,7 @@ def link_optical_ports_no_grouping(
 
 
 @cell
-def test_connect_bundle() -> Component:
+def test_get_bundle() -> Component:
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
 
@@ -808,8 +808,8 @@ def test_connect_bundle() -> Component:
         Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
-    top_cell = Component(name="connect_bundle")
-    routes = connect_bundle(top_ports, bottom_ports)
+    top_cell = Component(name="get_bundle")
+    routes = get_bundle(top_ports, bottom_ports)
     lengths = [
         1180.4159265358978,
         1063.4159265358978,
@@ -907,13 +907,13 @@ def test_connect_corner(N: int = 6, config: str = "A") -> Component:
 
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = connect_bundle(ports1, ports2)
+            routes = get_bundle(ports1, ports2)
             for route in routes:
                 top_cell.add(route["references"])
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = connect_bundle(ports2, ports1)
+            routes = get_bundle(ports2, ports1)
             for route in routes:
                 top_cell.add(route["references"])
 
@@ -921,7 +921,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> Component:
 
 
 @cell
-def test_connect_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
+def test_get_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
 
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
 
@@ -941,8 +941,8 @@ def test_connect_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
 
         ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
-    top_cell = Component(name="connect_bundle_udirect")
-    routes = connect_bundle(ports1, ports2)
+    top_cell = Component(name="get_bundle_udirect")
+    routes = get_bundle(ports1, ports2)
     lengths = [
         237.4359265358979,
         281.4359265358979,
@@ -962,7 +962,7 @@ def test_connect_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
 
 
 @cell
-def test_connect_bundle_u_indirect(dy: int = -200, angle: int = 180) -> Component:
+def test_get_bundle_u_indirect(dy: int = -200, angle: int = 180) -> Component:
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
@@ -983,8 +983,8 @@ def test_connect_bundle_u_indirect(dy: int = -200, angle: int = 180) -> Componen
 
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    top_cell = Component("connect_bundle_u_indirect")
-    routes = connect_bundle(ports1, ports2)
+    top_cell = Component("get_bundle_u_indirect")
+    routes = get_bundle(ports1, ports2)
     lengths = [
         341.41592653589794,
         341.41592653589794,
@@ -1021,7 +1021,7 @@ def test_facing_ports() -> Component:
     ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     top_cell = Component("test_facing_ports")
-    routes = connect_bundle(ports1, ports2)
+    routes = get_bundle(ports1, ports2)
     lengths = [
         671.4159265358979,
         481.41592653589794,
@@ -1045,14 +1045,14 @@ def test_facing_ports() -> Component:
 
 
 @cell
-def test_connect_bundle_small() -> Component:
+def test_get_bundle_small() -> Component:
     import pp
 
     c = pp.Component()
     c1 = c << pp.c.mmi2x2()
     c2 = c << pp.c.mmi2x2()
     c2.move((100, 40))
-    routes = connect_bundle(
+    routes = get_bundle(
         [c1.ports["E0"], c1.ports["E1"]],
         [c2.ports["W0"], c2.ports["W1"]],
         bend_radius=5,
@@ -1066,11 +1066,11 @@ def test_connect_bundle_small() -> Component:
 
 if __name__ == "__main__":
 
-    # c = demo_connect_bundle()
-    c = test_connect_bundle_small()
+    # c = demo_get_bundle()
+    c = test_get_bundle_small()
     # c = test_facing_ports()
-    # c = test_connect_bundle_u_indirect()
-    # c = test_connect_bundle_udirect()
-    # c = test_connect_bundle()
+    # c = test_get_bundle_u_indirect()
+    # c = test_get_bundle_udirect()
+    # c = test_get_bundle()
     # c = test_connect_corner()
     c.show()

@@ -1,7 +1,7 @@
 import numpy as np
 from phidl.device_layout import _rotate_points
 
-from pp.routing.connect import connect_strip_way_points
+from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints
 
 
@@ -52,7 +52,7 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
 def corner_bundle(
     start_ports,
     end_ports,
-    route_filter=connect_strip_way_points,
+    route_filter=get_route_from_waypoints,
     separation=5.0,
     **kwargs
 ):
@@ -61,10 +61,10 @@ def corner_bundle(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip waveguide
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
 
 
     ::

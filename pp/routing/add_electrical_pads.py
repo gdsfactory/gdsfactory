@@ -21,7 +21,7 @@ def add_electrical_pads(
         n_ports: int = 1,
         excluded_ports: List[Any] = [],
         pad_indices: None = None,
-        route_filter: Callable = connect_elec_waypoints,
+        route_filter: Callable = get_route_from_waypoints_electrical,
         port_name: str = "W",
         pad_rotation: int = -90,
         x_pad_offset: int = 0,

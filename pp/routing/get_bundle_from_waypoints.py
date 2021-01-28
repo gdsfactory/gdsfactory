@@ -96,10 +96,10 @@ def _distance(port1, port2):
     return np.sqrt(dx ** 2 + dy ** 2)
 
 
-def connect_bundle_waypoints(
+def get_bundle_from_waypoints(
     start_ports: List[Port],
     end_ports: List[Port],
-    way_points: Union[
+    waypoints: Union[
         List[Tuple[int, float64]], List[Union[ndarray, Tuple[float64, float64]]]
     ],
     straight_factory: Callable = waveguide,
@@ -115,7 +115,7 @@ def connect_bundle_waypoints(
     Args:
         start_ports: list of ports
         end_ports: list of ports
-        way_points: list of points defining a route
+        waypoints: list of points defining a route
 
     """
     if len(end_ports) != len(start_ports):
@@ -170,7 +170,7 @@ def connect_bundle_waypoints(
         end_ports.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        start_ports, end_ports, way_points, **kwargs
+        start_ports, end_ports, waypoints, **kwargs
     )
 
     bends90 = [bend_factory(radius=bend_radius, width=p.width) for p in start_ports]

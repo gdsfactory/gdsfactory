@@ -5,24 +5,18 @@ from pp.port import auto_rename_ports
 
 @container
 def rotate(
-    component: Component,
-    angle: int = 90,
-    flatten: bool = False,
-    rename_ports: bool = True,
+    component: Component, angle: int = 90, rename_ports: bool = True,
 ) -> Component:
     """Returns rotated component inside a container
 
     Args:
         component:
         angle: in degrees
-        flatten: returns a flatten copy of the geometry
         rename_ports: rename_ports_by_orientation
     """
     c = Component(f"{component.name}_r")
     cr = c.add_ref(component)
     cr.rotate(angle)
-    if flatten:
-        c.flatten()
     c.ports = cr.ports
     if rename_ports:
         auto_rename_ports(c)

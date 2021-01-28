@@ -12,7 +12,7 @@ from pp.components.waveguide import waveguide
 from pp.config import call_if_func
 from pp.container import container
 from pp.layers import LAYER
-from pp.routing.connect import connect_strip_way_points
+from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
 
 
@@ -26,7 +26,7 @@ def add_fiber_single(
     straight_factory: Callable = waveguide,
     taper_factory: Callable = taper,
     taper_length: float = 10.0,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     min_input2output_spacing: int = 127,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
@@ -55,7 +55,7 @@ def add_fiber_single(
         force_manhattan: False
         excluded_ports:
         grating_indices: None
-        routing_method: connect_strip
+        routing_method: get_route
         gc_port_name: W0
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90

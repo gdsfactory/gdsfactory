@@ -68,7 +68,7 @@ def gdsdiff(
     layers.update(cellA.get_layers())
     layers.update(cellB.get_layers())
 
-    top = Component(name=name)
+    top = Component(name=f"{name}_diffs")
     diff = Component(name=f"{name}_xor")
     common = Component(name=f"{name}_common")
     old_only = Component(name=f"{name}_only_in_old")

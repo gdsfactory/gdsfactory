@@ -20,6 +20,15 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.3.1
+
+- refactor
+    - connect_strip to get_route
+    - connect_bundle to get_bundle
+    - connect_strip_way_points to get_route_from_waypoints
+- make diff shows all difference from the difftest run
+
+
 ## 2.3.0
 
 - move tests to tests/ folder

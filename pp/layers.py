@@ -26,14 +26,15 @@ class LayerSet(LayerSetPhidl):
     ):
         """Adds a layer to an existing LayerSet object.
 
-        name: Name of the Layer.
-        gds_layer : GDSII Layer number.
-        gds_datatype : GDSII datatype.
-        description : Layer description.
-        color : Hex code of color for the Layer.
-        inverted :  If true, inverts the Layer.
-        alpha: Alpha parameter (opacity) for the Layer, value must be between 0.0 and 1.0.
-        dither: KLayout dither style (only used in phidl.utilities.write_lyp() )
+        Args:
+            name: Name of the Layer.
+            gds_layer : GDSII Layer number.
+            gds_datatype : GDSII datatype.
+            description : Layer description.
+            color : Hex code of color for the Layer.
+            inverted :  If true, inverts the Layer.
+            alpha: Alpha parameter (opacity) for the Layer, value must be between 0.0 and 1.0.
+            dither: KLayout dither style (only used in phidl.utilities.write_lyp() )
         """
         new_layer = Layer(
             gds_layer=gds_layer,

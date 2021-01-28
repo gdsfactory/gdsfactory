@@ -16,3 +16,4 @@ settings:
       bend_radius: 10.0
       gap: 0.234
       with_elec_connections: true
+  rename_ports: true
