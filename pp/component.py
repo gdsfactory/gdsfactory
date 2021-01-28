@@ -20,7 +20,7 @@ Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 
 
 def copy(D: Device) -> Device:
-    """returns a copy of a Component."""
+    """returns a deep copy of a Component."""
     D_copy = Component(name=D._internal_name)
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
@@ -708,6 +708,10 @@ class Component(Device):
     def pprint(self, **kwargs):
         """Prints component settings."""
         pprint(self.get_settings(**kwargs))
+
+    def pprint_netlist(self, **kwargs):
+        """Prints component netlists."""
+        pprint(self.get_netlist(**kwargs))
 
     def get_settings(
         self, ignore: None = None, include: None = None, full_settings: bool = True,
