@@ -66,4 +66,4 @@ if __name__ == "__main__":
     # c = test_circular_import_pass()
     # c = test_circular_import_fail()
     c = pp.component_from_yaml(yaml_fail)
-    pp.show(c)
+    c.show()

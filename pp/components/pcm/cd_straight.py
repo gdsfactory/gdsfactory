@@ -59,4 +59,4 @@ def cd_straight(
 
 if __name__ == "__main__":
     c = cd_straight()
-    pp.show(c)
+    c.show()

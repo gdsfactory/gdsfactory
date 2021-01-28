@@ -68,7 +68,6 @@ def disk(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = disk(wrap_angle=3.14 / 4)
-    pp.show(c)
+    c.show()

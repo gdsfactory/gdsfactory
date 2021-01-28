@@ -79,4 +79,4 @@ def ring_single_dut(
 
 if __name__ == "__main__":
     c = ring_single_dut(component=taper(width2=3))
-    pp.show(c)
+    c.show()

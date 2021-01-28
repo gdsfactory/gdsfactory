@@ -70,4 +70,4 @@ if __name__ == "__main__":
     import pp
 
     c = ring_double()
-    pp.show(c)
+    c.show()

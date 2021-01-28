@@ -164,4 +164,4 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
     c = grating_coupler_loss()
-    pp.show(c)
+    c.show()

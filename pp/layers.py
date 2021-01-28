@@ -158,10 +158,9 @@ LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
 LAYERS_HEATER = [LAYER.HEATER]
 
 if __name__ == "__main__":
-    import pp
 
     c = preview_layerset(ls)
-    pp.show(c)
+    c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))

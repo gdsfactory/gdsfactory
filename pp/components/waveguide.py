@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
     # print(c.ports)
     # cc = pp.routing.add_fiber_array(c)
-    # pp.show(cc)
+    # cc.show()
 
     # c = waveguide_slab()
     # c = waveguide_trenches()
@@ -158,4 +158,4 @@ if __name__ == "__main__":
     # c = waveguide_slot()
     # c = waveguide_slot(length=11.2, width=0.5)
     # c = waveguide_slot(length=11.2, width=0.5)
-    pp.show(c)
+    c.show()

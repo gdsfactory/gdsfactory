@@ -83,7 +83,7 @@ def githash(
     ]
     c = githash(text=text)
     pp.write_gds(c)
-    pp.show(c)
+    c.show()
 
     """
     try:
@@ -111,4 +111,4 @@ if __name__ == "__main__":
         position=(120.5, 3),
     )
     c = githash(text=["a", "b"], size=10)
-    pp.show(c)
+    c.show()

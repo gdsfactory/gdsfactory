@@ -47,7 +47,6 @@ def C(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = C()
-    pp.show(c)
+    c.show()

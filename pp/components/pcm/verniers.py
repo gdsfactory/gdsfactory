@@ -27,4 +27,4 @@ if __name__ == "__main__":
     c = verniers()
     c.flatten()
     pp.write_gds(c, "verniers.gds")
-    pp.show(c)
+    c.show()

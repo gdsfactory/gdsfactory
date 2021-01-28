@@ -1065,7 +1065,6 @@ def test_connect_bundle_small() -> Component:
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = demo_connect_bundle()
     c = test_connect_bundle_small()
@@ -1074,4 +1073,4 @@ if __name__ == "__main__":
     # c = test_connect_bundle_udirect()
     # c = test_connect_bundle()
     # c = test_connect_corner()
-    pp.show(c)
+    c.show()

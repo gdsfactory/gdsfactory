@@ -47,4 +47,4 @@ def ellipse(
 
 if __name__ == "__main__":
     c = ellipse()
-    pp.show(c)
+    c.show()

@@ -68,4 +68,4 @@ if __name__ == "__main__":
     e3 = pp.c.ellipse(radii=(10, 4)).movex(5)
     # pp.qp([e1, e2, e3])
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
-    pp.show(c)
+    c.show()

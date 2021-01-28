@@ -85,4 +85,4 @@ if __name__ == "__main__":
     c = test_path_length_matching()
     # c = test_path_length_matching_extra_length()
     # c = test_path_length_matching_nb_loops()
-    pp.show(c)
+    c.show()

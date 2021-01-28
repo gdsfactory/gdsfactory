@@ -15,4 +15,4 @@ def test_pins_custom() -> Component:
 
 if __name__ == "__main__":
     c = test_pins_custom()
-    pp.show(c)
+    c.show()

@@ -191,5 +191,5 @@ if __name__ == "__main__":
     print(c.ports)
     print(c.ports.keys())
     print(c.get_ports_array())
-    pp.show(c)
+    c.show()
     pp.write_gds(c)

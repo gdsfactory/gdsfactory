@@ -2,7 +2,6 @@ import pathlib
 
 import pytest
 
-import pp
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
@@ -37,4 +36,4 @@ def test_mask():
 
 if __name__ == "__main__":
     c = test_mask()
-    pp.show(c)
+    c.show()

@@ -188,7 +188,7 @@ if __name__ == "__main__":
     from pp.tests.test_component_from_yaml import sample_2x2_connections
 
     c = pp.component_from_yaml(sample_2x2_connections)
-    pp.show(c)
+    c.show()
     pprint(c.get_netlist())
 
     n = c.get_netlist()

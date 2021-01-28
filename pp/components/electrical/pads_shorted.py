@@ -25,7 +25,6 @@ def pads_shorted(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = pads_shorted()
-    pp.show(c)
+    c.show()

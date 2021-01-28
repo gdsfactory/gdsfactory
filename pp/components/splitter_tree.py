@@ -107,4 +107,4 @@ def splitter_tree(
 
 if __name__ == "__main__":
     c = splitter_tree(coupler=pp.c.mmi1x2())
-    pp.show(c)
+    c.show()

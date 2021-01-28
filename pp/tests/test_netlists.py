@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # print(n.connections)
     # n = c.get_netlist_yaml()
     # print(n)
-    # pp.show(c)
+    # c.show()
 
     # c = component_factory["ring_single"]()
 

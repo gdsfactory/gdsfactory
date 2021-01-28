@@ -674,7 +674,6 @@ def component_from_yaml(
 
 
 if __name__ == "__main__":
-    import pp
 
     cc = component_from_yaml(sample_mmis)
     print(cc.get_settings()["info"])
@@ -696,7 +695,7 @@ if __name__ == "__main__":
     # cc = component_from_yaml(sample_different_link_factory)
     # cc = component_from_yaml(sample_waypoints)
     # cc = test_mirror()
-    pp.show(cc)
+    cc.show()
 
     # cc = component_from_yaml(sample_connections)
     # assert len(cc.get_dependencies()) == 3

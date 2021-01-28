@@ -14,4 +14,4 @@ def SPIRAL(N=6, x=50.0):
 
 if __name__ == "__main__":
     c = SPIRAL()
-    pp.show(c)
+    c.show()

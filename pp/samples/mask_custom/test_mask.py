@@ -150,4 +150,4 @@ if __name__ == "__main__":
     c = test_mask()
     pp.klive.show(c)
     # c = coupler_te(gap=0.3, length=20)
-    # pp.show(c)
+    # c.show()

@@ -96,4 +96,4 @@ if __name__ == "__main__":
     cc = pp.add_pins(c)
     # print(c.settings)
     # print(c.get_settings())
-    pp.show(cc)
+    cc.show()

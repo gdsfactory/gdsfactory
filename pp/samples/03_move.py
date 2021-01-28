@@ -25,4 +25,4 @@ if __name__ == "__main__":
     # wg2.reflect(p1=[1, 1], p2=[1, 3])  # Reflects wg across the line formed
     # by p1 and p2
 
-    pp.show(c)
+    c.show()

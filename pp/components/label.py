@@ -38,4 +38,4 @@ def _demo_label():
 if __name__ == "__main__":
 
     c = _demo_label()
-    pp.show(c)
+    c.show()

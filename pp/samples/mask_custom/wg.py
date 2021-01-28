@@ -12,4 +12,4 @@ def wg(layer=(2, 0), **kwargs):
 
 if __name__ == "__main__":
     c = wg()
-    pp.show(c)
+    c.show()

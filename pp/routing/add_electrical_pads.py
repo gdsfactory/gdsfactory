@@ -57,7 +57,7 @@ if __name__ == "__main__":
     c = pp.c.wg_heater_connected(length=200)
     cc = add_electrical_pads(c, fanout_length=100)
     # cc = add_electrical_pads(c)
-    pp.show(cc)
+    cc.show()
 
     # print(cc.get_settings())
     # print(cc.ports)

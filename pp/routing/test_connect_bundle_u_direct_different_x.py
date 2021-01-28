@@ -38,4 +38,4 @@ def test_connect_bundle_u_direct_different_x() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_bundle_u_direct_different_x()
-    pp.show(c)
+    c.show()

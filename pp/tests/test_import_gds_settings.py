@@ -62,4 +62,4 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="grating_coupler_tree")
     # c = test_properties_components(component_type="wire")
     c = test_properties_components(component_type="bend_circular")
-    pp.show(c)
+    c.show()

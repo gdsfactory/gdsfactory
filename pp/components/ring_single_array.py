@@ -49,4 +49,4 @@ def ring_single_array(
 
 if __name__ == "__main__":
     c = ring_single_array()
-    pp.show(c)
+    c.show()

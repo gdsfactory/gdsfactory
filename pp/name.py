@@ -170,7 +170,7 @@ if __name__ == "__main__":
     c = pp.c.waveguide(length=11.001)
     print(c.name)
     # print(c)
-    # pp.show(c)
+    # c.show()
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))

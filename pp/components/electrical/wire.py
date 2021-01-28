@@ -82,7 +82,6 @@ def corner(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = wire()
-    pp.show(c)
+    c.show()

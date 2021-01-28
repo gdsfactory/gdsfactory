@@ -89,4 +89,4 @@ def delay_snake(
 
 if __name__ == "__main__":
     c = delay_snake()
-    pp.show(c)
+    c.show()

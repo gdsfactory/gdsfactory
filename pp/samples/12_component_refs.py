@@ -70,4 +70,4 @@ def test_crossing() -> Component:
 
 if __name__ == "__main__":
     c = test_crossing()
-    pp.show(c)
+    c.show()

@@ -33,4 +33,4 @@ def test_connect_u_direct() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_u_direct()
-    pp.show(c)
+    c.show()

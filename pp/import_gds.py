@@ -358,7 +358,7 @@ def demo_optical():
     # c  =  pp.c.mmi1x2()
     # for p in c.ports.values():
     #     print(p)
-    # pp.show(c)
+    # c.show()
 
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath)
@@ -374,13 +374,13 @@ def demo_electrical():
     # c  =  pp.c.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p)
-    # pp.show(c)
+    # c.show()
 
     gdspath = pp.CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
-    pp.show(c)
+    c.show()
 
     for p in c.ports.values():
         print(p)
@@ -414,4 +414,4 @@ if __name__ == "__main__":
     # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5)
     # print(c)
-    # pp.show(c)
+    # c.show()

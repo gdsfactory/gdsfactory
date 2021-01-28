@@ -8,4 +8,4 @@ if __name__ == "__main__":
     m2.reflect_h(port_name="E1")
     m2.movex(10)
 
-    pp.show(c)
+    c.show()

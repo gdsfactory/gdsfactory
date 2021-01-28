@@ -60,4 +60,4 @@ def grating_coupler_tree(
 if __name__ == "__main__":
     c = grating_coupler_tree()
     print(c.get_settings())
-    pp.show(c)
+    c.show()

@@ -391,4 +391,4 @@ if __name__ == "__main__":
         text="The mask is nearly done. only 12345 drc errors remaining",
         layers_cladding=[(33, 44)],
     )
-    pp.show(c)
+    c.show()

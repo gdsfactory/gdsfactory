@@ -21,4 +21,4 @@ def demo_needs_fix():
 if __name__ == "__main__":
     c = test_fiber_single()
     # c = demo_needs_fix()
-    pp.show(c)
+    c.show()

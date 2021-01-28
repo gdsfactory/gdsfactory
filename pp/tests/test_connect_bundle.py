@@ -242,10 +242,9 @@ def test_facing_ports():
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = test_connect_bundle()
     c = test_connect_corner()
     # c = test_connect_bundle_u_indirect()
     # c = test_facing_ports()
-    pp.show(c)
+    c.show()

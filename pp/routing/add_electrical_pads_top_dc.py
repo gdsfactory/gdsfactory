@@ -50,4 +50,4 @@ if __name__ == "__main__":
     c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.wg_heater_connected()
     cc = add_electrical_pads_top_dc(c)
-    pp.show(cc)
+    cc.show()

@@ -202,4 +202,4 @@ if __name__ == "__main__":
     )
     # cc = demo_te_and_tm()
     # print(cc.ports.keys())
-    pp.show(cc)
+    cc.show()

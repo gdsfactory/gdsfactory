@@ -17,4 +17,4 @@ def test_label_move() -> Component:
 
 if __name__ == "__main__":
     c = test_label_move()
-    pp.show(c)
+    c.show()

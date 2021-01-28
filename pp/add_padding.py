@@ -117,4 +117,4 @@ if __name__ == "__main__":
     # cc = add_padding_to_grid(c)
     # print(cc.settings)
     # print(cc.ports)
-    pp.show(cc)
+    cc.show()

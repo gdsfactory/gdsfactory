@@ -33,4 +33,4 @@ def test_route_south() -> Component:
 
 if __name__ == "__main__":
     c = test_route_south()
-    pp.show(c)
+    c.show()

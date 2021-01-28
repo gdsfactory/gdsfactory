@@ -132,5 +132,5 @@ if __name__ == "__main__":
     # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
     # pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
-    pp.show(c)
+    c.show()
     # print(c.get_settings())

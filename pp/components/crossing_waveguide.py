@@ -419,11 +419,11 @@ def demo():
 if __name__ == "__main__":
     c = compensation_path()
     c.pprint()
-    pp.show(c)
+    c.show()
     # c = crossing()
     # c = crossing45(port_spacing=15)
     # print(c.ports["E1"].y - c.ports["E0"].y)
-    # pp.show(c)
+    # c.show()
     # print(c.get_ports_array())
     # demo()
     # c = crossing_etched()

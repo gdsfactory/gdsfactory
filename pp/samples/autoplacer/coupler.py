@@ -14,4 +14,4 @@ def CP2x2(gap=0.3, length=10.0):
 
 if __name__ == "__main__":
     c = CP2x2()
-    pp.show(c)
+    c.show()

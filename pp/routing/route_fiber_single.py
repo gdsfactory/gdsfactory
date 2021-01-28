@@ -152,4 +152,4 @@ if __name__ == "__main__":
         cc.add(e)
     for e in gc:
         cc.add(e)
-    pp.show(cc)
+    cc.show()
