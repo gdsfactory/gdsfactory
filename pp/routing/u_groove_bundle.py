@@ -5,7 +5,7 @@ from numpy import float64, ndarray
 
 from pp.geo_utils import remove_identicals
 from pp.port import Port
-from pp.routing.connect import connect_strip_way_points
+from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, remove_flat_angles
 from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import Route
@@ -26,7 +26,7 @@ def _groups(
 def u_bundle_direct(
     start_ports: List[Port],
     end_ports: List[Port],
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     start_straight: float = 0.01,
     end_straight: float = 0.01,
@@ -40,11 +40,11 @@ def u_bundle_direct(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip waveguide
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -219,7 +219,7 @@ def u_bundle_direct_routes(
 def u_bundle_indirect(
     start_ports,
     end_ports,
-    route_filter=connect_strip_way_points,
+    route_filter=get_route_from_waypoints,
     separation=5.0,
     extension_length=0.0,
     start_straight=0.01,
@@ -233,10 +233,10 @@ def u_bundle_indirect(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `connect_strip_way_points` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip waveguide
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `connect_strip_way_points`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
 
 
     Used for routing multiple ports back to a bundled input in a component

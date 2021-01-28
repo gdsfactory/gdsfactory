@@ -7,7 +7,7 @@ from pp.components import component_factory, component_names
 from pp.difftest import difftest
 
 
-@pytest.fixture(params=component_names, scope="session")
+@pytest.fixture(params=component_names, scope="function")
 def component(request) -> Component:
     return component_factory[request.param]()
 

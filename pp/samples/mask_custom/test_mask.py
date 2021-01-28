@@ -16,11 +16,11 @@ from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
-from pp.routing.connect import connect_strip_way_points
+from pp.routing.get_route import get_route_from_waypoints
 
 
 def _route_filter(*args, **kwargs):
-    return connect_strip_way_points(
+    return get_route_from_waypoints(
         *args, taper_factory=None, start_straight=5.0, end_straight=5.0, **kwargs
     )
 

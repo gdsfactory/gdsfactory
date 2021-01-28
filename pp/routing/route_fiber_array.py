@@ -10,10 +10,10 @@ from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import select_optical_ports
-from pp.routing.connect import connect_strip_way_points, get_waypoints_connect_strip
-from pp.routing.connect_bundle import get_min_spacing, link_optical_ports
+from pp.routing.get_bundle import get_min_spacing, link_optical_ports
 from pp.routing.get_input_labels import get_input_labels
-from pp.routing.manhattan import round_corners
+from pp.routing.get_route import get_route_from_waypoints
+from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
 
@@ -38,7 +38,7 @@ def route_fiber_array(
     force_manhattan: bool = False,
     excluded_ports: List[Any] = None,
     grating_indices: None = None,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
     layer_label: Tuple[int, int] = LAYER.LABEL,
@@ -130,14 +130,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    route_filter_params = {
-        "bend_radius": bend_radius,
-        "wg_width": grating_coupler.ports[gc_port_name].width,
-    }
-
-    def routing_method(p1, p2, **kwargs):
-        way_points = get_waypoints_connect_strip(p1, p2, **kwargs)
-        return route_filter(way_points, **route_filter_params)
+    route_filter_params = {"bend_radius": bend_radius}
 
     R = bend_radius
 
@@ -279,13 +272,13 @@ def route_fiber_array(
             for i in range(N):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
-                elements.extend(
-                    routing_method(p0, p1, bend_radius=bend_radius)["references"]
-                )
+                points = generate_manhattan_waypoints(p0, p1, bend_radius=bend_radius)
+                route = route_filter(points)
+                elements.extend(route["references"])
 
     # optical routing - type ``1 or 2``
     elif optical_routing_type in [1, 2]:
-        elems, to_route = route_factory(
+        route = route_factory(
             component=component,
             bend_radius=bend_radius,
             optical_routing_type=optical_routing_type,
@@ -295,6 +288,8 @@ def route_fiber_array(
             gc_port_name=gc_port_name,
             route_filter=route_filter,
         )
+        elems = route["references"]
+        to_route = route["ports"]
         elements.extend(elems)
 
         if force_manhattan:
@@ -416,7 +411,10 @@ if __name__ == "__main__":
     # c.ports = c.get_ports_dict(prefix="W")
 
     elements, gc, _ = route_fiber_array(
-        c, grating_coupler=[gcte, gctm, gcte, gctm], with_align_ports=True
+        c,
+        grating_coupler=[gcte, gctm, gcte, gctm],
+        with_align_ports=True,
+        optical_routing_type=0,
     )
     for e in elements:
         if isinstance(e, list):

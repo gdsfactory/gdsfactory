@@ -26,7 +26,7 @@ settings:
   n_waveguides: 4
   optical_routing_type: 0
   straight_factory: waveguide
-  taper_factory: taper
+  taper_factory: null
   taper_length: 10.0
   waveguide_spacing: 4
   with_align_ports: false

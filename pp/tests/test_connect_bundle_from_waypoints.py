@@ -5,10 +5,12 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.port import Port
-from pp.routing.connect_bundle_from_waypoints import connect_bundle_waypoints
+from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 
 
-def test_connect_bundle_waypointsA(data_regression: DataRegressionFixture) -> Component:
+def test_get_bundle_from_waypointsA(
+    data_regression: DataRegressionFixture,
+) -> Component:
 
     xs1 = np.arange(10) * 5 - 500.0
 
@@ -20,7 +22,7 @@ def test_connect_bundle_waypointsA(data_regression: DataRegressionFixture) -> Co
 
     c = pp.Component("A")
     p0 = ports1[0].position + (22, 0)
-    way_points = [
+    waypoints = [
         p0,
         p0 + (0, 100),
         p0 + (200, 100),
@@ -32,7 +34,7 @@ def test_connect_bundle_waypointsA(data_regression: DataRegressionFixture) -> Co
         ports2[-1].position,
     ]
 
-    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = np.zeros_like(routes)
     for i, route in enumerate(routes):
         c.add(route["references"])
@@ -43,7 +45,9 @@ def test_connect_bundle_waypointsA(data_regression: DataRegressionFixture) -> Co
     return c
 
 
-def test_connect_bundle_waypointsB(data_regression: DataRegressionFixture) -> Component:
+def test_get_bundle_from_waypointsB(
+    data_regression: DataRegressionFixture,
+) -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
     ys2 = np.array([0, 10, 20, 30, 70, 90, 110, 120]) + 500.0
@@ -55,7 +59,7 @@ def test_connect_bundle_waypointsB(data_regression: DataRegressionFixture) -> Co
     p0 = ports1[0].position + (0, 22.5)
 
     c = pp.Component("B")
-    way_points = [
+    waypoints = [
         p0,
         p0 + (200, 0),
         p0 + (200, -200),
@@ -64,7 +68,7 @@ def test_connect_bundle_waypointsB(data_regression: DataRegressionFixture) -> Co
         ports2[0].position,
     ]
 
-    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = np.zeros_like(routes, dtype=float)
     for i, route in enumerate(routes):
         c.add(route["references"])
@@ -76,7 +80,7 @@ def test_connect_bundle_waypointsB(data_regression: DataRegressionFixture) -> Co
 
 
 @cell
-def test_connect_bundle_waypointsC() -> Component:
+def test_get_bundle_from_waypointsC() -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
     ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 65]) - 500.0
@@ -86,7 +90,7 @@ def test_connect_bundle_waypointsC() -> Component:
     ports2 = [Port("B_{}".format(i), (600, ys2[i]), 0.5, 180) for i in range(N)]
 
     c = pp.Component()
-    way_points = [
+    waypoints = [
         ports1[0].position,
         ports1[0].position + (200, 0),
         ports1[0].position + (200, -200),
@@ -95,7 +99,7 @@ def test_connect_bundle_waypointsC() -> Component:
         ports2[0].position,
     ]
 
-    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
 
     lengths = [
         1082.832,
@@ -119,7 +123,7 @@ def test_connect_bundle_waypointsC() -> Component:
 
 
 @cell
-def test_connect_bundle_waypointsD() -> Component:
+def test_get_bundle_from_waypointsD() -> Component:
 
     ys1 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 100.0
     ys2 = np.array([0, -5, -10, -20, -25, -30, -40, -55, -60, -75]) + 500.0
@@ -135,9 +139,9 @@ def test_connect_bundle_waypointsD() -> Component:
     yc2 = _mean_y(ports2)
 
     c = pp.Component()
-    way_points = [(0, yc1), (200, yc1), (200, yc2), (0, yc2)]
+    waypoints = [(0, yc1), (200, yc1), (200, yc2), (0, yc2)]
 
-    routes = connect_bundle_waypoints(ports1, ports2, way_points)
+    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = [
         855.416,
         835.416,
@@ -161,7 +165,7 @@ def test_connect_bundle_waypointsD() -> Component:
 
 if __name__ == "__main__":
 
-    c = test_connect_bundle_waypointsD()
-    # c = test_connect_bundle_waypointsC()
-    # c = test_connect_bundle_waypointsB()
+    c = test_get_bundle_from_waypointsD()
+    # c = test_get_bundle_from_waypointsC()
+    # c = test_get_bundle_from_waypointsB()
     c.show()

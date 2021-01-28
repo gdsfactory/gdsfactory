@@ -16,4 +16,4 @@ settings:
       gap: 0.234
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100.0
-  route_filter: connect_elec_waypoints
+  route_filter: get_route_from_waypoints_electrical

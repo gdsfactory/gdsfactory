@@ -2,11 +2,11 @@ import numpy as np
 
 import pp
 from pp import Port
-from pp.routing.connect_bundle import connect_bundle
+from pp.routing.get_bundle import get_bundle
 
 
 @pp.cell
-def test_connect_bundle():
+def test_get_bundle():
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
 
@@ -21,7 +21,7 @@ def test_connect_bundle():
     ]
 
     c = pp.Component()
-    routes = connect_bundle(top_ports, bottom_ports)
+    routes = get_bundle(top_ports, bottom_ports)
     lengths = [
         1180.416,
         1063.416,
@@ -113,7 +113,7 @@ def test_connect_corner(N=6):
     i = 0
 
     for ports1, ports2 in zip(ports_A, ports_B):
-        routes = connect_bundle(ports1, ports2)
+        routes = get_bundle(ports1, ports2)
         for route in routes:
             c.add(route["references"])
             length = lengths[i]
@@ -126,7 +126,7 @@ def test_connect_corner(N=6):
 
 
 @pp.cell
-def test_connect_bundle_udirect(dy=200, angle=270):
+def test_get_bundle_udirect(dy=200, angle=270):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
@@ -148,8 +148,8 @@ def test_connect_bundle_udirect(dy=200, angle=270):
             Port("bottom_{}".format(i), (xs2[i], dy), 0.5, angle) for i in range(N)
         ]
 
-    c = pp.Component(name="connect_bundle")
-    routes = connect_bundle(ports1, ports2)
+    c = pp.Component(name="get_bundle")
+    routes = get_bundle(ports1, ports2)
     lengths = [0] * len(routes)
     for route, length in zip(routes, lengths):
         print(route["length"])
@@ -159,7 +159,7 @@ def test_connect_bundle_udirect(dy=200, angle=270):
 
 
 @pp.cell
-def test_connect_bundle_u_indirect(dy=-200, angle=180):
+def test_get_bundle_u_indirect(dy=-200, angle=180):
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
@@ -183,7 +183,7 @@ def test_connect_bundle_u_indirect(dy=-200, angle=180):
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     c = pp.Component()
-    routes = connect_bundle(ports1, ports2)
+    routes = get_bundle(ports1, ports2)
     lengths = [
         341.416,
         341.416,
@@ -219,7 +219,7 @@ def test_facing_ports():
     ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     c = pp.Component()
-    routes = connect_bundle(ports1, ports2)
+    routes = get_bundle(ports1, ports2)
     lengths = [
         671.416,
         481.416,
@@ -243,8 +243,8 @@ def test_facing_ports():
 
 if __name__ == "__main__":
 
-    # c = test_connect_bundle()
+    # c = test_get_bundle()
     c = test_connect_corner()
-    # c = test_connect_bundle_u_indirect()
+    # c = test_get_bundle_u_indirect()
     # c = test_facing_ports()
     c.show()

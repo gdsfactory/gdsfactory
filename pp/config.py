@@ -31,6 +31,7 @@ cwd = pathlib.Path.cwd()
 module_path = pathlib.Path(__file__).parent.absolute()
 repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
+diff_path = repo_path / "gds_diff"
 
 cwd_config = cwd / "config.yml"
 module_config = module_path / "config.yml"

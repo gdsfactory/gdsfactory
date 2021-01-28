@@ -1,12 +1,11 @@
 """Get route between two ports
 """
 
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Optional
 
 import numpy as np
 from numpy import ndarray
 
-from pp.component import ComponentReference
 from pp.components import taper as taper_function
 from pp.components import waveguide
 from pp.components.bend_circular import bend_circular
@@ -14,30 +13,23 @@ from pp.components.electrical import corner, wire
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
-from pp.routing.manhattan import (
-    generate_manhattan_waypoints,
-    round_corners,
-    route_manhattan,
-)
-from pp.types import Layer, Route
+from pp.routing.manhattan import round_corners, route_manhattan
+from pp.snap import snap_to_grid
+from pp.types import Coordinates, Layer, Number, Route
 
 
-def get_waypoints_connect_strip(*args, **kwargs) -> ndarray:
-    return connect_strip(*args, **kwargs, route_factory=generate_manhattan_waypoints)
-
-
-def connect_strip(
+def get_route(
     input_port: Port,
     output_port: Port,
     bend_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
     taper_factory: Optional[Callable] = taper_function,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
-    bend_radius: float = 10.0,
+    start_straight: Number = 0.01,
+    end_straight: Number = 0.01,
+    min_straight: Number = 0.01,
+    bend_radius: Number = 10.0,
     route_factory: Callable = route_manhattan,
-) -> ComponentReference:
+) -> Route:
     """Returns an optical route"""
 
     bend90 = bend_factory(radius=bend_radius, width=input_port.width)
@@ -66,22 +58,22 @@ def connect_strip(
     return connector
 
 
-def connect_strip_way_points(
-    way_points: List[Tuple[float, float]],
+def get_route_from_waypoints(
+    waypoints: Coordinates,
     bend_factory: Callable = bend_circular,
     straight_factory: Callable = waveguide,
     taper_factory: Optional[Callable] = taper_function,
-    bend_radius: float = 10.0,
-    wg_width: float = 0.5,
+    bend_radius: Number = 10.0,
+    wg_width: Number = 0.5,
     layer: Layer = LAYER.WG,
     **kwargs
 ) -> Route:
-    """Returns a deep-etched route formed by the given way_points with
+    """Returns a deep-etched route formed by the given waypoints with
     bends instead of corners and optionally tapers in straight sections.
 
     taper_factory: can be either a taper Component or a factory
     """
-    way_points = np.array(way_points)
+    waypoints = np.array(waypoints)
     bend90 = bend_factory(radius=bend_radius, width=wg_width)
 
     taper = (
@@ -93,20 +85,20 @@ def connect_strip_way_points(
     )
 
     return round_corners(
-        points=way_points, bend90=bend90, straight_factory=straight_factory, taper=taper
+        points=waypoints, bend90=bend90, straight_factory=straight_factory, taper=taper
     )
 
 
-def connect_strip_way_points_no_taper(*args, **kwargs) -> Route:
-    return connect_strip_way_points(*args, taper_factory=None, **kwargs)
+def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
+    return get_route_from_waypoints(*args, taper_factory=None, **kwargs)
 
 
-def connect_elec_waypoints(
-    way_points: ndarray,
+def get_route_from_waypoints_electrical(
+    waypoints: ndarray,
     bend_factory: Callable = corner,
     straight_factory: Callable = wire,
     taper_factory: Optional[Callable] = taper_function,
-    wg_width: float = 10.0,
+    wg_width: Number = 10.0,
     layer: Layer = LAYER.M3,
     **kwargs
 ) -> Route:
@@ -115,39 +107,37 @@ def connect_elec_waypoints(
     bend90 = bend_factory(width=wg_width, layer=layer)
 
     def _straight_factory(length=10.0, width=wg_width):
-        return straight_factory(length=length, width=width, layer=layer)
+        return straight_factory(length=snap_to_grid(length), width=width, layer=layer)
 
-    connector = round_corners(way_points, bend90, _straight_factory, taper=None)
+    connector = round_corners(waypoints, bend90, _straight_factory, taper=None)
     return connector
 
 
-def connect_elec(
+def get_route_electrical(
     input_port: Port,
     output_port: Port,
     straight_factory: Callable = wire,
     bend_factory: Callable = corner,
     layer: Optional[Layer] = None,
+    width: Optional[Number] = None,
     **kwargs
 ) -> Route:
-    width = input_port.width
 
-    # If no layer is specified, the component factories should use the layer
-    # given in port.type
-    if layer is None:
-        layer = input_port.layer
+    width = width or input_port.width
+    layer = layer or input_port.layer
 
     def _bend_factory(width=width, radius=0):
         return bend_factory(width=width, radius=radius, layer=layer)
 
     def _straight_factory(length=10.0, width=width):
-        return straight_factory(length=length, width=width, layer=layer)
+        return straight_factory(length=snap_to_grid(length), width=width, layer=layer)
 
     if "bend_radius" in kwargs:
         bend_radius = kwargs.pop("bend_radius")
     else:
-        bend_radius = 10
+        bend_radius = 0.001
 
-    return connect_strip(
+    return get_route(
         input_port,
         output_port,
         bend_radius=bend_radius,
@@ -165,6 +155,6 @@ if __name__ == "__main__":
 
     c = pp.Component()
     c << w
-    connector = connect_strip(w.ports["E0"], w.ports["W0"])
-    cc = c.add(connector["references"])
+    route = get_route(w.ports["E0"], w.ports["W0"])
+    cc = c.add(route["references"])
     cc.show()

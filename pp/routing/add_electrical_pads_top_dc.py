@@ -1,15 +1,15 @@
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.container import container
-from pp.routing.connect import connect_elec_waypoints
-from pp.routing.connect_bundle import connect_bundle
+from pp.routing.get_bundle import get_bundle
+from pp.routing.get_route import get_route_from_waypoints_electrical
 
 
 @container
 def add_electrical_pads_top_dc(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,
-    route_filter=connect_elec_waypoints,
+    route_filter=get_route_from_waypoints_electrical,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top
@@ -34,7 +34,7 @@ def add_electrical_pads_top_dc(
     ports_pads.sort(key=lambda p: p.x)
     ports.sort(key=lambda p: p.x)
 
-    routes = connect_bundle(ports_pads, ports, route_filter=route_filter)
+    routes = get_bundle(ports_pads, ports, route_filter=route_filter)
     for route in routes:
         c.add(route["references"])
 

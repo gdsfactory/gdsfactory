@@ -297,7 +297,7 @@ routes:
         factory: optical
         link_factory: link_optical_waypoints
         link_settings:
-            way_points:
+            waypoints:
                 - [0,0]
                 - [0, 600]
                 - [-250, 600]

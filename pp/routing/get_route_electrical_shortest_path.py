@@ -3,7 +3,7 @@ from pp.hash_points import hash_points
 from pp.port import Port
 
 
-def connect_electrical_shortest_path(port1: Port, port2: Port) -> ComponentReference:
+def get_route_electrical_shortest_path(port1: Port, port2: Port) -> ComponentReference:
     """Returns polygon reference that connects two ports
     with a polygon that takes the shortest path
 
@@ -50,5 +50,5 @@ if __name__ == "__main__":
     ports_mzi = mzi.get_ports_list(port_type="dc")
 
     for p1, p2 in zip(ports_pads, ports_mzi):
-        c.add(connect_electrical_shortest_path(p1, p2))
+        c.add(get_route_electrical_shortest_path(p1, p2))
     c.show()

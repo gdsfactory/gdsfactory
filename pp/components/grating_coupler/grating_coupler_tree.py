@@ -6,7 +6,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_array import waveguide_array
-from pp.routing.connect import connect_strip_way_points_no_taper
+from pp.routing.get_route import get_route_from_waypoints_no_taper
 
 
 @pp.cell
@@ -16,7 +16,7 @@ def grating_coupler_tree(
     waveguide: Callable = waveguide,
     grating_coupler_function: Callable = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
-    route_filter: Callable = connect_strip_way_points_no_taper,
+    route_filter: Callable = get_route_from_waypoints_no_taper,
     bend_factory: Callable = bend_circular,
     bend_radius: float = 10.0,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
@@ -50,7 +50,8 @@ def grating_coupler_tree(
         straight_factory=waveguide,
         bend_factory=bend_factory,
         layer_label=layer_label,
-        **kwargs
+        taper_factory=None,
+        **kwargs,
     )
     cc.ignore.add("route_filter")
     cc.ignore.add("module")
@@ -59,5 +60,5 @@ def grating_coupler_tree(
 
 if __name__ == "__main__":
     c = grating_coupler_tree()
-    print(c.get_settings())
+    # print(c.get_settings())
     c.show()
