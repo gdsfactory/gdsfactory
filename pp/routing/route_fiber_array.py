@@ -425,4 +425,4 @@ if __name__ == "__main__":
         c.add(e)
     for e in gc:
         c.add(e)
-    pp.show(c)
+    c.show()

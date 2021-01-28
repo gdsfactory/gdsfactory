@@ -46,4 +46,4 @@ def test_cutback_heater() -> Component:
 
 if __name__ == "__main__":
     c = test_cutback_heater()
-    pp.show(c)
+    c.show()

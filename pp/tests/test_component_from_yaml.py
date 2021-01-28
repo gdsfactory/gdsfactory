@@ -579,7 +579,7 @@ def needs_fixing():
     # c = component_from_yaml(sample_2x2_connections)
     # c = component_from_yaml(sample_waypoints)
     c = component_from_yaml(sample_different_factory)
-    pp.show(c)
+    c.show()
     full_settings = True
     n = c.get_netlist(full_settings=full_settings)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
@@ -591,10 +591,9 @@ def needs_fixing():
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = test_sample()
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
     c = test_connections_regex()
-    pp.show(c)
+    c.show()

@@ -190,6 +190,6 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
 
-    pp.show(c)
+    c.show()
     # pp.qp(c)
     # print(c.get_settings())

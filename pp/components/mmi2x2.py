@@ -117,4 +117,4 @@ if __name__ == "__main__":
     # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
     print(c.get_settings())
-    pp.show(c)
+    c.show()

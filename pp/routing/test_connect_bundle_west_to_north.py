@@ -34,4 +34,4 @@ def test_connect_bundle_west_to_north() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_bundle_west_to_north()
-    pp.show(c)
+    c.show()

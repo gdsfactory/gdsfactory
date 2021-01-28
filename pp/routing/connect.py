@@ -167,4 +167,4 @@ if __name__ == "__main__":
     c << w
     connector = connect_strip(w.ports["E0"], w.ports["W0"])
     cc = c.add(connector["references"])
-    pp.show(cc)
+    cc.show()

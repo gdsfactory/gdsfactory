@@ -31,4 +31,4 @@ def test_connect_bundle() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_bundle()
-    pp.show(c)
+    c.show()

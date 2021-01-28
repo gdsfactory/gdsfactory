@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
     for p1, p2 in zip(ports_pads, ports_mzi):
         c.add(connect_electrical_shortest_path(p1, p2))
-    pp.show(c)
+    c.show()

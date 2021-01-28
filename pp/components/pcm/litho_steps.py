@@ -52,4 +52,4 @@ def litho_steps(
 
 if __name__ == "__main__":
     c = litho_steps()
-    pp.show(c)
+    c.show()

@@ -1192,7 +1192,7 @@ if __name__ == "__main__":
     # c = pp.c.bend_circular180()
     # c = pp.c.coupler()
     # c.add_labels()
-    # pp.show(c)
+    # c.show()
     # test_same_uid()
 
     # c = pp.c.mmi1x2()
@@ -1219,7 +1219,7 @@ if __name__ == "__main__":
     # c = pp.c.mmi1x2()
     # cc = add_fiber_array(c)
     # cc.get_json()
-    # pp.show(cc)
+    # cc.show()
     # c.update_settings(
     #     analysis={
     #         "device_type": "loopback",

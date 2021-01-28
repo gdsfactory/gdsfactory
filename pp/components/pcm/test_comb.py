@@ -224,4 +224,4 @@ def test_comb(
 
 if __name__ == "__main__":
     c = test_comb()
-    pp.show(c)
+    c.show()

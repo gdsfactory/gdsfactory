@@ -228,4 +228,4 @@ if __name__ == "__main__":
     # c = align_cryo_top_right()
     # c = align_cryo_top_left()
     # c = align_cryo_bottom_right()
-    pp.show(c)
+    c.show()

@@ -144,11 +144,11 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.ring_single_array()
-    pp.show(c)
+    c.show()
     # c = pp.c.mzi(delta_length=100.0)
     # print(c.get_netlist_yaml())
 
-#     pp.show(c)
+#     c.show()
 #     c.plot_netlist()
 
 #     x, i, p = recurse_references(c)

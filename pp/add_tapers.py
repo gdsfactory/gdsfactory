@@ -55,10 +55,10 @@ if __name__ == "__main__":
     # cc = add_tapers(component=component, taper=t, suffix="t")
     # print(cc.ports.keys())
     # print(cc.settings.keys())
-    # pp.show(cc)
+    # cc.show()
 
     # ports, elements = add_taper_elements(component=c, taper=t)
     # c.ports = ports
     # c.add(elements)
-    # pp.show(c)
+    # c.show()
     # print(c.ports)

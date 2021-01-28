@@ -22,4 +22,4 @@ def logo(text: str = "GDS_FACTORY") -> Component:
 
 if __name__ == "__main__":
     c = logo()
-    pp.show(c)
+    c.show()

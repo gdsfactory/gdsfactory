@@ -142,7 +142,7 @@ def test_extend_ports_selection() -> Component:
 
 if __name__ == "__main__":
     c = test_extend_ports_selection()
-    pp.show(c)
+    c.show()
 
     # import pp.components as pc
     # c = pc.bend_circular()

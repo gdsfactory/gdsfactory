@@ -29,4 +29,4 @@ def test_component_from_yaml_without_cell() -> Component:
 if __name__ == "__main__":
     c = test_component_from_yaml_without_cell()
     print(c.name)
-    pp.show(c)
+    c.show()

@@ -81,7 +81,6 @@ def pad_array(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = pad()
     print(c.ports)
@@ -89,4 +88,4 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.settings['spacing'])
     c = pad_array()
-    pp.show(c)
+    c.show()

@@ -740,4 +740,4 @@ if __name__ == "__main__":
     # c = cdsem_uturn()
     c = cdsem_straight_density()
     # c = opcm()
-    pp.show(c)
+    c.show()

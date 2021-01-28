@@ -97,4 +97,4 @@ if __name__ == "__main__":
     # c = dbr()
     c = dbr_cell()
     c.ports_on_grid()
-    pp.show(c)
+    c.show()

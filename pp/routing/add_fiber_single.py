@@ -207,4 +207,4 @@ if __name__ == "__main__":
     cc = add_fiber_single(c, grating_coupler=gc, with_align_ports=False)
 
     # print(cc.get_settings()["component"])
-    pp.show(cc)
+    cc.show()

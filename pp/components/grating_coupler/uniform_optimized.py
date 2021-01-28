@@ -145,4 +145,4 @@ if __name__ == "__main__":
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l100()
     print(c.ports)
-    pp.show(c)
+    c.show()

@@ -156,4 +156,4 @@ if __name__ == "__main__":
 
     # cc = add_termination(component=c)
     print(cc.get_settings()["settings"]["component"])
-    pp.show(cc)
+    cc.show()

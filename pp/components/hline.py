@@ -52,4 +52,4 @@ def hline(
 if __name__ == "__main__":
     c = hline(width=10)
     print(c)
-    pp.show(c)
+    c.show()

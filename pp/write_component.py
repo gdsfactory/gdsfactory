@@ -175,13 +175,13 @@ if __name__ == "__main__":
     # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
     # cc = pp.routing.add_fiber_array(c)
     # pp.write_component(cc, precision=5e-9)
-    # pp.show(cc)
+    # cc.show()
 
     c = pp.c.waveguide()
     c = pp.add_pins(c)
     gdspath = pp.CONFIG["gdsdir"] / "waveguide_with_pins.gds"
     pp.write_component(c, gdspath=gdspath)
-    pp.show(c)
+    c.show()
 
     # print(c.settings)
     # gdspath = pp.write_component(c, precision=5e-9)

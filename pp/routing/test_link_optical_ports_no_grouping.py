@@ -39,4 +39,4 @@ def test_link_optical_ports_no_grouping() -> Component:
 
 if __name__ == "__main__":
     c = test_link_optical_ports_no_grouping()
-    pp.show(c)
+    c.show()

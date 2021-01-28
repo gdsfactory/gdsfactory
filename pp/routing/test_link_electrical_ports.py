@@ -33,4 +33,4 @@ def test_link_electrical_ports() -> Component:
 
 if __name__ == "__main__":
     c = test_link_electrical_ports()
-    pp.show(c)
+    c.show()

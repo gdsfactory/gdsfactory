@@ -47,4 +47,4 @@ def test_connect_bundle_optical2() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_bundle_optical2()
-    pp.show(c)
+    c.show()

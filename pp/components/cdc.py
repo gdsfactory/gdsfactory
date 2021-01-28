@@ -85,8 +85,7 @@ def cdc(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = cdc()
     print(c.ports.keys())
-    pp.show(c)
+    c.show()

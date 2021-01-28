@@ -253,4 +253,4 @@ if __name__ == "__main__":
         # print(e)
         c.add(e)
 
-    pp.show(c)
+    c.show()

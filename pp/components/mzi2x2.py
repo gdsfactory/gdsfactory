@@ -298,4 +298,4 @@ if __name__ == "__main__":
 
     c = mzi2x2(with_elec_connections=True)
     cc = pp.add_pins(c)
-    pp.show(cc)
+    cc.show()

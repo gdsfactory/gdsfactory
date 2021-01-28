@@ -60,4 +60,4 @@ def litho_calipers(
 
 if __name__ == "__main__":
     c = litho_calipers()
-    pp.show(c)
+    c.show()

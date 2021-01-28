@@ -330,7 +330,7 @@ if __name__ == "__main__":
     from pprint import pprint
 
     c = bend_circular()
-    pp.show(c)
+    c.show()
     pprint(c.get_settings())
 
     # from phidl.quickplotter import quickplot2

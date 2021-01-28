@@ -44,4 +44,4 @@ CENTER_SHAPES_MAP = {
 
 if __name__ == "__main__":
     c = square_middle()
-    pp.show(c)
+    c.show()

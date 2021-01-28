@@ -154,8 +154,7 @@ def test_netlist_from_yaml() -> Component:
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = test_netlist_from_yaml()
     c = netlist_from_yaml(sample)
-    pp.show(c)
+    c.show()

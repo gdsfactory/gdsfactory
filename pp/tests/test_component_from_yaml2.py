@@ -106,4 +106,4 @@ def test_components_ports(
 
 if __name__ == "__main__":
     c = pp.component_from_yaml(mirror_port)
-    pp.show(c)
+    c.show()

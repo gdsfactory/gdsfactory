@@ -40,4 +40,4 @@ def circle(
 
 if __name__ == "__main__":
     c = circle()
-    pp.show(c)
+    c.show()

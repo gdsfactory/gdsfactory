@@ -52,5 +52,5 @@ def coupler90(
 
 if __name__ == "__main__":
     c = coupler90(width=0.45, gap=0.3)
-    pp.show(c)
+    c.show()
     # print(c.ports)

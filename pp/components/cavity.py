@@ -64,4 +64,4 @@ if __name__ == "__main__":
     from pp.components.dbr import dbr
 
     c = cavity(component=dbr())
-    pp.show(c)
+    c.show()

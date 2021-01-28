@@ -1,4 +1,3 @@
-import pp
 from pp.cell import cell
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
@@ -118,4 +117,4 @@ if __name__ == "__main__":
     c = ring_with_taper(
         bend_radius=5.0, length_x=2, length_y=4, gap=0.2, taper_width=1, wg_width=0.7
     )
-    pp.show(c)
+    c.show()

@@ -69,4 +69,4 @@ if __name__ == "__main__":
     c = pp.component_from_yaml(yaml)
     n = c.get_netlist()
     print(n["placements"])
-    pp.show(c)
+    c.show()

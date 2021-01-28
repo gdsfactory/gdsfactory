@@ -26,6 +26,7 @@ from pydantic import validate_arguments
 - rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
 - remove pp.container containerize
 - better type annontations
+- replace some `pp.show(c)` by a simpler `c.show()`
 
 ## 2.2.9 2021-01-24
 

@@ -39,5 +39,5 @@ def test_mzi() -> Component:
 
 if __name__ == "__main__":
     c = test_mzi()
-    pp.show(c)
+    c.show()
     pp.plotgds(c)

@@ -1,4 +1,3 @@
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.component_from_yaml import component_from_yaml
@@ -53,4 +52,4 @@ ports:
 
 if __name__ == "__main__":
     c = coupler()
-    pp.show(c)
+    c.show()

@@ -57,5 +57,5 @@ def test_crossing_arm(
 
 if __name__ == "__main__":
     c = test_crossing_arm()
-    pp.show(c)
+    c.show()
     qp(c)

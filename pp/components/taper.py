@@ -155,4 +155,4 @@ if __name__ == "__main__":
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
-    pp.show(c)
+    c.show()

@@ -70,11 +70,10 @@ def test_container_error() -> Component:
 
 
 if __name__ == "__main__":
-    import pp
 
     # c1 = pp.c.waveguide(length=3, width=0.9)
     # c2 = pp.c.waveguide(length=3)
     # cc1 = container_instance(c1)
     # cc2 = container_instance(c2)
     c = test_container()
-    pp.show(c)
+    c.show()

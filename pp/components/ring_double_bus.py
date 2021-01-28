@@ -1,6 +1,5 @@
 from typing import Callable, Dict, List, Tuple
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler90 import coupler90
@@ -112,4 +111,4 @@ def ring_double_bus_netlist(
 
 if __name__ == "__main__":
     c = ring_double_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2)
-    pp.show(c)
+    c.show()

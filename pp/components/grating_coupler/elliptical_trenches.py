@@ -176,4 +176,4 @@ if __name__ == "__main__":
     # print(c.polarization)
     c = grating_coupler_te()
     # c = grating_coupler_tm()
-    pp.show(c)
+    c.show()

@@ -189,4 +189,4 @@ if __name__ == "__main__":
         c.add(e)
     for e in pads:
         c.add(e)
-    pp.show(c)
+    c.show()

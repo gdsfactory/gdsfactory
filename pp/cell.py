@@ -226,4 +226,4 @@ if __name__ == "__main__":
     # c = pp.c.waveguide()
     # c = wg3()
     # print(c)
-    # pp.show(c)
+    # c.show()

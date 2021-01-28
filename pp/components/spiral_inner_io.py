@@ -304,7 +304,7 @@ if __name__ == "__main__":
     # c = add_gratings_and_loop_back(c)
 
     c = spirals_nested()
-    pp.show(c)
+    c.show()
 
     # c = spiral_inner_io_euler(wg_width=1)
     # from pp.routing import add_fiber_array
@@ -322,4 +322,4 @@ if __name__ == "__main__":
     # c = spiral_inner_io()
     # c = spiral_inner_io(bend_radius=20, wg_width=0.2)
     # c = spirals_nested()
-    pp.show(c)
+    c.show()

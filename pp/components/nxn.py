@@ -142,4 +142,4 @@ def nxn(
 if __name__ == "__main__":
     c = nxn(north=1, south=3)
     c = pp.extend_ports(c)
-    pp.show(c)
+    c.show()
