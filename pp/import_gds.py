@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Dict, Iterable, Optional, Union
+from typing import Dict, Iterable, Optional, Union, cast
 
 import gdspy
 import numpy as np
@@ -217,6 +217,7 @@ def import_gds_cells(gdspath):
     return top_level_cells
 
 
+# pytype: disable=bad-return-type
 def import_gds(
     gdspath: Union[str, Path],
     cellname: None = None,
@@ -322,15 +323,16 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-        topdevice = c2dmap[topcell]
-        return topdevice
+        component = c2dmap[topcell]
+        cast(Component, component)
+        return component
     if flatten:
-        D = pp.Component()
+        component = Component()
         polygons = topcell.get_polygons(by_spec=True)
 
         for layer_in_gds, polys in polygons.items():
-            D.add_polygon(polys, layer=layer_in_gds)
-        return D
+            component.add_polygon(polys, layer=layer_in_gds)
+        return component
 
 
 def test_import_gds_snap_to_grid() -> None:
@@ -407,18 +409,9 @@ def demo_import_gds_markers():
 
 if __name__ == "__main__":
     c = demo_import_gds_markers()
-    # test_import_gds_with_port_markers_optical_electrical()
-    # test_import_gds_with_port_markers_optical()
     # test_import_gds_snap_to_grid()
 
     # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5)
     # print(c)
     # pp.show(c)
-
-    # c = import_gds("wg.gds")
-    # add_settings_from_label(c)
-    # print(c.settings)
-
-    # add_ports_from_markers_center(c)
-    # print(c.ports)

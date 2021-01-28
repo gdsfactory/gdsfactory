@@ -3,29 +3,12 @@ from typing import Tuple
 from phidl.device_layout import Label
 
 from pp.component import Component
-from pp.container import container, containerize
+from pp.container import container
 from pp.layers import LAYER
 
 
 def add_label(component: Component, text: str = "hi") -> Label:
     return component.add_label(text)
-
-
-def test_containerize() -> Component:
-    import pp
-
-    name = "waveguide_with_label"
-
-    old = pp.c.waveguide()
-    new = containerize(old, function=add_label, text="hi", name=name)
-
-    print(new.name)
-    assert new != old, f"new component {new} should be different from {old}"
-    assert new.name == name, f"new name {new.name} should be {name}"
-    assert len(new.ports) == len(
-        old.ports
-    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    return new
 
 
 @container
@@ -93,7 +76,5 @@ if __name__ == "__main__":
     # c2 = pp.c.waveguide(length=3)
     # cc1 = container_instance(c1)
     # cc2 = container_instance(c2)
-    # c = test_containerize()
-    # c = test_container()
-    c = test_containerize()
+    c = test_container()
     pp.show(c)

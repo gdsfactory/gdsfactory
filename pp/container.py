@@ -6,13 +6,10 @@
 """
 
 import functools
-import hashlib
 from inspect import signature
-from typing import Callable
+from typing import Callable, cast
 
 from pp.component import Component
-from pp.config import MAX_NAME_LENGTH
-from pp.name import get_component_name
 
 propagate_attributes = {
     "test_protocol",
@@ -67,6 +64,7 @@ def container(func: Callable) -> Callable:
             raise ValueError(
                 f"container {func.__name__} requires a component, got `{old}`"
             )
+        old = cast(Component, old)
         name = kwargs.pop("name", "")
         old = old or kwargs.get("component")
         new = func(*args, **kwargs)
@@ -97,42 +95,8 @@ def container(func: Callable) -> Callable:
     return wrapper
 
 
-@container
-def containerize(component: Component, function: Callable, **kwargs) -> Component:
-    """Returns a containerize component after applying a function.
-    This is an alternative of using the @container decorator.
-    However I recommend using the decorator when possible
-
-    Args:
-        component: to containerize
-        function: that applies to component
-        **kwargs: for the function
-
-    .. code::
-
-        import pp
-
-        def add_label(component, text='hi'):
-            return component.add_label(text)
-
-        c = pp.c.waveguide()
-        cc = pp.containerize(c, function=add_label, text='hi')
-
-    """
-    c = Component()
-    component_type = f"{component.name}_{function.__name__}"
-    name = get_component_name(component_type, **kwargs)
-    if len(name) > MAX_NAME_LENGTH:
-        c.name_long = name
-        name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
-    c.name = name
-    c << component
-    function(c, **kwargs)
-    return c
-
-
 if __name__ == "__main__":
-    from pp.tests.test_container import test_containerize
+    from pp.tests.test_container import test_container
 
-    c = test_containerize()
+    c = test_container()
     c.show()

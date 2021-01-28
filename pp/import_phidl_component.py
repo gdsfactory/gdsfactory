@@ -16,7 +16,7 @@ def import_phidl_component(component: Device, **kwargs) -> Component:
     D_copy.info = copy.deepcopy(D.info)
     for ref in D.references:
         new_ref = ComponentReference(
-            device=ref.parent,
+            component=ref.parent,
             origin=ref.origin,
             rotation=ref.rotation,
             magnification=ref.magnification,
