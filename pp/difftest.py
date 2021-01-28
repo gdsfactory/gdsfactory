@@ -27,6 +27,7 @@ def difftest(component: Component) -> None:
 
     ref_file = cwd / "gds_ref" / filename
     run_file = cwd / "gds_run" / filename
+    diff_file = cwd / "gds_diff" / filename
 
     pp.write_gds(component, gdspath=run_file)
 
@@ -36,6 +37,7 @@ def difftest(component: Component) -> None:
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
-        diff = gdsdiff(ref_file, run_file)
+        diff = gdsdiff(ref_file, run_file, name=filename)
+        pp.write_gds(diff, diff_file)
         pp.show(diff)
         raise
