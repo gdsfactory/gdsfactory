@@ -1,4 +1,4 @@
-# gdsfactory 2.3.0
+# gdsfactory 2.3.1
 
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
