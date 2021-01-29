@@ -54,12 +54,12 @@ instances:
   waveguide_L10n_W500n_84.995_100.625:
     component: waveguide
     settings:
-      length: 0.010000000000012221
+      length: 0.01
       width: 0.5
   waveguide_L52p49_W500n_38.745_0.625:
     component: waveguide
     settings:
-      length: 52.489999999999995
+      length: 52.49
       width: 0.5
 name: mmis
 placements:
