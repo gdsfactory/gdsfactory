@@ -55,7 +55,7 @@ from pp.types import get_name_to_function_dict
 
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
-from pp.add_padding import add_padding
+from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
@@ -89,6 +89,7 @@ __all__ = [
     "extend_ports",
     "boolean",
     "get_name_to_function_dict",
+    "get_padding_points",
     "klive",
     "load_component",
     "plotgds",
