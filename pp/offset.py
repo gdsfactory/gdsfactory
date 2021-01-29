@@ -13,7 +13,6 @@ from phidl.geometry import (
 
 import pp
 from pp.component import Component
-from pp.testing import difftest
 
 
 def offset(
@@ -74,12 +73,6 @@ def offset(
         for polygon in polygons
     ]
     return D
-
-
-def test_offset() -> None:
-    c = pp.c.ring()
-    co = offset(c, distance=0.5)
-    difftest(co)
 
 
 if __name__ == "__main__":

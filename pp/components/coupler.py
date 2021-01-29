@@ -5,8 +5,8 @@ from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.config import conf
-from pp.drc import assert_on_1nm_grid
 from pp.layers import LAYER
+from pp.snap import assert_on_1nm_grid
 
 
 @cell

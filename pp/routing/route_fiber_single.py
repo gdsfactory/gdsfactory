@@ -56,7 +56,7 @@ def route_fiber_single(
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
     if component.xsize + 2 * gc_port2center < min_input2output_spacing:
         fanout_length = (
-            pp.drc.snap_to_grid(
+            pp.snap_to_grid(
                 min_input2output_spacing - component.xsize - 2 * gc_port2center, 10
             )
             / 2
@@ -152,4 +152,4 @@ if __name__ == "__main__":
         cc.add(e)
     for e in gc:
         cc.add(e)
-    pp.show(cc)
+    cc.show()

@@ -18,4 +18,4 @@ def test_big_device() -> Component:
 if __name__ == "__main__":
     c = test_big_device()
 
-    pp.show(c)
+    c.show()

@@ -5,7 +5,7 @@ from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_optical2() -> Component:
+def test_get_bundle_optical2() -> Component:
     """FIXME. Actual length of the route = 499
     for some reason the route length is 10um shorter than the layout.
 
@@ -46,5 +46,5 @@ def test_connect_bundle_optical2() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_optical2()
-    pp.show(c)
+    c = test_get_bundle_optical2()
+    c.show()

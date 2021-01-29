@@ -105,9 +105,8 @@ def tlm(
 
 
 if __name__ == "__main__":
-    import pp
 
     # c = via()
     c = tlm()
     c.pprint()
-    pp.show(c)
+    c.show()

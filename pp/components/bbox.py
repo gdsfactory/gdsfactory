@@ -28,4 +28,4 @@ if __name__ == "__main__":
 
     c = pp.c.L()
     c << bbox(bbox=c.bbox)
-    pp.show(c)
+    c.show()

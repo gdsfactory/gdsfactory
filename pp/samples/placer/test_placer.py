@@ -19,4 +19,4 @@ def test_placer():
 
 if __name__ == "__main__":
     c = test_placer()
-    pp.show(c)
+    c.show()

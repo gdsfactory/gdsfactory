@@ -7,7 +7,7 @@ from numpy import float64
 
 import pp
 from pp.component import Component
-from pp.drc import snap_to_1nm_grid
+from pp.snap import snap_to_grid
 
 
 def taper(
@@ -174,7 +174,7 @@ def spiral_circular(
 
     """ component """
     c = pp.Component()
-    c.length = snap_to_1nm_grid(length)
+    c.length = snap_to_grid(length)
     c.add_polygon(ps, layer=layer)
 
     c.add_port(
@@ -191,5 +191,5 @@ if __name__ == "__main__":
     print(c.ports)
     print(c.ports.keys())
     print(c.get_ports_array())
-    pp.show(c)
+    c.show()
     pp.write_gds(c)

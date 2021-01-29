@@ -70,4 +70,4 @@ if __name__ == "__main__":
     c = package_optical2x2(coupler)
     print(c.ports["E1"].y - c.ports["E0"].y)
     print(c.ports)
-    pp.show(c)
+    c.show()

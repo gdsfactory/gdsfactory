@@ -114,4 +114,4 @@ if __name__ == "__main__":
     # c = bend_euler90_biased()
     # c = bend_euler180()
     print(c.ports)
-    pp.show(c)
+    c.show()

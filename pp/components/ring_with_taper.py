@@ -1,12 +1,11 @@
-import pp
 from pp.cell import cell
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide
-from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.netlist_to_gds import netlist_to_component
+from pp.snap import assert_on_2nm_grid
 
 
 @cell
@@ -118,4 +117,4 @@ if __name__ == "__main__":
     c = ring_with_taper(
         bend_radius=5.0, length_x=2, length_y=4, gap=0.2, taper_width=1, wg_width=0.7
     )
-    pp.show(c)
+    c.show()

@@ -1,25 +1,26 @@
-from typing import Any, Callable, List, Optional, Tuple, Union
+from typing import Callable, List, Optional
 
 import numpy as np
 import phidl.device_layout as pd
 
 from pp.component import Component, ComponentReference
 from pp.config import conf
-from pp.port import Port
-from pp.routing.connect import connect_strip_way_points, get_waypoints_connect_strip
+from pp.routing.get_route import get_route, get_route_from_waypoints
 from pp.routing.utils import direction_ports_from_list_ports, flip
+from pp.types import Number, Route
 
 
 def route_south(
     component: Component,
-    bend_radius: float = conf.tech.bend_radius,
+    bend_radius: Number = conf.tech.bend_radius,
     optical_routing_type: int = 1,
     excluded_ports: List[str] = None,
-    waveguide_separation: float = 4.0,
+    waveguide_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    route_filter: Callable = connect_strip_way_points,
+    route_filter: Callable = get_route_from_waypoints,
+    get_route_function: Callable = get_route,
     gc_port_name: str = "E0",
-) -> Union[Tuple[List[Any], List[Port]], Tuple[List[ComponentReference], List[Port]]]:
+) -> Route:
     """
     Args:
         component: component to route
@@ -33,11 +34,11 @@ def route_south(
             function will be connected. Supplying this information helps
             avoiding waveguide collisions
 
-        routing_method: routing method to connect the waveguides
+        get_route_function: routing method to connect the waveguides
         gc_port_name: grating port name
 
     Returns:
-        list of elements, list of ports
+        list of references, list of ports
 
 
     Works well if the component looks rougly like a rectangular box with
@@ -55,22 +56,14 @@ def route_south(
     optical_ports = component.get_ports_list(port_type="optical")
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     csi = component.size_info
-    elements = []
+    references = []
+    lengths = []
 
     # Handle empty list gracefully
     if not optical_ports:
         return [], []
 
-    conn_params = {"bend_radius": bend_radius}
-
-    route_filter_params = {
-        "bend_radius": bend_radius,
-        "wg_width": optical_ports[0].width,
-    }
-
-    def routing_method(p1, p2, **kwargs):
-        way_points = get_waypoints_connect_strip(p1, p2, **kwargs)
-        return route_filter(way_points, **route_filter_params)
+    conn_params = dict(bend_radius=bend_radius)
 
     # Used to avoid crossing between waveguides in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
@@ -148,7 +141,9 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p)
         ports_to_route.append(tmp_port)
-        elements.extend(routing_method(p, tmp_port, **conn_params)["references"])
+        route = get_route_function(p, tmp_port, **conn_params)
+        references.extend(route["references"])
+        lengths.append(route["length"])
         x -= sep
 
         i += 1
@@ -162,14 +157,11 @@ def route_south(
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p)
 
-            elements.extend(
-                routing_method(
-                    p,
-                    tmp_port,
-                    start_straight=start_straight + y_max - p.y,
-                    **conn_params,
-                )["references"]
+            route = get_route_function(
+                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
             )
+            references.extend(route["references"])
+            lengths.append(route["length"])
 
             ports_to_route.append(tmp_port)
             x -= sep
@@ -206,12 +198,12 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p)
-
-        elements.extend(
-            routing_method(p, tmp_port, start_straight=start_straight, **conn_params)[
-                "references"
-            ]
+        route = get_route_function(
+            p, tmp_port, start_straight=start_straight, **conn_params
         )
+
+        references.extend(route["references"])
+        lengths.append(route["length"])
 
         ports_to_route.append(tmp_port)
         x += sep
@@ -224,33 +216,31 @@ def route_south(
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p)
             ports_to_route.append(tmp_port)
-            elements.extend(
-                routing_method(
-                    p,
-                    tmp_port,
-                    start_straight=start_straight + y_max - p.y,
-                    **conn_params,
-                )["references"]
+            route = get_route_function(
+                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
             )
+            references.extend(route["references"])
+            lengths.append(route["length"])
             x += sep
             start_straight += sep
 
     # Add south ports
     ports = [flip(p) for p in ports_to_route] + south_ports
 
-    return elements, ports
+    return dict(references=references, ports=ports, lengths=lengths)
 
 
 if __name__ == "__main__":
     import pp
 
     c = pp.c.mmi2x2()
-    elements, ports = route_south(c)
-    for e in elements:
+    route = route_south(c)
+    for e in route["references"]:
         if isinstance(e, list):
             print(len(e))
             print(e)
         # print(e)
         c.add(e)
 
-    pp.show(c)
+    print(route["lengths"])
+    c.show()

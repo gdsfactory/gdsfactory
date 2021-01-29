@@ -46,7 +46,6 @@ import pp.components as c
 import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
-import pp.sp as sp
 import pp.port as port
 import pp.types as types
 
@@ -56,13 +55,14 @@ from pp.types import get_name_to_function_dict
 
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
-from pp.add_padding import add_padding
+from pp.add_padding import add_padding, get_padding_points
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.boolean import boolean
 from pp.container import container
+from pp.snap import snap_to_grid
 
 
 __all__ = [
@@ -89,6 +89,7 @@ __all__ = [
     "extend_ports",
     "boolean",
     "get_name_to_function_dict",
+    "get_padding_points",
     "klive",
     "load_component",
     "plotgds",
@@ -101,7 +102,7 @@ __all__ = [
     "routing",
     "recurse_references",
     "show",
-    "sp",
+    "snap_to_grid",
     "types",
     "write_component",
     "write_doe",
@@ -109,7 +110,7 @@ __all__ = [
     "Port",
     "component_from_yaml",
 ]
-__version__ = "2.2.9"
+__version__ = "2.3.1"
 
 
 if __name__ == "__main__":

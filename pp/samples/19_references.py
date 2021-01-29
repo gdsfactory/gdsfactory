@@ -21,4 +21,4 @@ placements:
 
 if __name__ == "__main__":
     c = pp.component_from_yaml(yaml)
-    pp.show(c)
+    c.show()

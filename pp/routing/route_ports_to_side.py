@@ -2,15 +2,13 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64
-from pytest_regressions.data_regression import DataRegressionFixture
 
 from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.config import conf
 from pp.layers import LAYER
 from pp.port import Port, flipped, is_electrical_port
-from pp.routing.connect import connect_elec, connect_strip
-from pp.testing import difftest
+from pp.routing.get_route import get_route, get_route_electrical
 from pp.types import Route
 
 BEND_RADIUS = conf.tech.bend_radius
@@ -72,8 +70,8 @@ def route_ports_to_side(
         y: only for south/north side routing: the y position where the ports should be send
             If None, will use the southest/northest value
 
-        routing_func: the routing function. By default uses either `connect_elec`
-        or `connect_strip` depending on the ports layer.
+        routing_func: the routing function. By default uses either `get_route_electrical`
+        or `get_route` depending on the ports layer.
 
         kwargs: may include:
             `bend_radius`
@@ -94,9 +92,9 @@ def route_ports_to_side(
     # Convenient default selection for connection function point to point
     if routing_func is None:
         if is_electrical_port(ports[0]):
-            routing_func = connect_elec
+            routing_func = get_route_electrical
         else:
-            routing_func = connect_strip
+            routing_func = get_route
 
     # Choose which
     if side in ["north", "south"]:
@@ -143,7 +141,7 @@ def connect_ports_to_x(
     extension_length: int = 0,
     y0_bottom: None = None,
     y0_top: None = None,
-    routing_func: Callable = connect_strip,
+    routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args,
 ) -> Tuple[
@@ -328,7 +326,7 @@ def connect_ports_to_y(
     extension_length: int = 0,
     extend_left: int = 0,
     extend_right: int = 0,
-    routing_func: Callable = connect_strip,
+    routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args: Dict[Any, Any],
 ) -> Union[
@@ -536,12 +534,6 @@ def sample_route_sides() -> Component:
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
     return c
-
-
-def test_sample_route_sides(data_regression: DataRegressionFixture) -> None:
-    """Avoid regressions in GDS geometry shapes and layers."""
-    c = sample_route_sides()
-    difftest(c)
 
 
 if __name__ == "__main__":

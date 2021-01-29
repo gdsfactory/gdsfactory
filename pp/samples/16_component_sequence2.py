@@ -74,4 +74,4 @@ def test_cutback_phase(
 
 if __name__ == "__main__":
     c = test_cutback_phase()
-    pp.show(c)
+    c.show()

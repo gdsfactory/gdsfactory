@@ -1,4 +1,4 @@
-from typing import Iterable, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Tuple
 
 import numpy as np
 from numpy import cos, pi, sin
@@ -8,9 +8,11 @@ from pp.component import Component
 from pp.config import conf
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
+from pp.snap import on_grid
+from pp.types import Layer, Number
 
 
-def _interpolate_segment(p0, p1, N=2):
+def _interpolate_segment(p0, p1, N: int = 2):
     p0 = np.array(p0)
     p1 = np.array(p1)
     dp = p1 - p0
@@ -18,7 +20,7 @@ def _interpolate_segment(p0, p1, N=2):
     return [p0 + dp * a / d for a in np.linspace(0, d, N)]
 
 
-def _bend_path_from_pts(pts, n_interp=2):
+def _bend_path_from_pts(pts, n_interp: int = 2):
     n = len(pts) // 2
     pts0 = pts[:n]
     pts1 = pts[n:][::-1]
@@ -33,7 +35,12 @@ def _bend_path_from_pts(pts, n_interp=2):
     return all_pts
 
 
-def _bend_path(radius=10.0, start_angle=0, theta=-90, angle_resolution=2.5):
+def _bend_path(
+    radius: Number = 10.0,
+    start_angle: Number = 0,
+    theta: Number = -90,
+    angle_resolution: Number = 2.5,
+):
     angle1 = (start_angle) * pi / 180
     angle2 = (start_angle + theta) * pi / 180
     t = np.linspace(angle1, angle2, int(abs(theta) / angle_resolution))
@@ -43,13 +50,13 @@ def _bend_path(radius=10.0, start_angle=0, theta=-90, angle_resolution=2.5):
 
 
 def _bend_points(
-    radius=10.0,
-    width=0.5,
-    theta=-90,
-    start_angle=0,
-    angle_resolution=2.5,
-    inner_radius=None,
-    outer_radius=None,
+    radius: Number = 10.0,
+    width: Number = 0.5,
+    theta: Number = -90,
+    start_angle: Number = 0.0,
+    angle_resolution: Number = 2.5,
+    inner_radius: Optional[Number] = None,
+    outer_radius: Optional[Number] = None,
 ):
     inner_radius = inner_radius or radius - width / 2
     outer_radius = outer_radius or radius + width / 2
@@ -66,7 +73,11 @@ def _bend_points(
 
 
 def _disk_section_points(
-    radius=10.0, theta=-90, start_angle=0, angle_resolution=2.5, layer=LAYER.WG
+    radius: Number = 10.0,
+    theta: Number = -90,
+    start_angle: Number = 0,
+    angle_resolution: Number = 2.5,
+    layer: Layer = LAYER.WG,
 ):
     angle1 = (start_angle) * pi / 180
     angle2 = (start_angle + theta) * pi / 180
@@ -81,7 +92,7 @@ def _disk_section_points(
 @deco_rename_ports
 @pp.cell
 def bend_circular(
-    radius: float = 10.0,
+    radius: Number = 10.0,
     width: float = 0.5,
     theta: int = -90,
     start_angle: int = 0,
@@ -169,15 +180,15 @@ def bend_circular(
         layer=layer,
     )
 
-    length = pp.drc.snap_to_1nm_grid(abs(theta) * pi / 180 * radius)
+    length = pp.snap_to_grid(abs(theta) * pi / 180 * radius)
     component.length = length
     component.info["length"] = length
     component.move((0, radius))
 
-    assert pp.drc.on_grid(
+    assert on_grid(
         midpoint1[1] - width / 2
     ), f"x_input point is off grid {midpoint1[1] - width/2}"
-    assert pp.drc.on_grid(
+    assert on_grid(
         midpoint2[0] - width / 2
     ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
@@ -185,24 +196,30 @@ def bend_circular(
 
 
 @pp.cell
-def bend_circular_deep_rib(layer=pp.LAYER.SLAB90, layers_cladding=None, **kwargs):
+def bend_circular_deep_rib(
+    layer=pp.LAYER.SLAB90, layers_cladding: Optional[Iterable[Layer]] = None, **kwargs
+):
     c = bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
     pp.port.rename_ports_by_orientation(c)
     return c
 
 
 @pp.cell
-def bend_circular_shallow_rib(layer=pp.LAYER.SLAB150, layers_cladding=None, **kwargs):
+def bend_circular_shallow_rib(
+    layer: Layer = pp.LAYER.SLAB150,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    **kwargs,
+):
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 
 @pp.cell
 def bend_circular180(
-    radius: Union[int, float] = 10.0,
-    width: float = 0.5,
+    radius: Number = 10.0,
+    width: Number = 0.5,
     theta: int = 180,
     start_angle: int = -90,
-    angle_resolution: float = 2.5,
+    angle_resolution: Number = 2.5,
     layer: Tuple[int, int] = LAYER.WG,
     **kwargs,
 ) -> Component:
@@ -219,16 +236,16 @@ def bend_circular180(
 
 
 def _bend_circular_windows(
-    radius=10,
-    start_angle=0,
-    theta=-90,
-    angle_resolution=2.5,
-    windows=[-0.25, 0.25, LAYER.WG],
-):
+    radius: Number = 10.0,
+    start_angle: Number = 0,
+    theta: Number = -90,
+    angle_resolution: Number = 2.5,
+    windows: List[Tuple[float, float, Layer]] = [-0.25, 0.25, LAYER.WG],
+) -> Component:
     """
     windows: [(y_start, y_stop, layer), ...]
     """
-    component = pp.Component()
+    component = Component()
     y_min, y_max, layer0 = windows[0]
     y_min, y_max = min(y_min, y_max), max(y_min, y_max)
 
@@ -313,7 +330,7 @@ if __name__ == "__main__":
     from pprint import pprint
 
     c = bend_circular()
-    pp.show(c)
+    c.show()
     pprint(c.get_settings())
 
     # from phidl.quickplotter import quickplot2

@@ -286,4 +286,4 @@ if __name__ == "__main__":
     # print(c.wavelength)
     # print(c.ports)
     c.pprint()
-    pp.show(c)
+    c.show()

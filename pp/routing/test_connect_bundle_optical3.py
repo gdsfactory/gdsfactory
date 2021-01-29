@@ -4,7 +4,7 @@ import pp
 from pp.component import Component
 
 
-def test_connect_bundle_optical3() -> Component:
+def test_get_bundle_optical3() -> Component:
     """ connect 4 waveguides into a 4x1 component """
     c = pp.Component()
 
@@ -33,5 +33,5 @@ def test_connect_bundle_optical3() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_optical3()
-    pp.show(c)
+    c = test_get_bundle_optical3()
+    c.show()

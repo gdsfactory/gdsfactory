@@ -64,5 +64,5 @@ def test_ring_single_bus(
 
 if __name__ == "__main__":
     c = test_ring_single_bus(wg_width=0.45, gap=0.15, length_x=0.2, length_y=0.13)
-    pp.show(c)
+    c.show()
     # pp.write_gds(c, "ring.gds")

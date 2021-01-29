@@ -68,4 +68,4 @@ if __name__ == "__main__":
     # target_layers = [LAYER.WG]
     # keepout_layers = [LAYER.SLAB150]
     # c = add_keepout(c, target_layers, keepout_layers)
-    # pp.show(c)
+    # c.show()

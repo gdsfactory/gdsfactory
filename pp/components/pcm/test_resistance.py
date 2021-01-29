@@ -110,4 +110,4 @@ def test_resistance(
 
 if __name__ == "__main__":
     c = test_resistance()
-    pp.show(c)
+    c.show()

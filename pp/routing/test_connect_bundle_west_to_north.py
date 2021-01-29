@@ -5,7 +5,7 @@ from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_west_to_north() -> Component:
+def test_get_bundle_west_to_north() -> Component:
     w = h = 10
     c = pp.Component()
     pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h, n=3)
@@ -18,8 +18,8 @@ def test_connect_bundle_west_to_north() -> Component:
     pbports = pb.get_ports_list()
     ptports = pl.get_ports_list()
 
-    routes = pp.routing.connect_bundle(
-        pbports, ptports, route_filter=pp.routing.connect_elec_waypoints
+    routes = pp.routing.get_bundle(
+        pbports, ptports, route_filter=pp.routing.get_route_from_waypoints_electrical
     )
 
     lengths = [190, 220, 250]
@@ -33,5 +33,5 @@ def test_connect_bundle_west_to_north() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_west_to_north()
-    pp.show(c)
+    c = test_get_bundle_west_to_north()
+    c.show()

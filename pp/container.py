@@ -6,16 +6,10 @@
 """
 
 import functools
-import hashlib
 from inspect import signature
-from typing import Callable, Tuple
-
-from phidl.device_layout import Label
+from typing import Callable, cast
 
 from pp.component import Component
-from pp.config import MAX_NAME_LENGTH
-from pp.layers import LAYER
-from pp.name import get_component_name
 
 propagate_attributes = {
     "test_protocol",
@@ -70,6 +64,7 @@ def container(func: Callable) -> Callable:
             raise ValueError(
                 f"container {func.__name__} requires a component, got `{old}`"
             )
+        old = cast(Component, old)
         name = kwargs.pop("name", "")
         old = old or kwargs.get("component")
         new = func(*args, **kwargs)
@@ -100,127 +95,8 @@ def container(func: Callable) -> Callable:
     return wrapper
 
 
-@container
-def containerize(component: Component, function: Callable, **kwargs) -> Component:
-    """Returns a containerize component after applying a function.
-    This is an alternative of using the @container decorator.
-    However I recommend using the decorator when possible
-
-    Args:
-        component: to containerize
-        function: that applies to component
-        **kwargs: for the function
-
-    .. code::
-
-        import pp
-
-        def add_label(component, text='hi'):
-            return component.add_label(text)
-
-        c = pp.c.waveguide()
-        cc = pp.containerize(c, function=add_label, text='hi')
-
-    """
-    c = Component()
-    component_type = f"{component.name}_{function.__name__}"
-    name = get_component_name(component_type, **kwargs)
-    if len(name) > MAX_NAME_LENGTH:
-        c.name_long = name
-        name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
-    c.name = name
-    c << component
-    function(c, **kwargs)
-    return c
-
-
-def add_label(component: Component, text: str = "hi") -> Label:
-    return component.add_label(text)
-
-
-def test_containerize() -> Component:
-    import pp
-
-    name = "waveguide_with_label"
-
-    old = pp.c.waveguide()
-    new = containerize(old, function=add_label, text="hi", name=name)
-
-    print(new.name)
-    assert new != old, f"new component {new} should be different from {old}"
-    assert new.name == name, f"new name {new.name} should be {name}"
-    assert len(new.ports) == len(
-        old.ports
-    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    return new
-
-
-@container
-def container_instance(component):
-    """Returns a container instance."""
-    c = Component(name=f"i_{component.name}")
-    c << component
-    return c
-
-
-@container
-def _add_padding(
-    component: Component,
-    x: int = 50,
-    y: int = 50,
-    layers: Tuple[int, int] = (LAYER.PADDING),
-    suffix: str = "p",
-) -> Component:
-    """Adds padding layers to component.
-    This is just an example. For the real function see pp.add_padding.
-    """
-    c = Component(name=f"{component.name}_{suffix}")
-    c << component
-    points = [
-        [c.xmin - x, c.ymin - y],
-        [c.xmax + x, c.ymin - y],
-        [c.xmax + x, c.ymax + y],
-        [c.xmin - x, c.ymax + y],
-    ]
-    for layer in layers:
-        c.add_polygon(points, layer=layer)
-    return c
-
-
-def test_container() -> Component:
-    import pp
-
-    old = pp.c.waveguide()
-    suffix = "p"
-    name = f"{old.name}_{suffix}"
-    new = _add_padding(component=old, suffix=suffix)
-    assert new != old, f"new component {new} should be different from {old}"
-    assert new.name == name, f"new name {new.name} should be {name}"
-    assert len(new.ports) == len(
-        old.ports
-    ), f"new component {len(new.ports)} ports should match original {len(old.ports)} ports"
-    return new
-
-
-def test_container_error() -> Component:
-    import pytest
-
-    import pp
-
-    old = pp.c.waveguide()
-    with pytest.raises(ValueError):
-        _add_padding(component2=old)  # will raise an error
-    return old
-
-
 if __name__ == "__main__":
-    import pp
+    from pp.tests.test_container import test_container
 
-    # c1 = pp.c.waveguide(length=3, width=0.9)
-    # c2 = pp.c.waveguide(length=3)
-    # cc1 = container_instance(c1)
-    # cc2 = container_instance(c2)
-    # c = test_containerize()
-    # c = test_container()
-    c = test_containerize()
-    pp.show(c)
+    c = test_container()
+    c.show()

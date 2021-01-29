@@ -20,6 +20,9 @@ test-force:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
 	pytest --force-regen
 
+diff:
+	python pp/merge_cells.py
+
 test-notebooks:
 	py.test --nbval notebooks
 

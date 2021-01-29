@@ -1,5 +1,7 @@
 from typing import Callable, Tuple
 
+import numpy as np
+
 import pp
 from pp.add_labels import get_input_label
 from pp.component import Component
@@ -123,16 +125,18 @@ def add_gratings_and_loop_back(
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - waveguide_separation
 
-        route = [
-            p0,
-            p0 + (0, a),
-            p0 + (b, a),
-            p0 + (b, y_bot_align_route),
-            p1 + (-b, y_bot_align_route),
-            p1 + (-b, a),
-            p1 + (0, a),
-            p1,
-        ]
+        route = np.array(
+            [
+                p0,
+                p0 + (0, a),
+                p0 + (b, a),
+                p0 + (b, y_bot_align_route),
+                p1 + (-b, y_bot_align_route),
+                p1 + (-b, a),
+                p1 + (0, a),
+                p1,
+            ]
+        )
         bend90 = bend_factory(radius=bend_radius_align_ports)
         loop_back_route = round_corners(route, bend90, waveguide_factory)
         c.add([gca1, gca2])
@@ -152,4 +156,4 @@ if __name__ == "__main__":
 
     # cc = add_termination(component=c)
     print(cc.get_settings()["settings"]["component"])
-    pp.show(cc)
+    cc.show()

@@ -22,4 +22,4 @@ if __name__ == "__main__":
     wg2.connect(port="W0", destination=wg1.ports["E0"])
     wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)
 
-    pp.show(c)  # show it in klayout
+    c.show()  # show it in klayout

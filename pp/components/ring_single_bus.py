@@ -7,8 +7,8 @@ from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.waveguide import waveguide
-from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.netlist_to_gds import netlist_to_component
+from pp.snap import assert_on_2nm_grid
 
 
 @cell
@@ -187,7 +187,7 @@ def _compare_rings():
     r2.ymin = 0
     r1.xmin = 0
     r2.xmin = 0
-    pp.show(c)
+    c.show()
 
 
 if __name__ == "__main__":
@@ -196,6 +196,6 @@ if __name__ == "__main__":
     c = ring_single_bus(gap=0.3, wg_width=0.45)
     print(c.get_settings())
     print(c.name)
-    pp.show(c)
+    c.show()
     # c = ring_single_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2, wg_width=0.4)
     # _compare_rings()

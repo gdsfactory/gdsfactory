@@ -1,7 +1,7 @@
 import itertools
 import pathlib
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Tuple, Union
 
 import gdspy as gp
 from gdspy.polygon import PolygonSet
@@ -9,13 +9,14 @@ from numpy import int64, ndarray
 
 from pp.component import Component
 from pp.import_gds import import_gds
+from pp.types import ComponentOrReference
 
 COUNTER = itertools.count()
 
 
 def boolean(
-    A: List[ndarray],
-    B: Optional[Union[List[ndarray], PolygonSet]],
+    A: Iterable[ComponentOrReference],
+    B: Iterable[ComponentOrReference],
     operation: str,
     precision: float,
 ) -> Optional[PolygonSet]:
@@ -40,7 +41,11 @@ def get_polygons_on_layer(
         return None
 
 
-def gdsdiff(cellA: Union[Path, Component], cellB: Union[Path, Component]) -> Component:
+def gdsdiff(
+    cellA: Union[Path, Component, str],
+    cellB: Union[Path, Component, str],
+    name: str = "TOP",
+) -> Component:
     """Compare two Components.
 
     Args:
@@ -63,14 +68,14 @@ def gdsdiff(cellA: Union[Path, Component], cellB: Union[Path, Component]) -> Com
     layers.update(cellA.get_layers())
     layers.update(cellB.get_layers())
 
-    top = Component(name="TOP")
-    diff = Component(name="xor")
-    common = Component(name="common")
-    old_only = Component(name="only_in_old")
-    new_only = Component(name="only_in_new")
+    top = Component(name=f"{name}_diffs")
+    diff = Component(name=f"{name}_xor")
+    common = Component(name=f"{name}_common")
+    old_only = Component(name=f"{name}_only_in_old")
+    new_only = Component(name=f"{name}_only_in_new")
 
-    cellA.name = "old"
-    cellB.name = "new"
+    cellA.name = f"{name}_old"
+    cellB.name = f"{name}_new"
     top << cellA
     top << cellB
 

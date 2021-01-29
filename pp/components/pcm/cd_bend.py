@@ -98,4 +98,4 @@ def cd_bend_slot(gap=0.2, **kwargs):
 
 if __name__ == "__main__":
     c = cd_bend_strip(width=0.46)
-    pp.show(c)
+    c.show()

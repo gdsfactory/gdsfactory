@@ -58,4 +58,4 @@ def coupler_asymmetric(
 
 if __name__ == "__main__":
     c = coupler_asymmetric(wg_width=0.6, gap=0.4)
-    pp.show(c)
+    c.show()

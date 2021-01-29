@@ -1,13 +1,12 @@
 from typing import Callable, Dict, List, Tuple
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.waveguide import waveguide
-from pp.drc.snap_to_grid import assert_on_2nm_grid
 from pp.netlist_to_gds import netlist_to_component
+from pp.snap import assert_on_2nm_grid
 
 
 @cell
@@ -112,4 +111,4 @@ def ring_double_bus_netlist(
 
 if __name__ == "__main__":
     c = ring_double_bus(bend_radius=5.0, length_x=2, length_y=4, gap=0.2)
-    pp.show(c)
+    c.show()

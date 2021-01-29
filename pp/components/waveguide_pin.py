@@ -91,7 +91,6 @@ def waveguide_pin(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = waveguide_pin(width_i=1)
-    pp.show(c)
+    c.show()

@@ -81,13 +81,7 @@ def load_does(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
     return does
 
 
-def get_settings_list(
-    do_permutations: bool = True, **kwargs
-) -> Union[
-    List[Union[Dict[str, Union[int, float]], Dict[str, float]]],
-    List[Dict[str, Union[int, float]]],
-    List[Dict[str, int]],
-]:
+def get_settings_list(do_permutations: bool = True, **kwargs) -> List[Dict[str, Any]]:
     """Return a list of settings
 
     Args:
@@ -114,7 +108,7 @@ def get_settings_list(
 
     # Deal with empty parameter case
     if kwargs == {}:
-        return {}
+        return [dict()]
 
     # Accept both values or lists
     for key, value in list(kwargs.items()):
@@ -131,22 +125,7 @@ def get_settings_list(
     return settings
 
 
-def test_load_does() -> Dict[
-    str,
-    Union[
-        Dict[
-            str,
-            Union[
-                str,
-                Dict[str, Union[str, float, int]],
-                List[Dict[str, Union[int, float]]],
-            ],
-        ],
-        Dict[str, Union[str, Dict[str, Union[str, float, int]], List[Dict[str, int]]]],
-        Dict[str, Union[str, Dict[str, str], List[Dict[str, int]]]],
-        Dict[str, Union[str, bool, Dict[str, str], List[Dict[str, int]]]],
-    ],
-]:
+def test_load_does() -> Dict[str, Any]:
     filepath = CONFIG["samples_path"] / "mask" / "does.yml"
     does = load_does(filepath)
     assert len(does) == 4

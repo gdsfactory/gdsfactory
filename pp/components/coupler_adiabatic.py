@@ -70,8 +70,7 @@ def coupler_adiabatic(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = coupler_adiabatic(length3=5)
     print(c.ports)
-    pp.show(c)
+    c.show()

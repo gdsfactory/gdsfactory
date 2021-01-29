@@ -53,4 +53,4 @@ def splitter_chain(
 
 if __name__ == "__main__":
     c = splitter_chain(component=pp.c.mmi1x2, n_devices=4)
-    pp.show(c)
+    c.show()

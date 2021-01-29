@@ -5,16 +5,17 @@ from typing import Iterable, List, Optional, Tuple
 import pp
 from pp.component import Component
 from pp.components.hline import hline
-from pp.drc import snap_to_1nm_grid
+from pp.snap import snap_to_grid
+from pp.types import Layer, Number
 
 
 @pp.cell
 def waveguide(
-    length: float = 10.0,
-    width: float = 0.5,
+    length: Number = 10.0,
+    width: Number = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
-    cladding_offset: float = pp.conf.tech.cladding_offset,
+    cladding_offset: Number = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Straight waveguide
 
@@ -50,19 +51,19 @@ def waveguide(
     c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
 
     c.width = width
-    c.length = snap_to_1nm_grid(length)
+    c.length = snap_to_grid(length)
     return c
 
 
 @pp.cell
-def waveguide_biased(width: float = 0.5, **kwargs) -> Component:
+def waveguide_biased(width: Number = 0.5, **kwargs) -> Component:
     """Waveguide with etch bias"""
     width = pp.bias.width(width)
     return waveguide(width=width, **kwargs)
 
 
 def _arbitrary_straight_waveguide(
-    length: float, windows: List[Tuple[float, float, Tuple[int, int]]]
+    length: Number, windows: List[Tuple[Number, Number, Layer]]
 ) -> Component:
     """
     Args:
@@ -149,7 +150,7 @@ if __name__ == "__main__":
 
     # print(c.ports)
     # cc = pp.routing.add_fiber_array(c)
-    # pp.show(cc)
+    # cc.show()
 
     # c = waveguide_slab()
     # c = waveguide_trenches()
@@ -157,4 +158,4 @@ if __name__ == "__main__":
     # c = waveguide_slot()
     # c = waveguide_slot(length=11.2, width=0.5)
     # c = waveguide_slot(length=11.2, width=0.5)
-    pp.show(c)
+    c.show()

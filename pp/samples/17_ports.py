@@ -46,4 +46,4 @@ def test_component_with_port(
 
 if __name__ == "__main__":
     c = test_component_with_port()
-    pp.show(c)
+    c.show()

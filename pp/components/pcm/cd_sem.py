@@ -152,8 +152,8 @@ def cdsem_uturn(
 if __name__ == "__main__":
     # c = cdsem_straight_density()
     c = cdsem_uturn()
-    pp.show(c)
+    c.show()
 
     # c = pcm_bend()
     # pp.write_gds(c)
-    # pp.show(c)
+    # c.show()
