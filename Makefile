@@ -21,7 +21,7 @@ test-force:
 	pytest --force-regen
 
 diff:
-	pyton pp/merge_cells.py
+	python pp/merge_cells.py
 
 test-notebooks:
 	py.test --nbval notebooks
