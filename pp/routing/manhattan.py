@@ -553,6 +553,7 @@ def round_corners(
             straight_origin = taper_ref.ports[pname_east].midpoint
 
         # Straight waveguide
+        length = snap_to_grid(length)
         if with_taper or taper is None:
             wg = straight_factory(length=length, width=wg_width)
         else:
@@ -563,14 +564,16 @@ def round_corners(
         pname_west, pname_east = straight_ports
 
         wg.move(wg.ports[pname_west], (0, 0))
-        wg_ref = pp.ComponentReference(wg)
+        wg_ref = wg.ref()
         if mirror_straight:
             wg_ref.reflect_v(list(wg_ref.ports.values())[0].name)
 
         wg_ref.rotate(angle)
         wg_ref.move(straight_origin)
-        references.append(wg_ref)
-        wg_refs += [wg_ref]
+
+        if length > 0:
+            references.append(wg_ref)
+            wg_refs += [wg_ref]
 
         port_index_out = 1
         if with_taper:
