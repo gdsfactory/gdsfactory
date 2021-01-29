@@ -52,4 +52,4 @@ def ring(
 
 if __name__ == "__main__":
     c = ring()
-    pp.show(c)
+    c.show()

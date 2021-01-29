@@ -1,0 +1,113 @@
+connections:
+  bend_circular_R10_W500n_70.115_5.5,N0: taper_L1_0_L35_W500n_W2p5_74.99_28.125,1
+  bend_circular_R10_W500n_70.115_5.5,W0: waveguide_L52p49_W500n_38.745_0.625,E0
+  bend_circular_R10_W500n_79.865_95.75,N0: waveguide_L10n_W500n_84.995_100.625,W0
+  bend_circular_R10_W500n_79.865_95.75,W0: taper_L1_0_L35_W500n_W2p5_74.99_73.125,1
+  mmi_long,E0: waveguide_L10n_W500n_84.995_100.625,E0
+  mmi_short,E1: waveguide_L52p49_W500n_38.745_0.625,W0
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125,2: waveguide_L10_W2p5_74.99_50.625,W0
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125,2: waveguide_L10_W2p5_74.99_50.625,E0
+instances:
+  bend_circular_R10_W500n_70.115_5.5:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+  bend_circular_R10_W500n_79.865_95.75:
+    component: bend_circular
+    settings:
+      radius: 10.0
+      width: 0.5
+  mmi_long:
+    component: mmi1x2
+    settings:
+      length_mmi: 10
+      width_mmi: 4.5
+  mmi_short:
+    component: mmi1x2
+    settings:
+      length_mmi: 5
+      width_mmi: 4.5
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  waveguide_L10_W2p5_74.99_50.625:
+    component: waveguide
+    settings:
+      length: 10.0
+      width: 2.5
+  waveguide_L10n_W500n_84.995_100.625:
+    component: waveguide
+    settings:
+      length: 0.01
+      width: 0.5
+  waveguide_L52p49_W500n_38.745_0.625:
+    component: waveguide
+    settings:
+      length: 52.49
+      width: 0.5
+name: mmis
+placements:
+  bend_circular_R10_W500n_70.115_5.5:
+    mirror: false
+    rotation: 0
+    x: 64.99
+    y: 0.625
+  bend_circular_R10_W500n_79.865_95.75:
+    mirror: true
+    rotation: 90
+    x: 74.99
+    y: 90.625
+  mmi_long:
+    mirror: false
+    rotation: 180
+    x: 100.0
+    y: 100.0
+  mmi_short:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
+    mirror: false
+    rotation: 90
+    x: 74.99
+    y: 10.625
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
+    mirror: false
+    rotation: 270
+    x: 74.99
+    y: 90.625
+  waveguide_L10_W2p5_74.99_50.625:
+    mirror: false
+    rotation: 90
+    x: 74.99
+    y: 45.625
+  waveguide_L10n_W500n_84.995_100.625:
+    mirror: false
+    rotation: 0
+    x: 84.99
+    y: 100.625
+  waveguide_L52p49_W500n_38.745_0.625:
+    mirror: false
+    rotation: 0
+    x: 12.5
+    y: 0.625
+ports:
+  E0: mmi_short,W0
+  W0: mmi_long,W0

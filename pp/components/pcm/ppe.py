@@ -235,4 +235,4 @@ def ppe(
 
 if __name__ == "__main__":
     c = ppe()
-    pp.show(c)
+    c.show()

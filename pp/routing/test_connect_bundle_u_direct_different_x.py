@@ -5,7 +5,7 @@ from pp.component import Component
 
 
 @pp.cell
-def test_connect_bundle_u_direct_different_x() -> Component:
+def test_get_bundle_u_direct_different_x() -> Component:
     """u direct with different x."""
     c = pp.Component()
 
@@ -26,7 +26,7 @@ def test_connect_bundle_u_direct_different_x() -> Component:
         d.ports["E0"],
     ]
 
-    routes = pp.routing.connect_bundle(ports1, ports2, sort_ports=True)
+    routes = pp.routing.get_bundle(ports1, ports2, sort_ports=True)
     lengths = [316.936, 529.269]
 
     for route, length in zip(routes, lengths):
@@ -37,5 +37,5 @@ def test_connect_bundle_u_direct_different_x() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_u_direct_different_x()
-    pp.show(c)
+    c = test_get_bundle_u_direct_different_x()
+    c.show()

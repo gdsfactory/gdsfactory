@@ -62,7 +62,7 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, west
             )
         )
-        y = pp.drc.snap_to_1nm_grid(y)
+        y = pp.snap_to_grid(y)
         orientation = 180
 
         for i, y in enumerate(y):
@@ -83,7 +83,7 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, east
             )
         )
-        y = pp.drc.snap_to_1nm_grid(y)
+        y = pp.snap_to_grid(y)
         orientation = 0
 
         for i, y in enumerate(y):
@@ -104,7 +104,7 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, north
             )
         )
-        x = pp.drc.snap_to_1nm_grid(x)
+        x = pp.snap_to_grid(x)
         orientation = 90
 
         for i, x in enumerate(x):
@@ -124,7 +124,7 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, south
             )
         )
-        x = pp.drc.snap_to_1nm_grid(x)
+        x = pp.snap_to_grid(x)
         orientation = 270
 
         for i, x in enumerate(x):
@@ -142,4 +142,4 @@ def nxn(
 if __name__ == "__main__":
     c = nxn(north=1, south=3)
     c = pp.extend_ports(c)
-    pp.show(c)
+    c.show()

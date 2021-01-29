@@ -6,7 +6,7 @@ from typing import Any
 import numpy as np
 from phidl import Device
 
-from pp.drc import snap_to_1nm_grid
+from pp.snap import snap_to_grid
 
 
 def join_first_letters(name: str) -> str:
@@ -125,13 +125,13 @@ def clean_value(value: Any) -> str:
         elif float(int(value)) == value:
             value = str(int(value))
         elif 1e-6 < value < 1e-3:
-            value = f"{snap_to_1nm_grid(value*1e6)}u"
+            value = f"{snap_to_grid(value*1e6)}u"
         elif 1e-9 < value < 1e-6:
-            value = f"{snap_to_1nm_grid(value*1e9)}n"
+            value = f"{snap_to_grid(value*1e9)}n"
         elif 1e-12 < value < 1e-9:
-            value = f"{snap_to_1nm_grid(value*1e12)}p"
+            value = f"{snap_to_grid(value*1e12)}p"
         else:
-            value = str(snap_to_1nm_grid(value)).replace(".", "p")
+            value = str(snap_to_grid(value)).replace(".", "p")
     elif isinstance(value, list):
         value = "_".join(clean_value(v) for v in value)
     elif isinstance(value, tuple):
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     c = pp.c.waveguide(length=11.001)
     print(c.name)
     # print(c)
-    # pp.show(c)
+    # c.show()
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))

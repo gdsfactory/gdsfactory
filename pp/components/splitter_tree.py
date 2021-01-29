@@ -79,12 +79,12 @@ def splitter_tree(
         )
 
         c.add(
-            pp.routing.connect_strip(coupler.ports["E1"], tree_top.ports["W0"])[
+            pp.routing.get_route(coupler.ports["E1"], tree_top.ports["W0"])[
                 "references"
             ]
         )
         c.add(
-            pp.routing.connect_strip(coupler.ports["E0"], tree_bot.ports["W0"])[
+            pp.routing.get_route(coupler.ports["E0"], tree_bot.ports["W0"])[
                 "references"
             ]
         )
@@ -107,4 +107,4 @@ def splitter_tree(
 
 if __name__ == "__main__":
     c = splitter_tree(coupler=pp.c.mmi1x2())
-    pp.show(c)
+    c.show()

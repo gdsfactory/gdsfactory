@@ -2,11 +2,10 @@
 from typing import Callable, List
 
 import pp
-from pp.component import Component, ComponentReference
+from pp.component import ComponentReference
 from pp.components import bend_circular, waveguide
 from pp.port import Port
 from pp.routing.manhattan import round_corners
-from pp.testing import difftest
 
 
 def gen_loopback(
@@ -85,14 +84,9 @@ def gen_loopback(
 
 @pp.cell
 def waveguide_with_loopback() -> pp.Component:
-    c = waveguide()
-    c.add(gen_loopback(c.ports["W0"], c.ports["E0"], gc=pp.c.grating_coupler_te))
-    return c
-
-
-def test_add_loopback() -> Component:
-    c = waveguide_with_loopback()
-    difftest(c)
+    c = pp.Component("waveguide_with_loopback")
+    wg = c << waveguide()
+    c.add(gen_loopback(wg.ports["W0"], wg.ports["E0"], gc=pp.c.grating_coupler_te))
     return c
 
 

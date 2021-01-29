@@ -62,4 +62,4 @@ if __name__ == "__main__":
     # cc = add_grating_couplers(c)
     cc = add_tm(c)
     print(cc)
-    pp.show(cc)
+    cc.show()

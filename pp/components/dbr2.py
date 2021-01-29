@@ -91,7 +91,6 @@ def dbr2(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
-    pp.show(c)
+    c.show()

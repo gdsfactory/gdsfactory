@@ -7,7 +7,7 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.electrical.pad import pad as pad_function
 from pp.port import select_electrical_ports
-from pp.routing.connect import connect_elec_waypoints, get_waypoints_connect_strip
+from pp.routing.get_route import get_route_electrical
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.types import Number
 
@@ -24,7 +24,7 @@ def route_pad_array(
     n_ports: int = 1,
     excluded_ports: List[Any] = None,
     pad_indices: None = None,
-    route_filter: Callable = connect_elec_waypoints,
+    get_route_function: Callable = get_route_electrical,
     port_name: str = "W",
     pad_rotation: int = -90,
     x_pad_offset: int = 0,
@@ -82,15 +82,6 @@ def route_pad_array(
     elements = []
     pad = pad() if callable(pad) else pad
     pads = [pad] * N
-
-    route_filter_params = {
-        "bend_radius": bend_radius,
-        "wg_width": ports[0].width,
-    }
-
-    def routing_method(p1, p2, **kwargs):
-        way_points = get_waypoints_connect_strip(p1, p2, **kwargs)
-        return route_filter(way_points, **route_filter_params)
 
     io_sep = pad_spacing
     offset = (N - 1) * io_sep / 2.0
@@ -171,22 +162,20 @@ def route_pad_array(
         for i in range(N):
             p0 = pads[i].ports[port_name]
             p1 = ordered_ports[i]
-            elements.extend(
-                routing_method(p0, p1, bend_radius=bend_radius)["references"]
-            )
+            route = get_route_function(p1, p0)
+            elements.extend(route["references"])
 
     return elements, io_pad_lines, y0_optical
 
 
 if __name__ == "__main__":
-    from pp.rotate import rotate
 
+    c = pp.c.wg_heater_connected()
     c = pp.c.mzi2x2(with_elec_connections=True)
-    c = rotate(c, 180)
 
     elements, pads, _ = route_pad_array(c, fanout_length=100)
     for e in elements:
         c.add(e)
     for e in pads:
         c.add(e)
-    pp.show(c)
+    c.show()

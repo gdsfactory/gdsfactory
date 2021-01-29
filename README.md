@@ -1,17 +1,17 @@
-# gdsfactory 2.2.9
+# gdsfactory 2.3.1
 
 
-[![Documentation Status](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
-[![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
-[![isues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
-![GitHub forks badge](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
-![GitHub stars badge](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
-[![MIT license badge](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-[![Codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/pp)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
+[![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
+[![](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
+![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
+![](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
+[![](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
+[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/pp)
+[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-![logo](https://i.imgur.com/v4wpHpg.png)
+![](https://i.imgur.com/v4wpHpg.png)
 
 gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
 

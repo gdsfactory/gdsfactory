@@ -78,4 +78,4 @@ def _demo():
 if __name__ == "__main__":
     # c = _demo()
     c = coupler_straight_biased(width=0.5, gap=0.2)
-    pp.show(c)
+    c.show()

@@ -308,4 +308,4 @@ if __name__ == "__main__":
     for p in c.ports.values():
         print(p.name, p.port_type, p.orientation)
 
-    pp.show(c)
+    c.show()

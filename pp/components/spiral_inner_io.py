@@ -5,7 +5,6 @@ maybe: need to add grating coupler loopback as well
 from typing import Callable, Optional, Tuple
 
 import numpy as np
-from numpy import float64
 
 import pp
 from pp.component import Component
@@ -14,6 +13,7 @@ from pp.components.euler.bend_euler import bend_euler90, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
 from pp.routing import round_corners
+from pp.types import Number
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -202,7 +202,7 @@ def spiral_inner_io(
     component.add(route_east["references"])
 
     length = route_east["length"] + route_west["length"] + bend180_ref.info["length"]
-    component.length = pp.drc.snap_to_1nm_grid(length + 2 * y_straight_inner_top)
+    component.length = pp.snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 
@@ -229,7 +229,7 @@ def spiral_inner_io_euler(
 
 
 @pp.cell
-def spirals_nested(bend_radius=100):
+def spirals_nested(bend_radius: Number = 100) -> Component:
     component = pp.Component()
     c = spiral_inner_io(
         N=42,
@@ -267,52 +267,9 @@ def spirals_nested(bend_radius=100):
     return component
 
 
-@pp.cell
-def mini_block_mockup():
-    component = pp.Component()
-
-    c = spirals_nested()
-    x0 = c.size_info.west
-    y0 = c.size_info.south
-    margin = 50.0
-    component.add(c.ref(position=(-x0 + margin, -y0 + margin)))
-    component.add(c.ref(position=(4500 - x0 + margin, -y0 + margin)))
-
-    return component
-
-
-@pp.cell
-def reticle_mockup():
-    from pp.layers import LAYER
-
-    dx = 9000.0
-    dy = 8000.0
-    a0 = 50.0
-    component = pp.Component()
-    for x in [0, dx, 2 * dx, 3 * dx]:
-        a = x + a0
-        b = x - a0
-
-        component.add_polygon(
-            [(a, 0), (b, 0), (b, 3 * dy), (a, 3 * dy)], LAYER.FLOORPLAN
-        )
-
-    for y in [0, dy, 2 * dy, 3 * dy]:
-        a = y + a0
-        b = y - a0
-        component.add_polygon(
-            [(0, a), (0, b), (3 * dx, b), (3 * dx, a)], LAYER.FLOORPLAN
-        )
-
-    c = mini_block_mockup()
-
-    for i, j in [(0, 0), (2, 2), (0, 2), (2, 0), (1, 1)]:
-        component.add(c.ref(position=(i * dx, j * dy)))
-
-    return component
-
-
-def get_straight_length(length_cm: int, spiral_function: Callable, **kwargs) -> float64:
+def get_straight_length(
+    length_cm: Number, spiral_function: Callable, **kwargs
+) -> Number:
     """ returns y_spiral to achieve a particular spiral length """
     y0 = 50
     y1 = 400
@@ -337,7 +294,6 @@ def get_straight_length(length_cm: int, spiral_function: Callable, **kwargs) -> 
 
 
 if __name__ == "__main__":
-    from pp.add_termination import add_gratings_and_loop_back
 
     c = spiral_inner_io()
     # c = spiral_inner_io_euler()
@@ -345,8 +301,10 @@ if __name__ == "__main__":
     # c = spiral_inner_io_euler(length=6, wg_width=0.4)
     print(c.name)
     print(c.settings)
-    cc = add_gratings_and_loop_back(c)
-    pp.show(c)
+    # c = add_gratings_and_loop_back(c)
+
+    c = spirals_nested()
+    c.show()
 
     # c = spiral_inner_io_euler(wg_width=1)
     # from pp.routing import add_fiber_array
@@ -364,4 +322,4 @@ if __name__ == "__main__":
     # c = spiral_inner_io()
     # c = spiral_inner_io(bend_radius=20, wg_width=0.2)
     # c = spirals_nested()
-    pp.show(c)
+    c.show()

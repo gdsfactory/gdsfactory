@@ -30,7 +30,6 @@ def litho_star(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = litho_star()
-    pp.show(c)
+    c.show()

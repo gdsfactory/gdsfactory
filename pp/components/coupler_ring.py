@@ -4,7 +4,7 @@ import pp
 from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
-from pp.drc.snap_to_grid import assert_on_2nm_grid
+from pp.snap import assert_on_2nm_grid
 
 
 @pp.cell
@@ -77,4 +77,4 @@ if __name__ == "__main__":
     # c = coupler_ring(length_x=20, bend_radius=5.0, gap=0.3, wg_width=0.45)
     # print(c.get_settings())
     print(c.name)
-    pp.show(c)
+    c.show()

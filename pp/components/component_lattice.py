@@ -287,4 +287,4 @@ if __name__ == "__main__":
     }
     c = pp.c.component_lattice(components=components)
     c.pprint()
-    pp.show(c)
+    c.show()

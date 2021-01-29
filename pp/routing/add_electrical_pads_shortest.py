@@ -1,7 +1,9 @@
 from pp.component import Component
 from pp.components.electrical.pad import pad
 from pp.container import container
-from pp.routing.connect_electrical import connect_electrical_shortest_path
+from pp.routing.get_route_electrical_shortest_path import (
+    get_route_electrical_shortest_path,
+)
 from pp.types import ComponentOrFunction
 
 
@@ -35,19 +37,19 @@ def add_electrical_pads_shortest(
         if port.orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["W"]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["W"]))
         elif port.orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add(connect_electrical_shortest_path(port, p.ports["E"]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["E"]))
         elif port.orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["S"]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["S"]))
         elif port.orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add(connect_electrical_shortest_path(port, p.ports["N"]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["N"]))
 
     c.ports = component.ports.copy()
     for port in ports:
@@ -62,4 +64,4 @@ if __name__ == "__main__":
     c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.wg_heater_connected()
     cc = add_electrical_pads_shortest(c)
-    pp.show(cc)
+    cc.show()

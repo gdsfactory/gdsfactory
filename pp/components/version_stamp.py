@@ -102,4 +102,4 @@ if __name__ == "__main__":
         # text=["b1", "demo"],
         text_size=20,
     )
-    pp.show(c)
+    c.show()

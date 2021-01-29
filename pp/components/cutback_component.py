@@ -103,4 +103,4 @@ def cutback_component_flipped(
 
 if __name__ == "__main__":
     c = cutback_component()
-    pp.show(c)
+    c.show()

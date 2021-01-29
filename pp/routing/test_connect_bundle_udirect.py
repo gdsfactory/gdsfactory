@@ -20,7 +20,7 @@ def test_connect_u_direct() -> Component:
 
     pbports.reverse()
 
-    routes = pp.routing.connect_bundle(pbports, ptports)
+    routes = pp.routing.get_bundle(pbports, ptports)
     lengths = [36.436, 76.436, 116.436, 156.436, 196.436]
 
     for route, length in zip(routes, lengths):
@@ -33,4 +33,4 @@ def test_connect_u_direct() -> Component:
 
 if __name__ == "__main__":
     c = test_connect_u_direct()
-    pp.show(c)
+    c.show()

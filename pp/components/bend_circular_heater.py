@@ -102,4 +102,4 @@ if __name__ == "__main__":
     # pprint(lys._layers)
 
     # c = bend_circular()
-    pp.show(c)
+    c.show()

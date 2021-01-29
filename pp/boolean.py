@@ -1,20 +1,20 @@
-from typing import Optional
+from typing import List, Optional, Union
 
 import phidl.geometry as pg
-from omegaconf.listconfig import ListConfig
 
 from pp.component import Component
 from pp.import_phidl_component import import_phidl_component
+from pp.types import ComponentOrReference, Layer
 
 
 def boolean(
-    A: Component,
-    B: Component,
+    A: Union[ComponentOrReference, List[ComponentOrReference]],
+    B: Union[ComponentOrReference, List[ComponentOrReference]],
     operation: str,
     precision: float = 1e-4,
     num_divisions: Optional[int] = None,
     max_points: int = 4000,
-    layer: ListConfig = 0,
+    layer: Layer = (1, 0),
 ) -> Component:
     """Performs boolean operations between 2 Device/DeviceReference objects,
     or lists of Devices/DeviceReferences.
@@ -66,6 +66,6 @@ if __name__ == "__main__":
     e1 = pp.c.ellipse()
     e2 = pp.c.ellipse(radii=(10, 6)).movex(2)
     e3 = pp.c.ellipse(radii=(10, 4)).movex(5)
-    pp.qp([e1, e2, e3])
+    # pp.qp([e1, e2, e3])
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
-    pp.show(c)
+    c.show()

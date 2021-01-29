@@ -34,4 +34,4 @@ def waveguide_array(
 
 if __name__ == "__main__":
     c = waveguide_array()
-    pp.show(c)
+    c.show()

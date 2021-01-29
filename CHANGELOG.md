@@ -20,6 +20,25 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+## 2.3.1
+
+- refactor
+    - connect_strip to get_route
+    - connect_bundle to get_bundle
+    - connect_strip_way_points to get_route_from_waypoints
+- make diff shows all difference from the difftest run
+- snap length to 1nm in route waveguide references
+- remove any waveguide reference on the routes which have a 1nm-snapped length equal to zero
+
+
+## 2.3.0
+
+- move tests to tests/ folder
+- rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
+- remove pp.container containerize
+- better type annontations
+- replace some `pp.show(c)` by a simpler `c.show()`
+
 ## 2.2.9 2021-01-24
 
 - better settings export

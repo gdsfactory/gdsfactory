@@ -46,4 +46,4 @@ if __name__ == "__main__":
 
     c = errors()
     pp.write_gds(c, "errors.gds")
-    pp.show(c)
+    c.show()

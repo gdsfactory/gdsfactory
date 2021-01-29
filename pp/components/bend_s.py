@@ -85,4 +85,4 @@ if __name__ == "__main__":
     c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    pp.show(c)
+    c.show()

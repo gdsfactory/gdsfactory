@@ -156,4 +156,4 @@ if __name__ == "__main__":
     c = spiral_external_io(bend_radius=10, cutback_length=10000)
     print(c.length)
     print(c.length / 1e4, "cm")
-    pp.show(c)
+    c.show()

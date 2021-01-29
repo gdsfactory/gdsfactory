@@ -27,4 +27,4 @@ def sims_pad(width=500, height=500, pad=100, layer=1):
 
 if __name__ == "__main__":
     c = sims_pad()
-    pp.show(c)
+    c.show()

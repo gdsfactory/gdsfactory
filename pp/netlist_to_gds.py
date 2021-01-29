@@ -2,13 +2,12 @@
 
 """
 
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Tuple
 
 import numpy as np
-from numpy import ndarray
 
 from pp.component import Component, ComponentReference
-from pp.port import select_electrical_ports
+from pp.types import Coordinate
 
 IDENTITY = (0, False)
 R90 = (90, False)
@@ -33,34 +32,11 @@ TRANSFORMATION_MAP = {
 STR_TO_TRANSFORMATION_MAP = {v: k for k, v in TRANSFORMATION_MAP.items()}
 
 
-def get_elec_ports_from_component_names(component: Component, names=None):
-    """
-    Args:
-        component: should have component.netlist
-        names:
-    """
-    names = names or []
-    e_ports = {}
-
-    for name in names:
-        _ports = {
-            "{}_{}".format(name, p.name): p
-            for p in select_electrical_ports(component.netlist[name]).values()
-        }
-        e_ports.update(_ports)
-
-    # update port names
-    for pname, p in e_ports.items():
-        p.name = pname
-
-    return e_ports
-
-
 def gen_sref(
     component: Component,
     transformation_name: str,
     port_name: str,
-    position: Union[Tuple[int, int], ndarray],
+    position: Coordinate,
 ) -> ComponentReference:
     """Returns a Reference."""
 
@@ -104,7 +80,7 @@ def netlist_to_component(
     instances: Dict[str, Tuple[Component, str]],
     connections: List[Tuple[str, str, str, str]],
     ports_map: Dict[str, Tuple[str, str]] = None,
-    position: Tuple[float, float] = (0.0, 0.0),
+    position: Coordinate = (0.0, 0.0),
 ) -> Component:
     """ Netlist_to_component is deprecated! use pp.componet_from_yaml instead
     Returns a component from a netlist (instances, connections and ports map)
@@ -246,8 +222,6 @@ def test_netlist_ring() -> Component:
 
 
 if __name__ == "__main__":
-    import pp
 
-    # print(c.netlist)
-    c = test_netlist_ring()
-    pp.show(c)
+    component = test_netlist_ring()
+    component.show()

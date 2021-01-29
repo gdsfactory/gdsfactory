@@ -65,4 +65,4 @@ def big_device(
 
 if __name__ == "__main__":
     c = big_device()
-    pp.show(c)
+    c.show()

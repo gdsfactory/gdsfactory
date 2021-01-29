@@ -110,4 +110,4 @@ if __name__ == "__main__":
     c = mzi_lattice(
         coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=10, pins=True
     )
-    pp.show(c)
+    c.show()

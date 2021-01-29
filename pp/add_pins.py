@@ -253,10 +253,11 @@ def _add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
+    x = pp.snap_to_grid(reference.x)
+    y = pp.snap_to_grid(reference.y)
+
     component.add_label(
-        text=instance_name,
-        position=pp.drc.snap_to_1nm_grid((reference.x, reference.y)),
-        layer=layer,
+        text=instance_name, position=(x, y), layer=layer,
     )
 
 
@@ -403,11 +404,11 @@ if __name__ == "__main__":
     # add_pins_to_references(c)
     # c = add_pins(c, recursive=True)
     # c = add_pins(c, recursive=False)
-    # pp.show(c)
+    # c.show()
 
     # c = pp.c.mzi2x2(with_elec_connections=True)
     # cc = add_pins(c)
-    # pp.show(cc)
+    # cc.show()
 
     # test_add_pins()
     test_add_pins_recursive()
@@ -426,4 +427,4 @@ if __name__ == "__main__":
     # c = pp.c.bend_circular()
     # cc = pp.containerize(component=c, function=add_outline)
     # print(cc.name)
-    # pp.show(cc)
+    # cc.show()

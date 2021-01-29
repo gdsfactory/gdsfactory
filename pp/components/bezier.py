@@ -1,7 +1,7 @@
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Tuple
 
 import numpy as np
-from numpy import float64, ndarray
+from numpy import ndarray
 from scipy.optimize import minimize
 from scipy.special import binom
 
@@ -10,9 +10,10 @@ from pp.component import Component
 from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
 from pp.hash_points import hash_points
 from pp.layers import LAYER
+from pp.types import Coordinate, Coordinates, Number
 
 
-def bezier_curve(t: ndarray, control_points: List[Tuple[float, int]]) -> ndarray:
+def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -37,14 +38,9 @@ def bezier_biased(width=0.5, **kwargs):
 
 @pp.cell(autoname=False)
 def bezier(
-    name: None = None,
-    width: float = 0.5,
-    control_points: List[Tuple[float, float]] = [
-        (0.0, 0.0),
-        (5.0, 0.0),
-        (5.0, 2.0),
-        (10.0, 2.0),
-    ],
+    name: Optional[str] = None,
+    width: Number = 0.5,
+    control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     t: ndarray = np.linspace(0, 1, 201),
     layer: Tuple[int, int] = LAYER.WG,
     with_manhattan_facing_angles: bool = True,
@@ -82,8 +78,8 @@ def bezier(
     )
     angles = angles_deg(path_points)
 
-    c.info["start_angle"] = pp.drc.snap_to_1nm_grid(angles[0])
-    c.info["end_angle"] = pp.drc.snap_to_1nm_grid(angles[-2])
+    c.info["start_angle"] = pp.snap_to_grid(angles[0])
+    c.info["end_angle"] = pp.snap_to_grid(angles[-2])
 
     a0 = angles[0] + 180
     a1 = angles[-2]
@@ -98,8 +94,8 @@ def bezier(
     c.add_port(name="1", midpoint=p1, width=width, orientation=a1, layer=layer)
 
     curv = curvature(path_points, t)
-    length = pp.drc.snap_to_1nm_grid(path_length(path_points))
-    min_bend_radius = pp.drc.snap_to_1nm_grid(1 / max(np.abs(curv)))
+    length = pp.snap_to_grid(path_length(path_points))
+    min_bend_radius = pp.snap_to_grid(1 / max(np.abs(curv)))
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
     # c.info["curvature"] = curv
@@ -111,13 +107,13 @@ def bezier(
 
 def find_min_curv_bezier_control_points(
     start_point: ndarray,
-    end_point: Tuple[float, float],
+    end_point: Coordinate,
     start_angle: int,
     end_angle: int,
     t: ndarray = np.linspace(0, 1, 201),
     alpha: float = 0.05,
     nb_pts: int = 2,
-) -> List[Union[ndarray, Tuple[float64, float64], Tuple[float, float]]]:
+) -> Coordinates:
     def array_1d_to_cpts(a):
         xs = a[::2]
         ys = a[1::2]
@@ -166,4 +162,4 @@ if __name__ == "__main__":
     # print(c.ports["0"].y - c.ports["1"].y)
     # print(c.ignore)
     # pp.write_gds(c)
-    pp.show(c)
+    c.show()

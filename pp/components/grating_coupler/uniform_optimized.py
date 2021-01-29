@@ -1,28 +1,31 @@
 import pathlib
-from typing import Tuple
+from typing import Callable, Iterable, Tuple
 
 import numpy as np
 
 import pp
 from pp.component import Component
+from pp.components.taper import taper as taper_function
+from pp.types import Number
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
 @pp.cell
 def grating_coupler_uniform_optimized(
-    widths: Tuple[float, float, float] = (0.5, 0.2, 0.3),
-    width_grating: int = 11,
-    length_taper: int = 150,
-    width: float = 0.5,
+    widths: Iterable[Number] = (0.5, 0.2, 0.3),
+    width_grating: Number = 11,
+    length_taper: Number = 150,
+    width: Number = 0.5,
     partial_etch: bool = False,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
-    taper: None = None,
+    taper_function: Callable = taper_function,
+    taper_port_name: str = "1",
     polarization: str = "te",
-    wavelength: int = 1500,
+    wavelength: Number = 1500,
 ) -> Component:
-    """ Grating coupler uniform (not focusing)
+    """Grating coupler uniform (not focusing)
 
     Args:
         widths: of each teeth
@@ -71,21 +74,16 @@ def grating_coupler_uniform_optimized(
                 cgrating.x += x + wt / 2
             x += wt
 
-    # make the taper
-    if taper is None:
-        taper = pp.c.taper(
-            length=length_taper,
-            width1=width,
-            width2=width_grating,
-            port=None,
-            layer=layer,
-        )
+    taper = taper_function(
+        length=length_taper, width1=width, width2=width_grating, port=None, layer=layer,
+    )
     taper_ref = c.add_ref(taper)
     taper_ref.xmax = 0
-    port = taper_ref.ports.get("W0") or taper_ref.ports.get("1")
     c.polarization = polarization
     c.wavelength = wavelength
-    c.add_port(port=taper_ref.ports[port.name], name="W0")
+    if taper_port_name not in taper_ref.ports:
+        raise ValueError(f"{taper_port_name} not in {list(taper_ref.ports.keys())}")
+    c.add_port(port=taper_ref.ports[taper_port_name], name="W0")
     pp.assert_grating_coupler_properties(c)
     return c
 
@@ -147,4 +145,4 @@ if __name__ == "__main__":
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l100()
     print(c.ports)
-    pp.show(c)
+    c.show()

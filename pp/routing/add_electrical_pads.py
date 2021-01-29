@@ -21,7 +21,7 @@ def add_electrical_pads(
         n_ports: int = 1,
         excluded_ports: List[Any] = [],
         pad_indices: None = None,
-        route_filter: Callable = connect_elec_waypoints,
+        route_filter: Callable = get_route_from_waypoints_electrical,
         port_name: str = "W",
         pad_rotation: int = -90,
         x_pad_offset: int = 0,
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     c = pp.c.wg_heater_connected(length=200)
     cc = add_electrical_pads(c, fanout_length=100)
     # cc = add_electrical_pads(c)
-    pp.show(cc)
+    cc.show()
 
     # print(cc.get_settings())
     # print(cc.ports)

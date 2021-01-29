@@ -64,4 +64,4 @@ if __name__ == "__main__":
     c = loop_mirror()
     # c = loop_mirror_rotated()
     # c = loop_mirror_with_delay()
-    pp.show(c)
+    c.show()

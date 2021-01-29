@@ -195,4 +195,4 @@ if __name__ == "__main__":
     c = cutback_bend_circular(n_steps=3, n_stairs=4)  # 30
     # c = cutback_bend180()
     # c = cutback_bend90()
-    pp.show(c)
+    c.show()

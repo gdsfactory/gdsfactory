@@ -208,4 +208,4 @@ def test_via(
 
 if __name__ == "__main__":
     c = test_via()
-    pp.show(c)
+    c.show()

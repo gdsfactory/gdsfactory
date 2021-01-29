@@ -50,4 +50,4 @@ if __name__ == "__main__":
     # Alternatively, we can do this all on one line
     wg3 = c.add_ref(waveguide_sample(length=14, width=3))
 
-    pp.show(c)  # show it in Klayout
+    c.show()  # show it in Klayout

@@ -1,23 +1,24 @@
 """ adapted from phidl.Geometry
 """
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 import rectpack
 from numpy import ndarray
 
 from pp.component import Component
+from pp.types import Coordinate, Number
 
 
 def _pack_single_bin(
-    rect_dict: Dict[int, Tuple[int, int]],
-    aspect_ratio: Tuple[int, int],
+    rect_dict: Dict[int, Tuple[Number, Number]],
+    aspect_ratio: Tuple[Number, Number],
     max_size: ndarray,
     sort_by_area: bool,
     density: float,
     precision: float,
-) -> Tuple[Dict[int, Tuple[int, int, int, int]], Dict[Any, Any]]:
+) -> Tuple[Dict[int, Tuple[Number, Number, Number, Number]], Dict[Any, Any]]:
     """Packs a dict of rectangles {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
@@ -82,9 +83,9 @@ def _pack_single_bin(
 
 def pack(
     D_list: List[Component],
-    spacing: int = 10,
-    aspect_ratio: Tuple[int, int] = (1, 1),
-    max_size: Tuple[None, None] = (None, None),
+    spacing: Number = 10,
+    aspect_ratio: Tuple[Number, Number] = (1, 1),
+    max_size: Union[Coordinate, Tuple[None, None]] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
@@ -150,26 +151,6 @@ def pack(
     return D_packed_list
 
 
-def _demo():
-    import phidl.geometry as pg
-
-    import pp
-
-    D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)]
-    D_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)]
-
-    D_packed_list = pack(
-        D_list,  # Must be a list or tuple of Components
-        spacing=1.25,  # Minimum distance between adjacent shapes
-        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        max_size=(None, None),  # Limits the size into which the shapes will be packed
-        density=1.05,  # Values closer to 1 pack tighter but require more computation
-        sort_by_area=True,  # Pre-sorts the shapes by area
-    )
-    D = D_packed_list[0]  # Only one bin was created, so we plot that
-    pp.show(D)  # show it in klayout
-
-
 def test_pack() -> None:
     import phidl.geometry as pg
 
@@ -187,10 +168,12 @@ def test_pack() -> None:
     c = D_packed_list[0]  # Only one bin was created, so we plot that
     # print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 4
+    return c
 
 
 if __name__ == "__main__":
-    test_pack()
+    c = test_pack()
+    c.show()
 
     # import phidl.geometry as pg
     # spacing = 1
@@ -205,4 +188,4 @@ if __name__ == "__main__":
     # )[0]
     # rectangles.name = "rectangles"
     # p = pack([ellipses, rectangles])
-    # pp.show(p[0])
+    # p.show()
