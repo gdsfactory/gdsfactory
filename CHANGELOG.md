@@ -27,6 +27,8 @@ from pydantic import validate_arguments
     - connect_bundle to get_bundle
     - connect_strip_way_points to get_route_from_waypoints
 - make diff shows all difference from the difftest run
+- snap length to 1nm in route waveguide references
+- remove any waveguide reference on the routes which have a 1nm-snapped length equal to zero
 
 
 ## 2.3.0
