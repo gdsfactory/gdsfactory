@@ -1,9 +1,9 @@
 connections:
   bend_circular_R10_W500n_40.115_-5.5,N0: waveguide_L8p75_W500n_44.99_-15.0,W0
   bend_circular_R10_W500n_40.115_-5.5,W0: waveguide_L9p99_W500n_29.995_-0.625,E0
-  bend_circular_R10_W500n_49.865_-24.5,N0: waveguide_L9n_W500n_54.995_-29.375,W0
+  bend_circular_R10_W500n_49.865_-24.5,N0: waveguide_L10n_W500n_54.995_-29.375,W0
   bend_circular_R10_W500n_49.865_-24.5,W0: waveguide_L8p75_W500n_44.99_-15.0,E0
-  mmi_bot,W0: waveguide_L9n_W500n_54.995_-29.375,E0
+  mmi_bot,W0: waveguide_L10n_W500n_54.995_-29.375,E0
   mmi_top,E0: waveguide_L9p99_W500n_29.995_-0.625,W0
 instances:
   bend_circular_R10_W500n_40.115_-5.5:
@@ -64,6 +64,16 @@ instances:
       wg_width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
+  waveguide_L10n_W500n_54.995_-29.375:
+    component: waveguide
+    settings:
+      cladding_offset: 0.0
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 0.01
+      width: 0.5
   waveguide_L8p75_W500n_44.99_-15.0:
     component: waveguide
     settings:
@@ -74,16 +84,6 @@ instances:
       layers_cladding: null
       length: 8.75
       width: 0.5
-  waveguide_L9n_W500n_54.995_-29.375:
-    component: waveguide
-    settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 0.009999999999990905
-      width: 0.5
   waveguide_L9p99_W500n_29.995_-0.625:
     component: waveguide
     settings:
@@ -92,7 +92,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 9.990000000000002
+      length: 9.99
       width: 0.5
 name: sample_docstring
 placements:
@@ -116,16 +116,16 @@ placements:
     rotation: 0
     x: 12.5
     y: 0.0
+  waveguide_L10n_W500n_54.995_-29.375:
+    mirror: false
+    rotation: 0
+    x: 54.99
+    y: -29.375
   waveguide_L8p75_W500n_44.99_-15.0:
     mirror: false
     rotation: 270
     x: 44.99
     y: -10.625
-  waveguide_L9n_W500n_54.995_-29.375:
-    mirror: false
-    rotation: 0
-    x: 54.99
-    y: -29.375
   waveguide_L9p99_W500n_29.995_-0.625:
     mirror: false
     rotation: 0
