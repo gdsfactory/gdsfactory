@@ -16,7 +16,7 @@ def litho_star(
       import pp
 
       c = pp.c.litho_star()
-      pp.plotgds(c)
+      c.plot()
     """
     D = Component()
 

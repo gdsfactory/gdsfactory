@@ -49,7 +49,7 @@ def grating_coupler_elliptical_trenches(
       from pp.components.grating_coupler.elliptical_trenches import grating_coupler_elliptical_trenches
 
       c = grating_coupler_elliptical_trenches()
-      pp.plotgds(c)
+      c.plot()
 
 
     .. code::
@@ -146,7 +146,7 @@ def grating_coupler_te(taper_angle: int = 35, **kwargs) -> Component:
       import pp
 
       c = pp.c.grating_coupler_te()
-      pp.plotgds(c)
+      c.plot()
     """
     return grating_coupler_elliptical_trenches(
         polarization="te", taper_angle=taper_angle, **kwargs
@@ -164,7 +164,7 @@ def grating_coupler_tm(
       import pp
 
       c = pp.c.grating_coupler_tm()
-      pp.plotgds(c)
+      c.plot()
     """
     return grating_coupler_elliptical_trenches(
         polarization="tm", neff=neff, grating_line_width=grating_line_width, **kwargs

@@ -64,4 +64,4 @@ def test_netlist_yaml() -> Component:
 if __name__ == "__main__":
     c = test_netlist_yaml()
     c.show()
-    pp.plotgds(c)
+    c.plot()

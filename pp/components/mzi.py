@@ -64,7 +64,7 @@ def mzi(
       import pp
 
       c = pp.c.mzi(delta_length=10.)
-      pp.plotgds(c)
+      c.plot()
 
     """
     L2 = length_x

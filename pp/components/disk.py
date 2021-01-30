@@ -50,7 +50,7 @@ def disk(
       import pp
 
       c = pp.c.disk(radius=10, wrap_angle=3.14/4)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

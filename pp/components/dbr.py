@@ -78,7 +78,7 @@ def dbr(
       import pp
 
       c = pp.c.dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

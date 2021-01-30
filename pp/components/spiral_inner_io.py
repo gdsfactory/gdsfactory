@@ -66,7 +66,7 @@ def spiral_inner_io(
       from pp.components.spiral_inner_io import spiral_inner_io
 
       c = spiral_inner_io()
-      pp.plotgds(c)
+      c.plot()
     """
     if length:
         if bend180_function == bend_circular180:
@@ -220,7 +220,7 @@ def spiral_inner_io_euler(
       import pp
 
       c = pp.c.spiral_inner_io_euler()
-      pp.plotgds(c)
+      c.plot()
     """
 
     return spiral_inner_io(

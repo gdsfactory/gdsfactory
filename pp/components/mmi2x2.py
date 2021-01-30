@@ -37,7 +37,7 @@ def mmi2x2(
 
       import pp
       c = pp.c.mmi2x2(length_mmi=15.45, width_mmi=2.1)
-      pp.plotgds(c)
+      c.plot()
 
     """
     component = pp.Component()

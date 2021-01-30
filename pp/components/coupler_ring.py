@@ -33,7 +33,7 @@ def coupler_ring(
       import pp
 
       c = pp.c.coupler_ring(length_x=20, bend_radius=5.0, gap=0.3, wg_width=0.45)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

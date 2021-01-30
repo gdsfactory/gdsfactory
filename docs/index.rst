@@ -14,6 +14,7 @@ Gdsfactory
    netlist
    component_sequence
    routing
+   routing_complex
    path_length_matching
    doe_and_grid_placement
    yaml

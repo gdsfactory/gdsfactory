@@ -21,7 +21,7 @@ def coupler_straight(
       import pp
 
       c = pp.c.coupler_straight()
-      pp.plotgds(c)
+      c.plot()
 
     """
 

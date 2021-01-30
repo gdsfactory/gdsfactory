@@ -61,7 +61,7 @@ def spiral_circular(
         import pp
 
         c = pp.c.spiral_circular(length=1e3)
-        pp.plotgds(c)
+        c.plot()
 
     """
     wg_datatype = layer[1]

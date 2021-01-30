@@ -49,7 +49,7 @@ def container(func: Callable) -> Callable:
 
       c = pp.c.waveguide()
       cp = _add_padding(c)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

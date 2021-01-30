@@ -27,7 +27,7 @@ def coupler_asymmetric(
       import pp
 
       c = pp.c.coupler_asymmetric()
-      pp.plotgds(c)
+      c.plot()
 
     """
     bend = bend(width=wg_width)

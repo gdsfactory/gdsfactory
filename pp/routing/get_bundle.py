@@ -4,7 +4,7 @@
 from typing import Callable, List, Optional, Union
 
 import numpy as np
-from numpy import float64, ndarray
+from numpy import ndarray
 
 from pp.cell import cell
 from pp.component import Component
@@ -18,7 +18,7 @@ from pp.routing.get_route import (
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
-from pp.types import Route
+from pp.types import Number, Route
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -131,11 +131,11 @@ def get_bundle(
         raise NotImplementedError("Routing along different axis not implemented yet")
 
 
-def get_port_x(port: Port) -> float64:
+def get_port_x(port: Port) -> Number:
     return port.midpoint[0]
 
 
-def get_port_y(port: Port) -> float64:
+def get_port_y(port: Port) -> Number:
     return port.midpoint[1]
 
 
@@ -144,11 +144,7 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: float64,
-    x1p: float64,
-    x2: float64,
-    x2p: float64,
-    sep: float = METAL_MIN_SEPARATION,
+    x1: Number, x1p: Number, x2: Number, x2p: Number, sep: float = METAL_MIN_SEPARATION,
 ) -> bool:
     if x2p + sep > x1:
         return False
@@ -247,6 +243,7 @@ def link_ports_routes(
     **kwargs,
 ) -> List[ndarray]:
     """
+
     Args:
         start_ports: list of ports
         end_ports: list of ports
@@ -440,16 +437,9 @@ def link_ports_routes(
     return elems
 
 
-def generate_waypoints_get_bundle(*args, **kwargs) -> List[Route]:
-    """
-    returns a list of Route for each path generated with link_ports
-    """
-    return get_bundle(*args, route_filter=lambda x, **params: x, **kwargs)
-
-
 def compute_ports_max_displacement(
     start_ports: List[Port], end_ports: List[Port]
-) -> float64:
+) -> Number:
     if start_ports[0].angle in [0, 180]:
         a1 = [p.y for p in start_ports]
         a2 = [p.y for p in end_ports]
@@ -484,7 +474,7 @@ def get_bundle_path_length_match(
         nb_loops: number of extra loops added in the path
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
         route_filter: get_route_from_waypoints
-        **kwargs: extra arguments for inner call to generate_waypoints_get_bundle
+        **kwargs: extra arguments for inner call to link_ports_routes
 
     """
     extra_length = extra_length / 2
@@ -505,7 +495,7 @@ def get_bundle_path_length_match(
     kwargs["separation"] = separation
     kwargs["end_straight_offset"] = end_straight_offset
     kwargs["bend_radius"] = bend_radius
-    list_of_waypoints = generate_waypoints_get_bundle(ports1, ports2, **kwargs)
+    list_of_waypoints = link_ports_routes(ports1, ports2, **kwargs)
 
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
@@ -592,7 +582,7 @@ def link_optical_ports(
     )
 
 
-def sign(x: float64) -> int:
+def sign(x: Number) -> int:
     if x > 0:
         return 1
     else:

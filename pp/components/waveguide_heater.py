@@ -120,7 +120,7 @@ def waveguide_heater(
       import pp
 
       c = pp.c.waveguide_heater()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = Component()
@@ -262,7 +262,7 @@ def wg_heater_connected(
       import pp
 
       c = pp.c.wg_heater_connected()
-      pp.plotgds(c)
+      c.plot()
 
     """
     wg_heater = waveguide_heater(**kwargs)

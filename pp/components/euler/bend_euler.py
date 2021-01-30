@@ -58,7 +58,7 @@ def bend_euler90(
       import pp
 
       c = pp.c.bend_euler90()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = _bend_euler(
@@ -90,7 +90,7 @@ def bend_euler180(
       import pp
 
       c = pp.c.bend_euler180()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = _bend_euler(

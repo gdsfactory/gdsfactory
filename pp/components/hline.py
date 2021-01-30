@@ -19,7 +19,7 @@ def hline(
 
       import pp
       c = pp.c.hline()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

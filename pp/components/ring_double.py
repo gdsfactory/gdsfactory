@@ -38,7 +38,7 @@ def ring_double(
       import pp
 
       c = pp.c.ring_double(wg_width=0.5, gap=0.2, length_x=4, length_y=0.1, bend_radius=5)
-      pp.plotgds(c)
+      c.plot()
     """
     assert_on_2nm_grid(gap)
 

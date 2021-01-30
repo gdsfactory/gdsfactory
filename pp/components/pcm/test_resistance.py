@@ -34,7 +34,7 @@ def test_resistance(
       import pp
 
       c = pp.c.test_resistance()
-      pp.plotgds(c)
+      c.plot()
 
     """
 

@@ -172,7 +172,7 @@ def component_lattice(
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
       c = pp.c.component_lattice(components=components)
-      pp.plotgds(c)
+      c.plot()
 
     """
     components = components or {

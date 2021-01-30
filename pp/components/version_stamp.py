@@ -50,7 +50,7 @@ def version_stamp(
       import pp
 
       c = pp.c.version_stamp()
-      pp.plotgds(c)
+      c.plot()
 
     """
 

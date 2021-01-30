@@ -1,15 +1,11 @@
 Path length matching
 ========================
 
-Low level function
-------------------------
-For path length matching a list of lists of waypoints.
+For using instead of `get_bundle` where path length matching matters.
 
-.. autofunction:: pp.routing.path_length_matching.path_length_matched_points
+.. autofunction:: pp.routing.get_bundle.get_bundle_path_length_match
 
-High level function
-------------------------
-For using instead of `connect_bundle` where path length matching matters.
+
 
 Tips:
 
@@ -17,4 +13,5 @@ Tips:
 - Adjust `nb_loops` to avoid too short or too long segments
 - Adjust `separation` and `end_straight_offset` to avoid path length compensation collisions
 
-.. autofunction:: pp.routing.connect_bundle.connect_bundle_path_length_match
+
+.. autofunction:: pp.routing.path_length_matching.path_length_matched_points

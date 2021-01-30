@@ -61,7 +61,7 @@ def spiral_external_io(
       import pp
 
       c = pp.c.spiral_external_io()
-      pp.plotgds(c)
+      c.plot()
     """
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory

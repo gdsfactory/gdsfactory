@@ -26,7 +26,7 @@ def circle(
       import pp
 
       c = pp.c.circle(radius = 10, angle_resolution = 2.5, layer = 0)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

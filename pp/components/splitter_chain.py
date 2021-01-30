@@ -26,7 +26,7 @@ def splitter_chain(
       import pp
 
       c = pp.c.splitter_chain(component=pp.c.mmi1x2(), n_devices=3)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

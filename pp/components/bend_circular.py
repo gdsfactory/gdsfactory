@@ -124,7 +124,7 @@ def bend_circular(
         theta=-90,
         start_angle=0,
       )
-      pp.plotgds(c)
+      c.plot()
 
     """
     component = pp.Component()
@@ -344,5 +344,5 @@ if __name__ == "__main__":
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
-    # pp.plotgds(c)
+    # c.plot()
     # quickplot2(c)

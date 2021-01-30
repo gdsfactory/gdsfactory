@@ -52,7 +52,7 @@ def coupler(
       import pp
 
       c = pp.c.coupler(gap=0.2, length=10)
-      pp.plotgds(c)
+      c.plot()
 
     """
     assert_on_1nm_grid(length)

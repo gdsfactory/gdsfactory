@@ -27,7 +27,7 @@ def coupler90(
 
       import pp
       c = pp.c.coupler90()
-      pp.plotgds(c)
+      c.plot()
 
     """
     y = pp.snap_to_grid((width + gap) / 2)

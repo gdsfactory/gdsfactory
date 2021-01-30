@@ -32,7 +32,7 @@ def coupler_symmetric(
       import pp
 
       c = pp.c.coupler_symmetric()
-      pp.plotgds(c)
+      c.plot()
 
     .. code::
 

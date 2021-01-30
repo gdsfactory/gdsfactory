@@ -92,7 +92,7 @@ def grating_coupler_elliptical_tm(
       import pp
 
       c = pp.c.grating_coupler_elliptical_tm()
-      pp.plotgds(c)
+      c.plot()
 
     """
     return grating_coupler_elliptical(
@@ -178,7 +178,7 @@ def grating_coupler_elliptical(
       import pp
 
       c = pp.c.grating_coupler_elliptical_te()
-      pp.plotgds(c)
+      c.plot()
 
     .. code::
 

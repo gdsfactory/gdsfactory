@@ -26,7 +26,7 @@ def cross(
       import pp
 
       c = pp.c.cross(length=10, width=3, layer=(1, 0))
-      pp.plotgds(c)
+      c.plot()
 
     """
 

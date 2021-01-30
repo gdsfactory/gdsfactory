@@ -26,7 +26,7 @@ def pad(
       import pp
 
       c = pp.c.pad(width=100, height=100, layer=pp.LAYER.M3)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = Component()
@@ -64,7 +64,7 @@ def pad_array(
       import pp
 
       c = pp.c.pad_array(pad=pp.c.pad, spacing=(150, 0), n=6, port_list=["N"])
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = Component()

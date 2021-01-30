@@ -40,7 +40,7 @@ def grating_coupler_uniform_optimized(
       import pp
 
       c = pp.c.grating_coupler_uniform_optimized()
-      pp.plotgds(c)
+      c.plot()
 
     """
     # returns a fiber grating

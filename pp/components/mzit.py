@@ -81,7 +81,7 @@ def mzit(
       import pp
 
       c = pp.c.mzit()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

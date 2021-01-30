@@ -32,7 +32,7 @@ def taper(
       import pp
 
       c = pp.c.taper(width1=0.5, width2=5, length=3)
-      pp.plotgds(c)
+      c.plot()
 
     """
     layers_cladding = layers_cladding or []
@@ -87,7 +87,7 @@ def taper_strip_to_ridge(
       import pp
 
       c = pp.c.taper_strip_to_ridge()
-      pp.plotgds(c)
+      c.plot()
 
     """
 
