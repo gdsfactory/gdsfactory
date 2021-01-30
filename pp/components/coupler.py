@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple
+from typing import Callable, Iterable, Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -17,13 +17,14 @@ def coupler(
     coupler_symmetric_factory: Callable = coupler_symmetric,
     coupler_straight_factory: Callable = coupler_straight,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = [LAYER.WGCLAD],
+    layers_cladding: Iterable[Tuple[int, int]] = (LAYER.WGCLAD,),
     cladding_offset: float = conf.tech.cladding_offset,
     dy: float = 5.0,
 ) -> Component:
     r"""symmetric coupler
 
     Args:
+        wg_width: width of the waveguide
         gap
         length
         coupler_symmetric_factory

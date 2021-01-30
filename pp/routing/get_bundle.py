@@ -1,4 +1,4 @@
-""" route bundles of port (river routing)
+"""Routes bundles of ports (river routing).
 """
 
 from typing import Callable, List, Optional, Union
@@ -67,13 +67,12 @@ def get_bundle(
     assert len(end_ports) == len(
         start_ports
     ), f"end_ports={len(end_ports)} and start_ports={len(start_ports)} must be equal"
-    assert (
-        len(set([p.angle for p in start_ports])) <= 1
-    ), "All start port angles should be the same"
 
-    assert (
-        len(set([p.angle for p in end_ports])) <= 1
-    ), "All end port angles should be the same"
+    start_port_angles = set([p.angle for p in start_ports])
+    if len(start_port_angles) > 1:
+        raise ValueError(
+            "All start port angles should be the same", f"Got {start_port_angles}"
+        )
 
     # Ensure the correct bend radius is used
     def _route_filter(*args, **kwargs):
@@ -441,9 +440,9 @@ def link_ports_routes(
     return elems
 
 
-def generate_waypoints_get_bundle(*args, **kwargs) -> List[ndarray]:
+def generate_waypoints_get_bundle(*args, **kwargs) -> List[Route]:
     """
-    returns a list of waypoints for each path generated with link_ports
+    returns a list of Route for each path generated with link_ports
     """
     return get_bundle(*args, route_filter=lambda x, **params: x, **kwargs)
 
@@ -489,7 +488,6 @@ def get_bundle_path_length_match(
 
     """
     extra_length = extra_length / 2
-    kwargs["separation"] = separation
 
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation
@@ -504,6 +502,7 @@ def get_bundle_path_length_match(
         else:
             end_straight_offset = 0
 
+    kwargs["separation"] = separation
     kwargs["end_straight_offset"] = end_straight_offset
     kwargs["bend_radius"] = bend_radius
     list_of_waypoints = generate_waypoints_get_bundle(ports1, ports2, **kwargs)
@@ -657,7 +656,7 @@ def link_optical_ports_no_grouping(
     end_straight: Optional[float] = None,
     sort_ports: bool = True,
 ) -> List[Route]:
-    r""" Returns a list of route elements.
+    r"""Returns a list of route elements.
 
     Compared to link_ports, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
