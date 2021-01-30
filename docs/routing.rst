@@ -1,47 +1,22 @@
 Routing
 =============================
 
+Connect two ports with a manhattan route
+----------------------------------------------
 
-Connecting ports
-----------------------
-
-Connections are made along manhattan routes using the `routing/manhattan.py` module.
-Convenience functions are provided in `routing/connect.py`
+.. automodule:: pp.routing.get_route
 
 
-To make a route, you need to supply:
- - an input port
- - an output port
- - a bend, or a bend factory
- - a straight factory
- - a taper or a taper factory (optional)
-
-
-To generate a waveguide route:
- 1. Generate the backbone of the route. This is a list of manhattan coordinates through which the route would pass through if it used only sharp bends (right angles)
-
- 2. Replace the corners by bend references (with rotation and position computed from the manhattan backbone)
-
- 3. Add tapers if needed and if space permits
-
- 4. generate straight portions in between tapers or bends
-
-
-The convenience function provided in `routing/connect.py` already have default
-parameters and require only an input and an output port to work.
-
-
-Connecting banks of ports
--------------------------------
+Connect two lists of ports bundles of routes (river routing)
+---------------------------------------------------------------
 
 Often, several ports have to be linked together without them crossing each other.
 One way to tackle simple cases is to use bundle routing.
 Several functions are available depending on the use case:
 
-.. autofunction:: pp.routing.route_ports_to_side.route_ports_to_side
-.. autofunction:: pp.routing.connect_bundle.link_optical_ports
+.. autofunction:: pp.routing.get_bundle.get_bundle
 
-Example with two arrays of ports connected using `link_optical_ports`
+Example with two arrays of ports connected using `get_bundle`
 
 .. plot::
     :include-source:
@@ -65,7 +40,7 @@ Example with two arrays of ports connected using `link_optical_ports`
         ports2 = [pp.Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
         c = pp.Component()
-        routes = pp.routing.connect_bundle(ports1, ports2)
+        routes = pp.routing.get_bundle(ports1, ports2)
         for route in routes:
             c.add(route['references'])
 
@@ -77,8 +52,10 @@ Example with two arrays of ports connected using `link_optical_ports`
     c.show()
 
 
+.. autofunction:: pp.routing.get_bundle.get_bundle_path_length_match
 
-.. autofunction:: pp.routing.connect_bundle.link_ports
+.. autofunction:: pp.routing.route_ports_to_side.route_ports_to_side
+.. autofunction:: pp.routing.get_bundle.link_ports
 .. autofunction:: pp.routing.corner_bundle.corner_bundle
 .. autofunction:: pp.routing.u_groove_bundle.u_bundle_direct
 .. autofunction:: pp.routing.u_groove_bundle.u_bundle_indirect
@@ -91,9 +68,9 @@ Example with two arrays of ports connected using `link_optical_ports`
  - `u_bundle_indirect`, banks of ports with indirect U-turns
 
 Each of these cases can either be directly. Another option is to call
-`routing/connect_bundle.py:connect_bundle`
+`routing/get_bundle.py:get_bundle`
 
-Connect bundle acts as a high level entry point. Based on the angle configurations
+Get bundle acts as a high level entry point. Based on the angle configurations
 of the banks of ports, it decides which sub-routine to call between:
 
  - `link_optical_ports`
@@ -103,9 +80,9 @@ of the banks of ports, it decides which sub-routine to call between:
 
 For now it is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
-use `route_ports_to_side` prior calling `connect_bundle`
+use `route_ports_to_side` prior calling `get_bundle`
 
-Example of `connect_bundle` behavior when called with two banks of ports
+Example of `get_bundle` behavior when called with two banks of ports
 (one list of input ports, another list of output ports). Nothing else is changed.
 If different behaviors are required, several parameters can be used to tweak
 the exact routes.
@@ -121,7 +98,7 @@ arguments. e.g
 Routing banks of ports through pre-defined waypoints
 -----------------------------------------------------
 
-.. autofunction:: pp.routing.connect_bundle_from_waypoints.connect_bundle_waypoints
+.. autofunction:: pp.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
 
 .. plot::
     :include-source:
@@ -153,7 +130,7 @@ Routing banks of ports through pre-defined waypoints
             ports2[-1].position,
         ]
 
-        routes = pp.routing.connect_bundle_waypoints(ports1, ports2, way_points)
+        routes = pp.routing.get_bundle_from_waypoints(ports1, ports2, way_points)
         for route in routes:
             c.add(route['references'])
 

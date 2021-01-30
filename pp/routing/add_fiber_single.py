@@ -83,7 +83,7 @@ def add_fiber_single(
 
        c = pp.c.crossing()
        cc = add_fiber_array(c)
-       pp.plotgds(cc)
+       cc.plot()
 
     """
     component = component() if callable(component) else component

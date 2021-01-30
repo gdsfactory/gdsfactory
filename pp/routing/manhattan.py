@@ -606,7 +606,9 @@ def generate_manhattan_waypoints(
     min_straight: Number = 0.01,
     **kwargs,
 ) -> ndarray:
-    """Return waypoints for a Manhattan route between two ports."""
+    """Return waypoints for a Manhattan route between two ports.
+
+    """
 
     if bend90 is None and bend_radius is None:
         raise ValueError(
@@ -649,6 +651,9 @@ def route_manhattan(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
 ) -> Route:
+    """Generates the Manhattan waypoints for a route.
+    Then creates the waveguide, taper and bend references that define the route.
+    """
     bend90 = pp.call_if_func(bend90)
 
     points = generate_manhattan_waypoints(

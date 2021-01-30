@@ -151,7 +151,7 @@ def pack(
     return D_packed_list
 
 
-def test_pack() -> None:
+def test_pack() -> Component:
     import phidl.geometry as pg
 
     D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]

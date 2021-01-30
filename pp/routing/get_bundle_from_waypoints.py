@@ -116,6 +116,11 @@ def get_bundle_from_waypoints(
         start_ports: list of ports
         end_ports: list of ports
         waypoints: list of points defining a route
+        straight_factory: function that returns waveguides
+        taper_factory: function that returns tapers
+        bend_factory: function that returns bends
+        bend_radius: for bend
+        auto_sort: sorts ports
 
     """
     if len(end_ports) != len(start_ports):

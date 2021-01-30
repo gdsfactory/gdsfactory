@@ -48,7 +48,9 @@ conf = OmegaConf.load(
 tech:
     name: generic
     cache_url:
+    wg_width: 0.5
     wg_expanded_width: 2.5
+    wire_widh: 10
     taper_length: 35.0
     grid_unit: 1e-6
     grid_resolution: 1e-9

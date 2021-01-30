@@ -59,8 +59,22 @@ def write_labels(
     print(f"Wrote {csv_filename}")
 
 
-if __name__ == "__main__":
-    from pp.config import CONFIG
+def test_find_labels():
+    import pp
 
-    gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
-    write_labels(gdspath)
+    c = pp.c.waveguide()
+    cc = pp.routing.add_fiber_single(c)
+    gdspath = pp.write_gds(cc)
+    assert len(list(find_labels(gdspath))) == 4
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.c.waveguide()
+    cc = pp.routing.add_fiber_single(c)
+    gdspath = pp.write_gds(cc)
+    print(len(list(find_labels(gdspath))))
+
+    # gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
+    # write_labels(gdspath)
