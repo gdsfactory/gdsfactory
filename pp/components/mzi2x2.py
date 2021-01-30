@@ -60,7 +60,7 @@ def mzi_arm(
       import pp
 
       c = pp.c.mzi_arm()
-      pp.plotgds(c)
+      c.plot()
 
 
     """
@@ -161,7 +161,7 @@ def mzi2x2(
       import pp
 
       c = pp.c.mzi2x2(CL_1=10., gap=0.2)
-      pp.plotgds(c)
+      c.plot()
 
     """
     if not with_elec_connections:

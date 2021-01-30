@@ -32,7 +32,7 @@ def waveguide(
       import pp
 
       c = pp.c.waveguide(length=10, width=0.5)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = Component()

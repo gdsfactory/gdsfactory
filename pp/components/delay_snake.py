@@ -53,7 +53,7 @@ def delay_snake(
       import pp
 
       c = pp.c.delay_snake(L0=5, total_length=1600, n=2)
-      pp.plotgds(c)
+      c.plot()
 
     """
     epsilon = 0.1

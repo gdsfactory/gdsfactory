@@ -31,7 +31,7 @@ def ring(
       import pp
 
       c = pp.c.ring(radius=10, width=0.5, angle_resolution=2.5, layer=0)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

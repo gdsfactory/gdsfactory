@@ -34,7 +34,7 @@ def bend_s(
       import pp
 
       c = pp.c.bend_s(width=0.5, height=20)
-      pp.plotgds(c)
+      c.plot()
 
     """
     l, h = length, height

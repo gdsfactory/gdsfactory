@@ -74,7 +74,7 @@ def crossing(arm: Callable = crossing_arm) -> Component:
       import pp
 
       c = pp.c.crossing()
-      pp.plotgds(c)
+      c.plot()
 
     """
     cx = pp.Component()

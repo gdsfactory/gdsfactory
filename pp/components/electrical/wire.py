@@ -27,7 +27,7 @@ def wire(
       import pp
 
       c = pp.c.wire(length=50., width=10., layer=pp.LAYER.M3)
-      pp.plotgds(c)
+      c.plot()
     """
     return hline(length=length, width=width, layer=layer, port_type=port_type)
 
@@ -53,7 +53,7 @@ def corner(
       import pp
 
       c = pp.c.corner(width=10., layer=pp.LAYER.M3)
-      pp.plotgds(c)
+      c.plot()
     """
     c = Component()
     a = width / 2

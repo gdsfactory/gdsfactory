@@ -51,7 +51,7 @@ def coupler_full(
       import pp
 
       c = pp.c.coupler_full(length=40, gap=0.2, dw=0.1)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

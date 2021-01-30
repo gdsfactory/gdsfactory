@@ -28,7 +28,7 @@ def rectangle(
       import pp
 
       c = pp.c.rectangle(size=(4, 2), layer=0)
-      pp.plotgds(c)
+      c.plot()
     """
 
     c = pp.Component()

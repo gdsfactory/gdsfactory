@@ -44,7 +44,7 @@ def spiral(
       import pp
 
       c = pp.c.spiral(width=500, length=10e3)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pc.Spiral(

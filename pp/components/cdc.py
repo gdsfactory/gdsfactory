@@ -56,7 +56,7 @@ def cdc(
       import pp
 
       c = pp.c.cdc()
-      pp.plotgds(c)
+      c.plot()
 
     """
 

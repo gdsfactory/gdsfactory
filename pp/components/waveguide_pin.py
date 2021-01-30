@@ -47,7 +47,7 @@ def waveguide_pin(
       import pp
 
       c = pp.c.waveguide_pin(length=10)
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = Component()

@@ -17,7 +17,9 @@ Number = Union[float, int]
 Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
-Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
+Coordinates = Union[
+    List[Coordinate], ndarray, List[Number], Tuple[Number, ...], List[ndarray]
+]
 PathType = Union[str, Path]
 ComponentOrPath = Union[Component, PathType]
 

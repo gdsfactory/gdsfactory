@@ -21,7 +21,7 @@ def compass(
       import pp
 
       c = pp.c.compass(size=(4, 2), layer=pp.LAYER.WG)
-      pp.plotgds(c)
+      c.plot()
     """
 
     c = pp.Component()

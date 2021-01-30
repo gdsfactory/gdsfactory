@@ -28,7 +28,7 @@ def litho_steps(
       import pp
 
       c = pp.c.litho_steps()
-      pp.plotgds(c)
+      c.plot()
 
     """
     D = pp.Component()

@@ -63,7 +63,7 @@ def mzi1x2(
       import pp
 
       c = pp.c.mzi1x2(L0=0.1, DL=0, L2=10)
-      pp.plotgds(c)
+      c.plot()
 
     """
     if not with_elec_connections:

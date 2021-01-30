@@ -37,7 +37,7 @@ def mmi1x2(
 
       import pp
       c = pp.c.mmi1x2(width_mmi=2, length_mmi=2.8)
-      pp.plotgds(c)
+      c.plot()
 
 
     .. code::

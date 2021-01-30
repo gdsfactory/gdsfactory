@@ -25,7 +25,7 @@ def align_wafer(
       import pp
 
       c = pp.c.align_wafer()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = pp.Component()

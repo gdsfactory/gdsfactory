@@ -40,7 +40,7 @@ def grating_coupler_uniform(
       import pp
 
       c = pp.c.grating_coupler_uniform()
-      pp.plotgds(c)
+      c.plot()
 
     .. code::
 

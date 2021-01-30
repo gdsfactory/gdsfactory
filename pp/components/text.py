@@ -26,7 +26,7 @@ def text(
       import pp
 
       c = pp.c.text(text="abcd", size=10, position=(0, 0), justify="left", layer=1)
-      pp.plotgds(c)
+      c.plot()
 
     """
     scaling = size / 1000

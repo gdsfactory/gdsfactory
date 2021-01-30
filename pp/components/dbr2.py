@@ -67,7 +67,7 @@ def dbr2(
       import pp
 
       c = pp.c.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
-      pp.plotgds(c)
+      c.plot()
 
     """
 

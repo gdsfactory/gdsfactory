@@ -98,7 +98,7 @@ def test_via(
       import pp
 
       c = pp.c.test_via()
-      pp.plotgds(c)
+      c.plot()
     """
 
     VR = pp.Component()

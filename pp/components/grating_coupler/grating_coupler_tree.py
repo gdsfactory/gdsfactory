@@ -31,7 +31,7 @@ def grating_coupler_tree(
       import pp
 
       c = pp.c.grating_coupler_tree()
-      pp.plotgds(c)
+      c.plot()
 
     """
     c = waveguide_array(

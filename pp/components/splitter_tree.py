@@ -36,7 +36,7 @@ def splitter_tree(
       import pp
 
       c = pp.c.splitter_tree(coupler=pp.c.mmi1x2(), n_o_outputs=4, spacing=50, bend_radius=10)
-      pp.plotgds(c)
+      c.plot()
 
     """
     n_o_outputs = n_o_outputs

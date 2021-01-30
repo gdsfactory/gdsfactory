@@ -24,7 +24,7 @@ def C(
       import pp
 
       c = pp.c.C(width=1, size=(10, 20), layer=pp.LAYER.M3)
-      pp.plotgds(c)
+      c.plot()
     """
     D = Component()
     w = width / 2

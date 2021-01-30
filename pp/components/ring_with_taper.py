@@ -39,7 +39,7 @@ def ring_with_taper(**kwargs):
       import pp
 
       c = pp.c.ring_single_bus(gap=0.2, length_x=10, length_y=5, bend_radius=5)
-      pp.plotgds(c)
+      c.plot()
 
     """
     components, connections, ports_map = ring_with_taper_netlist(**kwargs)

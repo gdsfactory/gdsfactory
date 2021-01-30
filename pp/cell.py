@@ -52,7 +52,7 @@ def cell(
           return c
 
       c = rectangle(layer=1)
-      pp.plotgds(c)
+      c.plot()
 
     """
 
