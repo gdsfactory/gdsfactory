@@ -15,7 +15,7 @@ def add_taper_elements(
     elements = []
 
     taper_object = pp.call_if_func(taper)
-    for port_name, port in component.ports.copy().items():
+    for port in component.ports.copy().values():
         if port.port_type == "optical":
             taper_ref = taper_object.ref()
             taper_ref.connect(taper_ref.ports["2"].name, port)

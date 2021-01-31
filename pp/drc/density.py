@@ -1,3 +1,4 @@
+"""Computes density. FIXME. add tests."""
 import sys
 from typing import Tuple
 
@@ -91,7 +92,7 @@ def boolops_hierarchical(
 
         func_check_to_flatten = _has_polygons
 
-    for rank, cells in cells_by_rank.items():
+    for cells in cells_by_rank.values():
         for cell in cells:
             to_flatten = func_check_to_flatten(cell)
             if to_flatten:

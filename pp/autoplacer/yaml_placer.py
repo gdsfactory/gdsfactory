@@ -403,108 +403,7 @@ def placer_fixed_coords(
     return [pya.CellInstArray(c.cell_index(), t) for c, t in zip(cells, transforms)]
 
 
-def load_yaml(
-    filepath: Path, defaults: Dict[str, bool] = {"do_permutation": True}
-) -> Union[
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[str, Union[str, Dict[str, Union[int, str]]]],
-                Dict[str, Union[str, bool]],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, List[int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[str, Union[int, str, bool, Tuple[int, int]]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], List[Union[int, float]]]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
-            ],
-        ],
-        Dict[str, Union[str, int, Tuple[int, int]]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, Union[List[int], List[float]]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[str, Union[str, int, Tuple[int, int]]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, Union[List[int], int]], Dict[str, str]]],
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[float, str, List[int], int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[str, Union[int, str, bool, Tuple[int, int]]],
-    ],
-]:
+def load_yaml(filepath: Path) -> Any:
     """load placer settings
 
     Args:
@@ -529,9 +428,6 @@ def load_yaml(
         mask["layer_doe_label"] = (102, 6)
 
     for doe_name, doe in data.items():
-        # do_permutation = defaults["do_permutation"]
-        # if "do_permutation" in doe:
-        # do_permutation = doe.pop("do_permutation")
         _doe = {}
         _doe.update(doe)
         does[doe_name] = _doe
@@ -586,106 +482,7 @@ PLACER_NAME2FUNC = {
 }
 
 
-def separate_does_from_templates(
-    dicts: Dict[str, Any]
-) -> Union[
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, Union[List[int], int]], Dict[str, str]]],
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[float, str, List[int], int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, Union[List[int], List[float]]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, List[int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[str, Union[Dict[str, Dict[str, Union[int, str]]], Dict[str, bool]]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], List[Union[int, float]]]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str]]],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-]:
+def separate_does_from_templates(dicts: Dict[str, Any]) -> Any:
     templates = {}
     does = {}
     for name, d in dicts.items():
