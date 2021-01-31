@@ -129,9 +129,7 @@ def get_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
-        # return corner_bundle(**params, **kwargs)
         return link_ports(**params, **kwargs)
-        raise NotImplementedError("Routing along different axis not implemented yet")
 
 
 def get_port_x(port: Port) -> Number:

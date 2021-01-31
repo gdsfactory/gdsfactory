@@ -1,11 +1,12 @@
 from typing import Callable, List, Optional, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 
 
-@pp.cell
+@cell
 def mmi1x2(
     wg_width: float = 0.5,
     width_taper: float = 1.0,
@@ -103,7 +104,7 @@ def mmi1x2(
     return c
 
 
-@pp.cell
+@cell
 def mmi1x2_biased(
     wg_width=0.5,
     width_taper=1.0,

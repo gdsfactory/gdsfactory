@@ -57,7 +57,7 @@ def cell(
     """
 
     if func is None:
-        return partial(cell, autoname=autoname, name=name, uid=uid, cache=cache,)
+        return partial(cell, autoname=autoname, name=name, uid=uid, cache=cache)
 
     @wraps(func)
     def _cell(

@@ -1,4 +1,4 @@
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -6,13 +6,17 @@ from numpy import ndarray
 import pp
 from pp.component import Component
 from pp.container import container
+from pp.port import Port
+from pp.types import Coordinate, Number
 
 DEG2RAD = np.pi / 180
 
 
 def line(
-    p_start: ndarray, p_end: ndarray, width: Optional[float] = None
-) -> List[ndarray]:
+    p_start: Union[Port, Coordinate],
+    p_end: Union[Port, Coordinate],
+    width: Optional[float] = None,
+) -> Tuple[float, float, float, float]:
     if isinstance(p_start, pp.Port):
         width = p_start.width
         p_start = p_start.midpoint
@@ -27,10 +31,10 @@ def line(
     p1 = move_polar_rad_copy(p_start, angle - a, w / 2)
     p2 = move_polar_rad_copy(p_end, angle - a, w / 2)
     p3 = move_polar_rad_copy(p_end, angle + a, w / 2)
-    return [p0, p1, p2, p3]
+    return (p0, p1, p2, p3)
 
 
-def move_polar_rad_copy(pos: ndarray, angle: float, length: float) -> ndarray:
+def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:
     """Returns the points of a position (pos) with angle, by shifted by certain length
 
     Args:
@@ -45,7 +49,7 @@ def move_polar_rad_copy(pos: ndarray, angle: float, length: float) -> ndarray:
 
 
 @pp.cell
-def extend_port(port, length):
+def extend_port(port: Port, length: Number) -> Component:
     """ returns a port extended by length """
     c = pp.Component()
 
@@ -75,7 +79,7 @@ def extend_ports(
     component: Component,
     port_list: Optional[List[str]] = None,
     length: float = 5.0,
-    extension_factory: Callable = None,
+    extension_factory: Optional[Callable] = None,
     extension_port_name_input: Optional[str] = None,
     extension_port_name_output: Optional[str] = None,
 ) -> Component:
