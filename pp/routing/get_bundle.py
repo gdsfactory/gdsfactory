@@ -1,7 +1,7 @@
 """Routes bundles of ports (river routing).
 """
 
-from typing import Callable, List, Optional, Union
+from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
 from numpy import ndarray
@@ -67,6 +67,9 @@ def get_bundle(
     assert len(end_ports) == len(
         start_ports
     ), f"end_ports={len(end_ports)} and start_ports={len(start_ports)} must be equal"
+
+    start_ports = cast(List[Port], start_ports)
+    end_ports = cast(List[Port], end_ports)
 
     start_port_angles = set([p.angle for p in start_ports])
     if len(start_port_angles) > 1:
@@ -177,9 +180,6 @@ def link_ports(
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
-        compute_array_separation_only: If True, returns min distance between the two arrays
-            instead of returning the connectors.
-            Useful for budgeting space before instantiating other components.
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
@@ -237,12 +237,11 @@ def link_ports_routes(
     route_filter: Callable = generate_manhattan_waypoints,
     sort_ports: bool = True,
     end_straight_offset: Optional[float] = None,
-    compute_array_separation_only: bool = False,
     tol: float = 0.00001,
     start_straight: float = 0.0,
     **kwargs,
 ) -> List[ndarray]:
-    """
+    """Returns route coordinates List
 
     Args:
         start_ports: list of ports
@@ -252,6 +251,8 @@ def link_ports_routes(
         route_filter: Function used to connect two ports. Should be like `get_route`
         sort_ports: if True sort ports
         end_straight_offset: adds a straigth
+        tol: tolerance
+        start_straight: length of straight
     """
     ports1 = start_ports
     ports2 = end_ports
@@ -326,9 +327,6 @@ def link_ports_routes(
 
     Le = end_straight_offset
 
-    has_close_x_ports = False
-    close_ports_thresh = 2 * bend_radius + 1.0
-
     # First pass - loop on all the ports to find the tentative end_straights
 
     _w = get_port_width
@@ -344,8 +342,6 @@ def link_ports_routes(
             y = get_port_y(ports2[i])
 
         dx = abs(x2 - x1)
-        if dx < close_ports_thresh:
-            has_close_x_ports = True
 
         # Compute the metal separation to use. This depends on the adjacent metal
         # track widths
@@ -389,14 +385,6 @@ def link_ports_routes(
     L = min(end_straights_in_group)
 
     end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
-
-    if compute_array_separation_only:
-        # If there is no port too close to each other in x, then there are
-        # only two bends per route
-        if not has_close_x_ports:
-            return max(end_straights) + 2 * bend_radius
-        else:
-            return max(end_straights) + 4 * bend_radius
 
     # Second pass - route the ports pairwise
     N = len(ports1)
@@ -532,7 +520,6 @@ def link_electrical_ports(
         end_straight_offset: offset to add at the end of each waveguide
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
-        compute_array_separation_only: If True, returns the min distance which should be used between the two arrays instead of returning the connectors. Useful for budgeting space before instantiating other components.
 
     Returns:
         list of references of the electrical routes
