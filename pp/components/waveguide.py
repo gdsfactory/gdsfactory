@@ -3,13 +3,14 @@ import hashlib
 from typing import Iterable, List, Optional, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.hline import hline
 from pp.snap import snap_to_grid
 from pp.types import Layer, Number
 
 
-@pp.cell
+@cell
 def waveguide(
     length: Number = 10.0,
     width: Number = 0.5,
@@ -55,7 +56,7 @@ def waveguide(
     return c
 
 
-@pp.cell
+@cell
 def waveguide_biased(width: Number = 0.5, **kwargs) -> Component:
     """Waveguide with etch bias"""
     width = pp.bias.width(width)
@@ -101,7 +102,7 @@ def _arbitrary_straight_waveguide(
     return component
 
 
-@pp.cell
+@cell
 def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB150):
     """Waveguide with thinner top Silicon."""
     ymin = width / 2
@@ -110,7 +111,7 @@ def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLA
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
-@pp.cell
+@cell
 def waveguide_trenches(
     length=10.0,
     width=0.5,
@@ -127,7 +128,7 @@ def waveguide_trenches(
     return _arbitrary_straight_waveguide(length=length, windows=windows)
 
 
-@pp.cell
+@cell
 def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
     """Waveguide with a slot in the middle."""
     gap = pp.bias.gap(gap)

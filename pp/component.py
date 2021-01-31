@@ -2,7 +2,7 @@ import copy as python_copy
 import itertools
 import uuid
 from pprint import pprint
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
 import networkx as nx
 import numpy as np
@@ -155,7 +155,7 @@ class ComponentReference(DeviceReference):
             name: port._copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
-        self.uid = str(uuid.uuid4())[:8]
+        # self.uid = str(uuid.uuid4())[:8]
 
     def __repr__(self) -> str:
         return (
@@ -320,7 +320,7 @@ class ComponentReference(DeviceReference):
         origin: Union[Port, Coordinate] = (0, 0),
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
-    ) -> object:
+    ) -> "ComponentReference":
         """Moves the DeviceReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
@@ -335,22 +335,28 @@ class ComponentReference(DeviceReference):
             origin = (0, 0)
 
         if hasattr(origin, "midpoint"):
+            origin = cast(Port, origin)
             o = origin.midpoint
         elif np.array(origin).size == 2:
             o = origin
         elif origin in self.ports:
-            o = self.ports[origin].midpoint
+            origin = self.ports[origin]
+            origin = cast(Port, origin)
+            o = origin.midpoint
         else:
             raise ValueError(
                 f"{self.parent.name}.move(origin={origin}) not array-like, a port, or port name {list(self.ports.keys())}"
             )
 
         if hasattr(destination, "midpoint"):
+            destination = cast(Port, destination)
             d = destination.midpoint
         elif np.array(destination).size == 2:
             d = destination
         elif destination in self.ports:
-            d = self.ports[destination].midpoint
+            destination = self.ports[destination]
+            destination = cast(Port, destination)
+            d = destination.midpoint
         else:
             raise ValueError(
                 f"{self.parent.name}.move(destination={destination}) not array-like, a port, or port name {list(self.ports.keys())}"
@@ -368,7 +374,9 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
-    def rotate(self, angle: Number = 45, center: Coordinate = (0.0, 0.0),) -> object:
+    def rotate(
+        self, angle: Number = 45, center: Coordinate = (0.0, 0.0),
+    ) -> "ComponentReference":
         """Return ComponentReference rotated:
 
         Args:
@@ -414,7 +422,7 @@ class ComponentReference(DeviceReference):
 
     def reflect(
         self, p1: Coordinate = (0.0, 1.0), p2: Coordinate = (0.0, 0.0),
-    ) -> object:
+    ) -> "ComponentReference":
         if isinstance(p1, Port):
             p1 = p1.midpoint
         if isinstance(p2, Port):
@@ -445,7 +453,7 @@ class ComponentReference(DeviceReference):
 
     def connect(
         self, port: Union[str, Port], destination: Port, overlap: Number = 0.0
-    ) -> object:
+    ) -> "ComponentReference":
         """Returns a reference of the Component where a origin port_name connects to a destination
 
         Args:
@@ -911,7 +919,7 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
-    def add_ref(self, D: Device, alias: Optional[str] = None) -> object:
+    def add_ref(self, D: Device, alias: Optional[str] = None) -> "ComponentReference":
         """Takes a Component and adds it as a ComponentReference to the current
         Device."""
         if not isinstance(D, Component) and not isinstance(D, Device):

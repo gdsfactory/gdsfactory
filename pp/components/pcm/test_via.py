@@ -1,24 +1,26 @@
 from typing import Tuple
 
 import pp
-from pp import components as pc
 from pp.component import Component
+from pp.components.compass import compass
+from pp.components.rectangle import rectangle
+from pp.types import Number
 
 
 @pp.cell
 def _via_iterable(
-    via_spacing: int,
-    wire_width: int,
+    via_spacing: Number,
+    wire_width: Number,
     wiring1_layer: Tuple[int, int],
     wiring2_layer: Tuple[int, int],
     via_layer: Tuple[int, int],
-    via_width: int,
+    via_width: Number,
 ) -> Component:
     VI = pp.Component()
-    wire1 = VI.add_ref(pc.compass(size=(via_spacing, wire_width), layer=wiring1_layer))
-    wire2 = VI.add_ref(pc.compass(size=(via_spacing, wire_width), layer=wiring2_layer))
-    via1 = VI.add_ref(pc.compass(size=(via_width, via_width), layer=via_layer))
-    via2 = VI.add_ref(pc.compass(size=(via_width, via_width), layer=via_layer))
+    wire1 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring1_layer))
+    wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
+    via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
+    via2 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     wire1.connect(port="E", destination=wire2.ports["W"], overlap=wire_width)
     via1.connect(
         port="W", destination=wire1.ports["E"], overlap=(wire_width + via_width) / 2
@@ -46,31 +48,31 @@ def _via_iterable(
 
 @pp.cell
 def test_via(
-    num_vias: int = 100,
-    wire_width: int = 10,
-    via_width: int = 15,
-    via_spacing: int = 40,
-    pad_size: Tuple[int, int] = (300, 300),
-    min_pad_spacing: int = 0,
+    num_vias: Number = 100,
+    wire_width: Number = 10,
+    via_width: Number = 15,
+    via_spacing: Number = 40,
+    pad_size: Tuple[Number, Number] = (300, 300),
+    min_pad_spacing: Number = 0,
     pad_layer: Tuple[int, int] = pp.LAYER.M3,
     wiring1_layer: Tuple[int, int] = pp.LAYER.HEATER,
     wiring2_layer: Tuple[int, int] = pp.LAYER.M1,
     via_layer: Tuple[int, int] = pp.LAYER.VIA1,
 ) -> Component:
-    """ Via cutback to extract via resistance
+    """Via cutback to extract via resistance
     from phidl.geometry
 
     Args:
-        num_vias=100
-        wire_width=10
-        via_width=15
-        via_spacing=40
-        pad_size=(300, 300)
-        min_pad_spacing=0
-        pad_layer=0
-        wiring1_layer=1
-        wiring2_layer=2
-        via_layer=3
+        num_vias: number of vias
+        wire_width: width of wire
+        via_width: width of via
+        via_spacing: via_spacing
+        pad_size
+        min_pad_spacing
+        pad_layer
+        wiring1_layer
+        wiring2_layer
+        via_layer
 
     Usage:
         Call via_route_test_structure() by indicating the number of vias you want drawn. You can also change the other parameters however
@@ -102,17 +104,17 @@ def test_via(
     """
 
     VR = pp.Component()
-    pad1 = VR.add_ref(pc.rectangle(size=pad_size, layer=pad_layer))
-    pad1_overlay = VR.add_ref(pc.rectangle(size=pad_size, layer=wiring1_layer))
-    pad2 = VR.add_ref(pc.rectangle(size=pad_size, layer=pad_layer))
-    pad2_overlay = VR.add_ref(pc.rectangle(size=pad_size, layer=wiring1_layer))
-    nub = VR.add_ref(pc.compass(size=(3 * wire_width, wire_width), layer=pad_layer))
+    pad1 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))
+    pad1_overlay = VR.add_ref(rectangle(size=pad_size, layer=wiring1_layer))
+    pad2 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))
+    pad2_overlay = VR.add_ref(rectangle(size=pad_size, layer=wiring1_layer))
+    nub = VR.add_ref(compass(size=(3 * wire_width, wire_width), layer=pad_layer))
     nub_overlay = VR.add_ref(
-        pc.compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
+        compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
     )
-    head = VR.add_ref(pc.compass(size=(wire_width, wire_width), layer=pad_layer))
+    head = VR.add_ref(compass(size=(wire_width, wire_width), layer=pad_layer))
     head_overlay = VR.add_ref(
-        pc.compass(size=(wire_width, wire_width), layer=wiring1_layer)
+        compass(size=(wire_width, wire_width), layer=wiring1_layer)
     )
     nub.ymax = pad1.ymax - 5
     nub.xmin = pad1.xmax
@@ -170,23 +172,23 @@ def test_via(
         and (min_pad_spacing - current_width) > 3 * wire_width
     ):
         tail = VR.add_ref(
-            pc.compass(
+            compass(
                 size=(min_pad_spacing - current_width + wire_width, wire_width),
                 layer=wiring1_layer,
             )
         )
         tail_overlay = VR.add_ref(
-            pc.compass(
+            compass(
                 size=(min_pad_spacing - current_width + wire_width, wire_width),
                 layer=pad_layer,
             )
         )
     else:
         tail = VR.add_ref(
-            pc.compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
+            compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
         )
         tail_overlay = VR.add_ref(
-            pc.compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
+            compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
         )
 
     if up and not edge:
