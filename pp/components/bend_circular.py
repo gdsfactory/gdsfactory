@@ -241,7 +241,7 @@ def _bend_circular_windows(
     start_angle: Number = 0,
     theta: Number = -90,
     angle_resolution: Number = 2.5,
-    windows: Iterable[Tuple[float, float, Layer]] = [(-0.25, 0.25, LAYER.WG)],
+    windows: Tuple[Tuple[float, float, Layer], ...] = ((-0.25, 0.25, LAYER.WG),),
 ) -> Component:
     """
     windows: [(y_start, y_stop, layer), ...]

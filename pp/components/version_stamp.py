@@ -3,6 +3,7 @@ import platform
 from typing import Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.text import text as Text
 from pp.config import conf
@@ -16,7 +17,7 @@ def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
     return c
 
 
-@pp.cell
+@cell
 def qrcode(
     data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
 ) -> Component:
@@ -37,10 +38,10 @@ def qrcode(
     return c
 
 
-@pp.cell
+@cell
 def version_stamp(
-    text=[], with_qr_code=False, layer=LAYER.WG, pixel_size=1, text_size=10
-):
+    text=None, with_qr_code=False, layer=LAYER.WG, pixel_size=1, text_size=10
+) -> Component:
     """
     Includes module version, git hash and date
 
@@ -54,6 +55,7 @@ def version_stamp(
 
     """
 
+    text = text or []
     git_hash = conf.git_hash
     now = datetime.datetime.now()
     timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)

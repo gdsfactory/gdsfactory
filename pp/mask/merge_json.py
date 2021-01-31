@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, Iterable, Optional
 
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
@@ -12,7 +12,8 @@ from pp.config import CONFIG, conf, logging, write_config
 
 def merge_json(
     doe_directory: Path = CONFIG["doe_directory"],
-    extra_directories: List[Path] = [CONFIG["gds_directory"]],
+    gds_directory: Path = CONFIG["gds_directory"],
+    extra_directories: Optional[Iterable[Path]] = None,
     jsonpath: Path = CONFIG["mask_directory"] / "metadata.json",
     json_version: int = 6,
     config: DictConfig = conf,
@@ -31,6 +32,7 @@ def merge_json(
     logging.debug("Merging JSON files:")
     cells = {}
     config = config or {}
+    extra_directories = extra_directories or []
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):

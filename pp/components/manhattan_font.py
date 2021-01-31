@@ -377,7 +377,7 @@ def load_font() -> None:
         charac = line[0]
 
         pixels = ""
-        for i in range(5):
+        for _i in range(5):
             pixels += lines.pop(0).replace("\t", "").replace(" ", "") + "\n"
 
         CHARAC_MAP[charac] = pixels

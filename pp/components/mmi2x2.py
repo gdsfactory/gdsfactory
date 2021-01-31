@@ -76,9 +76,9 @@ def mmi2x2(
 
     mmi_section = component.add_ref(mmi)
 
-    for port_name, port in mmi.ports.items():
+    for port_name, port in mmi_section.ports.items():
         taper_ref = component << taper
-        taper_ref.connect(port="2", destination=mmi_section.ports[port_name])
+        taper_ref.connect(port="2", destination=port)
         component.add_port(name=port_name, port=taper_ref.ports["1"])
         component.absorb(taper_ref)
 
