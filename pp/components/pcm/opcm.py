@@ -7,17 +7,19 @@ from typing import Callable, Iterable, List, Optional, Tuple
 import numpy as np
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.manhattan_font import manhattan_text
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
+from pp.types import Number
 
 LINE_LENGTH = 420.0
 
 
-@pp.cell
+@cell
 def square_middle(
     side: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -38,7 +40,7 @@ def square_middle(
     return component
 
 
-@pp.cell
+@cell
 def double_square(
     side=0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -61,7 +63,7 @@ def double_square(
     return component
 
 
-@pp.cell
+@cell
 def rectangle(
     x: float,
     y: float,
@@ -96,7 +98,7 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
     return component
 
 
-@pp.cell
+@cell
 def char_H(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -104,7 +106,7 @@ def char_H(
     return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
 
 
-@pp.cell
+@cell
 def char_L(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -178,10 +180,10 @@ def _cdsem_generic(
 
 
 def wg_line(
-    length: float,
-    width: float,
+    length: Number,
+    width: Number,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = None,
+    layers_cladding: Optional[List[Tuple[int, int]]] = None,
 ) -> Component:
     c = pp.Component()
     _wg = c.add_ref(
@@ -191,7 +193,7 @@ def wg_line(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_straight(
     spacing_h=5.0,
     spacing_v=5.0,
@@ -255,12 +257,12 @@ def cdsem_straight(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_straight_column(
-    spacing_v: float = 5.0,
-    gaps: Iterable[float] = (0.224, 0.234, 0.246),
-    length: float = LINE_LENGTH,
-    width_center: float = 0.5,
+    spacing_v: Number = 5.0,
+    gaps: Tuple[Number, ...] = (0.224, 0.234, 0.246),
+    length: Number = LINE_LENGTH,
+    width_center: Number = 0.5,
     label: str = "A",
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
@@ -321,7 +323,7 @@ def cdsem_straight_column(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_straight_all(
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
@@ -348,13 +350,13 @@ def cdsem_straight_all(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_straight_density(
-    wg_width: float = 0.372,
-    trench_width: float = 0.304,
-    x: float = LINE_LENGTH,
-    y: float = 50.0,
-    margin: float = 2.0,
+    wg_width: Number = 0.372,
+    trench_width: Number = 0.304,
+    x: Number = LINE_LENGTH,
+    y: Number = 50.0,
+    margin: Number = 2.0,
     label: str = "",
     waveguide_factory: Callable = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
@@ -391,21 +393,21 @@ def cdsem_straight_density(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_strip(waveguide_factory=waveguide, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide_factory
     )
 
 
-@pp.cell
+@cell
 def cdsem_target(
     bend90_factory: Callable = bend_circular,
-    width_center: float = 0.5,
+    width_center: Number = 0.5,
     label: str = "",
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
-    radii: Iterable[float] = (5.0, 10.0),
+    radii: Tuple[Number, ...] = (5.0, 10.0),
 ) -> Component:
     c = pp.Component()
     a = 1.0
@@ -445,13 +447,13 @@ def cdsem_target(
     return c
 
 
-@pp.cell
+@cell
 def cdsem_uturn(
-    width: float = 0.5,
-    radius: float = 10.0,
+    width: Number = 0.5,
+    radius: Number = 10.0,
     symbol_bot: str = "S",
     symbol_top: str = "U",
-    wg_length: float = LINE_LENGTH,
+    wg_length: Number = LINE_LENGTH,
     waveguide_factory: Callable = pp.c.waveguide,
     bend90_factory: Callable = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
@@ -511,7 +513,7 @@ def cdsem_uturn(
     return c
 
 
-@pp.cell
+@cell
 def opcm(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -672,7 +674,7 @@ class LabelIterator:
         return self
 
 
-@pp.cell
+@cell
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
     _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
@@ -688,7 +690,7 @@ def TRCH_ISO(length=20.0, width=0.5):
     return c
 
 
-@pp.cell
+@cell
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -696,7 +698,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
     )
 
 
-@pp.cell
+@cell
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -704,7 +706,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
     )
 
 
-@pp.cell
+@cell
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -712,7 +714,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.cell
+@cell
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -720,7 +722,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.cell
+@cell
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(

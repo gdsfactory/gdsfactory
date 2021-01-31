@@ -1,15 +1,17 @@
-from typing import Callable, List
+from typing import Callable, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.mzit import mzit
+from pp.types import Number
 
 
-@pp.cell
+@cell
 def mzit_lattice(
-    coupler_lengths: List[float] = (10, 20),
-    coupler_gaps: List[float] = (0.2, 0.3),
-    delta_lengths: List[float] = (10,),
+    coupler_lengths: Tuple[Number, ...] = (10, 20),
+    coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
+    delta_lengths: Tuple[Number, ...] = (10,),
     mzi_factory: Callable = mzit,
     pins: bool = False,
 ) -> Component:

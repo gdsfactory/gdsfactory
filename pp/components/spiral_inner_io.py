@@ -7,12 +7,14 @@ from typing import Callable, Optional, Tuple
 import numpy as np
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.euler.bend_euler import bend_euler90, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
 from pp.routing import round_corners
+from pp.snap import snap_to_grid
 from pp.types import Number
 
 
@@ -21,7 +23,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@pp.cell
+@cell
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -201,12 +203,12 @@ def spiral_inner_io(
     )
     component.add(route_east["references"])
 
-    length = route_east["length"] + route_west["length"] + bend180_ref.info["length"]
-    component.length = pp.snap_to_grid(length + 2 * y_straight_inner_top)
+    length = route_east["length"] + route_west["length"] + _bend180.length
+    component.length = snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 
-@pp.cell
+@cell
 def spiral_inner_io_euler(
     bend90_function: Callable = bend_euler90,
     bend180_function: Callable = bend_euler180,
@@ -228,7 +230,7 @@ def spiral_inner_io_euler(
     )
 
 
-@pp.cell
+@cell
 def spirals_nested(bend_radius: Number = 100) -> Component:
     component = pp.Component()
     c = spiral_inner_io(
@@ -283,7 +285,7 @@ def get_straight_length(
     return (length_cm - p[1]) / p[0]
 
 
-# @pp.cell
+# @cell
 # def spiral_inner_io_with_gratings(
 #     spiral=spiral_inner_io, grating_coupler=pp.c.grating_coupler_elliptical_te, **kwargs
 # ):

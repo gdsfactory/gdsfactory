@@ -1,17 +1,19 @@
-from typing import Callable, List
+from typing import Callable, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
 from pp.components.mzi import mzi as mzi_function
 from pp.components.waveguide import waveguide as waveguide_function
+from pp.types import Number
 
 
-@pp.cell
+@cell
 def mzi_lattice(
-    coupler_lengths: List[float] = (10, 20),
-    coupler_gaps: List[float] = (0.2, 0.3),
-    delta_lengths: List[float] = (10,),
+    coupler_lengths: Tuple[Number, ...] = (10, 20),
+    coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
+    delta_lengths: Tuple[Number, ...] = (10,),
     mzi_factory: Callable = mzi_function,
     splitter: Callable = coupler_function,
     waveguide: Callable = waveguide_function,

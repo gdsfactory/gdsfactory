@@ -25,7 +25,9 @@ def _bend_euler(
     c.add_polygon(pts, layer=layer)
     # print(backbone[0])
     # print(backbone[-1])
-    c.info["length"] = euler_length(radius, theta)
+    length = euler_length(radius, theta)
+    c.info["length"] = length
+    c.length = length
     c.radius = radius
     c.add_port(
         name="in0",

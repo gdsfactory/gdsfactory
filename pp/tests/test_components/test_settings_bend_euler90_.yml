@@ -1,6 +1,6 @@
 function_name: bend_euler90
 info:
-  length: 31.41592653589793
+  length: 31.416
   radius: 10.0
 module: pp.components.euler.bend_euler
 name: bend_euler90

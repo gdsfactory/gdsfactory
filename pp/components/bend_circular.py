@@ -1,9 +1,10 @@
-from typing import Iterable, List, Optional, Tuple
+from typing import Iterable, Optional, Tuple
 
 import numpy as np
 from numpy import cos, pi, sin
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.config import conf
 from pp.layers import LAYER
@@ -90,7 +91,7 @@ def _disk_section_points(
 
 
 @deco_rename_ports
-@pp.cell
+@cell
 def bend_circular(
     radius: Number = 10.0,
     width: float = 0.5,
@@ -195,7 +196,7 @@ def bend_circular(
     return component
 
 
-@pp.cell
+@cell
 def bend_circular_deep_rib(
     layer=pp.LAYER.SLAB90, layers_cladding: Optional[Iterable[Layer]] = None, **kwargs
 ):
@@ -204,7 +205,7 @@ def bend_circular_deep_rib(
     return c
 
 
-@pp.cell
+@cell
 def bend_circular_shallow_rib(
     layer: Layer = pp.LAYER.SLAB150,
     layers_cladding: Optional[Iterable[Layer]] = None,
@@ -213,7 +214,7 @@ def bend_circular_shallow_rib(
     return bend_circular(layer=layer, layers_cladding=layers_cladding, **kwargs)
 
 
-@pp.cell
+@cell
 def bend_circular180(
     radius: Number = 10.0,
     width: Number = 0.5,
@@ -240,7 +241,7 @@ def _bend_circular_windows(
     start_angle: Number = 0,
     theta: Number = -90,
     angle_resolution: Number = 2.5,
-    windows: List[Tuple[float, float, Layer]] = [-0.25, 0.25, LAYER.WG],
+    windows: Iterable[Tuple[float, float, Layer]] = [(-0.25, 0.25, LAYER.WG)],
 ) -> Component:
     """
     windows: [(y_start, y_stop, layer), ...]
@@ -290,7 +291,7 @@ def _bend_circular_windows(
     return component
 
 
-@pp.cell
+@cell
 def bend_circular_trenches(
     width=0.5, trench_width=3.0, trench_offset=0.2, trench_layer=LAYER.SLAB90, **kwargs
 ):
@@ -302,7 +303,7 @@ def bend_circular_trenches(
     return _bend_circular_windows(windows=windows, **kwargs)
 
 
-@pp.cell
+@cell
 def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwargs):
     a = width / 2
     b = a + cladding
@@ -313,7 +314,7 @@ def bend_circular_slab(width=0.5, cladding=2.0, slab_layer=LAYER.SLAB90, **kwarg
 bend_circular_ridge = bend_circular_trenches
 
 
-@pp.cell
+@cell
 def bend_circular_slot(width=0.5, gap=0.2, **kwargs):
     a = width / 2
     d = a + gap / 2
