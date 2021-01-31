@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from phidl.device_layout import Layer
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
+from pp.component import Component
+
 
 class LayerSet(LayerSetPhidl):
     def add_layer(
@@ -55,7 +57,7 @@ class LayerSet(LayerSetPhidl):
             self._layers[name] = new_layer
 
 
-@dataclass
+@dataclass(frozen=True)
 class LayerMap:
     WG = (1, 0)
     WGCLAD = (111, 0)
@@ -120,7 +122,7 @@ port_type2layer = {v: k for k, v in port_layer2type.items()}
 layer_cladding_waveguide = [LAYER.WGCLAD]
 
 
-def preview_layerset(ls=ls, size=100):
+def preview_layerset(ls: LayerSet = ls, size: float = 100.0) -> Component:
     """Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files

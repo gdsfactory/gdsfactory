@@ -1,21 +1,24 @@
-from typing import Any, List, Optional, Tuple
+from typing import Iterable, Optional, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.config import TAPER_LENGTH
+from pp.port import Port
+from pp.types import Layer, Number
 
 
-@pp.cell
+@cell
 def taper(
-    length: float = TAPER_LENGTH,
-    width1: float = 0.5,
-    width2: Optional[float] = None,
-    port: None = None,
+    length: Number = TAPER_LENGTH,
+    width1: Number = 0.5,
+    width2: Optional[Number] = None,
+    port: Optional[Port] = None,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: List[Any] = None,
-    cladding_offset: float = 3.0,
+    layers_cladding: Iterable[Layer] = None,
+    cladding_offset: Number = 3.0,
 ) -> Component:
-    """ Linear taper.
+    """Linear taper.
 
     Args:
         length:
@@ -64,15 +67,15 @@ def taper(
     return c
 
 
-@pp.cell
+@cell
 def taper_strip_to_ridge(
-    length: float = 10.0,
-    width1: float = 0.5,
-    width2: float = 0.5,
-    w_slab1: float = 0.15,
-    w_slab2: float = 5.0,
+    length: Number = 10.0,
+    width1: Number = 0.5,
+    width2: Number = 0.5,
+    w_slab1: Number = 0.15,
+    w_slab2: Number = 5.0,
 ) -> Component:
-    """ taper strip to rib
+    """taper strip to rib
 
     Args:
         length:
@@ -110,7 +113,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@pp.cell
+@cell
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,

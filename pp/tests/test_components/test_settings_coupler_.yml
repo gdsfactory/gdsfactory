@@ -6,6 +6,7 @@ module: pp.components.coupler
 name: coupler
 settings:
   cladding_offset: 0.0
+  dx: 10.0
   dy: 5.0
   gap: 0.236
   layer:

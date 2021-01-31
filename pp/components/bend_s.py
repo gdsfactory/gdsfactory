@@ -22,7 +22,7 @@ def bend_s(
     """S bend with bezier curve
 
     Args:
-        width
+        width: of the waveguide
         height: in y direction
         length: in x direction
         layer: gds number

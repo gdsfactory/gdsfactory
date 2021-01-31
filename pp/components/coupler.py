@@ -20,6 +20,7 @@ def coupler(
     layers_cladding: Iterable[Tuple[int, int]] = (LAYER.WGCLAD,),
     cladding_offset: float = conf.tech.cladding_offset,
     dy: float = 5.0,
+    dx: float = 10.0,
 ) -> Component:
     r"""symmetric coupler
 
@@ -33,18 +34,21 @@ def coupler(
         layers_cladding: list of cladding layers
         cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
+        dx: bend length in x direction
 
     .. code::
 
-       W1 __                           __ E1
-            \                         /       |
-             \        length         /        |
-              ======================= gap     | dy
-             /                       \        |
-           _/                         \_      |
-        W0                             E0     |
+               dx                                 dx
+            |------|                           |------|
+         W1 ________                           _______E1
+                    \                         /           |
+                     \        length         /            |
+                      ======================= gap         | dy
+                     /                       \            |
+            ________/                         \_______    |
+         W0                                           E0
 
-            coupler_straight_factory  coupler_symmetric_factory
+              coupler_straight_factory  coupler_symmetric_factory
 
     .. plot::
       :include-source:
@@ -66,6 +70,7 @@ def coupler(
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
         dy=dy,
+        dx=dx,
     )
 
     sr = c << sbend
