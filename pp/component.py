@@ -852,22 +852,6 @@ class Component(Device):
 
         return jsondata
 
-    # def __hash__(self) -> int:
-    #     h = dict2hash(**self.settings)
-    #     return int(h, 16)
-
-    def hash_geometry(self) -> str:
-        """returns geometrical hash"""
-        from pp.compare_cells import hash_cells
-
-        if self.references or self.polygons:
-            h = hash_cells(self, {})[self.name]
-        else:
-            h = "empty_geometry"
-
-        self.settings.update(hash=h)
-        return h
-
     def remove_layers(
         self,
         layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),

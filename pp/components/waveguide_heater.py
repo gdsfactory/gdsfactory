@@ -11,6 +11,7 @@ from pp.components.hline import hline
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import Port, deco_rename_ports
+from pp.types import Layer, Number
 
 
 @cell
@@ -35,10 +36,10 @@ def add_trenches(
     sstw: float = 2.0,
     trench_width: float = 0.5,
     trench_keep_out: float = 2.0,
-    trenches: List[Dict[str, int]] = [
+    trenches: Tuple[Dict[str, Number], ...] = (
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
-    ],
+    ),
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
 ) -> Component:
     """
@@ -92,10 +93,10 @@ def waveguide_heater(
     sstw: float = 2.0,
     trench_width: float = 0.5,
     trench_keep_out: float = 2.0,
-    trenches: List[Dict[str, int]] = [
+    trenches: Tuple[Dict[str, Number], ...] = (
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
-    ],
+    ),
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     waveguide_factory: Callable = waveguide,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
@@ -165,14 +166,14 @@ def waveguide_heater(
 def wg_heater_connector(
     heater_ports: List[Port],
     metal_width: float = 10.0,
-    tlm_layers: List[Tuple[int, int]] = [
+    tlm_layers: Tuple[Layer] = (
         LAYER.VIA1,
         LAYER.M1,
         LAYER.VIA2,
         LAYER.M2,
         LAYER.VIA3,
         LAYER.M3,
-    ],
+    ),
 ) -> Component:
     """
     Connects together a pair of wg heaters and connect to a M3 port
@@ -245,14 +246,14 @@ def wg_heater_connector(
 def wg_heater_connected(
     waveguide_heater: Callable = waveguide_heater,
     wg_heater_connector: Callable = wg_heater_connector,
-    tlm_layers: List[Tuple[int, int]] = [
+    tlm_layers: Tuple[Layer] = (
         LAYER.VIA1,
         LAYER.M1,
         LAYER.VIA2,
         LAYER.M2,
         LAYER.VIA3,
         LAYER.M3,
-    ],
+    ),
     **kwargs
 ) -> Component:
     """

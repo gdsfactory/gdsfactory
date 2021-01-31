@@ -1,13 +1,14 @@
-from typing import List
+from typing import Tuple
 
 import pp
 from pp import components as pc
 from pp.component import Component
+from pp.types import Number
 
 
 @pp.cell
 def litho_calipers(
-    notch_size: List[int] = [2, 5],
+    notch_size: Tuple[Number, Number] = (2, 5),
     notch_spacing: int = 2,
     num_notches: int = 11,
     offset_per_notch: float = 0.1,

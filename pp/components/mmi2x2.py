@@ -1,11 +1,13 @@
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
+from pp.types import Layer
 
 
-@pp.cell
+@cell
 def mmi2x2(
     wg_width: float = 0.5,
     width_taper: float = 0.95,
@@ -14,7 +16,7 @@ def mmi2x2(
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[List[Tuple]] = [pp.LAYER.WGCLAD],
+    layers_cladding: Optional[Tuple[Layer, ...]] = (pp.LAYER.WGCLAD,),
     taper: Callable = taper_function,
     cladding_offset: float = 3.0,
 ) -> Component:
@@ -85,7 +87,7 @@ def mmi2x2(
     return component
 
 
-@pp.cell
+@cell
 def mmi2x2_biased(
     wg_width=0.5,
     width_taper=0.95,

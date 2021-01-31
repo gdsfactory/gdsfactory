@@ -24,22 +24,27 @@ def dbr2(
     waveguide_template_dbr: Optional[Callable] = None,
     **kwargs
 ) -> Component:
-    """ Distributed Bragg Reflector Cell class.  Tapers the input waveguide to a periodic waveguide structure with varying width (1-D photonic crystal).
+    """ Distributed Bragg Reflector Cell class.
+    Tapers the input waveguide to a periodic waveguide structure with varying width
+    (1-D photonic crystal).
 
     Args:
-       wgt (WaveguideTemplate):  WaveguideTemplate object
-       length (float): Length of the DBR region.
-       period (float): Period of the repeated unit.
-       dc (float): Duty cycle of the repeated unit (must be a float between 0 and 1.0).
-       w1 (float): Width of the thin section of the waveguide.  w1 = 0 corresponds to disconnected periodic blocks.
-       w2 (float): Width of the wide section of the waveguide
-       taper_length (float): Length of the taper between the input/output waveguide and the DBR region.  Defaults to 20.0.
-       fins (boolean): If `True`, adds fins to the input/output waveguides.  In this case a different template for the component must be specified.  This feature is useful when performing electron-beam lithography and using different beam currents for fine features (helps to reduce stitching errors).  Defaults to `False`
-       fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`.  Defaults to 200 nm x 50 nm
-       dbr_wgt (WaveguideTemplate): If `fins` above is True, a WaveguideTemplate (dbr_wgt) must be specified.  This defines the layertype / datatype of the DBR (which will be separate from the input/output waveguides).  Defaults to `None`
+       length: Length of the DBR region.
+       period: Period of the repeated unit.
+       dc: Duty cycle of the repeated unit (must be a float between 0 and 1.0).
+       w1: Width of the thin section of the waveguide.  w1 = 0 corresponds to disconnected periodic blocks.
+       w2: Width of the wide section of the waveguide
+       taper_length: Length of the taper between the input/output waveguide and the DBR region.
+       fins (boolean): If `True`, adds fins to the input/output waveguides.
+        In this case a different template for the component must be specified.
+       fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
+       waveguide_template_dbr: If `fins` above is True, a WaveguideTemplate (dbr_wgt) must be specified.
+        This defines the layertype / datatype of the DBR (which will be separate from the input/output waveguides)
        port (tuple): Cartesian coordinate of the input port.  Defaults to (0,0).
-       direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
+       direction (string): Direction that the component will point *towards*,
+       can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
+       waveguide_template:  WaveguideTemplate object
+       waveguide_template_dbr: Picwriter WaveguideTemplate object
        wg_width: 0.5
        wg_layer: pp.LAYER.WG[0]
        wg_datatype: pp.LAYER.WG[1]
