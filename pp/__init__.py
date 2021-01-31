@@ -50,7 +50,6 @@ import pp.port as port
 import pp.types as types
 
 from pp.component_from_yaml import component_from_yaml
-from pp.recurse_references import recurse_references
 from pp.types import get_name_to_function_dict
 
 from pp.components.extension import extend_ports
@@ -100,7 +99,6 @@ __all__ = [
     "port",
     "port_array",
     "routing",
-    "recurse_references",
     "show",
     "snap_to_grid",
     "types",

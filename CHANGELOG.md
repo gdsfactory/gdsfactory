@@ -20,7 +20,12 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.3.1
+## 2.3.2
+
+- fixed some mypy errors
+- added dx to [coupler](coupler)
+
+## 2.3.1 2021-01-28
 
 - refactor
     - connect_strip to get_route

@@ -73,6 +73,7 @@ instances:
     component: coupler
     settings:
       cladding_offset: 0.0
+      dx: 10.0
       dy: 2.0
       gap: 0.2
       layer:
@@ -87,6 +88,7 @@ instances:
     component: coupler
     settings:
       cladding_offset: 0.0
+      dx: 10.0
       dy: 2.0
       gap: 0.3
       layer:

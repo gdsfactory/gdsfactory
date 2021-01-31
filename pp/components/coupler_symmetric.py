@@ -14,6 +14,7 @@ def coupler_symmetric(
     layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),
     cladding_offset: float = 3.0,
     dy: float = 5.0,
+    dx: float = 10.0,
 ) -> Component:
     r"""Two coupled waveguides with bends.
 
@@ -25,6 +26,7 @@ def coupler_symmetric(
         layers_cladding
         cladding_offset
         dy: port to port vertical spacing
+        dx: bend length in x direction
 
     .. plot::
       :include-source:
@@ -36,13 +38,15 @@ def coupler_symmetric(
 
     .. code::
 
-            _ E1
-           /     |
-          /      |
-         = gap   | dy
-          \      |
-           \_    |
-              E0
+                    dx
+                 |-----|
+                  _____ E1
+                 /         |
+           _____/          |
+      gap  _____           |  dy
+                \          |
+                 \_____    |
+                        E0
 
     """
     bend_component = (
@@ -52,6 +56,7 @@ def coupler_symmetric(
             layers_cladding=layers_cladding,
             cladding_offset=cladding_offset,
             height=(dy - gap - wg_width) / 2,
+            length=dx,
         )
         if callable(bend)
         else bend
@@ -80,17 +85,17 @@ def coupler_symmetric(
 
 
 @pp.cell
-def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5):
+def coupler_symmetric_biased(bend=bend_s, gap=0.2, wg_width=0.5, **kwargs):
     return coupler_symmetric(
-        bend=bend, gap=pp.bias.gap(gap), wg_width=pp.bias.width(wg_width)
+        bend=bend, gap=pp.bias.gap(gap), wg_width=pp.bias.width(wg_width), **kwargs
     )
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5)
-    # c.show()
-    # c.pprint()
+    c = coupler_symmetric_biased(gap=0.2, wg_width=0.5, dx=5)
+    c.show()
+    c.pprint()
 
-    for dy in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, wg_width=0.5, dy=dy)
-        print(f"dy={dy}, min_bend_radius = {c.min_bend_radius}")
+    for dyi in [2, 3, 4, 5]:
+        c = coupler_symmetric(gap=0.2, wg_width=0.5, dy=dyi, dx=10.0)
+        print(f"dy={dyi}, min_bend_radius = {c.min_bend_radius}")

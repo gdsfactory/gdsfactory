@@ -25,7 +25,7 @@ ComponentOrPath = Union[Component, PathType]
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
-    """Returns a dict with function name as key and function as value"""
+    """Returns a dict with function name as key and function as value."""
     return {func.__name__: func for func in functions}
 
 
