@@ -60,13 +60,14 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 def assert_first_letters_are_different(**kwargs):
     """Assert that the first letters for each key are different.
 
-    Avoid name colissions of different args that start with the same first letter.
+    Avoids name collisions of different args that start with the same first letter.
     """
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
     assert len(set(first_letters)) == len(
         first_letters
-    ), f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
-    "you can separate your arguments with underscores (delta_length -> DL, delta_width -> DW"
+    ), f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}"
+    "you can separate your arguments with underscores"
+    " (delta_length -> DL, delta_width -> DW"
 
 
 def print_first_letters_warning(**kwargs):
@@ -74,7 +75,10 @@ def print_first_letters_warning(**kwargs):
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):
         print(
-            f"Possible Duplicated name because {kwargs.keys()} has repeated first letters {first_letters}"
+            f"Possible name collision! {kwargs.keys()} "
+            f"repeats first letters {first_letters}"
+            "you can separate your arguments with underscores"
+            " (delta_length -> DL, delta_width -> DW"
         )
 
 
