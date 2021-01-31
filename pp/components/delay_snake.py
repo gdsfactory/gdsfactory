@@ -69,7 +69,7 @@ def delay_snake(
 
     y = 0
     path = [(0, y), (L2, y)]
-    for i in range(n):
+    for _i in range(n):
         y -= 2 * R + epsilon
         path += [(L2, y), (-L0, y)]
         y -= 2 * R + epsilon

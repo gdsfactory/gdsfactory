@@ -33,7 +33,7 @@ def dist(i, wgs1, wgs2):
 
 
 def get_sequence_cross(
-    waveguides_start, waveguides_end, iter_max=100, symbols=["X", "-"]
+    waveguides_start, waveguides_end, iter_max=100, symbols=("X", "-")
 ):
     """
     Args:

@@ -1,20 +1,21 @@
-from typing import Callable, Dict, List
+from typing import Callable, Dict, Tuple
 
-import pp
+from pp.cell import cell
+from pp.component import Component
 from pp.components.ring_single import ring_single
 from pp.components.waveguide import waveguide
 
 
-@pp.cell
+@cell
 def ring_single_array(
     ring_function: Callable = ring_single,
     waveguide_function: Callable = waveguide,
     spacing: float = 5.0,
-    list_of_dicts: List[Dict[str, float]] = [
+    list_of_dicts: Tuple[Dict[str, float], ...] = (
         dict(length_x=10.0, bend_radius=5.0),
         dict(length_x=20.0, bend_radius=10.0),
-    ],
-) -> pp.Component:
+    ),
+) -> Component:
     """Ring of single bus connected with waveguides.
 
     .. code::
@@ -28,7 +29,7 @@ def ring_single_array(
           length_x
 
     """
-    c = pp.Component()
+    c = Component()
     settings0 = list_of_dicts[0]
     ring1 = c << ring_function(**settings0)
 

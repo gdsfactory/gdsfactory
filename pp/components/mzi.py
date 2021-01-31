@@ -163,11 +163,9 @@ def mzi(
         c.add_port(name="W0", port=blb.ports["N0"])
 
     # east ports
-    i = 0
-    for port_name, port in cout.ports.items():
+    for i, port in enumerate(cout.ports.values()):
         if port.angle == 0:
             c.add_port(name=f"E{i}", port=port)
-            i += 1
 
     if pins:
         pp.add_pins_to_references(c)

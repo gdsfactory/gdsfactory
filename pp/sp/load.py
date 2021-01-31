@@ -36,7 +36,7 @@ def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.n
     port_names = []
 
     with open(filepath, "r") as fid:
-        for i in range(numports):
+        for _i in range(numports):
             port_line = fid.readline()
             m = re.search(r'\[".*",', port_line)
             if m:
