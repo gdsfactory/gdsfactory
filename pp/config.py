@@ -83,7 +83,7 @@ try:
     except InvalidGitRepositoryError:
         pass
 
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     pass
 
 
