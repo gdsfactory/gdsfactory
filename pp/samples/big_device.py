@@ -24,13 +24,13 @@ def big_device(
 
     points = [[dx, dy], [dx, -dy], [-dx, -dy], [-dx, dy]]
     component.add_polygon(points, layer=layer)
-    port_params = {"layer": layer, "width": wg_width}
     for i in range(N):
         port = Port(
             name=f"W{i}",
             midpoint=p0 + (-dx, (i - N / 2) * port_pitch),
             orientation=180,
-            **port_params,
+            layer=layer,
+            width=wg_width,
         )
         component.add_port(port)
 
@@ -39,7 +39,8 @@ def big_device(
             name=f"E{i}",
             midpoint=p0 + (dx, (i - N / 2) * port_pitch),
             orientation=0,
-            **port_params,
+            layer=layer,
+            width=wg_width,
         )
         component.add_port(port)
 
@@ -48,7 +49,8 @@ def big_device(
             name=f"N{i}",
             midpoint=p0 + ((i - N / 2) * port_pitch, dy),
             orientation=90,
-            **port_params,
+            layer=layer,
+            width=wg_width,
         )
         component.add_port(port)
 
@@ -57,7 +59,8 @@ def big_device(
             name=f"S{i}",
             midpoint=p0 + ((i - N / 2) * port_pitch, -dy),
             orientation=-90,
-            **port_params,
+            layer=layer,
+            width=wg_width,
         )
         component.add_port(port)
     return component

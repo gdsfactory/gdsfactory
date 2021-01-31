@@ -269,12 +269,17 @@ def move_copy(port, x=0, y=0):
 def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     from pp.component import Component, ComponentReference
 
+    valid_directions = ["E", "N", "W", "S"]
+
+    if direction not in valid_directions:
+        raise ValueError(f"{direction} must be in {valid_directions} ")
+
     if isinstance(ports, dict):
         ports = list(ports.values())
     elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = list(ports.ports.values())
 
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: Dict[str, List[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in ports:
         angle = p.orientation % 360
@@ -332,7 +337,7 @@ def _rename_ports_facing_side(
 
 
 def rename_ports_by_orientation(
-    component: Device, layers_excluded: List[Tuple[int, int]] = None
+    component: Device, layers_excluded: Iterable[Tuple[int, int]] = None
 ) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 

@@ -1,7 +1,7 @@
 import collections
 import time
 from multiprocessing import Process
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 
@@ -9,122 +9,11 @@ from pp.components import component_factory
 from pp.config import CONFIG, logging
 from pp.doe import get_settings_list
 from pp.placer import build_components, doe_exists, load_doe_component_names, save_doe
+from pp.types import PathType
 from pp.write_doe import write_doe_metadata
 
 
-def separate_does_from_templates(
-    dicts: Dict[str, Any]
-) -> Union[
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], List[Union[int, float]]]],
-                        Dict[str, Union[int, str]],
-                        bool,
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[str, Dict[str, Union[List[int], int]], Dict[str, str], bool],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[float, str, List[int], int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                        bool,
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, List[int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[
-            str,
-            Dict[
-                str,
-                Union[
-                    Dict[str, Union[Dict[str, Union[int, str]], bool]], Dict[str, bool]
-                ],
-            ],
-        ],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                        bool,
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, Union[List[int], List[float]]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[Any, Any],
-    ],
-]:
+def separate_does_from_templates(dicts: Dict[str, Any]) -> Any:
     type_to_dict = {}
 
     does = {}
@@ -175,10 +64,10 @@ def save_doe_use_template(doe, doe_root_path=None):
 def write_doe(
     doe,
     component_factory=component_factory,
-    doe_root_path=None,
-    doe_metadata_path=None,
-    overwrite=False,
-    precision=1e-9,
+    doe_root_path: Optional[PathType] = None,
+    doe_metadata_path: Optional[PathType] = None,
+    overwrite: bool = False,
+    precision: float = 1e-9,
     **kwargs,
 ):
     doe_name = doe["name"]
@@ -203,112 +92,8 @@ def write_doe(
 
 
 def load_does(
-    filepath: str, defaults: Optional[Dict[str, bool]] = None
-) -> Union[
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[str, Union[str, Dict[str, Union[int, str]], bool]],
-                Dict[str, Union[str, bool]],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                        bool,
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, List[int]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[str, Union[int, str, bool]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[int, str]],
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[str, Dict[str, Union[List[int], int]], Dict[str, str], bool],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        bool,
-                        str,
-                        Dict[str, Union[List[int], int]],
-                        Dict[str, Union[float, str, List[int], int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[str, Union[int, str, bool]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], List[Union[int, float]]]],
-                        Dict[str, Union[int, str]],
-                        bool,
-                    ],
-                ],
-                Dict[str, Union[str, Dict[str, List[int]], Dict[str, str], bool]],
-            ],
-        ],
-        Dict[str, Union[int, str]],
-    ],
-    Tuple[
-        Dict[
-            str,
-            Union[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Union[List[float], int]],
-                        Dict[str, Union[str, float, int]],
-                        bool,
-                    ],
-                ],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        bool,
-                        Dict[str, Union[List[int], List[float]]],
-                        Dict[str, Union[str, float, int]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[str, Union[int, str]],
-    ],
-]:
+    filepath: PathType, defaults: Optional[Dict[str, bool]] = None
+) -> Tuple[Any, Any]:
     """Load_does from file."""
     does = {}
     defaults = defaults or {"do_permutation": True, "settings": {}}
@@ -326,15 +111,15 @@ def load_does(
 
 
 def generate_does(
-    filepath,
-    component_factory=component_factory,
-    doe_root_path=CONFIG["cache_doe_directory"],
-    doe_metadata_path=CONFIG["doe_directory"],
-    n_cores=8,
+    filepath: PathType,
+    component_factory: Dict[str, Callable] = component_factory,
+    doe_root_path: PathType = CONFIG["cache_doe_directory"],
+    doe_metadata_path: PathType = CONFIG["doe_directory"],
+    n_cores: int = 8,
     logger=logging,
-    overwrite=False,
-    precision=1e-9,
-    cache=False,
+    overwrite: bool = False,
+    precision: float = 1e-9,
+    cache: bool = False,
 ):
     """Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
