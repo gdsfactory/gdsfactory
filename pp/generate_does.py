@@ -1,4 +1,5 @@
 import collections
+import pathlib
 import time
 from multiprocessing import Process
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -46,9 +47,8 @@ def update_dicts_recurse(
     return target_dict
 
 
-def save_doe_use_template(doe, doe_root_path=None):
-    """
-    Write a "content.txt" pointing to the DOE used as a template
+def save_doe_use_template(doe, doe_root_path=None) -> None:
+    """Write a "content.txt" pointing to the DOE used as a template
     """
     doe_name = doe["name"]
     doe_template = doe["doe_template"]
@@ -69,7 +69,7 @@ def write_doe(
     overwrite: bool = False,
     precision: float = 1e-9,
     **kwargs,
-):
+) -> None:
     doe_name = doe["name"]
     list_settings = doe["list_settings"]
 
@@ -120,11 +120,13 @@ def generate_does(
     overwrite: bool = False,
     precision: float = 1e-9,
     cache: bool = False,
-):
+) -> None:
     """Generates a DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     similar to write_doe
     """
+    doe_root_path = pathlib.Path(doe_root_path)
+    doe_metadata_path = pathlib.Path(doe_metadata_path)
 
     doe_root_path.mkdir(parents=True, exist_ok=True)
     doe_metadata_path.mkdir(parents=True, exist_ok=True)

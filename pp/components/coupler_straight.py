@@ -1,10 +1,11 @@
 from typing import List, Optional, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 
 
-@pp.cell
+@cell
 def coupler_straight(
     length: float = 10.0,
     width: float = 0.5,
@@ -13,7 +14,7 @@ def coupler_straight(
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
     cladding_offset: float = 3.0,
 ) -> Component:
-    """ straight coupled waveguides. Two multimode ports
+    """Two Straight coupled waveguides with Two multimode ports
 
     .. plot::
       :include-source:
@@ -62,20 +63,13 @@ def coupler_straight(
     return c
 
 
-@pp.cell
+@cell
 def coupler_straight_biased(length=10, width=0.5, gap=0.27, layer=pp.LAYER.WG):
     return coupler_straight(
         width=pp.bias.width(width), gap=pp.bias.gap(gap), length=length, layer=layer
     )
 
 
-def _demo():
-    c = coupler_straight(gap=0.2)
-    pp.write_gds(c)
-    return c
-
-
 if __name__ == "__main__":
-    # c = _demo()
     c = coupler_straight_biased(width=0.5, gap=0.2)
     c.show()

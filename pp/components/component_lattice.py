@@ -4,6 +4,7 @@ from typing import Dict, List, Tuple
 from numpy import float64
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import compensation_path, crossing45
@@ -133,7 +134,7 @@ def get_sequence_cross_str(waveguides_start, waveguides_end, iter_max=100):
     return component_sequence_to_str(seq)
 
 
-@pp.cell(autoname=False)
+@cell(autoname=False)
 def component_lattice(
     lattice: str = """
         C-X
@@ -141,7 +142,7 @@ def component_lattice(
         CXX
         C-X
         """,
-    components: None = None,
+    components: Dict[str, Component] = None,
     name: str = "lattice",
 ) -> Component:
     """
@@ -244,8 +245,7 @@ def component_lattice(
 
             else:
                 raise ValueError(
-                    "component symbol {} is not part of                 components"
-                    " dictionnary".format(c)
+                    f"symbol {c} not in components dict {components.keys()}"
                 )
 
             j += 1
@@ -258,7 +258,7 @@ def component_lattice(
 def parse_lattice(
     lattice: str, components: Dict[str, Component]
 ) -> Tuple[Dict[int, List[str]], Dict[int, float64]]:
-    # extract each column
+    """extract each column"""
     lines = lattice.replace(" ", "").split("\n")
     columns = {}
     columns_to_length = {}

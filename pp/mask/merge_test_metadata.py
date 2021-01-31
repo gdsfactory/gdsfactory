@@ -47,7 +47,7 @@ doe02:
 import json
 import pathlib
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List
 
 import yaml
 
@@ -73,47 +73,20 @@ def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
 
 
 def get_cell_from_label(label: str) -> str:
-    """ get cell name from the label (cell_name is in parenthesis)
-    """
+    """get cell name from the label (cell_name is in parenthesis)"""
     cell_name = label.split("(")[1].split(")")[0]
     if cell_name.startswith("loopback"):
         cell_name = "_".join(cell_name.split("_")[1:])
     return cell_name
 
 
-def load_json(
-    filepath: Path,
-) -> Dict[
-    str,
-    Union[
-        int,
-        Dict[
-            str, Dict[str, Union[str, Dict[str, Dict[str, str]], List[Dict[str, int]]]]
-        ],
-        Dict[str, Union[Dict[str, Optional[Union[str, float]]], str]],
-        Dict[
-            str,
-            Union[
-                Dict[str, Union[str, Dict[str, Dict[str, str]], List[Dict[str, int]]]],
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Dict[str, Dict[str, str]],
-                        List[Union[Dict[str, Union[float, int]], Dict[str, float]]],
-                    ],
-                ],
-            ],
-        ],
-        Dict[str, Union[Dict[str, Optional[Union[str, bool, float]]], str]],
-    ],
-]:
+def load_json(filepath: Path,) -> Dict[str, Any]:
     with open(filepath) as f:
         data = json.load(f)
     return data
 
 
-def load_yaml(filepath):
+def load_yaml(filepath: Path):
     with open(filepath) as f:
         data = yaml.safe_load(f)
     return data
@@ -121,15 +94,8 @@ def load_yaml(filepath):
 
 def merge_test_metadata(
     gdspath: Path = CONFIG["mask_gds"], labels_prefix: str = "opt"
-) -> Dict[
-    str,
-    Union[
-        Dict[str, Union[Dict[str, Optional[Union[str, bool, float]]], str]],
-        int,
-        Dict[str, Union[Dict[str, Optional[Union[str, float]]], str]],
-    ],
-]:
-    """ from a gds mask combines test_protocols and labels positions for each DOE
+) -> Dict[str, Any]:
+    """from a gds mask combines test_protocols and labels positions for each DOE
     Do a map cell: does
     Usually each cell will have only one DOE. But in general it should be allowed for a cell to belong to multiple DOEs
 

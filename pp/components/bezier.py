@@ -6,6 +6,7 @@ from scipy.optimize import minimize
 from scipy.special import binom
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
 from pp.hash_points import hash_points
@@ -36,7 +37,7 @@ def bezier_biased(width=0.5, **kwargs):
     return bezier(width=width, **kwargs)
 
 
-@pp.cell(autoname=False)
+@cell(autoname=False)
 def bezier(
     name: Optional[str] = None,
     width: Number = 0.5,
