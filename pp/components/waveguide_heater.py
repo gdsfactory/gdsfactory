@@ -70,7 +70,7 @@ def add_trenches(
             else:
                 segments = trench["segments"]
             x = x_start_offset
-            for i, trench_length in enumerate(segments):
+            for trench_length in segments:
                 trench = hline(
                     length=trench_length, width=trench_width, layer=layer_trench
                 )

@@ -80,7 +80,7 @@ def write_doe_metadata(
             field_sizes = [0] * N
 
             # compute the max number of character in each field
-            for header, fields in zip(head, list_data_str):
+            for _, fields in zip(head, list_data_str):
                 field_sizes = [
                     max(field_sizes[i], len(fields[i]), len(head[i])) for i in range(N)
                 ]
@@ -210,7 +210,7 @@ def get_markdown_table(do_permutations=True, **kwargs):
     field_sizes = [0] * N
 
     # compute the max number of character in each field
-    for header, fields in zip(head, list_data_str):
+    for _, fields in zip(head, list_data_str):
         field_sizes = [
             max(field_sizes[i], len(fields[i]), len(head[i])) for i in range(N)
         ]

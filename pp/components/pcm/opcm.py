@@ -219,7 +219,7 @@ def cdsem_straight(
     _marker_label.move((2 * (length + spacing_h) + 2 * spacing_h, 1.5 * spacing_v))
     c.absorb(_marker_label)
 
-    for width, marker_type in zip(widths, ["L", "S", "H"]):
+    for width in widths:
         y = 0
         # iso line
         _r = wg_line(length, width, layer=layer, layers_cladding=layers_cladding)

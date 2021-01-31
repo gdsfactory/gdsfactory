@@ -1,6 +1,6 @@
 import hashlib
 from itertools import count
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from pp.component import Component
 
@@ -66,7 +66,7 @@ def component_sequence(
     string_to_device_in_out_ports: Dict[
         str, Union[Tuple[Component, str, str], Tuple[None, str, str]]
     ],
-    ports_map: Dict[str, Tuple[str, str]] = {},
+    ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
     input_port_name: str = "in",
     output_port_name: str = "out",
     start_orientation: float = 0.0,
@@ -87,6 +87,7 @@ def component_sequence(
     instantiated and connected together in the sequence order
 
     """
+    ports_map = ports_map or {}
     # Remove all None devices from the sequence
     sequence = list(sequence[:])
     to_rm = []
