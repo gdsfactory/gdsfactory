@@ -1,7 +1,7 @@
 import itertools
 import pathlib
 from pathlib import Path
-from typing import Iterable, List, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Set, Tuple, Union
 
 import gdspy as gp
 from gdspy.polygon import PolygonSet
@@ -9,7 +9,7 @@ from numpy import int64, ndarray
 
 from pp.component import Component
 from pp.import_gds import import_gds
-from pp.types import ComponentOrReference
+from pp.types import ComponentOrReference, Layer
 
 COUNTER = itertools.count()
 
@@ -64,7 +64,7 @@ def gdsdiff(
     if isinstance(cellB, str):
         cellB = import_gds(cellB, flatten=True)
 
-    layers = set()
+    layers: Set[Layer] = set()
     layers.update(cellA.get_layers())
     layers.update(cellB.get_layers())
 

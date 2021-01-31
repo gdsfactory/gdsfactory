@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 from phidl.device_layout import Label
 
@@ -6,13 +6,14 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.types import Number
 
 
 def route_fiber_single(
     component: Component,
-    optical_io_spacing: int = 50,
-    grating_coupler: Component = grating_coupler_te,
-    min_input2output_spacing: int = 230,
+    optical_io_spacing: Number = 50,
+    grating_coupler: Callable = grating_coupler_te,
+    min_input2output_spacing: Number = 230,
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,

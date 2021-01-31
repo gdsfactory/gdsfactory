@@ -6,6 +6,7 @@ import scipy.optimize as so
 from numpy import float64
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bezier import (
     bezier,
@@ -24,7 +25,7 @@ def rnd(p: float) -> float64:
     return np.round(p * GRID_PER_UNIT) / GRID_PER_UNIT
 
 
-@pp.cell
+@cell
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -64,7 +65,7 @@ def crossing_arm(
     return c
 
 
-@pp.cell
+@cell
 def crossing(arm: Callable = crossing_arm) -> Component:
     """waveguide crossing
 
@@ -93,7 +94,7 @@ def crossing(arm: Callable = crossing_arm) -> Component:
     return cx
 
 
-@pp.cell
+@cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     """
     Crossing based on a taper. The default is a dummy taper
@@ -111,7 +112,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     return c
 
 
-@pp.cell
+@cell
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,
@@ -181,7 +182,7 @@ def crossing_etched(
     return c
 
 
-@pp.cell
+@cell
 def crossing45(
     crossing: Callable = crossing,
     port_spacing: float = 40.0,
@@ -276,7 +277,7 @@ def crossing45(
     return c
 
 
-@pp.cell
+@cell
 def compensation_path(
     crossing45: Union[Component, Callable] = crossing45, direction: str = "top"
 ) -> Component:
@@ -390,8 +391,7 @@ def compensation_path(
 
 
 def demo():
-    """plot curvature of bends
-    """
+    """plot curvature of bends"""
     from matplotlib import pyplot as plt
 
     c = crossing45(port_spacing=20.0, dx=15)

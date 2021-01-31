@@ -4,6 +4,7 @@ import numpy as np
 import picwriter.components as pc
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
@@ -12,7 +13,7 @@ from pp.types import Coordinate, Layer
 
 
 @deco_rename_ports
-@pp.cell
+@cell
 def grating_coupler_elliptical2(
     wgt: Callable = wg_strip,
     theta: float = np.pi / 4.0,

@@ -227,7 +227,7 @@ def u_bundle_indirect(
     end_straight_offset=0.0,
     start_straight_offset=0.0,
     **routing_params
-):
+) -> List[Route]:
     r"""
     Args:
         start_ports: list of start ports

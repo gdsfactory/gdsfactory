@@ -5,6 +5,7 @@ from numpy import pi, sqrt
 from scipy.special import fresnel
 
 from pp.coord2 import Coord2
+from pp.snap import snap_to_grid
 
 DEG2RAD = np.pi / 180
 
@@ -95,4 +96,4 @@ def euler_bend_points(
 
 def euler_length(radius: Union[int, float] = 10.0, angle_amount: int = 90.0) -> float:
     th = abs(angle_amount) * DEG2RAD / 2
-    return 4 * radius * th
+    return snap_to_grid(4 * radius * th)
