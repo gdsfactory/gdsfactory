@@ -30,6 +30,6 @@ jobs:
         make install
     - name: Lint with flake8
       run: |
-        flake8
+        tox -e flake8
     - name: Test with tox
       run: tox -e py

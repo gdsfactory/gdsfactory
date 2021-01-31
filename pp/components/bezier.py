@@ -15,6 +15,7 @@ from pp.types import Coordinate, Coordinates, Number
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
+    """t: 1D array of points varying between 0 and 1"""
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -26,8 +27,8 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     return np.column_stack([xs, ys])
 
 
-def bezier_points(control_points, width, t=np.linspace(0, 1, 101)):
-    """t: 1D array of points varying between 0 and 1"""
+def bezier_points(control_points: Coordinates, width: Number, npoints: int = 101):
+    t = np.linspace(0, 1, npoints)
     points = bezier_curve(t, control_points)
     return extrude_path(points, width)
 
@@ -42,7 +43,7 @@ def bezier(
     name: Optional[str] = None,
     width: Number = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
-    t: ndarray = np.linspace(0, 1, 201),
+    npoints: int = 201,
     layer: Tuple[int, int] = LAYER.WG,
     with_manhattan_facing_angles: bool = True,
     spike_length: float = 0.0,
@@ -66,7 +67,7 @@ def bezier(
 
     c = pp.Component(name=name)
     c.ignore.add("control_points")
-    c.ignore.add("t")
+    t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     polygon_points = extrude_path(
         path_points,
@@ -111,10 +112,12 @@ def find_min_curv_bezier_control_points(
     end_point: Coordinate,
     start_angle: int,
     end_angle: int,
-    t: ndarray = np.linspace(0, 1, 201),
+    npoints: int = 201,
     alpha: float = 0.05,
     nb_pts: int = 2,
 ) -> Coordinates:
+    t = np.linspace(0, 1, npoints)
+
     def array_1d_to_cpts(a):
         xs = a[::2]
         ys = a[1::2]
