@@ -26,6 +26,7 @@ def add_ports_from_markers_square(
     port_type: "str" = "dc",
     orientation: int = 90,
     min_pin_area_um2: float = 0,
+    max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
     port_names: Optional[Iterable[str]] = None,
 ):
@@ -53,7 +54,7 @@ def add_ports_from_markers_square(
         dx = snap_to_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
-        if dx == dy and dx * dy > min_pin_area_um2:
+        if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
             component.add_port(
                 port_name,
                 midpoint=(x, y),
@@ -72,6 +73,7 @@ def add_ports_from_markers_center(
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: Optional[float] = None,
+    max_pin_area_um2: float = 150 * 150,
 ) -> None:
     """add ports from polygons in certain layers
 
@@ -148,6 +150,9 @@ def add_ports_from_markers_center(
             x = p.x
             y = p.y
             if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
+                continue
+
+            if max_pin_area_um2 and dx * dy > max_pin_area_um2:
                 continue
 
             # skip square ports as they have no clear orientation
