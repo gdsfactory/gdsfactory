@@ -51,8 +51,7 @@ def route_fiber_array(
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
-    """
-    Returns component I/O elements for adding grating couplers with a fiber array input
+    """Returns component I/O elements for adding grating couplers with a fiber array
     Many components are fine with the default.
 
     Args:
@@ -61,24 +60,37 @@ def route_fiber_array(
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
         straight_factory: waveguide
-        fanout_length: Wanted distance between the gratings and the southest component port. If None, automatically calculated.
-        max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set. Usually fine to leave at None.
+        fanout_length: target distance between gratings and the southest component port.
+            If None, automatically calculated.
+        max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
+            Usually fine to leave at None.
         with_align_ports: If True, add compact loopback alignment ports
-        waveguide_separation: min separation between the waveguides used to route grating couplers to the component I/O.
+        waveguide_separation: min separation between routing waveguides
         optical_routing_type: There are three options for optical routing
-           * ``0`` is very basic but can be more compact.  Can also be used in combination with ``connected_port_list_ids`` or to route some components which otherwise fail with type ``1``.
+           * ``0`` is very basic but can be more compact.
+            Can also be used in combination with ``connected_port_list_ids``
+            or to route some components which otherwise fail with type ``1``.
            * ``1`` is the standard routing.
-           * ``2`` uses the optical ports as a guideline for the component's physical size (instead of using the actual component size).  Useful where the component is large due to metal tracks
+           * ``2`` uses the optical ports as a guideline for the component's physical size
+            (instead of using the actual component size).
+            Useful where the component is large due to metal tracks
            * ``None: leads to an automatic decision based on size and number
            of I/O of the component.
         bend_radius: bend radius
-        connected_port_list_ids: only for type 0 optical routing.  Can specify which ports goes to which grating assuming the gratings are ordered from left to right.  e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
-        nb_optical_ports_lines: number of lines with I/O grating couplers.  One line by default.  WARNING: Only works properly if:
+        connected_port_list_ids: only for type 0 optical routing.
+            Can specify which ports goes to which grating assuming the gratings are ordered from left to right.
+            e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
+        nb_optical_ports_lines: number of lines with I/O grating couplers. One line by default.
+            WARNING: Only works properly if:
             - nb_optical_ports_lines divides the total number of ports
             - the components have an equal number of inputs and outputs
-        force_manhattan: in some instances, the port linker defaults to an S-bend due to lack of space to do manhattan. Force manhattan offsets all the ports to replace the s-bend by a straight link.  This fails if multiple ports have the same issue
+        force_manhattan: sometimes port linker defaults to an S-bend due to lack of space to do manhattan.
+            Force manhattan offsets all the ports to replace the s-bend by a straight link.
+            This fails if multiple ports have the same issue
         excluded_ports: ports excluded from routing
-        grating_indices: allows to fine skip some grating slots e.g [0,1,4,5] will put two gratings separated by the pitch. Then there will be two empty grating slots, and after that an additional two gratings.
+        grating_indices: allows to fine skip some grating slots
+            e.g [0,1,4,5] will put two gratings separated by the pitch.
+            Then there will be two empty grating slots, and after that an additional two gratings.
         route_filter: waveguide and bend factories
         gc_port_name: grating_coupler port name, where to route waveguides
         gc_rotation: grating_coupler rotation (deg)

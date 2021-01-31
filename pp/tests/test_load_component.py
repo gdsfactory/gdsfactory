@@ -8,7 +8,7 @@ from pp.load_component import load_component
 def test_load_component_gds() -> None:
     gdspath = pp.CONFIG["gdsdir"] / "waveguide.gds"
     c = load_component(gdspath)
-    assert c.hash_geometry() == "acbc8481cf28bc9930ecbd373cafcd17b39c5c27"
+    assert c.hash_geometry() == "4b8f6646dcf60b78b905ac0c1665a35f119be32a"
 
 
 def test_load_component_ports(num_regression: NumericRegressionFixture) -> None:

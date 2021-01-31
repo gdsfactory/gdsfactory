@@ -120,7 +120,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        for k, v in placement_settings.items():
+        for k in placement_settings.keys():
             if k not in valid_placement_keys:
                 raise ValueError(
                     f"`{k}` not valid placement {valid_placement_keys} for"

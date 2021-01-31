@@ -70,8 +70,6 @@ def _pixelate(
     margin=0.4,
     margin_x=None,
     margin_y=None,
-    ports=[],
-    crop_pixels_at_ports=False,
     nb_pixels_x=None,
     nb_pixels_y=None,
     min_pixel_size=0.4,
@@ -83,6 +81,7 @@ def _pixelate(
     Arguments:
         pts: The 2D array to be pixelated
         N: The number of pixels on an edge of the grid
+
     Returns:
         A list of pixel bounding boxes
     """

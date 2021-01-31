@@ -32,22 +32,29 @@ def cdc(
     """Grating-Assisted Contra-Directional Coupler
 
     Args:
-       length (float): Length of the coupling region.
-       gap (float): Distance between the two waveguides.
-       period (float): Period of the grating.
-       dc (float): Duty cycle of the grating. Must be between 0 and 1.
-       angle (float): Angle in radians (between 0 and pi/2) at which the waveguide bends towards the coupling region.  Default=pi/6.
-       width_top (float): Width of the top waveguide in the coupling region.  Defaults to the WaveguideTemplate wg width.
-       width_bot (float): Width of the bottom waveguide in the coupling region.  Defaults to the WaveguideTemplate wg width.
-       dw_top (float): Amplitude of the width variation on the top.  Default=gap/2.0.
-       dw_bot (float): Amplitude of the width variation on the bottom.  Default=gap/2.0.
-       input_bot (boolean): If `True`, will make the default input the bottom waveguide (rather than the top).  Default=`False`
-       fins (boolean): If `True`, adds fins to the input/output waveguides.  In this case a different template for the component must be specified.  This feature is useful when performing electron-beam lithography and using different beam currents for fine features (helps to reduce stitching errors).  Defaults to `False`
-       fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`.  Defaults to 200 nm x 50 nm
-       contradc_wgt (WaveguideTemplate): If `fins` above is True, a WaveguideTemplate (contradc_wgt) must be specified.  This defines the layertype / datatype of the ContraDC (which will be separate from the input/output waveguides).  Defaults to `None`
-       port_midpoint (tuple): Cartesian coordinate of the input port (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).  Defaults to (0,0).
-       direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).  Defaults to 'EAST'.
-       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
+       length : Length of the coupling region.
+       gap: Distance between the two waveguides.
+       period: Period of the grating.
+       dc: Duty cycle of the grating. Must be between 0 and 1.
+       angle: in radians at which the waveguide bends towards the coupling region.
+       width_top: Width of the top waveguide in the coupling region.
+       width_bot: Width of the bottom waveguide in the coupling region.
+       dw_top: Amplitude of the width variation on the top.  Default=gap/2.0.
+       dw_bot: Amplitude of the width variation on the bottom.  Default=gap/2.0.
+       input_bot: True makes the default input the bottom waveguide (rather than top)
+       fins: If `True`, adds fins to the input/output waveguides.
+        In this case a different template for the component must be specified.
+        This feature is useful when performing electron-beam lithography
+        and using different beam currents
+        for fine features (helps to reduce stitching errors).
+       fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
+       contradc_wgt:
+       port_midpoint: Cartesian coordinate of the input port
+        (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).
+       direction: Direction that the component will point *towards*,
+        can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
+        OR an angle (float, in radians).
+       waveguide_template: Picwriter WaveguideTemplate function
 
 
     .. plot::

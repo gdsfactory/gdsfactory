@@ -1,14 +1,16 @@
-from typing import List, Tuple
+from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
+from pp.types import Number
 
 
 @cell
 def bbox(
-    bbox: List[Tuple[int, int]] = [(-1, -1), (3, 4)], layer: Tuple[int, int] = (1, 0)
+    bbox: Tuple[Tuple[Number, Number], ...] = ((-1, -1), (3, 4)),
+    layer: Tuple[int, int] = (1, 0),
 ) -> Component:
-    """ Creates a bounding box rectangle from coordinates, to allow
+    """Creates a bounding box rectangle from coordinates, to allow
     creation of a rectangle bounding box directly form another shape.
 
     Args:

@@ -2,10 +2,11 @@ import numpy as np
 
 import pp
 from pp import Port
+from pp.cell import cell
 from pp.routing.get_bundle import get_bundle
 
 
-@pp.cell
+@cell
 def test_get_bundle():
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
@@ -47,7 +48,7 @@ def test_get_bundle():
     return c
 
 
-@pp.cell
+@cell
 def test_connect_corner(N=6):
     d = 10.0
     sep = 5.0
@@ -125,7 +126,7 @@ def test_connect_corner(N=6):
     return c
 
 
-@pp.cell
+@cell
 def test_get_bundle_udirect(dy=200, angle=270):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
@@ -154,11 +155,11 @@ def test_get_bundle_udirect(dy=200, angle=270):
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])
-        # assert np.isclose(route["length"], length)
+        assert np.isclose(route["length"], length)
     return c
 
 
-@pp.cell
+@cell
 def test_get_bundle_u_indirect(dy=-200, angle=180):
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
@@ -201,7 +202,7 @@ def test_get_bundle_u_indirect(dy=-200, angle=180):
     return c
 
 
-@pp.cell
+@cell
 def test_facing_ports():
 
     dy = 200.0
@@ -244,7 +245,7 @@ def test_facing_ports():
 if __name__ == "__main__":
 
     # c = test_get_bundle()
-    c = test_connect_corner()
-    # c = test_get_bundle_u_indirect()
+    # c = test_connect_corner()
+    c = test_get_bundle_u_indirect()
     # c = test_facing_ports()
     c.show()
