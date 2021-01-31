@@ -5,6 +5,7 @@
 *.ports
 *.properties
 *.sqlite3
+.pyre_configuration
 
 # Packages
 *.egg
