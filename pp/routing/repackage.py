@@ -1,7 +1,5 @@
 from typing import Optional
 
-import numpy as np
-
 import pp
 from pp.component import Component
 from pp.components.bezier import bezier
@@ -13,8 +11,17 @@ def package_optical2x2(
     component: Component,
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
+    npoints: int = 101,
 ) -> Component:
-    """returns component with port_spacing"""
+    """returns component with port_spacing.
+
+    Args:
+        component: to package
+        port_spacing: for the returned component
+        bend_length: length of the bend (defaults to port_spacing)
+        npoints: for sbend
+
+    """
 
     comp = component() if callable(component) else component
 
@@ -31,13 +38,11 @@ def package_optical2x2(
     c = pp.Component(f"{comp.name}_{int(port_spacing)}")
     c << comp
 
-    t = np.linspace(0, 1, 101)
-
     y0 = p_e1[1]
     control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy - y0), (dx, dy - y0)]
 
     bezier_bend_t = bezier(
-        control_points=control_points, t=t, start_angle=0, end_angle=0
+        control_points=control_points, npoints=npoints, start_angle=0, end_angle=0
     )
 
     b_tr = bezier_bend_t.ref(port_id="0", position=p_e1)

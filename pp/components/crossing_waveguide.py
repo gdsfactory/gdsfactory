@@ -188,6 +188,7 @@ def crossing45(
     port_spacing: float = 40.0,
     dx: None = None,
     alpha: float = 0.08,
+    npoints: int = 101,
 ) -> Component:
     r""" 45Deg crossing with bends
 
@@ -231,8 +232,6 @@ def crossing45(
         dx = port_spacing
     dy = port_spacing / 2
 
-    t = np.linspace(0, 1, 101)
-
     start_angle = 45
     end_angle = 0
     cpts = find_min_curv_bezier_control_points(
@@ -240,12 +239,15 @@ def crossing45(
         end_point=(dx, dy),
         start_angle=start_angle,
         end_angle=end_angle,
-        t=t,
+        npoints=npoints,
         alpha=alpha,
     )
 
     bend = bezier(
-        control_points=cpts, t=t, start_angle=start_angle, end_angle=end_angle,
+        control_points=cpts,
+        start_angle=start_angle,
+        end_angle=end_angle,
+        npoints=npoints,
     )
 
     tol = 1e-2

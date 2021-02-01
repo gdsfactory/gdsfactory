@@ -41,7 +41,7 @@ def bend_s(
     c = bezier(
         width=width,
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
-        t=np.linspace(0, 1, nb_points),
+        npoints=nb_points,
         layer=layer,
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
