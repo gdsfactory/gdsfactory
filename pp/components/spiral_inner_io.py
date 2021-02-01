@@ -14,7 +14,6 @@ from pp.components.euler.bend_euler import bend_euler90, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
 from pp.routing import round_corners
-from pp.snap import snap_to_grid
 from pp.types import Number
 
 
@@ -204,7 +203,7 @@ def spiral_inner_io(
     component.add(route_east["references"])
 
     length = route_east["length"] + route_west["length"] + _bend180.length
-    component.length = snap_to_grid(length + 2 * y_straight_inner_top)
+    component.length = pp.snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 

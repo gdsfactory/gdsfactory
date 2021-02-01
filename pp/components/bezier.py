@@ -15,7 +15,12 @@ from pp.types import Coordinate, Coordinates, Number
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
-    """t: 1D array of points varying between 0 and 1"""
+    """ Returns bezier coordinates
+
+    Args:
+        t: 1D array of points varying between 0 and 1.
+        control_points:
+    """
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -52,13 +57,19 @@ def bezier(
     grid: float = 0.001,
 ) -> Component:
     """Bezier bend
-    We avoid autoname control_points and t spacing
+    We avoid autoname for control_points
 
     Args:
+        name: for the cell
         width: waveguide width
         control_points: list of points
-        t: 1D array of points varying between 0 and 1
+        npoints: number of points varying between 0 and 1
         layer: layer
+        with_manhattan_facing_angles:
+        spike_length
+        start_angle
+        end_angle
+        grid
     """
 
     if name is None:

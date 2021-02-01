@@ -40,4 +40,3 @@ def test_mzi() -> Component:
 if __name__ == "__main__":
     c = test_mzi()
     c.show()
-    c.plot()
