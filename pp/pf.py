@@ -24,7 +24,7 @@ from pp.mask.write_labels import write_labels
 # from pp.write_doe_from_yaml import write_doe_from_yaml
 from pp.write_doe_from_yaml import import_custom_doe_factories
 
-VERSION = "2.3.1"
+VERSION = "2.3.2"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
