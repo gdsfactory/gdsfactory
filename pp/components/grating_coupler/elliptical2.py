@@ -42,7 +42,8 @@ def grating_coupler_elliptical2(
         dutycycle: dutycycle, determines the size of the 'gap' by dutycycle=(period-gap)/period.
         port: Cartesian coordinate of the input port
         layer_ridge :  adds another layer to the grating coupler that can be used for partial etched gratings
-        layer_core : Tuple specifying the layer/datatype of the ridge region.  Defaults to (3,0)
+        layer_core : Tuple specifying the layer/datatype of the ridge region.
+        layer_cladding: for the waveguide.
         teeth_list: Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths
             for irregularly spaced gratings.
             For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,

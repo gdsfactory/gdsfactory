@@ -1,7 +1,7 @@
 from typing import Callable, List, Tuple, Union
 
 import numpy as np
-from numpy import bool_, float64, int64, ndarray
+from numpy import float64, ndarray
 
 from pp.components.bend_circular import bend_circular
 from pp.components.taper import taper as taper_function
@@ -10,45 +10,20 @@ from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
-from pp.types import Route
+from pp.types import Coordinate, Coordinates, Number, Route
 
 
-def _is_vertical(
-    segment: Union[
-        Tuple[Tuple[float64, float64], ndarray],
-        Tuple[ndarray, Tuple[float64, float64]],
-        Tuple[Tuple[int, float64], Tuple[int, float64]],
-        Tuple[ndarray, ndarray],
-        List[ndarray],
-    ],
-    tol: float = 1e-5,
-) -> Union[bool, bool_]:
+def _is_vertical(segment: Coordinate, tol: float = 1e-5) -> bool:
     p0, p1 = segment
     return abs(p0[0] - p1[0]) < tol
 
 
-def _is_horizontal(
-    segment: Union[
-        Tuple[Tuple[float64, float64], ndarray],
-        Tuple[ndarray, Tuple[float64, float64]],
-        Tuple[ndarray, ndarray],
-        Tuple[Tuple[int, float64], Tuple[int, float64]],
-        List[ndarray],
-    ],
-    tol: float = 1e-5,
-) -> bool_:
+def _is_horizontal(segment: Coordinate, tol: float = 1e-5) -> bool:
     p0, p1 = segment
     return abs(p0[1] - p1[1]) < tol
 
 
-def _segment_sign(
-    s: Union[
-        Tuple[Tuple[float64, float64], ndarray],
-        Tuple[ndarray, ndarray],
-        Tuple[ndarray, Tuple[float64, float64]],
-        Tuple[Tuple[int, float64], Tuple[int, float64]],
-    ]
-) -> Union[int64, float64]:
+def _segment_sign(s: Coordinate) -> Number:
     p0, p1 = s
     if _is_vertical(s):
         return np.sign(p1[1] - p0[1])
@@ -58,8 +33,8 @@ def _segment_sign(
 
 
 def get_ports_x_or_y_distances(
-    list_ports: List[Port], ref_point: Union[Tuple[int, float64], ndarray]
-) -> List[float64]:
+    list_ports: List[Port], ref_point: Coordinate
+) -> List[Number]:
     if not list_ports:
         return []
 
@@ -99,9 +74,7 @@ def _distance(port1, port2):
 def get_bundle_from_waypoints(
     start_ports: List[Port],
     end_ports: List[Port],
-    waypoints: Union[
-        List[Tuple[int, float64]], List[Union[ndarray, Tuple[float64, float64]]]
-    ],
+    waypoints: Coordinates,
     straight_factory: Callable = waveguide,
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_circular,
@@ -215,11 +188,9 @@ def snap_route_to_end_point_y(
 def _generate_manhattan_bundle_waypoints(
     start_ports: List[Port],
     end_ports: List[Port],
-    backbone_route: Union[
-        List[Union[ndarray, Tuple[float64, float64]]], List[Tuple[int, float64]]
-    ],
+    backbone_route: Coordinates,
     **kwargs,
-) -> List[List[Union[ndarray, Tuple[float64, float64]]]]:
+) -> Coordinates:
     """
     Args:
         start_ports: list of start ports. Should all be facing in the same direction
