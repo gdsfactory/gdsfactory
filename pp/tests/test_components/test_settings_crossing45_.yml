@@ -9,4 +9,5 @@ name: crossing45
 settings:
   alpha: 0.08
   dx: null
+  npoints: 101
   port_spacing: 40.0

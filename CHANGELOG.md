@@ -20,10 +20,13 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
-## 2.3.2
+## 2.3.2 2021-01-31
 
 - fixed some mypy errors
-- added dx to [coupler](coupler)
+- added dx to coupler
+- bezier has now number of points as a parameter
+- improved docs
+- allow to set min and max area of port markers to read
 
 ## 2.3.1 2021-01-28
 
