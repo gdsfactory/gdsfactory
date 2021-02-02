@@ -36,6 +36,7 @@ diff_path = repo_path / "gds_diff"
 cwd_config = cwd / "config.yml"
 module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
+layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)

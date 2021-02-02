@@ -19,3 +19,4 @@ matplotlib
 pytest
 pytest-regressions
 lytest
+xmltodict
