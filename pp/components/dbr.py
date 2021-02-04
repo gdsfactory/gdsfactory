@@ -8,11 +8,10 @@ Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 
 """
 
-from typing import Callable
-
 import pp
 from pp.component import Component
 from pp.components.waveguide import waveguide
+from pp.types import ComponentFactory
 
 period = 318e-3
 w0 = 0.5
@@ -27,7 +26,7 @@ def dbr_cell(
     w2: float = w2,
     l1: float = period / 2,
     l2: float = period / 2,
-    waveguide_function: Callable = waveguide,
+    waveguide_function: ComponentFactory = waveguide,
 ) -> Component:
     l1 = pp.snap_to_grid(l1)
     l2 = pp.snap_to_grid(l2)
@@ -49,7 +48,7 @@ def dbr(
     l1: float = period / 2,
     l2: float = period / 2,
     n: int = 10,
-    waveguide_function: Callable = waveguide,
+    waveguide_function: ComponentFactory = waveguide,
 ) -> Component:
     """Distributed Bragg Reflector
 

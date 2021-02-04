@@ -1,5 +1,3 @@
-from typing import Callable
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
@@ -11,6 +9,7 @@ from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
 from pp.routing import route_elec_ports_to_side
+from pp.types import ComponentFactory
 
 
 @cell
@@ -19,9 +18,9 @@ def mzi_arm(
     DL: float = 0.0,
     L_top: float = 10.0,
     bend_radius: float = 10.0,
-    bend90_factory: Callable = bend_circular,
-    waveguide_heater_function: Callable = wg_heater_connected,
-    waveguide_function: Callable = waveguide,
+    bend90_factory: ComponentFactory = bend_circular,
+    waveguide_heater_function: ComponentFactory = wg_heater_connected,
+    waveguide_function: ComponentFactory = waveguide,
     with_elec_connections: bool = True,
 ) -> Component:
     """
@@ -112,10 +111,10 @@ def mzi2x2(
     L2: float = 10.0,
     gap: float = 0.234,
     bend_radius: float = 10.0,
-    bend90_factory: Callable = bend_circular,
-    waveguide_heater_function: Callable = wg_heater_connected,
-    waveguide_function: Callable = waveguide,
-    coupler_function: Callable = coupler,
+    bend90_factory: ComponentFactory = bend_circular,
+    waveguide_heater_function: ComponentFactory = wg_heater_connected,
+    waveguide_function: ComponentFactory = waveguide,
+    coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
 ) -> Component:
     """Mzi 2x2

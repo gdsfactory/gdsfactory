@@ -5,11 +5,12 @@ from numpy import cos, pi, sin, sqrt
 
 import pp
 from pp.component import Component
+from pp.types import Number
 
 
 @pp.cell
 def ellipse(
-    radii: Tuple[float, float] = (10.0, 5.0),
+    radii: Tuple[Number, Number] = (10.0, 5.0),
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:

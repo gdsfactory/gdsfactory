@@ -2,7 +2,7 @@
 """
 
 import itertools as it
-from typing import Callable, Iterable, List, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 import numpy as np
 
@@ -14,7 +14,7 @@ from pp.components.manhattan_font import manhattan_text
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 LINE_LENGTH = 420.0
 
@@ -264,7 +264,7 @@ def cdsem_straight_column(
     length: Number = LINE_LENGTH,
     width_center: Number = 0.5,
     label: str = "A",
-    waveguide_factory: Callable = waveguide,
+    waveguide_factory: ComponentFactory = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
@@ -325,7 +325,7 @@ def cdsem_straight_column(
 
 @cell
 def cdsem_straight_all(
-    waveguide_factory: Callable = waveguide,
+    waveguide_factory: ComponentFactory = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
@@ -358,7 +358,7 @@ def cdsem_straight_density(
     y: Number = 50.0,
     margin: Number = 2.0,
     label: str = "",
-    waveguide_factory: Callable = waveguide,
+    waveguide_factory: ComponentFactory = waveguide,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> Component:
@@ -402,7 +402,7 @@ def cdsem_strip(waveguide_factory=waveguide, **kwargs):
 
 @cell
 def cdsem_target(
-    bend90_factory: Callable = bend_circular,
+    bend90_factory: ComponentFactory = bend_circular,
     width_center: Number = 0.5,
     label: str = "",
     layer: Tuple[int, int] = LAYER.WG,
@@ -454,8 +454,8 @@ def cdsem_uturn(
     symbol_bot: str = "S",
     symbol_top: str = "U",
     wg_length: Number = LINE_LENGTH,
-    waveguide_factory: Callable = pp.c.waveguide,
-    bend90_factory: Callable = bend_circular,
+    waveguide_factory: ComponentFactory = pp.c.waveguide,
+    bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
@@ -520,8 +520,8 @@ def opcm(
     tte: float = 0.304,
     wtm: float = 0.604,
     ttm: float = 0.506,
-    waveguide_factory: Callable = waveguide,
-    bend90_factory: Callable = bend_circular,
+    waveguide_factory: ComponentFactory = waveguide,
+    bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:

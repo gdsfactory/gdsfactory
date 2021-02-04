@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Optional, Union
+from typing import Dict, Optional, Union
 
 import pp
 from pp.component import Component
@@ -6,6 +6,7 @@ from pp.components.bend_circular import bend_circular as bend_circular_function
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import deco_rename_ports, rename_ports_by_orientation
+from pp.types import ComponentFactory
 
 
 @deco_rename_ports
@@ -15,12 +16,12 @@ def mzi(
     length_y: float = 4.0,
     length_x: float = 0.1,
     bend_radius: float = 10.0,
-    bend90: Callable = bend_circular_function,
-    waveguide: Callable = waveguide_function,
-    waveguide_vertical: Optional[Callable] = None,
-    waveguide_horizontal: Optional[Callable] = None,
-    splitter: Callable = mmi1x2_function,
-    combiner: Optional[Callable] = None,
+    bend90: ComponentFactory = bend_circular_function,
+    waveguide: ComponentFactory = waveguide_function,
+    waveguide_vertical: Optional[ComponentFactory] = None,
+    waveguide_horizontal: Optional[ComponentFactory] = None,
+    splitter: ComponentFactory = mmi1x2_function,
+    combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
     pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,

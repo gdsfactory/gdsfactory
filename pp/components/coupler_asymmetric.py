@@ -1,15 +1,14 @@
-from typing import Callable
-
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.waveguide import waveguide as waveguide_function
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def coupler_asymmetric(
-    bend: Callable = bend_s,
-    waveguide: Callable = waveguide_function,
+    bend: ComponentFactory = bend_s,
+    waveguide: ComponentFactory = waveguide_function,
     gap: float = 0.234,
     wg_width: float = 0.5,
 ) -> Component:

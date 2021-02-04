@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import pp
 from pp.component import Component
@@ -7,17 +7,18 @@ from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_array import waveguide_array
 from pp.routing.get_route import get_route_from_waypoints_no_taper
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def grating_coupler_tree(
     n_waveguides: int = 4,
     waveguide_spacing: int = 4,
-    waveguide: Callable = waveguide,
-    grating_coupler_function: Callable = grating_coupler_elliptical_te,
+    waveguide: ComponentFactory = waveguide,
+    grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
-    route_filter: Callable = get_route_from_waypoints_no_taper,
-    bend_factory: Callable = bend_circular,
+    route_filter: ComponentFactory = get_route_from_waypoints_no_taper,
+    bend_factory: ComponentFactory = bend_circular,
     bend_radius: float = 10.0,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     **kwargs

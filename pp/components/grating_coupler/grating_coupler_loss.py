@@ -1,5 +1,5 @@
 import inspect
-from typing import Callable, Iterable
+from typing import Iterable
 
 from numpy import float64
 
@@ -10,6 +10,7 @@ from pp.components import grating_coupler_te
 from pp.port import Port
 from pp.routing.get_route import get_route
 from pp.routing.manhattan import round_corners
+from pp.types import ComponentFactory
 
 
 def connect_loop_back(
@@ -36,7 +37,7 @@ def connect_loop_back(
 def loss_deembedding_ch13_24(
     io_sep: float = 127.0,
     R: float = 10.0,
-    grating_coupler_function: Callable = grating_coupler_te,
+    grating_coupler_function: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 1),
 ) -> Component:
 
@@ -76,7 +77,7 @@ def loss_deembedding_ch13_24(
 def loss_deembedding_ch12_34(
     io_sep: float = 127.0,
     R: float = 10.0,
-    grating_coupler_function: Callable = grating_coupler_te,
+    grating_coupler_function: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 2),
 ) -> Component:
     gc = grating_coupler_function()
@@ -111,7 +112,7 @@ def loss_deembedding_ch12_34(
 def loss_deembedding_ch14_23(
     io_sep: float = 127.0,
     R: float = 10.0,
-    grating_coupler_function: Callable = grating_coupler_te,
+    grating_coupler_function: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 1),
 ) -> Component:
     gc = grating_coupler_function()
@@ -144,7 +145,8 @@ def loss_deembedding_ch14_23(
 
 @pp.cell
 def grating_coupler_loss(
-    io_sep: float = 127.0, grating_coupler_function: Callable = grating_coupler_te
+    io_sep: float = 127.0,
+    grating_coupler_function: ComponentFactory = grating_coupler_te,
 ) -> Component:
     c = pp.Component()
     _c1 = loss_deembedding_ch13_24(grating_coupler_function=grating_coupler_function)

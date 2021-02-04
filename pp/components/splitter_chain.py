@@ -1,13 +1,12 @@
-from typing import Callable
-
 import pp
 from pp.component import Component
 from pp.components.mmi1x2 import mmi1x2
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def splitter_chain(
-    component: Callable = mmi1x2, n_devices: int = 3, **kwargs
+    component: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:
     """ Chain of splitters
 

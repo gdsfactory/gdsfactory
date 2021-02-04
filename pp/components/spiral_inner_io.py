@@ -2,7 +2,7 @@
 maybe: need to add grating coupler loopback as well
 """
 
-from typing import Callable, Optional, Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 
@@ -15,7 +15,7 @@ from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
 from pp.routing import round_corners
 from pp.snap import snap_to_grid
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -33,13 +33,13 @@ def spiral_inner_io(
     grating_spacing: float = 127.0,
     dx: float = 3.0,
     dy: float = 3.0,
-    bend90_function: Callable = bend_circular,
-    bend180_function: Callable = bend_circular180,
+    bend90_function: ComponentFactory = bend_circular,
+    bend180_function: ComponentFactory = bend_circular180,
     bend_radius: float = 50.0,
     wg_width: float = 0.5,
     wg_width_grating_coupler: float = 0.5,
-    straight_factory: Callable = waveguide,
-    taper: Optional[Callable] = None,
+    straight_factory: ComponentFactory = waveguide,
+    taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
 ) -> Component:
     """Spiral with ports inside the spiral circle.
@@ -210,8 +210,8 @@ def spiral_inner_io(
 
 @cell
 def spiral_inner_io_euler(
-    bend90_function: Callable = bend_euler90,
-    bend180_function: Callable = bend_euler180,
+    bend90_function: ComponentFactory = bend_euler90,
+    bend180_function: ComponentFactory = bend_euler180,
     **kwargs
 ) -> Component:
     """
@@ -270,7 +270,7 @@ def spirals_nested(bend_radius: Number = 100) -> Component:
 
 
 def get_straight_length(
-    length_cm: Number, spiral_function: Callable, **kwargs
+    length_cm: Number, spiral_function: ComponentFactory, **kwargs
 ) -> Number:
     """ returns y_spiral to achieve a particular spiral length """
     y0 = 50
