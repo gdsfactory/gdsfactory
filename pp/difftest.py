@@ -52,7 +52,7 @@ def difftest(component: Component) -> None:
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [Y/N]"
+                "Would you like to save current GDS as the new reference? [y/n] "
             )
             if val.upper().startswith("Y"):
                 print(f"rm {ref_file}")
@@ -61,6 +61,6 @@ def difftest(component: Component) -> None:
             raise GeometryDifference(
                 "\n"
                 + f"`{filename}` changed from reference {ref_file}\n"
-                + "To step over each error you can run `pytest -s` to review each error\n"
+                + "To step over each error you can run `pytest -s`\n"
                 + "So you can check the differences in Klayout GUI\n"
             )
