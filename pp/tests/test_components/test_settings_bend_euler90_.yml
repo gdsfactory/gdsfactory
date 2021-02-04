@@ -1,9 +1,9 @@
-function_name: bend_euler90
+function_name: bend_euler
 info:
   length: 31.416
   radius: 10.0
 module: pp.components.bend_euler
-name: bend_euler90
+name: bend_euler
 settings:
   cladding_offset: 0.0
   layer:

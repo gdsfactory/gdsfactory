@@ -1,5 +1,16 @@
+function_name: bend_euler
 info:
   length: 31.416
   radius: 10.0
-name: Unnamed_f4a1cb51
-settings: {}
+module: pp.components.bend_euler
+name: bend_euler
+settings:
+  cladding_offset: 0.0
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
+  radius: 10.0
+  resolution: 150.0
+  theta: 90
+  width: 0.5

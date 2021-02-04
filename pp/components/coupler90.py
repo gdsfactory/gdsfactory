@@ -2,7 +2,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.bend_euler import bend_euler90
+from pp.components.bend_euler import bend_euler
 from pp.components.waveguide import waveguide
 from pp.types import ComponentFactory
 
@@ -64,7 +64,7 @@ def coupler90euler(
     width: float = 0.5,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_euler90,
+    bend90_factory: ComponentFactory = bend_euler,
 ):
     return coupler90(
         bend_radius=bend_radius,

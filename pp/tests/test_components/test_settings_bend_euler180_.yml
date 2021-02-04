@@ -12,4 +12,5 @@ settings:
   layers_cladding: null
   radius: 10.0
   resolution: 150.0
+  theta: 180
   width: 0.5

@@ -6,7 +6,7 @@ name: spiral_inner_io_euler
 settings:
   N: 6
   bend180_function: bend_euler180
-  bend90_function: bend_euler90
+  bend90_function: bend_euler
   bend_radius: 50.0
   dx: 3.0
   dy: 3.0

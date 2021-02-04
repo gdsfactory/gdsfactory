@@ -10,7 +10,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
-from pp.components.bend_euler import bend_euler90, bend_euler180
+from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
 from pp.routing import round_corners
@@ -84,7 +84,7 @@ def spiral_inner_io(
                 dx=dx,
                 dy=dy,
                 straight_factory=waveguide,
-                bend90_function=bend_euler90,
+                bend90_function=bend_euler,
                 bend180_function=bend_euler180,
                 wg_width=wg_width,
             )
@@ -210,7 +210,7 @@ def spiral_inner_io(
 
 @cell
 def spiral_inner_io_euler(
-    bend90_function: ComponentFactory = bend_euler90,
+    bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
     **kwargs
 ) -> Component:

@@ -3,7 +3,7 @@ from numpy import float64
 import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.bend_euler import bend_euler90, bend_euler180
+from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.component_sequence import component_sequence
 from pp.components.waveguide import waveguide
 from pp.routing.add_fiber_array import add_fiber_array
@@ -55,7 +55,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
 @pp.cell
 def cutback_bend90(
-    bend90: ComponentFactory = bend_euler90,
+    bend90: ComponentFactory = bend_euler,
     straight_length: float = 5.0,
     n_steps: int = 6,
     cols: int = 6,
@@ -102,7 +102,7 @@ def cutback_bend90(
 
 
 def staircase(
-    bend90=bend_euler90,
+    bend90=bend_euler,
     length_v=5.0,
     length_h=5.0,
     n_steps=4,

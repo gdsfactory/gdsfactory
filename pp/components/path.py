@@ -89,6 +89,6 @@ if __name__ == "__main__":
     # Combine the Path and the CrossSection
     c = path(P, X)
     # c = pp.add_pins(c)
-    c << pp.c.bend_euler90(radius=10)
+    c << pp.c.bend_euler(radius=10)
     c << pp.c.bend_circular(radius=10)
     c.show()

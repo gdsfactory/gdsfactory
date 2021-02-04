@@ -3,7 +3,7 @@
 
 import pp
 from pp.component import Component
-from pp.components.bend_euler import bend_euler90
+from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.spiral_external_io import spiral_external_io
 from pp.routing import route_manhattan
@@ -12,7 +12,7 @@ from pp.types import ComponentFactory
 
 @pp.cell
 def loop_mirror(
-    component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler90
+    component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
 ) -> Component:
     c = pp.Component()
     component = pp.call_if_func(component)
@@ -31,7 +31,7 @@ def loop_mirror(
 
 
 @pp.cell
-def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler90):
+def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     c = pp.Component()
     component = pp.call_if_func(component)
     mirror = loop_mirror(component=component, bend90=bend90)
