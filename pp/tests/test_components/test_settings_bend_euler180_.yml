@@ -5,9 +5,11 @@ info:
 module: pp.components.bend_euler
 name: bend_euler180
 settings:
+  cladding_offset: 0.0
   layer:
   - 1
   - 0
+  layers_cladding: null
   radius: 10.0
   resolution: 150.0
   width: 0.5

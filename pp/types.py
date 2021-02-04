@@ -58,9 +58,17 @@ def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
 
 
 __all__ = [
-    "Layer",
+    "ComponentFactory",
     "ComponentOrFactory",
+    "ComponentOrPath",
+    "ComponentOrReference",
+    "Coordinate",
+    "Coordinates",
+    "Layer",
     "NameToFunctionDict",
     "Number",
+    "PathType",
+    "Route",
+    "RouteFactory",
     "get_name_to_function_dict",
 ]

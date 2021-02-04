@@ -73,7 +73,7 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
 if __name__ == "__main__":
     import pp
 
-    P = euler(use_eff=True)
+    P = euler(radius=5)
     # P = euler()
     # P = Path()
     # P.append(straight(length=5))

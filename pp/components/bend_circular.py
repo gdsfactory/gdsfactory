@@ -102,17 +102,17 @@ def bend_circular(
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> Component:
-    """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
+    """Returns an arc of length ``theta`` starting at angle ``start_angle``
 
     Args:
         radius
         width: of the waveguide
-        theta: arc length
-        start_angle:
-        angle_resolution
+        theta: angle of arc (degrees)
+        start_angle: start angle (degrees)
+        angle_resolution: number of points per theta
         layer
         layers_cladding
-        cladding_offset
+        cladding_offset: of layers_cladding
 
     .. plot::
       :include-source:
