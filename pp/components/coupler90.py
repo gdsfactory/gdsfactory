@@ -2,7 +2,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.euler.bend_euler import bend_euler90
+from pp.components.bend_euler import bend_euler90
 from pp.components.waveguide import waveguide
 from pp.types import ComponentFactory
 

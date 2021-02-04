@@ -5,7 +5,7 @@ import numpy as np
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.euler.geo_euler import euler_bend_points, euler_length
+from pp.components.bend_euler_points import euler_bend_points, euler_length
 from pp.geo_utils import extrude_path
 from pp.layers import LAYER
 from pp.port import auto_rename_ports

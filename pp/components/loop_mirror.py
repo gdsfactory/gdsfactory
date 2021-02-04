@@ -5,7 +5,7 @@ from typing import Callable
 
 import pp
 from pp.component import Component
-from pp.components.euler.bend_euler import bend_euler90
+from pp.components.bend_euler import bend_euler90
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.spiral_external_io import spiral_external_io
 from pp.routing import route_manhattan

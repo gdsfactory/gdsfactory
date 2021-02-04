@@ -5,8 +5,8 @@ from numpy import float64
 import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler90, bend_euler180
 from pp.components.component_sequence import component_sequence
-from pp.components.euler.bend_euler import bend_euler90, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.routing.add_fiber_array import add_fiber_array
 
