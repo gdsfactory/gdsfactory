@@ -1,4 +1,5 @@
-"""GDS regression test."""
+"""GDS regression test. Adapted from lytest.
+"""
 import pathlib
 
 from lytest.kdb_xor import GeometryDifference, run_xor
@@ -40,4 +41,10 @@ def difftest(component: Component) -> None:
         diff = gdsdiff(ref_file, run_file, name=filename)
         pp.write_gds(diff, diff_file)
         pp.show(diff)
-        raise
+        raise GeometryDifference(
+            f"`{filename}` changed from reference {ref_file}\n"
+            + "To step over each error you can run `pytest -x` to stop at first error\n"
+            + "You can check the differences in Klayout GUI\n"
+            + "If you want to save the current GDS as the new reference, type:\n"
+            f"rm {ref_file}"
+        )

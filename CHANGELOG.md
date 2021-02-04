@@ -23,10 +23,12 @@ from pydantic import validate_arguments
 
 ## 2.3.3
 
-- added pp.components.path
-- added RouteFactory in pp.types
+- added pp.components.path to easily extrude CrossSections
+- added more pp.types (ComponentFactory, RouteFactory) as Callable[..., Component]
 - Load a LayerSet object from a Klayout lyp file in XML format
-- clean lyp
+- clean lyp from generic tech
+- bend_euler accepts similar parameters as bend_circular (layers_cladding, cladding_offset)
+- renamed bend_euler90 as bend_euler
 
 ## 2.3.2 2021-01-31
 
