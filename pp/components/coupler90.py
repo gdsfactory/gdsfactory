@@ -1,10 +1,10 @@
-from typing import Callable
-
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
+from pp.components.euler.bend_euler import bend_euler90
 from pp.components.waveguide import waveguide
+from pp.types import ComponentFactory
 
 
 @cell
@@ -12,15 +12,24 @@ def coupler90(
     bend_radius: float = 10.0,
     width: float = 0.5,
     gap: float = 0.2,
-    waveguide_factory: Callable = waveguide,
-    bend90_factory: Callable = bend_circular,
+    waveguide_factory: ComponentFactory = waveguide,
+    bend90_factory: ComponentFactory = bend_circular,
 ) -> Component:
-    """ Waveguide coupled to a bend with gap
+    r"""Waveguide coupled to a bend.
 
     Args:
         bend_radius: um
         width: waveguide width (um)
         gap: um
+
+    .. code::
+
+             N0
+             |
+            /
+           /
+       W0 =--- E0
+
 
     .. plot::
       :include-source:
@@ -50,7 +59,24 @@ def coupler90(
     return c
 
 
+def coupler90euler(
+    bend_radius: float = 10.0,
+    width: float = 0.5,
+    gap: float = 0.2,
+    waveguide_factory: ComponentFactory = waveguide,
+    bend90_factory: ComponentFactory = bend_euler90,
+):
+    return coupler90(
+        bend_radius=bend_radius,
+        width=width,
+        gap=gap,
+        waveguide_factory=waveguide_factory,
+        bend90_factory=bend90_factory,
+    )
+
+
 if __name__ == "__main__":
     c = coupler90(width=0.45, gap=0.3)
+    c << coupler90euler(width=0.45, gap=0.3)
     c.show()
     # print(c.ports)

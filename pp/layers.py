@@ -18,6 +18,7 @@ from phidl.device_layout import Layer
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
 from pp.component import Component
+from pp.name import clean_name
 
 
 class LayerSet(LayerSetPhidl):
@@ -187,7 +188,8 @@ def _name_to_short_name(name_str: str) -> str:
     if name_str is None:
         raise IOError(f"layer {name_str} has no name")
     fields = name_str.split("-")
-    return fields[0].split()[0].strip()
+    name = fields[0].split()[0].strip()
+    return clean_name(name)
 
 
 def _name_to_description(name_str):

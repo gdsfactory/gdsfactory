@@ -47,13 +47,13 @@ def mzi(
 
                    __Lx__
                   |      |
-                  Ly     Lyr
+                  Ly     Lyr (not a parameter)
                   |      |
         splitter==|      |==combiner
                   |      |
-                  Ly     Lyr
+                  Ly     Lyr (not a parameter)
                   |      |
-                 DL/2   DL/2
+                  |       delta_length
                   |      |
                   |__Lx__|
 
