@@ -7,7 +7,7 @@ from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 from pp.port import auto_rename_ports
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @pp.cell
@@ -19,25 +19,27 @@ def spiral(
     port: Tuple[int, int] = (0, 0),
     direction: str = "NORTH",
     waveguide_template: ComponentFactory = wg_strip,
-    **kwargs
+    layer: Layer = pp.LAYER.WG,
+    layer_cladding: Layer = pp.LAYER.WGCLAD,
+    cladding_offset: float = 3.0,
+    wg_width: float = 0.5,
+    bend_radius: float = 10.0,
 ) -> Component:
-    """ Picwriter Spiral
+    """Picwriter Spiral
 
     Args:
-       width (float): width of the spiral (i.e. distance between input/output ports)
-       length (float): desired length of the waveguide (um)
-       spacing (float): distance between parallel waveguides
-       parity (int): If 1 spiral on right side, if -1 spiral on left side (mirror flip)
-       port (tuple): Cartesian coordinate of the input port
-       direction (string): Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
+       width : width of the spiral (i.e. distance between input/output ports)
+       length: desired length of the waveguide (um)
+       spacing: distance between parallel waveguides
+       parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
+       port: Cartesian coordinate of the input port
+       direction: Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
+       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
+       layer: waveguide core layer
+       layer_cladding: waveguide cladding layer
+       cladding_offset: distance from core to waveguide cladding
        wg_width: 0.5
-       wg_layer: pp.LAYER.WG[0]
-       wg_datatype: pp.LAYER.WG[1]
-       clad_layer: pp.LAYER.WGCLAD[0]
-       clad_datatype: pp.LAYER.WGCLAD[1]
        bend_radius: 10
-       cladding_offset: 3
 
     .. plot::
       :include-source:
@@ -49,7 +51,14 @@ def spiral(
 
     """
     c = pc.Spiral(
-        pp.call_if_func(waveguide_template, **kwargs),
+        pp.call_if_func(
+            waveguide_template,
+            wg_width=wg_width,
+            bend_radius=bend_radius,
+            layer=layer,
+            layer_cladding=layer_cladding,
+            cladding_offset=cladding_offset,
+        ),
         width=width,
         length=length,
         spacing=spacing,

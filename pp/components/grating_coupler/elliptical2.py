@@ -83,10 +83,8 @@ def grating_coupler_elliptical2(
             wgt,
             cladding_offset=cladding_offset,
             wg_width=wg_width,
-            wg_layer=layer_core[0],
-            wg_datatype=layer_core[1],
-            clad_layer=layer_cladding[0],
-            clad_datatype=layer_cladding[1],
+            layer=layer_core,
+            layer_cladding=layer_cladding,
             **kwargs
         ),
         theta=theta,

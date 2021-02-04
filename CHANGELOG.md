@@ -25,10 +25,12 @@ from pydantic import validate_arguments
 
 - added pp.components.path to easily extrude CrossSections
 - added more pp.types (ComponentFactory, RouteFactory) as Callable[..., Component]
-- Load a LayerSet object from a Klayout lyp file in XML format
+- Load a LayerSet object from a Klayout lyp file
 - clean lyp from generic tech
 - bend_euler accepts similar parameters as bend_circular (layers_cladding, cladding_offset)
 - renamed bend_euler90 as bend_euler
+- components adapted from picwriter take more similar values (layer_cladding, layer)
+- pp.difftest can step over each GDS file with a geometric difference and decide what to do interactively
 
 ## 2.3.2 2021-01-31
 

@@ -3,45 +3,24 @@ from picwriter.components.waveguide import WaveguideTemplate
 
 from pp.config import conf
 from pp.layers import LAYER
+from pp.types import Layer
 
 
 def wg_strip(
     wg_width: float = 0.5,
-    wg_layer: int = LAYER.WG[0],
-    wg_datatype: int = LAYER.WG[1],
-    clad_layer: int = LAYER.WGCLAD[0],
-    clad_datatype: int = LAYER.WGCLAD[1],
+    layer: Layer = LAYER.WG,
+    layer_cladding: Layer = LAYER.WGCLAD,
     bend_radius: float = 10.0,
     cladding_offset: float = conf.tech.cladding_offset,
 ) -> WaveguideTemplate:
+
     return pc.WaveguideTemplate(
         bend_radius=bend_radius,
         wg_width=wg_width,
-        wg_layer=wg_layer,
-        wg_datatype=wg_datatype,
-        clad_layer=clad_layer,
-        clad_datatype=clad_datatype,
-        clad_width=cladding_offset,
-        wg_type="strip",
-    )
-
-
-def wg_rib(
-    wg_width: float = 0.5,
-    wg_layer: int = LAYER.WG[0],
-    wg_datatype: int = LAYER.WG[1],
-    clad_layer: int = LAYER.SLAB90[0],
-    clad_datatype: int = LAYER.SLAB90[1],
-    bend_radius: float = 10.0,
-    cladding_offset: float = conf.tech.cladding_offset,
-) -> WaveguideTemplate:
-    return pc.WaveguideTemplate(
-        bend_radius=bend_radius,
-        wg_width=wg_width,
-        wg_layer=wg_layer,
-        wg_datatype=wg_datatype,
-        clad_layer=clad_layer,
-        clad_datatype=clad_datatype,
+        wg_layer=layer[0],
+        wg_datatype=layer[1],
+        clad_layer=layer_cladding[0],
+        clad_datatype=layer_cladding[1],
         clad_width=cladding_offset,
         wg_type="strip",
     )
