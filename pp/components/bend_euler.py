@@ -48,9 +48,9 @@ def bend_euler(
     c.add_polygon(pts, layer=layer)
 
     layers_cladding = layers_cladding or []
-    for layer in layers_cladding:
+    for layers_cladding in layers_cladding:
         pts = extrude_path(backbone, width + 2 * cladding_offset)
-        c.add_polygon(pts, layer=layer)
+        c.add_polygon(pts, layer=layers_cladding)
 
     length = euler_length(radius, theta)
     c.info["length"] = length

@@ -1,8 +1,9 @@
-""" there are multiple options to define layers:
+"""A GDS layer is a tuple of two integers.
 
-- using an int
-- using `pp.LAYER` object, with a layer per property
-- using `pp.layer(name, layermap)` function
+You can:
+
+- Define your layers in a dataclass
+- Load it from Klayout XML file (.lyp)
 
 LayerSet adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities

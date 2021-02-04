@@ -1,10 +1,13 @@
 import re
+from pathlib import Path
 from typing import Dict, List, Tuple
 
 import numpy as np
 
 import pp
-from pp.layers import layer2material, layer2nm
+from pp.component import Component
+from pp.layers import layer2material as layer2material_generic_tech
+from pp.layers import layer2nm as layer2nm_generic_tech
 from pp.sp.get_sparameters_path import get_sparameters_path
 
 
@@ -108,10 +111,10 @@ def test_read_sparameters_4port_mmi2x2():
 
 
 def load(
-    component,
-    dirpath=pp.CONFIG["sp"],
-    layer2material: Dict[Tuple[int, int], str] = layer2material,
-    layer2nm: [Tuple[int, int], int] = layer2nm,
+    component: Component,
+    dirpath: Path = pp.CONFIG["sp"],
+    layer2material: Dict[Tuple[int, int], str] = layer2material_generic_tech,
+    layer2nm: Dict[Tuple[int, int], int] = layer2nm_generic_tech,
     **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
