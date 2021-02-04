@@ -330,8 +330,9 @@ if __name__ == "__main__":
     from pprint import pprint
 
     c = bend_circular()
-    c.show()
+    # c.show()
     pprint(c.get_settings())
+    c.plotqt()
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()

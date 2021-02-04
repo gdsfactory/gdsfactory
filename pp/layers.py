@@ -77,6 +77,13 @@ class LayerSet(LayerSetPhidl):
             + f"{list(self._layers.keys())}"
         )
 
+    def get(self, key: str) -> Layer:
+        """Returns gds layer tuple."""
+        if key not in self._layers:
+            raise ValueError(f"Layer {key} not in {list(self._layers.keys())}")
+        else:
+            return self._layers[key]
+
 
 @dataclass(frozen=True)
 class LayerMap:
@@ -277,10 +284,11 @@ def test_load_lyp():
 
     lys = load_lyp(layer_path)
     assert len(lys._layers) == 82
+    return lys
 
 
 if __name__ == "__main__":
-    test_load_lyp()
+    lys = test_load_lyp()
 
     # c = preview_layerset(ls)
     # c.show()

@@ -985,6 +985,11 @@ class Component(Device):
         show(self)
         clear_cache()
 
+    def plotqt(self):
+        from phidl.quickplotter import quickplot2
+
+        quickplot2(self)
+
 
 def test_get_layers() -> None:
     import pp

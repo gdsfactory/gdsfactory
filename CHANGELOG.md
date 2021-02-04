@@ -20,6 +20,14 @@ from pydantic import validate_arguments
 
 ## master branch (latest changes not released yet)
 
+
+## 2.3.3
+
+- added pp.components.path
+- added RouteFactory in pp.types
+- Load a LayerSet object from a Klayout lyp file in XML format
+- clean lyp
+
 ## 2.3.2 2021-01-31
 
 - fixed some mypy errors

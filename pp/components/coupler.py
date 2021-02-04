@@ -35,7 +35,7 @@ def coupler(
         layers_cladding: list of cladding layers
         cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
-        dx: bend length in x direction
+        dx: length of bend in x direction
 
     .. code::
 
