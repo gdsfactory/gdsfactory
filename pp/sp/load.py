@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 import numpy as np
+import pandas as pd
 
 import pp
 from pp.component import Component
@@ -146,6 +147,25 @@ def load(
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
     return read_sparameters(filepath=filepath, numports=numports)
+
+
+def load_sparameters_pandas(
+    component: Component,
+    dirpath: Path = pp.CONFIG["sp"],
+    layer2material: Dict[Tuple[int, int], str] = layer2material_generic_tech,
+    layer2nm: Dict[Tuple[int, int], int] = layer2nm_generic_tech,
+    **kwargs,
+) -> pd.DataFrame:
+    filepath = get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        layer2material=layer2material,
+        layer2nm=layer2nm,
+        **kwargs,
+    )
+    df = pd.read_csv(filepath.with_suffix(".csv"))
+    df.index = df["wavelength_nm"]
+    return df
 
 
 if __name__ == "__main__":
