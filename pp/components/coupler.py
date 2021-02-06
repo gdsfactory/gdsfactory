@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Tuple
+from typing import Iterable, Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -7,6 +7,7 @@ from pp.components.coupler_symmetric import coupler_symmetric
 from pp.config import conf
 from pp.layers import LAYER
 from pp.snap import assert_on_1nm_grid
+from pp.types import ComponentFactory
 
 
 @cell
@@ -14,8 +15,8 @@ def coupler(
     wg_width: float = 0.5,
     gap: float = 0.236,
     length: float = 20.007,
-    coupler_symmetric_factory: Callable = coupler_symmetric,
-    coupler_straight_factory: Callable = coupler_straight,
+    coupler_symmetric_factory: ComponentFactory = coupler_symmetric,
+    coupler_straight_factory: ComponentFactory = coupler_straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Iterable[Tuple[int, int]] = (LAYER.WGCLAD,),
     cladding_offset: float = conf.tech.cladding_offset,
@@ -34,7 +35,7 @@ def coupler(
         layers_cladding: list of cladding layers
         cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
-        dx: bend length in x direction
+        dx: length of bend in x direction
 
     .. code::
 

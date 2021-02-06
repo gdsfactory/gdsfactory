@@ -1,12 +1,11 @@
-from typing import Optional, Tuple, Union
-
-from numpy import float64
+from typing import Optional, Tuple
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.hline import hline
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
+from pp.types import Number
 
 WIRE_WIDTH = 10.0
 
@@ -14,8 +13,8 @@ WIRE_WIDTH = 10.0
 @deco_rename_ports
 @cell
 def wire(
-    length: Union[float, float64] = 50.0,
-    width: float = WIRE_WIDTH,
+    length: Number = 50.0,
+    width: Number = WIRE_WIDTH,
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
 ) -> Component:
@@ -36,7 +35,7 @@ def wire(
 @cell
 def corner(
     width: float = WIRE_WIDTH,
-    radius: Optional[int] = None,
+    radius: Optional[Number] = None,
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
 ) -> Component:

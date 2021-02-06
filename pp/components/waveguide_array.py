@@ -1,8 +1,7 @@
-from typing import Callable
-
 import pp
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import deco_rename_ports
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -10,7 +9,7 @@ from pp.port import deco_rename_ports
 def waveguide_array(
     n_waveguides: int = 4,
     spacing: float = 4.0,
-    waveguide: Callable = waveguide_function,
+    waveguide: ComponentFactory = waveguide_function,
 ) -> pp.Component:
     """array of waveguides connected with grating couplers
     useful to align the 4 corners of the chip

@@ -37,7 +37,7 @@ class Port(PortPhidl):
         name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
         midpoint: (0, 0)
         width: of the port
-        orientation: 0
+        orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: optical, dc, rf, detector, superconducting, trench
@@ -194,7 +194,7 @@ def read_port_markers(
     return pg.extract(D, layers=layers)
 
 
-def csv2port(csvpath):
+def csv2port(csvpath) -> Dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict"""
     ports = {}
     with open(csvpath, "r") as csvfile:
@@ -295,7 +295,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     return direction_ports[direction]
 
 
-def get_non_optical_ports(ports):
+def get_non_optical_ports(ports) -> List[Port]:
     from pp.component import Component, ComponentReference
 
     if isinstance(ports, dict):

@@ -1,5 +1,3 @@
-from typing import Callable
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
@@ -7,6 +5,7 @@ from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
+from pp.types import ComponentFactory
 
 
 @cell
@@ -16,9 +15,9 @@ def ring_single(
     bend_radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.001,
-    coupler: Callable = coupler_ring,
-    waveguide: Callable = waveguide_function,
-    bend: Callable = bend_circular,
+    coupler: ComponentFactory = coupler_ring,
+    waveguide: ComponentFactory = waveguide_function,
+    bend: ComponentFactory = bend_circular,
     pins: bool = False,
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)

@@ -1,13 +1,14 @@
-from typing import Callable, Iterable, Tuple
+from typing import Iterable, Tuple
 
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def coupler_symmetric(
-    bend: Callable = bend_s,
+    bend: ComponentFactory = bend_s,
     gap: float = 0.234,
     wg_width: float = 0.5,
     layer: Tuple[int, int] = pp.LAYER.WG,

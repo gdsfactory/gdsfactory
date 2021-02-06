@@ -9,15 +9,16 @@ from pp.components.grating_coupler.elliptical_trenches import (
 )
 from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
+from pp.types import ComponentFactory
 
 
 @container
 def add_grating_couplers(
     component: Component,
-    grating_coupler: Callable = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     gc_port_name: str = "W0",
-    get_input_labels_function: Callable = get_input_labels,
+    get_input_labels_function: Callable[..., object] = get_input_labels,
 ) -> Component:
     """Return component with grating couplers and labels."""
 

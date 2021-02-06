@@ -2,11 +2,12 @@ import hashlib
 import uuid
 from functools import partial, wraps
 from inspect import signature
-from typing import Callable, Dict, Optional
+from typing import Dict, Optional
 
 from pp.component import Component
 from pp.config import MAX_NAME_LENGTH
 from pp.name import get_component_name
+from pp.types import ComponentFactory
 
 CACHE: Dict[str, Component] = {}
 
@@ -18,13 +19,13 @@ def clear_cache() -> None:
 
 
 def cell(
-    func: Callable = None,
+    func: ComponentFactory = None,
     *,
     autoname: bool = True,
     name: Optional[str] = None,
     uid: bool = False,
     cache: bool = True,
-) -> Callable:
+) -> ComponentFactory:
     """Cell Decorator.
 
     Args:

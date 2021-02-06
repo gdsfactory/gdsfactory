@@ -1,17 +1,16 @@
-from typing import Callable
-
 import pp
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.waveguide import waveguide
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def splitter_tree(
-    coupler: Callable = mmi1x2,
+    coupler: ComponentFactory = mmi1x2,
     n_o_outputs: int = 4,
     bend_radius: float = 10.0,
     spacing: float = 50.0,
-    terminator: Callable = waveguide,
+    terminator: ComponentFactory = waveguide,
 ) -> pp.Component:
     """tree of 1x2 splitters
 

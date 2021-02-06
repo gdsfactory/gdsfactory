@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import numpy as np
 import picwriter.components as pc
@@ -7,6 +7,7 @@ import pp
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -18,7 +19,7 @@ def coupler_full(
     parity: int = 1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: Callable = wg_strip,
+    waveguide_template: ComponentFactory = wg_strip,
     **kwargs
 ) -> Component:
     """ Adiabatic Full Coupler.

@@ -1,11 +1,10 @@
-from typing import Callable
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
+from pp.types import ComponentFactory
 
 
 @cell
@@ -15,8 +14,8 @@ def ring_double(
     length_x: float = 3.0,
     bend_radius: float = 5.0,
     length_y: float = 2.0,
-    coupler: Callable = coupler_ring,
-    waveguide: Callable = waveguide_function,
+    coupler: ComponentFactory = coupler_ring,
+    waveguide: ComponentFactory = waveguide_function,
     pins: bool = False,
 ) -> Component:
     """ double bus ring made of two couplers (ct: top, cb: bottom)

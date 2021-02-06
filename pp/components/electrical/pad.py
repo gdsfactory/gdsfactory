@@ -1,9 +1,10 @@
-from typing import Callable, List, Tuple
+from typing import List, Tuple
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
 from pp.layers import LAYER
+from pp.types import ComponentFactory
 
 WIRE_WIDTH = 10.0
 
@@ -39,7 +40,7 @@ def pad(
 
 @cell
 def pad_array(
-    pad: Callable = pad,
+    pad: ComponentFactory = pad,
     spacing: Tuple[int, int] = (150.0, 0.0),
     n: int = 6,
     port_list: List[str] = ("N",),

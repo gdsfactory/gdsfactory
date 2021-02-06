@@ -1,5 +1,5 @@
 import pathlib
-from typing import Callable, Iterable, Tuple
+from typing import Iterable, Tuple
 
 import numpy as np
 
@@ -7,7 +7,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
@@ -21,7 +21,7 @@ def grating_coupler_uniform_optimized(
     partial_etch: bool = False,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
-    taper_function: Callable = taper_function,
+    taper_function: ComponentFactory = taper_function,
     taper_port_name: str = "1",
     polarization: str = "te",
     wavelength: Number = 1500,

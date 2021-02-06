@@ -14,7 +14,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>1 WGCORE</name>
+  <name>WGCORE 1/0</name>
   <source>1/0@1</source>
  </properties>
  <properties>
@@ -31,24 +31,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>1/9 WGCLAD</name>
-  <source>1/9@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I3</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>false</visible>
-  <transparent>false</transparent>
-  <width>1</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>111 WGCLAD</name>
+  <name>WGCLAD 111/0</name>
   <source>111/0@1</source>
  </properties>
  <properties>
@@ -65,7 +48,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>4 WGWIDE</name>
+  <name>WGWIDE 4/0</name>
   <source>4/0@1</source>
  </properties>
  <properties>
@@ -82,7 +65,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>2 SLAB150</name>
+  <name>SLAB150 2/0</name>
   <source>2/0@1</source>
  </properties>
  <properties>
@@ -99,25 +82,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>3 SLAB90</name>
+  <name>SLAB90 3/0</name>
   <source>3/0@1</source>
- </properties>
- <properties>
-  <frame-color>#00ffff</frame-color>
-  <fill-color>#00ffff</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I3</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>2/6 SHALLOWETCH</name>
-  <source>2/6@1</source>
  </properties>
  <properties>
   <frame-color>#0000ff</frame-color>
@@ -133,8 +99,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>122 SHALLOWETCH</name>
-  <source>122/0@1</source>
+  <name>SHALLOWETCH 2/6</name>
+  <source>2/6@1</source>
  </properties>
  <properties>
   <frame-color>#cc0000</frame-color>
@@ -150,8 +116,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>123 DEEPETCH</name>
-  <source>123/0@1</source>
+  <name>DEEPETCH 3/6</name>
+  <source>3/6@1</source>
  </properties>
  <properties>
   <frame-color>#9999cc</frame-color>
@@ -167,7 +133,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>2/9 SLAB150CLAD</name>
+  <name>SLAB150CLAD 2/9</name>
   <source>2/9@1</source>
  </properties>
  <properties>
@@ -184,7 +150,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>3/9 SLAB90CLAD</name>
+  <name>SLAB90CLAD 3/9</name>
   <source>3/9@1</source>
  </properties>
  <properties>
@@ -217,7 +183,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>20 N</name>
+   <name>N 20/0</name>
    <source>20/0@1</source>
   </group-members>
   <group-members>
@@ -234,7 +200,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>22 Np</name>
+   <name>Np 22/0</name>
    <source>22/0@1</source>
   </group-members>
   <group-members>
@@ -251,7 +217,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>24 Npp</name>
+   <name>Npp 24/0</name>
    <source>24/0@1</source>
   </group-members>
   <group-members>
@@ -268,7 +234,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>21 P</name>
+   <name>P 21.0</name>
    <source>21/0@1</source>
   </group-members>
   <group-members>
@@ -285,7 +251,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>23 Pp</name>
+   <name>Pp 23/0</name>
    <source>23/0@1</source>
   </group-members>
   <group-members>
@@ -302,7 +268,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>25 Ppp</name>
+   <name>Ppp 25/0</name>
    <source>25/0@1</source>
   </group-members>
   <group-members>
@@ -319,7 +285,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>27 PDPP</name>
+   <name>PDPP 27/0</name>
    <source>27/0@1</source>
   </group-members>
   <group-members>
@@ -336,7 +302,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>26 GENPP</name>
+   <name>GENPP 26/0</name>
    <source>26/0@1</source>
   </group-members>
   <group-members>
@@ -353,7 +319,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>29 GEPPP</name>
+   <name>GEPPP 29/0</name>
    <source>29/0@1</source>
   </group-members>
  </properties>
@@ -371,7 +337,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>34 WGN (Nitride)</name>
+  <name>WGN Nitride 34/0</name>
   <source>34/0@1</source>
  </properties>
  <properties>
@@ -388,7 +354,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>36 WGNCLAD</name>
+  <name>WGNCLAD 36/0</name>
   <source>36/0@1</source>
  </properties>
  <properties>
@@ -405,7 +371,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>30 GE</name>
+  <name>GE 30/0</name>
   <source>30/0@1</source>
  </properties>
  <properties>
@@ -422,7 +388,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>39 SILICIDE</name>
+  <name>SILICIDE 39/0</name>
   <source>39/0@1</source>
  </properties>
  <properties>
@@ -439,7 +405,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>47 MH</name>
+  <name>MH 47/0</name>
   <source>47/0@1</source>
  </properties>
  <properties>
@@ -456,7 +422,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>41 M1</name>
+  <name>M1 41/0</name>
   <source>41/0@1</source>
  </properties>
  <properties>
@@ -473,7 +439,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>45 M2</name>
+  <name>M2 45/0</name>
   <source>45/0@1</source>
  </properties>
  <properties>
@@ -507,7 +473,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>40 VIA1</name>
+  <name>VIA1 40/0</name>
   <source>40/0@1</source>
  </properties>
  <properties>
@@ -524,7 +490,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>44 VIA2</name>
+  <name>VIA2 44/0</name>
   <source>44/0@1</source>
  </properties>
  <properties>
@@ -541,7 +507,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>43 VIA3</name>
+  <name>VIA3 43/0</name>
   <source>43/0@1</source>
  </properties>
  <properties>
@@ -558,7 +524,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>42 CAPACITOR</name>
+  <name>CAPACITOR 42/0</name>
   <source>42/0@1</source>
  </properties>
  <properties>
@@ -575,7 +541,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>46 BONDPADOPEN</name>
+  <name>BONDPADOPEN 46/0</name>
   <source>46/0@1</source>
  </properties>
  <properties>
@@ -592,7 +558,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>7 DEEPTRENCH</name>
+  <name>DEEPTRENCH 7/0</name>
   <source>7/0@1</source>
  </properties>
  <properties>
@@ -609,7 +575,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>6 Oxide etch</name>
+  <name>OXIDE_ETCH 6/0</name>
   <source>6/0@1</source>
  </properties>
  <properties>
@@ -626,7 +592,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>190 Silicon tiles</name>
+  <name>SITILES 190/0</name>
   <source>190/0@1</source>
  </properties>
  <properties>
@@ -643,7 +609,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>191 Metal1 Tiles</name>
+  <name>M1TILES 191/0</name>
   <source>191/0@1</source>
  </properties>
  <properties>
@@ -660,7 +626,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>66 TEXT</name>
+  <name>TEXT 66/0</name>
   <source>66/0@1</source>
  </properties>
  <properties>
@@ -677,7 +643,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>201 LABEL OPTICAL IO</name>
+  <name>LABEL OPTICAL IO 201/0</name>
   <source>201/0@1</source>
  </properties>
  <properties>
@@ -694,7 +660,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>202 LABEL SETTINGS</name>
+  <name>LABEL_SETTINGS 202/0</name>
   <source>202/0@1</source>
  </properties>
  <properties>
@@ -711,7 +677,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>203 TE</name>
+  <name>TE 203/0</name>
   <source>203/0@1</source>
  </properties>
  <properties>
@@ -728,7 +694,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>204 TM</name>
+  <name>TM 204/0</name>
   <source>204/0@1</source>
  </properties>
  <properties>
@@ -745,7 +711,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>206 LABEL INSTANCES</name>
+  <name>LABEL_INSTANCES 206/0</name>
   <source>206/0@1</source>
  </properties>
  <properties>
@@ -762,7 +728,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>65 DICING</name>
+  <name>DICING 65/0</name>
   <source>65/0@1</source>
  </properties>
  <properties>
@@ -779,7 +745,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>67 DRCexclude</name>
+  <name>DRC_EXCLUDE 67/0</name>
   <source>67/0@1</source>
  </properties>
  <properties>
@@ -796,7 +762,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>68 DevRec</name>
+  <name>DEVREC 68/0</name>
   <source>68/0@1</source>
  </properties>
  <properties>
@@ -813,144 +779,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>64 floorplan</name>
+  <name>FLOORPLAN 64/0</name>
   <source>64/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>600 FP</name>
-  <source>600/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>601 packaging</name>
-  <source>601/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>602 wirebond</name>
-  <source>602/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>603 silicon removal</name>
-  <source>603/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>604 packaging optical</name>
-  <source>604/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>610 Edie</name>
-  <source>610/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>611 Edie components</name>
-  <source>611/0@1</source>
- </properties>
- <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>620 cu heat sink</name>
-  <source>620/0@1</source>
  </properties>
  <properties>
   <frame-color/>
@@ -982,7 +812,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>100 simulation_region</name>
+   <name>SIM_REGION 100/0</name>
    <source>100/0@1</source>
   </group-members>
   <group-members>
@@ -999,7 +829,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>101 port 1</name>
+   <name>PORT1 101/0</name>
    <source>101/0@1</source>
   </group-members>
   <group-members>
@@ -1016,7 +846,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>102 port 2</name>
+   <name>PORT2 102/0</name>
    <source>102/0@1</source>
   </group-members>
   <group-members>
@@ -1033,7 +863,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>103 port3</name>
+   <name>PORT3 103/0</name>
    <source>103/0@1</source>
   </group-members>
   <group-members>
@@ -1050,7 +880,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>104 port4</name>
+   <name>PORT4 104/0</name>
    <source>104/0@1</source>
   </group-members>
   <group-members>
@@ -1067,7 +897,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>110 source</name>
+   <name>SOURCE 110/0</name>
    <source>110/0@1</source>
   </group-members>
  </properties>
@@ -1085,7 +915,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>733 Lumerical</name>
+  <name>LUMERICAL 733/0</name>
   <source>733/0@1</source>
  </properties>
  <properties>
@@ -1102,7 +932,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>69 PinRec</name>
+  <name>PIN_ELECTRICAL 69/0</name>
   <source>69/0@1</source>
  </properties>
  <properties>
@@ -1119,7 +949,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>xsection</name>
+  <name>XSECTION</name>
   <source>*/*@*</source>
   <group-members>
    <frame-color>#f3ff80</frame-color>
@@ -1135,7 +965,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: BOX (300)</name>
+   <name>XS_BOX 300/0</name>
    <source>300/0@1</source>
   </group-members>
   <group-members>
@@ -1152,7 +982,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Si (301)</name>
+   <name>XS_SI 301/0</name>
    <source>301/0@1</source>
   </group-members>
   <group-members>
@@ -1169,7 +999,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Si EPI (319)</name>
+   <name>XS_SIN 319/0</name>
    <source>319/0@1</source>
   </group-members>
   <group-members>
@@ -1186,7 +1016,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: N (320)</name>
+   <name>XS_N 320/0</name>
    <source>320/0@1</source>
   </group-members>
   <group-members>
@@ -1203,7 +1033,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Npp (321)</name>
+   <name>XS_NPP 321/0</name>
    <source>321/0@1</source>
   </group-members>
   <group-members>
@@ -1220,7 +1050,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: P (330)</name>
+   <name>XS_P 330/0</name>
    <source>330/0@1</source>
   </group-members>
   <group-members>
@@ -1237,7 +1067,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: PDPp (327)</name>
+   <name>XS_PDPp 327/0</name>
    <source>327/0@1</source>
   </group-members>
   <group-members>
@@ -1254,7 +1084,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Ppp (331)</name>
+   <name>XS_PPP 331/0</name>
    <source>331/0@1</source>
   </group-members>
   <group-members>
@@ -1271,7 +1101,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Si slab (313)</name>
+   <name>XS_SI_SLAB 313/0</name>
    <source>313/0@1</source>
   </group-members>
   <group-members>
@@ -1288,7 +1118,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: overlay (311)</name>
+   <name>XS_OVERLAY 311/0</name>
    <source>311/0@1</source>
   </group-members>
   <group-members>
@@ -1305,7 +1135,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: ox Si (302)</name>
+   <name>XS_OX_SI 302/0</name>
    <source>302/0@1</source>
   </group-members>
   <group-members>
@@ -1322,7 +1152,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Ge (315)</name>
+   <name>XS_GE 315/0</name>
    <source>315/0@1</source>
   </group-members>
   <group-members>
@@ -1339,7 +1169,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Via1(303)</name>
+   <name>XS_VIA1 303/0</name>
    <source>303/0@1</source>
   </group-members>
   <group-members>
@@ -1356,7 +1186,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: M1 (304)</name>
+   <name>XS_M1 304/0</name>
    <source>304/0@1</source>
   </group-members>
   <group-members>
@@ -1373,7 +1203,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: oxide M1 (305)</name>
+   <name>XS_OXIDE_M1 305/0</name>
    <source>305/0@1</source>
   </group-members>
   <group-members>
@@ -1390,7 +1220,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: MH (306)</name>
+   <name>XS_MH 306/0</name>
    <source>306/0@1</source>
   </group-members>
   <group-members>
@@ -1407,7 +1237,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: oxide M1 (307)</name>
+   <name>XS_OXIDE_M2 307/0</name>
    <source>307/0@1</source>
   </group-members>
   <group-members>
@@ -1424,7 +1254,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: oxide MH (317)</name>
+   <name>XS_OXIDE_MH 317/0</name>
    <source>317/0@1</source>
   </group-members>
   <group-members>
@@ -1441,7 +1271,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: oxide ML(309)</name>
+   <name>XS_OXIDE_ML 309/0</name>
    <source>309/0@1</source>
   </group-members>
   <group-members>
@@ -1458,7 +1288,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Via2(308)</name>
+   <name>XS_VIA2 308/0</name>
    <source>308/0@1</source>
   </group-members>
   <group-members>
@@ -1475,7 +1305,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: M1 (399)</name>
+   <name>XS_M2 399/0</name>
    <source>399/0@1</source>
   </group-members>
   <group-members>
@@ -1492,7 +1322,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: oxide M3(311)</name>
+   <name>XS_OXIDE_M3 311/0</name>
    <source>311/0@1</source>
   </group-members>
   <group-members>
@@ -1509,7 +1339,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Via3(310)</name>
+   <name>XS_VIA3 310/0</name>
    <source>310/0@1</source>
   </group-members>
   <group-members>
@@ -1526,7 +1356,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS: Nitride(305)</name>
+   <name>XS_SIN2 305/0</name>
    <source>305/0@1</source>
   </group-members>
  </properties>
@@ -1544,7 +1374,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name> 205 DRC Markers</name>
+  <name>DRC_MARKER 205/0</name>
   <source>205/0@1</source>
  </properties>
  <properties>
@@ -1565,72 +1395,21 @@
   <source>1/10@1</source>
  </properties>
  <properties>
-  <frame-color>#4c994c</frame-color>
-  <fill-color>#4c994c</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width>2</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>60 NoTile Metal 1</name>
-  <source>60/0@1</source>
- </properties>
- <properties>
-  <frame-color>#404040</frame-color>
-  <fill-color>#404040</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width>0</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>61 NoTile1</name>
-  <source>61/0@1</source>
- </properties>
- <properties>
-  <frame-color>#404040</frame-color>
-  <fill-color>#404040</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width>0</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>62 NoTile2</name>
-  <source>62/0@1</source>
- </properties>
- <properties>
-  <frame-color>#404040</frame-color>
-  <fill-color>#404040</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>false</visible>
   <transparent>false</transparent>
-  <width>0</width>
+  <width/>
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>63 NoTile Silicon</name>
-  <source>63/0@1</source>
+  <name>NOTILE_M1 71/0</name>
+  <source>71/0@1</source>
  </properties>
  <properties>
   <frame-color>#808080</frame-color>
@@ -1646,25 +1425,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>41/30 M1 NO TILE</name>
-  <source>41/30@1</source>
- </properties>
- <properties>
-  <frame-color>#808080</frame-color>
-  <fill-color>#808080</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I3</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>false</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>45/30 M2 NO TILE</name>
-  <source>45/30@1</source>
+  <name>NOTILE_M2 72/0</name>
+  <source>72/0@1</source>
  </properties>
  <properties>
   <frame-color>#606060</frame-color>
@@ -1680,280 +1442,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>49/30 M3 NO TILE</name>
-  <source>49/30@1</source>
- </properties>
- <properties>
-  <frame-color>#ff0000</frame-color>
-  <fill-color>#ff0000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1001/1@1</source>
- </properties>
- <properties>
-  <frame-color>#ff0000</frame-color>
-  <fill-color>#ff0000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1060/1@1</source>
- </properties>
- <properties>
-  <frame-color>#40ff06</frame-color>
-  <fill-color>#40ff06</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1060/2@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1001/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1060/0@1</source>
- </properties>
- <properties>
-  <frame-color>#08db4f</frame-color>
-  <fill-color>#08db4f</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width>1</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1001/2@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1031/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1041/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1040/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1043/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1044/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1045/0@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1047/0@1</source>
- </properties>
- <properties>
-  <frame-color>#ff0000</frame-color>
-  <fill-color>#ff0000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1047/1@1</source>
- </properties>
- <properties>
-  <frame-color>#01ff6b</frame-color>
-  <fill-color>#01ff6b</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I9</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1047/2@1</source>
- </properties>
- <properties>
-  <frame-color>#c0c0c0</frame-color>
-  <fill-color>#c0c0c0</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name/>
-  <source>1049/0@1</source>
+  <name>NOTILE_M3 73/0</name>
+  <source>73/0@1</source>
  </properties>
  <name>all</name>
  <custom-dither-pattern>

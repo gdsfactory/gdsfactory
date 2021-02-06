@@ -83,15 +83,6 @@ def gdsdiff(
         A = get_polygons_on_layer(cellA, layer)
         B = get_polygons_on_layer(cellB, layer)
 
-        if A is None and B is None:
-            continue
-        elif B is None:
-            diff.add_polygon(A, layer)
-            continue
-        elif A is None:
-            diff.add_polygon(B, layer)
-            continue
-
         # Common bits
         common_AB = boolean(A, B, operation="and", precision=0.001)
 
@@ -104,6 +95,8 @@ def gdsdiff(
         # Bits only in B
         only_in_B = boolean(B, either_AB, operation="and", precision=0.001)
 
+        if either_AB is not None:
+            diff.add_polygon(either_AB, layer)
         if common_AB is not None:
             common.add_polygon(common_AB, layer)
         if only_in_A is not None:
@@ -121,12 +114,10 @@ def gdsdiff(
 if __name__ == "__main__":
     import sys
 
-    from pp.write_component import show
-
     if len(sys.argv) != 3:
         print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
         print("Note that you need to have KLayout opened with klive running")
         sys.exit()
 
-    diff = gdsdiff(sys.argv[1], sys.argv[2])
-    show(diff)
+    c = gdsdiff(sys.argv[1], sys.argv[2])
+    c.show()

@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import numpy as np
 
@@ -18,11 +18,12 @@ from pp.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
+from pp.types import ComponentFactory
 
 
 @container
 def add_termination(
-    component: Component, terminator: Callable = taper_function
+    component: Component, terminator: ComponentFactory = taper_function
 ) -> Component:
     """ returns component containing a comonent with all ports terminated """
     terminator = pp.call_if_func(terminator)
@@ -47,15 +48,15 @@ def add_gratings_and_loop_back_tm(*args, grating_coupler=grating_coupler_tm, **k
 @container
 def add_gratings_and_loop_back(
     component: Component,
-    grating_coupler: Callable = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     excluded_ports: None = None,
     grating_separation: float = 127.0,
     bend_radius_align_ports: float = 10.0,
     gc_port_name: None = None,
     gc_rotation: int = -90,
     waveguide_separation: float = 5.0,
-    bend_factory: Callable = bend_circular_function,
-    waveguide_factory: Callable = waveguide_function,
+    bend_factory: ComponentFactory = bend_circular_function,
+    waveguide_factory: ComponentFactory = waveguide_function,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     component_name: None = None,
     with_loopback: bool = True,

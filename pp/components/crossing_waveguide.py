@@ -18,6 +18,7 @@ from pp.components.taper import taper
 from pp.config import GRID_PER_UNIT
 from pp.geo_utils import path_length
 from pp.layers import LAYER
+from pp.types import ComponentFactory
 
 
 def rnd(p: float) -> float64:
@@ -66,7 +67,7 @@ def crossing_arm(
 
 
 @cell
-def crossing(arm: Callable = crossing_arm) -> Component:
+def crossing(arm: ComponentFactory = crossing_arm) -> Component:
     """waveguide crossing
 
     .. plot::
@@ -184,7 +185,7 @@ def crossing_etched(
 
 @cell
 def crossing45(
-    crossing: Callable = crossing,
+    crossing: ComponentFactory = crossing,
     port_spacing: float = 40.0,
     dx: None = None,
     alpha: float = 0.08,

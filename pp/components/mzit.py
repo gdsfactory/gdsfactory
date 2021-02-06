@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Optional
 
 import pp
 from pp.component import Component
@@ -6,6 +6,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide as waveguide_function
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -21,12 +22,12 @@ def mzit(
     coupler_gap1: float = 0.2,
     coupler_gap2: float = 0.3,
     bend_radius: float = 10.0,
-    taper_factory: Callable = taper,
+    taper_factory: ComponentFactory = taper,
     taper_length: float = 5.0,
-    bend90: Callable = bend_circular,
-    waveguide_factory: Callable = waveguide_function,
-    coupler1: Optional[Callable] = coupler_function,
-    coupler2: Callable = coupler_function,
+    bend90: ComponentFactory = bend_circular,
+    waveguide_factory: ComponentFactory = waveguide_function,
+    coupler1: Optional[ComponentFactory] = coupler_function,
+    coupler2: ComponentFactory = coupler_function,
     pins: bool = True,
     **kwargs,
 ) -> Component:

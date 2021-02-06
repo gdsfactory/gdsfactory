@@ -1,4 +1,5 @@
-"""GDS regression test."""
+"""GDS regression test. Adapted from lytest.
+"""
 import pathlib
 
 from lytest.kdb_xor import GeometryDifference, run_xor
@@ -18,6 +19,7 @@ def difftest(component: Component) -> None:
     """
 
     # containers function_name is different from component.name
+    # we store the container with a different name from original component
     filename = (
         f"{component.function_name}_{component.name}.gds"
         if hasattr(component, "function_name")
@@ -37,7 +39,28 @@ def difftest(component: Component) -> None:
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
-        diff = gdsdiff(ref_file, run_file, name=filename)
+        diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0])
         pp.write_gds(diff, diff_file)
         pp.show(diff)
-        raise
+        print(
+            "\n"
+            + f"`{filename}` changed from reference {ref_file}\n"
+            + "You can check the differences in Klayout GUI\n"
+            # + "If you want to save the current GDS as the new reference, type:\n"
+            # f"rm {ref_file}"
+        )
+
+        try:
+            val = input(
+                "Would you like to save current GDS as the new reference? [y/n] "
+            )
+            if val.upper().startswith("Y"):
+                print(f"rm {ref_file}")
+                ref_file.unlink()
+        except OSError:
+            raise GeometryDifference(
+                "\n"
+                + f"`{filename}` changed from reference {ref_file}\n"
+                + "To step over each error you can run `pytest -s`\n"
+                + "So you can check the differences in Klayout GUI\n"
+            )

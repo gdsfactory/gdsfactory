@@ -1,9 +1,10 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
+from pp.types import ComponentFactory
 
 
 @cell
@@ -23,7 +24,7 @@ def waveguide_pin(
     layer_np: Tuple[int, int] = LAYER.Np,
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
-    waveguide_factory: Callable = waveguide,
+    waveguide_factory: ComponentFactory = waveguide,
 ) -> Component:
     """PN doped waveguide
 

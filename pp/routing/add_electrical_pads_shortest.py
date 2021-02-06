@@ -4,13 +4,13 @@ from pp.container import container
 from pp.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )
-from pp.types import ComponentOrFunction
+from pp.types import ComponentOrFactory
 
 
 @container
 def add_electrical_pads_shortest(
     component: Component,
-    pad: ComponentOrFunction = pad,
+    pad: ComponentOrFactory = pad,
     pad_port_spacing: float = 50.0,
     **kwargs,
 ) -> Component:

@@ -1,23 +1,24 @@
 """Add reference for a grating coupler array."""
-from typing import Callable, List
+from typing import List
 
 import pp
 from pp.component import ComponentReference
 from pp.components import bend_circular, waveguide
 from pp.port import Port
 from pp.routing.manhattan import round_corners
+from pp.types import ComponentFactory
 
 
 def gen_loopback(
     start_port: Port,
     end_port: Port,
-    gc: Callable,
+    gc: ComponentFactory,
     grating_separation: float = 127.0,
     gc_rotation: int = -90,
     gc_port_name: str = "W0",
     bend_radius_align_ports: float = 10.0,
-    bend_factory: Callable = bend_circular,
-    waveguide_factory: Callable = waveguide,
+    bend_factory: ComponentFactory = bend_circular,
+    waveguide_factory: ComponentFactory = waveguide,
     y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
     """
