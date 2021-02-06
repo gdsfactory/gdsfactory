@@ -23,7 +23,6 @@ isort:skip_file
 
 from phidl import quickplot as qp
 import phidl.geometry as pg
-import phidl.path as path
 from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -48,6 +47,8 @@ import pp.bias as bias
 import pp.klive as klive
 import pp.port as port
 import pp.types as types
+import pp.path as path
+import pp.cross_section as cross_section
 
 from pp.component_from_yaml import component_from_yaml
 from pp.types import get_name_to_function_dict
@@ -72,6 +73,7 @@ __all__ = [
     "Component",
     "ComponentReference",
     "CrossSection",
+    "cross_section",
     "Group",
     "Path",
     "bias",

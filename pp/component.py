@@ -634,7 +634,6 @@ class Component(Device):
 
     def get_ports_array(self) -> Dict[str, ndarray]:
         """ returns ports as a dict of np arrays"""
-        self.ports_on_grid()
         ports_array = {
             port_name: np.array(
                 [

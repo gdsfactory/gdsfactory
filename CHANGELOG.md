@@ -31,6 +31,7 @@ from pydantic import validate_arguments
 - renamed bend_euler90 as bend_euler
 - components adapted from picwriter take more similar values (layer_cladding, layer)
 - pp.difftest can step over each GDS file with a geometric difference and decide what to do interactively
+- adapted pp.path and pp.cross_section from phidl
 
 ## 2.3.2 2021-01-31
 
