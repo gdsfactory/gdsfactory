@@ -7,6 +7,7 @@ Gdsfactory
 
    README
    component_intro
+   types
    config
    layers
    ports

@@ -2,7 +2,7 @@
 maybe: need to add grating coupler loopback as well
 """
 
-from typing import Callable, Optional, Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from numpy import float64
@@ -12,6 +12,7 @@ from pp.component import Component
 from pp.components import waveguide
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.routing import round_corners
+from pp.types import ComponentFactory
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -27,13 +28,13 @@ def spiral_external_io(
     y_straight_inner_top: float = 0.0,
     dx: float = 3.0,
     dy: float = 3.0,
-    bend90_function: Callable = bend_circular,
-    bend180_function: Callable = bend_circular180,
+    bend90_function: ComponentFactory = bend_circular,
+    bend180_function: ComponentFactory = bend_circular180,
     bend_radius: float = 50.0,
     wg_width: float = 0.5,
-    straight_factory: Callable = waveguide,
+    straight_factory: ComponentFactory = waveguide,
     straight_factory_fall_back_no_taper: None = None,
-    taper: Optional[Callable] = None,
+    taper: Optional[ComponentFactory] = None,
     cutback_length: Optional[float] = None,
     **kwargs_round_corner
 ) -> Component:

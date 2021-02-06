@@ -15,8 +15,8 @@ from pp.components.bend_circular import bend_circular180
 from pp.components.bend_circular_heater import bend_circular_heater
 from pp.components.bend_s import bend_s
 from pp.components.bezier import bezier
-from pp.components.euler.bend_euler import bend_euler90
-from pp.components.euler.bend_euler import bend_euler180
+from pp.components.bend_euler import bend_euler
+from pp.components.bend_euler import bend_euler180
 
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
@@ -135,7 +135,7 @@ component_factory = dict(
     bend_circular=bend_circular,
     bend_circular_heater=bend_circular_heater,
     bend_euler180=bend_euler180,
-    bend_euler90=bend_euler90,
+    bend_euler=bend_euler,
     bend_s=bend_s,
     bezier=bezier,
     cavity=cavity,

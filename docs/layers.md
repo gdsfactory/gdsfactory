@@ -35,11 +35,11 @@ Or you can fork the UBC PDK and create new cell functions that use the correct l
 
 ```
 
-from dataclasses import dataclass
+import dataclasses
 import pp
 
 
-@dataclass
+@dataclasses.dataclass(frozen=True)
 class Layer:
     WGCORE = (3, 0)
     LABEL = (100, 0)

@@ -1,15 +1,16 @@
-from typing import Callable, Dict, Tuple
+from typing import Dict, Tuple
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.ring_single import ring_single
 from pp.components.waveguide import waveguide
+from pp.types import ComponentFactory
 
 
 @cell
 def ring_single_array(
-    ring_function: Callable = ring_single,
-    waveguide_function: Callable = waveguide,
+    ring_function: ComponentFactory = ring_single,
+    waveguide_function: ComponentFactory = waveguide,
     spacing: float = 5.0,
     list_of_dicts: Tuple[Dict[str, float], ...] = (
         dict(length_x=10.0, bend_radius=5.0),

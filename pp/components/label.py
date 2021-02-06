@@ -4,11 +4,12 @@ from phidl import device_layout as pd
 from phidl.device_layout import Label
 
 import pp
+from pp.types import Number
 
 
 def label(
     text: str = "abc",
-    position: Tuple[float, float] = (0.0, 0.0),
+    position: Tuple[Number, Number] = (0.0, 0.0),
     layer: Tuple[int, int] = pp.LAYER.TEXT,
 ) -> Label:
 

@@ -1,4 +1,4 @@
-from typing import Callable, List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -7,7 +7,7 @@ import pp
 from pp.component import Component
 from pp.container import container
 from pp.port import Port
-from pp.types import Coordinate, Number
+from pp.types import ComponentFactory, Coordinate, Number
 
 DEG2RAD = np.pi / 180
 
@@ -79,7 +79,7 @@ def extend_ports(
     component: Component,
     port_list: Optional[List[str]] = None,
     length: float = 5.0,
-    extension_factory: Optional[Callable] = None,
+    extension_factory: Optional[ComponentFactory] = None,
     extension_port_name_input: Optional[str] = None,
     extension_port_name_output: Optional[str] = None,
 ) -> Component:

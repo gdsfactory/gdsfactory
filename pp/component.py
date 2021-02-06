@@ -634,7 +634,6 @@ class Component(Device):
 
     def get_ports_array(self) -> Dict[str, ndarray]:
         """ returns ports as a dict of np arrays"""
-        self.ports_on_grid()
         ports_array = {
             port_name: np.array(
                 [
@@ -984,6 +983,11 @@ class Component(Device):
 
         show(self)
         clear_cache()
+
+    def plotqt(self):
+        from phidl.quickplotter import quickplot2
+
+        quickplot2(self)
 
 
 def test_get_layers() -> None:

@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Tuple
+from typing import Dict, List, Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -7,6 +7,7 @@ from pp.components.coupler_straight import coupler_straight
 from pp.components.waveguide import waveguide
 from pp.netlist_to_gds import netlist_to_component
 from pp.snap import assert_on_2nm_grid
+from pp.types import ComponentFactory
 
 
 @cell
@@ -52,9 +53,9 @@ def ring_double_bus_netlist(
     length_x: float = 1.0,
     length_y: float = 1.0,
     gap: float = 0.2,
-    coupler90_factory: Callable = coupler90,
-    straight_factory: Callable = waveguide,
-    cpl_straight_factory: Callable = coupler_straight,
+    coupler90_factory: ComponentFactory = coupler90,
+    straight_factory: ComponentFactory = waveguide,
+    cpl_straight_factory: ComponentFactory = coupler_straight,
     wg_width: float = 0.5,
 ) -> Tuple[
     Dict[str, Tuple[Component, str]],

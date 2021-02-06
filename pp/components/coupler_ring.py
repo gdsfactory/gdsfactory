@@ -1,22 +1,30 @@
-from typing import Callable
-
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.snap import assert_on_2nm_grid
+from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
 def coupler_ring(
-    coupler90: Callable = coupler90,
-    coupler: Callable = coupler_straight,
+    coupler90: ComponentFactory = coupler90,
+    coupler: ComponentFactory = coupler_straight,
     length_x: float = 4.0,
     gap: float = 0.2,
     wg_width: float = 0.5,
     bend_radius: float = 5.0,
 ) -> Component:
     r"""Coupler for ring.
+
+    Args:
+        coupler90: straight waveguide coupled to a 90deg bend.
+        coupler: two parallel coupled waveguides.
+        length_x: length of the parallel coupled waveguides.
+        gap: spacing between parallel coupled waveguides.
+        wg_width: width of the waveguides
+        bend_radius: of the bends.
 
     .. code::
 

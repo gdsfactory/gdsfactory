@@ -1,14 +1,15 @@
-from typing import Callable, List, Tuple
+from typing import List, Tuple
 
 import pp
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
 from pp.container import container
 from pp.port import Port
+from pp.types import ComponentFactory
 
 
 def add_taper_elements(
-    component: Component, taper: Callable = taper_function
+    component: Component, taper: ComponentFactory = taper_function
 ) -> Tuple[List[Port], List[ComponentReference]]:
     """returns ports and taper elements for a component"""
     ports = []
@@ -28,7 +29,7 @@ def add_taper_elements(
 @pp.port.deco_rename_ports
 def add_tapers(
     component: Component,
-    taper: Callable = taper_function,
+    taper: ComponentFactory = taper_function,
     suffix: str = "t",
     port_type: str = "optical",
 ) -> Component:

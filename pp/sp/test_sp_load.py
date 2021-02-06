@@ -7,7 +7,7 @@ from pp.components import component_factory
 component_types = [
     "waveguide",
     "bend_circular",
-    # "bend_euler90",
+    # "bend_euler",
     "coupler",
     "mmi1x2",
     "mmi2x2",

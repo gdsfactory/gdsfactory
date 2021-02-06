@@ -41,7 +41,7 @@ materials = {
 default_simulation_settings = dict(
     layer2nm=layer2nm,
     layer2material=layer2material,
-    remove_layers=[pp.LAYER.WGCLAD],
+    remove_layers=(pp.LAYER.WGCLAD,),
     background_material="sio2",
     port_width=3e-6,
     port_height=1.5e-6,
@@ -93,7 +93,7 @@ def write(
         dirpath: where to store the simulations
         layer2nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
         layer2material: dict of {(1, 0): "si"}
-        remove_layers: list of tuples (layers to remove)
+        remove_layers: layers to remove
         background_material: for the background
         port_width: port width (m)
         port_height: port height (m)
@@ -335,41 +335,51 @@ def write(
 
 def sample_write_coupler_ring():
     """Write Sparameters when changing a component setting."""
-    [
+    return [
         write(
             pp.c.coupler_ring(
                 wg_width=wg_width, length_x=length_x, bend_radius=bend_radius, gap=gap
             )
-            for wg_width in [0.5]
-            for length_x in [0.1, 1, 2, 3, 4]
-            for gap in [0.15, 0.2]
-            for bend_radius in [5, 10]
         )
+        for wg_width in [0.5]
+        for length_x in [0.1, 1, 2, 3, 4]
+        for gap in [0.15, 0.2]
+        for bend_radius in [5, 10]
     ]
 
 
+def sample_bend_circular():
+    """Write Sparameters for a circular bend with different bend_radius."""
+    return [write(pp.c.bend_circular(radius=radius)) for radius in [2, 5, 10]]
+
+
+def sample_bend_euler():
+    """Write Sparameters for a euler bend with different bend_radius."""
+    return [write(pp.c.bend_euler(radius=radius)) for radius in [2, 5, 10]]
+
+
 def sample_convergence_mesh():
-    [
+    return [
         write(component=pp.c.waveguide(length=2), mesh_accuracy=mesh_accuracy)
         for mesh_accuracy in [1, 2, 3]
     ]
 
 
 def sample_convergence_wavelength():
-    [
+    return [
         write(component=pp.c.waveguide(length=2), wavelength_start=wavelength_start)
         for wavelength_start in [1.222323e-6, 1.4e-6]
     ]
 
 
 if __name__ == "__main__":
-    c = pp.c.waveguide(length=2)
-    r = write(component=c, mesh_accuracy=1, run=False)
+    component = pp.c.waveguide(length=2)
+    r = write(component=component, mesh_accuracy=1, run=False)
     # c = pp.c.coupler_ring(length_x=3)
     # c = pp.c.mmi1x2()
-    # r = write(component=c, layer2nm={(1, 0): 200}, run=False)
+    # r = write(component=component, layer2nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
-    # print(c.ports.keys())
+    # print(component.ports.keys())
     # sample_convergence_mesh()
     # sample_convergence_wavelength()

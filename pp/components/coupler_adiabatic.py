@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import picwriter.components as pc
 
@@ -7,6 +7,7 @@ from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
 from pp.port import auto_rename_ports
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -20,7 +21,7 @@ def coupler_adiabatic(
     dw: float = 0.1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: Callable = wg_strip,
+    waveguide_template: ComponentFactory = wg_strip,
     **kwargs
 ) -> Component:
     """ 50/50 adiabatic coupler

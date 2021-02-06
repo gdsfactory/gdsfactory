@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 
@@ -11,7 +11,7 @@ from pp.components.hline import hline
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import Port, deco_rename_ports
-from pp.types import Layer, Number
+from pp.types import ComponentFactory, Layer, Number
 
 
 @cell
@@ -98,7 +98,7 @@ def waveguide_heater(
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ),
     layer_heater: Tuple[int, int] = LAYER.HEATER,
-    waveguide_factory: Callable = waveguide,
+    waveguide_factory: ComponentFactory = waveguide,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
 ) -> Component:
     """waveguide with heater
@@ -244,8 +244,8 @@ def wg_heater_connector(
 @deco_rename_ports
 @cell
 def wg_heater_connected(
-    waveguide_heater: Callable = waveguide_heater,
-    wg_heater_connector: Callable = wg_heater_connector,
+    waveguide_heater: ComponentFactory = waveguide_heater,
+    wg_heater_connector: ComponentFactory = wg_heater_connector,
     tlm_layers: Tuple[Layer] = (
         LAYER.VIA1,
         LAYER.M1,

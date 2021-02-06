@@ -1,15 +1,14 @@
-from typing import Callable
-
 import pp
 from pp.component import Component
 from pp.components import bend_euler180
 from pp.components.component_sequence import component_sequence
 from pp.components.taper_from_csv import taper_0p5_to_3_l36
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def cutback_component(
-    component: Callable = taper_0p5_to_3_l36,
+    component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,
@@ -60,7 +59,7 @@ def cutback_component(
 
 @pp.cell
 def cutback_component_flipped(
-    component: Callable = taper_0p5_to_3_l36,
+    component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,

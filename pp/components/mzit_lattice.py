@@ -1,10 +1,10 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.mzit import mzit
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 
 @cell
@@ -12,7 +12,7 @@ def mzit_lattice(
     coupler_lengths: Tuple[Number, ...] = (10, 20),
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
     delta_lengths: Tuple[Number, ...] = (10,),
-    mzi_factory: Callable = mzit,
+    mzi_factory: ComponentFactory = mzit,
     pins: bool = False,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.

@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Tuple
+from typing import Optional, Tuple
 
 import picwriter.components as pc
 
@@ -6,6 +6,7 @@ import pp
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
 from pp.picwriter2component import picwriter2component
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -20,8 +21,8 @@ def dbr2(
     fin_size: Tuple[float, float] = (0.2, 0.05),
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: Callable = wg_strip,
-    waveguide_template_dbr: Optional[Callable] = None,
+    waveguide_template: ComponentFactory = wg_strip,
+    waveguide_template_dbr: Optional[ComponentFactory] = None,
     **kwargs
 ) -> Component:
     """ Distributed Bragg Reflector Cell class.
