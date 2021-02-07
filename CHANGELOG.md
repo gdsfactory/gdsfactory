@@ -7,7 +7,7 @@
 Maybe:
 
 - add grating coupler vertical ports
-- create a Klayout library so we can also place components from the klayout menu GUI (available for UBC sample pdk)
+- create a Klayout library so we can also place components from the klayout menu GUI
 - add contracts, or enforcers, either in cell decorator or using
 
 ```
@@ -17,8 +17,6 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
-
-## master branch (latest changes not released yet)
 
 
 ## 2.3.3
@@ -33,7 +31,7 @@ from pydantic import validate_arguments
 - pp.difftest can step over each GDS file with a geometric difference and decide what to do interactively
 - adapted pp.path and pp.cross_section from phidl
 
-## 2.3.2 2021-01-31
+## 2.3.2
 
 - fixed some mypy errors
 - added dx to coupler
@@ -41,7 +39,7 @@ from pydantic import validate_arguments
 - improved docs
 - allow to set min and max area of port markers to read
 
-## 2.3.1 2021-01-28
+## 2.3.1
 
 - refactor
     - connect_strip to get_route
@@ -60,12 +58,12 @@ from pydantic import validate_arguments
 - better type annontations
 - replace some `pp.show(c)` by a simpler `c.show()`
 
-## 2.2.9 2021-01-24
+## 2.2.9
 
 - better settings export
 - fixed docs
 
-## 2.2.8 2021-01-23
+## 2.2.8
 
 - flat routes with no more zz_conn cells
 - added from pp.import_gds import add_ports_from_markers_square
@@ -78,7 +76,7 @@ from pydantic import validate_arguments
 - component_from_yaml can also use (north, east, west, ne, nw ...) for placement
 - added regression tests for component_from_yaml
 
-## 2.2.6 2021-01-20
+## 2.2.6
 
 - added badges from github in README (codecoverage, docs ... )
 - pp.import_gds can import and move cells with labels (thanks to Adam McCaughan)
@@ -87,7 +85,7 @@ from pydantic import validate_arguments
 - rename \_containers to container_names and \_components to component_names
 - simplify tests for components, containers and circuits
 
-## 2.2.5 2021-01-13
+## 2.2.5
 
 - added common types in pp.types
 - added simulation settings in name of sparameters
@@ -99,7 +97,7 @@ from pydantic import validate_arguments
 - clear_cache when running plot() or show(). Useful for Jupyter notebooks
 - add logo
 
-## 2.2.4 2020-12-25
+## 2.2.4
 
 - get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.
   - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
@@ -109,7 +107,7 @@ from pydantic import validate_arguments
 - add pp.testing with difftest(component) function for boolean GDS testing.
 - improved placer documentation and comments in pp/samples/mask/does.yml
 
-## 2.2.3 2020-12-19
+## 2.2.3
 
 - store config.yml in mask build directory (reproduce environment when building masks)
 - add tests for add_fiber_single and add_fiber_array labels
@@ -121,11 +119,11 @@ from pydantic import validate_arguments
 - output parameters that change in component (c.polarization='te') in get_settings()['info']
 - fixed bug in get_settings to clean tuple settings export
 
-## 2.2.2 2020-12-06
+## 2.2.2
 
 - rename coupler ports inside mzi function
 
-## 2.2.1 2020-12-06
+## 2.2.1
 
 - pp.qp hides DEVREC layer
 - test netlist of `_circuits`
@@ -167,7 +165,7 @@ else:
     value = f"{value:.2f}"
 ```
 
-## 2.2.0 2020-11-29
+## 2.2.0
 
 - component_from_yaml updates:
   - placements:
@@ -182,21 +180,21 @@ else:
 - coupler: can change the vertical distance (dy) between outputs
 - replace @pp.autoname with @pp.cell as a decorator with cells options (autoname, pins ...)
 
-## 2.1.4 2020-11-14
+## 2.1.4
 
 - fixed installer for windows using copy instead of symlink
 
-## 2.1.3 2020-11-09
+## 2.1.3
 
 - `pf install` installs klive, generate_tech and gitdiff
 - `pf diff` makes boolean difference between 2 GDS files
 
-## 2.1.2 2020-11-09
+## 2.1.2
 
 - write conda environment.yml so you can `make conda` to install the conda environment
 - setup.py installs klive, generate_tech and gitdiff
 
-## 2.1.0 2020-11-09
+## 2.1.0
 
 - test lengths for routes
 - pytest are passing now for windows
@@ -205,7 +203,7 @@ else:
   - Made the multiprocessing calls pickeable by removing the logger function (that wasn't doing much anyway)
 - extend_ports: maintains un-extended ports
 
-## 2.0.2 2020-11-03
+## 2.0.2
 
 - fixing sorting of ports in bundle routing: Thanks to Troy Tamas
 - added `factory: optical` and `settings:` in component_from_yaml routes
@@ -215,7 +213,7 @@ else:
 - added pp.clear_cache() and call it when we run `pp.show(c)`
 - use pp.clear_cache() when testing component port positions
 
-## 2.0.0 2020-10-30
+## 2.0.0
 
 - addded grating coupler decorator to assert polarization and wavelength
 - component_from_yaml function allows route filter input
@@ -226,18 +224,18 @@ else:
 - explained factory operation in notebooks/02_components.ipynb
 - mzi.py DL is now the actual delta_length
 
-## 1.4.4 2020-10-14
+## 1.4.4
 
 - improved notebooks (thanks to phidl tutorial)
 - added C and L components from phidl
 - print(component) returns more info (similar to phidl)
 - support new way of defining waveguides with pp.Path, pp.CrossSection and pp.path (thanks to phidl)
 
-## 1.4.3 2020-10-07
+## 1.4.3
 
 - clean metadata dict recursively
 
-## 1.4.2 2020-10-07
+## 1.4.2
 
 - renamed add_io_optical to add_fiber_array
 - added taper factory and length to add_fiber_single
@@ -245,7 +243,7 @@ else:
 - fixed reference positions in component_from_yaml
 - added bundle_routes option in component_from_yaml
 
-## 1.4.0 2020-10-04
+## 1.4.0
 
 - Works now for python>=3.6, before only worked for python3.7 due to [type annotations](https://www.python.org/dev/peps/pep-0563/)
 - nicer netlist representations (adding location to each node in the graph)
@@ -261,19 +259,19 @@ else:
   - pp.routing.add_electrical_pads_top
   - pp.routing.add_electrical_pads_shortest
 
-## 1.3.2 2020-08-15
+## 1.3.2
 
 - improve sparameters tutorial
 - fixed some issues when using `x = x or x_default` not valid for `x=0`
 - added tests for splitter_tree and splitter_chain
 
-## 1.3.1 2020-07-27
+## 1.3.1
 
 - get_netlist by default return a simpler netlist that captures only settings different from default. Full netlist component properties available with `full_settings=True`.
 - limited pytest scope to netlist build tests to avoid weird side effects that move ports locations from test_component_ports
 - sphinx==1.3.2 in requirements.txt
 
-## 1.3.0 2020-07-26
+## 1.3.0
 
 - `Component.get_netlist()` returns its netlist
 - `Component.plot_netlist()` renders netlist graph
@@ -281,12 +279,12 @@ else:
 - routing jupyter notebooks
 - manhattan text can have cladding
 
-## 1.2.1 2020-07-05
+## 1.2.1
 
 - replaced hiyapyco with omegaconf (better YAML parser that can handle number with exponents 1e9)
 - separated conf (important to be saved) from CONFIG that contains useful paths
 
-## 1.2.0 2020-07-04
+## 1.2.0
 
 - added link for [ubc PDK](https://github.com/gdsfactory/ubc) to README
 - added a jupyter notebook tutorial for references and array of references
@@ -296,7 +294,7 @@ else:
 - Autoname also has now a build in cache to avoid having two different cells with the same name
 - added type annotations
 
-## 1.1.9 2020-05-13
+## 1.1.9
 
 - write and read Sparameters
 - pp.extend_ports is now a container
@@ -305,11 +303,11 @@ else:
 - better json serializer for settings
 - added units to names (m,K,G ...)
 
-## 1.1.8 2020-05-11
+## 1.1.8
 
 - leaf components (waveguide, bend, mmi ...) have now pins, for circuit simulation
 
-## 1.1.7 2020-05-07
+## 1.1.7
 
 - flake8 is passing now
 - added flake8 to pre-commit hook
@@ -331,7 +329,7 @@ with_settings_label: False
 
 ```
 
-## 1.1.6 2020-04-11
+## 1.1.6
 
 - mask JSON works with cached GDS files for the klayout placer
 - added layers to CONFIG['layers']
@@ -339,36 +337,36 @@ with_settings_label: False
 - add_padding works over the same component --> this was not a good idea, reverted in 1.1.7 to avoid name collisions
 - import_gds can snap points to a design grid
 
-## 1.1.5 2020-03-17
+## 1.1.5
 
 - added pre-commit hook for code consistency
 - waveguide and bend allow a list of cladding layers
 - all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
-## 1.1.4 2020-02-27
+## 1.1.4
 
 - bug fixes
 - new coupler with less snaping errors
 - adding Klayout generic DRC rule deck
 
-## 1.1.1 2020-01-27
+## 1.1.1
 
 - first public release
 
-## 1.0.2 2019-12-20
+## 1.0.2
 
 - test components using gdshash
 - new CLI commands for `pf`
   - pf library lock
   - pf library pull
 
-## 1.0.1 2019-12-01
+## 1.0.1
 
 - autoplacer and yaml placer
 - mask_merge functions (merge metadata, test protocols)
 - added mask samples
 - all the mask can be build now from a config.yml in the current directory using `pf mask write`
 
-## 1.0.0 2019-11-24
+## 1.0.0
 
 - first release
