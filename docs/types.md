@@ -6,5 +6,5 @@ Where is the gdsfactory name come from?
 
 
 ```eval_rst
-.. automodule:: pp.routing.get_route
+.. automodule:: pp.types
 ```
