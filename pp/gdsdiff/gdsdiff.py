@@ -45,6 +45,7 @@ def gdsdiff(
     cellA: Union[Path, Component, str],
     cellB: Union[Path, Component, str],
     name: str = "TOP",
+    boolean: bool = False,
 ) -> Component:
     """Compare two Components.
 
@@ -69,45 +70,47 @@ def gdsdiff(
     layers.update(cellB.get_layers())
 
     top = Component(name=f"{name}_diffs")
-    diff = Component(name=f"{name}_xor")
-    common = Component(name=f"{name}_common")
-    old_only = Component(name=f"{name}_only_in_old")
-    new_only = Component(name=f"{name}_only_in_new")
 
     cellA.name = f"{name}_old"
     cellB.name = f"{name}_new"
     top << cellA
     top << cellB
 
-    for layer in layers:
-        A = get_polygons_on_layer(cellA, layer)
-        B = get_polygons_on_layer(cellB, layer)
+    if boolean:
+        diff = Component(name=f"{name}_xor")
+        common = Component(name=f"{name}_common")
+        old_only = Component(name=f"{name}_only_in_old")
+        new_only = Component(name=f"{name}_only_in_new")
 
-        # Common bits
-        common_AB = boolean(A, B, operation="and", precision=0.001)
+        for layer in layers:
+            A = get_polygons_on_layer(cellA, layer)
+            B = get_polygons_on_layer(cellB, layer)
 
-        # Bits in either A or B
-        either_AB = boolean(A, B, operation="xor", precision=0.001)
+            # Common bits
+            common_AB = boolean(A, B, operation="and", precision=0.001)
 
-        # Bits only in A
-        only_in_A = boolean(A, either_AB, operation="and", precision=0.001)
+            # Bits in either A or B
+            either_AB = boolean(A, B, operation="xor", precision=0.001)
 
-        # Bits only in B
-        only_in_B = boolean(B, either_AB, operation="and", precision=0.001)
+            # Bits only in A
+            only_in_A = boolean(A, either_AB, operation="and", precision=0.001)
 
-        if either_AB is not None:
-            diff.add_polygon(either_AB, layer)
-        if common_AB is not None:
-            common.add_polygon(common_AB, layer)
-        if only_in_A is not None:
-            old_only.add_polygon(only_in_A, layer)
-        if only_in_B is not None:
-            new_only.add_polygon(only_in_B, layer)
+            # Bits only in B
+            only_in_B = boolean(B, either_AB, operation="and", precision=0.001)
 
-    top << diff
-    top << common
-    top << old_only
-    top << new_only
+            if either_AB is not None:
+                diff.add_polygon(either_AB, layer)
+            if common_AB is not None:
+                common.add_polygon(common_AB, layer)
+            if only_in_A is not None:
+                old_only.add_polygon(only_in_A, layer)
+            if only_in_B is not None:
+                new_only.add_polygon(only_in_B, layer)
+
+        top << diff
+        top << common
+        top << old_only
+        top << new_only
     return top
 
 
