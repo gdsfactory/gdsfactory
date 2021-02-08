@@ -7,6 +7,9 @@ help:
 install: gdslib
 	bash install.sh
 
+update:
+	pre-commit autoupdate --bleeding-edge
+
 waveguide:
 	python pp/components/waveguide.py
 
@@ -31,7 +34,6 @@ cov:
 
 venv:
 	python3 -m venv env
-
 
 pyenv3:
 	pyenv shell 3.7.2
