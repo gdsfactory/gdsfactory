@@ -183,5 +183,5 @@ if __name__ == "__main__":
 
     sequence = "AB-H-H-H-H-BA"
     component = pp.c.component_sequence(sequence, string_to_device_in_out_ports)
-    pp.qp(component)
-    pp.show(component)
+    component.name = "sequence"
+    component.show()

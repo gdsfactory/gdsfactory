@@ -141,7 +141,6 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
 
 if __name__ == "__main__":
     c = waveguide(length=0.3)
-    c.plotqt()
     # c.pprint()
 
     # print(c.name)

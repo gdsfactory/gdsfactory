@@ -41,7 +41,7 @@ def difftest(component: Component) -> None:
     except GeometryDifference:
         diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0])
         pp.write_gds(diff, diff_file)
-        pp.show(diff)
+        diff.show()
         print(
             "\n"
             + f"`{filename}` changed from reference {ref_file}\n"
