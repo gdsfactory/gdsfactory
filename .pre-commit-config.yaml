@@ -1,32 +1,32 @@
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: ""
+      rev: "fb9fc7b71b63ea94e7cfb70f4351e9bddea181d3"
       hooks:
           # - id: check-yaml
           - id: end-of-file-fixer
           - id: trailing-whitespace
     - repo: https://github.com/hakancelik96/unimport
-      rev: stable
+      rev: f5aa7c7a75b4d25596950154289286a389d620be
       hooks:
           - id: unimport
             args: [--remove, --include-star-import]
     - repo: https://github.com/pycqa/isort
-      rev: ""
+      rev: "a4addbd54ac5a49cfb3cba5a7de4b0c0d7459246"
       hooks:
           - id: isort
             files: "pp/.*"
             args: ["--profile", "black", "--filter-files"]
 
     - repo: https://github.com/psf/black
-      rev: ""
+      rev: "aebd3c37b28bbc0183a58d13b80e7595db3c09bb"
       hooks:
           - id: black
     - repo: https://gitlab.com/pycqa/flake8
-      rev: ""
+      rev: "6de8252c035844f1e679f509b5f37340b44d5c39"
       hooks:
           - id: flake8
     - repo: https://github.com/kynan/nbstripout
-      rev: master
+      rev: 31e94e7981ee4fe06ca26965995f17943aa39017
       hooks:
           - id: nbstripout
             files: ".ipynb"

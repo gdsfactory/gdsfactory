@@ -18,6 +18,11 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.3.4
+
+- gdsdiff does not do booleans by default
+- pin pre-commit versions
+
 
 ## 2.3.3
 

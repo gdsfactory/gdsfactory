@@ -65,7 +65,7 @@ def test_ports(container_type: str, num_regression: NumericRegressionFixture) ->
 
 
 @pytest.mark.parametrize("container_type", container_names)
-def test_gds(container_type: str, data_regression: DataRegressionFixture) -> None:
+def test_gds(container_type: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c = container_factory[container_type](component=component)
     difftest(c)
