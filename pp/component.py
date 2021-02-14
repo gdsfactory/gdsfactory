@@ -9,7 +9,7 @@ import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
+from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from pp.config import conf
 from pp.port import Port, select_ports
@@ -102,7 +102,12 @@ class SizeInfo:
 
 
 def _rotate_points(
-    points: Coordinates, angle: Number = 45, center: Coordinate = (0.0, 0,),
+    points: Coordinates,
+    angle: Number = 45,
+    center: Coordinate = (
+        0.0,
+        0,
+    ),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
@@ -199,44 +204,6 @@ class ComponentReference(DeviceReference):
             new_reference.move(self.origin)
 
         return new_reference
-
-    def get_labels(
-        self, recursive: bool = True, associate_visual_labels: bool = True
-    ) -> List[Any]:
-        """
-        access all labels correctly rotated, mirrored and translated
-        """
-        # params = {
-        #     "recursive": recursive,
-        #     "associate_visual_labels": associate_visual_labels,
-        # }
-
-        labels_untransformed = self.parent.get_labels()
-
-        labels = []
-        visual_label = self.visual_label
-        for lbl in labels_untransformed:
-            p = lbl.position
-            position, _ = self._transform_port(
-                p, 0, self.origin, self.rotation, self.x_reflection
-            )
-
-            text = lbl.text
-            if visual_label and associate_visual_labels:
-                text += " / " + visual_label
-
-            new_lbl = Label(
-                text=text,
-                position=position,
-                anchor="o",
-                layer=lbl.layer,
-                texttype=lbl.texttype,
-            )
-
-            labels += [new_lbl]
-        if labels:
-            print("R", self.parent.name, len(labels))
-        return labels
 
     @property
     def ports(self) -> Dict[str, Port]:
@@ -375,7 +342,9 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: Number = 45, center: Coordinate = (0.0, 0.0),
+        self,
+        angle: Number = 45,
+        center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         """Return ComponentReference rotated:
 
@@ -421,7 +390,9 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
 
     def reflect(
-        self, p1: Coordinate = (0.0, 1.0), p2: Coordinate = (0.0, 0.0),
+        self,
+        p1: Coordinate = (0.0, 1.0),
+        p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         if isinstance(p1, Port):
             p1 = p1.midpoint
@@ -580,7 +551,11 @@ class Component(Device):
         pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
         nx.draw(
-            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
         )
 
     def get_netlist_yaml(self) -> str:
@@ -721,7 +696,10 @@ class Component(Device):
         pprint(self.get_netlist(**kwargs))
 
     def get_settings(
-        self, ignore: None = None, include: None = None, full_settings: bool = True,
+        self,
+        ignore: None = None,
+        include: None = None,
+        full_settings: bool = True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
         Ignores items from self.ignore set.

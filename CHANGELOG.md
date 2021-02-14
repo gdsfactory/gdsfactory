@@ -3,10 +3,12 @@
 ## TODO
 
 - fix some FIXME
+- pack conserves metadata
 
 Maybe:
 
 - add grating coupler vertical ports
+- how can we have labels with gdslayer, gdspurpose?
 - create a Klayout library so we can also place components from the klayout menu GUI
 - add contracts, or enforcers, either in cell decorator or using
 
@@ -17,6 +19,11 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+
+## 2.3.5
+
+- regression test for labels
+
 
 ## 2.3.4
 
