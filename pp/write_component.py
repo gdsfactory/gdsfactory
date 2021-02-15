@@ -67,7 +67,11 @@ def write_component(
     ports_path = gdspath.with_suffix(".ports")
     json_path = gdspath.with_suffix(".json")
 
-    gdspath = write_gds(component=component, gdspath=str(gdspath), precision=precision,)
+    gdspath = write_gds(
+        component=component,
+        gdspath=str(gdspath),
+        precision=precision,
+    )
 
     # component.ports CSV
     if len(component.ports) > 0:
@@ -120,7 +124,10 @@ def write_gds(
     gdsdir.mkdir(exist_ok=True, parents=True)
 
     component.write_gds(
-        str(gdspath), unit=unit, precision=precision, auto_rename=auto_rename,
+        str(gdspath),
+        unit=unit,
+        precision=precision,
+        auto_rename=auto_rename,
     )
     component.path = gdspath
     return gdspath
@@ -139,7 +146,7 @@ def clean_value(value):
     return value
 
 
-def show(component: Component, **kwargs) -> None:
+def show(component: Component, clears_cache: bool = True, **kwargs) -> None:
     """write component GDS and shows it in klayout
 
     Args:
@@ -164,7 +171,8 @@ def show(component: Component, **kwargs) -> None:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
         )
-    clear_cache()
+    if clears_cache:
+        clear_cache()
 
 
 if __name__ == "__main__":
