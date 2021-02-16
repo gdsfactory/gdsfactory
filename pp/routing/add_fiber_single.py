@@ -14,28 +14,30 @@ from pp.container import container
 from pp.layers import LAYER
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
+from pp.types import ComponentFactory
 
 
 @container
 def add_fiber_single(
     component: Component,
-    grating_coupler: Callable = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = LAYER.LABEL,
-    optical_io_spacing: int = 50,
-    bend_factory: Callable = bend_circular,
-    straight_factory: Callable = waveguide,
-    taper_factory: Callable = taper,
+    optical_io_spacing: float = 50.0,
+    bend_factory: ComponentFactory = bend_circular,
+    straight_factory: ComponentFactory = waveguide,
+    taper_factory: ComponentFactory = taper,
     taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
-    min_input2output_spacing: int = 127,
+    min_input2output_spacing: float = 127.0,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     **kwargs,
 ) -> Component:
-    r"""returns component with grating ports and labels on each port
-    can add align_ports reference structure
+    r"""Returns component with grating ports and labels on each port.
+
+    Can add align_ports reference structure next to it.
 
     Args:
         component: to connect
@@ -44,6 +46,7 @@ def add_fiber_single(
         optical_io_spacing: SPACING_GC
         bend_factory: bend_circular
         straight_factory: waveguide
+        taper_factory: taper
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
@@ -60,7 +63,6 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        taper_factory: taper
 
     .. code::
 

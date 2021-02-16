@@ -46,20 +46,20 @@ from pp.layers import LAYER
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.snap import snap_to_grid
-from pp.types import Coordinates, Layer, Number, Route
+from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteFactory
 
 
 def get_route(
     input_port: Port,
     output_port: Port,
-    bend_factory: Callable = bend_circular,
-    straight_factory: Callable = waveguide,
-    taper_factory: Optional[Callable] = taper_function,
+    bend_factory: ComponentFactory = bend_circular,
+    straight_factory: ComponentFactory = waveguide,
+    taper_factory: Optional[ComponentFactory] = taper_function,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_radius: Number = 10.0,
-    route_factory: Callable = route_manhattan,
+    route_factory: RouteFactory = route_manhattan,
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
     The references are waveguides, bends and tapers.
@@ -181,7 +181,10 @@ def get_route_from_waypoints(
 
     taper = (
         taper_factory(
-            length=TAPER_LENGTH, width1=wg_width, width2=WG_EXPANDED_WIDTH, layer=layer,
+            length=TAPER_LENGTH,
+            width1=wg_width,
+            width2=WG_EXPANDED_WIDTH,
+            layer=layer,
         )
         if callable(taper_factory)
         else taper_factory

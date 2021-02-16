@@ -1,3 +1,4 @@
+import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
@@ -89,8 +90,6 @@ def ring_single(
 
 
 if __name__ == "__main__":
-    import pp
-
     c = ring_single()
     cc = pp.add_pins(c)
     # print(c.settings)

@@ -18,7 +18,6 @@ settings:
   fanout_length: 85.0
   gc_port_name: W0
   get_input_labels_function: get_input_labels
-  get_route_factory: route_fiber_array
   grating_coupler: grating_coupler_elliptical_te
   layer_label:
   - 201

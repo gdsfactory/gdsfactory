@@ -443,9 +443,11 @@ def round_corners(
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
 ) -> Route:
-    """Return dict with reference list with rounded waveguide route from a list of manhattan points.
-    Also returns a dict of ports
-    As well as settings
+    """Returns Dict:
+
+    - references list with rounded waveguide route from a list of manhattan points.
+    - ports: Dict of ports
+    - length: route length
 
     Args:
         points: manhattan route defined by waypoints
@@ -458,6 +460,8 @@ def round_corners(
     """
     references = []
     ports = dict()
+    bend90 = bend90() if callable(bend90) else bend90
+    taper = taper() if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -606,9 +610,7 @@ def generate_manhattan_waypoints(
     min_straight: Number = 0.01,
     **kwargs,
 ) -> ndarray:
-    """Return waypoints for a Manhattan route between two ports.
-
-    """
+    """Return waypoints for a Manhattan route between two ports."""
 
     if bend90 is None and bend_radius is None:
         raise ValueError(

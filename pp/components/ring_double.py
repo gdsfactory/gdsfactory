@@ -1,3 +1,4 @@
+import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_ring import coupler_ring
@@ -18,7 +19,7 @@ def ring_double(
     waveguide: ComponentFactory = waveguide_function,
     pins: bool = False,
 ) -> Component:
-    """ double bus ring made of two couplers (ct: top, cb: bottom)
+    """Double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
 
     .. code::
@@ -66,7 +67,6 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = ring_double()
     c.show()
