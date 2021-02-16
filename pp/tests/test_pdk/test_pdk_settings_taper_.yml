@@ -1,0 +1,19 @@
+function_name: taper
+info:
+  length: 20.0
+  width1: 1.0
+  width2: 10.0
+module: pp.components.taper
+name: taper_851707b9
+settings:
+  cladding_offset: 3.0
+  layer:
+  - 41
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length: 20.0
+  port: null
+  width1: 1.0
+  width2: 10.0

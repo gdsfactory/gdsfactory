@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Iterable, Optional, Tuple
 
 import pp
 from pp.cell import cell
@@ -11,10 +11,10 @@ def coupler_straight(
     width: float = 0.5,
     gap: float = 0.27,
     layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[List[Tuple[int, int]]] = None,
+    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
     cladding_offset: float = 3.0,
 ) -> Component:
-    """Two Straight coupled waveguides with Two multimode ports
+    """Two Straight coupled waveguides with two multimode ports.
 
     .. plot::
       :include-source:

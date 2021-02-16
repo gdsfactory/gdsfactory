@@ -2,6 +2,7 @@ from typing import Iterable, Optional, Tuple, Union
 
 import numpy as np
 
+from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler_points import euler_bend_points, euler_length
@@ -47,11 +48,6 @@ def bend_euler(
     pts = extrude_path(backbone, width)
     c.add_polygon(pts, layer=layer)
 
-    layers_cladding = layers_cladding or []
-    for layers_cladding in layers_cladding:
-        pts = extrude_path(backbone, width + 2 * cladding_offset)
-        c.add_polygon(pts, layer=layers_cladding)
-
     length = euler_length(radius, theta)
     c.info["length"] = length
     c.length = length
@@ -70,6 +66,15 @@ def bend_euler(
         layer=layer,
         width=width,
     )
+
+    layers_cladding = layers_cladding or []
+    for layer in layers_cladding:
+        pts = extrude_path(backbone, width + 2 * cladding_offset)
+        c.add_polygon(pts, layer=layer)
+
+    points = get_padding_points(c, default=0)
+    for layer in layers_cladding:
+        c.add_polygon(points, layer=layer)
 
     return auto_rename_ports(c)
 

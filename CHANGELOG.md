@@ -23,6 +23,7 @@ from pydantic import validate_arguments
 ## 2.3.5
 
 - regression test for labels
+- added pp.pdk with tests
 
 
 ## 2.3.4

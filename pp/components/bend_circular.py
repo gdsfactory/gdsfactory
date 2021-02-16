@@ -4,6 +4,7 @@ import numpy as np
 from numpy import cos, pi, sin
 
 import pp
+from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.config import conf
@@ -192,6 +193,9 @@ def bend_circular(
         midpoint2[0] - width / 2
     ), f"y_output popint is off grid {midpoint1[1] - width/2}"
 
+    points = get_padding_points(component, default=0)
+    for layer in layers_cladding:
+        component.add_polygon(points, layer=layer)
     return component
 
 
@@ -330,9 +334,9 @@ if __name__ == "__main__":
     from pprint import pprint
 
     c = bend_circular()
-    # c.show()
+    c.show()
     pprint(c.get_settings())
-    c.plotqt()
+    # c.plotqt()
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()

@@ -4,10 +4,13 @@ import numpy as np
 import phidl.device_layout as pd
 
 from pp.component import Component, ComponentReference
+from pp.components import taper as taper_function
+from pp.components import waveguide
+from pp.components.bend_circular import bend_circular
 from pp.config import conf
 from pp.routing.get_route import get_route, get_route_from_waypoints
 from pp.routing.utils import direction_ports_from_list_ports, flip
-from pp.types import Number, Route
+from pp.types import ComponentFactory, Number, Route, RouteFactory
 
 
 def route_south(
@@ -17,9 +20,12 @@ def route_south(
     excluded_ports: List[str] = None,
     waveguide_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    route_filter: Callable = get_route_from_waypoints,
+    route_filter: RouteFactory = get_route_from_waypoints,
     get_route_function: Callable = get_route,
     gc_port_name: str = "E0",
+    bend_factory: ComponentFactory = bend_circular,
+    straight_factory: ComponentFactory = waveguide,
+    taper_factory: Optional[ComponentFactory] = taper_function,
 ) -> Route:
     """
     Args:
@@ -63,7 +69,12 @@ def route_south(
     if not optical_ports:
         return [], []
 
-    conn_params = dict(bend_radius=bend_radius)
+    conn_params = dict(
+        bend_radius=bend_radius,
+        bend_factory=bend_factory,
+        straight_factory=straight_factory,
+        taper_factory=taper_factory,
+    )
 
     # Used to avoid crossing between waveguides in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
@@ -158,7 +169,10 @@ def route_south(
             tmp_port = gen_port_from_port(x, y0, p)
 
             route = get_route_function(
-                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
+                p,
+                tmp_port,
+                start_straight=start_straight + y_max - p.y,
+                **conn_params,
             )
             references.extend(route["references"])
             lengths.append(route["length"])
@@ -217,7 +231,10 @@ def route_south(
             tmp_port = gen_port_from_port(x, y0, p)
             ports_to_route.append(tmp_port)
             route = get_route_function(
-                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
+                p,
+                tmp_port,
+                start_straight=start_straight + y_max - p.y,
+                **conn_params,
             )
             references.extend(route["references"])
             lengths.append(route["length"])

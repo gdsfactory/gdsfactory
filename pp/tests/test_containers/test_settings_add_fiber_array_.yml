@@ -18,7 +18,6 @@ settings:
   component_name: null
   gc_port_name: W0
   get_input_labels_function: get_input_labels
-  get_route_factory: route_fiber_array
   grating_coupler: grating_coupler_te
   taper_factory: taper
   taper_length: 10.0

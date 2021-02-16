@@ -31,11 +31,10 @@ def add_fiber_array(
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
     taper_length: float = 10.0,
-    get_route_factory: Callable = route_fiber_array,
     get_input_labels_function: Callable = get_input_labels,
     **kwargs,
 ) -> Component:
-    """returns component with optical IO (tapers, south routes and grating_couplers)
+    """Returns component with optical IO (tapers, south routes and grating_couplers).
 
     Args:
         component: to connect
@@ -62,7 +61,6 @@ def add_fiber_array(
         input_port_indexes: [0]
         component_name: for the label
         taper_factory: taper function
-        get_route_factory: route_fiber_array
 
     .. plot::
       :include-source:
@@ -107,7 +105,7 @@ def add_fiber_array(
     # for pn, p in c.ports.items():
     #     print(p.name, p.port_type, p.layer)
 
-    elements, io_gratings_lines, _ = get_route_factory(
+    elements, io_gratings_lines, _ = route_fiber_array(
         component=c,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,

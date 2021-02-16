@@ -7,6 +7,7 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.taper import taper
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import select_optical_ports
@@ -16,6 +17,7 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
+from pp.types import ComponentFactory
 
 SPACING_GC = 127.0
 BEND_RADIUS = pp.conf.tech.bend_radius
@@ -24,9 +26,10 @@ BEND_RADIUS = pp.conf.tech.bend_radius
 def route_fiber_array(
     component: Component,
     optical_io_spacing: float = SPACING_GC,
-    grating_coupler: Callable = grating_coupler_te,
-    bend_factory: Callable = bend_circular,
-    straight_factory: Callable = waveguide,
+    grating_coupler: ComponentFactory = grating_coupler_te,
+    bend_factory: ComponentFactory = bend_circular,
+    straight_factory: ComponentFactory = waveguide,
+    taper_factory: ComponentFactory = taper,
     fanout_length: Optional[int] = None,
     max_y0_optical: None = None,
     with_align_ports: bool = True,
@@ -299,6 +302,9 @@ def route_fiber_array(
             io_gratings_lines=io_gratings_lines,
             gc_port_name=gc_port_name,
             route_filter=route_filter,
+            bend_factory=bend_factory,
+            straight_factory=straight_factory,
+            taper_factory=taper_factory,
         )
         elems = route["references"]
         to_route = route["ports"]
