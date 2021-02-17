@@ -929,6 +929,7 @@ class Component(Device):
         label_ports: bool = True,
         label_aliases: bool = False,
         new_window: bool = False,
+        clears_cache: bool = True,
     ) -> None:
         """Plot component in matplotlib
 
@@ -952,15 +953,14 @@ class Component(Device):
             label_aliases=label_aliases,
             new_window=new_window,
         )
-        clear_cache()
+        if clears_cache:
+            clear_cache()
 
-    def show(self) -> None:
+    def show(self, clears_cache: bool = True) -> None:
         """Show component in klayout"""
-        from pp.cell import clear_cache
         from pp.write_component import show
 
-        show(self)
-        clear_cache()
+        show(self, clears_cache)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2
