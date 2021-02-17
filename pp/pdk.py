@@ -21,6 +21,8 @@ class Tech:
     layer_label: Layer
     taper_length: float
     taper_width: float
+    fiber_single_spacing: float = 50.0
+    fiber_input_to_output_spacing: float = 120.0
 
 
 @dataclasses.dataclass
@@ -464,12 +466,12 @@ class Pdk:
         self,
         component: Component,
         grating_coupler: Optional[ComponentFactory] = None,
-        optical_io_spacing: float = 50.0,
+        optical_io_spacing: Optional[float] = None,
         bend_factory: Optional[ComponentFactory] = None,
         straight_factory: Optional[ComponentFactory] = None,
         taper_factory: Optional[ComponentFactory] = None,
         route_filter: Optional[RouteFactory] = None,
-        min_input2output_spacing: float = 127.0,
+        min_input2output_spacing: Optional[float] = None,
         optical_routing_type: int = 2,
         with_align_ports: bool = True,
         component_name: Optional[str] = None,
@@ -482,40 +484,30 @@ class Pdk:
         Args:
             component: to connect
             grating_coupler: grating coupler instance, function or list of functions
-            layer_label: LAYER.LABEL
             optical_io_spacing: SPACING_GC
             bend_factory: bend_circular
             straight_factory: waveguide
             taper_factory: taper
-            fanout_length: None  # if None, automatic calculation of fanout length
-            max_y0_optical: None
-            with_align_ports: True, adds loopback structures
-            waveguide_separation: 4.0
-            bend_radius: BEND_RADIUS
-            list_port_labels: None, adds TM labels to port indices in this list
-            connected_port_list_ids: None # only for type 0 optical routing
-            nb_optical_ports_lines: 1
-            force_manhattan: False
-            excluded_ports:
-            grating_indices: None
-            routing_method: get_route
-            gc_port_name: W0
+            route_filter: for waveguides and bends
+            min_input2output_spacing: between fibers in opposite directions.
             optical_routing_type: None: autoselection, 0: no extension
-            gc_rotation: -90
+            with_align_ports: True, adds loopback structures
             component_name: name of component
+            gc_port_name: W0
         """
 
         return pp.routing.add_fiber_single(
             component=component,
             grating_coupler=grating_coupler or self.grating_coupler,
             layer_label=self.tech.layer_label,
-            optical_io_spacing=optical_io_spacing,
+            optical_io_spacing=optical_io_spacing or self.tech.fiber_single_spacing,
             bend_factory=bend_factory or self.bend_euler,
             straight_factory=straight_factory or self.waveguide,
             taper_factory=taper_factory or self.taper,
             taper_length=self.tech.taper_length,
             route_filter=route_filter or self.get_route_circular,
-            min_input2output_spacing=min_input2output_spacing,
+            min_input2output_spacing=min_input2output_spacing
+            or self.tech.fiber_input_to_output_spacing,
             optical_routing_type=optical_routing_type,
             with_align_ports=with_align_ports,
             component_name=component_name,
@@ -556,7 +548,8 @@ if __name__ == "__main__":
     c = p.coupler90()
     c = p.ring_single()
     c = p.mzi()
-    cc = p.add_fiber_single(c)
+    c = p.waveguide()
     cc = p.add_fiber_array(c)
+    cc = p.add_fiber_single(c)
     cc.show()
     c = p.grating_coupler()
