@@ -102,7 +102,12 @@ class SizeInfo:
 
 
 def _rotate_points(
-    points: Coordinates, angle: Number = 45, center: Coordinate = (0.0, 0,),
+    points: Coordinates,
+    angle: Number = 45,
+    center: Coordinate = (
+        0.0,
+        0,
+    ),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind
@@ -375,7 +380,9 @@ class ComponentReference(DeviceReference):
         return self
 
     def rotate(
-        self, angle: Number = 45, center: Coordinate = (0.0, 0.0),
+        self,
+        angle: Number = 45,
+        center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         """Return ComponentReference rotated:
 
@@ -421,7 +428,9 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
 
     def reflect(
-        self, p1: Coordinate = (0.0, 1.0), p2: Coordinate = (0.0, 0.0),
+        self,
+        p1: Coordinate = (0.0, 1.0),
+        p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         if isinstance(p1, Port):
             p1 = p1.midpoint
@@ -580,7 +589,11 @@ class Component(Device):
         pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
         nx.draw(
-            G, with_labels=with_labels, font_weight=font_weight, labels=labels, pos=pos,
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
         )
 
     def get_netlist_yaml(self) -> str:
@@ -721,7 +734,10 @@ class Component(Device):
         pprint(self.get_netlist(**kwargs))
 
     def get_settings(
-        self, ignore: None = None, include: None = None, full_settings: bool = True,
+        self,
+        ignore: None = None,
+        include: None = None,
+        full_settings: bool = True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
         Ignores items from self.ignore set.
@@ -951,6 +967,7 @@ class Component(Device):
         label_ports: bool = True,
         label_aliases: bool = False,
         new_window: bool = False,
+        clears_cache: bool = True,
     ) -> None:
         """Plot component in matplotlib
 
@@ -974,15 +991,14 @@ class Component(Device):
             label_aliases=label_aliases,
             new_window=new_window,
         )
-        clear_cache()
+        if clears_cache:
+            clear_cache()
 
-    def show(self) -> None:
+    def show(self, clears_cache: bool = True) -> None:
         """Show component in klayout"""
-        from pp.cell import clear_cache
         from pp.write_component import show
 
-        show(self)
-        clear_cache()
+        show(self, clears_cache)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2
