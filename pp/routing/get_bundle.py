@@ -145,7 +145,11 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number, x1p: Number, x2: Number, x2p: Number, sep: float = METAL_MIN_SEPARATION,
+    x1: Number,
+    x1p: Number,
+    x2: Number,
+    x2p: Number,
+    sep: float = METAL_MIN_SEPARATION,
 ) -> bool:
     if x2p + sep > x1:
         return False
@@ -456,9 +460,11 @@ def get_bundle_path_length_match(
         separation: 30.0
         end_straight_offset
         bend_radius: BEND_RADIUS
-        extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
+        extra_length: distance added to all path length compensation.
+            Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
-        modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
+        modify_segment_i: index of the segment that accomodates the new turns
+            default is next to last segment
         route_filter: get_route_from_waypoints
         **kwargs: extra arguments for inner call to link_ports_routes
 

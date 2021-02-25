@@ -145,10 +145,13 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = bend_factory(radius=bend_radius)
-    route_filter_params = {}
-    # route_filter_params = {"bend_radius": bend_radius}
-    R = bend_radius
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
+    bend_factory = bend90
+
+    route_filter_params = dict(bend_factory=bend_factory, bend_radius=bend_radius)
+    dy = bend90.dy
 
     # `delta_gr_min` Used to avoid crossing between waveguides in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
@@ -287,8 +290,8 @@ def route_fiber_array(
             for i in range(N):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
-                points = generate_manhattan_waypoints(p0, p1, bend90=bend90)
-                route = route_filter(points)
+                waypoints = generate_manhattan_waypoints(p0, p1, bend90=bend90)
+                route = route_filter(waypoints=waypoints, bend_factory=bend_factory)
                 elements.extend(route["references"])
 
     # optical routing - type ``1 or 2``
@@ -317,23 +320,23 @@ def route_fiber_array(
             2) If abs(min distance) < 2* bend radius
                 then offset io_gratings by -min_distance
             """
-            min_dist = 2 * R + 10.0
-            min_dist_threshold = 2 * R + 1.0
+            min_dist = 2 * dy + 10.0
+            min_dist_threshold = 2 * dy + 1.0
             for io_gratings in io_gratings_lines:
                 for gr in io_gratings:
                     for p in to_route:
-                        dist = gr[0].x - p.x
+                        dist = gr.x - p.x
                         if abs(dist) < abs(min_dist):
                             min_dist = dist
                 if abs(min_dist) < min_dist_threshold:
                     for gr in io_gratings:
-                        gr.translate((-min_dist, 0))
+                        gr.movex(-min_dist)
 
         # If the array of gratings is too close, adjust its location
         gc_ports_tmp = []
         for io_gratings in io_gratings_lines:
             gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
-        min_y = get_min_spacing(to_route, gc_ports_tmp, sep=sep, radius=R)
+        min_y = get_min_spacing(to_route, gc_ports_tmp, sep=sep, radius=dy)
         delta_y = abs(to_route[0].y - gc_ports_tmp[0].y)
 
         if min_y > delta_y:
@@ -394,7 +397,7 @@ def route_fiber_array(
         if hasattr(bend90, "dx"):
             a = abs(bend90.dx)
         else:
-            a = R + 5.0  # 0.5
+            a = dy + 5.0  # 0.5
 
         b = max(2 * a, io_sep / 2)
         y_bot_align_route = -gsi.width - waveguide_separation
@@ -427,20 +430,23 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
-    c = pp.c.mmi2x2()
     c = pp.c.waveguide(length=500)
     # c.ports = c.get_ports_dict(prefix="W")
 
+    c = pp.c.mmi2x2()
     elements, gc, _ = route_fiber_array(
-        c,
+        component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_align_ports=True,
-        optical_routing_type=0,
+        optical_routing_type=1,
+        bend_factory=pp.c.bend_euler,
+        bend_radius=5,
+        # force_manhattan=True
     )
     for e in elements:
-        if isinstance(e, list):
-            print(len(e))
-            print(e)
+        # if isinstance(e, list):
+        # print(len(e))
+        # print(e)
         c.add(e)
     for e in gc:
         c.add(e)

@@ -105,10 +105,13 @@ def route_south(
 
         return new_p
 
-    R = bend_radius
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
+    dy = bend90.dy
     west_ports.reverse()
 
-    y0 = min([p.y for p in ordered_ports]) - R - 0.5
+    y0 = min([p.y for p in ordered_ports]) - dy - 0.5
 
     ports_to_route = []
 
@@ -127,10 +130,10 @@ def route_south(
     # Set starting ``x`` on the west side
     if optical_routing_type == 1:
         # use component size to know how far to route
-        x = csi.west - R - 1
+        x = csi.west - dy - 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
-        x = x_optical_min - R - 1
+        x = x_optical_min - dy - 1
     else:
         raise ValueError("Invalid optical routing type")
 
@@ -184,10 +187,10 @@ def route_south(
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
         #  use component size to know how far to route
-        x = csi.east + R + 1
+        x = csi.east + dy + 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
-        x = x_optical_max + R + 1
+        x = x_optical_max + dy + 1
     else:
         raise ValueError(
             f"Invalid optical routing type. Got {optical_routing_type}, only (1, 2 supported) "
@@ -251,7 +254,7 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.mmi2x2()
-    route = route_south(c)
+    route = route_south(c, bend_factory=pp.c.bend_euler)
     for e in route["references"]:
         if isinstance(e, list):
             print(len(e))
