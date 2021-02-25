@@ -159,4 +159,4 @@ if __name__ == "__main__":
     # c = waveguide_slot()
     # c = waveguide_slot(length=11.2, width=0.5)
     # c = waveguide_slot(length=11.2, width=0.5)
-    # c.show()
+    c.show()

@@ -98,12 +98,14 @@ def add_fiber_single(
     port_width_component = optical_ports[0].width
 
     if port_width_component != port_width_gc:
-        component = add_tapers(
-            component,
+        taper = (
             taper_factory(
                 length=taper_length, width1=port_width_gc, width2=port_width_component
-            ),
+            )
+            if callable(taper_factory)
+            else taper_factory
         )
+        component = add_tapers(component=component, taper=taper)
 
     component_name = component_name or component.name
     name = f"{component_name}_{grating_coupler.name}"
