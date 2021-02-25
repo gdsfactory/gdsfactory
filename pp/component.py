@@ -106,7 +106,7 @@ def _rotate_points(
     angle: Number = 45,
     center: Coordinate = (
         0.0,
-        0,
+        0.0,
     ),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be

@@ -2,27 +2,26 @@ Now that you have installed gdsfactory lets create your first component.
 
 You'll need to keep 3 windows open:
 
-1. A text editor or IDE (Visual Studio Code, Pycharm, Spyer, neovim, Atom, Jupyterlab ...)
-2. Klayout to Visualize the GDS files.
-3. An Ipython terminal / jupyter notebook (interactive python to run).
+- A text editor or IDE (Visual Studio Code, Pycharm, Spyer, neovim, Atom, Jupyterlab ...)
+- Klayout to Visualize the GDS files.
+- An Ipython terminal / jupyter notebook (interactive python to run).
 
 ![windows](https://i.imgur.com/DyVL6IE.png)
-
 
 # Component
 
 A Component contains:
 
--   a list of elements
-    -   add_polygon
-        -   boundary: defines the area inside a shape's points (requires shape and layer)
-        -   path: defines a line with a certain width combining a shape’s points (requires shape, layer and a line_width)
-    -   add_ref (single reference)
-    -   add_array (array of references)
--   a dictionary of ports
-    -   add_port(): adds a port to the dictionary
--   convenient methods:
-    -   write_gds(): saves to GDS
+- a list of elements
+  - add_polygon
+    - boundary: defines the area inside a shape's points (requires shape and layer)
+    - path: defines a line with a certain width combining a shape’s points (requires shape, layer and a line_width)
+  - add_ref (single reference)
+  - add_array (array of references)
+- a dictionary of ports
+  - add_port(): adds a port to the dictionary
+- convenient methods:
+  - write_gds(): saves to GDS
 
 ![gds](images/gds.png)
 

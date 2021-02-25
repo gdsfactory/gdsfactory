@@ -12,7 +12,7 @@
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory provides you with generic component functions to build your PDKs and masks for different foundries.
+gdsfactory provides you with useful layout functions to build your GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own PDK (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
@@ -40,7 +40,7 @@ Works for python>=3.7 for Windows, MacOs and Linux.
 If you are on Windows, I recommend you install it with Anaconda3 or Miniconda3.
 
 
-I also recommend that you install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
+You can install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
 
 For Windows, Linux and MacOs you can install the latest released version:
 
@@ -50,7 +50,7 @@ pip install gdsfactory
 pf install
 ```
 
-Or you can install the development version:
+Or you can install the development version if you want to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
@@ -104,10 +104,10 @@ Commands:
 ## Links
 
 - [gdsfactory](https://github.com/gdsfactory/gdsfactory): Github repo where we store the gdsfactory code
-- [gdslib](https://github.com/gdsfactory/gdslib): separate repo where we store the component library. Tests ensure the geometric hash of the GDS does not change with the ones locked in the library
+- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
   - `component.gds`: GDS
   - `component.json`: JSON file with component properties
-  - `component.dat`: FDTD sparameter data
+  - `component.dat`: FDTD Sparameters
   - `component.ports`: CSV with port information
 - [ubc PDK](https://github.com/gdsfactory/ubc)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)

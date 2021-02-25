@@ -22,7 +22,9 @@ def get_ports(line: str) -> Tuple[str, str]:
     return port1, port2
 
 
-def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.ndarray]:
+def read_sparameters(
+    filepath, numports: int
+) -> Tuple[Tuple[str, ...], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
@@ -77,7 +79,7 @@ def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.n
 
     # port_names.reverse()
     # print(len(F), S.shape, len(port_names))
-    return (port_names, np.array(F), S)
+    return (tuple(port_names), np.array(F), S)
 
 
 def test_read_sparameters_2port_bend():
