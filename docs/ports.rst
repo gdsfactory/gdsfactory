@@ -9,10 +9,11 @@ Ports
 
     y = 0.5
     x = 2
+    layer = (1, 0) # a GDS layer is a tuple of 2 integers
     c = pp.Component()
-    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=1)
-    c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=1)
-    pp.plotgds(c)
+    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
+    c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=layer)
+    c.plot()
 
 
 Ports are mostly used to:
@@ -39,7 +40,7 @@ A component with a port can easily be referenced by the port.
 
     c.add(coupler1)
     c.add(coupler2)
-    pp.plotgds(c)
+    c.plot()
 
 
 You will also need to add the ports of the child cells into the parent cell ::

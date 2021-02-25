@@ -63,6 +63,6 @@ You can connect:
 
 
     c = ring()
-    pp.show(c)
-    pp.plotgds(c)
+    c.show()
+    c.plot()
 ```

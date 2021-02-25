@@ -64,7 +64,7 @@ def test_mask():
 
 if __name__ == "__main__":
     c = test_mask()
-    pp.show(c)
+    c.show()
 
 ```
 
