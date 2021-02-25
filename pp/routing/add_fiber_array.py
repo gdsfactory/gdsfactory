@@ -192,14 +192,15 @@ if __name__ == "__main__":
     # c = pp.c.coupler(gap=0.2, length=5.6)
 
     c = pp.c.mmi2x2()
+    c = pp.c.mzi2x2()
     # c = pp.c.waveguide()
 
     c.y = 0
     cc = add_fiber_array(
         c,
-        # optical_routing_type=0,
+        # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
-        # optical_routing_type=2,
+        optical_routing_type=2,
         # layer_label=layer_label,
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,
