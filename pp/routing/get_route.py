@@ -177,7 +177,11 @@ def get_route_from_waypoints(
         layer: for the route
     """
     waypoints = np.array(waypoints)
-    bend90 = bend_factory(radius=bend_radius, width=wg_width)
+    bend90 = (
+        bend_factory(radius=bend_radius, width=wg_width)
+        if callable(bend_factory)
+        else bend_factory
+    )
 
     taper = (
         taper_factory(

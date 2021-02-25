@@ -2,6 +2,7 @@ function_name: add_fiber_array
 info: {}
 name: mzi2x2_WECTrue_te
 settings:
+  bend_factory: bend_circular
   component:
     function_name: mzi2x2
     info: {}

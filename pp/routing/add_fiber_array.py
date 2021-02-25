@@ -3,6 +3,7 @@ from typing import Callable, Optional
 import pp
 from pp.add_tapers import add_tapers
 from pp.component import Component
+from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
@@ -11,6 +12,7 @@ from pp.components.taper import taper
 from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.types import ComponentFactory
 
 
 def add_fiber_array_te(*args, **kwargs):
@@ -27,6 +29,7 @@ def add_fiber_array_tm(
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
+    bend_factory: ComponentFactory = bend_circular,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
@@ -108,6 +111,7 @@ def add_fiber_array(
     elements, io_gratings_lines, _ = route_fiber_array(
         component=c,
         grating_coupler=grating_coupler,
+        bend_factory=bend_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,

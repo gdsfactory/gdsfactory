@@ -1,5 +1,7 @@
 function_name: bend_euler
 info:
+  dx: 18.701
+  dy: 18.701
   length: 31.416
   radius: 10.0
 module: pp.components.bend_euler

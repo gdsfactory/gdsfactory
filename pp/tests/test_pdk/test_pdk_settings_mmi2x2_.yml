@@ -1,0 +1,20 @@
+function_name: mmi2x2
+info:
+  simulation_settings:
+    port_width: 1.5e-06
+module: pp.components.mmi2x2
+name: mmi2x2_9e5edb4b
+settings:
+  cladding_offset: 3.0
+  gap_mmi: 0.25
+  layer:
+  - 41
+  - 0
+  layers_cladding:
+  - - 111
+    - 0
+  length_mmi: 5.496
+  length_taper: 10.0
+  wg_width: 1.0
+  width_mmi: 2.5
+  width_taper: 1.0

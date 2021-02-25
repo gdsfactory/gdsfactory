@@ -612,6 +612,8 @@ def generate_manhattan_waypoints(
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
+    bend90 = bend90(radius=bend_radius) if callable(bend90) else bend90
+
     if bend90 is None and bend_radius is None:
         raise ValueError(
             f"Either bend90 or bend_radius must be set. \
