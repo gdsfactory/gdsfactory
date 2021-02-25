@@ -196,6 +196,9 @@ def bend_circular(
     points = get_padding_points(component, default=0)
     for layer in layers_cladding:
         component.add_polygon(points, layer=layer)
+
+    component.dx = midpoint2[0] - midpoint1[0]
+    component.dy = midpoint2[1] - midpoint1[1]
     return component
 
 

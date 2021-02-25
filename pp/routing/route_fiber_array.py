@@ -145,8 +145,9 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    route_filter_params = {"bend_radius": bend_radius}
-
+    bend90 = bend_factory(radius=bend_radius)
+    route_filter_params = {}
+    # route_filter_params = {"bend_radius": bend_radius}
     R = bend_radius
 
     # `delta_gr_min` Used to avoid crossing between waveguides in special cases
@@ -279,7 +280,6 @@ def route_fiber_array(
         (i.e if connected_port_list_ids is not None and not empty)
         then grab these ports
         """
-
         if connected_port_list_ids:
             ordered_ports = [component.ports[i] for i in connected_port_list_ids]
 
@@ -287,7 +287,7 @@ def route_fiber_array(
             for i in range(N):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
-                points = generate_manhattan_waypoints(p0, p1, bend_radius=bend_radius)
+                points = generate_manhattan_waypoints(p0, p1, bend90=bend90)
                 route = route_filter(points)
                 elements.extend(route["references"])
 
@@ -390,8 +390,12 @@ def route_fiber_array(
         gsi = grating_coupler.size_info
         p0 = gca1.ports[gc_port_name].position
         p1 = gca2.ports[gc_port_name].position
-        bend_radius_align_ports = R
-        a = bend_radius_align_ports + 5.0  # 0.5
+
+        if hasattr(bend90, "dx"):
+            a = abs(bend90.dx)
+        else:
+            a = R + 5.0  # 0.5
+
         b = max(2 * a, io_sep / 2)
         y_bot_align_route = -gsi.width - waveguide_separation
 
@@ -407,7 +411,6 @@ def route_fiber_array(
         ]
         elements.extend([gca1, gca2])
 
-        bend90 = bend_factory(radius=bend_radius)
         route = round_corners(route, bend90, straight_factory)
         elements.extend(route["references"])
 

@@ -28,7 +28,7 @@ class Tech:
 @dataclasses.dataclass
 class TechGeneric(Tech):
     wg_width: float = 0.5
-    bend_radius: float = 10.0
+    bend_radius: float = 5.0
     cladding_offset: float = 3.0
     layer_wg: Layer = LAYER.WG
     layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
@@ -307,6 +307,62 @@ class Pdk:
             cladding_offset=self.tech.cladding_offset,
         )
 
+    def mmi2x2(
+        self,
+        width_taper: float = 1.0,
+        length_taper: float = 10.0,
+        length_mmi: float = 5.496,
+        width_mmi: float = 2.5,
+        gap_mmi: float = 0.25,
+    ) -> Component:
+        r"""Mmi 2x2.
+
+        Args:
+            width_taper: interface between input waveguides and mmi region
+            length_taper: into the mmi region
+            length_mmi: in x direction
+            width_mmi: in y direction
+            gap_mmi:  gap between tapered wg
+
+        .. plot::
+          :include-source:
+
+          import pp
+          c = pp.c.mmi2x2(width_mmi=2, length_mmi=2.8)
+          c.plot()
+
+
+        .. code::
+
+                   length_mmi
+                    <------>
+                    ________
+                   |        |
+                __/          \__
+                __            __
+                  \          /_ _ _ _
+                  |         | _ _ _ _| gap_mmi
+                __/          \__
+                __            __
+                  \          /
+                   |________|
+
+                 <->
+            length_taper
+
+        """
+        return pp.c.mmi2x2(
+            wg_width=self.tech.wg_width,
+            width_taper=width_taper,
+            length_taper=length_taper,
+            length_mmi=length_mmi,
+            width_mmi=width_mmi,
+            gap_mmi=gap_mmi,
+            layer=self.tech.layer_wg,
+            layers_cladding=self.tech.layers_cladding,
+            cladding_offset=self.tech.cladding_offset,
+        )
+
     def mzi(
         self,
         delta_length: float = 10.0,
@@ -434,7 +490,7 @@ class Pdk:
         gc_port_name: str = "W0",
         get_input_labels_function: Callable = get_input_labels,
         with_align_ports: bool = True,
-        optical_routing_type: int = 1,
+        optical_routing_type: int = 2,
         fanout_length: float = 0.0,
         grating_coupler: Optional[ComponentFactory] = None,
         bend_factory: Optional[ComponentFactory] = None,
@@ -447,9 +503,9 @@ class Pdk:
         return pp.routing.add_fiber_array(
             component=component,
             component_name=component_name,
-            route_filter=route_filter or self.get_route_circular,
+            route_filter=route_filter or self.get_route_euler,
             grating_coupler=grating_coupler or self.grating_coupler,
-            bend_factory=bend_factory or self.bend_circular,
+            bend_factory=bend_factory or self.bend_euler,
             straight_factory=straight_factory or self.waveguide,
             taper_factory=taper_factory or self.taper,
             gc_port_name=gc_port_name,
@@ -505,7 +561,7 @@ class Pdk:
             straight_factory=straight_factory or self.waveguide,
             taper_factory=taper_factory or self.taper,
             taper_length=self.tech.taper_length,
-            route_filter=route_filter or self.get_route_circular,
+            route_filter=route_filter or self.get_route_euler,
             min_input2output_spacing=min_input2output_spacing
             or self.tech.fiber_input_to_output_spacing,
             optical_routing_type=optical_routing_type,
@@ -543,13 +599,14 @@ class PdkMetal(Pdk):
 
 
 if __name__ == "__main__":
-    p = PdkGeneric()
     p = PdkMetal()
-    c = p.coupler90()
+    p = PdkGeneric()
     c = p.ring_single()
+    c = p.coupler90()
     c = p.mzi()
-    c = p.waveguide()
+    c = p.mmi2x2()
+    # c = p.waveguide()
     cc = p.add_fiber_array(c)
-    cc = p.add_fiber_single(c)
+    # cc = p.add_fiber_single(c)
     cc.show()
-    c = p.grating_coupler()
+    # c = p.grating_coupler()

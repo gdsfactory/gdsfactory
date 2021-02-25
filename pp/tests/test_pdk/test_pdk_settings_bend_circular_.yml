@@ -1,5 +1,7 @@
 function_name: bend_circular
 info:
+  dx: -10.0
+  dy: -10.0
   length: 15.708
 module: pp.components.bend_circular
 name: bend_circular_7ec97f9c

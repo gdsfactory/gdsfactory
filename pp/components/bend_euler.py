@@ -52,16 +52,22 @@ def bend_euler(
     c.info["length"] = length
     c.length = length
     c.radius = radius
+
+    p1 = np.round(backbone[0].xy, 3)
+    p2 = np.round(backbone[-1].xy, 3)
+    c.dx = p2[0] - p1[0]
+    c.dy = p2[1] - p1[1]
+
     c.add_port(
         name="W0",
-        midpoint=np.round(backbone[0].xy, 3),
+        midpoint=p1,
         orientation=180,
         layer=layer,
         width=width,
     )
     c.add_port(
         name="N0",
-        midpoint=np.round(backbone[-1].xy, 3),
+        midpoint=p2,
         orientation=theta,
         layer=layer,
         width=width,
