@@ -218,7 +218,7 @@ def place(
             ref.y += dy
         if mirror:
             if mirror is True and port:
-                ref.reflect_h(port_name=port)
+                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
                     ref.reflect_h(x0=x)
@@ -237,7 +237,7 @@ def place(
 
         if rotation:
             if port:
-                ref.rotate(rotation, center=ref.ports[port])
+                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
                 x, y = ref.origin
                 ref.rotate(rotation, center=(x, y))
@@ -630,7 +630,9 @@ def component_from_yaml(
                 "link_optical_waypoints",
             ]:
                 route_dict_or_list = link_function(
-                    route_filter=route_filter, **route_settings, **link_settings,
+                    route_filter=route_filter,
+                    **route_settings,
+                    **link_settings,
                 )
 
             else:
