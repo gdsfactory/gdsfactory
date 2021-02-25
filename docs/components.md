@@ -6,7 +6,7 @@ You can import many components from the components `c` module
 import pp
 
 c = pp.c.mmi1x2()
-pp.show(c)
+c.show()
 ```
 
 ```eval_rst

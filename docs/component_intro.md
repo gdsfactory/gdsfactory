@@ -97,7 +97,7 @@ Here is a step by step example below generating a waveguide crossing
 
 
     c = crossing()
-    pp.plotgds(c)
+    c.plot()
 
 ```
 

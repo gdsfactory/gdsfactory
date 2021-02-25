@@ -48,6 +48,6 @@ YAML is an easy to use human-friendly format to define components, circuits and 
     """
 
     c = pp.component_from_yaml(netlist)
-    pp.show(c)
-    pp.plotgds(c)
+    c.show()
+    c.plot()
 ```

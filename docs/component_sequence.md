@@ -49,7 +49,7 @@ The actual chain of components is supplied by a string or a list
         return component
 
     c = test()
-    pp.plotgds(c)
+    c.plot()
 
 ```
 
@@ -126,7 +126,7 @@ The actual chain of components is supplied by a string or a list
         return component
 
     c = phase_mod_arm()
-    pp.plotgds(c)
+    c.plot()
 
 
 ```
