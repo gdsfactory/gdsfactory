@@ -607,6 +607,6 @@ if __name__ == "__main__":
     c = p.mmi2x2()
     # c = p.waveguide()
     cc = p.add_fiber_array(c)
-    # cc = p.add_fiber_single(c)
+    cc = p.add_fiber_single(c)
     cc.show()
     # c = p.grating_coupler()
