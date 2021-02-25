@@ -190,5 +190,5 @@ if __name__ == "__main__":
     # print(c.ports["E0"].midpoint)
 
     c.show()
-    # pp.qp(c)
+    # c.plot()
     # print(c.get_settings())

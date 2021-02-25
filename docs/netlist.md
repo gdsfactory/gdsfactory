@@ -72,7 +72,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
 
     import pp
     c = pp.c.mzi()
-    pp.qp(c)
+    c.plot()
 ```
 
 ```eval_rst
