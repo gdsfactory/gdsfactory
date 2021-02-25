@@ -140,8 +140,8 @@ mmi1x2_width_length:
 # Relative placing: this DOE is using the West South of the previous DOE as the origin
         x0: W # x0 is the west of the DOE specified in next_to
         y0: S # y0 is the south of the DOE specified in next_to
-# The West side of the device is aligned to x0 + margin
-# The North side of the device is aligned to y0 + margin
+# The West side of the component is aligned to x0 + margin
+# The North side of the component is aligned to y0 + margin
         align_x: W
         align_y: N
         inter_margin_y: 100 # y margin between this DOE and the one used for relative placement

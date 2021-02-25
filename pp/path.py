@@ -42,8 +42,8 @@ def component(
             All points that can be removed without changing the resulting
             polygon by more than the value listed here will be removed.
     """
-    device = p.extrude(cross_section=cross_section, simplify=simplify)
-    c = import_phidl_component(component=device)
+    component = p.extrude(cross_section=cross_section, simplify=simplify)
+    c = import_phidl_component(component=component)
 
     xsection_points = []
     for s in cross_section.sections:

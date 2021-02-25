@@ -16,7 +16,7 @@ def test_comb(
     comb_gnd_layer: Tuple[int, int] = pp.LAYER.M3,
     overlap_pad_layer: None = None,
 ) -> Component:
-    """ Superconducting heater device from phidl.geometry
+    """Superconducting heater component from phidl.geometry
 
     Args:
         pad_size=(200, 200)

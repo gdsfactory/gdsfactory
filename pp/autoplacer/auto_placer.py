@@ -12,7 +12,7 @@ from pp.autoplacer.library import Library
 
 
 class AutoPlacer(pya.Layout):
-    """ klayout autoplacer
+    """klayout autoplacer
 
     Args:
         name: name of the container
@@ -25,8 +25,8 @@ class AutoPlacer(pya.Layout):
 
     You can then pack cells into the AutoPlacer using the `AutoPlacer.pack_auto`, `AutoPlacer.pack_manual`, and `AutoPlacer.pack_many` methods.
 
-    - `AutoPlacer.pack_auto(cell, origin, direction)` automatically finds a location for the device. You can provide an `origin` argument, which can take any value from `autoplacer.SOUTH_WEST`, `autoplacer.SOUTH_EAST`, `autoplacer.NORTH_WEST`, `autoplacer.NORTH_EAST`. The autoplacer will search for a place to put the cell starting from that cardinal point. It can search in either `VERTICAL` or `HORIZONTAL` direction.
-    - `AutoPlacer.pack_manual(cell, x, y, origin)` allows you to manually place a device at an absolute location.
+    - `AutoPlacer.pack_auto(cell, origin, direction)` automatically finds a location for the component. You can provide an `origin` argument, which can take any value from `autoplacer.SOUTH_WEST`, `autoplacer.SOUTH_EAST`, `autoplacer.NORTH_WEST`, `autoplacer.NORTH_EAST`. The autoplacer will search for a place to put the cell starting from that cardinal point. It can search in either `VERTICAL` or `HORIZONTAL` direction.
+    - `AutoPlacer.pack_manual(cell, x, y, origin)` allows you to manually place a component at an absolute location.
     - `AutoPlacer.pack_many` behaves like `AutoPlacer.pack_auto` but accepts a list of devices.
 
     """
@@ -395,9 +395,9 @@ class AutoPlacer(pya.Layout):
         lump.draw_boundary()
         return self.pack_auto(lump.top_cell(), origin=origin)
 
-    def pack_corners(self, device):
+    def pack_corners(self, component):
         for corner in ap.CORNERS:
-            self.pack_auto(device, corner)
+            self.pack_auto(component, corner)
 
     def estimate_size(self, cells):
         """ Estimate the size of the placer """

@@ -6,8 +6,8 @@ from pp.import_gds import import_gds
 from pp.write_component import write_gds
 
 
-def remove_cell(device, cell_name):
-    all_cells = device.get_dependencies(recursive=True)
+def remove_cell(component, cell_name):
+    all_cells = component.get_dependencies(recursive=True)
     all_cell_names = set([c.name for c in all_cells])
     if cell_name in all_cell_names:
         for c in all_cells:
