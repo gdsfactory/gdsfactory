@@ -108,7 +108,7 @@ def route_south(
     bend90 = (
         bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
     )
-    dy = bend90.dy
+    dy = abs(bend90.dy)
     west_ports.reverse()
 
     y0 = min([p.y for p in ordered_ports]) - dy - 0.5
@@ -254,13 +254,15 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.mmi2x2()
-    route = route_south(c, bend_factory=pp.c.bend_euler)
-    for e in route["references"]:
+    c = pp.c.mzi2x2()
+    r = route_south(c, bend_factory=pp.c.bend_euler)
+    r = route_south(c)
+    for e in r["references"]:
         if isinstance(e, list):
             print(len(e))
             print(e)
         # print(e)
         c.add(e)
 
-    print(route["lengths"])
+    print(r["lengths"])
     c.show()
