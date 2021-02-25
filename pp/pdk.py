@@ -8,7 +8,7 @@ from pp.component import Component
 from pp.layers import LAYER
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.manhattan import round_corners
-from pp.types import ComponentFactory, Coordinates, Layer, Number, RouteFactory
+from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteFactory
 
 
 @dataclasses.dataclass
@@ -500,6 +500,29 @@ class Pdk:
         bend_radius: Optional[float] = None,
         **kwargs,
     ) -> Component:
+        """Returns component with grating couplers and labels on each port.
+
+        Routes all component ports south.
+        Can add align_ports loopback reference structure on the edges.
+
+        Args:
+            component: to connect
+            component_name: for the label
+            gc_port_name: grating coupler input port name 'W0'
+            get_input_labels_function: function to get input labels for grating couplers
+            with_align_ports: True, adds loopback structures
+            optical_routing_type: None: autoselection, 0: no extension
+            fanout_length: None  # if None, automatic calculation of fanout length
+            taper_length: length of the taper
+            grating_coupler: grating coupler instance, function or list of functions
+            bend_factory: function for bends
+            optical_io_spacing: SPACING_GC
+            straight_factory: waveguide
+            taper_factory: taper function
+            route_filter: for waveguides and bends
+            bend_radius: for bends
+        """
+
         return pp.routing.add_fiber_array(
             component=component,
             component_name=component_name,
@@ -523,7 +546,6 @@ class Pdk:
         component: Component,
         grating_coupler: Optional[ComponentFactory] = None,
         optical_io_spacing: Optional[float] = None,
-        bend_factory: Optional[ComponentFactory] = None,
         straight_factory: Optional[ComponentFactory] = None,
         taper_factory: Optional[ComponentFactory] = None,
         route_filter: Optional[RouteFactory] = None,
@@ -541,7 +563,6 @@ class Pdk:
             component: to connect
             grating_coupler: grating coupler instance, function or list of functions
             optical_io_spacing: SPACING_GC
-            bend_factory: bend_circular
             straight_factory: waveguide
             taper_factory: taper
             route_filter: for waveguides and bends
@@ -557,7 +578,6 @@ class Pdk:
             grating_coupler=grating_coupler or self.grating_coupler,
             layer_label=self.tech.layer_label,
             optical_io_spacing=optical_io_spacing or self.tech.fiber_single_spacing,
-            bend_factory=bend_factory or self.bend_euler,
             straight_factory=straight_factory or self.waveguide,
             taper_factory=taper_factory or self.taper,
             taper_length=self.tech.taper_length,
@@ -570,8 +590,8 @@ class Pdk:
             gc_port_name=gc_port_name,
         )
 
-    def get_route_euler(self, waypoints: np.ndarray, **kwargs):
-        """FIXME."""
+    def get_route_euler(self, waypoints: np.ndarray, **kwargs) -> Route:
+        """Returns a route with euler adiabatic bends."""
         return round_corners(
             waypoints,
             bend90=self.bend_euler,
@@ -579,7 +599,8 @@ class Pdk:
             taper=self.taper,
         )
 
-    def get_route_circular(self, waypoints: np.ndarray, **kwargs):
+    def get_route_circular(self, waypoints: np.ndarray, **kwargs) -> Route:
+        """Returns a route with radial bends."""
         return round_corners(
             waypoints,
             bend90=self.bend_circular,
@@ -606,7 +627,7 @@ if __name__ == "__main__":
     c = p.mzi()
     c = p.mmi2x2()
     # c = p.waveguide()
-    cc = p.add_fiber_array(c)
-    cc = p.add_fiber_single(c)
+    cc = p.add_fiber_array(c, bend_radius=10)
+    # cc = p.add_fiber_single(c)
     cc.show()
     # c = p.grating_coupler()

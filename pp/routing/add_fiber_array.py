@@ -43,6 +43,11 @@ def add_fiber_array(
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
+        gc_port_name: grating coupler input port name 'W0'
+        component_name: for the label
+        taper_factory: taper function
+        taper_length: length of the taper
+        get_input_labels_function: function to get input labels for grating couplers
         straight_factory: waveguide
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
@@ -57,13 +62,10 @@ def add_fiber_array(
         grating_indices: None
         routing_waveguide: None
         routing_method: get_route
-        gc_port_name: W0
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
-        component_name: for the label
-        taper_factory: taper function
 
     .. plot::
       :include-source:

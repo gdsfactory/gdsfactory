@@ -20,7 +20,7 @@ def mmi2x2(
     taper: ComponentFactory = taper_function,
     cladding_offset: float = 3.0,
 ) -> Component:
-    """Mmi 2x2
+    r"""Mmi 2x2
 
     Args:
         wg_width: input waveguides width
@@ -40,6 +40,25 @@ def mmi2x2(
       import pp
       c = pp.c.mmi2x2(length_mmi=15.45, width_mmi=2.1)
       c.plot()
+
+
+    .. code::
+
+                   length_mmi
+                    <------>
+                    ________
+                   |        |
+                __/          \__
+                __            __
+                  \          /_ _ _ _
+                  |         | _ _ _ _| gap_mmi
+                __/          \__
+                __            __
+                  \          /
+                   |________|
+
+                 <->
+            length_taper
 
     """
     component = pp.Component()
