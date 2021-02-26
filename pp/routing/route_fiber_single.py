@@ -26,7 +26,7 @@ def route_fiber_single(
         optical_io_spacing: between grating couplers
         grating_coupler:
         min_input2output_spacing: so opposite fibers do not touch
-        optical_routing_type: 0, 1, 2
+        optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
 
@@ -118,6 +118,7 @@ def route_fiber_single(
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
+        optical_routing_type=optical_routing_type,
         **kwargs
     )
     for e in elements_north:
@@ -138,11 +139,12 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
-    # c = pp.c.crossing()
-    # c = pp.c.mmi2x2()
-    # c = pp.c.ring_double()  # FIXME
-    c = pp.c.cross(length=500)
     c = pp.c.waveguide(width=2, length=500)
+    c = pp.c.cross(length=500)
+    c = pp.c.ring_double()  # FIXME
+    c = pp.c.mmi2x2()
+    c = pp.c.crossing()
+    c = pp.c.mzi2x2()
 
     elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 
