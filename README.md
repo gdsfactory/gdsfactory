@@ -12,6 +12,8 @@
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
+Gdsfactory is an [EPDA (electronics/photonic design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) for fabricating Integrated Circuits.
+
 gdsfactory provides you with useful layout functions to build your GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own PDK (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
