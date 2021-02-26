@@ -12,6 +12,7 @@ from pp.components.waveguide import waveguide
 from pp.config import call_if_func
 from pp.container import container
 from pp.layers import LAYER
+from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
 from pp.types import ComponentFactory
@@ -33,6 +34,7 @@ def add_fiber_single(
     with_align_ports: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
+    get_input_labels_function: Callable = get_input_labels,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -60,6 +62,7 @@ def add_fiber_single(
         grating_indices: None
         routing_method: get_route
         gc_port_name: W0
+        get_input_labels_function: function to get input labels for grating couplers
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
@@ -88,6 +91,9 @@ def add_fiber_single(
        cc.plot()
 
     """
+    if not component.get_ports_list(port_type="optical"):
+        raise ValueError(f"No ports for {component.name}")
+
     component = component() if callable(component) else component
     gc = grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -110,24 +116,45 @@ def add_fiber_single(
     component_name = component_name or component.name
     name = f"{component_name}_{grating_coupler.name}"
 
-    elements, grating_couplers = route_fiber_single(
-        component,
-        component_name=component_name,
-        optical_io_spacing=optical_io_spacing,
-        bend_factory=bend_factory,
-        straight_factory=straight_factory,
-        route_filter=route_filter,
-        grating_coupler=grating_coupler,
-        layer_label=layer_label,
-        optical_routing_type=optical_routing_type,
-        min_input2output_spacing=min_input2output_spacing,
-        gc_port_name=gc_port_name,
-        **kwargs,
-    )
-
     c = Component(name=name)
     cr = c << component
     cr.rotate(90)
+
+    if (
+        len(optical_ports) == 2
+        and abs(optical_ports[0].x - optical_ports[1].x) > min_input2output_spacing
+    ):
+
+        grating_coupler = call_if_func(grating_coupler)
+        grating_couplers = []
+        for port in cr.ports.values():
+            gc_ref = grating_coupler.ref()
+            gc_ref.connect(list(gc_ref.ports.values())[0], port)
+            grating_couplers.append(gc_ref)
+
+        elements = get_input_labels(
+            grating_couplers,
+            list(cr.ports.values()),
+            component_name=component.name,
+            layer_label=layer_label,
+            gc_port_name=gc_port_name,
+        )
+
+    else:
+        elements, grating_couplers = route_fiber_single(
+            component,
+            component_name=component_name,
+            optical_io_spacing=optical_io_spacing,
+            bend_factory=bend_factory,
+            straight_factory=straight_factory,
+            route_filter=route_filter,
+            grating_coupler=grating_coupler,
+            layer_label=layer_label,
+            optical_routing_type=optical_routing_type,
+            min_input2output_spacing=min_input2output_spacing,
+            gc_port_name=gc_port_name,
+            **kwargs,
+        )
 
     for e in elements:
         c.add(e)
@@ -201,7 +228,8 @@ if __name__ == "__main__":
     c = pp.c.waveguide(width=2, length=500)
     c = pp.c.mmi1x2()
     c = pp.c.mzi2x2()
-    c = pp.c.mmi2x2()
+    c = pp.c.rectangle()
+    c = pp.c.mzi(length_x=50)
 
     gc = pp.c.grating_coupler_elliptical_te
     # gc = pp.c.grating_coupler_elliptical2

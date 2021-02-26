@@ -18,6 +18,7 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
+  get_input_labels_function: get_input_labels
   grating_coupler: grating_coupler_te
   layer_label:
   - 201

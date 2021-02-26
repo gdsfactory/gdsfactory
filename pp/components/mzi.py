@@ -5,11 +5,10 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular as bend_circular_function
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.port import deco_rename_ports, rename_ports_by_orientation
+from pp.port import rename_ports_by_orientation
 from pp.types import ComponentFactory
 
 
-@deco_rename_ports
 @pp.cell
 def mzi(
     delta_length: float = 10.0,
@@ -168,22 +167,27 @@ def mzi(
         if port.angle == 0:
             c.add_port(name=f"E{i}", port=port)
 
+    rename_ports_by_orientation(c)
     if pins:
         pp.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
+    from pp.cell import CACHE
+
+    print(CACHE)
 
     delta_length = 116.8 / 2
     # print(delta_length)
 
     # c = mzi(delta_length=delta_length, with_splitter=False)
     c = mzi(delta_length=10)
-    print(c.name)
+
+    for k in CACHE.keys():
+        print(k)
 
     # add_markers(c)
-
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
     # print(c.ports.keys())
