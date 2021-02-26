@@ -1,5 +1,7 @@
 """Add grating_couplers to a component."""
-from typing import Callable, Tuple
+from typing import Callable, List, Tuple
+
+from phidl.device_layout import Label
 
 import pp
 from pp.component import Component
@@ -18,7 +20,7 @@ def add_grating_couplers(
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     gc_port_name: str = "W0",
-    get_input_labels_function: Callable[..., object] = get_input_labels,
+    get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
 ) -> Component:
     """Return component with grating couplers and labels."""
 
