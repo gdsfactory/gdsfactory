@@ -11,7 +11,7 @@ from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteFactory
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class Tech:
     wg_width: float
     bend_radius: float
@@ -25,7 +25,7 @@ class Tech:
     fiber_input_to_output_spacing: float = 120.0
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class TechGeneric(Tech):
     wg_width: float = 0.5
     bend_radius: float = 5.0
@@ -37,7 +37,7 @@ class TechGeneric(Tech):
     taper_width: float = 2.0  # taper to wider waveguides for lower loss
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class TechMetal(Tech):
     wg_width: float = 1.0
     bend_radius: float = 10.0
@@ -621,12 +621,18 @@ class PdkMetal(Pdk):
 
 if __name__ == "__main__":
     p = PdkMetal()
-    p = PdkGeneric()
-    c = p.ring_single()
-    c = p.coupler90()
-    c = p.mmi2x2()
+    c = p.waveguide(length=10)
+    c = p.waveguide(length=10)
+
+    # c = p.mzi(delta_length=10)
+    # c = p.mzi(delta_length=20)
+
+    # p = PdkGeneric()
+    # c = p.ring_single()
+    # c = p.coupler90()
+    # c = p.mmi2x2()
     # c = p.waveguide()
-    cc = p.add_fiber_array(c, bend_radius=10)
-    cc = p.add_fiber_single(c)
-    cc.show()
+    # cc = p.add_fiber_array(c, bend_radius=10)
+    # cc = p.add_fiber_single(c)
+    # cc.show()
     # c = p.grating_coupler()

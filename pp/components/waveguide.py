@@ -140,7 +140,10 @@ def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
 
 
 if __name__ == "__main__":
-    c = waveguide(length=0.3)
+    layers_cladding = (pp.LAYER.WGCLAD, pp.LAYER.NO_TILE_SI)
+    c = waveguide(length=10, layers_cladding=layers_cladding)
+    c = waveguide(length=10, layers_cladding=layers_cladding)
+
     # c.pprint()
 
     # print(c.name)
