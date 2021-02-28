@@ -170,10 +170,14 @@ if __name__ == "__main__":
     # print(clean_value(pp.c.waveguide))
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
+    # print(clean_value(11.001))
 
-    print(clean_value(11.001))
-    c = pp.c.waveguide(length=11.001)
-    print(c.name)
+    layers_cladding = (pp.LAYER.WGCLAD, pp.LAYER.NO_TILE_SI)
+    layers_cladding = (pp.LAYER.WGCLAD,)
+    c = pp.c.waveguide(length=10, layers_cladding=layers_cladding)
+    c = pp.c.waveguide(length=10, layers_cladding=layers_cladding)
+
+    # print(c.name)
     # print(c)
     # c.show()
 

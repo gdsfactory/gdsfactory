@@ -174,18 +174,13 @@ def mzi(
 
 
 if __name__ == "__main__":
-    from pp.cell import CACHE
-
-    print(CACHE)
-
     delta_length = 116.8 / 2
     # print(delta_length)
 
     # c = mzi(delta_length=delta_length, with_splitter=False)
     c = mzi(delta_length=10)
 
-    for k in CACHE.keys():
-        print(k)
+    c = mzi(delta_length=20)
 
     # add_markers(c)
     # print(c.ports["E0"].midpoint[1])

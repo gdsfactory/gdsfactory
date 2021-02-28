@@ -9,6 +9,7 @@ from pp.config import MAX_NAME_LENGTH
 from pp.name import get_component_name
 from pp.types import ComponentFactory
 
+global CACHE
 CACHE: Dict[str, Component] = {}
 
 
@@ -16,6 +17,11 @@ def clear_cache() -> None:
     """Clears the cache of components."""
     global CACHE
     CACHE = {}
+
+
+def print_cache():
+    for k in CACHE.keys():
+        print(k)
 
 
 def cell(
@@ -104,8 +110,10 @@ def cell(
                     )
 
         if cache and autoname and name in CACHE:
+            print(f"{name} cache")
             return CACHE[name]
         else:
+            print(f"{name} build")
             assert callable(
                 func
             ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
