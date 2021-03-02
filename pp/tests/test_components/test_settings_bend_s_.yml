@@ -20,5 +20,5 @@ settings:
   spike_length: 0.0
   start_angle: null
   tech: si_c
-  width: 0.5
+  width: null
   with_manhattan_facing_angles: true

@@ -9,7 +9,7 @@ info:
     tr: DeviceReference (parent Device "pad", ports ['N', 'S', 'E', 'W'], origin [900.
       600.], rotation 0, x_reflection False)
   routes:
-    bl,E:br,W: 1622.0
-    tl,E:tr,W: 1622.0
+    bl,E:br,W: 1552.392
+    tl,E:tr,W: 1552.392
 name: sample_different_link_factory
 settings: {}

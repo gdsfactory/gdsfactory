@@ -39,7 +39,7 @@ from numpy import ndarray
 
 from pp.components import taper as taper_function
 from pp.components import waveguide
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.electrical import corner, wire
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
@@ -52,7 +52,7 @@ from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteF
 def get_route(
     input_port: Port,
     output_port: Port,
-    bend_factory: ComponentFactory = bend_circular,
+    bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = waveguide,
     taper_factory: Optional[ComponentFactory] = taper_function,
     start_straight: Number = 0.01,
@@ -159,7 +159,7 @@ def get_route_electrical(
 
 def get_route_from_waypoints(
     waypoints: Coordinates,
-    bend_factory: Callable = bend_circular,
+    bend_factory: Callable = bend_euler,
     straight_factory: Callable = waveguide,
     taper_factory: Optional[Callable] = taper_function,
     bend_radius: Number = 10.0,

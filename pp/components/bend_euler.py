@@ -67,6 +67,6 @@ def bend_euler180(angle: int = 180, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    c = bend_euler()
+    c = bend_euler(radius=10)
     c.pprint()
     c.show()

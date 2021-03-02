@@ -1,10 +1,15 @@
 function_name: bend_circular_heater
 info:
+  dx: 10.0
+  dy: 10.0
   length: 15.708
-  radius: 10.0
-  width: 0.5
 module: pp.components.bend_circular_heater
 name: bend_circular_heater
 settings:
-  radius: 10.0
-  wg_width: 0.5
+  angle: 90
+  heater_to_wg_distance: 1.2
+  heater_width: 0.5
+  npoints: 720
+  radius: 10
+  tech: si_c
+  wg_width: null

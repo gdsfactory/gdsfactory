@@ -15,6 +15,18 @@ def test_get_bundle_optical2() -> Component:
 
     route_length = 10+t+89.55+t+b+t+9.44+t+b+20.5
     print(route_length) = 300.906
+
+    # Radial bends
+    r =  2*3.14 *10/4
+    route_length =35 + 89.5+ 35+ r + 35 + 9.3 + 35 + r + 20.5
+    print(route_length) = 290
+
+
+    # Euler bends
+    r = 31.4
+    route_length = 35 + 80 + 35 + r + 61.93 + r + 11.8
+    route_length = 255
+
     """
     c = pp.Component()
 
@@ -36,10 +48,11 @@ def test_get_bundle_optical2() -> Component:
         ports1, ports2, sort_ports=True, bend_radius=10
     )
 
-    lengths = [489.46592653589795, 290.798926535898]
+    lengths = [423.196, 224.529]
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
+        # print(route["length"])
         assert np.isclose(route["length"], length, atol=0.1)
 
     return c

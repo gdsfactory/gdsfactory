@@ -4,4 +4,4 @@ module: pp.components.coupler_asymmetric
 name: coupler_asymmetric
 settings:
   gap: 0.234
-  wg_width: 0.5
+  tech: si_c
