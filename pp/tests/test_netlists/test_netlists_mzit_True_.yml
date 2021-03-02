@@ -122,6 +122,7 @@ instances:
   waveguide_L1_Tsi_c_W450n_19.5_22.6:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -129,6 +130,7 @@ instances:
   waveguide_L1_Tsi_c_W550n_19.5_20.6:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -136,6 +138,7 @@ instances:
   waveguide_L3_Tsi_c_W550n_26.5_-1.4:
     component: waveguide
     settings:
+      layer: null
       length: 3.0
       npoints: 2
       tech: si_c
@@ -143,6 +146,7 @@ instances:
   waveguide_L3_Tsi_c_W550n_26.5_22.6:
     component: waveguide
     settings:
+      layer: null
       length: 3.0
       npoints: 2
       tech: si_c
@@ -150,6 +154,7 @@ instances:
   waveguide_L4_Tsi_c_W550n_38.0_10.6:
     component: waveguide
     settings:
+      layer: null
       length: 4.0
       npoints: 2
       tech: si_c

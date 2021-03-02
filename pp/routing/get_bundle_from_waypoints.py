@@ -3,7 +3,7 @@ from typing import Callable, List, Tuple, Union
 import numpy as np
 from numpy import float64, ndarray
 
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.taper import taper as taper_function
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
@@ -77,7 +77,7 @@ def get_bundle_from_waypoints(
     waypoints: Coordinates,
     straight_factory: Callable = waveguide,
     taper_factory: Callable = taper_function,
-    bend_factory: Callable = bend_circular,
+    bend_factory: Callable = bend_euler,
     bend_radius: float = 10.0,
     auto_sort: bool = True,
     **kwargs,
@@ -167,7 +167,12 @@ def get_bundle_from_waypoints(
     else:
         taper = None
     connections = [
-        round_corners(pts, bend90, straight_factory, taper=taper)
+        round_corners(
+            points=pts,
+            bend_factory=bend90,
+            straight_factory=straight_factory,
+            taper=taper,
+        )
         for pts, bend90 in zip(routes, bends90)
     ]
     return connections

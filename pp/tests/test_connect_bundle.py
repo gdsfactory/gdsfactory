@@ -1,13 +1,11 @@
-import numpy as np
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp import Port
-from pp.cell import cell
 from pp.routing.get_bundle import get_bundle
 
 
-@cell
-def test_get_bundle():
+def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
 
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
 
@@ -23,33 +21,19 @@ def test_get_bundle():
 
     c = pp.Component()
     routes = get_bundle(top_ports, bottom_ports)
-    lengths = [
-        1180.416,
-        1063.416,
-        946.416,
-        899.416,
-        782.416,
-        665.416,
-        558.416,
-        441.416,
-        438.416,
-        555.416,
-        672.416,
-        794.416,
-        916.416,
-        1038.416,
-    ]
-
-    for route, length in zip(routes, lengths):
-        # print(route["length"])
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        lengths[i] = route["length"]
 
+    if check:
+        data_regression.check(lengths)
     return c
 
 
-@cell
-def test_connect_corner(N=6):
+def test_connect_corner(
+    data_regression: DataRegressionFixture, check: bool = True, N=6
+):
     d = 10.0
     sep = 5.0
     c = pp.Component()
@@ -85,55 +69,29 @@ def test_connect_corner(N=6):
 
     ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
 
-    lengths = [
-        75.708,
-        85.708,
-        95.708,
-        105.708,
-        115.708,
-        125.708,
-        75.708,
-        85.708,
-        95.708,
-        105.708,
-        115.708,
-        125.708,
-        125.708,
-        115.708,
-        105.708,
-        95.708,
-        85.708,
-        75.708,
-        125.708,
-        115.708,
-        105.708,
-        95.708,
-        85.708,
-        75.708,
-    ]
+    lengths = {}
     i = 0
-
     for ports1, ports2 in zip(ports_A, ports_B):
         routes = get_bundle(ports1, ports2)
         for route in routes:
             c.add(route["references"])
-            length = lengths[i]
+            lengths[i] = route["length"]
             i += 1
-            assert np.isclose(
-                route["length"], length
-            ), f"{route['length']} should be {length}"
 
+    if check:
+        data_regression.check(lengths)
     return c
 
 
-@cell
-def test_get_bundle_udirect(dy=200, angle=270):
+def test_get_bundle_udirect(
+    data_regression: DataRegressionFixture, check: bool = True, dy=200, angle=270
+):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
     pitch = 10.0
     N = len(xs1)
-    xs2 = [50 + i * pitch for i in range(N)]
+    xs2 = [70 + i * pitch for i in range(N)]
 
     if axis == "X":
         ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, angle) for i in range(N)]
@@ -151,16 +109,20 @@ def test_get_bundle_udirect(dy=200, angle=270):
 
     c = pp.Component(name="get_bundle")
     routes = get_bundle(ports1, ports2)
-    lengths = [0] * len(routes)
-    for route, length in zip(routes, lengths):
-        print(route["length"])
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
+
     return c
 
 
-@cell
-def test_get_bundle_u_indirect(dy=-200, angle=180):
+def test_get_bundle_u_indirect(
+    data_regression: DataRegressionFixture, check: bool = True, dy=-200, angle=180
+):
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
@@ -185,25 +147,21 @@ def test_get_bundle_u_indirect(dy=-200, angle=180):
 
     c = pp.Component()
     routes = get_bundle(ports1, ports2)
-    lengths = [
-        341.416,
-        341.416,
-        341.416,
-        326.416,
-        316.416,
-        291.416,
-        291.416,
-        311.416,
-    ]
-    for route, length in zip(routes, lengths):
-        # print(route["length"])
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
+
     return c
 
 
-@cell
-def test_facing_ports():
+def test_facing_ports(
+    data_regression: DataRegressionFixture,
+    check: bool = True,
+):
 
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -221,31 +179,22 @@ def test_facing_ports():
 
     c = pp.Component()
     routes = get_bundle(ports1, ports2)
-    lengths = [
-        671.416,
-        481.416,
-        291.416,
-        291.416,
-        291.416,
-        276.416,
-        626.416,
-        401.416,
-        401.416,
-        381.416,
-        251.416,
-        391.416,
-    ]
-    for route, length in zip(routes, lengths):
-        # print(route["length"])
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
+
     return c
 
 
 if __name__ == "__main__":
 
-    # c = test_get_bundle()
-    # c = test_connect_corner()
-    c = test_get_bundle_u_indirect()
-    # c = test_facing_ports()
+    # c = test_get_bundle(None, check=False)
+    # c = test_connect_corner(None, check=False)
+    # c = test_get_bundle_udirect(None, check=False)
+    # c = test_get_bundle_u_indirect(None, check=False)
+    c = test_facing_ports(None, check=False)
     c.show()

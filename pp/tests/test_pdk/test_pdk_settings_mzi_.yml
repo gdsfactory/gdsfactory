@@ -13,6 +13,7 @@ settings:
   pins: false
   splitter: mmi1x2
   splitter_settings: null
+  tech: si_c
   waveguide: waveguide
   waveguide_horizontal: waveguide
   waveguide_vertical: waveguide

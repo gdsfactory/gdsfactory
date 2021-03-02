@@ -10,7 +10,8 @@ from omegaconf import OmegaConf
 from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.routing.factories import link_factory, route_factory
+from pp.routing.factories import link_factory as link_factory_default
+from pp.routing.factories import route_factory as route_factory_default
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -347,8 +348,8 @@ ports:
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: Dict[str, Callable] = None,
-    route_factory: Dict[str, Callable] = route_factory,
-    link_factory: Dict[str, Callable] = link_factory,
+    route_factory: Dict[str, Callable] = route_factory_default,
+    link_factory: Dict[str, Callable] = link_factory_default,
     label_instance_function: Callable = _add_instance_label,
     **kwargs,
 ) -> Component:

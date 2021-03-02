@@ -21,8 +21,8 @@ def loop_mirror(
     routes = route_manhattan(
         cref.ports["E0"],
         cref.ports["E1"],
-        bend90=bend90,
         straight_factory=pp.c.waveguide,
+        bend_factory=bend90,
     )
     c.add(routes["references"])
     c.add_port(name="W0", port=cref.ports["W0"])

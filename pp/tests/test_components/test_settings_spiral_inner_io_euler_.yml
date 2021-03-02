@@ -1,6 +1,6 @@
 function_name: spiral_inner_io_euler
 info:
-  length: 13374.842
+  length: 20914.634
 module: pp.components.spiral_inner_io
 name: spiral_inner_io_euler
 settings:

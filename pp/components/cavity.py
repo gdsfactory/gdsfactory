@@ -2,6 +2,7 @@ import pp
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
 from pp.container import container
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
@@ -12,17 +13,19 @@ def cavity(
     coupler: ComponentFactory = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,
-    wg_width: float = 0.5,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
-    r"""Creates a cavity from a coupler and a mirror
-    it will connect the W0 port of the mirror to both E1 and W1 ports of the coupler creating a resonant cavity
+    r"""Returns  cavity from a coupler and a mirror.
+
+    connects the W0 port of the mirror to E1 and W1 coupler ports
+    creating a resonant cavity
 
     Args:
         component: mirror
         coupler: coupler factory
         length: coupler length
         gap: coupler gap
-        wg_width: coupler wg_width
+        tech: Technology
 
     .. code::
 
@@ -44,9 +47,7 @@ def cavity(
     """
     mirror = component() if callable(component) else component
     coupler = (
-        coupler(length=length, gap=gap, wg_width=wg_width)
-        if callable(coupler)
-        else coupler
+        coupler(length=length, gap=gap, tech=tech) if callable(coupler) else coupler
     )
 
     c = pp.Component()

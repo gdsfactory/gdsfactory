@@ -206,7 +206,7 @@ if __name__ == "__main__":
         c,
         # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
-        optical_routing_type=2,
+        # optical_routing_type=2,
         # layer_label=layer_label,
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,

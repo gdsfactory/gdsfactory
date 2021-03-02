@@ -5,7 +5,7 @@ import numpy as np
 import pp
 from pp.add_labels import get_input_label
 from pp.component import Component
-from pp.components.bend_circular import bend_circular as bend_circular_function
+from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
@@ -55,14 +55,13 @@ def add_gratings_and_loop_back(
     gc_port_name: None = None,
     gc_rotation: int = -90,
     waveguide_separation: float = 5.0,
-    bend_factory: ComponentFactory = bend_circular_function,
+    bend_factory: ComponentFactory = bend_euler,
     waveguide_factory: ComponentFactory = waveguide_function,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     component_name: None = None,
     with_loopback: bool = True,
 ) -> Component:
-    """ returns a component with grating_couplers and loopback
-    """
+    """returns a component with grating_couplers and loopback"""
     excluded_ports = excluded_ports or []
     gc = pp.call_if_func(grating_coupler)
 
@@ -126,7 +125,7 @@ def add_gratings_and_loop_back(
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - waveguide_separation
 
-        route = np.array(
+        points = np.array(
             [
                 p0,
                 p0 + (0, a),
@@ -139,7 +138,9 @@ def add_gratings_and_loop_back(
             ]
         )
         bend90 = bend_factory(radius=bend_radius_align_ports)
-        loop_back_route = round_corners(route, bend90, waveguide_factory)
+        loop_back_route = round_corners(
+            points=points, bend_factory=bend90, straight_factory=waveguide_factory
+        )
         c.add([gca1, gca2])
         c.add(loop_back_route["references"])
     return c

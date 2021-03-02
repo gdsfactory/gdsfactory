@@ -21,11 +21,11 @@ def test_connect_u_direct() -> Component:
     pbports.reverse()
 
     routes = pp.routing.get_bundle(pbports, ptports, bend_radius=5)
-    lengths = [6.319, 46.319, 86.319, 126.319, 166.319]
+    lengths = [37.735, 77.735, 117.735, 157.735, 197.735]
 
     for route, length in zip(routes, lengths):
         c.add(route["references"])
-        # print(route["length"])
+        print(route["length"])
         assert np.isclose(
             route["length"], length
         ), f"{route['length']} different from {length}"

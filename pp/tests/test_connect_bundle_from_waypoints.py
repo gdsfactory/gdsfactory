@@ -9,7 +9,7 @@ from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 
 
 def test_get_bundle_from_waypointsA(
-    data_regression: DataRegressionFixture,
+    data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
 
     xs1 = np.arange(10) * 5 - 500.0
@@ -35,18 +35,18 @@ def test_get_bundle_from_waypointsA(
     ]
 
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
-    lengths = np.zeros_like(routes)
+    lengths = {}
     for i, route in enumerate(routes):
         c.add(route["references"])
         lengths[i] = route["length"]
 
-    lengths = {str(i): i for i in lengths}
-    data_regression.check(lengths)
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 def test_get_bundle_from_waypointsB(
-    data_regression: DataRegressionFixture,
+    data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
@@ -69,18 +69,20 @@ def test_get_bundle_from_waypointsB(
     ]
 
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
-    lengths = np.zeros_like(routes, dtype=float)
+    lengths = {}
     for i, route in enumerate(routes):
         c.add(route["references"])
         lengths[i] = route["length"]
 
-    lengths = {str(i): i for i in lengths}
-    # data_regression.check(lengths)
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 @cell
-def test_get_bundle_from_waypointsC() -> Component:
+def test_get_bundle_from_waypointsC(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
 
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
     ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 65]) - 500.0
@@ -100,30 +102,21 @@ def test_get_bundle_from_waypointsC() -> Component:
     ]
 
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
-
-    lengths = [
-        1082.832,
-        1082.832,
-        1082.832,
-        1077.832,
-        1077.832,
-        1112.832,
-        1112.832,
-        1107.832,
-        1142.832,
-        1142.832,
-    ]
-
-    for route, length in zip(routes, lengths):
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        # print(route["length"])
-        assert route["length"] == length
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
 
     return c
 
 
 @cell
-def test_get_bundle_from_waypointsD() -> Component:
+def test_get_bundle_from_waypointsD(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
 
     ys1 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 75]) + 100.0
     ys2 = np.array([0, -5, -10, -20, -25, -30, -40, -55, -60, -75]) + 500.0
@@ -142,30 +135,20 @@ def test_get_bundle_from_waypointsD() -> Component:
     waypoints = [(0, yc1), (200, yc1), (200, yc2), (0, yc2)]
 
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
-    lengths = [
-        855.416,
-        835.416,
-        815.416,
-        775.416,
-        755.416,
-        735.416,
-        695.416,
-        635.416,
-        615.416,
-        555.416,
-    ]
-
-    for route, length in zip(routes, lengths):
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        # print(route["length"])
-        assert route["length"] == length
+        lengths[i] = route["length"]
 
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 if __name__ == "__main__":
 
-    c = test_get_bundle_from_waypointsD()
-    # c = test_get_bundle_from_waypointsC()
-    # c = test_get_bundle_from_waypointsB()
+    c = test_get_bundle_from_waypointsA(None, check=False)
+    # c = test_get_bundle_from_waypointsD(None, check=False)
+    # c = test_get_bundle_from_waypointsC(None, check=False)
+    # c = test_get_bundle_from_waypointsB(None, check=False)
     c.show()

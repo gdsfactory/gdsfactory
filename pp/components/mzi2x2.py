@@ -303,6 +303,6 @@ if __name__ == "__main__":
     # cc = pp.add_pins(c)
     # cc.show()
 
-    c = mzi_arm()
-    c = mzi2x2()
+    c = mzi_arm(with_elec_connections=True)
+    c = mzi2x2(with_elec_connections=True)
     c.show()

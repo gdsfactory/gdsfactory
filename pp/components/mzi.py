@@ -2,10 +2,11 @@ from typing import Dict, Optional, Union
 
 import pp
 from pp.component import Component
-from pp.components.bend_circular import bend_circular as bend_circular_function
+from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import rename_ports_by_orientation
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
@@ -14,8 +15,8 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 4.0,
     length_x: float = 0.1,
-    bend_radius: float = 10.0,
-    bend90: ComponentFactory = bend_circular_function,
+    bend_radius: Optional[float] = None,
+    bend90: ComponentFactory = bend_euler,
     waveguide: ComponentFactory = waveguide_function,
     waveguide_vertical: Optional[ComponentFactory] = None,
     waveguide_horizontal: Optional[ComponentFactory] = None,
@@ -25,6 +26,7 @@ def mzi(
     pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Mzi.
 
@@ -67,6 +69,7 @@ def mzi(
       c.plot()
 
     """
+    bend_radius = bend_radius or tech.bend_radius
     L2 = length_x
     L0 = length_y
     DL = delta_length

@@ -1,30 +1,17 @@
 connections:
-  bend_euler_R10_W500n_14.015_-21.65,N0: waveguide_L30p01_W500n_39.995_-29.375,W0
-  bend_euler_R10_W500n_14.015_-21.65,W0: waveguide_L28p76_W500n_6.289_3.706,E0
-  bend_euler_R10_W500n_14.015_29.061,N0: waveguide_L28p76_W500n_6.289_3.706,W0
-  bend_euler_R10_W500n_14.015_29.061,W0: waveguide_L10n_W500n_24.995_36.787,E0
-  bend_euler_R10_W500n_35.975_29.061,N0: waveguide_L10n_W500n_24.995_36.787,W0
-  bend_euler_R10_W500n_35.975_29.061,W0: waveguide_L10n_W500n_43.701_18.081,E0
-  bend_euler_R10_W500n_35.975_7.1,N0: waveguide_L10n_W500n_43.701_18.081,W0
-  bend_euler_R10_W500n_35.975_7.1,W0: mmi_top,E0
-  mmi_bot,W0: waveguide_L30p01_W500n_39.995_-29.375,E0
+  bend_euler_R10_W500n_38.564_-8.35,N0: waveguide_L1p348_W500n_46.289_-20.0,W0
+  bend_euler_R10_W500n_38.564_-8.35,W0: waveguide_L2p588_W500n_26.294_-0.625,E0
+  bend_euler_R10_W500n_54.015_-31.65,N0: waveguide_L10n_W500n_64.995_-39.375,W0
+  bend_euler_R10_W500n_54.015_-31.65,W0: waveguide_L1p348_W500n_46.289_-20.0,E0
+  mmi_bot,W0: waveguide_L10n_W500n_64.995_-39.375,E0
+  mmi_top,E0: waveguide_L2p588_W500n_26.294_-0.625,W0
 instances:
-  bend_euler_R10_W500n_14.015_-21.65:
+  bend_euler_R10_W500n_38.564_-8.35:
     component: bend_euler
     settings:
       radius: 10.0
       width: 0.5
-  bend_euler_R10_W500n_14.015_29.061:
-    component: bend_euler
-    settings:
-      radius: 10.0
-      width: 0.5
-  bend_euler_R10_W500n_35.975_29.061:
-    component: bend_euler
-    settings:
-      radius: 10.0
-      width: 0.5
-  bend_euler_R10_W500n_35.975_7.1:
+  bend_euler_R10_W500n_54.015_-31.65:
     component: bend_euler
     settings:
       radius: 10.0
@@ -39,76 +26,56 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  waveguide_L10n_W500n_24.995_36.787:
+  waveguide_L10n_W500n_64.995_-39.375:
     component: waveguide
     settings:
       length: 0.01
       width: 0.5
-  waveguide_L10n_W500n_43.701_18.081:
+  waveguide_L1p348_W500n_46.289_-20.0:
     component: waveguide
     settings:
-      length: 0.01
+      length: 1.348
       width: 0.5
-  waveguide_L28p76_W500n_6.289_3.706:
+  waveguide_L2p588_W500n_26.294_-0.625:
     component: waveguide
     settings:
-      length: 28.76
-      width: 0.5
-  waveguide_L30p01_W500n_39.995_-29.375:
-    component: waveguide
-    settings:
-      length: 30.01
+      length: 2.588
       width: 0.5
 name: sample_docstring
 placements:
-  bend_euler_R10_W500n_14.015_-21.65:
+  bend_euler_R10_W500n_38.564_-8.35:
+    mirror: true
+    rotation: 0
+    x: 27.588
+    y: -0.625
+  bend_euler_R10_W500n_54.015_-31.65:
     mirror: false
     rotation: 270
-    x: 6.289
-    y: -10.674
-  bend_euler_R10_W500n_14.015_29.061:
-    mirror: false
-    rotation: 180
-    x: 24.99
-    y: 36.787
-  bend_euler_R10_W500n_35.975_29.061:
-    mirror: false
-    rotation: 90
-    x: 43.701
-    y: 18.086
-  bend_euler_R10_W500n_35.975_7.1:
-    mirror: false
-    rotation: 0
-    x: 25.0
-    y: -0.625
+    x: 46.289
+    y: -20.674
   mmi_bot:
     mirror: false
     rotation: 0
-    x: 70.0
-    y: -29.375
+    x: 80.0
+    y: -39.375
   mmi_top:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.0
-  waveguide_L10n_W500n_24.995_36.787:
-    mirror: false
-    rotation: 180
-    x: 25.0
-    y: 36.787
-  waveguide_L10n_W500n_43.701_18.081:
-    mirror: false
-    rotation: 90
-    x: 43.701
-    y: 18.076
-  waveguide_L28p76_W500n_6.289_3.706:
-    mirror: false
-    rotation: 270
-    x: 6.289
-    y: 18.086
-  waveguide_L30p01_W500n_39.995_-29.375:
+  waveguide_L10n_W500n_64.995_-39.375:
     mirror: false
     rotation: 0
-    x: 24.99
-    y: -29.375
+    x: 64.99
+    y: -39.375
+  waveguide_L1p348_W500n_46.289_-20.0:
+    mirror: false
+    rotation: 270
+    x: 46.289
+    y: -19.326
+  waveguide_L2p588_W500n_26.294_-0.625:
+    mirror: false
+    rotation: 0
+    x: 25.0
+    y: -0.625
 ports: {}

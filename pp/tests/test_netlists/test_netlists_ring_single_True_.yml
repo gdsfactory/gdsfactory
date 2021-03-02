@@ -10,6 +10,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 5.0
@@ -20,6 +21,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 5.0
@@ -36,6 +38,7 @@ instances:
   waveguide_L0p001_Tsi_c_-13.35_10.051:
     component: waveguide
     settings:
+      layer: null
       length: 0.001
       npoints: 2
       tech: si_c
@@ -43,6 +46,7 @@ instances:
   waveguide_L0p001_Tsi_c_9.35_10.051:
     component: waveguide
     settings:
+      layer: null
       length: 0.001
       npoints: 2
       tech: si_c
@@ -50,6 +54,7 @@ instances:
   waveguide_L4_Tsi_c_-2.0_19.402:
     component: waveguide
     settings:
+      layer: null
       length: 4.0
       npoints: 2
       tech: si_c

@@ -46,20 +46,19 @@ from pp.layers import LAYER
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.snap import snap_to_grid
-from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteFactory
+from pp.types import ComponentOrFactory, Coordinates, Layer, Number, Route
 
 
 def get_route(
     input_port: Port,
     output_port: Port,
-    bend_factory: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = waveguide,
-    taper_factory: Optional[ComponentFactory] = taper_function,
+    bend_factory: ComponentOrFactory = bend_euler,
+    straight_factory: ComponentOrFactory = waveguide,
+    taper_factory: Optional[ComponentOrFactory] = taper_function,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_radius: Number = 10.0,
-    route_factory: RouteFactory = route_manhattan,
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
     The references are waveguides, bends and tapers.
@@ -73,7 +72,6 @@ def get_route(
         end_straight: Number: length of end waveguide
         min_straight: Number: min length of waveguide
         bend_radius: Number: min bend_radius
-        route_factory: returns route
     """
 
     bend90 = (
@@ -93,15 +91,15 @@ def get_route(
         else taper_factory
     )
 
-    return route_factory(
-        input_port,
-        output_port,
-        bend90,
+    return route_manhattan(
+        input_port=input_port,
+        output_port=output_port,
         straight_factory=straight_factory,
         taper=taper,
         start_straight=start_straight,
         end_straight=end_straight,
         min_straight=min_straight,
+        bend_factory=bend90,
     )
 
 
@@ -199,7 +197,10 @@ def get_route_from_waypoints(
     )
 
     return round_corners(
-        points=waypoints, bend90=bend90, straight_factory=straight_factory, taper=taper
+        points=waypoints,
+        bend_factory=bend90,
+        straight_factory=straight_factory,
+        taper=taper,
     )
 
 
@@ -242,9 +243,14 @@ def get_route_from_waypoints_electrical(
     bend90 = bend_factory(width=wg_width, layer=layer)
 
     def _straight_factory(length=10.0, width=wg_width):
-        return straight_factory(length=snap_to_grid(length), width=width, layer=layer)
+        return straight_factory(length=snap_to_grid(length), width=width)
 
-    connector = round_corners(waypoints, bend90, _straight_factory, taper=None)
+    connector = round_corners(
+        points=waypoints,
+        straight_factory=_straight_factory,
+        taper=None,
+        bend_factory=bend90,
+    )
     return connector
 
 

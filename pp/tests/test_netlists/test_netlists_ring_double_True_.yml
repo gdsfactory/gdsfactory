@@ -21,6 +21,7 @@ instances:
   waveguide_L10n_Tsi_c_-9.36_10.055:
     component: waveguide
     settings:
+      layer: null
       length: 0.01
       npoints: 2
       tech: si_c
@@ -28,6 +29,7 @@ instances:
   waveguide_L10n_Tsi_c_9.35_10.055:
     component: waveguide
     settings:
+      layer: null
       length: 0.01
       npoints: 2
       tech: si_c

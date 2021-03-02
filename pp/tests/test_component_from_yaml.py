@@ -18,12 +18,10 @@ instances:
     wgw:
       component: waveguide
       settings:
-        width: 1
         length: 1
     wgn:
       component: waveguide
       settings:
-        width: 0.5
         length: 0.5
 
 connections:
@@ -80,8 +78,8 @@ ports:
 connections:
     arm_bot,W0: CP1,E0
     arm_top,W0: CP1,E1
-    CP2,E0: arm_bot,E0
-    CP2,E1: arm_top,E0
+    CP2,E0: arm_top,E0
+    CP2,E1: arm_bot,E0
 """
 
 
@@ -108,17 +106,17 @@ connections:
 
 def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
-    assert len(c.get_dependencies()) == 7
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
+    assert len(c.get_dependencies()) == 6
     assert len(c.ports) == 2
     return c
 
 
 def test_connections() -> Component:
     c = component_from_yaml(sample_connections)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0
     return c
@@ -126,8 +124,8 @@ def test_connections() -> Component:
 
 def test_mirror() -> Component:
     c = component_from_yaml(sample_mirror)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
     assert len(c.get_dependencies()) == 4
     assert len(c.ports) == 2
     return c
@@ -163,15 +161,14 @@ routes:
 
 def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
-    # print(len(c.get_dependencies()))
-    # print(len(c.ports))
-    assert len(c.get_dependencies()) == 9
+    print(len(c.get_dependencies()))
+    print(len(c.ports))
+    assert len(c.get_dependencies()) == 8
     assert len(c.ports) == 0
 
-    print(c.routes)
     length = c.routes["mmi_bottom,E1:mmi_top,W1"]
     print(length)
-    assert length == 163.916
+    assert np.isclose(length, 160.528)
     return c
 
 
@@ -205,7 +202,7 @@ routes:
     electrical:
         factory: electrical
         settings:
-            separation: 240
+            separation: 10
         links:
             tl,E: tr,W
             bl,E: br,W
@@ -221,9 +218,15 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    assert np.isclose(c.routes["tl,E:tr,W"], 700.0)
-    assert np.isclose(c.routes["bl,E:br,W"], 850.0)
-    assert np.isclose(c.routes["bl,S:br,E"], 1171.259)
+    lengths = [688.028, 688.028, 1468.478]
+    assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
+    assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
+    assert np.isclose(c.routes["bl,S:br,E"], lengths[2])
+
+    print(c.routes["tl,E:tr,W"])
+    print(c.routes["bl,E:br,W"])
+    print(c.routes["bl,S:br,E"])
+
     return c
 
 
@@ -271,7 +274,8 @@ routes:
 def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
-    length = 1716.248
+    length = 1740.888
+    print(c.routes["tl,E:tr,W"])
     assert np.isclose(c.routes["tl,E:tr,W"], length)
     assert np.isclose(c.routes["bl,E:br,W"], length)
     return c
@@ -290,7 +294,7 @@ instances:
 
 placements:
     t:
-        x: 100
+        x: -250
         y: 1000
 routes:
     route1:
@@ -331,8 +335,8 @@ placements:
         port: W0
         x: mmi_top,E1
         y: mmi_top,E1
-        dx: 30
-        dy: -30
+        dx: 40
+        dy: -40
 routes:
     optical:
         factory: optical
@@ -420,8 +424,9 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 1241.415926535898
+    length = 1238.028
     route_name = "t,S5:b,N4"
+    print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
     return c
 
@@ -429,7 +434,7 @@ def test_connections_waypoints() -> Component:
 def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,E0:mmi_bot,W0"
-    length = 50.16592653589793
+    length = 66.778
     print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
     return c
@@ -592,8 +597,13 @@ def needs_fixing():
 
 if __name__ == "__main__":
 
-    # c = test_sample()
+    # c = test_mirror()
+    # c = test_connections()
+    c = test_sample()
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
-    c = test_connections_regex()
+    # c = test_connections_different_link_factory()
+    # c = test_connections_regex()
+    # c = test_connections_waypoints()
+    # c = test_docstring_sample()
     c.show()

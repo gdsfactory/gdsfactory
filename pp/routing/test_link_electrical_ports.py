@@ -15,8 +15,9 @@ def test_link_electrical_ports() -> Component:
         [c1.ports["E"]],
         [c2.ports["W"]],
         route_filter=pp.routing.get_route_from_waypoints_electrical,
+        bend_factory=pp.c.corner,
     )
-    lengths = [209.98]
+    lengths = [189.98]
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])
@@ -26,8 +27,9 @@ def test_link_electrical_ports() -> Component:
         [c1.ports["S"]],
         [c2.ports["E"]],
         route_filter=pp.routing.get_route_from_waypoints_electrical,
+        bend_factory=pp.c.corner,
     )
-    lengths = [420.0]
+    lengths = [390.0]
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])

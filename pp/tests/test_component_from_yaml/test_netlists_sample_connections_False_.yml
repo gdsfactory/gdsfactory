@@ -5,12 +5,10 @@ instances:
     component: waveguide
     settings:
       length: 0.5
-      width: 0.5
   wgw:
     component: waveguide
     settings:
-      length: 1
-      width: 1
+      length: 1.0
 name: sample_connections
 placements:
   wgn:

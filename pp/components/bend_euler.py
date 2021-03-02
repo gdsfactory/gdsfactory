@@ -5,6 +5,7 @@ from pp.component import Component
 from pp.path import component, euler
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
+from pp.types import Layer
 
 
 @cell
@@ -15,6 +16,7 @@ def bend_euler(
     use_eff: bool = False,
     npoints: int = 720,
     width: Optional[float] = None,
+    layer: Optional[Layer] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -33,6 +35,7 @@ def bend_euler(
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         width: waveguide width (defaults to tech.wg_width)
+        layer: layer for bend (defaults to tech.layer_wg)
         tech: Technology
 
 
@@ -51,8 +54,7 @@ def bend_euler(
       c.plot()
 
     """
-    width = width or tech.wg_width
-    cross_section = tech.get_cross_section(width=width)
+    cross_section = tech.get_cross_section(width=width, layer=layer)
     p = euler(radius=radius, angle=angle, p=p, use_eff=use_eff, npoints=npoints)
     c = component(p, cross_section)
     c.length = snap_to_grid(p.length())

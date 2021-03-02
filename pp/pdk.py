@@ -482,7 +482,7 @@ class Pdk:
         """Returns a route with euler adiabatic bends."""
         return round_corners(
             waypoints,
-            bend90=self.bend_euler,
+            bend_factory=self.bend_euler,
             straight_factory=self.waveguide,
             taper=self.taper,
         )
@@ -491,7 +491,7 @@ class Pdk:
         """Returns a route with radial bends."""
         return round_corners(
             waypoints,
-            bend90=self.bend_circular,
+            bend_factory=self.bend_circular,
             straight_factory=self.waveguide,
             taper=self.taper,
         )
