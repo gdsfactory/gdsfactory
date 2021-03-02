@@ -5,15 +5,8 @@ info:
 module: pp.components.coupler
 name: coupler
 settings:
-  cladding_offset: 0.0
   dx: 10.0
   dy: 5.0
   gap: 0.236
-  layer:
-  - 1
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
-  length: 20.007
-  wg_width: 0.5
+  length: 20.0
+  tech: si_c

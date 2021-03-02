@@ -1,8 +1,8 @@
 connections:
-  bend_circular_R10_W500n_-245.125_604.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_627.5,1
-  bend_circular_R10_W500n_-245.125_604.875,W0: taper_L1_0_L35_W500n_W2p5_-222.5_600.0,1
-  bend_circular_R10_W500n_-4.875_595.125,N0: taper_L1_0_L35_W500n_W2p5_-27.5_600.0,1
-  bend_circular_R10_W500n_-4.875_595.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_572.5,1
+  bend_circular_R10_W500n_-246.625_603.375,N0: taper_L1_0_L35_W500n_W2p5_-250.0_627.5,1
+  bend_circular_R10_W500n_-246.625_603.375,W0: taper_L1_0_L35_W500n_W2p5_-222.5_600.0,1
+  bend_circular_R10_W500n_-3.375_596.625,N0: taper_L1_0_L35_W500n_W2p5_-27.5_600.0,1
+  bend_circular_R10_W500n_-3.375_596.625,W0: taper_L1_0_L35_W500n_W2p5_0.0_572.5,1
   taper_L1_0_L35_W500n_W2p5_-222.5_600.0,2: waveguide_L160_W2p5_-125.0_600.0,E0
   taper_L1_0_L35_W500n_W2p5_-250.0_627.5,2: waveguide_L320_W2p5_-250.0_805.0,W0
   taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2: waveguide_L320_W2p5_-250.0_805.0,E0
@@ -13,12 +13,12 @@ instances:
   b:
     component: pad_array
     settings: {}
-  bend_circular_R10_W500n_-245.125_604.875:
+  bend_circular_R10_W500n_-246.625_603.375:
     component: bend_circular
     settings:
       radius: 10.0
       width: 0.5
-  bend_circular_R10_W500n_-4.875_595.125:
+  bend_circular_R10_W500n_-3.375_596.625:
     component: bend_circular
     settings:
       radius: 10.0
@@ -104,12 +104,12 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_circular_R10_W500n_-245.125_604.875:
+  bend_circular_R10_W500n_-246.625_603.375:
     mirror: true
     rotation: 180
     x: -240.0
     y: 600.0
-  bend_circular_R10_W500n_-4.875_595.125:
+  bend_circular_R10_W500n_-3.375_596.625:
     mirror: false
     rotation: 90
     x: 0.0

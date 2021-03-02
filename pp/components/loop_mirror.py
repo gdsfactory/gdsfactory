@@ -1,12 +1,11 @@
-"""
-"""
+"""Sagnac loop_mirror."""
 
 import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.spiral_external_io import spiral_external_io
-from pp.routing import route_manhattan
+from pp.routing.manhattan import route_manhattan
 from pp.types import ComponentFactory
 
 
@@ -14,6 +13,7 @@ from pp.types import ComponentFactory
 def loop_mirror(
     component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
 ) -> Component:
+    """Returns Sagnac loop_mirror."""
     c = pp.Component()
     component = pp.call_if_func(component)
     bend90 = pp.call_if_func(bend90)

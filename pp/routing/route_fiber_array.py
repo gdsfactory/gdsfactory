@@ -5,11 +5,10 @@ from phidl.device_layout import Label
 
 import pp
 from pp.component import Component, ComponentReference
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide
-from pp.layers import LAYER
 from pp.port import select_optical_ports
 from pp.routing.get_bundle import get_min_spacing, link_optical_ports
 from pp.routing.get_input_labels import get_input_labels
@@ -17,17 +16,15 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
-
-SPACING_GC = 127.0
-BEND_RADIUS = pp.conf.tech.bend_radius
 
 
 def route_fiber_array(
     component: Component,
-    optical_io_spacing: float = SPACING_GC,
+    optical_io_spacing: Optional[float] = None,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    bend_factory: ComponentFactory = bend_circular,
+    bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = waveguide,
     taper_factory: ComponentFactory = taper,
     fanout_length: Optional[int] = None,
@@ -35,7 +32,7 @@ def route_fiber_array(
     with_align_ports: bool = True,
     waveguide_separation: float = 4.0,
     optical_routing_type: Optional[int] = None,
-    bend_radius: float = BEND_RADIUS,
+    bend_radius: Optional[float] = None,
     connected_port_list_ids: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
@@ -44,13 +41,14 @@ def route_fiber_array(
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
-    layer_label: Tuple[int, int] = LAYER.LABEL,
+    layer_label: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
     route_factory: Callable = route_south,
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
+    tech: Tech = TECH_SILICON_C,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -79,7 +77,7 @@ def route_fiber_array(
             Useful where the component is large due to metal tracks
            * ``None: leads to an automatic decision based on size and number
            of I/O of the component.
-        bend_radius: bend radius
+        bend_radius: optional bend_radius (defaults to tech.bend_radius)
         connected_port_list_ids: only for type 0 optical routing.
             Can specify which ports goes to which grating assuming the gratings are ordered from left to right.
             e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
@@ -108,6 +106,10 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
+    layer_label = layer_label or tech.layer_label
+    bend_radius = bend_radius or tech.bend_radius
+    optical_io_spacing = optical_io_spacing or tech.fiber_array_spacing
+
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
     if optical_port_labels is None:
@@ -185,11 +187,7 @@ def route_fiber_array(
         else:
             optical_routing_type = 1
 
-    """
-    Look at a bunch of conditions to choose the default length
-    if the default fanout distance is not set
-    """
-
+    # choose the default length if the default fanout distance is not set
     def has_p(side):
         return len(direction_ports[side]) > 0
 
@@ -439,7 +437,7 @@ if __name__ == "__main__":
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_align_ports=True,
         optical_routing_type=1,
-        bend_factory=pp.c.bend_euler,
+        # bend_factory=pp.c.bend_euler,
         bend_radius=5,
         # force_manhattan=True
     )

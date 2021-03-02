@@ -110,10 +110,10 @@ def cell(
                     )
 
         if cache and autoname and name in CACHE:
-            print(f"{name} cache")
+            # print(f"{name} cache")
             return CACHE[name]
         else:
-            print(f"{name} build")
+            # print(f"{name} build")
             assert callable(
                 func
             ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"

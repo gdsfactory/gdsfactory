@@ -3,6 +3,6 @@ info: {}
 module: pp.components.coupler90
 name: coupler90
 settings:
-  bend_radius: 10.0
   gap: 0.2
-  width: 0.5
+  radius: 10.0
+  tech: si_c

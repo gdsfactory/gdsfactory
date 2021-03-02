@@ -1,13 +1,9 @@
 import numpy as np
 
 import pp
-from pp.components.bend_circular import (
-    bend_circular,
-    bend_circular_ridge,
-    bend_circular_slot,
-)
+from pp.components.bend_circular import bend_circular
 from pp.components.pcm.cd import CENTER_SHAPES_MAP, square_middle
-from pp.components.waveguide import waveguide, waveguide_slab, waveguide_slot
+from pp.components.waveguide import waveguide
 
 
 @pp.cell
@@ -18,8 +14,9 @@ def cd_bend(
     center_shapes="SU",
     bend90_factory=pp.c.bend_circular,
     waveguide_factory=pp.c.waveguide,
+    markers_with_slabs=False,
 ):
-    """ bends and straights connected together
+    """bends and straights connected together
     for CDSEM measurement
     """
 
@@ -44,10 +41,9 @@ def cd_bend(
     # Then stack the others underneath
 
     # If we do ridge waveguides, add a slab
-    markers_with_slabs = bend90_factory == bend_circular_ridge
 
     center = np.array([radius + L / 2, L / 2])
-    center_shape_side = 0.4 if markers_with_slabs else 0.5
+    center_shape_side = 0.4
     center_shape_spacing = 0.2
     sep = center_shape_side + center_shape_spacing
     for cs_name in center_shapes:
@@ -72,28 +68,6 @@ def cd_bend(
 @pp.cell
 def cd_bend_strip(**kwargs):
     return cd_bend(**kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide)
-
-
-@pp.cell
-def cd_bend_rib(cladding=0.3, **kwargs):
-    def bend(*a, **k):
-        return bend_circular_ridge(*a, cladding=cladding, **k)
-
-    def wg(*a, **k):
-        return waveguide_slab(*a, cladding=cladding, **k)
-
-    return cd_bend(**kwargs, bend90_factory=bend, waveguide_factory=wg)
-
-
-@pp.cell
-def cd_bend_slot(gap=0.2, **kwargs):
-    def bend(*a, **k):
-        return bend_circular_slot(*a, gap=gap, **k)
-
-    def wg(*a, **k):
-        return waveguide_slot(*a, gap=gap, **k)
-
-    return cd_bend(**kwargs, bend90_factory=bend, waveguide_factory=wg)
 
 
 if __name__ == "__main__":

@@ -225,7 +225,7 @@ if __name__ == "__main__":
 
     c = pp.c.crossing()
     c = pp.c.ring_double(length_y=3)  # FIXME
-    c = pp.c.waveguide(width=2, length=500)
+    c = pp.c.waveguide(length=500)
     c = pp.c.mmi1x2()
     c = pp.c.mzi2x2()
     c = pp.c.rectangle()

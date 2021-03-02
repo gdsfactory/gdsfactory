@@ -26,7 +26,8 @@ from pp.routing.route_ports_to_side import route_elec_ports_to_side, route_ports
 from pp.routing.route_south import route_south
 
 route_factory = dict(
-    optical=get_route_from_waypoints, electrical=get_route_from_waypoints_electrical,
+    optical=get_route_from_waypoints,
+    electrical=get_route_from_waypoints_electrical,
 )
 
 link_factory = dict(
@@ -41,7 +42,6 @@ __all__ = [
     "add_electrical_pads",
     "add_electrical_pads_shortest",
     "add_electrical_pads_top",
-    "add_fiber_array",
     "add_fiber_array",
     "add_fiber_single",
     "get_bundle",

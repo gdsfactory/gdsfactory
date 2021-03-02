@@ -42,6 +42,7 @@ def component(
             All points that can be removed without changing the resulting
             polygon by more than the value listed here will be removed.
     """
+    cross_section = cross_section() if callable(cross_section) else cross_section
     component = p.extrude(cross_section=cross_section, simplify=simplify)
     c = import_phidl_component(component=component)
 
@@ -70,6 +71,14 @@ def component(
 
 
 def arc(radius: Number = 10, angle: Number = 90, npoints: int = 720) -> Path:
+    """Returns a radial arc.
+
+    Args:
+        radius: minimum radius of curvature
+        angle: total angle of the curve
+        npoints: Number of points used per 360 degrees
+
+    """
     return path.arc(radius=radius, angle=angle, num_pts=npoints)
 
 
@@ -94,7 +103,7 @@ def euler(
         use_eff: If False: `radius` is the minimum radius of curvature of the bend
             If True: The curve will be scaled such that the endpoints match an arc
             with parameters `radius` and `angle`
-        num_pts: Number of points used per 360 degrees
+        npoints: Number of points used per 360 degrees
 
     """
     return path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
@@ -104,6 +113,10 @@ def straight(length: Number = 10, npoints: int = 100) -> Path:
     """Returns a straight path
 
     For transitions you should increase have at least 100 points
+
+    Args:
+        length: of waveguide
+        npoints: number of points
     """
     return path.straight(length=length, num_pts=npoints)
 

@@ -1,28 +1,28 @@
 connections:
-  bend_circular_R10_W500n_125.125_204.875,N0: taper_L1_0_L35_W500n_W2p5_130.0_227.5,1
-  bend_circular_R10_W500n_125.125_204.875,W0: waveguide_L70_W500n_85.0_200.0,E0
-  bend_circular_R10_W500n_134.875_553.125,N0: taper_L1_0_L35_W500n_W2p5_157.5_558.0,1
-  bend_circular_R10_W500n_134.875_553.125,W0: taper_L1_0_L35_W500n_W2p5_130.0_530.5,1
-  bend_circular_R10_W500n_134.875_583.875,N0: waveguide_L1_W500n_130.0_589.5,W0
-  bend_circular_R10_W500n_134.875_583.875,W0: taper_L1_0_L35_W500n_W2p5_157.5_579.0,1
-  bend_circular_R10_W500n_134.875_595.125,N0: taper_L1_0_L35_W500n_W2p5_157.5_600.0,1
-  bend_circular_R10_W500n_134.875_595.125,W0: waveguide_L1_W500n_130.0_589.5,E0
-  bend_circular_R10_W500n_255.125_4.875,N0: taper_L1_0_L35_W500n_W2p5_260.0_27.5,1
-  bend_circular_R10_W500n_255.125_4.875,W0: taper_L1_0_L35_W500n_W2p5_232.5_0.0,1
-  bend_circular_R10_W500n_264.875_353.125,N0: taper_L1_0_L35_W500n_W2p5_287.5_358.0,1
-  bend_circular_R10_W500n_264.875_353.125,W0: taper_L1_0_L35_W500n_W2p5_260.0_330.5,1
-  bend_circular_R10_W500n_264.875_383.875,N0: waveguide_L1_W500n_260.0_389.5,W0
-  bend_circular_R10_W500n_264.875_383.875,W0: taper_L1_0_L35_W500n_W2p5_287.5_379.0,1
-  bend_circular_R10_W500n_264.875_395.125,N0: taper_L1_0_L35_W500n_W2p5_287.5_400.0,1
-  bend_circular_R10_W500n_264.875_395.125,W0: waveguide_L1_W500n_260.0_389.5,E0
-  bend_circular_R10_W500n_396.125_562.875,N0: waveguide_L1_W500n_401.0_568.5,W0
-  bend_circular_R10_W500n_396.125_562.875,W0: taper_L1_0_L35_W500n_W2p5_373.5_558.0,1
-  bend_circular_R10_W500n_396.125_574.125,N0: taper_L1_0_L35_W500n_W2p5_373.5_579.0,1
-  bend_circular_R10_W500n_396.125_574.125,W0: waveguide_L1_W500n_401.0_568.5,E0
-  bend_circular_R10_W500n_526.125_362.875,N0: waveguide_L1_W500n_531.0_368.5,W0
-  bend_circular_R10_W500n_526.125_362.875,W0: taper_L1_0_L35_W500n_W2p5_503.5_358.0,1
-  bend_circular_R10_W500n_526.125_374.125,N0: taper_L1_0_L35_W500n_W2p5_503.5_379.0,1
-  bend_circular_R10_W500n_526.125_374.125,W0: waveguide_L1_W500n_531.0_368.5,E0
+  bend_circular_R10_W500n_126.625_203.375,N0: taper_L1_0_L35_W500n_W2p5_130.0_227.5,1
+  bend_circular_R10_W500n_126.625_203.375,W0: waveguide_L70_W500n_85.0_200.0,E0
+  bend_circular_R10_W500n_133.375_554.625,N0: taper_L1_0_L35_W500n_W2p5_157.5_558.0,1
+  bend_circular_R10_W500n_133.375_554.625,W0: taper_L1_0_L35_W500n_W2p5_130.0_530.5,1
+  bend_circular_R10_W500n_133.375_582.375,N0: waveguide_L1_W500n_130.0_589.5,W0
+  bend_circular_R10_W500n_133.375_582.375,W0: taper_L1_0_L35_W500n_W2p5_157.5_579.0,1
+  bend_circular_R10_W500n_133.375_596.625,N0: taper_L1_0_L35_W500n_W2p5_157.5_600.0,1
+  bend_circular_R10_W500n_133.375_596.625,W0: waveguide_L1_W500n_130.0_589.5,E0
+  bend_circular_R10_W500n_256.625_3.375,N0: taper_L1_0_L35_W500n_W2p5_260.0_27.5,1
+  bend_circular_R10_W500n_256.625_3.375,W0: taper_L1_0_L35_W500n_W2p5_232.5_0.0,1
+  bend_circular_R10_W500n_263.375_354.625,N0: taper_L1_0_L35_W500n_W2p5_287.5_358.0,1
+  bend_circular_R10_W500n_263.375_354.625,W0: taper_L1_0_L35_W500n_W2p5_260.0_330.5,1
+  bend_circular_R10_W500n_263.375_382.375,N0: waveguide_L1_W500n_260.0_389.5,W0
+  bend_circular_R10_W500n_263.375_382.375,W0: taper_L1_0_L35_W500n_W2p5_287.5_379.0,1
+  bend_circular_R10_W500n_263.375_396.625,N0: taper_L1_0_L35_W500n_W2p5_287.5_400.0,1
+  bend_circular_R10_W500n_263.375_396.625,W0: waveguide_L1_W500n_260.0_389.5,E0
+  bend_circular_R10_W500n_397.625_561.375,N0: waveguide_L1_W500n_401.0_568.5,W0
+  bend_circular_R10_W500n_397.625_561.375,W0: taper_L1_0_L35_W500n_W2p5_373.5_558.0,1
+  bend_circular_R10_W500n_397.625_575.625,N0: taper_L1_0_L35_W500n_W2p5_373.5_579.0,1
+  bend_circular_R10_W500n_397.625_575.625,W0: waveguide_L1_W500n_401.0_568.5,E0
+  bend_circular_R10_W500n_527.625_361.375,N0: waveguide_L1_W500n_531.0_368.5,W0
+  bend_circular_R10_W500n_527.625_361.375,W0: taper_L1_0_L35_W500n_W2p5_503.5_358.0,1
+  bend_circular_R10_W500n_527.625_375.625,N0: taper_L1_0_L35_W500n_W2p5_503.5_379.0,1
+  bend_circular_R10_W500n_527.625_375.625,W0: waveguide_L1_W500n_531.0_368.5,E0
   bl,E: taper_L1_0_L35_W500n_W2p5_67.5_0.0,1
   br,W: taper_L1_0_L35_W500n_W2p5_832.5_400.0,1
   taper_L1_0_L35_W500n_W2p5_130.0_227.5,2: waveguide_L268_W2p5_130.0_379.0,W0
@@ -46,161 +46,101 @@ connections:
   taper_L1_0_L35_W500n_W2p5_832.5_600.0,2: waveguide_L640_W2p5_495.0_600.0,E0
   tl,E: waveguide_L70_W500n_85.0_200.0,W0
 instances:
-  bend_circular_R10_W500n_125.125_204.875:
+  bend_circular_R10_W500n_126.625_203.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_134.875_553.125:
+  bend_circular_R10_W500n_133.375_554.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_134.875_583.875:
+  bend_circular_R10_W500n_133.375_582.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_134.875_595.125:
+  bend_circular_R10_W500n_133.375_596.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_255.125_4.875:
+  bend_circular_R10_W500n_256.625_3.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_264.875_353.125:
+  bend_circular_R10_W500n_263.375_354.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_264.875_383.875:
+  bend_circular_R10_W500n_263.375_382.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_264.875_395.125:
+  bend_circular_R10_W500n_263.375_396.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_396.125_562.875:
+  bend_circular_R10_W500n_397.625_561.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_396.125_574.125:
+  bend_circular_R10_W500n_397.625_575.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_526.125_362.875:
+  bend_circular_R10_W500n_527.625_361.375:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
-  bend_circular_R10_W500n_526.125_374.125:
+  bend_circular_R10_W500n_527.625_375.625:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
+      tech: si_c
       width: 0.5
   bl:
     component: pad
@@ -221,217 +161,199 @@ instances:
   taper_L1_0_L35_W500n_W2p5_130.0_227.5:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_130.0_530.5:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_157.5_558.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_157.5_579.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_157.5_600.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_232.5_0.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_27.5:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_330.5:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_287.5_358.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_287.5_379.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_287.5_400.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_373.5_558.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_373.5_579.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_503.5_358.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_503.5_379.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_0.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_400.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_600.0:
     component: taper
     settings:
-      cladding_offset: 3.0
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35.0
       port: null
+      tech: si_c
       width1: 0.5
       width2: 2.5
   tl:
@@ -453,201 +375,159 @@ instances:
   waveguide_L130_W2p5_150.0_0.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 130.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L181_W2p5_265.5_558.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 181.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L181_W2p5_265.5_579.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 181.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L181_W2p5_395.5_358.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 181.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L181_W2p5_395.5_379.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 181.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L1_W500n_130.0_589.5:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 1
+      length: 1.0
+      npoints: 2
+      tech: si_c
       width: 0.5
   waveguide_L1_W500n_260.0_389.5:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 1
+      length: 1.0
+      npoints: 2
+      tech: si_c
       width: 0.5
   waveguide_L1_W500n_401.0_568.5:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 1
+      length: 1.0
+      npoints: 2
+      tech: si_c
       width: 0.5
   waveguide_L1_W500n_531.0_368.5:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 1
+      length: 1.0
+      npoints: 2
+      tech: si_c
       width: 0.5
   waveguide_L268_W2p5_130.0_379.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 268.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L268_W2p5_260.0_179.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 268.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L510_W2p5_560.0_400.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 510.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L640_W2p5_495.0_600.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 640.0
+      npoints: 2
+      tech: si_c
       width: 2.5
   waveguide_L70_W500n_85.0_200.0:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 70.0
+      npoints: 2
+      tech: si_c
       width: 0.5
 name: sample_different_link_factory
 placements:
-  bend_circular_R10_W500n_125.125_204.875:
+  bend_circular_R10_W500n_126.625_203.375:
     mirror: false
     rotation: 0
     x: 120.0
     y: 200.0
-  bend_circular_R10_W500n_134.875_553.125:
+  bend_circular_R10_W500n_133.375_554.625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 548.0
-  bend_circular_R10_W500n_134.875_583.875:
+  bend_circular_R10_W500n_133.375_582.375:
     mirror: true
     rotation: 180
     x: 140.0
     y: 579.0
-  bend_circular_R10_W500n_134.875_595.125:
+  bend_circular_R10_W500n_133.375_596.625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 590.0
-  bend_circular_R10_W500n_255.125_4.875:
+  bend_circular_R10_W500n_256.625_3.375:
     mirror: false
     rotation: 0
     x: 250.0
     y: 0.0
-  bend_circular_R10_W500n_264.875_353.125:
+  bend_circular_R10_W500n_263.375_354.625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 348.0
-  bend_circular_R10_W500n_264.875_383.875:
+  bend_circular_R10_W500n_263.375_382.375:
     mirror: true
     rotation: 180
     x: 270.0
     y: 379.0
-  bend_circular_R10_W500n_264.875_395.125:
+  bend_circular_R10_W500n_263.375_396.625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 390.0
-  bend_circular_R10_W500n_396.125_562.875:
+  bend_circular_R10_W500n_397.625_561.375:
     mirror: false
     rotation: 0
     x: 391.0
     y: 558.0
-  bend_circular_R10_W500n_396.125_574.125:
+  bend_circular_R10_W500n_397.625_575.625:
     mirror: false
     rotation: 90
     x: 401.0
     y: 569.0
-  bend_circular_R10_W500n_526.125_362.875:
+  bend_circular_R10_W500n_527.625_361.375:
     mirror: false
     rotation: 0
     x: 521.0
     y: 358.0
-  bend_circular_R10_W500n_526.125_374.125:
+  bend_circular_R10_W500n_527.625_375.625:
     mirror: false
     rotation: 90
     x: 531.0

@@ -14,6 +14,7 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
+      tech: si_c
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100.0
   route_filter: get_route_from_waypoints_electrical

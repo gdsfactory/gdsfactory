@@ -1,18 +1,15 @@
 function_name: bend_euler180
 info:
   dx: 0.0
-  dy: 27.537
+  dy: 0.0
   length: 62.832
-  radius: 10.0
 module: pp.components.bend_euler
 name: bend_euler180
 settings:
-  cladding_offset: 0.0
-  layer:
-  - 1
-  - 0
-  layers_cladding: null
+  angle: 180
+  npoints: 720
+  p: 1
   radius: 10.0
-  resolution: 150.0
-  theta: 180
-  width: 0.5
+  tech: si_c
+  use_eff: false
+  width: null

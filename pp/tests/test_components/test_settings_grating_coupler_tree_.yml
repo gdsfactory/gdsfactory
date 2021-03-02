@@ -26,7 +26,8 @@ settings:
   optical_routing_type: 0
   straight_factory: waveguide
   taper_factory: null
-  taper_length: 10.0
+  taper_length: null
+  tech: si_c
   waveguide_spacing: 4
   with_align_ports: false
   with_loop_back: false

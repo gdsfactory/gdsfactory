@@ -1,52 +1,16 @@
 import dataclasses
-from typing import Callable, Dict, Optional, Tuple, Union
+from typing import Callable, Dict, Optional, Union
 
 import numpy as np
 
 import pp
 from pp.component import Component
-from pp.layers import LAYER
+from pp.routing.add_fiber_array import add_fiber_array
+from pp.routing.add_fiber_single import add_fiber_single
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.manhattan import round_corners
-from pp.types import ComponentFactory, Coordinates, Layer, Number, Route, RouteFactory
-
-
-@dataclasses.dataclass(frozen=True)
-class Tech:
-    wg_width: float
-    bend_radius: float
-    cladding_offset: float
-    layer_wg: Layer
-    layers_cladding: Optional[Tuple[Layer, ...]]
-    layer_label: Layer
-    taper_length: float
-    taper_width: float
-    fiber_single_spacing: float = 50.0
-    fiber_input_to_output_spacing: float = 120.0
-
-
-@dataclasses.dataclass(frozen=True)
-class TechGeneric(Tech):
-    wg_width: float = 0.5
-    bend_radius: float = 5.0
-    cladding_offset: float = 3.0
-    layer_wg: Layer = LAYER.WG
-    layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
-    layer_label: Layer = LAYER.LABEL
-    taper_length: float = 15.0
-    taper_width: float = 2.0  # taper to wider waveguides for lower loss
-
-
-@dataclasses.dataclass(frozen=True)
-class TechMetal(Tech):
-    wg_width: float = 1.0
-    bend_radius: float = 10.0
-    cladding_offset: float = 3.0
-    layer_wg: Layer = LAYER.M1
-    layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
-    layer_label: Layer = LAYER.LABEL
-    taper_length: float = 20.0
-    taper_width: float = 10.0
+from pp.tech import TECH_METAL1, TECH_NITRIDE_C, TECH_SILICON_C, Tech
+from pp.types import ComponentFactory, Coordinates, Route, RouteFactory
 
 
 @dataclasses.dataclass
@@ -54,50 +18,72 @@ class Pdk:
     tech: Tech
 
     def waveguide(
-        self, length: Number = 10.0, width: Optional[float] = None
+        self,
+        length: float = 10.0,
+        npoints: int = 2,
+        width: Optional[float] = None,
     ) -> Component:
-        return pp.c.waveguide(
-            length=length,
-            width=width or self.tech.wg_width,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
-        )
+        """Returns a Straight waveguide.
+
+        Args:
+            length: of straight
+            npoints: number of points
+            width: waveguide width (defaults to tech.wg_width)
+        """
+        return pp.c.waveguide(length=length, npoints=npoints, tech=self.tech)
 
     def bend_circular(
         self,
-        theta: int = -90,
-        start_angle: int = 0,
-        angle_resolution: float = 2.5,
-        width: Optional[float] = None,
         radius: Optional[float] = None,
+        angle: int = 90,
+        npoints: int = 720,
     ) -> Component:
+        """Returns a radial arc.
+
+        Args:
+            radius
+            angle: angle of arc (degrees)
+            npoints: Number of points used per 360 degrees
+        """
         return pp.c.bend_circular(
             radius=radius or self.tech.bend_radius,
-            theta=theta,
-            start_angle=start_angle,
-            angle_resolution=angle_resolution,
-            width=width or self.tech.wg_width,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
+            angle=angle,
+            npoints=npoints,
+            tech=self.tech,
         )
 
     def bend_euler(
         self,
-        theta: int = 90,
         radius: Optional[float] = None,
-        resolution: float = 150.0,
-        width: Optional[float] = None,
+        angle: int = 90,
+        p: float = 1,
+        use_eff: bool = False,
+        npoints: int = 720,
     ) -> Component:
+        r"""Returns euler bend that adiabatically transitions from straight to curved.
+        By default, radius corresponds to the minimum radius of curvature of the bend.
+        However, if use_eff is set to True, radius corresponds to the effective
+        radius of curvature (making the curve a drop-in replacement for an arc). If
+        p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
+        al. https://dx.doi.org/10.1364/oe.27.031394
+
+        Args:
+            radius: minimum radius of curvature
+            angle: total angle of the curve
+            p: Proportion of the curve that is an Euler curve
+            use_eff: If False: radius is the minimum radius of curvature of the bend
+                If True: The curve will be scaled such that the endpoints match an arc
+                with parameters radius and angle
+            npoints: Number of points used per 360 degrees
+        """
+
         return pp.c.bend_euler(
-            theta=theta,
             radius=radius or self.tech.bend_radius,
-            resolution=resolution,
-            width=width or self.tech.wg_width,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
+            angle=angle,
+            p=p,
+            use_eff=use_eff,
+            npoints=npoints,
+            tech=self.tech,
         )
 
     def taper(
@@ -117,88 +103,7 @@ class Pdk:
             length=length or self.tech.taper_length,
             width1=width1 or self.tech.wg_width,
             width2=width2 or self.tech.taper_width,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
-        )
-
-    def coupler90(
-        self,
-        gap: float = 0.2,
-        bend_radius: Optional[float] = None,
-        width: Optional[float] = None,
-    ) -> Component:
-        r"""Waveguide coupled to a bend.
-
-        Args:
-            gap: um
-            bend_radius: um
-            width: waveguide width (um)
-
-        .. code::
-
-                 N0
-                 |
-                /
-               /
-           W0 =--- E0
-        """
-
-        return pp.c.coupler90(
-            gap=gap,
-            bend_radius=bend_radius or self.tech.bend_radius,
-            width=width or self.tech.wg_width,
-            waveguide_factory=self.waveguide,
-            bend90_factory=self.bend_euler,
-        )
-
-    def coupler_straight(
-        self,
-        length: float = 10.0,
-        gap: float = 0.27,
-        width: Optional[float] = None,
-    ) -> Component:
-        """Two Straight coupled waveguides with two multimode ports."""
-        return pp.c.coupler_straight(
-            length=length,
-            gap=gap,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
-            width=width or self.tech.wg_width,
-        )
-
-    def coupler_ring(
-        self,
-        length_x: float = 4.0,
-        gap: float = 0.2,
-        bend_radius: Optional[float] = None,
-        wg_width: Optional[float] = None,
-    ) -> Component:
-        r"""Coupler for ring.
-
-        Args:
-            length_x: length of the parallel coupled waveguides.
-            gap: spacing between parallel coupled waveguides.
-            bend_radius: of the bends.
-            wg_width: width of the waveguides.
-
-        .. code::
-
-               N0            N1
-               |             |
-                \           /
-                 \         /
-               ---=========---
-            W0    length_x    E0
-        """
-        return pp.c.coupler_ring(
-            coupler90=self.coupler90,
-            coupler=self.coupler_straight,
-            length_x=length_x,
-            gap=gap,
-            wg_width=wg_width or self.tech.wg_width,
-            bend_radius=bend_radius or self.tech.bend_radius,
+            tech=self.tech,
         )
 
     def ring_single(
@@ -206,11 +111,7 @@ class Pdk:
         gap: float = 0.2,
         length_x: float = 4.0,
         length_y: float = 0.001,
-        coupler: Optional[ComponentFactory] = None,
-        waveguide: Optional[ComponentFactory] = None,
-        bend: Optional[ComponentFactory] = None,
-        bend_radius: Optional[float] = None,
-        wg_width: Optional[float] = None,
+        radius: Optional[float] = None,
         pins: bool = False,
     ) -> Component:
         """Single bus ring made of a ring coupler (cb: bottom)
@@ -221,11 +122,7 @@ class Pdk:
             gap: gap between for coupler
             length_x: ring coupler length
             length_y: vertical waveguide length
-            coupler: ring coupler function
-            waveguide: waveguide function
-            bend: bend function
-            bend_radius: for the bend and coupler
-            wg_width: waveguide width
+            radius: for the bend and coupler
             pins: add pins
 
 
@@ -243,19 +140,16 @@ class Pdk:
             gap=gap,
             length_x=length_x,
             length_y=length_y,
-            coupler=coupler or self.coupler_ring,
-            waveguide=waveguide or self.waveguide,
-            bend=bend or self.bend_euler,
-            bend_radius=bend_radius or self.tech.bend_radius,
-            wg_width=wg_width or self.tech.wg_width,
+            radius=radius or self.tech.bend_radius,
             pins=pins,
+            tech=self.tech,
         )
 
     def mmi1x2(
         self,
         width_taper: float = 1.0,
         length_taper: float = 10.0,
-        length_mmi: float = 5.496,
+        length_mmi: float = 5.5,
         width_mmi: float = 2.5,
         gap_mmi: float = 0.25,
     ) -> Component:
@@ -296,22 +190,19 @@ class Pdk:
 
         """
         return pp.c.mmi1x2(
-            wg_width=self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
             length_mmi=length_mmi,
             width_mmi=width_mmi,
             gap_mmi=gap_mmi,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
+            tech=self.tech,
         )
 
     def mmi2x2(
         self,
         width_taper: float = 1.0,
         length_taper: float = 10.0,
-        length_mmi: float = 5.496,
+        length_mmi: float = 5.5,
         width_mmi: float = 2.5,
         gap_mmi: float = 0.25,
     ) -> Component:
@@ -352,21 +243,18 @@ class Pdk:
 
         """
         return pp.c.mmi2x2(
-            wg_width=self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
             length_mmi=length_mmi,
             width_mmi=width_mmi,
             gap_mmi=gap_mmi,
-            layer=self.tech.layer_wg,
-            layers_cladding=self.tech.layers_cladding,
-            cladding_offset=self.tech.cladding_offset,
+            tech=self.tech,
         )
 
     def mzi(
         self,
         delta_length: float = 10.0,
-        length_y: float = 4.0,
+        length_y: float = 0.1,
         length_x: float = 0.1,
         bend90: Optional[ComponentFactory] = None,
         waveguide: Optional[ComponentFactory] = None,
@@ -523,7 +411,7 @@ class Pdk:
             bend_radius: for bends
         """
 
-        return pp.routing.add_fiber_array(
+        return add_fiber_array(
             component=component,
             component_name=component_name,
             route_filter=route_filter or self.get_route_euler,
@@ -573,7 +461,7 @@ class Pdk:
             gc_port_name: W0
         """
 
-        return pp.routing.add_fiber_single(
+        return add_fiber_single(
             component=component,
             grating_coupler=grating_coupler or self.grating_coupler,
             layer_label=self.tech.layer_label,
@@ -610,29 +498,46 @@ class Pdk:
 
 
 @dataclasses.dataclass
-class PdkGeneric(Pdk):
-    tech: Tech = TechGeneric()
+class PdkSiliconCband(Pdk):
+    tech: Tech = TECH_SILICON_C
 
 
 @dataclasses.dataclass
-class PdkMetal(Pdk):
-    tech: Tech = TechMetal()
+class PdkNitrideCband(Pdk):
+    tech: Tech = TECH_NITRIDE_C
 
+
+@dataclasses.dataclass
+class PdkMetal1(Pdk):
+    tech: Tech = TECH_METAL1
+
+
+PDK_SILICON_C = PdkSiliconCband()
+PDK_METAL1 = PdkMetal1()
+PDK_NITRIDE_C = PdkNitrideCband()
 
 if __name__ == "__main__":
-    p = PdkMetal()
-    c = p.waveguide(length=10)
-    c = p.waveguide(length=10)
+    p = PDK_METAL1
+    p = PDK_NITRIDE_C
+    # c = p.waveguide(length=10)
+    # c = p.waveguide(length=10)
+    # c = p.taper(length=10)
+    # c = p.taper(length=10)
+
+    c = p.ring_single()
+
+    # p = PDK_SILICON_C
+    # c = p.waveguide(length=10)
 
     # c = p.mzi(delta_length=10)
     # c = p.mzi(delta_length=20)
 
-    # p = PdkGeneric()
-    # c = p.ring_single()
-    # c = p.coupler90()
-    # c = p.mmi2x2()
+    c = p.mmi2x2()
     # c = p.waveguide()
-    # cc = p.add_fiber_array(c, bend_radius=10)
-    # cc = p.add_fiber_single(c)
-    # cc.show()
+    c = p.ring_single()
+    c = p.mzi()
+
+    cc = p.add_fiber_array(c, bend_radius=10)
+    cc = p.add_fiber_single(c)
+    cc.show()
     # c = p.grating_coupler()

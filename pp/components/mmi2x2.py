@@ -1,38 +1,30 @@
-from typing import Optional, Tuple
-
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.types import ComponentFactory, Layer
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import ComponentFactory
 
 
 @cell
 def mmi2x2(
-    wg_width: float = 0.5,
     width_taper: float = 0.95,
     length_taper: float = 10.0,
     length_mmi: float = 15.45,
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
-    layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[Tuple[Layer, ...]] = (pp.LAYER.WGCLAD,),
     taper: ComponentFactory = taper_function,
-    cladding_offset: float = 3.0,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     r"""Mmi 2x2
 
     Args:
-        wg_width: input waveguides width
         width_taper: interface between input waveguides and mmi region
         length_taper: into the mmi region
         length_mmi: in x direction
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
-        layer: gds layer
-        layers_cladding: list of layers
         taper: taper function
-        cladding_offset: for taper
 
     .. plot::
       :include-source:
@@ -61,18 +53,16 @@ def mmi2x2(
             length_taper
 
     """
+    wg_width = tech.wg_width
+    layers_cladding = tech.layers_cladding
+    layer = tech.layer_wg
+    cladding_offset = tech.cladding_offset
+
     component = pp.Component()
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(
-        length=length_taper,
-        width1=wg_width,
-        width2=w_taper,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-    )
+    taper = taper(length=length_taper, width1=wg_width, width2=w_taper, tech=tech)
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = pp.c.rectangle(

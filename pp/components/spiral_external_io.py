@@ -11,7 +11,7 @@ import pp
 from pp.component import Component
 from pp.components import waveguide
 from pp.components.bend_circular import bend_circular, bend_circular180
-from pp.routing import round_corners
+from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
 
