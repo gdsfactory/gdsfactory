@@ -3,12 +3,13 @@ from typing import Any, Callable, List, Tuple, Union
 import numpy as np
 from numpy import float64, ndarray
 
+from pp.components.bend_euler import bend_euler
 from pp.geo_utils import remove_identicals
 from pp.port import Port
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, remove_flat_angles
 from pp.routing.route_ports_to_side import route_ports_to_side
-from pp.types import Route
+from pp.types import ComponentFactory, Route
 
 
 def _groups(
@@ -32,6 +33,7 @@ def u_bundle_direct(
     end_straight: float = 0.01,
     start_straight_offset: float = 0.0,
     end_straight_offset: float = 0.0,
+    bend_factory: ComponentFactory = bend_euler,
     **routing_params
 ) -> List[Route]:
     r"""
@@ -41,6 +43,11 @@ def u_bundle_direct(
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip waveguide
+        separation: between waveguides
+        start_straight:
+        end_straight
+        start_straight_offset
+        end_straight_offset
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
@@ -87,6 +94,7 @@ def u_bundle_direct(
         start_straight_offset=start_straight_offset,
         end_straight_offset=end_straight_offset,
         routing_func=generate_manhattan_waypoints,
+        bend_factory=bend_factory,
         **routing_params
     )
 
@@ -102,6 +110,7 @@ def u_bundle_direct_routes(
     end_straight: float = 0.01,
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
+    bend_factory: ComponentFactory = bend_euler,
     **routing_func_params
 ) -> List[ndarray]:
 
@@ -193,6 +202,7 @@ def u_bundle_direct_routes(
             p_end,
             start_straight=straight_len_start,
             end_straight=straight_len_end,
+            bend_factory=bend_factory,
             **routing_func_params
         )
         connections += [_c]
@@ -207,6 +217,7 @@ def u_bundle_direct_routes(
             p_end,
             start_straight=straight_len_start,
             end_straight=straight_len_end,
+            bend_factory=bend_factory,
             **routing_func_params
         )
         connections += [_c]

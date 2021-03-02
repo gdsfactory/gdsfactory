@@ -13,6 +13,6 @@ settings:
   dy: 2.0
   pins: true
   taper_length: 5.0
-  w0: 0.5
+  tech: si_c
   w1: 0.45
   w2: 0.55

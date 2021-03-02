@@ -9,4 +9,4 @@ settings:
   dy: 5.0
   gap: 0.234
   tech: si_c
-  wg_width: 0.5
+  wg_width: null

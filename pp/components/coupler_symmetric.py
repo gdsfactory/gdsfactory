@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
@@ -9,20 +11,20 @@ from pp.types import ComponentFactory
 def coupler_symmetric(
     bend: ComponentFactory = bend_s,
     gap: float = 0.234,
-    wg_width: float = 0.5,
     dy: float = 5.0,
     dx: float = 10.0,
     tech: Tech = TECH_SILICON_C,
+    wg_width: Optional[float] = None,
 ) -> Component:
     r"""Two coupled waveguides with bends.
 
     Args:
         bend: bend or factory
         gap:
-        wg_width:
         dy: port to port vertical spacing
         dx: bend length in x direction
         tech: Technology
+        wg_width: waveguide width (defaults to tech.wg_width)
 
     .. plot::
       :include-source:
@@ -45,8 +47,9 @@ def coupler_symmetric(
                         E0
 
     """
+    width = wg_width or tech.wg_width
     bend_component = (
-        bend(height=(dy - gap - wg_width) / 2, length=dx, tech=tech)
+        bend(width=width, height=(dy - gap - width) / 2, length=dx, tech=tech)
         if callable(bend)
         else bend
     )

@@ -3,8 +3,10 @@ from typing import List, Union
 import numpy as np
 from numpy import ndarray
 
+from pp.components.bend_euler import bend_euler
 from pp.geo_utils import path_length
 from pp.routing.manhattan import _is_horizontal, _is_vertical, remove_flat_angles
+from pp.types import ComponentFactory
 
 
 def path_length_matched_points(
@@ -13,6 +15,7 @@ def path_length_matched_points(
     bend_radius: Union[float, int] = 10.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
+    bend_factory: ComponentFactory = bend_euler,
 ) -> List[ndarray]:
     """
     Several types of paths won't match correctly.
@@ -41,6 +44,7 @@ def path_length_matched_points(
         "list_of_waypoints": list_of_waypoints,
         "modify_segment_i": modify_segment_i,
         "extra_length": extra_length,
+        "bend_factory": bend_factory,
     }
 
     if nb_loops >= 1:
@@ -125,6 +129,7 @@ def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
     bend_radius: Union[float, int] = 10.0,
+    bend_factory: ComponentFactory = bend_euler,
     margin: float = 0.5,
     extra_length: float = 0.0,
     nb_loops: int = 1,
@@ -171,7 +176,6 @@ def path_length_matched_points_add_waypoints(
     ]
     lengths = [path_length(waypoints) for waypoints in list_of_waypoints]
     L0 = max(lengths)
-
     N = len(list_of_waypoints[0])
 
     # Find how many turns there are per path
@@ -181,10 +185,8 @@ def path_length_matched_points_add_waypoints(
     # match with this algorithm
     if min(nb_turns) != max(nb_turns):
         raise ValueError(
-            "Number of turns in paths have to be identical got \
-        {}".format(
-                nb_turns
-            )
+            f"Number of turns in paths have to be identical got \
+        {nb_turns}"
         )
 
     # To have flexibility in the path length, we need to add 4 bends
@@ -199,16 +201,16 @@ def path_length_matched_points_add_waypoints(
     """
 
     # Get the points for the segment we need to modify
-    a = margin + bend_radius
+    bend90 = bend_factory(radius=bend_radius)
+
+    a = margin + bend90.dx
     if modify_segment_i < 0:
         modify_segment_i = modify_segment_i + N + 1
     list_new_waypoints = []
 
     for i, waypoints in enumerate(list_of_waypoints):
         p_s0, p_s1, p_next = waypoints[modify_segment_i - 2 : modify_segment_i + 1]
-
         p_s1 = np.array(p_s1)
-
         L = lengths[i]
 
         # Path length compensation length

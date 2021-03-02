@@ -6,10 +6,11 @@ from numpy import bool_, ndarray
 import pp
 from pp.component import Component, ComponentReference
 from pp.components import waveguide
+from pp.components.bend_euler import bend_euler
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
-from pp.types import Coordinate, Coordinates, Number, Route
+from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -603,8 +604,8 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    bend90: Optional[Component] = None,
-    bend_radius: None = None,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_radius: float = 10.0,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
@@ -612,32 +613,18 @@ def generate_manhattan_waypoints(
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
-    bend90 = bend90(radius=bend_radius) if callable(bend90) else bend90
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
 
-    if bend90 is None and bend_radius is None:
-        raise ValueError(
-            f"Either bend90 or bend_radius must be set. \
-        Got bend0={bend90} bend_radius={bend_radius}"
-        )
+    pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
 
-    if bend90 is not None and bend_radius is not None:
-        raise ValueError(
-            f"Either bend90 or bend_radius must be set. \
-        Got bend0={bend90} bend_radius={bend_radius}"
-            "Make sure that you only set one of them."
-        )
-
-    if bend90:
-        pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
-        p1 = bend90.ports[pname_west].midpoint
-        p2 = bend90.ports[pname_north].midpoint
-
-        bsx = p2[0] - p1[0]
-        bsy = p2[1] - p1[1]
-
-    elif bend_radius:
-        bsx = bend_radius
-        bsy = bend_radius
+    # p1 = bend90.ports[pname_west].midpoint
+    # p2 = bend90.ports[pname_north].midpoint
+    # bsx = p2[0] - p1[0]
+    # bsy = p2[1] - p1[1]
+    bsx = bend90.dx
+    bsy = bend90.dy
 
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight

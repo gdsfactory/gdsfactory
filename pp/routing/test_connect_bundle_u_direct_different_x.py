@@ -27,7 +27,7 @@ def test_get_bundle_u_direct_different_x() -> Component:
     ]
 
     routes = pp.routing.get_bundle(ports1, ports2, sort_ports=True)
-    lengths = [316.936, 529.269]
+    lengths = [268.118, 480.451]
 
     for route, length in zip(routes, lengths):
         # print(route["length"])

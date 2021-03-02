@@ -16,6 +16,7 @@ def test_get_bundle() -> Component:
     )
 
     route = routes[0]
+    print(route["length"])
     assert np.isclose(route["length"], 200)
     c.add(route["references"])
 
@@ -26,7 +27,8 @@ def test_get_bundle() -> Component:
         start_straight=20.0,
     )
     route = routes[0]
-    assert np.isclose(route["length"], 480.02)
+    print(route["length"])
+    assert np.isclose(route["length"], 514.824)
     c.add(route["references"])
     return c
 

@@ -142,10 +142,10 @@ def mzi1x2(
 
         # Reroute electrical ports
         _e_ports = select_electrical_ports(component)
-        conn, e_ports = route_elec_ports_to_side(_e_ports, side="north", y=y_elec)
+        routes, e_ports = route_elec_ports_to_side(_e_ports, side="north", y=y_elec)
 
-        for c in conn:
-            component.add(c)
+        for route in routes:
+            component.add(route["references"])
 
         for p in e_ports:
             component.ports[p.name] = p

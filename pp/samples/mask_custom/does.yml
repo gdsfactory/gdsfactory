@@ -8,7 +8,6 @@ mask:
 coupler_500_224:
   component: coupler_te
   settings:
-    wg_width: [0.5]
     gap: [0.224]
     length: [0, 18.24, 36.48, 54.72, 72.96, 91.2]
   test: passive_optical_te_coarse

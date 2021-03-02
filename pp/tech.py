@@ -40,6 +40,7 @@ class TechSiliconCband(Tech):
     layer_wg: Layer = LAYER.WG
     layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
     layer_label: Layer = LAYER.LABEL
+    layer_heater: Layer = LAYER.HEATER
     taper_length: float = 15.0
     taper_width: float = 2.0  # taper to wider waveguides for lower loss
 

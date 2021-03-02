@@ -19,10 +19,10 @@ def test_get_bundle_optical3() -> Component:
     routes = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
 
     lengths = [
-        489.416,
-        290.749,
-        290.749,
-        489.416,
+        423.196,
+        224.529,
+        224.529,
+        423.196,
     ]
 
     for route, length in zip(routes, lengths):

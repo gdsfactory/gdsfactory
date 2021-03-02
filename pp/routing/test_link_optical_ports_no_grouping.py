@@ -28,7 +28,7 @@ def test_link_optical_ports_no_grouping() -> Component:
     ]
 
     routes = pp.routing.link_optical_ports_no_grouping(ports1, ports2, sort_ports=True)
-    lengths = [489.416]
+    lengths = [423.196]
     for route, length in zip(routes, lengths):
         # print(route["length"])
         c.add(route["references"])

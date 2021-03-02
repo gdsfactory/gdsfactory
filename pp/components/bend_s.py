@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.component import Component
 from pp.components.bezier import bezier
@@ -10,6 +12,7 @@ def bend_s(
     length: float = 10.0,
     nb_points: int = 99,
     tech: Tech = TECH_SILICON_C,
+    width: Optional[float] = None,
 ) -> Component:
     """S bend with bezier curve
 
@@ -19,6 +22,7 @@ def bend_s(
         layer: gds number
         nb_points: number of points
         tech: Technology
+        width: waveguide width (defaults to tech.wg_width)
 
     .. plot::
       :include-source:
@@ -30,7 +34,7 @@ def bend_s(
 
     """
     l, h = length, height
-    width = tech.wg_width
+    width = width or tech.wg_width
     layer = tech.layer_wg
     layers_cladding = tech.layers_cladding
     cladding_offset = tech.cladding_offset
@@ -61,7 +65,7 @@ def bend_s(
 
 
 if __name__ == "__main__":
-    c = bend_s()
+    c = bend_s(width=1)
     c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
