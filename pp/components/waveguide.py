@@ -6,6 +6,7 @@ from pp.component import Component
 from pp.path import component, straight
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
+from pp.types import Layer
 
 
 @cell
@@ -13,6 +14,7 @@ def waveguide(
     length: float = 10.0,
     npoints: int = 2,
     width: Optional[float] = None,
+    layer: Optional[Layer] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Returns a Straight waveguide.
@@ -21,6 +23,7 @@ def waveguide(
         length: of straight
         npoints: number of points
         width: waveguide width (defaults to tech.wg_width)
+        layer: layer for bend (defaults to tech.layer_wg)
         tech: Technology
 
     .. plot::
@@ -34,7 +37,7 @@ def waveguide(
     """
     p = straight(length=length, npoints=npoints)
     width = width or tech.wg_width
-    cross_section = tech.get_cross_section(width=width)
+    cross_section = tech.get_cross_section(width=width, layer=layer)
     c = component(p, cross_section)
     c.width = width
     c.length = snap_to_grid(length)

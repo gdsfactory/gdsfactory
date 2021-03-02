@@ -117,7 +117,7 @@ placements:
   t:
     mirror: false
     rotation: 0
-    x: 100.0
+    x: -250.0
     y: 1000.0
   taper_L1_0_L35_W500n_W2p5_-213.799_600.0:
     mirror: false

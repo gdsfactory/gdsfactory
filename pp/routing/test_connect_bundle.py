@@ -2,6 +2,7 @@ import numpy as np
 
 import pp
 from pp.component import Component
+from pp.components.electrical import corner
 
 
 def test_get_bundle() -> Component:
@@ -13,11 +14,12 @@ def test_get_bundle() -> Component:
         [c1.ports["E"]],
         [c2.ports["W"]],
         route_filter=pp.routing.get_route_from_waypoints_electrical,
+        bend_factory=corner,
     )
 
     route = routes[0]
     print(route["length"])
-    assert np.isclose(route["length"], 200)
+    assert np.isclose(route["length"], 189.98)
     c.add(route["references"])
 
     routes = pp.routing.get_bundle(
@@ -25,10 +27,11 @@ def test_get_bundle() -> Component:
         [c2.ports["E"]],
         route_filter=pp.routing.get_route_from_waypoints_electrical,
         start_straight=20.0,
+        bend_factory=corner,
     )
     route = routes[0]
     print(route["length"])
-    assert np.isclose(route["length"], 514.824)
+    assert np.isclose(route["length"], 420.0)
     c.add(route["references"])
     return c
 

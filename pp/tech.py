@@ -22,10 +22,12 @@ class Tech:
     fiber_input_to_output_spacing: float = 120.0
     cross_section: CrossSectionFactory = strip
 
-    def get_cross_section(self, width=Optional[float]) -> CrossSection:
+    def get_cross_section(
+        self, width: Optional[float] = None, layer: Optional[Layer] = None
+    ) -> CrossSection:
         return self.cross_section(
             width=width or self.wg_width,
-            layer=self.layer_wg,
+            layer=layer or self.layer_wg,
             layers_cladding=self.layers_cladding,
             cladding_offset=self.cladding_offset,
         )

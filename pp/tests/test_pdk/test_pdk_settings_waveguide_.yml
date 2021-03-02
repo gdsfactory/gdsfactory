@@ -5,6 +5,7 @@ info:
 module: pp.components.waveguide
 name: waveguide_L10_N2_Tmetal1
 settings:
+  layer: null
   length: 10.0
   npoints: 2
   tech: metal1

@@ -58,5 +58,7 @@ def test_autoplacer():
 
 
 if __name__ == "__main__":
+    import pp
+
     c = test_autoplacer()
-    c.show()
+    pp.show(c)

@@ -50,6 +50,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -60,6 +61,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -70,6 +72,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -80,6 +83,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -90,6 +94,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -100,6 +105,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -110,6 +116,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -120,6 +127,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -130,6 +138,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -140,6 +149,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -150,6 +160,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -160,6 +171,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -399,6 +411,7 @@ instances:
   waveguide_L112p598_W2p5_141.299_0.0:
     component: waveguide
     settings:
+      layer: null
       length: 112.598
       npoints: 2
       tech: si_c
@@ -406,6 +419,7 @@ instances:
   waveguide_L181_W2p5_265.5_523.196:
     component: waveguide
     settings:
+      layer: null
       length: 181.0
       npoints: 2
       tech: si_c
@@ -413,6 +427,7 @@ instances:
   waveguide_L181_W2p5_265.5_561.598:
     component: waveguide
     settings:
+      layer: null
       length: 181.0
       npoints: 2
       tech: si_c
@@ -420,6 +435,7 @@ instances:
   waveguide_L181_W2p5_395.5_323.196:
     component: waveguide
     settings:
+      layer: null
       length: 181.0
       npoints: 2
       tech: si_c
@@ -427,6 +443,7 @@ instances:
   waveguide_L181_W2p5_395.5_361.598:
     component: waveguide
     settings:
+      layer: null
       length: 181.0
       npoints: 2
       tech: si_c
@@ -434,6 +451,7 @@ instances:
   waveguide_L1_W500n_121.299_580.799:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -441,6 +459,7 @@ instances:
   waveguide_L1_W500n_251.299_380.799:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -448,6 +467,7 @@ instances:
   waveguide_L1_W500n_409.701_542.397:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -455,6 +475,7 @@ instances:
   waveguide_L1_W500n_539.701_342.397:
     component: waveguide
     settings:
+      layer: null
       length: 1.0
       npoints: 2
       tech: si_c
@@ -462,6 +483,7 @@ instances:
   waveguide_L215p794_W2p5_121.299_361.598:
     component: waveguide
     settings:
+      layer: null
       length: 215.794
       npoints: 2
       tech: si_c
@@ -469,6 +491,7 @@ instances:
   waveguide_L215p794_W2p5_251.299_161.598:
     component: waveguide
     settings:
+      layer: null
       length: 215.794
       npoints: 2
       tech: si_c
@@ -476,6 +499,7 @@ instances:
   waveguide_L510_W2p5_560.0_400.0:
     component: waveguide
     settings:
+      layer: null
       length: 510.0
       npoints: 2
       tech: si_c
@@ -483,6 +507,7 @@ instances:
   waveguide_L52p598_W500n_76.299_200.0:
     component: waveguide
     settings:
+      layer: null
       length: 52.598
       npoints: 2
       tech: si_c
@@ -490,6 +515,7 @@ instances:
   waveguide_L640_W2p5_495.0_600.0:
     component: waveguide
     settings:
+      layer: null
       length: 640.0
       npoints: 2
       tech: si_c

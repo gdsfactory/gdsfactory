@@ -1,4 +1,5 @@
-"""Get optical and electrical routes."""
+"""Store route and link Factories in a dict."""
+
 from pp.routing.get_bundle import (
     get_bundle,
     get_bundle_path_length_match,

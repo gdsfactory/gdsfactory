@@ -168,7 +168,7 @@ def spiral_inner_io(
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_west = round_corners(
-        pts_w, bend90=_bend90, straight_factory=straight_factory, taper=taper
+        pts_w, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
     component.add(route_west["references"])
 
@@ -199,7 +199,7 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_east = round_corners(
-        pts_e, bend90=_bend90, straight_factory=straight_factory, taper=taper
+        pts_e, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
     component.add(route_east["references"])
 

@@ -3,8 +3,8 @@ info:
     b: DeviceReference (parent Device "pad_array", ports ['N0', 'N1', 'N2', 'N3',
       'N4', 'N5'], origin (0, 0), rotation 0, x_reflection False)
     t: DeviceReference (parent Device "pad_array_PL'S'", ports ['S0', 'S1', 'S2',
-      'S3', 'S4', 'S5'], origin [ 100. 1000.], rotation 0, x_reflection False)
+      'S3', 'S4', 'S5'], origin [-250. 1000.], rotation 0, x_reflection False)
   routes:
-    t,S5:b,N4: 1175.196
+    t,S5:b,N4: 1238.028
 name: sample_waypoints
 settings: {}

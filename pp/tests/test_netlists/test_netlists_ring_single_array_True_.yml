@@ -23,6 +23,7 @@ instances:
   waveguide_L5_7.5_0.0:
     component: waveguide
     settings:
+      layer: null
       length: 5.0
       npoints: 2
       tech: si_c

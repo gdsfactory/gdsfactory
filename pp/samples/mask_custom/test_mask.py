@@ -1,6 +1,4 @@
-"""
-This is a sample on how to define custom components.
-You can make a repo out of this file, having one custom component per file
+"""This is a sample on how to define custom components.
 """
 import os
 import shutil
@@ -41,7 +39,6 @@ def add_tm(component, **kwargs):
         component,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         route_filter=_route_filter,
-        bend_radius=20,
         **kwargs,
     )
     c = add_padding_to_grid(c)
@@ -145,6 +142,7 @@ def test_mask(precision: float = 2e-9) -> Path:
 
 if __name__ == "__main__":
     # c = test_mask()
-    # pp.klive.show(c)
-    c = coupler_te(gap=0.3, length=20)
+    # pp.show(c)
+    # c = coupler_te(gap=0.3, length=2.)
+    c = spiral_te()
     c.show()

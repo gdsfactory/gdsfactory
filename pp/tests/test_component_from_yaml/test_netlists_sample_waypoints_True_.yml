@@ -28,6 +28,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -38,6 +39,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      layer: null
       npoints: 720
       p: 1
       radius: 10.0
@@ -127,6 +129,7 @@ instances:
   waveguide_L142p598_W2p5_-125.0_600.0:
     component: waveguide
     settings:
+      layer: null
       length: 142.598
       npoints: 2
       tech: si_c
@@ -134,6 +137,7 @@ instances:
   waveguide_L311p299_W2p5_-250.0_809.35:
     component: waveguide
     settings:
+      layer: null
       length: 311.299
       npoints: 2
       tech: si_c
@@ -141,6 +145,7 @@ instances:
   waveguide_L511p299_W2p5_0.0_290.65:
     component: waveguide
     settings:
+      layer: null
       length: 511.299
       npoints: 2
       tech: si_c
@@ -165,7 +170,7 @@ placements:
   t:
     mirror: false
     rotation: 0
-    x: 100.0
+    x: -250.0
     y: 1000.0
   taper_L1_0_L35_W500n_W2p5_-213.799_600.0:
     mirror: false

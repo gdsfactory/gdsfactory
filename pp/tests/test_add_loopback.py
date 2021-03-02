@@ -7,3 +7,8 @@ def test_add_loopback() -> Component:
     c = waveguide_with_loopback()
     difftest(c)
     return c
+
+
+if __name__ == "__main__":
+    c = test_add_loopback()
+    c.show()

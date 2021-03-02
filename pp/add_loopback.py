@@ -70,7 +70,7 @@ def gen_loopback(
         y_bot_align_route if y_bot_align_route is not None else -gsi.width - 5.0
     )
 
-    route = [
+    points = [
         p0,
         p0 + (0, a),
         p0 + (b, a),
@@ -80,7 +80,9 @@ def gen_loopback(
         p1 + (0, a),
         p1,
     ]
-    route = round_corners(route, bend90, waveguide_factory)
+    route = round_corners(
+        points=points, bend_factory=bend90, straight_factory=waveguide_factory
+    )
     elements = [gca1, gca2]
     elements.extend(route["references"])
     return elements
