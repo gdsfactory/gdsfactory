@@ -4,26 +4,18 @@ instances:
   b:
     component: bend_circular
     settings:
-      angle_resolution: 2.5
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
+      angle: 90
+      npoints: 720
       radius: 10.0
-      start_angle: 0
-      theta: -90
-      width: 0.5
+      tech: si_c
+      width: null
   w:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 10.0
-      width: 0.5
+      npoints: 2
+      tech: si_c
+      width: null
 name: sample_mirror_simple
 placements:
   b:

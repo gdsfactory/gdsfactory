@@ -3,7 +3,7 @@ info: {}
 module: pp.components.coupler_ring
 name: coupler_ring
 settings:
-  bend_radius: 5.0
   gap: 0.2
   length_x: 4.0
-  wg_width: 0.5
+  radius: 5.0
+  tech: si_c

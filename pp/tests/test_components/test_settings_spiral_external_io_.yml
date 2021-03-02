@@ -1,6 +1,6 @@
 function_name: spiral_external_io
 info:
-  length: 13610.84
+  length: 9998.0
 module: pp.components.spiral_external_io
 name: spiral_external_io
 settings:

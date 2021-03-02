@@ -3,7 +3,7 @@ from typing import Callable, Optional
 import pp
 from pp.add_tapers import add_tapers
 from pp.component import Component
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
@@ -12,6 +12,7 @@ from pp.components.taper import taper
 from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
@@ -29,12 +30,13 @@ def add_fiber_array_tm(
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
-    bend_factory: ComponentFactory = bend_circular,
+    bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
-    taper_length: float = 10.0,
+    taper_length: Optional[float] = None,
     get_input_labels_function: Callable = get_input_labels,
+    tech: Tech = TECH_SILICON_C,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -53,7 +55,7 @@ def add_fiber_array(
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
         waveguide_separation: 4.0
-        bend_radius: BEND_RADIUS
+        bend_radius: optional bend_radius (defaults to tech.bend_radius)
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
@@ -99,6 +101,8 @@ def add_fiber_array(
     optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
+    taper_length = taper_length or tech.taper_length
+
     if port_width_component != port_width_gc:
         c = add_tapers(
             c,
@@ -117,6 +121,7 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
+        tech=tech,
         **kwargs,
     )
     if len(elements) == 0:
@@ -191,9 +196,10 @@ if __name__ == "__main__":
 
     # c = pp.c.coupler(gap=0.2, length=5.6)
 
-    c = pp.c.mmi2x2()
     c = pp.c.mzi2x2()
     # c = pp.c.waveguide()
+    c = pp.c.waveguide(length=1, width=2)
+    c = pp.c.mmi2x2()
 
     c.y = 0
     cc = add_fiber_array(

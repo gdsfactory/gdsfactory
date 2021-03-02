@@ -53,6 +53,7 @@ def waveguide_pin(
     """
     c = Component()
     w = c << waveguide_factory(length=length, width=width)
+    c.ports = w.ports
     c.absorb(w)
 
     oi = width_i / 2
@@ -94,4 +95,5 @@ def waveguide_pin(
 if __name__ == "__main__":
 
     c = waveguide_pin(width_i=1)
+    print(c.ports.keys())
     c.show()

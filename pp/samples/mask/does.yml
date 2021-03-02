@@ -87,7 +87,7 @@ ring_with_labels:
     template: template_add_labels
     cache: False
     settings:
-        bend_radius: [5, 10]
+        radius: [5, 10]
     placer:
         next_to: mmi1x2_width_length
 # Assuming I am working on this DOE, it is convenient to set cache to false here.

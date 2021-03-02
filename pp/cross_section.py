@@ -1,27 +1,29 @@
 """You can define a path with a list of points combined with a cross-section.
 
-The CrossSection object extrudes a path (li)
+The CrossSection object extrudes a path
 
 Based on phidl.device_layout.CrossSection
 """
 
-from typing import Iterable, Optional
+from typing import Callable, Iterable, Optional
 
 from phidl.device_layout import CrossSection
 
 from pp.layers import LAYER
 from pp.types import Layer
 
+CrossSectionFactory = Callable[..., CrossSection]
+
 
 def strip(
-    width: float = 0.5,
-    layer: Layer = LAYER.WG,
-    cladding_offset: float = 3.0,
+    width: float,
+    layer: Layer,
+    cladding_offset: float,
     layers_cladding: Optional[Iterable[Layer]] = None,
 ) -> CrossSection:
     """Returns a fully etch waveguide CrossSection."""
     x = CrossSection()
-    x.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
     layers_cladding = layers_cladding or []
     for layer_cladding in layers_cladding:
@@ -48,7 +50,7 @@ if __name__ == "__main__":
     # Combine the Path and the CrossSection into a Component
     c = pp.path.component(P, X)
 
-    c = pp.path.component(P, strip())
+    c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
 
     # c = pp.add_pins(c)
     # c << pp.c.bend_euler(radius=10)

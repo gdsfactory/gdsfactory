@@ -971,7 +971,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.c.waveguide(layers_cladding=[(111, 0)])
+    c = pp.c.waveguide()
     assert c.get_layers() == {(1, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(1, 0)}
@@ -1137,17 +1137,17 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.bend_circular()
-    c.info["curvature_info"] = 10
+    c.pprint()
+
+    # c.info["curvature_info"] = 10
     # c.curvature = 5
     # c.get_settings()
     # c.pprint(ignore=("length",))
     # c = pp.c.waveguide()
-    c.pprint()
 
     # c0 = pp.c.waveguide()
     # c = pp.c.waveguide(length=3.0)
     # c.info["c"] = c0
-    # c.pprint()
 
     # import matplotlib.pyplot as plt
 

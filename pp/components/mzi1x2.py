@@ -8,7 +8,7 @@ from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
-from pp.routing import route_elec_ports_to_side
+from pp.routing.route_ports_to_side import route_elec_ports_to_side
 from pp.types import ComponentFactory
 
 

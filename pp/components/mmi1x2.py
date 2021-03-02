@@ -1,38 +1,31 @@
-from typing import Optional, Tuple
-
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.types import ComponentFactory, Layer
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import ComponentFactory
 
 
 @cell
 def mmi1x2(
-    wg_width: float = 0.5,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.496,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[Tuple[Layer, ...]] = (pp.LAYER.WGCLAD,),
     taper: ComponentFactory = taper_function,
-    cladding_offset: float = 3.0,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     r"""Mmi 1x2.
 
     Args:
-        wg_width: input waveguides width
         width_taper: interface between input waveguides and mmi region
         length_taper: into the mmi region
         length_mmi: in x direction
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
-        layer: gds layer
-        layers_cladding: list of layers
         taper: taper function
-        cladding_offset: for taper
+        tech: Technology
 
     .. plot::
       :include-source:
@@ -61,18 +54,16 @@ def mmi1x2(
         length_taper
 
     """
+    wg_width = tech.wg_width
+    layers_cladding = tech.layers_cladding
+    layer = tech.layer_wg
+    cladding_offset = tech.cladding_offset
+
     c = pp.Component()
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(
-        length=length_taper,
-        width1=wg_width,
-        width2=w_taper,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-    )
+    taper = taper(length=length_taper, width1=wg_width, width2=w_taper, tech=tech)
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << pp.c.rectangle(
@@ -103,27 +94,6 @@ def mmi1x2(
     c.simulation_settings = dict(port_width=1.5e-6)
     c.absorb(mmi)
     return c
-
-
-@cell
-def mmi1x2_biased(
-    wg_width=0.5,
-    width_taper=1.0,
-    length_taper=10,
-    length_mmi=5.496,
-    width_mmi=2.5,
-    gap_mmi=0.25,
-    layer=pp.LAYER.WG,
-):
-    return mmi1x2(
-        wg_width=pp.bias.width(wg_width),
-        width_taper=pp.bias.width(width_taper),
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=pp.bias.width(width_mmi),
-        gap_mmi=pp.bias.gap(gap_mmi),
-        layer=layer,
-    )
 
 
 if __name__ == "__main__":

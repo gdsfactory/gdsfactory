@@ -1,16 +1,11 @@
 function_name: waveguide
 info:
   length: 10.0
-  width: 1.0
+  width: 2.0
 module: pp.components.waveguide
-name: waveguide_6b9bcf90
+name: waveguide_L10_N2_Tmetal1
 settings:
-  cladding_offset: 3.0
-  layer:
-  - 41
-  - 0
-  layers_cladding:
-  - - 111
-    - 0
   length: 10.0
-  width: 1.0
+  npoints: 2
+  tech: metal1
+  width: null

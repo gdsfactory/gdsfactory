@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 from pp.add_pins import _add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.routing import link_factory, route_factory
+from pp.routing.factories import link_factory, route_factory
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -630,7 +630,9 @@ def component_from_yaml(
                 "link_optical_waypoints",
             ]:
                 route_dict_or_list = link_function(
-                    route_filter=route_filter, **route_settings, **link_settings,
+                    route_filter=route_filter,
+                    **route_settings,
+                    **link_settings,
                 )
 
             else:

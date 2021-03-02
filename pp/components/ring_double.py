@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -5,19 +7,20 @@ from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
 @cell
 def ring_double(
-    wg_width: float = 0.5,
     gap: float = 0.2,
-    length_x: float = 3.0,
-    bend_radius: float = 5.0,
-    length_y: float = 2.0,
+    length_x: float = 0.01,
+    radius: Optional[float] = None,
+    length_y: float = 0.01,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
     pins: bool = False,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -37,15 +40,16 @@ def ring_double(
 
       import pp
 
-      c = pp.c.ring_double(wg_width=0.5, gap=0.2, length_x=4, length_y=0.1, bend_radius=5)
+      c = pp.c.ring_double(gap=0.2, length_x=4, length_y=0.1, radius=5)
       c.plot()
     """
+    radius = radius or tech.bend_radius
     assert_on_2nm_grid(gap)
 
     coupler = call_if_func(
-        coupler, gap=gap, wg_width=wg_width, bend_radius=bend_radius, length_x=length_x
+        coupler, gap=gap, radius=radius, length_x=length_x, tech=tech
     )
-    waveguide = call_if_func(waveguide, width=wg_width, length=length_y)
+    waveguide = call_if_func(waveguide, length=length_y, tech=tech)
 
     c = Component()
     cb = c << coupler

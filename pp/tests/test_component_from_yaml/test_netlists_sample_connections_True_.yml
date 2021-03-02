@@ -4,22 +4,16 @@ instances:
   wgn:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 0.5
+      npoints: 2
+      tech: si_c
       width: 0.5
   wgw:
     component: waveguide
     settings:
-      cladding_offset: 0.0
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length: 1
+      npoints: 2
+      tech: si_c
       width: 1
 name: sample_connections
 placements:

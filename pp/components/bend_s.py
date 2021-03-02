@@ -1,43 +1,40 @@
-from typing import Iterable, Tuple
-
-import numpy as np
-
 import pp
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.config import conf
-from pp.types import Layer
+from pp.tech import TECH_SILICON_C, Tech
 
 
 @pp.cell
 def bend_s(
-    width: float = 0.5,
     height: float = 2.0,
     length: float = 10.0,
-    layer: Tuple[int, int] = pp.LAYER.WG,
     nb_points: int = 99,
-    layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),
-    cladding_offset: float = conf.tech.cladding_offset,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """S bend with bezier curve
 
     Args:
-        width: of the waveguide
         height: in y direction
         length: in x direction
         layer: gds number
         nb_points: number of points
+        tech: Technology
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.bend_s(width=0.5, height=20)
+      c = pp.c.bend_s(height=20)
       c.plot()
 
     """
     l, h = length, height
+    width = tech.wg_width
+    layer = tech.layer_wg
+    layers_cladding = tech.layers_cladding
+    cladding_offset = tech.cladding_offset
+
     c = bezier(
         width=width,
         control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
@@ -61,23 +58,6 @@ def bend_s(
     # c.ports["E0"] = c.ports.pop("1")
     # print(c.min_bend_radius)
     return c
-
-
-@pp.cell
-def bend_s_biased(
-    width: float = 0.5,
-    height: float = 2.0,
-    length: float = 10.0,
-    layer: Layer = pp.LAYER.WG,
-    nb_points: int = 99,
-):
-    l, h = length, height
-    return bezier(
-        width=pp.bias.width(width),
-        control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
-        t=np.linspace(0, 1, nb_points),
-        layer=layer,
-    )
 
 
 if __name__ == "__main__":

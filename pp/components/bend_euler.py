@@ -1,124 +1,72 @@
-from typing import Iterable, Optional, Tuple, Union
+from typing import Optional
 
-import numpy as np
-
-from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_euler_points import euler_bend_points, euler_length
-from pp.config import conf
-from pp.geo_utils import extrude_path
-from pp.layers import LAYER
-from pp.port import auto_rename_ports
+from pp.path import component, euler
+from pp.snap import snap_to_grid
+from pp.tech import TECH_SILICON_C, Tech
 
 
 @cell
 def bend_euler(
-    theta: int = 90,
-    radius: Union[int, float] = 10.0,
-    width: float = 0.5,
-    resolution: float = 150.0,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
-    cladding_offset: float = conf.tech.cladding_offset,
+    radius: float = 10.0,
+    angle: int = 90,
+    p: float = 1,
+    use_eff: bool = False,
+    npoints: int = 720,
+    width: Optional[float] = None,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
-    """Returns an euler bend.
+    """Returns an euler bend that adiabatically transitions from straight to curved.
+    By default, `radius` corresponds to the minimum radius of curvature of the bend.
+    However, if `use_eff` is set to True, `radius` corresponds to the effective
+    radius of curvature (making the curve a drop-in replacement for an arc). If
+    p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
+    al. https://dx.doi.org/10.1364/oe.27.031394
 
     Args:
-        theta: angle of arc (degrees)
-        radius
-        width: of the waveguide
-        resolution: number of points per theta
-        layer
-        layers_cladding
-        cladding_offset: of layers_cladding
+        radius: minimum radius of curvature
+        angle: total angle of the curve
+        p: Proportion of the curve that is an Euler curve
+        use_eff: If False: `radius` is the minimum radius of curvature of the bend
+            If True: The curve will be scaled such that the endpoints match an arc
+            with parameters `radius` and `angle`
+        npoints: Number of points used per 360 degrees
+        width: waveguide width (defaults to tech.wg_width)
+        tech: Technology
+
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.bend_euler()
+      c = pp.c.bend_euler(
+        radius=10,
+        angle=0.5,
+        p=1,
+        use_eff=False
+        npoints=720,
+      )
       c.plot()
 
     """
-    c = Component()
-    backbone = euler_bend_points(theta, radius=radius, resolution=resolution)
-
-    pts = extrude_path(backbone, width)
-    c.add_polygon(pts, layer=layer)
-
-    length = euler_length(radius, theta)
-    c.info["length"] = length
-    c.length = length
-    c.radius = radius
-
-    p1 = np.round(backbone[0].xy, 3)
-    p2 = np.round(backbone[-1].xy, 3)
-    c.dx = p2[0] - p1[0]
-    c.dy = p2[1] - p1[1]
-
-    c.add_port(
-        name="W0",
-        midpoint=p1,
-        orientation=180,
-        layer=layer,
-        width=width,
-    )
-    c.add_port(
-        name="N0",
-        midpoint=p2,
-        orientation=theta,
-        layer=layer,
-        width=width,
-    )
-
-    layers_cladding = layers_cladding or []
-    for layer in layers_cladding:
-        pts = extrude_path(backbone, width + 2 * cladding_offset)
-        c.add_polygon(pts, layer=layer)
-
-    points = get_padding_points(c, default=0)
-    for layer in layers_cladding:
-        c.add_polygon(points, layer=layer)
-
-    return auto_rename_ports(c)
+    width = width or tech.wg_width
+    cross_section = tech.get_cross_section(width=width)
+    p = euler(radius=radius, angle=angle, p=p, use_eff=use_eff, npoints=npoints)
+    c = component(p, cross_section)
+    c.length = snap_to_grid(p.length())
+    c.dx = abs(p.points[0][0] - p.points[-1][0])
+    c.dy = abs(p.points[0][0] - p.points[-1][0])
+    return c
 
 
 @cell
-def bend_euler180(
-    radius: Union[int, float] = 10.0,
-    width: float = 0.5,
-    resolution: float = 150.0,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
-    cladding_offset: float = conf.tech.cladding_offset,
-) -> Component:
-    """
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.bend_euler180()
-      c.plot()
-
-    """
-    c = bend_euler(
-        theta=180,
-        radius=radius,
-        width=width,
-        resolution=resolution,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-    )
-    return auto_rename_ports(c)
+def bend_euler180(angle: int = 180, **kwargs) -> Component:
+    return bend_euler(angle=angle, **kwargs)
 
 
 if __name__ == "__main__":
-    c = bend_euler(layers_cladding=(LAYER.WGCLAD,), cladding_offset=2.0)
-    # c = bend_euler90_biased()
-    # c = bend_euler180()
-    print(c.ports)
+    c = bend_euler()
+    c.pprint()
     c.show()
