@@ -9,7 +9,6 @@ from pp.config import MAX_NAME_LENGTH
 from pp.name import get_component_name
 from pp.types import ComponentFactory
 
-global CACHE
 CACHE: Dict[str, Component] = {}
 
 
