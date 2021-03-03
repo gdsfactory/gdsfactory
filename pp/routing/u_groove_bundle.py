@@ -98,7 +98,10 @@ def u_bundle_direct(
         **routing_params
     )
 
-    return [route_filter(route, **routing_params) for route in routes]
+    return [
+        route_filter(route, bend_factory=bend_factory, **routing_params)
+        for route in routes
+    ]
 
 
 def u_bundle_direct_routes(

@@ -30,7 +30,9 @@ class Pdk:
             npoints: number of points
             width: waveguide width (defaults to tech.wg_width)
         """
-        return pp.c.waveguide(length=length, npoints=npoints, tech=self.tech)
+        return pp.c.waveguide(
+            length=length, width=width, npoints=npoints, tech=self.tech
+        )
 
     def bend_circular(
         self,
@@ -59,6 +61,7 @@ class Pdk:
         p: float = 1,
         use_eff: bool = False,
         npoints: int = 720,
+        width: Optional[float] = None,
     ) -> Component:
         r"""Returns euler bend that adiabatically transitions from straight to curved.
         By default, radius corresponds to the minimum radius of curvature of the bend.
@@ -75,6 +78,7 @@ class Pdk:
                 If True: The curve will be scaled such that the endpoints match an arc
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
+            width: waveguide width (defaults to tech.wg_width)
         """
 
         return pp.c.bend_euler(
@@ -84,6 +88,7 @@ class Pdk:
             use_eff=use_eff,
             npoints=npoints,
             tech=self.tech,
+            width=width,
         )
 
     def taper(
@@ -378,7 +383,7 @@ class Pdk:
         gc_port_name: str = "W0",
         get_input_labels_function: Callable = get_input_labels,
         with_align_ports: bool = True,
-        optical_routing_type: int = 2,
+        optical_routing_type: int = 1,
         fanout_length: float = 0.0,
         grating_coupler: Optional[ComponentFactory] = None,
         bend_factory: Optional[ComponentFactory] = None,
@@ -438,7 +443,7 @@ class Pdk:
         taper_factory: Optional[ComponentFactory] = None,
         route_filter: Optional[RouteFactory] = None,
         min_input2output_spacing: Optional[float] = None,
-        optical_routing_type: int = 2,
+        optical_routing_type: Optional[int] = None,
         with_align_ports: bool = True,
         component_name: Optional[str] = None,
         gc_port_name: str = "W0",
@@ -487,15 +492,6 @@ class Pdk:
             taper=self.taper,
         )
 
-    def get_route_circular(self, waypoints: np.ndarray, **kwargs) -> Route:
-        """Returns a route with radial bends."""
-        return round_corners(
-            waypoints,
-            bend_factory=self.bend_circular,
-            straight_factory=self.waveguide,
-            taper=self.taper,
-        )
-
 
 @dataclasses.dataclass
 class PdkSiliconCband(Pdk):
@@ -534,10 +530,10 @@ if __name__ == "__main__":
 
     c = p.mmi2x2()
     # c = p.waveguide()
-    c = p.ring_single()
     c = p.mzi()
+    c = p.ring_single()
 
-    cc = p.add_fiber_array(c, bend_radius=10)
-    cc = p.add_fiber_single(c)
+    # cc = p.add_fiber_single(c)
+    cc = p.add_fiber_array(c, optical_routing_type=1)
     cc.show()
     # c = p.grating_coupler()

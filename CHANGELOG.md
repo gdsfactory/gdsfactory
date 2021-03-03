@@ -20,6 +20,11 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.4.0
+
+- euler bends as default
+- define bends and straighs by path and cross_section
+
 ## 2.3.5
 
 - regression test for labels

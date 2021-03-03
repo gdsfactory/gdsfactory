@@ -3,7 +3,7 @@ info:
   length: 10.0
   width: 2.0
 module: pp.components.waveguide
-name: waveguide_L10_N2_Tmetal1
+name: waveguide_L10_N2_Tmetal1_WNone
 settings:
   layer: null
   length: 10.0

@@ -37,7 +37,6 @@ def bend_circular(
       c.plot()
 
     """
-    width = width or tech.wg_width
     cross_section = tech.get_cross_section(width=width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints)

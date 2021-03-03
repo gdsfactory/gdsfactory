@@ -61,6 +61,10 @@ def route_south(
     csi = component.size_info
     references = []
     lengths = []
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
+    dy = abs(bend90.dy)
 
     # Handle empty list gracefully
     if not optical_ports:
@@ -74,8 +78,8 @@ def route_south(
     )
 
     # Used to avoid crossing between waveguides in special cases
-    # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
-    delta_gr_min = 2 * bend_radius + 1
+    # This could happen when abs(x_port - x_grating) <= 2 * dy
+    delta_gr_min = 2 * dy + 1
 
     sep = waveguide_separation
 
@@ -102,10 +106,6 @@ def route_south(
 
         return new_p
 
-    bend90 = (
-        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
-    )
-    dy = abs(bend90.dy)
     west_ports.reverse()
 
     y0 = min([p.y for p in ordered_ports]) - dy - 0.5
@@ -250,6 +250,8 @@ if __name__ == "__main__":
 
     c = pp.c.mzi2x2()
     c = pp.c.mmi2x2()
+    c = pp.c.ring_single()
+    c = pp.c.ring_double()
     r = route_south(c)
     r = route_south(c, bend_factory=pp.c.bend_euler, bend_radius=20)
     for e in r["references"]:

@@ -106,6 +106,7 @@ def route_fiber_array(
     """
     layer_label = layer_label or tech.layer_label
     bend_radius = bend_radius or tech.bend_radius
+    print(bend_radius)
     optical_io_spacing = optical_io_spacing or tech.fiber_array_spacing
 
     component_name = component_name or component.name
@@ -149,8 +150,7 @@ def route_fiber_array(
         bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
     )
 
-    route_filter_params = dict(bend_radius=bend_radius)
-    dy = bend90.dy
+    dy = abs(bend90.dy)
 
     # `delta_gr_min` Used to avoid crossing between waveguides in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
@@ -207,15 +207,19 @@ def route_fiber_array(
         # We need 3 bends in that case to connect the most bottom port to the
         # grating couplers
         if has_ew_ports and is_big_component:
+            # print('big')
             fanout_length = max(fanout_length, 3 * dy + 1.0)
 
         if has_ns_ports or is_one_sided_horizontal:
+            # print('one sided')
             fanout_length = max(fanout_length, 2 * dy + 1.0)
 
         if has_ew_ports and not is_big_component:
+            # print('ew_ports')
             fanout_length = max(fanout_length, dy + 1.0)
 
-    fanout_length += 5
+    fanout_length += dy
+
     # use x for grating coupler since we rotate it
     y0_optical = y_min - fanout_length - grating_coupler.ports[gc_port_name].x
     y0_optical += -K / 2 * sep
@@ -269,7 +273,6 @@ def route_fiber_array(
 
         io_gratings_lines += [io_gratings[:]]
 
-    # optical routing - type ``0``
     if optical_routing_type == 0:
         """
         Basic optical routing, typically fine for small components
@@ -292,7 +295,6 @@ def route_fiber_array(
                 route = route_filter(waypoints=waypoints, bend_factory=bend_factory)
                 elements.extend(route["references"])
 
-    # optical routing - type ``1 or 2``
     elif optical_routing_type in [1, 2]:
         route = route_south(
             component=component,
@@ -352,8 +354,8 @@ def route_fiber_array(
                 separation=sep,
                 end_straight_offset=end_straight_offset,
                 route_filter=route_filter,
-                bend_factory=bend_factory,
-                **route_filter_params,
+                bend_factory=bend90,
+                bend_radius=bend_radius,
             )
             elements.extend([route["references"] for route in routes])
 
@@ -371,7 +373,7 @@ def route_fiber_array(
                     end_straight_offset=end_straight_offset,
                     bend_factory=bend90,
                     route_filter=route_filter,
-                    **route_filter_params,
+                    bend_radius=bend_radius,
                 )
                 elements.extend([route["references"] for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -432,9 +434,9 @@ if __name__ == "__main__":
     gctm = pp.c.grating_coupler_tm
 
     c = pp.c.waveguide(length=500)
-    # c.ports = c.get_ports_dict(prefix="W")
-
     c = pp.c.mmi2x2()
+    c = pp.c.mzi2x2()
+
     elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
