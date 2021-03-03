@@ -1,4 +1,5 @@
 """Straight waveguides"""
+from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
@@ -15,8 +16,8 @@ def waveguide(
     npoints: int = 2,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: CrossSectionFactory = strip,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -37,6 +38,9 @@ def waveguide(
       c.plot()
 
     """
+    cross_section_factory = cross_section_factory or strip
+    tech = tech or TECH_SILICON_C
+
     p = straight(length=length, npoints=npoints)
     cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
     c = component(p, cross_section)

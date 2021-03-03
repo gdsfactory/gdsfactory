@@ -22,7 +22,7 @@ from pydantic import validate_arguments
 
 ## 2.4.0
 
-- euler bends as default
+- euler bends as default (with_arc_floorplan=True)
 - define bends and straighs by path and cross_section
 
 ## 2.3.5

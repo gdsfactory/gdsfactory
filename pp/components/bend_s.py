@@ -11,7 +11,7 @@ def bend_s(
     height: float = 2.0,
     length: float = 10.0,
     nb_points: int = 99,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
     width: Optional[float] = None,
 ) -> Component:
     """S bend with bezier curve
@@ -33,6 +33,7 @@ def bend_s(
       c.plot()
 
     """
+    tech = tech if isinstance(tech, Tech) else TECH_SILICON_C
     l, h = length, height
     width = width or tech.wg_width
     layer = tech.layer_wg

@@ -13,7 +13,7 @@ instances:
       dy: 2.0
       pins: false
       taper_length: 5.0
-      tech: si_c
+      tech: null
       w1: 0.45
       w2: 0.55
 name: mzit_lattice

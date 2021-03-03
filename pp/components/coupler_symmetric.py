@@ -13,7 +13,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
     wg_width: Optional[float] = None,
 ) -> Component:
     r"""Two coupled waveguides with bends.
@@ -47,6 +47,7 @@ def coupler_symmetric(
                         E0
 
     """
+    tech = tech if isinstance(tech, Tech) else TECH_SILICON_C
     width = wg_width or tech.wg_width
     bend_component = (
         bend(width=width, height=(dy - gap - width) / 2, length=dx, tech=tech)

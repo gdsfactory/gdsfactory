@@ -31,9 +31,7 @@ def test_netlist_read_full() -> Component:
 
 
 if __name__ == "__main__":
-
-    # filepath = "ring_single.yml"
-    # c = pp.component_from_yaml(filepath)
+    # import pp
     # c = pp.c.mzi()
     # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     # c.write_netlist(filepath, full_settings=True)

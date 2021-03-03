@@ -1,10 +1,11 @@
-from pp.add_padding import get_padding_points
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.waveguide import waveguide
-from pp.cross_section import CrossSectionFactory, strip_no_cladding
+from pp.cross_section import CrossSectionFactory
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer
 
@@ -17,8 +18,8 @@ def coupler90(
     bend90_factory: ComponentFactory = bend_euler,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: CrossSectionFactory = strip_no_cladding,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
     **kwargs
 ) -> Component:
     r"""Waveguide coupled to a bend.
@@ -76,11 +77,6 @@ def coupler90(
     c.add_port("W0", port=wg.ports["W0"])
     c.add_port("W1", port=bend.ports["W0"])
 
-    layers_cladding = getattr(tech, "layers_cladding", [])
-    cladding_offset = getattr(tech, "cladding_offset", 0)
-    points = get_padding_points(c, default=cladding_offset, left=0, top=0)
-    for layer in layers_cladding:
-        c.add_polygon(points, layer=layer)
     return c
 
 
@@ -102,7 +98,7 @@ def coupler90circular(
 
 if __name__ == "__main__":
     c = coupler90circular(gap=0.3)
-    c << coupler90(gap=0.3, use_eff=True)
+    c << coupler90(gap=0.3)
     c.show()
     c.pprint()
     # print(c.ports)

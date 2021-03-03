@@ -8,9 +8,7 @@ from pp.routing.get_bundle import get_bundle
 
 
 def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
-
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
-
     pitch = 127.0
     N = len(xs_top)
     xs_bottom = [(i - N / 2) * pitch for i in range(N)]

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import CrossSectionFactory, strip
@@ -12,10 +14,10 @@ def bend_circular(
     radius: float = 10.0,
     angle: int = 90,
     npoints: int = 720,
-    cross_section_factory: CrossSectionFactory = strip,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Returns a radial arc.
 
@@ -41,6 +43,9 @@ def bend_circular(
       c.plot()
 
     """
+    cross_section_factory = cross_section_factory or strip
+    tech = tech or TECH_SILICON_C
+
     cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = component(p, cross_section)

@@ -1,11 +1,16 @@
-import numpy as np
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.component import Component
 from pp.components.electrical import corner
 
 
-def test_get_bundle() -> Component:
+def test_get_bundle_electrical(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
+
+    lengths = {}
+
     c = pp.Component("test_get_bundle")
     c1 = c << pp.c.pad()
     c2 = c << pp.c.pad()
@@ -17,10 +22,9 @@ def test_get_bundle() -> Component:
         bend_factory=corner,
     )
 
-    route = routes[0]
-    print(route["length"])
-    assert np.isclose(route["length"], 189.98)
-    c.add(route["references"])
+    for i, route in enumerate(routes):
+        c.add(route["references"])
+        lengths[i] = route["length"]
 
     routes = pp.routing.get_bundle(
         [c1.ports["S"]],
@@ -29,13 +33,15 @@ def test_get_bundle() -> Component:
         start_straight=20.0,
         bend_factory=corner,
     )
-    route = routes[0]
-    print(route["length"])
-    assert np.isclose(route["length"], 420.0)
-    c.add(route["references"])
+    for i, route in enumerate(routes):
+        c.add(route["references"])
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle()
+    c = test_get_bundle_electrical(None, check=False)
     c.show()

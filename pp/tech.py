@@ -26,7 +26,7 @@ class Tech:
 class TechSiliconCband(Tech):
     name: str = "si_c"
     wg_width: float = 0.5
-    bend_radius: float = 5.0
+    bend_radius: float = 10.0
     cladding_offset: float = 3.0
     layer_wg: Layer = LAYER.WG
     layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
@@ -40,7 +40,7 @@ class TechSiliconCband(Tech):
 class TechNitrideCband(Tech):
     name: str = "sin_c"
     wg_width: float = 1.0
-    bend_radius: float = 10.0
+    bend_radius: float = 20.0
     cladding_offset: float = 3.0
     layer_wg: Layer = LAYER.WGN
     layers_cladding: Tuple[Layer, ...] = (LAYER.NO_TILE_SI,)

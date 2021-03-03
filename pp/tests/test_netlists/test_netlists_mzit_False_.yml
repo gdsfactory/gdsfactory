@@ -1,11 +1,11 @@
 connections:
-  bend_circular_R10_Tsi_c_W550n_34.638_1.962,N0: waveguide_L4_Tsi_c_W550n_38.0_10.6,W0
-  bend_circular_R10_Tsi_c_W550n_34.638_1.962,W0: waveguide_L3_Tsi_c_W550n_26.5_-1.4,E0
-  bend_circular_R10_Tsi_c_W550n_34.638_19.238,N0: waveguide_L3_Tsi_c_W550n_26.5_22.6,W0
-  bend_circular_R10_Tsi_c_W550n_34.638_19.238,W0: waveguide_L4_Tsi_c_W550n_38.0_10.6,E0
-  bend_circular_R10_W450n_31.612_17.212,N0: taper_L5_Tsi_c_W450n_W550n_22.5_20.6,1
-  bend_circular_R10_W450n_31.612_17.212,W0: bend_circular_R10_W450n_31.612_3.988,N0
-  bend_circular_R10_W450n_31.612_3.988,W0: taper_L5_Tsi_c_W500n_W450n_22.5_0.6,2
+  bend_euler_R10_Tsi_c_W550n_34.638_1.962,N0: waveguide_L4_Tsi_c_W550n_38.0_10.6,W0
+  bend_euler_R10_Tsi_c_W550n_34.638_1.962,W0: waveguide_L3_Tsi_c_W550n_26.5_-1.4,E0
+  bend_euler_R10_Tsi_c_W550n_34.638_19.238,N0: waveguide_L3_Tsi_c_W550n_26.5_22.6,W0
+  bend_euler_R10_Tsi_c_W550n_34.638_19.238,W0: waveguide_L4_Tsi_c_W550n_38.0_10.6,E0
+  bend_euler_R10_W450n_31.612_17.212,N0: taper_L5_Tsi_c_W450n_W550n_22.5_20.6,1
+  bend_euler_R10_W450n_31.612_17.212,W0: bend_euler_R10_W450n_31.612_3.988,N0
+  bend_euler_R10_W450n_31.612_3.988,W0: taper_L5_Tsi_c_W500n_W450n_22.5_0.6,2
   coupler_D2_G200n_L5_Tsi_c_1.5_21.6,E0: taper_L5_Tsi_c_W550n_W500n_16.5_20.6,2
   coupler_D2_G200n_L5_Tsi_c_1.5_21.6,E1: taper_L5_Tsi_c_W450n_W500n_16.5_22.6,2
   coupler_D2_G300n_L10_Tsi_c_5.0_-0.4,E0: taper_L5_Tsi_c_W500n_W550n_22.5_-1.4,1
@@ -17,25 +17,25 @@ connections:
   taper_L5_Tsi_c_W550n_W450n_22.5_22.6,2: waveguide_L1_Tsi_c_W450n_19.5_22.6,W0
   taper_L5_Tsi_c_W550n_W500n_16.5_20.6,1: waveguide_L1_Tsi_c_W550n_19.5_20.6,E0
 instances:
-  bend_circular_R10_Tsi_c_W550n_34.638_1.962:
-    component: bend_circular
+  bend_euler_R10_Tsi_c_W550n_34.638_1.962:
+    component: bend_euler
     settings:
       radius: 10.0
       tech: si_c
       width: 0.55
-  bend_circular_R10_Tsi_c_W550n_34.638_19.238:
-    component: bend_circular
+  bend_euler_R10_Tsi_c_W550n_34.638_19.238:
+    component: bend_euler
     settings:
       radius: 10.0
       tech: si_c
       width: 0.55
-  bend_circular_R10_W450n_31.612_17.212:
-    component: bend_circular
+  bend_euler_R10_W450n_31.612_17.212:
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.45
-  bend_circular_R10_W450n_31.612_3.988:
-    component: bend_circular
+  bend_euler_R10_W450n_31.612_3.988:
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.45
@@ -127,22 +127,22 @@ instances:
       width: 0.55
 name: mzit
 placements:
-  bend_circular_R10_Tsi_c_W550n_34.638_1.962:
+  bend_euler_R10_Tsi_c_W550n_34.638_1.962:
     mirror: false
     rotation: 0
     x: 28.0
     y: -1.4
-  bend_circular_R10_Tsi_c_W550n_34.638_19.238:
+  bend_euler_R10_Tsi_c_W550n_34.638_19.238:
     mirror: false
     rotation: 90
     x: 38.0
     y: 12.6
-  bend_circular_R10_W450n_31.612_17.212:
+  bend_euler_R10_W450n_31.612_17.212:
     mirror: false
     rotation: 90
     x: 35.0
     y: 10.6
-  bend_circular_R10_W450n_31.612_3.988:
+  bend_euler_R10_W450n_31.612_3.988:
     mirror: false
     rotation: 0
     x: 25.0

@@ -5,22 +5,24 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      cross_section_factory: null
       layer:
       - 1
       - 0
       npoints: 720
       radius: 10.0
-      tech: si_c
+      tech: null
       width: 0.5
   w:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
       length: 10.0
       npoints: 2
-      tech: si_c
+      tech: null
       width: 0.5
 name: sample_mirror_simple
 placements:

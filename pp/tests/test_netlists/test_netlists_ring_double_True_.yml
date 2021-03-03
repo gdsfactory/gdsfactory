@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_07d330e4_-0.005_1.9,N0: waveguide_L10n_Tsi_c_-9.36_10.055,E0
-  coupler_ring_07d330e4_-0.005_1.9,N1: waveguide_L10n_Tsi_c_9.35_10.055,E0
-  coupler_ring_07d330e4_-0.005_18.211,N0: waveguide_L10n_Tsi_c_9.35_10.055,W0
-  coupler_ring_07d330e4_-0.005_18.211,N1: waveguide_L10n_Tsi_c_-9.36_10.055,W0
+  coupler_ring_a5caeb98_-0.005_17.685,N0: waveguide_L10n_Tsi_c_10.0_10.705,W0
+  coupler_ring_a5caeb98_-0.005_17.685,N1: waveguide_L10n_Tsi_c_-10.01_10.705,W0
+  coupler_ring_a5caeb98_-0.005_3.725,N0: waveguide_L10n_Tsi_c_-10.01_10.705,E0
+  coupler_ring_a5caeb98_-0.005_3.725,N1: waveguide_L10n_Tsi_c_10.0_10.705,E0
 instances:
-  coupler_ring_07d330e4_-0.005_1.9:
+  coupler_ring_a5caeb98_-0.005_17.685:
     component: coupler_ring
     settings:
       gap: 0.2
@@ -12,10 +12,10 @@ instances:
       - 1
       - 0
       length_x: 0.01
-      radius: 5.0
+      radius: 10.0
       tech: si_c
       width: 0.5
-  coupler_ring_07d330e4_-0.005_18.211:
+  coupler_ring_a5caeb98_-0.005_3.725:
     component: coupler_ring
     settings:
       gap: 0.2
@@ -23,12 +23,13 @@ instances:
       - 1
       - 0
       length_x: 0.01
-      radius: 5.0
+      radius: 10.0
       tech: si_c
       width: 0.5
-  waveguide_L10n_Tsi_c_-9.36_10.055:
+  waveguide_L10n_Tsi_c_-10.01_10.705:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
@@ -36,9 +37,10 @@ instances:
       npoints: 2
       tech: si_c
       width: 0.5
-  waveguide_L10n_Tsi_c_9.35_10.055:
+  waveguide_L10n_Tsi_c_10.0_10.705:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
@@ -48,28 +50,28 @@ instances:
       width: 0.5
 name: ring_double
 placements:
-  coupler_ring_07d330e4_-0.005_1.9:
+  coupler_ring_a5caeb98_-0.005_17.685:
+    mirror: false
+    rotation: 180
+    x: -0.01
+    y: 21.41
+  coupler_ring_a5caeb98_-0.005_3.725:
     mirror: false
     rotation: 0
     x: 0.0
     y: -0.0
-  coupler_ring_07d330e4_-0.005_18.211:
-    mirror: false
-    rotation: 180
-    x: -0.01
-    y: 20.111
-  waveguide_L10n_Tsi_c_-9.36_10.055:
+  waveguide_L10n_Tsi_c_-10.01_10.705:
     mirror: false
     rotation: 270
-    x: -9.36
-    y: 10.06
-  waveguide_L10n_Tsi_c_9.35_10.055:
+    x: -10.01
+    y: 10.71
+  waveguide_L10n_Tsi_c_10.0_10.705:
     mirror: false
     rotation: 270
-    x: 9.35
-    y: 10.06
+    x: 10.0
+    y: 10.71
 ports:
-  E0: coupler_ring_07d330e4_-0.005_1.9,E0
-  E1: coupler_ring_07d330e4_-0.005_18.211,W0
-  W0: coupler_ring_07d330e4_-0.005_1.9,W0
-  W1: coupler_ring_07d330e4_-0.005_18.211,E0
+  E0: coupler_ring_a5caeb98_-0.005_3.725,E0
+  E1: coupler_ring_a5caeb98_-0.005_17.685,W0
+  W0: coupler_ring_a5caeb98_-0.005_3.725,W0
+  W1: coupler_ring_a5caeb98_-0.005_17.685,E0

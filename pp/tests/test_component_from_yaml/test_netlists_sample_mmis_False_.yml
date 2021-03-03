@@ -1,20 +1,22 @@
 connections:
-  bend_euler_R10_W500n_58.564_8.35,N0: waveguide_L62p598_W500n_66.289_50.625,W0
-  bend_euler_R10_W500n_58.564_8.35,W0: waveguide_L35p088_W500n_30.044_0.625,E0
-  bend_euler_R10_W500n_74.015_92.9,N0: waveguide_L10n_W500n_84.995_100.625,W0
-  bend_euler_R10_W500n_74.015_92.9,W0: waveguide_L62p598_W500n_66.289_50.625,E0
+  bend_euler_R10_W500n_71.615_4.0,N0: taper_L1_0_L35_W500n_W2p5_74.99_28.125,1
+  bend_euler_R10_W500n_71.615_4.0,W0: waveguide_L52p49_W500n_38.745_0.625,E0
+  bend_euler_R10_W500n_78.365_97.25,N0: waveguide_L10n_W500n_84.995_100.625,W0
+  bend_euler_R10_W500n_78.365_97.25,W0: taper_L1_0_L35_W500n_W2p5_74.99_73.125,1
   mmi_long,E0: waveguide_L10n_W500n_84.995_100.625,E0
-  mmi_short,E1: waveguide_L35p088_W500n_30.044_0.625,W0
+  mmi_short,E1: waveguide_L52p49_W500n_38.745_0.625,W0
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125,2: waveguide_L10_W2p5_74.99_50.625,W0
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125,2: waveguide_L10_W2p5_74.99_50.625,E0
 instances:
-  bend_euler_R10_W500n_58.564_8.35:
+  bend_euler_R10_W500n_71.615_4.0:
     component: bend_euler
     settings:
-      radius: 10
+      radius: 10.0
       width: 0.5
-  bend_euler_R10_W500n_74.015_92.9:
+  bend_euler_R10_W500n_78.365_97.25:
     component: bend_euler
     settings:
-      radius: 10
+      radius: 10.0
       width: 0.5
   mmi_long:
     component: mmi1x2
@@ -26,33 +28,51 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  waveguide_L10_W2p5_74.99_50.625:
+    component: waveguide
+    settings:
+      length: 10.0
+      width: 2.5
   waveguide_L10n_W500n_84.995_100.625:
     component: waveguide
     settings:
       length: 0.01
       width: 0.5
-  waveguide_L35p088_W500n_30.044_0.625:
+  waveguide_L52p49_W500n_38.745_0.625:
     component: waveguide
     settings:
-      length: 35.088
-      width: 0.5
-  waveguide_L62p598_W500n_66.289_50.625:
-    component: waveguide
-    settings:
-      length: 62.598
+      length: 52.49
       width: 0.5
 name: mmis
 placements:
-  bend_euler_R10_W500n_58.564_8.35:
+  bend_euler_R10_W500n_71.615_4.0:
     mirror: false
     rotation: 0
-    x: 47.588
+    x: 64.99
     y: 0.625
-  bend_euler_R10_W500n_74.015_92.9:
+  bend_euler_R10_W500n_78.365_97.25:
     mirror: true
     rotation: 90
-    x: 66.289
-    y: 81.924
+    x: 74.99
+    y: 90.625
   mmi_long:
     mirror: false
     rotation: 180
@@ -63,21 +83,31 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
+  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
+    mirror: false
+    rotation: 90
+    x: 74.99
+    y: 10.625
+  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
+    mirror: false
+    rotation: 270
+    x: 74.99
+    y: 90.625
+  waveguide_L10_W2p5_74.99_50.625:
+    mirror: false
+    rotation: 90
+    x: 74.99
+    y: 45.625
   waveguide_L10n_W500n_84.995_100.625:
     mirror: false
     rotation: 0
     x: 84.99
     y: 100.625
-  waveguide_L35p088_W500n_30.044_0.625:
+  waveguide_L52p49_W500n_38.745_0.625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  waveguide_L62p598_W500n_66.289_50.625:
-    mirror: false
-    rotation: 90
-    x: 66.289
-    y: 19.326
 ports:
   E0: mmi_short,W0
   W0: mmi_long,W0

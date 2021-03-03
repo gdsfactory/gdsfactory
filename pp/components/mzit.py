@@ -2,7 +2,7 @@ from typing import Optional
 
 import pp
 from pp.component import Component
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide as waveguide_function
@@ -24,12 +24,12 @@ def mzit(
     bend_radius: float = 10.0,
     taper_factory: ComponentFactory = taper,
     taper_length: float = 5.0,
-    bend90: ComponentFactory = bend_circular,
+    bend90: ComponentFactory = bend_euler,
     waveguide_factory: ComponentFactory = waveguide_function,
     coupler1: Optional[ComponentFactory] = coupler_function,
     coupler2: ComponentFactory = coupler_function,
     pins: bool = True,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
     **kwargs,
 ) -> Component:
     r"""Mzi tolerant to fab variations
@@ -86,6 +86,7 @@ def mzit(
       c.plot()
 
     """
+    tech = tech or TECH_SILICON_C
     w0 = tech.wg_width
     c = pp.Component()
     cp2 = (
