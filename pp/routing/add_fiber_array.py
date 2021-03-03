@@ -196,10 +196,11 @@ if __name__ == "__main__":
 
     # c = pp.c.coupler(gap=0.2, length=5.6)
 
-    c = pp.c.mzi2x2()
-    # c = pp.c.waveguide()
+    c = pp.c.waveguide()
     c = pp.c.waveguide(length=1, width=2)
     c = pp.c.mmi2x2()
+    c = pp.c.ring_single()
+    c = pp.c.mzi2x2()
 
     c.y = 0
     cc = add_fiber_array(

@@ -160,7 +160,7 @@ def get_route_from_waypoints(
     bend_factory: Callable = bend_euler,
     straight_factory: Callable = waveguide,
     taper_factory: Optional[Callable] = taper_function,
-    bend_radius: Number = 10.0,
+    bend_radius: Number = 5.0,
     wg_width: Number = 0.5,
     layer: Layer = LAYER.WG,
     **kwargs

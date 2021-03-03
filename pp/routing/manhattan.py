@@ -482,7 +482,6 @@ def round_corners(
     p1 = points[1]
 
     total_length = 0  # Keep track of the total path length
-
     bend_length = getattr(bend90, "length", 0)
 
     dp = p1 - p0_straight

@@ -57,7 +57,7 @@ class TechNitrideCband(Tech):
     layers_cladding: Tuple[Layer, ...] = (LAYER.WGCLAD,)
     layer_label: Layer = LAYER.LABEL
     taper_length: float = 20.0
-    taper_width: float = 10.0
+    taper_width: float = 1.0
 
 
 @dataclasses.dataclass(frozen=True)

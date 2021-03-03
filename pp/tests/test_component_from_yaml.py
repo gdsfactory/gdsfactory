@@ -596,10 +596,11 @@ def needs_fixing():
 
 
 if __name__ == "__main__":
+    c = needs_fixing()
 
     # c = test_mirror()
     # c = test_connections()
-    c = test_sample()
+    # c = test_sample()
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()

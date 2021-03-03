@@ -17,6 +17,7 @@ from pp.routing.get_route import (
     get_route,
     get_route_electrical,
     get_route_from_waypoints,
+    get_route_from_waypoints_electrical,
 )
 from pp.routing.manhattan import route_manhattan
 from pp.routing.repackage import package_optical2x2
@@ -35,6 +36,7 @@ __all__ = [
     "get_route",
     "get_route_electrical",
     "get_route_from_waypoints",
+    "get_route_from_waypoints_electrical",
     "link_electrical_ports",
     "link_optical_ports",
     "link_optical_ports_no_grouping",
