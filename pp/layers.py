@@ -10,13 +10,13 @@ load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
 
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple
 
 import xmltodict
 from phidl.device_layout import Layer
 from phidl.device_layout import LayerSet as LayerSetPhidl
-from pydantic import BaseModel
 
 from pp.component import Component
 from pp.name import clean_name
@@ -86,7 +86,8 @@ class LayerSet(LayerSetPhidl):
             return self._layers[key]
 
 
-class LayerMap(BaseModel):
+@dataclass(frozen=True)
+class LayerMap:
     WG = (1, 0)
     WGCLAD = (111, 0)
     SLAB150 = (2, 0)
