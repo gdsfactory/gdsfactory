@@ -1,19 +1,25 @@
+from typing import Iterable, Optional
+
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def mmi1x2(
+    width: float = TECH_SILICON_C.wg_width,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.496,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    cladding_offset: Optional[float] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     r"""Mmi 1x2.
@@ -25,7 +31,9 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         taper: taper function
-        tech: Technology
+        layer:
+        layers_cladding:
+        cladding_offset
 
     .. plot::
       :include-source:
@@ -54,16 +62,20 @@ def mmi1x2(
         length_taper
 
     """
-    wg_width = tech.wg_width
-    layers_cladding = tech.layers_cladding
-    layer = tech.layer_wg
-    cladding_offset = tech.cladding_offset
 
     c = pp.Component()
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(length=length_taper, width1=wg_width, width2=w_taper, tech=tech)
+    taper = taper(
+        length=length_taper,
+        width1=width,
+        width2=w_taper,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+        tech=tech,
+    )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << pp.c.rectangle(
@@ -76,6 +88,8 @@ def mmi1x2(
         },
     )
 
+    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
+    cladding_offset = getattr(tech, "cladding_offset", 0)
     if layers_cladding:
         for layer_cladding in layers_cladding:
             clad = c << pp.c.rectangle(
@@ -99,10 +113,7 @@ def mmi1x2(
 if __name__ == "__main__":
     c = mmi1x2()
     # print(c.ports)
-    # print(c.get_ports_array())
     # c = mmi1x2_biased()
-    # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
     # pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
     c.show()
-    # print(c.get_settings())

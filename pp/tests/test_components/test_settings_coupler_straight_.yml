@@ -3,6 +3,12 @@ info: {}
 module: pp.components.coupler_straight
 name: coupler_straight
 settings:
+  cladding_offset: null
   gap: 0.27
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
   length: 10.0
   tech: si_c
+  width: 0.5

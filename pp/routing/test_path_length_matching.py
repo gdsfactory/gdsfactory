@@ -21,7 +21,7 @@ def test_path_length_matching() -> Component:
     ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2)
-    lengths = [2680.888]
+    lengths = [2698.846]
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])
@@ -46,7 +46,7 @@ def test_path_length_matching_extra_length() -> Component:
     ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2, extra_length=40)
-    lengths = [2720.888]
+    lengths = [2738.846]
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])
@@ -71,7 +71,7 @@ def test_path_length_matching_nb_loops() -> Component:
     ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
-    lengths = [2733.748]
+    lengths = [2763.678]
     for route, length in zip(routes, lengths):
         print(route["length"])
         c.add(route["references"])
@@ -80,7 +80,7 @@ def test_path_length_matching_nb_loops() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_path_length_matching()
-    c = test_path_length_matching_extra_length()
+    # c = test_path_length_matching()
+    # c = test_path_length_matching_extra_length()
     c = test_path_length_matching_nb_loops()
     c.show()

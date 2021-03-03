@@ -1,75 +1,105 @@
 connections:
-  bend_euler_R5_Tsi_c_-10.3_16.352,N0: waveguide_L0p001_Tsi_c_-13.35_10.051,W0
-  bend_euler_R5_Tsi_c_-10.3_16.352,W0: waveguide_L4_Tsi_c_-2.0_19.402,W0
-  bend_euler_R5_Tsi_c_6.3_16.352,N0: waveguide_L4_Tsi_c_-2.0_19.402,E0
-  bend_euler_R5_Tsi_c_6.3_16.352,W0: waveguide_L0p001_Tsi_c_9.35_10.051,W0
-  coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4,N0: waveguide_L0p001_Tsi_c_-13.35_10.051,E0
-  coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4,N1: waveguide_L0p001_Tsi_c_9.35_10.051,E0
+  bend_euler_4c5d63af_-10.3_16.352,N0: waveguide_ce5aa985_-13.35_10.051,W0
+  bend_euler_4c5d63af_-10.3_16.352,W0: waveguide_a929f50b_-2.0_19.402,W0
+  bend_euler_4c5d63af_6.3_16.352,N0: waveguide_a929f50b_-2.0_19.402,E0
+  bend_euler_4c5d63af_6.3_16.352,W0: waveguide_ce5aa985_9.35_10.051,W0
+  coupler_ring_05cfdb20_-2.0_1.9,N0: waveguide_ce5aa985_-13.35_10.051,E0
+  coupler_ring_05cfdb20_-2.0_1.9,N1: waveguide_ce5aa985_9.35_10.051,E0
 instances:
-  bend_euler_R5_Tsi_c_-10.3_16.352:
+  bend_euler_4c5d63af_-10.3_16.352:
     component: bend_euler
     settings:
+      cross_section_factory: strip
+      layer:
+      - 1
+      - 0
       radius: 5.0
       tech: si_c
-  bend_euler_R5_Tsi_c_6.3_16.352:
+      width: 0.5
+  bend_euler_4c5d63af_6.3_16.352:
     component: bend_euler
     settings:
+      cross_section_factory: strip
+      layer:
+      - 1
+      - 0
       radius: 5.0
       tech: si_c
-  coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4:
+      width: 0.5
+  coupler_ring_05cfdb20_-2.0_1.9:
     component: coupler_ring
     settings:
+      cross_section_factory: strip
       gap: 0.2
+      layer:
+      - 1
+      - 0
       length_x: 4.0
       radius: 5.0
       tech: si_c
-  waveguide_L0p001_Tsi_c_-13.35_10.051:
+      width: 0.5
+  waveguide_a929f50b_-2.0_19.402:
     component: waveguide
     settings:
-      length: 0.001
-      tech: si_c
-  waveguide_L0p001_Tsi_c_9.35_10.051:
-    component: waveguide
-    settings:
-      length: 0.001
-      tech: si_c
-  waveguide_L4_Tsi_c_-2.0_19.402:
-    component: waveguide
-    settings:
+      cross_section_factory: strip
+      layer:
+      - 1
+      - 0
       length: 4.0
       tech: si_c
+      width: 0.5
+  waveguide_ce5aa985_-13.35_10.051:
+    component: waveguide
+    settings:
+      cross_section_factory: strip
+      layer:
+      - 1
+      - 0
+      length: 0.001
+      tech: si_c
+      width: 0.5
+  waveguide_ce5aa985_9.35_10.051:
+    component: waveguide
+    settings:
+      cross_section_factory: strip
+      layer:
+      - 1
+      - 0
+      length: 0.001
+      tech: si_c
+      width: 0.5
 name: ring_single
 placements:
-  bend_euler_R5_Tsi_c_-10.3_16.352:
+  bend_euler_4c5d63af_-10.3_16.352:
     mirror: false
     rotation: 180
     x: -4.0
     y: 19.402
-  bend_euler_R5_Tsi_c_6.3_16.352:
+  bend_euler_4c5d63af_6.3_16.352:
     mirror: false
     rotation: 90
     x: 9.35
     y: 10.051
-  coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4:
+  coupler_ring_05cfdb20_-2.0_1.9:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  waveguide_L0p001_Tsi_c_-13.35_10.051:
-    mirror: false
-    rotation: 270
-    x: -13.35
-    y: 10.051
-  waveguide_L0p001_Tsi_c_9.35_10.051:
-    mirror: false
-    rotation: 270
-    x: 9.35
-    y: 10.051
-  waveguide_L4_Tsi_c_-2.0_19.402:
+  waveguide_a929f50b_-2.0_19.402:
     mirror: false
     rotation: 0
     x: -4.0
     y: 19.402
+  waveguide_ce5aa985_-13.35_10.051:
+    mirror: false
+    rotation: 270
+    x: -13.35
+    y: 10.051
+  waveguide_ce5aa985_9.35_10.051:
+    mirror: false
+    rotation: 270
+    x: 9.35
+    y: 10.051
 ports:
-  E0: coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4,E0
-  W0: coupler_ring_G200n_LX4_R5_Tsi_c_-2.0_3.4,W0
+  E0: coupler_ring_05cfdb20_-2.0_1.9,E0
+  W0: coupler_ring_05cfdb20_-2.0_1.9,W0

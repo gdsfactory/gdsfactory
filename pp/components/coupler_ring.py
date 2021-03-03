@@ -1,20 +1,24 @@
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.coupler90 import coupler90euler
+from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
+from pp.cross_section import CrossSectionFactory, strip
 from pp.snap import assert_on_2nm_grid
 from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def coupler_ring(
-    coupler90: ComponentFactory = coupler90euler,
+    coupler90: ComponentFactory = coupler90,
     coupler: ComponentFactory = coupler_straight,
     length_x: float = 4.0,
     gap: float = 0.2,
     radius: float = 5.0,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: CrossSectionFactory = strip,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     r"""Coupler for ring.
@@ -51,12 +55,21 @@ def coupler_ring(
 
     # define subcells
     coupler90 = (
-        coupler90(gap=gap, radius=radius, tech=tech)
+        coupler90(
+            width=width,
+            gap=gap,
+            radius=radius,
+            layer=layer,
+            cross_section_factory=cross_section_factory,
+            tech=tech,
+        )
         if callable(coupler90)
         else coupler90
     )
     coupler_straight = (
-        coupler(gap=gap, length=length_x, tech=tech) if callable(coupler) else coupler
+        coupler(width=width, gap=gap, length=length_x, layer=layer, tech=tech)
+        if callable(coupler)
+        else coupler
     )
 
     # add references to subcells
@@ -81,7 +94,9 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-    c = coupler_ring(radius=5.0, gap=0.3)
+    from pp.tech import TECH_METAL1
+
+    c = coupler_ring(radius=5.0, gap=0.3, tech=TECH_METAL1)
     # c = coupler_ring(length_x=20, radius=5.0, gap=0.3)
     # print(c.get_settings())
     print(c.name)

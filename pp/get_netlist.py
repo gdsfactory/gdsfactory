@@ -93,10 +93,14 @@ def get_netlist(
 
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
-            component=c.function_name, settings=settings["settings"],
+            component=c.function_name,
+            settings=settings["settings"],
         )
         placements[reference_name] = dict(
-            x=x, y=y, rotation=int(reference.rotation), mirror=reference.x_reflection,
+            x=x,
+            y=y,
+            rotation=int(reference.rotation),
+            mirror=reference.x_reflection,
         )
 
     # store where ports are located
@@ -188,6 +192,7 @@ if __name__ == "__main__":
     from pp.tests.test_component_from_yaml import sample_2x2_connections
 
     c = pp.component_from_yaml(sample_2x2_connections)
+    c = pp.c.ring_single()
     c.show()
     pprint(c.get_netlist())
 

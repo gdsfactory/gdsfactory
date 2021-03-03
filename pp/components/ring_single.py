@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -7,21 +5,25 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
+from pp.cross_section import CrossSectionFactory, strip
 from pp.snap import assert_on_2nm_grid
 from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def ring_single(
     gap: float = 0.2,
-    radius: Optional[float] = None,
+    radius: float = 5.0,
     length_x: float = 4.0,
     length_y: float = 0.001,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
     bend: ComponentFactory = bend_euler,
     pins: bool = False,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: CrossSectionFactory = strip,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -37,7 +39,7 @@ def ring_single(
         waveguide: waveguide function
         bend: bend function
         pins: add pins
-        tech: Technology
+        tech: Technology with default values
 
 
     .. code::
@@ -59,17 +61,48 @@ def ring_single(
       c.plot()
 
     """
-    radius = radius or tech.bend_radius
     assert_on_2nm_grid(gap)
 
     coupler_ring = (
-        coupler(gap=gap, radius=radius, length_x=length_x, tech=tech)
+        coupler(
+            gap=gap,
+            radius=radius,
+            length_x=length_x,
+            width=width,
+            layer=layer,
+            cross_section_factory=cross_section_factory,
+            tech=tech,
+        )
         if callable(coupler)
         else coupler
     )
-    waveguide_side = call_if_func(waveguide, length=length_y, tech=tech)
-    waveguide_top = call_if_func(waveguide, length=length_x, tech=tech)
-    bend_ref = bend(radius=radius, tech=tech) if callable(bend) else bend
+    waveguide_side = call_if_func(
+        waveguide,
+        length=length_y,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    waveguide_top = call_if_func(
+        waveguide,
+        length=length_x,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    bend_ref = (
+        bend(
+            radius=radius,
+            width=width,
+            layer=layer,
+            cross_section_factory=cross_section_factory,
+            tech=tech,
+        )
+        if callable(bend)
+        else bend
+    )
 
     c = Component()
     cb = c << coupler_ring
@@ -95,9 +128,8 @@ def ring_single(
 
 
 if __name__ == "__main__":
-    from pp.tech import TECH_METAL1
 
-    c = ring_single(tech=TECH_METAL1)
+    c = ring_single()
     c.show()
     # cc = pp.add_pins(c)
     # print(c.settings)

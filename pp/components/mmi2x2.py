@@ -1,19 +1,25 @@
+from typing import Iterable, Optional
+
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def mmi2x2(
+    width: float = TECH_SILICON_C.wg_width,
     width_taper: float = 0.95,
     length_taper: float = 10.0,
     length_mmi: float = 15.45,
     width_mmi: float = 2.1,
     gap_mmi: float = 0.2,
     taper: ComponentFactory = taper_function,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    cladding_offset: Optional[float] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     r"""Mmi 2x2
@@ -24,7 +30,9 @@ def mmi2x2(
         length_mmi: in x direction
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
-        taper: taper function
+        layer:
+        layers_cladding:
+        cladding_offset
 
     .. plot::
       :include-source:
@@ -53,16 +61,19 @@ def mmi2x2(
             length_taper
 
     """
-    wg_width = tech.wg_width
-    layers_cladding = tech.layers_cladding
-    layer = tech.layer_wg
-    cladding_offset = tech.cladding_offset
-
     component = pp.Component()
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(length=length_taper, width1=wg_width, width2=w_taper, tech=tech)
+    taper = taper(
+        length=length_taper,
+        width1=width,
+        width2=w_taper,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+        tech=tech,
+    )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = pp.c.rectangle(
@@ -74,6 +85,8 @@ def mmi2x2(
             "W": [(-length_mmi / 2, -a, w_taper), (-length_mmi / 2, +a, w_taper)],
         },
     )
+    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
+    cladding_offset = getattr(tech, "cladding_offset", 0)
     if layers_cladding:
         for layer_cladding in layers_cladding:
             clad = component << pp.c.rectangle(
@@ -96,36 +109,8 @@ def mmi2x2(
     return component
 
 
-@cell
-def mmi2x2_biased(
-    wg_width=0.5,
-    width_taper=0.95,
-    length_taper=10,
-    length_mmi=15.45,
-    width_mmi=2.1,
-    gap_mmi=0.2,
-    layer=pp.LAYER.WG,
-):
-    return mmi2x2(
-        wg_width=pp.bias.width(wg_width),
-        width_taper=pp.bias.width(width_taper),
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=pp.bias.width(width_mmi),
-        gap_mmi=pp.bias.gap(gap_mmi),
-        layer=layer,
-    )
-
-
-def test_mmi2x2():
-    c = mmi2x2()
-    pp.write_gds(c)
-
-
 if __name__ == "__main__":
     c = mmi2x2()
-    # c = mmi2x2_biased()
-    # pp.write_to_libary("mmi1x2", width_mmi=10, overwrite=True)
     # print(c.get_optical_ports())
-    print(c.get_settings())
+    c.pprint()
     c.show()

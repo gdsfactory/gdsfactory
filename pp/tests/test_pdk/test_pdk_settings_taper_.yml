@@ -1,14 +1,18 @@
 function_name: taper
 info:
   length: 20.0
-  width1: 2.0
-  width2: 10.0
+  width1: 1.0
+  width2: 1.0
 module: pp.components.taper
-name: taper_L20_Tmetal1_W2_W10
+name: taper_L34_0_L20_Tsin_c_W1_W1
 settings:
-  layer: null
+  cladding_offset: null
+  layer:
+  - 34
+  - 0
+  layers_cladding: null
   length: 20.0
   port: null
-  tech: metal1
-  width1: 2.0
-  width2: 10.0
+  tech: sin_c
+  width1: 1.0
+  width2: 1.0

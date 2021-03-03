@@ -26,10 +26,10 @@ def get_padding_points(
         left: west padding
     """
     c = component
-    top = top if top else default
-    bottom = bottom if bottom else default
-    right = right if right else default
-    left = left if left else default
+    top = top if top is not None else default
+    bottom = bottom if bottom is not None else default
+    right = right if right is not None else default
+    left = left if left is not None else default
     return [
         [c.xmin - left, c.ymin - bottom],
         [c.xmax + right, c.ymin - bottom],

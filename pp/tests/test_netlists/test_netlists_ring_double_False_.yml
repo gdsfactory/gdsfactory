@@ -1,17 +1,17 @@
 connections:
-  coupler_ring_07d330e4_-0.005_16.711,N0: waveguide_L10n_Tsi_c_9.35_10.055,W0
-  coupler_ring_07d330e4_-0.005_16.711,N1: waveguide_L10n_Tsi_c_-9.36_10.055,W0
-  coupler_ring_07d330e4_-0.005_3.4,N0: waveguide_L10n_Tsi_c_-9.36_10.055,E0
-  coupler_ring_07d330e4_-0.005_3.4,N1: waveguide_L10n_Tsi_c_9.35_10.055,E0
+  coupler_ring_07d330e4_-0.005_1.9,N0: waveguide_L10n_Tsi_c_-9.36_10.055,E0
+  coupler_ring_07d330e4_-0.005_1.9,N1: waveguide_L10n_Tsi_c_9.35_10.055,E0
+  coupler_ring_07d330e4_-0.005_18.211,N0: waveguide_L10n_Tsi_c_9.35_10.055,W0
+  coupler_ring_07d330e4_-0.005_18.211,N1: waveguide_L10n_Tsi_c_-9.36_10.055,W0
 instances:
-  coupler_ring_07d330e4_-0.005_16.711:
+  coupler_ring_07d330e4_-0.005_1.9:
     component: coupler_ring
     settings:
       gap: 0.2
       length_x: 0.01
       radius: 5.0
       tech: si_c
-  coupler_ring_07d330e4_-0.005_3.4:
+  coupler_ring_07d330e4_-0.005_18.211:
     component: coupler_ring
     settings:
       gap: 0.2
@@ -30,16 +30,16 @@ instances:
       tech: si_c
 name: ring_double
 placements:
-  coupler_ring_07d330e4_-0.005_16.711:
-    mirror: false
-    rotation: 180
-    x: -0.01
-    y: 20.111
-  coupler_ring_07d330e4_-0.005_3.4:
+  coupler_ring_07d330e4_-0.005_1.9:
     mirror: false
     rotation: 0
     x: 0.0
     y: -0.0
+  coupler_ring_07d330e4_-0.005_18.211:
+    mirror: false
+    rotation: 180
+    x: -0.01
+    y: 20.111
   waveguide_L10n_Tsi_c_-9.36_10.055:
     mirror: false
     rotation: 270
@@ -51,7 +51,7 @@ placements:
     x: 9.35
     y: 10.06
 ports:
-  E0: coupler_ring_07d330e4_-0.005_3.4,E0
-  E1: coupler_ring_07d330e4_-0.005_16.711,W0
-  W0: coupler_ring_07d330e4_-0.005_3.4,W0
-  W1: coupler_ring_07d330e4_-0.005_16.711,E0
+  E0: coupler_ring_07d330e4_-0.005_1.9,E0
+  E1: coupler_ring_07d330e4_-0.005_18.211,W0
+  W0: coupler_ring_07d330e4_-0.005_1.9,W0
+  W1: coupler_ring_07d330e4_-0.005_18.211,E0

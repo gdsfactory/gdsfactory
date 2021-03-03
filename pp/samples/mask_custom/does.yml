@@ -9,7 +9,7 @@ coupler_500_224:
   component: coupler_te
   settings:
     gap: [0.224]
-    length: [0, 18.24, 36.48, 54.72, 72.96, 91.2]
+    length: [0.01, 18.24, 36.48, 54.72, 72.96, 91.2]
   test: passive_optical_te_coarse
   analysis: coupling_vs_length
   placer:
@@ -23,7 +23,7 @@ coupler_500_224:
 spiral_te:
   component: spiral_te
   settings:
-    length: [2, 4, 6]
+    length_cm: [2, 4, 6]
   placer:
     type: pack_row
     next_to: coupler_500_224

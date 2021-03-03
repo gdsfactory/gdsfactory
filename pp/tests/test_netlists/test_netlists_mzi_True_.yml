@@ -22,172 +22,216 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_19.048_3.675:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_25.149_-25.276:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_25.149_20.276:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_37.849_-25.276:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_37.849_20.276:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_43.95_-3.675:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   bend_euler_R5_43.95_3.675:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 5.0
       tech: si_c
       use_eff: false
-      width: null
+      width: 0.5
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings:
+      cladding_offset: null
       gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length_mmi: 5.496
       length_taper: 10.0
       tech: si_c
+      width: 0.5
       width_mmi: 2.5
       width_taper: 1.0
   mmi1x2_62.998_-0.0:
     component: mmi1x2
     settings:
+      cladding_offset: null
       gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length_mmi: 5.496
       length_taper: 10.0
       tech: si_c
+      width: 0.5
       width_mmi: 2.5
       width_taper: 1.0
   waveguide_L100n_31.499_-28.326:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 0.1
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L100n_31.499_23.326:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 0.1
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L4_22.098_-11.975:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 4.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L4_22.098_11.975:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 4.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L4_40.899_-11.975:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 4.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L4_40.899_11.975:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 4.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L5_22.098_-16.475:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 5.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
   waveguide_L5_40.899_-16.475:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 5.0
       npoints: 2
       tech: si_c
-      width: null
+      width: 0.5
 name: mzi
 placements:
   bend_euler_R5_19.048_-3.675:

@@ -12,22 +12,23 @@ def test_route_south() -> Component:
     references = route["references"]
 
     lengths = [
-        15.708,
+        31.416,
         1.0,
         0.5,
-        15.708,
+        31.416,
         5.0,
-        1.6499999999999968,
-        15.708,
+        1.65,
+        31.416,
         1.0,
         0.5,
-        15.708,
+        31.416,
         5.0,
-        1.6499999999999968,
+        1.65,
     ]
     for reference, length in zip(references, lengths):
         c.add(reference)
         route_length = reference.parent.length
+        # print(route_length)
         assert np.isclose(route_length, length)
     return c
 

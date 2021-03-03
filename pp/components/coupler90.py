@@ -1,21 +1,23 @@
-from typing import Optional
-
+from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.waveguide import waveguide
+from pp.cross_section import CrossSectionFactory, strip_no_cladding
 from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def coupler90(
     radius: float = 10.0,
     gap: float = 0.2,
-    width: Optional[float] = None,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_circular,
+    bend90_factory: ComponentFactory = bend_euler,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: CrossSectionFactory = strip_no_cladding,
     tech: Tech = TECH_SILICON_C,
     **kwargs
 ) -> Component:
@@ -45,11 +47,22 @@ def coupler90(
       c.plot()
 
     """
-    width = width or tech.wg_width
-
     c = Component()
-    wg = c << waveguide_factory(length=radius, width=width, tech=tech)
-    bend = c << bend90_factory(radius=radius, width=width, tech=tech, **kwargs)
+    wg = c << waveguide_factory(
+        length=radius,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    bend = c << bend90_factory(
+        radius=radius,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+        **kwargs
+    )
 
     pbw = bend.ports["W0"]
     bend.movey(pbw.midpoint[1] + gap + width)
@@ -63,14 +76,19 @@ def coupler90(
     c.add_port("W0", port=wg.ports["W0"])
     c.add_port("W1", port=bend.ports["W0"])
 
+    layers_cladding = getattr(tech, "layers_cladding", [])
+    cladding_offset = getattr(tech, "cladding_offset", 0)
+    points = get_padding_points(c, default=cladding_offset, left=0, top=0)
+    for layer in layers_cladding:
+        c.add_polygon(points, layer=layer)
     return c
 
 
-def coupler90euler(
+def coupler90circular(
     radius: float = 10.0,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_euler,
+    bend90_factory: ComponentFactory = bend_circular,
     **kwargs
 ):
     return coupler90(
@@ -83,8 +101,8 @@ def coupler90euler(
 
 
 if __name__ == "__main__":
-    c = coupler90(gap=0.3)
-    c << coupler90euler(gap=0.3, use_eff=True)
+    c = coupler90circular(gap=0.3)
+    c << coupler90(gap=0.3, use_eff=True)
     c.show()
     c.pprint()
     # print(c.ports)

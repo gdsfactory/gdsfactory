@@ -10,7 +10,9 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 10
@@ -21,7 +23,9 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       p: 1
       radius: 10
@@ -31,25 +35,39 @@ instances:
   mmi_long:
     component: mmi1x2
     settings:
+      cladding_offset: null
       gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length_mmi: 10
       length_taper: 10.0
       tech: si_c
+      width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
   mmi_short:
     component: mmi1x2
     settings:
+      cladding_offset: null
       gap_mmi: 0.25
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length_mmi: 5
       length_taper: 10.0
       tech: si_c
+      width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
   waveguide_L10n_W500n_84.995_100.625:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 0.01
       npoints: 2
       tech: si_c
@@ -57,7 +75,9 @@ instances:
   waveguide_L35p088_W500n_30.044_0.625:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 35.088
       npoints: 2
       tech: si_c
@@ -65,7 +85,9 @@ instances:
   waveguide_L62p598_W500n_66.289_50.625:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 62.598
       npoints: 2
       tech: si_c

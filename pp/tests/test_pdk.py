@@ -4,9 +4,9 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
 from pp.difftest import difftest
-from pp.pdk import PDK_METAL1
+from pp.pdk import PDK_NITRIDE_C
 
-pdk = PDK_METAL1
+pdk = PDK_NITRIDE_C
 component_names = [
     function_name
     for function_name in dir(pdk)

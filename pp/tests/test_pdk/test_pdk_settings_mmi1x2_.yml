@@ -3,11 +3,17 @@ info:
   simulation_settings:
     port_width: 1.5e-06
 module: pp.components.mmi1x2
-name: mmi1x2_5a473463
+name: mmi1x2_510c2e0d
 settings:
+  cladding_offset: null
   gap_mmi: 0.25
+  layer:
+  - 34
+  - 0
+  layers_cladding: null
   length_mmi: 5.5
   length_taper: 10.0
-  tech: metal1
+  tech: sin_c
+  width: 1.0
   width_mmi: 2.5
   width_taper: 1.0
