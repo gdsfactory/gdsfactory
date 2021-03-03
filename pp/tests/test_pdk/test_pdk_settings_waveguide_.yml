@@ -1,12 +1,14 @@
 function_name: waveguide
 info:
   length: 10.0
-  width: 2.0
+  width: 1.0
 module: pp.components.waveguide
-name: waveguide_L10_N2_Tmetal1_WNone
+name: waveguide_L34_0_L10_N2_Tsin_c_W1
 settings:
-  layer: null
+  layer:
+  - 34
+  - 0
   length: 10.0
   npoints: 2
-  tech: metal1
-  width: null
+  tech: sin_c
+  width: 1.0

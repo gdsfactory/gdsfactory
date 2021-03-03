@@ -106,7 +106,6 @@ def route_fiber_array(
     """
     layer_label = layer_label or tech.layer_label
     bend_radius = bend_radius or tech.bend_radius
-    print(bend_radius)
     optical_io_spacing = optical_io_spacing or tech.fiber_array_spacing
 
     component_name = component_name or component.name

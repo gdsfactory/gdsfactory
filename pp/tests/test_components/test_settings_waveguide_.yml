@@ -5,8 +5,10 @@ info:
 module: pp.components.waveguide
 name: waveguide
 settings:
-  layer: null
+  layer:
+  - 1
+  - 0
   length: 10.0
   npoints: 2
   tech: si_c
-  width: null
+  width: 0.5

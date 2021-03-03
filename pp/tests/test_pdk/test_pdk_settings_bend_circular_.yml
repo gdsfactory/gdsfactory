@@ -4,11 +4,13 @@ info:
   dy: 10.0
   length: 15.708
 module: pp.components.bend_circular
-name: bend_circular_00fc16ff
+name: bend_circular_49db7e4a
 settings:
   angle: 90
-  layer: null
+  layer:
+  - 34
+  - 0
   npoints: 720
   radius: 10.0
-  tech: metal1
-  width: null
+  tech: si_c
+  width: 1.0

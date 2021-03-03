@@ -1,13 +1,17 @@
 function_name: taper
 info:
-  length: 35.0
+  length: 15.0
   width1: 0.5
   width2: 0.5
 module: pp.components.taper
 name: taper
 settings:
-  layer: null
-  length: 35.0
+  cladding_offset: null
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
+  length: 15.0
   port: null
   tech: si_c
   width1: 0.5

@@ -7,10 +7,12 @@ module: pp.components.bend_euler
 name: bend_euler
 settings:
   angle: 90
-  layer: null
+  layer:
+  - 1
+  - 0
   npoints: 720
   p: 1
   radius: 10.0
   tech: si_c
   use_eff: false
-  width: null
+  width: 0.5

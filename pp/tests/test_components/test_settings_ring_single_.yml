@@ -4,8 +4,12 @@ module: pp.components.ring_single
 name: ring_single
 settings:
   gap: 0.2
+  layer:
+  - 1
+  - 0
   length_x: 4.0
   length_y: 0.001
   pins: false
-  radius: null
+  radius: 5.0
   tech: si_c
+  width: 0.5

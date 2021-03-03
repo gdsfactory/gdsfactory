@@ -7,8 +7,10 @@ module: pp.components.bend_circular
 name: bend_circular180
 settings:
   angle: 180
-  layer: null
+  layer:
+  - 1
+  - 0
   npoints: 720
   radius: 10.0
   tech: si_c
-  width: null
+  width: 0.5

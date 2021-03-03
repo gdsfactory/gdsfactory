@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import CrossSectionFactory, strip
@@ -15,9 +13,9 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     cross_section_factory: CrossSectionFactory = strip,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
     tech: Tech = TECH_SILICON_C,
-    width: Optional[float] = None,
-    layer: Optional[Layer] = None,
 ) -> Component:
     """Returns a radial arc.
 
@@ -28,6 +26,7 @@ def bend_circular(
         tech: Technology
         width: waveguide width (defaults to tech.wg_width)
         layer: layer for bend (defaults to tech.layer_wg)
+        tech: Technology with default values
 
     .. plot::
       :include-source:
@@ -42,7 +41,7 @@ def bend_circular(
       c.plot()
 
     """
-    cross_section = cross_section_factory(width=width, layer=layer)
+    cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = component(p, cross_section)
     c.length = snap_to_grid(p.length())
@@ -53,7 +52,7 @@ def bend_circular(
 
 @cell
 def bend_circular180(angle=180, **kwargs) -> Component:
-    """Returns an arc of length ``theta`` starting at angle ``start_angle``
+    """Returns a 180 degrees radial arc.
 
     Args:
         radius
@@ -78,7 +77,6 @@ if __name__ == "__main__":
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)
-    # c = bend_circular(radius=5.0005, width=1.002, theta=180)
     # print(c.length, np.pi * 10)
     # print(c.ports.keys())
     # print(c.ports["N0"].midpoint)

@@ -23,12 +23,34 @@ def strip(
     layers_cladding: Optional[Iterable[Layer]] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> CrossSection:
-    """Returns a fully etch waveguide CrossSection."""
+    """Returns a fully etched waveguide CrossSection."""
+
+    width = width or tech.wg_width
+    layer = layer or tech.layer_wg
+    cladding_offset = cladding_offset or getattr(tech, "cladding_offset", 0)
+    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
+
+    x = CrossSection()
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
+    for layer_cladding in layers_cladding:
+        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+    return x
+
+
+def strip_no_cladding(
+    width: Optional[float] = None,
+    layer: Optional[Layer] = None,
+    cladding_offset: Optional[float] = None,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    tech: Tech = TECH_SILICON_C,
+) -> CrossSection:
+    """Returns a fully etched waveguide CrossSection."""
 
     width = width or tech.wg_width
     layer = layer or tech.layer_wg
     cladding_offset = cladding_offset or tech.cladding_offset
-    layers_cladding = layers_cladding or tech.layers_cladding
+    layers_cladding = layers_cladding or []
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])

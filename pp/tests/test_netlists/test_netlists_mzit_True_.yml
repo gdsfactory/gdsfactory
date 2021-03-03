@@ -21,7 +21,9 @@ instances:
     component: bend_circular
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -30,7 +32,9 @@ instances:
     component: bend_circular
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -39,7 +43,9 @@ instances:
     component: bend_circular
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -48,7 +54,9 @@ instances:
     component: bend_circular
     settings:
       angle: 90
-      layer: null
+      layer:
+      - 1
+      - 0
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -72,7 +80,11 @@ instances:
   taper_L5_Tsi_c_W450n_W500n_16.5_22.6:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -81,7 +93,11 @@ instances:
   taper_L5_Tsi_c_W450n_W550n_22.5_20.6:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -90,7 +106,11 @@ instances:
   taper_L5_Tsi_c_W500n_W450n_22.5_0.6:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -99,7 +119,11 @@ instances:
   taper_L5_Tsi_c_W500n_W550n_22.5_-1.4:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -108,7 +132,11 @@ instances:
   taper_L5_Tsi_c_W550n_W450n_22.5_22.6:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -117,7 +145,11 @@ instances:
   taper_L5_Tsi_c_W550n_W500n_16.5_20.6:
     component: taper
     settings:
-      layer: null
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
       length: 5.0
       port: null
       tech: si_c
@@ -126,7 +158,9 @@ instances:
   waveguide_L1_Tsi_c_W450n_19.5_22.6:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 1.0
       npoints: 2
       tech: si_c
@@ -134,7 +168,9 @@ instances:
   waveguide_L1_Tsi_c_W550n_19.5_20.6:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 1.0
       npoints: 2
       tech: si_c
@@ -142,7 +178,9 @@ instances:
   waveguide_L3_Tsi_c_W550n_26.5_-1.4:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 3.0
       npoints: 2
       tech: si_c
@@ -150,7 +188,9 @@ instances:
   waveguide_L3_Tsi_c_W550n_26.5_22.6:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 3.0
       npoints: 2
       tech: si_c
@@ -158,7 +198,9 @@ instances:
   waveguide_L4_Tsi_c_W550n_38.0_10.6:
     component: waveguide
     settings:
-      layer: null
+      layer:
+      - 1
+      - 0
       length: 4.0
       npoints: 2
       tech: si_c
