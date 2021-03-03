@@ -12,7 +12,6 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing.factories import link_factory as link_factory_default
 from pp.routing.factories import route_factory as route_factory_default
-from pp.tech import TECH_SILICON_C, Tech
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -352,7 +351,6 @@ def component_from_yaml(
     route_factory: Dict[str, Callable] = route_factory_default,
     link_factory: Dict[str, Callable] = link_factory_default,
     label_instance_function: Callable = _add_instance_label,
-    tech: Tech = TECH_SILICON_C,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.
