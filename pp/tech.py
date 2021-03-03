@@ -1,6 +1,5 @@
+from dataclasses import dataclass
 from typing import Optional, Tuple
-
-from pydantic.dataclasses import dataclass
 
 from pp.layers import LAYER
 from pp.types import Layer

@@ -10,7 +10,6 @@ from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
-from pydantic import BaseModel
 
 from pp.config import conf
 from pp.port import Port, select_ports
@@ -1040,8 +1039,6 @@ def _clean_value(value: Any) -> Any:
         value = value.__name__
     elif isinstance(value, dict):
         clean_dict(value)
-    elif isinstance(value, BaseModel):
-        value = value.dict()
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
     elif value is None:
