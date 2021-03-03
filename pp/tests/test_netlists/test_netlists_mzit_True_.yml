@@ -21,6 +21,7 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      layer: null
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -29,6 +30,7 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      layer: null
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -37,6 +39,7 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      layer: null
       npoints: 720
       radius: 10.0
       tech: si_c
@@ -45,6 +48,7 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      layer: null
       npoints: 720
       radius: 10.0
       tech: si_c

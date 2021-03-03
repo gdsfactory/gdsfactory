@@ -2,6 +2,7 @@ from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
+from pp.cross_section import CrossSectionFactory, strip
 from pp.path import component, euler
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
@@ -18,6 +19,7 @@ def bend_euler(
     width: Optional[float] = None,
     layer: Optional[Layer] = None,
     tech: Tech = TECH_SILICON_C,
+    cross_section_factory: CrossSectionFactory = strip,
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
@@ -37,6 +39,7 @@ def bend_euler(
         width: waveguide width (defaults to tech.wg_width)
         layer: layer for bend (defaults to tech.layer_wg)
         tech: Technology
+        cross_section_factory: function that returns a cross_section
 
 
     .. plot::
@@ -54,7 +57,7 @@ def bend_euler(
       c.plot()
 
     """
-    cross_section = tech.get_cross_section(width=width, layer=layer)
+    cross_section = cross_section_factory(width=width, layer=layer)
     p = euler(radius=radius, angle=angle, p=p, use_eff=use_eff, npoints=npoints)
     c = component(p, cross_section)
     c.length = snap_to_grid(p.length())

@@ -1,12 +1,12 @@
-import dataclasses
 from typing import Optional, Tuple
 
-from pp.cross_section import CrossSection, CrossSectionFactory, strip
+from pydantic.dataclasses import dataclass
+
 from pp.layers import LAYER
 from pp.types import Layer
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclass(frozen=True)
 class Tech:
     name: str
     wg_width: float
@@ -20,20 +20,9 @@ class Tech:
     fiber_single_spacing: float = 50.0
     fiber_array_spacing: float = 127.0
     fiber_input_to_output_spacing: float = 120.0
-    cross_section: CrossSectionFactory = strip
-
-    def get_cross_section(
-        self, width: Optional[float] = None, layer: Optional[Layer] = None
-    ) -> CrossSection:
-        return self.cross_section(
-            width=width or self.wg_width,
-            layer=layer or self.layer_wg,
-            layers_cladding=self.layers_cladding,
-            cladding_offset=self.cladding_offset,
-        )
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclass(frozen=True)
 class TechSiliconCband(Tech):
     name: str = "si_c"
     wg_width: float = 0.5
@@ -47,7 +36,7 @@ class TechSiliconCband(Tech):
     taper_width: float = 2.0  # taper to wider waveguides for lower loss
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclass(frozen=True)
 class TechNitrideCband(Tech):
     name: str = "sin_c"
     wg_width: float = 1.0
@@ -60,7 +49,7 @@ class TechNitrideCband(Tech):
     taper_width: float = 1.0
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclass(frozen=True)
 class TechMetal1(Tech):
     name: str = "metal1"
     wg_width: float = 2.0
@@ -76,3 +65,18 @@ class TechMetal1(Tech):
 TECH_SILICON_C = TechSiliconCband()
 TECH_NITRIDE_C = TechNitrideCband()
 TECH_METAL1 = TechMetal1()
+
+
+if __name__ == "__main__":
+    import json
+
+    from pydantic.json import pydantic_encoder
+
+    import pp
+
+    c = pp.c.waveguide(tech=TECH_METAL1)
+    print(c.name)
+
+    tech = TECH_METAL1
+    # print(tech.dict())
+    print(json.dumps(tech, indent=4, default=pydantic_encoder))
