@@ -2,9 +2,11 @@ from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
+from pp.cross_section import CrossSectionFactory, strip
 from pp.path import arc, component
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
+from pp.types import Layer
 
 
 @cell
@@ -12,8 +14,10 @@ def bend_circular(
     radius: float = 10.0,
     angle: int = 90,
     npoints: int = 720,
+    cross_section_factory: CrossSectionFactory = strip,
     tech: Tech = TECH_SILICON_C,
     width: Optional[float] = None,
+    layer: Optional[Layer] = None,
 ) -> Component:
     """Returns a radial arc.
 
@@ -21,8 +25,9 @@ def bend_circular(
         radius
         angle: angle of arc (degrees)
         npoints: Number of points used per 360 degrees
-        width: waveguide width (defaults to tech.wg_width)
         tech: Technology
+        width: waveguide width (defaults to tech.wg_width)
+        layer: layer for bend (defaults to tech.layer_wg)
 
     .. plot::
       :include-source:
@@ -37,8 +42,7 @@ def bend_circular(
       c.plot()
 
     """
-    cross_section = tech.get_cross_section(width=width)
-
+    cross_section = cross_section_factory(width=width, layer=layer)
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = component(p, cross_section)
     c.length = snap_to_grid(p.length())

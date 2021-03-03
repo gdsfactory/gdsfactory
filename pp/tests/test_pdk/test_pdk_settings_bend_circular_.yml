@@ -7,6 +7,7 @@ module: pp.components.bend_circular
 name: bend_circular_00fc16ff
 settings:
   angle: 90
+  layer: null
   npoints: 720
   radius: 10.0
   tech: metal1

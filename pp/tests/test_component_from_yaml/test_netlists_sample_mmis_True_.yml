@@ -13,7 +13,7 @@ instances:
       layer: null
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: si_c
       use_eff: false
       width: 0.5
@@ -24,7 +24,7 @@ instances:
       layer: null
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: si_c
       use_eff: false
       width: 0.5

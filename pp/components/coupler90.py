@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
@@ -11,6 +13,7 @@ from pp.types import ComponentFactory
 def coupler90(
     radius: float = 10.0,
     gap: float = 0.2,
+    width: Optional[float] = None,
     waveguide_factory: ComponentFactory = waveguide,
     bend90_factory: ComponentFactory = bend_circular,
     tech: Tech = TECH_SILICON_C,
@@ -42,11 +45,11 @@ def coupler90(
       c.plot()
 
     """
-    width = tech.wg_width
+    width = width or tech.wg_width
 
     c = Component()
-    wg = c << waveguide_factory(length=radius, tech=tech)
-    bend = c << bend90_factory(radius=radius, tech=tech, **kwargs)
+    wg = c << waveguide_factory(length=radius, width=width, tech=tech)
+    bend = c << bend90_factory(radius=radius, width=width, tech=tech, **kwargs)
 
     pbw = bend.ports["W0"]
     bend.movey(pbw.midpoint[1] + gap + width)
@@ -83,4 +86,5 @@ if __name__ == "__main__":
     c = coupler90(gap=0.3)
     c << coupler90euler(gap=0.3, use_eff=True)
     c.show()
+    c.pprint()
     # print(c.ports)

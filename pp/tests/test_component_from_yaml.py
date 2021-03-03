@@ -596,8 +596,22 @@ def needs_fixing():
 
 
 if __name__ == "__main__":
-    c = needs_fixing()
+    import pp
 
+    # c = component_from_yaml(sample_2x2_connections)
+    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_different_factory)
+    c.show()
+    full_settings = True
+    n = c.get_netlist(full_settings=full_settings)
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = component_from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0
+    pp.show(c2)
+
+    # c = needs_fixing()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
@@ -607,4 +621,4 @@ if __name__ == "__main__":
     # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
-    c.show()
+    # c.show()
