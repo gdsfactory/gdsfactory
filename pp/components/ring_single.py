@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -5,7 +7,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
-from pp.cross_section import CrossSectionFactory, strip
+from pp.cross_section import CrossSectionFactory
 from pp.snap import assert_on_2nm_grid
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer
@@ -14,17 +16,17 @@ from pp.types import ComponentFactory, Layer
 @cell
 def ring_single(
     gap: float = 0.2,
-    radius: float = 5.0,
+    radius: float = 10.0,
     length_x: float = 4.0,
-    length_y: float = 0.001,
+    length_y: float = 0.010,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
     bend: ComponentFactory = bend_euler,
     pins: bool = False,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: CrossSectionFactory = strip,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
     connected with two vertical waveguides (wl: left, wr: right)

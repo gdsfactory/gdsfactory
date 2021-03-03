@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import CrossSectionFactory, strip
@@ -12,12 +14,12 @@ def bend_euler(
     radius: float = 10.0,
     angle: int = 90,
     p: float = 1,
-    use_eff: bool = False,
+    with_arc_floorplan: bool = True,
     npoints: int = 720,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: CrossSectionFactory = strip,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
@@ -30,7 +32,7 @@ def bend_euler(
         radius: minimum radius of curvature
         angle: total angle of the curve
         p: Proportion of the curve that is an Euler curve
-        use_eff: If False: `radius` is the minimum radius of curvature of the bend
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature of the bend
             If True: The curve will be scaled such that the endpoints match an arc
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
@@ -55,8 +57,13 @@ def bend_euler(
       c.plot()
 
     """
+    cross_section_factory = cross_section_factory or strip
+    tech = tech or TECH_SILICON_C
+
     cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
-    p = euler(radius=radius, angle=angle, p=p, use_eff=use_eff, npoints=npoints)
+    p = euler(
+        radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
+    )
     c = component(p, cross_section)
     c.length = snap_to_grid(p.length())
     c.dx = abs(p.points[0][0] - p.points[-1][0])

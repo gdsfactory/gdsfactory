@@ -1,9 +1,11 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.snap import assert_on_1nm_grid
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import Tech
 from pp.types import ComponentFactory
 
 
@@ -15,7 +17,7 @@ def coupler(
     coupler_straight_factory: ComponentFactory = coupler_straight,
     dy: float = 5.0,
     dx: float = 10.0,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> Component:
     r"""symmetric coupler
 

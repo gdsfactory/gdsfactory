@@ -1,13 +1,14 @@
 connections:
-  bend_euler_R5_W500n_-246.95_603.05,N0: taper_L1_0_L35_W500n_W2p5_-250.0_626.85,1
-  bend_euler_R5_W500n_-3.05_596.95,N0: taper_L1_0_L35_W500n_W2p5_-26.85_600.0,1
-  bend_euler_R5_W500n_-3.05_596.95,W0: taper_L1_0_L35_W500n_W2p5_0.0_573.15,1
-  taper_L1_0_L35_W500n_W2p5_-223.149_600.0,2: waveguide_L161p299_W2p5_-125.0_600.0,E0
-  taper_L1_0_L35_W500n_W2p5_-250.0_626.85,2: waveguide_L320p65_W2p5_-250.0_804.675,W0
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2: waveguide_L320p65_W2p5_-250.0_804.675,E0
-  taper_L1_0_L35_W500n_W2p5_-26.85_600.0,2: waveguide_L161p299_W2p5_-125.0_600.0,W0
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5,2: waveguide_L520p65_W2p5_0.0_295.325,W0
-  taper_L1_0_L35_W500n_W2p5_0.0_573.15,2: waveguide_L520p65_W2p5_0.0_295.325,E0
+  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,1
+  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
+  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
+  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
+  taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,W0
+  taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,E0
+  taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2: waveguide_L325_W2p5_-250.0_802.5,W0
+  taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2: waveguide_L325_W2p5_-250.0_802.5,E0
+  taper_L1_0_L35_W500n_W2p5_0.0_17.5,2: waveguide_L525_W2p5_0.0_297.5,W0
+  taper_L1_0_L35_W500n_W2p5_0.0_577.5,2: waveguide_L525_W2p5_0.0_297.5,E0
 instances:
   b:
     component: pad_array
@@ -23,32 +24,34 @@ instances:
       - 150.0
       - 0.0
       width: 100.0
-  bend_euler_R5_W500n_-246.95_603.05:
+  bend_euler_R5_W500n_-0.875_599.125:
     component: bend_euler
     settings:
       angle: 90
+      cross_section_factory: null
       layer:
       - 1
       - 0
       npoints: 720
       p: 1
       radius: 5.0
-      tech: si_c
-      use_eff: false
+      tech: null
       width: 0.5
-  bend_euler_R5_W500n_-3.05_596.95:
+      with_arc_floorplan: true
+  bend_euler_R5_W500n_-249.125_600.875:
     component: bend_euler
     settings:
       angle: 90
+      cross_section_factory: null
       layer:
       - 1
       - 0
       npoints: 720
       p: 1
       radius: 5.0
-      tech: si_c
-      use_eff: false
+      tech: null
       width: 0.5
+      with_arc_floorplan: true
   t:
     component: pad_array
     settings:
@@ -63,7 +66,7 @@ instances:
       - 150.0
       - 0.0
       width: 100.0
-  taper_L1_0_L35_W500n_W2p5_-223.149_600.0:
+  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
     component: taper
     settings:
       cladding_offset: null
@@ -76,7 +79,20 @@ instances:
       tech: si_c
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-250.0_626.85:
+  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
+    component: taper
+    settings:
+      cladding_offset: null
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 35.0
+      port: null
+      tech: si_c
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
     component: taper
     settings:
       cladding_offset: null
@@ -102,19 +118,6 @@ instances:
       tech: si_c
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-26.85_600.0:
-    component: taper
-    settings:
-      cladding_offset: null
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 35.0
-      port: null
-      tech: si_c
-      width1: 0.5
-      width2: 2.5
   taper_L1_0_L35_W500n_W2p5_0.0_17.5:
     component: taper
     settings:
@@ -128,7 +131,7 @@ instances:
       tech: si_c
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_0.0_573.15:
+  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
     component: taper
     settings:
       cladding_offset: null
@@ -141,35 +144,38 @@ instances:
       tech: si_c
       width1: 0.5
       width2: 2.5
-  waveguide_L161p299_W2p5_-125.0_600.0:
+  waveguide_L170_W2p5_-125.0_600.0:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
-      length: 161.299
+      length: 170.0
       npoints: 2
-      tech: si_c
+      tech: null
       width: 2.5
-  waveguide_L320p65_W2p5_-250.0_804.675:
+  waveguide_L325_W2p5_-250.0_802.5:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
-      length: 320.65
+      length: 325.0
       npoints: 2
-      tech: si_c
+      tech: null
       width: 2.5
-  waveguide_L520p65_W2p5_0.0_295.325:
+  waveguide_L525_W2p5_0.0_297.5:
     component: waveguide
     settings:
+      cross_section_factory: null
       layer:
       - 1
       - 0
-      length: 520.65
+      length: 525.0
       npoints: 2
-      tech: si_c
+      tech: null
       width: 2.5
 name: sample_waypoints
 placements:
@@ -178,62 +184,62 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_R5_W500n_-246.95_603.05:
-    mirror: true
-    rotation: 180
-    x: -240.65
-    y: 600.0
-  bend_euler_R5_W500n_-3.05_596.95:
+  bend_euler_R5_W500n_-0.875_599.125:
     mirror: false
     rotation: 90
     x: 0.0
-    y: 590.65
+    y: 595.0
+  bend_euler_R5_W500n_-249.125_600.875:
+    mirror: true
+    rotation: 180
+    x: -245.0
+    y: 600.0
   t:
     mirror: false
     rotation: 0
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_-223.149_600.0:
+  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
+    mirror: false
+    rotation: 180
+    x: -5.0
+    y: 600.0
+  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
     mirror: false
     rotation: 0
-    x: -240.649
+    x: -245.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_-250.0_626.85:
+  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
     mirror: false
     rotation: 90
     x: -250.0
-    y: 609.35
+    y: 605.0
   taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
     mirror: false
     rotation: 270
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_-26.85_600.0:
-    mirror: false
-    rotation: 180
-    x: -9.35
-    y: 600.0
   taper_L1_0_L35_W500n_W2p5_0.0_17.5:
     mirror: false
     rotation: 90
     x: 0.0
     y: 0.0
-  taper_L1_0_L35_W500n_W2p5_0.0_573.15:
+  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
     mirror: false
     rotation: 270
     x: 0.0
-    y: 590.65
-  waveguide_L161p299_W2p5_-125.0_600.0:
+    y: 595.0
+  waveguide_L170_W2p5_-125.0_600.0:
     mirror: false
     rotation: 180
-    x: -44.35
+    x: -40.0
     y: 600.0
-  waveguide_L320p65_W2p5_-250.0_804.675:
+  waveguide_L325_W2p5_-250.0_802.5:
     mirror: false
     rotation: 90
     x: -250.0
-    y: 644.35
-  waveguide_L520p65_W2p5_0.0_295.325:
+    y: 640.0
+  waveguide_L525_W2p5_0.0_297.5:
     mirror: false
     rotation: 90
     x: 0.0

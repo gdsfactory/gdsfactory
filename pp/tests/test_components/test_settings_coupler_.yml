@@ -9,4 +9,4 @@ settings:
   dy: 5.0
   gap: 0.236
   length: 20.0
-  tech: si_c
+  tech: null

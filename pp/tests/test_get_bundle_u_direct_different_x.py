@@ -1,12 +1,14 @@
+from pytest_regressions.data_regression import DataRegressionFixture
+
 import pp
 from pp.component import Component
 
 
-@pp.cell
-def test_get_bundle_u_direct_different_x() -> Component:
-    """u direct with different x."""
-    c = pp.Component()
+def test_get_bundle_u_direct_different_x(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
 
+    c = pp.Component("test_get_bundle_u_direct_different_x")
     w = c << pp.c.waveguide_array(n_waveguides=4, spacing=200)
     d = c << pp.c.nxn()
     d.y = w.y
@@ -25,15 +27,17 @@ def test_get_bundle_u_direct_different_x() -> Component:
     ]
 
     routes = pp.routing.get_bundle(ports1, ports2, sort_ports=True)
-    lengths = [330.95, 543.283]
 
-    for route, length in zip(routes, lengths):
-        print(route["length"])
+    lengths = {}
+    for i, route in enumerate(routes):
         c.add(route["references"])
-        # assert np.isclose(route["length"], length)
+        lengths[i] = route["length"]
+
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_u_direct_different_x()
+    c = test_get_bundle_u_direct_different_x(None, check=False)
     c.show()

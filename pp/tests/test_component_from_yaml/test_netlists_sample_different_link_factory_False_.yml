@@ -1,101 +1,109 @@
 connections:
-  bend_euler_R5_W500n_118.249_203.05,N0: taper_L1_0_L35_W500n_W2p5_121.299_226.85,1
-  bend_euler_R5_W500n_118.249_203.05,W0: waveguide_L61p949_W500n_80.974_200.0,E0
-  bend_euler_R5_W500n_124.349_520.146,N0: taper_L1_0_L35_W500n_W2p5_148.15_523.196,1
-  bend_euler_R5_W500n_124.349_564.648,N0: waveguide_L19p701_W500n_121.299_580.799,W0
-  bend_euler_R5_W500n_124.349_596.95,N0: taper_L1_0_L35_W500n_W2p5_148.15_600.0,1
-  bend_euler_R5_W500n_124.349_596.95,W0: waveguide_L19p701_W500n_121.299_580.799,E0
-  bend_euler_R5_W500n_248.249_3.05,N0: taper_L1_0_L35_W500n_W2p5_251.299_26.85,1
-  bend_euler_R5_W500n_248.249_3.05,W0: taper_L1_0_L35_W500n_W2p5_224.449_0.0,1
-  bend_euler_R5_W500n_254.349_320.146,N0: taper_L1_0_L35_W500n_W2p5_278.15_323.196,1
-  bend_euler_R5_W500n_254.349_364.648,N0: waveguide_L19p701_W500n_251.299_380.799,W0
-  bend_euler_R5_W500n_254.349_396.95,N0: taper_L1_0_L35_W500n_W2p5_278.15_400.0,1
-  bend_euler_R5_W500n_254.349_396.95,W0: waveguide_L19p701_W500n_251.299_380.799,E0
-  bend_euler_R5_W500n_406.651_526.246,N0: waveguide_L19p701_W500n_409.701_542.397,W0
-  bend_euler_R5_W500n_406.651_558.548,N0: taper_L1_0_L35_W500n_W2p5_382.85_561.598,1
-  bend_euler_R5_W500n_406.651_558.548,W0: waveguide_L19p701_W500n_409.701_542.397,E0
-  bend_euler_R5_W500n_536.651_326.246,N0: waveguide_L19p701_W500n_539.701_342.397,W0
-  bend_euler_R5_W500n_536.651_358.548,N0: taper_L1_0_L35_W500n_W2p5_512.85_361.598,1
-  bend_euler_R5_W500n_536.651_358.548,W0: waveguide_L19p701_W500n_539.701_342.397,E0
+  bend_euler_R5_W500n_129.125_200.875,N0: taper_L1_0_L35_W500n_W2p5_130.0_222.5,1
+  bend_euler_R5_W500n_129.125_200.875,W0: taper_L1_0_L35_W500n_W2p5_107.5_200.0,1
+  bend_euler_R5_W500n_130.875_557.125,N0: taper_L1_0_L35_W500n_W2p5_152.5_558.0,1
+  bend_euler_R5_W500n_130.875_557.125,W0: taper_L1_0_L35_W500n_W2p5_130.0_535.5,1
+  bend_euler_R5_W500n_130.875_579.875,N0: waveguide_L11_W500n_130.0_589.5,W0
+  bend_euler_R5_W500n_130.875_579.875,W0: taper_L1_0_L35_W500n_W2p5_152.5_579.0,1
+  bend_euler_R5_W500n_130.875_599.125,N0: taper_L1_0_L35_W500n_W2p5_152.5_600.0,1
+  bend_euler_R5_W500n_130.875_599.125,W0: waveguide_L11_W500n_130.0_589.5,E0
+  bend_euler_R5_W500n_259.125_0.875,N0: taper_L1_0_L35_W500n_W2p5_260.0_22.5,1
+  bend_euler_R5_W500n_259.125_0.875,W0: taper_L1_0_L35_W500n_W2p5_237.5_0.0,1
+  bend_euler_R5_W500n_260.875_357.125,N0: taper_L1_0_L35_W500n_W2p5_282.5_358.0,1
+  bend_euler_R5_W500n_260.875_357.125,W0: taper_L1_0_L35_W500n_W2p5_260.0_335.5,1
+  bend_euler_R5_W500n_260.875_379.875,N0: waveguide_L11_W500n_260.0_389.5,W0
+  bend_euler_R5_W500n_260.875_379.875,W0: taper_L1_0_L35_W500n_W2p5_282.5_379.0,1
+  bend_euler_R5_W500n_260.875_399.125,N0: taper_L1_0_L35_W500n_W2p5_282.5_400.0,1
+  bend_euler_R5_W500n_260.875_399.125,W0: waveguide_L11_W500n_260.0_389.5,E0
+  bend_euler_R5_W500n_400.125_558.875,N0: waveguide_L11_W500n_401.0_568.5,W0
+  bend_euler_R5_W500n_400.125_558.875,W0: taper_L1_0_L35_W500n_W2p5_378.5_558.0,1
+  bend_euler_R5_W500n_400.125_578.125,N0: taper_L1_0_L35_W500n_W2p5_378.5_579.0,1
+  bend_euler_R5_W500n_400.125_578.125,W0: waveguide_L11_W500n_401.0_568.5,E0
+  bend_euler_R5_W500n_530.125_358.875,N0: waveguide_L11_W500n_531.0_368.5,W0
+  bend_euler_R5_W500n_530.125_358.875,W0: taper_L1_0_L35_W500n_W2p5_508.5_358.0,1
+  bend_euler_R5_W500n_530.125_378.125,N0: taper_L1_0_L35_W500n_W2p5_508.5_379.0,1
+  bend_euler_R5_W500n_530.125_378.125,W0: waveguide_L11_W500n_531.0_368.5,E0
   bl,E: taper_L1_0_L35_W500n_W2p5_67.5_0.0,1
   br,W: taper_L1_0_L35_W500n_W2p5_832.5_400.0,1
-  taper_L1_0_L35_W500n_W2p5_121.299_226.85,2: waveguide_L234p495_W2p5_121.299_361.598,W0
-  taper_L1_0_L35_W500n_W2p5_121.299_496.345,2: waveguide_L234p495_W2p5_121.299_361.598,E0
-  taper_L1_0_L35_W500n_W2p5_148.149_561.598,2: waveguide_L199p701_W2p5_265.5_561.598,E0
-  taper_L1_0_L35_W500n_W2p5_148.15_523.196,2: waveguide_L199p701_W2p5_265.5_523.196,W0
-  taper_L1_0_L35_W500n_W2p5_148.15_600.0,2: waveguide_L649p35_W2p5_490.325_600.0,W0
-  taper_L1_0_L35_W500n_W2p5_224.449_0.0,2: waveguide_L121p949_W2p5_145.974_0.0,E0
-  taper_L1_0_L35_W500n_W2p5_251.299_26.85,2: waveguide_L234p495_W2p5_251.299_161.598,W0
-  taper_L1_0_L35_W500n_W2p5_251.299_296.345,2: waveguide_L234p495_W2p5_251.299_161.598,E0
-  taper_L1_0_L35_W500n_W2p5_278.149_361.598,2: waveguide_L199p701_W2p5_395.5_361.598,E0
-  taper_L1_0_L35_W500n_W2p5_278.15_323.196,2: waveguide_L199p701_W2p5_395.5_323.196,W0
-  taper_L1_0_L35_W500n_W2p5_278.15_400.0,2: waveguide_L519p35_W2p5_555.325_400.0,W0
-  taper_L1_0_L35_W500n_W2p5_382.851_523.196,2: waveguide_L199p701_W2p5_265.5_523.196,E0
-  taper_L1_0_L35_W500n_W2p5_382.85_561.598,2: waveguide_L199p701_W2p5_265.5_561.598,W0
-  taper_L1_0_L35_W500n_W2p5_512.851_323.196,2: waveguide_L199p701_W2p5_395.5_323.196,E0
-  taper_L1_0_L35_W500n_W2p5_512.85_361.598,2: waveguide_L199p701_W2p5_395.5_361.598,W0
-  taper_L1_0_L35_W500n_W2p5_67.5_0.0,2: waveguide_L121p949_W2p5_145.974_0.0,W0
-  taper_L1_0_L35_W500n_W2p5_832.5_400.0,2: waveguide_L519p35_W2p5_555.325_400.0,E0
+  taper_L1_0_L35_W500n_W2p5_107.5_200.0,2: waveguide_L5_W2p5_87.5_200.0,E0
+  taper_L1_0_L35_W500n_W2p5_130.0_222.5,2: waveguide_L278_W2p5_130.0_379.0,W0
+  taper_L1_0_L35_W500n_W2p5_130.0_535.5,2: waveguide_L278_W2p5_130.0_379.0,E0
+  taper_L1_0_L35_W500n_W2p5_152.5_558.0,2: waveguide_L191_W2p5_265.5_558.0,W0
+  taper_L1_0_L35_W500n_W2p5_152.5_579.0,2: waveguide_L191_W2p5_265.5_579.0,E0
+  taper_L1_0_L35_W500n_W2p5_152.5_600.0,2: waveguide_L645_W2p5_492.5_600.0,W0
+  taper_L1_0_L35_W500n_W2p5_237.5_0.0,2: waveguide_L135_W2p5_152.5_0.0,E0
+  taper_L1_0_L35_W500n_W2p5_260.0_22.5,2: waveguide_L278_W2p5_260.0_179.0,W0
+  taper_L1_0_L35_W500n_W2p5_260.0_335.5,2: waveguide_L278_W2p5_260.0_179.0,E0
+  taper_L1_0_L35_W500n_W2p5_282.5_358.0,2: waveguide_L191_W2p5_395.5_358.0,W0
+  taper_L1_0_L35_W500n_W2p5_282.5_379.0,2: waveguide_L191_W2p5_395.5_379.0,E0
+  taper_L1_0_L35_W500n_W2p5_282.5_400.0,2: waveguide_L515_W2p5_557.5_400.0,W0
+  taper_L1_0_L35_W500n_W2p5_378.5_558.0,2: waveguide_L191_W2p5_265.5_558.0,E0
+  taper_L1_0_L35_W500n_W2p5_378.5_579.0,2: waveguide_L191_W2p5_265.5_579.0,W0
+  taper_L1_0_L35_W500n_W2p5_508.5_358.0,2: waveguide_L191_W2p5_395.5_358.0,E0
+  taper_L1_0_L35_W500n_W2p5_508.5_379.0,2: waveguide_L191_W2p5_395.5_379.0,W0
+  taper_L1_0_L35_W500n_W2p5_67.5_0.0,2: waveguide_L135_W2p5_152.5_0.0,W0
+  taper_L1_0_L35_W500n_W2p5_67.5_200.0,1: tl,E
+  taper_L1_0_L35_W500n_W2p5_67.5_200.0,2: waveguide_L5_W2p5_87.5_200.0,W0
+  taper_L1_0_L35_W500n_W2p5_832.5_400.0,2: waveguide_L515_W2p5_557.5_400.0,E0
   taper_L1_0_L35_W500n_W2p5_832.5_600.0,1: tr,W
-  taper_L1_0_L35_W500n_W2p5_832.5_600.0,2: waveguide_L649p35_W2p5_490.325_600.0,E0
-  tl,E: waveguide_L61p949_W500n_80.974_200.0,W0
+  taper_L1_0_L35_W500n_W2p5_832.5_600.0,2: waveguide_L645_W2p5_492.5_600.0,E0
 instances:
-  bend_euler_R5_W500n_118.249_203.05:
+  bend_euler_R5_W500n_129.125_200.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_124.349_520.146:
+  bend_euler_R5_W500n_130.875_557.125:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_124.349_564.648:
+  bend_euler_R5_W500n_130.875_579.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_124.349_596.95:
+  bend_euler_R5_W500n_130.875_599.125:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_248.249_3.05:
+  bend_euler_R5_W500n_259.125_0.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_254.349_320.146:
+  bend_euler_R5_W500n_260.875_357.125:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_254.349_364.648:
+  bend_euler_R5_W500n_260.875_379.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_254.349_396.95:
+  bend_euler_R5_W500n_260.875_399.125:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_406.651_526.246:
+  bend_euler_R5_W500n_400.125_558.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_406.651_558.548:
+  bend_euler_R5_W500n_400.125_578.125:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_536.651_326.246:
+  bend_euler_R5_W500n_530.125_358.875:
     component: bend_euler
     settings:
       radius: 5.0
       width: 0.5
-  bend_euler_R5_W500n_536.651_358.548:
+  bend_euler_R5_W500n_530.125_378.125:
     component: bend_euler
     settings:
       radius: 5.0
@@ -106,7 +114,7 @@ instances:
   br:
     component: pad
     settings: {}
-  taper_L1_0_L35_W500n_W2p5_121.299_226.85:
+  taper_L1_0_L35_W500n_W2p5_107.5_200.0:
     component: taper
     settings:
       layer:
@@ -115,7 +123,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_121.299_496.345:
+  taper_L1_0_L35_W500n_W2p5_130.0_222.5:
     component: taper
     settings:
       layer:
@@ -124,7 +132,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_148.149_561.598:
+  taper_L1_0_L35_W500n_W2p5_130.0_535.5:
     component: taper
     settings:
       layer:
@@ -133,7 +141,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_148.15_523.196:
+  taper_L1_0_L35_W500n_W2p5_152.5_558.0:
     component: taper
     settings:
       layer:
@@ -142,7 +150,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_148.15_600.0:
+  taper_L1_0_L35_W500n_W2p5_152.5_579.0:
     component: taper
     settings:
       layer:
@@ -151,7 +159,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_224.449_0.0:
+  taper_L1_0_L35_W500n_W2p5_152.5_600.0:
     component: taper
     settings:
       layer:
@@ -160,7 +168,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_251.299_26.85:
+  taper_L1_0_L35_W500n_W2p5_237.5_0.0:
     component: taper
     settings:
       layer:
@@ -169,7 +177,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_251.299_296.345:
+  taper_L1_0_L35_W500n_W2p5_260.0_22.5:
     component: taper
     settings:
       layer:
@@ -178,7 +186,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_278.149_361.598:
+  taper_L1_0_L35_W500n_W2p5_260.0_335.5:
     component: taper
     settings:
       layer:
@@ -187,7 +195,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_278.15_323.196:
+  taper_L1_0_L35_W500n_W2p5_282.5_358.0:
     component: taper
     settings:
       layer:
@@ -196,7 +204,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_278.15_400.0:
+  taper_L1_0_L35_W500n_W2p5_282.5_379.0:
     component: taper
     settings:
       layer:
@@ -205,7 +213,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_382.851_523.196:
+  taper_L1_0_L35_W500n_W2p5_282.5_400.0:
     component: taper
     settings:
       layer:
@@ -214,7 +222,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_382.85_561.598:
+  taper_L1_0_L35_W500n_W2p5_378.5_558.0:
     component: taper
     settings:
       layer:
@@ -223,7 +231,7 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_512.851_323.196:
+  taper_L1_0_L35_W500n_W2p5_378.5_579.0:
     component: taper
     settings:
       layer:
@@ -232,7 +240,16 @@ instances:
       length: 35.0
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_512.85_361.598:
+  taper_L1_0_L35_W500n_W2p5_508.5_358.0:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_508.5_379.0:
     component: taper
     settings:
       layer:
@@ -242,6 +259,15 @@ instances:
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_0.0:
+    component: taper
+    settings:
+      layer:
+      - 1
+      - 0
+      length: 35.0
+      width1: 0.5
+      width2: 2.5
+  taper_L1_0_L35_W500n_W2p5_67.5_200.0:
     component: taper
     settings:
       layer:
@@ -274,138 +300,138 @@ instances:
   tr:
     component: pad
     settings: {}
-  waveguide_L121p949_W2p5_145.974_0.0:
+  waveguide_L11_W500n_130.0_589.5:
     component: waveguide
     settings:
-      length: 121.949
-      width: 2.5
-  waveguide_L199p701_W2p5_265.5_523.196:
-    component: waveguide
-    settings:
-      length: 199.701
-      width: 2.5
-  waveguide_L199p701_W2p5_265.5_561.598:
-    component: waveguide
-    settings:
-      length: 199.701
-      width: 2.5
-  waveguide_L199p701_W2p5_395.5_323.196:
-    component: waveguide
-    settings:
-      length: 199.701
-      width: 2.5
-  waveguide_L199p701_W2p5_395.5_361.598:
-    component: waveguide
-    settings:
-      length: 199.701
-      width: 2.5
-  waveguide_L19p701_W500n_121.299_580.799:
-    component: waveguide
-    settings:
-      length: 19.701
+      length: 11.0
       width: 0.5
-  waveguide_L19p701_W500n_251.299_380.799:
+  waveguide_L11_W500n_260.0_389.5:
     component: waveguide
     settings:
-      length: 19.701
+      length: 11.0
       width: 0.5
-  waveguide_L19p701_W500n_409.701_542.397:
+  waveguide_L11_W500n_401.0_568.5:
     component: waveguide
     settings:
-      length: 19.701
+      length: 11.0
       width: 0.5
-  waveguide_L19p701_W500n_539.701_342.397:
+  waveguide_L11_W500n_531.0_368.5:
     component: waveguide
     settings:
-      length: 19.701
+      length: 11.0
       width: 0.5
-  waveguide_L234p495_W2p5_121.299_361.598:
+  waveguide_L135_W2p5_152.5_0.0:
     component: waveguide
     settings:
-      length: 234.495
+      length: 135.0
       width: 2.5
-  waveguide_L234p495_W2p5_251.299_161.598:
+  waveguide_L191_W2p5_265.5_558.0:
     component: waveguide
     settings:
-      length: 234.495
+      length: 191.0
       width: 2.5
-  waveguide_L519p35_W2p5_555.325_400.0:
+  waveguide_L191_W2p5_265.5_579.0:
     component: waveguide
     settings:
-      length: 519.35
+      length: 191.0
       width: 2.5
-  waveguide_L61p949_W500n_80.974_200.0:
+  waveguide_L191_W2p5_395.5_358.0:
     component: waveguide
     settings:
-      length: 61.949
-      width: 0.5
-  waveguide_L649p35_W2p5_490.325_600.0:
+      length: 191.0
+      width: 2.5
+  waveguide_L191_W2p5_395.5_379.0:
     component: waveguide
     settings:
-      length: 649.35
+      length: 191.0
+      width: 2.5
+  waveguide_L278_W2p5_130.0_379.0:
+    component: waveguide
+    settings:
+      length: 278.0
+      width: 2.5
+  waveguide_L278_W2p5_260.0_179.0:
+    component: waveguide
+    settings:
+      length: 278.0
+      width: 2.5
+  waveguide_L515_W2p5_557.5_400.0:
+    component: waveguide
+    settings:
+      length: 515.0
+      width: 2.5
+  waveguide_L5_W2p5_87.5_200.0:
+    component: waveguide
+    settings:
+      length: 5.0
+      width: 2.5
+  waveguide_L645_W2p5_492.5_600.0:
+    component: waveguide
+    settings:
+      length: 645.0
       width: 2.5
 name: sample_different_link_factory
 placements:
-  bend_euler_R5_W500n_118.249_203.05:
+  bend_euler_R5_W500n_129.125_200.875:
     mirror: false
     rotation: 0
-    x: 111.949
+    x: 125.0
     y: 200.0
-  bend_euler_R5_W500n_124.349_520.146:
+  bend_euler_R5_W500n_130.875_557.125:
     mirror: true
     rotation: 90
-    x: 121.299
-    y: 513.846
-  bend_euler_R5_W500n_124.349_564.648:
+    x: 130.0
+    y: 553.0
+  bend_euler_R5_W500n_130.875_579.875:
     mirror: true
     rotation: 180
-    x: 130.65
-    y: 561.598
-  bend_euler_R5_W500n_124.349_596.95:
+    x: 135.0
+    y: 579.0
+  bend_euler_R5_W500n_130.875_599.125:
     mirror: true
     rotation: 90
-    x: 121.299
-    y: 590.65
-  bend_euler_R5_W500n_248.249_3.05:
+    x: 130.0
+    y: 595.0
+  bend_euler_R5_W500n_259.125_0.875:
     mirror: false
     rotation: 0
-    x: 241.949
+    x: 255.0
     y: 0.0
-  bend_euler_R5_W500n_254.349_320.146:
+  bend_euler_R5_W500n_260.875_357.125:
     mirror: true
     rotation: 90
-    x: 251.299
-    y: 313.846
-  bend_euler_R5_W500n_254.349_364.648:
+    x: 260.0
+    y: 353.0
+  bend_euler_R5_W500n_260.875_379.875:
     mirror: true
     rotation: 180
-    x: 260.65
-    y: 361.598
-  bend_euler_R5_W500n_254.349_396.95:
+    x: 265.0
+    y: 379.0
+  bend_euler_R5_W500n_260.875_399.125:
     mirror: true
     rotation: 90
-    x: 251.299
-    y: 390.65
-  bend_euler_R5_W500n_406.651_526.246:
+    x: 260.0
+    y: 395.0
+  bend_euler_R5_W500n_400.125_558.875:
     mirror: false
     rotation: 0
-    x: 400.35
-    y: 523.196
-  bend_euler_R5_W500n_406.651_558.548:
+    x: 396.0
+    y: 558.0
+  bend_euler_R5_W500n_400.125_578.125:
     mirror: false
     rotation: 90
-    x: 409.701
-    y: 552.248
-  bend_euler_R5_W500n_536.651_326.246:
+    x: 401.0
+    y: 574.0
+  bend_euler_R5_W500n_530.125_358.875:
     mirror: false
     rotation: 0
-    x: 530.35
-    y: 323.196
-  bend_euler_R5_W500n_536.651_358.548:
+    x: 526.0
+    y: 358.0
+  bend_euler_R5_W500n_530.125_378.125:
     mirror: false
     rotation: 90
-    x: 539.701
-    y: 352.248
+    x: 531.0
+    y: 374.0
   bl:
     mirror: false
     rotation: 0
@@ -416,86 +442,96 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
-  taper_L1_0_L35_W500n_W2p5_121.299_226.85:
+  taper_L1_0_L35_W500n_W2p5_107.5_200.0:
+    mirror: false
+    rotation: 180
+    x: 125.0
+    y: 200.0
+  taper_L1_0_L35_W500n_W2p5_130.0_222.5:
     mirror: false
     rotation: 90
-    x: 121.299
-    y: 209.35
-  taper_L1_0_L35_W500n_W2p5_121.299_496.345:
+    x: 130.0
+    y: 205.0
+  taper_L1_0_L35_W500n_W2p5_130.0_535.5:
     mirror: false
     rotation: 270
-    x: 121.299
-    y: 513.845
-  taper_L1_0_L35_W500n_W2p5_148.149_561.598:
+    x: 130.0
+    y: 553.0
+  taper_L1_0_L35_W500n_W2p5_152.5_558.0:
     mirror: false
     rotation: 0
-    x: 130.649
-    y: 561.598
-  taper_L1_0_L35_W500n_W2p5_148.15_523.196:
+    x: 135.0
+    y: 558.0
+  taper_L1_0_L35_W500n_W2p5_152.5_579.0:
     mirror: false
     rotation: 0
-    x: 130.65
-    y: 523.196
-  taper_L1_0_L35_W500n_W2p5_148.15_600.0:
+    x: 135.0
+    y: 579.0
+  taper_L1_0_L35_W500n_W2p5_152.5_600.0:
     mirror: false
     rotation: 0
-    x: 130.65
+    x: 135.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_224.449_0.0:
+  taper_L1_0_L35_W500n_W2p5_237.5_0.0:
     mirror: false
     rotation: 180
-    x: 241.949
+    x: 255.0
     y: 0.0
-  taper_L1_0_L35_W500n_W2p5_251.299_26.85:
+  taper_L1_0_L35_W500n_W2p5_260.0_22.5:
     mirror: false
     rotation: 90
-    x: 251.299
-    y: 9.35
-  taper_L1_0_L35_W500n_W2p5_251.299_296.345:
+    x: 260.0
+    y: 5.0
+  taper_L1_0_L35_W500n_W2p5_260.0_335.5:
     mirror: false
     rotation: 270
-    x: 251.299
-    y: 313.845
-  taper_L1_0_L35_W500n_W2p5_278.149_361.598:
+    x: 260.0
+    y: 353.0
+  taper_L1_0_L35_W500n_W2p5_282.5_358.0:
     mirror: false
     rotation: 0
-    x: 260.649
-    y: 361.598
-  taper_L1_0_L35_W500n_W2p5_278.15_323.196:
+    x: 265.0
+    y: 358.0
+  taper_L1_0_L35_W500n_W2p5_282.5_379.0:
     mirror: false
     rotation: 0
-    x: 260.65
-    y: 323.196
-  taper_L1_0_L35_W500n_W2p5_278.15_400.0:
+    x: 265.0
+    y: 379.0
+  taper_L1_0_L35_W500n_W2p5_282.5_400.0:
     mirror: false
     rotation: 0
-    x: 260.65
+    x: 265.0
     y: 400.0
-  taper_L1_0_L35_W500n_W2p5_382.851_523.196:
+  taper_L1_0_L35_W500n_W2p5_378.5_558.0:
     mirror: false
     rotation: 180
-    x: 400.351
-    y: 523.196
-  taper_L1_0_L35_W500n_W2p5_382.85_561.598:
+    x: 396.0
+    y: 558.0
+  taper_L1_0_L35_W500n_W2p5_378.5_579.0:
     mirror: false
     rotation: 180
-    x: 400.35
-    y: 561.598
-  taper_L1_0_L35_W500n_W2p5_512.851_323.196:
+    x: 396.0
+    y: 579.0
+  taper_L1_0_L35_W500n_W2p5_508.5_358.0:
     mirror: false
     rotation: 180
-    x: 530.351
-    y: 323.196
-  taper_L1_0_L35_W500n_W2p5_512.85_361.598:
+    x: 526.0
+    y: 358.0
+  taper_L1_0_L35_W500n_W2p5_508.5_379.0:
     mirror: false
     rotation: 180
-    x: 530.35
-    y: 361.598
+    x: 526.0
+    y: 379.0
   taper_L1_0_L35_W500n_W2p5_67.5_0.0:
     mirror: false
     rotation: 0
     x: 50.0
     y: 0.0
+  taper_L1_0_L35_W500n_W2p5_67.5_200.0:
+    mirror: false
+    rotation: 0
+    x: 50.0
+    y: 200.0
   taper_L1_0_L35_W500n_W2p5_832.5_400.0:
     mirror: false
     rotation: 180
@@ -516,74 +552,74 @@ placements:
     rotation: 0
     x: 900.0
     y: 600.0
-  waveguide_L121p949_W2p5_145.974_0.0:
+  waveguide_L11_W500n_130.0_589.5:
+    mirror: false
+    rotation: 90
+    x: 130.0
+    y: 584.0
+  waveguide_L11_W500n_260.0_389.5:
+    mirror: false
+    rotation: 90
+    x: 260.0
+    y: 384.0
+  waveguide_L11_W500n_401.0_568.5:
+    mirror: false
+    rotation: 90
+    x: 401.0
+    y: 563.0
+  waveguide_L11_W500n_531.0_368.5:
+    mirror: false
+    rotation: 90
+    x: 531.0
+    y: 363.0
+  waveguide_L135_W2p5_152.5_0.0:
     mirror: false
     rotation: 0
     x: 85.0
     y: 0.0
-  waveguide_L199p701_W2p5_265.5_523.196:
+  waveguide_L191_W2p5_265.5_558.0:
     mirror: false
     rotation: 0
-    x: 165.65
-    y: 523.196
-  waveguide_L199p701_W2p5_265.5_561.598:
+    x: 170.0
+    y: 558.0
+  waveguide_L191_W2p5_265.5_579.0:
     mirror: false
     rotation: 180
-    x: 365.35
-    y: 561.598
-  waveguide_L199p701_W2p5_395.5_323.196:
+    x: 361.0
+    y: 579.0
+  waveguide_L191_W2p5_395.5_358.0:
     mirror: false
     rotation: 0
-    x: 295.65
-    y: 323.196
-  waveguide_L199p701_W2p5_395.5_361.598:
+    x: 300.0
+    y: 358.0
+  waveguide_L191_W2p5_395.5_379.0:
     mirror: false
     rotation: 180
-    x: 495.35
-    y: 361.598
-  waveguide_L19p701_W500n_121.299_580.799:
+    x: 491.0
+    y: 379.0
+  waveguide_L278_W2p5_130.0_379.0:
     mirror: false
     rotation: 90
-    x: 121.299
-    y: 570.949
-  waveguide_L19p701_W500n_251.299_380.799:
+    x: 130.0
+    y: 240.0
+  waveguide_L278_W2p5_260.0_179.0:
     mirror: false
     rotation: 90
-    x: 251.299
-    y: 370.949
-  waveguide_L19p701_W500n_409.701_542.397:
-    mirror: false
-    rotation: 90
-    x: 409.701
-    y: 532.547
-  waveguide_L19p701_W500n_539.701_342.397:
-    mirror: false
-    rotation: 90
-    x: 539.701
-    y: 332.547
-  waveguide_L234p495_W2p5_121.299_361.598:
-    mirror: false
-    rotation: 90
-    x: 121.299
-    y: 244.35
-  waveguide_L234p495_W2p5_251.299_161.598:
-    mirror: false
-    rotation: 90
-    x: 251.299
-    y: 44.35
-  waveguide_L519p35_W2p5_555.325_400.0:
+    x: 260.0
+    y: 40.0
+  waveguide_L515_W2p5_557.5_400.0:
     mirror: false
     rotation: 0
-    x: 295.65
+    x: 300.0
     y: 400.0
-  waveguide_L61p949_W500n_80.974_200.0:
+  waveguide_L5_W2p5_87.5_200.0:
     mirror: false
     rotation: 0
-    x: 50.0
+    x: 85.0
     y: 200.0
-  waveguide_L649p35_W2p5_490.325_600.0:
+  waveguide_L645_W2p5_492.5_600.0:
     mirror: false
     rotation: 0
-    x: 165.65
+    x: 170.0
     y: 600.0
 ports: {}

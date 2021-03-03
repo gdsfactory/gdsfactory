@@ -67,14 +67,14 @@ class Pdk:
         radius: Optional[float] = None,
         angle: int = 90,
         p: float = 1,
-        use_eff: bool = False,
+        with_arc_floorplan: bool = False,
         npoints: int = 720,
         width: Optional[float] = None,
         layer: Optional[Layer] = None,
     ) -> Component:
         r"""Returns euler bend that adiabatically transitions from straight to curved.
         By default, radius corresponds to the minimum radius of curvature of the bend.
-        However, if use_eff is set to True, radius corresponds to the effective
+        However, if with_arc_floorplan is set to True, radius corresponds to the effective
         radius of curvature (making the curve a drop-in replacement for an arc). If
         p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
         al. https://dx.doi.org/10.1364/oe.27.031394
@@ -83,7 +83,7 @@ class Pdk:
             radius: minimum radius of curvature
             angle: total angle of the curve
             p: Proportion of the curve that is an Euler curve
-            use_eff: If False: radius is the minimum radius of curvature of the bend
+            with_arc_floorplan: If False: radius is the minimum radius of curvature of the bend
                 If True: The curve will be scaled such that the endpoints match an arc
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
@@ -94,7 +94,7 @@ class Pdk:
             radius=radius or self.tech.bend_radius,
             angle=angle,
             p=p,
-            use_eff=use_eff,
+            with_arc_floorplan=with_arc_floorplan,
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
@@ -560,7 +560,7 @@ if __name__ == "__main__":
     c = p.mmi2x2()
     # c = p.waveguide()
     c = p.mzi()
-    # c = p.ring_single()
+    c = p.ring_single()
 
     cc = p.add_fiber_single(c)
     # cc = p.add_fiber_array(c, optical_routing_type=1)

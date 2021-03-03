@@ -17,7 +17,7 @@ def coupler_straight(
     layer: Layer = TECH_SILICON_C.layer_wg,
     layers_cladding: Optional[Iterable[Layer]] = None,
     cladding_offset: Optional[float] = None,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Coupler_straight with two parallel waveguides.
 
@@ -35,6 +35,7 @@ def coupler_straight(
       c.plot()
 
     """
+    tech = tech or TECH_SILICON_C
     cladding_offset = cladding_offset or getattr(tech, "cladding_offset", 0)
     layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
 

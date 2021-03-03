@@ -4,15 +4,18 @@ from pp.component import Component
 
 
 def test_remap_layers() -> Component:
-    c = pp.Component("test_remap_layers_sample")
+    c = pp.Component("test_remap_layers_sample_device")
 
-    c.add_ref(pp.c.rectangle(size=(10, 1), layer=pp.LAYER.WG))
-    c.add_ref(pp.c.rectangle(size=(10, 2), layer=pp.LAYER.SLAB90))
-    c.add_ref(pp.c.rectangle(size=(10, 3), layer=pp.LAYER.SLAB150))
+    wg1 = c << pp.c.waveguide(length=11, width=1, layer=pp.LAYER.WG)
+    wg2 = c << pp.c.waveguide(length=11, width=2, layer=pp.LAYER.SLAB90)
+    wg3 = c << pp.c.waveguide(length=11, width=3, layer=pp.LAYER.SLAB150)
 
-    assert len(c.layers) == 3
+    wg2.connect(port="W0", destination=wg1.ports["E0"])
+    wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)
+
+    assert len(c.layers) == 4
     c.remap_layers({pp.LAYER.WG: pp.LAYER.SLAB150})
-    assert len(c.layers) == 2
+    assert len(c.layers) == 3
     return c
 
 

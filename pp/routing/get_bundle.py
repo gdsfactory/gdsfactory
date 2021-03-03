@@ -800,7 +800,7 @@ def test_get_bundle_small() -> Component:
     )
     for route in routes:
         print(route["length"])
-        assert np.isclose(route["length"], 98.564)
+        assert np.isclose(route["length"], 101.35)
         c.add(route["references"])
     return c
 

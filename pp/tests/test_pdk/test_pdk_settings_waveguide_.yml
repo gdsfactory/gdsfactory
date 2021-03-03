@@ -5,6 +5,7 @@ info:
 module: pp.components.waveguide
 name: waveguide_L34_0_L10_N2_Tsin_c_W1
 settings:
+  cross_section_factory: null
   layer:
   - 34
   - 0

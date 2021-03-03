@@ -108,7 +108,7 @@ def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 6
+    assert len(c.get_dependencies()) == 7
     assert len(c.ports) == 2
     return c
 
@@ -163,12 +163,12 @@ def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 8
+    assert len(c.get_dependencies()) == 9
     assert len(c.ports) == 0
 
     length = c.routes["mmi_bottom,E1:mmi_top,W1"]
     print(length)
-    assert np.isclose(length, 160.528)
+    assert np.isclose(length, 166.098)
     return c
 
 
@@ -218,7 +218,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [688.028, 688.028, 1468.478]
+    lengths = [693.598, 693.598, 1203.993]
     assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
     assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
     assert np.isclose(c.routes["bl,S:br,E"], lengths[2])
@@ -274,7 +274,7 @@ routes:
 def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
-    length = 1740.888
+    length = 1732.4
     print(c.routes["tl,E:tr,W"])
     assert np.isclose(c.routes["tl,E:tr,W"], length)
     assert np.isclose(c.routes["bl,E:br,W"], length)
@@ -424,7 +424,7 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 1238.028
+    length = 1246.8
     route_name = "t,S5:b,N4"
     print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
@@ -434,7 +434,7 @@ def test_connections_waypoints() -> Component:
 def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,E0:mmi_bot,W0"
-    length = 66.778
+    length = 72.348
     print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
     return c
@@ -577,8 +577,8 @@ def test_netlists(
     assert len(d) == 0
 
 
-def needs_fixing():
-    """FIXME: there is a zero length path on the route"""
+def _demo_netlist():
+    """: there is a zero length path on the route"""
     import pp
 
     # c = component_from_yaml(sample_2x2_connections)
@@ -596,29 +596,14 @@ def needs_fixing():
 
 
 if __name__ == "__main__":
-    import pp
 
-    # c = component_from_yaml(sample_2x2_connections)
-    # c = component_from_yaml(sample_waypoints)
-    c = component_from_yaml(sample_different_factory)
-    c.show()
-    full_settings = True
-    n = c.get_netlist(full_settings=full_settings)
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = component_from_yaml(yaml_str)
-    n2 = c2.get_netlist(full_settings=full_settings)
-    d = jsondiff.diff(n, n2)
-    assert len(d) == 0
-    pp.show(c2)
-
-    # c = needs_fixing()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
-    # c = test_connections_2x2()
+    c = test_connections_2x2()
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
-    # c.show()
+    c.show()
