@@ -1,27 +1,23 @@
-from typing import Iterable, Tuple
+from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
-from pp.config import conf
-from pp.layers import LAYER
 from pp.snap import assert_on_1nm_grid
+from pp.tech import Tech
 from pp.types import ComponentFactory
 
 
 @cell
 def coupler(
-    wg_width: float = 0.5,
     gap: float = 0.236,
-    length: float = 20.007,
+    length: float = 20.0,
     coupler_symmetric_factory: ComponentFactory = coupler_symmetric,
     coupler_straight_factory: ComponentFactory = coupler_straight,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Iterable[Tuple[int, int]] = (LAYER.WGCLAD,),
-    cladding_offset: float = conf.tech.cladding_offset,
     dy: float = 5.0,
     dx: float = 10.0,
+    tech: Optional[Tech] = None,
 ) -> Component:
     r"""symmetric coupler
 
@@ -36,6 +32,7 @@ def coupler(
         cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
         dx: length of bend in x direction
+        tech: Technology
 
     .. code::
 
@@ -64,27 +61,12 @@ def coupler(
     assert_on_1nm_grid(gap)
     c = Component()
 
-    sbend = coupler_symmetric_factory(
-        gap=gap,
-        wg_width=wg_width,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-        dy=dy,
-        dx=dx,
-    )
+    sbend = coupler_symmetric_factory(gap=gap, dy=dy, dx=dx, tech=tech)
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight_factory(
-        length=length,
-        gap=gap,
-        width=wg_width,
-        layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
-    )
-    sl.connect("W0", destination=cs.ports["W0"])
+    cs = c << coupler_straight_factory(length=length, gap=gap, tech=tech)
+    sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
 
     c.add_port("W1", port=sl.ports["E0"])

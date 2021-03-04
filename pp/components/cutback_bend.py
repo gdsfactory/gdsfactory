@@ -19,7 +19,7 @@ def _get_bend_size(bend90: Component) -> float64:
 
 @pp.cell
 def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
-    """ Deprecated! use cutback_bend90 instead!
+    """Deprecated! use cutback_bend90 instead!
     this is a stair
 
     .. code::
@@ -77,7 +77,10 @@ def cutback_bend90(
     if wg_loop_length is None:
         wg_loop_length = 2 * _get_bend_size(bend90) + spacing + straight_length
 
-    wg_loop = waveguide_factory(length=wg_loop_length, width=bend90.ports["W0"].width,)
+    wg_loop = waveguide_factory(
+        length=wg_loop_length,
+        width=bend90.ports["W0"].width,
+    )
     # Define a map between symbols and (component, input port, output port)
     string_to_device_in_out_ports = {
         "A": (bend90, "W0", "N0"),
@@ -181,15 +184,15 @@ def cutback_bend180(
 
 
 @pp.cell
-def cutback_bend_circular(bend_radius=10.0, n_steps=3, n_stairs=4):
-    bend90 = bend_circular(radius=bend_radius)
+def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
+    bend90 = bend_circular(radius=radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)
     cc = add_fiber_array(c, optical_routing_type=1)
     return cc
 
 
 if __name__ == "__main__":
-    # c = cutback_bend_circular(n_steps=7, n_stairs=4, bend_radius=5) #62
+    # c = cutback_bend_circular(n_steps=7, n_stairs=4, radius=5) #62
     # c = cutback_bend_circular(n_steps=14, n_stairs=4) #118
     c = cutback_bend_circular(n_steps=3, n_stairs=4)  # 30
     # c = cutback_bend180()

@@ -10,22 +10,22 @@ connections:
   waveguide_top,W0: bend_left,W0
 instances:
   bend_left:
-    component: bend_circular
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.5
   bend_right:
-    component: bend_circular
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.5
   coupler_ring_edf8f53f:
     component: coupler_ring
     settings:
-      bend_radius: 10.0
+      radius: 10.0
       gap: 0.2
       length_x: 4.0
-      wg_width: 0.5
+      width: 0.5
   waveguide_left:
     component: waveguide
     settings:

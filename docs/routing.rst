@@ -21,7 +21,7 @@ Example with two arrays of ports connected using `get_bundle`
 .. plot::
     :include-source:
 
-     import pp
+    import pp
 
     @pp.cell
     def test_north_to_south():
@@ -48,8 +48,8 @@ Example with two arrays of ports connected using `get_bundle`
 
 
     c = test_north_to_south()
-    c.plot()
     c.show()
+    c.plot()
 
 
 

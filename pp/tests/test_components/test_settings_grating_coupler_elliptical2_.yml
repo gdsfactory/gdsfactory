@@ -1,7 +1,7 @@
 function_name: grating_coupler_elliptical2
 info:
   polarization: te
-  wavelength: 1550
+  wavelength: 1550.0
 module: pp.components.grating_coupler.elliptical2
 name: grating_coupler_elliptical2
 settings:
@@ -24,5 +24,5 @@ settings:
   taper_length: 10.0
   teeth_list: null
   theta: 0.7853981633974483
-  wavelength_nm: 1550
+  wavelength_nm: 1550.0
   wg_width: 0.5

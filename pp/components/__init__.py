@@ -108,8 +108,6 @@ from pp.components.disk import disk
 from pp.components.ring_single import ring_single
 from pp.components.ring_single_array import ring_single_array
 from pp.components.ring_double import ring_double
-from pp.components.ring_single_bus import ring_single_bus
-from pp.components.ring_double_bus import ring_double_bus
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mmi2x2 import mmi2x2
 from pp.components.mzi2x2 import mzi_arm
@@ -197,10 +195,8 @@ component_factory = dict(
     rectangle=rectangle,
     ring=ring,
     ring_double=ring_double,
-    ring_double_bus=ring_double_bus,
     ring_single=ring_single,
     ring_single_array=ring_single_array,
-    ring_single_bus=ring_single_bus,
     spiral=spiral,
     spiral_circular=spiral_circular,
     spiral_external_io=spiral_external_io,

@@ -1,39 +1,47 @@
+from typing import Optional
+
+import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_circular import bend_circular
+from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
+from pp.cross_section import CrossSectionFactory
 from pp.snap import assert_on_2nm_grid
-from pp.types import ComponentFactory
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def ring_single(
-    wg_width: float = 0.5,
     gap: float = 0.2,
-    bend_radius: float = 10.0,
+    radius: float = 10.0,
     length_x: float = 4.0,
-    length_y: float = 0.001,
+    length_y: float = 0.010,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
-    bend: ComponentFactory = bend_circular,
+    bend: ComponentFactory = bend_euler,
     pins: bool = False,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
     connected with two vertical waveguides (wl: left, wr: right)
     two bends (bl, br) and horizontal waveguide (wg: top)
 
     Args:
-        wg_width: waveguide width
         gap: gap between for coupler
-        bend_radius: for the bend and coupler
+        radius: for the bend and coupler
         length_x: ring coupler length
         length_y: vertical waveguide length
         coupler: ring coupler function
         waveguide: waveguide function
         bend: bend function
         pins: add pins
+        tech: Technology with default values
 
 
     .. code::
@@ -51,22 +59,55 @@ def ring_single(
 
       import pp
 
-      c = pp.c.ring_single(wg_width=0.5, gap=0.2, length_x=4, length_y=0.1, bend_radius=5)
+      c = pp.c.ring_single(gap=0.2, length_x=4, length_y=0.1, radius=5)
       c.plot()
 
     """
-    bend_radius = float(bend_radius)
     assert_on_2nm_grid(gap)
 
-    coupler = call_if_func(
-        coupler, gap=gap, wg_width=wg_width, bend_radius=bend_radius, length_x=length_x
+    coupler_ring = (
+        coupler(
+            gap=gap,
+            radius=radius,
+            length_x=length_x,
+            width=width,
+            layer=layer,
+            cross_section_factory=cross_section_factory,
+            tech=tech,
+        )
+        if callable(coupler)
+        else coupler
     )
-    waveguide_side = call_if_func(waveguide, width=wg_width, length=length_y)
-    waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x)
-    bend_ref = bend(width=wg_width, radius=bend_radius) if callable(bend) else bend
+    waveguide_side = call_if_func(
+        waveguide,
+        length=length_y,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    waveguide_top = call_if_func(
+        waveguide,
+        length=length_x,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    bend_ref = (
+        bend(
+            radius=radius,
+            width=width,
+            layer=layer,
+            cross_section_factory=cross_section_factory,
+            tech=tech,
+        )
+        if callable(bend)
+        else bend
+    )
 
     c = Component()
-    cb = c << coupler
+    cb = c << coupler_ring
     wl = c << waveguide_side
     wr = c << waveguide_side
     bl = c << bend_ref
@@ -89,10 +130,10 @@ def ring_single(
 
 
 if __name__ == "__main__":
-    import pp
 
     c = ring_single()
-    cc = pp.add_pins(c)
+    c.show()
+    # cc = pp.add_pins(c)
     # print(c.settings)
     # print(c.get_settings())
-    cc.show()
+    # cc.show()

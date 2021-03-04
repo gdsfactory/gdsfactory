@@ -12,6 +12,7 @@ def test_netlist_read() -> Component:
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
 
+    print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 5
     return c
 
@@ -24,16 +25,13 @@ def test_netlist_read_full() -> Component:
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
     # print(len(c.get_netlist().connections))
-    # print(len(c.get_dependencies()))
-    # assert len(c.get_netlist().connections) == 18
-    assert len(c.get_dependencies()) == 18
+    print(len(c.get_dependencies()))
+    assert len(c.get_dependencies()) == 5
     return c
 
 
 if __name__ == "__main__":
-
-    # filepath = "ring_single.yml"
-    # c = pp.component_from_yaml(filepath)
+    # import pp
     # c = pp.c.mzi()
     # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     # c.write_netlist(filepath, full_settings=True)

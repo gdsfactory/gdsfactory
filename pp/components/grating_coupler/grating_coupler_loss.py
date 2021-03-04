@@ -18,7 +18,7 @@ def connect_loop_back(
 ) -> ComponentReference:
     p0 = port0.position
     p1 = port1.position
-    route = [
+    points = [
         p0,
         p0 + (0, a),
         p0 + (b, a),
@@ -29,8 +29,10 @@ def connect_loop_back(
         p1,
     ]
 
-    bend90 = pp.c.bend_circular(radius=R)
-    return round_corners(route, bend90, pp.c.waveguide)["references"]
+    bend90 = pp.c.bend_euler(radius=R)
+    return round_corners(
+        points=points, bend_factory=bend90, straight_factory=pp.c.waveguide
+    )["references"]
 
 
 @pp.cell

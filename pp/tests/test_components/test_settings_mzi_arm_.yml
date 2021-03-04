@@ -7,4 +7,5 @@ settings:
   L0: 60.0
   L_top: 10.0
   bend_radius: 10.0
+  tech: silicon_cband
   with_elec_connections: true

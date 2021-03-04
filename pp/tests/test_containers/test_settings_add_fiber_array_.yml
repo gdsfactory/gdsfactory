@@ -2,6 +2,7 @@ function_name: add_fiber_array
 info: {}
 name: mzi2x2_WECTrue_te
 settings:
+  bend_factory: bend_euler
   component:
     function_name: mzi2x2
     info: {}
@@ -14,11 +15,12 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
+      tech: silicon_cband
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
   get_input_labels_function: get_input_labels
-  get_route_factory: route_fiber_array
   grating_coupler: grating_coupler_te
   taper_factory: taper
-  taper_length: 10.0
+  taper_length: null
+  tech: silicon_cband

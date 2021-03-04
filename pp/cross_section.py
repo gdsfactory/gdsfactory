@@ -1,29 +1,60 @@
 """You can define a path with a list of points combined with a cross-section.
 
-The CrossSection object extrudes a path (li)
+The CrossSection object extrudes a path
 
 Based on phidl.device_layout.CrossSection
 """
 
-from typing import Iterable, Optional
+from typing import Callable, Iterable, Optional
 
 from phidl.device_layout import CrossSection
 
 from pp.layers import LAYER
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import Layer
+
+CrossSectionFactory = Callable[..., CrossSection]
 
 
 def strip(
-    width: float = 0.5,
-    layer: Layer = LAYER.WG,
-    cladding_offset: float = 3.0,
+    width: Optional[float] = None,
+    layer: Optional[Layer] = None,
+    cladding_offset: Optional[float] = None,
     layers_cladding: Optional[Iterable[Layer]] = None,
+    tech: Tech = TECH_SILICON_C,
 ) -> CrossSection:
-    """Returns a fully etch waveguide CrossSection."""
-    x = CrossSection()
-    x.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+    """Returns a fully etched waveguide CrossSection."""
 
+    width = width or tech.wg_width
+    layer = layer or tech.layer_wg
+    cladding_offset = cladding_offset or getattr(tech, "cladding_offset", 0)
+    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
+
+    x = CrossSection()
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
+    for layer_cladding in layers_cladding:
+        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+    return x
+
+
+def strip_no_cladding(
+    width: Optional[float] = None,
+    layer: Optional[Layer] = None,
+    cladding_offset: Optional[float] = None,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    tech: Tech = TECH_SILICON_C,
+) -> CrossSection:
+    """Returns a fully etched waveguide CrossSection."""
+
+    width = width or tech.wg_width
+    layer = layer or tech.layer_wg
+    cladding_offset = cladding_offset or tech.cladding_offset
     layers_cladding = layers_cladding or []
+
+    x = CrossSection()
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
     for layer_cladding in layers_cladding:
         x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
     return x
@@ -48,7 +79,7 @@ if __name__ == "__main__":
     # Combine the Path and the CrossSection into a Component
     c = pp.path.component(P, X)
 
-    c = pp.path.component(P, strip())
+    c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
 
     # c = pp.add_pins(c)
     # c << pp.c.bend_euler(radius=10)

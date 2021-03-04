@@ -1,26 +1,35 @@
-import pp
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.waveguide import waveguide
-from pp.types import ComponentFactory
+from pp.cross_section import CrossSectionFactory
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import ComponentFactory, Layer
 
 
 @cell
 def coupler90(
-    bend_radius: float = 10.0,
-    width: float = 0.5,
+    radius: float = 10.0,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_circular,
+    bend90_factory: ComponentFactory = bend_euler,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
+    **kwargs
 ) -> Component:
     r"""Waveguide coupled to a bend.
 
     Args:
-        bend_radius: um
-        width: waveguide width (um)
+        radius: um
         gap: um
+        waveguide_factory: for Waveguide
+        bend90_factory: for bend
+        tech: Technology
 
     .. code::
 
@@ -39,11 +48,22 @@ def coupler90(
       c.plot()
 
     """
-    y = pp.snap_to_grid((width + gap) / 2)
-
     c = Component()
-    wg = c << waveguide_factory(length=bend_radius, width=width,)
-    bend = c << bend90_factory(radius=bend_radius, width=width)
+    wg = c << waveguide_factory(
+        length=radius,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+    )
+    bend = c << bend90_factory(
+        radius=radius,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
+        **kwargs
+    )
 
     pbw = bend.ports["W0"]
     bend.movey(pbw.midpoint[1] + gap + width)
@@ -52,31 +72,33 @@ def coupler90(
     c.absorb(wg)
     c.absorb(bend)
 
-    port_width = 2 * width + gap
-    c.add_port(port=wg.ports["E0"], name="E0")
-    c.add_port(port=bend.ports["N0"], name="N0")
-    c.add_port(name="W0", midpoint=[0, y], width=port_width, orientation=180)
+    c.add_port("E0", port=wg.ports["E0"])
+    c.add_port("N0", port=bend.ports["N0"])
+    c.add_port("W0", port=wg.ports["W0"])
+    c.add_port("W1", port=bend.ports["W0"])
+
     return c
 
 
-def coupler90euler(
-    bend_radius: float = 10.0,
-    width: float = 0.5,
+def coupler90circular(
+    radius: float = 10.0,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_euler,
+    bend90_factory: ComponentFactory = bend_circular,
+    **kwargs
 ):
     return coupler90(
-        bend_radius=bend_radius,
-        width=width,
+        radius=radius,
         gap=gap,
         waveguide_factory=waveguide_factory,
         bend90_factory=bend90_factory,
+        **kwargs
     )
 
 
 if __name__ == "__main__":
-    c = coupler90(width=0.45, gap=0.3)
-    c << coupler90euler(width=0.45, gap=0.3)
+    c = coupler90circular(gap=0.3)
+    c << coupler90(gap=0.3)
     c.show()
+    c.pprint()
     # print(c.ports)

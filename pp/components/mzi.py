@@ -2,21 +2,21 @@ from typing import Dict, Optional, Union
 
 import pp
 from pp.component import Component
-from pp.components.bend_circular import bend_circular as bend_circular_function
+from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.port import deco_rename_ports, rename_ports_by_orientation
+from pp.port import rename_ports_by_orientation
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
-@deco_rename_ports
 @pp.cell
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 4.0,
     length_x: float = 0.1,
-    bend_radius: float = 10.0,
-    bend90: ComponentFactory = bend_circular_function,
+    bend_radius: Optional[float] = None,
+    bend90: ComponentFactory = bend_euler,
     waveguide: ComponentFactory = waveguide_function,
     waveguide_vertical: Optional[ComponentFactory] = None,
     waveguide_horizontal: Optional[ComponentFactory] = None,
@@ -26,6 +26,7 @@ def mzi(
     pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Mzi.
 
@@ -68,6 +69,7 @@ def mzi(
       c.plot()
 
     """
+    bend_radius = bend_radius or tech.bend_radius
     L2 = length_x
     L0 = length_y
     DL = delta_length
@@ -168,27 +170,27 @@ def mzi(
         if port.angle == 0:
             c.add_port(name=f"E{i}", port=port)
 
+    rename_ports_by_orientation(c)
     if pins:
         pp.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
-
     delta_length = 116.8 / 2
     # print(delta_length)
 
     # c = mzi(delta_length=delta_length, with_splitter=False)
     c = mzi(delta_length=10)
-    print(c.name)
+
+    c = mzi(delta_length=20)
 
     # add_markers(c)
-
     # print(c.ports["E0"].midpoint[1])
     # c.plot_netlist()
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
 
     c.show()
-    # pp.qp(c)
+    # c.plot()
     # print(c.get_settings())

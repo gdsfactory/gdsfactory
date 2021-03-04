@@ -8,6 +8,7 @@ from numpy import ndarray
 
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_euler import bend_euler
 from pp.config import conf
 from pp.port import Port
 from pp.routing.get_route import (
@@ -18,7 +19,7 @@ from pp.routing.get_route import (
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
-from pp.types import Number, Route
+from pp.types import ComponentFactory, Number, Route
 
 METAL_MIN_SEPARATION = 10.0
 BEND_RADIUS = conf.tech.bend_radius
@@ -31,6 +32,7 @@ def get_bundle(
     separation: float = 5.0,
     bend_radius: float = BEND_RADIUS,
     extension_length: float = 0.0,
+    bend_factory: ComponentFactory = bend_euler,
     **kwargs,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
@@ -88,6 +90,7 @@ def get_bundle(
         "route_filter": _route_filter,
         "separation": separation,
         "bend_radius": bend_radius,
+        "bend_factory": bend_factory,
     }
 
     start_angle = start_ports[0].angle
@@ -120,9 +123,11 @@ def get_bundle(
             return link_ports(**params, **kwargs)
 
         elif start_angle == end_angle:
+            # print('u_bundle_direct')
             return u_bundle_direct(**params, **kwargs)
 
         elif end_angle == (start_angle + 180) % 360:
+            # print('u_bundle_indirect')
             params["extension_length"] = extension_length
             return u_bundle_indirect(**params, **kwargs)
         else:
@@ -145,7 +150,11 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number, x1p: Number, x2: Number, x2p: Number, sep: float = METAL_MIN_SEPARATION,
+    x1: Number,
+    x1p: Number,
+    x2: Number,
+    x2p: Number,
+    sep: float = METAL_MIN_SEPARATION,
 ) -> bool:
     if x2p + sep > x1:
         return False
@@ -161,6 +170,7 @@ def link_ports(
     end_ports: List[Port],
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
+    bend_factory: ComponentFactory = bend_euler,
     **routing_params,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -222,9 +232,13 @@ def link_ports(
         end_ports,
         separation=separation,
         route_filter=generate_manhattan_waypoints,
+        bend_factory=bend_factory,
         **routing_params,
     )
-    return [route_filter(route, **routing_params) for route in routes]
+    return [
+        route_filter(route, bend_factory=bend_factory, **routing_params)
+        for route in routes
+    ]
 
 
 def link_ports_routes(
@@ -446,6 +460,7 @@ def get_bundle_path_length_match(
     nb_loops: int = 1,
     modify_segment_i: int = -2,
     route_filter: Callable = get_route_from_waypoints,
+    bend_factory: ComponentFactory = bend_euler,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes
@@ -456,9 +471,11 @@ def get_bundle_path_length_match(
         separation: 30.0
         end_straight_offset
         bend_radius: BEND_RADIUS
-        extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
+        extra_length: distance added to all path length compensation.
+            Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
-        modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
+        modify_segment_i: index of the segment that accomodates the new turns
+            default is next to last segment
         route_filter: get_route_from_waypoints
         **kwargs: extra arguments for inner call to link_ports_routes
 
@@ -486,6 +503,7 @@ def get_bundle_path_length_match(
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
         extra_length=extra_length,
+        bend_factory=bend_factory,
         bend_radius=bend_radius,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
@@ -768,257 +786,6 @@ def link_optical_ports_no_grouping(
 
 
 @cell
-def test_get_bundle() -> Component:
-
-    xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
-
-    pitch = 127.0
-    N = len(xs_top)
-    xs_bottom = [(i - N / 2) * pitch for i in range(N)]
-
-    top_ports = [Port(f"top_{i}", (xs_top[i], 0), 0.5, 270) for i in range(N)]
-
-    bottom_ports = [
-        Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
-    ]
-
-    top_cell = Component(name="get_bundle")
-    routes = get_bundle(top_ports, bottom_ports)
-    lengths = [
-        1180.4159265358978,
-        1063.4159265358978,
-        946.4159265358978,
-        899.4159265358979,
-        782.4159265358979,
-        665.4159265358979,
-        558.4159265358979,
-        441.41592653589794,
-        438.41592653589794,
-        555.4159265358979,
-        672.4159265358979,
-        794.4159265358979,
-        916.415926535898,
-        1038.415926535898,
-    ]
-    for route, length in zip(routes, lengths):
-        # print(route.parent.length)
-        top_cell.add(route["references"])
-        assert np.isclose(route["length"], length)
-    return top_cell
-
-
-@cell
-def test_connect_corner(N: int = 6, config: str = "A") -> Component:
-    d = 10.0
-    sep = 5.0
-    top_cell = Component(name="connect_corner")
-
-    if config in ["A", "B"]:
-        a = 100.0
-        ports_A_TR = [
-            Port("A_TR_{}".format(i), (d, a / 2 + i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_TL = [
-            Port("A_TL_{}".format(i), (-d, a / 2 + i * sep), 0.5, 180) for i in range(N)
-        ]
-        ports_A_BR = [
-            Port("A_BR_{}".format(i), (d, -a / 2 - i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_BL = [
-            Port("A_BL_{}".format(i), (-d, -a / 2 - i * sep), 0.5, 180)
-            for i in range(N)
-        ]
-
-        ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
-
-        ports_B_TR = [
-            Port("B_TR_{}".format(i), (a / 2 + i * sep, d), 0.5, 90) for i in range(N)
-        ]
-        ports_B_TL = [
-            Port("B_TL_{}".format(i), (-a / 2 - i * sep, d), 0.5, 90) for i in range(N)
-        ]
-        ports_B_BR = [
-            Port("B_BR_{}".format(i), (a / 2 + i * sep, -d), 0.5, 270) for i in range(N)
-        ]
-        ports_B_BL = [
-            Port("B_BL_{}".format(i), (-a / 2 - i * sep, -d), 0.5, 270)
-            for i in range(N)
-        ]
-
-        ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
-
-    elif config in ["C", "D"]:
-        a = N * sep + 2 * d
-        ports_A_TR = [
-            Port("A_TR_{}".format(i), (a, d + i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_TL = [
-            Port("A_TL_{}".format(i), (-a, d + i * sep), 0.5, 180) for i in range(N)
-        ]
-        ports_A_BR = [
-            Port("A_BR_{}".format(i), (a, -d - i * sep), 0.5, 0) for i in range(N)
-        ]
-        ports_A_BL = [
-            Port("A_BL_{}".format(i), (-a, -d - i * sep), 0.5, 180) for i in range(N)
-        ]
-
-        ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
-
-        ports_B_TR = [
-            Port("B_TR_{}".format(i), (d + i * sep, a), 0.5, 90) for i in range(N)
-        ]
-        ports_B_TL = [
-            Port("B_TL_{}".format(i), (-d - i * sep, a), 0.5, 90) for i in range(N)
-        ]
-        ports_B_BR = [
-            Port("B_BR_{}".format(i), (d + i * sep, -a), 0.5, 270) for i in range(N)
-        ]
-        ports_B_BL = [
-            Port("B_BL_{}".format(i), (-d - i * sep, -a), 0.5, 270) for i in range(N)
-        ]
-
-        ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
-
-    if config in ["A", "C"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
-            routes = get_bundle(ports1, ports2)
-            for route in routes:
-                top_cell.add(route["references"])
-
-    elif config in ["B", "D"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
-            routes = get_bundle(ports2, ports1)
-            for route in routes:
-                top_cell.add(route["references"])
-
-    return top_cell
-
-
-@cell
-def test_get_bundle_udirect(dy: int = 200, angle: int = 270) -> Component:
-
-    xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
-
-    axis = "X" if angle in [0, 180] else "Y"
-
-    pitch = 10.0
-    N = len(xs1)
-    xs2 = [50 + i * pitch for i in range(N)]
-
-    if axis == "X":
-        ports1 = [Port(f"top_{i}", (0, xs1[i]), 0.5, angle) for i in range(N)]
-
-        ports2 = [Port(f"bottom_{i}", (dy, xs2[i]), 0.5, angle) for i in range(N)]
-
-    else:
-        ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, angle) for i in range(N)]
-
-        ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
-
-    top_cell = Component(name="get_bundle_udirect")
-    routes = get_bundle(ports1, ports2)
-    lengths = [
-        237.4359265358979,
-        281.4359265358979,
-        336.4359265358979,
-        376.4359265358979,
-        421.4359265358979,
-        451.4359265358979,
-        481.4359265358979,
-        271.4359265358979,
-    ]
-
-    for route, length in zip(routes, lengths):
-        # print(route.parent.length)
-        assert np.isclose(route["length"], length)
-        top_cell.add(route["references"])
-    return top_cell
-
-
-@cell
-def test_get_bundle_u_indirect(dy: int = -200, angle: int = 180) -> Component:
-    xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
-    axis = "X" if angle in [0, 180] else "Y"
-
-    pitch = 10.0
-    N = len(xs1)
-    xs2 = [50 + i * pitch for i in range(N)]
-
-    a1 = angle
-    a2 = a1 + 180
-
-    if axis == "X":
-        ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, a1) for i in range(N)]
-
-        ports2 = [Port("bottom_{}".format(i), (dy, xs2[i]), 0.5, a2) for i in range(N)]
-
-    else:
-        ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
-
-        ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
-
-    top_cell = Component("get_bundle_u_indirect")
-    routes = get_bundle(ports1, ports2)
-    lengths = [
-        341.41592653589794,
-        341.41592653589794,
-        341.41592653589794,
-        326.41592653589794,
-        316.41592653589794,
-        291.41592653589794,
-        291.41592653589794,
-        311.41592653589794,
-    ]
-
-    for route, length in zip(routes, lengths):
-        # print(route.parent.length)
-        assert np.isclose(route["length"], length)
-        top_cell.add(route["references"])
-
-    return top_cell
-
-
-@cell
-def test_facing_ports() -> Component:
-    dy = 200.0
-    xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-
-    pitch = 10.0
-    N = len(xs1)
-    xs2 = [-20 + i * pitch for i in range(N // 2)]
-    xs2 += [400 + i * pitch for i in range(N // 2)]
-
-    a1 = 90
-    a2 = a1 + 180
-
-    ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
-
-    top_cell = Component("test_facing_ports")
-    routes = get_bundle(ports1, ports2)
-    lengths = [
-        671.4159265358979,
-        481.41592653589794,
-        291.41592653589794,
-        291.41592653589794,
-        291.41592653589794,
-        276.41592653589794,
-        626.4159265358979,
-        401.41592653589794,
-        401.41592653589794,
-        381.41592653589794,
-        251.41592653589794,
-        391.41592653589794,
-    ]
-    for route, length in zip(routes, lengths):
-        # print(route.parent.length)
-        assert np.isclose(route["length"], length)
-        top_cell.add(route["references"])
-
-    return top_cell
-
-
-@cell
 def test_get_bundle_small() -> Component:
     import pp
 
@@ -1032,8 +799,8 @@ def test_get_bundle_small() -> Component:
         bend_radius=5,
     )
     for route in routes:
-        # print(route.parent.length)
-        assert np.isclose(route["length"], 100.25796326794897)
+        print(route["length"])
+        assert np.isclose(route["length"], 101.35)
         c.add(route["references"])
     return c
 
@@ -1045,6 +812,5 @@ if __name__ == "__main__":
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
-    # c = test_get_bundle()
     # c = test_connect_corner()
     c.show()

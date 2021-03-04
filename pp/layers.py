@@ -289,8 +289,13 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    lys = test_load_lyp()
+    import json
 
+    from pydantic.json import pydantic_encoder
+
+    print(json.dumps(LAYER, indent=4, default=pydantic_encoder))
+
+    # lys = test_load_lyp()
     # c = preview_layerset(ls)
     # c.show()
     # print(LAYERS_OPTICAL)

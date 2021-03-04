@@ -2,6 +2,7 @@ import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.waveguide import waveguide as waveguide_function
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
@@ -10,9 +11,9 @@ def coupler_asymmetric(
     bend: ComponentFactory = bend_s,
     waveguide: ComponentFactory = waveguide_function,
     gap: float = 0.234,
-    wg_width: float = 0.5,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
-    """ bend coupled to straight waveguide
+    """bend coupled to straight waveguide
 
     Args:
         bend:
@@ -29,8 +30,8 @@ def coupler_asymmetric(
       c.plot()
 
     """
-    bend = bend(width=wg_width)
-    wg = waveguide(width=wg_width)
+    bend = bend(tech=tech)
+    wg = waveguide(tech=tech)
 
     w = bend.ports["W0"].width
     y = (w + gap) / 2
@@ -56,5 +57,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(wg_width=0.6, gap=0.4)
+    c = coupler_asymmetric(gap=0.4)
     c.show()

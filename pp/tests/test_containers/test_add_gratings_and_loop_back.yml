@@ -2,12 +2,12 @@ function_name: add_gratings_and_loop_back
 info: {}
 name: spiral_inner_io_te
 settings:
-  bend_factory: bend_circular
+  bend_factory: bend_euler
   bend_radius_align_ports: 10.0
   component:
     function_name: spiral_inner_io
     info:
-      length: 16950.0
+      length: 16949.999
     module: pp.components.spiral_inner_io
     name: spiral_inner_io
     settings:

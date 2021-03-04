@@ -3,10 +3,12 @@
 ## TODO
 
 - fix some FIXME
+- pack conserves metadata
 
 Maybe:
 
 - add grating coupler vertical ports
+- how can we have labels with gdslayer, gdspurpose?
 - create a Klayout library so we can also place components from the klayout menu GUI
 - add contracts, or enforcers, either in cell decorator or using
 
@@ -17,6 +19,16 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+
+## 2.4.0
+
+- euler bends as default (with_arc_floorplan=True)
+- define bends and straighs by path and cross_section
+- tech file dataclass in pp.tech
+- added pp.pdk with tests
+- include notebooks in docs with nbsphinx
+- regression test for labels
+
 
 ## 2.3.4
 
@@ -61,7 +73,7 @@ from pydantic import validate_arguments
 - rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
 - remove pp.container containerize
 - better type annontations
-- replace some `pp.show(c)` by a simpler `c.show()`
+- replace some `c.show()` by a simpler `c.show()`
 
 ## 2.2.9
 
@@ -215,7 +227,7 @@ else:
 - write more container metadata for component inside the container (function_name, module ....)
 - more checks for the grating coupler decorator (W0 port with 180 degrees orientation)
 - CI/CD tests run also on pull requests
-- added pp.clear_cache() and call it when we run `pp.show(c)`
+- added pp.clear_cache() and call it when we run `c.show()`
 - use pp.clear_cache() when testing component port positions
 
 ## 2.0.0

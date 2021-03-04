@@ -25,7 +25,7 @@ def boolean(
 
     Args:
         A : Device(/Reference) or list of Device(/Reference) or Polygon Input Devices.
-        B : Device(/Reference) or list of Device(/Reference) or Polygon Input Devices.
+        B : Device(/Reference) or list of Component(/Reference) or Polygon Input Devices.
         operation : {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'} Boolean operation to perform.
         precision : float Desired precision for rounding vertex coordinates.
         num_divisions : array-like[2] of int
@@ -38,7 +38,7 @@ def boolean(
             Specific layer(s) to put polygon geometry on.
 
     Returns:  Device
-        A Device containing a polygon(s) with the boolean operations between
+        A Component containing a polygon(s) with the boolean operations between
         the 2 input Devices performed.
 
     Notes

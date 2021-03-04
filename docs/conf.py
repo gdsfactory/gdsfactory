@@ -17,6 +17,7 @@ source_suffix = {
 htmlhelp_basename = project
 
 extensions = [
+    "nbsphinx",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.mathjax",
@@ -26,6 +27,17 @@ extensions = [
     "sphinx_markdown_tables",
     "recommonmark",
     "sphinx_autodoc_typehints",
+]
+
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ["_templates"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "**.ipynb_checkpoints",
+    "build",
+    "extra",
 ]
 
 napoleon_use_param = True

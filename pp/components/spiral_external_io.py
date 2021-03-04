@@ -11,7 +11,7 @@ import pp
 from pp.component import Component
 from pp.components import waveguide
 from pp.components.bend_circular import bend_circular, bend_circular180
-from pp.routing import round_corners
+from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
 
@@ -138,7 +138,7 @@ def spiral_external_io(
     # Join the two bits of paths and extrude the spiral geometry
     route = round_corners(
         pts_w[::-1] + pts_e,
-        bend90=_bend90,
+        bend_factory=_bend90,
         straight_factory=straight_factory,
         straight_factory_fall_back_no_taper=straight_factory_fall_back_no_taper,
         taper=taper,

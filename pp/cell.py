@@ -18,6 +18,11 @@ def clear_cache() -> None:
     CACHE = {}
 
 
+def print_cache():
+    for k in CACHE.keys():
+        print(k)
+
+
 def cell(
     func: ComponentFactory = None,
     *,
@@ -84,6 +89,11 @@ def cell(
         if uid:
             name += f"_{str(uuid.uuid4())[:8]}"
 
+        name_long = name
+
+        if len(name) > MAX_NAME_LENGTH:
+            name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+
         kwargs.pop("ignore_from_name", [])
         sig = signature(func)
 
@@ -103,9 +113,13 @@ def cell(
                         f"valid keyword arguments are {list(sig.parameters.keys())}"
                     )
 
+        # print(CACHE.keys())
+        # print(name)
         if cache and autoname and name in CACHE:
+            # print(f"{name} cache")
             return CACHE[name]
         else:
+            # print(f"{name} build")
             assert callable(
                 func
             ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
@@ -116,11 +130,10 @@ def cell(
             component.module = func.__module__
             component.function_name = func.__name__
 
-            if len(name) > MAX_NAME_LENGTH:
-                component.name_long = name
-                name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
             if autoname:
                 component.name = name
+
+            component.name_long = name_long
 
             if not hasattr(component, "settings"):
                 component.settings = {}

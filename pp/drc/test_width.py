@@ -6,7 +6,7 @@ from pp.drc import check_width
 
 def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
     w = 50
-    min_width = 50 + 10  # device edges are smaller than min_width
+    min_width = 50 + 10  # component edges are smaller than min_width
     c = pp.c.rectangle(size=(w, w), layer=layer)
     gdspath = pp.write_gds(c, "wmin.gds")
 
@@ -18,7 +18,7 @@ def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
 
 def test_wmin_passing(layer: Tuple[int, int] = (1, 0)) -> None:
     w = 50
-    min_width = 50 - 10  # device edges are bigger than the min_width
+    min_width = 50 - 10  # component edges are bigger than the min_width
     c = pp.c.rectangle(size=(w, w), layer=layer)
     gdspath = pp.write_gds(c, "wmin.gds")
 

@@ -1,0 +1,28 @@
+function_name: grating_coupler_elliptical2
+info:
+  polarization: te
+  wavelength: 1550
+module: pp.components.grating_coupler.elliptical2
+name: grating_coupler_elliptical2_3c20441b
+settings:
+  cladding_offset: 3.0
+  direction: EAST
+  dutycycle: 0.7
+  layer_cladding:
+  - 71
+  - 0
+  layer_core:
+  - 34
+  - 0
+  layer_ridge: null
+  length: 30.0
+  period: 1.0
+  polarization: te
+  port:
+  - 0.0
+  - 0.0
+  taper_length: 10.0
+  teeth_list: null
+  theta: 0.7853981633974483
+  wavelength_nm: 1550
+  wg_width: 1.0

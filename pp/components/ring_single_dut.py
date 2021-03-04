@@ -1,13 +1,12 @@
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_circular import bend_circular
 from pp.components.coupler_ring import coupler_ring
 from pp.components.taper import taper
-from pp.components.waveguide import waveguide
 from pp.config import call_if_func
 from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
+from pp.tech import TECH_SILICON_C, Tech
 
 
 @cell
@@ -16,14 +15,15 @@ def ring_single_dut(
     wg_width=0.5,
     gap=0.2,
     length_x=4,
-    bend_radius=5,
+    radius=5,
     length_y=0,
     coupler=coupler_ring,
-    waveguide=waveguide,
-    bend=bend_circular,
+    waveguide=pp.c.waveguide,
+    bend=pp.c.bend_euler,
     with_dut=True,
+    tech: Tech = TECH_SILICON_C,
 ):
-    """ single bus ring made of two couplers (ct: top, cb: bottom)
+    """single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
     DUT (Device Under Test) in the middle to extract loss from quality factor
 
@@ -47,13 +47,13 @@ def ring_single_dut(
     assert_on_2nm_grid(gap)
 
     coupler = call_if_func(
-        coupler, gap=gap, wg_width=wg_width, bend_radius=bend_radius, length_x=length_x
+        coupler, gap=gap, radius=radius, length_x=length_x, tech=tech
     )
     waveguide_side = call_if_func(
-        waveguide, width=wg_width, length=length_y + dut.xsize
+        waveguide, width=wg_width, length=length_y + dut.xsize, tech=tech
     )
-    waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x)
-    bend = call_if_func(bend, width=wg_width, radius=bend_radius)
+    waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x, tech=tech)
+    bend = call_if_func(bend, width=wg_width, radius=radius, tech=tech)
 
     c = Component()
     cb = c << coupler

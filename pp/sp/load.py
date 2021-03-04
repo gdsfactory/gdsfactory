@@ -22,7 +22,9 @@ def get_ports(line: str) -> Tuple[str, str]:
     return port1, port2
 
 
-def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.ndarray]:
+def read_sparameters(
+    filepath, numports: int
+) -> Tuple[Tuple[str, ...], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
@@ -77,14 +79,14 @@ def read_sparameters(filepath, numports: int) -> Tuple[List[str], np.array, np.n
 
     # port_names.reverse()
     # print(len(F), S.shape, len(port_names))
-    return (port_names, np.array(F), S)
+    return (tuple(port_names), np.array(F), S)
 
 
 def test_read_sparameters_2port_bend():
     filepath = pp.CONFIG["sp"] / "bend_circular" / "bend_circular_S220.dat"
     port_names, f, s = read_sparameters(filepath=filepath, numports=2)
     print(port_names)
-    assert port_names == ["N0", "W0"]
+    assert port_names == ("N0", "W0")
 
 
 def test_read_sparameters_2port_waveguide():
@@ -92,7 +94,7 @@ def test_read_sparameters_2port_waveguide():
     port_names, f, s = read_sparameters(filepath=filepath, numports=2)
     print(port_names)
     assert len(f) == 500
-    assert port_names == ["E0", "W0"]
+    assert port_names == ("E0", "W0")
 
 
 def test_read_sparameters_3port_mmi1x2():
@@ -100,7 +102,7 @@ def test_read_sparameters_3port_mmi1x2():
     port_names, f, s = read_sparameters(filepath=filepath, numports=3)
     print(port_names)
     assert len(f) == 500
-    assert port_names == ["E0", "E1", "W0"]
+    assert port_names == ("E0", "E1", "W0")
 
 
 def test_read_sparameters_4port_mmi2x2():
@@ -108,7 +110,7 @@ def test_read_sparameters_4port_mmi2x2():
     port_names, f, s = read_sparameters(filepath=filepath, numports=4)
     print(port_names)
     assert len(f) == 500
-    assert port_names == ["E0", "E1", "W0", "W1"]
+    assert port_names == ("E0", "E1", "W0", "W1")
 
 
 def load(

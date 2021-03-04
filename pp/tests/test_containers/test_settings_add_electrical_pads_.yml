@@ -14,5 +14,6 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
+      tech: silicon_cband
       with_elec_connections: true
   rotation: 180

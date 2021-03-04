@@ -11,6 +11,7 @@ from pp.components.hline import hline
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import Port, deco_rename_ports
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer, Number
 
 
@@ -20,7 +21,7 @@ def heater(
     width: float = 0.5,
     layer_heater: Tuple[int, int] = LAYER.HEATER,
 ) -> Component:
-    """straight heater"""
+    """Straight heater"""
     c = pp.Component()
     _ref = c.add_ref(hline(length=length, width=width, layer=layer_heater))
     c.ports = _ref.ports  # Use ports from latest layer as heater ports
@@ -100,6 +101,7 @@ def waveguide_heater(
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     waveguide_factory: ComponentFactory = waveguide,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """waveguide with heater
 
@@ -135,7 +137,7 @@ def waveguide_heater(
     heater_top.movey(+y_heater)
     heater_bot.movey(-y_heater)
 
-    wg = c << waveguide_factory(length=length, width=width)
+    wg = c << waveguide_factory(length=length, tech=tech)
 
     for i in [heater_top, heater_bot, wg]:
         c.absorb(i)

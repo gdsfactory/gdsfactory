@@ -75,7 +75,7 @@ def pad_array(
         p = c << pad
         p.x = i * spacing[0]
         for port_name in port_list:
-            port_name_new = "{}{}".format(port_name, i)
+            port_name_new = f"{port_name}{i}"
             c.add_port(port=p.ports[port_name], name=port_name_new)
 
     return c
