@@ -482,7 +482,12 @@ def round_corners(
     p1 = points[1]
 
     total_length = 0  # Keep track of the total path length
-    bend_length = getattr(bend90, "length", 0)
+    # bend_length = getattr(bend90, "length", 0)
+
+    if not hasattr(bend90, "length"):
+        raise ValueError(f"bend {bend90} needs to have bend.length defined")
+
+    bend_length = bend90.length
 
     dp = p1 - p0_straight
     a0 = None
@@ -620,8 +625,7 @@ def generate_manhattan_waypoints(
         # p2 = bend90.ports[pname_north].midpoint
         # bsx = p2[0] - p1[0]
         # bsy = p2[1] - p1[1]
-        bsx = bend90.dx
-        bsy = bend90.dy
+        bsy = bsx = bend90.dx
     else:
         bsx = bsy = 0
 
