@@ -17,6 +17,7 @@ def route_fiber_single(
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
+    auto_taper_to_wide_waveguides: bool = True,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns routes with grating couplers for single fiber input/output.
@@ -105,6 +106,7 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         **kwargs,
     )
 
@@ -122,6 +124,7 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         **kwargs,
     )
     for e in elements_north:
@@ -147,8 +150,8 @@ if __name__ == "__main__":
     c = pp.c.ring_double()
     c = pp.c.mmi2x2()
     c = pp.c.crossing()
-    c = pp.c.mzi2x2()
     c = pp.c.rectangle()
+    c = pp.c.mzi2x2()
 
     elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 

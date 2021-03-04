@@ -73,10 +73,9 @@ def add_fiber_array(
       :include-source:
 
        import pp
-       from pp.routing import add_fiber_array
 
        c = pp.c.crossing()
-       cc = add_fiber_array(c)
+       cc = pp.routing.add_fiber_array(c)
        cc.plot()
 
     """

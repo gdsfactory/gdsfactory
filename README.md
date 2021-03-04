@@ -73,8 +73,6 @@ You can run tests with `pytest`. This will run 3 types of tests:
     - `pp/tests/components/test_ports.py` stores all port locations in a CSV file
 
 
-## Modules
-
 - pp photonic-package
   - components: define components
   - drc: check geometry
@@ -88,22 +86,8 @@ You can run tests with `pytest`. This will run 3 types of tests:
 - notebooks: jupyter-notebooks for training
 
 
-## `pf` Photonic factory command line interface
 
-`pf` builds, tests, and configures masks and components from the command line. Just type `pf` in a terminal.
-
-```
-Commands:
-  build    Commands for building masks
-  config   Work with pdk.CONFIG
-  drc      Run DRC
-  log      Work with logs
-  show     Show a GDS file in Klayout using KLive
-  status   Shows version and configuration info
-  test     Run tests using pytest.
-```
-
-## Links
+**Links**
 
 - [gdsfactory](https://github.com/gdsfactory/gdsfactory): Github repo where we store the gdsfactory code
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).

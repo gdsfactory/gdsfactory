@@ -143,8 +143,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      cladding_offset: null
-      tech: silicon_cband
+      cladding_offset: 0.0
   mmi1x2_65.596_-0.0:
     component: mmi1x2
     settings:
@@ -158,8 +157,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      cladding_offset: null
-      tech: silicon_cband
+      cladding_offset: 0.0
   waveguide_L100n_32.798_-29.625:
     component: waveguide
     settings:

@@ -60,7 +60,12 @@ def bend_euler(
     cross_section_factory = cross_section_factory or strip
     tech = tech or TECH_SILICON_C
 
-    cross_section = cross_section_factory(width=width, layer=layer)
+    cross_section = cross_section_factory(
+        width=width,
+        layer=layer,
+        layers_cladding=tech.layers_cladding,
+        cladding_offset=tech.cladding_offset,
+    )
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )

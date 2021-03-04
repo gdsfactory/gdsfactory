@@ -5,12 +5,10 @@ info:
 module: pp.components.waveguide
 name: waveguide_186d9812
 settings:
-  cladding_offset: 0
   cross_section_factory: null
   layer:
   - 34
   - 0
-  layers_cladding: null
   length: 10.0
   npoints: 2
   tech: nitride_cband

@@ -11,7 +11,6 @@ settings:
   layer:
   - 1
   - 0
-  layers_cladding: null
   npoints: 720
   radius: 10.0
   tech: null

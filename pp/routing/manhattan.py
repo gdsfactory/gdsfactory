@@ -443,6 +443,7 @@ def round_corners(
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     bend_factory: ComponentFactory = bend_euler,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> Route:
     """Returns Dict:
 
@@ -537,7 +538,11 @@ def round_corners(
 
         total_length += length
 
-        if taper is not None and length > 2 * taper.info["length"] + 1.0:
+        if (
+            auto_taper_to_wide_waveguides
+            and taper is not None
+            and length > 2 * taper.info["length"] + 1.0
+        ):
             length = length - 2 * taper.info["length"]
             with_taper = True
 
@@ -646,6 +651,7 @@ def route_manhattan(
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the waveguide, taper and bend references that define the route.
@@ -664,6 +670,7 @@ def route_manhattan(
         straight_factory=straight_factory,
         taper=taper,
         bend_factory=bend_factory,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
     )
 
 

@@ -35,6 +35,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
+    auto_taper_to_wide_waveguides: bool = True,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -84,10 +85,9 @@ def add_fiber_single(
       :include-source:
 
        import pp
-       from pp.routing import add_fiber_array
 
        c = pp.c.crossing()
-       cc = add_fiber_array(c)
+       cc = pp.routing.add_fiber_single(c)
        cc.plot()
 
     """
@@ -153,6 +153,7 @@ def add_fiber_single(
             optical_routing_type=optical_routing_type,
             min_input2output_spacing=min_input2output_spacing,
             gc_port_name=gc_port_name,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             **kwargs,
         )
 

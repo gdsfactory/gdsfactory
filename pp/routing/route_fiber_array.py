@@ -49,6 +49,7 @@ def route_fiber_array(
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
     tech: Tech = TECH_SILICON_C,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -307,6 +308,7 @@ def route_fiber_array(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         )
         elems = route["references"]
         to_route = route["ports"]
@@ -426,7 +428,7 @@ def route_fiber_array(
     return elements, io_gratings_lines, y0_optical
 
 
-if __name__ == "__main__":
+def demo():
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
@@ -451,4 +453,16 @@ if __name__ == "__main__":
         c.add(e)
     for e in gc:
         c.add(e)
+    c.show()
+
+
+if __name__ == "__main__":
+    from pp.pdk import PDK_NITRIDE_C
+
+    p = PDK_NITRIDE_C
+
+    c = p.ring_single()
+    c = p.add_fiber_array(
+        c, optical_routing_type=1, auto_taper_to_wide_waveguides=False
+    )
     c.show()

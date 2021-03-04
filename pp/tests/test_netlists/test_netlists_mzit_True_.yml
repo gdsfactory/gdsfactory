@@ -1,11 +1,11 @@
 connections:
-  bend_euler_R10_TNone_W550n_33.138_17.738,N0: waveguide_L3_TNone_W550n_26.5_22.6,W0
-  bend_euler_R10_TNone_W550n_33.138_17.738,W0: waveguide_L4_TNone_W550n_38.0_10.6,E0
-  bend_euler_R10_TNone_W550n_33.138_3.462,N0: waveguide_L4_TNone_W550n_38.0_10.6,W0
-  bend_euler_R10_TNone_W550n_33.138_3.462,W0: waveguide_L3_TNone_W550n_26.5_-1.4,E0
-  bend_euler_R10_W450n_30.112_15.712,N0: taper_L5_W450n_W550n_22.5_20.6,1
-  bend_euler_R10_W450n_30.112_15.712,W0: bend_euler_R10_W450n_30.112_5.488,N0
-  bend_euler_R10_W450n_30.112_5.488,W0: taper_L5_W500n_W450n_22.5_0.6,2
+  bend_euler_R10_TNone_W550n_34.638_1.962,N0: waveguide_L4_TNone_W550n_38.0_10.6,W0
+  bend_euler_R10_TNone_W550n_34.638_1.962,W0: waveguide_L3_TNone_W550n_26.5_-1.4,E0
+  bend_euler_R10_TNone_W550n_34.638_19.238,N0: waveguide_L3_TNone_W550n_26.5_22.6,W0
+  bend_euler_R10_TNone_W550n_34.638_19.238,W0: waveguide_L4_TNone_W550n_38.0_10.6,E0
+  bend_euler_R10_W450n_31.612_17.212,N0: taper_L5_W450n_W550n_22.5_20.6,1
+  bend_euler_R10_W450n_31.612_17.212,W0: bend_euler_R10_W450n_31.612_3.988,N0
+  bend_euler_R10_W450n_31.612_3.988,W0: taper_L5_W500n_W450n_22.5_0.6,2
   coupler_D2_G200n_L5_TNone_1.5_21.6,E0: taper_L5_W550n_W500n_16.5_20.6,2
   coupler_D2_G200n_L5_TNone_1.5_21.6,E1: taper_L5_W450n_W500n_16.5_22.6,2
   coupler_D2_G300n_L10_TNone_5.0_-0.4,E0: taper_L5_W500n_W550n_22.5_-1.4,1
@@ -17,7 +17,7 @@ connections:
   taper_L5_W550n_W450n_22.5_22.6,2: waveguide_L1_TNone_W450n_19.5_22.6,W0
   taper_L5_W550n_W500n_16.5_20.6,1: waveguide_L1_TNone_W550n_19.5_20.6,E0
 instances:
-  bend_euler_R10_TNone_W550n_33.138_17.738:
+  bend_euler_R10_TNone_W550n_34.638_1.962:
     component: bend_euler
     settings:
       angle: 90
@@ -31,7 +31,7 @@ instances:
       tech: null
       width: 0.55
       with_arc_floorplan: true
-  bend_euler_R10_TNone_W550n_33.138_3.462:
+  bend_euler_R10_TNone_W550n_34.638_19.238:
     component: bend_euler
     settings:
       angle: 90
@@ -45,7 +45,7 @@ instances:
       tech: null
       width: 0.55
       with_arc_floorplan: true
-  bend_euler_R10_W450n_30.112_15.712:
+  bend_euler_R10_W450n_31.612_17.212:
     component: bend_euler
     settings:
       angle: 90
@@ -59,7 +59,7 @@ instances:
       tech: null
       width: 0.45
       with_arc_floorplan: true
-  bend_euler_R10_W450n_30.112_5.488:
+  bend_euler_R10_W450n_31.612_3.988:
     component: bend_euler
     settings:
       angle: 90
@@ -164,12 +164,10 @@ instances:
   waveguide_L1_TNone_W450n_19.5_22.6:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 1.0
       npoints: 2
       tech: null
@@ -177,12 +175,10 @@ instances:
   waveguide_L1_TNone_W550n_19.5_20.6:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 1.0
       npoints: 2
       tech: null
@@ -190,12 +186,10 @@ instances:
   waveguide_L3_TNone_W550n_26.5_-1.4:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 3.0
       npoints: 2
       tech: null
@@ -203,12 +197,10 @@ instances:
   waveguide_L3_TNone_W550n_26.5_22.6:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 3.0
       npoints: 2
       tech: null
@@ -216,34 +208,32 @@ instances:
   waveguide_L4_TNone_W550n_38.0_10.6:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 4.0
       npoints: 2
       tech: null
       width: 0.55
 name: mzit
 placements:
-  bend_euler_R10_TNone_W550n_33.138_17.738:
-    mirror: false
-    rotation: 90
-    x: 38.0
-    y: 12.6
-  bend_euler_R10_TNone_W550n_33.138_3.462:
+  bend_euler_R10_TNone_W550n_34.638_1.962:
     mirror: false
     rotation: 0
     x: 28.0
     y: -1.4
-  bend_euler_R10_W450n_30.112_15.712:
+  bend_euler_R10_TNone_W550n_34.638_19.238:
+    mirror: false
+    rotation: 90
+    x: 38.0
+    y: 12.6
+  bend_euler_R10_W450n_31.612_17.212:
     mirror: false
     rotation: 90
     x: 35.0
     y: 10.6
-  bend_euler_R10_W450n_30.112_5.488:
+  bend_euler_R10_W450n_31.612_3.988:
     mirror: false
     rotation: 0
     x: 25.0

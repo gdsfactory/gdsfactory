@@ -10,13 +10,12 @@ Tutorials for `gdsfactory <https://github.com/gdsfactory/gdsfactory>`_
    :titlesonly:
    :caption: Contents:
 
-   notebooks/01_geometry.ipynb
-   notebooks/02__references.ipynb
-   notebooks/02__references2.ipynb
+   notebooks/010_geometry.ipynb
+   notebooks/011_references.ipynb
+   notebooks/012_movement.ipynb
    notebooks/02_component_ports.ipynb
    notebooks/02_components.ipynb
    notebooks/02_layers.ipynb
-   notebooks/02_movement.ipynb
    notebooks/02_pack.ipynb
    notebooks/03_cells_autoname_and_cache.ipynb
    notebooks/03_waveguides_paths_crossections.ipynb
@@ -37,4 +36,3 @@ Tutorials for `gdsfactory <https://github.com/gdsfactory/gdsfactory>`_
    notebooks/12_YAML_mask.ipynb
    notebooks/30_sparameters.ipynb
    notebooks/31_circuit_simulations.ipynb
-   notebooks/90_phidl_components.ipynb

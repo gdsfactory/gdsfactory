@@ -427,6 +427,7 @@ class Pdk:
         taper_factory: Optional[ComponentFactory] = None,
         route_filter: Optional[ComponentFactory] = None,
         bend_radius: Optional[float] = None,
+        auto_taper_to_wide_waveguides: bool = True,
         **kwargs,
     ) -> Component:
         """Returns component with grating couplers and labels on each port.
@@ -468,6 +469,7 @@ class Pdk:
             fanout_length=fanout_length,
             bend_radius=bend_radius or self.tech.bend_radius,
             tech=self.tech,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             **kwargs,
         )
 
@@ -484,6 +486,7 @@ class Pdk:
         with_align_ports: bool = True,
         component_name: Optional[str] = None,
         gc_port_name: str = "W0",
+        **kwargs,
     ) -> Component:
         """Returns component with grating ports and labels on each port.
 
@@ -518,6 +521,7 @@ class Pdk:
             with_align_ports=with_align_ports,
             component_name=component_name,
             gc_port_name=gc_port_name,
+            **kwargs,
         )
 
     def get_route_euler(self, waypoints: np.ndarray, **kwargs) -> Route:
@@ -550,8 +554,8 @@ PDK_METAL1 = PdkMetal1()
 PDK_NITRIDE_C = PdkNitrideCband()
 
 if __name__ == "__main__":
-    p = PDK_METAL1
     p = PDK_NITRIDE_C
+    p = PDK_METAL1
     # c = p.waveguide(length=10)
     # c = p.waveguide(length=10)
 
@@ -573,6 +577,7 @@ if __name__ == "__main__":
     c = p.ring_single()
     # c = p.taper()
 
-    # c = p.add_fiber_single(c)
-    c = p.add_fiber_array(c, optical_routing_type=1)
+    c = p.add_fiber_single(c, auto_taper_to_wide_waveguides=False)
+    # c = p.add_fiber_array(c, optical_routing_type=1)
     c.show()
+    # c.plot()
