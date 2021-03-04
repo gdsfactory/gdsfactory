@@ -26,8 +26,8 @@ The actual chain of components is supplied by a string or a list
     @pp.cell
     def test():
         # Define sub components
-        bend_radius=10.0
-        bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
+        radius=10.0
+        bend180 = bend_circular(radius=radius, angle=180)
         wg = waveguide(length=5.0)
         wg_heater = waveguide_heater(length=20.0)
 
@@ -62,41 +62,20 @@ The actual chain of components is supplied by a string or a list
 
     import pp
     from pp.components import bend_circular
-    from pp.components.waveguide import _arbitrary_straight_waveguide
     from pp.components.waveguide import waveguide
     from pp.components.waveguide_heater import waveguide_heater
     from pp.components.taper import taper_strip_to_ridge as _taper
-
+    from pp.components.waveguide_pin import waveguide_pin
     from pp.layers import LAYER
-
     from pp.components.component_sequence import component_sequence
 
-    @pp.cell
-    def phase_modulator_waveguide(length, wg_width=0.5, cladding=3.0, si_outer_clad=1.0):
-        """
-        Phase modulator waveguide mockup
-        """
-        a = wg_width / 2
-        b = a + cladding
-        c = b + si_outer_clad
-
-        windows = [
-            (-c, -b, LAYER.WG),
-            (-b, -a, LAYER.SLAB90),
-            (-a, a, LAYER.WG),
-            (a, b, LAYER.SLAB90),
-            (b, c, LAYER.WG),
-        ]
-
-        component = _arbitrary_straight_waveguide(length=length, windows=windows)
-        return component
 
 
-    def phase_mod_arm(straight_length=100.0, bend_radius=10.0, n=2):
+    def phase_mod_arm(straight_length=100.0, radius=10.0, n=2):
 
         # Define sub components
-        bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
-        pm_wg = phase_modulator_waveguide(length=straight_length)
+        bend180 = bend_circular(radius=radius, angle=180)
+        pm_wg = waveguide_pin(length=straight_length)
         wg_short = waveguide(length=1.0)
         wg_short2 = waveguide(length=2.0)
         wg_heater = waveguide_heater(length=10.0)
