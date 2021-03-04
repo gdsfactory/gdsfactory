@@ -141,11 +141,11 @@ def test_mask(precision: float = 2e-9) -> Path:
 
 
 if __name__ == "__main__":
-    gdspath_mask = test_mask()
-    pp.show(gdspath_mask)
-    # c = coupler_te(gap=0.3, length=2.)
+    # gdspath_mask = test_mask()
+    # pp.show(gdspath_mask)
+    c = coupler_te(gap=0.3, length=2.0)
     # c = spiral_te(length_cm=6.)
-    # c.show()
+    c.show()
 
     # lengths = [18.24, 36.48, 54.72, 72.96, 91.2]
     # for length in lengths:

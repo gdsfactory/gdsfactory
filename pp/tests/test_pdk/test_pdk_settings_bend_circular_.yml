@@ -1,17 +1,18 @@
 function_name: bend_circular
 info:
-  dx: 20.0
   dy: 20.0
   length: 31.416
+  radius_min: 20.0
 module: pp.components.bend_circular
-name: bend_circular_a0e1dd08
+name: bend_circular_1170c4eb
 settings:
   angle: 90
   cross_section_factory: null
   layer:
   - 34
   - 0
+  layers_cladding: null
   npoints: 720
   radius: 20.0
-  tech: null
+  tech: nitride_cband
   width: 1.0

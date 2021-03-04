@@ -12,12 +12,11 @@ from typing import Optional
 
 import numpy as np
 import phidl.path as path
-from phidl.device_layout import CrossSection, Path
+from phidl.device_layout import CrossSection, Path, _simplify
 from phidl.path import transition
 
 from pp.component import Component
 from pp.hash_points import hash_points
-from pp.import_phidl_component import import_phidl_component
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
 from pp.types import Number
@@ -27,6 +26,7 @@ def component(
     p: Path,
     cross_section: CrossSection,
     simplify: Optional[float] = None,
+    snap_to_grid_nm: Optional[int] = None,
     rename_ports: bool = True,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
@@ -41,27 +41,100 @@ def component(
         simplify: Tolerance value for the simplification algorithm.
             All points that can be removed without changing the resulting
             polygon by more than the value listed here will be removed.
+        snap_to_grid_nm: optionally snap to any design grid (nm)
+        rename_ports: rename ports
     """
     cross_section = cross_section() if callable(cross_section) else cross_section
-    component = p.extrude(cross_section=cross_section, simplify=simplify)
-    c = import_phidl_component(component=component)
-
     xsection_points = []
-    for s in cross_section.sections:
-        width = s["width"]
-        offset = s["offset"]
-        layer = s["layer"]
-        if isinstance(offset, int) and isinstance(width, int):
+
+    c = Component()
+
+    for i, section in enumerate(cross_section.sections):
+        width = section["width"]
+        offset = section["offset"]
+        layer = section["layer"]
+        ports = section["ports"]
+
+        if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
         if isinstance(layer, int):
-            xsection_points.append([layer, 0])
-        elif (
+            layer = (layer, 0)
+        if (
             isinstance(layer, Iterable)
-            and len(layer) > 1
+            and len(layer) == 2
             and isinstance(layer[0], int)
             and isinstance(layer[1], int)
         ):
             xsection_points.append([layer[0], layer[1]])
+
+        if callable(offset):
+            P_offset = p.copy()
+            P_offset.offset(offset)
+            points = P_offset.points
+            start_angle = P_offset.start_angle
+            end_angle = P_offset.end_angle
+            offset = 0
+        else:
+            points = p.points
+            start_angle = p.start_angle
+            end_angle = p.end_angle
+
+        if callable(width):
+            # Compute lengths
+            dx = np.diff(p.points[:, 0])
+            dy = np.diff(p.points[:, 1])
+            lengths = np.cumsum(np.sqrt((dx) ** 2 + (dy) ** 2))
+            lengths = np.concatenate([[0], lengths])
+            width = width(lengths / lengths[-1])
+        else:
+            pass
+
+        points1 = p._parametric_offset_curve(
+            points,
+            offset_distance=offset + width / 2,
+            start_angle=start_angle,
+            end_angle=end_angle,
+        )
+        points2 = p._parametric_offset_curve(
+            points,
+            offset_distance=offset - width / 2,
+            start_angle=start_angle,
+            end_angle=end_angle,
+        )
+
+        # Simplify lines using the Ramer–Douglas–Peucker algorithm
+        if isinstance(simplify, bool):
+            raise ValueError(
+                "[PHIDL] the simplify argument must be a number (e.g. 1e-3) or None"
+            )
+        if simplify is not None:
+            points1 = _simplify(points1, tolerance=simplify)
+            points2 = _simplify(points2, tolerance=simplify)
+
+        # Join points together
+        points = np.concatenate([points1, points2[::-1, :]])
+
+        if snap_to_grid_nm:
+            points = (
+                snap_to_grid_nm
+                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
+                / 1e3
+            )
+
+        # Combine the offset-lines into a polygon and union if join_after == True
+        # if join_after == True: # Use clipper to perform a union operation
+        #     points = np.array(clipper.offset([points], 0, 'miter', 2, int(1/simplify), 0)[0])
+        # print(points)
+
+        c.add_polygon(points, layer=layer)
+
+        # Add ports if they were specified
+        if ports[0] is not None:
+            new_port = c.add_port(name=f"{i}_{ports[0]}", layer=layer)
+            new_port.endpoints = (points1[0], points2[0])
+        if ports[1] is not None:
+            new_port = c.add_port(name=f"{i}_{ports[1]}", layer=layer)
+            new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))
     c.name = f"path_{hash_points(points)}"
@@ -124,7 +197,6 @@ def straight(length: Number = 10, npoints: int = 100) -> Path:
 __all__ = ["straight", "euler", "arc", "component", "path", "transition"]
 
 if __name__ == "__main__":
-    import pp
 
     P = euler(radius=10, use_eff=True)
     # P = euler()
@@ -135,13 +207,16 @@ if __name__ == "__main__":
 
     # Create a blank CrossSection
     X = CrossSection()
-    # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
     X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+
+    # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
     # Combine the Path and the CrossSection
-    c = component(P, X)
+
+    c = component(P, X, simplify=5e-3, snap_to_grid_nm=5)
     # c = pp.add_pins(c)
     # c << pp.c.bend_euler(radius=10)
-    c << pp.c.bend_circular(radius=10)
+    # c << pp.c.bend_circular(radius=10)
+    print(c.ports["W0"].layer)
     c.show()

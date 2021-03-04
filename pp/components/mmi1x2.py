@@ -4,7 +4,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH_SILICON_C
 from pp.types import ComponentFactory, Layer
 
 
@@ -19,8 +19,7 @@ def mmi1x2(
     taper: ComponentFactory = taper_function,
     layer: Layer = TECH_SILICON_C.layer_wg,
     layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: Optional[float] = None,
-    tech: Tech = TECH_SILICON_C,
+    cladding_offset: float = 0.0,
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -74,7 +73,6 @@ def mmi1x2(
         layer=layer,
         layers_cladding=layers_cladding,
         cladding_offset=cladding_offset,
-        tech=tech,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -88,8 +86,7 @@ def mmi1x2(
         },
     )
 
-    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
-    cladding_offset = getattr(tech, "cladding_offset", 0)
+    layers_cladding = layers_cladding or []
     if layers_cladding:
         for layer_cladding in layers_cladding:
             clad = c << pp.c.rectangle(

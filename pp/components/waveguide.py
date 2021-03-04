@@ -1,5 +1,5 @@
-"""Straight waveguides"""
-from typing import Optional
+"""Straight waveguide."""
+from typing import Iterable, Optional
 
 from pp.cell import cell
 from pp.component import Component
@@ -16,6 +16,8 @@ def waveguide(
     npoints: int = 2,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    cladding_offset: float = 0,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
@@ -26,6 +28,8 @@ def waveguide(
         npoints: number of points
         width: waveguide width
         layer: layer for
+        layers_cladding: for cladding
+        cladding_offset: offset from waveguide to cladding edge
         cross_section_factory: function that returns a cross_section
         tech: Technology with default
 
@@ -38,20 +42,28 @@ def waveguide(
       c.plot()
 
     """
-    cross_section_factory = cross_section_factory or strip
     tech = tech or TECH_SILICON_C
+    cross_section_factory = cross_section_factory or strip
 
     p = straight(length=length, npoints=npoints)
-    cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
-    c = component(p, cross_section)
+    cross_section = cross_section_factory(
+        width=width,
+        layer=layer,
+        layers_cladding=layers_cladding,
+        cladding_offset=cladding_offset,
+    )
+    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
     c.width = width
     c.length = snap_to_grid(length)
     return c
 
 
 if __name__ == "__main__":
-    # c = waveguide(length=10, width=10, tech=TECH_METAL1, layer=TECH_METAL1.layer_wg)
-    c = waveguide(length=10.0)
+    from pp.tech import TECH_METAL1
+
+    # c = waveguide(length=10.0)
     # c.pprint()
-    # print(c.ports)
+
+    c = waveguide(length=10.001, width=10, tech=TECH_METAL1)
+    print(c.length)
     c.show()

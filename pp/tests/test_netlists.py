@@ -58,8 +58,9 @@ if __name__ == "__main__":
     # c = component_factory["ring_single"]()
 
     component_type = "mzi"
-    component_type = "mzit"
     component_type = "ring_single"
+    component_type = "mzit"
+    component_type = "ring_double"
     c1 = component_factory[component_type]()
 
     full_settings = True

@@ -1,6 +1,6 @@
 connections: {}
 instances:
-  mzit_57d3e173_20.638_10.6:
+  mzit_57d3e173_19.138_10.6:
     component: mzit
     settings:
       coupler_gap1: 0.2
@@ -11,13 +11,13 @@ instances:
       pins: false
 name: mzit_lattice
 placements:
-  mzit_57d3e173_20.638_10.6:
+  mzit_57d3e173_19.138_10.6:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  W0: mzit_57d3e173_20.638_10.6,W0
-  W1: mzit_57d3e173_20.638_10.6,W1
-  W2: mzit_57d3e173_20.638_10.6,W2
-  W3: mzit_57d3e173_20.638_10.6,W3
+  W0: mzit_57d3e173_19.138_10.6,W0
+  W1: mzit_57d3e173_19.138_10.6,W1
+  W2: mzit_57d3e173_19.138_10.6,W2
+  W3: mzit_57d3e173_19.138_10.6,W3

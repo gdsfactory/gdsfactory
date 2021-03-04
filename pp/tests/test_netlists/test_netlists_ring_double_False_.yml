@@ -1,57 +1,57 @@
 connections:
-  coupler_ring_5efc79e0_-0.005_17.685,N0: waveguide_L10n_Tsilicon_cband_10.0_10.705,W0
-  coupler_ring_5efc79e0_-0.005_17.685,N1: waveguide_L10n_Tsilicon_cband_-10.01_10.705,W0
-  coupler_ring_5efc79e0_-0.005_3.725,N0: waveguide_L10n_Tsilicon_cband_-10.01_10.705,E0
-  coupler_ring_5efc79e0_-0.005_3.725,N1: waveguide_L10n_Tsilicon_cband_10.0_10.705,E0
+  coupler_ring_7b349d0a_-0.005_17.335,N0: waveguide_L10n_TNone_10.0_10.705,W0
+  coupler_ring_7b349d0a_-0.005_17.335,N1: waveguide_L10n_TNone_-10.01_10.705,W0
+  coupler_ring_7b349d0a_-0.005_4.075,N0: waveguide_L10n_TNone_-10.01_10.705,E0
+  coupler_ring_7b349d0a_-0.005_4.075,N1: waveguide_L10n_TNone_10.0_10.705,E0
 instances:
-  coupler_ring_5efc79e0_-0.005_17.685:
+  coupler_ring_7b349d0a_-0.005_17.335:
     component: coupler_ring
     settings:
       gap: 0.2
       length_x: 0.01
       radius: 10.0
-      tech: silicon_cband
-  coupler_ring_5efc79e0_-0.005_3.725:
+      tech: null
+  coupler_ring_7b349d0a_-0.005_4.075:
     component: coupler_ring
     settings:
       gap: 0.2
       length_x: 0.01
       radius: 10.0
-      tech: silicon_cband
-  waveguide_L10n_Tsilicon_cband_-10.01_10.705:
+      tech: null
+  waveguide_L10n_TNone_-10.01_10.705:
     component: waveguide
     settings:
       length: 0.01
-      tech: silicon_cband
-  waveguide_L10n_Tsilicon_cband_10.0_10.705:
+      tech: null
+  waveguide_L10n_TNone_10.0_10.705:
     component: waveguide
     settings:
       length: 0.01
-      tech: silicon_cband
+      tech: null
 name: ring_double
 placements:
-  coupler_ring_5efc79e0_-0.005_17.685:
+  coupler_ring_7b349d0a_-0.005_17.335:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_5efc79e0_-0.005_3.725:
+  coupler_ring_7b349d0a_-0.005_4.075:
     mirror: false
     rotation: 0
     x: 0.0
     y: -0.0
-  waveguide_L10n_Tsilicon_cband_-10.01_10.705:
+  waveguide_L10n_TNone_-10.01_10.705:
     mirror: false
     rotation: 270
     x: -10.01
     y: 10.71
-  waveguide_L10n_Tsilicon_cband_10.0_10.705:
+  waveguide_L10n_TNone_10.0_10.705:
     mirror: false
     rotation: 270
     x: 10.0
     y: 10.71
 ports:
-  E0: coupler_ring_5efc79e0_-0.005_3.725,E0
-  E1: coupler_ring_5efc79e0_-0.005_17.685,W0
-  W0: coupler_ring_5efc79e0_-0.005_3.725,W0
-  W1: coupler_ring_5efc79e0_-0.005_17.685,E0
+  E0: coupler_ring_7b349d0a_-0.005_4.075,E0
+  E1: coupler_ring_7b349d0a_-0.005_17.335,W0
+  W0: coupler_ring_7b349d0a_-0.005_4.075,W0
+  W1: coupler_ring_7b349d0a_-0.005_17.335,E0

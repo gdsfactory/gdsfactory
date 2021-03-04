@@ -5,8 +5,8 @@ from numpy import bool_, ndarray
 
 import pp
 from pp.component import Component, ComponentReference
-from pp.components import waveguide
 from pp.components.bend_euler import bend_euler
+from pp.components.waveguide import waveguide
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
@@ -605,12 +605,12 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    bend_factory: ComponentFactory = bend_euler,
-    bend_radius: float = 10.0,
+    straight_factory: ComponentFactory = waveguide,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
-    **kwargs,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_radius: float = 10.0,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
@@ -620,15 +620,16 @@ def generate_manhattan_waypoints(
 
     pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
 
-    if hasattr(bend90, "dx"):
-        # p1 = bend90.ports[pname_west].midpoint
-        # p2 = bend90.ports[pname_north].midpoint
-        # bsx = p2[0] - p1[0]
-        # bsy = p2[1] - p1[1]
-        bsy = bsx = bend90.dx
-    else:
-        bsx = bsy = 0
+    # if hasattr(bend90, "dy"):
+    #     bsy = bsx = bend90.dy
+    # else:
+    # p1 = bend90.ports[pname_west].midpoint
+    # p2 = bend90.ports[pname_north].midpoint
+    # bsx = p2[0] - p1[0]
+    # bsy = p2[1] - p1[1]
+    # bsx = bsy = 0
 
+    bsx = bsy = getattr(bend90, "dy", 0)
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
     )
@@ -638,12 +639,13 @@ def generate_manhattan_waypoints(
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    straight_factory: Callable,
+    straight_factory: ComponentFactory = waveguide,
     taper: None = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
+    bend_radius: float = 10.0,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the waveguide, taper and bend references that define the route.

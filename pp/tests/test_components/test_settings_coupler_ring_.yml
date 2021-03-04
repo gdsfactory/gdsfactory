@@ -3,11 +3,12 @@ info: {}
 module: pp.components.coupler_ring
 name: coupler_ring
 settings:
+  cross_section_factory: null
   gap: 0.2
   layer:
   - 1
   - 0
   length_x: 4.0
   radius: 5.0
-  tech: silicon_cband
+  tech: null
   width: 0.5

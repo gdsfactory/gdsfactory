@@ -30,7 +30,8 @@ def route_fiber_array(
     fanout_length: Optional[int] = None,
     max_y0_optical: None = None,
     with_align_ports: bool = True,
-    waveguide_separation: float = 4.0,
+    waveguide_separation: float = 6.0,
+    waveguide_to_grating_spacing: float = 5.0,
     optical_routing_type: Optional[int] = None,
     bend_radius: Optional[float] = None,
     connected_port_list_ids: None = None,
@@ -390,26 +391,23 @@ def route_fiber_array(
             for ii in [grating_indices[0] - 1, grating_indices[-1] + 1]
         ]
 
-        gsi = grating_coupler.size_info
         p0 = gca1.ports[gc_port_name].position
         p1 = gca2.ports[gc_port_name].position
 
-        if hasattr(bend90, "dx"):
-            a = abs(bend90.dx)
-        else:
-            a = dy + 5.0  # 0.5
+        dy = bend90.dy
+        dx = max(2 * dy, io_sep / 2)
 
-        b = max(2 * a, io_sep / 2)
-        y_bot_align_route = -gsi.width - waveguide_separation
+        gc_east = max([gci.size_info.east for gci in grating_couplers])
+        y_bot_align_route = gc_east + waveguide_to_grating_spacing
 
         points = [
             p0,
-            p0 + (0, a),
-            p0 + (b, a),
-            p0 + (b, y_bot_align_route),
-            p1 + (-b, y_bot_align_route),
-            p1 + (-b, a),
-            p1 + (0, a),
+            p0 + (0, dy),
+            p0 + (dx, dy),
+            p0 + (dx, -y_bot_align_route),
+            p1 + (-dx, -y_bot_align_route),
+            p1 + (-dx, dy),
+            p1 + (0, dy),
             p1,
         ]
         elements.extend([gca1, gca2])

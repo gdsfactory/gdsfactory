@@ -974,10 +974,10 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.c.waveguide()
-    assert c.get_layers() == {(1, 0), (111, 0)}
+    c = pp.c.waveguide(layer=(2, 0), layers_cladding=((111, 0),))
+    assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
-    assert c.get_layers() == {(1, 0)}
+    assert c.get_layers() == {(2, 0)}
 
 
 def _filter_polys(polygons, layers_excl):

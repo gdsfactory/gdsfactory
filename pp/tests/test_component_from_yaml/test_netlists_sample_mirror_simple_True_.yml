@@ -9,6 +9,7 @@ instances:
       layer:
       - 1
       - 0
+      layers_cladding: null
       npoints: 720
       radius: 10.0
       tech: null
@@ -16,10 +17,12 @@ instances:
   w:
     component: waveguide
     settings:
+      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
+      layers_cladding: null
       length: 10.0
       npoints: 2
       tech: null
