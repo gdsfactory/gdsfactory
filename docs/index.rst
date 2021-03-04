@@ -29,3 +29,4 @@ Gdsfactory
    components
    contribution
    CHANGELOG
+   notebooks

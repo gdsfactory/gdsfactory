@@ -17,6 +17,7 @@ source_suffix = {
 htmlhelp_basename = project
 
 extensions = [
+    "nbsphinx",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.mathjax",
