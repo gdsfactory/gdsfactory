@@ -7,6 +7,7 @@ Gdsfactory
 
    README
    component_intro
+   notebooks
    types
    config
    layers
@@ -26,6 +27,4 @@ Gdsfactory
    pp
    shapes
    components
-   notebooks
    contribution
-   CHANGELOG
