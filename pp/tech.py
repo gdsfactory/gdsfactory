@@ -23,7 +23,7 @@ class Tech:
 
 @dataclass(frozen=True)
 class TechSiliconCband(Tech):
-    name: str = "si_c"
+    name: str = "silicon_cband"
     wg_width: float = 0.5
     bend_radius: float = 10.0
     cladding_offset: float = 3.0
@@ -37,7 +37,7 @@ class TechSiliconCband(Tech):
 
 @dataclass(frozen=True)
 class TechNitrideCband(Tech):
-    name: str = "sin_c"
+    name: str = "nitride_cband"
     wg_width: float = 1.0
     bend_radius: float = 20.0
     cladding_offset: float = 3.0

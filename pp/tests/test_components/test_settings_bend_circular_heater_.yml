@@ -11,5 +11,5 @@ settings:
   heater_width: 0.5
   npoints: 720
   radius: 10
-  tech: si_c
+  tech: silicon_cband
   wg_width: null

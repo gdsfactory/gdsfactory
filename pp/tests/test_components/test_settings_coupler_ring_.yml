@@ -9,5 +9,5 @@ settings:
   - 0
   length_x: 4.0
   radius: 5.0
-  tech: si_c
+  tech: silicon_cband
   width: 0.5

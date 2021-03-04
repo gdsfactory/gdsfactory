@@ -45,7 +45,7 @@ instances:
       layers_cladding: null
       length_mmi: 10
       length_taper: 10.0
-      tech: si_c
+      tech: silicon_cband
       width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
@@ -60,7 +60,7 @@ instances:
       layers_cladding: null
       length_mmi: 5
       length_taper: 10.0
-      tech: si_c
+      tech: silicon_cband
       width: 0.5
       width_mmi: 4.5
       width_taper: 1.0

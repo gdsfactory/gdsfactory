@@ -50,8 +50,8 @@ def waveguide(
 
 
 if __name__ == "__main__":
-    c = waveguide(length=10, width=10)
-    # c = waveguide(length=10)
-    c.pprint()
+    # c = waveguide(length=10, width=10, tech=TECH_METAL1, layer=TECH_METAL1.layer_wg)
+    c = waveguide(length=10.0)
+    # c.pprint()
     # print(c.ports)
     c.show()

@@ -47,7 +47,7 @@ instances:
       layers_cladding: null
       length_mmi: 10
       length_taper: 10.0
-      tech: si_c
+      tech: silicon_cband
       width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
@@ -62,7 +62,7 @@ instances:
       layers_cladding: null
       length_mmi: 5
       length_taper: 10.0
-      tech: si_c
+      tech: silicon_cband
       width: 0.5
       width_mmi: 4.5
       width_taper: 1.0
@@ -76,7 +76,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_74.99_73.125:
@@ -89,7 +89,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   waveguide_L10_W2p5_74.99_50.625:

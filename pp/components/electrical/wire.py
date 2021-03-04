@@ -76,11 +76,12 @@ def corner(
         layer=layer,
         port_type=port_type,
     )
-    c.info["length"] = width
+    c.length = width
     return c
 
 
 if __name__ == "__main__":
 
     c = wire()
+    c = corner()
     c.show()

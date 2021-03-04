@@ -4,7 +4,7 @@ info:
   dy: 37.40191693292536
   length: 62.832
 module: pp.components.bend_euler
-name: bend_euler_2a6e40ff
+name: bend_euler_b69c13ae
 settings:
   angle: 90
   cross_section_factory: null
@@ -14,6 +14,6 @@ settings:
   npoints: 720
   p: 1
   radius: 20.0
-  tech: sin_c
+  tech: nitride_cband
   width: 1.0
   with_arc_floorplan: false

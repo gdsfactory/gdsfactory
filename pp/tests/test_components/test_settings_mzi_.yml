@@ -11,7 +11,7 @@ settings:
   length_y: 4.0
   pins: false
   splitter_settings: null
-  tech: si_c
+  tech: silicon_cband
   waveguide_horizontal: null
   waveguide_vertical: null
   with_splitter: true
