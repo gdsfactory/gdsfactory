@@ -24,11 +24,10 @@ from pydantic import validate_arguments
 
 - euler bends as default (with_arc_floorplan=True)
 - define bends and straighs by path and cross_section
-
-## 2.3.5
-
-- regression test for labels
+- tech file dataclass in pp.tech
 - added pp.pdk with tests
+- include notebooks in docs with nbsphinx
+- regression test for labels
 
 
 ## 2.3.4
