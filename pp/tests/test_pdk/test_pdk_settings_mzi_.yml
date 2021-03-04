@@ -1,0 +1,20 @@
+function_name: mzi
+info: {}
+module: pp.components.mzi
+name: mzi_b922d9a8
+settings:
+  bend90: bend_euler
+  bend_radius: 20.0
+  combiner: mmi1x2
+  combiner_settings: null
+  delta_length: 10.0
+  length_x: 0.1
+  length_y: 0.1
+  pins: false
+  splitter: mmi1x2
+  splitter_settings: null
+  tech: silicon_cband
+  waveguide: waveguide
+  waveguide_horizontal: waveguide
+  waveguide_vertical: waveguide
+  with_splitter: true

@@ -1,4 +1,5 @@
-""" adapted from phidl.Geometry
+"""Pack a list of components into as few components as possible.
+Adapted from phidl.Geometry.
 """
 
 from typing import Any, Dict, List, Tuple, Union
@@ -68,7 +69,7 @@ def _pack_single_bin(
         # Quit the loop if we've packed all the rectangles or reached the max size
         if len(rect_packer.rect_list()) == len(rect_dict):
             break
-        elif all(box_size >= max_size):
+        if all(box_size >= max_size):
             break
 
     # Separate packed from unpacked rectangles, make dicts of form {id:(x,y,w,h)}
@@ -82,7 +83,7 @@ def _pack_single_bin(
 
 
 def pack(
-    D_list: List[Component],
+    component_list: List[Component],
     spacing: Number = 10,
     aspect_ratio: Tuple[Number, Number] = (1, 1),
     max_size: Union[Coordinate, Tuple[None, None]] = (None, None),
@@ -93,7 +94,7 @@ def pack(
     """Pack a list of components into as few Components as possible.
 
     Args:
-        D_list: Must be a list or tuple of Components
+        component_list: Must be a list or tuple of Components
         spacing: Minimum distance between adjacent shapes
         aspect_ratio: (width, height) ratio of the rectangular bin
         max_size: Limits the size into which the shapes will be packed
@@ -114,13 +115,13 @@ def pack(
 
     # Convert Components to rectangles
     rect_dict = {}
-    for n, D in enumerate(D_list):
+    for n, D in enumerate(component_list):
         w, h = (D.size + spacing) / precision
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
                 "pack() failed because one of the objects (D)"
-                + "in `D_list` is has an x or y dimension larger than `max_size` and "
+                + "in `component_list` is has an x or y dimension larger than `max_size` and "
                 + "so cannot be packed"
             )
         rect_dict[n] = (w, h)
@@ -137,43 +138,71 @@ def pack(
         )
         packed_list.append(packed_rect_dict)
 
-    D_packed_list = []
+    components_packed_list = []
     for rect_dict in packed_list:
-        D_packed = Component()
+        packed = Component()
+        packed.settings["components"] = {}
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
-            d = D_packed.add_ref(D_list[n])
+            component = component_list[n]
+            d = packed.add_ref(component)
+            if hasattr(component, "settings"):
+                packed.settings["components"][component.name] = component.get_settings()
             d.center = (xcenter * precision, ycenter * precision)
-        D_packed_list.append(D_packed)
+        components_packed_list.append(packed)
 
-    return D_packed_list
+    return components_packed_list
 
 
 def test_pack() -> Component:
     import phidl.geometry as pg
 
-    D_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]
-    D_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(2)]
+    component_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]
+    component_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(2)]
 
-    D_packed_list = pack(
-        D_list,  # Must be a list or tuple of Components
+    components_packed_list = pack(
+        component_list,  # Must be a list or tuple of Components
         spacing=1.25,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
     )
-    c = D_packed_list[0]  # Only one bin was created, so we plot that
+    c = components_packed_list[0]  # Only one bin was created, so we plot that
     # print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 4
     return c
 
 
+def test_pack_with_settings() -> Component:
+    import pp
+
+    component_list = [pp.c.rectangle(size=(i, i)) for i in range(1, 10)]
+    component_list += [pp.c.rectangle(size=(i, i)) for i in range(1, 10)]
+
+    components_packed_list = pack(
+        component_list,  # Must be a list or tuple of Components
+        spacing=1.25,  # Minimum distance between adjacent shapes
+        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
+        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        density=1.05,  # Values closer to 1 pack tighter but require more computation
+        sort_by_area=True,  # Pre-sorts the shapes by area
+    )
+    c = components_packed_list[0]  # Only one bin was created, so we plot that
+    # print(len(c.get_dependencies()))
+    return c
+
+
 if __name__ == "__main__":
-    c = test_pack()
+    import pp
+
+    c = test_pack_with_settings()
+    # c = test_pack()
     c.show()
+    c.pprint()
+    pp.write_component(c, "mask.gds")
 
     # import phidl.geometry as pg
     # spacing = 1

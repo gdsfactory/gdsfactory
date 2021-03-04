@@ -9,7 +9,7 @@ import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Device, DeviceReference, Label, _parse_layer
+from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from pp.config import conf
 from pp.port import Port, select_ports
@@ -106,7 +106,7 @@ def _rotate_points(
     angle: Number = 45,
     center: Coordinate = (
         0.0,
-        0,
+        0.0,
     ),
 ) -> ndarray:
     """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
@@ -204,44 +204,6 @@ class ComponentReference(DeviceReference):
             new_reference.move(self.origin)
 
         return new_reference
-
-    def get_labels(
-        self, recursive: bool = True, associate_visual_labels: bool = True
-    ) -> List[Any]:
-        """
-        access all labels correctly rotated, mirrored and translated
-        """
-        # params = {
-        #     "recursive": recursive,
-        #     "associate_visual_labels": associate_visual_labels,
-        # }
-
-        labels_untransformed = self.parent.get_labels()
-
-        labels = []
-        visual_label = self.visual_label
-        for lbl in labels_untransformed:
-            p = lbl.position
-            position, _ = self._transform_port(
-                p, 0, self.origin, self.rotation, self.x_reflection
-            )
-
-            text = lbl.text
-            if visual_label and associate_visual_labels:
-                text += " / " + visual_label
-
-            new_lbl = Label(
-                text=text,
-                position=position,
-                anchor="o",
-                layer=lbl.layer,
-                texttype=lbl.texttype,
-            )
-
-            labels += [new_lbl]
-        if labels:
-            print("R", self.parent.name, len(labels))
-        return labels
 
     @property
     def ports(self) -> Dict[str, Port]:
@@ -787,6 +749,9 @@ class Component(Device):
         # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
         # d["hash_geometry"] = str(self.hash_geometry())
 
+        # if 'tech' in d['settings']:
+        #     d['tech']= getattr(self,'tech').dict()
+
         d = {k: d[k] for k in sorted(d)}
         return d
 
@@ -1009,7 +974,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.c.waveguide(layers_cladding=[(111, 0)])
+    c = pp.c.waveguide()
     assert c.get_layers() == {(1, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(1, 0)}
@@ -1072,14 +1037,14 @@ def _clean_value(value: Any) -> Any:
         value = float(value)
     elif callable(value):
         value = value.__name__
-    elif hasattr(value, "name"):
-        value = value.name
     elif isinstance(value, dict):
         clean_dict(value)
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
     elif value is None:
         value = None
+    elif hasattr(value, "name"):
+        value = value.name
     else:
         value = str(value)
 
@@ -1175,17 +1140,17 @@ if __name__ == "__main__":
     import pp
 
     c = pp.c.bend_circular()
-    c.info["curvature_info"] = 10
+    c.pprint()
+
+    # c.info["curvature_info"] = 10
     # c.curvature = 5
     # c.get_settings()
     # c.pprint(ignore=("length",))
     # c = pp.c.waveguide()
-    c.pprint()
 
     # c0 = pp.c.waveguide()
     # c = pp.c.waveguide(length=3.0)
     # c.info["c"] = c0
-    # c.pprint()
 
     # import matplotlib.pyplot as plt
 

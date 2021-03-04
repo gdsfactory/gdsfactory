@@ -22,7 +22,7 @@ from pp.components.waveguide_heater import waveguide_heater
 def test_cutback_heater() -> Component:
     # Define subcomponents
     bend_radius = 10.0
-    bend180 = bend_circular(radius=bend_radius, start_angle=-90, theta=180)
+    bend180 = bend_circular(radius=bend_radius, angle=180)
     wg = waveguide(length=5.0)
     wg_heater = waveguide_heater(length=20.0)
 

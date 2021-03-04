@@ -78,9 +78,9 @@ def container(func: Callable) -> Callable:
         new.settings["component"] = old.get_settings()
         new.function_name = func.__name__
 
-        # if no ports defined it takes
-        if len(new.ports) == 0:
-            new.ports = old.ports
+        # if no ports defined it takes old ports
+        # if len(new.ports) == 0:
+        #     new.ports = old.ports
 
         for key in propagate_attributes:
             if hasattr(old, key) and key not in old.ignore:

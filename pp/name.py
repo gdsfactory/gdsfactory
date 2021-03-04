@@ -145,6 +145,8 @@ def clean_value(value: Any) -> str:
         value = dict2name(**value)
     elif isinstance(value, Device):
         value = clean_name(value.name)
+    elif isinstance(value, object) and hasattr(value, "name"):
+        value = clean_name(value.name)
     elif callable(value):
         value = value.__name__
     else:
@@ -170,10 +172,13 @@ if __name__ == "__main__":
     # print(clean_value(pp.c.waveguide))
     # c = pp.c.waveguide(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
+    # print(clean_value(11.001))
+    # layers_cladding = (pp.LAYER.WGCLAD, pp.LAYER.NO_TILE_SI)
+    # layers_cladding = (pp.LAYER.WGCLAD,)
+    c = pp.c.waveguide(length=10)
+    c = pp.c.waveguide(length=10)
 
-    print(clean_value(11.001))
-    c = pp.c.waveguide(length=11.001)
-    print(c.name)
+    # print(c.name)
     # print(c)
     # c.show()
 

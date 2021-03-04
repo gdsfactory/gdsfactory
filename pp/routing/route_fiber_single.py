@@ -17,7 +17,7 @@ def route_fiber_single(
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
-    **kwargs
+    **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns routes with grating couplers for single fiber input/output.
 
@@ -26,7 +26,7 @@ def route_fiber_single(
         optical_io_spacing: between grating couplers
         grating_coupler:
         min_input2output_spacing: so opposite fibers do not touch
-        optical_routing_type: 0, 1, 2
+        optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
 
@@ -35,6 +35,9 @@ def route_fiber_single(
         grating_couplers: list of grating_couplers ComponentReferences
 
     """
+    if not component.get_ports_list(port_type="optical"):
+        raise ValueError(f"No ports for {component.name}")
+
     component = component.copy()
     component_copy = component.copy()
 
@@ -102,7 +105,7 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
-        **kwargs
+        **kwargs,
     )
 
     # route north ports
@@ -118,7 +121,8 @@ def route_fiber_single(
         optical_io_spacing=optical_io_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
-        **kwargs
+        optical_routing_type=optical_routing_type,
+        **kwargs,
     )
     for e in elements_north:
         if isinstance(e, list):
@@ -138,11 +142,13 @@ if __name__ == "__main__":
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
-    # c = pp.c.crossing()
-    # c = pp.c.mmi2x2()
-    # c = pp.c.ring_double()  # FIXME
-    c = pp.c.cross(length=500)
     c = pp.c.waveguide(width=2, length=500)
+    c = pp.c.cross(length=500)
+    c = pp.c.ring_double()
+    c = pp.c.mmi2x2()
+    c = pp.c.crossing()
+    c = pp.c.mzi2x2()
+    c = pp.c.rectangle()
 
     elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 

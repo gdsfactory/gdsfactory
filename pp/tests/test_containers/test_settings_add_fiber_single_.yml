@@ -15,15 +15,17 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
+      tech: silicon_cband
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
+  get_input_labels_function: get_input_labels
   grating_coupler: grating_coupler_te
   layer_label:
   - 201
   - 0
-  min_input2output_spacing: 127
-  optical_io_spacing: 50
+  min_input2output_spacing: 127.0
+  optical_io_spacing: 50.0
   optical_routing_type: 2
   route_filter: get_route_from_waypoints
   straight_factory: waveguide

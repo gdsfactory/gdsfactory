@@ -6,10 +6,11 @@ from numpy import bool_, ndarray
 import pp
 from pp.component import Component, ComponentReference
 from pp.components import waveguide
+from pp.components.bend_euler import bend_euler
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
-from pp.types import Coordinate, Coordinates, Number, Route
+from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -436,16 +437,18 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 def round_corners(
     points: Coordinates,
-    bend90: Component,
     straight_factory: Callable,
     taper: Optional[Callable] = None,
     straight_factory_fall_back_no_taper: Optional[Callable] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
+    bend_factory: ComponentFactory = bend_euler,
 ) -> Route:
-    """Return dict with reference list with rounded waveguide route from a list of manhattan points.
-    Also returns a dict of ports
-    As well as settings
+    """Returns Dict:
+
+    - references list with rounded waveguide route from a list of manhattan points.
+    - ports: Dict of ports
+    - length: route length
 
     Args:
         points: manhattan route defined by waypoints
@@ -458,6 +461,8 @@ def round_corners(
     """
     references = []
     ports = dict()
+    bend90 = bend_factory() if callable(bend_factory) else bend_factory
+    taper = taper() if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -477,11 +482,12 @@ def round_corners(
     p1 = points[1]
 
     total_length = 0  # Keep track of the total path length
+    # bend_length = getattr(bend90, "length", 0)
 
-    if "length" in bend90.info:
-        bend_length = bend90.info["length"]
-    else:
-        bend_length = 0
+    if not hasattr(bend90, "length"):
+        raise ValueError(f"bend {bend90} needs to have bend.length defined")
+
+    bend_length = bend90.length
 
     dp = p1 - p0_straight
     a0 = None
@@ -599,41 +605,29 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    bend90: Optional[Component] = None,
-    bend_radius: None = None,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_radius: float = 10.0,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     **kwargs,
 ) -> ndarray:
-    """Return waypoints for a Manhattan route between two ports.
+    """Return waypoints for a Manhattan route between two ports."""
 
-    """
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
 
-    if bend90 is None and bend_radius is None:
-        raise ValueError(
-            f"Either bend90 or bend_radius must be set. \
-        Got bend0={bend90} bend_radius={bend_radius}"
-        )
+    pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
 
-    if bend90 is not None and bend_radius is not None:
-        raise ValueError(
-            f"Either bend90 or bend_radius must be set. \
-        Got bend0={bend90} bend_radius={bend_radius}"
-            "Make sure that you only set one of them."
-        )
-
-    if bend90:
-        pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
-        p1 = bend90.ports[pname_west].midpoint
-        p2 = bend90.ports[pname_north].midpoint
-
-        bsx = p2[0] - p1[0]
-        bsy = p2[1] - p1[1]
-
-    elif bend_radius:
-        bsx = bend_radius
-        bsy = bend_radius
+    if hasattr(bend90, "dx"):
+        # p1 = bend90.ports[pname_west].midpoint
+        # p2 = bend90.ports[pname_north].midpoint
+        # bsx = p2[0] - p1[0]
+        # bsy = p2[1] - p1[1]
+        bsy = bsx = bend90.dx
+    else:
+        bsx = bsy = 0
 
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
@@ -644,27 +638,31 @@ def generate_manhattan_waypoints(
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    bend90: Component,
     straight_factory: Callable,
     taper: None = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
+    bend_factory: ComponentFactory = bend_euler,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the waveguide, taper and bend references that define the route.
     """
-    bend90 = pp.call_if_func(bend90)
 
     points = generate_manhattan_waypoints(
         input_port,
         output_port,
-        bend90=bend90,
         start_straight=start_straight,
         end_straight=end_straight,
         min_straight=min_straight,
+        bend_factory=bend_factory,
     )
-    return round_corners(points, bend90, straight_factory, taper)
+    return round_corners(
+        points=points,
+        straight_factory=straight_factory,
+        taper=taper,
+        bend_factory=bend_factory,
+    )
 
 
 def test_manhattan() -> Component:
@@ -695,12 +693,12 @@ def test_manhattan() -> Component:
 
         bend = bend_circular(radius=5.0)
         route = route_manhattan(
-            input_port,
-            output_port,
-            bend,
-            waveguide,
+            input_port=input_port,
+            output_port=output_port,
+            straight_factory=waveguide,
             start_straight=5.0,
             end_straight=5.0,
+            bend_factory=bend,
         )
 
         top_cell.add(route["references"])
@@ -709,5 +707,5 @@ def test_manhattan() -> Component:
 
 
 if __name__ == "__main__":
-    top_cell = test_manhattan()
-    pp.show(top_cell)
+    c = test_manhattan()
+    c.show()

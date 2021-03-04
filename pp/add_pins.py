@@ -59,7 +59,9 @@ def _add_pin_triangle(
     polygon = [p0, p1, ptip]
 
     component.add_label(
-        text=p.name, position=p.midpoint, layer=label_layer,
+        text=p.name,
+        position=p.midpoint,
+        layer=label_layer,
     )
 
     component.add_polygon(polygon, layer=layer)
@@ -172,7 +174,9 @@ def _add_pin_square(
 
     if label_layer:
         component.add_label(
-            text=str(p.name), position=p.midpoint, layer=label_layer,
+            text=str(p.name),
+            position=p.midpoint,
+            layer=label_layer,
         )
 
 
@@ -257,7 +261,9 @@ def _add_instance_label(
     y = pp.snap_to_grid(reference.y)
 
     component.add_label(
-        text=instance_name, position=(x, y), layer=layer,
+        text=instance_name,
+        position=(x, y),
+        layer=layer,
     )
 
 
@@ -278,7 +284,7 @@ def _add_pins_labels_and_outline(
     Args:
         component: where to add the markers
         pins_function: function to add pins to ports
-        add_outline_function: function to add outline around the device
+        add_outline_function: function to add outline around the component
 
     """
     if add_outline_function:

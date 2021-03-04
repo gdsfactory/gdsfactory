@@ -13,8 +13,8 @@ def ring_single_array(
     waveguide_function: ComponentFactory = waveguide,
     spacing: float = 5.0,
     list_of_dicts: Tuple[Dict[str, float], ...] = (
-        dict(length_x=10.0, bend_radius=5.0),
-        dict(length_x=20.0, bend_radius=10.0),
+        dict(length_x=10.0, radius=5.0),
+        dict(length_x=20.0, radius=10.0),
     ),
 ) -> Component:
     """Ring of single bus connected with waveguides.

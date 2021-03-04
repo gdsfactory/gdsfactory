@@ -82,7 +82,7 @@ def netlist_to_component(
     ports_map: Dict[str, Tuple[str, str]] = None,
     position: Coordinate = (0.0, 0.0),
 ) -> Component:
-    """ Netlist_to_component is deprecated! use pp.componet_from_yaml instead
+    """Netlist_to_component is deprecated! use pp.componet_from_yaml instead
     Returns a component from a netlist (instances, connections and ports map)
 
     Args:
@@ -208,20 +208,3 @@ def netlist_to_component(
     )
     c.netlist = netlist
     return c
-
-
-def test_netlist_ring() -> Component:
-    from pp.components.ring_single_bus import ring_single_bus_netlist
-
-    instances, connections, ports_map = ring_single_bus_netlist()
-    c = netlist_to_component(instances, connections, ports_map)
-    # print((c.get_dependencies()))
-    # print(len(c.get_dependencies()))
-    assert len(c.get_dependencies()) == 4
-    return c
-
-
-if __name__ == "__main__":
-
-    component = test_netlist_ring()
-    component.show()

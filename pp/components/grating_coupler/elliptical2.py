@@ -10,7 +10,7 @@ from pp.components.waveguide_template import wg_strip
 from pp.config import conf
 from pp.picwriter2component import picwriter2component
 from pp.port import deco_rename_ports
-from pp.types import ComponentFactory, Coordinate, Layer
+from pp.types import ComponentFactory, Coordinate, Coordinates, Layer
 
 
 @deco_rename_ports
@@ -28,10 +28,10 @@ def grating_coupler_elliptical2(
     layer_ridge: Optional[Layer] = None,
     layer_core: Layer = pp.LAYER.WG,
     layer_cladding: Layer = pp.LAYER.WGCLAD,
-    teeth_list: Optional[bool] = None,
+    teeth_list: Optional[Coordinates] = None,
     direction: str = "EAST",
     polarization: str = "te",
-    wavelength_nm: str = 1550,
+    wavelength_nm: float = 1550.0,
     **kwargs
 ) -> Component:
     r"""Returns Grating coupler from Picwriter
@@ -39,15 +39,15 @@ def grating_coupler_elliptical2(
     Args:
         wgt: waveguide_template object or function
         theta: Angle of the waveguide in rad.
-        length: Length of the total grating coupler region, measured from the output port.
+        length: total grating coupler region.
         taper_length: Length of the taper before the grating coupler.
-        period: Grating period.  Defaults to 1.0
-        dutycycle: dutycycle, determines the size of the 'gap' by dutycycle=(period-gap)/period.
+        period: Grating period.
+        dutycycle: (period-gap)/period.
         port: Cartesian coordinate of the input port
-        layer_ridge :  adds another layer to the grating coupler that can be used for partial etched gratings
-        layer_core : Tuple specifying the layer/datatype of the ridge region.
+        layer_ridge: for partial etched gratings
+        layer_core: Tuple specifying the layer/datatype of the ridge region.
         layer_cladding: for the waveguide.
-        teeth_list: Can optionally pass a list of (gap, width) tuples to be used as the gap and teeth widths
+        teeth_list: (gap, width) tuples to be used as the gap and teeth widths
             for irregularly spaced gratings.
             For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
             then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.

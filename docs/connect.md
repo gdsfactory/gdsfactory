@@ -21,7 +21,7 @@ You can connect:
         coupler90=pp.c.coupler90,
         coupler_straight=pp.c.coupler_straight,
         waveguide=pp.c.waveguide,
-        bend=pp.c.bend_circular,
+        bend=pp.c.bend_euler,
         length_y=2.0,
         length_x=4.0,
         gap=0.2,
@@ -63,6 +63,6 @@ You can connect:
 
 
     c = ring()
-    pp.show(c)
-    pp.plotgds(c)
+    c.show()
+    c.plot()
 ```

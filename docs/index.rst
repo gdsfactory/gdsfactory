@@ -7,6 +7,7 @@ Gdsfactory
 
    README
    component_intro
+   notebooks
    types
    config
    layers
@@ -21,11 +22,9 @@ Gdsfactory
    yaml
    placer_yaml
    placer
-   gdslib
    tests
    gdsdiff
    pp
    shapes
    components
    contribution
-   CHANGELOG

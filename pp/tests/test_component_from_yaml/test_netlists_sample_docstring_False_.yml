@@ -1,18 +1,18 @@
 connections:
-  bend_circular_R10_W500n_40.115_-5.5,N0: waveguide_L8p75_W500n_44.99_-15.0,W0
-  bend_circular_R10_W500n_40.115_-5.5,W0: waveguide_L9p99_W500n_29.995_-0.625,E0
-  bend_circular_R10_W500n_49.865_-24.5,N0: waveguide_L10n_W500n_54.995_-29.375,W0
-  bend_circular_R10_W500n_49.865_-24.5,W0: waveguide_L8p75_W500n_44.99_-15.0,E0
-  mmi_bot,W0: waveguide_L10n_W500n_54.995_-29.375,E0
-  mmi_top,E0: waveguide_L9p99_W500n_29.995_-0.625,W0
+  bend_euler_R10_W500n_51.615_-4.0,N0: waveguide_L18p75_W500n_54.99_-20.0,W0
+  bend_euler_R10_W500n_51.615_-4.0,W0: waveguide_L19p99_W500n_34.995_-0.625,E0
+  bend_euler_R10_W500n_58.365_-36.0,N0: waveguide_L10n_W500n_64.995_-39.375,W0
+  bend_euler_R10_W500n_58.365_-36.0,W0: waveguide_L18p75_W500n_54.99_-20.0,E0
+  mmi_bot,W0: waveguide_L10n_W500n_64.995_-39.375,E0
+  mmi_top,E0: waveguide_L19p99_W500n_34.995_-0.625,W0
 instances:
-  bend_circular_R10_W500n_40.115_-5.5:
-    component: bend_circular
+  bend_euler_R10_W500n_51.615_-4.0:
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.5
-  bend_circular_R10_W500n_49.865_-24.5:
-    component: bend_circular
+  bend_euler_R10_W500n_58.365_-36.0:
+    component: bend_euler
     settings:
       radius: 10.0
       width: 0.5
@@ -26,54 +26,54 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  waveguide_L10n_W500n_54.995_-29.375:
+  waveguide_L10n_W500n_64.995_-39.375:
     component: waveguide
     settings:
       length: 0.01
       width: 0.5
-  waveguide_L8p75_W500n_44.99_-15.0:
+  waveguide_L18p75_W500n_54.99_-20.0:
     component: waveguide
     settings:
-      length: 8.75
+      length: 18.75
       width: 0.5
-  waveguide_L9p99_W500n_29.995_-0.625:
+  waveguide_L19p99_W500n_34.995_-0.625:
     component: waveguide
     settings:
-      length: 9.99
+      length: 19.99
       width: 0.5
 name: sample_docstring
 placements:
-  bend_circular_R10_W500n_40.115_-5.5:
+  bend_euler_R10_W500n_51.615_-4.0:
     mirror: true
     rotation: 0
-    x: 34.99
+    x: 44.99
     y: -0.625
-  bend_circular_R10_W500n_49.865_-24.5:
+  bend_euler_R10_W500n_58.365_-36.0:
     mirror: false
     rotation: 270
-    x: 44.99
-    y: -19.375
+    x: 54.99
+    y: -29.375
   mmi_bot:
     mirror: false
     rotation: 0
-    x: 70.0
-    y: -29.375
+    x: 80.0
+    y: -39.375
   mmi_top:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.0
-  waveguide_L10n_W500n_54.995_-29.375:
+  waveguide_L10n_W500n_64.995_-39.375:
     mirror: false
     rotation: 0
-    x: 54.99
-    y: -29.375
-  waveguide_L8p75_W500n_44.99_-15.0:
+    x: 64.99
+    y: -39.375
+  waveguide_L18p75_W500n_54.99_-20.0:
     mirror: false
     rotation: 270
-    x: 44.99
+    x: 54.99
     y: -10.625
-  waveguide_L9p99_W500n_29.995_-0.625:
+  waveguide_L19p99_W500n_34.995_-0.625:
     mirror: false
     rotation: 0
     x: 25.0

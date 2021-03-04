@@ -13,6 +13,7 @@ settings:
   - 0
   length: 10.0
   sstw: 2.0
+  tech: silicon_cband
   trench_keep_out: 2.0
   trench_width: 0.5
   trenches:

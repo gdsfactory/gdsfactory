@@ -18,7 +18,6 @@ settings:
   fanout_length: 85.0
   gc_port_name: W0
   get_input_labels_function: get_input_labels
-  get_route_factory: route_fiber_array
   grating_coupler: grating_coupler_elliptical_te
   layer_label:
   - 201
@@ -27,7 +26,8 @@ settings:
   optical_routing_type: 0
   straight_factory: waveguide
   taper_factory: null
-  taper_length: 10.0
+  taper_length: null
+  tech: silicon_cband
   waveguide_spacing: 4
   with_align_ports: false
   with_loop_back: false

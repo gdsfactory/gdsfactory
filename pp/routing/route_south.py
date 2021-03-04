@@ -1,13 +1,16 @@
-from typing import Callable, List, Optional
+from typing import List, Optional
 
 import numpy as np
 import phidl.device_layout as pd
 
 from pp.component import Component, ComponentReference
+from pp.components import taper as taper_function
+from pp.components import waveguide
+from pp.components.bend_euler import bend_euler
 from pp.config import conf
-from pp.routing.get_route import get_route, get_route_from_waypoints
+from pp.routing.get_route import get_route
 from pp.routing.utils import direction_ports_from_list_ports, flip
-from pp.types import Number, Route
+from pp.types import ComponentFactory, Number, Route
 
 
 def route_south(
@@ -17,9 +20,10 @@ def route_south(
     excluded_ports: List[str] = None,
     waveguide_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    route_filter: Callable = get_route_from_waypoints,
-    get_route_function: Callable = get_route,
     gc_port_name: str = "E0",
+    bend_factory: ComponentFactory = bend_euler,
+    straight_factory: ComponentFactory = waveguide,
+    taper_factory: Optional[ComponentFactory] = taper_function,
 ) -> Route:
     """
     Args:
@@ -34,7 +38,6 @@ def route_south(
             function will be connected. Supplying this information helps
             avoiding waveguide collisions
 
-        get_route_function: routing method to connect the waveguides
         gc_port_name: grating port name
 
     Returns:
@@ -58,16 +61,25 @@ def route_south(
     csi = component.size_info
     references = []
     lengths = []
+    bend90 = (
+        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+    )
+    dy = abs(bend90.dy)
 
     # Handle empty list gracefully
     if not optical_ports:
         return [], []
 
-    conn_params = dict(bend_radius=bend_radius)
+    conn_params = dict(
+        bend_radius=bend_radius,
+        bend_factory=bend_factory,
+        straight_factory=straight_factory,
+        taper_factory=taper_factory,
+    )
 
     # Used to avoid crossing between waveguides in special cases
-    # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
-    delta_gr_min = 2 * bend_radius + 1
+    # This could happen when abs(x_port - x_grating) <= 2 * dy
+    delta_gr_min = 2 * dy + 1
 
     sep = waveguide_separation
 
@@ -94,10 +106,9 @@ def route_south(
 
         return new_p
 
-    R = bend_radius
     west_ports.reverse()
 
-    y0 = min([p.y for p in ordered_ports]) - R - 0.5
+    y0 = min([p.y for p in ordered_ports]) - dy - 0.5
 
     ports_to_route = []
 
@@ -116,10 +127,10 @@ def route_south(
     # Set starting ``x`` on the west side
     if optical_routing_type == 1:
         # use component size to know how far to route
-        x = csi.west - R - 1
+        x = csi.west - dy - 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
-        x = x_optical_min - R - 1
+        x = x_optical_min - dy - 1
     else:
         raise ValueError("Invalid optical routing type")
 
@@ -141,7 +152,7 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p)
         ports_to_route.append(tmp_port)
-        route = get_route_function(p, tmp_port, **conn_params)
+        route = get_route(input_port=p, output_port=tmp_port, **conn_params)
         references.extend(route["references"])
         lengths.append(route["length"])
         x -= sep
@@ -157,8 +168,11 @@ def route_south(
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p)
 
-            route = get_route_function(
-                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
+            route = get_route(
+                input_port=p,
+                output_port=tmp_port,
+                start_straight=start_straight + y_max - p.y,
+                **conn_params,
             )
             references.extend(route["references"])
             lengths.append(route["length"])
@@ -170,10 +184,10 @@ def route_south(
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
         #  use component size to know how far to route
-        x = csi.east + R + 1
+        x = csi.east + dy + 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
-        x = x_optical_max + R + 1
+        x = x_optical_max + dy + 1
     else:
         raise ValueError(
             f"Invalid optical routing type. Got {optical_routing_type}, only (1, 2 supported) "
@@ -198,9 +212,7 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p)
-        route = get_route_function(
-            p, tmp_port, start_straight=start_straight, **conn_params
-        )
+        route = get_route(p, tmp_port, start_straight=start_straight, **conn_params)
 
         references.extend(route["references"])
         lengths.append(route["length"])
@@ -216,8 +228,11 @@ def route_south(
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p)
             ports_to_route.append(tmp_port)
-            route = get_route_function(
-                p, tmp_port, start_straight=start_straight + y_max - p.y, **conn_params,
+            route = get_route(
+                input_port=p,
+                output_port=tmp_port,
+                start_straight=start_straight + y_max - p.y,
+                **conn_params,
             )
             references.extend(route["references"])
             lengths.append(route["length"])
@@ -233,14 +248,18 @@ def route_south(
 if __name__ == "__main__":
     import pp
 
+    c = pp.c.mzi2x2()
     c = pp.c.mmi2x2()
-    route = route_south(c)
-    for e in route["references"]:
+    c = pp.c.ring_single()
+    c = pp.c.ring_double()
+    r = route_south(c)
+    r = route_south(c, bend_factory=pp.c.bend_euler, bend_radius=20)
+    for e in r["references"]:
         if isinstance(e, list):
             print(len(e))
             print(e)
         # print(e)
         c.add(e)
 
-    print(route["lengths"])
+    print(r["lengths"])
     c.show()

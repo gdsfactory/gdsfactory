@@ -126,7 +126,7 @@ def write_doe(
     component_factory: Dict[str, Callable] = component_factory,
     **kwargs,
 ) -> List[Path]:
-    """writes each device GDS, together with metadata for each device:
+    """writes each component GDS, together with metadata for each component:
     Returns a list of gdspaths
 
     - .gds geometry for each component

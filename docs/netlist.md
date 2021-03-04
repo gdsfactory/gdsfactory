@@ -56,8 +56,8 @@ The code below illustrates how a simple MZI can be formed using this method.
     """
 
     c = pp.component_from_yaml(yaml)
-    pp.show(c)
-    pp.plotgds(c)
+    c.show()
+    c.plot()
 ```
 
 Exporting connectivity map from a GDS is the first step towards verification.
@@ -72,7 +72,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
 
     import pp
     c = pp.c.mzi()
-    pp.qp(c)
+    c.plot()
 ```
 
 ```eval_rst

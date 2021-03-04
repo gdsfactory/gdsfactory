@@ -3,7 +3,7 @@ info: {}
 module: pp.components.mzi
 name: mzi
 settings:
-  bend_radius: 10.0
+  bend_radius: null
   combiner: null
   combiner_settings: null
   delta_length: 10.0
@@ -11,6 +11,7 @@ settings:
   length_y: 4.0
   pins: false
   splitter_settings: null
+  tech: silicon_cband
   waveguide_horizontal: null
   waveguide_vertical: null
   with_splitter: true

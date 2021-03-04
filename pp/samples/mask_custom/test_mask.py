@@ -1,6 +1,4 @@
-"""
-This is a sample on how to define custom components.
-You can make a repo out of this file, having one custom component per file
+"""This is a sample on how to define custom components.
 """
 import os
 import shutil
@@ -33,7 +31,6 @@ def add_te(component, **kwargs):
         **kwargs,
     )
     c.test = "passive_optical_te"
-    c = add_padding_to_grid(c)
     return c
 
 
@@ -42,7 +39,6 @@ def add_tm(component, **kwargs):
         component,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         route_filter=_route_filter,
-        bend_radius=20,
         **kwargs,
     )
     c = add_padding_to_grid(c)
@@ -50,22 +46,22 @@ def add_tm(component, **kwargs):
 
 
 @pp.cell
-def coupler_te(gap, length, wg_width=0.5, nominal_wg_width=0.5):
-    """ sample of component cutback """
-    c = pp.c.coupler(wg_width=wg_width, gap=gap, length=length)
+def coupler_te(gap, length):
+    """Sample of component cutback."""
+    c = pp.c.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
 
 @pp.cell
-def spiral_te(wg_width=0.5, length=2):
-    """ sample of component cutback
+def spiral_te(wg_width=0.5, length_cm=2):
+    """Waveguide Spiral for waveguide loss.
 
     Args:
         wg_width: um
         lenght: mm
     """
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length)
+    c = spiral_inner_io_euler(wg_width=wg_width, length=length_cm)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
@@ -75,9 +71,9 @@ def spiral_te(wg_width=0.5, length=2):
 
 
 @pp.cell
-def spiral_tm(wg_width=0.5, length=2):
-    """ sample of component cutback """
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length, dx=10, dy=10, N=5)
+def spiral_tm(wg_width=0.5, length_cm=2):
+    """Waveguide Spiral for waveguide loss."""
+    c = spiral_inner_io_euler(wg_width=wg_width, length=length_cm, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
@@ -145,9 +141,12 @@ def test_mask(precision: float = 2e-9) -> Path:
 
 
 if __name__ == "__main__":
-    # from pprint import pprint
-    # pprint(component_factory)
-    c = test_mask()
-    pp.klive.show(c)
-    # c = coupler_te(gap=0.3, length=20)
+    gdspath_mask = test_mask()
+    pp.show(gdspath_mask)
+    # c = coupler_te(gap=0.3, length=2.)
+    # c = spiral_te(length_cm=6.)
     # c.show()
+
+    # lengths = [18.24, 36.48, 54.72, 72.96, 91.2]
+    # for length in lengths:
+    #     c = coupler_te(gap=0.3, length=length)

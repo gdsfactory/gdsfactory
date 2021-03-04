@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import Iterable, Optional, Tuple
 
 import numpy as np
 
@@ -26,10 +26,10 @@ def get_padding_points(
         left: west padding
     """
     c = component
-    top = top if top else default
-    bottom = bottom if bottom else default
-    right = right if right else default
-    left = left if left else default
+    top = top if top is not None else default
+    bottom = bottom if bottom is not None else default
+    right = right if right is not None else default
+    left = left if left is not None else default
     return [
         [c.xmin - left, c.ymin - bottom],
         [c.xmax + right, c.ymin - bottom],
@@ -74,7 +74,7 @@ def add_padding_to_grid(
     x: int = 10,
     y: int = 10,
     bottom_padding: int = 5,
-    layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (pp.LAYER.PADDING),
+    layers: Iterable[Tuple[int, int]] = (pp.LAYER.PADDING,),
     suffix: str = "p",
 ) -> Component:
     """returns component width a padding layer on each side

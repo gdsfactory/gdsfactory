@@ -1,0 +1,18 @@
+function_name: taper
+info:
+  length: 20.0
+  width1: 1.0
+  width2: 1.0
+module: pp.components.taper
+name: taper_5420157d
+settings:
+  cladding_offset: null
+  layer:
+  - 34
+  - 0
+  layers_cladding: null
+  length: 20.0
+  port: null
+  tech: nitride_cband
+  width1: 1.0
+  width2: 1.0

@@ -1,162 +1,57 @@
 """Straight waveguides"""
-import hashlib
-from typing import Iterable, List, Optional, Tuple
+from typing import Optional
 
-import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.hline import hline
+from pp.cross_section import CrossSectionFactory, strip
+from pp.path import component, straight
 from pp.snap import snap_to_grid
-from pp.types import Layer, Number
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import Layer
 
 
 @cell
 def waveguide(
-    length: Number = 10.0,
-    width: Number = 0.5,
-    layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
-    cladding_offset: Number = pp.conf.tech.cladding_offset,
+    length: float = 10.0,
+    npoints: int = 2,
+    width: float = TECH_SILICON_C.wg_width,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
-    """Straight waveguide
+    """Returns a Straight waveguide.
 
     Args:
-        length: in X direction
-        width: in Y direction
-        layer
-        layers_cladding
-        cladding_offset
+        length: of straight
+        npoints: number of points
+        width: waveguide width
+        layer: layer for
+        cross_section_factory: function that returns a cross_section
+        tech: Technology with default
 
     .. plot::
       :include-source:
 
       import pp
 
-      c = pp.c.waveguide(length=10, width=0.5)
+      c = pp.c.waveguide(length=10)
       c.plot()
 
     """
-    c = Component()
-    w = width / 2
-    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
+    cross_section_factory = cross_section_factory or strip
+    tech = tech or TECH_SILICON_C
 
-    wc = w + cladding_offset
-
-    if layers_cladding:
-        for layer_cladding in layers_cladding:
-            c.add_polygon(
-                [(0, -wc), (length, -wc), (length, wc), (0, wc)], layer=layer_cladding
-            )
-
-    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
-
+    p = straight(length=length, npoints=npoints)
+    cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
+    c = component(p, cross_section)
     c.width = width
     c.length = snap_to_grid(length)
     return c
 
 
-@cell
-def waveguide_biased(width: Number = 0.5, **kwargs) -> Component:
-    """Waveguide with etch bias"""
-    width = pp.bias.width(width)
-    return waveguide(width=width, **kwargs)
-
-
-def _arbitrary_straight_waveguide(
-    length: Number, windows: List[Tuple[Number, Number, Layer]]
-) -> Component:
-    """
-    Args:
-        length: length
-        windows: [(y_start, y_stop, layer), ...]
-    """
-    md5 = hashlib.md5()
-    for e in windows:
-        md5.update(str(e).encode())
-
-    component = Component()
-    component.name = "ARB_SW_L{}_HASH{}".format(length, md5.hexdigest())
-    y_min, y_max, layer0 = windows[0]
-    y_min, y_max = min(y_min, y_max), max(y_min, y_max)
-
-    # Add one port on each side centered at y=0
-    for y_start, y_stop, layer in windows:
-        w = abs(y_stop - y_start)
-        y = (y_stop + y_start) / 2
-        _wg = hline(length=length, width=w, layer=layer).ref()
-        _wg.movey(y)
-        component.add(_wg)
-        component.absorb(_wg)
-        y_min = min(y_stop, y_start, y_min)
-        y_max = max(y_stop, y_start, y_max)
-    width = y_max - y_min
-
-    component.add_port(
-        name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer0
-    )
-    component.add_port(
-        name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer0
-    )
-
-    return component
-
-
-@cell
-def waveguide_slab(length=10.0, width=0.5, cladding=2.0, slab_layer=pp.LAYER.SLAB150):
-    """Waveguide with thinner top Silicon."""
-    ymin = width / 2
-    ymax = ymin + cladding
-    windows = [(-ymin, ymin, pp.LAYER.WG), (-ymax, ymax, slab_layer)]
-    return _arbitrary_straight_waveguide(length=length, windows=windows)
-
-
-@cell
-def waveguide_trenches(
-    length=10.0,
-    width=0.5,
-    layer=pp.LAYER.WG,
-    trench_width=3.0,
-    trench_offset=0.2,
-    trench_layer=pp.LAYER.SLAB90,
-):
-    """Waveguide with trenches on both sides."""
-    w = width / 2
-    ww = w + trench_width
-    wt = ww + trench_offset
-    windows = [(-ww, ww, layer), (-wt, -w, trench_layer), (w, wt, trench_layer)]
-    return _arbitrary_straight_waveguide(length=length, windows=windows)
-
-
-@cell
-def waveguide_slot(length=10.0, width=0.5, gap=0.2, layer=pp.LAYER.WG):
-    """Waveguide with a slot in the middle."""
-    gap = pp.bias.gap(gap)
-    a = width / 2
-    d = a + gap / 2
-
-    windows = [(-a - d, a - d, layer), (-a + d, a + d, layer)]
-    return _arbitrary_straight_waveguide(length=length, windows=windows)
-
-
 if __name__ == "__main__":
-    c = waveguide(length=0.3)
+    # c = waveguide(length=10, width=10, tech=TECH_METAL1, layer=TECH_METAL1.layer_wg)
+    c = waveguide(length=10.0)
     # c.pprint()
-
-    # print(c.name)
-    # print(c.settings)
-    # print(c.settings_changed)
-    # pp.write_gds(c)
-    # print(c.hash_geometry())
-
     # print(c.ports)
-    # cc = pp.routing.add_fiber_array(c)
-    # cc.show()
-
-    # c = waveguide_slab()
-    # c = waveguide_trenches()
-    # c = waveguide()
-    # c = waveguide_slot()
-    # c = waveguide_slot(length=11.2, width=0.5)
-    # c = waveguide_slot(length=11.2, width=0.5)
-    # c.show()
+    c.show()

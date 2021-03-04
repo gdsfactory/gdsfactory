@@ -25,7 +25,8 @@ def test_mask():
     mask_path.mkdir(parents=True, exist_ok=True)
 
     generate_does(
-        str(does_path), doe_root_path=doe_root_path,
+        str(does_path),
+        doe_root_path=doe_root_path,
     )
     top_level = place_from_yaml(does_path, root_does=doe_root_path)
     top_level.write(str(gdspath))
@@ -35,5 +36,7 @@ def test_mask():
 
 
 if __name__ == "__main__":
+    import pp
+
     c = test_mask()
-    c.show()
+    pp.show(c)

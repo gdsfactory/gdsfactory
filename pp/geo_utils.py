@@ -24,8 +24,7 @@ def area(pts: ndarray) -> float64:
 
 
 def manhattan_direction(p0, p1, tol=1e-5):
-    """
-    """
+    """"""
     dp = p1 - p0
     dx, dy = dp[0], dp[1]
     if abs(dx) < tol:
@@ -177,7 +176,7 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """
+    """Deprecated. Use pp.path
     Extrude a path of width `width` along a curve defined by `points`
 
     Args:

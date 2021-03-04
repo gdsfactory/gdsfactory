@@ -1,22 +1,23 @@
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, Optional
 
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.config import TAPER_LENGTH
 from pp.port import Port
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import Layer, Number
 
 
 @cell
 def taper(
-    length: Number = TAPER_LENGTH,
-    width1: Number = 0.5,
-    width2: Optional[Number] = None,
+    length: float = TECH_SILICON_C.taper_length,
+    width1: float = TECH_SILICON_C.wg_width,
+    width2: Optional[float] = None,
     port: Optional[Port] = None,
-    layer: Tuple[int, int] = pp.LAYER.WG,
-    layers_cladding: Iterable[Layer] = None,
-    cladding_offset: Number = 3.0,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    layers_cladding: Optional[Iterable[Layer]] = None,
+    cladding_offset: Optional[float] = None,
+    tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Linear taper.
 
@@ -25,9 +26,10 @@ def taper(
         width1:
         width2:
         port: can taper from a port instead of defining width1
-        layer:
+        layer: layer
         layers_cladding:
-        cladding_offset:
+        cladding_offset
+        tech: Technology with default values
 
     .. plot::
       :include-source:
@@ -38,7 +40,8 @@ def taper(
       c.plot()
 
     """
-    layers_cladding = layers_cladding or []
+    o = cladding_offset or getattr(tech, "cladding_offset", 0)
+    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
     if isinstance(port, pp.Port) and width1 is None:
         width1 = port.width
     if width2 is None:
@@ -55,7 +58,6 @@ def taper(
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
 
-    o = cladding_offset
     ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
 
     for layer in layers_cladding:
@@ -154,7 +156,7 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1, layers_cladding=[pp.LAYER.WGCLAD])
+    c = taper(width2=1)
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()

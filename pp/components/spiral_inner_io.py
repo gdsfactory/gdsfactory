@@ -13,7 +13,7 @@ from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH
-from pp.routing import round_corners
+from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
 from pp.types import ComponentFactory, Number
 
@@ -168,7 +168,7 @@ def spiral_inner_io(
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_west = round_corners(
-        pts_w, bend90=_bend90, straight_factory=straight_factory, taper=taper
+        pts_w, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
     component.add(route_west["references"])
 
@@ -199,7 +199,7 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_east = round_corners(
-        pts_e, bend90=_bend90, straight_factory=straight_factory, taper=taper
+        pts_e, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
     component.add(route_east["references"])
 

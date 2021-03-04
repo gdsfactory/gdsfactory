@@ -8,12 +8,9 @@ from pp.component import Component
 def test_remove_layers() -> Component:
     c = pp.Component("test_remove_layers")
 
-    wg1 = c << pp.c.waveguide(length=10, width=1, layer=pp.LAYER.WG)
-    wg2 = c << pp.c.waveguide(length=10, width=2, layer=pp.LAYER.SLAB90)
-    wg3 = c << pp.c.waveguide(length=10, width=3, layer=pp.LAYER.SLAB150)
-
-    wg2.connect(port="W0", destination=wg1.ports["E0"])
-    wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)
+    c.add_ref(pp.c.rectangle(size=(10, 1), layer=pp.LAYER.WG))
+    c.add_ref(pp.c.rectangle(size=(10, 2), layer=pp.LAYER.SLAB90))
+    c.add_ref(pp.c.rectangle(size=(10, 3), layer=pp.LAYER.SLAB150))
 
     assert len(c.layers) == 3
 

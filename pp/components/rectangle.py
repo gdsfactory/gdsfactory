@@ -68,4 +68,5 @@ def rectangle(
 if __name__ == "__main__":
     c = rectangle(size=(4, 2), ports={"N": [(0, 1, 4)]}, centered=True)
     print(c.ports)
+    print(c.name)
     c.show()

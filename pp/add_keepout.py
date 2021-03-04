@@ -42,7 +42,7 @@ def test_add_keepout() -> None:
     from pp.components.waveguide import waveguide
 
     c = waveguide()
-    polygons = 1
+    polygons = 2
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
     print(len(c.get_polygons()))

@@ -1,0 +1,17 @@
+function_name: bend_circular
+info:
+  dx: 20.0
+  dy: 20.0
+  length: 31.416
+module: pp.components.bend_circular
+name: bend_circular_a0e1dd08
+settings:
+  angle: 90
+  cross_section_factory: null
+  layer:
+  - 34
+  - 0
+  npoints: 720
+  radius: 20.0
+  tech: null
+  width: 1.0

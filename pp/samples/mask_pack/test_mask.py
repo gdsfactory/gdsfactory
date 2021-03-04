@@ -57,17 +57,18 @@ def add_tm(component, **kwargs):
 
 @pp.cell
 def coupler_te(
-    gap: float, length: int, wg_width: float = 0.5, nominal_wg_width: float = 0.5
+    gap: float,
+    length: int,
 ) -> Component:
     """ sample of component cutback """
-    c = pp.c.coupler(wg_width=wg_width, gap=gap, length=length)
+    c = pp.c.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
 
 @pp.cell
 def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
-    """ sample of component cutback
+    """sample of component cutback
 
     Args:
         wg_width: um
@@ -77,7 +78,7 @@ def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
-        bend_factory=pp.c.bend_circular,
+        bend_factory=pp.c.bend_euler,
     )
     return cc
 
@@ -89,7 +90,7 @@ def spiral_tm(wg_width=0.5, length=2):
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
-        bend_factory=pp.c.bend_circular,
+        bend_factory=pp.c.bend_euler,
     )
     return cc
 

@@ -3,6 +3,7 @@ from typing import Callable, Optional
 import pp
 from pp.add_tapers import add_tapers
 from pp.component import Component
+from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
@@ -11,6 +12,8 @@ from pp.components.taper import taper
 from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import ComponentFactory
 
 
 def add_fiber_array_te(*args, **kwargs):
@@ -27,26 +30,32 @@ def add_fiber_array_tm(
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
+    bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
-    taper_length: float = 10.0,
-    get_route_factory: Callable = route_fiber_array,
+    taper_length: Optional[float] = None,
     get_input_labels_function: Callable = get_input_labels,
+    tech: Tech = TECH_SILICON_C,
     **kwargs,
 ) -> Component:
-    """returns component with optical IO (tapers, south routes and grating_couplers)
+    """Returns component with optical IO (tapers, south routes and grating_couplers).
 
     Args:
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
+        gc_port_name: grating coupler input port name 'W0'
+        component_name: for the label
+        taper_factory: taper function
+        taper_length: length of the taper
+        get_input_labels_function: function to get input labels for grating couplers
         straight_factory: waveguide
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
         waveguide_separation: 4.0
-        bend_radius: BEND_RADIUS
+        bend_radius: optional bend_radius (defaults to tech.bend_radius)
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
@@ -55,14 +64,10 @@ def add_fiber_array(
         grating_indices: None
         routing_waveguide: None
         routing_method: get_route
-        gc_port_name: W0
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
-        component_name: for the label
-        taper_factory: taper function
-        get_route_factory: route_fiber_array
 
     .. plot::
       :include-source:
@@ -96,6 +101,8 @@ def add_fiber_array(
     optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
+    taper_length = taper_length or tech.taper_length
+
     if port_width_component != port_width_gc:
         c = add_tapers(
             c,
@@ -107,12 +114,14 @@ def add_fiber_array(
     # for pn, p in c.ports.items():
     #     print(p.name, p.port_type, p.layer)
 
-    elements, io_gratings_lines, _ = get_route_factory(
+    elements, io_gratings_lines, _ = route_fiber_array(
         component=c,
         grating_coupler=grating_coupler,
+        bend_factory=bend_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
+        tech=tech,
         **kwargs,
     )
     if len(elements) == 0:
@@ -187,13 +196,16 @@ if __name__ == "__main__":
 
     # c = pp.c.coupler(gap=0.2, length=5.6)
 
+    c = pp.c.waveguide()
+    c = pp.c.waveguide(length=1, width=2)
     c = pp.c.mmi2x2()
-    # c = pp.c.waveguide()
+    c = pp.c.ring_single()
+    c = pp.c.mzi2x2()
 
     c.y = 0
     cc = add_fiber_array(
         c,
-        # optical_routing_type=0,
+        # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
         # optical_routing_type=2,
         # layer_label=layer_label,

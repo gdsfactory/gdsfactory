@@ -1,0 +1,15 @@
+function_name: waveguide
+info:
+  length: 10.0
+  width: 1.0
+module: pp.components.waveguide
+name: waveguide_186d9812
+settings:
+  cross_section_factory: null
+  layer:
+  - 34
+  - 0
+  length: 10.0
+  npoints: 2
+  tech: nitride_cband
+  width: 1.0

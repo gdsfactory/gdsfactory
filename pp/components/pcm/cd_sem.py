@@ -1,9 +1,8 @@
-""" CD SEM structures
-"""
+"""CD SEM structures."""
 
 import pp
-from pp.components.bend_circular import bend_circular, bend_circular_trenches
-from pp.components.waveguide import waveguide_trenches
+from pp.components.bend_circular import bend_circular
+from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
 
@@ -39,7 +38,7 @@ def cdsem_straight(w, dw, spacing=5.0, length=20.0):
 def cdsem_straight_density(
     wg_width=0.372, trench_width=0.304, x=500, y=50.0, margin=2.0
 ):
-    """ horizontal grating etch lines
+    """horizontal grating etch lines
 
     TE: 676nm pitch, 304nm gap, 372nm line
     TM: 1110nm pitch, 506nm gap, 604nm line
@@ -120,8 +119,8 @@ def cdsem_uturn(
     # bend90 = bend_circular_deep_rib(width=width, radius=r, cladding_offset=cladding_offset)
     # wg = wg_deep_rib(width=width, length=2 * r)
 
-    bend90 = bend_circular_trenches(width=width, radius=r)
-    wg = waveguide_trenches(width=width, length=2 * r)
+    bend90 = bend_circular(width=width, radius=r)
+    wg = waveguide(width=width, length=2 * r)
 
     # bend90.ports()
     rename_ports_by_orientation(bend90)

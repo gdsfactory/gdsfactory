@@ -1,8 +1,8 @@
 info:
   instances:
-    wgn: DeviceReference (parent Device "waveguide_L500n_W500n", ports ['W0', 'E0'],
-      origin (0, 0), rotation 0, x_reflection False)
-    wgw: DeviceReference (parent Device "waveguide_L1_W1", ports ['W0', 'E0'], origin
+    wgn: DeviceReference (parent Device "waveguide_L500n", ports ['W0', 'E0'], origin
+      (0, 0), rotation 0, x_reflection False)
+    wgw: DeviceReference (parent Device "waveguide_L1", ports ['W0', 'E0'], origin
       [-1.  0.], rotation 0, x_reflection False)
   routes: {}
 name: sample_connections

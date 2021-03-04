@@ -3,6 +3,8 @@ info: {}
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:
-  bend_radius: 10.0
-  n_o_outputs: 4
-  spacing: 50.0
+  bend_radius: null
+  noutputs: 4
+  spacing: null
+  spacing_extra: 0.1
+  tech: silicon_cband

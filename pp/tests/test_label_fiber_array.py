@@ -1,3 +1,5 @@
+import numpy as np
+
 import pp
 from pp.component import Component
 
@@ -47,7 +49,54 @@ def test_label_fiber_array_align_ports() -> Component:
     return c
 
 
+def test_labels_fiber_array(num_regression):
+    c = pp.c.waveguide()
+    assert len(c.labels) == 0
+
+    c = pp.routing.add_fiber_array(c, with_align_ports=True)
+    assert len(c.labels) == 2  # Loopback does not have labels
+    labels = {
+        label.text: np.array(
+            [
+                label.position[0],
+                label.position[1],
+                label.layer,
+            ]
+        )
+        for label in c.labels
+    }
+    if labels:
+        num_regression.check(labels)
+
+
+def test_labels_fiber_single(num_regression):
+    c = pp.c.waveguide()
+    assert len(c.labels) == 0
+
+    c = pp.routing.add_fiber_single(c, with_align_ports=True)
+    assert len(c.labels) == 4
+    labels = {
+        label.text: np.array(
+            [
+                label.position[0],
+                label.position[1],
+                label.layer,
+            ]
+        )
+        for label in c.labels
+    }
+    if labels:
+        num_regression.check(labels)
+
+
 if __name__ == "__main__":
     # c = test_label_fiber_array()
-    c = test_label_fiber_array_align_ports()
+    # c = test_label_fiber_array_align_ports()
+    # c.show()
+
+    c = pp.c.waveguide()
+    assert len(c.labels) == 0
+
+    c = pp.routing.add_fiber_array(c, with_align_ports=True)
+    print(len(c.labels))
     c.show()
