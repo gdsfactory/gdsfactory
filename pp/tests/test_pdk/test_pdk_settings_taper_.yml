@@ -4,7 +4,7 @@ info:
   width1: 1.0
   width2: 1.0
 module: pp.components.taper
-name: taper_L34_0_L20_Tsin_c_W1_W1
+name: taper_5420157d
 settings:
   cladding_offset: null
   layer:
@@ -13,6 +13,6 @@ settings:
   layers_cladding: null
   length: 20.0
   port: null
-  tech: sin_c
+  tech: nitride_cband
   width1: 1.0
   width2: 1.0

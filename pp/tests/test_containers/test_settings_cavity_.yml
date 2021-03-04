@@ -15,9 +15,9 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
-      tech: si_c
+      tech: silicon_cband
       with_elec_connections: true
   coupler: coupler
   gap: 0.2
   length: 0.1
-  tech: si_c
+  tech: silicon_cband

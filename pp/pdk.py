@@ -36,7 +36,7 @@ class Pdk:
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
+            tech=self.tech.name,
         )
 
     def bend_circular(
@@ -542,14 +542,15 @@ PDK_METAL1 = PdkMetal1()
 PDK_NITRIDE_C = PdkNitrideCband()
 
 if __name__ == "__main__":
-    p = PDK_METAL1
     p = PDK_NITRIDE_C
-    # c = p.waveguide(length=10)
-    # c = p.waveguide(length=10)
+    p = PDK_METAL1
+    c = p.waveguide(length=10)
+    c = p.waveguide(length=10)
+
     # c = p.taper(length=10)
     # c = p.taper(length=10)
 
-    c = p.ring_single()
+    # c = p.ring_single()
 
     # p = PDK_SILICON_C
     # c = p.waveguide(length=10)
@@ -557,12 +558,14 @@ if __name__ == "__main__":
     # c = p.mzi(delta_length=10)
     # c = p.mzi(delta_length=20)
 
-    c = p.mmi2x2()
+    # c = p.mmi2x2()
     # c = p.waveguide()
-    c = p.mzi()
-    c = p.ring_single()
+    # c = p.mzi()
+    # c = p.ring_single()
+    # c = p.ring_single()
+    c.show()
 
-    cc = p.add_fiber_single(c)
+    # cc = p.add_fiber_single(c)
     # cc = p.add_fiber_array(c, optical_routing_type=1)
-    cc.show()
+    # cc.show()
     # c = p.grating_coupler()

@@ -7,6 +7,8 @@ from pp.difftest import difftest
 from pp.pdk import PDK_NITRIDE_C
 
 pdk = PDK_NITRIDE_C
+
+# All functions that do not start with (get, _, add) are a component_factory
 component_names = [
     function_name
     for function_name in dir(pdk)

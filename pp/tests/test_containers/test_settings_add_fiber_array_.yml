@@ -15,7 +15,7 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
-      tech: si_c
+      tech: silicon_cband
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
@@ -23,4 +23,4 @@ settings:
   grating_coupler: grating_coupler_te
   taper_factory: taper
   taper_length: null
-  tech: si_c
+  tech: silicon_cband

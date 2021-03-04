@@ -4,4 +4,4 @@ module: pp.components.coupler_asymmetric
 name: coupler_asymmetric
 settings:
   gap: 0.234
-  tech: si_c
+  tech: silicon_cband

@@ -13,6 +13,6 @@ settings:
   layers_cladding: null
   length: 15.0
   port: null
-  tech: si_c
+  tech: silicon_cband
   width1: 0.5
   width2: null

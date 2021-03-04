@@ -12,6 +12,7 @@ def test_netlist_read() -> Component:
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
 
+    print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 5
     return c
 
@@ -24,9 +25,8 @@ def test_netlist_read_full() -> Component:
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
     # print(len(c.get_netlist().connections))
-    # print(len(c.get_dependencies()))
-    # assert len(c.get_netlist().connections) == 18
-    assert len(c.get_dependencies()) == 18
+    print(len(c.get_dependencies()))
+    assert len(c.get_dependencies()) == 5
     return c
 
 

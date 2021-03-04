@@ -3,7 +3,7 @@ info:
   length: 10.0
   width: 1.0
 module: pp.components.waveguide
-name: waveguide_L34_0_L10_N2_Tsin_c_W1
+name: waveguide_186d9812
 settings:
   cross_section_factory: null
   layer:
@@ -11,5 +11,5 @@ settings:
   - 0
   length: 10.0
   npoints: 2
-  tech: sin_c
+  tech: nitride_cband
   width: 1.0

@@ -242,7 +242,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_130.0_222.5:
@@ -255,7 +255,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_130.0_535.5:
@@ -268,7 +268,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_558.0:
@@ -281,7 +281,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_579.0:
@@ -294,7 +294,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_600.0:
@@ -307,7 +307,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_237.5_0.0:
@@ -320,7 +320,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_22.5:
@@ -333,7 +333,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_335.5:
@@ -346,7 +346,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_358.0:
@@ -359,7 +359,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_379.0:
@@ -372,7 +372,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_400.0:
@@ -385,7 +385,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_378.5_558.0:
@@ -398,7 +398,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_378.5_579.0:
@@ -411,7 +411,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_508.5_358.0:
@@ -424,7 +424,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_508.5_379.0:
@@ -437,7 +437,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_0.0:
@@ -450,7 +450,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_200.0:
@@ -463,7 +463,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_400.0:
@@ -476,7 +476,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_600.0:
@@ -489,7 +489,7 @@ instances:
       layers_cladding: null
       length: 35.0
       port: null
-      tech: si_c
+      tech: silicon_cband
       width1: 0.5
       width2: 2.5
   tl:
