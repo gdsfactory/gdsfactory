@@ -21,12 +21,11 @@ Gdsfactory
    yaml
    placer_yaml
    placer
-   gdslib
    tests
    gdsdiff
    pp
    shapes
    components
+   notebooks
    contribution
    CHANGELOG
-   notebooks
