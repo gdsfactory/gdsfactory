@@ -31,8 +31,8 @@ A component with a port can easily be referenced by the port.
     coupler = pp.c.coupler()
     c = pp.Component()
 
-     # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
-     coupler1 = coupler.ref(port_id='W0', position=(0, 0))
+    # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
+    coupler1 = coupler.ref(port_id='W0', position=(0, 0))
 
     # Instantiate another reference to `_cpl`, positioning 'W0' port at
     # the position of the 'E0' port from cpl1
