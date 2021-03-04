@@ -28,6 +28,9 @@ from pydantic import validate_arguments
 - added pp.pdk with tests
 - include notebooks in docs with nbsphinx
 - regression test for labels
+- fixed CACHE key value by using the actual cellname
+
+
 
 
 ## 2.3.4
