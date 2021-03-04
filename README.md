@@ -28,7 +28,7 @@ Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https:
 
 - [read online Documentation](https://gdsfactory.readthedocs.io/en/latest)
 - run pp/samples
-- run notebooks
+- run docs/notebooks
 - see latest changes in [CHANGELOG](CHANGELOG.md)
 
 gdsfactory is all written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
