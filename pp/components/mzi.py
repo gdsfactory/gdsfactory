@@ -26,7 +26,7 @@ def mzi(
     pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Mzi.
 
@@ -69,6 +69,7 @@ def mzi(
       c.plot()
 
     """
+    tech = tech or TECH_SILICON_C
     bend_radius = bend_radius or tech.bend_radius
     L2 = length_x
     L0 = length_y

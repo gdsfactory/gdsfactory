@@ -7,5 +7,5 @@ settings:
   length_x: 0.01
   length_y: 0.01
   pins: false
-  radius: null
-  tech: silicon_cband
+  radius: 10.0
+  tech: null

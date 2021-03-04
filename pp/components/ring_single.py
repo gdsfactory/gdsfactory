@@ -131,7 +131,8 @@ def ring_single(
 
 if __name__ == "__main__":
 
-    c = ring_single()
+    c = ring_single(layer=(2, 0))
+    print(c.ports)
     c.show()
     # cc = pp.add_pins(c)
     # print(c.settings)

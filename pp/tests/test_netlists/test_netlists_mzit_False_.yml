@@ -1,219 +1,213 @@
 connections:
-  bend_euler_2fdb901e_34.638_1.962,N0: waveguide_646f17e4_38.0_10.6,W0
-  bend_euler_2fdb901e_34.638_1.962,W0: waveguide_11fd88dc_26.5_-1.4,E0
-  bend_euler_2fdb901e_34.638_19.238,N0: waveguide_11fd88dc_26.5_22.6,W0
-  bend_euler_2fdb901e_34.638_19.238,W0: waveguide_646f17e4_38.0_10.6,E0
-  bend_euler_R10_W450n_31.612_17.212,N0: taper_1d0d6a17_22.5_20.6,1
-  bend_euler_R10_W450n_31.612_17.212,W0: bend_euler_R10_W450n_31.612_3.988,N0
-  bend_euler_R10_W450n_31.612_3.988,W0: taper_389121ce_22.5_0.6,2
-  coupler_44660964_5.0_-0.4,E0: taper_0bc5acd2_22.5_-1.4,1
-  coupler_44660964_5.0_-0.4,E1: taper_389121ce_22.5_0.6,1
-  coupler_bc6d88b2_1.5_21.6,E0: taper_257f0321_16.5_20.6,2
-  coupler_bc6d88b2_1.5_21.6,E1: taper_1679397c_16.5_22.6,2
-  taper_0bc5acd2_22.5_-1.4,2: waveguide_11fd88dc_26.5_-1.4,W0
-  taper_1679397c_16.5_22.6,1: waveguide_7cb4727e_19.5_22.6,E0
-  taper_1d0d6a17_22.5_20.6,2: waveguide_ee8bdcc2_19.5_20.6,W0
-  taper_257f0321_16.5_20.6,1: waveguide_ee8bdcc2_19.5_20.6,E0
-  taper_d096bd4e_22.5_22.6,1: waveguide_11fd88dc_26.5_22.6,E0
-  taper_d096bd4e_22.5_22.6,2: waveguide_7cb4727e_19.5_22.6,W0
+  bend_euler_R10_TNone_W550n_33.138_17.738,N0: waveguide_L3_TNone_W550n_26.5_22.6,W0
+  bend_euler_R10_TNone_W550n_33.138_17.738,W0: waveguide_L4_TNone_W550n_38.0_10.6,E0
+  bend_euler_R10_TNone_W550n_33.138_3.462,N0: waveguide_L4_TNone_W550n_38.0_10.6,W0
+  bend_euler_R10_TNone_W550n_33.138_3.462,W0: waveguide_L3_TNone_W550n_26.5_-1.4,E0
+  bend_euler_R10_W450n_30.112_15.712,N0: taper_L5_W450n_W550n_22.5_20.6,1
+  bend_euler_R10_W450n_30.112_15.712,W0: bend_euler_R10_W450n_30.112_5.488,N0
+  bend_euler_R10_W450n_30.112_5.488,W0: taper_L5_W500n_W450n_22.5_0.6,2
+  coupler_D2_G200n_L5_TNone_1.5_21.6,E0: taper_L5_W550n_W500n_16.5_20.6,2
+  coupler_D2_G200n_L5_TNone_1.5_21.6,E1: taper_L5_W450n_W500n_16.5_22.6,2
+  coupler_D2_G300n_L10_TNone_5.0_-0.4,E0: taper_L5_W500n_W550n_22.5_-1.4,1
+  coupler_D2_G300n_L10_TNone_5.0_-0.4,E1: taper_L5_W500n_W450n_22.5_0.6,1
+  taper_L5_W450n_W500n_16.5_22.6,1: waveguide_L1_TNone_W450n_19.5_22.6,E0
+  taper_L5_W450n_W550n_22.5_20.6,2: waveguide_L1_TNone_W550n_19.5_20.6,W0
+  taper_L5_W500n_W550n_22.5_-1.4,2: waveguide_L3_TNone_W550n_26.5_-1.4,W0
+  taper_L5_W550n_W450n_22.5_22.6,1: waveguide_L3_TNone_W550n_26.5_22.6,E0
+  taper_L5_W550n_W450n_22.5_22.6,2: waveguide_L1_TNone_W450n_19.5_22.6,W0
+  taper_L5_W550n_W500n_16.5_20.6,1: waveguide_L1_TNone_W550n_19.5_20.6,E0
 instances:
-  bend_euler_2fdb901e_34.638_1.962:
+  bend_euler_R10_TNone_W550n_33.138_17.738:
     component: bend_euler
     settings:
       radius: 10.0
-      tech: silicon_cband
+      tech: null
       width: 0.55
-  bend_euler_2fdb901e_34.638_19.238:
+  bend_euler_R10_TNone_W550n_33.138_3.462:
     component: bend_euler
     settings:
       radius: 10.0
-      tech: silicon_cband
+      tech: null
       width: 0.55
-  bend_euler_R10_W450n_31.612_17.212:
+  bend_euler_R10_W450n_30.112_15.712:
     component: bend_euler
     settings:
       radius: 10.0
       width: 0.45
-  bend_euler_R10_W450n_31.612_3.988:
+  bend_euler_R10_W450n_30.112_5.488:
     component: bend_euler
     settings:
       radius: 10.0
       width: 0.45
-  coupler_44660964_5.0_-0.4:
-    component: coupler
-    settings:
-      dy: 2.0
-      gap: 0.3
-      length: 10.0
-      tech: silicon_cband
-  coupler_bc6d88b2_1.5_21.6:
+  coupler_D2_G200n_L5_TNone_1.5_21.6:
     component: coupler
     settings:
       dy: 2.0
       gap: 0.2
       length: 5.0
-      tech: silicon_cband
-  taper_0bc5acd2_22.5_-1.4:
+      tech: null
+  coupler_D2_G300n_L10_TNone_5.0_-0.4:
+    component: coupler
+    settings:
+      dy: 2.0
+      gap: 0.3
+      length: 10.0
+      tech: null
+  taper_L5_W450n_W500n_16.5_22.6:
     component: taper
     settings:
       length: 5.0
-      tech: silicon_cband
-      width1: 0.5
-      width2: 0.55
-  taper_1679397c_16.5_22.6:
-    component: taper
-    settings:
-      length: 5.0
-      tech: silicon_cband
       width1: 0.45
       width2: 0.5
-  taper_1d0d6a17_22.5_20.6:
+  taper_L5_W450n_W550n_22.5_20.6:
     component: taper
     settings:
       length: 5.0
-      tech: silicon_cband
       width1: 0.45
       width2: 0.55
-  taper_257f0321_16.5_20.6:
+  taper_L5_W500n_W450n_22.5_0.6:
     component: taper
     settings:
       length: 5.0
-      tech: silicon_cband
-      width1: 0.55
-      width2: 0.5
-  taper_389121ce_22.5_0.6:
-    component: taper
-    settings:
-      length: 5.0
-      tech: silicon_cband
       width1: 0.5
       width2: 0.45
-  taper_d096bd4e_22.5_22.6:
+  taper_L5_W500n_W550n_22.5_-1.4:
     component: taper
     settings:
       length: 5.0
-      tech: silicon_cband
+      width1: 0.5
+      width2: 0.55
+  taper_L5_W550n_W450n_22.5_22.6:
+    component: taper
+    settings:
+      length: 5.0
       width1: 0.55
       width2: 0.45
-  waveguide_11fd88dc_26.5_-1.4:
+  taper_L5_W550n_W500n_16.5_20.6:
+    component: taper
+    settings:
+      length: 5.0
+      width1: 0.55
+      width2: 0.5
+  waveguide_L1_TNone_W450n_19.5_22.6:
+    component: waveguide
+    settings:
+      length: 1.0
+      tech: null
+      width: 0.45
+  waveguide_L1_TNone_W550n_19.5_20.6:
+    component: waveguide
+    settings:
+      length: 1.0
+      tech: null
+      width: 0.55
+  waveguide_L3_TNone_W550n_26.5_-1.4:
     component: waveguide
     settings:
       length: 3.0
-      tech: silicon_cband
+      tech: null
       width: 0.55
-  waveguide_11fd88dc_26.5_22.6:
+  waveguide_L3_TNone_W550n_26.5_22.6:
     component: waveguide
     settings:
       length: 3.0
-      tech: silicon_cband
+      tech: null
       width: 0.55
-  waveguide_646f17e4_38.0_10.6:
+  waveguide_L4_TNone_W550n_38.0_10.6:
     component: waveguide
     settings:
       length: 4.0
-      tech: silicon_cband
-      width: 0.55
-  waveguide_7cb4727e_19.5_22.6:
-    component: waveguide
-    settings:
-      length: 1.0
-      tech: silicon_cband
-      width: 0.45
-  waveguide_ee8bdcc2_19.5_20.6:
-    component: waveguide
-    settings:
-      length: 1.0
-      tech: silicon_cband
+      tech: null
       width: 0.55
 name: mzit
 placements:
-  bend_euler_2fdb901e_34.638_1.962:
-    mirror: false
-    rotation: 0
-    x: 28.0
-    y: -1.4
-  bend_euler_2fdb901e_34.638_19.238:
+  bend_euler_R10_TNone_W550n_33.138_17.738:
     mirror: false
     rotation: 90
     x: 38.0
     y: 12.6
-  bend_euler_R10_W450n_31.612_17.212:
+  bend_euler_R10_TNone_W550n_33.138_3.462:
+    mirror: false
+    rotation: 0
+    x: 28.0
+    y: -1.4
+  bend_euler_R10_W450n_30.112_15.712:
     mirror: false
     rotation: 90
     x: 35.0
     y: 10.6
-  bend_euler_R10_W450n_31.612_3.988:
+  bend_euler_R10_W450n_30.112_5.488:
     mirror: false
     rotation: 0
     x: 25.0
     y: 0.6
-  coupler_44660964_5.0_-0.4:
-    mirror: false
-    rotation: 0
-    x: 0.0
-    y: 0.0
-  coupler_bc6d88b2_1.5_21.6:
+  coupler_D2_G200n_L5_TNone_1.5_21.6:
     mirror: false
     rotation: 0
     x: -1.0
     y: 21.95
-  taper_0bc5acd2_22.5_-1.4:
+  coupler_D2_G300n_L10_TNone_5.0_-0.4:
     mirror: false
     rotation: 0
-    x: 20.0
-    y: -1.4
-  taper_1679397c_16.5_22.6:
+    x: 0.0
+    y: 0.0
+  taper_L5_W450n_W500n_16.5_22.6:
     mirror: false
     rotation: 180
     x: 19.0
     y: 22.6
-  taper_1d0d6a17_22.5_20.6:
+  taper_L5_W450n_W550n_22.5_20.6:
     mirror: false
     rotation: 180
     x: 25.0
     y: 20.6
-  taper_257f0321_16.5_20.6:
-    mirror: false
-    rotation: 180
-    x: 19.0
-    y: 20.6
-  taper_389121ce_22.5_0.6:
+  taper_L5_W500n_W450n_22.5_0.6:
     mirror: false
     rotation: 0
     x: 20.0
     y: 0.6
-  taper_d096bd4e_22.5_22.6:
-    mirror: false
-    rotation: 180
-    x: 25.0
-    y: 22.6
-  waveguide_11fd88dc_26.5_-1.4:
+  taper_L5_W500n_W550n_22.5_-1.4:
     mirror: false
     rotation: 0
-    x: 25.0
+    x: 20.0
     y: -1.4
-  waveguide_11fd88dc_26.5_22.6:
+  taper_L5_W550n_W450n_22.5_22.6:
     mirror: false
     rotation: 180
-    x: 28.0
+    x: 25.0
     y: 22.6
-  waveguide_646f17e4_38.0_10.6:
+  taper_L5_W550n_W500n_16.5_20.6:
     mirror: false
-    rotation: 90
-    x: 38.0
-    y: 8.6
-  waveguide_7cb4727e_19.5_22.6:
+    rotation: 180
+    x: 19.0
+    y: 20.6
+  waveguide_L1_TNone_W450n_19.5_22.6:
     mirror: false
     rotation: 180
     x: 20.0
     y: 22.6
-  waveguide_ee8bdcc2_19.5_20.6:
+  waveguide_L1_TNone_W550n_19.5_20.6:
     mirror: false
     rotation: 180
     x: 20.0
     y: 20.6
+  waveguide_L3_TNone_W550n_26.5_-1.4:
+    mirror: false
+    rotation: 0
+    x: 25.0
+    y: -1.4
+  waveguide_L3_TNone_W550n_26.5_22.6:
+    mirror: false
+    rotation: 180
+    x: 28.0
+    y: 22.6
+  waveguide_L4_TNone_W550n_38.0_10.6:
+    mirror: false
+    rotation: 90
+    x: 38.0
+    y: 8.6
 ports:
-  W0: coupler_44660964_5.0_-0.4,W0
-  W1: coupler_44660964_5.0_-0.4,W1
-  W2: coupler_bc6d88b2_1.5_21.6,W0
-  W3: coupler_bc6d88b2_1.5_21.6,W1
+  W0: coupler_D2_G300n_L10_TNone_5.0_-0.4,W0
+  W1: coupler_D2_G300n_L10_TNone_5.0_-0.4,W1
+  W2: coupler_D2_G200n_L5_TNone_1.5_21.6,W0
+  W3: coupler_D2_G200n_L5_TNone_1.5_21.6,W1

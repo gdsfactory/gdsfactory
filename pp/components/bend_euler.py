@@ -60,14 +60,14 @@ def bend_euler(
     cross_section_factory = cross_section_factory or strip
     tech = tech or TECH_SILICON_C
 
-    cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
+    cross_section = cross_section_factory(width=width, layer=layer)
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = component(p, cross_section)
+    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
     c.length = snap_to_grid(p.length())
-    c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])
+    c.radius_min = p.info["Rmin"]
     return c
 
 

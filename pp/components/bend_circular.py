@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterable, Optional
 
 from pp.cell import cell
 from pp.component import Component
@@ -16,6 +16,7 @@ def bend_circular(
     npoints: int = 720,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
+    layers_cladding: Optional[Iterable[Layer]] = None,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
@@ -43,15 +44,17 @@ def bend_circular(
       c.plot()
 
     """
-    cross_section_factory = cross_section_factory or strip
     tech = tech or TECH_SILICON_C
+    cross_section_factory = cross_section_factory or strip
 
-    cross_section = cross_section_factory(width=width, layer=layer, tech=tech)
+    cross_section = cross_section_factory(
+        width=width, layer=layer, layers_cladding=layers_cladding
+    )
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = component(p, cross_section)
+    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
     c.length = snap_to_grid(p.length())
-    c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])
+    c.radius_min = radius
     return c
 
 

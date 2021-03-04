@@ -62,7 +62,7 @@ def gen_loopback(
     bend90 = bend_factory(radius=bend_radius_align_ports)
 
     if hasattr(bend90, "dx"):
-        a = abs(bend90.dx)
+        a = abs(bend90.dy)
     else:
         a = bend_radius_align_ports + 0.5
     b = max(2 * a, grating_separation / 2)

@@ -5,7 +5,7 @@ info:
 module: pp.components.mmi1x2
 name: mmi1x2
 settings:
-  cladding_offset: null
+  cladding_offset: 0.0
   gap_mmi: 0.25
   layer:
   - 1
@@ -13,7 +13,6 @@ settings:
   layers_cladding: null
   length_mmi: 5.496
   length_taper: 10.0
-  tech: silicon_cband
   width: 0.5
   width_mmi: 2.5
   width_taper: 1.0

@@ -53,7 +53,7 @@ def splitter_tree(
     coupler = pp.call_if_func(coupler)
     _coupler = c.add_ref(coupler)
     coupler_sep = coupler.ports["E1"].y - coupler.ports["E0"].y
-    spacing = spacing if spacing else bend90.dx * noutputs + spacing_extra
+    spacing = spacing if spacing else bend90.dy * noutputs + spacing_extra
 
     if noutputs > 2:
         c2 = splitter_tree(

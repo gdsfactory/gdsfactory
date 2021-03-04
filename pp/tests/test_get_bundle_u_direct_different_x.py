@@ -26,7 +26,7 @@ def test_get_bundle_u_direct_different_x(
         d.ports["E0"],
     ]
 
-    routes = pp.routing.get_bundle(ports1, ports2, sort_ports=True)
+    routes = pp.routing.get_bundle(ports1, ports2)
 
     lengths = {}
     for i, route in enumerate(routes):

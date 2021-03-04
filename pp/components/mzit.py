@@ -6,12 +6,13 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import Tech
 from pp.types import ComponentFactory
 
 
 @pp.cell
 def mzit(
+    w0: float = 0.5,
     w1: float = 0.45,
     w2: float = 0.55,
     dy: float = 2.0,
@@ -86,8 +87,6 @@ def mzit(
       c.plot()
 
     """
-    tech = tech or TECH_SILICON_C
-    w0 = tech.wg_width
     c = pp.Component()
     cp2 = (
         c
@@ -99,9 +98,7 @@ def mzit(
     )
 
     # inner arm (w1)
-    t1 = c << taper_factory(
-        width1=w0, width2=w1, length=taper_length, tech=tech, **kwargs
-    )
+    t1 = c << taper_factory(width1=w0, width2=w1, length=taper_length, **kwargs)
     t1.connect("1", cp2.ports["E1"])
     b1t = c << bend90(width=w1, radius=bend_radius, **kwargs)
     b1b = c << bend90(width=w1, radius=bend_radius, **kwargs)
@@ -112,21 +109,15 @@ def mzit(
     # wg1.connect("W0", b1b.ports["N0"])
     # b1t.connect("W0", wg1.ports["E0"])
 
-    t3b = c << taper_factory(
-        width1=w1, width2=w2, length=taper_length, tech=tech, **kwargs
-    )
+    t3b = c << taper_factory(width1=w1, width2=w2, length=taper_length, **kwargs)
     t3b.connect("1", b1t.ports["N0"])
     wgs2 = c << waveguide_factory(width=w2, length=Ls, tech=tech, **kwargs)
     wgs2.connect("W0", t3b.ports["2"])
-    t20i = c << taper_factory(
-        width1=w2, width2=w0, length=taper_length, tech=tech, **kwargs
-    )
+    t20i = c << taper_factory(width1=w2, width2=w0, length=taper_length, **kwargs)
     t20i.connect("1", wgs2.ports["E0"])
 
     # outer_arm (w2)
-    t2 = c << taper_factory(
-        width1=w0, width2=w2, length=taper_length, tech=tech, **kwargs
-    )
+    t2 = c << taper_factory(width1=w0, width2=w2, length=taper_length, **kwargs)
     t2.connect("1", cp2.ports["E0"])
 
     dx = (delta_length - 2 * dy) / 2
@@ -149,15 +140,11 @@ def mzit(
     wg2t = c << waveguide_factory(width=w2, length=dx, tech=tech, **kwargs)
     wg2t.connect("W0", b2t.ports["N0"])
 
-    t3t = c << taper_factory(
-        width1=w2, width2=w1, length=taper_length, tech=tech, **kwargs
-    )
+    t3t = c << taper_factory(width1=w2, width2=w1, length=taper_length, **kwargs)
     t3t.connect("1", wg2t.ports["E0"])
     wgs1 = c << waveguide_factory(width=w1, length=Ls, tech=tech, **kwargs)
     wgs1.connect("W0", t3t.ports["2"])
-    t20o = c << taper_factory(
-        width1=w1, width2=w0, length=taper_length, tech=tech, **kwargs
-    )
+    t20o = c << taper_factory(width1=w1, width2=w0, length=taper_length, **kwargs)
     t20o.connect("1", wgs1.ports["E0"])
 
     if coupler1 is not None:

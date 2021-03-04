@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -18,8 +20,8 @@ def coupler_ring(
     radius: float = 5.0,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: CrossSectionFactory = strip,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -50,6 +52,9 @@ def coupler_ring(
       c.plot()
 
     """
+    tech = tech or TECH_SILICON_C
+    cross_section_factory = cross_section_factory or strip
+
     c = pp.Component()
     assert_on_2nm_grid(gap)
 

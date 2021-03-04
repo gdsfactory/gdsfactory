@@ -30,13 +30,14 @@ class Pdk:
             length: of straight
             npoints: number of points
             width: waveguide width (defaults to tech.wg_width)
+            layer: waveguide layer (defaults to tech.layer_wg)
         """
         return pp.c.waveguide(
             length=length,
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech.name,
+            tech=self.tech,
         )
 
     def bend_circular(
@@ -53,6 +54,8 @@ class Pdk:
             radius
             angle: angle of arc (degrees)
             npoints: Number of points used per 360 degrees
+            width: waveguide width (defaults to tech.wg_width)
+            layer: waveguide layer (defaults to tech.layer_wg)
         """
         return pp.c.bend_circular(
             radius=radius or self.tech.bend_radius,
@@ -60,6 +63,7 @@ class Pdk:
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
+            tech=self.tech,
         )
 
     def bend_euler(
@@ -88,6 +92,7 @@ class Pdk:
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
             width: waveguide width (defaults to tech.wg_width)
+            layer: waveguide layer (defaults to tech.layer_wg)
         """
 
         return pp.c.bend_euler(
@@ -107,7 +112,6 @@ class Pdk:
         width1: Optional[float] = None,
         width2: Optional[float] = None,
         layer: Optional[Layer] = None,
-        **kwargs,
     ) -> Component:
         """Linear taper.
 
@@ -122,7 +126,8 @@ class Pdk:
             width1=width1 or self.tech.wg_width,
             width2=width2 or self.tech.taper_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
+            layers_cladding=self.tech.layers_cladding,
+            cladding_offset=self.tech.cladding_offset,
         )
 
     def ring_single(
@@ -225,7 +230,8 @@ class Pdk:
             width_mmi=width_mmi,
             gap_mmi=gap_mmi,
             layer=self.tech.layer_wg,
-            tech=self.tech,
+            layers_cladding=self.tech.layers_cladding,
+            cladding_offset=self.tech.cladding_offset,
         )
 
     def mmi2x2(
@@ -282,7 +288,8 @@ class Pdk:
             width_mmi=width_mmi,
             gap_mmi=gap_mmi,
             layer=self.tech.layer_wg,
-            tech=self.tech,
+            layers_cladding=self.tech.layers_cladding,
+            cladding_offset=self.tech.cladding_offset,
         )
 
     def mzi(
@@ -460,6 +467,7 @@ class Pdk:
             layer_label=self.tech.layer_label,
             fanout_length=fanout_length,
             bend_radius=bend_radius or self.tech.bend_radius,
+            tech=self.tech,
             **kwargs,
         )
 
@@ -542,10 +550,10 @@ PDK_METAL1 = PdkMetal1()
 PDK_NITRIDE_C = PdkNitrideCband()
 
 if __name__ == "__main__":
-    p = PDK_NITRIDE_C
     p = PDK_METAL1
-    c = p.waveguide(length=10)
-    c = p.waveguide(length=10)
+    p = PDK_NITRIDE_C
+    # c = p.waveguide(length=10)
+    # c = p.waveguide(length=10)
 
     # c = p.taper(length=10)
     # c = p.taper(length=10)
@@ -562,10 +570,9 @@ if __name__ == "__main__":
     # c = p.waveguide()
     # c = p.mzi()
     # c = p.ring_single()
-    # c = p.ring_single()
-    c.show()
+    c = p.ring_single()
+    # c = p.taper()
 
-    # cc = p.add_fiber_single(c)
-    # cc = p.add_fiber_array(c, optical_routing_type=1)
-    # cc.show()
-    # c = p.grating_coupler()
+    # c = p.add_fiber_single(c)
+    c = p.add_fiber_array(c, optical_routing_type=1)
+    c.show()
