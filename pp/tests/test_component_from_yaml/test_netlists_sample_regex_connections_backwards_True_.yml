@@ -37,12 +37,10 @@ instances:
   waveguide_L12_W500n_14.0_1.25:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 12.0
       npoints: 2
       tech: null
@@ -50,12 +48,10 @@ instances:
   waveguide_L12_W500n_14.0_10.0:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 12.0
       npoints: 2
       tech: null
@@ -63,12 +59,10 @@ instances:
   waveguide_L12_W500n_14.0_18.75:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 12.0
       npoints: 2
       tech: null

@@ -24,6 +24,7 @@ def route_south(
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = waveguide,
     taper_factory: Optional[ComponentFactory] = taper_function,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> Route:
     """
     Args:
@@ -75,6 +76,7 @@ def route_south(
         bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper_factory=taper_factory,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
     )
 
     # Used to avoid crossing between waveguides in special cases

@@ -1,5 +1,5 @@
 """Straight waveguide."""
-from typing import Iterable, Optional
+from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
@@ -16,8 +16,6 @@ def waveguide(
     npoints: int = 2,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: float = 0,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
@@ -49,8 +47,8 @@ def waveguide(
     cross_section = cross_section_factory(
         width=width,
         layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
+        layers_cladding=tech.layers_cladding,
+        cladding_offset=tech.cladding_offset,
     )
     c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
     c.width = width

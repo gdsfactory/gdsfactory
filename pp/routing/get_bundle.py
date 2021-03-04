@@ -171,6 +171,7 @@ def link_ports(
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
+    auto_taper_to_wide_waveguides: bool = True,
     **routing_params,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -236,7 +237,12 @@ def link_ports(
         **routing_params,
     )
     return [
-        route_filter(route, bend_factory=bend_factory, **routing_params)
+        route_filter(
+            route,
+            bend_factory=bend_factory,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+            **routing_params,
+        )
         for route in routes
     ]
 

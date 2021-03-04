@@ -1,8 +1,8 @@
 connections:
-  ring_single_LX10_R5_-5.0_4.205,E0: waveguide_L5_7.5_0.0,W0
-  ring_single_LX20_R10_30.0_9.205,W0: waveguide_L5_7.5_0.0,E0
+  ring_single_LX10_R5_-5.0_5.355,E0: waveguide_L5_7.5_0.0,W0
+  ring_single_LX20_R10_30.0_10.355,W0: waveguide_L5_7.5_0.0,E0
 instances:
-  ring_single_LX10_R5_-5.0_4.205:
+  ring_single_LX10_R5_-5.0_5.355:
     component: ring_single
     settings:
       cross_section_factory: null
@@ -16,7 +16,7 @@ instances:
       radius: 5.0
       tech: null
       width: 0.5
-  ring_single_LX20_R10_30.0_9.205:
+  ring_single_LX20_R10_30.0_10.355:
     component: ring_single
     settings:
       cross_section_factory: null
@@ -33,24 +33,22 @@ instances:
   waveguide_L5_7.5_0.0:
     component: waveguide
     settings:
-      cladding_offset: 0
       cross_section_factory: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 5.0
       npoints: 2
       tech: null
       width: 0.5
 name: ring_single_array
 placements:
-  ring_single_LX10_R5_-5.0_4.205:
+  ring_single_LX10_R5_-5.0_5.355:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  ring_single_LX20_R10_30.0_9.205:
+  ring_single_LX20_R10_30.0_10.355:
     mirror: false
     rotation: 0
     x: 40.0
@@ -61,5 +59,5 @@ placements:
     x: 5.0
     y: 0.0
 ports:
-  E0: ring_single_LX20_R10_30.0_9.205,E0
-  W0: ring_single_LX10_R5_-5.0_4.205,W0
+  E0: ring_single_LX20_R10_30.0_10.355,E0
+  W0: ring_single_LX10_R5_-5.0_5.355,W0

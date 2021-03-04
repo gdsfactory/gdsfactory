@@ -59,6 +59,7 @@ def get_route(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_radius: Number = 10.0,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
     The references are waveguides, bends and tapers.
@@ -100,6 +101,7 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
     )
 
 
@@ -163,6 +165,7 @@ def get_route_from_waypoints(
     bend_radius: Number = 5.0,
     wg_width: Number = 0.5,
     layer: Layer = LAYER.WG,
+    auto_taper_to_wide_waveguides: bool = True,
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints with
@@ -201,6 +204,7 @@ def get_route_from_waypoints(
         bend_factory=bend90,
         straight_factory=straight_factory,
         taper=taper,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
     )
 
 
