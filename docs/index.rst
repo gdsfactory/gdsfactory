@@ -12,6 +12,5 @@ Gdsfactory
    connect
    routing
    yaml
-   shapes
    components
    contribution
