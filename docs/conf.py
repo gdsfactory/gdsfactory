@@ -37,7 +37,7 @@ exclude_patterns = [
     ".DS_Store",
     "**.ipynb_checkpoints",
     "build",
-    "extra",
+    "extra/**",
 ]
 
 napoleon_use_param = True
