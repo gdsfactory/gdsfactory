@@ -8,6 +8,10 @@ settings:
   cladding_offset: 0.0
   direction: EAST
   dutycycle: 0.7
+  fiber_marker_layer:
+  - 203
+  - 0
+  fiber_marker_width: 11.0
   layer_cladding:
   - 111
   - 0

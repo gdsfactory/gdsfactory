@@ -17,6 +17,7 @@ from pp.port import Port, select_ports
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
+valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
 
 
 def copy(D: Device) -> Device:
@@ -768,6 +769,9 @@ class Component(Device):
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
         Can also be called to copy an existing port with a new name like add_port(port = existing_port, name = new_name)"""
+        if port_type not in valid_port_types:
+            raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
+
         if port:
             if not isinstance(port, Port):
                 raise ValueError(

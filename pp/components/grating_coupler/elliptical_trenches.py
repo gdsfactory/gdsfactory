@@ -6,11 +6,14 @@ import pp
 from pp.component import Component
 from pp.components.grating_coupler.elliptical import grating_tooth_points
 from pp.geo_utils import DEG2RAD
+from pp.types import Layer
 
 
 @pp.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
+    fiber_marker_width: float = 11.0,
+    fiber_marker_layer: Layer = pp.LAYER.TE,
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
@@ -122,14 +125,18 @@ def grating_coupler_elliptical_trenches(
     # Move waveguide I/O to (0, 0)
     c.move((-x_output, 0))
 
-    if polarization.lower() == "te":
-        polarization_marker_layer = pp.LAYER.TE
-    else:
-        polarization_marker_layer = pp.LAYER.TM
-
-    circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)
+    x = taper_length + period * n_periods / 2
+    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=fiber_marker_layer)
     circle_ref = c.add_ref(circle)
-    circle_ref.movex(taper_length + period * n_periods / 2)
+    circle_ref.movex(x)
+    c.add_port(
+        name=f"vertical_{polarization.lower()}",
+        midpoint=[x, 0],
+        width=fiber_marker_width,
+        orientation=0,
+        layer=fiber_marker_layer,
+        port_type=f"vertical_{polarization.lower()}",
+    )
 
     # Add port
     c.add_port(name="W0", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
@@ -176,4 +183,5 @@ if __name__ == "__main__":
     # print(c.polarization)
     c = grating_coupler_te()
     # c = grating_coupler_tm()
+    print(c.ports.keys())
     c.show()

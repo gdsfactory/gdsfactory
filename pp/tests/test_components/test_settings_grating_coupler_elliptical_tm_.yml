@@ -6,7 +6,12 @@ module: pp.components.grating_coupler.elliptical
 name: grating_coupler_elliptical_tm
 settings:
   big_last_tooth: false
+  cladding_index: 1.443
   fiber_angle: 15.0
+  fiber_marker_layer:
+  - 204
+  - 0
+  fiber_marker_width: 11.0
   grating_line_width: 0.707
   lambda_c: 1.554
   layer:
@@ -22,4 +27,3 @@ settings:
   taper_angle: 30.0
   taper_length: 16.6
   wg_width: 0.5
-  with_fiber_marker: true

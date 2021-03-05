@@ -21,7 +21,7 @@ def grating_coupler_uniform_optimized(
     partial_etch: bool = False,
     layer: Tuple[int, int] = pp.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = pp.LAYER.SLAB150,
-    taper_function: ComponentFactory = taper_function,
+    taper_factory: ComponentFactory = taper_function,
     taper_port_name: str = "1",
     polarization: str = "te",
     wavelength: Number = 1500,
@@ -75,8 +75,12 @@ def grating_coupler_uniform_optimized(
                 cgrating.x += x + wt / 2
             x += wt
 
-    taper = taper_function(
-        length=length_taper, width1=width, width2=width_grating, port=None, layer=layer,
+    taper = taper_factory(
+        length=length_taper,
+        width1=width,
+        width2=width_grating,
+        port=None,
+        layer=layer,
     )
     taper_ref = c.add_ref(taper)
     taper_ref.xmax = 0

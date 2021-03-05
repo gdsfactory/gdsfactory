@@ -19,6 +19,10 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+## 2.4.4
+
+- add vertical_te and vertical_tm ports to grating couplers
+- remove klive warning when not klayout is not open
 
 ## 2.4.3
 

@@ -166,6 +166,19 @@ def add_fiber_single(
         if p.port_type != "optical":
             c.add_port(pname, port=p)
 
+    for i, io_row in enumerate(grating_couplers):
+        if isinstance(io_row, list):
+            for j, io in enumerate(io_row):
+                ports = io.get_ports_list(prefix="vertical")
+                if ports:
+                    port = ports[0]
+                    c.add_port(f"{port.name}_{i}{j}", port=port)
+        else:
+            ports = io_row.get_ports_list(prefix="vertical")
+            if ports:
+                port = ports[0]
+                c.add_port(f"{port.name}_{i}{j}", port=port)
+
     if isinstance(grating_coupler, list):
         grating_couplers = [call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
@@ -228,9 +241,9 @@ if __name__ == "__main__":
     c = pp.c.ring_double(length_y=3)  # FIXME
     c = pp.c.waveguide(length=500)
     c = pp.c.mmi1x2()
-    c = pp.c.mzi2x2()
     c = pp.c.rectangle()
     c = pp.c.mzi(length_x=50)
+    c = pp.c.mzi2x2(with_elec_connections=True)
 
     gc = pp.c.grating_coupler_elliptical_te
     # gc = pp.c.grating_coupler_elliptical2
@@ -240,4 +253,5 @@ if __name__ == "__main__":
     cc = add_fiber_single(c, grating_coupler=gc, with_align_ports=True)
 
     # print(cc.get_settings()["component"])
+    print(cc.ports.keys())
     cc.show()

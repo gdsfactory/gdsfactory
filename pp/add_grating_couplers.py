@@ -29,9 +29,11 @@ def add_grating_couplers(
     grating_coupler = pp.call_if_func(grating_coupler)
 
     io_gratings = []
-    for port in component.ports.values():
+    optical_ports = component.get_ports_list(port_type="optical")
+    for port in optical_ports:
         gc_ref = grating_coupler.ref()
-        gc_ref.connect(list(gc_ref.ports.values())[0], port)
+        gc_port = gc_ref.ports[gc_port_name]
+        gc_ref.connect(gc_port, port)
         io_gratings.append(gc_ref)
         cnew.add(gc_ref)
 
@@ -62,6 +64,7 @@ if __name__ == "__main__":
     # print(c.get_property('wavelength'))
 
     c = pp.c.waveguide(width=2)
+    c = pp.c.mzi2x2(with_elec_connections=True)
     # cc = add_grating_couplers(c)
     cc = add_tm(c)
     print(cc)

@@ -8,6 +8,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.geo_utils import DEG2RAD, extrude_path
 from pp.layers import LAYER
+from pp.types import Layer
 
 
 def ellipse_arc(
@@ -80,7 +81,8 @@ def grating_coupler_elliptical_tm(
     neff: float = 1.8,  # tooth effective index
     layer: Tuple[int, int] = LAYER.WG,
     n_periods: int = 16,
-    **kwargs
+    fiber_marker_layer: Layer = pp.LAYER.TM,
+    **kwargs,
 ) -> Component:
     """
 
@@ -108,7 +110,8 @@ def grating_coupler_elliptical_tm(
         layer=layer,
         n_periods=n_periods,
         big_last_tooth=False,
-        **kwargs
+        fiber_marker_layer=fiber_marker_layer,
+        **kwargs,
     )
 
 
@@ -124,7 +127,8 @@ def grating_coupler_elliptical_te(
     layer: Tuple[int, int] = LAYER.WG,
     p_start: int = 26,
     n_periods: int = 24,
-    **kwargs
+    fiber_marker_layer: Layer = pp.LAYER.TE,
+    **kwargs,
 ) -> Component:
     return grating_coupler_elliptical(
         polarization="te",
@@ -138,7 +142,8 @@ def grating_coupler_elliptical_te(
         layer=layer,
         p_start=p_start,
         n_periods=n_periods,
-        **kwargs
+        fiber_marker_layer=fiber_marker_layer,
+        **kwargs,
     )
 
 
@@ -157,7 +162,9 @@ def grating_coupler_elliptical(
     n_periods: int = 30,
     big_last_tooth: bool = False,
     layer_slab: Tuple[int, int] = LAYER.SLAB150,
-    with_fiber_marker: bool = True,
+    fiber_marker_width: float = 11.0,
+    fiber_marker_layer: Layer = pp.LAYER.TE,
+    cladding_index: float = 1.443,
 ) -> Component:
     r""" Grating coupler with parametrization based on Lumerical FDTD simulation
 
@@ -190,10 +197,8 @@ def grating_coupler_elliptical(
 
     """
 
-    # Define some constants
-    nc = 1.443  # cladding index
-
     # Compute some ellipse parameters
+    nc = cladding_index
     sthc = np.sin(fiber_angle * DEG2RAD)
     d = neff ** 2 - nc ** 2 * sthc ** 2
     a1 = lambda_c * neff / d
@@ -262,10 +267,19 @@ def grating_coupler_elliptical(
     else:
         polarization_marker_layer = pp.LAYER.TM
 
-    if with_fiber_marker:
-        circle = pp.c.circle(radius=17 / 2, layer=polarization_marker_layer)
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(taper_length + period * n_periods / 2)
+    x = taper_length + period * n_periods / 2
+    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=polarization_marker_layer)
+    circle_ref = c.add_ref(circle)
+    circle_ref.movex(x)
+
+    c.add_port(
+        name=f"vertical_{polarization.lower()}",
+        midpoint=[x, 0],
+        width=fiber_marker_width,
+        orientation=0,
+        layer=fiber_marker_layer,
+        port_type=f"vertical_{polarization.lower()}",
+    )
 
     # Add port
     c.add_port(name="W0", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
@@ -275,14 +289,14 @@ def grating_coupler_elliptical(
     _rhw = _rl * np.tan(fiber_angle * DEG2RAD) + 2.0
 
     if layer_slab:
-        c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], LAYER.SLAB150)
+        c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], layer_slab)
 
     return c
 
 
 if __name__ == "__main__":
     c = grating_coupler_elliptical_tm()
-    c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
+    # c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
     # print(c.polarization)
     # print(c.wavelength)
     # print(c.ports)

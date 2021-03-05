@@ -60,18 +60,7 @@ cd gdsfactory
 bash install.sh
 ```
 
-## Tests
-
-You can run tests with `pytest`. This will run 3 types of tests:
-
-- pytest will test any function in the `pp` package that starts with `test_`
-- lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
-    - you can check out any changes in the library with `pf diff ref_layouts/bbox.gds run_layouts/bbox.gds`
-- regressions tests: avoids unwanted regressions by storing Components ports position and metadata in YAML files. You can force to regenerate those files running `make test-force` from the repo root directory.
-    - `pp/tests/test_containers.py` stores container function settings in YAML and port locations in a CSV file
-    - `pp/tests/components/test_components.py` stores all the component settings in YAML
-    - `pp/tests/components/test_ports.py` stores all port locations in a CSV file
-
+After installing you should be able to `import pp` from a python script.
 
 - pp photonic-package
   - components: define components
@@ -83,11 +72,11 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - samples: python tutorial
   - tests:
   - klayout: klayout generic tech layers and klive macro
-- notebooks: jupyter-notebooks for training
+- docs/notebooks: jupyter-notebooks for training
 
 
 
-**Links**
+## Links
 
 - [gdsfactory](https://github.com/gdsfactory/gdsfactory): Github repo where we store the gdsfactory code
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
