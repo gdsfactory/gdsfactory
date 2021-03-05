@@ -43,6 +43,7 @@ from pp.components.L import L
 from pp.components.C import C
 from pp.components.bbox import bbox
 from pp.components.nxn import nxn
+from pp.components.ramp import ramp
 
 # optical test structures
 from pp.components.version_stamp import version_stamp
@@ -192,6 +193,7 @@ component_factory = dict(
     pad=pad,
     pad_array=pad_array,
     pads_shorted=pads_shorted,
+    ramp=ramp,
     rectangle=rectangle,
     ring=ring,
     ring_double=ring_double,

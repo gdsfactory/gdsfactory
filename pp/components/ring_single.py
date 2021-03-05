@@ -21,7 +21,7 @@ def ring_single(
     length_y: float = 0.010,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
-    bend: ComponentFactory = bend_euler,
+    bend: Optional[ComponentFactory] = None,
     pins: bool = False,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
@@ -67,6 +67,7 @@ def ring_single(
 
     coupler_ring = (
         coupler(
+            bend=bend,
             gap=gap,
             radius=radius,
             length_x=length_x,
@@ -94,6 +95,8 @@ def ring_single(
         cross_section_factory=cross_section_factory,
         tech=tech,
     )
+
+    bend = bend or bend_euler
     bend_ref = (
         bend(
             radius=radius,

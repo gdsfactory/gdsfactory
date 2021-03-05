@@ -1,0 +1,11 @@
+function_name: ramp
+info: {}
+module: pp.components.ramp
+name: ramp
+settings:
+  layer:
+  - 1
+  - 0
+  length: 10.0
+  width1: 5.0
+  width2: 8.0

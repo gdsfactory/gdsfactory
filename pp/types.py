@@ -17,11 +17,10 @@ Some of these inputs are other functions.
 - RouteFactory: function that returns a Route.
 
 """
-
-from pathlib import Path
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 
 from numpy import float64, int64, ndarray
+from phidl.device_layout import Path
 
 from pp.component import Component, ComponentReference
 from pp.port import Port
@@ -31,6 +30,7 @@ Layers = Iterable[Layer]
 Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
+PathFactory = Callable[..., Path]
 PathType = Union[str, Path]
 
 ComponentOrFactory = Union[ComponentFactory, Component]

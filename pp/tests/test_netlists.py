@@ -58,9 +58,9 @@ if __name__ == "__main__":
     # c = component_factory["ring_single"]()
 
     component_type = "mzi"
-    component_type = "ring_single"
     component_type = "mzit"
     component_type = "ring_double"
+    component_type = "ring_single"
     c1 = component_factory[component_type]()
 
     full_settings = True
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     # n.pop("placements")
     # pp.clear_cache()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
+    print(yaml_str)
 
     c2 = pp.component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)

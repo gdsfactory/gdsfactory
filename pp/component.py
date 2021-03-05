@@ -784,10 +784,6 @@ class Component(Device):
             p.parent = self
             name = p.name
         else:
-            assert len(layer) == 2, (
-                f"Error defining a port with `layer = {layer}`. "
-                + "You need to represent GDS layers with two integer numbers (gdslayer, gdspurpose)"
-            )
             p = Port(
                 name=name,
                 midpoint=midpoint,
