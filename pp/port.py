@@ -26,8 +26,6 @@ from phidl.device_layout import Port as PortPhidl
 
 from pp.snap import snap_to_grid
 
-port_types = ["optical", "rf", "dc", "heater"]
-
 
 class Port(PortPhidl):
     """Ports are useful to connect Components with each other.
@@ -417,6 +415,8 @@ def auto_rename_ports(component: Device) -> Device:
         "heater": lambda _d: _counter_clockwise(_d, "H_"),
         "dc": lambda _d: _counter_clockwise(_d, "E_"),
         "superconducting": lambda _d: _counter_clockwise(_d, "SC_"),
+        "vertical_te": lambda _d: _counter_clockwise(_d, "vertical_te_"),
+        "vertical_tm": lambda _d: _counter_clockwise(_d, "vertical_tm_"),
     }
 
     type_to_ports = {}
@@ -431,7 +431,7 @@ def auto_rename_ports(component: Device) -> Device:
             _func_name_ports = type_to_ports_naming_functions[port_type]
         else:
             raise ValueError(
-                f"Port type <{port_type}> in component {component.name}, port {p} is not valid ",
+                f"Invalid port_type='{port_type}' in component {component.name}, port {p.name}",
                 f"valid types = {list(type_to_ports_naming_functions.keys())}",
             )
 

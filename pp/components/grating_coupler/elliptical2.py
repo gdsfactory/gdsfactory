@@ -32,7 +32,9 @@ def grating_coupler_elliptical2(
     direction: str = "EAST",
     polarization: str = "te",
     wavelength_nm: float = 1550.0,
-    **kwargs
+    fiber_marker_width: float = 11.0,
+    fiber_marker_layer: Layer = pp.LAYER.TE,
+    **kwargs,
 ) -> Component:
     r"""Returns Grating coupler from Picwriter
 
@@ -85,7 +87,7 @@ def grating_coupler_elliptical2(
             wg_width=wg_width,
             layer=layer_core,
             layer_cladding=layer_cladding,
-            **kwargs
+            **kwargs,
         ),
         theta=theta,
         length=length,
@@ -102,6 +104,21 @@ def grating_coupler_elliptical2(
     c = picwriter2component(c)
     c.polarization = polarization
     c.wavelength = wavelength_nm
+
+    x = c.center[0] + taper_length / 2
+    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=fiber_marker_layer)
+    circle_ref = c.add_ref(circle)
+    circle_ref.movex(x)
+
+    c.add_port(
+        name=f"vertical_{polarization.lower()}",
+        midpoint=[x, 0],
+        width=fiber_marker_width,
+        orientation=0,
+        layer=fiber_marker_layer,
+        port_type=f"vertical_{polarization.lower()}",
+    )
+
     return c
 
 

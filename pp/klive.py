@@ -1,6 +1,6 @@
-""" updates GDS view in Klayout dynamically.
+"""Update GDS view in Klayout dynamically.
 Requires the Klayout plugin installed in Klayout.
-This happens when you run `bash install.sh` from the top of the gdsfactory package
+This happens when you run `pf install`.
 """
 
 import json
@@ -28,9 +28,10 @@ def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
         conn.sendall(data_string)
         conn.close()
     except socket.error:
-        print(
-            "error sending GDS to klayout. Make sure have Klayout opened and that you have installed klive with `pf install`"
-        )
+        pass
+        # print(
+        #     "error sending GDS to klayout. Make sure have Klayout opened and that you have installed klive with `pf install`"
+        # )
 
 
 if __name__ == "__main__":

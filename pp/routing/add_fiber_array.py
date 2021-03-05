@@ -137,6 +137,13 @@ def add_fiber_array(
         if p.port_type != "optical":
             cc.add_port(pname, port=p)
 
+    for i, io_row in enumerate(io_gratings_lines):
+        for j, io in enumerate(io_row):
+            ports = io.get_ports_list(prefix="vertical")
+            if ports:
+                port = ports[0]
+                cc.add_port(f"{port.name}_{i}{j}", port=port)
+
     return cc
 
 
@@ -199,6 +206,7 @@ if __name__ == "__main__":
     c = pp.c.waveguide(length=1, width=2)
     c = pp.c.mmi2x2()
     c = pp.c.ring_single()
+    c = pp.c.mzi2x2(with_elec_connections=True)
     c = pp.c.mzi2x2()
 
     c.y = 0
@@ -215,4 +223,5 @@ if __name__ == "__main__":
     )
     # cc = demo_te_and_tm()
     # print(cc.ports.keys())
+    print(cc.ports.keys())
     cc.show()

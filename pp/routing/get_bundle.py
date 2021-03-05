@@ -460,7 +460,7 @@ def get_bundle_path_length_match(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30.0,
-    end_straight_offset: None = None,
+    end_straight_offset: Optional[float] = None,
     bend_radius: float = BEND_RADIUS,
     extra_length: float = 0.0,
     nb_loops: int = 1,
@@ -469,7 +469,7 @@ def get_bundle_path_length_match(
     bend_factory: ComponentFactory = bend_euler,
     **kwargs,
 ) -> List[Route]:
-    """Returns list of routes
+    """Returns list of routes that are path length matched.
 
     Args:
         ports1: list of ports
@@ -483,7 +483,38 @@ def get_bundle_path_length_match(
         modify_segment_i: index of the segment that accomodates the new turns
             default is next to last segment
         route_filter: get_route_from_waypoints
+        bend_factory: for bends
         **kwargs: extra arguments for inner call to link_ports_routes
+
+    Tips:
+
+    - If path length matches the wrong segments, change `modify_segment_i` arguments.
+    - Adjust `nb_loops` to avoid too short or too long segments
+    - Adjust `separation` and `end_straight_offset` to avoid compensation collisions
+
+
+    .. plot::
+      :include-source:
+
+      c = pp.Component("path_length_match_sample")
+
+      dy = 2000.0
+      xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+      pitch = 100.0
+      N = len(xs1)
+      xs2 = [-20 + i * pitch for i in range(N)]
+
+      a1 = 90
+      a2 = a1 + 180
+      ports1 = [pp.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+      ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+
+      routes = pp.routing.get_bundle_path_length_match(
+          ports1, ports2, extra_length=44
+      )
+      for route in routes:
+          c.add(route['references'])
+      c.plot()
 
     """
     extra_length = extra_length / 2
