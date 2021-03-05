@@ -5,6 +5,7 @@ instances:
   ring_single_LX10_R5_-5.0_5.355:
     component: ring_single
     settings:
+      bend: null
       cross_section_factory: null
       gap: 0.2
       layer:
@@ -19,6 +20,7 @@ instances:
   ring_single_LX20_R10_30.0_10.355:
     component: ring_single
     settings:
+      bend: null
       cross_section_factory: null
       gap: 0.2
       layer:
