@@ -339,6 +339,7 @@ def add_pins(
         for reference in component.references:
             function(component=component_new, reference=reference)
 
+    component_new.ports = component.ports.copy()
     return component_new
 
 

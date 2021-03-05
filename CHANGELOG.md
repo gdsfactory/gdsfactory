@@ -20,6 +20,10 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.4.3
+
+- consitent port naming path.component extrusion
+
 ## 2.4.2
 
 - better docs

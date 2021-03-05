@@ -4,13 +4,13 @@ Functions are easy to understand because they have clear inputs and outputs.
 Most gdsfactory functions take some inputs and return a Component object.
 Some of these inputs are other functions.
 
-- Component: object that with
+- Component: Object with
     - name
     - references to other components (x, y, rotation)
     - polygons in different layers
     - ports dictionary
 - ComponentFactory: function that returns a Component.
-- Route: dictionary with 3 keys:
+- Route: Dictionary with 3 keys
     - references: list of references (waveguides, bends and tapers)
     - ports dictionary: dict(input=PortIn, output=PortOut)
     - length: float (how long is this route)

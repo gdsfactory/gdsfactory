@@ -111,15 +111,20 @@ def component(
             points1 = _simplify(points1, tolerance=simplify)
             points2 = _simplify(points2, tolerance=simplify)
 
-        # Join points together
-        points = np.concatenate([points1, points2[::-1, :]])
-
         if snap_to_grid_nm:
-            points = (
+            points1 = (
                 snap_to_grid_nm
-                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
+                * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
                 / 1e3
             )
+            points2 = (
+                snap_to_grid_nm
+                * np.round(np.array(points2) * 1e3 / snap_to_grid_nm)
+                / 1e3
+            )
+
+        # Join points together
+        points = np.concatenate([points1, points2[::-1, :]])
 
         # Combine the offset-lines into a polygon and union if join_after == True
         # if join_after == True: # Use clipper to perform a union operation
@@ -130,10 +135,10 @@ def component(
 
         # Add ports if they were specified
         if ports[0] is not None:
-            new_port = c.add_port(name=f"{i}_{ports[0]}", layer=layer)
+            new_port = c.add_port(name=ports[0])
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
-            new_port = c.add_port(name=f"{i}_{ports[1]}", layer=layer)
+            new_port = c.add_port(name=ports[1])
             new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))

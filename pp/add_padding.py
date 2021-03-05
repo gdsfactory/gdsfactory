@@ -47,6 +47,8 @@ def add_padding(
 ) -> Component:
     """Adds padding layers to a container.
 
+    Returns the same ports on the component.
+
     Args:
         component
         layers: list of layers
@@ -64,6 +66,7 @@ def add_padding(
     points = get_padding_points(component, **kwargs)
     for layer in layers:
         c.add_polygon(points, layer=layer)
+    c.ports = component.ports
     return c
 
 
@@ -77,8 +80,9 @@ def add_padding_to_grid(
     layers: Iterable[Tuple[int, int]] = (pp.LAYER.PADDING,),
     suffix: str = "p",
 ) -> Component:
-    """returns component width a padding layer on each side
-    matches a minimum size
+    """Returns component with padding layers on each side.
+
+    New size is multiple of grid size
     """
     c = pp.Component(name=f"{component.name}_{suffix}")
     c << component

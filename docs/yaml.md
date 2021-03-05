@@ -215,7 +215,7 @@ ring_with_labels:
 # this DOE are captured at every iteration
 ```
 
-### Placer arguments
+**Placer arguments**
 
 ```
 

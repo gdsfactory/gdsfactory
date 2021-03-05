@@ -61,4 +61,5 @@ def bend_circular_heater(
 if __name__ == "__main__":
     c = bend_circular_heater()
     c = pp.add_pins(c)
+    print(c.ports)
     c.show()

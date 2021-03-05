@@ -41,6 +41,9 @@ def ring_single(
         waveguide: waveguide function
         bend: bend function
         pins: add pins
+        width: waveguide width
+        layer:
+        cross_section_factory: to extrude the paths
         tech: Technology with default values
 
 
