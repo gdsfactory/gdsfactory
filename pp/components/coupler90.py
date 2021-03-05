@@ -15,7 +15,7 @@ def coupler90(
     radius: float = 10.0,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
     cross_section_factory: Optional[CrossSectionFactory] = None,
@@ -28,7 +28,7 @@ def coupler90(
         radius: um
         gap: um
         waveguide_factory: for Waveguide
-        bend90_factory: for bend
+        bend: for bend
         tech: Technology
 
     .. code::
@@ -49,14 +49,14 @@ def coupler90(
 
     """
     c = Component()
-    wg = c << waveguide_factory(
+    wg_ref = c << waveguide_factory(
         length=radius,
         width=width,
         layer=layer,
         cross_section_factory=cross_section_factory,
         tech=tech,
     )
-    bend = c << bend90_factory(
+    bend_ref = c << bend(
         radius=radius,
         width=width,
         layer=layer,
@@ -65,17 +65,17 @@ def coupler90(
         **kwargs
     )
 
-    pbw = bend.ports["W0"]
-    bend.movey(pbw.midpoint[1] + gap + width)
+    pbw = bend_ref.ports["W0"]
+    bend_ref.movey(pbw.midpoint[1] + gap + width)
 
     # This component is a leaf cell => using absorb
-    c.absorb(wg)
-    c.absorb(bend)
+    c.absorb(wg_ref)
+    c.absorb(bend_ref)
 
-    c.add_port("E0", port=wg.ports["E0"])
-    c.add_port("N0", port=bend.ports["N0"])
-    c.add_port("W0", port=wg.ports["W0"])
-    c.add_port("W1", port=bend.ports["W0"])
+    c.add_port("E0", port=wg_ref.ports["E0"])
+    c.add_port("N0", port=bend_ref.ports["N0"])
+    c.add_port("W0", port=wg_ref.ports["W0"])
+    c.add_port("W1", port=bend_ref.ports["W0"])
 
     return c
 
@@ -84,15 +84,11 @@ def coupler90circular(
     radius: float = 10.0,
     gap: float = 0.2,
     waveguide_factory: ComponentFactory = waveguide,
-    bend90_factory: ComponentFactory = bend_circular,
+    bend: ComponentFactory = bend_circular,
     **kwargs
 ):
     return coupler90(
-        radius=radius,
-        gap=gap,
-        waveguide_factory=waveguide_factory,
-        bend90_factory=bend90_factory,
-        **kwargs
+        radius=radius, gap=gap, waveguide_factory=waveguide_factory, bend=bend, **kwargs
     )
 
 

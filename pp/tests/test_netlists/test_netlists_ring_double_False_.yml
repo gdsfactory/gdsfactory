@@ -1,57 +1,79 @@
 connections:
-  coupler_ring_7b349d0a_-0.005_17.685,N0: waveguide_L10n_TNone_10.0_10.705,W0
-  coupler_ring_7b349d0a_-0.005_17.685,N1: waveguide_L10n_TNone_-10.01_10.705,W0
-  coupler_ring_7b349d0a_-0.005_3.725,N0: waveguide_L10n_TNone_-10.01_10.705,E0
-  coupler_ring_7b349d0a_-0.005_3.725,N1: waveguide_L10n_TNone_10.0_10.705,E0
+  coupler_ring_deba0275_-0.005_17.685,N0: waveguide_7f75ab43_10.0_10.705,W0
+  coupler_ring_deba0275_-0.005_17.685,N1: waveguide_7f75ab43_-10.01_10.705,W0
+  coupler_ring_deba0275_-0.005_3.725,N0: waveguide_7f75ab43_-10.01_10.705,E0
+  coupler_ring_deba0275_-0.005_3.725,N1: waveguide_7f75ab43_10.0_10.705,E0
 instances:
-  coupler_ring_7b349d0a_-0.005_17.685:
+  coupler_ring_deba0275_-0.005_17.685:
     component: coupler_ring
     settings:
+      bend: bend_euler
+      cross_section_factory: null
       gap: 0.2
+      layer:
+      - 1
+      - 0
       length_x: 0.01
       radius: 10.0
       tech: null
-  coupler_ring_7b349d0a_-0.005_3.725:
+      width: 0.5
+  coupler_ring_deba0275_-0.005_3.725:
     component: coupler_ring
     settings:
+      bend: bend_euler
+      cross_section_factory: null
       gap: 0.2
+      layer:
+      - 1
+      - 0
       length_x: 0.01
       radius: 10.0
       tech: null
-  waveguide_L10n_TNone_-10.01_10.705:
+      width: 0.5
+  waveguide_7f75ab43_-10.01_10.705:
     component: waveguide
     settings:
+      cross_section_factory: null
+      layer:
+      - 1
+      - 0
       length: 0.01
       tech: null
-  waveguide_L10n_TNone_10.0_10.705:
+      width: 0.5
+  waveguide_7f75ab43_10.0_10.705:
     component: waveguide
     settings:
+      cross_section_factory: null
+      layer:
+      - 1
+      - 0
       length: 0.01
       tech: null
+      width: 0.5
 name: ring_double
 placements:
-  coupler_ring_7b349d0a_-0.005_17.685:
+  coupler_ring_deba0275_-0.005_17.685:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_7b349d0a_-0.005_3.725:
+  coupler_ring_deba0275_-0.005_3.725:
     mirror: false
     rotation: 0
     x: 0.0
     y: -0.0
-  waveguide_L10n_TNone_-10.01_10.705:
+  waveguide_7f75ab43_-10.01_10.705:
     mirror: false
     rotation: 270
     x: -10.01
     y: 10.71
-  waveguide_L10n_TNone_10.0_10.705:
+  waveguide_7f75ab43_10.0_10.705:
     mirror: false
     rotation: 270
     x: 10.0
     y: 10.71
 ports:
-  E0: coupler_ring_7b349d0a_-0.005_3.725,E0
-  E1: coupler_ring_7b349d0a_-0.005_17.685,W0
-  W0: coupler_ring_7b349d0a_-0.005_3.725,W0
-  W1: coupler_ring_7b349d0a_-0.005_17.685,E0
+  E0: coupler_ring_deba0275_-0.005_3.725,E0
+  E1: coupler_ring_deba0275_-0.005_17.685,W0
+  W0: coupler_ring_deba0275_-0.005_3.725,W0
+  W1: coupler_ring_deba0275_-0.005_17.685,E0

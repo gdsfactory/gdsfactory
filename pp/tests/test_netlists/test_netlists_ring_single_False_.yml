@@ -3,8 +3,8 @@ connections:
   bend_euler_824369b4_-10.625_17.335,W0: waveguide_e4d6fb46_-2.0_20.71,W0
   bend_euler_824369b4_6.625_17.335,N0: waveguide_e4d6fb46_-2.0_20.71,E0
   bend_euler_824369b4_6.625_17.335,W0: waveguide_7f75ab43_10.0_10.705,W0
-  coupler_ring_89f1d634_-2.0_3.725,N0: waveguide_7f75ab43_-14.0_10.705,E0
-  coupler_ring_89f1d634_-2.0_3.725,N1: waveguide_7f75ab43_10.0_10.705,E0
+  coupler_ring_ad9a40ea_-2.0_3.725,N0: waveguide_7f75ab43_-14.0_10.705,E0
+  coupler_ring_ad9a40ea_-2.0_3.725,N1: waveguide_7f75ab43_10.0_10.705,E0
 instances:
   bend_euler_824369b4_-10.625_17.335:
     component: bend_euler
@@ -26,9 +26,10 @@ instances:
       radius: 10.0
       tech: null
       width: 0.5
-  coupler_ring_89f1d634_-2.0_3.725:
+  coupler_ring_ad9a40ea_-2.0_3.725:
     component: coupler_ring
     settings:
+      bend: null
       cross_section_factory: null
       gap: 0.2
       layer:
@@ -80,7 +81,7 @@ placements:
     rotation: 90
     x: 10.0
     y: 10.71
-  coupler_ring_89f1d634_-2.0_3.725:
+  coupler_ring_ad9a40ea_-2.0_3.725:
     mirror: false
     rotation: 0
     x: 0.0
@@ -101,5 +102,5 @@ placements:
     x: -4.0
     y: 20.71
 ports:
-  E0: coupler_ring_89f1d634_-2.0_3.725,E0
-  W0: coupler_ring_89f1d634_-2.0_3.725,W0
+  E0: coupler_ring_ad9a40ea_-2.0_3.725,E0
+  W0: coupler_ring_ad9a40ea_-2.0_3.725,W0

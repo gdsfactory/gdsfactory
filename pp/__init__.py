@@ -28,7 +28,7 @@ from phidl.device_layout import Group, Path, CrossSection
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.assert_grating_coupler_properties import assert_grating_coupler_properties
 from pp.config import CONFIG, call_if_func, conf
-from pp.component import Component, ComponentReference
+from pp.component import Component, ComponentReference, copy
 from pp.port import Port
 from pp.port import port_array
 from pp.cell import cell
@@ -60,6 +60,8 @@ from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
 from pp.pack import pack
+from pp.grid import grid
+from pp.offset import offset
 from pp.boolean import boolean
 from pp.container import container
 from pp.snap import snap_to_grid
@@ -78,6 +80,7 @@ __all__ = [
     "Path",
     "bias",
     "cell",
+    "copy",
     "add_padding",
     "add_pins",
     "add_pins_to_references",
@@ -91,8 +94,10 @@ __all__ = [
     "boolean",
     "get_name_to_function_dict",
     "get_padding_points",
+    "grid",
     "klive",
     "load_component",
+    "offset",
     "plotgds",
     "pack",
     "qp",

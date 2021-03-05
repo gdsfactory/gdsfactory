@@ -3,6 +3,7 @@ from typing import Optional
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.cross_section import CrossSectionFactory, strip
@@ -14,6 +15,7 @@ from pp.types import ComponentFactory, Layer
 @cell
 def coupler_ring(
     coupler90: ComponentFactory = coupler90,
+    bend: Optional[ComponentFactory] = None,
     coupler: ComponentFactory = coupler_straight,
     length_x: float = 4.0,
     gap: float = 0.2,
@@ -52,6 +54,7 @@ def coupler_ring(
       c.plot()
 
     """
+    bend = bend or bend_euler
     tech = tech or TECH_SILICON_C
     cross_section_factory = cross_section_factory or strip
 
@@ -61,6 +64,7 @@ def coupler_ring(
     # define subcells
     coupler90 = (
         coupler90(
+            bend=bend,
             width=width,
             gap=gap,
             radius=radius,

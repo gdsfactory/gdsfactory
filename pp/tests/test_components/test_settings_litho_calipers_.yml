@@ -3,8 +3,8 @@ info: {}
 module: pp.components.pcm.litho_calipers
 name: litho_calipers
 settings:
-  layer_bottom: 2
-  layer_top: 1
+  layer1: 1
+  layer2: 2
   notch_size:
   - 2
   - 5

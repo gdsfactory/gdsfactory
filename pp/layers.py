@@ -151,7 +151,9 @@ port_type2layer = {v: k for k, v in port_layer2type.items()}
 layer_cladding_waveguide = [LAYER.WGCLAD]
 
 
-def preview_layerset(ls: LayerSet = ls, size: float = 100.0) -> Component:
+def preview_layerset(
+    ls: LayerSet = ls, size: float = 100.0, spacing: float = 100.0
+) -> Component:
     """Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files
@@ -179,8 +181,12 @@ def preview_layerset(ls: LayerSet = ls, size: float = 100.0) -> Component:
 
         xloc = n % matrix_size
         yloc = int(n // matrix_size)
-        D.add_ref(R).movex(200 * xloc * scale).movey(-200 * yloc * scale)
-        D.add_ref(T).movex(200 * xloc * scale).movey(-200 * yloc * scale)
+        D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
+            -(100 + spacing) * yloc * scale
+        )
+        D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
+            -(100 + spacing) * yloc * scale
+        )
     return D
 
 
@@ -289,15 +295,13 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    import json
+    # import json
+    # from pydantic.json import pydantic_encoder
+    # print(json.dumps(LAYER, indent=4, default=pydantic_encoder))
 
-    from pydantic.json import pydantic_encoder
-
-    print(json.dumps(LAYER, indent=4, default=pydantic_encoder))
-
-    # lys = test_load_lyp()
-    # c = preview_layerset(ls)
-    # c.show()
+    lys = test_load_lyp()
+    c = preview_layerset(ls)
+    c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))
