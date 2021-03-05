@@ -91,9 +91,9 @@ def grid(
     cols = [Group(ref_array[:, n]) for n in range(ref_array.shape[1])]
 
     # Align rows and columns independently
-    for n, r in enumerate(rows):
+    for r in rows:
         r.align(alignment=align_y)
-    for n, c in enumerate(cols):
+    for c in cols:
         c.align(alignment=align_x)
 
     # Distribute rows and columns

@@ -162,9 +162,21 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
         num_regression.check(component.get_ports_array())
 
 
+def test_layers():
+    P = pp.path.straight(length=10.001)
+    X = pp.CrossSection()
+    X.add(width=0.5, offset=0, layer=pp.LAYER.SLAB90, ports=["in", "out"])
+    c = pp.path.component(P, X, simplify=5e-3, snap_to_grid_nm=5)
+    assert c.ports["W0"].layer == pp.LAYER.SLAB90
+    assert c.ports["E0"].position[0] == 10.0
+    return c
+
+
 if __name__ == "__main__":
-    c = transition()
-    c = double_loop()
-    c = rename()
-    c.pprint()
+    c = test_layers()
     c.show()
+    # c = transition()
+    # c = double_loop()
+    # c = rename()
+    # c.pprint()
+    # c.show()
