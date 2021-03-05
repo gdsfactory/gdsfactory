@@ -19,7 +19,7 @@ from pp.component import Component
 from pp.hash_points import hash_points
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
-from pp.types import Coordinates, Number
+from pp.types import Coordinates, Number, PathFactory
 
 
 def component(
@@ -49,7 +49,7 @@ def component(
 
     c = Component()
 
-    for i, section in enumerate(cross_section.sections):
+    for section in cross_section.sections:
         width = section["width"]
         offset = section["offset"]
         layer = section["layer"]
@@ -135,10 +135,10 @@ def component(
 
         # Add ports if they were specified
         if ports[0] is not None:
-            new_port = c.add_port(name=ports[0])
+            new_port = c.add_port(name=ports[0], layer=layer)
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
-            new_port = c.add_port(name=ports[1])
+            new_port = c.add_port(name=ports[1], layer=layer)
             new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))
@@ -200,17 +200,11 @@ def straight(length: Number = 10, npoints: int = 100) -> Path:
 
 
 def smooth(
-    points: Coordinates = [
-        (20, 0),
-        (40, 0),
-        (80, 40),
-        (80, 10),
-        (100, 10),
-    ],
+    points: Coordinates,
     radius: float = 4.0,
-    corner_fun=euler,
+    corner_fun: PathFactory = euler,
     **kwargs,
-):
+) -> Path:
     """Returns a smooth path from a series of waypoints. Corners will be rounded
     using `corner_fun` and any additional key word arguments (for example,
     `use_eff = True` when `corner_fun = pp.euler`)
@@ -266,7 +260,7 @@ def smooth(
     new_points.append([points[0, :]])
     for n, dt in enumerate(dtheta):
         P = paths[n]
-        P.rotate(theta[n] - 0)
+        P.rotate(dt - 0)
         P.move(p1[n])
         new_points.append(P.points)
     new_points.append([points[-1, :]])
