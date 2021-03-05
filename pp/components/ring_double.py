@@ -3,7 +3,6 @@ from typing import Optional
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
@@ -21,7 +20,7 @@ def ring_double(
     length_y: float = 0.01,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
-    bend: ComponentFactory = bend_euler,
+    bend: Optional[ComponentFactory] = None,
     pins: bool = False,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
@@ -30,6 +29,20 @@ def ring_double(
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
+
+    Args:
+        gap: gap between for coupler
+        radius: for the bend and coupler
+        length_x: ring coupler length
+        length_y: vertical waveguide length
+        coupler: ring coupler function
+        waveguide: waveguide function
+        bend: bend function
+        pins: add pins
+        width: waveguide width
+        layer:
+        cross_section_factory: to extrude the paths
+        tech: Technology with default values
 
     .. code::
 

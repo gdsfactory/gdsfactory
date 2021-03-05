@@ -64,4 +64,5 @@ if __name__ == "__main__":
 
     c = waveguide(length=10.001, width=10, tech=TECH_METAL1)
     print(c.length)
+    print(c.ports)
     c.show()
