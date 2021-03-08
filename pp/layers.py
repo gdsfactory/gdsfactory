@@ -93,6 +93,7 @@ class LayerMap:
     SLAB150 = (2, 0)
     SLAB90 = (3, 0)
     WGN = (34, 0)
+    WGN_CLAD = (36, 0)
     N = (20, 0)
     Np = (22, 0)
     Npp = (24, 0)
@@ -131,6 +132,7 @@ ls.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
 ls.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
 ls.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
 ls.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
+ls.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha=0)
 ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
 
 
@@ -295,10 +297,6 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    # import json
-    # from pydantic.json import pydantic_encoder
-    # print(json.dumps(LAYER, indent=4, default=pydantic_encoder))
-
     lys = test_load_lyp()
     c = preview_layerset(ls)
     c.show()
