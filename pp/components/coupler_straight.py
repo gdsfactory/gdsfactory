@@ -39,9 +39,9 @@ def coupler_straight(
     cladding_offset = cladding_offset or getattr(tech, "cladding_offset", 0)
     layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
 
-    x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["W0", "E0"])
-    x.add(
+    cross_section = CrossSection()
+    cross_section.add(width=width, offset=0, layer=layer, ports=["W0", "E0"])
+    cross_section.add(
         width=width,
         offset=gap + width,
         layer=layer,
@@ -49,14 +49,15 @@ def coupler_straight(
     )
     layers_cladding = layers_cladding or []
     for layer_cladding in layers_cladding:
-        x.add(
+        cross_section.add(
             width=width + 2 * cladding_offset,
             offset=0,
             layer=layer_cladding,
         )
 
     p = straight(length=length)
-    return component(p, x)
+    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    return c
 
 
 if __name__ == "__main__":

@@ -4,14 +4,14 @@ info:
   width1: 1.0
   width2: 1.0
 module: pp.components.taper
-name: taper_CO3_L34_0_LC71_0_L20_W1_W1
+name: taper_CO3_L34_0_LC36_0_L20_W1_W1
 settings:
   cladding_offset: 3.0
   layer:
   - 34
   - 0
   layers_cladding:
-  - - 71
+  - - 36
     - 0
   length: 20.0
   port: null
