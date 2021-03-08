@@ -246,15 +246,20 @@ def select_ports(
 
 
 def select_optical_ports(
-    ports: Dict[str, Port], prefix: None = None
+    ports: Dict[str, Port],
+    prefix: Optional[str] = None,
+    layer: Optional[Tuple[int, int]] = None,
 ) -> Dict[str, Port]:
-    return select_ports(ports, port_type="optical", prefix=prefix)
+    return select_ports(ports, port_type="optical", prefix=prefix, layer=layer)
 
 
 def select_electrical_ports(
-    ports: Dict[str, Port], port_type: str = "dc", prefix: None = None
+    ports: Dict[str, Port],
+    port_type: str = "dc",
+    prefix: Optional[str] = None,
+    layer: Optional[Tuple[int, int]] = None,
 ) -> Dict[str, Port]:
-    d = select_ports(ports, port_type=port_type, prefix=prefix)
+    d = select_ports(ports, port_type=port_type, prefix=prefix, layer=layer)
     return d
 
 
