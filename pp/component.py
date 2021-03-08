@@ -471,7 +471,10 @@ class ComponentReference(DeviceReference):
         return self.ref_cell.get_property(property)
 
     def get_ports_list(
-        self, port_type: str = "optical", prefix: Optional[str] = None
+        self,
+        port_type: Optional[str] = None,
+        layer: Optional[Tuple[int, int]] = None,
+        prefix: Optional[str] = None,
     ) -> List[Port]:
         """returns a list of ports. Useful for routing bundles of ports
 
@@ -480,7 +483,9 @@ class ComponentReference(DeviceReference):
             prefix: for example "E" for east, "W" for west ...
         """
         return list(
-            select_ports(self.ports, port_type=port_type, prefix=prefix).values()
+            select_ports(
+                self.ports, port_type=port_type, layer=layer, prefix=prefix
+            ).values()
         )
 
     def get_settings(self) -> Dict[str, Any]:

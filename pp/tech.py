@@ -69,15 +69,9 @@ TECH_METAL1 = TechMetal1()
 
 
 if __name__ == "__main__":
-    import json
-
-    from pydantic.json import pydantic_encoder
-
     import pp
 
     c = pp.c.waveguide(tech=TECH_METAL1)
     print(c.name)
 
     tech = TECH_METAL1
-    # print(tech.dict())
-    print(json.dumps(tech, indent=4, default=pydantic_encoder))

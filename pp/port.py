@@ -26,6 +26,8 @@ from phidl.device_layout import Port as PortPhidl
 
 from pp.snap import snap_to_grid
 
+valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
+
 
 class Port(PortPhidl):
     """Ports are useful to connect Components with each other.
@@ -209,13 +211,16 @@ def is_electrical_port(port: Port) -> bool:
 
 def select_ports(
     ports: Dict[str, Port],
-    port_type: Union[str, Tuple[int, int]] = "optical",
+    port_type: Optional[str] = None,
+    layer: Optional[Tuple[int, int]] = None,
     prefix: Optional[str] = None,
 ) -> Dict[str, Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
-        layers: a list of port layer or a port type (layer or string)
+        port_type: a port type string
+        layer: GDS layer
+        prefix: a prefix
 
     Returns:
         Dictionnary containing only the ports with the wanted type(s)
@@ -228,11 +233,13 @@ def select_ports(
     if isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = ports.ports
 
-    ports = {
-        p_name: p
-        for p_name, p in ports.items()
-        if p.port_type == port_type or p.layer == port_type
-    }
+    if port_type:
+        if port_type not in valid_port_types:
+            raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
+        ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
+
+    if layer:
+        ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {p_name: p for p_name, p in ports.items() if p_name.startswith(prefix)}
     return ports
@@ -248,7 +255,6 @@ def select_electrical_ports(
     ports: Dict[str, Port], port_type: str = "dc", prefix: None = None
 ) -> Dict[str, Port]:
     d = select_ports(ports, port_type=port_type, prefix=prefix)
-    d.update(select_ports(ports, port_type="electrical"))
     return d
 
 

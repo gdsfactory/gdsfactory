@@ -9,42 +9,41 @@
 [![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/pp)
 [![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-
 ![](https://i.imgur.com/v4wpHpg.png)
 
-Gdsfactory is an [EPDA (electronics/photonic design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) for fabricating Integrated Circuits.
+gdsfactory is an [EDA (electronics/photonic design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
 
-gdsfactory provides you with useful layout functions to build your GDSII components, PDKs and masks for different foundries.
+It is based on [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) and provides you with functions to build your GDSII components, PDKs and masks for different foundries.
 
-You just need to adapt the functions to your foundry and build your own PDK (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
+You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
-Gdsfactory extends [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) with some useful photonics functions (see photonics package `pp`) to generate GDS layouts (GDSII is the standard format to create masks sets in the CMOS industry)
+gdsfactory provides you with:
 
 - functions easily adaptable to define components
-- define component sweeps (Design of Experiments or DOEs) in YAML files and GDS masks (together with JSON metadata)
-- route optical/electrical ports to pads and grating couplers
+- functions to route electrical ports to pads and optical ports grating couplers
+- functions to define components, circuit netlists or masks in YAML files
+
+As inputs, gdsfactory needs you to write python functions, python dataclasses or YAML files to describe your layouts.
+
+As output it creates GDSII files ([GDSII](https://en.wikipedia.org/wiki/GDSII) is the standard format to describe masks sets in the CMOS industry).
+It also can output JSON files with components settings (that you can use for measurement and data analysis) and JSON or CSV files for testing the devices after fabrication. You can also easily adapt this metadata output files to your needs.
 
 ## Documentation
 
 - [read online Documentation](https://gdsfactory.readthedocs.io/en/latest)
 - run pp/samples
 - run docs/notebooks
-- see latest changes in [CHANGELOG](CHANGELOG.md)
 
 gdsfactory is all written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
 
-
 ## Installation
 
-Works for python>=3.7 for Windows, MacOs and Linux.
+First, you need to install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
+
+gdsfactory works for python>=3.7 in Windows, MacOs and Linux.
 [Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
 
-If you are on Windows, I recommend you install it with Anaconda3 or Miniconda3.
-
-
-You can install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
-
-For Windows, Linux and MacOs you can install the latest released version:
+If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Miniconda3.
 
 ```
 conda install -c conda-forge gdspy
@@ -52,17 +51,24 @@ pip install gdsfactory
 pf install
 ```
 
-Or you can install the development version if you want to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:
+For Linux and MacOs you can also install gdsfactory without Anaconda3:
+
+```
+pip install gdsfactory
+pf install
+```
+
+Or you can install the development version if you plan to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
-bash install.sh
+make install
 ```
 
-After installing you should be able to `import pp` from a python script.
+After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for photonics package.
 
-- pp photonic-package
+- pp main photonic-package for gdsfactory
   - components: define components
   - drc: check geometry
   - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
@@ -72,18 +78,12 @@ After installing you should be able to `import pp` from a python script.
   - samples: python tutorial
   - tests:
   - klayout: klayout generic tech layers and klive macro
-- docs/notebooks: jupyter-notebooks for training
-
-
+- docs/notebooks: jupyter-notebooks based tutorial
 
 ## Links
 
 - [gdsfactory](https://github.com/gdsfactory/gdsfactory): Github repo where we store the gdsfactory code
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
-  - `component.gds`: GDS
-  - `component.json`: JSON file with component properties
-  - `component.dat`: FDTD Sparameters
-  - `component.ports`: CSV with port information
 - [ubc PDK](https://github.com/gdsfactory/ubc)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [gdspy](https://github.com/heitzmann/gdspy)
