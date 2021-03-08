@@ -7,7 +7,7 @@ from pp.components.extension import line
 from pp.components.waveguide import waveguide
 from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
-from pp.port import select_electrical_ports
+from pp.port import select_ports
 from pp.routing.route_ports_to_side import route_elec_ports_to_side
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
@@ -248,7 +248,7 @@ def mzi2x2(
             component.ports.pop(lbl)
 
         # Reroute electrical ports
-        _e_ports = select_electrical_ports(component)
+        _e_ports = select_ports(component.ports, port_type="dc")
         routes, e_ports = route_elec_ports_to_side(_e_ports, side="north", y=y_elec)
 
         for route in routes:

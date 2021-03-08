@@ -12,12 +12,11 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from pp.config import conf
-from pp.port import Port, select_ports
+from pp.port import Port, select_ports, valid_port_types
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
-valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
 
 
 def copy(D: Device) -> Device:
@@ -476,10 +475,11 @@ class ComponentReference(DeviceReference):
         layer: Optional[Tuple[int, int]] = None,
         prefix: Optional[str] = None,
     ) -> List[Port]:
-        """returns a list of ports. Useful for routing bundles of ports
+        """Returns a list of ports.
 
         Args:
-            port_type: str or (int, int) layer
+            port_type: 'optical', 'vertical_te', 'rf'
+            layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
         """
         return list(
@@ -594,23 +594,43 @@ class Component(Device):
         else:
             return self.name
 
-    def ports_on_grid(self) -> None:
-        """ asserts if all ports ar eon grid """
+    def ports_on_grid(self, nm: int = 1) -> None:
+        """Asserts that all ports are on grid."""
         for port in self.ports.values():
-            port.on_grid()
+            port.on_grid(nm=nm)
 
     def get_ports_dict(
-        self, port_type: str = "optical", prefix: Optional[str] = None
+        self,
+        port_type: Optional[str] = None,
+        layer: Optional[Tuple[int, int]] = None,
+        prefix: Optional[str] = None,
     ) -> Dict[str, Port]:
-        """ returns a list of ports """
-        return select_ports(self.ports, port_type=port_type, prefix=prefix)
+        """Returns a dict of ports.
+
+        Args:
+            port_type: 'optical', 'vertical_te', 'rf'
+            layer: port GDS layer
+            prefix: for example "E" for east, "W" for west ...
+        """
+        return select_ports(self.ports, port_type=port_type, layer=layer, prefix=prefix)
 
     def get_ports_list(
-        self, port_type: str = "optical", prefix: Optional[str] = None
+        self,
+        port_type: Optional[str] = None,
+        layer: Optional[Tuple[int, int]] = None,
+        prefix: Optional[str] = None,
     ) -> List[Port]:
-        """ returns a lit of  ports """
+        """Returns a list of ports.
+
+        Args:
+            port_type: 'optical', 'vertical_te', 'rf'
+            layer: port GDS layer
+            prefix: for example "E" for east, "W" for west ...
+        """
         return list(
-            select_ports(self.ports, port_type=port_type, prefix=prefix).values()
+            select_ports(
+                self.ports, port_type=port_type, layer=layer, prefix=prefix
+            ).values()
         )
 
     def get_ports_array(self) -> Dict[str, ndarray]:
