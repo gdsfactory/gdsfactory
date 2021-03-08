@@ -43,7 +43,7 @@ class TechNitrideCband(Tech):
     bend_radius: float = 20.0
     cladding_offset: float = 3.0
     layer_wg: Layer = LAYER.WGN
-    layers_cladding: Tuple[Layer, ...] = (LAYER.NO_TILE_SI,)
+    layers_cladding: Tuple[Layer, ...] = (LAYER.WGN_CLAD,)
     layer_label: Layer = LAYER.LABEL
     taper_length: float = 20.0
     taper_width: float = 1.0

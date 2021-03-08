@@ -187,7 +187,7 @@ def euler(
     return path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
 
 
-def straight(length: Number = 10, npoints: int = 100) -> Path:
+def straight(length: Number = 10, npoints: int = 2) -> Path:
     """Returns a straight path
 
     For transitions you should increase have at least 100 points

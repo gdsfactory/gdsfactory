@@ -135,7 +135,7 @@ class Pdk:
         width: Optional[float] = None,
         gap: float = 0.2,
         length_x: float = 4.0,
-        length_y: float = 0.001,
+        length_y: float = 0.10,
         radius: Optional[float] = None,
         pins: bool = False,
         layer: Optional[Layer] = None,
