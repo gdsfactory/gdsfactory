@@ -121,8 +121,9 @@ def mmi1x2(
 
 if __name__ == "__main__":
     c = mmi1x2()
+    c.show()
+
     # print(c.ports)
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
     # pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
-    c.show()
