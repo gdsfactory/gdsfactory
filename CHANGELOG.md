@@ -23,6 +23,11 @@ from pydantic import validate_arguments
 
 - add vertical_te and vertical_tm ports to grating couplers
 - remove klive warning when not klayout is not open
+- replace cladding for bend_circular and bend_euler with square cladding
+- added pins=True to `component.show(pins=True)`
+- added `pf merge-cells`
+- added `auto_taper_to_wide_waveguides` option to add_fiber_array
+- `add_padding` returns the same component, `add_padding_container` returns a container with component inside
 
 ## 2.4.3
 

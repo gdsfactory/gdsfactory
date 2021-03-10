@@ -2,6 +2,7 @@ function_name: add_fiber_array
 info: {}
 name: mzi2x2_WECTrue_te
 settings:
+  auto_taper_to_wide_waveguides: true
   bend_factory: bend_euler
   component:
     function_name: mzi2x2

@@ -145,7 +145,13 @@ layer2material = {
     LAYER.WGN: "sin",
 }
 
-port_layer2type = {LAYER.PORT: "optical", LAYER.PORTE: "dc", LAYER.PORTH: "heater"}
+port_layer2type = {
+    LAYER.PORT: "optical",
+    LAYER.PORTE: "dc",
+    LAYER.PORTH: "heater",
+    LAYER.TE: "vertical_te",
+    LAYER.TM: "vertical_tm",
+}
 
 port_type2layer = {v: k for k, v in port_layer2type.items()}
 

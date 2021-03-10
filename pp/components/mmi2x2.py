@@ -1,10 +1,11 @@
 from typing import Iterable, Optional
 
 import pp
+from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.tech import TECH_SILICON_C
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer
 
 
@@ -19,7 +20,8 @@ def mmi2x2(
     taper: ComponentFactory = taper_function,
     layer: Layer = TECH_SILICON_C.layer_wg,
     layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: float = 0,
+    cladding_offset: Optional[float] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     r"""Mmi 2x2
 
@@ -60,6 +62,13 @@ def mmi2x2(
             length_taper
 
     """
+    tech = tech or TECH_SILICON_C
+    cladding_offset = (
+        cladding_offset if cladding_offset is not None else tech.cladding_offset
+    )
+    layers_cladding = (
+        layers_cladding if layers_cladding is not None else tech.layers_cladding
+    )
     component = pp.Component()
     w_mmi = width_mmi
     w_taper = width_taper
@@ -69,8 +78,9 @@ def mmi2x2(
         width1=width,
         width2=w_taper,
         layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
+        cladding_offset=0,
+        layers_cladding=(),
+        tech=tech,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -83,15 +93,6 @@ def mmi2x2(
             "W": [(-length_mmi / 2, -a, w_taper), (-length_mmi / 2, +a, w_taper)],
         },
     )
-    layers_cladding = layers_cladding or []
-    if layers_cladding:
-        for layer_cladding in layers_cladding:
-            clad = component << pp.c.rectangle(
-                size=(length_mmi, w_mmi + 2 * cladding_offset),
-                layer=layer_cladding,
-                centered=True,
-            )
-            component.absorb(clad)
 
     mmi_section = component.add_ref(mmi)
 
@@ -103,6 +104,18 @@ def mmi2x2(
 
     component.simulation_settings = dict(port_width=1.5e-6)
     component.absorb(mmi_section)
+
+    layers_cladding = layers_cladding or []
+    if layers_cladding:
+        add_padding(
+            component,
+            default=cladding_offset,
+            right=0,
+            left=0,
+            top=cladding_offset,
+            bottom=cladding_offset,
+            layers=layers_cladding,
+        )
     return component
 
 

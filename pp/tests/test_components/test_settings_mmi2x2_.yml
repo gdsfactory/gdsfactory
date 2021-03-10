@@ -5,7 +5,7 @@ info:
 module: pp.components.mmi2x2
 name: mmi2x2
 settings:
-  cladding_offset: 0
+  cladding_offset: null
   gap_mmi: 0.2
   layer:
   - 1
@@ -13,6 +13,7 @@ settings:
   layers_cladding: null
   length_mmi: 15.45
   length_taper: 10.0
+  tech: null
   width: 0.5
   width_mmi: 2.1
   width_taper: 0.95

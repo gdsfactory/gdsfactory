@@ -133,7 +133,7 @@ instances:
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings:
-      cladding_offset: 0.0
+      cladding_offset: null
       gap_mmi: 0.25
       layer:
       - 1
@@ -141,13 +141,14 @@ instances:
       layers_cladding: null
       length_mmi: 5.496
       length_taper: 10.0
+      tech: null
       width: 0.5
       width_mmi: 2.5
       width_taper: 1.0
   mmi1x2_65.596_-0.0:
     component: mmi1x2
     settings:
-      cladding_offset: 0.0
+      cladding_offset: null
       gap_mmi: 0.25
       layer:
       - 1
@@ -155,6 +156,7 @@ instances:
       layers_cladding: null
       length_mmi: 5.496
       length_taper: 10.0
+      tech: null
       width: 0.5
       width_mmi: 2.5
       width_taper: 1.0

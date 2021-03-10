@@ -358,6 +358,7 @@ def route_fiber_array(
                 route_filter=route_filter,
                 bend_factory=bend90,
                 bend_radius=bend_radius,
+                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             )
             elements.extend([route["references"] for route in routes])
 
@@ -376,6 +377,7 @@ def route_fiber_array(
                     bend_factory=bend90,
                     route_filter=route_filter,
                     bend_radius=bend_radius,
+                    auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
                 )
                 elements.extend([route["references"] for route in routes])
                 del to_route[n0 - dn : n0 + dn]

@@ -30,6 +30,7 @@ def route_fiber_single(
         optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
+        auto_taper_to_wide_waveguides: for long routes
 
     Returns:
         elements: list of routes ComponentReference

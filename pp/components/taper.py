@@ -4,7 +4,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.port import Port
-from pp.tech import TECH_SILICON_C
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import Layer, Number
 
 
@@ -16,7 +16,8 @@ def taper(
     port: Optional[Port] = None,
     layer: Layer = TECH_SILICON_C.layer_wg,
     layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: float = 0.0,
+    cladding_offset: Optional[float] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Linear taper.
 
@@ -38,8 +39,17 @@ def taper(
       c.plot()
 
     """
+    tech = tech or TECH_SILICON_C
+    cladding_offset = (
+        cladding_offset if cladding_offset is not None else tech.cladding_offset
+    )
+    layers_cladding = (
+        layers_cladding if layers_cladding is not None else tech.layers_cladding
+    )
+
     o = cladding_offset
     layers_cladding = layers_cladding or []
+
     if isinstance(port, pp.Port) and width1 is None:
         width1 = port.width
     if width2 is None:
