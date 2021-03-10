@@ -1,3 +1,19 @@
+"""
+               top
+        ===CP1=   ==CP2===
+               bot
+
+This should work.
+    arm_bot,W0: CP1,E0
+    arm_top,W0: CP1,E1
+    CP2,E0: arm_bot,E0
+    CP2,E1: arm_top,E0
+
+This works but does not make sense.
+    arm_bot,W0: CP1,E0
+    arm_top,W0: CP1,E1
+    CP2,E1: arm_bot,E0
+"""
 import pp
 from pp.component import Component
 
@@ -21,15 +37,16 @@ instances:
 placements:
     arm_bot:
         mirror: True
-ports:
-    W0: CP1,W0
-    E0: CP2,W0
 
 connections:
     arm_bot,W0: CP1,E0
     arm_top,W0: CP1,E1
     CP2,E0: arm_bot,E0
     CP2,E1: arm_top,E0
+
+ports:
+    W0: CP1,W0
+    E0: CP2,W0
 """
 
 
@@ -39,4 +56,5 @@ def test_mzi() -> Component:
 
 if __name__ == "__main__":
     c = test_mzi()
-    c.show()
+    c.show(show_subports=True)
+    # c.plot(show_subports=True)
