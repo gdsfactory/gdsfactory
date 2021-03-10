@@ -38,16 +38,41 @@ def get_padding_points(
     ]
 
 
-@container
 def add_padding(
+    component: Component,
+    layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
+    **kwargs,
+) -> Component:
+    """Adds padding layers to a component.
+
+    The cell name will be the same as the original component.
+
+    Args:
+        component
+        layers: list of layers
+        suffix for name
+        default: default padding
+        top: north padding
+        bottom: south padding
+        right: east padding
+        left: west padding
+    """
+    points = get_padding_points(component, **kwargs)
+    for layer in layers:
+        component.add_polygon(points, layer=layer)
+    return component
+
+
+@container
+def add_padding_container(
     component: Component,
     layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
     suffix: str = "p",
     **kwargs,
 ) -> Component:
-    """Adds padding layers to a container.
+    """Adds padding layers to a component inside a container.
 
-    Returns the same ports on the component.
+    Returns the same ports as the component.
 
     Args:
         component

@@ -15,5 +15,6 @@ settings:
     - 0
   length: 20.0
   port: null
+  tech: null
   width1: 1.0
   width2: 1.0

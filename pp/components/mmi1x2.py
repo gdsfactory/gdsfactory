@@ -1,10 +1,11 @@
 from typing import Iterable, Optional
 
 import pp
+from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.tech import TECH_SILICON_C
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer
 
 
@@ -19,7 +20,8 @@ def mmi1x2(
     taper: ComponentFactory = taper_function,
     layer: Layer = TECH_SILICON_C.layer_wg,
     layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: float = 0.0,
+    cladding_offset: Optional[float] = None,
+    tech: Optional[Tech] = None,
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -61,6 +63,13 @@ def mmi1x2(
         length_taper
 
     """
+    tech = tech or TECH_SILICON_C
+    cladding_offset = (
+        cladding_offset if cladding_offset is not None else tech.cladding_offset
+    )
+    layers_cladding = (
+        layers_cladding if layers_cladding is not None else tech.layers_cladding
+    )
 
     c = pp.Component()
     w_mmi = width_mmi
@@ -71,8 +80,9 @@ def mmi1x2(
         width1=width,
         width2=w_taper,
         layer=layer,
-        layers_cladding=layers_cladding,
-        cladding_offset=cladding_offset,
+        cladding_offset=0,
+        layers_cladding=(),
+        tech=tech,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -86,16 +96,6 @@ def mmi1x2(
         },
     )
 
-    layers_cladding = layers_cladding or []
-    if layers_cladding:
-        for layer_cladding in layers_cladding:
-            clad = c << pp.c.rectangle(
-                size=(length_mmi, w_mmi + 2 * cladding_offset),
-                layer=layer_cladding,
-                centered=True,
-            )
-            c.absorb(clad)
-
     for port_name, port in mmi.ports.items():
         taper_ref = c << taper
         taper_ref.connect(port="2", destination=port)
@@ -104,6 +104,18 @@ def mmi1x2(
 
     c.simulation_settings = dict(port_width=1.5e-6)
     c.absorb(mmi)
+
+    layers_cladding = layers_cladding or []
+    if layers_cladding:
+        add_padding(
+            c,
+            default=cladding_offset,
+            right=0,
+            left=0,
+            top=cladding_offset,
+            bottom=cladding_offset,
+            layers=layers_cladding,
+        )
     return c
 
 

@@ -15,6 +15,7 @@ settings:
     - 0
   length_mmi: 5.5
   length_taper: 10.0
+  tech: null
   width: 1.0
   width_mmi: 2.5
   width_taper: 1.0

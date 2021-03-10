@@ -2,6 +2,7 @@ from typing import Iterable, Optional
 
 from phidl.device_layout import CrossSection
 
+from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.path import component, straight
@@ -36,8 +37,12 @@ def coupler_straight(
 
     """
     tech = tech or TECH_SILICON_C
-    cladding_offset = cladding_offset or getattr(tech, "cladding_offset", 0)
-    layers_cladding = layers_cladding or getattr(tech, "layers_cladding", [])
+    cladding_offset = (
+        cladding_offset if cladding_offset is not None else tech.cladding_offset
+    )
+    layers_cladding = (
+        layers_cladding if layers_cladding is not None else tech.layers_cladding
+    )
 
     cross_section = CrossSection()
     cross_section.add(width=width, offset=0, layer=layer, ports=["W0", "E0"])
@@ -47,16 +52,26 @@ def coupler_straight(
         layer=layer,
         ports=["W1", "E1"],
     )
-    layers_cladding = layers_cladding or []
-    for layer_cladding in layers_cladding:
-        cross_section.add(
-            width=width + 2 * cladding_offset,
-            offset=0,
-            layer=layer_cladding,
-        )
 
-    p = straight(length=length)
+    # layers_cladding = layers_cladding or []
+    # for layer_cladding in layers_cladding:
+    #     cross_section.add(
+    #         width=width + 2 * cladding_offset,
+    #         offset=0,
+    #         layer=layer_cladding,
+    #     )
+
+    p = straight(length=length, npoints=2)
     c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    add_padding(
+        c,
+        default=cladding_offset,
+        right=0,
+        left=0,
+        top=cladding_offset,
+        bottom=cladding_offset,
+        layers=layers_cladding,
+    )
     return c
 
 

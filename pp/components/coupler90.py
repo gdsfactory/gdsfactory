@@ -49,20 +49,21 @@ def coupler90(
 
     """
     c = Component()
-    wg_ref = c << waveguide_factory(
-        length=radius,
-        width=width,
-        layer=layer,
-        cross_section_factory=cross_section_factory,
-        tech=tech,
-    )
-    bend_ref = c << bend(
+    bend90 = bend(
         radius=radius,
         width=width,
         layer=layer,
         cross_section_factory=cross_section_factory,
         tech=tech,
         **kwargs
+    )
+    bend_ref = c << bend90
+    wg_ref = c << waveguide_factory(
+        length=bend90.xsize,
+        width=width,
+        layer=layer,
+        cross_section_factory=cross_section_factory,
+        tech=tech,
     )
 
     pbw = bend_ref.ports["W0"]

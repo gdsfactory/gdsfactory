@@ -984,9 +984,13 @@ class Component(Device):
         if clears_cache:
             clear_cache()
 
-    def show(self, clears_cache: bool = True) -> None:
+    def show(self, pins=True, clears_cache: bool = True) -> None:
         """Show component in klayout"""
+        from pp.add_pins import _add_pins
         from pp.write_component import show
+
+        if pins:
+            _add_pins(self)
 
         show(self, clears_cache)
 

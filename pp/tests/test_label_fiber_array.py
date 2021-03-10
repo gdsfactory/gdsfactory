@@ -29,7 +29,7 @@ def test_label_fiber_array_align_ports() -> Component:
     c = pp.routing.add_fiber_single(c, with_align_ports=True)
     c.show()
     print(len(c.labels))
-    assert len(c.labels) == 4
+    assert len(c.labels) == 6
 
     l0 = c.labels[0].text
     l1 = c.labels[1].text

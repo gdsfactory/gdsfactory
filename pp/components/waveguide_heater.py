@@ -269,7 +269,7 @@ def wg_heater_connected(
 
     """
     wg_heater = waveguide_heater(**kwargs)
-    # print(wg_heater.ports.keys())
+
     conn1 = wg_heater_connector(
         heater_ports=[wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]],
         tlm_layers=tlm_layers,
@@ -306,7 +306,7 @@ if __name__ == "__main__":
 
     c = waveguide_heater()
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
-    c = wg_heater_connected(length=100.0, width=0.5)
+    c = wg_heater_connected(length=200.0)
     print(c.ports.keys())
     for p in c.ports.values():
         print(p.name, p.port_type, p.orientation)

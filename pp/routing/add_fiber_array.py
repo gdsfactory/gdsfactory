@@ -37,6 +37,7 @@ def add_fiber_array(
     taper_length: Optional[float] = None,
     get_input_labels_function: Callable = get_input_labels,
     tech: Tech = TECH_SILICON_C,
+    auto_taper_to_wide_waveguides: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -68,6 +69,8 @@ def add_fiber_array(
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
+        tech: technology default values (taper_length, bend_radius)
+        auto_taper_to_wide_waveguides: for long routes
 
     .. plot::
       :include-source:
@@ -121,6 +124,7 @@ def add_fiber_array(
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
         tech=tech,
+        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         **kwargs,
     )
     if len(elements) == 0:
@@ -220,6 +224,7 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
         bend_radius=20,
+        auto_taper_to_wide_waveguides=False,
     )
     # cc = demo_te_and_tm()
     # print(cc.ports.keys())

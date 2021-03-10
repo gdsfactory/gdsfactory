@@ -6,12 +6,13 @@ info:
 module: pp.components.taper
 name: taper
 settings:
-  cladding_offset: 0.0
+  cladding_offset: null
   layer:
   - 1
   - 0
   layers_cladding: null
   length: 15.0
   port: null
+  tech: null
   width1: 0.5
   width2: null

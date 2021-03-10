@@ -1,5 +1,6 @@
 from typing import Optional
 
+from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import CrossSectionFactory, strip
@@ -63,13 +64,23 @@ def bend_euler(
     cross_section = cross_section_factory(
         width=width,
         layer=layer,
-        layers_cladding=tech.layers_cladding,
-        cladding_offset=tech.cladding_offset,
+        # layers_cladding=tech.layers_cladding,
+        # cladding_offset=tech.cladding_offset,
     )
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
     c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    cladding_offset = tech.cladding_offset
+    add_padding(
+        c,
+        default=cladding_offset,
+        right=cladding_offset,
+        left=0,
+        top=0,
+        bottom=cladding_offset,
+        layers=tech.layers_cladding,
+    )
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]

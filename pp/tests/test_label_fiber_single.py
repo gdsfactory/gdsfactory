@@ -28,7 +28,7 @@ def test_label_fiber_single_align_ports() -> Component:
     c = pp.routing.add_fiber_single(c, with_align_ports=True)
     c.show()
     print(len(c.labels))
-    assert len(c.labels) == 4
+    assert len(c.labels) == 6
 
     l0 = c.labels[0].text
     l1 = c.labels[1].text
@@ -49,6 +49,6 @@ def test_label_fiber_single_align_ports() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_label_fiber_single()
-    c = test_label_fiber_single_align_ports()
+    c = test_label_fiber_single()
+    # c = test_label_fiber_single_align_ports()
     c.show()
