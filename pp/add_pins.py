@@ -26,7 +26,7 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
-def _add_pin_triangle(
+def add_pin_triangle(
     component: Component,
     port: Port,
     layer: Tuple[int, int] = LAYER.PORT,
@@ -67,7 +67,7 @@ def _add_pin_triangle(
     component.add_polygon(polygon, layer=layer)
 
 
-def _add_pin_square_inside(
+def add_pin_square_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -118,7 +118,7 @@ def _add_pin_square_inside(
     component.add_polygon(polygon, layer=layer)
 
 
-def _add_pin_double_square_inside(
+def add_pin_square_double(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -190,7 +190,7 @@ def _add_pin_double_square_inside(
         )
 
 
-def _add_pin_square(
+def add_pin_square(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -279,7 +279,7 @@ def _add_outline(
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    function: Callable = _add_pin_square,
+    function: Callable = add_pin_square_double,
     port_type2layer: Dict[str, Tuple[int, int]] = port_type2layer,
     **kwargs,
 ) -> None:
@@ -298,7 +298,7 @@ def add_pins(
 
 
 def add_pins_triangle(**kwargs) -> None:
-    return add_pins(function=_add_pin_triangle, **kwargs)
+    return add_pins(function=add_pin_triangle, **kwargs)
 
 
 def add_settings_label(
@@ -416,8 +416,8 @@ def test_add_pins() -> None:
     c1 = pp.c.mzi2x2(with_elec_connections=True)
     c2 = add_pins_container(component=c1, recursive=False)
 
-    n_optical_expected = 4
-    n_dc_expected = 3
+    n_optical_expected = 8
+    n_dc_expected = 6
     # polygons = 194
 
     port_layer_optical = port_type2layer["optical"]
@@ -448,8 +448,8 @@ def test_add_pins_recursive() -> None:
     c2 = add_pins_container(component=c1, recursive=True)
     pp.show(c2)
 
-    n_optical_expected = 16
-    n_dc_expected = 11
+    n_optical_expected = 32
+    n_dc_expected = 58
 
     port_layer_optical = port_type2layer["optical"]
     port_markers_optical = read_port_markers(c2, [port_layer_optical])
@@ -471,10 +471,13 @@ def test_add_pins_recursive() -> None:
 
 
 if __name__ == "__main__":
+    test_add_pins()
+    # test_add_pins_recursive()
+
     c = pp.c.waveguide()
-    # add_pins(c, function=_add_pin_square)
-    # add_pins(c, function=_add_pin_square_inside)
-    add_pins(c, function=_add_pin_double_square_inside)
+    # add_pins(c, function=add_pin_square)
+    # add_pins(c, function=add_pin_square_inside)
+    add_pins(c, function=add_pin_square_double)
     c.show(show_ports=False)
 
     # cpl = [10, 20, 30]
