@@ -127,6 +127,7 @@ def place(
                     f"`{k}` not valid placement {valid_placement_keys} for"
                     f" {instance_name}"
                 )
+
         x = placement_settings.get("x")
         y = placement_settings.get("y")
         dx = placement_settings.get("dx")

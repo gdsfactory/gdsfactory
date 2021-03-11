@@ -3,16 +3,10 @@
         ===CP1=   ==CP2===
                bot
 
-This should work.
     arm_bot,W0: CP1,E0
-    arm_top,W0: CP1,E1
     CP2,E0: arm_bot,E0
     CP2,E1: arm_top,E0
 
-This works but does not make sense.
-    arm_bot,W0: CP1,E0
-    arm_top,W0: CP1,E1
-    CP2,E1: arm_bot,E0
 """
 import pp
 from pp.component import Component
@@ -29,14 +23,18 @@ instances:
         settings:
             width_mmi: 4.5
             length_mmi: 5
-    arm_top:
-        component: mzi_arm
     arm_bot:
+        component: mzi_arm
+
+    arm_top:
         component: mzi_arm
 
 placements:
     arm_bot:
         mirror: True
+    CP2:
+        mirror: True
+
 
 connections:
     arm_bot,W0: CP1,E0
