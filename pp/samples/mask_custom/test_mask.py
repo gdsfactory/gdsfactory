@@ -25,7 +25,7 @@ def _route_filter(*args, **kwargs):
 
 def add_te(component, **kwargs):
     c = pp.routing.add_fiber_array(
-        component,
+        component=component,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
         route_filter=_route_filter,
         **kwargs,
@@ -36,7 +36,7 @@ def add_te(component, **kwargs):
 
 def add_tm(component, **kwargs):
     c = pp.routing.add_fiber_array(
-        component,
+        component=component,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         route_filter=_route_filter,
         **kwargs,

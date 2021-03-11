@@ -29,6 +29,7 @@ from pydantic import validate_arguments
 - added `pf merge-cells`
 - added `auto_taper_to_wide_waveguides` option to add_fiber_array
 - `add_padding` returns the same component, `add_padding_container` returns a container with component inside
+- remove container decorator, containers are just regular cells now with @cell decorator
 
 ## 2.4.3
 

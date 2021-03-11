@@ -184,7 +184,6 @@ def write_doe(
         doe_gds_paths += [gdspath]
         write_component(component, gdspath)
 
-    """ write DOE metadata (report + JSON) """
     write_doe_metadata(
         doe_name=doe_name,
         cell_names=cell_names,
@@ -252,7 +251,7 @@ def test_write_doe() -> Path:
         width_mmi=[5, 10],
         length_mmi=[20, 30],
         do_permutations=True,
-        functions=["add_fiber_array_tm"],
+        # functions=["add_fiber_array_tm"],
         doe_settings=dict(test="optical_tm"),
     )
     assert len(paths) == 4

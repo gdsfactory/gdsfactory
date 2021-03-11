@@ -1,6 +1,7 @@
 function_name: add_tapers
 info: {}
-name: mzi2x2_WECTrue_t
+module: pp.add_tapers
+name: add_tapers_Cmzi2x2_WECTrue
 settings:
   component:
     function_name: mzi2x2
@@ -17,5 +18,3 @@ settings:
       tech: silicon_cband
       with_elec_connections: true
   port_type: optical
-  suffix: t
-  taper: taper

@@ -3,9 +3,9 @@
 - pins
 - outline
 
-Do not use functions with name starting with underscore directly as they modify a component without changing its name.
-Make sure underscore functions are inside a new Component as they modify the geometry of a component (add pins, labels, grating couplers ...) without modifying the cell name
-You can use the @container decorator
+Some functions modify a component without changing its name.
+Make sure these functions are inside a new Component.
+They modify the geometry of a component (add pins, labels, grating couplers ...) without modifying the cell name
 
 """
 import json
@@ -16,8 +16,8 @@ from numpy import ndarray
 
 import pp
 from pp.add_padding import get_padding_points
+from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.container import container
 from pp.layers import LAYER, port_type2layer
 from pp.port import Port, read_port_markers
 
@@ -82,7 +82,6 @@ def _add_pin_square_inside(
         pin_length: length of the pin marker for the port
         layer: for the pin marker
         label_layer: for the label
-        port_margin: margin to port edge
 
     .. code::
 
@@ -117,6 +116,78 @@ def _add_pin_square_inside(
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
+
+
+def _add_pin_double_square_inside(
+    component: Component,
+    port: Port,
+    pin_length: float = 0.1,
+    layer: Tuple[int, int] = LAYER.PORT,
+    label_layer: Tuple[int, int] = LAYER.TEXT,
+) -> None:
+    """Add two square pins: one inside with label, one outside
+
+    Args:
+        component:
+        port: Port
+        pin_length: length of the pin marker for the port
+        layer: for the pin marker
+        label_layer: for the label
+
+    .. code::
+
+           _______________
+          |               |
+          |               |
+          |               |
+         |||              |
+         |||              |
+          |               |
+          |      __       |
+          |_______________|
+                 __
+
+    """
+    p = port
+    a = p.orientation
+    ca = np.cos(a * np.pi / 180)
+    sa = np.sin(a * np.pi / 180)
+    rot_mat = np.array([[ca, -sa], [sa, ca]])
+
+    # outer square
+    d = p.width / 2
+    dbot = np.array([0, -d])
+    dtop = np.array([0, d])
+    dbotin = np.array([pin_length / 2, -d])
+    dtopin = np.array([pin_length / 2, +d])
+    p0 = p.position + _rotate(dbot, rot_mat)
+    p1 = p.position + _rotate(dtop, rot_mat)
+    ptopin = p.position + _rotate(dtopin, rot_mat)
+    pbotin = p.position + _rotate(dbotin, rot_mat)
+    polygon = [p0, p1, ptopin, pbotin]
+    component.add_polygon(polygon, layer=layer)
+
+    # inner square
+    d = p.width / 2
+    dbot = np.array([0, -d])
+    dtop = np.array([0, d])
+    dbotin = np.array([-pin_length / 2, -d])
+    dtopin = np.array([-pin_length / 2, +d])
+    p0 = p.position + _rotate(dbot, rot_mat)
+    p1 = p.position + _rotate(dtop, rot_mat)
+    ptopin = p.position + _rotate(dtopin, rot_mat)
+    pbotin = p.position + _rotate(dbotin, rot_mat)
+    polygon = [p0, p1, ptopin, pbotin]
+    component.add_polygon(polygon, layer=layer)
+
+    x = (p0[0] + ptopin[0]) / 2
+    y = (ptopin[1] + pbotin[1]) / 2
+    if label_layer:
+        component.add_label(
+            text=str(p.name),
+            position=(x, y),
+            layer=label_layer,
+        )
 
 
 def _add_pin_square(
@@ -205,10 +276,10 @@ def _add_outline(
     component.add_polygon(points, layer=layer)
 
 
-def _add_pins(
+def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    add_port_marker_function: Callable = _add_pin_square,
+    function: Callable = _add_pin_square,
     port_type2layer: Dict[str, Tuple[int, int]] = port_type2layer,
     **kwargs,
 ) -> None:
@@ -216,23 +287,21 @@ def _add_pins(
 
     Args:
         component: to add ports
-        add_port_marker_function:
+        function:
         port_type2layer: dict mapping port types to marker layers for ports
 
     """
     reference = reference or component
     for p in reference.ports.values():
         layer = port_type2layer[p.port_type]
-        add_port_marker_function(
-            component=component, port=p, layer=layer, label_layer=layer, **kwargs
-        )
+        function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
 
 
-def _add_pins_triangle(**kwargs) -> None:
-    return _add_pins(add_port_marker_function=_add_pin_triangle, **kwargs)
+def add_pins_triangle(**kwargs) -> None:
+    return add_pins(function=_add_pin_triangle, **kwargs)
 
 
-def _add_settings_label(
+def add_settings_label(
     component: Component,
     reference: ComponentReference,
     label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
@@ -245,7 +314,7 @@ def _add_settings_label(
     )
 
 
-def _add_instance_label(
+def add_instance_label(
     component: Component,
     reference: ComponentReference,
     instance_name: Optional[str] = None,
@@ -267,13 +336,13 @@ def _add_instance_label(
     )
 
 
-def _add_pins_labels_and_outline(
+def add_pins_and_outline(
     component: Component,
     reference: ComponentReference,
     add_outline_function: Optional[Callable] = _add_outline,
-    add_pins_function: Optional[Callable] = _add_pins,
-    add_settings_function: Optional[Callable] = _add_settings_label,
-    add_instance_label_function: Optional[Callable] = _add_settings_label,
+    add_pins_function: Optional[Callable] = add_pins,
+    add_settings_function: Optional[Callable] = add_settings_label,
+    add_instance_label_function: Optional[Callable] = add_settings_label,
 ) -> None:
     """Add markers:
     - outline
@@ -300,7 +369,7 @@ def _add_pins_labels_and_outline(
 def add_pins_to_references(
     component: Component,
     references: Optional[List[ComponentReference]] = None,
-    function: Callable = _add_pins_labels_and_outline,
+    function: Callable = add_pins_and_outline,
 ) -> None:
     """Add pins to a Component.
 
@@ -314,13 +383,13 @@ def add_pins_to_references(
         function(component=component, reference=reference)
 
 
-@container
-def add_pins(
+@cell
+def add_pins_container(
     component: Component,
-    function: Callable = _add_pins_labels_and_outline,
+    function: Callable = add_pins_and_outline,
     recursive: bool = False,
 ) -> Component:
-    """Add pins to a Component and returns a container
+    """Add pins to a Component and returns a new Component
 
     Args:
         component:
@@ -345,7 +414,7 @@ def add_pins(
 
 def test_add_pins() -> None:
     c1 = pp.c.mzi2x2(with_elec_connections=True)
-    c2 = add_pins(c1, recursive=False)
+    c2 = add_pins_container(component=c1, recursive=False)
 
     n_optical_expected = 4
     n_dc_expected = 3
@@ -376,7 +445,7 @@ def test_add_pins() -> None:
 
 def test_add_pins_recursive() -> None:
     c1 = pp.c.mzi2x2(with_elec_connections=True)
-    c2 = add_pins(c1, recursive=True)
+    c2 = add_pins_container(component=c1, recursive=True)
     pp.show(c2)
 
     n_optical_expected = 16
@@ -402,9 +471,15 @@ def test_add_pins_recursive() -> None:
 
 
 if __name__ == "__main__":
-    cpl = [10, 20, 30]
-    cpg = [0.2, 0.3, 0.5]
-    dl0 = [10, 20]
+    c = pp.c.waveguide()
+    # add_pins(c, function=_add_pin_square)
+    # add_pins(c, function=_add_pin_square_inside)
+    add_pins(c, function=_add_pin_double_square_inside)
+    c.show(show_ports=False)
+
+    # cpl = [10, 20, 30]
+    # cpg = [0.2, 0.3, 0.5]
+    # dl0 = [10, 20]
     # c = pp.c.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
 
     # c = pp.c.mzi()
@@ -432,6 +507,5 @@ if __name__ == "__main__":
     # add_pins(c)
 
     # c = pp.c.bend_circular()
-    # cc = pp.containerize(component=c, function=add_outline)
     # print(cc.name)
     # cc.show()

@@ -1,6 +1,7 @@
 function_name: rotate
 info: {}
-name: mzi2x2_WECTrue_r
+module: pp.rotate
+name: rotate_Cmzi2x2_WECTrue
 settings:
   angle: 90
   component:

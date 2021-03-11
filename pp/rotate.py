@@ -1,11 +1,13 @@
+from pp.cell import cell
 from pp.component import Component
-from pp.container import container
 from pp.port import auto_rename_ports
 
 
-@container
+@cell
 def rotate(
-    component: Component, angle: int = 90, rename_ports: bool = True,
+    component: Component,
+    angle: int = 90,
+    rename_ports: bool = True,
 ) -> Component:
     """Returns rotated component inside a container
 
@@ -27,7 +29,7 @@ if __name__ == "__main__":
     import pp
 
     component = pp.c.mzi2x2()
-    component_rotated = rotate(component, flatten=False)
+    component_rotated = rotate(component=component)
     component_rotated.show()
     print(component_rotated)
 

@@ -4,7 +4,7 @@ import pytest
 from jsondiff import diff
 
 import pp
-from pp.add_pins import _add_settings_label
+from pp.add_pins import add_settings_label
 from pp.component import Component
 from pp.components import component_factory, component_names
 from pp.import_gds import add_settings_from_label, import_gds
@@ -35,7 +35,7 @@ def test_properties_components(component_type: str) -> Component:
     c1 = component_factory[component_type]()
     c1ref = cnew << c1
 
-    _add_settings_label(cnew, reference=c1ref)
+    add_settings_label(cnew, reference=c1ref)
     gdspath = pp.write_component(cnew)
 
     c2 = import_gds(gdspath)

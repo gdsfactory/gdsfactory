@@ -2,6 +2,7 @@ from typing import Callable, Optional
 
 import pp
 from pp.add_tapers import add_tapers
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import (
@@ -9,7 +10,6 @@ from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_tm,
 )
 from pp.components.taper import taper
-from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.tech import TECH_SILICON_C, Tech
@@ -26,7 +26,7 @@ def add_fiber_array_tm(
     return add_fiber_array(*args, grating_coupler=grating_coupler, **kwargs)
 
 
-@container
+@cell
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
@@ -92,10 +92,8 @@ def add_fiber_array(
         gc = grating_coupler
     gc = pp.call_if_func(gc)
 
-    gc_polarization = gc.polarization
-
     component_name = component_name or c.name
-    name = f"{component_name}_{gc_polarization}"
+    name = f"{component_name}_{gc.name}"
     cc = pp.Component(name=name)
 
     port_width_gc = gc.ports[gc_port_name].width
@@ -153,14 +151,14 @@ def add_fiber_array(
 
 def test_type0() -> Component:
     component = pp.c.coupler(gap=0.244, length=5.67)
-    cc = add_fiber_array(component, optical_routing_type=0)
+    cc = add_fiber_array(component=component, optical_routing_type=0)
     pp.write_gds(cc)
     return cc
 
 
 def test_type1() -> Component:
     component = pp.c.coupler(gap=0.2, length=5.0)
-    cc = add_fiber_array(component, optical_routing_type=1)
+    cc = add_fiber_array(component=component, optical_routing_type=1)
     pp.write_gds(cc)
     return cc
 
@@ -168,22 +166,26 @@ def test_type1() -> Component:
 def test_type2() -> Component:
     c = pp.c.coupler(gap=0.244, length=5.67)
     c.polarization = "tm"
-    cc = add_fiber_array(c, optical_routing_type=2)
+    cc = add_fiber_array(component=c, optical_routing_type=2)
     pp.write_gds(cc)
     return cc
 
 
 def demo_tapers():
     c = pp.c.waveguide(width=2)
-    cc = add_fiber_array(c, optical_routing_type=2)
+    cc = add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
 
 def demo_te_and_tm():
     c = pp.Component()
     w = pp.c.waveguide()
-    wte = add_fiber_array(w, grating_coupler=pp.c.grating_coupler_elliptical_te)
-    wtm = add_fiber_array(w, grating_coupler=pp.c.grating_coupler_elliptical_tm)
+    wte = add_fiber_array(
+        component=w, grating_coupler=pp.c.grating_coupler_elliptical_te
+    )
+    wtm = add_fiber_array(
+        component=w, grating_coupler=pp.c.grating_coupler_elliptical_tm
+    )
     c.add_ref(wte)
     wtm_ref = c.add_ref(wtm)
     wtm_ref.movey(wte.size_info.height)
@@ -191,7 +193,7 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
-    test_type0()
+    # test_type0()
     gcte = pp.c.grating_coupler_te
     gctm = pp.c.grating_coupler_tm
 
@@ -215,7 +217,7 @@ if __name__ == "__main__":
 
     c.y = 0
     cc = add_fiber_array(
-        c,
+        component=c,
         # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
         # optical_routing_type=2,
@@ -228,5 +230,7 @@ if __name__ == "__main__":
     )
     # cc = demo_te_and_tm()
     # print(cc.ports.keys())
-    print(cc.ports.keys())
+    # print(cc.ports.keys())
+    print(cc.name)
     cc.show()
+    # cc.pprint()

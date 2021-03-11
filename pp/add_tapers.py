@@ -1,9 +1,9 @@
 from typing import List, Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
-from pp.container import container
 from pp.port import Port
 from pp.types import ComponentFactory
 
@@ -25,18 +25,17 @@ def add_taper_elements(
     return ports, elements
 
 
-@container
+@cell
 @pp.port.deco_rename_ports
 def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
-    suffix: str = "t",
     port_type: str = "optical",
 ) -> Component:
     """returns component optical tapers for component """
 
     taper_object = pp.call_if_func(taper)
-    c = pp.Component(name=f"{component.name}_{suffix}")
+    c = pp.Component(name=f"{component.name}_t")
 
     for port_name, port in component.ports.copy().items():
         if port.port_type == port_type:
@@ -50,10 +49,11 @@ def add_tapers(
 
 
 if __name__ == "__main__":
-    component = pp.c.waveguide(width=2)
-    # t = pp.c.taper(width2=2)
+    c0 = pp.c.waveguide(width=2)
+    t = pp.c.taper(width2=2)
+    c1 = add_tapers(component=c0, taper=t)
+    c1.show()
 
-    # cc = add_tapers(component=component, taper=t, suffix="t")
     # print(cc.ports.keys())
     # print(cc.settings.keys())
     # cc.show()

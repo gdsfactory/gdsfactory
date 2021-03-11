@@ -1,11 +1,11 @@
+from pp.cell import cell
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
-from pp.container import container
 from pp.routing.get_bundle import get_bundle
 from pp.routing.get_route import get_route_from_waypoints_electrical
 
 
-@container
+@cell
 def add_electrical_pads_top_dc(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,

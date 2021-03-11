@@ -1,9 +1,9 @@
 function_name: add_fiber_array
 info: {}
-name: mzi2x2_WECTrue_te
+module: pp.routing.add_fiber_array
+name: add_fiber_array_Cmzi2x2_WECTrue
 settings:
   auto_taper_to_wide_waveguides: true
-  bend_factory: bend_euler
   component:
     function_name: mzi2x2
     info: {}
@@ -20,8 +20,5 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
-  get_input_labels_function: get_input_labels
-  grating_coupler: grating_coupler_te
-  taper_factory: taper
   taper_length: null
   tech: silicon_cband

@@ -2,13 +2,13 @@ from typing import List, Tuple
 
 from phidl.device_layout import _parse_layer
 
+from pp.cell import cell
 from pp.component import Component
-from pp.container import container
 from pp.geo_utils import polygon_grow
 from pp.layers import LAYER
 
 
-@container
+@cell
 def add_keepout(
     component: Component,
     target_layers: List[Tuple[int, int]],
@@ -48,7 +48,9 @@ def test_add_keepout() -> None:
     print(len(c.get_polygons()))
 
     assert len(c.get_polygons()) == polygons
-    c = add_keepout(c, target_layers=target_layers, keepout_layers=keepout_layers)
+    c = add_keepout(
+        component=c, target_layers=target_layers, keepout_layers=keepout_layers
+    )
     # print(len(c.get_polygons()))
     assert len(c.get_polygons()) == polygons + 1
 

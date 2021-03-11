@@ -3,8 +3,8 @@ from typing import Iterable, Optional, Tuple
 import numpy as np
 
 import pp
+from pp.cell import cell
 from pp.component import Component
-from pp.container import container
 
 
 def get_padding_points(
@@ -63,11 +63,10 @@ def add_padding(
     return component
 
 
-@container
+@cell
 def add_padding_container(
     component: Component,
     layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
-    suffix: str = "p",
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component inside a container.
@@ -77,7 +76,6 @@ def add_padding_container(
     Args:
         component
         layers: list of layers
-        suffix for name
         default: default padding
         top: north padding
         bottom: south padding
@@ -85,17 +83,18 @@ def add_padding_container(
         left: west padding
     """
 
-    c = pp.Component(name=f"{component.name}_{suffix}")
+    c = pp.Component()
     c << component
 
     points = get_padding_points(component, **kwargs)
     for layer in layers:
         c.add_polygon(points, layer=layer)
     c.ports = component.ports
+    # c.settings["component"] = component.get_settings()
     return c
 
 
-@container
+@cell
 def add_padding_to_grid(
     component: Component,
     grid_size: int = 127,
@@ -103,13 +102,12 @@ def add_padding_to_grid(
     y: int = 10,
     bottom_padding: int = 5,
     layers: Iterable[Tuple[int, int]] = (pp.LAYER.PADDING,),
-    suffix: str = "p",
 ) -> Component:
     """Returns component with padding layers on each side.
 
     New size is multiple of grid size
     """
-    c = pp.Component(name=f"{component.name}_{suffix}")
+    c = pp.Component()
     c << component
     c.ports = component.ports
 
@@ -136,14 +134,20 @@ def add_padding_to_grid(
     ]
     for layer in layers:
         c.add_polygon(points, layer=layer)
+
     return c
 
 
 if __name__ == "__main__":
     c = pp.c.waveguide(length=128)
-    cc = add_padding(component=c, layers=[(2, 0)], suffix="p")
+    # cc = add_padding_container(component=c, layers=[(2, 0)])
+    cc = add_padding_container(component=c, layers=[(2, 0)], container=True)
+    print(cc.settings["component"])
+
+    # cc.show()
+    # cc.pprint()
+
     # cc = add_padding_to_grid(c, layers=[(2, 0)])
     # cc = add_padding_to_grid(c)
     # print(cc.settings)
     # print(cc.ports)
-    cc.show()

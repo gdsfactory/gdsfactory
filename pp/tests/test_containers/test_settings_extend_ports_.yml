@@ -1,6 +1,7 @@
 function_name: extend_ports
 info: {}
-name: mzi2x2_WECTrue_e
+module: pp.components.extension
+name: extend_ports_Cmzi2x2_WECTrue
 settings:
   component:
     function_name: mzi2x2

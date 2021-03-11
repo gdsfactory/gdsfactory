@@ -1,6 +1,7 @@
 function_name: add_electrical_pads_top
 info: {}
-name: mzi2x2_WECTrue_e
+module: pp.routing.add_electrical_pads_top
+name: add_electrical_pads_top_d1cfab6a
 settings:
   component:
     function_name: mzi2x2
@@ -17,4 +18,3 @@ settings:
       tech: silicon_cband
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100.0
-  route_filter: get_route_from_waypoints_electrical

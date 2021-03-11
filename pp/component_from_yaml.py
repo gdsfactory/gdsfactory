@@ -7,7 +7,7 @@ from typing import IO, Any, Callable, Dict, List, Optional, Union
 import numpy as np
 from omegaconf import OmegaConf
 
-from pp.add_pins import _add_instance_label
+from pp.add_pins import add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing.factories import link_factory as link_factory_default
@@ -351,7 +351,7 @@ def component_from_yaml(
     component_factory: Dict[str, Callable] = None,
     route_factory: Dict[str, Callable] = route_factory_default,
     link_factory: Dict[str, Callable] = link_factory_default,
-    label_instance_function: Callable = _add_instance_label,
+    label_instance_function: Callable = add_instance_label,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.

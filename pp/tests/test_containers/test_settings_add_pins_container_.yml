@@ -1,7 +1,7 @@
-function_name: add_electrical_pads_shortest
+function_name: add_pins_container
 info: {}
-module: pp.routing.add_electrical_pads_shortest
-name: add_electrical_pads_shortest_1882c15b
+module: pp.add_pins
+name: add_pins_container_a6ecb3b9
 settings:
   component:
     function_name: mzi2x2
@@ -17,4 +17,4 @@ settings:
       gap: 0.234
       tech: silicon_cband
       with_elec_connections: true
-  pad_port_spacing: 50.0
+  recursive: false

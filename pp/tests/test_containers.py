@@ -3,8 +3,8 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.add_grating_couplers import add_grating_couplers
-from pp.add_padding import add_padding
-from pp.add_pins import add_pins
+from pp.add_padding import add_padding_container
+from pp.add_pins import add_pins_container
 from pp.add_tapers import add_tapers
 from pp.add_termination import add_gratings_and_loop_back, add_termination
 from pp.components.cavity import cavity
@@ -32,10 +32,10 @@ container_factory = dict(
     add_fiber_array=add_fiber_array,
     add_fiber_single=add_fiber_single,
     add_grating_couplers=add_grating_couplers,
-    add_padding=add_padding,
+    add_padding_container=add_padding_container,
     add_tapers=add_tapers,
     add_termination=add_termination,
-    add_pins=add_pins,
+    add_pins_container=add_pins_container,
     extend_ports=extend_ports,
     package_optical2x2=package_optical2x2,
     rotate=rotate,

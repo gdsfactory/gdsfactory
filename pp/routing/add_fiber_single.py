@@ -4,13 +4,13 @@ import phidl.device_layout as pd
 
 from pp.add_labels import get_optical_text
 from pp.add_tapers import add_tapers
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide
 from pp.config import call_if_func
-from pp.container import container
 from pp.layers import LAYER
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
@@ -18,7 +18,7 @@ from pp.routing.route_fiber_single import route_fiber_single
 from pp.types import ComponentFactory
 
 
-@container
+@cell
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     # gc = pp.c.grating_coupler_te
     # gc = pp.c.grating_coupler_uniform
 
-    cc = add_fiber_single(c, grating_coupler=gc, with_align_ports=True)
+    cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
 
     # print(cc.get_settings()["component"])
     print(cc.ports.keys())
