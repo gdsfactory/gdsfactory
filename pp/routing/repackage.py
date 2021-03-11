@@ -1,12 +1,12 @@
 from typing import Optional
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.container import container
 
 
-@container
+@cell
 def package_optical2x2(
     component: Component,
     port_spacing: float = 20.0,

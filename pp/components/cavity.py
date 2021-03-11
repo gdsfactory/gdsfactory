@@ -1,13 +1,12 @@
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
-from pp.container import container
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
-@container
-@pp.cell
+@cell
 def cavity(
     component: Component,
     coupler: ComponentFactory = coupler_function,

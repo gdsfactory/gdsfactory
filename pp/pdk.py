@@ -577,7 +577,7 @@ if __name__ == "__main__":
     c = p.ring_single()
     # c = p.taper()
 
-    c = p.add_fiber_single(c, auto_taper_to_wide_waveguides=False)
-    # c = p.add_fiber_array(c, optical_routing_type=1)
+    c = p.add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
+    # c = p.add_fiber_array(component=c, optical_routing_type=1)
     c.show()
     # c.plot()

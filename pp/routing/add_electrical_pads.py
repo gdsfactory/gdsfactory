@@ -1,10 +1,10 @@
+from pp.cell import cell
 from pp.component import Component
-from pp.container import container
 from pp.rotate import rotate
 from pp.routing.route_pad_array import route_pad_array
 
 
-@container
+@cell
 def add_electrical_pads(
     component: Component, rotation: int = 180, **kwargs
 ) -> Component:
@@ -31,14 +31,14 @@ def add_electrical_pads(
     """
 
     c = Component(f"{component.name}_pad")
-    cr = rotate(component, rotation)
+    cr = rotate(component=component, angle=rotation)
 
     elements, pads, _ = route_pad_array(
         component=cr,
         **kwargs,
     )
 
-    c << cr
+    c.add_ref(cr)
     for e in elements:
         c.add(e)
     for e in pads:
@@ -55,15 +55,16 @@ if __name__ == "__main__":
     import pp
 
     # c.move((20, 50))
-    c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    # c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
+    # c = pp.c.mzi2x2(with_elec_connections=True)
+    # c = add_electrical_pads(component=c, fanout_length=100)
+
     c = pp.c.wg_heater_connected(length=200)
-    # c = add_electrical_pads(c, fanout_length=100)
-    c = add_electrical_pads(c)
+    c = add_electrical_pads(component=c)
     c.show()
 
     # print(cc.get_settings())
     # print(cc.ports)
 
-    # ccc = pp.routing.add_fiber_array(cc)
+    # ccc = pp.routing.add_fiber_array(component=cc)
     # pp.show(ccc)

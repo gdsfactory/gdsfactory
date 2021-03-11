@@ -6,6 +6,7 @@ from typing import Any
 import numpy as np
 from phidl import Device
 
+from pp.config import MAX_NAME_LENGTH
 from pp.snap import snap_to_grid
 
 
@@ -152,6 +153,17 @@ def clean_value(value: Any) -> str:
     else:
         value = clean_name(str(value))
     return value
+
+
+def get_name(component_type: str, name: str) -> str:
+    """Returns name with correct number of characters"""
+    if not isinstance(component_type, str):
+        raise ValueError(f"{component_type} needs to be a sting")
+    if not isinstance(name, str):
+        raise ValueError(f"{name} needs to be a sting")
+    if len(name) > MAX_NAME_LENGTH:
+        name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+    return clean_name(name)
 
 
 def test_clean_value() -> None:

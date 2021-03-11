@@ -1,9 +1,9 @@
 function_name: add_fiber_single
 info: {}
-name: mzi2x2_WECTrue_grating_coupler_elliptical_trenches_e050cf58
+module: pp.routing.add_fiber_single
+name: add_fiber_single_Cmzi2x2_WECTrue
 settings:
   auto_taper_to_wide_waveguides: true
-  bend_factory: bend_circular
   component:
     function_name: mzi2x2
     info: {}
@@ -20,16 +20,11 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
-  get_input_labels_function: get_input_labels
-  grating_coupler: grating_coupler_te
   layer_label:
   - 201
   - 0
   min_input2output_spacing: 127.0
   optical_io_spacing: 50.0
   optical_routing_type: 2
-  route_filter: get_route_from_waypoints
-  straight_factory: waveguide
-  taper_factory: taper
   taper_length: 10.0
   with_align_ports: true

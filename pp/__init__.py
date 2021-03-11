@@ -55,7 +55,7 @@ from pp.types import get_name_to_function_dict
 
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
-from pp.add_padding import add_padding, get_padding_points
+from pp.add_padding import add_padding, get_padding_points, add_padding_container
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.plotgds import plotgds
@@ -63,13 +63,11 @@ from pp.pack import pack
 from pp.grid import grid
 from pp.offset import offset
 from pp.boolean import boolean
-from pp.container import container
 from pp.snap import snap_to_grid
 
 
 __all__ = [
     "assert_grating_coupler_properties",
-    "container",
     "CONFIG",
     "LAYER",
     "Component",
@@ -82,6 +80,7 @@ __all__ = [
     "cell",
     "copy",
     "add_padding",
+    "add_padding_container",
     "add_pins",
     "add_pins_to_references",
     "add_termination",
@@ -119,5 +118,4 @@ __version__ = "2.4.3"
 
 
 if __name__ == "__main__":
-    # print(__all__)
-    print(get_name_to_function_dict(container, boolean))
+    print(__all__)

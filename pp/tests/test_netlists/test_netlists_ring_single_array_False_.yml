@@ -1,7 +1,11 @@
 connections:
-  ring_single_LX10_R5_-5.0_5.355,E0: waveguide_L5_10.75_0.0,W0
-  ring_single_LX20_R10_36.5_10.355,W0: waveguide_L5_10.75_0.0,E0
+  TOP_old_10.75_0.0,E0: ring_single_LX20_R10_36.5_10.355,W0
+  TOP_old_10.75_0.0,W0: ring_single_LX10_R5_-5.0_5.355,E0
 instances:
+  TOP_old_10.75_0.0:
+    component: waveguide
+    settings:
+      length: 5.0
   ring_single_LX10_R5_-5.0_5.355:
     component: ring_single
     settings:
@@ -12,12 +16,13 @@ instances:
     settings:
       length_x: 20.0
       radius: 10.0
-  waveguide_L5_10.75_0.0:
-    component: waveguide
-    settings:
-      length: 5.0
 name: ring_single_array
 placements:
+  TOP_old_10.75_0.0:
+    mirror: false
+    rotation: 0
+    x: 8.25
+    y: 0.0
   ring_single_LX10_R5_-5.0_5.355:
     mirror: false
     rotation: 0
@@ -27,11 +32,6 @@ placements:
     mirror: false
     rotation: 0
     x: 46.5
-    y: 0.0
-  waveguide_L5_10.75_0.0:
-    mirror: false
-    rotation: 0
-    x: 8.25
     y: 0.0
 ports:
   E0: ring_single_LX20_R10_36.5_10.355,E0

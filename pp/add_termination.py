@@ -4,6 +4,7 @@ import numpy as np
 
 import pp
 from pp.add_labels import get_input_label
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import (
@@ -12,7 +13,6 @@ from pp.components.grating_coupler.elliptical_trenches import (
 )
 from pp.components.taper import taper as taper_function
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.container import container
 from pp.routing.manhattan import round_corners
 from pp.routing.utils import (
     check_ports_have_equal_spacing,
@@ -21,7 +21,7 @@ from pp.routing.utils import (
 from pp.types import ComponentFactory
 
 
-@container
+@cell
 def add_termination(
     component: Component, terminator: ComponentFactory = taper_function
 ) -> Component:
@@ -45,7 +45,7 @@ def add_gratings_and_loop_back_tm(*args, grating_coupler=grating_coupler_tm, **k
     return add_gratings_and_loop_back(*args, grating_coupler=grating_coupler, **kwargs)
 
 
-@container
+@cell
 def add_gratings_and_loop_back(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,

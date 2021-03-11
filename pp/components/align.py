@@ -2,10 +2,10 @@ from typing import Tuple
 
 import pp
 from pp.add_padding import add_padding_to_grid
+from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.rectangle import rectangle
-from pp.container import container
 
 
 @pp.cell
@@ -71,7 +71,7 @@ def align_wafer(
     return c
 
 
-@container
+@cell
 def add_frame(component, width=10, spacing=10, layer=pp.LAYER.WG):
     """returns component with a frame around it"""
     c = pp.Component(f"{component.name}_f")

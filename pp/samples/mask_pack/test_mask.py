@@ -33,25 +33,25 @@ def _route_filter(
 
 def add_te(component: Component, **kwargs) -> Component:
     c = pp.routing.add_fiber_array(
-        component,
+        component=component,
         grating_coupler=pp.c.grating_coupler_elliptical_te,
         route_filter=_route_filter,
         **kwargs,
     )
     c.test = "passive_optical_te"
-    c = add_padding_to_grid(c)
+    c = add_padding_to_grid(component=c)
     return c
 
 
 def add_tm(component, **kwargs):
     c = pp.routing.add_fiber_array(
-        component,
+        component=component,
         grating_coupler=pp.c.grating_coupler_elliptical_tm,
         route_filter=_route_filter,
         bend_radius=20,
         **kwargs,
     )
-    c = add_padding_to_grid(c)
+    c = add_padding_to_grid(component=c)
     return c
 
 

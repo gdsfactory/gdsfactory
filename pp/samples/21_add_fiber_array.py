@@ -10,7 +10,7 @@ def test_big_device() -> Component:
     component = big_device(N=10)
     bend_radius = 5.0
     c = pp.routing.add_fiber_array(
-        component, bend_radius=bend_radius, fanout_length=50.0
+        component=component, bend_radius=bend_radius, fanout_length=50.0
     )
     return c
 

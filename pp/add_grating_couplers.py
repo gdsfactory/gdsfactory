@@ -4,17 +4,17 @@ from typing import Callable, List, Tuple
 from phidl.device_layout import Label
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
 )
-from pp.container import container
 from pp.routing.get_input_labels import get_input_labels
 from pp.types import ComponentFactory
 
 
-@container
+@cell
 def add_grating_couplers(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,

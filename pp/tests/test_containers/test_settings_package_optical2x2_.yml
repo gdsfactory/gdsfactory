@@ -1,7 +1,8 @@
 function_name: package_optical2x2
 info:
   min_bend_radius: 10.429
-name: mzi2x2_WECTrue_20
+module: pp.routing.repackage
+name: package_optical2x2_a406d4e4
 settings:
   bend_length: null
   component:

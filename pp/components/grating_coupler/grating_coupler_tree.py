@@ -36,11 +36,13 @@ def grating_coupler_tree(
 
     """
     c = waveguide_array(
-        n_waveguides=n_waveguides, spacing=waveguide_spacing, waveguide=waveguide,
+        n_waveguides=n_waveguides,
+        spacing=waveguide_spacing,
+        waveguide=waveguide,
     )
 
     cc = pp.routing.add_fiber_array(
-        c,
+        component=c,
         with_align_ports=with_loop_back,
         optical_routing_type=0,
         grating_coupler=grating_coupler_function,

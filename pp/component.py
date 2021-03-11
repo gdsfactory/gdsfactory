@@ -991,11 +991,11 @@ class Component(Device):
         show_subports: bool = False,
     ) -> None:
         """Show component in klayout"""
-        from pp.add_pins import _add_pins, add_pins_to_references
+        from pp.add_pins import add_pins, add_pins_to_references
         from pp.write_component import show
 
         if show_ports:
-            _add_pins(self)
+            add_pins(self)
 
         if show_subports:
             add_pins_to_references(self)

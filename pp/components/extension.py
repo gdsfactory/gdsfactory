@@ -5,7 +5,6 @@ from numpy import ndarray
 
 import pp
 from pp.component import Component
-from pp.container import container
 from pp.port import Port
 from pp.types import ComponentFactory, Coordinate, Number
 
@@ -74,7 +73,7 @@ def extend_port(port: Port, length: Number) -> Component:
     return c
 
 
-@container
+@pp.cell
 def extend_ports(
     component: Component,
     port_list: Optional[List[str]] = None,
@@ -130,7 +129,7 @@ def test_extend_ports() -> Component:
 
     c = pc.waveguide(width=2)
     c = pc.cross(width=2)
-    ce = extend_ports(c)
+    ce = extend_ports(component=c)
     assert len(c.ports) == len(ce.ports)
     return ce
 
@@ -139,7 +138,7 @@ def test_extend_ports_selection() -> Component:
     import pp.components as pc
 
     c = pc.cross(width=2)
-    ce = extend_ports(c, port_list=["W0", "S0", "N0"])
+    ce = extend_ports(component=c, port_list=["W0", "S0", "N0"])
     assert len(c.ports) == len(ce.ports)
     return ce
 

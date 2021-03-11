@@ -1,8 +1,8 @@
 function_name: add_gratings_and_loop_back
 info: {}
-name: spiral_inner_io_te
+module: pp.add_termination
+name: add_gratings_and_loop_back_ee4c3325
 settings:
-  bend_factory: bend_euler
   bend_radius_align_ports: 10.0
   component:
     function_name: spiral_inner_io
@@ -28,11 +28,9 @@ settings:
   excluded_ports: null
   gc_port_name: null
   gc_rotation: -90
-  grating_coupler: grating_coupler_te
   grating_separation: 127.0
   layer_label:
   - 201
   - 0
-  waveguide_factory: waveguide
   waveguide_separation: 5.0
   with_loopback: true

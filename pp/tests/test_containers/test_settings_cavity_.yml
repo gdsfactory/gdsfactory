@@ -17,7 +17,6 @@ settings:
       gap: 0.234
       tech: silicon_cband
       with_elec_connections: true
-  coupler: coupler
   gap: 0.2
   length: 0.1
   tech: silicon_cband

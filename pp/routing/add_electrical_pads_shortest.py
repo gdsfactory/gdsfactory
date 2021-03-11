@@ -1,13 +1,13 @@
+from pp.cell import cell
 from pp.component import Component
 from pp.components.electrical.pad import pad
-from pp.container import container
 from pp.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )
 from pp.types import ComponentOrFactory
 
 
-@container
+@cell
 def add_electrical_pads_shortest(
     component: Component,
     pad: ComponentOrFactory = pad,

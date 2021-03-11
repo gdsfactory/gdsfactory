@@ -187,7 +187,7 @@ def cutback_bend180(
 def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)
-    cc = add_fiber_array(c, optical_routing_type=1)
+    cc = add_fiber_array(component=c, optical_routing_type=1)
     return cc
 
 

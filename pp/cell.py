@@ -1,12 +1,10 @@
-import hashlib
 import uuid
 from functools import partial, wraps
 from inspect import signature
-from typing import Dict, Optional
+from typing import Dict
 
 from pp.component import Component
-from pp.config import MAX_NAME_LENGTH
-from pp.name import get_component_name
+from pp.name import get_component_name, get_name
 from pp.types import ComponentFactory
 
 CACHE: Dict[str, Component] = {}
@@ -27,9 +25,6 @@ def cell(
     func: ComponentFactory = None,
     *,
     autoname: bool = True,
-    name: Optional[str] = None,
-    uid: bool = False,
-    cache: bool = True,
 ) -> ComponentFactory:
     """Cell Decorator.
 
@@ -63,14 +58,11 @@ def cell(
     """
 
     if func is None:
-        return partial(cell, autoname=autoname, name=name, uid=uid, cache=cache)
+        return partial(cell, autoname=autoname)
 
     @wraps(func)
     def _cell(
         autoname: bool = autoname,
-        name: Optional[str] = name,
-        uid: bool = uid,
-        cache: bool = cache,
         *args,
         **kwargs,
     ) -> Component:
@@ -82,6 +74,10 @@ def cell(
             raise ValueError(
                 f"cell supports only Keyword args for `{func.__name__}({arguments})`"
             )
+        container = kwargs.pop("container", None)
+        uid = kwargs.pop("uid", False)
+        cache = kwargs.pop("cache", True)
+        name = kwargs.pop("name", None)
 
         component_type = func.__name__
         name = name or get_component_name(component_type, **kwargs)
@@ -90,9 +86,7 @@ def cell(
             name += f"_{str(uuid.uuid4())[:8]}"
 
         name_long = name
-
-        if len(name) > MAX_NAME_LENGTH:
-            name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+        name = get_name(component_type=component_type, name=name)
 
         kwargs.pop("ignore_from_name", [])
         sig = signature(func)
@@ -124,6 +118,14 @@ def cell(
                 func
             ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
             component = func(**kwargs)
+
+            if container and "component" not in kwargs:
+                raise ValueError("Container requires a component argument")
+
+            if container or (container is None and "component" in kwargs):
+                component_original = kwargs.pop("component")
+                component.settings["component"] = component_original.get_settings()
+
             assert isinstance(
                 component, Component
             ), f"`{func.__name__}` function needs to return a Component, it returned `{component}` "

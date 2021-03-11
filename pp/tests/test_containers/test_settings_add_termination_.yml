@@ -1,6 +1,7 @@
 function_name: add_termination
 info: {}
-name: mzi2x2_WECTrue_t
+module: pp.add_termination
+name: add_termination_Cmzi2x2_WECTrue
 settings:
   component:
     function_name: mzi2x2
@@ -16,4 +17,3 @@ settings:
       gap: 0.234
       tech: silicon_cband
       with_elec_connections: true
-  terminator: taper

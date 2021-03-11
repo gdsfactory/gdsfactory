@@ -1,6 +1,7 @@
 function_name: add_grating_couplers
 info: {}
-name: mzi2x2_WECTrue_c
+module: pp.add_grating_couplers
+name: add_grating_couplers_e6ae4bb5
 settings:
   component:
     function_name: mzi2x2
@@ -17,8 +18,6 @@ settings:
       tech: silicon_cband
       with_elec_connections: true
   gc_port_name: W0
-  get_input_labels_function: get_input_labels
-  grating_coupler: grating_coupler_te
   layer_label:
   - 201
   - 0
