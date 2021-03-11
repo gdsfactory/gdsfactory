@@ -19,6 +19,7 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+
 ## 2.4.4
 
 - add vertical_te and vertical_tm ports to grating couplers
@@ -30,6 +31,7 @@ from pydantic import validate_arguments
 - added `auto_taper_to_wide_waveguides` option to add_fiber_array
 - `add_padding` returns the same component, `add_padding_container` returns a container with component inside
 - remove container decorator, containers are just regular cells now with @cell decorator
+- add `add_pin_square_double` and make it the default
 
 ## 2.4.3
 
