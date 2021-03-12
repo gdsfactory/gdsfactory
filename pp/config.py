@@ -11,7 +11,7 @@ You can access all the config dictionary with `print_config` as well as a partic
 
 """
 
-__version__ = "2.4.3"
+__version__ = "2.4.4"
 import io
 import json
 import logging

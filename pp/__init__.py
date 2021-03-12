@@ -114,7 +114,7 @@ __all__ = [
     "Port",
     "component_from_yaml",
 ]
-__version__ = "2.4.3"
+__version__ = "2.4.4"
 
 
 if __name__ == "__main__":
