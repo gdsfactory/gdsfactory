@@ -51,62 +51,62 @@ instances:
   bend_euler_R5_W500n_129.125_200.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_130.875_557.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_130.875_579.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_130.875_599.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_259.125_0.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_260.875_357.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_260.875_379.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_260.875_399.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_400.125_558.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_400.125_578.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_530.125_358.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_530.125_378.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bl:
     component: pad

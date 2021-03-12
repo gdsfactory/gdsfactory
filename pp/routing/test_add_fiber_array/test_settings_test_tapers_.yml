@@ -1,0 +1,27 @@
+function_name: add_fiber_array
+info: {}
+module: pp.routing.add_fiber_array
+name: add_fiber_array_7106281e
+settings:
+  auto_taper_to_wide_waveguides: true
+  component:
+    function_name: waveguide
+    info:
+      length: 10.0
+      width: 2
+    module: pp.components.waveguide
+    name: waveguide_W2
+    settings:
+      cross_section_factory: null
+      layer:
+      - 1
+      - 0
+      length: 10.0
+      npoints: 2
+      tech: null
+      width: 2
+  component_name: null
+  gc_port_name: W0
+  optical_routing_type: 2
+  taper_length: null
+  tech: silicon_cband

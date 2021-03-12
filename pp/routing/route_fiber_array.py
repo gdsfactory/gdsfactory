@@ -293,7 +293,11 @@ def route_fiber_array(
                 waypoints = generate_manhattan_waypoints(
                     input_port=p0, output_port=p1, bend_factory=bend90
                 )
-                route = route_filter(waypoints=waypoints, bend_factory=bend_factory)
+                route = route_filter(
+                    waypoints=waypoints,
+                    bend_factory=bend90,
+                    auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                )
                 elements.extend(route["references"])
 
     elif optical_routing_type in [1, 2]:

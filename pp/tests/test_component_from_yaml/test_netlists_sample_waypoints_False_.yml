@@ -16,12 +16,12 @@ instances:
   bend_euler_R5_W500n_-0.875_599.125:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   bend_euler_R5_W500n_-249.125_600.875:
     component: bend_euler
     settings:
-      radius: 5.0
+      radius: 5
       width: 0.5
   t:
     component: pad_array

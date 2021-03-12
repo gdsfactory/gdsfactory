@@ -58,7 +58,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -72,7 +72,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -86,7 +86,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -100,7 +100,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -114,7 +114,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -128,7 +128,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -142,7 +142,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -156,7 +156,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -170,7 +170,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -184,7 +184,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -198,7 +198,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -212,7 +212,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 5.0
+      radius: 5
       tech: null
       width: 0.5
       with_arc_floorplan: true
