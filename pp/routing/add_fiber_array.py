@@ -105,8 +105,8 @@ def add_fiber_array(
 
     if port_width_component != port_width_gc:
         c = add_tapers(
-            c,
-            taper_factory(
+            component=c,
+            taper=taper_factory(
                 length=taper_length, width1=port_width_gc, width2=port_width_component
             ),
         )
@@ -146,34 +146,6 @@ def add_fiber_array(
                 port = ports[0]
                 cc.add_port(f"{port.name}_{i}{j}", port=port)
 
-    return cc
-
-
-def test_type0() -> Component:
-    component = pp.c.coupler(gap=0.244, length=5.67)
-    cc = add_fiber_array(component=component, optical_routing_type=0)
-    pp.write_gds(cc)
-    return cc
-
-
-def test_type1() -> Component:
-    component = pp.c.coupler(gap=0.2, length=5.0)
-    cc = add_fiber_array(component=component, optical_routing_type=1)
-    pp.write_gds(cc)
-    return cc
-
-
-def test_type2() -> Component:
-    c = pp.c.coupler(gap=0.244, length=5.67)
-    c.polarization = "tm"
-    cc = add_fiber_array(component=c, optical_routing_type=2)
-    pp.write_gds(cc)
-    return cc
-
-
-def demo_tapers():
-    c = pp.c.waveguide(width=2)
-    cc = add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
 

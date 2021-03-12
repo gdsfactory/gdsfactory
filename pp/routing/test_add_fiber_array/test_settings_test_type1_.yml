@@ -1,0 +1,24 @@
+function_name: add_fiber_array
+info: {}
+module: pp.routing.add_fiber_array
+name: add_fiber_array_70c78a94
+settings:
+  auto_taper_to_wide_waveguides: true
+  component:
+    function_name: coupler
+    info:
+      length: 10.319
+      min_bend_radius: 9.387
+    module: pp.components.coupler
+    name: coupler_G200n_L5
+    settings:
+      dx: 10.0
+      dy: 5.0
+      gap: 0.2
+      length: 5.0
+      tech: null
+  component_name: null
+  gc_port_name: W0
+  optical_routing_type: 1
+  taper_length: null
+  tech: silicon_cband

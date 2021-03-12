@@ -260,7 +260,7 @@ component_names_skip_test = [
 ]
 component_names_skip_test_ports = ["coupler"]
 
-container_names = ["cavity"]
+container_names = ["cavity", "ring_single_dut"]
 component_names = (
     set(component_factory.keys())
     - set(component_names_skip_test)

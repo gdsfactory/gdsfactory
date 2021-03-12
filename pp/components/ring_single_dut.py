@@ -1,8 +1,9 @@
-import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
 from pp.components.taper import taper
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
 from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
@@ -18,8 +19,8 @@ def ring_single_dut(
     radius=5,
     length_y=0,
     coupler=coupler_ring,
-    waveguide=pp.c.waveguide,
-    bend=pp.c.bend_euler,
+    waveguide=waveguide_function,
+    bend=bend_euler,
     with_dut=True,
     tech: Tech = TECH_SILICON_C,
 ):
@@ -41,7 +42,7 @@ def ring_single_dut(
 
           length_x
     """
-    dut = pp.call_if_func(component)
+    dut = call_if_func(component)
     dut = rename_ports_by_orientation(dut)
 
     assert_on_2nm_grid(gap)
