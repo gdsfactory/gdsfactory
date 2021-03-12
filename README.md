@@ -11,7 +11,7 @@
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an [EDA (electronics/photonic design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
+gdsfactory is an [EDA (electronics design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
 
 It is based on [phidl](https://github.com/amccaugh/phidl) and [gdspy](https://github.com/heitzmann/gdspy) and provides you with functions to build your GDSII components, PDKs and masks for different foundries.
 
@@ -66,9 +66,9 @@ cd gdsfactory
 make install
 ```
 
-After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for photonics package.
+After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for pdk package.
 
-- pp main photonic-package for gdsfactory
+- pp
   - components: define components
   - drc: check geometry
   - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
@@ -86,6 +86,6 @@ After installing you should be able to `import pp` from a python script. The nam
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
 - [ubc PDK](https://github.com/gdsfactory/ubc)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
-- [gdspy](https://github.com/heitzmann/gdspy)
-- [phidl](https://github.com/amccaugh/phidl)
+- [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
+- [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
 - [picwriter](https://github.com/DerekK88/PICwriter)
