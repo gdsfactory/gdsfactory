@@ -7,5 +7,31 @@ settings:
   L0: 60.0
   L_top: 10.0
   bend_radius: 10.0
-  tech: silicon_cband
-  with_elec_connections: true
+  input_port_name: W0
+  output_port_name: E0
+  ports_map: {}
+  sequence: AvHBhBHvA
+  start_orientation: 0.0
+  symbol_to_component:
+    A:
+    - bend_euler_R10_Tsilicon_cband
+    - W0
+    - N0
+    B:
+    - bend_euler_R10_Tsilicon_cband
+    - N0
+    - W0
+    H:
+    - waveguide_L60_Tsilicon_cband
+    - W0
+    - E0
+    h:
+    - waveguide_L10_Tsilicon_cband
+    - W0
+    - E0
+    v:
+    - null
+    - W0
+    - E0
+  tech: null
+  with_elec_connections: false

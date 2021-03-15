@@ -2,7 +2,7 @@ import copy as python_copy
 import itertools
 import uuid
 from pprint import pprint
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 
 import networkx as nx
 import numpy as np
@@ -488,9 +488,9 @@ class ComponentReference(DeviceReference):
             ).values()
         )
 
-    def get_settings(self) -> Dict[str, Any]:
+    def get_settings(self, **kwargs) -> Dict[str, Any]:
         """Returns settings from the Comonent."""
-        return self.parent.get_settings()
+        return self.parent.get_settings(**kwargs)
 
 
 class Component(Device):
@@ -723,8 +723,8 @@ class Component(Device):
 
     def get_settings(
         self,
-        ignore: None = None,
-        include: None = None,
+        ignore: Optional[Iterable[str]] = None,
+        include: Optional[Iterable[str]] = None,
         full_settings: bool = True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
@@ -757,8 +757,9 @@ class Component(Device):
         for param in params:
             d["info"][param] = _clean_value(getattr(self, param))
 
-        for k, v in self.info.items():
-            d["info"][k] = _clean_value(v)
+        for key, value in self.info.items():
+            if key not in ignore:
+                d["info"][key] = _clean_value(value)
 
         # TOP Level (name, module, function_name)
         for setting in include:
@@ -767,7 +768,7 @@ class Component(Device):
 
         # Settings from the function call
         for key, value in settings.items():
-            if key not in self.ignore:
+            if key not in ignore:
                 d["settings"][key] = _clean_value(value)
 
         # for param in params:

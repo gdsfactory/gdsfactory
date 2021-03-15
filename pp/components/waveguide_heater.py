@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, Iterable, List, Tuple
 
 import numpy as np
 
@@ -10,7 +10,7 @@ from pp.components.extension import line
 from pp.components.hline import hline
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
-from pp.port import Port, deco_rename_ports
+from pp.port import Port, auto_rename_ports
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer, Number
 
@@ -103,7 +103,7 @@ def waveguide_heater(
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
-    """waveguide with heater
+    """Waveguide with heater and trenches.
 
     .. code::
 
@@ -170,11 +170,9 @@ def wg_heater_connector(
         LAYER.M3,
     ),
 ) -> Component:
-    """
-    Connects together a pair of wg heaters and connect to a M3 port
-    """
+    """Connect together a pair of wg heaters to a M3 port."""
 
-    cmp = Component()
+    component = Component()
     assert len(heater_ports) == 2
     assert (
         heater_ports[0].orientation == heater_ports[1].orientation
@@ -206,7 +204,7 @@ def wg_heater_connector(
         tlm_pos = p + dp
         hm = _heater_to_metal.ref(position=tlm_pos)
         tlm_positions += [tlm_pos]
-        cmp.add(hm)
+        component.add(hm)
 
     ss = 1 if angle == 0 else -1
 
@@ -214,7 +212,7 @@ def wg_heater_connector(
     edge_metal_piece_width = 7.0
     x = ss * edge_metal_piece_width / 2
     top_metal_layer = tlm_layers[-1]
-    cmp.add_polygon(
+    component.add_polygon(
         line(
             tlm_positions[0] + (x, -hw / 2),
             tlm_positions[1] + (x, hw / 2),
@@ -224,7 +222,7 @@ def wg_heater_connector(
     )
 
     # Add metal port
-    cmp.add_port(
+    component.add_port(
         name="0",
         midpoint=0.5 * sum(tlm_positions) + (ss * edge_metal_piece_width / 2, 0),
         orientation=angle,
@@ -233,15 +231,15 @@ def wg_heater_connector(
         port_type="dc",
     )
 
-    return cmp
+    return component
 
 
-@deco_rename_ports
 @cell
 def wg_heater_connected(
+    length: float = 10.0,
     waveguide_heater: ComponentFactory = waveguide_heater,
-    wg_heater_connector: ComponentFactory = wg_heater_connector,
-    tlm_layers: Tuple[Layer] = (
+    via: ComponentFactory = wg_heater_connector,
+    tlm_layers: Iterable[Layer] = (
         LAYER.VIA1,
         LAYER.M1,
         LAYER.VIA2,
@@ -251,42 +249,32 @@ def wg_heater_connected(
     ),
     **kwargs
 ) -> Component:
-    """
-    .. plot::
-      :include-source:
+    """Returns a waveguide with heater."""
+    component = Component()
 
-      import pp
-
-      c = pp.c.wg_heater_connected()
-      c.plot()
-
-    """
-    wg_heater = waveguide_heater(**kwargs)
-
-    conn1 = wg_heater_connector(
+    wg_heater = waveguide_heater(length=length, **kwargs)
+    conn1 = via(
         heater_ports=[wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]],
         tlm_layers=tlm_layers,
     )
-
-    conn2 = wg_heater_connector(
+    conn2 = via(
         heater_ports=[wg_heater.ports["HBW0"], wg_heater.ports["HTW0"]],
         tlm_layers=tlm_layers,
     )
 
-    cmp = Component()
     for c in [wg_heater, conn1, conn2]:
-        _c = cmp.add_ref(c)
-        cmp.absorb(_c)
+        ref = component.add_ref(c)
+        component.absorb(ref)
 
     for port_name, p in wg_heater.ports.items():
-        cmp.add_port(name=port_name, port=p)
+        component.add_port(name=port_name, port=p)
 
-    cmp.add_port(name=1, port=conn1.ports["0"])
-    cmp.add_port(name=2, port=conn2.ports["0"])
-    cmp.ports[1].orientation = 90
-    cmp.ports[2].orientation = 90
-
-    return cmp
+    component.add_port(name=1, port=conn1.ports["0"])
+    component.add_port(name=2, port=conn2.ports["0"])
+    component.ports[1].orientation = 90
+    component.ports[2].orientation = 90
+    auto_rename_ports(component)
+    return component
 
 
 def _demo_waveguide_heater():
@@ -296,12 +284,14 @@ def _demo_waveguide_heater():
 
 if __name__ == "__main__":
     # print(c.get_optical_ports())
-
-    c = waveguide_heater()
+    # c = waveguide_heater()
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
-    c = wg_heater_connected(length=200.0)
-    print(c.ports.keys())
-    for p in c.ports.values():
-        print(p.name, p.port_type, p.orientation)
 
+    c = wg_heater_connected(length=200.0)
+    from pp.cell import print_cache
+
+    print_cache()
+    # print(c.ports.keys())
+    # for p in c.ports.values():
+    #     print(p.name, p.port_type, p.orientation)
     c.show()

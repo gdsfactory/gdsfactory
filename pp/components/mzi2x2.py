@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -23,9 +25,9 @@ def mzi_arm(
     waveguide_heater_function: ComponentFactory = wg_heater_connected,
     waveguide_function: ComponentFactory = waveguide,
     with_elec_connections: bool = True,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> Component:
-    """
+    """Returns an MZI arm.
 
     Args:
         L0: vertical length with heater
@@ -56,6 +58,7 @@ def mzi_arm(
 
 
     """
+    tech = tech or TECH_SILICON_C
     if not with_elec_connections:
         waveguide_heater_function = waveguide_function
 
@@ -65,7 +68,7 @@ def mzi_arm(
     straight_h = waveguide_function(length=L_top, tech=tech)
     straight_v = waveguide_function(length=DL, tech=tech) if DL > 0 else None
 
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (_bend, "W0", "N0"),
         "B": (_bend, "N0", "W0"),
         "H": (straight_vheater, "W0", "E0"),
@@ -87,9 +90,9 @@ def mzi_arm(
         ports_map = {}
 
     component = component_sequence(
-        sequence,
-        string_to_device_in_out_ports,
-        ports_map,
+        sequence=sequence,
+        symbol_to_component=symbol_to_component,
+        ports_map=ports_map,
         input_port_name="W0",
         output_port_name="E0",
     )
@@ -109,7 +112,7 @@ def mzi2x2(
     waveguide_function: ComponentFactory = waveguide,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> Component:
     """Mzi 2x2
 
@@ -151,6 +154,7 @@ def mzi2x2(
 
 
     """
+    tech = tech or TECH_SILICON_C
     if not with_elec_connections:
         waveguide_heater_function = waveguide_function
 
@@ -286,6 +290,9 @@ if __name__ == "__main__":
     # cc = pp.add_pins(c)
     # cc.show()
 
-    c = mzi_arm(with_elec_connections=True)
     c = mzi2x2(with_elec_connections=True)
+    c = mzi_arm()
+    from pp.cell import print_cache
+
+    print_cache()
     c.show()

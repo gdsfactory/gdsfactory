@@ -15,6 +15,7 @@ settings:
   splitter_settings: null
   tech: null
   waveguide: waveguide
+  waveguide_delta_length: null
   waveguide_horizontal: waveguide
   waveguide_vertical: waveguide
   with_splitter: true

@@ -1,6 +1,6 @@
 import datetime
 import platform
-from typing import Tuple
+from typing import List, Optional, Tuple
 
 import pp
 from pp.cell import cell
@@ -40,9 +40,13 @@ def qrcode(
 
 @cell
 def version_stamp(
-    text=None, with_qr_code=False, layer=LAYER.WG, pixel_size=1, text_size=10
+    text: Optional[List[str]] = None,
+    with_qr_code: bool = False,
+    layer: Tuple[int, int] = LAYER.WG,
+    pixel_size: int = 1,
+    text_size: int = 10,
 ) -> Component:
-    """Includes module version, git hash and date"""
+    """Returns module version, git hash and date."""
 
     text = text or []
     git_hash = conf.git_hash

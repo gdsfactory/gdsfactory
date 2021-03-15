@@ -1,7 +1,7 @@
-import hashlib
 from itertools import count
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple
 
+from pp.cell import cell
 from pp.component import Component
 
 
@@ -9,20 +9,20 @@ class SequenceGenerator:
     def __init__(
         self, start_sequence="IL", repeated_sequence="ASASBSBS", end_sequence="LO"
     ):
-        """
-        A simple sequence generator.
+        """sequence generator.
         Main use case: any type of cascade of components with repeating patterns
         such as serpentine, cutbacks etc...
 
-        Component sequences have two ports by default. In case you'd need to access other ports, component sequences automatically add aliases for the components forming the sequence.
-        They use the component local name and append a suffix index starting from 1, so you may access the ports from any subcomponent. But I don't think this is needed here
+        Component sequences have two ports by default.
+        it adds aliases for the components forming the sequence.
+        They use the component local name and append a suffix index starting from 1,
+        so you may access the ports from any subcomponent.
 
         Usually we can break these components in 3 parts:
         - there is a starting pattern with input and possibly some special
         connections
         - then a repeating pattern
         - An ending pattern with an output
-
 
         Example of symbol meaning
 
@@ -61,39 +61,61 @@ def _flip_ref(c_ref, port_name):
     return c_ref
 
 
+@cell
 def component_sequence(
-    sequence: Union[str, List[str]],
-    string_to_device_in_out_ports: Dict[
-        str, Union[Tuple[Component, str, str], Tuple[None, str, str]]
-    ],
+    sequence: str,
+    symbol_to_component: Dict[str, Tuple[Component, str, str]],
     ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
     input_port_name: str = "in",
     output_port_name: str = "out",
     start_orientation: float = 0.0,
-    name_prefix: None = None,
 ) -> Component:
-    """
-    This generates a component from a sequence and a dictionnary to interprete each
-    symbol in the sequence.
+    """Returns component from a ASCII sequence and a dictionary to interpret each symbol
 
     Args:
         sequence: a string or a list of symbols
-        string_to_device_in_out_ports: maps symbols to (device, input, output)
+        symbol_to_component: maps symbols to (component, input, output)
         ports_map: (optional) extra port mapping using the convention
             {port_name: (alias_name, port_name)}
+        input_port_name:
+        output_port_name:
+        start_orientation:
 
     Returns:
         component containing the sequence of sub-components
-    instantiated and connected together in the sequence order
+        instantiated and connected together in the sequence order
+
+    .. plot::
+        :include-source:
+
+        import pp
+
+        bend180 = pp.c.bend_circular180()
+        wg_heater = pp.c.waveguide_heater()
+        wg = pp.c.waveguide()
+
+        # Define a map between symbols and (component, input port, output port)
+        symbol_to_component = {
+            "A": (bend180, "W0", "W1"),
+            "B": (bend180, "W1", "W0"),
+            "H": (wg_heater, "W0", "E0"),
+            "-": (wg, "W0", "E0"),
+        }
+
+        # Each character in the sequence represents a component
+        sequence = "AB-H-H-H-H-BA"
+        c = pp.c.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+        c.show()
 
     """
     ports_map = ports_map or {}
+
     # Remove all None devices from the sequence
     sequence = list(sequence[:])
     to_rm = []
     for i, d in enumerate(sequence):
         _name_device, _ = _parse_component_name(d)
-        _device, _, _ = string_to_device_in_out_ports[_name_device]
+        _device, _, _ = symbol_to_component[_name_device]
         if _device is None:
             to_rm += [i]
 
@@ -101,18 +123,16 @@ def component_sequence(
         sequence.pop(to_rm.pop())
 
     # To generate unique aliases for each instance
-    counters = {k: count(start=1) for k in string_to_device_in_out_ports.keys()}
+    counters = {k: count(start=1) for k in symbol_to_component.keys()}
 
     def _next_id(name):
         return "{}{}".format(name, next(counters[name]))
 
     component = Component()
 
-    # Add first device and input port
+    # Add first component reference and input port
     name_start_device, do_flip = _parse_component_name(sequence[0])
-    _input_device, input_port, prev_port = string_to_device_in_out_ports[
-        name_start_device
-    ]
+    _input_device, input_port, prev_port = symbol_to_component[name_start_device]
 
     prev_device = component.add_ref(_input_device, alias=_next_id(name_start_device))
 
@@ -127,25 +147,23 @@ def component_sequence(
     for s in sequence[1:]:
         s, do_flip = _parse_component_name(s)
 
-        _device, input_port, next_port = string_to_device_in_out_ports[s]
-
-        device = component.add_ref(_device, alias=_next_id(s))
+        _component, input_port, next_port = symbol_to_component[s]
+        ref = component.add_ref(_component, alias=_next_id(s))
 
         if do_flip:
-            device = _flip_ref(device, input_port)
+            ref = _flip_ref(ref, input_port)
 
-        device.connect(input_port, prev_device.ports[prev_port])
-        prev_device = device
+        ref.connect(input_port, prev_device.ports[prev_port])
+        prev_device = ref
         prev_port = next_port
 
     # Deal with edge case where the sequence contains only one component
     if len(sequence) == 1:
-        device = prev_device
+        ref = prev_device
         next_port = prev_port
 
-    # Add output port
     try:
-        component.add_port(name=output_port_name, port=device.ports[next_port])
+        component.add_port(name=output_port_name, port=ref.ports[next_port])
     except BaseException:
         print(sequence)
         raise
@@ -154,11 +172,6 @@ def component_sequence(
     for name, (alias, alias_port_name) in ports_map.items():
         component.add_port(name=name, port=component[alias].ports[alias_port_name])
 
-    if name_prefix is not None:
-        _md5 = hashlib.md5()
-        _md5.update(str(string_to_device_in_out_ports).encode())
-        _md5.update(str(sequence).encode())
-        component.name = f"{name_prefix}_{_md5.digest()}"
     return component
 
 
@@ -170,18 +183,18 @@ if __name__ == "__main__":
     wg = pp.c.waveguide()
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
         "H": (wg_heater, "W0", "E0"),
         "-": (wg, "W0", "E0"),
     }
 
-    # Generate a sequence
-    # This is simply a chain of characters. Each of them represents a component
-    # with a given input and and a given output
-
+    # Each character in the sequence represents a component
     sequence = "AB-H-H-H-H-BA"
-    component = pp.c.component_sequence(sequence, string_to_device_in_out_ports)
-    component.name = "sequence"
-    component.show()
+    c = pp.c.component_sequence(
+        sequence=sequence, symbol_to_component=symbol_to_component
+    )
+    s = c.get_settings(ignore=("symbol_to_component",))
+    print(s["settings"])
+    c.show()

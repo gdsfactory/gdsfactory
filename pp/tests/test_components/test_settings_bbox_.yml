@@ -3,11 +3,6 @@ info: {}
 module: pp.components.bbox
 name: bbox
 settings:
-  bbox:
-  - - -1
-    - -1
-  - - 3
-    - 4
   layer:
   - 1
   - 0

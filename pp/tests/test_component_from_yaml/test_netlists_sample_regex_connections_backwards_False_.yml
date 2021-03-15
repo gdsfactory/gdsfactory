@@ -11,13 +11,11 @@ instances:
     settings:
       east: 3
       west: 0
-      ysize: 20
   right:
     component: nxn
     settings:
       east: 0
       west: 3
-      ysize: 20
   waveguide_L12_W500n_14.0_1.25:
     component: waveguide
     settings:

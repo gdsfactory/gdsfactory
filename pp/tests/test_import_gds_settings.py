@@ -35,13 +35,16 @@ def test_properties_components(component_type: str) -> Component:
     c1 = component_factory[component_type]()
     c1ref = cnew << c1
 
-    add_settings_label(cnew, reference=c1ref)
+    ignore = ("sequence", "symbol_to_component", "ports_map")
+    add_settings_label(cnew, reference=c1ref, ignore=ignore)
     gdspath = pp.write_component(cnew)
 
     c2 = import_gds(gdspath)
     add_settings_from_label(c2)
-    c1s = sort_dict(tuplify(c1.get_settings()))
-    c2s = sort_dict(tuplify(c2.get_settings()))
+
+    c1s = sort_dict(tuplify(c1.get_settings(ignore=ignore)))
+    c2s = sort_dict(tuplify(c2.get_settings(ignore=ignore)))
+
     c1s.pop("info")
     c2s.pop("info")
     d = diff(c1s, c2s)
@@ -61,5 +64,6 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="waveguide")
     # c = test_properties_components(component_type="grating_coupler_tree")
     # c = test_properties_components(component_type="wire")
-    c = test_properties_components(component_type="bend_circular")
+    # c = test_properties_components(component_type="bend_circular")
+    c = test_properties_components(component_type="mzi_arm")
     c.show()

@@ -82,6 +82,6 @@ if __name__ == "__main__":
     # cp2.ymin = 0
 
     c = coupler(gap=0.2)
-    c = coupler(width=0.9, length=1, dy=2, gap=0.2)
+    # c = coupler(width=0.9, length=1, dy=2, gap=0.2)
     # print(c.settings_changed)
     c.show()
