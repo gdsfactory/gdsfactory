@@ -23,17 +23,20 @@ def mmi2x2(
     cladding_offset: Optional[float] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
-    r"""Mmi 2x2
+    r"""Mmi 2x2.
 
     Args:
+        width: input and output waveguide width
         width_taper: interface between input waveguides and mmi region
         length_taper: into the mmi region
         length_mmi: in x direction
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
+        taper: taper function
         layer:
         layers_cladding:
         cladding_offset
+        tech: technology dataclass
 
     .. plot::
       :include-source:
@@ -50,11 +53,11 @@ def mmi2x2(
                     ________
                    |        |
                 __/          \__
-                __            __
+            W1  __            __  E1
                   \          /_ _ _ _
                   |         | _ _ _ _| gap_mmi
                 __/          \__
-                __            __
+            W0  __            __  E0
                   \          /
                    |________|
 

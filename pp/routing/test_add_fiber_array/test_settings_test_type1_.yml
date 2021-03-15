@@ -17,6 +17,7 @@ settings:
       gap: 0.2
       length: 5.0
       tech: null
+      width: 0.5
   component_name: null
   gc_port_name: W0
   optical_routing_type: 1

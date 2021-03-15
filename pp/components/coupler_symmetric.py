@@ -14,7 +14,7 @@ def coupler_symmetric(
     dy: float = 5.0,
     dx: float = 10.0,
     tech: Optional[Tech] = None,
-    wg_width: Optional[float] = None,
+    width: Optional[float] = None,
 ) -> Component:
     r"""Two coupled waveguides with bends.
 
@@ -24,7 +24,7 @@ def coupler_symmetric(
         dy: port to port vertical spacing
         dx: bend length in x direction
         tech: Technology
-        wg_width: waveguide width (defaults to tech.wg_width)
+        width: waveguide width (defaults to tech.wg_width)
 
     .. plot::
       :include-source:
@@ -48,7 +48,7 @@ def coupler_symmetric(
 
     """
     tech = tech if isinstance(tech, Tech) else TECH_SILICON_C
-    width = wg_width or tech.wg_width
+    width = width or tech.wg_width
     bend_component = (
         bend(width=width, height=(dy - gap - width) / 2, length=dx, tech=tech)
         if callable(bend)
@@ -79,10 +79,10 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, wg_width=0.5, dx=5)
+    c = coupler_symmetric(gap=0.2, width=0.5, dx=5)
     c.show()
     c.pprint()
 
     for dyi in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, wg_width=0.5, dy=dyi, dx=10.0)
+        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0)
         print(f"dy={dyi}, min_bend_radius = {c.min_bend_radius}")
