@@ -28,7 +28,7 @@ def cutback_component(
     bend180 = bend_euler180(radius=bend_radius)
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (component, port1_id, port2_id),
         "B": (component, port2_id, port1_id),
         "D": (bend180, "W0", "W1"),
@@ -52,7 +52,7 @@ def cutback_component(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     c.update_settings(n_devices=len(s))
     return c
 
@@ -71,7 +71,7 @@ def cutback_component_flipped(
     bend180 = bend_euler180(radius=bend_radius)
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (component, port1_id, port2_id),
         "B": (component, port2_id, port1_id),
         "D": (bend180, "W0", "W1"),
@@ -95,7 +95,7 @@ def cutback_component_flipped(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports)
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     c.update_settings(n_devices=len(s))
     return c
 

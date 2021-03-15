@@ -32,16 +32,12 @@ def bend_circular(
         tech: Technology with default values
 
     .. plot::
-      :include-source:
+        :include-source:
 
-      import pp
+        import pp
 
-      c = pp.c.bend_circular(
-        radius=10,
-        angle=90,
-        npoints=720,
-      )
-      c.plot()
+        c = pp.c.bend_circular(radius=10, angle=90, npoints=720)
+        c.plot()
 
     """
     tech = tech or TECH_SILICON_C

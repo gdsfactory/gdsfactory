@@ -4,8 +4,30 @@ module: pp.components.cutback_bend
 name: cutback_bend90
 settings:
   cols: 6
+  input_port_name: in
   n_bends: 144
   n_steps: 6
+  output_port_name: out
+  ports_map: null
+  sequence: A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-
   spacing: 5
+  start_orientation: 0
   straight_length: 5.0
+  symbol_to_component:
+    '-':
+    - waveguide_L5_W500n
+    - W0
+    - E0
+    A:
+    - bend_euler
+    - W0
+    - N0
+    B:
+    - bend_euler
+    - N0
+    - W0
+    '|':
+    - waveguide_L30_W500n
+    - W0
+    - E0
   wg_loop_length: null

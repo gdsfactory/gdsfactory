@@ -39,6 +39,7 @@ def get_sequence_cross(
     Args:
         waveguides_start : list of the input port indices
         waveguides_end : list of the output port indices
+        iter_max: maximum iterations
         symbols : [`X` , `S`]
         symbols to be used in the returned sequence:
         `X`: represents the crossing symbol: two Xs next
@@ -280,11 +281,11 @@ def parse_lattice(
 
 
 if __name__ == "__main__":
-    components = {
-        "C": package_optical2x2(component=pp.c.coupler, port_spacing=40.0),
+    components_dict = {
+        "C": package_optical2x2(component=pp.c.coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
-    c = pp.c.component_lattice(components=components)
+    c = pp.c.component_lattice(components=components_dict)
     c.pprint()
     c.show()

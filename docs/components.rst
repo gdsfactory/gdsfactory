@@ -248,28 +248,12 @@ component_lattice
 
 .. autofunction:: pp.c.component_lattice
 
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.c.component_lattice()
-  c.plot()
-
 
 
 component_sequence
 ----------------------------------------------------
 
 .. autofunction:: pp.c.component_sequence
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.c.component_sequence()
-  c.plot()
 
 
 

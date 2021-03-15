@@ -18,8 +18,6 @@ instances:
       west: 0
       wg_margin: 1.0
       wg_width: 0.5
-      xsize: 8.0
-      ysize: 20
   right:
     component: nxn
     settings:
@@ -32,8 +30,6 @@ instances:
       west: 3
       wg_margin: 1.0
       wg_width: 0.5
-      xsize: 8.0
-      ysize: 20
   waveguide_L12_W500n_14.0_1.25:
     component: waveguide
     settings:

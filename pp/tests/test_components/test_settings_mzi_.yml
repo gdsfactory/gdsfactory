@@ -8,10 +8,11 @@ settings:
   combiner_settings: null
   delta_length: 10.0
   length_x: 0.1
-  length_y: 4.0
+  length_y: 0.1
   pins: false
   splitter_settings: null
   tech: null
+  waveguide_delta_length: null
   waveguide_horizontal: null
   waveguide_vertical: null
   with_splitter: true

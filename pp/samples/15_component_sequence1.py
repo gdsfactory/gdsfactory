@@ -27,7 +27,7 @@ def test_cutback_heater() -> Component:
     wg_heater = waveguide_heater(length=20.0)
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (bend180, "W0", "W1"),
         "B": (bend180, "W1", "W0"),
         "H": (wg_heater, "W0", "E0"),
@@ -39,8 +39,9 @@ def test_cutback_heater() -> Component:
     # with a given input and and a given output
 
     sequence = "AB-H-H-H-H-BA"
-    component = component_sequence(sequence, string_to_device_in_out_ports)
-    assert component
+    component = component_sequence(
+        sequence=sequence, symbol_to_component=symbol_to_component
+    )
     return component
 
 

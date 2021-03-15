@@ -1,5 +1,3 @@
-from typing import Callable, Union
-
 import gdspy
 import numpy as np
 import scipy.optimize as so
@@ -18,7 +16,7 @@ from pp.components.taper import taper
 from pp.config import GRID_PER_UNIT
 from pp.geo_utils import path_length
 from pp.layers import LAYER
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 def rnd(p: float) -> float64:
@@ -191,7 +189,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
 ) -> Component:
-    r""" 45Deg crossing with bends
+    r"""Returns 45deg crossing with bends.
 
     Args:
         crossing: 90D crossing
@@ -200,6 +198,7 @@ def crossing45(
         alpha: optimization parameter. Try with 0.1 to start with.
             - If the structure has too tight bends, diminish it.
             - If raise assertion angle errors, increase it
+        npoints: number of points.
 
 
     Implementation note: The 45 Degree crossing CANNOT be kept as an SRef since
@@ -282,22 +281,17 @@ def crossing45(
 
 @cell
 def compensation_path(
-    crossing45: Union[Component, Callable] = crossing45, direction: str = "top"
+    crossing45: ComponentOrFactory = crossing45, direction: str = "top"
 ) -> Component:
-    r""" Path with same path length as crossing45 but with input and output ports having same y coordinates
+    r"""Returns Component Path with same path length as the crossing
+
+    with input and output ports having same y coordinates
 
     Args:
-        name: component name
         crossing45: the crossing45 component that we want to match in path length
             This component needs to have .info["components"] with bends and crossing
         direction: the direction in which the bend should go "top" / "bottom"
 
-    Returns:
-        <pp.Component> a compensation path
-
-
-
-    crossing45:
 
     .. code::
 

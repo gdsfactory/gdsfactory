@@ -1,6 +1,6 @@
 function_name: package_optical2x2
 info:
-  min_bend_radius: 10.429
+  min_bend_radius: 20.753
 module: pp.routing.repackage
 name: package_optical2x2_a406d4e4
 settings:
@@ -17,7 +17,7 @@ settings:
       L2: 10.0
       bend_radius: 10.0
       gap: 0.234
-      tech: silicon_cband
+      tech: null
       with_elec_connections: true
   npoints: 101
   port_spacing: 20.0

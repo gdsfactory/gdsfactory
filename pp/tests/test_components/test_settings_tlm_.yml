@@ -4,13 +4,6 @@ module: pp.components.electrical.tlm
 name: tlm
 settings:
   height: 11.0
-  layers:
-  - - 41
-    - 0
-  - - 45
-    - 0
-  - - 49
-    - 0
   vias:
   - via2
   - via3

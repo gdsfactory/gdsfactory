@@ -14,12 +14,13 @@ from pp.types import ComponentFactory
 @cell
 def mzi(
     delta_length: float = 10.0,
-    length_y: float = 4.0,
+    length_y: float = 0.1,
     length_x: float = 0.1,
     bend_radius: Optional[float] = None,
     bend90: ComponentFactory = bend_euler,
     waveguide: ComponentFactory = waveguide_function,
     waveguide_vertical: Optional[ComponentFactory] = None,
+    waveguide_delta_length: Optional[ComponentFactory] = None,
     waveguide_horizontal: Optional[ComponentFactory] = None,
     splitter: ComponentFactory = mmi1x2_function,
     combiner: Optional[ComponentFactory] = None,
@@ -82,6 +83,7 @@ def mzi(
 
     waveguide_vertical = waveguide_vertical or waveguide
     waveguide_horizontal = waveguide_horizontal or waveguide
+    waveguide_delta_length = waveguide_delta_length or waveguide
     b90 = bend90(radius=bend_radius)
     l0 = waveguide_vertical(length=L0)
 
@@ -103,7 +105,7 @@ def mzi(
     )
 
     l0r = waveguide_vertical(length=L0 + delta_length_combiner / 2)
-    l1 = waveguide_vertical(length=DL / 2)
+    l1 = waveguide_delta_length(length=DL / 2)
     l2 = waveguide_horizontal(length=L2)
 
     cin = cp1.ref()

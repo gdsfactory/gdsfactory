@@ -9,7 +9,7 @@ They modify the geometry of a component (add pins, labels, grating couplers ...)
 
 """
 import json
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -20,6 +20,7 @@ from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.layers import LAYER, port_type2layer
 from pp.port import Port, read_port_markers
+from pp.types import Layer
 
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
@@ -305,10 +306,21 @@ def add_settings_label(
     component: Component,
     reference: ComponentReference,
     label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
+    ignore: Optional[Iterable[str]] = None,
 ) -> None:
-    """Add settings in label, ignores component.ignore keys."""
-    settings = reference.get_settings()
+    """Add settings in label, ignores component.ignore keys.
+
+    Args:
+        componnent
+        reference
+        label_layer:
+        ignore: fields to ignoreg
+
+    """
+    settings = reference.get_settings(ignore=ignore)
     settings_string = f"settings={json.dumps(settings, indent=2)}"
+    if len(settings_string) > 1024:
+        raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
         position=reference.center, text=settings_string, layer=label_layer
     )
@@ -386,38 +398,45 @@ def add_pins_to_references(
 @cell
 def add_pins_container(
     component: Component,
-    function: Callable = add_pins_and_outline,
-    recursive: bool = False,
+    function: Callable = add_pin_square_double,
+    port_type: str = "optical",
+    layer: Layer = LAYER.PORT,
 ) -> Component:
     """Add pins to a Component and returns a new Component
 
     Args:
         component:
-        function: function to add pins
-        recursive: goes down the hierarchy
+        function: function to add pin
+        port_type: optical, dc
+        layer: layer for port marker
 
     Returns:
         New component
     """
 
     component_new = pp.Component(f"{component.name}_pins")
-    reference = component_new << component
-    function(component=component_new, reference=reference)
+    component_new.add_ref(component)
 
-    if recursive:
-        for reference in component.references:
-            function(component=component_new, reference=reference)
+    for p in component.ports.values():
+        if p.port_type == port_type:
+            function(component=component_new, port=p, layer=layer, label_layer=layer)
 
     component_new.ports = component.ports.copy()
     return component_new
 
 
 def test_add_pins() -> None:
-    c1 = pp.c.mzi2x2(with_elec_connections=True)
-    c2 = add_pins_container(component=c1, recursive=False)
+    c1 = pp.c.wg_heater_connected()
+    c2 = add_pins_container(
+        component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
+    )
+    c2 = add_pins_container(
+        component=c2, function=add_pin_square, port_type="dc", layer=LAYER.PORTE
+    )
+    c2.show(show_ports=False)
 
-    n_optical_expected = 8
-    n_dc_expected = 6
+    n_optical_expected = 2
+    n_dc_expected = 2
     # polygons = 194
 
     port_layer_optical = port_type2layer["optical"]
@@ -437,48 +456,21 @@ def test_add_pins() -> None:
     # assert len(c2.get_polygons()) == polygons + 41
     assert (
         n_optical == n_optical_expected
-    ), f"{n_optical} different from {n_optical_expected}"
+    ), f"{n_optical} optical pins different from {n_optical_expected}"
     assert (
         n_dc_expected == n_dc_expected
-    ), f"{n_dc_expected} different from {n_dc_expected}"
-
-
-def test_add_pins_recursive() -> None:
-    c1 = pp.c.mzi2x2(with_elec_connections=True)
-    c2 = add_pins_container(component=c1, recursive=True)
-    pp.show(c2)
-
-    n_optical_expected = 32
-    n_dc_expected = 58
-
-    port_layer_optical = port_type2layer["optical"]
-    port_markers_optical = read_port_markers(c2, [port_layer_optical])
-    n_optical = len(port_markers_optical.polygons)
-
-    port_layer_dc = port_type2layer["dc"]
-    port_markers_dc = read_port_markers(c2, [port_layer_dc])
-    n_dc = len(port_markers_dc.polygons)
-
-    print(n_optical)
-    print(n_dc)
-
-    assert (
-        n_optical == n_optical_expected
-    ), f"{n_optical} different from {n_optical_expected}"
-    assert (
-        n_dc_expected == n_dc_expected
-    ), f"{n_dc_expected} different from {n_dc_expected}"
+    ), f"{n_dc_expected} electrical pins different from {n_dc_expected}"
 
 
 if __name__ == "__main__":
     test_add_pins()
     # test_add_pins_recursive()
 
-    c = pp.c.waveguide()
+    # c = pp.c.waveguide()
     # add_pins(c, function=add_pin_square)
     # add_pins(c, function=add_pin_square_inside)
-    add_pins(c, function=add_pin_square_double)
-    c.show(show_ports=False)
+    # add_pins(c, function=add_pin_square_double)
+    # c.show(show_ports=False)
 
     # cpl = [10, 20, 30]
     # cpg = [0.2, 0.3, 0.5]
@@ -496,7 +488,7 @@ if __name__ == "__main__":
     # cc.show()
 
     # test_add_pins()
-    test_add_pins_recursive()
+    # test_add_pins_recursive()
 
     # from pp.components import mmi1x2
     # from pp.components import bend_circular

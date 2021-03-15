@@ -34,7 +34,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
     wg = waveguide(length=straight_length, width=bend90.ports["W0"].width)
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (bend90, "W0", "N0"),
         "B": (bend90, "N0", "W0"),
         "S": (wg, "W0", "E0"),
@@ -47,8 +47,9 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
         s += "ASAS" if i % 2 == 0 else "BSBS"
     s = s[:-4]
 
-    # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports, start_orientation=90)
+    c = component_sequence(
+        sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
+    )
     c.update_settings(n_bends=n_steps * n_stairs * 2 + n_stairs * 2 - 2)
     return c
 
@@ -82,7 +83,7 @@ def cutback_bend90(
         width=bend90.ports["W0"].width,
     )
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (bend90, "W0", "N0"),
         "B": (bend90, "N0", "W0"),
         "-": (wg, "W0", "E0"),
@@ -99,7 +100,9 @@ def cutback_bend90(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports, start_orientation=0)
+    c = component_sequence(
+        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
+    )
     c.update_settings(n_bends=n_steps * cols * 4)
     return c
 
@@ -117,7 +120,7 @@ def staircase(
     wgv = waveguide_factory(length=length_v, width=bend90.ports["W0"].width)
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "A": (bend90, "W0", "N0"),
         "B": (bend90, "N0", "W0"),
         "-": (wgh, "W0", "E0"),
@@ -127,8 +130,9 @@ def staircase(
     # Generate the sequence of staircases
     s = "-A|B" * n_steps + "-"
 
-    # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports, start_orientation=0)
+    c = component_sequence(
+        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
+    )
     c.update_settings(n_bends=2 * n_steps)
     return c
 
@@ -161,7 +165,7 @@ def cutback_bend180(
     )
 
     # Define a map between symbols and (component, input port, output port)
-    string_to_device_in_out_ports = {
+    symbol_to_component = {
         "D": (bend180, "W0", "W1"),
         "C": (bend180, "W1", "W0"),
         "-": (wg, "W0", "E0"),
@@ -178,7 +182,9 @@ def cutback_bend180(
     s = s[:-1]
 
     # Create the component from the sequence
-    c = component_sequence(s, string_to_device_in_out_ports, start_orientation=0)
+    c = component_sequence(
+        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
+    )
     c.update_settings(n_bends=n_steps * cols * 2 + cols * 2 - 2)
     return c
 
