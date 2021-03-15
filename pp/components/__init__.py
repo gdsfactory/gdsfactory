@@ -277,7 +277,7 @@ circuit_names = {
     "component_lattice",
 }
 
-__all__ = list(component_factory.keys())
+__all__ = list(component_factory.keys()) + container_names
 
 if __name__ == "__main__":
     for c in component_names:

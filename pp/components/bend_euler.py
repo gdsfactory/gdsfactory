@@ -34,7 +34,7 @@ def bend_euler(
         angle: total angle of the curve
         p: Proportion of the curve that is an Euler curve
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature of the bend
-            If True: The curve will be scaled such that the endpoints match an arc
+            If True: The curve will be scaled such that the endpoints match a bend_circular
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         width: waveguide width (defaults to tech.wg_width)
@@ -92,7 +92,27 @@ def bend_euler180(angle: int = 180, **kwargs) -> Component:
     return bend_euler(angle=angle, **kwargs)
 
 
+def _compare_bend_euler180():
+    """Compare 180 bend euler with 2 90deg euler bends."""
+    import pp
+
+    p1 = pp.Path()
+    p1.append([pp.path.euler(angle=90), pp.path.euler(angle=90)])
+    p2 = pp.path.euler(angle=180)
+    cross_section = pp.cross_section.strip(width=0.5, layer=pp.LAYER.WG)
+
+    c1 = pp.path.component(p1, cross_section=cross_section)
+    c1.name = "two_90_euler"
+    c2 = pp.path.component(p2, cross_section=cross_section)
+    c2.name = "one_180_euler"
+    c1.add_ref(c2)
+    c1.show()
+
+
 if __name__ == "__main__":
-    c = bend_euler(radius=10)
-    c.pprint()
-    c.show()
+    _compare_bend_euler180()
+    # import pp
+    # c = bend_euler(radius=10)
+    # c << pp.c.bend_circular(radius=10)
+    # c.pprint()
+    # c.show()
