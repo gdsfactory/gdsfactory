@@ -5,6 +5,6 @@ name: verniers
 settings:
   gap: 0.1
   size_max: 11
-  tech: silicon_cband
+  tech: null
   width_max: 0.5
   width_min: 0.1
