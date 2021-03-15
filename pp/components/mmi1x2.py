@@ -38,13 +38,6 @@ def mmi1x2(
         cladding_offset
         tech: technology dataclass
 
-    .. plot::
-      :include-source:
-
-      import pp
-      c = pp.c.mmi1x2(width_mmi=2, length_mmi=2.8)
-      c.plot()
-
 
     .. code::
 

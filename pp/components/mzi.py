@@ -63,14 +63,6 @@ def mzi(
                   |__Lx__|
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.mzi(delta_length=10.)
-      c.plot()
-
     """
     tech = tech or TECH_SILICON_C
     bend_radius = bend_radius or tech.bend_radius

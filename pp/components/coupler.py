@@ -20,7 +20,7 @@ def coupler(
     dx: float = 10.0,
     tech: Optional[Tech] = None,
 ) -> Component:
-    r"""symmetric coupler
+    r"""Symmetric coupler.
 
     Args:
         width: width of the waveguide
@@ -46,13 +46,6 @@ def coupler(
 
               coupler_straight_factory  coupler_symmetric_factory
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.coupler(gap=0.2, length=10)
-      c.plot()
 
     """
     assert_on_1nm_grid(length)

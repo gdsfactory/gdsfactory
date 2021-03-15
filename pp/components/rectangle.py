@@ -22,13 +22,6 @@ def rectangle(
         centered: True sets center to (0, 0)
         ports: {direction: [(x, y, width), ...]} direction: 'W', 'E', 'N' or 'S'
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.rectangle(size=(4, 2), layer=0)
-      c.plot()
     """
 
     c = pp.Component()

@@ -56,13 +56,6 @@ def spiral_external_io(
         straight_factory
         taper
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.spiral_external_io()
-      c.plot()
     """
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory

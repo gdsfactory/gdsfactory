@@ -27,13 +27,6 @@ def coupler_straight(
         gap: between waveguides
         tech: Technology
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.waveguide(length=10)
-      c.plot()
 
     """
     tech = tech or TECH_SILICON_C

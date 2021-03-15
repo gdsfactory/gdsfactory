@@ -71,19 +71,17 @@ def dbr(
                |_________
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
-      c.plot()
-
     """
     c = pp.Component()
     l1 = pp.snap_to_grid(l1)
     l2 = pp.snap_to_grid(l2)
-    cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, waveguide_function=waveguide_function,)
+    cell = dbr_cell(
+        w1=w1,
+        w2=w2,
+        l1=l1,
+        l2=l2,
+        waveguide_function=waveguide_function,
+    )
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("W0", port=cell.ports["W0"])
     p1 = c.add_port("E0", port=cell.ports["E0"])

@@ -11,7 +11,8 @@ def waveguide_array(
     spacing: float = 4.0,
     waveguide: ComponentFactory = waveguide_function,
 ) -> pp.Component:
-    """array of waveguides connected with grating couplers
+    """Array of waveguides connected with grating couplers.
+
     useful to align the 4 corners of the chip
 
     Args:

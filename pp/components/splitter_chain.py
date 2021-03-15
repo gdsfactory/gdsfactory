@@ -8,7 +8,7 @@ from pp.types import ComponentFactory
 def splitter_chain(
     component: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:
-    """ Chain of splitters
+    """Chain of splitters
 
     .. code::
 
@@ -18,14 +18,6 @@ def splitter_chain(
         _|  |__
          |__
 
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.splitter_chain(component=pp.c.mmi1x2(), n_devices=3)
-      c.plot()
 
     """
     c = pp.Component()

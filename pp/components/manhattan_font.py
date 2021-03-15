@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Iterable, Tuple
 
 import numpy as np
 from omegaconf.listconfig import ListConfig
@@ -7,6 +7,7 @@ import pp
 from pp.component import Component
 from pp.layers import LAYER
 from pp.name import clean_name
+from pp.types import Layer
 
 
 @pp.cell
@@ -16,18 +17,19 @@ def manhattan_text(
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: Tuple[int, int] = LAYER.M1,
-    layers_cladding: List[ListConfig] = None,
+    layers_cladding: Iterable[Layer] = None,
     cladding_offset: float = pp.conf.tech.cladding_offset,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.manhattan_text(text="abcd", size=10, position=(0, 0), justify="left", layer=1)
-      c.plot()
+    Args:
+        text:
+        size: pixel size
+        position: coordinate
+        justify
+        layer:
+        layers_cladding:
+        cladding_offset:
 
     """
     pixel_size = size

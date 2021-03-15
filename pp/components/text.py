@@ -25,7 +25,7 @@ def text(
 
       import pp
 
-      c = pp.c.text(text="abcd", size=10, position=(0, 0), justify="left", layer=1)
+      c = pp.c.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
       c.plot()
 
     """
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     c = text(
         text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
         size=4.0,
+        justify="right",
         position=(120.5, 3),
     )
     c = githash(text=["a", "b"], size=10)

@@ -58,14 +58,6 @@ def cdc(
        waveguide_template: Picwriter WaveguideTemplate function
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.cdc()
-      c.plot()
-
     """
 
     c = pc.ContraDirectionalCoupler(

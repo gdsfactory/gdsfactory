@@ -17,7 +17,7 @@ def splitter_tree(
     terminator: ComponentFactory = waveguide,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: Optional[float] = None,
-    tech: Tech = TECH_SILICON_C,
+    tech: Optional[Tech] = None,
 ) -> pp.Component:
     """tree of 1x2 splitters
 
@@ -36,15 +36,8 @@ def splitter_tree(
          |__       spacing
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.splitter_tree(coupler=pp.c.mmi1x2(), noutputs=4, spacing=50, bend_radius=10)
-      c.plot()
-
     """
+    tech = tech or TECH_SILICON_C
     bend_radius = bend_radius or tech.bend_radius
     bend90 = bend_factory(radius=bend_radius)
     noutputs = noutputs

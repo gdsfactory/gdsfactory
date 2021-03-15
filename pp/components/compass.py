@@ -7,22 +7,16 @@ from pp.types import Number
 
 @pp.cell
 def compass(
-    size: Tuple[Number, Number] = (4, 2), layer: Tuple[int, int] = pp.LAYER.WG,
+    size: Tuple[Number, Number] = (4, 2),
+    layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
-    """ Rectangular contact pad with centered ports on rectangle edges
+    """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
 
     Args:
         size: tuple (4, 2)
         layer: tuple (int, int)
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.compass(size=(4, 2), layer=pp.LAYER.WG)
-      c.plot()
     """
 
     c = pp.Component()

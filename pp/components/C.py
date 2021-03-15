@@ -11,20 +11,13 @@ def C(
     size: Tuple[int, int] = (10, 20),
     layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
-    """ Generates a 'C' geometry with ports on both ends. Based on phidl
+    """Generates a 'C' geometry with ports on both ends. Based on phidl
 
     Args:
         width: of the line
         size: length and height of the base
         layer:
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.C(width=1, size=(10, 20), layer=pp.LAYER.M3)
-      c.plot()
     """
     D = Component()
     w = width / 2

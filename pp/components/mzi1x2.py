@@ -56,14 +56,6 @@ def mzi1x2(
              bot_arm
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.mzi1x2(L0=0.1, DL=0, L2=10)
-      c.plot()
-
     """
     if not with_elec_connections:
         waveguide_heater_function = waveguide_function

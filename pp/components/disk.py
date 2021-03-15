@@ -1,5 +1,6 @@
 from typing import Tuple
 
+import numpy as np
 import picwriter.components as pc
 
 import pp
@@ -13,7 +14,7 @@ from pp.types import ComponentFactory
 def disk(
     radius: float = 10.0,
     gap: float = 0.2,
-    wrap_angle: int = 0,
+    wrap_angle_deg: float = 180.0,
     parity: int = 1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
@@ -23,12 +24,12 @@ def disk(
     """Disk Resonator
 
     Args:
-       radius (float): Radius of the disk resonator
-       gap (float): Distance between the bus waveguide and resonator
-       wrap_angle (float): Angle in radians between 0 and pi (defaults to 0)
+       radius: disk resonator radius
+       gap: Distance between the bus waveguide and resonator
+       wrap_angle : Angle in degrees between 0 and 180
         determines how much the bus waveguide wraps along the resonator.
         0 corresponds to a straight bus waveguide,
-        pi corresponds to a bus waveguide wrapped around half of the resonator.
+        180 corresponds to a bus waveguide wrapped around half of the resonator.
        parity (1 or -1): If 1, resonator to left of bus waveguide, if -1 resonator to the right
        port (tuple): Cartesian coordinate of the input port (x1, y1)
        direction (string): Direction that the component will point *towards*, can be of type
@@ -45,21 +46,13 @@ def disk(
        bend_radius: 10
        cladding_offset: 3
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.disk(radius=10, wrap_angle=3.14/4)
-      c.plot()
-
     """
 
     c = pc.Disk(
         pp.call_if_func(wg_strip, **kwargs),
         radius=radius,
         coupling_gap=gap,
-        wrap_angle=wrap_angle,
+        wrap_angle=wrap_angle_deg * np.pi / 180,
         parity=parity,
         port=port,
         direction=direction,
@@ -70,5 +63,5 @@ def disk(
 
 if __name__ == "__main__":
 
-    c = disk(wrap_angle=3.14 / 4)
+    c = disk()
     c.show()

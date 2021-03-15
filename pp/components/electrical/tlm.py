@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, Iterable, List, Tuple
 
 from numpy import floor
 
@@ -50,19 +50,15 @@ def tlm(
     width: float = 11.0,
     height: float = 11.0,
     layers: List[Tuple[int, int]] = (LAYER.M1, LAYER.M2, LAYER.M3),
-    vias: List[Any] = (via2, via3),
+    vias: Iterable[Any] = (via2, via3),
 ) -> Component:
-    """
-    Rectangular transition thru metal layers
+    """Rectangular transition thru metal layers
 
     Args:
         name: component name
         width, height: rectangle parameters
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
-
-    Returns
-        <Component>
     """
 
     # assert len(layers) - 1 == len(vias), "tlm: There should be N layers for N-1 vias"

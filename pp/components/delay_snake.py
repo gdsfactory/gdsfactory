@@ -14,9 +14,9 @@ from pp.types import ComponentFactory
 @cell
 def delay_snake(
     wg_width: float = 0.5,
-    total_length: float = 160000.0,
-    L0: float = 2350.0,
-    n: int = 5,
+    total_length: float = 1600.0,
+    L0: float = 5.0,
+    n: int = 2,
     taper: ComponentFactory = taper_function,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
@@ -47,13 +47,6 @@ def delay_snake(
 
        |        DL         |
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.delay_snake(L0=5, total_length=1600, n=2)
-      c.plot()
 
     """
     epsilon = 0.1

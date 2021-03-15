@@ -18,14 +18,6 @@ def L(
         size: length and height of the base
         layer:
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.L(width=1, size=(10, 20), layer=pp.LAYER.M3)
-      c.plot()
-
     """
     D = Component()
     w = width / 2

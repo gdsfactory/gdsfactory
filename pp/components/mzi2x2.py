@@ -55,15 +55,6 @@ def mzi_arm(
        -B1    B4-
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.mzi_arm()
-      c.plot()
-
-
     """
     if not with_elec_connections:
         waveguide_heater_function = waveguide_function
@@ -158,14 +149,6 @@ def mzi2x2(
         ==CL_1=       =CL_1===
                bot_arm
 
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.mzi2x2(CL_1=10., gap=0.2)
-      c.plot()
 
     """
     if not with_elec_connections:

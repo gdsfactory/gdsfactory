@@ -7,4 +7,4 @@ settings:
   noutputs: 4
   spacing: null
   spacing_extra: 0.1
-  tech: silicon_cband
+  tech: null

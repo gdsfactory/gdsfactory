@@ -57,14 +57,6 @@ def ring_single(
 
           length_x
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.ring_single(gap=0.2, length_x=4, length_y=0.1, radius=5)
-      c.plot()
-
     """
     assert_on_2nm_grid(gap)
 

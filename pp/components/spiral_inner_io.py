@@ -61,14 +61,6 @@ def spiral_inner_io(
         taper: taper function
         length: cm
 
-    .. plot::
-      :include-source:
-
-      import pp
-      from pp.components.spiral_inner_io import spiral_inner_io
-
-      c = spiral_inner_io()
-      c.plot()
     """
     if length:
         if bend180_function == bend_circular180:
@@ -214,16 +206,7 @@ def spiral_inner_io_euler(
     bend180_function: ComponentFactory = bend_euler180,
     **kwargs
 ) -> Component:
-    """
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.spiral_inner_io_euler()
-      c.plot()
-    """
+    """Spiral with euler bends."""
 
     return spiral_inner_io(
         bend90_function=bend90_function, bend180_function=bend180_function, **kwargs

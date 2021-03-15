@@ -8,7 +8,7 @@ settings:
   - 1
   - 0
   length: 1000.0
-  min_bend_radius: 5
+  min_bend_radius: 5.0
   points: 1000
-  spacing: 3
+  spacing: 3.0
   wg_width: 0.5

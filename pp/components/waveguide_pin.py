@@ -26,29 +26,22 @@ def waveguide_pin(
     layer_npp: Tuple[int, int] = LAYER.Npp,
     waveguide_factory: ComponentFactory = waveguide,
 ) -> Component:
-    """PN doped waveguide
+    """PIN doped waveguide.
 
-        .. code::
+    .. code::
 
 
-                               |<------width------>|
-                                ____________________
-                               |     |       |     |
-            ___________________|     |       |     |__________________________|
-                                     |       |                                |
-                P++     P+     P     |   I   |     N        N+         N++    |
-            __________________________________________________________________|
-                                                                              |
-                                     |width_i| width_n | width_np | width_npp |
-                                        0    oi        on        onp         onpp
+                           |<------width------>|
+                            ____________________
+                           |     |       |     |
+        ___________________|     |       |     |__________________________|
+                                 |       |                                |
+            P++     P+     P     |   I   |     N        N+         N++    |
+        __________________________________________________________________|
+                                                                          |
+                                 |width_i| width_n | width_np | width_npp |
+                                    0    oi        on        onp         onpp
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.waveguide_pin(length=10)
-      c.plot()
 
     """
     c = Component()
