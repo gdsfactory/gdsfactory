@@ -20,14 +20,6 @@ def cross(
         width: float Width of the arms of the cross
         layer: int, array-like[2], or set Specific layer(s) to put polygon geometry on
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.cross(length=10, width=3, layer=(1, 0))
-      c.plot()
-
     """
 
     c = pp.Component()

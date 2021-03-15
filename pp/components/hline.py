@@ -12,16 +12,7 @@ def hline(
     layer: Tuple[int, int] = LAYER.WG,
     port_type: str = "optical",
 ) -> Component:
-    """horizonal line waveguide, with ports on east and west sides
-
-    .. plot::
-      :include-source:
-
-      import pp
-      c = pp.c.hline()
-      c.plot()
-
-    """
+    """Horizonal line waveguide, with ports on east and west sides"""
     c = pp.Component()
     a = width / 2
     if length > 0 and width > 0:

@@ -21,13 +21,6 @@ def coupler_asymmetric(
         gap: um
         wg_width
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.coupler_asymmetric()
-      c.plot()
 
     """
     bend = bend(tech=tech)

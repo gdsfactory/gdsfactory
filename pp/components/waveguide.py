@@ -31,14 +31,6 @@ def waveguide(
         cross_section_factory: function that returns a cross_section
         tech: Technology with default
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.waveguide(length=10)
-      c.plot()
-
     """
     tech = tech or TECH_SILICON_C
     cross_section_factory = cross_section_factory or strip

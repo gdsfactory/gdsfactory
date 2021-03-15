@@ -94,13 +94,6 @@ def test_via(
         via_layer -> GDS layer number of the vias
         ex: via_route(54, min_pad_spacing=300)
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.test_via()
-      c.plot()
     """
 
     VR = pp.Component()

@@ -117,13 +117,6 @@ def waveguide_heater(
 
         TTTTTTTTTTTTT    TTTTTTTTTTTTT <-- trench
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.waveguide_heater()
-      c.plot()
 
     """
     c = Component()

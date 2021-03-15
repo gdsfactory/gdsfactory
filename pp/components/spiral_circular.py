@@ -45,23 +45,20 @@ def straight(
 def spiral_circular(
     length: float = 1e3,
     wg_width: float = 0.5,
-    spacing: int = 3,
-    min_bend_radius: int = 5,
+    spacing: float = 3.0,
+    min_bend_radius: float = 5.0,
     points: int = 1000,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
-    """ Returns a circular spiral
+    """Returns a circular spiral.
 
     Args:
-        length(um):
-
-    .. plot::
-        :include-source:
-
-        import pp
-
-        c = pp.c.spiral_circular(length=1e3)
-        c.plot()
+        length: length in um
+        wg_width:
+        spacing: between waveguides
+        min_bend_radius:
+        points:
+        layer:
 
     """
     wg_datatype = layer[1]
@@ -172,16 +169,23 @@ def spiral_circular(
 
     ps = gds.fast_boolean(ps, None, "or")
 
-    """ component """
     c = pp.Component()
     c.length = snap_to_grid(length)
     c.add_polygon(ps, layer=layer)
 
     c.add_port(
-        name="W0", midpoint=(s[0], s[1]), orientation=180, layer=layer, width=wg_width,
+        name="W0",
+        midpoint=(s[0], s[1]),
+        orientation=180,
+        layer=layer,
+        width=wg_width,
     )
     c.add_port(
-        name="E0", midpoint=(e[0], e[1]), orientation=180, layer=layer, width=wg_width,
+        name="E0",
+        midpoint=(e[0], e[1]),
+        orientation=180,
+        layer=layer,
+        width=wg_width,
     )
     return c
 

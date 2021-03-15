@@ -18,15 +18,13 @@ def wire(
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
 ) -> Component:
-    """electrical straight wire
+    """Straight waveguide.
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.wire(length=50., width=10., layer=pp.LAYER.M3)
-      c.plot()
+    Args:
+        length: straiht length
+        width: wire width
+        layer: layer
+        port_type: port_type
     """
     return hline(length=length, width=width, layer=layer, port_type=port_type)
 
@@ -45,14 +43,8 @@ def corner(
         width: wire width
         radius ignore (passed for consistency with other types of bends)
         layer: layer
+        port_type: port_type
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.corner(width=10., layer=pp.LAYER.M3)
-      c.plot()
     """
     c = Component()
     a = width / 2

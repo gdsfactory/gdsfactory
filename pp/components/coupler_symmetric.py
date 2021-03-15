@@ -26,14 +26,6 @@ def coupler_symmetric(
         tech: Technology
         width: waveguide width (defaults to tech.wg_width)
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.coupler_symmetric()
-      c.plot()
-
     .. code::
 
                     dx

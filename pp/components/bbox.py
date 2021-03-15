@@ -10,8 +10,8 @@ def bbox(
     bbox: Tuple[Tuple[Number, Number], ...] = ((-1, -1), (3, 4)),
     layer: Tuple[int, int] = (1, 0),
 ) -> Component:
-    """Creates a bounding box rectangle from coordinates, to allow
-    creation of a rectangle bounding box directly form another shape.
+    """Returns bounding box rectangle from coordinates, to allow
+    creation of a rectangle bounding box directly from another shape.
 
     Args:
         bbox: Coordinates of the box [(x1, y1), (x2, y2)].

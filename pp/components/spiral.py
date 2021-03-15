@@ -28,7 +28,7 @@ def spiral(
     """Picwriter Spiral
 
     Args:
-       width : width of the spiral (i.e. distance between input/output ports)
+       width: width of the spiral (i.e. distance between input/output ports)
        length: desired length of the waveguide (um)
        spacing: distance between parallel waveguides
        parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
@@ -40,14 +40,6 @@ def spiral(
        cladding_offset: distance from core to waveguide cladding
        wg_width: 0.5
        bend_radius: 10
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.spiral(width=500, length=10e3)
-      c.plot()
 
     """
     c = pc.Spiral(

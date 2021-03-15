@@ -40,13 +40,6 @@ def coupler90(
        W0 =--- E0
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-      c = pp.c.coupler90()
-      c.plot()
-
     """
     c = Component()
     bend90 = bend(

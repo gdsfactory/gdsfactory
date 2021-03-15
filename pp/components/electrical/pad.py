@@ -21,14 +21,6 @@ def pad(
         layer: pad layer
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.pad(width=100, height=100, layer=pp.LAYER.M3)
-      c.plot()
-
     """
     c = Component()
     _c = compass(size=(width, height), layer=layer).ref()
@@ -58,14 +50,6 @@ def pad_array(
         width: pad width
         height: pad height
         layer: pad layer
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.pad_array(pad=pp.c.pad, spacing=(150, 0), n=6, port_list=["N"])
-      c.plot()
 
     """
     c = Component()

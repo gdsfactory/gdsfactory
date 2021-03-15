@@ -78,14 +78,6 @@ def mzit(
                            cp2
 
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.mzit()
-      c.plot()
-
     """
     c = pp.Component()
     cp2 = (

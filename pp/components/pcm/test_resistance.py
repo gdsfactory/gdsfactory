@@ -17,7 +17,7 @@ def test_resistance(
     pad_layer: Tuple[int, int] = pp.LAYER.M3,
     gnd_layer: Tuple[int, int] = pp.LAYER.M3,
 ) -> Component:
-    """ meander to test resistance
+    """meander to test resistance
     from phidl.geometry
 
     Args:
@@ -27,14 +27,6 @@ def test_resistance(
         res_layer:
         pad_layer:
         gnd_layer:
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.test_resistance()
-      c.plot()
 
     """
 

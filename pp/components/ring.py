@@ -14,24 +14,18 @@ def ring(
     angle_resolution: float = 2.5,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
-    """ Returns ring geometry.
-    The ring is formed by taking the radius out to the specified value, and then constructing the thickness by dividing the width in half and adding that value to either side of the radius.
+    """Returns a ring.
+
+    The ring is formed by taking the radius out to the specified value,
+    and then constructing the thickness by dividing the width in half and adding that value to either side of the radius.
     The angle_resolution alters the precision of the curve of the ring.
     Larger values yield lower resolution
 
     Args:
         radius: (float) Middle radius of the ring
         width: (float) Width of the ring
-        angle_resolution: (float) Resolution of the curve of the ring (# of degrees per point)
-        layer: (int, array-like[2], or set) Specific layer(s) to put polygon geometry on
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.ring(radius=10, width=0.5, angle_resolution=2.5, layer=0)
-      c.plot()
+        angle_resolution: number of points per degree
+        layer: layer
 
     """
 

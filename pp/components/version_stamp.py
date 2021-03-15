@@ -21,7 +21,7 @@ def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
 def qrcode(
     data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
 ) -> Component:
-    """ A utility to render a list of pixels as a block """
+    """Returns QRCode."""
     import qrcode
 
     pix = pixel(size=psize, layer=layer)
@@ -42,18 +42,7 @@ def qrcode(
 def version_stamp(
     text=None, with_qr_code=False, layer=LAYER.WG, pixel_size=1, text_size=10
 ) -> Component:
-    """
-    Includes module version, git hash and date
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.c.version_stamp()
-      c.plot()
-
-    """
+    """Includes module version, git hash and date"""
 
     text = text or []
     git_hash = conf.git_hash
