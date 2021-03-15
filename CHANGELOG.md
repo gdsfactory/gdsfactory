@@ -23,7 +23,7 @@ from pydantic import validate_arguments
 ## 2.4.4
 
 - add vertical_te and vertical_tm ports to grating couplers
-- remove klive warning when not klayout is not open
+- remove klive warning when not klayout is not open (if klayout is not installed or running it will just fail silently)
 - replace cladding for bend_circular and bend_euler with square cladding
 - added `component.show(show_ports=True)`
 - added `component.show(show_subports=True)`
