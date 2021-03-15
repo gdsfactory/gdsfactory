@@ -13,9 +13,6 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-install:
-	pip install -r requirements.txt
-
 open:
 	open build/html/index.html
 

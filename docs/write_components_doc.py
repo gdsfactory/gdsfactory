@@ -22,5 +22,13 @@ Components
 
 .. autofunction:: pp.c.{name}
 
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.c.{name}()
+  c.plot()
+
 """
         )

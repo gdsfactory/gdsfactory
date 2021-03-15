@@ -1,4 +1,4 @@
-sphinx>=3.1.2
+sphinx>=3.5.2
 sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
@@ -12,3 +12,4 @@ flake8-rst-docstrings
 doc8
 pydocstyle
 nbsphinx
+ipykernel

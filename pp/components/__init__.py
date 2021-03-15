@@ -32,7 +32,6 @@ from pp.components.crossing_waveguide import crossing
 from pp.components.crossing_waveguide import crossing45
 from pp.components.crossing_waveguide import compensation_path
 from pp.components.ellipse import ellipse
-from pp.components.label import label
 from pp.components.rectangle import rectangle
 from pp.components.ring import ring
 from pp.components.taper import taper
@@ -176,7 +175,6 @@ component_factory = dict(
     grating_coupler_uniform=grating_coupler_uniform,
     grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
     hline=hline,
-    label=label,
     litho_calipers=litho_calipers,
     litho_star=litho_star,
     litho_steps=litho_steps,
@@ -251,7 +249,6 @@ def factory(component_type, component_factory=component_factory, **settings):
 
 
 component_names_skip_test = [
-    "label",
     "text",
     "component_sequence",
     "compensation_path",

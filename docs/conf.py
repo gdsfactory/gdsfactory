@@ -14,20 +14,24 @@ source_suffix = {
     ".md": "markdown",
 }
 
+html_static_path = ["_static"]
 htmlhelp_basename = project
 
 extensions = [
     "nbsphinx",
     "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "matplotlib.sphinxext.plot_directive",
     "sphinx_markdown_tables",
+    "sphinx.ext.doctest",
     "recommonmark",
     "sphinx_autodoc_typehints",
 ]
+
+autodoc_member_order = "bysource"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
