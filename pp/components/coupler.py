@@ -5,12 +5,13 @@ from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.snap import assert_on_1nm_grid
-from pp.tech import Tech
+from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
 @cell
 def coupler(
+    width: float = TECH_SILICON_C.wg_width,
     gap: float = 0.236,
     length: float = 20.0,
     coupler_symmetric_factory: ComponentFactory = coupler_symmetric,
@@ -22,17 +23,14 @@ def coupler(
     r"""symmetric coupler
 
     Args:
-        wg_width: width of the waveguide
-        gap
-        length
+        width: width of the waveguide
+        gap: between waveguides
+        length: of coupling region
         coupler_symmetric_factory
         coupler_straight_factory
-        layer:
-        layers_cladding: list of cladding layers
-        cladding_offset: offset from waveguide to cladding edge
         dy: port to port vertical spacing
         dx: length of bend in x direction
-        tech: Technology
+        tech: Technology dataclass
 
     .. code::
 
@@ -61,11 +59,11 @@ def coupler(
     assert_on_1nm_grid(gap)
     c = Component()
 
-    sbend = coupler_symmetric_factory(gap=gap, dy=dy, dx=dx, tech=tech)
+    sbend = coupler_symmetric_factory(width=width, gap=gap, dy=dy, dx=dx, tech=tech)
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight_factory(length=length, gap=gap, tech=tech)
+    cs = c << coupler_straight_factory(width=width, length=length, gap=gap, tech=tech)
     sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
 
@@ -90,7 +88,7 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    c = coupler(length=1, dy=2, gap=0.2)
     c = coupler(gap=0.2)
+    c = coupler(width=0.9, length=1, dy=2, gap=0.2)
     # print(c.settings_changed)
     c.show()

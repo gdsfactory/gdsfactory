@@ -13,6 +13,7 @@ from typing import Optional
 import numpy as np
 import phidl.path as path
 from phidl.device_layout import CrossSection, Path, _simplify
+from phidl.path import smooth as smooth_phidl
 from phidl.path import transition
 
 from pp.component import Component
@@ -202,76 +203,22 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
 def smooth(
     points: Coordinates,
     radius: float = 4.0,
-    corner_fun: PathFactory = euler,
+    bend_path_function: PathFactory = euler,
     **kwargs,
 ) -> Path:
-    """Returns a smooth path from a series of waypoints. Corners will be rounded
-    using `corner_fun` and any additional key word arguments (for example,
-    `use_eff = True` when `corner_fun = pp.euler`)
-
+    """Returns a smooth Path from a series of waypoints. Corners will be rounded
+    using `bend_path_function` and any additional key word arguments (for example,
+    `use_eff = True` when `bend_path_function = pp..path.euler`)
 
     Args:
-    points : array-like[N][2]
-        List of waypoints for the path to follow
-    radius : int or float
-        Radius of curvature, this argument will be passed to `corner_fun`
-    corner_fun :
-        The function that controls how the corners are rounded. Typically either
-        `arc()` or `euler()`
-    **kwargs: Extra keyword arguments that will be passed to `corner_fun`
-
-    Returns
-        Path
-        A Path object with the specified smoothed path.
+        points: array-like[N][2] List of waypoints for the path to follow
+        radius: radius of curvature, passed to `bend_path_function`
+        bend_path_function: function that controls how the corners are rounded.
+        **kwargs: Extra keyword arguments that will be passed to `bend_path_function`
     """
-    points = np.asfarray(points)
-    normals = np.diff(points, axis=0)
-    normals = (normals.T / np.linalg.norm(normals, axis=1)).T
-    # normals_rev = normals*np.array([1,-1])
-    dx = np.diff(points[:, 0])
-    dy = np.diff(points[:, 1])
-    ds = np.sqrt(dx ** 2 + dy ** 2)
-    theta = np.degrees(np.arctan2(dy, dx))
-    dtheta = np.diff(theta)
-    dtheta = dtheta - 360 * np.floor((dtheta + 180) / 360)
-
-    # FIXME add caching
-    # Create arcs
-    paths = []
-    radii = []
-    for dt in dtheta:
-        P = corner_fun(radius=radius, angle=dt, **kwargs)
-        chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
-        r = (chord / 2) / np.sin(np.radians(dt / 2))
-        r = np.abs(r)
-        radii.append(r)
-        paths.append(P)
-
-    d = np.abs(np.array(radii) / np.tan(np.radians(180 - dtheta) / 2))
-    encroachment = np.concatenate([[0], d]) + np.concatenate([d, [0]])
-    if np.any(encroachment > ds):
-        raise ValueError(
-            "[PHIDL] smooth(): Not enough distance between points to to fit curves.  Try reducing the radius or spacing the points out farther"
-        )
-    p1 = points[1:-1, :] - normals[:-1, :] * d[:, np.newaxis]
-
-    # Move arcs into position
-    new_points = []
-    new_points.append([points[0, :]])
-    for n, dt in enumerate(dtheta):
-        P = paths[n]
-        P.rotate(dt - 0)
-        P.move(p1[n])
-        new_points.append(P.points)
-    new_points.append([points[-1, :]])
-    new_points = np.concatenate(new_points)
-
-    P = Path()
-    P.rotate(theta[0])
-    P.append(new_points)
-    P.move(points[0, :])
-
-    return P
+    return smooth_phidl(
+        points=points, radius=radius, corner_fun=bend_path_function, **kwargs
+    )
 
 
 __all__ = ["straight", "euler", "arc", "component", "path", "transition", "smooth"]

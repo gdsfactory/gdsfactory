@@ -81,6 +81,7 @@ instances:
       gap: 0.2
       length: 5.0
       tech: null
+      width: 0.5
   coupler_D2_G300n_L10_TNone_5.0_-0.4:
     component: coupler
     settings:
@@ -89,6 +90,7 @@ instances:
       gap: 0.3
       length: 10.0
       tech: null
+      width: 0.5
   taper_L5_W450n_W500n_16.5_22.6:
     component: taper
     settings:

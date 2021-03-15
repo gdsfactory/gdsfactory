@@ -20,6 +20,11 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.4.5
+
+- better docstrings
+- simplify code for pp.path.smooth
+
 ## 2.4.4
 
 - add vertical_te and vertical_tm ports to grating couplers

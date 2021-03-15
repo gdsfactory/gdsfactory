@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Union
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
@@ -10,7 +11,7 @@ from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 4.0,
@@ -37,13 +38,15 @@ def mzi(
         bend_radius: 10.0
         bend90: bend_circular
         waveguide: waveguide function
-        waveguide_vertical: waveguide
+        waveguide_horizontal: waveguide for length_x
+        waveguide_vertical: waveguide for length_y and delta_length
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
         pins: add pins cell and child cells
-        combiner_settings: settings dict for combiner function
         splitter_settings: settings dict for splitter function
+        combiner_settings: settings dict for combiner function
+        tech: technology dataclass
 
     .. code::
 
@@ -55,7 +58,7 @@ def mzi(
                   |      |
                   Ly     Lyr (not a parameter)
                   |      |
-                  |       delta_length
+                  | delta_length/2
                   |      |
                   |__Lx__|
 
@@ -78,7 +81,7 @@ def mzi(
     splitter_settings = splitter_settings or {}
     combiner_settings = combiner_settings or {}
 
-    c = pp.Component()
+    c = Component()
     cp1 = splitter(**splitter_settings)
     if combiner:
         cp2 = combiner(**combiner_settings)
