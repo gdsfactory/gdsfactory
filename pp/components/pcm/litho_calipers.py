@@ -33,7 +33,7 @@ def litho_calipers(
 
       import pp
 
-      c = pp.c.litho_calipers()
+      c = pp.components.litho_calipers()
       c.plot()
     """
 

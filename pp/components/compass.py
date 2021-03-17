@@ -20,7 +20,7 @@ def compass(
     """
 
     c = pp.Component()
-    r = pp.c.rectangle(size=size, layer=layer)
+    r = pp.components.rectangle(size=size, layer=layer)
     dx = size[0]
     dy = size[1]
 

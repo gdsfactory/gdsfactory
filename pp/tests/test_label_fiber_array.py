@@ -8,7 +8,7 @@ CELL_NAME = "waveguide_L500n"
 
 
 def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
-    c = pp.c.waveguide(length=LENGTH)
+    c = pp.components.waveguide(length=LENGTH)
 
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
@@ -28,7 +28,7 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
 
 def test_label_fiber_array_align_ports(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that adds the correct label for measurements."""
-    c = pp.c.waveguide(length=length)
+    c = pp.components.waveguide(length=length)
 
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
@@ -56,7 +56,7 @@ def test_label_fiber_array_align_ports(length=LENGTH, cell_name=CELL_NAME) -> Co
 
 
 def test_labels_fiber_array(num_regression):
-    c = pp.c.waveguide(length=3)
+    c = pp.components.waveguide(length=3)
     assert len(c.labels) == 0
 
     cte = pp.routing.add_fiber_array(component=c, with_align_ports=True)
@@ -76,7 +76,7 @@ def test_labels_fiber_array(num_regression):
 
 
 def test_labels_fiber_single(num_regression):
-    c = pp.c.waveguide(length=3)
+    c = pp.components.waveguide(length=3)
     assert len(c.labels) == 0
 
     cte = pp.routing.add_fiber_single(component=c, with_align_ports=True)
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # c = test_label_fiber_array_align_ports()
     # c.show()
 
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # assert len(c.labels) == 0
 
     # c = pp.routing.add_fiber_array(component=c, with_align_ports=True)

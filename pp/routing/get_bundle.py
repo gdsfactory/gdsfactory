@@ -827,8 +827,8 @@ def test_get_bundle_small() -> Component:
     import pp
 
     c = pp.Component()
-    c1 = c << pp.c.mmi2x2()
-    c2 = c << pp.c.mmi2x2()
+    c1 = c << pp.components.mmi2x2()
+    c2 = c << pp.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
         [c1.ports["E0"], c1.ports["E1"]],

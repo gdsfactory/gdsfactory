@@ -148,7 +148,7 @@ def test_get_bundle_udirect(
         ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
     c = pp.Component(name="get_bundle")
-    routes = get_bundle(ports1, ports2, bend_factory=pp.c.bend_circular)
+    routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route["references"])
@@ -188,8 +188,8 @@ def test_get_bundle_u_indirect(
 
     c = pp.Component()
 
-    # FIXME, bend_factory=pp.c.bend_euler needs fix
-    routes = get_bundle(ports1, ports2, bend_factory=pp.c.bend_circular)
+    # FIXME, bend_factory=pp.components.bend_euler needs fix
+    routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route["references"])

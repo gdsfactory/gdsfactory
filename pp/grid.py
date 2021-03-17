@@ -110,7 +110,7 @@ def grid(
 def test_grid():
     import pp
 
-    components = [pp.c.rectangle(size=(i, i)) for i in range(1, 10)]
+    components = [pp.components.rectangle(size=(i, i)) for i in range(1, 10)]
     c = grid(components)
     difftest(c)
     return c
@@ -119,6 +119,6 @@ def test_grid():
 if __name__ == "__main__":
     import pp
 
-    components = [pp.c.rectangle(size=(i, i)) for i in range(1, 10)]
+    components = [pp.components.rectangle(size=(i, i)) for i in range(1, 10)]
     c = grid(components)
     c.show()

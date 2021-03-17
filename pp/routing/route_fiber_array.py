@@ -435,20 +435,20 @@ def route_fiber_array(
 
 
 def demo():
-    gcte = pp.c.grating_coupler_te
-    gctm = pp.c.grating_coupler_tm
+    gcte = pp.components.grating_coupler_te
+    gctm = pp.components.grating_coupler_tm
 
-    c = pp.c.waveguide(length=500)
-    c = pp.c.mmi2x2()
-    c = pp.c.mzi2x2()
+    c = pp.components.waveguide(length=500)
+    c = pp.components.mmi2x2()
+    c = pp.components.mzi2x2()
 
     elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_align_ports=True,
         optical_routing_type=2,
-        # bend_factory=pp.c.bend_euler,
-        bend_factory=pp.c.bend_circular,
+        # bend_factory=pp.components.bend_euler,
+        bend_factory=pp.components.bend_circular,
         bend_radius=20,
         # force_manhattan=True
     )

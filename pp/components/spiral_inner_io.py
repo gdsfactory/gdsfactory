@@ -121,7 +121,7 @@ def spiral_inner_io(
         width=wg_width,
         layer=pp.LAYER.WG,
     )
-    taper = pp.c.taper(
+    taper = pp.components.taper(
         width1=wg_width_grating_coupler,
         width2=_bend180.ports["W0"].width,
         length=TAPER_LENGTH + y_straight_inner_top - 15 - 35,
@@ -270,7 +270,7 @@ def get_straight_length(
 
 # @cell
 # def spiral_inner_io_with_gratings(
-#     spiral=spiral_inner_io, grating_coupler=pp.c.grating_coupler_elliptical_te, **kwargs
+#     spiral=spiral_inner_io, grating_coupler=pp.components.grating_coupler_elliptical_te, **kwargs
 # ):
 #     spiral = pp.call_if_func(spiral, **kwargs)
 #     grating_coupler = pp.call_if_func(grating_coupler)

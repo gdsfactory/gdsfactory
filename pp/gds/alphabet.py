@@ -8,7 +8,7 @@ def alphabet(dx=10):
     c = pp.Component()
     x = 0
     for s in characters:
-        ci = pp.c.text(text=s)
+        ci = pp.components.text(text=s)
         ci.name = s
         char = c << ci.flatten()
         char.x = x

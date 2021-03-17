@@ -102,7 +102,9 @@ def extend_ports(
         dummy_port = component.ports[port_list[0]]
 
         def _ext_factory(length, width):
-            return pp.c.hline(length=length, width=width, layer=dummy_port.layer)
+            return pp.components.hline(
+                length=length, width=width, layer=dummy_port.layer
+            )
 
         extension_factory = _ext_factory
 

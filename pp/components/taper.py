@@ -35,7 +35,7 @@ def taper(
 
       import pp
 
-      c = pp.c.taper(width1=0.5, width2=5, length=3)
+      c = pp.components.taper(width1=0.5, width2=5, length=3)
       c.plot()
 
     """
@@ -99,7 +99,7 @@ def taper_strip_to_ridge(
 
       import pp
 
-      c = pp.c.taper_strip_to_ridge()
+      c = pp.components.taper_strip_to_ridge()
       c.plot()
 
     """

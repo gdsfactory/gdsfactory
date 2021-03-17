@@ -381,7 +381,7 @@ def add_pins_and_outline(
 def add_pins_to_references(
     component: Component,
     references: Optional[List[ComponentReference]] = None,
-    function: Callable = add_pins_and_outline,
+    function: Callable = add_pins,
 ) -> None:
     """Add pins to a Component.
 
@@ -426,7 +426,7 @@ def add_pins_container(
 
 
 def test_add_pins() -> None:
-    c1 = pp.c.wg_heater_connected()
+    c1 = pp.components.wg_heater_connected()
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
     )
@@ -466,7 +466,7 @@ if __name__ == "__main__":
     test_add_pins()
     # test_add_pins_recursive()
 
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # add_pins(c, function=add_pin_square)
     # add_pins(c, function=add_pin_square_inside)
     # add_pins(c, function=add_pin_square_double)
@@ -475,15 +475,15 @@ if __name__ == "__main__":
     # cpl = [10, 20, 30]
     # cpg = [0.2, 0.3, 0.5]
     # dl0 = [10, 20]
-    # c = pp.c.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
+    # c = pp.components.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
 
-    # c = pp.c.mzi()
+    # c = pp.components.mzi()
     # add_pins_to_references(c)
     # c = add_pins(c, recursive=True)
     # c = add_pins(c, recursive=False)
     # c.show()
 
-    # c = pp.c.mzi2x2(with_elec_connections=True)
+    # c = pp.components.mzi2x2(with_elec_connections=True)
     # cc = add_pins(c)
     # cc.show()
 
@@ -497,10 +497,10 @@ if __name__ == "__main__":
     # c = mmi1x2(width_mmi=5)
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
-    # c = pp.c.waveguide()
-    # c = pp.c.crossing()
+    # c = pp.components.waveguide()
+    # c = pp.components.crossing()
     # add_pins(c)
 
-    # c = pp.c.bend_circular()
+    # c = pp.components.bend_circular()
     # print(cc.name)
     # cc.show()

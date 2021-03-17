@@ -13,8 +13,12 @@ def test_get_bundle_west_to_north(
     c = pp.Component("test_get_bundle_west_to_north")
     w = h = 10
     c = pp.Component()
-    pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h, n=3)
-    pad_north = pp.c.pad_array(port_list=["N"], spacing=(15, 0), width=w, height=h, n=3)
+    pad_south = pp.components.pad_array(
+        port_list=["S"], spacing=(15, 0), width=w, height=h, n=3
+    )
+    pad_north = pp.components.pad_array(
+        port_list=["N"], spacing=(15, 0), width=w, height=h, n=3
+    )
     pl = c << pad_south
     pb = c << pad_north
     pl.rotate(90)
@@ -27,7 +31,7 @@ def test_get_bundle_west_to_north(
         pbports,
         ptports,
         route_filter=pp.routing.get_route_from_waypoints_electrical,
-        bend_factory=pp.c.corner,
+        bend_factory=pp.components.corner,
     )
     for i, route in enumerate(routes):
         c.add(route["references"])
@@ -54,7 +58,7 @@ def test_get_bundle_west_to_north2(
         pbottom_facing_north,
         ptop_facing_west,
         route_filter=pp.routing.get_route_from_waypoints_electrical,
-        bend_factory=pp.c.corner,
+        bend_factory=pp.components.corner,
     )
 
     for i, route in enumerate(routes):

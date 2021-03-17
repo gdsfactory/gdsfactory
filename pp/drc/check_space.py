@@ -74,7 +74,7 @@ if __name__ == "__main__":
     min_space = 0.1
     dbu = 1000
     layer = pp.LAYER.WG
-    gdspath = pp.c.waveguide_array(spacing=space)
+    gdspath = pp.components.waveguide_array(spacing=space)
     pp.show(gdspath)
 
     if isinstance(gdspath, Component):

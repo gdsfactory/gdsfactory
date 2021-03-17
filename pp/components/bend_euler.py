@@ -48,7 +48,7 @@ def bend_euler(
 
       import pp
 
-      c = pp.c.bend_euler(
+      c = pp.components.bend_euler(
         radius=10,
         angle=0.5,
         p=1,
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     _compare_bend_euler180()
     # import pp
     # c = bend_euler(radius=10)
-    # c << pp.c.bend_circular(radius=10)
+    # c << pp.components.bend_circular(radius=10)
     # c.pprint()
     # c.show()

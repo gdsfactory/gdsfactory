@@ -13,7 +13,7 @@ def test_cutback_phase(
 ) -> Component:
     """ Modulator sections connected by bends """
     # Define sub components
-    bend180 = pp.c.bend_circular180(radius=bend_radius)
+    bend180 = pp.components.bend_circular180(radius=bend_radius)
     pm_wg = waveguide_pin(length=straight_length)
     wg_short = waveguide(length=1.0)
     wg_short2 = waveguide(length=2.0)

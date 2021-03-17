@@ -94,7 +94,7 @@ def grating_coupler_elliptical_tm(
 
       import pp
 
-      c = pp.c.grating_coupler_elliptical_tm()
+      c = pp.components.grating_coupler_elliptical_tm()
       c.plot()
 
     """
@@ -185,7 +185,7 @@ def grating_coupler_elliptical(
 
       import pp
 
-      c = pp.c.grating_coupler_elliptical_te()
+      c = pp.components.grating_coupler_elliptical_te()
       c.plot()
 
     .. code::
@@ -268,7 +268,9 @@ def grating_coupler_elliptical(
         polarization_marker_layer = pp.LAYER.TM
 
     x = taper_length + period * n_periods / 2
-    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=polarization_marker_layer)
+    circle = pp.components.circle(
+        radius=fiber_marker_width / 2, layer=polarization_marker_layer
+    )
     circle_ref = c.add_ref(circle)
     circle_ref.movex(x)
 

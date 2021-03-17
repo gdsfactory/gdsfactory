@@ -12,8 +12,8 @@ def test_get_bundle_electrical(
     lengths = {}
 
     c = pp.Component("test_get_bundle")
-    c1 = c << pp.c.pad()
-    c2 = c << pp.c.pad()
+    c1 = c << pp.components.pad()
+    c2 = c << pp.components.pad()
     c2.move((200, 100))
     routes = pp.routing.get_bundle(
         [c1.ports["E"]],

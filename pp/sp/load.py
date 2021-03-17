@@ -175,6 +175,6 @@ if __name__ == "__main__":
     # test_read_sparameters_2port_bend()
     # test_read_sparameters_3port_mmi1x2()
     # test_read_sparameters_4port_mmi2x2()
-    s = load(pp.c.mmi2x2())
+    s = load(pp.components.mmi2x2())
     # print(s[0])
     # print(s)

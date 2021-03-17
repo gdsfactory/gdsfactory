@@ -291,8 +291,8 @@ if __name__ == "__main__":
     # cc.show()
 
     c = mzi2x2(with_elec_connections=True)
-    c = mzi_arm()
-    from pp.cell import print_cache
+    # c = mzi_arm()
+    # from pp.cell import print_cache
 
-    print_cache()
-    c.show()
+    # print_cache()
+    c.show(show_subports=True)

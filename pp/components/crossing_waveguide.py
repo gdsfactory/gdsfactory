@@ -73,7 +73,7 @@ def crossing(arm: ComponentFactory = crossing_arm) -> Component:
 
       import pp
 
-      c = pp.c.crossing()
+      c = pp.components.crossing()
       c.plot()
 
     """

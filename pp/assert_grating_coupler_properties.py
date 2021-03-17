@@ -26,5 +26,5 @@ def assert_grating_coupler_properties(gc: Component) -> None:
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.grating_coupler_elliptical_te()
+    c = pp.components.grating_coupler_elliptical_te()
     assert_grating_coupler_properties(c)

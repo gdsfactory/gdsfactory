@@ -6,9 +6,9 @@ from pp.component import Component
 def test_remap_layers() -> Component:
     c = pp.Component("test_remap_layers_sample_device")
 
-    wg1 = c << pp.c.waveguide(length=11, width=1, layer=pp.LAYER.WG)
-    wg2 = c << pp.c.waveguide(length=11, width=2, layer=pp.LAYER.SLAB90)
-    wg3 = c << pp.c.waveguide(length=11, width=3, layer=pp.LAYER.SLAB150)
+    wg1 = c << pp.components.waveguide(length=11, width=1, layer=pp.LAYER.WG)
+    wg2 = c << pp.components.waveguide(length=11, width=2, layer=pp.LAYER.SLAB90)
+    wg3 = c << pp.components.waveguide(length=11, width=3, layer=pp.LAYER.SLAB150)
 
     wg2.connect(port="W0", destination=wg1.ports["E0"])
     wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)

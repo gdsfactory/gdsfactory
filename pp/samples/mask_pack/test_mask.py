@@ -34,7 +34,7 @@ def _route_filter(
 def add_te(component: Component, **kwargs) -> Component:
     c = pp.routing.add_fiber_array(
         component=component,
-        grating_coupler=pp.c.grating_coupler_elliptical_te,
+        grating_coupler=pp.components.grating_coupler_elliptical_te,
         route_filter=_route_filter,
         **kwargs,
     )
@@ -46,7 +46,7 @@ def add_te(component: Component, **kwargs) -> Component:
 def add_tm(component, **kwargs):
     c = pp.routing.add_fiber_array(
         component=component,
-        grating_coupler=pp.c.grating_coupler_elliptical_tm,
+        grating_coupler=pp.components.grating_coupler_elliptical_tm,
         route_filter=_route_filter,
         bend_radius=20,
         **kwargs,
@@ -61,7 +61,7 @@ def coupler_te(
     length: int,
 ) -> Component:
     """ sample of component cutback """
-    c = pp.c.coupler(gap=gap, length=length)
+    c = pp.components.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
@@ -77,8 +77,8 @@ def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
     c = spiral_inner_io_euler(wg_width=wg_width, length=length)
     cc = add_gratings_and_loop_back(
         component=c,
-        grating_coupler=pp.c.grating_coupler_elliptical_te,
-        bend_factory=pp.c.bend_euler,
+        grating_coupler=pp.components.grating_coupler_elliptical_te,
+        bend_factory=pp.components.bend_euler,
     )
     return cc
 
@@ -89,8 +89,8 @@ def spiral_tm(wg_width=0.5, length=2):
     c = spiral_inner_io_euler(wg_width=wg_width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,
-        grating_coupler=pp.c.grating_coupler_elliptical_tm,
-        bend_factory=pp.c.bend_euler,
+        grating_coupler=pp.components.grating_coupler_elliptical_tm,
+        bend_factory=pp.components.bend_euler,
     )
     return cc
 

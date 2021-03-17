@@ -5,15 +5,15 @@ layer = pp.LAYER.WG
 
 @pp.cell
 def width_min(size=(0.1, 0.1)):
-    c = pp.c.rectangle(size=size, layer=layer)
+    c = pp.components.rectangle(size=size, layer=layer)
     return c
 
 
 @pp.cell
 def gap_min(gap=0.1):
     c = pp.Component()
-    r1 = c << pp.c.rectangle(size=(1, 1), layer=layer)
-    r2 = c << pp.c.rectangle(size=(1, 1), layer=layer)
+    r1 = c << pp.components.rectangle(size=(1, 1), layer=layer)
+    r2 = c << pp.components.rectangle(size=(1, 1), layer=layer)
     r1.xmax = 0
     r2.xmin = gap
     return c
@@ -22,8 +22,8 @@ def gap_min(gap=0.1):
 @pp.cell
 def snapping_error(gap=1e-3):
     c = pp.Component()
-    r1 = c << pp.c.rectangle(size=(1, 1), layer=layer)
-    r2 = c << pp.c.rectangle(size=(1, 1), layer=layer)
+    r1 = c << pp.components.rectangle(size=(1, 1), layer=layer)
+    r2 = c << pp.components.rectangle(size=(1, 1), layer=layer)
     r1.xmax = 0
     r2.xmin = gap
     return c

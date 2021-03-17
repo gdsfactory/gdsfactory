@@ -70,9 +70,9 @@ def package_optical2x2(
 
 
 if __name__ == "__main__":
-    # component = pp.c.mzi2x2(with_elec_connections=True)
+    # component = pp.components.mzi2x2(with_elec_connections=True)
 
-    c = package_optical2x2(component=pp.c.coupler(gap=1.0))
+    c = package_optical2x2(component=pp.components.coupler(gap=1.0))
     print(c.ports["E1"].y - c.ports["E0"].y)
     # print(c.ports)
     c.show()

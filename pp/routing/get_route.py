@@ -261,7 +261,7 @@ def get_route_from_waypoints_electrical(
 if __name__ == "__main__":
     import pp
 
-    w = pp.c.mmi1x2()
+    w = pp.components.mmi1x2()
 
     c = pp.Component()
     c << w

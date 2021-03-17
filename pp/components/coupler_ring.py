@@ -50,7 +50,7 @@ def coupler_ring(
 
       import pp
 
-      c = pp.c.coupler_ring(length_x=20, radius=5.0, gap=0.3)
+      c = pp.components.coupler_ring(length_x=20, radius=5.0, gap=0.3)
       c.plot()
 
     """

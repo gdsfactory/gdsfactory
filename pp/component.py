@@ -929,7 +929,7 @@ class Component(Device):
         .. code ::
 
             import pp
-            pp.c.waveguide().get_layers() == {(1, 0), (111, 0)}
+            pp.components.waveguide().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()
@@ -1012,7 +1012,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.c.waveguide(layer=(2, 0))
+    c = pp.components.waveguide(layer=(2, 0))
     assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(2, 0)}
@@ -1093,8 +1093,8 @@ def test_same_uid() -> None:
     import pp
 
     c = Component()
-    c << pp.c.rectangle()
-    c << pp.c.rectangle()
+    c << pp.components.rectangle()
+    c << pp.components.rectangle()
 
     r1 = c.references[0].parent
     r2 = c.references[1].parent
@@ -1107,8 +1107,8 @@ def test_netlist_simple() -> None:
     import pp
 
     c = pp.Component()
-    c1 = c << pp.c.waveguide(length=1, width=1)
-    c2 = c << pp.c.waveguide(length=2, width=2)
+    c1 = c << pp.components.waveguide(length=1, width=1)
+    c2 = c << pp.components.waveguide(length=2, width=2)
     c2.connect(port="W0", destination=c1.ports["E0"])
     c.add_port("W0", port=c1.ports["W0"])
     c.add_port("E0", port=c2.ports["E0"])
@@ -1120,7 +1120,7 @@ def test_netlist_simple() -> None:
 def test_netlist_complex() -> None:
     import pp
 
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 18
@@ -1129,7 +1129,7 @@ def test_netlist_complex() -> None:
 def test_netlist_plot() -> None:
     import pp
 
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     c.plot_netlist()
 
 
@@ -1178,30 +1178,30 @@ if __name__ == "__main__":
     test_get_layers()
     import pp
 
-    c = pp.c.bend_circular()
+    c = pp.components.bend_circular()
     c.pprint()
 
     # c.info["curvature_info"] = 10
     # c.curvature = 5
     # c.get_settings()
     # c.pprint(ignore=("length",))
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
 
-    # c0 = pp.c.waveguide()
-    # c = pp.c.waveguide(length=3.0)
+    # c0 = pp.components.waveguide()
+    # c = pp.components.waveguide(length=3.0)
     # c.info["c"] = c0
 
     # import matplotlib.pyplot as plt
 
-    # c = pp.c.ring_single()
-    # c = pp.c.mzi()
+    # c = pp.components.ring_single()
+    # c = pp.components.mzi()
     # c.plot_netlist()
 
     # coupler_lengths = [10, 20, 30]
     # coupler_gaps = [0.1, 0.2, 0.3]
     # delta_lengths = [10, 100]
 
-    # c = pp.c.mzi_lattice(
+    # c = pp.components.mzi_lattice(
     #     coupler_lengths=coupler_lengths,
     #     coupler_gaps=coupler_gaps,
     #     delta_lengths=delta_lengths,
@@ -1217,20 +1217,20 @@ if __name__ == "__main__":
     # test_netlist_simple()
     # test_netlist_complex()
 
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # print(c.get_settings())
-    # c = pp.c.dbr(n=1)
+    # c = pp.components.dbr(n=1)
 
     # print(c.get_layers())
 
-    # c = pp.c.bend_circular180()
-    # c = pp.c.coupler()
+    # c = pp.components.bend_circular180()
+    # c = pp.components.coupler()
     # c.add_labels()
     # c.show()
     # test_same_uid()
 
-    # c = pp.c.mmi1x2()
-    # c = pp.c.mzi1x2()
+    # c = pp.components.mmi1x2()
+    # c = pp.components.mzi1x2()
 
     # print(c.hash_geometry())
     # print(c.get_json())
@@ -1250,7 +1250,7 @@ if __name__ == "__main__":
 
     # from pprint import pprint
 
-    # c = pp.c.mmi1x2()
+    # c = pp.components.mmi1x2()
     # cc = add_fiber_array(c)
     # cc.get_json()
     # cc.show()
@@ -1267,12 +1267,12 @@ if __name__ == "__main__":
     #     }
     # )
 
-    # w = pp.c.waveguide()
+    # w = pp.components.waveguide()
     # c = demo_component(port=w.ports["E0"])
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # c = pp.routing.add_fiber_array(c)
     # c = pp.routing.add_electrical_pads_top(c)
     # print(c)

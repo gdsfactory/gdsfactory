@@ -170,8 +170,8 @@ def route_pad_array(
 
 if __name__ == "__main__":
 
-    c = pp.c.wg_heater_connected()
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.components.wg_heater_connected()
+    c = pp.components.mzi2x2(with_elec_connections=True)
 
     elements, pads, _ = route_pad_array(c, fanout_length=100)
     for e in elements:

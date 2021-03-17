@@ -76,7 +76,7 @@ def offset(
 
 
 if __name__ == "__main__":
-    c = pp.c.rectangle(size=(1, 2))
-    c = pp.c.ring()
+    c = pp.components.rectangle(size=(1, 2))
+    c = pp.components.ring()
     co = offset(c, distance=0.5)
     pp.show(co)

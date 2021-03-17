@@ -6,14 +6,14 @@ Components
 C
 ----------------------------------------------------
 
-.. autofunction:: pp.c.C
+.. autofunction:: pp.components.C
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.C()
+  c = pp.components.C()
   c.plot()
 
 
@@ -21,14 +21,14 @@ C
 L
 ----------------------------------------------------
 
-.. autofunction:: pp.c.L
+.. autofunction:: pp.components.L
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.L()
+  c = pp.components.L()
   c.plot()
 
 
@@ -36,14 +36,14 @@ L
 align_wafer
 ----------------------------------------------------
 
-.. autofunction:: pp.c.align_wafer
+.. autofunction:: pp.components.align_wafer
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.align_wafer()
+  c = pp.components.align_wafer()
   c.plot()
 
 
@@ -51,14 +51,14 @@ align_wafer
 bbox
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bbox
+.. autofunction:: pp.components.bbox
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bbox()
+  c = pp.components.bbox()
   c.plot()
 
 
@@ -66,14 +66,14 @@ bbox
 bend_circular
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_circular
+.. autofunction:: pp.components.bend_circular
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_circular()
+  c = pp.components.bend_circular()
   c.plot()
 
 
@@ -81,14 +81,14 @@ bend_circular
 bend_circular180
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_circular180
+.. autofunction:: pp.components.bend_circular180
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_circular180()
+  c = pp.components.bend_circular180()
   c.plot()
 
 
@@ -96,14 +96,14 @@ bend_circular180
 bend_circular_heater
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_circular_heater
+.. autofunction:: pp.components.bend_circular_heater
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_circular_heater()
+  c = pp.components.bend_circular_heater()
   c.plot()
 
 
@@ -111,14 +111,14 @@ bend_circular_heater
 bend_euler
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_euler
+.. autofunction:: pp.components.bend_euler
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_euler()
+  c = pp.components.bend_euler()
   c.plot()
 
 
@@ -126,14 +126,14 @@ bend_euler
 bend_euler180
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_euler180
+.. autofunction:: pp.components.bend_euler180
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_euler180()
+  c = pp.components.bend_euler180()
   c.plot()
 
 
@@ -141,14 +141,14 @@ bend_euler180
 bend_s
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bend_s
+.. autofunction:: pp.components.bend_s
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bend_s()
+  c = pp.components.bend_s()
   c.plot()
 
 
@@ -156,14 +156,14 @@ bend_s
 bezier
 ----------------------------------------------------
 
-.. autofunction:: pp.c.bezier
+.. autofunction:: pp.components.bezier
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.bezier()
+  c = pp.components.bezier()
   c.plot()
 
 
@@ -171,14 +171,14 @@ bezier
 cavity
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cavity
+.. autofunction:: pp.components.cavity
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cavity()
+  c = pp.components.cavity()
   c.plot()
 
 
@@ -186,14 +186,14 @@ cavity
 cdc
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cdc
+.. autofunction:: pp.components.cdc
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cdc()
+  c = pp.components.cdc()
   c.plot()
 
 
@@ -201,14 +201,14 @@ cdc
 circle
 ----------------------------------------------------
 
-.. autofunction:: pp.c.circle
+.. autofunction:: pp.components.circle
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.circle()
+  c = pp.components.circle()
   c.plot()
 
 
@@ -216,14 +216,14 @@ circle
 compass
 ----------------------------------------------------
 
-.. autofunction:: pp.c.compass
+.. autofunction:: pp.components.compass
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.compass()
+  c = pp.components.compass()
   c.plot()
 
 
@@ -231,14 +231,14 @@ compass
 compensation_path
 ----------------------------------------------------
 
-.. autofunction:: pp.c.compensation_path
+.. autofunction:: pp.components.compensation_path
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.compensation_path()
+  c = pp.components.compensation_path()
   c.plot()
 
 
@@ -246,28 +246,28 @@ compensation_path
 component_lattice
 ----------------------------------------------------
 
-.. autofunction:: pp.c.component_lattice
+.. autofunction:: pp.components.component_lattice
 
 
 
 component_sequence
 ----------------------------------------------------
 
-.. autofunction:: pp.c.component_sequence
+.. autofunction:: pp.components.component_sequence
 
 
 
 corner
 ----------------------------------------------------
 
-.. autofunction:: pp.c.corner
+.. autofunction:: pp.components.corner
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.corner()
+  c = pp.components.corner()
   c.plot()
 
 
@@ -275,14 +275,14 @@ corner
 coupler
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler
+.. autofunction:: pp.components.coupler
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler()
+  c = pp.components.coupler()
   c.plot()
 
 
@@ -290,14 +290,14 @@ coupler
 coupler90
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler90
+.. autofunction:: pp.components.coupler90
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler90()
+  c = pp.components.coupler90()
   c.plot()
 
 
@@ -305,14 +305,14 @@ coupler90
 coupler_adiabatic
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_adiabatic
+.. autofunction:: pp.components.coupler_adiabatic
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_adiabatic()
+  c = pp.components.coupler_adiabatic()
   c.plot()
 
 
@@ -320,14 +320,14 @@ coupler_adiabatic
 coupler_asymmetric
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_asymmetric
+.. autofunction:: pp.components.coupler_asymmetric
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_asymmetric()
+  c = pp.components.coupler_asymmetric()
   c.plot()
 
 
@@ -335,14 +335,14 @@ coupler_asymmetric
 coupler_full
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_full
+.. autofunction:: pp.components.coupler_full
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_full()
+  c = pp.components.coupler_full()
   c.plot()
 
 
@@ -350,14 +350,14 @@ coupler_full
 coupler_ring
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_ring
+.. autofunction:: pp.components.coupler_ring
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_ring()
+  c = pp.components.coupler_ring()
   c.plot()
 
 
@@ -365,14 +365,14 @@ coupler_ring
 coupler_straight
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_straight
+.. autofunction:: pp.components.coupler_straight
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_straight()
+  c = pp.components.coupler_straight()
   c.plot()
 
 
@@ -380,14 +380,14 @@ coupler_straight
 coupler_symmetric
 ----------------------------------------------------
 
-.. autofunction:: pp.c.coupler_symmetric
+.. autofunction:: pp.components.coupler_symmetric
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.coupler_symmetric()
+  c = pp.components.coupler_symmetric()
   c.plot()
 
 
@@ -395,14 +395,14 @@ coupler_symmetric
 cross
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cross
+.. autofunction:: pp.components.cross
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cross()
+  c = pp.components.cross()
   c.plot()
 
 
@@ -410,14 +410,14 @@ cross
 crossing
 ----------------------------------------------------
 
-.. autofunction:: pp.c.crossing
+.. autofunction:: pp.components.crossing
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.crossing()
+  c = pp.components.crossing()
   c.plot()
 
 
@@ -425,14 +425,14 @@ crossing
 crossing45
 ----------------------------------------------------
 
-.. autofunction:: pp.c.crossing45
+.. autofunction:: pp.components.crossing45
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.crossing45()
+  c = pp.components.crossing45()
   c.plot()
 
 
@@ -440,14 +440,14 @@ crossing45
 cutback_bend180
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cutback_bend180
+.. autofunction:: pp.components.cutback_bend180
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cutback_bend180()
+  c = pp.components.cutback_bend180()
   c.plot()
 
 
@@ -455,14 +455,14 @@ cutback_bend180
 cutback_bend90
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cutback_bend90
+.. autofunction:: pp.components.cutback_bend90
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cutback_bend90()
+  c = pp.components.cutback_bend90()
   c.plot()
 
 
@@ -470,14 +470,14 @@ cutback_bend90
 cutback_component
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cutback_component
+.. autofunction:: pp.components.cutback_component
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cutback_component()
+  c = pp.components.cutback_component()
   c.plot()
 
 
@@ -485,14 +485,14 @@ cutback_component
 cutback_component_flipped
 ----------------------------------------------------
 
-.. autofunction:: pp.c.cutback_component_flipped
+.. autofunction:: pp.components.cutback_component_flipped
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.cutback_component_flipped()
+  c = pp.components.cutback_component_flipped()
   c.plot()
 
 
@@ -500,14 +500,14 @@ cutback_component_flipped
 dbr
 ----------------------------------------------------
 
-.. autofunction:: pp.c.dbr
+.. autofunction:: pp.components.dbr
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.dbr()
+  c = pp.components.dbr()
   c.plot()
 
 
@@ -515,14 +515,14 @@ dbr
 dbr2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.dbr2
+.. autofunction:: pp.components.dbr2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.dbr2()
+  c = pp.components.dbr2()
   c.plot()
 
 
@@ -530,14 +530,14 @@ dbr2
 delay_snake
 ----------------------------------------------------
 
-.. autofunction:: pp.c.delay_snake
+.. autofunction:: pp.components.delay_snake
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.delay_snake()
+  c = pp.components.delay_snake()
   c.plot()
 
 
@@ -545,14 +545,14 @@ delay_snake
 disk
 ----------------------------------------------------
 
-.. autofunction:: pp.c.disk
+.. autofunction:: pp.components.disk
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.disk()
+  c = pp.components.disk()
   c.plot()
 
 
@@ -560,14 +560,14 @@ disk
 ellipse
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ellipse
+.. autofunction:: pp.components.ellipse
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ellipse()
+  c = pp.components.ellipse()
   c.plot()
 
 
@@ -575,14 +575,14 @@ ellipse
 grating_coupler_elliptical2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_elliptical2
+.. autofunction:: pp.components.grating_coupler_elliptical2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_elliptical2()
+  c = pp.components.grating_coupler_elliptical2()
   c.plot()
 
 
@@ -590,14 +590,14 @@ grating_coupler_elliptical2
 grating_coupler_elliptical_te
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_elliptical_te
+.. autofunction:: pp.components.grating_coupler_elliptical_te
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_elliptical_te()
+  c = pp.components.grating_coupler_elliptical_te()
   c.plot()
 
 
@@ -605,14 +605,14 @@ grating_coupler_elliptical_te
 grating_coupler_elliptical_tm
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_elliptical_tm
+.. autofunction:: pp.components.grating_coupler_elliptical_tm
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_elliptical_tm()
+  c = pp.components.grating_coupler_elliptical_tm()
   c.plot()
 
 
@@ -620,14 +620,14 @@ grating_coupler_elliptical_tm
 grating_coupler_loss
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_loss
+.. autofunction:: pp.components.grating_coupler_loss
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_loss()
+  c = pp.components.grating_coupler_loss()
   c.plot()
 
 
@@ -635,14 +635,14 @@ grating_coupler_loss
 grating_coupler_te
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_te
+.. autofunction:: pp.components.grating_coupler_te
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_te()
+  c = pp.components.grating_coupler_te()
   c.plot()
 
 
@@ -650,14 +650,14 @@ grating_coupler_te
 grating_coupler_tm
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_tm
+.. autofunction:: pp.components.grating_coupler_tm
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_tm()
+  c = pp.components.grating_coupler_tm()
   c.plot()
 
 
@@ -665,14 +665,14 @@ grating_coupler_tm
 grating_coupler_tree
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_tree
+.. autofunction:: pp.components.grating_coupler_tree
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_tree()
+  c = pp.components.grating_coupler_tree()
   c.plot()
 
 
@@ -680,14 +680,14 @@ grating_coupler_tree
 grating_coupler_uniform
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_uniform
+.. autofunction:: pp.components.grating_coupler_uniform
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_uniform()
+  c = pp.components.grating_coupler_uniform()
   c.plot()
 
 
@@ -695,14 +695,14 @@ grating_coupler_uniform
 grating_coupler_uniform_optimized
 ----------------------------------------------------
 
-.. autofunction:: pp.c.grating_coupler_uniform_optimized
+.. autofunction:: pp.components.grating_coupler_uniform_optimized
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.grating_coupler_uniform_optimized()
+  c = pp.components.grating_coupler_uniform_optimized()
   c.plot()
 
 
@@ -710,14 +710,14 @@ grating_coupler_uniform_optimized
 hline
 ----------------------------------------------------
 
-.. autofunction:: pp.c.hline
+.. autofunction:: pp.components.hline
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.hline()
+  c = pp.components.hline()
   c.plot()
 
 
@@ -725,14 +725,14 @@ hline
 litho_calipers
 ----------------------------------------------------
 
-.. autofunction:: pp.c.litho_calipers
+.. autofunction:: pp.components.litho_calipers
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.litho_calipers()
+  c = pp.components.litho_calipers()
   c.plot()
 
 
@@ -740,14 +740,14 @@ litho_calipers
 litho_star
 ----------------------------------------------------
 
-.. autofunction:: pp.c.litho_star
+.. autofunction:: pp.components.litho_star
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.litho_star()
+  c = pp.components.litho_star()
   c.plot()
 
 
@@ -755,14 +755,14 @@ litho_star
 litho_steps
 ----------------------------------------------------
 
-.. autofunction:: pp.c.litho_steps
+.. autofunction:: pp.components.litho_steps
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.litho_steps()
+  c = pp.components.litho_steps()
   c.plot()
 
 
@@ -770,14 +770,14 @@ litho_steps
 logo
 ----------------------------------------------------
 
-.. autofunction:: pp.c.logo
+.. autofunction:: pp.components.logo
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.logo()
+  c = pp.components.logo()
   c.plot()
 
 
@@ -785,14 +785,14 @@ logo
 loop_mirror
 ----------------------------------------------------
 
-.. autofunction:: pp.c.loop_mirror
+.. autofunction:: pp.components.loop_mirror
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.loop_mirror()
+  c = pp.components.loop_mirror()
   c.plot()
 
 
@@ -800,14 +800,14 @@ loop_mirror
 manhattan_text
 ----------------------------------------------------
 
-.. autofunction:: pp.c.manhattan_text
+.. autofunction:: pp.components.manhattan_text
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.manhattan_text()
+  c = pp.components.manhattan_text()
   c.plot()
 
 
@@ -815,14 +815,14 @@ manhattan_text
 mmi1x2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mmi1x2
+.. autofunction:: pp.components.mmi1x2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mmi1x2()
+  c = pp.components.mmi1x2()
   c.plot()
 
 
@@ -830,14 +830,14 @@ mmi1x2
 mmi2x2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mmi2x2
+.. autofunction:: pp.components.mmi2x2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mmi2x2()
+  c = pp.components.mmi2x2()
   c.plot()
 
 
@@ -845,14 +845,14 @@ mmi2x2
 mzi
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzi
+.. autofunction:: pp.components.mzi
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzi()
+  c = pp.components.mzi()
   c.plot()
 
 
@@ -860,14 +860,14 @@ mzi
 mzi1x2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzi1x2
+.. autofunction:: pp.components.mzi1x2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzi1x2()
+  c = pp.components.mzi1x2()
   c.plot()
 
 
@@ -875,14 +875,14 @@ mzi1x2
 mzi2x2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzi2x2
+.. autofunction:: pp.components.mzi2x2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzi2x2()
+  c = pp.components.mzi2x2()
   c.plot()
 
 
@@ -890,14 +890,14 @@ mzi2x2
 mzi_arm
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzi_arm
+.. autofunction:: pp.components.mzi_arm
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzi_arm()
+  c = pp.components.mzi_arm()
   c.plot()
 
 
@@ -905,14 +905,14 @@ mzi_arm
 mzi_lattice
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzi_lattice
+.. autofunction:: pp.components.mzi_lattice
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzi_lattice()
+  c = pp.components.mzi_lattice()
   c.plot()
 
 
@@ -920,14 +920,14 @@ mzi_lattice
 mzit
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzit
+.. autofunction:: pp.components.mzit
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzit()
+  c = pp.components.mzit()
   c.plot()
 
 
@@ -935,14 +935,14 @@ mzit
 mzit_lattice
 ----------------------------------------------------
 
-.. autofunction:: pp.c.mzit_lattice
+.. autofunction:: pp.components.mzit_lattice
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.mzit_lattice()
+  c = pp.components.mzit_lattice()
   c.plot()
 
 
@@ -950,14 +950,14 @@ mzit_lattice
 nxn
 ----------------------------------------------------
 
-.. autofunction:: pp.c.nxn
+.. autofunction:: pp.components.nxn
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.nxn()
+  c = pp.components.nxn()
   c.plot()
 
 
@@ -965,14 +965,14 @@ nxn
 pad
 ----------------------------------------------------
 
-.. autofunction:: pp.c.pad
+.. autofunction:: pp.components.pad
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.pad()
+  c = pp.components.pad()
   c.plot()
 
 
@@ -980,14 +980,14 @@ pad
 pad_array
 ----------------------------------------------------
 
-.. autofunction:: pp.c.pad_array
+.. autofunction:: pp.components.pad_array
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.pad_array()
+  c = pp.components.pad_array()
   c.plot()
 
 
@@ -995,14 +995,14 @@ pad_array
 pads_shorted
 ----------------------------------------------------
 
-.. autofunction:: pp.c.pads_shorted
+.. autofunction:: pp.components.pads_shorted
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.pads_shorted()
+  c = pp.components.pads_shorted()
   c.plot()
 
 
@@ -1010,14 +1010,14 @@ pads_shorted
 qrcode
 ----------------------------------------------------
 
-.. autofunction:: pp.c.qrcode
+.. autofunction:: pp.components.qrcode
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.qrcode()
+  c = pp.components.qrcode()
   c.plot()
 
 
@@ -1025,14 +1025,14 @@ qrcode
 ramp
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ramp
+.. autofunction:: pp.components.ramp
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ramp()
+  c = pp.components.ramp()
   c.plot()
 
 
@@ -1040,14 +1040,14 @@ ramp
 rectangle
 ----------------------------------------------------
 
-.. autofunction:: pp.c.rectangle
+.. autofunction:: pp.components.rectangle
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.rectangle()
+  c = pp.components.rectangle()
   c.plot()
 
 
@@ -1055,14 +1055,14 @@ rectangle
 ring
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ring
+.. autofunction:: pp.components.ring
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ring()
+  c = pp.components.ring()
   c.plot()
 
 
@@ -1070,14 +1070,14 @@ ring
 ring_double
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ring_double
+.. autofunction:: pp.components.ring_double
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ring_double()
+  c = pp.components.ring_double()
   c.plot()
 
 
@@ -1085,14 +1085,14 @@ ring_double
 ring_single
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ring_single
+.. autofunction:: pp.components.ring_single
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ring_single()
+  c = pp.components.ring_single()
   c.plot()
 
 
@@ -1100,14 +1100,14 @@ ring_single
 ring_single_array
 ----------------------------------------------------
 
-.. autofunction:: pp.c.ring_single_array
+.. autofunction:: pp.components.ring_single_array
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.ring_single_array()
+  c = pp.components.ring_single_array()
   c.plot()
 
 
@@ -1115,14 +1115,14 @@ ring_single_array
 spiral
 ----------------------------------------------------
 
-.. autofunction:: pp.c.spiral
+.. autofunction:: pp.components.spiral
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.spiral()
+  c = pp.components.spiral()
   c.plot()
 
 
@@ -1130,14 +1130,14 @@ spiral
 spiral_circular
 ----------------------------------------------------
 
-.. autofunction:: pp.c.spiral_circular
+.. autofunction:: pp.components.spiral_circular
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.spiral_circular()
+  c = pp.components.spiral_circular()
   c.plot()
 
 
@@ -1145,14 +1145,14 @@ spiral_circular
 spiral_external_io
 ----------------------------------------------------
 
-.. autofunction:: pp.c.spiral_external_io
+.. autofunction:: pp.components.spiral_external_io
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.spiral_external_io()
+  c = pp.components.spiral_external_io()
   c.plot()
 
 
@@ -1160,14 +1160,14 @@ spiral_external_io
 spiral_inner_io
 ----------------------------------------------------
 
-.. autofunction:: pp.c.spiral_inner_io
+.. autofunction:: pp.components.spiral_inner_io
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.spiral_inner_io()
+  c = pp.components.spiral_inner_io()
   c.plot()
 
 
@@ -1175,14 +1175,14 @@ spiral_inner_io
 spiral_inner_io_euler
 ----------------------------------------------------
 
-.. autofunction:: pp.c.spiral_inner_io_euler
+.. autofunction:: pp.components.spiral_inner_io_euler
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.spiral_inner_io_euler()
+  c = pp.components.spiral_inner_io_euler()
   c.plot()
 
 
@@ -1190,14 +1190,14 @@ spiral_inner_io_euler
 splitter_chain
 ----------------------------------------------------
 
-.. autofunction:: pp.c.splitter_chain
+.. autofunction:: pp.components.splitter_chain
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.splitter_chain()
+  c = pp.components.splitter_chain()
   c.plot()
 
 
@@ -1205,14 +1205,14 @@ splitter_chain
 splitter_tree
 ----------------------------------------------------
 
-.. autofunction:: pp.c.splitter_tree
+.. autofunction:: pp.components.splitter_tree
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.splitter_tree()
+  c = pp.components.splitter_tree()
   c.plot()
 
 
@@ -1220,14 +1220,14 @@ splitter_tree
 taper
 ----------------------------------------------------
 
-.. autofunction:: pp.c.taper
+.. autofunction:: pp.components.taper
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.taper()
+  c = pp.components.taper()
   c.plot()
 
 
@@ -1235,14 +1235,14 @@ taper
 taper_0p5_to_3_l36
 ----------------------------------------------------
 
-.. autofunction:: pp.c.taper_0p5_to_3_l36
+.. autofunction:: pp.components.taper_0p5_to_3_l36
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.taper_0p5_to_3_l36()
+  c = pp.components.taper_0p5_to_3_l36()
   c.plot()
 
 
@@ -1250,14 +1250,14 @@ taper_0p5_to_3_l36
 taper_strip_to_ridge
 ----------------------------------------------------
 
-.. autofunction:: pp.c.taper_strip_to_ridge
+.. autofunction:: pp.components.taper_strip_to_ridge
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.taper_strip_to_ridge()
+  c = pp.components.taper_strip_to_ridge()
   c.plot()
 
 
@@ -1265,14 +1265,14 @@ taper_strip_to_ridge
 test_resistance
 ----------------------------------------------------
 
-.. autofunction:: pp.c.test_resistance
+.. autofunction:: pp.components.test_resistance
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.test_resistance()
+  c = pp.components.test_resistance()
   c.plot()
 
 
@@ -1280,14 +1280,14 @@ test_resistance
 test_via
 ----------------------------------------------------
 
-.. autofunction:: pp.c.test_via
+.. autofunction:: pp.components.test_via
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.test_via()
+  c = pp.components.test_via()
   c.plot()
 
 
@@ -1295,14 +1295,14 @@ test_via
 text
 ----------------------------------------------------
 
-.. autofunction:: pp.c.text
+.. autofunction:: pp.components.text
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.text()
+  c = pp.components.text()
   c.plot()
 
 
@@ -1310,14 +1310,14 @@ text
 tlm
 ----------------------------------------------------
 
-.. autofunction:: pp.c.tlm
+.. autofunction:: pp.components.tlm
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.tlm()
+  c = pp.components.tlm()
   c.plot()
 
 
@@ -1325,14 +1325,14 @@ tlm
 verniers
 ----------------------------------------------------
 
-.. autofunction:: pp.c.verniers
+.. autofunction:: pp.components.verniers
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.verniers()
+  c = pp.components.verniers()
   c.plot()
 
 
@@ -1340,14 +1340,14 @@ verniers
 version_stamp
 ----------------------------------------------------
 
-.. autofunction:: pp.c.version_stamp
+.. autofunction:: pp.components.version_stamp
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.version_stamp()
+  c = pp.components.version_stamp()
   c.plot()
 
 
@@ -1355,14 +1355,14 @@ version_stamp
 via
 ----------------------------------------------------
 
-.. autofunction:: pp.c.via
+.. autofunction:: pp.components.via
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.via()
+  c = pp.components.via()
   c.plot()
 
 
@@ -1370,14 +1370,14 @@ via
 via1
 ----------------------------------------------------
 
-.. autofunction:: pp.c.via1
+.. autofunction:: pp.components.via1
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.via1()
+  c = pp.components.via1()
   c.plot()
 
 
@@ -1385,14 +1385,14 @@ via1
 via2
 ----------------------------------------------------
 
-.. autofunction:: pp.c.via2
+.. autofunction:: pp.components.via2
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.via2()
+  c = pp.components.via2()
   c.plot()
 
 
@@ -1400,14 +1400,14 @@ via2
 via3
 ----------------------------------------------------
 
-.. autofunction:: pp.c.via3
+.. autofunction:: pp.components.via3
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.via3()
+  c = pp.components.via3()
   c.plot()
 
 
@@ -1415,14 +1415,14 @@ via3
 waveguide
 ----------------------------------------------------
 
-.. autofunction:: pp.c.waveguide
+.. autofunction:: pp.components.waveguide
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.waveguide()
+  c = pp.components.waveguide()
   c.plot()
 
 
@@ -1430,14 +1430,14 @@ waveguide
 waveguide_array
 ----------------------------------------------------
 
-.. autofunction:: pp.c.waveguide_array
+.. autofunction:: pp.components.waveguide_array
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.waveguide_array()
+  c = pp.components.waveguide_array()
   c.plot()
 
 
@@ -1445,14 +1445,14 @@ waveguide_array
 waveguide_heater
 ----------------------------------------------------
 
-.. autofunction:: pp.c.waveguide_heater
+.. autofunction:: pp.components.waveguide_heater
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.waveguide_heater()
+  c = pp.components.waveguide_heater()
   c.plot()
 
 
@@ -1460,14 +1460,14 @@ waveguide_heater
 waveguide_pin
 ----------------------------------------------------
 
-.. autofunction:: pp.c.waveguide_pin
+.. autofunction:: pp.components.waveguide_pin
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.waveguide_pin()
+  c = pp.components.waveguide_pin()
   c.plot()
 
 
@@ -1475,14 +1475,14 @@ waveguide_pin
 wg_heater_connected
 ----------------------------------------------------
 
-.. autofunction:: pp.c.wg_heater_connected
+.. autofunction:: pp.components.wg_heater_connected
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.wg_heater_connected()
+  c = pp.components.wg_heater_connected()
   c.plot()
 
 
@@ -1490,12 +1490,12 @@ wg_heater_connected
 wire
 ----------------------------------------------------
 
-.. autofunction:: pp.c.wire
+.. autofunction:: pp.components.wire
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.wire()
+  c = pp.components.wire()
   c.plot()

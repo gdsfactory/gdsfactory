@@ -8,26 +8,26 @@ from pp.difftest import difftest
 
 
 def test_type0() -> Component:
-    component = pp.c.coupler(gap=0.244, length=5.67)
+    component = pp.components.coupler(gap=0.244, length=5.67)
     cc = pp.routing.add_fiber_array(component=component, optical_routing_type=0)
     return cc
 
 
 def test_type1() -> Component:
-    component = pp.c.coupler(gap=0.2, length=5.0)
+    component = pp.components.coupler(gap=0.2, length=5.0)
     cc = pp.routing.add_fiber_array(component=component, optical_routing_type=1)
     return cc
 
 
 def test_type2() -> Component:
-    c = pp.c.coupler(gap=0.244, length=5.67)
+    c = pp.components.coupler(gap=0.244, length=5.67)
     c.polarization = "tm"
     cc = pp.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
 
 def test_tapers():
-    c = pp.c.waveguide(width=2)
+    c = pp.components.waveguide(width=2)
     cc = pp.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 

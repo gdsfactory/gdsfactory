@@ -243,7 +243,7 @@ if __name__ == "__main__":
 
     c = component(P, X, simplify=5e-3, snap_to_grid_nm=5)
     # c = pp.add_pins(c)
-    # c << pp.c.bend_euler(radius=10)
-    # c << pp.c.bend_circular(radius=10)
+    # c << pp.components.bend_euler(radius=10)
+    # c << pp.components.bend_circular(radius=10)
     print(c.ports["W0"].layer)
     c.show()

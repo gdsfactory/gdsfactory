@@ -67,8 +67,8 @@ if __name__ == "__main__":
     dbu = 1000
     layer = (1, 0)
     c = pp.Component()
-    r1 = c << pp.c.rectangle(size=(w, w), layer=(1, 0))
-    r2 = c << pp.c.rectangle(size=(w, w), layer=(2, 0))
+    r1 = c << pp.components.rectangle(size=(w, w), layer=(1, 0))
+    r2 = c << pp.components.rectangle(size=(w, w), layer=(2, 0))
     r1.xmax = 0
     r2.xmin = space
     gdspath = c

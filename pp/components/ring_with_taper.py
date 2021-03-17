@@ -10,7 +10,7 @@ from pp.snap import assert_on_2nm_grid
 
 @cell
 def ring_with_taper(**kwargs):
-    """ Ring single bus
+    """Ring single bus
 
     Args:
         bend_radius=5
@@ -38,7 +38,7 @@ def ring_with_taper(**kwargs):
 
       import pp
 
-      c = pp.c.ring_single_bus(gap=0.2, length_x=10, length_y=5, bend_radius=5)
+      c = pp.components.ring_single_bus(gap=0.2, length_x=10, length_y=5, bend_radius=5)
       c.plot()
 
     """

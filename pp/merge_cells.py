@@ -19,7 +19,7 @@ def merge_cells(cells: Iterable[ComponentOrPath]) -> Component:
 if __name__ == "__main__":
     from pp.config import diff_path
 
-    # c = merge_cells([pp.c.waveguide(), pp.c.bend_circular()])
+    # c = merge_cells([pp.components.waveguide(), pp.components.bend_circular()])
     # leave these two lines to end up tests showing the diff
     c = merge_cells(diff_path.glob("*.gds"))
     c.show()

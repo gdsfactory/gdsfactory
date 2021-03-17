@@ -178,5 +178,5 @@ def compute_area_hierarchical(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.mzi2x2()
+    c = pp.components.mzi2x2()
     print(bucket_cells_by_rank([c] + list(c.get_dependencies(recursive=True))))

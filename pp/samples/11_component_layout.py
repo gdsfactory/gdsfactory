@@ -27,7 +27,7 @@ def test_crossing_arm(
 ) -> Component:
     """crossing arm"""
     c = pp.Component()
-    c << pp.c.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c << pp.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2

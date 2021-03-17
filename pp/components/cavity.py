@@ -41,7 +41,7 @@ def cavity(
 
       import pp
 
-      c = pp.c.cavity(component=pp.c.dbr())
+      c = pp.components.cavity(component=pp.components.dbr())
       c.plot()
     """
     mirror = component() if callable(component) else component

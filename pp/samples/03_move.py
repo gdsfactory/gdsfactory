@@ -13,8 +13,8 @@ import pp
 if __name__ == "__main__":
     c = pp.Component()
 
-    wg1 = c << pp.c.waveguide(length=10, width=1)
-    wg2 = c << pp.c.waveguide(length=10, width=2, layer=pp.LAYER.SLAB90)
+    wg1 = c << pp.components.waveguide(length=10, width=1)
+    wg2 = c << pp.components.waveguide(length=10, width=2, layer=pp.LAYER.SLAB90)
 
     # wg2.move([10, 1])  # Shift the second waveguide we created over by dx = 10, dy = 4
 

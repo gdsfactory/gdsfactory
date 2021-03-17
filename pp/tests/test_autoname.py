@@ -5,8 +5,8 @@ from pp.component import Component
 
 
 def test_cell() -> Tuple[Component, Component]:
-    wg1 = pp.c.waveguide(length=10, width=0.5)
-    wg2 = pp.c.waveguide(width=0.5, length=10)
+    wg1 = pp.components.waveguide(length=10, width=0.5)
+    wg2 = pp.components.waveguide(width=0.5, length=10)
     assert (
         wg1.name == wg2.name
     ), f"{wg1} and {wg2} waveguides have the same settings and should have the same name"

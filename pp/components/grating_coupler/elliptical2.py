@@ -65,7 +65,7 @@ def grating_coupler_elliptical2(
 
       import pp
 
-      c = pp.c.grating_coupler_elliptical2()
+      c = pp.components.grating_coupler_elliptical2()
       c.plot()
 
     .. code::
@@ -106,7 +106,9 @@ def grating_coupler_elliptical2(
     c.wavelength = wavelength_nm
 
     x = c.center[0] + taper_length / 2
-    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=fiber_marker_layer)
+    circle = pp.components.circle(
+        radius=fiber_marker_width / 2, layer=fiber_marker_layer
+    )
     circle_ref = c.add_ref(circle)
     circle_ref.movex(x)
 

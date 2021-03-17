@@ -352,7 +352,7 @@ def test_import_gds_snap_to_grid() -> None:
 
 
 def test_import_gds_hierarchy() -> None:
-    c0 = pp.c.mzi2x2()
+    c0 = pp.components.mzi2x2()
     gdspath = pp.write_gds(c0)
     c = import_gds(gdspath)
     assert len(c.get_dependencies()) == 3
@@ -360,7 +360,7 @@ def test_import_gds_hierarchy() -> None:
 
 def demo_optical():
     """Demo. See equivalent test in tests/import_gds_markers.py"""
-    # c  =  pp.c.mmi1x2()
+    # c  =  pp.components.mmi1x2()
     # for p in c.ports.values():
     #     print(p)
     # c.show()
@@ -376,7 +376,7 @@ def demo_optical():
 
 def demo_electrical():
     """Demo. See equivalent test in tests/import_gds_markers.py"""
-    # c  =  pp.c.mzi2x2(with_elec_connections=True)
+    # c  =  pp.components.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
     #     print(p)
     # c.show()

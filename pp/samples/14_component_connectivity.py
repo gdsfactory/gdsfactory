@@ -10,10 +10,10 @@ from pp.tech import TECH_SILICON_C, Tech
 
 @pp.cell
 def test_ring_single_bus(
-    coupler90_factory: Callable = pp.c.coupler90,
-    cpl_straight_factory: Callable = pp.c.coupler_straight,
-    straight_factory: Callable = pp.c.waveguide,
-    bend90_factory: Callable = pp.c.bend_circular,
+    coupler90_factory: Callable = pp.components.coupler90,
+    cpl_straight_factory: Callable = pp.components.coupler_straight,
+    straight_factory: Callable = pp.components.waveguide,
+    bend90_factory: Callable = pp.components.bend_circular,
     length_y: float = 2.0,
     length_x: float = 4.0,
     gap: float = 0.2,

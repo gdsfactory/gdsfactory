@@ -28,5 +28,5 @@ def plotgds(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     plotgds(c)

@@ -5,7 +5,9 @@ if __name__ == "__main__":
 
     w = h = 10
     c = pp.Component()
-    pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h)
+    pad_south = pp.components.pad_array(
+        port_list=["S"], spacing=(15, 0), width=w, height=h
+    )
     pl = c << pad_south
     pb = c << pad_south
     pl.rotate(90)

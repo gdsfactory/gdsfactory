@@ -28,7 +28,7 @@ def rotate(
 if __name__ == "__main__":
     import pp
 
-    component = pp.c.mzi2x2()
+    component = pp.components.mzi2x2()
     component_rotated = rotate(component=component)
     component_rotated.show()
     print(component_rotated)

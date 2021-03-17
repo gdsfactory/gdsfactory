@@ -13,7 +13,7 @@ def litho_steps(
     height: float = 100.0,
     layer: Tuple[int, int] = pp.LAYER.WG,
 ) -> Component:
-    """ Produces a positive + negative tone linewidth test, used for
+    """Produces a positive + negative tone linewidth test, used for
     lithography resolution test patterning
 
     Args:
@@ -27,7 +27,7 @@ def litho_steps(
 
       import pp
 
-      c = pp.c.litho_steps()
+      c = pp.components.litho_steps()
       c.plot()
 
     """

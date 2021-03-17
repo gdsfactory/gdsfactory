@@ -250,12 +250,12 @@ def route_south(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.mzi2x2()
-    c = pp.c.mmi2x2()
-    c = pp.c.ring_single()
-    c = pp.c.ring_double()
+    c = pp.components.mzi2x2()
+    c = pp.components.mmi2x2()
+    c = pp.components.ring_single()
+    c = pp.components.ring_double()
     r = route_south(c)
-    r = route_south(c, bend_factory=pp.c.bend_euler, bend_radius=20)
+    r = route_south(c, bend_factory=pp.components.bend_euler, bend_radius=20)
     for e in r["references"]:
         if isinstance(e, list):
             print(len(e))
