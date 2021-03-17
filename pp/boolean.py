@@ -66,6 +66,6 @@ if __name__ == "__main__":
     e1 = pp.c.ellipse()
     e2 = pp.c.ellipse(radii=(10, 6)).movex(2)
     e3 = pp.c.ellipse(radii=(10, 4)).movex(5)
-    # pp.qp([e1, e2, e3])
+    # pp.plot([e1, e2, e3])
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
     c.show()

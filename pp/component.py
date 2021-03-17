@@ -970,11 +970,11 @@ class Component(Device):
             new_window
 
         """
-        from phidl import quickplot as qp
+        from phidl import quickplot as plot
 
         from pp.cell import clear_cache
 
-        qp(
+        plot(
             self,
             show_ports=show_ports,
             show_subports=show_subports,

@@ -6,10 +6,23 @@ settings:
   DL: 0.0
   L0: 60.0
   L_top: 10.0
+  bend90_factory: bend_euler
   bend_radius: 10.0
   input_port_name: W0
   output_port_name: E0
-  ports_map: {}
+  ports_map:
+    E_0:
+    - H2
+    - E_1
+    E_1:
+    - H1
+    - E_0
+    E_2:
+    - H1
+    - E_1
+    E_3:
+    - H2
+    - E_0
   sequence: AvHBhBHvA
   start_orientation: 0.0
   symbol_to_component:
@@ -22,7 +35,7 @@ settings:
     - N0
     - W0
     H:
-    - waveguide_L60_Tsilicon_cband
+    - wg_heater_connected_2e2f2917
     - W0
     - E0
     h:
@@ -34,4 +47,6 @@ settings:
     - W0
     - E0
   tech: null
-  with_elec_connections: false
+  waveguide_function: waveguide
+  waveguide_heater_function: wg_heater_connected
+  with_elec_connections: true
