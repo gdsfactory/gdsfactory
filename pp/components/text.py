@@ -25,7 +25,7 @@ def text(
 
       import pp
 
-      c = pp.c.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
+      c = pp.components.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
       c.plot()
 
     """

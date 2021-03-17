@@ -42,7 +42,7 @@ Here is a step by step example below generating a waveguide crossing
         c = pp.Component()
 
         # We need an ellipse, this is an existing primitive
-        c << pp.c.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
+        c << pp.components.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
 
         a = L + w / 2
         h = wg_width / 2
@@ -165,7 +165,7 @@ LAYER = Layer()
 
 @pp.cell
 def waveguide(length=10, width=0.5):
-    return pp.c.waveguide(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
+    return pp.components.waveguide(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
 
 ```
 
@@ -205,7 +205,7 @@ You can define ports to:
 
     import pp
 
-    coupler = pp.c.coupler()
+    coupler = pp.components.coupler()
     c = pp.Component()
 
     # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)

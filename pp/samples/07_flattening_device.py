@@ -17,9 +17,9 @@ def test_flatten_device() -> Component:
 
     c = pp.Component("test_remap_layers")
 
-    c.add_ref(pp.c.rectangle(size=(10, 1), layer=pp.LAYER.WG))
-    c.add_ref(pp.c.rectangle(size=(10, 2), layer=pp.LAYER.SLAB90))
-    c.add_ref(pp.c.rectangle(size=(10, 3), layer=pp.LAYER.SLAB150))
+    c.add_ref(pp.components.rectangle(size=(10, 1), layer=pp.LAYER.WG))
+    c.add_ref(pp.components.rectangle(size=(10, 2), layer=pp.LAYER.SLAB90))
+    c.add_ref(pp.components.rectangle(size=(10, 3), layer=pp.LAYER.SLAB150))
 
     assert len(c.references) == 3
     c.flatten()

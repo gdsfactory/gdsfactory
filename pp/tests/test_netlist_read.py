@@ -33,7 +33,7 @@ def test_netlist_read_full() -> Component:
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     c.write_netlist(filepath, full_settings=True)
 

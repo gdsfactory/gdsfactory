@@ -469,7 +469,7 @@ def auto_rename_ports(component: Device) -> Device:
 def test_select_ports_prefix() -> None:
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     ports = c.get_ports_list(prefix="W")
     assert len(ports) == 1
 
@@ -477,7 +477,7 @@ def test_select_ports_prefix() -> None:
 def test_select_ports_type() -> None:
     import pp
 
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi2x2(with_elec_connections=True)
     ports = c.get_ports_list(port_type="dc")
     assert len(ports) == 3
 

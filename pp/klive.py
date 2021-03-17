@@ -37,6 +37,6 @@ def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     gdspath = pp.write_gds(c)
     show(gdspath)

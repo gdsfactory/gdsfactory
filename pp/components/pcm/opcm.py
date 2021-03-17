@@ -454,7 +454,7 @@ def cdsem_uturn(
     symbol_bot: str = "S",
     symbol_top: str = "U",
     wg_length: Number = LINE_LENGTH,
-    waveguide_factory: ComponentFactory = pp.c.waveguide,
+    waveguide_factory: ComponentFactory = pp.components.waveguide,
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -474,7 +474,10 @@ def cdsem_uturn(
     bend90 = bend90_factory(width=width, radius=r)
     if wg_length is None:
         wg_length = 2 * r
-    wg = waveguide_factory(width=width, length=wg_length,)
+    wg = waveguide_factory(
+        width=width,
+        length=wg_length,
+    )
 
     # bend90.ports()
     rename_ports_by_orientation(bend90)

@@ -4,6 +4,6 @@ from pp.offset import offset
 
 
 def test_offset() -> None:
-    c = pp.c.ring()
+    c = pp.components.ring()
     co = offset(c, distance=0.5)
     difftest(co)

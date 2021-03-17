@@ -7,7 +7,7 @@ By default the metadata will consists of all the parameters that were passed to 
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
 
     print(c.settings)
     print(c.get_json())

@@ -20,10 +20,10 @@ You can connect:
 
     @pp.cell
     def ring(
-        coupler90=pp.c.coupler90,
-        coupler_straight=pp.c.coupler_straight,
-        waveguide=pp.c.waveguide,
-        bend=pp.c.bend_euler,
+        coupler90=pp.components.coupler90,
+        coupler_straight=pp.components.coupler_straight,
+        waveguide=pp.components.waveguide,
+        bend=pp.components.bend_euler,
         length_y=2.0,
         length_x=4.0,
         gap=0.2,
@@ -142,7 +142,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
     :include-source:
 
     import pp
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     c.plot()
 ```
 
@@ -151,7 +151,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
     :include-source:
 
     import pp
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     c.plot_netlist()
 ```
 

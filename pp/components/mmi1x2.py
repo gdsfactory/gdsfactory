@@ -81,7 +81,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << pp.c.rectangle(
+    mmi = c << pp.components.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
         centered=True,

@@ -45,7 +45,7 @@ def nxn(
 
     """
     c = pp.Component()
-    c << pp.c.rectangle(size=(xsize, ysize), layer=layer)
+    c << pp.components.rectangle(size=(xsize, ysize), layer=layer)
 
     for i in [west, north, south, east]:
         if not isinstance(i, int):

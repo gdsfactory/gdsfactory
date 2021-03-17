@@ -25,7 +25,7 @@ def dbr2(
     waveguide_template_dbr: Optional[ComponentFactory] = None,
     **kwargs
 ) -> Component:
-    """ Distributed Bragg Reflector Cell class.
+    """Distributed Bragg Reflector Cell class.
     Tapers the input waveguide to a periodic waveguide structure with varying width
     (1-D photonic crystal).
 
@@ -72,7 +72,7 @@ def dbr2(
 
       import pp
 
-      c = pp.c.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
+      c = pp.components.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
       c.plot()
 
     """

@@ -3,7 +3,7 @@ from pp.component import Component
 
 
 def test_netlist_write() -> Component:
-    c = pp.c.mzi()
+    c = pp.components.mzi()
     # netlist = c.get_netlist()
     # netlist.pop('connections')
     c.write_netlist("mzi.yml")

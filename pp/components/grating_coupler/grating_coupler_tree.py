@@ -32,7 +32,7 @@ def grating_coupler_tree(
 
       import pp
 
-      c = pp.c.grating_coupler_tree()
+      c = pp.components.grating_coupler_tree()
       c.plot()
 
     """

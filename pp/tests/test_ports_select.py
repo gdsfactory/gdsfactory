@@ -2,7 +2,7 @@ import pp
 
 
 def test_get_ports():
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi2x2(with_elec_connections=True)
 
     p = c.get_ports_dict()
     assert len(p) == 7
@@ -23,7 +23,7 @@ def test_get_ports():
 
 if __name__ == "__main__":
     test_get_ports()
-    # c = pp.c.mzi2x2(with_elec_connections=True)
+    # c = pp.components.mzi2x2(with_elec_connections=True)
     # p_dc_layer = c.get_ports_dict(layer=(49, 0))
     # p_dc = c.get_ports_dict(port_type="dc")
 

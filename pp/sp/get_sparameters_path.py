@@ -51,14 +51,14 @@ def test_get_sparameters_path() -> None:
         LAYER.SLAB90: "si",
     }
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     p = get_sparameters_path(
         c, layer2nm=layer2nm_sample, layer2material=layer2material_sample
     )
     print(p.stem)
     assert p.stem == "waveguide_S220"
 
-    c = pp.c.waveguide(layer=LAYER.SLAB90)
+    c = pp.components.waveguide(layer=LAYER.SLAB90)
     p = get_sparameters_path(
         c, layer2nm=layer2nm_sample, layer2material=layer2material_sample
     )
@@ -68,7 +68,7 @@ def test_get_sparameters_path() -> None:
 
 if __name__ == "__main__":
     # import pp
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # p = get_sparameters_path(c)
     # print(p)
 

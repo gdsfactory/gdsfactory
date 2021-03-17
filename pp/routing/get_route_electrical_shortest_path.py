@@ -41,7 +41,7 @@ if __name__ == "__main__":
     from pp.components.electrical.pad import pad_array
 
     c = Component("mzi_with_pads")
-    mzi = pp.c.mzi2x2(with_elec_connections=True)
+    mzi = pp.components.mzi2x2(with_elec_connections=True)
     pads = pad_array(n=3, port_list=["S"])
     p = c << pads
     c << mzi

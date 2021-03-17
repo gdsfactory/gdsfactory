@@ -126,7 +126,9 @@ def grating_coupler_elliptical_trenches(
     c.move((-x_output, 0))
 
     x = taper_length + period * n_periods / 2
-    circle = pp.c.circle(radius=fiber_marker_width / 2, layer=fiber_marker_layer)
+    circle = pp.components.circle(
+        radius=fiber_marker_width / 2, layer=fiber_marker_layer
+    )
     circle_ref = c.add_ref(circle)
     circle_ref.movex(x)
     c.add_port(
@@ -152,7 +154,7 @@ def grating_coupler_te(taper_angle: int = 35, **kwargs) -> Component:
 
       import pp
 
-      c = pp.c.grating_coupler_te()
+      c = pp.components.grating_coupler_te()
       c.plot()
     """
     return grating_coupler_elliptical_trenches(
@@ -170,7 +172,7 @@ def grating_coupler_tm(
 
       import pp
 
-      c = pp.c.grating_coupler_tm()
+      c = pp.components.grating_coupler_tm()
       c.plot()
     """
     return grating_coupler_elliptical_trenches(

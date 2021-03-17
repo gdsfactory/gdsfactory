@@ -12,9 +12,9 @@ import pp
 
 
 def test_components_module() -> None:
-    assert len(dir(pp.c)) > 1
+    assert len(dir(pp.components)) > 1
 
 
 if __name__ == "__main__":
-    print(dir(pp.c))
-    print(len(dir(pp.c)))
+    print(dir(pp.components))
+    print(len(dir(pp.components)))

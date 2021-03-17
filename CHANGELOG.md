@@ -24,6 +24,8 @@ from pydantic import validate_arguments
 
 - better docstrings
 - simplify code for pp.path.smooth
+- replace `pp.c.waveguide()` by `pp.components.waveguide()`. `pp.c.waveguide()` still works.
+- replace `pp.qp()` by `pp.plot()` to be consistent with `c = Component()` and `c.plot()`
 
 ## 2.4.4
 

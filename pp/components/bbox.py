@@ -28,6 +28,6 @@ def bbox(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.L()
+    c = pp.components.L()
     c << bbox(bbox=c.bbox)
     c.show()

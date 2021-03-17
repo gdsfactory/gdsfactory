@@ -63,5 +63,5 @@ if __name__ == "__main__":
     from pp.layers import LAYER
 
     w = 0.12
-    c = pp.c.rectangle(size=(w, w), layer=LAYER.WG)
+    c = pp.components.rectangle(size=(w, w), layer=LAYER.WG)
     print(check_width(c))

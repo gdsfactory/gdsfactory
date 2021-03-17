@@ -71,7 +71,7 @@ TECH_METAL1 = TechMetal1()
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide(tech=TECH_METAL1)
+    c = pp.components.waveguide(tech=TECH_METAL1)
     print(c.name)
 
     tech = TECH_METAL1

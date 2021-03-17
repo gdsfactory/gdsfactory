@@ -169,11 +169,11 @@ def component_lattice(
       from pp.components.crossing_waveguide import compensation_path
 
       components =  {
-            "C": package_optical2x2(component=pp.c.coupler(), port_spacing=40.0),
+            "C": package_optical2x2(component=pp.components.coupler(), port_spacing=40.0),
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
-      c = pp.c.component_lattice(components=components)
+      c = pp.components.component_lattice(components=components)
       c.plot()
 
     """
@@ -282,10 +282,10 @@ def parse_lattice(
 
 if __name__ == "__main__":
     components_dict = {
-        "C": package_optical2x2(component=pp.c.coupler(), port_spacing=40.0),
+        "C": package_optical2x2(component=pp.components.coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
-    c = pp.c.component_lattice(components=components_dict)
+    c = pp.components.component_lattice(components=components_dict)
     c.pprint()
     c.show()

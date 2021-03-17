@@ -68,8 +68,8 @@ if __name__ == "__main__":
     dbu = 1000
     layer = (1, 0)
     c = pp.Component()
-    r1 = c << pp.c.rectangle(size=(w1, w1), layer=(1, 0))
-    r2 = c << pp.c.rectangle(size=(w2, w2), layer=(2, 0))
+    r1 = c << pp.components.rectangle(size=(w1, w1), layer=(1, 0))
+    r2 = c << pp.components.rectangle(size=(w2, w2), layer=(2, 0))
     r1.x = 0
     r1.y = 0
     r2.x = 0

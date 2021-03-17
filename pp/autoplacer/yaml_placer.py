@@ -829,7 +829,7 @@ def assemble_subdies(
 def _demo():
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     gdspath = pp.write_component(c)
 
     layout1 = load_gds(gdspath)

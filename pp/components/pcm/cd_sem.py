@@ -15,7 +15,7 @@ def square_middle(side=0.5, layer=LAYER.WG):
 
 
 def text(t="U"):
-    return pp.c.text(text=t, layer=pp.LAYER.WG, size=5)
+    return pp.components.text(text=t, layer=pp.LAYER.WG, size=5)
 
 
 CENTER_SHAPES_MAP = {"S": square_middle, "U": text("U"), "D": text("L")}
@@ -52,11 +52,11 @@ def cdsem_straight_density(
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    slab = pp.c.rectangle(size=(x, y), layer=LAYER.WG, centered=True)
+    slab = pp.components.rectangle(size=(x, y), layer=LAYER.WG, centered=True)
     slab_ref = c.add_ref(slab)
     c.absorb(slab_ref)
 
-    tooth = pp.c.rectangle(
+    tooth = pp.components.rectangle(
         size=(length, trench_width), layer=LAYER.SLAB150, centered=True
     )
 

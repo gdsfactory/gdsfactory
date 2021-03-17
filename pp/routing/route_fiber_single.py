@@ -143,16 +143,16 @@ def route_fiber_single(
 
 
 if __name__ == "__main__":
-    gcte = pp.c.grating_coupler_te
-    gctm = pp.c.grating_coupler_tm
+    gcte = pp.components.grating_coupler_te
+    gctm = pp.components.grating_coupler_tm
 
-    c = pp.c.waveguide(width=2, length=500)
-    c = pp.c.cross(length=500)
-    c = pp.c.ring_double()
-    c = pp.c.mmi2x2()
-    c = pp.c.crossing()
-    c = pp.c.rectangle()
-    c = pp.c.mzi2x2()
+    c = pp.components.waveguide(width=2, length=500)
+    c = pp.components.cross(length=500)
+    c = pp.components.ring_double()
+    c = pp.components.mmi2x2()
+    c = pp.components.crossing()
+    c = pp.components.rectangle()
+    c = pp.components.mzi2x2()
 
     elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
 

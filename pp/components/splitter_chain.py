@@ -24,7 +24,7 @@ def splitter_chain(
     component = pp.call_if_func(component, **kwargs)
     cref = c.add_ref(component)
 
-    bend = pp.c.bezier()
+    bend = pp.components.bezier()
     c.add_port(name="W0", port=cref.ports["W0"])
     c.add_port(name="E0", port=cref.ports["E0"])
 
@@ -43,5 +43,5 @@ def splitter_chain(
 
 
 if __name__ == "__main__":
-    c = splitter_chain(component=pp.c.mmi1x2, n_devices=4)
+    c = splitter_chain(component=pp.components.mmi1x2, n_devices=4)
     c.show()

@@ -32,7 +32,7 @@ class Pdk:
             width: waveguide width (defaults to tech.wg_width)
             layer: waveguide layer (defaults to tech.layer_wg)
         """
-        return pp.c.waveguide(
+        return pp.components.waveguide(
             length=length,
             npoints=npoints,
             width=width or self.tech.wg_width,
@@ -57,7 +57,7 @@ class Pdk:
             width: waveguide width (defaults to tech.wg_width)
             layer: waveguide layer (defaults to tech.layer_wg)
         """
-        return pp.c.bend_circular(
+        return pp.components.bend_circular(
             radius=radius or self.tech.bend_radius,
             angle=angle,
             npoints=npoints,
@@ -95,7 +95,7 @@ class Pdk:
             layer: waveguide layer (defaults to tech.layer_wg)
         """
 
-        return pp.c.bend_euler(
+        return pp.components.bend_euler(
             radius=radius or self.tech.bend_radius,
             angle=angle,
             p=p,
@@ -121,7 +121,7 @@ class Pdk:
             width2:
             layer:
         """
-        return pp.c.taper(
+        return pp.components.taper(
             length=length or self.tech.taper_length,
             width1=width1 or self.tech.wg_width,
             width2=width2 or self.tech.taper_width,
@@ -164,7 +164,7 @@ class Pdk:
 
               length_x
         """
-        return pp.c.ring_single(
+        return pp.components.ring_single(
             gap=gap,
             length_x=length_x,
             length_y=length_y,
@@ -199,7 +199,7 @@ class Pdk:
           :include-source:
 
           import pp
-          c = pp.c.mmi1x2(width_mmi=2, length_mmi=2.8)
+          c = pp.components.mmi1x2(width_mmi=2, length_mmi=2.8)
           c.plot()
 
 
@@ -222,7 +222,7 @@ class Pdk:
             length_taper
 
         """
-        return pp.c.mmi1x2(
+        return pp.components.mmi1x2(
             width=width or self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
@@ -257,7 +257,7 @@ class Pdk:
           :include-source:
 
           import pp
-          c = pp.c.mmi2x2(width_mmi=2, length_mmi=2.8)
+          c = pp.components.mmi2x2(width_mmi=2, length_mmi=2.8)
           c.plot()
 
 
@@ -280,7 +280,7 @@ class Pdk:
             length_taper
 
         """
-        return pp.c.mmi2x2(
+        return pp.components.mmi2x2(
             width=width or self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
@@ -341,7 +341,7 @@ class Pdk:
                       |__Lx__|
 
         """
-        return pp.c.mzi(
+        return pp.components.mzi(
             delta_length=delta_length,
             length_x=length_x,
             length_y=length_y,
@@ -397,7 +397,7 @@ class Pdk:
 
         """
 
-        return pp.c.grating_coupler_elliptical2(
+        return pp.components.grating_coupler_elliptical2(
             theta=theta,
             length=length,
             taper_length=taper_length,

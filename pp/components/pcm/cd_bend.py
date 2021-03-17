@@ -12,8 +12,8 @@ def cd_bend(
     radius=2.0,
     width=0.4,
     center_shapes="SU",
-    bend90_factory=pp.c.bend_circular,
-    waveguide_factory=pp.c.waveguide,
+    bend90_factory=pp.components.bend_circular,
+    waveguide_factory=pp.components.waveguide,
     markers_with_slabs=False,
 ):
     """bends and straights connected together

@@ -163,7 +163,7 @@ def get_netlist(
 def demo_ring_single_array():
     import pp
 
-    c = pp.c.ring_single_array()
+    c = pp.components.ring_single_array()
     c.get_netlist()
 
 
@@ -174,7 +174,7 @@ def demo_mzi_lattice():
     coupler_gaps = [0.1, 0.2, 0.4, 0.5]
     delta_lengths = [10, 100, 200]
 
-    c = pp.c.mzi_lattice(
+    c = pp.components.mzi_lattice(
         coupler_lengths=coupler_lengths,
         coupler_gaps=coupler_gaps,
         delta_lengths=delta_lengths,
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     from pp.tests.test_component_from_yaml import sample_2x2_connections
 
     c = pp.component_from_yaml(sample_2x2_connections)
-    c = pp.c.ring_single()
+    c = pp.components.ring_single()
     c.show()
     pprint(c.get_netlist())
 

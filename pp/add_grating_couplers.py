@@ -58,13 +58,13 @@ def add_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
 
 if __name__ == "__main__":
     # from pp.add_labels import get_optical_text
-    # c = pp.c.grating_coupler_elliptical_te()
+    # c = pp.components.grating_coupler_elliptical_te()
     # print(c.wavelength)
 
     # print(c.get_property('wavelength'))
 
-    c = pp.c.waveguide(width=2)
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.components.waveguide(width=2)
+    c = pp.components.mzi2x2(with_elec_connections=True)
     # cc = add_grating_couplers(c)
     cc = add_tm(c)
     print(cc)

@@ -139,7 +139,7 @@ def add_padding_to_grid(
 
 
 if __name__ == "__main__":
-    c = pp.c.waveguide(length=128)
+    c = pp.components.waveguide(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     cc = add_padding_container(component=c, layers=[(2, 0)], container=True)
     print(cc.settings["component"])

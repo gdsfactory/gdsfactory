@@ -29,7 +29,7 @@ def bend_s(
 
       import pp
 
-      c = pp.c.bend_s(height=20)
+      c = pp.components.bend_s(height=20)
       c.plot()
 
     """

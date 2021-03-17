@@ -34,5 +34,5 @@ def test_sp_load(component_type: str, data_regression: DataRegressionFixture) ->
 
 
 if __name__ == "__main__":
-    c = pp.c.waveguide(layer=(2, 0))
+    c = pp.components.waveguide(layer=(2, 0))
     print(c.get_sparameters_path())

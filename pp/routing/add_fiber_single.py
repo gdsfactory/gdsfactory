@@ -86,7 +86,7 @@ def add_fiber_single(
 
        import pp
 
-       c = pp.c.crossing()
+       c = pp.components.crossing()
        cc = pp.routing.add_fiber_single(c)
        cc.plot()
 
@@ -237,18 +237,18 @@ def add_fiber_single(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.crossing()
-    c = pp.c.ring_double(length_y=3)  # FIXME
-    c = pp.c.waveguide(length=500)
-    c = pp.c.mmi1x2()
-    c = pp.c.rectangle()
-    c = pp.c.mzi(length_x=50)
-    c = pp.c.mzi2x2(with_elec_connections=True)
+    c = pp.components.crossing()
+    c = pp.components.ring_double(length_y=3)  # FIXME
+    c = pp.components.waveguide(length=500)
+    c = pp.components.mmi1x2()
+    c = pp.components.rectangle()
+    c = pp.components.mzi(length_x=50)
+    c = pp.components.mzi2x2(with_elec_connections=True)
 
-    gc = pp.c.grating_coupler_elliptical_te
-    # gc = pp.c.grating_coupler_elliptical2
-    # gc = pp.c.grating_coupler_te
-    # gc = pp.c.grating_coupler_uniform
+    gc = pp.components.grating_coupler_elliptical_te
+    # gc = pp.components.grating_coupler_elliptical2
+    # gc = pp.components.grating_coupler_te
+    # gc = pp.components.grating_coupler_uniform
 
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
 

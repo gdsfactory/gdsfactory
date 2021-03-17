@@ -36,7 +36,7 @@ def bend_circular(
 
         import pp
 
-        c = pp.c.bend_circular(radius=10, angle=90, npoints=720)
+        c = pp.components.bend_circular(radius=10, angle=90, npoints=720)
         c.plot()
 
     """

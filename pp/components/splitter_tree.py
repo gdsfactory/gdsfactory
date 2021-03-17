@@ -111,5 +111,5 @@ def splitter_tree(
 
 
 if __name__ == "__main__":
-    c = splitter_tree(coupler=pp.c.mmi1x2(), noutputs=20)
+    c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=20)
     c.show()

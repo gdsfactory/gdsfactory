@@ -5,7 +5,7 @@ from pp.component import Component
 def test_label_move() -> Component:
     """ test that when we move a component its label also moves """
     c = pp.Component("ellipse_with_label")
-    c << pp.c.ellipse()
+    c << pp.components.ellipse()
     c.add_label(text="demo", position=(10, 0), layer=pp.LAYER.TEXT)
     c.movex(10)
     print(c.references)

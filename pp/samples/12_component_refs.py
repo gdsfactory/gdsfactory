@@ -14,10 +14,9 @@ from pp.component import Component
 
 @pp.cell
 def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
-    """ crossing arm
-    """
+    """crossing arm"""
     c = pp.Component()
-    c << pp.c.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c << pp.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2

@@ -7,7 +7,7 @@ import pp
 
 @pp.cell
 def wg(layer=(2, 0), **kwargs):
-    return pp.c.waveguide(layer=layer, **kwargs)
+    return pp.components.waveguide(layer=layer, **kwargs)
 
 
 if __name__ == "__main__":

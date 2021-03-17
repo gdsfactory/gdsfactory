@@ -40,7 +40,7 @@ def grating_coupler_uniform_optimized(
 
       import pp
 
-      c = pp.c.grating_coupler_uniform_optimized()
+      c = pp.components.grating_coupler_uniform_optimized()
       c.plot()
 
     """
@@ -54,7 +54,7 @@ def grating_coupler_uniform_optimized(
         # make the etched areas (opposite to teeth)
         for i, wt in enumerate(widths):
             if i % 2 == 1:
-                _compass = pp.c.compass(
+                _compass = pp.components.compass(
                     size=[wt, width_grating + partetch_overhang * 2],
                     layer=layer_partial_etch,
                 )
@@ -64,13 +64,15 @@ def grating_coupler_uniform_optimized(
 
         # draw the deep etched square around the grating
         xgrating = np.sum(widths)
-        deepbox = c.add_ref(pp.c.compass(size=[xgrating, width_grating], layer=layer))
+        deepbox = c.add_ref(
+            pp.components.compass(size=[xgrating, width_grating], layer=layer)
+        )
         deepbox.movex(xgrating / 2)
     else:
         for i, wt in enumerate(widths):
             if i % 2 == 0:
                 cgrating = c.add_ref(
-                    pp.c.compass(size=[wt, width_grating], layer=layer)
+                    pp.components.compass(size=[wt, width_grating], layer=layer)
                 )
                 cgrating.x += x + wt / 2
             x += wt

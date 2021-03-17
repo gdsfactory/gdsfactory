@@ -22,7 +22,7 @@ def coupler_full(
     waveguide_template: ComponentFactory = wg_strip,
     **kwargs
 ) -> Component:
-    """ Adiabatic Full Coupler.
+    """Adiabatic Full Coupler.
     Design based on asymmetric adiabatic full coupler designs, such as the one reported
     in 'Integrated Optic Adiabatic Devices on Silicon' by Y. Shani, et al
     (IEEE Journal of Quantum Electronics, Vol. 27, No. 3 March 1991).
@@ -64,7 +64,7 @@ def coupler_full(
 
       import pp
 
-      c = pp.c.coupler_full(length=40, gap=0.2, dw=0.1)
+      c = pp.components.coupler_full(length=40, gap=0.2, dw=0.1)
       c.plot()
 
     """

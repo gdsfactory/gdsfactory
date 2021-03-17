@@ -26,7 +26,7 @@ import lumapi
 s = lumapi.FDTD()
 
 import pp
-c = pp.c.waveguide() # or whatever you want to simulate
+c = pp.components.waveguide() # or whatever you want to simulate
 pp.sp.write(component=c, run=False, session=s)
 ```
 """
@@ -337,7 +337,7 @@ def sample_write_coupler_ring():
     """Write Sparameters when changing a component setting."""
     return [
         write(
-            pp.c.coupler_ring(
+            pp.components.coupler_ring(
                 wg_width=wg_width, length_x=length_x, bend_radius=bend_radius, gap=gap
             )
         )
@@ -350,33 +350,36 @@ def sample_write_coupler_ring():
 
 def sample_bend_circular():
     """Write Sparameters for a circular bend with different bend_radius."""
-    return [write(pp.c.bend_circular(radius=radius)) for radius in [2, 5, 10]]
+    return [write(pp.components.bend_circular(radius=radius)) for radius in [2, 5, 10]]
 
 
 def sample_bend_euler():
     """Write Sparameters for a euler bend with different bend_radius."""
-    return [write(pp.c.bend_euler(radius=radius)) for radius in [2, 5, 10]]
+    return [write(pp.components.bend_euler(radius=radius)) for radius in [2, 5, 10]]
 
 
 def sample_convergence_mesh():
     return [
-        write(component=pp.c.waveguide(length=2), mesh_accuracy=mesh_accuracy)
+        write(component=pp.components.waveguide(length=2), mesh_accuracy=mesh_accuracy)
         for mesh_accuracy in [1, 2, 3]
     ]
 
 
 def sample_convergence_wavelength():
     return [
-        write(component=pp.c.waveguide(length=2), wavelength_start=wavelength_start)
+        write(
+            component=pp.components.waveguide(length=2),
+            wavelength_start=wavelength_start,
+        )
         for wavelength_start in [1.222323e-6, 1.4e-6]
     ]
 
 
 if __name__ == "__main__":
-    component = pp.c.waveguide(length=2)
+    component = pp.components.waveguide(length=2)
     r = write(component=component, mesh_accuracy=1, run=False)
-    # c = pp.c.coupler_ring(length_x=3)
-    # c = pp.c.mmi1x2()
+    # c = pp.components.coupler_ring(length_x=3)
+    # c = pp.components.mmi1x2()
     # r = write(component=component, layer2nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())

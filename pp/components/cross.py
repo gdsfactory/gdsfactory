@@ -23,7 +23,7 @@ def cross(
     """
 
     c = pp.Component()
-    R = pp.c.rectangle(size=(width, length), layer=layer)
+    R = pp.components.rectangle(size=(width, length), layer=layer)
     r1 = c.add_ref(R).rotate(90)
     r2 = c.add_ref(R)
     r1.center = (0, 0)

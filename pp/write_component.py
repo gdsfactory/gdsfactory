@@ -178,14 +178,14 @@ def show(component: Component, clears_cache: bool = True, **kwargs) -> None:
 if __name__ == "__main__":
     import pp
 
-    # c = pp.c.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
-    # c = pp.c.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
-    # c = pp.c.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
+    # c = pp.components.waveguide(length=1.0016)  # rounds to 1.002 with 1nm precision
+    # c = pp.components.waveguide(length=1.006)  # rounds to 1.005 with 5nm precision
+    # c = pp.components.waveguide(length=1.009)  # rounds to 1.010 with 5nm precision
     # cc = pp.routing.add_fiber_array(c)
     # pp.write_component(cc, precision=5e-9)
     # cc.show()
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     c = pp.add_pins(c)
     gdspath = pp.CONFIG["gdsdir"] / "waveguide_with_pins.gds"
     pp.write_component(c, gdspath=gdspath)

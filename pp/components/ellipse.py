@@ -30,7 +30,7 @@ def ellipse(
 
       import pp
 
-      c = pp.c.ellipse(radii=(10, 5), angle_resolution=2.5, layer=0)
+      c = pp.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=0)
       c.plot()
 
     """

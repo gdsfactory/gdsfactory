@@ -7,7 +7,7 @@ from pp.components.rectangle import rectangle
 def litho_star(
     num_lines: int = 20, line_width: int = 2, diameter: int = 200, layer: int = 0
 ) -> Component:
-    """ Creates a circular-star shape from lines, used as a lithographic
+    """Creates a circular-star shape from lines, used as a lithographic
     resolution test pattern
 
     .. plot::
@@ -15,7 +15,7 @@ def litho_star(
 
       import pp
 
-      c = pp.c.litho_star()
+      c = pp.components.litho_star()
       c.plot()
     """
     D = Component()

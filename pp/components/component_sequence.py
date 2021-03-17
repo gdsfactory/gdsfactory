@@ -90,9 +90,9 @@ def component_sequence(
 
         import pp
 
-        bend180 = pp.c.bend_circular180()
-        wg_heater = pp.c.waveguide_heater()
-        wg = pp.c.waveguide()
+        bend180 = pp.components.bend_circular180()
+        wg_heater = pp.components.waveguide_heater()
+        wg = pp.components.waveguide()
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
@@ -104,7 +104,7 @@ def component_sequence(
 
         # Each character in the sequence represents a component
         sequence = "AB-H-H-H-H-BA"
-        c = pp.c.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+        c = pp.components.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
         c.show()
 
     """
@@ -178,9 +178,9 @@ def component_sequence(
 if __name__ == "__main__":
     import pp
 
-    bend180 = pp.c.bend_circular180()
-    wg_heater = pp.c.waveguide_heater()
-    wg = pp.c.waveguide()
+    bend180 = pp.components.bend_circular180()
+    wg_heater = pp.components.waveguide_heater()
+    wg = pp.components.waveguide()
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
     # Each character in the sequence represents a component
     sequence = "AB-H-H-H-H-BA"
-    c = pp.c.component_sequence(
+    c = pp.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
     s = c.get_settings(ignore=("symbol_to_component",))

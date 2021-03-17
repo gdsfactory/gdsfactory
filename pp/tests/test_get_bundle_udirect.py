@@ -10,7 +10,9 @@ def test_get_bundle_udirect(
 
     c = pp.Component("test_get_bundle_udirect")
     w = h = 10
-    pad_south = pp.c.pad_array(port_list=["S"], spacing=(15, 0), width=w, height=h)
+    pad_south = pp.components.pad_array(
+        port_list=["S"], spacing=(15, 0), width=w, height=h
+    )
     pt = c << pad_south
     pb = c << pad_south
     pb.rotate(90)

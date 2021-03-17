@@ -55,6 +55,6 @@ if __name__ == "__main__":
     c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
 
     # c = pp.add_pins(c)
-    # c << pp.c.bend_euler(radius=10)
-    c << pp.c.bend_circular(radius=10)
+    # c << pp.components.bend_euler(radius=10)
+    c << pp.components.bend_circular(radius=10)
     c.show()

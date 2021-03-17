@@ -55,11 +55,11 @@ if __name__ == "__main__":
     import pp
 
     # c.move((20, 50))
-    # c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    # c = pp.c.mzi2x2(with_elec_connections=True)
+    # c = pp.components.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
+    # c = pp.components.mzi2x2(with_elec_connections=True)
     # c = add_electrical_pads(component=c, fanout_length=100)
 
-    c = pp.c.wg_heater_connected(length=200)
+    c = pp.components.wg_heater_connected(length=200)
     c = add_electrical_pads(component=c)
     c.show()
 

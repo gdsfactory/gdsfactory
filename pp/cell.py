@@ -230,7 +230,7 @@ def test_autoname() -> None:
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
 
     # test_autoname_true()
     # test_autoname_false()
@@ -239,7 +239,7 @@ if __name__ == "__main__":
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # c = pp.c.waveguide()
+    # c = pp.components.waveguide()
     # c = wg3()
     # print(c)
     # c.show()

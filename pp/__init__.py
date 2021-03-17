@@ -41,7 +41,7 @@ from pp.write_component import write_gds
 from pp.write_component import write_component
 from pp.write_doe import write_doe
 
-import pp.components as c
+import pp.components as components
 import pp.routing as routing
 import pp.bias as bias
 import pp.klive as klive
@@ -65,6 +65,7 @@ from pp.offset import offset
 from pp.boolean import boolean
 from pp.snap import snap_to_grid
 
+c = components
 
 __all__ = [
     "assert_grating_coupler_properties",
@@ -86,6 +87,7 @@ __all__ = [
     "add_termination",
     "import_gds",
     "c",
+    "components",
     "clear_cache",
     "conf",
     "call_if_func",

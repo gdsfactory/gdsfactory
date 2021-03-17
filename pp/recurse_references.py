@@ -118,7 +118,7 @@ def recurse_references(
 def test_ring_single_array() -> None:
     import pp
 
-    c = pp.c.ring_single_array()
+    c = pp.components.ring_single_array()
     c.get_netlist()
 
 
@@ -129,7 +129,7 @@ def test_mzi_lattice() -> None:
     coupler_gaps = [0.1, 0.2, 0.4, 0.5]
     delta_lengths = [10, 100, 200]
 
-    c = pp.c.mzi_lattice(
+    c = pp.components.mzi_lattice(
         coupler_lengths=coupler_lengths,
         coupler_gaps=coupler_gaps,
         delta_lengths=delta_lengths,
@@ -143,9 +143,9 @@ if __name__ == "__main__":
     # import matplotlib.pyplot as plt
     import pp
 
-    c = pp.c.ring_single_array()
+    c = pp.components.ring_single_array()
     c.show()
-    # c = pp.c.mzi(delta_length=100.0)
+    # c = pp.components.mzi(delta_length=100.0)
     # print(c.get_netlist_yaml())
 
 #     c.show()

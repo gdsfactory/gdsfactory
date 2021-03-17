@@ -7,12 +7,12 @@ if __name__ == "__main__":
 
     D = pp.Component()
 
-    t1 = D << pp.c.text("1")
-    t2 = D << pp.c.text("2")
-    t3 = D << pp.c.text("3")
-    t4 = D << pp.c.text("4")
-    t5 = D << pp.c.text("5")
-    t6 = D << pp.c.text("6")
+    t1 = D << pp.components.text("1")
+    t2 = D << pp.components.text("2")
+    t3 = D << pp.components.text("3")
+    t4 = D << pp.components.text("4")
+    t5 = D << pp.components.text("5")
+    t6 = D << pp.components.text("6")
 
     D.distribute(direction="x", spacing=3)
 

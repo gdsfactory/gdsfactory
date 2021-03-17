@@ -4,14 +4,14 @@ from pp.component import Component
 
 def component_with_label_float() -> Component:
     c = pp.Component("ellipse_with_label")
-    c << pp.c.ellipse()
+    c << pp.components.ellipse()
     c.add_label(text="demo", position=(0.0, 0.0), layer=pp.LAYER.TEXT)
     return c
 
 
 def component_with_label_int() -> Component:
     c = pp.Component("ellipse_with_label")
-    c << pp.c.ellipse()
+    c << pp.components.ellipse()
     c.add_label(text="demo", position=(0, 0), layer=pp.LAYER.TEXT)
     return c
 

@@ -15,8 +15,8 @@ def get_device(
     layer2: Tuple[int, int] = (2, 0),
 ) -> Component:
     c = pp.Component()
-    r1 = c << pp.c.rectangle(size=(width, width), layer=layer1)
-    r2 = c << pp.c.rectangle(
+    r1 = c << pp.components.rectangle(size=(width, width), layer=layer1)
+    r2 = c << pp.components.rectangle(
         size=(width - 2 * inclusion, width - 2 * inclusion), layer=layer2
     )
     r1.x = 0

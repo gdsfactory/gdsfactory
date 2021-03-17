@@ -60,8 +60,8 @@ def add_electrical_pads_shortest(
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
-    c = pp.c.mzi2x2(with_elec_connections=True)
-    c = pp.c.wg_heater_connected()
+    c = pp.components.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
+    c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.wg_heater_connected()
     cc = add_electrical_pads_shortest(c)
     cc.show()

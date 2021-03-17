@@ -26,7 +26,7 @@ Components
 {name}
 ----------------------------------------------------
 
-.. autofunction:: pp.c.{name}
+.. autofunction:: pp.components.{name}
 
 """
             )
@@ -37,14 +37,14 @@ Components
 {name}
 ----------------------------------------------------
 
-.. autofunction:: pp.c.{name}
+.. autofunction:: pp.components.{name}
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.c.{name}()
+  c = pp.components.{name}()
   c.plot()
 
 """

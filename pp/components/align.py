@@ -19,7 +19,7 @@ def align_wafer(
 ) -> Component:
     """Returns cross inside a frame to align wafer."""
     c = pp.Component()
-    cross = pp.c.cross(length=cross_length, width=width, layer=layer)
+    cross = pp.components.cross(length=cross_length, width=width, layer=layer)
     c.add_ref(cross)
 
     b = cross_length / 2 + spacing + width / 2
@@ -205,7 +205,7 @@ def align_tree_bottom_right(**kwargs):
 
 
 if __name__ == "__main__":
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     c = add_frame(component=c)
     c = align_wafer()
 
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     # c = align_tree_top_left()
     # c = triangle(x=60, y=60)
     # c = align_wafer()
-    # c = pp.c.cross(length=80, width=10)
+    # c = pp.components.cross(length=80, width=10)
     # c = add_frame(component=c)
     # c = align_cryo_top_right()
     # c = align_cryo_top_left()

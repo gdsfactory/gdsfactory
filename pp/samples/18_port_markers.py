@@ -8,7 +8,7 @@ from pp.component import Component
 
 def test_pins_custom() -> Component:
     """You can define the `pins_function` that we use to add markers to each port"""
-    c = pp.c.waveguide(length=11.1)
+    c = pp.components.waveguide(length=11.1)
     add_pins_triangle(component=c)
     return c
 

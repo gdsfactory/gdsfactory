@@ -77,7 +77,7 @@ def add_fiber_array(
 
        import pp
 
-       c = pp.c.crossing()
+       c = pp.components.crossing()
        cc = pp.routing.add_fiber_array(c)
        cc.plot()
 
@@ -151,12 +151,12 @@ def add_fiber_array(
 
 def demo_te_and_tm():
     c = pp.Component()
-    w = pp.c.waveguide()
+    w = pp.components.waveguide()
     wte = add_fiber_array(
-        component=w, grating_coupler=pp.c.grating_coupler_elliptical_te
+        component=w, grating_coupler=pp.components.grating_coupler_elliptical_te
     )
     wtm = add_fiber_array(
-        component=w, grating_coupler=pp.c.grating_coupler_elliptical_tm
+        component=w, grating_coupler=pp.components.grating_coupler_elliptical_tm
     )
     c.add_ref(wte)
     wtm_ref = c.add_ref(wtm)
@@ -166,8 +166,8 @@ def demo_te_and_tm():
 
 if __name__ == "__main__":
     # test_type0()
-    gcte = pp.c.grating_coupler_te
-    gctm = pp.c.grating_coupler_tm
+    gcte = pp.components.grating_coupler_te
+    gctm = pp.components.grating_coupler_tm
 
     # from pprint import pprint
 
@@ -178,14 +178,14 @@ if __name__ == "__main__":
     # cc = test_type1()
     # pprint(cc.get_json())
 
-    # c = pp.c.coupler(gap=0.2, length=5.6)
+    # c = pp.components.coupler(gap=0.2, length=5.6)
 
-    c = pp.c.waveguide()
-    c = pp.c.waveguide(length=1, width=2)
-    c = pp.c.mmi2x2()
-    c = pp.c.ring_single()
-    c = pp.c.mzi2x2(with_elec_connections=True)
-    c = pp.c.mzi2x2()
+    c = pp.components.waveguide()
+    c = pp.components.waveguide(length=1, width=2)
+    c = pp.components.mmi2x2()
+    c = pp.components.ring_single()
+    c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi2x2()
 
     c.y = 0
     cc = add_fiber_array(

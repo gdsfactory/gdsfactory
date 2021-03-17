@@ -109,7 +109,11 @@ def get_input_label_electrical(
     text = f"elec_{gc_index}_({name})_{port.name}"
     layer, texttype = pd._parse_layer(layer_label)
     label = pd.Label(
-        text=text, position=port.midpoint, anchor="o", layer=layer, texttype=texttype,
+        text=text,
+        position=port.midpoint,
+        anchor="o",
+        layer=layer,
+        texttype=texttype,
     )
     return label
 
@@ -149,8 +153,8 @@ def add_labels(
 
 
 def test_optical_labels() -> Component:
-    c = pp.c.waveguide()
-    gc = pp.c.grating_coupler_elliptical_te()
+    c = pp.components.waveguide()
+    gc = pp.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
         port=c.ports["W0"], gc=gc, gc_index=0, layer_label=pp.LAYER.LABEL
     )
@@ -168,7 +172,7 @@ def test_optical_labels() -> Component:
 
 
 def test_electrical_labels() -> Component:
-    c = pp.c.wire()
+    c = pp.components.wire()
     label1 = get_input_label_electrical(
         port=c.ports["E_1"], layer_label=pp.LAYER.LABEL, gc_index=0
     )

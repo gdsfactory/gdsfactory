@@ -8,7 +8,7 @@ def logo(text: str = "GDS_FACTORY") -> Component:
     c = pp.Component()
     elements = []
     for i, letter in enumerate(text):
-        c << pp.c.text(letter, layer=(i + 1, 0), size=10)
+        c << pp.components.text(letter, layer=(i + 1, 0), size=10)
         elements.append(c)
 
     c.distribute(

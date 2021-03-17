@@ -63,7 +63,7 @@ def write_labels(
 def test_find_labels():
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     cc = add_fiber_single(component=c)
     gdspath = pp.write_gds(cc)
     assert len(list(find_labels(gdspath))) == 4
@@ -72,7 +72,7 @@ def test_find_labels():
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.waveguide()
+    c = pp.components.waveguide()
     cc = add_fiber_single(component=c)
     gdspath = pp.write_gds(cc)
     print(len(list(find_labels(gdspath))))

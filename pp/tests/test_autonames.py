@@ -16,7 +16,7 @@ def test_name_in_kwargs() -> None:
 
 
 def test_cell() -> None:
-    c = pp.c.waveguide(length=11)
+    c = pp.components.waveguide(length=11)
     print(c)
     assert c.name == "waveguide_L11"
 
