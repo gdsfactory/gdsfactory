@@ -10,7 +10,7 @@ Lets build waveguide crossing out of a vertical and horizonal arm
 - Create ports
 """
 
-from phidl import quickplot as qp
+from phidl import quickplot as plot
 
 import pp
 from pp import LAYER
@@ -25,8 +25,7 @@ def test_crossing_arm(
     taper_width: float = 1.2,
     taper_length: float = 3.4,
 ) -> Component:
-    """ crossing arm
-    """
+    """crossing arm"""
     c = pp.Component()
     c << pp.c.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
@@ -58,4 +57,4 @@ def test_crossing_arm(
 if __name__ == "__main__":
     c = test_crossing_arm()
     c.show()
-    qp(c)
+    plot(c)

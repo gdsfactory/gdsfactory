@@ -166,7 +166,7 @@ from pydantic import validate_arguments
 
 ## 2.2.1
 
-- pp.qp hides DEVREC layer
+- pp.plot hides DEVREC layer
 - test netlist of `_circuits`
 - sort the keys when loading YAML file for test_netlists
 - better docstrings
