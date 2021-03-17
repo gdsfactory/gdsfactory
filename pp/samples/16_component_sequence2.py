@@ -1,6 +1,5 @@
 import pp
 from pp.component import Component
-from pp.components import bend_circular
 from pp.components.component_sequence import component_sequence
 from pp.components.taper import taper_strip_to_ridge
 from pp.components.waveguide import waveguide
@@ -14,7 +13,7 @@ def test_cutback_phase(
 ) -> Component:
     """ Modulator sections connected by bends """
     # Define sub components
-    bend180 = bend_circular(radius=bend_radius, angle=180)
+    bend180 = pp.c.bend_circular180(radius=bend_radius)
     pm_wg = waveguide_pin(length=straight_length)
     wg_short = waveguide(length=1.0)
     wg_short2 = waveguide(length=2.0)
@@ -47,5 +46,5 @@ def test_cutback_phase(
 
 
 if __name__ == "__main__":
-    c = test_cutback_phase()
+    c = test_cutback_phase(n=1)
     c.show()
