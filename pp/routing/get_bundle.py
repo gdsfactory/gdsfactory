@@ -191,7 +191,7 @@ def link_ports(
                     * False -> no sort applied
 
     Returns:
-        `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
+        `[route_filter(r) for r in routes]` list of lists of coordinates
         e.g with default `get_route_from_waypoints`,
         returns a list of elements which can be added to a component
 
@@ -495,6 +495,8 @@ def get_bundle_path_length_match(
 
     .. plot::
       :include-source:
+
+      import pp
 
       c = pp.Component("path_length_match_sample")
 

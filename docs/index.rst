@@ -14,3 +14,4 @@ Gdsfactory
    yaml
    components
    contribution
+   CHANGELOG

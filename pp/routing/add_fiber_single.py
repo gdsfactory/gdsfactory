@@ -82,13 +82,18 @@ def add_fiber_single(
          xmin = 0
 
     .. plot::
-      :include-source:
+        :include-source:
 
-       import pp
+        import pp
 
-       c = pp.components.crossing()
-       cc = pp.routing.add_fiber_single(c)
-       cc.plot()
+        c = pp.components.crossing()
+        cc = pp.routing.add_fiber_single(
+            component=c,
+            optical_routing_type=2,
+            grating_coupler=pp.components.grating_coupler_elliptical_te,
+            bend_radius=20
+        )
+        cc.plot()
 
     """
     if not component.get_ports_list(port_type="optical"):

@@ -73,13 +73,18 @@ def add_fiber_array(
         auto_taper_to_wide_waveguides: for long routes
 
     .. plot::
-      :include-source:
+        :include-source:
 
-       import pp
+        import pp
 
-       c = pp.components.crossing()
-       cc = pp.routing.add_fiber_array(c)
-       cc.plot()
+        c = pp.components.crossing()
+        cc = pp.routing.add_fiber_array(
+            component=c,
+            optical_routing_type=2,
+            grating_coupler=pp.components.grating_coupler_elliptical_te,
+            bend_radius=20
+        )
+        cc.plot()
 
     """
     c = component
