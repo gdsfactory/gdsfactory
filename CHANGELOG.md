@@ -4,6 +4,7 @@
 
 - fix some FIXME
 - pack conserves metadata
+- simplify link_factory and route_factory
 
 Maybe:
 
@@ -11,6 +12,7 @@ Maybe:
 - how can we have labels with gdslayer, gdspurpose?
 - create a Klayout library so we can also place components from the klayout menu GUI
 - add contracts, or enforcers, either in cell decorator or using
+- fix path defined components geometric hash
 
 ```
 from contracts import contract
@@ -26,6 +28,7 @@ from pydantic import validate_arguments
 - simplify code for pp.path.smooth
 - replace `pp.c.waveguide()` by `pp.components.waveguide()`. `pp.c.waveguide()` still works.
 - replace `pp.qp()` by `pp.plot()` to be consistent with `c = Component()` and `c.plot()`
+- added `get_component_from_yaml` Pdk class
 
 ## 2.4.4
 

@@ -1,4 +1,7 @@
-"""Store route and link Factories in a dict."""
+"""Store route and link Factories in a dict.
+
+FIXME. link_factory should have a route factory inside
+"""
 
 from pp.routing.get_bundle import (
     get_bundle,
