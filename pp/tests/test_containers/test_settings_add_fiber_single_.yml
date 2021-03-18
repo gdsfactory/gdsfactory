@@ -3,7 +3,7 @@ info: {}
 module: pp.routing.add_fiber_single
 name: add_fiber_single_Cmzi2x2_WECTrue
 settings:
-  auto_taper_to_wide_waveguides: true
+  auto_taper_to_wide_waveguides: false
   component:
     function_name: mzi2x2
     info: {}
@@ -23,7 +23,7 @@ settings:
   layer_label:
   - 201
   - 0
-  min_input2output_spacing: 127.0
+  min_input2output_spacing: 200.0
   optical_io_spacing: 50.0
   optical_routing_type: 2
   taper_length: 10.0

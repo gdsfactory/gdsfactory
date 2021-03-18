@@ -63,6 +63,7 @@ from pp.pack import pack
 from pp.grid import grid
 from pp.offset import offset
 from pp.boolean import boolean
+from pp.rotate import rotate
 from pp.snap import snap_to_grid
 
 c = components
@@ -106,6 +107,7 @@ __all__ = [
     "pg",
     "port",
     "port_array",
+    "rotate",
     "routing",
     "show",
     "snap_to_grid",

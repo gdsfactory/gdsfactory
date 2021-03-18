@@ -18,8 +18,9 @@ class Tech:
     taper_width: float
     fiber_single_spacing: float = 50.0
     fiber_array_spacing: float = 127.0
-    fiber_input_to_output_spacing: float = 120.0
+    fiber_input_to_output_spacing: float = 200.0
     snap_to_grid_nm: Optional[int] = None
+    auto_taper_to_wide_waveguides: bool = False
 
 
 @dataclass(frozen=True)

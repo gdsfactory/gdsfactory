@@ -188,16 +188,19 @@ def get_route_from_waypoints(
         else bend_factory
     )
 
-    taper = (
-        taper_factory(
-            length=TAPER_LENGTH,
-            width1=wg_width,
-            width2=WG_EXPANDED_WIDTH,
-            layer=layer,
+    if auto_taper_to_wide_waveguides:
+        taper = (
+            taper_factory(
+                length=TAPER_LENGTH,
+                width1=wg_width,
+                width2=WG_EXPANDED_WIDTH,
+                layer=layer,
+            )
+            if callable(taper_factory)
+            else taper_factory
         )
-        if callable(taper_factory)
-        else taper_factory
-    )
+    else:
+        taper = None
 
     return round_corners(
         points=waypoints,

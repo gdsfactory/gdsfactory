@@ -84,16 +84,16 @@ class Pdk:
     ) -> Component:
         r"""Returns euler bend that adiabatically transitions from straight to curved.
         By default, radius corresponds to the minimum radius of curvature of the bend.
-        However, if with_arc_floorplan is set to True, radius corresponds to the effective
-        radius of curvature (making the curve a drop-in replacement for an arc). If
-        p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
+        if with_arc_floorplan=True, radius corresponds to the effective radius of
+        curvature (making the curve a drop-in replacement for bend_circular).
+        p < 1.0 creates a "partial euler" curve as described in Vogelbacher et.
         al. https://dx.doi.org/10.1364/oe.27.031394
 
         Args:
             radius: minimum radius of curvature
             angle: total angle of the curve
             p: Proportion of the curve that is an Euler curve
-            with_arc_floorplan: If False: radius is the minimum radius of curvature of the bend
+            with_arc_floorplan: if False radius is the minimum bend curvature
                 If True: The curve will be scaled such that the endpoints match an arc
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
@@ -433,7 +433,7 @@ class Pdk:
         taper_factory: Optional[ComponentFactory] = None,
         route_filter: Optional[ComponentFactory] = None,
         bend_radius: Optional[float] = None,
-        auto_taper_to_wide_waveguides: bool = True,
+        auto_taper_to_wide_waveguides: Optional[bool] = None,
         **kwargs,
     ) -> Component:
         """Returns component with grating couplers and labels on each port.
@@ -457,7 +457,13 @@ class Pdk:
             taper_factory: taper function
             route_filter: for waveguides and bends
             bend_radius: for bends
+            auto_taper_to_wide_waveguides: for lower losses
         """
+        auto_taper_to_wide_waveguides = (
+            self.tech.auto_taper_to_wide_waveguides
+            if auto_taper_to_wide_waveguides is None
+            else auto_taper_to_wide_waveguides
+        )
 
         return add_fiber_array(
             component=component,
@@ -492,6 +498,7 @@ class Pdk:
         with_align_ports: bool = True,
         component_name: Optional[str] = None,
         gc_port_name: str = "W0",
+        auto_taper_to_wide_waveguides: Optional[bool] = None,
         **kwargs,
     ) -> Component:
         """Returns component with grating ports and labels on each port.
@@ -510,7 +517,14 @@ class Pdk:
             with_align_ports: True, adds loopback structures
             component_name: name of component
             gc_port_name: W0
+            auto_taper_to_wide_waveguides: for lower losses
         """
+
+        auto_taper_to_wide_waveguides = (
+            self.tech.auto_taper_to_wide_waveguides
+            if auto_taper_to_wide_waveguides is None
+            else auto_taper_to_wide_waveguides
+        )
 
         return add_fiber_single(
             component=component,
@@ -527,16 +541,34 @@ class Pdk:
             with_align_ports=with_align_ports,
             component_name=component_name,
             gc_port_name=gc_port_name,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             **kwargs,
         )
 
-    def get_route_euler(self, waypoints: np.ndarray, **kwargs) -> Route:
-        """Returns a route with euler adiabatic bends."""
+    def get_route_euler(
+        self,
+        waypoints: np.ndarray,
+        auto_taper_to_wide_waveguides: Optional[bool] = None,
+        **kwargs,
+    ) -> Route:
+        """Returns a route with euler adiabatic bends.
+
+        Args:
+            waypoints: manhattan route defined by waypoints
+            auto_taper_to_wide_waveguides: for lower loss in long routes
+
+        """
+        auto_taper_to_wide_waveguides = (
+            self.tech.auto_taper_to_wide_waveguides
+            if auto_taper_to_wide_waveguides is None
+            else auto_taper_to_wide_waveguides
+        )
         return round_corners(
             waypoints,
             bend_factory=self.bend_euler,
             straight_factory=self.waveguide,
             taper=self.taper,
+            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         )
 
     def get_route_circular(self, waypoints: np.ndarray, **kwargs) -> Route:

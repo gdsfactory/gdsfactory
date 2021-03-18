@@ -6,21 +6,20 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.types import Number
 
 
 def route_fiber_single(
     component: Component,
-    optical_io_spacing: Number = 50,
+    optical_io_spacing: float = 50.0,
     grating_coupler: Callable = grating_coupler_te,
-    min_input2output_spacing: Number = 230,
+    min_input2output_spacing: float = 200.0,
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_taper_to_wide_waveguides: bool = False,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
-    """Returns routes with grating couplers for single fiber input/output.
+    """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
     Args:
         component: to add grating couplers
@@ -153,8 +152,11 @@ if __name__ == "__main__":
     c = pp.components.crossing()
     c = pp.components.rectangle()
     c = pp.components.mzi2x2()
+    c = pp.components.ring_single()
 
-    elements, gc = route_fiber_single(c, grating_coupler=[gcte, gctm, gcte, gctm])
+    elements, gc = route_fiber_single(
+        c, grating_coupler=[gcte, gctm, gcte, gctm], auto_taper_to_wide_waveguides=False
+    )
 
     cc = pp.Component("sample_route_fiber_single")
     cr = cc << c.rotate(90)
