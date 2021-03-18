@@ -1,7 +1,7 @@
 import uuid
 from functools import partial, wraps
 from inspect import signature
-from typing import Dict
+from typing import Dict, Optional
 
 from pp.component import Component
 from pp.name import get_component_name, get_name
@@ -25,6 +25,7 @@ def cell(
     func: ComponentFactory = None,
     *,
     autoname: bool = True,
+    container: Optional[bool] = None,
 ) -> ComponentFactory:
     """Cell Decorator.
 
@@ -58,11 +59,12 @@ def cell(
     """
 
     if func is None:
-        return partial(cell, autoname=autoname)
+        return partial(cell, autoname=autoname, container=container)
 
     @wraps(func)
     def _cell(
         autoname: bool = autoname,
+        container: bool = container,
         *args,
         **kwargs,
     ) -> Component:
@@ -74,7 +76,6 @@ def cell(
             raise ValueError(
                 f"cell supports only Keyword args for `{func.__name__}({arguments})`"
             )
-        container = kwargs.pop("container", None)
         uid = kwargs.pop("uid", False)
         cache = kwargs.pop("cache", True)
         name = kwargs.pop("name", None)

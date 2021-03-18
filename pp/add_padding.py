@@ -138,11 +138,31 @@ def add_padding_to_grid(
     return c
 
 
-if __name__ == "__main__":
+def test_container():
     c = pp.components.waveguide(length=128)
-    # cc = add_padding_container(component=c, layers=[(2, 0)])
+    cc = add_padding_container(component=c, layers=[(1, 0)])
+    print(len(cc.settings["component"]))
+    assert len(cc.settings["component"]) == 5
+
     cc = add_padding_container(component=c, layers=[(2, 0)], container=True)
-    print(cc.settings["component"])
+    assert len(cc.settings["component"]) == 5
+
+    cc = add_padding_container(component=c, layers=[(3, 0)], container=None)
+    assert len(cc.settings["component"]) == 5
+
+    cc = add_padding_container(component=c, layers=[(4, 0)], container=False)
+    assert isinstance(cc.settings["component"], pp.Component)
+    # print(cc.settings["component"])
+    # print(len(cc.settings["component"]))
+
+
+if __name__ == "__main__":
+    test_container()
+
+    # c = pp.components.waveguide(length=128)
+    # cc = add_padding_container(component=c, layers=[(2, 0)])
+    # cc = add_padding_container(component=c, layers=[(2, 0)])
+    # print(cc.settings["component"])
 
     # cc.show()
     # cc.pprint()
