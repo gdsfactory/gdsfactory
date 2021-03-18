@@ -456,10 +456,10 @@ def round_corners(
         bend90: the bend to use for 90Deg turns
         straight_factory: the straight factory to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
-        straight_factory_fall_back_no_taper: factory to use for straights in case there is no space to put a pair of tapers
+        straight_factory_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide
-        straight_ports: port names for straights. If not specified, will use some heuristic to find them
-        auto_taper_to_wide_waveguides: for long routes
+        straight_ports: port names for straights. If None finds them automatically.
+        auto_taper_to_wide_waveguides: for lower loss in long routes
     """
     references = []
     ports = dict()

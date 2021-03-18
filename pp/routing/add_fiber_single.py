@@ -29,13 +29,13 @@ def add_fiber_single(
     taper_factory: ComponentFactory = taper,
     taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
-    min_input2output_spacing: float = 127.0,
+    min_input2output_spacing: float = 200.0,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_taper_to_wide_waveguides: bool = False,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -67,6 +67,7 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
+        auto_taper_to_wide_waveguides: for lower loss
 
     .. code::
 
@@ -182,7 +183,7 @@ def add_fiber_single(
             ports = io_row.get_ports_list(prefix="vertical")
             if ports:
                 port = ports[0]
-                c.add_port(f"{port.name}_{i}{j}", port=port)
+                c.add_port(f"{port.name}_{i}", port=port)
 
     if isinstance(grating_coupler, list):
         grating_couplers = [call_if_func(g) for g in grating_coupler]
@@ -248,6 +249,7 @@ if __name__ == "__main__":
     c = pp.components.mmi1x2()
     c = pp.components.rectangle()
     c = pp.components.mzi(length_x=50)
+    c = pp.components.ring_single()
     c = pp.components.mzi2x2(with_elec_connections=True)
 
     gc = pp.components.grating_coupler_elliptical_te
@@ -256,6 +258,7 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_uniform
 
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
+    cc = add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
 
     # print(cc.get_settings()["component"])
     print(cc.ports.keys())
