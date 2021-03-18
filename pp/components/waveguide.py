@@ -54,7 +54,8 @@ if __name__ == "__main__":
     # c = waveguide(length=10.0)
     # c.pprint()
 
-    c = waveguide(length=10.001, width=10, tech=TECH_METAL1)
-    print(c.length)
-    print(c.ports)
+    c = waveguide(length=10.001, width=10, tech=TECH_METAL1, autoname=True)
+    # print(c.name)
+    # print(c.length)
+    # print(c.ports)
     c.show()
