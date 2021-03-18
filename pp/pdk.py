@@ -1,13 +1,19 @@
 import dataclasses
-from typing import Callable, Dict, Optional, Union
+import pathlib
+from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
 
 import pp
+from pp.add_pins import add_instance_label
 from pp.component import Component
+from pp.component_from_yaml import component_from_yaml
+from pp.port import Port
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
+from pp.routing.get_bundle import get_bundle
 from pp.routing.get_input_labels import get_input_labels
+from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import round_corners
 from pp.tech import TECH_METAL1, TECH_NITRIDE_C, TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Coordinates, Layer, Route, RouteFactory
@@ -533,6 +539,72 @@ class Pdk:
             taper=self.taper,
         )
 
+    def get_route_circular(self, waypoints: np.ndarray, **kwargs) -> Route:
+        """Returns a route with circular bends (more lossy than euler)."""
+        return round_corners(
+            waypoints,
+            bend_factory=self.bend_circular,
+            straight_factory=self.waveguide,
+            taper=self.taper,
+        )
+
+    def get_bundle(
+        self,
+        start_ports: List[Port],
+        end_ports: List[Port],
+        route_filter: Callable = get_route_from_waypoints,
+        separation: float = 5.0,
+        bend_radius: Optional[float] = None,
+        extension_length: float = 0.0,
+        bend_factory: Optional[ComponentFactory] = None,
+        **kwargs,
+    ):
+        return get_bundle(
+            start_ports=start_ports,
+            end_ports=end_ports,
+            route_filter=route_filter,
+            separation=separation,
+            bend_radius=bend_radius,
+            extension_length=extension_length,
+            bend_factory=bend_factory or self.bend_euler,
+        )
+
+    def get_factory_names(self):
+        return [
+            function_name
+            for function_name in dir(self)
+            if not function_name.startswith("get_")
+            and not function_name.startswith("_")
+            and not function_name.startswith("add_")
+            and not function_name.startswith("tech")
+        ]
+
+    def get_factory_functions(self):
+        component_names = self.get_factory_names()
+        return {
+            component_name: getattr(self, component_name)
+            for component_name in component_names
+        }
+
+    def get_route_factory(self):
+        return dict(optical=self.get_route_euler)
+
+    def get_link_factory(self):
+        return dict(link_ports=self.get_bundle)
+
+    def get_component_from_yaml(
+        self,
+        yaml_str: Union[str, pathlib.Path, IO[Any]],
+        label_instance_function: Callable = add_instance_label,
+    ):
+        return component_from_yaml(
+            yaml_str=yaml_str,
+            component_factory=self.get_factory_functions(),
+            route_factory=self.get_route_factory(),
+            link_factory=self.get_link_factory(),
+            label_instance_function=label_instance_function,
+        )
+
 
 @dataclasses.dataclass
 class PdkSiliconCband(Pdk):
@@ -553,9 +625,16 @@ PDK_SILICON_C = PdkSiliconCband()
 PDK_METAL1 = PdkMetal1()
 PDK_NITRIDE_C = PdkNitrideCband()
 
+
 if __name__ == "__main__":
-    p = PDK_NITRIDE_C
-    p = PDK_METAL1
+    p = PDK_SILICON_C
+    # p = PDK_NITRIDE_C
+    # p = PDK_METAL1
+
+    # names = p.get_factory_names()
+    # print(names)
+    # functions = p.get_factory_functions()
+    # print(functions)
     # c = p.waveguide(length=10)
     # c = p.waveguide(length=10)
 
@@ -574,10 +653,10 @@ if __name__ == "__main__":
     # c = p.waveguide()
     # c = p.mzi()
     # c = p.ring_single()
-    c = p.ring_single()
+    # c = p.ring_single()
     # c = p.taper()
 
-    c = p.add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
+    # c = p.add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
     # c = p.add_fiber_array(component=c, optical_routing_type=1)
-    c.show()
+    # c.show()
     # c.plot()
