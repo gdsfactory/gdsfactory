@@ -794,7 +794,8 @@ class Component(Device):
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
-        Can also be called to copy an existing port with a new name like add_port(port = existing_port, name = new_name)"""
+        Can also be called to copy an existing port
+        with a new name add_port(port = existing_port, name = new_name)"""
         if port_type not in valid_port_types:
             raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
 

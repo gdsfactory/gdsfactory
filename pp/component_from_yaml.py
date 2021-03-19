@@ -140,7 +140,9 @@ def place(
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
                 raise KeyError(
-                    f"Supplied port is neither a valid port on {ref.parent.name}, nor is it a recognized anchor keyword. Valid ports: {list(ref.ports.keys())}. Valid keywords: {valid_anchor_point_keywords}"
+                    f"Supplied port is neither a valid port on {ref.parent.name},",
+                    " nor is it a recognized anchor keyword. Valid ports: ",
+                    f"{list(ref.ports.keys())}. Valid keywords: {valid_anchor_point_keywords}",
                 )
             ref.x -= a[0]
             ref.y -= a[1]
@@ -162,7 +164,7 @@ def place(
                     )
                 if instance_name_ref not in instances:
                     raise ValueError(
-                        f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                        f"instaceName `{instance_name_ref}` not in {list(instances.keys())}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
                 if (
@@ -170,8 +172,8 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
-                        f"for {instance_name_ref}, "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
 
@@ -205,8 +207,8 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} or in valid anchors {valid_anchor_keywords} "
-                        f"for {instance_name_ref}, "
+                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
 
@@ -234,7 +236,7 @@ def place(
                 ref.reflect_h(x0=mirror)
             else:
                 raise ValueError(
-                    f"{mirror} can only be a port name {ref.ports.keys()}, a x value or boolean True/False"
+                    f"{mirror} can only be a port name {ref.ports.keys()}, a x value or True/False"
                 )
 
         if rotation:

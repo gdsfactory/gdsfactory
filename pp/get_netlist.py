@@ -26,7 +26,7 @@ def get_instance_name(
     reference: ComponentReference,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
 ) -> str:
-    """Takes a component names the instance based on its XY location or a label in layer_label
+    """Takes component names from instance XY location or label in layer_label
     Loop over references and find the reference under and associate reference with instance label
     map instance names to references
     Check if it has a instance name label and return the instance name from the label
@@ -34,7 +34,7 @@ def get_instance_name(
     Args:
         component: with labels
         reference: reference that needs naming
-        layer_label: layer of the label (ignores layer_label[1]). Phidl ignores purpose of labels.
+        layer_label: ignores layer_label[1]
     """
 
     x = snap_to_grid(reference.x)
