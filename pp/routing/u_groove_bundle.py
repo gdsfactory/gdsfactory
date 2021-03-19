@@ -51,7 +51,8 @@ def u_bundle_direct(
 
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`,
+        returns list of elements which can be added to a component
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -243,6 +244,7 @@ def u_bundle_indirect(
     **routing_params
 ) -> List[Route]:
     r"""
+
     Args:
         start_ports: list of start ports
         end_ports: list of end ports
@@ -250,7 +252,8 @@ def u_bundle_indirect(
             e.g `get_route_from_waypoints` for deep etch strip waveguide
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`,
+        returns a list of elements which can be added to a component
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -438,9 +441,7 @@ def u_bundle_indirect_routes(
         else:
             print("u_undirect_bundle not designed to work in this case")
 
-    """
-    Do the routing directives to get back to a u_bundle direct case
-    """
+    # Do the routing directives to get back to a u_bundle direct case
 
     routing_param = {
         "routing_func": routing_func,
