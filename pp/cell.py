@@ -104,8 +104,8 @@ def cell(
             for key in kwargs.keys():
                 if key not in sig.parameters.keys():
                     raise TypeError(
-                        f"{component_type}() got an unexpected keyword argument `{key}`\n"
-                        f"valid keyword arguments are {list(sig.parameters.keys())}"
+                        f"{component_type}() got invalid argument `{key}`\n"
+                        f"valid arguments are {list(sig.parameters.keys())}"
                     )
 
         # print(CACHE.keys())
@@ -127,9 +127,10 @@ def cell(
                 component_original = kwargs.pop("component")
                 component.settings["component"] = component_original.get_settings()
 
-            assert isinstance(
-                component, Component
-            ), f"`{func.__name__}` function needs to return a Component, it returned `{component}` "
+            if not isinstance(component, Component):
+                raise ValueError(
+                    f"`{func.__name__}` returned `{component}` and not a Component"
+                )
             component.module = func.__module__
             component.function_name = func.__name__
 
