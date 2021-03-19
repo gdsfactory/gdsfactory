@@ -29,9 +29,6 @@ def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
         conn.close()
     except socket.error:
         pass
-        # print(
-        #     "error sending GDS to klayout. Make sure have Klayout opened and that you have installed klive with `pf install`"
-        # )
 
 
 if __name__ == "__main__":

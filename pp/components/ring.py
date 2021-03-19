@@ -16,14 +16,9 @@ def ring(
 ) -> Component:
     """Returns a ring.
 
-    The ring is formed by taking the radius out to the specified value,
-    and then constructing the thickness by dividing the width in half and adding that value to either side of the radius.
-    The angle_resolution alters the precision of the curve of the ring.
-    Larger values yield lower resolution
-
     Args:
-        radius: (float) Middle radius of the ring
-        width: (float) Width of the ring
+        radius: ring radius
+        width: of the ring
         angle_resolution: number of points per degree
         layer: layer
 

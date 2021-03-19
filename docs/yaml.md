@@ -31,6 +31,8 @@ You can define components, circuits and masks in YAML syntax.
     placements:
         arm_bot:
             mirror: True
+        CP2:
+            mirror: True
     ports:
         W0: CP1,W0
         E0: CP2,W0
@@ -76,6 +78,7 @@ Example:
 
 ```
 
+import pathlib
 import pp
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
@@ -90,9 +93,8 @@ def test_mask():
     - merge mask JSON metadata into a combined JSON file
 
     """
-    cwd = pathlib.Path(__file__).absolute().parent
+    cwd = pathlib.Path.cwd()
     does_path = cwd / "does.yml"
-
     doe_root_path = cwd / "build" / "cache_doe_directory"
     mask_path = cwd / "build" / "mask"
     gdspath = mask_path / "mask.gds"
@@ -108,8 +110,8 @@ def test_mask():
 
 
 if __name__ == "__main__":
-    c = test_mask()
-    c.show()
+    gdspath = test_mask()
+    pp.show(gdspath)
 
 ```
 
