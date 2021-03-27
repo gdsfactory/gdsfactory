@@ -7,7 +7,7 @@ settings:
   layer:
   - 1
   - 0
+  layer_cladding: null
   spacing: 10.0
   square_corner: bottom_left
   width: 10.0
-  with_tile_excl: true

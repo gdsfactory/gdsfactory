@@ -136,8 +136,10 @@ ls.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha=0)
 ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
 
 
-layer2nm = {LAYER.WG: 220}
-layer2material = {
+layer_to_thickness_nm = {LAYER.WG: 220}
+layer_to_z_nm = {LAYER.WG: 0}
+
+layer_to_material = {
     LAYER.WG: "si",
     LAYER.SLAB90: "si",
     LAYER.SLAB150: "si",

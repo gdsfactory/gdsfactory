@@ -7,8 +7,8 @@ import pandas as pd
 
 import pp
 from pp.component import Component
-from pp.layers import layer2material as layer2material_generic_tech
-from pp.layers import layer2nm as layer2nm_generic_tech
+from pp.layers import layer_to_material as layer_to_material_generic_tech
+from pp.layers import layer_to_thickness_nm as layer_to_thickness_nm_generic_tech
 from pp.sp.get_sparameters_path import get_sparameters_path
 
 
@@ -116,8 +116,10 @@ def test_read_sparameters_4port_mmi2x2():
 def load(
     component: Component,
     dirpath: Path = pp.CONFIG["sp"],
-    layer2material: Dict[Tuple[int, int], str] = layer2material_generic_tech,
-    layer2nm: Dict[Tuple[int, int], int] = layer2nm_generic_tech,
+    layer_to_material: Dict[Tuple[int, int], str] = layer_to_material_generic_tech,
+    layer_to_thickness_nm: Dict[
+        Tuple[int, int], int
+    ] = layer_to_thickness_nm_generic_tech,
     **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
@@ -125,8 +127,8 @@ def load(
     Args:
         component: Component
         dirpath: path where to look for the Sparameters
-        layer2material: layer to material dict
-        layer2nm: layer to thickness (nm)
+        layer_to_material: layer to material dict
+        layer_to_thickness_nm: layer to thickness (nm)
 
     Returns:
         port_names: list of port labels
@@ -141,8 +143,8 @@ def load(
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=layer2material,
-        layer2nm=layer2nm,
+        layer_to_material=layer_to_material,
+        layer_to_thickness_nm=layer_to_thickness_nm,
         **kwargs,
     )
     numports = len(component.ports)
@@ -154,15 +156,17 @@ def load(
 def load_sparameters_pandas(
     component: Component,
     dirpath: Path = pp.CONFIG["sp"],
-    layer2material: Dict[Tuple[int, int], str] = layer2material_generic_tech,
-    layer2nm: Dict[Tuple[int, int], int] = layer2nm_generic_tech,
+    layer_to_material: Dict[Tuple[int, int], str] = layer_to_material_generic_tech,
+    layer_to_thickness_nm: Dict[
+        Tuple[int, int], int
+    ] = layer_to_thickness_nm_generic_tech,
     **kwargs,
 ) -> pd.DataFrame:
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=layer2material,
-        layer2nm=layer2nm,
+        layer_to_material=layer_to_material,
+        layer_to_thickness_nm=layer_to_thickness_nm,
         **kwargs,
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))

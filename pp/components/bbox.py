@@ -18,7 +18,7 @@ def bbox(
         layer:
 
     """
-    D = Component(name="bbox")
+    D = Component()
     (a, b), (c, d) = bbox
     points = ((a, b), (c, b), (c, d), (a, d))
     D.add_polygon(points, layer=layer)

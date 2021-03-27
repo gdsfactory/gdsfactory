@@ -303,7 +303,7 @@ class Pdk:
         delta_length: float = 10.0,
         length_y: float = 0.1,
         length_x: float = 0.1,
-        bend90: Optional[ComponentFactory] = None,
+        bend: Optional[ComponentFactory] = None,
         waveguide: Optional[ComponentFactory] = None,
         waveguide_vertical: Optional[ComponentFactory] = None,
         waveguide_horizontal: Optional[ComponentFactory] = None,
@@ -322,7 +322,7 @@ class Pdk:
             length_y: vertical length for both and top arms
             length_x: horizontal length
             bend_radius: 10.0
-            bend90: bend_circular
+            bend: 90 bend function
             waveguide: waveguide function
             waveguide_vertical: waveguide
             splitter: splitter function
@@ -352,7 +352,7 @@ class Pdk:
             length_x=length_x,
             length_y=length_y,
             bend_radius=bend_radius or self.tech.bend_radius,
-            bend90=bend90 or self.bend_euler,
+            bend=bend or self.bend_euler,
             waveguide=waveguide or self.waveguide,
             waveguide_vertical=waveguide_vertical or self.waveguide,
             waveguide_horizontal=waveguide_horizontal or self.waveguide,
