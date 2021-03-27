@@ -6,7 +6,7 @@ settings:
   DL: 0.0
   L0: 60.0
   L_top: 10.0
-  bend90_factory: bend_euler
+  bend: bend_euler
   bend_radius: 10.0
   input_port_name: W0
   output_port_name: E0
@@ -47,6 +47,6 @@ settings:
     - W0
     - E0
   tech: null
-  waveguide_function: waveguide
-  waveguide_heater_function: wg_heater_connected
+  waveguide: waveguide
+  waveguide_heater: wg_heater_connected
   with_elec_connections: true

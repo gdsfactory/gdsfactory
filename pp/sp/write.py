@@ -14,7 +14,7 @@ import yaml
 import pp
 from pp.component import Component
 from pp.config import __version__
-from pp.layers import layer2material, layer2nm
+from pp.layers import layer_to_material, layer_to_thickness_nm
 from pp.sp.get_sparameters_path import get_sparameters_path
 
 run_false_warning = """
@@ -39,8 +39,8 @@ materials = {
 
 
 default_simulation_settings = dict(
-    layer2nm=layer2nm,
-    layer2material=layer2material,
+    layer_to_thickness_nm=layer_to_thickness_nm,
+    layer_to_material=layer_to_material,
     remove_layers=(pp.LAYER.WGCLAD,),
     background_material="sio2",
     port_width=3e-6,
@@ -60,12 +60,14 @@ def clean_dict(
 ) -> Dict[str, Union[str, float, int]]:
     """Returns same dict after converting tuple keys into list of strings."""
     output = d.copy()
-    output["layer2nm"] = [
-        f"{k[0]}_{k[1]}_{v}" for k, v in d.get("layer2nm", {}).items() if k in layers
-    ]
-    output["layer2material"] = [
+    output["layer_to_thickness_nm"] = [
         f"{k[0]}_{k[1]}_{v}"
-        for k, v in d.get("layer2material", {}).items()
+        for k, v in d.get("layer_to_thickness_nm", {}).items()
+        if k in layers
+    ]
+    output["layer_to_material"] = [
+        f"{k[0]}_{k[1]}_{v}"
+        for k, v in d.get("layer_to_material", {}).items()
         if k in layers
     ]
     output["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
@@ -91,8 +93,8 @@ def write(
         run: True-> runs Lumerical , False -> only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
-        layer2nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
-        layer2material: dict of {(1, 0): "si"}
+        layer_to_thickness_nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
+        layer_to_material: dict of {(1, 0): "si"}
         remove_layers: layers to remove
         background_material: for the background
         port_width: port width (m)
@@ -140,14 +142,16 @@ def write(
 
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
-    layer2material = settings.pop("layer2material", ss.layer2material)
-    layer2nm = settings.pop("layer2nm", ss.layer2nm)
+    layer_to_material = settings.pop("layer_to_material", ss.layer_to_material)
+    layer_to_thickness_nm = settings.pop(
+        "layer_to_thickness_nm", ss.layer_to_thickness_nm
+    )
 
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer2material=layer2material,
-        layer2nm=layer2nm,
+        layer_to_material=layer_to_material,
+        layer_to_thickness_nm=layer_to_thickness_nm,
         **settings,
     )
     filepath_csv = filepath.with_suffix(".csv")
@@ -177,7 +181,7 @@ def write(
         x_max = c.xmax * 1e-6 + ss.ymargin
 
     z = 0
-    z_span = 2 * ss.zmargin + max(ss.layer2nm.values()) * 1e-9
+    z_span = 2 * ss.zmargin + max(ss.layer_to_thickness_nm.values()) * 1e-9
 
     layers = component.get_layers()
     sim_settings = dict(
@@ -235,12 +239,14 @@ def write(
         use_early_shutoff=True,
     )
 
-    for layer, nm in ss.layer2nm.items():
+    for layer, nm in ss.layer_to_thickness_nm.items():
         if layer not in layers:
             continue
-        assert layer in ss.layer2material, f"{layer} not in {ss.layer2material.keys()}"
+        assert (
+            layer in ss.layer_to_material
+        ), f"{layer} not in {ss.layer_to_material.keys()}"
 
-        material = ss.layer2material[layer]
+        material = ss.layer_to_material[layer]
         if material not in materials:
             raise ValueError(f"{material} not in {list(materials.keys())}")
         material = materials[material]
@@ -338,23 +344,23 @@ def sample_write_coupler_ring():
     return [
         write(
             pp.components.coupler_ring(
-                wg_width=wg_width, length_x=length_x, bend_radius=bend_radius, gap=gap
+                wg_width=wg_width, length_x=length_x, radius=radius, gap=gap
             )
         )
         for wg_width in [0.5]
         for length_x in [0.1, 1, 2, 3, 4]
         for gap in [0.15, 0.2]
-        for bend_radius in [5, 10]
+        for radius in [5, 10]
     ]
 
 
 def sample_bend_circular():
-    """Write Sparameters for a circular bend with different bend_radius."""
+    """Write Sparameters for a circular bend with different radius."""
     return [write(pp.components.bend_circular(radius=radius)) for radius in [2, 5, 10]]
 
 
 def sample_bend_euler():
-    """Write Sparameters for a euler bend with different bend_radius."""
+    """Write Sparameters for a euler bend with different radius."""
     return [write(pp.components.bend_euler(radius=radius)) for radius in [2, 5, 10]]
 
 
@@ -380,7 +386,7 @@ if __name__ == "__main__":
     r = write(component=component, mesh_accuracy=1, run=False)
     # c = pp.components.coupler_ring(length_x=3)
     # c = pp.components.mmi1x2()
-    # r = write(component=component, layer2nm={(1, 0): 200}, run=False)
+    # r = write(component=component, layer_to_thickness_nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())

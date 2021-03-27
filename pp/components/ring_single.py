@@ -39,7 +39,7 @@ def ring_single(
         length_y: vertical waveguide length
         coupler: ring coupler function
         waveguide: waveguide function
-        bend: bend function
+        bend: 90 degrees bend function
         pins: add pins
         width: waveguide width
         layer:

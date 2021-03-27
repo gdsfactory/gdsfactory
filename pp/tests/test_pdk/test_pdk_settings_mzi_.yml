@@ -3,7 +3,7 @@ info: {}
 module: pp.components.mzi
 name: mzi_b922d9a8
 settings:
-  bend90: bend_euler
+  bend: bend_euler
   bend_radius: 20.0
   combiner: mmi1x2
   combiner_settings: null

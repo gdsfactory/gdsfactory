@@ -4,7 +4,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.extension import line
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
-from pp.components.waveguide import waveguide
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
@@ -18,9 +18,9 @@ def mzi1x2(
     DL: float = 9.0,
     L2: float = 10.0,
     bend_radius: float = 10.0,
-    bend90_factory: ComponentFactory = bend_circular,
-    waveguide_heater_function: ComponentFactory = wg_heater_connected,
-    waveguide_function: ComponentFactory = waveguide,
+    bend: ComponentFactory = bend_circular,
+    waveguide_heater: ComponentFactory = wg_heater_connected,
+    waveguide: ComponentFactory = waveguide_function,
     coupler_function: ComponentFactory = mmi1x2,
     with_elec_connections: bool = False,
 ) -> Component:
@@ -31,8 +31,8 @@ def mzi1x2(
         DL: bottom arm extra length
         L2: L_top horizontal length
         bend_radius: 10.0
-        bend90_factory: bend_circular
-        waveguide_heater_function: wg_heater_connected or waveguide
+        bend: 90 degrees bend factory
+        waveguide_heater: wg_heater_connected or waveguide
         waveguide_function: waveguide
         coupler_function: coupler
 
@@ -58,16 +58,16 @@ def mzi1x2(
 
     """
     if not with_elec_connections:
-        waveguide_heater_function = waveguide_function
+        waveguide_heater = waveguide
 
     cpl = coupler_function()
 
     arm_defaults = {
         "L_top": L2,
         "bend_radius": bend_radius,
-        "bend90_factory": bend90_factory,
-        "waveguide_heater_function": waveguide_heater_function,
-        "waveguide_function": waveguide_function,
+        "bend": bend,
+        "waveguide_heater": waveguide_heater,
+        "waveguide": waveguide,
         "with_elec_connections": with_elec_connections,
     }
 

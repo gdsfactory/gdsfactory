@@ -6,7 +6,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.component_sequence import component_sequence
 from pp.components.coupler import coupler
 from pp.components.extension import line
-from pp.components.waveguide import waveguide
+from pp.components.waveguide import waveguide as waveguide_function
 from pp.components.waveguide_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_ports
@@ -21,9 +21,9 @@ def mzi_arm(
     DL: float = 0.0,
     L_top: float = 10.0,
     bend_radius: float = 10.0,
-    bend90_factory: ComponentFactory = bend_euler,
-    waveguide_heater_function: ComponentFactory = wg_heater_connected,
-    waveguide_function: ComponentFactory = waveguide,
+    bend: ComponentFactory = bend_euler,
+    waveguide_heater: ComponentFactory = wg_heater_connected,
+    waveguide: ComponentFactory = waveguide_function,
     with_elec_connections: bool = True,
     tech: Optional[Tech] = None,
 ) -> Component:
@@ -34,9 +34,9 @@ def mzi_arm(
         DL: extra vertical length without heater (delat_length=2*DL)
         L_top: 10.0, horizontal length
         bend_radius: 10.0
-        bend90_factory: bend_euler
-        waveguide_heater_function: wg_heater_connected
-        waveguide_function: waveguide
+        bend: 90 degrees bend factory
+        waveguide_heater: wg_heater_connected
+        waveguide: waveguide
 
     ::
 
@@ -60,13 +60,13 @@ def mzi_arm(
     """
     tech = tech or TECH_SILICON_C
     if not with_elec_connections:
-        waveguide_heater_function = waveguide_function
+        waveguide_heater = waveguide
 
-    _bend = bend90_factory(radius=bend_radius, tech=tech)
+    _bend = bend(radius=bend_radius, tech=tech)
 
-    straight_vheater = waveguide_heater_function(length=L0, tech=tech)
-    straight_h = waveguide_function(length=L_top, tech=tech)
-    straight_v = waveguide_function(length=DL, tech=tech) if DL > 0 else None
+    straight_vheater = waveguide_heater(length=L0, tech=tech)
+    straight_h = waveguide(length=L_top, tech=tech)
+    straight_v = waveguide(length=DL, tech=tech) if DL > 0 else None
 
     symbol_to_component = {
         "A": (_bend, "W0", "N0"),
@@ -107,9 +107,9 @@ def mzi2x2(
     L2: float = 10.0,
     gap: float = 0.234,
     bend_radius: float = 10.0,
-    bend90_factory: ComponentFactory = bend_euler,
-    waveguide_heater_function: ComponentFactory = wg_heater_connected,
-    waveguide_function: ComponentFactory = waveguide,
+    bend: ComponentFactory = bend_euler,
+    waveguide_heater: ComponentFactory = wg_heater_connected,
+    waveguide: ComponentFactory = waveguide_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
     tech: Optional[Tech] = None,
@@ -123,9 +123,9 @@ def mzi2x2(
         L2: L_top horizontal length
         gap: 0.235
         bend_radius: 10.0
-        bend90_factory: bend_euler
-        waveguide_heater_function: wg_heater_connected or waveguide
-        waveguide_function: waveguide
+        bend: 90 degrees bend factory
+        waveguide_heater: wg_heater_connected or waveguide
+        waveguide: waveguide
         coupler_function: coupler
         with_elec_connections: add electrical pads
         tech: Technology
@@ -156,16 +156,16 @@ def mzi2x2(
     """
     tech = tech or TECH_SILICON_C
     if not with_elec_connections:
-        waveguide_heater_function = waveguide_function
+        waveguide_heater = waveguide
 
     cpl = coupler_function(length=CL_1, gap=gap)
 
     arm_defaults = {
         "L_top": L2,
         "bend_radius": bend_radius,
-        "bend90_factory": bend90_factory,
-        "waveguide_heater_function": waveguide_heater_function,
-        "waveguide_function": waveguide_function,
+        "bend": bend,
+        "waveguide_heater": waveguide_heater,
+        "waveguide": waveguide,
         "with_elec_connections": with_elec_connections,
     }
 
@@ -280,7 +280,7 @@ if __name__ == "__main__":
     # for p in c.ports.values():
     #     print(p.port_type)
     # c = mzi_arm(DL=100)
-    # c = mzi2x2(waveguide_heater_function=wg_heater_connected, with_elec_connections=True)
+    # c = mzi2x2(waveguide_heater=wg_heater_connected, with_elec_connections=True)
     # pp.write_gds(c, "mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))

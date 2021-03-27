@@ -17,7 +17,7 @@ def mzi(
     length_y: float = 0.1,
     length_x: float = 0.1,
     bend_radius: Optional[float] = None,
-    bend90: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     waveguide: ComponentFactory = waveguide_function,
     waveguide_vertical: Optional[ComponentFactory] = None,
     waveguide_delta_length: Optional[ComponentFactory] = None,
@@ -37,7 +37,7 @@ def mzi(
         length_y: vertical length for both and top arms
         length_x: horizontal length
         bend_radius: 10.0
-        bend90: bend_circular
+        bend: 90 degrees bend factory
         waveguide: waveguide function
         waveguide_horizontal: waveguide for length_x
         waveguide_vertical: waveguide for length_y and delta_length
@@ -84,7 +84,7 @@ def mzi(
     waveguide_vertical = waveguide_vertical or waveguide
     waveguide_horizontal = waveguide_horizontal or waveguide
     waveguide_delta_length = waveguide_delta_length or waveguide
-    b90 = bend90(radius=bend_radius)
+    b90 = bend(radius=bend_radius)
     l0 = waveguide_vertical(length=L0)
 
     cp1 = rename_ports_by_orientation(cp1)

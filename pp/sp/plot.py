@@ -49,13 +49,13 @@ def plot(
 if __name__ == "__main__":
 
     remove_layers = []
-    layer2nm = {(1, 0): 220}
+    layer_to_thickness_nm = {(1, 0): 220}
 
-    # r = write(component=pp.components.waveguide(), layer2nm=layer2nm)
-    # r = write(component=pp.components.mmi2x2(), layer2nm=layer2nm)
-    # r = write(component=pp.components.mmi1x2(), layer2nm=layer2nm)
-    # r = write(component=pp.components.coupler(), layer2nm=layer2nm)
-    # r = write(component=pp.components.bend_circular(), layer2nm=layer2nm)
+    # r = write(component=pp.components.waveguide(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=pp.components.mmi2x2(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=pp.components.mmi1x2(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=pp.components.coupler(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=pp.components.bend_circular(), layer_to_thickness_nm=layer_to_thickness_nm)
     # plot(r, logscale=True)
     # plot(pp.components.coupler())
     plot(pp.components.mmi1x2(), logscale=False)
