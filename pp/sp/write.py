@@ -90,7 +90,7 @@ def write(
     Args:
         component: gdsfactory Component
         session: you can pass a session=lumapi.FDTD() for debugging
-        run: True-> runs Lumerical , False -> only draws simulation
+        run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
         layer_to_thickness_nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
@@ -264,7 +264,9 @@ def write(
         s.setnamed(p, "z span", ss.port_height)
 
         deg = int(port.orientation)
-        # assert port.orientation in [0, 90, 180, 270], f"{port.orientation} needs to be [0, 90, 180, 270]"
+        # if port.orientation not in [0, 90, 180, 270]:
+        #     raise ValueError(f"{port.orientation} needs to be [0, 90, 180, 270]")
+
         if -45 <= deg <= 45:
             direction = "Backward"
             injection_axis = "x-axis"
@@ -344,10 +346,10 @@ def sample_write_coupler_ring():
     return [
         write(
             pp.components.coupler_ring(
-                wg_width=wg_width, length_x=length_x, radius=radius, gap=gap
+                width=width, length_x=length_x, radius=radius, gap=gap
             )
         )
-        for wg_width in [0.5]
+        for width in [0.5]
         for length_x in [0.1, 1, 2, 3, 4]
         for gap in [0.15, 0.2]
         for radius in [5, 10]
