@@ -697,7 +697,7 @@ class Pdk:
             **settings,
         )
 
-    def read_sparameters(
+    def read_sparameters_lumerical(
         self,
         component: Component,
         dirpath: Optional[pathlib.Path] = None,
@@ -718,8 +718,7 @@ class Pdk:
             F: frequency 1d np.array
             S: Sparameters np.ndarray matrix
 
-
-        the Sparameters file have Lumerical format
+        you can see the Sparameters Lumerical format in
         https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
         """
         assert isinstance(component, Component)
@@ -734,7 +733,7 @@ class Pdk:
         )
         numports = len(component.ports)
         assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
-        assert numports > 1, f"number of ports = {numports} and needs to be > 1"
+        assert numports > 1, f"number of ports = {numports} needs to be > 1"
         return read_sparameters_lumerical(filepath=filepath, numports=numports)
 
     def read_sparameters_pandas(
@@ -781,36 +780,35 @@ PDK_NITRIDE_C = PdkNitrideCband()
 
 
 if __name__ == "__main__":
-    p = PDK_SILICON_C
-    # p = PDK_NITRIDE_C
-    # p = PDK_METAL1
+    pdk = PDK_SILICON_C
+    # pdk = PDK_NITRIDE_C
+    # pdk = PDK_METAL1
 
-    # names = p.get_factory_names()
+    # names = pdk.get_factory_names()
     # print(names)
-    # functions = p.get_factory_functions()
+    # functions = pdk.get_factory_functions()
     # print(functions)
-    # c = p.waveguide(length=10)
-    # c = p.waveguide(length=10)
+    # c = pdk.waveguide(length=10)
+    # c = pdk.waveguide(length=10)
 
-    # c = p.taper(length=10)
-    # c = p.taper(length=10)
+    # c = pdk.taper(length=10)
+    # c = pdk.taper(length=10)
 
-    # c = p.ring_single()
+    # c = pdk.ring_single()
 
-    # p = PDK_SILICON_C
-    # c = p.waveguide(length=10)
+    # pdk = PDK_SILICON_C
+    # c = pdk.waveguide(length=10)
 
-    # c = p.mzi(delta_length=10)
-    # c = p.mzi(delta_length=20)
+    # c = pdk.mzi(delta_length=10)
+    # c = pdk.mzi(delta_length=20)
 
-    # c = p.mmi2x2()
-    # c = p.waveguide()
-    # c = p.mzi()
-    # c = p.ring_single()
-    # c = p.ring_single()
-    # c = p.taper()
-
-    # c = p.add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
-    # c = p.add_fiber_array(component=c, optical_routing_type=1)
+    # c = pdk.mmi2x2()
+    # c = pdk.waveguide()
+    # c = pdk.mzi()
+    # c = pdk.ring_single()
+    # c = pdk.ring_single()
+    # c = pdk.taper()
+    # c = pdk.add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
+    # c = pdk.add_fiber_array(component=c, optical_routing_type=1)
     # c.show()
     # c.plot()

@@ -15,7 +15,7 @@ def bend_circular_heater(
     npoints: int = 720,
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
-    wg_width: Optional[float] = None,
+    width: Optional[float] = None,
     tech: Tech = TECH_SILICON_C,
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
@@ -26,10 +26,10 @@ def bend_circular_heater(
         npoints: Number of points used per 360 degrees
         heater_to_wg_distance:
         heater_width
-        wg_width: waveguide width (defaults to tech.wg_width)
+        width: waveguide width (defaults to tech.wg_width)
         tech: Technology
     """
-    width = wg_width or tech.wg_width
+    width = width or tech.wg_width
 
     x = pp.CrossSection()
     x.add(width=width, offset=0, layer=tech.layer_wg, ports=["in", "out"])
@@ -60,6 +60,5 @@ def bend_circular_heater(
 
 if __name__ == "__main__":
     c = bend_circular_heater()
-    c = pp.add_pins(c)
     print(c.ports)
     c.show()
