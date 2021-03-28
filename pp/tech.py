@@ -1,8 +1,28 @@
+import pathlib
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
-from pp.layers import LAYER
+from pp.config import CONFIG
+from pp.layers import LAYER, LAYER_STACK, LayerStack
 from pp.types import Layer
+
+
+@dataclass
+class SimulationSettings:
+    remove_layers: Tuple[Layer, ...] = (LAYER.WGCLAD,)
+    background_material: str = "sio2"
+    port_width: float = 3e-6
+    port_height: float = 1.5e-6
+    port_extension_um: float = 1.0
+    mesh_accuracy: int = 2
+    zmargin: float = 1e-6
+    ymargin: float = 2e-6
+    wavelength_start: float = 1.2e-6
+    wavelength_stop: float = 1.6e-6
+    wavelength_points: int = 500
+
+
+simulation_settings = SimulationSettings()
 
 
 @dataclass(frozen=True)
@@ -21,6 +41,9 @@ class Tech:
     fiber_input_to_output_spacing: float = 200.0
     snap_to_grid_nm: Optional[int] = None
     auto_taper_to_wide_waveguides: bool = False
+    sparameters_path: pathlib.Path = CONFIG["sp"]
+    simulation_settings: SimulationSettings = simulation_settings
+    layer_stack: LayerStack = LAYER_STACK
 
 
 @dataclass(frozen=True)
@@ -75,4 +98,7 @@ if __name__ == "__main__":
     c = pp.components.waveguide(tech=TECH_METAL1)
     print(c.name)
 
+    from dataclasses import asdict
+
     tech = TECH_METAL1
+    print(asdict(tech.simulation_settings))

@@ -5,16 +5,14 @@ from typing import Dict, Tuple
 from pp.component import Component
 from pp.config import CONFIG
 from pp.layers import LAYER
-from pp.layers import layer_to_material as layer_to_material_default
-from pp.layers import layer_to_thickness_nm as layer_to_thickness_nm_default
 from pp.name import dict2name
 
 
 def get_sparameters_path(
     component: Component,
+    layer_to_material: Dict[Tuple[int, int], str],
+    layer_to_thickness_nm: Dict[Tuple[int, int], int],
     dirpath: Path = CONFIG["sp"],
-    layer_to_material: Dict[Tuple[int, int], str] = layer_to_material_default,
-    layer_to_thickness_nm: Dict[Tuple[int, int], int] = layer_to_thickness_nm_default,
     **kwargs,
 ) -> Path:
     """Returns Sparameters filepath.

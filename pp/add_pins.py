@@ -18,7 +18,7 @@ import pp
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.layers import LAYER, port_type2layer
+from pp.layers import LAYER, PORT_TYPE_TO_LAYER
 from pp.port import Port, read_port_markers
 from pp.types import Layer
 
@@ -281,7 +281,7 @@ def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_double,
-    port_type2layer: Dict[str, Tuple[int, int]] = port_type2layer,
+    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_LAYER,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -289,12 +289,12 @@ def add_pins(
     Args:
         component: to add ports
         function:
-        port_type2layer: dict mapping port types to marker layers for ports
+        port_type_to_layer: dict mapping port types to marker layers for ports
 
     """
     reference = reference or component
     for p in reference.ports.values():
-        layer = port_type2layer[p.port_type]
+        layer = port_type_to_layer[p.port_type]
         function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
 
 
@@ -425,7 +425,7 @@ def add_pins_container(
     return component_new
 
 
-def test_add_pins() -> None:
+def test_add_pins(port_type_to_layer=PORT_TYPE_TO_LAYER) -> None:
     c1 = pp.components.wg_heater_connected()
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
@@ -439,11 +439,11 @@ def test_add_pins() -> None:
     n_dc_expected = 2
     # polygons = 194
 
-    port_layer_optical = port_type2layer["optical"]
+    port_layer_optical = port_type_to_layer["optical"]
     port_markers_optical = read_port_markers(c2, [port_layer_optical])
     n_optical = len(port_markers_optical.polygons)
 
-    port_layer_dc = port_type2layer["dc"]
+    port_layer_dc = port_type_to_layer["dc"]
     port_markers_dc = read_port_markers(c2, [port_layer_dc])
     n_dc = len(port_markers_dc.polygons)
 

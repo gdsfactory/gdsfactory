@@ -8,8 +8,7 @@ from phidl.device_layout import CellArray, DeviceReference
 
 import pp
 from pp.component import Component
-from pp.layers import port_layer2type as port_layer2type_default
-from pp.layers import port_type2layer as port_type2layer_default
+from pp.layers import PORT_LAYER_TO_TYPE, PORT_TYPE_TO_LAYER
 from pp.port import auto_rename_ports, read_port_markers
 from pp.snap import on_grid, snap_to_grid
 from pp.types import Layer
@@ -67,8 +66,8 @@ def add_ports_from_markers_square(
 
 def add_ports_from_markers_center(
     component: Component,
-    port_layer2type: Dict[Layer, str] = port_layer2type_default,
-    port_type2layer: Dict[str, Layer] = port_type2layer_default,
+    port_layer_to_type: Dict[Layer, str] = PORT_LAYER_TO_TYPE,
+    port_type_to_layer: Dict[str, Layer] = PORT_TYPE_TO_LAYER,
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
@@ -81,8 +80,8 @@ def add_ports_from_markers_center(
 
     Args:
         component: to read polygons from and to write ports to
-        port_layer2type: dict of layer to port_type
-        port_type2layer: dict of port_type to layer
+        port_layer_to_type: dict of layer to port_type
+        port_type_to_layer: dict of port_type to layer
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
         pin_extra_width: 2*offset from pin to waveguide
@@ -141,7 +140,7 @@ def add_ports_from_markers_center(
     ymax = component.ymax
     ymin = component.ymin
 
-    for port_layer, port_type in port_layer2type.items():
+    for port_layer, port_type in port_layer_to_type.items():
         port_markers = read_port_markers(component, [port_layer])
 
         for p in port_markers.polygons:
@@ -158,7 +157,7 @@ def add_ports_from_markers_center(
             # skip square ports as they have no clear orientation
             if snap_to_grid(dx) == snap_to_grid(dy):
                 continue
-            layer = port_type2layer[port_type]
+            layer = port_type_to_layer[port_type]
             pxmax = p.xmax
             pxmin = p.xmin
             pymax = p.ymax
