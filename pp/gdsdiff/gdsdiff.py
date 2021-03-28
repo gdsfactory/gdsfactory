@@ -42,42 +42,44 @@ def get_polygons_on_layer(
 
 
 def gdsdiff(
-    cellA: Union[Path, Component, str],
-    cellB: Union[Path, Component, str],
+    component1: Union[Path, Component, str],
+    component2: Union[Path, Component, str],
     name: str = "TOP",
     make_boolean: bool = False,
 ) -> Component:
     """Compare two Components.
 
     Args:
-        CellA: Component or path to gds file
-        CellB: Component or path to gds file
+        component1: Component or path to gds file
+        component2: Component or path to gds file
         name: name of the top cell
         make_boolean: makes boolean operation
 
     Returns:
         Component with both cells (xor, common and diffs)
     """
-    if isinstance(cellA, pathlib.Path):
-        cellA = str(cellA)
-    if isinstance(cellB, pathlib.Path):
-        cellB = str(cellB)
-    if isinstance(cellA, str):
-        cellA = import_gds(cellA, flatten=True)
-    if isinstance(cellB, str):
-        cellB = import_gds(cellB, flatten=True)
+    if isinstance(component1, pathlib.Path):
+        component1 = str(component1)
+    if isinstance(component2, pathlib.Path):
+        component2 = str(component2)
+    if isinstance(component1, str):
+        component1 = import_gds(component1, flatten=True)
+    if isinstance(component2, str):
+        component2 = import_gds(component2, flatten=True)
 
     layers: Set[Layer] = set()
-    layers.update(cellA.get_layers())
-    layers.update(cellB.get_layers())
+    layers.update(component1.get_layers())
+    layers.update(component2.get_layers())
 
     top = Component(name=f"{name}_diffs")
 
-    # cellA.name = f"{name}_old"
-    # cellB.name = f"{name}_new"
+    if component1.name.startswith("Unnamed"):
+        component1.name = f"{name}_old"
+    if component2.name.startswith("Unnamed"):
+        component2.name = f"{name}_new"
 
-    top << cellA
-    top << cellB
+    top << component1
+    top << component2
 
     if make_boolean:
         diff = Component(name=f"{name}_xor")
@@ -86,8 +88,8 @@ def gdsdiff(
         new_only = Component(name=f"{name}_only_in_new")
 
         for layer in layers:
-            A = get_polygons_on_layer(cellA, layer)
-            B = get_polygons_on_layer(cellB, layer)
+            A = get_polygons_on_layer(component1, layer)
+            B = get_polygons_on_layer(component2, layer)
 
             # Common bits
             common_AB = boolean(A, B, operation="and", precision=0.001)
