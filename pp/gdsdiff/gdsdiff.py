@@ -45,13 +45,15 @@ def gdsdiff(
     cellA: Union[Path, Component, str],
     cellB: Union[Path, Component, str],
     name: str = "TOP",
-    boolean: bool = False,
+    make_boolean: bool = False,
 ) -> Component:
     """Compare two Components.
 
     Args:
         CellA: Component or path to gds file
         CellB: Component or path to gds file
+        name: name of the top cell
+        make_boolean: makes boolean operation
 
     Returns:
         Component with both cells (xor, common and diffs)
@@ -71,12 +73,13 @@ def gdsdiff(
 
     top = Component(name=f"{name}_diffs")
 
-    cellA.name = f"{name}_old"
-    cellB.name = f"{name}_new"
+    # cellA.name = f"{name}_old"
+    # cellB.name = f"{name}_new"
+
     top << cellA
     top << cellB
 
-    if boolean:
+    if make_boolean:
         diff = Component(name=f"{name}_xor")
         common = Component(name=f"{name}_common")
         old_only = Component(name=f"{name}_only_in_old")
@@ -115,12 +118,17 @@ def gdsdiff(
 
 
 if __name__ == "__main__":
-    import sys
+    # import sys
 
-    if len(sys.argv) != 3:
-        print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
-        print("Note that you need to have KLayout opened with klive running")
-        sys.exit()
+    # if len(sys.argv) != 3:
+    #     print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
+    #     print("Note that you need to have KLayout opened with klive running")
+    #     sys.exit()
 
-    c = gdsdiff(sys.argv[1], sys.argv[2])
+    # c = gdsdiff(sys.argv[1], sys.argv[2])
+    # c.show()
+
+    import pp
+
+    c = gdsdiff(pp.c.waveguide(), pp.c.waveguide(length=11))
     c.show()

@@ -425,7 +425,7 @@ def add_pins_container(
     return component_new
 
 
-def test_add_pins(port_type_to_layer=PORT_TYPE_TO_LAYER) -> None:
+def test_add_pins() -> None:
     c1 = pp.components.wg_heater_connected()
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
@@ -439,11 +439,11 @@ def test_add_pins(port_type_to_layer=PORT_TYPE_TO_LAYER) -> None:
     n_dc_expected = 2
     # polygons = 194
 
-    port_layer_optical = port_type_to_layer["optical"]
+    port_layer_optical = PORT_TYPE_TO_LAYER["optical"]
     port_markers_optical = read_port_markers(c2, [port_layer_optical])
     n_optical = len(port_markers_optical.polygons)
 
-    port_layer_dc = port_type_to_layer["dc"]
+    port_layer_dc = PORT_TYPE_TO_LAYER["dc"]
     port_markers_dc = read_port_markers(c2, [port_layer_dc])
     n_dc = len(port_markers_dc.polygons)
 

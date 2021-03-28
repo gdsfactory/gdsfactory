@@ -36,7 +36,7 @@ instances:
       - 1
       - 0
       length_x: 4.0
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
   waveguide_7f75ab43_-14.0_10.705:
