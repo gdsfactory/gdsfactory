@@ -2,17 +2,16 @@
 
 ## TODO
 
+- simplify link_factory and route_factory
 - fix some FIXME
 - pack conserves metadata
-- simplify link_factory and route_factory
 
 Maybe:
 
-- add grating coupler vertical ports
-- how can we have labels with gdslayer, gdspurpose?
+- fix path defined components geometric hash. Phidl issue?
+- how can we have labels with gdslayer, gdspurpose? Phidl issue?
 - create a Klayout library so we can also place components from the klayout menu GUI
 - add contracts, or enforcers, either in cell decorator or using
-- fix path defined components geometric hash
 
 ```
 from contracts import contract
@@ -24,13 +23,12 @@ from pydantic import validate_arguments
 
 ## 2.4.6
 
-- added simulation_settings to Tech
-    * sparameters_path: pathlib.Path = CONFIG["sp"]
-    * simulation_settings: SimulationSettings = simulation_settings
-    * layer_stack: LayerStack = LAYER_STACK
-- added Pdk.write_sparameters()
-
-
+- more consistent names on component factories
+- add simulation_settings to Tech
+  - sparameters_path: pathlib.Path = CONFIG["sp"]
+  - simulation_settings: SimulationSettings = simulation_settings
+  - layer_stack: LayerStack = LAYER_STACK
+- add Pdk.write_sparameters()
 
 ## 2.4.5
 

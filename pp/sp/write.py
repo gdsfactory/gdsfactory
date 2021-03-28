@@ -230,11 +230,11 @@ def write(
     for layer, nm in layer_to_thickness_nm.items():
         if layer not in layers:
             continue
-        assert (
-            layer in ss.layer_to_material
-        ), f"{layer} not in {ss.layer_to_material.keys()}"
 
-        material = ss.layer_to_material[layer]
+        if layer not in layer_to_material:
+            raise ValueError(f"{layer} not in {layer_to_material.keys()}")
+
+        material = layer_to_material[layer]
         if material not in MATERIAL_NAME_TO_LUMERICAL:
             raise ValueError(
                 f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
