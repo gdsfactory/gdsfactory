@@ -12,4 +12,4 @@ settings:
   npoints: 720
   radius: 10
   tech: silicon_cband
-  wg_width: null
+  width: null

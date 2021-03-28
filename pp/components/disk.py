@@ -6,7 +6,7 @@ import picwriter.components as pc
 import pp
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
-from pp.picwriter2component import picwriter2component
+from pp.picwriter_to_component import picwriter_to_component
 from pp.types import ComponentFactory
 
 
@@ -58,7 +58,7 @@ def disk(
         direction=direction,
     )
 
-    return picwriter2component(c)
+    return picwriter_to_component(c)
 
 
 if __name__ == "__main__":

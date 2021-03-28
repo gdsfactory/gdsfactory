@@ -5,7 +5,7 @@ import picwriter.components as pc
 import pp
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
-from pp.picwriter2component import picwriter2component
+from pp.picwriter_to_component import picwriter_to_component
 from pp.port import auto_rename_ports
 from pp.types import ComponentFactory
 
@@ -77,7 +77,7 @@ def coupler_adiabatic(
         direction=direction,
     )
 
-    c = picwriter2component(c)
+    c = picwriter_to_component(c)
     c = auto_rename_ports(c)
     return c
 
