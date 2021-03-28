@@ -27,7 +27,7 @@ def direction_to_degree(direction: str) -> float:
     return direction_to_orientation[direction]
 
 
-def picwriter2component(picwriter_object: pt.Component) -> Component:
+def picwriter_to_component(picwriter_object: pt.Component) -> Component:
     """Convert a Picwriter into a Gdsfactory Component."""
     po = picwriter_object
     c = pp.Component(name=po.name_prefix)
@@ -77,6 +77,6 @@ if __name__ == "__main__":
 
     # gc = pc.GratingCoupler(wgt, port=(10, 20), direction=np.pi * 7 / 8)
     gc = pc.GratingCoupler(wgt, port=(10, 20), direction=0.0)
-    gcc = picwriter2component(gc)
+    gcc = picwriter_to_component(gc)
 
     pp.show(gcc)
