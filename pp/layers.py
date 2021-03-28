@@ -64,8 +64,8 @@ LAYER = LayerMap()
 
 
 @dataclasses.dataclass
-class Layer:
-    """
+class LayerLevel:
+    """Layer For 3D LayerStack.
 
     Args:
         layer: GDSII Layer
@@ -80,14 +80,14 @@ class Layer:
     material: Optional[str] = None
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass
 class LayerStack:
-    WG = Layer((1, 0), thickness_nm=220.0, z_nm=0, material="si")
-    WGCLAD = Layer((111, 0), z_nm=0.0, material="sio2")
-    SLAB150 = Layer((2, 0), thickness_nm=150.0, material="si")
-    SLAB90 = Layer((3, 0), thickness_nm=150.0, material="si")
-    WGN = Layer((34, 0), thickness_nm=350.0, material="sin")
-    WGN_CLAD = Layer((36, 0))
+    WG = LayerLevel((1, 0), thickness_nm=220.0, z_nm=0.0, material="si")
+    WGCLAD = LayerLevel((111, 0), z_nm=0.0, material="sio2")
+    SLAB150 = LayerLevel((2, 0), thickness_nm=150.0, material="si")
+    SLAB90 = LayerLevel((3, 0), thickness_nm=150.0, material="si")
+    WGN = LayerLevel((34, 0), thickness_nm=350.0, material="sin")
+    WGN_CLAD = LayerLevel((36, 0))
 
     def _get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""

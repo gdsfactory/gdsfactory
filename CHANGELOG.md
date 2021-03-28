@@ -22,6 +22,16 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.4.6
+
+- added simulation_settings to Tech
+    * sparameters_path: pathlib.Path = CONFIG["sp"]
+    * simulation_settings: SimulationSettings = simulation_settings
+    * layer_stack: LayerStack = LAYER_STACK
+- added Pdk.write_sparameters()
+
+
+
 ## 2.4.5
 
 - better docstrings
