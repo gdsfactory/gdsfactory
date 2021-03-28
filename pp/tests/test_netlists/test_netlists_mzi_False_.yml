@@ -1,15 +1,13 @@
 connections:
-  TOP_old_22.748_-13.225,E0: bend_euler_R10_26.123_-22.35,W0
-  TOP_old_22.748_-13.225,W0: waveguide_L100n_22.748_-10.675,E0
-  TOP_old_42.848_-13.225,E0: waveguide_L100n_42.848_-10.675,W0
-  TOP_old_42.848_-13.225,W0: bend_euler_R10_39.473_-22.35,N0
   bend_euler_R10_19.373_-4.0,N0: mmi1x2_0.0_0.0,E0
   bend_euler_R10_19.373_-4.0,W0: waveguide_L100n_22.748_-10.675,W0
   bend_euler_R10_19.373_4.0,N0: waveguide_L100n_22.748_10.675,W0
   bend_euler_R10_19.373_4.0,W0: mmi1x2_0.0_0.0,E1
   bend_euler_R10_26.123_-22.35,N0: waveguide_L100n_32.798_-25.725,W0
+  bend_euler_R10_26.123_-22.35,W0: waveguide_L5_22.748_-13.225,E0
   bend_euler_R10_26.123_17.35,N0: waveguide_L100n_22.748_10.675,E0
   bend_euler_R10_26.123_17.35,W0: waveguide_L100n_32.798_20.725,W0
+  bend_euler_R10_39.473_-22.35,N0: waveguide_L5_42.848_-13.225,W0
   bend_euler_R10_39.473_-22.35,W0: waveguide_L100n_32.798_-25.725,E0
   bend_euler_R10_39.473_17.35,N0: waveguide_L100n_32.798_20.725,E0
   bend_euler_R10_39.473_17.35,W0: waveguide_L100n_42.848_10.675,W0
@@ -17,15 +15,9 @@ connections:
   bend_euler_R10_46.223_-4.0,W0: mmi1x2_65.596_0.0,E1
   bend_euler_R10_46.223_4.0,N0: mmi1x2_65.596_0.0,E0
   bend_euler_R10_46.223_4.0,W0: waveguide_L100n_42.848_10.675,E0
+  waveguide_L100n_22.748_-10.675,E0: waveguide_L5_22.748_-13.225,W0
+  waveguide_L100n_42.848_-10.675,W0: waveguide_L5_42.848_-13.225,E0
 instances:
-  TOP_old_22.748_-13.225:
-    component: waveguide
-    settings:
-      length: 5.0
-  TOP_old_42.848_-13.225:
-    component: waveguide
-    settings:
-      length: 5.0
   bend_euler_R10_19.373_-4.0:
     component: bend_euler
     settings:
@@ -88,18 +80,16 @@ instances:
     component: waveguide
     settings:
       length: 0.1
+  waveguide_L5_22.748_-13.225:
+    component: waveguide
+    settings:
+      length: 5.0
+  waveguide_L5_42.848_-13.225:
+    component: waveguide
+    settings:
+      length: 5.0
 name: mzi
 placements:
-  TOP_old_22.748_-13.225:
-    mirror: false
-    rotation: 270
-    x: 22.748
-    y: -10.725
-  TOP_old_42.848_-13.225:
-    mirror: false
-    rotation: 90
-    x: 42.848
-    y: -15.725
   bend_euler_R10_19.373_-4.0:
     mirror: false
     rotation: 90
@@ -180,6 +170,16 @@ placements:
     rotation: 270
     x: 42.848
     y: 10.725
+  waveguide_L5_22.748_-13.225:
+    mirror: false
+    rotation: 270
+    x: 22.748
+    y: -10.725
+  waveguide_L5_42.848_-13.225:
+    mirror: false
+    rotation: 90
+    x: 42.848
+    y: -15.725
 ports:
   E0: mmi1x2_65.596_0.0,W0
   W0: mmi1x2_0.0_0.0,W0

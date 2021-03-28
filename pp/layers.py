@@ -10,83 +10,19 @@ load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
 
-from dataclasses import dataclass
+import dataclasses
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import xmltodict
-from phidl.device_layout import Layer
+from phidl.device_layout import Layer as LayerPhidl
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
 from pp.component import Component
 from pp.name import clean_name
 
 
-class LayerSet(LayerSetPhidl):
-    def add_layer(
-        self,
-        name: str = "unnamed",
-        gds_layer: int = 0,
-        gds_datatype: int = 0,
-        description: Optional[str] = None,
-        color: Optional[str] = None,
-        inverted: bool = False,
-        alpha: float = 0.6,
-        dither: bool = None,
-    ):
-        """Adds a layer to an existing LayerSet object.
-
-        Args:
-            name: Name of the Layer.
-            gds_layer : GDSII Layer number.
-            gds_datatype : GDSII datatype.
-            description : Layer description.
-            color : Hex code of color for the Layer.
-            inverted :  If true, inverts the Layer.
-            alpha: Alpha parameter (opacity) for the Layer, value must be between 0.0 and 1.0.
-            dither: KLayout dither style (only used in phidl.utilities.write_lyp() )
-        """
-        new_layer = Layer(
-            gds_layer=gds_layer,
-            gds_datatype=gds_datatype,
-            name=name,
-            description=description,
-            inverted=inverted,
-            color=color,
-            alpha=alpha,
-            dither=dither,
-        )
-        if name in self._layers:
-            raise ValueError(
-                f"Adding {name} already defined {list(self._layers.keys())}"
-            )
-        else:
-            self._layers[name] = new_layer
-
-    def __getitem__(self, val: str) -> Tuple[int, int]:
-        """Returns gds layer tuple."""
-        if val not in self._layers:
-            raise ValueError(f"Layer {val} not in {list(self._layers.keys())}")
-        else:
-            layer = self._layers[val]
-            return layer.gds_layer, layer.gds_datatype
-
-    def __repr__(self):
-        """ Prints the number of Layers in the LayerSet object. """
-        return (
-            f"LayerSet ({len(self._layers)} layers total) \n"
-            + f"{list(self._layers.keys())}"
-        )
-
-    def get(self, key: str) -> Layer:
-        """Returns gds layer tuple."""
-        if key not in self._layers:
-            raise ValueError(f"Layer {key} not in {list(self._layers.keys())}")
-        else:
-            return self._layers[key]
-
-
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class LayerMap:
     WG = (1, 0)
     WGCLAD = (111, 0)
@@ -126,28 +62,152 @@ class LayerMap:
 
 LAYER = LayerMap()
 
-ls = LayerSet()  # Layerset makes plotgds look good
-ls.add_layer("WG", LAYER.WG[0], LAYER.WG[1], "wg", color="gray", alpha=1)
-ls.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
-ls.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
-ls.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
-ls.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
-ls.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha=0)
-ls.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
+
+@dataclasses.dataclass
+class Layer:
+    """
+
+    Args:
+        layer: GDSII Layer
+        thickness_nm: thickness of layer
+        z_nm: height position where material starts
+        material: material name
+    """
+
+    layer: Tuple[int, int]
+    thickness_nm: Optional[float] = None
+    z_nm: Optional[float] = None
+    material: Optional[str] = None
 
 
-layer_to_thickness_nm = {LAYER.WG: 220}
-layer_to_z_nm = {LAYER.WG: 0}
+@dataclasses.dataclass(frozen=True)
+class LayerStack:
+    WG = Layer((1, 0), thickness_nm=220.0, z_nm=0, material="si")
+    WGCLAD = Layer((111, 0), z_nm=0.0, material="sio2")
+    SLAB150 = Layer((2, 0), thickness_nm=150.0, material="si")
+    SLAB90 = Layer((3, 0), thickness_nm=150.0, material="si")
+    WGN = Layer((34, 0), thickness_nm=350.0, material="sin")
+    WGN_CLAD = Layer((36, 0))
 
-layer_to_material = {
-    LAYER.WG: "si",
-    LAYER.SLAB90: "si",
-    LAYER.SLAB150: "si",
-    LAYER.WGCLAD: "sio2",
-    LAYER.WGN: "sin",
-}
+    def _get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to thickness_nm."""
+        return {
+            getattr(self, key).layer: getattr(self, key).thickness_nm
+            for key in dir(self)
+            if not key.startswith("_") and getattr(self, key).thickness_nm
+        }
 
-port_layer2type = {
+    def _get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to material."""
+        return {
+            getattr(self, key).layer: getattr(self, key).material
+            for key in dir(self)
+            if not key.startswith("_") and getattr(self, key).material
+        }
+
+    def _get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
+        """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
+        tuple_to_name = {
+            getattr(self, name).layer: name
+            for name in dir(self)
+            if not name.startswith("_")
+        }
+        if layer_tuple not in tuple_to_name:
+            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
+
+        name = tuple_to_name[layer_tuple]
+        return name
+
+
+LAYER_STACK = LayerStack()
+
+
+class LayerSet(LayerSetPhidl):
+    def add_layer(
+        self,
+        name: str = "unnamed",
+        gds_layer: int = 0,
+        gds_datatype: int = 0,
+        description: Optional[str] = None,
+        color: Optional[str] = None,
+        inverted: bool = False,
+        alpha: float = 0.6,
+        dither: bool = None,
+    ):
+        """Adds a layer to an existing LayerSet object.
+
+        Args:
+            name: Name of the Layer.
+            gds_layer : GDSII Layer number.
+            gds_datatype : GDSII datatype.
+            description : Layer description.
+            color : Hex code of color for the Layer.
+            inverted :  If true, inverts the Layer.
+            alpha: layer opacity between 0 and 1
+            dither: KLayout dither style (only used in phidl.utilities.write_lyp() )
+        """
+        new_layer = LayerPhidl(
+            gds_layer=gds_layer,
+            gds_datatype=gds_datatype,
+            name=name,
+            description=description,
+            inverted=inverted,
+            color=color,
+            alpha=alpha,
+            dither=dither,
+        )
+        if name in self._layers:
+            raise ValueError(
+                f"Adding {name} already defined {list(self._layers.keys())}"
+            )
+        else:
+            self._layers[name] = new_layer
+
+    def __getitem__(self, val: str) -> Tuple[int, int]:
+        """Returns gds layer tuple."""
+        if val not in self._layers:
+            raise ValueError(f"Layer {val} not in {list(self._layers.keys())}")
+        else:
+            layer = self._layers[val]
+            return layer.gds_layer, layer.gds_datatype
+
+    def __repr__(self):
+        """ Prints the number of Layers in the LayerSet object. """
+        return (
+            f"LayerSet ({len(self._layers)} layers total) \n"
+            + f"{list(self._layers.keys())}"
+        )
+
+    def get(self, name: str) -> LayerPhidl:
+        """Returns Layer from name."""
+        if name not in self._layers:
+            raise ValueError(f"Layer {name} not in {list(self._layers.keys())}")
+        else:
+            return self._layers[name]
+
+    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerPhidl:
+        """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
+        tuple_to_name = {
+            (v.gds_layer, v.gds_datatype): k for k, v in self._layers.items()
+        }
+        if layer_tuple not in tuple_to_name:
+            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
+
+        name = tuple_to_name[layer_tuple]
+        return self._layers[name]
+
+
+LAYER_COLORS = LayerSet()  # Layerset makes plotgds look good
+LAYER_COLORS.add_layer("WG", LAYER.WG[0], 0, "wg", color="gray", alpha=1)
+LAYER_COLORS.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
+LAYER_COLORS.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
+LAYER_COLORS.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
+LAYER_COLORS.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
+LAYER_COLORS.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha=0)
+LAYER_COLORS.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
+
+
+PORT_LAYER_TO_TYPE = {
     LAYER.PORT: "optical",
     LAYER.PORTE: "dc",
     LAYER.PORTH: "heater",
@@ -155,14 +215,11 @@ port_layer2type = {
     LAYER.TM: "vertical_tm",
 }
 
-port_type2layer = {v: k for k, v in port_layer2type.items()}
-
-
-layer_cladding_waveguide = [LAYER.WGCLAD]
+PORT_TYPE_TO_LAYER = {v: k for k, v in PORT_LAYER_TO_TYPE.items()}
 
 
 def preview_layerset(
-    ls: LayerSet = ls, size: float = 100.0, spacing: float = 100.0
+    ls: LayerSet = LAYER_COLORS, size: float = 100.0, spacing: float = 100.0
 ) -> Component:
     """Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
@@ -291,9 +348,9 @@ def load_lyp(filename: Path):
 
 
 # For port labelling purpose
-LAYERS_OPTICAL = [LAYER.WG]
-LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
-LAYERS_HEATER = [LAYER.HEATER]
+# LAYERS_OPTICAL = [LAYER.WG]
+# LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
+# LAYERS_HEATER = [LAYER.HEATER]
 
 
 def test_load_lyp():
@@ -305,9 +362,11 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    lys = test_load_lyp()
-    c = preview_layerset(ls)
-    c.show()
+    print(LAYER_STACK._get_from_tuple((1, 0)))
+
+    # lys = test_load_lyp()
+    # c = preview_layerset(ls)
+    # c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))

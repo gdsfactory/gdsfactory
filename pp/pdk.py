@@ -1,8 +1,9 @@
 import dataclasses
 import pathlib
-from typing import IO, Any, Callable, Dict, List, Optional, Union
+from typing import IO, Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pandas as pd
 
 import pp
 from pp.add_pins import add_instance_label
@@ -15,6 +16,9 @@ from pp.routing.get_bundle import get_bundle
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import round_corners
+from pp.sp.get_sparameters_path import get_sparameters_path
+from pp.sp.read import read_sparameters_lumerical
+from pp.sp.write import write
 from pp.tech import TECH_METAL1, TECH_NITRIDE_C, TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Coordinates, Layer, Route, RouteFactory
 
@@ -609,6 +613,8 @@ class Pdk:
             and not function_name.startswith("_")
             and not function_name.startswith("add_")
             and not function_name.startswith("tech")
+            and not function_name.startswith("write")
+            and not function_name.startswith("read")
         ]
 
     def get_factory_functions(self):
@@ -636,6 +642,122 @@ class Pdk:
             link_factory=self.get_link_factory(),
             label_instance_function=label_instance_function,
         )
+
+    def write_sparameters(
+        self,
+        component: Component,
+        session: Optional[object] = None,
+        run: bool = True,
+        overwrite: bool = False,
+        dirpath: Optional[pathlib.Path] = None,
+        layer_to_thickness_nm: Optional[Dict[Layer, float]] = None,
+        layer_to_material: Optional[Dict[Layer, str]] = None,
+        **settings,
+    ) -> pd.DataFrame:
+        """Return and write component Sparameters from Lumerical FDTD.
+
+        if simulation exists and returns the Sparameters directly
+        unless overwrite=False
+
+        Args:
+            component: gdsfactory Component
+            session: you can pass a session=lumapi.FDTD() for debugging
+            run: True-> runs Lumerical , False -> only draws simulation
+            overwrite: run even if simulation results already exists
+            dirpath: where to store the simulations
+            layer_to_thickness_nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
+            layer_to_material: dict of {(1, 0): "si"}
+            remove_layers: layers to remove
+            background_material: for the background
+            port_width: port width (m)
+            port_height: port height (m)
+            port_extension_um: port extension (um)
+            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+            zmargin: for the FDTD region 1e-6 (m)
+            ymargin: for the FDTD region 2e-6 (m)
+            wavelength_start: 1.2e-6 (m)
+            wavelength_stop: 1.6e-6 (m)
+            wavelength_points: 500
+
+        Return:
+            Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
+            suffix `a` for angle and `m` for module
+
+        """
+        return write(
+            component=component,
+            session=session,
+            run=run,
+            overwrite=overwrite,
+            dirpath=dirpath or self.tech.sparameters_path,
+            layer_to_thickness_nm=layer_to_thickness_nm
+            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            layer_to_material=layer_to_material
+            or self.tech.layer_stack._get_layer_to_material(),
+            **settings,
+        )
+
+    def read_sparameters(
+        self,
+        component: Component,
+        dirpath: Optional[pathlib.Path] = None,
+        layer_to_thickness_nm: Optional[Dict[Layer, float]] = None,
+        layer_to_material: Optional[Dict[Layer, str]] = None,
+        **kwargs,
+    ) -> Tuple[List[str], np.array, np.ndarray]:
+        r"""Returns Sparameters from Lumerical interconnect export file.
+
+        Args:
+            component: Component
+            dirpath: path where to look for the Sparameters
+            layer_to_material: layer to material dict
+            layer_to_thickness_nm: layer to thickness (nm)
+
+        Returns:
+            port_names: list of port labels
+            F: frequency 1d np.array
+            S: Sparameters np.ndarray matrix
+
+
+        the Sparameters file have Lumerical format
+        https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
+        """
+        assert isinstance(component, Component)
+        filepath = get_sparameters_path(
+            component=component,
+            dirpath=dirpath or self.tech.sparameters_path,
+            layer_to_thickness_nm=layer_to_thickness_nm
+            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            layer_to_material=layer_to_material
+            or self.tech.layer_stack._get_layer_to_material(),
+            **kwargs,
+        )
+        numports = len(component.ports)
+        assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
+        assert numports > 1, f"number of ports = {numports} and needs to be > 1"
+        return read_sparameters_lumerical(filepath=filepath, numports=numports)
+
+    def read_sparameters_pandas(
+        self,
+        component: Component,
+        dirpath: Optional[pathlib.Path] = None,
+        layer_to_thickness_nm: Optional[Dict[Layer, float]] = None,
+        layer_to_material: Optional[Dict[Layer, str]] = None,
+        **kwargs,
+    ) -> pd.DataFrame:
+        """Returns Sparameters in a pandas DataFrame."""
+        filepath = get_sparameters_path(
+            component=component,
+            dirpath=dirpath or self.tech.sparameters_path,
+            layer_to_thickness_nm=layer_to_thickness_nm
+            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            layer_to_material=layer_to_material
+            or self.tech.layer_stack._get_layer_to_material(),
+            **kwargs,
+        )
+        df = pd.read_csv(filepath.with_suffix(".csv"))
+        df.index = df["wavelength_nm"]
+        return df
 
 
 @dataclasses.dataclass

@@ -1,7 +1,7 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import pp
+import pp.sp as sparameters
 from pp.components import component_factory
 
 component_types = [
@@ -15,9 +15,11 @@ component_types = [
 
 
 @pytest.mark.parametrize("component_type", component_types)
-def test_sp_load(component_type: str, data_regression: DataRegressionFixture) -> None:
+def test_sp_load(
+    component_type: str, data_regression: DataRegressionFixture, check: bool = True
+) -> None:
     c = component_factory[component_type]()
-    sp = pp.sp.load(c)
+    sp = sparameters.read_sparameters_component(c)
 
     port_names = sp[0]
     f = list(sp[1])
@@ -29,10 +31,12 @@ def test_sp_load(component_type: str, data_regression: DataRegressionFixture) ->
 
     assert rows == cols == len(c.ports)
     assert len(port_names) == len(c.ports)
-    data_regression.check(dict(port_names=port_names))
+    if check:
+        data_regression.check(dict(port_names=port_names))
     assert lenf == len(f)
 
 
 if __name__ == "__main__":
-    c = pp.components.waveguide(layer=(2, 0))
-    print(c.get_sparameters_path())
+    # c = pp.components.waveguide(layer=(2, 0))
+    # print(c.get_sparameters_path())
+    test_sp_load("waveguide", None, False)

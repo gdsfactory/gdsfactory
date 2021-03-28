@@ -4,6 +4,7 @@ Notice that this is the only file where units are in SI units (meters instead of
 """
 import time
 from collections import namedtuple
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -14,8 +15,8 @@ import yaml
 import pp
 from pp.component import Component
 from pp.config import __version__
-from pp.layers import layer_to_material, layer_to_thickness_nm
 from pp.sp.get_sparameters_path import get_sparameters_path
+from pp.tech import TECH_SILICON_C, Tech
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
@@ -31,28 +32,11 @@ pp.sp.write(component=c, run=False, session=s)
 ```
 """
 
-materials = {
+MATERIAL_NAME_TO_LUMERICAL = {
     "si": "Si (Silicon) - Palik",
     "sio2": "SiO2 (Glass) - Palik",
     "sin": "Si3N4 (Silicon Nitride) - Phillip",
 }
-
-
-default_simulation_settings = dict(
-    layer_to_thickness_nm=layer_to_thickness_nm,
-    layer_to_material=layer_to_material,
-    remove_layers=(pp.LAYER.WGCLAD,),
-    background_material="sio2",
-    port_width=3e-6,
-    port_height=1.5e-6,
-    port_extension_um=1,
-    mesh_accuracy=2,
-    zmargin=1e-6,
-    ymargin=2e-6,
-    wavelength_start=1.2e-6,
-    wavelength_stop=1.6e-6,
-    wavelength_points=500,
-)
 
 
 def clean_dict(
@@ -80,6 +64,7 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
+    tech: Optional[Tech] = None,
     **settings,
 ) -> pd.DataFrame:
     """Return and write component Sparameters from Lumerical FDTD.
@@ -112,7 +97,14 @@ def write(
         suffix `a` for angle and `m` for module
 
     """
-    sim_settings = default_simulation_settings
+    tech = tech or TECH_SILICON_C
+    sim_settings = asdict(tech.simulation_settings)
+    layer_to_thickness_nm = settings.pop(
+        "layer_to_thickness_nm", tech.layer_stack._get_layer_to_thickness_nm()
+    )
+    layer_to_material = settings.pop(
+        "layer_to_material", tech.layer_stack._get_layer_to_material()
+    )
 
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
@@ -142,10 +134,6 @@ def write(
 
     c = pp.extend_ports(component=component, length=ss.port_extension_um)
     gdspath = pp.write_gds(c)
-    layer_to_material = settings.pop("layer_to_material", ss.layer_to_material)
-    layer_to_thickness_nm = settings.pop(
-        "layer_to_thickness_nm", ss.layer_to_thickness_nm
-    )
 
     filepath = get_sparameters_path(
         component=component,
@@ -181,7 +169,7 @@ def write(
         x_max = c.xmax * 1e-6 + ss.ymargin
 
     z = 0
-    z_span = 2 * ss.zmargin + max(ss.layer_to_thickness_nm.values()) * 1e-9
+    z_span = 2 * ss.zmargin + max(layer_to_thickness_nm.values()) * 1e-9
 
     layers = component.get_layers()
     sim_settings = dict(
@@ -222,9 +210,9 @@ def write(
     )
 
     material = ss.background_material
-    if material not in materials:
-        raise ValueError(f"{material} not in {list(materials.keys())}")
-    material = materials[material]
+    if material not in MATERIAL_NAME_TO_LUMERICAL:
+        raise ValueError(f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}")
+    material = MATERIAL_NAME_TO_LUMERICAL[material]
     s.setnamed("clad", "material", material)
 
     s.addfdtd(
@@ -239,7 +227,7 @@ def write(
         use_early_shutoff=True,
     )
 
-    for layer, nm in ss.layer_to_thickness_nm.items():
+    for layer, nm in layer_to_thickness_nm.items():
         if layer not in layers:
             continue
         assert (
@@ -247,9 +235,11 @@ def write(
         ), f"{layer} not in {ss.layer_to_material.keys()}"
 
         material = ss.layer_to_material[layer]
-        if material not in materials:
-            raise ValueError(f"{material} not in {list(materials.keys())}")
-        material = materials[material]
+        if material not in MATERIAL_NAME_TO_LUMERICAL:
+            raise ValueError(
+                f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+            )
+        material = MATERIAL_NAME_TO_LUMERICAL[material]
 
         s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
         silicon = f"GDS_LAYER_{layer[0]}:{layer[1]}"
