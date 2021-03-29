@@ -13,7 +13,6 @@ def get_sparameters_path(
     layer_to_material: Dict[Tuple[int, int], str],
     layer_to_thickness_nm: Dict[Tuple[int, int], int],
     dirpath: Path = CONFIG["sp"],
-    **kwargs,
 ) -> Path:
     """Returns Sparameters filepath.
 
@@ -32,8 +31,6 @@ def get_sparameters_path(
         if layer in component.get_layers()
     }
     suffix = dict2name(**material2nm)
-    if kwargs:
-        suffix += "_" + dict2name(**kwargs)
     return dirpath / f"{component.get_name_long()}_{suffix}.dat"
 
 
