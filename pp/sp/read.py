@@ -118,7 +118,6 @@ def read_sparameters_component(
     layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = pp.CONFIG["sp"],
     tech: Optional[Tech] = None,
-    **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
@@ -147,7 +146,6 @@ def read_sparameters_component(
         or tech.layer_stack._get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
         or tech.layer_stack._get_layer_to_thickness_nm(),
-        **kwargs,
     )
     numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
@@ -161,7 +159,6 @@ def read_sparameters_pandas(
     layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = pp.CONFIG["sp"],
     tech: Optional[Tech] = None,
-    **kwargs,
 ) -> pd.DataFrame:
     tech = tech or TECH_SILICON_C
     filepath = get_sparameters_path(
@@ -171,7 +168,6 @@ def read_sparameters_pandas(
         or tech.layer_stack._get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
         or tech.layer_stack._get_layer_to_thickness_nm(),
-        **kwargs,
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]

@@ -703,15 +703,14 @@ class Pdk:
         dirpath: Optional[pathlib.Path] = None,
         layer_to_thickness_nm: Optional[Dict[Layer, float]] = None,
         layer_to_material: Optional[Dict[Layer, str]] = None,
-        **kwargs,
     ) -> Tuple[List[str], np.array, np.ndarray]:
         r"""Returns Sparameters from Lumerical interconnect export file.
 
         Args:
             component: Component
             dirpath: path where to look for the Sparameters
-            layer_to_material: layer to material dict
             layer_to_thickness_nm: layer to thickness (nm)
+            layer_to_material: layer to material dict
 
         Returns:
             port_names: list of port labels
@@ -729,7 +728,6 @@ class Pdk:
             or self.tech.layer_stack._get_layer_to_thickness_nm(),
             layer_to_material=layer_to_material
             or self.tech.layer_stack._get_layer_to_material(),
-            **kwargs,
         )
         numports = len(component.ports)
         assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
