@@ -20,6 +20,10 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+## Next release
+
+- better README
+
 
 ## 2.4.6
 

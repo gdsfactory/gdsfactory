@@ -90,9 +90,9 @@ def add_fiber_single(
         c = pp.components.crossing()
         cc = pp.routing.add_fiber_single(
             component=c,
-            optical_routing_type=2,
+            optical_routing_type=0,
             grating_coupler=pp.components.grating_coupler_elliptical_te,
-            bend_radius=20
+            bend_radius=5
         )
         cc.plot()
 
