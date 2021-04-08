@@ -52,7 +52,7 @@ def coupler90(
     )
     bend_ref = c << bend90
     wg_ref = c << waveguide_factory(
-        length=bend90.xsize,
+        length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
         width=width,
         layer=layer,
         cross_section_factory=cross_section_factory,
@@ -87,8 +87,9 @@ def coupler90circular(
 
 
 if __name__ == "__main__":
-    c = coupler90circular(gap=0.3)
-    c << coupler90(gap=0.3)
+    # c = coupler90circular(gap=0.3)
+    # c << coupler90(gap=0.3)
+    c = coupler90(radius=3)
     c.show()
     c.pprint()
     # print(c.ports)

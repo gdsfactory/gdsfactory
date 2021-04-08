@@ -103,9 +103,9 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-    from pp.tech import TECH_METAL1
 
-    c = coupler_ring(radius=5.0, gap=0.3, tech=TECH_METAL1)
+    c = coupler_ring()
+    # c = coupler_ring(radius=5.0, gap=0.3, tech=TECH_METAL1)
     # c = coupler_ring(length_x=20, radius=5.0, gap=0.3)
     # print(c.get_settings())
     print(c.name)

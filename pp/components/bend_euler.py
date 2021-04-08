@@ -92,6 +92,20 @@ def bend_euler180(angle: int = 180, **kwargs) -> Component:
     return bend_euler(angle=angle, **kwargs)
 
 
+@cell
+def bend_euler_s(**kwargs) -> Component:
+    """Sbend made of euler bends."""
+    c = Component()
+    b = bend_euler(**kwargs)
+    b1 = c.add_ref(b)
+    b2 = c.add_ref(b)
+    b2.mirror()
+    b2.connect("W0", b1.ports["N0"])
+    c.add_port("W0", port=b1.ports["W0"])
+    c.add_port("E0", port=b2.ports["N0"])
+    return c
+
+
 def _compare_bend_euler180():
     """Compare 180 bend euler with 2 90deg euler bends."""
     import pp
@@ -110,9 +124,11 @@ def _compare_bend_euler180():
 
 
 if __name__ == "__main__":
-    _compare_bend_euler180()
+    c = bend_euler_s()
+    c.show()
+
+    # _compare_bend_euler180()
     # import pp
     # c = bend_euler(radius=10)
     # c << pp.components.bend_circular(radius=10)
     # c.pprint()
-    # c.show()

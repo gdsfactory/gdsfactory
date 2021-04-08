@@ -70,7 +70,7 @@ def bend_circular(
 
 
 @cell
-def bend_circular180(angle=180, **kwargs) -> Component:
+def bend_circular180(angle: int = 180, **kwargs) -> Component:
     """Returns a 180 degrees radial arc.
 
     Args:

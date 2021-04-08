@@ -66,6 +66,25 @@ cd gdsfactory
 make install
 ```
 
+To summarize: There are 2 methods to install gdsfactory
+
+1. `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
+2. you can download it from [GitHub](https://pypi.org/project/gdsfactory/) in your computer and link the library to your python
+
+```
+git clone https://github.com/gdsfactory/gdsfactory.git
+cd gdsfactory
+make install
+```
+
+for updating 1. you need to `pip install gdsfactory --upgrade`
+for updating 2. you need to pull from GitHub the latest changes
+
+```
+cd gdsfactory
+git pull
+```
+
 After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for pdk package.
 
 - pp

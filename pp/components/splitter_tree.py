@@ -1,9 +1,8 @@
 from typing import Optional
 
 import pp
-from pp.components.bend_euler import bend_euler
+from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
-from pp.components.waveguide import waveguide
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
@@ -14,19 +13,24 @@ def splitter_tree(
     noutputs: int = 4,
     spacing: Optional[float] = None,
     spacing_extra: float = 0.1,
-    terminator: ComponentFactory = waveguide,
     bend_factory: ComponentFactory = bend_euler,
+    bend_s: ComponentFactory = bend_euler_s,
     bend_radius: Optional[float] = None,
     tech: Optional[Tech] = None,
+    auto_taper_to_wide_waveguides: bool = True,
 ) -> pp.Component:
-    """tree of 1x2 splitters
+    """Tree of 1x2 splitters
 
     Args:
         coupler: 1x2 coupler factory
         noutputs:
-        bend_radius: for routing
-        spacing: 2X spacing
-        termination: factory for terminating ports
+        spacing: y spacing for outputs
+        spacing_extra: extra y spacing for outputs
+        bend_s: factory for terminating ports
+        bend_factory:
+        bend_radius: for routing, defaults to tech.bend_radius
+        tech: technology
+        auto_taper_to_wide_waveguides: tapers to lower loss wide waveguides.
 
     .. code::
 
@@ -40,40 +44,36 @@ def splitter_tree(
     tech = tech or TECH_SILICON_C
     bend_radius = bend_radius or tech.bend_radius
     bend90 = bend_factory(radius=bend_radius)
-    noutputs = noutputs
     c = pp.Component()
 
     coupler = pp.call_if_func(coupler)
-    _coupler = c.add_ref(coupler)
-    coupler_sep = coupler.ports["E1"].y - coupler.ports["E0"].y
-    spacing = spacing if spacing else bend90.dy * noutputs + spacing_extra
+    coupler_ref = c.add_ref(coupler)
+    dy = spacing if spacing else bend90.dy * noutputs + spacing_extra
+    dx = coupler.xsize
 
     if noutputs > 2:
         c2 = splitter_tree(
             coupler=coupler,
             noutputs=noutputs // 2,
             bend_radius=bend_radius,
-            spacing=spacing / 2,
+            spacing=dy / 2,
             bend_factory=bend_factory,
             tech=tech,
         )
     else:
-        c2 = terminator()
+        c2 = bend_s(radius=dy / 2)
 
-    if spacing < coupler_sep:
-        tree_top = c2.ref(port_id="W0", position=_coupler.ports["E1"])
-        tree_bot = c2.ref(
-            port_id="W0", position=_coupler.ports["E0"], v_mirror=False  # True
-        )
+    if dy < 3 * bend_radius:
+        tree_top = c2.ref(port_id="W0", position=coupler_ref.ports["E1"])
+        tree_bot = c2.ref(port_id="W0", position=coupler_ref.ports["E0"], v_mirror=True)
 
     else:
-        dx = dy = spacing
         tree_top = c2.ref(
-            port_id="W0", position=_coupler.ports["E1"].position + (dx, dy)
+            port_id="W0", position=coupler_ref.ports["E1"].position + (dx, dy)
         )
         tree_bot = c2.ref(
             port_id="W0",
-            position=_coupler.ports["E0"].position + (dx, -dy),
+            position=coupler_ref.ports["E0"].position + (dx, -dy),
             v_mirror=False,  # True,
         )
 
@@ -83,6 +83,7 @@ def splitter_tree(
                 tree_top.ports["W0"],
                 bend_radius=bend_radius,
                 bend_factory=bend_factory,
+                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             )["references"]
         )
         c.add(
@@ -91,6 +92,7 @@ def splitter_tree(
                 tree_bot.ports["W0"],
                 bend_radius=bend_radius,
                 bend_factory=bend_factory,
+                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
             )["references"]
         )
 
@@ -105,11 +107,11 @@ def splitter_tree(
 
     c.add(tree_bot)
     c.add(tree_top)
-    c.add_port(name="W0", port=_coupler.ports["W0"])
+    c.add_port(name="W0", port=coupler_ref.ports["W0"])
 
     return c
 
 
 if __name__ == "__main__":
-    c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=20)
+    c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=50)
     c.show()

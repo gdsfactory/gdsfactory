@@ -6,7 +6,7 @@ from pp.types import ComponentFactory
 
 @pp.cell
 def splitter_chain(
-    component: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
+    splitter: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:
     """Chain of splitters
 
@@ -21,8 +21,8 @@ def splitter_chain(
 
     """
     c = pp.Component()
-    component = pp.call_if_func(component, **kwargs)
-    cref = c.add_ref(component)
+    splitter_component = pp.call_if_func(splitter, **kwargs)
+    cref = c.add_ref(splitter_component)
 
     bend = pp.components.bezier()
     c.add_port(name="W0", port=cref.ports["W0"])
@@ -32,16 +32,17 @@ def splitter_chain(
         bref = c.add_ref(bend)
         bref.connect(port="1", destination=cref.ports["E1"])
 
-        component = pp.call_if_func(component)
-        cref = c.add_ref(component)
+        cref = c.add_ref(splitter_component)
 
         cref.connect(port="W0", destination=bref.ports["0"])
         c.add_port(name="E{}".format(i), port=cref.ports["E0"])
 
     c.add_port(name="E{}".format(n_devices), port=cref.ports["E1"])
+    c.settings["component"] = splitter_component.get_settings()
     return c
 
 
 if __name__ == "__main__":
-    c = splitter_chain(component=pp.components.mmi1x2, n_devices=4)
-    c.show()
+    component = splitter_chain(splitter=pp.components.mmi1x2, n_devices=4)
+    component.show()
+    component.pprint()
