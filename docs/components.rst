@@ -48,6 +48,21 @@ align_wafer
 
 
 
+awg
+----------------------------------------------------
+
+.. autofunction:: pp.components.awg
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.awg()
+  c.plot()
+
+
+
 bbox
 ----------------------------------------------------
 
@@ -134,6 +149,21 @@ bend_euler180
   import pp
 
   c = pp.components.bend_euler180()
+  c.plot()
+
+
+
+bend_euler_s
+----------------------------------------------------
+
+.. autofunction:: pp.components.bend_euler_s
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.bend_euler_s()
   c.plot()
 
 
@@ -298,6 +328,21 @@ coupler90
   import pp
 
   c = pp.components.coupler90()
+  c.plot()
+
+
+
+coupler90bend
+----------------------------------------------------
+
+.. autofunction:: pp.components.coupler90bend
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.coupler90bend()
   c.plot()
 
 

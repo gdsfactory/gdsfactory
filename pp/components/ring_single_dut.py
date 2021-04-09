@@ -24,7 +24,7 @@ def ring_single_dut(
     with_dut=True,
     tech: Tech = TECH_SILICON_C,
 ):
-    """single bus ring made of two couplers (ct: top, cb: bottom)
+    """Single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
     DUT (Device Under Test) in the middle to extract loss from quality factor
 
