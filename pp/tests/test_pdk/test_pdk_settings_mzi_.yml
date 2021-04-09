@@ -4,10 +4,10 @@ module: pp.components.mzi
 name: mzi_b922d9a8
 settings:
   bend: bend_euler
-  bend_radius: 20.0
+  bend_radius: 20
   combiner: mmi1x2
   combiner_settings: null
-  delta_length: 10.0
+  delta_length: 10
   length_x: 0.1
   length_y: 0.1
   pins: false

@@ -242,6 +242,7 @@ def select_ports(
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {p_name: p for p_name, p in ports.items() if p_name.startswith(prefix)}
+
     return ports
 
 

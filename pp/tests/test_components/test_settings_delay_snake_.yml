@@ -3,8 +3,8 @@ info: {}
 module: pp.components.delay_snake
 name: delay_snake
 settings:
-  L0: 5.0
-  bend_radius: 10.0
+  L0: 5
+  bend_radius: 10
   n: 2
-  total_length: 1600.0
+  total_length: 1600
   wg_width: 0.5

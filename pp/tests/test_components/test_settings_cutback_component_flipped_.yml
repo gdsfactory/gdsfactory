@@ -14,7 +14,7 @@ settings:
   ports_map: null
   rows: 5
   sequence: ABABABABCABABABABDABABABABCABABABABDABABABABABABABABABABDABABABABCABABABABDABABABABCABABABAB
-  start_orientation: 0.0
+  start_orientation: 0
   symbol_to_component:
     A:
     - taper_0p5_to_3_l36

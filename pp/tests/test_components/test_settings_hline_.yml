@@ -1,6 +1,6 @@
 function_name: hline
 info:
-  length: 10.0
+  length: 10
   width: 0.5
 module: pp.components.hline
 name: hline
@@ -8,6 +8,6 @@ settings:
   layer:
   - 1
   - 0
-  length: 10.0
+  length: 10
   port_type: optical
   width: 0.5

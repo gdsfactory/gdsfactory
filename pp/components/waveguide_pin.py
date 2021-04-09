@@ -1,16 +1,24 @@
-from typing import Tuple
+"""Straight waveguide."""
+from typing import Optional, Tuple
 
 from pp.cell import cell
 from pp.component import Component
-from pp.components.waveguide import waveguide
+from pp.cross_section import pin
 from pp.layers import LAYER
-from pp.types import ComponentFactory
+from pp.path import component, straight
+from pp.snap import snap_to_grid
+from pp.tech import TECH_SILICON_C, Tech
+from pp.types import Layer
 
 
 @cell
 def waveguide_pin(
     length: float = 10.0,
-    width: float = 0.5,
+    npoints: int = 2,
+    width: float = TECH_SILICON_C.wg_width,
+    tech: Optional[Tech] = None,
+    layer: Layer = TECH_SILICON_C.layer_wg,
+    layer_slab: Layer = LAYER.SLAB90,
     width_i: float = 0.0,
     width_p: float = 1.0,
     width_n: float = 1.0,
@@ -24,9 +32,18 @@ def waveguide_pin(
     layer_np: Tuple[int, int] = LAYER.Np,
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
-    waveguide_factory: ComponentFactory = waveguide,
 ) -> Component:
-    """PIN doped waveguide.
+    """Returns a Straight waveguide.
+
+    Args:
+        length: of straight
+        npoints: number of points
+        width: waveguide width
+        layer: layer for
+        layers_cladding: for cladding
+        cladding_offset: offset from waveguide to cladding edge
+        cross_section_factory: function that returns a cross_section
+        tech: Technology with default
 
     .. code::
 
@@ -42,46 +59,31 @@ def waveguide_pin(
                                  |width_i| width_n | width_np | width_npp |
                                     0    oi        on        onp         onpp
 
-
     """
-    c = Component()
-    w = c << waveguide_factory(length=length, width=width)
-    c.ports = w.ports
-    c.absorb(w)
+    tech = tech or TECH_SILICON_C
 
-    oi = width_i / 2
-    on = oi + width_n
-    onp = oi + width_n + width_np
-    onpp = oi + width_n + width_np + width_npp
-
-    # N doping
-    c.add_polygon([(0, oi), (length, oi), (length, onpp), (0, onpp)], layer=layer_n)
-
-    if layer_np:
-        c.add_polygon(
-            [(0, on), (length, on), (length, onpp), (0, onpp)], layer=layer_np
-        )
-    if layer_npp:
-        c.add_polygon(
-            [(0, onp), (length, onp), (length, onpp), (0, onpp)], layer=layer_npp
-        )
-
-    oi = -width_i / 2
-    op = oi - width_p
-    opp = oi - width_p - width_pp
-    oppp = oi - width_p - width_pp - width_ppp
-
-    # P doping
-    c.add_polygon([(0, oi), (length, oi), (length, oppp), (0, oppp)], layer=layer_p)
-    if layer_pp:
-        c.add_polygon(
-            [(0, op), (length, op), (length, oppp), (0, oppp)], layer=layer_pp
-        )
-    if layer_ppp:
-        c.add_polygon(
-            [(0, opp), (length, opp), (length, oppp), (0, oppp)], layer=layer_ppp
-        )
-
+    p = straight(length=length, npoints=npoints)
+    cross_section = pin(
+        width=width,
+        layer=layer,
+        layer_slab=layer_slab,
+        width_i=width_i,
+        width_p=width_p,
+        width_n=width_n,
+        width_pp=width_pp,
+        width_np=width_np,
+        width_ppp=width_ppp,
+        width_npp=width_npp,
+        layer_p=layer_p,
+        layer_n=layer_n,
+        layer_pp=layer_pp,
+        layer_np=layer_np,
+        layer_ppp=layer_ppp,
+        layer_npp=layer_npp,
+    )
+    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    c.width = width
+    c.length = snap_to_grid(length)
     return c
 
 

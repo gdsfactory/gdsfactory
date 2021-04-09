@@ -14,7 +14,7 @@ settings:
   - 0
   name: null
   npoints: 201
-  spike_length: 0.0
+  spike_length: 0
   start_angle: null
   width: 0.5
   with_manhattan_facing_angles: true

@@ -9,12 +9,12 @@ instances:
   bend_euler_R10_W500n_51.615_-4.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.5
   bend_euler_R10_W500n_58.365_-36.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.5
   mmi_bot:
     component: mmi1x2

@@ -120,7 +120,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_130.0_222.5:
@@ -129,7 +129,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_130.0_535.5:
@@ -138,7 +138,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_558.0:
@@ -147,7 +147,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_579.0:
@@ -156,7 +156,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_152.5_600.0:
@@ -165,7 +165,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_237.5_0.0:
@@ -174,7 +174,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_22.5:
@@ -183,7 +183,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_260.0_335.5:
@@ -192,7 +192,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_358.0:
@@ -201,7 +201,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_379.0:
@@ -210,7 +210,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_282.5_400.0:
@@ -219,7 +219,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_378.5_558.0:
@@ -228,7 +228,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_378.5_579.0:
@@ -237,7 +237,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_508.5_358.0:
@@ -246,7 +246,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_508.5_379.0:
@@ -255,7 +255,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_0.0:
@@ -264,7 +264,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_67.5_200.0:
@@ -273,7 +273,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_400.0:
@@ -282,7 +282,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   taper_L1_0_L35_W500n_W2p5_832.5_600.0:
@@ -291,7 +291,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 35.0
+      length: 35
       width1: 0.5
       width2: 2.5
   tl:
@@ -303,72 +303,72 @@ instances:
   waveguide_L11_W500n_130.0_589.5:
     component: waveguide
     settings:
-      length: 11.0
+      length: 11
       width: 0.5
   waveguide_L11_W500n_260.0_389.5:
     component: waveguide
     settings:
-      length: 11.0
+      length: 11
       width: 0.5
   waveguide_L11_W500n_401.0_568.5:
     component: waveguide
     settings:
-      length: 11.0
+      length: 11
       width: 0.5
   waveguide_L11_W500n_531.0_368.5:
     component: waveguide
     settings:
-      length: 11.0
+      length: 11
       width: 0.5
   waveguide_L135_W2p5_152.5_0.0:
     component: waveguide
     settings:
-      length: 135.0
+      length: 135
       width: 2.5
   waveguide_L191_W2p5_265.5_558.0:
     component: waveguide
     settings:
-      length: 191.0
+      length: 191
       width: 2.5
   waveguide_L191_W2p5_265.5_579.0:
     component: waveguide
     settings:
-      length: 191.0
+      length: 191
       width: 2.5
   waveguide_L191_W2p5_395.5_358.0:
     component: waveguide
     settings:
-      length: 191.0
+      length: 191
       width: 2.5
   waveguide_L191_W2p5_395.5_379.0:
     component: waveguide
     settings:
-      length: 191.0
+      length: 191
       width: 2.5
   waveguide_L278_W2p5_130.0_379.0:
     component: waveguide
     settings:
-      length: 278.0
+      length: 278
       width: 2.5
   waveguide_L278_W2p5_260.0_179.0:
     component: waveguide
     settings:
-      length: 278.0
+      length: 278
       width: 2.5
   waveguide_L515_W2p5_557.5_400.0:
     component: waveguide
     settings:
-      length: 515.0
+      length: 515
       width: 2.5
   waveguide_L5_W2p5_87.5_200.0:
     component: waveguide
     settings:
-      length: 5.0
+      length: 5
       width: 2.5
   waveguide_L645_W2p5_492.5_600.0:
     component: waveguide
     settings:
-      length: 645.0
+      length: 645
       width: 2.5
 name: sample_different_link_factory
 placements:

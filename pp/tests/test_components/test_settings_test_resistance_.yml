@@ -11,9 +11,9 @@ settings:
   - 49
   - 0
   pad_size:
-  - 50.0
-  - 50.0
+  - 50
+  - 50
   res_layer:
   - 49
   - 0
-  width: 1.0
+  width: 1

@@ -19,7 +19,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 1.0
+      length: 1
       npoints: 2
       tech: null
       width: 0.5

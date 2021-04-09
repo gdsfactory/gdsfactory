@@ -8,7 +8,7 @@ instances:
   wgw:
     component: waveguide
     settings:
-      length: 1.0
+      length: 1
 name: sample_connections
 placements:
   wgn:

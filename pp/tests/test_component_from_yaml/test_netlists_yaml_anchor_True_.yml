@@ -10,11 +10,11 @@ instances:
       - 0
       layers_cladding: null
       length_mmi: 10
-      length_taper: 10.0
+      length_taper: 10
       tech: null
       width: 0.5
       width_mmi: 4.5
-      width_taper: 1.0
+      width_taper: 1
   mmi_short:
     component: mmi1x2
     settings:
@@ -25,11 +25,11 @@ instances:
       - 0
       layers_cladding: null
       length_mmi: 5
-      length_taper: 10.0
+      length_taper: 10
       tech: null
       width: 0.5
       width_mmi: 4.5
-      width_taper: 1.0
+      width_taper: 1
 name: yaml_anchor
 placements:
   mmi_long:

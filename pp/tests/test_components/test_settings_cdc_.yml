@@ -15,10 +15,10 @@ settings:
   fins: false
   gap: 0.5
   input_bot: false
-  length: 30.0
+  length: 30
   period: 0.22
   port_midpoint:
   - 0
   - 0
   width_bot: 0.75
-  width_top: 2.0
+  width_top: 2

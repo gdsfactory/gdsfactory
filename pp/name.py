@@ -47,6 +47,7 @@ def dict2name(prefix: str = "", **kwargs) -> str:
     """Return name from a dict."""
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     kv = []
+    kwargs = kwargs.copy()
 
     for key in sorted(kwargs):
         if key not in ignore_from_name:

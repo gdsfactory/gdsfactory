@@ -18,7 +18,8 @@ def coupler90(
     bend: ComponentFactory = bend_euler,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
+    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
     **kwargs
 ) -> Component:
@@ -29,6 +30,10 @@ def coupler90(
         gap: um
         waveguide_factory: for Waveguide
         bend: for bend
+        width: width of the bend
+        layer: bend layer
+        cross_section_factory_inner: for inner bend
+        cross_section_factory_outer: for outer waveguide
         tech: Technology
 
     .. code::
@@ -37,8 +42,8 @@ def coupler90(
              |
             /
            /
-       W0 =--- E0
-
+       W1_/
+       W0____E0
 
     """
     c = Component()
@@ -46,7 +51,7 @@ def coupler90(
         radius=radius,
         width=width,
         layer=layer,
-        cross_section_factory=cross_section_factory,
+        cross_section_factory=cross_section_factory_inner,
         tech=tech,
         **kwargs
     )
@@ -55,7 +60,7 @@ def coupler90(
         length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
         width=width,
         layer=layer,
-        cross_section_factory=cross_section_factory,
+        cross_section_factory=cross_section_factory_outer,
         tech=tech,
     )
 

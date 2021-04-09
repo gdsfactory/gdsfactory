@@ -18,9 +18,9 @@ settings:
       - 0
       layers_cladding: null
       length_mmi: 5.496
-      length_taper: 10.0
+      length_taper: 10
       tech: null
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   n_devices: 3

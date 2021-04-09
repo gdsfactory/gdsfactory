@@ -12,11 +12,11 @@ settings:
   layer_partial_etch:
   - 2
   - 0
-  length_taper: 150.0
+  length_taper: 150
   num_teeth: 20
   partial_etch: false
   period: 0.75
   polarization: te
   wavelength: 1500
   width: 0.5
-  width_grating: 11.0
+  width_grating: 11

@@ -3,7 +3,7 @@ info: {}
 module: pp.components.electrical.pad
 name: pad_array
 settings:
-  height: 100.0
+  height: 100
   layer:
   - 49
   - 0
@@ -11,6 +11,6 @@ settings:
   port_list:
   - N
   spacing:
-  - 150.0
-  - 0.0
-  width: 100.0
+  - 150
+  - 0
+  width: 100

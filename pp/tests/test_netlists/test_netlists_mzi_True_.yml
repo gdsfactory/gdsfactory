@@ -28,7 +28,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -42,7 +42,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -56,7 +56,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -70,7 +70,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -84,7 +84,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -98,7 +98,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -112,7 +112,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -126,7 +126,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
       with_arc_floorplan: true
@@ -140,11 +140,11 @@ instances:
       - 0
       layers_cladding: null
       length_mmi: 5.496
-      length_taper: 10.0
+      length_taper: 10
       tech: null
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   mmi1x2_65.596_0.0:
     component: mmi1x2
     settings:
@@ -155,11 +155,11 @@ instances:
       - 0
       layers_cladding: null
       length_mmi: 5.496
-      length_taper: 10.0
+      length_taper: 10
       tech: null
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
   waveguide_L100n_22.748_-10.675:
     component: waveguide
     settings:
@@ -233,7 +233,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 5.0
+      length: 5
       npoints: 2
       tech: null
       width: 0.5
@@ -244,7 +244,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 5.0
+      length: 5
       npoints: 2
       tech: null
       width: 0.5

@@ -1,8 +1,13 @@
 function_name: waveguide_pin
-info: {}
+info:
+  length: 10
+  width: 0.5
 module: pp.components.waveguide_pin
 name: waveguide_pin
 settings:
+  layer:
+  - 1
+  - 0
   layer_n:
   - 20
   - 0
@@ -21,12 +26,17 @@ settings:
   layer_ppp:
   - 25
   - 0
-  length: 10.0
+  layer_slab:
+  - 3
+  - 0
+  length: 10
+  npoints: 2
+  tech: null
   width: 0.5
-  width_i: 0.0
-  width_n: 1.0
-  width_np: 1.0
-  width_npp: 1.0
-  width_p: 1.0
-  width_pp: 1.0
-  width_ppp: 1.0
+  width_i: 0
+  width_n: 1
+  width_np: 1
+  width_npp: 1
+  width_p: 1
+  width_pp: 1
+  width_ppp: 1

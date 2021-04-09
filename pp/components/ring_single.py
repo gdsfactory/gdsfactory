@@ -25,7 +25,8 @@ def ring_single(
     pins: bool = False,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
+    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -43,7 +44,8 @@ def ring_single(
         pins: add pins
         width: waveguide width
         layer:
-        cross_section_factory: to extrude the paths
+        cross_section_factory_inner: for inner bend
+        cross_section_factory_outer: for outer waveguide
         tech: Technology with default values
 
 
@@ -60,7 +62,7 @@ def ring_single(
     """
     assert_on_2nm_grid(gap)
 
-    coupler_ring = (
+    coupler_ring_component = (
         coupler(
             bend=bend,
             gap=gap,
@@ -68,7 +70,8 @@ def ring_single(
             length_x=length_x,
             width=width,
             layer=layer,
-            cross_section_factory=cross_section_factory,
+            cross_section_factory_inner=cross_section_factory_inner,
+            cross_section_factory_outer=cross_section_factory_outer,
             tech=tech,
         )
         if callable(coupler)
@@ -79,7 +82,7 @@ def ring_single(
         length=length_y,
         width=width,
         layer=layer,
-        cross_section_factory=cross_section_factory,
+        cross_section_factory=cross_section_factory_inner,
         tech=tech,
     )
     waveguide_top = call_if_func(
@@ -87,7 +90,7 @@ def ring_single(
         length=length_x,
         width=width,
         layer=layer,
-        cross_section_factory=cross_section_factory,
+        cross_section_factory=cross_section_factory_inner,
         tech=tech,
     )
 
@@ -97,7 +100,7 @@ def ring_single(
             radius=radius,
             width=width,
             layer=layer,
-            cross_section_factory=cross_section_factory,
+            cross_section_factory=cross_section_factory_inner,
             tech=tech,
         )
         if callable(bend)
@@ -105,18 +108,19 @@ def ring_single(
     )
 
     c = Component()
-    cb = c << coupler_ring
+    cb = c << coupler_ring_component
     wl = c << waveguide_side
     wr = c << waveguide_side
     bl = c << bend_ref
     br = c << bend_ref
     wt = c << waveguide_top
+    # wt.mirror(p1=(0, 0), p2=(1, 0))
 
     wl.connect(port="E0", destination=cb.ports["N0"])
     bl.connect(port="N0", destination=wl.ports["W0"])
 
-    wt.connect(port="W0", destination=bl.ports["W0"])
-    br.connect(port="N0", destination=wt.ports["E0"])
+    wt.connect(port="E0", destination=bl.ports["W0"])
+    br.connect(port="N0", destination=wt.ports["W0"])
     wr.connect(port="W0", destination=br.ports["W0"])
     wr.connect(port="E0", destination=cb.ports["N1"])  # just for netlist
 
@@ -129,7 +133,8 @@ def ring_single(
 
 if __name__ == "__main__":
 
-    c = ring_single(layer=(2, 0), radius=3)
+    # c = ring_single(layer=(2, 0), radius=10, cross_section_factory_inner=pp.cross_section.pin)
+    c = ring_single(layer=(2, 0), cross_section_factory_inner=pp.cross_section.pin)
     print(c.ports)
     c.show()
     # cc = pp.add_pins(c)

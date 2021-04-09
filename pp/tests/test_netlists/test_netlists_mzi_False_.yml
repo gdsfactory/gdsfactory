@@ -21,35 +21,35 @@ instances:
   bend_euler_R10_19.373_-4.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_19.373_4.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_26.123_-22.35:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_26.123_17.35:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_39.473_-22.35:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_39.473_17.35:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_46.223_-4.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   bend_euler_R10_46.223_4.0:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings: {}
@@ -83,11 +83,11 @@ instances:
   waveguide_L5_22.748_-13.225:
     component: waveguide
     settings:
-      length: 5.0
+      length: 5
   waveguide_L5_42.848_-13.225:
     component: waveguide
     settings:
-      length: 5.0
+      length: 5
 name: mzi
 placements:
   bend_euler_R10_19.373_-4.0:

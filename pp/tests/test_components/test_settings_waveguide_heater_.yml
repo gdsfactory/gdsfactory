@@ -11,10 +11,10 @@ settings:
   layer_trench:
   - 7
   - 0
-  length: 10.0
-  sstw: 2.0
+  length: 10
+  sstw: 2
   tech: silicon_cband
-  trench_keep_out: 2.0
+  trench_keep_out: 2
   trench_width: 0.5
   trenches:
   - lane: 1

@@ -1,6 +1,6 @@
 function_name: corner
 info:
-  length: 10.0
+  length: 10
 module: pp.components.electrical.wire
 name: corner
 settings:
@@ -9,4 +9,4 @@ settings:
   - 0
   port_type: dc
   radius: null
-  width: 10.0
+  width: 10

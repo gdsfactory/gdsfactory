@@ -12,7 +12,7 @@ settings:
   - 0
   layers_cladding: null
   length_mmi: 15.45
-  length_taper: 10.0
+  length_taper: 10
   tech: null
   width: 0.5
   width_mmi: 2.1

@@ -4,4 +4,4 @@ module: pp.components.waveguide_array
 name: waveguide_array
 settings:
   n_waveguides: 4
-  spacing: 4.0
+  spacing: 4

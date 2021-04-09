@@ -3,7 +3,7 @@ info: {}
 module: pp.components.waveguide_heater
 name: wg_heater_connected
 settings:
-  length: 10.0
+  length: 10
   tlm_layers:
   - - 40
     - 0

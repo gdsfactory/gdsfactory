@@ -98,20 +98,21 @@ def splitter_tree(
 
     i = 0
     for p in pp.port.get_ports_facing(tree_bot, "E"):
-        c.add_port(name=f"{i}", port=p)
+        c.add_port(name=f"E{i}", port=p)
         i += 1
 
     for p in pp.port.get_ports_facing(tree_top, "E"):
-        c.add_port(name=f"{i}", port=p)
+        c.add_port(name=f"E{i}", port=p)
         i += 1
 
     c.add(tree_bot)
     c.add(tree_top)
     c.add_port(name="W0", port=coupler_ref.ports["W0"])
-
     return c
 
 
 if __name__ == "__main__":
     c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=50)
     c.show()
+    print(c.get_ports_dict().keys())
+    print(c.spacing)

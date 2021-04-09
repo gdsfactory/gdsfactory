@@ -1,33 +1,35 @@
 connections:
-  coupler_ring_8a9938ad_-0.005_17.685,N0: waveguide_7f75ab43_10.0_10.705,W0
-  coupler_ring_8a9938ad_-0.005_17.685,N1: waveguide_7f75ab43_-10.01_10.705,W0
-  coupler_ring_8a9938ad_-0.005_3.725,N0: waveguide_7f75ab43_-10.01_10.705,E0
-  coupler_ring_8a9938ad_-0.005_3.725,N1: waveguide_7f75ab43_10.0_10.705,E0
+  coupler_ring_90e24818_-0.005_17.685,N0: waveguide_7f75ab43_10.0_10.705,W0
+  coupler_ring_90e24818_-0.005_17.685,N1: waveguide_7f75ab43_-10.01_10.705,W0
+  coupler_ring_90e24818_-0.005_3.725,N0: waveguide_7f75ab43_-10.01_10.705,E0
+  coupler_ring_90e24818_-0.005_3.725,N1: waveguide_7f75ab43_10.0_10.705,E0
 instances:
-  coupler_ring_8a9938ad_-0.005_17.685:
+  coupler_ring_90e24818_-0.005_17.685:
     component: coupler_ring
     settings:
       bend: null
-      cross_section_factory: null
+      cross_section_factory_inner: null
+      cross_section_factory_outer: null
       gap: 0.2
       layer:
       - 1
       - 0
       length_x: 0.01
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
-  coupler_ring_8a9938ad_-0.005_3.725:
+  coupler_ring_90e24818_-0.005_3.725:
     component: coupler_ring
     settings:
       bend: null
-      cross_section_factory: null
+      cross_section_factory_inner: null
+      cross_section_factory_outer: null
       gap: 0.2
       layer:
       - 1
       - 0
       length_x: 0.01
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.5
   waveguide_7f75ab43_-10.01_10.705:
@@ -54,12 +56,12 @@ instances:
       width: 0.5
 name: ring_double
 placements:
-  coupler_ring_8a9938ad_-0.005_17.685:
+  coupler_ring_90e24818_-0.005_17.685:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_8a9938ad_-0.005_3.725:
+  coupler_ring_90e24818_-0.005_3.725:
     mirror: false
     rotation: 0
     x: 0.0
@@ -75,7 +77,7 @@ placements:
     x: 10.0
     y: 10.71
 ports:
-  E0: coupler_ring_8a9938ad_-0.005_3.725,E0
-  E1: coupler_ring_8a9938ad_-0.005_17.685,W0
-  W0: coupler_ring_8a9938ad_-0.005_3.725,W0
-  W1: coupler_ring_8a9938ad_-0.005_17.685,E0
+  E0: coupler_ring_90e24818_-0.005_3.725,E0
+  E1: coupler_ring_90e24818_-0.005_17.685,W0
+  W0: coupler_ring_90e24818_-0.005_3.725,W0
+  W1: coupler_ring_90e24818_-0.005_17.685,E0

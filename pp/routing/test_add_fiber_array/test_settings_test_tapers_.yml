@@ -7,7 +7,7 @@ settings:
   component:
     function_name: waveguide
     info:
-      length: 10.0
+      length: 10
       width: 2
     module: pp.components.waveguide
     name: waveguide_W2
@@ -16,7 +16,7 @@ settings:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       npoints: 2
       tech: null
       width: 2

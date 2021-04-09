@@ -6,7 +6,7 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
-from pp.cross_section import CrossSectionFactory, strip
+from pp.cross_section import CrossSectionFactory
 from pp.snap import assert_on_2nm_grid
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory, Layer
@@ -22,18 +22,23 @@ def coupler_ring(
     radius: float = 5.0,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
+    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
     r"""Coupler for ring.
 
     Args:
         coupler90: straight waveguide coupled to a 90deg bend.
+        bend: factory for bend
         coupler: two parallel coupled waveguides.
         length_x: length of the parallel coupled waveguides.
         gap: spacing between parallel coupled waveguides.
-        wg_width: width of the waveguides
         radius: of the bends.
+        width: width of the waveguides
+        layer: waveguide layer
+        cross_section_factory_inner: for inner bend
+        cross_section_factory_outer: for outer waveguide
         tech: Technology
 
     .. code::
@@ -45,50 +50,44 @@ def coupler_ring(
            ---=========---
         W0    length_x    E0
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.components.coupler_ring(length_x=20, radius=5.0, gap=0.3)
-      c.plot()
 
     """
     bend = bend or bend_euler
     tech = tech or TECH_SILICON_C
-    cross_section_factory = cross_section_factory or strip
 
     c = pp.Component()
     assert_on_2nm_grid(gap)
 
     # define subcells
-    coupler90 = (
+    coupler90_component = (
         coupler90(
             bend=bend,
             width=width,
             gap=gap,
             radius=radius,
             layer=layer,
-            cross_section_factory=cross_section_factory,
+            cross_section_factory_inner=cross_section_factory_inner,
+            cross_section_factory_outer=cross_section_factory_outer,
             tech=tech,
         )
         if callable(coupler90)
         else coupler90
     )
-    coupler_straight = (
+    coupler_straight_component = (
         coupler(width=width, gap=gap, length=length_x, layer=layer, tech=tech)
         if callable(coupler)
         else coupler
     )
 
     # add references to subcells
-    cbl = c << coupler90
-    cbr = c << coupler90
-    cs = c << coupler_straight
+    cbl = c << coupler90_component
+    cbr = c << coupler90_component
+    cs = c << coupler_straight_component
 
     # connect references
+    y = coupler90_component.y
     cs.connect(port="E0", destination=cbr.ports["W0"])
-    cbl.reflect(p1=(0, coupler90.y), p2=(1, coupler90.y))
+    cbl.reflect(p1=(0, y), p2=(1, y))
     cbl.connect(port="W0", destination=cs.ports["W0"])
 
     c.absorb(cbl)
