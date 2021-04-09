@@ -17,8 +17,10 @@ from pp.components.bend_s import bend_s
 from pp.components.bezier import bezier
 from pp.components.bend_euler import bend_euler
 from pp.components.bend_euler import bend_euler180
+from pp.components.bend_euler import bend_euler_s
 
 from pp.components.coupler90 import coupler90
+from pp.components.coupler90bend import coupler90bend
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.components.coupler_asymmetric import coupler_asymmetric
@@ -120,6 +122,7 @@ from pp.components.mzit_lattice import mzit_lattice
 from pp.components.loop_mirror import loop_mirror
 
 # level 2 components
+from pp.components.awg import awg
 from pp.components.component_lattice import component_lattice
 from pp.components.component_sequence import component_sequence
 from pp.components.splitter_tree import splitter_tree
@@ -128,12 +131,17 @@ from pp.components.splitter_chain import splitter_chain
 
 # we will test each factory component hash, ports and properties """
 component_factory = dict(
+    C=C,
+    L=L,
     align_wafer=align_wafer,
+    awg=awg,
+    bbox=bbox,
     bend_circular180=bend_circular180,
     bend_circular=bend_circular,
     bend_circular_heater=bend_circular_heater,
     bend_euler180=bend_euler180,
     bend_euler=bend_euler,
+    bend_euler_s=bend_euler_s,
     bend_s=bend_s,
     bezier=bezier,
     cavity=cavity,
@@ -145,6 +153,7 @@ component_factory = dict(
     component_sequence=component_sequence,
     corner=corner,
     coupler90=coupler90,
+    coupler90bend=coupler90bend,
     coupler=coupler,
     coupler_adiabatic=coupler_adiabatic,
     coupler_asymmetric=coupler_asymmetric,
@@ -155,8 +164,8 @@ component_factory = dict(
     cross=cross,
     crossing45=crossing45,
     crossing=crossing,
-    cutback_bend90=cutback_bend90,
     cutback_bend180=cutback_bend180,
+    cutback_bend90=cutback_bend90,
     cutback_component=cutback_component,
     cutback_component_flipped=cutback_component_flipped,
     dbr2=dbr2,
@@ -164,13 +173,12 @@ component_factory = dict(
     delay_snake=delay_snake,
     disk=disk,
     ellipse=ellipse,
-    nxn=nxn,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
+    grating_coupler_loss=grating_coupler_loss,
     grating_coupler_te=grating_coupler_te,
     grating_coupler_tm=grating_coupler_tm,
-    grating_coupler_loss=grating_coupler_loss,
     grating_coupler_tree=grating_coupler_tree,
     grating_coupler_uniform=grating_coupler_uniform,
     grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
@@ -178,19 +186,23 @@ component_factory = dict(
     litho_calipers=litho_calipers,
     litho_star=litho_star,
     litho_steps=litho_steps,
+    logo=logo,
     loop_mirror=loop_mirror,
+    manhattan_text=manhattan_text,
     mmi1x2=mmi1x2,
     mmi2x2=mmi2x2,
     mzi1x2=mzi1x2,
     mzi2x2=mzi2x2,
     mzi=mzi,
-    mzit=mzit,
-    mzi_lattice=mzi_lattice,
-    mzit_lattice=mzit_lattice,
     mzi_arm=mzi_arm,
+    mzi_lattice=mzi_lattice,
+    mzit=mzit,
+    mzit_lattice=mzit_lattice,
+    nxn=nxn,
     pad=pad,
     pad_array=pad_array,
     pads_shorted=pads_shorted,
+    qrcode=qrcode,
     ramp=ramp,
     rectangle=rectangle,
     ring=ring,
@@ -212,23 +224,17 @@ component_factory = dict(
     text=text,
     tlm=tlm,
     verniers=verniers,
+    version_stamp=version_stamp,
     via1=via1,
     via2=via2,
     via3=via3,
     via=via,
-    manhattan_text=manhattan_text,
-    qrcode=qrcode,
-    version_stamp=version_stamp,
-    logo=logo,
     waveguide=waveguide,
     waveguide_array=waveguide_array,
     waveguide_heater=waveguide_heater,
     waveguide_pin=waveguide_pin,
     wg_heater_connected=wg_heater_connected,
     wire=wire,
-    C=C,
-    L=L,
-    bbox=bbox,
 )
 
 
