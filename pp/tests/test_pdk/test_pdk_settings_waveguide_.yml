@@ -1,7 +1,7 @@
 function_name: waveguide
 info:
-  length: 10.0
-  width: 1.0
+  length: 10
+  width: 1
 module: pp.components.waveguide
 name: waveguide_186d9812
 settings:
@@ -9,7 +9,7 @@ settings:
   layer:
   - 34
   - 0
-  length: 10.0
+  length: 10
   npoints: 2
   tech: nitride_cband
-  width: 1.0
+  width: 1

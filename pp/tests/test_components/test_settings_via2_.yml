@@ -1,16 +1,16 @@
 function_name: via2
 info:
-  clearance: 1.0
+  clearance: 1
   height: 0.7
-  period: 2.0
+  period: 2
   width: 0.7
 module: pp.components.electrical.tlm
 name: via2
 settings:
-  clearance: 1.0
+  clearance: 1
   height: 0.7
   layer:
   - 44
   - 0
-  period: 2.0
+  period: 2
   width: 0.7

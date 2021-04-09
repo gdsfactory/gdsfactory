@@ -15,7 +15,10 @@ circuit_names_test = circuit_names - {"component_lattice"}  # set of component n
     "component_type,full_settings", it.product(circuit_names_test, [True, False])
 )
 def test_netlists(
-    component_type: str, full_settings: bool, data_regression: DataRegressionFixture
+    component_type: str,
+    full_settings: bool,
+    data_regression: DataRegressionFixture,
+    check: bool = True,
 ) -> None:
     """Write netlists for hierarchical circuits.
     Checks that both netlists are the same
@@ -25,12 +28,18 @@ def test_netlists(
     """
     c = component_factory[component_type]()
     n = c.get_netlist(full_settings=full_settings)
-    data_regression.check(n)
+    if check:
+        data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = pp.component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
+
     d = jsondiff.diff(n, n2)
+    # yaml_str2 = OmegaConf.to_yaml(n2, sort_keys=True)
+    # print(d)
+    # print(yaml_str)
+    # print(yaml_str2)
     assert len(d) == 0
 
 
@@ -56,25 +65,27 @@ if __name__ == "__main__":
     # c.show()
 
     # c = component_factory["ring_single"]()
-
-    component_type = "mzi"
-    component_type = "mzit"
-    component_type = "ring_single"
-    component_type = "ring_double"
-    c1 = component_factory[component_type]()
-
-    full_settings = True
-
-    n = c1.get_netlist(full_settings=full_settings)
     # n.pop("connections")
     # n.pop("placements")
-    # pp.clear_cache()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
 
-    c2 = pp.component_from_yaml(yaml_str)
-    n2 = c2.get_netlist(full_settings=full_settings)
+    # component_type = "mzi"
+    # component_type = "mzit"
+    # component_type = "ring_double"
+    # component_type = "ring_single"
+    # c1 = component_factory[component_type]()
+    # full_settings = True
+    # n = c1.get_netlist(full_settings=full_settings)
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # print(yaml_str)
+    # c2 = pp.component_from_yaml(yaml_str)
+    # n2 = c2.get_netlist(full_settings=full_settings)
+    # d = jsondiff.diff(n, n2)
+    # print(d)
+    # pp.show(c2)
 
-    d = jsondiff.diff(n, n2)
-    print(d)
-    pp.show(c2)
+    test_netlists(
+        component_type="ring_single",
+        full_settings=False,
+        data_regression=None,
+        check=False,
+    )

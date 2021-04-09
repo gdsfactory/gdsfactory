@@ -13,7 +13,7 @@ instances:
   b:
     component: pad_array
     settings:
-      height: 100.0
+      height: 100
       layer:
       - 49
       - 0
@@ -21,9 +21,9 @@ instances:
       port_list:
       - N
       spacing:
-      - 150.0
-      - 0.0
-      width: 100.0
+      - 150
+      - 0
+      width: 100
   bend_euler_R5_W500n_-0.875_599.125:
     component: bend_euler
     settings:
@@ -55,7 +55,7 @@ instances:
   t:
     component: pad_array
     settings:
-      height: 100.0
+      height: 100
       layer:
       - 49
       - 0
@@ -63,9 +63,9 @@ instances:
       port_list:
       - S
       spacing:
-      - 150.0
-      - 0.0
-      width: 100.0
+      - 150
+      - 0
+      width: 100
   taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
     component: taper
     settings:
@@ -74,7 +74,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -87,7 +87,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -100,7 +100,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -113,7 +113,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -126,7 +126,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -139,7 +139,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 35.0
+      length: 35
       port: null
       tech: null
       width1: 0.5
@@ -151,7 +151,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 170.0
+      length: 170
       npoints: 2
       tech: null
       width: 2.5
@@ -162,7 +162,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 325.0
+      length: 325
       npoints: 2
       tech: null
       width: 2.5
@@ -173,7 +173,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 525.0
+      length: 525
       npoints: 2
       tech: null
       width: 2.5

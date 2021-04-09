@@ -3,16 +3,16 @@ instances:
   mzit_57d3e173_20.638_10.6:
     component: mzit
     settings:
-      Ls: 1.0
-      bend_radius: 10.0
+      Ls: 1
+      bend_radius: 10
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 10
       coupler_length2: 20
       delta_length: 10
-      dy: 2.0
+      dy: 2
       pins: false
-      taper_length: 5.0
+      taper_length: 5
       tech: null
       w0: 0.5
       w1: 0.45

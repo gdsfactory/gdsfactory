@@ -23,6 +23,8 @@ from pydantic import validate_arguments
 ## Next release
 
 - better README
+- get_settings try to export int if possible
+- added pin cross_section
 
 
 ## 2.4.6

@@ -1,7 +1,7 @@
 function_name: bend_circular_heater
 info:
-  dx: 10.0
-  dy: 10.0
+  dx: 10
+  dy: 10
   length: 15.708
 module: pp.components.bend_circular_heater
 name: bend_circular_heater

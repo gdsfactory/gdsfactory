@@ -1,8 +1,8 @@
 function_name: bend_circular
 info:
-  dy: 10.0
+  dy: 10
   length: 15.708
-  radius_min: 10.0
+  radius_min: 10
 module: pp.components.bend_circular
 name: bend_circular
 settings:
@@ -12,6 +12,6 @@ settings:
   - 1
   - 0
   npoints: 720
-  radius: 10.0
+  radius: 10
   tech: null
   width: 0.5

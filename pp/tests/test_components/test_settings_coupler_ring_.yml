@@ -4,12 +4,13 @@ module: pp.components.coupler_ring
 name: coupler_ring
 settings:
   bend: null
-  cross_section_factory: null
+  cross_section_factory_inner: null
+  cross_section_factory_outer: null
   gap: 0.2
   layer:
   - 1
   - 0
-  length_x: 4.0
-  radius: 5.0
+  length_x: 4
+  radius: 5
   tech: null
   width: 0.5

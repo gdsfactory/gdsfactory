@@ -4,7 +4,8 @@ module: pp.components.ring_double
 name: ring_double
 settings:
   bend: null
-  cross_section_factory: null
+  cross_section_factory_inner: null
+  cross_section_factory_outer: null
   gap: 0.2
   layer:
   - 1
@@ -12,6 +13,6 @@ settings:
   length_x: 0.01
   length_y: 0.01
   pins: false
-  radius: 10.0
+  radius: 10
   tech: null
   width: 0.5

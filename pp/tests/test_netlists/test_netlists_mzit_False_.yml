@@ -20,103 +20,103 @@ instances:
   bend_euler_R10_TNone_W550n_34.638_1.962:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.55
   bend_euler_R10_TNone_W550n_34.638_19.238:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.55
   bend_euler_R10_W450n_31.612_17.212:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.45
   bend_euler_R10_W450n_31.612_3.988:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.45
   coupler_D2_G200n_L5_TNone_1.5_21.6:
     component: coupler
     settings:
-      dy: 2.0
+      dy: 2
       gap: 0.2
-      length: 5.0
+      length: 5
       tech: null
   coupler_D2_G300n_L10_TNone_5.0_-0.4:
     component: coupler
     settings:
-      dy: 2.0
+      dy: 2
       gap: 0.3
-      length: 10.0
+      length: 10
       tech: null
   taper_L5_W450n_W500n_16.5_22.6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.45
       width2: 0.5
   taper_L5_W450n_W550n_22.5_20.6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.45
       width2: 0.55
   taper_L5_W500n_W450n_22.5_0.6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.5
       width2: 0.45
   taper_L5_W500n_W550n_22.5_-1.4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.5
       width2: 0.55
   taper_L5_W550n_W450n_22.5_22.6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.55
       width2: 0.45
   taper_L5_W550n_W500n_16.5_20.6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.55
       width2: 0.5
   waveguide_L1_TNone_W450n_19.5_22.6:
     component: waveguide
     settings:
-      length: 1.0
+      length: 1
       tech: null
       width: 0.45
   waveguide_L1_TNone_W550n_19.5_20.6:
     component: waveguide
     settings:
-      length: 1.0
+      length: 1
       tech: null
       width: 0.55
   waveguide_L3_TNone_W550n_26.5_-1.4:
     component: waveguide
     settings:
-      length: 3.0
+      length: 3
       tech: null
       width: 0.55
   waveguide_L3_TNone_W550n_26.5_22.6:
     component: waveguide
     settings:
-      length: 3.0
+      length: 3
       tech: null
       width: 0.55
   waveguide_L4_TNone_W550n_38.0_10.6:
     component: waveguide
     settings:
-      length: 4.0
+      length: 4
       tech: null
       width: 0.55
 name: mzit

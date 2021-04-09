@@ -27,7 +27,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.55
       with_arc_floorplan: true
@@ -41,7 +41,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.55
       with_arc_floorplan: true
@@ -55,7 +55,7 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.45
       with_arc_floorplan: true
@@ -69,26 +69,26 @@ instances:
       - 0
       npoints: 720
       p: 1
-      radius: 10.0
+      radius: 10
       tech: null
       width: 0.45
       with_arc_floorplan: true
   coupler_D2_G200n_L5_TNone_1.5_21.6:
     component: coupler
     settings:
-      dx: 10.0
-      dy: 2.0
+      dx: 10
+      dy: 2
       gap: 0.2
-      length: 5.0
+      length: 5
       tech: null
       width: 0.5
   coupler_D2_G300n_L10_TNone_5.0_-0.4:
     component: coupler
     settings:
-      dx: 10.0
-      dy: 2.0
+      dx: 10
+      dy: 2
       gap: 0.3
-      length: 10.0
+      length: 10
       tech: null
       width: 0.5
   taper_L5_W450n_W500n_16.5_22.6:
@@ -99,7 +99,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.45
@@ -112,7 +112,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.45
@@ -125,7 +125,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.5
@@ -138,7 +138,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.5
@@ -151,7 +151,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.55
@@ -164,7 +164,7 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length: 5.0
+      length: 5
       port: null
       tech: null
       width1: 0.55
@@ -176,7 +176,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 1.0
+      length: 1
       npoints: 2
       tech: null
       width: 0.45
@@ -187,7 +187,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 1.0
+      length: 1
       npoints: 2
       tech: null
       width: 0.55
@@ -198,7 +198,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 3.0
+      length: 3
       npoints: 2
       tech: null
       width: 0.55
@@ -209,7 +209,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 3.0
+      length: 3
       npoints: 2
       tech: null
       width: 0.55
@@ -220,7 +220,7 @@ instances:
       layer:
       - 1
       - 0
-      length: 4.0
+      length: 4
       npoints: 2
       tech: null
       width: 0.55

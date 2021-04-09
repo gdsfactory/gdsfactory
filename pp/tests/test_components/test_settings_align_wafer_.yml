@@ -3,11 +3,11 @@ info: {}
 module: pp.components.align
 name: align_wafer
 settings:
-  cross_length: 80.0
+  cross_length: 80
   layer:
   - 1
   - 0
   layer_cladding: null
-  spacing: 10.0
+  spacing: 10
   square_corner: bottom_left
-  width: 10.0
+  width: 10

@@ -5,9 +5,9 @@ info:
 module: pp.components.coupler
 name: coupler
 settings:
-  dx: 10.0
-  dy: 5.0
+  dx: 10
+  dy: 5
   gap: 0.236
-  length: 20.0
+  length: 20
   tech: null
   width: 0.5

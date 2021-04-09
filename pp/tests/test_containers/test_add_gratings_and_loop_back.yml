@@ -3,7 +3,7 @@ info: {}
 module: pp.add_termination
 name: add_gratings_and_loop_back_ee4c3325
 settings:
-  bend_radius_align_ports: 10.0
+  bend_radius_align_ports: 10
   component:
     function_name: spiral_inner_io
     info:
@@ -12,25 +12,25 @@ settings:
     name: spiral_inner_io
     settings:
       N: 6
-      bend_radius: 50.0
-      dx: 3.0
-      dy: 3.0
-      grating_spacing: 127.0
+      bend_radius: 50
+      dx: 3
+      dy: 3
+      grating_spacing: 127
       length: null
       taper: null
       wg_width: 0.5
       wg_width_grating_coupler: 0.5
-      x_straight_inner_left: 150.0
-      x_straight_inner_right: 150.0
-      y_straight_inner_bottom: 10.0
-      y_straight_inner_top: 50.0
+      x_straight_inner_left: 150
+      x_straight_inner_right: 150
+      y_straight_inner_bottom: 10
+      y_straight_inner_top: 50
   component_name: null
   excluded_ports: null
   gc_port_name: null
   gc_rotation: -90
-  grating_separation: 127.0
+  grating_separation: 127
   layer_label:
   - 201
   - 0
-  waveguide_separation: 5.0
+  waveguide_separation: 5
   with_loopback: true

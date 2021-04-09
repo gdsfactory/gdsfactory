@@ -7,7 +7,7 @@ settings:
   direction: EAST
   dw: 0.1
   gap: 0.5
-  length: 40.0
+  length: 40
   parity: 1
   port:
   - 0

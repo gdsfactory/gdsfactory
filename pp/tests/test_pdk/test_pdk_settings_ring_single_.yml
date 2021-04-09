@@ -4,14 +4,15 @@ module: pp.components.ring_single
 name: ring_single_6ad65302
 settings:
   bend: null
-  cross_section_factory: null
+  cross_section_factory_inner: null
+  cross_section_factory_outer: null
   gap: 0.2
   layer:
   - 34
   - 0
-  length_x: 4.0
+  length_x: 4
   length_y: 0.1
   pins: false
-  radius: 20.0
+  radius: 20
   tech: nitride_cband
-  width: 1.0
+  width: 1

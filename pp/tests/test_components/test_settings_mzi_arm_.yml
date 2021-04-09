@@ -3,11 +3,11 @@ info: {}
 module: pp.components.mzi2x2
 name: mzi_arm
 settings:
-  DL: 0.0
-  L0: 60.0
-  L_top: 10.0
+  DL: 0
+  L0: 60
+  L_top: 10
   bend: bend_euler
-  bend_radius: 10.0
+  bend_radius: 10
   input_port_name: W0
   output_port_name: E0
   ports_map:
@@ -24,7 +24,7 @@ settings:
     - H2
     - E_0
   sequence: AvHBhBHvA
-  start_orientation: 0.0
+  start_orientation: 0
   symbol_to_component:
     A:
     - bend_euler_R10_Tsilicon_cband

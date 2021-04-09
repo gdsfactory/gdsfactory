@@ -3,8 +3,8 @@ info: {}
 module: pp.components.mzi1x2
 name: mzi1x2
 settings:
-  DL: 9.0
+  DL: 9
   L0: 0.1
-  L2: 10.0
-  bend_radius: 10.0
+  L2: 10
+  bend_radius: 10
   with_elec_connections: false

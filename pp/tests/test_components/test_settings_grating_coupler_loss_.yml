@@ -3,4 +3,4 @@ info: {}
 module: pp.components.grating_coupler.grating_coupler_loss
 name: grating_coupler_loss
 settings:
-  io_sep: 127.0
+  io_sep: 127

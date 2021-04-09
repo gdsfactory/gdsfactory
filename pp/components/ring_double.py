@@ -15,8 +15,8 @@ from pp.types import ComponentFactory, Layer
 @cell
 def ring_double(
     gap: float = 0.2,
-    length_x: float = 0.01,
     radius: float = 10.0,
+    length_x: float = 0.01,
     length_y: float = 0.01,
     coupler: ComponentFactory = coupler_ring,
     waveguide: ComponentFactory = waveguide_function,
@@ -24,7 +24,8 @@ def ring_double(
     pins: bool = False,
     width: float = TECH_SILICON_C.wg_width,
     layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
+    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
     tech: Optional[Tech] = None,
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
@@ -41,7 +42,8 @@ def ring_double(
         pins: add pins
         width: waveguide width
         layer:
-        cross_section_factory: to extrude the paths
+        cross_section_factory_inner: for inner bend
+        cross_section_factory_outer: for outer waveguide
         tech: Technology with default values
 
     .. code::
@@ -57,14 +59,15 @@ def ring_double(
     """
     assert_on_2nm_grid(gap)
 
-    coupler = (
+    coupler_component = (
         coupler(
             gap=gap,
             radius=radius,
             length_x=length_x,
             width=width,
             layer=layer,
-            cross_section_factory=cross_section_factory,
+            cross_section_factory_inner=cross_section_factory_inner,
+            cross_section_factory_outer=cross_section_factory_outer,
             bend=bend,
             tech=tech,
         )
@@ -76,15 +79,15 @@ def ring_double(
         length=length_y,
         width=width,
         layer=layer,
-        cross_section_factory=cross_section_factory,
+        cross_section_factory=cross_section_factory_inner,
         tech=tech,
     )
 
     c = Component()
-    cb = c << coupler
-    ct = c << coupler
-    wl = c << waveguide
-    wr = c << waveguide
+    cb = c.add_ref(coupler_component)
+    ct = c.add_ref(coupler_component)
+    wl = c.add_ref(waveguide)
+    wr = c.add_ref(waveguide)
 
     wl.connect(port="E0", destination=cb.ports["N0"])
     ct.connect(port="N1", destination=wl.ports["W0"])

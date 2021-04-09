@@ -12,8 +12,8 @@ settings:
     module: pp.components.coupler
     name: coupler_G244n_L5p67
     settings:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.244
       length: 5.67
       tech: null

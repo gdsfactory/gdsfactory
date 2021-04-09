@@ -3,16 +3,16 @@ info: {}
 module: pp.components.mzit
 name: mzit
 settings:
-  Ls: 1.0
-  bend_radius: 10.0
+  Ls: 1
+  bend_radius: 10
   coupler_gap1: 0.2
   coupler_gap2: 0.3
-  coupler_length1: 5.0
-  coupler_length2: 10.0
-  delta_length: 10.0
-  dy: 2.0
+  coupler_length1: 5
+  coupler_length2: 10
+  delta_length: 10
+  dy: 2
   pins: true
-  taper_length: 5.0
+  taper_length: 5
   tech: null
   w0: 0.5
   w1: 0.45
