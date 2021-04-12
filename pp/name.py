@@ -147,7 +147,11 @@ def clean_value(value: Any) -> str:
         value = dict2name(**value)
     elif isinstance(value, Device):
         value = clean_name(value.name)
-    elif isinstance(value, object) and hasattr(value, "name"):
+    elif (
+        isinstance(value, object)
+        and hasattr(value, "name")
+        and isinstance(value.name, str)
+    ):
         value = clean_name(value.name)
     elif callable(value):
         value = value.__name__
