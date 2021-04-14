@@ -14,7 +14,7 @@ def mmi1x2(
     width: float = TECH_SILICON_C.wg_width,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
-    length_mmi: float = 5.496,
+    length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
