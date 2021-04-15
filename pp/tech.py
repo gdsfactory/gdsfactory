@@ -1,10 +1,29 @@
+import io
 import pathlib
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
+import omegaconf
+
 from pp.config import CONFIG
 from pp.layers import LAYER, LAYER_STACK, LayerStack
 from pp.types import Layer
+
+component_settings = omegaconf.OmegaConf.load(
+    io.StringIO(
+        """
+
+mmi1x2:
+    width: 0.5
+    width_taper: 1.0
+    length_taper: 10.0
+    length_mmi: 5.5
+    width_mmi: 2.5
+    gap_mmi: 0.25
+
+"""
+    )
+)
 
 
 @dataclass
@@ -44,6 +63,7 @@ class Tech:
     sparameters_path: pathlib.Path = CONFIG["sp"]
     simulation_settings: SimulationSettings = simulation_settings
     layer_stack: LayerStack = LAYER_STACK
+    component_settings: omegaconf.dictconfig.DictConfig = component_settings
 
 
 @dataclass(frozen=True)

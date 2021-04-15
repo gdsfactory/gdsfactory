@@ -1,7 +1,5 @@
 from typing import Iterable, Optional, Tuple
 
-import numpy as np
-
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -94,48 +92,33 @@ def add_padding_container(
     return c
 
 
-@cell
-def add_padding_to_grid(
+def add_padding_to_size(
     component: Component,
-    grid_size: int = 127,
-    x: int = 10,
-    y: int = 10,
-    bottom_padding: int = 5,
+    xsize: Optional[float] = None,
+    ysize: Optional[float] = None,
+    left: float = 0,
+    bottom: float = 0,
     layers: Iterable[Tuple[int, int]] = (pp.LAYER.PADDING,),
 ) -> Component:
     """Returns component with padding layers on each side.
 
     New size is multiple of grid size
     """
-    c = pp.Component()
-    c << component
-    c.ports = component.ports
 
-    if c.size_info.height < grid_size:
-        y_padding = grid_size - c.size_info.height
-    else:
-        n_grids = np.ceil(c.size_info.height / grid_size)
-        y_padding = n_grids * grid_size - c.size_info.height
-
-    if c.size_info.width < grid_size:
-        x_padding = grid_size - c.size_info.width
-    else:
-        n_grids = np.ceil(c.size_info.width / grid_size)
-        x_padding = n_grids * grid_size - c.size_info.width
-
-    x_padding -= x
-    y_padding -= y
-
+    c = component
+    top = abs(ysize - component.ysize) if ysize else 0
+    right = abs(xsize - component.xsize) if xsize else 0
     points = [
-        [c.xmin - x_padding / 2, c.ymin - bottom_padding],
-        [c.xmax + x_padding / 2, c.ymin - bottom_padding],
-        [c.xmax + x_padding / 2, c.ymax + y_padding - bottom_padding],
-        [c.xmin - x_padding / 2, c.ymax + y_padding - bottom_padding],
+        [c.xmin - left, c.ymin - bottom],
+        [c.xmax + right, c.ymin - bottom],
+        [c.xmax + right, c.ymax + top],
+        [c.xmin - left, c.ymax + top],
     ]
-    for layer in layers:
-        c.add_polygon(points, layer=layer)
 
-    return c
+    for layer in layers:
+        component.add_polygon(points, layer=layer)
+
+    return component
 
 
 def test_container():
@@ -157,7 +140,7 @@ def test_container():
 
 
 if __name__ == "__main__":
-    test_container()
+    # test_container()
 
     # c = pp.components.waveguide(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
@@ -167,7 +150,8 @@ if __name__ == "__main__":
     # cc.show()
     # cc.pprint()
 
-    # cc = add_padding_to_grid(c, layers=[(2, 0)])
-    # cc = add_padding_to_grid(c)
+    c = pp.c.waveguide(length=5)
+    cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
+    cc.show()
     # print(cc.settings)
     # print(cc.ports)

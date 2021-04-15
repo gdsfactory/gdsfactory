@@ -24,7 +24,10 @@ from pydantic import validate_arguments
 
 - better README
 - get_settings try to export int if possible
-- added pin cross_section
+- added PIN doped cross_section
+- Raise error for making transition with unnamed sections
+- starting to store component settings in YAML
+- added pp.padding add_padding_to_size
 
 
 ## 2.4.6

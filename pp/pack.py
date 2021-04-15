@@ -98,8 +98,9 @@ def pack(
         spacing: Minimum distance between adjacent shapes
         aspect_ratio: (width, height) ratio of the rectangular bin
         max_size: Limits the size into which the shapes will be packed
-        density:  Values closer to 1 pack tighter but require more computation
-        sort_by_area (Boolean): Pre-sorts the shapes by area
+        sort_by_area: Pre-sorts the shapes by area
+        density: Values closer to 1 pack tighter but require more computation
+        precision: Desired precision for rounding vertex coordinates.
     """
 
     if density < 1.01:
@@ -189,6 +190,7 @@ def test_pack_with_settings() -> Component:
         max_size=(None, None),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
+        precision=1e-3,
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
     # print(len(c.get_dependencies()))

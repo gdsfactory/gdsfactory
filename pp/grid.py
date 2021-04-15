@@ -20,12 +20,11 @@ def grid(
     """Places the devices in the `components` (1D or 2D) on a grid.
 
     Args:
-        components :
-            Components to be placed onto a grid.
-        spacing: Spacing between adjacent elements on the grid, can be a tuple for
+        components: Iterable to be placed onto a grid.
+        spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
-        separation : If True, guarantees elements are speparated with a fixed spacing between;
-            if  False, elements are spaced evenly along a grid.
+        separation: If True, guarantees elements are speparated with a fixed spacing between;
+            if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape is given and the list is 1D, the output is as if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'}
@@ -79,7 +78,7 @@ def grid(
 
     # Create a blank Component and reference all the Components in it
     D = Component("grid")
-    ref_array = np.empty(device_array.shape, dtype=np.object)
+    ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
