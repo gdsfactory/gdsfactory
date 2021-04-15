@@ -386,7 +386,7 @@ class Pdk:
             theta: Angle of the waveguide in rad.
             length: total grating coupler region from the output port.
             taper_length: Length of the taper before the grating coupler.
-            period: Grating period.  Defaults to 1.0
+            period: Grating period (um)
             dutycycle: (period-gap)/period.
             teeth_list: (gap, width) tuples to be used as the gap and teeth widths
                 for irregularly spaced gratings.

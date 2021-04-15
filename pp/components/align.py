@@ -1,7 +1,6 @@
 from typing import Optional, Tuple
 
 import pp
-from pp.add_padding import add_padding_to_grid
 from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
@@ -152,7 +151,6 @@ def align_tree_top_left(**kwargs):
     gc_ref.move(-gc.size_info.center)
     align = align_cryo_top_left()
     c.add_ref(align)
-    c = add_padding_to_grid(c)
     return c
 
 
@@ -168,7 +166,6 @@ def align_tree_top_left_with_cross(**kwargs):
     align2 = align_wafer()
     align2_ref = c.add_ref(align2)
     align2_ref.movex(gc_ref.xmin - align2.size_info.width / 2)
-    c = add_padding_to_grid(c)
     return c
 
 
@@ -181,7 +178,6 @@ def align_tree_top_right(**kwargs):
     gc_ref.move(-gc.size_info.center)
     align = align_cryo_top_right()
     c.add_ref(align)
-    c = add_padding_to_grid(c)
     return c
 
 
@@ -194,7 +190,6 @@ def align_tree_bottom_left(**kwargs):
     gc_ref.move(-gc.size_info.center)
     align = align_cryo_bottom_left()
     c.add_ref(align)
-    c = add_padding_to_grid(c)
     return c
 
 
@@ -207,17 +202,16 @@ def align_tree_bottom_right(**kwargs):
     gc_ref.move(-gc.size_info.center)
     align = align_cryo_bottom_right()
     c.add_ref(align)
-    c = add_padding_to_grid(c)
     return c
 
 
 if __name__ == "__main__":
-    c = pp.components.waveguide()
-    c = add_frame(component=c)
-    c = align_wafer()
+    # c = pp.components.waveguide()
+    # c = add_frame(component=c)
+    # c = align_wafer()
 
     # c = align_tree_top_left_with_cross()
-    # c = align_tree_top_left()
+    c = align_tree_top_left()
     # c = triangle(x=60, y=60)
     # c = align_wafer()
     # c = pp.components.cross(length=80, width=10)

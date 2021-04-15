@@ -7,7 +7,6 @@ from pathlib import Path
 import pytest
 
 import pp
-from pp.add_padding import add_padding_to_grid
 from pp.add_termination import add_gratings_and_loop_back
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.components.spiral_inner_io import spiral_inner_io_euler
@@ -41,7 +40,6 @@ def add_tm(component, **kwargs):
         route_filter=_route_filter,
         **kwargs,
     )
-    c = add_padding_to_grid(c)
     return c
 
 

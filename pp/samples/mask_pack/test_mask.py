@@ -10,7 +10,6 @@ from typing import Dict, List, Union
 import pytest
 
 import pp
-from pp.add_padding import add_padding_to_grid
 from pp.add_termination import add_gratings_and_loop_back
 from pp.component import Component, ComponentReference
 from pp.components.spiral_inner_io import spiral_inner_io_euler
@@ -39,7 +38,6 @@ def add_te(component: Component, **kwargs) -> Component:
         **kwargs,
     )
     c.test = "passive_optical_te"
-    c = add_padding_to_grid(component=c)
     return c
 
 
@@ -51,7 +49,6 @@ def add_tm(component, **kwargs):
         bend_radius=20,
         **kwargs,
     )
-    c = add_padding_to_grid(component=c)
     return c
 
 
