@@ -38,12 +38,12 @@ def errors():
 
 if __name__ == "__main__":
     # c = width_min()
-    # pp.write_gds(c, "wmin.gds")
+    # c.write_gds("wmin.gds")
     # c = gap_min()
-    # pp.write_gds(c, "gmin.gds")
+    # c.write_gds("gmin.gds")
     # c = snapping_error()
-    # pp.write_gds(c, "snap.gds")
+    # c.write_gds("snap.gds")
 
     c = errors()
-    pp.write_gds(c, "errors.gds")
+    c.write_gds("errors.gds")
     c.show()

@@ -15,7 +15,7 @@ from pp.types import Coordinate, Coordinates, Number
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
-    """ Returns bezier coordinates
+    """Returns bezier coordinates
 
     Args:
         t: 1D array of points varying between 0 and 1.
@@ -176,5 +176,5 @@ if __name__ == "__main__":
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
     # print(c.ignore)
-    # pp.write_gds(c)
+    # c.write_gds()
     c.show()

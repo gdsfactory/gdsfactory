@@ -1,6 +1,5 @@
 import pathlib
 
-import pp
 from pp.components import component_factory
 
 if __name__ == "__main__":
@@ -10,4 +9,4 @@ if __name__ == "__main__":
     for factory in component_factory.values():
         c = factory()
         gdspath = gdsdir / (c.name + ".gds")
-        pp.write_gds(c, gdspath=gdspath)
+        c.write_gds(gdspath=gdspath)

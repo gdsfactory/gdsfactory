@@ -7,7 +7,6 @@ from pp.components import component_factory
 from pp.config import CONFIG
 from pp.doe import get_settings_list
 from pp.routing.add_fiber_array import add_fiber_array_te, add_fiber_array_tm
-from pp.write_component import write_component
 
 function_factory = dict(
     add_fiber_array_te=add_fiber_array_te, add_fiber_array_tm=add_fiber_array_tm
@@ -182,7 +181,7 @@ def write_doe(
         cell_settings.append(settings)
         gdspath = path / f"{component.name}.gds"
         doe_gds_paths += [gdspath]
-        write_component(component, gdspath)
+        component.write_gds_with_metadata(gdspath)
 
     write_doe_metadata(
         doe_name=doe_name,
@@ -261,8 +260,9 @@ def test_write_doe() -> Path:
 if __name__ == "__main__":
     import pp
 
-    path = test_write_doe()
-    pp.show(path)
+    path0 = test_write_doe()
+    pp.show(path0)
+
     # print(get_markdown_table(width_mmi=[5, 6]))
     # paths = write_doe(
     #     "mmi1x2", width_mmi=[5, 10], length_mmi=[20, 30], do_permutations=False

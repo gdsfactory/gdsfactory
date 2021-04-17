@@ -42,7 +42,6 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory
 from pp.config import CONFIG
 from pp.doe import get_settings_list, load_does
-from pp.write_component import write_component_report, write_gds
 
 
 def _print(*args, **kwargs):
@@ -83,7 +82,14 @@ def placer_grid_cell_refs(
 
 
 def pack_horizontal(
-    cells, row_ids=None, x0=0, y0=0, align_x="W", align_y="S", margin_x=20, margin_y=20,
+    cells,
+    row_ids=None,
+    x0=0,
+    y0=0,
+    align_x="W",
+    align_y="S",
+    margin_x=20,
+    margin_y=20,
 ):
     """
     Args:
@@ -159,7 +165,14 @@ def pack_horizontal(
 
 
 def pack_vertical(
-    cells, col_ids=None, x0=0, y0=0, align_x="W", align_y="S", margin_x=20, margin_y=20,
+    cells,
+    col_ids=None,
+    x0=0,
+    y0=0,
+    align_x="W",
+    align_y="S",
+    margin_x=20,
+    margin_y=20,
 ):
     """
     Args:
@@ -315,8 +328,7 @@ def save_doe(
 
     for c in components:
         gdspath = doe_dir / f"{c.name}.gds"
-        write_gds(c, gdspath=gdspath, precision=precision)
-        write_component_report(c, json_path=gdspath.with_suffix(".json"))
+        c.write_gds_with_metadata(gdspath=gdspath, precision=precision)
 
 
 def load_doe_from_cache(doe_name, doe_root_path=None):

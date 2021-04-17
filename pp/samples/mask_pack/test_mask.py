@@ -123,7 +123,7 @@ def test_mask(precision: float = 1e-9) -> Path:
     c = pp.pack(components)
     m = c[0]
     m.name = "sample_mask"
-    pp.write_gds(m, gdspath)
+    m.write_gds(gdspath)
 
     merge_metadata(gdspath=gdspath)
 

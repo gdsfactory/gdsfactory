@@ -338,7 +338,7 @@ def write_top_cells(gdspath: Union[str, Path], **kwargs):
 
     for cellname in cellnames:
         component = import_gds(gdspath, cellname=cellname, **kwargs)
-        pp.write_gds(component, f"{dirpath/cellname}.gds")
+        component.write_gds(f"{dirpath/cellname}.gds")
 
 
 def test_import_gds_snap_to_grid() -> None:
@@ -354,7 +354,7 @@ def test_import_gds_snap_to_grid() -> None:
 
 def test_import_gds_hierarchy() -> None:
     c0 = pp.components.mzi2x2()
-    gdspath = pp.write_gds(c0)
+    gdspath = c0.write_gds()
     c = import_gds(gdspath)
     assert len(c.get_dependencies()) == 3
 

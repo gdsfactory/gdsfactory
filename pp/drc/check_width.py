@@ -22,11 +22,10 @@ def check_width(
         dbu: database units (1000 um/nm)
     """
     from pp.component import Component
-    from pp.write_component import write_gds
 
     if isinstance(gdspath, Component):
         gdspath.flatten()
-        gdspath = write_gds(gdspath)
+        gdspath = gdspath.write_gds()
     layout = pya.Layout()
     layout.read(str(gdspath))
     cell = layout.top_cell()

@@ -65,7 +65,7 @@ def test_find_labels():
 
     c = pp.components.waveguide()
     cc = add_fiber_single(component=c)
-    gdspath = pp.write_gds(cc)
+    gdspath = cc.write_gds()
     assert len(list(find_labels(gdspath))) == 4
 
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     c = pp.components.waveguide()
     cc = add_fiber_single(component=c)
-    gdspath = pp.write_gds(cc)
+    gdspath = cc.write_gds()
     print(len(list(find_labels(gdspath))))
     cc.show()
 

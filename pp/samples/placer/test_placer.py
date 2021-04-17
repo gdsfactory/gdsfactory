@@ -1,6 +1,5 @@
 import pathlib
 
-import pp
 from pp.placer import component_grid_from_yaml
 
 
@@ -12,7 +11,7 @@ def test_placer():
     gdspath = dirpath / "test_placer.gds"
 
     top_level = component_grid_from_yaml(filepath)
-    pp.write_gds(top_level, gdspath=gdspath)
+    top_level.write_gds(gdspath=gdspath)
     assert gdspath.exists()
     return gdspath
 

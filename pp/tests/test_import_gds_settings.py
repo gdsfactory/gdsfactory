@@ -37,7 +37,7 @@ def test_properties_components(component_type: str) -> Component:
 
     ignore = ("sequence", "symbol_to_component", "ports_map")
     add_settings_label(cnew, reference=c1ref, ignore=ignore)
-    gdspath = pp.write_component(cnew)
+    gdspath = cnew.write_gds_with_metadata()
 
     c2 = import_gds(gdspath)
     add_settings_from_label(c2)
