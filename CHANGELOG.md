@@ -5,6 +5,7 @@
 - simplify link_factory and route_factory
 - fix some FIXME
 - pack conserves metadata
+- replace pp.write_gds by component.write_gds()
 
 Maybe:
 
@@ -23,11 +24,13 @@ from pydantic import validate_arguments
 ## Next release
 
 - better README
-- get_settings try to export int if possible
-- added PIN doped cross_section
+- get_settings export int if possible (3.0 -> 3)
+- add cross_section pin for doped waveguides
 - Raise error for making transition with unnamed sections
-- starting to store component settings in YAML
-- added pp.padding add_padding_to_size
+- store component settings in YAML as part of tech.component_settings
+- add add_padding_to_size function
+- simplify add_pins function
+- add Pdk.add_pins()
 
 
 ## 2.4.6

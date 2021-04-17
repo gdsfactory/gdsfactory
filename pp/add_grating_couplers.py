@@ -22,9 +22,18 @@ def add_grating_couplers(
     gc_port_name: str = "W0",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
 ) -> Component:
-    """Return component with grating couplers and labels."""
+    """Returns new component with grating couplers and labels.
 
-    cnew = Component(name=component.name + "_c")
+    Args:
+        Component: to add grating_couplers
+        grating_couplers: grating_coupler function
+        layer_label: for label
+        gc_port_name: where to add label
+        get_input_labels_function: function to get label
+
+    """
+
+    cnew = Component()
     cnew.add_ref(component)
     grating_coupler = pp.call_if_func(grating_coupler)
 

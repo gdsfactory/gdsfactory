@@ -1,6 +1,7 @@
 import json
+import pathlib
 from pathlib import Path
-from typing import Dict, Iterable, Optional, Union, cast
+from typing import Iterable, Optional, Union, cast
 
 import gdspy
 import numpy as np
@@ -8,7 +9,6 @@ from phidl.device_layout import CellArray, DeviceReference
 
 import pp
 from pp.component import Component
-from pp.layers import PORT_LAYER_TO_TYPE, PORT_TYPE_TO_LAYER
 from pp.port import auto_rename_ports, read_port_markers
 from pp.snap import on_grid, snap_to_grid
 from pp.types import Layer
@@ -66,13 +66,13 @@ def add_ports_from_markers_square(
 
 def add_ports_from_markers_center(
     component: Component,
-    port_layer_to_type: Dict[Layer, str] = PORT_LAYER_TO_TYPE,
-    port_type_to_layer: Dict[str, Layer] = PORT_TYPE_TO_LAYER,
+    layer: Layer = pp.LAYER.PORT,
+    port_type: "str" = "optical",
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: Optional[float] = None,
-    max_pin_area_um2: float = 150 * 150,
+    max_pin_area_um2: float = 150.0 * 150.0,
 ) -> None:
     """add ports from polygons in certain layers
 
@@ -80,8 +80,8 @@ def add_ports_from_markers_center(
 
     Args:
         component: to read polygons from and to write ports to
-        port_layer_to_type: dict of layer to port_type
-        port_type_to_layer: dict of port_type to layer
+        layer: GDS layer for maker [int, int]
+        port_type: optical, dc, rf
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
         pin_extra_width: 2*offset from pin to waveguide
@@ -132,7 +132,6 @@ def add_ports_from_markers_center(
         x < xc: west
 
     """
-    i = 0
     xc = component.x
     yc = component.y
     xmax = component.xmax
@@ -140,85 +139,74 @@ def add_ports_from_markers_center(
     ymax = component.ymax
     ymin = component.ymin
 
-    for port_layer, port_type in port_layer_to_type.items():
-        port_markers = read_port_markers(component, [port_layer])
+    port_markers = read_port_markers(component, [layer])
 
-        for p in port_markers.polygons:
-            dy = p.ymax - p.ymin
-            dx = p.xmax - p.xmin
-            x = p.x
-            y = p.y
-            if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
-                continue
+    for i, p in enumerate(port_markers.polygons):
+        dy = p.ymax - p.ymin
+        dx = p.xmax - p.xmin
+        x = p.x
+        y = p.y
+        if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
+            continue
 
-            if max_pin_area_um2 and dx * dy > max_pin_area_um2:
-                continue
+        if max_pin_area_um2 and dx * dy > max_pin_area_um2:
+            continue
 
-            # skip square ports as they have no clear orientation
-            if snap_to_grid(dx) == snap_to_grid(dy):
-                continue
-            layer = port_type_to_layer[port_type]
-            pxmax = p.xmax
-            pxmin = p.xmin
-            pymax = p.ymax
-            pymin = p.ymin
+        # skip square ports as they have no clear orientation
+        if snap_to_grid(dx) == snap_to_grid(dy):
+            continue
+        pxmax = p.xmax
+        pxmin = p.xmin
+        pymax = p.ymax
+        pymin = p.ymin
 
-            if dx < dy and x > xc:  # east
-                orientation = 0
-                width = dy
-                if inside:
-                    x = p.xmax
-            elif dx < dy and x < xc:  # west
-                orientation = 180
-                width = dy
-                if inside:
-                    x = p.xmin
-            elif dx > dy and y > yc:  # north
-                orientation = 90
-                width = dx
-                if inside:
-                    y = p.ymax
-            elif dx > dy and y < yc:  # south
-                orientation = 270
-                width = dx
-                if inside:
-                    y = p.ymin
-            # port markers have same width and height
-            # check which edge (E, W, N, S) they are closer to
-            elif pxmax > xmax - tol:  # east
-                orientation = 0
-                width = dy
+        if dx < dy and x > xc:  # east
+            orientation = 0
+            width = dy
+            if inside:
                 x = p.xmax
-            elif pxmin < xmin + tol:  # west
-                orientation = 180
-                width = dy
+        elif dx < dy and x < xc:  # west
+            orientation = 180
+            width = dy
+            if inside:
                 x = p.xmin
-            elif pymax > ymax - tol:  # north
-                orientation = 90
-                width = dx
+        elif dx > dy and y > yc:  # north
+            orientation = 90
+            width = dx
+            if inside:
                 y = p.ymax
-            elif pymin < ymin + tol:  # south
-                orientation = 270
-                width = dx
+        elif dx > dy and y < yc:  # south
+            orientation = 270
+            width = dx
+            if inside:
                 y = p.ymin
+        # port markers have same width and height
+        # check which edge (E, W, N, S) they are closer to
+        elif pxmax > xmax - tol:  # east
+            orientation = 0
+            width = dy
+            x = p.xmax
+        elif pxmin < xmin + tol:  # west
+            orientation = 180
+            width = dy
+            x = p.xmin
+        elif pymax > ymax - tol:  # north
+            orientation = 90
+            width = dx
+            y = p.ymax
+        elif pymin < ymin + tol:  # south
+            orientation = 270
+            width = dx
+            y = p.ymin
 
-            component.add_port(
-                i,
-                midpoint=(x, y),
-                width=width - pin_extra_width,
-                orientation=orientation,
-                port_type=port_type,
-                layer=layer,
-            )
-            i += 1
-
-
-def import_gds_cells(gdspath):
-    """ returns top cells from GDS"""
-    gdsii_lib = gdspy.GdsLibrary()
-    gdsii_lib.read_gds(gdspath)
-    top_level_cells = gdsii_lib.top_level()
-    return top_level_cells
+        component.add_port(
+            i,
+            midpoint=(x, y),
+            width=width - pin_extra_width,
+            orientation=orientation,
+            port_type=port_type,
+            layer=layer,
+        )
 
 
 # pytype: disable=bad-return-type
@@ -337,6 +325,20 @@ def import_gds(
         for layer_in_gds, polys in polygons.items():
             component.add_polygon(polys, layer=layer_in_gds)
         return component
+
+
+def write_top_cells(gdspath: Union[str, Path], **kwargs):
+    """Writes each top level cells into separate GDS file."""
+    gdspath = pathlib.Path(gdspath)
+    dirpath = gdspath.parent
+    gdsii_lib = gdspy.GdsLibrary()
+    gdsii_lib.read_gds(gdspath)
+    top_level_cells = gdsii_lib.top_level()
+    cellnames = [c.name for c in top_level_cells]
+
+    for cellname in cellnames:
+        component = import_gds(gdspath, cellname=cellname, **kwargs)
+        pp.write_gds(component, f"{dirpath/cellname}.gds")
 
 
 def test_import_gds_snap_to_grid() -> None:

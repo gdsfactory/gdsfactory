@@ -12,6 +12,14 @@ from pp.types import Layer
 component_settings = omegaconf.OmegaConf.load(
     io.StringIO(
         """
+tech:
+    wg_width: 0.5
+    bend_radius: 5.0
+    cladding_offset: 3.0
+    layer: [1, 0]
+    layer_heater: [47, 0]
+    layer_label: [201, 0]
+
 
 mmi1x2:
     width: 0.5
