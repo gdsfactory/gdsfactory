@@ -1,6 +1,10 @@
 import copy as python_copy
 import itertools
+import json
+import pathlib
+import tempfile
 import uuid
+from pathlib import Path
 from pprint import pprint
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 
@@ -17,6 +21,10 @@ from pp.port import Port, select_ports, valid_port_types
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
+PathType = Union[str, Path]
+
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+tmp.mkdir(exist_ok=True)
 
 
 def copy(D: Device) -> Device:
@@ -994,7 +1002,7 @@ class Component(Device):
     ) -> None:
         """Show component in klayout"""
         from pp.add_pins import add_pins, add_pins_to_references
-        from pp.write_component import show
+        from pp.show import show
 
         if show_ports:
             add_pins(self)
@@ -1008,6 +1016,62 @@ class Component(Device):
         from phidl.quickplotter import quickplot2
 
         quickplot2(self)
+
+    def write_gds(
+        self,
+        gdspath: Optional[PathType] = None,
+        gdsdir: PathType = tmp,
+        unit: float = 1e-6,
+        precision: float = 1e-9,
+        auto_rename: bool = False,
+    ) -> Path:
+        """Write component to GDS and returs gdspath
+
+        Args:
+            component: gdsfactory Component.
+            gdspath: GDS file path to write to.
+            unit unit size for objects in library.
+            precision: for the dimensions of the objects in the library (m).
+            remove_previous_markers: clear previous ones to avoid duplicates.
+            auto_rename: If True, fixes any duplicate cell names.
+
+        Returns:
+            gdspath
+        """
+
+        gdsdir = pathlib.Path(gdsdir)
+        gdspath = gdspath or gdsdir / (self.name + ".gds")
+        gdspath = pathlib.Path(gdspath)
+        gdsdir = gdspath.parent
+        gdsdir.mkdir(exist_ok=True, parents=True)
+
+        super().write_gds(
+            str(gdspath),
+            unit=unit,
+            precision=precision,
+            auto_rename=auto_rename,
+        )
+        self.path = gdspath
+        return gdspath
+
+    def write_gds_with_metadata(self, *args, **kwargs) -> Path:
+        gdspath = self.write_gds(*args, **kwargs)
+        ports_path = gdspath.with_suffix(".ports")
+        json_path = gdspath.with_suffix(".json")
+
+        # write component.ports to CSV
+        if len(self.ports) > 0:
+            with open(ports_path, "w") as fw:
+                for port in self.ports.values():
+                    layer, purpose = _parse_layer(port.layer)
+                    fw.write(
+                        f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {layer}, {purpose}\n"
+                    )
+
+        # write component.json metadata dict to JSON
+        with open(json_path, "w+") as fw:
+            fw.write(json.dumps(self.get_json(), indent=2))
+        return gdspath
 
 
 def test_get_layers() -> None:
@@ -1182,7 +1246,8 @@ if __name__ == "__main__":
     import pp
 
     c = pp.components.bend_circular()
-    c.pprint()
+    c.write_gds_with_metadata("bend.gds")
+    # c.pprint()
 
     # c.info["curvature_info"] = 10
     # c.curvature = 5
@@ -1249,7 +1314,6 @@ if __name__ == "__main__":
 
     # from pp.routing import add_fiber_array
     # cc = add_fiber_array(c)
-    # pp.write_component(cc)
 
     # from pprint import pprint
 

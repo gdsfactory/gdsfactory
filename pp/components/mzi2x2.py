@@ -281,7 +281,7 @@ if __name__ == "__main__":
     #     print(p.port_type)
     # c = mzi_arm(DL=100)
     # c = mzi2x2(waveguide_heater=wg_heater_connected, with_elec_connections=True)
-    # pp.write_gds(c, "mzi.gds")
+    # c.write_gds("mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))
     # print(hash(c))

@@ -35,5 +35,5 @@ if __name__ == "__main__":
     import pp
 
     c = pp.components.waveguide()
-    gdspath = pp.write_gds(c)
+    gdspath = c.write_gds()
     show(gdspath)

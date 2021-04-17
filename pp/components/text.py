@@ -82,7 +82,7 @@ def githash(
         "mm_{}".format(Repo(mm.CONFIG["repo"]).head.object.hexsha[:length]),
     ]
     c = githash(text=text)
-    pp.write_gds(c)
+    c.write_gds()
     c.show()
 
     """

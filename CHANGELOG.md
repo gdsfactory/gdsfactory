@@ -24,13 +24,15 @@ from pydantic import validate_arguments
 ## Next release
 
 - better README
-- get_settings export int if possible (3.0 -> 3)
+- get_settings exports int if possible (3.0 -> 3)
 - add cross_section pin for doped waveguides
 - Raise error for making transition with unnamed sections
 - store component settings in YAML as part of tech.component_settings
 - add add_padding_to_size function
-- simplify add_pins function
+- simplify add_pins function. Replace port_type_to_layer with simple layer and port_type kwargs
 - add Pdk.add_pins()
+- replace pp.write_gds(component, gdspath) with component.write_gds(gdspath)
+- replace pp.write_component(component, gdspath) with component.write_gds_with_metadata(gdspath)
 
 
 ## 2.4.6

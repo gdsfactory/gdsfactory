@@ -279,7 +279,7 @@ def wg_heater_connected(
 
 def _demo_waveguide_heater():
     c = waveguide_heater(width=0.5)
-    pp.write_gds(c)
+    c.write_gds()
 
 
 if __name__ == "__main__":

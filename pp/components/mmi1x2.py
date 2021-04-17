@@ -121,4 +121,4 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
-    # pp.write_gds(c, pp.CONFIG["gdsdir"] / "mmi1x2.gds")
+    # c.write_gds(pp.CONFIG["gdsdir"] / "mmi1x2.gds")

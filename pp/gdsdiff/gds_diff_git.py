@@ -10,7 +10,7 @@ https://git-scm.com/docs/git/2.18.0#git-codeGITEXTERNALDIFFcode
 import sys
 
 from pp.gdsdiff.gdsdiff import gdsdiff
-from pp.write_component import show
+from pp.show import show
 
 
 def gds_diff_git(

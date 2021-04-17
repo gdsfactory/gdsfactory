@@ -198,13 +198,12 @@ def test_pack_with_settings() -> Component:
 
 
 if __name__ == "__main__":
-    import pp
 
     c = test_pack_with_settings()
     # c = test_pack()
     c.show()
     c.pprint()
-    pp.write_component(c, "mask.gds")
+    c.write_gds_with_metadata("mask.gds")
 
     # import phidl.geometry as pg
     # spacing = 1

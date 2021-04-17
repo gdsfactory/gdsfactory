@@ -36,9 +36,7 @@ from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 
-from pp.write_component import show
-from pp.write_component import write_gds
-from pp.write_component import write_component
+from pp.show import show
 from pp.write_doe import write_doe
 
 import pp.components as components
@@ -113,9 +111,7 @@ __all__ = [
     "show",
     "snap_to_grid",
     "types",
-    "write_component",
     "write_doe",
-    "write_gds",
     "Port",
     "component_from_yaml",
 ]

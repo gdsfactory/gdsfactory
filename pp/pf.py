@@ -180,7 +180,7 @@ def merge_cells(filepath):
             cell = pp.import_gds(cell)
         c << cell
     c.show()
-    pp.write_gds(c, filepath_out)
+    c.write_gds(filepath_out)
 
 
 @click.command()

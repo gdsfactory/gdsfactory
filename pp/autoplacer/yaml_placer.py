@@ -830,7 +830,7 @@ def _demo():
     import pp
 
     c = pp.components.waveguide()
-    gdspath = pp.write_component(c)
+    gdspath = c.write_gds_with_metadata()
 
     layout1 = load_gds(gdspath)
     cell1 = layout1.top_cell()

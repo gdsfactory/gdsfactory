@@ -1,12 +1,10 @@
-import os
 import sys
 
-from pp.config import CONFIG
 from pp.import_gds import import_gds
-from pp.write_component import write_gds
 
 
-def remove_cell(component, cell_name):
+def remove_cell(component, cell_name) -> None:
+
     all_cells = component.get_dependencies(recursive=True)
     all_cell_names = set([c.name for c in all_cells])
     if cell_name in all_cell_names:
@@ -53,15 +51,10 @@ def remove_empty_cells(gds, recursive=True, recurse_depth=0):
 
 
 def remove_empty_cells_from_gds_file(gdspath):
-    gds = import_gds(gdspath)
-    remove_empty_cells(gds)
-    write_gds(gds, gdspath[:-4] + "_cleaned.gds")
-
-
-def clean_teg1():
-    path_teg1 = os.path.join(CONFIG["mask_directory"], "teg1.gds")
-    remove_empty_cells_from_gds_file(path_teg1)
+    component = import_gds(gdspath)
+    remove_empty_cells(component)
+    component.write_gds(gdspath[:-4] + "_cleaned.gds")
 
 
 if __name__ == "__main__":
-    clean_teg1()
+    remove_empty_cells_from_gds_file()

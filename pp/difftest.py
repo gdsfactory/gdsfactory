@@ -4,7 +4,6 @@ import pathlib
 
 from lytest.kdb_xor import GeometryDifference, run_xor
 
-import pp
 from pp.component import Component
 from pp.gdsdiff.gdsdiff import gdsdiff
 
@@ -31,16 +30,16 @@ def difftest(component: Component) -> None:
     run_file = cwd / "gds_run" / filename
     diff_file = cwd / "gds_diff" / filename
 
-    pp.write_gds(component, gdspath=run_file)
+    component.write_gds(gdspath=run_file)
 
     if not ref_file.exists():
         print(f"Creating GDS reference for {component.name} in {ref_file}")
-        pp.write_gds(component, gdspath=ref_file)
+        component.write_gds(gdspath=ref_file)
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
         diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0])
-        pp.write_gds(diff, diff_file)
+        diff.write_gds(diff_file)
         diff.show()
         print(
             "\n"
