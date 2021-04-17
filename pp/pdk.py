@@ -6,9 +6,10 @@ import numpy as np
 import pandas as pd
 
 import pp
-from pp.add_pins import add_instance_label
+from pp.add_pins import add_instance_label, add_pins
 from pp.component import Component
 from pp.component_from_yaml import component_from_yaml
+from pp.components import component_factory
 from pp.port import Port
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
@@ -27,6 +28,31 @@ from pp.types import ComponentFactory, Coordinates, Layer, Route, RouteFactory
 class Pdk:
     tech: Tech
 
+    def add_pins(self, component: Component) -> None:
+        add_pins(component)
+
+    def get_component(self, component_type: str, **settings):
+        """Returns a ComponentFactory.
+        Takes default settings from tech.component_settings
+        settings can be overwriten with kwargs
+
+        Args:
+            component_type:
+        """
+        if component_type not in component_factory:
+            raise ValueError(
+                f"{component_type} not in {list(component_factory.keys())}"
+            )
+        component_settings = (
+            self.tech.component_settings[component_type]
+            if component_type in self.tech.component_settings
+            else {}
+        )
+        component_settings.update(**settings)
+        component = component_factory[component_type](**component_settings)
+        self.add_pins(component)
+        return component
+
     def waveguide(
         self,
         length: float = 10.0,
@@ -42,13 +68,15 @@ class Pdk:
             width: waveguide width (defaults to tech.wg_width)
             layer: waveguide layer (defaults to tech.layer_wg)
         """
-        return pp.components.waveguide(
+        component = pp.components.waveguide(
             length=length,
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
             tech=self.tech,
         )
+        self.add_pins(component)
+        return component
 
     def bend_circular(
         self,
@@ -67,7 +95,7 @@ class Pdk:
             width: waveguide width (defaults to tech.wg_width)
             layer: waveguide layer (defaults to tech.layer_wg)
         """
-        return pp.components.bend_circular(
+        component = pp.components.bend_circular(
             radius=radius or self.tech.bend_radius,
             angle=angle,
             npoints=npoints,
@@ -75,6 +103,8 @@ class Pdk:
             layer=layer or self.tech.layer_wg,
             tech=self.tech,
         )
+        self.add_pins(component)
+        return component
 
     def bend_euler(
         self,
@@ -105,7 +135,7 @@ class Pdk:
             layer: waveguide layer (defaults to tech.layer_wg)
         """
 
-        return pp.components.bend_euler(
+        component = pp.components.bend_euler(
             radius=radius or self.tech.bend_radius,
             angle=angle,
             p=p,
@@ -115,6 +145,8 @@ class Pdk:
             layer=layer or self.tech.layer_wg,
             tech=self.tech,
         )
+        self.add_pins(component)
+        return component
 
     def taper(
         self,
@@ -131,7 +163,7 @@ class Pdk:
             width2:
             layer:
         """
-        return pp.components.taper(
+        component = pp.components.taper(
             length=length or self.tech.taper_length,
             width1=width1 or self.tech.wg_width,
             width2=width2 or self.tech.taper_width,
@@ -139,6 +171,8 @@ class Pdk:
             layers_cladding=self.tech.layers_cladding,
             cladding_offset=self.tech.cladding_offset,
         )
+        self.add_pins(component)
+        return component
 
     def ring_single(
         self,
@@ -174,7 +208,7 @@ class Pdk:
 
               length_x
         """
-        return pp.components.ring_single(
+        component = pp.components.ring_single(
             gap=gap,
             length_x=length_x,
             length_y=length_y,
@@ -185,6 +219,8 @@ class Pdk:
             tech=self.tech,
             **kwargs,
         )
+        self.add_pins(component)
+        return component
 
     def mmi1x2(
         self,
@@ -232,7 +268,7 @@ class Pdk:
             length_taper
 
         """
-        return pp.components.mmi1x2(
+        component = pp.components.mmi1x2(
             width=width or self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
@@ -243,6 +279,8 @@ class Pdk:
             layers_cladding=self.tech.layers_cladding,
             cladding_offset=self.tech.cladding_offset,
         )
+        self.add_pins(component)
+        return component
 
     def mmi2x2(
         self,
@@ -290,7 +328,7 @@ class Pdk:
             length_taper
 
         """
-        return pp.components.mmi2x2(
+        component = pp.components.mmi2x2(
             width=width or self.tech.wg_width,
             width_taper=width_taper,
             length_taper=length_taper,
@@ -301,6 +339,8 @@ class Pdk:
             layers_cladding=self.tech.layers_cladding,
             cladding_offset=self.tech.cladding_offset,
         )
+        self.add_pins(component)
+        return component
 
     def mzi(
         self,
@@ -407,7 +447,7 @@ class Pdk:
 
         """
 
-        return pp.components.grating_coupler_elliptical2(
+        component = pp.components.grating_coupler_elliptical2(
             theta=theta,
             length=length,
             taper_length=taper_length,
@@ -421,6 +461,8 @@ class Pdk:
             layer_core=self.tech.layer_wg,
             layer_cladding=self.tech.layers_cladding[0],
         )
+        self.add_pins(component)
+        return component
 
     def add_fiber_array(
         self,
@@ -779,6 +821,14 @@ PDK_NITRIDE_C = PdkNitrideCband()
 
 if __name__ == "__main__":
     pdk = PDK_SILICON_C
+    pdk = PDK_METAL1
+    c = pdk.get_component("mmi2x2", layer=pdk.tech.layer_wg)
+    c = pdk.get_component("mmi1x2")
+    # c = pdk.mmi2x2()
+
+    cc = pdk.add_fiber_array(c)
+    cc.show(show_ports=False)
+
     # pdk = PDK_NITRIDE_C
     # pdk = PDK_METAL1
 

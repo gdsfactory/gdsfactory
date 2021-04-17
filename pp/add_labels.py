@@ -18,7 +18,7 @@ def get_optical_text(
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
 ) -> str:
-    """Get test and measurement label for an optical port"""
+    """Get text string for an optical port."""
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
 
@@ -56,8 +56,7 @@ def get_input_label(
     layer_label: Layer = pp.LAYER.LABEL,
     component_name: Optional[str] = None,
 ) -> Label:
-    """
-    Generate a label with component info for a given grating coupler.
+    """Returns a label with component info for a given grating coupler.
     This is the label used by T&M to extract grating coupler coordinates
     and match it to the component.
     """
@@ -69,14 +68,13 @@ def get_input_label(
         gc_port_name = list(gc.ports.values())[0].name
 
     layer, texttype = pd._parse_layer(layer_label)
-    label = pd.Label(
+    return pd.Label(
         text=text,
         position=gc.ports[gc_port_name].midpoint,
         anchor="o",
         layer=layer,
         texttype=texttype,
     )
-    return label
 
 
 def get_input_label_electrical(
@@ -86,8 +84,7 @@ def get_input_label_electrical(
     layer_label: Layer = pp.LAYER.LABEL,
     gc: Optional[ComponentReference] = None,
 ) -> Label:
-    """
-    Generate a label to test component info for a given electrical port.
+    """Returns a label to test component info for a given electrical port.
     This is the label used by T&M to extract grating coupler coordinates
     and match it to the component.
 

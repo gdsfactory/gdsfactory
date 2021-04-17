@@ -4,7 +4,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
-from pp.port import Port
+from pp.port import Port, auto_rename_ports
 from pp.types import ComponentFactory
 
 
@@ -26,7 +26,6 @@ def add_taper_elements(
 
 
 @cell
-@pp.port.deco_rename_ports
 def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
@@ -35,7 +34,7 @@ def add_tapers(
     """returns component optical tapers for component """
 
     taper_object = pp.call_if_func(taper)
-    c = pp.Component(name=f"{component.name}_t")
+    c = pp.Component()
 
     for port_name, port in component.ports.copy().items():
         if port.port_type == port_type:
@@ -45,6 +44,7 @@ def add_tapers(
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
+    auto_rename_ports(c)
     return c
 
 
