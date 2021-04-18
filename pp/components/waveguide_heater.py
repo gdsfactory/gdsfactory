@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import numpy as np
 
@@ -11,8 +11,7 @@ from pp.components.hline import hline
 from pp.components.waveguide import waveguide
 from pp.layers import LAYER
 from pp.port import Port, auto_rename_ports
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer, Number
+from pp.types import ComponentFactory, CrossSectionFactory, Layer, Number
 
 
 @cell
@@ -99,9 +98,10 @@ def waveguide_heater(
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ),
     layer_heater: Tuple[int, int] = LAYER.HEATER,
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = waveguide,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings
 ) -> Component:
     """Waveguide with heater and trenches.
 
@@ -130,7 +130,12 @@ def waveguide_heater(
     heater_top.movey(+y_heater)
     heater_bot.movey(-y_heater)
 
-    wg = c << waveguide_factory(length=length, tech=tech)
+    wg = c << straight_factory(
+        length=length,
+        cross_section_factory=cross_section_factory,
+        width=width,
+        **cross_section_settings
+    )
 
     for i in [heater_top, heater_bot, wg]:
         c.absorb(i)

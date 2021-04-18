@@ -3,58 +3,45 @@ from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import CrossSectionFactory, strip
+from pp.cross_section import strip
 from pp.path import component, straight
 from pp.snap import snap_to_grid
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import Layer
+from pp.types import CrossSectionFactory
 
 
 @cell
 def waveguide(
     length: float = 10.0,
     npoints: int = 2,
-    width: float = TECH_SILICON_C.wg_width,
-    layer: Layer = TECH_SILICON_C.layer_wg,
+    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
-    tech: Optional[Tech] = None,
+    **cross_section_settings
 ) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: of straight
         npoints: number of points
-        width: waveguide width
-        layer: layer for
-        layers_cladding: for cladding
-        cladding_offset: offset from waveguide to cladding edge
+        snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: function that returns a cross_section
-        tech: Technology with default
+        **cross_section_settings
 
     """
-    tech = tech or TECH_SILICON_C
     cross_section_factory = cross_section_factory or strip
 
     p = straight(length=length, npoints=npoints)
-    cross_section = cross_section_factory(
-        width=width,
-        layer=layer,
-        layers_cladding=tech.layers_cladding,
-        cladding_offset=tech.cladding_offset,
-    )
-    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
-    c.width = width
+    cross_section = cross_section_factory(**cross_section_settings)
+    c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
     c.length = snap_to_grid(length)
+    c.width = cross_section.info["width"]
     return c
 
 
 if __name__ == "__main__":
-    from pp.tech import TECH_METAL1
-
     # c = waveguide(length=10.0)
     # c.pprint()
 
-    c = waveguide(length=10.001, width=10, tech=TECH_METAL1, autoname=True)
+    c = waveguide(length=10.001, width=3)
     # print(c.name)
     # print(c.length)
     # print(c.ports)

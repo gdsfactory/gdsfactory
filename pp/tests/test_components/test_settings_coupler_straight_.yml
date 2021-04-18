@@ -3,12 +3,7 @@ info: {}
 module: pp.components.coupler_straight
 name: coupler_straight
 settings:
-  cladding_offset: null
+  cross_section_factory: null
   gap: 0.27
-  layer:
-  - 1
-  - 0
-  layers_cladding: null
   length: 10
-  tech: null
-  width: 0.5
+  snap_to_grid_nm: 1

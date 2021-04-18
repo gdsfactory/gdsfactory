@@ -6,40 +6,32 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
-from pp.cross_section import CrossSectionFactory
 from pp.snap import assert_on_2nm_grid
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
 def coupler_ring(
     coupler90: ComponentFactory = coupler90,
     bend: Optional[ComponentFactory] = None,
-    coupler: ComponentFactory = coupler_straight,
+    coupler_straight: ComponentFactory = coupler_straight,
     length_x: float = 4.0,
     gap: float = 0.2,
     radius: float = 5.0,
-    width: float = TECH_SILICON_C.wg_width,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
-    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
-    tech: Optional[Tech] = None,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings
 ) -> Component:
     r"""Coupler for ring.
 
     Args:
-        coupler90: straight waveguide coupled to a 90deg bend.
+        coupler90: straight coupled to a 90deg bend.
         bend: factory for bend
-        coupler: two parallel coupled waveguides.
-        length_x: length of the parallel coupled waveguides.
-        gap: spacing between parallel coupled waveguides.
+        coupler_straight: two parallel coupled straight waveguides.
+        length_x: length of the parallel coupled straight waveguides.
+        gap: spacing between parallel coupled straight waveguides.
         radius: of the bends.
-        width: width of the waveguides
-        layer: waveguide layer
-        cross_section_factory_inner: for inner bend
-        cross_section_factory_outer: for outer waveguide
-        tech: Technology
+        cross_section_factory: for straight and bend
+        **cross_section_settings
 
     .. code::
 
@@ -53,7 +45,6 @@ def coupler_ring(
 
     """
     bend = bend or bend_euler
-    tech = tech or TECH_SILICON_C
 
     c = pp.Component()
     assert_on_2nm_grid(gap)
@@ -62,21 +53,18 @@ def coupler_ring(
     coupler90_component = (
         coupler90(
             bend=bend,
-            width=width,
             gap=gap,
             radius=radius,
-            layer=layer,
-            cross_section_factory_inner=cross_section_factory_inner,
-            cross_section_factory_outer=cross_section_factory_outer,
-            tech=tech,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
         )
         if callable(coupler90)
         else coupler90
     )
     coupler_straight_component = (
-        coupler(width=width, gap=gap, length=length_x, layer=layer, tech=tech)
-        if callable(coupler)
-        else coupler
+        coupler_straight(gap=gap, length=length_x, **cross_section_settings)
+        if callable(coupler_straight)
+        else coupler_straight
     )
 
     # add references to subcells

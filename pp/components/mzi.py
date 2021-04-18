@@ -7,8 +7,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.port import rename_ports_by_orientation
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -16,8 +15,8 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend_radius: Optional[float] = None,
-    bend: ComponentFactory = bend_euler,
+    bend_radius: float = 10.0,
+    bend: ComponentOrFactory = bend_euler,
     waveguide: ComponentFactory = waveguide_function,
     waveguide_vertical: Optional[ComponentFactory] = None,
     waveguide_delta_length: Optional[ComponentFactory] = None,
@@ -28,7 +27,6 @@ def mzi(
     pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
-    tech: Optional[Tech] = None,
 ) -> Component:
     """Mzi.
 
@@ -47,7 +45,6 @@ def mzi(
         pins: add pins cell and child cells
         splitter_settings: settings dict for splitter function
         combiner_settings: settings dict for combiner function
-        tech: technology dataclass
 
     .. code::
 
@@ -65,8 +62,6 @@ def mzi(
 
 
     """
-    tech = tech or TECH_SILICON_C
-    bend_radius = bend_radius or tech.bend_radius
     L2 = length_x
     L0 = length_y
     DL = delta_length
@@ -84,7 +79,7 @@ def mzi(
     waveguide_vertical = waveguide_vertical or waveguide
     waveguide_horizontal = waveguide_horizontal or waveguide
     waveguide_delta_length = waveguide_delta_length or waveguide
-    b90 = bend(radius=bend_radius)
+    b90 = bend(radius=bend_radius) if callable(bend) else bend
     l0 = waveguide_vertical(length=L0)
 
     cp1 = rename_ports_by_orientation(cp1)

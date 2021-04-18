@@ -3,13 +3,11 @@ from typing import Optional
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.coupler_ring import coupler_ring
+from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
-from pp.cross_section import CrossSectionFactory
 from pp.snap import assert_on_2nm_grid
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
@@ -18,15 +16,12 @@ def ring_double(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler: ComponentFactory = coupler_ring,
-    waveguide: ComponentFactory = waveguide_function,
+    coupler_ring: ComponentFactory = coupler_ring_function,
+    straight: ComponentFactory = waveguide_function,
     bend: Optional[ComponentFactory] = None,
     pins: bool = False,
-    width: float = TECH_SILICON_C.wg_width,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
-    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
-    tech: Optional[Tech] = None,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -37,14 +32,11 @@ def ring_double(
         length_x: ring coupler length
         length_y: vertical waveguide length
         coupler: ring coupler function
-        waveguide: waveguide function
+        straight: straight function
         bend: bend function
         pins: add pins
-        width: waveguide width
-        layer:
-        cross_section_factory_inner: for inner bend
-        cross_section_factory_outer: for outer waveguide
-        tech: Technology with default values
+        cross_section_factory: for waveguides
+        **cross_section_settings
 
     .. code::
 
@@ -60,34 +52,29 @@ def ring_double(
     assert_on_2nm_grid(gap)
 
     coupler_component = (
-        coupler(
+        coupler_ring(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            width=width,
-            layer=layer,
-            cross_section_factory_inner=cross_section_factory_inner,
-            cross_section_factory_outer=cross_section_factory_outer,
             bend=bend,
-            tech=tech,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
         )
-        if callable(coupler)
-        else coupler
+        if callable(coupler_ring)
+        else coupler_ring
     )
-    waveguide = call_if_func(
-        waveguide,
+    straight_component = call_if_func(
+        straight,
         length=length_y,
-        width=width,
-        layer=layer,
-        cross_section_factory=cross_section_factory_inner,
-        tech=tech,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
     )
 
     c = Component()
     cb = c.add_ref(coupler_component)
     ct = c.add_ref(coupler_component)
-    wl = c.add_ref(waveguide)
-    wr = c.add_ref(waveguide)
+    wl = c.add_ref(straight_component)
+    wr = c.add_ref(straight_component)
 
     wl.connect(port="E0", destination=cb.ports["N0"])
     ct.connect(port="N1", destination=wl.ports["W0"])
@@ -104,5 +91,5 @@ def ring_double(
 
 if __name__ == "__main__":
 
-    c = ring_double()
+    c = ring_double(width=1)
     c.show()

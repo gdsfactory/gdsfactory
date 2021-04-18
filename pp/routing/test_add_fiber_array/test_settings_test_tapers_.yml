@@ -13,12 +13,9 @@ settings:
     name: waveguide_W2
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 10
       npoints: 2
-      tech: null
+      snap_to_grid_nm: 1
       width: 2
   component_name: null
   gc_port_name: W0

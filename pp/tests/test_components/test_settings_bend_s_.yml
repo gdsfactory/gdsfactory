@@ -7,6 +7,7 @@ info:
 module: pp.components.bend_s
 name: bend_s
 settings:
+  cross_section_factory: null
   end_angle: null
   grid: 0.001
   height: 2
@@ -19,6 +20,5 @@ settings:
   npoints: 99
   spike_length: 0
   start_angle: null
-  tech: null
-  width: null
+  width: 0.5
   with_manhattan_facing_angles: true

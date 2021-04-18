@@ -1,6 +1,6 @@
 import dataclasses
 import pathlib
-from typing import IO, Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import IO, Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -21,7 +21,14 @@ from pp.sp.get_sparameters_path import get_sparameters_path
 from pp.sp.read import read_sparameters_lumerical
 from pp.sp.write import write
 from pp.tech import TECH_METAL1, TECH_NITRIDE_C, TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Coordinates, Layer, Route, RouteFactory
+from pp.types import (
+    ComponentFactory,
+    Coordinates,
+    CrossSectionFactory,
+    Layer,
+    Route,
+    RouteFactory,
+)
 
 
 @dataclasses.dataclass
@@ -53,12 +60,14 @@ class Pdk:
         self.add_pins(component)
         return component
 
-    def waveguide(
+    def straight(
         self,
         length: float = 10.0,
         npoints: int = 2,
         width: Optional[float] = None,
         layer: Optional[Layer] = None,
+        layers_cladding: Optional[Iterable[Layer]] = None,
+        cladding_offset: Optional[float] = None,
     ) -> Component:
         """Returns a Straight waveguide.
 
@@ -73,7 +82,8 @@ class Pdk:
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
+            layers_cladding=layers_cladding or self.tech.layers_cladding,
+            cladding_offset=cladding_offset or self.tech.cladding_offset,
         )
         self.add_pins(component)
         return component
@@ -101,7 +111,6 @@ class Pdk:
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
         )
         self.add_pins(component)
         return component
@@ -132,7 +141,7 @@ class Pdk:
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
             width: waveguide width (defaults to tech.wg_width)
-            layer: waveguide layer (defaults to tech.layer_wg)
+            layer: straight layer (defaults to tech.layer_wg)
         """
 
         component = pp.components.bend_euler(
@@ -143,7 +152,6 @@ class Pdk:
             npoints=npoints,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
         )
         self.add_pins(component)
         return component
@@ -176,23 +184,24 @@ class Pdk:
 
     def ring_single(
         self,
-        width: Optional[float] = None,
         gap: float = 0.2,
         length_x: float = 4.0,
         length_y: float = 0.10,
         radius: Optional[float] = None,
         pins: bool = False,
+        width: Optional[float] = None,
         layer: Optional[Layer] = None,
-        **kwargs,
+        cross_section_factory: Optional[CrossSectionFactory] = None,
+        **cross_section_settings,
     ) -> Component:
         """Single bus ring made of a ring coupler (cb: bottom)
         connected with two vertical waveguides (wl: left, wr: right)
-        two bends (bl, br) and horizontal waveguide (wg: top)
+        two bends (bl, br) and horizontal straight (wg: top)
 
         Args:
             gap: gap between for coupler
             length_x: ring coupler length
-            length_y: vertical waveguide length
+            length_y: vertical straight length
             radius: for the bend and coupler
             pins: add pins
             layer:
@@ -216,8 +225,8 @@ class Pdk:
             pins=pins,
             width=width or self.tech.wg_width,
             layer=layer or self.tech.layer_wg,
-            tech=self.tech,
-            **kwargs,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings,
         )
         self.add_pins(component)
         return component
@@ -348,7 +357,7 @@ class Pdk:
         length_y: float = 0.1,
         length_x: float = 0.1,
         bend: Optional[ComponentFactory] = None,
-        waveguide: Optional[ComponentFactory] = None,
+        straight: Optional[ComponentFactory] = None,
         waveguide_vertical: Optional[ComponentFactory] = None,
         waveguide_horizontal: Optional[ComponentFactory] = None,
         splitter: Optional[ComponentFactory] = None,
@@ -367,8 +376,8 @@ class Pdk:
             length_x: horizontal length
             bend_radius: 10.0
             bend: 90 bend function
-            waveguide: waveguide function
-            waveguide_vertical: waveguide
+            straight: straight function
+            waveguide_vertical: straight
             splitter: splitter function
             combiner: combiner function
             with_splitter: if False removes splitter
@@ -397,9 +406,9 @@ class Pdk:
             length_y=length_y,
             bend_radius=bend_radius or self.tech.bend_radius,
             bend=bend or self.bend_euler,
-            waveguide=waveguide or self.waveguide,
-            waveguide_vertical=waveguide_vertical or self.waveguide,
-            waveguide_horizontal=waveguide_horizontal or self.waveguide,
+            waveguide=straight or self.straight,
+            waveguide_vertical=waveguide_vertical or self.straight,
+            waveguide_horizontal=waveguide_horizontal or self.straight,
             splitter=splitter or self.mmi1x2,
             combiner=combiner or self.mmi1x2,
             with_splitter=with_splitter,
@@ -423,7 +432,7 @@ class Pdk:
         r"""Returns Grating coupler.
 
         Args:
-            theta: Angle of the waveguide in rad.
+            theta: Angle of the straight in rad.
             length: total grating coupler region from the output port.
             taper_length: Length of the taper before the grating coupler.
             period: Grating period (um)
@@ -499,7 +508,7 @@ class Pdk:
             grating_coupler: grating coupler instance, function or list of functions
             bend_factory: function for bends
             optical_io_spacing: SPACING_GC
-            straight_factory: waveguide
+            straight_factory: straight
             taper_factory: taper function
             route_filter: for waveguides and bends
             bend_radius: for bends
@@ -517,7 +526,7 @@ class Pdk:
             route_filter=route_filter or self.get_route_euler,
             grating_coupler=grating_coupler or self.grating_coupler,
             bend_factory=bend_factory or self.bend_euler,
-            straight_factory=straight_factory or self.waveguide,
+            straight_factory=straight_factory or self.straight,
             taper_factory=taper_factory or self.taper,
             gc_port_name=gc_port_name,
             get_input_labels_function=get_input_labels_function,
@@ -555,7 +564,7 @@ class Pdk:
             component: to connect
             grating_coupler: grating coupler instance, function or list of functions
             optical_io_spacing: SPACING_GC
-            straight_factory: waveguide
+            straight_factory: straight
             taper_factory: taper
             route_filter: for waveguides and bends
             min_input2output_spacing: between fibers in opposite directions.
@@ -577,7 +586,7 @@ class Pdk:
             grating_coupler=grating_coupler or self.grating_coupler,
             layer_label=self.tech.layer_label,
             optical_io_spacing=optical_io_spacing or self.tech.fiber_single_spacing,
-            straight_factory=straight_factory or self.waveguide,
+            straight_factory=straight_factory or self.straight,
             taper_factory=taper_factory or self.taper,
             taper_length=self.tech.taper_length,
             route_filter=route_filter or self.get_route_euler,
@@ -612,7 +621,7 @@ class Pdk:
         return round_corners(
             waypoints,
             bend_factory=self.bend_euler,
-            straight_factory=self.waveguide,
+            straight_factory=self.straight,
             taper=self.taper,
             auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
         )
@@ -622,7 +631,7 @@ class Pdk:
         return round_corners(
             waypoints,
             bend_factory=self.bend_circular,
-            straight_factory=self.waveguide,
+            straight_factory=self.straight,
             taper=self.taper,
         )
 
@@ -823,8 +832,9 @@ if __name__ == "__main__":
     pdk = PDK_SILICON_C
     pdk = PDK_METAL1
     c = pdk.get_component("mmi2x2", layer=pdk.tech.layer_wg)
-    c = pdk.get_component("mmi1x2")
+    # c = pdk.get_component("mmi1x2")
     # c = pdk.mmi2x2()
+    c = pdk.ring_single()
 
     cc = pdk.add_fiber_array(c)
     cc.show(show_ports=False)
@@ -836,8 +846,8 @@ if __name__ == "__main__":
     # print(names)
     # functions = pdk.get_factory_functions()
     # print(functions)
-    # c = pdk.waveguide(length=10)
-    # c = pdk.waveguide(length=10)
+    # c = pdk.straight(length=10)
+    # c = pdk.straight(length=10)
 
     # c = pdk.taper(length=10)
     # c = pdk.taper(length=10)
@@ -845,13 +855,13 @@ if __name__ == "__main__":
     # c = pdk.ring_single()
 
     # pdk = PDK_SILICON_C
-    # c = pdk.waveguide(length=10)
+    # c = pdk.straight(length=10)
 
     # c = pdk.mzi(delta_length=10)
     # c = pdk.mzi(delta_length=20)
 
     # c = pdk.mmi2x2()
-    # c = pdk.waveguide()
+    # c = pdk.straight()
     # c = pdk.mzi()
     # c = pdk.ring_single()
     # c = pdk.ring_single()

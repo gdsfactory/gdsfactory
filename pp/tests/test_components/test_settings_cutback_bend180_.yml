@@ -27,6 +27,6 @@ settings:
     - W0
     - W1
     '|':
-    - waveguide_L50p091_W500n
+    - waveguide_L44p09_W500n
     - W0
     - E0

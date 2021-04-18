@@ -84,8 +84,8 @@ if __name__ == "__main__":
     # pp.show(c2)
 
     test_netlists(
-        component_type="ring_single",
-        full_settings=False,
+        component_type="mzit",
+        full_settings=True,
         data_regression=None,
         check=False,
     )

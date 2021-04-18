@@ -5,19 +5,18 @@ The CrossSection object extrudes a path
 Based on phidl.device_layout.CrossSection
 """
 
-from typing import Callable, Iterable, Optional, Tuple
+from typing import Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
 from pp.layers import LAYER
-from pp.types import Layer
 
-CrossSectionFactory = Callable[..., CrossSection]
+Layer = Tuple[int, int]
 
 
 def strip(
-    width: float,
-    layer: Layer,
+    width: float = 0.5,
+    layer: Layer = LAYER.WG,
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Layer]] = None,
 ) -> CrossSection:
@@ -30,6 +29,14 @@ def strip(
 
     for layer_cladding in layers_cladding:
         x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+
+    s = dict(
+        width=width,
+        layer=layer,
+        cladding_offset=cladding_offset,
+        layers_cladding=layers_cladding,
+    )
+    x.info = s
     return x
 
 
@@ -104,6 +111,14 @@ def pin(
 
     for layer_cladding in layers_cladding or []:
         x.add(width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding)
+
+    s = dict(
+        width=width,
+        layer=layer,
+        cladding_offset=cladding_offset,
+        layers_cladding=layers_cladding,
+    )
+    x.info = s
     return x
 
 
@@ -125,6 +140,7 @@ if __name__ == "__main__":
 
     # Combine the Path and the CrossSection into a Component
     X = pin(width=0.5, width_i=0.5)
+    x = strip(width=0.5)
     c = pp.path.component(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

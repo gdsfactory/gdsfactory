@@ -15,5 +15,4 @@ settings:
       L2: 10
       bend_radius: 10
       gap: 0.234
-      tech: null
       with_elec_connections: true

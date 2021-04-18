@@ -1,17 +1,17 @@
 connections:
-  bend_euler_R10_W500n_51.615_-4.0,N0: waveguide_L18p75_W500n_54.99_-20.0,W0
-  bend_euler_R10_W500n_51.615_-4.0,W0: waveguide_L19p99_W500n_34.995_-0.625,E0
-  bend_euler_R10_W500n_58.365_-36.0,N0: waveguide_L10n_W500n_64.995_-39.375,W0
-  bend_euler_R10_W500n_58.365_-36.0,W0: waveguide_L18p75_W500n_54.99_-20.0,E0
+  bend_euler_R10_W500n_50.115_-5.5,N0: waveguide_L18p75_W500n_54.99_-20.0,W0
+  bend_euler_R10_W500n_50.115_-5.5,W0: waveguide_L19p99_W500n_34.995_-0.625,E0
+  bend_euler_R10_W500n_59.865_-34.5,N0: waveguide_L10n_W500n_64.995_-39.375,W0
+  bend_euler_R10_W500n_59.865_-34.5,W0: waveguide_L18p75_W500n_54.99_-20.0,E0
   mmi_bot,W0: waveguide_L10n_W500n_64.995_-39.375,E0
   mmi_top,E0: waveguide_L19p99_W500n_34.995_-0.625,W0
 instances:
-  bend_euler_R10_W500n_51.615_-4.0:
+  bend_euler_R10_W500n_50.115_-5.5:
     component: bend_euler
     settings:
       radius: 10
       width: 0.5
-  bend_euler_R10_W500n_58.365_-36.0:
+  bend_euler_R10_W500n_59.865_-34.5:
     component: bend_euler
     settings:
       radius: 10
@@ -43,12 +43,12 @@ instances:
       width: 0.5
 name: sample_docstring
 placements:
-  bend_euler_R10_W500n_51.615_-4.0:
+  bend_euler_R10_W500n_50.115_-5.5:
     mirror: true
     rotation: 0
     x: 44.99
     y: -0.625
-  bend_euler_R10_W500n_58.365_-36.0:
+  bend_euler_R10_W500n_59.865_-34.5:
     mirror: false
     rotation: 270
     x: 54.99

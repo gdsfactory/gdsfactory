@@ -14,7 +14,7 @@ from pp.types import ComponentFactory
 def grating_coupler_tree(
     n_waveguides: int = 4,
     waveguide_spacing: int = 4,
-    waveguide: ComponentFactory = waveguide,
+    straigth: ComponentFactory = waveguide,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
     route_filter: ComponentFactory = get_route_from_waypoints_no_taper,
@@ -39,7 +39,7 @@ def grating_coupler_tree(
     c = waveguide_array(
         n_waveguides=n_waveguides,
         spacing=waveguide_spacing,
-        waveguide=waveguide,
+        straigth=straigth,
     )
 
     cc = pp.routing.add_fiber_array(
@@ -51,7 +51,7 @@ def grating_coupler_tree(
         fanout_length=fanout_length,
         route_filter=route_filter,
         component_name=c.name,
-        straight_factory=waveguide,
+        straight_factory=straigth,
         bend_factory=bend_factory,
         layer_label=layer_label,
         taper_factory=None,

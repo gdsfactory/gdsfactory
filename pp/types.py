@@ -23,6 +23,7 @@ from numpy import float64, int64, ndarray
 from phidl.device_layout import Path
 
 from pp.component import Component, ComponentReference
+from pp.cross_section import CrossSection
 from pp.port import Port
 
 Layer = Tuple[int, int]
@@ -43,6 +44,7 @@ Coordinates = Union[
     List[Coordinate], ndarray, List[Number], Tuple[Number, ...], List[ndarray]
 ]
 ComponentOrPath = Union[Component, PathType]
+CrossSectionFactory = Callable[..., CrossSection]
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:

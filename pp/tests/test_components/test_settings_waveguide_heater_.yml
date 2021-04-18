@@ -3,6 +3,7 @@ info: {}
 module: pp.components.waveguide_heater
 name: waveguide_heater
 settings:
+  cross_section_factory: null
   heater_spacing: 1.2
   heater_width: 0.5
   layer_heater:
@@ -13,7 +14,6 @@ settings:
   - 0
   length: 10
   sstw: 2
-  tech: silicon_cband
   trench_keep_out: 2
   trench_width: 0.5
   trenches:

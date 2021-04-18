@@ -6,45 +6,29 @@ instances:
     component: ring_single
     settings:
       bend: null
-      cross_section_factory_inner: null
-      cross_section_factory_outer: null
+      cross_section_factory: null
       gap: 0.2
-      layer:
-      - 1
-      - 0
       length_x: 10
       length_y: 0.01
       pins: false
       radius: 5
-      tech: null
-      width: 0.5
   ring_single_LX20_R10_30.0_10.355:
     component: ring_single
     settings:
       bend: null
-      cross_section_factory_inner: null
-      cross_section_factory_outer: null
+      cross_section_factory: null
       gap: 0.2
-      layer:
-      - 1
-      - 0
       length_x: 20
       length_y: 0.01
       pins: false
       radius: 10
-      tech: null
-      width: 0.5
   waveguide_L5_7.5_0.0:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 5
       npoints: 2
-      tech: null
-      width: 0.5
+      snap_to_grid_nm: 1
 name: ring_single_array
 placements:
   ring_single_LX10_R5_-5.0_5.355:

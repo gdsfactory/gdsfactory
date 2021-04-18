@@ -1,6 +1,6 @@
+import inspect
 import uuid
 from functools import partial, wraps
-from inspect import signature
 from typing import Dict, Optional
 
 from pp.component import Component
@@ -90,7 +90,7 @@ def cell(
         name = get_name(component_type=component_type, name=name)
 
         kwargs.pop("ignore_from_name", [])
-        sig = signature(func)
+        sig = inspect.signature(func)
 
         # first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
         # keys = set(kwargs.keys()) - set(["layer"])
@@ -100,13 +100,13 @@ def cell(
         #         f"Args {keys} have repeated first letters {first_letters}"
         #     )
 
-        if "args" not in sig.parameters and "kwargs" not in sig.parameters:
-            for key in kwargs.keys():
-                if key not in sig.parameters.keys():
-                    raise TypeError(
-                        f"{component_type}() got invalid argument `{key}`\n"
-                        f"valid arguments are {list(sig.parameters.keys())}"
-                    )
+        # if "args" not in sig.parameters and "kwargs" not in sig.parameters:
+        #     for key in kwargs.keys():
+        #         if key not in sig.parameters.keys():
+        #             raise TypeError(
+        #                 f"{component_type}() got invalid argument `{key}`\n"
+        #                 f"valid arguments are {list(sig.parameters.keys())}"
+        #             )
 
         # print(CACHE.keys())
         # print(name)

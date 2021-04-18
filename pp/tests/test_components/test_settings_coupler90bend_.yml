@@ -5,12 +5,7 @@ name: coupler90bend
 settings:
   cross_section_factory_inner: null
   cross_section_factory_outer: null
+  cross_section_settings_inner: null
+  cross_section_settings_outer: null
   gap: 0.2
-  layer:
-  - 1
-  - 0
   radius: 10
-  tech: null
-  width: 0.5
-  width_inner: null
-  width_outer: null

@@ -4,7 +4,7 @@ info:
   length: 31.416
   radius_min: 20
 module: pp.components.bend_circular
-name: bend_circular_1170c4eb
+name: bend_circular_a0e1dd08
 settings:
   angle: 90
   cross_section_factory: null
@@ -13,5 +13,5 @@ settings:
   - 0
   npoints: 720
   radius: 20
-  tech: nitride_cband
+  snap_to_grid_nm: 1
   width: 1
