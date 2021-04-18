@@ -5,24 +5,16 @@ instances:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 0.5
       npoints: 2
-      tech: null
-      width: 0.5
+      snap_to_grid_nm: 1
   wgw:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 1
       npoints: 2
-      tech: null
-      width: 0.5
+      snap_to_grid_nm: 1
 name: sample_connections
 placements:
   wgn:

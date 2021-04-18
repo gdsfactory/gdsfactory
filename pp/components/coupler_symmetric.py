@@ -3,8 +3,8 @@ from typing import Optional
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.cross_section import strip
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @pp.cell
@@ -13,8 +13,8 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    tech: Optional[Tech] = None,
-    width: Optional[float] = None,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings,
 ) -> Component:
     r"""Two coupled waveguides with bends.
 
@@ -23,8 +23,8 @@ def coupler_symmetric(
         gap:
         dy: port to port vertical spacing
         dx: bend length in x direction
-        tech: Technology
-        width: waveguide width (defaults to tech.wg_width)
+        cross_section_factory: function that returns a cross_section
+        **cross_section_settings
 
     .. code::
 
@@ -39,10 +39,16 @@ def coupler_symmetric(
                         E0
 
     """
-    tech = tech if isinstance(tech, Tech) else TECH_SILICON_C
-    width = width or tech.wg_width
+    cross_section_factory = cross_section_factory or strip
+    cross_section = cross_section_factory(**cross_section_settings)
+    width = cross_section.info["width"]
     bend_component = (
-        bend(width=width, height=(dy - gap - width) / 2, length=dx, tech=tech)
+        bend(
+            height=(dy - gap - width) / 2,
+            length=dx,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings,
+        )
         if callable(bend)
         else bend
     )
@@ -50,7 +56,7 @@ def coupler_symmetric(
     w = bend_component.ports["W0"].width
     y = (w + gap) / 2
 
-    c = pp.Component()
+    c = Component()
     top_bend = bend_component.ref(position=(0, y), port_id="W0")
     bottom_bend = bend_component.ref(position=(0, -y), port_id="W0", v_mirror=True)
 
@@ -71,7 +77,7 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.5, dx=5)
+    c = coupler_symmetric(gap=0.2, width=0.9, dx=5)
     c.show()
     c.pprint()
 

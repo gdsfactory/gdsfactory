@@ -6,8 +6,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler import coupler as coupler_function
 from pp.components.taper import taper
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.tech import Tech
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @pp.cell
@@ -30,8 +29,8 @@ def mzit(
     coupler1: Optional[ComponentFactory] = coupler_function,
     coupler2: ComponentFactory = coupler_function,
     pins: bool = True,
-    tech: Optional[Tech] = None,
-    **kwargs,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings,
 ) -> Component:
     r"""Mzi tolerant to fab variations
     based on Yufei Xing thesis http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
@@ -53,8 +52,6 @@ def mzit(
         waveguide_factory: factory
         coupler1: coupler1 or factory, can be None
         coupler2: coupler2 or factory
-        tech: Technology
-        kwargs: shared kwargs for all factories
 
     .. code::
 
@@ -83,33 +80,50 @@ def mzit(
     cp2 = (
         c
         << coupler2(
-            length=coupler_length2, gap=coupler_gap2, dy=dy, tech=tech, **kwargs
+            length=coupler_length2,
+            gap=coupler_gap2,
+            dy=dy,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings,
         )
         if callable(coupler2)
         else coupler2
     )
 
     # inner arm (w1)
-    t1 = c << taper_factory(width1=w0, width2=w1, length=taper_length, **kwargs)
+    t1 = c << taper_factory(
+        width1=w0, width2=w1, length=taper_length, **cross_section_settings
+    )
     t1.connect("1", cp2.ports["E1"])
-    b1t = c << bend90(width=w1, radius=bend_radius, **kwargs)
-    b1b = c << bend90(width=w1, radius=bend_radius, **kwargs)
+    b1t = c << bend90(width=w1, radius=bend_radius, **cross_section_settings)
+    b1b = c << bend90(width=w1, radius=bend_radius, **cross_section_settings)
 
     b1b.connect("W0", t1.ports["2"])
     b1t.connect("W0", b1b.ports["N0"])
-    # wg1 = c << waveguide_factory(width=w1, length=coupler_gap2+coupler_gap1, tech=tech,**kwargs)
+    # wg1 = c << waveguide_factory(width=w1, length=coupler_gap2+coupler_gap1, cross_section_factory=cross_section_factory,**cross_section_settings)
     # wg1.connect("W0", b1b.ports["N0"])
     # b1t.connect("W0", wg1.ports["E0"])
 
-    t3b = c << taper_factory(width1=w1, width2=w2, length=taper_length, **kwargs)
+    t3b = c << taper_factory(
+        width1=w1, width2=w2, length=taper_length, **cross_section_settings
+    )
     t3b.connect("1", b1t.ports["N0"])
-    wgs2 = c << waveguide_factory(width=w2, length=Ls, tech=tech, **kwargs)
+    wgs2 = c << waveguide_factory(
+        width=w2,
+        length=Ls,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
     wgs2.connect("W0", t3b.ports["2"])
-    t20i = c << taper_factory(width1=w2, width2=w0, length=taper_length, **kwargs)
+    t20i = c << taper_factory(
+        width1=w2, width2=w0, length=taper_length, **cross_section_settings
+    )
     t20i.connect("1", wgs2.ports["E0"])
 
     # outer_arm (w2)
-    t2 = c << taper_factory(width1=w0, width2=w2, length=taper_length, **kwargs)
+    t2 = c << taper_factory(
+        width1=w0, width2=w2, length=taper_length, **cross_section_settings
+    )
     t2.connect("1", cp2.ports["E0"])
 
     dx = (delta_length - 2 * dy) / 2
@@ -117,33 +131,71 @@ def mzit(
         delta_length >= 4 * dy
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
-    wg2b = c << waveguide_factory(width=w2, length=dx, tech=tech, **kwargs)
+    wg2b = c << waveguide_factory(
+        width=w2,
+        length=dx,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
     wg2b.connect("W0", t2.ports["2"])
 
-    b2t = c << bend90(width=w2, radius=bend_radius, tech=tech, **kwargs)
-    b2b = c << bend90(width=w2, radius=bend_radius, tech=tech, **kwargs)
+    b2t = c << bend90(
+        width=w2,
+        radius=bend_radius,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
+    b2b = c << bend90(
+        width=w2,
+        radius=bend_radius,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
 
     b2b.connect("W0", wg2b.ports["E0"])
     # vertical waveguide
-    wg2y = c << waveguide_factory(width=w2, length=2 * dy, tech=tech, **kwargs)
+    wg2y = c << waveguide_factory(
+        width=w2,
+        length=2 * dy,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
     wg2y.connect("W0", b2b.ports["N0"])
     b2t.connect("W0", wg2y.ports["E0"])
 
-    wg2t = c << waveguide_factory(width=w2, length=dx, tech=tech, **kwargs)
+    wg2t = c << waveguide_factory(
+        width=w2,
+        length=dx,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
     wg2t.connect("W0", b2t.ports["N0"])
 
-    t3t = c << taper_factory(width1=w2, width2=w1, length=taper_length, **kwargs)
+    t3t = c << taper_factory(
+        width1=w2, width2=w1, length=taper_length, **cross_section_settings
+    )
     t3t.connect("1", wg2t.ports["E0"])
-    wgs1 = c << waveguide_factory(width=w1, length=Ls, tech=tech, **kwargs)
+    wgs1 = c << waveguide_factory(
+        width=w1,
+        length=Ls,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings,
+    )
     wgs1.connect("W0", t3t.ports["2"])
-    t20o = c << taper_factory(width1=w1, width2=w0, length=taper_length, **kwargs)
+    t20o = c << taper_factory(
+        width1=w1, width2=w0, length=taper_length, **cross_section_settings
+    )
     t20o.connect("1", wgs1.ports["E0"])
 
     if coupler1 is not None:
         cp1 = (
             c
             << coupler1(
-                length=coupler_length1, gap=coupler_gap1, dy=dy, tech=tech, **kwargs
+                length=coupler_length1,
+                gap=coupler_gap1,
+                dy=dy,
+                cross_section_factory=cross_section_factory,
+                **cross_section_settings,
             )
             if callable(coupler1)
             else coupler1

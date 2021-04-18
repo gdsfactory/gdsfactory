@@ -5,36 +5,28 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.waveguide import waveguide
-from pp.cross_section import CrossSectionFactory
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer
+from pp.cross_section import strip
+from pp.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @cell
 def coupler90(
     radius: float = 10.0,
     gap: float = 0.2,
-    waveguide_factory: ComponentFactory = waveguide,
+    straight: ComponentOrFactory = waveguide,
     bend: ComponentFactory = bend_euler,
-    width: float = TECH_SILICON_C.wg_width,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
-    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
-    tech: Optional[Tech] = None,
-    **kwargs
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings
 ) -> Component:
-    r"""Waveguide coupled to a bend.
+    r"""straight coupled to a bend.
 
     Args:
         radius: um
         gap: um
-        waveguide_factory: for Waveguide
+        straight: for straight
         bend: for bend
-        width: width of the bend
-        layer: bend layer
-        cross_section_factory_inner: for inner bend
-        cross_section_factory_outer: for outer waveguide
-        tech: Technology
+        cross_section_factory: for straight and bend
+        **cross_section_settings
 
     .. code::
 
@@ -47,22 +39,29 @@ def coupler90(
 
     """
     c = Component()
+    cross_section_factory = cross_section_factory or strip
+
     bend90 = bend(
         radius=radius,
-        width=width,
-        layer=layer,
-        cross_section_factory=cross_section_factory_inner,
-        tech=tech,
-        **kwargs
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
     )
     bend_ref = c << bend90
-    wg_ref = c << waveguide_factory(
-        length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-        width=width,
-        layer=layer,
-        cross_section_factory=cross_section_factory_outer,
-        tech=tech,
+    straight_component = (
+        straight(
+            length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
+        )
+        if callable(straight)
+        else straight
     )
+
+    wg_ref = c << straight_component
+
+    cross_section = cross_section_factory(**cross_section_settings)
+
+    width = cross_section.info["width"]
 
     pbw = bend_ref.ports["W0"]
     bend_ref.movey(pbw.midpoint[1] + gap + width)
@@ -79,22 +78,14 @@ def coupler90(
     return c
 
 
-def coupler90circular(
-    radius: float = 10.0,
-    gap: float = 0.2,
-    waveguide_factory: ComponentFactory = waveguide,
-    bend: ComponentFactory = bend_circular,
-    **kwargs
-):
-    return coupler90(
-        radius=radius, gap=gap, waveguide_factory=waveguide_factory, bend=bend, **kwargs
-    )
+def coupler90circular(bend: ComponentFactory = bend_circular, **kwargs):
+    return coupler90(bend=bend, **kwargs)
 
 
 if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
-    c = coupler90(radius=3)
+    c = coupler90(radius=3, width=1)
     c.show()
     c.pprint()
     # print(c.ports)

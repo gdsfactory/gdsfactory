@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: pp.components.mzi
-name: mzi_b922d9a8
+name: mzi_1dfb72d8
 settings:
   bend: bend_euler
   bend_radius: 20
@@ -13,9 +13,8 @@ settings:
   pins: false
   splitter: mmi1x2
   splitter_settings: null
-  tech: null
-  waveguide: waveguide
+  waveguide: straight
   waveguide_delta_length: null
-  waveguide_horizontal: waveguide
-  waveguide_vertical: waveguide
+  waveguide_horizontal: straight
+  waveguide_vertical: straight
   with_splitter: true

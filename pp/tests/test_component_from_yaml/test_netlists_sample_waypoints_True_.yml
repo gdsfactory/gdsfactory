@@ -1,8 +1,8 @@
 connections:
-  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,1
-  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
-  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
-  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
+  bend_euler_R5_W500n_-2.375_597.625,N0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,1
+  bend_euler_R5_W500n_-2.375_597.625,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
+  bend_euler_R5_W500n_-247.625_602.375,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
+  bend_euler_R5_W500n_-247.625_602.375,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
   taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,W0
   taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,E0
   taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2: waveguide_L325_W2p5_-250.0_802.5,W0
@@ -24,32 +24,26 @@ instances:
       - 150
       - 0
       width: 100
-  bend_euler_R5_W500n_-0.875_599.125:
+  bend_euler_R5_W500n_-2.375_597.625:
     component: bend_euler
     settings:
       angle: 90
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       npoints: 720
       p: 1
       radius: 5
-      tech: null
+      snap_to_grid_nm: 1
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_R5_W500n_-249.125_600.875:
+  bend_euler_R5_W500n_-247.625_602.375:
     component: bend_euler
     settings:
       angle: 90
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       npoints: 720
       p: 1
       radius: 5
-      tech: null
+      snap_to_grid_nm: 1
       width: 0.5
       with_arc_floorplan: true
   t:
@@ -148,34 +142,25 @@ instances:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 170
       npoints: 2
-      tech: null
+      snap_to_grid_nm: 1
       width: 2.5
   waveguide_L325_W2p5_-250.0_802.5:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 325
       npoints: 2
-      tech: null
+      snap_to_grid_nm: 1
       width: 2.5
   waveguide_L525_W2p5_0.0_297.5:
     component: waveguide
     settings:
       cross_section_factory: null
-      layer:
-      - 1
-      - 0
       length: 525
       npoints: 2
-      tech: null
+      snap_to_grid_nm: 1
       width: 2.5
 name: sample_waypoints
 placements:
@@ -184,12 +169,12 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_R5_W500n_-0.875_599.125:
+  bend_euler_R5_W500n_-2.375_597.625:
     mirror: false
     rotation: 90
     x: 0.0
     y: 595.0
-  bend_euler_R5_W500n_-249.125_600.875:
+  bend_euler_R5_W500n_-247.625_602.375:
     mirror: true
     rotation: 180
     x: -245.0

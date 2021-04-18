@@ -1,11 +1,10 @@
 function_name: ring_single
 info: {}
 module: pp.components.ring_single
-name: ring_single_6ad65302
+name: ring_single_cc2934b9
 settings:
   bend: null
-  cross_section_factory_inner: null
-  cross_section_factory_outer: null
+  cross_section_factory: null
   gap: 0.2
   layer:
   - 34
@@ -14,5 +13,4 @@ settings:
   length_y: 0.1
   pins: false
   radius: 20
-  tech: nitride_cband
   width: 1

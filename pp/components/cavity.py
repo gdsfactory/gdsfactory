@@ -2,7 +2,6 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
-from pp.tech import TECH_SILICON_C, Tech
 from pp.types import ComponentFactory
 
 
@@ -12,7 +11,7 @@ def cavity(
     coupler: ComponentFactory = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,
-    tech: Tech = TECH_SILICON_C,
+    **coupler_settings
 ) -> Component:
     r"""Returns  cavity from a coupler and a mirror.
 
@@ -46,7 +45,9 @@ def cavity(
     """
     mirror = component() if callable(component) else component
     coupler = (
-        coupler(length=length, gap=gap, tech=tech) if callable(coupler) else coupler
+        coupler(length=length, gap=gap, **coupler_settings)
+        if callable(coupler)
+        else coupler
     )
 
     c = pp.Component()

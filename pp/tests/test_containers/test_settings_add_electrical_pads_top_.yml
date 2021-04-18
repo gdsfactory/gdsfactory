@@ -15,6 +15,5 @@ settings:
       L2: 10
       bend_radius: 10
       gap: 0.234
-      tech: null
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100

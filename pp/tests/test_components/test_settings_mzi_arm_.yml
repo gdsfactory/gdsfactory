@@ -27,26 +27,25 @@ settings:
   start_orientation: 0
   symbol_to_component:
     A:
-    - bend_euler_R10_Tsilicon_cband
+    - bend_euler_R10
     - W0
     - N0
     B:
-    - bend_euler_R10_Tsilicon_cband
+    - bend_euler_R10
     - N0
     - W0
     H:
-    - wg_heater_connected_2e2f2917
+    - wg_heater_connected_L60
     - W0
     - E0
     h:
-    - waveguide_L10_Tsilicon_cband
+    - waveguide_L10
     - W0
     - E0
     v:
     - null
     - W0
     - E0
-  tech: null
   waveguide: waveguide
   waveguide_heater: wg_heater_connected
   with_elec_connections: true

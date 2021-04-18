@@ -5,9 +5,8 @@ info:
 module: pp.components.coupler
 name: coupler
 settings:
+  cross_section_factory: null
   dx: 10
   dy: 5
   gap: 0.236
   length: 20
-  tech: null
-  width: 0.5

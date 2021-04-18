@@ -6,13 +6,14 @@ def test_netlist_read() -> Component:
 
     filepath = pp.CONFIG["netlists"] / "mzi.yml"
     c = pp.component_from_yaml(filepath)
+
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
     # print(len(c.get_netlist().connections))
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
+    # print(len(c.get_dependencies()))
 
-    print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 5
     return c
 
@@ -22,23 +23,27 @@ def test_netlist_read_full() -> Component:
 
     filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     c = pp.component_from_yaml(filepath)
+
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
     # print(len(c.get_netlist().connections))
-    print(len(c.get_dependencies()))
-    assert len(c.get_dependencies()) == 5
+    # print(len(c.get_dependencies()))
+    assert len(c.get_dependencies()) == 4
     return c
 
 
 if __name__ == "__main__":
-    import pp
+    # test_netlist_read()
+    test_netlist_read_full()
 
-    c = pp.components.mzi()
-    filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
-    c.write_netlist(filepath, full_settings=True)
+    # import pp
 
-    c = test_netlist_read_full()
-    c.show()
+    # c = pp.components.mzi()
+    # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
+    # c.write_netlist(filepath, full_settings=True)
+
+    # c = test_netlist_read_full()
+    # c.show()
 
     # n = c.get_netlist()
     # i = n["instances"]

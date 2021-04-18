@@ -3,7 +3,8 @@ from typing import Optional
 import pp
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.tech import TECH_SILICON_C, Tech
+from pp.cross_section import strip
+from pp.types import CrossSectionFactory
 
 
 @pp.cell
@@ -11,8 +12,8 @@ def bend_s(
     height: float = 2.0,
     length: float = 10.0,
     nb_points: int = 99,
-    tech: Optional[Tech] = None,
-    width: Optional[float] = None,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings,
 ) -> Component:
     """S bend with bezier curve
 
@@ -33,12 +34,13 @@ def bend_s(
       c.plot()
 
     """
-    tech = tech if isinstance(tech, Tech) else TECH_SILICON_C
     l, h = length, height
-    width = width or tech.wg_width
-    layer = tech.layer_wg
-    layers_cladding = tech.layers_cladding
-    cladding_offset = tech.cladding_offset
+    cross_section_factory = cross_section_factory or strip
+    cross_section = cross_section_factory(**cross_section_settings)
+    width = cross_section.info["width"]
+    layer = cross_section.info["layer"]
+    layers_cladding = cross_section.info["layers_cladding"]
+    cladding_offset = cross_section.info["cladding_offset"]
 
     c = bezier(
         width=width,

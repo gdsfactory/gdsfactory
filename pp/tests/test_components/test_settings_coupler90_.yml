@@ -3,12 +3,6 @@ info: {}
 module: pp.components.coupler90
 name: coupler90
 settings:
-  cross_section_factory_inner: null
-  cross_section_factory_outer: null
+  cross_section_factory: null
   gap: 0.2
-  layer:
-  - 1
-  - 0
   radius: 10
-  tech: null
-  width: 0.5

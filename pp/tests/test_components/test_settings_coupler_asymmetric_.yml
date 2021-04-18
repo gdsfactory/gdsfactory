@@ -3,5 +3,6 @@ info: {}
 module: pp.components.coupler_asymmetric
 name: coupler_asymmetric
 settings:
+  dx: 10
+  dy: 5
   gap: 0.234
-  tech: silicon_cband

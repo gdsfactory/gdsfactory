@@ -1077,7 +1077,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.components.waveguide(layer=(2, 0))
+    c = pp.components.waveguide(layer=(2, 0), layers_cladding=[(111, 0)])
     assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(2, 0)}

@@ -1,11 +1,10 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.cross_section import CrossSectionFactory
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer
+from pp.cross_section import strip
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
@@ -13,14 +12,11 @@ def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
     bend: ComponentFactory = bend_euler,
-    width: float = TECH_SILICON_C.wg_width,
-    width_inner: Optional[float] = None,
-    width_outer: Optional[float] = None,
-    layer: Layer = TECH_SILICON_C.layer_wg,
     cross_section_factory_inner: Optional[CrossSectionFactory] = None,
     cross_section_factory_outer: Optional[CrossSectionFactory] = None,
-    tech: Optional[Tech] = None,
-    **kwargs
+    cross_section_settings_inner: Optional[Dict[str, Any]] = None,
+    cross_section_settings_outer: Optional[Dict[str, Any]] = None,
+    **bend_settings
 ) -> Component:
     r"""Returns 2 coupled bends.
 
@@ -28,13 +24,9 @@ def coupler90bend(
         radius: um
         gap: um
         bend: for bend
-        width: width of the bend
-        width_inner: width of the inner bend
-        width_outer: width of the outer bend
         layer: bend layer
         cross_section_factory_inner: for inner bend
         cross_section_factory_outer: for outer bend
-        tech: Technology
 
     .. code::
 
@@ -46,26 +38,31 @@ def coupler90bend(
        W0_____/
 
     """
-    width_inner = width_inner or width
-    width_outer = width_outer or width
 
     c = Component()
+    cross_section_factory_inner = cross_section_factory_inner or strip
+    cross_section_factory_outer = cross_section_factory_outer or strip
+
+    cross_section_settings_outer = cross_section_settings_outer or {}
+    cross_section_settings_inner = cross_section_settings_inner or {}
+    cross_section_inner = cross_section_factory_inner(**cross_section_settings_inner)
+    cross_section_outer = cross_section_factory_outer(**cross_section_settings_outer)
+    width = (
+        cross_section_outer.info["width"] / 2 + cross_section_inner.info["width"] / 2
+    )
+    spacing = gap + width
+
     bend90_inner = bend(
         radius=radius,
-        width=width_inner,
-        layer=layer,
         cross_section_factory=cross_section_factory_inner,
-        tech=tech,
-        **kwargs
+        **cross_section_settings_inner,
+        **bend_settings
     )
-    spacing = gap + width_inner / 2 + width_outer / 2
     bend90_outer = bend(
         radius=radius + spacing,
-        width=width_outer,
-        layer=layer,
         cross_section_factory=cross_section_factory_outer,
-        tech=tech,
-        **kwargs
+        **cross_section_settings_outer,
+        **bend_settings
     )
     bend_inner_ref = c << bend90_inner
     bend_outer_ref = c << bend90_outer
@@ -86,5 +83,5 @@ def coupler90bend(
 
 
 if __name__ == "__main__":
-    c = coupler90bend(radius=3, width_inner=1)
+    c = coupler90bend(radius=3, cross_section_settings_outer=dict(width=1))
     c.show()

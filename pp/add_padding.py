@@ -38,7 +38,7 @@ def get_padding_points(
 
 def add_padding(
     component: Component,
-    layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
+    layers: Optional[Tuple[Tuple[int, int], ...]] = (pp.LAYER.PADDING),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component.
@@ -56,6 +56,7 @@ def add_padding(
         left: west padding
     """
     points = get_padding_points(component, **kwargs)
+    layers = layers or []
     for layer in layers:
         component.add_polygon(points, layer=layer)
     return component

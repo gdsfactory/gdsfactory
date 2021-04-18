@@ -2,36 +2,67 @@ import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.waveguide import waveguide as waveguide_function
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory
+from pp.cross_section import strip
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @pp.cell
 def coupler_asymmetric(
     bend: ComponentFactory = bend_s,
-    waveguide: ComponentFactory = waveguide_function,
+    straight: ComponentFactory = waveguide_function,
     gap: float = 0.234,
-    tech: Tech = TECH_SILICON_C,
+    dy: float = 5.0,
+    dx: float = 10.0,
+    cross_section_factory: CrossSectionFactory = strip,
+    **cross_section_settings,
 ) -> Component:
     """bend coupled to straight waveguide
 
     Args:
         bend:
-        waveguide: waveguide factory
+        straight: straight factory
         gap: um
-        wg_width
+        dy: port to port vertical spacing
+        dx: bend length in x direction
+        cross_section_factory: function that returns a cross_section
+        **cross_section_settings
+
+    .. code::
+                    dx
+                 |-----|
+                  _____ E1
+                 /         |
+           _____/          |
+      gap  ____________    |  dy
+                        E0
 
 
     """
-    bend = bend(tech=tech)
-    wg = waveguide(tech=tech)
+    cross_section_factory = cross_section_factory or strip
+    cross_section = cross_section_factory(**cross_section_settings)
+    width = cross_section.info["width"]
+    bend_component = (
+        bend(
+            height=(dy - gap - width),
+            length=dx,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings,
+        )
+        if callable(bend)
+        else bend
+    )
+    wg = (
+        straight(cross_section_factory=cross_section_factory, **cross_section_settings)
+        if callable(straight)
+        else straight
+    )
 
-    w = bend.ports["W0"].width
+    w = bend_component.ports["W0"].width
     y = (w + gap) / 2
 
-    c = pp.Component()
+    c = Component()
     wg = wg.ref(position=(0, y), port_id="W0")
-    bottom_bend = bend.ref(position=(0, -y), port_id="W0", v_mirror=True)
+    bottom_bend = bend_component.ref(position=(0, -y), port_id="W0", v_mirror=True)
 
     c.add(wg)
     c.add(bottom_bend)
