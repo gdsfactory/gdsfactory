@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -7,7 +9,7 @@ from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import call_if_func
 from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
-from pp.tech import TECH_SILICON_C, Tech
+from pp.types import CrossSectionFactory
 
 
 @cell
@@ -22,7 +24,8 @@ def ring_single_dut(
     waveguide=waveguide_function,
     bend=bend_euler,
     with_dut=True,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
+    **cross_section_settings
 ):
     """Single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical waveguides (wyl: left, wyr: right)
@@ -48,13 +51,34 @@ def ring_single_dut(
     assert_on_2nm_grid(gap)
 
     coupler = call_if_func(
-        coupler, gap=gap, radius=radius, length_x=length_x, tech=tech
+        coupler,
+        gap=gap,
+        radius=radius,
+        length_x=length_x,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
     )
     waveguide_side = call_if_func(
-        waveguide, width=wg_width, length=length_y + dut.xsize, tech=tech
+        waveguide,
+        width=wg_width,
+        length=length_y + dut.xsize,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
     )
-    waveguide_top = call_if_func(waveguide, width=wg_width, length=length_x, tech=tech)
-    bend = call_if_func(bend, width=wg_width, radius=radius, tech=tech)
+    waveguide_top = call_if_func(
+        waveguide,
+        width=wg_width,
+        length=length_x,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
+    )
+    bend = call_if_func(
+        bend,
+        width=wg_width,
+        radius=radius,
+        cross_section_factory=cross_section_factory,
+        **cross_section_settings
+    )
 
     c = Component()
     cb = c << coupler
