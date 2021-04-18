@@ -8,13 +8,12 @@ from pp.add_pins import add_pins_container
 from pp.add_tapers import add_tapers
 from pp.add_termination import add_gratings_and_loop_back, add_termination
 from pp.components.cavity import cavity
-
-# from pp.components.ring_single_dut import ring_single_dut
 from pp.components.extension import extend_ports
 
 # from pp.components.waveguide import waveguide
 # from pp.components.waveguide_heater import waveguide_heater
 from pp.components.mzi2x2 import mzi2x2
+from pp.components.ring_single_dut import ring_single_dut
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.difftest import difftest
 from pp.rotate import rotate
@@ -40,7 +39,7 @@ container_factory = dict(
     package_optical2x2=package_optical2x2,
     rotate=rotate,
     cavity=cavity,
-    # ring_single_dut=ring_single_dut
+    ring_single_dut=ring_single_dut,
 )
 
 container_names = container_factory.keys()

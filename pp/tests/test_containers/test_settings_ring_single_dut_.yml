@@ -3,10 +3,23 @@ info: {}
 module: pp.components.ring_single_dut
 name: ring_single_dut_Cmzi2x2_WECTrue
 settings:
-  bend_radius: 5
-  component: mzi2x2_WECTrue
+  component:
+    function_name: mzi2x2
+    info: {}
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60
+      L2: 10
+      bend_radius: 10
+      gap: 0.234
+      with_elec_connections: true
+  cross_section_factory: null
   gap: 0.2
   length_x: 4
   length_y: 0
+  radius: 5
   wg_width: 0.5
   with_dut: true
