@@ -6,7 +6,7 @@ isort:skip_file
 # level 0 components
 from pp.components.straight import straight
 from pp.components.straight_heater import straight_heater
-from pp.components.straight_heater import wg_heater_connected
+from pp.components.straight_heater import straight_with_heater
 from pp.components.straight_pin import straight_pin
 from pp.components.straight_array import straight_array
 
@@ -233,7 +233,7 @@ component_factory = dict(
     straight_array=straight_array,
     straight_heater=straight_heater,
     straight_pin=straight_pin,
-    wg_heater_connected=wg_heater_connected,
+    straight_with_heater=straight_with_heater,
     wire=wire,
 )
 

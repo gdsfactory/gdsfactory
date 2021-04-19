@@ -426,7 +426,7 @@ def add_pins_container(
 
 
 def test_add_pins() -> None:
-    c1 = pp.components.wg_heater_connected()
+    c1 = pp.components.straight_with_heater()
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
     )
