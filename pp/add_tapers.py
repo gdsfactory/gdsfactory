@@ -49,7 +49,7 @@ def add_tapers(
 
 
 if __name__ == "__main__":
-    c0 = pp.components.waveguide(width=2)
+    c0 = pp.components.straight(width=2)
     t = pp.components.taper(width2=2)
     c1 = add_tapers(component=c0, taper=t)
     c1.show()

@@ -31,7 +31,7 @@ def connect_loop_back(
 
     bend90 = pp.components.bend_euler(radius=R)
     return round_corners(
-        points=points, bend_factory=bend90, straight_factory=pp.components.waveguide
+        points=points, bend_factory=bend90, straight_factory=pp.components.straight
     )["references"]
 
 

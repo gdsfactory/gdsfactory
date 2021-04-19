@@ -26,8 +26,8 @@ def mmi1x2(
     r"""Mmi 1x2.
 
     Args:
-        width: input and output waveguide width
-        width_taper: interface between input waveguides and mmi region
+        width: input and output straight width
+        width_taper: interface between input straights and mmi region
         length_taper: into the mmi region
         length_mmi: in x direction
         width_mmi: in y direction

@@ -4,8 +4,8 @@ from pp.components.bend_circular import bend_circular
 from pp.components.extension import line
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
-from pp.components.waveguide import waveguide as waveguide_function
-from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.straight import straight as straight_function
+from pp.components.straight_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
 from pp.routing.route_ports_to_side import route_elec_ports_to_side
@@ -19,8 +19,8 @@ def mzi1x2(
     L2: float = 10.0,
     bend_radius: float = 10.0,
     bend: ComponentFactory = bend_circular,
-    waveguide_heater: ComponentFactory = wg_heater_connected,
-    waveguide: ComponentFactory = waveguide_function,
+    straight_heater: ComponentFactory = wg_heater_connected,
+    straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = mmi1x2,
     with_elec_connections: bool = False,
 ) -> Component:
@@ -32,8 +32,8 @@ def mzi1x2(
         L2: L_top horizontal length
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        waveguide_heater: wg_heater_connected or waveguide
-        waveguide_function: waveguide
+        straight_heater: wg_heater_connected or straight
+        straight_function: straight
         coupler_function: coupler
 
     .. code::
@@ -58,7 +58,7 @@ def mzi1x2(
 
     """
     if not with_elec_connections:
-        waveguide_heater = waveguide
+        straight_heater = straight
 
     cpl = coupler_function()
 
@@ -66,8 +66,8 @@ def mzi1x2(
         "L_top": L2,
         "bend_radius": bend_radius,
         "bend": bend,
-        "waveguide_heater": waveguide_heater,
-        "waveguide": waveguide,
+        "straight_heater": straight_heater,
+        "straight": straight,
         "with_elec_connections": with_elec_connections,
     }
 

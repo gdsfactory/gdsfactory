@@ -1,10 +1,10 @@
 connections:
-  left,E0: waveguide_L12_W500n_14.0_1.25,W0
-  left,E1: waveguide_L12_W500n_14.0_10.0,W0
-  left,E2: waveguide_L12_W500n_14.0_18.75,W0
-  right,W0: waveguide_L12_W500n_14.0_1.25,E0
-  right,W1: waveguide_L12_W500n_14.0_10.0,E0
-  right,W2: waveguide_L12_W500n_14.0_18.75,E0
+  left,E0: straight_L12_W500n_14.0_1.25,W0
+  left,E1: straight_L12_W500n_14.0_10.0,W0
+  left,E2: straight_L12_W500n_14.0_18.75,W0
+  right,W0: straight_L12_W500n_14.0_1.25,E0
+  right,W1: straight_L12_W500n_14.0_10.0,E0
+  right,W2: straight_L12_W500n_14.0_18.75,E0
 instances:
   left:
     component: nxn
@@ -16,18 +16,18 @@ instances:
     settings:
       east: 0
       west: 3
-  waveguide_L12_W500n_14.0_1.25:
-    component: waveguide
+  straight_L12_W500n_14.0_1.25:
+    component: straight
     settings:
       length: 12.0
       width: 0.5
-  waveguide_L12_W500n_14.0_10.0:
-    component: waveguide
+  straight_L12_W500n_14.0_10.0:
+    component: straight
     settings:
       length: 12.0
       width: 0.5
-  waveguide_L12_W500n_14.0_18.75:
-    component: waveguide
+  straight_L12_W500n_14.0_18.75:
+    component: straight
     settings:
       length: 12.0
       width: 0.5
@@ -43,17 +43,17 @@ placements:
     rotation: 0
     x: 20.0
     y: 0.0
-  waveguide_L12_W500n_14.0_1.25:
+  straight_L12_W500n_14.0_1.25:
     mirror: false
     rotation: 0
     x: 8.0
     y: 1.25
-  waveguide_L12_W500n_14.0_10.0:
+  straight_L12_W500n_14.0_10.0:
     mirror: false
     rotation: 0
     x: 8.0
     y: 10.0
-  waveguide_L12_W500n_14.0_18.75:
+  straight_L12_W500n_14.0_18.75:
     mirror: false
     rotation: 0
     x: 8.0

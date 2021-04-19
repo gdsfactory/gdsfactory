@@ -1,10 +1,10 @@
 connections:
-  bend_circular_left,N0: waveguide_left,W0
-  bend_circular_left,W0: waveguide_top,W0
-  bend_circular_right,N0: waveguide_top,E0
-  bend_circular_right,W0: waveguide_right,W0
-  coupler_ring_bottom,N0: waveguide_left,E0
-  coupler_ring_bottom,N1: waveguide_right,E0
+  bend_circular_left,N0: straight_left,W0
+  bend_circular_left,W0: straight_top,W0
+  bend_circular_right,N0: straight_top,E0
+  bend_circular_right,W0: straight_right,W0
+  coupler_ring_bottom,N0: straight_left,E0
+  coupler_ring_bottom,N1: straight_right,E0
 instances:
   bend_circular_left:
     component: bend_circular
@@ -23,18 +23,18 @@ instances:
       wg_width: 0.5
       bend_radius: 10.0
       length_x: 4.0
-  waveguide_left:
-    component: waveguide
+  straight_left:
+    component: straight
     settings:
       width: 0.5
       length: 0.001
-  waveguide_right:
-    component: waveguide
+  straight_right:
+    component: straight
     settings:
       width: 0.5
       length: 0.001
-  waveguide_top:
-    component: waveguide
+  straight_top:
+    component: straight
     settings:
       width: 0.5
       length: 4.0
@@ -51,15 +51,15 @@ placements:
     x: 0.0
     'y': 0.0
     rotation: 0
-  waveguide_left:
+  straight_left:
     x: -14.0
     'y': 10.701
     rotation: 270
-  waveguide_right:
+  straight_right:
     x: 10.0
     'y': 10.701
     rotation: 270
-  waveguide_top:
+  straight_top:
     x: -4.0
     'y': 20.701
     rotation: 0

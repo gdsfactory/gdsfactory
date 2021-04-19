@@ -19,11 +19,11 @@ def gen_tmp_port_name() -> str:
     return "{}".format(next(COUNTER))
 
 
-def swap(waveguides, i, j):
-    a = waveguides[i]
-    waveguides[i] = waveguides[j]
-    waveguides[j] = a
-    return waveguides
+def swap(straights, i, j):
+    a = straights[i]
+    straights[i] = straights[j]
+    straights[j] = a
+    return straights
 
 
 def dist(i, wgs1, wgs2):
@@ -33,35 +33,35 @@ def dist(i, wgs1, wgs2):
 
 
 def get_sequence_cross(
-    waveguides_start, waveguides_end, iter_max=100, symbols=("X", "-")
+    straights_start, straights_end, iter_max=100, symbols=("X", "-")
 ):
     """
     Args:
-        waveguides_start : list of the input port indices
-        waveguides_end : list of the output port indices
+        straights_start : list of the input port indices
+        straights_end : list of the output port indices
         iter_max: maximum iterations
         symbols : [`X` , `S`]
         symbols to be used in the returned sequence:
         `X`: represents the crossing symbol: two Xs next
             to each-other means that the two modes have to be swapped
-        `S`: Straight waveguide, or compensation path typically
+        `S`: Straight straight, or compensation path typically
 
     Returns:
         sequence of crossings to achieve the permutations between two columns of I/O
     """
-    wgs = list(waveguides_start)
-    waveguides_end = list(waveguides_end)
+    wgs = list(straights_start)
+    straights_end = list(straights_end)
     N = len(wgs)
     sequence = []
     X, S = symbols  # Cross, Straight symbols
     nb_iters = 0
-    while wgs != waveguides_end:
+    while wgs != straights_end:
         if nb_iters > iter_max:
             print(
                 "Exceeded max number of iterations. The following I/O are mismatched:"
             )
-            for i in range(len(waveguides_end)):
-                print(wgs[i], "<->", waveguides_end[i])
+            for i in range(len(straights_end)):
+                print(wgs[i], "<->", straights_end[i])
             return sequence
 
         if nb_iters > 2 and sequence[-1] == sequence[-2]:
@@ -74,13 +74,13 @@ def get_sequence_cross(
         while i < N - 1:
             a = wgs[i]
             b = wgs[i + 1]
-            d1 = dist(a, wgs, waveguides_end)
-            d2 = dist(b, wgs, waveguides_end)
+            d1 = dist(a, wgs, straights_end)
+            d2 = dist(b, wgs, straights_end)
             total_dist += abs(d1) + abs(d2)
 
             """
             # The equality cases are very important:
-            # if one waveguide needs to cross, then even if the other one is
+            # if one straight needs to cross, then even if the other one is
             # already at the right place, it must swap to allow the other one
             # to cross
             """
@@ -89,8 +89,8 @@ def get_sequence_cross(
                 wgs = swap(wgs, i, i + 1)
                 swaps += [X, X]
                 i += 1
-                # We cannot swap twice the same waveguide on the same iteration, so we
-                # skip the next waveguide by incrementing
+                # We cannot swap twice the same straight on the same iteration, so we
+                # skip the next straight by incrementing
 
                 # Edge case: Cannot swap if only one wg left so it has to be a straight
                 if i == N - 2:
@@ -127,9 +127,9 @@ def component_sequence_to_str(sequence):
     return component_txt_lattice
 
 
-def get_sequence_cross_str(waveguides_start, waveguides_end, iter_max=100):
+def get_sequence_cross_str(straights_start, straights_end, iter_max=100):
     seq = get_sequence_cross(
-        waveguides_start, waveguides_end, iter_max=iter_max, symbols=["X", "-"]
+        straights_start, straights_end, iter_max=iter_max, symbols=["X", "-"]
     )
 
     return component_sequence_to_str(seq)

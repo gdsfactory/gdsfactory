@@ -1,6 +1,6 @@
 """
 This is a convenience function for cascading components. Usecase, is composite
-waveguides such as phase modulators, where we need to keep track of multiple tapers,
+straights such as phase modulators, where we need to keep track of multiple tapers,
 doped sections, undopped, heaters etc...
 
 The idea is to associate one symbol per type of section.
@@ -14,8 +14,8 @@ import pp
 from pp.component import Component
 from pp.components import bend_circular
 from pp.components.component_sequence import component_sequence
-from pp.components.waveguide import waveguide
-from pp.components.waveguide_heater import waveguide_heater
+from pp.components.straight import straight
+from pp.components.straight_heater import straight_heater
 
 
 @pp.cell
@@ -23,8 +23,8 @@ def test_cutback_heater() -> Component:
     # Define subcomponents
     bend_radius = 10.0
     bend180 = bend_circular(radius=bend_radius, angle=180)
-    wg = waveguide(length=5.0)
-    wg_heater = waveguide_heater(length=20.0)
+    wg = straight(length=5.0)
+    wg_heater = straight_heater(length=20.0)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {

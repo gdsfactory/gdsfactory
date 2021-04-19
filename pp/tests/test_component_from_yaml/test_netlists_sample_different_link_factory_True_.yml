@@ -3,50 +3,50 @@ connections:
   bend_euler_R5_W500n_127.625_202.375,W0: taper_L1_0_L35_W500n_W2p5_107.5_200.0,1
   bend_euler_R5_W500n_132.375_555.625,N0: taper_L1_0_L35_W500n_W2p5_152.5_558.0,1
   bend_euler_R5_W500n_132.375_555.625,W0: taper_L1_0_L35_W500n_W2p5_130.0_535.5,1
-  bend_euler_R5_W500n_132.375_581.375,N0: waveguide_L11_W500n_130.0_589.5,W0
+  bend_euler_R5_W500n_132.375_581.375,N0: straight_L11_W500n_130.0_589.5,W0
   bend_euler_R5_W500n_132.375_581.375,W0: taper_L1_0_L35_W500n_W2p5_152.5_579.0,1
   bend_euler_R5_W500n_132.375_597.625,N0: taper_L1_0_L35_W500n_W2p5_152.5_600.0,1
-  bend_euler_R5_W500n_132.375_597.625,W0: waveguide_L11_W500n_130.0_589.5,E0
+  bend_euler_R5_W500n_132.375_597.625,W0: straight_L11_W500n_130.0_589.5,E0
   bend_euler_R5_W500n_257.625_2.375,N0: taper_L1_0_L35_W500n_W2p5_260.0_22.5,1
   bend_euler_R5_W500n_257.625_2.375,W0: taper_L1_0_L35_W500n_W2p5_237.5_0.0,1
   bend_euler_R5_W500n_262.375_355.625,N0: taper_L1_0_L35_W500n_W2p5_282.5_358.0,1
   bend_euler_R5_W500n_262.375_355.625,W0: taper_L1_0_L35_W500n_W2p5_260.0_335.5,1
-  bend_euler_R5_W500n_262.375_381.375,N0: waveguide_L11_W500n_260.0_389.5,W0
+  bend_euler_R5_W500n_262.375_381.375,N0: straight_L11_W500n_260.0_389.5,W0
   bend_euler_R5_W500n_262.375_381.375,W0: taper_L1_0_L35_W500n_W2p5_282.5_379.0,1
   bend_euler_R5_W500n_262.375_397.625,N0: taper_L1_0_L35_W500n_W2p5_282.5_400.0,1
-  bend_euler_R5_W500n_262.375_397.625,W0: waveguide_L11_W500n_260.0_389.5,E0
-  bend_euler_R5_W500n_398.625_560.375,N0: waveguide_L11_W500n_401.0_568.5,W0
+  bend_euler_R5_W500n_262.375_397.625,W0: straight_L11_W500n_260.0_389.5,E0
+  bend_euler_R5_W500n_398.625_560.375,N0: straight_L11_W500n_401.0_568.5,W0
   bend_euler_R5_W500n_398.625_560.375,W0: taper_L1_0_L35_W500n_W2p5_378.5_558.0,1
   bend_euler_R5_W500n_398.625_576.625,N0: taper_L1_0_L35_W500n_W2p5_378.5_579.0,1
-  bend_euler_R5_W500n_398.625_576.625,W0: waveguide_L11_W500n_401.0_568.5,E0
-  bend_euler_R5_W500n_528.625_360.375,N0: waveguide_L11_W500n_531.0_368.5,W0
+  bend_euler_R5_W500n_398.625_576.625,W0: straight_L11_W500n_401.0_568.5,E0
+  bend_euler_R5_W500n_528.625_360.375,N0: straight_L11_W500n_531.0_368.5,W0
   bend_euler_R5_W500n_528.625_360.375,W0: taper_L1_0_L35_W500n_W2p5_508.5_358.0,1
   bend_euler_R5_W500n_528.625_376.625,N0: taper_L1_0_L35_W500n_W2p5_508.5_379.0,1
-  bend_euler_R5_W500n_528.625_376.625,W0: waveguide_L11_W500n_531.0_368.5,E0
+  bend_euler_R5_W500n_528.625_376.625,W0: straight_L11_W500n_531.0_368.5,E0
   bl,E: taper_L1_0_L35_W500n_W2p5_67.5_0.0,1
   br,W: taper_L1_0_L35_W500n_W2p5_832.5_400.0,1
-  taper_L1_0_L35_W500n_W2p5_107.5_200.0,2: waveguide_L5_W2p5_87.5_200.0,E0
-  taper_L1_0_L35_W500n_W2p5_130.0_222.5,2: waveguide_L278_W2p5_130.0_379.0,W0
-  taper_L1_0_L35_W500n_W2p5_130.0_535.5,2: waveguide_L278_W2p5_130.0_379.0,E0
-  taper_L1_0_L35_W500n_W2p5_152.5_558.0,2: waveguide_L191_W2p5_265.5_558.0,W0
-  taper_L1_0_L35_W500n_W2p5_152.5_579.0,2: waveguide_L191_W2p5_265.5_579.0,E0
-  taper_L1_0_L35_W500n_W2p5_152.5_600.0,2: waveguide_L645_W2p5_492.5_600.0,W0
-  taper_L1_0_L35_W500n_W2p5_237.5_0.0,2: waveguide_L135_W2p5_152.5_0.0,E0
-  taper_L1_0_L35_W500n_W2p5_260.0_22.5,2: waveguide_L278_W2p5_260.0_179.0,W0
-  taper_L1_0_L35_W500n_W2p5_260.0_335.5,2: waveguide_L278_W2p5_260.0_179.0,E0
-  taper_L1_0_L35_W500n_W2p5_282.5_358.0,2: waveguide_L191_W2p5_395.5_358.0,W0
-  taper_L1_0_L35_W500n_W2p5_282.5_379.0,2: waveguide_L191_W2p5_395.5_379.0,E0
-  taper_L1_0_L35_W500n_W2p5_282.5_400.0,2: waveguide_L515_W2p5_557.5_400.0,W0
-  taper_L1_0_L35_W500n_W2p5_378.5_558.0,2: waveguide_L191_W2p5_265.5_558.0,E0
-  taper_L1_0_L35_W500n_W2p5_378.5_579.0,2: waveguide_L191_W2p5_265.5_579.0,W0
-  taper_L1_0_L35_W500n_W2p5_508.5_358.0,2: waveguide_L191_W2p5_395.5_358.0,E0
-  taper_L1_0_L35_W500n_W2p5_508.5_379.0,2: waveguide_L191_W2p5_395.5_379.0,W0
-  taper_L1_0_L35_W500n_W2p5_67.5_0.0,2: waveguide_L135_W2p5_152.5_0.0,W0
+  straight_L135_W2p5_152.5_0.0,E0: taper_L1_0_L35_W500n_W2p5_237.5_0.0,2
+  straight_L135_W2p5_152.5_0.0,W0: taper_L1_0_L35_W500n_W2p5_67.5_0.0,2
+  straight_L191_W2p5_265.5_558.0,E0: taper_L1_0_L35_W500n_W2p5_378.5_558.0,2
+  straight_L191_W2p5_265.5_558.0,W0: taper_L1_0_L35_W500n_W2p5_152.5_558.0,2
+  straight_L191_W2p5_265.5_579.0,E0: taper_L1_0_L35_W500n_W2p5_152.5_579.0,2
+  straight_L191_W2p5_265.5_579.0,W0: taper_L1_0_L35_W500n_W2p5_378.5_579.0,2
+  straight_L191_W2p5_395.5_358.0,E0: taper_L1_0_L35_W500n_W2p5_508.5_358.0,2
+  straight_L191_W2p5_395.5_358.0,W0: taper_L1_0_L35_W500n_W2p5_282.5_358.0,2
+  straight_L191_W2p5_395.5_379.0,E0: taper_L1_0_L35_W500n_W2p5_282.5_379.0,2
+  straight_L191_W2p5_395.5_379.0,W0: taper_L1_0_L35_W500n_W2p5_508.5_379.0,2
+  straight_L278_W2p5_130.0_379.0,E0: taper_L1_0_L35_W500n_W2p5_130.0_535.5,2
+  straight_L278_W2p5_130.0_379.0,W0: taper_L1_0_L35_W500n_W2p5_130.0_222.5,2
+  straight_L278_W2p5_260.0_179.0,E0: taper_L1_0_L35_W500n_W2p5_260.0_335.5,2
+  straight_L278_W2p5_260.0_179.0,W0: taper_L1_0_L35_W500n_W2p5_260.0_22.5,2
+  straight_L515_W2p5_557.5_400.0,E0: taper_L1_0_L35_W500n_W2p5_832.5_400.0,2
+  straight_L515_W2p5_557.5_400.0,W0: taper_L1_0_L35_W500n_W2p5_282.5_400.0,2
+  straight_L5_W2p5_87.5_200.0,E0: taper_L1_0_L35_W500n_W2p5_107.5_200.0,2
+  straight_L5_W2p5_87.5_200.0,W0: taper_L1_0_L35_W500n_W2p5_67.5_200.0,2
+  straight_L645_W2p5_492.5_600.0,E0: taper_L1_0_L35_W500n_W2p5_832.5_600.0,2
+  straight_L645_W2p5_492.5_600.0,W0: taper_L1_0_L35_W500n_W2p5_152.5_600.0,2
   taper_L1_0_L35_W500n_W2p5_67.5_200.0,1: tl,E
-  taper_L1_0_L35_W500n_W2p5_67.5_200.0,2: waveguide_L5_W2p5_87.5_200.0,W0
-  taper_L1_0_L35_W500n_W2p5_832.5_400.0,2: waveguide_L515_W2p5_557.5_400.0,E0
   taper_L1_0_L35_W500n_W2p5_832.5_600.0,1: tr,W
-  taper_L1_0_L35_W500n_W2p5_832.5_600.0,2: waveguide_L645_W2p5_492.5_600.0,E0
 instances:
   bend_euler_R5_W500n_127.625_202.375:
     component: bend_euler
@@ -196,6 +196,118 @@ instances:
       - 49
       - 0
       width: 100
+  straight_L11_W500n_130.0_589.5:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 11
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.5
+  straight_L11_W500n_260.0_389.5:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 11
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.5
+  straight_L11_W500n_401.0_568.5:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 11
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.5
+  straight_L11_W500n_531.0_368.5:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 11
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.5
+  straight_L135_W2p5_152.5_0.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 135
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L191_W2p5_265.5_558.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 191
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L191_W2p5_265.5_579.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 191
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L191_W2p5_395.5_358.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 191
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L191_W2p5_395.5_379.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 191
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L278_W2p5_130.0_379.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 278
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L278_W2p5_260.0_179.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 278
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L515_W2p5_557.5_400.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 515
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L5_W2p5_87.5_200.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 5
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
+  straight_L645_W2p5_492.5_600.0:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 645
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 2.5
   taper_L1_0_L35_W500n_W2p5_107.5_200.0:
     component: taper
     settings:
@@ -472,118 +584,6 @@ instances:
       - 49
       - 0
       width: 100
-  waveguide_L11_W500n_130.0_589.5:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 11
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.5
-  waveguide_L11_W500n_260.0_389.5:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 11
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.5
-  waveguide_L11_W500n_401.0_568.5:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 11
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.5
-  waveguide_L11_W500n_531.0_368.5:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 11
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.5
-  waveguide_L135_W2p5_152.5_0.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 135
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L191_W2p5_265.5_558.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 191
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L191_W2p5_265.5_579.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 191
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L191_W2p5_395.5_358.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 191
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L191_W2p5_395.5_379.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 191
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L278_W2p5_130.0_379.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 278
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L278_W2p5_260.0_179.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 278
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L515_W2p5_557.5_400.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 515
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L5_W2p5_87.5_200.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 5
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
-  waveguide_L645_W2p5_492.5_600.0:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 645
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
 name: sample_different_link_factory
 placements:
   bend_euler_R5_W500n_127.625_202.375:
@@ -656,6 +656,76 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
+  straight_L11_W500n_130.0_589.5:
+    mirror: false
+    rotation: 90
+    x: 130.0
+    y: 584.0
+  straight_L11_W500n_260.0_389.5:
+    mirror: false
+    rotation: 90
+    x: 260.0
+    y: 384.0
+  straight_L11_W500n_401.0_568.5:
+    mirror: false
+    rotation: 90
+    x: 401.0
+    y: 563.0
+  straight_L11_W500n_531.0_368.5:
+    mirror: false
+    rotation: 90
+    x: 531.0
+    y: 363.0
+  straight_L135_W2p5_152.5_0.0:
+    mirror: false
+    rotation: 0
+    x: 85.0
+    y: 0.0
+  straight_L191_W2p5_265.5_558.0:
+    mirror: false
+    rotation: 0
+    x: 170.0
+    y: 558.0
+  straight_L191_W2p5_265.5_579.0:
+    mirror: false
+    rotation: 180
+    x: 361.0
+    y: 579.0
+  straight_L191_W2p5_395.5_358.0:
+    mirror: false
+    rotation: 0
+    x: 300.0
+    y: 358.0
+  straight_L191_W2p5_395.5_379.0:
+    mirror: false
+    rotation: 180
+    x: 491.0
+    y: 379.0
+  straight_L278_W2p5_130.0_379.0:
+    mirror: false
+    rotation: 90
+    x: 130.0
+    y: 240.0
+  straight_L278_W2p5_260.0_179.0:
+    mirror: false
+    rotation: 90
+    x: 260.0
+    y: 40.0
+  straight_L515_W2p5_557.5_400.0:
+    mirror: false
+    rotation: 0
+    x: 300.0
+    y: 400.0
+  straight_L5_W2p5_87.5_200.0:
+    mirror: false
+    rotation: 0
+    x: 85.0
+    y: 200.0
+  straight_L645_W2p5_492.5_600.0:
+    mirror: false
+    rotation: 0
+    x: 170.0
+    y: 600.0
   taper_L1_0_L35_W500n_W2p5_107.5_200.0:
     mirror: false
     rotation: 180
@@ -765,75 +835,5 @@ placements:
     mirror: false
     rotation: 0
     x: 900.0
-    y: 600.0
-  waveguide_L11_W500n_130.0_589.5:
-    mirror: false
-    rotation: 90
-    x: 130.0
-    y: 584.0
-  waveguide_L11_W500n_260.0_389.5:
-    mirror: false
-    rotation: 90
-    x: 260.0
-    y: 384.0
-  waveguide_L11_W500n_401.0_568.5:
-    mirror: false
-    rotation: 90
-    x: 401.0
-    y: 563.0
-  waveguide_L11_W500n_531.0_368.5:
-    mirror: false
-    rotation: 90
-    x: 531.0
-    y: 363.0
-  waveguide_L135_W2p5_152.5_0.0:
-    mirror: false
-    rotation: 0
-    x: 85.0
-    y: 0.0
-  waveguide_L191_W2p5_265.5_558.0:
-    mirror: false
-    rotation: 0
-    x: 170.0
-    y: 558.0
-  waveguide_L191_W2p5_265.5_579.0:
-    mirror: false
-    rotation: 180
-    x: 361.0
-    y: 579.0
-  waveguide_L191_W2p5_395.5_358.0:
-    mirror: false
-    rotation: 0
-    x: 300.0
-    y: 358.0
-  waveguide_L191_W2p5_395.5_379.0:
-    mirror: false
-    rotation: 180
-    x: 491.0
-    y: 379.0
-  waveguide_L278_W2p5_130.0_379.0:
-    mirror: false
-    rotation: 90
-    x: 130.0
-    y: 240.0
-  waveguide_L278_W2p5_260.0_179.0:
-    mirror: false
-    rotation: 90
-    x: 260.0
-    y: 40.0
-  waveguide_L515_W2p5_557.5_400.0:
-    mirror: false
-    rotation: 0
-    x: 300.0
-    y: 400.0
-  waveguide_L5_W2p5_87.5_200.0:
-    mirror: false
-    rotation: 0
-    x: 85.0
-    y: 200.0
-  waveguide_L645_W2p5_492.5_600.0:
-    mirror: false
-    rotation: 0
-    x: 170.0
     y: 600.0
 ports: {}

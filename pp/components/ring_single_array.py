@@ -3,21 +3,21 @@ from typing import Dict, Tuple
 from pp.cell import cell
 from pp.component import Component
 from pp.components.ring_single import ring_single
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.types import ComponentFactory
 
 
 @cell
 def ring_single_array(
     ring_function: ComponentFactory = ring_single,
-    waveguide_function: ComponentFactory = waveguide,
+    straight_function: ComponentFactory = straight,
     spacing: float = 5.0,
     list_of_dicts: Tuple[Dict[str, float], ...] = (
         dict(length_x=10.0, radius=5.0),
         dict(length_x=20.0, radius=10.0),
     ),
 ) -> Component:
-    """Ring of single bus connected with waveguides.
+    """Ring of single bus connected with straights.
 
     .. code::
 
@@ -35,7 +35,7 @@ def ring_single_array(
     ring1 = c << ring_function(**settings0)
 
     ringp = ring1
-    wg = waveguide_function(length=spacing)
+    wg = straight_function(length=spacing)
 
     for settings in list_of_dicts[1:]:
         ringi = c << ring_function(**settings)

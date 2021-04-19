@@ -42,8 +42,8 @@ def u_bundle_direct(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip waveguide
-        separation: between waveguides
+            e.g `get_route_from_waypoints` for deep etch strip straight
+        separation: between straights
         start_straight:
         end_straight
         start_straight_offset
@@ -249,7 +249,7 @@ def u_bundle_indirect(
         start_ports: list of start ports
         end_ports: list of end ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip straight
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `get_route_from_waypoints`,

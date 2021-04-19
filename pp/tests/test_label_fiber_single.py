@@ -2,12 +2,12 @@ import pp
 from pp.component import Component
 
 LENGTH = 0.5
-CELL_NAME = "waveguide_L500n"
+CELL_NAME = "straight_L500n"
 
 
 def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = pp.components.waveguide(length=length)
+    c = pp.components.straight(length=length)
 
     assert len(c.labels) == 0
 
@@ -28,7 +28,7 @@ def test_label_fiber_single_align_ports(
     length=LENGTH, cell_name=CELL_NAME
 ) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = pp.components.waveguide(length=length)
+    c = pp.components.straight(length=length)
 
     assert len(c.labels) == 0
 

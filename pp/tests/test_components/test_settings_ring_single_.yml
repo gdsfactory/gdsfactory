@@ -10,3 +10,4 @@ settings:
   length_y: 0.01
   pins: false
   radius: 10
+  snap_to_grid_nm: 1

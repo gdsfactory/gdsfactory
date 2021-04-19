@@ -1,22 +1,22 @@
 connections:
   bend_euler_R10_17.875_-5.5,N0: mmi1x2_0.0_0.0,E0
-  bend_euler_R10_17.875_-5.5,W0: waveguide_L100n_22.75_-10.675,W0
-  bend_euler_R10_17.875_5.5,N0: waveguide_L100n_22.75_10.675,W0
+  bend_euler_R10_17.875_-5.5,W0: straight_L100n_22.75_-10.675,W0
+  bend_euler_R10_17.875_5.5,N0: straight_L100n_22.75_10.675,W0
   bend_euler_R10_17.875_5.5,W0: mmi1x2_0.0_0.0,E1
-  bend_euler_R10_27.625_-20.85,N0: waveguide_L100n_32.8_-25.725,W0
-  bend_euler_R10_27.625_-20.85,W0: waveguide_L5_22.75_-13.225,E0
-  bend_euler_R10_27.625_15.85,N0: waveguide_L100n_22.75_10.675,E0
-  bend_euler_R10_27.625_15.85,W0: waveguide_L100n_32.8_20.725,W0
-  bend_euler_R10_37.975_-20.85,N0: waveguide_L5_42.85_-13.225,W0
-  bend_euler_R10_37.975_-20.85,W0: waveguide_L100n_32.8_-25.725,E0
-  bend_euler_R10_37.975_15.85,N0: waveguide_L100n_32.8_20.725,E0
-  bend_euler_R10_37.975_15.85,W0: waveguide_L100n_42.85_10.675,W0
-  bend_euler_R10_47.725_-5.5,N0: waveguide_L100n_42.85_-10.675,E0
+  bend_euler_R10_27.625_-20.85,N0: straight_L100n_32.8_-25.725,W0
+  bend_euler_R10_27.625_-20.85,W0: straight_L5_22.75_-13.225,E0
+  bend_euler_R10_27.625_15.85,N0: straight_L100n_22.75_10.675,E0
+  bend_euler_R10_27.625_15.85,W0: straight_L100n_32.8_20.725,W0
+  bend_euler_R10_37.975_-20.85,N0: straight_L5_42.85_-13.225,W0
+  bend_euler_R10_37.975_-20.85,W0: straight_L100n_32.8_-25.725,E0
+  bend_euler_R10_37.975_15.85,N0: straight_L100n_32.8_20.725,E0
+  bend_euler_R10_37.975_15.85,W0: straight_L100n_42.85_10.675,W0
+  bend_euler_R10_47.725_-5.5,N0: straight_L100n_42.85_-10.675,E0
   bend_euler_R10_47.725_-5.5,W0: mmi1x2_65.6_0.0,E1
   bend_euler_R10_47.725_5.5,N0: mmi1x2_65.6_0.0,E0
-  bend_euler_R10_47.725_5.5,W0: waveguide_L100n_42.85_10.675,E0
-  waveguide_L100n_22.75_-10.675,E0: waveguide_L5_22.75_-13.225,W0
-  waveguide_L100n_42.85_-10.675,W0: waveguide_L5_42.85_-13.225,E0
+  bend_euler_R10_47.725_5.5,W0: straight_L100n_42.85_10.675,E0
+  straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
+  straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
 instances:
   bend_euler_R10_17.875_-5.5:
     component: bend_euler
@@ -128,57 +128,57 @@ instances:
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
-  waveguide_L100n_22.75_-10.675:
-    component: waveguide
+  straight_L100n_22.75_-10.675:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L100n_22.75_10.675:
-    component: waveguide
+  straight_L100n_22.75_10.675:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L100n_32.8_-25.725:
-    component: waveguide
+  straight_L100n_32.8_-25.725:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L100n_32.8_20.725:
-    component: waveguide
+  straight_L100n_32.8_20.725:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L100n_42.85_-10.675:
-    component: waveguide
+  straight_L100n_42.85_-10.675:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L100n_42.85_10.675:
-    component: waveguide
+  straight_L100n_42.85_10.675:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.1
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L5_22.75_-13.225:
-    component: waveguide
+  straight_L5_22.75_-13.225:
+    component: straight
     settings:
       cross_section_factory: null
       length: 5
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_L5_42.85_-13.225:
-    component: waveguide
+  straight_L5_42.85_-13.225:
+    component: straight
     settings:
       cross_section_factory: null
       length: 5
@@ -236,42 +236,42 @@ placements:
     rotation: 180
     x: 65.6
     y: 0.0
-  waveguide_L100n_22.75_-10.675:
+  straight_L100n_22.75_-10.675:
     mirror: false
     rotation: 270
     x: 22.75
     y: -10.625
-  waveguide_L100n_22.75_10.675:
+  straight_L100n_22.75_10.675:
     mirror: false
     rotation: 90
     x: 22.75
     y: 10.625
-  waveguide_L100n_32.8_-25.725:
+  straight_L100n_32.8_-25.725:
     mirror: false
     rotation: 0
     x: 32.75
     y: -25.725
-  waveguide_L100n_32.8_20.725:
+  straight_L100n_32.8_20.725:
     mirror: false
     rotation: 0
     x: 32.75
     y: 20.725
-  waveguide_L100n_42.85_-10.675:
+  straight_L100n_42.85_-10.675:
     mirror: false
     rotation: 90
     x: 42.85
     y: -10.725
-  waveguide_L100n_42.85_10.675:
+  straight_L100n_42.85_10.675:
     mirror: false
     rotation: 270
     x: 42.85
     y: 10.725
-  waveguide_L5_22.75_-13.225:
+  straight_L5_22.75_-13.225:
     mirror: false
     rotation: 270
     x: 22.75
     y: -10.725
-  waveguide_L5_42.85_-13.225:
+  straight_L5_42.85_-13.225:
     mirror: false
     rotation: 90
     x: 42.85

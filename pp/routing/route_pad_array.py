@@ -18,7 +18,7 @@ def route_pad_array(
     pad: Callable = pad_function,
     fanout_length: Number = 20.0,
     max_y0_optical: None = None,
-    waveguide_separation: float = 4.0,
+    straight_separation: float = 4.0,
     bend_radius: float = 0.1,
     connected_port_list_ids: None = None,
     n_ports: int = 1,
@@ -49,7 +49,7 @@ def route_pad_array(
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate for intermediate optical ports
             Usually fine to leave at None.
-        waveguide_separation: min spacing between the waveguides that route component to pads
+        straight_separation: min spacing between the straights that route component to pads
         bend_radius: bend radius
         list_port_labels: list of the port indices (e.g [0,3]) which require a TM label.
         connected_port_list_ids: only for type 0 optical routing.
@@ -92,7 +92,7 @@ def route_pad_array(
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(ports)
-    sep = waveguide_separation
+    sep = straight_separation
 
     K = len(ports)
     K = K + 1 if K % 2 else K

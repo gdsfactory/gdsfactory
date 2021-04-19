@@ -25,6 +25,8 @@ settings:
     - E_0
   sequence: AvHBhBHvA
   start_orientation: 0
+  straight: straight
+  straight_heater: wg_heater_connected
   symbol_to_component:
     A:
     - bend_euler_R10
@@ -39,13 +41,11 @@ settings:
     - W0
     - E0
     h:
-    - waveguide_L10
+    - straight_L10
     - W0
     - E0
     v:
     - null
     - W0
     - E0
-  waveguide: waveguide
-  waveguide_heater: wg_heater_connected
   with_elec_connections: true

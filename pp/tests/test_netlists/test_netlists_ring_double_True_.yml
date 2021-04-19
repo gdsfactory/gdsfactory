@@ -1,8 +1,8 @@
 connections:
-  coupler_ring_66a16c7e_-0.005_16.185,N0: waveguide_CSFNone_L10n_10.0_10.705,W0
-  coupler_ring_66a16c7e_-0.005_16.185,N1: waveguide_CSFNone_L10n_-10.01_10.705,W0
-  coupler_ring_66a16c7e_-0.005_5.225,N0: waveguide_CSFNone_L10n_-10.01_10.705,E0
-  coupler_ring_66a16c7e_-0.005_5.225,N1: waveguide_CSFNone_L10n_10.0_10.705,E0
+  coupler_ring_66a16c7e_-0.005_16.185,N0: straight_CSFNone_L10n_10.0_10.705,W0
+  coupler_ring_66a16c7e_-0.005_16.185,N1: straight_CSFNone_L10n_-10.01_10.705,W0
+  coupler_ring_66a16c7e_-0.005_5.225,N0: straight_CSFNone_L10n_-10.01_10.705,E0
+  coupler_ring_66a16c7e_-0.005_5.225,N1: straight_CSFNone_L10n_10.0_10.705,E0
 instances:
   coupler_ring_66a16c7e_-0.005_16.185:
     component: coupler_ring
@@ -12,6 +12,7 @@ instances:
       gap: 0.2
       length_x: 0.01
       radius: 10
+      snap_to_grid_nm: 1
   coupler_ring_66a16c7e_-0.005_5.225:
     component: coupler_ring
     settings:
@@ -20,15 +21,16 @@ instances:
       gap: 0.2
       length_x: 0.01
       radius: 10
-  waveguide_CSFNone_L10n_-10.01_10.705:
-    component: waveguide
+      snap_to_grid_nm: 1
+  straight_CSFNone_L10n_-10.01_10.705:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.01
       npoints: 2
       snap_to_grid_nm: 1
-  waveguide_CSFNone_L10n_10.0_10.705:
-    component: waveguide
+  straight_CSFNone_L10n_10.0_10.705:
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.01
@@ -46,12 +48,12 @@ placements:
     rotation: 0
     x: 0.0
     y: -0.0
-  waveguide_CSFNone_L10n_-10.01_10.705:
+  straight_CSFNone_L10n_-10.01_10.705:
     mirror: false
     rotation: 270
     x: -10.01
     y: 10.71
-  waveguide_CSFNone_L10n_10.0_10.705:
+  straight_CSFNone_L10n_10.0_10.705:
     mirror: false
     rotation: 270
     x: 10.0

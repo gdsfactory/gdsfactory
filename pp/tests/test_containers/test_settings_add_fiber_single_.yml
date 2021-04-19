@@ -3,7 +3,7 @@ info: {}
 module: pp.routing.add_fiber_single
 name: add_fiber_single_Cmzi2x2_WECTrue
 settings:
-  auto_taper_to_wide_waveguides: false
+  auto_widen: false
   component:
     function_name: mzi2x2
     info: {}

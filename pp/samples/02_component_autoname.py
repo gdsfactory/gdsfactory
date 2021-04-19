@@ -11,9 +11,9 @@ from pp.component import Component
 
 
 @pp.cell
-def waveguide_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
-    """Returns waveguide with automatic name."""
-    wg = pp.Component("waveguide")
+def straight_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
+    """Returns straight with automatic name."""
+    wg = pp.Component("straight")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
     wg.add_port(name="wgport1", midpoint=[0, height / 2], width=height, orientation=180)
     wg.add_port(
@@ -23,16 +23,16 @@ def waveguide_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
 
 
 def test_autoname() -> None:
-    c = waveguide_cell()
-    assert c.name == "waveguide_cell"
+    c = straight_cell()
+    assert c.name == "straight_cell"
 
-    c = waveguide_cell(width=0.5)
-    assert c.name == "waveguide_cell_W500n"
+    c = straight_cell(width=0.5)
+    assert c.name == "straight_cell_W500n"
 
 
 if __name__ == "__main__":
-    c = waveguide_cell()
+    c = straight_cell()
     print(c)
 
-    c = waveguide_cell(width=0.5)
+    c = straight_cell(width=0.5)
     print(c)

@@ -1,16 +1,14 @@
 function_name: ring_single
 info: {}
 module: pp.components.ring_single
-name: ring_single_cc2934b9
+name: ring_single_91f9faae
 settings:
-  bend: null
-  cross_section_factory: null
+  bend: bend_euler
+  cross_section_factory: strip
   gap: 0.2
-  layer:
-  - 34
-  - 0
   length_x: 4
   length_y: 0.1
   pins: false
   radius: 20
-  width: 1
+  snap_to_grid_nm: 1
+  straight: straight

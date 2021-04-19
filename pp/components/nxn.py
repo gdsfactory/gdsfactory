@@ -30,8 +30,8 @@ def nxn(
         south: number of south ports
         xsize: size in X
         ysize: size in Y
-        wg_width: width of the waveguide ports
-        wg_margin: margin from waveguide to component edge
+        wg_width: width of the straight ports
+        wg_margin: margin from straight to component edge
 
     .. code::
 

@@ -10,8 +10,8 @@ from pp.add_termination import add_gratings_and_loop_back, add_termination
 from pp.components.cavity import cavity
 from pp.components.extension import extend_ports
 
-# from pp.components.waveguide import waveguide
-# from pp.components.waveguide_heater import waveguide_heater
+# from pp.components.straight import straight
+# from pp.components.straight_heater import straight_heater
 from pp.components.mzi2x2 import mzi2x2
 from pp.components.ring_single_dut import ring_single_dut
 from pp.components.spiral_inner_io import spiral_inner_io

@@ -18,11 +18,14 @@ def coupler_straight(
     snap_to_grid_nm: int = 1,
     **cross_section_settings
 ) -> Component:
-    """Coupler_straight with two parallel waveguides.
+    """Coupler_straight with two parallel straights.
 
     Args:
         length: of straight
-        gap: between waveguides
+        gap: between straights
+        cross_section_factory:
+        snap_to_grid_nm
+        **cross_section_settings
 
 
     """
@@ -45,15 +48,16 @@ def coupler_straight(
 
     p = straight(length=length, npoints=2)
     c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
-    add_padding(
-        c,
-        default=cladding_offset,
-        right=0,
-        left=0,
-        top=cladding_offset,
-        bottom=cladding_offset,
-        layers=layers_cladding,
-    )
+    if "layers_cladding" in cross_section_single.info:
+        add_padding(
+            c,
+            default=cladding_offset,
+            right=cladding_offset,
+            left=0,
+            top=0,
+            bottom=cladding_offset,
+            layers=layers_cladding,
+        )
     return c
 
 

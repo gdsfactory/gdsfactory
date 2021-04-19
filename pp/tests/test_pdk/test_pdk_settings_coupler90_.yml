@@ -6,5 +6,5 @@ settings:
   bend90_factory: bend_euler
   bend_radius: 10.0
   gap: 0.2
-  waveguide_factory: waveguide
+  straight_factory: straight
   width: 1.0

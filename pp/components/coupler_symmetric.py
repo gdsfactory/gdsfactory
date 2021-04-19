@@ -16,7 +16,7 @@ def coupler_symmetric(
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings,
 ) -> Component:
-    r"""Two coupled waveguides with bends.
+    r"""Two coupled straights with bends.
 
     Args:
         bend: bend or factory
@@ -28,15 +28,15 @@ def coupler_symmetric(
 
     .. code::
 
-                    dx
-                 |-----|
-                  _____ E1
-                 /         |
-           _____/          |
-      gap  _____           |  dy
-                \          |
-                 \_____    |
-                        E0
+                         dx
+                      |-----|
+                       _____ E1
+                      /         |
+                _____/          |
+           gap  _____           |  dy
+                     \          |
+                      \_____    |
+                             E0
 
     """
     cross_section_factory = cross_section_factory or strip

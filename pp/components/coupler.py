@@ -22,7 +22,7 @@ def coupler(
     r"""Symmetric coupler.
 
     Args:
-        gap: between waveguides
+        gap: between straights
         length: of coupling region
         coupler_symmetric_factory
         coupler_straight_factory

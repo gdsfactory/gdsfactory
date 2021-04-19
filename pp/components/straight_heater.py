@@ -8,7 +8,7 @@ from pp.component import Component
 from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
 from pp.components.hline import hline
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.layers import LAYER
 from pp.port import Port, auto_rename_ports
 from pp.types import ComponentFactory, CrossSectionFactory, Layer, Number
@@ -43,7 +43,7 @@ def add_trenches(
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
 ) -> Component:
     """
-    Add trenches to a waveguide-heater-like component
+    Add trenches to a straight-heater-like component
     """
 
     heater_width = c.settings["heater_width"]
@@ -85,7 +85,7 @@ def add_trenches(
 
 
 @cell
-def waveguide_heater(
+def straight_heater(
     length: float = 10.0,
     width: float = 0.5,
     heater_width: float = 0.5,
@@ -98,7 +98,7 @@ def waveguide_heater(
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ),
     layer_heater: Tuple[int, int] = LAYER.HEATER,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
@@ -111,7 +111,7 @@ def waveguide_heater(
 
         HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH <-- heater
 
-        ------------------------------ <-- waveguide
+        ------------------------------ <-- straight
 
         HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH <-- heater
 
@@ -242,7 +242,7 @@ def wg_heater_connector(
 @cell
 def wg_heater_connected(
     length: float = 10.0,
-    waveguide_heater: ComponentFactory = waveguide_heater,
+    straight_heater: ComponentFactory = straight_heater,
     via: ComponentFactory = wg_heater_connector,
     tlm_layers: Iterable[Layer] = (
         LAYER.VIA1,
@@ -254,10 +254,10 @@ def wg_heater_connected(
     ),
     **kwargs
 ) -> Component:
-    """Returns a waveguide with heater."""
+    """Returns a straight with heater."""
     component = Component()
 
-    wg_heater = waveguide_heater(length=length, **kwargs)
+    wg_heater = straight_heater(length=length, **kwargs)
     conn1 = via(
         heater_ports=[wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]],
         tlm_layers=tlm_layers,
@@ -282,14 +282,14 @@ def wg_heater_connected(
     return component
 
 
-def _demo_waveguide_heater():
-    c = waveguide_heater(width=0.5)
+def _demo_straight_heater():
+    c = straight_heater(width=0.5)
     c.write_gds()
 
 
 if __name__ == "__main__":
     # print(c.get_optical_ports())
-    # c = waveguide_heater()
+    # c = straight_heater()
     # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
     c = wg_heater_connected(length=200.0)

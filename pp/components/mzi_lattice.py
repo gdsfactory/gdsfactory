@@ -5,7 +5,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
 from pp.components.mzi import mzi as mzi_function
-from pp.components.waveguide import waveguide as waveguide_function
+from pp.components.straight import straight as straight_function
 from pp.types import ComponentFactory, Number
 
 
@@ -16,7 +16,7 @@ def mzi_lattice(
     delta_lengths: Tuple[Number, ...] = (10,),
     mzi_factory: ComponentFactory = mzi_function,
     splitter: ComponentFactory = coupler_function,
-    waveguide: ComponentFactory = waveguide_function,
+    straight: ComponentFactory = straight_function,
     pins: bool = False,
     **kwargs
 ) -> Component:
@@ -52,7 +52,7 @@ def mzi_lattice(
         combiner=splitter,
         with_splitter=True,
         delta_length=delta_lengths[0],
-        waveguide=waveguide,
+        straight=straight,
         combiner_settings=combiner_settings,
         splitter_settings=splitter_settings,
         pins=pins,
@@ -73,7 +73,7 @@ def mzi_lattice(
             combiner=splitter,
             with_splitter=False,
             delta_length=delta_length,
-            waveguide=waveguide,
+            straight=straight,
             pins=pins,
             splitter_settings=splitter_settings,
             combiner_settings=combiner_settings,

@@ -150,7 +150,7 @@ def add_labels(
 
 
 def test_optical_labels() -> Component:
-    c = pp.components.waveguide()
+    c = pp.components.straight()
     gc = pp.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
         port=c.ports["W0"], gc=gc, gc_index=0, layer_label=pp.LAYER.LABEL

@@ -1,16 +1,16 @@
 function_name: add_fiber_array
 info: {}
 module: pp.routing.add_fiber_array
-name: add_fiber_array_7106281e
+name: add_fiber_array_d55261fe
 settings:
-  auto_taper_to_wide_waveguides: true
+  auto_widen: true
   component:
-    function_name: waveguide
+    function_name: straight
     info:
       length: 10
       width: 2
-    module: pp.components.waveguide
-    name: waveguide_W2
+    module: pp.components.straight
+    name: straight_W2
     settings:
       cross_section_factory: null
       length: 10

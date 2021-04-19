@@ -1,7 +1,7 @@
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.components.waveguide import waveguide as waveguide_function
+from pp.components.straight import straight as straight_function
 from pp.cross_section import strip
 from pp.types import ComponentFactory, CrossSectionFactory
 
@@ -9,14 +9,14 @@ from pp.types import ComponentFactory, CrossSectionFactory
 @pp.cell
 def coupler_asymmetric(
     bend: ComponentFactory = bend_s,
-    straight: ComponentFactory = waveguide_function,
+    straight: ComponentFactory = straight_function,
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
     cross_section_factory: CrossSectionFactory = strip,
     **cross_section_settings,
 ) -> Component:
-    """bend coupled to straight waveguide
+    """bend coupled to straight straight
 
     Args:
         bend:

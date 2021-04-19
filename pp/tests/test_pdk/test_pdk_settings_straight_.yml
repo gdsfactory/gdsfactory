@@ -1,19 +1,11 @@
-function_name: waveguide
+function_name: straight
 info:
   length: 10
-  width: 1
-module: pp.components.waveguide
-name: waveguide_8aa8c73e
+  width: 0.5
+module: pp.components.straight
+name: straight_CSFstrip_L10_N2_STGN1
 settings:
-  cladding_offset: 3
-  cross_section_factory: null
-  layer:
-  - 34
-  - 0
-  layers_cladding:
-  - - 36
-    - 0
+  cross_section_factory: strip
   length: 10
   npoints: 2
   snap_to_grid_nm: 1
-  width: 1

@@ -1,6 +1,5 @@
 from typing import Optional
 
-from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
@@ -37,6 +36,7 @@ def bend_euler(
         npoints: Number of points used per 360 degrees
         snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: function that returns a cross_section
+        **cross_section_settings
 
 
     .. plot::
@@ -61,18 +61,6 @@ def bend_euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
     c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
-    if "layers_cladding" in cross_section.info:
-        cladding_offset = cross_section.info["cladding_offset"]
-        layers_cladding = cross_section.info["layers_cladding"]
-        add_padding(
-            c,
-            default=cladding_offset,
-            right=cladding_offset,
-            left=0,
-            top=0,
-            bottom=cladding_offset,
-            layers=layers_cladding,
-        )
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]

@@ -27,7 +27,7 @@ def test_type2() -> Component:
 
 
 def test_tapers():
-    c = pp.components.waveguide(width=2)
+    c = pp.components.straight(width=2)
     cc = pp.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 

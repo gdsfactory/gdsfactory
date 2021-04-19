@@ -206,7 +206,7 @@ def align_tree_bottom_right(**kwargs):
 
 
 if __name__ == "__main__":
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # c = add_frame(component=c)
     # c = align_wafer()
 

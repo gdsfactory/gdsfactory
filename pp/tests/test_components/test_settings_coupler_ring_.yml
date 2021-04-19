@@ -8,3 +8,4 @@ settings:
   gap: 0.2
   length_x: 4
   radius: 5
+  snap_to_grid_nm: 1

@@ -6,7 +6,7 @@ from pp.component import Component
 def test_netlist_with_routes() -> Component:
     """"""
     c = pp.Component()
-    w = c << pp.components.waveguide(length=3)
+    w = c << pp.components.straight(length=3)
     b = c << pp.components.bend_circular()
     w.xmax = 0
     b.xmin = 10

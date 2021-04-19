@@ -37,7 +37,7 @@ def add_fiber_array(
     taper_length: Optional[float] = None,
     get_input_labels_function: Callable = get_input_labels,
     tech: Tech = TECH_SILICON_C,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -51,11 +51,11 @@ def add_fiber_array(
         taper_factory: taper function
         taper_length: length of the taper
         get_input_labels_function: function to get input labels for grating couplers
-        straight_factory: waveguide
+        straight_factory: straight
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
-        waveguide_separation: 4.0
+        straight_separation: 4.0
         bend_radius: optional bend_radius (defaults to tech.bend_radius)
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
@@ -63,14 +63,14 @@ def add_fiber_array(
         force_manhattan: False
         excluded_ports:
         grating_indices: None
-        routing_waveguide: None
+        routing_straight: None
         routing_method: get_route
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
         tech: technology default values (taper_length, bend_radius)
-        auto_taper_to_wide_waveguides: for long routes
+        auto_widen: widen straight waveguides for lower loss in long routes
 
     .. plot::
         :include-source:
@@ -127,7 +127,7 @@ def add_fiber_array(
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
         tech=tech,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
         **kwargs,
     )
     if len(elements) == 0:
@@ -156,7 +156,7 @@ def add_fiber_array(
 
 def demo_te_and_tm():
     c = pp.Component()
-    w = pp.components.waveguide()
+    w = pp.components.straight()
     wte = add_fiber_array(
         component=w, grating_coupler=pp.components.grating_coupler_elliptical_te
     )
@@ -185,8 +185,8 @@ if __name__ == "__main__":
 
     # c = pp.components.coupler(gap=0.2, length=5.6)
 
-    c = pp.components.waveguide()
-    c = pp.components.waveguide(length=1, width=2)
+    c = pp.components.straight()
+    c = pp.components.straight(length=1, width=2)
     c = pp.components.mmi2x2()
     c = pp.components.ring_single()
     c = pp.components.mzi2x2(with_elec_connections=True)
@@ -203,7 +203,7 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
         bend_radius=20,
-        auto_taper_to_wide_waveguides=False,
+        auto_widen=False,
     )
     # cc = demo_te_and_tm()
     # print(cc.ports.keys())

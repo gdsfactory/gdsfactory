@@ -10,7 +10,7 @@ instances:
       radius: 10
       snap_to_grid_nm: 1
   w:
-    component: waveguide
+    component: straight
     settings:
       cross_section_factory: null
       length: 10

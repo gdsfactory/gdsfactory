@@ -27,7 +27,7 @@ import lumapi
 s = lumapi.FDTD()
 
 import pp
-c = pp.components.waveguide() # or whatever you want to simulate
+c = pp.components.straight() # or whatever you want to simulate
 pp.sp.write(component=c, run=False, session=s)
 ```
 """
@@ -358,7 +358,7 @@ def sample_bend_euler():
 
 def sample_convergence_mesh():
     return [
-        write(component=pp.components.waveguide(length=2), mesh_accuracy=mesh_accuracy)
+        write(component=pp.components.straight(length=2), mesh_accuracy=mesh_accuracy)
         for mesh_accuracy in [1, 2, 3]
     ]
 
@@ -366,7 +366,7 @@ def sample_convergence_mesh():
 def sample_convergence_wavelength():
     return [
         write(
-            component=pp.components.waveguide(length=2),
+            component=pp.components.straight(length=2),
             wavelength_start=wavelength_start,
         )
         for wavelength_start in [1.222323e-6, 1.4e-6]
@@ -374,7 +374,7 @@ def sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
-    component = pp.components.waveguide(length=2)
+    component = pp.components.straight(length=2)
     r = write(component=component, mesh_accuracy=1, run=False)
     # c = pp.components.coupler_ring(length_x=3)
     # c = pp.components.mmi1x2()

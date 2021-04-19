@@ -2,11 +2,11 @@ connections:
   wgn,W0: wgw,E0
 instances:
   wgn:
-    component: waveguide
+    component: straight
     settings:
       length: 0.5
   wgw:
-    component: waveguide
+    component: straight
     settings:
       length: 1
 name: sample_connections

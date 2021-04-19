@@ -2,11 +2,11 @@
 
 Different foundries use different layers number for each process step.
 
-Some require multiple layers to define just a simple waveguide.
+Some require multiple layers to define just a simple straight.
 
 You can easily create a PDK by modifying the basic components of gdsfactory to adapt to your target foundry.
 
-- waveguide
+- straight
 - bend_circular
 - add_gc (to connect to grating couplers)
 

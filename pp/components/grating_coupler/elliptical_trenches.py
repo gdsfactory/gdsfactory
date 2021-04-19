@@ -32,12 +32,12 @@ def grating_coupler_elliptical_trenches(
 
     Args:
         polarization: 'te' or 'tm'
-        taper_length: taper length from waveguide I/O
+        taper_length: taper length from straight I/O
         taper_angle: grating flare angle
         lambda_c: grating transmission central wavelength
         fiber_angle: fibre polish angle in degrees
         grating_line_width: of the 220 ridge
-        wg_width: waveguide width
+        wg_width: straight width
         neff: 2.638  # tooth effective index
         layer: LAYER.WG
         layer_trench: LAYER.SLAB150
@@ -122,7 +122,7 @@ def grating_coupler_elliptical_trenches(
     # )
     # c.add_polygon(pts, layer)
 
-    # Move waveguide I/O to (0, 0)
+    # Move straight I/O to (0, 0)
     c.move((-x_output, 0))
 
     x = taper_length + period * n_periods / 2

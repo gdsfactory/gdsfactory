@@ -4,14 +4,10 @@ info:
   length: 31.416
   radius_min: 20
 module: pp.components.bend_circular
-name: bend_circular_a0e1dd08
+name: bend_circular_ed3ff030
 settings:
   angle: 90
-  cross_section_factory: null
-  layer:
-  - 34
-  - 0
+  cross_section_factory: strip
   npoints: 720
   radius: 20
   snap_to_grid_nm: 1
-  width: 1

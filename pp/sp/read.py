@@ -88,8 +88,8 @@ def test_read_sparameters_2port_bend():
     assert port_names == ("N0", "W0")
 
 
-def test_read_sparameters_2port_waveguide():
-    filepath = pp.CONFIG["sp"] / "waveguide" / "waveguide_S220.dat"
+def test_read_sparameters_2port_straight():
+    filepath = pp.CONFIG["sp"] / "straight" / "straight_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
     print(port_names)
     assert len(f) == 500
@@ -175,7 +175,7 @@ def read_sparameters_pandas(
 
 
 if __name__ == "__main__":
-    # test_read_sparameters_2port_waveguide()
+    # test_read_sparameters_2port_straight()
     # test_read_sparameters_2port_bend()
     # test_read_sparameters_3port_mmi1x2()
     test_read_sparameters_4port_mmi2x2()

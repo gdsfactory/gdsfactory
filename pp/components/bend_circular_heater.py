@@ -26,7 +26,7 @@ def bend_circular_heater(
         npoints: Number of points used per 360 degrees
         heater_to_wg_distance:
         heater_width
-        width: waveguide width (defaults to tech.wg_width)
+        width: straight width (defaults to tech.wg_width)
         tech: Technology
     """
     width = width or tech.wg_width

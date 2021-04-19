@@ -9,7 +9,7 @@ from numpy import float64
 
 import pp
 from pp.component import Component
-from pp.components import waveguide
+from pp.components import straight
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
@@ -32,7 +32,7 @@ def spiral_external_io(
     bend180_function: ComponentFactory = bend_circular180,
     bend_radius: float = 50.0,
     wg_width: float = 0.5,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     straight_factory_fall_back_no_taper: None = None,
     taper: Optional[ComponentFactory] = None,
     cutback_length: Optional[float] = None,

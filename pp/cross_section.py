@@ -20,13 +20,35 @@ def strip(
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Layer]] = None,
 ) -> CrossSection:
-    """Returns a fully etched waveguide CrossSection."""
-
-    layers_cladding = layers_cladding or []
+    """Returns a fully etched straight CrossSection."""
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
+    layers_cladding = layers_cladding or []
+    for layer_cladding in layers_cladding:
+        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+
+    s = dict(
+        width=width,
+        layer=layer,
+        cladding_offset=cladding_offset,
+        layers_cladding=layers_cladding,
+    )
+    x.info = s
+    return x
+
+
+def metal1(
+    width: float = 2.0,
+    layer: Layer = LAYER.M1,
+    cladding_offset: float = 3,
+    layers_cladding: Optional[Iterable[Layer]] = (LAYER.WGCLAD,),
+) -> CrossSection:
+    x = CrossSection()
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
+    layers_cladding = layers_cladding or []
     for layer_cladding in layers_cladding:
         x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
 
@@ -61,7 +83,7 @@ def pin(
     layers_cladding: Optional[Iterable[Layer]] = None,
 ) -> CrossSection:
 
-    """PIN doped waveguide.
+    """PIN doped straight.
 
     .. code::
 

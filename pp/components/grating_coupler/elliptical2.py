@@ -40,7 +40,7 @@ def grating_coupler_elliptical2(
 
     Args:
         wgt: waveguide_template object or function
-        theta: Angle of the waveguide in rad.
+        theta: Angle of the straight in rad.
         length: total grating coupler region.
         taper_length: Length of the taper before the grating coupler.
         period: Grating period.
@@ -48,7 +48,7 @@ def grating_coupler_elliptical2(
         port: Cartesian coordinate of the input port
         layer_ridge: for partial etched gratings
         layer_core: Tuple specifying the layer/datatype of the ridge region.
-        layer_cladding: for the waveguide.
+        layer_cladding: for the straight.
         teeth_list: (gap, width) tuples to be used as the gap and teeth widths
             for irregularly spaced gratings.
             For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,

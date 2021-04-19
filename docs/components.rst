@@ -1262,6 +1262,66 @@ splitter_tree
 
 
 
+straight
+----------------------------------------------------
+
+.. autofunction:: pp.components.straight
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.straight()
+  c.plot()
+
+
+
+straight_array
+----------------------------------------------------
+
+.. autofunction:: pp.components.straight_array
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.straight_array()
+  c.plot()
+
+
+
+straight_heater
+----------------------------------------------------
+
+.. autofunction:: pp.components.straight_heater
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.straight_heater()
+  c.plot()
+
+
+
+straight_pin
+----------------------------------------------------
+
+.. autofunction:: pp.components.straight_pin
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.straight_pin()
+  c.plot()
+
+
+
 taper
 ----------------------------------------------------
 
@@ -1453,66 +1513,6 @@ via3
   import pp
 
   c = pp.components.via3()
-  c.plot()
-
-
-
-waveguide
-----------------------------------------------------
-
-.. autofunction:: pp.components.waveguide
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.waveguide()
-  c.plot()
-
-
-
-waveguide_array
-----------------------------------------------------
-
-.. autofunction:: pp.components.waveguide_array
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.waveguide_array()
-  c.plot()
-
-
-
-waveguide_heater
-----------------------------------------------------
-
-.. autofunction:: pp.components.waveguide_heater
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.waveguide_heater()
-  c.plot()
-
-
-
-waveguide_pin
-----------------------------------------------------
-
-.. autofunction:: pp.components.waveguide_pin
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.waveguide_pin()
   c.plot()
 
 

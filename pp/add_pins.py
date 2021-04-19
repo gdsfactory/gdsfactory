@@ -466,7 +466,7 @@ if __name__ == "__main__":
     test_add_pins()
     # test_add_pins_recursive()
 
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # add_pins(c, function=add_pin_square)
     # add_pins(c, function=add_pin_square_inside)
     # add_pins(c, function=add_pin_square_double)
@@ -497,7 +497,7 @@ if __name__ == "__main__":
     # c = mmi1x2(width_mmi=5)
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # c = pp.components.crossing()
     # add_pins(c)
 

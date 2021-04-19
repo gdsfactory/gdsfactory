@@ -164,8 +164,8 @@ LAYER = Layer()
 
 
 @pp.cell
-def waveguide(length=10, width=0.5):
-    return pp.components.waveguide(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
+def straight(length=10, width=0.5):
+    return pp.components.straight(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
 
 ```
 

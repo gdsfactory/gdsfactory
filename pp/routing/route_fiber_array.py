@@ -7,8 +7,8 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.components.waveguide import waveguide
 from pp.port import select_optical_ports
 from pp.routing.get_bundle import get_min_spacing, link_ports
 from pp.routing.get_input_labels import get_input_labels
@@ -25,13 +25,13 @@ def route_fiber_array(
     optical_io_spacing: Optional[float] = None,
     grating_coupler: ComponentFactory = grating_coupler_te,
     bend_factory: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
     fanout_length: Optional[int] = None,
     max_y0_optical: None = None,
     with_align_ports: bool = True,
-    waveguide_separation: float = 6.0,
-    waveguide_to_grating_spacing: float = 5.0,
+    straight_separation: float = 6.0,
+    straight_to_grating_spacing: float = 5.0,
     optical_routing_type: Optional[int] = None,
     bend_radius: Optional[float] = None,
     connected_port_list_ids: None = None,
@@ -49,7 +49,7 @@ def route_fiber_array(
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
     tech: Tech = TECH_SILICON_C,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -61,13 +61,13 @@ def route_fiber_array(
         optical_io_spacing: the wanted spacing between the optical I/O
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
-        straight_factory: waveguide
+        straight_factory: straight
         fanout_length: target distance between gratings and the southest component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
             Usually fine to leave at None.
         with_align_ports: If True, add compact loopback alignment ports
-        waveguide_separation: min separation between routing waveguides
+        straight_separation: min separation between routing straights
         optical_routing_type: There are three options for optical routing
            * ``0`` is very basic but can be more compact.
             Can also be used in combination with ``connected_port_list_ids``
@@ -93,8 +93,8 @@ def route_fiber_array(
         grating_indices: allows to fine skip some grating slots
             e.g [0,1,4,5] will put two gratings separated by the pitch.
             Then there will be two empty grating slots, and after that an additional two gratings.
-        route_filter: waveguide and bend factories
-        gc_port_name: grating_coupler port name, where to route waveguides
+        route_filter: straight and bend factories
+        gc_port_name: grating_coupler port name, where to route straights
         gc_rotation: grating_coupler rotation (deg)
         layer_label: for TM labels
         component_name: name of component
@@ -153,7 +153,7 @@ def route_fiber_array(
 
     dy = abs(bend90.dy)
 
-    # `delta_gr_min` Used to avoid crossing between waveguides in special cases
+    # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * bend_radius
 
     dy = bend90.dy
@@ -168,7 +168,7 @@ def route_fiber_array(
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(optical_ports)
-    sep = waveguide_separation
+    sep = straight_separation
 
     K = len(optical_ports)
     K = K + 1 if K % 2 else K
@@ -296,7 +296,7 @@ def route_fiber_array(
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
-                    auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                    auto_widen=auto_widen,
                 )
                 elements.extend(route["references"])
 
@@ -306,13 +306,13 @@ def route_fiber_array(
             bend_radius=bend_radius,
             optical_routing_type=optical_routing_type,
             excluded_ports=excluded_ports,
-            waveguide_separation=waveguide_separation,
+            straight_separation=straight_separation,
             io_gratings_lines=io_gratings_lines,
             gc_port_name=gc_port_name,
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
-            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+            auto_widen=auto_widen,
         )
         elems = route["references"]
         to_route = route["ports"]
@@ -350,7 +350,7 @@ def route_fiber_array(
                     gr.translate(0, delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
-        end_straight_offset = waveguide_separation + 5 if with_align_ports else 0.01
+        end_straight_offset = straight_separation + 5 if with_align_ports else 0.01
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
@@ -362,7 +362,7 @@ def route_fiber_array(
                 route_filter=route_filter,
                 bend_factory=bend90,
                 bend_radius=bend_radius,
-                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                auto_widen=auto_widen,
             )
             elements.extend([route["references"] for route in routes])
 
@@ -381,7 +381,7 @@ def route_fiber_array(
                     bend_factory=bend90,
                     route_filter=route_filter,
                     bend_radius=bend_radius,
-                    auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                    auto_widen=auto_widen,
                 )
                 elements.extend([route["references"] for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -406,7 +406,7 @@ def route_fiber_array(
         dx = max(2 * dy, io_sep / 2)
 
         gc_east = max([gci.size_info.east for gci in grating_couplers])
-        y_bot_align_route = gc_east + waveguide_to_grating_spacing
+        y_bot_align_route = gc_east + straight_to_grating_spacing
 
         points = [
             p0,
@@ -438,7 +438,7 @@ def demo():
     gcte = pp.components.grating_coupler_te
     gctm = pp.components.grating_coupler_tm
 
-    c = pp.components.waveguide(length=500)
+    c = pp.components.straight(length=500)
     c = pp.components.mmi2x2()
     c = pp.components.mzi2x2()
 
@@ -468,7 +468,5 @@ if __name__ == "__main__":
     p = PDK_NITRIDE_C
 
     c = p.ring_single()
-    c = p.add_fiber_array(
-        c, optical_routing_type=1, auto_taper_to_wide_waveguides=False
-    )
+    c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
     c.show()

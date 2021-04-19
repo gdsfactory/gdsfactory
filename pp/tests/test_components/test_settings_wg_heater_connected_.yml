@@ -1,6 +1,6 @@
 function_name: wg_heater_connected
 info: {}
-module: pp.components.waveguide_heater
+module: pp.components.straight_heater
 name: wg_heater_connected
 settings:
   length: 10

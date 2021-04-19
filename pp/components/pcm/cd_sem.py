@@ -2,7 +2,7 @@
 
 import pp
 from pp.components.bend_circular import bend_circular
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
 
@@ -120,12 +120,12 @@ def cdsem_uturn(
     # wg = wg_deep_rib(width=width, length=2 * r)
 
     bend90 = bend_circular(width=width, radius=r)
-    wg = waveguide(width=width, length=2 * r)
+    wg = straight(width=width, length=2 * r)
 
     # bend90.ports()
     rename_ports_by_orientation(bend90)
 
-    # Add the U-turn on waveguide layer
+    # Add the U-turn on straight layer
     b1 = c.add_ref(bend90)
     b2 = c.add_ref(bend90)
 

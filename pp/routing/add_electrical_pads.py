@@ -15,7 +15,7 @@ def add_electrical_pads(
         pad: Callable = pad,
         fanout_length: Optional[int] = None,
         max_y0_optical: None = None,
-        waveguide_separation: float = 4.0,
+        straight_separation: float = 4.0,
         bend_radius: float = 0.1,
         connected_port_list_ids: None = None,
         n_ports: int = 1,

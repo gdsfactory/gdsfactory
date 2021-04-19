@@ -4,17 +4,17 @@ import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
-from pp.components.waveguide import waveguide
-from pp.components.waveguide_array import waveguide_array
+from pp.components.straight import straight
+from pp.components.straight_array import straight_array
 from pp.routing.get_route import get_route_from_waypoints_no_taper
 from pp.types import ComponentFactory
 
 
 @pp.cell
 def grating_coupler_tree(
-    n_waveguides: int = 4,
-    waveguide_spacing: int = 4,
-    straigth: ComponentFactory = waveguide,
+    n_straights: int = 4,
+    straight_spacing: int = 4,
+    straigth: ComponentFactory = straight,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
     route_filter: ComponentFactory = get_route_from_waypoints_no_taper,
@@ -24,7 +24,7 @@ def grating_coupler_tree(
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     **kwargs
 ) -> Component:
-    """Array of waveguides connected with grating couplers
+    """Array of straights connected with grating couplers
     useful to align the 4 corners of the chip
 
     .. plot::
@@ -36,9 +36,9 @@ def grating_coupler_tree(
       c.plot()
 
     """
-    c = waveguide_array(
-        n_waveguides=n_waveguides,
-        spacing=waveguide_spacing,
+    c = straight_array(
+        n_straights=n_straights,
+        spacing=straight_spacing,
         straigth=straigth,
     )
 

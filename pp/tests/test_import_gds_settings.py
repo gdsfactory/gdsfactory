@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="mzit")
     # c = test_properties_components(component_type="bezier")
     # c = test_properties_components(component_type="bend_s")
-    # c = test_properties_components(component_type="waveguide")
+    # c = test_properties_components(component_type="straight")
     # c = test_properties_components(component_type="grating_coupler_tree")
     # c = test_properties_components(component_type="wire")
     # c = test_properties_components(component_type="bend_circular")

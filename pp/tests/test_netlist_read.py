@@ -12,9 +12,9 @@ def test_netlist_read() -> Component:
     # print(len(c.get_netlist().connections))
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
-    # print(len(c.get_dependencies()))
+    print(len(c.get_dependencies()))
 
-    assert len(c.get_dependencies()) == 5
+    assert len(c.get_dependencies()) == 4
     return c
 
 
@@ -41,6 +41,9 @@ if __name__ == "__main__":
     # c = pp.components.mzi()
     # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
     # c.write_netlist(filepath, full_settings=True)
+
+    # filepath = pp.CONFIG["netlists"] / "mzi.yml"
+    # c.write_netlist(filepath, full_settings=False)
 
     # c = test_netlist_read_full()
     # c.show()

@@ -8,8 +8,8 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.components.waveguide import waveguide
 from pp.config import call_if_func
 from pp.layers import LAYER
 from pp.routing.get_input_labels import get_input_labels
@@ -25,7 +25,7 @@ def add_fiber_single(
     layer_label: Tuple[int, int] = LAYER.LABEL,
     optical_io_spacing: float = 50.0,
     bend_factory: ComponentFactory = bend_circular,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
     taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
@@ -35,7 +35,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    auto_taper_to_wide_waveguides: bool = False,
+    auto_widen: bool = False,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -48,12 +48,12 @@ def add_fiber_single(
         layer_label: LAYER.LABEL
         optical_io_spacing: SPACING_GC
         bend_factory: bend_circular
-        straight_factory: waveguide
+        straight_factory: straight
         taper_factory: taper
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
-        waveguide_separation: 4.0
+        straight_separation: 4.0
         bend_radius: BEND_RADIUS
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
@@ -67,7 +67,8 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        auto_taper_to_wide_waveguides: for lower loss
+        auto_widen: for lower loss
+        auto_widen: widen straight waveguides for lower loss in long routes
 
     .. code::
 
@@ -159,7 +160,7 @@ def add_fiber_single(
             optical_routing_type=optical_routing_type,
             min_input2output_spacing=min_input2output_spacing,
             gc_port_name=gc_port_name,
-            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+            auto_widen=auto_widen,
             **kwargs,
         )
 
@@ -245,7 +246,7 @@ if __name__ == "__main__":
 
     c = pp.components.crossing()
     c = pp.components.ring_double(length_y=3)  # FIXME
-    c = pp.components.waveguide(length=500)
+    c = pp.components.straight(length=500)
     c = pp.components.mmi1x2()
     c = pp.components.rectangle()
     c = pp.components.mzi(length_x=50)
@@ -258,7 +259,7 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_uniform
 
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
-    cc = add_fiber_single(component=c, auto_taper_to_wide_waveguides=False)
+    cc = add_fiber_single(component=c, auto_widen=False)
 
     # print(cc.get_settings()["component"])
     print(cc.ports.keys())

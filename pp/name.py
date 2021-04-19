@@ -186,14 +186,14 @@ if __name__ == "__main__":
     # test_cell()
     import pp
 
-    # print(clean_value(pp.components.waveguide))
-    # c = pp.components.waveguide(polarization="TMeraer")
+    # print(clean_value(pp.components.straight))
+    # c = pp.components.straight(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
     # print(clean_value(11.001))
     # layers_cladding = (pp.LAYER.WGCLAD, pp.LAYER.NO_TILE_SI)
     # layers_cladding = (pp.LAYER.WGCLAD,)
-    c = pp.components.waveguide(length=10)
-    c = pp.components.waveguide(length=10)
+    c = pp.components.straight(length=10)
+    c = pp.components.straight(length=10)
 
     # print(c.name)
     # print(c)

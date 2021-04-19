@@ -29,15 +29,15 @@ def spiral(
 
     Args:
        width: width of the spiral (i.e. distance between input/output ports)
-       length: desired length of the waveguide (um)
-       spacing: distance between parallel waveguides
+       length: desired length of the straight (um)
+       spacing: distance between parallel straights
        parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
        port: Cartesian coordinate of the input port
        direction: Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
-       layer: waveguide core layer
-       layer_cladding: waveguide cladding layer
-       cladding_offset: distance from core to waveguide cladding
+       layer: core layer
+       layer_cladding: cladding layer
+       cladding_offset: distance from core to cladding
        wg_width: 0.5
        bend_radius: 10
 

@@ -27,21 +27,21 @@ def coupler_full(
     in 'Integrated Optic Adiabatic Devices on Silicon' by Y. Shani, et al
     (IEEE Journal of Quantum Electronics, Vol. 27, No. 3 March 1991).
 
-    Region I is the first half of the input S-bend waveguide where the
-    input waveguides widths taper by +dw and -dw,
-    Region II is the second half of the S-bend waveguide with constant,
+    Region I is the first half of the input S-bend straight where the
+    input straights widths taper by +dw and -dw,
+    Region II is the second half of the S-bend straight with constant,
     unbalanced widths,
-    Region III is the coupling region where the waveguides from unbalanced widths to
+    Region III is the coupling region where the straights from unbalanced widths to
     balanced widths to reverse polarity unbalanced widths,
-    Region IV is the fixed width waveguide that curves away from the coupling region,
-    Region V is the final curve where the waveguides taper back to the regular width
-    specified in the waveguide template.
+    Region IV is the fixed width straight that curves away from the coupling region,
+    Region V is the final curve where the straights taper back to the regular width
+    specified in the straight template.
 
     Args:
        length: Length of the coupling region.
-       gap: Distance between the two waveguides.
-       dw: Change in waveguide width. Top arm tapers to width - dw, bottom to width - dw.
-       angle: Angle in radians at which the waveguide bends towards the coupling region.
+       gap: Distance between the two straights.
+       dw: Change in straight width. Top arm tapers to width - dw, bottom to width - dw.
+       angle: Angle in radians at which the straight bends towards the coupling region.
        parity (integer -1 or 1): If -1, mirror-flips the structure so that the input port
         is actually the *bottom* port.
        port: Cartesian coordinate of the input port (AT TOP if parity=1, AT BOTTOM if parity=-1).

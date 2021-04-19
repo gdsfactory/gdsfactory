@@ -26,21 +26,21 @@ def dbr2(
     **kwargs
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
-    Tapers the input waveguide to a periodic waveguide structure with varying width
+    Tapers the input straight to a periodic straight structure with varying width
     (1-D photonic crystal).
 
     Args:
        length: Length of the DBR region.
        period: Period of the repeated unit.
        dc: Duty cycle of the repeated unit (must be a float between 0 and 1.0).
-       w1: Width of the thin section of the waveguide.  w1 = 0 corresponds to disconnected periodic blocks.
-       w2: Width of the wide section of the waveguide
-       taper_length: Length of the taper between the input/output waveguide and the DBR region.
-       fins (boolean): If `True`, adds fins to the input/output waveguides.
+       w1: Width of the thin section of the straight.  w1 = 0 corresponds to disconnected periodic blocks.
+       w2: Width of the wide section of the straight
+       taper_length: Length of the taper between the input/output straight and the DBR region.
+       fins (boolean): If `True`, adds fins to the input/output straights.
         In this case a different template for the component must be specified.
        fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        waveguide_template_dbr: If `fins` above is True, a WaveguideTemplate (dbr_wgt) must be specified.
-        This defines the layertype / datatype of the DBR (which will be separate from the input/output waveguides)
+        This defines the layertype / datatype of the DBR (which will be separate from the input/output straights)
        port (tuple): Cartesian coordinate of the input port.  Defaults to (0,0).
        direction (string): Direction that the component will point *towards*,
        can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)

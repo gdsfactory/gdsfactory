@@ -2,9 +2,9 @@ import pp
 
 
 def test_hash() -> None:
-    # FIXME, figure out waveguide hash issue
-    # c1 = pp.components.waveguide(length=10)
-    # c2 = pp.components.waveguide(length=11)
+    # FIXME, figure out straight hash issue
+    # c1 = pp.components.straight(length=10)
+    # c2 = pp.components.straight(length=11)
     c1 = pp.components.rectangle(size=(4, 0))
     c2 = pp.components.rectangle(size=(3, 0))
     h1 = c1.hash_geometry()

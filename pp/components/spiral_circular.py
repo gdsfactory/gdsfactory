@@ -55,7 +55,7 @@ def spiral_circular(
     Args:
         length: length in um
         wg_width:
-        spacing: between waveguides
+        spacing: between straights
         min_bend_radius:
         points:
         layer:

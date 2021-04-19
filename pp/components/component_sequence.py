@@ -91,8 +91,8 @@ def component_sequence(
         import pp
 
         bend180 = pp.components.bend_circular180()
-        wg_heater = pp.components.waveguide_heater()
-        wg = pp.components.waveguide()
+        wg_heater = pp.components.straight_heater()
+        wg = pp.components.straight()
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
@@ -179,8 +179,8 @@ if __name__ == "__main__":
     import pp
 
     bend180 = pp.components.bend_circular180()
-    wg_heater = pp.components.waveguide_heater()
-    wg = pp.components.waveguide()
+    wg_heater = pp.components.straight_heater()
+    wg = pp.components.straight()
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {

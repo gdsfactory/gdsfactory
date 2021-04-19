@@ -11,7 +11,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.manhattan_font import manhattan_text
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
 from pp.types import ComponentFactory, Number
@@ -129,7 +129,7 @@ def _cdsem_generic(
     width=0.4,
     center_shapes="SU",
     bend90_factory=bend_circular,
-    waveguide_factory=waveguide,
+    straight_factory=straight,
     markers_with_slabs=False,
 ):
     """bends and straights connected together
@@ -137,7 +137,7 @@ def _cdsem_generic(
     """
 
     component = pp.Component()
-    _straight = waveguide_factory(length=L, width=width)
+    _straight = straight_factory(length=L, width=width)
     _bend = bend90_factory(radius=radius, width=width)
 
     straight1 = _straight.ref(rotation=90, port_id="W0")
@@ -201,7 +201,7 @@ def cdsem_straight(
     length=10.0,
     width_center=0.5,
     label="A",
-    waveguide_factory=waveguide,
+    straight_factory=straight,
     layer=LAYER.WG,
     layers_cladding=None,
 ):
@@ -234,7 +234,7 @@ def cdsem_straight(
             _r1_ref = c.add_ref(_r)
             _r1_ref.move((x, y))
 
-            waveguide_factory(length=length, width=width)
+            straight_factory(length=length, width=width)
             _r2_ref = c.add_ref(_r)
             _r2_ref.move((x, y + gap + width))
             c.absorb(_r1_ref)
@@ -264,7 +264,7 @@ def cdsem_straight_column(
     length: Number = LINE_LENGTH,
     width_center: Number = 0.5,
     label: str = "A",
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
@@ -277,7 +277,7 @@ def cdsem_straight_column(
     y = 0
     for j, width in enumerate(widths):
         # iso line
-        _r = waveguide_factory(length=length, width=width)
+        _r = straight_factory(length=length, width=width)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)
@@ -325,7 +325,7 @@ def cdsem_straight_column(
 
 @cell
 def cdsem_straight_all(
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
@@ -338,7 +338,7 @@ def cdsem_straight_all(
         _c = cdsem_straight_column(
             width_center=width,
             label=label,
-            waveguide_factory=waveguide_factory,
+            straight_factory=straight_factory,
             layer=layer,
             layers_cladding=layers_cladding,
         )
@@ -358,7 +358,7 @@ def cdsem_straight_density(
     y: Number = 50.0,
     margin: Number = 2.0,
     label: str = "",
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> Component:
@@ -376,7 +376,7 @@ def cdsem_straight_density(
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    tooth = waveguide_factory(length=length, width=wg_width)
+    tooth = straight_factory(length=length, width=wg_width)
 
     for i in range(n_o_lines):
         tooth_ref = c.add_ref(tooth)
@@ -394,9 +394,9 @@ def cdsem_straight_density(
 
 
 @cell
-def cdsem_strip(waveguide_factory=waveguide, **kwargs):
+def cdsem_strip(straight_factory=straight, **kwargs):
     return _cdsem_generic(
-        **kwargs, bend90_factory=bend_circular, waveguide_factory=waveguide_factory
+        **kwargs, bend90_factory=bend_circular, straight_factory=straight_factory
     )
 
 
@@ -454,7 +454,7 @@ def cdsem_uturn(
     symbol_bot: str = "S",
     symbol_top: str = "U",
     wg_length: Number = LINE_LENGTH,
-    waveguide_factory: ComponentFactory = pp.components.waveguide,
+    straight_factory: ComponentFactory = pp.components.straight,
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -474,7 +474,7 @@ def cdsem_uturn(
     bend90 = bend90_factory(width=width, radius=r)
     if wg_length is None:
         wg_length = 2 * r
-    wg = waveguide_factory(
+    wg = straight_factory(
         width=width,
         length=wg_length,
     )
@@ -482,7 +482,7 @@ def cdsem_uturn(
     # bend90.ports()
     rename_ports_by_orientation(bend90)
 
-    # Add the U-turn on waveguide layer
+    # Add the U-turn on straight layer
     b1 = c.add_ref(bend90)
     b2 = c.add_ref(bend90)
 
@@ -523,7 +523,7 @@ def opcm(
     tte: float = 0.304,
     wtm: float = 0.604,
     ttm: float = 0.506,
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -535,7 +535,7 @@ def opcm(
     c = pp.Component()
     spacing_v = 5.0
     _c1 = cdsem_straight_all(
-        waveguide_factory=waveguide_factory,
+        straight_factory=straight_factory,
         layer=layer,
         layers_cladding=layers_cladding,
     )
@@ -546,7 +546,7 @@ def opcm(
         cdsem_uturn(
             width=w,
             symbol_top=s,
-            waveguide_factory=waveguide_factory,
+            straight_factory=straight_factory,
             bend90_factory=bend90_factory,
             layer=layer,
             layers_cladding=layers_cladding,
@@ -570,7 +570,7 @@ def opcm(
             wg_width=w,
             trench_width=t,
             label=lbl,
-            waveguide_factory=waveguide_factory,
+            straight_factory=straight_factory,
             layer=layer,
             layers_cladding=layers_cladding,
         )

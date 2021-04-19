@@ -33,6 +33,8 @@ from pydantic import validate_arguments
 - add Pdk.add_pins()
 - replace pp.write_gds(component, gdspath) with component.write_gds(gdspath)
 - replace pp.write_component(component, gdspath) with component.write_gds_with_metadata(gdspath)
+- rename pp.components.waveguide with
+- rename auto_taper_to_wide_waveguides auto_widen
 
 
 ## 2.4.6

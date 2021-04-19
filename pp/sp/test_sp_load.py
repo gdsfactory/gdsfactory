@@ -5,7 +5,7 @@ import pp.sp as sparameters
 from pp.components import component_factory
 
 component_types = [
-    "waveguide",
+    "straight",
     "bend_circular",
     # "bend_euler",
     "coupler",
@@ -37,6 +37,6 @@ def test_sp_load(
 
 
 if __name__ == "__main__":
-    # c = pp.components.waveguide(layer=(2, 0))
+    # c = pp.components.straight(layer=(2, 0))
     # print(c.get_sparameters_path())
-    test_sp_load("waveguide", None, False)
+    test_sp_load("straight", None, False)
