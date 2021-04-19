@@ -11,4 +11,3 @@ settings:
   - 20
   delta_lengths:
   - 10
-  pins: false

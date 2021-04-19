@@ -8,7 +8,6 @@ settings:
   gap: 0.2
   length_x: 4
   length_y: 0.1
-  pins: false
   radius: 20
   snap_to_grid_nm: 1
   straight: straight

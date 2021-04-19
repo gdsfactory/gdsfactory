@@ -61,6 +61,7 @@ class LayerMap:
 
 
 LAYER = LayerMap()
+IGNORE_PREXIXES = ("_", "get_")
 
 
 @dataclasses.dataclass
@@ -89,28 +90,28 @@ class LayerStack:
     WGN = LayerLevel((34, 0), thickness_nm=350.0, material="sin")
     WGN_CLAD = LayerLevel((36, 0))
 
-    def _get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
+    def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""
         return {
             getattr(self, key).layer: getattr(self, key).thickness_nm
             for key in dir(self)
-            if not key.startswith("_") and getattr(self, key).thickness_nm
+            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).thickness_nm
         }
 
-    def _get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
+    def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to material."""
         return {
             getattr(self, key).layer: getattr(self, key).material
             for key in dir(self)
-            if not key.startswith("_") and getattr(self, key).material
+            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).material
         }
 
-    def _get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
+    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
         """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
         tuple_to_name = {
             getattr(self, name).layer: name
             for name in dir(self)
-            if not name.startswith("_")
+            if not name.startswith(IGNORE_PREXIXES)
         }
         if layer_tuple not in tuple_to_name:
             raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
@@ -362,7 +363,8 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    print(LAYER_STACK._get_from_tuple((1, 0)))
+    # print(LAYER_STACK.get_from_tuple((1, 0)))
+    print(LAYER_STACK.get_layer_to_material())
 
     # lys = test_load_lyp()
     # c = preview_layerset(ls)

@@ -9,7 +9,6 @@ settings:
   delta_length: 10
   length_x: 0.1
   length_y: 0.1
-  pins: false
   splitter_settings: null
   straight_delta_length: null
   straight_horizontal: null

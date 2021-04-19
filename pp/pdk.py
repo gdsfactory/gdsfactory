@@ -742,9 +742,9 @@ class Pdk:
             overwrite=overwrite,
             dirpath=dirpath or self.tech.sparameters_path,
             layer_to_thickness_nm=layer_to_thickness_nm
-            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            or self.tech.layer_stack.get_layer_to_thickness_nm(),
             layer_to_material=layer_to_material
-            or self.tech.layer_stack._get_layer_to_material(),
+            or self.tech.layer_stack.get_layer_to_material(),
             **settings,
         )
 
@@ -776,9 +776,9 @@ class Pdk:
             component=component,
             dirpath=dirpath or self.tech.sparameters_path,
             layer_to_thickness_nm=layer_to_thickness_nm
-            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            or self.tech.layer_stack.get_layer_to_thickness_nm(),
             layer_to_material=layer_to_material
-            or self.tech.layer_stack._get_layer_to_material(),
+            or self.tech.layer_stack.get_layer_to_material(),
         )
         numports = len(component.ports)
         assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
@@ -798,9 +798,9 @@ class Pdk:
             component=component,
             dirpath=dirpath or self.tech.sparameters_path,
             layer_to_thickness_nm=layer_to_thickness_nm
-            or self.tech.layer_stack._get_layer_to_thickness_nm(),
+            or self.tech.layer_stack.get_layer_to_thickness_nm(),
             layer_to_material=layer_to_material
-            or self.tech.layer_stack._get_layer_to_material(),
+            or self.tech.layer_stack.get_layer_to_material(),
             **kwargs,
         )
         df = pd.read_csv(filepath.with_suffix(".csv"))
