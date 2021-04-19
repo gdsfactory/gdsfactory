@@ -17,7 +17,7 @@ def gen_loopback(
     gc_port_name: str = "W0",
     bend_radius_align_ports: float = 10.0,
     bend_factory: ComponentFactory = pp.components.bend_euler,
-    waveguide_factory: ComponentFactory = pp.components.waveguide,
+    straight_factory: ComponentFactory = pp.components.straight,
     y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
     """
@@ -81,7 +81,7 @@ def gen_loopback(
         p1,
     ]
     route = round_corners(
-        points=points, bend_factory=bend90, straight_factory=waveguide_factory
+        points=points, bend_factory=bend90, straight_factory=straight_factory
     )
     elements = [gca1, gca2]
     elements.extend(route["references"])
@@ -89,9 +89,9 @@ def gen_loopback(
 
 
 @pp.cell
-def waveguide_with_loopback() -> pp.Component:
-    c = pp.Component("waveguide_with_loopback")
-    wg = c << pp.components.waveguide()
+def straight_with_loopback() -> pp.Component:
+    c = pp.Component("straight_with_loopback")
+    wg = c << pp.components.straight()
     c.add(
         gen_loopback(
             wg.ports["W0"], wg.ports["E0"], gc=pp.components.grating_coupler_te
@@ -101,5 +101,5 @@ def waveguide_with_loopback() -> pp.Component:
 
 
 if __name__ == "__main__":
-    component = waveguide_with_loopback()
+    component = straight_with_loopback()
     component.show()

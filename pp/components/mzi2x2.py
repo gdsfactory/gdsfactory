@@ -4,8 +4,8 @@ from pp.components.bend_euler import bend_euler
 from pp.components.component_sequence import component_sequence
 from pp.components.coupler import coupler
 from pp.components.extension import line
-from pp.components.waveguide import waveguide as waveguide_function
-from pp.components.waveguide_heater import wg_heater_connected
+from pp.components.straight import straight as straight_function
+from pp.components.straight_heater import wg_heater_connected
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_ports
 from pp.routing.route_ports_to_side import route_elec_ports_to_side
@@ -19,8 +19,8 @@ def mzi_arm(
     L_top: float = 10.0,
     bend_radius: float = 10.0,
     bend: ComponentOrFactory = bend_euler,
-    waveguide_heater: ComponentOrFactory = wg_heater_connected,
-    waveguide: ComponentOrFactory = waveguide_function,
+    straight_heater: ComponentOrFactory = wg_heater_connected,
+    straight: ComponentOrFactory = straight_function,
     with_elec_connections: bool = True,
     **cross_section_settings
 ) -> Component:
@@ -32,8 +32,8 @@ def mzi_arm(
         L_top: 10.0, horizontal length
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        waveguide_heater: wg_heater_connected
-        waveguide: waveguide
+        straight_heater: wg_heater_connected
+        straight: straight
 
     ::
 
@@ -56,13 +56,13 @@ def mzi_arm(
 
     """
     if not with_elec_connections:
-        waveguide_heater = waveguide
+        straight_heater = straight
 
     _bend = bend(radius=bend_radius, **cross_section_settings)
 
-    straight_vheater = waveguide_heater(length=L0, **cross_section_settings)
-    straight_h = waveguide(length=L_top, **cross_section_settings)
-    straight_v = waveguide(length=DL, **cross_section_settings) if DL > 0 else None
+    straight_vheater = straight_heater(length=L0, **cross_section_settings)
+    straight_h = straight(length=L_top, **cross_section_settings)
+    straight_v = straight(length=DL, **cross_section_settings) if DL > 0 else None
 
     symbol_to_component = {
         "A": (_bend, "W0", "N0"),
@@ -104,8 +104,8 @@ def mzi2x2(
     gap: float = 0.234,
     bend_radius: float = 10.0,
     bend: ComponentFactory = bend_euler,
-    waveguide_heater: ComponentFactory = wg_heater_connected,
-    waveguide: ComponentFactory = waveguide_function,
+    straight_heater: ComponentFactory = wg_heater_connected,
+    straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
 ) -> Component:
@@ -119,8 +119,8 @@ def mzi2x2(
         gap: 0.235
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        waveguide_heater: wg_heater_connected or waveguide
-        waveguide: waveguide
+        straight_heater: wg_heater_connected or straight
+        straight: straight
         coupler_function: coupler
         with_elec_connections: add electrical pads
 
@@ -149,7 +149,7 @@ def mzi2x2(
 
     """
     if not with_elec_connections:
-        waveguide_heater = waveguide
+        straight_heater = straight
 
     cpl = coupler_function(length=CL_1, gap=gap)
 
@@ -157,8 +157,8 @@ def mzi2x2(
         "L_top": L2,
         "bend_radius": bend_radius,
         "bend": bend,
-        "waveguide_heater": waveguide_heater,
-        "waveguide": waveguide,
+        "straight_heater": straight_heater,
+        "straight": straight,
         "with_elec_connections": with_elec_connections,
     }
 
@@ -273,7 +273,7 @@ if __name__ == "__main__":
     # for p in c.ports.values():
     #     print(p.port_type)
     # c = mzi_arm(DL=100)
-    # c = mzi2x2(waveguide_heater=wg_heater_connected, with_elec_connections=True)
+    # c = mzi2x2(straight_heater=wg_heater_connected, with_elec_connections=True)
     # c.write_gds("mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))

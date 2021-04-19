@@ -4,8 +4,8 @@ import numpy as np
 from numpy import float64, ndarray
 
 from pp.components.bend_euler import bend_euler
+from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
-from pp.components.waveguide import waveguide
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
@@ -75,7 +75,7 @@ def get_bundle_from_waypoints(
     start_ports: List[Port],
     end_ports: List[Port],
     waypoints: Coordinates,
-    straight_factory: Callable = waveguide,
+    straight_factory: Callable = straight,
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_euler,
     bend_radius: float = 10.0,
@@ -89,7 +89,7 @@ def get_bundle_from_waypoints(
         start_ports: list of ports
         end_ports: list of ports
         waypoints: list of points defining a route
-        straight_factory: function that returns waveguides
+        straight_factory: function that returns straights
         taper_factory: function that returns tapers
         bend_factory: function that returns bends
         bend_radius: for bend

@@ -34,16 +34,16 @@ def cdc(
 
     Args:
        length : Length of the coupling region.
-       gap: Distance between the two waveguides.
+       gap: Distance between the two straights.
        period: Period of the grating.
        dc: Duty cycle of the grating. Must be between 0 and 1.
-       angle: in radians at which the waveguide bends towards the coupling region.
-       width_top: Width of the top waveguide in the coupling region.
-       width_bot: Width of the bottom waveguide in the coupling region.
+       angle: in radians at which the straight bends towards the coupling region.
+       width_top: Width of the top straight in the coupling region.
+       width_bot: Width of the bottom straight in the coupling region.
        dw_top: Amplitude of the width variation on the top.  Default=gap/2.0.
        dw_bot: Amplitude of the width variation on the bottom.  Default=gap/2.0.
-       input_bot: True makes the default input the bottom waveguide (rather than top)
-       fins: If `True`, adds fins to the input/output waveguides.
+       input_bot: True makes the default input the bottom straight (rather than top)
+       fins: If `True`, adds fins to the input/output straights.
         In this case a different template for the component must be specified.
         This feature is useful when performing electron-beam lithography
         and using different beam currents

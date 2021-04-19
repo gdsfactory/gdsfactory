@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.component_sequence import component_sequence
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.types import ComponentFactory
 
@@ -31,7 +31,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
     """
 
-    wg = waveguide(length=straight_length, width=bend90.ports["W0"].width)
+    wg = straight(length=straight_length, width=bend90.ports["W0"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -62,7 +62,7 @@ def cutback_bend90(
     cols: int = 6,
     spacing: int = 5,
     wg_loop_length: None = None,
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
 ) -> Component:
     """
 
@@ -74,11 +74,11 @@ def cutback_bend90(
     """
     bend90 = pp.call_if_func(bend90)
 
-    wg = waveguide_factory(length=straight_length, width=bend90.ports["W0"].width)
+    wg = straight_factory(length=straight_length, width=bend90.ports["W0"].width)
     if wg_loop_length is None:
         wg_loop_length = 2 * _get_bend_size(bend90) + spacing + straight_length
 
-    wg_loop = waveguide_factory(
+    wg_loop = straight_factory(
         length=wg_loop_length,
         width=bend90.ports["W0"].width,
     )
@@ -112,12 +112,12 @@ def staircase(
     length_v=5.0,
     length_h=5.0,
     n_steps=4,
-    waveguide_factory=waveguide,
+    straight_factory=straight,
 ):
     bend90 = pp.call_if_func(bend90)
 
-    wgh = waveguide_factory(length=length_h, width=bend90.ports["W0"].width)
-    wgv = waveguide_factory(length=length_v, width=bend90.ports["W0"].width)
+    wgh = straight_factory(length=length_h, width=bend90.ports["W0"].width)
+    wgv = straight_factory(length=length_v, width=bend90.ports["W0"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -144,7 +144,7 @@ def cutback_bend180(
     n_steps: int = 6,
     cols: int = 6,
     spacing: int = 3,
-    waveguide_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
 ) -> Component:
     """
 
@@ -158,8 +158,8 @@ def cutback_bend180(
     """
     bend180 = pp.call_if_func(bend180)
 
-    wg = waveguide_factory(length=straight_length, width=bend180.ports["W0"].width)
-    wg_vertical = waveguide_factory(
+    wg = straight_factory(length=straight_length, width=bend180.ports["W0"].width)
+    wg_vertical = straight_factory(
         length=2 * bend180.size_info.width + straight_length + spacing,
         width=bend180.ports["W0"].width,
     )

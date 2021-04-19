@@ -12,7 +12,7 @@ def hline(
     layer: Tuple[int, int] = LAYER.WG,
     port_type: str = "optical",
 ) -> Component:
-    """Horizonal line waveguide, with ports on east and west sides"""
+    """Horizonal line straight, with ports on east and west sides"""
     c = pp.Component()
     a = width / 2
     if length > 0 and width > 0:

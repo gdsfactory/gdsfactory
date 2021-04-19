@@ -25,12 +25,12 @@ def disk(
 
     Args:
        radius: disk resonator radius
-       gap: Distance between the bus waveguide and resonator
+       gap: Distance between the bus straight and resonator
        wrap_angle : Angle in degrees between 0 and 180
-        determines how much the bus waveguide wraps along the resonator.
-        0 corresponds to a straight bus waveguide,
-        180 corresponds to a bus waveguide wrapped around half of the resonator.
-       parity (1 or -1): 1, resonator left from bus waveguide, -1 resonator to the right
+        determines how much the bus straight wraps along the resonator.
+        0 corresponds to a straight bus straight,
+        180 corresponds to a bus straight wrapped around half of the resonator.
+       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right
        port (tuple): Cartesian coordinate of the input port (x1, y1)
        direction: Direction that the component will point *towards*, can be of type
         'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)

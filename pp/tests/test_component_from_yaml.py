@@ -16,11 +16,11 @@ name: sample_connections
 
 instances:
     wgw:
-      component: waveguide
+      component: straight
       settings:
         length: 1
     wgn:
-      component: waveguide
+      component: straight
       settings:
         length: 0.5
 
@@ -88,7 +88,7 @@ name: sample_mirror_simple
 
 instances:
     w:
-        component: waveguide
+        component: straight
 
     b:
         component: bend_circular
@@ -506,7 +506,7 @@ placements:
 
 # FIXME: Fix both unconmmented cases
 # yaml_fail should actually fail
-# sample_different_factory: returns a zero length waveguide that gives an error
+# sample_different_factory: returns a zero length straight that gives an error
 # when extracting the netlist
 
 yaml_strings = dict(

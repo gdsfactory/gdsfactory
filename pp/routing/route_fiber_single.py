@@ -16,7 +16,7 @@ def route_fiber_single(
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
-    auto_taper_to_wide_waveguides: bool = False,
+    auto_widen: bool = False,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
@@ -29,7 +29,7 @@ def route_fiber_single(
         optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
-        auto_taper_to_wide_waveguides: for long routes
+        auto_widen: for long routes
 
     Returns:
         elements: list of routes ComponentReference
@@ -106,7 +106,7 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
         **kwargs,
     )
 
@@ -124,7 +124,7 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
         **kwargs,
     )
     for e in elements_north:
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     gcte = pp.components.grating_coupler_te
     gctm = pp.components.grating_coupler_tm
 
-    c = pp.components.waveguide(width=2, length=500)
+    c = pp.components.straight(width=2, length=500)
     c = pp.components.cross(length=500)
     c = pp.components.ring_double()
     c = pp.components.mmi2x2()
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     c = pp.components.ring_single()
 
     elements, gc = route_fiber_single(
-        c, grating_coupler=[gcte, gctm, gcte, gctm], auto_taper_to_wide_waveguides=False
+        c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     )
 
     cc = pp.Component("sample_route_fiber_single")

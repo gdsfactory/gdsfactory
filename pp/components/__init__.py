@@ -4,11 +4,11 @@ Only change the order if you know what you are doing
 isort:skip_file
 """
 # level 0 components
-from pp.components.waveguide import waveguide
-from pp.components.waveguide_heater import waveguide_heater
-from pp.components.waveguide_heater import wg_heater_connected
-from pp.components.waveguide_pin import waveguide_pin
-from pp.components.waveguide_array import waveguide_array
+from pp.components.straight import straight
+from pp.components.straight_heater import straight_heater
+from pp.components.straight_heater import wg_heater_connected
+from pp.components.straight_pin import straight_pin
+from pp.components.straight_array import straight_array
 
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_circular import bend_circular180
@@ -229,10 +229,10 @@ component_factory = dict(
     via2=via2,
     via3=via3,
     via=via,
-    waveguide=waveguide,
-    waveguide_array=waveguide_array,
-    waveguide_heater=waveguide_heater,
-    waveguide_pin=waveguide_pin,
+    straight=straight,
+    straight_array=straight_array,
+    straight_heater=straight_heater,
+    straight_pin=straight_pin,
     wg_heater_connected=wg_heater_connected,
     wire=wire,
 )

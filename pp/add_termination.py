@@ -11,8 +11,8 @@ from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
 )
+from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
-from pp.components.waveguide import waveguide as waveguide_function
 from pp.routing.manhattan import round_corners
 from pp.routing.utils import (
     check_ports_have_equal_spacing,
@@ -54,9 +54,9 @@ def add_gratings_and_loop_back(
     bend_radius_align_ports: float = 10.0,
     gc_port_name: None = None,
     gc_rotation: int = -90,
-    waveguide_separation: float = 5.0,
+    straight_separation: float = 5.0,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide_factory: ComponentFactory = waveguide_function,
+    straight_factory: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     component_name: None = None,
     with_loopback: bool = True,
@@ -123,7 +123,7 @@ def add_gratings_and_loop_back(
         p1 = gca2.ports[gc_port_name].position
         a = bend_radius_align_ports + 0.5
         b = max(2 * a, grating_separation / 2)
-        y_bot_align_route = -gsi.width - waveguide_separation
+        y_bot_align_route = -gsi.width - straight_separation
 
         points = np.array(
             [
@@ -139,7 +139,7 @@ def add_gratings_and_loop_back(
         )
         bend90 = bend_factory(radius=bend_radius_align_ports)
         loop_back_route = round_corners(
-            points=points, bend_factory=bend90, straight_factory=waveguide_factory
+            points=points, bend_factory=bend90, straight_factory=straight_factory
         )
         c.add([gca1, gca2])
         c.add(loop_back_route["references"])
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_elliptical_te()
     # cc = add_termination(c, gc)
     # import pp
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     from pp.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()

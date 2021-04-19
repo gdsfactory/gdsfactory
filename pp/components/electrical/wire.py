@@ -18,7 +18,7 @@ def wire(
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
 ) -> Component:
-    """Straight waveguide.
+    """Straight straight.
 
     Args:
         length: straiht length

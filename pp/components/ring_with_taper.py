@@ -2,8 +2,8 @@ from pp.cell import cell
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
+from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.components.waveguide import waveguide
 from pp.netlist_to_gds import netlist_to_component
 from pp.snap import assert_on_2nm_grid
 
@@ -20,7 +20,7 @@ def ring_with_taper(**kwargs):
         taper_factory=taper
         bend90_factory=bend_circular
         coupler90_factory=coupler90
-        straight_factory=waveguide
+        straight_factory=straight
         cpl_straight_factory=coupler_straight
         wg_width=0.5
 
@@ -57,7 +57,7 @@ def ring_with_taper_netlist(
     taper_factory=taper,
     bend90_factory=bend_circular,
     coupler90_factory=coupler90,
-    straight_factory=waveguide,
+    straight_factory=straight,
     cpl_straight_factory=coupler_straight,
     wg_width=0.5,
 ):

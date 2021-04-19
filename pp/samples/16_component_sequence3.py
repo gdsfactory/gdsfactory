@@ -4,10 +4,10 @@ import pp
 @pp.cell
 def test_cutback_phase(straight_length=100, bend_radius=10.0, n=2):
     bend180 = pp.components.bend_circular180(radius=bend_radius)
-    pm_wg = pp.components.waveguide_pin(length=straight_length)
-    wg_short = pp.components.waveguide(length=1.0)
-    wg_short2 = pp.components.waveguide(length=2.0)
-    wg_heater = pp.components.waveguide_heater(length=10.0)
+    pm_wg = pp.components.straight_pin(length=straight_length)
+    wg_short = pp.components.straight(length=1.0)
+    wg_short2 = pp.components.straight(length=2.0)
+    wg_heater = pp.components.straight_heater(length=10.0)
     taper = pp.components.taper_strip_to_ridge()
 
     # Define a map between symbbols (components, input, output)

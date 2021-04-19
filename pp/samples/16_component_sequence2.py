@@ -1,10 +1,10 @@
 import pp
 from pp.component import Component
 from pp.components.component_sequence import component_sequence
+from pp.components.straight import straight
+from pp.components.straight_heater import straight_heater
+from pp.components.straight_pin import straight_pin
 from pp.components.taper import taper_strip_to_ridge
-from pp.components.waveguide import waveguide
-from pp.components.waveguide_heater import waveguide_heater
-from pp.components.waveguide_pin import waveguide_pin
 
 
 @pp.cell
@@ -14,10 +14,10 @@ def test_cutback_phase(
     """ Modulator sections connected by bends """
     # Define sub components
     bend180 = pp.components.bend_circular180(radius=bend_radius)
-    pm_wg = waveguide_pin(length=straight_length)
-    wg_short = waveguide(length=1.0)
-    wg_short2 = waveguide(length=2.0)
-    wg_heater = waveguide_heater(length=10.0)
+    pm_wg = straight_pin(length=straight_length)
+    wg_short = straight(length=1.0)
+    wg_short2 = straight(length=2.0)
+    wg_heater = straight_heater(length=10.0)
     taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)

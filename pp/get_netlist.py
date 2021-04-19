@@ -5,8 +5,8 @@
     connections:
         - coupler,N0:bendLeft,W0
         - coupler,N1:bendRight,N0
-        - bednLeft,N0:waveguide,W0
-        - bendRight,N0:waveguide,E0
+        - bednLeft,N0:straight,W0
+        - bendRight,N0:straight,E0
 
     ports:
         - coupler,E0

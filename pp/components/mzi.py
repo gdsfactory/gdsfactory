@@ -5,7 +5,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
-from pp.components.waveguide import waveguide as waveguide_function
+from pp.components.straight import straight as straight_function
 from pp.port import rename_ports_by_orientation
 from pp.types import ComponentFactory, ComponentOrFactory
 
@@ -17,10 +17,10 @@ def mzi(
     length_x: float = 0.1,
     bend_radius: float = 10.0,
     bend: ComponentOrFactory = bend_euler,
-    waveguide: ComponentFactory = waveguide_function,
-    waveguide_vertical: Optional[ComponentFactory] = None,
-    waveguide_delta_length: Optional[ComponentFactory] = None,
-    waveguide_horizontal: Optional[ComponentFactory] = None,
+    straight: ComponentFactory = straight_function,
+    straight_vertical: Optional[ComponentFactory] = None,
+    straight_delta_length: Optional[ComponentFactory] = None,
+    straight_horizontal: Optional[ComponentFactory] = None,
     splitter: ComponentFactory = mmi1x2_function,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
@@ -36,9 +36,9 @@ def mzi(
         length_x: horizontal length
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        waveguide: waveguide function
-        waveguide_horizontal: waveguide for length_x
-        waveguide_vertical: waveguide for length_y and delta_length
+        straight: straight function
+        straight_horizontal: straight for length_x
+        straight_vertical: straight for length_y and delta_length
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
@@ -76,11 +76,11 @@ def mzi(
     else:
         cp2 = cp1
 
-    waveguide_vertical = waveguide_vertical or waveguide
-    waveguide_horizontal = waveguide_horizontal or waveguide
-    waveguide_delta_length = waveguide_delta_length or waveguide
+    straight_vertical = straight_vertical or straight
+    straight_horizontal = straight_horizontal or straight
+    straight_delta_length = straight_delta_length or straight
     b90 = bend(radius=bend_radius) if callable(bend) else bend
-    l0 = waveguide_vertical(length=L0)
+    l0 = straight_vertical(length=L0)
 
     cp1 = rename_ports_by_orientation(cp1)
     cp2 = rename_ports_by_orientation(cp2)
@@ -99,9 +99,9 @@ def mzi(
         f" length_y ({length_y}) >0"
     )
 
-    l0r = waveguide_vertical(length=L0 + delta_length_combiner / 2)
-    l1 = waveguide_delta_length(length=DL / 2)
-    l2 = waveguide_horizontal(length=L2)
+    l0r = straight_vertical(length=L0 + delta_length_combiner / 2)
+    l1 = straight_delta_length(length=DL / 2)
+    l2 = straight_horizontal(length=L2)
 
     cin = cp1.ref()
     cout = c << cp2

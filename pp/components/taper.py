@@ -139,7 +139,7 @@ def taper_strip_to_ridge_trenches(
     y0 = width / 2 + trench_width - trench_offset_after_wg
     yL = width / 2 + trench_width - trench_offset_after_wg + slab_offset
 
-    # waveguide
+    # straight
     x = [0, length, length, 0]
     yw = [y0, yL, -yL, -y0]
     c.add_polygon((x, yw), layer=wg_layer)

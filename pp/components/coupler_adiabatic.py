@@ -33,22 +33,22 @@ def coupler_adiabatic(
 
     Uses Bezier curves for the input, with poles set to half of the x-length of the S-bend.
 
-    I is the first half of input S-bend where input waveguides widths taper by +dw and -dw
-    II is the second half of the S-bend waveguide with constant, unbalanced widths
-    III is the region where the two asymmetric waveguides gradually come together
-    IV  waveguides taper back to the original width at a fixed distance from one another
-    IV is the output S-bend waveguide.
+    I is the first half of input S-bend where input straights widths taper by +dw and -dw
+    II is the second half of the S-bend straight with constant, unbalanced widths
+    III is the region where the two asymmetric straights gradually come together
+    IV  straights taper back to the original width at a fixed distance from one another
+    IV is the output S-bend straight.
 
     Args:
-        length1: region that gradually brings the two assymetric waveguides together.
-            In this region the waveguide widths gradually change to be different by `dw`.
-        length2: coupling region, where the asymmetric waveguides gradually become the same width.
-        length3: output region where the two waveguides separate.
-        wg_sep: Distance between the two waveguides, center-to-center, in the coupling region (Region 2).
-        input_wg_sep: Separation of the two waveguides at the input, center-to-center.
-        output_wg_sep: Separation of the two waveguides at the output, center-to-center.
-        dw: Change in waveguide width.
-            In Region 1, top arm tapers to the waveguide width+dw/2.0, bottom taper to width-dw/2.0.
+        length1: region that gradually brings the two assymetric straights together.
+            In this region the straight widths gradually change to be different by `dw`.
+        length2: coupling region, where the asymmetric straights gradually become the same width.
+        length3: output region where the two straights separate.
+        wg_sep: Distance between the two straights, center-to-center, in the coupling region (Region 2).
+        input_wg_sep: Separation of the two straights at the input, center-to-center.
+        output_wg_sep: Separation of the two straights at the output, center-to-center.
+        dw: Change in straight width.
+            In Region 1, top arm tapers to the straight width+dw/2.0, bottom taper to width-dw/2.0.
         port: coordinate of the input port (top left).
         direction: for component `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
         waveguide_template: object or function

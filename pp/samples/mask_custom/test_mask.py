@@ -53,7 +53,7 @@ def coupler_te(gap, length):
 
 @pp.cell
 def spiral_te(wg_width=0.5, length_cm=2):
-    """Waveguide Spiral for waveguide loss.
+    """Waveguide Spiral for straight loss.
 
     Args:
         wg_width: um
@@ -70,7 +70,7 @@ def spiral_te(wg_width=0.5, length_cm=2):
 
 @pp.cell
 def spiral_tm(wg_width=0.5, length_cm=2):
-    """Waveguide Spiral for waveguide loss."""
+    """Waveguide Spiral for straight loss."""
     c = spiral_inner_io_euler(wg_width=wg_width, length=length_cm, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,

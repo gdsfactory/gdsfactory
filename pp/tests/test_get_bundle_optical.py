@@ -12,7 +12,7 @@ def test_get_bundle_optical(
 
     c = pp.Component("test_get_bundle_optical")
 
-    w = c << pp.components.waveguide_array(n_waveguides=4, spacing=200)
+    w = c << pp.components.straight_array(n_straights=4, spacing=200)
     d = c << pp.components.nxn(west=4, east=1)
     d.y = w.y
     d.xmin = w.xmax + 200
@@ -45,7 +45,7 @@ def test_get_bundle_optical2(
     lengths = {}
 
     c = pp.Component("test_get_bundle_optical2")
-    w = c << pp.components.waveguide_array(n_waveguides=4, spacing=200)
+    w = c << pp.components.straight_array(n_straights=4, spacing=200)
     d = c << pp.components.nxn(west=4, east=1)
     d.y = w.y
     d.xmin = w.xmax + 200

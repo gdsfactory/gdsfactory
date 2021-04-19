@@ -21,7 +21,7 @@ def verniers(
     widths = np.linspace(width_min, width_max, int(size_max / (width_max + gap)))
 
     for width in widths:
-        w = c << pp.components.waveguide(width=width, length=size_max, **kwargs)
+        w = c << pp.components.straight(width=width, length=size_max, **kwargs)
         y += width / 2
         w.y = y
         c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)

@@ -39,7 +39,7 @@ def add_ports_from_markers_square(
         port_type: electrical, dc, optical
         orientation: orientation in degrees
             90: north, 0: east, 180: west, 270: south
-        pin_extra_width: 2*offset from pin to waveguide
+        pin_extra_width: 2*offset from pin to straight
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         port_names: names of the ports (defaults to f"{port_type}_{i}")
 
@@ -84,7 +84,7 @@ def add_ports_from_markers_center(
         port_type: optical, dc, rf
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
-        pin_extra_width: 2*offset from pin to waveguide
+        pin_extra_width: 2*offset from pin to straight
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         orientation_for_square_pins: electrical square points orientation in degrees
             90: north, 0: east, 180: west, 270: south

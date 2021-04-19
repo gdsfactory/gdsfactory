@@ -3,31 +3,31 @@ info: {}
 module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
-  auto_taper_to_wide_waveguides: true
+  auto_widen: true
   bend_factory: bend_euler
   bend_radius: 10
   component:
-    function_name: waveguide_array
+    function_name: straight_array
     info: {}
-    module: pp.components.waveguide_array
-    name: waveguide_array_33e955f3
+    module: pp.components.straight_array
+    name: straight_array_NS4_S4_Sstraight
     settings:
-      n_waveguides: 4
+      n_straights: 4
       spacing: 4
-      straigth: waveguide
-  component_name: waveguide_array_33e955f3
+      straigth: straight
+  component_name: straight_array_NS4_S4_Sstraight
   fanout_length: 0
   gc_port_name: W0
   grating_coupler: grating_coupler_elliptical_te
   layer_label:
   - 201
   - 0
-  n_waveguides: 4
+  n_straights: 4
   optical_routing_type: 0
-  straight_factory: waveguide
+  straight_factory: straight
+  straight_spacing: 4
   taper_factory: null
   taper_length: null
   tech: silicon_cband
-  waveguide_spacing: 4
   with_align_ports: false
   with_loop_back: false

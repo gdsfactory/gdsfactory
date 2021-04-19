@@ -4,8 +4,8 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
+from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
-from pp.components.waveguide import waveguide as waveguide_function
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
@@ -20,7 +20,7 @@ def delay_snake(
     taper: ComponentFactory = taper_function,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
-    straight_factory: ComponentFactory = waveguide_function,
+    straight_factory: ComponentFactory = straight_function,
 ) -> Component:
     """Snake input facing west
     Snake output facing east

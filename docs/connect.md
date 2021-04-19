@@ -22,7 +22,7 @@ You can connect:
     def ring(
         coupler90=pp.components.coupler90,
         coupler_straight=pp.components.coupler_straight,
-        waveguide=pp.components.waveguide,
+        straight=pp.components.straight,
         bend=pp.components.bend_euler,
         length_y=2.0,
         length_x=4.0,
@@ -34,8 +34,8 @@ You can connect:
 
         # define subcells
         coupler90 = pp.call_if_func(coupler90, gap=gap)
-        waveguide_x = pp.call_if_func(waveguide, length=length_x)
-        waveguide_y = pp.call_if_func(waveguide, length=length_y)
+        straight_x = pp.call_if_func(straight, length=length_x)
+        straight_y = pp.call_if_func(straight, length=length_y)
         bend = pp.call_if_func(bend)
         coupler_straight = pp.call_if_func(coupler_straight, gap=gap, length=length_x)
 
@@ -43,9 +43,9 @@ You can connect:
         cbl = c << coupler90
         cbr = c << coupler90
         cs = c << coupler_straight
-        wyl = c << waveguide_y
-        wyr = c << waveguide_y
-        wx = c << waveguide_x
+        wyl = c << straight_y
+        wyr = c << straight_y
+        wx = c << straight_x
         btl = c << bend
         btr = c << bend
 
@@ -178,8 +178,8 @@ The actual chain of components is supplied by a string or a list
 
     import pp
     from pp.components import bend_circular
-    from pp.components.waveguide import waveguide
-    from pp.components.waveguide_heater import waveguide_heater
+    from pp.components.straight import straight
+    from pp.components.straight_heater import straight_heater
     from pp.components.component_sequence import component_sequence
 
     @pp.cell
@@ -187,8 +187,8 @@ The actual chain of components is supplied by a string or a list
         # Define sub components
         radius=10.0
         bend180 = bend_circular(radius=radius, angle=180)
-        wg = waveguide(length=5.0)
-        wg_heater = waveguide_heater(length=20.0)
+        wg = straight(length=5.0)
+        wg_heater = straight_heater(length=20.0)
 
         # Define a map between symbols and (component, input port, output port)
         string_to_device_in_out_ports = {
@@ -221,10 +221,10 @@ The actual chain of components is supplied by a string or a list
 
     import pp
     from pp.components import bend_circular
-    from pp.components.waveguide import waveguide
-    from pp.components.waveguide_heater import waveguide_heater
+    from pp.components.straight import straight
+    from pp.components.straight_heater import straight_heater
     from pp.components.taper import taper_strip_to_ridge as _taper
-    from pp.components.waveguide_pin import waveguide_pin
+    from pp.components.straight_pin import straight_pin
     from pp.layers import LAYER
     from pp.components.component_sequence import component_sequence
 
@@ -234,10 +234,10 @@ The actual chain of components is supplied by a string or a list
 
         # Define sub components
         bend180 = bend_circular(radius=radius, angle=180)
-        pm_wg = waveguide_pin(length=straight_length)
-        wg_short = waveguide(length=1.0)
-        wg_short2 = waveguide(length=2.0)
-        wg_heater = waveguide_heater(length=10.0)
+        pm_wg = straight_pin(length=straight_length)
+        wg_short = straight(length=1.0)
+        wg_short2 = straight(length=2.0)
+        wg_heater = straight_heater(length=10.0)
         taper=_taper()
 
         # Define a map between symbols and (component, input port, output port)

@@ -132,5 +132,5 @@ if __name__ == "__main__":
 
     import pp
 
-    c = gdsdiff(pp.c.waveguide(), pp.c.waveguide(length=11))
+    c = gdsdiff(pp.c.straight(), pp.c.straight(length=11))
     c.show()

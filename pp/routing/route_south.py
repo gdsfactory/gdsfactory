@@ -4,8 +4,8 @@ import numpy as np
 import phidl.device_layout as pd
 
 from pp.component import Component, ComponentReference
+from pp.components import straight
 from pp.components import taper as taper_function
-from pp.components import waveguide
 from pp.components.bend_euler import bend_euler
 from pp.config import conf
 from pp.routing.get_route import get_route
@@ -18,13 +18,13 @@ def route_south(
     bend_radius: Number = conf.tech.bend_radius,
     optical_routing_type: int = 1,
     excluded_ports: List[str] = None,
-    waveguide_separation: Number = 4.0,
+    straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
     gc_port_name: str = "E0",
     bend_factory: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> Route:
     """
     Args:
@@ -34,10 +34,10 @@ def route_south(
             `1` uses the component size info to estimate the box size.
             `2` only looks at the optical port positions to estimate the size
         excluded_ports=[]: list of port names to NOT route
-        waveguide_separation
+        straight_separation
         io_gratings_lines: list of ports to which the ports produced by this
             function will be connected. Supplying this information helps
-            avoiding waveguide collisions
+            avoiding straight collisions
 
         gc_port_name: grating port name
 
@@ -76,14 +76,14 @@ def route_south(
         bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper_factory=taper_factory,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
     )
 
-    # Used to avoid crossing between waveguides in special cases
+    # Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * dy
     delta_gr_min = 2 * dy + 1
 
-    sep = waveguide_separation
+    sep = straight_separation
 
     # Get lists of optical ports by orientation
     direction_ports = direction_ports_from_list_ports(optical_ports)

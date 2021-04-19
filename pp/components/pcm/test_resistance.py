@@ -69,7 +69,7 @@ def test_resistance(
     col = T.add_ref(Col)
     col.move([length_row - width, -width])
 
-    # Creating entire waveguide net
+    # Creating entire straight net
     N = pp.Component("net")
     n = 1
     for i in range(num_rows):

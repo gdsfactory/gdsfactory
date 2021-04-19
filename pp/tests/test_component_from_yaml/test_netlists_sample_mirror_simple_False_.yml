@@ -5,7 +5,7 @@ instances:
     component: bend_circular
     settings: {}
   w:
-    component: waveguide
+    component: straight
     settings: {}
 name: sample_mirror_simple
 placements:

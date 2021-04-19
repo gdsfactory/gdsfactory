@@ -66,7 +66,7 @@ def crossing_arm(
 
 @cell
 def crossing(arm: ComponentFactory = crossing_arm) -> Component:
-    """waveguide crossing
+    """straight crossing
 
     .. plot::
       :include-source:

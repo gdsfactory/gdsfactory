@@ -2,7 +2,7 @@
 
 We create a function which returns a pp.Component instance.
 
-Lets build waveguide crossing out of a vertical and horizonal arm
+Lets build straight crossing out of a vertical and horizonal arm
 
 
 - Create a component instance that we will return from a component_factory function. We will use a cell decorator to define the name

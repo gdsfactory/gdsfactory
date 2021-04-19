@@ -39,15 +39,15 @@ instances:
       - 0
       width: 100
   zz_conn_6be4ce7aff81eacc_165.0_400.0:
-    component: waveguide
+    component: straight
     settings:
       length: 850.0
   zz_conn_73ebe2ba20581b39_200.0_200.0:
-    component: waveguide
+    component: straight
     settings:
       length: 700.0
   zz_conn_d26997c15fa0e68d_275.505_124.5:
-    component: waveguide
+    component: straight
     settings:
       length: 1171.26
 name: sample_different_factory

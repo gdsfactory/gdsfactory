@@ -3,7 +3,7 @@ info: {}
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:
-  auto_taper_to_wide_waveguides: true
+  auto_widen: true
   bend_radius: null
   noutputs: 4
   spacing: null

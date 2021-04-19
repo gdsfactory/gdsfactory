@@ -17,7 +17,7 @@ hnitride = 0.4
 
 h_etch1 = 0.07
 h_etch2 = 0.06  # 60nm etch after 70nm = 130nm etch (90nm slab)
-h_etch3 = 0.09  # etches the remaining 90nm slab for strip waveguides
+h_etch3 = 0.09  # etches the remaining 90nm slab for strip straights
 
 hsim1 = 0.8
 hm1   = 0.5
@@ -42,8 +42,8 @@ l_fc    = layer("2/0")
 l_rib   = layer("3/0")
 
 l_wg_etch1  = l_wg.inverted()            # protects ridge
-l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib waveguides)
-l_wg_etch3  = (l_rib.or(l_fc).or(l_wg)).inverted()  # protects ridge, grating couplers and rib waveguides from the final etch to form strip waveguides
+l_wg_etch2  = (l_fc.or(l_wg)).inverted() # protects ridge and grating couplers from the etch down to the slab (forms rib straights)
+l_wg_etch3  = (l_rib.or(l_fc).or(l_wg)).inverted()  # protects ridge, grating couplers and rib straights from the final etch to form strip straights
 
 l_n   = layer("20/0")
 l_np  = layer("22/0")
@@ -78,7 +78,7 @@ si = deposit(h_si)
 ################ silicon etch to for the passives
 mask(l_wg_etch1).etch(h_etch1, 0.0, :mode => :round, :into => [si]) # 70nm etch for GC, rib and strip
 mask(l_wg_etch2).etch(h_etch2, 0.0, :mode => :round, :into => [si]) # 60nm etch after 70nm = 130nm etch (90nm slab)
-mask(l_wg_etch3).etch(h_etch3, 0.0, :mode => :round, :into => [si]) # etches the remaining 90nm slab for strip waveguides
+mask(l_wg_etch3).etch(h_etch3, 0.0, :mode => :round, :into => [si]) # etches the remaining 90nm slab for strip straights
 
 output("300/0",box)
 output("301/0",si)

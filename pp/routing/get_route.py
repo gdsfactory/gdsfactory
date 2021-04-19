@@ -8,10 +8,10 @@ To make a route, you need to supply:
  - an output port
  - a bend or factory
  - a straight or factory
- - a taper or factory to taper to wider waveguides and reduce waveguide loss (optional)
+ - a taper or factory to taper to wider straights and reduce straight loss (optional)
 
 
-To generate a waveguide route:
+To generate a straight route:
 
  1. Generate the backbone of the route.
  This is a list of manhattan coordinates that the route would pass through
@@ -26,7 +26,7 @@ To generate a waveguide route:
 
  A route is a dict with 3 keys:
 
-- references: list of references for tapers, bends and straight waveguides
+- references: list of references for tapers, bends and straight straights
 - ports: a dict of port name to Port, usually two ports "input" and "output"
 - length: a float with the length of the route
 
@@ -37,8 +37,8 @@ from typing import Callable, Optional
 import numpy as np
 from numpy import ndarray
 
+from pp.components import straight
 from pp.components import taper as taper_function
-from pp.components import waveguide
 from pp.components.bend_euler import bend_euler
 from pp.components.electrical import corner, wire
 from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
@@ -53,25 +53,25 @@ def get_route(
     input_port: Port,
     output_port: Port,
     bend_factory: ComponentOrFactory = bend_euler,
-    straight_factory: ComponentOrFactory = waveguide,
+    straight_factory: ComponentOrFactory = straight,
     taper_factory: Optional[ComponentOrFactory] = taper_function,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_radius: Number = 10.0,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
-    The references are waveguides, bends and tapers.
+    The references are straights, bends and tapers.
 
     Args:
         input_port: start port
         output_port: end port
         bend_factory: function that return bends
-        straight_factory: function that returns waveguides
-        start_straight: length of starting waveguide
-        end_straight: Number: length of end waveguide
-        min_straight: Number: min length of waveguide
+        straight_factory: function that returns straights
+        start_straight: length of starting straight
+        end_straight: Number: length of end straight
+        min_straight: Number: min length of straight
         bend_radius: Number: min bend_radius
     """
 
@@ -101,7 +101,7 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
     )
 
 
@@ -115,19 +115,19 @@ def get_route_electrical(
     **kwargs
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
-    The references are waveguides, bends and tapers.
+    The references are straights, bends and tapers.
     Uses electrical wire connectors by default
 
     Args:
         input_port: start port
         output_port: end port
         bend_factory: function that return bends
-        straight_factory: function that returns waveguides
+        straight_factory: function that returns straights
         layer: default wire layer
         width: defaul wire width
-        start_straight: length of starting waveguide
-        end_straight: Number: length of end waveguide
-        min_straight: Number: min length of waveguide
+        start_straight: length of starting straight
+        end_straight: Number: length of end straight
+        min_straight: Number: min length of straight
         bend_radius: Number: min bend_radius
         route_factory: returns route
     """
@@ -160,24 +160,24 @@ def get_route_electrical(
 def get_route_from_waypoints(
     waypoints: Coordinates,
     bend_factory: Callable = bend_euler,
-    straight_factory: Callable = waveguide,
+    straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     bend_radius: Number = 5.0,
     wg_width: Number = 0.5,
     layer: Layer = LAYER.WG,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints with
     bends instead of corners and optionally tapers in straight sections.
-    Tapering to wider waveguides reduces the optical loss.
+    Tapering to wider straights reduces the optical loss.
 
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
+        straight_factory: function that returns straight straights
         taper_factory: function that returns tapers
-        bend_radius: of waveguides
+        bend_radius: of straights
         wg_width: for taper
         layer: for the route
     """
@@ -188,7 +188,7 @@ def get_route_from_waypoints(
         else bend_factory
     )
 
-    if auto_taper_to_wide_waveguides:
+    if auto_widen:
         taper = (
             taper_factory(
                 length=TAPER_LENGTH,
@@ -207,19 +207,19 @@ def get_route_from_waypoints(
         bend_factory=bend90,
         straight_factory=straight_factory,
         taper=taper,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
     )
 
 
 def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
-    """Returns route that does not taper to wider waveguides.
+    """Returns route that does not taper to wider straights.
 
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
+        straight_factory: function that returns straight straights
         taper_factory: function that returns tapers
-        bend_radius: of waveguides
+        bend_radius: of straights
         wg_width: for taper
         layer: for the route
     """
@@ -240,7 +240,7 @@ def get_route_from_waypoints_electrical(
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
+        straight_factory: function that returns straight straights
         taper_factory: function that returns tapers
         wg_width: for taper
         layer: for the route

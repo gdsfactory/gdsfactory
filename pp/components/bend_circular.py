@@ -1,6 +1,5 @@
 from typing import Optional
 
-from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
@@ -38,23 +37,10 @@ def bend_circular(
 
     """
     cross_section_factory = cross_section_factory or strip
-
     cross_section = cross_section_factory(**cross_section_settings)
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
 
-    if "layers_cladding" in cross_section.info:
-        cladding_offset = cross_section.info["cladding_offset"]
-        layers_cladding = cross_section.info["layers_cladding"]
-        add_padding(
-            c,
-            default=cladding_offset,
-            right=cladding_offset,
-            left=0,
-            top=0,
-            bottom=cladding_offset,
-            layers=layers_cladding,
-        )
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = radius

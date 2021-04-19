@@ -17,7 +17,7 @@ def splitter_tree(
     bend_s: ComponentFactory = bend_euler_s,
     bend_radius: Optional[float] = None,
     tech: Optional[Tech] = None,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> pp.Component:
     """Tree of 1x2 splitters
 
@@ -30,7 +30,7 @@ def splitter_tree(
         bend_factory:
         bend_radius: for routing, defaults to tech.bend_radius
         tech: technology
-        auto_taper_to_wide_waveguides: tapers to lower loss wide waveguides.
+        auto_widen: tapers to lower loss wide straights.
 
     .. code::
 
@@ -83,7 +83,7 @@ def splitter_tree(
                 tree_top.ports["W0"],
                 bend_radius=bend_radius,
                 bend_factory=bend_factory,
-                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                auto_widen=auto_widen,
             )["references"]
         )
         c.add(
@@ -92,7 +92,7 @@ def splitter_tree(
                 tree_bot.ports["W0"],
                 bend_radius=bend_radius,
                 bend_factory=bend_factory,
-                auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+                auto_widen=auto_widen,
             )["references"]
         )
 

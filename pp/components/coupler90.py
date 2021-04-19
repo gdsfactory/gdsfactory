@@ -4,27 +4,29 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight as straight_function
 from pp.cross_section import strip
 from pp.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @cell
 def coupler90(
-    radius: float = 10.0,
     gap: float = 0.2,
-    straight: ComponentOrFactory = waveguide,
+    radius: float = 10.0,
+    straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
+    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
     r"""straight coupled to a bend.
 
     Args:
-        radius: um
         gap: um
+        radius: um
         straight: for straight
         bend: for bend
+        snap_to_grid_nm:
         cross_section_factory: for straight and bend
         **cross_section_settings
 
@@ -41,15 +43,21 @@ def coupler90(
     c = Component()
     cross_section_factory = cross_section_factory or strip
 
-    bend90 = bend(
-        radius=radius,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+    bend90 = (
+        bend(
+            radius=radius,
+            snap_to_grid_nm=snap_to_grid_nm,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
+        )
+        if callable(bend)
+        else bend
     )
     bend_ref = c << bend90
     straight_component = (
         straight(
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
+            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )
@@ -60,7 +68,6 @@ def coupler90(
     wg_ref = c << straight_component
 
     cross_section = cross_section_factory(**cross_section_settings)
-
     width = cross_section.info["width"]
 
     pbw = bend_ref.ports["W0"]

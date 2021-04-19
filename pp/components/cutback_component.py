@@ -16,7 +16,7 @@ def cutback_component(
     port2_id: str = "E0",
     middle_couples: int = 2,
 ) -> Component:
-    """Flips the component, good for tapers that end in wide waveguides
+    """Flips the component, good for tapers that end in wide straights
 
     Args:
         component

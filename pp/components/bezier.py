@@ -61,7 +61,7 @@ def bezier(
 
     Args:
         name: for the cell
-        width: waveguide width
+        width: straight width
         control_points: list of points
         npoints: number of points varying between 0 and 1
         layer: layer

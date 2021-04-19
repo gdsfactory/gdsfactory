@@ -938,7 +938,7 @@ class Component(Device):
         .. code ::
 
             import pp
-            pp.components.waveguide().get_layers() == {(1, 0), (111, 0)}
+            pp.components.straight().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()
@@ -1077,7 +1077,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.components.waveguide(layer=(2, 0), layers_cladding=[(111, 0)])
+    c = pp.components.straight(layer=(2, 0), layers_cladding=[(111, 0)])
     assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(2, 0)}
@@ -1174,8 +1174,8 @@ def test_netlist_simple() -> None:
     import pp
 
     c = pp.Component()
-    c1 = c << pp.components.waveguide(length=1, width=1)
-    c2 = c << pp.components.waveguide(length=2, width=2)
+    c1 = c << pp.components.straight(length=1, width=1)
+    c2 = c << pp.components.straight(length=2, width=2)
     c2.connect(port="W0", destination=c1.ports["E0"])
     c.add_port("W0", port=c1.ports["W0"])
     c.add_port("E0", port=c2.ports["E0"])
@@ -1253,10 +1253,10 @@ if __name__ == "__main__":
     # c.curvature = 5
     # c.get_settings()
     # c.pprint(ignore=("length",))
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
 
-    # c0 = pp.components.waveguide()
-    # c = pp.components.waveguide(length=3.0)
+    # c0 = pp.components.straight()
+    # c = pp.components.straight(length=3.0)
     # c.info["c"] = c0
 
     # import matplotlib.pyplot as plt
@@ -1285,7 +1285,7 @@ if __name__ == "__main__":
     # test_netlist_simple()
     # test_netlist_complex()
 
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # print(c.get_settings())
     # c = pp.components.dbr(n=1)
 
@@ -1334,12 +1334,12 @@ if __name__ == "__main__":
     #     }
     # )
 
-    # w = pp.components.waveguide()
+    # w = pp.components.straight()
     # c = demo_component(port=w.ports["E0"])
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # c = pp.routing.add_fiber_array(c)
     # c = pp.routing.add_electrical_pads_top(c)
     # print(c)

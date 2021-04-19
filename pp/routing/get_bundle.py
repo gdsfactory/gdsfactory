@@ -42,9 +42,9 @@ def get_bundle(
         start_ports: should all be facing in the same direction
         end_ports: should all be facing in the same direction
         route_filter: function to connect
-        separation: waveguide separation
+        separation: straight separation
         bend_radius: for the routes
-        extension_length: adds waveguide extension
+        extension_length: adds straight extension
 
     """
     # Accept dict or list
@@ -171,7 +171,7 @@ def link_ports(
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
     **routing_params,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -179,14 +179,14 @@ def link_ports(
     Args:
         ports1: first list of ports
         ports2: second list of ports
-        separation: minimum separation between two waveguides
+        separation: minimum separation between two straights
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If None, use waveguide definition from start_ports
+        bend_radius: If None, use straight definition from start_ports
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip waveguide
-        end_straight_offset: offset to add at the end of each waveguide
+            e.g `get_route_from_waypoints` for deep etch strip straight
+        end_straight_offset: offset to add at the end of each straight
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
 
@@ -198,7 +198,7 @@ def link_ports(
 
     The routing assumes manhattan routing between the different ports.
     The strategy is to modify `start_straight` and `end_straight` for each
-    waveguide such that waveguides do not collide.
+    straight such that straights do not collide.
 
     .. code::
 
@@ -240,7 +240,7 @@ def link_ports(
         route_filter(
             route,
             bend_factory=bend_factory,
-            auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+            auto_widen=auto_widen,
             **routing_params,
         )
         for route in routes
@@ -564,15 +564,15 @@ def link_electrical_ports(
     Args:
         ports1: first list of ports
         ports2: second list of ports
-        separation: minimum separation between two waveguides
+        separation: minimum separation between two straights
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If unspecified, attempts to get it from the waveguide definition of the first port in ports1
+        bend_radius: If unspecified, attempts to get it from the straight definition of the first port in ports1
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip waveguide
+            e.g `get_route_from_waypoints` for deep etch strip straight
 
-        end_straight_offset: offset to add at the end of each waveguide
+        end_straight_offset: offset to add at the end of each straight
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
 
@@ -697,7 +697,7 @@ def link_optical_ports_no_grouping(
     Semi auto routing for optical ports
     The routing assumes manhattan routing between the different ports.
     The strategy is to modify ``start_straight`` and ``end_straight`` for each
-    waveguide such that waveguides do not collide.
+    straight such that straights do not collide.
 
 
     We want to connect something like this:
@@ -732,7 +732,7 @@ def link_optical_ports_no_grouping(
         sort_ports: True -> sort the ports according to the axis. False -> no sort applied
 
     Returns:
-        a list of routes the connecting waveguides
+        a list of routes the connecting straights
 
     """
 
@@ -744,7 +744,7 @@ def link_optical_ports_no_grouping(
     elems = []
     j = 0
 
-    # min and max offsets needed for avoiding collisions between waveguides
+    # min and max offsets needed for avoiding collisions between straights
     min_j = 0
     max_j = 0
 

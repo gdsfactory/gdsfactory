@@ -1,5 +1,5 @@
 """
-In this example we change the layer of the waveguide
+In this example we change the layer of the straight
 """
 
 import pp
@@ -7,7 +7,7 @@ import pp
 
 @pp.cell
 def wg(layer=(2, 0), **kwargs):
-    return pp.components.waveguide(layer=layer, **kwargs)
+    return pp.components.straight(layer=layer, **kwargs)
 
 
 if __name__ == "__main__":

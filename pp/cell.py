@@ -161,7 +161,7 @@ def cell(
 def wg(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
-    c = Component("waveguide")
+    c = Component("straight")
     w = width / 2
     layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
@@ -174,7 +174,7 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 def wg2(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
-    c = Component("waveguide")
+    c = Component("straight")
     w = width / 2
     layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
@@ -187,7 +187,7 @@ def wg2(length: int = 3, width: float = 0.5) -> Component:
 def wg3(length=3, width=0.5):
     from pp.component import Component
 
-    c = Component("waveguide")
+    c = Component("straight")
     w = width / 2
     layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
@@ -202,7 +202,7 @@ def test_autoname_true() -> None:
 
 def test_autoname_false() -> None:
     # print(wg2(length=3).name)
-    assert wg2(length=3).name == "waveguide"
+    assert wg2(length=3).name == "straight"
 
 
 @cell
@@ -232,7 +232,7 @@ def test_autoname() -> None:
 if __name__ == "__main__":
     import pp
 
-    c = pp.components.waveguide()
+    c = pp.components.straight()
 
     # test_autoname_true()
     # test_autoname_false()
@@ -241,7 +241,7 @@ if __name__ == "__main__":
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # c = pp.components.waveguide()
+    # c = pp.components.straight()
     # c = wg3()
     # print(c)
     # c.show()

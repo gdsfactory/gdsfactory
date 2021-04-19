@@ -11,7 +11,7 @@ Some of these inputs are other functions.
     - ports dictionary
 - ComponentFactory: function that returns a Component.
 - Route: Dictionary with 3 keys.
-    - references: list of references (waveguides, bends and tapers)
+    - references: list of references (straights, bends and tapers)
     - ports: dict(input=PortIn, output=PortOut)
     - length: float (how long is this route)
 - RouteFactory: function that returns a Route.
@@ -45,6 +45,7 @@ Coordinates = Union[
 ]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
+CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:

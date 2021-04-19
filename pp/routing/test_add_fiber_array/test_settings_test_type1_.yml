@@ -3,7 +3,7 @@ info: {}
 module: pp.routing.add_fiber_array
 name: add_fiber_array_70c78a94
 settings:
-  auto_taper_to_wide_waveguides: true
+  auto_widen: true
   component:
     function_name: coupler
     info:

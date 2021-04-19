@@ -470,7 +470,7 @@ def auto_rename_ports(component: Device) -> Device:
 def test_select_ports_prefix() -> None:
     import pp
 
-    c = pp.components.waveguide()
+    c = pp.components.straight()
     ports = c.get_ports_list(prefix="W")
     assert len(ports) == 1
 
@@ -488,7 +488,7 @@ if __name__ == "__main__":
 
     import pp
 
-    name = "waveguide_with_pins"
+    name = "straight_with_pins"
     gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
     csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
     pp.show(gdspath)

@@ -1,8 +1,8 @@
 connections:
-  bend_euler_CSFNone_R10_W550n_33.138_17.738,N0: waveguide_CSFNone_L3_W550n_26.5_22.6,W0
-  bend_euler_CSFNone_R10_W550n_33.138_17.738,W0: waveguide_CSFNone_L4_W550n_38.0_10.6,E0
-  bend_euler_CSFNone_R10_W550n_33.138_3.462,N0: waveguide_CSFNone_L4_W550n_38.0_10.6,W0
-  bend_euler_CSFNone_R10_W550n_33.138_3.462,W0: waveguide_CSFNone_L3_W550n_26.5_-1.4,E0
+  bend_euler_CSFNone_R10_W550n_33.138_17.738,N0: straight_CSFNone_L3_W550n_26.5_22.6,W0
+  bend_euler_CSFNone_R10_W550n_33.138_17.738,W0: straight_CSFNone_L4_W550n_38.0_10.6,E0
+  bend_euler_CSFNone_R10_W550n_33.138_3.462,N0: straight_CSFNone_L4_W550n_38.0_10.6,W0
+  bend_euler_CSFNone_R10_W550n_33.138_3.462,W0: straight_CSFNone_L3_W550n_26.5_-1.4,E0
   bend_euler_R10_W450n_30.112_15.712,N0: taper_L5_W450n_W550n_22.5_20.6,1
   bend_euler_R10_W450n_30.112_15.712,W0: bend_euler_R10_W450n_30.112_5.488,N0
   bend_euler_R10_W450n_30.112_5.488,W0: taper_L5_W500n_W450n_22.5_0.6,2
@@ -10,12 +10,12 @@ connections:
   coupler_CSFNone_D2_G200n_L5_1.5_21.6,E1: taper_L5_W450n_W500n_16.5_22.6,2
   coupler_CSFNone_D2_G300n_L10_5.0_-0.4,E0: taper_L5_W500n_W550n_22.5_-1.4,1
   coupler_CSFNone_D2_G300n_L10_5.0_-0.4,E1: taper_L5_W500n_W450n_22.5_0.6,1
-  taper_L5_W450n_W500n_16.5_22.6,1: waveguide_CSFNone_L1_W450n_19.5_22.6,E0
-  taper_L5_W450n_W550n_22.5_20.6,2: waveguide_CSFNone_L1_W550n_19.5_20.6,W0
-  taper_L5_W500n_W550n_22.5_-1.4,2: waveguide_CSFNone_L3_W550n_26.5_-1.4,W0
-  taper_L5_W550n_W450n_22.5_22.6,1: waveguide_CSFNone_L3_W550n_26.5_22.6,E0
-  taper_L5_W550n_W450n_22.5_22.6,2: waveguide_CSFNone_L1_W450n_19.5_22.6,W0
-  taper_L5_W550n_W500n_16.5_20.6,1: waveguide_CSFNone_L1_W550n_19.5_20.6,E0
+  straight_CSFNone_L1_W450n_19.5_22.6,E0: taper_L5_W450n_W500n_16.5_22.6,1
+  straight_CSFNone_L1_W450n_19.5_22.6,W0: taper_L5_W550n_W450n_22.5_22.6,2
+  straight_CSFNone_L1_W550n_19.5_20.6,E0: taper_L5_W550n_W500n_16.5_20.6,1
+  straight_CSFNone_L1_W550n_19.5_20.6,W0: taper_L5_W450n_W550n_22.5_20.6,2
+  straight_CSFNone_L3_W550n_26.5_-1.4,W0: taper_L5_W500n_W550n_22.5_-1.4,2
+  straight_CSFNone_L3_W550n_26.5_22.6,E0: taper_L5_W550n_W450n_22.5_22.6,1
 instances:
   bend_euler_CSFNone_R10_W550n_33.138_17.738:
     component: bend_euler
@@ -77,6 +77,46 @@ instances:
       dy: 2
       gap: 0.3
       length: 10
+  straight_CSFNone_L1_W450n_19.5_22.6:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 1
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.45
+  straight_CSFNone_L1_W550n_19.5_20.6:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 1
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.55
+  straight_CSFNone_L3_W550n_26.5_-1.4:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 3
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.55
+  straight_CSFNone_L3_W550n_26.5_22.6:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 3
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.55
+  straight_CSFNone_L4_W550n_38.0_10.6:
+    component: straight
+    settings:
+      cross_section_factory: null
+      length: 4
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.55
   taper_L5_W450n_W500n_16.5_22.6:
     component: taper
     settings:
@@ -155,46 +195,6 @@ instances:
       tech: null
       width1: 0.55
       width2: 0.5
-  waveguide_CSFNone_L1_W450n_19.5_22.6:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 1
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.45
-  waveguide_CSFNone_L1_W550n_19.5_20.6:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 1
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.55
-  waveguide_CSFNone_L3_W550n_26.5_-1.4:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 3
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.55
-  waveguide_CSFNone_L3_W550n_26.5_22.6:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 3
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.55
-  waveguide_CSFNone_L4_W550n_38.0_10.6:
-    component: waveguide
-    settings:
-      cross_section_factory: null
-      length: 4
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 0.55
 name: mzit
 placements:
   bend_euler_CSFNone_R10_W550n_33.138_17.738:
@@ -227,6 +227,31 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
+  straight_CSFNone_L1_W450n_19.5_22.6:
+    mirror: false
+    rotation: 180
+    x: 20.0
+    y: 22.6
+  straight_CSFNone_L1_W550n_19.5_20.6:
+    mirror: false
+    rotation: 180
+    x: 20.0
+    y: 20.6
+  straight_CSFNone_L3_W550n_26.5_-1.4:
+    mirror: false
+    rotation: 0
+    x: 25.0
+    y: -1.4
+  straight_CSFNone_L3_W550n_26.5_22.6:
+    mirror: false
+    rotation: 180
+    x: 28.0
+    y: 22.6
+  straight_CSFNone_L4_W550n_38.0_10.6:
+    mirror: false
+    rotation: 90
+    x: 38.0
+    y: 8.6
   taper_L5_W450n_W500n_16.5_22.6:
     mirror: false
     rotation: 180
@@ -257,31 +282,6 @@ placements:
     rotation: 180
     x: 19.0
     y: 20.6
-  waveguide_CSFNone_L1_W450n_19.5_22.6:
-    mirror: false
-    rotation: 180
-    x: 20.0
-    y: 22.6
-  waveguide_CSFNone_L1_W550n_19.5_20.6:
-    mirror: false
-    rotation: 180
-    x: 20.0
-    y: 20.6
-  waveguide_CSFNone_L3_W550n_26.5_-1.4:
-    mirror: false
-    rotation: 0
-    x: 25.0
-    y: -1.4
-  waveguide_CSFNone_L3_W550n_26.5_22.6:
-    mirror: false
-    rotation: 180
-    x: 28.0
-    y: 22.6
-  waveguide_CSFNone_L4_W550n_38.0_10.6:
-    mirror: false
-    rotation: 90
-    x: 38.0
-    y: 8.6
 ports:
   W0: coupler_CSFNone_D2_G300n_L10_5.0_-0.4,W0
   W1: coupler_CSFNone_D2_G300n_L10_5.0_-0.4,W1

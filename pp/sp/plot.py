@@ -51,7 +51,7 @@ if __name__ == "__main__":
     remove_layers = []
     layer_to_thickness_nm = {(1, 0): 220}
 
-    # r = write(component=pp.components.waveguide(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=pp.components.straight(), layer_to_thickness_nm=layer_to_thickness_nm)
     # r = write(component=pp.components.mmi2x2(), layer_to_thickness_nm=layer_to_thickness_nm)
     # r = write(component=pp.components.mmi1x2(), layer_to_thickness_nm=layer_to_thickness_nm)
     # r = write(component=pp.components.coupler(), layer_to_thickness_nm=layer_to_thickness_nm)

@@ -1,10 +1,10 @@
 connections:
-  bend_euler_R10_W500n_50.115_-5.5,N0: waveguide_L18p75_W500n_54.99_-20.0,W0
-  bend_euler_R10_W500n_50.115_-5.5,W0: waveguide_L19p99_W500n_34.995_-0.625,E0
-  bend_euler_R10_W500n_59.865_-34.5,N0: waveguide_L10n_W500n_64.995_-39.375,W0
-  bend_euler_R10_W500n_59.865_-34.5,W0: waveguide_L18p75_W500n_54.99_-20.0,E0
-  mmi_bot,W0: waveguide_L10n_W500n_64.995_-39.375,E0
-  mmi_top,E0: waveguide_L19p99_W500n_34.995_-0.625,W0
+  bend_euler_R10_W500n_50.115_-5.5,N0: straight_L18p75_W500n_54.99_-20.0,W0
+  bend_euler_R10_W500n_50.115_-5.5,W0: straight_L19p99_W500n_34.995_-0.625,E0
+  bend_euler_R10_W500n_59.865_-34.5,N0: straight_L10n_W500n_64.995_-39.375,W0
+  bend_euler_R10_W500n_59.865_-34.5,W0: straight_L18p75_W500n_54.99_-20.0,E0
+  mmi_bot,W0: straight_L10n_W500n_64.995_-39.375,E0
+  mmi_top,E0: straight_L19p99_W500n_34.995_-0.625,W0
 instances:
   bend_euler_R10_W500n_50.115_-5.5:
     component: bend_euler
@@ -26,18 +26,18 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  waveguide_L10n_W500n_64.995_-39.375:
-    component: waveguide
+  straight_L10n_W500n_64.995_-39.375:
+    component: straight
     settings:
       length: 0.01
       width: 0.5
-  waveguide_L18p75_W500n_54.99_-20.0:
-    component: waveguide
+  straight_L18p75_W500n_54.99_-20.0:
+    component: straight
     settings:
       length: 18.75
       width: 0.5
-  waveguide_L19p99_W500n_34.995_-0.625:
-    component: waveguide
+  straight_L19p99_W500n_34.995_-0.625:
+    component: straight
     settings:
       length: 19.99
       width: 0.5
@@ -63,17 +63,17 @@ placements:
     rotation: 0
     x: 12.5
     y: 0.0
-  waveguide_L10n_W500n_64.995_-39.375:
+  straight_L10n_W500n_64.995_-39.375:
     mirror: false
     rotation: 0
     x: 64.99
     y: -39.375
-  waveguide_L18p75_W500n_54.99_-20.0:
+  straight_L18p75_W500n_54.99_-20.0:
     mirror: false
     rotation: 270
     x: 54.99
     y: -10.625
-  waveguide_L19p99_W500n_34.995_-0.625:
+  straight_L19p99_W500n_34.995_-0.625:
     mirror: false
     rotation: 0
     x: 25.0

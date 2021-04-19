@@ -2,14 +2,14 @@ connections:
   wgn,W0: wgw,E0
 instances:
   wgn:
-    component: waveguide
+    component: straight
     settings:
       cross_section_factory: null
       length: 0.5
       npoints: 2
       snap_to_grid_nm: 1
   wgw:
-    component: waveguide
+    component: straight
     settings:
       cross_section_factory: null
       length: 1

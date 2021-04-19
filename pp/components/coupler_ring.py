@@ -4,20 +4,23 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.components.coupler90 import coupler90
-from pp.components.coupler_straight import coupler_straight
+from pp.components.coupler90 import coupler90 as coupler90function
+from pp.components.coupler_straight import coupler_straight as coupler_straight_function
+from pp.components.straight import straight as straight_function
 from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
 def coupler_ring(
-    coupler90: ComponentFactory = coupler90,
-    bend: Optional[ComponentFactory] = None,
-    coupler_straight: ComponentFactory = coupler_straight,
-    length_x: float = 4.0,
     gap: float = 0.2,
     radius: float = 5.0,
+    length_x: float = 4.0,
+    coupler90: ComponentFactory = coupler90function,
+    straight: ComponentFactory = straight_function,
+    bend: Optional[ComponentFactory] = None,
+    coupler_straight: ComponentFactory = coupler_straight_function,
+    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -26,9 +29,9 @@ def coupler_ring(
     Args:
         coupler90: straight coupled to a 90deg bend.
         bend: factory for bend
-        coupler_straight: two parallel coupled straight waveguides.
-        length_x: length of the parallel coupled straight waveguides.
-        gap: spacing between parallel coupled straight waveguides.
+        coupler_straight: two parallel coupled straight straights.
+        length_x: length of the parallel coupled straight straights.
+        gap: spacing between parallel coupled straight straights.
         radius: of the bends.
         cross_section_factory: for straight and bend
         **cross_section_settings
@@ -52,9 +55,11 @@ def coupler_ring(
     # define subcells
     coupler90_component = (
         coupler90(
-            bend=bend,
             gap=gap,
             radius=radius,
+            straight=straight,
+            bend=bend,
+            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )
@@ -62,7 +67,13 @@ def coupler_ring(
         else coupler90
     )
     coupler_straight_component = (
-        coupler_straight(gap=gap, length=length_x, **cross_section_settings)
+        coupler_straight(
+            gap=gap,
+            length=length_x,
+            snap_to_grid_nm=snap_to_grid_nm,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
+        )
         if callable(coupler_straight)
         else coupler_straight
     )

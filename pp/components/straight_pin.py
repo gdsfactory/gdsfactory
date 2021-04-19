@@ -1,4 +1,4 @@
-"""Straight waveguide."""
+"""Straight Doped PIN waveguide."""
 from typing import Optional, Tuple
 
 from pp.cell import cell
@@ -12,7 +12,7 @@ from pp.types import Layer
 
 
 @cell
-def waveguide_pin(
+def straight_pin(
     length: float = 10.0,
     npoints: int = 2,
     width: float = TECH_SILICON_C.wg_width,
@@ -33,15 +33,15 @@ def waveguide_pin(
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
 ) -> Component:
-    """Returns a Straight waveguide.
+    """Returns a Doped PIN waveguide.
 
     Args:
         length: of straight
         npoints: number of points
-        width: waveguide width
+        width: straight width
         layer: layer for
         layers_cladding: for cladding
-        cladding_offset: offset from waveguide to cladding edge
+        cladding_offset: offset from straight to cladding edge
         cross_section_factory: function that returns a cross_section
         tech: Technology with default
 
@@ -89,6 +89,6 @@ def waveguide_pin(
 
 if __name__ == "__main__":
 
-    c = waveguide_pin(width_i=1)
+    c = straight_pin(width_i=1)
     print(c.ports.keys())
     c.show()

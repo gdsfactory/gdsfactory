@@ -47,8 +47,8 @@ def rename():
     X.add(width=3, offset=-2, layer=2)
 
     # Combine the Path and the CrossSection
-    waveguide = pp.path.component(p, cross_section=X)
-    return waveguide
+    straight = pp.path.component(p, cross_section=X)
+    return straight
 
 
 @cell
@@ -64,8 +64,8 @@ def no_rename():
     X.add(width=3, offset=-2, layer=2)
 
     # Combine the Path and the CrossSection
-    waveguide = pp.path.component(p, cross_section=X, rename_ports=False)
-    return waveguide
+    straight = pp.path.component(p, cross_section=X, rename_ports=False)
+    return straight
 
 
 def looploop(num_pts=1000):

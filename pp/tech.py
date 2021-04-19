@@ -66,8 +66,8 @@ class Tech:
     fiber_single_spacing: float = 50.0
     fiber_array_spacing: float = 127.0
     fiber_input_to_output_spacing: float = 200.0
-    snap_to_grid_nm: Optional[int] = None
-    auto_taper_to_wide_waveguides: bool = False
+    snap_to_grid_nm: int = 1
+    auto_widen: bool = False
     sparameters_path: pathlib.Path = CONFIG["sp"]
     simulation_settings: SimulationSettings = simulation_settings
     layer_stack: LayerStack = LAYER_STACK
@@ -85,7 +85,7 @@ class TechSiliconCband(Tech):
     layer_label: Layer = LAYER.LABEL
     layer_heater: Layer = LAYER.HEATER
     taper_length: float = 15.0
-    taper_width: float = 2.0  # taper to wider waveguides for lower loss
+    taper_width: float = 2.0  # taper to wider straights for lower loss
 
 
 @dataclass(frozen=True)
@@ -123,7 +123,7 @@ TECH_METAL1 = TechMetal1()
 if __name__ == "__main__":
     import pp
 
-    c = pp.components.waveguide(tech=TECH_METAL1)
+    c = pp.components.straight(tech=TECH_METAL1)
     print(c.name)
 
     from dataclasses import asdict

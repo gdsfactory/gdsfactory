@@ -88,7 +88,7 @@ def extend_ports(
         component: component to extend ports
         port_list: specify an iterable of ports or extends all ports
         length: extension length
-        extension_factory: waveguide factory to extend ports
+        extension_factory: straight factory to extend ports
         extension_port_name_input:
         extension_port_name_output:
 
@@ -129,7 +129,7 @@ def extend_ports(
 def test_extend_ports() -> Component:
     import pp.components as pc
 
-    c = pc.waveguide(width=2)
+    c = pc.straight(width=2)
     c = pc.cross(width=2)
     ce = extend_ports(component=c)
     assert len(c.ports) == len(ce.ports)
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     # c = pc.bend_circular()
     # ce = extend_ports(c, port_list=['W0'])
 
-    # c = pc.waveguide(layer=(3, 0))
+    # c = pc.straight(layer=(3, 0))
     # ce = extend_ports(c)
     # print(ce)
     # print(len(ce.ports))

@@ -1,9 +1,9 @@
-function_name: waveguide
+function_name: straight
 info:
   length: 10
   width: 1
-module: pp.components.waveguide
-name: waveguide_186d9812
+module: pp.components.straight
+name: straight_186d9812
 settings:
   cross_section_factory: null
   layer:

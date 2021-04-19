@@ -11,7 +11,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.config import TAPER_LENGTH
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
@@ -38,7 +38,7 @@ def spiral_inner_io(
     bend_radius: float = 50.0,
     wg_width: float = 0.5,
     wg_width_grating_coupler: float = 0.5,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
 ) -> Component:
@@ -57,7 +57,7 @@ def spiral_inner_io(
         bend180_function
         bend_radius
         wg_width
-        straight_factory: waveguide function
+        straight_factory: straight function
         taper: taper function
         length: cm
 
@@ -75,7 +75,7 @@ def spiral_inner_io(
                 grating_spacing=grating_spacing,
                 dx=dx,
                 dy=dy,
-                straight_factory=waveguide,
+                straight_factory=straight,
                 bend90_function=bend_euler,
                 bend180_function=bend_euler180,
                 wg_width=wg_width,

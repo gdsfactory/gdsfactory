@@ -3,12 +3,12 @@ connections:
   bend_euler_R5_W500n_-2.375_597.625,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
   bend_euler_R5_W500n_-247.625_602.375,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
   bend_euler_R5_W500n_-247.625_602.375,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
-  taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,W0
-  taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2: waveguide_L170_W2p5_-125.0_600.0,E0
-  taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2: waveguide_L325_W2p5_-250.0_802.5,W0
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2: waveguide_L325_W2p5_-250.0_802.5,E0
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5,2: waveguide_L525_W2p5_0.0_297.5,W0
-  taper_L1_0_L35_W500n_W2p5_0.0_577.5,2: waveguide_L525_W2p5_0.0_297.5,E0
+  straight_L170_W2p5_-125.0_600.0,E0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2
+  straight_L170_W2p5_-125.0_600.0,W0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2
+  straight_L325_W2p5_-250.0_802.5,E0: taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2
+  straight_L325_W2p5_-250.0_802.5,W0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2
+  straight_L525_W2p5_0.0_297.5,E0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,2
+  straight_L525_W2p5_0.0_297.5,W0: taper_L1_0_L35_W500n_W2p5_0.0_17.5,2
 instances:
   b:
     component: pad_array
@@ -23,6 +23,21 @@ instances:
     settings:
       radius: 5
       width: 0.5
+  straight_L170_W2p5_-125.0_600.0:
+    component: straight
+    settings:
+      length: 170
+      width: 2.5
+  straight_L325_W2p5_-250.0_802.5:
+    component: straight
+    settings:
+      length: 325
+      width: 2.5
+  straight_L525_W2p5_0.0_297.5:
+    component: straight
+    settings:
+      length: 525
+      width: 2.5
   t:
     component: pad_array
     settings:
@@ -82,21 +97,6 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  waveguide_L170_W2p5_-125.0_600.0:
-    component: waveguide
-    settings:
-      length: 170
-      width: 2.5
-  waveguide_L325_W2p5_-250.0_802.5:
-    component: waveguide
-    settings:
-      length: 325
-      width: 2.5
-  waveguide_L525_W2p5_0.0_297.5:
-    component: waveguide
-    settings:
-      length: 525
-      width: 2.5
 name: sample_waypoints
 placements:
   b:
@@ -114,6 +114,21 @@ placements:
     rotation: 180
     x: -245.0
     y: 600.0
+  straight_L170_W2p5_-125.0_600.0:
+    mirror: false
+    rotation: 180
+    x: -40.0
+    y: 600.0
+  straight_L325_W2p5_-250.0_802.5:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 640.0
+  straight_L525_W2p5_0.0_297.5:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 35.0
   t:
     mirror: false
     rotation: 0
@@ -149,19 +164,4 @@ placements:
     rotation: 270
     x: 0.0
     y: 595.0
-  waveguide_L170_W2p5_-125.0_600.0:
-    mirror: false
-    rotation: 180
-    x: -40.0
-    y: 600.0
-  waveguide_L325_W2p5_-250.0_802.5:
-    mirror: false
-    rotation: 90
-    x: -250.0
-    y: 640.0
-  waveguide_L525_W2p5_0.0_297.5:
-    mirror: false
-    rotation: 90
-    x: 0.0
-    y: 35.0
 ports: {}

@@ -18,7 +18,7 @@ def get_grating_period_curved(
     For 220nm silicon it is 2.8, for 150nm it is 2.5.
     The average is approximately 2.65.
     n_clad is the cladding index in which the fiber is located,
-    not the index of the layer above the waveguide.
+    not the index of the layer above the straight.
     If the fiber is in air, then it is 1.0.
     If you use an index matching fluid or glue, then it should be 1.45
 

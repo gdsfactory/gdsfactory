@@ -196,7 +196,7 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
     For transitions you should increase have at least 100 points
 
     Args:
-        length: of waveguide
+        length: of straight
         npoints: number of points
     """
     return path.straight(length=length, num_pts=npoints)

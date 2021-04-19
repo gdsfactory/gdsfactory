@@ -23,7 +23,7 @@ def bend_s(
         layer: gds number
         nb_points: number of points
         tech: Technology
-        width: waveguide width (defaults to tech.wg_width)
+        width: straight width (defaults to tech.wg_width)
 
     .. plot::
       :include-source:

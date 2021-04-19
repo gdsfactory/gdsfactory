@@ -169,7 +169,7 @@ def grating_coupler_elliptical(
     r""" Grating coupler with parametrization based on Lumerical FDTD simulation
 
     Args:
-        taper_length: taper length from waveguide I/O
+        taper_length: taper length from straight I/O
         taper_angle: grating flare angle
         lambda_c: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees

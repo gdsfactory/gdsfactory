@@ -123,7 +123,7 @@ def add_padding_to_size(
 
 
 def test_container():
-    c = pp.components.waveguide(length=128)
+    c = pp.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
     print(len(cc.settings["component"]))
     assert len(cc.settings["component"]) == 5
@@ -143,7 +143,7 @@ def test_container():
 if __name__ == "__main__":
     # test_container()
 
-    # c = pp.components.waveguide(length=128)
+    # c = pp.components.straight(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # print(cc.settings["component"])
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     # cc.show()
     # cc.pprint()
 
-    c = pp.c.waveguide(length=5)
+    c = pp.c.straight(length=5)
     cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
     cc.show()
     # print(cc.settings)

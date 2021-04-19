@@ -6,7 +6,7 @@ from numpy import bool_, ndarray
 import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
-from pp.components.waveguide import waveguide
+from pp.components.straight import straight
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
@@ -56,9 +56,9 @@ def _get_bend_ports(bend: Component) -> List[Port]:
 
 
 def _get_straight_ports(straight: Component) -> List[Port]:
-    """Return West and east facing ports for straight waveguide.
+    """Return West and east facing ports for straight straight.
 
-    Any standard straight wire/waveguide has two ports:
+    Any standard straight wire/straight has two ports:
     one facing west and one facing east
     """
     ports = straight.ports
@@ -326,7 +326,7 @@ def _generate_route_manhattan_points(
                 )
                 # `a` remains the same
             else:
-                # no viable solution for this case. May result in crossed waveguides
+                # no viable solution for this case. May result in crossed straights
                 p = (p[0], p[1] + sigp * (s + bs1))
                 a = 180
         points += [p]
@@ -443,11 +443,11 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[Callable] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> Route:
     """Returns Dict:
 
-    - references list with rounded waveguide route from a list of manhattan points.
+    - references list with rounded straight route from a list of manhattan points.
     - ports: Dict of ports
     - length: route length
 
@@ -457,9 +457,9 @@ def round_corners(
         straight_factory: the straight factory to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
-        mirror_straight: mirror_straight waveguide
+        mirror_straight: mirror_straight straight
         straight_ports: port names for straights. If None finds them automatically.
-        auto_taper_to_wide_waveguides: for lower loss in long routes
+        auto_widen: for lower loss in long routes
     """
     references = []
     ports = dict()
@@ -539,11 +539,7 @@ def round_corners(
 
         total_length += length
 
-        if (
-            auto_taper_to_wide_waveguides
-            and taper is not None
-            and length > 2 * taper.info["length"] + 1.0
-        ):
+        if auto_widen and taper is not None and length > 2 * taper.info["length"] + 1.0:
             length = length - 2 * taper.info["length"]
             with_taper = True
 
@@ -564,7 +560,7 @@ def round_corners(
             # Update start straight position
             straight_origin = taper_ref.ports[pname_east].midpoint
 
-        # Straight waveguide
+        # Straight straight
         length = snap_to_grid(length)
         if with_taper or taper is None:
             wg = straight_factory(length=length, width=wg_width)
@@ -590,7 +586,7 @@ def round_corners(
         port_index_out = 1
         if with_taper:
             # Second taper:
-            # Origin at end of straight waveguide, starting from east side of taper
+            # Origin at end of straight straight, starting from east side of taper
 
             taper_origin = wg_ref.ports[pname_east]
             pname_west, pname_east = [p.name for p in _get_straight_ports(taper)]
@@ -611,7 +607,7 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
@@ -645,17 +641,17 @@ def generate_manhattan_waypoints(
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    straight_factory: ComponentFactory = waveguide,
+    straight_factory: ComponentFactory = straight,
     taper: None = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
-    auto_taper_to_wide_waveguides: bool = True,
+    auto_widen: bool = True,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
-    Then creates the waveguide, taper and bend references that define the route.
+    Then creates the straight, taper and bend references that define the route.
     """
 
     points = generate_manhattan_waypoints(
@@ -671,7 +667,7 @@ def route_manhattan(
         straight_factory=straight_factory,
         taper=taper,
         bend_factory=bend_factory,
-        auto_taper_to_wide_waveguides=auto_taper_to_wide_waveguides,
+        auto_widen=auto_widen,
     )
 
 
@@ -705,7 +701,7 @@ def test_manhattan() -> Component:
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
-            straight_factory=waveguide,
+            straight_factory=straight,
             start_straight=5.0,
             end_straight=5.0,
             bend_factory=bend,

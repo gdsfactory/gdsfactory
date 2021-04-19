@@ -39,9 +39,9 @@ def add_keepout(
 
 
 def test_add_keepout() -> None:
-    from pp.components.waveguide import waveguide
+    from pp.components.straight import straight
 
-    c = waveguide()
+    c = straight()
     polygons = len(c.get_polygons())
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
@@ -61,10 +61,10 @@ if __name__ == "__main__":
     # import pp
     # from pp.components.crossing_waveguide import crossing_etched
     # from pp.components.crossing_waveguide import crossing45
-    # from pp.components.waveguide import waveguide
+    # from pp.components.straight import straight
 
     # c = crossing45(alpha=0.5, crossing=crossing_etched)
-    # c = waveguide()
+    # c = straight()
     # c = pp.components.mzi2x2()
 
     # target_layers = [LAYER.WG]
