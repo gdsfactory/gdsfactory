@@ -21,7 +21,7 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
-## Next release
+## 2.4.7
 
 - better README
 - get_settings exports int if possible (3.0 -> 3)
