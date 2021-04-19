@@ -100,10 +100,10 @@ def write(
     tech = tech or TECH_SILICON_C
     sim_settings = asdict(tech.simulation_settings)
     layer_to_thickness_nm = settings.pop(
-        "layer_to_thickness_nm", tech.layer_stack._get_layer_to_thickness_nm()
+        "layer_to_thickness_nm", tech.layer_stack.get_layer_to_thickness_nm()
     )
     layer_to_material = settings.pop(
-        "layer_to_material", tech.layer_stack._get_layer_to_material()
+        "layer_to_material", tech.layer_stack.get_layer_to_material()
     )
 
     if hasattr(component, "simulation_settings"):

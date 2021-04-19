@@ -21,10 +21,12 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+
 ## Next release
 
 - remove `pins` kwargs from ring and mzi
-
+- simpler coupler straight
+- renamed `_get` to `get` in LayerStack
 
 ## 2.4.7
 
@@ -41,7 +43,6 @@ from pydantic import validate_arguments
 - rename pp.components.waveguide to pp.components.straight
 - rename auto_taper_to_wide_waveguides auto_widen
 - rename wg_heater_connected to straight_with_heater
-
 
 ## 2.4.6
 

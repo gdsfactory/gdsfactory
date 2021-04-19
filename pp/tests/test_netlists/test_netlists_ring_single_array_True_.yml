@@ -10,7 +10,6 @@ instances:
       gap: 0.2
       length_x: 10
       length_y: 0.01
-      pins: false
       radius: 5
       snap_to_grid_nm: 1
   ring_single_LX20_R10_30.0_10.355:
@@ -21,7 +20,6 @@ instances:
       gap: 0.2
       length_x: 20
       length_y: 0.01
-      pins: false
       radius: 10
       snap_to_grid_nm: 1
   straight_L5_7.5_0.0:

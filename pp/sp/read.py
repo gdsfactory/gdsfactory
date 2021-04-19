@@ -142,10 +142,9 @@ def read_sparameters_component(
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material
-        or tech.layer_stack._get_layer_to_material(),
+        layer_to_material=layer_to_material or tech.layer_stack.get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
-        or tech.layer_stack._get_layer_to_thickness_nm(),
+        or tech.layer_stack.get_layer_to_thickness_nm(),
     )
     numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
@@ -164,10 +163,9 @@ def read_sparameters_pandas(
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material
-        or tech.layer_stack._get_layer_to_material(),
+        layer_to_material=layer_to_material or tech.layer_stack.get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
-        or tech.layer_stack._get_layer_to_thickness_nm(),
+        or tech.layer_stack.get_layer_to_thickness_nm(),
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]

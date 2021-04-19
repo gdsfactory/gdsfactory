@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: pp.components.mzi
-name: mzi_2f526679
+name: mzi_5a95c04c
 settings:
   bend: bend_euler
   bend_radius: 20
@@ -10,7 +10,6 @@ settings:
   delta_length: 10
   length_x: 0.1
   length_y: 0.1
-  pins: false
   splitter: mmi1x2
   splitter_settings: null
   straight: straight

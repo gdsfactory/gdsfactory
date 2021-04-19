@@ -12,7 +12,6 @@ settings:
   cross_section_factory: null
   delta_length: 10
   dy: 2
-  pins: true
   taper_length: 5
   w0: 0.5
   w1: 0.45

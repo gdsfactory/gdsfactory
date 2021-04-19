@@ -8,5 +8,4 @@ settings:
   gap: 0.2
   length_x: 0.01
   length_y: 0.01
-  pins: false
   radius: 10
