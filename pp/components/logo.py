@@ -5,7 +5,7 @@ from pp.component import Component
 @pp.cell
 def logo(text: str = "GDS_FACTORY") -> Component:
     """Returns GDSfactory logo."""
-    c = pp.Component()
+    c = Component()
     elements = []
     for i, letter in enumerate(text):
         c << pp.components.text(letter, layer=(i + 1, 0), size=10)

@@ -1,4 +1,4 @@
-"""Straight straight."""
+"""Straight waveguide."""
 from typing import Optional
 
 from pp.cell import cell
