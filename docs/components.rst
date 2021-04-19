@@ -1517,17 +1517,17 @@ via3
 
 
 
-wg_heater_connected
+straight_with_heater
 ----------------------------------------------------
 
-.. autofunction:: pp.components.wg_heater_connected
+.. autofunction:: pp.components.straight_with_heater
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.components.wg_heater_connected()
+  c = pp.components.straight_with_heater()
   c.plot()
 
 

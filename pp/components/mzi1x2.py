@@ -5,7 +5,7 @@ from pp.components.extension import line
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mzi2x2 import mzi_arm
 from pp.components.straight import straight as straight_function
-from pp.components.straight_heater import wg_heater_connected
+from pp.components.straight_heater import straight_with_heater
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
 from pp.routing.route_ports_to_side import route_elec_ports_to_side
@@ -19,7 +19,7 @@ def mzi1x2(
     L2: float = 10.0,
     bend_radius: float = 10.0,
     bend: ComponentFactory = bend_circular,
-    straight_heater: ComponentFactory = wg_heater_connected,
+    straight_heater: ComponentFactory = straight_with_heater,
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = mmi1x2,
     with_elec_connections: bool = False,
@@ -32,7 +32,7 @@ def mzi1x2(
         L2: L_top horizontal length
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        straight_heater: wg_heater_connected or straight
+        straight_heater: straight_with_heater or straight
         straight_function: straight
         coupler_function: coupler
 

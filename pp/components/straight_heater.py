@@ -163,7 +163,7 @@ def straight_heater(
 
 
 @cell
-def wg_heater_connector(
+def straight_heater_connector(
     heater_ports: List[Port],
     metal_width: float = 10.0,
     tlm_layers: Tuple[Layer] = (
@@ -240,10 +240,10 @@ def wg_heater_connector(
 
 
 @cell
-def wg_heater_connected(
+def straight_with_heater(
     length: float = 10.0,
     straight_heater: ComponentFactory = straight_heater,
-    via: ComponentFactory = wg_heater_connector,
+    via: ComponentFactory = straight_heater_connector,
     tlm_layers: Iterable[Layer] = (
         LAYER.VIA1,
         LAYER.M1,
@@ -290,9 +290,9 @@ def _demo_straight_heater():
 if __name__ == "__main__":
     # print(c.get_optical_ports())
     # c = straight_heater()
-    # c = wg_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
+    # c = straight_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
-    c = wg_heater_connected(length=200.0)
+    c = straight_with_heater(length=200.0)
     from pp.cell import print_cache
 
     print_cache()

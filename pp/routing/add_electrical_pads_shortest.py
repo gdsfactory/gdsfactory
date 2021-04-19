@@ -62,6 +62,6 @@ if __name__ == "__main__":
 
     c = pp.components.cross(length=100, layer=pp.LAYER.M3, port_type="dc")
     c = pp.components.mzi2x2(with_elec_connections=True)
-    c = pp.components.wg_heater_connected()
+    c = pp.components.straight_with_heater()
     cc = add_electrical_pads_shortest(component=c)
     cc.show()

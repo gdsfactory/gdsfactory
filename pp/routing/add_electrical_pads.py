@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # c = pp.components.mzi2x2(with_elec_connections=True)
     # c = add_electrical_pads(component=c, fanout_length=100)
 
-    c = pp.components.wg_heater_connected(length=200)
+    c = pp.components.straight_with_heater(length=200)
     c = add_electrical_pads(component=c)
     c.show()
 

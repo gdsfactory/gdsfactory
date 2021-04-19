@@ -5,7 +5,7 @@ from pp.components.component_sequence import component_sequence
 from pp.components.coupler import coupler
 from pp.components.extension import line
 from pp.components.straight import straight as straight_function
-from pp.components.straight_heater import wg_heater_connected
+from pp.components.straight_heater import straight_with_heater
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_ports
 from pp.routing.route_ports_to_side import route_elec_ports_to_side
@@ -19,7 +19,7 @@ def mzi_arm(
     L_top: float = 10.0,
     bend_radius: float = 10.0,
     bend: ComponentOrFactory = bend_euler,
-    straight_heater: ComponentOrFactory = wg_heater_connected,
+    straight_heater: ComponentOrFactory = straight_with_heater,
     straight: ComponentOrFactory = straight_function,
     with_elec_connections: bool = True,
     **cross_section_settings
@@ -32,7 +32,7 @@ def mzi_arm(
         L_top: 10.0, horizontal length
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        straight_heater: wg_heater_connected
+        straight_heater: straight_with_heater
         straight: straight
 
     ::
@@ -104,7 +104,7 @@ def mzi2x2(
     gap: float = 0.234,
     bend_radius: float = 10.0,
     bend: ComponentFactory = bend_euler,
-    straight_heater: ComponentFactory = wg_heater_connected,
+    straight_heater: ComponentFactory = straight_with_heater,
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
@@ -119,7 +119,7 @@ def mzi2x2(
         gap: 0.235
         bend_radius: 10.0
         bend: 90 degrees bend factory
-        straight_heater: wg_heater_connected or straight
+        straight_heater: straight_with_heater or straight
         straight: straight
         coupler_function: coupler
         with_elec_connections: add electrical pads
@@ -273,7 +273,7 @@ if __name__ == "__main__":
     # for p in c.ports.values():
     #     print(p.port_type)
     # c = mzi_arm(DL=100)
-    # c = mzi2x2(straight_heater=wg_heater_connected, with_elec_connections=True)
+    # c = mzi2x2(straight_heater=straight_with_heater, with_elec_connections=True)
     # c.write_gds("mzi.gds")
     # print(c)
     # print(hash(frozenset(c.settings.items())))

@@ -26,7 +26,7 @@ settings:
   sequence: AvHBhBHvA
   start_orientation: 0
   straight: straight
-  straight_heater: wg_heater_connected
+  straight_heater: straight_with_heater
   symbol_to_component:
     A:
     - bend_euler_R10
@@ -37,7 +37,7 @@ settings:
     - N0
     - W0
     H:
-    - wg_heater_connected_L60
+    - straight_with_heater_L60
     - W0
     - E0
     h:
