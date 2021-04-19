@@ -1,6 +1,5 @@
 from typing import Tuple
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
@@ -17,7 +16,6 @@ def mzi_lattice(
     mzi_factory: ComponentFactory = mzi_function,
     splitter: ComponentFactory = coupler_function,
     straight: ComponentFactory = straight_function,
-    pins: bool = False,
     **kwargs
 ) -> Component:
     r"""Mzi lattice filter.
@@ -55,7 +53,6 @@ def mzi_lattice(
         straight=straight,
         combiner_settings=combiner_settings,
         splitter_settings=splitter_settings,
-        pins=pins,
         **kwargs
     )
 
@@ -74,7 +71,6 @@ def mzi_lattice(
             with_splitter=False,
             delta_length=delta_length,
             straight=straight,
-            pins=pins,
             splitter_settings=splitter_settings,
             combiner_settings=combiner_settings,
             **kwargs
@@ -94,9 +90,6 @@ def mzi_lattice(
     for port in sprevious.get_ports_list(prefix="E"):
         c.add_port(port.name, port=port)
 
-    if pins:
-        pp.add_pins_to_references(c)
-
     return c
 
 
@@ -110,6 +103,6 @@ if __name__ == "__main__":
     # dl0 = [0, 50, 100]
 
     c = mzi_lattice(
-        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=10, pins=True
+        coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=10
     )
     c.show()

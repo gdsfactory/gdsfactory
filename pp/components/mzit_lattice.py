@@ -1,6 +1,5 @@
 from typing import Tuple
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.mzit import mzit
@@ -13,7 +12,6 @@ def mzit_lattice(
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
     delta_lengths: Tuple[Number, ...] = (10,),
     mzi_factory: ComponentFactory = mzit,
-    pins: bool = False,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
@@ -52,7 +50,6 @@ def mzit_lattice(
         coupler_length1=coupler_lengths[0],
         coupler_length2=coupler_lengths[1],
         delta_length=delta_lengths[0],
-        pins=pins,
     )
 
     couplers = [
@@ -62,7 +59,6 @@ def mzit_lattice(
             coupler_length2=coupler_length,
             coupler1=None,
             delta_length=delta_length,
-            pins=pins,
         )
         for coupler_length, coupler_gap, delta_length in zip(
             coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
@@ -81,8 +77,6 @@ def mzit_lattice(
     c.add_port("W2", port=cp1.ports["W2"])
     c.add_port("W3", port=cp1.ports["W3"])
 
-    if pins:
-        pp.add_pins_to_references(c)
     return c
 
 

@@ -1,6 +1,5 @@
 from typing import Optional
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -27,12 +26,14 @@ def coupler_ring(
     r"""Coupler for ring.
 
     Args:
-        coupler90: straight coupled to a 90deg bend.
-        bend: factory for bend
-        coupler_straight: two parallel coupled straight straights.
-        length_x: length of the parallel coupled straight straights.
         gap: spacing between parallel coupled straight straights.
         radius: of the bends.
+        length_x: length of the parallel coupled straight straights.
+        coupler90: straight coupled to a 90deg bend.
+        straight: factory for straight waveguides.
+        bend: factory for bend
+        coupler_straight: two parallel coupled straight straights.
+        snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: for straight and bend
         **cross_section_settings
 
@@ -49,7 +50,7 @@ def coupler_ring(
     """
     bend = bend or bend_euler
 
-    c = pp.Component()
+    c = Component()
     assert_on_2nm_grid(gap)
 
     # define subcells
@@ -71,6 +72,7 @@ def coupler_ring(
             gap=gap,
             length=length_x,
             snap_to_grid_nm=snap_to_grid_nm,
+            straight=straight,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )

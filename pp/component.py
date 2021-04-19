@@ -996,7 +996,7 @@ class Component(Device):
 
     def show(
         self,
-        show_ports: bool = True,
+        show_ports: bool = False,
         clears_cache: bool = True,
         show_subports: bool = False,
     ) -> None:
@@ -1010,7 +1010,7 @@ class Component(Device):
         if show_subports:
             add_pins_to_references(self)
 
-        show(self, clears_cache)
+        show(self, clears_cache=clears_cache)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2

@@ -1,6 +1,5 @@
 from typing import Dict, Optional, Union
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -24,7 +23,6 @@ def mzi(
     splitter: ComponentFactory = mmi1x2_function,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
-    pins: bool = False,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
 ) -> Component:
@@ -42,7 +40,6 @@ def mzi(
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
-        pins: add pins cell and child cells
         splitter_settings: settings dict for splitter function
         combiner_settings: settings dict for combiner function
 
@@ -164,8 +161,6 @@ def mzi(
             c.add_port(name=f"E{i}", port=port)
 
     rename_ports_by_orientation(c)
-    if pins:
-        pp.add_pins_to_references(c)
     return c
 
 
@@ -174,7 +169,7 @@ if __name__ == "__main__":
     # print(delta_length)
 
     # c = mzi(delta_length=delta_length, with_splitter=False)
-    c = mzi(delta_length=10)
+    # c = mzi(delta_length=10)
 
     c = mzi(delta_length=20)
 
