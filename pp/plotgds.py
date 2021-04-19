@@ -32,6 +32,7 @@ def plotgds(
     quickplot(
         gds,
         show_ports=show_ports,
+        show_subports=show_subports,
         label_ports=label_ports,
         label_aliases=label_aliases,
         new_window=new_window,
