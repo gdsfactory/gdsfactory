@@ -14,7 +14,7 @@ def loop_mirror(
     component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
 ) -> Component:
     """Returns Sagnac loop_mirror."""
-    c = pp.Component()
+    c = Component()
     component = pp.call_if_func(component)
     bend90 = pp.call_if_func(bend90)
     cref = c.add_ref(component)
@@ -32,7 +32,7 @@ def loop_mirror(
 
 @pp.cell
 def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
-    c = pp.Component()
+    c = Component()
     component = pp.call_if_func(component)
     mirror = loop_mirror(component=component, bend90=bend90)
     mirror_rotated = mirror.ref(rotation=90)
@@ -51,7 +51,7 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     13e-12*3e8/4.2*1e6
 
     """
-    c = pp.Component()
+    c = Component()
     lm = c << pp.call_if_func(loop_mirror)
     s = c << pp.call_if_func(spiral_external_io)
 

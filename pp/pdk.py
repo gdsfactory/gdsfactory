@@ -77,6 +77,9 @@ class Pdk:
         Args:
             length: of straight
             npoints: number of points
+            snap_to_grid_nm: snaps points a nm grid
+            cross_section: cross_section or function that returns a cross_section
+            **cross_section_settings
         """
         component = pp.components.straight(
             length=length,
@@ -104,7 +107,9 @@ class Pdk:
             radius
             angle: angle of arc (degrees)
             npoints: Number of points used per 360 degrees
-            layer: straight layer (defaults to tech.layer_wg)
+            snap_to_grid_nm: snaps points a nm grid
+            cross_section: cross_section or function that returns a cross_section
+            **cross_section_settings
         """
         component = pp.components.bend_circular(
             radius=radius or self.tech.bend_radius,
@@ -144,8 +149,9 @@ class Pdk:
                 If True: The curve will be scaled such that the endpoints match an arc
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
-            width: straight width (defaults to tech.wg_width)
-            layer: straight layer (defaults to tech.layer_wg)
+            snap_to_grid_nm: snaps points a nm grid
+            cross_section: cross_section or function that returns a cross_section
+            **cross_section_settings
         """
 
         component = pp.components.bend_euler(
@@ -209,8 +215,11 @@ class Pdk:
             radius: for the bend and coupler
             length_x: ring coupler length
             length_y: vertical straight length
-            pins: add pins
-            layer:
+            straight: straight waveguide factory
+            bend: bend waveguide factory
+            snap_to_grid_nm: snaps points a nm grid
+            cross_section: cross_section or function that returns a cross_section
+            **cross_section_settings
 
 
         .. code::

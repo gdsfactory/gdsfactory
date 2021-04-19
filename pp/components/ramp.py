@@ -12,7 +12,7 @@ def ramp(
     width2: Optional[float] = 8.0,
     layer: Layer = (1, 0),
 ) -> Component:
-    """Return a ramp component.
+    """Return a ramp component. Based on phidl.
 
     Args:
         length: Length of the ramp section.
