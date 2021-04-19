@@ -1,6 +1,5 @@
 from typing import Optional
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_ring import coupler_ring as coupler_ring_function
@@ -19,7 +18,6 @@ def ring_double(
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
-    pins: bool = False,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -34,7 +32,6 @@ def ring_double(
         coupler: ring coupler function
         straight: straight function
         bend: bend function
-        pins: add pins
         cross_section_factory: for straights
         **cross_section_settings
 
@@ -84,8 +81,6 @@ def ring_double(
     c.add_port("W0", port=cb.ports["W0"])
     c.add_port("E1", port=ct.ports["W0"])
     c.add_port("W1", port=ct.ports["E0"])
-    if pins:
-        pp.add_pins_to_references(c)
     return c
 
 

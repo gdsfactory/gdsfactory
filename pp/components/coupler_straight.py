@@ -1,21 +1,18 @@
 from typing import Optional
 
-from phidl.device_layout import CrossSection
-
-from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import strip
-from pp.path import component, straight
-from pp.types import CrossSectionFactory
+from pp.components.straight import straight as straight_function
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    straight: ComponentFactory = straight_function,
     snap_to_grid_nm: int = 1,
+    cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
     """Coupler_straight with two parallel straights.
@@ -23,44 +20,39 @@ def coupler_straight(
     Args:
         length: of straight
         gap: between straights
-        cross_section_factory:
+        straight: straight waveguide function
         snap_to_grid_nm
+        cross_section_factory:
         **cross_section_settings
-
-
     """
-    cross_section_factory = cross_section_factory or strip
+    component = Component()
 
-    cross_section_single = cross_section_factory(**cross_section_settings)
-    cladding_offset = cross_section_single.info["cladding_offset"]
-    layers_cladding = cross_section_single.info["layers_cladding"]
-    width = cross_section_single.info["width"]
-    layer = cross_section_single.info["layer"]
-
-    cross_section = CrossSection()
-    cross_section.add(width=width, offset=0, layer=layer, ports=["W0", "E0"])
-    cross_section.add(
-        width=width,
-        offset=gap + width,
-        layer=layer,
-        ports=["W1", "E1"],
+    straight_component = (
+        straight(
+            length=length,
+            snap_to_grid_nm=snap_to_grid_nm,
+            cross_section_factory=cross_section_factory,
+            **cross_section_settings
+        )
+        if callable(straight)
+        else straight
     )
 
-    p = straight(length=length, npoints=2)
-    c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
-    if "layers_cladding" in cross_section_single.info:
-        add_padding(
-            c,
-            default=cladding_offset,
-            right=cladding_offset,
-            left=0,
-            top=0,
-            bottom=cladding_offset,
-            layers=layers_cladding,
-        )
-    return c
+    top = component << straight_component
+    bot = component << straight_component
+
+    # bot.ymax = 0
+    # top.ymin = gap
+
+    top.movey(straight_component.width + gap)
+
+    component.add_port("W0", port=bot.ports["W0"])
+    component.add_port("W1", port=top.ports["W0"])
+    component.add_port("E0", port=bot.ports["E0"])
+    component.add_port("E1", port=top.ports["E0"])
+    return component
 
 
 if __name__ == "__main__":
     c = coupler_straight(width=1)
-    c.show()
+    c.show(show_ports=True)

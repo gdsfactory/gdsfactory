@@ -1,6 +1,5 @@
 from typing import Optional
 
-import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -20,7 +19,6 @@ def ring_single(
     coupler_ring: ComponentOrFactory = coupler_ring_function,
     straight: ComponentOrFactory = straight_function,
     bend: Optional[ComponentOrFactory] = None,
-    pins: bool = False,
     snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
@@ -34,10 +32,10 @@ def ring_single(
         radius: for the bend and coupler
         length_x: ring coupler length
         length_y: vertical straight length
-        coupler: ring coupler function
+        coupler_ring: ring coupler function
         straight: straight function
         bend: 90 degrees bend function
-        pins: add pins
+        snap_to_grid_nm: snaps to nm grid
         cross_section_factory: for straights
         **cross_section_settings
 
@@ -115,15 +113,16 @@ def ring_single(
 
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
-    if pins:
-        pp.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
-    c = ring_single(layer=(2, 0), cross_section_factory=pp.cross_section.pin, width=1)
+    # c = ring_single(layer=(2, 0), cross_section_factory=pp.cross_section.pin, width=1)
+
+    c = ring_single(width=2, gap=1)
     print(c.ports)
     c.show()
+
     # cc = pp.add_pins(c)
     # print(c.settings)
     # print(c.get_settings())

@@ -244,7 +244,6 @@ class Pdk:
             or self.get_cross_section_factory(),
             **cross_section_settings,
         )
-        self.add_pins(component)
         return component
 
     def mmi1x2(
@@ -379,7 +378,6 @@ class Pdk:
         splitter: Optional[ComponentFactory] = None,
         combiner: Optional[ComponentFactory] = None,
         with_splitter: bool = True,
-        pins: bool = False,
         splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
         combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
         bend_radius: Optional[float] = None,
@@ -397,7 +395,6 @@ class Pdk:
             splitter: splitter function
             combiner: combiner function
             with_splitter: if False removes splitter
-            pins: add pins cell and child cells
             combiner_settings: settings dict for combiner function
             splitter_settings: settings dict for splitter function
 
@@ -428,7 +425,6 @@ class Pdk:
             splitter=splitter or self.mmi1x2,
             combiner=combiner or self.mmi1x2,
             with_splitter=with_splitter,
-            pins=pins,
             splitter_settings=splitter_settings,
             combiner_settings=combiner_settings,
         )

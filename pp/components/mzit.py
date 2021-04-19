@@ -28,7 +28,6 @@ def mzit(
     straight_factory: ComponentFactory = straight_function,
     coupler1: Optional[ComponentFactory] = coupler_function,
     coupler2: ComponentFactory = coupler_function,
-    pins: bool = True,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings,
 ) -> Component:
@@ -210,16 +209,13 @@ def mzit(
 
     c.add_port("W1", port=cp2.ports["W1"])
     c.add_port("W0", port=cp2.ports["W0"])
-
-    if pins:
-        pp.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
-    # c = mzit(delta_length=20, pins=True)
+    # c = mzit(delta_length=20)
     c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     c.show()

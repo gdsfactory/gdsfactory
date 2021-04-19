@@ -9,7 +9,7 @@ They modify the geometry of a component (add pins, labels, grating couplers ...)
 
 """
 import json
-from typing import Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Callable, Dict, Iterable, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -280,7 +280,7 @@ def _add_outline(
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    function: Callable = add_pin_square_double,
+    function: Callable = add_pin_square_inside,
     port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_LAYER,
     **kwargs,
 ) -> None:
@@ -380,19 +380,21 @@ def add_pins_and_outline(
 
 def add_pins_to_references(
     component: Component,
-    references: Optional[List[ComponentReference]] = None,
     function: Callable = add_pins,
 ) -> None:
-    """Add pins to a Component.
+    """Add pins to Component references.
 
     Args:
         component: component
-        references: list of references, taken from component by default
         function: function to add pins
     """
-    references = references or component.references
-    for reference in references:
-        function(component=component, reference=reference)
+    references = component.references
+
+    if references:
+        for reference in references:
+            add_pins_to_references(component=reference.parent, function=function)
+    else:
+        function(component=component)
 
 
 @cell
@@ -463,8 +465,7 @@ def test_add_pins() -> None:
 
 
 if __name__ == "__main__":
-    test_add_pins()
-    # test_add_pins_recursive()
+    # test_add_pins()
 
     # c = pp.components.straight()
     # add_pins(c, function=add_pin_square)
@@ -487,13 +488,6 @@ if __name__ == "__main__":
     # cc = add_pins(c)
     # cc.show()
 
-    # test_add_pins()
-    # test_add_pins_recursive()
-
-    # from pp.components import mmi1x2
-    # from pp.components import bend_circular
-    # from pp.add_grating_couplers import add_grating_couplers
-
     # c = mmi1x2(width_mmi=5)
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 
@@ -504,3 +498,7 @@ if __name__ == "__main__":
     # c = pp.components.bend_circular()
     # print(cc.name)
     # cc.show()
+
+    c = pp.components.ring_single()
+    add_pins_to_references(c)
+    c.show()

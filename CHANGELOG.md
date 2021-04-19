@@ -21,6 +21,11 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+## Next release
+
+- remove `pins` kwargs from ring and mzi
+
+
 ## 2.4.7
 
 - better README
