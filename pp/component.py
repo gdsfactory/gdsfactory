@@ -602,10 +602,10 @@ class Component(Device):
         else:
             return self.name
 
-    def ports_on_grid(self, nm: int = 1) -> None:
+    def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
-            port.on_grid(nm=nm)
+            port.assert_on_grid(nm=nm)
 
     def get_ports_dict(
         self,

@@ -4,16 +4,8 @@ import numpy as np
 from numpy import float64
 
 
-def on_grid(x: float64, nm: int = 1) -> bool:
+def is_on_grid(x: float64, nm: int = 1) -> bool:
     return np.isclose(snap_to_grid(x, nm=nm), x)
-
-
-def on_1nm_grid(x):
-    return snap_to_grid(x) == x
-
-
-def on_2nm_grid(x):
-    return np.isclose(snap_to_2nm_grid(x), x)
 
 
 def assert_on_1nm_grid(x: float) -> None:
@@ -50,19 +42,19 @@ def test_snap_to_2nm_grid():
     assert snap_to_2nm_grid(3.1e-3) == 0.004
 
 
-def test_on_1nm_grid():
-    assert not on_1nm_grid(0.1e-3)
-    assert on_1nm_grid(1e-3)
+def test_is_on_1nm_grid():
+    assert not is_on_grid(0.1e-3)
+    assert is_on_grid(1e-3)
 
 
-def test_on_2nm_grid():
-    assert not on_2nm_grid(1.1e-3)
-    assert not on_2nm_grid(1e-3)
-    assert on_2nm_grid(2e-3)
+def test_is_on_2nm_grid():
+    assert not is_on_grid(1.1e-3, 2)
+    assert not is_on_grid(1e-3, 2)
+    assert is_on_grid(2e-3, 2)
 
 
 if __name__ == "__main__":
-    test_on_1nm_grid()
+    test_is_on_2nm_grid()
     # print(snap_to_grid(1.1e-3))
     # print(snap_to_2nm_grid(1.1e-3))
     # print(snap_to_2nm_grid(3.1e-3))
