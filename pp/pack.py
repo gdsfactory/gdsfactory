@@ -1,12 +1,11 @@
-"""Pack a list of components into as few components as possible.
-Adapted from phidl.Geometry.
+"""pack a list of components into as few components as possible.
+adapted from phidl.geometry.
 """
 
 from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 import rectpack
-from numpy import ndarray
 
 from pp.component import Component
 from pp.types import Coordinate, Number
@@ -15,7 +14,7 @@ from pp.types import Coordinate, Number
 def _pack_single_bin(
     rect_dict: Dict[int, Tuple[Number, Number]],
     aspect_ratio: Tuple[Number, Number],
-    max_size: ndarray,
+    max_size: Tuple[float, float],
     sort_by_area: bool,
     density: float,
     precision: float,
@@ -24,6 +23,14 @@ def _pack_single_bin(
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
+
+    Args:
+        rect_dict: dict of rectangles {id: (w, h)} to pack
+        aspect_ratio:
+        max_size: tuple of max X, Y size
+        sort_by_area: sorts components by area
+        density: of packing. Values closer to 1 require more computation to pack tighter
+        precision: Desired precision for rounding vertex coordinates.
 
     Returns:
         packed rectangles dict {id:(x,y,w,h)}
@@ -84,7 +91,7 @@ def _pack_single_bin(
 
 def pack(
     component_list: List[Component],
-    spacing: Number = 10,
+    spacing: float = 10.0,
     aspect_ratio: Tuple[Number, Number] = (1, 1),
     max_size: Union[Coordinate, Tuple[None, None]] = (None, None),
     sort_by_area: bool = True,
@@ -92,6 +99,7 @@ def pack(
     precision: float = 1e-2,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
+    Adapted from phidl.geometry
 
     Args:
         component_list: Must be a list or tuple of Components

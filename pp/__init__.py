@@ -56,6 +56,7 @@ from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points, add_padding_container
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
+from pp.fill import fill_rectangle
 from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.grid import grid
@@ -85,6 +86,7 @@ __all__ = [
     "add_pins",
     "add_pins_to_references",
     "add_termination",
+    "fill_rectangle",
     "import_gds",
     "c",
     "components",
