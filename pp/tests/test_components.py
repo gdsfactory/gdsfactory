@@ -26,3 +26,16 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
     """Avoid regressions in port names and locations."""
     if component.ports:
         num_regression.check(component.get_ports_array())
+
+
+def test_assert_ports_on_grid(component: Component):
+    component.assert_ports_on_grid()
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.components.coupler(length=1.0 + 1e-4)
+    # c = pp.components.coupler()
+    # c.assert_ports_on_grid()
+    print(c.ports)

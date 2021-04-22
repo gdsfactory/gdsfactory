@@ -10,7 +10,7 @@ from phidl.device_layout import CellArray, DeviceReference
 import pp
 from pp.component import Component
 from pp.port import auto_rename_ports, read_port_markers
-from pp.snap import on_grid, snap_to_grid
+from pp.snap import is_on_grid, snap_to_grid
 from pp.types import Layer
 
 
@@ -348,8 +348,8 @@ def test_import_gds_snap_to_grid() -> None:
     assert len(c.get_polygons()) == 8
 
     for x, y in c.get_polygons()[0]:
-        assert on_grid(x, 5)
-        assert on_grid(y, 5)
+        assert is_on_grid(x, 5)
+        assert is_on_grid(y, 5)
 
 
 def test_import_gds_hierarchy() -> None:

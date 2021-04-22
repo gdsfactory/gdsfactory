@@ -148,7 +148,7 @@ class Port(PortPhidl):
     def snap_to_grid(self, nm: int = 1) -> None:
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
-    def on_grid(self, nm: int = 1) -> None:
+    def assert_on_grid(self, nm: int = 1) -> None:
 
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
