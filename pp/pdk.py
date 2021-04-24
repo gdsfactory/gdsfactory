@@ -39,13 +39,18 @@ class Pdk:
     def add_pins(self, component: Component) -> None:
         add_pins(component)
 
-    def get_component(self, component_type: str, **settings):
+    def get_component(
+        self,
+        component_type: str,
+        **settings,
+    ):
         """Returns a ComponentFactory.
         Takes default settings from tech.component_settings
         settings can be overwriten with kwargs
 
         Args:
             component_type:
+            **settings
         """
         if component_type not in component_factory:
             raise ValueError(
@@ -72,7 +77,7 @@ class Pdk:
         cross_section_factory: Optional[CrossSectionFactory] = None,
         **cross_section_settings,
     ) -> Component:
-        """Returns a Straight straight.
+        """Returns a Straight waveguide.
 
         Args:
             length: of straight
