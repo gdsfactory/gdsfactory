@@ -56,7 +56,7 @@ def _get_bend_ports(bend: Component) -> List[Port]:
 
 
 def _get_straight_ports(straight: Component) -> List[Port]:
-    """Return West and east facing ports for straight straight.
+    """Return West and east facing ports for straight waveguide.
 
     Any standard straight wire/straight has two ports:
     one facing west and one facing east
@@ -457,7 +457,7 @@ def round_corners(
         straight_factory: the straight factory to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
-        mirror_straight: mirror_straight straight
+        mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
         auto_widen: for lower loss in long routes
     """
@@ -586,7 +586,7 @@ def round_corners(
         port_index_out = 1
         if with_taper:
             # Second taper:
-            # Origin at end of straight straight, starting from east side of taper
+            # Origin at end of straight waveguide, starting from east side of taper
 
             taper_origin = wg_ref.ports[pname_east]
             pname_west, pname_east = [p.name for p in _get_straight_ports(taper)]

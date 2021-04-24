@@ -16,7 +16,7 @@ def coupler_asymmetric(
     cross_section_factory: CrossSectionFactory = strip,
     **cross_section_settings,
 ) -> Component:
-    """bend coupled to straight straight
+    """bend coupled to straight waveguide
 
     Args:
         bend:
