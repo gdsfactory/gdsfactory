@@ -26,13 +26,13 @@ def coupler_ring(
     r"""Coupler for ring.
 
     Args:
-        gap: spacing between parallel coupled straight straights.
+        gap: spacing between parallel coupled straight waveguides.
         radius: of the bends.
-        length_x: length of the parallel coupled straight straights.
+        length_x: length of the parallel coupled straight waveguides.
         coupler90: straight coupled to a 90deg bend.
         straight: factory for straight waveguides.
         bend: factory for bend
-        coupler_straight: two parallel coupled straight straights.
+        coupler_straight: two parallel coupled straight waveguides.
         snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: for straight and bend
         **cross_section_settings

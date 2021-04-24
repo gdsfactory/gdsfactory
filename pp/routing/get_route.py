@@ -26,7 +26,7 @@ To generate a straight route:
 
  A route is a dict with 3 keys:
 
-- references: list of references for tapers, bends and straight straights
+- references: list of references for tapers, bends and straight waveguides
 - ports: a dict of port name to Port, usually two ports "input" and "output"
 - length: a float with the length of the route
 
@@ -175,7 +175,7 @@ def get_route_from_waypoints(
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight straights
+        straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
         bend_radius: of straights
         wg_width: for taper
@@ -217,7 +217,7 @@ def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight straights
+        straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
         bend_radius: of straights
         wg_width: for taper
@@ -240,7 +240,7 @@ def get_route_from_waypoints_electrical(
     Args:
         waypoints: Coordinates that define the route
         bend_factory: function that returns bends
-        straight_factory: function that returns straight straights
+        straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
         wg_width: for taper
         layer: for the route
