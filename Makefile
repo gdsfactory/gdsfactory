@@ -1,6 +1,6 @@
 help:
 	@echo 'make install:          Install package, hook, notebooks and gdslib'
-	@echo 'make waveguide:        Build a sample waveguide'
+	@echo 'make gds:        Build a sample GDS straight waveguide'
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
@@ -10,8 +10,8 @@ install: gdslib
 update:
 	pre-commit autoupdate --bleeding-edge
 
-waveguide:
-	python pp/components/waveguide.py
+gds:
+	python pp/components/straight.py
 
 gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
