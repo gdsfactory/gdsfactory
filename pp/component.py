@@ -908,6 +908,25 @@ class Component(Device):
                 D.labels = new_labels
         return self
 
+    def extract(
+        self,
+        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+    ) -> Device:
+        """Extract polygons from a Component.
+        adapted from phidl.geometry.
+        """
+        from pp.name import clean_value
+
+        component = Component(f"{self.name}_{clean_value(layers)}")
+        if type(layers) not in (list, tuple):
+            raise ValueError("layers needs to be a list or tuple")
+        poly_dict = self.get_polygons(by_spec=True)
+        parsed_layer_list = [_parse_layer(layer) for layer in layers]
+        for layer, polys in poly_dict.items():
+            if _parse_layer(layer) in parsed_layer_list:
+                component.add_polygon(polys, layer=layer)
+        return component
+
     def copy(self) -> Device:
         return copy(self)
 
@@ -1241,12 +1260,28 @@ def demo_component(port):
     return c
 
 
-if __name__ == "__main__":
-    test_get_layers()
+def test_extract():
     import pp
 
-    c = pp.components.bend_circular()
-    c.write_gds_with_metadata("bend.gds")
+    c = pp.c.straight(layer=pp.LAYER.WG, layers_cladding=(pp.LAYER.WGCLAD,))
+    c2 = c.extract(layers=[pp.LAYER.WG])
+
+    assert len(c.polygons) == 2
+    assert len(c2.polygons) == 1
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.c.straight(layers_cladding=(pp.LAYER.WGCLAD,))
+    c2 = c.extract(layers=[(1, 0)])
+    c.show()
+
+    # test_get_layers()
+    # import pp
+
+    # c = pp.components.bend_circular()
+    # c.write_gds_with_metadata("bend.gds")
     # c.pprint()
 
     # c.info["curvature_info"] = 10

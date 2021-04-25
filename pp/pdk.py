@@ -1,5 +1,6 @@
 import dataclasses
 import pathlib
+from abc import abstractmethod
 from typing import IO, Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -66,8 +67,11 @@ class Pdk:
         self.add_pins(component)
         return component
 
+    @abstractmethod
     def get_cross_section_factory(self) -> CrossSectionFactory:
-        return strip
+        raise NotImplementedError(
+            "get_cross_section_factory", f"not implemented in {self.__class__.__name__}"
+        )
 
     def straight(
         self,
@@ -817,10 +821,16 @@ class Pdk:
 class PdkSiliconCband(Pdk):
     tech: Tech = TECH_SILICON_C
 
+    def get_cross_section_factory(self) -> CrossSectionFactory:
+        return strip
+
 
 @dataclasses.dataclass
 class PdkNitrideCband(Pdk):
     tech: Tech = TECH_NITRIDE_C
+
+    def get_cross_section_factory(self):
+        return strip
 
 
 @dataclasses.dataclass
