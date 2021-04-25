@@ -57,7 +57,6 @@ from pp.components.cutback_bend import cutback_bend180
 from pp.components.cutback_component import cutback_component
 from pp.components.cutback_component import cutback_component_flipped
 
-
 from pp.components.pcm.litho_calipers import litho_calipers
 from pp.components.pcm.litho_star import litho_star
 from pp.components.pcm.litho_steps import litho_steps
@@ -120,6 +119,8 @@ from pp.components.mzit import mzit
 from pp.components.mzi_lattice import mzi_lattice
 from pp.components.mzit_lattice import mzit_lattice
 from pp.components.loop_mirror import loop_mirror
+from pp.components.fiber import fiber
+from pp.components.fiber_array import fiber_array
 
 # level 2 components
 from pp.components.awg import awg
@@ -173,6 +174,8 @@ component_factory = dict(
     delay_snake=delay_snake,
     disk=disk,
     ellipse=ellipse,
+    fiber=fiber,
+    fiber_array=fiber_array,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
