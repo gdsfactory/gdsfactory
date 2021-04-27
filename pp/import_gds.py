@@ -227,8 +227,10 @@ def import_gds(
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
 
     """
+    if not pathlib.Path(gdspath).exists():
+        raise FileNotFoundError(f"No file {gdspath} found")
     gdsii_lib = gdspy.GdsLibrary()
-    gdsii_lib.read_gds(gdspath)
+    gdsii_lib.read_gds(str(gdspath))
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
 
@@ -417,7 +419,7 @@ if __name__ == "__main__":
     c = demo_import_gds_markers()
     # test_import_gds_snap_to_grid()
 
-    # gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
-    # c = import_gds(gdspath, snap_to_grid_nm=5)
-    # print(c)
-    # c.show()
+    gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
+    c = import_gds(gdspath, snap_to_grid_nm=5)
+    print(c)
+    c.show()
