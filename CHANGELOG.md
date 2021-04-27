@@ -27,6 +27,8 @@ from pydantic import validate_arguments
 - remove `pins` kwargs from ring and mzi
 - simpler coupler straight
 - renamed `_get` to `get` in LayerStack
+- import_gds raise FileNotFoundError
+- import_gds sends gdspy str(gdspath)
 
 ## 2.4.7
 
