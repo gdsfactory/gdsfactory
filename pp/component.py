@@ -981,35 +981,14 @@ class Component(Device):
 
     def plot(
         self,
-        show_ports: bool = True,
-        show_subports: bool = False,
-        label_ports: bool = True,
-        label_aliases: bool = False,
-        new_window: bool = False,
         clears_cache: bool = True,
     ) -> None:
-        """Plot component in matplotlib
-
-        Args:
-            show_ports: True
-            show_subports:
-            label_ports:
-            label_aliases:
-            new_window
-
-        """
+        """Plot component in matplotlib"""
         from phidl import quickplot as plot
 
         from pp.cell import clear_cache
 
-        plot(
-            self,
-            show_ports=show_ports,
-            show_subports=show_subports,
-            label_ports=label_ports,
-            label_aliases=label_aliases,
-            new_window=new_window,
-        )
+        plot(self)
         if clears_cache:
             clear_cache()
 
@@ -1275,6 +1254,7 @@ if __name__ == "__main__":
 
     c = pp.c.straight(layers_cladding=(pp.LAYER.WGCLAD,))
     c2 = c.extract(layers=[(1, 0)])
+    c2.plot(show_subports=True)
     c.show()
 
     # test_get_layers()

@@ -3,7 +3,6 @@
 functions:
 
     - pp.show(): writes and shows the GDS in Klayout using klive
-    - pp.plotgds(): plots GDS in matplotlib
     - pp.import_gds(): returns a Component from a GDS
 
 classes:
@@ -57,13 +56,13 @@ from pp.add_padding import add_padding, get_padding_points, add_padding_containe
 from pp.add_pins import add_pins, add_pins_to_references
 from pp.import_gds import import_gds
 from pp.fill import fill_rectangle
-from pp.plotgds import plotgds
 from pp.pack import pack
 from pp.grid import grid
 from pp.offset import offset
 from pp.boolean import boolean
 from pp.rotate import rotate
 from pp.snap import snap_to_grid
+from pp.plot import set_plot_options
 
 
 c = components
@@ -101,7 +100,6 @@ __all__ = [
     "klive",
     "load_component",
     "offset",
-    "plotgds",
     "pack",
     "plot",
     "path",
@@ -112,6 +110,7 @@ __all__ = [
     "routing",
     "show",
     "snap_to_grid",
+    "set_plot_options",
     "types",
     "write_doe",
     "Port",
