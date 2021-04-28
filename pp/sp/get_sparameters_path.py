@@ -23,7 +23,11 @@ def get_sparameters_path(
         layer_to_thickness_nm: GDSlayer to thickness (nm)
     """
     dirpath = pathlib.Path(dirpath)
-    dirpath = dirpath / component.function_name if component.function_name else dirpath
+    dirpath = (
+        dirpath / component.function_name
+        if hasattr(component, "function_name")
+        else dirpath
+    )
     dirpath.mkdir(exist_ok=True, parents=True)
     material2nm = {
         layer_to_material[layer]: layer_to_thickness_nm[layer]

@@ -47,3 +47,4 @@ if __name__ == "__main__":
     # print(c.length)
     # print(c.ports)
     c.show()
+    c.plot()
