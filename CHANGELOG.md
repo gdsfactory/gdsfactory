@@ -22,6 +22,10 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.4.9
+
+- rename pp.plot file to pp.set_plot_options to avoid issues with pp.plot function
+
 ## 2.4.8
 
 - remove `pins` kwargs from ring and mzi
