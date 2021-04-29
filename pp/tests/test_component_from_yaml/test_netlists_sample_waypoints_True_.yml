@@ -13,17 +13,10 @@ instances:
   b:
     component: pad_array
     settings:
-      height: 100
-      layer:
-      - 49
-      - 0
       n: 6
+      pitch: 150
       port_list:
       - N
-      spacing:
-      - 150
-      - 0
-      width: 100
   bend_euler_R5_W500n_-2.375_597.625:
     component: bend_euler
     settings:
@@ -73,17 +66,10 @@ instances:
   t:
     component: pad_array
     settings:
-      height: 100
-      layer:
-      - 49
-      - 0
       n: 6
+      pitch: 150
       port_list:
       - S
-      spacing:
-      - 150
-      - 0
-      width: 100
   taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
     component: taper
     settings:

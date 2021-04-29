@@ -4,7 +4,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
 from pp.layers import LAYER
-from pp.types import ComponentFactory
+from pp.types import ComponentOrFactory
 
 WIRE_WIDTH = 10.0
 
@@ -20,7 +20,6 @@ def pad(
         height: pad height
         layer: pad layer
 
-
     """
     c = Component()
     _c = compass(size=(width, height), layer=layer).ref()
@@ -32,32 +31,29 @@ def pad(
 
 @cell
 def pad_array(
-    pad: ComponentFactory = pad,
-    spacing: Tuple[int, int] = (150.0, 0.0),
+    pad: ComponentOrFactory = pad,
+    pitch: float = 150.0,
     n: int = 6,
     port_list: List[str] = ("N",),
-    width: float = 100.0,
-    height: float = 100.0,
-    layer: Tuple[int, int] = LAYER.M3,
+    **pad_settings,
 ) -> Component:
     """array of rectangular pads
 
     Args:
         pad: pad element
-        spacing: (x, y) spacing
+        pitch: x spacing
         n: number of pads
         port_list: list of port orientations (N, S, W, E) per pad
-        width: pad width
-        height: pad height
-        layer: pad layer
+        pad_settings: settings for pad if pad is callable
+
 
     """
     c = Component()
-    pad = pad(width=width, height=height, layer=layer) if callable(pad) else pad
+    pad = pad(**pad_settings) if callable(pad) else pad
 
     for i in range(n):
         p = c << pad
-        p.x = i * spacing[0]
+        p.x = i * pitch
         for port_name in port_list:
             port_name_new = f"{port_name}{i}"
             c.add_port(port=p.ports[port_name], name=port_name_new)
