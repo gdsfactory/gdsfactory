@@ -7,7 +7,7 @@ jsondiff
 klayout
 numpy
 pandas
-phidl
+phidl>=1.5.0
 picwriter
 pyqtree
 qrcode
