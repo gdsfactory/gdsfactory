@@ -28,14 +28,13 @@ def coupler_asymmetric(
         **cross_section_settings
 
     .. code::
-                    dx
-                 |-----|
-                  _____ E1
-                 /         |
-           _____/          |
-      gap  ____________    |  dy
-                        E0
-
+                        dx
+                     |-----|
+                      _____ E1
+                     /         |
+               _____/          |
+          gap  ____________    |  dy
+                            E0
 
     """
     cross_section_factory = cross_section_factory or strip
