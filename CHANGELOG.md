@@ -22,13 +22,15 @@ from pydantic import validate_arguments
 
 ```
 
-## Next release
+## 2.4.8
 
 - remove `pins` kwargs from ring and mzi
 - simpler coupler straight
 - renamed `_get` to `get` in LayerStack
 - import_gds raise FileNotFoundError
 - import_gds sends gdspy str(gdspath)
+- remove pp.plotgds, as you can just do component.plot()
+- add pp.set_plot_options() to be consistent with latest 1.5.0 phidl release
 
 ## 2.4.7
 

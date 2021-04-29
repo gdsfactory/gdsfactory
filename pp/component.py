@@ -1053,6 +1053,7 @@ class Component(Device):
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
+        """Write component in GDS, ports in CSV and metadata (component settings) in JSON"""
         gdspath = self.write_gds(*args, **kwargs)
         ports_path = gdspath.with_suffix(".ports")
         json_path = gdspath.with_suffix(".json")

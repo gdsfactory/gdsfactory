@@ -12,7 +12,7 @@ from pp.component import Component
 from pp.components import straight
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.routing.manhattan import round_corners
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -28,11 +28,11 @@ def spiral_external_io(
     y_straight_inner_top: float = 0.0,
     dx: float = 3.0,
     dy: float = 3.0,
-    bend90_function: ComponentFactory = bend_circular,
+    bend90_function: Optional[ComponentOrFactory] = None,
     bend180_function: ComponentFactory = bend_circular180,
     bend_radius: float = 50.0,
     wg_width: float = 0.5,
-    straight_factory: ComponentFactory = straight,
+    straight_factory: Optional[ComponentOrFactory] = None,
     straight_factory_fall_back_no_taper: None = None,
     taper: Optional[ComponentFactory] = None,
     cutback_length: Optional[float] = None,
@@ -57,6 +57,10 @@ def spiral_external_io(
         taper
 
     """
+
+    straight_factory = straight_factory or straight
+    bend90_function = bend90_function or bend_circular
+
     if straight_factory_fall_back_no_taper is None:
         straight_factory_fall_back_no_taper = straight_factory
 
