@@ -25,8 +25,8 @@ def _groups(
 
 
 def u_bundle_direct(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     start_straight: float = 0.01,
@@ -39,8 +39,8 @@ def u_bundle_direct(
     r"""
 
     Args:
-        start_ports: list of start ports
-        end_ports: list of end ports
+        ports1: list of start ports
+        ports2: list of end ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         separation: between straights
@@ -87,8 +87,8 @@ def u_bundle_direct(
     """
 
     routes = u_bundle_direct_routes(
-        start_ports,
-        end_ports,
+        ports1,
+        ports2,
         separation=separation,
         start_straight=start_straight,
         end_straight=end_straight,
@@ -106,8 +106,8 @@ def u_bundle_direct(
 
 
 def u_bundle_direct_routes(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     start_straight: float = 0.01,
@@ -118,36 +118,36 @@ def u_bundle_direct_routes(
     **routing_func_params
 ) -> List[ndarray]:
 
-    nb_ports = len(start_ports)
-    for p in start_ports:
+    nb_ports = len(ports1)
+    for p in ports1:
         p.angle = p.angle % 360
 
-    for p in end_ports:
+    for p in ports2:
         p.angle = p.angle % 360
 
-    if len(end_ports) != nb_ports:
+    if len(ports2) != nb_ports:
         raise ValueError(
             "Number of start ports should match number of end ports.\
         Got {} {}".format(
-                len(start_ports), len(end_ports)
+                len(ports1), len(ports2)
             )
         )
-    if len(set([p.angle for p in start_ports + end_ports])) > 1:
+    if len(set([p.angle for p in ports1 + ports2])) > 1:
         raise ValueError(
             "All ports should have the same angle\
         , got \n{}\n{}".format(
-                start_ports, end_ports
+                ports1, ports2
             )
         )
 
-    xs_end = [p.x for p in end_ports]
-    ys_end = [p.y for p in end_ports]
+    xs_end = [p.x for p in ports2]
+    ys_end = [p.y for p in ports2]
 
     x_cut = 0.5 * (min(xs_end) + max(xs_end))
     y_cut = 0.5 * (min(ys_end) + max(ys_end))
 
     # Find axis
-    angle_start = start_ports[0].angle
+    angle_start = ports1[0].angle
     if angle_start in [0, 180]:
         axis = "X"
         cut = y_cut
@@ -156,19 +156,19 @@ def u_bundle_direct_routes(
         cut = x_cut
 
     # Get groups (below, above) or (left, right)
-    group1, group2 = _groups(start_ports, cut, axis=axis)
+    group1, group2 = _groups(ports1, cut, axis=axis)
 
     # Sort ports to make them easy to connect
     if axis == "X":
         group1.sort(key=lambda p: -p.y)
         group2.sort(key=lambda p: p.y)
 
-        end_ports.sort(key=lambda p: p.y)
-        end_group1 = end_ports[: len(group1)]
-        end_group2 = end_ports[len(group1) :]
+        ports2.sort(key=lambda p: p.y)
+        end_group1 = ports2[: len(group1)]
+        end_group2 = ports2[len(group1) :]
         end_group2.sort(key=lambda p: -p.y)
 
-        xs_start = [p.x for p in start_ports]
+        xs_start = [p.x for p in ports1]
 
         if angle_start == 0:
             dx = xs_start[0] - xs_end[0]
@@ -180,12 +180,12 @@ def u_bundle_direct_routes(
         group1.sort(key=lambda p: -p.x)
         group2.sort(key=lambda p: p.x)
 
-        end_ports.sort(key=lambda p: p.x)
-        end_group1 = end_ports[: len(group1)]
-        end_group2 = end_ports[len(group1) :]
+        ports2.sort(key=lambda p: p.x)
+        end_group1 = ports2[: len(group1)]
+        end_group2 = ports2[len(group1) :]
         end_group2.sort(key=lambda p: -p.x)
 
-        ys_start = [p.y for p in start_ports]
+        ys_start = [p.y for p in ports1]
 
         if angle_start == 90:
             dy = ys_start[0] - ys_end[0]
@@ -232,8 +232,8 @@ def u_bundle_direct_routes(
 
 
 def u_bundle_indirect(
-    start_ports,
-    end_ports,
+    ports1,
+    ports2,
     route_filter=get_route_from_waypoints,
     separation=5.0,
     extension_length=0.0,
@@ -246,8 +246,8 @@ def u_bundle_indirect(
     r"""
 
     Args:
-        start_ports: list of start ports
-        end_ports: list of end ports
+        ports1: list of start ports
+        ports2: list of end ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
     Returns:
@@ -300,8 +300,8 @@ def u_bundle_indirect(
     """
 
     routes = u_bundle_indirect_routes(
-        start_ports,
-        end_ports,
+        ports1,
+        ports2,
         separation=separation,
         start_straight=start_straight,
         end_straight=end_straight,
@@ -316,8 +316,8 @@ def u_bundle_indirect(
 
 
 def u_bundle_indirect_routes(
-    start_ports,
-    end_ports,
+    ports1,
+    ports2,
     routing_func=generate_manhattan_waypoints,
     separation=5.0,
     extension_length=0.0,
@@ -328,46 +328,46 @@ def u_bundle_indirect_routes(
     **routing_func_params
 ):
 
-    nb_ports = len(start_ports)
+    nb_ports = len(ports1)
 
-    for p in start_ports:
+    for p in ports1:
         p.angle = p.angle % 360
 
-    for p in end_ports:
+    for p in ports2:
         p.angle = p.angle % 360
 
-    if len(end_ports) != nb_ports:
+    if len(ports2) != nb_ports:
         raise ValueError(
             "Number of start ports should match number of end ports.\
         Got {} {}".format(
-                len(start_ports), len(end_ports)
+                len(ports1), len(ports2)
             )
         )
 
-    if len(set([p.angle for p in start_ports])) > 1:
+    if len(set([p.angle for p in ports1])) > 1:
         raise ValueError(
             "All start port angles should be the same.\
         Got {}".format(
-                start_ports
+                ports1
             )
         )
 
-    if len(set([p.angle for p in end_ports])) > 1:
+    if len(set([p.angle for p in ports2])) > 1:
         raise ValueError(
             "All end port angles should be the same.\
         Got {}".format(
-                end_ports
+                ports2
             )
         )
 
-    xs_end = [p.x for p in end_ports]
-    ys_end = [p.y for p in end_ports]
+    xs_end = [p.x for p in ports2]
+    ys_end = [p.y for p in ports2]
 
     """
     # Compute the bundle axis
     """
 
-    if start_ports[0].angle in [0, 180]:
+    if ports1[0].angle in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -380,10 +380,10 @@ def u_bundle_indirect_routes(
 
     if axis == "X":
         y_cut = 0.5 * (min(ys_end) + max(ys_end))
-        group1 = [p for p in start_ports if p.y <= y_cut]
-        group2 = [p for p in start_ports if p.y > y_cut]
+        group1 = [p for p in ports1 if p.y <= y_cut]
+        group2 = [p for p in ports1 if p.y > y_cut]
 
-        if start_ports[0].angle == 0 and end_ports[0].angle == 180:
+        if ports1[0].angle == 0 and ports2[0].angle == 180:
             """
                  X->
             <-D
@@ -393,7 +393,7 @@ def u_bundle_indirect_routes(
             group1_route_directives = ["north", "west"]
             group2_route_directives = ["south", "west"]
 
-        elif start_ports[0].angle == 180 and end_ports[0].angle == 0:
+        elif ports1[0].angle == 180 and ports2[0].angle == 0:
             """
             <-X
                  D->
@@ -408,10 +408,10 @@ def u_bundle_indirect_routes(
 
     if axis == "Y":
         x_cut = 0.5 * (min(xs_end) + max(xs_end))
-        group1 = [p for p in start_ports if p.x <= x_cut]
-        group2 = [p for p in start_ports if p.x > x_cut]
+        group1 = [p for p in ports1 if p.x <= x_cut]
+        group2 = [p for p in ports1 if p.x > x_cut]
 
-        if start_ports[0].angle == 90 and end_ports[0].angle == 270:
+        if ports1[0].angle == 90 and ports2[0].angle == 270:
             """
 
             ^     ^
@@ -425,7 +425,7 @@ def u_bundle_indirect_routes(
             group1_route_directives = ["east", "south"]
             group2_route_directives = ["west", "south"]
 
-        elif start_ports[0].angle == 270 and end_ports[0].angle == 90:
+        elif ports1[0].angle == 270 and ports2[0].angle == 90:
             """
                ^
                |
@@ -508,16 +508,16 @@ def u_bundle_indirect_routes(
         "end_straight_offset": end_straight_offset,
     }
 
-    end_ports.sort(key=lambda p: p.y)
+    ports2.sort(key=lambda p: p.y)
     conns = []
     if tmp_ports1:
         conn1 = u_bundle_direct_routes(
-            tmp_ports1, end_ports[: len(tmp_ports1)], **bundle_params
+            tmp_ports1, ports2[: len(tmp_ports1)], **bundle_params
         )
         conns.append(conn1)
     if tmp_ports2:
         conn2 = u_bundle_direct_routes(
-            tmp_ports2, end_ports[len(tmp_ports1) :], **bundle_params
+            tmp_ports2, ports2[len(tmp_ports1) :], **bundle_params
         )
         conns.append(conn2)
     if len(conns) > 1:

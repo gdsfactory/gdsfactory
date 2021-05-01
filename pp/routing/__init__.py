@@ -19,10 +19,13 @@ from pp.routing.get_route import (
     get_route_from_waypoints,
     get_route_from_waypoints_electrical,
 )
+from pp.routing.get_route_sbend import get_route_sbend
+from pp.routing.get_route_sbend_bundle import get_route_sbend_bundle
 from pp.routing.manhattan import route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_ports_to_side import route_elec_ports_to_side, route_ports_to_side
 from pp.routing.route_south import route_south
+from pp.routing.sort_ports import sort_ports
 
 __all__ = [
     "add_electrical_pads",
@@ -34,6 +37,8 @@ __all__ = [
     "get_bundle_path_length_match",
     "get_bundle_from_waypoints",
     "get_route",
+    "get_route_sbend",
+    "get_route_sbend_bundle",
     "get_route_electrical",
     "get_route_from_waypoints",
     "get_route_from_waypoints_electrical",
@@ -46,6 +51,7 @@ __all__ = [
     "route_ports_to_side",
     "route_ports_to_side",
     "route_south",
+    "sort_ports",
 ]
 
 

@@ -45,8 +45,6 @@ def pad_array(
         n: number of pads
         port_list: list of port orientations (N, S, W, E) per pad
         pad_settings: settings for pad if pad is callable
-
-
     """
     c = Component()
     pad = pad(**pad_settings) if callable(pad) else pad

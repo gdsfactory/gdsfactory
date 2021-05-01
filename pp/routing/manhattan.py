@@ -40,7 +40,7 @@ def _get_unique_port_facing(ports: Dict[str, Port], orientation: int = 0) -> Lis
     return ports
 
 
-def _get_bend_ports(bend: Component) -> List[Port]:
+def _get_bports2(bend: Component) -> List[Port]:
     """Returns West and North facing ports for bend.
 
     Any standard bend/corner has two ports: one facing west and one facing north
@@ -377,7 +377,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = [p.midpoint for p in _get_bend_ports(bend_cell)]
+    b1, b2 = [p.midpoint for p in _get_bports2(bend_cell)]
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -508,7 +508,7 @@ def round_corners(
         p0_straight, p1
     )
 
-    pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
+    pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
 
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
@@ -620,7 +620,7 @@ def generate_manhattan_waypoints(
         bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
     )
 
-    pname_west, pname_north = [p.name for p in _get_bend_ports(bend90)]
+    pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
 
     # if hasattr(bend90, "dy"):
     #     bsy = bsx = bend90.dy

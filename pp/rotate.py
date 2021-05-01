@@ -9,14 +9,14 @@ def rotate(
     angle: int = 90,
     rename_ports: bool = True,
 ) -> Component:
-    """Returns rotated component inside a container
+    """Returns rotated component inside a new component.
 
     Args:
         component:
         angle: in degrees
-        rename_ports: rename_ports_by_orientation
+        rename_ports: renames ports by orientation (E,W,S,N)
     """
-    c = Component(f"{component.name}_r")
+    c = Component()
     cr = c.add_ref(component)
     cr.rotate(angle)
     c.ports = cr.ports

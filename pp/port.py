@@ -21,6 +21,7 @@ from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import phidl.geometry as pg
+from numpy import ndarray
 from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
@@ -144,6 +145,13 @@ class Port(PortPhidl):
             new_port.uid = self.uid
             Port._next_uid -= 1
         return new_port
+
+    def get_extended_midpoint(self, length: float = 1.0) -> ndarray:
+        """Returns an extended midpoint"""
+        angle = self.orientation
+        c = np.cos(angle)
+        s = np.sin(angle)
+        return self.midpoint + length * np.array([c, s])
 
     def snap_to_grid(self, nm: int = 1) -> None:
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3

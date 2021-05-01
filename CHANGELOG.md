@@ -21,6 +21,14 @@ from pydantic import validate_arguments
 @contract(length='Real,>=0', width='float,>=0')
 
 ```
+## next release
+
+- add pp.routing.sort_ports
+- add pp.routing.get_route_sbend for a single route
+- add pp.routing.get_route_sbend_bundle for a bundle of Sbend routes
+- rename start_ports, end_ports with ports1 and ports2
+- straight_with_heater fixed connector
+- straight_with_heater accepts port_orientation_input and port_orientation_output
 
 ## 2.4.9
 
