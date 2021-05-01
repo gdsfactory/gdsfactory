@@ -31,7 +31,7 @@ def add_pin_triangle(
     component: Component,
     port: Port,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Tuple[int, int] = LAYER.TEXT,
+    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add triangle pin with a right angle, pointing out of the port
 
@@ -58,14 +58,14 @@ def add_pin_triangle(
     p1 = p.position + _rotate(dtop, rot_mat)
     ptip = p.position + _rotate(dtip, rot_mat)
     polygon = [p0, p1, ptip]
-
-    component.add_label(
-        text=p.name,
-        position=p.midpoint,
-        layer=label_layer,
-    )
-
     component.add_polygon(polygon, layer=layer)
+
+    if label_layer:
+        component.add_label(
+            text=p.name,
+            position=p.midpoint,
+            layer=label_layer,
+        )
 
 
 def add_pin_square_inside(
@@ -73,7 +73,7 @@ def add_pin_square_inside(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Tuple[int, int] = LAYER.TEXT,
+    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add square pin towards the inside of the port
 
@@ -117,6 +117,12 @@ def add_pin_square_inside(
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
+    if label_layer:
+        component.add_label(
+            text=p.name,
+            position=p.midpoint,
+            layer=label_layer,
+        )
 
 
 def add_pin_square_double(
@@ -124,7 +130,7 @@ def add_pin_square_double(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Tuple[int, int] = LAYER.TEXT,
+    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add two square pins: one inside with label, one outside
 
@@ -364,8 +370,11 @@ def add_pins_and_outline(
 
     Args:
         component: where to add the markers
-        pins_function: function to add pins to ports
-        add_outline_function: function to add outline around the component
+        reference
+        add_outline_function
+        add_pins_function: to add pins to ports
+        add_settings_function: to add outline around the component
+        add_instance_label_function: labels each instance
 
     """
     if add_outline_function:

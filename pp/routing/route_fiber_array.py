@@ -355,8 +355,8 @@ def route_fiber_array(
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
             routes = link_ports(
-                start_ports=to_route,
-                end_ports=gc_ports,
+                ports1=to_route,
+                ports2=gc_ports,
                 separation=sep,
                 end_straight_offset=end_straight_offset,
                 route_filter=route_filter,
@@ -374,8 +374,8 @@ def route_fiber_array(
                 n0 = nb_ports_to_route / 2
                 dn = nb_gc_ports / 2
                 routes = link_ports(
-                    start_ports=to_route[n0 - dn : n0 + dn],
-                    end_ports=gc_ports,
+                    ports1=to_route[n0 - dn : n0 + dn],
+                    ports2=gc_ports,
                     separation=sep,
                     end_straight_offset=end_straight_offset,
                     bend_factory=bend90,

@@ -18,6 +18,8 @@ from pp.routing.get_route import (
 )
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
+from pp.routing.sort_ports import get_port_x, get_port_y
+from pp.routing.sort_ports import sort_ports as sort_ports_function
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
@@ -26,8 +28,8 @@ BEND_RADIUS = conf.tech.bend_radius
 
 
 def get_bundle(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     bend_radius: float = BEND_RADIUS,
@@ -39,41 +41,43 @@ def get_bundle(
     Chooses the correct u_bundle to use based on port angles
 
     Args:
-        start_ports: should all be facing in the same direction
-        end_ports: should all be facing in the same direction
+        ports1: should all be facing in the same direction
+        ports2: should all be facing in the same direction
         route_filter: function to connect
         separation: straight separation
         bend_radius: for the routes
         extension_length: adds straight extension
+        bend_factory:
+        link_ports
 
     """
     # Accept dict or list
-    if isinstance(start_ports, Port):
-        start_ports = [start_ports]
+    if isinstance(ports1, Port):
+        ports1 = [ports1]
 
-    if isinstance(end_ports, Port):
-        end_ports = [end_ports]
+    if isinstance(ports2, Port):
+        ports2 = [ports2]
 
-    if isinstance(start_ports, dict):
-        start_ports = list(start_ports.values())
+    if isinstance(ports1, dict):
+        ports1 = list(ports1.values())
 
-    if isinstance(end_ports, dict):
-        end_ports = list(end_ports.values())
+    if isinstance(ports2, dict):
+        ports2 = list(ports2.values())
 
-    for p in start_ports:
+    for p in ports1:
         p.angle = int(p.angle) % 360
 
-    for p in end_ports:
+    for p in ports2:
         p.angle = int(p.angle) % 360
 
-    assert len(end_ports) == len(
-        start_ports
-    ), f"end_ports={len(end_ports)} and start_ports={len(start_ports)} must be equal"
+    assert len(ports2) == len(
+        ports1
+    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
 
-    start_ports = cast(List[Port], start_ports)
-    end_ports = cast(List[Port], end_ports)
+    ports1 = cast(List[Port], ports1)
+    ports2 = cast(List[Port], ports2)
 
-    start_port_angles = set([p.angle for p in start_ports])
+    start_port_angles = set([p.angle for p in ports1])
     if len(start_port_angles) > 1:
         raise ValueError(
             "All start port angles should be the same", f"Got {start_port_angles}"
@@ -85,25 +89,25 @@ def get_bundle(
         return route_filter(*args, **kwargs)
 
     params = {
-        "start_ports": start_ports,
-        "end_ports": end_ports,
+        "ports1": ports1,
+        "ports2": ports2,
         "route_filter": _route_filter,
         "separation": separation,
         "bend_radius": bend_radius,
         "bend_factory": bend_factory,
     }
 
-    start_angle = start_ports[0].angle
-    end_angle = end_ports[0].angle
+    start_angle = ports1[0].angle
+    end_angle = ports2[0].angle
 
     start_axis = "X" if start_angle in [0, 180] else "Y"
     end_axis = "X" if end_angle in [0, 180] else "Y"
 
-    x_start = np.mean([p.x for p in start_ports])
-    x_end = np.mean([p.x for p in end_ports])
+    x_start = np.mean([p.x for p in ports1])
+    x_end = np.mean([p.x for p in ports2])
 
-    y_start = np.mean([p.y for p in start_ports])
-    y_end = np.mean([p.y for p in end_ports])
+    y_start = np.mean([p.y for p in ports1])
+    y_end = np.mean([p.y for p in ports2])
 
     if start_axis == end_axis:
         if (
@@ -137,14 +141,6 @@ def get_bundle(
         return link_ports(**params, **kwargs)
 
 
-def get_port_x(port: Port) -> Number:
-    return port.midpoint[0]
-
-
-def get_port_y(port: Port) -> Number:
-    return port.midpoint[1]
-
-
 def get_port_width(port: Port) -> Union[float, int]:
     return port.width
 
@@ -166,8 +162,8 @@ def are_decoupled(
 
 
 def link_ports(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
@@ -183,7 +179,7 @@ def link_ports(
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If None, use straight definition from start_ports
+        bend_radius: If None, use straight definition from ports1
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_offset: offset to add at the end of each straight
@@ -229,8 +225,8 @@ def link_ports(
     """
 
     routes = link_ports_routes(
-        start_ports,
-        end_ports,
+        ports1,
+        ports2,
         separation=separation,
         route_filter=generate_manhattan_waypoints,
         bend_factory=bend_factory,
@@ -248,8 +244,8 @@ def link_ports(
 
 
 def link_ports_routes(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     separation: float,
     bend_radius: float = BEND_RADIUS,
     route_filter: Callable = generate_manhattan_waypoints,
@@ -262,8 +258,8 @@ def link_ports_routes(
     """Returns route coordinates List
 
     Args:
-        start_ports: list of ports
-        end_ports: list of ports
+        ports1: list of starting ports
+        ports2: list of end ports
         separation: route spacing
         bend_radius: for route
         route_filter: Function used to connect two ports. Should be like `get_route`
@@ -272,16 +268,14 @@ def link_ports_routes(
         tol: tolerance
         start_straight: length of straight
     """
-    ports1 = start_ports
-    ports2 = end_ports
     if not ports1 and not ports2:
         return []
 
     if len(ports1) == 0 or len(ports2) == 0:
-        print("WARNING! Not linking anything, empty list of ports")
+        print(f"WARNING! ports1={ports1} or ports2={ports2} are empty")
         return []
 
-    if start_ports[0].angle in [0, 180]:
+    if ports1[0].angle in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -308,21 +302,22 @@ def link_ports_routes(
     end_straights = []
 
     # Axis along which we sort the ports
-    if axis in ["X", "x"]:
-        f_key1 = get_port_y
-        # f_key2 = get_port_y
-    else:
-        f_key1 = get_port_x
-        # f_key2 = get_port_x
+    # if axis in ["X", "x"]:
+    #     f_key1 = get_port_y
+    #     f_key2 = get_port_y
+    # else:
+    #     f_key1 = get_port_x
+    #     f_key2 = get_port_x
 
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
+        # ports1.sort(key=f_key1)
+        # ports2.sort(key=f_key2)
+
+    # ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
     # if sort_ports:
     #     ports1.sort(key=f_key1)
-    #     ports2.sort(key=f_key2)
-
-    ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
-    if sort_ports:
-        ports1.sort(key=f_key1)
-        ports2 = [ports2_by1[p1] for p1 in ports1]
+    #     ports2 = [ports2_by1[p1] for p1 in ports1]
 
     # Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
@@ -443,15 +438,13 @@ def link_ports_routes(
     return elems
 
 
-def compute_ports_max_displacement(
-    start_ports: List[Port], end_ports: List[Port]
-) -> Number:
-    if start_ports[0].angle in [0, 180]:
-        a1 = [p.y for p in start_ports]
-        a2 = [p.y for p in end_ports]
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
+    if ports1[0].angle in [0, 180]:
+        a1 = [p.y for p in ports1]
+        a2 = [p.y for p in ports2]
     else:
-        a1 = [p.x for p in start_ports]
-        a2 = [p.x for p in end_ports]
+        a1 = [p.x for p in ports1]
+        a2 = [p.x for p in ports2]
 
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
@@ -846,10 +839,11 @@ def test_get_bundle_small() -> Component:
 
 if __name__ == "__main__":
 
-    # c = demo_get_bundle()
     c = test_get_bundle_small()
+    # c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
     # c = test_connect_corner()
+
     c.show()

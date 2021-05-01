@@ -72,8 +72,8 @@ def _distance(port1, port2):
 
 
 def get_bundle_from_waypoints(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     waypoints: Coordinates,
     straight_factory: Callable = straight,
     taper_factory: Callable = taper_function,
@@ -86,8 +86,8 @@ def get_bundle_from_waypoints(
     where routes follow a list of waypoints.
 
     Args:
-        start_ports: list of ports
-        end_ports: list of ports
+        ports1: list of ports
+        ports2: list of ports
         waypoints: list of points defining a route
         straight_factory: function that returns straights
         taper_factory: function that returns tapers
@@ -96,20 +96,20 @@ def get_bundle_from_waypoints(
         auto_sort: sorts ports
 
     """
-    if len(end_ports) != len(start_ports):
+    if len(ports2) != len(ports1):
         raise ValueError(
             f"Number of start ports should match number of end ports.\
-        Got {len(start_ports)} {len(end_ports)}"
+        Got {len(ports1)} {len(ports2)}"
         )
 
-    for p in start_ports:
+    for p in ports1:
         p.angle = int(p.angle) % 360
 
-    for p in end_ports:
+    for p in ports2:
         p.angle = int(p.angle) % 360
 
-    start_angle = start_ports[0].orientation
-    end_angle = end_ports[0].orientation
+    start_angle = ports1[0].orientation
+    end_angle = ports2[0].orientation
 
     # Sort the ports such that the bundle connect the correct corresponding ports.
 
@@ -144,22 +144,20 @@ def get_bundle_from_waypoints(
     end_port_sort = dict_sorts[ep_st]
 
     if auto_sort:
-        start_ports.sort(key=start_port_sort)
-        end_ports.sort(key=end_port_sort)
+        ports1.sort(key=start_port_sort)
+        ports2.sort(key=end_port_sort)
 
-    routes = _generate_manhattan_bundle_waypoints(
-        start_ports, end_ports, waypoints, **kwargs
-    )
+    routes = _generate_manhattan_bundle_waypoints(ports1, ports2, waypoints, **kwargs)
 
-    bends90 = [bend_factory(radius=bend_radius, width=p.width) for p in start_ports]
+    bends90 = [bend_factory(radius=bend_radius, width=p.width) for p in ports1]
 
     if taper_factory:
         if callable(taper_factory):
             taper = taper_factory(
                 length=TAPER_LENGTH,
-                width1=start_ports[0].width,
+                width1=ports1[0].width,
                 width2=WG_EXPANDED_WIDTH,
-                layer=start_ports[0].layer,
+                layer=ports1[0].layer,
             )
         else:
             # In this case the taper is a fixed cell
@@ -191,28 +189,28 @@ def snap_route_to_end_point_y(
 
 
 def _generate_manhattan_bundle_waypoints(
-    start_ports: List[Port],
-    end_ports: List[Port],
+    ports1: List[Port],
+    ports2: List[Port],
     backbone_route: Coordinates,
     **kwargs,
 ) -> Coordinates:
     """
     Args:
-        start_ports: list of start ports. Should all be facing in the same direction
-        end_ports: list of end ports. Should all be facing in the same direction
-        route: going from one point somewhere within the start_ports bank to
-        another point within the end_ports bank
+        ports1: list of start ports. Should all be facing in the same direction
+        ports2: list of end ports. Should all be facing in the same direction
+        route: going from one point somewhere within the ports1 bank to
+        another point within the ports2 bank
     """
     backbone_route = remove_flat_angles(backbone_route)
 
     way_segments = [(p0, p1) for p0, p1 in zip(backbone_route[:-1], backbone_route[1:])]
-    offsets_start = get_ports_x_or_y_distances(start_ports, backbone_route[0])
+    offsets_start = get_ports_x_or_y_distances(ports1, backbone_route[0])
 
-    start_angle = start_ports[0].orientation
+    start_angle = ports1[0].orientation
     if start_angle in [90, 270]:
         offsets_start = [-_d for _d in offsets_start]
 
-    end_angle = end_ports[0].orientation
+    end_angle = ports2[0].orientation
 
     def _displace_segment_copy(s, a, sh=1, sv=1):
         sign_seg = _segment_sign(s)
@@ -258,7 +256,7 @@ def _generate_manhattan_bundle_waypoints(
             )
         return (sv[0][0], sh[0][1])
 
-    N = len(start_ports)
+    N = len(ports1)
     routes = []
     _make_segment = _displace_segment_copy_group1
     for i in range(N):
@@ -280,7 +278,7 @@ def _generate_manhattan_bundle_waypoints(
 
             # If last point before the ports, adjust the separation to the end ports
             if j == len(way_segments) - 1:
-                end_point = end_ports[i].position
+                end_point = ports2[i].position
                 route += [end_point]
 
                 if end_angle in [0, 180]:

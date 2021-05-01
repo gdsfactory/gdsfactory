@@ -646,8 +646,8 @@ class Pdk:
 
     def get_bundle(
         self,
-        start_ports: List[Port],
-        end_ports: List[Port],
+        ports1: List[Port],
+        ports2: List[Port],
         route_filter: Callable = get_route_from_waypoints,
         separation: float = 5.0,
         bend_radius: Optional[float] = None,
@@ -656,8 +656,8 @@ class Pdk:
         **kwargs,
     ):
         return get_bundle(
-            start_ports=start_ports,
-            end_ports=end_ports,
+            ports1=ports1,
+            ports2=ports2,
             route_filter=route_filter,
             separation=separation,
             bend_radius=bend_radius,

@@ -50,16 +50,12 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
 
 
 def corner_bundle(
-    start_ports,
-    end_ports,
-    route_filter=get_route_from_waypoints,
-    separation=5.0,
-    **kwargs
+    ports1, ports2, route_filter=get_route_from_waypoints, separation=5.0, **kwargs
 ):
     r"""
     Args:
-        start_ports: list of start ports
-        end_ports: list of end ports
+        ports1: list of start ports
+        ports2: list of end ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
     Returns:
@@ -103,8 +99,8 @@ def corner_bundle(
     """
 
     routes = corner_bundle_route(
-        start_ports,
-        end_ports,
+        ports1,
+        ports2,
         routing_func=generate_manhattan_waypoints,
         separation=separation,
         **kwargs
@@ -114,33 +110,29 @@ def corner_bundle(
 
 
 def corner_bundle_route(
-    start_ports,
-    end_ports,
-    routing_func=generate_manhattan_waypoints,
-    separation=5.0,
-    **kwargs
+    ports1, ports2, routing_func=generate_manhattan_waypoints, separation=5.0, **kwargs
 ):
 
-    nb_ports = len(start_ports)
+    nb_ports = len(ports1)
     connections = []
 
-    for p in start_ports:
+    for p in ports1:
         p.angle = p.angle % 360
 
-    for p in end_ports:
+    for p in ports2:
         p.angle = p.angle % 360
 
-    assert len(end_ports) == nb_ports
+    assert len(ports2) == nb_ports
     assert (
-        len(set([p.angle for p in start_ports])) <= 1
+        len(set([p.angle for p in ports1])) <= 1
     ), "All start ports should have identical angle"
 
     assert (
-        len(set([p.angle for p in end_ports])) <= 1
+        len(set([p.angle for p in ports2])) <= 1
     ), "All end ports should have identical angle"
 
-    a_start = start_ports[0].angle
-    a_end = end_ports[0].angle
+    a_start = ports1[0].angle
+    a_end = ports2[0].angle
 
     da = a_end - a_start
     assert (
@@ -153,21 +145,17 @@ def corner_bundle_route(
 
     # Rotate all ports to be in the configuration where start_angle = 0
 
-    origin = start_ports[0].midpoint
-    start_ports_transformed = _transform_ports(
-        start_ports, rotation=-a_start, origin=origin
-    )
-    end_ports_transformed = _transform_ports(
-        end_ports, rotation=-a_start, origin=origin
-    )
+    origin = ports1[0].midpoint
+    ports1_transformed = _transform_ports(ports1, rotation=-a_start, origin=origin)
+    ports2_transformed = _transform_ports(ports2, rotation=-a_start, origin=origin)
 
-    # a_end_tr = end_ports_transformed[0].angle % 360
+    # a_end_tr = ports2_transformed[0].angle % 360
 
-    ys = [p.y for p in start_ports_transformed]
-    ye = [p.y for p in end_ports_transformed]
+    ys = [p.y for p in ports1_transformed]
+    ye = [p.y for p in ports2_transformed]
 
-    xs = [p.x for p in start_ports_transformed]
-    xe = [p.x for p in end_ports_transformed]
+    xs = [p.x for p in ports1_transformed]
+    xe = [p.x for p in ports2_transformed]
 
     are_above = max(ys) < min(ye)
     are_below = min(ys) > max(ye)
@@ -227,11 +215,11 @@ def corner_bundle_route(
     }
 
     # print(a_start, a_end, start_angle_sort_type, end_angle_sort_type)
-    start_ports.sort(key=type2key[start_angle_sort_type])
-    end_ports.sort(key=type2key[end_angle_sort_type])
+    ports1.sort(key=type2key[start_angle_sort_type])
+    ports2.sort(key=type2key[end_angle_sort_type])
 
     i = 0
-    for p1, p2 in zip(start_ports, end_ports):
+    for p1, p2 in zip(ports1, ports2):
         conn = routing_func(
             p1, p2, start_straight=i * separation, end_straight=i * separation, **kwargs
         )

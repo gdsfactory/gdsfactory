@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, Optional, Tuple
 
 import numpy as np
 
@@ -101,7 +101,7 @@ def straight_heater(
     straight_factory: ComponentFactory = straight,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
     cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings
+    **cross_section_settings,
 ) -> Component:
     """Waveguide with heater and trenches.
 
@@ -134,7 +134,7 @@ def straight_heater(
         length=length,
         cross_section_factory=cross_section_factory,
         width=width,
-        **cross_section_settings
+        **cross_section_settings,
     )
 
     for i in [heater_top, heater_bot, wg]:
@@ -164,8 +164,7 @@ def straight_heater(
 
 @cell
 def straight_heater_connector(
-    heater_ports: List[Port],
-    metal_width: float = 10.0,
+    heater_ports: Iterable[Port],
     tlm_layers: Tuple[Layer] = (
         LAYER.VIA1,
         LAYER.M1,
@@ -174,8 +173,10 @@ def straight_heater_connector(
         LAYER.VIA3,
         LAYER.M3,
     ),
+    port_width: Optional[float] = 10.0,
+    port_orientation: Optional[int] = None,
 ) -> Component:
-    """Connect together a pair of wg heaters to a M3 port."""
+    """Connect together a pair of wg heaters to metal."""
 
     component = Component()
     assert len(heater_ports) == 2
@@ -184,13 +185,13 @@ def straight_heater_connector(
     ), "both ports should be facing in the same direction"
     angle = heater_ports[0].orientation
     angle = angle % 360
-    assert angle in [0, 180], "angle should be 0 or 180, got {}".format(angle)
+    assert angle in [0, 180], f"angle should be 0 or 180, got {angle}"
 
     dx = 0.0
     dy = 0.0
 
     angle_to_dps = {0: [(-dx, -dy), (-dx, dy)], 180: [(dx, -dy), (dx, dy)]}
-    ports = heater_ports
+    ports = list(heater_ports)
     hw = heater_ports[0].width
 
     if angle in [0, 180]:
@@ -230,8 +231,8 @@ def straight_heater_connector(
     component.add_port(
         name="0",
         midpoint=0.5 * sum(tlm_positions) + (ss * edge_metal_piece_width / 2, 0),
-        orientation=angle,
-        width=metal_width,
+        orientation=port_orientation if port_orientation is not None else angle,
+        width=port_width,
         layer=top_metal_layer,
         port_type="dc",
     )
@@ -243,41 +244,45 @@ def straight_heater_connector(
 def straight_with_heater(
     length: float = 10.0,
     straight_heater: ComponentFactory = straight_heater,
-    via: ComponentFactory = straight_heater_connector,
-    tlm_layers: Iterable[Layer] = (
-        LAYER.VIA1,
-        LAYER.M1,
-        LAYER.VIA2,
-        LAYER.M2,
-        LAYER.VIA3,
-        LAYER.M3,
-    ),
-    **kwargs
+    connector: ComponentFactory = straight_heater_connector,
+    port_width: Optional[float] = 10.0,
+    port_orientation_input: int = 90,
+    port_orientation_output: int = 90,
+    **kwargs,
 ) -> Component:
-    """Returns a straight with heater."""
+    """Returns a straight with heater.
+
+    Args:
+        length: straight length
+        straight_heater: function
+        connector: function
+        **kwargs: for straight_heater
+
+    """
     component = Component()
 
-    wg_heater = straight_heater(length=length, **kwargs)
-    conn1 = via(
-        heater_ports=[wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]],
-        tlm_layers=tlm_layers,
+    wg_heater = component << straight_heater(length=length, **kwargs)
+    connector1 = connector(
+        heater_ports=(wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]),
+        port_width=port_width,
     )
-    conn2 = via(
-        heater_ports=[wg_heater.ports["HBW0"], wg_heater.ports["HTW0"]],
-        tlm_layers=tlm_layers,
+    connector2 = connector(
+        heater_ports=(wg_heater.ports["HBW0"], wg_heater.ports["HTW0"]),
+        port_width=port_width,
     )
 
-    for c in [wg_heater, conn1, conn2]:
-        ref = component.add_ref(c)
-        component.absorb(ref)
+    conn1 = component << connector1
+    conn2 = component << connector2
+    conn1.xmin = wg_heater.xmin
+    conn2.xmax = wg_heater.xmax
 
     for port_name, p in wg_heater.ports.items():
         component.add_port(name=port_name, port=p)
 
     component.add_port(name=1, port=conn1.ports["0"])
     component.add_port(name=2, port=conn2.ports["0"])
-    component.ports[1].orientation = 90
-    component.ports[2].orientation = 90
+    component.ports[1].orientation = port_orientation_input
+    component.ports[2].orientation = port_orientation_output
     auto_rename_ports(component)
     return component
 
@@ -292,11 +297,12 @@ if __name__ == "__main__":
     # c = straight_heater()
     # c = straight_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
-    c = straight_with_heater(length=200.0)
-    from pp.cell import print_cache
+    c = straight_with_heater(length=200.0, port_orientation_input=0)
+    # c = straight_heater_connector()
+    c.show(show_ports=True)
 
-    print_cache()
+    # from pp.cell import print_cache
+    # print_cache()
     # print(c.ports.keys())
     # for p in c.ports.values():
     #     print(p.name, p.port_type, p.orientation)
-    c.show()

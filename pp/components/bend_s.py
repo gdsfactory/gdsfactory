@@ -22,8 +22,8 @@ def bend_s(
         length: in x direction
         layer: gds number
         nb_points: number of points
-        tech: Technology
-        width: straight width (defaults to tech.wg_width)
+        cross_section_factory
+        **cross_section_settings
 
     .. plot::
       :include-source:
