@@ -15,7 +15,6 @@ def coupler90(
     radius: float = 10.0,
     straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
-    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -26,7 +25,6 @@ def coupler90(
         radius: um
         straight: for straight
         bend: for bend
-        snap_to_grid_nm:
         cross_section_factory: for straight and bend
         **cross_section_settings
 
@@ -46,7 +44,6 @@ def coupler90(
     bend90 = (
         bend(
             radius=radius,
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )
@@ -57,7 +54,6 @@ def coupler90(
     straight_component = (
         straight(
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )

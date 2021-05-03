@@ -11,7 +11,6 @@ def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
     straight: ComponentFactory = straight_function,
-    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -30,7 +29,6 @@ def coupler_straight(
     straight_component = (
         straight(
             length=length,
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )

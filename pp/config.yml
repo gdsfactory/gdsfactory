@@ -46,14 +46,24 @@ tech:
   cache_url:
   grid_unit: 1e-6
   grid_resolution: 1e-9
+  snap_to_grid_nm: 1
 
 waveguide:
   strip:
     width: 0.5
     layer: ${layer.WG}
     bend_radius: 10.0
-    layer_cladding: ${layer.WGCLAD}
     cladding_offset: 3.0
+    layers_cladding:
+      - ${layer.WGCLAD}
+  rib_slab90:
+    layer: ${layer.M1}
+    width: 0.5
+    cross_section:
+      cladding:
+        layer: ${layer.SLAB90}
+        offset: 0.0
+        width: 6.5
   metal_routing:
     layer: ${layer.M1}
     width: 2.0

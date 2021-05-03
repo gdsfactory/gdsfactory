@@ -70,7 +70,6 @@ class Pdk:
         self,
         length: float = 10.0,
         npoints: int = 2,
-        snap_to_grid_nm: Optional[int] = None,
         cross_section_factory: Optional[CrossSectionFactory] = None,
         **cross_section_settings,
     ) -> Component:
@@ -79,14 +78,12 @@ class Pdk:
         Args:
             length: of straight
             npoints: number of points
-            snap_to_grid_nm: snaps points a nm grid
             cross_section: cross_section or function that returns a cross_section
             **cross_section_settings
         """
         component = pp.components.straight(
             length=length,
             npoints=npoints,
-            snap_to_grid_nm=snap_to_grid_nm or self.tech.snap_to_grid_nm,
             cross_section_factory=cross_section_factory
             or self.get_cross_section_factory(),
             **cross_section_settings,
@@ -99,7 +96,6 @@ class Pdk:
         radius: Optional[float] = None,
         angle: int = 90,
         npoints: int = 720,
-        snap_to_grid_nm: Optional[int] = None,
         cross_section_factory: Optional[CrossSectionFactory] = None,
         **cross_section_settings,
     ) -> Component:
@@ -109,7 +105,6 @@ class Pdk:
             radius
             angle: angle of arc (degrees)
             npoints: Number of points used per 360 degrees
-            snap_to_grid_nm: snaps points a nm grid
             cross_section: cross_section or function that returns a cross_section
             **cross_section_settings
         """
@@ -117,7 +112,6 @@ class Pdk:
             radius=radius or self.tech.bend_radius,
             angle=angle,
             npoints=npoints,
-            snap_to_grid_nm=snap_to_grid_nm or self.tech.snap_to_grid_nm,
             cross_section_factory=cross_section_factory
             or self.get_cross_section_factory(),
             **cross_section_settings,
@@ -132,7 +126,6 @@ class Pdk:
         p: float = 1,
         with_arc_floorplan: bool = False,
         npoints: int = 720,
-        snap_to_grid_nm: Optional[int] = None,
         cross_section_factory: Optional[CrossSectionFactory] = None,
         **cross_section_settings,
     ) -> Component:
@@ -151,7 +144,6 @@ class Pdk:
                 If True: The curve will be scaled such that the endpoints match an arc
                 with parameters radius and angle
             npoints: Number of points used per 360 degrees
-            snap_to_grid_nm: snaps points a nm grid
             cross_section: cross_section or function that returns a cross_section
             **cross_section_settings
         """
@@ -162,7 +154,6 @@ class Pdk:
             p=p,
             with_arc_floorplan=with_arc_floorplan,
             npoints=npoints,
-            snap_to_grid_nm=snap_to_grid_nm or self.tech.snap_to_grid_nm,
             cross_section_factory=cross_section_factory
             or self.get_cross_section_factory(),
             **cross_section_settings,
@@ -204,7 +195,6 @@ class Pdk:
         length_y: float = 0.10,
         straight: Optional[ComponentFactory] = None,
         bend: Optional[ComponentFactory] = None,
-        snap_to_grid_nm: Optional[int] = None,
         cross_section_factory: Optional[CrossSectionFactory] = None,
         **cross_section_settings,
     ) -> Component:
@@ -219,7 +209,6 @@ class Pdk:
             length_y: vertical straight length
             straight: straight waveguide factory
             bend: bend waveguide factory
-            snap_to_grid_nm: snaps points a nm grid
             cross_section: cross_section or function that returns a cross_section
             **cross_section_settings
 
@@ -241,7 +230,6 @@ class Pdk:
             length_y=length_y,
             straight=straight or self.straight,
             bend=bend or self.bend_euler,
-            snap_to_grid_nm=snap_to_grid_nm or self.tech.snap_to_grid_nm,
             cross_section_factory=cross_section_factory
             or self.get_cross_section_factory(),
             **cross_section_settings,

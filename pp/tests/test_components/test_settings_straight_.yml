@@ -5,7 +5,10 @@ info:
 module: pp.components.straight
 name: straight
 settings:
+  cladding_offset: 3
   cross_section_factory: null
+  layers_cladding:
+  - - 111
+    - 0
   length: 10
   npoints: 2
-  snap_to_grid_nm: 1

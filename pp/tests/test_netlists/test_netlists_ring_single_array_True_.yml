@@ -11,7 +11,6 @@ instances:
       length_x: 10
       length_y: 0.01
       radius: 5
-      snap_to_grid_nm: 1
   ring_single_LX20_R10_30.0_10.355:
     component: ring_single
     settings:
@@ -21,14 +20,16 @@ instances:
       length_x: 20
       length_y: 0.01
       radius: 10
-      snap_to_grid_nm: 1
   straight_L5_7.5_0.0:
     component: straight
     settings:
+      cladding_offset: 3
       cross_section_factory: null
+      layers_cladding:
+      - - 111
+        - 0
       length: 5
       npoints: 2
-      snap_to_grid_nm: 1
 name: ring_single_array
 placements:
   ring_single_LX10_R5_-5.0_5.355:

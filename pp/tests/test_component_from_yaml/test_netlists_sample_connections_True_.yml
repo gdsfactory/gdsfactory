@@ -4,17 +4,23 @@ instances:
   wgn:
     component: straight
     settings:
+      cladding_offset: 3
       cross_section_factory: null
+      layers_cladding:
+      - - 111
+        - 0
       length: 0.5
       npoints: 2
-      snap_to_grid_nm: 1
   wgw:
     component: straight
     settings:
+      cladding_offset: 3
       cross_section_factory: null
+      layers_cladding:
+      - - 111
+        - 0
       length: 1
       npoints: 2
-      snap_to_grid_nm: 1
 name: sample_connections
 placements:
   wgn:

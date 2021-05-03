@@ -9,4 +9,3 @@ settings:
   length_x: 4
   length_y: 0.01
   radius: 10
-  snap_to_grid_nm: 1

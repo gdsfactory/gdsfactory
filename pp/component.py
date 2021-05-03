@@ -1251,9 +1251,10 @@ def test_extract():
     c = pp.c.straight(
         length=10,
         width=0.5,
-        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
+        layers_cladding=(pp.LAYER.WGCLAD,)
+        # cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
     )
-    c2 = c.extract(layers=[pp.LAYER.WG])
+    c2 = c.extract(layers=[pp.LAYER.WGCLAD])
 
     assert len(c.polygons) == 2
     assert len(c2.polygons) == 1

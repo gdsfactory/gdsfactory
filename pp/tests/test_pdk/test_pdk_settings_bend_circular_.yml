@@ -4,10 +4,13 @@ info:
   length: 31.416
   radius_min: 20
 module: pp.components.bend_circular
-name: bend_circular_ed3ff030
+name: bend_circular_df82cb64
 settings:
   angle: 90
+  cladding_offset: 3
   cross_section_factory: strip
+  layers_cladding:
+  - - 111
+    - 0
   npoints: 720
   radius: 20
-  snap_to_grid_nm: 1

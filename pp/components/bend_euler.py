@@ -1,11 +1,13 @@
-from typing import Optional
+from typing import Iterable, Optional
 
+from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
 from pp.path import component, euler
 from pp.snap import snap_to_grid
-from pp.types import CrossSectionFactory
+from pp.tech import TECH
+from pp.types import CrossSectionFactory, Layer
 
 
 @cell
@@ -15,7 +17,8 @@ def bend_euler(
     p: float = 1,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
-    snap_to_grid_nm: int = 1,
+    layers_cladding: Optional[Iterable[Layer]] = TECH.waveguide.strip.layers_cladding,
+    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -34,7 +37,6 @@ def bend_euler(
             If True: The curve will be scaled such that the endpoints match a bend_circular
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
-        snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: function that returns a cross_section
         **cross_section_settings
 
@@ -60,10 +62,16 @@ def bend_euler(
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = component(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
+    c = component(p, cross_section)
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]
+    top = cladding_offset if angle == 180 else 0
+    points = get_padding_points(
+        component=c, default=0, bottom=cladding_offset, right=cladding_offset, top=top
+    )
+    for layer in layers_cladding or []:
+        c.add_polygon(points, layer=layer)
     return c
 
 
@@ -105,6 +113,7 @@ def _compare_bend_euler180():
 
 if __name__ == "__main__":
     c = bend_euler_s()
+    c = bend_euler180()
     c.show()
 
     # _compare_bend_euler180()

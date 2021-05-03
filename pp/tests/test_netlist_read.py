@@ -32,18 +32,21 @@ def test_netlist_read_full() -> Component:
     return c
 
 
+def regenerate_regression_test():
+    import pp
+
+    c = pp.components.mzi()
+    filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
+    c.write_netlist(filepath, full_settings=True)
+
+    filepath = pp.CONFIG["netlists"] / "mzi.yml"
+    c.write_netlist(filepath, full_settings=False)
+
+
 if __name__ == "__main__":
-    # test_netlist_read()
-    test_netlist_read_full()
-
-    # import pp
-
-    # c = pp.components.mzi()
-    # filepath = pp.CONFIG["netlists"] / "mzi_full.yml"
-    # c.write_netlist(filepath, full_settings=True)
-
-    # filepath = pp.CONFIG["netlists"] / "mzi.yml"
-    # c.write_netlist(filepath, full_settings=False)
+    test_netlist_read()
+    # test_netlist_read_full()
+    # regenerate_regression_test()
 
     # c = test_netlist_read_full()
     # c.show()

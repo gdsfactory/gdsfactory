@@ -1,10 +1,12 @@
-from typing import Optional
+from typing import Iterable, Optional
 
 import pp
+from pp.add_padding import get_padding_points
 from pp.component import Component
 from pp.components.bezier import bezier
 from pp.cross_section import strip
-from pp.types import CrossSectionFactory
+from pp.tech import TECH
+from pp.types import CrossSectionFactory, Layer
 
 
 @pp.cell
@@ -12,6 +14,8 @@ def bend_s(
     height: float = 2.0,
     length: float = 10.0,
     nb_points: int = 99,
+    layers_cladding: Optional[Iterable[Layer]] = TECH.waveguide.strip.layers_cladding,
+    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings,
 ) -> Component:
@@ -48,6 +52,12 @@ def bend_s(
     )
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
+
+    points = get_padding_points(
+        component=c, default=0, bottom=cladding_offset, right=0, top=cladding_offset
+    )
+    for layer in layers_cladding or []:
+        c.add_polygon(points, layer=layer)
 
     return c
 
