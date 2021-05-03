@@ -1,12 +1,12 @@
 connections:
-  bend_euler_R10_W500n_50.115_-5.5,N0: straight_L18p75_W500n_54.99_-20.0,W0
-  bend_euler_R10_W500n_50.115_-5.5,W0: straight_L19p99_W500n_34.995_-0.625,E0
-  bend_euler_R10_W500n_59.865_-34.5,N0: straight_L10n_W500n_64.995_-39.375,W0
-  bend_euler_R10_W500n_59.865_-34.5,W0: straight_L18p75_W500n_54.99_-20.0,E0
-  mmi_bot,W0: straight_L10n_W500n_64.995_-39.375,E0
-  mmi_top,E0: straight_L19p99_W500n_34.995_-0.625,W0
+  bend_euler_R10_W500n_67.115_-5.5,N0: straight_L18p75_W500n_71.99_-20.0,W0
+  bend_euler_R10_W500n_67.115_-5.5,W0: straight_L19p99_W500n_51.995_-0.625,E0
+  bend_euler_R10_W500n_76.865_-34.5,N0: straight_L10n_W500n_81.995_-39.375,W0
+  bend_euler_R10_W500n_76.865_-34.5,W0: straight_L18p75_W500n_71.99_-20.0,E0
+  mmi_bot,W0: straight_L10n_W500n_81.995_-39.375,E0
+  mmi_top,E0: straight_L19p99_W500n_51.995_-0.625,W0
 instances:
-  bend_euler_R10_W500n_50.115_-5.5:
+  bend_euler_R10_W500n_67.115_-5.5:
     component: bend_euler
     settings:
       angle: 90
@@ -17,7 +17,7 @@ instances:
       snap_to_grid_nm: 1
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_R10_W500n_59.865_-34.5:
+  bend_euler_R10_W500n_76.865_-34.5:
     component: bend_euler
     settings:
       angle: 90
@@ -37,11 +37,11 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length_mmi: 10
+      length_mmi: 11
       length_taper: 10
       tech: null
       width: 0.5
-      width_mmi: 4.5
+      width_mmi: 5
       width_taper: 1
   mmi_top:
     component: mmi1x2
@@ -52,13 +52,13 @@ instances:
       - 1
       - 0
       layers_cladding: null
-      length_mmi: 5
+      length_mmi: 22
       length_taper: 10
       tech: null
       width: 0.5
-      width_mmi: 4.5
+      width_mmi: 6
       width_taper: 1
-  straight_L10n_W500n_64.995_-39.375:
+  straight_L10n_W500n_81.995_-39.375:
     component: straight
     settings:
       cross_section_factory: null
@@ -66,7 +66,7 @@ instances:
       npoints: 2
       snap_to_grid_nm: 1
       width: 0.5
-  straight_L18p75_W500n_54.99_-20.0:
+  straight_L18p75_W500n_71.99_-20.0:
     component: straight
     settings:
       cross_section_factory: null
@@ -74,7 +74,7 @@ instances:
       npoints: 2
       snap_to_grid_nm: 1
       width: 0.5
-  straight_L19p99_W500n_34.995_-0.625:
+  straight_L19p99_W500n_51.995_-0.625:
     component: straight
     settings:
       cross_section_factory: null
@@ -84,39 +84,39 @@ instances:
       width: 0.5
 name: sample_docstring
 placements:
-  bend_euler_R10_W500n_50.115_-5.5:
+  bend_euler_R10_W500n_67.115_-5.5:
     mirror: true
     rotation: 0
-    x: 44.99
+    x: 61.99
     y: -0.625
-  bend_euler_R10_W500n_59.865_-34.5:
+  bend_euler_R10_W500n_76.865_-34.5:
     mirror: false
     rotation: 270
-    x: 54.99
+    x: 71.99
     y: -29.375
   mmi_bot:
     mirror: false
     rotation: 0
-    x: 80.0
+    x: 97.5
     y: -39.375
   mmi_top:
     mirror: false
     rotation: 0
-    x: 12.5
+    x: 21.0
     y: 0.0
-  straight_L10n_W500n_64.995_-39.375:
+  straight_L10n_W500n_81.995_-39.375:
     mirror: false
     rotation: 0
-    x: 64.99
+    x: 81.99
     y: -39.375
-  straight_L18p75_W500n_54.99_-20.0:
+  straight_L18p75_W500n_71.99_-20.0:
     mirror: false
     rotation: 270
-    x: 54.99
+    x: 71.99
     y: -10.625
-  straight_L19p99_W500n_34.995_-0.625:
+  straight_L19p99_W500n_51.995_-0.625:
     mirror: false
     rotation: 0
-    x: 25.0
+    x: 42.0
     y: -0.625
 ports: {}

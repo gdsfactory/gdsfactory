@@ -7,7 +7,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import wg_strip
-from pp.config import conf
+from pp.config import TECH
 from pp.picwriter_to_component import picwriter_to_component
 from pp.port import deco_rename_ports
 from pp.types import ComponentFactory, Coordinate, Coordinates, Layer
@@ -17,8 +17,8 @@ from pp.types import ComponentFactory, Coordinate, Coordinates, Layer
 @cell
 def grating_coupler_elliptical2(
     wgt: ComponentFactory = wg_strip,
-    wg_width: float = 0.5,
-    cladding_offset: float = conf.tech.cladding_offset,
+    wg_width: float = TECH.waveguide.strip.width,
+    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
     theta: float = np.pi / 4.0,
     length: float = 30.0,
     taper_length: float = 10.0,

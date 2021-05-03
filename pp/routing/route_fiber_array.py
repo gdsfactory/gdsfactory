@@ -16,24 +16,24 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
 def route_fiber_array(
     component: Component,
-    optical_io_spacing: Optional[float] = None,
+    fiber_spacing: float = TECH.routing.optical.fiber_array_spacing,
     grating_coupler: ComponentFactory = grating_coupler_te,
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
-    fanout_length: Optional[int] = None,
+    fanout_length: Optional[float] = None,
     max_y0_optical: None = None,
     with_align_ports: bool = True,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
     optical_routing_type: Optional[int] = None,
-    bend_radius: Optional[float] = None,
+    bend_radius: float = TECH.routing.optical.bend_radius,
     connected_port_list_ids: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
@@ -42,14 +42,13 @@ def route_fiber_array(
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
-    layer_label: Optional[Tuple[int, int]] = None,
+    layer_label: Tuple[int, int] = TECH.routing.optical.layer_label,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
-    tech: Tech = TECH_SILICON_C,
-    auto_widen: bool = True,
+    auto_widen: bool = TECH.routing.optical.auto_widen,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -58,7 +57,7 @@ def route_fiber_array(
 
     Args:
         component: The component to connect.
-        optical_io_spacing: the wanted spacing between the optical I/O
+        fiber_spacing: the wanted spacing between the optical I/O
         grating_coupler: grating coupler instance, function or list of functions
         bend_factory: bend_circular
         straight_factory: straight
@@ -78,7 +77,7 @@ def route_fiber_array(
             Useful where the component is large due to metal tracks
            * ``None: leads to an automatic decision based on size and number
            of I/O of the component.
-        bend_radius: optional bend_radius (defaults to tech.bend_radius)
+        bend_radius: optional bend_radius (defaults to tech.routing.optical.bend_radius)
         connected_port_list_ids: only for type 0 optical routing.
             Can specify which ports goes to which grating assuming the gratings are ordered from left to right.
             e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
@@ -106,9 +105,6 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
-    layer_label = layer_label or tech.layer_label
-    bend_radius = bend_radius or tech.bend_radius
-    optical_io_spacing = optical_io_spacing or tech.fiber_array_spacing
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -159,8 +155,7 @@ def route_fiber_array(
     dy = bend90.dy
     delta_gr_min = 2 * dy + 1
 
-    io_sep = optical_io_spacing
-    offset = (N - 1) * io_sep / 2.0
+    offset = (N - 1) * fiber_spacing / 2.0
 
     # Get the center along x axis
     x_c = round(sum([p.x for p in optical_ports]) / N, 1)
@@ -177,8 +172,8 @@ def route_fiber_array(
     pxs = [p.x for p in optical_ports]
     is_big_component = (
         (K > 2)
-        or (max(pxs) - min(pxs) > io_sep - delta_gr_min)
-        or (component.xsize > io_sep)
+        or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
+        or (component.xsize > fiber_spacing)
     )
     if optical_routing_type is None:
         if not is_big_component:
@@ -254,7 +249,7 @@ def route_fiber_array(
     y_gr_gap = (K / (nb_optical_ports_lines) + 1) * sep
     gr_coupler_y_sep = grating_coupler_si.height + y_gr_gap + dy
 
-    offset = (nb_ports_per_line - 1) * io_sep / 2 - x_grating_offset
+    offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     if grating_indices is None:
@@ -265,7 +260,10 @@ def route_fiber_array(
     for j in range(nb_optical_ports_lines):
         io_gratings = [
             gc.ref(
-                position=(x_c - offset + i * io_sep, y0_optical - j * gr_coupler_y_sep),
+                position=(
+                    x_c - offset + i * fiber_spacing,
+                    y0_optical - j * gr_coupler_y_sep,
+                ),
                 rotation=gc_rotation,
                 port_id=gc_port_name,
             )
@@ -390,7 +388,7 @@ def route_fiber_array(
         gca1, gca2 = [
             grating_coupler.ref(
                 position=(
-                    x_c - offset + ii * io_sep,
+                    x_c - offset + ii * fiber_spacing,
                     io_gratings_lines[-1][0].ports[gc_port_name].y,
                 ),
                 rotation=gc_rotation,
@@ -403,7 +401,7 @@ def route_fiber_array(
         p1 = gca2.ports[gc_port_name].position
 
         dy = bend90.dy
-        dx = max(2 * dy, io_sep / 2)
+        dx = max(2 * dy, fiber_spacing / 2)
 
         gc_east = max([gci.size_info.east for gci in grating_couplers])
         y_bot_align_route = gc_east + straight_to_grating_spacing

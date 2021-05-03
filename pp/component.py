@@ -15,7 +15,7 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
-from pp.config import conf
+from pp.config import TECH
 from pp.port import Port, select_ports, valid_port_types
 
 Number = Union[float64, int64, float, int]
@@ -857,8 +857,8 @@ class Component(Device):
             "cells": recurse_structures(self),
             "test_protocol": self.test_protocol,
             "data_analysis_protocol": self.data_analysis_protocol,
-            "git_hash": conf["git_hash"],
-            "version": conf["version"],
+            "git_hash": TECH["git_hash"],
+            "version": TECH["version"],
         }
         jsondata.update(**kwargs)
 
@@ -1255,7 +1255,7 @@ if __name__ == "__main__":
 
     c = pp.c.straight(layers_cladding=(pp.LAYER.WGCLAD,))
     c2 = c.extract(layers=[(1, 0)])
-    c2.plot(show_subports=True)
+    c2.plot()
     c.show()
 
     # test_get_layers()

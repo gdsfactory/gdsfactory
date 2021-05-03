@@ -7,7 +7,7 @@ from typing import Any, Dict, Iterable, Optional
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 
-from pp.config import CONFIG, conf, logging, write_config
+from pp.config import CONFIG, TECH, logging, write_config
 
 
 def merge_json(
@@ -16,7 +16,7 @@ def merge_json(
     extra_directories: Optional[Iterable[Path]] = None,
     jsonpath: Path = CONFIG["mask_directory"] / "metadata.json",
     json_version: int = 6,
-    config: DictConfig = conf,
+    config: DictConfig = TECH,
 ) -> Dict[str, Any]:
     """Combine several JSON files from config.yml
     in the root of the mask directory, gets mask_name from there
@@ -56,8 +56,10 @@ def merge_json(
 
 
 if __name__ == "__main__":
+    from pprint import pprint
+
     d = merge_json()
-    print(d)
+    pprint(d)
 
     # print(config["module_versions"])
     # pprint(d['does'])

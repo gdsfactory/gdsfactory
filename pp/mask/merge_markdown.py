@@ -4,7 +4,7 @@ from pathlib import Path
 
 from omegaconf import OmegaConf
 
-from pp.config import CONFIG, conf, logging
+from pp.config import CONFIG, TECH, logging
 
 
 def merge_markdown(
@@ -19,8 +19,8 @@ def merge_markdown(
     configpath = mdpath.with_suffix(".yml")
 
     with open(configpath, "w") as f:
-        conf.update(**kwargs)
-        f.write(OmegaConf.to_yaml(conf))
+        TECH.update(**kwargs)
+        f.write(OmegaConf.to_yaml(TECH))
 
     with open(mdpath, "w") as f:
 

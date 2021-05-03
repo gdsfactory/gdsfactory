@@ -46,7 +46,6 @@ class Pdk:
         **settings,
     ):
         """Returns a ComponentFactory.
-        Takes default settings from tech.component_settings
         settings can be overwriten with kwargs
 
         Args:
@@ -57,13 +56,7 @@ class Pdk:
             raise ValueError(
                 f"{component_type} not in {list(component_factory.keys())}"
             )
-        component_settings = (
-            self.tech.component_settings[component_type]
-            if component_type in self.tech.component_settings
-            else {}
-        )
-        component_settings.update(**settings)
-        component = component_factory[component_type](**component_settings)
+        component = component_factory[component_type](**settings)
         self.add_pins(component)
         return component
 
@@ -552,7 +545,6 @@ class Pdk:
             layer_label=self.tech.layer_label,
             fanout_length=fanout_length,
             bend_radius=bend_radius or self.tech.bend_radius,
-            tech=self.tech,
             auto_widen=auto_widen,
             **kwargs,
         )

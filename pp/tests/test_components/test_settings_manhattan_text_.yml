@@ -3,12 +3,10 @@ info: {}
 module: pp.components.manhattan_font
 name: manhattan_text
 settings:
-  cladding_offset: 0
   justify: left
   layer:
   - 41
   - 0
-  layers_cladding: null
   position:
   - 0
   - 0

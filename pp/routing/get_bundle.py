@@ -9,7 +9,7 @@ from numpy import ndarray
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.config import conf
+from pp.config import TECH
 from pp.port import Port
 from pp.routing.get_route import (
     get_route,
@@ -23,8 +23,8 @@ from pp.routing.sort_ports import sort_ports as sort_ports_function
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
-METAL_MIN_SEPARATION = 10.0
-BEND_RADIUS = conf.tech.bend_radius
+METAL_MIN_SEPARATION = TECH.routing.electrical.min_spacing
+BEND_RADIUS = TECH.routing.optical.bend_radius
 
 
 def get_bundle(

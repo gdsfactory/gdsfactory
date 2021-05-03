@@ -1,4 +1,4 @@
-from typing import Iterable, Tuple
+from typing import Tuple
 
 import numpy as np
 from omegaconf.listconfig import ListConfig
@@ -7,18 +7,16 @@ import pp
 from pp.component import Component
 from pp.layers import LAYER
 from pp.name import clean_name
-from pp.types import Layer
+from pp.tech import TECH
 
 
 @pp.cell
 def manhattan_text(
     text: str = "abcd",
-    size: float = 10.0,
+    size: float = TECH.components.manhattan_text.size,
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: Tuple[int, int] = LAYER.M1,
-    layers_cladding: Iterable[Layer] = None,
-    cladding_offset: float = pp.conf.tech.cladding_offset,
+    layer: Tuple[int, int] = TECH.components.manhattan_text.layer,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
 
@@ -28,8 +26,6 @@ def manhattan_text(
         position: coordinate
         justify
         layer:
-        layers_cladding:
-        cladding_offset:
 
     """
     pixel_size = size
@@ -72,15 +68,6 @@ def manhattan_text(
         if justify == "center":
             ref.move(origin=ref.center, destination=position, axis="x")
 
-    points = [
-        [t.xmin - cladding_offset / 2, t.ymin - cladding_offset],
-        [t.xmax + cladding_offset / 2, t.ymin - cladding_offset],
-        [t.xmax + cladding_offset / 2, t.ymax + cladding_offset],
-        [t.xmin - cladding_offset / 2, t.ymax + cladding_offset],
-    ]
-    if layers_cladding:
-        for layer in layers_cladding:
-            t.add_polygon(points, layer=layer)
     return t
 
 
@@ -391,6 +378,5 @@ load_font()
 if __name__ == "__main__":
     c = manhattan_text(
         text="The mask is nearly done. only 12345 drc errors remaining",
-        layers_cladding=[(33, 44)],
     )
     c.show()

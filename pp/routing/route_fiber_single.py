@@ -10,9 +10,9 @@ from pp.routing.route_fiber_array import route_fiber_array
 
 def route_fiber_single(
     component: Component,
-    optical_io_spacing: float = 50.0,
+    fiber_spacing: float = 50.0,
     grating_coupler: Callable = grating_coupler_te,
-    min_input2output_spacing: float = 200.0,
+    min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 1,
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
@@ -23,9 +23,9 @@ def route_fiber_single(
 
     Args:
         component: to add grating couplers
-        optical_io_spacing: between grating couplers
+        fiber_spacing: between grating couplers
         grating_coupler:
-        min_input2output_spacing: so opposite fibers do not touch
+        min_input_to_output_spacing: so opposite fibers do not touch
         optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
@@ -59,10 +59,10 @@ def route_fiber_single(
         grating_couplers = [grating_coupler] * N
 
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
-    if component.xsize + 2 * gc_port2center < min_input2output_spacing:
+    if component.xsize + 2 * gc_port2center < min_input_to_output_spacing:
         fanout_length = (
             pp.snap_to_grid(
-                min_input2output_spacing - component.xsize - 2 * gc_port2center, 10
+                min_input_to_output_spacing - component.xsize - 2 * gc_port2center, 10
             )
             / 2
         )
@@ -102,7 +102,7 @@ def route_fiber_single(
     elements_south, gratings_south, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
-        optical_io_spacing=optical_io_spacing,
+        fiber_spacing=fiber_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
@@ -120,7 +120,7 @@ def route_fiber_single(
     elements_north, gratings_north, _ = route_fiber_array(
         component=component,
         with_align_ports=False,
-        optical_io_spacing=optical_io_spacing,
+        fiber_spacing=fiber_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
