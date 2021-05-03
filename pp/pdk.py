@@ -11,7 +11,7 @@ from pp.add_pins import add_instance_label, add_pins
 from pp.component import Component
 from pp.component_from_yaml import component_from_yaml
 from pp.components import component_factory
-from pp.cross_section import metal1, strip
+from pp.cross_section import metal_routing, strip
 from pp.port import Port
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
@@ -830,7 +830,7 @@ class PdkMetal1(Pdk):
     tech: Tech = TECH_METAL1
 
     def get_cross_section_factory(self):
-        return metal1
+        return metal_routing
 
 
 PDK_SILICON_C = PdkSiliconCband()

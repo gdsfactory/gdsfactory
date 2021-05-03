@@ -1076,7 +1076,12 @@ class Component(Device):
 def test_get_layers() -> None:
     import pp
 
-    c = pp.components.straight(layer=(2, 0), layers_cladding=[(111, 0)])
+    c = pp.c.straight(
+        length=10,
+        width=0.5,
+        layer=(2, 0),
+        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
+    )
     assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(2, 0)}
@@ -1243,7 +1248,11 @@ def demo_component(port):
 def test_extract():
     import pp
 
-    c = pp.c.straight(layer=pp.LAYER.WG, layers_cladding=(pp.LAYER.WGCLAD,))
+    c = pp.c.straight(
+        length=10,
+        width=0.5,
+        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
+    )
     c2 = c.extract(layers=[pp.LAYER.WG])
 
     assert len(c.polygons) == 2
@@ -1253,10 +1262,13 @@ def test_extract():
 if __name__ == "__main__":
     import pp
 
-    c = pp.c.straight(layers_cladding=(pp.LAYER.WGCLAD,))
-    c2 = c.extract(layers=[(1, 0)])
-    c2.plot()
+    c = pp.c.straight(
+        length=10,
+        width=0.5,
+        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
+    )
     c.show()
+    # c2 = c.extract(layers=[(1, 0)])
 
     # test_get_layers()
     # import pp

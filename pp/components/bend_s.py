@@ -39,8 +39,6 @@ def bend_s(
     cross_section = cross_section_factory(**cross_section_settings)
     width = cross_section.info["width"]
     layer = cross_section.info["layer"]
-    layers_cladding = cross_section.info["layers_cladding"]
-    cladding_offset = cross_section.info["cladding_offset"]
 
     c = bezier(
         width=width,
@@ -51,19 +49,6 @@ def bend_s(
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
 
-    y = cladding_offset
-    points = [
-        [c.xmin, c.ymin - y],
-        [c.xmax, c.ymin - y],
-        [c.xmax, c.ymax + y],
-        [c.xmin, c.ymax + y],
-    ]
-    for layer in layers_cladding:
-        c.add_polygon(points, layer=layer)
-
-    # c.ports["W0"] = c.ports.pop("0")
-    # c.ports["E0"] = c.ports.pop("1")
-    # print(c.min_bend_radius)
     return c
 
 
