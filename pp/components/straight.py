@@ -42,9 +42,13 @@ if __name__ == "__main__":
     # c = straight(length=10.0)
     # c.pprint()
 
-    c = straight(length=10.001, width=3)
+    c = straight(
+        length=10.001,
+        width=0.5,
+        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
+    )
     # print(c.name)
     # print(c.length)
     # print(c.ports)
     c.show()
-    c.plot()
+    # c.plot()

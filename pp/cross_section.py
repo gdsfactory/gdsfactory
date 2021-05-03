@@ -9,54 +9,59 @@ from typing import Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
-from pp.layers import LAYER
+from pp.config import TECH
 
-Layer = Tuple[int, int]
+LAYER = TECH.layer
 
 
 def strip(
-    width: float = 0.5,
-    layer: Layer = LAYER.WG,
-    cladding_offset: float = 0,
-    layers_cladding: Optional[Iterable[Layer]] = None,
+    width: float = TECH.waveguide.strip.width,
+    layer: Tuple[int, int] = TECH.waveguide.strip.layer,
+    cross_section=TECH.waveguide.strip.cross_section,
 ) -> CrossSection:
-    """Returns a fully etched straight CrossSection."""
+    """Returns a fully etched straight CrossSection.
+
+    Args:
+        width: of the waveguides
+        layer: of the waveguide
+        cross_section: dict of different cross_sections
+    """
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
-    layers_cladding = layers_cladding or []
-    for layer_cladding in layers_cladding:
-        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+    if cross_section and hasattr(cross_section, "items"):
+        for section_name, section in cross_section.items():
+            print(section["width"], section["offset"], section["layer"])
+            x.add(
+                width=section["width"], offset=section["offset"], layer=section["layer"]
+            )
 
     s = dict(
         width=width,
         layer=layer,
-        cladding_offset=cladding_offset,
-        layers_cladding=layers_cladding,
     )
     x.info = s
     return x
 
 
-def metal1(
-    width: float = 2.0,
-    layer: Layer = LAYER.M1,
-    cladding_offset: float = 3,
-    layers_cladding: Optional[Iterable[Layer]] = (LAYER.WGCLAD,),
+def metal_routing(
+    width: float = TECH.waveguide.metal_routing.width,
+    layer: Tuple[int, int] = TECH.waveguide.metal_routing.layer,
+    cross_section=TECH.waveguide.metal_routing.cross_section,
 ) -> CrossSection:
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
-    layers_cladding = layers_cladding or []
-    for layer_cladding in layers_cladding:
-        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
+    if cross_section and hasattr(cross_section, "items"):
+        for section_name, section in cross_section.items():
+            x.add(
+                width=section["width"], offset=section["offset"], layer=section["layer"]
+            )
 
     s = dict(
         width=width,
         layer=layer,
-        cladding_offset=cladding_offset,
-        layers_cladding=layers_cladding,
     )
     x.info = s
     return x
@@ -64,8 +69,8 @@ def metal1(
 
 def pin(
     width: float,
-    layer: Layer = LAYER.WG,
-    layer_slab: Layer = LAYER.SLAB90,
+    layer: Tuple[int, int] = LAYER.WG,
+    layer_slab: Tuple[int, int] = LAYER.SLAB90,
     width_i: float = 0.0,
     width_p: float = 1.0,
     width_n: float = 1.0,
@@ -80,7 +85,7 @@ def pin(
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
     cladding_offset: float = 0,
-    layers_cladding: Optional[Iterable[Layer]] = None,
+    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> CrossSection:
 
     """PIN doped straight.
@@ -161,8 +166,10 @@ if __name__ == "__main__":
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
     # Combine the Path and the CrossSection into a Component
-    X = pin(width=0.5, width_i=0.5)
-    x = strip(width=0.5)
+    # X = pin(width=0.5, width_i=0.5)
+    # x = strip(width=0.5)
+
+    X = metal_routing(width=0.5)
     c = pp.path.component(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

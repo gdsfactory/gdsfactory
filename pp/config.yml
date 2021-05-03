@@ -34,6 +34,13 @@ layer:
   DRC_MARKER: [205, 0]
   LABEL_INSTANCE: [206, 0]
 
+stack:
+  WG:
+    layer: ${layer.WG}
+    thickness_nm: 220.0
+    z_nm: 0
+    material: si
+
 tech:
   name: generic
   cache_url:
@@ -44,9 +51,9 @@ waveguide:
   strip:
     width: 0.5
     layer: ${layer.WG}
-    layer_cladding: ${layer.WGCLAD}
-    cladding_offset: 0.0
     bend_radius: 10.0
+    layer_cladding: ${layer.WGCLAD}
+    cladding_offset: 3.0
   metal_routing:
     layer: ${layer.M1}
     width: 2.0

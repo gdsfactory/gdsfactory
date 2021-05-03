@@ -8,9 +8,9 @@ from scipy.special import binom
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.config import TECH
 from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
 from pp.hash_points import hash_points
-from pp.layers import LAYER
 from pp.types import Coordinate, Coordinates, Number
 
 
@@ -46,10 +46,10 @@ def bezier_biased(width=0.5, **kwargs):
 @cell(autoname=False)
 def bezier(
     name: Optional[str] = None,
-    width: Number = 0.5,
+    width: float = TECH.waveguide.strip.width,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: Tuple[int, int] = TECH.waveguide.strip.layer,
     with_manhattan_facing_angles: bool = True,
     spike_length: float = 0.0,
     start_angle: Optional[int] = None,
