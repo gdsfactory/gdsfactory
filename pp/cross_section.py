@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # x = strip(width=0.5)
 
     X = metal_routing(width=0.5)
-    c = pp.path.component(P, X)
+    c = pp.path.extrude(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
 

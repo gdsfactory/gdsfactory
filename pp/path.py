@@ -24,7 +24,7 @@ from pp.transition import transition
 from pp.types import Coordinates, Number, PathFactory
 
 
-def component(
+def extrude(
     p: Path,
     cross_section: CrossSection,
     simplify: Optional[float] = None,
@@ -224,7 +224,7 @@ def smooth(
     )
 
 
-__all__ = ["straight", "euler", "arc", "component", "path", "transition", "smooth"]
+__all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
 
 if __name__ == "__main__":
 
@@ -244,7 +244,7 @@ if __name__ == "__main__":
 
     # Combine the Path and the CrossSection
 
-    c = component(P, X, simplify=5e-3, snap_to_grid_nm=5)
+    c = extrude(P, X, simplify=5e-3, snap_to_grid_nm=5)
     # c = pp.add_pins(c)
     # c << pp.components.bend_euler(radius=10)
     # c << pp.components.bend_circular(radius=10)

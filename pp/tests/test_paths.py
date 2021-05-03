@@ -30,7 +30,7 @@ def test_path():
     # Add a single "section" to the cross-section
     X.add(width=1, offset=0, layer=0)
 
-    c = pp.path.component(P, X)
+    c = pp.path.extrude(P, X)
     return c
 
 
@@ -47,7 +47,7 @@ def rename():
     X.add(width=3, offset=-2, layer=2)
 
     # Combine the Path and the CrossSection
-    straight = pp.path.component(p, cross_section=X)
+    straight = pp.path.extrude(p, cross_section=X)
     return straight
 
 
@@ -64,7 +64,7 @@ def no_rename():
     X.add(width=3, offset=-2, layer=2)
 
     # Combine the Path and the CrossSection
-    straight = pp.path.component(p, cross_section=X, rename_ports=False)
+    straight = pp.path.extrude(p, cross_section=X, rename_ports=False)
     return straight
 
 
@@ -95,7 +95,7 @@ def double_loop():
     X.add(width=1.5, offset=0, layer=2, ports=["in", "out"])
     X.add(width=1, offset=0, layer=3)
 
-    c = pp.path.component(P, X, simplify=0.3)
+    c = pp.path.extrude(P, X, simplify=0.3)
     return c
 
 
@@ -117,11 +117,11 @@ def transition():
 
     P1 = pp.path.straight(length=5)
     P2 = pp.path.straight(length=5)
-    wg1 = pp.path.component(P1, X1)
-    wg2 = pp.path.component(P2, X2)
+    wg1 = pp.path.extrude(P1, X1)
+    wg2 = pp.path.extrude(P2, X2)
 
     P4 = pp.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    wg_trans = pp.path.component(P4, Xtrans)
+    wg_trans = pp.path.extrude(P4, Xtrans)
     # WG_trans = P4.extrude(Xtrans)
 
     wg1_ref = c << wg1
@@ -166,7 +166,7 @@ def test_layers():
     P = pp.path.straight(length=10.001)
     X = pp.CrossSection()
     X.add(width=0.5, offset=0, layer=pp.LAYER.SLAB90, ports=["in", "out"])
-    c = pp.path.component(P, X, simplify=5e-3, snap_to_grid_nm=5)
+    c = pp.path.extrude(P, X, simplify=5e-3, snap_to_grid_nm=5)
     assert c.ports["W0"].layer == pp.LAYER.SLAB90
     assert c.ports["E0"].position[0] == 10.0
     return c

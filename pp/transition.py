@@ -94,7 +94,7 @@ def demo_fail():
     x2.add(width=2, offset=0, layer=0)
 
     T = transition(X, x2)
-    c3 = pp.path.component(P, T)
+    c3 = pp.path.extrude(P, T)
     c3.show()
 
 
@@ -116,11 +116,11 @@ if __name__ == "__main__":
 
     P1 = pp.path.straight(length=5)
     P2 = pp.path.straight(length=5)
-    wg1 = pp.path.component(P1, X1)
-    wg2 = pp.path.component(P2, X2)
+    wg1 = pp.path.extrude(P1, X1)
+    wg2 = pp.path.extrude(P2, X2)
 
     P4 = pp.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    wg_trans = pp.path.component(P4, xtrans)
+    wg_trans = pp.path.extrude(P4, xtrans)
     # WG_trans = P4.extrude(xtrans)
 
     c = pp.Component()

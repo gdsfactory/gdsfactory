@@ -30,6 +30,7 @@ from pydantic import validate_arguments
 - straight_with_heater fixed connector
 - straight_with_heater accepts port_orientation_input and port_orientation_output
 - TECH defined in config.yml
+- refactor pp.path.component to pp.path.extrude
 
 ## 2.4.9
 

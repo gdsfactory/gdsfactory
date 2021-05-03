@@ -5,7 +5,7 @@ from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
-from pp.path import component
+from pp.path import extrude
 from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
 from pp.tech import TECH
@@ -34,7 +34,7 @@ def straight(
 
     p = straight_path(length=length, npoints=npoints)
     cross_section = cross_section_factory(**cross_section_settings)
-    c = component(p, cross_section)
+    c = extrude(p, cross_section)
     c.length = snap_to_grid(length)
     c.width = cross_section.info["width"]
     points = get_padding_points(
