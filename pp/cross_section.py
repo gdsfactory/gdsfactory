@@ -19,14 +19,6 @@ def strip(
     layer: Tuple[int, int] = TECH.waveguide.strip.layer,
     cross_section=TECH.waveguide.strip.cross_section,
 ) -> CrossSection:
-    """Returns a fully etched straight CrossSection.
-
-    Args:
-        width: of the waveguides
-        layer: of the waveguide
-        cross_section: dict of different cross_sections
-    """
-
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
@@ -44,6 +36,36 @@ def strip(
     return x
 
 
+def cross_section(**settings) -> CrossSection:
+    """Returns a CrossSection from settings."""
+
+    required = ("width", "layer")
+
+    for field in required:
+        if field not in settings:
+            raise ValueError(f"no {field} in {settings.keys()}")
+
+    width = settings["width"]
+    layer = settings["layer"]
+
+    x = CrossSection()
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
+    if "cross_section" in settings and hasattr(cross_section, "items"):
+        for section_name, section in cross_section.items():
+            x.add(
+                width=section["width"], offset=section["offset"], layer=section["layer"]
+            )
+
+    x.info = dict(
+        width=width,
+        layer=layer,
+        cladding_offset=settings.get("cladding_offset", None),
+        layers_cladding=settings.get("layers_cladding", None),
+    )
+    return x
+
+
 def metal_routing(
     width: float = TECH.waveguide.metal_routing.width,
     layer: Tuple[int, int] = TECH.waveguide.metal_routing.layer,
@@ -58,11 +80,10 @@ def metal_routing(
                 width=section["width"], offset=section["offset"], layer=section["layer"]
             )
 
-    s = dict(
+    x.info = dict(
         width=width,
         layer=layer,
     )
-    x.info = s
     return x
 
 
@@ -169,6 +190,7 @@ if __name__ == "__main__":
     # x = strip(width=0.5)
 
     X = metal_routing(width=0.5)
+    X = cross_section(**TECH.waveguide.strip)
     c = pp.path.extrude(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

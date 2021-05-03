@@ -57,7 +57,7 @@ waveguide:
     layers_cladding:
       - ${layer.WGCLAD}
   rib_slab90:
-    layer: ${layer.M1}
+    layer: ${layer.WG}
     width: 0.5
     cross_section:
       cladding:
