@@ -1,17 +1,16 @@
 import picwriter.components as pc
 from picwriter.components.waveguide import WaveguideTemplate
 
-from pp.config import conf
-from pp.layers import LAYER
+from pp.config import TECH
 from pp.types import Layer
 
 
 def wg_strip(
-    wg_width: float = 0.5,
-    layer: Layer = LAYER.WG,
-    layer_cladding: Layer = LAYER.WGCLAD,
-    bend_radius: float = 10.0,
-    cladding_offset: float = conf.tech.cladding_offset,
+    wg_width: float = TECH.waveguide.strip.width,
+    layer: Layer = TECH.waveguide.strip.layer,
+    layer_cladding: Layer = TECH.waveguide.strip.layer_cladding,
+    bend_radius: float = TECH.waveguide.strip.bend_radius,
+    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
 ) -> WaveguideTemplate:
 
     return pc.WaveguideTemplate(

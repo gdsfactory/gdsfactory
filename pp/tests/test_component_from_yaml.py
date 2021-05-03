@@ -108,7 +108,7 @@ def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 7
+    assert len(c.get_dependencies()) == 6
     assert len(c.ports) == 2
     return c
 
@@ -163,7 +163,7 @@ def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 9
+    assert len(c.get_dependencies()) == 8
     assert len(c.ports) == 0
 
     length = c.routes["mmi_bottom,E1:mmi_top,W1"]
@@ -318,13 +318,13 @@ instances:
     mmi_bot:
       component: mmi1x2
       settings:
-        width_mmi: 4.5
-        length_mmi: 10
+        width_mmi: 5
+        length_mmi: 11
     mmi_top:
       component: mmi1x2
       settings:
-        width_mmi: 4.5
-        length_mmi: 5
+        width_mmi: 6
+        length_mmi: 22
 
 placements:
     mmi_top:
@@ -533,7 +533,9 @@ def test_gds(yaml_key: str, data_regression: DataRegressionFixture) -> None:
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_settings(yaml_key: str, data_regression: DataRegressionFixture) -> None:
+def test_settings(
+    yaml_key: str, data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
     """Avoid regressions when exporting settings."""
     yaml_string = yaml_strings[yaml_key]
     c = component_from_yaml(yaml_string)
@@ -541,7 +543,9 @@ def test_settings(yaml_key: str, data_regression: DataRegressionFixture) -> None
     settings = c.get_settings()
     # routes = settings.get("info", {}).get("routes", {})
     # data_regression.check(routes)
-    data_regression.check(settings)
+    if check:
+        data_regression.check(settings)
+    return c
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
@@ -601,9 +605,7 @@ def _demo_netlist():
 
 if __name__ == "__main__":
     # test_netlists('sample_regex_connections_backwards', True, None, check=False)
-    c = test_connections_regex_backwargs()
-    c.show()
-
+    # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
@@ -613,4 +615,5 @@ if __name__ == "__main__":
     # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
-    # c.show()
+    c = test_settings("yaml_anchor", None, False)
+    c.show()

@@ -7,15 +7,17 @@ from pp.component import Component, ComponentReference
 from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
-from pp.config import conf
+from pp.config import TECH
 from pp.routing.get_route import get_route
 from pp.routing.utils import direction_ports_from_list_ports, flip
 from pp.types import ComponentFactory, Number, Route
 
+BEND_RADIUS = TECH.routing.optical.bend_radius
+
 
 def route_south(
     component: Component,
-    bend_radius: Number = conf.tech.bend_radius,
+    bend_radius: Number = BEND_RADIUS,
     optical_routing_type: int = 1,
     excluded_ports: List[str] = None,
     straight_separation: Number = 4.0,

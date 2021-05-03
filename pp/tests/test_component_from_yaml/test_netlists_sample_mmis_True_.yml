@@ -1,12 +1,10 @@
 connections:
-  bend_euler_R10_W500n_70.115_5.5,N0: taper_L1_0_L35_W500n_W2p5_74.99_28.125,1
+  bend_euler_R10_W500n_70.115_5.5,N0: straight_L80_W500n_74.99_50.625,W0
   bend_euler_R10_W500n_70.115_5.5,W0: straight_L52p49_W500n_38.745_0.625,E0
   bend_euler_R10_W500n_79.865_95.75,N0: straight_L10n_W500n_84.995_100.625,W0
-  bend_euler_R10_W500n_79.865_95.75,W0: taper_L1_0_L35_W500n_W2p5_74.99_73.125,1
+  bend_euler_R10_W500n_79.865_95.75,W0: straight_L80_W500n_74.99_50.625,E0
   mmi_long,E0: straight_L10n_W500n_84.995_100.625,E0
   mmi_short,E1: straight_L52p49_W500n_38.745_0.625,W0
-  straight_L10_W2p5_74.99_50.625,E0: taper_L1_0_L35_W500n_W2p5_74.99_73.125,2
-  straight_L10_W2p5_74.99_50.625,W0: taper_L1_0_L35_W500n_W2p5_74.99_28.125,2
 instances:
   bend_euler_R10_W500n_70.115_5.5:
     component: bend_euler
@@ -60,14 +58,6 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
-  straight_L10_W2p5_74.99_50.625:
-    component: straight
-    settings:
-      cross_section_factory: null
-      length: 10
-      npoints: 2
-      snap_to_grid_nm: 1
-      width: 2.5
   straight_L10n_W500n_84.995_100.625:
     component: straight
     settings:
@@ -84,32 +74,14 @@ instances:
       npoints: 2
       snap_to_grid_nm: 1
       width: 0.5
-  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
-    component: taper
+  straight_L80_W500n_74.99_50.625:
+    component: straight
     settings:
-      cladding_offset: null
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 35
-      port: null
-      tech: null
-      width1: 0.5
-      width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
-    component: taper
-    settings:
-      cladding_offset: null
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 35
-      port: null
-      tech: null
-      width1: 0.5
-      width2: 2.5
+      cross_section_factory: null
+      length: 80
+      npoints: 2
+      snap_to_grid_nm: 1
+      width: 0.5
 name: mmis
 placements:
   bend_euler_R10_W500n_70.115_5.5:
@@ -132,11 +104,6 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_L10_W2p5_74.99_50.625:
-    mirror: false
-    rotation: 90
-    x: 74.99
-    y: 45.625
   straight_L10n_W500n_84.995_100.625:
     mirror: false
     rotation: 0
@@ -147,16 +114,11 @@ placements:
     rotation: 0
     x: 12.5
     y: 0.625
-  taper_L1_0_L35_W500n_W2p5_74.99_28.125:
+  straight_L80_W500n_74.99_50.625:
     mirror: false
     rotation: 90
     x: 74.99
     y: 10.625
-  taper_L1_0_L35_W500n_W2p5_74.99_73.125:
-    mirror: false
-    rotation: 270
-    x: 74.99
-    y: 90.625
 ports:
   E0: mmi_short,W0
   W0: mmi_long,W0

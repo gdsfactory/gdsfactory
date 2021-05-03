@@ -10,8 +10,7 @@ from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.config import call_if_func
-from pp.layers import LAYER
+from pp.config import TECH, call_if_func
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
@@ -22,20 +21,20 @@ from pp.types import ComponentFactory
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    layer_label: Tuple[int, int] = LAYER.LABEL,
-    optical_io_spacing: float = 50.0,
+    layer_label: Tuple[int, int] = TECH.routing.optical.layer_label,
+    fiber_spacing: float = TECH.routing.optical.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
     taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
-    min_input2output_spacing: float = 200.0,
+    min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
     with_align_ports: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    auto_widen: bool = False,
+    auto_widen: bool = TECH.routing.optical.auto_widen,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -46,7 +45,7 @@ def add_fiber_single(
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
         layer_label: LAYER.LABEL
-        optical_io_spacing: SPACING_GC
+        fiber_spacing: between outputs
         bend_factory: bend_circular
         straight_factory: straight
         taper_factory: taper
@@ -129,7 +128,7 @@ def add_fiber_single(
 
     if (
         len(optical_ports) == 2
-        and abs(optical_ports[0].x - optical_ports[1].x) > min_input2output_spacing
+        and abs(optical_ports[0].x - optical_ports[1].x) > min_input_to_output_spacing
     ):
 
         grating_coupler = call_if_func(grating_coupler)
@@ -151,14 +150,14 @@ def add_fiber_single(
         elements, grating_couplers = route_fiber_single(
             component,
             component_name=component_name,
-            optical_io_spacing=optical_io_spacing,
+            fiber_spacing=fiber_spacing,
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             route_filter=route_filter,
             grating_coupler=grating_coupler,
             layer_label=layer_label,
             optical_routing_type=optical_routing_type,
-            min_input2output_spacing=min_input2output_spacing,
+            min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
             auto_widen=auto_widen,
             **kwargs,
@@ -198,9 +197,9 @@ def add_fiber_single(
         wg = c << straight_factory(length=length)
         wg.rotate(90)
         wg.xmax = (
-            c.xmin - optical_io_spacing
-            if abs(c.xmin) > abs(optical_io_spacing)
-            else c.xmin - optical_io_spacing
+            c.xmin - fiber_spacing
+            if abs(c.xmin) > abs(fiber_spacing)
+            else c.xmin - fiber_spacing
         )
         wg.ymin = c.ymin + gc_port_to_edge
 

@@ -7,10 +7,10 @@ from pp.pf import cli
 def test_pf_version() -> None:
     """ checks that the CLI returns the correct version """
     runner = CliRunner()
-    result = runner.invoke(cli, ["config", "version"])
+    result = runner.invoke(cli, ["--version"])
 
-    print(result.output)
-    print(__version__)
+    # print(result.output)
+    # print(__version__)
     assert result.exit_code == 0
     assert result.output.startswith(__version__)
 

@@ -1,12 +1,12 @@
 import datetime
 import platform
-from typing import List, Optional, Tuple
+from typing import Iterable, Tuple
 
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.text import text as Text
-from pp.config import conf
+from pp.config import TECH
 from pp.layers import LAYER
 
 
@@ -40,7 +40,8 @@ def qrcode(
 
 @cell
 def version_stamp(
-    text: Optional[List[str]] = None,
+    text: Iterable[str] = ("demo_label",),
+    git_hash: str = TECH.info.git_hash[:15],
     with_qr_code: bool = False,
     layer: Tuple[int, int] = LAYER.WG,
     pixel_size: int = 1,
@@ -48,8 +49,6 @@ def version_stamp(
 ) -> Component:
     """Returns module version, git hash and date."""
 
-    text = text or []
-    git_hash = conf.git_hash
     now = datetime.datetime.now()
     timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)
     short_stamp = "{:%y.%m.%d.%H.%M.%S}".format(now)
@@ -73,7 +72,7 @@ def version_stamp(
     c.add(date)
     c.absorb(date)
 
-    git_hash = Text(position=(x, 0), text=git_hash[:15], **txt_params).ref()
+    git_hash = Text(position=(x, 0), text=git_hash, **txt_params).ref()
     c.add(git_hash)
     c.absorb(git_hash)
 
@@ -89,7 +88,7 @@ def version_stamp(
 
 
 if __name__ == "__main__":
-    print(conf.git_hash)
+    print(TECH.git_hash)
     c = version_stamp(
         pixel_size=4,
         layer=LAYER.M1,

@@ -3,15 +3,15 @@ from typing import List, Tuple
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
-from pp.layers import LAYER
+from pp.tech import TECH
 from pp.types import ComponentOrFactory
-
-WIRE_WIDTH = 10.0
 
 
 @cell
 def pad(
-    width: int = 100, height: int = 100, layer: Tuple[int, int] = LAYER.M3
+    width: float = TECH.components.pad.width,
+    height: float = TECH.components.pad.height,
+    layer: Tuple[int, int] = TECH.components.pad.layer,
 ) -> Component:
     """rectangular pad with 4 ports (N, S, E, W)
 
@@ -60,6 +60,9 @@ def pad_array(
 
 
 if __name__ == "__main__":
+    from pp.tech import TECH
+
+    print(TECH.components.pad.layer)
 
     c = pad()
     print(c.ports)

@@ -12,7 +12,7 @@ from pp.components.grating_coupler.elliptical_trenches import (
 from pp.components.taper import taper
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
@@ -34,10 +34,9 @@ def add_fiber_array(
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
-    taper_length: Optional[float] = None,
+    taper_length: float = TECH.routing.optical.taper_length,
     get_input_labels_function: Callable = get_input_labels,
-    tech: Tech = TECH_SILICON_C,
-    auto_widen: bool = True,
+    auto_widen: bool = TECH.routing.optical.auto_widen,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -69,7 +68,6 @@ def add_fiber_array(
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
-        tech: technology default values (taper_length, bend_radius)
         auto_widen: widen straight waveguides for lower loss in long routes
 
     .. plot::
@@ -106,8 +104,6 @@ def add_fiber_array(
     optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
-    taper_length = taper_length or tech.taper_length
-
     if port_width_component != port_width_gc:
         c = add_tapers(
             component=c,
@@ -126,7 +122,6 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
-        tech=tech,
         auto_widen=auto_widen,
         **kwargs,
     )

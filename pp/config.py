@@ -5,14 +5,13 @@
 3. the default_config in pp/config.py (lowest priority)
 
 `CONFIG` has all your computer specific paths that we do not care to store
-`conf` has all the useful info that we will store to have reproduceable layouts.
+`TECH` has all the useful info that we will store to have reproduceable layouts.
 
 You can access all the config dictionary with `print_config` as well as a particular key
 
 """
 
 __version__ = "2.4.9"
-import io
 import json
 import logging
 import os
@@ -36,6 +35,7 @@ diff_path = repo_path / "gds_diff"
 cwd_config = cwd / "config.yml"
 module_config = module_path / "config.yml"
 home_config = home_path / "config.yml"
+default_config = pathlib.Path(__file__).parent.absolute() / "config.yml"
 layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
@@ -43,44 +43,29 @@ dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
 
-conf = OmegaConf.load(
-    io.StringIO(
-        """
-tech:
-    name: generic
-    cache_url:
-    wg_width: 0.5
-    wg_expanded_width: 2.5
-    wire_widh: 10
-    taper_length: 35.0
-    grid_unit: 1e-6
-    grid_resolution: 1e-9
-    bend_radius: 10.0
-    cladding_offset: 0.0
-"""
-    )
-)
+TECH = OmegaConf.load(default_config)
 
 
 if os.access(home_config, os.R_OK) and home_config.exists():
-    config_home = OmegaConf.load(home_config)
-    conf = OmegaConf.merge(conf, config_home)
+    TECH_HOME = OmegaConf.load(home_config)
+    TECH = OmegaConf.merge(TECH, TECH_HOME)
 
 if os.access(cwd_config, os.R_OK) and cwd_config.exists():
-    config_cwd = OmegaConf.load(cwd_config)
-    conf = OmegaConf.merge(conf, config_cwd)
+    TECH_CWD = OmegaConf.load(cwd_config)
+    TECH = OmegaConf.merge(TECH, TECH_CWD)
 
 
-conf.version = __version__
+TECH.info = {}
+TECH.info.version = __version__
 
 try:
     from git import InvalidGitRepositoryError, Repo
 
     try:
-        conf.git_hash = Repo(
+        TECH.info.git_hash = Repo(
             repo_path, search_parent_directories=True
         ).head.object.hexsha
-        conf.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
+        TECH.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
     except InvalidGitRepositoryError:
         pass
 
@@ -101,8 +86,8 @@ CONFIG = dict(
 
 mask_name = "notDefined"
 
-if "mask" in conf:
-    mask_name = conf.mask.name
+if "mask" in TECH:
+    mask_name = TECH.mask.name
     mask_config_directory = cwd
     build_directory = mask_config_directory / "build"
     CONFIG["devices_directory"] = mask_config_directory / "devices"
@@ -112,8 +97,8 @@ else:
     build_directory = dirpath_build
     mask_config_directory = dirpath_build
 
-CONFIG["custom_components"] = conf.custom_components
-CONFIG["gdslib"] = conf.gdslib or repo_path / "gdslib"
+CONFIG["custom_components"] = TECH.custom_components
+CONFIG["gdslib"] = TECH.gdslib or repo_path / "gdslib"
 CONFIG["sp"] = CONFIG["gdslib"] / "sp"
 CONFIG["gds"] = CONFIG["gdslib"] / "gds"
 CONFIG["gdslib_test"] = dirpath_test
@@ -150,15 +135,15 @@ logging.warning("This will get logged to a file")
 def print_config(key: Optional[str] = None) -> None:
     """Prints a key for the config or all the keys"""
     if key:
-        if conf.get(key):
-            print(conf[key])
+        if TECH.get(key):
+            print(TECH[key])
         elif CONFIG.get(key):
             print(CONFIG[key])
         else:
             print(f"`{key}` key not found in {cwd_config}")
     else:
         pprint(CONFIG)
-        print(OmegaConf.to_yaml(conf))
+        print(OmegaConf.to_yaml(TECH))
 
 
 def complex_encoder(z):
@@ -196,16 +181,16 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-GRID_RESOLUTION = conf.tech.grid_resolution
-GRID_PER_UNIT = conf.tech.grid_unit / GRID_RESOLUTION
+GRID_RESOLUTION = TECH.tech.grid_resolution
+GRID_PER_UNIT = TECH.tech.grid_unit / GRID_RESOLUTION
 GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
-BEND_RADIUS = conf.tech.bend_radius
-TAPER_LENGTH = conf.tech.taper_length
-WG_EXPANDED_WIDTH = conf.tech.wg_expanded_width
+BEND_RADIUS = TECH.routing.optical.bend_radius
+TAPER_LENGTH = TECH.routing.optical.taper_length
+WG_EXPANDED_WIDTH = TECH.routing.optical.wg_expanded_width
 
 
 if __name__ == "__main__":
-    # print(conf)
+    # print(TECH)
     # print_config("gdslib")
     # print_config()
     # print(CONFIG["git_hash"])

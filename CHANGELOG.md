@@ -29,6 +29,7 @@ from pydantic import validate_arguments
 - rename start_ports, end_ports with ports1 and ports2
 - straight_with_heater fixed connector
 - straight_with_heater accepts port_orientation_input and port_orientation_output
+- TECH defined in config.yml
 
 ## 2.4.9
 

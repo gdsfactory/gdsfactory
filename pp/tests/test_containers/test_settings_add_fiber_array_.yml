@@ -19,5 +19,4 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
-  taper_length: null
-  tech: silicon_cband
+  taper_length: 35

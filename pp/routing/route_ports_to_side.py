@@ -5,13 +5,13 @@ from numpy import float64
 
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.config import conf
+from pp.config import TECH
 from pp.layers import LAYER
 from pp.port import Port, flipped, is_electrical_port
 from pp.routing.get_route import get_route, get_route_electrical
 from pp.types import Route
 
-BEND_RADIUS = conf.tech.bend_radius
+BEND_RADIUS = TECH.routing.optical.bend_radius
 
 
 def route_elec_ports_to_side(

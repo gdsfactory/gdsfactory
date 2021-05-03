@@ -10,6 +10,7 @@ from pp.components.straight import straight
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
+from pp.tech import TECH
 from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
 
 TOLERANCE = 0.0001
@@ -443,7 +444,9 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[Callable] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    auto_widen: bool = True,
+    auto_widen: bool = TECH.routing.optical.auto_widen,
+    taper_length: float = TECH.routing.optical.taper_length,
+    auto_widen_minimum_length: float = TECH.routing.optical.auto_widen_minimum_length,
 ) -> Route:
     """Returns Dict:
 
@@ -539,8 +542,8 @@ def round_corners(
 
         total_length += length
 
-        if auto_widen and taper is not None and length > 2 * taper.info["length"] + 1.0:
-            length = length - 2 * taper.info["length"]
+        if auto_widen and taper is not None and length > auto_widen_minimum_length:
+            length = length - 2 * taper_length
             with_taper = True
 
         if with_taper:

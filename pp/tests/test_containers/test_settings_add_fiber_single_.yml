@@ -3,7 +3,7 @@ info: {}
 module: pp.routing.add_fiber_single
 name: add_fiber_single_Cmzi2x2_WECTrue
 settings:
-  auto_widen: false
+  auto_widen: true
   component:
     function_name: mzi2x2
     info: {}
@@ -18,12 +18,12 @@ settings:
       gap: 0.234
       with_elec_connections: true
   component_name: null
+  fiber_spacing: 50
   gc_port_name: W0
   layer_label:
   - 201
   - 0
-  min_input2output_spacing: 200
-  optical_io_spacing: 50
+  min_input_to_output_spacing: 200
   optical_routing_type: 2
   taper_length: 10
   with_align_ports: true
