@@ -1,17 +1,17 @@
 connections:
-  bend_euler_R10_W500n_67.115_-5.5,N0: straight_L18p75_W500n_71.99_-20.0,W0
-  bend_euler_R10_W500n_67.115_-5.5,W0: straight_L19p99_W500n_51.995_-0.625,E0
-  bend_euler_R10_W500n_76.865_-34.5,N0: straight_L10n_W500n_81.995_-39.375,W0
-  bend_euler_R10_W500n_76.865_-34.5,W0: straight_L18p75_W500n_71.99_-20.0,E0
+  bend_euler_R10_W500n_68.615_-4.0,N0: straight_L18p75_W500n_71.99_-20.0,W0
+  bend_euler_R10_W500n_68.615_-4.0,W0: straight_L19p99_W500n_51.995_-0.625,E0
+  bend_euler_R10_W500n_75.365_-36.0,N0: straight_L10n_W500n_81.995_-39.375,W0
+  bend_euler_R10_W500n_75.365_-36.0,W0: straight_L18p75_W500n_71.99_-20.0,E0
   mmi_bot,W0: straight_L10n_W500n_81.995_-39.375,E0
   mmi_top,E0: straight_L19p99_W500n_51.995_-0.625,W0
 instances:
-  bend_euler_R10_W500n_67.115_-5.5:
+  bend_euler_R10_W500n_68.615_-4.0:
     component: bend_euler
     settings:
       radius: 10
       width: 0.5
-  bend_euler_R10_W500n_76.865_-34.5:
+  bend_euler_R10_W500n_75.365_-36.0:
     component: bend_euler
     settings:
       radius: 10
@@ -43,12 +43,12 @@ instances:
       width: 0.5
 name: sample_docstring
 placements:
-  bend_euler_R10_W500n_67.115_-5.5:
+  bend_euler_R10_W500n_68.615_-4.0:
     mirror: true
     rotation: 0
     x: 61.99
     y: -0.625
-  bend_euler_R10_W500n_76.865_-34.5:
+  bend_euler_R10_W500n_75.365_-36.0:
     mirror: false
     rotation: 270
     x: 71.99

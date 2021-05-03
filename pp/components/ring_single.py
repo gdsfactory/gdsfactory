@@ -19,7 +19,6 @@ def ring_single(
     coupler_ring: ComponentOrFactory = coupler_ring_function,
     straight: ComponentOrFactory = straight_function,
     bend: Optional[ComponentOrFactory] = None,
-    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -35,7 +34,6 @@ def ring_single(
         coupler_ring: ring coupler function
         straight: straight function
         bend: 90 degrees bend function
-        snap_to_grid_nm: snaps to nm grid
         cross_section_factory: for straights
         **cross_section_settings
 
@@ -60,7 +58,6 @@ def ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )
@@ -70,14 +67,12 @@ def ring_single(
     straight_side = call_if_func(
         straight,
         length=length_y,
-        snap_to_grid_nm=snap_to_grid_nm,
         cross_section_factory=cross_section_factory,
         **cross_section_settings
     )
     straight_top = call_if_func(
         straight,
         length=length_x,
-        snap_to_grid_nm=snap_to_grid_nm,
         cross_section_factory=cross_section_factory,
         **cross_section_settings
     )
@@ -86,7 +81,6 @@ def ring_single(
     bend_ref = (
         bend(
             radius=radius,
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )

@@ -1,7 +1,7 @@
 function_name: ring_single
 info: {}
 module: pp.components.ring_single
-name: ring_single_91f9faae
+name: ring_single_2d5e557c
 settings:
   bend: bend_euler
   cross_section_factory: strip
@@ -9,5 +9,4 @@ settings:
   length_x: 4
   length_y: 0.1
   radius: 20
-  snap_to_grid_nm: 1
   straight: straight

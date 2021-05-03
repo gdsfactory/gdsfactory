@@ -19,7 +19,6 @@ def coupler_ring(
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
     coupler_straight: ComponentFactory = coupler_straight_function,
-    snap_to_grid_nm: int = 1,
     cross_section_factory: Optional[CrossSectionFactory] = None,
     **cross_section_settings
 ) -> Component:
@@ -33,7 +32,6 @@ def coupler_ring(
         straight: factory for straight waveguides.
         bend: factory for bend
         coupler_straight: two parallel coupled straight waveguides.
-        snap_to_grid_nm: snaps points a nm grid
         cross_section_factory: for straight and bend
         **cross_section_settings
 
@@ -60,7 +58,6 @@ def coupler_ring(
             radius=radius,
             straight=straight,
             bend=bend,
-            snap_to_grid_nm=snap_to_grid_nm,
             cross_section_factory=cross_section_factory,
             **cross_section_settings
         )
@@ -71,7 +68,6 @@ def coupler_ring(
         coupler_straight(
             gap=gap,
             length=length_x,
-            snap_to_grid_nm=snap_to_grid_nm,
             straight=straight,
             cross_section_factory=cross_section_factory,
             **cross_section_settings

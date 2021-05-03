@@ -8,7 +8,7 @@ from pp.types import Layer
 def wg_strip(
     wg_width: float = TECH.waveguide.strip.width,
     layer: Layer = TECH.waveguide.strip.layer,
-    layer_cladding: Layer = TECH.waveguide.strip.layer_cladding,
+    layer_cladding: Layer = TECH.waveguide.strip.layers_cladding[0],
     bend_radius: float = TECH.waveguide.strip.bend_radius,
     cladding_offset: float = TECH.waveguide.strip.cladding_offset,
 ) -> WaveguideTemplate:

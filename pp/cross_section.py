@@ -32,7 +32,6 @@ def strip(
 
     if cross_section and hasattr(cross_section, "items"):
         for section_name, section in cross_section.items():
-            print(section["width"], section["offset"], section["layer"])
             x.add(
                 width=section["width"], offset=section["offset"], layer=section["layer"]
             )

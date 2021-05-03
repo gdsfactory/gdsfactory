@@ -19,6 +19,7 @@ from pp.component import Component
 from pp.hash_points import hash_points
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
+from pp.tech import TECH
 from pp.transition import transition
 from pp.types import Coordinates, Number, PathFactory
 
@@ -27,7 +28,7 @@ def component(
     p: Path,
     cross_section: CrossSection,
     simplify: Optional[float] = None,
-    snap_to_grid_nm: Optional[int] = None,
+    snap_to_grid_nm: int = TECH.tech.snap_to_grid_nm,
     rename_ports: bool = True,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
