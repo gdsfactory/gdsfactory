@@ -4,7 +4,7 @@ from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
-from pp.path import component, euler
+from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 from pp.tech import TECH
 from pp.types import CrossSectionFactory, Layer
@@ -62,7 +62,7 @@ def bend_euler(
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = component(p, cross_section)
+    c = extrude(p, cross_section)
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]
@@ -103,9 +103,9 @@ def _compare_bend_euler180():
     p2 = pp.path.euler(angle=180)
     cross_section = pp.cross_section.strip(width=0.5, layer=pp.LAYER.WG)
 
-    c1 = pp.path.component(p1, cross_section=cross_section)
+    c1 = pp.path.extrude(p1, cross_section=cross_section)
     c1.name = "two_90_euler"
-    c2 = pp.path.component(p2, cross_section=cross_section)
+    c2 = pp.path.extrude(p2, cross_section=cross_section)
     c2.name = "one_180_euler"
     c1.add_ref(c2)
     c1.show()

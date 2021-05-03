@@ -3,7 +3,7 @@ from typing import Optional
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.path import arc, component
+from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
 
@@ -51,7 +51,7 @@ def bend_circular_heater(
         ports=["bot_in", "bot_out"],
     )
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = component(p, x)
+    c = extrude(p, x)
     c.length = snap_to_grid(p.length())
     c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])

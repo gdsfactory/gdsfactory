@@ -4,7 +4,7 @@ from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import strip
-from pp.path import arc, component
+from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 from pp.tech import TECH
 from pp.types import CrossSectionFactory, Layer
@@ -41,7 +41,7 @@ def bend_circular(
     cross_section_factory = cross_section_factory or strip
     cross_section = cross_section_factory(**cross_section_settings)
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = component(p, cross_section)
+    c = extrude(p, cross_section)
 
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])

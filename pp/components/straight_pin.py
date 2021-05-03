@@ -5,7 +5,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import pin
 from pp.layers import LAYER
-from pp.path import component, straight
+from pp.path import extrude, straight
 from pp.snap import snap_to_grid
 from pp.tech import TECH_SILICON_C, Tech
 from pp.types import Layer
@@ -81,7 +81,7 @@ def straight_pin(
         layer_ppp=layer_ppp,
         layer_npp=layer_npp,
     )
-    c = component(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    c = extrude(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
     c.width = width
     c.length = snap_to_grid(length)
     return c
