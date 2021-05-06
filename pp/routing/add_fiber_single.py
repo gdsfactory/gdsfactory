@@ -35,6 +35,7 @@ def add_fiber_single(
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
     auto_widen: bool = TECH.routing.optical.auto_widen,
+    cross_section_settings=TECH.waveguide.strip,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -111,7 +112,10 @@ def add_fiber_single(
     if port_width_component != port_width_gc:
         taper = (
             taper_factory(
-                length=taper_length, width1=port_width_gc, width2=port_width_component
+                length=taper_length,
+                width1=port_width_gc,
+                width2=port_width_component,
+                cross_section_settings=cross_section_settings,
             )
             if callable(taper_factory)
             else taper_factory
@@ -159,6 +163,7 @@ def add_fiber_single(
             min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
             auto_widen=auto_widen,
+            cross_section_settings=cross_section_settings,
             **kwargs,
         )
 
@@ -193,7 +198,9 @@ def add_fiber_single(
 
     if with_align_ports:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(length=length)
+        wg = c << straight_factory(
+            length=length, cross_section_settings=cross_section_settings
+        )
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -255,10 +262,13 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_elliptical2
     # gc = pp.components.grating_coupler_te
     # gc = pp.components.grating_coupler_uniform
+    # cc = add_fiber_single(component=c, auto_widen=False)
 
-    c = pp.components.straight(length=500, cross_section_settings=pp.TECH.waveguide)
+    c = pp.components.straight(
+        length=500, cross_section_settings=pp.TECH.waveguide.nitride
+    )
+    gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
-    cc = add_fiber_single(component=c, auto_widen=False)
 
     # print(cc.get_settings()["component"])
     print(cc.ports.keys())

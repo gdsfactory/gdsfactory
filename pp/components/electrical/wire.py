@@ -1,9 +1,8 @@
-from typing import Optional, Tuple
-
 from pp.cell import cell
 from pp.component import Component
-from pp.components.hline import hline
-from pp.layers import LAYER
+from pp.components.bend_circular import bend_circular
+from pp.components.straight import straight
+from pp.config import TECH
 from pp.port import deco_rename_ports
 from pp.types import Number
 
@@ -13,63 +12,45 @@ WIRE_WIDTH = 10.0
 @deco_rename_ports
 @cell
 def wire(
-    length: Number = 50.0,
-    width: Number = WIRE_WIDTH,
-    layer: Tuple[int, int] = LAYER.M3,
-    port_type: str = "dc",
+    length: Number = 50.0, cross_section_settings=TECH.waveguide.metal_routing, **kwargs
 ) -> Component:
-    """Straight straight.
+    """Straight wire.
 
     Args:
         length: straiht length
-        width: wire width
-        layer: layer
-        port_type: port_type
     """
-    return hline(length=length, width=width, layer=layer, port_type=port_type)
+    return straight(
+        length=length, cross_section_settings=cross_section_settings, **kwargs
+    )
 
 
-@deco_rename_ports
 @cell
 def corner(
-    width: float = WIRE_WIDTH,
-    radius: Optional[Number] = None,
-    layer: Tuple[int, int] = LAYER.M3,
-    port_type: str = "dc",
+    radius: float = 5,
+    angle: int = 90,
+    npoints: int = 720,
+    with_cladding_box: bool = False,
+    cross_section_settings=TECH.waveguide.metal_routing,
+    **kwargs
 ) -> Component:
     """90 degrees electrical bend
 
     Args:
-        width: wire width
-        radius ignore (passed for consistency with other types of bends)
-        layer: layer
-        port_type: port_type
+        radius
+        angle: angle of arc (degrees)
+        npoints: Number of points used per 360 degrees
+        cross_section_settings: settings for cross_section
+        kargs: cross_section settings to extrude
 
     """
-    c = Component()
-    a = width / 2
-    xpts = [-a, a, a, -a]
-    ypts = [-a, -a, a, a]
-
-    c.add_polygon([xpts, ypts], layer=layer)
-    c.add_port(
-        name="W0",
-        midpoint=(-a, 0),
-        width=width,
-        orientation=180,
-        layer=layer,
-        port_type=port_type,
+    return bend_circular(
+        radius=radius,
+        angle=angle,
+        npoints=npoints,
+        with_cladding_box=with_cladding_box,
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
-    c.add_port(
-        name="N0",
-        midpoint=(0, a),
-        width=width,
-        orientation=90,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.length = width
-    return c
 
 
 if __name__ == "__main__":

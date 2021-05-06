@@ -447,6 +447,7 @@ def round_corners(
     auto_widen: bool = TECH.routing.optical.auto_widen,
     taper_length: float = TECH.routing.optical.taper_length,
     auto_widen_minimum_length: float = TECH.routing.optical.auto_widen_minimum_length,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Route:
     """Returns Dict:
 
@@ -466,8 +467,16 @@ def round_corners(
     """
     references = []
     ports = dict()
-    bend90 = bend_factory() if callable(bend_factory) else bend_factory
-    taper = taper() if callable(taper) else taper
+    bend90 = (
+        bend_factory(cross_section_settings=cross_section_settings)
+        if callable(bend_factory)
+        else bend_factory
+    )
+    taper = (
+        taper(cross_section_settings=cross_section_settings)
+        if callable(taper)
+        else taper
+    )
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -565,10 +574,17 @@ def round_corners(
 
         # Straight straight
         length = snap_to_grid(length)
+        cross_section_settings = dict(cross_section_settings)
+        cross_section_settings.update(width=wg_width)
         if with_taper or taper is None:
-            wg = straight_factory(length=length, width=wg_width)
+            wg = straight_factory(
+                length=length,
+                cross_section_settings=cross_section_settings,
+            )
         else:
-            wg = straight_factory_fall_back_no_taper(length=length, width=wg_width)
+            wg = straight_factory_fall_back_no_taper(
+                length=length, cross_section_settings=cross_section_settings
+            )
 
         if straight_ports is None:
             straight_ports = [p.name for p in _get_straight_ports(wg)]
@@ -616,11 +632,14 @@ def generate_manhattan_waypoints(
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
     bend90 = (
-        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+        bend_factory(radius=bend_radius, cross_section_settings=cross_section_settings)
+        if callable(bend_factory)
+        else bend_factory
     )
 
     pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
@@ -652,6 +671,7 @@ def route_manhattan(
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
     auto_widen: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
@@ -671,6 +691,7 @@ def route_manhattan(
         taper=taper,
         bend_factory=bend_factory,
         auto_widen=auto_widen,
+        cross_section_settings=cross_section_settings,
     )
 
 

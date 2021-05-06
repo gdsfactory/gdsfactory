@@ -142,6 +142,7 @@ def route_fiber_single(
 
 
 if __name__ == "__main__":
+    # FIXME
     gcte = pp.components.grating_coupler_te
     gctm = pp.components.grating_coupler_tm
 
@@ -156,6 +157,21 @@ if __name__ == "__main__":
 
     elements, gc = route_fiber_single(
         c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
+    )
+
+    cross_section_settings = pp.TECH.waveguide.nitride
+    c = pp.components.straight(width=2, cross_section_settings=cross_section_settings)
+    gc = pp.components.grating_coupler_elliptical_te(
+        layer=pp.TECH.waveguide.nitride.layer
+    )
+    # cc = pp.routing.add_fiber_single(
+    #     component=c, grating_coupler=gc, cross_section_settings=cross_section_settings
+    # )
+    elements, gc = route_fiber_single(
+        c,
+        grating_coupler=[gc, gc, gc, gc],
+        auto_widen=False,
+        cross_section_settings=cross_section_settings,
     )
 
     cc = pp.Component("sample_route_fiber_single")
