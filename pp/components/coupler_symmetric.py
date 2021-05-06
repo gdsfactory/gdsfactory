@@ -1,10 +1,9 @@
-from typing import Optional
-
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.cross_section import strip
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.cross_section import cross_section
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -13,8 +12,8 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs,
 ) -> Component:
     r"""Two coupled straights with bends.
 
@@ -39,15 +38,15 @@ def coupler_symmetric(
                              E0
 
     """
-    cross_section_factory = cross_section_factory or strip
-    cross_section = cross_section_factory(**cross_section_settings)
-    width = cross_section.info["width"]
+    settings = cross_section_settings.copy()
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width) / 2,
             length=dx,
-            cross_section_factory=cross_section_factory,
-            **cross_section_settings,
+            **kwargs,
         )
         if callable(bend)
         else bend

@@ -17,7 +17,6 @@ def test_remove_layers() -> Component:
     c.remove_layers(layers=[pp.LAYER.SLAB90, pp.LAYER.SLAB150])
 
     assert len(c.layers) == 1
-    assert pp.LAYER.WG in c.layers
     return c
 
 

@@ -10,6 +10,7 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 
 import networkx as nx
 import numpy as np
+import omegaconf
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
@@ -527,7 +528,7 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = {"path", "netlist", "properties"}
+        self.ignore = {"path", "netlist", "properties", "cross_section_settings"}
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
         self.data_analysis_protocol = {}
@@ -596,7 +597,7 @@ class Component(Device):
         return get_netlist(component=self, full_settings=full_settings)
 
     def get_name_long(self) -> str:
-        """ returns the long name if it's been truncated to MAX_NAME_LENGTH"""
+        """returns the long name if it's been truncated to MAX_NAME_LENGTH"""
         if self.name_long:
             return self.name_long
         else:
@@ -642,7 +643,7 @@ class Component(Device):
         )
 
     def get_ports_array(self) -> Dict[str, ndarray]:
-        """ returns ports as a dict of np arrays"""
+        """returns ports as a dict of np arrays"""
         ports_array = {
             port_name: np.array(
                 [
@@ -659,7 +660,7 @@ class Component(Device):
         return ports_array
 
     def get_properties(self):
-        """ returns name, uid, ports, aliases and numer of references """
+        """returns name, uid, ports, aliases and numer of references"""
         return (
             f"name: {self._internal_name}, uid: {self.uid},  ports:"
             f" {self.ports.keys()}, aliases {self.aliases.keys()}, number of"
@@ -698,7 +699,7 @@ class Component(Device):
         return _ref
 
     def ref_center(self, position=(0, 0)):
-        """ returns a reference of the component centered at (x=0, y=0)"""
+        """returns a reference of the component centered at (x=0, y=0)"""
         si = self.size_info
         yc = si.south + si.height / 2
         xc = si.west + si.width / 2
@@ -711,7 +712,7 @@ class Component(Device):
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
     def update_settings(self, **kwargs) -> None:
-        """ update settings dict """
+        """update settings dict"""
         for key, value in kwargs.items():
             self.settings[key] = _clean_value(value)
 
@@ -932,7 +933,7 @@ class Component(Device):
 
     @property
     def size_info(self) -> SizeInfo:
-        """ size info of the component """
+        """size info of the component"""
         # if self.__size_info__ == None:
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
@@ -1100,7 +1101,7 @@ IGNORE_STRUCTURE_NAME_PREFIXES = set(["zz_conn"])
 
 
 def recurse_structures(structure: Component) -> Dict[str, Any]:
-    """ Recurse over structures """
+    """Recurse over structures"""
     if (
         hasattr(structure, "function_name")
         and structure.function_name in IGNORE_FUNCTION_NAMES
@@ -1147,6 +1148,8 @@ def _clean_value(value: Any) -> Any:
     elif callable(value):
         value = value.__name__
     elif isinstance(value, dict):
+        clean_dict(value)
+    elif isinstance(value, omegaconf.dictconfig.DictConfig):
         clean_dict(value)
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
@@ -1248,20 +1251,17 @@ def demo_component(port):
 def test_extract():
     import pp
 
-    c = pp.c.straight(
-        length=10,
-        width=0.5,
-        layers_cladding=(pp.LAYER.WGCLAD,)
-        # cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
-    )
+    c = pp.c.straight(length=10, width=0.5)
     c2 = c.extract(layers=[pp.LAYER.WGCLAD])
 
-    assert len(c.polygons) == 2
-    assert len(c2.polygons) == 1
+    assert len(c.polygons) == 1
+    assert len(c2.polygons) == 0
 
 
 if __name__ == "__main__":
     import pp
+
+    test_extract()
 
     c = pp.c.straight(
         length=10,

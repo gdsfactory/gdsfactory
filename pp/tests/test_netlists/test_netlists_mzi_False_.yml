@@ -12,8 +12,8 @@ connections:
   bend_euler_R10_39.475_17.35,N0: straight_L100n_32.8_20.725,E0
   bend_euler_R10_39.475_17.35,W0: straight_L100n_42.85_10.675,W0
   bend_euler_R10_46.225_-4.0,N0: straight_L100n_42.85_-10.675,E0
-  bend_euler_R10_46.225_-4.0,W0: mmi1x2_65.6_0.0,E1
-  bend_euler_R10_46.225_4.0,N0: mmi1x2_65.6_0.0,E0
+  bend_euler_R10_46.225_-4.0,W0: mmi1x2_65.6_-0.0,E1
+  bend_euler_R10_46.225_4.0,N0: mmi1x2_65.6_-0.0,E0
   bend_euler_R10_46.225_4.0,W0: straight_L100n_42.85_10.675,E0
   straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
   straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
@@ -53,7 +53,7 @@ instances:
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings: {}
-  mmi1x2_65.6_0.0:
+  mmi1x2_65.6_-0.0:
     component: mmi1x2
     settings: {}
   straight_L100n_22.75_-10.675:
@@ -135,7 +135,7 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_65.6_0.0:
+  mmi1x2_65.6_-0.0:
     mirror: false
     rotation: 180
     x: 65.6
@@ -181,5 +181,5 @@ placements:
     x: 42.85
     y: -15.725
 ports:
-  E0: mmi1x2_65.6_0.0,W0
+  E0: mmi1x2_65.6_-0.0,W0
   W0: mmi1x2_0.0_0.0,W0

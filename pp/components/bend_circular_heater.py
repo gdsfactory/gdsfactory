@@ -1,11 +1,10 @@
-from typing import Optional
-
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.cross_section import cross_section
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 
 
 @cell
@@ -15,8 +14,9 @@ def bend_circular_heater(
     npoints: int = 720,
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
-    width: Optional[float] = None,
-    tech: Tech = TECH_SILICON_C,
+    cross_section_settings=TECH.waveguide.strip,
+    layer_heater=TECH.layer.HEATER,
+    **kwargs,
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
@@ -29,25 +29,31 @@ def bend_circular_heater(
         width: straight width (defaults to tech.wg_width)
         tech: Technology
     """
-    width = width or tech.wg_width
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    width = x.info["width"]
+    cladding_offset = x.info["cladding_offset"]
+    layers_cladding = x.info["layers_cladding"]
+    layer = x.info["layer"]
 
     x = pp.CrossSection()
-    x.add(width=width, offset=0, layer=tech.layer_wg, ports=["in", "out"])
+    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
-    for layer_cladding in tech.layers_cladding:
-        x.add(width=width + 2 * tech.cladding_offset, offset=0, layer=layer_cladding)
+    for layer_cladding in layers_cladding:
+        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
 
     offset = heater_to_wg_distance + width / 2
     x.add(
         width=width,
         offset=+offset,
-        layer=tech.layer_heater,
+        layer=layer_heater,
         ports=["top_in", "top_out"],
     )
     x.add(
         width=width,
         offset=-offset,
-        layer=tech.layer_heater,
+        layer=layer_heater,
         ports=["bot_in", "bot_out"],
     )
     p = arc(radius=radius, angle=angle, npoints=npoints)

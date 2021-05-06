@@ -31,7 +31,7 @@ settings:
   - 0
   length: 10
   npoints: 2
-  tech: null
+  snap_to_grid_nm: 1
   width: 0.5
   width_i: 0
   width_n: 1

@@ -6,7 +6,8 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler import coupler as coupler_function
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -28,8 +29,8 @@ def mzit(
     straight_factory: ComponentFactory = straight_function,
     coupler1: Optional[ComponentFactory] = coupler_function,
     coupler2: ComponentFactory = coupler_function,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs,
 ) -> Component:
     r"""Mzi tolerant to fab variations
     based on Yufei Xing thesis http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
@@ -51,6 +52,8 @@ def mzit(
         straight_factory: factory
         coupler1: coupler1 or factory, can be None
         coupler2: coupler2 or factory
+        cross_section_settings: settings for cross_section
+        kwargs: overwrites cross_section_settings
 
     .. code::
 
@@ -82,8 +85,8 @@ def mzit(
             length=coupler_length2,
             gap=coupler_gap2,
             dy=dy,
-            cross_section_factory=cross_section_factory,
-            **cross_section_settings,
+            cross_section_settings=cross_section_settings,
+            **kwargs,
         )
         if callable(coupler2)
         else coupler2
@@ -91,37 +94,57 @@ def mzit(
 
     # inner arm (w1)
     t1 = c << taper_factory(
-        width1=w0, width2=w1, length=taper_length, **cross_section_settings
+        width1=w0,
+        width2=w1,
+        length=taper_length,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     t1.connect("1", cp2.ports["E1"])
-    b1t = c << bend90(width=w1, radius=bend_radius, **cross_section_settings)
-    b1b = c << bend90(width=w1, radius=bend_radius, **cross_section_settings)
+    b1t = c << bend90(
+        width=w1,
+        radius=bend_radius,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
+    )
+    b1b = c << bend90(
+        width=w1,
+        radius=bend_radius,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
+    )
 
     b1b.connect("W0", t1.ports["2"])
     b1t.connect("W0", b1b.ports["N0"])
-    # wg1 = c << straight_factory(width=w1, length=coupler_gap2+coupler_gap1, cross_section_factory=cross_section_factory,**cross_section_settings)
-    # wg1.connect("W0", b1b.ports["N0"])
-    # b1t.connect("W0", wg1.ports["E0"])
 
     t3b = c << taper_factory(
-        width1=w1, width2=w2, length=taper_length, **cross_section_settings
+        width1=w1,
+        width2=w2,
+        length=taper_length,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     t3b.connect("1", b1t.ports["N0"])
     wgs2 = c << straight_factory(
-        width=w2,
-        length=Ls,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        width=w2, length=Ls, cross_section_settings=cross_section_settings, **kwargs
     )
     wgs2.connect("W0", t3b.ports["2"])
     t20i = c << taper_factory(
-        width1=w2, width2=w0, length=taper_length, **cross_section_settings
+        width1=w2,
+        width2=w0,
+        length=taper_length,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     t20i.connect("1", wgs2.ports["E0"])
 
     # outer_arm (w2)
     t2 = c << taper_factory(
-        width1=w0, width2=w2, length=taper_length, **cross_section_settings
+        width1=w0,
+        width2=w2,
+        length=taper_length,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     t2.connect("1", cp2.ports["E0"])
 
@@ -131,42 +154,33 @@ def mzit(
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
     wg2b = c << straight_factory(
-        width=w2,
-        length=dx,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        width=w2, length=dx, cross_section_settings=cross_section_settings, **kwargs
     )
     wg2b.connect("W0", t2.ports["2"])
 
     b2t = c << bend90(
         width=w2,
         radius=bend_radius,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     b2b = c << bend90(
         width=w2,
         radius=bend_radius,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
 
     b2b.connect("W0", wg2b.ports["E0"])
     # vertical straight
     wg2y = c << straight_factory(
-        width=w2,
-        length=2 * dy,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        width=w2, length=2 * dy, cross_section_settings=cross_section_settings, **kwargs
     )
     wg2y.connect("W0", b2b.ports["N0"])
     b2t.connect("W0", wg2y.ports["E0"])
 
     wg2t = c << straight_factory(
-        width=w2,
-        length=dx,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        width=w2, length=dx, cross_section_settings=cross_section_settings, **kwargs
     )
     wg2t.connect("W0", b2t.ports["N0"])
 
@@ -175,14 +189,15 @@ def mzit(
     )
     t3t.connect("1", wg2t.ports["E0"])
     wgs1 = c << straight_factory(
-        width=w1,
-        length=Ls,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings,
+        width=w1, length=Ls, cross_section_settings=cross_section_settings, **kwargs
     )
     wgs1.connect("W0", t3t.ports["2"])
     t20o = c << taper_factory(
-        width1=w1, width2=w0, length=taper_length, **cross_section_settings
+        width1=w1,
+        width2=w0,
+        length=taper_length,
+        cross_section_settings=cross_section_settings,
+        **kwargs,
     )
     t20o.connect("1", wgs1.ports["E0"])
 
@@ -193,8 +208,8 @@ def mzit(
                 length=coupler_length1,
                 gap=coupler_gap1,
                 dy=dy,
-                cross_section_factory=cross_section_factory,
-                **cross_section_settings,
+                cross_section_settings=cross_section_settings,
+                **kwargs,
             )
             if callable(coupler1)
             else coupler1

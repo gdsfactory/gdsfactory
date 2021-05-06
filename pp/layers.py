@@ -19,49 +19,11 @@ from phidl.device_layout import Layer as LayerPhidl
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
 from pp.component import Component
+from pp.config import TECH
 from pp.name import clean_name
 
-
-@dataclasses.dataclass(frozen=True)
-class LayerMap:
-    WG = (1, 0)
-    WGCLAD = (111, 0)
-    SLAB150 = (2, 0)
-    SLAB90 = (3, 0)
-    WGN = (34, 0)
-    WGN_CLAD = (36, 0)
-    N = (20, 0)
-    Np = (22, 0)
-    Npp = (24, 0)
-    P = (21, 0)
-    Pp = (23, 0)
-    Ppp = (25, 0)
-    HEATER = (47, 0)
-    M1 = (41, 0)
-    M2 = (45, 0)
-    M3 = (49, 0)
-    VIA1 = (40, 0)
-    VIA2 = (44, 0)
-    VIA3 = (43, 0)
-    NO_TILE_SI = (71, 0)
-    DEEPTRENCH = (7, 0)
-    PADDING = (67, 0)
-    DEVREC = (68, 0)
-    FLOORPLAN = (64, 0)
-    TEXT = (66, 0)
-    PORT = (1, 10)
-    PORTE = (69, 0)
-    PORTH = (70, 0)
-    LABEL = (201, 0)
-    LABEL_SETTINGS = (202, 0)
-    TE = (203, 0)
-    TM = (204, 0)
-    DRC_MARKER = (205, 0)
-    LABEL_INSTANCE = (206, 0)
-
-
-LAYER = LayerMap()
 IGNORE_PREXIXES = ("_", "get_")
+LAYER = TECH.layer
 
 
 @dataclasses.dataclass

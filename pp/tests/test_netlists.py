@@ -32,6 +32,7 @@ def test_netlists(
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # print(yaml_str)
     c2 = pp.component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
 

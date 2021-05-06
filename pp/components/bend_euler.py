@@ -1,13 +1,10 @@
-from typing import Iterable, Optional
-
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import strip
+from pp.cross_section import cross_section
 from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 from pp.tech import TECH
-from pp.types import CrossSectionFactory, Layer
 
 
 @cell
@@ -17,11 +14,10 @@ def bend_euler(
     p: float = 1,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
-    layers_cladding: Optional[Iterable[Layer]] = TECH.waveguide.strip.layers_cladding,
-    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
     direction="ccw",
-    **cross_section_settings
+    with_cladding_box: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
@@ -38,8 +34,8 @@ def bend_euler(
             If True: The curve will be scaled such that the endpoints match a bend_circular
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
-        cross_section_factory: function that returns a cross_section
-        **cross_section_settings
+        cross_section_settings: settings for cross_section
+        settings: cross_section settings to extrude
 
 
     .. plot::
@@ -57,22 +53,32 @@ def bend_euler(
       c.plot()
 
     """
-    cross_section_factory = cross_section_factory or strip
-
-    cross_section = cross_section_factory(**cross_section_settings)
+    x = cross_section(**cross_section_settings)
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = extrude(p, cross_section)
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    c = extrude(p, x)
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]
-    top = cladding_offset if angle == 180 else 0
-    points = get_padding_points(
-        component=c, default=0, bottom=cladding_offset, right=cladding_offset, top=top
-    )
-    for layer in layers_cladding or []:
-        c.add_polygon(points, layer=layer)
+
+    if with_cladding_box and x.info["layers_cladding"]:
+        layers_cladding = x.info["layers_cladding"]
+        cladding_offset = x.info["cladding_offset"]
+        top = cladding_offset if angle == 180 else 0
+        points = get_padding_points(
+            component=c,
+            default=0,
+            bottom=cladding_offset,
+            right=cladding_offset,
+            top=top,
+        )
+        for layer in layers_cladding or []:
+            c.add_polygon(points, layer=layer)
+
     if direction == "cw":
         c.mirror(p1=[0, 0], p2=[1, 0])
     return c
@@ -118,6 +124,7 @@ if __name__ == "__main__":
     c = bend_euler_s()
     c = bend_euler180()
     c = bend_euler(direction="cw")
+    c = bend_euler()
     c.show()
 
     # _compare_bend_euler180()

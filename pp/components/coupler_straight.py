@@ -1,9 +1,7 @@
-from typing import Optional
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.straight import straight as straight_function
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.types import ComponentFactory
 
 
 @cell
@@ -11,8 +9,7 @@ def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
     straight: ComponentFactory = straight_function,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings
+    **kwargs
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
@@ -20,20 +17,12 @@ def coupler_straight(
         length: of straight
         gap: between straights
         straight: straight waveguide function
-        snap_to_grid_nm
-        cross_section_factory:
-        **cross_section_settings
+        kwargs: overwrites cross_section_settings
     """
     component = Component()
 
     straight_component = (
-        straight(
-            length=length,
-            cross_section_factory=cross_section_factory,
-            **cross_section_settings
-        )
-        if callable(straight)
-        else straight
+        straight(length=length, **kwargs) if callable(straight) else straight
     )
 
     top = component << straight_component

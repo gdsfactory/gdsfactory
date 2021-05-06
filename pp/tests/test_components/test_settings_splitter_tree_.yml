@@ -4,8 +4,7 @@ module: pp.components.splitter_tree
 name: splitter_tree
 settings:
   auto_widen: true
-  bend_radius: null
+  bend_radius: 10
   noutputs: 4
   spacing: null
   spacing_extra: 0.1
-  tech: null

@@ -7,17 +7,13 @@ info:
 module: pp.components.bend_s
 name: bend_s
 settings:
-  cladding_offset: 3
-  cross_section_factory: null
+  cross_section_settings: null
   end_angle: null
   grid: 0.001
   height: 2
   layer:
   - 1
   - 0
-  layers_cladding:
-  - - 111
-    - 0
   length: 10
   name: null
   nb_points: 99
@@ -25,4 +21,5 @@ settings:
   spike_length: 0
   start_angle: null
   width: 0.5
+  with_cladding_box: true
   with_manhattan_facing_angles: true

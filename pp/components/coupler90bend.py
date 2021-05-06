@@ -1,10 +1,11 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.cross_section import strip
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.cross_section import cross_section
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @cell
@@ -12,11 +13,10 @@ def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
     bend: ComponentFactory = bend_euler,
-    cross_section_factory_inner: Optional[CrossSectionFactory] = None,
-    cross_section_factory_outer: Optional[CrossSectionFactory] = None,
-    cross_section_settings_inner: Optional[Dict[str, Any]] = None,
-    cross_section_settings_outer: Optional[Dict[str, Any]] = None,
-    **bend_settings
+    cross_section_settings_inner: Dict[str, Any] = TECH.waveguide.strip,
+    cross_section_settings_outer: Dict[str, Any] = TECH.waveguide.strip,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     r"""Returns 2 coupled bends.
 
@@ -25,8 +25,8 @@ def coupler90bend(
         gap: um
         bend: for bend
         layer: bend layer
-        cross_section_factory_inner: for inner bend
-        cross_section_factory_outer: for outer bend
+        cross_section_settings_inner: for inner bend
+        cross_section_settings_outer: for outer bend
 
     .. code::
 
@@ -40,29 +40,27 @@ def coupler90bend(
     """
 
     c = Component()
-    cross_section_factory_inner = cross_section_factory_inner or strip
-    cross_section_factory_outer = cross_section_factory_outer or strip
 
     cross_section_settings_outer = cross_section_settings_outer or {}
     cross_section_settings_inner = cross_section_settings_inner or {}
-    cross_section_inner = cross_section_factory_inner(**cross_section_settings_inner)
-    cross_section_outer = cross_section_factory_outer(**cross_section_settings_outer)
+
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    cross_section_inner = cross_section(**cross_section_settings_inner)
+    cross_section_outer = cross_section(**cross_section_settings_outer)
+
     width = (
         cross_section_outer.info["width"] / 2 + cross_section_inner.info["width"] / 2
     )
     spacing = gap + width
 
     bend90_inner = bend(
-        radius=radius,
-        cross_section_factory=cross_section_factory_inner,
-        **cross_section_settings_inner,
-        **bend_settings
+        radius=radius, cross_section_settings=cross_section_settings_inner, **kwargs
     )
     bend90_outer = bend(
         radius=radius + spacing,
-        cross_section_factory=cross_section_factory_outer,
-        **cross_section_settings_outer,
-        **bend_settings
+        cross_section_settings=cross_section_settings_outer,
+        **kwargs
     )
     bend_inner_ref = c << bend90_inner
     bend_outer_ref = c << bend90_outer

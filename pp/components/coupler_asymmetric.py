@@ -2,8 +2,9 @@ import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.straight import straight as straight_function
-from pp.cross_section import strip
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.cross_section import cross_section
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @pp.cell
@@ -13,8 +14,8 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_factory: CrossSectionFactory = strip,
-    **cross_section_settings,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     """bend coupled to straight waveguide
 
@@ -37,21 +38,22 @@ def coupler_asymmetric(
                             E0
 
     """
-    cross_section_factory = cross_section_factory or strip
-    cross_section = cross_section_factory(**cross_section_settings)
-    width = cross_section.info["width"]
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width),
             length=dx,
-            cross_section_factory=cross_section_factory,
-            **cross_section_settings,
+            cross_section_settings=cross_section_settings,
+            **kwargs,
         )
         if callable(bend)
         else bend
     )
     wg = (
-        straight(cross_section_factory=cross_section_factory, **cross_section_settings)
+        straight(cross_section_settings=cross_section_settings, **kwargs)
         if callable(straight)
         else straight
     )

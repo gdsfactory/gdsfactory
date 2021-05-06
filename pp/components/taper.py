@@ -1,23 +1,23 @@
-from typing import Iterable, Optional
+from typing import Optional
 
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.cross_section import cross_section
 from pp.port import Port
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import Layer, Number
+from pp.tech import TECH
+from pp.types import Number
 
 
 @cell
 def taper(
-    length: float = TECH_SILICON_C.taper_length,
-    width1: float = TECH_SILICON_C.wg_width,
+    length: float = TECH.routing.optical.taper_length,
+    width1: float = TECH.routing.optical.wg_width,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: Optional[float] = None,
-    tech: Optional[Tech] = None,
+    with_cladding_box: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     """Linear taper.
 
@@ -39,16 +39,13 @@ def taper(
       c.plot()
 
     """
-    tech = tech or TECH_SILICON_C
-    cladding_offset = (
-        cladding_offset if cladding_offset is not None else tech.cladding_offset
-    )
-    layers_cladding = (
-        layers_cladding if layers_cladding is not None else tech.layers_cladding
-    )
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
 
-    o = cladding_offset
-    layers_cladding = layers_cladding or []
+    o = x.info["cladding_offset"]
+    layers_cladding = x.info["layers_cladding"]
+    layer = x.info["layer"]
 
     if isinstance(port, pp.Port) and width1 is None:
         width1 = port.width
@@ -68,8 +65,9 @@ def taper(
 
     ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
 
-    for layer in layers_cladding:
-        c.add_polygon((xpts, ypts), layer=layer)
+    if with_cladding_box:
+        for layer in layers_cladding:
+            c.add_polygon((xpts, ypts), layer=layer)
 
     c.info["length"] = length
     c.info["width1"] = width1

@@ -4,11 +4,17 @@ from pp.component import Component
 from pp.cross_section import cross_section
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
+from pp.tech import TECH
 
 
 @cell
 def bend_circular(
-    radius: float = 10.0, angle: int = 90, npoints: int = 720, **settings
+    radius: float = 10.0,
+    angle: int = 90,
+    npoints: int = 720,
+    with_cladding_box: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     """Returns a radial arc.
 
@@ -16,7 +22,8 @@ def bend_circular(
         radius
         angle: angle of arc (degrees)
         npoints: Number of points used per 360 degrees
-        settings: cross_section settings to extrude
+        cross_section_settings: settings for cross_section
+        kargs: cross_section settings to extrude
 
     .. plot::
         :include-source:
@@ -27,17 +34,19 @@ def bend_circular(
         c.plot()
 
     """
-    x = cross_section(**settings)
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = extrude(p, cross_section)
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    c = extrude(p, x)
 
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = radius
 
-    if x.info["layers_cladding"]:
+    if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offsetcomponent"]
+        cladding_offset = x.info["cladding_offset"]
         top = cladding_offset if angle == 180 else 0
         points = get_padding_points(
             component=c,
@@ -68,10 +77,13 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
 if __name__ == "__main__":
     from pprint import pprint
 
-    c = bend_circular()
-    # c = bend_circular180()
+    import pp
+
+    c = bend_circular(width=2, layer=pp.LAYER.WG)
     c.show()
     pprint(c.get_settings())
+
+    # c = bend_circular180()
     # c.plotqt()
 
     # from phidl.quickplotter import quickplot2

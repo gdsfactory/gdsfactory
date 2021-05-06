@@ -2,7 +2,7 @@ import numpy as np
 
 import pp
 from pp.component import Component
-from pp.tech import LAYER
+from pp.layers import LAYER
 from pp.types import Layer
 
 

@@ -1,11 +1,10 @@
-from typing import Optional
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
 from pp.snap import assert_on_1nm_grid
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @cell
@@ -16,8 +15,8 @@ def coupler(
     coupler_straight_factory: ComponentFactory = coupler_straight,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -28,8 +27,8 @@ def coupler(
         coupler_straight_factory
         dy: port to port vertical spacing
         dx: length of bend in x direction
-        cross_section_factory: for straight and bend
-        **cross_section_settings
+        cross_section_settings: settings for cross_section
+        kwargs: overwrites cross_section_settings
 
     .. code::
 
@@ -52,20 +51,13 @@ def coupler(
     c = Component()
 
     sbend = coupler_symmetric_factory(
-        gap=gap,
-        dy=dy,
-        dx=dx,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        gap=gap, dy=dy, dx=dx, cross_section_settings=cross_section_settings, **kwargs
     )
 
     sr = c << sbend
     sl = c << sbend
     cs = c << coupler_straight_factory(
-        length=length,
-        gap=gap,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        length=length, gap=gap, cross_section_settings=cross_section_settings, **kwargs
     )
     sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])

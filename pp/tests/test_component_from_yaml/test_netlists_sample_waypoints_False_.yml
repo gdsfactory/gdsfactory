@@ -1,14 +1,14 @@
 connections:
-  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,1
-  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
-  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
-  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
-  straight_L170_W2p5_-125.0_600.0,E0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2
-  straight_L170_W2p5_-125.0_600.0,W0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2
-  straight_L325_W2p5_-250.0_802.5,E0: taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2
-  straight_L325_W2p5_-250.0_802.5,W0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2
-  straight_L525_W2p5_0.0_297.5,E0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,2
-  straight_L525_W2p5_0.0_297.5,W0: taper_L1_0_L35_W500n_W2p5_0.0_17.5,2
+  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,1
+  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,1
+  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,1
+  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,1
+  straight_L170_W2p5_-125.0_600.0,E0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,2
+  straight_L170_W2p5_-125.0_600.0,W0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,2
+  straight_L325_W2p5_-250.0_802.5,E0: taper_L1__0_L35_W500n_W2p5_-250.0_982.5,2
+  straight_L325_W2p5_-250.0_802.5,W0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,2
+  straight_L525_W2p5_0.0_297.5,E0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,2
+  straight_L525_W2p5_0.0_297.5,W0: taper_L1__0_L35_W500n_W2p5_0.0_17.5,2
 instances:
   b:
     component: pad_array
@@ -43,7 +43,7 @@ instances:
     settings:
       port_list:
       - S
-  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
     component: taper
     settings:
       layer:
@@ -52,7 +52,7 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
     component: taper
     settings:
       layer:
@@ -61,7 +61,7 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
     component: taper
     settings:
       layer:
@@ -70,7 +70,7 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
     component: taper
     settings:
       layer:
@@ -79,7 +79,7 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
     component: taper
     settings:
       layer:
@@ -88,7 +88,7 @@ instances:
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
     component: taper
     settings:
       layer:
@@ -134,32 +134,32 @@ placements:
     rotation: 0
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
     mirror: false
     rotation: 180
     x: -5.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
     mirror: false
     rotation: 0
     x: -245.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
     mirror: false
     rotation: 90
     x: -250.0
     y: 605.0
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
     mirror: false
     rotation: 270
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
     mirror: false
     rotation: 90
     x: 0.0
     y: 0.0
-  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
     mirror: false
     rotation: 270
     x: 0.0

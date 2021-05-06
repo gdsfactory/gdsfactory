@@ -11,15 +11,10 @@ settings:
     module: pp.components.mmi1x2
     name: mmi1x2
     settings:
-      cladding_offset: null
+      cross_section_settings: null
       gap_mmi: 0.25
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length_mmi: 5.5
       length_taper: 10
-      tech: null
       width: 0.5
       width_mmi: 2.5
       width_taper: 1

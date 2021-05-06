@@ -1,27 +1,24 @@
-from typing import Iterable, Optional
-
 import pp
 from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import ComponentFactory, Layer
+from pp.cross_section import cross_section
+from pp.tech import TECH
+from pp.types import ComponentFactory
 
 
 @cell
 def mmi1x2(
-    width: float = TECH_SILICON_C.wg_width,
+    width: float = TECH.routing.optical.wg_width,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: Optional[float] = None,
-    tech: Optional[Tech] = None,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -58,13 +55,12 @@ def mmi1x2(
         length_taper
 
     """
-    tech = tech or TECH_SILICON_C
-    cladding_offset = (
-        cladding_offset if cladding_offset is not None else tech.cladding_offset
-    )
-    layers_cladding = (
-        layers_cladding if layers_cladding is not None else tech.layers_cladding
-    )
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    cladding_offset = x.info["cladding_offset"]
+    layers_cladding = x.info["layers_cladding"]
+    layer = x.info["layer"]
 
     c = Component()
     w_mmi = width_mmi
@@ -74,10 +70,8 @@ def mmi1x2(
         length=length_taper,
         width1=width,
         width2=w_taper,
-        layer=layer,
-        cladding_offset=0,
-        layers_cladding=(),
-        tech=tech,
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
 
     a = gap_mmi / 2 + width_taper / 2

@@ -52,7 +52,7 @@ def test_get_sparameters_path() -> None:
 
     c = pp.components.straight()
     p = get_sparameters_path(
-        c,
+        component=c,
         layer_to_thickness_nm=layer_to_thickness_nm_sample,
         layer_to_material=layer_to_material_sample,
     )

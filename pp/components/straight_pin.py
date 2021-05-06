@@ -1,5 +1,5 @@
 """Straight Doped PIN waveguide."""
-from typing import Optional, Tuple
+from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -7,7 +7,7 @@ from pp.cross_section import pin
 from pp.layers import LAYER
 from pp.path import extrude, straight
 from pp.snap import snap_to_grid
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 from pp.types import Layer
 
 
@@ -15,9 +15,8 @@ from pp.types import Layer
 def straight_pin(
     length: float = 10.0,
     npoints: int = 2,
-    width: float = TECH_SILICON_C.wg_width,
-    tech: Optional[Tech] = None,
-    layer: Layer = TECH_SILICON_C.layer_wg,
+    width: float = TECH.waveguide.strip.width,
+    layer: Layer = TECH.waveguide.strip.layer,
     layer_slab: Layer = LAYER.SLAB90,
     width_i: float = 0.0,
     width_p: float = 1.0,
@@ -32,6 +31,7 @@ def straight_pin(
     layer_np: Tuple[int, int] = LAYER.Np,
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
+    snap_to_grid_nm: int = TECH.tech.snap_to_grid_nm,
 ) -> Component:
     """Returns a Doped PIN waveguide.
 
@@ -43,7 +43,6 @@ def straight_pin(
         layers_cladding: for cladding
         cladding_offset: offset from straight to cladding edge
         cross_section_factory: function that returns a cross_section
-        tech: Technology with default
 
     .. code::
 
@@ -60,7 +59,6 @@ def straight_pin(
                                     0    oi        on        onp         onpp
 
     """
-    tech = tech or TECH_SILICON_C
 
     p = straight(length=length, npoints=npoints)
     cross_section = pin(
@@ -81,7 +79,7 @@ def straight_pin(
         layer_ppp=layer_ppp,
         layer_npp=layer_npp,
     )
-    c = extrude(p, cross_section, snap_to_grid_nm=tech.snap_to_grid_nm)
+    c = extrude(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
     c.width = width
     c.length = snap_to_grid(length)
     return c
