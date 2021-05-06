@@ -5,7 +5,6 @@ info:
 module: pp.components.mmi2x2
 name: mmi2x2
 settings:
-  cross_section_settings: null
   gap_mmi: 0.2
   length_mmi: 15.45
   length_taper: 10

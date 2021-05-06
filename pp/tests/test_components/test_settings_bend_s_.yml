@@ -7,7 +7,6 @@ info:
 module: pp.components.bend_s
 name: bend_s
 settings:
-  cross_section_settings: null
   end_angle: null
   grid: 0.001
   height: 2

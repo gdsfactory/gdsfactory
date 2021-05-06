@@ -13,7 +13,6 @@ settings:
     module: pp.components.coupler
     name: coupler_G244n_L5p67
     settings:
-      cross_section_settings: null
       dx: 10
       dy: 5
       gap: 0.244

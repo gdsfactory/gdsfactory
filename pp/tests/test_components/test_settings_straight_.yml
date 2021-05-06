@@ -5,6 +5,5 @@ info:
 module: pp.components.straight
 name: straight
 settings:
-  cross_section_settings: null
   length: 10
   npoints: 2

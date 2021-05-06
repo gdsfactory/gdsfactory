@@ -12,7 +12,6 @@ settings:
     module: pp.components.straight
     name: straight_W2
     settings:
-      cross_section_settings: null
       length: 10
       npoints: 2
       width: 2

@@ -6,7 +6,6 @@ info:
 module: pp.components.taper
 name: taper
 settings:
-  cross_section_settings: null
   length: 35
   port: null
   width1: 0.5

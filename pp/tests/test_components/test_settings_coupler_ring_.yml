@@ -4,7 +4,6 @@ module: pp.components.coupler_ring
 name: coupler_ring
 settings:
   bend: null
-  cross_section_settings: null
   gap: 0.2
   length_x: 4
   radius: 5

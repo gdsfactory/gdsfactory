@@ -5,7 +5,6 @@ name: ring_double
 settings:
   bend: null
   cross_section_factory: null
-  cross_section_settings: null
   gap: 0.2
   length_x: 0.01
   length_y: 0.01
