@@ -164,13 +164,13 @@ class LayerSet(LayerSetPhidl):
         else:
             self._layers[name] = new_layer
 
-    def __getitem__(self, val: str) -> Tuple[int, int]:
-        """Returns gds layer tuple."""
-        if val not in self._layers:
-            raise ValueError(f"Layer {val} not in {list(self._layers.keys())}")
-        else:
-            layer = self._layers[val]
-            return layer.gds_layer, layer.gds_datatype
+    # def __getitem__(self, val: str) -> Tuple[int, int]:
+    #     """Returns gds layer tuple."""
+    #     if val not in self._layers:
+    #         raise ValueError(f"Layer {val} not in {list(self._layers.keys())}")
+    #     else:
+    #         layer = self._layers[val]
+    #         return layer.gds_layer, layer.gds_datatype
 
     def __repr__(self):
         """ Prints the number of Layers in the LayerSet object. """

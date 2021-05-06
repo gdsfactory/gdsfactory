@@ -70,8 +70,8 @@ def get_bundle(
     for p in ports2:
         p.angle = int(p.angle) % 360
 
-    assert len(ports2) == len(
-        ports1
+    assert len(ports1) == len(
+        ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
 
     ports1 = cast(List[Port], ports1)
@@ -270,6 +270,10 @@ def link_ports_routes(
     """
     if not ports1 and not ports2:
         return []
+
+    assert len(ports1) == len(
+        ports2
+    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
 
     if len(ports1) == 0 or len(ports2) == 0:
         print(f"WARNING! ports1={ports1} or ports2={ports2} are empty")
@@ -572,6 +576,11 @@ def link_electrical_ports(
     Returns:
         list of references of the electrical routes
     """
+
+    assert len(ports1) == len(
+        ports2
+    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
+
     if link_dummy_ports:
         new_ports1 = ports1
         new_ports2 = ports2
