@@ -1,14 +1,14 @@
 connections:
-  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,1
-  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,1
-  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,1
-  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,1
-  straight_L170_W2p5_-125.0_600.0,E0: taper_L1_0_L35_W500n_W2p5_-227.5_600.0,2
-  straight_L170_W2p5_-125.0_600.0,W0: taper_L1_0_L35_W500n_W2p5_-22.5_600.0,2
-  straight_L325_W2p5_-250.0_802.5,E0: taper_L1_0_L35_W500n_W2p5_-250.0_982.5,2
-  straight_L325_W2p5_-250.0_802.5,W0: taper_L1_0_L35_W500n_W2p5_-250.0_622.5,2
-  straight_L525_W2p5_0.0_297.5,E0: taper_L1_0_L35_W500n_W2p5_0.0_577.5,2
-  straight_L525_W2p5_0.0_297.5,W0: taper_L1_0_L35_W500n_W2p5_0.0_17.5,2
+  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,1
+  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,1
+  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,1
+  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,1
+  straight_L170_W2p5_-125.0_600.0,E0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,2
+  straight_L170_W2p5_-125.0_600.0,W0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,2
+  straight_L325_W2p5_-250.0_802.5,E0: taper_L1__0_L35_W500n_W2p5_-250.0_982.5,2
+  straight_L325_W2p5_-250.0_802.5,W0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,2
+  straight_L525_W2p5_0.0_297.5,E0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,2
+  straight_L525_W2p5_0.0_297.5,W0: taper_L1__0_L35_W500n_W2p5_0.0_17.5,2
 instances:
   b:
     component: pad_array
@@ -21,62 +21,39 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 5
       width: 0.5
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R5_W500n_-249.125_600.875:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 5
       width: 0.5
       with_arc_floorplan: true
+      with_cladding_box: true
   straight_L170_W2p5_-125.0_600.0:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 170
       npoints: 2
       width: 2.5
   straight_L325_W2p5_-250.0_802.5:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 325
       npoints: 2
       width: 2.5
   straight_L525_W2p5_0.0_297.5:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 525
       npoints: 2
       width: 2.5
@@ -87,84 +64,72 @@ instances:
       pitch: 150
       port_list:
       - S
-  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
+      with_cladding_box: true
+  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
+      with_cladding_box: true
+  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+      with_cladding_box: true
+  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+      with_cladding_box: true
+  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
-  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
+      with_cladding_box: true
+  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
     component: taper
     settings:
-      cladding_offset: null
       layer:
       - 1
       - 0
-      layers_cladding: null
       length: 35
       port: null
-      tech: null
       width1: 0.5
       width2: 2.5
+      with_cladding_box: true
 name: sample_waypoints
 placements:
   b:
@@ -202,32 +167,32 @@ placements:
     rotation: 0
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_-22.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
     mirror: false
     rotation: 180
     x: -5.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_-227.5_600.0:
+  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
     mirror: false
     rotation: 0
     x: -245.0
     y: 600.0
-  taper_L1_0_L35_W500n_W2p5_-250.0_622.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
     mirror: false
     rotation: 90
     x: -250.0
     y: 605.0
-  taper_L1_0_L35_W500n_W2p5_-250.0_982.5:
+  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
     mirror: false
     rotation: 270
     x: -250.0
     y: 1000.0
-  taper_L1_0_L35_W500n_W2p5_0.0_17.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
     mirror: false
     rotation: 90
     x: 0.0
     y: 0.0
-  taper_L1_0_L35_W500n_W2p5_0.0_577.5:
+  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
     mirror: false
     rotation: 270
     x: 0.0

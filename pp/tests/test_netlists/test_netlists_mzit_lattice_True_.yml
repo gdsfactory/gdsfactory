@@ -9,7 +9,6 @@ instances:
       coupler_gap2: 0.3
       coupler_length1: 10
       coupler_length2: 20
-      cross_section_factory: null
       delta_length: 10
       dy: 2
       taper_length: 5

@@ -4,7 +4,6 @@ Notice that this is the only file where units are in SI units (meters instead of
 """
 import time
 from collections import namedtuple
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -15,8 +14,9 @@ import yaml
 import pp
 from pp.component import Component
 from pp.config import __version__
+from pp.layers import LAYER_STACK
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
@@ -64,7 +64,8 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
-    tech: Optional[Tech] = None,
+    simulation_settings=TECH.simulation_settings,
+    layer_stack=LAYER_STACK,
     **settings,
 ) -> pd.DataFrame:
     """Return and write component Sparameters from Lumerical FDTD.
@@ -97,13 +98,12 @@ def write(
         suffix `a` for angle and `m` for module
 
     """
-    tech = tech or TECH_SILICON_C
-    sim_settings = asdict(tech.simulation_settings)
+    sim_settings = dict(simulation_settings)
     layer_to_thickness_nm = settings.pop(
-        "layer_to_thickness_nm", tech.layer_stack.get_layer_to_thickness_nm()
+        "layer_to_thickness_nm", layer_stack.get_layer_to_thickness_nm()
     )
     layer_to_material = settings.pop(
-        "layer_to_material", tech.layer_stack.get_layer_to_material()
+        "layer_to_material", layer_stack.get_layer_to_material()
     )
 
     if hasattr(component, "simulation_settings"):

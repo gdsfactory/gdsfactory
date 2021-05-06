@@ -12,8 +12,8 @@ connections:
   bend_euler_R10_39.475_17.35,N0: straight_L100n_32.8_20.725,E0
   bend_euler_R10_39.475_17.35,W0: straight_L100n_42.85_10.675,W0
   bend_euler_R10_46.225_-4.0,N0: straight_L100n_42.85_-10.675,E0
-  bend_euler_R10_46.225_-4.0,W0: mmi1x2_65.6_0.0,E1
-  bend_euler_R10_46.225_4.0,N0: mmi1x2_65.6_0.0,E0
+  bend_euler_R10_46.225_-4.0,W0: mmi1x2_65.6_-0.0,E1
+  bend_euler_R10_46.225_4.0,N0: mmi1x2_65.6_-0.0,E0
   bend_euler_R10_46.225_4.0,W0: straight_L100n_42.85_10.675,E0
   straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
   straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
@@ -22,222 +22,138 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_19.375_4.0:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_26.125_-22.35:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_26.125_17.35:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_39.475_-22.35:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_39.475_17.35:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_46.225_-4.0:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   bend_euler_R10_46.225_4.0:
     component: bend_euler
     settings:
       angle: 90
-      cladding_offset: 3
-      cross_section_factory: null
       direction: ccw
-      layers_cladding:
-      - - 111
-        - 0
       npoints: 720
       p: 1
       radius: 10
       with_arc_floorplan: true
+      with_cladding_box: true
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings:
-      cladding_offset: null
       gap_mmi: 0.25
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length_mmi: 5.5
       length_taper: 10
-      tech: null
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
-  mmi1x2_65.6_0.0:
+  mmi1x2_65.6_-0.0:
     component: mmi1x2
     settings:
-      cladding_offset: null
       gap_mmi: 0.25
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length_mmi: 5.5
       length_taper: 10
-      tech: null
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
   straight_L100n_22.75_-10.675:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L100n_22.75_10.675:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L100n_32.8_-25.725:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L100n_32.8_20.725:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L100n_42.85_-10.675:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L100n_42.85_10.675:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 0.1
       npoints: 2
   straight_L5_22.75_-13.225:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 5
       npoints: 2
   straight_L5_42.85_-13.225:
     component: straight
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
       length: 5
       npoints: 2
 name: mzi
@@ -287,7 +203,7 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_65.6_0.0:
+  mmi1x2_65.6_-0.0:
     mirror: false
     rotation: 180
     x: 65.6
@@ -333,5 +249,5 @@ placements:
     x: 42.85
     y: -15.725
 ports:
-  E0: mmi1x2_65.6_0.0,W0
+  E0: mmi1x2_65.6_-0.0,W0
   W0: mmi1x2_0.0_0.0,W0

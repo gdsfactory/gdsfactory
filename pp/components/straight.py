@@ -1,6 +1,4 @@
 """Straight waveguide."""
-
-from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import cross_section
@@ -11,33 +9,28 @@ from pp.tech import TECH
 
 
 @cell
-def straight(length: float = 10.0, npoints: int = 2, **settings) -> Component:
+def straight(
+    length: float = 10.0,
+    npoints: int = 2,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
+) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: of straight
         npoints: number of points
-        settings: cross_section settings to extrude paths
+        cross_section_settings: settings for cross_section
+        kwargs: overwrites cross_section_settings
 
     """
     p = straight_path(length=length, npoints=npoints)
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
     x = cross_section(**settings)
     c = extrude(p, x)
     c.length = snap_to_grid(length)
     c.width = x.info["width"]
-
-    if x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offsetcomponent"]
-
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
-        )
-        for layer in layers_cladding or []:
-            c.add_polygon(points, layer=layer)
     return c
 
 
@@ -52,11 +45,16 @@ if __name__ == "__main__":
     # )
 
     # c = straight(settings=TECH.waveguide.metal_routing)
-    # c = straight(settings=TECH.waveguide.rib_slab90)
 
-    settings = TECH.waveguide.strip
-    settings.update(width=2)
-    c = straight(**settings)
+    # settings.update(width=2)
+    # c = straight(**settings)
+
+    # settings = TECH.waveguide.rib_slab90
+    # c = straight(cross_section_settings=TECH.waveguide.rib_slab90)
+
+    c = straight()
+    c.pprint()
+    # print(c.get_settings()['settings']['cross_section_settings']['layers_cladding'])
 
     # print(c.name)
     # print(c.length)

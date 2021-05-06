@@ -583,6 +583,7 @@ def test_netlists(
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
     assert len(d) == 0, print(d)
+    return c2
 
 
 def _demo_netlist():
@@ -615,5 +616,6 @@ if __name__ == "__main__":
     # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
-    c = test_settings("yaml_anchor", None, False)
+    # c = test_settings("yaml_anchor", None, False)
+    c = test_netlists("yaml_anchor", True, None, False)
     c.show()

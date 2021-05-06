@@ -3,7 +3,7 @@ from typing import Optional
 import pp
 from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
-from pp.tech import TECH_SILICON_C, Tech
+from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
@@ -15,8 +15,7 @@ def splitter_tree(
     spacing_extra: float = 0.1,
     bend_factory: ComponentFactory = bend_euler,
     bend_s: ComponentFactory = bend_euler_s,
-    bend_radius: Optional[float] = None,
-    tech: Optional[Tech] = None,
+    bend_radius: float = TECH.routing.optical.bend_radius,
     auto_widen: bool = True,
 ) -> pp.Component:
     """Tree of 1x2 splitters
@@ -41,8 +40,6 @@ def splitter_tree(
 
 
     """
-    tech = tech or TECH_SILICON_C
-    bend_radius = bend_radius or tech.bend_radius
     bend90 = bend_factory(radius=bend_radius)
     c = pp.Component()
 
@@ -58,7 +55,6 @@ def splitter_tree(
             bend_radius=bend_radius,
             spacing=dy / 2,
             bend_factory=bend_factory,
-            tech=tech,
         )
     else:
         c2 = bend_s(radius=dy / 2)
@@ -115,4 +111,3 @@ if __name__ == "__main__":
     c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=50)
     c.show()
     print(c.get_ports_dict().keys())
-    print(c.spacing)

@@ -1,12 +1,9 @@
-from typing import Iterable, Optional
-
 import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.cross_section import strip
+from pp.cross_section import cross_section
 from pp.tech import TECH
-from pp.types import CrossSectionFactory, Layer
 
 
 @pp.cell
@@ -14,10 +11,9 @@ def bend_s(
     height: float = 2.0,
     length: float = 10.0,
     nb_points: int = 99,
-    layers_cladding: Optional[Iterable[Layer]] = TECH.waveguide.strip.layers_cladding,
-    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings,
+    cross_section_settings=TECH.waveguide.strip,
+    with_cladding_box: bool = True,
+    **kwargs
 ) -> Component:
     """S bend with bezier curve
 
@@ -26,8 +22,8 @@ def bend_s(
         length: in x direction
         layer: gds number
         nb_points: number of points
-        cross_section_factory
-        **cross_section_settings
+        cross_section_settings: settings for cross_section
+        kargs: cross_section settings to extrude
 
     .. plot::
       :include-source:
@@ -39,10 +35,11 @@ def bend_s(
 
     """
     l, h = length, height
-    cross_section_factory = cross_section_factory or strip
-    cross_section = cross_section_factory(**cross_section_settings)
-    width = cross_section.info["width"]
-    layer = cross_section.info["layer"]
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    width = x.info["width"]
+    layer = x.info["layer"]
 
     c = bezier(
         width=width,
@@ -53,11 +50,17 @@ def bend_s(
     c.add_port(name="W0", port=c.ports.pop("0"))
     c.add_port(name="E0", port=c.ports.pop("1"))
 
-    points = get_padding_points(
-        component=c, default=0, bottom=cladding_offset, right=0, top=cladding_offset
-    )
-    for layer in layers_cladding or []:
-        c.add_polygon(points, layer=layer)
+    if with_cladding_box and x.info["layers_cladding"]:
+        layers_cladding = x.info["layers_cladding"]
+        cladding_offset = x.info["cladding_offset"]
+        points = get_padding_points(
+            component=c,
+            default=0,
+            bottom=cladding_offset,
+            top=cladding_offset,
+        )
+        for layer in layers_cladding or []:
+            c.add_polygon(points, layer=layer)
 
     return c
 

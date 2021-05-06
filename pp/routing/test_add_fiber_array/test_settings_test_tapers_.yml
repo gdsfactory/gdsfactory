@@ -12,11 +12,7 @@ settings:
     module: pp.components.straight
     name: straight_W2
     settings:
-      cladding_offset: 3
-      cross_section_factory: null
-      layers_cladding:
-      - - 111
-        - 0
+      cross_section_settings: null
       length: 10
       npoints: 2
       width: 2

@@ -3,6 +3,5 @@ info: {}
 module: pp.components.coupler_straight
 name: coupler_straight
 settings:
-  cross_section_factory: null
   gap: 0.27
   length: 10

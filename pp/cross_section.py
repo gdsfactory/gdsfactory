@@ -14,28 +14,6 @@ from pp.config import TECH
 LAYER = TECH.layer
 
 
-def strip(
-    width: float = TECH.waveguide.strip.width,
-    layer: Tuple[int, int] = TECH.waveguide.strip.layer,
-    cross_section=TECH.waveguide.strip.cross_section,
-) -> CrossSection:
-    x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
-
-    if cross_section and hasattr(cross_section, "items"):
-        for section_name, section in cross_section.items():
-            x.add(
-                width=section["width"], offset=section["offset"], layer=section["layer"]
-            )
-
-    s = dict(
-        width=width,
-        layer=layer,
-    )
-    x.info = s
-    return x
-
-
 def cross_section(**settings) -> CrossSection:
     """Returns a CrossSection from settings."""
 
@@ -47,12 +25,13 @@ def cross_section(**settings) -> CrossSection:
 
     width = settings["width"]
     layer = settings["layer"]
+    xs = settings.get("cross_section")
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
-    if "cross_section" in settings and hasattr(cross_section, "items"):
-        for section_name, section in cross_section.items():
+    if xs:
+        for section_name, section in xs.items():
             x.add(
                 width=section["width"], offset=section["offset"], layer=section["layer"]
             )
@@ -62,27 +41,6 @@ def cross_section(**settings) -> CrossSection:
         layer=layer,
         cladding_offset=settings.get("cladding_offset", None),
         layers_cladding=settings.get("layers_cladding", None),
-    )
-    return x
-
-
-def metal_routing(
-    width: float = TECH.waveguide.metal_routing.width,
-    layer: Tuple[int, int] = TECH.waveguide.metal_routing.layer,
-    cross_section=TECH.waveguide.metal_routing.cross_section,
-) -> CrossSection:
-    x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
-
-    if cross_section and hasattr(cross_section, "items"):
-        for section_name, section in cross_section.items():
-            x.add(
-                width=section["width"], offset=section["offset"], layer=section["layer"]
-            )
-
-    x.info = dict(
-        width=width,
-        layer=layer,
     )
     return x
 
@@ -189,7 +147,6 @@ if __name__ == "__main__":
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
 
-    X = metal_routing(width=0.5)
     X = cross_section(**TECH.waveguide.strip)
     c = pp.path.extrude(P, X)
 

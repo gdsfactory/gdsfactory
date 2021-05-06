@@ -7,9 +7,11 @@ module: pp.components.bend_circular_heater
 name: bend_circular_heater
 settings:
   angle: 90
+  cross_section_settings: null
   heater_to_wg_distance: 1.2
   heater_width: 0.5
+  layer_heater:
+  - 47
+  - 0
   npoints: 720
   radius: 10
-  tech: silicon_cband
-  width: null

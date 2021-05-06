@@ -1,14 +1,12 @@
 """Sample AWG."""
 
-from typing import Iterable, Optional
-
 import numpy as np
 
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.tech import TECH_SILICON_C, Tech
-from pp.types import Layer
+from pp.cross_section import cross_section
+from pp.tech import TECH
 
 
 @cell
@@ -19,11 +17,9 @@ def free_propagation_region(
     wg_width: float = 0.5,
     inputs: int = 1,
     outputs: int = 10,
-    layer: Layer = TECH_SILICON_C.layer_wg,
-    layers_cladding: Optional[Iterable[Layer]] = None,
-    cladding_offset: Optional[float] = None,
-    tech: Optional[Tech] = None,
     wg_margin: float = 1.0,
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs,
 ) -> Component:
     r"""
 
@@ -37,11 +33,14 @@ def free_propagation_region(
                   \ |
                    \|
     """
-    tech = tech or TECH_SILICON_C
     y1 = width1 / 2
     y2 = width2 / 2
-    o = cladding_offset or tech.cladding_offset
-    layers_cladding = layers_cladding or []
+    settings = dict(cross_section_settings)
+    settings.update(**kwargs)
+    x = cross_section(**settings)
+    o = x.info["cladding_offset"]
+    layers_cladding = x.info["layers_cladding"]
+    layer = x.info["layer"]
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]

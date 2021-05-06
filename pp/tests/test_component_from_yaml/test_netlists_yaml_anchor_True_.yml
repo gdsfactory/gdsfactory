@@ -3,30 +3,18 @@ instances:
   mmi_long:
     component: mmi1x2
     settings:
-      cladding_offset: null
       gap_mmi: 0.25
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length_mmi: 10
       length_taper: 10
-      tech: null
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
   mmi_short:
     component: mmi1x2
     settings:
-      cladding_offset: null
       gap_mmi: 0.25
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
       length_mmi: 5
       length_taper: 10
-      tech: null
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
@@ -36,7 +24,7 @@ placements:
     mirror: false
     rotation: 0
     x: 25.0
-    y: 15.875
+    y: 17.75
   mmi_short:
     mirror: false
     rotation: 0

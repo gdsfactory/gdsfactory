@@ -7,8 +7,8 @@ import pandas as pd
 
 import pp
 from pp.component import Component
+from pp.layers import LAYER_STACK
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import TECH_SILICON_C, Tech
 
 
 def get_ports(line: str) -> Tuple[str, str]:
@@ -117,7 +117,6 @@ def read_sparameters_component(
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
     layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = pp.CONFIG["sp"],
-    tech: Optional[Tech] = None,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
@@ -136,15 +135,14 @@ def read_sparameters_component(
     the Sparameters file have Lumerical format
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
-    tech = tech or TECH_SILICON_C
 
     assert isinstance(component, pp.Component)
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material or tech.layer_stack.get_layer_to_material(),
+        layer_to_material=layer_to_material or LAYER_STACK.get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
-        or tech.layer_stack.get_layer_to_thickness_nm(),
+        or LAYER_STACK.get_layer_to_thickness_nm(),
     )
     numports = len(component.ports)
     assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
@@ -157,15 +155,13 @@ def read_sparameters_pandas(
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
     layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = pp.CONFIG["sp"],
-    tech: Optional[Tech] = None,
 ) -> pd.DataFrame:
-    tech = tech or TECH_SILICON_C
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material or tech.layer_stack.get_layer_to_material(),
+        layer_to_material=layer_to_material or LAYER_STACK.get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
-        or tech.layer_stack.get_layer_to_thickness_nm(),
+        or LAYER_STACK.get_layer_to_thickness_nm(),
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]

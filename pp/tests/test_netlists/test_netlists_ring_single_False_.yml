@@ -1,77 +1,71 @@
 connections:
-  bend_euler_CSFNone_R10_-10.625_17.335,N0: straight_CSFNone_L10n_-14.0_10.705,W0
-  bend_euler_CSFNone_R10_-10.625_17.335,W0: straight_CSFNone_L4_-2.0_20.71,E0
-  bend_euler_CSFNone_R10_6.625_17.335,N0: straight_CSFNone_L4_-2.0_20.71,W0
-  bend_euler_CSFNone_R10_6.625_17.335,W0: straight_CSFNone_L10n_10.0_10.705,W0
-  coupler_ring_4bf3a809_-2.0_3.725,N0: straight_CSFNone_L10n_-14.0_10.705,E0
-  coupler_ring_4bf3a809_-2.0_3.725,N1: straight_CSFNone_L10n_10.0_10.705,E0
+  bend_euler_a21c79d4_-10.625_17.335,N0: straight_b7a4796e_-14.0_10.705,W0
+  bend_euler_a21c79d4_-10.625_17.335,W0: straight_687d1139_-2.0_20.71,E0
+  bend_euler_a21c79d4_6.625_17.335,N0: straight_687d1139_-2.0_20.71,W0
+  bend_euler_a21c79d4_6.625_17.335,W0: straight_b7a4796e_10.0_10.705,W0
+  coupler_ring_8fb3f424_-2.0_4.075,N0: straight_b7a4796e_-14.0_10.705,E0
+  coupler_ring_8fb3f424_-2.0_4.075,N1: straight_b7a4796e_10.0_10.705,E0
 instances:
-  bend_euler_CSFNone_R10_-10.625_17.335:
+  bend_euler_a21c79d4_-10.625_17.335:
     component: bend_euler
     settings:
-      cross_section_factory: null
       radius: 10
-  bend_euler_CSFNone_R10_6.625_17.335:
+  bend_euler_a21c79d4_6.625_17.335:
     component: bend_euler
     settings:
-      cross_section_factory: null
       radius: 10
-  coupler_ring_4bf3a809_-2.0_3.725:
+  coupler_ring_8fb3f424_-2.0_4.075:
     component: coupler_ring
     settings:
       bend: null
-      cross_section_factory: null
       gap: 0.2
       length_x: 4
       radius: 10
       straight: straight
-  straight_CSFNone_L10n_-14.0_10.705:
+  straight_687d1139_-2.0_20.71:
     component: straight
     settings:
-      cross_section_factory: null
-      length: 0.01
-  straight_CSFNone_L10n_10.0_10.705:
-    component: straight
-    settings:
-      cross_section_factory: null
-      length: 0.01
-  straight_CSFNone_L4_-2.0_20.71:
-    component: straight
-    settings:
-      cross_section_factory: null
       length: 4
+  straight_b7a4796e_-14.0_10.705:
+    component: straight
+    settings:
+      length: 0.01
+  straight_b7a4796e_10.0_10.705:
+    component: straight
+    settings:
+      length: 0.01
 name: ring_single
 placements:
-  bend_euler_CSFNone_R10_-10.625_17.335:
+  bend_euler_a21c79d4_-10.625_17.335:
     mirror: false
     rotation: 180
     x: -4.0
     y: 20.71
-  bend_euler_CSFNone_R10_6.625_17.335:
+  bend_euler_a21c79d4_6.625_17.335:
     mirror: false
     rotation: 90
     x: 10.0
     y: 10.71
-  coupler_ring_4bf3a809_-2.0_3.725:
+  coupler_ring_8fb3f424_-2.0_4.075:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_CSFNone_L10n_-14.0_10.705:
-    mirror: false
-    rotation: 270
-    x: -14.0
-    y: 10.71
-  straight_CSFNone_L10n_10.0_10.705:
-    mirror: false
-    rotation: 270
-    x: 10.0
-    y: 10.71
-  straight_CSFNone_L4_-2.0_20.71:
+  straight_687d1139_-2.0_20.71:
     mirror: false
     rotation: 180
     x: 0.0
     y: 20.71
+  straight_b7a4796e_-14.0_10.705:
+    mirror: false
+    rotation: 270
+    x: -14.0
+    y: 10.71
+  straight_b7a4796e_10.0_10.705:
+    mirror: false
+    rotation: 270
+    x: 10.0
+    y: 10.71
 ports:
-  E0: coupler_ring_4bf3a809_-2.0_3.725,E0
-  W0: coupler_ring_4bf3a809_-2.0_3.725,W0
+  E0: coupler_ring_8fb3f424_-2.0_4.075,E0
+  W0: coupler_ring_8fb3f424_-2.0_4.075,W0
