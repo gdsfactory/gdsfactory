@@ -65,15 +65,16 @@ def assert_first_letters_are_different(**kwargs):
     Avoids name collisions of different args that start with the same first letter.
     """
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
-    assert len(set(first_letters)) == len(
-        first_letters
-    ), f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}"
-    "you can separate your arguments with underscores"
-    " (delta_length -> DL, delta_width -> DW"
+    if not len(set(first_letters)) == len(first_letters):
+        raise ValueError(
+            f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}",
+            "you can separate your arguments with underscores",
+            " (delta_length -> DL, delta_width -> DW",
+        )
 
 
 def print_first_letters_warning(**kwargs):
-    """ Prints kwargs that have same cell."""
+    """Prints kwargs that have same cell."""
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):
         print(
@@ -155,6 +156,8 @@ def clean_value(value: Any) -> str:
         value = clean_name(value.name)
     elif callable(value):
         value = value.__name__
+    elif isinstance(value, str):
+        value = value.strip()
     else:
         value = clean_name(str(value))
     return value

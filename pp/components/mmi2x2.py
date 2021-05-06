@@ -10,12 +10,12 @@ from pp.types import ComponentFactory
 
 @cell
 def mmi2x2(
-    width: float = TECH.routing.optical.wg_width,
-    width_taper: float = 0.95,
-    length_taper: float = 10.0,
-    length_mmi: float = 15.45,
-    width_mmi: float = 2.1,
-    gap_mmi: float = 0.2,
+    width: float = TECH.components.mmi2x2.width,
+    width_taper: float = TECH.components.mmi2x2.width_taper,
+    length_taper: float = TECH.components.mmi2x2.length_taper,
+    length_mmi: float = TECH.components.mmi2x2.length_mmi,
+    width_mmi: float = TECH.components.mmi2x2.width_mmi,
+    gap_mmi: float = TECH.components.mmi2x2.gap_mmi,
     taper: ComponentFactory = taper_function,
     cross_section_settings=TECH.waveguide.strip,
     **kwargs
@@ -30,11 +30,8 @@ def mmi2x2(
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
         taper: taper function
-        layer:
-        layers_cladding:
-        cladding_offset
-        tech: technology dataclass
-
+        cross_section_settings: settings for cross_section
+        kwargs: overwrites cross_section_settings
 
 
     .. code::

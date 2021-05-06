@@ -840,8 +840,8 @@ def test_get_bundle_small() -> Component:
         bend_radius=5,
     )
     for route in routes:
-        print(route["length"])
-        assert np.isclose(route["length"], 101.35)
+        # print(route["length"])
+        assert np.isclose(route["length"], 111.3)
         c.add(route["references"])
     return c
 

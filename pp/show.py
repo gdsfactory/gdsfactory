@@ -11,14 +11,13 @@ def show(component: Component, clears_cache: bool = True, **kwargs) -> None:
     Args:
         component
         clears_cache: clears_cache
+        kwargs: settings for write_gds
     """
     if isinstance(component, pathlib.Path):
         component = str(component)
         return klive.show(component)
     elif isinstance(component, str):
         return klive.show(component)
-    elif hasattr(component, "path"):
-        return klive.show(component.path)
     elif component is None:
         raise ValueError(
             "Component is None, make sure that your function returns the component"

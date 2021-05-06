@@ -45,14 +45,11 @@ if __name__ == "__main__":
     # )
 
     # c = straight(settings=TECH.waveguide.metal_routing)
-
-    # settings.update(width=2)
-    # c = straight(**settings)
-
     # settings = TECH.waveguide.rib_slab90
     # c = straight(cross_section_settings=TECH.waveguide.rib_slab90)
 
-    c = straight()
+    c = straight(width=2.0)
+    print(c.name)
     c.pprint()
     # print(c.get_settings()['settings']['cross_section_settings']['layers_cladding'])
 
