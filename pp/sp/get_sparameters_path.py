@@ -32,7 +32,7 @@ def get_sparameters_path(
     material2nm = {
         layer_to_material[layer]: layer_to_thickness_nm[layer]
         for layer in layer_to_thickness_nm.keys()
-        if layer in component.get_layers()
+        if tuple(layer) in component.get_layers()
     }
     suffix = dict2name(**material2nm)
     return dirpath / f"{component.get_name_long()}_{suffix}.dat"
@@ -66,7 +66,7 @@ def test_get_sparameters_path() -> None:
         layer_to_material=layer_to_material_sample,
     )
     print(p.stem)
-    assert p.stem == "straight_L3_0_S90"
+    assert p.stem == "straight_L3__0_S90"
 
 
 if __name__ == "__main__":

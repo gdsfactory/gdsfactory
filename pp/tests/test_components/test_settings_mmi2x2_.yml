@@ -5,9 +5,9 @@ info:
 module: pp.components.mmi2x2
 name: mmi2x2
 settings:
-  gap_mmi: 0.2
-  length_mmi: 15.45
+  gap_mmi: 0.25
+  length_mmi: 5.5
   length_taper: 10
   width: 0.5
-  width_mmi: 2.1
-  width_taper: 0.95
+  width_mmi: 2.5
+  width_taper: 1

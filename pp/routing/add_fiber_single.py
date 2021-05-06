@@ -66,7 +66,6 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        auto_widen: for lower loss
         auto_widen: widen straight waveguides for lower loss in long routes
 
     .. code::
@@ -257,6 +256,7 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_te
     # gc = pp.components.grating_coupler_uniform
 
+    c = pp.components.straight(length=500, cross_section_settings=pp.TECH.waveguide)
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
     cc = add_fiber_single(component=c, auto_widen=False)
 

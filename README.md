@@ -85,7 +85,7 @@ cd gdsfactory
 git pull
 ```
 
-After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for pdk package.
+After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for photonics package.
 
 - pp
   - components: define components
