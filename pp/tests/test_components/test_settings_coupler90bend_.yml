@@ -3,8 +3,5 @@ info: {}
 module: pp.components.coupler90bend
 name: coupler90bend
 settings:
-  cross_section_settings: null
-  cross_section_settings_inner: null
-  cross_section_settings_outer: null
   gap: 0.2
   radius: 10

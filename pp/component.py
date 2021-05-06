@@ -528,7 +528,14 @@ class Component(Device):
         self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = {"path", "netlist", "properties", "cross_section_settings"}
+        self.ignore = {
+            "path",
+            "netlist",
+            "properties",
+            "cross_section_settings",
+            "cross_section_settings_inner",
+            "cross_section_settings_outer",
+        }
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
         self.data_analysis_protocol = {}
