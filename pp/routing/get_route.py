@@ -41,7 +41,7 @@ from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
 from pp.components.electrical import corner, wire
-from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.config import TAPER_LENGTH, TECH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan
@@ -60,6 +60,7 @@ def get_route(
     min_straight: Number = 0.01,
     bend_radius: Number = 10.0,
     auto_widen: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
     The references are straights, bends and tapers.
@@ -76,7 +77,10 @@ def get_route(
     """
 
     bend90 = (
-        bend_factory(radius=bend_radius, width=input_port.width)
+        bend_factory(
+            radius=bend_radius,
+            cross_section_settings=cross_section_settings,
+        )
         if callable(bend_factory)
         else bend_factory
     )
@@ -87,6 +91,7 @@ def get_route(
             width1=input_port.width,
             width2=WG_EXPANDED_WIDTH,
             layer=input_port.layer,
+            cross_section_settings=cross_section_settings,
         )
         if callable(taper_factory)
         else taper_factory
@@ -101,6 +106,7 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
+        cross_section_settings=cross_section_settings,
         auto_widen=auto_widen,
     )
 
@@ -110,8 +116,7 @@ def get_route_electrical(
     output_port: Port,
     bend_factory: Callable = corner,
     straight_factory: Callable = wire,
-    layer: Optional[Layer] = None,
-    width: Optional[Number] = None,
+    cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs
 ) -> Route:
     """Returns a Route dict of references, ports and lengths.
@@ -132,14 +137,15 @@ def get_route_electrical(
         route_factory: returns route
     """
 
-    width = width or input_port.width
-    layer = layer or input_port.layer
+    def _bend_factory(cross_section_settings=cross_section_settings, radius=0):
+        return bend_factory(
+            radius=radius, cross_section_settings=cross_section_settings
+        )
 
-    def _bend_factory(width=width, radius=0):
-        return bend_factory(width=width, radius=radius, layer=layer)
-
-    def _straight_factory(length=10.0, width=width):
-        return straight_factory(length=snap_to_grid(length), width=width, layer=layer)
+    def _straight_factory(length=10.0, cross_section_settings=cross_section_settings):
+        return straight_factory(
+            length=snap_to_grid(length), cross_section_settings=cross_section_settings
+        )
 
     if "bend_radius" in kwargs:
         bend_radius = kwargs.pop("bend_radius")
@@ -153,6 +159,7 @@ def get_route_electrical(
         bend_factory=_bend_factory,
         straight_factory=_straight_factory,
         taper_factory=None,
+        cross_section_settings=cross_section_settings,
         **kwargs
     )
 
@@ -166,6 +173,7 @@ def get_route_from_waypoints(
     wg_width: Number = 0.5,
     layer: Layer = LAYER.WG,
     auto_widen: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints with
@@ -183,7 +191,7 @@ def get_route_from_waypoints(
     """
     waypoints = np.array(waypoints)
     bend90 = (
-        bend_factory(radius=bend_radius, width=wg_width)
+        bend_factory(radius=bend_radius, cross_section_settings=cross_section_settings)
         if callable(bend_factory)
         else bend_factory
     )
@@ -194,7 +202,7 @@ def get_route_from_waypoints(
                 length=TAPER_LENGTH,
                 width1=wg_width,
                 width2=WG_EXPANDED_WIDTH,
-                layer=layer,
+                cross_section_settings=cross_section_settings,
             )
             if callable(taper_factory)
             else taper_factory
@@ -208,6 +216,7 @@ def get_route_from_waypoints(
         straight_factory=straight_factory,
         taper=taper,
         auto_widen=auto_widen,
+        cross_section_settings=cross_section_settings,
     )
 
 
@@ -231,8 +240,7 @@ def get_route_from_waypoints_electrical(
     bend_factory: Callable = corner,
     straight_factory: Callable = wire,
     taper_factory: Optional[Callable] = taper_function,
-    wg_width: Number = 10.0,
-    layer: Layer = LAYER.M3,
+    cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs
 ) -> Route:
     """Returns route with electrical traces.
@@ -247,16 +255,19 @@ def get_route_from_waypoints_electrical(
 
     """
 
-    bend90 = bend_factory(width=wg_width, layer=layer)
+    bend90 = bend_factory(cross_section_settings=cross_section_settings)
 
-    def _straight_factory(length=10.0, width=wg_width):
-        return straight_factory(length=snap_to_grid(length), width=width)
+    def _straight_factory(length=10.0, cross_section_settings=cross_section_settings):
+        return straight_factory(
+            length=snap_to_grid(length), cross_section_settings=cross_section_settings
+        )
 
     connector = round_corners(
         points=waypoints,
         straight_factory=_straight_factory,
         taper=None,
         bend_factory=bend90,
+        cross_section_settings=cross_section_settings,
     )
     return connector
 
@@ -268,6 +279,8 @@ if __name__ == "__main__":
 
     c = pp.Component()
     c << w
-    route = get_route(w.ports["E0"], w.ports["W0"])
+    route = get_route(
+        w.ports["E0"], w.ports["W0"], cross_section_settings=pp.TECH.waveguide.nitride
+    )
     cc = c.add(route["references"])
     cc.show()

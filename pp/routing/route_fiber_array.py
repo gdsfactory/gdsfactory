@@ -49,6 +49,7 @@ def route_fiber_array(
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
     auto_widen: bool = TECH.routing.optical.auto_widen,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -419,7 +420,10 @@ def route_fiber_array(
         elements.extend([gca1, gca2])
 
         route = round_corners(
-            points=points, straight_factory=straight_factory, bend_factory=bend90
+            points=points,
+            straight_factory=straight_factory,
+            bend_factory=bend90,
+            cross_section_settings=cross_section_settings,
         )
         elements.extend(route["references"])
 

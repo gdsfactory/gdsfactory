@@ -27,6 +27,7 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Route:
     """
     Args:
@@ -79,6 +80,7 @@ def route_south(
         straight_factory=straight_factory,
         taper_factory=taper_factory,
         auto_widen=auto_widen,
+        cross_section_settings=cross_section_settings,
     )
 
     # Used to avoid crossing between straights in special cases
@@ -256,8 +258,16 @@ if __name__ == "__main__":
     c = pp.components.mmi2x2()
     c = pp.components.ring_single()
     c = pp.components.ring_double()
-    r = route_south(c)
-    r = route_south(c, bend_factory=pp.components.bend_euler, bend_radius=20)
+    # r = route_south(c)
+
+    cross_section_settings = pp.TECH.waveguide.nitride
+    c = pp.components.ring_double(cross_section_settings=cross_section_settings)
+    r = route_south(
+        c,
+        bend_factory=pp.components.bend_euler,
+        bend_radius=20,
+        cross_section_settings=cross_section_settings,
+    )
     for e in r["references"]:
         if isinstance(e, list):
             print(len(e))

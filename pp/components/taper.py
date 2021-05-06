@@ -63,9 +63,8 @@ def taper(
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
 
-    ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
-
-    if with_cladding_box:
+    if with_cladding_box and o:
+        ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
         for layer in layers_cladding:
             c.add_polygon((xpts, ypts), layer=layer)
 

@@ -49,6 +49,7 @@ if __name__ == "__main__":
     # c = straight(cross_section_settings=TECH.waveguide.rib_slab90)
 
     c = straight(width=2.0)
+    c = straight(cross_section_settings=TECH.waveguide.nitride)
     print(c.name)
     c.pprint()
     # print(c.get_settings()['settings']['cross_section_settings']['layers_cladding'])
