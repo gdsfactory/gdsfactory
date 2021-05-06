@@ -20,6 +20,7 @@ def bend_euler(
     layers_cladding: Optional[Iterable[Layer]] = TECH.waveguide.strip.layers_cladding,
     cladding_offset: float = TECH.waveguide.strip.cladding_offset,
     cross_section_factory: Optional[CrossSectionFactory] = None,
+    direction="ccw",
     **cross_section_settings
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -72,6 +73,8 @@ def bend_euler(
     )
     for layer in layers_cladding or []:
         c.add_polygon(points, layer=layer)
+    if direction == "cw":
+        c.mirror(p1=[0, 0], p2=[1, 0])
     return c
 
 
@@ -114,6 +117,7 @@ def _compare_bend_euler180():
 if __name__ == "__main__":
     c = bend_euler_s()
     c = bend_euler180()
+    c = bend_euler(direction="cw")
     c.show()
 
     # _compare_bend_euler180()

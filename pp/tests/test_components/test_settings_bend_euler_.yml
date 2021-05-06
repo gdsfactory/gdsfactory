@@ -9,6 +9,7 @@ settings:
   angle: 90
   cladding_offset: 3
   cross_section_factory: null
+  direction: ccw
   layers_cladding:
   - - 111
     - 0
