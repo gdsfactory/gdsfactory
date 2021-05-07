@@ -1,12 +1,12 @@
 connections:
-  bend_euler_R10_W500n_71.615_4.0,N0: straight_L80_W500n_74.99_50.625,W0
-  bend_euler_R10_W500n_71.615_4.0,W0: straight_L52p49_W500n_38.745_0.625,E0
-  bend_euler_R10_W500n_78.365_97.25,N0: straight_L10n_W500n_84.995_100.625,W0
-  bend_euler_R10_W500n_78.365_97.25,W0: straight_L80_W500n_74.99_50.625,E0
-  mmi_long,E0: straight_L10n_W500n_84.995_100.625,E0
-  mmi_short,E1: straight_L52p49_W500n_38.745_0.625,W0
+  bend_euler_a21c79d4_71.615_4.0,N0: straight_d6f16493_74.99_50.625,W0
+  bend_euler_a21c79d4_71.615_4.0,W0: straight_40bcb9df_38.745_0.625,E0
+  bend_euler_a21c79d4_78.365_97.25,N0: straight_55536d52_84.995_100.625,W0
+  bend_euler_a21c79d4_78.365_97.25,W0: straight_d6f16493_74.99_50.625,E0
+  mmi_long,E0: straight_55536d52_84.995_100.625,E0
+  mmi_short,E1: straight_40bcb9df_38.745_0.625,W0
 instances:
-  bend_euler_R10_W500n_71.615_4.0:
+  bend_euler_a21c79d4_71.615_4.0:
     component: bend_euler
     settings:
       angle: 90
@@ -14,10 +14,9 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      width: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_R10_W500n_78.365_97.25:
+  bend_euler_a21c79d4_78.365_97.25:
     component: bend_euler
     settings:
       angle: 90
@@ -25,7 +24,6 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      width: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   mmi_long:
@@ -46,32 +44,29 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
-  straight_L10n_W500n_84.995_100.625:
-    component: straight
-    settings:
-      length: 0.01
-      npoints: 2
-      width: 0.5
-  straight_L52p49_W500n_38.745_0.625:
+  straight_40bcb9df_38.745_0.625:
     component: straight
     settings:
       length: 52.49
       npoints: 2
-      width: 0.5
-  straight_L80_W500n_74.99_50.625:
+  straight_55536d52_84.995_100.625:
+    component: straight
+    settings:
+      length: 0.01
+      npoints: 2
+  straight_d6f16493_74.99_50.625:
     component: straight
     settings:
       length: 80
       npoints: 2
-      width: 0.5
 name: mmis
 placements:
-  bend_euler_R10_W500n_71.615_4.0:
+  bend_euler_a21c79d4_71.615_4.0:
     mirror: false
     rotation: 0
     x: 64.99
     y: 0.625
-  bend_euler_R10_W500n_78.365_97.25:
+  bend_euler_a21c79d4_78.365_97.25:
     mirror: true
     rotation: 90
     x: 74.99
@@ -86,17 +81,17 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_L10n_W500n_84.995_100.625:
-    mirror: false
-    rotation: 0
-    x: 84.99
-    y: 100.625
-  straight_L52p49_W500n_38.745_0.625:
+  straight_40bcb9df_38.745_0.625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_L80_W500n_74.99_50.625:
+  straight_55536d52_84.995_100.625:
+    mirror: false
+    rotation: 0
+    x: 84.99
+    y: 100.625
+  straight_d6f16493_74.99_50.625:
     mirror: false
     rotation: 90
     x: 74.99

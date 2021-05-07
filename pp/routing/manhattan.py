@@ -516,10 +516,7 @@ def round_corners(
         elif dp[0] < 0:
             a0 = 180
 
-    assert a0 is not None, "Points should be manhattan, got {} {}".format(
-        p0_straight, p1
-    )
-
+    assert a0 is not None, f"Points should be manhattan, got {p0_straight} {p1}"
     pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
 
     n_o_bends = points.shape[0] - 2

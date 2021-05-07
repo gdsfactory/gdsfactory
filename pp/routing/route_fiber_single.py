@@ -5,6 +5,7 @@ from phidl.device_layout import Label
 import pp
 from pp.component import Component, ComponentReference
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.config import TECH
 from pp.routing.route_fiber_array import route_fiber_array
 
 
@@ -17,6 +18,8 @@ def route_fiber_single(
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
+    cross_section_settings=TECH.waveguide.strip,
+    component_name: Optional[str] = None,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
@@ -107,6 +110,8 @@ def route_fiber_single(
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
+        cross_section_settings=cross_section_settings,
+        component_name=component_name,
         **kwargs,
     )
 
@@ -125,6 +130,8 @@ def route_fiber_single(
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
+        cross_section_settings=cross_section_settings,
+        component_name=component_name,
         **kwargs,
     )
     for e in elements_north:

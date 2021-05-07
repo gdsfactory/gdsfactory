@@ -121,6 +121,7 @@ waveguide:
   nitride:
     layer: ${layer.WGN}
     width: 1.0
+    bend_radius: 20.0
     cross_section:
       cladding:
         layer: ${layer.WGN_CLAD}

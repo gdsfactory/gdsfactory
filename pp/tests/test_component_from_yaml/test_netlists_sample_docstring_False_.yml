@@ -1,21 +1,19 @@
 connections:
-  bend_euler_R10_W500n_68.615_-4.0,N0: straight_L18p75_W500n_71.99_-20.0,W0
-  bend_euler_R10_W500n_68.615_-4.0,W0: straight_L19p99_W500n_51.995_-0.625,E0
-  bend_euler_R10_W500n_75.365_-36.0,N0: straight_L10n_W500n_81.995_-39.375,W0
-  bend_euler_R10_W500n_75.365_-36.0,W0: straight_L18p75_W500n_71.99_-20.0,E0
-  mmi_bot,W0: straight_L10n_W500n_81.995_-39.375,E0
-  mmi_top,E0: straight_L19p99_W500n_51.995_-0.625,W0
+  bend_euler_a21c79d4_68.615_-4.0,N0: straight_2b38b919_71.99_-20.0,W0
+  bend_euler_a21c79d4_68.615_-4.0,W0: straight_f90b6b7d_51.995_-0.625,E0
+  bend_euler_a21c79d4_75.365_-36.0,N0: straight_55536d52_81.995_-39.375,W0
+  bend_euler_a21c79d4_75.365_-36.0,W0: straight_2b38b919_71.99_-20.0,E0
+  mmi_bot,W0: straight_55536d52_81.995_-39.375,E0
+  mmi_top,E0: straight_f90b6b7d_51.995_-0.625,W0
 instances:
-  bend_euler_R10_W500n_68.615_-4.0:
+  bend_euler_a21c79d4_68.615_-4.0:
     component: bend_euler
     settings:
       radius: 10
-      width: 0.5
-  bend_euler_R10_W500n_75.365_-36.0:
+  bend_euler_a21c79d4_75.365_-36.0:
     component: bend_euler
     settings:
       radius: 10
-      width: 0.5
   mmi_bot:
     component: mmi1x2
     settings:
@@ -26,29 +24,26 @@ instances:
     settings:
       length_mmi: 22
       width_mmi: 6
-  straight_L10n_W500n_81.995_-39.375:
-    component: straight
-    settings:
-      length: 0.01
-      width: 0.5
-  straight_L18p75_W500n_71.99_-20.0:
+  straight_2b38b919_71.99_-20.0:
     component: straight
     settings:
       length: 18.75
-      width: 0.5
-  straight_L19p99_W500n_51.995_-0.625:
+  straight_55536d52_81.995_-39.375:
+    component: straight
+    settings:
+      length: 0.01
+  straight_f90b6b7d_51.995_-0.625:
     component: straight
     settings:
       length: 19.99
-      width: 0.5
 name: sample_docstring
 placements:
-  bend_euler_R10_W500n_68.615_-4.0:
+  bend_euler_a21c79d4_68.615_-4.0:
     mirror: true
     rotation: 0
     x: 61.99
     y: -0.625
-  bend_euler_R10_W500n_75.365_-36.0:
+  bend_euler_a21c79d4_75.365_-36.0:
     mirror: false
     rotation: 270
     x: 71.99
@@ -63,17 +58,17 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_L10n_W500n_81.995_-39.375:
-    mirror: false
-    rotation: 0
-    x: 81.99
-    y: -39.375
-  straight_L18p75_W500n_71.99_-20.0:
+  straight_2b38b919_71.99_-20.0:
     mirror: false
     rotation: 270
     x: 71.99
     y: -10.625
-  straight_L19p99_W500n_51.995_-0.625:
+  straight_55536d52_81.995_-39.375:
+    mirror: false
+    rotation: 0
+    x: 81.99
+    y: -39.375
+  straight_f90b6b7d_51.995_-0.625:
     mirror: false
     rotation: 0
     x: 42.0

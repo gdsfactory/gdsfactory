@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -9,7 +7,7 @@ from pp.components.taper import taper
 from pp.config import call_if_func
 from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
-from pp.types import CrossSectionFactory
+from pp.tech import TECH
 
 
 @cell
@@ -24,8 +22,8 @@ def ring_single_dut(
     straight=straight_function,
     bend=bend_euler,
     with_dut=True,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
-    **cross_section_settings
+    cross_section_settings=TECH.waveguide.strip,
+    **kwargs
 ):
     """Single bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical straights (wyl: left, wyr: right)
@@ -55,29 +53,29 @@ def ring_single_dut(
         gap=gap,
         radius=radius,
         length_x=length_x,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
     straight_side = call_if_func(
         straight,
         width=wg_width,
         length=length_y + dut.xsize,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
     straight_top = call_if_func(
         straight,
         width=wg_width,
         length=length_x,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
     bend = call_if_func(
         bend,
         width=wg_width,
         radius=radius,
-        cross_section_factory=cross_section_factory,
-        **cross_section_settings
+        cross_section_settings=cross_section_settings,
+        **kwargs
     )
 
     c = Component()

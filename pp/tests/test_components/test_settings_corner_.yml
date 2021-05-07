@@ -1,12 +1,12 @@
 function_name: corner
 info:
-  length: 10
+  dy: 5
+  length: 7.854
+  radius_min: 5
 module: pp.components.electrical.wire
 name: corner
 settings:
-  layer:
-  - 49
-  - 0
-  port_type: dc
-  radius: null
-  width: 10
+  angle: 90
+  npoints: 720
+  radius: 5
+  with_cladding_box: false
