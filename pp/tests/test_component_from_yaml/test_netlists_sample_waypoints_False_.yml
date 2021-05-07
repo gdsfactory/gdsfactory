@@ -1,99 +1,76 @@
 connections:
-  bend_euler_R5_W500n_-0.875_599.125,N0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,1
-  bend_euler_R5_W500n_-0.875_599.125,W0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,1
-  bend_euler_R5_W500n_-249.125_600.875,N0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,1
-  bend_euler_R5_W500n_-249.125_600.875,W0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,1
-  straight_L170_W2p5_-125.0_600.0,E0: taper_L1__0_L35_W500n_W2p5_-227.5_600.0,2
-  straight_L170_W2p5_-125.0_600.0,W0: taper_L1__0_L35_W500n_W2p5_-22.5_600.0,2
-  straight_L325_W2p5_-250.0_802.5,E0: taper_L1__0_L35_W500n_W2p5_-250.0_982.5,2
-  straight_L325_W2p5_-250.0_802.5,W0: taper_L1__0_L35_W500n_W2p5_-250.0_622.5,2
-  straight_L525_W2p5_0.0_297.5,E0: taper_L1__0_L35_W500n_W2p5_0.0_577.5,2
-  straight_L525_W2p5_0.0_297.5,W0: taper_L1__0_L35_W500n_W2p5_0.0_17.5,2
+  bend_euler_db3cad6d_-0.875_599.125,N0: taper_237c95c6_-22.5_600.0,1
+  bend_euler_db3cad6d_-0.875_599.125,W0: taper_237c95c6_0.0_577.5,1
+  bend_euler_db3cad6d_-249.125_600.875,N0: taper_237c95c6_-250.0_622.5,1
+  bend_euler_db3cad6d_-249.125_600.875,W0: taper_237c95c6_-227.5_600.0,1
+  straight_0c0fdf02_-250.0_802.5,E0: taper_237c95c6_-250.0_982.5,2
+  straight_0c0fdf02_-250.0_802.5,W0: taper_237c95c6_-250.0_622.5,2
+  straight_6282538e_-125.0_600.0,E0: taper_237c95c6_-227.5_600.0,2
+  straight_6282538e_-125.0_600.0,W0: taper_237c95c6_-22.5_600.0,2
+  straight_bc4705f7_0.0_297.5,E0: taper_237c95c6_0.0_577.5,2
+  straight_bc4705f7_0.0_297.5,W0: taper_237c95c6_0.0_17.5,2
 instances:
   b:
     component: pad_array
     settings: {}
-  bend_euler_R5_W500n_-0.875_599.125:
+  bend_euler_db3cad6d_-0.875_599.125:
     component: bend_euler
     settings:
       radius: 5
-      width: 0.5
-  bend_euler_R5_W500n_-249.125_600.875:
+  bend_euler_db3cad6d_-249.125_600.875:
     component: bend_euler
     settings:
       radius: 5
-      width: 0.5
-  straight_L170_W2p5_-125.0_600.0:
-    component: straight
-    settings:
-      length: 170
-      width: 2.5
-  straight_L325_W2p5_-250.0_802.5:
+  straight_0c0fdf02_-250.0_802.5:
     component: straight
     settings:
       length: 325
-      width: 2.5
-  straight_L525_W2p5_0.0_297.5:
+  straight_6282538e_-125.0_600.0:
+    component: straight
+    settings:
+      length: 170
+  straight_bc4705f7_0.0_297.5:
     component: straight
     settings:
       length: 525
-      width: 2.5
   t:
     component: pad_array
     settings:
       port_list:
       - S
-  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
+  taper_237c95c6_-22.5_600.0:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
+  taper_237c95c6_-227.5_600.0:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
+  taper_237c95c6_-250.0_622.5:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
+  taper_237c95c6_-250.0_982.5:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
+  taper_237c95c6_0.0_17.5:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
-  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
+  taper_237c95c6_0.0_577.5:
     component: taper
     settings:
-      layer:
-      - 1
-      - 0
       length: 35
       width1: 0.5
       width2: 2.5
@@ -104,27 +81,27 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_R5_W500n_-0.875_599.125:
+  bend_euler_db3cad6d_-0.875_599.125:
     mirror: false
     rotation: 90
     x: 0.0
     y: 595.0
-  bend_euler_R5_W500n_-249.125_600.875:
+  bend_euler_db3cad6d_-249.125_600.875:
     mirror: true
     rotation: 180
     x: -245.0
     y: 600.0
-  straight_L170_W2p5_-125.0_600.0:
-    mirror: false
-    rotation: 180
-    x: -40.0
-    y: 600.0
-  straight_L325_W2p5_-250.0_802.5:
+  straight_0c0fdf02_-250.0_802.5:
     mirror: false
     rotation: 90
     x: -250.0
     y: 640.0
-  straight_L525_W2p5_0.0_297.5:
+  straight_6282538e_-125.0_600.0:
+    mirror: false
+    rotation: 180
+    x: -40.0
+    y: 600.0
+  straight_bc4705f7_0.0_297.5:
     mirror: false
     rotation: 90
     x: 0.0
@@ -134,32 +111,32 @@ placements:
     rotation: 0
     x: -250.0
     y: 1000.0
-  taper_L1__0_L35_W500n_W2p5_-22.5_600.0:
+  taper_237c95c6_-22.5_600.0:
     mirror: false
     rotation: 180
     x: -5.0
     y: 600.0
-  taper_L1__0_L35_W500n_W2p5_-227.5_600.0:
+  taper_237c95c6_-227.5_600.0:
     mirror: false
     rotation: 0
     x: -245.0
     y: 600.0
-  taper_L1__0_L35_W500n_W2p5_-250.0_622.5:
+  taper_237c95c6_-250.0_622.5:
     mirror: false
     rotation: 90
     x: -250.0
     y: 605.0
-  taper_L1__0_L35_W500n_W2p5_-250.0_982.5:
+  taper_237c95c6_-250.0_982.5:
     mirror: false
     rotation: 270
     x: -250.0
     y: 1000.0
-  taper_L1__0_L35_W500n_W2p5_0.0_17.5:
+  taper_237c95c6_0.0_17.5:
     mirror: false
     rotation: 90
     x: 0.0
     y: 0.0
-  taper_L1__0_L35_W500n_W2p5_0.0_577.5:
+  taper_237c95c6_0.0_577.5:
     mirror: false
     rotation: 270
     x: 0.0

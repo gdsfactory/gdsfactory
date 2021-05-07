@@ -84,6 +84,8 @@ from pp.components.dbr import dbr
 from pp.components.dbr2 import dbr2
 
 # electrical
+from pp.components.wire import wire_straight
+from pp.components.wire import wire_corner
 from pp.components.electrical.wire import wire
 from pp.components.electrical.wire import corner
 from pp.components.electrical.pad import pad
@@ -238,6 +240,8 @@ component_factory = dict(
     straight_pin=straight_pin,
     straight_with_heater=straight_with_heater,
     wire=wire,
+    wire_straight=wire_straight,
+    wire_corner=wire_corner,
 )
 
 

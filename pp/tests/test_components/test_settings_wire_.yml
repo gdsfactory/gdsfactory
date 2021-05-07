@@ -1,13 +1,9 @@
 function_name: wire
 info:
   length: 50
-  width: 10
+  width: 2
 module: pp.components.electrical.wire
 name: wire
 settings:
-  layer:
-  - 49
-  - 0
   length: 50
-  port_type: dc
-  width: 10
+  npoints: 2

@@ -16,7 +16,6 @@ settings:
       bend_radius: 10
       gap: 0.234
       with_elec_connections: true
-  cross_section_factory: null
   gap: 0.2
   length_x: 4
   length_y: 0

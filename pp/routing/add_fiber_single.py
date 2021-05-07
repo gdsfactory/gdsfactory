@@ -1,7 +1,5 @@
 from typing import Callable, Optional, Tuple
 
-import phidl.device_layout as pd
-
 from pp.add_labels import get_optical_text
 from pp.add_tapers import add_tapers
 from pp.cell import cell
@@ -101,6 +99,8 @@ def add_fiber_single(
         raise ValueError(f"No ports for {component.name}")
 
     component = component() if callable(component) else component
+    component_name = component_name or component.name
+
     gc = grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
@@ -120,12 +120,12 @@ def add_fiber_single(
             if callable(taper_factory)
             else taper_factory
         )
-        component = add_tapers(component=component, taper=taper)
+        component = add_tapers(
+            component=component,
+            taper=taper,
+        )
 
-    component_name = component_name or component.name
-    name = f"{component_name}_{grating_coupler.name}"
-
-    c = Component(name=name)
+    c = Component()
     cr = c << component
     cr.rotate(90)
 
@@ -142,9 +142,9 @@ def add_fiber_single(
             grating_couplers.append(gc_ref)
 
         elements = get_input_labels(
-            grating_couplers,
-            list(cr.ports.values()),
-            component_name=component.name,
+            io_gratings=grating_couplers,
+            ordered_ports=list(cr.ports.values()),
+            component_name=component_name,
             layer_label=layer_label,
             gc_port_name=gc_port_name,
         )
@@ -152,7 +152,6 @@ def add_fiber_single(
     else:
         elements, grating_couplers = route_fiber_single(
             component,
-            component_name=component_name,
             fiber_spacing=fiber_spacing,
             bend_factory=bend_factory,
             straight_factory=straight_factory,
@@ -164,6 +163,7 @@ def add_fiber_single(
             gc_port_name=gc_port_name,
             auto_widen=auto_widen,
             cross_section_settings=cross_section_settings,
+            component_name=component_name,
             **kwargs,
         )
 
@@ -214,34 +214,28 @@ def add_fiber_single(
         gci.connect(gc_port_name, wg.ports["W0"])
         gco.connect(gc_port_name, wg.ports["E0"])
 
-        gds_layer_label, gds_datatype_label = pd._parse_layer(layer_label)
-
         port = wg.ports["E0"]
         text = get_optical_text(
-            port, grating_coupler, 0, component_name=f"loopback_{component.name}"
+            port, grating_coupler, 0, component_name=f"loopback_{component_name}"
         )
 
-        label = pd.Label(
+        c.add_label(
             text=text,
             position=port.midpoint,
             anchor="o",
-            layer=gds_layer_label,
-            texttype=gds_datatype_label,
+            layer=layer_label,
         )
-        c.add(label)
 
         port = wg.ports["W0"]
         text = get_optical_text(
-            port, grating_coupler, 1, component_name=f"loopback_{component.name}"
+            port, grating_coupler, 1, component_name=f"loopback_{component_name}"
         )
-        label = pd.Label(
+        c.add_label(
             text=text,
             position=port.midpoint,
             anchor="o",
-            layer=gds_layer_label,
-            texttype=gds_datatype_label,
+            layer=layer_label,
         )
-        c.add(label)
 
     return c
 
@@ -265,7 +259,7 @@ if __name__ == "__main__":
     # cc = add_fiber_single(component=c, auto_widen=False)
 
     c = pp.components.straight(
-        length=500, cross_section_settings=pp.TECH.waveguide.nitride
+        length=20, width=10, cross_section_settings=pp.TECH.waveguide.nitride
     )
     gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
     cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)

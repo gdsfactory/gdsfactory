@@ -29,7 +29,6 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
 def test_label_fiber_array_align_ports(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that adds the correct label for measurements."""
     c = pp.components.straight(length=length)
-
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
 
@@ -98,7 +97,7 @@ def test_labels_fiber_single(num_regression):
 if __name__ == "__main__":
     c = test_label_fiber_array()
     # c = test_label_fiber_array_align_ports()
-    # c.show()
+    c.show()
 
     # c = pp.components.straight()
     # assert len(c.labels) == 0

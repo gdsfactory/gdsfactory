@@ -5,6 +5,7 @@ from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
 from pp.port import Port, auto_rename_ports
+from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
@@ -30,10 +31,11 @@ def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
     port_type: str = "optical",
+    cross_section_settings=TECH.waveguide.strip,
 ) -> Component:
     """returns component optical tapers for component """
 
-    taper_object = pp.call_if_func(taper)
+    taper_object = pp.call_if_func(taper, cross_section_settings=cross_section_settings)
     c = pp.Component()
 
     for port_name, port in component.ports.copy().items():

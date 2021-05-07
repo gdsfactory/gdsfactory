@@ -96,8 +96,7 @@ def add_fiber_array(
     gc = pp.call_if_func(gc)
 
     component_name = component_name or c.name
-    name = f"{component_name}_{gc.name}"
-    cc = pp.Component(name=name)
+    cc = Component()
 
     port_width_gc = gc.ports[gc_port_name].width
 
@@ -184,8 +183,8 @@ if __name__ == "__main__":
     c = pp.components.straight(length=1, width=2)
     c = pp.components.mmi2x2()
     c = pp.components.ring_single()
-    c = pp.components.mzi2x2(with_elec_connections=True)
     c = pp.components.mzi2x2()
+    c = pp.components.mzi2x2(with_elec_connections=True)
 
     c.y = 0
     cc = add_fiber_array(

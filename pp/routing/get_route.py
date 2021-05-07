@@ -40,7 +40,7 @@ from numpy import ndarray
 from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
-from pp.components.electrical import corner, wire
+from pp.components.wire import wire_corner, wire_straight
 from pp.config import TAPER_LENGTH, TECH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
@@ -114,8 +114,8 @@ def get_route(
 def get_route_electrical(
     input_port: Port,
     output_port: Port,
-    bend_factory: Callable = corner,
-    straight_factory: Callable = wire,
+    bend_factory: Callable = wire_corner,
+    straight_factory: Callable = wire_straight,
     cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs
 ) -> Route:
@@ -237,8 +237,8 @@ def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
 
 def get_route_from_waypoints_electrical(
     waypoints: ndarray,
-    bend_factory: Callable = corner,
-    straight_factory: Callable = wire,
+    bend_factory: Callable = wire_corner,
+    straight_factory: Callable = wire_straight,
     taper_factory: Optional[Callable] = taper_function,
     cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs
