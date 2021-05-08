@@ -4,6 +4,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import pp
 from pp import Port
 from pp.component import Component
+from pp.difftest import difftest
 from pp.routing.get_bundle import get_bundle
 
 
@@ -19,7 +20,7 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
         Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
-    c = pp.Component()
+    c = pp.Component("test_get_bundle")
     routes = get_bundle(top_ports, bottom_ports)
     lengths = {}
     for i, route in enumerate(routes):
@@ -28,6 +29,7 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
 
     if check:
         data_regression.check(lengths)
+        difftest(c)
     return c
 
 
@@ -36,7 +38,7 @@ def test_connect_corner(
 ) -> Component:
     d = 10.0
     sep = 5.0
-    c = Component(name="connect_corner")
+    c = Component(name="test_connect_corner")
 
     if config in ["A", "B"]:
         a = 100.0
@@ -124,6 +126,7 @@ def test_connect_corner(
 
     if check:
         data_regression.check(lengths)
+        difftest(c)
     return c
 
 
@@ -147,7 +150,7 @@ def test_get_bundle_udirect(
 
         ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
-    c = pp.Component(name="get_bundle")
+    c = pp.Component(name="test_get_bundle_udirect")
     routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
@@ -156,6 +159,7 @@ def test_get_bundle_udirect(
 
     if check:
         data_regression.check(lengths)
+        difftest(c)
 
     return c
 
@@ -186,9 +190,8 @@ def test_get_bundle_u_indirect(
 
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    c = pp.Component()
+    c = pp.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
 
-    # FIXME, bend_factory=pp.components.bend_euler needs fix
     routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
@@ -197,6 +200,7 @@ def test_get_bundle_u_indirect(
 
     if check:
         data_regression.check(lengths)
+        difftest(c)
 
     return c
 
@@ -220,7 +224,7 @@ def test_facing_ports(
     ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
     ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    c = pp.Component()
+    c = pp.Component("test_facing_ports")
     routes = get_bundle(ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):
@@ -229,6 +233,7 @@ def test_facing_ports(
 
     if check:
         data_regression.check(lengths)
+        difftest(c)
 
     return c
 
@@ -238,8 +243,8 @@ if __name__ == "__main__":
     # c = test_get_bundle(None, check=False)
     # c = test_connect_corner(None, config="A", check=False)
     # c = test_connect_corner(None, config="C", check=False) # FIXME
-    c = test_get_bundle_udirect(None, check=False)
+    # c = test_get_bundle_udirect(None, check=False)
     # c = test_get_bundle_u_indirect(None, check=False)
-    # c = test_get_bundle_u_indirect(None, angle=0, check=False)
+    c = test_get_bundle_u_indirect(None, angle=0, check=False)
     # c = test_facing_ports(None, check=False)
     c.show()

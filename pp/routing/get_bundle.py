@@ -35,6 +35,7 @@ def get_bundle(
     bend_radius: float = BEND_RADIUS,
     extension_length: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
+    sort_ports: bool = True,
     **kwargs,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
@@ -76,6 +77,9 @@ def get_bundle(
 
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
+
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     start_port_angles = set([p.angle for p in ports1])
     if len(start_port_angles) > 1:
@@ -847,8 +851,10 @@ def test_get_bundle_small() -> Component:
 
 
 if __name__ == "__main__":
+    from pp.tests.test_get_bundle import test_connect_corner
 
-    c = test_get_bundle_small()
+    c = test_connect_corner(None, check=False)
+    # c = test_get_bundle_small()
     # c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()

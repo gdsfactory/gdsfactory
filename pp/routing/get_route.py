@@ -40,7 +40,7 @@ from numpy import ndarray
 from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
-from pp.components.wire import wire_corner, wire_straight
+from pp.components.electrical.wire import corner, wire
 from pp.config import TAPER_LENGTH, TECH, WG_EXPANDED_WIDTH
 from pp.layers import LAYER
 from pp.port import Port
@@ -114,8 +114,8 @@ def get_route(
 def get_route_electrical(
     input_port: Port,
     output_port: Port,
-    bend_factory: Callable = wire_corner,
-    straight_factory: Callable = wire_straight,
+    bend_factory: Callable = corner,
+    straight_factory: Callable = wire,
     cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs
 ) -> Route:
@@ -147,17 +147,15 @@ def get_route_electrical(
             length=snap_to_grid(length), cross_section_settings=cross_section_settings
         )
 
-    if "bend_radius" in kwargs:
-        bend_radius = kwargs.pop("bend_radius")
-    else:
-        bend_radius = 0.001
-
+    bend_radius = kwargs.pop("bend_radius", 5)
     return get_route(
         input_port,
         output_port,
         bend_radius=bend_radius,
-        bend_factory=_bend_factory,
-        straight_factory=_straight_factory,
+        # bend_factory=_bend_factory,
+        # straight_factory=_straight_factory,
+        bend_factory=corner,
+        straight_factory=wire,
         taper_factory=None,
         cross_section_settings=cross_section_settings,
         **kwargs
@@ -237,8 +235,8 @@ def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
 
 def get_route_from_waypoints_electrical(
     waypoints: ndarray,
-    bend_factory: Callable = wire_corner,
-    straight_factory: Callable = wire_straight,
+    bend_factory: Callable = corner,
+    straight_factory: Callable = wire,
     taper_factory: Optional[Callable] = taper_function,
     cross_section_settings=TECH.waveguide.metal_routing,
     **kwargs

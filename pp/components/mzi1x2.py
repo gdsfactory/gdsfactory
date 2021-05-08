@@ -8,7 +8,7 @@ from pp.components.straight import straight as straight_function
 from pp.components.straight_heater import straight_with_heater
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_electrical_ports
-from pp.routing.route_ports_to_side import route_elec_ports_to_side
+from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory
 
 
@@ -134,7 +134,7 @@ def mzi1x2(
 
         # Reroute electrical ports
         _e_ports = select_electrical_ports(component)
-        routes, e_ports = route_elec_ports_to_side(_e_ports, side="north", y=y_elec)
+        routes, e_ports = route_ports_to_side(_e_ports, side="north", y=y_elec)
 
         for route in routes:
             component.add(route["references"])

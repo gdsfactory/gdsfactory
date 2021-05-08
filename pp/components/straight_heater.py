@@ -256,6 +256,9 @@ def straight_with_heater(
         length: straight length
         straight_heater: function
         connector: function
+        port_width:
+        port_orientation_input:
+        port_orientation_output:
         **kwargs: for straight_heater
 
     """
