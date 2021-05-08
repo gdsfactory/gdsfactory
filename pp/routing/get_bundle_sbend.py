@@ -4,7 +4,7 @@ from pp.port import Port
 from pp.routing.sort_ports import sort_ports as sort_ports_function
 
 
-def get_route_sbend_bundle(
+def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
 ) -> Component:
     """Returns a Dict with the route Components.
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     left_ports = [pp.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0) for i in range(N)]
     left_ports.reverse()
 
-    route_dict = get_route_sbend_bundle(right_ports, left_ports)
+    route_dict = get_bundle_sbend(right_ports, left_ports)
     c.add(route_dict["references"])
     c.show()

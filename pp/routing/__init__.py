@@ -13,6 +13,7 @@ from pp.routing.get_bundle import (
     link_optical_ports_no_grouping,
 )
 from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from pp.routing.get_bundle_sbend import get_bundle_sbend
 from pp.routing.get_route import (
     get_route,
     get_route_electrical,
@@ -20,7 +21,7 @@ from pp.routing.get_route import (
     get_route_from_waypoints_electrical,
 )
 from pp.routing.get_route_sbend import get_route_sbend
-from pp.routing.get_route_sbend_bundle import get_route_sbend_bundle
+from pp.routing.get_routes import get_routes
 from pp.routing.manhattan import route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_ports_to_side import route_ports_to_side
@@ -37,8 +38,9 @@ __all__ = [
     "get_bundle_path_length_match",
     "get_bundle_from_waypoints",
     "get_route",
+    "get_routes",
     "get_route_sbend",
-    "get_route_sbend_bundle",
+    "get_bundle_sbend",
     "get_route_electrical",
     "get_route_from_waypoints",
     "get_route_from_waypoints_electrical",
