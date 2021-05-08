@@ -13,15 +13,14 @@ from pp.components.bezier import (
 )
 from pp.components.ellipse import ellipse
 from pp.components.taper import taper
-from pp.config import GRID_PER_UNIT
 from pp.geo_utils import path_length
 from pp.layers import LAYER
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
-def rnd(p: float) -> float64:
-    """ round """
-    return np.round(p * GRID_PER_UNIT) / GRID_PER_UNIT
+def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
+    """round"""
+    return np.round(p * grid_per_unit) / grid_per_unit
 
 
 @cell
@@ -356,7 +355,7 @@ def compensation_path(
     solution = so.root_scalar(f, bracket=[ya, yb], method="brentq")
 
     y_bend = solution.root
-    y_bend = rnd(y_bend)
+    y_bend = snap_to_grid(y_bend)
 
     if direction == "top":
         v_mirror = False

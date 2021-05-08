@@ -1,7 +1,7 @@
 info:
   instances:
     mmi_long: DeviceReference (parent Device "CP1", ports ['E0', 'E1', 'W0'], origin
-      [25.   17.75], rotation 0, x_reflection False)
+      [25.    12.875], rotation 0, x_reflection False)
     mmi_short: DeviceReference (parent Device "CP2", ports ['E0', 'E1', 'W0'], origin
       [-12.5     0.625], rotation 0, x_reflection False)
   routes: {}

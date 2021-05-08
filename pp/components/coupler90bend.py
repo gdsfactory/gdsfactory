@@ -4,7 +4,6 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.cross_section import cross_section
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
@@ -13,9 +12,8 @@ def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
     bend: ComponentFactory = bend_euler,
-    cross_section_settings_inner: Dict[str, Any] = TECH.waveguide.strip,
-    cross_section_settings_outer: Dict[str, Any] = TECH.waveguide.strip,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_settings_inner: Dict[str, Any] = None,
+    cross_section_settings_outer: Dict[str, Any] = None,
     **kwargs
 ) -> Component:
     r"""Returns 2 coupled bends.
@@ -27,6 +25,8 @@ def coupler90bend(
         layer: bend layer
         cross_section_settings_inner: for inner bend
         cross_section_settings_outer: for outer bend
+        kwargs: cross_section_settings for both inner and outer
+
 
     .. code::
 
@@ -44,8 +44,9 @@ def coupler90bend(
     cross_section_settings_outer = cross_section_settings_outer or {}
     cross_section_settings_inner = cross_section_settings_inner or {}
 
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
+    cross_section_settings_outer.update(**kwargs)
+    cross_section_settings_inner.update(**kwargs)
+
     cross_section_inner = cross_section(**cross_section_settings_inner)
     cross_section_outer = cross_section(**cross_section_settings_outer)
 
@@ -54,13 +55,10 @@ def coupler90bend(
     )
     spacing = gap + width
 
-    bend90_inner = bend(
-        radius=radius, cross_section_settings=cross_section_settings_inner, **kwargs
-    )
+    bend90_inner = bend(radius=radius, **cross_section_settings_inner)
     bend90_outer = bend(
         radius=radius + spacing,
-        cross_section_settings=cross_section_settings_outer,
-        **kwargs
+        **cross_section_settings_outer,
     )
     bend_inner_ref = c << bend90_inner
     bend_outer_ref = c << bend90_outer
@@ -81,5 +79,5 @@ def coupler90bend(
 
 
 if __name__ == "__main__":
-    c = coupler90bend(radius=3, cross_section_settings_outer=dict(width=1))
+    c = coupler90bend(radius=3, cross_section_settings_outer=dict(width=2))
     c.show()

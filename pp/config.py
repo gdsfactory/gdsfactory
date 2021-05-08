@@ -60,10 +60,16 @@ except ImportError:
 
 
 def read_tech(yamlpath: PathType = default_config) -> Dict[str, Any]:
+    global TECH
     TECH = OmegaConf.load(yamlpath)
     TECH.info = TECH.info or {}
     TECH.info.version = __version__
     return TECH
+
+
+def tech(key: str):
+    global TECH
+    return OmegaConf.select(TECH, key)
 
 
 def merge_techs(yamlpaths=Iterable[PathType]) -> Dict[str, Any]:
@@ -76,6 +82,8 @@ def merge_techs(yamlpaths=Iterable[PathType]) -> Dict[str, Any]:
 
 def add_repo_information(TECH):
     TECH.info = TECH.info or {}
+    TECH.info.git_hash = git_hash
+    TECH.info.git_hash_cwd = git_hash_cwd
 
 
 CONFIG = dict(
@@ -90,7 +98,6 @@ CONFIG = dict(
 )
 
 mask_name = "notDefined"
-
 
 TECH = read_tech()
 

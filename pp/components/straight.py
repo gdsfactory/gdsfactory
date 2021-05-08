@@ -9,25 +9,17 @@ from pp.tech import TECH
 
 
 @cell
-def straight(
-    length: float = 10.0,
-    npoints: int = 2,
-    cross_section_settings=TECH.waveguide.strip,
-    **kwargs
-) -> Component:
+def straight(length: float = 10.0, npoints: int = 2, **kwargs) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: of straight
         npoints: number of points
-        cross_section_settings: settings for cross_section
-        kwargs: overwrites cross_section_settings
+        kwargs: cross_section_settings
 
     """
     p = straight_path(length=length, npoints=npoints)
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    x = cross_section(**kwargs)
     c = extrude(p, x)
     c.length = snap_to_grid(length)
     c.width = x.info["width"]
@@ -49,7 +41,7 @@ if __name__ == "__main__":
     # c = straight(cross_section_settings=TECH.waveguide.rib_slab90)
 
     c = straight(width=2.0)
-    c = straight(cross_section_settings=TECH.waveguide.nitride)
+    c = straight(**TECH.waveguide.nitride)
     print(c.name)
     c.pprint()
     # print(c.get_settings()['settings']['cross_section_settings']['layers_cladding'])

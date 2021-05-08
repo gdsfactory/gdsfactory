@@ -4,7 +4,6 @@ from pp.component import Component
 from pp.cross_section import cross_section
 from pp.path import euler, extrude
 from pp.snap import snap_to_grid
-from pp.tech import TECH
 
 
 @cell
@@ -16,7 +15,6 @@ def bend_euler(
     npoints: int = 720,
     direction="ccw",
     with_cladding_box: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -34,8 +32,9 @@ def bend_euler(
             If True: The curve will be scaled such that the endpoints match a bend_circular
             with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
-        cross_section_settings: settings for cross_section
-        settings: cross_section settings to extrude
+        direction: cw (clock-wise) or ccw (counter clock-wise)
+        with_cladding_box: to avoid DRC acute angle errors in cladding
+        kwargs: cross_section_settings
 
 
     .. plot::
@@ -53,13 +52,10 @@ def bend_euler(
       c.plot()
 
     """
-    x = cross_section(**cross_section_settings)
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    x = cross_section(**kwargs)
     c = extrude(p, x)
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])

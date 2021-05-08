@@ -16,7 +16,6 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -26,9 +25,8 @@ def taper(
         width1:
         width2:
         port: can taper from a port instead of defining width1
-        layer: layer
-        layers_cladding:
-        cladding_offset
+        with_cladding_box: to avoid DRC acute angle errors in cladding
+        kwargs: cross_section_settings
 
     .. plot::
       :include-source:
@@ -39,9 +37,7 @@ def taper(
       c.plot()
 
     """
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    x = cross_section(**kwargs)
 
     o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]

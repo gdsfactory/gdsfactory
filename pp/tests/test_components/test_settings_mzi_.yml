@@ -4,11 +4,12 @@ module: pp.components.mzi
 name: mzi
 settings:
   bend_radius: 10
-  combiner: null
+  combiner: mmi1x2
   combiner_settings: null
   delta_length: 10
   length_x: 0.1
   length_y: 0.1
+  splitter: mmi1x2
   splitter_settings: null
   straight_delta_length: null
   straight_horizontal: null

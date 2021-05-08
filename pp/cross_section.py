@@ -9,7 +9,7 @@ from typing import Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
-from pp.config import TECH
+from pp.config import TECH, tech
 
 LAYER = TECH.layer
 
@@ -17,14 +17,16 @@ LAYER = TECH.layer
 def cross_section(**settings) -> CrossSection:
     """Returns a CrossSection from settings."""
 
-    required = ("width", "layer")
+    # required = ("width", "layer")
+    # for field in required:
+    #     if field not in settings:
+    #         raise ValueError(f"no {field} in {settings.keys()}")
 
-    for field in required:
-        if field not in settings:
-            raise ValueError(f"no {field} in {settings.keys()}")
+    # width = settings["width"]
+    # layer = settings["layer"]
 
-    width = settings["width"]
-    layer = settings["layer"]
+    width = settings.get("width", tech("waveguide.strip.width"))
+    layer = settings.get("layer", tech("waveguide.strip.layer"))
     xs = settings.get("cross_section")
 
     x = CrossSection()
