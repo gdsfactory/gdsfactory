@@ -64,6 +64,8 @@ def bend_euler(
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = p.info["Rmin"]
+    c.radius = radius
+    c.layer = x.info["layer"]
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

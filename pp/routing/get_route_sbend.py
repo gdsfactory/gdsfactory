@@ -4,19 +4,19 @@ from pp.port import Port
 from pp.routing.sort_ports import sort_ports
 
 
-def get_route_sbend(p1: Port, p2: Port, **kwargs) -> Component:
+def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Component:
     """Returns an Sbend to connect two ports.
 
     Args:
-        p1: start port
-        p2: end port
+        port1: start port
+        port2: end port
         **kwargs
             nb_points: number of points
             cross_section_factory
             **cross_section_settings
     """
-    height = p2.midpoint[1] - p1.midpoint[1]
-    length = p2.midpoint[0] - p1.midpoint[0]
+    height = port2.midpoint[1] - port1.midpoint[1]
+    length = port2.midpoint[0] - port1.midpoint[0]
     return bend_s(height=height, length=length, **kwargs)
 
 
