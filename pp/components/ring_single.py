@@ -5,9 +5,8 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
-from pp.config import call_if_func
+from pp.config import TECH, call_if_func
 from pp.snap import assert_on_2nm_grid
-from pp.tech import TECH
 from pp.types import ComponentOrFactory
 
 

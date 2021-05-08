@@ -3,9 +3,9 @@ from typing import Optional
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.config import TECH
 from pp.cross_section import cross_section
 from pp.port import Port
-from pp.tech import TECH
 from pp.types import Number
 
 

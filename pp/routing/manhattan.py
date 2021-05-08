@@ -7,10 +7,10 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
+from pp.config import TECH
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
-from pp.tech import TECH
 from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
 
 TOLERANCE = 0.0001

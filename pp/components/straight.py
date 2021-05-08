@@ -1,11 +1,11 @@
 """Straight waveguide."""
 from pp.cell import cell
 from pp.component import Component
+from pp.config import TECH
 from pp.cross_section import cross_section
 from pp.path import extrude
 from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
-from pp.tech import TECH
 
 
 @cell

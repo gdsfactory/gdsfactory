@@ -2,8 +2,8 @@ import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
 from pp.components.bezier import bezier
+from pp.config import TECH
 from pp.cross_section import cross_section
-from pp.tech import TECH
 
 
 @pp.cell

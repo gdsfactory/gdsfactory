@@ -4,8 +4,8 @@ import pp
 from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
+from pp.config import TECH
 from pp.port import Port, auto_rename_ports
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

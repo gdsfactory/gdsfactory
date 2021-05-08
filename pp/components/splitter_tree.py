@@ -3,7 +3,7 @@ from typing import Optional
 import pp
 from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
-from pp.tech import TECH
+from pp.config import TECH
 from pp.types import ComponentFactory
 
 

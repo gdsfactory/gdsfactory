@@ -6,8 +6,8 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90 as coupler90function
 from pp.components.coupler_straight import coupler_straight as coupler_straight_function
 from pp.components.straight import straight as straight_function
+from pp.config import TECH
 from pp.snap import assert_on_2nm_grid
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

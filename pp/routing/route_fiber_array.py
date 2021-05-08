@@ -9,6 +9,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.components.taper import taper
+from pp.config import TECH
 from pp.port import select_optical_ports
 from pp.routing.get_bundle import get_min_spacing, link_ports
 from pp.routing.get_input_labels import get_input_labels
@@ -16,7 +17,6 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

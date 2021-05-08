@@ -10,9 +10,9 @@ from pp.components.grating_coupler.elliptical_trenches import (
     grating_coupler_tm,
 )
 from pp.components.taper import taper
+from pp.config import TECH
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

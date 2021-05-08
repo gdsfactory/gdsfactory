@@ -3,7 +3,7 @@ from typing import List, Tuple
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
-from pp.tech import TECH
+from pp.config import TECH
 from pp.types import ComponentOrFactory
 
 
@@ -60,7 +60,7 @@ def pad_array(
 
 
 if __name__ == "__main__":
-    from pp.tech import TECH
+    from pp.config import TECH
 
     print(TECH.components.pad.layer)
 

@@ -13,10 +13,9 @@ import yaml
 
 import pp
 from pp.component import Component
-from pp.config import __version__
+from pp.config import TECH, __version__
 from pp.layers import LAYER_STACK
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import TECH
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
