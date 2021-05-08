@@ -169,9 +169,10 @@ def route_pad_array(
 
 
 if __name__ == "__main__":
+    # FIXME, does not work with MZI
 
-    c = pp.components.straight_with_heater()
     c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.straight_with_heater()
 
     elements, pads, _ = route_pad_array(c, fanout_length=100)
     for e in elements:

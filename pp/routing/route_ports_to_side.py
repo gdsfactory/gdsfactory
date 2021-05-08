@@ -14,24 +14,6 @@ from pp.types import Route
 BEND_RADIUS = TECH.routing.optical.bend_radius
 
 
-def route_elec_ports_to_side(
-    ports: Dict[str, Port],
-    side: str = "north",
-    wire_sep: float = 20.0,
-    x: None = None,
-    y: Optional[float64] = None,
-) -> Union[
-    Tuple[List[ComponentReference], List[Port]],
-    Tuple[
-        List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]],
-        List[Port],
-    ],
-]:
-    return route_ports_to_side(
-        ports, side=side, bend_radius=0, separation=wire_sep, x=x, y=y
-    )
-
-
 def sort_key_west_to_east(port: Port) -> float64:
     return port.x
 
