@@ -6,7 +6,7 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.text import text as Text
-from pp.config import TECH
+from pp.config import git_hash
 from pp.layers import LAYER
 
 
@@ -41,7 +41,7 @@ def qrcode(
 @cell
 def version_stamp(
     text: Iterable[str] = ("demo_label",),
-    git_hash: str = TECH.info.git_hash[:15],
+    git_hash: str = git_hash[:15],
     with_qr_code: bool = False,
     layer: Tuple[int, int] = LAYER.WG,
     pixel_size: int = 1,
@@ -88,7 +88,7 @@ def version_stamp(
 
 
 if __name__ == "__main__":
-    print(TECH.git_hash)
+    print(git_hash)
     c = version_stamp(
         pixel_size=4,
         layer=LAYER.M1,

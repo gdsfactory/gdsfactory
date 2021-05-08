@@ -20,10 +20,12 @@ import subprocess
 import tempfile
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Optional
+from typing import Any, Dict, Iterable, Optional, Union
 
 import numpy as np
 from omegaconf import OmegaConf
+
+PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
@@ -43,34 +45,37 @@ dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
 
-TECH = OmegaConf.load(default_config)
-
-
-if os.access(home_config, os.R_OK) and home_config.exists():
-    TECH_HOME = OmegaConf.load(home_config)
-    TECH = OmegaConf.merge(TECH, TECH_HOME)
-
-if os.access(cwd_config, os.R_OK) and cwd_config.exists():
-    TECH_CWD = OmegaConf.load(cwd_config)
-    TECH = OmegaConf.merge(TECH, TECH_CWD)
-
-
-TECH.info = {}
-TECH.info.version = __version__
-
 try:
     from git import InvalidGitRepositoryError, Repo
 
     try:
-        TECH.info.git_hash = Repo(
-            repo_path, search_parent_directories=True
-        ).head.object.hexsha
-        TECH.git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
+        git_hash = Repo(repo_path, search_parent_directories=True).head.object.hexsha
+        git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
     except InvalidGitRepositoryError:
-        pass
+        git_hash = None
+        git_hash_cwd = None
 
 except ImportError:
     pass
+
+
+def read_tech(yamlpath: PathType = default_config) -> Dict[str, Any]:
+    TECH = OmegaConf.load(yamlpath)
+    TECH.info = TECH.info or {}
+    TECH.info.version = __version__
+    return TECH
+
+
+def merge_techs(yamlpaths=Iterable[PathType]) -> Dict[str, Any]:
+    global TECH
+    for yamlpath in yamlpaths:
+        TECH_CUSTOM = OmegaConf.load(yamlpath)
+        TECH = OmegaConf.merge(TECH, TECH_CUSTOM)
+    return TECH
+
+
+def add_repo_information(TECH):
+    TECH.info = TECH.info or {}
 
 
 CONFIG = dict(
@@ -86,6 +91,9 @@ CONFIG = dict(
 
 mask_name = "notDefined"
 
+
+TECH = read_tech()
+
 if "mask" in TECH:
     mask_name = TECH.mask.name
     mask_config_directory = cwd
@@ -97,8 +105,9 @@ else:
     build_directory = dirpath_build
     mask_config_directory = dirpath_build
 
-CONFIG["custom_components"] = TECH.custom_components
-CONFIG["gdslib"] = TECH.gdslib or repo_path / "gdslib"
+
+# CONFIG["custom_components"] = TECH.custom_components
+CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["sp"] = CONFIG["gdslib"] / "sp"
 CONFIG["gds"] = CONFIG["gdslib"] / "gds"
 CONFIG["gdslib_test"] = dirpath_test
@@ -158,6 +167,12 @@ def write_config(config: Any, json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
+
+
+def write_tech(json_out_path: Path) -> None:
+    """Write config to a JSON file."""
+    with open(json_out_path, "w") as f:
+        json.dump(TECH, f, indent=2, sort_keys=True, default=complex_encoder)
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
