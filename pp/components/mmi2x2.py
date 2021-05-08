@@ -3,8 +3,8 @@ from pp.add_padding import add_padding
 from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
+from pp.config import TECH
 from pp.cross_section import cross_section
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

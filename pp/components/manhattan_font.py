@@ -5,9 +5,9 @@ from omegaconf.listconfig import ListConfig
 
 import pp
 from pp.component import Component
+from pp.config import TECH
 from pp.layers import LAYER
 from pp.name import clean_name
-from pp.tech import TECH
 
 
 @pp.cell

@@ -3,11 +3,11 @@ from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
+from pp.config import TECH
 from pp.cross_section import pin
 from pp.layers import LAYER
 from pp.path import extrude, straight
 from pp.snap import snap_to_grid
-from pp.tech import TECH
 from pp.types import Layer
 
 

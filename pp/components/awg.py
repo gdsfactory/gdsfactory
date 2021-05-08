@@ -5,8 +5,8 @@ import numpy as np
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.config import TECH
 from pp.cross_section import cross_section
-from pp.tech import TECH
 
 
 @cell

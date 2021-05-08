@@ -2,8 +2,8 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
+from pp.config import TECH
 from pp.snap import assert_on_1nm_grid
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 

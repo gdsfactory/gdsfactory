@@ -1,8 +1,8 @@
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
+from pp.config import TECH
 from pp.cross_section import cross_section
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
