@@ -11,3 +11,4 @@ settings:
   width: 0.5
   width_mmi: 2.5
   width_taper: 1
+  with_cladding_box: true

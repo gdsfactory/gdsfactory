@@ -1,166 +1,197 @@
 connections:
-  bend_circular_R10_17.873_-5.5,N0: mmi1x2_0.0_0.0,E0
-  bend_circular_R10_17.873_-5.5,W0: waveguide_L4_22.748_-12.625,W0
-  bend_circular_R10_27.623_-24.75,N0: waveguide_L100n_32.798_-29.625,W0
-  bend_circular_R10_27.623_19.75,N0: waveguide_L4_22.748_12.625,E0
-  bend_circular_R10_37.973_19.75,W0: waveguide_L4_42.848_12.625,W0
-  bend_circular_R10_47.723_5.5,W0: waveguide_L4_42.848_12.625,E0
-  mmi1x2_0.0_0.0,E1: bend_circular_R10_17.873_5.5,W0
-  mmi1x2_65.596_-0.0,E0: bend_circular_R10_47.723_5.5,N0
-  mmi1x2_65.596_-0.0,E1: bend_circular_R10_47.723_-5.5,W0
-  waveguide_L100n_32.798_-29.625,E0: bend_circular_R10_37.973_-24.75,W0
-  waveguide_L100n_32.798_24.625,E0: bend_circular_R10_37.973_19.75,N0
-  waveguide_L100n_32.798_24.625,W0: bend_circular_R10_27.623_19.75,W0
-  waveguide_L4_22.748_12.625,W0: bend_circular_R10_17.873_5.5,N0
-  waveguide_L4_42.848_-12.625,E0: bend_circular_R10_47.723_-5.5,N0
-  waveguide_L5_22.748_-17.125,E0: bend_circular_R10_27.623_-24.75,W0
-  waveguide_L5_22.748_-17.125,W0: waveguide_L4_22.748_-12.625,E0
-  waveguide_L5_42.848_-17.125,E0: waveguide_L4_42.848_-12.625,W0
-  waveguide_L5_42.848_-17.125,W0: bend_circular_R10_37.973_-24.75,N0
+  bend_euler_R10_17.875_-5.5,N0: mmi1x2_66770727_0.0_0.0,E0
+  bend_euler_R10_17.875_-5.5,W0: straight_L100n_22.75_-10.675,W0
+  bend_euler_R10_17.875_5.5,N0: straight_L100n_22.75_10.675,W0
+  bend_euler_R10_17.875_5.5,W0: mmi1x2_66770727_0.0_0.0,E1
+  bend_euler_R10_27.625_-20.85,N0: straight_L100n_32.8_-25.725,W0
+  bend_euler_R10_27.625_-20.85,W0: straight_L5_22.75_-13.225,E0
+  bend_euler_R10_27.625_15.85,N0: straight_L100n_22.75_10.675,E0
+  bend_euler_R10_27.625_15.85,W0: straight_L100n_32.8_20.725,W0
+  bend_euler_R10_37.975_-20.85,N0: straight_L5_42.85_-13.225,W0
+  bend_euler_R10_37.975_-20.85,W0: straight_L100n_32.8_-25.725,E0
+  bend_euler_R10_37.975_15.85,N0: straight_L100n_32.8_20.725,E0
+  bend_euler_R10_37.975_15.85,W0: straight_L100n_42.85_10.675,W0
+  bend_euler_R10_47.725_-5.5,N0: straight_L100n_42.85_-10.675,E0
+  bend_euler_R10_47.725_-5.5,W0: mmi1x2_66770727_65.6_0.0,E1
+  bend_euler_R10_47.725_5.5,N0: mmi1x2_66770727_65.6_0.0,E0
+  bend_euler_R10_47.725_5.5,W0: straight_L100n_42.85_10.675,E0
+  straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
+  straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
 instances:
-  bend_circular_R10_17.873_-5.5:
-    component: bend_circular
+  bend_euler_R10_17.875_-5.5:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_17.873_5.5:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_17.875_5.5:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_27.623_-24.75:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_27.625_-20.85:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_27.623_19.75:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_27.625_15.85:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_37.973_-24.75:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_37.975_-20.85:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_37.973_19.75:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_37.975_15.85:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_47.723_-5.5:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_47.725_-5.5:
+    component: bend_euler
     settings:
-      radius: 10.0
-  bend_circular_R10_47.723_5.5:
-    component: bend_circular
+      radius: 10
+  bend_euler_R10_47.725_5.5:
+    component: bend_euler
     settings:
-      radius: 10.0
-  mmi1x2_0.0_0.0:
+      radius: 10
+  mmi1x2_66770727_0.0_0.0:
     component: mmi1x2
-    settings: {}
-  mmi1x2_65.596_-0.0:
+    settings:
+      width: 0.5
+      width_taper: 1
+      length_taper: 10
+      length_mmi: 5.5
+      width_mmi: 2.5
+      gap_mmi: 0.25
+  mmi1x2_66770727_65.6_0.0:
     component: mmi1x2
-    settings: {}
-  waveguide_L100n_32.798_-29.625:
-    component: waveguide
+    settings:
+      width: 0.5
+      width_taper: 1
+      length_taper: 10
+      length_mmi: 5.5
+      width_mmi: 2.5
+      gap_mmi: 0.25
+  straight_L100n_22.75_-10.675:
+    component: straight
     settings:
       length: 0.1
-  waveguide_L100n_32.798_24.625:
-    component: waveguide
+  straight_L100n_22.75_10.675:
+    component: straight
     settings:
       length: 0.1
-  waveguide_L4_22.748_-12.625:
-    component: waveguide
+  straight_L100n_32.8_-25.725:
+    component: straight
     settings:
-      length: 4.0
-  waveguide_L4_22.748_12.625:
-    component: waveguide
+      length: 0.1
+  straight_L100n_32.8_20.725:
+    component: straight
     settings:
-      length: 4.0
-  waveguide_L4_42.848_-12.625:
-    component: waveguide
+      length: 0.1
+  straight_L100n_42.85_-10.675:
+    component: straight
     settings:
-      length: 4.0
-  waveguide_L4_42.848_12.625:
-    component: waveguide
+      length: 0.1
+  straight_L100n_42.85_10.675:
+    component: straight
     settings:
-      length: 4.0
-  waveguide_L5_22.748_-17.125:
-    component: waveguide
+      length: 0.1
+  straight_L5_22.75_-13.225:
+    component: straight
     settings:
-      length: 5.0
-  waveguide_L5_42.848_-17.125:
-    component: waveguide
+      length: 5
+  straight_L5_42.85_-13.225:
+    component: straight
     settings:
-      length: 5.0
+      length: 5
 placements:
-  bend_circular_R10_17.873_-5.5:
-    x: 22.748
+  bend_euler_R10_17.875_-5.5:
+    x: 22.75
     'y': -10.625
     rotation: 90
-  bend_circular_R10_17.873_5.5:
-    x: 12.748
+    mirror: false
+  bend_euler_R10_17.875_5.5:
+    x: 12.75
     'y': 0.625
     rotation: 0
-  bend_circular_R10_27.623_-24.75:
-    x: 22.748
-    'y': -19.625
+    mirror: false
+  bend_euler_R10_27.625_-20.85:
+    x: 22.75
+    'y': -15.725
     rotation: 270
-  bend_circular_R10_27.623_19.75:
-    x: 32.748
-    'y': 24.625
+    mirror: false
+  bend_euler_R10_27.625_15.85:
+    x: 32.75
+    'y': 20.725
     rotation: 180
-  bend_circular_R10_37.973_-24.75:
-    x: 32.848
-    'y': -29.625
+    mirror: false
+  bend_euler_R10_37.975_-20.85:
+    x: 32.85
+    'y': -25.725
     rotation: 0
-  bend_circular_R10_37.973_19.75:
-    x: 42.848
-    'y': 14.625
+    mirror: false
+  bend_euler_R10_37.975_15.85:
+    x: 42.85
+    'y': 10.725
     rotation: 90
-  bend_circular_R10_47.723_-5.5:
-    x: 52.848
+    mirror: false
+  bend_euler_R10_47.725_-5.5:
+    x: 52.85
     'y': -0.625
     rotation: 180
-  bend_circular_R10_47.723_5.5:
-    x: 42.848
+    mirror: false
+  bend_euler_R10_47.725_5.5:
+    x: 42.85
     'y': 10.625
     rotation: 270
-  mmi1x2_0.0_0.0:
+    mirror: false
+  mmi1x2_66770727_0.0_0.0:
     x: 0.0
     'y': 0.0
     rotation: 0
-  mmi1x2_65.596_-0.0:
-    x: 65.596
-    'y': -0.0
+    mirror: false
+  mmi1x2_66770727_65.6_0.0:
+    x: 65.6
+    'y': 0.0
     rotation: 180
-  waveguide_L100n_32.798_-29.625:
-    x: 32.748
-    'y': -29.625
-    rotation: 0
-  waveguide_L100n_32.798_24.625:
-    x: 32.748
-    'y': 24.625
-    rotation: 0
-  waveguide_L4_22.748_-12.625:
-    x: 22.748
+    mirror: false
+  straight_L100n_22.75_-10.675:
+    x: 22.75
     'y': -10.625
     rotation: 270
-  waveguide_L4_22.748_12.625:
-    x: 22.748
+    mirror: false
+  straight_L100n_22.75_10.675:
+    x: 22.75
     'y': 10.625
     rotation: 90
-  waveguide_L4_42.848_-12.625:
-    x: 42.848
-    'y': -14.625
+    mirror: false
+  straight_L100n_32.8_-25.725:
+    x: 32.75
+    'y': -25.725
+    rotation: 0
+    mirror: false
+  straight_L100n_32.8_20.725:
+    x: 32.75
+    'y': 20.725
+    rotation: 0
+    mirror: false
+  straight_L100n_42.85_-10.675:
+    x: 42.85
+    'y': -10.725
     rotation: 90
-  waveguide_L4_42.848_12.625:
-    x: 42.848
-    'y': 14.625
+    mirror: false
+  straight_L100n_42.85_10.675:
+    x: 42.85
+    'y': 10.725
     rotation: 270
-  waveguide_L5_22.748_-17.125:
-    x: 22.748
-    'y': -14.625
+    mirror: false
+  straight_L5_22.75_-13.225:
+    x: 22.75
+    'y': -10.725
     rotation: 270
-  waveguide_L5_42.848_-17.125:
-    x: 42.848
-    'y': -19.625
+    mirror: false
+  straight_L5_42.85_-13.225:
+    x: 42.85
+    'y': -15.725
     rotation: 90
+    mirror: false
 ports:
-  W0: mmi1x2_0.0_0.0,W0
-  E0: mmi1x2_65.596_-0.0,W0
+  W0: mmi1x2_66770727_0.0_0.0,W0
+  E0: mmi1x2_66770727_65.6_0.0,W0
+name: mzi

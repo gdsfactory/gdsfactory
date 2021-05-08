@@ -4,7 +4,6 @@ from pp.component import Component
 from pp.cross_section import cross_section
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
-from pp.tech import TECH
 
 
 @cell
@@ -13,7 +12,6 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
     **kwargs
 ) -> Component:
     """Returns a radial arc.
@@ -21,9 +19,8 @@ def bend_circular(
     Args:
         radius
         angle: angle of arc (degrees)
-        npoints: Number of points used per 360 degrees
-        cross_section_settings: settings for cross_section
-        kargs: cross_section settings to extrude
+        with_cladding_box: to avoid DRC acute angle errors in cladding
+        kwargs: cross_section_settings
 
     .. plot::
         :include-source:
@@ -35,9 +32,7 @@ def bend_circular(
 
     """
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    x = cross_section(**kwargs)
     c = extrude(p, x)
 
     c.length = snap_to_grid(p.length())

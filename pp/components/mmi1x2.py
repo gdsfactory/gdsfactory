@@ -4,20 +4,19 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 from pp.cross_section import cross_section
-from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
 @cell
 def mmi1x2(
-    width: float = TECH.components.mmi1x2.width,
-    width_taper: float = TECH.components.mmi1x2.width_taper,
-    length_taper: float = TECH.components.mmi1x2.length_taper,
-    length_mmi: float = TECH.components.mmi1x2.length_mmi,
-    width_mmi: float = TECH.components.mmi1x2.width_mmi,
-    gap_mmi: float = TECH.components.mmi1x2.gap_mmi,
+    width: float = 0.5,
+    width_taper: float = 1.0,
+    length_taper: float = 10.0,
+    length_mmi: float = 5.5,
+    width_mmi: float = 2.5,
+    gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    cross_section_settings=TECH.waveguide.strip,
+    with_cladding_box: bool = True,
     **kwargs
 ) -> Component:
     r"""Mmi 1x2.
@@ -30,8 +29,7 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         taper: taper function
-        cross_section_settings: settings for cross_section
-        kwargs: overwrites cross_section_settings
+        kwargs:  cross_section_settings
 
 
     .. code::
@@ -53,9 +51,7 @@ def mmi1x2(
         length_taper
 
     """
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    x = cross_section(**kwargs)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -64,13 +60,7 @@ def mmi1x2(
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(
-        length=length_taper,
-        width1=width,
-        width2=w_taper,
-        cross_section_settings=cross_section_settings,
-        **kwargs
-    )
+    taper = taper(length=length_taper, width1=width, width2=w_taper, **kwargs)
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << pp.components.rectangle(
@@ -93,7 +83,7 @@ def mmi1x2(
     c.absorb(mmi)
 
     layers_cladding = layers_cladding or []
-    if layers_cladding:
+    if layers_cladding and with_cladding_box:
         add_padding(
             c,
             default=cladding_offset,
@@ -107,7 +97,9 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2()
+    from pp.config import tech
+
+    c = mmi1x2(**tech("waveguide.nitride"))
     c.show()
 
     # print(c.ports)

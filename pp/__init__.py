@@ -26,7 +26,7 @@ from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from pp.assert_grating_coupler_properties import assert_grating_coupler_properties
-from pp.config import CONFIG, call_if_func, read_tech, write_tech
+from pp.config import CONFIG, call_if_func, read_tech, write_tech, tech
 from pp.component import Component, ComponentReference, copy
 from pp.port import Port
 from pp.port import port_array
@@ -114,6 +114,7 @@ __all__ = [
     "write_doe",
     "Port",
     "component_from_yaml",
+    "tech",
     "read_tech",
     "write_tech",
 ]

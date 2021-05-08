@@ -24,6 +24,10 @@ test-force:
 	rm -rf gds_ref
 	pytest --force-regen
 
+retest:
+	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
+	pytest --lf --force-regen
+
 diff:
 	python pp/merge_cells.py
 

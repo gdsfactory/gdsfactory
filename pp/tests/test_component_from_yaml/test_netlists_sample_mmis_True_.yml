@@ -1,12 +1,12 @@
 connections:
-  bend_euler_a21c79d4_71.615_4.0,N0: straight_d6f16493_74.99_50.625,W0
-  bend_euler_a21c79d4_71.615_4.0,W0: straight_40bcb9df_38.745_0.625,E0
-  bend_euler_a21c79d4_78.365_97.25,N0: straight_55536d52_84.995_100.625,W0
-  bend_euler_a21c79d4_78.365_97.25,W0: straight_d6f16493_74.99_50.625,E0
+  bend_euler_a21c79d4_70.115_5.5,N0: straight_d6f16493_74.99_50.625,W0
+  bend_euler_a21c79d4_70.115_5.5,W0: straight_40bcb9df_38.745_0.625,E0
+  bend_euler_a21c79d4_79.865_95.75,N0: straight_55536d52_84.995_100.625,W0
+  bend_euler_a21c79d4_79.865_95.75,W0: straight_d6f16493_74.99_50.625,E0
   mmi_long,E0: straight_55536d52_84.995_100.625,E0
   mmi_short,E1: straight_40bcb9df_38.745_0.625,W0
 instances:
-  bend_euler_a21c79d4_71.615_4.0:
+  bend_euler_a21c79d4_70.115_5.5:
     component: bend_euler
     settings:
       angle: 90
@@ -16,7 +16,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_a21c79d4_78.365_97.25:
+  bend_euler_a21c79d4_79.865_95.75:
     component: bend_euler
     settings:
       angle: 90
@@ -35,6 +35,7 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
+      with_cladding_box: true
   mmi_short:
     component: mmi1x2
     settings:
@@ -44,6 +45,7 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
+      with_cladding_box: true
   straight_40bcb9df_38.745_0.625:
     component: straight
     settings:
@@ -61,12 +63,12 @@ instances:
       npoints: 2
 name: mmis
 placements:
-  bend_euler_a21c79d4_71.615_4.0:
+  bend_euler_a21c79d4_70.115_5.5:
     mirror: false
     rotation: 0
     x: 64.99
     y: 0.625
-  bend_euler_a21c79d4_78.365_97.25:
+  bend_euler_a21c79d4_79.865_95.75:
     mirror: true
     rotation: 90
     x: 74.99

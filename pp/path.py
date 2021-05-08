@@ -16,7 +16,6 @@ from phidl.device_layout import CrossSection, Path, _simplify
 from phidl.path import smooth as smooth_phidl
 
 from pp.component import Component
-from pp.cross_section import cross_section as cross_section_function
 from pp.hash_points import hash_points
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
@@ -27,12 +26,10 @@ from pp.types import Coordinates, Number, PathFactory
 
 def extrude(
     p: Path,
-    cross_section: Optional[CrossSection] = None,
+    cross_section: CrossSection,
     simplify: Optional[float] = None,
     snap_to_grid_nm: int = TECH.tech.snap_to_grid_nm,
     rename_ports: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
-    **kwargs,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -47,17 +44,12 @@ def extrude(
             polygon by more than the value listed here will be removed.
         snap_to_grid_nm: optionally snap to any design grid (nm)
         rename_ports: rename ports
-        cross_section_settings: settings for cross_section
-        kwargs: overwrites cross_section_settings
     """
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    xsection = cross_section or cross_section_function(**settings)
     xsection_points = []
 
     c = Component()
 
-    for section in xsection.sections:
+    for section in cross_section.sections:
         width = section["width"]
         offset = section["offset"]
         layer = section["layer"]

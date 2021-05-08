@@ -9,6 +9,7 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
+      with_cladding_box: true
   mmi_short:
     component: mmi1x2
     settings:
@@ -18,13 +19,14 @@ instances:
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
+      with_cladding_box: true
 name: yaml_anchor
 placements:
   mmi_long:
     mirror: false
     rotation: 0
     x: 25.0
-    y: 17.75
+    y: 12.875
   mmi_short:
     mirror: false
     rotation: 0

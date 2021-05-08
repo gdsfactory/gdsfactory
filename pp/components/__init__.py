@@ -3,6 +3,8 @@ Only change the order if you know what you are doing
 
 isort:skip_file
 """
+from pp.config import tech
+
 # level 0 components
 from pp.components.straight import straight
 from pp.components.straight_heater import straight_heater
@@ -245,9 +247,12 @@ component_factory = dict(
 )
 
 
-def factory(component_type, component_factory=component_factory, **settings):
+def factory(component_type, component_factory=component_factory, **kwargs):
     """Returns a component with settings."""
     import pp
+
+    settings = tech(f"components.{component_type}") or {}
+    settings.update(**kwargs)
 
     if isinstance(component_type, pp.Component):
         return component_type
@@ -290,5 +295,7 @@ circuit_names = {
 __all__ = list(component_factory.keys()) + container_names
 
 if __name__ == "__main__":
-    for c in component_names:
-        ci = component_factory[c]()
+    # for c in component_names:
+    #     ci = component_factory[c]()
+    c = factory("mmi1x2")
+    c.show()
