@@ -17,6 +17,7 @@ Some of these inputs are other functions.
 - RouteFactory: function that returns a Route.
 
 """
+import pathlib
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 
 from numpy import float64, int64, ndarray
@@ -32,7 +33,7 @@ Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
 PathFactory = Callable[..., Path]
-PathType = Union[str, Path]
+PathType = Union[str, pathlib.Path]
 
 ComponentOrFactory = Union[ComponentFactory, Component]
 ComponentOrPath = Union[PathType, Component]

@@ -1,7 +1,11 @@
 function_name: bend_euler
 info:
   dy: 10
+  layer:
+  - 1
+  - 0
   length: 16.799
+  radius: 10
   radius_min: 5.347319506608967
 module: pp.components.bend_euler
 name: bend_euler
