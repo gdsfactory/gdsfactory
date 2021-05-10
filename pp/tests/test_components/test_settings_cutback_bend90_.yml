@@ -15,7 +15,7 @@ settings:
   straight_length: 5
   symbol_to_component:
     '-':
-    - straight_L5_W5
+    - straight_L5_W500n
     - W0
     - E0
     A:
@@ -27,7 +27,7 @@ settings:
     - N0
     - W0
     '|':
-    - straight_L30_W5
+    - straight_L30_W500n
     - W0
     - E0
   wg_loop_length: null

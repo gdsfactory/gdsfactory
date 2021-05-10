@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
-from pp.config import TECH, call_if_func
+from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentOrFactory
 
@@ -19,7 +19,7 @@ def ring_single(
     coupler_ring: ComponentOrFactory = coupler_ring_function,
     straight: ComponentOrFactory = straight_function,
     bend: Optional[ComponentOrFactory] = None,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -34,7 +34,7 @@ def ring_single(
         coupler_ring: ring coupler function
         straight: straight function
         bend: 90 degrees bend function
-        cross_section_settings: settings for cross_section
+        cross_section_name: settings for cross_section
         kwargs: overwrites cross_section_settings
 
 
@@ -58,28 +58,22 @@ def ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            cross_section_settings=cross_section_settings,
+            cross_section_name=cross_section_name,
             **kwargs
         )
         if callable(coupler_ring)
         else coupler_ring
     )
     straight_side = call_if_func(
-        straight,
-        length=length_y,
-        cross_section_settings=cross_section_settings,
-        **kwargs
+        straight, length=length_y, cross_section_name=cross_section_name, **kwargs
     )
     straight_top = call_if_func(
-        straight,
-        length=length_x,
-        cross_section_settings=cross_section_settings,
-        **kwargs
+        straight, length=length_x, cross_section_name=cross_section_name, **kwargs
     )
 
     bend = bend or bend_euler
     bend_ref = (
-        bend(radius=radius, cross_section_settings=cross_section_settings, **kwargs)
+        bend(radius=radius, cross_section_name=cross_section_name, **kwargs)
         if callable(bend)
         else bend
     )

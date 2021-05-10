@@ -5,8 +5,7 @@ import numpy as np
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.config import TECH
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 
 
 @cell
@@ -18,7 +17,7 @@ def free_propagation_region(
     inputs: int = 1,
     outputs: int = 10,
     wg_margin: float = 1.0,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
     **kwargs,
 ) -> Component:
     r"""
@@ -35,9 +34,8 @@ def free_propagation_region(
     """
     y1 = width1 / 2
     y2 = width2 / 2
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
     o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]

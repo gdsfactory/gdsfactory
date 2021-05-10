@@ -3,7 +3,7 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
@@ -13,6 +13,7 @@ def coupler90(
     radius: float = 10.0,
     straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     r"""straight coupled to a bend.
@@ -35,13 +36,16 @@ def coupler90(
 
     """
     c = Component()
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    cross_section_settings.update(radius=radius)
+    x = cross_section(**cross_section_settings)
 
-    bend90 = bend(radius=radius, **kwargs) if callable(bend) else bend
+    bend90 = bend(**cross_section_settings) if callable(bend) else bend
     bend_ref = c << bend90
     straight_component = (
         straight(
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-            **kwargs
+            **cross_section_settings
         )
         if callable(straight)
         else straight
@@ -49,7 +53,6 @@ def coupler90(
 
     wg_ref = c << straight_component
 
-    x = cross_section(**kwargs)
     width = x.info["width"]
 
     pbw = bend_ref.ports["W0"]

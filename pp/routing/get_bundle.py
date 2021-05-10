@@ -24,7 +24,7 @@ from pp.routing.sort_ports import sort_ports as sort_ports_function
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
-METAL_MIN_SEPARATION = TECH.routing.electrical.min_spacing
+METAL_MIN_SEPARATION = TECH.waveguide.metal_routing.min_spacing
 
 
 def get_bundle(

@@ -3,6 +3,7 @@ from typing import Dict, Optional, Union
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
+from pp.components.mmi1x2 import mmi1x2
 from pp.components.straight import straight as straight_function
 from pp.port import rename_ports_by_orientation
 from pp.types import ComponentFactory, ComponentOrFactory
@@ -19,8 +20,8 @@ def mzi(
     straight_vertical: Optional[ComponentFactory] = None,
     straight_delta_length: Optional[ComponentFactory] = None,
     straight_horizontal: Optional[ComponentFactory] = None,
-    splitter: str = "mmi1x2",
-    combiner: str = "mmi1x2",
+    splitter: ComponentOrFactory = mmi1x2,
+    combiner: ComponentOrFactory = mmi1x2,
     with_splitter: bool = True,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
@@ -58,7 +59,6 @@ def mzi(
 
 
     """
-    from pp.components import factory
 
     L2 = length_x
     L0 = length_y
@@ -68,8 +68,8 @@ def mzi(
     combiner_settings = combiner_settings or {}
 
     c = Component()
-    cp1 = factory(splitter, **splitter_settings)
-    cp2 = factory(combiner, **combiner_settings)
+    cp1 = splitter(**splitter_settings)
+    cp2 = combiner(**combiner_settings)
 
     straight_vertical = straight_vertical or straight
     straight_horizontal = straight_horizontal or straight

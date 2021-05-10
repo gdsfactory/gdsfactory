@@ -11,8 +11,6 @@ from pp.port import Port, flipped, is_electrical_port
 from pp.routing.get_route import get_route, get_route_electrical
 from pp.types import Route
 
-BEND_RADIUS = TECH.routing.optical.bend_radius
-
 
 def sort_key_west_to_east(port: Port) -> float64:
     return port.x
@@ -117,7 +115,7 @@ def connect_ports_to_x(
     list_ports: List[Port],
     x: str = "east",
     separation: float = 10.0,
-    bend_radius: float = BEND_RADIUS,
+    bend_radius: float = TECH.waveguide.strip.radius,
     extend_bottom: int = 0,
     extend_top: int = 0,
     extension_length: int = 0,
@@ -302,7 +300,7 @@ def connect_ports_to_y(
     list_ports: List[Port],
     y: float64 = "north",
     separation: float = 10.0,
-    bend_radius: int = BEND_RADIUS,
+    bend_radius: float = TECH.waveguide.strip.radius,
     x0_left: None = None,
     x0_right: None = None,
     extension_length: int = 0,

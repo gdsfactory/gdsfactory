@@ -9,80 +9,18 @@ LayerSet adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
-
-import dataclasses
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Optional, Tuple
 
 import xmltodict
 from phidl.device_layout import Layer as LayerPhidl
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
 from pp.component import Component
-from pp.config import TECH
 from pp.name import clean_name
+from pp.tech import TECH
 
-IGNORE_PREXIXES = ("_", "get_")
 LAYER = TECH.layer
-
-
-@dataclasses.dataclass
-class LayerLevel:
-    """Layer For 3D LayerStack.
-
-    Args:
-        layer: GDSII Layer
-        thickness_nm: thickness of layer
-        z_nm: height position where material starts
-        material: material name
-    """
-
-    layer: Tuple[int, int]
-    thickness_nm: Optional[float] = None
-    z_nm: Optional[float] = None
-    material: Optional[str] = None
-
-
-@dataclasses.dataclass
-class LayerStack:
-    WG = LayerLevel((1, 0), thickness_nm=220.0, z_nm=0.0, material="si")
-    WGCLAD = LayerLevel((111, 0), z_nm=0.0, material="sio2")
-    SLAB150 = LayerLevel((2, 0), thickness_nm=150.0, z_nm=0, material="si")
-    SLAB90 = LayerLevel((3, 0), thickness_nm=150.0, z_nm=0.0, material="si")
-    WGN = LayerLevel((34, 0), thickness_nm=350.0, z_nm=220.0 + 100.0, material="sin")
-    WGN_CLAD = LayerLevel((36, 0))
-
-    def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to thickness_nm."""
-        return {
-            getattr(self, key).layer: getattr(self, key).thickness_nm
-            for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).thickness_nm
-        }
-
-    def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to material."""
-        return {
-            getattr(self, key).layer: getattr(self, key).material
-            for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).material
-        }
-
-    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
-        """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
-        tuple_to_name = {
-            getattr(self, name).layer: name
-            for name in dir(self)
-            if not name.startswith(IGNORE_PREXIXES)
-        }
-        if layer_tuple not in tuple_to_name:
-            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
-
-        name = tuple_to_name[layer_tuple]
-        return name
-
-
-LAYER_STACK = LayerStack()
 
 
 class LayerSet(LayerSetPhidl):
@@ -135,7 +73,7 @@ class LayerSet(LayerSetPhidl):
     #         return layer.gds_layer, layer.gds_datatype
 
     def __repr__(self):
-        """ Prints the number of Layers in the LayerSet object. """
+        """Prints the number of Layers in the LayerSet object."""
         return (
             f"LayerSet ({len(self._layers)} layers total) \n"
             + f"{list(self._layers.keys())}"
@@ -325,8 +263,9 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
+    pass
     # print(LAYER_STACK.get_from_tuple((1, 0)))
-    print(LAYER_STACK.get_layer_to_material())
+    # print(LAYER_STACK.get_layer_to_material())
 
     # lys = test_load_lyp()
     # c = preview_layerset(ls)

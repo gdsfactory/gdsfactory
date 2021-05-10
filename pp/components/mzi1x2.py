@@ -157,6 +157,7 @@ def mzi1x2(
 
 
 if __name__ == "__main__":
+    # FIXME with_elec_connections=True has routing issues
 
     # c = mzi1x2(coupler_function=mmi1x2, with_elec_connections=False)
     c = mzi1x2(coupler_function=mmi1x2, L0=10, with_elec_connections=True)

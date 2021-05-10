@@ -84,6 +84,6 @@ if __name__ == "__main__":
     # c = coupler(gap=0.2, cross_section_name="nitride")
     # c = coupler(width=0.9, length=1, dy=2, gap=0.2)
     # print(c.settings_changed)
-    # c = coupler(gap=0.2, cross_section_name='nitride')
-    c = coupler(gap=0.2, cross_section_name="strip_heater")
+    c = coupler(gap=0.2, cross_section_name="nitride")
+    # c = coupler(gap=0.2, cross_section_name="strip_heater")
     c.show()

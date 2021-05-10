@@ -7,11 +7,12 @@ info:
 module: pp.components.bend_s
 name: bend_s
 settings:
+  cross_section_name: strip
   end_angle: null
   grid: 0.001
   height: 2
   layer:
-  - 49
+  - 1
   - 0
   length: 10
   name: null
@@ -19,6 +20,6 @@ settings:
   npoints: 99
   spike_length: 0
   start_angle: null
-  width: 0.55
+  width: 0.5
   with_cladding_box: true
   with_manhattan_facing_angles: true

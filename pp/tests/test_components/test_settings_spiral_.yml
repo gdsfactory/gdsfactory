@@ -3,7 +3,6 @@ info: {}
 module: pp.components.spiral
 name: spiral
 settings:
-  bend_radius: 10
   cladding_offset: 3
   direction: NORTH
   layer:
@@ -17,6 +16,7 @@ settings:
   port:
   - 0
   - 0
+  radius: 10
   spacing: null
   wg_width: 0.5
   width: 500

@@ -1,8 +1,7 @@
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.config import TECH
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 from pp.types import ComponentFactory
 
 
@@ -12,7 +11,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
     **kwargs,
 ) -> Component:
     r"""Two coupled straights with bends.
@@ -22,8 +21,8 @@ def coupler_symmetric(
         gap:
         dy: port to port vertical spacing
         dx: bend length in x direction
-        cross_section_factory: function that returns a cross_section
-        **cross_section_settings
+        cross_section_name: from TECH.waveguide
+        kwargs: cross_section_settings
 
     .. code::
 
@@ -38,15 +37,14 @@ def coupler_symmetric(
                              E0
 
     """
-    settings = cross_section_settings.copy()
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
     width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width) / 2,
             length=dx,
-            **kwargs,
+            **cross_section_settings,
         )
         if callable(bend)
         else bend
@@ -76,10 +74,12 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.9, dx=5)
+    c = coupler_symmetric(gap=0.2, width=0.9, dx=5, cross_section_name="nitride")
     c.show()
     c.pprint()
 
     for dyi in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0)
+        c = coupler_symmetric(
+            gap=0.2, width=0.5, dy=dyi, dx=10.0, cross_section_name="nitride"
+        )
         print(f"dy={dyi}, min_bend_radius = {c.min_bend_radius}")

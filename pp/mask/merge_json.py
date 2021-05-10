@@ -1,10 +1,10 @@
 """Combine multiple JSONs into one."""
 
+import dataclasses
 import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
 
-from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 
 from pp.config import CONFIG, TECH, logging, write_config
@@ -46,7 +46,7 @@ def merge_json(
         json_version=json_version,
         cells=cells,
         does=does,
-        config=OmegaConf.to_container(config),
+        config=dataclasses.asdict(config),
     )
 
     write_config(metadata, jsonpath)

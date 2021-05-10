@@ -3,8 +3,7 @@ info: {}
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:
-  auto_widen: true
-  bend_radius: 10
+  cross_section_name: strip
   noutputs: 4
   spacing: null
   spacing_extra: 0.1

@@ -5,6 +5,7 @@ info:
 module: pp.components.coupler_symmetric
 name: coupler_symmetric
 settings:
+  cross_section_name: strip
   dx: 10
   dy: 5
   gap: 0.234

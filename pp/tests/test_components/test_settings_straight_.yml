@@ -1,7 +1,7 @@
 function_name: straight
 info:
   length: 10
-  width: 5
+  width: 0.5
 module: pp.components.straight
 name: straight
 settings:

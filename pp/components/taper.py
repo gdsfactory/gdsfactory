@@ -4,18 +4,19 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 from pp.port import Port
 from pp.types import Number
 
 
 @cell
 def taper(
-    length: float = TECH.routing.optical.taper_length,
-    width1: float = TECH.routing.optical.wg_width,
+    length: float = TECH.waveguide.strip.taper_length,
+    width1: float = TECH.waveguide.strip.width,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -37,7 +38,8 @@ def taper(
       c.plot()
 
     """
-    x = cross_section(**kwargs)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
 
     o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]

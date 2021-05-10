@@ -6,7 +6,6 @@ from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90 as coupler90function
 from pp.components.coupler_straight import coupler_straight as coupler_straight_function
 from pp.components.straight import straight as straight_function
-from pp.config import TECH
 from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory
 
@@ -20,7 +19,7 @@ def coupler_ring(
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
     coupler_straight: ComponentFactory = coupler_straight_function,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     r"""Coupler for ring.
@@ -33,7 +32,7 @@ def coupler_ring(
         straight: factory for straight waveguides.
         bend: factory for bend
         coupler_straight: two parallel coupled straight waveguides.
-        cross_section_settings: settings for cross_section
+        cross_section_name: settings for cross_section
         kwargs: overwrites cross_section_settings
 
     .. code::
@@ -59,7 +58,7 @@ def coupler_ring(
             radius=radius,
             straight=straight,
             bend=bend,
-            cross_section_settings=cross_section_settings,
+            cross_section_name=cross_section_name,
             **kwargs
         )
         if callable(coupler90)
@@ -70,7 +69,7 @@ def coupler_ring(
             gap=gap,
             length=length_x,
             straight=straight,
-            cross_section_settings=cross_section_settings,
+            cross_section_name=cross_section_name,
             **kwargs
         )
         if callable(coupler_straight)
@@ -101,7 +100,7 @@ def coupler_ring(
 
 if __name__ == "__main__":
 
-    c = coupler_ring()
+    c = coupler_ring(cross_section_name="nitride")
     # c = coupler_ring(radius=5.0, gap=0.3, tech=TECH_METAL1)
     # c = coupler_ring(length_x=20, radius=5.0, gap=0.3)
     # print(c.get_settings())

@@ -12,12 +12,10 @@ from pp.routing.get_route import get_route
 from pp.routing.utils import direction_ports_from_list_ports, flip
 from pp.types import ComponentFactory, Number, Route
 
-BEND_RADIUS = TECH.routing.optical.bend_radius
-
 
 def route_south(
     component: Component,
-    bend_radius: Number = BEND_RADIUS,
+    bend_radius: float = TECH.waveguide.strip.radius,
     optical_routing_type: int = 1,
     excluded_ports: List[str] = None,
     straight_separation: Number = 4.0,

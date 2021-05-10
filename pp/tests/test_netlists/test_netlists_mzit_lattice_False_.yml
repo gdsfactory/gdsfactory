@@ -1,6 +1,6 @@
 connections: {}
 instances:
-  mzit_dfcdab44_22.5_11.425:
+  mzit_dfcdab44_20.638_11.4:
     component: mzit
     settings:
       coupler_gap1: 0.2
@@ -10,13 +10,13 @@ instances:
       delta_length: 10
 name: mzit_lattice
 placements:
-  mzit_dfcdab44_22.5_11.425:
+  mzit_dfcdab44_20.638_11.4:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  W0: mzit_dfcdab44_22.5_11.425,W0
-  W1: mzit_dfcdab44_22.5_11.425,W1
-  W2: mzit_dfcdab44_22.5_11.425,W2
-  W3: mzit_dfcdab44_22.5_11.425,W3
+  W0: mzit_dfcdab44_20.638_11.4,W0
+  W1: mzit_dfcdab44_20.638_11.4,W1
+  W2: mzit_dfcdab44_20.638_11.4,W2
+  W3: mzit_dfcdab44_20.638_11.4,W3

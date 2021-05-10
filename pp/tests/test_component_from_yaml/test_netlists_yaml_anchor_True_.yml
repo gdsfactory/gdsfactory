@@ -3,6 +3,7 @@ instances:
   mmi_long:
     component: mmi1x2
     settings:
+      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 10
       length_taper: 10
@@ -13,6 +14,7 @@ instances:
   mmi_short:
     component: mmi1x2
     settings:
+      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10
@@ -26,7 +28,7 @@ placements:
     mirror: false
     rotation: 0
     x: 25.0
-    y: 12.875
+    y: 17.75
   mmi_short:
     mirror: false
     rotation: 0
