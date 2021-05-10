@@ -1,10 +1,15 @@
 import inspect
 import uuid
-from functools import partial, wraps
-from typing import Dict, Optional
+from functools import partial
+from functools import wraps
+from typing import Dict
+from typing import Optional
+
+from pydantic import validate_arguments
 
 from pp.component import Component
-from pp.name import get_component_name, get_name
+from pp.name import get_component_name
+from pp.name import get_name
 from pp.types import ComponentFactory
 
 CACHE: Dict[str, Component] = {}
@@ -29,32 +34,37 @@ def cell(
 ) -> ComponentFactory:
     """Cell Decorator.
 
-    Args:
-        autoname (bool): renames Component by with Keyword arguments
-        name (str): Optional (ignored when autoname=True)
-        uid (bool): adds a unique id to the name
-        cache (bool): get component from the cache if it already exists
+        Args:
+            autoname (bool): renames Component by with Keyword arguments
+            name (str): Optional (ignored when autoname=True)
+            uid (bool): adds a unique id to the name
+            cache (bool): get component from the cache if it already exists
 
-    Implements a cache so that if a component has already been build
-    it will return the component from the cache.
-    This avoids 2 exact cells that are not references of the same cell
-    You can always over-ride this with `cache = False`.
+        Implements a cache so that if a component has already been build
+        it will return the component from the cache.
+        This avoids 2 exact cells that are not references of the same cell
+        You can always over-ride this with `cache = False`.
 
-    .. plot::
-      :include-source:
+        .. plot::
+          :include-source:
 
-      import pp
+          import pp
 
-      @pp.cell
-      def rectangle(size=(4,2), layer=0):
-          c = pp.Component()
-          w, h = size
-          points = [[w, h], [w, 0], [0, 0], [0, h]]
-          c.add_polygon(points, layer=layer)
-          return c
+          from pp.cell import cell
+    from pydantic import validate_arguments
 
-      c = rectangle(layer=1)
-      c.plot()
+
+    @cell
+    @validate_arguments
+          def rectangle(size=(4,2), layer=0):
+              c = pp.Component()
+              w, h = size
+              points = [[w, h], [w, 0], [0, 0], [0, h]]
+              c.add_polygon(points, layer=layer)
+              return c
+
+          c = rectangle(layer=1)
+          c.plot()
 
     """
 
@@ -117,7 +127,7 @@ def cell(
             # print(f"{name} build")
             assert callable(
                 func
-            ), f"{func} is not Callable, make sure you only use the @cell decorator with functions"
+            ), f"{func} is not Callable, make sure you only use the @cell  decorator with functions"
             component = func(**kwargs)
 
             if container and "component" not in kwargs:
@@ -158,6 +168,7 @@ def cell(
 
 
 @cell(autoname=True)
+@validate_arguments
 def wg(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
@@ -171,6 +182,7 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 
 
 @cell(autoname=False)
+@validate_arguments
 def wg2(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
@@ -184,6 +196,7 @@ def wg2(length: int = 3, width: float = 0.5) -> Component:
 
 
 @cell
+@validate_arguments
 def wg3(length=3, width=0.5):
     from pp.component import Component
 
@@ -201,11 +214,12 @@ def test_autoname_true() -> None:
 
 
 def test_autoname_false() -> None:
-    # print(wg2(length=3).name)
+    print(wg2(length=3).name)
     assert wg2(length=3).name == "straight"
 
 
 @cell
+@validate_arguments
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     c = Component()
     return c
@@ -230,12 +244,11 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
-    import pp
 
-    c = pp.components.straight()
+    # c = pp.components.straight()
 
     # test_autoname_true()
-    # test_autoname_false()
+    test_autoname_false()
     # test_autoname()
 
     # c = wg(length=3)

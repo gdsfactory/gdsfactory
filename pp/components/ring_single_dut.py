@@ -1,3 +1,5 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -10,6 +12,7 @@ from pp.snap import assert_on_2nm_grid
 
 
 @cell
+@validate_arguments
 def ring_single_dut(
     component,
     wg_width=0.5,

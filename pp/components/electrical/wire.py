@@ -1,36 +1,36 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.straight import straight
-from pp.config import TECH
 from pp.port import deco_rename_ports
-from pp.types import Number
 
 WIRE_WIDTH = 10.0
 
 
 @deco_rename_ports
 @cell
+@validate_arguments
 def wire(
-    length: Number = 50.0, cross_section_settings=TECH.waveguide.metal_routing, **kwargs
+    length: float = 50.0, cross_section_name: str = "metal_routing", **kwargs
 ) -> Component:
     """Straight wire.
 
     Args:
         length: straiht length
     """
-    return straight(
-        length=length, cross_section_settings=cross_section_settings, **kwargs
-    )
+    return straight(length=length, cross_section_name=cross_section_name, **kwargs)
 
 
 @cell
+@validate_arguments
 def corner(
     radius: float = 5,
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = False,
-    cross_section_settings=TECH.waveguide.metal_routing,
+    cross_section_name: str = "metal_routing",
     **kwargs
 ) -> Component:
     """90 degrees electrical bend
@@ -48,7 +48,7 @@ def corner(
         angle=angle,
         npoints=npoints,
         with_cladding_box=with_cladding_box,
-        cross_section_settings=cross_section_settings,
+        cross_section_name=cross_section_name,
         **kwargs
     )
 

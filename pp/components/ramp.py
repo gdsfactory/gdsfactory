@@ -1,11 +1,14 @@
 from typing import Optional
 
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.types import Layer
 
 
 @cell
+@validate_arguments
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,

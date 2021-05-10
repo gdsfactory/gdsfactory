@@ -1,4 +1,6 @@
-import pp
+from pydantic import validate_arguments
+
+from pp.cell import cell
 from pp.component import Component
 from pp.components import bend_euler180
 from pp.components.component_sequence import component_sequence
@@ -6,7 +8,8 @@ from pp.components.taper_from_csv import taper_0p5_to_3_l36
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
+@validate_arguments
 def cutback_component(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
@@ -57,7 +60,8 @@ def cutback_component(
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def cutback_component_flipped(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,

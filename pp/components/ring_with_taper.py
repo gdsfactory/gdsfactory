@@ -1,3 +1,5 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.components.bend_circular import bend_circular
 from pp.components.coupler90 import coupler90
@@ -9,6 +11,7 @@ from pp.snap import assert_on_2nm_grid
 
 
 @cell
+@validate_arguments
 def ring_with_taper(**kwargs):
     """Ring single bus
 

@@ -1,13 +1,18 @@
+from pydantic import validate_arguments
+
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
-from pp.cross_section import cross_section, get_cross_section_settings
-from pp.path import arc, extrude
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
+from pp.path import arc
+from pp.path import extrude
 from pp.snap import snap_to_grid
 
 
 @cell
+@validate_arguments
 def bend_circular_heater(
     radius: float = 10,
     angle: int = 90,

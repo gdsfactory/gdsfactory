@@ -8,7 +8,8 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
-from pp.component_from_yaml import component_from_yaml, sample_mmis
+from pp.component_from_yaml import component_from_yaml
+from pp.component_from_yaml import sample_mmis
 from pp.difftest import difftest
 
 sample_connections = """
@@ -579,7 +580,7 @@ def test_netlists(
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
+    # print(yaml_str)
     c2 = component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
@@ -606,6 +607,7 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
+    c = test_netlists("sample_different_link_factory", True, None, check=False)
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
@@ -615,7 +617,7 @@ if __name__ == "__main__":
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
-    c = test_connections_waypoints()
+    # c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)

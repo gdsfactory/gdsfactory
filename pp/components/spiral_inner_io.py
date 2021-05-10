@@ -1,21 +1,25 @@
 """ bends with grating couplers inside the spiral
 maybe: need to add grating coupler loopback as well
 """
-
-from typing import Optional, Tuple
+from typing import Optional
+from typing import Tuple
 
 import numpy as np
+from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_circular import bend_circular, bend_circular180
-from pp.components.bend_euler import bend_euler, bend_euler180
+from pp.components.bend_circular import bend_circular
+from pp.components.bend_circular import bend_circular180
+from pp.components.bend_euler import bend_euler
+from pp.components.bend_euler import bend_euler180
 from pp.components.straight import straight
 from pp.cross_section import get_cross_section_settings
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
-from pp.types import ComponentFactory, Number
+from pp.types import ComponentFactory
+from pp.types import Number
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -24,6 +28,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
 
 
 @cell
+@validate_arguments
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -202,6 +207,7 @@ def spiral_inner_io(
 
 
 @cell
+@validate_arguments
 def spiral_inner_io_euler(
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
@@ -215,6 +221,7 @@ def spiral_inner_io_euler(
 
 
 @cell
+@validate_arguments
 def spirals_nested(bend_radius: Number = 100) -> Component:
     component = pp.Component()
     c = spiral_inner_io(
@@ -256,7 +263,7 @@ def spirals_nested(bend_radius: Number = 100) -> Component:
 def get_straight_length(
     length_cm: Number, spiral_function: ComponentFactory, **kwargs
 ) -> Number:
-    """ returns y_spiral to achieve a particular spiral length """
+    """returns y_spiral to achieve a particular spiral length"""
     y0 = 50
     y1 = 400
     kwargs.update({"y_straight_inner_top": y0})

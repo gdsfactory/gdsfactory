@@ -1,16 +1,24 @@
 """ based on https://github.com/niladri18/Phidl/blob/master/src/ppe.py
 """
-
 import math
-from typing import Iterable, Tuple
+from typing import Iterable
+from typing import Tuple
+
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 
 
-@pp.cell
+@cell
+@validate_arguments
 def line(
-    x0: float, y0: float, width: float, height: float, layer: Tuple[int, int],
+    x0: float,
+    y0: float,
+    width: float,
+    height: float,
+    layer: Tuple[int, int],
 ) -> Component:
     L = pp.Component()
     L.add_polygon(
@@ -20,7 +28,8 @@ def line(
     return L
 
 
-@pp.cell
+@cell
+@validate_arguments
 def linespace(
     x0: float,
     y0: float,
@@ -66,7 +75,8 @@ def y0linespace(y0: float, height: float, pitch: float, ymax: float) -> float:
     return y0
 
 
-@pp.cell
+@cell
+@validate_arguments
 def cross(
     x0: float, y0: float, width: float, lw: float, layer: Tuple[int, int]
 ) -> Component:
@@ -99,7 +109,8 @@ def cross(
     return cross
 
 
-@pp.cell
+@cell
+@validate_arguments
 def ppe(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),

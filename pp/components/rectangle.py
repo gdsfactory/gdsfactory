@@ -1,15 +1,19 @@
-from typing import Dict, List, Tuple
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
+from pp.types import Layer
 
 DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 
 
-@pp.cell
+@cell
 def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Tuple[int, int] = pp.LAYER.WG,
+    layer: Layer = pp.LAYER.WG,
     centered: bool = False,
     ports: Dict[str, List[Tuple[float, float, float]]] = None,
     **port_settings
@@ -23,7 +27,6 @@ def rectangle(
         ports: {direction: [(x, y, width), ...]} direction: 'W', 'E', 'N' or 'S'
 
     """
-
     c = pp.Component()
     w, h = size
 
@@ -59,7 +62,7 @@ def rectangle(
 
 
 if __name__ == "__main__":
-    c = rectangle(size=(4, 2), ports={"N": [(0, 1, 4)]}, centered=True)
+    c = rectangle(size=(4, 2), ports={"N": [(0, 1, 4)]}, centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)
     c.show()

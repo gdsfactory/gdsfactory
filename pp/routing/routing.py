@@ -2,11 +2,14 @@
 
 adapted from phidl.routing
 """
-
 import gdspy
 import numpy as np
-from numpy import cos, mod, pi, sin
+from numpy import cos
+from numpy import mod
+from numpy import pi
+from numpy import sin
 from numpy.linalg import norm
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -14,6 +17,7 @@ from pp.config import TECH
 
 
 @cell
+@validate_arguments
 def route_basic(
     port1,
     port2,
@@ -44,9 +48,9 @@ def route_basic(
     rotation = (
         np.arctan2(separation[1], separation[0]) * 180 / pi
     )  # Rotation of vector from A to B
-    angle = (
-        rotation - orientation
-    )  # If looking out along the normal of ``a``, the angle you would have to look to see ``b``
+    # If looking out along the normal of ``a``, the angle you would have to
+    # look to see ``b``
+    angle = rotation - orientation
     forward_distance = distance * cos(angle * pi / 180)
     lateral_distance = distance * sin(angle * pi / 180)
 
@@ -130,6 +134,7 @@ def route_basic(
 
 
 @cell
+@validate_arguments
 def _arc(radius=10, width=0.5, theta=45, start_angle=0, angle_resolution=2.5, layer=0):
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``"""
     inner_radius = radius - width / 2
@@ -163,6 +168,7 @@ def _arc(radius=10, width=0.5, theta=45, start_angle=0, angle_resolution=2.5, la
 
 
 @cell
+@validate_arguments
 def _gradual_bend(
     radius=10,
     width=1.0,
@@ -190,7 +196,8 @@ def _gradual_bend(
     inc_rad = (radius ** -1) / (num_steps)
     angle_step = angular_coverage / num_steps
 
-    # construct a series of sub-arcs with equal angles but gradually decreasing bend radius
+    # construct a series of sub-arcs with equal angles but gradually
+    # decreasing bend radius
     arcs = []
     for x in range(num_steps):
         A = _arc(

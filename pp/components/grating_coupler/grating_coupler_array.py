@@ -1,3 +1,5 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.elliptical2 import grating_coupler_elliptical2
@@ -5,6 +7,7 @@ from pp.types import ComponentOrFactory
 
 
 @cell
+@validate_arguments
 def grating_coupler_array(
     grating_coupler: ComponentOrFactory = grating_coupler_elliptical2,
     pitch: float = 127.0,

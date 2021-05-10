@@ -1,11 +1,12 @@
-import pp
 from pp.add_padding import get_padding_points
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
 
 
-@pp.cell
+@cell
 def bend_s(
     height: float = 2.0,
     length: float = 10.0,

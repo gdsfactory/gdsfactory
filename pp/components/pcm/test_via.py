@@ -1,13 +1,17 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
 from pp.components.rectangle import rectangle
 from pp.types import Number
 
 
-@pp.cell
+@cell
+@validate_arguments
 def _via_iterable(
     via_spacing: Number,
     wire_width: Number,
@@ -46,7 +50,8 @@ def _via_iterable(
     return VI
 
 
-@pp.cell
+@cell
+@validate_arguments
 def test_via(
     num_vias: Number = 100,
     wire_width: Number = 10,

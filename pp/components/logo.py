@@ -1,8 +1,12 @@
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import Component
 
 
-@pp.cell
+@cell
+@validate_arguments
 def logo(text: str = "GDS_FACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = Component()

@@ -1,11 +1,14 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.types import Number
 
 
 @cell
+@validate_arguments
 def bbox(
     bbox: Tuple[Tuple[Number, Number], ...] = ((-1, -1), (3, 4)),
     layer: Tuple[int, int] = (1, 0),

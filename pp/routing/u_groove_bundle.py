@@ -1,15 +1,22 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import List
+from typing import Tuple
+from typing import Union
 
 import numpy as np
-from numpy import float64, ndarray
+from numpy import float64
+from numpy import ndarray
 
 from pp.components.bend_euler import bend_euler
 from pp.geo_utils import remove_identicals
 from pp.port import Port
 from pp.routing.get_route import get_route_from_waypoints
-from pp.routing.manhattan import generate_manhattan_waypoints, remove_flat_angles
+from pp.routing.manhattan import generate_manhattan_waypoints
+from pp.routing.manhattan import remove_flat_angles
 from pp.routing.route_ports_to_side import route_ports_to_side
-from pp.types import ComponentFactory, Route
+from pp.types import ComponentFactory
+from pp.types import Route
 
 
 def _groups(

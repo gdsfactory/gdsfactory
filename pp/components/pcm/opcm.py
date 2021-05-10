@@ -1,10 +1,13 @@
 """ CD SEM structures
 """
-
 import itertools as it
-from typing import Iterable, List, Optional, Tuple
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 import numpy as np
+from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
@@ -14,12 +17,14 @@ from pp.components.manhattan_font import manhattan_text
 from pp.components.straight import straight
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
-from pp.types import ComponentFactory, Number
+from pp.types import ComponentFactory
+from pp.types import Number
 
 LINE_LENGTH = 420.0
 
 
 @cell
+@validate_arguments
 def square_middle(
     side: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -41,6 +46,7 @@ def square_middle(
 
 
 @cell
+@validate_arguments
 def double_square(
     side=0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -64,6 +70,7 @@ def double_square(
 
 
 @cell
+@validate_arguments
 def rectangle(
     x: float,
     y: float,
@@ -99,6 +106,7 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
 
 
 @cell
+@validate_arguments
 def char_H(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -107,6 +115,7 @@ def char_H(
 
 
 @cell
+@validate_arguments
 def char_L(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -194,6 +203,7 @@ def wg_line(
 
 
 @cell
+@validate_arguments
 def cdsem_straight(
     spacing_h=5.0,
     spacing_v=5.0,
@@ -258,6 +268,7 @@ def cdsem_straight(
 
 
 @cell
+@validate_arguments
 def cdsem_straight_column(
     spacing_v: Number = 5.0,
     gaps: Tuple[Number, ...] = (0.224, 0.234, 0.246),
@@ -324,6 +335,7 @@ def cdsem_straight_column(
 
 
 @cell
+@validate_arguments
 def cdsem_straight_all(
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
@@ -351,6 +363,7 @@ def cdsem_straight_all(
 
 
 @cell
+@validate_arguments
 def cdsem_straight_density(
     wg_width: Number = 0.372,
     trench_width: Number = 0.304,
@@ -394,6 +407,7 @@ def cdsem_straight_density(
 
 
 @cell
+@validate_arguments
 def cdsem_strip(straight_factory=straight, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, straight_factory=straight_factory
@@ -401,6 +415,7 @@ def cdsem_strip(straight_factory=straight, **kwargs):
 
 
 @cell
+@validate_arguments
 def cdsem_target(
     bend90_factory: ComponentFactory = bend_circular,
     width_center: Number = 0.5,
@@ -448,6 +463,7 @@ def cdsem_target(
 
 
 @cell
+@validate_arguments
 def cdsem_uturn(
     width: Number = 0.5,
     radius: Number = 10.0,
@@ -517,6 +533,7 @@ def cdsem_uturn(
 
 
 @cell
+@validate_arguments
 def opcm(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -678,6 +695,7 @@ class LabelIterator:
 
 
 @cell
+@validate_arguments
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
     _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
@@ -694,6 +712,7 @@ def TRCH_ISO(length=20.0, width=0.5):
 
 
 @cell
+@validate_arguments
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -702,6 +721,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
 
 
 @cell
+@validate_arguments
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -710,6 +730,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
 
 
 @cell
+@validate_arguments
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -718,6 +739,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
 
 
 @cell
+@validate_arguments
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -726,6 +748,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
 
 
 @cell
+@validate_arguments
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(

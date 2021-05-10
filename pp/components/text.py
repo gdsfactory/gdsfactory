@@ -1,14 +1,21 @@
-from typing import Iterable, Tuple
+from typing import Iterable
+from typing import Tuple
 
 import numpy as np
-from phidl.geometry import _glyph, _indent, _width
+from phidl.geometry import _glyph
+from phidl.geometry import _indent
+from phidl.geometry import _width
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.manhattan_font import manhattan_text
 from pp.layers import LAYER
 from pp.name import clean_name
-from pp.types import Coordinate, Layer, Number
+from pp.types import Coordinate
+from pp.types import Layer
+from pp.types import Number
 
 
 def text(
@@ -66,7 +73,8 @@ def text(
     return t
 
 
-@pp.cell
+@cell
+@validate_arguments
 def githash(
     text: Iterable[str] = ("",),
     size: Number = 0.4,

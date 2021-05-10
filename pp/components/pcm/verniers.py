@@ -1,12 +1,15 @@
 import numpy as np
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.layers import LAYER
 from pp.types import Layer
 
 
-@pp.cell
+@cell
+@validate_arguments
 def verniers(
     width_min: float = 0.1,
     width_max: float = 0.5,

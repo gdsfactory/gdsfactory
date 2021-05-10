@@ -1,23 +1,22 @@
 """Deprecated
 """
-
 from typing import Tuple
+
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.hline import hline
 from pp.layers import LAYER
 from pp.port import deco_rename_ports
-from pp.types import Number
-
-WIRE_WIDTH = 10.0
 
 
 @deco_rename_ports
 @cell
+@validate_arguments
 def wire_straight(
-    length: Number = 50.0,
-    width: Number = WIRE_WIDTH,
+    length: float = 50.0,
+    width: float = 10.0,
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
     **kwargs
@@ -35,8 +34,9 @@ def wire_straight(
 
 @deco_rename_ports
 @cell
+@validate_arguments
 def wire_corner(
-    width: float = WIRE_WIDTH,
+    width: float = 10.0,
     layer: Tuple[int, int] = LAYER.M3,
     port_type: str = "dc",
     **kwargs

@@ -1,15 +1,20 @@
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 
 layer = pp.LAYER.WG
 
 
-@pp.cell
+@cell
+@validate_arguments
 def width_min(size=(0.1, 0.1)):
     c = pp.components.rectangle(size=size, layer=layer)
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def gap_min(gap=0.1):
     c = pp.Component()
     r1 = c << pp.components.rectangle(size=(1, 1), layer=layer)
@@ -19,7 +24,8 @@ def gap_min(gap=0.1):
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def snapping_error(gap=1e-3):
     c = pp.Component()
     r1 = c << pp.components.rectangle(size=(1, 1), layer=layer)
@@ -29,7 +35,8 @@ def snapping_error(gap=1e-3):
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def errors():
     D_list = [width_min(), gap_min()]
     c = pp.pack(D_list, spacing=1.5)

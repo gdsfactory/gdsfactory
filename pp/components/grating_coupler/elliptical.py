@@ -1,12 +1,16 @@
-from typing import Tuple, Union
+from typing import Tuple
+from typing import Union
 
 import numpy as np
-from numpy import float64, ndarray
+from numpy import float64
+from numpy import ndarray
+from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.geo_utils import DEG2RAD, extrude_path
+from pp.geo_utils import DEG2RAD
+from pp.geo_utils import extrude_path
 from pp.layers import LAYER
 from pp.types import Layer
 
@@ -71,6 +75,7 @@ def grating_taper_points(
 
 
 @cell
+@validate_arguments
 def grating_coupler_elliptical_tm(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
@@ -116,6 +121,7 @@ def grating_coupler_elliptical_tm(
 
 
 @cell
+@validate_arguments
 def grating_coupler_elliptical_te(
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
@@ -148,6 +154,7 @@ def grating_coupler_elliptical_te(
 
 
 @cell
+@validate_arguments
 def grating_coupler_elliptical(
     polarization: str,
     taper_length: float = 16.6,

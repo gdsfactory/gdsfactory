@@ -1,20 +1,23 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
 from pp import components as pc
+from pp.cell import cell
 from pp.component import Component
-from pp.types import Number
 
 
-@pp.cell
+@cell
+@validate_arguments
 def litho_calipers(
-    notch_size: Tuple[Number, Number] = (2, 5),
-    notch_spacing: int = 2,
+    notch_size: Tuple[float, float] = (2.0, 5.0),
+    notch_spacing: float = 2.0,
     num_notches: int = 11,
     offset_per_notch: float = 0.1,
-    row_spacing: int = 0,
-    layer1: int = 1,
-    layer2: int = 2,
+    row_spacing: float = 0.0,
+    layer1: Tuple[int, int] = (1, 0),
+    layer2: Tuple[int, int] = (2, 0),
 ) -> Component:
     """vernier caliper structure to test lithography alignment
     Only the middle finger is aligned and the rest are offset.

@@ -1,10 +1,10 @@
 function_name: wire
 info:
   length: 50
-  width: 0.5
+  width: 2
 module: pp.components.electrical.wire
 name: wire
 settings:
-  cross_section_name: strip
+  cross_section_name: metal_routing
   length: 50
   npoints: 2

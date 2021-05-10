@@ -1,9 +1,13 @@
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 
 characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#()+,-./:;<=>?@[{|}~_"
 
 
-@pp.cell
+@cell
+@validate_arguments
 def alphabet(dx=10):
     c = pp.Component()
     x = 0

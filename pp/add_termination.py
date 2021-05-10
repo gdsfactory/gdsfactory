@@ -7,17 +7,13 @@ from pp.add_labels import get_input_label
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.components.grating_coupler.elliptical_trenches import (
-    grating_coupler_te,
-    grating_coupler_tm,
-)
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
 from pp.routing.manhattan import round_corners
-from pp.routing.utils import (
-    check_ports_have_equal_spacing,
-    direction_ports_from_list_ports,
-)
+from pp.routing.utils import check_ports_have_equal_spacing
+from pp.routing.utils import direction_ports_from_list_ports
 from pp.types import ComponentFactory
 
 
@@ -25,7 +21,7 @@ from pp.types import ComponentFactory
 def add_termination(
     component: Component, terminator: ComponentFactory = taper_function
 ) -> Component:
-    """ returns component containing a comonent with all ports terminated """
+    """returns component containing a comonent with all ports terminated"""
     terminator = pp.call_if_func(terminator)
     c = pp.Component(name=component.name + "_t")
     c.add_ref(component)
@@ -154,7 +150,7 @@ if __name__ == "__main__":
     from pp.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()
-    cc = add_gratings_and_loop_back(c, with_loopback=False)
+    cc = add_gratings_and_loop_back(component=c, with_loopback=False)
 
     # cc = add_termination(component=c)
     print(cc.get_settings()["settings"]["component"])

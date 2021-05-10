@@ -1,10 +1,14 @@
 """Routes bundles of ports (river routing).
 """
-
-from typing import Callable, List, Optional, Union, cast
+from typing import Callable
+from typing import cast
+from typing import List
+from typing import Optional
+from typing import Union
 
 import numpy as np
 from numpy import ndarray
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -12,17 +16,19 @@ from pp.components.bend_euler import bend_euler
 from pp.config import TECH
 from pp.cross_section import get_cross_section_settings
 from pp.port import Port
-from pp.routing.get_route import (
-    get_route,
-    get_route_from_waypoints,
-    get_route_from_waypoints_electrical,
-)
+from pp.routing.get_route import get_route
+from pp.routing.get_route import get_route_from_waypoints
+from pp.routing.get_route import get_route_from_waypoints_electrical
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
-from pp.routing.sort_ports import get_port_x, get_port_y
+from pp.routing.sort_ports import get_port_x
+from pp.routing.sort_ports import get_port_y
 from pp.routing.sort_ports import sort_ports as sort_ports_function
-from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
-from pp.types import ComponentFactory, Number, Route
+from pp.routing.u_groove_bundle import u_bundle_direct
+from pp.routing.u_groove_bundle import u_bundle_indirect
+from pp.types import ComponentFactory
+from pp.types import Number
+from pp.types import Route
 
 METAL_MIN_SEPARATION = TECH.waveguide.metal_routing.min_spacing
 
@@ -806,6 +812,7 @@ def link_optical_ports_no_grouping(
 
 
 @cell
+@validate_arguments
 def test_get_bundle_small() -> Component:
     import pp
 

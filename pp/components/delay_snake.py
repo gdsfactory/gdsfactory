@@ -1,4 +1,5 @@
 from numpy import pi
+from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
@@ -11,6 +12,7 @@ from pp.types import ComponentFactory
 
 
 @cell
+@validate_arguments
 def delay_snake(
     wg_width: float = 0.5,
     wg_width_wide: float = 2.0,

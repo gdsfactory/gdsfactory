@@ -1,7 +1,10 @@
 """Add reference for a grating coupler array."""
 from typing import List
 
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import ComponentReference
 from pp.port import Port
 from pp.routing.manhattan import round_corners
@@ -88,7 +91,8 @@ def gen_loopback(
     return elements
 
 
-@pp.cell
+@cell
+@validate_arguments
 def straight_with_loopback() -> pp.Component:
     c = pp.Component("straight_with_loopback")
     wg = c << pp.components.straight()

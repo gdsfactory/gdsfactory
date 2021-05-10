@@ -557,7 +557,12 @@ class XSectionGenerator
 
   def layer(layer_spec)
     ld = LayoutData.new([], self)
-    ld.load(@layout, @cell, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
+    ld.load(@layout, from pp.cell import cell
+from pydantic import validate_arguments
+
+
+@cell
+@validate_arguments, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
     return ld
   end
 
@@ -960,7 +965,12 @@ private
     @cv = cv
     @layout = cv.layout
     @dbu = @layout.dbu
-    @cell = cv.cell_index
+    from pp.cell import cell
+from pydantic import validate_arguments
+
+
+@cell
+@validate_arguments = cv.cell_index
 
     # get the start and end points in database units and micron
     p1_dbu = RBA::Point::from_dpoint(p1 * (1.0 / @dbu))

@@ -1,6 +1,10 @@
-from typing import Dict, Iterable, Optional, Tuple
+from typing import Dict
+from typing import Iterable
+from typing import Optional
+from typing import Tuple
 
 import numpy as np
+from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
@@ -10,11 +14,16 @@ from pp.components.extension import line
 from pp.components.hline import hline
 from pp.components.straight import straight
 from pp.layers import LAYER
-from pp.port import Port, auto_rename_ports
-from pp.types import ComponentFactory, CrossSectionFactory, Layer, Number
+from pp.port import auto_rename_ports
+from pp.port import Port
+from pp.types import ComponentFactory
+from pp.types import CrossSectionFactory
+from pp.types import Layer
+from pp.types import Number
 
 
 @cell
+@validate_arguments
 def heater(
     length: float = 10.0,
     width: float = 0.5,

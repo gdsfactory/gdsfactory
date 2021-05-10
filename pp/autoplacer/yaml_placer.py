@@ -18,22 +18,29 @@ iso_lines_coarse1:
 ```
 
 """
-
-
 import collections
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 import klayout.db as pya
 import numpy as np
-from klayout.dbcore import Cell, CellInstArray, Layout
+from klayout.dbcore import Cell
+from klayout.dbcore import CellInstArray
+from klayout.dbcore import Layout
 from numpy import float64
 from omegaconf import OmegaConf
 
 import pp.autoplacer.text as text
-from pp.autoplacer.helpers import CELLS, import_cell, load_gds
+from pp.autoplacer.helpers import CELLS
+from pp.autoplacer.helpers import import_cell
+from pp.autoplacer.helpers import load_gds
 from pp.config import CONFIG
 
 UM_TO_GRID = 1e3

@@ -1,10 +1,13 @@
 from typing import Optional
 
+from pydantic import validate_arguments
+
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
 from pp.port import Port
 from pp.types import Number
 
@@ -73,6 +76,7 @@ def taper(
 
 
 @cell
+@validate_arguments
 def taper_strip_to_ridge(
     length: Number = 10.0,
     width1: Number = 0.5,
@@ -119,6 +123,7 @@ def taper_strip_to_ridge(
 
 
 @cell
+@validate_arguments
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,
