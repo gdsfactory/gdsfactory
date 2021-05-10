@@ -15,6 +15,7 @@ instances:
       cross_section_name: strip
       length: 10
       npoints: 2
+      with_cladding_box: true
 name: sample_mirror_simple
 placements:
   b:

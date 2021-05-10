@@ -119,7 +119,22 @@ class Section:
 
 
 @dataclasses.dataclass
-class Strip:
+class Waveguide:
+    width: float
+    layer: Layer
+    width_wide: Optional[float] = None
+    auto_widen: bool = False
+    auto_widen_minimum_length: float = 200
+    taper_length: float = 10.0
+    radius: float = 10.0
+    cladding_offset: Optional[float] = 3.0
+    layer_cladding: Optional[Layer] = None
+    layers_cladding: Optional[Tuple[Layer]] = None
+    sections: Optional[Tuple[Section]] = None
+
+
+@dataclasses.dataclass
+class Strip(Waveguide):
     width: float = 0.5
     width_wide: float = 2.0
     auto_widen: bool = True
@@ -133,7 +148,20 @@ class Strip:
 
 
 @dataclasses.dataclass
-class MetalRouting:
+class Rib(Waveguide):
+    width: float = 0.5
+    auto_widen: bool = True
+    auto_widen_minimum_length: float = 200
+    taper_length: float = 10.0
+    layer: Layer = LAYER.WG
+    radius: float = 10.0
+    cladding_offset: float = 3.0
+    layer_cladding: Optional[Layer] = LAYER.SLAB90
+    layers_cladding: Optional[Tuple[Layer]] = (LAYER.SLAB90,)
+
+
+@dataclasses.dataclass
+class MetalRouting(Waveguide):
     width: float = 2.0
     width_wide: float = 2.0
     auto_widen: bool = False
@@ -143,7 +171,7 @@ class MetalRouting:
 
 
 @dataclasses.dataclass
-class Nitride:
+class Nitride(Waveguide):
     width: float = 1.0
     width_wide: float = 1.0
     auto_widen: bool = False
@@ -152,12 +180,12 @@ class Nitride:
 
 
 @dataclasses.dataclass
-class StripHeater:
+class StripHeater(Waveguide):
     width: float = 1.0
     auto_widen: bool = False
     layer: Layer = LAYER.WG
     radius: float = 10.0
-    cross_section: Tuple[Section] = (
+    sections: Tuple[Section] = (
         Section(width=8, layer=LAYER.WGCLAD),
         Section(
             width=0.5, layer=LAYER.HEATER, offset=+1.2, ports=("top_in", "top_out")
@@ -170,11 +198,11 @@ class StripHeater:
 
 @dataclasses.dataclass
 class Waveguides:
-    strip: Strip = Strip()
-    metal_routing: MetalRouting = MetalRouting()
-    nitride: Nitride = Nitride()
-    # rib: Rib
-    # strip_heater: StripHeater
+    strip: Waveguide = Strip()
+    metal_routing: Waveguide = MetalRouting()
+    nitride: Waveguide = Nitride()
+    strip_heater: Waveguide = StripHeater()
+    rib: Waveguide = StripHeater()
 
 
 @dataclasses.dataclass

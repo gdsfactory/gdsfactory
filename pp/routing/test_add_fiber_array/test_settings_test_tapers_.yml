@@ -15,6 +15,7 @@ settings:
       length: 10
       npoints: 2
       width: 2
+      with_cladding_box: true
   component_name: null
   gc_port_name: W0
   optical_routing_type: 2

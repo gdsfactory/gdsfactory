@@ -4,15 +4,20 @@ The CrossSection object extrudes a path
 
 Based on phidl.device_layout.CrossSection
 """
-
 import dataclasses
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any
+from typing import Dict
+from typing import Iterable
+from typing import Optional
+from typing import Tuple
 
 from phidl.device_layout import CrossSection
 
+from pp.tech import Section
 from pp.tech import TECH
 
 LAYER = TECH.layer
+Layer = Tuple[int, int]
 
 
 def get_cross_section_settings(cross_section_name: str, **kwargs) -> Dict[str, Any]:
@@ -25,25 +30,45 @@ def get_cross_section_settings(cross_section_name: str, **kwargs) -> Dict[str, A
 
 
 def cross_section(
-    width: float = 0.5, layer: Tuple[int, int] = (1, 0), **settings
+    width: float = 0.5,
+    layer: Tuple[int, int] = (1, 0),
+    width_wide: Optional[float] = None,
+    auto_widen: bool = True,
+    auto_widen_minimum_length: float = 200,
+    taper_length: float = 10.0,
+    radius=10.0,
+    cladding_offset: float = 3.0,
+    layer_cladding: Optional[Layer] = None,
+    layers_cladding: Optional[Tuple[Layer]] = None,
+    sections: Optional[Tuple[Section]] = None,
+    **kwargs,
 ) -> CrossSection:
     """Returns a CrossSection from settings."""
 
-    xs = settings.get("cross_section")
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
-    if xs:
-        for section_name, section in xs.items():
+    if sections:
+        for section in sections:
             x.add(
-                width=section["width"], offset=section["offset"], layer=section["layer"]
+                width=section["width"],
+                offset=section["offset"],
+                layer=section["layer"],
+                ports=section["ports"],
             )
 
     x.info = dict(
         width=width,
         layer=layer,
-        cladding_offset=settings.get("cladding_offset", None),
-        layers_cladding=settings.get("layers_cladding", None),
+        width_wide=width_wide,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        taper_length=taper_length,
+        radius=radius,
+        cladding_offset=cladding_offset,
+        layer_cladding=layer_cladding,
+        layers_cladding=layers_cladding,
+        section=sections,
     )
     return x
 

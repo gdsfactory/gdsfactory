@@ -3,8 +3,8 @@ connections:
   bend_euler_CSNstrip_R10_-10.625_17.335,W0: straight_CSNstrip_L4_-2.0_20.71,E0
   bend_euler_CSNstrip_R10_6.625_17.335,N0: straight_CSNstrip_L4_-2.0_20.71,W0
   bend_euler_CSNstrip_R10_6.625_17.335,W0: straight_CSNstrip_L10n_10.0_10.705,W0
-  coupler_ring_22ead63e_-2.0_4.075,N0: straight_CSNstrip_L10n_-14.0_10.705,E0
-  coupler_ring_22ead63e_-2.0_4.075,N1: straight_CSNstrip_L10n_10.0_10.705,E0
+  coupler_ring_22ead63e_-2.0_3.725,N0: straight_CSNstrip_L10n_-14.0_10.705,E0
+  coupler_ring_22ead63e_-2.0_3.725,N1: straight_CSNstrip_L10n_10.0_10.705,E0
 instances:
   bend_euler_CSNstrip_R10_-10.625_17.335:
     component: bend_euler
@@ -16,7 +16,7 @@ instances:
     settings:
       cross_section_name: strip
       radius: 10
-  coupler_ring_22ead63e_-2.0_4.075:
+  coupler_ring_22ead63e_-2.0_3.725:
     component: coupler_ring
     settings:
       bend: null
@@ -52,7 +52,7 @@ placements:
     rotation: 90
     x: 10.0
     y: 10.71
-  coupler_ring_22ead63e_-2.0_4.075:
+  coupler_ring_22ead63e_-2.0_3.725:
     mirror: false
     rotation: 0
     x: 0.0
@@ -73,5 +73,5 @@ placements:
     x: 0.0
     y: 20.71
 ports:
-  E0: coupler_ring_22ead63e_-2.0_4.075,E0
-  W0: coupler_ring_22ead63e_-2.0_4.075,W0
+  E0: coupler_ring_22ead63e_-2.0_3.725,E0
+  W0: coupler_ring_22ead63e_-2.0_3.725,W0

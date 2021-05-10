@@ -6,18 +6,37 @@ import tempfile
 import uuid
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
+from typing import Any
+from typing import cast
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Set
+from typing import Tuple
+from typing import Union
 
 import networkx as nx
 import numpy as np
 import omegaconf
-from numpy import cos, float64, int64, mod, ndarray, pi, sin
+from numpy import cos
+from numpy import float64
+from numpy import int64
+from numpy import mod
+from numpy import ndarray
+from numpy import pi
+from numpy import sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Device, DeviceReference, _parse_layer
+from phidl.device_layout import _parse_layer
+from phidl.device_layout import Device
+from phidl.device_layout import DeviceReference
 
-from pp.config import __version__, git_hash
-from pp.port import Port, select_ports, valid_port_types
+from pp.config import __version__
+from pp.config import git_hash
+from pp.port import Port
+from pp.port import select_ports
+from pp.port import valid_port_types
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
@@ -1261,19 +1280,19 @@ def test_extract():
     c = pp.c.straight(length=10, width=0.5)
     c2 = c.extract(layers=[pp.LAYER.WGCLAD])
 
-    assert len(c.polygons) == 1
-    assert len(c2.polygons) == 0
+    print(len(c.polygons))
+    assert len(c.polygons) == 2
+    assert len(c2.polygons) == 1
 
 
 if __name__ == "__main__":
     import pp
 
-    test_extract()
+    # test_extract()
 
     c = pp.c.straight(
         length=10,
         width=0.5,
-        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
     )
     c.show()
     # c2 = c.extract(layers=[(1, 0)])
