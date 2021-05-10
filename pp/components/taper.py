@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import validate_arguments
 
 import pp
+from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
@@ -44,7 +45,6 @@ def taper(
     cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
     x = cross_section(**cross_section_settings)
 
-    o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
 
@@ -64,10 +64,17 @@ def taper(
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
 
-    if with_cladding_box and o:
-        ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
-        for layer in layers_cladding:
-            c.add_polygon((xpts, ypts), layer=layer)
+    if with_cladding_box and x.info["layers_cladding"]:
+        layers_cladding = x.info["layers_cladding"]
+        cladding_offset = x.info["cladding_offset"]
+        points = get_padding_points(
+            component=c,
+            default=0,
+            bottom=cladding_offset,
+            top=cladding_offset,
+        )
+        for layer in layers_cladding or []:
+            c.add_polygon(points, layer=layer)
 
     c.info["length"] = length
     c.info["width1"] = width1
