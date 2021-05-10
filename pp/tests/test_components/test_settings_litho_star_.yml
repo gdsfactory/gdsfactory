@@ -4,6 +4,8 @@ module: pp.components.pcm.litho_star
 name: litho_star
 settings:
   diameter: 200
-  layer: 0
+  layer:
+  - 1
+  - 0
   line_width: 2
   num_lines: 20

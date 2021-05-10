@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.rectangle import rectangle
@@ -7,6 +9,7 @@ from pp.layers import LAYER
 
 
 @cell
+@validate_arguments
 def pads_shorted(
     width: int = 100,
     n_pads: int = 8,

@@ -1,11 +1,15 @@
-import pp
+from pydantic import validate_arguments
+
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
+@validate_arguments
 def coupler_symmetric(
     bend: ComponentFactory = bend_s,
     gap: float = 0.234,

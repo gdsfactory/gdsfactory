@@ -1,6 +1,9 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
@@ -10,7 +13,8 @@ from pp.routing.get_route import get_route_from_waypoints_no_taper
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
+@validate_arguments
 def grating_coupler_tree(
     n_straights: int = 4,
     straight_spacing: int = 4,

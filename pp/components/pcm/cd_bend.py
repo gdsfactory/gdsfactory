@@ -1,12 +1,16 @@
 import numpy as np
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.components.bend_circular import bend_circular
-from pp.components.pcm.cd import CENTER_SHAPES_MAP, square_middle
+from pp.components.pcm.cd import CENTER_SHAPES_MAP
+from pp.components.pcm.cd import square_middle
 from pp.components.straight import straight
 
 
-@pp.cell
+@cell
+@validate_arguments
 def cd_bend(
     L=2.0,
     radius=2.0,
@@ -65,7 +69,8 @@ def cd_bend(
     return component
 
 
-@pp.cell
+@cell
+@validate_arguments
 def cd_bend_strip(**kwargs):
     return cd_bend(**kwargs, bend90_factory=bend_circular, straight_factory=straight)
 

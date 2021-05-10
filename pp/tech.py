@@ -1,6 +1,8 @@
 import dataclasses
 import pathlib
-from typing import Dict, Optional, Tuple
+from typing import Dict
+from typing import Optional
+from typing import Tuple
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -108,6 +110,15 @@ LAYER_STACK = LayerStack()
 
 
 @dataclasses.dataclass
+class Section:
+    width: float
+    offset: float = 0
+    layer: Layer = (1, 0)
+    ports: Tuple[str, str] = (None, None)
+    name: str = None
+
+
+@dataclasses.dataclass
 class Strip:
     width: float = 0.5
     width_wide: float = 2.0
@@ -140,8 +151,21 @@ class Nitride:
     radius: float = 20.0
 
 
-STRIP = Strip()
-METAL_ROUTING = MetalRouting()
+@dataclasses.dataclass
+class StripHeater:
+    width: float = 1.0
+    auto_widen: bool = False
+    layer: Layer = LAYER.WG
+    radius: float = 10.0
+    cross_section: Tuple[Section] = (
+        Section(width=8, layer=LAYER.WGCLAD),
+        Section(
+            width=0.5, layer=LAYER.HEATER, offset=+1.2, ports=("top_in", "top_out")
+        ),
+        Section(
+            width=0.5, layer=LAYER.HEATER, offset=-1.2, ports=("bot_in", "bot_out")
+        ),
+    )
 
 
 @dataclasses.dataclass

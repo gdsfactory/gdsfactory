@@ -1,5 +1,7 @@
 from typing import Optional
 
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -7,18 +9,19 @@ from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
-from pp.types import ComponentOrFactory
+from pp.types import ComponentFactory
 
 
 @cell
+@validate_arguments
 def ring_single(
     gap: float = 0.2,
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.010,
-    coupler_ring: ComponentOrFactory = coupler_ring_function,
-    straight: ComponentOrFactory = straight_function,
-    bend: Optional[ComponentOrFactory] = None,
+    coupler_ring: ComponentFactory = coupler_ring_function,
+    straight: ComponentFactory = straight_function,
+    bend: Optional[ComponentFactory] = None,
     cross_section_name: str = "strip",
     **kwargs
 ) -> Component:

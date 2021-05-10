@@ -5,14 +5,15 @@ from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
 from pp.components.mzi import mzi as mzi_function
 from pp.components.straight import straight as straight_function
-from pp.types import ComponentFactory, Number
+from pp.types import ComponentFactory
+from pp.types import Number
 
 
 @cell
 def mzi_lattice(
-    coupler_lengths: Tuple[Number, ...] = (10, 20),
+    coupler_lengths: Tuple[Number, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
-    delta_lengths: Tuple[Number, ...] = (10,),
+    delta_lengths: Tuple[Number, ...] = (10.0,),
     mzi_factory: ComponentFactory = mzi_function,
     splitter: ComponentFactory = coupler_function,
     straight: ComponentFactory = straight_function,

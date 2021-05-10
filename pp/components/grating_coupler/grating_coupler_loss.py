@@ -5,7 +5,9 @@ from numpy import float64
 
 import pp
 from pp.add_labels import get_input_label
-from pp.component import Component, ComponentReference
+from pp.cell import cell
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.components import grating_coupler_te
 from pp.port import Port
 from pp.routing.get_route import get_route
@@ -35,7 +37,7 @@ def connect_loop_back(
     )["references"]
 
 
-@pp.cell
+@cell
 def loss_deembedding_ch13_24(
     io_sep: float = 127.0,
     R: float = 10.0,
@@ -75,7 +77,7 @@ def loss_deembedding_ch13_24(
     return c
 
 
-@pp.cell
+@cell
 def loss_deembedding_ch12_34(
     io_sep: float = 127.0,
     R: float = 10.0,
@@ -110,7 +112,7 @@ def loss_deembedding_ch12_34(
     return c
 
 
-@pp.cell
+@cell
 def loss_deembedding_ch14_23(
     io_sep: float = 127.0,
     R: float = 10.0,
@@ -145,7 +147,7 @@ def loss_deembedding_ch14_23(
     return c
 
 
-@pp.cell
+@cell
 def grating_coupler_loss(
     io_sep: float = 127.0,
     grating_coupler_function: ComponentFactory = grating_coupler_te,

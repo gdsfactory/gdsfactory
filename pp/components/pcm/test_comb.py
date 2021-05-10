@@ -1,20 +1,25 @@
+from typing import Optional
 from typing import Tuple
+
+from pydantic import validate_arguments
 
 import pp
 from pp import components as pc
+from pp.cell import cell
 from pp.component import Component
 
 
-@pp.cell
+@cell
+@validate_arguments
 def test_comb(
-    pad_size: Tuple[int, int] = (200, 200),
-    wire_width: int = 1,
-    wire_gap: int = 3,
+    pad_size: Tuple[float, float] = (200.0, 200.0),
+    wire_width: float = 1.0,
+    wire_gap: float = 3.0,
     comb_layer: Tuple[int, int] = pp.LAYER.M1,
     overlap_zigzag_layer: Tuple[int, int] = pp.LAYER.HEATER,
     comb_pad_layer: Tuple[int, int] = pp.LAYER.M3,
     comb_gnd_layer: Tuple[int, int] = pp.LAYER.M3,
-    overlap_pad_layer: None = None,
+    overlap_pad_layer: Optional[Tuple[int, int]] = None,
 ) -> Component:
     """Superconducting heater component from phidl.geometry
 

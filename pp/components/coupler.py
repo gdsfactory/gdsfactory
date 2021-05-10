@@ -1,3 +1,5 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
@@ -8,6 +10,7 @@ from pp.types import ComponentFactory
 
 
 @cell
+@validate_arguments
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,

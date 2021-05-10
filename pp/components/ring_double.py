@@ -1,15 +1,19 @@
 from typing import Optional
 
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
-from pp.types import ComponentFactory, CrossSectionFactory
+from pp.types import ComponentFactory
+from pp.types import CrossSectionFactory
 
 
 @cell
+@validate_arguments
 def ring_double(
     gap: float = 0.2,
     radius: float = 10.0,

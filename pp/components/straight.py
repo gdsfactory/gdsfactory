@@ -1,13 +1,17 @@
 """Straight waveguide."""
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
 from pp.path import extrude
 from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
 
 
 @cell
+@validate_arguments
 def straight(
     length: float = 10.0, npoints: int = 2, cross_section_name: str = "strip", **kwargs
 ) -> Component:

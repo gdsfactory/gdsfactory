@@ -1,11 +1,14 @@
-from typing import Tuple, Union
+from typing import Tuple
+from typing import Union
 
 import gdspy as gds
 import numpy as np
 from gdspy.polygon import Polygon
 from numpy import float64
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.snap import snap_to_grid
 
@@ -41,7 +44,8 @@ def straight(
     return t, s, e
 
 
-@pp.cell
+@cell
+@validate_arguments
 def spiral_circular(
     length: float = 1e3,
     wg_width: float = 0.5,

@@ -1,6 +1,8 @@
 """Sagnac loop_mirror."""
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.mmi1x2 import mmi1x2
@@ -9,7 +11,8 @@ from pp.routing.manhattan import route_manhattan
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
+@validate_arguments
 def loop_mirror(
     component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
 ) -> Component:
@@ -30,7 +33,8 @@ def loop_mirror(
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     c = Component()
     component = pp.call_if_func(component)
@@ -42,7 +46,8 @@ def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     """
     delay = 13e-12

@@ -1,11 +1,15 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.layers import LAYER
 
 
-@pp.cell
+@cell
+@validate_arguments
 def hline(
     length: float = 10.0,
     width: float = 0.5,

@@ -1,4 +1,7 @@
-from typing import Dict, Tuple
+from typing import Dict
+from typing import Tuple
+
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -8,6 +11,7 @@ from pp.types import ComponentFactory
 
 
 @cell
+@validate_arguments
 def ring_single_array(
     ring_function: ComponentFactory = ring_single,
     straight_function: ComponentFactory = straight,

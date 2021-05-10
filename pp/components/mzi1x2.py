@@ -1,4 +1,6 @@
-import pp
+from pydantic import validate_arguments
+
+from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.extension import line
@@ -12,7 +14,8 @@ from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory
 
 
-@pp.cell
+@cell
+@validate_arguments
 def mzi1x2(
     L0: float = 0.1,
     DL: float = 9.0,

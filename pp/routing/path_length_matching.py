@@ -1,11 +1,14 @@
-from typing import List, Union
+from typing import List
+from typing import Union
 
 import numpy as np
 from numpy import ndarray
 
 from pp.components.bend_euler import bend_euler
 from pp.geo_utils import path_length
-from pp.routing.manhattan import _is_horizontal, _is_vertical, remove_flat_angles
+from pp.routing.manhattan import _is_horizontal
+from pp.routing.manhattan import _is_vertical
+from pp.routing.manhattan import remove_flat_angles
 from pp.types import ComponentFactory
 
 

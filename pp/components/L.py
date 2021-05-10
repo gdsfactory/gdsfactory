@@ -1,4 +1,7 @@
-from typing import Tuple, Union
+from typing import Tuple
+from typing import Union
+
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -6,6 +9,7 @@ from pp.layers import LAYER
 
 
 @cell
+@validate_arguments
 def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),

@@ -1,4 +1,7 @@
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
+
+from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -8,6 +11,7 @@ from pp.types import ComponentFactory
 
 
 @cell
+@validate_arguments
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,

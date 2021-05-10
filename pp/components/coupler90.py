@@ -1,13 +1,18 @@
+from pydantic import validate_arguments
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
-from pp.cross_section import cross_section, get_cross_section_settings
-from pp.types import ComponentFactory, ComponentOrFactory
+from pp.cross_section import cross_section
+from pp.cross_section import get_cross_section_settings
+from pp.types import ComponentFactory
+from pp.types import ComponentOrFactory
 
 
 @cell
+@validate_arguments
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,

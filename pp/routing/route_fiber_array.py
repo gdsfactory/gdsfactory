@@ -1,20 +1,28 @@
-from typing import Any, Callable, List, Optional, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 from numpy import float64
 from phidl.device_layout import Label
 
 import pp
-from pp.component import Component, ComponentReference
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.components.taper import taper
 from pp.config import TECH
 from pp.port import select_optical_ports
-from pp.routing.get_bundle import get_min_spacing, link_ports
+from pp.routing.get_bundle import get_min_spacing
+from pp.routing.get_bundle import link_ports
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
-from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
+from pp.routing.manhattan import generate_manhattan_waypoints
+from pp.routing.manhattan import round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.types import ComponentFactory

@@ -1,14 +1,15 @@
 from typing import Tuple
 
 import pp
+from pp.cell import cell
 from pp.component import Component
-from pp.types import Number
+from pp.types import Layer
 
 
-@pp.cell
+@cell
 def compass(
-    size: Tuple[Number, Number] = (4, 2),
-    layer: Tuple[int, int] = pp.LAYER.WG,
+    size: Tuple[float, float] = (4.0, 2.0),
+    layer: Layer = pp.LAYER.WG,
 ) -> Component:
     """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)

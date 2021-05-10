@@ -1,16 +1,21 @@
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
 import numpy as np
 import phidl.device_layout as pd
 
-from pp.component import Component, ComponentReference
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
 from pp.config import TECH
 from pp.routing.get_route import get_route
-from pp.routing.utils import direction_ports_from_list_ports, flip
-from pp.types import ComponentFactory, Number, Route
+from pp.routing.utils import direction_ports_from_list_ports
+from pp.routing.utils import flip
+from pp.types import ComponentFactory
+from pp.types import Number
+from pp.types import Route
 
 
 def route_south(

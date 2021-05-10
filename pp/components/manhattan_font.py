@@ -1,16 +1,18 @@
 from typing import Tuple
 
 import numpy as np
-from omegaconf.listconfig import ListConfig
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
 from pp.layers import LAYER
 from pp.name import clean_name
 
 
-@pp.cell
+@cell
+@validate_arguments
 def manhattan_text(
     text: str = "abcd",
     size: float = TECH.components.manhattan_text.size,
@@ -71,7 +73,8 @@ def manhattan_text(
     return t
 
 
-@pp.cell
+@cell
+@validate_arguments
 def pixel_array(
     pixels: str = """
      XXX
@@ -81,7 +84,7 @@ def pixel_array(
     X   X
     """,
     pixel_size: float = 10.0,
-    layer: ListConfig = LAYER.M1,
+    layer: Tuple[int, int] = LAYER.M1,
 ) -> Component:
     component = pp.Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]

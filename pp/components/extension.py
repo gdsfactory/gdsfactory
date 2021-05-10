@@ -1,12 +1,18 @@
-from typing import List, Optional, Tuple, Union
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 import numpy as np
 from numpy import ndarray
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.port import Port
-from pp.types import ComponentFactory, Coordinate, Number
+from pp.types import ComponentFactory
+from pp.types import Coordinate
+from pp.types import Number
 
 DEG2RAD = np.pi / 180
 
@@ -47,9 +53,9 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
     return pos + length * np.array([c, s])
 
 
-@pp.cell
+@cell
 def extend_port(port: Port, length: Number) -> Component:
-    """ returns a port extended by length """
+    """returns a port extended by length"""
     c = pp.Component()
 
     # Generate a port extension
@@ -73,7 +79,7 @@ def extend_port(port: Port, length: Number) -> Component:
     return c
 
 
-@pp.cell
+@cell
 def extend_ports(
     component: Component,
     port_list: Optional[List[str]] = None,

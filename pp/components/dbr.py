@@ -7,8 +7,8 @@ https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
-
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components.straight import straight as straight_function
 from pp.types import ComponentFactory
@@ -20,7 +20,7 @@ w1 = w0 - dw / 2
 w2 = w0 + dw / 2
 
 
-@pp.cell
+@cell
 def dbr_cell(
     w1: float = w1,
     w2: float = w2,
@@ -41,7 +41,7 @@ def dbr_cell(
     return c
 
 
-@pp.cell
+@cell
 def dbr(
     w1: float = w1,
     w2: float = w2,

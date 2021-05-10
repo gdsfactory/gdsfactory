@@ -1,14 +1,25 @@
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 import numpy as np
 from numpy import float64
+from pydantic import validate_arguments
 
 from pp.cell import cell
-from pp.component import Component, ComponentReference
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.config import TECH
 from pp.layers import LAYER
-from pp.port import Port, flipped, is_electrical_port
-from pp.routing.get_route import get_route, get_route_electrical
+from pp.port import flipped
+from pp.port import is_electrical_port
+from pp.port import Port
+from pp.routing.get_route import get_route
+from pp.routing.get_route import get_route_electrical
 from pp.types import Route
 
 
@@ -472,6 +483,7 @@ def connect_ports_to_y(
 
 
 @cell
+@validate_arguments
 def sample_route_side() -> Component:
     c = Component()
     xs = [0.0, 10.0, 25.0, 50.0]
@@ -500,6 +512,7 @@ def sample_route_side() -> Component:
 
 
 @cell
+@validate_arguments
 def sample_route_sides() -> Component:
     c = Component()
     _dummy_t = sample_route_side()

@@ -18,12 +18,17 @@ Some of these inputs are other functions.
 
 """
 import pathlib
-from typing import Callable, Dict, Iterable, List, Tuple, Union
+from typing import Callable
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Tuple
+from typing import Union
 
-from numpy import float64, int64, ndarray
 from phidl.device_layout import Path
 
-from pp.component import Component, ComponentReference
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.cross_section import CrossSection
 from pp.port import Port
 
@@ -39,11 +44,9 @@ ComponentOrFactory = Union[ComponentFactory, Component]
 ComponentOrPath = Union[PathType, Component]
 ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, ComponentFactory]
-Number = Union[float64, int64, float, int]
-Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
-Coordinates = Union[
-    List[Coordinate], ndarray, List[Number], Tuple[Number, ...], List[ndarray]
-]
+Number = Union[float, int]
+Coordinate = Tuple[float, float]
+Coordinates = Iterable[Tuple[float, float]]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]

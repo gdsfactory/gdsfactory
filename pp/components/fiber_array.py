@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
 from pp.cell import cell
 from pp.component import Component
@@ -7,6 +9,7 @@ from pp.components.fiber import circle
 
 
 @cell
+@validate_arguments
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,

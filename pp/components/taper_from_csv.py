@@ -4,7 +4,10 @@ import pathlib
 from pathlib import Path
 from typing import Tuple
 
+from pydantic import validate_arguments
+
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.load_csv import load_csv
 
@@ -47,37 +50,43 @@ def taper_from_csv(
     return c
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_0p5_to_3_l36(**kwargs) -> Component:
     csv_path = data_path / "taper_strip_0p5_3_36.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_w10_l100(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_100.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_w10_l150(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_150.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_w10_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_w11_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_11_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@pp.cell
+@cell
+@validate_arguments
 def taper_w12_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_12_200.csv"
     return taper_from_csv(csv_path, **kwargs)

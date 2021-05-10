@@ -1,15 +1,17 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 import numpy as np
-from omegaconf.listconfig import ListConfig
+from pydantic import validate_arguments
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@pp.cell
+@cell
+@validate_arguments
 def nxn(
     west: int = 1,
     east: int = 4,
@@ -18,7 +20,7 @@ def nxn(
     xsize: float = 8.0,
     ysize: float = 8.0,
     wg_width: float = 0.5,
-    layer: Union[ListConfig, Tuple[int, int]] = pp.LAYER.WG,
+    layer: Tuple[int, int] = pp.LAYER.WG,
     wg_margin: float = 1.0,
 ) -> Component:
     """returns a nxn component with nxn ports (west, east, north, south)

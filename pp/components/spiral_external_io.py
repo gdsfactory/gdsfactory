@@ -1,18 +1,21 @@
 """ bends with grating couplers inside the spiral
 maybe: need to add grating coupler loopback as well
 """
-
-from typing import Optional, Tuple
+from typing import Optional
+from typing import Tuple
 
 import numpy as np
 from numpy import float64
 
 import pp
+from pp.cell import cell
 from pp.component import Component
 from pp.components import straight
-from pp.components.bend_circular import bend_circular, bend_circular180
+from pp.components.bend_circular import bend_circular
+from pp.components.bend_circular import bend_circular180
 from pp.routing.manhattan import round_corners
-from pp.types import ComponentFactory, ComponentOrFactory
+from pp.types import ComponentFactory
+from pp.types import ComponentOrFactory
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -20,7 +23,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@pp.cell
+@cell
 def spiral_external_io(
     N: int = 6,
     x_inner_length_cutback: float = 300.0,

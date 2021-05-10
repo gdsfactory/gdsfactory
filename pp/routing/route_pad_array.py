@@ -1,10 +1,15 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import List
+from typing import Tuple
+from typing import Union
 
 from numpy import float64
 from phidl.device_layout import Label
 
 import pp
-from pp.component import Component, ComponentReference
+from pp.component import Component
+from pp.component import ComponentReference
 from pp.components.electrical.pad import pad as pad_function
 from pp.port import select_electrical_ports
 from pp.routing.get_route import get_route_electrical
