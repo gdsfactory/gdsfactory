@@ -1,17 +1,17 @@
 connections:
-  coupler_ring_d7d71f27_-0.005_19.21,N0: straight_L10n_10.0_10.705,W0
-  coupler_ring_d7d71f27_-0.005_19.21,N1: straight_L10n_-10.01_10.705,W0
-  coupler_ring_d7d71f27_-0.005_2.2,N0: straight_L10n_-10.01_10.705,E0
-  coupler_ring_d7d71f27_-0.005_2.2,N1: straight_L10n_10.0_10.705,E0
+  coupler_ring_d7d71f27_-0.005_17.335,N0: straight_L10n_10.0_10.705,W0
+  coupler_ring_d7d71f27_-0.005_17.335,N1: straight_L10n_-10.01_10.705,W0
+  coupler_ring_d7d71f27_-0.005_4.075,N0: straight_L10n_-10.01_10.705,E0
+  coupler_ring_d7d71f27_-0.005_4.075,N1: straight_L10n_10.0_10.705,E0
 instances:
-  coupler_ring_d7d71f27_-0.005_19.21:
+  coupler_ring_d7d71f27_-0.005_17.335:
     component: coupler_ring
     settings:
       bend: null
       gap: 0.2
       length_x: 0.01
       radius: 10
-  coupler_ring_d7d71f27_-0.005_2.2:
+  coupler_ring_d7d71f27_-0.005_4.075:
     component: coupler_ring
     settings:
       bend: null
@@ -28,12 +28,12 @@ instances:
       length: 0.01
 name: ring_double
 placements:
-  coupler_ring_d7d71f27_-0.005_19.21:
+  coupler_ring_d7d71f27_-0.005_17.335:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_d7d71f27_-0.005_2.2:
+  coupler_ring_d7d71f27_-0.005_4.075:
     mirror: false
     rotation: 0
     x: 0.0
@@ -49,7 +49,7 @@ placements:
     x: 10.0
     y: 10.71
 ports:
-  E0: coupler_ring_d7d71f27_-0.005_2.2,E0
-  E1: coupler_ring_d7d71f27_-0.005_19.21,W0
-  W0: coupler_ring_d7d71f27_-0.005_2.2,W0
-  W1: coupler_ring_d7d71f27_-0.005_19.21,E0
+  E0: coupler_ring_d7d71f27_-0.005_4.075,E0
+  E1: coupler_ring_d7d71f27_-0.005_17.335,W0
+  W0: coupler_ring_d7d71f27_-0.005_4.075,W0
+  W1: coupler_ring_d7d71f27_-0.005_17.335,E0

@@ -5,7 +5,7 @@ name: manhattan_text
 settings:
   justify: left
   layer:
-  - 41
+  - 49
   - 0
   position:
   - 0

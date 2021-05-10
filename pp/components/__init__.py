@@ -3,7 +3,8 @@ Only change the order if you know what you are doing
 
 isort:skip_file
 """
-from pp.config import tech
+import dataclasses
+from pp.tech import TECH
 
 # level 0 components
 from pp.components.straight import straight
@@ -251,7 +252,8 @@ def factory(component_type, component_factory=component_factory, **kwargs):
     """Returns a component with settings."""
     import pp
 
-    settings = tech(f"components.{component_type}") or {}
+    settings = getattr(TECH.components, component_type)
+    settings = dataclasses.asdict(settings) if settings else {}
     settings.update(**kwargs)
 
     if isinstance(component_type, pp.Component):
@@ -295,7 +297,7 @@ circuit_names = {
 __all__ = list(component_factory.keys()) + container_names
 
 if __name__ == "__main__":
-    # for c in component_names:
-    #     ci = component_factory[c]()
-    c = factory("mmi1x2")
-    c.show()
+    for c in component_names:
+        ci = component_factory[c]()
+    # c = factory("mmi1x2")
+    # c.show()

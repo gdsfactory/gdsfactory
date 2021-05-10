@@ -7,8 +7,8 @@ import pandas as pd
 
 import pp
 from pp.component import Component
-from pp.layers import LAYER_STACK
 from pp.sp.get_sparameters_path import get_sparameters_path
+from pp.tech import LAYER_STACK
 
 
 def get_ports(line: str) -> Tuple[str, str]:

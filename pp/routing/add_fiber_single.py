@@ -19,8 +19,8 @@ from pp.types import ComponentFactory
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    layer_label: Tuple[int, int] = TECH.routing.optical.layer_label,
-    fiber_spacing: float = TECH.routing.optical.fiber_spacing,
+    layer_label: Tuple[int, int] = TECH.layer_label,
+    fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,

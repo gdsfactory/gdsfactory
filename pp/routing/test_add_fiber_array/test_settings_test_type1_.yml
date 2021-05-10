@@ -6,8 +6,8 @@ settings:
   component:
     function_name: coupler
     info:
-      length: 10.001
-      min_bend_radius: 181.235
+      length: 10.319
+      min_bend_radius: 9.387
     module: pp.components.coupler
     name: coupler_G200n_L5
     settings:
@@ -19,4 +19,4 @@ settings:
   component_name: null
   gc_port_name: W0
   optical_routing_type: 1
-  taper_length: 35
+  taper_length: 10

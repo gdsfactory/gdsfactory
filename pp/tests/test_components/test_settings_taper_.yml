@@ -1,12 +1,13 @@
 function_name: taper
 info:
-  length: 35
+  length: 10
   width1: 0.5
   width2: 0.5
 module: pp.components.taper
 name: taper
 settings:
-  length: 35
+  cross_section_name: strip
+  length: 10
   port: null
   width1: 0.5
   width2: null

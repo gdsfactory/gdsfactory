@@ -6,7 +6,6 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
-from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
 from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
@@ -14,8 +13,10 @@ from pp.types import ComponentFactory
 @cell
 def delay_snake(
     wg_width: float = 0.5,
+    wg_width_wide: float = 2.0,
     total_length: float = 1600.0,
     L0: float = 5.0,
+    taper_length: float = 10.0,
     n: int = 2,
     taper: ComponentFactory = taper_function,
     bend_factory: ComponentFactory = bend_euler,
@@ -71,7 +72,7 @@ def delay_snake(
 
     component = pp.Component()
     if taper:
-        _taper = taper(width1=wg_width, width2=WG_EXPANDED_WIDTH, length=TAPER_LENGTH)
+        _taper = taper(width1=wg_width, width2=wg_width_wide, length=taper_length)
     route_snake = round_corners(
         points=path,
         bend_factory=bend90,

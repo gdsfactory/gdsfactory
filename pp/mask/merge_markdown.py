@@ -1,3 +1,4 @@
+import dataclasses
 import os
 from glob import glob
 from pathlib import Path
@@ -17,10 +18,12 @@ def merge_markdown(
     """
     logging.debug("Merging Markdown files:")
     configpath = mdpath.with_suffix(".yml")
+    tech = dataclasses.asdict(TECH)
 
     with open(configpath, "w") as f:
-        TECH.update(**kwargs)
-        f.write(OmegaConf.to_yaml(TECH))
+        tech.update(**kwargs)
+        tech_omegaconf = OmegaConf.create(tech)
+        f.write(OmegaConf.to_yaml(tech_omegaconf))
 
     with open(mdpath, "w") as f:
 

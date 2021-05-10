@@ -855,7 +855,7 @@ def route_manhattan(
     port2,
     bendType="circular",
     layer=None,
-    radius=TECH.routing.optical.bend_radius,
+    radius: float = TECH.waveguide.strip.radius,
 ):
     # route along cardinal directions between any two ports placed diagonally
     # from each other

@@ -2,8 +2,7 @@ import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.config import TECH
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 
 
 @pp.cell
@@ -11,9 +10,9 @@ def bend_s(
     height: float = 2.0,
     length: float = 10.0,
     nb_points: int = 99,
-    cross_section_settings=TECH.waveguide.strip,
     with_cladding_box: bool = True,
-    **kwargs
+    cross_section_name: str = "strip",
+    **kwargs,
 ) -> Component:
     """S bend with bezier curve
 
@@ -22,8 +21,8 @@ def bend_s(
         length: in x direction
         layer: gds number
         nb_points: number of points
-        cross_section_settings: settings for cross_section
-        kargs: cross_section settings to extrude
+        cross_section_name: from TECH.waveguide
+        kwargs: cross_section_settings
 
     .. plot::
       :include-source:
@@ -35,9 +34,8 @@ def bend_s(
 
     """
     l, h = length, height
-    settings = dict(cross_section_settings)
-    settings.update(**kwargs)
-    x = cross_section(**settings)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
     width = x.info["width"]
     layer = x.info["layer"]
 

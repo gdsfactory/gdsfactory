@@ -3,7 +3,6 @@ info: {}
 module: pp.routing.add_fiber_array
 name: add_fiber_array_Cmzi2x2_WECTrue
 settings:
-  auto_widen: true
   component:
     function_name: mzi2x2
     info: {}
@@ -19,4 +18,4 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
-  taper_length: 35
+  taper_length: 10

@@ -26,6 +26,6 @@ settings:
   straight_factory: straight
   straight_spacing: 4
   taper_factory: null
-  taper_length: 35
+  taper_length: 10
   with_align_ports: false
   with_loop_back: false

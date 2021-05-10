@@ -1,8 +1,14 @@
 connections:
-  bend_euler_06e43ee6_-245.125_604.875,N0: straight_bf5b47fa_-250.0_805.0,W0
-  bend_euler_06e43ee6_-245.125_604.875,W0: straight_94772f35_-125.0_600.0,E0
-  bend_euler_06e43ee6_-4.875_595.125,N0: straight_94772f35_-125.0_600.0,W0
-  bend_euler_06e43ee6_-4.875_595.125,W0: straight_3ae2b3d3_0.0_295.0,E0
+  bend_euler_8071c8bd_-246.625_603.375,N0: taper_473dbe48_-250.0_615.0,1
+  bend_euler_8071c8bd_-246.625_603.375,W0: taper_473dbe48_-235.0_600.0,1
+  bend_euler_8071c8bd_-3.375_596.625,N0: taper_473dbe48_-15.0_600.0,1
+  bend_euler_8071c8bd_-3.375_596.625,W0: taper_473dbe48_0.0_585.0,1
+  straight_0febde28_-250.0_805.0,E0: taper_473dbe48_-250.0_995.0,2
+  straight_0febde28_-250.0_805.0,W0: taper_473dbe48_-250.0_615.0,2
+  straight_1361b23c_0.0_295.0,E0: taper_473dbe48_0.0_585.0,2
+  straight_1361b23c_0.0_295.0,W0: taper_473dbe48_0.0_5.0,2
+  straight_826d79b3_-125.0_600.0,E0: taper_473dbe48_-235.0_600.0,2
+  straight_826d79b3_-125.0_600.0,W0: taper_473dbe48_-15.0_600.0,2
 instances:
   b:
     component: pad_array
@@ -11,46 +17,129 @@ instances:
       pitch: 150
       port_list:
       - N
-  bend_euler_06e43ee6_-245.125_604.875:
+  bend_euler_8071c8bd_-246.625_603.375:
     component: bend_euler
     settings:
       angle: 90
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
       direction: ccw
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
       npoints: 720
       p: 1
       radius: 10
       route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_06e43ee6_-4.875_595.125:
+  bend_euler_8071c8bd_-3.375_596.625:
     component: bend_euler
     settings:
       angle: 90
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
       direction: ccw
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
       npoints: 720
       p: 1
       radius: 10
       route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  straight_3ae2b3d3_0.0_295.0:
+  straight_0febde28_-250.0_805.0:
     component: straight
     settings:
-      length: 590
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 370
       npoints: 2
+      radius: 10
       route_filter: get_route_from_waypoints
-  straight_94772f35_-125.0_600.0:
+      taper_length: 10
+      width: 2
+      width_wide: 2
+  straight_1361b23c_0.0_295.0:
     component: straight
     settings:
-      length: 230
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 570
       npoints: 2
+      radius: 10
       route_filter: get_route_from_waypoints
-  straight_bf5b47fa_-250.0_805.0:
+      taper_length: 10
+      width: 2
+      width_wide: 2
+  straight_826d79b3_-125.0_600.0:
     component: straight
     settings:
-      length: 390
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 210
       npoints: 2
+      radius: 10
       route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 2
+      width_wide: 2
   t:
     component: pad_array
     settings:
@@ -58,6 +147,162 @@ instances:
       pitch: 150
       port_list:
       - S
+  taper_473dbe48_-15.0_600.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
+  taper_473dbe48_-235.0_600.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
+  taper_473dbe48_-250.0_615.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
+  taper_473dbe48_-250.0_995.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
+  taper_473dbe48_0.0_5.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
+  taper_473dbe48_0.0_585.0:
+    component: taper
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      cross_section_name: strip
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 10
+      port: null
+      radius: 10
+      route_filter: get_route_from_waypoints
+      taper_length: 10
+      width: 0.5
+      width1: 0.5
+      width2: 2
+      width_wide: 2
+      with_cladding_box: true
 name: sample_waypoints
 placements:
   b:
@@ -65,34 +310,64 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_06e43ee6_-245.125_604.875:
+  bend_euler_8071c8bd_-246.625_603.375:
     mirror: true
     rotation: 180
     x: -240.0
     y: 600.0
-  bend_euler_06e43ee6_-4.875_595.125:
+  bend_euler_8071c8bd_-3.375_596.625:
     mirror: false
     rotation: 90
     x: 0.0
     y: 590.0
-  straight_3ae2b3d3_0.0_295.0:
-    mirror: false
-    rotation: 90
-    x: 0.0
-    y: 0.0
-  straight_94772f35_-125.0_600.0:
-    mirror: false
-    rotation: 180
-    x: -10.0
-    y: 600.0
-  straight_bf5b47fa_-250.0_805.0:
+  straight_0febde28_-250.0_805.0:
     mirror: false
     rotation: 90
     x: -250.0
-    y: 610.0
+    y: 620.0
+  straight_1361b23c_0.0_295.0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 10.0
+  straight_826d79b3_-125.0_600.0:
+    mirror: false
+    rotation: 180
+    x: -20.0
+    y: 600.0
   t:
     mirror: false
     rotation: 0
     x: -250.0
     y: 1000.0
+  taper_473dbe48_-15.0_600.0:
+    mirror: false
+    rotation: 180
+    x: -10.0
+    y: 600.0
+  taper_473dbe48_-235.0_600.0:
+    mirror: false
+    rotation: 0
+    x: -240.0
+    y: 600.0
+  taper_473dbe48_-250.0_615.0:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 610.0
+  taper_473dbe48_-250.0_995.0:
+    mirror: false
+    rotation: 270
+    x: -250.0
+    y: 1000.0
+  taper_473dbe48_0.0_5.0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 0.0
+  taper_473dbe48_0.0_585.0:
+    mirror: false
+    rotation: 270
+    x: 0.0
+    y: 590.0
 ports: {}

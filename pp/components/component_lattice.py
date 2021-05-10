@@ -8,7 +8,6 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import compensation_path, crossing45
-from pp.config import GRID_PER_UNIT
 from pp.port import get_ports_facing
 from pp.routing.repackage import package_optical2x2
 
@@ -144,6 +143,7 @@ def component_lattice(
         C-X
         """,
     components: Dict[str, Component] = None,
+    grid_per_unit: int = 1000,
     name: str = "lattice",
 ) -> Component:
     """
@@ -198,7 +198,7 @@ def component_lattice(
                 if y_spacing is None:
                     y_spacing = _y_spacing
                 else:
-                    assert abs(y_spacing - _y_spacing) < 0.1 / GRID_PER_UNIT, (
+                    assert abs(y_spacing - _y_spacing) < 0.1 / grid_per_unit, (
                         "All component must have the same y port spacing. Got"
                         f" {y_spacing}, {_y_spacing} for {cmp.name}"
                     )

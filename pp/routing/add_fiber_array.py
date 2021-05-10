@@ -34,7 +34,7 @@ def add_fiber_array(
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_factory: Callable = taper,
-    taper_length: float = TECH.routing.optical.taper_length,
+    taper_length: float = TECH.waveguide.strip.taper_length,
     get_input_labels_function: Callable = get_input_labels,
     **kwargs,
 ) -> Component:

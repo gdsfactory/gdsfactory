@@ -9,7 +9,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.config import TECH, tech
+from pp.config import TECH
 from pp.port import select_optical_ports
 from pp.routing.get_bundle import get_min_spacing, link_ports
 from pp.routing.get_input_labels import get_input_labels
@@ -22,7 +22,7 @@ from pp.types import ComponentFactory
 
 def route_fiber_array(
     component: Component,
-    fiber_spacing: float = TECH.routing.optical.fiber_array_spacing,
+    fiber_spacing: float = TECH.fiber_array_spacing,
     grating_coupler: ComponentFactory = grating_coupler_te,
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
@@ -41,7 +41,7 @@ def route_fiber_array(
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
-    layer_label: Tuple[int, int] = TECH.routing.optical.layer_label,
+    layer_label: Tuple[int, int] = TECH.layer_label,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
@@ -103,7 +103,7 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
-    radius = cross_section_settings.get("radius", tech("waveguide.strip.radius"))
+    radius = cross_section_settings.get("radius", 10.0)
 
     assert isinstance(
         radius, (int, float)

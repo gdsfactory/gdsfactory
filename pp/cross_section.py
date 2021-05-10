@@ -5,38 +5,31 @@ The CrossSection object extrudes a path
 Based on phidl.device_layout.CrossSection
 """
 
+import dataclasses
 from typing import Any, Dict, Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
-from pp.config import TECH, tech
+from pp.tech import TECH
 
 LAYER = TECH.layer
 
 
 def get_cross_section_settings(cross_section_name: str, **kwargs) -> Dict[str, Any]:
-    cross_section_settings = tech(f"waveguide.{cross_section_name}")
+    cross_section_settings = getattr(TECH.waveguide, cross_section_name)
+    cross_section_settings = dataclasses.asdict(cross_section_settings)
     if not cross_section_settings:
         raise ValueError(f"no cross_section_settings found for {cross_section_name}")
     cross_section_settings.update(**kwargs)
     return cross_section_settings
 
 
-def cross_section(**settings) -> CrossSection:
+def cross_section(
+    width: float = 0.5, layer: Tuple[int, int] = (1, 0), **settings
+) -> CrossSection:
     """Returns a CrossSection from settings."""
 
-    # required = ("width", "layer")
-    # for field in required:
-    #     if field not in settings:
-    #         raise ValueError(f"no {field} in {settings.keys()}")
-
-    # width = settings["width"]
-    # layer = settings["layer"]
-
-    width = settings.get("width", tech("waveguide.strip.width"))
-    layer = settings.get("layer", tech("waveguide.strip.layer"))
     xs = settings.get("cross_section")
-
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
@@ -157,7 +150,7 @@ if __name__ == "__main__":
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
 
-    X = cross_section(**TECH.waveguide.strip)
+    X = cross_section(width=3, layer=(2, 0))
     c = pp.path.extrude(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

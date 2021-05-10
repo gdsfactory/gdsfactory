@@ -218,14 +218,14 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 1203.993]
+    lengths = [693.598, 693.598, 930.417]
+    # print(c.routes["tl,E:tr,W"])
+    # print(c.routes["bl,E:br,W"])
+    # print(c.routes["bl,S:br,E"])
+
     assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
     assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
     assert np.isclose(c.routes["bl,S:br,E"], lengths[2])
-
-    print(c.routes["tl,E:tr,W"])
-    print(c.routes["bl,E:br,W"])
-    print(c.routes["bl,S:br,E"])
 
     return c
 
@@ -274,7 +274,7 @@ routes:
 def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
-    length = 1732.4
+    length = 1722.794
     print(c.routes["tl,E:tr,W"])
     assert np.isclose(c.routes["tl,E:tr,W"], length)
     assert np.isclose(c.routes["bl,E:br,W"], length)
@@ -424,7 +424,7 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 1246.8
+    length = 1243.598
     route_name = "t,S5:b,N4"
     print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
@@ -606,7 +606,7 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    c = test_netlists("sample_mmis", True, None, check=False)
+    # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
@@ -615,7 +615,7 @@ if __name__ == "__main__":
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
-    # c = test_connections_waypoints()
+    c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)

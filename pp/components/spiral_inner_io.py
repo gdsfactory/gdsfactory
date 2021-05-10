@@ -12,7 +12,6 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.straight import straight
-from pp.config import TAPER_LENGTH
 from pp.cross_section import get_cross_section_settings
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
@@ -64,6 +63,7 @@ def spiral_inner_io(
     """
     cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
     width = cross_section_settings.get("width")
+    taper_length = cross_section_settings.get("taper_length", 10.0)
 
     if length:
         if bend180_function == bend_circular180:
@@ -125,7 +125,7 @@ def spiral_inner_io(
     taper = pp.components.taper(
         width1=width_grating_coupler,
         width2=_bend180.ports["W0"].width,
-        length=TAPER_LENGTH + y_straight_inner_top - 15 - 35,
+        length=taper_length + y_straight_inner_top - 15 - 35,
     )
     taper_ref1 = component.add_ref(taper)
     taper_ref1.connect("2", p1)

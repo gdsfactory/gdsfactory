@@ -6,7 +6,7 @@ from numpy import float64, ndarray
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
-from pp.config import TAPER_LENGTH, WG_EXPANDED_WIDTH
+from pp.cross_section import get_cross_section_settings
 from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
@@ -78,9 +78,9 @@ def get_bundle_from_waypoints(
     straight_factory: Callable = straight,
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_euler,
-    bend_radius: float = 10.0,
     auto_sort: bool = True,
-    **kwargs,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
     where routes follow a list of waypoints.
@@ -92,8 +92,8 @@ def get_bundle_from_waypoints(
         straight_factory: function that returns straights
         taper_factory: function that returns tapers
         bend_factory: function that returns bends
-        bend_radius: for bend
         auto_sort: sorts ports
+        **kwargs
 
     """
     if len(ports2) != len(ports1):
@@ -147,16 +147,25 @@ def get_bundle_from_waypoints(
         ports1.sort(key=start_port_sort)
         ports2.sort(key=end_port_sort)
 
-    routes = _generate_manhattan_bundle_waypoints(ports1, ports2, waypoints, **kwargs)
+    routes = _generate_manhattan_bundle_waypoints(
+        ports1, ports2, waypoints, **cross_section_settings
+    )
 
-    bends90 = [bend_factory(radius=bend_radius, width=p.width) for p in ports1]
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+
+    bends90 = [
+        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
+        for p in ports1
+    ]
 
     if taper_factory:
         if callable(taper_factory):
             taper = taper_factory(
-                length=TAPER_LENGTH,
+                length=cross_section_settings.get("taper_length", 0.0),
                 width1=ports1[0].width,
-                width2=WG_EXPANDED_WIDTH,
+                width2=cross_section_settings.get("width_wide"),
                 layer=ports1[0].layer,
             )
         else:

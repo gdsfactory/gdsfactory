@@ -5,6 +5,6 @@ info:
     mmi_short: DeviceReference (parent Device "CP2", ports ['E0', 'E1', 'W0'], origin
       (0, 0), rotation 0, x_reflection False)
   routes:
-    mmi_short,E1:mmi_long,E0: 169.3
+    mmi_short,E1:mmi_long,E0: 166.098
 name: mmis
 settings: {}

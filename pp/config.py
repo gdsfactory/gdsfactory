@@ -22,8 +22,9 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any, Dict, Iterable, Optional, Union
 
-import numpy as np
 from omegaconf import OmegaConf
+
+from pp.tech import TECH
 
 PathType = Union[str, pathlib.Path]
 
@@ -34,9 +35,9 @@ repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 
-yamlpath_cwd = cwd / "tech.yml"
-yamlpath_default = module_path / "tech.yml"
-yamlpath_home = home_path / "tech.yml"
+yamlpath_cwd = cwd / "config.yml"
+yamlpath_default = module_path / "config.yml"
+yamlpath_home = home_path / "config.yml"
 layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
@@ -58,38 +59,26 @@ except ImportError:
     pass
 
 
-# def read_tech(yamlpath: PathType = yamlpath_default) -> Dict[str, Any]:
-#     global TECH
-#     TECH = OmegaConf.load(yamlpath)
-#     TECH.info = TECH.info or {}
-#     TECH.info.version = __version__
-#     return TECH
-
-
-def tech(key: str):
-    global TECH
-    return OmegaConf.select(TECH, key)
-
-
-TECH = {}
-
-
-def read_tech(
-    yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd)
+def read_config(
+    yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> Dict[str, Any]:
-    global TECH
+    CONFIG = OmegaConf.create()
     for yamlpath in set(yamlpaths):
         # print(f"loading tech config from {yamlpath}")
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
-            TECH_NEW = OmegaConf.load(yamlpath)
-            TECH = OmegaConf.merge(TECH, TECH_NEW)
-            # print(TECH_NEW)
-    TECH.info = TECH.info or {}
-    TECH.info.version = __version__
-    return TECH
+            CONFIG_NEW = OmegaConf.load(yamlpath)
+            CONFIG = OmegaConf.merge(CONFIG, CONFIG_NEW)
+    CONFIG.info = CONFIG.info or {}
+    CONFIG.info.version = __version__
+    return CONFIG
 
 
-TECH = read_tech()
+CONF = read_config()
+
+
+# def tech(key: str):
+#     global TECH
+#     return OmegaConf.select(TECH, key)
 
 
 def add_repo_information(TECH):
@@ -112,8 +101,8 @@ CONFIG = dict(
 mask_name = "notDefined"
 
 
-if "mask" in TECH:
-    mask_name = TECH.mask.name
+if "mask" in CONF:
+    mask_name = CONF.mask.name
     mask_config_directory = cwd
     build_directory = mask_config_directory / "build"
     CONFIG["devices_directory"] = mask_config_directory / "devices"
@@ -162,12 +151,10 @@ logging.warning("This will get logged to a file")
 def print_config(key: Optional[str] = None) -> None:
     """Prints a key for the config or all the keys"""
     if key:
-        if tech.get(key):
-            print(tech(key))
-        elif CONFIG.get(key):
+        if CONFIG.get(key):
             print(CONFIG[key])
         else:
-            print(f"`{key}` key not found in {tech.keys()}")
+            print(f"`{key}` key not found in {CONFIG.keys()}")
     else:
         pprint(CONFIG)
         print(OmegaConf.to_yaml(TECH))
@@ -212,14 +199,6 @@ def get_git_hash():
             )
     except subprocess.CalledProcessError:
         return "not_a_git_repo"
-
-
-GRID_RESOLUTION = TECH.tech.grid_resolution
-GRID_PER_UNIT = TECH.tech.grid_unit / GRID_RESOLUTION
-GRID_ROUNDING_RESOLUTION = int(np.log10(GRID_PER_UNIT))
-BEND_RADIUS = TECH.routing.optical.bend_radius
-TAPER_LENGTH = TECH.routing.optical.taper_length
-WG_EXPANDED_WIDTH = TECH.routing.optical.wg_expanded_width
 
 
 if __name__ == "__main__":

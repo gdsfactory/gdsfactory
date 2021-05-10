@@ -1,47 +1,47 @@
 connections:
-  bend_euler_e7e3a65c_71.115_-1.5,N0: straight_a21cc9fc_71.99_-20.0,W0
-  bend_euler_e7e3a65c_71.115_-1.5,W0: straight_37d73d83_54.495_-0.625,E0
-  bend_euler_e7e3a65c_72.865_-38.5,N0: straight_0ce870cc_79.495_-39.375,W0
-  bend_euler_e7e3a65c_72.865_-38.5,W0: straight_a21cc9fc_71.99_-20.0,E0
-  mmi_bot,W0: straight_0ce870cc_79.495_-39.375,E0
-  mmi_top,E0: straight_37d73d83_54.495_-0.625,W0
+  bend_euler_4a8d97ce_68.615_-4.0,N0: straight_7791d2ff_71.99_-20.0,W0
+  bend_euler_4a8d97ce_68.615_-4.0,W0: straight_9be7da57_51.995_-0.625,E0
+  bend_euler_4a8d97ce_75.365_-36.0,N0: straight_2e5b19ae_81.995_-39.375,W0
+  bend_euler_4a8d97ce_75.365_-36.0,W0: straight_7791d2ff_71.99_-20.0,E0
+  mmi_bot,W0: straight_2e5b19ae_81.995_-39.375,E0
+  mmi_top,E0: straight_9be7da57_51.995_-0.625,W0
 instances:
-  bend_euler_e7e3a65c_71.115_-1.5:
+  bend_euler_4a8d97ce_68.615_-4.0:
     component: bend_euler
     settings:
       auto_widen: true
-      bend_radius: 100
+      auto_widen_minimum_length: 200
       cladding_offset: 3
-      end_straight: 5
-      end_straight_offset: 11
       layer:
       - 1
+      - 0
+      layer_cladding:
+      - 111
       - 0
       layers_cladding:
       - - 111
         - 0
-      radius: 5
-      start_straight: 5
-      taper_length: 20
+      radius: 10
+      taper_length: 10
       width: 0.5
       width_wide: 2
-  bend_euler_e7e3a65c_72.865_-38.5:
+  bend_euler_4a8d97ce_75.365_-36.0:
     component: bend_euler
     settings:
       auto_widen: true
-      bend_radius: 100
+      auto_widen_minimum_length: 200
       cladding_offset: 3
-      end_straight: 5
-      end_straight_offset: 11
       layer:
       - 1
+      - 0
+      layer_cladding:
+      - 111
       - 0
       layers_cladding:
       - - 111
         - 0
-      radius: 5
-      start_straight: 5
-      taper_length: 20
+      radius: 10
+      taper_length: 10
       width: 0.5
       width_wide: 2
   mmi_bot:
@@ -54,72 +54,78 @@ instances:
     settings:
       length_mmi: 22
       width_mmi: 6
-  straight_0ce870cc_79.495_-39.375:
+  straight_2e5b19ae_81.995_-39.375:
     component: straight
     settings:
-      bend_radius: 100
+      auto_widen: true
+      auto_widen_minimum_length: 200
       cladding_offset: 3
-      end_straight: 5
-      end_straight_offset: 11
       layer:
       - 1
+      - 0
+      layer_cladding:
+      - 111
       - 0
       layers_cladding:
       - - 111
         - 0
-      length: 5.01
-      radius: 5
-      start_straight: 5
+      length: 0.01
+      radius: 10
+      taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_37d73d83_54.495_-0.625:
+  straight_7791d2ff_71.99_-20.0:
     component: straight
     settings:
-      bend_radius: 100
+      auto_widen: true
+      auto_widen_minimum_length: 200
       cladding_offset: 3
-      end_straight: 5
-      end_straight_offset: 11
       layer:
       - 1
+      - 0
+      layer_cladding:
+      - 111
       - 0
       layers_cladding:
       - - 111
         - 0
-      length: 24.99
-      radius: 5
-      start_straight: 5
+      length: 18.75
+      radius: 10
+      taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_a21cc9fc_71.99_-20.0:
+  straight_9be7da57_51.995_-0.625:
     component: straight
     settings:
-      bend_radius: 100
+      auto_widen: true
+      auto_widen_minimum_length: 200
       cladding_offset: 3
-      end_straight: 5
-      end_straight_offset: 11
       layer:
       - 1
+      - 0
+      layer_cladding:
+      - 111
       - 0
       layers_cladding:
       - - 111
         - 0
-      length: 28.75
-      radius: 5
-      start_straight: 5
+      length: 19.99
+      radius: 10
+      taper_length: 10
       width: 0.5
       width_wide: 2
 name: sample_docstring
 placements:
-  bend_euler_e7e3a65c_71.115_-1.5:
+  bend_euler_4a8d97ce_68.615_-4.0:
     mirror: true
     rotation: 0
-    x: 66.99
+    x: 61.99
     y: -0.625
-  bend_euler_e7e3a65c_72.865_-38.5:
+  bend_euler_4a8d97ce_75.365_-36.0:
     mirror: false
     rotation: 270
     x: 71.99
-    y: -34.375
+    y: -29.375
   mmi_bot:
     mirror: false
     rotation: 0
@@ -130,19 +136,19 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_0ce870cc_79.495_-39.375:
+  straight_2e5b19ae_81.995_-39.375:
     mirror: false
     rotation: 0
-    x: 76.99
+    x: 81.99
     y: -39.375
-  straight_37d73d83_54.495_-0.625:
+  straight_7791d2ff_71.99_-20.0:
+    mirror: false
+    rotation: 270
+    x: 71.99
+    y: -10.625
+  straight_9be7da57_51.995_-0.625:
     mirror: false
     rotation: 0
     x: 42.0
     y: -0.625
-  straight_a21cc9fc_71.99_-20.0:
-    mirror: false
-    rotation: 270
-    x: 71.99
-    y: -5.625
 ports: {}
