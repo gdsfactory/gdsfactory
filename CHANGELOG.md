@@ -6,6 +6,8 @@
 - fix some FIXME
 - pack conserves metadata
 - replace pp.write_gds by component.write_gds()
+- pydantic
+- pin version
 
 Maybe:
 
@@ -19,6 +21,7 @@ from contracts import contract
 from pydantic import validate_arguments
 
 @contract(length='Real,>=0', width='float,>=0')
+@validate_arguments
 
 ```
 ## next release

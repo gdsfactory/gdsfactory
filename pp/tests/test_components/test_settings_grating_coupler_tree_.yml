@@ -3,7 +3,6 @@ info: {}
 module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
-  auto_widen: true
   bend_factory: bend_euler
   bend_radius: 10
   component:

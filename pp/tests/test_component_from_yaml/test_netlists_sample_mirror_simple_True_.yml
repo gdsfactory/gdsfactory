@@ -5,12 +5,14 @@ instances:
     component: bend_circular
     settings:
       angle: 90
+      cross_section_name: strip
       npoints: 720
       radius: 10
       with_cladding_box: true
   w:
     component: straight
     settings:
+      cross_section_name: strip
       length: 10
       npoints: 2
 name: sample_mirror_simple

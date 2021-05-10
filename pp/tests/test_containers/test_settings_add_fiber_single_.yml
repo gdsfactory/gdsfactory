@@ -3,7 +3,6 @@ info: {}
 module: pp.routing.add_fiber_single
 name: add_fiber_single_Cmzi2x2_WECTrue
 settings:
-  auto_widen: true
   component:
     function_name: mzi2x2
     info: {}

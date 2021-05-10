@@ -29,7 +29,8 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         taper: taper function
-        kwargs:  cross_section_settings
+        with_cladding_box: to avoid DRC acute angle errors in cladding
+        kwargs: cross_section_settings
 
 
     .. code::

@@ -57,5 +57,7 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
 
 
 if __name__ == "__main__":
-    c = test_type1()
+    # c = test_type1()
+    # c = test_type2()
+    c = test_tapers()
     c.show()

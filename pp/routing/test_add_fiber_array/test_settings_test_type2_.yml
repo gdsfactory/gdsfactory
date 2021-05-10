@@ -3,16 +3,16 @@ info: {}
 module: pp.routing.add_fiber_array
 name: add_fiber_array_70cf3b66
 settings:
-  auto_widen: true
   component:
     function_name: coupler
     info:
-      length: 10.313
-      min_bend_radius: 9.465
+      length: 10.001
+      min_bend_radius: 148.572
       polarization: tm
     module: pp.components.coupler
     name: coupler_G244n_L5p67
     settings:
+      cross_section_name: strip
       dx: 10
       dy: 5
       gap: 0.244

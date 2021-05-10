@@ -1,52 +1,52 @@
 connections:
-  bend_euler_R10_17.875_-5.5,N0: mmi1x2_66770727_0.0_0.0,E0
-  bend_euler_R10_17.875_-5.5,W0: straight_L100n_22.75_-10.675,W0
-  bend_euler_R10_17.875_5.5,N0: straight_L100n_22.75_10.675,W0
-  bend_euler_R10_17.875_5.5,W0: mmi1x2_66770727_0.0_0.0,E1
-  bend_euler_R10_27.625_-20.85,N0: straight_L100n_32.8_-25.725,W0
-  bend_euler_R10_27.625_-20.85,W0: straight_L5_22.75_-13.225,E0
-  bend_euler_R10_27.625_15.85,N0: straight_L100n_22.75_10.675,E0
-  bend_euler_R10_27.625_15.85,W0: straight_L100n_32.8_20.725,W0
-  bend_euler_R10_37.975_-20.85,N0: straight_L5_42.85_-13.225,W0
-  bend_euler_R10_37.975_-20.85,W0: straight_L100n_32.8_-25.725,E0
-  bend_euler_R10_37.975_15.85,N0: straight_L100n_32.8_20.725,E0
-  bend_euler_R10_37.975_15.85,W0: straight_L100n_42.85_10.675,W0
-  bend_euler_R10_47.725_-5.5,N0: straight_L100n_42.85_-10.675,E0
-  bend_euler_R10_47.725_-5.5,W0: mmi1x2_66770727_65.6_0.0,E1
-  bend_euler_R10_47.725_5.5,N0: mmi1x2_66770727_65.6_0.0,E0
-  bend_euler_R10_47.725_5.5,W0: straight_L100n_42.85_10.675,E0
+  bend_euler_R10_21.25_-2.125,N0: mmi1x2_66770727_0.0_0.0,E0
+  bend_euler_R10_21.25_-2.125,W0: straight_L100n_22.75_-10.675,W0
+  bend_euler_R10_21.25_2.125,N0: straight_L100n_22.75_10.675,W0
+  bend_euler_R10_21.25_2.125,W0: mmi1x2_66770727_0.0_0.0,E1
+  bend_euler_R10_24.25_-24.225,N0: straight_L100n_32.8_-25.725,W0
+  bend_euler_R10_24.25_-24.225,W0: straight_L5_22.75_-13.225,E0
+  bend_euler_R10_24.25_19.225,N0: straight_L100n_22.75_10.675,E0
+  bend_euler_R10_24.25_19.225,W0: straight_L100n_32.8_20.725,W0
+  bend_euler_R10_41.35_-24.225,N0: straight_L5_42.85_-13.225,W0
+  bend_euler_R10_41.35_-24.225,W0: straight_L100n_32.8_-25.725,E0
+  bend_euler_R10_41.35_19.225,N0: straight_L100n_32.8_20.725,E0
+  bend_euler_R10_41.35_19.225,W0: straight_L100n_42.85_10.675,W0
+  bend_euler_R10_44.35_-2.125,N0: straight_L100n_42.85_-10.675,E0
+  bend_euler_R10_44.35_-2.125,W0: mmi1x2_66770727_65.6_0.0,E1
+  bend_euler_R10_44.35_2.125,N0: mmi1x2_66770727_65.6_0.0,E0
+  bend_euler_R10_44.35_2.125,W0: straight_L100n_42.85_10.675,E0
   straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
   straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
 instances:
-  bend_euler_R10_17.875_-5.5:
+  bend_euler_R10_21.25_-2.125:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_17.875_5.5:
+  bend_euler_R10_21.25_2.125:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_27.625_-20.85:
+  bend_euler_R10_24.25_-24.225:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_27.625_15.85:
+  bend_euler_R10_24.25_19.225:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_37.975_-20.85:
+  bend_euler_R10_41.35_-24.225:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_37.975_15.85:
+  bend_euler_R10_41.35_19.225:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_47.725_-5.5:
+  bend_euler_R10_44.35_-2.125:
     component: bend_euler
     settings:
       radius: 10
-  bend_euler_R10_47.725_5.5:
+  bend_euler_R10_44.35_2.125:
     component: bend_euler
     settings:
       radius: 10
@@ -102,42 +102,42 @@ instances:
       length: 5
 name: mzi
 placements:
-  bend_euler_R10_17.875_-5.5:
+  bend_euler_R10_21.25_-2.125:
     mirror: false
     rotation: 90
     x: 22.75
     y: -10.625
-  bend_euler_R10_17.875_5.5:
+  bend_euler_R10_21.25_2.125:
     mirror: false
     rotation: 0
     x: 12.75
     y: 0.625
-  bend_euler_R10_27.625_-20.85:
+  bend_euler_R10_24.25_-24.225:
     mirror: false
     rotation: 270
     x: 22.75
     y: -15.725
-  bend_euler_R10_27.625_15.85:
+  bend_euler_R10_24.25_19.225:
     mirror: false
     rotation: 180
     x: 32.75
     y: 20.725
-  bend_euler_R10_37.975_-20.85:
+  bend_euler_R10_41.35_-24.225:
     mirror: false
     rotation: 0
     x: 32.85
     y: -25.725
-  bend_euler_R10_37.975_15.85:
+  bend_euler_R10_41.35_19.225:
     mirror: false
     rotation: 90
     x: 42.85
     y: 10.725
-  bend_euler_R10_47.725_-5.5:
+  bend_euler_R10_44.35_-2.125:
     mirror: false
     rotation: 180
     x: 52.85
     y: -0.625
-  bend_euler_R10_47.725_5.5:
+  bend_euler_R10_44.35_2.125:
     mirror: false
     rotation: 270
     x: 42.85

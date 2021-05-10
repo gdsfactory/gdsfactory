@@ -4,7 +4,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
-from pp.config import TECH, call_if_func
+from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory, CrossSectionFactory
 
@@ -19,7 +19,6 @@ def ring_double(
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
     cross_section_factory: Optional[CrossSectionFactory] = None,
-    cross_section_settings=TECH.waveguide.strip,
     **kwargs
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
@@ -33,7 +32,6 @@ def ring_double(
         coupler: ring coupler function
         straight: straight function
         bend: bend function
-        cross_section_factory: for straights
         **cross_section_settings
 
     .. code::
@@ -50,23 +48,11 @@ def ring_double(
     assert_on_2nm_grid(gap)
 
     coupler_component = (
-        coupler_ring(
-            gap=gap,
-            radius=radius,
-            length_x=length_x,
-            bend=bend,
-            cross_section_settings=cross_section_settings,
-            **kwargs
-        )
+        coupler_ring(gap=gap, radius=radius, length_x=length_x, bend=bend, **kwargs)
         if callable(coupler_ring)
         else coupler_ring
     )
-    straight_component = call_if_func(
-        straight,
-        length=length_y,
-        cross_section_settings=cross_section_settings,
-        **kwargs
-    )
+    straight_component = call_if_func(straight, length=length_y, **kwargs)
 
     c = Component()
     cb = c.add_ref(coupler_component)

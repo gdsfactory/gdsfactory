@@ -27,7 +27,7 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
+    **cross_section_settings,
 ) -> Route:
     """
     Args:
@@ -261,12 +261,11 @@ if __name__ == "__main__":
     # r = route_south(c)
 
     cross_section_settings = pp.TECH.waveguide.nitride
-    c = pp.components.ring_double(cross_section_settings=cross_section_settings)
+    c = pp.components.ring_double(**cross_section_settings)
     r = route_south(
         c,
         bend_factory=pp.components.bend_euler,
-        bend_radius=20,
-        cross_section_settings=cross_section_settings,
+        **cross_section_settings,
     )
     for e in r["references"]:
         if isinstance(e, list):

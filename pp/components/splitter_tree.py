@@ -3,20 +3,20 @@ from typing import Optional
 import pp
 from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
-from pp.config import TECH
-from pp.types import ComponentFactory
+from pp.cross_section import get_cross_section_settings
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @pp.cell
 def splitter_tree(
-    coupler: ComponentFactory = mmi1x2,
+    coupler: ComponentOrFactory = mmi1x2,
     noutputs: int = 4,
     spacing: Optional[float] = None,
     spacing_extra: float = 0.1,
     bend_factory: ComponentFactory = bend_euler,
     bend_s: ComponentFactory = bend_euler_s,
-    bend_radius: float = TECH.routing.optical.bend_radius,
-    auto_widen: bool = True,
+    cross_section_name: str = "strip",
+    **kwargs,
 ) -> pp.Component:
     """Tree of 1x2 splitters
 
@@ -25,11 +25,8 @@ def splitter_tree(
         noutputs:
         spacing: y spacing for outputs
         spacing_extra: extra y spacing for outputs
-        bend_s: factory for terminating ports
         bend_factory:
-        bend_radius: for routing, defaults to tech.bend_radius
-        tech: technology
-        auto_widen: tapers to lower loss wide straights.
+        bend_s: factory for terminating ports
 
     .. code::
 
@@ -40,26 +37,30 @@ def splitter_tree(
 
 
     """
-    bend90 = bend_factory(radius=bend_radius)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    radius = cross_section_settings.get("radius")
+
+    bend90 = bend_factory(radius=radius)
     c = pp.Component()
 
-    coupler = pp.call_if_func(coupler)
+    coupler = pp.call_if_func(coupler, **cross_section_settings)
     coupler_ref = c.add_ref(coupler)
     dy = spacing if spacing else bend90.dy * noutputs + spacing_extra
-    dx = coupler.xsize
+    dx = coupler.xsize + radius
 
     if noutputs > 2:
         c2 = splitter_tree(
             coupler=coupler,
             noutputs=noutputs // 2,
-            bend_radius=bend_radius,
             spacing=dy / 2,
             bend_factory=bend_factory,
+            cross_section_name=cross_section_name,
+            **cross_section_settings,
         )
     else:
         c2 = bend_s(radius=dy / 2)
 
-    if dy < 3 * bend_radius:
+    if dy < 3 * radius:
         tree_top = c2.ref(port_id="W0", position=coupler_ref.ports["E1"])
         tree_bot = c2.ref(port_id="W0", position=coupler_ref.ports["E0"], v_mirror=True)
 
@@ -77,18 +78,16 @@ def splitter_tree(
             pp.routing.get_route(
                 coupler.ports["E1"],
                 tree_top.ports["W0"],
-                bend_radius=bend_radius,
                 bend_factory=bend_factory,
-                auto_widen=auto_widen,
+                **cross_section_settings,
             )["references"]
         )
         c.add(
             pp.routing.get_route(
                 coupler.ports["E0"],
                 tree_bot.ports["W0"],
-                bend_radius=bend_radius,
                 bend_factory=bend_factory,
-                auto_widen=auto_widen,
+                **cross_section_settings,
             )["references"]
         )
 
@@ -108,6 +107,8 @@ def splitter_tree(
 
 
 if __name__ == "__main__":
-    c = splitter_tree(coupler=pp.components.mmi1x2(), noutputs=50)
+    c = splitter_tree(
+        coupler=pp.components.mmi1x2(), noutputs=50, cross_section_name="nitride"
+    )
     c.show()
     print(c.get_ports_dict().keys())

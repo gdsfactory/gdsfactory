@@ -13,6 +13,7 @@ from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.straight import straight
 from pp.config import TAPER_LENGTH
+from pp.cross_section import get_cross_section_settings
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
 from pp.types import ComponentFactory, Number
@@ -35,12 +36,13 @@ def spiral_inner_io(
     dy: float = 3.0,
     bend90_function: ComponentFactory = bend_circular,
     bend180_function: ComponentFactory = bend_circular180,
-    bend_radius: float = 50.0,
-    wg_width: float = 0.5,
-    wg_width_grating_coupler: float = 0.5,
+    width: float = 0.5,
+    width_grating_coupler: float = 0.5,
     straight_factory: ComponentFactory = straight,
     taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
+    cross_section_name: str = "strip",
+    **kwargs
 ) -> Component:
     """Spiral with ports inside the spiral circle.
 
@@ -55,13 +57,14 @@ def spiral_inner_io(
         dy: center to center y-spacing
         bend90_function
         bend180_function
-        bend_radius
-        wg_width
         straight_factory: straight function
         taper: taper function
         length: cm
 
     """
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    width = cross_section_settings.get("width")
+
     if length:
         if bend180_function == bend_circular180:
             y_straight_inner_top = get_straight_length(
@@ -78,7 +81,6 @@ def spiral_inner_io(
                 straight_factory=straight,
                 bend90_function=bend_euler,
                 bend180_function=bend_euler180,
-                wg_width=wg_width,
             )
         else:
             y_straight_inner_top = get_straight_length(
@@ -92,11 +94,10 @@ def spiral_inner_io(
                 grating_spacing=grating_spacing,
                 dx=dx,
                 dy=dy,
-                wg_width=wg_width,
             )
 
-    _bend180 = pp.call_if_func(bend180_function, radius=bend_radius, width=wg_width)
-    _bend90 = pp.call_if_func(bend90_function, radius=bend_radius, width=wg_width)
+    _bend180 = pp.call_if_func(bend180_function, **cross_section_settings)
+    _bend90 = pp.call_if_func(bend90_function, **cross_section_settings)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -111,18 +112,18 @@ def spiral_inner_io(
         name="S0",
         midpoint=(0, y_straight_inner_top),
         orientation=270,
-        width=wg_width,
+        width=width,
         layer=pp.LAYER.WG,
     )
     p2 = pp.Port(
         name="S1",
         midpoint=(grating_spacing, y_straight_inner_top),
         orientation=270,
-        width=wg_width,
+        width=width,
         layer=pp.LAYER.WG,
     )
     taper = pp.components.taper(
-        width1=wg_width_grating_coupler,
+        width1=width_grating_coupler,
         width2=_bend180.ports["W0"].width,
         length=TAPER_LENGTH + y_straight_inner_top - 15 - 35,
     )
@@ -282,18 +283,18 @@ if __name__ == "__main__":
 
     c = spiral_inner_io()
     # c = spiral_inner_io_euler()
-    # c = spiral_inner_io_euler(length=2, wg_width=0.4)
-    # c = spiral_inner_io_euler(length=6, wg_width=0.4)
+    # c = spiral_inner_io_euler(length=2, width=0.4)
+    # c = spiral_inner_io_euler(length=6, width=0.4)
     print(c.name)
     print(c.settings)
     # c = add_gratings_and_loop_back(c)
 
-    c = spirals_nested()
+    # c = spirals_nested()
     c.show()
 
-    # c = spiral_inner_io_euler(wg_width=1)
+    # c = spiral_inner_io_euler(width=1)
     # from pp.routing import add_fiber_array
-    # c = spiral_inner_io_euler(length=4, wg_width=1)
+    # c = spiral_inner_io_euler(length=4, width=1)
     # cc = pp.routing.add_fiber_array(c)
     # print(c.length)
     # print(get_straight_length(2, spiral_inner_io_euler))
@@ -301,10 +302,10 @@ if __name__ == "__main__":
     # print(get_straight_length(6, spiral_inner_io_euler))
     # c = spiral_inner_io()
     # c = spiral_inner_io_euler(y_straight_inner_top=-11)
-    # c = spiral_inner_io_euler(bend_radius=20, wg_width=0.2)
-    # c = spiral_inner_io_euler(bend_radius=20, wg_width=0.2, y_straight_inner_top=200)
+    # c = spiral_inner_io_euler(bend_radius=20, width=0.2)
+    # c = spiral_inner_io_euler(bend_radius=20, width=0.2, y_straight_inner_top=200)
     # c = reticle_mockup()
     # c = spiral_inner_io()
-    # c = spiral_inner_io(bend_radius=20, wg_width=0.2)
+    # c = spiral_inner_io(bend_radius=20, width=0.2)
     # c = spirals_nested()
     c.show()

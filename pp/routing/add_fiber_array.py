@@ -36,7 +36,6 @@ def add_fiber_array(
     taper_factory: Callable = taper,
     taper_length: float = TECH.routing.optical.taper_length,
     get_input_labels_function: Callable = get_input_labels,
-    auto_widen: bool = TECH.routing.optical.auto_widen,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -68,7 +67,6 @@ def add_fiber_array(
         gc_rotation: -90
         layer_label: LAYER.LABEL
         input_port_indexes: [0]
-        auto_widen: widen straight waveguides for lower loss in long routes
 
     .. plot::
         :include-source:
@@ -121,7 +119,6 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
-        auto_widen=auto_widen,
         **kwargs,
     )
     if len(elements) == 0:

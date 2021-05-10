@@ -16,7 +16,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=get_install_requires(),
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     license="MIT",
     entry_points="""
         [console_scripts]
