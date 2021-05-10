@@ -15,4 +15,4 @@ include pp/klayout/tech/xsection.lym
 include pp/klayout/tech/xsection_generic.lym
 include pp/klayout/tech/xsection_generic.xs
 include pp/klayout/tech/xsection_planarized.xs
-include pp/config.yml
+include pp/tech.yml

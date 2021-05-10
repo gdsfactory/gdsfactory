@@ -4,7 +4,7 @@ import picwriter.components as pc
 
 import pp
 from pp.component import Component
-from pp.components.waveguide_template import wg_strip
+from pp.components.waveguide_template import strip
 from pp.picwriter_to_component import picwriter_to_component
 from pp.port import auto_rename_ports
 from pp.types import ComponentFactory, Layer
@@ -18,12 +18,12 @@ def spiral(
     parity: int = 1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "NORTH",
-    waveguide_template: ComponentFactory = wg_strip,
+    waveguide_template: ComponentFactory = strip,
     layer: Layer = pp.LAYER.WG,
     layer_cladding: Layer = pp.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
     wg_width: float = 0.5,
-    bend_radius: float = 10.0,
+    radius: float = 10.0,
 ) -> Component:
     """Picwriter Spiral
 
@@ -39,14 +39,14 @@ def spiral(
        layer_cladding: cladding layer
        cladding_offset: distance from core to cladding
        wg_width: 0.5
-       bend_radius: 10
+       radius: 10
 
     """
     c = pc.Spiral(
         pp.call_if_func(
             waveguide_template,
             wg_width=wg_width,
-            bend_radius=bend_radius,
+            radius=radius,
             layer=layer,
             layer_cladding=layer_cladding,
             cladding_offset=cladding_offset,
@@ -65,5 +65,5 @@ def spiral(
 
 
 if __name__ == "__main__":
-    c = spiral(length=10e3, width=500, bend_radius=20)
+    c = spiral(length=10e3, width=500, radius=20)
     c.show()

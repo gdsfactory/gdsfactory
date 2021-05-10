@@ -16,6 +16,7 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend_factory: ComponentFactory = bend_euler,
+    **kwargs,
 ) -> List[ndarray]:
     """
     Several types of paths won't match correctly.

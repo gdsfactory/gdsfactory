@@ -32,9 +32,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    auto_widen: bool = TECH.routing.optical.auto_widen,
-    cross_section_settings=TECH.waveguide.strip,
-    **kwargs,
+    **cross_section_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
 
@@ -43,7 +41,7 @@ def add_fiber_single(
     Args:
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
-        layer_label: LAYER.LABEL
+        layer_label: for test and measurement label
         fiber_spacing: between outputs
         bend_factory: bend_circular
         straight_factory: straight
@@ -52,7 +50,6 @@ def add_fiber_single(
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
         straight_separation: 4.0
-        bend_radius: BEND_RADIUS
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
@@ -65,7 +62,7 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        auto_widen: widen straight waveguides for lower loss in long routes
+        **cross_section_settings
 
     .. code::
 
@@ -90,7 +87,6 @@ def add_fiber_single(
             component=c,
             optical_routing_type=0,
             grating_coupler=pp.components.grating_coupler_elliptical_te,
-            bend_radius=5
         )
         cc.plot()
 
@@ -115,7 +111,7 @@ def add_fiber_single(
                 length=taper_length,
                 width1=port_width_gc,
                 width2=port_width_component,
-                cross_section_settings=cross_section_settings,
+                **cross_section_settings,
             )
             if callable(taper_factory)
             else taper_factory
@@ -161,10 +157,8 @@ def add_fiber_single(
             optical_routing_type=optical_routing_type,
             min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
-            auto_widen=auto_widen,
-            cross_section_settings=cross_section_settings,
             component_name=component_name,
-            **kwargs,
+            **cross_section_settings,
         )
 
     for e in elements:
@@ -198,9 +192,7 @@ def add_fiber_single(
 
     if with_align_ports:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(
-            length=length, cross_section_settings=cross_section_settings
-        )
+        wg = c << straight_factory(length=length, **cross_section_settings)
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -256,14 +248,15 @@ if __name__ == "__main__":
     # gc = pp.components.grating_coupler_elliptical2
     # gc = pp.components.grating_coupler_te
     # gc = pp.components.grating_coupler_uniform
-    # cc = add_fiber_single(component=c, auto_widen=False)
-
-    c = pp.components.straight(
-        length=20, width=10, cross_section_settings=pp.TECH.waveguide.nitride
-    )
-    gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
-    cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True)
-
-    # print(cc.get_settings()["component"])
-    print(cc.ports.keys())
+    cc = add_fiber_single(component=c, auto_widen=False)
     cc.show()
+
+    # cross_section_settings = pp.tech("waveguide.nitride")
+    # cross_section_settings.update(width=2)
+
+    # c = pp.components.straight(
+    #     length=20, **cross_section_settings
+    # )
+    # gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
+    # cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True, **cross_section_settings)
+    # cc.show()

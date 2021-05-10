@@ -5,7 +5,6 @@ from phidl.device_layout import Label
 import pp
 from pp.component import Component, ComponentReference
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.config import TECH
 from pp.routing.route_fiber_array import route_fiber_array
 
 
@@ -18,9 +17,8 @@ def route_fiber_single(
     optical_port_labels: Optional[List[str]] = None,
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
-    cross_section_settings=TECH.waveguide.strip,
     component_name: Optional[str] = None,
-    **kwargs,
+    **cross_section_settings,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
@@ -110,9 +108,8 @@ def route_fiber_single(
         grating_coupler=grating_couplers[0],
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
-        cross_section_settings=cross_section_settings,
         component_name=component_name,
-        **kwargs,
+        **cross_section_settings,
     )
 
     # route north ports
@@ -130,9 +127,8 @@ def route_fiber_single(
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
-        cross_section_settings=cross_section_settings,
         component_name=component_name,
-        **kwargs,
+        **cross_section_settings,
     )
     for e in elements_north:
         if isinstance(e, list):
@@ -162,23 +158,20 @@ if __name__ == "__main__":
     c = pp.components.mzi2x2()
     c = pp.components.ring_single()
 
-    elements, gc = route_fiber_single(
-        c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
-    )
+    # elements, gc = route_fiber_single(
+    #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
+    # )
 
     cross_section_settings = pp.TECH.waveguide.nitride
-    c = pp.components.straight(width=2, cross_section_settings=cross_section_settings)
+    c = pp.components.straight(**cross_section_settings)
     gc = pp.components.grating_coupler_elliptical_te(
         layer=pp.TECH.waveguide.nitride.layer
     )
-    # cc = pp.routing.add_fiber_single(
-    #     component=c, grating_coupler=gc, cross_section_settings=cross_section_settings
-    # )
     elements, gc = route_fiber_single(
         c,
         grating_coupler=[gc, gc, gc, gc],
         auto_widen=False,
-        cross_section_settings=cross_section_settings,
+        **cross_section_settings,
     )
 
     cc = pp.Component("sample_route_fiber_single")

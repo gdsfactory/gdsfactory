@@ -5,13 +5,21 @@ The CrossSection object extrudes a path
 Based on phidl.device_layout.CrossSection
 """
 
-from typing import Iterable, Optional, Tuple
+from typing import Any, Dict, Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
 from pp.config import TECH, tech
 
 LAYER = TECH.layer
+
+
+def get_cross_section_settings(cross_section_name: str, **kwargs) -> Dict[str, Any]:
+    cross_section_settings = tech(f"waveguide.{cross_section_name}")
+    if not cross_section_settings:
+        raise ValueError(f"no cross_section_settings found for {cross_section_name}")
+    cross_section_settings.update(**kwargs)
+    return cross_section_settings
 
 
 def cross_section(**settings) -> CrossSection:

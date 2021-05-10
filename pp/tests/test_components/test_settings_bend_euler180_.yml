@@ -2,7 +2,7 @@ function_name: bend_euler180
 info:
   dy: 0
   layer:
-  - 1
+  - 49
   - 0
   length: 45.635
   radius: 10
@@ -11,6 +11,7 @@ module: pp.components.bend_euler
 name: bend_euler180
 settings:
   angle: 180
+  cross_section_name: strip
   direction: ccw
   npoints: 720
   p: 1

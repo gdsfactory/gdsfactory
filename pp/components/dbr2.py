@@ -4,7 +4,7 @@ import picwriter.components as pc
 
 import pp
 from pp.component import Component
-from pp.components.waveguide_template import wg_strip
+from pp.components.waveguide_template import strip
 from pp.picwriter_to_component import picwriter_to_component
 from pp.types import ComponentFactory
 
@@ -21,7 +21,7 @@ def dbr2(
     fin_size: Tuple[float, float] = (0.2, 0.05),
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: ComponentFactory = wg_strip,
+    waveguide_template: ComponentFactory = strip,
     waveguide_template_dbr: Optional[ComponentFactory] = None,
     **kwargs
 ) -> Component:

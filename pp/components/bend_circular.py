@@ -1,7 +1,7 @@
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section
+from pp.cross_section import cross_section, get_cross_section_settings
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
@@ -12,6 +12,7 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     """Returns a radial arc.
@@ -20,6 +21,7 @@ def bend_circular(
         radius
         angle: angle of arc (degrees)
         with_cladding_box: to avoid DRC acute angle errors in cladding
+        cross_section_name: from tech.waveguide
         kwargs: cross_section_settings
 
     .. plot::
@@ -32,7 +34,8 @@ def bend_circular(
 
     """
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    x = cross_section(**kwargs)
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
     c = extrude(p, x)
 
     c.length = snap_to_grid(p.length())
@@ -72,9 +75,8 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
 if __name__ == "__main__":
     from pprint import pprint
 
-    import pp
-
-    c = bend_circular(width=2, layer=pp.LAYER.WG)
+    # c = bend_circular(width=2, layer=pp.LAYER.M1)
+    c = bend_circular(cross_section_name="metal_routing", width=3)
     c.show()
     pprint(c.get_settings())
 

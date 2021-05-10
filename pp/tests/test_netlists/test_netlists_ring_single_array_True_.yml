@@ -1,8 +1,8 @@
 connections:
-  ring_single_LX10_R5_-5.0_5.355,E0: straight_L5_7.5_0.0,W0
-  ring_single_LX20_R10_30.0_10.355,W0: straight_L5_7.5_0.0,E0
+  ring_single_LX10_R5_-5.0_9.855,E0: straight_L5_7.5_0.0,W0
+  ring_single_LX20_R10_30.0_14.855,W0: straight_L5_7.5_0.0,E0
 instances:
-  ring_single_LX10_R5_-5.0_5.355:
+  ring_single_LX10_R5_-5.0_9.855:
     component: ring_single
     settings:
       bend: null
@@ -10,7 +10,7 @@ instances:
       length_x: 10
       length_y: 0.01
       radius: 5
-  ring_single_LX20_R10_30.0_10.355:
+  ring_single_LX20_R10_30.0_14.855:
     component: ring_single
     settings:
       bend: null
@@ -21,16 +21,17 @@ instances:
   straight_L5_7.5_0.0:
     component: straight
     settings:
+      cross_section_name: strip
       length: 5
       npoints: 2
 name: ring_single_array
 placements:
-  ring_single_LX10_R5_-5.0_5.355:
+  ring_single_LX10_R5_-5.0_9.855:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  ring_single_LX20_R10_30.0_10.355:
+  ring_single_LX20_R10_30.0_14.855:
     mirror: false
     rotation: 0
     x: 40.0
@@ -41,5 +42,5 @@ placements:
     x: 5.0
     y: 0.0
 ports:
-  E0: ring_single_LX20_R10_30.0_10.355,E0
-  W0: ring_single_LX10_R5_-5.0_5.355,W0
+  E0: ring_single_LX20_R10_30.0_14.855,E0
+  W0: ring_single_LX10_R5_-5.0_9.855,W0

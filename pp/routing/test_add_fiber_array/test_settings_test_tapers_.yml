@@ -3,7 +3,6 @@ info: {}
 module: pp.routing.add_fiber_array
 name: add_fiber_array_d55261fe
 settings:
-  auto_widen: true
   component:
     function_name: straight
     info:
@@ -12,6 +11,7 @@ settings:
     module: pp.components.straight
     name: straight_W2
     settings:
+      cross_section_name: strip
       length: 10
       npoints: 2
       width: 2

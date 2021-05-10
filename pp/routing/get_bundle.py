@@ -10,6 +10,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.config import TECH
+from pp.cross_section import get_cross_section_settings
 from pp.port import Port
 from pp.routing.get_route import (
     get_route,
@@ -24,7 +25,6 @@ from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
 METAL_MIN_SEPARATION = TECH.routing.electrical.min_spacing
-BEND_RADIUS = TECH.routing.optical.bend_radius
 
 
 def get_bundle(
@@ -32,11 +32,11 @@ def get_bundle(
     ports2: List[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
-    bend_radius: float = BEND_RADIUS,
     extension_length: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    **kwargs,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
     Chooses the correct u_bundle to use based on port angles
@@ -46,10 +46,10 @@ def get_bundle(
         ports2: should all be facing in the same direction
         route_filter: function to connect
         separation: straight separation
-        bend_radius: for the routes
         extension_length: adds straight extension
         bend_factory:
-        link_ports
+        cross_section_name
+        kwargs: cross_section_settings
 
     """
     # Accept dict or list
@@ -78,6 +78,10 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
@@ -87,17 +91,11 @@ def get_bundle(
             "All start port angles should be the same", f"Got {start_port_angles}"
         )
 
-    # Ensure the correct bend radius is used
-    def _route_filter(*args, **kwargs):
-        kwargs["bend_radius"] = bend_radius
-        return route_filter(*args, **kwargs)
-
     params = {
         "ports1": ports1,
         "ports2": ports2,
-        "route_filter": _route_filter,
+        "route_filter": route_filter,
         "separation": separation,
-        "bend_radius": bend_radius,
         "bend_factory": bend_factory,
     }
 
@@ -128,21 +126,21 @@ def get_bundle(
             and end_angle == 90
             and y_start > y_end
         ):
-            return link_ports(**params, **kwargs)
+            return link_ports(**params, **cross_section_settings)
 
         elif start_angle == end_angle:
             # print('u_bundle_direct')
-            return u_bundle_direct(**params, **kwargs)
+            return u_bundle_direct(**params, **cross_section_settings)
 
         elif end_angle == (start_angle + 180) % 360:
             # print('u_bundle_indirect')
             params["extension_length"] = extension_length
-            return u_bundle_indirect(**params, **kwargs)
+            return u_bundle_indirect(**params, **cross_section_settings)
         else:
             raise NotImplementedError("This should never happen")
 
     else:
-        return link_ports(**params, **kwargs)
+        return link_ports(**params, **cross_section_settings)
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -171,7 +169,6 @@ def link_ports(
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
-    auto_widen: bool = True,
     **routing_params,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -183,7 +180,6 @@ def link_ports(
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If None, use straight definition from ports1
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_offset: offset to add at the end of each straight
@@ -240,7 +236,6 @@ def link_ports(
         route_filter(
             route,
             bend_factory=bend_factory,
-            auto_widen=auto_widen,
             **routing_params,
         )
         for route in routes
@@ -251,7 +246,6 @@ def link_ports_routes(
     ports1: List[Port],
     ports2: List[Port],
     separation: float,
-    bend_radius: float = BEND_RADIUS,
     route_filter: Callable = generate_manhattan_waypoints,
     sort_ports: bool = True,
     end_straight_offset: Optional[float] = None,
@@ -265,12 +259,12 @@ def link_ports_routes(
         ports1: list of starting ports
         ports2: list of end ports
         separation: route spacing
-        bend_radius: for route
         route_filter: Function used to connect two ports. Should be like `get_route`
         sort_ports: if True sort ports
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
+        kwargs: cross_section_settings
     """
     if not ports1 and not ports2:
         return []
@@ -296,7 +290,6 @@ def link_ports_routes(
                 ports1[0],
                 ports2[0],
                 start_straight=start_straight,
-                bend_radius=bend_radius,
                 **kwargs,
             )
         ]
@@ -427,7 +420,6 @@ def link_ports_routes(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    bend_radius=bend_radius,
                     **kwargs,
                 )
             ]  #
@@ -439,7 +431,6 @@ def link_ports_routes(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    bend_radius=bend_radius,
                     **kwargs,
                 )
             ]
@@ -462,7 +453,6 @@ def get_bundle_path_length_match(
     ports2: List[Port],
     separation: float = 30.0,
     end_straight_offset: Optional[float] = None,
-    bend_radius: float = BEND_RADIUS,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
@@ -477,7 +467,6 @@ def get_bundle_path_length_match(
         ports2: list of ports
         separation: 30.0
         end_straight_offset
-        bend_radius: BEND_RADIUS
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
@@ -537,16 +526,15 @@ def get_bundle_path_length_match(
 
     kwargs["separation"] = separation
     kwargs["end_straight_offset"] = end_straight_offset
-    kwargs["bend_radius"] = bend_radius
     list_of_waypoints = link_ports_routes(ports1, ports2, **kwargs)
 
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
         extra_length=extra_length,
         bend_factory=bend_factory,
-        bend_radius=bend_radius,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
+        **kwargs,
     )
     return [route_filter(waypoints) for waypoints in list_of_waypoints]
 
@@ -555,7 +543,6 @@ def link_electrical_ports(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = METAL_MIN_SEPARATION,
-    bend_radius: float = 0.0001,
     link_dummy_ports: bool = False,
     route_filter: Callable = get_route_from_waypoints_electrical,
     **kwargs,
@@ -569,7 +556,6 @@ def link_electrical_ports(
         axis: specifies "X" or "Y"
               X (resp. Y) -> indicates that the ports should be sorted and
              compared using the X (resp. Y) axis
-        bend_radius: If unspecified, attempts to get it from the straight definition of the first port in ports1
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
 
@@ -605,7 +591,6 @@ def link_electrical_ports(
         new_ports1,
         new_ports2,
         separation,
-        bend_radius=bend_radius,
         route_filter=route_filter,
         **kwargs,
     )
@@ -616,17 +601,15 @@ def link_optical_ports(
     ports2: List[Port],
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
-    bend_radius: float = BEND_RADIUS,
-    **kwargs,
+    **cross_section_settings,
 ) -> List[Route]:
     """connect bundle of optical ports"""
     return link_ports(
         ports1,
         ports2,
         separation,
-        bend_radius=bend_radius,
         route_filter=route_filter,
-        **kwargs,
+        **cross_section_settings,
     )
 
 
@@ -641,8 +624,8 @@ def get_min_spacing(
     ports1: List[Port],
     ports2: List[Port],
     sep: float = 5.0,
+    radius: float = 5.0,
     sort_ports: bool = True,
-    radius: float = BEND_RADIUS,
 ) -> float:
     """
     Returns the minimum amount of spacing required to create a given fanout
@@ -689,10 +672,11 @@ def link_optical_ports_no_grouping(
     ports2: List[Port],
     sep: float = 5.0,
     route_filter: Callable = get_route,
-    radius: float = BEND_RADIUS,
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     sort_ports: bool = True,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[Route]:
     r"""Returns a list of route elements.
 
@@ -803,25 +787,16 @@ def link_optical_ports_no_grouping(
         s_straight = start_straight - j * sep
         e_straight = j * sep + end_straight
 
-        if radius is None:
-            elems += [
-                route_filter(
-                    ports1[i],
-                    ports2[i],
-                    start_straight=s_straight,
-                    end_straight=e_straight,
-                )
-            ]
-        else:
-            elems += [
-                route_filter(
-                    ports1[i],
-                    ports2[i],
-                    start_straight=s_straight,
-                    end_straight=e_straight,
-                    bend_radius=radius,
-                )
-            ]
+        elems += [
+            route_filter(
+                ports1[i],
+                ports2[i],
+                start_straight=s_straight,
+                end_straight=e_straight,
+                cross_section_name=cross_section_name,
+                **cross_section_settings,
+            )
+        ]
 
         if x2 >= x1:
             j += 1
@@ -841,7 +816,7 @@ def test_get_bundle_small() -> Component:
     routes = get_bundle(
         [c1.ports["E0"], c1.ports["E1"]],
         [c2.ports["W0"], c2.ports["W1"]],
-        bend_radius=5,
+        radius=5,
     )
     for route in routes:
         # print(route["length"])
@@ -851,11 +826,10 @@ def test_get_bundle_small() -> Component:
 
 
 if __name__ == "__main__":
-    from pp.tests.test_get_bundle import test_connect_corner
 
-    c = test_connect_corner(None, check=False)
+    # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
-    # c = test_get_bundle_small()
+    c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()

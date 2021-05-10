@@ -220,6 +220,9 @@ def mzi2x2(
             port_type="dc",
         )
 
+        width = ports["E_BOT_2"].width
+        layer = ports["E_BOT_2"].layer
+
         component.ports["E_TOP_3"].orientation = 0
         component.ports["E_BOT_3"].orientation = 0
 
@@ -229,7 +232,9 @@ def mzi2x2(
 
         # Reroute electrical ports
         _e_ports = select_ports(component.ports, port_type="dc")
-        routes, e_ports = route_ports_to_side(_e_ports, side="north", y=y_elec)
+        routes, e_ports = route_ports_to_side(
+            _e_ports, side="north", y=y_elec, layer=layer, width=width / 2
+        )
 
         for route in routes:
             component.add(route["references"])
@@ -262,7 +267,7 @@ def mzi2x2(
 
 
 def get_mzi_delta_length(m, neff=2.4, wavelength=1.55):
-    """ m*wavelength = neff * delta_length """
+    """m*wavelength = neff * delta_length"""
     return m * wavelength / neff
 
 

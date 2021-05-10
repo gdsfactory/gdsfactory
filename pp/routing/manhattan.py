@@ -8,6 +8,7 @@ from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.config import TECH
+from pp.cross_section import get_cross_section_settings
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
@@ -444,10 +445,9 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[Callable] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    auto_widen: bool = TECH.routing.optical.auto_widen,
-    taper_length: float = TECH.routing.optical.taper_length,
     auto_widen_minimum_length: float = TECH.routing.optical.auto_widen_minimum_length,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> Route:
     """Returns Dict:
 
@@ -463,20 +463,21 @@ def round_corners(
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
-        auto_widen: for lower loss in long routes
+        cross_section_settings
     """
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+    auto_widen = cross_section_settings.get("auto_widen", False)
+    taper_length = cross_section_settings.get("taper_length", 10.0)
     references = []
     ports = dict()
     bend90 = (
-        bend_factory(cross_section_settings=cross_section_settings)
+        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
         if callable(bend_factory)
         else bend_factory
     )
-    taper = (
-        taper(cross_section_settings=cross_section_settings)
-        if callable(taper)
-        else taper
-    )
+    taper = taper(**cross_section_settings) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -544,7 +545,7 @@ def round_corners(
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
         with_taper = False
-        wg_width = list(bend90.ports.values())[0].width
+        # wg_width = list(bend90.ports.values())[0].width
 
         total_length += length
 
@@ -561,7 +562,7 @@ def round_corners(
                 position=taper_origin, port_id=pname_west, rotation=angle
             )
 
-            wg_width = taper.ports[pname_east].width
+            taper_width = taper.ports[pname_east].width
 
             references.append(taper_ref)
             wg_refs += [taper_ref]
@@ -571,16 +572,20 @@ def round_corners(
 
         # Straight straight
         length = snap_to_grid(length)
-        cross_section_settings = dict(cross_section_settings)
-        cross_section_settings.update(width=wg_width)
-        if with_taper or taper is None:
+        if with_taper:
+            # cross_section_settings_wide = dict(cross_section_settings.copy())
+            # print(cross_section_settings_wide)
+            # cross_section_settings_wide.update(width=taper_width)
+            cross_section_settings["width"] = float(
+                cross_section_settings.get("widh_wide", taper_width)
+            )
             wg = straight_factory(
                 length=length,
-                cross_section_settings=cross_section_settings,
+                **cross_section_settings,
             )
         else:
             wg = straight_factory_fall_back_no_taper(
-                length=length, cross_section_settings=cross_section_settings
+                length=length, **cross_section_settings
             )
 
         if straight_ports is None:
@@ -628,13 +633,19 @@ def generate_manhattan_waypoints(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    bend_radius: float = 10.0,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+
+    # print(cross_section_settings)
+
     bend90 = (
-        bend_factory(radius=bend_radius, cross_section_settings=cross_section_settings)
+        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
         if callable(bend_factory)
         else bend_factory
     )
@@ -666,9 +677,8 @@ def route_manhattan(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    bend_radius: float = 10.0,
-    auto_widen: bool = True,
-    cross_section_settings=TECH.waveguide.strip,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
@@ -681,14 +691,16 @@ def route_manhattan(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend_factory,
+        cross_section_name=cross_section_name,
+        **cross_section_settings,
     )
     return round_corners(
         points=points,
         straight_factory=straight_factory,
         taper=taper,
         bend_factory=bend_factory,
-        auto_widen=auto_widen,
-        cross_section_settings=cross_section_settings,
+        cross_section_name=cross_section_name,
+        **cross_section_settings,
     )
 
 
@@ -718,14 +730,15 @@ def test_manhattan() -> Component:
         # input_port = Port("input_port", (10,5), 0.5, 90)
         # output_port = Port("output_port", (90,-60), 0.5, 180)
 
-        bend = bend_circular(radius=5.0)
+        # bend = bend_circular(radius=5.0)
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
             straight_factory=straight,
             start_straight=5.0,
             end_straight=5.0,
-            bend_factory=bend,
+            bend_factory=bend_circular,
+            cross_section_name="metal_routing",
         )
 
         top_cell.add(route["references"])

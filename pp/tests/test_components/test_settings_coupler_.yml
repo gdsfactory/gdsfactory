@@ -5,6 +5,7 @@ info:
 module: pp.components.coupler
 name: coupler
 settings:
+  cross_section_name: strip
   dx: 10
   dy: 5
   gap: 0.236

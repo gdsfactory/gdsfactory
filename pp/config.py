@@ -2,7 +2,7 @@
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
-3. the default_config in pp/config.py (lowest priority)
+3. the yamlpath_default in pp/tech.yml (lowest priority)
 
 `CONFIG` has all your computer specific paths that we do not care to store
 `TECH` has all the useful info that we will store to have reproduceable layouts.
@@ -34,10 +34,9 @@ repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 
-cwd_config = cwd / "config.yml"
-module_config = module_path / "config.yml"
-home_config = home_path / "config.yml"
-default_config = pathlib.Path(__file__).parent.absolute() / "config.yml"
+yamlpath_cwd = cwd / "tech.yml"
+yamlpath_default = module_path / "tech.yml"
+yamlpath_home = home_path / "tech.yml"
 layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
@@ -59,12 +58,12 @@ except ImportError:
     pass
 
 
-def read_tech(yamlpath: PathType = default_config) -> Dict[str, Any]:
-    global TECH
-    TECH = OmegaConf.load(yamlpath)
-    TECH.info = TECH.info or {}
-    TECH.info.version = __version__
-    return TECH
+# def read_tech(yamlpath: PathType = yamlpath_default) -> Dict[str, Any]:
+#     global TECH
+#     TECH = OmegaConf.load(yamlpath)
+#     TECH.info = TECH.info or {}
+#     TECH.info.version = __version__
+#     return TECH
 
 
 def tech(key: str):
@@ -72,12 +71,25 @@ def tech(key: str):
     return OmegaConf.select(TECH, key)
 
 
-def merge_techs(yamlpaths=Iterable[PathType]) -> Dict[str, Any]:
+TECH = {}
+
+
+def read_tech(
+    yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd)
+) -> Dict[str, Any]:
     global TECH
-    for yamlpath in yamlpaths:
-        TECH_CUSTOM = OmegaConf.load(yamlpath)
-        TECH = OmegaConf.merge(TECH, TECH_CUSTOM)
+    for yamlpath in set(yamlpaths):
+        # print(f"loading tech config from {yamlpath}")
+        if os.access(yamlpath, os.R_OK) and yamlpath.exists():
+            TECH_NEW = OmegaConf.load(yamlpath)
+            TECH = OmegaConf.merge(TECH, TECH_NEW)
+            # print(TECH_NEW)
+    TECH.info = TECH.info or {}
+    TECH.info.version = __version__
     return TECH
+
+
+TECH = read_tech()
 
 
 def add_repo_information(TECH):
@@ -87,7 +99,7 @@ def add_repo_information(TECH):
 
 
 CONFIG = dict(
-    config_path=cwd_config.absolute(),
+    config_path=yamlpath_cwd.absolute(),
     repo_path=repo_path,
     module_path=module_path,
     gdsdir=module_path / "gds",
@@ -99,7 +111,6 @@ CONFIG = dict(
 
 mask_name = "notDefined"
 
-TECH = read_tech()
 
 if "mask" in TECH:
     mask_name = TECH.mask.name
@@ -151,12 +162,12 @@ logging.warning("This will get logged to a file")
 def print_config(key: Optional[str] = None) -> None:
     """Prints a key for the config or all the keys"""
     if key:
-        if TECH.get(key):
-            print(TECH[key])
+        if tech.get(key):
+            print(tech(key))
         elif CONFIG.get(key):
             print(CONFIG[key])
         else:
-            print(f"`{key}` key not found in {cwd_config}")
+            print(f"`{key}` key not found in {tech.keys()}")
     else:
         pprint(CONFIG)
         print(OmegaConf.to_yaml(TECH))
@@ -212,9 +223,10 @@ WG_EXPANDED_WIDTH = TECH.routing.optical.wg_expanded_width
 
 
 if __name__ == "__main__":
+    print(TECH.layer.WG)
     # print(TECH)
     # print_config("gdslib")
     # print_config()
     # print(CONFIG["git_hash"])
-    print(CONFIG["sp"])
+    # print(CONFIG["sp"])
     # print(CONFIG)

@@ -1,29 +1,59 @@
 connections:
-  bend_euler_a21c79d4_67.115_-5.5,N0: straight_2b38b919_71.99_-20.0,W0
-  bend_euler_a21c79d4_67.115_-5.5,W0: straight_f90b6b7d_51.995_-0.625,E0
-  bend_euler_a21c79d4_76.865_-34.5,N0: straight_55536d52_81.995_-39.375,W0
-  bend_euler_a21c79d4_76.865_-34.5,W0: straight_2b38b919_71.99_-20.0,E0
-  mmi_bot,W0: straight_55536d52_81.995_-39.375,E0
-  mmi_top,E0: straight_f90b6b7d_51.995_-0.625,W0
+  bend_euler_e7e3a65c_71.115_-1.5,N0: straight_a21cc9fc_71.99_-20.0,W0
+  bend_euler_e7e3a65c_71.115_-1.5,W0: straight_37d73d83_54.495_-0.625,E0
+  bend_euler_e7e3a65c_72.865_-38.5,N0: straight_0ce870cc_79.495_-39.375,W0
+  bend_euler_e7e3a65c_72.865_-38.5,W0: straight_a21cc9fc_71.99_-20.0,E0
+  mmi_bot,W0: straight_0ce870cc_79.495_-39.375,E0
+  mmi_top,E0: straight_37d73d83_54.495_-0.625,W0
 instances:
-  bend_euler_a21c79d4_67.115_-5.5:
+  bend_euler_e7e3a65c_71.115_-1.5:
     component: bend_euler
     settings:
       angle: 90
+      auto_widen: true
+      bend_radius: 100
+      cladding_offset: 3
       direction: ccw
+      end_straight: 5
+      end_straight_offset: 11
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
       npoints: 720
       p: 1
-      radius: 10
+      radius: 5
+      start_straight: 5
+      taper_length: 20
+      width: 0.5
+      width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_a21c79d4_76.865_-34.5:
+  bend_euler_e7e3a65c_72.865_-38.5:
     component: bend_euler
     settings:
       angle: 90
+      auto_widen: true
+      bend_radius: 100
+      cladding_offset: 3
       direction: ccw
+      end_straight: 5
+      end_straight_offset: 11
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
       npoints: 720
       p: 1
-      radius: 10
+      radius: 5
+      start_straight: 5
+      taper_length: 20
+      width: 0.5
+      width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
   mmi_bot:
@@ -46,33 +76,75 @@ instances:
       width_mmi: 6
       width_taper: 1
       with_cladding_box: true
-  straight_2b38b919_71.99_-20.0:
+  straight_0ce870cc_79.495_-39.375:
     component: straight
     settings:
-      length: 18.75
+      bend_radius: 100
+      cladding_offset: 3
+      end_straight: 5
+      end_straight_offset: 11
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 5.01
       npoints: 2
-  straight_55536d52_81.995_-39.375:
+      radius: 5
+      start_straight: 5
+      width: 0.5
+      width_wide: 2
+  straight_37d73d83_54.495_-0.625:
     component: straight
     settings:
-      length: 0.01
+      bend_radius: 100
+      cladding_offset: 3
+      end_straight: 5
+      end_straight_offset: 11
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 24.99
       npoints: 2
-  straight_f90b6b7d_51.995_-0.625:
+      radius: 5
+      start_straight: 5
+      width: 0.5
+      width_wide: 2
+  straight_a21cc9fc_71.99_-20.0:
     component: straight
     settings:
-      length: 19.99
+      bend_radius: 100
+      cladding_offset: 3
+      end_straight: 5
+      end_straight_offset: 11
+      layer:
+      - 1
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 28.75
       npoints: 2
+      radius: 5
+      start_straight: 5
+      width: 0.5
+      width_wide: 2
 name: sample_docstring
 placements:
-  bend_euler_a21c79d4_67.115_-5.5:
+  bend_euler_e7e3a65c_71.115_-1.5:
     mirror: true
     rotation: 0
-    x: 61.99
+    x: 66.99
     y: -0.625
-  bend_euler_a21c79d4_76.865_-34.5:
+  bend_euler_e7e3a65c_72.865_-38.5:
     mirror: false
     rotation: 270
     x: 71.99
-    y: -29.375
+    y: -34.375
   mmi_bot:
     mirror: false
     rotation: 0
@@ -83,19 +155,19 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_2b38b919_71.99_-20.0:
-    mirror: false
-    rotation: 270
-    x: 71.99
-    y: -10.625
-  straight_55536d52_81.995_-39.375:
+  straight_0ce870cc_79.495_-39.375:
     mirror: false
     rotation: 0
-    x: 81.99
+    x: 76.99
     y: -39.375
-  straight_f90b6b7d_51.995_-0.625:
+  straight_37d73d83_54.495_-0.625:
     mirror: false
     rotation: 0
     x: 42.0
     y: -0.625
+  straight_a21cc9fc_71.99_-20.0:
+    mirror: false
+    rotation: 270
+    x: 71.99
+    y: -5.625
 ports: {}
