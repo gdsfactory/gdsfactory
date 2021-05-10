@@ -134,48 +134,56 @@ instances:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L100n_22.75_10.675:
     component: straight
     settings:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L100n_32.8_-25.725:
     component: straight
     settings:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L100n_32.8_20.725:
     component: straight
     settings:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L100n_42.85_-10.675:
     component: straight
     settings:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L100n_42.85_10.675:
     component: straight
     settings:
       cross_section_name: strip
       length: 0.1
       npoints: 2
+      with_cladding_box: true
   straight_L5_22.75_-13.225:
     component: straight
     settings:
       cross_section_name: strip
       length: 5
       npoints: 2
+      with_cladding_box: true
   straight_L5_42.85_-13.225:
     component: straight
     settings:
       cross_section_name: strip
       length: 5
       npoints: 2
+      with_cladding_box: true
 name: mzi
 placements:
   bend_euler_R10_19.375_-4.0:

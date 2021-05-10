@@ -7,12 +7,14 @@ instances:
       cross_section_name: strip
       length: 0.5
       npoints: 2
+      with_cladding_box: true
   wgw:
     component: straight
     settings:
       cross_section_name: strip
       length: 1
       npoints: 2
+      with_cladding_box: true
 name: sample_connections
 placements:
   wgn:

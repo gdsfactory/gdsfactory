@@ -8,3 +8,4 @@ settings:
   cross_section_name: metal_routing
   length: 50
   npoints: 2
+  with_cladding_box: true

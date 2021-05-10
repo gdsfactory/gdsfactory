@@ -1,12 +1,12 @@
 connections:
-  bend_euler_4a8d97ce_68.615_-4.0,N0: straight_7791d2ff_71.99_-20.0,W0
-  bend_euler_4a8d97ce_68.615_-4.0,W0: straight_9be7da57_51.995_-0.625,E0
-  bend_euler_4a8d97ce_75.365_-36.0,N0: straight_2e5b19ae_81.995_-39.375,W0
-  bend_euler_4a8d97ce_75.365_-36.0,W0: straight_7791d2ff_71.99_-20.0,E0
-  mmi_bot,W0: straight_2e5b19ae_81.995_-39.375,E0
-  mmi_top,E0: straight_9be7da57_51.995_-0.625,W0
+  bend_euler_95e8acf2_68.615_-4.0,N0: straight_6fe2aa89_71.99_-20.0,W0
+  bend_euler_95e8acf2_68.615_-4.0,W0: straight_9d696a90_51.995_-0.625,E0
+  bend_euler_95e8acf2_75.365_-36.0,N0: straight_f4b3109e_81.995_-39.375,W0
+  bend_euler_95e8acf2_75.365_-36.0,W0: straight_6fe2aa89_71.99_-20.0,E0
+  mmi_bot,W0: straight_f4b3109e_81.995_-39.375,E0
+  mmi_top,E0: straight_9d696a90_51.995_-0.625,W0
 instances:
-  bend_euler_4a8d97ce_68.615_-4.0:
+  bend_euler_95e8acf2_68.615_-4.0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -22,10 +22,11 @@ instances:
       - - 111
         - 0
       radius: 10
+      sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
-  bend_euler_4a8d97ce_75.365_-36.0:
+  bend_euler_95e8acf2_75.365_-36.0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -41,6 +42,7 @@ instances:
       - - 111
         - 0
       radius: 10
+      sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
@@ -54,27 +56,7 @@ instances:
     settings:
       length_mmi: 22
       width_mmi: 6
-  straight_2e5b19ae_81.995_-39.375:
-    component: straight
-    settings:
-      auto_widen: true
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-      layers_cladding:
-      - - 111
-        - 0
-      length: 0.01
-      radius: 10
-      taper_length: 10
-      width: 0.5
-      width_wide: 2
-  straight_7791d2ff_71.99_-20.0:
+  straight_6fe2aa89_71.99_-20.0:
     component: straight
     settings:
       auto_widen: true
@@ -91,10 +73,11 @@ instances:
         - 0
       length: 18.75
       radius: 10
+      sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_9be7da57_51.995_-0.625:
+  straight_9d696a90_51.995_-0.625:
     component: straight
     settings:
       auto_widen: true
@@ -111,17 +94,39 @@ instances:
         - 0
       length: 19.99
       radius: 10
+      sections: null
+      taper_length: 10
+      width: 0.5
+      width_wide: 2
+  straight_f4b3109e_81.995_-39.375:
+    component: straight
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 0.01
+      radius: 10
+      sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
 name: sample_docstring
 placements:
-  bend_euler_4a8d97ce_68.615_-4.0:
+  bend_euler_95e8acf2_68.615_-4.0:
     mirror: true
     rotation: 0
     x: 61.99
     y: -0.625
-  bend_euler_4a8d97ce_75.365_-36.0:
+  bend_euler_95e8acf2_75.365_-36.0:
     mirror: false
     rotation: 270
     x: 71.99
@@ -136,19 +141,19 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_2e5b19ae_81.995_-39.375:
-    mirror: false
-    rotation: 0
-    x: 81.99
-    y: -39.375
-  straight_7791d2ff_71.99_-20.0:
+  straight_6fe2aa89_71.99_-20.0:
     mirror: false
     rotation: 270
     x: 71.99
     y: -10.625
-  straight_9be7da57_51.995_-0.625:
+  straight_9d696a90_51.995_-0.625:
     mirror: false
     rotation: 0
     x: 42.0
     y: -0.625
+  straight_f4b3109e_81.995_-39.375:
+    mirror: false
+    rotation: 0
+    x: 81.99
+    y: -39.375
 ports: {}

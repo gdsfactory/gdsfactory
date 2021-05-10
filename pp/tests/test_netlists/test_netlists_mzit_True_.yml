@@ -88,6 +88,7 @@ instances:
       length: 1
       npoints: 2
       width: 0.45
+      with_cladding_box: true
   straight_L1_W550n_19.5_21.4:
     component: straight
     settings:
@@ -95,6 +96,7 @@ instances:
       length: 1
       npoints: 2
       width: 0.55
+      with_cladding_box: true
   straight_L3_W550n_26.5_-0.6:
     component: straight
     settings:
@@ -102,6 +104,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.55
+      with_cladding_box: true
   straight_L3_W550n_26.5_23.4:
     component: straight
     settings:
@@ -109,6 +112,7 @@ instances:
       length: 3
       npoints: 2
       width: 0.55
+      with_cladding_box: true
   straight_L4_W550n_38.0_11.4:
     component: straight
     settings:
@@ -116,6 +120,7 @@ instances:
       length: 4
       npoints: 2
       width: 0.55
+      with_cladding_box: true
   taper_L5_W450n_W500n_16.5_23.4:
     component: taper
     settings:
