@@ -1,0 +1,186 @@
+layer:
+  WG: [1, 0]
+  WGCLAD: [111, 0]
+  SLAB150: [2, 0]
+  SLAB90: [3, 0]
+  WGN: [34, 0]
+  WGN_CLAD: [36, 0]
+  N: [20, 0]
+  Np: [22, 0]
+  Npp: [24, 0]
+  P: [21, 0]
+  Pp: [23, 0]
+  Ppp: [25, 0]
+  HEATER: [47, 0]
+  M1: [41, 0]
+  M2: [45, 0]
+  M3: [49, 0]
+  VIA1: [40, 0]
+  VIA2: [44, 0]
+  VIA3: [43, 0]
+  NO_TILE_SI: [71, 0]
+  DEEPTRENCH: [7, 0]
+  PADDING: [67, 0]
+  DEVREC: [68, 0]
+  FLOORPLAN: [64, 0]
+  TEXT: [66, 0]
+  PORT: [1, 10]
+  PORTE: [69, 0]
+  PORTH: [70, 0]
+  LABEL: [201, 0]
+  LABEL_SETTINGS: [202, 0]
+  TE: [203, 0]
+  TM: [204, 0]
+  DRC_MARKER: [205, 0]
+  LABEL_INSTANCE: [206, 0]
+
+layer_styles:
+  WG:
+    layer: ${layer.WG}
+    color: gray
+    alpha: 1
+    dither: None
+
+stack:
+  WG:
+    layer: ${layer.WG}
+    thickness_nm: 220.0
+    z_nm: 0
+    material: si
+  SLAB90:
+    layer: ${layer.SLAB90}
+    thickness_nm: 90.0
+    z_nm: 0
+    material: si
+  SLAB150:
+    layer: ${layer.SLAB150}
+    thickness_nm: 150.0
+    z_nm: 0
+    material: si
+  WGN:
+    layer: ${layer.WGN}
+    thickness_nm: 350.0
+    z_nm: 300
+    material: si
+
+simulation_settings:
+  remove_layers:
+    - ${layer.WGCLAD}
+  background_material: sio2
+  port_width: 3e-6
+  port_height: 1.5e-6
+  port_extension_um: 1.0
+  mesh_accuracy: 2
+  zmargin: 1e-6
+  ymargin: 2e-6
+  wavelength_start: 1.2e-6
+  wavelength_stop: 1.6e-6
+  wavelength_points: 500
+
+tech:
+  name: generic
+  cache_url:
+  grid_unit: 1e-6
+  grid_resolution: 1e-9
+  snap_to_grid_nm: 1
+
+waveguide:
+  strip:
+    width: 0.5
+    width_wide: 2.0
+    auto_widen: True
+    taper_length: 20
+    layer: ${layer.WG}
+    radius: 10.0
+    cladding_offset: 3.0
+    layers_cladding:
+      - ${layer.WGCLAD}
+  rib:
+    layer: ${layer.WG}
+    width: 0.5
+    radius: 20.0
+    cross_section:
+      cladding:
+        layer: ${layer.SLAB90}
+        offset: 0.0
+        width: 6.5
+  strip_heater:
+    layer: ${layer.WG}
+    width: 0.5
+    radius: 10.0
+    cross_section:
+      cladding:
+        layer: ${layer.WGCLAD}
+        offset: 0.0
+        width: 8.0
+      heater_top:
+        layer: ${layer.HEATER}
+        offset: +1.2
+        width: 0.5
+        ports: [top_in, top_out]
+      heater_bot:
+        layer: ${layer.HEATER}
+        offset: -1.2
+        width: 0.5
+        ports: [bot_in, bot_out]
+  nitride:
+    layer: ${layer.WGN}
+    width: 1.0
+    radius: 20.0
+    cross_section:
+      cladding:
+        layer: ${layer.WGN_CLAD}
+        offset: 0.0
+        width: 8.0
+  metal_routing:
+    layer: ${layer.M1}
+    width: 2.0
+    cross_section:
+      cladding:
+        layer: ${layer.WGCLAD}
+        offset: 0.0
+        width: 8.0
+
+routing:
+  optical:
+    wg_width: 0.5
+    wg_expanded_width: 2.5
+    wire_widh: 10
+    taper_length: 35.0
+    bend_radius: 10.0
+    cladding_offset: 0.0
+    layer: ${layer.WG}
+    layer_cladding: None
+    auto_widen: True
+    auto_widen_minimum_length: 200.0
+    fiber_array_spacing: 127.0
+    fiber_spacing: 50.0
+    layer_label: ${layer.LABEL}
+  electrical:
+    min_spacing: 10.0
+
+components:
+  pad:
+    width: 100.0
+    height: 100.0
+    layer: ${layer.M3}
+
+  mmi1x2:
+    width: 0.5
+    width_taper: 1.0
+    length_taper: 10.0
+    length_mmi: 5.5
+    width_mmi: 2.5
+    gap_mmi: 0.25
+
+  mmi2x2:
+    width: 0.5
+    width_taper: 1.0
+    length_taper: 10.0
+    length_mmi: 5.5
+    width_mmi: 2.5
+    gap_mmi: 0.25
+
+  manhattan_text:
+    layer: ${layer.M1}
+    size: 10.0

@@ -1,0 +1,53 @@
+mask:
+    width: 12000
+    height: 4000
+    name: sample_mask
+    cache:
+        True # Default cache settings. If a component is already generated.
+        # Will not produce a new GDS for it
+
+exp01_spirals_packed_row:
+    cache: True # Cache settings for this spiral DOE
+    component: SPIRAL
+    settings:
+        x: [500, 2500, 5000, 7000]
+        N: 8
+
+    placer:
+        type: pack_row
+        x0: 0 # Absolute coordinate placing
+        y0: 0 # Absolute coordinate placing
+        align_x: W # x origin is west
+        align_y: S # y origin is south
+
+exp02_spirals_packed_col:
+    component: SPIRAL
+    settings:
+        x: [500, 2500, 5000, 7000]
+        N: 6
+
+    placer:
+        type: pack_col
+        x0: W # Place to the west of the previous DOE
+        y0: N # Place to the north of the previous DOE
+        align_x: W # x origin is west of current DOE
+        align_y: S # y origin is south of current DOE
+
+exp03_spirals_packed_two_rows:
+    cache: False # This component is generated no matter the mask default cache settings
+    component: SPIRAL
+    settings:
+        x: [500, 4500, 8500, 13500]
+        N: 4
+
+    placer:
+        type: pack_row
+        next_to: exp01_spirals_packed_row # Relative placement is done w.r.t this DOE instead
+        x0: W # x0 is the west of the DOE specified in next_to
+        y0: S # y0 is the south of the DOE specified in next_to
+        align_x: W # x origin is west of current component
+        align_y: N # y origin is south of current component
+        row_ids: [0, 1, 1, 0] # Put the components in two rows: First and last components go in row 0. Second and third go in row 1
+        inter_margin_y: 200 # y margin between this DOE and the one used for relative placement
+        margin_x: 50. # x margin between the components within this DOE
+        margin_y: 20. # y margin between the components within this DOE
