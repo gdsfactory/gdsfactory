@@ -6,37 +6,18 @@ import tempfile
 import uuid
 from pathlib import Path
 from pprint import pprint
-from typing import Any
-from typing import cast
-from typing import Dict
-from typing import Iterable
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 
 import networkx as nx
 import numpy as np
 import omegaconf
-from numpy import cos
-from numpy import float64
-from numpy import int64
-from numpy import mod
-from numpy import ndarray
-from numpy import pi
-from numpy import sin
+from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import _parse_layer
-from phidl.device_layout import Device
-from phidl.device_layout import DeviceReference
+from phidl.device_layout import Device, DeviceReference, _parse_layer
 
-from pp.config import __version__
-from pp.config import git_hash
-from pp.port import Port
-from pp.port import select_ports
-from pp.port import valid_port_types
+from pp.config import __version__, git_hash
+from pp.port import Port, select_ports, valid_port_types
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
@@ -502,6 +483,7 @@ class ComponentReference(DeviceReference):
         port_type: Optional[str] = None,
         layer: Optional[Tuple[int, int]] = None,
         prefix: Optional[str] = None,
+        orientation: Optional[int] = None,
     ) -> List[Port]:
         """Returns a list of ports.
 
@@ -512,7 +494,11 @@ class ComponentReference(DeviceReference):
         """
         return list(
             select_ports(
-                self.ports, port_type=port_type, layer=layer, prefix=prefix
+                self.ports,
+                port_type=port_type,
+                layer=layer,
+                prefix=prefix,
+                orientation=orientation,
             ).values()
         )
 
@@ -654,6 +640,7 @@ class Component(Device):
         port_type: Optional[str] = None,
         layer: Optional[Tuple[int, int]] = None,
         prefix: Optional[str] = None,
+        orientation: Optional[float] = None,
     ) -> List[Port]:
         """Returns a list of ports.
 
@@ -661,10 +648,15 @@ class Component(Device):
             port_type: 'optical', 'vertical_te', 'rf'
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
+            orientation: angle in degrees for the port
         """
         return list(
             select_ports(
-                self.ports, port_type=port_type, layer=layer, prefix=prefix
+                self.ports,
+                port_type=port_type,
+                layer=layer,
+                prefix=prefix,
+                orientation=orientation,
             ).values()
         )
 

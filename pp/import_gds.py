@@ -11,7 +11,7 @@ import pp
 from pp.component import Component
 from pp.port import auto_rename_ports, read_port_markers
 from pp.snap import is_on_grid, snap_to_grid
-from pp.types import Layer
+from pp.types import Layer, PathType
 
 
 def add_ports_from_markers_inside(*args, **kwargs):
@@ -341,6 +341,40 @@ def write_top_cells(gdspath: Union[str, Path], **kwargs):
     for cellname in cellnames:
         component = import_gds(gdspath, cellname=cellname, **kwargs)
         component.write_gds(f"{dirpath/cellname}.gds")
+
+
+def write_cells(gdspath: Union[str, Path], **kwargs):
+    """Writes each top level cells into separate GDS file."""
+    gdspath = pathlib.Path(gdspath)
+    dirpath = gdspath.parent
+    gdsii_lib = gdspy.GdsLibrary()
+    gdsii_lib.read_gds(gdspath)
+    top_level_cells = gdsii_lib.top_level()
+    cellnames = [c.name for c in top_level_cells]
+
+    for cellname in cellnames:
+        component = import_gds(gdspath, cellname=cellname, **kwargs)
+        component.write_gds(f"{dirpath/cellname}.gds")
+        write_cells_from_component(component=component, dirpath=dirpath)
+
+
+def write_cells_from_component(
+    component: Component, dirpath: Optional[PathType] = None
+):
+    """Writes all Component cells recursively.
+
+    Args:
+        component:
+        dirpath: directory path to write GDS (defaults to CWD)
+    """
+    dirpath = dirpath or pathlib.Path(__file__).parent.absolute()
+    if component.references:
+        for ref in component.references:
+            component = ref.parent
+            component.write_gds(f"{dirpath/component.name}.gds")
+            write_cells_from_component(component=component, dirpath=dirpath)
+    else:
+        component.write_gds(f"{dirpath/component.name}.gds")
 
 
 def test_import_gds_snap_to_grid() -> None:

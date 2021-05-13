@@ -3,8 +3,10 @@ Only change the order if you know what you are doing
 
 isort:skip_file
 """
+from typing import Optional
+from typing import Dict
+from typing import Any
 import dataclasses
-from pp.tech import TECH
 
 # level 0 components
 from pp.components.straight import straight
@@ -87,12 +89,13 @@ from pp.components.dbr import dbr
 from pp.components.dbr2 import dbr2
 
 # electrical
-from pp.components.wire import wire_straight
 from pp.components.wire import wire_corner
+from pp.components.wire import wire_straight
 from pp.components.electrical.wire import wire
 from pp.components.electrical.wire import corner
 from pp.components.electrical.pad import pad
 from pp.components.electrical.pad import pad_array
+from pp.components.electrical.pad import pad_array_2d
 from pp.components.electrical.tlm import via
 from pp.components.electrical.tlm import via1
 from pp.components.electrical.tlm import via2
@@ -209,6 +212,7 @@ component_factory = dict(
     nxn=nxn,
     pad=pad,
     pad_array=pad_array,
+    pad_array_2d=pad_array_2d,
     pads_shorted=pads_shorted,
     qrcode=qrcode,
     ramp=ramp,
@@ -248,11 +252,29 @@ component_factory = dict(
 )
 
 
-def factory(component_type, component_factory=component_factory, **kwargs):
-    """Returns a component with settings."""
+def factory(
+    component_type,
+    component_name: Optional[str],
+    component_factory: Dict[str, Any] = component_factory,
+    **kwargs,
+):
+    """Returns a component with settings.
+
+    Reads
+
+    Args:
+        component_type: factory
+        component_name: from TECH.components
+        component_factory: Dict[str, ComponentFactory]
+        **kwargs: component_settings
+
+    """
+    from pp.tech import TECH
     import pp
 
-    settings = getattr(TECH.components, component_type)
+    component_name = component_name or component_type
+
+    settings = getattr(TECH.components, component_name)
     settings = dataclasses.asdict(settings) if settings else {}
     settings.update(**kwargs)
 

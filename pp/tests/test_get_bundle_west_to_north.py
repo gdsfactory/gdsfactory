@@ -14,10 +14,10 @@ def test_get_bundle_west_to_north(
     w = h = 10
     c = pp.Component()
     pad_south = pp.components.pad_array(
-        port_list=["S"], pitch=15.0, width=w, height=h, n=3
+        port_list=["S"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pad_north = pp.components.pad_array(
-        port_list=["N"], pitch=15.0, width=w, height=h, n=3
+        port_list=["N"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pl = c << pad_south
     pb = c << pad_north

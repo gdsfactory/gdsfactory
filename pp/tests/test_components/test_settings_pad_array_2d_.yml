@@ -1,0 +1,12 @@
+function_name: pad_array_2d
+info: {}
+module: pp.components.electrical.pad
+name: pad_array_2d
+settings:
+  ncols: 3
+  nrows: 3
+  pad_settings: null
+  pitchx: 150
+  pitchy: 150
+  port_list:
+  - N

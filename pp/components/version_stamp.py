@@ -1,7 +1,6 @@
 import datetime
 import platform
-from typing import Iterable
-from typing import Tuple
+from typing import Iterable, Tuple
 
 from pydantic import validate_arguments
 
@@ -46,7 +45,7 @@ def qrcode(
 @validate_arguments
 def version_stamp(
     text: Iterable[str] = ("demo_label",),
-    git_hash: str = git_hash[:15],
+    git_hash: str = git_hash,
     with_qr_code: bool = False,
     layer: Tuple[int, int] = LAYER.WG,
     pixel_size: int = 1,

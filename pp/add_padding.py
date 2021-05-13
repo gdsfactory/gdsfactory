@@ -1,8 +1,10 @@
 from typing import Iterable, Optional, Tuple
 
-import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.tech import TECH
+
+LAYER = TECH.layer
 
 
 def get_padding_points(
@@ -38,7 +40,7 @@ def get_padding_points(
 
 def add_padding(
     component: Component,
-    layers: Optional[Tuple[Tuple[int, int], ...]] = (pp.LAYER.PADDING,),
+    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component.
@@ -65,7 +67,7 @@ def add_padding(
 @cell
 def add_padding_container(
     component: Component,
-    layers: Tuple[Tuple[int, int], ...] = (pp.LAYER.PADDING),
+    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component inside a container.
@@ -82,7 +84,7 @@ def add_padding_container(
         left: west padding
     """
 
-    c = pp.Component()
+    c = Component()
     c << component
 
     points = get_padding_points(component, **kwargs)
@@ -95,11 +97,11 @@ def add_padding_container(
 
 def add_padding_to_size(
     component: Component,
+    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
     left: float = 0,
     bottom: float = 0,
-    layers: Iterable[Tuple[int, int]] = (pp.LAYER.PADDING,),
 ) -> Component:
     """Returns component with padding layers on each side.
 
@@ -123,6 +125,8 @@ def add_padding_to_size(
 
 
 def test_container():
+    import pp
+
     c = pp.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
     print(len(cc.settings["component"]))
@@ -135,19 +139,19 @@ def test_container():
     assert len(cc.settings["component"]) == 5
 
     cc = add_padding_container(component=c, layers=[(4, 0)], container=False)
-    assert isinstance(cc.settings["component"], pp.Component)
+    assert isinstance(cc.settings["component"], Component)
     # print(cc.settings["component"])
     # print(len(cc.settings["component"]))
 
 
 if __name__ == "__main__":
-    # test_container()
+    import pp
 
+    # test_container()
     # c = pp.components.straight(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # print(cc.settings["component"])
-
     # cc.show()
     # cc.pprint()
 

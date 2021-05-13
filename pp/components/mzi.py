@@ -21,7 +21,7 @@ def mzi(
     straight_delta_length: Optional[ComponentFactory] = None,
     straight_horizontal: Optional[ComponentFactory] = None,
     splitter: ComponentOrFactory = mmi1x2,
-    combiner: ComponentOrFactory = mmi1x2,
+    combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
@@ -69,7 +69,7 @@ def mzi(
 
     c = Component()
     cp1 = splitter(**splitter_settings)
-    cp2 = combiner(**combiner_settings)
+    cp2 = combiner(**combiner_settings) if combiner else cp1
 
     straight_vertical = straight_vertical or straight
     straight_horizontal = straight_horizontal or straight

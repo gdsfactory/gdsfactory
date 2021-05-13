@@ -4,6 +4,7 @@ module: pp.components.electrical.pad
 name: pad_array
 settings:
   n: 6
+  pad_settings: null
   pitch: 150
   port_list:
   - N

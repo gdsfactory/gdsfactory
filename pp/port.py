@@ -12,7 +12,6 @@ For port naming we follow the IPKISS standard
         S0   S1
 
 """
-
 import csv
 import functools
 from copy import deepcopy
@@ -98,6 +97,17 @@ class Port(PortPhidl):
         )
 
     @property
+    def settings(self):
+        return dict(
+            name=self.name,
+            midpoint=self.midpoint,
+            width=self.width,
+            orientation=self.orientation,
+            layer=self.layer,
+            port_type=self.port_type,
+        )
+
+    @property
     def angle(self):
         """convenient alias"""
         return self.orientation
@@ -125,7 +135,7 @@ class Port(PortPhidl):
         return port
 
     def flip(self):
-        """ flips port """
+        """flips port"""
         port = self._copy()
         port.angle = (port.angle + 180) % 360
         return port
@@ -181,10 +191,17 @@ def port_array(
     orientation: int = 0,
     delta: Tuple[int, int] = (10, 0),
     n: int = 2,
+    **kwargs,
 ) -> List[Port]:
-    """ returns list of ports """
+    """returns list of ports"""
+    delta = np.array(delta)
     return [
-        Port(midpoint=np.array(midpoint) + i * np.array(delta), orientation=orientation)
+        Port(
+            name=str(i),
+            midpoint=np.array(midpoint) + i * delta - (n - 1) / 2 * delta,
+            orientation=orientation,
+            **kwargs,
+        )
         for i in range(n)
     ]
 
@@ -222,6 +239,7 @@ def select_ports(
     port_type: Optional[str] = None,
     layer: Optional[Tuple[int, int]] = None,
     prefix: Optional[str] = None,
+    orientation: Optional[int] = None,
 ) -> Dict[str, Port]:
     """
     Args:
@@ -250,6 +268,10 @@ def select_ports(
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {p_name: p for p_name, p in ports.items() if p_name.startswith(prefix)}
+    if orientation:
+        ports = {
+            p_name: p for p_name, p in ports.items() if p.orientation == orientation
+        }
 
     return ports
 
@@ -496,10 +518,14 @@ if __name__ == "__main__":
 
     import pp
 
-    name = "straight_with_pins"
-    gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
-    csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
-    pp.show(gdspath)
-    c = read_port_markers(gdspath)
-    p = csv2port(csvpath)
-    print(p)
+    c = pp.c.straight()
+    p = c.ports["E0"]
+    print(p.settings)
+
+    # name = "straight_with_pins"
+    # gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
+    # csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
+    # pp.show(gdspath)
+    # c = read_port_markers(gdspath)
+    # p = csv2port(csvpath)
+    # print(p)

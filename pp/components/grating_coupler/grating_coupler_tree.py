@@ -10,6 +10,7 @@ from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_
 from pp.components.straight import straight
 from pp.components.straight_array import straight_array
 from pp.routing.get_route import get_route_from_waypoints_no_taper
+from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
@@ -25,7 +26,7 @@ def grating_coupler_tree(
     bend_factory: ComponentFactory = bend_euler,
     bend_radius: float = 10.0,
     fanout_length: float = 0.0,
-    layer_label: Tuple[int, int] = pp.LAYER.LABEL,
+    layer_label: Tuple[int, int] = TECH.layer_label,
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers

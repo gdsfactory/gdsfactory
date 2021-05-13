@@ -4,12 +4,10 @@ from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
-from pp.components.bend_euler import bend_euler
-from pp.components.bend_euler import bend_euler_s
+from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
 from pp.cross_section import get_cross_section_settings
-from pp.types import ComponentFactory
-from pp.types import ComponentOrFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -49,7 +47,9 @@ def splitter_tree(
     bend90 = bend_factory(radius=radius)
     c = pp.Component()
 
-    coupler = pp.call_if_func(coupler, **cross_section_settings)
+    coupler = pp.call_if_func(
+        coupler, cross_section_name=cross_section_name, **cross_section_settings
+    )
     coupler_ref = c.add_ref(coupler)
     dy = spacing if spacing else bend90.dy * noutputs + spacing_extra
     dx = coupler.xsize + radius
@@ -61,10 +61,11 @@ def splitter_tree(
             spacing=dy / 2,
             bend_factory=bend_factory,
             cross_section_name=cross_section_name,
+            spacing_extra=spacing_extra,
             **cross_section_settings,
         )
     else:
-        c2 = bend_s(radius=dy / 2)
+        c2 = bend_s(radius=dy / 2, cross_section_name=cross_section_name)
 
     if dy < 3 * radius:
         tree_top = c2.ref(port_id="W0", position=coupler_ref.ports["E1"])
@@ -109,12 +110,15 @@ def splitter_tree(
     c.add(tree_bot)
     c.add(tree_top)
     c.add_port(name="W0", port=coupler_ref.ports["W0"])
+    c.dy = dy
     return c
 
 
 if __name__ == "__main__":
     c = splitter_tree(
-        coupler=pp.components.mmi1x2(), noutputs=50, cross_section_name="nitride"
+        coupler=pp.components.mmi1x2,
+        noutputs=128 * 2,
+        cross_section_name="nitride",
     )
+    print(len(c.ports))
     c.show()
-    print(c.get_ports_dict().keys())

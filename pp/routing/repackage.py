@@ -39,7 +39,7 @@ def package_optical2x2(
     y0 = p_e1[1]
 
     dy = y - y0
-    c = pp.Component(f"{comp.name}_{int(port_spacing)}")
+    c = pp.Component()
     c << comp
 
     control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)]
@@ -70,9 +70,11 @@ def package_optical2x2(
 
 
 if __name__ == "__main__":
-    # component = pp.components.mzi2x2(with_elec_connections=True)
+    # c = pp.components.mzi2x2(with_elec_connections=True)
+    # c =pp.components.coupler(gap=1.0)
+    c = pp.c.nxn(west=4)
 
-    c = package_optical2x2(component=pp.components.coupler(gap=1.0))
-    print(c.ports["E1"].y - c.ports["E0"].y)
-    # print(c.ports)
-    c.show()
+    cc = package_optical2x2(component=c)
+    print(cc.ports["E1"].y - cc.ports["E0"].y)
+    # print(cc.ports)
+    cc.show()

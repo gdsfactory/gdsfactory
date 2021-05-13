@@ -10,17 +10,17 @@ repos:
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
-  # - repo: https://github.com/pycqa/isort
-  #   rev: "a4addbd54ac5a49cfb3cba5a7de4b0c0d7459246"
-  #   hooks:
-  #       - id: isort
-  #         files: "pp/.*"
-  #         args: ["--profile", "black", "--filter-files"]
-
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
+  - repo: https://github.com/pycqa/isort
+    rev: "a4addbd54ac5a49cfb3cba5a7de4b0c0d7459246"
     hooks:
-      - id: reorder-python-imports
+        - id: isort
+          files: "pp/.*"
+          args: ["--profile", "black", "--filter-files"]
+
+  # - repo: https://github.com/asottile/reorder_python_imports
+  #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
+  #   hooks:
+  #     - id: reorder-python-imports
 
   - repo: https://github.com/psf/black
     rev: "f933e8a8382e6945bf950356f6ecc4ded5617617"

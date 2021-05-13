@@ -4,6 +4,7 @@ module: pp.components.mzi
 name: mzi
 settings:
   bend_radius: 10
+  combiner: null
   combiner_settings: null
   delta_length: 10
   length_x: 0.1
