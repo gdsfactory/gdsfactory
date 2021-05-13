@@ -37,6 +37,7 @@ from pydantic import validate_arguments
 - write to GDS again even if component already has a component.path
 - define all TECH in tech.py dataclasses and delete Tech, and Pdk
 - add pydantic validate_arguments decorator
+- add pp.routing.fanout
 
 ## 2.4.9
 

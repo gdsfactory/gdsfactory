@@ -1,5 +1,6 @@
 function_name: splitter_tree
-info: {}
+info:
+  dy: 40.1
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:

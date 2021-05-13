@@ -7,7 +7,7 @@ from pp.routing.sort_ports import sort_ports as sort_ports_function
 def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
 ) -> Component:
-    """Returns a Dict with the route Components.
+    """Returns a Dict with the routes from ports1 to ports2
 
     Args:
         ports1: start ports
@@ -16,6 +16,12 @@ def get_bundle_sbend(
             nb_points: number of points
             cross_section_factory
             **cross_section_settings
+
+    Returns:
+        references: List of route references
+        lengths: list of foats
+        bend_radius: list of min bend_radius
+
     """
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)

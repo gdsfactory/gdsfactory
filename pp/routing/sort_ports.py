@@ -12,7 +12,12 @@ def get_port_y(port: Port) -> float:
 
 
 def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List[Port]]:
-    """Returns sorted ports."""
+    """Returns sorted ports.
+
+    Args:
+        ports1:
+        ports2:
+    """
 
     if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
         f_key1 = get_port_y

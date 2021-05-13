@@ -1,16 +1,14 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
+from numpy import array
 
 from pp.cell import cell
 from pp.component import Component
-from pp.types import Number
 
 
 @cell
-@validate_arguments
 def bbox(
-    bbox: Tuple[Tuple[Number, Number], ...] = ((-1, -1), (3, 4)),
+    bbox: array = array([[-1.0, -1.0], [3.0, 4.0]]),
     layer: Tuple[int, int] = (1, 0),
 ) -> Component:
     """Returns bounding box rectangle from coordinates, to allow
