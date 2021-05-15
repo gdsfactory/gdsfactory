@@ -1,14 +1,14 @@
 -e .
 click
 gitpython
-gdspy
+gdspy==1.6
 omegaconf
 jsondiff
 klayout
 numpy
 pandas
 phidl==1.5.0
-picwriter
+picwriter==0.5
 pyqtree
 qrcode
 rectpack

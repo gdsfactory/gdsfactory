@@ -5,16 +5,11 @@ The CrossSection object extrudes a path
 Based on phidl.device_layout.CrossSection
 """
 import dataclasses
-from typing import Any
-from typing import Dict
-from typing import Iterable
-from typing import Optional
-from typing import Tuple
+from typing import Any, Dict, Iterable, Optional, Tuple
 
 from phidl.device_layout import CrossSection
 
-from pp.tech import Section
-from pp.tech import TECH
+from pp.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
@@ -43,7 +38,11 @@ def cross_section(
     sections: Optional[Tuple[Section]] = None,
     **kwargs,
 ) -> CrossSection:
-    """Returns a CrossSection from settings."""
+    """Returns a CrossSection from settings.
+
+    FIXME! maybe remove kwargs
+
+    """
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])

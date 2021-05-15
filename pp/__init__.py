@@ -34,6 +34,7 @@ from pp.cell import cell
 from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
+from pp.cross_section import cross_section
 
 from pp.show import show
 from pp.write_doe import write_doe
@@ -45,7 +46,6 @@ import pp.klive as klive
 import pp.port as port
 import pp.types as types
 import pp.path as path
-import pp.cross_section as cross_section
 
 from pp.component_from_yaml import component_from_yaml
 from pp.types import get_name_to_function_dict

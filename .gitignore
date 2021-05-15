@@ -12,6 +12,7 @@
 *.egg-info
 dist
 doc_pdks/
+pip-wheel-metadata/
 pdk_docs/
 build
 gdslib/
@@ -229,6 +230,7 @@ target/
 
 # pyenv
 .python-version
+pyvenv.cfg
 
 # celery beat schedule file
 celerybeat-schedule

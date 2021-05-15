@@ -14,7 +14,6 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend_radius: float = 10.0,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
     straight_vertical: Optional[ComponentFactory] = None,
@@ -25,6 +24,7 @@ def mzi(
     with_splitter: bool = True,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
+    **kwargs,
 ) -> Component:
     """Mzi.
 
@@ -32,7 +32,6 @@ def mzi(
         delta_length: bottom arm vertical extra length
         length_y: vertical length for both and top arms
         length_x: horizontal length
-        bend_radius: 10.0
         bend: 90 degrees bend factory
         straight: straight function
         straight_horizontal: straight for length_x
@@ -42,6 +41,7 @@ def mzi(
         with_splitter: if False removes splitter
         splitter_settings: settings dict for splitter function
         combiner_settings: settings dict for combiner function
+        kwargs: cross_section settings
 
     .. code::
 
@@ -68,14 +68,14 @@ def mzi(
     combiner_settings = combiner_settings or {}
 
     c = Component()
-    cp1 = splitter(**splitter_settings)
-    cp2 = combiner(**combiner_settings) if combiner else cp1
+    cp1 = splitter(**splitter_settings, **kwargs)
+    cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
 
     straight_vertical = straight_vertical or straight
     straight_horizontal = straight_horizontal or straight
     straight_delta_length = straight_delta_length or straight
-    b90 = bend(radius=bend_radius) if callable(bend) else bend
-    l0 = straight_vertical(length=L0)
+    b90 = bend(**kwargs) if callable(bend) else bend
+    l0 = straight_vertical(length=L0, **kwargs)
 
     cp1 = rename_ports_by_orientation(cp1)
     cp2 = rename_ports_by_orientation(cp2)
@@ -94,9 +94,9 @@ def mzi(
         f" length_y ({length_y}) >0"
     )
 
-    l0r = straight_vertical(length=L0 + delta_length_combiner / 2)
-    l1 = straight_delta_length(length=DL / 2)
-    l2 = straight_horizontal(length=L2)
+    l0r = straight_vertical(length=L0 + delta_length_combiner / 2, **kwargs)
+    l1 = straight_delta_length(length=DL / 2, **kwargs)
+    l2 = straight_horizontal(length=L2, **kwargs)
 
     cin = cp1.ref()
     cout = c << cp2
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c = mzi(delta_length=10)
 
-    c = mzi(delta_length=20)
+    c = mzi(delta_length=20, cross_section_name="strip")
 
     # add_markers(c)
     # print(c.ports["E0"].midpoint[1])

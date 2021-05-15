@@ -223,9 +223,9 @@ def _add_layer(entry, lys):
     return lys
 
 
-def load_lyp(filename: Path):
+def load_lyp(filepath: Path):
     """Returns a LayerSet object from a Klayout lyp file in XML format."""
-    with open(filename, "r") as fx:
+    with open(filepath, "r") as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
     # lyp files have a top level that just has one dict: layer-properties
     # That has multiple children 'properties', each for a layer. So it gives a list

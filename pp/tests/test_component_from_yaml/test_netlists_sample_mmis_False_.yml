@@ -1,12 +1,11 @@
 connections:
-  bend_euler_95e8acf2_71.615_4.0,N0: straight_9e198a39_74.99_50.625,W0
-  bend_euler_95e8acf2_71.615_4.0,W0: straight_8dcb8f5d_38.745_0.625,E0
-  bend_euler_95e8acf2_78.365_97.25,N0: straight_f4b3109e_84.995_100.625,W0
-  bend_euler_95e8acf2_78.365_97.25,W0: straight_9e198a39_74.99_50.625,E0
-  mmi_long,E0: straight_f4b3109e_84.995_100.625,E0
-  mmi_short,E1: straight_8dcb8f5d_38.745_0.625,W0
+  bend_euler_e2a16999_71.625_4.0,N0: straight_328fdff9_75.0_50.625,W0
+  bend_euler_e2a16999_71.625_4.0,W0: straight_dedda25f_38.75_0.625,E0
+  bend_euler_e2a16999_78.375_97.25,N0: mmi_long,E0
+  bend_euler_e2a16999_78.375_97.25,W0: straight_328fdff9_75.0_50.625,E0
+  mmi_short,E1: straight_dedda25f_38.75_0.625,W0
 instances:
-  bend_euler_95e8acf2_71.615_4.0:
+  bend_euler_e2a16999_71.625_4.0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -22,11 +21,12 @@ instances:
       - - 111
         - 0
       radius: 10
+      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_78.365_97.25:
+  bend_euler_e2a16999_78.375_97.25:
     component: bend_euler
     settings:
       auto_widen: true
@@ -42,6 +42,7 @@ instances:
       - - 111
         - 0
       radius: 10
+      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
@@ -56,28 +57,7 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_8dcb8f5d_38.745_0.625:
-    component: straight
-    settings:
-      auto_widen: true
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-      layers_cladding:
-      - - 111
-        - 0
-      length: 52.49
-      radius: 10
-      sections: null
-      taper_length: 10
-      width: 0.5
-      width_wide: 2
-  straight_9e198a39_74.99_50.625:
+  straight_328fdff9_75.0_50.625:
     component: straight
     settings:
       auto_widen: true
@@ -94,11 +74,12 @@ instances:
         - 0
       length: 80
       radius: 10
+      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_f4b3109e_84.995_100.625:
+  straight_dedda25f_38.75_0.625:
     component: straight
     settings:
       auto_widen: true
@@ -113,23 +94,24 @@ instances:
       layers_cladding:
       - - 111
         - 0
-      length: 0.01
+      length: 52.5
       radius: 10
+      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
 name: mmis
 placements:
-  bend_euler_95e8acf2_71.615_4.0:
+  bend_euler_e2a16999_71.625_4.0:
     mirror: false
     rotation: 0
-    x: 64.99
+    x: 65.0
     y: 0.625
-  bend_euler_95e8acf2_78.365_97.25:
+  bend_euler_e2a16999_78.375_97.25:
     mirror: true
     rotation: 90
-    x: 74.99
+    x: 75.0
     y: 90.625
   mmi_long:
     mirror: false
@@ -141,21 +123,16 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_8dcb8f5d_38.745_0.625:
+  straight_328fdff9_75.0_50.625:
+    mirror: false
+    rotation: 90
+    x: 75.0
+    y: 10.625
+  straight_dedda25f_38.75_0.625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_9e198a39_74.99_50.625:
-    mirror: false
-    rotation: 90
-    x: 74.99
-    y: 10.625
-  straight_f4b3109e_84.995_100.625:
-    mirror: false
-    rotation: 0
-    x: 84.99
-    y: 100.625
 ports:
   E0: mmi_short,W0
   W0: mmi_long,W0

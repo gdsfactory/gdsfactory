@@ -1,8 +1,6 @@
 import dataclasses
 import pathlib
-from typing import Dict
-from typing import Optional
-from typing import Tuple
+from typing import Dict, Iterable, Optional, Tuple
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -144,7 +142,7 @@ class Strip(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.WGCLAD
-    layers_cladding: Optional[Tuple[Layer]] = (LAYER.WGCLAD,)
+    layers_cladding: Optional[Iterable[Layer]] = (LAYER.WGCLAD,)
 
 
 @dataclasses.dataclass
@@ -157,7 +155,7 @@ class Rib(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.SLAB90
-    layers_cladding: Optional[Tuple[Layer]] = (LAYER.SLAB90,)
+    layers_cladding: Optional[Iterable[Layer]] = (LAYER.SLAB90,)
 
 
 @dataclasses.dataclass

@@ -1,10 +1,6 @@
 """Routes bundles of ports (river routing).
 """
-from typing import Callable
-from typing import cast
-from typing import List
-from typing import Optional
-from typing import Union
+from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
 from numpy import ndarray
@@ -13,22 +9,22 @@ from pydantic import validate_arguments
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
+from pp.components.straight import straight
+from pp.components.taper import taper as taper_function
 from pp.config import TECH
 from pp.cross_section import get_cross_section_settings
 from pp.port import Port
-from pp.routing.get_route import get_route
-from pp.routing.get_route import get_route_from_waypoints
-from pp.routing.get_route import get_route_from_waypoints_electrical
+from pp.routing.get_route import (
+    get_route,
+    get_route_from_waypoints,
+    get_route_from_waypoints_electrical,
+)
 from pp.routing.manhattan import generate_manhattan_waypoints
 from pp.routing.path_length_matching import path_length_matched_points
-from pp.routing.sort_ports import get_port_x
-from pp.routing.sort_ports import get_port_y
+from pp.routing.sort_ports import get_port_x, get_port_y
 from pp.routing.sort_ports import sort_ports as sort_ports_function
-from pp.routing.u_groove_bundle import u_bundle_direct
-from pp.routing.u_groove_bundle import u_bundle_indirect
-from pp.types import ComponentFactory
-from pp.types import Number
-from pp.types import Route
+from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
+from pp.types import ComponentFactory, Number, Route
 
 METAL_MIN_SEPARATION = TECH.waveguide.metal_routing.min_spacing
 
@@ -55,7 +51,7 @@ def get_bundle(
         extension_length: adds straight extension
         bend_factory:
         cross_section_name
-        kwargs: cross_section_settings
+        cross_section_settings: cross_section_settings
 
     """
     # Accept dict or list
@@ -173,9 +169,9 @@ def link_ports(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 5.0,
-    route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
-    **routing_params,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
 
@@ -234,15 +230,16 @@ def link_ports(
         ports1,
         ports2,
         separation=separation,
-        route_filter=generate_manhattan_waypoints,
         bend_factory=bend_factory,
-        **routing_params,
+        cross_section_name=cross_section_name,
+        **cross_section_settings,
     )
     return [
-        route_filter(
+        get_route_from_waypoints(
             route,
             bend_factory=bend_factory,
-            **routing_params,
+            cross_section_name=cross_section_name,
+            **cross_section_settings,
         )
         for route in routes
     ]
@@ -251,13 +248,13 @@ def link_ports(
 def link_ports_routes(
     ports1: List[Port],
     ports2: List[Port],
-    separation: float,
-    route_filter: Callable = generate_manhattan_waypoints,
+    separation: float = 30,
     sort_ports: bool = True,
-    end_straight_offset: Optional[float] = None,
+    end_straight_offset: float = 0.0,
     tol: float = 0.00001,
     start_straight: float = 0.0,
-    **kwargs,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[ndarray]:
     """Returns route coordinates List
 
@@ -265,13 +262,14 @@ def link_ports_routes(
         ports1: list of starting ports
         ports2: list of end ports
         separation: route spacing
-        route_filter: Function used to connect two ports. Should be like `get_route`
         sort_ports: if True sort ports
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
-        kwargs: cross_section_settings
+        cross_section_name
+        cross_section_settings: cross_section_settings
     """
+
     if not ports1 and not ports2:
         return []
 
@@ -289,14 +287,14 @@ def link_ports_routes(
         axis = "Y"
 
     if len(ports1) == 1 and len(ports2) == 1:
-        if end_straight_offset:
-            kwargs["end_straight"] = end_straight_offset
         return [
-            route_filter(
+            generate_manhattan_waypoints(
                 ports1[0],
                 ports2[0],
                 start_straight=start_straight,
-                **kwargs,
+                end_straight=end_straight_offset,
+                cross_section_name=cross_section_name,
+                **cross_section_settings,
             )
         ]
 
@@ -308,23 +306,8 @@ def link_ports_routes(
     # Once a group is finished, all the lengths are appended to end_straights
     end_straights = []
 
-    # Axis along which we sort the ports
-    # if axis in ["X", "x"]:
-    #     f_key1 = get_port_y
-    #     f_key2 = get_port_y
-    # else:
-    #     f_key1 = get_port_x
-    #     f_key2 = get_port_x
-
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
-        # ports1.sort(key=f_key1)
-        # ports2.sort(key=f_key2)
-
-    # ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
-    # if sort_ports:
-    #     ports1.sort(key=f_key1)
-    #     ports2 = [ports2_by1[p1] for p1 in ports1]
 
     # Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
@@ -348,7 +331,6 @@ def link_ports_routes(
     Le = end_straight_offset
 
     # First pass - loop on all the ports to find the tentative end_straights
-
     _w = get_port_width
 
     for i in range(len(ports1)):
@@ -421,23 +403,25 @@ def link_ports_routes(
         # If both ports are aligned, we just need a straight line
         if dx < tol:
             elems += [
-                route_filter(
+                generate_manhattan_waypoints(
                     ports1[i],
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    **kwargs,
+                    cross_section_name=cross_section_name,
+                    **cross_section_settings,
                 )
-            ]  #
+            ]
 
         else:
             elems += [
-                route_filter(
+                generate_manhattan_waypoints(
                     ports1[i],
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    **kwargs,
+                    cross_section_name=cross_section_name,
+                    **cross_section_settings,
                 )
             ]
     return elems
@@ -462,9 +446,12 @@ def get_bundle_path_length_match(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
-    route_filter: Callable = get_route_from_waypoints,
     bend_factory: ComponentFactory = bend_euler,
-    **kwargs,
+    straight_factory: Callable = straight,
+    taper_factory: Optional[Callable] = taper_function,
+    start_straight: float = 0.0,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[Route]:
     """Returns list of routes that are path length matched.
 
@@ -480,7 +467,8 @@ def get_bundle_path_length_match(
             default is next to last segment
         route_filter: get_route_from_waypoints
         bend_factory: for bends
-        **kwargs: extra arguments for inner call to link_ports_routes
+        cross_section_name
+        cross_section_settings: cross_section_settings
 
     Tips:
 
@@ -530,9 +518,15 @@ def get_bundle_path_length_match(
         else:
             end_straight_offset = 0
 
-    kwargs["separation"] = separation
-    kwargs["end_straight_offset"] = end_straight_offset
-    list_of_waypoints = link_ports_routes(ports1, ports2, **kwargs)
+    list_of_waypoints = link_ports_routes(
+        ports1=ports1,
+        ports2=ports2,
+        separation=separation,
+        end_straight_offset=end_straight_offset,
+        start_straight=start_straight,
+        cross_section_name=cross_section_name,
+        **cross_section_settings,
+    )
 
     list_of_waypoints = path_length_matched_points(
         list_of_waypoints,
@@ -540,9 +534,20 @@ def get_bundle_path_length_match(
         bend_factory=bend_factory,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
-        **kwargs,
+        cross_section_name=cross_section_name,
+        **cross_section_settings,
     )
-    return [route_filter(waypoints) for waypoints in list_of_waypoints]
+    return [
+        get_route_from_waypoints(
+            waypoints,
+            bend_factory=bend_factory,
+            straight_factory=straight_factory,
+            taper_factory=taper_factory,
+            cross_section_name=cross_section_name,
+            **cross_section_settings,
+        )
+        for waypoints in list_of_waypoints
+    ]
 
 
 def link_electrical_ports(
