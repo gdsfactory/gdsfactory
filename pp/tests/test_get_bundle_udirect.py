@@ -24,7 +24,7 @@ def test_get_bundle_udirect(
 
     pbports.reverse()
 
-    routes = pp.routing.get_bundle(pbports, ptports, bend_radius=5)
+    routes = pp.routing.get_bundle(pbports, ptports, radius=5)
 
     lengths = {}
     for i, route in enumerate(routes):

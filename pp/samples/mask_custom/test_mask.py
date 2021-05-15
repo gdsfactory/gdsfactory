@@ -13,20 +13,12 @@ from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
-from pp.routing.get_route import get_route_from_waypoints
-
-
-def _route_filter(*args, **kwargs):
-    return get_route_from_waypoints(
-        *args, taper_factory=None, start_straight=5.0, end_straight=5.0, **kwargs
-    )
 
 
 def add_te(component, **kwargs):
     c = pp.routing.add_fiber_array(
         component=component,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
-        route_filter=_route_filter,
         **kwargs,
     )
     c.test = "passive_optical_te"
@@ -37,7 +29,6 @@ def add_tm(component, **kwargs):
     c = pp.routing.add_fiber_array(
         component=component,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
-        route_filter=_route_filter,
         **kwargs,
     )
     return c
@@ -45,21 +36,21 @@ def add_tm(component, **kwargs):
 
 @pp.cell
 def coupler_te(gap, length):
-    """Sample of component cutback."""
+    """Directional coupler with TE grating couplers."""
     c = pp.components.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
 
 @pp.cell
-def spiral_te(wg_width=0.5, length_cm=2):
-    """Waveguide Spiral for straight loss.
+def spiral_te(width=0.5, length=20e3):
+    """Waveguide Spiral with TE grating_coupler
 
     Args:
-        wg_width: um
-        lenght: mm
+        width: um
+        lenght: um
     """
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length_cm)
+    c = spiral_inner_io_euler(width=width, length=length)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
@@ -69,9 +60,14 @@ def spiral_te(wg_width=0.5, length_cm=2):
 
 
 @pp.cell
-def spiral_tm(wg_width=0.5, length_cm=2):
-    """Waveguide Spiral for straight loss."""
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length_cm, dx=10, dy=10, N=5)
+def spiral_tm(width=0.5, length=20e3):
+    """Waveguide Spiral with TM grating_coupler.
+
+    Args:
+        width: um
+        lenght: um
+    """
+    c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
@@ -141,10 +137,12 @@ def test_mask(precision: float = 2e-9) -> Path:
 if __name__ == "__main__":
     # gdspath_mask = test_mask()
     # pp.show(gdspath_mask)
-    c = coupler_te(gap=0.3, length=2.0)
-    # c = spiral_te(length_cm=6.)
-    c.show()
+    # c = coupler_te(gap=0.3, length=2.0)
+    # c = spiral_te(length=60e3)
+    # c.show()
 
     # lengths = [18.24, 36.48, 54.72, 72.96, 91.2]
     # for length in lengths:
     #     c = coupler_te(gap=0.3, length=length)
+
+    gdsp = test_mask()

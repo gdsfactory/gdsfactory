@@ -4,17 +4,17 @@ module: pp.components.grating_coupler.grating_coupler_tree
 name: grating_coupler_tree
 settings:
   bend_factory: bend_euler
-  bend_radius: 10
   component:
     function_name: straight_array
     info: {}
     module: pp.components.straight_array
-    name: straight_array_NS4_S4_Sstraight
+    name: straight_array_CSNstrip_NS4_S4
     settings:
+      cross_section_name: strip
       n_straights: 4
       spacing: 4
-      straigth: straight
-  component_name: straight_array_NS4_S4_Sstraight
+  component_name: straight_array_CSNstrip_NS4_S4
+  cross_section_name: strip
   fanout_length: 0
   gc_port_name: W0
   grating_coupler: grating_coupler_elliptical_te
@@ -23,7 +23,6 @@ settings:
   - 0
   n_straights: 4
   optical_routing_type: 0
-  straight_factory: straight
   straight_spacing: 4
   taper_factory: null
   taper_length: 10

@@ -46,6 +46,7 @@ import pp.klive as klive
 import pp.port as port
 import pp.types as types
 import pp.path as path
+from pp.tech import TECH
 
 from pp.component_from_yaml import component_from_yaml
 from pp.types import get_name_to_function_dict
@@ -114,10 +115,7 @@ __all__ = [
     "write_doe",
     "Port",
     "component_from_yaml",
-    "tech",
     "TECH",
-    "read_tech",
-    "write_tech",
 ]
 __version__ = "2.4.9"
 

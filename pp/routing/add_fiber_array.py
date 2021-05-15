@@ -33,7 +33,7 @@ def add_fiber_array(
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
-    taper_factory: Callable = taper,
+    taper_factory: Optional[Callable] = taper,
     taper_length: float = TECH.waveguide.strip.taper_length,
     get_input_labels_function: Callable = get_input_labels,
     **kwargs,
@@ -54,7 +54,6 @@ def add_fiber_array(
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
         straight_separation: 4.0
-        bend_radius: optional bend_radius (defaults to tech.bend_radius)
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
@@ -78,7 +77,6 @@ def add_fiber_array(
             component=c,
             optical_routing_type=2,
             grating_coupler=pp.components.grating_coupler_elliptical_te,
-            bend_radius=20
         )
         cc.plot()
 
@@ -101,7 +99,7 @@ def add_fiber_array(
     optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
-    if port_width_component != port_width_gc:
+    if taper_factory and port_width_component != port_width_gc:
         c = add_tapers(
             component=c,
             taper=taper_factory(
@@ -193,7 +191,6 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
-        bend_radius=20,
         auto_widen=False,
     )
     # cc = demo_te_and_tm()

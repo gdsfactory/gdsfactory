@@ -5,36 +5,22 @@ You can make a repo out of this file, having one custom component per file
 import os
 import shutil
 from pathlib import Path
-from typing import Dict, List, Union
 
+import numpy as np
 import pytest
 
 import pp
 from pp.add_termination import add_gratings_and_loop_back
-from pp.component import Component, ComponentReference
+from pp.component import Component
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
 from pp.mask.merge_metadata import merge_metadata
-from pp.port import Port
-from pp.routing.get_route import get_route_from_waypoints
-
-
-def _route_filter(
-    *args, **kwargs
-) -> Union[
-    Dict[str, Union[List[ComponentReference], Dict[str, Port], float]],
-    ComponentReference,
-]:
-    return get_route_from_waypoints(
-        *args, taper_factory=None, start_straight=5.0, end_straight=5.0, **kwargs
-    )
 
 
 def add_te(component: Component, **kwargs) -> Component:
     c = pp.routing.add_fiber_array(
         component=component,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
-        route_filter=_route_filter,
         **kwargs,
     )
     c.test = "passive_optical_te"
@@ -45,7 +31,6 @@ def add_tm(component, **kwargs):
     c = pp.routing.add_fiber_array(
         component=component,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
-        route_filter=_route_filter,
         bend_radius=20,
         **kwargs,
     )
@@ -57,21 +42,21 @@ def coupler_te(
     gap: float,
     length: int,
 ) -> Component:
-    """ sample of component cutback """
+    """Evanescent coupler with TE grating coupler."""
     c = pp.components.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
 
 @pp.cell
-def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
-    """sample of component cutback
+def spiral_te(width: float = 0.5, length: int = 2) -> Component:
+    """Spiral with TE grating_coupler
 
     Args:
-        wg_width: um
-        lenght: mm
+        width: waveguide width um
+        lenght: cm
     """
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length)
+    c = spiral_inner_io_euler(width=width, length=length)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
@@ -81,9 +66,14 @@ def spiral_te(wg_width: float = 0.5, length: int = 2) -> Component:
 
 
 @pp.cell
-def spiral_tm(wg_width=0.5, length=2):
-    """ sample of component cutback """
-    c = spiral_inner_io_euler(wg_width=wg_width, length=length, dx=10, dy=10, N=5)
+def spiral_tm(width=0.5, length=20e3):
+    """Spiral with TM grating_coupler
+
+    Args:
+        width: waveguide width um
+        lenght: um
+    """
+    c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loop_back(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
@@ -118,7 +108,7 @@ def test_mask(precision: float = 1e-9) -> Path:
     json_path = gdspath.with_suffix(".json")
     test_metadata_path = gdspath.with_suffix(".tp.json")
 
-    components = [spiral_te(length=length) for length in [2, 4, 6]]
+    components = [spiral_te(length=length) for length in np.array([2, 4, 6]) * 1e4]
     components += [coupler_te(length=length, gap=0.2) for length in [10, 20, 30, 40]]
     c = pp.pack(components)
     m = c[0]

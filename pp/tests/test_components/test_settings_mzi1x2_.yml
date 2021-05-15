@@ -6,5 +6,5 @@ settings:
   DL: 9
   L0: 0.1
   L2: 10
-  bend_radius: 10
+  cross_section_name: strip
   with_elec_connections: false

@@ -1,25 +1,15 @@
-from typing import Any
-from typing import Callable
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64
 from pydantic import validate_arguments
 
 from pp.cell import cell
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.config import TECH
 from pp.layers import LAYER
-from pp.port import flipped
-from pp.port import is_electrical_port
-from pp.port import Port
-from pp.routing.get_route import get_route
-from pp.routing.get_route import get_route_electrical
+from pp.port import Port, flipped, is_electrical_port
+from pp.routing.get_route import get_route, get_route_electrical
 from pp.types import Route
 
 
@@ -65,7 +55,7 @@ def route_ports_to_side(
         or `get_route` depending on the ports layer.
 
         kwargs: may include:
-            `bend_radius`
+            `radius`
             `extend_bottom`, `extend_top` for east/west routing
             `extend_left`, `extend_right` for south/north routing
     """
@@ -126,7 +116,7 @@ def connect_ports_to_x(
     list_ports: List[Port],
     x: str = "east",
     separation: float = 10.0,
-    bend_radius: float = TECH.waveguide.strip.radius,
+    radius: float = TECH.waveguide.strip.radius,
     extend_bottom: int = 0,
     extend_top: int = 0,
     extension_length: int = 0,
@@ -169,7 +159,7 @@ def connect_ports_to_x(
     west_ports = [p for p in list_ports if p.angle == 180]
 
     epsilon = 1.0
-    a = epsilon + max(bend_radius, separation)
+    a = epsilon + max(radius, separation)
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
@@ -240,7 +230,7 @@ def connect_ports_to_x(
                 p,
                 new_port,
                 start_straight=start_straight,
-                bend_radius=bend_radius,
+                radius=radius,
                 **routing_func_args,
             )
         ]
@@ -311,7 +301,7 @@ def connect_ports_to_y(
     list_ports: List[Port],
     y: float64 = "north",
     separation: float = 10.0,
-    bend_radius: float = TECH.waveguide.strip.radius,
+    radius: float = TECH.waveguide.strip.radius,
     x0_left: None = None,
     x0_right: None = None,
     extension_length: int = 0,
@@ -362,7 +352,7 @@ def connect_ports_to_y(
     west_ports = [p for p in list_ports if p.angle < 180 + da and p.angle > 180 - da]
 
     epsilon = 1.0
-    a = bend_radius + max(bend_radius, separation)
+    a = radius + max(radius, separation)
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
@@ -440,7 +430,7 @@ def connect_ports_to_y(
                     p,
                     new_port,
                     start_straight=start_straight,
-                    bend_radius=bend_radius,
+                    radius=radius,
                     **routing_func_args,
                 )
             ]
@@ -521,7 +511,9 @@ def sample_route_sides() -> Component:
     for pos, side in zip(positions, sides):
         dummy_ref = _dummy_t.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side)
+        routes, ports = route_ports_to_side(
+            dummy_ref, side, cross_section_name="nitride"
+        )
         for route in routes:
             c.add(route["references"])
         for i, p in enumerate(ports):

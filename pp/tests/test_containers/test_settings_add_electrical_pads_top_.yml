@@ -13,7 +13,7 @@ settings:
       DL: 7.38
       L0: 60
       L2: 10
-      bend_radius: 10
+      cross_section_name: strip
       gap: 0.234
       with_elec_connections: true
   component_top_to_pad_bottom_distance: 100

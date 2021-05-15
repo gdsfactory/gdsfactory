@@ -26,9 +26,7 @@ def test_get_bundle_optical(
         d.ports["W0"],
     ]
 
-    routes = pp.routing.link_optical_ports(
-        ports1, ports2, sort_ports=True, bend_radius=10
-    )
+    routes = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True, radius=10)
     for i, route in enumerate(routes):
         c.add(route["references"])
         lengths[i] = route["length"]

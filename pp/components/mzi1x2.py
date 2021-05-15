@@ -20,12 +20,13 @@ def mzi1x2(
     L0: float = 0.1,
     DL: float = 9.0,
     L2: float = 10.0,
-    bend_radius: float = 10.0,
     bend: ComponentFactory = bend_circular,
     straight_heater: ComponentFactory = straight_with_heater,
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = mmi1x2,
     with_elec_connections: bool = False,
+    cross_section_name="strip",
+    **cross_section_settings
 ) -> Component:
     """Mzi 1x2
 
@@ -67,15 +68,15 @@ def mzi1x2(
 
     arm_defaults = {
         "L_top": L2,
-        "bend_radius": bend_radius,
         "bend": bend,
         "straight_heater": straight_heater,
         "straight": straight,
         "with_elec_connections": with_elec_connections,
+        "cross_section_name": cross_section_name,
     }
 
-    arm_top = mzi_arm(L0=L0, **arm_defaults)
-    arm_bot = mzi_arm(L0=L0 + DL, **arm_defaults)
+    arm_top = mzi_arm(L0=L0, **arm_defaults, **cross_section_settings)
+    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **cross_section_settings)
 
     components = {
         "CP1": (cpl, "None"),
@@ -137,7 +138,9 @@ def mzi1x2(
 
         # Reroute electrical ports
         _e_ports = select_electrical_ports(component)
-        routes, e_ports = route_ports_to_side(_e_ports, side="north", y=y_elec)
+        routes, e_ports = route_ports_to_side(
+            _e_ports, side="north", y=y_elec, radius=2
+        )
 
         for route in routes:
             component.add(route["references"])
@@ -160,8 +163,6 @@ def mzi1x2(
 
 
 if __name__ == "__main__":
-    # FIXME with_elec_connections=True has routing issues
-
     # c = mzi1x2(coupler_function=mmi1x2, with_elec_connections=False)
     c = mzi1x2(coupler_function=mmi1x2, L0=10, with_elec_connections=True)
     # print(c.ports)

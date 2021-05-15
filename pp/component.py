@@ -1099,11 +1099,11 @@ def test_get_layers() -> None:
         length=10,
         width=0.5,
         layer=(2, 0),
-        cross_section={"clad": dict(width=3, offset=0, layer=(111, 0))},
     )
     assert c.get_layers() == {(2, 0), (111, 0)}
     c.remove_layers((111, 0))
     assert c.get_layers() == {(2, 0)}
+    return c
 
 
 def _filter_polys(polygons, layers_excl):
@@ -1278,18 +1278,19 @@ def test_extract():
 
 
 if __name__ == "__main__":
-    import pp
 
     # test_extract()
 
-    c = pp.c.straight(
-        length=10,
-        width=0.5,
-    )
-    c.show()
+    # c = pp.c.straight(
+    #     length=10,
+    #     width=0.5,
+    # )
+    # c.show()
     # c2 = c.extract(layers=[(1, 0)])
 
-    # test_get_layers()
+    c = test_get_layers()
+    c.show()
+
     # import pp
 
     # c = pp.components.bend_circular()

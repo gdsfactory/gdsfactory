@@ -1,26 +1,19 @@
-from typing import List
-from typing import Optional
+from typing import List, Optional
 
 import numpy as np
 import phidl.device_layout as pd
 
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.components import straight
 from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
-from pp.config import TECH
 from pp.routing.get_route import get_route
-from pp.routing.utils import direction_ports_from_list_ports
-from pp.routing.utils import flip
-from pp.types import ComponentFactory
-from pp.types import Number
-from pp.types import Route
+from pp.routing.utils import direction_ports_from_list_ports, flip
+from pp.types import ComponentFactory, Number, Route
 
 
 def route_south(
     component: Component,
-    bend_radius: float = TECH.waveguide.strip.radius,
     optical_routing_type: int = 1,
     excluded_ports: List[str] = None,
     straight_separation: Number = 4.0,
@@ -30,12 +23,12 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
+    cross_section_name: str = "strip",
     **cross_section_settings,
 ) -> Route:
     """
     Args:
         component: component to route
-        bend_radius
         optical_routing_type: routing heuristic `1` or `2`
             `1` uses the component size info to estimate the box size.
             `2` only looks at the optical port positions to estimate the size
@@ -69,7 +62,9 @@ def route_south(
     references = []
     lengths = []
     bend90 = (
-        bend_factory(radius=bend_radius) if callable(bend_factory) else bend_factory
+        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
+        if callable(bend_factory)
+        else bend_factory
     )
     dy = abs(bend90.dy)
 
@@ -78,13 +73,13 @@ def route_south(
         return [], []
 
     conn_params = dict(
-        bend_radius=bend_radius,
         bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper_factory=taper_factory,
         auto_widen=auto_widen,
-        cross_section_settings=cross_section_settings,
+        cross_section_name=cross_section_name,
     )
+    conn_params.update(**cross_section_settings)
 
     # Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * dy
@@ -263,12 +258,9 @@ if __name__ == "__main__":
     c = pp.components.ring_double()
     # r = route_south(c)
 
-    cross_section_settings = pp.TECH.waveguide.nitride
-    c = pp.components.ring_double(**cross_section_settings)
+    c = pp.components.ring_double()
     r = route_south(
-        c,
-        bend_factory=pp.components.bend_euler,
-        **cross_section_settings,
+        c, bend_factory=pp.components.bend_euler, cross_section_name="nitride"
     )
     for e in r["references"]:
         if isinstance(e, list):

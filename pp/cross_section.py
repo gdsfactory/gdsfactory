@@ -36,7 +36,6 @@ def cross_section(
     layer_cladding: Optional[Layer] = None,
     layers_cladding: Optional[Tuple[Layer]] = None,
     sections: Optional[Tuple[Section]] = None,
-    **kwargs,
 ) -> CrossSection:
     """Returns a CrossSection from settings.
 

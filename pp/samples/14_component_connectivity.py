@@ -12,7 +12,7 @@ from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
-from pp.types import ComponentOrFactory, CrossSectionFactory
+from pp.types import ComponentOrFactory
 
 
 @cell
@@ -25,7 +25,7 @@ def test_ring_single(
     straight: ComponentOrFactory = straight_function,
     bend: Optional[ComponentOrFactory] = None,
     pins: bool = False,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_name: str = "strip",
     **cross_section_settings
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -41,7 +41,7 @@ def test_ring_single(
         straight: straight function
         bend: 90 degrees bend function
         pins: add pins
-        cross_section_factory: for straights
+        cross_section_name: for straights
         **cross_section_settings
 
 
@@ -64,7 +64,7 @@ def test_ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            cross_section_factory=cross_section_factory,
+            cross_section_name=cross_section_name,
             **cross_section_settings
         )
         if callable(coupler_ring)
@@ -73,13 +73,13 @@ def test_ring_single(
     straight_side = call_if_func(
         straight,
         length=length_y,
-        cross_section_factory=cross_section_factory,
+        cross_section_name=cross_section_name,
         **cross_section_settings
     )
     straight_top = call_if_func(
         straight,
         length=length_x,
-        cross_section_factory=cross_section_factory,
+        cross_section_name=cross_section_name,
         **cross_section_settings
     )
 
@@ -87,7 +87,7 @@ def test_ring_single(
     bend_ref = (
         bend(
             radius=radius,
-            cross_section_factory=cross_section_factory,
+            cross_section_name=cross_section_name,
             **cross_section_settings
         )
         if callable(bend)
