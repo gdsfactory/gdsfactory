@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c = mzi(delta_length=10)
 
-    c = mzi(delta_length=20, cross_section_name="strip")
+    c = mzi(delta_length=20, waveguide="strip")
 
     # add_markers(c)
     # print(c.ports["E0"].midpoint[1])

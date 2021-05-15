@@ -11,11 +11,11 @@ settings:
     module: pp.components.coupler
     name: coupler_G200n_L5
     settings:
-      cross_section_name: strip
       dx: 10
       dy: 5
       gap: 0.2
       length: 5
+      waveguide: strip
   component_name: null
   gc_port_name: W0
   optical_routing_type: 1

@@ -22,89 +22,89 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_19.375_4.0:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_26.125_-22.35:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_26.125_17.35:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_39.475_-22.35:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_39.475_17.35:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_46.225_-4.0:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_46.225_4.0:
     component: bend_euler
     settings:
       angle: 90
-      cross_section_name: strip
       direction: ccw
       npoints: 720
       p: 1
+      waveguide: strip
       with_arc_floorplan: true
       with_cladding_box: true
   mmi1x2_0.0_0.0:
     component: mmi1x2
     settings:
-      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      waveguide: strip
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -112,10 +112,10 @@ instances:
   mmi1x2_65.6_-0.0:
     component: mmi1x2
     settings:
-      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      waveguide: strip
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -123,58 +123,58 @@ instances:
   straight_L100n_22.75_-10.675:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L100n_22.75_10.675:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L100n_32.8_-25.725:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L100n_32.8_20.725:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L100n_42.85_-10.675:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L100n_42.85_10.675:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.1
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L5_22.75_-13.225:
     component: straight
     settings:
-      cross_section_name: strip
       length: 5
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L5_42.85_-13.225:
     component: straight
     settings:
-      cross_section_name: strip
       length: 5
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
 name: mzi
 placements:

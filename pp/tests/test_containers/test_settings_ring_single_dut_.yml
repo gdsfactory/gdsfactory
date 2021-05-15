@@ -13,8 +13,8 @@ settings:
       DL: 7.38
       L0: 60
       L2: 10
-      cross_section_name: strip
       gap: 0.234
+      waveguide: strip
       with_elec_connections: true
   gap: 0.2
   length_x: 4

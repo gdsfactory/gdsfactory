@@ -5,10 +5,8 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
-from pp.types import ComponentFactory
-from pp.types import ComponentOrFactory
+from pp.cross_section import cross_section, get_waveguide_settings
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -18,7 +16,7 @@ def coupler90(
     radius: float = 10.0,
     straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     r"""straight coupled to a bend.
@@ -28,7 +26,7 @@ def coupler90(
         radius: um
         straight: for straight
         bend: for bend
-        kwargs:  cross_section_settings
+        kwargs:  waveguide_settings
 
     .. code::
 
@@ -41,16 +39,16 @@ def coupler90(
 
     """
     c = Component()
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    cross_section_settings.update(radius=radius)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    waveguide_settings.update(radius=radius)
+    x = cross_section(**waveguide_settings)
 
-    bend90 = bend(**cross_section_settings) if callable(bend) else bend
+    bend90 = bend(**waveguide_settings) if callable(bend) else bend
     bend_ref = c << bend90
     straight_component = (
         straight(
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-            **cross_section_settings
+            **waveguide_settings
         )
         if callable(straight)
         else straight

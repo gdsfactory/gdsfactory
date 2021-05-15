@@ -3,7 +3,7 @@ from pydantic import validate_arguments
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
@@ -14,7 +14,7 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """Returns a radial arc.
@@ -23,8 +23,8 @@ def bend_circular(
         radius
         angle: angle of arc (degrees)
         with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section_name: from tech.waveguide
-        kwargs: cross_section_settings
+        waveguide: from tech.waveguide
+        kwargs: waveguide_settings
 
     .. plot::
         :include-source:
@@ -35,8 +35,8 @@ def bend_circular(
         c.plot()
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     from pprint import pprint
 
     # c = bend_circular(width=2, layer=pp.LAYER.M1)
-    c = bend_circular(cross_section_name="metal_routing", width=3)
+    c = bend_circular(waveguide="metal_routing", width=3)
     c.show()
     pprint(c.get_settings())
 

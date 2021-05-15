@@ -12,15 +12,13 @@ WIRE_WIDTH = 10.0
 @deco_rename_ports
 @cell
 @validate_arguments
-def wire(
-    length: float = 50.0, cross_section_name: str = "metal_routing", **kwargs
-) -> Component:
+def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Component:
     """Straight wire.
 
     Args:
         length: straiht length
     """
-    return straight(length=length, cross_section_name=cross_section_name, **kwargs)
+    return straight(length=length, waveguide=waveguide, **kwargs)
 
 
 @cell
@@ -30,7 +28,7 @@ def corner(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = False,
-    cross_section_name: str = "metal_routing",
+    waveguide: str = "metal_routing",
     **kwargs
 ) -> Component:
     """90 degrees electrical bend
@@ -39,7 +37,7 @@ def corner(
         radius
         angle: angle of arc (degrees)
         npoints: Number of points used per 360 degrees
-        cross_section_settings: settings for cross_section
+        waveguide_settings: settings for cross_section
         kargs: cross_section settings to extrude
 
     """
@@ -48,7 +46,7 @@ def corner(
         angle=angle,
         npoints=npoints,
         with_cladding_box=with_cladding_box,
-        cross_section_name=cross_section_name,
+        waveguide=waveguide,
         **kwargs
     )
 

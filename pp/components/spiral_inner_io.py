@@ -12,7 +12,7 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.straight import straight
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
 from pp.types import ComponentFactory, Number
@@ -41,7 +41,7 @@ def spiral_inner_io(
     straight_factory: ComponentFactory = straight,
     taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """Spiral with ports inside the spiral circle.
@@ -62,9 +62,9 @@ def spiral_inner_io(
         length:
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    width = cross_section_settings.get("width")
-    taper_length = cross_section_settings.get("taper_length", 10.0)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    width = waveguide_settings.get("width")
+    taper_length = waveguide_settings.get("taper_length", 10.0)
 
     if length:
         if bend180_function == bend_circular180:
@@ -97,8 +97,8 @@ def spiral_inner_io(
                 dy=dy,
             )
 
-    _bend180 = pp.call_if_func(bend180_function, **cross_section_settings)
-    _bend90 = pp.call_if_func(bend90_function, **cross_section_settings)
+    _bend180 = pp.call_if_func(bend180_function, **waveguide_settings)
+    _bend90 = pp.call_if_func(bend90_function, **waveguide_settings)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate

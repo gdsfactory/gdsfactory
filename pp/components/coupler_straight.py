@@ -20,7 +20,7 @@ def coupler_straight(
         length: of straight
         gap: between straights
         straight: straight waveguide function
-        kwargs: overwrites cross_section_settings
+        kwargs: overwrites waveguide_settings
     """
     component = Component()
 

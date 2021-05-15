@@ -44,13 +44,13 @@ TECH.components.mmi1x2b = Mmi1x2FabB()
 def demo_waveguide():
     import pp
 
-    wg = pp.components.straight(length=20, cross_section_name="stripb")
+    wg = pp.components.straight(length=20, waveguide="stripb")
     gc = pp.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
     wg_gc = pp.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, cross_section_name="stripb"
+        component=wg, grating_coupler=gc, waveguide="stripb"
     )
     wg_gc.show()
 
@@ -64,6 +64,6 @@ if __name__ == "__main__":
     )
 
     wg_gc = pp.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, cross_section_name="stripb"
+        component=wg, grating_coupler=gc, waveguide="stripb"
     )
     wg_gc.show()

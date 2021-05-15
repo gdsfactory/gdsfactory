@@ -5,10 +5,10 @@ info:
 module: pp.components.mmi1x2
 name: mmi1x2
 settings:
-  cross_section_name: strip
   gap_mmi: 0.25
   length_mmi: 5.5
   length_taper: 10
+  waveguide: strip
   width: 0.5
   width_mmi: 2.5
   width_taper: 1

@@ -7,7 +7,6 @@ module: pp.components.bend_circular_heater
 name: bend_circular_heater
 settings:
   angle: 90
-  cross_section_name: strip
   heater_to_wg_distance: 1.2
   heater_width: 0.5
   layer_heater:
@@ -15,3 +14,4 @@ settings:
   - 0
   npoints: 720
   radius: 10
+  waveguide: strip

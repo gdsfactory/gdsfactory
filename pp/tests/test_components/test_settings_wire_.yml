@@ -5,7 +5,7 @@ info:
 module: pp.components.electrical.wire
 name: wire
 settings:
-  cross_section_name: metal_routing
   length: 50
   npoints: 2
+  waveguide: metal_routing
   with_cladding_box: true

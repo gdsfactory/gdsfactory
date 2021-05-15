@@ -7,7 +7,7 @@ module: pp.components.electrical.wire
 name: corner
 settings:
   angle: 90
-  cross_section_name: metal_routing
   npoints: 720
   radius: 5
+  waveguide: metal_routing
   with_cladding_box: false

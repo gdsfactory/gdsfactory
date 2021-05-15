@@ -25,8 +25,8 @@ def mzi1x2(
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = mmi1x2,
     with_elec_connections: bool = False,
-    cross_section_name="strip",
-    **cross_section_settings
+    waveguide="strip",
+    **waveguide_settings
 ) -> Component:
     """Mzi 1x2
 
@@ -72,11 +72,11 @@ def mzi1x2(
         "straight_heater": straight_heater,
         "straight": straight,
         "with_elec_connections": with_elec_connections,
-        "cross_section_name": cross_section_name,
+        "waveguide": waveguide,
     }
 
-    arm_top = mzi_arm(L0=L0, **arm_defaults, **cross_section_settings)
-    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **cross_section_settings)
+    arm_top = mzi_arm(L0=L0, **arm_defaults, **waveguide_settings)
+    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **waveguide_settings)
 
     components = {
         "CP1": (cpl, "None"),

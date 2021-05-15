@@ -22,15 +22,15 @@ def grating_coupler_tree(
     bend_factory: ComponentFactory = bend_euler,
     fanout_length: float = 0.0,
     layer_label: Tuple[int, int] = TECH.layer_label,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers
     useful to align the 4 corners of the chip
 
     Args:
-        cross_section_name
-        kwargs: cross_section_settings
+        waveguide
+        kwargs: waveguide_settings
 
     .. plot::
       :include-source:
@@ -44,7 +44,7 @@ def grating_coupler_tree(
     c = straight_array(
         n_straights=n_straights,
         spacing=straight_spacing,
-        cross_section_name=cross_section_name,
+        waveguide=waveguide,
         **kwargs,
     )
 
@@ -58,7 +58,7 @@ def grating_coupler_tree(
         bend_factory=bend_factory,
         layer_label=layer_label,
         taper_factory=None,
-        cross_section_name=cross_section_name,
+        waveguide=waveguide,
         **kwargs,
     )
     cc.ignore.add("route_filter")
@@ -67,6 +67,6 @@ def grating_coupler_tree(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_tree(cross_section_name="nitride")
+    c = grating_coupler_tree(waveguide="nitride")
     # print(c.get_settings())
     c.show()

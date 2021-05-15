@@ -16,8 +16,8 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend_factory: ComponentFactory = bend_euler,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[ndarray]:
     """
     Several types of paths won't match correctly.
@@ -48,8 +48,8 @@ def path_length_matched_points(
             modify_segment_i=modify_segment_i,
             nb_loops=nb_loops,
             extra_length=extra_length,
-            cross_section_name=cross_section_name,
-            **cross_section_settings,
+            waveguide=waveguide,
+            **waveguide_settings,
         )
     else:
         return path_length_matched_points_modify_segment(
@@ -135,8 +135,8 @@ def path_length_matched_points_add_waypoints(
     margin: float = 0.5,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[ndarray]:
     """
     Args:
@@ -205,9 +205,7 @@ def path_length_matched_points_add_waypoints(
     """
 
     # Get the points for the segment we need to modify
-    bend90 = bend_factory(
-        cross_section_name=cross_section_name, **cross_section_settings
-    )
+    bend90 = bend_factory(waveguide=waveguide, **waveguide_settings)
 
     a = margin + bend90.dy
     if modify_segment_i < 0:

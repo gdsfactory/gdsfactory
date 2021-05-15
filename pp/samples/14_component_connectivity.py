@@ -25,8 +25,8 @@ def test_ring_single(
     straight: ComponentOrFactory = straight_function,
     bend: Optional[ComponentOrFactory] = None,
     pins: bool = False,
-    cross_section_name: str = "strip",
-    **cross_section_settings
+    waveguide: str = "strip",
+    **waveguide_settings
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
     connected with two vertical straights (wl: left, wr: right)
@@ -41,8 +41,8 @@ def test_ring_single(
         straight: straight function
         bend: 90 degrees bend function
         pins: add pins
-        cross_section_name: for straights
-        **cross_section_settings
+        waveguide: for straights
+        **waveguide_settings
 
 
     .. code::
@@ -64,32 +64,22 @@ def test_ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            cross_section_name=cross_section_name,
-            **cross_section_settings
+            waveguide=waveguide,
+            **waveguide_settings
         )
         if callable(coupler_ring)
         else coupler_ring
     )
     straight_side = call_if_func(
-        straight,
-        length=length_y,
-        cross_section_name=cross_section_name,
-        **cross_section_settings
+        straight, length=length_y, waveguide=waveguide, **waveguide_settings
     )
     straight_top = call_if_func(
-        straight,
-        length=length_x,
-        cross_section_name=cross_section_name,
-        **cross_section_settings
+        straight, length=length_x, waveguide=waveguide, **waveguide_settings
     )
 
     bend = bend or bend_euler
     bend_ref = (
-        bend(
-            radius=radius,
-            cross_section_name=cross_section_name,
-            **cross_section_settings
-        )
+        bend(radius=radius, waveguide=waveguide, **waveguide_settings)
         if callable(bend)
         else bend
     )

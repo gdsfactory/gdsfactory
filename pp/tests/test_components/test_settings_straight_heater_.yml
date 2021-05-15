@@ -3,7 +3,6 @@ info: {}
 module: pp.components.straight_heater
 name: straight_heater
 settings:
-  cross_section_name: strip
   heater_spacing: 1.2
   heater_width: 0.5
   layer_heater:
@@ -23,4 +22,5 @@ settings:
   - lane: -1
     nb_segments: 2
     x_start_offset: 0
+  waveguide: strip
   width: 0.5

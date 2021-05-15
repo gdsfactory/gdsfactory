@@ -8,31 +8,31 @@ instances:
     component: coupler_ring
     settings:
       bend: null
-      cross_section_name: strip
       gap: 0.2
       length_x: 0.01
       radius: 10
+      waveguide: strip
   coupler_ring_d7d71f27_-0.005_3.725:
     component: coupler_ring
     settings:
       bend: null
-      cross_section_name: strip
       gap: 0.2
       length_x: 0.01
       radius: 10
+      waveguide: strip
   straight_L10n_-10.01_10.705:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.01
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
   straight_L10n_10.0_10.705:
     component: straight
     settings:
-      cross_section_name: strip
       length: 0.01
       npoints: 2
+      waveguide: strip
       with_cladding_box: true
 name: ring_double
 placements:

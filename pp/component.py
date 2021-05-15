@@ -537,9 +537,9 @@ class Component(Device):
             "path",
             "netlist",
             "properties",
-            "cross_section_settings",
-            "cross_section_settings_inner",
-            "cross_section_settings_outer",
+            "waveguide_settings",
+            "waveguide_settings_inner",
+            "waveguide_settings_outer",
         }
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}

@@ -7,7 +7,7 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.geo_utils import angles_deg
 from pp.port import Port
 from pp.snap import snap_to_grid
@@ -444,8 +444,8 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[Callable] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> Route:
     """Returns Dict:
 
@@ -461,24 +461,22 @@ def round_corners(
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
-        cross_section_settings
+        waveguide_settings
     """
-    cross_section_settings = get_cross_section_settings(
-        cross_section_name, **cross_section_settings
-    )
-    auto_widen = cross_section_settings.get("auto_widen", False)
-    auto_widen_minimum_length = cross_section_settings.get(
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    auto_widen = waveguide_settings.get("auto_widen", False)
+    auto_widen_minimum_length = waveguide_settings.get(
         "auto_widen_minimum_length", 200.0
     )
-    taper_length = cross_section_settings.get("taper_length", 10.0)
+    taper_length = waveguide_settings.get("taper_length", 10.0)
     references = []
     ports = dict()
     bend90 = (
-        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
+        bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
         else bend_factory
     )
-    taper = taper(**cross_section_settings) if callable(taper) else taper
+    taper = taper(**waveguide_settings) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper:
@@ -574,15 +572,15 @@ def round_corners(
         # Straight straight
         length = snap_to_grid(length)
         if with_taper:
-            cross_section_settings_wide = dict(cross_section_settings.copy())
-            cross_section_settings_wide.update(width=taper_width)
+            waveguide_settings_wide = dict(waveguide_settings.copy())
+            waveguide_settings_wide.update(width=taper_width)
             wg = straight_factory(
                 length=length,
-                **cross_section_settings_wide,
+                **waveguide_settings_wide,
             )
         else:
             wg = straight_factory_fall_back_no_taper(
-                length=length, **cross_section_settings
+                length=length, **waveguide_settings
             )
 
         if straight_ports is None:
@@ -630,19 +628,17 @@ def generate_manhattan_waypoints(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
-    cross_section_settings = get_cross_section_settings(
-        cross_section_name, **cross_section_settings
-    )
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
-    # print(cross_section_settings)
+    # print(waveguide_settings)
 
     bend90 = (
-        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
+        bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
         else bend_factory
     )
@@ -674,8 +670,8 @@ def route_manhattan(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
@@ -688,16 +684,16 @@ def route_manhattan(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend_factory,
-        cross_section_name=cross_section_name,
-        **cross_section_settings,
+        waveguide=waveguide,
+        **waveguide_settings,
     )
     return round_corners(
         points=points,
         straight_factory=straight_factory,
         taper=taper,
         bend_factory=bend_factory,
-        cross_section_name=cross_section_name,
-        **cross_section_settings,
+        waveguide=waveguide,
+        **waveguide_settings,
     )
 
 
@@ -735,7 +731,7 @@ def test_manhattan() -> Component:
             start_straight=5.0,
             end_straight=5.0,
             bend_factory=bend_circular,
-            cross_section_name="nitride",
+            waveguide="nitride",
             radius=5.0,
         )
 

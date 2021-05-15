@@ -6,8 +6,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 from pp.config import TECH
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 from pp.types import ComponentFactory
 
 
@@ -21,7 +20,7 @@ def mmi2x2(
     width_mmi: float = TECH.components.mmi2x2.width_mmi,
     gap_mmi: float = TECH.components.mmi2x2.gap_mmi,
     taper: ComponentFactory = taper_function,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     r"""Mmi 2x2.
@@ -34,8 +33,8 @@ def mmi2x2(
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
         taper: taper function
-        cross_section_settings: settings for cross_section
-        kwargs: overwrites cross_section_settings
+        waveguide_settings: settings for cross_section
+        kwargs: overwrites waveguide_settings
 
 
     .. code::
@@ -57,8 +56,8 @@ def mmi2x2(
             length_taper
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -68,7 +67,7 @@ def mmi2x2(
     w_taper = width_taper
 
     taper = taper(
-        length=length_taper, width1=width, width2=w_taper, **cross_section_settings
+        length=length_taper, width1=width, width2=w_taper, **waveguide_settings
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -108,7 +107,7 @@ def mmi2x2(
 
 
 if __name__ == "__main__":
-    c = mmi2x2(cross_section_name="nitride")
+    c = mmi2x2(waveguide="nitride")
     c.show()
     # print(c.get_optical_ports())
     c.pprint()

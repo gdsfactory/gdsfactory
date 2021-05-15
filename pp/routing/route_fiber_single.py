@@ -18,7 +18,7 @@ def route_fiber_single(
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
-    **cross_section_settings,
+    **waveguide_settings,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
@@ -109,7 +109,7 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
-        **cross_section_settings,
+        **waveguide_settings,
     )
 
     # route north ports
@@ -128,7 +128,7 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
-        **cross_section_settings,
+        **waveguide_settings,
     )
     for e in elements_north:
         if isinstance(e, list):
@@ -162,8 +162,8 @@ if __name__ == "__main__":
     #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     # )
 
-    cross_section_settings = pp.TECH.waveguide.nitride
-    c = pp.components.straight(**cross_section_settings)
+    waveguide_settings = pp.TECH.waveguide.nitride
+    c = pp.components.straight(**waveguide_settings)
     gc = pp.components.grating_coupler_elliptical_te(
         layer=pp.TECH.waveguide.nitride.layer
     )
@@ -171,7 +171,7 @@ if __name__ == "__main__":
         c,
         grating_coupler=[gc, gc, gc, gc],
         auto_widen=False,
-        **cross_section_settings,
+        **waveguide_settings,
     )
 
     cc = pp.Component("sample_route_fiber_single")

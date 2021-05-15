@@ -24,8 +24,8 @@ def mzi_arm(
     straight_heater: ComponentOrFactory = straight_with_heater,
     straight: ComponentOrFactory = straight_function,
     with_elec_connections: bool = True,
-    cross_section_name="strip",
-    **cross_section_settings
+    waveguide="strip",
+    **waveguide_settings
 ) -> Component:
     """Returns an MZI arm.
 
@@ -60,18 +60,14 @@ def mzi_arm(
     if not with_elec_connections:
         straight_heater = straight
 
-    _bend = bend(cross_section_name=cross_section_name, **cross_section_settings)
+    _bend = bend(waveguide=waveguide, **waveguide_settings)
 
     straight_vheater = straight_heater(
-        length=L0, cross_section_name=cross_section_name, **cross_section_settings
+        length=L0, waveguide=waveguide, **waveguide_settings
     )
-    straight_h = straight(
-        length=L_top, cross_section_name=cross_section_name, **cross_section_settings
-    )
+    straight_h = straight(length=L_top, waveguide=waveguide, **waveguide_settings)
     straight_v = (
-        straight(
-            length=DL, cross_section_name=cross_section_name, **cross_section_settings
-        )
+        straight(length=DL, waveguide=waveguide, **waveguide_settings)
         if DL > 0
         else None
     )
@@ -120,8 +116,8 @@ def mzi2x2(
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
-    cross_section_name="strip",
-    **cross_section_settings
+    waveguide="strip",
+    **waveguide_settings
 ) -> Component:
     """Mzi 2x2
 
@@ -165,10 +161,7 @@ def mzi2x2(
         straight_heater = straight
 
     cpl = coupler_function(
-        length=CL_1,
-        gap=gap,
-        cross_section_name=cross_section_name,
-        **cross_section_settings
+        length=CL_1, gap=gap, waveguide=waveguide, **waveguide_settings
     )
 
     arm_defaults = {
@@ -177,11 +170,11 @@ def mzi2x2(
         "straight_heater": straight_heater,
         "straight": straight,
         "with_elec_connections": with_elec_connections,
-        "cross_section_name": cross_section_name,
+        "waveguide": waveguide,
     }
 
-    arm_top = mzi_arm(L0=L0, **arm_defaults, **cross_section_settings)
-    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **cross_section_settings)
+    arm_top = mzi_arm(L0=L0, **arm_defaults, **waveguide_settings)
+    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **waveguide_settings)
 
     components = {
         "CP1": (cpl, "None"),

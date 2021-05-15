@@ -1,6 +1,6 @@
-"""You can define a path with a list of points combined with a cross-section.
+"""You can define a path with a list of points
 
-The CrossSection object extrudes a path
+To create a component you need to extrude the path with a cross-section.
 
 Based on phidl.device_layout.CrossSection
 """
@@ -15,13 +15,14 @@ LAYER = TECH.layer
 Layer = Tuple[int, int]
 
 
-def get_cross_section_settings(cross_section_name: str, **kwargs) -> Dict[str, Any]:
-    cross_section_settings = getattr(TECH.waveguide, cross_section_name)
-    cross_section_settings = dataclasses.asdict(cross_section_settings)
-    if not cross_section_settings:
-        raise ValueError(f"no cross_section_settings found for {cross_section_name}")
-    cross_section_settings.update(**kwargs)
-    return cross_section_settings
+def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
+    """Returns waveguide settings from TECH.waveguide"""
+    waveguide_settings = getattr(TECH.waveguide, waveguide)
+    waveguide_settings = dataclasses.asdict(waveguide_settings)
+    if not waveguide_settings:
+        raise ValueError(f"no waveguide_settings found for {waveguide}")
+    waveguide_settings.update(**kwargs)
+    return waveguide_settings
 
 
 def cross_section(
@@ -37,11 +38,7 @@ def cross_section(
     layers_cladding: Optional[Tuple[Layer]] = None,
     sections: Optional[Tuple[Section]] = None,
 ) -> CrossSection:
-    """Returns a CrossSection from settings.
-
-    FIXME! maybe remove kwargs
-
-    """
+    """Returns CrossSection from TECH.waveguide settings."""
 
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
@@ -66,7 +63,7 @@ def cross_section(
         cladding_offset=cladding_offset,
         layer_cladding=layer_cladding,
         layers_cladding=layers_cladding,
-        section=sections,
+        sections=sections,
     )
     return x
 
@@ -156,6 +153,9 @@ def pin(
 if __name__ == "__main__":
     import pp
 
+    s = get_waveguide_settings("strip")
+    print(s)
+
     P = pp.path.euler(radius=10, use_eff=True)
     # P = euler()
     # P = pp.Path()
@@ -173,7 +173,8 @@ if __name__ == "__main__":
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
 
-    X = cross_section(width=3, layer=(2, 0))
+    # X = cross_section(width=3, layer=(2, 0))
+    X = cross_section(**s)
     c = pp.path.extrude(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

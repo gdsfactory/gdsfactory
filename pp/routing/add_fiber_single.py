@@ -32,7 +32,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    **cross_section_settings,
+    **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
 
@@ -62,7 +62,7 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        **cross_section_settings
+        **waveguide_settings
 
     .. code::
 
@@ -111,7 +111,7 @@ def add_fiber_single(
                 length=taper_length,
                 width1=port_width_gc,
                 width2=port_width_component,
-                **cross_section_settings,
+                **waveguide_settings,
             )
             if callable(taper_factory)
             else taper_factory
@@ -158,7 +158,7 @@ def add_fiber_single(
             min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
             component_name=component_name,
-            **cross_section_settings,
+            **waveguide_settings,
         )
 
     for e in elements:
@@ -192,7 +192,7 @@ def add_fiber_single(
 
     if with_align_ports:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(length=length, **cross_section_settings)
+        wg = c << straight_factory(length=length, **waveguide_settings)
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -251,12 +251,12 @@ if __name__ == "__main__":
     cc = add_fiber_single(component=c, auto_widen=False)
     cc.show()
 
-    # cross_section_settings = pp.tech("waveguide.nitride")
-    # cross_section_settings.update(width=2)
+    # waveguide_settings = pp.tech("waveguide.nitride")
+    # waveguide_settings.update(width=2)
 
     # c = pp.components.straight(
-    #     length=20, **cross_section_settings
+    #     length=20, **waveguide_settings
     # )
     # gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
-    # cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True, **cross_section_settings)
+    # cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True, **waveguide_settings)
     # cc.show()
