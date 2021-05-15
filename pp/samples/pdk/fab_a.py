@@ -7,6 +7,8 @@ The metal layer traces are 2um wide
 """
 import dataclasses
 
+import pp
+from pp.difftest import difftest
 from pp.tech import TECH, Layer, Waveguide
 
 
@@ -17,7 +19,6 @@ class Metal1(Waveguide):
     auto_widen: bool = False
     layer: Layer = (30, 0)
     radius: float = 10.0
-    min_spacing: float = 10.0
 
 
 METAL1 = Metal1()
@@ -25,9 +26,12 @@ METAL1 = Metal1()
 TECH.waveguide.metal1 = METAL1
 
 
-if __name__ == "__main__":
+def test_waveguide():
+    c = pp.c.straight(waveguide="metal1")
+    difftest(c)
 
-    import pp
+
+if __name__ == "__main__":
 
     wg = pp.components.straight(length=20, waveguide="metal1")
     gc = pp.components.grating_coupler_elliptical_te(

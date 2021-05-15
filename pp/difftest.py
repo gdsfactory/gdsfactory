@@ -63,3 +63,11 @@ def difftest(component: Component) -> None:
                 + "To step over each error you can run `pytest -s`\n"
                 + "So you can check the differences in Klayout GUI\n"
             )
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.components.straight()
+    difftest(c)
+    # test_component(c, None, None)

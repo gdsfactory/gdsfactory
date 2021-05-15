@@ -8,6 +8,7 @@ Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide
 import dataclasses
 from typing import Tuple
 
+from pp.difftest import difftest
 from pp.tech import TECH, Layer, Mmi1x2, Waveguide
 
 
@@ -18,7 +19,6 @@ class StripB(Waveguide):
     auto_widen: bool = False
     layer: Layer = (2, 0)
     radius: float = 10.0
-    min_spacing: float = 10.0
     layers_cladding: Tuple[Layer] = ((71, 0), (68, 0))
 
 
@@ -41,7 +41,7 @@ class Mmi1x2FabB(Mmi1x2):
 TECH.components.mmi1x2b = Mmi1x2FabB()
 
 
-def demo_waveguide():
+def test_waveguide():
     import pp
 
     wg = pp.components.straight(length=20, waveguide="stripb")
@@ -53,6 +53,7 @@ def demo_waveguide():
         component=wg, grating_coupler=gc, waveguide="stripb"
     )
     wg_gc.show()
+    difftest(wg_gc)
 
 
 if __name__ == "__main__":
