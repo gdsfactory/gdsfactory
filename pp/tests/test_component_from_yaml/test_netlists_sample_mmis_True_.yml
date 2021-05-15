@@ -12,7 +12,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       direction: ccw
       layer:
       - 1
@@ -28,6 +27,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
@@ -39,7 +39,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       direction: ccw
       layer:
       - 1
@@ -55,6 +54,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
@@ -62,10 +62,10 @@ instances:
   mmi_long:
     component: mmi1x2
     settings:
-      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 10
       length_taper: 10
+      waveguide: strip
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
@@ -73,10 +73,10 @@ instances:
   mmi_short:
     component: mmi1x2
     settings:
-      cross_section_name: strip
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10
+      waveguide: strip
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
@@ -87,7 +87,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -102,6 +101,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_cladding_box: true
@@ -111,7 +111,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -126,6 +125,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_cladding_box: true

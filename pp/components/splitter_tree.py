@@ -6,7 +6,7 @@ import pp
 from pp.cell import cell
 from pp.components.bend_euler import bend_euler, bend_euler_s
 from pp.components.mmi1x2 import mmi1x2
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
@@ -19,7 +19,7 @@ def splitter_tree(
     spacing_extra: float = 0.1,
     bend_factory: ComponentFactory = bend_euler,
     bend_s: ComponentFactory = bend_euler_s,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs,
 ) -> pp.Component:
     """Tree of 1x2 splitters
@@ -41,15 +41,13 @@ def splitter_tree(
 
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    radius = cross_section_settings.get("radius")
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    radius = waveguide_settings.get("radius")
 
     bend90 = bend_factory(radius=radius)
     c = pp.Component()
 
-    coupler = pp.call_if_func(
-        coupler, cross_section_name=cross_section_name, **cross_section_settings
-    )
+    coupler = pp.call_if_func(coupler, waveguide=waveguide, **waveguide_settings)
     coupler_ref = c.add_ref(coupler)
     dy = spacing if spacing else bend90.dy * noutputs + spacing_extra
     dx = coupler.xsize + radius
@@ -60,12 +58,12 @@ def splitter_tree(
             noutputs=noutputs // 2,
             spacing=dy / 2,
             bend_factory=bend_factory,
-            cross_section_name=cross_section_name,
+            waveguide=waveguide,
             spacing_extra=spacing_extra,
-            **cross_section_settings,
+            **waveguide_settings,
         )
     else:
-        c2 = bend_s(radius=dy / 2, cross_section_name=cross_section_name)
+        c2 = bend_s(radius=dy / 2, waveguide=waveguide)
 
     if dy < 3 * radius:
         tree_top = c2.ref(port_id="W0", position=coupler_ref.ports["E1"])
@@ -86,7 +84,7 @@ def splitter_tree(
                 coupler.ports["E1"],
                 tree_top.ports["W0"],
                 bend_factory=bend_factory,
-                **cross_section_settings,
+                **waveguide_settings,
             )["references"]
         )
         c.add(
@@ -94,7 +92,7 @@ def splitter_tree(
                 coupler.ports["E0"],
                 tree_bot.ports["W0"],
                 bend_factory=bend_factory,
-                **cross_section_settings,
+                **waveguide_settings,
             )["references"]
         )
 
@@ -118,7 +116,7 @@ if __name__ == "__main__":
     c = splitter_tree(
         coupler=pp.components.mmi1x2,
         noutputs=128 * 2,
-        cross_section_name="nitride",
+        waveguide="nitride",
     )
     print(len(c.ports))
     c.show()

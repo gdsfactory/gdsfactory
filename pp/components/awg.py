@@ -5,8 +5,7 @@ from pydantic import validate_arguments
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 
 
 @cell
@@ -19,7 +18,7 @@ def free_propagation_region(
     inputs: int = 1,
     outputs: int = 10,
     wg_margin: float = 1.0,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs,
 ) -> Component:
     r"""
@@ -36,8 +35,8 @@ def free_propagation_region(
     """
     y1 = width1 / 2
     y2 = width2 / 2
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]

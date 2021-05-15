@@ -15,7 +15,7 @@ def get_bundle_sbend(
         **kwargs
             nb_points: number of points
             cross_section_factory
-            **cross_section_settings
+            **waveguide_settings
 
     Returns:
         references: List of route references

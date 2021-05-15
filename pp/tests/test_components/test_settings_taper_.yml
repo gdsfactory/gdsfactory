@@ -6,9 +6,9 @@ info:
 module: pp.components.taper
 name: taper
 settings:
-  cross_section_name: strip
   length: 10
   port: null
+  waveguide: strip
   width1: 0.5
   width2: null
   with_cladding_box: true

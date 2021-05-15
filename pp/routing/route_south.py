@@ -23,8 +23,8 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> Route:
     """
     Args:
@@ -62,7 +62,7 @@ def route_south(
     references = []
     lengths = []
     bend90 = (
-        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
+        bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
         else bend_factory
     )
@@ -77,9 +77,9 @@ def route_south(
         straight_factory=straight_factory,
         taper_factory=taper_factory,
         auto_widen=auto_widen,
-        cross_section_name=cross_section_name,
+        waveguide=waveguide,
     )
-    conn_params.update(**cross_section_settings)
+    conn_params.update(**waveguide_settings)
 
     # Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * dy
@@ -259,9 +259,7 @@ if __name__ == "__main__":
     # r = route_south(c)
 
     c = pp.components.ring_double()
-    r = route_south(
-        c, bend_factory=pp.components.bend_euler, cross_section_name="nitride"
-    )
+    r = route_south(c, bend_factory=pp.components.bend_euler, waveguide="nitride")
     for e in r["references"]:
         if isinstance(e, list):
             print(len(e))

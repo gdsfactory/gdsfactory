@@ -7,12 +7,12 @@ settings:
   N: 6
   bend180_function: bend_euler180
   bend90_function: bend_euler
-  cross_section_name: strip
   dx: 3
   dy: 3
   grating_spacing: 127
   length: null
   taper: null
+  waveguide: strip
   width: 0.5
   width_grating_coupler: 0.5
   x_straight_inner_left: 150

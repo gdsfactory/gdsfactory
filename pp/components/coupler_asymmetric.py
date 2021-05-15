@@ -4,8 +4,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.components.straight import straight as straight_function
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 from pp.types import ComponentFactory
 
 
@@ -17,7 +16,7 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """bend coupled to straight waveguide
@@ -29,7 +28,7 @@ def coupler_asymmetric(
         dy: port to port vertical spacing
         dx: bend length in x direction
         cross_section_factory: function that returns a cross_section
-        **cross_section_settings
+        **waveguide_settings
 
     .. code::
                         dx
@@ -41,15 +40,15 @@ def coupler_asymmetric(
                             E0
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     width = x.info["width"]
     bend_component = (
-        bend(height=(dy - gap - width), length=dx, **cross_section_settings)
+        bend(height=(dy - gap - width), length=dx, **waveguide_settings)
         if callable(bend)
         else bend
     )
-    wg = straight(**cross_section_settings) if callable(straight) else straight
+    wg = straight(**waveguide_settings) if callable(straight) else straight
 
     w = bend_component.ports["W0"].width
     y = (w + gap) / 2
@@ -75,5 +74,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.4, cross_section_name="nitride")
+    c = coupler_asymmetric(gap=0.4, waveguide="nitride")
     c.show()

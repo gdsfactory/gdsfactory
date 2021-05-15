@@ -29,12 +29,12 @@ if __name__ == "__main__":
 
     import pp
 
-    wg = pp.components.straight(length=20, cross_section_name="metal1")
+    wg = pp.components.straight(length=20, waveguide="metal1")
     gc = pp.components.grating_coupler_elliptical_te(
         layer=METAL1.layer, wg_width=METAL1.width
     )
 
     wg_gc = pp.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, cross_section_name="metal1"
+        component=wg, grating_coupler=gc, waveguide="metal1"
     )
     wg_gc.show()

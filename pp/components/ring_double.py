@@ -8,8 +8,7 @@ from pp.components.coupler_ring import coupler_ring as coupler_ring_function
 from pp.components.straight import straight as straight_function
 from pp.config import call_if_func
 from pp.snap import assert_on_2nm_grid
-from pp.types import ComponentFactory
-from pp.types import CrossSectionFactory
+from pp.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
@@ -36,7 +35,7 @@ def ring_double(
         coupler: ring coupler function
         straight: straight function
         bend: bend function
-        **cross_section_settings
+        **waveguide_settings
 
     .. code::
 

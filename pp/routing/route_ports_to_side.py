@@ -511,9 +511,7 @@ def sample_route_sides() -> Component:
     for pos, side in zip(positions, sides):
         dummy_ref = _dummy_t.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(
-            dummy_ref, side, cross_section_name="nitride"
-        )
+        routes, ports = route_ports_to_side(dummy_ref, side, waveguide="nitride")
         for route in routes:
             c.add(route["references"])
         for i, p in enumerate(ports):

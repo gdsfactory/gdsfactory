@@ -3,7 +3,7 @@ from pydantic import validate_arguments
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section, get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 
@@ -17,7 +17,7 @@ def bend_euler(
     npoints: int = 720,
     direction="ccw",
     with_cladding_box: bool = True,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -36,8 +36,8 @@ def bend_euler(
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
         with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section_name: from tech.waveguide
-        kwargs: cross_section_settings
+        waveguide: from tech.waveguide
+        kwargs: waveguide_settings
 
 
     .. plot::
@@ -55,8 +55,8 @@ def bend_euler(
       c.plot()
 
     """
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     radius = x.info["radius"]
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints

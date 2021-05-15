@@ -12,7 +12,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
 from pp.config import TECH
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.port import Port
 from pp.routing.get_route import (
     get_route,
@@ -37,10 +37,10 @@ def get_bundle(
     extension_length: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     end_straight_offset: float = 0.0,
     start_straight: float = 0.01,
-    **cross_section_settings,
+    **waveguide_settings,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
     Chooses the correct u_bundle to use based on port angles
@@ -52,8 +52,8 @@ def get_bundle(
         separation: straight separation
         extension_length: adds straight extension
         bend_factory:
-        cross_section_name
-        cross_section_settings: cross_section_settings
+        waveguide
+        waveguide_settings: waveguide_settings
 
     """
     # Accept dict or list
@@ -82,9 +82,7 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    cross_section_settings = get_cross_section_settings(
-        cross_section_name, **cross_section_settings
-    )
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
@@ -132,21 +130,21 @@ def get_bundle(
             and end_angle == 90
             and y_start > y_end
         ):
-            return link_ports(**params, **cross_section_settings)
+            return link_ports(**params, **waveguide_settings)
 
         elif start_angle == end_angle:
             # print('u_bundle_direct')
-            return u_bundle_direct(**params, **cross_section_settings)
+            return u_bundle_direct(**params, **waveguide_settings)
 
         elif end_angle == (start_angle + 180) % 360:
             # print('u_bundle_indirect')
             params["extension_length"] = extension_length
-            return u_bundle_indirect(**params, **cross_section_settings)
+            return u_bundle_indirect(**params, **waveguide_settings)
         else:
             raise NotImplementedError("This should never happen")
 
     else:
-        return link_ports(**params, **cross_section_settings)
+        return link_ports(**params, **waveguide_settings)
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -177,9 +175,9 @@ def link_ports(
     start_straight: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     route_filter: Callable = get_route_from_waypoints,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     sort_ports: bool = True,
-    **cross_section_settings,
+    **waveguide_settings,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
 
@@ -241,17 +239,17 @@ def link_ports(
         ports2,
         separation=separation,
         bend_factory=bend_factory,
-        cross_section_name=cross_section_name,
+        waveguide=waveguide,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
-        **cross_section_settings,
+        **waveguide_settings,
     )
     return [
         route_filter(
             route,
             bend_factory=bend_factory,
-            cross_section_name=cross_section_name,
-            **cross_section_settings,
+            waveguide=waveguide,
+            **waveguide_settings,
         )
         for route in routes
     ]
@@ -265,8 +263,8 @@ def link_ports_routes(
     end_straight_offset: float = 0.0,
     tol: float = 0.00001,
     start_straight: float = 0.0,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[ndarray]:
     """Returns route coordinates List
 
@@ -278,8 +276,8 @@ def link_ports_routes(
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
-        cross_section_name
-        cross_section_settings: cross_section_settings
+        waveguide
+        waveguide_settings: waveguide_settings
     """
 
     if not ports1 and not ports2:
@@ -305,8 +303,8 @@ def link_ports_routes(
                 ports2[0],
                 start_straight=start_straight,
                 end_straight=end_straight_offset,
-                cross_section_name=cross_section_name,
-                **cross_section_settings,
+                waveguide=waveguide,
+                **waveguide_settings,
             )
         ]
 
@@ -420,8 +418,8 @@ def link_ports_routes(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    cross_section_name=cross_section_name,
-                    **cross_section_settings,
+                    waveguide=waveguide,
+                    **waveguide_settings,
                 )
             ]
 
@@ -432,8 +430,8 @@ def link_ports_routes(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    cross_section_name=cross_section_name,
-                    **cross_section_settings,
+                    waveguide=waveguide,
+                    **waveguide_settings,
                 )
             ]
     return elems
@@ -463,8 +461,8 @@ def get_bundle_path_length_match(
     taper_factory: Optional[Callable] = taper_function,
     start_straight: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[Route]:
     """Returns list of routes that are path length matched.
 
@@ -480,8 +478,8 @@ def get_bundle_path_length_match(
             default is next to last segment
         route_filter: get_route_from_waypoints
         bend_factory: for bends
-        cross_section_name
-        cross_section_settings: cross_section_settings
+        waveguide
+        waveguide_settings: waveguide_settings
 
     Tips:
 
@@ -537,8 +535,8 @@ def get_bundle_path_length_match(
         separation=separation,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
-        cross_section_name=cross_section_name,
-        **cross_section_settings,
+        waveguide=waveguide,
+        **waveguide_settings,
     )
 
     list_of_waypoints = path_length_matched_points(
@@ -547,8 +545,8 @@ def get_bundle_path_length_match(
         bend_factory=bend_factory,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
-        cross_section_name=cross_section_name,
-        **cross_section_settings,
+        waveguide=waveguide,
+        **waveguide_settings,
     )
     return [
         route_filter(
@@ -556,8 +554,8 @@ def get_bundle_path_length_match(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
-            cross_section_name=cross_section_name,
-            **cross_section_settings,
+            waveguide=waveguide,
+            **waveguide_settings,
         )
         for waypoints in list_of_waypoints
     ]
@@ -626,7 +624,7 @@ def link_optical_ports(
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
-    **cross_section_settings,
+    **waveguide_settings,
 ) -> List[Route]:
     """connect bundle of optical ports"""
     return link_ports(
@@ -635,7 +633,7 @@ def link_optical_ports(
         separation,
         route_filter=route_filter,
         sort_ports=sort_ports,
-        **cross_section_settings,
+        **waveguide_settings,
     )
 
 
@@ -701,8 +699,8 @@ def link_optical_ports_no_grouping(
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     sort_ports: bool = True,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[Route]:
     r"""Returns a list of route elements.
 
@@ -819,8 +817,8 @@ def link_optical_ports_no_grouping(
                 ports2[i],
                 start_straight=s_straight,
                 end_straight=e_straight,
-                cross_section_name=cross_section_name,
-                **cross_section_settings,
+                waveguide=waveguide,
+                **waveguide_settings,
             )
         ]
 

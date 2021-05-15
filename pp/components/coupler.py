@@ -4,7 +4,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler_straight import coupler_straight
 from pp.components.coupler_symmetric import coupler_symmetric
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.snap import assert_on_1nm_grid
 from pp.types import ComponentFactory
 
@@ -18,7 +18,7 @@ def coupler(
     coupler_straight_factory: ComponentFactory = coupler_straight,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     r"""Symmetric coupler.
@@ -30,8 +30,8 @@ def coupler(
         coupler_straight_factory
         dy: port to port vertical spacing
         dx: length of bend in x direction
-        cross_section_name: from tech.waveguide
-        kwargs: overwrites cross_section_settings
+        waveguide: from tech.waveguide
+        kwargs: overwrites waveguide_settings
 
     .. code::
 
@@ -53,13 +53,13 @@ def coupler(
     assert_on_1nm_grid(gap)
     c = Component()
 
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
 
-    sbend = coupler_symmetric_factory(gap=gap, dy=dy, dx=dx, **cross_section_settings)
+    sbend = coupler_symmetric_factory(gap=gap, dy=dy, dx=dx, **waveguide_settings)
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight_factory(length=length, gap=gap, **cross_section_settings)
+    cs = c << coupler_straight_factory(length=length, gap=gap, **waveguide_settings)
     sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
 
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    # c = coupler(gap=0.2, cross_section_name="nitride")
+    # c = coupler(gap=0.2, waveguide="nitride")
     # c = coupler(width=0.9, length=1, dy=2, gap=0.2)
     # print(c.settings_changed)
-    c = coupler(gap=0.2, cross_section_name="nitride")
-    # c = coupler(gap=0.2, cross_section_name="strip_heater")
+    c = coupler(gap=0.2, waveguide="nitride")
+    # c = coupler(gap=0.2, waveguide="strip_heater")
     c.show()

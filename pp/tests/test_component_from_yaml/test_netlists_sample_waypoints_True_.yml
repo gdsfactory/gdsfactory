@@ -25,7 +25,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       direction: ccw
       layer:
       - 1
@@ -41,6 +40,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
@@ -52,7 +52,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       direction: ccw
       layer:
       - 1
@@ -68,6 +67,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
@@ -78,7 +78,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -93,6 +92,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 2
       width_wide: 2
       with_cladding_box: true
@@ -102,7 +102,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -117,6 +116,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 2
       width_wide: 2
       with_cladding_box: true
@@ -126,7 +126,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -141,6 +140,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 2
       width_wide: 2
       with_cladding_box: true
@@ -158,7 +158,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -173,6 +172,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2
@@ -184,7 +184,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -199,6 +198,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2
@@ -210,7 +210,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -225,6 +224,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2
@@ -236,7 +236,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -251,6 +250,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2
@@ -262,7 +262,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -277,6 +276,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2
@@ -288,7 +288,6 @@ instances:
       auto_widen: true
       auto_widen_minimum_length: 200
       cladding_offset: 3
-      cross_section_name: strip
       layer:
       - 1
       - 0
@@ -303,6 +302,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width1: 0.5
       width2: 2

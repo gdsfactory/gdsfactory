@@ -5,12 +5,12 @@ module: pp.components.spiral_inner_io
 name: spiral_inner_io
 settings:
   N: 6
-  cross_section_name: strip
   dx: 3
   dy: 3
   grating_spacing: 127
   length: null
   taper: null
+  waveguide: strip
   width: 0.5
   width_grating_coupler: 0.5
   x_straight_inner_left: 150

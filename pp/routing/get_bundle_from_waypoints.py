@@ -6,7 +6,7 @@ from numpy import float64, ndarray
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import get_waveguide_settings
 from pp.port import Port
 from pp.routing.manhattan import remove_flat_angles, round_corners
 from pp.routing.utils import get_list_ports_angle
@@ -79,8 +79,8 @@ def get_bundle_from_waypoints(
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_euler,
     auto_sort: bool = True,
-    cross_section_name: str = "strip",
-    **cross_section_settings,
+    waveguide: str = "strip",
+    **waveguide_settings,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
     where routes follow a list of waypoints.
@@ -148,24 +148,19 @@ def get_bundle_from_waypoints(
         ports2.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        ports1, ports2, waypoints, **cross_section_settings
+        ports1, ports2, waypoints, **waveguide_settings
     )
 
-    cross_section_settings = get_cross_section_settings(
-        cross_section_name, **cross_section_settings
-    )
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
-    bends90 = [
-        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
-        for p in ports1
-    ]
+    bends90 = [bend_factory(waveguide=waveguide, **waveguide_settings) for p in ports1]
 
     if taper_factory:
         if callable(taper_factory):
             taper = taper_factory(
-                length=cross_section_settings.get("taper_length", 0.0),
+                length=waveguide_settings.get("taper_length", 0.0),
                 width1=ports1[0].width,
-                width2=cross_section_settings.get("width_wide"),
+                width2=waveguide_settings.get("width_wide"),
                 layer=ports1[0].layer,
             )
         else:

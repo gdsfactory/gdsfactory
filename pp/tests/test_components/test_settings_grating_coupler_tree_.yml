@@ -8,13 +8,12 @@ settings:
     function_name: straight_array
     info: {}
     module: pp.components.straight_array
-    name: straight_array_CSNstrip_NS4_S4
+    name: straight_array_NS4_S4_Wstrip
     settings:
-      cross_section_name: strip
       n_straights: 4
       spacing: 4
-  component_name: straight_array_CSNstrip_NS4_S4
-  cross_section_name: strip
+      waveguide: strip
+  component_name: straight_array_NS4_S4_Wstrip
   fanout_length: 0
   gc_port_name: W0
   grating_coupler: grating_coupler_elliptical_te
@@ -26,5 +25,6 @@ settings:
   straight_spacing: 4
   taper_factory: null
   taper_length: 10
+  waveguide: strip
   with_align_ports: false
   with_loop_back: false

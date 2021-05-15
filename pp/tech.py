@@ -107,6 +107,9 @@ class LayerStack:
 LAYER_STACK = LayerStack()
 
 
+# waveguides
+
+
 @dataclasses.dataclass
 class Section:
     width: float
@@ -193,6 +196,9 @@ class StripHeater(Waveguide):
     )
 
 
+# SimulationSettings
+
+
 @dataclasses.dataclass
 class Waveguides:
     strip: Waveguide = Strip()
@@ -219,6 +225,9 @@ class SimulationSettings:
 
 WAVEGUIDES = Waveguides()
 SIMULATION_SETTINGS = SimulationSettings()
+
+
+# Component settings
 
 
 @dataclasses.dataclass
@@ -260,6 +269,9 @@ class Components:
     mmi1x2: Mmi1x2 = Mmi1x2()
     mmi2x2: Mmi2x2 = Mmi2x2()
     manhattan_text: ManhattanText = ManhattanText()
+
+
+# TECH
 
 
 @dataclasses.dataclass

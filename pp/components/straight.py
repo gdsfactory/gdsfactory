@@ -4,8 +4,7 @@ from pydantic import validate_arguments
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
+from pp.cross_section import cross_section, get_waveguide_settings
 from pp.path import extrude
 from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
@@ -16,7 +15,7 @@ from pp.snap import snap_to_grid
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    cross_section_name: str = "strip",
+    waveguide: str = "strip",
     with_cladding_box: bool = True,
     **kwargs
 ) -> Component:
@@ -25,13 +24,13 @@ def straight(
     Args:
         length: of straight
         npoints: number of points
-        cross_section_name: from TECH.waveguide
-        kwargs: cross_section_settings
+        waveguide: from TECH.waveguide
+        kwargs: waveguide_settings
 
     """
     p = straight_path(length=length, npoints=npoints)
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**waveguide_settings)
     c = extrude(p, x)
     c.length = snap_to_grid(length)
     c.width = x.info["width"]
@@ -52,10 +51,10 @@ def straight(
 if __name__ == "__main__":
 
     # c = straight(width=2.0)
-    c = straight(cross_section_name="strip_heater")
+    c = straight(waveguide="strip_heater")
     print(c.name)
     c.pprint()
-    # print(c.get_settings()['settings']['cross_section_settings']['layers_cladding'])
+    # print(c.get_settings()['settings']['waveguide_settings']['layers_cladding'])
 
     # print(c.name)
     # print(c.length)

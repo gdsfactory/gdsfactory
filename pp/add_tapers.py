@@ -30,14 +30,12 @@ def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
     port_type: str = "optical",
-    cross_section_name="strip",
+    waveguide="strip",
     **kwargs
 ) -> Component:
     """returns component optical tapers for component"""
 
-    taper_object = pp.call_if_func(
-        taper, cross_section_name=cross_section_name, **kwargs
-    )
+    taper_object = pp.call_if_func(taper, waveguide=waveguide, **kwargs)
     c = pp.Component()
 
     for port_name, port in component.ports.copy().items():
