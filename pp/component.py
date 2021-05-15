@@ -553,8 +553,8 @@ class Component(Device):
         self.name_long = None
 
     @classmethod
-    def __get_validators__(self):
-        yield self.validate
+    def __get_validators__(cls):
+        yield cls.validate
 
     @classmethod
     def validate(cls, v):
