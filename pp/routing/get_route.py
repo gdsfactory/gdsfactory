@@ -153,6 +153,7 @@ def get_route_from_waypoints(
     straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     cross_section_name: str = "strip",
+    route_filter=None,
     **cross_section_settings,
 ) -> Route:
     """Returns a route formed by the given waypoints with
@@ -165,6 +166,8 @@ def get_route_from_waypoints(
         straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
         layer: for the route
+        route_filter: FIXME, keep it here
+        cross_section_settings
     """
     cross_section_settings = get_cross_section_settings(
         cross_section_name, **cross_section_settings

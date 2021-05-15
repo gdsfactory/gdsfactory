@@ -1,11 +1,11 @@
 connections:
-  bend_euler_e2a16999_68.625_-4.0,N0: straight_d0f0bd55_72.0_-20.0,W0
-  bend_euler_e2a16999_68.625_-4.0,W0: straight_43a7ef42_52.0_-0.625,E0
-  bend_euler_e2a16999_75.375_-36.0,N0: mmi_bot,W0
-  bend_euler_e2a16999_75.375_-36.0,W0: straight_d0f0bd55_72.0_-20.0,E0
-  mmi_top,E0: straight_43a7ef42_52.0_-0.625,W0
+  bend_euler_95e8acf2_68.625_-4.0,N0: straight_6fe2aa89_72.0_-20.0,W0
+  bend_euler_95e8acf2_68.625_-4.0,W0: straight_4367789d_52.0_-0.625,E0
+  bend_euler_95e8acf2_75.375_-36.0,N0: mmi_bot,W0
+  bend_euler_95e8acf2_75.375_-36.0,W0: straight_6fe2aa89_72.0_-20.0,E0
+  mmi_top,E0: straight_4367789d_52.0_-0.625,W0
 instances:
-  bend_euler_e2a16999_68.625_-4.0:
+  bend_euler_95e8acf2_68.625_-4.0:
     component: bend_euler
     settings:
       angle: 90
@@ -26,14 +26,13 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_e2a16999_75.375_-36.0:
+  bend_euler_95e8acf2_75.375_-36.0:
     component: bend_euler
     settings:
       angle: 90
@@ -54,7 +53,6 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
@@ -83,7 +81,7 @@ instances:
       width_mmi: 6
       width_taper: 1
       with_cladding_box: true
-  straight_43a7ef42_52.0_-0.625:
+  straight_4367789d_52.0_-0.625:
     component: straight
     settings:
       auto_widen: true
@@ -102,13 +100,12 @@ instances:
       length: 20
       npoints: 2
       radius: 10
-      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
       width_wide: 2
       with_cladding_box: true
-  straight_d0f0bd55_72.0_-20.0:
+  straight_6fe2aa89_72.0_-20.0:
     component: straight
     settings:
       auto_widen: true
@@ -127,7 +124,6 @@ instances:
       length: 18.75
       npoints: 2
       radius: 10
-      route_filter: get_route_from_waypoints
       sections: null
       taper_length: 10
       width: 0.5
@@ -135,12 +131,12 @@ instances:
       with_cladding_box: true
 name: sample_docstring
 placements:
-  bend_euler_e2a16999_68.625_-4.0:
+  bend_euler_95e8acf2_68.625_-4.0:
     mirror: true
     rotation: 0
     x: 62.0
     y: -0.625
-  bend_euler_e2a16999_75.375_-36.0:
+  bend_euler_95e8acf2_75.375_-36.0:
     mirror: false
     rotation: 270
     x: 72.0
@@ -155,12 +151,12 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_43a7ef42_52.0_-0.625:
+  straight_4367789d_52.0_-0.625:
     mirror: false
     rotation: 0
     x: 42.0
     y: -0.625
-  straight_d0f0bd55_72.0_-20.0:
+  straight_6fe2aa89_72.0_-20.0:
     mirror: false
     rotation: 270
     x: 72.0

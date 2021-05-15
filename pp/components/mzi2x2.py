@@ -11,8 +11,7 @@ from pp.components.straight_heater import straight_with_heater
 from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_ports
 from pp.routing.route_ports_to_side import route_ports_to_side
-from pp.types import ComponentFactory
-from pp.types import ComponentOrFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -21,11 +20,11 @@ def mzi_arm(
     L0: float = 60.0,
     DL: float = 0.0,
     L_top: float = 10.0,
-    bend_radius: float = 10.0,
     bend: ComponentOrFactory = bend_euler,
     straight_heater: ComponentOrFactory = straight_with_heater,
     straight: ComponentOrFactory = straight_function,
     with_elec_connections: bool = True,
+    cross_section_name="strip",
     **cross_section_settings
 ) -> Component:
     """Returns an MZI arm.
@@ -34,7 +33,6 @@ def mzi_arm(
         L0: vertical length with heater
         DL: extra vertical length without heater (delat_length=2*DL)
         L_top: 10.0, horizontal length
-        bend_radius: 10.0
         bend: 90 degrees bend factory
         straight_heater: straight_with_heater
         straight: straight
@@ -62,11 +60,21 @@ def mzi_arm(
     if not with_elec_connections:
         straight_heater = straight
 
-    _bend = bend(radius=bend_radius, **cross_section_settings)
+    _bend = bend(cross_section_name=cross_section_name, **cross_section_settings)
 
-    straight_vheater = straight_heater(length=L0, **cross_section_settings)
-    straight_h = straight(length=L_top, **cross_section_settings)
-    straight_v = straight(length=DL, **cross_section_settings) if DL > 0 else None
+    straight_vheater = straight_heater(
+        length=L0, cross_section_name=cross_section_name, **cross_section_settings
+    )
+    straight_h = straight(
+        length=L_top, cross_section_name=cross_section_name, **cross_section_settings
+    )
+    straight_v = (
+        straight(
+            length=DL, cross_section_name=cross_section_name, **cross_section_settings
+        )
+        if DL > 0
+        else None
+    )
 
     symbol_to_component = {
         "A": (_bend, "W0", "N0"),
@@ -107,12 +115,13 @@ def mzi2x2(
     DL: float = 7.38,
     L2: float = 10.0,
     gap: float = 0.234,
-    bend_radius: float = 10.0,
     bend: ComponentFactory = bend_euler,
     straight_heater: ComponentFactory = straight_with_heater,
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
+    cross_section_name="strip",
+    **cross_section_settings
 ) -> Component:
     """Mzi 2x2
 
@@ -122,7 +131,6 @@ def mzi2x2(
         DL: bottom arm extra length
         L2: L_top horizontal length
         gap: 0.235
-        bend_radius: 10.0
         bend: 90 degrees bend factory
         straight_heater: straight_with_heater or straight
         straight: straight
@@ -156,19 +164,24 @@ def mzi2x2(
     if not with_elec_connections:
         straight_heater = straight
 
-    cpl = coupler_function(length=CL_1, gap=gap)
+    cpl = coupler_function(
+        length=CL_1,
+        gap=gap,
+        cross_section_name=cross_section_name,
+        **cross_section_settings
+    )
 
     arm_defaults = {
         "L_top": L2,
-        "bend_radius": bend_radius,
         "bend": bend,
         "straight_heater": straight_heater,
         "straight": straight,
         "with_elec_connections": with_elec_connections,
+        "cross_section_name": cross_section_name,
     }
 
-    arm_top = mzi_arm(L0=L0, **arm_defaults)
-    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults)
+    arm_top = mzi_arm(L0=L0, **arm_defaults, **cross_section_settings)
+    arm_bot = mzi_arm(L0=L0, DL=DL, **arm_defaults, **cross_section_settings)
 
     components = {
         "CP1": (cpl, "None"),

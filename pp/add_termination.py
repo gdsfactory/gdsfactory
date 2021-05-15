@@ -7,13 +7,17 @@ from pp.add_labels import get_input_label
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
+from pp.components.grating_coupler.elliptical_trenches import (
+    grating_coupler_te,
+    grating_coupler_tm,
+)
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
 from pp.routing.manhattan import round_corners
-from pp.routing.utils import check_ports_have_equal_spacing
-from pp.routing.utils import direction_ports_from_list_ports
+from pp.routing.utils import (
+    check_ports_have_equal_spacing,
+    direction_ports_from_list_ports,
+)
 from pp.types import ComponentFactory
 
 
@@ -48,7 +52,7 @@ def add_gratings_and_loop_back(
     excluded_ports: None = None,
     grating_separation: float = 127.0,
     bend_radius_align_ports: float = 10.0,
-    gc_port_name: None = None,
+    gc_port_name: str = "W0",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend_factory: ComponentFactory = bend_euler,
@@ -57,14 +61,13 @@ def add_gratings_and_loop_back(
     component_name: None = None,
     with_loopback: bool = True,
 ) -> Component:
-    """returns a component with grating_couplers and loopback"""
+    """Returns a component with grating_couplers and loopback"""
     excluded_ports = excluded_ports or []
     gc = pp.call_if_func(grating_coupler)
 
     direction = "S"
     component_name = component_name or component.name
-    name = f"{component.name}_{gc.polarization}"
-    c = pp.Component(name=name)
+    c = pp.Component()
     c.add_ref(component)
 
     # Find grating port name if not specified
@@ -85,18 +88,18 @@ def add_gratings_and_loop_back(
             )
         )
 
-    # Add grating couplers
-    couplers = []
+    # Add grating references
+    references = []
     for port in optical_ports:
-        coupler_ref = c.add_ref(gc)
-        coupler_ref.connect(list(coupler_ref.ports.values())[0].name, port)
-        couplers += [coupler_ref]
+        gc_ref = c.add_ref(gc)
+        gc_ref.connect(gc.ports[gc_port_name].name, port)
+        references += [gc_ref]
 
     # add labels
     for i, optical_port in enumerate(optical_ports):
         label = get_input_label(
             optical_port,
-            couplers[i],
+            references[i],
             i,
             component_name=component_name,
             layer_label=layer_label,
@@ -104,7 +107,7 @@ def add_gratings_and_loop_back(
         c.add(label)
 
     if with_loopback:
-        y0 = couplers[0].ports[gc_port_name].y
+        y0 = references[0].ports[gc_port_name].y
         xs = [p.x for p in optical_ports]
         x0 = min(xs) - grating_separation
         x1 = max(xs) + grating_separation
@@ -150,7 +153,7 @@ if __name__ == "__main__":
     from pp.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()
-    cc = add_gratings_and_loop_back(component=c, with_loopback=False)
+    cc = add_gratings_and_loop_back(component=c, with_loopback=True)
 
     # cc = add_termination(component=c)
     print(cc.get_settings()["settings"]["component"])

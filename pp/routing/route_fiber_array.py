@@ -1,28 +1,21 @@
-from typing import Any
-from typing import Callable
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 from numpy import float64
 from phidl.device_layout import Label
 
 import pp
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.components.taper import taper
 from pp.config import TECH
+from pp.cross_section import get_cross_section_settings
 from pp.port import select_optical_ports
-from pp.routing.get_bundle import get_min_spacing
-from pp.routing.get_bundle import link_ports
+from pp.routing.get_bundle import get_min_spacing, link_ports
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
-from pp.routing.manhattan import generate_manhattan_waypoints
-from pp.routing.manhattan import round_corners
+from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.types import ComponentFactory
@@ -55,6 +48,7 @@ def route_fiber_array(
     optical_port_labels: None = None,
     get_input_labels_function: Callable = get_input_labels,
     select_ports: Callable = select_optical_ports,
+    cross_section_name: str = "strip",
     **cross_section_settings,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
@@ -111,7 +105,10 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
-    radius = cross_section_settings.get("radius", 10.0)
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+    radius = cross_section_settings["radius"]
 
     assert isinstance(
         radius, (int, float)
@@ -155,7 +152,7 @@ def route_fiber_array(
     # Define the route filter to apply to connection methods
 
     bend90 = (
-        bend_factory(**cross_section_settings)
+        bend_factory(cross_section_name=cross_section_name, **cross_section_settings)
         if callable(bend_factory)
         else bend_factory
     )
@@ -305,11 +302,13 @@ def route_fiber_array(
                     input_port=p0,
                     output_port=p1,
                     bend_factory=bend90,
+                    cross_section_name=cross_section_name,
                     **cross_section_settings,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
+                    cross_section_name=cross_section_name,
                     **cross_section_settings,
                 )
                 elements.extend(route["references"])
@@ -325,6 +324,7 @@ def route_fiber_array(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
+            cross_section_name=cross_section_name,
             **cross_section_settings,
         )
         elems = route["references"]
@@ -374,6 +374,7 @@ def route_fiber_array(
                 end_straight_offset=end_straight_offset,
                 route_filter=route_filter,
                 bend_factory=bend90,
+                cross_section_name=cross_section_name,
                 **cross_section_settings,
             )
             elements.extend([route["references"] for route in routes])
@@ -393,6 +394,7 @@ def route_fiber_array(
                     bend_factory=bend90,
                     route_filter=route_filter,
                     radius=radius,
+                    cross_section_name=cross_section_name,
                     **cross_section_settings,
                 )
                 elements.extend([route["references"] for route in routes])
@@ -436,6 +438,7 @@ def route_fiber_array(
             points=points,
             straight_factory=straight_factory,
             bend_factory=bend90,
+            cross_section_name=cross_section_name,
             **cross_section_settings,
         )
         elements.extend(route["references"])
@@ -478,14 +481,12 @@ def demo():
 
 
 if __name__ == "__main__":
-    cross_section_settings = pp.tech("waveguide.nitride")
-    cross_section_settings.update(width=2)
-    c = pp.components.straight(**cross_section_settings)
+    c = pp.components.straight(cross_section_name="nitride")
     gc = pp.components.grating_coupler_elliptical_te(
         layer=pp.TECH.waveguide.nitride.layer
     )
     elements, gc, _ = route_fiber_array(
-        component=c, grating_coupler=gc, **cross_section_settings
+        component=c, grating_coupler=gc, cross_section_name="nitride"
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)

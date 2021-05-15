@@ -39,5 +39,5 @@ def straight_array(
 
 
 if __name__ == "__main__":
-    c = straight_array()
+    c = straight_array(cross_section_name="nitride")
     c.show()

@@ -209,7 +209,7 @@ routes:
     optical:
         factory: optical
         settings:
-            bend_radius: 100
+            radius: 100
         links:
             bl,S: br,E
 
@@ -218,7 +218,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 930.397]
+    lengths = [693.598, 693.598, 1203.993]
     print(c.routes["tl,E:tr,W"])
     print(c.routes["bl,E:br,W"])
     print(c.routes["bl,S:br,E"])
@@ -260,7 +260,7 @@ routes:
     route1:
         factory: optical
         settings:
-            bend_radius: 10
+            radius: 10
         link_factory: link_ports_path_length_match
         link_settings:
             extra_length: 500

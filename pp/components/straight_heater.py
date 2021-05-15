@@ -1,7 +1,4 @@
-from typing import Dict
-from typing import Iterable
-from typing import Optional
-from typing import Tuple
+from typing import Dict, Iterable, Optional, Tuple
 
 import numpy as np
 from pydantic import validate_arguments
@@ -13,13 +10,10 @@ from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
 from pp.components.hline import hline
 from pp.components.straight import straight
+from pp.cross_section import get_cross_section_settings
 from pp.layers import LAYER
-from pp.port import auto_rename_ports
-from pp.port import Port
-from pp.types import ComponentFactory
-from pp.types import CrossSectionFactory
-from pp.types import Layer
-from pp.types import Number
+from pp.port import Port, auto_rename_ports
+from pp.types import ComponentFactory, Layer, Number
 
 
 @cell
@@ -96,7 +90,6 @@ def add_trenches(
 @cell
 def straight_heater(
     length: float = 10.0,
-    width: float = 0.5,
     heater_width: float = 0.5,
     heater_spacing: float = 1.2,
     sstw: float = 2.0,
@@ -109,7 +102,7 @@ def straight_heater(
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     straight_factory: ComponentFactory = straight,
     layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section_name: str = "strip",
     **cross_section_settings,
 ) -> Component:
     """Waveguide with heater and trenches.
@@ -129,8 +122,11 @@ def straight_heater(
 
     """
     c = Component()
-
     _heater = heater(length=length, width=heater_width, layer_heater=layer_heater)
+    cross_section_settings = get_cross_section_settings(
+        cross_section_name, **cross_section_settings
+    )
+    width = cross_section_settings["width"]
 
     y_heater = heater_spacing + (width + heater_width) / 2
     heater_top = c << _heater
@@ -141,8 +137,7 @@ def straight_heater(
 
     wg = c << straight_factory(
         length=length,
-        cross_section_factory=cross_section_factory,
-        width=width,
+        cross_section_name=cross_section_name,
         **cross_section_settings,
     )
 
@@ -160,10 +155,10 @@ def straight_heater(
     for p in heater_bot.ports.values():
         c.add_port(name="HB" + p.name, port=p)
 
-    c.settings["width"] = width
     c.settings["heater_width"] = heater_width
     c.settings["heater_spacing"] = heater_spacing
     c.settings["length"] = length
+    c.settings["width"] = width
     add_trenches(
         c, sstw, trench_width, trench_keep_out, trenches, layer_trench=layer_trench
     )

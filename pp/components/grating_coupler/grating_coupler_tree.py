@@ -7,9 +7,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
-from pp.components.straight import straight
 from pp.components.straight_array import straight_array
-from pp.routing.get_route import get_route_from_waypoints_no_taper
 from pp.tech import TECH
 from pp.types import ComponentFactory
 
@@ -19,18 +17,20 @@ from pp.types import ComponentFactory
 def grating_coupler_tree(
     n_straights: int = 4,
     straight_spacing: int = 4,
-    straigth: ComponentFactory = straight,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
-    route_filter: ComponentFactory = get_route_from_waypoints_no_taper,
     bend_factory: ComponentFactory = bend_euler,
-    bend_radius: float = 10.0,
     fanout_length: float = 0.0,
     layer_label: Tuple[int, int] = TECH.layer_label,
+    cross_section_name: str = "strip",
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers
     useful to align the 4 corners of the chip
+
+    Args:
+        cross_section_name
+        kwargs: cross_section_settings
 
     .. plot::
       :include-source:
@@ -44,7 +44,8 @@ def grating_coupler_tree(
     c = straight_array(
         n_straights=n_straights,
         spacing=straight_spacing,
-        straigth=straigth,
+        cross_section_name=cross_section_name,
+        **kwargs,
     )
 
     cc = pp.routing.add_fiber_array(
@@ -52,14 +53,12 @@ def grating_coupler_tree(
         with_align_ports=with_loop_back,
         optical_routing_type=0,
         grating_coupler=grating_coupler_function,
-        bend_radius=bend_radius,
         fanout_length=fanout_length,
-        route_filter=route_filter,
         component_name=c.name,
-        straight_factory=straigth,
         bend_factory=bend_factory,
         layer_label=layer_label,
         taper_factory=None,
+        cross_section_name=cross_section_name,
         **kwargs,
     )
     cc.ignore.add("route_filter")
@@ -68,6 +67,6 @@ def grating_coupler_tree(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_tree()
+    c = grating_coupler_tree(cross_section_name="nitride")
     # print(c.get_settings())
     c.show()

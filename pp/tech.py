@@ -165,7 +165,6 @@ class MetalRouting(Waveguide):
     auto_widen: bool = False
     layer: Layer = LAYER.M3
     radius: float = 10.0
-    min_spacing: float = 10.0
 
 
 @dataclasses.dataclass
@@ -272,6 +271,7 @@ class Tech:
     fiber_array_spacing: float = 127.0
     fiber_input_to_output_spacing: float = 200.0
     layer_label: Layer = LAYER.LABEL
+    metal_spacing: float = 10.0
 
     snap_to_grid_nm: int = 1
     layer_stack: LayerStack = LAYER_STACK

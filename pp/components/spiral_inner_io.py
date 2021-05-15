@@ -1,8 +1,7 @@
 """ bends with grating couplers inside the spiral
 maybe: need to add grating coupler loopback as well
 """
-from typing import Optional
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from pydantic import validate_arguments
@@ -10,16 +9,13 @@ from pydantic import validate_arguments
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_circular import bend_circular
-from pp.components.bend_circular import bend_circular180
-from pp.components.bend_euler import bend_euler
-from pp.components.bend_euler import bend_euler180
+from pp.components.bend_circular import bend_circular, bend_circular180
+from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.straight import straight
 from pp.cross_section import get_cross_section_settings
 from pp.routing.manhattan import round_corners
 from pp.snap import snap_to_grid
-from pp.types import ComponentFactory
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -63,7 +59,7 @@ def spiral_inner_io(
         bend180_function
         straight_factory: straight function
         taper: taper function
-        length: cm
+        length:
 
     """
     cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
@@ -72,8 +68,8 @@ def spiral_inner_io(
 
     if length:
         if bend180_function == bend_circular180:
-            y_straight_inner_top = get_straight_length(
-                length_cm=length,
+            x_straight_inner_left = get_straight_length(
+                length=length,
                 spiral_function=spiral_inner_io,
                 N=N,
                 x_straight_inner_right=x_straight_inner_right,
@@ -88,8 +84,8 @@ def spiral_inner_io(
                 bend180_function=bend_euler180,
             )
         else:
-            y_straight_inner_top = get_straight_length(
-                length_cm=length,
+            x_straight_inner_left = get_straight_length(
+                length=length,
                 spiral_function=spiral_inner_io_euler,
                 N=N,
                 x_straight_inner_right=x_straight_inner_right,
@@ -261,19 +257,17 @@ def spirals_nested(bend_radius: Number = 100) -> Component:
 
 
 def get_straight_length(
-    length_cm: Number, spiral_function: ComponentFactory, **kwargs
+    length: float, spiral_function: ComponentFactory, **kwargs
 ) -> Number:
-    """returns y_spiral to achieve a particular spiral length"""
-    y0 = 50
-    y1 = 400
-    kwargs.update({"y_straight_inner_top": y0})
+    """Returns y_spiral to achieve a particular spiral length"""
+    x0 = 50
+    x1 = 400
+    kwargs.update({"x_straight_inner_left": x0})
     s0 = spiral_function(**kwargs)
-    kwargs.update({"y_straight_inner_top": y1})
+    kwargs.update({"x_straight_inner_left": x1})
     s1 = spiral_function(**kwargs)
-    p = np.polyfit(
-        np.array([y0, y1]), 1e-6 * 1e2 * np.array([s0.length, s1.length]), deg=1
-    )
-    return (length_cm - p[1]) / p[0]
+    p = np.polyfit(np.array([x0, x1]), np.array([s0.length, s1.length]), deg=1)
+    return (length - p[1]) / p[0]
 
 
 # @cell
@@ -288,12 +282,12 @@ def get_straight_length(
 
 if __name__ == "__main__":
 
-    c = spiral_inner_io()
-    # c = spiral_inner_io_euler()
-    # c = spiral_inner_io_euler(length=2, width=0.4)
-    # c = spiral_inner_io_euler(length=6, width=0.4)
-    print(c.name)
-    print(c.settings)
+    # c = spiral_inner_io(x_straight_inner_left=800)
+    c = spiral_inner_io_euler(length_spiral=20e3)
+    # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
+    # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
+    # print(c.name)
+    # print(c.settings)
     # c = add_gratings_and_loop_back(c)
 
     # c = spirals_nested()
@@ -301,9 +295,9 @@ if __name__ == "__main__":
 
     # c = spiral_inner_io_euler(width=1)
     # from pp.routing import add_fiber_array
-    # c = spiral_inner_io_euler(length=4, width=1)
+    # c = spiral_inner_io_euler(length_spiral=4, width=1)
     # cc = pp.routing.add_fiber_array(c)
-    # print(c.length)
+    # print(c.length_spiral)
     # print(get_straight_length(2, spiral_inner_io_euler))
     # print(get_straight_length(4, spiral_inner_io_euler))
     # print(get_straight_length(6, spiral_inner_io_euler))

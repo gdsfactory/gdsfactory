@@ -23,7 +23,7 @@ coupler_500_224:
 spiral_te:
   component: spiral_te
   settings:
-    length_cm: [2, 4, 6]
+    length: [20e3, 40e3, 60e3]
   placer:
     type: pack_row
     next_to: coupler_500_224

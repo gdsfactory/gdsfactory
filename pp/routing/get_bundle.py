@@ -26,7 +26,7 @@ from pp.routing.sort_ports import sort_ports as sort_ports_function
 from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
-METAL_MIN_SEPARATION = TECH.waveguide.metal_routing.min_spacing
+METAL_MIN_SEPARATION = TECH.metal_spacing
 
 
 def get_bundle(
@@ -38,6 +38,8 @@ def get_bundle(
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     cross_section_name: str = "strip",
+    end_straight_offset: float = 0.0,
+    start_straight: float = 0.01,
     **cross_section_settings,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
@@ -99,6 +101,8 @@ def get_bundle(
         "route_filter": route_filter,
         "separation": separation,
         "bend_factory": bend_factory,
+        "end_straight_offset": end_straight_offset,
+        "start_straight": start_straight,
     }
 
     start_angle = ports1[0].angle
@@ -169,8 +173,12 @@ def link_ports(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 5.0,
+    end_straight_offset: float = 0.0,
+    start_straight: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
+    route_filter: Callable = get_route_from_waypoints,
     cross_section_name: str = "strip",
+    sort_ports: bool = True,
     **cross_section_settings,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -225,6 +233,8 @@ def link_ports(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     routes = link_ports_routes(
         ports1,
@@ -232,10 +242,12 @@ def link_ports(
         separation=separation,
         bend_factory=bend_factory,
         cross_section_name=cross_section_name,
+        end_straight_offset=end_straight_offset,
+        start_straight=start_straight,
         **cross_section_settings,
     )
     return [
-        get_route_from_waypoints(
+        route_filter(
             route,
             bend_factory=bend_factory,
             cross_section_name=cross_section_name,
@@ -450,6 +462,7 @@ def get_bundle_path_length_match(
     straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     start_straight: float = 0.0,
+    route_filter: Callable = get_route_from_waypoints,
     cross_section_name: str = "strip",
     **cross_section_settings,
 ) -> List[Route]:
@@ -538,7 +551,7 @@ def get_bundle_path_length_match(
         **cross_section_settings,
     )
     return [
-        get_route_from_waypoints(
+        route_filter(
             waypoints,
             bend_factory=bend_factory,
             straight_factory=straight_factory,
@@ -612,6 +625,7 @@ def link_optical_ports(
     ports2: List[Port],
     separation: float = 5.0,
     route_filter: Callable = get_route_from_waypoints,
+    sort_ports: bool = True,
     **cross_section_settings,
 ) -> List[Route]:
     """connect bundle of optical ports"""
@@ -620,6 +634,7 @@ def link_optical_ports(
         ports2,
         separation,
         route_filter=route_filter,
+        sort_ports=sort_ports,
         **cross_section_settings,
     )
 
