@@ -5,8 +5,6 @@
 - simplify link_factory and route_factory
 - fix some FIXME
 - pack conserves metadata
-- replace pp.write_gds by component.write_gds()
-- pydantic
 - pin version
 
 Maybe:
@@ -18,9 +16,9 @@ Maybe:
 
 ```
 from contracts import contract
-from pydantic import validate_arguments
-
 @contract(length='Real,>=0', width='float,>=0')
+
+from pydantic import validate_arguments
 @validate_arguments
 
 ```

@@ -4,16 +4,17 @@ adapted from phidl.routing
 """
 import gdspy
 import numpy as np
-from numpy import cos
-from numpy import mod
-from numpy import pi
-from numpy import sin
+from numpy import cos, mod, pi, sin
 from numpy.linalg import norm
 from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
+
+
+class RoutingError(ValueError):
+    pass
 
 
 @cell
@@ -38,7 +39,7 @@ def route_basic(
     if width2 is None:
         width2 = port2.width
     if round(abs(mod(port1.orientation - port2.orientation, 360)), 3) != 180:
-        raise ValueError(
+        raise RoutingError(
             "Route() error: Ports do not face each other (orientations must be 180 apart)"
         )
     orientation = port1.orientation
@@ -873,7 +874,7 @@ def route_manhattan(
         abs(port1.midpoint[0] - port2.midpoint[0]) < 2 * radius
         or abs(port1.midpoint[1] - port2.midpoint[1]) < 2 * radius
     ):
-        raise ValueError(
+        raise RoutingError(
             "bend does not fit, you need radius <",
             min(
                 [
@@ -909,7 +910,7 @@ def route_manhattan(
     ports = {1: Total.ports[1], 2: Total.ports[2]}
 
     if p2[1] == p1[1] or p2[0] == p1[0]:
-        raise ValueError("Error - ports must be at different x AND y values.")
+        raise RoutingError("Error - ports must be at different x AND y values.")
 
     # if it is parallel or anti-parallel, route with 180 option
     if (
@@ -1117,7 +1118,7 @@ if __name__ == "__main__":
     ports2 = [pp.Port(f"R_{i}", (20, ys2[i]), 0.5, 180) for i in range(N)]
 
     for i in range(N):
-        route = route_manhattan(ports1[i], ports2[i], radius=3.5)
+        route = route_manhattan(ports1[i], ports2[i], radius=9.5)
         # references = route_basic(port1=ports1[i], port2=ports2[i])
         c.add(route["references"])
     c.show()

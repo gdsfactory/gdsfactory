@@ -37,10 +37,10 @@ from typing import Callable, Optional
 import numpy as np
 from numpy import ndarray
 
-from pp.components import straight
-from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
 from pp.components.electrical.wire import corner, wire
+from pp.components.straight import straight
+from pp.components.taper import taper as taper_function
 from pp.cross_section import get_cross_section_settings
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan

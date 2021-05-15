@@ -3,17 +3,14 @@ from pydantic import validate_arguments
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
-from pp.path import euler
-from pp.path import extrude
+from pp.cross_section import cross_section, get_cross_section_settings
+from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 
 
 @cell
 @validate_arguments
 def bend_euler(
-    radius: float = 10.0,
     angle: int = 90,
     p: float = 1,
     with_arc_floorplan: bool = True,
@@ -31,7 +28,6 @@ def bend_euler(
     al. https://dx.doi.org/10.1364/oe.27.031394
 
     Args:
-        radius: minimum radius of curvature
         angle: total angle of the curve
         p: Proportion of the curve that is an Euler curve
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature of the bend
@@ -59,11 +55,12 @@ def bend_euler(
       c.plot()
 
     """
+    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
+    x = cross_section(**cross_section_settings)
+    radius = x.info["radius"]
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
-    x = cross_section(**cross_section_settings)
     c = extrude(p, x)
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])

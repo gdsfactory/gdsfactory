@@ -3,17 +3,14 @@ from pydantic import validate_arguments
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
-from pp.cross_section import cross_section
-from pp.cross_section import get_cross_section_settings
-from pp.path import arc
-from pp.path import extrude
+from pp.cross_section import cross_section, get_cross_section_settings
+from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
 
 @cell
 @validate_arguments
 def bend_circular(
-    radius: float = 10.0,
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
@@ -38,9 +35,11 @@ def bend_circular(
         c.plot()
 
     """
-    p = arc(radius=radius, angle=angle, npoints=npoints)
     cross_section_settings = get_cross_section_settings(cross_section_name, **kwargs)
     x = cross_section(**cross_section_settings)
+    radius = x.info["radius"]
+
+    p = arc(radius=radius, angle=angle, npoints=npoints)
     c = extrude(p, x)
 
     c.length = snap_to_grid(p.length())

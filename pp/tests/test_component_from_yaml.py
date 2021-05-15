@@ -8,8 +8,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
-from pp.component_from_yaml import component_from_yaml
-from pp.component_from_yaml import sample_mmis
+from pp.component_from_yaml import component_from_yaml, sample_mmis
 from pp.difftest import difftest
 
 sample_connections = """
@@ -109,7 +108,7 @@ def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 6
+    assert len(c.get_dependencies()) == 5
     assert len(c.ports) == 2
     return c
 
@@ -219,10 +218,10 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 930.417]
-    # print(c.routes["tl,E:tr,W"])
-    # print(c.routes["bl,E:br,W"])
-    # print(c.routes["bl,S:br,E"])
+    lengths = [693.598, 693.598, 930.397]
+    print(c.routes["tl,E:tr,W"])
+    print(c.routes["bl,E:br,W"])
+    print(c.routes["bl,S:br,E"])
 
     assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
     assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
@@ -607,14 +606,14 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = test_netlists("sample_different_link_factory", True, None, check=False)
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
     # c = test_connections_2x2()
-    # c = test_connections_different_factory()
+    c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
     # c = test_connections_waypoints()

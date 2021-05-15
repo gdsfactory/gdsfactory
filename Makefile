@@ -40,6 +40,10 @@ cov:
 venv:
 	python3 -m venv env
 
+pipenv:
+	pip install pipenv --user
+	pipenv install
+
 pyenv3:
 	pyenv shell 3.7.2
 	virtualenv venv

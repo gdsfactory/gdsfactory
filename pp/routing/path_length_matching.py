@@ -1,14 +1,11 @@
-from typing import List
-from typing import Union
+from typing import List, Union
 
 import numpy as np
 from numpy import ndarray
 
 from pp.components.bend_euler import bend_euler
 from pp.geo_utils import path_length
-from pp.routing.manhattan import _is_horizontal
-from pp.routing.manhattan import _is_vertical
-from pp.routing.manhattan import remove_flat_angles
+from pp.routing.manhattan import _is_horizontal, _is_vertical, remove_flat_angles
 from pp.types import ComponentFactory
 
 
@@ -19,7 +16,8 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend_factory: ComponentFactory = bend_euler,
-    **kwargs,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[ndarray]:
     """
     Several types of paths won't match correctly.
@@ -44,23 +42,27 @@ def path_length_matched_points(
 
     """
 
-    common_params = {
-        "list_of_waypoints": list_of_waypoints,
-        "modify_segment_i": modify_segment_i,
-        "extra_length": extra_length,
-        "bend_factory": bend_factory,
-    }
-
     if nb_loops >= 1:
         return path_length_matched_points_add_waypoints(
-            **common_params, bend_radius=bend_radius, nb_loops=nb_loops
+            list_of_waypoints=list_of_waypoints,
+            modify_segment_i=modify_segment_i,
+            nb_loops=nb_loops,
+            extra_length=extra_length,
+            cross_section_name=cross_section_name,
+            **cross_section_settings,
         )
     else:
-        return path_length_matched_points_modify_segment(**common_params)
+        return path_length_matched_points_modify_segment(
+            list_of_waypoints=list_of_waypoints,
+            modify_segment_i=modify_segment_i,
+            extra_length=extra_length,
+        )
 
 
 def path_length_matched_points_modify_segment(
-    list_of_waypoints, modify_segment_i, extra_length
+    list_of_waypoints,
+    modify_segment_i,
+    extra_length,
 ):
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
@@ -81,10 +83,7 @@ def path_length_matched_points_modify_segment(
     # cannot path length match
     if min(nb_turns) != max(nb_turns):
         raise ValueError(
-            "Number of turns in paths have to be identical got \
-        {}".format(
-                nb_turns
-            )
+            f"Number of turns in paths have to be identical got {nb_turns}"
         )
 
     if modify_segment_i < 0:
@@ -132,11 +131,12 @@ def path_length_matched_points_modify_segment(
 def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
-    bend_radius: Union[float, int] = 10.0,
     bend_factory: ComponentFactory = bend_euler,
     margin: float = 0.5,
     extra_length: float = 0.0,
     nb_loops: int = 1,
+    cross_section_name: str = "strip",
+    **cross_section_settings,
 ) -> List[ndarray]:
     """
     Args:
@@ -205,7 +205,9 @@ def path_length_matched_points_add_waypoints(
     """
 
     # Get the points for the segment we need to modify
-    bend90 = bend_factory(radius=bend_radius)
+    bend90 = bend_factory(
+        cross_section_name=cross_section_name, **cross_section_settings
+    )
 
     a = margin + bend90.dy
     if modify_segment_i < 0:
