@@ -6,7 +6,6 @@ settings:
   DL: 0
   L0: 60
   L_top: 10
-  bend: bend_euler
   input_port_name: W0
   output_port_name: E0
   ports_map:
@@ -24,8 +23,6 @@ settings:
     - E_0
   sequence: AvHBhBHvA
   start_orientation: 0
-  straight: straight
-  straight_heater: straight_with_heater
   symbol_to_component:
     A:
     - bend_euler_Wstrip
