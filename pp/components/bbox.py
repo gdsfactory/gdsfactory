@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 from numpy import array
 
@@ -8,7 +8,7 @@ from pp.component import Component
 
 @cell
 def bbox(
-    bbox: array = array([[-1.0, -1.0], [3.0, 4.0]]),
+    bbox: Union[array, Tuple[Tuple[float]]] = ((-1.0, -1.0), (3.0, 4.0)),
     layer: Tuple[int, int] = (1, 0),
 ) -> Component:
     """Returns bounding box rectangle from coordinates, to allow
@@ -31,4 +31,5 @@ if __name__ == "__main__":
 
     c = pp.components.L()
     c << bbox(bbox=c.bbox)
+    # c = bbox()
     c.show()
