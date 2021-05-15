@@ -552,6 +552,21 @@ class Component(Device):
         self.name = name
         self.name_long = None
 
+    @classmethod
+    def __get_validators__(self):
+        yield self.validate
+
+    @classmethod
+    def validate(cls, v):
+        pass
+        # if not getattr(cls, "references") and not getattr(v, "polygons"):
+        #     raise ValueError(f"No references or  polygons in {v.name} ")
+        # if len(cls.name) > 32:
+        #     raise ValueError('name is too long')
+        # raise ValueError(
+        #     f"len({v.name}) = {len(v.name)} >  longer than 32 characters"
+        # )
+
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"
     ) -> None:
@@ -1278,6 +1293,8 @@ def test_extract():
 
 
 if __name__ == "__main__":
+    c = Component("a" * 33)
+    c.validate("name")
 
     # test_extract()
 
@@ -1288,8 +1305,8 @@ if __name__ == "__main__":
     # c.show()
     # c2 = c.extract(layers=[(1, 0)])
 
-    c = test_get_layers()
-    c.show()
+    # c = test_get_layers()
+    # c.show()
 
     # import pp
 

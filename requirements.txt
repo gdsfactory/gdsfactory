@@ -1,7 +1,7 @@
 -e .
 click
 gitpython
-gdspy==1.6
+gdspy==1.6.4
 omegaconf
 jsondiff
 klayout
