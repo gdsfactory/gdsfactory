@@ -30,5 +30,5 @@ def test_wmin_passing(layer: Tuple[int, int] = (1, 0)) -> None:
 
 
 if __name__ == "__main__":
-    test_wmin_failing()
-    # test_wmin_passing()
+    # test_wmin_failing()
+    test_wmin_passing()

@@ -1,19 +1,16 @@
 from typing import Optional
 
-from pydantic import validate_arguments
-
 import pp
 from pp.cell import cell
 from pp.components.bend_euler import bend_euler, bend_euler_s
-from pp.components.mmi1x2 import mmi1x2
+from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
 from pp.cross_section import get_waveguide_settings
-from pp.types import ComponentFactory, ComponentOrFactory
+from pp.types import ComponentFactory
 
 
 @cell
-@validate_arguments
 def splitter_tree(
-    coupler: ComponentOrFactory = mmi1x2,
+    coupler: ComponentFactory = mmi1x2_function,
     noutputs: int = 4,
     spacing: Optional[float] = None,
     spacing_extra: float = 0.1,

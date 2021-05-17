@@ -13,7 +13,7 @@ def check_inclusion(
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,
     whole_edges: bool = False,
-    metrics: None = None,
+    metrics: str = "Square",
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
@@ -43,6 +43,11 @@ def check_inclusion(
     cell = layout.top_cell()
     a = pya.Region(cell.begin_shapes_rec(layout.layer(layer_in[0], layer_in[1])))
     b = pya.Region(cell.begin_shapes_rec(layout.layer(layer_out[0], layer_out[1])))
+
+    valid_metrics = ["Square", "Euclidian"]
+    if metrics not in valid_metrics:
+        raise ValueError("metrics = {metrics} not in {valid_metrics}")
+    metrics = getattr(pya.Region, metrics)
 
     d = b.inside_check(
         a,
