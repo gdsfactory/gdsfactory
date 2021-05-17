@@ -30,8 +30,8 @@ def test_get_bundle_u_direct_different_x(
 
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

@@ -36,7 +36,7 @@ def add_electrical_pads_top_dc(
 
     routes = get_bundle(ports_pads, ports, route_filter=route_filter)
     for route in routes:
-        c.add(route["references"])
+        c.add(route.references)
 
     c.ports = component.ports.copy()
     for port in ports:

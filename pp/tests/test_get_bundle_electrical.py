@@ -23,8 +23,8 @@ def test_get_bundle_electrical(
     )
 
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     routes = pp.routing.get_bundle(
         [c1.ports["S"]],
@@ -34,8 +34,8 @@ def test_get_bundle_electrical(
         bend_factory=corner,
     )
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

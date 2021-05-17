@@ -32,8 +32,8 @@ def test_link_optical_ports_no_grouping(
 
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

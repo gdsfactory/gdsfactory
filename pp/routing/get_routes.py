@@ -30,7 +30,7 @@ def get_routes(
     for p1, p2 in zip(ports1, ports2):
         try:
             path = route_manhattan(p1, p2, **kwargs)
-            references.extend(path["references"])
+            references.extend(path.references)
         except ValueError:
             path = route_basic(port1=p1, port2=p2, **kwargs)
             path_ref = path.ref()

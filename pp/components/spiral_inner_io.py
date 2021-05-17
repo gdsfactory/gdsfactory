@@ -164,12 +164,10 @@ def spiral_inner_io(
     route_west = round_corners(
         pts_w, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
-    component.add(route_west["references"])
+    component.add(route_west.references)
 
     # Add loop back
-    bend180_ref = _bend180.ref(
-        port_id="W1", position=route_west["ports"]["output"], rotation=90
-    )
+    bend180_ref = _bend180.ref(port_id="W1", position=route_west.ports[1], rotation=90)
     component.add(bend180_ref)
     component.absorb(bend180_ref)
 
@@ -195,9 +193,9 @@ def spiral_inner_io(
     route_east = round_corners(
         pts_e, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
     )
-    component.add(route_east["references"])
+    component.add(route_east.references)
 
-    length = route_east["length"] + route_west["length"] + _bend180.length
+    length = route_east.length + route_west.length + _bend180.length
     component.length = snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
@@ -283,7 +281,7 @@ def get_straight_length(
 if __name__ == "__main__":
 
     # c = spiral_inner_io(x_straight_inner_left=800)
-    c = spiral_inner_io_euler(length_spiral=20e3)
+    c = spiral_inner_io_euler(length=20e3)
     # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)
@@ -291,7 +289,7 @@ if __name__ == "__main__":
     # c = add_gratings_and_loop_back(c)
 
     # c = spirals_nested()
-    c.show()
+    c.show(show_ports=True)
 
     # c = spiral_inner_io_euler(width=1)
     # from pp.routing import add_fiber_array
@@ -309,4 +307,3 @@ if __name__ == "__main__":
     # c = spiral_inner_io()
     # c = spiral_inner_io(bend_radius=20, width=0.2)
     # c = spirals_nested()
-    c.show()

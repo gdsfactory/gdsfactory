@@ -4,7 +4,6 @@ module: pp.components.delay_snake
 name: delay_snake
 settings:
   L0: 5
-  bend_radius: 10
   n: 2
   taper_length: 10
   total_length: 1600

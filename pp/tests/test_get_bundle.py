@@ -24,8 +24,8 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
     routes = get_bundle(top_ports, bottom_ports)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -112,16 +112,16 @@ def test_connect_corner(
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = get_bundle(ports1, ports2)
             for route in routes:
-                c.add(route["references"])
-                lengths[i] = route["length"]
+                c.add(route.references)
+                lengths[i] = route.length
                 i += 1
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = get_bundle(ports2, ports1)
             for route in routes:
-                c.add(route["references"])
-                lengths[i] = route["length"]
+                c.add(route.references)
+                lengths[i] = route.length
                 i += 1
 
     if check:
@@ -154,8 +154,8 @@ def test_get_bundle_udirect(
     routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -195,8 +195,8 @@ def test_get_bundle_u_indirect(
     routes = get_bundle(ports1, ports2, bend_factory=pp.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -228,8 +228,8 @@ def test_facing_ports(
     routes = get_bundle(ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

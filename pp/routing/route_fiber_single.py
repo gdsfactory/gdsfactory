@@ -162,16 +162,12 @@ if __name__ == "__main__":
     #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     # )
 
-    waveguide_settings = pp.TECH.waveguide.nitride
-    c = pp.components.straight(**waveguide_settings)
+    c = pp.components.mmi2x2(waveguide="nitride")
     gc = pp.components.grating_coupler_elliptical_te(
         layer=pp.TECH.waveguide.nitride.layer
     )
     elements, gc = route_fiber_single(
-        c,
-        grating_coupler=[gc, gc, gc, gc],
-        auto_widen=False,
-        **waveguide_settings,
+        c, grating_coupler=[gc, gc, gc, gc], auto_widen=False, waveguide="nitride"
     )
 
     cc = pp.Component("sample_route_fiber_single")

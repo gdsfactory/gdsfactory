@@ -447,11 +447,11 @@ def round_corners(
     waveguide: str = "strip",
     **waveguide_settings,
 ) -> Route:
-    """Returns Dict:
+    """Returns Route:
 
     - references list with rounded straight route from a list of manhattan points.
-    - ports: Dict of ports
-    - length: route length
+    - ports: Tuple of ports
+    - length: route length (float)
 
     Args:
         points: manhattan route defined by waypoints
@@ -470,7 +470,6 @@ def round_corners(
     )
     taper_length = waveguide_settings.get("taper_length", 10.0)
     references = []
-    ports = dict()
     bend90 = (
         bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
@@ -614,10 +613,10 @@ def round_corners(
             wg_refs += [taper_ref]
             port_index_out = 0
 
-    ports["input"] = list(wg_refs[0].ports.values())[0]
-    ports["output"] = list(wg_refs[-1].ports.values())[port_index_out]
+    port_input = list(wg_refs[0].ports.values())[0]
+    port_output = list(wg_refs[-1].ports.values())[port_index_out]
     length = snap_to_grid(float(total_length))
-    return dict(references=references, ports=ports, length=length)
+    return Route(references=references, ports=(port_input, port_output), length=length)
 
 
 def generate_manhattan_waypoints(
@@ -735,8 +734,8 @@ def test_manhattan() -> Component:
             radius=5.0,
         )
 
-        top_cell.add(route["references"])
-        np.isclose(route["length"], length)
+        top_cell.add(route.references)
+        np.isclose(route.length, length)
     return top_cell
 
 

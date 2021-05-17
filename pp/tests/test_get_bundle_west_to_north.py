@@ -34,8 +34,8 @@ def test_get_bundle_west_to_north(
         bend_factory=pp.components.corner,
     )
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -62,8 +62,8 @@ def test_get_bundle_west_to_north2(
     )
 
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

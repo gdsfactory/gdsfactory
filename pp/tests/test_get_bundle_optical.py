@@ -28,8 +28,8 @@ def test_get_bundle_optical(
 
     routes = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True, radius=10)
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -54,8 +54,8 @@ def test_get_bundle_optical2(
     routes = pp.routing.link_optical_ports(ports1, ports2, sort_ports=True)
 
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

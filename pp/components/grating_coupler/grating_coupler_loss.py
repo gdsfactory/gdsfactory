@@ -6,8 +6,7 @@ from numpy import float64
 import pp
 from pp.add_labels import get_input_label
 from pp.cell import cell
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.components import grating_coupler_te
 from pp.port import Port
 from pp.routing.get_route import get_route
@@ -34,7 +33,7 @@ def connect_loop_back(
     bend90 = pp.components.bend_euler(radius=R)
     return round_corners(
         points=points, bend_factory=bend90, straight_factory=pp.components.straight
-    )["references"]
+    ).references
 
 
 @cell
@@ -54,9 +53,9 @@ def loss_deembedding_ch13_24(
     c.add(gcs)
 
     c.add(
-        get_route(gc_ports[0], gc_ports[2], start_straight=40.0, taper_factory=None)[
-            "references"
-        ]
+        get_route(
+            gc_ports[0], gc_ports[2], start_straight=40.0, taper_factory=None
+        ).references
     )
 
     gsi = gc.size_info
@@ -94,14 +93,14 @@ def loss_deembedding_ch12_34(
     c.add(gcs)
 
     c.add(
-        get_route(gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None)[
-            "references"
-        ]
+        get_route(
+            gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None
+        ).references
     )
     c.add(
-        get_route(gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None)[
-            "references"
-        ]
+        get_route(
+            gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None
+        ).references
     )
     for i, index in enumerate(input_port_indexes):
         label = get_input_label(
@@ -129,14 +128,14 @@ def loss_deembedding_ch14_23(
     c.add(gcs)
 
     c.add(
-        get_route(gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None)[
-            "references"
-        ]
+        get_route(
+            gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None
+        ).references
     )
     c.add(
-        get_route(gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None)[
-            "references"
-        ]
+        get_route(
+            gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None
+        ).references
     )
     for i, index in enumerate(input_port_indexes):
         label = get_input_label(

@@ -17,18 +17,13 @@ Some of these inputs are other functions.
 - RouteFactory: function that returns a Route.
 
 """
+import dataclasses
 import pathlib
-from typing import Callable
-from typing import Dict
-from typing import Iterable
-from typing import List
-from typing import Tuple
-from typing import Union
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 from phidl.device_layout import Path
 
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.cross_section import CrossSection
 from pp.port import Port
 
@@ -50,6 +45,21 @@ Coordinates = Iterable[Tuple[float, float]]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
+
+
+@dataclasses.dataclass
+class Route:
+    references: List[ComponentReference]
+    ports: Tuple[Port, Port]
+    length: float
+
+
+@dataclasses.dataclass
+class Routes:
+    references: List[ComponentReference]
+    lengths: List[float]
+    ports: Optional[List[Port]] = None
+    bend_radius: Optional[float] = None
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:

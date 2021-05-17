@@ -23,8 +23,8 @@ def demo_get_bundle_sbend_routing(
     routes = pp.routing.get_bundle(right_ports, left_ports, bend_radius=5)
 
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

@@ -22,8 +22,8 @@ def delay_snake(
     n: int = 2,
     taper: ComponentFactory = taper_function,
     bend_factory: ComponentFactory = bend_euler,
-    bend_radius: float = 10.0,
     straight_factory: ComponentFactory = straight_function,
+    **kwargs
 ) -> Component:
     """Snake input facing west
     Snake output facing east
@@ -35,7 +35,6 @@ def delay_snake(
         n: number of loops
         taper: taper factory
         bend_factory
-        bend_radius
         straight_factory
 
     .. code::
@@ -53,7 +52,7 @@ def delay_snake(
 
     """
     epsilon = 0.1
-    bend90 = bend_factory(radius=bend_radius, width=wg_width)
+    bend90 = bend_factory(width=wg_width, **kwargs)
     dy = bend90.dy
     DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
@@ -74,20 +73,24 @@ def delay_snake(
 
     component = pp.Component()
     if taper:
-        _taper = taper(width1=wg_width, width2=wg_width_wide, length=taper_length)
-    route_snake = round_corners(
+        _taper = taper(
+            width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
+        )
+    route = round_corners(
         points=path,
         bend_factory=bend90,
         straight_factory=straight_factory,
         taper=_taper,
+        **kwargs
     )
-    component.add(route_snake["references"])
-    component.ports = route_snake["ports"]
+    component.add(route.references)
+    component.add_port("S1", port=route.ports[0])
+    component.add_port("S0", port=route.ports[1])
 
     pp.port.auto_rename_ports(component)
     return component
 
 
 if __name__ == "__main__":
-    c = delay_snake()
-    c.show()
+    c = delay_snake(waveguide="nitride")
+    c.show(show_ports=True)

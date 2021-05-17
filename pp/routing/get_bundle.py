@@ -844,9 +844,9 @@ def test_get_bundle_small() -> Component:
         radius=5,
     )
     for route in routes:
-        # print(route["length"])
-        assert np.isclose(route["length"], 111.3)
-        c.add(route["references"])
+        # print(route.length)
+        assert np.isclose(route.length, 111.3)
+        c.add(route.references)
     return c
 
 

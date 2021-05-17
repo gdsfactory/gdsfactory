@@ -82,7 +82,7 @@ def splitter_tree(
                 tree_top.ports["W0"],
                 bend_factory=bend_factory,
                 **waveguide_settings,
-            )["references"]
+            ).references
         )
         c.add(
             pp.routing.get_route(
@@ -90,7 +90,7 @@ def splitter_tree(
                 tree_bot.ports["W0"],
                 bend_factory=bend_factory,
                 **waveguide_settings,
-            )["references"]
+            ).references
         )
 
     i = 0

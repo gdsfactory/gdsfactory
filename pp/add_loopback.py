@@ -87,7 +87,7 @@ def gen_loopback(
         points=points, bend_factory=bend90, straight_factory=straight_factory
     )
     elements = [gca1, gca2]
-    elements.extend(route["references"])
+    elements.extend(route.references)
     return elements
 
 

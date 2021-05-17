@@ -27,7 +27,7 @@ def loop_mirror(
         straight_factory=pp.components.straight,
         bend_factory=bend90,
     )
-    c.add(routes["references"])
+    c.add(routes.references)
     c.add_port(name="W0", port=cref.ports["W0"])
     c.absorb(cref)
     return c

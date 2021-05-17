@@ -1,12 +1,12 @@
-from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.port import Port
 from pp.routing.sort_ports import sort_ports as sort_ports_function
+from pp.types import Routes
 
 
 def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
-) -> Component:
+) -> Routes:
     """Returns a Dict with the routes from ports1 to ports2
 
     Args:
@@ -40,7 +40,7 @@ def get_bundle_sbend(
         lengths.append(bend.info["length"])
         bend_radius.append(bend.info["min_bend_radius"])
 
-    return dict(references=references, lengths=lengths, bend_radius=bend_radius)
+    return Routes(references=references, lengths=lengths, bend_radius=bend_radius)
 
 
 if __name__ == "__main__":
@@ -56,6 +56,6 @@ if __name__ == "__main__":
     left_ports = [pp.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0) for i in range(N)]
     left_ports.reverse()
 
-    route_dict = get_bundle_sbend(right_ports, left_ports)
-    c.add(route_dict["references"])
+    routes = get_bundle_sbend(right_ports, left_ports)
+    c.add(routes.references)
     c.show()

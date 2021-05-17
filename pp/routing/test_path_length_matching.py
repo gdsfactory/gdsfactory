@@ -23,9 +23,9 @@ def test_path_length_matching() -> Component:
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2)
     lengths = [2662.794]
     for route, length in zip(routes, lengths):
-        print(route["length"])
-        c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        print(route.length)
+        c.add(route.references)
+        assert np.isclose(route.length, length)
     return c
 
 
@@ -48,9 +48,9 @@ def test_path_length_matching_extra_length() -> Component:
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2, extra_length=40)
     lengths = [2702.794]
     for route, length in zip(routes, lengths):
-        # print(route["length"])
-        c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        # print(route.length)
+        c.add(route.references)
+        assert np.isclose(route.length, length)
     return c
 
 
@@ -73,9 +73,9 @@ def test_path_length_matching_nb_loops() -> Component:
     routes = pp.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
     lengths = [2691.99]
     for route, length in zip(routes, lengths):
-        # print(route["length"])
-        c.add(route["references"])
-        assert np.isclose(route["length"], length)
+        # print(route.length)
+        c.add(route.references)
+        assert np.isclose(route.length, length)
     return c
 
 

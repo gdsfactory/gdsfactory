@@ -309,7 +309,7 @@ def route_fiber_array(
                     waveguide=waveguide,
                     **waveguide_settings,
                 )
-                elements.extend(route["references"])
+                elements.extend(route.references)
 
     elif optical_routing_type in [1, 2]:
         route = route_south(
@@ -325,8 +325,8 @@ def route_fiber_array(
             waveguide=waveguide,
             **waveguide_settings,
         )
-        elems = route["references"]
-        to_route = route["ports"]
+        elems = route.references
+        to_route = route.ports
         elements.extend(elems)
 
         if force_manhattan:
@@ -375,7 +375,7 @@ def route_fiber_array(
                 waveguide=waveguide,
                 **waveguide_settings,
             )
-            elements.extend([route["references"] for route in routes])
+            elements.extend([route.references for route in routes])
 
         else:
             for io_gratings in io_gratings_lines:
@@ -395,7 +395,7 @@ def route_fiber_array(
                     waveguide=waveguide,
                     **waveguide_settings,
                 )
-                elements.extend([route["references"] for route in routes])
+                elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
 
     if with_align_ports:
@@ -439,7 +439,7 @@ def route_fiber_array(
             waveguide=waveguide,
             **waveguide_settings,
         )
-        elements.extend(route["references"])
+        elements.extend(route.references)
 
     elements.extend(
         get_input_labels_function(

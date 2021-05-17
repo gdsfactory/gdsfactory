@@ -513,7 +513,7 @@ def sample_route_sides() -> Component:
         c.add(dummy_ref)
         routes, ports = route_ports_to_side(dummy_ref, side, waveguide="nitride")
         for route in routes:
-            c.add(route["references"])
+            c.add(route.references)
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
     return c

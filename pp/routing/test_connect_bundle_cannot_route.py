@@ -18,5 +18,5 @@ if __name__ == "__main__":
 
     routes = pp.routing.get_bundle(pbports, ptports)
     for route in routes:
-        c.add(route["references"])
+        c.add(route.references)
     c.show()
