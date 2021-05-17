@@ -147,8 +147,8 @@ def awg(
 
     c.lengths = []
     for route in routes:
-        c.add(route["references"])
-        c.lengths.append(route["length"])
+        c.add(route.references)
+        c.lengths.append(route.length)
 
     c.add_port("W0", port=fpr_in_ref.ports["W0"])
 

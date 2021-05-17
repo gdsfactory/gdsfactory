@@ -4,7 +4,7 @@ from pp.component import Component
 
 @pp.cell
 def test_netlist_with_routes() -> Component:
-    """"""
+    """ """
     c = pp.Component()
     w = c << pp.components.straight(length=3)
     b = c << pp.components.bend_circular()
@@ -13,7 +13,7 @@ def test_netlist_with_routes() -> Component:
 
     routes = pp.routing.get_bundle(w.ports["E0"], b.ports["W0"])
     for route in routes:
-        c.add(route["references"])
+        c.add(route.references)
     n = c.get_netlist()
     connections = n["connections"]
 

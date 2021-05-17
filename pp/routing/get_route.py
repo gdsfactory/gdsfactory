@@ -260,5 +260,5 @@ if __name__ == "__main__":
     c << w
     # route = get_route(w.ports["E0"], w.ports["W0"], **pp.TECH.waveguide.nitride)
     route = get_route(w.ports["E0"], w.ports["W0"], waveguide="metal_routing")
-    cc = c.add(route["references"])
+    cc = c.add(route.references)
     cc.show()

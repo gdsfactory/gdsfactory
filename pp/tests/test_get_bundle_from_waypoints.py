@@ -37,8 +37,8 @@ def test_get_bundle_from_waypointsA(
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -71,8 +71,8 @@ def test_get_bundle_from_waypointsB(
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -104,8 +104,8 @@ def test_get_bundle_from_waypointsC(
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)
@@ -137,8 +137,8 @@ def test_get_bundle_from_waypointsD(
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

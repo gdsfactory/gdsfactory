@@ -141,7 +141,7 @@ def add_gratings_and_loop_back(
             points=points, bend_factory=bend90, straight_factory=straight_factory
         )
         c.add([gca1, gca2])
-        c.add(loop_back_route["references"])
+        c.add(loop_back_route.references)
     return c
 
 

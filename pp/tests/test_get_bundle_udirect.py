@@ -28,8 +28,8 @@ def test_get_bundle_udirect(
 
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route["references"])
-        lengths[i] = route["length"]
+        c.add(route.references)
+        lengths[i] = route.length
 
     if check:
         data_regression.check(lengths)

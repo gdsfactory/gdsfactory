@@ -167,7 +167,7 @@ class MetalRouting(Waveguide):
     width_wide: float = 2.0
     auto_widen: bool = False
     layer: Layer = LAYER.M3
-    radius: float = 10.0
+    radius: float = 5.0
 
 
 @dataclasses.dataclass

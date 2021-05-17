@@ -1120,5 +1120,5 @@ if __name__ == "__main__":
     for i in range(N):
         route = route_manhattan(ports1[i], ports2[i], radius=9.5)
         # references = route_basic(port1=ports1[i], port2=ports2[i])
-        c.add(route["references"])
+        c.add(route.references)
     c.show()

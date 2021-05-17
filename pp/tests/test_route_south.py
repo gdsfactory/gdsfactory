@@ -10,7 +10,7 @@ def test_route_south(
     c = pp.Component("test_route_south")
     cr = c << pp.components.mmi2x2()
     route = pp.routing.route_south(cr)
-    references = route["references"]
+    references = route.references
 
     lengths = {}
     for i, reference in enumerate(references):

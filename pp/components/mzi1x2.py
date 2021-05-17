@@ -143,7 +143,7 @@ def mzi1x2(
         )
 
         for route in routes:
-            component.add(route["references"])
+            component.add(route.references)
 
         for p in e_ports:
             component.ports[p.name] = p

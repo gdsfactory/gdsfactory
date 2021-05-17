@@ -1,18 +1,14 @@
-from typing import Any
-from typing import Callable
-from typing import List
-from typing import Tuple
-from typing import Union
+from typing import Any, Callable, List, Tuple, Union
 
 from numpy import float64
 from phidl.device_layout import Label
 
 import pp
-from pp.component import Component
-from pp.component import ComponentReference
+from pp.component import Component, ComponentReference
 from pp.components.electrical.pad import pad as pad_function
 from pp.port import select_electrical_ports
 from pp.routing.get_route import get_route_electrical
+from pp.routing.sort_ports import sort_ports
 from pp.routing.utils import direction_ports_from_list_ports
 from pp.types import Number
 
@@ -24,7 +20,6 @@ def route_pad_array(
     fanout_length: Number = 20.0,
     max_y0_optical: None = None,
     straight_separation: float = 4.0,
-    bend_radius: float = 0.1,
     connected_port_list_ids: None = None,
     n_ports: int = 1,
     excluded_ports: List[Any] = None,
@@ -55,7 +50,6 @@ def route_pad_array(
         max_y0_optical: Maximum y coordinate for intermediate optical ports
             Usually fine to leave at None.
         straight_separation: min spacing between the straights that route component to pads
-        bend_radius: bend radius
         list_port_labels: list of the port indices (e.g [0,3]) which require a TM label.
         connected_port_list_ids: only for type 0 optical routing.
             Can specify which ports goes to which pads
@@ -93,7 +87,6 @@ def route_pad_array(
 
     # Get the center along x axis
     x_c = round(sum([p.x for p in ports]) / N, 1)
-    y_min = component.ymin  # min([p.y for p in ports])
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(ports)
@@ -108,7 +101,7 @@ def route_pad_array(
         return len(direction_ports[side]) > 0
 
     # use x for pad since we rotate it
-    y0_optical = y_min - fanout_length - pad.ports[port_name].x
+    y0_optical = component.ymin - pad.ysize / 2 - fanout_length - pad.ports[port_name].x
     y0_optical += -K / 2 * sep
     y0_optical = round(y0_optical, 1)
 
@@ -131,17 +124,19 @@ def route_pad_array(
     west_ports.reverse()
     east_ports = direction_ports["E"]
     south_ports = direction_ports["S"]
-    north_finish.reverse()  # Sort right to left
-    north_start.reverse()  # Sort right to left
+
+    if north_start and north_finish:
+        north_finish, north_start = sort_ports(north_finish, north_start)
+
     ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
     nb_ports_per_line = N // n_ports
     pad_size_info = pad.size_info
     y_gap = (K / (n_ports) + 1) * sep
-    y_sep = pad_size_info.height + y_gap + bend_radius
+    y_sep = pad_size_info.height + y_gap
 
     offset = (nb_ports_per_line - 1) * io_sep / 2 - x_pad_offset
-    io_pad_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
+    io_pad_lines = []
 
     if pad_indices is None:
         pad_indices = list(range(nb_ports_per_line))
@@ -168,7 +163,7 @@ def route_pad_array(
             p0 = pads[i].ports[port_name]
             p1 = ordered_ports[i]
             route = get_route_function(p1, p0)
-            elements.extend(route["references"])
+            elements.extend(route.references)
 
     return elements, io_pad_lines, y0_optical
 
@@ -176,8 +171,10 @@ def route_pad_array(
 if __name__ == "__main__":
     # FIXME, does not work with MZI
 
+    c = pp.components.straight_with_heater(
+        length=100, port_orientation_input=180, port_orientation_output=0
+    )
     c = pp.components.mzi2x2(with_elec_connections=True)
-    c = pp.components.straight_with_heater()
 
     elements, pads, _ = route_pad_array(c, fanout_length=100)
     for e in elements:

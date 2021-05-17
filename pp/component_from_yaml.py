@@ -12,6 +12,7 @@ from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
 from pp.routing.factories import link_factory as link_factory_default
 from pp.routing.factories import route_factory as route_factory_default
+from pp.types import Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -633,14 +634,14 @@ def component_from_yaml(
                 "link_electrical_waypoints",
                 "link_optical_waypoints",
             ]:
-                route_dict_or_list = link_function(
+                route_or_route_list = link_function(
                     route_filter=route_filter,
                     **route_settings,
                     **link_settings,
                 )
 
             else:
-                route_dict_or_list = link_function(
+                route_or_route_list = link_function(
                     ports1,
                     ports2,
                     route_filter=route_filter,
@@ -648,16 +649,16 @@ def component_from_yaml(
                     **link_settings,
                 )
 
-            # FIXME, make all routers to return lists
-            if isinstance(route_dict_or_list, list):
-                for route_name, route_dict in zip(route_names, route_dict_or_list):
-                    c.add(route_dict["references"])
-                    routes[route_name] = route_dict["length"]
-            elif isinstance(route_dict_or_list, dict):
-                c.add(route_dict_or_list["references"])
-                routes[route_name] = route_dict_or_list["length"]
+            # FIXME, be more consistent
+            if isinstance(route_or_route_list, list):
+                for route_name, route_dict in zip(route_names, route_or_route_list):
+                    c.add(route_dict.references)
+                    routes[route_name] = route_dict.length
+            elif isinstance(route_or_route_list, Route):
+                c.add(route_or_route_list.references)
+                routes[route_name] = route_or_route_list.length
             else:
-                raise ValueError(f"{route_dict_or_list} needs to be dict or list")
+                raise ValueError(f"{route_or_route_list} needs to be a Route or a list")
 
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"

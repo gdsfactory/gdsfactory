@@ -9,7 +9,7 @@ from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
 from pp.routing.get_route import get_route
 from pp.routing.utils import direction_ports_from_list_ports, flip
-from pp.types import ComponentFactory, Number, Route
+from pp.types import ComponentFactory, Number, Routes
 
 
 def route_south(
@@ -25,8 +25,9 @@ def route_south(
     auto_widen: bool = True,
     waveguide: str = "strip",
     **waveguide_settings,
-) -> Route:
-    """
+) -> Routes:
+    """Returns Routes
+
     Args:
         component: component to route
         optical_routing_type: routing heuristic `1` or `2`
@@ -157,8 +158,8 @@ def route_south(
         tmp_port = gen_port_from_port(x, y0, p)
         ports_to_route.append(tmp_port)
         route = get_route(input_port=p, output_port=tmp_port, **conn_params)
-        references.extend(route["references"])
-        lengths.append(route["length"])
+        references.extend(route.references)
+        lengths.append(route.length)
         x -= sep
 
         i += 1
@@ -178,8 +179,8 @@ def route_south(
                 start_straight=start_straight + y_max - p.y,
                 **conn_params,
             )
-            references.extend(route["references"])
-            lengths.append(route["length"])
+            references.extend(route.references)
+            lengths.append(route.length)
 
             ports_to_route.append(tmp_port)
             x -= sep
@@ -218,8 +219,8 @@ def route_south(
         tmp_port = gen_port_from_port(x, y0, p)
         route = get_route(p, tmp_port, start_straight=start_straight, **conn_params)
 
-        references.extend(route["references"])
-        lengths.append(route["length"])
+        references.extend(route.references)
+        lengths.append(route.length)
 
         ports_to_route.append(tmp_port)
         x += sep
@@ -238,15 +239,15 @@ def route_south(
                 start_straight=start_straight + y_max - p.y,
                 **conn_params,
             )
-            references.extend(route["references"])
-            lengths.append(route["length"])
+            references.extend(route.references)
+            lengths.append(route.length)
             x += sep
             start_straight += sep
 
     # Add south ports
     ports = [flip(p) for p in ports_to_route] + south_ports
 
-    return dict(references=references, ports=ports, lengths=lengths)
+    return Routes(references=references, ports=ports, lengths=lengths)
 
 
 if __name__ == "__main__":
@@ -260,12 +261,12 @@ if __name__ == "__main__":
 
     c = pp.components.ring_double()
     r = route_south(c, bend_factory=pp.components.bend_euler, waveguide="nitride")
-    for e in r["references"]:
+    for e in r.references:
         if isinstance(e, list):
             print(len(e))
             print(e)
         # print(e)
         c.add(e)
 
-    print(r["lengths"])
+    print(r.lengths)
     c.show()
