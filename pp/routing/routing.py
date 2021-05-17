@@ -2,6 +2,8 @@
 
 adapted from phidl.routing
 """
+from typing import Optional
+
 import gdspy
 import numpy as np
 from numpy import cos, mod, pi, sin
@@ -11,6 +13,8 @@ from pydantic import validate_arguments
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
+from pp.snap import snap_to_grid
+from pp.types import Layer, Port, Route
 
 
 class RoutingError(ValueError):
@@ -18,17 +22,16 @@ class RoutingError(ValueError):
 
 
 @cell
-@validate_arguments
 def route_basic(
-    port1,
-    port2,
-    path_type="sine",
-    width_type="straight",
-    width1=None,
-    width2=None,
-    num_path_pts=99,
-    layer=None,
-):
+    port1: Port,
+    port2: Port,
+    path_type: str = "sine",
+    width_type: str = "straight",
+    width1: Optional[float] = None,
+    width2: Optional[float] = None,
+    num_path_pts: int = 99,
+    layer: Optional[Layer] = None,
+) -> Component:
     layer = layer or port1.layer
 
     # Assuming they're both Ports for now
@@ -181,6 +184,8 @@ def _gradual_bend(
     layer=0,
 ):
     """
+    FIXME!
+
     creates a 90-degree bent waveguide
     the bending radius is gradually increased until it reaches the minimum
     value of the radius at the "angular coverage" angle.
@@ -254,6 +259,8 @@ def _gradual_bend(
     Total.add_port(name=1, port=D1.ports[1])
     Total.add_port(name=2, port=D2.ports[1])
 
+    # FIXME
+    Total.info["length"] = (abs(angular_coverage) * pi / 180) * radius
     return Total
 
 
@@ -859,16 +866,30 @@ def _route_manhattan90(port1, port2, bendType="circular", layer=0, radius=20):
 
 
 def route_manhattan(
-    port1,
-    port2,
-    bendType="circular",
-    layer=None,
+    port1: Port,
+    port2: Port,
+    bendType: str = "circular",
+    layer: Optional[Layer] = None,
     radius: float = TECH.waveguide.strip.radius,
 ):
-    # route along cardinal directions between any two ports placed diagonally
-    # from each other
+    """Returns Route along cardinal directions between two ports
+    placed diagonally from each other
 
+    Args:
+        port1:
+        port2:
+        bendType:
+
+    """
     layer = layer or port1.layer
+
+    valid_bend_types = ["circular", "gradual"]
+    # FIXME, need to FIX gradual bend
+
+    valid_bend_types = ["circular"]
+
+    if bendType not in valid_bend_types:
+        raise ValueError(f"bendType={bendType} not in {valid_bend_types}")
 
     if (
         abs(port1.midpoint[0] - port2.midpoint[0]) < 2 * radius
@@ -1098,17 +1119,21 @@ def route_manhattan(
                 references.append(r1)
 
     references = []
+    length = 0
     for ref1 in Total.references:
         for ref2 in ref1.parent.references:
             references.append(ref2)
+            length += ref2.info["length"]
 
-    return dict(references=references, ports=ports)
+    ports = (Total.ports[1], Total.ports[2])
+    length = snap_to_grid(length)
+    return Route(references=references, ports=ports, length=length)
 
 
 if __name__ == "__main__":
     import pp
 
-    c = pp.Component("test_get_bundle_sort_ports")
+    c = pp.Component("test_route_manhattan_circular")
     pitch = 9.0
     ys1 = [0, 10, 20]
     N = len(ys1)
@@ -1118,7 +1143,10 @@ if __name__ == "__main__":
     ports2 = [pp.Port(f"R_{i}", (20, ys2[i]), 0.5, 180) for i in range(N)]
 
     for i in range(N):
-        route = route_manhattan(ports1[i], ports2[i], radius=9.5)
+        route = route_manhattan(ports1[i], ports2[i], radius=5, bendType="gradual")
         # references = route_basic(port1=ports1[i], port2=ports2[i])
         c.add(route.references)
+    # print(route.length)
+
+    c = _gradual_bend()
     c.show()

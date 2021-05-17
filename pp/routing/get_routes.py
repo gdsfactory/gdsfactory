@@ -20,19 +20,19 @@ def get_routes(
         ports1: list of src ports
         ports2: list of dst ports
         with_sort_ports: sort_ports
-        **kwargs
+        **kwargs: for routing
     """
     references = []
 
     if with_sort_ports:
         ports1, ports2 = sort_ports(ports1, ports2)
 
-    for p1, p2 in zip(ports1, ports2):
+    for port1, port2 in zip(ports1, ports2):
         try:
-            path = route_manhattan(p1, p2, **kwargs)
+            path = route_manhattan(port1, port2, **kwargs)
             references.extend(path.references)
         except ValueError:
-            path = route_basic(port1=p1, port2=p2, **kwargs)
+            path = route_basic(port1=port1, port2=port2, **kwargs)
             path_ref = path.ref()
             # path = get_route_sbend(port1=p1, port2=p2, **kwargs)
             # path_ref = path.ref()
@@ -52,11 +52,11 @@ if __name__ == "__main__":
     N = len(ys_left)
     ys_right = [25 + i * pitch for i in range(N)]
 
-    ports1 = [pp.Port(f"L_{i}", (0, ys_left[i]), 0.5, 0) for i in range(N)]
-    ports2 = [pp.Port(f"R_{i}", (20, ys_right[i]), 0.5, 180) for i in range(N)]
+    p1 = [pp.Port(f"L_{i}", (0, ys_left[i]), 0.5, 0) for i in range(N)]
+    p2 = [pp.Port(f"R_{i}", (20, ys_right[i]), 0.5, 180) for i in range(N)]
 
-    ports1.reverse()
-    references = get_routes(ports1, ports2)
+    p1.reverse()
+    references = get_routes(p1, p2)
     c.add(references)
     c.show()
 

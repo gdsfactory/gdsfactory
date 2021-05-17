@@ -27,9 +27,24 @@ from pp.component import Component, ComponentReference
 from pp.cross_section import CrossSection
 from pp.port import Port
 
+
+@dataclasses.dataclass
+class Route:
+    references: List[ComponentReference]
+    ports: Tuple[Port, Port]
+    length: float
+
+
+@dataclasses.dataclass
+class Routes:
+    references: List[ComponentReference]
+    lengths: List[float]
+    ports: Optional[List[Port]] = None
+    bend_radius: Optional[float] = None
+
+
 Layer = Tuple[int, int]
 Layers = Iterable[Layer]
-Route = Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
 PathFactory = Callable[..., Path]
@@ -45,21 +60,6 @@ Coordinates = Iterable[Tuple[float, float]]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-
-
-@dataclasses.dataclass
-class Route:
-    references: List[ComponentReference]
-    ports: Tuple[Port, Port]
-    length: float
-
-
-@dataclasses.dataclass
-class Routes:
-    references: List[ComponentReference]
-    lengths: List[float]
-    ports: Optional[List[Port]] = None
-    bend_radius: Optional[float] = None
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
@@ -80,6 +80,7 @@ __all__ = [
     "Number",
     "PathType",
     "Route",
+    "Routes",
     "RouteFactory",
     "get_name_to_function_dict",
 ]
