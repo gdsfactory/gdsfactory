@@ -19,7 +19,7 @@ def get_bundle_sbend(
 
     Returns:
         references: List of route references
-        lengths: list of foats
+        lengths: list of floats
         bend_radius: list of min bend_radius
 
     """

@@ -96,6 +96,14 @@ class Port(PortPhidl):
             )
         )
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        pass
+
     @property
     def settings(self):
         return dict(
