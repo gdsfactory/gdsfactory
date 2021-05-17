@@ -13,7 +13,7 @@ def check_space(
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,
     whole_edges: bool = False,
-    metrics: None = None,
+    metrics: str = "Square",
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
@@ -40,7 +40,7 @@ def check_space(
         ignore_angle_deg: The angle above which no check is performed
         other: The other region against which to check
         whole_edges: If true, deliver the whole edges
-        metrics: Specify the metrics type
+        metrics: Specify the metrics type 'Euclidian, square'
         min_projection The lower threshold of the projected length of one edge onto another
         max_projection The upper limit of the projected length of one edge onto another
 
@@ -53,6 +53,12 @@ def check_space(
     layout.read(str(gdspath))
     cell = layout.top_cell()
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
+
+    valid_metrics = ["Square", "Euclidian"]
+
+    if metrics not in valid_metrics:
+        raise ValueError("metrics = {metrics} not in {valid_metrics}")
+    metrics = getattr(pya.Region, metrics)
 
     d = region.space_check(
         min_space * dbu,
@@ -83,5 +89,7 @@ if __name__ == "__main__":
     layout.read(str(gdspath))
     cell = layout.top_cell()
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
-    # print(region.polygons().area())
-    # d = region.space_check(min_space * dbu, False, "Square", 80, None, None)
+    print(region.corners().area())
+    metrics = "Square"
+    metrics = getattr(pya.Region, metrics)
+    d = region.space_check(min_space * dbu, False, metrics, 80, None, None)

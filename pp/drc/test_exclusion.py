@@ -32,4 +32,4 @@ def test_exclusion(space: float, min_space: float, area_expected: int) -> None:
 
 
 if __name__ == "__main__":
-    test_exclusion()
+    test_exclusion(0.16, 0.1, 0)

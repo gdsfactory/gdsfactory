@@ -13,7 +13,7 @@ def check_exclusion(
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,
     whole_edges: bool = False,
-    metrics: None = None,
+    metrics: str = "Square",
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
@@ -43,6 +43,11 @@ def check_exclusion(
     cell = layout.top_cell()
     a = pya.Region(cell.begin_shapes_rec(layout.layer(layer1[0], layer1[1])))
     b = pya.Region(cell.begin_shapes_rec(layout.layer(layer2[0], layer2[1])))
+
+    valid_metrics = ["Square", "Euclidian"]
+    if metrics not in valid_metrics:
+        raise ValueError("metrics = {metrics} not in {valid_metrics}")
+    metrics = getattr(pya.Region, metrics)
 
     d = a.separation_check(
         b,
