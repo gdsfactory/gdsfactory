@@ -13,12 +13,12 @@ from pp.types import ComponentFactory
 @cell
 @validate_arguments
 def mmi2x2(
-    width: float = TECH.components.mmi2x2.width,
-    width_taper: float = TECH.components.mmi2x2.width_taper,
-    length_taper: float = TECH.components.mmi2x2.length_taper,
-    length_mmi: float = TECH.components.mmi2x2.length_mmi,
-    width_mmi: float = TECH.components.mmi2x2.width_mmi,
-    gap_mmi: float = TECH.components.mmi2x2.gap_mmi,
+    width: float = TECH.component_settings.mmi2x2.width,
+    width_taper: float = TECH.component_settings.mmi2x2.width_taper,
+    length_taper: float = TECH.component_settings.mmi2x2.length_taper,
+    length_mmi: float = TECH.component_settings.mmi2x2.length_mmi,
+    width_mmi: float = TECH.component_settings.mmi2x2.width_mmi,
+    gap_mmi: float = TECH.component_settings.mmi2x2.gap_mmi,
     taper: ComponentFactory = taper_function,
     waveguide: str = "strip",
     **kwargs

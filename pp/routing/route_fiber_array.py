@@ -42,7 +42,7 @@ def route_fiber_array(
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
-    layer_label: Tuple[int, int] = TECH.layer_label,
+    layer_label: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
@@ -107,6 +107,7 @@ def route_fiber_array(
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     radius = waveguide_settings["radius"]
+    layer_label = layer_label or TECH.layer_label
 
     assert isinstance(
         radius, (int, float)

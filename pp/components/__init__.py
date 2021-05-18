@@ -3,9 +3,6 @@ Only change the order if you know what you are doing
 
 isort:skip_file
 """
-from typing import Optional
-from typing import Dict
-from typing import Any
 import dataclasses
 
 # level 0 components
@@ -138,7 +135,7 @@ from pp.components.splitter_tree import splitter_tree
 from pp.components.splitter_chain import splitter_chain
 
 
-# we will test each factory component hash, ports and properties """
+# we will test each factory component hash, ports and properties
 component_factory = dict(
     C=C,
     L=L,
@@ -252,19 +249,12 @@ component_factory = dict(
 )
 
 
-def factory(
-    component_type,
-    component_name: Optional[str],
-    component_factory: Dict[str, Any] = component_factory,
-    **kwargs,
-):
+def factory(component_type, **kwargs):
     """Returns a component with settings.
-
-    Reads
+    from TECH.component_settings.component_type
 
     Args:
         component_type: factory
-        component_name: from TECH.components
         component_factory: Dict[str, ComponentFactory]
         **kwargs: component_settings
 
@@ -272,9 +262,7 @@ def factory(
     from pp.tech import TECH
     import pp
 
-    component_name = component_name or component_type
-
-    settings = getattr(TECH.components, component_name)
+    settings = getattr(TECH.component_settings, component_type)
     settings = dataclasses.asdict(settings) if settings else {}
     settings.update(**kwargs)
 
@@ -319,7 +307,11 @@ circuit_names = {
 __all__ = list(component_factory.keys()) + container_names
 
 if __name__ == "__main__":
-    for c in component_names:
-        ci = component_factory[c]()
+    from pp.tech import ComponentFactory
+
+    f = ComponentFactory(component_factory)
+
+    # for c in component_names:
+    #     ci = component_factory[c]()
     # c = factory("mmi1x2")
     # c.show()

@@ -25,6 +25,7 @@ def straight(
         length: of straight
         npoints: number of points
         waveguide: from TECH.waveguide
+        with_cladding_box: to remove DRC
         kwargs: waveguide_settings
 
     """

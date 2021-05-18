@@ -9,9 +9,9 @@ from pp.types import ComponentOrFactory, Layer
 
 @cell
 def pad(
-    width: float = TECH.components.pad.width,
-    height: float = TECH.components.pad.height,
-    layer: Layer = TECH.components.pad.layer,
+    width: float = TECH.component_settings.pad.width,
+    height: float = TECH.component_settings.pad.height,
+    layer: Layer = TECH.component_settings.pad.layer,
 ) -> Component:
     """rectangular pad with 4 ports (N, S, E, W)
 
