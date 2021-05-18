@@ -19,7 +19,7 @@ from pp.types import ComponentFactory
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    layer_label: Tuple[int, int] = TECH.layer_label,
+    layer_label: Optional[Tuple[int, int]] = None,
     fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
@@ -91,6 +91,8 @@ def add_fiber_single(
         cc.plot()
 
     """
+    layer_label = layer_label or TECH.layer_label
+
     if not component.get_ports_list(port_type="optical"):
         raise ValueError(f"No ports for {component.name}")
 

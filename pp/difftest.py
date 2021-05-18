@@ -1,6 +1,7 @@
 """GDS regression test. Adapted from lytest.
 """
 import pathlib
+from typing import Optional
 
 from lytest.kdb_xor import GeometryDifference, run_xor
 
@@ -10,17 +11,18 @@ from pp.gdsdiff.gdsdiff import gdsdiff
 cwd = pathlib.Path.cwd()
 
 
-def difftest(component: Component) -> None:
+def difftest(component: Component, prefix: Optional[str] = None) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
     Runs an XOR over a component and makes boolean comparison with a GDS reference.
     If it runs for the fist time it just stores the GDS reference.
     raises GeometryDifference if there are differences and show differences in klayout.
     """
+    prefix = prefix or ""
 
     # containers function_name is different from component.name
     # we store the container with a different name from original component
     filename = (
-        f"{component.function_name}_{component.name}.gds"
+        f"{prefix}{component.function_name}_{component.name}.gds"
         if hasattr(component, "function_name")
         and component.name != component.function_name
         else f"{component.name}.gds"

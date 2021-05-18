@@ -15,10 +15,10 @@ from pp.name import clean_name
 @validate_arguments
 def manhattan_text(
     text: str = "abcd",
-    size: float = TECH.components.manhattan_text.size,
+    size: float = TECH.component_settings.manhattan_text.size,
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: Tuple[int, int] = TECH.components.manhattan_text.layer,
+    layer: Tuple[int, int] = TECH.component_settings.manhattan_text.layer,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
 

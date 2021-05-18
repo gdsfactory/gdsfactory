@@ -1,6 +1,8 @@
-import dataclasses
 import pathlib
-from typing import Dict, Iterable, Optional, Tuple
+from dataclasses import dataclass
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
+
+import pydantic.dataclasses as dataclasses
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -115,7 +117,7 @@ class Section:
     width: float
     offset: float = 0
     layer: Layer = (1, 0)
-    ports: Tuple[str, str] = (None, None)
+    ports: Optional[Tuple[str, str]] = None
     name: str = None
 
 
@@ -130,7 +132,7 @@ class Waveguide:
     radius: float = 10.0
     cladding_offset: Optional[float] = 3.0
     layer_cladding: Optional[Layer] = None
-    layers_cladding: Optional[Tuple[Layer]] = None
+    layers_cladding: Optional[List[Layer]] = None
     sections: Optional[Tuple[Section]] = None
 
 
@@ -145,7 +147,7 @@ class Strip(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.WGCLAD
-    layers_cladding: Optional[Iterable[Layer]] = (LAYER.WGCLAD,)
+    layers_cladding: Optional[List[Layer]] = (LAYER.WGCLAD,)
 
 
 @dataclasses.dataclass
@@ -158,7 +160,7 @@ class Rib(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.SLAB90
-    layers_cladding: Optional[Iterable[Layer]] = (LAYER.SLAB90,)
+    layers_cladding: Optional[List[Layer]] = (LAYER.SLAB90,)
 
 
 @dataclasses.dataclass
@@ -185,7 +187,7 @@ class StripHeater(Waveguide):
     auto_widen: bool = False
     layer: Layer = LAYER.WG
     radius: float = 10.0
-    sections: Tuple[Section] = (
+    sections: Tuple[Section, ...] = (
         Section(width=8, layer=LAYER.WGCLAD),
         Section(
             width=0.5, layer=LAYER.HEATER, offset=+1.2, ports=("top_in", "top_out")
@@ -245,6 +247,8 @@ class Mmi1x2:
     length_mmi: float = 5.5
     width_mmi: float = 2.5
     gap_mmi: float = 0.25
+    with_cladding_box: bool = True
+    waveguide: str = "strip"
 
 
 @dataclasses.dataclass
@@ -259,21 +263,41 @@ class Mmi2x2:
 
 @dataclasses.dataclass
 class ManhattanText:
-    layer: str = LAYER.M3
+    layer: Layer = LAYER.M3
     size: float = 10
 
 
 @dataclasses.dataclass
-class Components:
+class ComponentSettings:
     pad: Pad = Pad()
     mmi1x2: Mmi1x2 = Mmi1x2()
     mmi2x2: Mmi2x2 = Mmi2x2()
     manhattan_text: ManhattanText = ManhattanText()
 
 
+@dataclass
+class ComponentFactory:
+    """Stores component factories"""
+
+    component_factory: Optional[Dict[str, Callable]] = None
+
+    def __post_init__(self):
+        if self.component_factory:
+            for component_type, component_function in self.component_factory.items():
+                setattr(self, component_type, component_function)
+
+    def register_component_factory(
+        self, component_factory: Union[Iterable[Callable], Callable]
+    ) -> None:
+        if hasattr(component_factory, "__iter__"):
+            for i in component_factory:
+                self.register_component_factory(i)
+        else:
+            self.component_factory[component_factory.__name__] = component_factory
+            setattr(self, component_factory.__name__, component_factory)
+
+
 # TECH
-
-
 @dataclasses.dataclass
 class Tech:
     name: str = "generic"
@@ -288,13 +312,42 @@ class Tech:
     snap_to_grid_nm: int = 1
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    components: Components = Components()
+    component: ComponentFactory = ComponentFactory({})
+    component_settings: ComponentSettings = ComponentSettings()
 
-    sparameters_path: str = str(module_path / "gdslibg" / "sparameters")
+    sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
+
+    # def register_component(self, component) -> None:
+    #     setattr(self.component, component.name, component)
+
+    def register_component_factory(
+        self, component_factory: Union[Iterable[Callable], Callable]
+    ) -> None:
+        if hasattr(component_factory, "__iter__"):
+            for i in component_factory:
+                self.register_component_factory(i)
+        else:
+            self.component.component_factory[
+                component_factory.__name__
+            ] = component_factory
+            setattr(self.component, component_factory.__name__, component_factory)
 
 
 TECH = Tech()
 
 if __name__ == "__main__":
-    pass
+    import pp
+
+    t = TECH
+
+    # c = pp.c.mmi1x2(length_mmi=25.5)
+    # t.register_component(c)
+
+    def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
+        return pp.c.mmi1x2(length_mmi=length_mmi, **kwargs)
+
+    t.register_component_factory(mmi1x2_longer)
+
+    c = t.component.mmi1x2_longer(length_mmi=30)
+    c.show()
