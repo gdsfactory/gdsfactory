@@ -1,8 +1,9 @@
 import pathlib
-from dataclasses import dataclass, field
+from dataclasses import field
 from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import pydantic.dataclasses as dataclasses
+from phidl.device_layout import Device as Component
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -276,21 +277,50 @@ def make_empty_dict():
     return {}
 
 
-@dataclass
+@dataclasses.dataclass
 class ComponentFactory:
     """Stores component factories"""
 
-    component_factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
+    factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
+    settings: ComponentSettings = ComponentSettings()
+    add_pins: Optional[Callable[[], None]] = None
 
-    def register_component_factory(
-        self, component_factory: Union[Iterable[Callable], Callable]
-    ) -> None:
-        if hasattr(component_factory, "__iter__"):
-            for i in component_factory:
-                self.register_component_factory(i)
-        else:
-            self.component_factory[component_factory.__name__] = component_factory
-            setattr(self, component_factory.__name__, component_factory)
+    def register(self, factory: Union[Iterable[Callable], Callable]) -> None:
+        """Registers component_factory into the factory."""
+
+        if hasattr(factory, "__iter__"):
+            for i in factory:
+                self.register(i)
+            return
+        if not callable(factory):
+            raise ValueError(
+                f"Error: expected callable: got factory = {factory} with type {type(factory)}"
+            )
+
+        self.factory[factory.__name__] = factory
+        # setattr(self, factory.__name__, factory)
+
+    def get_component(
+        self,
+        component_type: str,
+        **settings,
+    ) -> Component:
+        """Returns Component from factory.
+        Takes default settings from self.settings
+        settings can be overwriten with kwargs
+
+        Args:
+            component_type:
+            **settings
+        """
+        if component_type not in self.factory:
+            raise ValueError(f"{component_type} not in {list(self.factory.keys())}")
+        component_settings = getattr(self.settings, component_type, {})
+        component_settings.update(**settings)
+        component = self.factory[component_type](**component_settings)
+        if self.add_pins:
+            self.add_pins(component)
+        return component
 
 
 # TECH
@@ -308,26 +338,27 @@ class Tech:
     snap_to_grid_nm: int = 1
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    component: ComponentFactory = ComponentFactory()
-    component_settings: ComponentSettings = ComponentSettings()
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
 
+    component_settings: ComponentSettings = ComponentSettings()
+
+    # component_factory: ComponentFactory = ComponentFactory()
     # def register_component(self, component) -> None:
     #     setattr(self.component, component.name, component)
 
-    def register_component_factory(
-        self, component_factory: Union[Iterable[Callable], Callable]
-    ) -> None:
-        if hasattr(component_factory, "__iter__"):
-            for i in component_factory:
-                self.register_component_factory(i)
-        else:
-            self.component.component_factory[
-                component_factory.__name__
-            ] = component_factory
-            setattr(self.component, component_factory.__name__, component_factory)
+    # def register_component_factory(
+    #     self, component_factory: Union[Iterable[Callable], Callable]
+    # ) -> None:
+    #     if hasattr(component_factory, "__iter__"):
+    #         for i in component_factory:
+    #             self.register_component_factory(i)
+    #     else:
+    #         self.component.component_factory[
+    #             component_factory.__name__
+    #         ] = component_factory
+    #         # setattr(self.component, component_factory.__name__, component_factory)
 
 
 TECH = Tech()
@@ -342,11 +373,15 @@ if __name__ == "__main__":
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
         return pp.c.mmi1x2(length_mmi=length_mmi, **kwargs)
 
+    def mzi_longer(**kwargs):
+        return pp.c.mzi(splitter=mmi1x2_longer, **kwargs)
+
     # t.register_component_factory(mmi1x2_longer)
     # c = t.component.mmi1x2_longer(length_mmi=30)
     # c.show()
 
     cf = ComponentFactory()
-    cf.register_component_factory(mmi1x2_longer)
-    c = cf.mmi1x2_longer(length_mmi=30)
+    cf.register(mmi1x2_longer)
+    # cf.register(mmi1x2_longer())
+    c = cf.get_component("mmi1x2_longer", length_mmi=30)
     c.show()

@@ -4,9 +4,10 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
 from pp.difftest import difftest
+from pp.samples.pdk.fab_c import COMPONENT_FACTORY
 from pp.samples.pdk.fab_c import TECH_FABC as TECH
 
-component_factory = TECH.component.component_factory
+component_factory = COMPONENT_FACTORY.factory
 component_names = component_factory.keys()
 
 
@@ -37,4 +38,4 @@ def test_assert_ports_on_grid(component: Component):
 
 if __name__ == "__main__":
 
-    test_gds(component=TECH.component.mzi_nitride_cband())
+    test_gds(component=COMPONENT_FACTORY.get_component("mzi_nitride_cband"))
