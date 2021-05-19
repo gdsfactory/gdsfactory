@@ -19,7 +19,7 @@ import pp
 from pp.add_pins import add_pin_square_inside
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.tech import TECH, Tech, Waveguide
+from pp.tech import TECH, ComponentFactory, Tech, Waveguide
 from pp.types import Layer
 
 
@@ -119,7 +119,8 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
 
 
 TECH_FABC = Tech(name="fabc")
-TECH_FABC.register_component_factory([mzi_nitride_cband])
+COMPONENT_FACTORY = ComponentFactory()
+COMPONENT_FACTORY.register([mzi_nitride_cband])
 
 
 if __name__ == "__main__":
