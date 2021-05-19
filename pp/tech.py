@@ -1,5 +1,5 @@
 import pathlib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import pydantic.dataclasses as dataclasses
@@ -117,7 +117,7 @@ class Section:
     width: float
     offset: float = 0
     layer: Layer = (1, 0)
-    ports: Optional[Tuple[str, str]] = None
+    ports: Tuple[Optional[str], Optional[str]] = (None, None)
     name: str = None
 
 
@@ -133,7 +133,7 @@ class Waveguide:
     cladding_offset: Optional[float] = 3.0
     layer_cladding: Optional[Layer] = None
     layers_cladding: Optional[List[Layer]] = None
-    sections: Optional[Tuple[Section]] = None
+    sections: Optional[Tuple[Section, ...]] = None
 
 
 @dataclasses.dataclass
@@ -196,9 +196,6 @@ class StripHeater(Waveguide):
             width=0.5, layer=LAYER.HEATER, offset=-1.2, ports=("bot_in", "bot_out")
         ),
     )
-
-
-# SimulationSettings
 
 
 @dataclasses.dataclass
@@ -275,16 +272,15 @@ class ComponentSettings:
     manhattan_text: ManhattanText = ManhattanText()
 
 
+def make_empty_dict():
+    return {}
+
+
 @dataclass
 class ComponentFactory:
     """Stores component factories"""
 
-    component_factory: Optional[Dict[str, Callable]] = None
-
-    def __post_init__(self):
-        if self.component_factory:
-            for component_type, component_function in self.component_factory.items():
-                setattr(self, component_type, component_function)
+    component_factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
 
     def register_component_factory(
         self, component_factory: Union[Iterable[Callable], Callable]
@@ -312,7 +308,7 @@ class Tech:
     snap_to_grid_nm: int = 1
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    component: ComponentFactory = ComponentFactory({})
+    component: ComponentFactory = ComponentFactory()
     component_settings: ComponentSettings = ComponentSettings()
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
@@ -339,15 +335,18 @@ TECH = Tech()
 if __name__ == "__main__":
     import pp
 
-    t = TECH
-
+    # t = TECH
     # c = pp.c.mmi1x2(length_mmi=25.5)
     # t.register_component(c)
 
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
         return pp.c.mmi1x2(length_mmi=length_mmi, **kwargs)
 
-    t.register_component_factory(mmi1x2_longer)
+    # t.register_component_factory(mmi1x2_longer)
+    # c = t.component.mmi1x2_longer(length_mmi=30)
+    # c.show()
 
-    c = t.component.mmi1x2_longer(length_mmi=30)
+    cf = ComponentFactory()
+    cf.register_component_factory(mmi1x2_longer)
+    c = cf.mmi1x2_longer(length_mmi=30)
     c.show()

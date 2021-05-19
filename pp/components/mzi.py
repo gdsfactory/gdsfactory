@@ -68,7 +68,7 @@ def mzi(
     combiner_settings = combiner_settings or {}
 
     c = Component()
-    cp1 = splitter(**splitter_settings, **kwargs)
+    cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
     cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
 
     straight_vertical = straight_vertical or straight

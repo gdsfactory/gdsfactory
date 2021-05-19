@@ -22,12 +22,13 @@ def difftest(component: Component, prefix: Optional[str] = None) -> None:
     # containers function_name is different from component.name
     # we store the container with a different name from original component
     filename = (
-        f"{prefix}{component.function_name}_{component.name}.gds"
+        f"{component.function_name}_{component.name}.gds"
         if hasattr(component, "function_name")
         and component.name != component.function_name
         else f"{component.name}.gds"
     )
-
+    if prefix:
+        filename = f"{prefix}_{filename}"
     ref_file = cwd / "gds_ref" / filename
     run_file = cwd / "gds_run" / filename
     diff_file = cwd / "gds_diff" / filename

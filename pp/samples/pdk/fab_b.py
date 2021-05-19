@@ -10,7 +10,7 @@ from typing import Tuple
 import pydantic.dataclasses as dataclasses
 
 from pp.difftest import difftest
-from pp.tech import TECH, Layer, Mmi1x2, Waveguide
+from pp.tech import TECH, Layer, Waveguide
 
 
 @dataclasses.dataclass
@@ -27,19 +27,6 @@ STRIPB = StripB()
 
 # register the new waveguide dynamically
 TECH.waveguide.stripb = STRIPB
-
-
-class Mmi1x2FabB(Mmi1x2):
-    width: float = STRIPB.width
-    width_taper: float = 0.6
-    length_taper: float = 6.0
-    length_mmi: float = 3.5
-    width_mmi: float = 2.0
-    gap_mmi: float = 0.25
-
-
-# lets register an MMI for this fab
-TECH.component_settings.mmi1x2b = Mmi1x2FabB()
 
 
 def test_waveguide():
@@ -60,12 +47,12 @@ def test_waveguide():
 if __name__ == "__main__":
     import pp
 
-    wg = pp.components.factory("mmi1x2b")
+    c = pp.components.mmi2x2(layer=STRIPB.layer)
     gc = pp.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
-    wg_gc = pp.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, waveguide="stripb"
+    c_gc = pp.routing.add_fiber_array(
+        component=c, grating_coupler=gc, waveguide="stripb"
     )
-    wg_gc.show()
+    c_gc.show()

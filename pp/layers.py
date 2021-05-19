@@ -9,6 +9,7 @@ LayerSet adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
+import pathlib
 from pathlib import Path
 from typing import Optional, Tuple
 
@@ -19,6 +20,7 @@ from phidl.device_layout import LayerSet as LayerSetPhidl
 from pp.component import Component
 from pp.name import clean_name
 from pp.tech import TECH
+from pp.types import PathType
 
 LAYER = TECH.layer
 
@@ -252,6 +254,29 @@ def load_lyp(filepath: Path):
 # LAYERS_OPTICAL = [LAYER.WG]
 # LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
 # LAYERS_HEATER = [LAYER.HEATER]
+
+
+def lyp_to_dataclass(lyp_filepath: PathType, overwrite: bool = True) -> None:
+    filepathin = pathlib.Path(lyp_filepath)
+    filepathout = filepathin.with_suffix(".py")
+
+    if filepathout.exists() and not overwrite:
+        raise FileExistsError(f"You can delete {filepathout}")
+
+    script = """
+import dataclasses
+
+@dataclasses.dataclass
+class LayerMap():
+"""
+    lys = load_lyp(filepathin)
+    for layer_name, layer in sorted(lys._layers.items()):
+        script += (
+            f"    {layer_name}: Layer = ({layer.gds_layer}, {layer.gds_datatype})\n"
+        )
+
+    filepathout.write_text(script)
+    return script
 
 
 def test_load_lyp():

@@ -76,11 +76,6 @@ def read_config(
 CONF = read_config()
 
 
-# def tech(key: str):
-#     global TECH
-#     return OmegaConf.select(TECH, key)
-
-
 def add_repo_information(TECH):
     TECH.info = TECH.info or {}
     TECH.info.git_hash = git_hash
