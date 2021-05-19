@@ -249,13 +249,12 @@ component_factory = dict(
 )
 
 
-def factory(component_type, **kwargs):
+def factory(component_type: str, **kwargs):
     """Returns a component with settings.
     from TECH.component_settings.component_type
 
     Args:
         component_type: factory
-        component_factory: Dict[str, ComponentFactory]
         **kwargs: component_settings
 
     """
@@ -264,6 +263,7 @@ def factory(component_type, **kwargs):
 
     settings = getattr(TECH.component_settings, component_type)
     settings = dataclasses.asdict(settings) if settings else {}
+    component_type = settings.pop("component_type", component_type)
     settings.update(**kwargs)
 
     if isinstance(component_type, pp.Component):
