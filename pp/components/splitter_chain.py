@@ -1,14 +1,10 @@
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.mmi1x2 import mmi1x2
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def splitter_chain(
     splitter: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:

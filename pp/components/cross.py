@@ -1,15 +1,11 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.layers import LAYER
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cross(
     length: float = 10.0,
     width: float = 3.0,

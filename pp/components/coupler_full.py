@@ -2,18 +2,15 @@ from typing import Tuple
 
 import numpy as np
 import picwriter.components as pc
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import strip
 from pp.picwriter_to_component import picwriter_to_component
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def coupler_full(
     length: float = 40.0,
     gap: float = 0.5,

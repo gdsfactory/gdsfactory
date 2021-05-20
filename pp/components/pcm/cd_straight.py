@@ -1,12 +1,8 @@
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.components.pcm.cd import CENTER_SHAPES_MAP
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cd_straight(
     spacing_h=5.0,
     spacing_v=8.0,

@@ -2,20 +2,20 @@ import gdspy
 import numpy as np
 import scipy.optimize as so
 from numpy import float64
-from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bezier import bezier
-from pp.components.bezier import bezier_curve
-from pp.components.bezier import find_min_curv_bezier_control_points
+from pp.components.bezier import (
+    bezier,
+    bezier_curve,
+    find_min_curv_bezier_control_points,
+)
 from pp.components.ellipse import ellipse
 from pp.components.taper import taper
 from pp.geo_utils import path_length
 from pp.layers import LAYER
-from pp.types import ComponentFactory
-from pp.types import ComponentOrFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -23,8 +23,7 @@ def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -111,8 +110,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,

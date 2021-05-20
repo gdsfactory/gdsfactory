@@ -1,16 +1,13 @@
 from typing import Any, Dict
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.cross_section import cross_section
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,

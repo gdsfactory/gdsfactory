@@ -1,16 +1,11 @@
-from typing import Optional
-from typing import Tuple
-
-from pydantic import validate_arguments
+from typing import Optional, Tuple
 
 import pp
 from pp import components as pc
-from pp.cell import cell
 from pp.component import Component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def test_comb(
     pad_size: Tuple[float, float] = (200.0, 200.0),
     wire_width: float = 1.0,

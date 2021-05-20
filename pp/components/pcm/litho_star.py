@@ -1,14 +1,11 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.rectangle import rectangle
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def litho_star(
     num_lines: int = 20,
     line_width: float = 2.0,

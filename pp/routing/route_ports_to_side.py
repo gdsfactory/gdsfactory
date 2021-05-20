@@ -2,9 +2,8 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64
-from pydantic import validate_arguments
 
-from pp.cell import cell
+import pp
 from pp.component import Component, ComponentReference
 from pp.config import TECH
 from pp.layers import LAYER
@@ -472,8 +471,7 @@ def connect_ports_to_y(
     return elements, ports
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def sample_route_side() -> Component:
     c = Component()
     xs = [0.0, 10.0, 25.0, 50.0]
@@ -501,8 +499,7 @@ def sample_route_side() -> Component:
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def sample_route_sides() -> Component:
     c = Component()
     _dummy_t = sample_route_side()

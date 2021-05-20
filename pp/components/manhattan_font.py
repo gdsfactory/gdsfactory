@@ -1,18 +1,15 @@
 from typing import Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
 from pp.layers import LAYER
 from pp.name import clean_name
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def manhattan_text(
     text: str = "abcd",
     size: float = TECH.component_settings.manhattan_text.size,
@@ -73,8 +70,7 @@ def manhattan_text(
     return t
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def pixel_array(
     pixels: str = """
      XXX

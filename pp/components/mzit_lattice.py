@@ -1,16 +1,12 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.mzit import mzit
-from pp.types import ComponentFactory
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mzit_lattice(
     coupler_lengths: Tuple[Number, ...] = (10, 20),
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),

@@ -1,7 +1,6 @@
 from typing import Dict, Iterable, Optional, Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
@@ -16,8 +15,7 @@ from pp.port import Port, auto_rename_ports
 from pp.types import ComponentFactory, Layer, Number
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def heater(
     length: float = 10.0,
     width: float = 0.5,

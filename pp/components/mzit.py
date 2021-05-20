@@ -1,9 +1,6 @@
 from typing import Optional
 
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler import coupler as coupler_function
@@ -12,8 +9,7 @@ from pp.components.taper import taper
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,

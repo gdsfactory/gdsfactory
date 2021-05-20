@@ -1,15 +1,12 @@
 """Sample AWG."""
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import cross_section, get_waveguide_settings
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def free_propagation_region(
     width1: float = 2.0,
     width2: float = 20.0,
@@ -89,14 +86,12 @@ def free_propagation_region(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def free_propagation_region_input(inputs: int = 1, **kwargs) -> Component:
     return free_propagation_region(inputs=inputs, **kwargs)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def free_propagation_region_output(
     inputs: int = 10, width1: float = 10.0, width2: float = 20.0, **kwargs
 ) -> Component:
@@ -105,8 +100,7 @@ def free_propagation_region_output(
     )
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def awg(
     arms: int = 10,
     outputs: int = 3,

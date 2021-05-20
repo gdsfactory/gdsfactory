@@ -1,6 +1,4 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler_ring import coupler_ring
@@ -11,8 +9,7 @@ from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def ring_single_dut(
     component,
     wg_width=0.5,

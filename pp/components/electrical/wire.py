@@ -1,6 +1,4 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.straight import straight
@@ -10,8 +8,7 @@ WIRE_WIDTH = 10.0
 
 
 @deco_rename_ports
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Component:
     """Straight wire.
 
@@ -21,8 +18,7 @@ def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Co
     return straight(length=length, waveguide=waveguide, **kwargs)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def corner(
     radius: float = 5,
     angle: int = 90,

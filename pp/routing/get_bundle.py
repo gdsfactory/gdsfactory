@@ -4,9 +4,8 @@ from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
 from numpy import ndarray
-from pydantic import validate_arguments
 
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
@@ -829,8 +828,7 @@ def link_optical_ports_no_grouping(
     return elems
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def test_get_bundle_small() -> Component:
     import pp
 

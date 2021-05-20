@@ -1,8 +1,6 @@
 from numpy import pi
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
@@ -11,8 +9,7 @@ from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def delay_snake(
     wg_width: float = 0.5,
     wg_width_wide: float = 2.0,

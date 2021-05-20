@@ -2,16 +2,13 @@ from typing import Tuple
 
 import numpy as np
 from phidl.geometry import offset
-from pydantic import validate_arguments
 
 import pp
 from pp import components as pc
-from pp.cell import cell
 from pp.component import Component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def test_resistance(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,

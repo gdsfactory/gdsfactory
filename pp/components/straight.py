@@ -1,8 +1,7 @@
 """Straight waveguide."""
-from pydantic import validate_arguments
 
+import pp
 from pp.add_padding import get_padding_points
-from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import cross_section, get_waveguide_settings
 from pp.path import extrude
@@ -10,8 +9,7 @@ from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def straight(
     length: float = 10.0,
     npoints: int = 2,

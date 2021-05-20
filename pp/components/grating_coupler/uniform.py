@@ -1,16 +1,12 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
 from pp.components.taper import taper
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform(
     num_teeth: int = 20,
     period: float = 0.75,

@@ -1,18 +1,13 @@
-from typing import Any
-from typing import Iterable
-from typing import List
-from typing import Tuple
+from typing import Any, Iterable, List, Tuple
 
 from numpy import floor
-from pydantic import validate_arguments
 
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.layers import LAYER
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def via(
     width: float = 0.7,
     height: float = 0.7,
@@ -35,26 +30,22 @@ def via(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def via1(**kwargs) -> Component:
     return via(layer=LAYER.VIA1, **kwargs)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def via2(**kwargs) -> Component:
     return via(layer=LAYER.VIA2, **kwargs)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def via3(**kwargs) -> Component:
     return via(layer=LAYER.VIA3, **kwargs)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def tlm(
     width: float = 11.0,
     height: float = 11.0,

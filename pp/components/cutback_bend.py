@@ -1,12 +1,10 @@
 from numpy import float64
-from pydantic import validate_arguments
 
 import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
-from pp.components.bend_euler import bend_euler
-from pp.components.bend_euler import bend_euler180
+from pp.components.bend_euler import bend_euler, bend_euler180
 from pp.components.component_sequence import component_sequence
 from pp.components.straight import straight
 from pp.routing.add_fiber_array import add_fiber_array
@@ -192,8 +190,7 @@ def cutback_bend180(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)
