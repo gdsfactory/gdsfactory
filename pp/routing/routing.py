@@ -8,7 +8,6 @@ import gdspy
 import numpy as np
 from numpy import cos, mod, pi, sin
 from numpy.linalg import norm
-from pydantic import validate_arguments
 
 from pp.cell import cell
 from pp.component import Component
@@ -138,8 +137,9 @@ def route_basic(
 
 
 @cell
-@validate_arguments
-def _arc(radius=10, width=0.5, theta=45, start_angle=0, angle_resolution=2.5, layer=0):
+def _arc(
+    radius=10, width=0.5, theta=90, start_angle=0, angle_resolution=2.5, layer=(1, 0)
+):
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``"""
     inner_radius = radius - width / 2
     outer_radius = radius + width / 2
@@ -172,7 +172,6 @@ def _arc(radius=10, width=0.5, theta=45, start_angle=0, angle_resolution=2.5, la
 
 
 @cell
-@validate_arguments
 def _gradual_bend(
     radius=10,
     width=1.0,
@@ -184,8 +183,6 @@ def _gradual_bend(
     layer=0,
 ):
     """
-    FIXME!
-
     creates a 90-degree bent waveguide
     the bending radius is gradually increased until it reaches the minimum
     value of the radius at the "angular coverage" angle.
@@ -205,6 +202,7 @@ def _gradual_bend(
     # construct a series of sub-arcs with equal angles but gradually
     # decreasing bend radius
     arcs = []
+    prevPort = None
     for x in range(num_steps):
         A = _arc(
             radius=1 / ((x + 1) * inc_rad),
@@ -215,11 +213,12 @@ def _gradual_bend(
             layer=layer,
         )
         a = D.add_ref(A)
+
         arcs.append(a)
-        prevPort = a.ports[2]
         if x > 0:
             a.connect(port=1, destination=prevPort)
         prevPort = a.ports[2]
+        D.absorb(a)
     D.add_port(name=1, port=arcs[0].ports[1])
 
     # now connect a regular bend for the normal curved portion
@@ -259,8 +258,9 @@ def _gradual_bend(
     Total.add_port(name=1, port=D1.ports[1])
     Total.add_port(name=2, port=D2.ports[1])
 
-    # FIXME
     Total.info["length"] = (abs(angular_coverage) * pi / 180) * radius
+    Total.absorb(D1)
+    Total.absorb(D2)
     return Total
 
 
@@ -868,7 +868,7 @@ def _route_manhattan90(port1, port2, bendType="circular", layer=0, radius=20):
 def route_manhattan(
     port1: Port,
     port2: Port,
-    bendType: str = "circular",
+    bendType: str = "gradual",
     layer: Optional[Layer] = None,
     radius: float = TECH.waveguide.strip.radius,
 ):
@@ -878,15 +878,14 @@ def route_manhattan(
     Args:
         port1:
         port2:
-        bendType:
+        bendType: gradual, circular
+
+    FIXME, need to FIX gradual bend
 
     """
     layer = layer or port1.layer
 
     valid_bend_types = ["circular", "gradual"]
-    # FIXME, need to FIX gradual bend
-
-    valid_bend_types = ["circular"]
 
     if bendType not in valid_bend_types:
         raise ValueError(f"bendType={bendType} not in {valid_bend_types}")
@@ -1142,11 +1141,31 @@ if __name__ == "__main__":
     ports1 = [pp.Port(f"L_{i}", (0, ys1[i]), 0.5, 0) for i in range(N)]
     ports2 = [pp.Port(f"R_{i}", (20, ys2[i]), 0.5, 180) for i in range(N)]
 
-    for i in range(N):
-        route = route_manhattan(ports1[i], ports2[i], radius=5, bendType="gradual")
-        # references = route_basic(port1=ports1[i], port2=ports2[i])
-        c.add(route.references)
+    ports1 = [
+        # pp.Port("in1", (10, 5), 0.5, 90),
+        # pp.Port("in2", (-10, 20), 0.5, 0),
+        # pp.Port("in3", (10, 30), 0.5, 0),
+        # pp.Port("in4", (-10, -5), 0.5, 90),
+        pp.Port("in5", (0, 0), 0.5, 0),
+        # pp.Port("in6", (0, 0), 0.5, 0),
+    ]
+
+    ports2 = [
+        # pp.Port("in1", (90, -60), 0.5, 180),
+        # pp.Port("in2", (-100, 20), 0.5, 0),
+        # pp.Port("in3", (100, -25), 0.5, 0),
+        # pp.Port("in4", (-150, -65), 0.5, 270),
+        pp.Port("in5", (15, 3), 0.5, 180),
+        # pp.Port("in6", (0, 12), 0.5, 180),
+    ]
+    N = len(ports1)
+
+    # for i in range(N):
+    #     route = route_manhattan(ports1[i], ports2[i], radius=3, bendType="gradual")
+    #     c.add(route.references)
+    # references = route_basic(port1=ports1[i], port2=ports2[i])
     # print(route.length)
 
     c = _gradual_bend()
-    c.show()
+    # c = _arc(theta=20)
+    c.show(show_ports=True)

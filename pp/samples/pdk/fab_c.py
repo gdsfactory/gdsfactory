@@ -56,6 +56,7 @@ NITRIDE_CBAND = StripNitrideCband()
 NITRIDE_OBAND = StripNitrideOband()
 
 TECH.waveguide.nitride_cband = NITRIDE_CBAND
+TECH.waveguide.nitride_oband = NITRIDE_OBAND
 
 
 def add_pins_custom(
@@ -107,6 +108,33 @@ def mmi1x2_nitride_cband(
 
 
 @cell
+def mmi1x2_nitride_oband(
+    width: float = WIDTH_NITRIDE_OBAND,
+    width_taper: float = 1.0,
+    length_taper: float = 10.0,
+    length_mmi: float = 5.5,
+    width_mmi: float = 2.5,
+    gap_mmi: float = 0.25,
+    with_cladding_box: bool = True,
+    waveguide: str = "nitride_cband",
+    **kwargs,
+) -> Component:
+    c = pp.components.mmi1x2(
+        width=width,
+        width_taper=width_taper,
+        length_taper=length_taper,
+        length_mmi=length_mmi,
+        width_mmi=width_mmi,
+        gap_mmi=gap_mmi,
+        with_cladding_box=with_cladding_box,
+        waveguide=waveguide,
+        **kwargs,
+    )
+    add_pins_custom(c)
+    return c
+
+
+@cell
 def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     c = pp.c.mzi(
         delta_length=delta_length,
@@ -118,12 +146,27 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     return c
 
 
+@cell
+def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
+    c = pp.c.mzi(
+        delta_length=delta_length,
+        splitter=mmi1x2_nitride_oband,
+        waveguide="nitride_oband",
+        width=WIDTH_NITRIDE_CBAND,
+    )
+    add_pins_custom(c)
+    return c
+
+
 TECH_FABC = Tech(name="fabc")
 COMPONENT_FACTORY = ComponentFactory()
-COMPONENT_FACTORY.register([mzi_nitride_cband])
+COMPONENT_FACTORY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 
 if __name__ == "__main__":
     mzi = mzi_nitride_cband()
-    mzi_gc = pp.routing.add_fiber_single(component=mzi, waveguide="nitride_cband")
+    gc = pp.c.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
+    mzi_gc = pp.routing.add_fiber_single(
+        component=mzi, grating_coupler=gc, waveguide="nitride_cband"
+    )
     mzi_gc.show()

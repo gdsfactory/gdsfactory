@@ -697,45 +697,48 @@ def route_manhattan(
 
 
 def test_manhattan() -> Component:
-    from pp.components.bend_circular import bend_circular
 
     top_cell = pp.Component()
 
     inputs = [
-        Port("in1", (10, 5), 0.5, 90),
-        Port("in2", (-10, 20), 0.5, 0),
-        Port("in3", (10, 30), 0.5, 0),
-        Port("in4", (-10, -5), 0.5, 90),
+        # Port("in1", (10, 5), 0.5, 90),
+        # Port("in2", (-10, 20), 0.5, 0),
+        # Port("in3", (10, 30), 0.5, 0),
+        # Port("in4", (-10, -5), 0.5, 90),
+        Port("in5", (0, 0), 0.5, 0),
     ]
 
     outputs = [
-        Port("in1", (90, -60), 0.5, 180),
-        Port("in2", (-100, 20), 0.5, 0),
-        Port("in3", (100, -25), 0.5, 0),
-        Port("in4", (-150, -65), 0.5, 270),
+        # Port("in1", (90, -60), 0.5, 180),
+        # Port("in2", (-100, 20), 0.5, 0),
+        # Port("in3", (100, -25), 0.5, 0),
+        # Port("in4", (-150, -65), 0.5, 270),
+        Port("in5", (15, 3), 0.5, 180),
     ]
 
-    lengths = [158.562, 121.43600000000002, 160.70800000000003, 231.416]
+    # lengths = [158.562, 121.43600000000002, 160.70800000000003, 231.416, 83.44]
+    lengths = [1] * len(outputs)
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
 
         # input_port = Port("input_port", (10,5), 0.5, 90)
         # output_port = Port("output_port", (90,-60), 0.5, 180)
-
         # bend = bend_circular(radius=5.0)
+
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
             straight_factory=straight,
-            start_straight=5.0,
-            end_straight=5.0,
-            bend_factory=bend_circular,
+            # start_straight=5.0,
+            # end_straight=5.0,
+            # bend_factory=bend_circular,
             waveguide="nitride",
             radius=5.0,
         )
 
         top_cell.add(route.references)
-        np.isclose(route.length, length)
+        print(route.length, length)
+        # assert np.isclose(route.length, length)
     return top_cell
 
 

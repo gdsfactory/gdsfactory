@@ -4,8 +4,8 @@
 
 - simplify link_factory and route_factory
 - fix some FIXME
-- pack conserves metadata
-- pin version
+- add pins
+- routing with 180euler bends
 
 Maybe:
 
@@ -36,6 +36,9 @@ from pydantic import validate_arguments
 - define all TECH in tech.py dataclasses and delete Tech, and Pdk
 - add pydantic validate_arguments decorator
 - add pp.routing.fanout
+- add ComponentFactory dataclasses
+- fixed pp.routing.routing _gradual_bend
+- added TestClass for Component
 
 ## 2.4.9
 
