@@ -1,6 +1,4 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
@@ -9,8 +7,7 @@ from pp.cross_section import cross_section, get_waveguide_settings
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,

@@ -2,9 +2,7 @@
 """
 from typing import Tuple
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.hline import hline
 from pp.layers import LAYER
@@ -12,8 +10,7 @@ from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def wire_straight(
     length: float = 50.0,
     width: float = 10.0,
@@ -33,8 +30,7 @@ def wire_straight(
 
 
 @deco_rename_ports
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def wire_corner(
     width: float = 10.0,
     layer: Tuple[int, int] = LAYER.M3,

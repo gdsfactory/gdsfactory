@@ -1,18 +1,13 @@
 """ based on https://github.com/niladri18/Phidl/blob/master/src/ppe.py
 """
 import math
-from typing import Iterable
-from typing import Tuple
-
-from pydantic import validate_arguments
+from typing import Iterable, Tuple
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def line(
     x0: float,
     y0: float,
@@ -28,8 +23,7 @@ def line(
     return L
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def linespace(
     x0: float,
     y0: float,
@@ -75,8 +69,7 @@ def y0linespace(y0: float, height: float, pitch: float, ymax: float) -> float:
     return y0
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cross(
     x0: float, y0: float, width: float, lw: float, layer: Tuple[int, int]
 ) -> Component:
@@ -109,8 +102,7 @@ def cross(
     return cross
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def ppe(
     layer: Tuple[int, int] = pp.LAYER.WG,
     layers_cladding: Iterable[Tuple[int, int]] = (pp.LAYER.WGCLAD,),

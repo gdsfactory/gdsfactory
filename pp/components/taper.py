@@ -1,7 +1,5 @@
 from typing import Optional
 
-from pydantic import validate_arguments
-
 import pp
 from pp.add_padding import get_padding_points
 from pp.cell import cell
@@ -81,8 +79,7 @@ def taper(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def taper_strip_to_ridge(
     length: Number = 10.0,
     width1: Number = 0.5,
@@ -128,8 +125,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,

@@ -1,18 +1,13 @@
 from typing import Tuple
 
 import numpy as np
-from numpy import cos
-from numpy import pi
-from numpy import sin
-from pydantic import validate_arguments
+from numpy import cos, pi, sin
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def circle(
     radius: float = 10.0,
     angle_resolution: float = 2.5,

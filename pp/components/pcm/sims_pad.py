@@ -1,11 +1,7 @@
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def sims_pad(width=500, height=500, pad=100, layer=1):
     c = pp.Component()
     w = width

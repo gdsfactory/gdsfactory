@@ -1,21 +1,17 @@
 """Straight Doped PIN waveguide."""
 from typing import Tuple
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.cross_section import pin
 from pp.layers import LAYER
-from pp.path import extrude
-from pp.path import straight
+from pp.path import extrude, straight
 from pp.snap import snap_to_grid
 from pp.tech import TECH
 from pp.types import Layer
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def straight_pin(
     length: float = 10.0,
     npoints: int = 2,

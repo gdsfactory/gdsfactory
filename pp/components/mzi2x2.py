@@ -1,6 +1,4 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.component_sequence import component_sequence
@@ -14,8 +12,7 @@ from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mzi_arm(
     L0: float = 60.0,
     DL: float = 0.0,
@@ -103,8 +100,7 @@ def mzi_arm(
     return component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mzi2x2(
     CL_1: float = 20.147,
     L0: float = 60.0,

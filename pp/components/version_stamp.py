@@ -2,10 +2,7 @@ import datetime
 import platform
 from typing import Iterable, Tuple
 
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.text import text as Text
 from pp.config import git_hash
@@ -19,8 +16,7 @@ def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def qrcode(
     data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
 ) -> Component:
@@ -41,8 +37,7 @@ def qrcode(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def version_stamp(
     text: Iterable[str] = ("demo_label",),
     git_hash: str = git_hash,

@@ -1,8 +1,6 @@
 from typing import Optional
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90 as coupler90function
@@ -12,8 +10,7 @@ from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,

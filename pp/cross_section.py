@@ -88,7 +88,6 @@ def pin(
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> CrossSection:
-
     """PIN doped straight.
 
     .. code::

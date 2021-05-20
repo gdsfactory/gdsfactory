@@ -1,8 +1,6 @@
 """CD SEM structures."""
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.components.bend_circular import bend_circular
 from pp.components.straight import straight
 from pp.layers import LAYER
@@ -23,8 +21,7 @@ def text(t="U"):
 CENTER_SHAPES_MAP = {"S": square_middle, "U": text("U"), "D": text("L")}
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cdsem_straight(w, dw, spacing=5.0, length=20.0):
     """
     w
@@ -37,8 +34,7 @@ def cdsem_straight(w, dw, spacing=5.0, length=20.0):
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cdsem_straight_density(
     wg_width=0.372, trench_width=0.304, x=500, y=50.0, margin=2.0
 ):
@@ -73,8 +69,7 @@ def cdsem_straight_density(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cdsem_target(width_center=0.5):
     radii = [5.0, 10.0]
     c = pp.Component()
@@ -114,8 +109,7 @@ def cdsem_target(width_center=0.5):
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def cdsem_uturn(
     width=0.5, cladding_offset=3.0, radius=10, symbol_bot="S", symbol_top="D"
 ):

@@ -1,13 +1,10 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.components.mzi import mzi
 from pp.components.straight_heater import straight_with_heater
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mzi_with_heater(
     straight_delta_length: ComponentFactory = straight_with_heater, **kwargs
 ):

@@ -1,18 +1,15 @@
 from typing import Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.elliptical import grating_tooth_points
 from pp.geo_utils import DEG2RAD
 from pp.types import Layer
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,

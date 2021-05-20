@@ -1,17 +1,14 @@
 from typing import Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def nxn(
     west: int = 1,
     east: int = 4,

@@ -4,10 +4,8 @@ maybe: need to add grating coupler loopback as well
 from typing import Optional, Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
@@ -23,8 +21,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -200,8 +197,7 @@ def spiral_inner_io(
     return component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def spiral_inner_io_euler(
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
@@ -214,8 +210,7 @@ def spiral_inner_io_euler(
     )
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def spirals_nested(bend_radius: Number = 100) -> Component:
     component = pp.Component()
     c = spiral_inner_io(
@@ -282,6 +277,7 @@ if __name__ == "__main__":
 
     # c = spiral_inner_io(x_straight_inner_left=800)
     c = spiral_inner_io_euler(length=20e3)
+    # c = spiral_inner_io_euler(length=20e3)
     # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)

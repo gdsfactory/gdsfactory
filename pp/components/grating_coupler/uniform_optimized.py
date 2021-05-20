@@ -1,22 +1,17 @@
 import pathlib
-from typing import Iterable
-from typing import Tuple
+from typing import Iterable, Tuple
 
 import numpy as np
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.types import ComponentFactory
-from pp.types import Number
+from pp.types import ComponentFactory, Number
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_optimized(
     widths: Iterable[Number] = (0.5, 0.2, 0.3),
     width_grating: Number = 11,
@@ -99,8 +94,7 @@ def grating_coupler_uniform_optimized(
     return c
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_1etch_h220_e70.csv"
     import pandas as pd
@@ -111,8 +105,7 @@ def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     )
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_2etch_h220_e70_e220.csv"
     import pandas as pd
@@ -123,8 +116,7 @@ def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     )
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     from pp.components.taper_from_csv import taper_w11_l200
 
@@ -132,8 +124,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     from pp.components.taper_from_csv import taper_w10_l200
 
@@ -141,8 +132,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper, width_grating=10)
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l100(**kwargs):
     from pp.components.taper_from_csv import taper_w10_l100
 

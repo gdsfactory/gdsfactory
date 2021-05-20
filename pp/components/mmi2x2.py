@@ -1,8 +1,5 @@
-from pydantic import validate_arguments
-
 import pp
 from pp.add_padding import add_padding
-from pp.cell import cell
 from pp.component import Component
 from pp.components.taper import taper as taper_function
 from pp.config import TECH
@@ -10,8 +7,7 @@ from pp.cross_section import cross_section, get_waveguide_settings
 from pp.types import ComponentFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def mmi2x2(
     width: float = TECH.component_settings.mmi2x2.width,
     width_taper: float = TECH.component_settings.mmi2x2.width_taper,

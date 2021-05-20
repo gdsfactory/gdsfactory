@@ -1,15 +1,11 @@
-from typing import Tuple
-from typing import Union
+from typing import Tuple, Union
 
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.layers import LAYER
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),

@@ -2,15 +2,12 @@ from typing import Tuple
 
 import numpy as np
 from numpy import cos, pi, sin, sqrt
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def ellipse(
     radii: Tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,

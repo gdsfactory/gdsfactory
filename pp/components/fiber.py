@@ -1,15 +1,11 @@
 from typing import Tuple
 
-from pydantic import validate_arguments
-
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.circle import circle
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def fiber(
     core_diameter: float = 10,
     cladding_diameter: float = 125,

@@ -1,21 +1,16 @@
-from typing import Optional
-from typing import Tuple
+from typing import Optional, Tuple
 
 import picwriter.components as pc
-from pydantic import validate_arguments
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import strip
 from pp.picwriter_to_component import picwriter_to_component
 from pp.port import auto_rename_ports
-from pp.types import ComponentFactory
-from pp.types import Layer
+from pp.types import ComponentFactory, Layer
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def spiral(
     width: float = 500.0,
     length: float = 10e3,

@@ -1,14 +1,11 @@
-from pydantic import validate_arguments
-
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.straight import straight as straight_function
 from pp.port import auto_rename_ports
 from pp.types import ComponentOrFactory
 
 
-@cell
-@validate_arguments
+@pp.cell_with_validator
 def straight_array(
     n_straights: int = 4,
     spacing: float = 4.0,
