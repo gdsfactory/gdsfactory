@@ -1,11 +1,11 @@
 connections:
-  bend_euler_95e8acf2_68.625_-4.0,N0: straight_6fe2aa89_72.0_-20.0,W0
-  bend_euler_95e8acf2_68.625_-4.0,W0: straight_4367789d_52.0_-0.625,E0
-  bend_euler_95e8acf2_75.375_-36.0,N0: mmi_bot,W0
-  bend_euler_95e8acf2_75.375_-36.0,W0: straight_6fe2aa89_72.0_-20.0,E0
+  bend_euler_f79f8bba_68.625_-4.0,N0: straight_6fe2aa89_72.0_-20.0,W0
+  bend_euler_f79f8bba_68.625_-4.0,W0: straight_4367789d_52.0_-0.625,E0
+  bend_euler_f79f8bba_75.375_-36.0,N0: mmi_bot,W0
+  bend_euler_f79f8bba_75.375_-36.0,W0: straight_6fe2aa89_72.0_-20.0,E0
   mmi_top,E0: straight_4367789d_52.0_-0.625,W0
 instances:
-  bend_euler_95e8acf2_68.625_-4.0:
+  bend_euler_f79f8bba_68.625_-4.0:
     component: bend_euler
     settings:
       angle: 90
@@ -32,7 +32,7 @@ instances:
       width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_95e8acf2_75.375_-36.0:
+  bend_euler_f79f8bba_75.375_-36.0:
     component: bend_euler
     settings:
       angle: 90
@@ -131,12 +131,12 @@ instances:
       with_cladding_box: true
 name: sample_docstring
 placements:
-  bend_euler_95e8acf2_68.625_-4.0:
+  bend_euler_f79f8bba_68.625_-4.0:
     mirror: true
     rotation: 0
     x: 62.0
     y: -0.625
-  bend_euler_95e8acf2_75.375_-36.0:
+  bend_euler_f79f8bba_75.375_-36.0:
     mirror: false
     rotation: 270
     x: 72.0

@@ -1,28 +1,28 @@
 connections:
-  bend_euler_95e8acf2_126.625_203.375,N0: taper_686939f7_130.0_215.0,1
-  bend_euler_95e8acf2_126.625_203.375,W0: straight_fcce95dd_85.0_200.0,E0
-  bend_euler_95e8acf2_133.375_554.625,N0: taper_686939f7_145.0_558.0,1
-  bend_euler_95e8acf2_133.375_554.625,W0: taper_686939f7_130.0_543.0,1
-  bend_euler_95e8acf2_133.375_582.375,N0: straight_30502b41_130.0_589.5,W0
-  bend_euler_95e8acf2_133.375_582.375,W0: taper_686939f7_145.0_579.0,1
-  bend_euler_95e8acf2_133.375_596.625,N0: taper_686939f7_145.0_600.0,1
-  bend_euler_95e8acf2_133.375_596.625,W0: straight_30502b41_130.0_589.5,E0
-  bend_euler_95e8acf2_256.625_3.375,N0: taper_686939f7_260.0_15.0,1
-  bend_euler_95e8acf2_256.625_3.375,W0: straight_cad54e66_150.0_0.0,E0
-  bend_euler_95e8acf2_263.375_354.625,N0: taper_686939f7_275.0_358.0,1
-  bend_euler_95e8acf2_263.375_354.625,W0: taper_686939f7_260.0_343.0,1
-  bend_euler_95e8acf2_263.375_382.375,N0: straight_30502b41_260.0_389.5,W0
-  bend_euler_95e8acf2_263.375_382.375,W0: taper_686939f7_275.0_379.0,1
-  bend_euler_95e8acf2_263.375_396.625,N0: taper_686939f7_275.0_400.0,1
-  bend_euler_95e8acf2_263.375_396.625,W0: straight_30502b41_260.0_389.5,E0
-  bend_euler_95e8acf2_397.625_561.375,N0: straight_30502b41_401.0_568.5,W0
-  bend_euler_95e8acf2_397.625_561.375,W0: taper_686939f7_386.0_558.0,1
-  bend_euler_95e8acf2_397.625_575.625,N0: taper_686939f7_386.0_579.0,1
-  bend_euler_95e8acf2_397.625_575.625,W0: straight_30502b41_401.0_568.5,E0
-  bend_euler_95e8acf2_527.625_361.375,N0: straight_30502b41_531.0_368.5,W0
-  bend_euler_95e8acf2_527.625_361.375,W0: taper_686939f7_516.0_358.0,1
-  bend_euler_95e8acf2_527.625_375.625,N0: taper_686939f7_516.0_379.0,1
-  bend_euler_95e8acf2_527.625_375.625,W0: straight_30502b41_531.0_368.5,E0
+  bend_euler_f79f8bba_126.625_203.375,N0: taper_686939f7_130.0_215.0,1
+  bend_euler_f79f8bba_126.625_203.375,W0: straight_fcce95dd_85.0_200.0,E0
+  bend_euler_f79f8bba_133.375_554.625,N0: taper_686939f7_145.0_558.0,1
+  bend_euler_f79f8bba_133.375_554.625,W0: taper_686939f7_130.0_543.0,1
+  bend_euler_f79f8bba_133.375_582.375,N0: straight_30502b41_130.0_589.5,W0
+  bend_euler_f79f8bba_133.375_582.375,W0: taper_686939f7_145.0_579.0,1
+  bend_euler_f79f8bba_133.375_596.625,N0: taper_686939f7_145.0_600.0,1
+  bend_euler_f79f8bba_133.375_596.625,W0: straight_30502b41_130.0_589.5,E0
+  bend_euler_f79f8bba_256.625_3.375,N0: taper_686939f7_260.0_15.0,1
+  bend_euler_f79f8bba_256.625_3.375,W0: straight_cad54e66_150.0_0.0,E0
+  bend_euler_f79f8bba_263.375_354.625,N0: taper_686939f7_275.0_358.0,1
+  bend_euler_f79f8bba_263.375_354.625,W0: taper_686939f7_260.0_343.0,1
+  bend_euler_f79f8bba_263.375_382.375,N0: straight_30502b41_260.0_389.5,W0
+  bend_euler_f79f8bba_263.375_382.375,W0: taper_686939f7_275.0_379.0,1
+  bend_euler_f79f8bba_263.375_396.625,N0: taper_686939f7_275.0_400.0,1
+  bend_euler_f79f8bba_263.375_396.625,W0: straight_30502b41_260.0_389.5,E0
+  bend_euler_f79f8bba_397.625_561.375,N0: straight_30502b41_401.0_568.5,W0
+  bend_euler_f79f8bba_397.625_561.375,W0: taper_686939f7_386.0_558.0,1
+  bend_euler_f79f8bba_397.625_575.625,N0: taper_686939f7_386.0_579.0,1
+  bend_euler_f79f8bba_397.625_575.625,W0: straight_30502b41_401.0_568.5,E0
+  bend_euler_f79f8bba_527.625_361.375,N0: straight_30502b41_531.0_368.5,W0
+  bend_euler_f79f8bba_527.625_361.375,W0: taper_686939f7_516.0_358.0,1
+  bend_euler_f79f8bba_527.625_375.625,N0: taper_686939f7_516.0_379.0,1
+  bend_euler_f79f8bba_527.625_375.625,W0: straight_30502b41_531.0_368.5,E0
   bl,E: straight_cad54e66_150.0_0.0,W0
   br,W: taper_686939f7_845.0_400.0,1
   straight_27eca294_265.5_558.0,E0: taper_686939f7_386.0_558.0,2
@@ -44,7 +44,7 @@ connections:
   straight_fcce95dd_85.0_200.0,W0: tl,E
   taper_686939f7_845.0_600.0,1: tr,W
 instances:
-  bend_euler_95e8acf2_126.625_203.375:
+  bend_euler_f79f8bba_126.625_203.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -62,9 +62,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_133.375_554.625:
+  bend_euler_f79f8bba_133.375_554.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -82,9 +83,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_133.375_582.375:
+  bend_euler_f79f8bba_133.375_582.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -102,9 +104,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_133.375_596.625:
+  bend_euler_f79f8bba_133.375_596.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -122,9 +125,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_256.625_3.375:
+  bend_euler_f79f8bba_256.625_3.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -142,9 +146,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_263.375_354.625:
+  bend_euler_f79f8bba_263.375_354.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -162,9 +167,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_263.375_382.375:
+  bend_euler_f79f8bba_263.375_382.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -182,9 +188,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_263.375_396.625:
+  bend_euler_f79f8bba_263.375_396.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -202,9 +209,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_397.625_561.375:
+  bend_euler_f79f8bba_397.625_561.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -222,9 +230,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_397.625_575.625:
+  bend_euler_f79f8bba_397.625_575.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -242,9 +251,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_527.625_361.375:
+  bend_euler_f79f8bba_527.625_361.375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -262,9 +272,10 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_95e8acf2_527.625_375.625:
+  bend_euler_f79f8bba_527.625_375.625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -282,6 +293,7 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
   bl:
@@ -960,62 +972,62 @@ instances:
     settings: {}
 name: sample_different_link_factory
 placements:
-  bend_euler_95e8acf2_126.625_203.375:
+  bend_euler_f79f8bba_126.625_203.375:
     mirror: false
     rotation: 0
     x: 120.0
     y: 200.0
-  bend_euler_95e8acf2_133.375_554.625:
+  bend_euler_f79f8bba_133.375_554.625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 548.0
-  bend_euler_95e8acf2_133.375_582.375:
+  bend_euler_f79f8bba_133.375_582.375:
     mirror: true
     rotation: 180
     x: 140.0
     y: 579.0
-  bend_euler_95e8acf2_133.375_596.625:
+  bend_euler_f79f8bba_133.375_596.625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 590.0
-  bend_euler_95e8acf2_256.625_3.375:
+  bend_euler_f79f8bba_256.625_3.375:
     mirror: false
     rotation: 0
     x: 250.0
     y: 0.0
-  bend_euler_95e8acf2_263.375_354.625:
+  bend_euler_f79f8bba_263.375_354.625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 348.0
-  bend_euler_95e8acf2_263.375_382.375:
+  bend_euler_f79f8bba_263.375_382.375:
     mirror: true
     rotation: 180
     x: 270.0
     y: 379.0
-  bend_euler_95e8acf2_263.375_396.625:
+  bend_euler_f79f8bba_263.375_396.625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 390.0
-  bend_euler_95e8acf2_397.625_561.375:
+  bend_euler_f79f8bba_397.625_561.375:
     mirror: false
     rotation: 0
     x: 391.0
     y: 558.0
-  bend_euler_95e8acf2_397.625_575.625:
+  bend_euler_f79f8bba_397.625_575.625:
     mirror: false
     rotation: 90
     x: 401.0
     y: 569.0
-  bend_euler_95e8acf2_527.625_361.375:
+  bend_euler_f79f8bba_527.625_361.375:
     mirror: false
     rotation: 0
     x: 521.0
     y: 358.0
-  bend_euler_95e8acf2_527.625_375.625:
+  bend_euler_f79f8bba_527.625_375.625:
     mirror: false
     rotation: 90
     x: 531.0

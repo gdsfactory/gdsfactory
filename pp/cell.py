@@ -1,15 +1,12 @@
 import inspect
 import uuid
-from functools import partial
-from functools import wraps
-from typing import Dict
-from typing import Optional
+from functools import partial, wraps
+from typing import Dict, Optional
 
 from pydantic import validate_arguments
 
 from pp.component import Component
-from pp.name import get_component_name
-from pp.name import get_name
+from pp.name import get_component_name, get_name
 from pp.types import ComponentFactory
 
 CACHE: Dict[str, Component] = {}
@@ -167,8 +164,11 @@ def cell(
     return _cell
 
 
+def cell_with_validator(func, *args, **kwargs):
+    return cell(validate_arguments(func), *args, **kwargs)
+
+
 @cell(autoname=True)
-@validate_arguments
 def wg(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
@@ -182,7 +182,6 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 
 
 @cell(autoname=False)
-@validate_arguments
 def wg2(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
@@ -196,7 +195,6 @@ def wg2(length: int = 3, width: float = 0.5) -> Component:
 
 
 @cell
-@validate_arguments
 def wg3(length=3, width=0.5):
     from pp.component import Component
 
@@ -219,7 +217,6 @@ def test_autoname_false() -> None:
 
 
 @cell
-@validate_arguments
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     c = Component()
     return c
