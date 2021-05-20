@@ -173,9 +173,6 @@ def get_route_from_waypoints(
     width2 = waveguide_settings.get("width_wide") if auto_widen else width1
     taper_length = waveguide_settings.get("taper_length")
     waypoints = np.array(waypoints)
-    bend90 = (
-        bend_factory(**waveguide_settings) if callable(bend_factory) else bend_factory
-    )
 
     if auto_widen:
         taper = (
@@ -193,9 +190,10 @@ def get_route_from_waypoints(
 
     return round_corners(
         points=waypoints,
-        bend_factory=bend90,
+        bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper=taper,
+        waveguide=waveguide,
         **waveguide_settings,
     )
 

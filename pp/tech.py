@@ -279,7 +279,13 @@ def make_empty_dict():
 
 @dataclasses.dataclass
 class ComponentFactory:
-    """Stores component factories"""
+    """Stores component factories
+
+    Args:
+        factory: component name to function
+        settings: Optional component settings with defaults
+        add_pins: Optional function to add pins
+    """
 
     factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
     settings: ComponentSettings = ComponentSettings()
@@ -341,7 +347,6 @@ class Tech:
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
-
     component_settings: ComponentSettings = ComponentSettings()
 
     # component_factory: ComponentFactory = ComponentFactory()

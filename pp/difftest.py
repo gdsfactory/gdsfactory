@@ -4,11 +4,37 @@ import pathlib
 from typing import Optional
 
 from lytest.kdb_xor import GeometryDifference, run_xor
+from pytest_regressions.data_regression import DataRegressionFixture
+from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
 from pp.gdsdiff.gdsdiff import gdsdiff
 
 cwd = pathlib.Path.cwd()
+
+
+class TestComponent:
+    fab_name: Optional[str] = None
+
+    def test_gds(self, component: Component) -> None:
+        """Avoid regressions in GDS geometry shapes and layers."""
+        difftest(component, prefix=self.fab_name)
+
+    def test_settings(
+        self, component: Component, data_regression: DataRegressionFixture
+    ) -> None:
+        """Avoid regressions when exporting settings."""
+        data_regression.check(component.get_settings())
+
+    def test_ports(
+        self, component: Component, num_regression: NumericRegressionFixture
+    ) -> None:
+        """Avoid regressions in port names and locations."""
+        if component.ports:
+            num_regression.check(component.get_ports_array())
+
+    def test_assert_ports_on_grid(self, component: Component):
+        component.assert_ports_on_grid()
 
 
 def difftest(component: Component, prefix: Optional[str] = None) -> None:

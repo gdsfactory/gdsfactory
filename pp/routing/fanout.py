@@ -11,8 +11,8 @@ from pp.routing.routing import route_basic
 def fanout(
     component: Component,
     port_spacing: float = 20.0,
-    delta: Tuple[float, float] = (0, 20),
-    dx: float = 20,
+    delta: Tuple[float, float] = (0.0, 20.0),
+    dx: float = 20.0,
     npoints: int = 101,
     prefix: Optional[str] = None,
     port_type: Optional[str] = None,

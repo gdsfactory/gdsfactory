@@ -119,7 +119,7 @@ def add_pin_square_inside(
     component.add_polygon(polygon, layer=layer)
     if label_layer:
         component.add_label(
-            text=p.name,
+            text=str(p.name),
             position=p.midpoint,
             layer=label_layer,
         )
