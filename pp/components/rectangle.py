@@ -1,6 +1,4 @@
-from typing import Dict
-from typing import List
-from typing import Tuple
+from typing import Dict, List, Tuple
 
 import pp
 from pp.cell import cell
@@ -62,7 +60,7 @@ def rectangle(
 
 
 if __name__ == "__main__":
-    c = rectangle(size=(4, 2), ports={"N": [(0, 1, 4)]}, centered=True, layer=(2, 3))
+    c = rectangle(size=("hi", 2), ports={"N": [(0, 1, 4)]}, centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)
     c.show()

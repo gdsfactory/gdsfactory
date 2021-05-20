@@ -579,7 +579,7 @@ def test_netlists(
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
+    # print(yaml_str)
     c2 = component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
@@ -606,8 +606,8 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    # c = test_netlists("sample_different_link_factory", True, None, check=False)
-    c = test_netlists("sample_mmis", True, None, check=False)
+    c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()

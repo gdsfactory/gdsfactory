@@ -1,11 +1,11 @@
 connections:
-  bend_euler_95e8acf2_71.625_4.0,N0: straight_9e198a39_75.0_50.625,W0
-  bend_euler_95e8acf2_71.625_4.0,W0: straight_d0cb6a0c_38.75_0.625,E0
-  bend_euler_95e8acf2_78.375_97.25,N0: mmi_long,E0
-  bend_euler_95e8acf2_78.375_97.25,W0: straight_9e198a39_75.0_50.625,E0
+  bend_euler_f79f8bba_71.625_4.0,N0: straight_9e198a39_75.0_50.625,W0
+  bend_euler_f79f8bba_71.625_4.0,W0: straight_d0cb6a0c_38.75_0.625,E0
+  bend_euler_f79f8bba_78.375_97.25,N0: mmi_long,E0
+  bend_euler_f79f8bba_78.375_97.25,W0: straight_9e198a39_75.0_50.625,E0
   mmi_short,E1: straight_d0cb6a0c_38.75_0.625,W0
 instances:
-  bend_euler_95e8acf2_71.625_4.0:
+  bend_euler_f79f8bba_71.625_4.0:
     component: bend_euler
     settings:
       angle: 90
@@ -32,7 +32,7 @@ instances:
       width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_95e8acf2_78.375_97.25:
+  bend_euler_f79f8bba_78.375_97.25:
     component: bend_euler
     settings:
       angle: 90
@@ -131,12 +131,12 @@ instances:
       with_cladding_box: true
 name: mmis
 placements:
-  bend_euler_95e8acf2_71.625_4.0:
+  bend_euler_f79f8bba_71.625_4.0:
     mirror: false
     rotation: 0
     x: 65.0
     y: 0.625
-  bend_euler_95e8acf2_78.375_97.25:
+  bend_euler_f79f8bba_78.375_97.25:
     mirror: true
     rotation: 90
     x: 75.0

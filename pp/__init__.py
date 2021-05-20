@@ -31,6 +31,7 @@ from pp.component import Component, ComponentReference, copy
 from pp.port import Port
 from pp.port import port_array
 from pp.cell import cell
+from pp.cell import cell_with_validator
 from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
@@ -80,6 +81,7 @@ __all__ = [
     "Path",
     "bias",
     "cell",
+    "cell_with_validator",
     "copy",
     "add_padding",
     "add_padding_container",

@@ -1,8 +1,8 @@
 connections:
-  bend_euler_95e8acf2_-246.625_603.375,N0: taper_686939f7_-250.0_615.0,1
-  bend_euler_95e8acf2_-246.625_603.375,W0: taper_686939f7_-235.0_600.0,1
-  bend_euler_95e8acf2_-3.375_596.625,N0: taper_686939f7_-15.0_600.0,1
-  bend_euler_95e8acf2_-3.375_596.625,W0: taper_686939f7_0.0_585.0,1
+  bend_euler_f79f8bba_-246.625_603.375,N0: taper_686939f7_-250.0_615.0,1
+  bend_euler_f79f8bba_-246.625_603.375,W0: taper_686939f7_-235.0_600.0,1
+  bend_euler_f79f8bba_-3.375_596.625,N0: taper_686939f7_-15.0_600.0,1
+  bend_euler_f79f8bba_-3.375_596.625,W0: taper_686939f7_0.0_585.0,1
   straight_01bb144d_-250.0_805.0,E0: taper_686939f7_-250.0_995.0,2
   straight_01bb144d_-250.0_805.0,W0: taper_686939f7_-250.0_615.0,2
   straight_25903456_-125.0_600.0,E0: taper_686939f7_-235.0_600.0,2
@@ -18,7 +18,7 @@ instances:
       pitch: 150
       port_list:
       - N
-  bend_euler_95e8acf2_-246.625_603.375:
+  bend_euler_f79f8bba_-246.625_603.375:
     component: bend_euler
     settings:
       angle: 90
@@ -45,7 +45,7 @@ instances:
       width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_95e8acf2_-3.375_596.625:
+  bend_euler_f79f8bba_-3.375_596.625:
     component: bend_euler
     settings:
       angle: 90
@@ -315,12 +315,12 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_95e8acf2_-246.625_603.375:
+  bend_euler_f79f8bba_-246.625_603.375:
     mirror: true
     rotation: 180
     x: -240.0
     y: 600.0
-  bend_euler_95e8acf2_-3.375_596.625:
+  bend_euler_f79f8bba_-3.375_596.625:
     mirror: false
     rotation: 90
     x: 0.0

@@ -29,3 +29,6 @@ def cleandir(request: SubRequest) -> None:
 def show_diffs(request: SubRequest) -> None:
     c = merge_cells(diff_path.glob("*.gds"))
     c.show()
+
+
+collect_ignore = ["difftest.py"]
