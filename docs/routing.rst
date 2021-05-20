@@ -42,7 +42,7 @@ Example with two arrays of ports connected using `get_bundle`
         c = pp.Component()
         routes = pp.routing.get_bundle(ports1, ports2)
         for route in routes:
-            c.add(route['references'])
+            c.add(route.references)
 
         return c
 
@@ -149,7 +149,7 @@ Routing banks of ports through pre-defined waypoints
 
         routes = pp.routing.get_bundle_from_waypoints(ports1, ports2, way_points)
         for route in routes:
-            c.add(route['references'])
+            c.add(route.references)
 
         return c
 

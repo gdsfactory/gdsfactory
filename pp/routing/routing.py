@@ -880,8 +880,6 @@ def route_manhattan(
         port2:
         bendType: gradual, circular
 
-    FIXME, need to FIX gradual bend
-
     """
     layer = layer or port1.layer
 
@@ -890,12 +888,18 @@ def route_manhattan(
     if bendType not in valid_bend_types:
         raise ValueError(f"bendType={bendType} not in {valid_bend_types}")
 
+    if bendType == "gradual":
+        b = _gradual_bend(radius=radius)
+        radius_eff = b.xsize
+    else:
+        radius_eff = radius
+
     if (
-        abs(port1.midpoint[0] - port2.midpoint[0]) < 2 * radius
-        or abs(port1.midpoint[1] - port2.midpoint[1]) < 2 * radius
+        abs(port1.midpoint[0] - port2.midpoint[0]) < 2 * radius_eff
+        or abs(port1.midpoint[1] - port2.midpoint[1]) < 2 * radius_eff
     ):
         raise RoutingError(
-            "bend does not fit, you need radius <",
+            f"bend does not fit (radius = {radius_eff}) you need radius <",
             min(
                 [
                     abs(port1.midpoint[0] - port2.midpoint[0]) / 2,
@@ -1155,17 +1159,18 @@ if __name__ == "__main__":
         # pp.Port("in2", (-100, 20), 0.5, 0),
         # pp.Port("in3", (100, -25), 0.5, 0),
         # pp.Port("in4", (-150, -65), 0.5, 270),
-        pp.Port("in5", (15, 3), 0.5, 180),
+        pp.Port("in5", (15, 6), 0.5, 180),
         # pp.Port("in6", (0, 12), 0.5, 180),
     ]
     N = len(ports1)
 
-    # for i in range(N):
-    #     route = route_manhattan(ports1[i], ports2[i], radius=3, bendType="gradual")
-    #     c.add(route.references)
+    for i in range(N):
+        # route = route_manhattan(ports1[i], ports2[i], radius=3, bendType="circular")
+        route = route_manhattan(ports1[i], ports2[i], radius=1, bendType="gradual")
+        c.add(route.references)
     # references = route_basic(port1=ports1[i], port2=ports2[i])
     # print(route.length)
 
-    c = _gradual_bend()
+    # c = _gradual_bend()
     # c = _arc(theta=20)
     c.show(show_ports=True)
