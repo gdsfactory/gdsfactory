@@ -18,6 +18,7 @@ from typing import Dict, Tuple
 
 from pp.component import Component, ComponentReference
 from pp.layers import LAYER
+from pp.name import clean_name
 from pp.snap import snap_to_grid
 
 
@@ -42,7 +43,8 @@ def get_instance_name(
     labels = component.labels
 
     # default instance name follows componetName_x_y
-    text = f"{reference.parent.name}_{x}_{y}"
+    text = clean_name(f"{reference.parent.name}_{x}_{y}")
+
     # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
     # text = f"{reference.parent.name}_{reference.uid}"
 
