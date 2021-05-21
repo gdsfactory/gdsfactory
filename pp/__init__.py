@@ -50,7 +50,6 @@ import pp.path as path
 from pp.tech import TECH
 
 from pp.component_from_yaml import component_from_yaml
-from pp.types import get_name_to_function_dict
 
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
@@ -96,7 +95,7 @@ __all__ = [
     "call_if_func",
     "extend_ports",
     "boolean",
-    "get_name_to_function_dict",
+    "types",
     "get_padding_points",
     "grid",
     "klive",
@@ -113,7 +112,6 @@ __all__ = [
     "show",
     "snap_to_grid",
     "set_plot_options",
-    "types",
     "write_doe",
     "Port",
     "component_from_yaml",

@@ -1,11 +1,11 @@
-from pp.component import Component
 from pp.components.bend_s import bend_s
 from pp.port import Port
 from pp.routing.sort_ports import sort_ports
+from pp.types import Route
 
 
-def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Component:
-    """Returns an Sbend to connect two ports.
+def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
+    """Returns an Sbend Route to connect two ports.
 
     Args:
         port1: start port
@@ -17,7 +17,12 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Component:
     """
     height = port2.midpoint[1] - port1.midpoint[1]
     length = port2.midpoint[0] - port1.midpoint[0]
-    return bend_s(height=height, length=length, **kwargs)
+    bend = bend_s(height=height, length=length, **kwargs)
+    bend_ref = bend.ref()
+    bend_ref.connect("W0", port1)
+    return Route(
+        references=[bend_ref], length=bend.info["length"], ports=(port1, port2)
+    )
 
 
 if __name__ == "__main__":
@@ -35,7 +40,7 @@ if __name__ == "__main__":
     right_ports, left_ports = sort_ports(right_ports, left_ports)
 
     for p1, p2 in zip(right_ports, left_ports):
-        sbend = c << get_route_sbend(p1, p2)
-        sbend.connect("W0", p1)
+        route = get_route_sbend(p1, p2, waveguide="nitride")
+        c.add(route.references)
 
     c.show()

@@ -1,11 +1,11 @@
 connections:
-  bend_euler_f79f8bba_68.625_-4.0,N0: straight_6fe2aa89_72.0_-20.0,W0
-  bend_euler_f79f8bba_68.625_-4.0,W0: straight_4367789d_52.0_-0.625,E0
-  bend_euler_f79f8bba_75.375_-36.0,N0: mmi_bot,W0
-  bend_euler_f79f8bba_75.375_-36.0,W0: straight_6fe2aa89_72.0_-20.0,E0
-  mmi_top,E0: straight_4367789d_52.0_-0.625,W0
+  bend_euler_f79f8bba_68p625_m4p0,N0: straight_6fe2aa89_72p0_m20p0,W0
+  bend_euler_f79f8bba_68p625_m4p0,W0: straight_4367789d_52p0_m0p625,E0
+  bend_euler_f79f8bba_75p375_m36p0,N0: mmi_bot,W0
+  bend_euler_f79f8bba_75p375_m36p0,W0: straight_6fe2aa89_72p0_m20p0,E0
+  mmi_top,E0: straight_4367789d_52p0_m0p625,W0
 instances:
-  bend_euler_f79f8bba_68.625_-4.0:
+  bend_euler_f79f8bba_68p625_m4p0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -26,7 +26,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_75.375_-36.0:
+  bend_euler_f79f8bba_75p375_m36p0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -57,7 +57,7 @@ instances:
     settings:
       length_mmi: 22
       width_mmi: 6
-  straight_4367789d_52.0_-0.625:
+  straight_4367789d_52p0_m0p625:
     component: straight
     settings:
       auto_widen: true
@@ -78,7 +78,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_6fe2aa89_72.0_-20.0:
+  straight_6fe2aa89_72p0_m20p0:
     component: straight
     settings:
       auto_widen: true
@@ -101,12 +101,12 @@ instances:
       width_wide: 2
 name: sample_docstring
 placements:
-  bend_euler_f79f8bba_68.625_-4.0:
+  bend_euler_f79f8bba_68p625_m4p0:
     mirror: true
     rotation: 0
     x: 62.0
     y: -0.625
-  bend_euler_f79f8bba_75.375_-36.0:
+  bend_euler_f79f8bba_75p375_m36p0:
     mirror: false
     rotation: 270
     x: 72.0
@@ -121,12 +121,12 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_4367789d_52.0_-0.625:
+  straight_4367789d_52p0_m0p625:
     mirror: false
     rotation: 0
     x: 42.0
     y: -0.625
-  straight_6fe2aa89_72.0_-20.0:
+  straight_6fe2aa89_72p0_m20p0:
     mirror: false
     rotation: 270
     x: 72.0

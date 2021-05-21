@@ -14,7 +14,7 @@ cwd = pathlib.Path.cwd()
 
 
 class TestComponent:
-    fab_name: Optional[str] = None
+    fab_name: str
 
     def test_gds(self, component: Component) -> None:
         """Avoid regressions in GDS geometry shapes and layers."""

@@ -103,10 +103,10 @@ def corner_bundle(
         ports2,
         routing_func=generate_manhattan_waypoints,
         separation=separation,
-        **kwargs
+        **kwargs,
     )
 
-    return [route_filter(r) for r in routes]
+    return [route_filter(r, **kwargs) for r in routes]
 
 
 def corner_bundle_route(
@@ -137,11 +137,8 @@ def corner_bundle_route(
     da = a_end - a_start
     assert (
         da
-    ) % 180 == 90, "corner_bundle can \
-    only route port banks between orthogonal axises. Got angles of {} and {}\
-    ".format(
-        a_start, a_end
-    )
+    ) % 180 == 90, f"corner_bundle can \
+    only route port banks between orthogonal axises. Got angles of {a_start} and {a_end}"
 
     # Rotate all ports to be in the configuration where start_angle = 0
 
@@ -181,11 +178,9 @@ def corner_bundle_route(
     )
     assert (
         is_routable_270 or is_routable_90
-    ), "Ports not routable with corner_bundle: \
-    da={}; are_below={}; are_above={}; are_left={}; are_right={}. \
-    Consider applying a U turn first and then to to the 90Deg or 270Deg connection".format(
-        da, are_below, are_above, are_left, are_right
-    )
+    ), f"Ports not routable with corner_bundle: \
+    da={da}; are_below={are_below}; are_above={are_above}; are_left={are_left}; are_right={are_right}. \
+    Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
 
     if da > 0:
         end_sort_type = ["Y", "-X", "-Y", "X"]
