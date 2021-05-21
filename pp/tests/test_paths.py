@@ -69,7 +69,7 @@ def no_rename():
 
 
 def looploop(num_pts=1000):
-    """ Simple limacon looping curve """
+    """Simple limacon looping curve"""
     t = np.linspace(-np.pi, 0, num_pts)
     r = 20 + 25 * np.sin(t)
     x = r * np.cos(t)
@@ -133,7 +133,7 @@ def transition():
     return c
 
 
-component_factory = pp.get_name_to_function_dict(
+component_factory = pp.types.get_name_to_function_dict(
     test_path, rename, no_rename, double_loop, transition
 )
 

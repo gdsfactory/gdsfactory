@@ -21,7 +21,7 @@ def component(request) -> Component:
 
 
 class TestFabC(TestComponent):
-    name: str = TECH.name
+    fab_name: str = TECH.name
 
 
 if __name__ == "__main__":

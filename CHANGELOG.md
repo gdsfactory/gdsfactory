@@ -39,6 +39,8 @@ from pydantic import validate_arguments
 - add ComponentFactory dataclasses
 - fixed pp.routing.routing _gradual_bend
 - added TestClass for Component
+- fixed get_bundle for indirect routing
+- get_netlist returns cleaned names for components (-3.2 -> m3p2)
 
 ## 2.4.9
 

@@ -13,6 +13,7 @@ from pp.components.taper import taper as taper_function
 from pp.config import TECH
 from pp.cross_section import get_waveguide_settings
 from pp.port import Port
+from pp.routing.corner_bundle import corner_bundle
 from pp.routing.get_route import (
     get_route,
     get_route_from_waypoints,
@@ -36,9 +37,9 @@ def get_bundle(
     extension_length: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    waveguide: str = "strip",
     end_straight_offset: float = 0.0,
     start_straight: float = 0.01,
+    waveguide: str = "strip",
     **waveguide_settings,
 ) -> List[Route]:
     """Connects bundle of ports using river routing.
@@ -129,6 +130,7 @@ def get_bundle(
             and end_angle == 90
             and y_start > y_end
         ):
+            # print('link_ports')
             return link_ports(**params, **waveguide_settings)
 
         elif start_angle == end_angle:
@@ -143,7 +145,15 @@ def get_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
-        return link_ports(**params, **waveguide_settings)
+        # print('corner_bundle')
+        # return link_ports(**params, **waveguide_settings)
+        return corner_bundle(
+            ports1=ports1,
+            ports2=ports2,
+            separation=separation,
+            waveguide=waveguide,
+            **waveguide_settings,
+        )
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -241,6 +251,7 @@ def link_ports(
         waveguide=waveguide,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
+        sort_ports=sort_ports,
         **waveguide_settings,
     )
     return [

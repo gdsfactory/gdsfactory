@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_d7d71f27_-0.005_17.685,N0: straight_L10n_10.0_10.705,W0
-  coupler_ring_d7d71f27_-0.005_17.685,N1: straight_L10n_-10.01_10.705,W0
-  coupler_ring_d7d71f27_-0.005_3.725,N0: straight_L10n_-10.01_10.705,E0
-  coupler_ring_d7d71f27_-0.005_3.725,N1: straight_L10n_10.0_10.705,E0
+  coupler_ring_d7d71f27_m0p005_17p685,N0: straight_L10n_10p0_10p705,W0
+  coupler_ring_d7d71f27_m0p005_17p685,N1: straight_L10n_m10p01_10p705,W0
+  coupler_ring_d7d71f27_m0p005_3p725,N0: straight_L10n_m10p01_10p705,E0
+  coupler_ring_d7d71f27_m0p005_3p725,N1: straight_L10n_10p0_10p705,E0
 instances:
-  coupler_ring_d7d71f27_-0.005_17.685:
+  coupler_ring_d7d71f27_m0p005_17p685:
     component: coupler_ring
     settings:
       bend: null
@@ -12,7 +12,7 @@ instances:
       length_x: 0.01
       radius: 10
       waveguide: strip
-  coupler_ring_d7d71f27_-0.005_3.725:
+  coupler_ring_d7d71f27_m0p005_3p725:
     component: coupler_ring
     settings:
       bend: null
@@ -20,14 +20,14 @@ instances:
       length_x: 0.01
       radius: 10
       waveguide: strip
-  straight_L10n_-10.01_10.705:
+  straight_L10n_10p0_10p705:
     component: straight
     settings:
       length: 0.01
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L10n_10.0_10.705:
+  straight_L10n_m10p01_10p705:
     component: straight
     settings:
       length: 0.01
@@ -36,28 +36,28 @@ instances:
       with_cladding_box: true
 name: ring_double
 placements:
-  coupler_ring_d7d71f27_-0.005_17.685:
+  coupler_ring_d7d71f27_m0p005_17p685:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_d7d71f27_-0.005_3.725:
+  coupler_ring_d7d71f27_m0p005_3p725:
     mirror: false
     rotation: 0
     x: 0.0
     y: -0.0
-  straight_L10n_-10.01_10.705:
-    mirror: false
-    rotation: 270
-    x: -10.01
-    y: 10.71
-  straight_L10n_10.0_10.705:
+  straight_L10n_10p0_10p705:
     mirror: false
     rotation: 270
     x: 10.0
     y: 10.71
+  straight_L10n_m10p01_10p705:
+    mirror: false
+    rotation: 270
+    x: -10.01
+    y: 10.71
 ports:
-  E0: coupler_ring_d7d71f27_-0.005_3.725,E0
-  E1: coupler_ring_d7d71f27_-0.005_17.685,W0
-  W0: coupler_ring_d7d71f27_-0.005_3.725,W0
-  W1: coupler_ring_d7d71f27_-0.005_17.685,E0
+  E0: coupler_ring_d7d71f27_m0p005_3p725,E0
+  E1: coupler_ring_d7d71f27_m0p005_17p685,W0
+  W0: coupler_ring_d7d71f27_m0p005_3p725,W0
+  W1: coupler_ring_d7d71f27_m0p005_17p685,E0

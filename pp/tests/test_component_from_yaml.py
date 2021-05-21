@@ -218,7 +218,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 1203.993]
+    lengths = [693.598, 693.598, 1203.973]
     print(c.routes["tl,E:tr,W"])
     print(c.routes["bl,E:br,W"])
     print(c.routes["bl,S:br,E"])
@@ -606,14 +606,14 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = test_netlists("sample_different_link_factory", True, None, check=False)
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
     # c = test_connections_2x2()
-    # c = test_connections_different_factory()
+    c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
     # c = test_connections_waypoints()

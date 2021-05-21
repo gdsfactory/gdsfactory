@@ -1,50 +1,50 @@
 connections:
-  bend_euler_f79f8bba_126.625_203.375,N0: taper_686939f7_130.0_215.0,1
-  bend_euler_f79f8bba_126.625_203.375,W0: straight_fcce95dd_85.0_200.0,E0
-  bend_euler_f79f8bba_133.375_554.625,N0: taper_686939f7_145.0_558.0,1
-  bend_euler_f79f8bba_133.375_554.625,W0: taper_686939f7_130.0_543.0,1
-  bend_euler_f79f8bba_133.375_582.375,N0: straight_30502b41_130.0_589.5,W0
-  bend_euler_f79f8bba_133.375_582.375,W0: taper_686939f7_145.0_579.0,1
-  bend_euler_f79f8bba_133.375_596.625,N0: taper_686939f7_145.0_600.0,1
-  bend_euler_f79f8bba_133.375_596.625,W0: straight_30502b41_130.0_589.5,E0
-  bend_euler_f79f8bba_256.625_3.375,N0: taper_686939f7_260.0_15.0,1
-  bend_euler_f79f8bba_256.625_3.375,W0: straight_cad54e66_150.0_0.0,E0
-  bend_euler_f79f8bba_263.375_354.625,N0: taper_686939f7_275.0_358.0,1
-  bend_euler_f79f8bba_263.375_354.625,W0: taper_686939f7_260.0_343.0,1
-  bend_euler_f79f8bba_263.375_382.375,N0: straight_30502b41_260.0_389.5,W0
-  bend_euler_f79f8bba_263.375_382.375,W0: taper_686939f7_275.0_379.0,1
-  bend_euler_f79f8bba_263.375_396.625,N0: taper_686939f7_275.0_400.0,1
-  bend_euler_f79f8bba_263.375_396.625,W0: straight_30502b41_260.0_389.5,E0
-  bend_euler_f79f8bba_397.625_561.375,N0: straight_30502b41_401.0_568.5,W0
-  bend_euler_f79f8bba_397.625_561.375,W0: taper_686939f7_386.0_558.0,1
-  bend_euler_f79f8bba_397.625_575.625,N0: taper_686939f7_386.0_579.0,1
-  bend_euler_f79f8bba_397.625_575.625,W0: straight_30502b41_401.0_568.5,E0
-  bend_euler_f79f8bba_527.625_361.375,N0: straight_30502b41_531.0_368.5,W0
-  bend_euler_f79f8bba_527.625_361.375,W0: taper_686939f7_516.0_358.0,1
-  bend_euler_f79f8bba_527.625_375.625,N0: taper_686939f7_516.0_379.0,1
-  bend_euler_f79f8bba_527.625_375.625,W0: straight_30502b41_531.0_368.5,E0
-  bl,E: straight_cad54e66_150.0_0.0,W0
-  br,W: taper_686939f7_845.0_400.0,1
-  straight_27eca294_265.5_558.0,E0: taper_686939f7_386.0_558.0,2
-  straight_27eca294_265.5_558.0,W0: taper_686939f7_145.0_558.0,2
-  straight_27eca294_265.5_579.0,E0: taper_686939f7_145.0_579.0,2
-  straight_27eca294_265.5_579.0,W0: taper_686939f7_386.0_579.0,2
-  straight_27eca294_395.5_358.0,E0: taper_686939f7_516.0_358.0,2
-  straight_27eca294_395.5_358.0,W0: taper_686939f7_275.0_358.0,2
-  straight_27eca294_395.5_379.0,E0: taper_686939f7_275.0_379.0,2
-  straight_27eca294_395.5_379.0,W0: taper_686939f7_516.0_379.0,2
-  straight_40811a31_560.0_400.0,E0: taper_686939f7_845.0_400.0,2
-  straight_40811a31_560.0_400.0,W0: taper_686939f7_275.0_400.0,2
-  straight_94b1437f_495.0_600.0,E0: taper_686939f7_845.0_600.0,2
-  straight_94b1437f_495.0_600.0,W0: taper_686939f7_145.0_600.0,2
-  straight_d5fecb93_130.0_379.0,E0: taper_686939f7_130.0_543.0,2
-  straight_d5fecb93_130.0_379.0,W0: taper_686939f7_130.0_215.0,2
-  straight_d5fecb93_260.0_179.0,E0: taper_686939f7_260.0_343.0,2
-  straight_d5fecb93_260.0_179.0,W0: taper_686939f7_260.0_15.0,2
-  straight_fcce95dd_85.0_200.0,W0: tl,E
-  taper_686939f7_845.0_600.0,1: tr,W
+  bend_euler_f79f8bba_126p625_203p375,N0: taper_686939f7_130p0_215p0,1
+  bend_euler_f79f8bba_126p625_203p375,W0: straight_fcce95dd_85p0_200p0,E0
+  bend_euler_f79f8bba_133p375_554p625,N0: taper_686939f7_145p0_558p0,1
+  bend_euler_f79f8bba_133p375_554p625,W0: taper_686939f7_130p0_543p0,1
+  bend_euler_f79f8bba_133p375_582p375,N0: straight_30502b41_130p0_589p5,W0
+  bend_euler_f79f8bba_133p375_582p375,W0: taper_686939f7_145p0_579p0,1
+  bend_euler_f79f8bba_133p375_596p625,N0: taper_686939f7_145p0_600p0,1
+  bend_euler_f79f8bba_133p375_596p625,W0: straight_30502b41_130p0_589p5,E0
+  bend_euler_f79f8bba_256p625_3p375,N0: taper_686939f7_260p0_15p0,1
+  bend_euler_f79f8bba_256p625_3p375,W0: straight_cad54e66_150p0_0p0,E0
+  bend_euler_f79f8bba_263p375_354p625,N0: taper_686939f7_275p0_358p0,1
+  bend_euler_f79f8bba_263p375_354p625,W0: taper_686939f7_260p0_343p0,1
+  bend_euler_f79f8bba_263p375_382p375,N0: straight_30502b41_260p0_389p5,W0
+  bend_euler_f79f8bba_263p375_382p375,W0: taper_686939f7_275p0_379p0,1
+  bend_euler_f79f8bba_263p375_396p625,N0: taper_686939f7_275p0_400p0,1
+  bend_euler_f79f8bba_263p375_396p625,W0: straight_30502b41_260p0_389p5,E0
+  bend_euler_f79f8bba_397p625_561p375,N0: straight_30502b41_401p0_568p5,W0
+  bend_euler_f79f8bba_397p625_561p375,W0: taper_686939f7_386p0_558p0,1
+  bend_euler_f79f8bba_397p625_575p625,N0: taper_686939f7_386p0_579p0,1
+  bend_euler_f79f8bba_397p625_575p625,W0: straight_30502b41_401p0_568p5,E0
+  bend_euler_f79f8bba_527p625_361p375,N0: straight_30502b41_531p0_368p5,W0
+  bend_euler_f79f8bba_527p625_361p375,W0: taper_686939f7_516p0_358p0,1
+  bend_euler_f79f8bba_527p625_375p625,N0: taper_686939f7_516p0_379p0,1
+  bend_euler_f79f8bba_527p625_375p625,W0: straight_30502b41_531p0_368p5,E0
+  bl,E: straight_cad54e66_150p0_0p0,W0
+  br,W: taper_686939f7_845p0_400p0,1
+  straight_27eca294_265p5_558p0,E0: taper_686939f7_386p0_558p0,2
+  straight_27eca294_265p5_558p0,W0: taper_686939f7_145p0_558p0,2
+  straight_27eca294_265p5_579p0,E0: taper_686939f7_145p0_579p0,2
+  straight_27eca294_265p5_579p0,W0: taper_686939f7_386p0_579p0,2
+  straight_27eca294_395p5_358p0,E0: taper_686939f7_516p0_358p0,2
+  straight_27eca294_395p5_358p0,W0: taper_686939f7_275p0_358p0,2
+  straight_27eca294_395p5_379p0,E0: taper_686939f7_275p0_379p0,2
+  straight_27eca294_395p5_379p0,W0: taper_686939f7_516p0_379p0,2
+  straight_40811a31_560p0_400p0,E0: taper_686939f7_845p0_400p0,2
+  straight_40811a31_560p0_400p0,W0: taper_686939f7_275p0_400p0,2
+  straight_94b1437f_495p0_600p0,E0: taper_686939f7_845p0_600p0,2
+  straight_94b1437f_495p0_600p0,W0: taper_686939f7_145p0_600p0,2
+  straight_d5fecb93_130p0_379p0,E0: taper_686939f7_130p0_543p0,2
+  straight_d5fecb93_130p0_379p0,W0: taper_686939f7_130p0_215p0,2
+  straight_d5fecb93_260p0_179p0,E0: taper_686939f7_260p0_343p0,2
+  straight_d5fecb93_260p0_179p0,W0: taper_686939f7_260p0_15p0,2
+  straight_fcce95dd_85p0_200p0,W0: tl,E
+  taper_686939f7_845p0_600p0,1: tr,W
 instances:
-  bend_euler_f79f8bba_126.625_203.375:
+  bend_euler_f79f8bba_126p625_203p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -65,7 +65,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_133.375_554.625:
+  bend_euler_f79f8bba_133p375_554p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -86,7 +86,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_133.375_582.375:
+  bend_euler_f79f8bba_133p375_582p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -107,7 +107,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_133.375_596.625:
+  bend_euler_f79f8bba_133p375_596p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -128,7 +128,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_256.625_3.375:
+  bend_euler_f79f8bba_256p625_3p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -149,7 +149,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_263.375_354.625:
+  bend_euler_f79f8bba_263p375_354p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -170,7 +170,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_263.375_382.375:
+  bend_euler_f79f8bba_263p375_382p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -191,7 +191,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_263.375_396.625:
+  bend_euler_f79f8bba_263p375_396p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -212,7 +212,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_397.625_561.375:
+  bend_euler_f79f8bba_397p625_561p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -233,7 +233,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_397.625_575.625:
+  bend_euler_f79f8bba_397p625_575p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -254,7 +254,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_527.625_361.375:
+  bend_euler_f79f8bba_527p625_361p375:
     component: bend_euler
     settings:
       auto_widen: true
@@ -275,7 +275,7 @@ instances:
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_f79f8bba_527.625_375.625:
+  bend_euler_f79f8bba_527p625_375p625:
     component: bend_euler
     settings:
       auto_widen: true
@@ -302,7 +302,7 @@ instances:
   br:
     component: pad
     settings: {}
-  straight_27eca294_265.5_558.0:
+  straight_27eca294_265p5_558p0:
     component: straight
     settings:
       auto_widen: true
@@ -323,7 +323,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_27eca294_265.5_579.0:
+  straight_27eca294_265p5_579p0:
     component: straight
     settings:
       auto_widen: true
@@ -344,7 +344,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_27eca294_395.5_358.0:
+  straight_27eca294_395p5_358p0:
     component: straight
     settings:
       auto_widen: true
@@ -365,7 +365,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_27eca294_395.5_379.0:
+  straight_27eca294_395p5_379p0:
     component: straight
     settings:
       auto_widen: true
@@ -386,7 +386,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_30502b41_130.0_589.5:
+  straight_30502b41_130p0_589p5:
     component: straight
     settings:
       auto_widen: true
@@ -407,7 +407,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_30502b41_260.0_389.5:
+  straight_30502b41_260p0_389p5:
     component: straight
     settings:
       auto_widen: true
@@ -428,7 +428,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_30502b41_401.0_568.5:
+  straight_30502b41_401p0_568p5:
     component: straight
     settings:
       auto_widen: true
@@ -449,7 +449,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_30502b41_531.0_368.5:
+  straight_30502b41_531p0_368p5:
     component: straight
     settings:
       auto_widen: true
@@ -470,7 +470,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_40811a31_560.0_400.0:
+  straight_40811a31_560p0_400p0:
     component: straight
     settings:
       auto_widen: true
@@ -491,7 +491,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_94b1437f_495.0_600.0:
+  straight_94b1437f_495p0_600p0:
     component: straight
     settings:
       auto_widen: true
@@ -512,7 +512,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_cad54e66_150.0_0.0:
+  straight_cad54e66_150p0_0p0:
     component: straight
     settings:
       auto_widen: true
@@ -533,7 +533,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  straight_d5fecb93_130.0_379.0:
+  straight_d5fecb93_130p0_379p0:
     component: straight
     settings:
       auto_widen: true
@@ -554,7 +554,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_d5fecb93_260.0_179.0:
+  straight_d5fecb93_260p0_179p0:
     component: straight
     settings:
       auto_widen: true
@@ -575,7 +575,7 @@ instances:
       taper_length: 10
       width: 2
       width_wide: 2
-  straight_fcce95dd_85.0_200.0:
+  straight_fcce95dd_85p0_200p0:
     component: straight
     settings:
       auto_widen: true
@@ -596,7 +596,7 @@ instances:
       taper_length: 10
       width: 0.5
       width_wide: 2
-  taper_686939f7_130.0_215.0:
+  taper_686939f7_130p0_215p0:
     component: taper
     settings:
       auto_widen: true
@@ -619,7 +619,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_130.0_543.0:
+  taper_686939f7_130p0_543p0:
     component: taper
     settings:
       auto_widen: true
@@ -642,7 +642,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_145.0_558.0:
+  taper_686939f7_145p0_558p0:
     component: taper
     settings:
       auto_widen: true
@@ -665,7 +665,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_145.0_579.0:
+  taper_686939f7_145p0_579p0:
     component: taper
     settings:
       auto_widen: true
@@ -688,7 +688,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_145.0_600.0:
+  taper_686939f7_145p0_600p0:
     component: taper
     settings:
       auto_widen: true
@@ -711,7 +711,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_260.0_15.0:
+  taper_686939f7_260p0_15p0:
     component: taper
     settings:
       auto_widen: true
@@ -734,7 +734,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_260.0_343.0:
+  taper_686939f7_260p0_343p0:
     component: taper
     settings:
       auto_widen: true
@@ -757,7 +757,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_275.0_358.0:
+  taper_686939f7_275p0_358p0:
     component: taper
     settings:
       auto_widen: true
@@ -780,7 +780,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_275.0_379.0:
+  taper_686939f7_275p0_379p0:
     component: taper
     settings:
       auto_widen: true
@@ -803,7 +803,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_275.0_400.0:
+  taper_686939f7_275p0_400p0:
     component: taper
     settings:
       auto_widen: true
@@ -826,7 +826,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_386.0_558.0:
+  taper_686939f7_386p0_558p0:
     component: taper
     settings:
       auto_widen: true
@@ -849,7 +849,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_386.0_579.0:
+  taper_686939f7_386p0_579p0:
     component: taper
     settings:
       auto_widen: true
@@ -872,7 +872,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_516.0_358.0:
+  taper_686939f7_516p0_358p0:
     component: taper
     settings:
       auto_widen: true
@@ -895,7 +895,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_516.0_379.0:
+  taper_686939f7_516p0_379p0:
     component: taper
     settings:
       auto_widen: true
@@ -918,7 +918,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_845.0_400.0:
+  taper_686939f7_845p0_400p0:
     component: taper
     settings:
       auto_widen: true
@@ -941,7 +941,7 @@ instances:
       width1: 0.5
       width2: 2
       width_wide: 2
-  taper_686939f7_845.0_600.0:
+  taper_686939f7_845p0_600p0:
     component: taper
     settings:
       auto_widen: true
@@ -972,62 +972,62 @@ instances:
     settings: {}
 name: sample_different_link_factory
 placements:
-  bend_euler_f79f8bba_126.625_203.375:
+  bend_euler_f79f8bba_126p625_203p375:
     mirror: false
     rotation: 0
     x: 120.0
     y: 200.0
-  bend_euler_f79f8bba_133.375_554.625:
+  bend_euler_f79f8bba_133p375_554p625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 548.0
-  bend_euler_f79f8bba_133.375_582.375:
+  bend_euler_f79f8bba_133p375_582p375:
     mirror: true
     rotation: 180
     x: 140.0
     y: 579.0
-  bend_euler_f79f8bba_133.375_596.625:
+  bend_euler_f79f8bba_133p375_596p625:
     mirror: true
     rotation: 90
     x: 130.0
     y: 590.0
-  bend_euler_f79f8bba_256.625_3.375:
+  bend_euler_f79f8bba_256p625_3p375:
     mirror: false
     rotation: 0
     x: 250.0
     y: 0.0
-  bend_euler_f79f8bba_263.375_354.625:
+  bend_euler_f79f8bba_263p375_354p625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 348.0
-  bend_euler_f79f8bba_263.375_382.375:
+  bend_euler_f79f8bba_263p375_382p375:
     mirror: true
     rotation: 180
     x: 270.0
     y: 379.0
-  bend_euler_f79f8bba_263.375_396.625:
+  bend_euler_f79f8bba_263p375_396p625:
     mirror: true
     rotation: 90
     x: 260.0
     y: 390.0
-  bend_euler_f79f8bba_397.625_561.375:
+  bend_euler_f79f8bba_397p625_561p375:
     mirror: false
     rotation: 0
     x: 391.0
     y: 558.0
-  bend_euler_f79f8bba_397.625_575.625:
+  bend_euler_f79f8bba_397p625_575p625:
     mirror: false
     rotation: 90
     x: 401.0
     y: 569.0
-  bend_euler_f79f8bba_527.625_361.375:
+  bend_euler_f79f8bba_527p625_361p375:
     mirror: false
     rotation: 0
     x: 521.0
     y: 358.0
-  bend_euler_f79f8bba_527.625_375.625:
+  bend_euler_f79f8bba_527p625_375p625:
     mirror: false
     rotation: 90
     x: 531.0
@@ -1042,152 +1042,152 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
-  straight_27eca294_265.5_558.0:
+  straight_27eca294_265p5_558p0:
     mirror: false
     rotation: 0
     x: 150.0
     y: 558.0
-  straight_27eca294_265.5_579.0:
+  straight_27eca294_265p5_579p0:
     mirror: false
     rotation: 180
     x: 381.0
     y: 579.0
-  straight_27eca294_395.5_358.0:
+  straight_27eca294_395p5_358p0:
     mirror: false
     rotation: 0
     x: 280.0
     y: 358.0
-  straight_27eca294_395.5_379.0:
+  straight_27eca294_395p5_379p0:
     mirror: false
     rotation: 180
     x: 511.0
     y: 379.0
-  straight_30502b41_130.0_589.5:
+  straight_30502b41_130p0_589p5:
     mirror: false
     rotation: 90
     x: 130.0
     y: 589.0
-  straight_30502b41_260.0_389.5:
+  straight_30502b41_260p0_389p5:
     mirror: false
     rotation: 90
     x: 260.0
     y: 389.0
-  straight_30502b41_401.0_568.5:
+  straight_30502b41_401p0_568p5:
     mirror: false
     rotation: 90
     x: 401.0
     y: 568.0
-  straight_30502b41_531.0_368.5:
+  straight_30502b41_531p0_368p5:
     mirror: false
     rotation: 90
     x: 531.0
     y: 368.0
-  straight_40811a31_560.0_400.0:
+  straight_40811a31_560p0_400p0:
     mirror: false
     rotation: 0
     x: 280.0
     y: 400.0
-  straight_94b1437f_495.0_600.0:
+  straight_94b1437f_495p0_600p0:
     mirror: false
     rotation: 0
     x: 150.0
     y: 600.0
-  straight_cad54e66_150.0_0.0:
+  straight_cad54e66_150p0_0p0:
     mirror: false
     rotation: 0
     x: 50.0
     y: 0.0
-  straight_d5fecb93_130.0_379.0:
+  straight_d5fecb93_130p0_379p0:
     mirror: false
     rotation: 90
     x: 130.0
     y: 220.0
-  straight_d5fecb93_260.0_179.0:
+  straight_d5fecb93_260p0_179p0:
     mirror: false
     rotation: 90
     x: 260.0
     y: 20.0
-  straight_fcce95dd_85.0_200.0:
+  straight_fcce95dd_85p0_200p0:
     mirror: false
     rotation: 0
     x: 50.0
     y: 200.0
-  taper_686939f7_130.0_215.0:
+  taper_686939f7_130p0_215p0:
     mirror: false
     rotation: 90
     x: 130.0
     y: 210.0
-  taper_686939f7_130.0_543.0:
+  taper_686939f7_130p0_543p0:
     mirror: false
     rotation: 270
     x: 130.0
     y: 548.0
-  taper_686939f7_145.0_558.0:
+  taper_686939f7_145p0_558p0:
     mirror: false
     rotation: 0
     x: 140.0
     y: 558.0
-  taper_686939f7_145.0_579.0:
+  taper_686939f7_145p0_579p0:
     mirror: false
     rotation: 0
     x: 140.0
     y: 579.0
-  taper_686939f7_145.0_600.0:
+  taper_686939f7_145p0_600p0:
     mirror: false
     rotation: 0
     x: 140.0
     y: 600.0
-  taper_686939f7_260.0_15.0:
+  taper_686939f7_260p0_15p0:
     mirror: false
     rotation: 90
     x: 260.0
     y: 10.0
-  taper_686939f7_260.0_343.0:
+  taper_686939f7_260p0_343p0:
     mirror: false
     rotation: 270
     x: 260.0
     y: 348.0
-  taper_686939f7_275.0_358.0:
+  taper_686939f7_275p0_358p0:
     mirror: false
     rotation: 0
     x: 270.0
     y: 358.0
-  taper_686939f7_275.0_379.0:
+  taper_686939f7_275p0_379p0:
     mirror: false
     rotation: 0
     x: 270.0
     y: 379.0
-  taper_686939f7_275.0_400.0:
+  taper_686939f7_275p0_400p0:
     mirror: false
     rotation: 0
     x: 270.0
     y: 400.0
-  taper_686939f7_386.0_558.0:
+  taper_686939f7_386p0_558p0:
     mirror: false
     rotation: 180
     x: 391.0
     y: 558.0
-  taper_686939f7_386.0_579.0:
+  taper_686939f7_386p0_579p0:
     mirror: false
     rotation: 180
     x: 391.0
     y: 579.0
-  taper_686939f7_516.0_358.0:
+  taper_686939f7_516p0_358p0:
     mirror: false
     rotation: 180
     x: 521.0
     y: 358.0
-  taper_686939f7_516.0_379.0:
+  taper_686939f7_516p0_379p0:
     mirror: false
     rotation: 180
     x: 521.0
     y: 379.0
-  taper_686939f7_845.0_400.0:
+  taper_686939f7_845p0_400p0:
     mirror: false
     rotation: 180
     x: 850.0
     y: 400.0
-  taper_686939f7_845.0_600.0:
+  taper_686939f7_845p0_600p0:
     mirror: false
     rotation: 180
     x: 850.0

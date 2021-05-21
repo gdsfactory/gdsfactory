@@ -33,12 +33,13 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
     return c
 
 
+@pytest.mark.parametrize("config", ["A", "C"])
 def test_connect_corner(
-    data_regression: DataRegressionFixture, check: bool = True, N=6, config: str = "A"
+    config: str, data_regression: DataRegressionFixture, check: bool = True, N=6
 ) -> Component:
     d = 10.0
     sep = 5.0
-    c = Component(name="test_connect_corner")
+    c = Component(name=f"test_connect_corner_{config}")
 
     if config in ["A", "B"]:
         a = 100.0
