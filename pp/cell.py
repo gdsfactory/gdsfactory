@@ -132,6 +132,11 @@ def cell(
 
             if container or (container is None and "component" in kwargs):
                 component_original = kwargs.pop("component")
+                component_original = (
+                    component_original()
+                    if callable(component_original)
+                    else component_original
+                )
                 component.settings["component"] = component_original.get_settings()
 
             if not isinstance(component, Component):
