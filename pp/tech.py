@@ -278,7 +278,7 @@ def make_empty_dict():
 
 
 @dataclasses.dataclass
-class ComponentFactory:
+class Factory:
     """Stores component factories
 
     Args:
@@ -349,22 +349,6 @@ class Tech:
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
     component_settings: ComponentSettings = ComponentSettings()
 
-    # component_factory: ComponentFactory = ComponentFactory()
-    # def register_component(self, component) -> None:
-    #     setattr(self.component, component.name, component)
-
-    # def register_component_factory(
-    #     self, component_factory: Union[Iterable[Callable], Callable]
-    # ) -> None:
-    #     if hasattr(component_factory, "__iter__"):
-    #         for i in component_factory:
-    #             self.register_component_factory(i)
-    #     else:
-    #         self.component.component_factory[
-    #             component_factory.__name__
-    #         ] = component_factory
-    #         # setattr(self.component, component_factory.__name__, component_factory)
-
 
 TECH = Tech()
 
@@ -385,7 +369,7 @@ if __name__ == "__main__":
     # c = t.component.mmi1x2_longer(length_mmi=30)
     # c.show()
 
-    cf = ComponentFactory()
+    cf = Factory()
     cf.register(mmi1x2_longer)
     # cf.register(mmi1x2_longer())
     c = cf.get_component("mmi1x2_longer", length_mmi=30)

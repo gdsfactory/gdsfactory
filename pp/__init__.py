@@ -40,6 +40,7 @@ from pp.cross_section import cross_section
 from pp.show import show
 from pp.write_doe import write_doe
 
+import pp.assert_version as assert_version
 import pp.components as components
 import pp.routing as routing
 import pp.bias as bias
@@ -70,6 +71,7 @@ c = components
 
 __all__ = [
     "assert_grating_coupler_properties",
+    "assert_version",
     "CONFIG",
     "LAYER",
     "Component",

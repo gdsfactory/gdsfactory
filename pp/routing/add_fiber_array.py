@@ -81,6 +81,7 @@ def add_fiber_array(
         cc.plot()
 
     """
+    component = pp.call_if_func(component)
     c = component
     if not c.ports:
         return c
@@ -90,6 +91,9 @@ def add_fiber_array(
     else:
         gc = grating_coupler
     gc = pp.call_if_func(gc)
+
+    if gc_port_name not in gc.ports:
+        raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
 
     component_name = component_name or c.name
     cc = Component()
@@ -183,7 +187,7 @@ if __name__ == "__main__":
 
     c.y = 0
     cc = add_fiber_array(
-        component=c,
+        # component=c,
         # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
         # optical_routing_type=2,
