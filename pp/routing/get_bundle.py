@@ -52,7 +52,10 @@ def get_bundle(
         separation: straight separation
         extension_length: adds straight extension
         bend_factory:
-        waveguide
+        sort_ports:
+        end_straight_offset:
+        start_straight:
+        waveguide:
         waveguide_settings: waveguide_settings
 
     """
@@ -184,8 +187,8 @@ def link_ports(
     start_straight: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     route_filter: Callable = get_route_from_waypoints,
-    waveguide: str = "strip",
     sort_ports: bool = True,
+    waveguide: str = "strip",
     **waveguide_settings,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -202,6 +205,7 @@ def link_ports(
         end_straight_offset: offset to add at the end of each straight
         sort_ports: * True -> sort the ports according to the axis.
                     * False -> no sort applied
+        waveguide: cross_section
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -286,7 +290,7 @@ def link_ports_routes(
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
-        waveguide
+        waveguide: waveguide cross_section
         waveguide_settings: waveguide_settings
     """
 
@@ -486,8 +490,11 @@ def get_bundle_path_length_match(
         nb_loops: number of extra loops added in the path
         modify_segment_i: index of the segment that accomodates the new turns
             default is next to last segment
-        route_filter: get_route_from_waypoints
         bend_factory: for bends
+        straight_factory: for straights
+        taper_factory:
+        start_straight:
+        route_filter: get_route_from_waypoints
         waveguide
         waveguide_settings: waveguide_settings
 
@@ -520,7 +527,7 @@ def get_bundle_path_length_match(
           ports1, ports2, extra_length=44
       )
       for route in routes:
-          c.add(route['references'])
+          c.add(route.references)
       c.plot()
 
     """

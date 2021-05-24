@@ -1,24 +1,24 @@
 connections:
-  bend_euler_19.375_-4.0,N0: mmi1x2_0.0_0.0,E0
-  bend_euler_19.375_-4.0,W0: straight_L100n_22.75_-10.675,W0
-  bend_euler_19.375_4.0,N0: straight_L100n_22.75_10.675,W0
-  bend_euler_19.375_4.0,W0: mmi1x2_0.0_0.0,E1
-  bend_euler_26.125_-22.35,N0: straight_L100n_32.8_-25.725,W0
-  bend_euler_26.125_-22.35,W0: straight_L5_22.75_-13.225,E0
-  bend_euler_26.125_17.35,N0: straight_L100n_22.75_10.675,E0
-  bend_euler_26.125_17.35,W0: straight_L100n_32.8_20.725,W0
-  bend_euler_39.475_-22.35,N0: straight_L5_42.85_-13.225,W0
-  bend_euler_39.475_-22.35,W0: straight_L100n_32.8_-25.725,E0
-  bend_euler_39.475_17.35,N0: straight_L100n_32.8_20.725,E0
-  bend_euler_39.475_17.35,W0: straight_L100n_42.85_10.675,W0
-  bend_euler_46.225_-4.0,N0: straight_L100n_42.85_-10.675,E0
-  bend_euler_46.225_-4.0,W0: mmi1x2_65.6_-0.0,E1
-  bend_euler_46.225_4.0,N0: mmi1x2_65.6_-0.0,E0
-  bend_euler_46.225_4.0,W0: straight_L100n_42.85_10.675,E0
-  straight_L100n_22.75_-10.675,E0: straight_L5_22.75_-13.225,W0
-  straight_L100n_42.85_-10.675,W0: straight_L5_42.85_-13.225,E0
+  bend_euler_19p375_4p0,N0: straight_L100n_22p75_10p675,W0
+  bend_euler_19p375_4p0,W0: mmi1x2_0p0_0p0,E1
+  bend_euler_19p375_m4p0,N0: mmi1x2_0p0_0p0,E0
+  bend_euler_19p375_m4p0,W0: straight_L100n_22p75_m10p675,W0
+  bend_euler_26p125_17p35,N0: straight_L100n_22p75_10p675,E0
+  bend_euler_26p125_17p35,W0: straight_L100n_32p8_20p725,W0
+  bend_euler_26p125_m22p35,N0: straight_L100n_32p8_m25p725,W0
+  bend_euler_26p125_m22p35,W0: straight_L5_22p75_m13p225,E0
+  bend_euler_39p475_17p35,N0: straight_L100n_32p8_20p725,E0
+  bend_euler_39p475_17p35,W0: straight_L100n_42p85_10p675,W0
+  bend_euler_39p475_m22p35,N0: straight_L5_42p85_m13p225,W0
+  bend_euler_39p475_m22p35,W0: straight_L100n_32p8_m25p725,E0
+  bend_euler_46p225_4p0,N0: mmi1x2_65p6_m0p0,E0
+  bend_euler_46p225_4p0,W0: straight_L100n_42p85_10p675,E0
+  bend_euler_46p225_m4p0,N0: straight_L100n_42p85_m10p675,E0
+  bend_euler_46p225_m4p0,W0: mmi1x2_65p6_m0p0,E1
+  straight_L100n_22p75_m10p675,E0: straight_L5_22p75_m13p225,W0
+  straight_L100n_42p85_m10p675,W0: straight_L5_42p85_m13p225,E0
 instances:
-  bend_euler_19.375_-4.0:
+  bend_euler_19p375_4p0:
     component: bend_euler
     settings:
       angle: 90
@@ -28,7 +28,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_19.375_4.0:
+  bend_euler_19p375_m4p0:
     component: bend_euler
     settings:
       angle: 90
@@ -38,7 +38,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_26.125_-22.35:
+  bend_euler_26p125_17p35:
     component: bend_euler
     settings:
       angle: 90
@@ -48,7 +48,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_26.125_17.35:
+  bend_euler_26p125_m22p35:
     component: bend_euler
     settings:
       angle: 90
@@ -58,7 +58,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_39.475_-22.35:
+  bend_euler_39p475_17p35:
     component: bend_euler
     settings:
       angle: 90
@@ -68,7 +68,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_39.475_17.35:
+  bend_euler_39p475_m22p35:
     component: bend_euler
     settings:
       angle: 90
@@ -78,7 +78,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_46.225_-4.0:
+  bend_euler_46p225_4p0:
     component: bend_euler
     settings:
       angle: 90
@@ -88,7 +88,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  bend_euler_46.225_4.0:
+  bend_euler_46p225_m4p0:
     component: bend_euler
     settings:
       angle: 90
@@ -98,7 +98,7 @@ instances:
       direction: ccw
       with_cladding_box: true
       waveguide: strip
-  mmi1x2_0.0_0.0:
+  mmi1x2_0p0_0p0:
     component: mmi1x2
     settings:
       width: 0.5
@@ -109,7 +109,7 @@ instances:
       gap_mmi: 0.25
       with_cladding_box: true
       waveguide: strip
-  mmi1x2_65.6_-0.0:
+  mmi1x2_65p6_m0p0:
     component: mmi1x2
     settings:
       width: 0.5
@@ -120,56 +120,56 @@ instances:
       gap_mmi: 0.25
       with_cladding_box: true
       waveguide: strip
-  straight_L100n_22.75_-10.675:
+  straight_L100n_22p75_10p675:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L100n_22.75_10.675:
+  straight_L100n_22p75_m10p675:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L100n_32.8_-25.725:
+  straight_L100n_32p8_20p725:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L100n_32.8_20.725:
+  straight_L100n_32p8_m25p725:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L100n_42.85_-10.675:
+  straight_L100n_42p85_10p675:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L100n_42.85_10.675:
+  straight_L100n_42p85_m10p675:
     component: straight
     settings:
       length: 0.1
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L5_22.75_-13.225:
+  straight_L5_22p75_m13p225:
     component: straight
     settings:
       length: 5
       npoints: 2
       waveguide: strip
       with_cladding_box: true
-  straight_L5_42.85_-13.225:
+  straight_L5_42p85_m13p225:
     component: straight
     settings:
       length: 5
@@ -177,97 +177,97 @@ instances:
       waveguide: strip
       with_cladding_box: true
 placements:
-  bend_euler_19.375_-4.0:
-    x: 22.75
-    'y': -10.625
-    rotation: 90
-    mirror: false
-  bend_euler_19.375_4.0:
+  bend_euler_19p375_4p0:
     x: 12.75
     'y': 0.625
     rotation: 0
     mirror: false
-  bend_euler_26.125_-22.35:
+  bend_euler_19p375_m4p0:
+    x: 22.75
+    'y': -10.625
+    rotation: 90
+    mirror: false
+  bend_euler_26p125_17p35:
+    x: 32.75
+    'y': 20.725
+    rotation: 180
+    mirror: false
+  bend_euler_26p125_m22p35:
     x: 22.75
     'y': -15.725
     rotation: 270
     mirror: false
-  bend_euler_26.125_17.35:
-    x: 32.75
-    'y': 20.725
-    rotation: 180
+  bend_euler_39p475_17p35:
+    x: 42.85
+    'y': 10.725
+    rotation: 90
     mirror: false
-  bend_euler_39.475_-22.35:
+  bend_euler_39p475_m22p35:
     x: 32.85
     'y': -25.725
     rotation: 0
     mirror: false
-  bend_euler_39.475_17.35:
+  bend_euler_46p225_4p0:
     x: 42.85
-    'y': 10.725
-    rotation: 90
+    'y': 10.625
+    rotation: 270
     mirror: false
-  bend_euler_46.225_-4.0:
+  bend_euler_46p225_m4p0:
     x: 52.85
     'y': -0.625
     rotation: 180
     mirror: false
-  bend_euler_46.225_4.0:
-    x: 42.85
-    'y': 10.625
-    rotation: 270
-    mirror: false
-  mmi1x2_0.0_0.0:
+  mmi1x2_0p0_0p0:
     x: 0.0
     'y': 0.0
     rotation: 0
     mirror: false
-  mmi1x2_65.6_-0.0:
+  mmi1x2_65p6_m0p0:
     x: 65.6
     'y': 0.0
     rotation: 180
     mirror: false
-  straight_L100n_22.75_-10.675:
-    x: 22.75
-    'y': -10.625
-    rotation: 270
-    mirror: false
-  straight_L100n_22.75_10.675:
+  straight_L100n_22p75_10p675:
     x: 22.75
     'y': 10.625
     rotation: 90
     mirror: false
-  straight_L100n_32.8_-25.725:
-    x: 32.75
-    'y': -25.725
-    rotation: 0
+  straight_L100n_22p75_m10p675:
+    x: 22.75
+    'y': -10.625
+    rotation: 270
     mirror: false
-  straight_L100n_32.8_20.725:
+  straight_L100n_32p8_20p725:
     x: 32.75
     'y': 20.725
     rotation: 0
     mirror: false
-  straight_L100n_42.85_-10.675:
-    x: 42.85
-    'y': -10.725
-    rotation: 90
+  straight_L100n_32p8_m25p725:
+    x: 32.75
+    'y': -25.725
+    rotation: 0
     mirror: false
-  straight_L100n_42.85_10.675:
+  straight_L100n_42p85_10p675:
     x: 42.85
     'y': 10.725
     rotation: 270
     mirror: false
-  straight_L5_22.75_-13.225:
+  straight_L100n_42p85_m10p675:
+    x: 42.85
+    'y': -10.725
+    rotation: 90
+    mirror: false
+  straight_L5_22p75_m13p225:
     x: 22.75
     'y': -10.725
     rotation: 270
     mirror: false
-  straight_L5_42.85_-13.225:
+  straight_L5_42p85_m13p225:
     x: 42.85
     'y': -15.725
     rotation: 90
     mirror: false
 ports:
-  W0: mmi1x2_0.0_0.0,W0
-  E0: mmi1x2_65.6_-0.0,W0
+  W0: mmi1x2_0p0_0p0,W0
+  E0: mmi1x2_65p6_m0p0,W0
 name: mzi
