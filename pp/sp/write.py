@@ -244,6 +244,9 @@ def write(
             )
         material = MATERIAL_NAME_TO_LUMERICAL[material]
 
+        if layer not in layer_to_zmin_nm:
+            raise ValueError(f"{layer} not in {list(layer_to_zmin_nm.keys())}")
+
         zmin = layer_to_zmin_nm[layer] * 1e-9
         zmax = zmin + thickness * 1e-9
 
