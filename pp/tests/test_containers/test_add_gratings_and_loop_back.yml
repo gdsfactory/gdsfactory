@@ -1,7 +1,7 @@
 function_name: add_gratings_and_loop_back
 info: {}
 module: pp.add_termination
-name: add_gratings_and_loop_back_ee4c3325
+name: add_gratings_and_loop_ba_ee4c3325
 settings:
   bend_radius_align_ports: 10
   component:
