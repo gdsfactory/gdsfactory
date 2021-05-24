@@ -279,7 +279,7 @@ def straight_with_heater(
     conn1.xmin = wg_heater.xmin
     conn2.xmax = wg_heater.xmax
 
-    for port_name, p in wg_heater.ports.items():
+    for port_name, p in wg_heater.get_ports_dict(port_type="optical").items():
         component.add_port(name=port_name, port=p)
 
     component.add_port(name=1, port=conn1.ports["0"])
@@ -303,6 +303,7 @@ if __name__ == "__main__":
     c = straight_with_heater(length=200.0, port_orientation_input=0)
     # c = straight_heater_connector()
     c.show(show_ports=True)
+    print(c.ports)
 
     # from pp.cell import print_cache
     # print_cache()

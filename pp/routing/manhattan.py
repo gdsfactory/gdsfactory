@@ -644,15 +644,6 @@ def generate_manhattan_waypoints(
 
     pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
 
-    # if hasattr(bend90, "dy"):
-    #     bsy = bsx = bend90.dy
-    # else:
-    # p1 = bend90.ports[pname_west].midpoint
-    # p2 = bend90.ports[pname_north].midpoint
-    # bsx = p2[0] - p1[0]
-    # bsy = p2[1] - p1[1]
-    # bsx = bsy = 0
-
     bsx = bsy = getattr(bend90, "dy", 0)
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
