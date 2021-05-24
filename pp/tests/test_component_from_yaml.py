@@ -231,7 +231,7 @@ def test_connections_different_factory() -> Component:
 
 
 sample_different_link_factory = """
-name: sample_different_link_factory
+name: sample_path_length_matching
 
 instances:
     bl:
@@ -274,7 +274,7 @@ routes:
 def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
-    length = 1722.794
+    length = 1720.794
     print(c.routes["tl,E:tr,W"])
     assert np.isclose(c.routes["tl,E:tr,W"], length)
     assert np.isclose(c.routes["bl,E:br,W"], length)
@@ -613,8 +613,8 @@ if __name__ == "__main__":
     # c = test_connections()
     # c = test_sample()
     # c = test_connections_2x2()
-    c = test_connections_different_factory()
-    # c = test_connections_different_link_factory()
+    # c = test_connections_different_factory()
+    c = test_connections_different_link_factory()
     # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()

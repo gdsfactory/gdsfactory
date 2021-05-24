@@ -502,6 +502,28 @@ class ComponentReference(DeviceReference):
             ).values()
         )
 
+    def get_ports_dict(
+        self,
+        port_type: Optional[str] = None,
+        layer: Optional[Tuple[int, int]] = None,
+        prefix: Optional[str] = None,
+        orientation: Optional[int] = None,
+    ) -> List[Port]:
+        """Returns a list of ports.
+
+        Args:
+            port_type: 'optical', 'vertical_te', 'rf'
+            layer: port GDS layer
+            prefix: for example "E" for east, "W" for west ...
+        """
+        return select_ports(
+            self.ports,
+            port_type=port_type,
+            layer=layer,
+            prefix=prefix,
+            orientation=orientation,
+        )
+
     def get_settings(self, **kwargs) -> Dict[str, Any]:
         """Returns settings from the Comonent."""
         return self.parent.get_settings(**kwargs)
@@ -640,6 +662,7 @@ class Component(Device):
         port_type: Optional[str] = None,
         layer: Optional[Tuple[int, int]] = None,
         prefix: Optional[str] = None,
+        orientation: Optional[float] = None,
     ) -> Dict[str, Port]:
         """Returns a dict of ports.
 
@@ -648,7 +671,13 @@ class Component(Device):
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
         """
-        return select_ports(self.ports, port_type=port_type, layer=layer, prefix=prefix)
+        return select_ports(
+            self.ports,
+            port_type=port_type,
+            layer=layer,
+            prefix=prefix,
+            orientation=orientation,
+        )
 
     def get_ports_list(
         self,
