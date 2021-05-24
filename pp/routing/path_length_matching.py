@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 
 import numpy as np
 from numpy import ndarray
@@ -12,7 +12,6 @@ from pp.types import ComponentFactory
 def path_length_matched_points(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
-    bend_radius: Union[float, int] = 10.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend_factory: ComponentFactory = bend_euler,
@@ -26,7 +25,6 @@ def path_length_matched_points(
 
     Args:
         list_of_waypoints:  [[p1, p2, p3,...], [q1, q2, q3,...], ...] the number of turns have to be identical (usually means same number of points. exception is if there are some flat angles)
-        bend_radius: used to estimate the position of new waypoints to accommodate bends with a given radius
         margin: some extra space to budget for in addition to the bend radius in most cases, the default is fine
         extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches
         modify_segment_i: index of the segment which accomodates the new turns default is next to last segment
@@ -132,7 +130,7 @@ def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
     bend_factory: ComponentFactory = bend_euler,
-    margin: float = 0.5,
+    margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     waveguide: str = "strip",
@@ -145,18 +143,15 @@ def path_length_matched_points_add_waypoints(
             - the number of turns have to be identical
                 (usually means same number of points. exception is if there are
                 some flat angles)
-
-        bend_radius: used to estimate the position of new waypoints to accommodate
-                    bends with a given radius
-
+        modify_segment_i: index of the segment which accomodates the new turns
+            default is next to last segment
+        bend_factory: for bends
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
 
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
 
-        modify_segment_i: index of the segment which accomodates the new turns
-            default is next to last segment
 
         nb_loops: number of extra loops added in the path
 
@@ -169,11 +164,20 @@ def path_length_matched_points_add_waypoints(
     all the corner cases here. If the paths are not well behaved enough,
     the input list_of_waypoints needs to be modified.
 
+    To have flexibility in the path length, we need to add 4 bends
+    One path has to be converted in this way:
+
+                      ----
+                      |  |
+                      |  |  This length is adjusted to make all path with the same length
+                      |  |
+    --------  ===> ---|  |---
+
     """
 
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
-            "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
+            f"list_of_waypoints should be a list, got {type(list_of_waypoints)}"
         )
     list_of_waypoints = [
         remove_flat_angles(waypoints) for waypoints in list_of_waypoints
@@ -189,20 +193,8 @@ def path_length_matched_points_add_waypoints(
     # match with this algorithm
     if min(nb_turns) != max(nb_turns):
         raise ValueError(
-            f"Number of turns in paths have to be identical got \
-        {nb_turns}"
+            f"Number of turns in paths have to be identical got {nb_turns}"
         )
-
-    # To have flexibility in the path length, we need to add 4 bends
-    """
-    One path has to be converted in this way:
-
-                      ----
-                      |  |
-                      |  |  This length is adjusted to make all path with the same length
-                      |  |
-    --------  ===> ---|  |---
-    """
 
     # Get the points for the segment we need to modify
     bend90 = bend_factory(waveguide=waveguide, **waveguide_settings)
@@ -246,7 +238,9 @@ def path_length_matched_points_add_waypoints(
             dx = sx * 2 * a
             dy = sy * (2 * a + dL)
 
+            # First new point to insert
             q0 = p_s1 + (-2 * dx * nb_loops, 0)
+
             # Sequence of displacements to apply
             seq = [(0, dy), (dx, 0), (0, -dy), (dx, 0)] * nb_loops
             seq.pop()  # Remove last point to avoid flat angle with next point
@@ -256,11 +250,6 @@ def path_length_matched_points_add_waypoints(
         for dp in seq:
             qs += [qs[-1] + dp]
 
-        # print()
-        # print(nb_loops)
-        # for q in qs:
-        # print(q)
-        # print()
         inserted_points = np.stack(qs, axis=0)
         waypoints = np.array(waypoints)
 
@@ -275,3 +264,25 @@ def path_length_matched_points_add_waypoints(
         list_new_waypoints += [new_points]
 
     return list_new_waypoints
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.Component()
+    c1 = c << pp.c.straight_array(n_straights=4, spacing=50)
+    c2 = c << pp.c.straight_array(n_straights=4, spacing=20)
+    c1.y = 0
+    c2.y = 0
+    c2.x = 300
+
+    routes = pp.routing.get_bundle_path_length_match(
+        c1.get_ports_list(prefix="E"),
+        c2.get_ports_list(prefix="W"),
+        waveguide="strip",
+        radius=5,
+        # radius=2.5,
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show()
