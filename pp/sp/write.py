@@ -64,7 +64,6 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
-    simulation_settings=dataclasses.asdict(TECH.simulation_settings),
     layer_stack=LAYER_STACK,
     **settings,
 ) -> pd.DataFrame:
@@ -98,7 +97,7 @@ def write(
         suffix `a` for angle and `m` for module
 
     """
-    sim_settings = dict(simulation_settings)
+    sim_settings = dataclasses.asdict(TECH.simulation_settings)
     layer_to_thickness_nm = settings.pop(
         "layer_to_thickness_nm", layer_stack.get_layer_to_thickness_nm()
     )
