@@ -36,12 +36,13 @@ from pydantic import validate_arguments
 - define all TECH in tech.py dataclasses and delete Tech, and Pdk
 - add pydantic validate_arguments decorator
 - add pp.routing.fanout
-- add ComponentFactory dataclasses
+- add Factory dataclass
 - fix pp.routing.routing _gradual_bend
 - add TestClass for Component
 - fix get_bundle for indirect routing
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
 - add pp.assert_version
+- fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) = to keep name < 32 chars
 
 ## 2.4.9
 
