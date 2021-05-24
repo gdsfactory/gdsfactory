@@ -249,11 +249,12 @@ def write(
 
         zmin = layer_to_zmin_nm[layer] * 1e-9
         zmax = zmin + thickness * 1e-9
+        z = (zmax + zmin) / 2
 
         s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
-        s.setnamed(layername, "z min", zmin)
-        s.setnamed(layername, "z max", zmax)
+        s.setnamed(layername, "z", z)
+        s.setnamed(layername, "z span", thickness * 1e-9)
         s.setnamed(layername, "material", material)
 
     for i, port in enumerate(ports.values()):
