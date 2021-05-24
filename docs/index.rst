@@ -8,7 +8,6 @@ Gdsfactory
    README
    notebooks
    component_intro
-   ports
    connect
    routing
    yaml
