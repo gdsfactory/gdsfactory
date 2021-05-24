@@ -90,7 +90,8 @@ class LayerStack:
         return {
             getattr(self, key).layer: getattr(self, key).zmin_nm
             for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).zmin_nm
+            if not key.startswith(IGNORE_PREXIXES)
+            and getattr(self, key).zmin_nm is not None
         }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
