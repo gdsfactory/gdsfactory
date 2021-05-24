@@ -25,20 +25,20 @@ from pp.mask.write_labels import write_labels
 # from pp.write_doe_from_yaml import write_doe_from_yaml
 from pp.write_doe_from_yaml import import_custom_doe_factories
 
-VERSION = "2.4.9"
+VERSION = "2.5.0"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
 
 
 def shorten_command(cmd):
-    """ Shortens a command if possible"""
+    """Shortens a command if possible"""
     match = re.search(r"(\w+\.(py|drc))", cmd)
     return match.group() if match else cmd
 
 
 def run_command(command):
-    """ Run a command and keep track of some context """
+    """Run a command and keep track of some context"""
     logging.info("Running `{}`".format(command))
 
     # Run the process and handle errors
@@ -69,7 +69,7 @@ def run_command(command):
 
 
 def print_version(ctx: Context, param: Option, value: bool) -> None:
-    """ Prints the version """
+    """Prints the version"""
     if not value or ctx.resilient_parsing:
         return
     click.echo(VERSION)
@@ -79,7 +79,7 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
 @click.command(name="delete")
 @click.argument("logfile", default="main", required=False)
 def log_delete(logfile):
-    """ Deletes logs """
+    """Deletes logs"""
     if not os.path.exists(log_directory):
         print("No logs found.")
         return
@@ -96,7 +96,7 @@ CONFIG
 @click.command(name="config")
 @click.argument("key", required=False, default=None)
 def config_get(key):
-    """ Shows key values from CONFIG """
+    """Shows key values from CONFIG"""
     print_config(key)
 
 
@@ -107,14 +107,14 @@ MASKS
 
 @click.group()
 def mask():
-    """ Commands for building masks """
+    """Commands for building masks"""
     pass
 
 
 @click.command(name="clean")
 @click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
 def build_clean(force):
-    """ Deletes the build folder and contents """
+    """Deletes the build folder and contents"""
     message = "Delete {}. Are you sure?".format(CONFIG["build_directory"])
     if force or click.confirm(message, default=True):
         pb.build_clean()
@@ -123,13 +123,13 @@ def build_clean(force):
 @click.command(name="build_devices")
 @click.argument("regex", required=False, default=".*")
 def build_devices(regex):
-    """ Build all devices described in devices/"""
+    """Build all devices described in devices/"""
     pb.build_devices(regex)
 
 
 @click.command(name="build_does")
 def build_does():
-    """ Build does defined in doe.yml"""
+    """Build does defined in doe.yml"""
     print("this is deprecated")
     import_custom_doe_factories()
     # write_doe_from_yaml()
@@ -139,7 +139,7 @@ def build_does():
 @click.command(name="write_metadata")
 @click.argument("label_layer", required=False, default=LAYER_LABEL)
 def mask_merge(label_layer):
-    """ merge JSON/Markdown from build/devices into build/mask"""
+    """merge JSON/Markdown from build/devices into build/mask"""
 
     gdspath = CONFIG["mask_gds"]
     write_labels(gdspath=gdspath, label_layer=label_layer)
@@ -186,7 +186,7 @@ def merge_cells(filepath):
 @click.command()
 @click.argument("filename")
 def show(filename):
-    """Show a GDS file using klive """
+    """Show a GDS file using klive"""
     klive.show(filename)
 
 
@@ -203,7 +203,7 @@ def diff(gdspath1, gdspath2):
 
 @click.command()
 def install():
-    """Install Klive, gdsdiff and generic tech """
+    """Install Klive, gdsdiff and generic tech"""
     install_generic_tech()
     install_klive()
     install_gdsdiff()

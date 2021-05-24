@@ -22,7 +22,7 @@ from pydantic import validate_arguments
 @validate_arguments
 
 ```
-## next release
+## 2.5.0
 
 - add pp.routing.sort_ports
 - add pp.routing.get_route_sbend for a single route
@@ -37,10 +37,11 @@ from pydantic import validate_arguments
 - add pydantic validate_arguments decorator
 - add pp.routing.fanout
 - add ComponentFactory dataclasses
-- fixed pp.routing.routing _gradual_bend
-- added TestClass for Component
-- fixed get_bundle for indirect routing
+- fix pp.routing.routing _gradual_bend
+- add TestClass for Component
+- fix get_bundle for indirect routing
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
+- add pp.assert_version
 
 ## 2.4.9
 
