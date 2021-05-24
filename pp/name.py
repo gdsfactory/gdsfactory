@@ -167,7 +167,7 @@ def get_name(component_type: str, name: str) -> str:
     if not isinstance(name, str):
         raise ValueError(f"{name} needs to be a sting")
     if len(name) > MAX_NAME_LENGTH:
-        name = f"{component_type}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
+        name = f"{component_type[:(MAX_NAME_LENGTH - 8)]}_{hashlib.md5(name.encode()).hexdigest()[:8]}"
     return clean_name(name)
 
 
