@@ -3,8 +3,8 @@ Now that you have installed gdsfactory lets create your first component.
 You'll need to keep 3 windows open:
 
 - A text editor or IDE (Visual Studio Code, Pycharm, Spyer, neovim, Atom, Jupyterlab ...)
+- A python / Ipython terminal / jupyter notebook (interactive python to run).
 - Klayout to Visualize the GDS files.
-- An Ipython terminal / jupyter notebook (interactive python to run).
 
 ![windows](https://i.imgur.com/DyVL6IE.png)
 
@@ -162,10 +162,6 @@ class Layer:
 
 LAYER = Layer()
 
-
-@pp.cell
-def straight(length=10, width=0.5):
-    return pp.components.straight(length=length, width=width, layer=LAYER.WGCORE, layers_cladding=[])
 
 ```
 
