@@ -2,6 +2,7 @@
 
 Notice that this is the only file where units are in SI units (meters instead of um).
 """
+import dataclasses
 import time
 from collections import namedtuple
 from pathlib import Path
@@ -63,7 +64,7 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
-    simulation_settings=TECH.simulation_settings,
+    simulation_settings=dataclasses.asdict(TECH.simulation_settings),
     layer_stack=LAYER_STACK,
     **settings,
 ) -> pd.DataFrame:
@@ -100,6 +101,9 @@ def write(
     sim_settings = dict(simulation_settings)
     layer_to_thickness_nm = settings.pop(
         "layer_to_thickness_nm", layer_stack.get_layer_to_thickness_nm()
+    )
+    layer_to_zmin_nm = settings.pop(
+        "layer_to_zmin_nm", layer_stack.get_layer_to_zmin_nm()
     )
     layer_to_material = settings.pop(
         "layer_to_material", layer_stack.get_layer_to_material()
@@ -226,7 +230,7 @@ def write(
         use_early_shutoff=True,
     )
 
-    for layer, nm in layer_to_thickness_nm.items():
+    for layer, thickness in layer_to_thickness_nm.items():
         if layer not in layers:
             continue
 
@@ -240,10 +244,14 @@ def write(
             )
         material = MATERIAL_NAME_TO_LUMERICAL[material]
 
+        zmin = layer_to_zmin_nm[layer] * 1e-9
+        zmax = zmin + thickness * 1e-9
+
         s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
-        silicon = f"GDS_LAYER_{layer[0]}:{layer[1]}"
-        s.setnamed(silicon, "z span", nm * 1e-9)
-        s.setnamed(silicon, "material", material)
+        layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
+        s.setnamed(layername, "z min", zmin)
+        s.setnamed(layername, "z max", zmax)
+        s.setnamed(layername, "material", material)
 
     for i, port in enumerate(ports.values()):
         s.addport()

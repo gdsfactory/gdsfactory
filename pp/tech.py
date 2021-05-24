@@ -64,17 +64,17 @@ class LayerLevel:
 
     layer: Tuple[int, int]
     thickness_nm: Optional[float] = None
-    z_nm: Optional[float] = None
+    zmin_nm: Optional[float] = None
     material: Optional[str] = None
 
 
 @dataclasses.dataclass
 class LayerStack:
-    WG = LayerLevel((1, 0), thickness_nm=220.0, z_nm=0.0, material="si")
+    WG = LayerLevel((1, 0), thickness_nm=220.0, zmin_nm=0.0, material="si")
     WGCLAD = LayerLevel((111, 0), z_nm=0.0, material="sio2")
-    SLAB150 = LayerLevel((2, 0), thickness_nm=150.0, z_nm=0, material="si")
-    SLAB90 = LayerLevel((3, 0), thickness_nm=150.0, z_nm=0.0, material="si")
-    WGN = LayerLevel((34, 0), thickness_nm=350.0, z_nm=220.0 + 100.0, material="sin")
+    SLAB150 = LayerLevel((2, 0), thickness_nm=150.0, zmin_nm=0, material="si")
+    SLAB90 = LayerLevel((3, 0), thickness_nm=150.0, zmin_nm=0.0, material="si")
+    WGN = LayerLevel((34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin")
     WGN_CLAD = LayerLevel((36, 0))
 
     def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
@@ -83,6 +83,14 @@ class LayerStack:
             getattr(self, key).layer: getattr(self, key).thickness_nm
             for key in dir(self)
             if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).thickness_nm
+        }
+
+    def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to z min position (nm)."""
+        return {
+            getattr(self, key).layer: getattr(self, key).zmin_nm
+            for key in dir(self)
+            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).zmin_nm
         }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
