@@ -1,4 +1,5 @@
 sphinx==3.5.2
+docutils==0.16
 sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
