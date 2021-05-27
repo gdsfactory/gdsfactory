@@ -139,7 +139,7 @@ def add_ports_from_markers_center(
     ymax = component.ymax
     ymin = component.ymin
 
-    port_markers = read_port_markers(component, [layer])
+    port_markers = read_port_markers(component, layers=(layer,))
 
     for i, p in enumerate(port_markers.polygons):
         dy = p.ymax - p.ymin
@@ -377,6 +377,16 @@ def write_cells_from_component(
         component.write_gds(f"{dirpath/component.name}.gds")
 
 
+def add_settings_from_label(component: Component) -> None:
+    """Adds settings from label."""
+    for label in component.labels:
+        if label.text.startswith("settings="):
+            d = json.loads(label.text[9:])
+            component.settings = d.pop("settings", {})
+            for k, v in d.items():
+                setattr(component, k, v)
+
+
 def test_import_gds_snap_to_grid() -> None:
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
@@ -395,7 +405,7 @@ def test_import_gds_hierarchy() -> None:
     assert len(c.get_dependencies()) == 3
 
 
-def demo_optical():
+def _demo_optical():
     """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.components.mmi1x2()
     # for p in c.ports.values():
@@ -411,7 +421,7 @@ def demo_optical():
     #     print(p)
 
 
-def demo_electrical():
+def _demo_electrical():
     """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.components.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
@@ -428,17 +438,7 @@ def demo_electrical():
         print(p)
 
 
-def add_settings_from_label(component: Component) -> None:
-    """Adds settings from label."""
-    for label in component.labels:
-        if label.text.startswith("settings="):
-            d = json.loads(label.text[9:])
-            component.settings = d.pop("settings", {})
-            for k, v in d.items():
-                setattr(component, k, v)
-
-
-def demo_import_gds_markers():
+def _demo_import_gds_markers():
     import pp
 
     name = "mmi1x2"
@@ -450,7 +450,7 @@ def demo_import_gds_markers():
 
 
 if __name__ == "__main__":
-    c = demo_import_gds_markers()
+    c = _demo_import_gds_markers()
     # test_import_gds_snap_to_grid()
 
     gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"

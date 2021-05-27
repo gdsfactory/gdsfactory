@@ -15,8 +15,7 @@ For port naming we follow the IPKISS standard
 import csv
 import functools
 from copy import deepcopy
-from pathlib import Path
-from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Callable, Dict, Iterable, List, Optional, Tuple
 
 import numpy as np
 import phidl.geometry as pg
@@ -215,16 +214,15 @@ def port_array(
 
 
 def read_port_markers(
-    gdspath: Union[object, Path], layers: Iterable[Tuple[int, int]] = ((1, 10),)
+    component: object, layers: Iterable[Tuple[int, int]] = ((1, 10),)
 ) -> Device:
     """loads a GDS and returns the extracted ports from layer markers
 
     Args:
-        gdspath: gdspath or Component
-        layers: GDS layer
+        component: or Component
+        layers: Iterable of GDS layers
     """
-    D = gdspath if isinstance(gdspath, Device) else pg.import_gds(gdspath)
-    return pg.extract(D, layers=layers)
+    return pg.extract(component, layers=layers)
 
 
 def csv2port(csvpath) -> Dict[str, Port]:

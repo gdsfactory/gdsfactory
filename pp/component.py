@@ -30,7 +30,7 @@ tmp.mkdir(exist_ok=True)
 
 def copy(D: Device) -> Device:
     """returns a deep copy of a Component."""
-    D_copy = Component(name=D._internal_name)
+    D_copy = Component(name=D.name)
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
         new_ref = ComponentReference(
@@ -724,7 +724,7 @@ class Component(Device):
     def get_properties(self):
         """returns name, uid, ports, aliases and numer of references"""
         return (
-            f"name: {self._internal_name}, uid: {self.uid},  ports:"
+            f"name: {self.name}, uid: {self.uid},  ports:"
             f" {self.ports.keys()}, aliases {self.aliases.keys()}, number of"
             f" references: {len(self.references)}"
         )
@@ -898,10 +898,7 @@ class Component(Device):
         if name is not None:
             p.name = name
         if p.name in self.ports:
-            raise ValueError(
-                '[DEVICE] add_port() error: Port name "%s" already exists in this'
-                ' Device (name "%s", uid %s)' % (p.name, self._internal_name, self.uid)
-            )
+            raise ValueError(f"add_port() Port name {p.name} exists in {self.name}")
 
         self.ports[p.name] = p
         return p
