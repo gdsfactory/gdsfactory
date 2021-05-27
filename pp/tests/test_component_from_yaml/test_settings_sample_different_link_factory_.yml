@@ -11,5 +11,5 @@ info:
   routes:
     bl,E:br,W: 1720.794
     tl,E:tr,W: 1720.794
-name: sample_different_link_factory
+name: sample_path_length_matching
 settings: {}

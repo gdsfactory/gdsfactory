@@ -7,7 +7,7 @@ jsondiff
 klayout==0.27.0
 numpy
 pandas
-phidl==1.5.0
+phidl==1.5.2
 picwriter==0.5
 pyqtree
 qrcode

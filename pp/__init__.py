@@ -48,10 +48,10 @@ import pp.klive as klive
 import pp.port as port
 import pp.types as types
 import pp.path as path
+import pp.import_gds as gds
+
 from pp.tech import TECH
-
 from pp.component_from_yaml import component_from_yaml
-
 from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points, add_padding_container
@@ -100,6 +100,7 @@ __all__ = [
     "types",
     "get_padding_points",
     "grid",
+    "gds",
     "klive",
     "load_component",
     "offset",

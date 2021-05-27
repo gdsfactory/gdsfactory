@@ -882,7 +882,7 @@ instances:
   tr:
     component: pad
     settings: {}
-name: sample_different_link_factory
+name: sample_path_length_matching
 placements:
   bend_euler_f79f8bba_126p625_203p375:
     mirror: false
