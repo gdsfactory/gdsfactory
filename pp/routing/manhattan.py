@@ -568,7 +568,7 @@ def round_corners(
             # Update start straight position
             straight_origin = taper_ref.ports[pname_east].midpoint
 
-        # Straight straight
+        # Straight waveguide
         length = snap_to_grid(length)
         if with_taper:
             waveguide_settings_wide = dict(waveguide_settings.copy())
@@ -633,9 +633,6 @@ def generate_manhattan_waypoints(
     """Return waypoints for a Manhattan route between two ports."""
 
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
-
-    # print(waveguide_settings)
-
     bend90 = (
         bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
@@ -696,7 +693,8 @@ def test_manhattan() -> Component:
         # Port("in2", (-10, 20), 0.5, 0),
         # Port("in3", (10, 30), 0.5, 0),
         # Port("in4", (-10, -5), 0.5, 90),
-        Port("in5", (0, 0), 0.5, 0),
+        # Port("in5", (0, 0), 0.5, 0),
+        Port("in6", (0, 0), 0.5, 0),
     ]
 
     outputs = [
@@ -704,7 +702,8 @@ def test_manhattan() -> Component:
         # Port("in2", (-100, 20), 0.5, 0),
         # Port("in3", (100, -25), 0.5, 0),
         # Port("in4", (-150, -65), 0.5, 270),
-        Port("in5", (25, 3), 0.5, 180),
+        # Port("in5", (25, 3), 0.5, 180),
+        Port("in6", (0, 10), 0.5, 0),
     ]
 
     # lengths = [158.562, 121.43600000000002, 160.70800000000003, 231.416, 83.44]

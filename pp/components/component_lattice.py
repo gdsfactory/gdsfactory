@@ -9,7 +9,6 @@ from pp.component import Component
 from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import compensation_path, crossing45
 from pp.port import get_ports_facing
-from pp.routing.repackage import package_optical2x2
 
 COUNTER = itertools.count()
 
@@ -164,12 +163,11 @@ def component_lattice(
       :include-source:
 
       import pp
-      from pp.routing.repackage import package_optical2x2
       from pp.components.crossing_waveguide import crossing45
       from pp.components.crossing_waveguide import compensation_path
 
       components =  {
-            "C": package_optical2x2(component=pp.components.coupler(), port_spacing=40.0),
+            "C": pp.routing.fanout2x2(component=pp.components.coupler(), port_spacing=40.0),
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
@@ -178,7 +176,7 @@ def component_lattice(
 
     """
     components = components or {
-        "C": package_optical2x2(component=coupler(), port_spacing=40.0),
+        "C": pp.routing.fanout2x2(component=coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
@@ -282,7 +280,7 @@ def parse_lattice(
 
 if __name__ == "__main__":
     components_dict = {
-        "C": package_optical2x2(component=pp.components.coupler(), port_spacing=40.0),
+        "C": pp.routing.fanout2x2(component=pp.components.coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }

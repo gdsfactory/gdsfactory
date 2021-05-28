@@ -1,0 +1,22 @@
+function_name: fanout2x2
+info:
+  min_bend_radius: 20.753
+module: pp.routing.fanout2x2
+name: fanout2x2_Cmzi2x2_WECTrue
+settings:
+  bend_length: null
+  component:
+    function_name: mzi2x2
+    info: {}
+    module: pp.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60
+      L2: 10
+      gap: 0.234
+      waveguide: strip
+      with_elec_connections: true
+  npoints: 101
+  port_spacing: 20

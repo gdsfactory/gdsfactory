@@ -46,12 +46,6 @@ def nxn(
     c = pp.Component()
     c << pp.components.rectangle(size=(xsize, ysize), layer=layer)
 
-    for i in [west, north, south, east]:
-        if not isinstance(i, int):
-            raise ValueError(
-                f"west={west}, east={east}, north={north}, south={south} needs to be integers"
-            )
-
     if west > 0:
         x = 0
         y = (
@@ -139,6 +133,6 @@ def nxn(
 
 
 if __name__ == "__main__":
-    c = nxn(north=1, south=3)
-    c = pp.extend_ports(c)
+    c = nxn(north=1.3, south=3)
+    # c = pp.extend_ports(component=c)
     c.show()
