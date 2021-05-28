@@ -46,9 +46,9 @@ def test_get_bundle_west_to_north2(
     lengths = {}
 
     c = pp.Component("test_get_bundle_west_to_north2")
-    pbottom_facing_north = pp.port_array(midpoint=(0, 0), orientation=90, delta=(30, 0))
+    pbottom_facing_north = pp.port_array(midpoint=(0, 0), orientation=90, pitch=(30, 0))
     ptop_facing_west = pp.port_array(
-        midpoint=(100, 100), orientation=180, delta=(0, -30)
+        midpoint=(100, 100), orientation=180, pitch=(0, -30)
     )
 
     routes = pp.routing.get_bundle(

@@ -7,7 +7,7 @@ from pp.components.bezier import bezier
 
 
 @cell
-def package_optical2x2(
+def fanout2x2(
     component: Component,
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # c =pp.components.coupler(gap=1.0)
     c = pp.c.nxn(west=4)
 
-    cc = package_optical2x2(component=c)
+    cc = fanout2x2(component=c)
     print(cc.ports["E1"].y - cc.ports["E0"].y)
     # print(cc.ports)
     cc.show()

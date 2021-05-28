@@ -21,7 +21,7 @@ from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
-from pp.routing.repackage import package_optical2x2
+from pp.routing.fanout2x2 import fanout2x2
 
 container_factory = dict(
     add_electrical_pads_shortest=add_electrical_pads_shortest,
@@ -34,7 +34,7 @@ container_factory = dict(
     add_termination=add_termination,
     add_pins_container=add_pins_container,
     extend_ports=extend_ports,
-    package_optical2x2=package_optical2x2,
+    fanout2x2=fanout2x2,
     rotate=rotate,
     cavity=cavity,
     ring_single_dut=ring_single_dut,
