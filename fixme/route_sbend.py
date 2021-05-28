@@ -1,6 +1,8 @@
 """
+FIXME: enable Sbend routing when we have no space for a manhattan route
+
 Route manhattan sometimes does not fit a route.
-it would be nice to enable Sbend routing for those cases
+it would be nice to enable Sbend routing for those cases in route_manhattan
 
 """
 import pp
@@ -9,26 +11,21 @@ from pp.routing.manhattan import route_manhattan
 
 if __name__ == "__main__":
     c = pp.Component()
+    length = 10
+    c1 = c << pp.components.straight(length=length)
+    c2 = c << pp.components.straight(length=length)
 
-    inputs = [
-        pp.Port("in6", midpoint=(0, 0), width=0.5, orientation=0),
-    ]
+    dy = 4.0
+    c2.y = dy
+    c2.movex(length + dy)
 
-    outputs = [
-        pp.Port("in6", midpoint=(10, 5), width=0.5, orientation=180),
-    ]
+    route = route_manhattan(
+        input_port=c1.ports["E0"],
+        output_port=c2.ports["W0"],
+        waveguide="nitride",
+        radius=5.0,
+    )
 
-    lengths = [1] * len(inputs)
-
-    for input_port, output_port, length in zip(inputs, outputs, lengths):
-
-        route = route_manhattan(
-            input_port=input_port,
-            output_port=output_port,
-            waveguide="nitride",
-            radius=5.0,
-        )
-
-        c.add(route.references)
+    c.add(route.references)
 
     c.show()

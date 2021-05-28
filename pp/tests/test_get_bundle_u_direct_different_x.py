@@ -9,7 +9,7 @@ def test_get_bundle_u_direct_different_x(
 ) -> Component:
 
     c = pp.Component("test_get_bundle_u_direct_different_x")
-    w = c << pp.components.straight_array(n_straights=4, spacing=200)
+    w = c << pp.components.straight_array(n=4, spacing=200)
     d = c << pp.components.nxn()
     d.y = w.y
     d.xmin = w.xmax + 200
