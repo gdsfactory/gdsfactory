@@ -6,6 +6,7 @@ isort:skip_file
 import dataclasses
 
 # level 0 components
+from pp.components.array import array
 from pp.components.straight import straight
 from pp.components.straight_heater import straight_heater
 from pp.components.straight_heater import straight_with_heater
@@ -137,6 +138,7 @@ from pp.components.splitter_chain import splitter_chain
 
 # we will test each factory component hash, ports and properties
 component_factory = dict(
+    array=array,
     C=C,
     L=L,
     align_wafer=align_wafer,

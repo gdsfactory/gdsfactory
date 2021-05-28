@@ -270,8 +270,8 @@ if __name__ == "__main__":
     import pp
 
     c = pp.Component()
-    c1 = c << pp.c.straight_array(n_straights=4, spacing=50)
-    c2 = c << pp.c.straight_array(n_straights=4, spacing=20)
+    c1 = c << pp.c.straight_array(n=4, spacing=50)
+    c2 = c << pp.c.straight_array(n=4, spacing=20)
     c1.y = 0
     c2.y = 0
     c2.x = 300

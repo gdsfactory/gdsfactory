@@ -3,5 +3,5 @@ info: {}
 module: pp.components.straight_array
 name: straight_array
 settings:
-  n_straights: 4
+  n: 4
   spacing: 4

@@ -11,7 +11,7 @@ from pp.types import ComponentFactory
 
 @pp.cell_with_validator
 def grating_coupler_tree(
-    n_straights: int = 4,
+    n: int = 4,
     straight_spacing: int = 4,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loop_back: bool = False,
@@ -38,7 +38,7 @@ def grating_coupler_tree(
 
     """
     c = straight_array(
-        n_straights=n_straights,
+        n=n,
         spacing=straight_spacing,
         waveguide=waveguide,
         **kwargs,

@@ -1,0 +1,8 @@
+function_name: array
+info: {}
+module: pp.components.array
+name: array
+settings:
+  axis: y
+  n: 2
+  pitch: 20

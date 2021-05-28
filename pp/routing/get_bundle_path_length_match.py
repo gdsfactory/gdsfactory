@@ -26,8 +26,8 @@ def get_bundle_path_length_match(
     taper_factory: Optional[Callable] = taper_function,
     start_straight: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
-    waveguide: str = "strip",
     sort_ports: bool = True,
+    waveguide: str = "strip",
     **waveguide_settings,
 ) -> List[Route]:
     """Returns list of routes that are path length matched.
@@ -35,8 +35,8 @@ def get_bundle_path_length_match(
     Args:
         ports1: list of ports
         ports2: list of ports
-        separation: 30.0
-        end_straight_offset
+        separation: between the loops
+        end_straight_offset: if None tries to determine it
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
@@ -47,6 +47,7 @@ def get_bundle_path_length_match(
         taper_factory:
         start_straight:
         route_filter: get_route_from_waypoints
+        sort_ports: sorts ports before routing
         waveguide
         waveguide_settings: waveguide_settings
 
@@ -130,3 +131,26 @@ def get_bundle_path_length_match(
         )
         for waypoints in list_of_waypoints
     ]
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.Component()
+    c1 = c << pp.c.straight_array(spacing=50)
+    c2 = c << pp.c.straight_array(spacing=5)
+    c2.movex(200)
+    c1.y = 0
+    c2.y = 0
+
+    routes = pp.routing.get_bundle_path_length_match(
+        c1.get_ports_list(orientation=0),
+        c2.get_ports_list(orientation=180),
+        end_straight_offset=0,
+        start_straight=0,
+        separation=50,
+    )
+
+    for route in routes:
+        c.add(route.references)
+    c.show()
