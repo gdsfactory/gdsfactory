@@ -110,7 +110,7 @@ def _compare_bend_euler180():
     p1 = pp.Path()
     p1.append([pp.path.euler(angle=90), pp.path.euler(angle=90)])
     p2 = pp.path.euler(angle=180)
-    x = cross_section()
+    x = pp.cross_section()
 
     c1 = pp.path.extrude(p1, x)
     c1.name = "two_90_euler"

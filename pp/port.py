@@ -196,16 +196,16 @@ def port_array(
     midpoint: Tuple[int, int] = (0, 0),
     width: float = 0.5,
     orientation: int = 0,
-    delta: Tuple[int, int] = (10, 0),
+    pitch: Tuple[int, int] = (10, 0),
     n: int = 2,
     **kwargs,
 ) -> List[Port]:
     """returns list of ports"""
-    delta = np.array(delta)
+    pitch = np.array(pitch)
     return [
         Port(
             name=str(i),
-            midpoint=np.array(midpoint) + i * delta - (n - 1) / 2 * delta,
+            midpoint=np.array(midpoint) + i * pitch - (n - 1) / 2 * pitch,
             orientation=orientation,
             **kwargs,
         )
