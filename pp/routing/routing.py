@@ -1,6 +1,5 @@
-"""
-
-adapted from phidl.routing
+"""adapted from phidl.routing
+temporary solution until we add Sbend routing functionality
 """
 from typing import Optional
 

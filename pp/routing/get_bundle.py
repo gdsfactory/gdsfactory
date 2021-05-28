@@ -8,22 +8,15 @@ from numpy import ndarray
 import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.components.straight import straight
-from pp.components.taper import taper as taper_function
 from pp.config import TECH
 from pp.cross_section import get_waveguide_settings
 from pp.port import Port
-from pp.routing.corner_bundle import corner_bundle
-from pp.routing.get_route import (
-    get_route,
-    get_route_from_waypoints,
-    get_route_from_waypoints_electrical,
-)
+from pp.routing.get_bundle_corner import get_bundle_corner
+from pp.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
+from pp.routing.get_route import get_route, get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints
-from pp.routing.path_length_matching import path_length_matched_points
 from pp.routing.sort_ports import get_port_x, get_port_y
 from pp.routing.sort_ports import sort_ports as sort_ports_function
-from pp.routing.u_groove_bundle import u_bundle_direct, u_bundle_indirect
 from pp.types import ComponentFactory, Number, Route
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
@@ -32,7 +25,6 @@ METAL_MIN_SEPARATION = TECH.metal_spacing
 def get_bundle(
     ports1: List[Port],
     ports2: List[Port],
-    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
@@ -42,13 +34,12 @@ def get_bundle(
     waveguide: str = "strip",
     **waveguide_settings,
 ) -> List[Route]:
-    """Connects bundle of ports using river routing.
+    """Connects a bundle of ports with a river router.
     Chooses the correct u_bundle to use based on port angles
 
     Args:
         ports1: should all be facing in the same direction
         ports2: should all be facing in the same direction
-        route_filter: function to connect
         separation: straight separation
         extension_length: adds straight extension
         bend_factory:
@@ -78,9 +69,8 @@ def get_bundle(
     for p in ports2:
         p.angle = int(p.angle) % 360
 
-    assert len(ports1) == len(
-        ports2
-    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
+    if len(ports1) != len(ports2):
+        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
@@ -99,11 +89,11 @@ def get_bundle(
     params = {
         "ports1": ports1,
         "ports2": ports2,
-        "route_filter": route_filter,
         "separation": separation,
-        "bend_factory": bend_factory,
-        "end_straight_offset": end_straight_offset,
         "start_straight": start_straight,
+        "end_straight_offset": end_straight_offset,
+        "bend_factory": bend_factory,
+        "waveguide": waveguide,
     }
 
     start_angle = ports1[0].angle
@@ -133,24 +123,23 @@ def get_bundle(
             and end_angle == 90
             and y_start > y_end
         ):
-            # print('link_ports')
-            return link_ports(**params, **waveguide_settings)
+            # print('get_bundle_same_axis')
+            return get_bundle_same_axis(**params, **waveguide_settings)
 
         elif start_angle == end_angle:
-            # print('u_bundle_direct')
-            return u_bundle_direct(**params, **waveguide_settings)
+            # print('get_bundle_udirect')
+            return get_bundle_udirect(**params, **waveguide_settings)
 
         elif end_angle == (start_angle + 180) % 360:
-            # print('u_bundle_indirect')
-            params["extension_length"] = extension_length
-            return u_bundle_indirect(**params, **waveguide_settings)
+            # print('get_bundle_uindirect')
+            return get_bundle_uindirect(
+                extension_length=extension_length, **params, **waveguide_settings
+            )
         else:
             raise NotImplementedError("This should never happen")
 
     else:
-        # print('corner_bundle')
-        # return link_ports(**params, **waveguide_settings)
-        return corner_bundle(
+        return get_bundle_corner(
             ports1=ports1,
             ports2=ports2,
             separation=separation,
@@ -179,14 +168,13 @@ def are_decoupled(
     return True
 
 
-def link_ports(
+def get_bundle_same_axis(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 5.0,
     end_straight_offset: float = 0.0,
     start_straight: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
-    route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
     waveguide: str = "strip",
     **waveguide_settings,
@@ -244,10 +232,13 @@ def link_ports(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    assert len(ports1) == len(
+        ports2
+    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    routes = link_ports_routes(
+    routes = _get_bundle_waypoints(
         ports1,
         ports2,
         separation=separation,
@@ -255,11 +246,10 @@ def link_ports(
         waveguide=waveguide,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
-        sort_ports=sort_ports,
         **waveguide_settings,
     )
     return [
-        route_filter(
+        get_route_from_waypoints(
             route,
             bend_factory=bend_factory,
             waveguide=waveguide,
@@ -269,11 +259,10 @@ def link_ports(
     ]
 
 
-def link_ports_routes(
+def _get_bundle_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30,
-    sort_ports: bool = True,
     end_straight_offset: float = 0.0,
     tol: float = 0.00001,
     start_straight: float = 0.0,
@@ -286,7 +275,6 @@ def link_ports_routes(
         ports1: list of starting ports
         ports2: list of end ports
         separation: route spacing
-        sort_ports: if True sort ports
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
@@ -329,9 +317,6 @@ def link_ports_routes(
 
     # Once a group is finished, all the lengths are appended to end_straights
     end_straights = []
-
-    if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     # Keep track of how many ports should be routed together
     number_o_connectors_in_group = 0
@@ -462,198 +447,6 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def get_bundle_path_length_match(
-    ports1: List[Port],
-    ports2: List[Port],
-    separation: float = 30.0,
-    end_straight_offset: Optional[float] = None,
-    extra_length: float = 0.0,
-    nb_loops: int = 1,
-    modify_segment_i: int = -2,
-    bend_factory: ComponentFactory = bend_euler,
-    straight_factory: Callable = straight,
-    taper_factory: Optional[Callable] = taper_function,
-    start_straight: float = 0.0,
-    route_filter: Callable = get_route_from_waypoints,
-    waveguide: str = "strip",
-    **waveguide_settings,
-) -> List[Route]:
-    """Returns list of routes that are path length matched.
-
-    Args:
-        ports1: list of ports
-        ports2: list of ports
-        separation: 30.0
-        end_straight_offset
-        extra_length: distance added to all path length compensation.
-            Useful is we want to add space for extra taper on all branches
-        nb_loops: number of extra loops added in the path
-        modify_segment_i: index of the segment that accomodates the new turns
-            default is next to last segment
-        bend_factory: for bends
-        straight_factory: for straights
-        taper_factory:
-        start_straight:
-        route_filter: get_route_from_waypoints
-        waveguide
-        waveguide_settings: waveguide_settings
-
-    Tips:
-
-    - If path length matches the wrong segments, change `modify_segment_i` arguments.
-    - Adjust `nb_loops` to avoid too short or too long segments
-    - Adjust `separation` and `end_straight_offset` to avoid compensation collisions
-
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.Component("path_length_match_sample")
-
-      dy = 2000.0
-      xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-      pitch = 100.0
-      N = len(xs1)
-      xs2 = [-20 + i * pitch for i in range(N)]
-
-      a1 = 90
-      a2 = a1 + 180
-      ports1 = [pp.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-      ports2 = [pp.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
-
-      routes = pp.routing.get_bundle_path_length_match(
-          ports1, ports2, extra_length=44
-      )
-      for route in routes:
-          c.add(route.references)
-      c.plot()
-
-    """
-    extra_length = extra_length / 2
-
-    # Heuristic to get a correct default end_straight_offset to leave
-    # enough space for path-length compensation
-
-    if end_straight_offset is None:
-        if modify_segment_i == -2:
-            end_straight_offset = (
-                compute_ports_max_displacement(ports1, ports2) / (2 * nb_loops)
-                + separation
-                + extra_length
-            )
-        else:
-            end_straight_offset = 0
-
-    list_of_waypoints = link_ports_routes(
-        ports1=ports1,
-        ports2=ports2,
-        separation=separation,
-        end_straight_offset=end_straight_offset,
-        start_straight=start_straight,
-        waveguide=waveguide,
-        **waveguide_settings,
-    )
-
-    list_of_waypoints = path_length_matched_points(
-        list_of_waypoints,
-        extra_length=extra_length,
-        bend_factory=bend_factory,
-        nb_loops=nb_loops,
-        modify_segment_i=modify_segment_i,
-        waveguide=waveguide,
-        **waveguide_settings,
-    )
-    return [
-        route_filter(
-            waypoints,
-            bend_factory=bend_factory,
-            straight_factory=straight_factory,
-            taper_factory=taper_factory,
-            waveguide=waveguide,
-            **waveguide_settings,
-        )
-        for waypoints in list_of_waypoints
-    ]
-
-
-def link_electrical_ports(
-    ports1: List[Port],
-    ports2: List[Port],
-    separation: float = METAL_MIN_SEPARATION,
-    link_dummy_ports: bool = False,
-    route_filter: Callable = get_route_from_waypoints_electrical,
-    **kwargs,
-) -> List[Route]:
-    """Connect bundle of electrical ports
-
-    Args:
-        ports1: first list of ports
-        ports2: second list of ports
-        separation: minimum separation between two straights
-        axis: specifies "X" or "Y"
-              X (resp. Y) -> indicates that the ports should be sorted and
-             compared using the X (resp. Y) axis
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
-
-        end_straight_offset: offset to add at the end of each straight
-        sort_ports: * True -> sort the ports according to the axis.
-                    * False -> no sort applied
-
-    Returns:
-        list of references of the electrical routes
-    """
-
-    assert len(ports1) == len(
-        ports2
-    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
-
-    if link_dummy_ports:
-        new_ports1 = ports1
-        new_ports2 = ports2
-
-    else:
-
-        def is_dummy(port):
-            return hasattr(port, "is_dummy") and port.is_dummy
-
-        to_keep1 = [not is_dummy(p) for p in ports1]
-        to_keep2 = [not is_dummy(p) for p in ports2]
-        to_keep = [x * y for x, y in zip(to_keep1, to_keep2)]
-
-        new_ports1 = [p for i, p in enumerate(ports1) if to_keep[i]]
-        new_ports2 = [p for i, p in enumerate(ports2) if to_keep[i]]
-
-    return link_ports(
-        new_ports1,
-        new_ports2,
-        separation,
-        route_filter=route_filter,
-        **kwargs,
-    )
-
-
-def link_optical_ports(
-    ports1: List[Port],
-    ports2: List[Port],
-    separation: float = 5.0,
-    route_filter: Callable = get_route_from_waypoints,
-    sort_ports: bool = True,
-    **waveguide_settings,
-) -> List[Route]:
-    """connect bundle of optical ports"""
-    return link_ports(
-        ports1,
-        ports2,
-        separation,
-        route_filter=route_filter,
-        sort_ports=sort_ports,
-        **waveguide_settings,
-    )
-
-
 def sign(x: Number) -> int:
     if x > 0:
         return 1
@@ -669,7 +462,7 @@ def get_min_spacing(
     sort_ports: bool = True,
 ) -> float:
     """
-    Returns the minimum amount of spacing required to create a given fanout
+    Returns the minimum amount of spacing required to create a given fanout"
     """
 
     if ports1[0].angle in [0, 180]:
@@ -708,7 +501,7 @@ def get_min_spacing(
     return (max_j - min_j) * sep + 2 * radius + 1.0
 
 
-def link_optical_ports_no_grouping(
+def get_bundle_same_axis_no_grouping(
     ports1: List[Port],
     ports2: List[Port],
     sep: float = 5.0,
@@ -721,7 +514,7 @@ def link_optical_ports_no_grouping(
 ) -> List[Route]:
     r"""Returns a list of route elements.
 
-    Compared to link_ports, this function does not do any grouping.
+    Compared to get_bundle_same_axis, this function does not do any grouping.
     It is not as smart for the routing, but it can fall back on arclinarc
     connection if needed. We can also specify longer start_straight and end_straight
 

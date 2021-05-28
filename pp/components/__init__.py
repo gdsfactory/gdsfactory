@@ -101,8 +101,8 @@ from pp.components.electrical.tlm import tlm
 from pp.components.electrical.pads_shorted import pads_shorted
 
 # electrical PCM
-from pp.components.pcm.test_resistance import test_resistance
-from pp.components.pcm.test_via import test_via
+from pp.components.resistance_meander import resistance_meander
+from pp.components.via_cutback import via_cutback
 
 # level 1 components
 from pp.components.cavity import cavity
@@ -228,8 +228,8 @@ component_factory = dict(
     taper=taper,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,
     taper_strip_to_ridge=taper_strip_to_ridge,
-    test_resistance=test_resistance,
-    test_via=test_via,
+    resistance_meander=resistance_meander,
+    via_cutback=via_cutback,
     text=text,
     tlm=tlm,
     verniers=verniers,
@@ -307,9 +307,9 @@ circuit_names = {
 __all__ = list(component_factory.keys()) + container_names
 
 if __name__ == "__main__":
-    from pp.tech import ComponentFactory
+    from pp.tech import Factory
 
-    f = ComponentFactory(component_factory)
+    f = Factory(component_factory)
 
     # for c in component_names:
     #     ci = component_factory[c]()

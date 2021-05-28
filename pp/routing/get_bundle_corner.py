@@ -49,7 +49,7 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     return ports_transformed
 
 
-def corner_bundle(
+def get_bundle_corner(
     ports1, ports2, route_filter=get_route_from_waypoints, separation=5.0, **kwargs
 ):
     r"""
@@ -98,7 +98,7 @@ def corner_bundle(
     Connect banks of ports with either 90Deg or 270Deg angle between them
     """
 
-    routes = corner_bundle_route(
+    routes = _get_bundle_corner_waypoints(
         ports1,
         ports2,
         routing_func=generate_manhattan_waypoints,
@@ -109,7 +109,7 @@ def corner_bundle(
     return [route_filter(r, **kwargs) for r in routes]
 
 
-def corner_bundle_route(
+def _get_bundle_corner_waypoints(
     ports1, ports2, routing_func=generate_manhattan_waypoints, separation=5.0, **kwargs
 ):
 

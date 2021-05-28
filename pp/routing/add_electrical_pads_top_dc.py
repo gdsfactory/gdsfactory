@@ -2,14 +2,14 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.routing.get_bundle import get_bundle
-from pp.routing.get_route import get_route_from_waypoints_electrical
+from pp.routing.get_route import get_route_from_waypoints
 
 
 @cell
 def add_electrical_pads_top_dc(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,
-    route_filter=get_route_from_waypoints_electrical,
+    route_filter=get_route_from_waypoints,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top

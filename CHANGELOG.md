@@ -22,6 +22,12 @@ from pydantic import validate_arguments
 @validate_arguments
 
 ```
+## next release
+
+- compatible with phidl 1.5.2
+- renamed routing functions
+- reduced routing functions functions in pp.routing
+
 ## 2.5.0
 
 - add pp.routing.sort_ports

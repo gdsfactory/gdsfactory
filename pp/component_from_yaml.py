@@ -10,8 +10,7 @@ from omegaconf import OmegaConf
 from pp.add_pins import add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import component_factory as component_factory_default
-from pp.routing.factories import link_factory as link_factory_default
-from pp.routing.factories import route_factory as route_factory_default
+from pp.routing.factories import routing_strategy as routing_strategy_factories
 from pp.types import Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -50,7 +49,11 @@ valid_anchor_value_keywords = [
 valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
 # full set of valid anchor keywords (either referring to points or values)
 
-valid_route_keys = ["links", "factory", "settings", "link_factory", "link_settings"]
+valid_route_keys = [
+    "links",
+    "settings",
+    "routing_strategy",
+]
 # Recognized keys within a YAML route definition
 
 
@@ -339,7 +342,6 @@ placements:
 
 routes:
     route_name1:
-        factory: optical
         links:
             mmi_short,E1: mmi_long,E0
 
@@ -352,8 +354,7 @@ ports:
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: Dict[str, Callable] = None,
-    route_factory: Dict[str, Callable] = route_factory_default,
-    link_factory: Dict[str, Callable] = link_factory_default,
+    routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     **kwargs,
 ) -> Component:
@@ -363,8 +364,7 @@ def component_from_yaml(
         yaml: YAML IO describing Component file or string (with newlines)
             (instances, placements, routes, ports, connections, names)
         component_factory: dict of {factory_name: factory_function}
-        route_factory: for routes
-        link_factory: for links
+        routing_strategy: for links
         label_instance_function: to label each instance
         kwargs: cache, pins ... to pass to all factories
 
@@ -507,24 +507,12 @@ def component_from_yaml(
                         f"`{route_alias}` has a key=`{key}` not in valid {valid_route_keys}"
                     )
 
-            if "factory" not in routes_dict:
-                raise ValueError(
-                    f"`{route_alias}` route needs `factory` : {list(route_factory.keys())}"
-                )
-            route_type = routes_dict.pop("factory")
-            assert isinstance(route_factory, dict), "route_factory needs to be a dict"
-            assert (
-                route_type in route_factory
-            ), f"factory `{route_type}` not in route_factory {list(route_factory.keys())}"
-            route_filter = route_factory[route_type]
             route_settings = routes_dict.pop("settings", {})
-
-            link_function_name = routes_dict.pop("link_factory", "link_ports")
+            routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             assert (
-                link_function_name in link_factory
-            ), f"function `{link_function_name}` not in link_factory {list(link_factory.keys())}"
-            link_function = link_factory[link_function_name]
-            link_settings = routes_dict.pop("link_settings", {})
+                routing_strategy_name in routing_strategy
+            ), f"function `{routing_strategy_name}` not in routing_strategy {list(routing_strategy.keys())}"
+            get_route_function = routing_strategy[routing_strategy_name]
 
             if "links" not in routes_dict:
                 raise ValueError(
@@ -630,23 +618,18 @@ def component_from_yaml(
                     route_name = f"{port_src_string}:{port_dst_string}"
                     route_names.append(route_name)
 
-            if link_function_name in [
-                "link_electrical_waypoints",
-                "link_optical_waypoints",
+            if routing_strategy_name in [
+                "get_route_from_waypoints",
             ]:
-                route_or_route_list = link_function(
-                    route_filter=route_filter,
+                route_or_route_list = get_route_function(
                     **route_settings,
-                    **link_settings,
                 )
 
             else:
-                route_or_route_list = link_function(
+                route_or_route_list = get_route_function(
                     ports1,
                     ports2,
-                    route_filter=route_filter,
                     **route_settings,
-                    **link_settings,
                 )
 
             # FIXME, be more consistent

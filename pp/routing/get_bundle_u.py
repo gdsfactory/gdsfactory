@@ -24,7 +24,7 @@ def _groups(
     return group1, group2
 
 
-def u_bundle_direct(
+def get_bundle_udirect(
     ports1: List[Port],
     ports2: List[Port],
     route_filter: Callable = get_route_from_waypoints,
@@ -86,7 +86,7 @@ def u_bundle_direct(
                            X------/
     """
 
-    routes = u_bundle_direct_routes(
+    routes = _get_bundle_udirect_waypoints(
         ports1,
         ports2,
         separation=separation,
@@ -105,7 +105,7 @@ def u_bundle_direct(
     ]
 
 
-def u_bundle_direct_routes(
+def _get_bundle_udirect_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     routing_func: Callable = generate_manhattan_waypoints,
@@ -231,7 +231,7 @@ def u_bundle_direct_routes(
     return connections
 
 
-def u_bundle_indirect(
+def get_bundle_uindirect(
     ports1,
     ports2,
     route_filter=get_route_from_waypoints,
@@ -299,7 +299,7 @@ def u_bundle_indirect(
 
     """
 
-    routes = u_bundle_indirect_routes(
+    routes = _get_bundle_uindirect_waypoints(
         ports1,
         ports2,
         separation=separation,
@@ -315,7 +315,7 @@ def u_bundle_indirect(
     return [route_filter(route, **routing_params) for route in routes]
 
 
-def u_bundle_indirect_routes(
+def _get_bundle_uindirect_waypoints(
     ports1,
     ports2,
     routing_func=generate_manhattan_waypoints,
@@ -511,12 +511,12 @@ def u_bundle_indirect_routes(
     ports2.sort(key=lambda p: p.y)
     conns = []
     if tmp_ports1:
-        conn1 = u_bundle_direct_routes(
+        conn1 = _get_bundle_udirect_waypoints(
             tmp_ports1, ports2[: len(tmp_ports1)], **bundle_params
         )
         conns.append(conn1)
     if tmp_ports2:
-        conn2 = u_bundle_direct_routes(
+        conn2 = _get_bundle_udirect_waypoints(
             tmp_ports2, ports2[len(tmp_ports1) :], **bundle_params
         )
         conns.append(conn2)

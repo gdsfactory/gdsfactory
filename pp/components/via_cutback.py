@@ -1,3 +1,8 @@
+"""
+adapted from phidl.geometry
+
+"""
+
 from typing import Tuple
 
 import pp
@@ -47,7 +52,7 @@ def _via_iterable(
 
 
 @pp.cell_with_validator
-def test_via(
+def via_cutback(
     num_vias: Number = 100,
     wire_width: Number = 10,
     via_width: Number = 15,
@@ -60,7 +65,8 @@ def test_via(
     via_layer: Tuple[int, int] = pp.LAYER.VIA1,
 ) -> Component:
     """Via cutback to extract via resistance
-    from phidl.geometry
+
+    adapted from phidl.geometry
 
     Args:
         num_vias: number of vias
@@ -202,5 +208,5 @@ def test_via(
 
 
 if __name__ == "__main__":
-    c = test_via()
+    c = via_cutback()
     c.show()

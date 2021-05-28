@@ -17,7 +17,6 @@ from pp.components.ring_single_dut import ring_single_dut
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.difftest import difftest
 from pp.rotate import rotate
-from pp.routing.add_electrical_pads import add_electrical_pads
 from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
@@ -25,7 +24,6 @@ from pp.routing.add_fiber_single import add_fiber_single
 from pp.routing.repackage import package_optical2x2
 
 container_factory = dict(
-    add_electrical_pads=add_electrical_pads,
     add_electrical_pads_shortest=add_electrical_pads_shortest,
     add_electrical_pads_top=add_electrical_pads_top,
     add_fiber_array=add_fiber_array,
