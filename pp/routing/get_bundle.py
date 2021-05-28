@@ -1,4 +1,12 @@
 """Routes bundles of ports (river routing).
+
+get bundle is the generic river routing function that will call different function depending on the port orientation.
+
+ - `get_bundle_same_axis`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
+ - `get_bundle_corner`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
+ - `get_bundle_udirect`, banks of ports with direct U-turns
+ - `get_bundle_uindirect`, banks of ports with indirect U-turns
+
 """
 from typing import Callable, List, Optional, Union, cast
 
