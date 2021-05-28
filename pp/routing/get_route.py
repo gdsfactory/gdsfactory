@@ -24,7 +24,7 @@ To generate a straight route:
  4. generate straight portions in between tapers or bends
 
 
- A route is a dict with 3 keys:
+ A route is a dataclass with:
 
 - references: list of references for tapers, bends and straight waveguides
 - ports: a dict of port name to Port, usually two ports "input" and "output"

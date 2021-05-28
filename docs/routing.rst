@@ -1,13 +1,14 @@
 Routing
 =============================
 
-Route two ports with manhattan route
+manhattan route
 ----------------------------------------------
 
 .. automodule:: pp.routing.get_route
+   :members:
 
 
-Route two lists of ports with a list of routes (bundle)
+get_bundle
 ---------------------------------------------------------------
 
 Often, several ports have to be linked together without them crossing each other.
@@ -52,67 +53,35 @@ Example with two arrays of ports connected using `get_bundle`
     c.plot()
 
 
+`get bundle` is the generic river routing function that will call different function depending on the port orientation.
+Get bundle acts as a high level entry point. Based on the angle configurations
+of the banks of ports, it decides which sub-routine to call:
 
-Route to fiber couplers
---------------------------------------
+ - `get_bundle_same_axis`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
+ - `get_bundle_corner`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
+ - `get_bundle_udirect`, banks of ports with direct U-turns
+ - `get_bundle_uindirect`, banks of ports with indirect U-turns
 
-In cases where individual components have to be tested, a function is provided to
-generate the array of optical I/O and connect them to the component. The default connector connects to a 127um pitch fiber array.
+ Or you can also call each functions individually
 
-.. autofunction:: pp.routing.add_fiber_array.add_fiber_array
-
-
-You can also use individual fibers
-
-.. autofunction:: pp.routing.add_fiber_single.add_fiber_single
-
+.. autofunction:: pp.routing.get_bundle.get_bundle_same_axis
+.. autofunction:: pp.routing.get_bundle_corner.get_bundle_corner
+.. autofunction:: pp.routing.get_bundle_u.get_bundle_udirect
+.. autofunction:: pp.routing.get_bundle_u.get_bundle_uindirect
 
 
 Route to sides
 --------------------
 
-.. autofunction:: pp.routing.route_ports_to_side.route_ports_to_side
-.. autofunction:: pp.routing.get_bundle.link_ports
-.. autofunction:: pp.routing.corner_bundle.corner_bundle
-.. autofunction:: pp.routing.u_groove_bundle.u_bundle_direct
-.. autofunction:: pp.routing.u_groove_bundle.u_bundle_indirect
-
-
- - `route_ports_to_side`, connect all the ports towards one bank of ports facing in one direction
- - `link_optical_ports`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
- - `corner_bundle`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
- - `u_bundle_direct`, banks of ports with direct U-turns
- - `u_bundle_indirect`, banks of ports with indirect U-turns
-
-Each of these cases can either be directly. Another option is to call
-`routing/get_bundle.py:get_bundle`
-
-Get bundle acts as a high level entry point. Based on the angle configurations
-of the banks of ports, it decides which sub-routine to call between:
-
- - `link_optical_ports`
- - `corner_bundle`
- - `u_bundle_direct`
- - `u_bundle_indirect`
-
-For now it is not smart enough to decide whether it should call `route_ports_to_side`.
+For now `get_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
 use `route_ports_to_side` prior calling `get_bundle`
 
-Example of `get_bundle` behavior when called with two banks of ports
-(one list of input ports, another list of output ports). Nothing else is changed.
-If different behaviors are required, several parameters can be used to tweak
-the exact routes.
-It is then recommended to explicitely call the wanted sub-routine with the wanted
-arguments. e.g
-
-`link_optical_ports`: `start_straight`, `end_straight`
-`u_bundle_indirect`: `extension_length`
-
-.. image:: images/connect_bundle.png
+.. autofunction:: pp.routing.route_ports_to_side.route_ports_to_side
 
 
-Routing banks of ports through pre-defined waypoints
+
+Routing bundles through waypoints
 -----------------------------------------------------
 
 .. autofunction:: pp.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
@@ -162,4 +131,19 @@ Path length matching
 ------------------------
 
 
-.. autofunction:: pp.routing.get_bundle.get_bundle_path_length_match
+.. autofunction:: pp.routing.get_bundle_path_length_match.get_bundle_path_length_match
+
+
+Route to fiber couplers
+--------------------------------------
+
+In cases where individual components have to be tested, you can generate the array of optical I/O and connect them to the component.
+
+You can connect the waveguides to a 127um pitch fiber array.
+
+.. autofunction:: pp.routing.add_fiber_array.add_fiber_array
+
+
+Or can also connect to individual fibers for input and output.
+
+.. autofunction:: pp.routing.add_fiber_single.add_fiber_single
