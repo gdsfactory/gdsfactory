@@ -18,7 +18,6 @@ def test_get_bundle_electrical(
     routes = pp.routing.get_bundle(
         [c1.ports["E"]],
         [c2.ports["W"]],
-        route_filter=pp.routing.get_route_from_waypoints_electrical,
         bend_factory=corner,
     )
 
@@ -29,7 +28,6 @@ def test_get_bundle_electrical(
     routes = pp.routing.get_bundle(
         [c1.ports["S"]],
         [c2.ports["E"]],
-        route_filter=pp.routing.get_route_from_waypoints_electrical,
         start_straight=20.0,
         bend_factory=corner,
     )

@@ -2,6 +2,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.component import Component
+from pp.routing.get_bundle import get_bundle_same_axis_no_grouping
 
 
 def test_link_optical_ports_no_grouping(
@@ -28,7 +29,8 @@ def test_link_optical_ports_no_grouping(
         d.ports["W0"],
     ]
 
-    routes = pp.routing.link_optical_ports_no_grouping(ports1, ports2, sort_ports=True)
+    routes = get_bundle_same_axis_no_grouping(ports1, ports2, sort_ports=True)
+    # routes = pp.routing.get_bundle(ports1, ports2, sort_ports=True)
 
     lengths = {}
     for i, route in enumerate(routes):

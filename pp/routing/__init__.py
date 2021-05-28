@@ -1,36 +1,22 @@
-"""Functions to create optical and electrical routes."""
+"""Functions to create routes between components."""
 
-from pp.routing.add_electrical_pads import add_electrical_pads
 from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
-from pp.routing.get_bundle import (
-    get_bundle,
-    get_bundle_path_length_match,
-    link_electrical_ports,
-    link_optical_ports,
-    link_optical_ports_no_grouping,
-)
+from pp.routing.get_bundle import get_bundle
 from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from pp.routing.get_bundle_path_length_match import get_bundle_path_length_match
 from pp.routing.get_bundle_sbend import get_bundle_sbend
-from pp.routing.get_route import (
-    get_route,
-    get_route_electrical,
-    get_route_from_waypoints,
-    get_route_from_waypoints_electrical,
-)
+from pp.routing.get_route import get_route, get_route_from_waypoints
 from pp.routing.get_route_sbend import get_route_sbend
 from pp.routing.get_routes import get_routes
 from pp.routing.get_routes_bend180 import get_routes_bend180
-from pp.routing.manhattan import route_manhattan
 from pp.routing.repackage import package_optical2x2
 from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.routing.route_south import route_south
-from pp.routing.sort_ports import sort_ports
 
 __all__ = [
-    "add_electrical_pads",
     "add_electrical_pads_shortest",
     "add_electrical_pads_top",
     "add_fiber_array",
@@ -43,18 +29,10 @@ __all__ = [
     "get_routes_bend180",
     "get_route_sbend",
     "get_bundle_sbend",
-    "get_route_electrical",
     "get_route_from_waypoints",
-    "get_route_from_waypoints_electrical",
-    "link_electrical_ports",
-    "link_optical_ports",
-    "link_optical_ports_no_grouping",
     "package_optical2x2",
-    "route_manhattan",
-    "route_ports_to_side",
     "route_ports_to_side",
     "route_south",
-    "sort_ports",
 ]
 
 

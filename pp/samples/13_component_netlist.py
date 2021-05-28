@@ -25,7 +25,7 @@ def test_netlist_yaml() -> Component:
            |_____|
 
             arm_bot
-   """
+    """
 
     yaml = """
     instances:
@@ -48,7 +48,6 @@ def test_netlist_yaml() -> Component:
 
     routes:
         optical:
-            factory: optical
             links:
                 mmi_short,E1: mmi_long,E0
 

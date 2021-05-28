@@ -1,0 +1,19 @@
+function_name: resistance_meander
+info: {}
+module: pp.components.resistance_meander
+name: resistance_meander
+settings:
+  gnd_layer:
+  - 49
+  - 0
+  num_squares: 1000
+  pad_layer:
+  - 49
+  - 0
+  pad_size:
+  - 50
+  - 50
+  res_layer:
+  - 49
+  - 0
+  width: 1

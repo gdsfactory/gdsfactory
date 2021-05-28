@@ -12,7 +12,7 @@ from pp.components.taper import taper
 from pp.config import TECH
 from pp.cross_section import get_waveguide_settings
 from pp.port import select_optical_ports
-from pp.routing.get_bundle import get_min_spacing, link_ports
+from pp.routing.get_bundle import get_bundle, get_min_spacing
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
@@ -366,7 +366,7 @@ def route_fiber_array(
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-            routes = link_ports(
+            routes = get_bundle(
                 ports1=to_route,
                 ports2=gc_ports,
                 separation=sep,
@@ -385,7 +385,7 @@ def route_fiber_array(
                 nb_ports_to_route = len(to_route)
                 n0 = nb_ports_to_route / 2
                 dn = nb_gc_ports / 2
-                routes = link_ports(
+                routes = get_bundle(
                     ports1=to_route[n0 - dn : n0 + dn],
                     ports2=gc_ports,
                     separation=sep,

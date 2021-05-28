@@ -18,6 +18,9 @@ def get_routes(
     """Returns Routes with all the manhattan routes.
     if it does not fit a manhattan route, adds an Sbend
 
+    Notice that it does not route bundles of ports. Use get_bundle instead.
+    Temporary solution until round_corners supports Sbend routing
+
     Args:
         ports1: list of src ports
         ports2: list of dst ports

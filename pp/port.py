@@ -284,10 +284,14 @@ def select_ports(
 
 def select_optical_ports(
     ports: Dict[str, Port],
+    port_type: str = "optical",
     prefix: Optional[str] = None,
     layer: Optional[Tuple[int, int]] = None,
+    orientation: Optional[int] = None,
 ) -> Dict[str, Port]:
-    return select_ports(ports, port_type="optical", prefix=prefix, layer=layer)
+    return select_ports(
+        ports, port_type=port_type, prefix=prefix, layer=layer, orientation=orientation
+    )
 
 
 def select_electrical_ports(
@@ -295,9 +299,11 @@ def select_electrical_ports(
     port_type: str = "dc",
     prefix: Optional[str] = None,
     layer: Optional[Tuple[int, int]] = None,
+    orientation: Optional[int] = None,
 ) -> Dict[str, Port]:
-    d = select_ports(ports, port_type=port_type, prefix=prefix, layer=layer)
-    return d
+    return select_ports(
+        ports, port_type=port_type, prefix=prefix, layer=layer, orientation=orientation
+    )
 
 
 def flipped(port: Port) -> Port:

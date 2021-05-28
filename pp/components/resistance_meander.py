@@ -9,7 +9,7 @@ from pp.component import Component
 
 
 @pp.cell_with_validator
-def test_resistance(
+def resistance_meander(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
@@ -101,5 +101,5 @@ def test_resistance(
 
 
 if __name__ == "__main__":
-    c = test_resistance()
+    c = resistance_meander()
     c.show()

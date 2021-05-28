@@ -35,16 +35,13 @@ To generate a straight route:
 from typing import Callable, Optional
 
 import numpy as np
-from numpy import ndarray
 
 from pp.components.bend_euler import bend_euler
-from pp.components.electrical.wire import corner, wire
 from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
 from pp.cross_section import get_waveguide_settings
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan
-from pp.snap import snap_to_grid
 from pp.types import ComponentOrFactory, Coordinates, Number, Route
 
 
@@ -60,7 +57,7 @@ def get_route(
     waveguide: str = "strip",
     **waveguide_settings,
 ) -> Route:
-    """Returns a Route dict of references, ports and lengths.
+    """Returns a Manhattan Route between 2 ports
     The references are straights, bends and tapers.
 
     Args:
@@ -71,6 +68,7 @@ def get_route(
         start_straight: length of starting straight
         end_straight: Number: length of end straight
         min_straight: Number: min length of straight
+        waveguide: waveguide definition from TECH.waveguide
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     taper_length = waveguide_settings.get("taper_length")
@@ -106,41 +104,6 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
-        **waveguide_settings,
-    )
-
-
-def get_route_electrical(
-    input_port: Port,
-    output_port: Port,
-    bend_factory: Callable = corner,
-    straight_factory: Callable = wire,
-    waveguide: str = "metal_routing",
-    **waveguide_settings,
-) -> Route:
-    """Returns a Route dict of references, ports and lengths.
-    The references are straights, bends and tapers.
-    Uses electrical wire connectors by default
-
-    Args:
-        input_port: start port
-        output_port: end port
-        bend_factory: function that return bends
-        straight_factory: function that returns straights
-        layer: default wire layer
-        width: defaul wire width
-        start_straight: length of starting straight
-        end_straight: Number: length of end straight
-        min_straight: Number: min length of straight
-        route_factory: returns route
-    """
-    return get_route(
-        input_port,
-        output_port,
-        bend_factory=bend_factory,
-        straight_factory=straight_factory,
-        taper_factory=None,
-        waveguide=waveguide,
         **waveguide_settings,
     )
 
@@ -196,57 +159,6 @@ def get_route_from_waypoints(
         waveguide=waveguide,
         **waveguide_settings,
     )
-
-
-def get_route_from_waypoints_no_taper(*args, **kwargs) -> Route:
-    """Returns route that does not taper to wider straights.
-
-    Args:
-        waypoints: Coordinates that define the route
-        bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
-        taper_factory: function that returns tapers
-        radius: of bends
-        wg_width: for taper
-        layer: for the route
-    """
-    return get_route_from_waypoints(*args, taper_factory=None, **kwargs)
-
-
-def get_route_from_waypoints_electrical(
-    waypoints: ndarray,
-    bend_factory: Callable = corner,
-    straight_factory: Callable = wire,
-    taper_factory: Optional[Callable] = taper_function,
-    waveguide: str = "metal_routing",
-    **waveguide_settings,
-) -> Route:
-    """Returns route with electrical traces.
-
-    Args:
-        waypoints: Coordinates that define the route
-        bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
-        taper_factory: function that returns tapers
-        wg_width: for taper
-        layer: for the route
-
-    """
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
-
-    bend90 = bend_factory(**waveguide_settings)
-
-    def _straight_factory(length=10.0, **waveguide_settings):
-        return straight_factory(length=snap_to_grid(length), **waveguide_settings)
-
-    connector = round_corners(
-        points=waypoints,
-        straight_factory=_straight_factory,
-        taper=None,
-        bend_factory=bend90,
-        **waveguide_settings,
-    )
-    return connector
 
 
 if __name__ == "__main__":

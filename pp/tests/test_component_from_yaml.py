@@ -151,7 +151,6 @@ placements:
 
 routes:
     optical:
-        factory: optical
         links:
             mmi_bottom,E0: mmi_top,W0
             mmi_bottom,E1: mmi_top,W1
@@ -200,16 +199,16 @@ placements:
 
 routes:
     electrical:
-        factory: electrical
         settings:
             separation: 10
+            waveguide: metal_routing
         links:
             tl,E: tr,W
             bl,E: br,W
     optical:
-        factory: optical
         settings:
             radius: 100
+            waveguide: strip
         links:
             bl,S: br,E
 
@@ -218,7 +217,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 1203.973]
+    lengths = [696.8, 696.8, 1203.973]
     print(c.routes["tl,E:tr,W"])
     print(c.routes["bl,E:br,W"])
     print(c.routes["bl,S:br,E"])
@@ -258,11 +257,9 @@ placements:
 
 routes:
     route1:
-        factory: optical
+        routing_strategy: get_bundle_path_length_match
         settings:
             radius: 10
-        link_factory: link_ports_path_length_match
-        link_settings:
             extra_length: 500
         links:
             tl,E: tr,W
@@ -298,9 +295,8 @@ placements:
         y: 1000
 routes:
     route1:
-        factory: optical
-        link_factory: link_optical_waypoints
-        link_settings:
+        routing_strategy: get_route_from_waypoints
+        settings:
             waypoints:
                 - [0,0]
                 - [0, 600]
@@ -339,7 +335,6 @@ placements:
         dy: -40
 routes:
     optical:
-        factory: optical
         links:
             mmi_top,E0: mmi_bot,W0
 """
@@ -367,7 +362,6 @@ placements:
         x: 20
 routes:
     optical:
-        factory: optical
         links:
             left,E:0:2: right,W:0:2
 """
@@ -394,7 +388,6 @@ placements:
         x: 20
 routes:
     optical:
-        factory: optical
         links:
             left,E:2:0: right,W:2:0
 """

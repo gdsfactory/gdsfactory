@@ -7,8 +7,8 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.config import TECH
 from pp.layers import LAYER
-from pp.port import Port, flipped, is_electrical_port
-from pp.routing.get_route import get_route, get_route_electrical
+from pp.port import Port, flipped
+from pp.routing.get_route import get_route
 from pp.types import Route
 
 
@@ -33,7 +33,7 @@ def route_ports_to_side(
     side: str = "north",
     x: None = None,
     y: Optional[float64] = None,
-    routing_func: None = None,
+    routing_func=get_route,
     **kwargs,
 ) -> List[Route]:
     """Routes ports to a given side
@@ -43,16 +43,11 @@ def route_ports_to_side(
             can also be a dictionnary, a <pp.Component> or a phidl
             <ComponentReference>
         side should be 'north', 'south', 'east' or 'west'
-
         x: only for east/west side routing: the x position where the ports should be sent
             If None, will use the eastest/westest value
-
         y: only for south/north side routing: the y position where the ports should be send
             If None, will use the southest/northest value
-
-        routing_func: the routing function. By default uses either `get_route_electrical`
-        or `get_route` depending on the ports layer.
-
+        routing_func: the routing function. By default uses `get_route`
         kwargs: may include:
             `radius`
             `extend_bottom`, `extend_top` for east/west routing
@@ -68,13 +63,6 @@ def route_ports_to_side(
 
     elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = list(ports.ports.values())
-
-    # Convenient default selection for connection function point to point
-    if routing_func is None:
-        if is_electrical_port(ports[0]):
-            routing_func = get_route_electrical
-        else:
-            routing_func = get_route
 
     # Choose which
     if side in ["north", "south"]:
