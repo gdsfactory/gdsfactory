@@ -3,19 +3,20 @@ from typing import Tuple
 import numpy as np
 from phidl.geometry import offset
 
-import pp
 from pp import components as pc
+from pp.cell import cell_with_validator
 from pp.component import Component
+from pp.layers import LAYER
 
 
-@pp.cell_with_validator
+@cell_with_validator
 def resistance_meander(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
-    res_layer: Tuple[int, int] = pp.LAYER.M3,
-    pad_layer: Tuple[int, int] = pp.LAYER.M3,
-    gnd_layer: Tuple[int, int] = pp.LAYER.M3,
+    res_layer: Tuple[int, int] = LAYER.M3,
+    pad_layer: Tuple[int, int] = LAYER.M3,
+    gnd_layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
     """meander to test resistance
     from phidl.geometry
@@ -61,7 +62,7 @@ def resistance_meander(
     length_row = squares_in_row * width
 
     # Creating row/column corner combination structure
-    T = pp.Component()
+    T = Component()
     Row = pc.rectangle(size=(length_row, width), layer=res_layer)
     Col = pc.rectangle(size=(width, width), layer=res_layer)
 
@@ -70,7 +71,7 @@ def resistance_meander(
     col.move([length_row - width, -width])
 
     # Creating entire straight net
-    N = pp.Component("net")
+    N = Component("net")
     n = 1
     for i in range(num_rows):
         if i != num_rows - 1:
@@ -85,18 +86,23 @@ def resistance_meander(
     d = N.add_ref(Col).move([length_row, -(n - 2) * T.ysize])
 
     # Creating pads
-    P = pp.Component()
-    Pad1 = pc.rectangle(size=(x, z), layer=pad_layer)
-    Pad2 = pc.rectangle(size=(x + 5, z), layer=pad_layer)
-    Gnd1 = offset(Pad1, distance=-5, layer=gnd_layer)
-    Gnd2 = offset(Pad2, distance=-5, layer=gnd_layer)
-    pad1 = P.add_ref(Pad1).movex(-x - width)
-    pad2 = P.add_ref(Pad1).movex(length_row + width)
-    P.add_ref(Gnd1).center = pad1.center
-    gnd2 = P.add_ref(Gnd2)
-    P.add_ref(N).y = pad1.y
-    gnd2.center = pad2.center
-    gnd2.movex(2.5)
+    P = Component()
+    pad1 = pc.rectangle(size=(x, z), layer=pad_layer)
+    pad2 = pc.rectangle(size=(x + 5, z), layer=pad_layer)
+    gnd1 = offset(pad1, distance=-5, layer=gnd_layer)
+    gnd2 = offset(pad2, distance=-5, layer=gnd_layer)
+    pad1_ref = P.add_ref(pad1).movex(-x - width)
+    pad2_ref = P.add_ref(pad1).movex(length_row + width)
+    gnd1_ref = P.add_ref(gnd1)
+    gnd1_ref.center = pad1_ref.center
+    gnd2_ref = P.add_ref(gnd2)
+    net = P.add_ref(N)
+    net.y = pad1_ref.y
+    gnd2_ref.center = pad2_ref.center
+    gnd2_ref.movex(2.5)
+    P.absorb(net)
+    P.absorb(gnd1_ref)
+    P.absorb(gnd2_ref)
     return P
 
 
