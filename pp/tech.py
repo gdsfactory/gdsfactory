@@ -241,8 +241,8 @@ SIMULATION_SETTINGS = SimulationSettings()
 
 @dataclasses.dataclass
 class Pad:
-    width: float = 100
-    height: float = 100
+    width: float = 100.0
+    height: float = 100.0
     layer: Layer = LAYER.M3
 
 

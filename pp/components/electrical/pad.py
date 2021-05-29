@@ -1,17 +1,15 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, Optional, Tuple
 
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
-from pp.config import TECH
+from pp.layers import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 
 @cell
 def pad(
-    width: float = TECH.component_settings.pad.width,
-    height: float = TECH.component_settings.pad.height,
-    layer: Layer = TECH.component_settings.pad.layer,
+    width: float = 100.0, height: float = 100.0, layer: Layer = LAYER.M3
 ) -> Component:
     """rectangular pad with 4 ports (N, S, E, W)
 
@@ -34,7 +32,7 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_list: List[str] = ("N",),
+    port_list: Iterable[str] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -69,7 +67,7 @@ def pad_array_2d(
     pitchy: float = 150.0,
     ncols: int = 3,
     nrows: int = 3,
-    port_list: List[str] = ("N",),
+    port_list: Tuple[str, ...] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -77,10 +75,13 @@ def pad_array_2d(
 
     Args:
         pad: pad element
-        pitch: x spacing
-        n: number of pads
+        pitchx: x spacing
+        pitchy: x spacing
+        ncols: number of cols
+        nrows: number of rows
         port_list: list of port orientations (N, S, W, E) per pad
         pad_settings: settings for pad if pad is callable
+        **port_settings
     """
     c = Component()
     pad_settings = pad_settings or {}
@@ -92,7 +93,7 @@ def pad_array_2d(
             p.x = i * pitchx
             p.y = j * pitchy
             for port_name in port_list:
-                port_name_new = f"{port_name}{j}_{i}"
+                port_name_new = f"{port_name}_{j}_{i}"
                 c.add_port(port=p.ports[port_name], name=port_name_new, **port_settings)
 
     return c
@@ -106,5 +107,5 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.settings['spacing'])
     # c = pad_array()
-    c = pad_array_2d()
+    c = pad_array_2d(ncols=2, nrows=3, port_list=("E",), pad_settings=dict(width=80))
     c.show(show_ports=True)
