@@ -5,14 +5,14 @@ from pp.routing.get_route_sbend import get_route_sbend
 
 # from pp.routing.routing import route_basic
 from pp.routing.routing import route_manhattan
-from pp.routing.sort_ports import sort_ports
+from pp.routing.sort_ports import sort_ports as sort_ports_function
 from pp.types import Routes
 
 
 def get_routes(
     ports1: Iterable[Port],
     ports2: Iterable[Port],
-    with_sort_ports: bool = True,
+    sort_ports: bool = True,
     **kwargs,
 ) -> Routes:
     """Returns Routes with all the manhattan routes.
@@ -30,8 +30,8 @@ def get_routes(
     references = []
     lengths = []
 
-    if with_sort_ports:
-        ports1, ports2 = sort_ports(ports1, ports2)
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     for port1, port2 in zip(ports1, ports2):
         try:
