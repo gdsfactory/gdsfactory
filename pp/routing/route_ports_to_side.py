@@ -29,29 +29,33 @@ def sort_key_north_to_south(port: Port) -> float64:
 
 
 def route_ports_to_side(
-    ports: Dict[str, Port],
+    ports: Union[Dict[str, Port], List[Port], Component, ComponentReference],
     side: str = "north",
     x: None = None,
     y: Optional[float64] = None,
     routing_func=get_route,
     **kwargs,
-) -> List[Route]:
+) -> Tuple[List[Route], List[Port]]:
     """Routes ports to a given side
 
     Args:
-        ports: the list of ports to be connected to the side
-            can also be a dictionnary, a <pp.Component> or a phidl
-            <ComponentReference>
+        ports: the list or dict of ports to be connected to the side
+            can also be a Component or a ComponentReference
         side should be 'north', 'south', 'east' or 'west'
         x: only for east/west side routing: the x position where the ports should be sent
             If None, will use the eastest/westest value
         y: only for south/north side routing: the y position where the ports should be send
             If None, will use the southest/northest value
         routing_func: the routing function. By default uses `get_route`
-        kwargs: may include:
-            `radius`
-            `extend_bottom`, `extend_top` for east/west routing
-            `extend_left`, `extend_right` for south/north routing
+        kwargs:
+            radius
+            separation
+            extend_bottom/extend_top for east/west routing
+            extend_left, extend_right for south/north routing
+
+    Returns:
+        List of routes:
+        List of ports:
     """
 
     if not ports:
@@ -66,7 +70,7 @@ def route_ports_to_side(
 
     # Choose which
     if side in ["north", "south"]:
-        func_route = connect_ports_to_y
+        func_route = route_ports_to_y
         if y is not None:
             xy = y
         else:
@@ -78,7 +82,9 @@ def route_ports_to_side(
         else:
             xy = side
 
-        func_route = connect_ports_to_x
+        func_route = route_ports_to_x
+    else:
+        raise ValueError(f"side = {side} not valid (north, south, west, east)")
 
     return func_route(ports, xy, routing_func=routing_func, **kwargs)
 
@@ -99,9 +105,9 @@ def route_ports_to_east(list_ports, **kwargs):
     return route_ports_to_side(list_ports, side="east", **kwargs)
 
 
-def connect_ports_to_x(
+def route_ports_to_x(
     list_ports: List[Port],
-    x: str = "east",
+    x: Union[float, str] = "east",
     separation: float = 10.0,
     radius: float = TECH.waveguide.strip.radius,
     extend_bottom: int = 0,
@@ -112,31 +118,42 @@ def connect_ports_to_x(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args,
-) -> Tuple[
-    List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]], List[Port]
-]:
+) -> Tuple[List[Route], List[Port]]:
     """
-     * ``list_ports``: reasonably well behaved list of ports
-            i.e
-            ports facing north ports are norther than any other ports
-            ports facing south ports are souther ...
-            ports facing west ports are the wester ...
-            ports facing east ports are the easter ...
-
-     * ``x``: float or string:
-                if float: x coordinate to which the ports will be routed
-                if string: "east" -> route to east
-                if string: "west" -> route to west
-
-     * ``backward_port_side_split_index``: integer
-            this integer represents and index in the list of backwards ports
-                (bottom to top)
-            all ports with an index strictly lower or equal are routed bottom
+    Args:
+        list_ports: reasonably well behaved list of ports
+           i.e
+           ports facing north ports are norther than any other ports
+           ports facing south ports are souther ...
+           ports facing west ports are the wester ...
+           ports facing east ports are the easter ...
+        x: float or string:
+           if float: x coordinate to which the ports will be routed
+           if string: "east" -> route to east
+           if string: "west" -> route to west
+        separation:
+        radius
+        extend_bottom
+        extend_top
+        extension_length
+        y0_bottom
+        y0_top
+        routing_func:
+        backward_port_side_split_index: integer
+           this integer represents and index in the list of backwards ports
+                    (bottom to top)
+                all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
 
     Returns:
         - a list of connectors which can be added to an element list
         - a list of the new optical ports
+
+    First route the bottom-half of the back ports
+        (back ports are the one facing opposite side of x)
+    Then route the south ports
+    then the front ports
+    then the north ports
 
     """
 
@@ -168,8 +185,7 @@ def connect_ports_to_x(
     elif isinstance(x, float):
         pass
     else:
-        pass
-        # raise ValueError('``x`` should be a float or "east" or "west"')
+        raise ValueError(f'x={x} should be a float or "east" or "west"')
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
@@ -186,13 +202,6 @@ def connect_ports_to_x(
         angle = 180
     else:
         raise ValueError("x should be either to the east or to the west of all ports")
-    """
-    First route the bottom-half of the back ports
-        (back ports are the one facing opposite side of x)
-    Then route the south ports
-    then the front ports
-    then the north ports
-    """
 
     # forward_ports.sort()
     north_ports.sort(key=sort_key_north)
@@ -205,7 +214,7 @@ def connect_ports_to_x(
     backward_ports_thru_south.sort(key=sort_key_south_to_north)
     backward_ports_thru_north.sort(key=sort_key_north_to_south)
 
-    elements = []
+    routes = []
     ports = []
 
     def add_port(p, y, l_elements, l_ports, start_straight=0.01):
@@ -225,15 +234,15 @@ def connect_ports_to_x(
 
     y_optical_bot = y0_bottom
     for p in south_ports:
-        add_port(p, y_optical_bot, elements, ports)
+        add_port(p, y_optical_bot, routes, ports)
         y_optical_bot -= separation
 
     for p in forward_ports:
-        add_port(p, p.y, elements, ports)
+        add_port(p, p.y, routes, ports)
 
     y_optical_top = y0_top
     for p in north_ports:
-        add_port(p, y_optical_top, elements, ports)
+        add_port(p, y_optical_top, routes, ports)
         y_optical_top += separation
 
     start_straight = 0.01
@@ -253,7 +262,7 @@ def connect_ports_to_x(
         add_port(
             p,
             y_optical_top,
-            elements,
+            routes,
             ports,
             start_straight=start_straight + start_straight0,
         )
@@ -274,17 +283,17 @@ def connect_ports_to_x(
         add_port(
             p,
             y_optical_bot,
-            elements,
+            routes,
             ports,
             start_straight=start_straight + start_straight0,
         )
         y_optical_bot -= separation
         start_straight += separation
 
-    return elements, ports
+    return routes, ports
 
 
-def connect_ports_to_y(
+def route_ports_to_y(
     list_ports: List[Port],
     y: float64 = "north",
     separation: float = 10.0,
@@ -297,36 +306,39 @@ def connect_ports_to_y(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args: Dict[Any, Any],
-) -> Union[
-    Tuple[List[ComponentReference], List[Port]],
-    Tuple[
-        List[Dict[str, Union[List[ComponentReference], Dict[str, Port], float]]],
-        List[Port],
-    ],
-]:
+) -> Tuple[List[Route], List[Port]]:
     """
-     * ``list_ports``: reasonably well behaved list of ports
-            i.e
-            ports facing north ports are norther than any other ports
-            ports facing south ports are souther ...
-            ports facing west ports are the wester ...
-            ports facing east ports are the easter ...
 
-     * ``y``: float or string:
-                if float: y coordinate to which the ports will be routed
-                if string: "north" -> route to north
-                if string: "south" -> route to south
+    Args:
+        list_ports: reasonably well behaved list of ports
+           i.e
+           ports facing north ports are norther than any other ports
+           ports facing south ports are souther ...
+           ports facing west ports are the wester ...
+           ports facing east ports are the easter ...
 
-     * ``backward_port_side_split_index``: integer
-            this integer represents and index in the list of backwards ports
-                (sorted from left to right)
-            all ports with an index strictly larger are routed right
-            all ports with an index lower or equal are routed left
+        y: float or string:
+               if float: y coordinate to which the ports will be routed
+               if string: "north" -> route to north
+               if string: "south" -> route to south
+
+        backward_port_side_split_index: integer
+               this integer represents and index in the list of backwards ports
+                   (sorted from left to right)
+               all ports with an index strictly larger are routed right
+               all ports with an index lower or equal are routed left
+        separation:
+        radius
 
     Returns:
-        - a list of connectors which can be added to an element list
+        - a list of Routes
         - a list of the new optical ports
 
+    First route the bottom-half of the back ports
+        (back ports are the one facing opposite side of x)
+    Then route the south ports
+    then the front ports
+    then the north ports
     """
 
     if y == "south" and extension_length > 0:
@@ -379,13 +391,6 @@ def connect_ports_to_y(
         angle = -90.0
     else:
         raise ValueError("y should be either to the north or to the south of all ports")
-    """
-    First route the bottom-half of the back ports
-        (back ports are the one facing opposite side of x)
-    Then route the south ports
-    then the front ports
-    then the north ports
-    """
 
     west_ports.sort(key=sort_key_west)
     east_ports.sort(key=sort_key_east)
@@ -399,7 +404,7 @@ def connect_ports_to_y(
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
     backward_ports_thru_east.sort(key=sort_key_east_to_west)
 
-    elements = []
+    routes = []
     ports = []
 
     def add_port(p, x, l_elements, l_ports, start_straight=0.01):
@@ -433,34 +438,34 @@ def connect_ports_to_y(
 
     x_optical_left = x0_left
     for p in west_ports:
-        add_port(p, x_optical_left, elements, ports)
+        add_port(p, x_optical_left, routes, ports)
         x_optical_left -= separation
 
     for p in forward_ports:
-        add_port(p, p.x, elements, ports)
+        add_port(p, p.x, routes, ports)
 
     x_optical_right = x0_right
     for p in east_ports:
-        add_port(p, x_optical_right, elements, ports)
+        add_port(p, x_optical_right, routes, ports)
         x_optical_right += separation
 
     start_straight = 0.01
     for p in backward_ports_thru_east:
-        add_port(p, x_optical_right, elements, ports, start_straight=start_straight)
+        add_port(p, x_optical_right, routes, ports, start_straight=start_straight)
         x_optical_right += separation
         start_straight += separation
 
     start_straight = 0.01
     for p in backward_ports_thru_west:
-        add_port(p, x_optical_left, elements, ports, start_straight=start_straight)
+        add_port(p, x_optical_left, routes, ports, start_straight=start_straight)
         x_optical_left -= separation
         start_straight += separation
 
-    return elements, ports
+    return routes, ports
 
 
-@pp.cell_with_validator
-def sample_route_side() -> Component:
+@pp.cell
+def _sample_route_side() -> Component:
     c = Component()
     xs = [0.0, 10.0, 25.0, 50.0]
     ys = [0.0, 10.0, 25.0, 50.0]
@@ -487,10 +492,10 @@ def sample_route_side() -> Component:
     return c
 
 
-@pp.cell_with_validator
-def sample_route_sides() -> Component:
+@pp.cell
+def _sample_route_sides() -> Component:
     c = Component()
-    _dummy_t = sample_route_side()
+    _dummy_t = _sample_route_side()
     sides = ["north", "south", "east", "west"]
     positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
     for pos, side in zip(positions, sides):
@@ -505,5 +510,16 @@ def sample_route_sides() -> Component:
 
 
 if __name__ == "__main__":
-    component = sample_route_sides()
-    component.show()
+    c = Component()
+    _dummy_t = _sample_route_side()
+    sides = ["north", "south", "east", "west"]
+    positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
+    for pos, side in zip(positions, sides):
+        dummy_ref = _dummy_t.ref(position=pos)
+        c.add(dummy_ref)
+        routes, ports = route_ports_to_side(dummy_ref, side, waveguide="nitride")
+        for route in routes:
+            c.add(route.references)
+        for i, p in enumerate(ports):
+            c.add_port(name=f"{side[0]}{i}", port=p)
+    c.show()
