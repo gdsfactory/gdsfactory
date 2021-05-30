@@ -66,7 +66,6 @@ from pp.rotate import rotate
 from pp.snap import snap_to_grid
 from pp.set_plot_options import set_plot_options
 
-
 set_plot_options()
 
 c = components

@@ -1,0 +1,15 @@
+function_name: array_with_fanout
+info: {}
+module: pp.components.array_with_fanout
+name: array_with_fanout
+settings:
+  bend_port_name: N0
+  bend_port_name_out: W0
+  component_port_name: S
+  end_straight: 40
+  n: 3
+  pitch: 150
+  radius: 5
+  start_straight: 5
+  waveguide: metal_routing
+  waveguide_pitch: 10

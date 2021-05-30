@@ -91,8 +91,10 @@ def resistance_meander(
     pad2 = pc.rectangle(size=(x + 5, z), layer=pad_layer)
     gnd1 = offset(pad1, distance=-5, layer=gnd_layer)
     gnd2 = offset(pad2, distance=-5, layer=gnd_layer)
-    pad1_ref = P.add_ref(pad1).movex(-x - width)
-    pad2_ref = P.add_ref(pad1).movex(length_row + width)
+    pad1_ref = P.add_ref(pad1)
+    pad1_ref.movex(-x - width)
+    pad2_ref = P.add_ref(pad1)
+    pad2_ref.movex(length_row + width)
     gnd1_ref = P.add_ref(gnd1)
     gnd1_ref.center = pad1_ref.center
     gnd2_ref = P.add_ref(gnd2)
@@ -103,6 +105,8 @@ def resistance_meander(
     P.absorb(net)
     P.absorb(gnd1_ref)
     P.absorb(gnd2_ref)
+    P.absorb(pad1_ref)
+    P.absorb(pad2_ref)
     return P
 
 
