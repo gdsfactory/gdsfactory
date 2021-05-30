@@ -3,14 +3,10 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Union
 
 from pp.cell import get_component_name
+from pp.component import Component
 from pp.components import component_factory
 from pp.config import CONFIG
 from pp.doe import get_settings_list
-from pp.routing.add_fiber_array import add_fiber_array_te, add_fiber_array_tm
-
-function_factory = dict(
-    add_fiber_array_te=add_fiber_array_te, add_fiber_array_tm=add_fiber_array_tm
-)
 
 
 def write_doe_metadata(
@@ -120,8 +116,7 @@ def write_doe(
     doe_settings: Optional[Dict[str, str]] = None,
     path: Path = CONFIG["build_directory"],
     doe_metadata_path: Path = CONFIG["doe_directory"],
-    functions: Optional[List[str]] = None,
-    function_factory: Dict[str, Callable] = function_factory,
+    functions: Optional[List[Callable[..., Component]]] = None,
     component_factory: Dict[str, Callable] = component_factory,
     **kwargs,
 ) -> List[Path]:
@@ -144,7 +139,6 @@ def write_doe(
         doe_settings: shared settings for a DOE
         path: to store build artifacts
         functions: list of function names to apply to DOE
-        function_factory: function names to functions dict
         **kwargs: Doe default settings or variations
     """
 
@@ -175,7 +169,7 @@ def write_doe(
         if "analysis" in kwargs:
             component.data_analysis_protocol = kwargs.get("analysis")
         for f in functions:
-            component = function_factory[f](component)
+            component = f(component)
 
         cell_names.append(component.name)
         cell_settings.append(settings)
@@ -195,7 +189,7 @@ def write_doe(
     return doe_gds_paths
 
 
-def get_markdown_table(do_permutations=True, **kwargs):
+def get_markdown_table(do_permutations=True, **kwargs) -> List[str]:
     """returns the markdown table for a parameter sweep"""
     list_settings = get_settings_list(do_permutations=do_permutations, **kwargs)
     # Convert table fields to strings
@@ -216,14 +210,14 @@ def get_markdown_table(do_permutations=True, **kwargs):
     field_sizes = [n + 2 for n in field_sizes]
 
     # Line formatting from fields
-    def fmt_line(fields):
+    def fmt_line(fields) -> str:
         fmt_fields = [
             " " + fields[i] + " " * (field_sizes[i] - len(fields[i]) - 1)
             for i in range(N)
         ]
         return "|".join(fmt_fields)
 
-    def table_head_sep():
+    def table_head_sep() -> str:
         return "|".join(["-" * n for n in field_sizes])
 
     t = []
@@ -250,7 +244,6 @@ def test_write_doe() -> Path:
         width_mmi=[5, 10],
         length_mmi=[20, 30],
         do_permutations=True,
-        # functions=["add_fiber_array_tm"],
         doe_settings=dict(test="optical_tm"),
     )
     assert len(paths) == 4

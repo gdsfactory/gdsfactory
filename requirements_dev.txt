@@ -7,6 +7,7 @@ sphinx-autodoc-typehints
 pytest-cov
 nbval
 flake8
+mypy
 pre-commit
 tox
 flake8-rst-docstrings

@@ -2,7 +2,7 @@ import pathlib
 from dataclasses import field
 from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
-import pydantic.dataclasses as dataclasses
+import pydantic
 from phidl.device_layout import Device as Component
 
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -10,7 +10,7 @@ Layer = Tuple[int, int]
 IGNORE_PREXIXES = ("_", "get_")
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class LayerMap:
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
@@ -51,7 +51,7 @@ class LayerMap:
 LAYER = LayerMap()
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class LayerLevel:
     """Layer For 3D LayerStack.
 
@@ -68,14 +68,16 @@ class LayerLevel:
     material: Optional[str] = None
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class LayerStack:
-    WG = LayerLevel((1, 0), thickness_nm=220.0, zmin_nm=0.0, material="si")
-    WGCLAD = LayerLevel((111, 0), zmin_nm=0.0, material="sio2")
-    SLAB150 = LayerLevel((2, 0), thickness_nm=150.0, zmin_nm=0, material="si")
-    SLAB90 = LayerLevel((3, 0), thickness_nm=150.0, zmin_nm=0.0, material="si")
-    WGN = LayerLevel((34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin")
-    WGN_CLAD = LayerLevel((36, 0))
+    WG = LayerLevel(layer=(1, 0), thickness_nm=220.0, zmin_nm=0.0, material="si")
+    WGCLAD = LayerLevel(layer=(111, 0), zmin_nm=0.0, material="sio2")
+    SLAB150 = LayerLevel(layer=(2, 0), thickness_nm=150.0, zmin_nm=0, material="si")
+    SLAB90 = LayerLevel(layer=(3, 0), thickness_nm=150.0, zmin_nm=0.0, material="si")
+    WGN = LayerLevel(
+        layer=(34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin"
+    )
+    WGN_CLAD = LayerLevel(layer=(36, 0))
 
     def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""
@@ -122,7 +124,7 @@ LAYER_STACK = LayerStack()
 # waveguides
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Section:
     width: float
     offset: float = 0
@@ -131,7 +133,7 @@ class Section:
     name: str = None
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Waveguide:
     width: float
     layer: Layer
@@ -146,7 +148,7 @@ class Waveguide:
     sections: Optional[Tuple[Section, ...]] = None
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Strip(Waveguide):
     width: float = 0.5
     width_wide: float = 2.0
@@ -160,7 +162,7 @@ class Strip(Waveguide):
     layers_cladding: Optional[List[Layer]] = (LAYER.WGCLAD,)
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Rib(Waveguide):
     width: float = 0.5
     auto_widen: bool = True
@@ -173,7 +175,7 @@ class Rib(Waveguide):
     layers_cladding: Optional[List[Layer]] = (LAYER.SLAB90,)
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class MetalRouting(Waveguide):
     width: float = 2.0
     width_wide: float = 2.0
@@ -182,7 +184,7 @@ class MetalRouting(Waveguide):
     radius: float = 5.0
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Nitride(Waveguide):
     width: float = 1.0
     width_wide: float = 1.0
@@ -191,7 +193,7 @@ class Nitride(Waveguide):
     radius: float = 20.0
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class StripHeater(Waveguide):
     width: float = 1.0
     auto_widen: bool = False
@@ -208,7 +210,7 @@ class StripHeater(Waveguide):
     )
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Waveguides:
     strip: Waveguide = Strip()
     metal_routing: Waveguide = MetalRouting()
@@ -217,7 +219,7 @@ class Waveguides:
     rib: Waveguide = StripHeater()
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class SimulationSettings:
     remove_layers: Tuple[Layer, ...] = (LAYER.WGCLAD,)
     background_material: str = "sio2"
@@ -239,14 +241,14 @@ SIMULATION_SETTINGS = SimulationSettings()
 # Component settings
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Pad:
     width: float = 100.0
     height: float = 100.0
     layer: Layer = LAYER.M3
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Mmi1x2:
     width: float = 0.5
     width_taper: float = 1.0
@@ -258,7 +260,7 @@ class Mmi1x2:
     waveguide: str = "strip"
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Mmi2x2:
     width: float = 0.5
     width_taper: float = 1.0
@@ -268,13 +270,13 @@ class Mmi2x2:
     gap_mmi: float = 0.25
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class ManhattanText:
     layer: Layer = LAYER.M3
     size: float = 10
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class ComponentSettings:
     pad: Pad = Pad()
     mmi1x2: Mmi1x2 = Mmi1x2()
@@ -286,7 +288,7 @@ def make_empty_dict():
     return {}
 
 
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Factory:
     """Stores component factories
 
@@ -339,7 +341,7 @@ class Factory:
 
 
 # TECH
-@dataclasses.dataclass
+@pydantic.dataclasses.dataclass
 class Tech:
     name: str = "generic"
     layer: LayerMap = LAYER

@@ -5,6 +5,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.grating_coupler.grating_coupler_tree import grating_coupler_tree
 from pp.components.rectangle import rectangle
+from pp.types import Layer
 
 
 @pp.cell_with_validator
@@ -62,7 +63,10 @@ def align_wafer(
 
 @cell
 def add_frame(
-    component: Component, width: float = 10.0, spacing: float = 10.0, layer=pp.LAYER.WG
+    component: Component,
+    width: float = 10.0,
+    spacing: float = 10.0,
+    layer: Layer = pp.LAYER.WG,
 ) -> Component:
     """Returns component with a frame around it.
 
@@ -99,7 +103,7 @@ def add_frame(
 
 
 @pp.cell_with_validator
-def triangle(x, y, layer=1):
+def triangle(x: float, y: float, layer: Layer = (1, 0)) -> Component:
     c = pp.Component()
     points = [[x, 0], [0, 0], [0, y]]
     c.add_polygon(points, layer=layer)
@@ -107,7 +111,9 @@ def triangle(x, y, layer=1):
 
 
 @pp.cell_with_validator
-def align_cryo_bottom_right(x=60, y=60, layer=1):
+def align_cryo_bottom_right(
+    x: float = 60.0, y: float = 60.0, layer=(1, 0)
+) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=180)
     cc = pp.Component()
@@ -116,7 +122,9 @@ def align_cryo_bottom_right(x=60, y=60, layer=1):
 
 
 @pp.cell_with_validator
-def align_cryo_top_right(x=60, y=60, layer=1):
+def align_cryo_top_right(
+    x: float = 60, y: float = 60.0, layer: Layer = (1, 0)
+) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=270)
     cc = pp.Component()
@@ -125,7 +133,9 @@ def align_cryo_top_right(x=60, y=60, layer=1):
 
 
 @pp.cell_with_validator
-def align_cryo_bottom_left(x=60, y=60, layer=1):
+def align_cryo_bottom_left(
+    x: float = 60.0, y: float = 60.0, layer: Layer = (1, 0)
+) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=90)
     cc = pp.Component()
@@ -134,7 +144,9 @@ def align_cryo_bottom_left(x=60, y=60, layer=1):
 
 
 @pp.cell_with_validator
-def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
+def align_cryo_top_left(
+    x: float = 60.0, y: float = 60.0, s: float = 0.2, layer: Layer = (1, 0)
+) -> Component:
     c = pp.Component()
     points = [[0, 0], [s, 0], [x - s, y - s], [x - s, y], [0, y]]
     c.add_polygon(points, layer=layer)
@@ -143,9 +155,8 @@ def align_cryo_top_left(x=60, y=60, s=0.2, layer=1):
 
 
 @pp.cell_with_validator
-def align_tree_top_left(**kwargs):
-    c = pp.Component()
-    c.name = "grating_coupler_tree_tl"
+def align_tree_top_left(**kwargs) -> Component:
+    c = Component()
     gc = grating_coupler_tree(**kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
@@ -155,9 +166,8 @@ def align_tree_top_left(**kwargs):
 
 
 @pp.cell_with_validator
-def align_tree_top_left_with_cross(**kwargs):
-    c = pp.Component()
-    c.name = "grating_coupler_tree_tl_x"
+def align_tree_top_left_with_cross(**kwargs) -> Component:
+    c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
@@ -170,9 +180,8 @@ def align_tree_top_left_with_cross(**kwargs):
 
 
 @pp.cell_with_validator
-def align_tree_top_right(**kwargs):
+def align_tree_top_right(**kwargs) -> Component:
     c = pp.Component()
-    c.name = "grating_coupler_tree_tr"
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
@@ -182,9 +191,8 @@ def align_tree_top_right(**kwargs):
 
 
 @pp.cell_with_validator
-def align_tree_bottom_left(**kwargs):
-    c = pp.Component()
-    c.name = "grating_coupler_tree_bl"
+def align_tree_bottom_left(**kwargs) -> Component:
+    c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
@@ -194,9 +202,8 @@ def align_tree_bottom_left(**kwargs):
 
 
 @pp.cell_with_validator
-def align_tree_bottom_right(**kwargs):
-    c = pp.Component()
-    c.name = "grating_coupler_tree_br"
+def align_tree_bottom_right(**kwargs) -> Component:
+    c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)

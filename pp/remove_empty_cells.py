@@ -4,7 +4,6 @@ from pp.import_gds import import_gds
 
 
 def remove_cell(component, cell_name) -> None:
-
     all_cells = component.get_dependencies(recursive=True)
     all_cell_names = set([c.name for c in all_cells])
     if cell_name in all_cell_names:
@@ -23,9 +22,7 @@ def is_empty(c):
 
 
 def remove_empty_cells(gds, recursive=True, recurse_depth=0):
-    """
-    returns the list of removed cells
-    """
+    """Returns the list of removed cells."""
     if isinstance(gds, str):
         gds = import_gds(gds)
 

@@ -1,7 +1,6 @@
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from numpy import float64
 
 import pp
 from pp.component import Component, ComponentReference
@@ -12,27 +11,27 @@ from pp.routing.get_route import get_route
 from pp.types import Route
 
 
-def sort_key_west_to_east(port: Port) -> float64:
+def sort_key_west_to_east(port: Port) -> float:
     return port.x
 
 
-def sort_key_east_to_west(port: Port) -> float64:
+def sort_key_east_to_west(port: Port) -> float:
     return -port.x
 
 
-def sort_key_south_to_north(port: Port) -> float64:
+def sort_key_south_to_north(port: Port) -> float:
     return port.y
 
 
-def sort_key_north_to_south(port: Port) -> float64:
+def sort_key_north_to_south(port: Port) -> float:
     return -port.y
 
 
 def route_ports_to_side(
     ports: Union[Dict[str, Port], List[Port], Component, ComponentReference],
     side: str = "north",
-    x: None = None,
-    y: Optional[float64] = None,
+    x: Optional[float] = None,
+    y: Optional[float] = None,
     routing_func=get_route,
     **kwargs,
 ) -> Tuple[List[Route], List[Port]]:
@@ -110,11 +109,11 @@ def route_ports_to_x(
     x: Union[float, str] = "east",
     separation: float = 10.0,
     radius: float = TECH.waveguide.strip.radius,
-    extend_bottom: int = 0,
-    extend_top: int = 0,
-    extension_length: int = 0,
-    y0_bottom: None = None,
-    y0_top: None = None,
+    extend_bottom: float = 0.0,
+    extend_top: float = 0.0,
+    extension_length: float = 0.0,
+    y0_bottom: Optional[float] = None,
+    y0_top: Optional[float] = None,
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args,
@@ -295,14 +294,14 @@ def route_ports_to_x(
 
 def route_ports_to_y(
     list_ports: List[Port],
-    y: float64 = "north",
+    y: Union[float, str] = "north",
     separation: float = 10.0,
     radius: float = TECH.waveguide.strip.radius,
-    x0_left: None = None,
-    x0_right: None = None,
-    extension_length: int = 0,
-    extend_left: int = 0,
-    extend_right: int = 0,
+    x0_left: Optional[float] = None,
+    x0_right: Optional[float] = None,
+    extension_length: float = 0.0,
+    extend_left: float = 0.0,
+    extend_right: float = 0.0,
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     **routing_func_args: Dict[Any, Any],

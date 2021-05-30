@@ -1,8 +1,12 @@
+from typing import Callable, List
+
 import numpy as np
 from phidl.device_layout import _rotate_points
 
+from pp.port import Port
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints
+from pp.types import Route
 
 
 def _groups(ports, cut, axis="X"):
@@ -50,8 +54,12 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
 
 
 def get_bundle_corner(
-    ports1, ports2, route_filter=get_route_from_waypoints, separation=5.0, **kwargs
-):
+    ports1: List[Port],
+    ports2: List[Port],
+    route_filter: Callable[..., Route] = get_route_from_waypoints,
+    separation: float = 5.0,
+    **kwargs,
+) -> List[Route]:
     r"""
     Args:
         ports1: list of start ports

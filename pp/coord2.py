@@ -33,7 +33,10 @@ class Coord2:
         return Coord2(self[0] * a, self[1] * a)
 
     def __str__(self):
-        return "({}, {})".format(self[0], self[1])
+        return f"Coord2({self[0]}, {self[1]})"
+
+    def __repr__(self):
+        return f"Coord2({self[0]}, {self[1]})"
 
 
 if __name__ == "__main__":
