@@ -27,6 +27,7 @@ from pydantic import validate_arguments
 - compatible with phidl 1.5.2
 - renamed routing functions
 - reduced routing functions functions in pp.routing
+- better error messages
 
 ## 2.5.0
 

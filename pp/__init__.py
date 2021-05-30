@@ -49,6 +49,7 @@ import pp.port as port
 import pp.types as types
 import pp.path as path
 import pp.import_gds as gds
+import pp.snap as snap
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -114,6 +115,7 @@ __all__ = [
     "rotate",
     "routing",
     "show",
+    "snap",
     "snap_to_grid",
     "set_plot_options",
     "write_doe",

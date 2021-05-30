@@ -88,8 +88,8 @@ def get_netlist(
     for reference in component.references:
         c = reference.parent
         origin = reference.origin
-        x = snap_to_grid(origin[0])
-        y = snap_to_grid(origin[1])
+        x = float(snap_to_grid(origin[0]))
+        y = float(snap_to_grid(origin[1]))
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
