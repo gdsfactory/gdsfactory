@@ -5,25 +5,12 @@ from pp.add_tapers import add_tapers
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
-from pp.components.grating_coupler.elliptical_trenches import (
-    grating_coupler_te,
-    grating_coupler_tm,
-)
+from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.taper import taper
 from pp.config import TECH
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.types import ComponentFactory
-
-
-def add_fiber_array_te(*args, **kwargs):
-    return add_fiber_array(*args, **kwargs)
-
-
-def add_fiber_array_tm(
-    *args, grating_coupler=grating_coupler_tm, **kwargs
-) -> Component:
-    return add_fiber_array(*args, grating_coupler=grating_coupler, **kwargs)
 
 
 @cell

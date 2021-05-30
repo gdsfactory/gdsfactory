@@ -1,8 +1,8 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "11cdc8d8201091a19ff1c28f7b7c75c3691954ad"
+    rev: "371a07eb4c7458db469e9a96382309c19312de6b"
     hooks:
-      # - id: check-yaml
+      - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/hakancelik96/unimport
@@ -11,11 +11,11 @@ repos:
       - id: unimport
         args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
-    rev: "a4addbd54ac5a49cfb3cba5a7de4b0c0d7459246"
+    rev: "cd6b09c07c20a47cfab26a1aa93a37be1c57bb22"
     hooks:
-        - id: isort
-          files: "pp/.*"
-          args: ["--profile", "black", "--filter-files"]
+      - id: isort
+        files: "pp/.*"
+        args: ["--profile", "black", "--filter-files"]
 
   # - repo: https://github.com/asottile/reorder_python_imports
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
@@ -23,29 +23,31 @@ repos:
   #     - id: reorder-python-imports
 
   - repo: https://github.com/psf/black
-    rev: "f933e8a8382e6945bf950356f6ecc4ded5617617"
+    rev: "519f807f879350704449e424c5c5b7e049e582b3"
     hooks:
       - id: black
   - repo: https://gitlab.com/pycqa/flake8
-    rev: "28aa67314e2c451002d6362c54aed6e08f4f9f19"
+    rev: "3bcadce2a9d91f4bb6afa97b5d2d1a82d7a1e937"
     hooks:
       - id: flake8
   - repo: https://github.com/kynan/nbstripout
-    rev: d1e7d2662e29093b0be4056cf26cd2d449034882
+    rev: b6da9bfa630e7570fe909fd51091a75d4d01236a
     hooks:
       - id: nbstripout
         files: ".ipynb"
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: "214c33306afe17f1cc7d2d55e4da705b6ebe0627"
+  #   hooks:
+  #     - id: mypy
+  #       exclude: ^(docs/|example-plugin/|tests/fixtures)
+  #       additional_dependencies:
+  #         - "pydantic"
 
   # - repo: https://github.com/terrencepreilly/darglint
   #   rev: master
   #   hooks:
   #       - id: darglint
   #
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: ""
-  #   hooks:
-  #       - id: mypy
-  #         exclude: ^(docs/|example-plugin/|tests/fixtures)
   # - repo: https://github.com/pycqa/pydocstyle
   #   rev: ""
   #   hooks:

@@ -1,3 +1,4 @@
+# type: ignore
 """ gdspy based placer
 
 YAML defines component DOE settings and placement
@@ -84,12 +85,12 @@ def placer_grid_cell_refs(
 def pack_horizontal(
     cells,
     row_ids=None,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin_x=20,
-    margin_y=20,
+    x0: float = 0.0,
+    y0: float = 0.0,
+    align_x: str = "W",
+    align_y: str = "S",
+    margin_x: float = 20.0,
+    margin_y: float = 20.0,
 ):
     """
     Args:
@@ -167,13 +168,13 @@ def pack_horizontal(
 def pack_vertical(
     cells,
     col_ids=None,
-    x0=0,
-    y0=0,
-    align_x="W",
-    align_y="S",
-    margin_x=20,
-    margin_y=20,
-):
+    x0: float = 0.0,
+    y0: float = 0.0,
+    align_x: str = "W",
+    align_y: str = "S",
+    margin_x: float = 20.0,
+    margin_y: float = 20.0,
+) -> List[Component]:
     """
     Args:
         cells: a list of cells  (size n)

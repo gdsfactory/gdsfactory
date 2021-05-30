@@ -14,7 +14,7 @@ from pp.snap import is_on_grid, snap_to_grid
 from pp.types import Layer, PathType
 
 
-def add_ports_from_markers_inside(*args, **kwargs):
+def add_ports_from_markers_inside(*args, **kwargs) -> None:
     """markers inside the device"""
     return add_ports_from_markers_center(inside=True, *args, **kwargs)
 
@@ -28,7 +28,7 @@ def add_ports_from_markers_square(
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
     port_names: Optional[Iterable[str]] = None,
-):
+) -> None:
     """add ports from markers in port_layer
 
     adds ports at the marker center
@@ -329,7 +329,7 @@ def import_gds(
         return component
 
 
-def write_top_cells(gdspath: Union[str, Path], **kwargs):
+def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:
     """Writes each top level cells into separate GDS file."""
     gdspath = pathlib.Path(gdspath)
     dirpath = gdspath.parent
@@ -343,7 +343,7 @@ def write_top_cells(gdspath: Union[str, Path], **kwargs):
         component.write_gds(f"{dirpath/cellname}.gds")
 
 
-def write_cells(gdspath: Union[str, Path], **kwargs):
+def write_cells(gdspath: Union[str, Path], **kwargs) -> None:
     """Writes each top level cells into separate GDS file."""
     gdspath = pathlib.Path(gdspath)
     dirpath = gdspath.parent
@@ -360,7 +360,7 @@ def write_cells(gdspath: Union[str, Path], **kwargs):
 
 def write_cells_from_component(
     component: Component, dirpath: Optional[PathType] = None
-):
+) -> None:
     """Writes all Component cells recursively.
 
     Args:
@@ -405,7 +405,7 @@ def test_import_gds_hierarchy() -> None:
     assert len(c.get_dependencies()) == 3
 
 
-def _demo_optical():
+def _demo_optical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.components.mmi1x2()
     # for p in c.ports.values():
@@ -421,7 +421,7 @@ def _demo_optical():
     #     print(p)
 
 
-def _demo_electrical():
+def _demo_electrical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.components.mzi2x2(with_elec_connections=True)
     # for p in c.ports.values():
@@ -438,7 +438,7 @@ def _demo_electrical():
         print(p)
 
 
-def _demo_import_gds_markers():
+def _demo_import_gds_markers() -> None:
     import pp
 
     name = "mmi1x2"

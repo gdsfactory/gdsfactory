@@ -176,7 +176,7 @@ def _name_to_short_name(name_str: str) -> str:
     return clean_name(name)
 
 
-def _name_to_description(name_str):
+def _name_to_description(name_str) -> str:
     """Gets the description of the layer contained in the lyp name field.
     It is not strictly necessary to have a description. If none there, it returns ''.
 
@@ -195,7 +195,7 @@ def _name_to_description(name_str):
     return description
 
 
-def _add_layer(entry, lys):
+def _add_layer(entry, lys: LayerSet) -> LayerSet:
     """Entry is a dict of one element of 'properties'.
     No return value. It adds it to the lys variable directly
     """
@@ -225,7 +225,7 @@ def _add_layer(entry, lys):
     return lys
 
 
-def load_lyp(filepath: Path):
+def load_lyp(filepath: Path) -> LayerSet:
     """Returns a LayerSet object from a Klayout lyp file in XML format."""
     with open(filepath, "r") as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
@@ -256,7 +256,7 @@ def load_lyp(filepath: Path):
 # LAYERS_HEATER = [LAYER.HEATER]
 
 
-def lyp_to_dataclass(lyp_filepath: PathType, overwrite: bool = True) -> None:
+def lyp_to_dataclass(lyp_filepath: PathType, overwrite: bool = True) -> str:
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 

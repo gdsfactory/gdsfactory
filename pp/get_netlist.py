@@ -1,4 +1,4 @@
-"""Simpler netlist.
+"""Extract netlist from component port connectivity..
 
 .. code:: yaml
 
@@ -68,6 +68,7 @@ def get_netlist(
     it assumes that ports with same x,y are connected.
 
     Args:
+        component: to Extract netlist
         full_settings: True returns all settings, false only the ones that have changed
         layer_label: label to read instanceNames from (if any)
 
@@ -86,7 +87,7 @@ def get_netlist(
 
     for reference in component.references:
         c = reference.parent
-        origin = snap_to_grid(reference.origin)
+        origin = reference.origin
         x = snap_to_grid(origin[0])
         y = snap_to_grid(origin[1])
         reference_name = get_instance_name(
@@ -162,14 +163,14 @@ def get_netlist(
     )
 
 
-def demo_ring_single_array():
+def demo_ring_single_array() -> None:
     import pp
 
     c = pp.components.ring_single_array()
     c.get_netlist()
 
 
-def demo_mzi_lattice():
+def demo_mzi_lattice() -> None:
     import pp
 
     coupler_lengths = [10, 20, 30, 40]

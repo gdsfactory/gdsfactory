@@ -57,7 +57,7 @@ conda:
 	echo 'conda env installed, run `conda activate pp` to activate it'
 
 mypy:
-	mypy . --ignore-missing-imports
+	mypy pp --ignore-missing-imports
 
 build:
 	python setup.py sdist bdist_wheel
