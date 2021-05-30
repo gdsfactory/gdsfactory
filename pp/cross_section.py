@@ -14,6 +14,20 @@ from pp.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 
+WAVEGUIDE_SETTINGS = dict(
+    width=0.5,
+    layer=(1, 0),
+    width_wide=None,
+    auto_widen=True,
+    auto_widen_minimum_length=200,
+    taper_length=10.0,
+    radius=10.0,
+    cladding_offset=3.0,
+    layer_cladding=None,
+    layers_cladding=None,
+    sections=None,
+)
+
 
 def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
     """Returns waveguide settings from TECH.waveguide"""
@@ -21,6 +35,13 @@ def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
     waveguide_settings = dataclasses.asdict(waveguide_settings)
     if not waveguide_settings:
         raise ValueError(f"no waveguide_settings found for {waveguide}")
+
+    for key in kwargs:
+        if key not in WAVEGUIDE_SETTINGS:
+            raise ValueError(
+                f"waveguide setting '{key}' not in {list(WAVEGUIDE_SETTINGS.keys())}"
+            )
+
     waveguide_settings.update(**kwargs)
     return waveguide_settings
 

@@ -77,7 +77,7 @@ if __name__ == "__main__":
     from pprint import pprint
 
     # c = bend_circular(width=2, layer=pp.LAYER.M1)
-    c = bend_circular(waveguide="metal_routing", width=3)
+    c = bend_circular(waveguide="metal_routing", widtha=3)
     c.show()
     pprint(c.get_settings())
 

@@ -155,7 +155,6 @@ if __name__ == "__main__":
     gctm = pp.components.grating_coupler_tm
 
     # from pprint import pprint
-
     layer_label = pp.LAYER.TEXT
     layer_label = (66, 5)
 
@@ -174,7 +173,7 @@ if __name__ == "__main__":
 
     c.y = 0
     cc = add_fiber_array(
-        # component=c,
+        component=c,
         # optical_routing_type=0,  # needs fix for mzi2x2
         # optical_routing_type=1,
         # optical_routing_type=2,

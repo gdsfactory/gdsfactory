@@ -50,7 +50,7 @@ def straight(
 if __name__ == "__main__":
 
     # c = straight(width=2.0)
-    c = straight(waveguide="strip_heater")
+    c = straight(waveguide2="strip_heater")
     print(c.name)
     c.pprint()
     # print(c.get_settings()['settings']['waveguide_settings']['layers_cladding'])

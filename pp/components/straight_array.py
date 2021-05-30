@@ -10,7 +10,7 @@ def straight_array(
     n: int = 4,
     spacing: float = 4.0,
     straigth: ComponentOrFactory = straight_function,
-    **straigth_settings
+    **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers.
 
@@ -20,11 +20,11 @@ def straight_array(
         n: number of straights
         spacing: edge to edge straight spacing
         straigth: straigth straight Component or factory
-        **straigth_settings
+        **kwargs
     """
 
     c = Component()
-    wg = straigth(**straigth_settings) if callable(straigth) else straigth
+    wg = straigth(**kwargs) if callable(straigth) else straigth
 
     for i in range(n):
         wref = c.add_ref(wg)
