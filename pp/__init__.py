@@ -64,7 +64,6 @@ from pp.grid import grid
 from pp.offset import offset
 from pp.boolean import boolean
 from pp.rotate import rotate
-from pp.snap import snap_to_grid
 from pp.set_plot_options import set_plot_options
 
 set_plot_options()
@@ -116,7 +115,6 @@ __all__ = [
     "routing",
     "show",
     "snap",
-    "snap_to_grid",
     "set_plot_options",
     "write_doe",
     "Port",

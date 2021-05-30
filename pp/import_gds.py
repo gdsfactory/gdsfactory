@@ -10,7 +10,6 @@ from phidl.device_layout import CellArray, DeviceReference
 import pp
 from pp.component import Component
 from pp.port import auto_rename_ports, read_port_markers
-from pp.snap import is_on_grid, snap_to_grid
 from pp.types import Layer, PathType
 
 
@@ -49,8 +48,8 @@ def add_ports_from_markers_square(
     port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = snap_to_grid(p.ymax - p.ymin)
-        dx = snap_to_grid(p.xmax - p.xmin)
+        dy = pp.snap.snap_to_grid(p.ymax - p.ymin)
+        dx = pp.snap.snap_to_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
@@ -153,7 +152,7 @@ def add_ports_from_markers_center(
             continue
 
         # skip square ports as they have no clear orientation
-        if snap_to_grid(dx) == snap_to_grid(dy):
+        if pp.snap.snap_to_grid(dx) == pp.snap.snap_to_grid(dy):
             continue
         pxmax = p.xmax
         pxmin = p.xmin
@@ -312,7 +311,9 @@ def import_gds(
             D.polygons = []
             for p in temp_polygons:
                 if snap_to_grid_nm:
-                    points_on_grid = snap_to_grid(p.polygons[0], nm=snap_to_grid_nm)
+                    points_on_grid = pp.snap.snap_to_grid(
+                        p.polygons[0], nm=snap_to_grid_nm
+                    )
                     p = gdspy.Polygon(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
@@ -387,24 +388,6 @@ def add_settings_from_label(component: Component) -> None:
                 setattr(component, k, v)
 
 
-def test_import_gds_snap_to_grid() -> None:
-    gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
-    c = import_gds(gdspath, snap_to_grid_nm=5)
-    print(len(c.get_polygons()))
-    assert len(c.get_polygons()) == 8
-
-    for x, y in c.get_polygons()[0]:
-        assert is_on_grid(x, 5)
-        assert is_on_grid(y, 5)
-
-
-def test_import_gds_hierarchy() -> None:
-    c0 = pp.components.mzi2x2()
-    gdspath = c0.write_gds()
-    c = import_gds(gdspath)
-    assert len(c.get_dependencies()) == 3
-
-
 def _demo_optical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
     # c  =  pp.components.mmi1x2()
@@ -451,7 +434,6 @@ def _demo_import_gds_markers() -> None:
 
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
-    # test_import_gds_snap_to_grid()
 
     gdspath = pp.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
