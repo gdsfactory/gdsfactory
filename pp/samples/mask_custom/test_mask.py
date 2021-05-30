@@ -9,13 +9,14 @@ import pytest
 import pp
 from pp.add_termination import add_gratings_and_loop_back
 from pp.autoplacer.yaml_placer import place_from_yaml
+from pp.component import Component
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
 
 
-def add_te(component, **kwargs):
+def add_te(component, **kwargs) -> Component:
     c = pp.routing.add_fiber_array(
         component=component,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
@@ -35,7 +36,7 @@ def add_tm(component, **kwargs):
 
 
 @pp.cell
-def coupler_te(gap, length):
+def coupler_te(gap: float, length: float) -> Component:
     """Directional coupler with TE grating couplers."""
     c = pp.components.coupler(gap=gap, length=length)
     cc = add_te(c)
@@ -43,7 +44,7 @@ def coupler_te(gap, length):
 
 
 @pp.cell
-def spiral_te(width=0.5, length=20e3):
+def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
     """Waveguide Spiral with TE grating_coupler
 
     Args:
@@ -60,7 +61,7 @@ def spiral_te(width=0.5, length=20e3):
 
 
 @pp.cell
-def spiral_tm(width=0.5, length=20e3):
+def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
     """Waveguide Spiral with TM grating_coupler.
 
     Args:
@@ -82,14 +83,14 @@ component_factory = dict(
 
 
 @pytest.fixture
-def cleandir():
+def cleandir() -> None:
     build_folder = CONFIG["samples_path"] / "mask_custom" / "build"
     if build_folder.exists():
         shutil.rmtree(build_folder)
 
 
 @pytest.fixture
-def chdir():
+def chdir() -> None:
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     os.chdir(workspace_folder)
 
@@ -145,4 +146,5 @@ if __name__ == "__main__":
     # for length in lengths:
     #     c = coupler_te(gap=0.3, length=length)
 
-    gdsp = test_mask()
+    gdspath = test_mask()
+    pp.show(gdspath)
