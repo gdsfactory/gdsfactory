@@ -2,7 +2,7 @@
 click
 gitpython
 gdspy==1.6.4
-omegaconf
+omegaconf==2.0.1
 jsondiff
 klayout==0.27.0
 numpy
@@ -11,13 +11,13 @@ phidl==1.5.2
 picwriter==0.5
 pyqtree
 qrcode
-rectpack
+rectpack==0.2.1
 scipy
 shapely
 networkx
 matplotlib
 pytest
 pytest-regressions
-lytest
+lytest==0.0.20
 xmltodict
-pydantic
+pydantic==1.8.2

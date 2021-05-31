@@ -52,8 +52,13 @@ placements:
         dy: 20
 """
 
+# import pytest
+
 
 # def test_circular_import_fail():
+#     """Circular dependency should raise an error
+#     FIXME: this shoud raise an error
+#     """
 #     with pytest.raises(ValueError):
 #         pp.component_from_yaml(yaml_fail)
 
@@ -63,7 +68,7 @@ def test_circular_import_pass() -> None:
 
 
 if __name__ == "__main__":
-    # c = test_circular_import_pass()
+    c = test_circular_import_pass()
     # c = test_circular_import_fail()
-    c = pp.component_from_yaml(yaml_fail)
-    c.show()
+    # c = pp.component_from_yaml(yaml_fail)
+    # c.show()

@@ -13,7 +13,8 @@ def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Co
     """Straight wire.
 
     Args:
-        length: straiht length
+        length: straight length
+        waveguide: from waveguide
     """
     return straight(length=length, waveguide=waveguide, **kwargs)
 
@@ -33,8 +34,9 @@ def corner(
         radius
         angle: angle of arc (degrees)
         npoints: Number of points used per 360 degrees
-        waveguide_settings: settings for cross_section
-        kargs: cross_section settings to extrude
+        with_cladding_box: square in layers_cladding to remove DRC
+        waveguide: waveguide name
+        kwargs: waveguide settings to extrude
 
     """
     return bend_circular(

@@ -83,18 +83,24 @@ def grating_coupler_elliptical_tm(
     fiber_marker_layer: Layer = pp.LAYER.TM,
     **kwargs,
 ) -> Component:
-    """
+    """Return elliptical grating_coupupler
 
     Args:
-        neff: tooth effective index is lower for TM polarization
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.components.grating_coupler_elliptical_tm()
-      c.plot()
+        taper_length: taper length from input
+        taper_angle: grating flare angle
+        lambda_c: grating transmission central wavelength (um)
+        fiber_angle: fibre polish angle in degrees
+        grating_line_width
+        wg_width: waveguide width
+        neff: tooth effective index
+        layer: LAYER.WG
+        p_start: period start first tooth
+        n_periods: number of periods
+        big_last_tooth: adds a big_last_tooth
+        layer_slab
+        fiber_marker_width
+        fiber_marker_layer
+        cladding_index
 
     """
     return grating_coupler_elliptical(
@@ -148,7 +154,7 @@ def grating_coupler_elliptical_te(
 
 @pp.cell_with_validator
 def grating_coupler_elliptical(
-    polarization: str,
+    polarization: str = "te",
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     lambda_c: float = 1.554,
@@ -165,27 +171,26 @@ def grating_coupler_elliptical(
     fiber_marker_layer: Layer = pp.LAYER.TE,
     cladding_index: float = 1.443,
 ) -> Component:
-    r""" Grating coupler with parametrization based on Lumerical FDTD simulation
+    r""" Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     Args:
-        taper_length: taper length from straight I/O
+        polarization: te or tm
+        taper_length: taper length from input
         taper_angle: grating flare angle
         lambda_c: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees
         grating_line_width
         wg_width: waveguide width
-        neff: 2.638  # tooth effective index
+        neff: tooth effective index
         layer: LAYER.WG
-        p_start: 26  # first tooth
-        n_periods: 16  # number of periods
+        p_start: period start first tooth
+        n_periods: number of periods
+        big_last_tooth: adds a big_last_tooth
+        layer_slab
+        fiber_marker_width
+        fiber_marker_layer
+        cladding_index
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.components.grating_coupler_elliptical_te()
-      c.plot()
 
     .. code::
 

@@ -17,9 +17,9 @@ def bend_circular(
     """Returns a radial arc.
 
     Args:
-        radius
         angle: angle of arc (degrees)
-        with_cladding_box: to avoid DRC acute angle errors in cladding
+        npoints: number of points
+        with_cladding_box: square in layers_cladding to remove DRC
         waveguide: from tech.waveguide
         kwargs: waveguide_settings
 
@@ -64,10 +64,11 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
     """Returns a 180 degrees radial arc.
 
     Args:
-        radius
         angle: angle of arc (degrees)
         npoints: number of points
-        width: waveguide width (defaults to tech.wg_width)
+        with_cladding_box: square in layers_cladding to remove DRC
+        waveguide: from tech.waveguide
+        kwargs: waveguide_settings
 
     """
     return bend_circular(angle=angle, **kwargs)

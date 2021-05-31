@@ -27,8 +27,9 @@ from pydantic import validate_arguments
 - compatible with phidl 1.5.2
 - renamed routing functions
 - reduced routing functions functions in pp.routing
-- better error messages
+- better error messages for waveguide settings (print available keyword args)
 - fixed cell decorator to raise Error if any non keyword args defined
+- pin more requirements in requirements.txt
 
 ## 2.5.0
 
