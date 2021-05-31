@@ -4,17 +4,18 @@ import pp
 from pp.components.bend_circular import bend_circular
 from pp.components.pcm.cd import CENTER_SHAPES_MAP, square_middle
 from pp.components.straight import straight
+from pp.types import ComponentFactory
 
 
 @pp.cell_with_validator
 def cd_bend(
-    L=2.0,
-    radius=2.0,
-    width=0.4,
-    center_shapes="SU",
-    bend90_factory=pp.components.bend_circular,
-    straight_factory=pp.components.straight,
-    markers_with_slabs=False,
+    L: float = 2.0,
+    radius: float = 2.0,
+    width: float = 0.4,
+    center_shapes: str = "SU",
+    bend90_factory: ComponentFactory = pp.components.bend_circular,
+    straight_factory: ComponentFactory = pp.components.straight,
+    markers_with_slabs: bool = False,
 ):
     """bends and straights connected together
     for CDSEM measurement

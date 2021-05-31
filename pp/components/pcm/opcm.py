@@ -9,116 +9,13 @@ import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.manhattan_font import manhattan_text
+from pp.components.pcm.cd import CENTER_SHAPES_MAP, rectangle, square_middle
 from pp.components.straight import straight
 from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
 from pp.types import ComponentFactory, Number
 
 LINE_LENGTH = 420.0
-
-
-@pp.cell_with_validator
-def square_middle(
-    side: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
-    cladding_offset: float = 3.0,
-    layers_cladding: List[Tuple[int, int]] = None,
-) -> Component:
-    component = pp.Component()
-    a = side / 2
-    component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
-    a += cladding_offset
-
-    layers_cladding = layers_cladding or []
-    if layers_cladding:
-        for layer_cladding in layers_cladding:
-            component.add_polygon(
-                [(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer_cladding
-            )
-    return component
-
-
-@pp.cell_with_validator
-def double_square(
-    side=0.5,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding=None,
-    cladding_offset=3.0,
-):
-    component = pp.Component()
-    a = side / 2
-    pts0 = [(-a, -a), (a, -a), (a, a), (-a, a)]
-    for b in [-side / 2 - 0.25, side / 2 + 0.25]:
-        pts = [(x, y + b) for x, y in pts0]
-        component.add_polygon(pts, layer=layer)
-
-    a += cladding_offset
-    layers_cladding = layers_cladding or []
-    if layers_cladding:
-        for layer in layers_cladding:
-            component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
-
-    return component
-
-
-@pp.cell_with_validator
-def rectangle(
-    x: float,
-    y: float,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = None,
-    cladding_offset: float = 3.0,
-) -> Component:
-    component = pp.Component()
-    a = x / 2
-    b = y / 2
-    component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
-    a += cladding_offset
-    b += cladding_offset
-    layers_cladding = layers_cladding or []
-    if layers_cladding:
-        for layer in layers_cladding:
-            component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
-    return component
-
-
-def triangle_middle_up(side=0.5, layer=LAYER.WG):
-    component = pp.Component()
-    a = side / 2
-    component.add_polygon([(-a, -a), (a, -a), (0, a)], layer=layer)
-    return component
-
-
-def triangle_middle_down(side=0.5, layer=LAYER.WG):
-    component = pp.Component()
-    a = side / 2
-    component.add_polygon([(-a, a), (a, a), (0, -a)], layer=layer)
-    return component
-
-
-@pp.cell_with_validator
-def char_H(
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[List[Tuple[int, int]]] = None,
-) -> Component:
-    return manhattan_text("H", size=0.4, layer=layer, layers_cladding=layers_cladding)
-
-
-@pp.cell_with_validator
-def char_L(
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[List[Tuple[int, int]]] = None,
-) -> Component:
-    return manhattan_text("L", size=0.4, layer=layer, layers_cladding=layers_cladding)
-
-
-CENTER_SHAPES_MAP = {
-    "S": square_middle,
-    "U": double_square,
-    "D": double_square,
-    "H": char_H,
-    "L": char_L,
-}
 
 
 def _cdsem_generic(
@@ -184,9 +81,7 @@ def wg_line(
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
 ) -> Component:
     c = pp.Component()
-    _wg = c.add_ref(
-        rectangle(x=length, y=width, layer=layer, layers_cladding=layers_cladding)
-    )
+    _wg = c.add_ref(rectangle(length, width, layer=layer))
     c.absorb(_wg)
     return c
 
@@ -211,7 +106,9 @@ def cdsem_straight(
     widths = [width_center * 0.92, width_center, width_center * 1.08]
 
     marker_label = manhattan_text(
-        text=label, size=0.4, layer=layer, layers_cladding=layers_cladding
+        text=label,
+        size=0.4,
+        layer=layer,
     )
     _marker_label = c.add_ref(marker_label)
     _marker_label.move((2 * (length + spacing_h) + 2 * spacing_h, 1.5 * spacing_v))
@@ -239,8 +136,9 @@ def cdsem_straight(
             c.absorb(_r2_ref)
 
             if i < 2:
+                print(col_marker_type)
                 marker = CENTER_SHAPES_MAP[col_marker_type](
-                    layer=layer, layers_cladding=layers_cladding
+                    layer=layer,
                 )
                 _marker = c.add_ref(marker)
                 _marker.move((x + length / 2 + spacing_h / 2, y + width + gap / 2))
@@ -286,7 +184,6 @@ def cdsem_straight_column(
             text="{}{}".format(label, j + 1),
             size=0.4,
             layer=layer,
-            layers_cladding=layers_cladding,
         )
         _marker_label = c.add_ref(marker_label)
         _marker_label.move((length + 6, y))
@@ -306,7 +203,7 @@ def cdsem_straight_column(
 
             # if i < 2:
             marker = CENTER_SHAPES_MAP[col_marker_type](
-                layer=layer, layers_cladding=layers_cladding
+                layer=layer,
             )
             _marker = c.add_ref(marker)
             _marker.move((length + 3, y + width + gap / 2))
@@ -382,7 +279,9 @@ def cdsem_straight_density(
         c.absorb(tooth_ref)
 
     marker_label = manhattan_text(
-        text="{}".format(label), size=1.0, layer=layer, layers_cladding=layers_cladding
+        text=f"{label}",
+        size=1.0,
+        layer=layer,
     )
     _marker_label = c.add_ref(marker_label)
     _marker_label.move((length + 3, 10.0))
@@ -412,7 +311,7 @@ def cdsem_target(
     w = 3 * a / 4
 
     for pos in [(0, 0), (w, w), (-w, w), (w, -w), (-w, -w)]:
-        _c = c.add_ref(square_middle(layer=layer, layers_cladding=layers_cladding))
+        _c = c.add_ref(square_middle(layer=layer))
         _c.move(pos)
         c.absorb(_c)
 
@@ -437,7 +336,7 @@ def cdsem_target(
         c.add([b_tr, b_tl, b_bl, b_br])
 
     if label:
-        marker_label = manhattan_text(text="{}".format(label), size=1.0, layer=layer)
+        marker_label = manhattan_text(text=str(label), size=1.0, layer=layer)
         _marker_label = c.add_ref(marker_label)
         _marker_label.movey(-max(radii) - 10.0)
         c.absorb(_marker_label)
@@ -494,14 +393,10 @@ def cdsem_uturn(
 
     # Add symbols
 
-    sym1 = c.add_ref(
-        CENTER_SHAPES_MAP[symbol_bot](layer=layer, layers_cladding=layers_cladding)
-    )
+    sym1 = c.add_ref(CENTER_SHAPES_MAP[symbol_bot](layer=layer))
     sym1.rotate(-90)
     sym1.movey(r)
-    sym2 = c.add_ref(
-        CENTER_SHAPES_MAP[symbol_top](layer=layer, layers_cladding=layers_cladding)
-    )
+    sym2 = c.add_ref(CENTER_SHAPES_MAP[symbol_top](layer=layer))
     sym2.rotate(-90)
     sym2.movey(2 * r)
     c.absorb(sym1)
@@ -515,7 +410,7 @@ def cdsem_uturn(
 
 
 @pp.cell_with_validator
-def opcm(
+def pcm_optical(
     dw: float = 0.02,
     wte: float = 0.372,
     tte: float = 0.304,
@@ -613,7 +508,7 @@ def opcm(
 
 def _TRCH_DASH_ISO(length=20.0, width=0.5, n=3, separation=2.0, label=""):
     c = pp.Component()
-    _r = rectangle(x=width, y=length, layer=LAYER.WG)
+    _r = rectangle(width, length, layer=LAYER.WG)
     for i in range(n):
         r_ref = c.add_ref(_r)
         r_ref.movey(i * (length + separation))
@@ -678,7 +573,7 @@ class LabelIterator:
 @pp.cell_with_validator
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
-    _r = c.add_ref(rectangle(x=width, y=length, layer=LAYER.SLAB150))
+    _r = c.add_ref(rectangle(width, length, layer=LAYER.SLAB150))
     c.absorb(_r)
 
     lblit = gen_label_iterator("TA")
@@ -741,6 +636,6 @@ if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
     # c = cdsem_uturn()
-    c = cdsem_straight_density()
-    # c = opcm()
+    # c = cdsem_straight_density()
+    c = pcm_optical()
     c.show()

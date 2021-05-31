@@ -6,7 +6,6 @@ from scipy.optimize import minimize
 from scipy.special import binom
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
 from pp.geo_utils import angles_deg, curvature, extrude_path, path_length, snap_angle
@@ -43,7 +42,7 @@ def bezier_biased(width=0.5, **kwargs):
     return bezier(width=width, **kwargs)
 
 
-@cell(autoname=False)
+@pp.cell
 def bezier(
     name: Optional[str] = None,
     width: float = TECH.waveguide.strip.width,
@@ -171,7 +170,8 @@ def find_min_curv_bezier_control_points(
 
 
 if __name__ == "__main__":
-    c = bezier()
+    control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
+    c = bezier(control_points=control_points)
     c.pprint()
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)

@@ -4,7 +4,6 @@ from typing import Dict, List, Tuple
 from numpy import float64
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler
 from pp.components.crossing_waveguide import compensation_path, crossing45
@@ -133,7 +132,7 @@ def get_sequence_cross_str(straights_start, straights_end, iter_max=100):
     return component_sequence_to_str(seq)
 
 
-@cell(autoname=False)
+@pp.cell
 def component_lattice(
     lattice: str = """
         C-X

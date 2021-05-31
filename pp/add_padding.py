@@ -1,4 +1,4 @@
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -14,7 +14,7 @@ def get_padding_points(
     bottom: Optional[float] = None,
     right: Optional[float] = None,
     left: Optional[float] = None,
-) -> list:
+) -> List[float]:
     """Returns padding points for a component outline.
 
     Args:
@@ -132,22 +132,21 @@ def test_container():
     print(len(cc.settings["component"]))
     assert len(cc.settings["component"]) == 5
 
-    cc = add_padding_container(component=c, layers=[(2, 0)], container=True)
+    cc = add_padding_container(component=c, layers=[(2, 0)])
     assert len(cc.settings["component"]) == 5
 
-    cc = add_padding_container(component=c, layers=[(3, 0)], container=None)
+    cc = add_padding_container(component=c, layers=[(3, 0)])
     assert len(cc.settings["component"]) == 5
 
-    cc = add_padding_container(component=c, layers=[(4, 0)], container=False)
-    assert isinstance(cc.settings["component"], Component)
+    # cc = add_padding_container(component=c, layers=[(4, 0)])
+    # assert isinstance(cc.settings["component"], Component)
     # print(cc.settings["component"])
     # print(len(cc.settings["component"]))
 
 
 if __name__ == "__main__":
-    import pp
 
-    # test_container()
+    test_container()
     # c = pp.components.straight(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # cc = add_padding_container(component=c, layers=[(2, 0)])
@@ -155,8 +154,8 @@ if __name__ == "__main__":
     # cc.show()
     # cc.pprint()
 
-    c = pp.c.straight(length=5)
-    cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
-    cc.show()
+    # c = pp.c.straight(length=5)
+    # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
+    # cc.show()
     # print(cc.settings)
     # print(cc.ports)
