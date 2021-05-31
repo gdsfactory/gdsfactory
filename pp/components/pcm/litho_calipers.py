@@ -15,8 +15,10 @@ def litho_calipers(
     layer1: Tuple[int, int] = (1, 0),
     layer2: Tuple[int, int] = (2, 0),
 ) -> Component:
-    """vernier caliper structure to test lithography alignment
+    """Vernier caliper structure to test lithography alignment
     Only the middle finger is aligned and the rest are offset.
+
+    adapted from phidl
 
     Args:
         notch_size: [xwidth, yheight]

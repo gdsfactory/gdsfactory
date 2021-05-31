@@ -28,6 +28,7 @@ from pydantic import validate_arguments
 - renamed routing functions
 - reduced routing functions functions in pp.routing
 - better error messages
+- fixed cell decorator to raise Error if any non keyword args defined
 
 ## 2.5.0
 

@@ -63,7 +63,6 @@ from pp.components.cutback_component import cutback_component
 from pp.components.cutback_component import cutback_component_flipped
 
 from pp.components.pcm.litho_calipers import litho_calipers
-from pp.components.pcm.litho_star import litho_star
 from pp.components.pcm.litho_steps import litho_steps
 from pp.components.pcm.verniers import verniers
 
@@ -198,7 +197,6 @@ COMPONENT_FACTORY.register(
         grating_coupler_uniform_optimized,
         hline,
         litho_calipers,
-        litho_star,
         litho_steps,
         logo,
         loop_mirror,

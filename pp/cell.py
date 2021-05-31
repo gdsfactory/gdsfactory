@@ -1,13 +1,12 @@
+import functools
 import inspect
 import uuid
-from functools import partial, wraps
-from typing import Dict, Optional
+from typing import Dict
 
 from pydantic import validate_arguments
 
 from pp.component import Component
 from pp.name import get_component_name, get_name
-from pp.types import ComponentFactory
 
 CACHE: Dict[str, Component] = {}
 
@@ -23,58 +22,40 @@ def print_cache():
         print(k)
 
 
-def cell(
-    func: ComponentFactory = None,
-    *,
-    autoname: bool = True,
-    container: Optional[bool] = None,
-) -> ComponentFactory:
+def cell(func):
     """Cell Decorator.
 
-        Args:
-            autoname (bool): renames Component by with Keyword arguments
-            name (str): Optional (ignored when autoname=True)
-            uid (bool): adds a unique id to the name
-            cache (bool): get component from the cache if it already exists
+    Args:
+        autoname (bool): renames Component by with Keyword arguments
+        name (str): Optional (ignored when autoname=True)
+        uid (bool): adds a unique id to the name
+        cache (bool): get component from the cache if it already exists
 
-        Implements a cache so that if a component has already been build
-        it will return the component from the cache.
-        This avoids 2 exact cells that are not references of the same cell
-        You can always over-ride this with `cache = False`.
+    Implements a cache so that if a component has already been build
+    it will return the component from the cache.
+    This avoids 2 exact cells that are not references of the same cell
+    You can always over-ride this with `cache = False`.
 
-        .. plot::
-          :include-source:
+    .. plot::
+      :include-source:
 
-          import pp
+      import pp
 
-          from pp.cell import cell
-    from pydantic import validate_arguments
+      @pp.cell
+      def rectangle(size=(4,2), layer=0):
+          c = pp.Component()
+          w, h = size
+          points = [[w, h], [w, 0], [0, 0], [0, h]]
+          c.add_polygon(points, layer=layer)
+          return c
 
-
-    @cell
-    @validate_arguments
-          def rectangle(size=(4,2), layer=0):
-              c = pp.Component()
-              w, h = size
-              points = [[w, h], [w, 0], [0, 0], [0, h]]
-              c.add_polygon(points, layer=layer)
-              return c
-
-          c = rectangle(layer=1)
-          c.plot()
+      c = rectangle(layer=1)
+      c.plot()
 
     """
 
-    if func is None:
-        return partial(cell, autoname=autoname, container=container)
-
-    @wraps(func)
-    def _cell(
-        autoname: bool = autoname,
-        container: bool = container,
-        *args,
-        **kwargs,
-    ) -> Component:
+    @functools.wraps(func)
+    def _cell(*args, **kwargs):
         args_repr = [repr(a) for a in args]
         kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
         arguments = ", ".join(args_repr + kwargs_repr)
@@ -86,6 +67,7 @@ def cell(
         uid = kwargs.pop("uid", False)
         cache = kwargs.pop("cache", True)
         name = kwargs.pop("name", None)
+        autoname = kwargs.pop("autoname", True)
 
         component_type = func.__name__
         name = name or get_component_name(component_type, **kwargs)
@@ -95,8 +77,6 @@ def cell(
 
         name_long = name
         name = get_name(component_type=component_type, name=name)
-
-        kwargs.pop("ignore_from_name", [])
         sig = inspect.signature(func)
 
         # first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
@@ -119,22 +99,15 @@ def cell(
                         f"valid arguments are {list(sig.parameters.keys())}"
                     )
 
-        # print(CACHE.keys())
-        # print(name)
-        if cache and autoname and name in CACHE:
-            # print(f"{name} cache")
+        if cache and name in CACHE:
             return CACHE[name]
         else:
-            # print(f"{name} build")
             assert callable(
                 func
             ), f"{func} is not Callable, make sure you only use the @cell  decorator with functions"
-            component = func(**kwargs)
+            component = func(*args, **kwargs)
 
-            if container and "component" not in kwargs:
-                raise ValueError("Container requires a component argument")
-
-            if container or (container is None and "component" in kwargs):
+            if "component" in kwargs:
                 component_original = kwargs.pop("component")
                 component_original = (
                     component_original()
@@ -169,6 +142,7 @@ def cell(
 
             CACHE[name] = component
             return component
+        return
 
     return _cell
 
@@ -177,34 +151,8 @@ def cell_with_validator(func, *args, **kwargs):
     return cell(validate_arguments(func), *args, **kwargs)
 
 
-@cell(autoname=True)
-def wg(length: int = 3, width: float = 0.5) -> Component:
-    from pp.component import Component
-
-    c = Component("straight")
-    w = width / 2
-    layer = (1, 0)
-    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
-    return c
-
-
-@cell(autoname=False)
-def wg2(length: int = 3, width: float = 0.5) -> Component:
-    from pp.component import Component
-
-    c = Component("straight")
-    w = width / 2
-    layer = (1, 0)
-    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
-    return c
-
-
 @cell
-def wg3(length=3, width=0.5):
+def wg(length: int = 3, width: float = 0.5) -> Component:
     from pp.component import Component
 
     c = Component("straight")
@@ -218,11 +166,6 @@ def wg3(length=3, width=0.5):
 
 def test_autoname_true() -> None:
     assert wg(length=3).name == "wg_L3"
-
-
-def test_autoname_false() -> None:
-    print(wg2(length=3).name)
-    assert wg2(length=3).name == "straight"
 
 
 @cell
@@ -250,11 +193,12 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
+    # test_raise_error_args()
+    # test_autoname()
 
     # c = pp.components.straight()
 
-    # test_autoname_true()
-    test_autoname_false()
+    test_autoname_true()
     # test_autoname()
 
     # c = wg(length=3)
