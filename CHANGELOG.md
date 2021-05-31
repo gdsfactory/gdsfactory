@@ -25,7 +25,7 @@ from pydantic import validate_arguments
 
 ## 2.5.1
 
-- compatible with phidl 1.5.2
+- compatible with latest version of phidl (1.5.2)
 - renamed routing functions
 - reduced routing functions functions in pp.routing
 - better error messages for waveguide settings (print available keyword args)
@@ -53,7 +53,7 @@ from pydantic import validate_arguments
 - fix get_bundle for indirect routing
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
 - add pp.assert_version
-- fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) = to keep name < 32 chars
+- fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) to keep name shorter than 32 chars
 
 ## 2.4.9
 
