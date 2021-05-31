@@ -1,5 +1,5 @@
 -e .
-click==8.0.1
+click
 GitPython==3.1.17
 gdspy==1.6.4
 omegaconf==2.0.6
