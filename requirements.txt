@@ -1,6 +1,6 @@
 -e .
-click
-gitpython
+click==7.1.2
+GitPython==3.1.16
 gdspy==1.6.4
 omegaconf==2.0.6
 jsondiff
@@ -9,15 +9,15 @@ numpy
 pandas
 phidl==1.5.2
 picwriter==0.5
-pyqtree
-qrcode
+Pyqtree==1.0.0
+qrcode==6.1
 rectpack==0.2.1
 scipy
-shapely
-networkx
+Shapely==1.7.1
+networkx==2.5
 matplotlib
-pytest
-pytest-regressions
+pytest==6.2.4
+pytest-regressions==2.2.0
 lytest==0.0.20
-xmltodict
+xmltodict==0.12.0
 pydantic==1.8.2
