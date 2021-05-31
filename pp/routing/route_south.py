@@ -122,14 +122,11 @@ def route_south(
     x_optical_min = min(optical_xs_tmp)
     x_optical_max = max(optical_xs_tmp)
 
-    """
-    ``x`` is the x-coord of the waypoint where the current component port is connected.
-    x starts as close as possible to the component.
-    For each new port, the distance is increased by the separation.
-    The starting x depends on the heuristic chosen : ``1`` or ``2``
-    """
-
     # Set starting ``x`` on the west side
+    # ``x`` is the x-coord of the waypoint where the current component port is connected.
+    # x starts as close as possible to the component.
+    # For each new port, the distance is increased by the separation.
+    # The starting x depends on the heuristic chosen : ``1`` or ``2``
     if optical_routing_type == 1:
         # use component size to know how far to route
         x = csi.west - dy - 1
@@ -140,12 +137,10 @@ def route_south(
         raise ValueError("Invalid optical routing type")
 
     # First route the ports facing west
+    # In case we have to connect these ports to a line of gratings,
+    # Ensure that the port is aligned with the grating port or
+    # has enough space for manhattan routing (at least two bend radius)
     for p in west_ports:
-        """
-        In case we have to connect these ports to a line of grating,
-        Ensure that the port is aligned with the grating port or
-        has enough space for manhattan routing (at least two bend radius)
-        """
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
             x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
@@ -200,13 +195,11 @@ def route_south(
     i = 0
 
     # Route the east ports
+    # In case we have to connect these ports to a line of gratings,
+    # Ensure that the port is aligned with the grating port or
+    # has enough space for manhattan routing (at least two bend radius)
     start_straight = 0.5
     for p in east_ports:
-        """
-        In case we have to connect these ports to a line of grating,
-        Ensure that the port is aligned with the grating port or
-        has enough space for manhattan routing (at least two bend radius)
-        """
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
             x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
