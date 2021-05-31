@@ -23,6 +23,10 @@ from pydantic import validate_arguments
 
 ```
 
+## 2.5.2
+
+- fixed pp.import_phidl_component and added test
+
 ## 2.5.1
 
 - compatible with latest version of phidl (1.5.2)
