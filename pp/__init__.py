@@ -50,6 +50,7 @@ import pp.types as types
 import pp.path as path
 import pp.import_gds as gds
 import pp.snap as snap
+import pp.tech as tech
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -119,6 +120,7 @@ __all__ = [
     "write_doe",
     "Port",
     "component_from_yaml",
+    "tech",
     "TECH",
 ]
 __version__ = "2.5.1"

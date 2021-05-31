@@ -7,12 +7,11 @@ from pp.config import call_if_func
 
 
 def import_phidl_component(component: Device, **kwargs) -> Component:
-    """ returns a gdsfactory Component from a phidl Device or function
-    """
-    D = call_if_func(component, **kwargs)
-    D_copy = Component(name=D._internal_name)
-    D_copy.info = copy.deepcopy(D.info)
-    for ref in D.references:
+    """Returns gdsfactory Component from a phidl Device or function"""
+    device = call_if_func(component, **kwargs)
+    component = Component(name=device.name)
+    component.info = copy.deepcopy(device.info)
+    for ref in device.references:
         new_ref = ComponentReference(
             component=ref.parent,
             origin=ref.origin,
@@ -20,14 +19,14 @@ def import_phidl_component(component: Device, **kwargs) -> Component:
             magnification=ref.magnification,
             x_reflection=ref.x_reflection,
         )
-        new_ref.owner = D_copy
-        D_copy.add(new_ref)
-        for alias_name, alias_ref in D.aliases.items():
+        new_ref.owner = component
+        component.add(new_ref)
+        for alias_name, alias_ref in device.aliases.items():
             if alias_ref == ref:
-                D_copy.aliases[alias_name] = new_ref
+                component.aliases[alias_name] = new_ref
 
-    for p in D.ports.values():
-        D_copy.add_port(
+    for p in device.ports.values():
+        component.add_port(
             port=Port(
                 name=p.name,
                 midpoint=p.midpoint,
@@ -36,15 +35,15 @@ def import_phidl_component(component: Device, **kwargs) -> Component:
                 parent=p.parent,
             )
         )
-    for poly in D.polygons:
-        D_copy.add_polygon(poly)
-    for label in D.labels:
-        D_copy.add_label(
+    for poly in device.polygons:
+        component.add_polygon(poly)
+    for label in device.labels:
+        component.add_label(
             text=label.text,
             position=label.position,
             layer=(label.layer, label.texttype),
         )
-    return D_copy
+    return component
 
 
 if __name__ == "__main__":
