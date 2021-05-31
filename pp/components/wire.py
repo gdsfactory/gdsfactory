@@ -76,4 +76,4 @@ if __name__ == "__main__":
 
     c = wire_straight()
     c = wire_corner()
-    c.show()
+    c.show(show_ports=True)

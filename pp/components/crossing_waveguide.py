@@ -65,17 +65,7 @@ def crossing_arm(
 
 @cell
 def crossing(arm: ComponentFactory = crossing_arm) -> Component:
-    """straight crossing
-
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.components.crossing()
-      c.plot()
-
-    """
+    """Waveguide crossing"""
     cx = pp.Component()
     arm = pp.call_if_func(arm)
     arm_h = arm.ref()

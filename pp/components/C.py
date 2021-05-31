@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 import pp
 from pp.component import Component
@@ -7,11 +7,11 @@ from pp.layers import LAYER
 
 @pp.cell_with_validator
 def C(
-    width: Union[int, float] = 1,
-    size: Tuple[int, int] = (10, 20),
+    width: float = 1.0,
+    size: Tuple[float, float] = (10.0, 20.0),
     layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
-    """Generates a 'C' geometry with ports on both ends. Based on phidl
+    """Generates a 'C' geometry with ports on both ends. Adapted from phidl
 
     Args:
         width: of the line
@@ -41,5 +41,5 @@ def C(
 
 if __name__ == "__main__":
 
-    c = C()
+    c = C(width=1.0)
     c.show()

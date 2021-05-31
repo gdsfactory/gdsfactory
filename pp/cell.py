@@ -18,7 +18,7 @@ def clear_cache() -> None:
 
 
 def print_cache():
-    for k in CACHE.keys():
+    for k in CACHE:
         print(k)
 
 
@@ -64,13 +64,14 @@ def cell(func):
             raise ValueError(
                 f"cell supports only Keyword args for `{func.__name__}({arguments})`"
             )
-        uid = kwargs.pop("uid", False)
-        cache = kwargs.pop("cache", True)
-        name = kwargs.pop("name", None)
-        autoname = kwargs.pop("autoname", True)
 
+        cache = kwargs.pop("cache", True)
         component_type = func.__name__
+        name = kwargs.pop("name", None)
         name = name or get_component_name(component_type, **kwargs)
+
+        uid = kwargs.pop("uid", False)
+        autoname = kwargs.pop("autoname", True)
 
         if uid:
             name += f"_{str(uuid.uuid4())[:8]}"
@@ -104,7 +105,7 @@ def cell(func):
         else:
             assert callable(
                 func
-            ), f"{func} is not Callable, make sure you only use the @cell  decorator with functions"
+            ), f"{func} got decorated with @cell! @cell decorator is only for functions"
             component = func(*args, **kwargs)
 
             if "component" in kwargs:
@@ -168,6 +169,18 @@ def test_autoname_true() -> None:
     assert wg(length=3).name == "wg_L3"
 
 
+def test_autoname_false() -> None:
+    c = wg(length=3, autoname=False)
+    print(c.name)
+    assert c.name == "straight"
+
+
+def test_set_name() -> None:
+    c = wg(length=3, name="hi_there")
+    print(c.name)
+    assert c.name == "hi_there"
+
+
 @cell
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     c = Component()
@@ -194,12 +207,13 @@ def test_autoname() -> None:
 
 if __name__ == "__main__":
     # test_raise_error_args()
-    # test_autoname()
 
     # c = pp.components.straight()
 
-    test_autoname_true()
+    # test_autoname_true()
+    # test_autoname_false()
     # test_autoname()
+    test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
