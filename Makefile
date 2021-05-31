@@ -8,9 +8,11 @@ install: gdslib
 	bash install.sh
 
 update:
-	pre-commit autoupdate --bleeding-edge
 	pur
 	pur -r requirements_dev.txt
+
+update2:
+	pre-commit autoupdate --bleeding-edge
 
 gds:
 	python pp/components/straight.py
