@@ -22,7 +22,8 @@ from pydantic import validate_arguments
 @validate_arguments
 
 ```
-## next release
+
+## 2.5.1
 
 - compatible with phidl 1.5.2
 - renamed routing functions
@@ -30,6 +31,7 @@ from pydantic import validate_arguments
 - better error messages for waveguide settings (print available keyword args)
 - fixed cell decorator to raise Error if any non keyword args defined
 - pin more requirements in requirements.txt
+- added pur (pip update requirements) in a separate workflow to test gdsfactory with bleeding edge dependencies
 
 ## 2.5.0
 
@@ -46,7 +48,7 @@ from pydantic import validate_arguments
 - add pydantic validate_arguments decorator
 - add pp.routing.fanout
 - add Factory dataclass
-- fix pp.routing.routing _gradual_bend
+- fix pp.routing.routing \_gradual_bend
 - add TestClass for Component
 - fix get_bundle for indirect routing
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
