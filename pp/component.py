@@ -29,6 +29,7 @@ PathType = Union[str, Path]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
+_timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 
 
 def copy(D: Device) -> Device:
@@ -1085,9 +1086,7 @@ class Component(Device):
         unit: float = 1e-6,
         precision: float = 1e-9,
         auto_rename: bool = False,
-        timestamp: Optional[datetime.datetime] = datetime.datetime.fromtimestamp(
-            1572014192.8273
-        ),
+        timestamp: Optional[datetime.datetime] = _timestamp2019,
     ) -> Path:
         """Write component to GDS and returs gdspath
 
@@ -1099,13 +1098,12 @@ class Component(Device):
             remove_previous_markers: clear previous ones to avoid duplicates.
             auto_rename: If True, fixes any duplicate cell names.
             timestamp: datetime object or boolean
-                Sets the GDSII timestamp.
-                If None, the current time is used. Defaults to 1st January 2019
+                Sets the GDSII timestamp. Default = 2019-10-25 07:36:32.827300
+                If None, defaults to Now.
 
         Returns:
             gdspath
         """
-
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / (self.name + ".gds")
         gdspath = pathlib.Path(gdspath)
