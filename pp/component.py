@@ -1,4 +1,6 @@
 import copy as python_copy
+import datetime
+import hashlib
 import itertools
 import json
 import pathlib
@@ -8,6 +10,7 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 
+import gdspy
 import networkx as nx
 import numpy as np
 import omegaconf
@@ -1082,6 +1085,9 @@ class Component(Device):
         unit: float = 1e-6,
         precision: float = 1e-9,
         auto_rename: bool = False,
+        timestamp: Optional[datetime.datetime] = datetime.datetime.fromtimestamp(
+            1572014192.8273
+        ),
     ) -> Path:
         """Write component to GDS and returs gdspath
 
@@ -1092,6 +1098,9 @@ class Component(Device):
             precision: for the dimensions of the objects in the library (m).
             remove_previous_markers: clear previous ones to avoid duplicates.
             auto_rename: If True, fixes any duplicate cell names.
+            timestamp: datetime object or boolean
+                Sets the GDSII timestamp.
+                If None, the current time is used. Defaults to 1st January 2019
 
         Returns:
             gdspath
@@ -1103,12 +1112,11 @@ class Component(Device):
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
-        super().write_gds(
-            str(gdspath),
-            unit=unit,
-            precision=precision,
-            auto_rename=auto_rename,
-        )
+        referenced_cells = list(self.get_dependencies(recursive=True))
+        all_cells = [self] + referenced_cells
+
+        lib = gdspy.GdsLibrary(unit=unit, precision=precision)
+        lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
         return gdspath
 
@@ -1318,19 +1326,29 @@ def test_extract():
     assert len(c2.polygons) == 1
 
 
+def hash_file(filepath):
+    md5 = hashlib.md5()
+    md5.update(filepath.read_bytes())
+    return md5.hexdigest()
+
+
 if __name__ == "__main__":
-    c = Component("a" * 33)
-    c.validate("name")
-
+    # c = Component("a" * 33)
+    # c.validate("name")
     # test_extract()
+    import pp
 
-    # c = pp.c.straight(
-    #     length=10,
-    #     width=0.5,
-    # )
-    # c.show()
+    c = pp.c.straight(
+        length=10,
+        width=0.5,
+    )
+    # c = Component()
+    # c.name = "hi"
+    gdspath = c.write_gds("extra/wg.gds")
+    h = hash_file(gdspath)
+    print(h)
+
     # c2 = c.extract(layers=[(1, 0)])
-
     # c = test_get_layers()
     # c.show()
 
