@@ -23,6 +23,7 @@ def test_hash_file():
 
 
 def test_hash_array_file():
+    """FIXME, this needs some more gdspy fix."""
     c = pp.Component()
     wg = pp.c.straight()
     c.add_array(wg)
