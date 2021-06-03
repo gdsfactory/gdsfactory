@@ -3,17 +3,16 @@ from pp.component import hash_file
 
 
 def test_hash_geometry() -> None:
-    # FIXME, figure out straight hash issue
-    # c1 = pp.components.straight(length=10)
-    # c2 = pp.components.straight(length=11)
-    c1 = pp.components.rectangle(size=(4, 0))
-    c2 = pp.components.rectangle(size=(3, 0))
+    """Test geometric hash of the GDS points."""
+    c1 = pp.components.straight(length=10)
+    c2 = pp.components.straight(length=11)
     h1 = c1.hash_geometry()
     h2 = c2.hash_geometry()
     assert h1 != h2
 
 
 def test_hash_file():
+    """Test hash of the saved GDS file."""
     c = pp.c.straight()
     c.add_label("hi")
     gdspath = c.write_gds()
@@ -34,6 +33,6 @@ def test_hash_array_file():
 
 
 if __name__ == "__main__":
-    # test_hash_geometry()
+    test_hash_geometry()
     # test_hash_file()
-    test_hash_array_file()
+    # test_hash_array_file()
