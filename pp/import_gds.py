@@ -141,6 +141,7 @@ def add_ports_from_markers_center(
     port_markers = read_port_markers(component, layers=(layer,))
 
     for i, p in enumerate(port_markers.polygons):
+        port_name = f"{port_type}_{i}"
         dy = p.ymax - p.ymin
         dx = p.xmax - p.xmin
         x = p.x
@@ -199,7 +200,7 @@ def add_ports_from_markers_center(
             y = p.ymin
 
         component.add_port(
-            i,
+            name=port_name,
             midpoint=(x, y),
             width=width - pin_extra_width,
             orientation=orientation,

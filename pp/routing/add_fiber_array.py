@@ -23,6 +23,7 @@ def add_fiber_array(
     taper_factory: Optional[Callable] = taper,
     taper_length: float = TECH.waveguide.strip.taper_length,
     get_input_labels_function: Callable = get_input_labels,
+    waveguide: str = "strip",
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -69,6 +70,9 @@ def add_fiber_array(
 
     """
     component = pp.call_if_func(component)
+    grating_coupler = (
+        grating_coupler() if callable(grating_coupler) else grating_coupler
+    )
     c = component
     if not c.ports:
         return c
@@ -94,7 +98,10 @@ def add_fiber_array(
         c = add_tapers(
             component=c,
             taper=taper_factory(
-                length=taper_length, width1=port_width_gc, width2=port_width_component
+                length=taper_length,
+                width1=port_width_gc,
+                width2=port_width_component,
+                waveguide=waveguide,
             ),
         )
 
@@ -108,6 +115,7 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,
+        waveguide=waveguide,
         **kwargs,
     )
     if len(elements) == 0:
