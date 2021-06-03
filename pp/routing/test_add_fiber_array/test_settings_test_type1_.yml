@@ -20,3 +20,4 @@ settings:
   gc_port_name: W0
   optical_routing_type: 1
   taper_length: 10
+  waveguide: strip
