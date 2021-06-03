@@ -23,6 +23,10 @@ from pydantic import validate_arguments
 
 ```
 
+## next release
+
+- enable fixed timestamp in saved cells, which allows having the same hash for files that do not change
+
 ## 2.5.2
 
 - fixed pp.import_phidl_component and added test
