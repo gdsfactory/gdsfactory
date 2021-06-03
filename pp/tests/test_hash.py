@@ -15,11 +15,24 @@ def test_hash_geometry() -> None:
 
 def test_hash_file():
     c = pp.c.straight()
+    c.add_label("hi")
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    assert h == "c6d3387b8ea0de9838a2393dba1f56e6"
+    print(h)
+    assert h == "71655c3f7ab57e7a48b55683e8c1bfc4"
+
+
+def test_hash_array_file():
+    c = pp.Component()
+    wg = pp.c.straight()
+    c.add_array(wg)
+    gdspath = c.write_gds()
+    h = hash_file(gdspath)
+    print(h)
+    # assert h == "c6d3387b8ea0de9838a2393dba1f56e6"
 
 
 if __name__ == "__main__":
     # test_hash_geometry()
-    test_hash_file()
+    # test_hash_file()
+    test_hash_array_file()
