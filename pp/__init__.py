@@ -123,7 +123,7 @@ __all__ = [
     "tech",
     "TECH",
 ]
-__version__ = "2.5.2"
+__version__ = "2.5.3"
 
 
 if __name__ == "__main__":
