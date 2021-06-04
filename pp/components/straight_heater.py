@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Iterable, Optional, Tuple
 
 import numpy as np
 
@@ -33,20 +33,28 @@ def heater(
 
 
 def add_trenches(
-    c: Component,
+    component: Component,
     sstw: float = 2.0,
+    layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
     trench_width: float = 0.5,
     trench_keep_out: float = 2.0,
     trenches: Tuple[Dict[str, Number], ...] = (
         {"nb_segments": 2, "lane": 1, "x_start_offset": 0},
         {"nb_segments": 2, "lane": -1, "x_start_offset": 0},
     ),
-    layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
 ) -> Component:
-    """
-    Add trenches to a straight-heater-like component
+    """Add trenches to a straight-heater-like component
+
+    Args:
+        component: Component to add trenches
+        sstw:
+        trench_width:
+        trench_keep_out:
+        treches: trenches settings
+        layer_trench:
     """
 
+    c = component
     heater_width = c.settings["heater_width"]
     heater_spacing = c.settings["heater_spacing"]
     width = c.settings["width"]
@@ -156,7 +164,12 @@ def straight_heater(
     c.settings["length"] = length
     c.settings["width"] = width
     add_trenches(
-        c, sstw, trench_width, trench_keep_out, trenches, layer_trench=layer_trench
+        component=c,
+        sstw=sstw,
+        trench_width=trench_width,
+        trench_keep_out=trench_keep_out,
+        trenches=trenches,
+        layer_trench=layer_trench,
     )
 
     return c
@@ -165,7 +178,7 @@ def straight_heater(
 @cell
 def straight_heater_connector(
     heater_ports: Iterable[Port],
-    tlm_layers: Tuple[Layer] = (
+    tlm_layers: Tuple[Layer, ...] = (
         LAYER.VIA1,
         LAYER.M1,
         LAYER.VIA2,
@@ -248,6 +261,7 @@ def straight_with_heater(
     port_width: Optional[float] = 10.0,
     port_orientation_input: int = 90,
     port_orientation_output: int = 90,
+    connector_settings: Optional[Dict[str, Any]] = None,
     **kwargs,
 ) -> Component:
     """Returns a straight with heater.
@@ -259,19 +273,23 @@ def straight_with_heater(
         port_width:
         port_orientation_input:
         port_orientation_output:
+        connector_settings: for the via and metal connector
         **kwargs: for straight_heater
 
     """
     component = Component()
+    connector_settings = connector_settings or {}
 
     wg_heater = component << straight_heater(length=length, **kwargs)
     connector1 = connector(
         heater_ports=(wg_heater.ports["HBE0"], wg_heater.ports["HTE0"]),
         port_width=port_width,
+        **connector_settings,
     )
     connector2 = connector(
         heater_ports=(wg_heater.ports["HBW0"], wg_heater.ports["HTW0"]),
         port_width=port_width,
+        **connector_settings,
     )
 
     conn1 = component << connector1

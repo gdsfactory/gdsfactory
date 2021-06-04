@@ -56,7 +56,8 @@ try:
         git_hash_cwd = None
 
 except ImportError:
-    pass
+    git_hash = None
+    git_hash_cwd = None
 
 
 def read_config(

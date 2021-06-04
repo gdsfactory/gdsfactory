@@ -1,5 +1,6 @@
 from pp.cell import cell
 from pp.component import Component
+from pp.components.array import array
 from pp.components.bend_euler import bend_euler
 from pp.components.electrical.pad import pad
 from pp.components.straight import straight
@@ -54,6 +55,14 @@ def array_with_fanout(
         c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
     auto_rename_ports(c)
     return c
+
+
+@cell
+def array_with_fanout_2d(
+    pitch: float = 150.0, cols: int = 3, rows: int = 2, **kwargs
+) -> Component:
+    row = array_with_fanout(n=cols, **kwargs)
+    return array(component=row, n=rows, pitch=pitch, axis="y")
 
 
 if __name__ == "__main__":
