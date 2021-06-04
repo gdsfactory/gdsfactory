@@ -23,7 +23,7 @@ from pydantic import validate_arguments
 
 ```
 
-## next release
+## 2.5.3
 
 - enable fixed timestamp in saved cells, which allows having the same hash for files that do not change
 
