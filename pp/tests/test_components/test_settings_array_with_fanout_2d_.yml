@@ -1,0 +1,26 @@
+function_name: array_with_fanout_2d
+info: {}
+module: pp.components.array_with_fanout
+name: array_with_fanout_2d
+settings:
+  axis: y
+  cols: 3
+  component:
+    function_name: array_with_fanout
+    info: {}
+    module: pp.components.array_with_fanout
+    name: array_with_fanout_N3
+    settings:
+      bend_port_name: N0
+      bend_port_name_out: W0
+      component_port_name: S
+      end_straight: 40
+      n: 3
+      pitch: 150
+      radius: 5
+      start_straight: 5
+      waveguide: metal_routing
+      waveguide_pitch: 10
+  n: 2
+  pitch: 150
+  rows: 2
