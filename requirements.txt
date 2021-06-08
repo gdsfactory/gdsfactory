@@ -1,10 +1,10 @@
 -e .
 click
 GitPython==3.1.17
-gdspy==1.6.4
+gdspy==1.6.5
 omegaconf==2.0.6
 jsondiff
-klayout==0.27.0
+klayout==0.27.1
 numpy
 pandas
 phidl==1.5.2
