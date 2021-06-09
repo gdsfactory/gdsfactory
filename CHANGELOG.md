@@ -23,6 +23,7 @@ from contracts import contract
 ## 2.5.4
 
 - added `pf gds` CLI commands for `merge_gds_from_directory`, `layermap_to_dataclass`, `write_cells`
+- component_from_yaml has a get_bundle_from_waypoints factory
 
 ## 2.5.3
 
