@@ -148,14 +148,14 @@ def get_bundle_from_waypoints(
         ports2.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        ports1, ports2, waypoints, **waveguide_settings
+        ports1, ports2, list(waypoints), **waveguide_settings
     )
 
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
     bends90 = [bend_factory(waveguide=waveguide, **waveguide_settings) for p in ports1]
 
-    if taper_factory:
+    if taper_factory and waveguide_settings.get("auto_widen", True):
         if callable(taper_factory):
             taper = taper_factory(
                 length=waveguide_settings.get("taper_length", 0.0),
@@ -195,20 +195,24 @@ def snap_route_to_end_point_y(
 def _generate_manhattan_bundle_waypoints(
     ports1: List[Port],
     ports2: List[Port],
-    backbone_route: Coordinates,
+    waypoints: Coordinates,
     **kwargs,
 ) -> Coordinates:
     """
     Args:
-        ports1: list of start ports. Should all be facing in the same direction
-        ports2: list of end ports. Should all be facing in the same direction
-        route: going from one point somewhere within the ports1 bank to
-        another point within the ports2 bank
+        ports1: list of ports must face the same direction
+        ports2: list of ports must face the same direction
+        waypoints: from one point within the ports1 bank
+            to another point within the ports2 bank
     """
-    backbone_route = remove_flat_angles(backbone_route)
+    # waypoints = (
+    #     [tuple(ports1[0].position)] + list(waypoints) + [tuple(ports2[0].position)]
+    # )
 
-    way_segments = [(p0, p1) for p0, p1 in zip(backbone_route[:-1], backbone_route[1:])]
-    offsets_start = get_ports_x_or_y_distances(ports1, backbone_route[0])
+    waypoints = remove_flat_angles(waypoints)
+
+    way_segments = [(p0, p1) for p0, p1 in zip(waypoints[:-1], waypoints[1:])]
+    offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
     start_angle = ports1[0].orientation
     if start_angle in [90, 270]:
@@ -293,3 +297,13 @@ def _generate_manhattan_bundle_waypoints(
         routes += [route]
 
     return routes
+
+
+if __name__ == "__main__":
+    import pp.tests.test_get_bundle_from_waypoints as t
+
+    c = t.test_get_bundle_from_waypointsA(None, check=False)
+    # c = test_get_bundle_from_waypointsD(None, check=False)
+    # c = test_get_bundle_from_waypointsC(None, check=False)
+    # c = test_get_bundle_from_waypointsB(None, check=False)
+    c.show()

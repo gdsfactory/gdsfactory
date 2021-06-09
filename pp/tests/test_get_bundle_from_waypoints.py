@@ -2,7 +2,6 @@ import numpy as np
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.port import Port
 from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -79,7 +78,6 @@ def test_get_bundle_from_waypointsB(
     return c
 
 
-@cell
 def test_get_bundle_from_waypointsC(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
@@ -113,7 +111,6 @@ def test_get_bundle_from_waypointsC(
     return c
 
 
-@cell
 def test_get_bundle_from_waypointsD(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
@@ -147,8 +144,8 @@ def test_get_bundle_from_waypointsD(
 
 if __name__ == "__main__":
 
-    c = test_get_bundle_from_waypointsA(None, check=False)
-    # c = test_get_bundle_from_waypointsD(None, check=False)
+    # c = test_get_bundle_from_waypointsA(None, check=False)
+    c = test_get_bundle_from_waypointsD(None, check=False)
     # c = test_get_bundle_from_waypointsC(None, check=False)
     # c = test_get_bundle_from_waypointsB(None, check=False)
     c.show()

@@ -512,7 +512,6 @@ def component_from_yaml(
             assert (
                 routing_strategy_name in routing_strategy
             ), f"function `{routing_strategy_name}` not in routing_strategy {list(routing_strategy.keys())}"
-            get_route_function = routing_strategy[routing_strategy_name]
 
             if "links" not in routes_dict:
                 raise ValueError(
@@ -618,19 +617,12 @@ def component_from_yaml(
                     route_name = f"{port_src_string}:{port_dst_string}"
                     route_names.append(route_name)
 
-            if routing_strategy_name in [
-                "get_route_from_waypoints",
-            ]:
-                route_or_route_list = get_route_function(
-                    **route_settings,
-                )
-
-            else:
-                route_or_route_list = get_route_function(
-                    ports1,
-                    ports2,
-                    **route_settings,
-                )
+            routing_function = routing_strategy[routing_strategy_name]
+            route_or_route_list = routing_function(
+                ports1=ports1,
+                ports2=ports2,
+                **route_settings,
+            )
 
             # FIXME, be more consistent
             if isinstance(route_or_route_list, list):
@@ -664,32 +656,32 @@ def component_from_yaml(
 
 
 if __name__ == "__main__":
+    from pp.tests.test_component_from_yaml import sample_waypoints
 
-    cc = component_from_yaml(sample_mmis)
-    print(cc.get_settings()["info"])
-
+    # c = component_from_yaml(sample_mmis)
+    # print(c.get_settings()["info"])
     # from pp.test_component_from_yaml import yaml_anchor
-    # cc = component_from_yaml(yaml_anchor)
-    # cc = test_connections_regex()
-    # cc = component_from_yaml(sample_regex_connections)
-    # cc = component_from_yaml(sample_regex_connections_backwards)
-    # cc = test_docstring_sample()
-    # cc = test_connections()
-    # cc = component_from_yaml(sample_mirror_simple)
-
-    # cc = test_connections_2x2()
-    # cc = test_connections_different_factory()
+    # c = component_from_yaml(yaml_anchor)
+    # c = test_connections_regex()
+    # c = component_from_yaml(sample_regex_connections)
+    # c = component_from_yaml(sample_regex_connections_backwards)
+    # c = test_docstring_sample()
+    # c = test_connections()
+    # c = component_from_yaml(sample_mirror_simple)
+    # c = test_connections_2x2()
+    # c = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
-    # cc = component_from_yaml(sample_different_link_factory)
-    # cc = component_from_yaml(sample_waypoints)
-    # cc = test_mirror()
-    cc.show()
+    # c = component_from_yaml(sample_different_link_factory)
+    # c = test_mirror()
 
-    # cc = component_from_yaml(sample_connections)
-    # assert len(cc.get_dependencies()) == 3
+    c = component_from_yaml(sample_waypoints)
+    c.show()
+
+    # c = component_from_yaml(sample_connections)
+    # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()
-    # print(cc.ports)
-    # cc = pp.routing.add_fiber_array(cc)
+    # print(c.ports)
+    # c = pp.routing.add_fiber_array(c)
