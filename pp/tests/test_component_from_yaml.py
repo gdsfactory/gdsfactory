@@ -288,6 +288,8 @@ instances:
           port_list: ['S']
     b:
       component: pad_array
+      settings:
+          port_list: ['N']
 
 placements:
     t:
@@ -295,15 +297,19 @@ placements:
         y: 1000
 routes:
     route1:
-        routing_strategy: get_route_from_waypoints
+        routing_strategy: get_bundle_from_waypoints
         settings:
             waypoints:
-                - [0,0]
-                - [0, 600]
-                - [-250, 600]
-                - [-250, 1000]
+                - [0, 50]
+                - [0, 300]
+                - [400, 300]
+                - [400, 400]
+                - [-100, 400]
+                - [-100, 900]
+            auto_widen: False
         links:
-            t,S5: b,N4
+            b,N0: t,S0
+            b,N1: t,S1
 """
 
 
@@ -417,8 +423,8 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 1243.598
-    route_name = "t,S5:b,N4"
+    length = 1937.196
+    route_name = "b,N0:t,S0"
     print(c.routes[route_name])
     assert np.isclose(c.routes[route_name], length)
     return c
@@ -607,9 +613,9 @@ if __name__ == "__main__":
     # c = test_sample()
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
-    c = test_connections_different_link_factory()
+    # c = test_connections_different_link_factory()
     # c = test_connections_regex()
-    # c = test_connections_waypoints()
+    c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)
