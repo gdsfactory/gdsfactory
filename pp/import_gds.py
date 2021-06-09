@@ -345,17 +345,25 @@ def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:
         component.write_gds(f"{dirpath/cellname}.gds")
 
 
-def write_cells(gdspath: Union[str, Path], **kwargs) -> None:
-    """Writes each top level cells into separate GDS file."""
-    gdspath = pathlib.Path(gdspath)
-    dirpath = gdspath.parent
+def write_cells(
+    gdspath: Union[str, Path],
+    dirpath: Optional[Union[str, Path]] = None,
+) -> None:
+    """Writes each top level cells into separate GDS file.
+
+    Args:
+        gdspath: to read cells from
+        dirpath: directory path to store gds cells
+    """
+    gdspath = dirpath or pathlib.Path(gdspath)
+    dirpath = dirpath or gdspath.parent / "gds"
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(gdspath)
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
 
     for cellname in cellnames:
-        component = import_gds(gdspath, cellname=cellname, **kwargs)
+        component = import_gds(gdspath, cellname=cellname)
         component.write_gds(f"{dirpath/cellname}.gds")
         write_cells_from_component(component=component, dirpath=dirpath)
 

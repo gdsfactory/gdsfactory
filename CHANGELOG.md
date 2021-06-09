@@ -2,26 +2,27 @@
 
 ## TODO
 
-- simplify link_factory and route_factory
+- waypoints connector accepts ports. More consistent routing functions
 - fix some FIXME
-- add pins
+- enable add pins option in TECH that can add custom pins to components
 - routing with 180euler bends
 
 Maybe:
 
-- fix path defined components geometric hash. Phidl issue?
 - how can we have labels with gdslayer, gdspurpose? Phidl issue?
 - create a Klayout library so we can also place components from the klayout menu GUI
-- add contracts, or enforcers, either in cell decorator or using
+- add contracts cell decorator
 
 ```
 from contracts import contract
 @contract(length='Real,>=0', width='float,>=0')
 
-from pydantic import validate_arguments
-@validate_arguments
 
 ```
+
+## 2.5.4
+
+- added `pf gds` CLI commands for `merge_gds_from_directory`, `layermap_to_dataclass`, `write_cells`
 
 ## 2.5.3
 
@@ -53,7 +54,6 @@ from pydantic import validate_arguments
 - refactor pp.path.component to pp.path.extrude
 - write to GDS again even if component already has a component.path
 - define all TECH in tech.py dataclasses and delete Tech, and Pdk
-- add pydantic validate_arguments decorator
 - add pp.routing.fanout
 - add Factory dataclass
 - fix pp.routing.routing \_gradual_bend
@@ -62,6 +62,11 @@ from pydantic import validate_arguments
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
 - add pp.assert_version
 - fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) to keep name shorter than 32 chars
+- add pydantic validate_arguments decorator. @pp.cell_with_validator
+```
+from pydantic import validate_arguments
+@validate_arguments
+```
 
 ## 2.4.9
 
