@@ -177,24 +177,6 @@ EXTRA
 
 
 @click.command()
-@click.argument("filepath")
-def merge_cells(filepath: str) -> None:
-    """Merge GDS cells into a top level."""
-    filepath = pathlib.Path(filepath)
-    filepath_out = filepath / "merged.gds"
-
-    c = pp.Component("merge-cells")
-
-    cells = filepath.glob("*.gds")
-    for cell in cells:
-        if not isinstance(cell, pp.Component):
-            cell = pp.import_gds(cell)
-        c << cell
-    c.show()
-    c.write_gds(filepath_out)
-
-
-@click.command()
 @click.argument("filename")
 def show(filename: str) -> None:
     """Show a GDS file using klive"""
@@ -258,7 +240,6 @@ gds.add_command(merge_gds_from_directory)
 
 cli.add_command(config_get)
 cli.add_command(mask)
-cli.add_command(merge_cells)
 cli.add_command(show)
 cli.add_command(test)
 cli.add_command(install)
