@@ -107,11 +107,25 @@ def straight_heater(
     ),
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     straight_factory: ComponentFactory = straight,
-    layer_trench: Tuple[int, int] = LAYER.DEEPTRENCH,
+    layer_trench: Optional[Tuple[int, int]] = LAYER.DEEPTRENCH,
     waveguide: str = "strip",
     **waveguide_settings,
 ) -> Component:
-    """Waveguide with heater and trenches.
+    """Waveguide with heater on both sides and trenches.
+
+    Args:
+        length:
+        heater_width:
+        heater_spacing:
+        sstw:
+        trench_width:
+        trench_keep_out:
+        trenches:
+        layer_heater:
+        straight_factory:
+        layer_trench: No trenches if None
+        waveguide: waveguide name from TECH.waveguide
+        **waveguide_settings
 
     .. code::
 
@@ -163,20 +177,22 @@ def straight_heater(
     c.settings["heater_spacing"] = heater_spacing
     c.settings["length"] = length
     c.settings["width"] = width
-    add_trenches(
-        component=c,
-        sstw=sstw,
-        trench_width=trench_width,
-        trench_keep_out=trench_keep_out,
-        trenches=trenches,
-        layer_trench=layer_trench,
-    )
+
+    if layer_trench:
+        add_trenches(
+            component=c,
+            sstw=sstw,
+            trench_width=trench_width,
+            trench_keep_out=trench_keep_out,
+            trenches=trenches,
+            layer_trench=layer_trench,
+        )
 
     return c
 
 
 @cell
-def straight_heater_connector(
+def via_elevator(
     heater_ports: Iterable[Port],
     tlm_layers: Tuple[Layer, ...] = (
         LAYER.VIA1,
@@ -189,7 +205,14 @@ def straight_heater_connector(
     port_width: Optional[float] = 10.0,
     port_orientation: Optional[int] = None,
 ) -> Component:
-    """Connect together a pair of wg heaters to metal."""
+    """Connect together a pair of wg heaters to metal.
+
+    Args:
+        heater_ports: list of ports
+        tlm_layers: tuple of layers
+        port_width:
+        port_orientation: in degrees
+    """
 
     component = Component()
     assert len(heater_ports) == 2
@@ -257,24 +280,38 @@ def straight_heater_connector(
 def straight_with_heater(
     length: float = 10.0,
     straight_heater: ComponentFactory = straight_heater,
-    connector: ComponentFactory = straight_heater_connector,
+    connector: ComponentFactory = via_elevator,
     port_width: Optional[float] = 10.0,
     port_orientation_input: int = 90,
     port_orientation_output: int = 90,
     connector_settings: Optional[Dict[str, Any]] = None,
     **kwargs,
 ) -> Component:
-    """Returns a straight with heater.
+    """Returns a straight with 2 heaters (one on each side).
 
     Args:
         length: straight length
         straight_heater: function
-        connector: function
+        connector: function to connect to metal routing
         port_width:
         port_orientation_input:
         port_orientation_output:
         connector_settings: for the via and metal connector
+            tlm_layers: tuple of layers
+            port_width:
+            port_orientation: in degrees
         **kwargs: for straight_heater
+            heater_width:
+            heater_spacing:
+            sstw:
+            trench_width:
+            trench_keep_out:
+            trenches:
+            layer_heater:
+            straight_factory:
+            layer_trench: No trenches if None
+            waveguide: waveguide name from TECH.waveguide
+            **waveguide_settings
 
     """
     component = Component()
@@ -308,6 +345,24 @@ def straight_with_heater(
     return component
 
 
+@cell
+def straight_with_heater_single(
+    length: float = 10.0,
+    npoints: int = 2,
+    waveguide: str = "strip_heater_single",
+    with_cladding_box: bool = True,
+    **kwargs,
+) -> Component:
+    """Returns a waveguide with a single heater."""
+    return straight(
+        length=length,
+        npoints=npoints,
+        waveguide=waveguide,
+        with_cladding_box=with_cladding_box,
+        **kwargs,
+    )
+
+
 def _demo_straight_heater():
     c = straight_heater(width=0.5)
     c.write_gds()
@@ -316,10 +371,11 @@ def _demo_straight_heater():
 if __name__ == "__main__":
     # print(c.get_optical_ports())
     # c = straight_heater()
-    # c = straight_heater_connector(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
+    # c = via_elevator(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
-    c = straight_with_heater(length=200.0, port_orientation_input=0)
-    # c = straight_heater_connector()
+    # c = straight_with_heater(length=200.0, port_orientation_input=0)
+    # c = via_elevator()
+    c = straight_with_heater_single()
     c.show(show_ports=True)
     print(c.ports)
 

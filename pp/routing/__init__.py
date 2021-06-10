@@ -14,6 +14,7 @@ from pp.routing.get_route import get_route, get_route_from_waypoints
 from pp.routing.get_route_sbend import get_route_sbend
 from pp.routing.get_routes import get_routes
 from pp.routing.get_routes_bend180 import get_routes_bend180
+from pp.routing.get_routes_straight import get_routes_straight
 from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.routing.route_south import route_south
 
@@ -28,6 +29,7 @@ __all__ = [
     "get_route",
     "get_routes",
     "get_routes_bend180",
+    "get_routes_straight",
     "get_route_sbend",
     "get_bundle_sbend",
     "get_route_from_waypoints",

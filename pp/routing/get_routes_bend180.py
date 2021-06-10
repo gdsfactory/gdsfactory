@@ -13,7 +13,14 @@ def get_routes_bend180(
     waveguide: str = "strip",
     **kwargs,
 ) -> Routes:
-    """Returns routes made by 180 degree bends."""
+    """Returns routes made by 180 degree bends.
+
+    Args:
+        ports: List or dict of ports
+        bend_factory: function for bend
+        **kwargs: bend settings
+    """
+    ports = list(ports.values()) if isinstance(ports, dict) else ports
     bend = bend_factory(angle=180, waveguide=waveguide, **kwargs)
     references = [bend.ref() for port in ports]
     references = [ref.connect("W0", port) for port, ref in zip(ports, references)]
