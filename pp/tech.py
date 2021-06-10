@@ -225,11 +225,11 @@ class StripHeaterSingle(Waveguide):
 @pydantic.dataclasses.dataclass
 class Waveguides:
     strip: Waveguide = Strip()
+    rib: Waveguide = Rib()
     metal_routing: Waveguide = MetalRouting()
     nitride: Waveguide = Nitride()
     strip_heater: Waveguide = StripHeater()
     strip_heater_single: Waveguide = StripHeaterSingle()
-    rib: Waveguide = StripHeater()
 
 
 @pydantic.dataclasses.dataclass

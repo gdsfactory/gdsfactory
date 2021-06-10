@@ -42,6 +42,7 @@ def bend_circular(
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = radius
+    c.waveguide_settings = waveguide_settings
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

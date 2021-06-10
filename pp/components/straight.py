@@ -33,6 +33,7 @@ def straight(
     c = extrude(p, x)
     c.length = snap_to_grid(length)
     c.width = x.info["width"]
+    c.waveguide_settings = waveguide_settings
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
         cladding_offset = x.info["cladding_offset"]
@@ -50,7 +51,8 @@ def straight(
 if __name__ == "__main__":
 
     # c = straight(width=2.0)
-    c = straight(waveguide2="strip_heater")
+    c = straight(waveguide="strip_heater")
+    c = straight(waveguide="metal_routing")
     print(c.name)
     c.pprint()
     # print(c.get_settings()['settings']['waveguide_settings']['layers_cladding'])

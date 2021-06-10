@@ -22,8 +22,10 @@ from contracts import contract
 
 ## 2.5.4
 
-- added `pf gds` CLI commands for `merge_gds_from_directory`, `layermap_to_dataclass`, `write_cells`
+- add `pf gds` CLI commands for `merge_gds_from_directory`, `layermap_to_dataclass`, `write_cells`
 - component_from_yaml has a get_bundle_from_waypoints factory
+- add heater with single metal
+- fix routing with cross-sections with defined Sections
 
 ## 2.5.3
 

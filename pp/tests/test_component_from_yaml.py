@@ -155,6 +155,9 @@ routes:
             mmi_bottom,E0: mmi_top,W0
             mmi_bottom,E1: mmi_top,W1
 
+        settings:
+            waveguide: strip_heater
+
 """
 
 
