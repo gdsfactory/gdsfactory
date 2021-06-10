@@ -60,6 +60,7 @@ def taper(
     c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
+    c.waveguide_settings = waveguide_settings
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

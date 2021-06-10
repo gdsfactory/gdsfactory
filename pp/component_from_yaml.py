@@ -656,7 +656,8 @@ def component_from_yaml(
 
 
 if __name__ == "__main__":
-    from pp.tests.test_component_from_yaml import sample_waypoints
+    # from pp.tests.test_component_from_yaml import sample_waypoints
+    from pp.tests.test_component_from_yaml import sample_2x2_connections
 
     # c = component_from_yaml(sample_mmis)
     # print(c.get_settings()["info"])
@@ -675,8 +676,8 @@ if __name__ == "__main__":
     # test_mirror()
     # c = component_from_yaml(sample_different_link_factory)
     # c = test_mirror()
-
-    c = component_from_yaml(sample_waypoints)
+    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_2x2_connections)
     c.show()
 
     # c = component_from_yaml(sample_connections)

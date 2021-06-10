@@ -9,7 +9,7 @@ from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.cross_section import get_waveguide_settings
 from pp.geo_utils import angles_deg
-from pp.port import Port
+from pp.port import Port, select_ports_list
 from pp.snap import snap_to_grid
 from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
 
@@ -20,28 +20,33 @@ RAD2DEG = 1 / DEG2RAD
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
 
-def _get_ports_facing(ports: Dict[str, Port], orientation: int = 0) -> List[Port]:
-    return [p for p in ports.values() if p.orientation == orientation]
+def _get_unique_port_facing(
+    ports: Dict[str, Port],
+    orientation: int = 0,
+    layer: Tuple[int, int] = (1, 0),
+) -> List[Port]:
+    """Ensures there is only one port"""
+    ports_selected = select_ports_list(
+        ports=ports, orientation=orientation, layer=layer
+    )
 
-
-def _get_unique_port_facing(ports: Dict[str, Port], orientation: int = 0) -> List[Port]:
-    ports = _get_ports_facing(ports, orientation)
-
-    if len(ports) > 1:
+    if len(ports_selected) > 1:
         orientation = orientation % 360
         direction = O2D[orientation]
         raise ValueError(
-            "_get_unique_port_facing: \n\
-            should have only one port facing {}\n\
-            Got {} with names {}".format(
-                direction, len(ports), ports
-            )
+            f"_get_unique_port_facing: \n\
+            should have only one port facing {direction}\n\
+            Got {len(ports)} with names {ports}"
         )
 
-    return ports
+    return ports_selected
 
 
-def _get_bports2(bend: Component) -> List[Port]:
+def _get_bend_ports(
+    bend: Component,
+    orientation: int = 0,
+    layer: Tuple[int, int] = (1, 0),
+) -> List[Port]:
     """Returns West and North facing ports for bend.
 
     Any standard bend/corner has two ports: one facing west and one facing north
@@ -50,13 +55,16 @@ def _get_bports2(bend: Component) -> List[Port]:
 
     ports = bend.ports
 
-    p_w = _get_unique_port_facing(ports, 180)
-    p_n = _get_unique_port_facing(ports, 90)
+    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
+    p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
 
     return p_w + p_n
 
 
-def _get_straight_ports(straight: Component) -> List[Port]:
+def _get_straight_ports(
+    straight: Component,
+    layer: Tuple[int, int] = (1, 0),
+) -> List[Port]:
     """Return West and east facing ports for straight waveguide.
 
     Any standard straight wire/straight has two ports:
@@ -64,8 +72,8 @@ def _get_straight_ports(straight: Component) -> List[Port]:
     """
     ports = straight.ports
 
-    p_w = _get_unique_port_facing(ports, 180)
-    p_e = _get_unique_port_facing(ports, 0)
+    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
+    p_e = _get_unique_port_facing(ports=ports, orientation=0, layer=layer)
 
     return p_w + p_e
 
@@ -378,7 +386,12 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = [p.midpoint for p in _get_bports2(bend_cell)]
+    b1, b2 = [
+        p.midpoint
+        for p in _get_bend_ports(
+            bend=bend_cell, layer=bend_cell.waveguide_settings["layer"]
+        )
+    ]
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -516,7 +529,10 @@ def round_corners(
             a0 = 180
 
     assert a0 is not None, f"Points should be manhattan, got {p0_straight} {p1}"
-    pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
+    pname_west, pname_north = [
+        p.name
+        for p in _get_bend_ports(bend=bend90, layer=bend90.waveguide_settings["layer"])
+    ]
 
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
@@ -555,7 +571,12 @@ def round_corners(
             # Taper starts where straight would have started
             taper_origin = straight_origin
 
-            pname_west, pname_east = [p.name for p in _get_straight_ports(taper)]
+            pname_west, pname_east = [
+                p.name
+                for p in _get_straight_ports(
+                    taper, layer=taper.waveguide_settings["layer"]
+                )
+            ]
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_west, rotation=angle
             )
@@ -583,7 +604,10 @@ def round_corners(
             )
 
         if straight_ports is None:
-            straight_ports = [p.name for p in _get_straight_ports(wg)]
+            straight_ports = [
+                p.name
+                for p in _get_straight_ports(wg, layer=wg.waveguide_settings["layer"])
+            ]
         pname_west, pname_east = straight_ports
 
         wg.move(wg.ports[pname_west], (0, 0))
@@ -604,7 +628,12 @@ def round_corners(
             # Origin at end of straight waveguide, starting from east side of taper
 
             taper_origin = wg_ref.ports[pname_east]
-            pname_west, pname_east = [p.name for p in _get_straight_ports(taper)]
+            pname_west, pname_east = [
+                p.name
+                for p in _get_straight_ports(
+                    taper, layer=taper.waveguide_settings["layer"]
+                )
+            ]
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_east, rotation=angle + 180
             )
@@ -639,7 +668,10 @@ def generate_manhattan_waypoints(
         else bend_factory
     )
 
-    pname_west, pname_north = [p.name for p in _get_bports2(bend90)]
+    pname_west, pname_north = [
+        p.name
+        for p in _get_bend_ports(bend=bend90, layer=bend90.waveguide_settings["layer"])
+    ]
 
     bsx = bsy = getattr(bend90, "dy", 0)
     points = _generate_route_manhattan_points(
@@ -722,7 +754,9 @@ def test_manhattan() -> Component:
             # start_straight=5.0,
             # end_straight=5.0,
             # bend_factory=bend_circular,
-            waveguide="nitride",
+            # waveguide="nitride",
+            # waveguide="strip_heater",
+            waveguide="metal_routing",
             radius=5.0,
         )
 

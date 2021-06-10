@@ -282,6 +282,10 @@ def select_ports(
     return ports
 
 
+def select_ports_list(**kwargs) -> List[Port]:
+    return list(select_ports(**kwargs).values())
+
+
 def select_optical_ports(
     ports: Dict[str, Port],
     port_type: str = "optical",
