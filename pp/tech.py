@@ -215,6 +215,7 @@ class StripHeaterSingle(Waveguide):
     width: float = 1.0
     auto_widen: bool = False
     layer: Layer = LAYER.WG
+    port_names: Tuple[str, str] = ("in0", "out0")
     radius: float = 10.0
     sections: Tuple[Section, ...] = (
         Section(width=8, layer=LAYER.WGCLAD),
@@ -367,6 +368,7 @@ class Tech:
     metal_spacing: float = 10.0
 
     snap_to_grid_nm: int = 1
+    rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
 

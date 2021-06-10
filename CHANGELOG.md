@@ -26,6 +26,7 @@ from contracts import contract
 - component_from_yaml has a get_bundle_from_waypoints factory
 - add heater with single metal
 - fix routing with cross-sections with defined Sections
+- add TECH.rename_ports
 
 ## 2.5.3
 

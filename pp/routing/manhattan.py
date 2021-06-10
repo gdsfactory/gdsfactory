@@ -33,10 +33,12 @@ def _get_unique_port_facing(
     if len(ports_selected) > 1:
         orientation = orientation % 360
         direction = O2D[orientation]
+        for port in ports_selected:
+            print(port)
         raise ValueError(
             f"_get_unique_port_facing: \n\
             should have only one port facing {direction}\n\
-            Got {len(ports)} with names {ports}"
+            Got {len(ports_selected)} {[port.name for port in ports_selected]}"
         )
 
     return ports_selected
@@ -756,7 +758,8 @@ def test_manhattan() -> Component:
             # bend_factory=bend_circular,
             # waveguide="nitride",
             # waveguide="strip_heater",
-            waveguide="metal_routing",
+            # waveguide="metal_routing",
+            waveguide="strip_heater_single",
             radius=5.0,
         )
 
