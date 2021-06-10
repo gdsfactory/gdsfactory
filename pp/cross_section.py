@@ -14,19 +14,20 @@ from pp.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 
-WAVEGUIDE_SETTINGS = dict(
-    width=0.5,
-    layer=(1, 0),
-    width_wide=None,
-    auto_widen=True,
-    auto_widen_minimum_length=200,
-    taper_length=10.0,
-    radius=10.0,
-    cladding_offset=3.0,
-    layer_cladding=None,
-    layers_cladding=None,
-    sections=None,
-)
+# WAVEGUIDE_SETTINGS = dict(
+#     width=0.5,
+#     layer=(1, 0),
+#     width_wide=None,
+#     auto_widen=True,
+#     auto_widen_minimum_length=200,
+#     taper_length=10.0,
+#     radius=10.0,
+#     cladding_offset=3.0,
+#     layer_cladding=None,
+#     layers_cladding=None,
+#     sections=None,
+#     port_names=('in', 'out')
+# )
 
 
 def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
@@ -36,11 +37,11 @@ def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
     if not waveguide_settings:
         raise ValueError(f"no waveguide_settings found for {waveguide}")
 
-    for key in kwargs:
-        if key not in WAVEGUIDE_SETTINGS:
-            raise ValueError(
-                f"waveguide setting '{key}' not in {list(WAVEGUIDE_SETTINGS.keys())}"
-            )
+    # for key in kwargs:
+    #     if key not in WAVEGUIDE_SETTINGS:
+    #         raise ValueError(
+    #             f"waveguide setting '{key}' not in {list(WAVEGUIDE_SETTINGS.keys())}"
+    #         )
 
     waveguide_settings.update(**kwargs)
     return waveguide_settings
@@ -58,11 +59,13 @@ def cross_section(
     layer_cladding: Optional[Layer] = None,
     layers_cladding: Optional[Tuple[Layer]] = None,
     sections: Optional[Tuple[Section]] = None,
+    port_names: Tuple[str, str] = ("W0", "E0"),
 ) -> CrossSection:
     """Returns CrossSection from TECH.waveguide settings."""
 
     x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+
+    x.add(width=width, offset=0, layer=layer, ports=port_names)
 
     if sections:
         for section in sections:

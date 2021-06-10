@@ -29,7 +29,7 @@ def extrude(
     cross_section: CrossSection,
     simplify: Optional[float] = None,
     snap_to_grid_nm: int = TECH.snap_to_grid_nm,
-    rename_ports: bool = True,
+    rename_ports: bool = TECH.rename_ports,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
