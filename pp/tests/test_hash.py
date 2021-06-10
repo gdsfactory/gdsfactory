@@ -13,17 +13,19 @@ def test_hash_geometry() -> None:
 
 def test_hash_array_file():
     """Test hash of a component with an array of references."""
+    pp.clear_cache()
     c = pp.Component("array")
-    wg = pp.c.straight()
+    wg = pp.c.straight(length=3.2)
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
     print(h)
-    assert h == "1369ac6a3ac6692954b5834d3586370c"
+    assert h == "bec2ab8f157b429bd6ff210bedde6fe3"
 
 
 def test_hash_file():
     """Test hash of the saved GDS file."""
+    pp.clear_cache()
     c = pp.c.straight()
     c.add_label("hi")
     gdspath = c.write_gds()
