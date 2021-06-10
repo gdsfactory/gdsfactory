@@ -1,6 +1,6 @@
 import pathlib
 from dataclasses import field
-from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Callable, Dict, Iterable, Optional, Tuple, Union
 
 import pydantic
 from phidl.device_layout import Device as Component
@@ -144,7 +144,7 @@ class Waveguide:
     radius: float = 10.0
     cladding_offset: Optional[float] = 3.0
     layer_cladding: Optional[Layer] = None
-    layers_cladding: Optional[List[Layer]] = None
+    layers_cladding: Optional[Tuple[Layer, ...]] = None
     sections: Optional[Tuple[Section, ...]] = None
 
 
@@ -159,7 +159,7 @@ class Strip(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.WGCLAD
-    layers_cladding: Optional[List[Layer]] = (LAYER.WGCLAD,)
+    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGCLAD,)
 
 
 @pydantic.dataclasses.dataclass
@@ -172,7 +172,7 @@ class Rib(Waveguide):
     radius: float = 10.0
     cladding_offset: float = 3.0
     layer_cladding: Optional[Layer] = LAYER.SLAB90
-    layers_cladding: Optional[List[Layer]] = (LAYER.SLAB90,)
+    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGCLAD,)
 
 
 @pydantic.dataclasses.dataclass
@@ -211,11 +211,24 @@ class StripHeater(Waveguide):
 
 
 @pydantic.dataclasses.dataclass
+class StripHeaterSingle(Waveguide):
+    width: float = 1.0
+    auto_widen: bool = False
+    layer: Layer = LAYER.WG
+    radius: float = 10.0
+    sections: Tuple[Section, ...] = (
+        Section(width=8, layer=LAYER.WGCLAD),
+        Section(width=4.0, layer=LAYER.HEATER, ports=("H_W", "H_E")),
+    )
+
+
+@pydantic.dataclasses.dataclass
 class Waveguides:
     strip: Waveguide = Strip()
     metal_routing: Waveguide = MetalRouting()
     nitride: Waveguide = Nitride()
     strip_heater: Waveguide = StripHeater()
+    strip_heater_single: Waveguide = StripHeaterSingle()
     rib: Waveguide = StripHeater()
 
 
@@ -315,6 +328,7 @@ class Factory:
             )
 
         self.factory[factory.__name__] = factory
+        # setattr(self.components, factory.__name__, factory)
         # setattr(self, factory.__name__, factory)
 
     def get_component(

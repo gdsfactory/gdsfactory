@@ -296,6 +296,7 @@ def add_pins(
         component: to add ports
         function:
         port_type_to_layer: dict mapping port types to marker layers for ports
+        kwargs: add pins function settings
 
     """
     reference = reference or component
