@@ -1,10 +1,9 @@
-from typing import Optional
+from typing import Dict, Optional, Union
 
 from pp.cell import cell
 from pp.component import Component
 from pp.port import rename_ports_by_orientation
 from pp.tech import TECH, Tech
-from pp.types import StrOrDict
 
 
 @cell
@@ -12,13 +11,13 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend: StrOrDict = "bend_euler",
-    straight: str = "straight",
+    bend: Union[str, Dict] = "bend_euler",
+    straight: Union[str, Dict] = "straight",
     straight_vertical: Optional[str] = None,
     straight_delta_length: Optional[str] = None,
     straight_horizontal: Optional[str] = None,
-    splitter: str = "mmi1x2",
-    combiner: Optional[str] = None,
+    splitter: Union[str, Dict] = "mmi1x2",
+    combiner: Optional[Union[str, Dict]] = None,
     with_splitter: bool = True,
     tech: Tech = TECH,
     **kwargs,
@@ -65,7 +64,7 @@ def mzi(
 
     c = Component()
     cp1 = splitter
-    cp2 = combiner or splitter
+    cp2 = get(combiner) if combiner else splitter
 
     straight_vertical = straight_vertical or straight
     straight_horizontal = straight_horizontal or straight
@@ -174,7 +173,10 @@ if __name__ == "__main__":
     # print(c.ports["E0"].midpoint)
 
     c = mzi(
-        delta_length=20, waveguide="nitride", bend=dict(name="bend_euler", radius=50)
+        delta_length=20,
+        waveguide="nitride",
+        bend=dict(component_type="bend_euler", radius=50),
+        splitter=dict(component_type="mmi1x2", waveguide="nitride"),
     )
     c.show()
     # c.plot()

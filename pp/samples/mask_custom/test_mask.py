@@ -128,10 +128,8 @@ def test_mask(precision: float = 2e-9) -> Path:
     assert markdown_path.exists()
     assert json_path.exists()
     assert test_metadata_path.exists()
-
     report = open(markdown_path).read()
     assert report.count("#") == 2, f" only {report.count('#')} DOEs in {markdown_path}"
-
     return gdspath
 
 

@@ -31,8 +31,9 @@ def merge_json(
     """
     logging.debug("Merging JSON files:")
     cells = {}
-    config = config or {}
     extra_directories = extra_directories or []
+    config = dataclasses.asdict(config)
+    config.pop("factory", "")
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):
@@ -46,7 +47,7 @@ def merge_json(
         json_version=json_version,
         cells=cells,
         does=does,
-        config=dataclasses.asdict(config),
+        config=config,
     )
 
     write_config(metadata, jsonpath)
