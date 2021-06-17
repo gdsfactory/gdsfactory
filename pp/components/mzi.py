@@ -1,12 +1,9 @@
-from typing import Dict, Optional, Union
+from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
-from pp.components.bend_euler import bend_euler
-from pp.components.mmi1x2 import mmi1x2
-from pp.components.straight import straight as straight_function
 from pp.port import rename_ports_by_orientation
-from pp.types import ComponentFactory, ComponentOrFactory
+from pp.tech import TECH, Tech
 
 
 @cell
@@ -14,16 +11,15 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    straight_vertical: Optional[ComponentFactory] = None,
-    straight_delta_length: Optional[ComponentFactory] = None,
-    straight_horizontal: Optional[ComponentFactory] = None,
-    splitter: ComponentOrFactory = mmi1x2,
-    combiner: Optional[ComponentFactory] = None,
+    bend: str = "bend_euler",
+    straight: str = "straight",
+    straight_vertical: Optional[str] = None,
+    straight_delta_length: Optional[str] = None,
+    straight_horizontal: Optional[str] = None,
+    splitter: str = "mmi1x2",
+    combiner: Optional[str] = None,
     with_splitter: bool = True,
-    splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
-    combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
+    tech: Tech = TECH,
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -39,8 +35,6 @@ def mzi(
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
-        splitter_settings: settings dict for splitter function
-        combiner_settings: settings dict for combiner function
         kwargs: cross_section settings
 
     .. code::
@@ -59,23 +53,24 @@ def mzi(
 
 
     """
+    get = tech.factory.get_component
+
+    bend = get(bend, **kwargs)
+    splitter = get(splitter)
 
     L2 = length_x
     L0 = length_y
     DL = delta_length
 
-    splitter_settings = splitter_settings or {}
-    combiner_settings = combiner_settings or {}
-
     c = Component()
-    cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
-    cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
+    cp1 = splitter
+    cp2 = combiner or splitter
 
     straight_vertical = straight_vertical or straight
     straight_horizontal = straight_horizontal or straight
     straight_delta_length = straight_delta_length or straight
-    b90 = bend(**kwargs) if callable(bend) else bend
-    l0 = straight_vertical(length=L0, **kwargs)
+    b90 = bend
+    l0 = get(straight, length=L0, **kwargs)
 
     cp1 = rename_ports_by_orientation(cp1)
     cp2 = rename_ports_by_orientation(cp2)
@@ -94,9 +89,9 @@ def mzi(
         f" length_y ({length_y}) >0"
     )
 
-    l0r = straight_vertical(length=L0 + delta_length_combiner / 2, **kwargs)
-    l1 = straight_delta_length(length=DL / 2, **kwargs)
-    l2 = straight_horizontal(length=L2, **kwargs)
+    l0r = get(straight_vertical, length=L0 + delta_length_combiner / 2, **kwargs)
+    l1 = get(straight_delta_length, length=DL / 2, **kwargs)
+    l2 = get(straight_horizontal, length=L2, **kwargs)
 
     cin = cp1.ref()
     cout = c << cp2
@@ -169,8 +164,7 @@ if __name__ == "__main__":
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c = mzi(delta_length=10)
 
-    c = mzi(delta_length=20, waveguide="nitride")
-    c.pprint_netlist()
+    # c.pprint_netlist()
 
     # add_markers(c)
     # print(c.ports["E0"].midpoint[1])
@@ -178,6 +172,7 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
 
+    c = mzi(delta_length=20, waveguide="nitride")
     c.show()
     # c.plot()
     # print(c.get_settings())

@@ -4,7 +4,7 @@ Only change the order if you know what you are doing
 isort:skip_file
 """
 import dataclasses
-from pp.tech import Factory
+from pp.tech import TECH
 
 # level 0 components
 from pp.components.array import array
@@ -138,7 +138,7 @@ from pp.components.splitter_tree import splitter_tree
 from pp.components.splitter_chain import splitter_chain
 
 
-COMPONENT_FACTORY = Factory()
+COMPONENT_FACTORY = TECH.factory
 COMPONENT_FACTORY.register(
     [
         array,

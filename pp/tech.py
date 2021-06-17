@@ -384,7 +384,7 @@ class Tech:
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    post_init: Callable[[], None] = None
+    factory: Factory = Factory()
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
