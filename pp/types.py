@@ -60,6 +60,7 @@ Coordinates = Iterable[Tuple[float, float]]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
+StrOrDict = Union[str, Dict]
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
