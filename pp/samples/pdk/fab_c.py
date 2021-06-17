@@ -134,13 +134,24 @@ def mmi1x2_nitride_oband(
     return c
 
 
+FACTORY = Factory(post_init=add_pins_custom)
+# FACTORY = TECH.factory
+
+TECH_FABC = Tech(name="fabc")
+TECH_FABC.factory = FACTORY
+FACTORY.register(
+    [mmi1x2_nitride_cband, mmi1x2_nitride_oband, pp.c.bend_euler, pp.c.straight]
+)
+
+
 @cell
 def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     c = pp.c.mzi(
         delta_length=delta_length,
-        splitter=mmi1x2_nitride_cband,
+        splitter="mmi1x2_nitride_cband",
         waveguide="nitride_cband",
         width=WIDTH_NITRIDE_CBAND,
+        tech=TECH_FABC,
     )
     add_pins_custom(c)
     return c
@@ -150,17 +161,16 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
 def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
     c = pp.c.mzi(
         delta_length=delta_length,
-        splitter=mmi1x2_nitride_oband,
+        splitter="mmi1x2_nitride_cband",
         waveguide="nitride_oband",
         width=WIDTH_NITRIDE_CBAND,
+        tech=TECH_FABC,
     )
     add_pins_custom(c)
     return c
 
 
-TECH_FABC = Tech(name="fabc")
-COMPONENT_FACTORY = Factory()
-COMPONENT_FACTORY.register([mzi_nitride_cband, mzi_nitride_oband])
+FACTORY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 
 if __name__ == "__main__":

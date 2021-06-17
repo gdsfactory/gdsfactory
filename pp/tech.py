@@ -326,18 +326,28 @@ class Factory:
     post_init: Optional[Callable[[], None]] = None
 
     def register(
-        self, functions_list: Optional[List[Callable[[], None]]] = None, **kwargs
+        self,
+        function_or_function_list: Optional[
+            Union[List[Callable[[], None]], Callable[[], None]]
+        ] = None,
+        **kwargs,
     ) -> None:
-        """Registers component_factory into the factory."""
-        functions_list = functions_list or []
+        """Registers component_factory functions into the factory."""
+        function_or_function_list = function_or_function_list or []
+
+        if not hasattr(function_or_function_list, "__iter__"):
+            function = function_or_function_list
+            assert_callable(function)
+            self.factory[function.__name__] = function
+
+        else:
+            for function in function_or_function_list:
+                assert_callable(function)
+                self.factory[function.__name__] = function
 
         for function_name, function in kwargs.items():
             assert_callable(function)
             self.factory[function_name] = function
-
-        for function in functions_list:
-            assert_callable(function)
-            self.factory[function.__name__] = function
 
         # setattr(self.components, factory.__name__, factory)
         # setattr(self, factory.__name__, factory)
@@ -366,7 +376,7 @@ class Factory:
             component_settings = {}
         elif isinstance(component_type, dict):
             component_settings = component_type.copy()
-            component_type = component_settings.pop("name")
+            component_type = component_settings.pop("component_type")
         else:
             raise ValueError(
                 f"{component_type} needs to be a string or dict, got {type(component_type)}"
@@ -429,6 +439,9 @@ if __name__ == "__main__":
 
     cf = Factory()
     cf.register(mmi1x2_longer)
-    # cf.register(mmi1x2_longer())
+
+    TECH.factory.register(mmi1x2_longer)
+
+    print(asdict(TECH))
     c = cf.get_component("mmi1x2_longer", length_mmi=30)
     c.show()

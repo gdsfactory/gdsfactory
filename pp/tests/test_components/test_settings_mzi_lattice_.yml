@@ -11,3 +11,7 @@ settings:
   - 20
   delta_lengths:
   - 10
+  mzi: mzi
+  splitter: coupler
+  straight: straight
+  tech: generic

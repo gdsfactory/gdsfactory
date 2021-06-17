@@ -159,6 +159,8 @@ def print_config(key: Optional[str] = None) -> None:
 def complex_encoder(z):
     if isinstance(z, pathlib.Path):
         return str(z)
+    elif callable(z):
+        return str(z.__name__)
     else:
         type_name = type(z)
         raise TypeError(f"Object {z} of type {type_name} is not serializable")
