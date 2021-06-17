@@ -1,9 +1,9 @@
 connections:
-  bend_euler_f79f8bba_68p625_m4p0,N0: straight_6fe2aa89_72p0_m20p0,W0
-  bend_euler_f79f8bba_68p625_m4p0,W0: straight_4367789d_52p0_m0p625,E0
+  bend_euler_f79f8bba_68p625_m4p0,N0: straight_159c69be_72p0_m20p0,W0
+  bend_euler_f79f8bba_68p625_m4p0,W0: straight_26f820ed_52p0_m0p625,E0
   bend_euler_f79f8bba_75p375_m36p0,N0: mmi_bot,W0
-  bend_euler_f79f8bba_75p375_m36p0,W0: straight_6fe2aa89_72p0_m20p0,E0
-  mmi_top,E0: straight_4367789d_52p0_m0p625,W0
+  bend_euler_f79f8bba_75p375_m36p0,W0: straight_159c69be_72p0_m20p0,E0
+  mmi_top,E0: straight_26f820ed_52p0_m0p625,W0
 instances:
   bend_euler_f79f8bba_68p625_m4p0:
     component: bend_euler
@@ -81,31 +81,7 @@ instances:
       width_mmi: 6
       width_taper: 1
       with_cladding_box: true
-  straight_4367789d_52p0_m0p625:
-    component: straight
-    settings:
-      auto_widen: true
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-      layers_cladding:
-      - - 111
-        - 0
-      length: 20
-      npoints: 2
-      radius: 10
-      sections: null
-      taper_length: 10
-      waveguide: strip
-      width: 0.5
-      width_wide: 2
-      with_cladding_box: true
-  straight_6fe2aa89_72p0_m20p0:
+  straight_159c69be_72p0_m20p0:
     component: straight
     settings:
       auto_widen: true
@@ -121,6 +97,30 @@ instances:
       - - 111
         - 0
       length: 18.75
+      npoints: 2
+      radius: 10
+      sections: null
+      taper_length: 10
+      waveguide: strip
+      width: 0.5
+      width_wide: 2
+      with_cladding_box: true
+  straight_26f820ed_52p0_m0p625:
+    component: straight
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 20
       npoints: 2
       radius: 10
       sections: null
@@ -151,14 +151,14 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_4367789d_52p0_m0p625:
-    mirror: false
-    rotation: 0
-    x: 42.0
-    y: -0.625
-  straight_6fe2aa89_72p0_m20p0:
+  straight_159c69be_72p0_m20p0:
     mirror: false
     rotation: 270
     x: 72.0
     y: -10.625
+  straight_26f820ed_52p0_m0p625:
+    mirror: false
+    rotation: 0
+    x: 42.0
+    y: -0.625
 ports: {}

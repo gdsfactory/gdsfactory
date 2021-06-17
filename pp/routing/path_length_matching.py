@@ -11,6 +11,7 @@ from pp.types import ComponentFactory
 
 def path_length_matched_points(
     list_of_waypoints: List[ndarray],
+    margin: float = 0.0,
     modify_segment_i: int = -2,
     extra_length: float = 0.0,
     nb_loops: int = 1,
@@ -30,15 +31,17 @@ def path_length_matched_points(
             exception is if there are some flat angles)
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
-        extra_length: distance added to all path length compensation.
-            Useful is we want to add space for extra taper on all branches
         modify_segment_i: index of the segment which accomodates the new turns
             default is next to last segment (-2)
+        extra_length: distance added to all path length compensation.
+            Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
             if nb_loops==0, no extra loop is added, instead, in each route,
             the segment indexed by `modify_segment_i` is elongated to match
             the longuest route in `list_of_waypoints`
-        bend_factory
+        bend_factory: bend function
+        waveguide: waveguide name
+        **waveguide_settings:
 
     Returns: another list of waypoints where
         - the path_lenth of each waypoints list are identical
@@ -50,8 +53,10 @@ def path_length_matched_points(
         return path_length_matched_points_add_waypoints(
             list_of_waypoints=list_of_waypoints,
             modify_segment_i=modify_segment_i,
-            nb_loops=nb_loops,
+            bend_factory=bend_factory,
+            margin=margin,
             extra_length=extra_length,
+            nb_loops=nb_loops,
             waveguide=waveguide,
             **waveguide_settings,
         )
@@ -158,6 +163,7 @@ def path_length_matched_points_add_waypoints(
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
         waveguide: waveguide name from TECH.waveguide
+        **waveguide_settings:
 
     returns:
         another list of waypoints where:

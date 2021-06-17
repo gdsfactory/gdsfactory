@@ -105,6 +105,7 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
+    # print('route_fiber_array', waveguide_settings, straight_factory)
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     radius = waveguide_settings["radius"]
     layer_label = layer_label or TECH.layer_label
@@ -307,6 +308,7 @@ def route_fiber_array(
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
+                    straight_factory=straight_factory,
                     waveguide=waveguide,
                     **waveguide_settings,
                 )

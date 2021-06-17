@@ -89,6 +89,7 @@ def get_route(
             length=taper_length,
             width1=input_port.width,
             width2=width2,
+            waveguide=waveguide,
             **waveguide_settings,
         )
         if callable(taper_factory)
@@ -104,6 +105,7 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
+        waveguide=waveguide,
         **waveguide_settings,
     )
 
@@ -143,6 +145,7 @@ def get_route_from_waypoints(
                 length=taper_length,
                 width1=width1,
                 width2=width2,
+                waveguide=waveguide,
                 **waveguide_settings,
             )
             if callable(taper_factory)

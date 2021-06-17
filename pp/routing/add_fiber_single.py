@@ -32,6 +32,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
+    waveguide: str = "strip",
     **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -62,6 +63,7 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
+        waveguide: waveguide name from TECH.waveguide
         **waveguide_settings
 
     .. code::
@@ -113,6 +115,7 @@ def add_fiber_single(
                 length=taper_length,
                 width1=port_width_gc,
                 width2=port_width_component,
+                waveguide=waveguide,
                 **waveguide_settings,
             )
             if callable(taper_factory)
@@ -160,6 +163,7 @@ def add_fiber_single(
             min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
             component_name=component_name,
+            waveguide=waveguide,
             **waveguide_settings,
         )
 
@@ -194,7 +198,9 @@ def add_fiber_single(
 
     if with_align_ports:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(length=length, **waveguide_settings)
+        wg = c << straight_factory(
+            length=length, waveguide=waveguide, **waveguide_settings
+        )
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -246,11 +252,15 @@ if __name__ == "__main__":
     c = pp.components.ring_single()
     c = pp.components.mzi2x2(with_elec_connections=True)
 
+    waveguide = "nitride"
+    c = pp.components.straight(length=500, waveguide=waveguide)
+
     gc = pp.components.grating_coupler_elliptical_te
     # gc = pp.components.grating_coupler_elliptical2
     # gc = pp.components.grating_coupler_te
     # gc = pp.components.grating_coupler_uniform
-    cc = add_fiber_single(component=c, auto_widen=False)
+
+    cc = add_fiber_single(component=c, auto_widen=False, waveguide=waveguide)
     cc.show()
 
     # waveguide_settings = pp.tech("waveguide.nitride")

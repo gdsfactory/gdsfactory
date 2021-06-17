@@ -5,11 +5,11 @@ from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.components.taper import taper as taper_function
 from pp.port import Port, auto_rename_ports
-from pp.types import ComponentFactory
+from pp.types import ComponentOrFactory
 
 
 def add_taper_elements(
-    component: Component, taper: ComponentFactory = taper_function
+    component: Component, taper: ComponentOrFactory = taper_function
 ) -> Tuple[List[Port], List[ComponentReference]]:
     """returns ports and taper elements for a component"""
     ports = []
@@ -28,7 +28,7 @@ def add_taper_elements(
 @cell
 def add_tapers(
     component: Component,
-    taper: ComponentFactory = taper_function,
+    taper: ComponentOrFactory = taper_function,
     port_type: str = "optical",
     waveguide="strip",
     **kwargs
