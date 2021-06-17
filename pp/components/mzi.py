@@ -4,6 +4,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.port import rename_ports_by_orientation
 from pp.tech import TECH, Tech
+from pp.types import StrOrDict
 
 
 @cell
@@ -11,7 +12,7 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend: str = "bend_euler",
+    bend: StrOrDict = "bend_euler",
     straight: str = "straight",
     straight_vertical: Optional[str] = None,
     straight_delta_length: Optional[str] = None,
@@ -172,7 +173,9 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
 
-    c = mzi(delta_length=20, waveguide="nitride")
+    c = mzi(
+        delta_length=20, waveguide="nitride", bend=dict(name="bend_euler", radius=50)
+    )
     c.show()
     # c.plot()
     # print(c.get_settings())

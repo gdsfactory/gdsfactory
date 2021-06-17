@@ -1,6 +1,6 @@
 import pathlib
 from dataclasses import asdict, field
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from phidl.device_layout import Device as Component
@@ -344,7 +344,7 @@ class Factory:
 
     def get_component(
         self,
-        component_type: str,
+        component_type: Union[str, Dict],
         **settings,
     ) -> Component:
         """Returns Component from factory.
@@ -352,17 +352,34 @@ class Factory:
         settings can be overwriten with kwargs
         runs any post_init functions over the component before it returns it.
 
+        Priority (from lower to higher)
+        - default in dataclass
+        - component_type in case it's a dic
+        - **settings
+
         Args:
             component_type:
             **settings
         """
+        if isinstance(component_type, str):
+            component_type = component_type
+            component_settings = {}
+        elif isinstance(component_type, dict):
+            component_settings = component_type.copy()
+            component_type = component_settings.pop("name")
+        else:
+            raise ValueError(
+                f"{component_type} needs to be a string or dict, got {type(component_type)}"
+            )
+
         if component_type not in self.factory:
             raise ValueError(f"{component_type} not in {list(self.factory.keys())}")
-        component_settings = getattr(self.settings, component_type, {})
-        if component_settings:
-            component_settings = asdict(component_settings)
-        component_settings.update(**settings)
-        component = self.factory[component_type](**component_settings)
+        component_settings_default = getattr(self.settings, component_type, {})
+        if component_settings_default:
+            component_settings_default = asdict(component_settings_default)
+        component_settings_default.update(**component_settings)
+        component_settings_default.update(**settings)
+        component = self.factory[component_type](**component_settings_default)
         if self.post_init:
             self.post_init(component)
         return component
