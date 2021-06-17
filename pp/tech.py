@@ -1,6 +1,6 @@
 import pathlib
-from dataclasses import field
-from typing import Callable, Dict, Iterable, Optional, Tuple, Union
+from dataclasses import asdict, field
+from typing import Callable, Dict, List, Optional, Tuple
 
 import pydantic
 from phidl.device_layout import Device as Component
@@ -303,33 +303,42 @@ def make_empty_dict():
     return {}
 
 
+def assert_callable(function):
+    if not callable(function):
+        raise ValueError(
+            f"Error: expected callable: got function = {function} with type {type(function)}"
+        )
+
+
 @pydantic.dataclasses.dataclass
 class Factory:
-    """Stores component factories
+    """Stores component factories for defining a library of Components.
 
     Args:
         factory: component name to function
         settings: Optional component settings with defaults
-        add_pins: Optional function to add pins
+        post_init: Optional function to run over component
+
     """
 
     factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
     settings: ComponentSettings = ComponentSettings()
-    add_pins: Optional[Callable[[], None]] = None
+    post_init: Optional[Callable[[], None]] = None
 
-    def register(self, factory: Union[Iterable[Callable], Callable]) -> None:
+    def register(
+        self, functions_list: Optional[List[Callable[[], None]]] = None, **kwargs
+    ) -> None:
         """Registers component_factory into the factory."""
+        functions_list = functions_list or []
 
-        if hasattr(factory, "__iter__"):
-            for i in factory:
-                self.register(i)
-            return
-        if not callable(factory):
-            raise ValueError(
-                f"Error: expected callable: got factory = {factory} with type {type(factory)}"
-            )
+        for function_name, function in kwargs.items():
+            assert_callable(function)
+            self.factory[function_name] = function
 
-        self.factory[factory.__name__] = factory
+        for function in functions_list:
+            assert_callable(function)
+            self.factory[function.__name__] = function
+
         # setattr(self.components, factory.__name__, factory)
         # setattr(self, factory.__name__, factory)
 
@@ -341,6 +350,7 @@ class Factory:
         """Returns Component from factory.
         Takes default settings from self.settings
         settings can be overwriten with kwargs
+        runs any post_init functions over the component before it returns it.
 
         Args:
             component_type:
@@ -348,11 +358,11 @@ class Factory:
         """
         if component_type not in self.factory:
             raise ValueError(f"{component_type} not in {list(self.factory.keys())}")
-        component_settings = getattr(self.settings, component_type, {})
+        component_settings = asdict(getattr(self.settings, component_type, {}))
         component_settings.update(**settings)
         component = self.factory[component_type](**component_settings)
-        if self.add_pins:
-            self.add_pins(component)
+        if self.post_init:
+            self.post_init(component)
         return component
 
 
@@ -372,6 +382,7 @@ class Tech:
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
+    post_init: Callable[[], None] = None
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS

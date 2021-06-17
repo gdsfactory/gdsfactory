@@ -258,7 +258,7 @@ def add_pin_square(
         )
 
 
-def _add_outline(
+def add_outline(
     component: Component,
     reference: Optional[ComponentReference] = None,
     layer: Tuple[int, int] = LAYER.DEVREC,
@@ -358,7 +358,7 @@ def add_instance_label(
 def add_pins_and_outline(
     component: Component,
     reference: ComponentReference,
-    add_outline_function: Optional[Callable] = _add_outline,
+    add_outline_function: Optional[Callable] = add_outline,
     add_pins_function: Optional[Callable] = add_pins,
     add_settings_function: Optional[Callable] = add_settings_label,
     add_instance_label_function: Optional[Callable] = add_settings_label,
