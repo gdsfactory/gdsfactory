@@ -1,9 +1,9 @@
 connections:
-  bend_euler_f79f8bba_71p625_4p0,N0: straight_9e198a39_75p0_50p625,W0
-  bend_euler_f79f8bba_71p625_4p0,W0: straight_d0cb6a0c_38p75_0p625,E0
+  bend_euler_f79f8bba_71p625_4p0,N0: straight_c9384a86_75p0_50p625,W0
+  bend_euler_f79f8bba_71p625_4p0,W0: straight_455a5869_38p75_0p625,E0
   bend_euler_f79f8bba_78p375_97p25,N0: mmi_long,E0
-  bend_euler_f79f8bba_78p375_97p25,W0: straight_9e198a39_75p0_50p625,E0
-  mmi_short,E1: straight_d0cb6a0c_38p75_0p625,W0
+  bend_euler_f79f8bba_78p375_97p25,W0: straight_c9384a86_75p0_50p625,E0
+  mmi_short,E1: straight_455a5869_38p75_0p625,W0
 instances:
   bend_euler_f79f8bba_71p625_4p0:
     component: bend_euler
@@ -57,28 +57,7 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_9e198a39_75p0_50p625:
-    component: straight
-    settings:
-      auto_widen: true
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-      layers_cladding:
-      - - 111
-        - 0
-      length: 80
-      radius: 10
-      sections: null
-      taper_length: 10
-      width: 0.5
-      width_wide: 2
-  straight_d0cb6a0c_38p75_0p625:
+  straight_455a5869_38p75_0p625:
     component: straight
     settings:
       auto_widen: true
@@ -97,6 +76,29 @@ instances:
       radius: 10
       sections: null
       taper_length: 10
+      waveguide: strip
+      width: 0.5
+      width_wide: 2
+  straight_c9384a86_75p0_50p625:
+    component: straight
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 80
+      radius: 10
+      sections: null
+      taper_length: 10
+      waveguide: strip
       width: 0.5
       width_wide: 2
 name: mmis
@@ -121,16 +123,16 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_9e198a39_75p0_50p625:
-    mirror: false
-    rotation: 90
-    x: 75.0
-    y: 10.625
-  straight_d0cb6a0c_38p75_0p625:
+  straight_455a5869_38p75_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
+  straight_c9384a86_75p0_50p625:
+    mirror: false
+    rotation: 90
+    x: 75.0
+    y: 10.625
 ports:
   E0: mmi_short,W0
   W0: mmi_long,W0

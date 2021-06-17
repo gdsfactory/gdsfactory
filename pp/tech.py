@@ -190,6 +190,7 @@ class Nitride(Waveguide):
     width_wide: float = 1.0
     auto_widen: bool = False
     layer: Layer = LAYER.WGN
+    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGN_CLAD,)
     radius: float = 20.0
 
 

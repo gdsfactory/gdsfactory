@@ -18,6 +18,7 @@ def route_fiber_single(
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
+    waveguide: str = "strip",
     **waveguide_settings,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
@@ -37,6 +38,7 @@ def route_fiber_single(
         grating_couplers: list of grating_couplers ComponentReferences
 
     """
+    # print(waveguide_settings)
     if not component.get_ports_list(port_type="optical"):
         raise ValueError(f"No ports for {component.name}")
 
@@ -109,6 +111,7 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
+        waveguide=waveguide,
         **waveguide_settings,
     )
 
@@ -128,6 +131,7 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
+        waveguide=waveguide,
         **waveguide_settings,
     )
     for e in elements_north:

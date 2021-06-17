@@ -453,10 +453,10 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 def round_corners(
     points: Coordinates,
-    straight_factory: Callable,
+    straight_factory: ComponentFactory,
     bend_factory: ComponentFactory = bend_euler,
     taper: Optional[Callable] = None,
-    straight_factory_fall_back_no_taper: Optional[Callable] = None,
+    straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     waveguide: str = "strip",
@@ -602,7 +602,7 @@ def round_corners(
             )
         else:
             wg = straight_factory_fall_back_no_taper(
-                length=length, **waveguide_settings
+                length=length, waveguide=waveguide, **waveguide_settings
             )
 
         if straight_ports is None:

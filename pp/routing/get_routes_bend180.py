@@ -30,7 +30,7 @@ def get_routes_bend180(
 
 
 def test_get_routes_bend180():
-    c = pp.Component("routes_sample")
+    c = pp.Component("get_routes_bend180")
     pad_array = pp.components.pad_array(pitch=150, port_list=("S",))
     c1 = c << pad_array
     c2 = c << pad_array

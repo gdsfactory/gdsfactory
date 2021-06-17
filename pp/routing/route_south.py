@@ -239,7 +239,6 @@ def route_south(
 
     # Add south ports
     ports = [flip(p) for p in ports_to_route] + south_ports
-
     return Routes(references=references, ports=ports, lengths=lengths)
 
 
