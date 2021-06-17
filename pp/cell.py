@@ -42,7 +42,7 @@ def cell(func):
       import pp
 
       @pp.cell
-      def rectangle(size=(4,2), layer=0):
+      def rectangle(size=(4,2), layer=0)->pp.Component:
           c = pp.Component()
           w, h = size
           points = [[w, h], [w, 0], [0, 0], [0, h]]

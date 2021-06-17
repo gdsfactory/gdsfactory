@@ -16,5 +16,5 @@ def straight_sample(length=5, width=1):
 
 if __name__ == "__main__":
     wg = straight_sample()
-    wg_with_pins = pp.add_pins(wg)
-    wg_with_pins.show()
+    pp.add_pins(wg)
+    wg.show()
