@@ -29,12 +29,12 @@ def post_init(component) -> None:
 
 
 FACTORY = Factory(post_init=post_init)
-FACTORY.register([pp.c.mmi2x2, pp.c.mmi1x2])
+FACTORY.register([pp.c.mmi2x2, pp.c.mmi1x2, pp.c.mzi])
 FACTORY.register(sw=pp.c.straight)
 
 
 if __name__ == "__main__":
     F = FACTORY
     F.settings.mmi1x2.width_mmi = 5
-    mmi = F.get_component("mmi1x2")
-    mmi.show()
+    c = F.get_component("mzi")
+    c.show()

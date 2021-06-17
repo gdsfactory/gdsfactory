@@ -358,7 +358,9 @@ class Factory:
         """
         if component_type not in self.factory:
             raise ValueError(f"{component_type} not in {list(self.factory.keys())}")
-        component_settings = asdict(getattr(self.settings, component_type, {}))
+        component_settings = getattr(self.settings, component_type, {})
+        if component_settings:
+            component_settings = asdict(component_settings)
         component_settings.update(**settings)
         component = self.factory[component_type](**component_settings)
         if self.post_init:
