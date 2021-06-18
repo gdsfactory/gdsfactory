@@ -303,6 +303,7 @@ def route_fiber_array(
                     input_port=p0,
                     output_port=p1,
                     bend_factory=bend90,
+                    straight_factory=straight_factory,
                     waveguide=waveguide,
                     **waveguide_settings,
                 )
@@ -374,6 +375,7 @@ def route_fiber_array(
                 ports2=gc_ports,
                 separation=sep,
                 end_straight_offset=end_straight_offset,
+                straight_factory=straight_factory,
                 bend_factory=bend90,
                 waveguide=waveguide,
                 **waveguide_settings,
@@ -393,6 +395,7 @@ def route_fiber_array(
                     separation=sep,
                     end_straight_offset=end_straight_offset,
                     bend_factory=bend90,
+                    straight_factory=straight_factory,
                     radius=radius,
                     waveguide=waveguide,
                     **waveguide_settings,
