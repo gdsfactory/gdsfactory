@@ -2,7 +2,7 @@
 click
 GitPython==3.1.18
 gdspy==1.6.6
-omegaconf==2.1.0
+omegaconf==2.0.6
 jsondiff
 klayout==0.27.1
 numpy
