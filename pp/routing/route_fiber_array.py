@@ -18,13 +18,13 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.manhattan import generate_manhattan_waypoints, round_corners
 from pp.routing.route_south import route_south
 from pp.routing.utils import direction_ports_from_list_ports
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 def route_fiber_array(
     component: Component,
     fiber_spacing: float = TECH.fiber_array_spacing,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentOrFactory = grating_coupler_te,
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
@@ -105,7 +105,7 @@ def route_fiber_array(
     Returns:
         elements, io_grating_lines, y0_optical
     """
-    # print('route_fiber_array', waveguide_settings, straight_factory)
+
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     radius = waveguide_settings["radius"]
     layer_label = layer_label or TECH.layer_label
@@ -146,15 +146,16 @@ def route_fiber_array(
         gc_port_name in grating_coupler.ports
     ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
 
+    if gc_port_name not in grating_coupler.ports:
+        raise ValueError(f"{gc_port_name} not in {list(grating_coupler.ports.keys())}")
+
     # Now:
     # - grating_coupler is a single grating coupler
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
     bend90 = (
-        bend_factory(waveguide=waveguide, **waveguide_settings)
-        if callable(bend_factory)
-        else bend_factory
+        bend_factory(**waveguide_settings) if callable(bend_factory) else bend_factory
     )
 
     dy = abs(bend90.dy)

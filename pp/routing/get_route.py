@@ -69,6 +69,7 @@ def get_route(
         end_straight: Number: length of end straight
         min_straight: Number: min length of straight
         waveguide: waveguide definition from TECH.waveguide
+        waveguide_settings:
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     taper_length = waveguide_settings.get("taper_length")
@@ -115,7 +116,7 @@ def get_route_from_waypoints(
     bend_factory: Callable = bend_euler,
     straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
-    waveguide: str = "strip",
+    waveguide: Optional[str] = "strip",
     route_filter=None,
     **waveguide_settings,
 ) -> Route:
@@ -129,9 +130,10 @@ def get_route_from_waypoints(
         straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
         layer: for the route
-        route_filter: FIXME, keep it here
+        route_filter: FIXME, keep it here. Find a way to remove it.
         waveguide_settings
     """
+
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     auto_widen = waveguide_settings.get("auto_widen", False)
     width1 = waveguide_settings.get("width")
@@ -172,6 +174,7 @@ if __name__ == "__main__":
     c = pp.Component()
     c << w
     # route = get_route(w.ports["E0"], w.ports["W0"], **pp.TECH.waveguide.nitride)
-    route = get_route(w.ports["E0"], w.ports["W0"], waveguide="metal_routing")
+    # route = get_route(w.ports["E0"], w.ports["W0"], waveguide="metal_routing")
+    route = get_route(w.ports["E0"], w.ports["W0"], layer=(2, 0))
     cc = c.add(route.references)
     cc.show()

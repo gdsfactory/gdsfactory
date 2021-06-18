@@ -479,6 +479,7 @@ def round_corners(
         waveguide_settings
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+
     auto_widen = waveguide_settings.get("auto_widen", False)
     auto_widen_minimum_length = waveguide_settings.get(
         "auto_widen_minimum_length", 200.0
@@ -658,12 +659,14 @@ def generate_manhattan_waypoints(
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide: str = "strip",
+    waveguide: Optional[str] = "strip",
     **waveguide_settings,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    if waveguide:
+        waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+
     bend90 = (
         bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)

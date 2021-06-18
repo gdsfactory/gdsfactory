@@ -104,6 +104,9 @@ def add_fiber_single(
     gc = grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
+    if gc_port_name not in gc.ports:
+        raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
+
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
     port_width_gc = grating_coupler.ports[gc_port_name].width
     optical_ports = component.get_ports_list(port_type="optical")
@@ -139,7 +142,7 @@ def add_fiber_single(
         grating_couplers = []
         for port in cr.ports.values():
             gc_ref = grating_coupler.ref()
-            gc_ref.connect(list(gc_ref.ports.values())[0], port)
+            gc_ref.connect(gc_port_name, port)
             grating_couplers.append(gc_ref)
 
         elements = get_input_labels(
@@ -243,28 +246,34 @@ def add_fiber_single(
 if __name__ == "__main__":
     import pp
 
+    waveguide = "nitride"
     c = pp.components.crossing()
-    c = pp.components.ring_double(length_y=3)  # FIXME
-    c = pp.components.straight(length=500)
     c = pp.components.mmi1x2()
     c = pp.components.rectangle()
     c = pp.components.mzi(length_x=50)
     c = pp.components.ring_single()
-    c = pp.components.mzi2x2(with_elec_connections=True)
-
-    waveguide = "nitride"
     c = pp.components.straight(length=500, waveguide=waveguide)
+    c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.straight(length=500)
 
     gc = pp.components.grating_coupler_elliptical_te
     # gc = pp.components.grating_coupler_elliptical2
     # gc = pp.components.grating_coupler_te
     # gc = pp.components.grating_coupler_uniform
 
-    cc = add_fiber_single(component=c, auto_widen=False, waveguide=waveguide)
-    cc.show()
+    @pp.cell
+    def straight_with_pins(**kwargs):
+        c = pp.c.straight(**kwargs)
+        pp.add_pins(c)
+        return c
 
-    # waveguide_settings = pp.tech("waveguide.nitride")
-    # waveguide_settings.update(width=2)
+    cc = add_fiber_single(
+        component=straight_with_pins(),
+        auto_widen=False,
+        with_align_ports=False,
+        straight_factory=straight_with_pins,
+    )
+    cc.show()
 
     # c = pp.components.straight(
     #     length=20, **waveguide_settings

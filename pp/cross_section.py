@@ -30,12 +30,15 @@ Layer = Tuple[int, int]
 # )
 
 
-def get_waveguide_settings(waveguide: str, **kwargs) -> Dict[str, Any]:
+def get_waveguide_settings(waveguide: Optional[str] = None, **kwargs) -> Dict[str, Any]:
     """Returns waveguide settings from TECH.waveguide"""
-    waveguide_settings = getattr(TECH.waveguide, waveguide)
-    waveguide_settings = dataclasses.asdict(waveguide_settings)
-    if not waveguide_settings:
-        raise ValueError(f"no waveguide_settings found for {waveguide}")
+    if waveguide:
+        waveguide_settings = getattr(TECH.waveguide, waveguide)
+        waveguide_settings = dataclasses.asdict(waveguide_settings)
+        if not waveguide_settings:
+            raise ValueError(f"no waveguide_settings found for {waveguide}")
+    else:
+        waveguide_settings = {}
 
     # for key in kwargs:
     #     if key not in WAVEGUIDE_SETTINGS:
