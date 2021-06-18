@@ -33,7 +33,7 @@ def add_tapers(
     waveguide="strip",
     **kwargs
 ) -> Component:
-    """returns component optical tapers for component"""
+    """Returns component with tapers"""
 
     taper_object = pp.call_if_func(taper, waveguide=waveguide, **kwargs)
     c = pp.Component()

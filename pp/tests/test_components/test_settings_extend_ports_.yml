@@ -1,0 +1,10 @@
+function_name: extend_ports
+info: {}
+module: pp.components.extension
+name: extend_ports
+settings:
+  extension_factory: null
+  extension_port_name_input: null
+  extension_port_name_output: null
+  length: 5
+  port_list: null

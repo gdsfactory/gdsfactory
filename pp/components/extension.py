@@ -1,7 +1,4 @@
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -9,10 +6,9 @@ from numpy import ndarray
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.components.mmi1x2 import mmi1x2
 from pp.port import Port
-from pp.types import ComponentFactory
-from pp.types import Coordinate
-from pp.types import Number
+from pp.types import ComponentOrFactory, Coordinate, Number
 
 DEG2RAD = np.pi / 180
 
@@ -81,14 +77,14 @@ def extend_port(port: Port, length: Number) -> Component:
 
 @cell
 def extend_ports(
-    component: Component,
+    component: ComponentOrFactory = mmi1x2,
     port_list: Optional[List[str]] = None,
     length: float = 5.0,
-    extension_factory: Optional[ComponentFactory] = None,
+    extension_factory: Optional[ComponentOrFactory] = None,
     extension_port_name_input: Optional[str] = None,
     extension_port_name_output: Optional[str] = None,
 ) -> Component:
-    """returns a component with extended ports
+    """Returns a new component with extended ports inside a container.
 
     Args:
         component: component to extend ports
@@ -97,9 +93,9 @@ def extend_ports(
         extension_factory: straight factory to extend ports
         extension_port_name_input:
         extension_port_name_output:
-
     """
-    c = pp.Component(name=component.name + "_e")
+    c = pp.Component()
+    component = component() if callable(component) else component
     c << component
 
     port_list = port_list or list(component.ports.keys())
@@ -123,7 +119,13 @@ def extend_ports(
     for port_name in component.ports.keys():
         if port_name in port_list:
             port = component.ports.get(port_name)
-            extension = c << extension_factory(length=length, width=port.width)
+            extension_component = (
+                extension_factory(length=length, width=port.width)
+                if callable(extension_factory)
+                else extension_factory
+            )
+
+            extension = c << extension_component
             extension.connect(extension_port_name_input, port)
             c.add_port(port_name, port=extension.ports[extension_port_name_output])
             c.absorb(extension)
@@ -152,7 +154,8 @@ def test_extend_ports_selection() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_extend_ports_selection()
+    c = extend_ports()
+    # c = test_extend_ports_selection()
     c.show()
 
     # import pp.components as pc

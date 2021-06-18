@@ -9,7 +9,7 @@ from pp.difftest import difftest
 
 @pytest.fixture(params=component_names, scope="function")
 def component(request) -> Component:
-    return component_factory[request.param]()
+    return component_factory[request.param](cache=False)
 
 
 def test_gds(component: Component) -> None:
