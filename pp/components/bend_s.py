@@ -3,6 +3,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bezier import bezier
 from pp.cross_section import cross_section, get_waveguide_settings
+from pp.port import auto_rename_ports
 
 
 @cell
@@ -45,8 +46,6 @@ def bend_s(
         npoints=nb_points,
         layer=layer,
     )
-    c.add_port(name="W0", port=c.ports.pop("0"))
-    c.add_port(name="E0", port=c.ports.pop("1"))
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
@@ -60,6 +59,7 @@ def bend_s(
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
 
+    auto_rename_ports(c)
     return c
 
 

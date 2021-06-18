@@ -51,6 +51,7 @@ import pp.path as path
 import pp.import_gds as gds
 import pp.snap as snap
 import pp.tech as tech
+import pp.containers as containers
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -80,6 +81,7 @@ __all__ = [
     "ComponentReference",
     "CrossSection",
     "cross_section",
+    "containers",
     "Group",
     "Path",
     "bias",

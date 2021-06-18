@@ -42,6 +42,7 @@ from pp.components.crossing_waveguide import compensation_path
 from pp.components.ellipse import ellipse
 from pp.components.rectangle import rectangle
 from pp.components.ring import ring
+from pp.components.extension import extend_ports
 from pp.components.taper import taper
 from pp.components.taper import taper_strip_to_ridge
 from pp.components.taper_from_csv import taper_0p5_to_3_l36
@@ -234,6 +235,7 @@ COMPONENT_FACTORY.register(
         taper,
         taper_0p5_to_3_l36,
         taper_strip_to_ridge,
+        extend_ports,
         resistance_meander,
         via_cutback,
         text,
@@ -294,6 +296,7 @@ component_names_skip_test = [
     "component_lattice",
     "version_stamp",
     "resistance_meander",
+    "mzi_arm",
 ]
 component_names_skip_test_ports = ["coupler"]
 
