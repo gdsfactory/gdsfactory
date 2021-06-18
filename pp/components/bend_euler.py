@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
@@ -14,7 +16,7 @@ def bend_euler(
     npoints: int = 720,
     direction="ccw",
     with_cladding_box: bool = True,
-    waveguide: str = "strip",
+    waveguide: Optional[str] = "strip",
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.

@@ -18,7 +18,7 @@ def route_fiber_single(
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
-    waveguide: str = "strip",
+    waveguide: Optional[str] = None,
     **waveguide_settings,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
@@ -149,11 +149,9 @@ def route_fiber_single(
 
 
 if __name__ == "__main__":
-    # FIXME
     gcte = pp.components.grating_coupler_te
     gctm = pp.components.grating_coupler_tm
 
-    c = pp.components.straight(width=2, length=500)
     c = pp.components.cross(length=500)
     c = pp.components.ring_double()
     c = pp.components.mmi2x2()
@@ -167,11 +165,17 @@ if __name__ == "__main__":
     # )
 
     c = pp.components.mmi2x2(waveguide="nitride")
+    c = pp.components.straight(width=2, length=500)
     gc = pp.components.grating_coupler_elliptical_te(
         layer=pp.TECH.waveguide.nitride.layer
     )
     elements, gc = route_fiber_single(
-        c, grating_coupler=[gc, gc, gc, gc], auto_widen=False, waveguide="nitride"
+        c,
+        grating_coupler=[gc, gc, gc, gc],
+        auto_widen=False,
+        layer=(2, 0),
+        radius=10,
+        waveguide="nitride",
     )
 
     cc = pp.Component("sample_route_fiber_single")
