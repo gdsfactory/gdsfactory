@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union
 from pp.cell import cell
 from pp.component import Component
 from pp.port import rename_ports_by_orientation
-from pp.tech import TECH, Tech
+from pp.tech import FACTORY, Factory
 
 
 @cell
@@ -19,7 +19,7 @@ def mzi(
     splitter: Union[str, Dict] = "mmi1x2",
     combiner: Optional[Union[str, Dict]] = None,
     with_splitter: bool = True,
-    tech: Tech = TECH,
+    factory: Factory = FACTORY,
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -36,6 +36,7 @@ def mzi(
         combiner: combiner function
         with_splitter: if False removes splitter
         kwargs: cross_section settings
+        factory: factory with components
 
     .. code::
 
@@ -53,7 +54,7 @@ def mzi(
 
 
     """
-    get = tech.factory.get_component
+    get = factory.get_component
 
     bend = get(bend, **kwargs)
     splitter = get(splitter)
@@ -179,5 +180,6 @@ if __name__ == "__main__":
         splitter=dict(component_type="mmi1x2", waveguide="nitride"),
     )
     c.show()
+    c.pprint()
     # c.plot()
     # print(c.get_settings())
