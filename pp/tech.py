@@ -395,7 +395,9 @@ class Factory:
         return component
 
 
-# TECH
+FACTORY = Factory()
+
+
 @pydantic.dataclasses.dataclass
 class Tech:
     name: str = "generic"
@@ -411,7 +413,7 @@ class Tech:
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    factory: Factory = Factory()
+    factory: Factory = FACTORY
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS

@@ -566,6 +566,7 @@ class Component(Device):
             "waveguide_settings",
             "waveguide_settings_inner",
             "waveguide_settings_outer",
+            "factory",
         }
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}

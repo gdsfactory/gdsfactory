@@ -13,5 +13,4 @@ settings:
   straight_delta_length: null
   straight_horizontal: null
   straight_vertical: null
-  tech: generic
   with_splitter: true
