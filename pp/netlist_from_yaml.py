@@ -67,9 +67,10 @@ ports_map:
 
 
 def netlist_from_yaml(
-    yaml: Union[str, pathlib.Path, IO[Any]], component_factory: None = None,
+    yaml: Union[str, pathlib.Path, IO[Any]],
+    component_factory: None = None,
 ) -> Component:
-    """ Loads Component settings from YAML file, and connections
+    """Loads Component settings from YAML file, and connections
 
     Deprecated! use component_from_yaml instead
 
@@ -133,10 +134,10 @@ def netlist_from_yaml(
     for instance_name in conf.instances:
         instance_conf = conf.instances[instance_name]
         component_type = instance_conf["component"]
-        component_settings = instance_conf["settings"] or {}
+        component_settings = instance_conf.get("settings", {})
         instance = component_factory[component_type](**component_settings)
-        instance_transformations = instance_conf["transformations"] or "None"
-        instance_properties = instance_conf["properties"] or {}
+        instance_transformations = instance_conf.get("transformations", "None")
+        instance_properties = instance_conf.get("properties", {})
         for k, v in instance_properties.items():
             setattr(instance, k, v)
         instance.name = instance_name

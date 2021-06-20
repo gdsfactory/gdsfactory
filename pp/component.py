@@ -19,7 +19,7 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
-from pp.config import __version__, git_hash
+from pp.config import __version__
 from pp.port import Port, select_ports, valid_port_types
 
 Number = Union[float64, int64, float, int]
@@ -922,7 +922,6 @@ class Component(Device):
             "cells": recurse_structures(self),
             "test_protocol": self.test_protocol,
             "data_analysis_protocol": self.data_analysis_protocol,
-            "git_hash": git_hash,
             "version": __version__,
         }
         jsondata.update(**kwargs)

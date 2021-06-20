@@ -20,6 +20,11 @@ from contracts import contract
 
 ```
 
+## 2.5.5
+
+- update to omegaconf=2.1.0
+- add loguru logger
+
 ## 2.5.4
 
 - add `pf gds` CLI commands for `merge_gds_from_directory`, `layermap_to_dataclass`, `write_cells`
@@ -70,6 +75,7 @@ from contracts import contract
 - add pp.assert_version
 - fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) to keep name shorter than 32 chars
 - add pydantic validate_arguments decorator. @pp.cell_with_validator
+
 ```
 from pydantic import validate_arguments
 @validate_arguments

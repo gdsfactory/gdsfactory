@@ -1,11 +1,11 @@
 import datetime
 import platform
-from typing import Iterable, Tuple
+from typing import Optional, Tuple
 
 import pp
 from pp.component import Component
-from pp.components.text import text as Text
-from pp.config import git_hash
+from pp.components.text import text
+from pp.config import __version__
 from pp.layers import LAYER
 
 
@@ -39,14 +39,18 @@ def qrcode(
 
 @pp.cell_with_validator
 def version_stamp(
-    text: Iterable[str] = ("demo_label",),
-    git_hash: str = git_hash,
+    labels: Tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,
     layer: Tuple[int, int] = LAYER.WG,
     pixel_size: int = 1,
+    version: Optional[str] = __version__,
     text_size: int = 10,
 ) -> Component:
-    """Returns module version, git hash and date."""
+    """Component with module version and date.
+
+    Args:
+        labels: Iterable of labels
+    """
 
     now = datetime.datetime.now()
     timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)
@@ -54,7 +58,7 @@ def version_stamp(
 
     c = pp.Component()
     if with_qr_code:
-        data = "{}/{}/{}".format(git_hash, timestamp, platform.node())
+        data = f"{timestamp}/{platform.node()}"
         q = qrcode(layer=layer, data=data, psize=pixel_size).ref_center()
         c.add(q)
         c.absorb(q)
@@ -65,29 +69,29 @@ def version_stamp(
         x = 0
 
     txt_params = {"layer": layer, "justify": "left", "size": text_size}
-    date = Text(
+    date = text(
         position=(x, text_size + 2 * pixel_size), text=short_stamp, **txt_params
     ).ref()
     c.add(date)
     c.absorb(date)
 
-    git_hash = Text(position=(x, 0), text=git_hash, **txt_params).ref()
-    c.add(git_hash)
-    c.absorb(git_hash)
+    if version:
+        t = text(position=(x, 0), text=version, **txt_params).ref()
+        c.add(t)
+        c.absorb(t)
 
-    for i, line in enumerate(text):
-        text = c << Text(
+    for i, line in enumerate(labels):
+        t = c << text(
             position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
             text=line,
-            **txt_params
+            **txt_params,
         )
-        c.absorb(text)
+        c.absorb(t)
 
     return c
 
 
 if __name__ == "__main__":
-    print(git_hash)
     c = version_stamp(
         pixel_size=4,
         layer=LAYER.M1,

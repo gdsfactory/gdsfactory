@@ -4,7 +4,7 @@ Only change the order if you know what you are doing
 isort:skip_file
 """
 import dataclasses
-from pp.tech import TECH
+from pp.tech import FACTORY
 
 # level 0 components
 from pp.components.array import array
@@ -139,8 +139,7 @@ from pp.components.splitter_tree import splitter_tree
 from pp.components.splitter_chain import splitter_chain
 
 
-COMPONENT_FACTORY = TECH.factory
-COMPONENT_FACTORY.register(
+FACTORY.register(
     [
         array,
         array_with_fanout,
@@ -257,8 +256,6 @@ COMPONENT_FACTORY.register(
     ]
 )
 
-component_factory = COMPONENT_FACTORY.factory
-
 
 def factory(component_type: str, **kwargs):
     """Returns a component with settings.
@@ -281,12 +278,12 @@ def factory(component_type: str, **kwargs):
         return component_type
     elif callable(component_type):
         return component_type(**settings)
-    elif component_type not in component_factory.keys():
+    elif component_type not in FACTORY.factory.keys():
         raise ValueError(
             f"component_type = {component_type} not in: \n"
-            + "\n".join(component_factory.keys())
+            + "\n".join(FACTORY.factory.keys())
         )
-    return component_factory[component_type](**settings)
+    return FACTORY.factory[component_type](**settings)
 
 
 component_names_skip_test = [
@@ -302,9 +299,7 @@ component_names_skip_test_ports = ["coupler"]
 
 container_names = ["cavity", "ring_single_dut"]
 component_names = (
-    set(COMPONENT_FACTORY.factory.keys())
-    - set(component_names_skip_test)
-    - set(container_names)
+    set(FACTORY.factory.keys()) - set(component_names_skip_test) - set(container_names)
 )
 component_names_test_ports = component_names - set(component_names_skip_test_ports)
 circuit_names = {
@@ -317,10 +312,11 @@ circuit_names = {
     "component_lattice",
 }
 
-__all__ = list(component_factory.keys()) + container_names
+__all__ = list(FACTORY.factory.keys()) + container_names
+component_factory = FACTORY.factory
 
 if __name__ == "__main__":
     for c in component_names:
-        ci = component_factory[c]()
+        ci = FACTORY.factory[c]()
     c = factory("mmi1x2")
     c.show()
