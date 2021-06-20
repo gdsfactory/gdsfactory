@@ -9,7 +9,7 @@ from omegaconf import OmegaConf
 
 from pp.add_pins import add_instance_label
 from pp.component import Component, ComponentReference
-from pp.components import component_factory as component_factory_default
+from pp.components import FACTORY
 from pp.routing.factories import routing_strategy as routing_strategy_factories
 from pp.types import Route
 
@@ -431,7 +431,7 @@ def component_from_yaml(
         if isinstance(yaml_str, str) and "\n" in yaml_str
         else yaml_str
     )
-    component_factory = component_factory or component_factory_default
+    component_factory = component_factory or FACTORY.factory
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
@@ -453,7 +453,7 @@ def component_from_yaml(
         assert (
             component_type in component_factory
         ), f"{component_type} not in {list(component_factory.keys())}"
-        component_settings = instance_conf["settings"] or {}
+        component_settings = instance_conf.get("settings", {})
         component_settings.update(**kwargs)
         ci = component_factory[component_type](**component_settings)
         ref = c << ci
@@ -498,9 +498,6 @@ def component_from_yaml(
             ports1 = []
             ports2 = []
             routes_dict = routes_conf[route_alias]
-            if not hasattr(routes_dict, "__items__"):
-                print(f"Unvalid syntax for {routes_dict}\n", sample_mmis)
-                raise ValueError(f"Unvalid syntax for {routes_dict}")
             for key in routes_dict.keys():
                 if key not in valid_route_keys:
                     raise ValueError(

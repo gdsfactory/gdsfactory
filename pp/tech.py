@@ -395,9 +395,6 @@ class Factory:
         return component
 
 
-FACTORY = Factory()
-
-
 @pydantic.dataclasses.dataclass
 class Tech:
     name: str = "generic"
@@ -413,7 +410,6 @@ class Tech:
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES
-    factory: Factory = FACTORY
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
@@ -421,6 +417,7 @@ class Tech:
 
 
 TECH = Tech()
+FACTORY = Factory()
 
 if __name__ == "__main__":
     import pp
@@ -441,9 +438,6 @@ if __name__ == "__main__":
 
     cf = Factory()
     cf.register(mmi1x2_longer)
-
-    TECH.factory.register(mmi1x2_longer)
-
     print(asdict(TECH))
     c = cf.get_component("mmi1x2_longer", length_mmi=30)
     c.show()

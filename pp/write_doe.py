@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Optional, Union
 
 from pp.cell import get_component_name
 from pp.component import Component
-from pp.components import component_factory
+from pp.components import FACTORY
 from pp.config import CONFIG
 from pp.doe import get_settings_list
 
@@ -117,7 +117,7 @@ def write_doe(
     path: Path = CONFIG["build_directory"],
     doe_metadata_path: Path = CONFIG["doe_directory"],
     functions: Optional[List[Callable[..., Component]]] = None,
-    component_factory: Dict[str, Callable] = component_factory,
+    component_factory: Dict[str, Callable] = FACTORY.factory,
     **kwargs,
 ) -> List[Path]:
     """writes each component GDS, together with metadata for each component:

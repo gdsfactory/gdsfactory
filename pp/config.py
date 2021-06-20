@@ -22,6 +22,7 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any, Dict, Iterable, Optional, Union
 
+from loguru import logger
 from omegaconf import OmegaConf
 
 from pp.tech import TECH
@@ -45,42 +46,19 @@ dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
 
-try:
-    from git import InvalidGitRepositoryError, Repo
-
-    try:
-        git_hash = Repo(repo_path, search_parent_directories=True).head.object.hexsha
-        git_hash_cwd = Repo(cwd, search_parent_directories=True).head.object.hexsha
-    except InvalidGitRepositoryError:
-        git_hash = None
-        git_hash_cwd = None
-
-except ImportError:
-    git_hash = None
-    git_hash_cwd = None
-
-
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> Dict[str, Any]:
     CONFIG = OmegaConf.create()
     for yamlpath in set(yamlpaths):
-        # print(f"loading tech config from {yamlpath}")
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
+            logger.info(f"loading tech config from {yamlpath}")
             CONFIG_NEW = OmegaConf.load(yamlpath)
             CONFIG = OmegaConf.merge(CONFIG, CONFIG_NEW)
-    CONFIG.info = CONFIG.info or {}
-    CONFIG.info.version = __version__
     return CONFIG
 
 
 CONF = read_config()
-
-
-def add_repo_information(TECH):
-    TECH.info = TECH.info or {}
-    TECH.info.git_hash = git_hash
-    TECH.info.git_hash_cwd = git_hash_cwd
 
 
 CONFIG = dict(
@@ -200,10 +178,10 @@ def get_git_hash():
 
 
 if __name__ == "__main__":
-    print(TECH.layer.WG)
+    # print(TECH.layer.WG)
     # print(TECH)
     # print_config("gdslib")
-    # print_config()
     # print(CONFIG["git_hash"])
     # print(CONFIG["sp"])
     # print(CONFIG)
+    print_config()
