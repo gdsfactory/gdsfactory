@@ -13,7 +13,6 @@ settings:
   straight_delta_length: null
   straight_horizontal: null
   straight_vertical: null
-  tech: fabc
   waveguide: nitride_cband
   width: 1
   with_splitter: true

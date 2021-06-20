@@ -151,7 +151,7 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
         splitter="mmi1x2_nitride_cband",
         waveguide="nitride_cband",
         width=WIDTH_NITRIDE_CBAND,
-        tech=TECH_FABC,
+        factory=FACTORY,
     )
     add_pins_custom(c)
     return c
@@ -164,7 +164,7 @@ def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
         splitter="mmi1x2_nitride_cband",
         waveguide="nitride_oband",
         width=WIDTH_NITRIDE_CBAND,
-        tech=TECH_FABC,
+        factory=FACTORY,
     )
     add_pins_custom(c)
     return c
