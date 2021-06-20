@@ -5,7 +5,7 @@
 - waypoints connector accepts ports. More consistent routing functions
 - fix some FIXME
 - enable add pins option in TECH that can add custom pins to components
-- routing with 180euler bends
+- enable routing with 180euler bends
 
 Maybe:
 
@@ -27,6 +27,9 @@ from contracts import contract
 - add heater with single metal
 - fix routing with cross-sections with defined Sections
 - add TECH.rename_ports
+- add pp.containers.
+- mzi accepts a factory and can accept StrOrDict for for leaf components
+- Factory(post_init=function). Useful for adding pins when using Factory.get_component()
 
 ## 2.5.3
 
