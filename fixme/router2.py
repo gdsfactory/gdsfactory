@@ -1,5 +1,5 @@
 """
-This router could save more routing space with a more direct algorithm
+This router could save more routing space leveraging routing with different metal layers
 
 """
 
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     nrows = 16
     N = ncols * nrows
     with_pads = True
-    pad_pitch = 150.0 * 2
+    pad_pitch = 150.0
     metal_width = 5.0
     metal_spacing = 10.0
     length = 200
@@ -45,8 +45,7 @@ if __name__ == "__main__":
         pads.rotate(180)
         pads.y = 15
 
-        # pads.xmax = ps.xmin - 2500 # works
-        pads.xmax = ps.xmin - 1500  # does not work
+        pads.xmax = ps.xmin - 2500
 
         routes_bend180 = pp.routing.get_routes_bend180(
             ports=ps.get_ports_list(port_type="dc", orientation=0),
