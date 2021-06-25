@@ -30,6 +30,7 @@ PathType = Union[str, Path]
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
+MAX_NAME_LENGTH = 32
 
 
 def copy(D: Device) -> Device:
@@ -585,14 +586,14 @@ class Component(Device):
 
     @classmethod
     def validate(cls, v):
-        pass
-        # if not getattr(cls, "references") and not getattr(v, "polygons"):
-        #     raise ValueError(f"No references or  polygons in {v.name} ")
-        # if len(cls.name) > 32:
-        #     raise ValueError('name is too long')
-        # raise ValueError(
-        #     f"len({v.name}) = {len(v.name)} >  longer than 32 characters"
-        # )
+        assert (
+            len(v.name) < MAX_NAME_LENGTH
+        ), f"name `{v.name}` {len(v.name) > MAX_NAME_LENGTH} "
+        assert getattr(v, "references") or getattr(
+            v, "polygons"
+        ), f"No references or  polygons in {v.name}"
+
+        return v
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"

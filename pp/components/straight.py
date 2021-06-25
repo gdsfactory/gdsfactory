@@ -52,12 +52,12 @@ def straight(
 if __name__ == "__main__":
 
     # c = straight(width=2.0)
-    c = straight(waveguide="metal_routing")
-    c = straight(waveguide="strip_heater_single")
-    print(c.name)
-    c.pprint()
+    # c = straight(waveguide="metal_routing")
+    c = straight(waveguide="strip_heater_single", length=3)
+    # print(c.name)
+    # c.pprint()
 
-    print(c.ports)
+    # print(c.ports)
     # print(c.get_settings()['settings']['waveguide_settings']['layers_cladding'])
 
     # print(c.name)
