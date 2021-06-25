@@ -68,6 +68,7 @@ def route_fiber_array(
             Usually fine to leave at None.
         with_align_ports: If True, add compact loopback alignment ports
         straight_separation: min separation between routing straights
+        straight_to_grating_spacing: from align ports
         optical_routing_type: There are three options for optical routing
            * ``0`` is very basic but can be more compact.
             Can also be used in combination with ``connected_port_list_ids``
@@ -141,6 +142,8 @@ def route_fiber_array(
     else:
         grating_coupler = pp.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
+
+    grating_coupler.xmin = 0
 
     assert (
         gc_port_name in grating_coupler.ports
@@ -486,8 +489,9 @@ def demo():
 if __name__ == "__main__":
     c = pp.components.straight(waveguide="nitride")
     gc = pp.components.grating_coupler_elliptical_te(
-        layer=pp.TECH.waveguide.nitride.layer
+        layer=pp.TECH.waveguide.nitride.layer, taper_length=30
     )
+    gc.xmin = -20
     elements, gc, _ = route_fiber_array(
         component=c, grating_coupler=gc, waveguide="nitride"
     )

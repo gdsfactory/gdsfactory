@@ -9,7 +9,7 @@ settings:
     function_name: array_with_fanout
     info: {}
     module: pp.components.array_with_fanout
-    name: array_with_fanout_N3
+    name: array_with_fanout_N3_P150
     settings:
       bend_port_name: N0
       bend_port_name_out: W0
@@ -23,4 +23,6 @@ settings:
       waveguide_pitch: 10
   n: 2
   pitch: 150
+  pitch_x: null
+  pitch_y: null
   rows: 2

@@ -367,18 +367,20 @@ instances:
   bl:
     component: pad
     settings:
-      height: 100
+      height: null
       layer:
       - 49
       - 0
+      layer_to_inclusion: null
       width: 100
   br:
     component: pad
     settings:
-      height: 100
+      height: null
       layer:
       - 49
       - 0
+      layer_to_inclusion: null
       width: 100
   straight_10b8038a_150p0_0p0:
     component: straight
@@ -1039,18 +1041,20 @@ instances:
   tl:
     component: pad
     settings:
-      height: 100
+      height: null
       layer:
       - 49
       - 0
+      layer_to_inclusion: null
       width: 100
   tr:
     component: pad
     settings:
-      height: 100
+      height: null
       layer:
       - 49
       - 0
+      layer_to_inclusion: null
       width: 100
 name: sample_path_length_matching
 placements:

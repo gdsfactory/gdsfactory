@@ -48,9 +48,10 @@ def dict2name(prefix: str = "", **kwargs) -> str:
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     kv = []
     kwargs = kwargs.copy()
+    kwargs.pop("layer_to_inclusion", "")
 
     for key in sorted(kwargs):
-        if key not in ignore_from_name:
+        if key not in ignore_from_name and isinstance(key, str):
             value = kwargs[key]
             key = join_first_letters(key)
             value = clean_value(value)

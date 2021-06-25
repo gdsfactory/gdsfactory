@@ -8,6 +8,7 @@ from pp.tech import FACTORY
 
 # level 0 components
 from pp.components.array import array
+from pp.components.array import array_2d
 from pp.components.array_with_fanout import array_with_fanout
 from pp.components.array_with_fanout import array_with_fanout_2d
 from pp.components.straight import straight
@@ -142,6 +143,7 @@ from pp.components.splitter_chain import splitter_chain
 FACTORY.register(
     [
         array,
+        array_2d,
         array_with_fanout,
         array_with_fanout_2d,
         C,
