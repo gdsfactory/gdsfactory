@@ -1,9 +1,9 @@
-from pp.cell import cell
+from pp.cell import cell_with_validator
 from pp.component import Component
 from pp.port import auto_rename_ports
 
 
-@cell
+@cell_with_validator
 def rotate(
     component: Component,
     angle: int = 90,
@@ -29,9 +29,10 @@ if __name__ == "__main__":
     import pp
 
     component = pp.components.mzi2x2()
+    component = Component()
     component_rotated = rotate(component=component)
     component_rotated.show()
-    print(component_rotated)
+    # print(component_rotated)
 
     # component_rotated.pprint()
     # component_netlist = component.get_netlist()

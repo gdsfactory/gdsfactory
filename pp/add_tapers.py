@@ -9,19 +9,31 @@ from pp.types import ComponentOrFactory
 
 
 def add_taper_elements(
-    component: Component, taper: ComponentOrFactory = taper_function
+    component: Component,
+    taper: ComponentOrFactory = taper_function,
+    taper_port_name1: str = "1",
+    taper_port_name2: str = "2",
 ) -> Tuple[List[Port], List[ComponentReference]]:
     """returns ports and taper elements for a component"""
     ports = []
     elements = []
 
-    taper_object = pp.call_if_func(taper)
+    taper_component = pp.call_if_func(taper)
+    if taper_port_name1 not in taper_component.ports:
+        raise ValueError(
+            f"{taper_component} needs a a port named {taper_port_name1}, got {list(taper_component.ports.keys())}"
+        )
+    if taper_port_name2 not in taper_component.ports:
+        raise ValueError(
+            f"{taper_component} needs a a port named {taper_port_name2}, got {list(taper_component.ports.keys())}"
+        )
+
     for port in component.ports.copy().values():
         if port.port_type == "optical":
-            taper_ref = taper_object.ref()
-            taper_ref.connect(taper_ref.ports["2"].name, port)
+            taper_ref = taper_component.ref()
+            taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
             elements.append(taper_ref)
-            ports.append(taper_ref.ports["1"])
+            ports.append(taper_ref.ports[taper_port_name1])
     return ports, elements
 
 
@@ -31,22 +43,34 @@ def add_tapers(
     taper: ComponentOrFactory = taper_function,
     port_type: str = "optical",
     waveguide="strip",
-    **kwargs
+    taper_port_name1: str = "1",
+    taper_port_name2: str = "2",
+    with_auto_rename=False,
+    **kwargs,
 ) -> Component:
     """Returns component with tapers"""
 
-    taper_object = pp.call_if_func(taper, waveguide=waveguide, **kwargs)
+    taper_component = pp.call_if_func(taper, waveguide=waveguide, **kwargs)
+    if taper_port_name1 not in taper_component.ports:
+        raise ValueError(
+            f"{taper_component} needs a a port named {taper_port_name1}, got {list(taper_component.ports.keys())}"
+        )
+    if taper_port_name2 not in taper_component.ports:
+        raise ValueError(
+            f"{taper_component} needs a a port named {taper_port_name2}, got {list(taper_component.ports.keys())}"
+        )
     c = pp.Component()
 
     for port_name, port in component.ports.copy().items():
         if port.port_type == port_type:
-            taper_ref = c << taper_object
-            taper_ref.connect(taper_ref.ports["2"].name, port)
-            c.add_port(name=port_name, port=taper_ref.ports["1"])
+            taper_ref = c << taper_component
+            taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
+            c.add_port(name=port_name, port=taper_ref.ports[taper_port_name1])
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
-    auto_rename_ports(c)
+    if with_auto_rename:
+        auto_rename_ports(c)
     return c
 
 

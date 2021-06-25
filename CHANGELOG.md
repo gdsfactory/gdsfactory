@@ -24,6 +24,8 @@ from contracts import contract
 
 - update to omegaconf=2.1.0
 - add loguru logger
+- added pydantic validator to Component
+- pp.add_tapers.add_tapers can accept taper port names
 
 ## 2.5.4
 
