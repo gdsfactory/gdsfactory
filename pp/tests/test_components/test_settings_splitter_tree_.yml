@@ -1,10 +1,11 @@
 function_name: splitter_tree
 info:
-  dy: 40.1
+  dy: 40
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:
+  dx: 50
+  dy: null
+  dy_extra: 0
   noutputs: 4
-  spacing: null
-  spacing_extra: 0.1
   waveguide: strip

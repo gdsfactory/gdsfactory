@@ -1,21 +1,31 @@
-from typing import Any, Iterable, List, Tuple
+from typing import Optional, Tuple
 
 from numpy import floor
 
 import pp
 from pp.component import Component
 from pp.layers import LAYER
+from pp.types import ComponentOrFactory, Layer
 
 
 @pp.cell_with_validator
 def via(
     width: float = 0.7,
-    height: float = 0.7,
+    height: Optional[float] = None,
     period: float = 2.0,
     clearance: float = 1.0,
     layer: Tuple[int, int] = LAYER.VIA1,
 ) -> Component:
-    """Rectangular via"""
+    """Rectangular via. Defaults to a square via.
+
+    Args:
+        width:
+        height: Defaults to width
+        period:
+        clearance:
+        layer: via layer
+    """
+    height = height or width
     c = Component()
     c.info["period"] = period
     c.info["clearance"] = clearance
@@ -48,26 +58,26 @@ def via3(**kwargs) -> Component:
 @pp.cell_with_validator
 def tlm(
     width: float = 11.0,
-    height: float = 11.0,
-    layers: List[Tuple[int, int]] = (LAYER.M1, LAYER.M2, LAYER.M3),
-    vias: Iterable[Any] = (via2, via3),
+    height: Optional[float] = None,
+    layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
+    vias: Tuple[ComponentOrFactory, ...] = (via2, via3),
 ) -> Component:
     """Rectangular transition thru metal layers
 
     Args:
-        name: component name
-        width, height: rectangle parameters
+        width: width
+        height: defaults to width
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
     """
-
-    # assert len(layers) - 1 == len(vias), "tlm: There should be N layers for N-1 vias"
+    height = height or width
 
     a = width / 2
     b = height / 2
     rect_pts = [(-a, -b), (a, -b), (a, b), (-a, b)]
 
     c = Component()
+
     # Add metal rectangles
     for layer in layers:
         c.add_polygon(rect_pts, layer=layer)

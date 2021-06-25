@@ -12,8 +12,9 @@ from pp.types import ComponentFactory
 def splitter_tree(
     coupler: ComponentFactory = mmi1x2_function,
     noutputs: int = 4,
-    spacing: Optional[float] = None,
-    spacing_extra: float = 0.1,
+    dy: Optional[float] = None,
+    dy_extra: float = 0.0,
+    dx: float = 50.0,
     bend_factory: ComponentFactory = bend_euler,
     bend_s: ComponentFactory = bend_euler_s,
     waveguide: str = "strip",
@@ -24,8 +25,9 @@ def splitter_tree(
     Args:
         coupler: 1x2 coupler factory
         noutputs:
-        spacing: y spacing for outputs
-        spacing_extra: extra y spacing for outputs
+        dx: x spacing between couplers
+        dy: y spacing for outputs
+        dy_extra: extra y dy for outputs
         bend_factory:
         bend_s: factory for terminating ports
 
@@ -34,29 +36,30 @@ def splitter_tree(
              __|
           __|  |__
         _|  |__
-         |__       spacing
+         |__        dy
 
+          dx
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    radius = waveguide_settings.get("radius")
-
-    bend90 = bend_factory(radius=radius)
     c = pp.Component()
 
-    coupler = pp.call_if_func(coupler, waveguide=waveguide, **waveguide_settings)
+    coupler = pp.call_if_func(coupler, waveguide=waveguide, **kwargs)
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    radius = waveguide_settings.get("radius")
+    bend90 = bend_factory(radius=radius)
     coupler_ref = c.add_ref(coupler)
-    dy = spacing if spacing else bend90.dy * noutputs + spacing_extra
-    dx = coupler.xsize + radius
+    dy = dy or bend90.dy * noutputs
+    dy += dy_extra
 
     if noutputs > 2:
         c2 = splitter_tree(
             coupler=coupler,
             noutputs=noutputs // 2,
-            spacing=dy / 2,
+            dy=dy / 2,
+            dx=dx,
             bend_factory=bend_factory,
             waveguide=waveguide,
-            spacing_extra=spacing_extra,
+            dy_extra=dy_extra,
             **waveguide_settings,
         )
     else:

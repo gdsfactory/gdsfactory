@@ -8,7 +8,7 @@ module: pp.components.electrical.tlm
 name: via1
 settings:
   clearance: 1
-  height: 0.7
+  height: null
   layer:
   - 40
   - 0

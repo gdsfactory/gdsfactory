@@ -9,7 +9,10 @@ from pp.types import ComponentOrFactory, Layer
 
 @cell
 def pad(
-    width: float = 100.0, height: float = 100.0, layer: Layer = LAYER.M3
+    width: float = 100.0,
+    height: Optional[float] = None,
+    layer: Layer = LAYER.M3,
+    layer_to_inclusion: Optional[Dict[Layer, float]] = None,
 ) -> Component:
     """rectangular pad with 4 ports (N, S, E, W)
 
@@ -17,13 +20,22 @@ def pad(
         width: pad width
         height: pad height
         layer: pad layer
-
+        layer_to_inclusion: for example {(3,0): +3, (4, 0): -4} adds
+            layer (3,0) 3um inside and layer (4,0) 4 um outside
     """
+    height = height or width
+    layer_to_inclusion = layer_to_inclusion or {}
     c = Component()
-    _c = compass(size=(width, height), layer=layer).ref()
-    c.add(_c)
-    c.absorb(_c)
-    c.ports = _c.ports
+    c_ref = compass(size=(width, height), layer=layer).ref()
+    c.add(c_ref)
+    c.absorb(c_ref)
+    c.ports = c_ref.ports
+
+    for layer, inclusion in layer_to_inclusion.items():
+        c.add_ref(
+            compass(size=(width - 2 * inclusion, height - 2 * inclusion), layer=layer)
+        )
+
     return c
 
 
@@ -101,11 +113,11 @@ def pad_array_2d(
 
 if __name__ == "__main__":
 
-    # c = pad()
+    c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
     # c = pad_array()
-    c = pad_array_2d(ncols=2, nrows=3, port_list=("E",), pad_settings=dict(width=80))
+    # c = pad_array_2d(ncols=2, nrows=3, port_list=("E",), pad_settings=dict(width=80))
     c.show(show_ports=True)

@@ -3,8 +3,9 @@ info: {}
 module: pp.components.electrical.pad
 name: pad
 settings:
-  height: 100
+  height: null
   layer:
   - 49
   - 0
+  layer_to_inclusion: null
   width: 100

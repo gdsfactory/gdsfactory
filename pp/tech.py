@@ -176,6 +176,24 @@ class Rib(Waveguide):
 
 
 @pydantic.dataclasses.dataclass
+class Metal1(Waveguide):
+    width: float = 2.0
+    width_wide: float = 2.0
+    auto_widen: bool = False
+    layer: Layer = LAYER.M1
+    radius: float = 5.0
+
+
+@pydantic.dataclasses.dataclass
+class Metal2(Waveguide):
+    width: float = 2.0
+    width_wide: float = 2.0
+    auto_widen: bool = False
+    layer: Layer = LAYER.M2
+    radius: float = 5.0
+
+
+@pydantic.dataclasses.dataclass
 class MetalRouting(Waveguide):
     width: float = 2.0
     width_wide: float = 2.0
@@ -228,6 +246,8 @@ class StripHeaterSingle(Waveguide):
 class Waveguides:
     strip: Waveguide = Strip()
     rib: Waveguide = Rib()
+    metal1: Waveguide = Metal1()
+    metal2: Waveguide = Metal2()
     metal_routing: Waveguide = MetalRouting()
     nitride: Waveguide = Nitride()
     strip_heater: Waveguide = StripHeater()

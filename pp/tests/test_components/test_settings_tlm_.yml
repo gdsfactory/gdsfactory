@@ -3,7 +3,7 @@ info: {}
 module: pp.components.electrical.tlm
 name: tlm
 settings:
-  height: 11
+  height: null
   vias:
   - via2
   - via3

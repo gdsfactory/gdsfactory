@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pp.cell import cell
 from pp.component import Component
 from pp.components.array import array
@@ -68,11 +70,39 @@ def array_with_fanout(
 
 @cell
 def array_with_fanout_2d(
-    pitch: float = 150.0, cols: int = 3, rows: int = 2, **kwargs
+    pitch: float = 150.0,
+    pitch_x: Optional[float] = None,
+    pitch_y: Optional[float] = None,
+    cols: int = 3,
+    rows: int = 2,
+    **kwargs,
 ) -> Component:
-    """Returns 2D array with fanout waveguides facing west."""
-    row = array_with_fanout(n=cols, **kwargs)
-    return array(component=row, n=rows, pitch=pitch, axis="y")
+    """Returns 2D array with fanout waveguides facing west.
+
+    Args:
+        pitch: 2D pitch
+        pitch_x: defaults to pitch
+        pitch_y: defaults to pitch
+        cols:
+        rows:
+        kwargs:
+            component: to replicate
+            n: number of components
+            pitch: float
+            waveguide_pitch: for fanout
+            start_straight: length of the start of the straight
+            end_straight: lenght of the straight at the end
+            radius: bend radius
+            waveguide: waveguide definition
+            component_port_name:
+            bend_port_name:
+            bend_port_name_out:
+            **waveguide_settings
+    """
+    pitch_y = pitch_y or pitch
+    pitch_x = pitch_x or pitch
+    row = array_with_fanout(n=cols, pitch=pitch_x, **kwargs)
+    return array(component=row, n=rows, pitch=pitch_y, axis="y")
 
 
 if __name__ == "__main__":
