@@ -1,10 +1,7 @@
 """This is a sample on how to define custom components.
 """
-import os
 import shutil
 from pathlib import Path
-
-import pytest
 
 import pp
 from pp.add_termination import add_gratings_and_loop_back
@@ -82,20 +79,6 @@ component_factory = dict(
 )
 
 
-@pytest.fixture
-def cleandir() -> None:
-    build_folder = CONFIG["samples_path"] / "mask_custom" / "build"
-    if build_folder.exists():
-        shutil.rmtree(build_folder)
-
-
-@pytest.fixture
-def chdir() -> None:
-    workspace_folder = CONFIG["samples_path"] / "mask_custom"
-    os.chdir(workspace_folder)
-
-
-@pytest.mark.usefixtures("cleandir")
 def test_mask(precision: float = 2e-9) -> Path:
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     build_path = workspace_folder / "build"
@@ -104,6 +87,7 @@ def test_mask(precision: float = 2e-9) -> Path:
     mask_path = build_path / "mask"
     does_yml = workspace_folder / "does.yml"
 
+    shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
