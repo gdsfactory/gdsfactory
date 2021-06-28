@@ -8,7 +8,7 @@ mask:
 
 exp01_spirals_packed_row:
     cache: True # Cache settings for this spiral DOE
-    component: SPIRAL
+    component: spiral
     settings:
         x: [500, 2500, 5000, 7000]
         N: 8
@@ -21,7 +21,7 @@ exp01_spirals_packed_row:
         align_y: S # y origin is south
 
 exp02_spirals_packed_col:
-    component: SPIRAL
+    component: spiral
     settings:
         x: [500, 2500, 5000, 7000]
         N: 6
@@ -35,7 +35,7 @@ exp02_spirals_packed_col:
 
 exp03_spirals_packed_two_rows:
     cache: False # This component is generated no matter the mask default cache settings
-    component: SPIRAL
+    component: spiral
     settings:
         x: [500, 4500, 8500, 13500]
         N: 4
