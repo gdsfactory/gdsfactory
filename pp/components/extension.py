@@ -75,7 +75,7 @@ def extend_port(port: Port, length: Number) -> Component:
     return c
 
 
-@cell
+@pp.cell_with_validator
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
     port_list: Optional[List[str]] = None,
@@ -88,7 +88,7 @@ def extend_ports(
 
     Args:
         component: component to extend ports
-        port_list: specify an iterable of ports or extends all ports
+        port_list: specify an list of ports names, if None it extends all ports
         length: extension length
         extension_factory: straight factory to extend ports
         extension_port_name_input:

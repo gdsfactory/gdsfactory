@@ -23,7 +23,7 @@ def add_fiber_array(
     component_name: Optional[str] = None,
     taper: StrOrDict = "taper",
     get_input_labels_function: Callable = get_input_labels,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     factory: Factory = FACTORY,
     **kwargs,
 ) -> Component:

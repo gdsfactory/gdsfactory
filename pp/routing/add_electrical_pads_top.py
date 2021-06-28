@@ -1,6 +1,6 @@
 from typing import Callable
 
-from pp.cell import cell
+import pp
 from pp.component import Component
 from pp.components.electrical.pad import pad_array
 from pp.routing.get_route import get_route_from_waypoints
@@ -10,7 +10,7 @@ from pp.routing.get_route_electrical_shortest_path import (
 from pp.routing.sort_ports import sort_ports
 
 
-@cell
+@pp.cell_with_validator
 def add_electrical_pads_top(
     component: Component,
     component_top_to_pad_bottom_distance: float = 100.0,
@@ -27,11 +27,8 @@ def add_electrical_pads_top(
         height: pad height
         layer: pad layer
     """
-    c = Component(f"{component.name}_e")
+    c = Component()
     ports = component.get_ports_list(port_type="dc")
-    # for port in ports:
-    #     print(port.name)
-    # print(len(ports))
     c << component
     pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
     pads.x = component.x

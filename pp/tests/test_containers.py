@@ -12,10 +12,10 @@ from pp.components.extension import extend_ports
 
 # from pp.components.straight import straight
 # from pp.components.straight_heater import straight_heater
+# from pp.difftest import difftest
 from pp.components.mzi2x2 import mzi2x2
 from pp.components.ring_single_dut import ring_single_dut
 from pp.components.spiral_inner_io import spiral_inner_io
-from pp.difftest import difftest
 from pp.rotate import rotate
 from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
@@ -59,11 +59,11 @@ def test_ports(container_type: str, num_regression: NumericRegressionFixture) ->
         num_regression.check(c.get_ports_array())
 
 
-@pytest.mark.parametrize("container_type", container_names)
-def test_gds(container_type: str) -> None:
-    """Avoid regressions in GDS geometry shapes and layers."""
-    c = container_factory[container_type](component=component)
-    difftest(c)
+# @pytest.mark.parametrize("container_type", container_names)
+# def test_gds(container_type: str) -> None:
+#     """Avoid regressions in GDS geometry shapes and layers."""
+#     c = container_factory[container_type](component=component)
+#     difftest(c)
 
 
 # Special test cases for exotic components
