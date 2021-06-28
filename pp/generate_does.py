@@ -7,7 +7,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 from omegaconf import OmegaConf
 
 from pp.components import component_factory
-from pp.config import CONFIG, logging
+from pp.config import CONFIG, logger
 from pp.doe import get_settings_list
 from pp.placer import build_components, doe_exists, load_doe_component_names, save_doe
 from pp.types import PathType
@@ -48,8 +48,7 @@ def update_dicts_recurse(
 
 
 def save_doe_use_template(doe, doe_root_path=None) -> None:
-    """Write a "content.txt" pointing to the DOE used as a template
-    """
+    """Write a "content.txt" pointing to the DOE used as a template"""
     doe_name = doe["name"]
     doe_template = doe["doe_template"]
     doe_root_path = doe_root_path or CONFIG["cache_doe_directory"]
@@ -116,7 +115,6 @@ def generate_does(
     doe_root_path: PathType = CONFIG["cache_doe_directory"],
     doe_metadata_path: PathType = CONFIG["doe_directory"],
     n_cores: int = 8,
-    logger=logging,
     overwrite: bool = False,
     precision: float = 1e-9,
     cache: bool = False,

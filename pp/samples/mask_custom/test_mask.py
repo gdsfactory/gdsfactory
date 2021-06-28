@@ -11,7 +11,7 @@ from pp.add_termination import add_gratings_and_loop_back
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.component import Component
 from pp.components.spiral_inner_io import spiral_inner_io_euler
-from pp.config import CONFIG
+from pp.config import CONFIG, logger
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
 
@@ -107,6 +107,9 @@ def test_mask(precision: float = 2e-9) -> Path:
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
+    logpath = gdspath.with_suffix(".log")
+    logger.add(sink=logpath)
+
     markdown_path = gdspath.with_suffix(".md")
     json_path = gdspath.with_suffix(".json")
     test_metadata_path = gdspath.with_suffix(".tp.json")

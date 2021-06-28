@@ -5,7 +5,7 @@ from pathlib import Path
 
 from omegaconf import OmegaConf
 
-from pp.config import CONFIG, TECH, logging
+from pp.config import CONFIG, TECH, logger
 
 
 def merge_markdown(
@@ -16,7 +16,7 @@ def merge_markdown(
     """Merges all individual markdown reports (.md) into a single markdown
     you can add a report:[Capacitors, Diodes...] in config.yml to define the merge order
     """
-    logging.debug("Merging Markdown files:")
+    logger.info("Merging Markdown files:")
     configpath = mdpath.with_suffix(".yml")
     tech = dataclasses.asdict(TECH)
     tech.pop("factory", "")
@@ -37,8 +37,8 @@ def merge_markdown(
                 for line in infile:
                     f.write(line)
 
-    logging.info(f"Wrote {mdpath}")
-    logging.info(f"Wrote {configpath}")
+    logger.info(f"Wrote {mdpath}")
+    logger.info(f"Wrote {configpath}")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,6 @@ You can access all the config dictionary with `print_config` as well as a partic
 
 __version__ = "2.5.4"
 import json
-import logging
 import os
 import pathlib
 import subprocess
@@ -44,6 +43,8 @@ layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
+
+logger.info(f"gdsfactory {__version__}")
 
 
 def read_config(
@@ -112,14 +113,6 @@ CONFIG["gds_directory"].mkdir(exist_ok=True)
 CONFIG["doe_directory"].mkdir(exist_ok=True)
 CONFIG["mask_directory"].mkdir(exist_ok=True)
 CONFIG["gdslib_test"].mkdir(exist_ok=True)
-
-
-logging.basicConfig(
-    filename=CONFIG["build_directory"] / "log.log",
-    filemode="w",
-    format="%(name)s - %(levelname)s - %(message)s",
-)
-logging.warning("This will get logged to a file")
 
 
 def print_config(key: Optional[str] = None) -> None:
