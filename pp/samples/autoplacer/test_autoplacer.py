@@ -6,7 +6,7 @@ import pytest
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
-from pp.samples.autoplacer.spiral import SPIRAL
+from pp.samples.autoplacer.spiral import spiral
 
 workspace_folder = pathlib.Path(__file__).parent
 build_path = workspace_folder / "build"
@@ -33,7 +33,7 @@ def test_autoplacer():
     mask_path.mkdir(parents=True, exist_ok=True)
 
     # Map the component factory names in the YAML file to the component factory
-    name2factory = {"SPIRAL": SPIRAL}
+    name2factory = {"spiral": spiral}
 
     print(doe_root_path)
     generate_does(

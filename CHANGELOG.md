@@ -27,6 +27,7 @@ from contracts import contract
 - add loguru logger
 - added pydantic validator to Component
 - pp.add_tapers.add_tapers can accept taper port names
+- add_tapers, add_fiber_array, add_fiber_single accepts taper with StrOrDict
 
 ## 2.5.4
 
