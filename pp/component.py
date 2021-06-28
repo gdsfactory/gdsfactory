@@ -21,6 +21,7 @@ from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from pp.config import __version__
 from pp.port import Port, select_ports, valid_port_types
+from pp.snap import snap_to_grid
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
@@ -587,7 +588,7 @@ class Component(Device):
     @classmethod
     def validate(cls, v):
         assert (
-            len(v.name) < MAX_NAME_LENGTH
+            len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
@@ -859,7 +860,10 @@ class Component(Device):
     def add_port(
         self,
         name: Optional[Union[str, int]] = None,
-        midpoint: Any = (0, 0),
+        midpoint: Tuple[float, float] = (
+            0.0,
+            0,
+        ),
         width: Number = 1,
         orientation: Number = 45,
         port: Optional[Port] = None,
@@ -891,7 +895,7 @@ class Component(Device):
         else:
             p = Port(
                 name=name,
-                midpoint=midpoint,
+                midpoint=(snap_to_grid(midpoint[0]), snap_to_grid(midpoint[1])),
                 width=width,
                 orientation=orientation,
                 parent=self,

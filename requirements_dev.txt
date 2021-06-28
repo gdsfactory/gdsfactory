@@ -16,3 +16,4 @@ pydocstyle
 nbsphinx
 ipykernel
 pur
+xdoctest
