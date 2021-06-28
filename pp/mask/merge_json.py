@@ -7,7 +7,7 @@ from typing import Any, Dict, Iterable, Optional
 
 from omegaconf.dictconfig import DictConfig
 
-from pp.config import CONFIG, TECH, logging, write_config
+from pp.config import CONFIG, TECH, logger, write_config
 
 
 def merge_json(
@@ -29,7 +29,7 @@ def merge_json(
         config
 
     """
-    logging.debug("Merging JSON files:")
+    logger.debug("Merging JSON files:")
     cells = {}
     extra_directories = extra_directories or []
     config = dataclasses.asdict(config)
@@ -37,7 +37,7 @@ def merge_json(
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):
-            logging.debug(filename)
+            logger.debug(filename)
             with open(filename, "r") as f:
                 data = json.load(f)
                 cells.update(data.get("cells"))
@@ -51,8 +51,7 @@ def merge_json(
     )
 
     write_config(metadata, jsonpath)
-    print(f"Wrote  metadata in {jsonpath}")
-    logging.info(f"Wrote  metadata in {jsonpath}")
+    logger.info(f"Wrote  metadata in {jsonpath}")
     return metadata
 
 
