@@ -23,8 +23,8 @@ settings:
   n: 4
   optical_routing_type: 0
   straight_spacing: 4
+  taper: taper
   taper_factory: null
-  taper_length: 10
   waveguide: strip
   with_align_ports: false
   with_loop_back: false

@@ -7,12 +7,12 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
-from pp.components.taper import taper
 from pp.config import TECH, call_if_func
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
-from pp.types import ComponentFactory
+from pp.tech import FACTORY, Factory
+from pp.types import ComponentFactory, StrOrDict
 
 
 @cell
@@ -23,8 +23,7 @@ def add_fiber_single(
     fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
-    taper_factory: ComponentFactory = taper,
-    taper_length: float = 10.0,
+    taper: StrOrDict = "taper",
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -33,6 +32,7 @@ def add_fiber_single(
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: str = "strip",
+    factory: Factory = FACTORY,
     **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -46,7 +46,7 @@ def add_fiber_single(
         fiber_spacing: between outputs
         bend_factory: bend_circular
         straight_factory: straight
-        taper_factory: taper
+        taper: taper
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_align_ports: True, adds loopback structures
@@ -112,22 +112,18 @@ def add_fiber_single(
     optical_ports = component.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
-    if port_width_component != port_width_gc:
+    if taper and port_width_component != port_width_gc:
         taper = (
-            taper_factory(
-                length=taper_length,
+            taper
+            if isinstance(taper, dict)
+            else dict(
+                component=taper,
                 width1=port_width_gc,
                 width2=port_width_component,
                 waveguide=waveguide,
-                **waveguide_settings,
             )
-            if callable(taper_factory)
-            else taper_factory
         )
-        component = add_tapers(
-            component=component,
-            taper=taper,
-        )
+        component = add_tapers(component=component, taper=taper, factory=factory)
 
     c = Component()
     cr = c << component
@@ -268,7 +264,7 @@ if __name__ == "__main__":
         return c
 
     cc = add_fiber_single(
-        component=straight_with_pins(),
+        component=straight_with_pins(width=2),
         auto_widen=False,
         with_align_ports=False,
         straight_factory=straight_with_pins,

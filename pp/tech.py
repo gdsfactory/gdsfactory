@@ -374,7 +374,7 @@ class Factory:
 
     def get_component(
         self,
-        component_type: Union[str, Dict],
+        component: Union[str, Dict],
         **settings,
     ) -> Component:
         """Returns Component from factory.
@@ -384,32 +384,32 @@ class Factory:
 
         Priority (from lower to higher)
         - default in dataclass
-        - component_type in case it's a dic
+        - component in case it's a dic
         - **settings
 
         Args:
-            component_type:
+            component:
             **settings
         """
-        if isinstance(component_type, str):
-            component_type = component_type
+        if isinstance(component, str):
+            component = component
             component_settings = {}
-        elif isinstance(component_type, dict):
-            component_settings = component_type.copy()
-            component_type = component_settings.pop("component_type")
+        elif isinstance(component, dict):
+            component_settings = component.copy()
+            component = component_settings.pop("component")
         else:
             raise ValueError(
-                f"{component_type} needs to be a string or dict, got {type(component_type)}"
+                f"{component} needs to be a string or dict, got {type(component)}"
             )
 
-        if component_type not in self.factory:
-            raise ValueError(f"{component_type} not in {list(self.factory.keys())}")
-        component_settings_default = getattr(self.settings, component_type, {})
+        if component not in self.factory:
+            raise ValueError(f"{component} not in {list(self.factory.keys())}")
+        component_settings_default = getattr(self.settings, component, {})
         if component_settings_default:
             component_settings_default = asdict(component_settings_default)
         component_settings_default.update(**component_settings)
         component_settings_default.update(**settings)
-        component = self.factory[component_type](**component_settings_default)
+        component = self.factory[component](**component_settings_default)
         if self.post_init:
             self.post_init(component)
         return component

@@ -20,5 +20,5 @@ settings:
   component_name: null
   gc_port_name: W0
   optical_routing_type: 2
-  taper_length: 10
+  taper: taper
   waveguide: strip

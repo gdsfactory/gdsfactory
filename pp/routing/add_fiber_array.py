@@ -6,11 +6,10 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from pp.components.taper import taper
-from pp.config import TECH
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.types import ComponentFactory
+from pp.tech import FACTORY, Factory
+from pp.types import ComponentFactory, StrOrDict
 
 
 @cell
@@ -20,10 +19,10 @@ def add_fiber_array(
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
-    taper_factory: Optional[Callable] = taper,
-    taper_length: float = TECH.waveguide.strip.taper_length,
+    taper: StrOrDict = "taper",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: str = "strip",
+    factory: Factory = FACTORY,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -34,8 +33,7 @@ def add_fiber_array(
         bend_factory: bend_circular
         gc_port_name: grating coupler input port name 'W0'
         component_name: for the label
-        taper_factory: taper function
-        taper_length: length of the taper
+        taper: taper function name or dict
         get_input_labels_function: function to get input labels for grating couplers
         straight_factory: straight
         fanout_length: None  # if None, automatic calculation of fanout length
@@ -94,16 +92,18 @@ def add_fiber_array(
     optical_ports = c.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
-    if taper_factory and port_width_component != port_width_gc:
-        c = add_tapers(
-            component=c,
-            taper=taper_factory(
-                length=taper_length,
+    if taper and port_width_component != port_width_gc:
+        taper = (
+            taper
+            if isinstance(taper, dict)
+            else dict(
+                component=taper,
                 width1=port_width_gc,
                 width2=port_width_component,
                 waveguide=waveguide,
-            ),
+            )
         )
+        c = add_tapers(component=c, taper=taper, factory=factory)
 
     # for pn, p in c.ports.items():
     #     print(p.name, p.port_type, p.layer)

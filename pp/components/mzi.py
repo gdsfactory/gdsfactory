@@ -176,8 +176,8 @@ if __name__ == "__main__":
     c = mzi(
         delta_length=20,
         waveguide="nitride",
-        bend=dict(component_type="bend_euler", radius=50),
-        splitter=dict(component_type="mmi1x2", waveguide="nitride"),
+        bend=dict(component="bend_euler", radius=50),
+        splitter=dict(component="mmi1x2", waveguide="nitride"),
     )
     c.show()
     c.pprint()

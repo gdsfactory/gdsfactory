@@ -2,6 +2,7 @@
 
 ## TODO
 
+- replace ComponentOrFactory, and ComponentFactory with StrOrDict
 - waypoints connector accepts ports. More consistent routing functions
 - fix some FIXME
 - enable add pins option in TECH that can add custom pins to components
