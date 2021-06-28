@@ -3,10 +3,11 @@
 ## TODO
 
 - replace ComponentOrFactory, and ComponentFactory with StrOrDict
-- waypoints connector accepts ports. More consistent routing functions
-- fix some FIXME
+- waypoints define dx or dy for bends
+- enable difftest for test_containers
+- fix FIXMEs
 - enable add pins option in TECH that can add custom pins to components
-- enable routing with 180euler bends
+- enable routing with 180euler bends, enable Sbend routing
 
 Maybe:
 

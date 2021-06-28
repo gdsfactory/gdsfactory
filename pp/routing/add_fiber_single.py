@@ -31,7 +31,7 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     factory: Factory = FACTORY,
     **waveguide_settings,
 ) -> Component:
