@@ -17,6 +17,7 @@ settings:
       waveguide: strip
       with_elec_connections: true
   port_type: optical
+  taper: taper
   taper_port_name1: '1'
   taper_port_name2: '2'
   waveguide: strip

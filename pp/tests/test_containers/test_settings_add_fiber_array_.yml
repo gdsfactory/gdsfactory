@@ -18,5 +18,5 @@ settings:
       with_elec_connections: true
   component_name: null
   gc_port_name: W0
-  taper_length: 10
+  taper: taper
   waveguide: strip

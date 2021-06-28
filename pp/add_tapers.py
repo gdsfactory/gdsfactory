@@ -1,35 +1,36 @@
 from typing import List, Tuple
 
 import pp
-from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.components.taper import taper as taper_function
 from pp.port import Port, auto_rename_ports
-from pp.types import ComponentOrFactory
+from pp.tech import FACTORY, Factory
+from pp.types import StrOrDict
 
 
 def add_taper_elements(
     component: Component,
-    taper: ComponentOrFactory = taper_function,
+    taper: StrOrDict = "taper",
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
+    port_type: str = "optical",
+    factory: Factory = FACTORY,
 ) -> Tuple[List[Port], List[ComponentReference]]:
-    """returns ports and taper elements for a component"""
+    """Returns ports and taper elements to taper a component"""
     ports = []
     elements = []
 
-    taper_component = pp.call_if_func(taper)
+    taper_component = factory.get_component(taper)
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
-            f"{taper_component} needs a a port named {taper_port_name1}, got {list(taper_component.ports.keys())}"
+            f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
         )
     if taper_port_name2 not in taper_component.ports:
         raise ValueError(
-            f"{taper_component} needs a a port named {taper_port_name2}, got {list(taper_component.ports.keys())}"
+            f"{taper_port_name2} not in {list(taper_component.ports.keys())}"
         )
 
     for port in component.ports.copy().values():
-        if port.port_type == "optical":
+        if port.port_type == port_type:
             taper_ref = taper_component.ref()
             taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
             elements.append(taper_ref)
@@ -37,27 +38,27 @@ def add_taper_elements(
     return ports, elements
 
 
-@cell
+@pp.cell
 def add_tapers(
     component: Component,
-    taper: ComponentOrFactory = taper_function,
+    taper: StrOrDict = "taper",
     port_type: str = "optical",
     waveguide="strip",
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
-    with_auto_rename=False,
-    **kwargs,
+    with_auto_rename: bool = False,
+    factory: Factory = FACTORY,
 ) -> Component:
-    """Returns component with tapers"""
+    """Returns component with tapers."""
 
-    taper_component = pp.call_if_func(taper, waveguide=waveguide, **kwargs)
+    taper_component = factory.get_component(taper)
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
-            f"{taper_component} needs a a port named {taper_port_name1}, got {list(taper_component.ports.keys())}"
+            f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
         )
     if taper_port_name2 not in taper_component.ports:
         raise ValueError(
-            f"{taper_component} needs a a port named {taper_port_name2}, got {list(taper_component.ports.keys())}"
+            f"{taper_port_name2} not in {list(taper_component.ports.keys())}"
         )
     c = pp.Component()
 
@@ -76,7 +77,7 @@ def add_tapers(
 
 if __name__ == "__main__":
     c0 = pp.components.straight(width=2)
-    t = pp.components.taper(width2=2)
+    t = dict(component="taper", width2=2)
     c1 = add_tapers(component=c0, taper=t)
     c1.show()
 
