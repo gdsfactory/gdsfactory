@@ -1,8 +1,6 @@
 import pathlib
 import shutil
 
-import pytest
-
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.config import logger
 from pp.generate_does import generate_does
@@ -24,14 +22,8 @@ test_metadata_path = gdspath.with_suffix(".tp.json")
 logpath = gdspath.with_suffix(".log")
 
 
-@pytest.fixture
-def cleandir():
-    if build_path.exists():
-        shutil.rmtree(build_path)
-
-
-@pytest.mark.usefixtures("cleandir")
 def test_autoplacer():
+    shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
     # Map the component factory names in the YAML file to the component factory

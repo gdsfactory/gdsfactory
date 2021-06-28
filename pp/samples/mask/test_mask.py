@@ -1,6 +1,5 @@
 import pathlib
-
-import pytest
+import shutil
 
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.config import logger
@@ -8,7 +7,6 @@ from pp.generate_does import generate_does
 from pp.mask.merge_metadata import merge_metadata
 
 
-@pytest.mark.usefixtures("cleandir")
 def test_mask():
     """Returns gdspath for a Mask
 
@@ -17,16 +15,19 @@ def test_mask():
     - merge mask JSON metadata into a combined JSON file
 
     """
+
     cwd = pathlib.Path(__file__).absolute().parent
     does_path = cwd / "does.yml"
 
+    build_path = cwd / "build"
     doe_root_path = cwd / "build" / "cache_doe_directory"
     mask_path = cwd / "build" / "mask"
     gdspath = mask_path / "mask.gds"
     logpath = gdspath.with_suffix(".log")
     mask_path.mkdir(parents=True, exist_ok=True)
-    logger.add(sink=logpath)
 
+    shutil.rmtree(build_path, ignore_errors=True)
+    logger.add(sink=logpath)
     generate_does(
         str(does_path),
         doe_root_path=doe_root_path,
@@ -43,3 +44,8 @@ if __name__ == "__main__":
 
     c = test_mask()
     pp.show(c)
+
+    cwd = pathlib.Path(__file__).absolute().parent
+    does_path = cwd / "does.yml"
+
+    build_path = cwd / "build"
