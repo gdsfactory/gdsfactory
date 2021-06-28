@@ -7,11 +7,11 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
-from pp.cross_section import get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section, get_waveguide_settings
 from pp.geo_utils import angles_deg
 from pp.port import Port, select_ports_list
 from pp.snap import snap_to_grid
-from pp.types import ComponentFactory, Coordinate, Coordinates, Number, Route
+from pp.types import ComponentFactory, Coordinate, Coordinates, Route
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -122,7 +122,7 @@ def _is_horizontal(p0: ndarray, p1: ndarray) -> bool_:
     return np.abs(p0[1] - p1[1]) < TOLERANCE
 
 
-def get_straight_distance(p0: ndarray, p1: ndarray) -> Number:
+def get_straight_distance(p0: ndarray, p1: ndarray) -> float:
     if _is_vertical(p0, p1):
         return np.abs(p0[1] - p1[1])
     if _is_horizontal(p0, p1):
@@ -134,7 +134,7 @@ def get_straight_distance(p0: ndarray, p1: ndarray) -> Number:
 def transform(
     points: ndarray,
     translation: ndarray = (0, 0),
-    angle_deg: Number = 0,
+    angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
     """Transform points.
@@ -167,7 +167,7 @@ def transform(
 def reverse_transform(
     points: ndarray,
     translation: Coordinate = (0, 0),
-    angle_deg: Number = 0,
+    angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
     """
@@ -201,11 +201,11 @@ def reverse_transform(
 def _generate_route_manhattan_points(
     input_port: Port,
     output_port: Port,
-    bs1: Number,
-    bs2: Number,
-    start_straight: Number = 0.01,
-    end_straight: Number = 0.01,
-    min_straight: Number = 0.01,
+    bs1: float,
+    bs2: float,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    min_straight: float = 0.01,
 ) -> ndarray:
     """Return list of ports for the route.
 
@@ -459,7 +459,7 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> Route:
     """Returns Route:
@@ -478,7 +478,8 @@ def round_corners(
         straight_ports: port names for straights. If None finds them automatically.
         waveguide_settings
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    x = get_cross_section(waveguide, **waveguide_settings)
+    waveguide_settings = x.info
 
     auto_widen = waveguide_settings.get("auto_widen", False)
     auto_widen_minimum_length = waveguide_settings.get(
@@ -655,23 +656,21 @@ def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
     straight_factory: ComponentFactory = straight,
-    start_straight: Number = 0.01,
-    end_straight: Number = 0.01,
-    min_straight: Number = 0.01,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    min_straight: float = 0.01,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide: Optional[str] = "strip",
+    waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
-
-    if waveguide:
-        waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
     bend90 = (
         bend_factory(waveguide=waveguide, **waveguide_settings)
         if callable(bend_factory)
         else bend_factory
     )
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
     pname_west, pname_north = [
         p.name
@@ -690,9 +689,9 @@ def route_manhattan(
     output_port: Port,
     straight_factory: ComponentFactory = straight,
     taper: None = None,
-    start_straight: Number = 0.01,
-    end_straight: Number = 0.01,
-    min_straight: Number = 0.01,
+    start_straight: float = 0.01,
+    end_straight: float = 0.01,
+    min_straight: float = 0.01,
     bend_factory: ComponentFactory = bend_euler,
     waveguide: str = "strip",
     **waveguide_settings,

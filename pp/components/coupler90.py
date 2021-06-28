@@ -3,7 +3,7 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight as straight_function
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
@@ -13,7 +13,7 @@ def coupler90(
     radius: float = 10.0,
     straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs
 ) -> Component:
     r"""straight coupled to a bend.
@@ -36,16 +36,16 @@ def coupler90(
 
     """
     c = Component()
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    waveguide_settings.update(radius=radius)
-    x = cross_section(**waveguide_settings)
+    kwargs.update(radius=radius)
+    x = get_cross_section(waveguide, **kwargs)
 
-    bend90 = bend(**waveguide_settings) if callable(bend) else bend
+    bend90 = bend(waveguide=waveguide, **kwargs) if callable(bend) else bend
     bend_ref = c << bend90
     straight_component = (
         straight(
+            waveguide=waveguide,
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-            **waveguide_settings
+            **kwargs
         )
         if callable(straight)
         else straight

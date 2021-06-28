@@ -39,7 +39,7 @@ import numpy as np
 from pp.components.bend_euler import bend_euler
 from pp.components.straight import straight
 from pp.components.taper import taper as taper_function
-from pp.cross_section import get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section, get_waveguide_settings
 from pp.port import Port
 from pp.routing.manhattan import round_corners, route_manhattan
 from pp.types import ComponentOrFactory, Coordinates, Number, Route
@@ -116,7 +116,7 @@ def get_route_from_waypoints(
     bend_factory: Callable = bend_euler,
     straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
-    waveguide: Optional[str] = "strip",
+    waveguide: StrOrDict = "strip",
     route_filter=None,
     **waveguide_settings,
 ) -> Route:
@@ -134,7 +134,8 @@ def get_route_from_waypoints(
         waveguide_settings
     """
 
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    x = get_cross_section(waveguide, **waveguide_settings)
+    waveguide_settings = x.info
     auto_widen = waveguide_settings.get("auto_widen", False)
     width1 = waveguide_settings.get("width")
     width2 = waveguide_settings.get("width_wide") if auto_widen else width1

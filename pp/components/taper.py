@@ -5,7 +5,7 @@ from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.config import TECH
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.port import Port
 from pp.types import Number
 
@@ -17,7 +17,7 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -39,8 +39,7 @@ def taper(
       c.plot()
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -60,7 +59,7 @@ def taper(
     c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
-    c.waveguide_settings = waveguide_settings
+    c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

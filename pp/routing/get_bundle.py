@@ -16,8 +16,9 @@ from numpy import ndarray
 import pp
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
+from pp.components.straight import straight
 from pp.config import TECH
-from pp.cross_section import get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.port import Port
 from pp.routing.get_bundle_corner import get_bundle_corner
 from pp.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
@@ -35,11 +36,12 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
+    straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
     start_straight: float = 0.01,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
@@ -83,7 +85,8 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    x = get_cross_section(waveguide, **waveguide_settings)
+    waveguide_settings = x.info
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)

@@ -2,7 +2,7 @@ import pp
 from pp.add_padding import add_padding
 from pp.component import Component
 from pp.components.taper import taper as taper_function
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import get_cross_section
 from pp.types import ComponentFactory
 
 
@@ -52,8 +52,7 @@ def mmi1x2(
         length_taper
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -63,7 +62,7 @@ def mmi1x2(
     w_taper = width_taper
 
     taper = taper(
-        length=length_taper, width1=width, width2=w_taper, **waveguide_settings
+        length=length_taper, width1=width, width2=w_taper, waveguide=waveguide, **kwargs
     )
 
     a = gap_mmi / 2 + width_taper / 2

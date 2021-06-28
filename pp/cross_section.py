@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 import dataclasses
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Dict, Iterable, Optional, Tuple, Union
 
 from phidl.device_layout import CrossSection
 
@@ -13,70 +13,68 @@ from pp.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
-
-# WAVEGUIDE_SETTINGS = dict(
-#     width=0.5,
-#     layer=(1, 0),
-#     width_wide=None,
-#     auto_widen=True,
-#     auto_widen_minimum_length=200,
-#     taper_length=10.0,
-#     radius=10.0,
-#     cladding_offset=3.0,
-#     layer_cladding=None,
-#     layers_cladding=None,
-#     sections=None,
-#     port_names=('in', 'out')
-# )
+StrOrDict = Union[str, Dict]
 
 
-def get_waveguide_settings(waveguide: Optional[str] = None, **kwargs) -> Dict[str, Any]:
-    """Returns waveguide settings from TECH.waveguide"""
-    if waveguide:
-        waveguide_settings = getattr(TECH.waveguide, waveguide)
-        waveguide_settings = dataclasses.asdict(waveguide_settings)
-        if not waveguide_settings:
-            raise ValueError(f"no waveguide_settings found for {waveguide}")
+def get_cross_section(waveguide: StrOrDict, **kwargs) -> CrossSection:
+    """Returns CrossSection from a string from TECH.waveguide or from a dict."""
+    if isinstance(waveguide, str):
+        settings = getattr(TECH.waveguide, waveguide)
+        settings = dataclasses.asdict(settings)
+        if not settings:
+            raise ValueError(f"no settings found for {waveguide}")
+    elif isinstance(waveguide, dict):
+        settings = waveguide.copy()
     else:
-        waveguide_settings = {}
+        raise ValueError(
+            f"{waveguide} needs to be a string or dict, got {type(waveguide)}"
+        )
 
-    # for key in kwargs:
-    #     if key not in WAVEGUIDE_SETTINGS:
-    #         raise ValueError(
-    #             f"waveguide setting '{key}' not in {list(WAVEGUIDE_SETTINGS.keys())}"
-    #         )
+    settings.update(**kwargs)
+    return cross_section(**settings)
 
-    waveguide_settings.update(**kwargs)
-    return waveguide_settings
+
+def get_waveguide_settings(waveguide: StrOrDict, **kwargs):
+    x = get_cross_section(waveguide, **kwargs)
+    return x.info
 
 
 def cross_section(
     width: float = 0.5,
-    layer: Tuple[int, int] = (1, 0),
+    layer: Optional[Tuple[int, int]] = (1, 0),
     width_wide: Optional[float] = None,
     auto_widen: bool = True,
-    auto_widen_minimum_length: float = 200,
+    auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
-    radius=10.0,
+    radius: float = 10.0,
     cladding_offset: float = 3.0,
     layer_cladding: Optional[Layer] = None,
-    layers_cladding: Optional[Tuple[Layer]] = None,
-    sections: Optional[Tuple[Section]] = None,
+    layers_cladding: Optional[Tuple[Layer, ...]] = None,
+    sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("W0", "E0"),
 ) -> CrossSection:
     """Returns CrossSection from TECH.waveguide settings."""
 
     x = CrossSection()
 
-    x.add(width=width, offset=0, layer=layer, ports=port_names)
+    if layer:
+        x.add(width=width, offset=0, layer=layer, ports=port_names)
 
-    if sections:
-        for section in sections:
+    sections = sections or []
+    for section in sections:
+        if isinstance(section, dict):
             x.add(
                 width=section["width"],
                 offset=section["offset"],
                 layer=section["layer"],
                 ports=section["ports"],
+            )
+        else:
+            x.add(
+                width=section.width,
+                offset=section.offset,
+                layer=section.layer,
+                ports=section.ports,
             )
 
     x.info = dict(

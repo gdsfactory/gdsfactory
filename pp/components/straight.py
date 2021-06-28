@@ -1,10 +1,9 @@
 """Straight waveguide."""
-from typing import Optional
 
 from pp.add_padding import get_padding_points
 from pp.cell import cell_with_validator
 from pp.component import Component
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.path import extrude
 from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
@@ -14,7 +13,7 @@ from pp.snap import snap_to_grid
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    waveguide: Optional[str] = "strip",
+    waveguide: StrOrDict = "strip",
     with_cladding_box: bool = True,
     **kwargs
 ) -> Component:
@@ -25,16 +24,13 @@ def straight(
         npoints: number of points
         waveguide: from TECH.waveguide
         with_cladding_box: square in layers_cladding to remove DRC
-        kwargs: waveguide_settings
-
     """
     p = straight_path(length=length, npoints=npoints)
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     c = extrude(p, x)
     c.length = snap_to_grid(length)
     c.width = x.info["width"]
-    c.waveguide_settings = waveguide_settings
+    c.waveguide_settings = x.info
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
         cladding_offset = x.info["cladding_offset"]
@@ -50,10 +46,16 @@ def straight(
 
 
 if __name__ == "__main__":
+    from pp.tech import Section
 
     # c = straight(width=2.0)
     # c = straight(waveguide="metal_routing")
-    c = straight(waveguide="strip_heater_single", length=3)
+    # c = straight(waveguide="strip_heater_single", width=3)
+
+    wg = dict(width=0.2, sections=(Section(width=3, layer=(2, 0)),))
+
+    c = straight(waveguide=wg, width=2.2)
+
     # print(c.name)
     # c.pprint()
 

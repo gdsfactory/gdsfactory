@@ -3,7 +3,7 @@ from typing import Optional
 import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import get_cross_section
 from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 
@@ -54,8 +54,7 @@ def bend_euler(
       c.plot()
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     radius = x.info["radius"]
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
@@ -66,7 +65,7 @@ def bend_euler(
     c.radius_min = p.info["Rmin"]
     c.radius = radius
     c.layer = x.info["layer"]
-    c.waveguide_settings = waveguide_settings
+    c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

@@ -2,7 +2,7 @@ from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bezier import bezier
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.port import auto_rename_ports
 
 
@@ -12,7 +12,7 @@ def bend_s(
     length: float = 10.0,
     nb_points: int = 99,
     with_cladding_box: bool = True,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs,
 ) -> Component:
     """S bend with bezier curve
@@ -35,8 +35,7 @@ def bend_s(
 
     """
     l, h = length, height
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     width = x.info["width"]
     layer = x.info["layer"]
 
