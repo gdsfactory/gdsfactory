@@ -3,7 +3,7 @@ import numpy as np
 
 import pp
 from pp.component import Component
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 
 
 @pp.cell_with_validator
@@ -15,7 +15,7 @@ def free_propagation_region(
     inputs: int = 1,
     outputs: int = 10,
     wg_margin: float = 1.0,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs,
 ) -> Component:
     r"""
@@ -32,8 +32,7 @@ def free_propagation_region(
     """
     y1 = width1 / 2
     y2 = width2 / 2
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     o = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]

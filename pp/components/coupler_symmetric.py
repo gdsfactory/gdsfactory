@@ -1,7 +1,7 @@
 import pp
 from pp.component import Component
 from pp.components.bend_s import bend_s
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory
 
 
@@ -11,7 +11,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs,
 ) -> Component:
     r"""Two coupled straights with bends.
@@ -37,14 +37,14 @@ def coupler_symmetric(
                              E0
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width) / 2,
             length=dx,
-            **waveguide_settings,
+            waveguide=waveguide,
+            **kwargs,
         )
         if callable(bend)
         else bend

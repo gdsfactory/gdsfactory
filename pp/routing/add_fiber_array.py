@@ -6,6 +6,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from pp.components.straight import straight
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.tech import FACTORY, Factory
@@ -16,6 +17,7 @@ from pp.types import ComponentFactory, StrOrDict
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
+    straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
@@ -112,6 +114,7 @@ def add_fiber_array(
         component=c,
         grating_coupler=grating_coupler,
         bend_factory=bend_factory,
+        straight_factory=straight_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,
         get_input_labels_function=get_input_labels_function,

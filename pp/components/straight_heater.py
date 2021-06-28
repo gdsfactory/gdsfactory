@@ -9,7 +9,7 @@ from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
 from pp.components.hline import hline
 from pp.components.straight import straight
-from pp.cross_section import get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.layers import LAYER
 from pp.port import Port, auto_rename_ports
 from pp.types import ComponentFactory, Layer, Number
@@ -108,7 +108,7 @@ def straight_heater(
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     straight_factory: ComponentFactory = straight,
     layer_trench: Optional[Tuple[int, int]] = LAYER.DEEPTRENCH,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> Component:
     """Waveguide with heater on both sides and trenches.
@@ -143,7 +143,8 @@ def straight_heater(
     """
     c = Component()
     _heater = heater(length=length, width=heater_width, layer_heater=layer_heater)
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    x = get_cross_section(waveguide, **waveguide_settings)
+    waveguide_settings = x.info
     width = waveguide_settings["width"]
 
     y_heater = heater_spacing + (width + heater_width) / 2

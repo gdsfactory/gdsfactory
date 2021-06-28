@@ -1,11 +1,11 @@
 connections:
-  bend_euler_f79f8bba_71p625_4p0,N0: straight_c9384a86_75p0_50p625,W0
-  bend_euler_f79f8bba_71p625_4p0,W0: straight_455a5869_38p75_0p625,E0
-  bend_euler_f79f8bba_78p375_97p25,N0: mmi_long,E0
-  bend_euler_f79f8bba_78p375_97p25,W0: straight_c9384a86_75p0_50p625,E0
-  mmi_short,E1: straight_455a5869_38p75_0p625,W0
+  bend_euler_ada82c25_71p625_4p0,N0: straight_b61ff999_75p0_50p625,W0
+  bend_euler_ada82c25_71p625_4p0,W0: straight_af674174_38p75_0p625,E0
+  bend_euler_ada82c25_78p375_97p25,N0: mmi_long,E0
+  bend_euler_ada82c25_78p375_97p25,W0: straight_b61ff999_75p0_50p625,E0
+  mmi_short,E1: straight_af674174_38p75_0p625,W0
 instances:
-  bend_euler_f79f8bba_71p625_4p0:
+  bend_euler_ada82c25_71p625_4p0:
     component: bend_euler
     settings:
       angle: 90
@@ -25,14 +25,14 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      sections: null
+      sections: []
       taper_length: 10
       waveguide: strip
       width: 0.5
       width_wide: 2
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_f79f8bba_78p375_97p25:
+  bend_euler_ada82c25_78p375_97p25:
     component: bend_euler
     settings:
       angle: 90
@@ -52,7 +52,7 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      sections: null
+      sections: []
       taper_length: 10
       waveguide: strip
       width: 0.5
@@ -81,7 +81,7 @@ instances:
       width_mmi: 4.5
       width_taper: 1
       with_cladding_box: true
-  straight_455a5869_38p75_0p625:
+  straight_af674174_38p75_0p625:
     component: straight
     settings:
       auto_widen: true
@@ -99,13 +99,13 @@ instances:
       length: 52.5
       npoints: 2
       radius: 10
-      sections: null
+      sections: []
       taper_length: 10
       waveguide: strip
       width: 0.5
       width_wide: 2
       with_cladding_box: true
-  straight_c9384a86_75p0_50p625:
+  straight_b61ff999_75p0_50p625:
     component: straight
     settings:
       auto_widen: true
@@ -123,7 +123,7 @@ instances:
       length: 80
       npoints: 2
       radius: 10
-      sections: null
+      sections: []
       taper_length: 10
       waveguide: strip
       width: 0.5
@@ -131,12 +131,12 @@ instances:
       with_cladding_box: true
 name: mmis
 placements:
-  bend_euler_f79f8bba_71p625_4p0:
+  bend_euler_ada82c25_71p625_4p0:
     mirror: false
     rotation: 0
     x: 65.0
     y: 0.625
-  bend_euler_f79f8bba_78p375_97p25:
+  bend_euler_ada82c25_78p375_97p25:
     mirror: true
     rotation: 90
     x: 75.0
@@ -151,12 +151,12 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_455a5869_38p75_0p625:
+  straight_af674174_38p75_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_c9384a86_75p0_50p625:
+  straight_b61ff999_75p0_50p625:
     mirror: false
     rotation: 90
     x: 75.0

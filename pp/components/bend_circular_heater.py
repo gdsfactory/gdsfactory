@@ -1,7 +1,7 @@
 import pp
 from pp.component import Component
 from pp.config import TECH
-from pp.cross_section import cross_section, get_waveguide_settings
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
@@ -14,7 +14,7 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater=TECH.layer.HEATER,
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
@@ -28,8 +28,7 @@ def bend_circular_heater(
         width: straight width (defaults to tech.wg_width)
         tech: Technology
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    x = cross_section(**waveguide_settings)
+    x = get_cross_section(waveguide, **kwargs)
     width = x.info["width"]
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
