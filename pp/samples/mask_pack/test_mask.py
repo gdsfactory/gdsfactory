@@ -2,12 +2,10 @@
 This is a sample on how to define custom components.
 You can make a repo out of this file, having one custom component per file
 """
-import os
 import shutil
 from pathlib import Path
 
 import numpy as np
-import pytest
 
 import pp
 from pp.add_termination import add_gratings_and_loop_back
@@ -82,25 +80,12 @@ def spiral_tm(width=0.5, length=20e3):
     return cc
 
 
-@pytest.fixture
-def cleandir():
-    build_folder = CONFIG["samples_path"] / "mask_custom" / "build"
-    if build_folder.exists():
-        shutil.rmtree(build_folder)
-
-
-@pytest.fixture
-def chdir():
-    workspace_folder = CONFIG["samples_path"] / "mask_custom"
-    os.chdir(workspace_folder)
-
-
-@pytest.mark.usefixtures("cleandir")
 def test_mask(precision: float = 1e-9) -> Path:
     workspace_folder = CONFIG["samples_path"] / "mask_pack"
     build_path = workspace_folder / "build"
     mask_path = build_path / "mask"
 
+    shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
