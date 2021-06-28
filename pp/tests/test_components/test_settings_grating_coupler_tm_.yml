@@ -3,7 +3,7 @@ info:
   polarization: tm
   wavelength: 1530
 module: pp.components.grating_coupler.elliptical_trenches
-name: grating_coupler_elliptic_34b21071
+name: grating_coupler_ellipti_34b21071
 settings:
   fiber_angle: 15
   fiber_marker_layer:

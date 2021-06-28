@@ -3,7 +3,7 @@ info:
   polarization: te
   wavelength: 1500
 module: pp.components.grating_coupler.uniform_optimized
-name: grating_coupler_uniform__e375a9fe
+name: grating_coupler_uniform_e375a9fe
 settings:
   layer:
   - 1

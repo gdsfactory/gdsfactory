@@ -126,6 +126,7 @@ def grating_coupler_elliptical2(
 
 if __name__ == "__main__":
 
-    c = grating_coupler_elliptical2()
+    c = grating_coupler_elliptical2(length=31, taper_length=30)
+    print(len(c.name))
     print(c.ports)
     c.show()

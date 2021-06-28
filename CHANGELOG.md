@@ -30,6 +30,7 @@ from contracts import contract
 - pp.add_tapers.add_tapers can accept taper port names
 - add_tapers, add_fiber_array, add_fiber_single accepts taper with StrOrDict
 - components accept waveguide StrOrDict
+- some names were having 33 characters, fixed max characters name
 
 ## 2.5.4
 
