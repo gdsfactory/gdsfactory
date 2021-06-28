@@ -22,6 +22,11 @@ from contracts import contract
 
 ```
 
+## 2.5.6
+
+- better error messages for off-grid ports, add suggestions for fixes
+- Component.validator `assert len(name) <= MAX_NAME_LENGTH`
+
 ## 2.5.5
 
 - update to omegaconf=2.1.0

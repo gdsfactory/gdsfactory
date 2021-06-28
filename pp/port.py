@@ -174,20 +174,34 @@ class Port(PortPhidl):
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
     def assert_on_grid(self, nm: int = 1) -> None:
+        half_width = self.width / 2
+        half_width_correct = snap_to_grid(half_width, nm=nm)
+        if not np.isclose(half_width, half_width_correct):
+            self.parent.show(show_ports=True)
+            raise ValueError(
+                f"{self.name} port in {self.parent.name} width = {self.width} will create off-grid points",
+                f"you can fix it by changing width to {half_width_correct}",
+            )
 
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
-            assert np.isclose(
-                snap_to_grid(x, nm=nm), x
-            ), f"{self.parent} port {self.name} has an off-grid point {x}"
+            if not np.isclose(snap_to_grid(x, nm=nm), x):
+                self.parent.show(show_ports=True)
+                raise ValueError(
+                    f"{self.name} port in {self.parent.name} has an off-grid point {x}",
+                    f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
+                )
         elif self.orientation in [90, 270]:
             x = self.x + self.width / 2
-            assert np.isclose(
-                snap_to_grid(x, nm=nm), x
-            ), f"{self.parent} port {self.name} has an off-grid point {x}"
+            if not np.isclose(snap_to_grid(x, nm=nm), x):
+                self.parent.show(show_ports=True)
+                raise ValueError(
+                    f"{self.name} port in {self.parent.name} has an off-grid point {x}",
+                    f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
+                )
         else:
             raise ValueError(
-                f"{self.parent} port {self.name} has invalid orientation"
+                f"{self.parent.name} port {self.name} has invalid orientation"
                 f" {self.orientation}"
             )
 
