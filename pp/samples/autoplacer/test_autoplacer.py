@@ -22,7 +22,6 @@ config_path = gdspath.with_suffix(".yml")
 json_path = gdspath.with_suffix(".json")
 test_metadata_path = gdspath.with_suffix(".tp.json")
 logpath = gdspath.with_suffix(".log")
-logger.add(sink=logpath)
 
 
 @pytest.fixture
@@ -38,6 +37,7 @@ def test_autoplacer():
     # Map the component factory names in the YAML file to the component factory
     name2factory = {"spiral": spiral}
 
+    logger.add(sink=logpath)
     logger.info("writring does to", doe_root_path)
     generate_does(
         str(config_yml),

@@ -1,7 +1,7 @@
 function_name: add_electrical_pads_shortest
 info: {}
 module: pp.routing.add_electrical_pads_shortest
-name: add_electrical_pads_shor_1882c15b
+name: add_electrical_pads_sho_1882c15b
 settings:
   component:
     function_name: mzi2x2

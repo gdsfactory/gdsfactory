@@ -172,7 +172,7 @@ def get_name(component_type: str, name: str) -> str:
         raise ValueError(f"{component_type} needs to be a string")
     if len(name) > MAX_NAME_LENGTH:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{component_type[:(MAX_NAME_LENGTH - 8)]}_{name_hash}"
+        name = f"{component_type[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
     return clean_name(name)
 
 
