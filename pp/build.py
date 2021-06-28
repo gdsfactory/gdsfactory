@@ -10,13 +10,13 @@ from multiprocessing import Pool
 from subprocess import PIPE, Popen, check_call
 
 from pp.components import component_factory
-from pp.config import CONFIG, logging
+from pp.config import CONFIG, logger
 from pp.doe import load_does
 
 
 def run_python(filename):
-    """ Run a python script and keep track of some context """
-    logging.debug("Running `{}`.".format(filename))
+    """Run a python script and keep track of some context"""
+    logger.debug("Running `{}`.".format(filename))
     command = ["python", filename]
 
     # Run the process
@@ -25,20 +25,20 @@ def run_python(filename):
     stdout, _ = process.communicate()
     total_time = time.time() - t
     if process.returncode == 0:
-        logging.info("v {} ({:.1f}s)".format(os.path.relpath(filename), total_time))
+        logger.info("v {} ({:.1f}s)".format(os.path.relpath(filename), total_time))
     else:
-        logging.info(
+        logger.info(
             "! Error in {} {:.1f}s)".format(os.path.relpath(filename), total_time)
         )
         # message = "! Error in `{}`".format(basename(filename))
-        # logging.error(message, exc_info=(Exception, stderr.strip(), None))
+        # logger.error(message, exc_info=(Exception, stderr.strip(), None))
     if len(stdout.decode().strip()) > 0:
-        logging.debug("Output of python {}:\n{}".format(filename, stdout.strip()))
+        logger.debug("Output of python {}:\n{}".format(filename, stdout.strip()))
     return filename, process.returncode
 
 
 def build_devices(regex=".*", overwrite=True):
-    """ Builds all the python files in devices/ """
+    """Builds all the python files in devices/"""
     # Avoid accidentally rebuilding devices
     if (
         os.path.isdir(CONFIG["gds_directory"])
@@ -59,12 +59,12 @@ def build_devices(regex=".*", overwrite=True):
     all_files = [f for f in all_files if re.search(regex, f)]
 
     # Notify user
-    logging.info(
+    logger.info(
         "Building splits on {} threads. {} files to run.".format(
             multiprocessing.cpu_count(), len(all_files)
         )
     )
-    logging.info(
+    logger.info(
         "Debug information at {}".format(
             os.path.relpath(os.path.join(CONFIG["log_directory"], "debug.log"))
         )
@@ -73,28 +73,28 @@ def build_devices(regex=".*", overwrite=True):
     # Now run all the files in batches of $CPU_SIZE.
     with Pool(processes=multiprocessing.cpu_count()) as pool:
         for filename, rc in pool.imap_unordered(run_python, all_files):
-            logging.debug("Finished {} {}".format(filename, rc))
+            logger.debug("Finished {} {}".format(filename, rc))
 
     # Report on what we did.
     devices = glob(os.path.join(CONFIG["gds_directory"], "*.gds"))
     countmsg = "There are now {} GDS files in {}.".format(
         len(devices), os.path.relpath(CONFIG["gds_directory"])
     )
-    logging.info("Finished building devices. {}".format(countmsg))
+    logger.info(f"Finished building devices. {countmsg}")
 
 
 def build_clean():
-    """ Cleans generated files such as build/. """
+    """Cleans generated files such as build/."""
     target = CONFIG["build_directory"]
     if os.path.exists(target):
         shutil.rmtree(target)
-        print(("Deleted {}".format(os.path.abspath(target))))
+        logger.info(f"Deleted {target}")
 
 
 def build_cache_pull():
-    """ Pull devices from the cache """
+    """Pull devices from the cache"""
     if CONFIG.get("cache_url"):
-        logging.info("Loading devices from cache...")
+        logger.info("Loading devices from cache...")
         check_call(
             [
                 "rsync",
@@ -107,13 +107,13 @@ def build_cache_pull():
 
 
 def build_cache_push():
-    """ Push devices to the cache """
+    """Push devices to the cache"""
     if not os.listdir(CONFIG["build_directory"]):
-        logging.info("Nothing to push")
+        logger.info("Nothing to push")
         return
 
     if CONFIG.get("cache_url"):
-        logging.info("Uploading devices to cache...")
+        logger.info("Uploading devices to cache...")
         check_call(
             [
                 "rsync",
@@ -144,7 +144,7 @@ def _build_doe(doe_name, config, component_factory=component_factory):
 
 
 def build_does(filepath, component_factory=component_factory):
-    """ this function is depreacted
+    """this function is depreacted
 
     Writes DOE settings from config.yml file and writes GDS into build_directory
 
