@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Iterator, Tuple
 
 import klayout.db as pya
+from loguru import logger
 
 from pp import LAYER
 from pp.routing.add_fiber_single import add_fiber_single
@@ -16,7 +17,7 @@ from pp.routing.add_fiber_single import add_fiber_single
 def find_labels(
     gdspath: Path, label_layer: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
-    """ finds labels and locations from a GDS file """
+    """finds labels and locations from a GDS file"""
     # Load the layout
     gdspath = str(gdspath)
     layout = pya.Layout()
@@ -57,7 +58,7 @@ def write_labels(
     with open(csv_filename, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    print(f"Wrote {csv_filename}")
+    logger.info(f"Wrote {csv_filename}")
 
 
 def test_find_labels():
