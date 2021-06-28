@@ -588,11 +588,8 @@ class Component(Device):
     def validate(cls, v):
         assert (
             len(v.name) < MAX_NAME_LENGTH
-        ), f"name `{v.name}` {len(v.name) > MAX_NAME_LENGTH} "
-        assert getattr(v, "references") or getattr(
-            v, "polygons"
-        ), f"No references or  polygons in {v.name}"
-
+        ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
+        assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
 
     def plot_netlist(
