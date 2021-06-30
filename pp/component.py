@@ -879,10 +879,7 @@ class Component(Device):
 
         if port:
             if not isinstance(port, Port):
-                raise ValueError(
-                    f"[PHIDL] add_port({type(port)}) error: Argument `port` must be a Port for"
-                    " copying"
-                )
+                raise ValueError(f"add_port() needs a Port, got {type(port)}")
             p = port._copy(new_uid=True)
             if name is not None:
                 p.name = name
@@ -1060,7 +1057,7 @@ class Component(Device):
 
     def show(
         self,
-        show_ports: bool = False,
+        show_ports: bool = True,
         clears_cache: bool = True,
         show_subports: bool = False,
     ) -> None:

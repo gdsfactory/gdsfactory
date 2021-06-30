@@ -544,18 +544,8 @@ def test_select_ports_type() -> None:
 
 
 if __name__ == "__main__":
-    test_select_ports_type()
-
     import pp
 
-    c = pp.c.straight()
-    p = c.ports["E0"]
-    print(p.settings)
-
-    # name = "straight_with_pins"
-    # gdspath = pp.CONFIG["gdsdir"] / f"{name}.gds"
-    # csvpath = pp.CONFIG["gdsdir"] / f"{name}.ports"
-    # pp.show(gdspath)
-    # c = read_port_markers(gdspath)
-    # p = csv2port(csvpath)
-    # print(p)
+    c = pp.Component()
+    wg = c << pp.c.straight()
+    c.show()

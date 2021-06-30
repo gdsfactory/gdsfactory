@@ -1,14 +1,14 @@
-from typing import Tuple, Union
-
-from numpy import array
+from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
 
+Coordinate = Tuple[float, float]
+
 
 @cell
 def bbox(
-    bbox: Union[array, Tuple[Tuple[float]]] = ((-1.0, -1.0), (3.0, 4.0)),
+    bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
     layer: Tuple[int, int] = (1, 0),
 ) -> Component:
     """Returns bounding box rectangle from coordinates, to allow

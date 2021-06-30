@@ -1,35 +1,33 @@
 from typing import Optional
 
+import numpy as np
+
 import pp
-from pp.cell import cell
-from pp.components.bend_euler import bend_euler, bend_euler_s
-from pp.components.mmi1x2 import mmi1x2 as mmi1x2_function
-from pp.cross_section import get_waveguide_settings
-from pp.types import ComponentFactory
+from pp.tech import FACTORY, Factory
+from pp.types import StrOrDict
 
 
-@cell
+@pp.cell_with_validator
 def splitter_tree(
-    coupler: ComponentFactory = mmi1x2_function,
+    coupler: StrOrDict = "mmi1x2",
     noutputs: int = 4,
-    dy: Optional[float] = None,
-    dy_extra: float = 0.0,
-    dx: float = 50.0,
-    bend_factory: ComponentFactory = bend_euler,
-    bend_s: ComponentFactory = bend_euler_s,
+    dy: float = 50.0,
+    dx: float = 90.0,
+    bend_s: Optional[StrOrDict] = "bend_s",
     waveguide: str = "strip",
+    factory: Factory = FACTORY,
     **kwargs,
 ) -> pp.Component:
     """Tree of 1x2 splitters
 
     Args:
-        coupler: 1x2 coupler factory
+        coupler: 1x2 coupler factory name or dict
         noutputs:
         dx: x spacing between couplers
-        dy: y spacing for outputs
-        dy_extra: extra y dy for outputs
-        bend_factory:
-        bend_s: factory for terminating ports
+        dy: y spacing between couplers
+        bend_s: Sbend factory name or dict for termination
+        waveguide: waveguide
+        kwargs: waveguide_settings
 
     .. code::
 
@@ -43,80 +41,88 @@ def splitter_tree(
     """
     c = pp.Component()
 
-    coupler = pp.call_if_func(coupler, waveguide=waveguide, **kwargs)
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    radius = waveguide_settings.get("radius")
-    bend90 = bend_factory(radius=radius)
-    coupler_ref = c.add_ref(coupler)
-    dy = dy or bend90.dy * noutputs
-    dy += dy_extra
-
-    if noutputs > 2:
-        c2 = splitter_tree(
-            coupler=coupler,
-            noutputs=noutputs // 2,
-            dy=dy / 2,
-            dx=dx,
-            bend_factory=bend_factory,
-            waveguide=waveguide,
-            dy_extra=dy_extra,
-            **waveguide_settings,
+    coupler = factory.get_component(coupler, waveguide=waveguide, **kwargs)
+    if bend_s:
+        dy_coupler_ports = abs(
+            coupler.ports["E0"].midpoint[1] - coupler.ports["E1"].midpoint[1]
         )
-    else:
-        c2 = bend_s(radius=dy / 2, waveguide=waveguide)
-
-    if dy < 3 * radius:
-        tree_top = c2.ref(port_id="W0", position=coupler_ref.ports["E1"])
-        tree_bot = c2.ref(port_id="W0", position=coupler_ref.ports["E0"], v_mirror=True)
-
-    else:
-        tree_top = c2.ref(
-            port_id="W0", position=coupler_ref.ports["E1"].position + (dx, dy)
+        height = dy / 4 - dy_coupler_ports / 2
+        bend_s = factory.get_component(
+            bend_s, waveguide=waveguide, length=dx, height=height, **kwargs
         )
-        tree_bot = c2.ref(
-            port_id="W0",
-            position=coupler_ref.ports["E0"].position + (dx, -dy),
-            v_mirror=False,  # True,
-        )
-
-        c.add(
-            pp.routing.get_route(
-                coupler.ports["E1"],
-                tree_top.ports["W0"],
-                bend_factory=bend_factory,
-                **waveguide_settings,
-            ).references
-        )
-        c.add(
-            pp.routing.get_route(
-                coupler.ports["E0"],
-                tree_bot.ports["W0"],
-                bend_factory=bend_factory,
-                **waveguide_settings,
-            ).references
-        )
-
+    cols = int(np.log2(noutputs))
     i = 0
-    for p in pp.port.get_ports_facing(tree_bot, "E"):
-        c.add_port(name=f"E{i}", port=p)
-        i += 1
 
-    for p in pp.port.get_ports_facing(tree_top, "E"):
-        c.add_port(name=f"E{i}", port=p)
-        i += 1
+    for col in range(cols):
+        ncouplers = int(2 ** col)
+        y0 = -0.5 * dy * 2 ** (cols - 1)
+        for row in range(ncouplers):
+            x = col * dx
+            y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
+            coupler_ref = c.add_ref(coupler)
+            coupler_ref.move((x, y))
+            c.aliases[f"coupler_{col}_{row}"] = coupler_ref
+            if col == 0:
+                for port in coupler_ref.get_ports_list():
+                    if port.name not in ["E0", "E1"]:
+                        c.add_port(name=f"{port.name}_{i}", port=port)
+                        i += 1
+            if col > 0 and row % 2 == 0:
+                port_name = "E0"
+            if col > 0 and row % 2 == 1:
+                port_name = "E1"
+            if col > 0:
+                c.add(
+                    pp.routing.get_route(
+                        c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
+                        coupler_ref.ports["W0"],
+                        waveguide=waveguide,
+                        **kwargs,
+                    ).references
+                )
+            if cols > col > 0:
+                for port in coupler_ref.get_ports_list():
+                    if port.name not in ["W0", "E0", "E1"]:
+                        c.add_port(name=f"{port.name}_{i}", port=port)
+                        i += 1
+            if col == cols - 1 and bend_s is None:
+                for port in coupler_ref.get_ports_list():
+                    if port.name != "W0":
+                        c.add_port(name=f"{port.name}_{i}", port=port)
+                        i += 1
+            if col == cols - 1 and bend_s:
+                btop = c << bend_s
+                bbot = c << bend_s
+                bbot.mirror()
+                btop.connect("W0", coupler_ref.ports["E1"])
+                bbot.connect("W0", coupler_ref.ports["E0"])
+                c.add_port(name=f"E_{i}", port=btop.ports["E0"])
+                i += 1
+                c.add_port(name=f"E_{i}", port=bbot.ports["E0"])
+                i += 1
 
-    c.add(tree_bot)
-    c.add(tree_top)
-    c.add_port(name="W0", port=coupler_ref.ports["W0"])
-    c.dy = dy
     return c
 
 
-if __name__ == "__main__":
+def test_splitter_tree_ports():
     c = splitter_tree(
-        coupler=pp.components.mmi1x2,
-        noutputs=128 * 2,
+        coupler="mmi2x2",
+        noutputs=4,
         waveguide="nitride",
     )
+    assert len(c.ports) == 8
+
+
+if __name__ == "__main__":
+
+    c = splitter_tree(
+        coupler=dict(component="mmi2x2", gap_mmi=2),
+        # noutputs=128 * 2,
+        noutputs=2 ** 3,
+        # waveguide="nitride",
+        bend_s=None,
+    )
     print(len(c.ports))
+    # for port in c.get_ports_list():
+    #     print(port)
     c.show()

@@ -4,6 +4,8 @@
 - assert units are in arbitrary dbu (database units)
 
 """
+from typing import Iterable, Union
+
 wm = 1e-9
 wm_min = 0.9e-9  # 1nm
 wm_max = 999e-9  # 1um
@@ -13,19 +15,19 @@ wum_min = wm_min * 1e6
 wum_max = wm_max * 1e6
 
 
-def assert_um(w):
+def assert_um(w: Union[float, Iterable]) -> None:
     if hasattr(w, "__iter__"):
         w = w[0]
     assert wum_min < w < wum_max, f"are you sure `{w}` is in um?"
 
 
-def assert_m(w):
+def assert_m(w: Union[float, Iterable]) -> None:
     if hasattr(w, "__iter__"):
         w = w[0]
     assert wm_min < w < wm_max, f"are you sure `{w}` is in m?"
 
 
-def assert_dbu(value, dbu=1e-3):
+def assert_dbu(value: Union[float, Iterable], dbu: float = 1e-3) -> None:
     if hasattr(value, "__iter__"):
         value = value[0]
     assert (
