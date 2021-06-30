@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, Optional
 
 from pp.cell import cell_with_validator
 from pp.component import Component
@@ -44,7 +44,7 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_list: List[str] = ["N"],
+    port_list: Iterable[str] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -61,6 +61,7 @@ def pad_array(
     c = Component()
     pad_settings = pad_settings or {}
     pad = pad(**pad_settings) if callable(pad) else pad
+    port_list = list(port_list)
 
     for i in range(n):
         p = c << pad
@@ -79,7 +80,7 @@ def pad_array_2d(
     pitch_y: float = 150.0,
     cols: int = 3,
     rows: int = 3,
-    port_list: List[str] = ["N"],
+    port_list: Iterable[str] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -98,6 +99,7 @@ def pad_array_2d(
     c = Component()
     pad_settings = pad_settings or {}
     pad = pad(**pad_settings) if callable(pad) else pad
+    port_list = list(port_list)
 
     for j in range(rows):
         for i in range(cols):
@@ -118,6 +120,6 @@ if __name__ == "__main__":
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    c = pad_array()
+    c = pad_array(port_list=["E"])
     # c = pad_array_2d(cols=2, rows=3, port_list=("E",), pad_settings=dict(width=80))
     c.show()
