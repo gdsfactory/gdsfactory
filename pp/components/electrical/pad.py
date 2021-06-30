@@ -1,13 +1,13 @@
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
-from pp.cell import cell
+from pp.cell import cell_with_validator
 from pp.component import Component
 from pp.components.compass import compass
 from pp.layers import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 
-@cell
+@cell_with_validator
 def pad(
     width: float = 100.0,
     height: Optional[float] = None,
@@ -39,12 +39,12 @@ def pad(
     return c
 
 
-@cell
+@cell_with_validator
 def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_list: Iterable[str] = ("N",),
+    port_list: List[str] = ["N"],
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -72,14 +72,14 @@ def pad_array(
     return c
 
 
-@cell
+@cell_with_validator
 def pad_array_2d(
     pad: ComponentOrFactory = pad,
-    pitchx: float = 150.0,
-    pitchy: float = 150.0,
-    ncols: int = 3,
-    nrows: int = 3,
-    port_list: Tuple[str, ...] = ("N",),
+    pitch_x: float = 150.0,
+    pitch_y: float = 150.0,
+    cols: int = 3,
+    rows: int = 3,
+    port_list: List[str] = ["N"],
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
@@ -87,10 +87,10 @@ def pad_array_2d(
 
     Args:
         pad: pad element
-        pitchx: x spacing
-        pitchy: x spacing
-        ncols: number of cols
-        nrows: number of rows
+        pitch_x: horizontal x spacing
+        pitch_y: vertical y spacing
+        cols: number of cols
+        rows: number of rows
         port_list: list of port orientations (N, S, W, E) per pad
         pad_settings: settings for pad if pad is callable
         **port_settings
@@ -99,11 +99,11 @@ def pad_array_2d(
     pad_settings = pad_settings or {}
     pad = pad(**pad_settings) if callable(pad) else pad
 
-    for j in range(nrows):
-        for i in range(ncols):
+    for j in range(rows):
+        for i in range(cols):
             p = c << pad
-            p.x = i * pitchx
-            p.y = j * pitchy
+            p.x = i * pitch_x
+            p.y = j * pitch_y
             for port_name in port_list:
                 port_name_new = f"{port_name}_{j}_{i}"
                 c.add_port(port=p.ports[port_name], name=port_name_new, **port_settings)
@@ -113,11 +113,11 @@ def pad_array_2d(
 
 if __name__ == "__main__":
 
-    c = pad(layer_to_inclusion={(3, 0): 10})
+    # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    # c = pad_array()
-    # c = pad_array_2d(ncols=2, nrows=3, port_list=("E",), pad_settings=dict(width=80))
-    c.show(show_ports=True)
+    c = pad_array()
+    # c = pad_array_2d(cols=2, rows=3, port_list=("E",), pad_settings=dict(width=80))
+    c.show()

@@ -288,11 +288,13 @@ instances:
     t:
       component: pad_array
       settings:
-          port_list: ['S']
+          port_list:
+            - S
     b:
       component: pad_array
       settings:
-          port_list: ['N']
+          port_list:
+            - N
 
 placements:
     t:
@@ -594,7 +596,7 @@ def _demo_netlist():
     import pp
 
     # c = component_from_yaml(sample_2x2_connections)
-    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_waypoints)
     c = component_from_yaml(sample_different_factory)
     c.show()
     full_settings = True
@@ -608,7 +610,7 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = test_netlists("sample_different_link_factory", True, None, check=False)
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
@@ -625,4 +627,5 @@ if __name__ == "__main__":
 
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
+    c = component_from_yaml(sample_waypoints)
     c.show()

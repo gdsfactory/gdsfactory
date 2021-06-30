@@ -30,6 +30,8 @@ from contracts import contract
 - Component.show(show_ports=True) adds port names and pins by default (before show_ports=False)
 - splitter_tree, can also propages any extra ports of the coupler
 - add_ports_from_markers has an optional `port_layer` for the new created port.
+- component_settings = OmegaConf.to_container(component_settings, resolve=True)
+- pp.c.pad_array consistent parameters with pp.c.array (pitch_x)
 
 ## 2.5.6
 
