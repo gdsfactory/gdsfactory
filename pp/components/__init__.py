@@ -314,7 +314,7 @@ circuit_names = {
     "component_lattice",
 }
 
-__all__ = list(FACTORY.factory.keys()) + container_names
+__all__ = list(FACTORY.factory.keys()) + container_names + ["extend_ports_list"]
 component_factory = FACTORY.factory
 
 if __name__ == "__main__":

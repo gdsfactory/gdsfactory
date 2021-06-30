@@ -1,7 +1,7 @@
 import pp
 
 
-def test_get_ports():
+def test_get_ports() -> None:
     c = pp.components.mzi2x2(with_elec_connections=True)
 
     p = c.get_ports_dict()
