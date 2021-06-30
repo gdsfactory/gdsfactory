@@ -5,6 +5,7 @@ import pathlib
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
+import omegaconf
 from omegaconf import OmegaConf
 
 from pp.add_pins import add_instance_label
@@ -455,6 +456,11 @@ def component_from_yaml(
         ), f"{component_type} not in {list(component_factory.keys())}"
         component_settings = instance_conf.get("settings", {})
         component_settings.update(**kwargs)
+        component_settings = (
+            OmegaConf.to_container(component_settings, resolve=True)
+            if type(component_settings) in [omegaconf.DictConfig, omegaconf.ListConfig]
+            else component_settings
+        )
         ci = component_factory[component_type](**component_settings)
         ref = c << ci
         instances[instance_name] = ref
