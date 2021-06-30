@@ -21,6 +21,7 @@ def add_ports_from_markers_inside(*args, **kwargs) -> None:
 def add_ports_from_markers_square(
     component: Component,
     layer: Layer = pp.LAYER.PORTE,
+    port_layer: Optional[Layer] = None,
     port_type: "str" = "dc",
     orientation: int = 90,
     min_pin_area_um2: float = 0,
@@ -35,17 +36,19 @@ def add_ports_from_markers_square(
     Args:
         component: to read polygons from and to write ports to
         layer: for port markers
+        port_layer: for the new created port
         port_type: electrical, dc, optical
         orientation: orientation in degrees
             90: north, 0: east, 180: west, 270: south
-        pin_extra_width: 2*offset from pin to straight
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
+        max_pin_area_um2: ignore pins for area above certain size
+        pin_extra_width: 2*offset from pin to straight
         port_names: names of the ports (defaults to f"{port_type}_{i}")
 
     """
     port_markers = read_port_markers(component, [layer])
-
     port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
+    port_layer = port_layer or layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
         dy = pp.snap.snap_to_grid(p.ymax - p.ymin)
@@ -59,13 +62,14 @@ def add_ports_from_markers_square(
                 width=dx - pin_extra_width,
                 orientation=orientation,
                 port_type=port_type,
-                layer=layer,
+                layer=port_layer,
             )
 
 
 def add_ports_from_markers_center(
     component: Component,
     layer: Layer = pp.LAYER.PORT,
+    port_layer: Optional[Layer] = None,
     port_type: "str" = "optical",
     inside: bool = False,
     tol: float = 0.1,
@@ -80,13 +84,13 @@ def add_ports_from_markers_center(
     Args:
         component: to read polygons from and to write ports to
         layer: GDS layer for maker [int, int]
+        port_layer: for the new created port
         port_type: optical, dc, rf
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
         pin_extra_width: 2*offset from pin to straight
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
-        orientation_for_square_pins: electrical square points orientation in degrees
-            90: north, 0: east, 180: west, 270: south
+        max_pin_area_um2: ignore pins for area above certain size
 
     For the default center case (inside=False)
 
@@ -139,6 +143,7 @@ def add_ports_from_markers_center(
     ymin = component.ymin
 
     port_markers = read_port_markers(component, layers=(layer,))
+    port_layer = port_layer or layer
 
     for i, p in enumerate(port_markers.polygons):
         port_name = f"{port_type}_{i}"
@@ -205,14 +210,14 @@ def add_ports_from_markers_center(
             width=width - pin_extra_width,
             orientation=orientation,
             port_type=port_type,
-            layer=layer,
+            layer=port_layer,
         )
 
 
 # pytype: disable=bad-return-type
 def import_gds(
     gdspath: Union[str, Path],
-    cellname: None = None,
+    cellname: Optional[str] = None,
     flatten: bool = False,
     snap_to_grid_nm: Optional[int] = None,
 ) -> Component:

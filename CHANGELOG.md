@@ -6,13 +6,16 @@
 - waypoints define dx or dy for bends
 - enable difftest for test_containers
 - fix FIXMEs
-- enable add pins option in TECH that can add custom pins to components
+- replace cell with cell_with_validator
 - enable routing with 180euler bends, enable Sbend routing
 
 Maybe:
 
+- xdoctest
+- mypy passing
+- enable add pins option in TECH that can add custom pins to components
 - how can we have labels with gdslayer, gdspurpose? Phidl issue?
-- create a Klayout library so we can also place components from the klayout menu GUI
+- write function that generates GDS Klayout library
 - add contracts cell decorator
 
 ```
@@ -22,10 +25,16 @@ from contracts import contract
 
 ```
 
+## 2.5.7
+
+- Component.show(show_ports=True) adds port names and pins by default (before show_ports=False)
+- splitter_tree, can also propages any extra ports of the coupler
+- add_ports_from_markers has an optional `port_layer` for the new created port.
+
 ## 2.5.6
 
 - better error messages for off-grid ports, add suggestions for fixes
-- Component.validator `assert len(name) <= MAX_NAME_LENGTH`
+- Component.validator `assert len(name) <= MAX_NAME_LENGTH`, before `assert len(name) < MAX_NAME_LENGTH`
 
 ## 2.5.5
 
