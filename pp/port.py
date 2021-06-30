@@ -527,21 +527,24 @@ def auto_rename_ports(component: Device) -> Device:
     return component
 
 
-def test_select_ports_prefix() -> None:
-    import pp
-
-    c = pp.components.straight()
-    ports = c.get_ports_list(prefix="W")
-    assert len(ports) == 1
-
-
-def test_select_ports_type() -> None:
-    import pp
-
-    c = pp.components.mzi2x2(with_elec_connections=True)
-    ports = c.get_ports_list(port_type="dc")
-    assert len(ports) == 3
-
+__all__ = [
+    "Port",
+    "port_array",
+    "read_port_markers",
+    "csv2port",
+    "is_electrical_port",
+    "select_ports",
+    "select_ports_list",
+    "select_optical_ports",
+    "select_electrical_ports",
+    "flipped",
+    "move_copy",
+    "get_ports_facing",
+    "get_non_optical_ports",
+    "deco_rename_ports",
+    "rename_ports_by_orientation",
+    "auto_rename_ports",
+]
 
 if __name__ == "__main__":
     import pp
