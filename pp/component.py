@@ -19,7 +19,7 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
-from pp.config import __version__
+from pp.config import __version__, logger
 from pp.port import Port, select_ports, valid_port_types
 from pp.snap import snap_to_grid
 
@@ -866,10 +866,10 @@ class Component(Device):
         name: Optional[Union[str, int]] = None,
         midpoint: Tuple[float, float] = (
             0.0,
-            0,
+            0.0,
         ),
-        width: Number = 1,
-        orientation: Number = 45,
+        width: float = 1.0,
+        orientation: int = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
@@ -894,6 +894,13 @@ class Component(Device):
             p.parent = self
             name = p.name
         else:
+            half_width = width / 2
+            half_width_correct = snap_to_grid(half_width, nm=1)
+            if not np.isclose(half_width, half_width_correct):
+                logger.warning(
+                    f"port width = {width} will create off-grid points",
+                    f"you can fix it by changing width to {half_width_correct}",
+                )
             p = Port(
                 name=name,
                 midpoint=(snap_to_grid(midpoint[0]), snap_to_grid(midpoint[1])),

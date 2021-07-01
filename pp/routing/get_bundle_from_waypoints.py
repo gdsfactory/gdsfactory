@@ -78,7 +78,7 @@ def get_bundle_from_waypoints(
     straight_factory: Callable = straight,
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_euler,
-    auto_sort: bool = True,
+    sort_ports: bool = True,
     waveguide: str = "strip",
     **waveguide_settings,
 ) -> List[Route]:
@@ -92,8 +92,9 @@ def get_bundle_from_waypoints(
         straight_factory: function that returns straights
         taper_factory: function that returns tapers
         bend_factory: function that returns bends
-        auto_sort: sorts ports
-        **kwargs
+        sort_ports: sorts ports
+        waveguide: waveguide
+        **waveguide_settings
 
     """
     if len(ports2) != len(ports1):
@@ -110,9 +111,9 @@ def get_bundle_from_waypoints(
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
+    waypoints = [ports1[0].midpoint] + list(waypoints) + [ports2[0].midpoint]
 
     # Sort the ports such that the bundle connect the correct corresponding ports.
-
     angles_to_sorttypes = {
         (0, 180): ("Y", "Y"),
         (0, 90): ("Y", "X"),
@@ -143,7 +144,7 @@ def get_bundle_from_waypoints(
     start_port_sort = dict_sorts[sp_st]
     end_port_sort = dict_sorts[ep_st]
 
-    if auto_sort:
+    if sort_ports:
         ports1.sort(key=start_port_sort)
         ports2.sort(key=end_port_sort)
 
@@ -207,12 +208,8 @@ def _generate_manhattan_bundle_waypoints(
         waypoints: from one point within the ports1 bank
             to another point within the ports2 bank
     """
-    # waypoints = (
-    #     [tuple(ports1[0].position)] + list(waypoints) + [tuple(ports2[0].position)]
-    # )
 
     waypoints = remove_flat_angles(waypoints)
-
     way_segments = [(p0, p1) for p0, p1 in zip(waypoints[:-1], waypoints[1:])]
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
