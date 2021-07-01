@@ -20,6 +20,10 @@ RAD2DEG = 1 / DEG2RAD
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
 
+def sign(x: float) -> int:
+    return -1 if x < 0 else 1
+
+
 def _get_unique_port_facing(
     ports: Dict[str, Port],
     orientation: int = 0,
@@ -374,6 +378,7 @@ def _get_bend_reference_parameters(
           H |  G
             |
        p2-<-p1->-p2
+
     """
 
     # is_horizontal(dp1), s1, s2 : transform (rotation, vertical mirror)
@@ -405,16 +410,16 @@ def _get_bend_reference_parameters(
     if is_h_dp1:
         xd1 = dp1[0]
         yd2 = dp2[1]
-        s1 = np.sign(xd1)
-        s2 = np.sign(yd2)
+        s1 = sign(xd1)
+        s2 = sign(yd2)
 
         bend_origin = p1 - np.array([s1 * bsx, 0])
 
     else:
         yd1 = dp1[1]
         xd2 = dp2[0]
-        s1 = int(np.sign(yd1))
-        s2 = int(np.sign(xd2))
+        s1 = int(sign(yd1))
+        s2 = int(sign(xd2))
 
         bend_origin = p1 - np.array([0, s1 * bsy])
 
