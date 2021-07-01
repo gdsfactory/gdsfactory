@@ -148,7 +148,7 @@ def get_bundle_from_waypoints(
         ports2.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        ports1, ports2, list(waypoints), **waveguide_settings
+        ports1=ports1, ports2=ports2, waypoints=list(waypoints), **waveguide_settings
     )
 
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
@@ -174,6 +174,8 @@ def get_bundle_from_waypoints(
             bend_factory=bend90,
             straight_factory=straight_factory,
             taper=taper,
+            waveguide=waveguide,
+            **waveguide_settings,
         )
         for pts, bend90 in zip(routes, bends90)
     ]
@@ -227,7 +229,7 @@ def _generate_manhattan_bundle_waypoints(
         elif _is_vertical(s):
             dp = (sv * sign_seg * a, 0)
         else:
-            raise ValueError("Segment should be manhattan, got {}".format(s))
+            raise ValueError(f"Segment should be manhattan, got {s}")
 
         displaced_seg = [np.array(p) + dp for p in s]
         return displaced_seg

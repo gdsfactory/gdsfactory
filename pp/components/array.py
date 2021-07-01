@@ -26,6 +26,7 @@ def array(
 
     for i in range(n):
         ref = component.ref()
+        c.aliases[i] = ref
         if axis == "x":
             ref.x = i * pitch
         else:

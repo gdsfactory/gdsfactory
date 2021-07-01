@@ -624,8 +624,9 @@ if __name__ == "__main__":
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)
+    c = test_netlists("sample_waypoints", True, None, False)
 
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    c = component_from_yaml(sample_waypoints)
+    # c = component_from_yaml(sample_waypoints)
     c.show()
