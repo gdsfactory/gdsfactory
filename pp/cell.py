@@ -108,7 +108,7 @@ def cell(func):
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
             component = func(*args, **kwargs)
 
-            if "component" in kwargs:
+            if "component" in kwargs and isinstance(kwargs.get("component"), Component):
                 component_original = kwargs.pop("component")
                 component_original = (
                     component_original()

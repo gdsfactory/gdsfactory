@@ -24,6 +24,9 @@ from contracts import contract
 
 
 ```
+## 2.5.8
+
+- cell decorator propagates settings for Component, if isinstance(Component)
 
 ## 2.5.7
 
