@@ -1,7 +1,7 @@
 Routing
 =============================
 
-manhattan route
+get_route
 ----------------------------------------------
 
 .. automodule:: pp.routing.get_route
@@ -70,7 +70,7 @@ of the banks of ports, it decides which sub-routine to call:
 .. autofunction:: pp.routing.get_bundle_u.get_bundle_uindirect
 
 
-Route to sides
+route_ports_to_side
 --------------------
 
 For now `get_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
@@ -81,7 +81,7 @@ use `route_ports_to_side` prior calling `get_bundle`
 
 
 
-Routing bundles through waypoints
+get_bundle_from_waypoints
 -----------------------------------------------------
 
 .. autofunction:: pp.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
@@ -105,7 +105,6 @@ Routing bundles through waypoints
 
         c = pp.Component()
         way_points = [
-            ports1[0].position,
             ports1[0].position + (0, 100),
             ports1[0].position + (200, 100),
             ports1[0].position + (200, -200),
@@ -113,7 +112,6 @@ Routing bundles through waypoints
             ports1[0].position + (0, -350),
             ports1[0].position + (400, -350),
             (ports1[0].x + 400, ports2[-1].y),
-            ports2[-1].position,
         ]
 
         routes = pp.routing.get_bundle_from_waypoints(ports1, ports2, way_points)
@@ -127,14 +125,14 @@ Routing bundles through waypoints
 
 
 
-Path length matching
+get_bundle_path_length_match
 ------------------------
 
 
 .. autofunction:: pp.routing.get_bundle_path_length_match.get_bundle_path_length_match
 
 
-Route to fiber couplers
+add_fiber_array / add_fiber_single
 --------------------------------------
 
 In cases where individual components have to be tested, you can generate the array of optical I/O and connect them to the component.

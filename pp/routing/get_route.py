@@ -1,14 +1,12 @@
-"""Get route between two ports.
-
-You can connect two ports with a manhattan route.
+"""`get_route` returns a Manhattan route between two ports.
 
 To make a route, you need to supply:
 
- - an input port
- - an output port
- - a bend or factory
- - a straight or factory
- - a taper or factory to taper to wider straights and reduce straight loss (optional)
+ - input port
+ - output port
+ - bend_factory
+ - straight_factory
+ - taper_factory to taper to wider straights and reduce straight loss (Optional)
 
 
 To generate a straight route:
@@ -24,7 +22,7 @@ To generate a straight route:
  4. generate straight portions in between tapers or bends
 
 
- A route is a dataclass with:
+ A `Route` is a dataclass with:
 
 - references: list of references for tapers, bends and straight waveguides
 - ports: a dict of port name to Port, usually two ports "input" and "output"
@@ -65,6 +63,7 @@ def get_route(
         output_port: end port
         bend_factory: function that return bends
         straight_factory: function that returns straights
+        taper_factory:
         start_straight: length of starting straight
         end_straight: Number: length of end straight
         min_straight: Number: min length of straight
