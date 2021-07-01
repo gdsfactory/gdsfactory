@@ -8,6 +8,7 @@
 - fix FIXMEs
 - replace cell with cell_with_validator
 - enable routing with 180euler bends, enable Sbend routing
+- define Layer as a dataclass instead of Tuple[int, int]
 
 Maybe:
 
