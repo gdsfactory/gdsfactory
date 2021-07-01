@@ -33,14 +33,6 @@ def grating_coupler_uniform(
         width: 0.5
         partial_etch: False
 
-    .. plot::
-      :include-source:
-
-      import pp
-
-      c = pp.components.grating_coupler_uniform()
-      c.plot()
-
     .. code::
 
                  \  \  \  \

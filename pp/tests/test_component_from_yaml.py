@@ -305,12 +305,10 @@ routes:
         routing_strategy: get_bundle_from_waypoints
         settings:
             waypoints:
-                - [0, 50]
                 - [0, 300]
                 - [400, 300]
                 - [400, 400]
-                - [-100, 400]
-                - [-100, 900]
+                - [-250, 400]
             auto_widen: False
         links:
             b,N0: t,S0
@@ -624,9 +622,9 @@ if __name__ == "__main__":
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)
-    c = test_netlists("sample_waypoints", True, None, False)
+    # c = test_netlists("sample_waypoints", True, None, False)
 
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_waypoints)
     c.show()
