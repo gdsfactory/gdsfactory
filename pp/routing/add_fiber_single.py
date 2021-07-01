@@ -32,7 +32,7 @@ def add_fiber_single(
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
-    factory: Factory = FACTORY,
+    factory: Optional[Factory] = None,
     **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -93,6 +93,7 @@ def add_fiber_single(
         cc.plot()
 
     """
+    factory = factory or FACTORY
     layer_label = layer_label or TECH.layer_label
 
     if not component.get_ports_list(port_type="optical"):

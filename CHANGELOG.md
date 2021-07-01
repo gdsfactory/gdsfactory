@@ -3,6 +3,7 @@
 ## TODO
 
 - replace ComponentOrFactory, and ComponentFactory with StrOrDict
+- add_fiber_array factory signature is too big
 - waypoints define dx or dy for bends
 - enable difftest for test_containers
 - fix FIXMEs
@@ -25,9 +26,13 @@ from contracts import contract
 
 
 ```
+
 ## 2.5.8
 
 - cell decorator propagates settings for Component, if isinstance(Component)
+- get_route_from_waypoints adds port1 and port2 waypoints automatically
+- fix get_route_from waypoints to accept waveguide and waveguide_settings
+- add_port warns you when trying to add ports with off-grid port points
 
 ## 2.5.7
 
