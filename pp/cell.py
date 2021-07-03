@@ -101,10 +101,10 @@ def cell(func):
                     )
 
         if cache and name in CACHE:
-            # print(name, 'from cache')
+            # print(f"CACHE {func.__name__}({kwargs_repr})")
             return CACHE[name]
         else:
-            # print(name, 'building')
+            # print(f"BUILD {func.__name__}({kwargs_repr})")
             assert callable(
                 func
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"

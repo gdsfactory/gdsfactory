@@ -14,7 +14,7 @@ from pp.routing.add_fiber_single import add_fiber_single
 from pp.routing.fanout2x2 import fanout2x2
 from pp.tech import Factory
 
-COMPONENT_FACTORY = Factory()
+COMPONENT_FACTORY = Factory(name="generic_containers")
 COMPONENT_FACTORY.register(
     [
         add_electrical_pads_shortest,

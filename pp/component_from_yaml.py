@@ -2,6 +2,7 @@
 
 import io
 import pathlib
+import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
@@ -475,7 +476,7 @@ def component_from_yaml(
     for instance_name in components_with_placement_conflicts:
         placement_settings = placements_conf[instance_name]
         if "x" in placement_settings or "y" in placement_settings:
-            print(
+            warnings.warn(
                 f"YAML defined: ({', '.join(components_with_placement_conflicts)}) "
                 + "with both connection and placement. Please use one or the other.",
             )

@@ -1,0 +1,11 @@
+function_name: straight_cband
+info:
+  length: 10
+  width: 1
+module: pp.samples.pdk.fab_c
+name: straight_cband
+settings:
+  length: 10
+  npoints: 2
+  waveguide: nitride_cband
+  with_cladding_box: true
