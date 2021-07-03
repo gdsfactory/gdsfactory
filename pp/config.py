@@ -19,8 +19,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Dict, Iterable, Optional, Union
+from typing import Any, Iterable, Optional, Union
 
+import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
@@ -51,7 +52,7 @@ logger.add(sink=logpath)
 
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
-) -> Dict[str, Any]:
+) -> omegaconf.DictConfig:
     CONFIG = OmegaConf.create()
     for yamlpath in set(yamlpaths):
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
