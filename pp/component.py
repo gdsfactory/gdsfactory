@@ -904,7 +904,7 @@ class Component(Device):
             p = Port(
                 name=name,
                 midpoint=(snap_to_grid(midpoint[0]), snap_to_grid(midpoint[1])),
-                width=width,
+                width=snap_to_grid(width),
                 orientation=orientation,
                 parent=self,
                 layer=layer,

@@ -20,15 +20,15 @@ from pp.add_pins import add_pin_square_inside
 from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.tech import TECH, Factory, Tech, Waveguide
-from pp.types import Layer
+from pp.types import Layer, StrOrDict
 
 
 @dataclasses.dataclass
 class LayerMap:
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
-    WGN: Layer = (20, 1)
-    WGN_CLAD: Layer = (20, 2)
+    WGN: Layer = (34, 0)
+    WGN_CLAD: Layer = (36, 0)
     PIN: Layer = (100, 0)
 
 
@@ -64,6 +64,7 @@ def add_pins_custom(
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
     port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_LAYER,
+    pin_length: float = 0.5,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -77,7 +78,14 @@ def add_pins_custom(
     reference = reference or component
     for p in reference.ports.values():
         layer = port_type_to_layer[p.port_type]
-        function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
+        function(
+            component=component,
+            port=p,
+            layer=layer,
+            label_layer=layer,
+            pin_length=pin_length,
+            **kwargs,
+        )
 
 
 @cell
@@ -89,7 +97,7 @@ def mmi1x2_nitride_cband(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     with_cladding_box: bool = True,
-    waveguide: str = "nitride_cband",
+    waveguide: StrOrDict = "nitride_cband",
     **kwargs,
 ) -> Component:
     c = pp.components.mmi1x2(
@@ -116,7 +124,7 @@ def mmi1x2_nitride_oband(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     with_cladding_box: bool = True,
-    waveguide: str = "nitride_cband",
+    waveguide: StrOrDict = "nitride_oband",
     **kwargs,
 ) -> Component:
     c = pp.components.mmi1x2(
@@ -134,13 +142,34 @@ def mmi1x2_nitride_oband(
     return c
 
 
-FACTORY = Factory(post_init=add_pins_custom)
+@cell
+def bend_euler(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
+    add_pins_custom(c)
+    return c
+
+
+@cell
+def bend_euler_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
+    add_pins_custom(c)
+    return c
+
+
+@cell
+def straight_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+    c = pp.c.straight(waveguide=waveguide, **kwargs)
+    add_pins_custom(c)
+    return c
+
+
+FACTORY = Factory(name="fab_c", post_init=add_pins_custom)
 # FACTORY = TECH.factory
 
-TECH_FABC = Tech(name="fabc")
+TECH_FABC = Tech(name="fab_c")
 TECH_FABC.factory = FACTORY
 FACTORY.register(
-    [mmi1x2_nitride_cband, mmi1x2_nitride_oband, pp.c.bend_euler, pp.c.straight]
+    [mmi1x2_nitride_cband, mmi1x2_nitride_oband, bend_euler_cband, straight_cband]
 )
 
 
@@ -151,6 +180,8 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
         splitter="mmi1x2_nitride_cband",
         waveguide="nitride_cband",
         width=WIDTH_NITRIDE_CBAND,
+        bend="bend_euler_cband",
+        straight="straight_cband",
         factory=FACTORY,
     )
     add_pins_custom(c)
@@ -164,6 +195,8 @@ def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
         splitter="mmi1x2_nitride_cband",
         waveguide="nitride_oband",
         width=WIDTH_NITRIDE_CBAND,
+        bend="bend_euler_cband",
+        straight="straight_cband",
         factory=FACTORY,
     )
     add_pins_custom(c)
@@ -175,8 +208,15 @@ FACTORY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 if __name__ == "__main__":
     mzi = mzi_nitride_cband()
-    gc = pp.c.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
+    gc = pp.c.grating_coupler_elliptical_te(
+        wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
+    )
     mzi_gc = pp.routing.add_fiber_single(
-        component=mzi, grating_coupler=gc, waveguide="nitride_cband"
+        component=mzi,
+        grating_coupler=gc,
+        waveguide="nitride_cband",
+        straight_factory=straight_cband,
+        optical_routing_type=1,
+        factory=FACTORY,
     )
     mzi_gc.show()

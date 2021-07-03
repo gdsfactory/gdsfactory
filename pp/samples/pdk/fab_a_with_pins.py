@@ -28,7 +28,7 @@ def post_init(component) -> None:
     add_outline(component)
 
 
-FACTORY = Factory(post_init=post_init)
+FACTORY = Factory(name="fab_a", post_init=post_init)
 FACTORY.register([pp.c.mmi2x2, pp.c.mmi1x2, pp.c.mzi])
 FACTORY.register(sw=pp.c.straight)
 

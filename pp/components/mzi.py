@@ -1,9 +1,10 @@
-from typing import Dict, Optional, Union
+from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
 from pp.port import rename_ports_by_orientation
 from pp.tech import FACTORY, Factory
+from pp.types import StrOrDict
 
 
 @cell
@@ -11,13 +12,13 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend: Union[str, Dict] = "bend_euler",
-    straight: Union[str, Dict] = "straight",
-    straight_vertical: Optional[str] = None,
-    straight_delta_length: Optional[str] = None,
-    straight_horizontal: Optional[str] = None,
-    splitter: Union[str, Dict] = "mmi1x2",
-    combiner: Optional[Union[str, Dict]] = None,
+    bend: StrOrDict = "bend_euler",
+    straight: StrOrDict = "straight",
+    straight_vertical: Optional[StrOrDict] = None,
+    straight_delta_length: Optional[float] = None,
+    straight_horizontal: Optional[StrOrDict] = None,
+    splitter: StrOrDict = "mmi1x2",
+    combiner: Optional[StrOrDict] = None,
     with_splitter: bool = True,
     factory: Factory = FACTORY,
     **kwargs,

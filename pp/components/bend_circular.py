@@ -1,9 +1,7 @@
-from typing import Optional
-
 import pp
 from pp.add_padding import get_padding_points
 from pp.component import Component
-from pp.cross_section import get_cross_section
+from pp.cross_section import StrOrDict, get_cross_section
 from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
@@ -13,7 +11,7 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    waveguide: Optional[str] = "strip",
+    waveguide: StrOrDict = "strip",
     **kwargs
 ) -> Component:
     """Returns a radial arc.

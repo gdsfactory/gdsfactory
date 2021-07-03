@@ -10,6 +10,7 @@
 - replace cell with cell_with_validator
 - enable routing with 180euler bends, enable Sbend routing
 - define Layer as a dataclass instead of Tuple[int, int]
+- figure out why `pp/tests/test_add_pins` test only passes with (length=11.)
 
 Maybe:
 
@@ -33,6 +34,9 @@ from contracts import contract
 - get_route_from_waypoints adds port1 and port2 waypoints automatically
 - fix get_route_from waypoints to accept waveguide and waveguide_settings
 - add_port warns you when trying to add ports with off-grid port points
+- fix add_fiber, not passing factory to get_bundle
+- Factory(name=) is a required argument
+- Factory has `__str__` and `__repr__`
 
 ## 2.5.7
 

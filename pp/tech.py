@@ -341,9 +341,16 @@ class Factory:
 
     """
 
+    name: str
     factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
     settings: ComponentSettings = ComponentSettings()
     post_init: Optional[Callable[[], None]] = None
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
 
     def register(
         self,
@@ -437,7 +444,7 @@ class Tech:
 
 
 TECH = Tech()
-FACTORY = Factory()
+FACTORY = Factory("generic_components")
 
 if __name__ == "__main__":
     import pp
@@ -456,7 +463,7 @@ if __name__ == "__main__":
     # c = t.component.mmi1x2_longer(length_mmi=30)
     # c.show()
 
-    cf = Factory()
+    cf = Factory("demo")
     cf.register(mmi1x2_longer)
     print(asdict(TECH))
     c = cf.get_component("mmi1x2_longer", length_mmi=30)

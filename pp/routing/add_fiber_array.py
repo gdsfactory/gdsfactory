@@ -24,7 +24,7 @@ def add_fiber_array(
     taper: StrOrDict = "taper",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
-    factory: Optional[Factory] = None,
+    factory: Factory = FACTORY,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -69,7 +69,6 @@ def add_fiber_array(
         cc.plot()
 
     """
-    factory = factory or FACTORY
     component = pp.call_if_func(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler

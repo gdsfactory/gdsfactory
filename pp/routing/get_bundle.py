@@ -104,6 +104,7 @@ def get_bundle(
         "start_straight": start_straight,
         "end_straight_offset": end_straight_offset,
         "bend_factory": bend_factory,
+        "straight_factory": straight_factory,
         "waveguide": waveguide,
     }
 

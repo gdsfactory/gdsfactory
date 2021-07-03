@@ -3,13 +3,13 @@ info: {}
 module: pp.samples.pdk.fab_c
 name: mzi_nitride_cband
 settings:
-  bend: bend_euler
+  bend: bend_euler_cband
   combiner: null
   delta_length: 10
   length_x: 0.1
   length_y: 0.1
   splitter: mmi1x2_nitride_cband
-  straight: straight
+  straight: straight_cband
   straight_delta_length: null
   straight_horizontal: null
   straight_vertical: null
