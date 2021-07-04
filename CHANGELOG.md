@@ -30,14 +30,14 @@ from contracts import contract
 
 ## 2.5.8
 
-- cell decorator propagates settings for Component, if isinstance(Component)
+- cell decorator propagates settings for Component, if isinstance(kwargs['component'], Component)
 - get_route_from_waypoints adds port1 and port2 waypoints automatically
-- fix get_route_from waypoints to accept waveguide and waveguide_settings
+- get_route_from_waypoints accepts waveguide and waveguide_settings
 - add_port warns you when trying to add ports with off-grid port points
-- fix add_fiber, not passing factory to get_bundle
+- fix add_fiber: not passing factory to get_bundle
 - Factory(name=) is a required argument
 - Factory has `__str__` and `__repr__`
-- add_port(width=) width automatically snaps to grid
+- add_port(width=) width automatically snaps width to 1nm grid
 
 ## 2.5.7
 
