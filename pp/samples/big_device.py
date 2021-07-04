@@ -16,7 +16,7 @@ def big_device(
     layer: Tuple[int, int] = LAYER.WG,
     wg_width: float = 0.5,
 ) -> Component:
-    """ big component with N ports on each side """
+    """big component with N ports on each side"""
     component = pp.Component()
     p0 = np.array((0, 0))
     dx = w / 2

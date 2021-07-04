@@ -9,8 +9,7 @@ from pp.autoplacer.library import Library
 
 
 class ChipArray(AutoPlacer):
-    """ An array of chiplets with dicing lanes
-    """
+    """An array of chiplets with dicing lanes"""
 
     def __init__(
         self,
@@ -40,7 +39,7 @@ class ChipArray(AutoPlacer):
         # self.make_dicing_lanes()
 
     def make_chips(self) -> None:
-        """ Make all the chips """
+        """Make all the chips"""
         # Get the aligntree
         if self.align:
             aligntrees = self.lib.get(self.align)
@@ -62,7 +61,7 @@ class ChipArray(AutoPlacer):
             self.chips.append(chip)
 
     def make_dicing_lanes(self):
-        """ Make the dicing lanes """
+        """Make the dicing lanes"""
         container = self.create_cell("DicingLanes")
         instance = pya.CellInstArray(container.cell_index(), pya.Trans(0, 0))
         self.cell(self.name).insert(instance)
@@ -101,7 +100,7 @@ class ChipArray(AutoPlacer):
                     container.shapes(layer).insert(box)
 
     def write(self, *args, **kwargs) -> None:
-        """ Write to disk. We pack the chips at the last minute. """
+        """Write to disk. We pack the chips at the last minute."""
         self.draw_boundary(ap.DEVREC_LAYER)
         self.draw_boundary(ap.FLOORPLAN_LAYER)
         for chip in self.chips:

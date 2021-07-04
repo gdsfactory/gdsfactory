@@ -156,14 +156,14 @@ def snap_angle(a: float64) -> int:
 
 
 def angles_rad(pts: ndarray) -> ndarray:
-    """ returns the angles (radians) of the connection between each point and the next """
+    """returns the angles (radians) of the connection between each point and the next"""
     _pts = np.roll(pts, -1, 0)
     radians = np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
     return radians
 
 
 def angles_deg(pts: ndarray) -> ndarray:
-    """ returns the angles (degrees) of the connection between each point and the next """
+    """returns the angles (degrees) of the connection between each point and the next"""
     return angles_rad(pts) * RAD2DEG
 
 

@@ -17,14 +17,14 @@ def component_with_label_int() -> Component:
 
 
 def test_move_float_with_int() -> None:
-    """ fixed """
+    """fixed"""
     c = component_with_label_float()
     c.x = 10
     c.movex(10)
 
 
 def test_move_int_with_float() -> None:
-    """ needs fixing """
+    """needs fixing"""
     c = component_with_label_int()
     c.x = 10.0
     c.movex(10.0)

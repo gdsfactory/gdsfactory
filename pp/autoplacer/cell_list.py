@@ -8,14 +8,14 @@ import pp.autoplacer.functions as ap
 
 
 class CellList:
-    """ just a list of components,
-    with the ability to normalize size and shape """
+    """just a list of components,
+    with the ability to normalize size and shape"""
 
     def __init__(self, cells: List[Any]) -> None:
         self.cells = cells
 
     def find_origin(self, cell):
-        """ finds the displacement of the origin """
+        """finds the displacement of the origin"""
         origins = []
         for instance in cell.each_inst():
             if instance.cell.name.endswith("t_c"):
@@ -30,7 +30,7 @@ class CellList:
             return pya.Point(-bbox.left, -bbox.bottom)
 
     def align(self, dimension=ap.BOTH):
-        """ Aligns the grating couplers """
+        """Aligns the grating couplers"""
         if not self.cells:
             return
 
@@ -51,7 +51,7 @@ class CellList:
             cell.shapes(layer).insert(box)
 
     def normalize(self, dimension, origin=ap.SOUTH_WEST):
-        """ Makes all components the same size on some dimension """
+        """Makes all components the same size on some dimension"""
         if not self.cells:
             return
 
@@ -88,7 +88,7 @@ class CellList:
                 cell.shapes(layer).insert(box)
 
     def pad(self, padding=ap.PADDING):
-        """ add padding to a cell """
+        """add padding to a cell"""
         for cell in self.cells:
             layer = cell.layout().layer(ap.DEVREC_LAYER, 0)
             bbox = cell.bbox()
@@ -102,11 +102,11 @@ class CellList:
             cell.shapes(layer).insert(box)
 
     def sort(self, key):
-        """ Sort the cells """
+        """Sort the cells"""
         self.cells = sorted(self.cells, key=key)
 
     def groups(self, dimension, granularity=ap.GRANULARITY):
-        """ group cells by size """
+        """group cells by size"""
         groups = defaultdict(list)
         for cell in self.cells:
             b = cell.bbox()
@@ -120,12 +120,12 @@ class CellList:
         ]
 
     def __iter__(self):
-        """ allow for cell in celllist """
+        """allow for cell in celllist"""
         for cell in sorted(self.cells, key=ap.area):
             yield cell
 
     def __getitem__(self, index):
-        """ allow for cell in celllist """
+        """allow for cell in celllist"""
         return self.cells[index]
 
     def __len__(self) -> int:

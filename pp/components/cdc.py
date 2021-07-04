@@ -1,5 +1,4 @@
-from typing import Optional
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 import picwriter.components as pc

@@ -10,7 +10,7 @@ from pp.autoplacer.functions import WORKING_MEMORY, area
 
 
 class Library(object):
-    """ Library of cells with convenient methods to:
+    """Library of cells with convenient methods to:
 
         - load from disk
         - pop groups
@@ -55,7 +55,7 @@ class Library(object):
         self.load_all_json()
 
     def load_all_gds(self) -> None:
-        """ Loads all the gds files """
+        """Loads all the gds files"""
         filenames = glob.glob(self.root + "/*.gds")
         print("Loading {} GDS files...".format(len(filenames)))
         for filename in filenames:
@@ -63,13 +63,13 @@ class Library(object):
         print("Done")
 
     def load_all_json(self) -> None:
-        """ loads all the json files """
+        """loads all the json files"""
         filenames = glob.glob(self.root + "/*.json")
         for filename in filenames:
             self.load_json(filename)
 
     def load_gds(self, filename):
-        """ Load a GDS and append it into self.cells """
+        """Load a GDS and append it into self.cells"""
         layout = pya.Layout()
         WORKING_MEMORY[filename] = layout
         layout.read(str(filename))
@@ -77,7 +77,7 @@ class Library(object):
         self.cells[layout.top_cell().name].metadata = {}
 
     def load_json(self, filename):
-        """ Load json metadata"""
+        """Load json metadata"""
         with open(filename) as f:
             metadata = json.load(f)
             if metadata.get("type") == "doe":
@@ -95,7 +95,7 @@ class Library(object):
         return CellList(cells)
 
     def pop_doe(self, regex):
-        """ pop out a set of cells """
+        """pop out a set of cells"""
         cells = []
         if regex in self.does:
             cells = self.does[regex]
@@ -109,7 +109,7 @@ class Library(object):
         return CellList(cells)
 
     def pop(self, regex: str, delete: bool = True) -> CellList:
-        """ pop cells """
+        """pop cells"""
         # pop out the cells
         # cells = [
         #     cell for key, cell in self.cells.items()
@@ -140,7 +140,7 @@ class Library(object):
                 pass
 
     def list(self):
-        """ just list the devices currently in the collection """
+        """just list the devices currently in the collection"""
         print("Library contains cells:")
         for name in sorted(self.cells.keys()):
             print("-", name)
@@ -152,7 +152,7 @@ class Library(object):
                 print(" - {} ({})".format(key, len(value)))
 
     def count(self):
-        """ Safety check at the end """
+        """Safety check at the end"""
         if self.cells:
             print("{} cells were not used".format(len(self.cells)))
 

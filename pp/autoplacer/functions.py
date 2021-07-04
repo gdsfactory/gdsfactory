@@ -46,17 +46,17 @@ class OutOfSpaceError(Exception):
 
 
 def mean(values):
-    """ Just compute the mean """
+    """Just compute the mean"""
     return sum(values) / len(values)
 
 
 def area(cell):
-    """ Get the area of a cell, used for sorting """
+    """Get the area of a cell, used for sorting"""
     return cell.bbox().width()
 
 
 def factors(n):
-    """ Get all the factors of n """
+    """Get all the factors of n"""
     return [i for i in range(1, n + 1) if n % i == 0]
 
 
@@ -75,7 +75,7 @@ def estimate_cols(n, width, height, target):
 
 
 def longest_common_prefix(names):
-    """ Used to infer group names """
+    """Used to infer group names"""
     if not names:
         return "Empty"
     length = max(len(n) for n in names)
