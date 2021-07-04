@@ -30,14 +30,17 @@ from contracts import contract
 
 ## 2.5.8
 
-- cell decorator propagates settings for Component, if isinstance(kwargs['component'], Component)
+- cell decorator propagates settings for Component, only if isinstance(kwargs['component'], Component)
 - get_route_from_waypoints adds port1 and port2 waypoints automatically
 - get_route_from_waypoints accepts waveguide and waveguide_settings
 - add_port warns you when trying to add ports with off-grid port points
 - fix add_fiber: not passing factory to get_bundle
-- Factory(name=) is a required argument
+- Factory(name=) has required argument name
 - Factory has `__str__` and `__repr__`
 - add_port(width=) width automatically snaps width to 1nm grid
+- add DeprecationWarning to get_routes
+- update pipfile
+- remove conda environment.yml as it was out of date
 
 ## 2.5.7
 
