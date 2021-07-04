@@ -27,7 +27,7 @@ def load_gds(filepath: Union[Path, str]) -> Layout:
 
 
 def import_cell(layout: Layout, cell: Cell) -> Cell:
-    """ Imports a cell from another Layout into a given layout"""
+    """Imports a cell from another Layout into a given layout"""
     # If the cell is already in the library, skip loading
     if layout.cell(cell.name):
         return layout.cell(cell.name)

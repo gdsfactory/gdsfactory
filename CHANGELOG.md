@@ -28,11 +28,8 @@ from contracts import contract
 
 ```
 
-## 2.5.9
 
-- add automatic release of any tag that starts with v
-
-## 2.5.8
+## 2.6.0
 
 - cell decorator propagates settings for Component, only if isinstance(kwargs['component'], Component)
 - get_route_from_waypoints adds port1 and port2 waypoints automatically
@@ -45,6 +42,7 @@ from contracts import contract
 - add DeprecationWarning to get_routes
 - update pipfile
 - remove conda environment.yml as it was out of date
+- add automatic release of any tag that starts with v
 
 ## 2.5.7
 

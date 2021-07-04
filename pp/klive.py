@@ -11,7 +11,7 @@ from typing import Union
 
 
 def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
-    """ Show GDS in klayout """
+    """Show GDS in klayout"""
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
     data = {

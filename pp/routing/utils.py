@@ -6,7 +6,7 @@ from pp.port import Port
 
 
 def flip(port: Port) -> Port:
-    """ Flip a phidl Port """
+    """Flip a phidl Port"""
     return Port(port.name, port.midpoint, port.width, port.orientation + 180)
 
 

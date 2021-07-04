@@ -34,7 +34,7 @@ class AutoPlacer(pya.Layout):
     def __init__(
         self, name: str, max_width: float = 1e8, max_height: float = 1e8
     ) -> None:
-        """ constructor """
+        """constructor"""
         # Construct
         super(AutoPlacer, self).__init__()
 
@@ -60,7 +60,7 @@ class AutoPlacer(pya.Layout):
         self.create_cell(self.name)
 
     def get_edge(self, collisions, bbox, direction):
-        """ Get a particular edge of some collisions """
+        """Get a particular edge of some collisions"""
         if direction == ap.NORTH:
             return max(n for (w, s, e, n) in collisions) + ap.GRID
         elif direction == ap.SOUTH:
@@ -71,7 +71,7 @@ class AutoPlacer(pya.Layout):
             return max(w for (w, s, e, n) in collisions) - ap.GRID - bbox.width()
 
     def import_cell(self, cell: Cell) -> Cell:
-        """ Imports a cell from another Layout """
+        """Imports a cell from another Layout"""
         # If the cell is already in the library, skip loading
         if self.cell(cell.name):
             return self.cell(cell.name)
@@ -94,17 +94,17 @@ class AutoPlacer(pya.Layout):
         return new_cell
 
     def inside(self, bbox):
-        """ Check that something is inside the mask """
+        """Check that something is inside the mask"""
         mask = pya.Box(0, 0, self.max_width + 1, self.max_height + 1)
         return mask.contains(bbox)
 
     def find_collisions(self, bbox, sx, sy):
-        """ Test for intersection of objects """
+        """Test for intersection of objects"""
         box = sx, sy, sx + bbox.width(), sy + bbox.height()
         return self.quadtree.intersect(box)
 
     def compute_start(self, cell, origin):
-        """ Figure out where the search should start for a given cell"""
+        """Figure out where the search should start for a given cell"""
         w = cell.bbox().width()
         h = cell.bbox().height()
         if origin == ap.SOUTH_WEST:
@@ -117,14 +117,14 @@ class AutoPlacer(pya.Layout):
             return [self.max_width - w, self.max_height - h]
 
     def find_space(self, cell, origin=ap.SOUTH_WEST, direction=ap.VERTICAL):
-        """ Find space for a cell by brute-force search """
+        """Find space for a cell by brute-force search"""
         if direction == ap.VERTICAL:
             return self.find_space_vertical(cell, origin)
         elif direction == ap.HORIZONTAL:
             return self.find_space_horizontal(cell, origin)
 
     def find_space_vertical(self, cell, origin=ap.SOUTH_WEST):
-        """ Find space for a cell by brute-force search - horizontal """
+        """Find space for a cell by brute-force search - horizontal"""
         # Compute boundaries
         bbox = cell.bbox()
         x_bound = self.max_width - bbox.width()
@@ -156,7 +156,7 @@ class AutoPlacer(pya.Layout):
             sx = min(edge) if ap.WEST in origin else max(edge)
 
     def find_space_horizontal(self, cell, origin=ap.SOUTH_WEST):
-        """ Find space for a cell by brute-force search - vertical """
+        """Find space for a cell by brute-force search - vertical"""
         # Compute boundaries
         bbox = cell.bbox()
         x_bound = self.max_width - bbox.width()
@@ -254,20 +254,20 @@ class AutoPlacer(pya.Layout):
         return CellList(failed)
 
     def shrink(self):
-        """ Shrink-wrap """
+        """Shrink-wrap"""
         bbox = self.top_cell().bbox()
         self.max_width = bbox.width()
         self.max_height = bbox.height()
 
     def draw_boundary(self, layer: int = ap.DEVREC_LAYER) -> None:
-        """ Draw a box into the topcell """
+        """Draw a box into the topcell"""
         layer = self.layer(layer, 0)
         self.cell(self.name).shapes(layer).insert(
             pya.Box(0, 0, self.max_width, self.max_height)
         )
 
     def write(self, *args, **kwargs) -> None:
-        """ Draw boundary on write """
+        """Draw boundary on write"""
         if not kwargs.get("shrink", False):
             self.draw_boundary()
 
@@ -290,7 +290,7 @@ class AutoPlacer(pya.Layout):
         name=None,
         origin=ap.SOUTH_WEST,
     ):
-        """ Pack column-wise """
+        """Pack column-wise"""
         for group in cells.groups(dimension, granularity):
             self.pack_grid(
                 group,
@@ -377,13 +377,13 @@ class AutoPlacer(pya.Layout):
         add_padding=True,
         padding=ap.PADDING,
     ):
-        """ Pack at random """
+        """Pack at random"""
         if add_padding:
             cells.pad(padding=padding)
         return self.pack_many(cells, direction=direction, origin=origin)
 
     def pack_lumped(self, cells, width, height, origin=ap.SOUTH_WEST):
-        """ Pack at random in a lump """
+        """Pack at random in a lump"""
         # Get the name from the longest common substring
         name = ap.longest_common_prefix([c.name for c in cells]) + "_l"
         name = name if len(name) > 2 else "Misc"
@@ -400,7 +400,7 @@ class AutoPlacer(pya.Layout):
             self.pack_auto(component, corner)
 
     def estimate_size(self, cells):
-        """ Estimate the size of the placer """
+        """Estimate the size of the placer"""
         # Compute squarish dimensions
         N = len(cells)
         rows = math.ceil(math.sqrt(N))

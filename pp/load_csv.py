@@ -7,7 +7,7 @@ from numpy import ndarray
 
 
 def load_csv(csv_path: Path) -> Dict[str, ndarray]:
-    """ loads csv and returs a dict
+    """loads csv and returs a dict
     the key for each column is taken from the first row
     """
     dict_data = {}

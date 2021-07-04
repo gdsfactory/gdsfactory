@@ -80,7 +80,9 @@ def get_cell_from_label(label: str) -> str:
     return cell_name
 
 
-def load_json(filepath: Path,) -> Dict[str, Any]:
+def load_json(
+    filepath: Path,
+) -> Dict[str, Any]:
     with open(filepath) as f:
         data = json.load(f)
     return data

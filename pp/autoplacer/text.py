@@ -28,7 +28,7 @@ def add_text(
     align_y: str = "top",
     fontpath: Path = FONT_PATH,
 ) -> Cell:
-    """ add text label"""
+    """add text label"""
     text = text.upper()
     alphabet = load_alphabet(filepath=fontpath)
     idbu = 1 / cell.layout().dbu

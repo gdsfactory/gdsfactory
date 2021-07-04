@@ -2,12 +2,12 @@ from pp.config import CONFIG
 
 
 def width(width):
-    """ return wg_width with bias """
+    """return wg_width with bias"""
     return width + CONFIG.get("bias", 0)
 
 
 def gap(gap):
-    """ return wg_gap with bias """
+    """return wg_gap with bias"""
     return gap - CONFIG.get("bias", 0)
 
 
