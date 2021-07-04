@@ -125,7 +125,7 @@ __all__ = [
     "tech",
     "TECH",
 ]
-__version__ = "2.5.9"
+__version__ = "2.5.10"
 
 
 if __name__ == "__main__":
