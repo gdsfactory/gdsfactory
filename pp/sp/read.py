@@ -145,7 +145,9 @@ def read_sparameters_component(
         or LAYER_STACK.get_layer_to_thickness_nm(),
     )
     numports = len(component.ports)
-    assert filepath.exists(), f"Sparameters for {component} not found in {filepath}"
+    assert (
+        filepath.exists()
+    ), f"Sparameters for {component.name} not found in {filepath}"
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
     return read_sparameters_lumerical(filepath=filepath, numports=numports)
 
