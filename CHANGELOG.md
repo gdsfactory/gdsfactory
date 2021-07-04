@@ -28,6 +28,10 @@ from contracts import contract
 
 ```
 
+## 2.5.9
+
+- add automatic release of any tag that starts with v
+
 ## 2.5.8
 
 - cell decorator propagates settings for Component, only if isinstance(kwargs['component'], Component)
