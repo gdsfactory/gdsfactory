@@ -26,7 +26,9 @@ def wire_straight(
         layer: layer
         port_type: port_type
     """
-    return hline(length=length, width=width, layer=layer, port_type=port_type)
+    c = hline(length=length, width=width, layer=layer, port_type=port_type)
+    c.waveguide_settings = dict(layer=layer, width=width)
+    return c
 
 
 @deco_rename_ports
@@ -50,6 +52,7 @@ def wire_corner(
     a = width / 2
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
+    c.waveguide_settings = dict(layer=layer, width=width)
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(

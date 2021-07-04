@@ -22,7 +22,7 @@ def via(
         width:
         height: Defaults to width
         period:
-        clearance:
+        clearance: spacing to next via
         layer: via layer
     """
     height = height or width
@@ -94,8 +94,8 @@ def tlm(
         nb_vias_x = (width - w - 2 * g) / period + 1
         nb_vias_y = (height - h - 2 * g) / period + 1
 
-        nb_vias_x = int(floor(nb_vias_x))
-        nb_vias_y = int(floor(nb_vias_y))
+        nb_vias_x = int(floor(nb_vias_x)) or 1
+        nb_vias_y = int(floor(nb_vias_y)) or 1
 
         cw = (width - (nb_vias_x - 1) * period - w) / 2
         ch = (height - (nb_vias_y - 1) * period - h) / 2

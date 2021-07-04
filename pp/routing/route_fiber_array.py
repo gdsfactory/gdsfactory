@@ -159,7 +159,9 @@ def route_fiber_array(
     # Define the route filter to apply to connection methods
 
     bend90 = (
-        bend_factory(waveguide=waveguide) if callable(bend_factory) else bend_factory
+        bend_factory(waveguide=waveguide, **waveguide_settings)
+        if callable(bend_factory)
+        else bend_factory
     )
 
     dy = abs(bend90.dy)
@@ -309,12 +311,14 @@ def route_fiber_array(
                     bend_factory=bend90,
                     straight_factory=straight_factory,
                     waveguide=waveguide,
+                    **waveguide_settings,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
                     straight_factory=straight_factory,
                     waveguide=waveguide,
+                    **waveguide_settings,
                 )
                 elements.extend(route.references)
 
@@ -330,6 +334,7 @@ def route_fiber_array(
             straight_factory=straight_factory,
             taper_factory=taper_factory,
             waveguide=waveguide,
+            **waveguide_settings,
         )
         elems = route.references
         to_route = route.ports
@@ -379,6 +384,7 @@ def route_fiber_array(
                 straight_factory=straight_factory,
                 bend_factory=bend90,
                 waveguide=waveguide,
+                **waveguide_settings,
             )
             elements.extend([route.references for route in routes])
 
@@ -398,6 +404,7 @@ def route_fiber_array(
                     straight_factory=straight_factory,
                     radius=radius,
                     waveguide=waveguide,
+                    **waveguide_settings,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -441,6 +448,7 @@ def route_fiber_array(
             straight_factory=straight_factory,
             bend_factory=bend90,
             waveguide=waveguide,
+            **waveguide_settings,
         )
         elements.extend(route.references)
 
@@ -488,7 +496,7 @@ if __name__ == "__main__":
     )
     gc.xmin = -20
     elements, gc, _ = route_fiber_array(
-        component=c, grating_coupler=gc, waveguide="nitride"
+        component=c, grating_coupler=gc, waveguide="nitride", cladding_offset=6
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
