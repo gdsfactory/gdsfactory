@@ -9,7 +9,7 @@ def get_install_requires():
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="2.5.11",
+    version="2.5.12",
     author="gdsfactory community",
     scripts=["pp/pf.py"],
     description="python libraries to generate GDS layouts",
