@@ -21,6 +21,12 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
+    if isinstance(ports1, dict):
+        ports1 = list(ports1.values())
+
+    if isinstance(ports2, dict):
+        ports2 = list(ports2.values())
+
     if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
         f_key1 = get_port_y
         f_key2 = get_port_y

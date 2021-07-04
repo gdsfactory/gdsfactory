@@ -1,3 +1,4 @@
+import warnings
 from typing import Iterable
 
 from pp.port import Port
@@ -27,6 +28,12 @@ def get_routes(
         with_sort_ports: sort_ports
         **kwargs: for routing
     """
+    warnings.warn(
+        "get_routes is a Temporary solution until round_corners supports Sbend routing"
+        "it does not route bundles of ports. Use get_bundle instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     references = []
     lengths = []
 

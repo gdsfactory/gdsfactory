@@ -240,7 +240,12 @@ def mzi2x2(
         # Reroute electrical ports
         _e_ports = select_ports(component.ports, port_type="dc")
         routes, e_ports = route_ports_to_side(
-            _e_ports, side="north", y=y_elec, layer=layer, width=width / 2
+            _e_ports,
+            side="north",
+            y=y_elec,
+            layer=layer,
+            width=width / 2,
+            separation=20,
         )
 
         for route in routes:
