@@ -37,6 +37,7 @@ from contracts import contract
 - fix add_fiber, not passing factory to get_bundle
 - Factory(name=) is a required argument
 - Factory has `__str__` and `__repr__`
+- add_port(width=) width automatically snaps to grid
 
 ## 2.5.7
 

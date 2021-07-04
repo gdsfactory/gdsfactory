@@ -6,6 +6,7 @@ import pp
 from pp.component import Component, ComponentReference
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.routing.route_fiber_array import route_fiber_array
+from pp.types import StrOrDict
 
 
 def route_fiber_single(
@@ -18,7 +19,7 @@ def route_fiber_single(
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
-    waveguide: Optional[str] = None,
+    waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.

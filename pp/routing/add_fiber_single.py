@@ -121,6 +121,7 @@ def add_fiber_single(
                 width1=port_width_gc,
                 width2=port_width_component,
                 waveguide=waveguide,
+                **waveguide_settings,
             )
         )
         component = add_tapers(component=component, taper=taper, factory=factory)
