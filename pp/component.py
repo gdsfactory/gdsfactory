@@ -643,7 +643,7 @@ class Component(Device):
 
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
-        connections = {instance_name_src,uid,x,y,portName,portId: instance_name_dst,uid,x,y,portName,portId}
+        connections = {instance_name_src_x_y,portName,portId: instance_name_dst_x_y,portName,portId}
         ports: {portName: instace_name,portName}
 
         Args:
