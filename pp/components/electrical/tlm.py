@@ -12,8 +12,8 @@ from pp.types import ComponentOrFactory, Layer
 def via(
     width: float = 0.7,
     height: Optional[float] = None,
-    period: float = 2.0,
-    clearance: float = 1.0,
+    pitch: float = 2.0,
+    enclosure: float = 1.0,
     layer: Tuple[int, int] = LAYER.VIA1,
 ) -> Component:
     """Rectangular via. Defaults to a square via.
@@ -21,14 +21,14 @@ def via(
     Args:
         width:
         height: Defaults to width
-        period:
-        clearance: spacing to next via
+        pitch:
+        enclosure: inclusion of via
         layer: via layer
     """
     height = height or width
     c = Component()
-    c.info["period"] = period
-    c.info["clearance"] = clearance
+    c.info["pitch"] = pitch
+    c.info["enclosure"] = enclosure
     c.info["width"] = width
     c.info["height"] = height
 
@@ -46,8 +46,8 @@ def via1(**kwargs) -> Component:
 
 
 @pp.cell_with_validator
-def via2(**kwargs) -> Component:
-    return via(layer=LAYER.VIA2, **kwargs)
+def via2(enclosure: float = 2.0, **kwargs) -> Component:
+    return via(layer=LAYER.VIA2, enclosure=enclosure, **kwargs)
 
 
 @pp.cell_with_validator
@@ -77,6 +77,7 @@ def tlm(
     rect_pts = [(-a, -b), (a, -b), (a, b), (-a, b)]
 
     c = Component()
+    c.height = height
 
     # Add metal rectangles
     for layer in layers:
@@ -88,24 +89,24 @@ def tlm(
 
         w = via.info["width"]
         h = via.info["height"]
-        g = via.info["clearance"]
-        period = via.info["period"]
+        g = via.info["enclosure"]
+        pitch = via.info["pitch"]
 
-        nb_vias_x = (width - w - 2 * g) / period + 1
-        nb_vias_y = (height - h - 2 * g) / period + 1
+        nb_vias_x = (width - w - 2 * g) / pitch + 1
+        nb_vias_y = (height - h - 2 * g) / pitch + 1
 
         nb_vias_x = int(floor(nb_vias_x)) or 1
         nb_vias_y = int(floor(nb_vias_y)) or 1
 
-        cw = (width - (nb_vias_x - 1) * period - w) / 2
-        ch = (height - (nb_vias_y - 1) * period - h) / 2
+        cw = (width - (nb_vias_x - 1) * pitch - w) / 2
+        ch = (height - (nb_vias_y - 1) * pitch - h) / 2
 
         x0 = -a + cw + w / 2
         y0 = -b + ch + h / 2
 
         for i in range(nb_vias_x):
             for j in range(nb_vias_y):
-                c.add(via.ref(position=(x0 + i * period, y0 + j * period)))
+                c.add(via.ref(position=(x0 + i * pitch, y0 + j * pitch)))
 
     return c
 
@@ -114,5 +115,6 @@ if __name__ == "__main__":
 
     # c = via()
     c = tlm()
-    c.pprint()
+    # c.pprint()
+    print(c)
     c.show()

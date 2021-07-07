@@ -11,6 +11,8 @@ from pp.components.array import array
 from pp.components.array import array_2d
 from pp.components.array_with_fanout import array_with_fanout
 from pp.components.array_with_fanout import array_with_fanout_2d
+from pp.components.array_with_via import array_with_via
+from pp.components.array_with_via import array_with_via_2d
 from pp.components.straight import straight
 from pp.components.straight_heater import straight_heater
 from pp.components.straight_heater import straight_with_heater
@@ -146,6 +148,8 @@ FACTORY.register(
         array_2d,
         array_with_fanout,
         array_with_fanout_2d,
+        array_with_via,
+        array_with_via_2d,
         C,
         L,
         align_wafer,
