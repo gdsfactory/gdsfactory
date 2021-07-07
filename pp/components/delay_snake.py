@@ -1,34 +1,29 @@
-from numpy import pi
+import warnings
+
+import numpy as np
 
 import pp
 from pp.component import Component
-from pp.components.bend_euler import bend_euler
-from pp.components.straight import straight as straight_function
-from pp.components.taper import taper as taper_function
-from pp.routing.manhattan import round_corners
-from pp.types import ComponentFactory
+from pp.tech import FACTORY, Factory
+from pp.types import StrOrDict, StrOrDictOrNone
 
 
 @pp.cell_with_validator
 def delay_snake(
-    wg_width: float = 0.5,
-    wg_width_wide: float = 2.0,
-    total_length: float = 1600.0,
-    L0: float = 5.0,
-    taper_length: float = 10.0,
+    length: float = 1600.0,
+    length0: float = 0.0,
     n: int = 2,
-    taper: ComponentFactory = taper_function,
-    bend_factory: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight_function,
-    **kwargs
+    taper: StrOrDictOrNone = None,
+    bend180: StrOrDictOrNone = None,
+    waveguide: StrOrDict = "strip",
+    factory: Factory = FACTORY,
 ) -> Component:
     """Snake input facing west
     Snake output facing east
 
     Args:
-        wg_width
-        total_length:
-        L0: initial offset
+        length:
+        length0: initial offset
         n: number of loops
         taper: taper factory
         bend_factory
@@ -36,58 +31,69 @@ def delay_snake(
 
     .. code::
 
-       | L0 |    L2        |
+       | length0 | length1 |
 
-            ->-------------|
+                 >---------|
                            | pi * radius
        |-------------------|
        |
        |------------------->
 
-       |        DL         |
+       |      delta_length      |
 
 
     """
-    epsilon = 0.1
-    bend90 = bend_factory(width=wg_width, **kwargs)
-    dy = bend90.dy
-    DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
-    L2 = DL - L0
+    if n % 2:
+        warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
+        n = n // 2 * 2
+    bend180 = bend180 or dict(component="bend_euler", angle=180, waveguide=waveguide)
+    bend180 = factory.get_component(bend180)
+
+    delta_length = (length - length0 - n * (bend180.length)) / (n + 1)
+    length1 = delta_length - length0
     assert (
-        L2 > 0
-    ), "Snake is too short: either reduce L0, increase the total length,\
+        length1 > 0
+    ), "Snake is too short: either reduce length0, increase the total length,\
     or decrease n"
 
-    y = 0
-    path = [(0, y), (L2, y)]
-    for _i in range(n):
-        y -= 2 * dy + epsilon
-        path += [(L2, y), (-L0, y)]
-        y -= 2 * dy + epsilon
-        path += [(-L0, y), (L2, y)]
+    s1 = pp.c.straight(waveguide=waveguide, length=length1)
+    sd = pp.c.straight(waveguide=waveguide, length=delta_length)
 
-    path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
+    symbol_to_component = {
+        "_": (s1, "W0", "E0"),
+        "-": (sd, "W0", "E0"),
+        ")": (bend180, "W1", "W0"),
+        "(": (bend180, "W0", "W1"),
+    }
 
-    component = pp.Component()
-    if taper:
-        _taper = taper(
-            width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
-        )
-    route = round_corners(
-        points=path,
-        bend_factory=bend90,
-        straight_factory=straight_factory,
-        taper=_taper,
-        **kwargs
+    sequence = "_)" + n // 2 * "-(-)"
+    sequence = sequence[:-1]
+    c = pp.components.component_sequence(
+        sequence=sequence, symbol_to_component=symbol_to_component
     )
-    component.add(route.references)
-    component.add_port("S1", port=route.ports[0])
-    component.add_port("S0", port=route.ports[1])
+    pp.port.auto_rename_ports(c)
+    return c
 
-    pp.port.auto_rename_ports(component)
-    return component
+
+def test_length() -> Component:
+    length = 200.0
+    c = delay_snake(
+        waveguide="strip",
+        n=2,
+        length=length,
+        bend180=dict(component="bend_circular180"),
+    )
+    length_measured = (
+        c.aliases[")1"].parent.length * 2 + c.aliases["-1"].parent.length * 3
+    )
+    assert np.isclose(
+        length, length_measured
+    ), f"length measured = {length_measured} != {length}"
+    return c
 
 
 if __name__ == "__main__":
-    c = delay_snake(waveguide="nitride")
-    c.show(show_ports=True)
+    c = test_length()
+    c.show()
+    # c = delay_snake(waveguide="nitride", n=2, length=200)
+    # c.show()

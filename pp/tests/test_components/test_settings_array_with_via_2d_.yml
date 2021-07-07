@@ -1,0 +1,29 @@
+function_name: array_with_via_2d
+info: {}
+module: pp.components.array_with_via
+name: array_with_via_2d
+settings:
+  axis: y
+  cols: 3
+  component:
+    function_name: array_with_via
+    info: {}
+    module: pp.components.array_with_via
+    name: array_with_via_N3_P150
+    settings:
+      bend_port_name: N0
+      component: pad
+      component_port_name: S
+      end_straight: 60
+      n: 3
+      pitch: 150
+      radius: 5
+      tlm: tlm
+      tlm_y_offset: -44
+      waveguide: metal2
+      waveguide_pitch: 10
+  n: 2
+  pitch: 150
+  pitch_x: null
+  pitch_y: null
+  rows: 2

@@ -1,5 +1,6 @@
 function_name: tlm
-info: {}
+info:
+  height: 11
 module: pp.components.electrical.tlm
 name: tlm
 settings:

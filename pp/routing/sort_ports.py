@@ -11,6 +11,18 @@ def get_port_y(port: Port) -> float:
     return port.midpoint[1]
 
 
+def sort_ports_x(ports: List[Port]) -> List[Port]:
+    f_key = get_port_x
+    ports.sort(key=f_key)
+    return ports
+
+
+def sort_ports_y(ports: List[Port]) -> List[Port]:
+    f_key = get_port_y
+    ports.sort(key=f_key)
+    return ports
+
+
 def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List[Port]]:
     """Returns sorted ports.
 

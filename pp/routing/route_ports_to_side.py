@@ -181,7 +181,7 @@ def route_ports_to_x(
         x = max([p.x for p in list_ports]) + a
     elif x == "west":
         x = min([p.x for p in list_ports]) - a
-    elif isinstance(x, float):
+    elif isinstance(x, (float, int)):
         pass
     else:
         raise ValueError(f'x={x} should be a float or "east" or "west"')

@@ -3,9 +3,31 @@ info: {}
 module: pp.components.delay_snake
 name: delay_snake
 settings:
-  L0: 5
+  bend180: null
+  input_port_name: in
+  length: 1600
+  length0: 0
   n: 2
-  taper_length: 10
-  total_length: 1600
-  wg_width: 0.5
-  wg_width_wide: 2
+  output_port_name: out
+  ports_map: null
+  sequence: _)-(-
+  start_orientation: 0
+  symbol_to_component:
+    (:
+    - bend_euler_A180_Wstrip
+    - W0
+    - W1
+    ):
+    - bend_euler_A180_Wstrip
+    - W1
+    - W0
+    '-':
+    - straight_L502p91_Wstrip
+    - W0
+    - E0
+    _:
+    - straight_L502p91_Wstrip
+    - W0
+    - E0
+  taper: null
+  waveguide: strip
