@@ -675,10 +675,24 @@ if __name__ == "__main__":
 
     # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
-    c = test_get_bundle_small()
+    # c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
     # c = test_connect_corner()
 
-    c.show()
+    # c.show()
+
+    c = pp.Component()
+    c1 = c << pp.components.mmi2x2()
+    c2 = c << pp.components.mmi2x2()
+    c2.move((100, 40))
+    routes = get_bundle(
+        [c1.ports["E0"], c1.ports["E1"]],
+        [c2.ports["W0"], c2.ports["W1"]],
+        radius=5,
+    )
+    for route in routes:
+        # print(route.length)
+        assert np.isclose(route.length, 111.3)
+        c.add(route.references)
