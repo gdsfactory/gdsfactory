@@ -83,6 +83,8 @@ from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_tm
 from pp.components.grating_coupler.grating_coupler_loss import grating_coupler_loss
 from pp.components.delay_snake import delay_snake
+from pp.components.delay_snake2 import delay_snake2
+from pp.components.delay_snake3 import delay_snake3
 from pp.components.spiral import spiral
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.components.spiral_inner_io import spiral_inner_io
@@ -190,6 +192,8 @@ FACTORY.register(
         dbr2,
         dbr,
         delay_snake,
+        delay_snake2,
+        delay_snake3,
         disk,
         ellipse,
         fiber,

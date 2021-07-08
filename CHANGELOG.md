@@ -27,6 +27,9 @@ from contracts import contract
 
 
 ```
+## 2.6.2
+
+- add pp.c.delay_snake2 and pp.c.delay_snake
 
 
 ## 2.6.0
