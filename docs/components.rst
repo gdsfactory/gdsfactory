@@ -48,6 +48,96 @@ align_wafer
 
 
 
+array
+----------------------------------------------------
+
+.. autofunction:: pp.components.array
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array()
+  c.plot()
+
+
+
+array_2d
+----------------------------------------------------
+
+.. autofunction:: pp.components.array_2d
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array_2d()
+  c.plot()
+
+
+
+array_with_fanout
+----------------------------------------------------
+
+.. autofunction:: pp.components.array_with_fanout
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array_with_fanout()
+  c.plot()
+
+
+
+array_with_fanout_2d
+----------------------------------------------------
+
+.. autofunction:: pp.components.array_with_fanout_2d
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array_with_fanout_2d()
+  c.plot()
+
+
+
+array_with_via
+----------------------------------------------------
+
+.. autofunction:: pp.components.array_with_via
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array_with_via()
+  c.plot()
+
+
+
+array_with_via_2d
+----------------------------------------------------
+
+.. autofunction:: pp.components.array_with_via_2d
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.array_with_via_2d()
+  c.plot()
+
+
+
 awg
 ----------------------------------------------------
 
@@ -587,6 +677,36 @@ delay_snake
 
 
 
+delay_snake2
+----------------------------------------------------
+
+.. autofunction:: pp.components.delay_snake2
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.delay_snake2()
+  c.plot()
+
+
+
+delay_snake3
+----------------------------------------------------
+
+.. autofunction:: pp.components.delay_snake3
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.delay_snake3()
+  c.plot()
+
+
+
 disk
 ----------------------------------------------------
 
@@ -613,6 +733,51 @@ ellipse
   import pp
 
   c = pp.components.ellipse()
+  c.plot()
+
+
+
+extend_ports
+----------------------------------------------------
+
+.. autofunction:: pp.components.extend_ports
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.extend_ports()
+  c.plot()
+
+
+
+fiber
+----------------------------------------------------
+
+.. autofunction:: pp.components.fiber
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.fiber()
+  c.plot()
+
+
+
+fiber_array
+----------------------------------------------------
+
+.. autofunction:: pp.components.fiber_array
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.fiber_array()
   c.plot()
 
 
@@ -778,21 +943,6 @@ litho_calipers
   import pp
 
   c = pp.components.litho_calipers()
-  c.plot()
-
-
-
-litho_star
-----------------------------------------------------
-
-.. autofunction:: pp.components.litho_star
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.litho_star()
   c.plot()
 
 
@@ -1037,6 +1187,21 @@ pad_array
 
 
 
+pad_array_2d
+----------------------------------------------------
+
+.. autofunction:: pp.components.pad_array_2d
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.pad_array_2d()
+  c.plot()
+
+
+
 pads_shorted
 ----------------------------------------------------
 
@@ -1093,6 +1258,21 @@ rectangle
   import pp
 
   c = pp.components.rectangle()
+  c.plot()
+
+
+
+resistance_meander
+----------------------------------------------------
+
+.. autofunction:: pp.components.resistance_meander
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.resistance_meander()
   c.plot()
 
 
@@ -1322,6 +1502,21 @@ straight_pin
 
 
 
+straight_with_heater
+----------------------------------------------------
+
+.. autofunction:: pp.components.straight_with_heater
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.straight_with_heater()
+  c.plot()
+
+
+
 taper
 ----------------------------------------------------
 
@@ -1363,36 +1558,6 @@ taper_strip_to_ridge
   import pp
 
   c = pp.components.taper_strip_to_ridge()
-  c.plot()
-
-
-
-test_resistance
-----------------------------------------------------
-
-.. autofunction:: pp.components.test_resistance
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.test_resistance()
-  c.plot()
-
-
-
-test_via
-----------------------------------------------------
-
-.. autofunction:: pp.components.test_via
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.test_via()
   c.plot()
 
 
@@ -1517,17 +1682,17 @@ via3
 
 
 
-straight_with_heater
+via_cutback
 ----------------------------------------------------
 
-.. autofunction:: pp.components.straight_with_heater
+.. autofunction:: pp.components.via_cutback
 
 .. plot::
   :include-source:
 
   import pp
 
-  c = pp.components.straight_with_heater()
+  c = pp.components.via_cutback()
   c.plot()
 
 
@@ -1543,4 +1708,34 @@ wire
   import pp
 
   c = pp.components.wire()
+  c.plot()
+
+
+
+wire_corner
+----------------------------------------------------
+
+.. autofunction:: pp.components.wire_corner
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.wire_corner()
+  c.plot()
+
+
+
+wire_straight
+----------------------------------------------------
+
+.. autofunction:: pp.components.wire_straight
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.wire_straight()
   c.plot()
