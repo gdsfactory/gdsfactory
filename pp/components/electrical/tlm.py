@@ -61,6 +61,7 @@ def tlm(
     height: Optional[float] = None,
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Tuple[ComponentOrFactory, ...] = (via2, via3),
+    port_orientation: int = 180,
 ) -> Component:
     """Rectangular transition thru metal layers
 
@@ -69,6 +70,7 @@ def tlm(
         height: defaults to width
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
+        port_orientation
     """
     height = height or width
 
@@ -107,6 +109,24 @@ def tlm(
         for i in range(nb_vias_x):
             for j in range(nb_vias_y):
                 c.add(via.ref(position=(x0 + i * pitch, y0 + j * pitch)))
+
+    if port_orientation == 0:
+        port_name = "E0"
+        port_width = height
+    elif port_orientation == 180:
+        port_name = "W0"
+        port_width = height
+    elif port_orientation == 90:
+        port_name = "N0"
+        port_width = width
+    elif port_orientation == 270:
+        port_name = "S0"
+        port_width = width
+    else:
+        raise ValueError(
+            f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
+        )
+    c.add_port(name=port_name, width=port_width, orientation=port_orientation)
 
     return c
 

@@ -1,9 +1,8 @@
-"""Electrical routing creates some strange artifacts.
-
-See for example the route to the middle pad in this example.
-
-There is a more clear direct route.
 """
+This is a hack.
+
+"""
+
 
 import pp
 
@@ -15,8 +14,8 @@ mzir = c << mzi
 p.move((-150, 150))
 
 routes = pp.routing.get_bundle(
-    ports1=p.ports,
-    ports2=mzir.get_ports_list(port_type="dc"),
+    ports2=p.ports,
+    ports1=mzir.get_ports_list(port_type="dc"),
     waveguide="metal_routing",
     bend_factory=pp.components.wire_corner,
 )

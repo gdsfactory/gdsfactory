@@ -12,6 +12,7 @@
 *.egg-info
 dist
 doc_pdks/
+plugins/
 pip-wheel-metadata/
 pdk_docs/
 build

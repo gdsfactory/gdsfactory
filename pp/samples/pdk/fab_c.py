@@ -111,7 +111,6 @@ def mmi1x2_nitride_cband(
         waveguide=waveguide,
         **kwargs,
     )
-    add_pins_custom(c)
     return c
 
 
@@ -138,28 +137,24 @@ def mmi1x2_nitride_oband(
         waveguide=waveguide,
         **kwargs,
     )
-    add_pins_custom(c)
     return c
 
 
 @cell
 def bend_euler(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins_custom(c)
     return c
 
 
 @cell
 def bend_euler_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins_custom(c)
     return c
 
 
 @cell
 def straight_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
     c = pp.c.straight(waveguide=waveguide, **kwargs)
-    add_pins_custom(c)
     return c
 
 
@@ -182,7 +177,6 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
         straight="straight_cband",
         library=LIBRARY,
     )
-    add_pins_custom(c)
     return c
 
 
@@ -197,7 +191,6 @@ def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
         straight="straight_cband",
         library=LIBRARY,
     )
-    add_pins_custom(c)
     return c
 
 

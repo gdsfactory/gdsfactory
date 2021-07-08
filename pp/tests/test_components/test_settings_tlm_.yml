@@ -5,6 +5,7 @@ module: pp.components.electrical.tlm
 name: tlm
 settings:
   height: null
+  port_orientation: 180
   vias:
   - via2
   - via3

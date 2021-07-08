@@ -359,7 +359,7 @@ class Library:
         ] = None,
         **kwargs,
     ) -> None:
-        """Registers component_factory functions into the factory."""
+        """Registers component_factory function or functions into the factory."""
         function_or_function_list = function_or_function_list or []
 
         if not hasattr(function_or_function_list, "__iter__"):
@@ -414,8 +414,9 @@ class Library:
         component_settings_default.update(**component_settings)
         component_settings_default.update(**settings)
         component = self.factory[component](**component_settings_default)
-        if self.post_init:
+        if self.post_init and not hasattr(component, "_initialized"):
             self.post_init(component)
+            component._initialized = True
         return component
 
     def write_rst(self, filepath: Union[pathlib.Path, str], import_library: str):
@@ -423,7 +424,7 @@ class Library:
 
         Args:
             filepath:
-            import_library: import library
+            import_library: import library, `from pp.samples.pdk.fab_c import LIBRARY`
 
         """
         if "LIBRARY" not in import_library:
