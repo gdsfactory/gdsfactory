@@ -190,7 +190,7 @@ The actual chain of components is supplied by a string or a list
         wg_heater = straight_heater(length=20.0)
 
         # Define a map between symbols and (component, input port, output port)
-        string_to_device_in_out_ports = {
+        symbol_to_component = {
             "A": (bend180, "W0", "W1"),
             "B": (bend180, "W1", "W0"),
             "H": (wg_heater, "W0", "E0"),
@@ -202,7 +202,7 @@ The actual chain of components is supplied by a string or a list
         # with a given input and and a given output
 
         sequence = "AB-H-H-H-H-BA"
-        component = component_sequence(sequence, string_to_device_in_out_ports)
+        component = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
         return component
 
@@ -240,7 +240,7 @@ The actual chain of components is supplied by a string or a list
         taper=_taper()
 
         # Define a map between symbols and (component, input port, output port)
-        string_to_device_in_out_ports = {
+        symbol_to_component = {
             "I": (taper, "1", "wg_2"),
             "O": (taper, "wg_2", "1"),
             "S": (wg_short, "W0", "E0"),
@@ -258,7 +258,7 @@ The actual chain of components is supplied by a string or a list
         repeated_sequence="SIPOSASIPOSB"
         heater_seq = "-H-H-H-H-"
         sequence = repeated_sequence * n + "SIPO" + heater_seq
-        component = component_sequence(sequence, string_to_device_in_out_ports)
+        component = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
         return component
 
