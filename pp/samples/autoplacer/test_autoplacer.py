@@ -26,7 +26,7 @@ def test_autoplacer():
     shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
-    # Map the component factory names in the YAML file to the component factory
+    # Map the component library names in the YAML file to the component library
     name2factory = {"spiral": spiral}
 
     logger.add(sink=logpath)

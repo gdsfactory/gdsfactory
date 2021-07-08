@@ -3,7 +3,7 @@ from typing import Optional
 from pp.cell import cell
 from pp.component import Component
 from pp.port import rename_ports_by_orientation
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict
 
 
@@ -20,7 +20,7 @@ def mzi(
     splitter: StrOrDict = "mmi1x2",
     combiner: Optional[StrOrDict] = None,
     with_splitter: bool = True,
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -29,7 +29,7 @@ def mzi(
         delta_length: bottom arm vertical extra length
         length_y: vertical length for both and top arms
         length_x: horizontal length
-        bend: 90 degrees bend factory
+        bend: 90 degrees bend library
         straight: straight function
         straight_horizontal: straight for length_x
         straight_vertical: straight for length_y and delta_length
@@ -37,7 +37,7 @@ def mzi(
         combiner: combiner function
         with_splitter: if False removes splitter
         kwargs: cross_section settings
-        factory: factory with components
+        library: library with components
 
     .. code::
 
@@ -55,7 +55,7 @@ def mzi(
 
 
     """
-    get = factory.get_component
+    get = library.get_component
 
     bend = get(bend, **kwargs)
     splitter = get(splitter)

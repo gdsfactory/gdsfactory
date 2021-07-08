@@ -117,7 +117,7 @@ The code below illustrates how a simple MZI can be formed using this method.
 
     routes:
         route_name1:
-            factory: optical
+            library: optical
             links:
                 mmi_short,E1: mmi_long,E0
 

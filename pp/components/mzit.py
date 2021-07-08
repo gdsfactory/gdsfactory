@@ -44,12 +44,12 @@ def mzit(
         coupler_gap1: coupler1
         coupler_gap2: coupler2
         bend_radius: 10.0
-        taper_factory: taper factory
+        taper_factory: taper library
         taper_length:
-        bend90: bend_circular or factory
-        straight_factory: factory
-        coupler1: coupler1 or factory, can be None
-        coupler2: coupler2 or factory
+        bend90: bend_circular or library
+        straight_factory: library
+        coupler1: coupler1 or library, can be None
+        coupler2: coupler2 or library
         kwargs: overwrites waveguide_settings
 
     .. code::

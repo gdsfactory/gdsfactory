@@ -17,7 +17,7 @@ def coupler_symmetric(
     r"""Two coupled straights with bends.
 
     Args:
-        bend: bend or factory
+        bend: bend or library
         gap:
         dy: port to port vertical spacing
         dx: bend length in x direction

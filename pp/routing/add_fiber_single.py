@@ -11,7 +11,7 @@ from pp.config import TECH, call_if_func
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
@@ -32,7 +32,7 @@ def add_fiber_single(
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -124,7 +124,7 @@ def add_fiber_single(
                 **waveguide_settings,
             )
         )
-        component = add_tapers(component=component, taper=taper, factory=factory)
+        component = add_tapers(component=component, taper=taper, library=library)
 
     c = Component()
     cr = c << component

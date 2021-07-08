@@ -72,7 +72,7 @@ def write_doe(
     doe_name = doe["name"]
     list_settings = doe["list_settings"]
 
-    # Otherwise generate each component using the component factory
+    # Otherwise generate each component using the component library
     component_type = doe["component"]
     components = build_components(
         component_type, list_settings, component_factory=component_factory

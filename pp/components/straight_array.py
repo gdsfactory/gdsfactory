@@ -19,7 +19,7 @@ def straight_array(
     Args:
         n: number of straights
         spacing: edge to edge straight spacing
-        straigth: straigth straight Component or factory
+        straigth: straigth straight Component or library
         **kwargs
     """
 

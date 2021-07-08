@@ -12,9 +12,9 @@ from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
 from pp.routing.add_fiber_single import add_fiber_single
 from pp.routing.fanout2x2 import fanout2x2
-from pp.tech import Factory
+from pp.tech import Library
 
-COMPONENT_FACTORY = Factory(name="generic_containers")
+COMPONENT_FACTORY = Library(name="generic_containers")
 COMPONENT_FACTORY.register(
     [
         add_electrical_pads_shortest,

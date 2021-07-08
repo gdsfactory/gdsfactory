@@ -19,7 +19,7 @@ def merge_markdown(
     logger.info("Merging Markdown files:")
     configpath = mdpath.with_suffix(".yml")
     tech = dataclasses.asdict(TECH)
-    tech.pop("factory", "")
+    tech.pop("library", "")
 
     with open(configpath, "w") as f:
         tech.update(**kwargs)

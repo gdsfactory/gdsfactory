@@ -2,11 +2,11 @@ from typing import Optional
 
 from pp.cell import cell
 from pp.component import Component
-from pp.components import FACTORY
+from pp.components import LIBRARY
 from pp.components.array import array
 from pp.components.straight import straight
 from pp.port import auto_rename_ports
-from pp.tech import Factory
+from pp.tech import Library
 from pp.types import StrOrDict
 
 
@@ -23,7 +23,7 @@ def array_with_via(
     waveguide="metal2",
     tlm: StrOrDict = "tlm",
     tlm_y_offset: float = -44.0,
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **waveguide_settings,
 ) -> Component:
     """Returns an array of components in X axis
@@ -43,8 +43,8 @@ def array_with_via(
         **waveguide_settings
     """
     c = Component()
-    component = factory.get_component(component)
-    tlm = factory.get_component(tlm)
+    component = library.get_component(component)
+    tlm = library.get_component(tlm)
     tlm.add_port("W0", width=tlm.height, orientation=180)
 
     for col in range(n):

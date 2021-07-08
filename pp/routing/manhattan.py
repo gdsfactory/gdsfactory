@@ -476,7 +476,7 @@ def round_corners(
     Args:
         points: manhattan route defined by waypoints
         bend90: the bend to use for 90Deg turns
-        straight_factory: the straight factory to use to generate straight portions
+        straight_factory: the straight library to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide

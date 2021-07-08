@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 
 import pp
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict
 
 
@@ -15,17 +15,17 @@ def splitter_tree(
     dx: float = 90.0,
     bend_s: Optional[StrOrDict] = "bend_s",
     waveguide: str = "strip",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **kwargs,
 ) -> pp.Component:
     """Tree of 1x2 splitters
 
     Args:
-        coupler: 1x2 coupler factory name or dict
+        coupler: 1x2 coupler library name or dict
         noutputs:
         dx: x spacing between couplers
         dy: y spacing between couplers
-        bend_s: Sbend factory name or dict for termination
+        bend_s: Sbend library name or dict for termination
         waveguide: waveguide
         kwargs: waveguide_settings
 
@@ -41,13 +41,13 @@ def splitter_tree(
     """
     c = pp.Component()
 
-    coupler = factory.get_component(coupler, waveguide=waveguide, **kwargs)
+    coupler = library.get_component(coupler, waveguide=waveguide, **kwargs)
     if bend_s:
         dy_coupler_ports = abs(
             coupler.ports["E0"].midpoint[1] - coupler.ports["E1"].midpoint[1]
         )
         height = dy / 4 - dy_coupler_ports / 2
-        bend_s = factory.get_component(
+        bend_s = library.get_component(
             bend_s, waveguide=waveguide, length=dx, height=height, **kwargs
         )
     cols = int(np.log2(noutputs))

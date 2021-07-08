@@ -33,7 +33,7 @@ def merge_json(
     cells = {}
     extra_directories = extra_directories or []
     config = dataclasses.asdict(config)
-    config.pop("factory", "")
+    config.pop("library", "")
 
     for directory in extra_directories + [doe_directory]:
         for filename in directory.glob("*/*.json"):

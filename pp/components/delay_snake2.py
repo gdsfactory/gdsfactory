@@ -4,7 +4,7 @@ import numpy as np
 
 import pp
 from pp.component import Component
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict, StrOrDictOrNone
 
 
@@ -15,7 +15,7 @@ def delay_snake2(
     n: int = 2,
     bend180: StrOrDictOrNone = None,
     waveguide: StrOrDict = "strip",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **waveguide_settings,
 ) -> Component:
     """Snake input facing west
@@ -27,7 +27,7 @@ def delay_snake2(
         n: number of loops
         bend180
         waveguide
-        factory
+        library
         waveguide_settings
 
     .. code::
@@ -50,7 +50,7 @@ def delay_snake2(
     bend180 = bend180 or dict(
         component="bend_euler", angle=180, waveguide=waveguide, **waveguide_settings
     )
-    bend180 = factory.get_component(bend180, waveguide=waveguide, **waveguide_settings)
+    bend180 = library.get_component(bend180, waveguide=waveguide, **waveguide_settings)
 
     delta_length = (length - length0 - n * (bend180.length)) / (n + 1)
     length1 = delta_length - length0

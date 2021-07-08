@@ -19,7 +19,7 @@ import pp
 from pp.add_pins import add_pin_square_inside
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.tech import TECH, Factory, Tech, Waveguide
+from pp.tech import TECH, Library, Tech, Waveguide
 from pp.types import Layer, StrOrDict
 
 
@@ -163,18 +163,16 @@ def straight_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Componen
     return c
 
 
-FACTORY = Factory(name="fab_c", post_init=add_pins_custom)
-# FACTORY = TECH.factory
-
 TECH_FABC = Tech(name="fab_c")
-TECH_FABC.factory = FACTORY
-FACTORY.register(
+LIBRARY = Library(name="fab_c", post_init=add_pins_custom)
+LIBRARY.register(
     [mmi1x2_nitride_cband, mmi1x2_nitride_oband, bend_euler_cband, straight_cband]
 )
 
 
 @cell
 def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
+    """Returns a Cband Nitride MMI."""
     c = pp.c.mzi(
         delta_length=delta_length,
         splitter="mmi1x2_nitride_cband",
@@ -182,7 +180,7 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
         width=WIDTH_NITRIDE_CBAND,
         bend="bend_euler_cband",
         straight="straight_cband",
-        factory=FACTORY,
+        library=LIBRARY,
     )
     add_pins_custom(c)
     return c
@@ -197,26 +195,30 @@ def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
         width=WIDTH_NITRIDE_CBAND,
         bend="bend_euler_cband",
         straight="straight_cband",
-        factory=FACTORY,
+        library=LIBRARY,
     )
     add_pins_custom(c)
     return c
 
 
-FACTORY.register([mzi_nitride_cband, mzi_nitride_oband])
+LIBRARY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 
 if __name__ == "__main__":
-    mzi = mzi_nitride_cband()
-    gc = pp.c.grating_coupler_elliptical_te(
-        wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
+    LIBRARY.write_rst(
+        filepath="doc.rst", import_library="from pp.samples.pdk.fab_c import LIBRARY"
     )
-    mzi_gc = pp.routing.add_fiber_single(
-        component=mzi,
-        grating_coupler=gc,
-        waveguide="nitride_cband",
-        straight_factory=straight_cband,
-        optical_routing_type=1,
-        factory=FACTORY,
-    )
-    mzi_gc.show()
+    print(mzi_nitride_cband.__doc__)
+    # mzi = mzi_nitride_cband()
+    # gc = pp.c.grating_coupler_elliptical_te(
+    #     wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
+    # )
+    # mzi_gc = pp.routing.add_fiber_single(
+    #     component=mzi,
+    #     grating_coupler=gc,
+    #     waveguide="nitride_cband",
+    #     straight_factory=straight_cband,
+    #     optical_routing_type=1,
+    #     library=LIBRARY,
+    # )
+    # mzi_gc.show()

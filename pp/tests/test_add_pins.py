@@ -1,7 +1,7 @@
 import pytest
 
 import pp
-from pp.samples.pdk.fab_c import FACTORY, LAYER, WIDTH_NITRIDE_CBAND, straight_cband
+from pp.samples.pdk.fab_c import LAYER, LIBRARY, WIDTH_NITRIDE_CBAND, straight_cband
 
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
@@ -22,7 +22,7 @@ def test_add_pins(optical_routing_type) -> None:
         waveguide="nitride_cband",
         straight_factory=straight_cband,
         optical_routing_type=optical_routing_type,
-        factory=FACTORY,
+        library=LIBRARY,
     )
     pins_component = cc.extract(layers=(LAYER.PIN,))
     # print(len(pins_component.polygons))

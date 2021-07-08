@@ -3,7 +3,7 @@ from typing import List, Tuple
 import pp
 from pp.component import Component, ComponentReference
 from pp.port import Port, auto_rename_ports
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict
 
 
@@ -13,13 +13,13 @@ def add_taper_elements(
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
     port_type: str = "optical",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
 ) -> Tuple[List[Port], List[ComponentReference]]:
     """Returns ports and taper elements to taper a component"""
     ports = []
     elements = []
 
-    taper_component = factory.get_component(taper)
+    taper_component = library.get_component(taper)
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
             f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
@@ -47,11 +47,11 @@ def add_tapers(
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
     with_auto_rename: bool = False,
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
 ) -> Component:
     """Returns component with tapers."""
 
-    taper_component = factory.get_component(taper)
+    taper_component = library.get_component(taper)
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
             f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
