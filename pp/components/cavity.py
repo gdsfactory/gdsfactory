@@ -20,7 +20,7 @@ def cavity(
 
     Args:
         component: mirror
-        coupler: coupler factory
+        coupler: coupler library
         length: coupler length
         gap: coupler gap
         tech: Technology

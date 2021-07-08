@@ -30,6 +30,7 @@ from contracts import contract
 ## 2.6.2
 
 - add pp.c.delay_snake2 and pp.c.delay_snake
+- rename FACTORY as LIBRARY. Now we have LIBRARY.factory as the Dict[str, Callable]
 
 
 ## 2.6.0

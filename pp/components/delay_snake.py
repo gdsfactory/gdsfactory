@@ -30,7 +30,7 @@ def delay_snake(
         total_length:
         L0: initial offset
         n: number of loops
-        taper: taper factory
+        taper: taper library
         bend_factory
         straight_factory
 

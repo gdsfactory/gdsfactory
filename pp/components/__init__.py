@@ -4,7 +4,7 @@ Only change the order if you know what you are doing
 isort:skip_file
 """
 import dataclasses
-from pp.tech import FACTORY
+from pp.tech import LIBRARY
 
 # level 0 components
 from pp.components.array import array
@@ -144,7 +144,7 @@ from pp.components.splitter_tree import splitter_tree
 from pp.components.splitter_chain import splitter_chain
 
 
-FACTORY.register(
+LIBRARY.register(
     [
         array,
         array_2d,
@@ -267,12 +267,12 @@ FACTORY.register(
 )
 
 
-def factory(component_type: str, **kwargs):
+def library(component_type: str, **kwargs):
     """Returns a component with settings.
     from TECH.component_settings.component_type
 
     Args:
-        component_type: factory
+        component_type: library
         **kwargs: component_settings
 
     """
@@ -288,12 +288,12 @@ def factory(component_type: str, **kwargs):
         return component_type
     elif callable(component_type):
         return component_type(**settings)
-    elif component_type not in FACTORY.factory.keys():
+    elif component_type not in LIBRARY.library.keys():
         raise ValueError(
             f"component_type = {component_type} not in: \n"
-            + "\n".join(FACTORY.factory.keys())
+            + "\n".join(LIBRARY.library.keys())
         )
-    return FACTORY.factory[component_type](**settings)
+    return LIBRARY.library[component_type](**settings)
 
 
 component_names_skip_test = [
@@ -309,7 +309,7 @@ component_names_skip_test_ports = ["coupler"]
 
 container_names = ["cavity", "ring_single_dut"]
 component_names = (
-    set(FACTORY.factory.keys()) - set(component_names_skip_test) - set(container_names)
+    set(LIBRARY.factory.keys()) - set(component_names_skip_test) - set(container_names)
 )
 component_names_test_ports = component_names - set(component_names_skip_test_ports)
 circuit_names = {
@@ -322,11 +322,11 @@ circuit_names = {
     "component_lattice",
 }
 
-__all__ = list(FACTORY.factory.keys()) + container_names + ["extend_ports_list"]
-component_factory = FACTORY.factory
+__all__ = list(LIBRARY.factory.keys()) + container_names + ["extend_ports_list"]
+component_factory = LIBRARY.factory
 
 if __name__ == "__main__":
     for c in component_names:
-        ci = FACTORY.factory[c]()
-    c = factory("mmi1x2")
+        ci = LIBRARY.factory[c]()
+    c = library("mmi1x2")
     c.show()

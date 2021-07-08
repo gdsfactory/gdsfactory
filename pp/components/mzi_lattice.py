@@ -2,7 +2,7 @@ from typing import Dict, Tuple, Union
 
 from pp.cell import cell
 from pp.component import Component
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import Number
 
 
@@ -14,7 +14,7 @@ def mzi_lattice(
     mzi: Union[str, Dict] = "mzi",
     splitter: str = "coupler",
     straight: Union[str, Dict] = "straight",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **kwargs
 ) -> Component:
     r"""Mzi lattice filter.
@@ -37,7 +37,7 @@ def mzi_lattice(
     assert len(coupler_lengths) == len(delta_lengths) + 1
 
     c = Component()
-    get = factory.get_component
+    get = library.get_component
 
     splitter_settings = dict(
         component=splitter, gap=coupler_gaps[0], length=coupler_lengths[0]

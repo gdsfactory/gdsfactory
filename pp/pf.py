@@ -222,7 +222,7 @@ def test() -> None:
     help="Show the version number.",
 )
 def cli():
-    """`pf` is the photonics factory command line tool.
+    """`pf` is the photonics library command line tool.
     It helps to build, test, and configure masks and components.
     """
     pass

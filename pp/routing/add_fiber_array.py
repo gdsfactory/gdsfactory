@@ -9,7 +9,7 @@ from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.tech import FACTORY, Factory
+from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
@@ -24,7 +24,7 @@ def add_fiber_array(
     taper: StrOrDict = "taper",
     get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -105,7 +105,7 @@ def add_fiber_array(
                 waveguide=waveguide,
             )
         )
-        c = add_tapers(component=c, taper=taper, factory=factory)
+        c = add_tapers(component=c, taper=taper, library=library)
 
     # for pn, p in c.ports.items():
     #     print(p.name, p.port_type, p.layer)

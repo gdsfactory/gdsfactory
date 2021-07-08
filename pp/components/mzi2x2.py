@@ -30,7 +30,7 @@ def mzi_arm(
         L0: vertical length with heater
         DL: extra vertical length without heater (delat_length=2*DL)
         L_top: 10.0, horizontal length
-        bend: 90 degrees bend factory
+        bend: 90 degrees bend library
         straight_heater: straight_with_heater
         straight: straight
 
@@ -123,7 +123,7 @@ def mzi2x2(
         DL: bottom arm extra length
         L2: L_top horizontal length
         gap: 0.235
-        bend: 90 degrees bend factory
+        bend: 90 degrees bend library
         straight_heater: straight_with_heater or straight
         straight: straight
         coupler_function: coupler

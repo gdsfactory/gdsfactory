@@ -32,7 +32,7 @@ def mzi1x2(
         DL: bottom arm extra length
         L2: L_top horizontal length
         bend_radius: 10.0
-        bend: 90 degrees bend factory
+        bend: 90 degrees bend library
         straight_heater: straight_with_heater or straight
         straight_function: straight
         coupler_function: coupler

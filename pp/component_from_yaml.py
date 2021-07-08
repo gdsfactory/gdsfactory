@@ -11,9 +11,9 @@ from omegaconf import OmegaConf
 
 from pp.add_pins import add_instance_label
 from pp.component import Component, ComponentReference
-from pp.components import FACTORY
+from pp.components import LIBRARY
 from pp.routing.factories import routing_strategy as routing_strategy_factories
-from pp.tech import Factory
+from pp.tech import Library
 from pp.types import Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
@@ -356,7 +356,7 @@ ports:
 
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    factory: Factory = FACTORY,
+    library: Library = LIBRARY,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     **kwargs,
@@ -366,7 +366,7 @@ def component_from_yaml(
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
             (instances, placements, routes, ports, connections, names)
-        component_factory: Factory {factory_name: factory_function}
+        component_factory: Library {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
         kwargs: cache, pins ... to pass to all factories
@@ -392,7 +392,7 @@ def component_from_yaml(
         ports (Optional): defines ports to expose
         routes (Optional): defines bundles of routes
             routeName:
-            factory: optical
+            library: optical
             links:
                 instance1,port1: instance2,port2
 
@@ -424,7 +424,7 @@ def component_from_yaml(
                 dy: -30
         routes:
             optical:
-                factory: optical
+                library: optical
                 links:
                     mmi_top,E0: mmi_bot,W0
 
@@ -434,7 +434,7 @@ def component_from_yaml(
         if isinstance(yaml_str, str) and "\n" in yaml_str
         else yaml_str
     )
-    component_factory = factory.factory
+    component_factory = library.factory
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():

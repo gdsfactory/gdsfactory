@@ -5,7 +5,7 @@ import dataclasses
 
 import pp
 from pp.add_pins import add_outline, add_pins
-from pp.tech import TECH, Factory, Layer, Waveguide
+from pp.tech import TECH, Layer, Library, Waveguide
 
 
 @dataclasses.dataclass
@@ -28,13 +28,13 @@ def post_init(component) -> None:
     add_outline(component)
 
 
-FACTORY = Factory(name="fab_a", post_init=post_init)
-FACTORY.register([pp.c.mmi2x2, pp.c.mmi1x2, pp.c.mzi])
-FACTORY.register(sw=pp.c.straight)
+LIBRARY = Library(name="fab_a", post_init=post_init)
+LIBRARY.register([pp.c.mmi2x2, pp.c.mmi1x2, pp.c.mzi])
+LIBRARY.register(sw=pp.c.straight)
 
 
 if __name__ == "__main__":
-    F = FACTORY
+    F = LIBRARY
     F.settings.mmi1x2.width_mmi = 5
     c = F.get_component("mzi")
     c.show()

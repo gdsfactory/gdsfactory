@@ -20,7 +20,7 @@ def coupler_asymmetric(
 
     Args:
         bend:
-        straight: straight factory
+        straight: straight library
         gap: um
         dy: port to port vertical spacing
         dx: bend length in x direction

@@ -90,7 +90,7 @@ def extend_ports(
         component: component to extend ports
         port_list: specify an list of ports names, if None it extends all ports
         length: extension length
-        extension_factory: straight factory to extend ports
+        extension_factory: straight library to extend ports
         extension_port_name_input:
         extension_port_name_output:
     """

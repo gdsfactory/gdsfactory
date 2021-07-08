@@ -331,8 +331,8 @@ def assert_callable(function):
 
 
 @pydantic.dataclasses.dataclass
-class Factory:
-    """Stores component factories for defining a library of Components.
+class Library:
+    """Stores component factories for defining a factory of Components.
 
     Args:
         factory: component name to function
@@ -376,15 +376,12 @@ class Factory:
             assert_callable(function)
             self.factory[function_name] = function
 
-        # setattr(self.components, factory.__name__, factory)
-        # setattr(self, factory.__name__, factory)
-
     def get_component(
         self,
         component: Union[str, Dict],
         **settings,
     ) -> Component:
-        """Returns Component from factory.
+        """Returns Component from library.
         Takes default settings from self.settings
         settings can be overwriten with kwargs
         runs any post_init functions over the component before it returns it.
@@ -421,6 +418,38 @@ class Factory:
             self.post_init(component)
         return component
 
+    def write_rst(self, filepath: Union[pathlib.Path, str], import_library: str):
+        """Writes library documentation.
+
+        Args:
+            filepath:
+            import_library: import library
+
+        """
+        if "LIBRARY" not in import_library:
+            raise ValueError(f"LIBRARY not imported in {import_library}")
+
+        rst = ""
+        for name, function in self.factory.items():
+            rst += f"""
+
+{name}
+----------------------------------------------------
+
+{function.__doc__}
+
+.. plot::
+  :include-source:
+
+  {import_library}
+
+  component = LIBRARY.get_component({name})
+  component.plot()
+
+"""
+        filepath = pathlib.Path(filepath)
+        filepath.write_text(rst)
+
 
 @pydantic.dataclasses.dataclass
 class Tech:
@@ -444,7 +473,7 @@ class Tech:
 
 
 TECH = Tech()
-FACTORY = Factory("generic_components")
+LIBRARY = Library("generic_components")
 
 if __name__ == "__main__":
     import pp
@@ -463,7 +492,7 @@ if __name__ == "__main__":
     # c = t.component.mmi1x2_longer(length_mmi=30)
     # c.show()
 
-    cf = Factory("demo")
+    cf = Library("demo")
     cf.register(mmi1x2_longer)
     print(asdict(TECH))
     c = cf.get_component("mmi1x2_longer", length_mmi=30)

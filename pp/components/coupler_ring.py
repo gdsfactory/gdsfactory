@@ -29,8 +29,8 @@ def coupler_ring(
         radius: of the bends.
         length_x: length of the parallel coupled straight waveguides.
         coupler90: straight coupled to a 90deg bend.
-        straight: factory for straight waveguides.
-        bend: factory for bend
+        straight: library for straight waveguides.
+        bend: library for bend
         coupler_straight: two parallel coupled straight waveguides.
         waveguide: settings for cross_section
         kwargs: overwrites waveguide_settings

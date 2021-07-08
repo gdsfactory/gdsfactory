@@ -9,10 +9,10 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 
 from pp.component import Component
 from pp.difftest import difftest
-from pp.samples.pdk.fab_c import FACTORY
+from pp.samples.pdk.fab_c import LIBRARY
 from pp.samples.pdk.fab_c import TECH_FABC as TECH
 
-component_factory = FACTORY.factory
+component_factory = LIBRARY.factory
 component_names = component_factory.keys()
 
 
