@@ -17,7 +17,7 @@ def get_routes(
     **kwargs,
 ) -> Routes:
     """Returns Routes with all the manhattan routes.
-    if it does not fit a manhattan route, adds an Sbend
+    if a manhattan route does not fit it adds an Sbend
 
     Notice that it does not route bundles of ports. Use get_bundle instead.
     Temporary solution until round_corners supports Sbend routing
@@ -29,8 +29,8 @@ def get_routes(
         **kwargs: for routing
     """
     warnings.warn(
-        "get_routes is a Temporary solution until round_corners supports Sbend routing"
-        "it does not route bundles of ports. Use get_bundle instead.",
+        "get_routes is a temporary solution until get_bundle supports Sbend routing "
+        "get_routes does not route bundles of ports, use get_bundle instead.",
         DeprecationWarning,
         stacklevel=2,
     )

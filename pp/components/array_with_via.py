@@ -45,7 +45,6 @@ def array_with_via(
     c = Component()
     component = library.get_component(component)
     tlm = library.get_component(tlm)
-    tlm.add_port("W0", width=tlm.height, orientation=180)
 
     for col in range(n):
         ref = component.ref()
