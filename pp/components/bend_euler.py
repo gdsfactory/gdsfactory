@@ -12,7 +12,7 @@ def bend_euler(
     p: float = 1,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
-    direction="ccw",
+    direction: str = "ccw",
     with_cladding_box: bool = True,
     waveguide: StrOrDict = "strip",
     **kwargs
@@ -43,11 +43,14 @@ def bend_euler(
       import pp
 
       c = pp.components.bend_euler(
-        radius=10,
         angle=0.5,
         p=1,
-        use_eff=False
+        with_arc_floorplan=True,
         npoints=720,
+        direction="ccw",
+        with_cladding_box=True,
+        radius=10,
+        waveguide='strip'
       )
       c.plot()
 

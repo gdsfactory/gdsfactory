@@ -71,11 +71,11 @@ of the banks of ports, it decides which sub-routine to call:
 
 
 route_ports_to_side
---------------------
+-----------------------
 
 For now `get_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
-use `route_ports_to_side` prior calling `get_bundle`
+use `route_ports_to_side` before calling `get_bundle`
 
 .. autofunction:: pp.routing.route_ports_to_side.route_ports_to_side
 
@@ -104,17 +104,18 @@ get_bundle_from_waypoints
         ports2 = [pp.Port(f"B_{i}", (0, ys2[i]), 0.5, 180) for i in range(N)]
 
         c = pp.Component()
-        way_points = [
+        waypoints = [
             ports1[0].position + (0, 100),
             ports1[0].position + (200, 100),
             ports1[0].position + (200, -200),
             ports1[0].position + (0, -200),
             ports1[0].position + (0, -350),
             ports1[0].position + (400, -350),
-            (ports1[0].x + 400, ports2[-1].y),
+            (ports1[0].x + 400, ports2[0].y),
         ]
+        print(waypoints)
 
-        routes = pp.routing.get_bundle_from_waypoints(ports1, ports2, way_points)
+        routes = pp.routing.get_bundle_from_waypoints(ports1, ports2, waypoints)
         for route in routes:
             c.add(route.references)
 
@@ -126,7 +127,7 @@ get_bundle_from_waypoints
 
 
 get_bundle_path_length_match
-------------------------
+---------------------------------
 
 
 .. autofunction:: pp.routing.get_bundle_path_length_match.get_bundle_path_length_match
