@@ -108,7 +108,7 @@ def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
     print(len(c.get_dependencies()))
     print(len(c.ports))
-    assert len(c.get_dependencies()) == 5
+    assert len(c.get_dependencies()) == 6
     assert len(c.ports) == 2
     return c
 
@@ -220,7 +220,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [696.8, 696.8, 1203.973]
+    lengths = [696.8, 696.8, 1204.013]
     print(c.routes["tl,E:tr,W"])
     print(c.routes["bl,E:br,W"])
     print(c.routes["bl,S:br,E"])
@@ -608,6 +608,7 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
+    c = test_sample()
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
@@ -626,5 +627,5 @@ if __name__ == "__main__":
 
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    c = component_from_yaml(sample_waypoints)
+    # c = component_from_yaml(sample_waypoints)
     c.show()

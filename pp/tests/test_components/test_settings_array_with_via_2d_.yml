@@ -22,8 +22,11 @@ settings:
       tlm_y_offset: -44
       waveguide: metal2
       waveguide_pitch: 10
+  h_mirror: false
   n: 2
   pitch: 150
   pitch_x: null
   pitch_y: null
+  rotation: 0
   rows: 2
+  v_mirror: false

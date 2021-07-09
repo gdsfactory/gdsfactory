@@ -1,11 +1,12 @@
 connections:
-  bend_euler_ada82c25_71p625_4p0,N0: straight_b61ff999_75p0_50p625,W0
-  bend_euler_ada82c25_71p625_4p0,W0: straight_af674174_38p75_0p625,E0
-  bend_euler_ada82c25_78p375_97p25,N0: mmi_long,E0
-  bend_euler_ada82c25_78p375_97p25,W0: straight_b61ff999_75p0_50p625,E0
-  mmi_short,E1: straight_af674174_38p75_0p625,W0
+  bend_euler_da923375_71p615_4p0,N0: straight_49477668_74p99_50p625,W0
+  bend_euler_da923375_71p615_4p0,W0: straight_6009f269_38p745_0p625,E0
+  bend_euler_da923375_78p365_97p25,N0: straight_c8940bdf_84p995_100p625,W0
+  bend_euler_da923375_78p365_97p25,W0: straight_49477668_74p99_50p625,E0
+  mmi_long,E0: straight_c8940bdf_84p995_100p625,E0
+  mmi_short,E1: straight_6009f269_38p745_0p625,W0
 instances:
-  bend_euler_ada82c25_71p625_4p0:
+  bend_euler_da923375_71p615_4p0:
     component: bend_euler
     settings:
       auto_widen: true
@@ -20,13 +21,14 @@ instances:
       layers_cladding:
       - - 111
         - 0
+      min_length: 0.01
       radius: 10
       sections: []
       taper_length: 10
       waveguide: strip
       width: 0.5
       width_wide: 2
-  bend_euler_ada82c25_78p375_97p25:
+  bend_euler_da923375_78p365_97p25:
     component: bend_euler
     settings:
       auto_widen: true
@@ -41,6 +43,7 @@ instances:
       layers_cladding:
       - - 111
         - 0
+      min_length: 0.01
       radius: 10
       sections: []
       taper_length: 10
@@ -57,29 +60,7 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_af674174_38p75_0p625:
-    component: straight
-    settings:
-      auto_widen: true
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-      layers_cladding:
-      - - 111
-        - 0
-      length: 52.5
-      radius: 10
-      sections: []
-      taper_length: 10
-      waveguide: strip
-      width: 0.5
-      width_wide: 2
-  straight_b61ff999_75p0_50p625:
+  straight_49477668_74p99_50p625:
     component: straight
     settings:
       auto_widen: true
@@ -95,6 +76,53 @@ instances:
       - - 111
         - 0
       length: 80
+      min_length: 0.01
+      radius: 10
+      sections: []
+      taper_length: 10
+      waveguide: strip
+      width: 0.5
+      width_wide: 2
+  straight_6009f269_38p745_0p625:
+    component: straight
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 52.49
+      min_length: 0.01
+      radius: 10
+      sections: []
+      taper_length: 10
+      waveguide: strip
+      width: 0.5
+      width_wide: 2
+  straight_c8940bdf_84p995_100p625:
+    component: straight
+    settings:
+      auto_widen: true
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+      layers_cladding:
+      - - 111
+        - 0
+      length: 0.01
+      min_length: 0.01
       radius: 10
       sections: []
       taper_length: 10
@@ -103,15 +131,15 @@ instances:
       width_wide: 2
 name: mmis
 placements:
-  bend_euler_ada82c25_71p625_4p0:
+  bend_euler_da923375_71p615_4p0:
     mirror: false
     rotation: 0
-    x: 65.0
+    x: 64.99
     y: 0.625
-  bend_euler_ada82c25_78p375_97p25:
+  bend_euler_da923375_78p365_97p25:
     mirror: true
     rotation: 90
-    x: 75.0
+    x: 74.99
     y: 90.625
   mmi_long:
     mirror: false
@@ -123,16 +151,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_af674174_38p75_0p625:
+  straight_49477668_74p99_50p625:
+    mirror: false
+    rotation: 90
+    x: 74.99
+    y: 10.625
+  straight_6009f269_38p745_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_b61ff999_75p0_50p625:
+  straight_c8940bdf_84p995_100p625:
     mirror: false
-    rotation: 90
-    x: 75.0
-    y: 10.625
+    rotation: 0
+    x: 84.99
+    y: 100.625
 ports:
   E0: mmi_short,W0
   W0: mmi_long,W0

@@ -677,9 +677,9 @@ def generate_manhattan_waypoints(
     )
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
-    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
-    end_straight = end_straight or waveguide_settings.get("min_straigth_length")
-    min_straight = min_straight or waveguide_settings.get("min_straigth_length")
+    start_straight = start_straight or waveguide_settings.get("min_length")
+    end_straight = end_straight or waveguide_settings.get("min_length")
+    min_straight = min_straight or waveguide_settings.get("min_length")
 
     pname_west, pname_north = [
         p.name
@@ -710,9 +710,9 @@ def route_manhattan(
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
 
-    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
-    end_straight = end_straight or waveguide_settings.get("min_straigth_length")
-    min_straight = min_straight or waveguide_settings.get("min_straigth_length")
+    start_straight = start_straight or waveguide_settings.get("min_length")
+    end_straight = end_straight or waveguide_settings.get("min_length")
+    min_straight = min_straight or waveguide_settings.get("min_length")
 
     points = generate_manhattan_waypoints(
         input_port,

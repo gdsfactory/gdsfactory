@@ -87,7 +87,7 @@ def get_bundle(
 
     x = get_cross_section(waveguide, **waveguide_settings)
     waveguide_settings = x.info
-    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
+    start_straight = start_straight or waveguide_settings.get("min_length")
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)

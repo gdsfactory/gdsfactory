@@ -21,8 +21,11 @@ settings:
       start_straight: 5
       waveguide: metal_routing
       waveguide_pitch: 10
+  h_mirror: false
   n: 2
   pitch: 150
   pitch_x: null
   pitch_y: null
+  rotation: 0
   rows: 2
+  v_mirror: false
