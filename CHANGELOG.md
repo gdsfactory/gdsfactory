@@ -27,12 +27,17 @@ from contracts import contract
 
 
 ```
+
+## 2.6.3
+
+- add min_length Waveguide setting, for manhattan routes and get_bundle
+- remove grating_coupler.xmin = 0 inside the route_fiber function
+
 ## 2.6.2
 
 - add pp.c.delay_snake2 and pp.c.delay_snake3
 - rename FACTORY as LIBRARY. Now we have LIBRARY.factory as the Dict[str, Callable] with all the library functions.
-- LIBRARY.get_component adds component._initialized=True attribute only once
-
+- LIBRARY.get_component adds component.\_initialized=True attribute only once
 
 ## 2.6.0
 

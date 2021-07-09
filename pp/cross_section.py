@@ -52,7 +52,7 @@ def cross_section(
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("W0", "E0"),
-    min_straigth_length: float = 10e-3,
+    min_length: float = 10e-3,
 ) -> CrossSection:
     """Returns CrossSection from TECH.waveguide settings."""
 
@@ -90,7 +90,7 @@ def cross_section(
         layer_cladding=layer_cladding,
         layers_cladding=layers_cladding,
         sections=sections,
-        min_straigth_length=min_straigth_length,
+        min_length=min_length,
     )
     return x
 

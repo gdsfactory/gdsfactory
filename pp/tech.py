@@ -146,7 +146,7 @@ class Waveguide:
     layer_cladding: Optional[Layer] = None
     layers_cladding: Optional[Tuple[Layer, ...]] = None
     sections: Optional[Tuple[Section, ...]] = None
-    min_straigth_length: float = 10e-3
+    min_length: float = 10e-3
 
 
 @pydantic.dataclasses.dataclass
