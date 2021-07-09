@@ -8,7 +8,13 @@ from pp.port import auto_rename_ports
 
 @cell
 def array(
-    component: Component = straight, n: int = 2, pitch: float = 20.0, axis: str = "y"
+    component: Component = straight,
+    n: int = 2,
+    pitch: float = 20.0,
+    axis: str = "y",
+    rotation: int = 0,
+    h_mirror: bool = False,
+    v_mirror: bool = False,
 ) -> Component:
     """Returns an array of components.
 
@@ -17,6 +23,9 @@ def array(
         n: number of components
         pitch: float
         axis: x or y
+        rotation: in degrees
+        h_mirror: horizontal mirror
+        v_mirror: vertical mirror
     """
     c = Component()
     component = component() if callable(component) else component
@@ -25,7 +34,7 @@ def array(
         raise ValueError(f"Axis must be x or y, got {axis}")
 
     for i in range(n):
-        ref = component.ref()
+        ref = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
         c.aliases[i] = ref
         if axis == "x":
             ref.x = i * pitch

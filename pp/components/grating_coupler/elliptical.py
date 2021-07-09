@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 import numpy as np
 from numpy import float64, ndarray
@@ -28,7 +28,7 @@ def grating_tooth_points(
     ap: float64,
     bp: float64,
     xp: float64,
-    width: Union[float64, float],
+    width: float,
     taper_angle: float,
     spiked: bool = True,
     angle_step: float = 1.0,

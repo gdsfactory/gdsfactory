@@ -144,8 +144,6 @@ def route_fiber_array(
         grating_coupler = pp.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
-    grating_coupler.xmin = 0
-
     assert (
         gc_port_name in grating_coupler.ports
     ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
@@ -372,7 +370,11 @@ def route_fiber_array(
                     gr.translate(0, delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
-        end_straight_offset = straight_separation + 5 if with_align_ports else 0.01
+        end_straight_offset = (
+            straight_separation + 5
+            if with_align_ports
+            else waveguide_settings.get("min_straight_length")
+        )
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]

@@ -742,7 +742,7 @@ class Component(Device):
         self,
         position: Coordinate = (0, 0),
         port_id: Optional[str] = None,
-        rotation: Number = 0,
+        rotation: int = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> ComponentReference:
