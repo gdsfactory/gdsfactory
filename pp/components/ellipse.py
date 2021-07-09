@@ -16,9 +16,9 @@ def ellipse(
     """Generate an ellipse geometry.
 
     Args:
-        radii: (tuple) Semimajor and semiminor axis lengths of the ellipse.
-        angle_resolution: (float) Resolution of the curve of the ring (# of degrees per point).
-        layer: (int, array-like[2], or set) Specific layer(s) to put polygon geometry on.
+        radii: Semimajor and semiminor axis lengths of the ellipse.
+        angle_resolution: Resolution of the curve of the ring (# of degrees per point).
+        layer: Specific layer(s) to put polygon geometry on.
 
     The orientation of the ellipse is determined by the order of the radii variables;
     if the first element is larger, the ellipse will be horizontal and if the second
@@ -29,7 +29,7 @@ def ellipse(
 
       import pp
 
-      c = pp.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=0)
+      c = pp.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
       c.plot()
 
     """
