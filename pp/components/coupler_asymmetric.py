@@ -24,10 +24,11 @@ def coupler_asymmetric(
         gap: um
         dy: port to port vertical spacing
         dx: bend length in x direction
-        cross_section_factory: function that returns a cross_section
-        **waveguide_settings
+        waveguide: name from tech.waveguide or settings dict
+        **kwargs: waveguide_settings
 
     .. code::
+
                         dx
                      |-----|
                       _____ E1
