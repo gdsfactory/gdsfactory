@@ -60,15 +60,19 @@ def array_2d(
     """Returns 2D array with fanout waveguides facing west.
 
     Args:
-        pitch_x:
-        pitch_y:
+        picth: x and y pitch
+        pitch_x: Optional X pitch
+        pitch_y: Optional Y pitch
         cols:
         rows:
         kwargs:
-        component: to replicate
-        n: number of components
-        pitch: float
-        axis: x or y
+            component: to replicate
+            n: number of components
+            pitch: float
+            axis: x or y
+            rotation: in degrees
+            h_mirror: horizontal mirror
+            v_mirror: vertical mirror
 
     """
     pitch_y = pitch_y or pitch
