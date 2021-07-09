@@ -15,6 +15,7 @@ def get_input_labels(
     layer_label: ListConfig,
     gc_port_name: str,
 ) -> List[Label]:
+    """Returns list of labels."""
     elements = []
     for i, g in enumerate(io_gratings):
         label = get_input_label(

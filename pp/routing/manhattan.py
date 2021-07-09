@@ -661,9 +661,9 @@ def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
     straight_factory: ComponentFactory = straight,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    start_straight: Optional[float] = None,
+    end_straight: Optional[float] = None,
+    min_straight: Optional[float] = None,
     bend_factory: ComponentFactory = bend_euler,
     waveguide: StrOrDict = "strip",
     **waveguide_settings,
@@ -676,6 +676,10 @@ def generate_manhattan_waypoints(
         else bend_factory
     )
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+
+    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
+    end_straight = end_straight or waveguide_settings.get("min_straigth_length")
+    min_straight = min_straight or waveguide_settings.get("min_straigth_length")
 
     pname_west, pname_north = [
         p.name
@@ -694,9 +698,9 @@ def route_manhattan(
     output_port: Port,
     straight_factory: ComponentFactory = straight,
     taper: None = None,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    start_straight: Optional[float] = None,
+    end_straight: Optional[float] = None,
+    min_straight: Optional[float] = None,
     bend_factory: ComponentFactory = bend_euler,
     waveguide: str = "strip",
     **waveguide_settings,
@@ -704,6 +708,11 @@ def route_manhattan(
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
     """
+    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+
+    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
+    end_straight = end_straight or waveguide_settings.get("min_straigth_length")
+    min_straight = min_straight or waveguide_settings.get("min_straigth_length")
 
     points = generate_manhattan_waypoints(
         input_port,

@@ -40,7 +40,7 @@ def get_bundle(
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
-    start_straight: float = 0.01,
+    start_straight: Optional[float] = None,
     waveguide: StrOrDict = "strip",
     **waveguide_settings,
 ) -> List[Route]:
@@ -87,6 +87,7 @@ def get_bundle(
 
     x = get_cross_section(waveguide, **waveguide_settings)
     waveguide_settings = x.info
+    start_straight = start_straight or waveguide_settings.get("min_straigth_length")
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
