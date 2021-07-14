@@ -31,8 +31,9 @@ from contracts import contract
 
 ## 2.6.4
 
-- mmi can top and bot straights can be different
+- pp.components.mzi accepts straight_horizontal_bot and straight_horizontal_bot parameters
 - pad array has axis='x' argument
+- expose utils, sort_ports and fanout in pp.routing
 
 ## 2.6.3
 
