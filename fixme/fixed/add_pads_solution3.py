@@ -1,5 +1,6 @@
 """
-This is a hack.
+This is the best solution.
+Be aware that sometimes you need to flip the ports for the automatic get_bundle algorithm to work well.
 
 """
 

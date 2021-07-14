@@ -16,7 +16,8 @@ def mzi(
     straight: StrOrDict = "straight",
     straight_vertical: Optional[StrOrDict] = None,
     straight_delta_length: Optional[float] = None,
-    straight_horizontal: Optional[StrOrDict] = None,
+    straight_horizontal_top: Optional[StrOrDict] = None,
+    straight_horizontal_bot: Optional[StrOrDict] = None,
     splitter: StrOrDict = "mmi1x2",
     combiner: Optional[StrOrDict] = None,
     with_splitter: bool = True,
@@ -31,7 +32,8 @@ def mzi(
         length_x: horizontal length
         bend: 90 degrees bend library
         straight: straight function
-        straight_horizontal: straight for length_x
+        straight_horizontal_top: straight for length_x
+        straight_horizontal_bot: straight for length_x
         straight_vertical: straight for length_y and delta_length
         splitter: splitter function
         combiner: combiner function
@@ -69,7 +71,8 @@ def mzi(
     cp2 = get(combiner) if combiner else splitter
 
     straight_vertical = straight_vertical or straight
-    straight_horizontal = straight_horizontal or straight
+    straight_horizontal_top = straight_horizontal_top or straight
+    straight_horizontal_bot = straight_horizontal_bot or straight
     straight_delta_length = straight_delta_length or straight
     b90 = bend
     l0 = get(straight, length=L0, **kwargs)
@@ -83,17 +86,19 @@ def mzi(
     y2l = cp1.ports["E1"].y
     y2r = cp2.ports["E1"].y
 
-    dl = abs(y2l - y1l)  # splitter ports distance
-    dr = abs(y2r - y1r)  # cp2 ports distance
+    dl = abs(y2l - y1l)  # splitter ports y distance
+    dr = abs(y2r - y1r)  # combiner ports y distance
     delta_length_combiner = dl - dr
-    assert delta_length_combiner + L0 > 0, (
-        f"cp1 and cp2 port height offset delta_length ({delta_length_combiner}) +"
-        f" length_y ({length_y}) >0"
-    )
+    if delta_length_combiner + L0 < 0:
+        raise ValueError(
+            f"splitter and combiner port yoffset + length_y = {delta_length_combiner:.3f} < 0 "
+            f"you can swap combiner and splitter or increase length_y by {-delta_length_combiner-L0:.3f}"
+        )
 
     l0r = get(straight_vertical, length=L0 + delta_length_combiner / 2, **kwargs)
     l1 = get(straight_delta_length, length=DL / 2, **kwargs)
-    l2 = get(straight_horizontal, length=L2, **kwargs)
+    lxt = get(straight_horizontal_top, length=L2, **kwargs)
+    lxb = get(straight_horizontal_bot, length=L2, **kwargs)
 
     cin = cp1.ref()
     cout = c << cp2
@@ -103,16 +108,15 @@ def mzi(
     bltl = c << b90
     bltr = c << b90
     blmr = c << b90  # bend left medium right
-
     l0tl = c << l0
-    l2t = c << l2
+    lxtop = c << lxt
     l0tr = c << l0r
 
     blt.connect(port="W0", destination=cin.ports["E1"])
     l0tl.connect(port="W0", destination=blt.ports["N0"])
     bltl.connect(port="N0", destination=l0tl.ports["E0"])
-    l2t.connect(port="W0", destination=bltl.ports["W0"])
-    bltr.connect(port="N0", destination=l2t.ports["E0"])
+    lxtop.connect(port="W0", destination=bltl.ports["W0"])
+    bltr.connect(port="N0", destination=lxtop.ports["E0"])
     l0tr.connect(port="W0", destination=bltr.ports["W0"])
     blmr.connect(port="W0", destination=l0tr.ports["E0"])
     cout.connect(port="E0", destination=blmr.ports["N0"])
@@ -122,7 +126,7 @@ def mzi(
     l0bl = c << l0
     l1l = c << l1
     blbl = c << b90
-    l2t = c << l2
+    lxbot = c << lxb
     brbr = c << b90
     l1r = c << l1
     l0br = c << l0r
@@ -132,8 +136,8 @@ def mzi(
     l0bl.connect(port="W0", destination=blb.ports["W0"])
     l1l.connect(port="W0", destination=l0bl.ports["E0"])
     blbl.connect(port="W0", destination=l1l.ports["E0"])
-    l2t.connect(port="W0", destination=blbl.ports["N0"])
-    brbr.connect(port="W0", destination=l2t.ports["E0"])
+    lxbot.connect(port="W0", destination=blbl.ports["N0"])
+    brbr.connect(port="W0", destination=lxbot.ports["E0"])
 
     l1r.connect(port="W0", destination=brbr.ports["N0"])
     l0br.connect(port="W0", destination=l1r.ports["E0"])
@@ -156,6 +160,28 @@ def mzi(
             c.add_port(name=f"E{i}", port=port)
 
     rename_ports_by_orientation(c)
+
+    # aliases
+    # top arm
+    c.aliases["blt"] = blt
+    c.aliases["bltl"] = bltl
+    c.aliases["bltr"] = bltr
+    c.aliases["blmr"] = blmr
+    c.aliases["l0tl"] = l0tl
+    c.aliases["lxtop"] = lxtop
+    c.aliases["l0tr"] = l0tr
+
+    # bot arm
+    c.aliases["blb"] = blb
+    c.aliases["l0bl"] = l0bl
+    c.aliases["l1l"] = l1l
+    c.aliases["blbl"] = blbl
+    c.aliases["lxbot"] = lxbot
+    c.aliases["brbr"] = brbr
+    c.aliases["l1r"] = l1r
+    c.aliases["l0br"] = l0br
+    c.aliases["blbmrb"] = blbmrb
+
     return c
 
 

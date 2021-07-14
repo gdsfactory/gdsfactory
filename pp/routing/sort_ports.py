@@ -32,6 +32,10 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
     """
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
+    if len(ports1) == 0:
+        raise ValueError("ports1 is an empty list")
+    if len(ports2) == 0:
+        raise ValueError("ports2 is an empty list")
 
     if isinstance(ports1, dict):
         ports1 = list(ports1.values())

@@ -23,6 +23,7 @@ instances:
   b:
     component: pad_array
     settings:
+      axis: x
       n: 6
       pad_settings: null
       pitch: 150
@@ -505,6 +506,7 @@ instances:
   t:
     component: pad_array
     settings:
+      axis: x
       n: 6
       pad_settings: null
       pitch: 150

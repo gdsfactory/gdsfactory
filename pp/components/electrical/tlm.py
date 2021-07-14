@@ -70,7 +70,7 @@ def tlm(
         height: defaults to width
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
-        port_orientation
+        port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
     """
     height = height or width
 

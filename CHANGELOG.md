@@ -3,6 +3,7 @@
 ## TODO
 
 - replace ComponentOrFactory, and ComponentFactory with StrOrDict
+- review @cell over @cell
 - add_fiber_array factory signature is too big
 - waypoints define dx or dy for bends
 - enable difftest for test_containers
@@ -27,6 +28,11 @@ from contracts import contract
 
 
 ```
+
+## 2.6.4
+
+- mmi can top and bot straights can be different
+- pad array has axis='x' argument
 
 ## 2.6.3
 
