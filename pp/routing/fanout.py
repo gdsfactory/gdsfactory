@@ -8,7 +8,7 @@ from pp.routing.routing import route_basic
 
 
 @cell
-def fanout_componnet(
+def fanout_component(
     component: Component,
     ports: List[pp.Port],
     pitch: Tuple[float, float] = (0.0, 20.0),
@@ -20,18 +20,19 @@ def fanout_componnet(
 
     Args:
         component: to package
+        ports: list of ports
         pitch: target port spacing for new component
-        dx: how far the fanout
-        rename_ports
+        dx: how far the fanout in x direction
+        rename_ports: renames ports
         kwargs: for route_basic
     """
 
     c = Component()
     comp = component() if callable(component) else component
-    comp.movey(-comp.y)
-    c.add_ref(comp)
+    c_ref = c.add_ref(comp)
+    c_ref.movey(-comp.y)
 
-    c.ports = comp.ports.copy()
+    c.ports = c_ref.ports.copy()
     ports1 = ports
     port = ports1[0]
     port_extended_x = port.get_extended_midpoint(dx)[0]
@@ -66,6 +67,7 @@ def fanout_ports(
         ports: list of ports
         pitch: target port spacing for new component
         dx: how far the fanout
+        kwargs: for route_basic
     """
     routes = []
     ports1 = ports
@@ -90,7 +92,7 @@ if __name__ == "__main__":
     # c = pp.c.nxn(west=4)
     c = pp.c.nxn(west=4, layer=pp.LAYER.SLAB90)
 
-    cc = fanout_componnet(component=c, ports=c.get_ports_list(orientation=180))
+    cc = fanout_component(component=c, ports=c.get_ports_list(orientation=180))
     print(len(cc.ports))
     cc.show(show_ports=True)
 

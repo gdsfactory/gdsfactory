@@ -1,6 +1,8 @@
 """Functions to create routes between components."""
 
 import pp.routing.fanout as fanout
+import pp.routing.sort_ports as sort_ports
+import pp.routing.utils as utils
 from pp.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from pp.routing.add_electrical_pads_top import add_electrical_pads_top
 from pp.routing.add_fiber_array import add_fiber_array
@@ -37,6 +39,9 @@ __all__ = [
     "fanout",
     "route_ports_to_side",
     "route_south",
+    "fanout",
+    "sort_ports",
+    "utils",
 ]
 
 
