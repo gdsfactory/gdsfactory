@@ -6,7 +6,8 @@ if __name__ == "__main__":
     w = h = 10
     c = pp.Component()
     pad_south = pp.components.pad_array(
-        port_list=["S"], spacing=(15, 0), width=w, height=h
+        port_list=["S"],
+        pitch=15,
     )
     pl = c << pad_south
     pb = c << pad_south

@@ -11,6 +11,7 @@ settings:
   splitter: mmi1x2
   straight: straight
   straight_delta_length: null
-  straight_horizontal: null
+  straight_horizontal_bot: null
+  straight_horizontal_top: null
   straight_vertical: null
   with_splitter: true

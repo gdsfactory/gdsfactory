@@ -60,13 +60,14 @@ def get_bundle(
         waveguide_settings: waveguide_settings
 
     """
-    # Accept dict or list
+    # convert single port to list
     if isinstance(ports1, Port):
         ports1 = [ports1]
 
     if isinstance(ports2, Port):
         ports2 = [ports2]
 
+    # convert ports dict to list
     if isinstance(ports1, dict):
         ports1 = list(ports1.values())
 

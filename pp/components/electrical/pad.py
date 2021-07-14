@@ -46,6 +46,7 @@ def pad_array(
     n: int = 6,
     port_list: Iterable[str] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
+    axis: str = "x",
     **port_settings,
 ) -> Component:
     """Returns 1D array of rectangular pads
@@ -65,7 +66,12 @@ def pad_array(
 
     for i in range(n):
         p = c << pad
-        p.x = i * pitch
+        if axis == "x":
+            p.x = i * pitch
+        elif axis == "y":
+            p.y = i * pitch
+        else:
+            raise ValueError(f"Invalid axis {axis} not in (x, y)")
         for port_name in port_list:
             port_name_new = f"{port_name}{i}"
             c.add_port(port=p.ports[port_name], name=port_name_new, **port_settings)

@@ -14,14 +14,14 @@ def splitter_tree(
     dy: float = 50.0,
     dx: float = 90.0,
     bend_s: Optional[StrOrDict] = "bend_s",
-    waveguide: str = "strip",
+    waveguide: StrOrDict = "strip",
     library: Library = LIBRARY,
     **kwargs,
 ) -> pp.Component:
-    """Tree of 1x2 splitters
+    """Tree of power splitters.
 
     Args:
-        coupler: 1x2 coupler library name or dict
+        coupler: coupler library name or dict
         noutputs:
         dx: x spacing between couplers
         dy: y spacing between couplers
@@ -116,11 +116,12 @@ def test_splitter_tree_ports():
 if __name__ == "__main__":
 
     c = splitter_tree(
-        coupler=dict(component="mmi2x2", gap_mmi=2),
+        coupler=dict(component="mmi1x2", gap_mmi=2.0, width_mmi=5.0),
         # noutputs=128 * 2,
         noutputs=2 ** 3,
         # waveguide="nitride",
-        bend_s=None,
+        # bend_s=None,
+        dy=100.0,
     )
     print(len(c.ports))
     # for port in c.get_ports_list():
