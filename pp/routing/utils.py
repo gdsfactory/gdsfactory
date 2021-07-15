@@ -11,6 +11,7 @@ def flip(port: Port) -> Port:
 
 
 def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List[Port]]:
+    """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
         p.angle = (p.angle + 360.0) % 360
@@ -34,6 +35,7 @@ def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List
 
 
 def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
+    """Returns port separation. Raises error if not constant."""
     if not isinstance(list_ports, list):
         raise ValueError(f"list_ports should be a list of ports, got {list_ports}")
     if len(list_ports) == 0:
@@ -60,3 +62,11 @@ def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
     if len(set([p.angle for p in list_ports])) > 1:
         raise ValueError(f"All port angles should be the same. Got {list_ports}")
     return list_ports[0].orientation
+
+
+if __name__ == "__main__":
+    import pp
+
+    c = pp.c.mmi1x2()
+    d = direction_ports_from_list_ports(c.get_ports_list())
+    c.show()

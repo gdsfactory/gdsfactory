@@ -5,6 +5,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.port import auto_rename_ports, port_array
 from pp.routing.routing import route_basic
+from pp.routing.utils import direction_ports_from_list_ports, flip
 
 
 @cell
@@ -48,7 +49,7 @@ def fanout_component(
         path_ref = path.ref()
         c.add(path_ref)
         c.ports.pop(p1.name)
-        c.add_port(f"{i}", port=p2)
+        c.add_port(f"{i}", port=flip(p2))
 
     if rename_ports:
         auto_rename_ports(c)
@@ -86,13 +87,22 @@ def fanout_ports(
     return routes
 
 
+def test_fanout_ports():
+    c = pp.c.mmi2x2()
+    cc = fanout_component(component=c, ports=c.get_ports_list(orientation=0))
+    d = direction_ports_from_list_ports(cc.get_ports_list())
+    assert len(d["E"]) == 2
+    assert len(d["W"]) == 2
+
+
 if __name__ == "__main__":
     # c = pp.components.mzi2x2(with_elec_connections=True)
     # c =pp.components.coupler(gap=1.0)
     # c = pp.c.nxn(west=4)
-    c = pp.c.nxn(west=4, layer=pp.LAYER.SLAB90)
+    # c = pp.c.nxn(west=4, layer=pp.LAYER.SLAB90)
+    c = pp.c.mmi2x2()
 
-    cc = fanout_component(component=c, ports=c.get_ports_list(orientation=180))
+    cc = fanout_component(component=c, ports=c.get_ports_list(orientation=0))
     print(len(cc.ports))
     cc.show(show_ports=True)
 
@@ -102,3 +112,4 @@ if __name__ == "__main__":
     # for route in routes:
     #     c.add(route.references)
     # c.show(show_ports=True)
+    print(cc.ports.keys())
