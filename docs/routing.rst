@@ -7,6 +7,9 @@ get_route
 .. automodule:: pp.routing.get_route
    :members:
 
+.. automodule:: pp.routing.get_route_from_steps
+   :members:
+
 
 get_bundle
 ---------------------------------------------------------------

@@ -355,10 +355,17 @@ def _generate_route_manhattan_points(
 def _get_bend_reference_parameters(
     p0: ndarray, p1: ndarray, p2: ndarray, bend_cell: Component
 ) -> Tuple[ndarray, int, bool]:
-    """Return bend reference settings.
+    """Returns bend reference settings.
+
+    Args:
+        p0: starting port waypoints
+        p1: middle port waypoints
+        p2: end port points
 
     8 possible configurations
     First mirror, Then rotate
+
+    Returns:
 
     .. code::
 
