@@ -29,6 +29,10 @@ from contracts import contract
 
 ```
 
+## 2.6.5
+
+- add pp.routing.get_route_from_steps as a more convenient version of pp.routing.get_route_from_waypoints
+
 ## 2.6.4
 
 - pp.components.mzi accepts straight_horizontal_bot and straight_horizontal_bot parameters

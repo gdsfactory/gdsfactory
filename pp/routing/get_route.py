@@ -1,5 +1,7 @@
 """`get_route` returns a Manhattan route between two ports.
 
+`get_route` only works for an individual routes. For routing groups of ports you need to use `get_bundle` instead
+
 To make a route, you need to supply:
 
  - input port
@@ -57,6 +59,7 @@ def get_route(
 ) -> Route:
     """Returns a Manhattan Route between 2 ports
     The references are straights, bends and tapers.
+    `get_route` is an automatic version of `get_route_from_steps`
 
     Args:
         input_port: start port
@@ -69,6 +72,21 @@ def get_route(
         min_straight: Number: min length of straight
         waveguide: waveguide definition from TECH.waveguide
         waveguide_settings:
+
+
+    .. plot::
+        :include-source:
+
+        import pp
+
+        c = pp.Component('sample_connect')
+        mmi1 = c << pp.components.mmi1x2()
+        mmi2 = c << pp.components.mmi1x2()
+        mmi2.move((100, 50))
+        route = pp.routing.get_route(mmi1.ports["E1"], mmi2.ports["W0"])
+        c.add(route.references)
+        c.show()
+
     """
     waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
     taper_length = waveguide_settings.get("taper_length")
@@ -122,6 +140,8 @@ def get_route_from_waypoints(
     """Returns a route formed by the given waypoints with
     bends instead of corners and optionally tapers in straight sections.
     Tapering to wider straights reduces the optical loss.
+    `get_route_from_waypoints` is a manual version of `get_route`
+    Not that `get_route_from_steps` is a  more concise and convenient version of `get_route_from_waypoints` also available in pp.routing
 
     Args:
         waypoints: Coordinates that define the route
@@ -131,6 +151,44 @@ def get_route_from_waypoints(
         layer: for the route
         route_filter: FIXME, keep it here. Find a way to remove it.
         waveguide_settings
+
+    .. plot::
+        :include-source:
+
+        import pp
+
+        c = pp.Component('waypoints_sample')
+
+        w = pp.components.straight()
+        left = c << w
+        right = c << w
+        right.move((100, 80))
+
+        obstacle = pp.components.rectangle(size=(100, 10))
+        obstacle1 = c << obstacle
+        obstacle2 = c << obstacle
+        obstacle1.ymin=40
+        obstacle2.xmin=25
+
+
+        p0x, p0y = left.ports['E0'].midpoint
+        p1x, p1y = right.ports['E0'].midpoint
+        o = 10 # vertical offset to overcome bottom obstacle
+        ytop = 20
+
+
+        routes = pp.routing.get_route_from_waypoints(
+            [
+                (p0x, p0y),
+                (p0x + o, p0y),
+                (p0x + o, ytop),
+                (p1x + o, ytop),
+                (p1x + o, p1y),
+                (p1x, p1y),
+            ],
+        )
+        c.add(routes.references)
+        c.show()
     """
 
     x = get_cross_section(waveguide, **waveguide_settings)

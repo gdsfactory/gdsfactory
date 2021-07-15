@@ -13,6 +13,7 @@ from pp.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from pp.routing.get_bundle_path_length_match import get_bundle_path_length_match
 from pp.routing.get_bundle_sbend import get_bundle_sbend
 from pp.routing.get_route import get_route, get_route_from_waypoints
+from pp.routing.get_route_from_steps import get_route_from_steps
 from pp.routing.get_route_sbend import get_route_sbend
 from pp.routing.get_routes import get_routes
 from pp.routing.get_routes_bend180 import get_routes_bend180
@@ -35,6 +36,7 @@ __all__ = [
     "get_route_sbend",
     "get_bundle_sbend",
     "get_route_from_waypoints",
+    "get_route_from_steps",
     "fanout2x2",
     "fanout",
     "route_ports_to_side",
