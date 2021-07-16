@@ -6,7 +6,6 @@ from pp.components.coupler import coupler
 from pp.components.extension import line
 from pp.components.straight import straight as straight_function
 from pp.components.straight_heater import straight_with_heater
-from pp.netlist_to_gds import netlist_to_component
 from pp.port import select_ports
 from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory, ComponentOrFactory
@@ -205,7 +204,7 @@ def mzi2x2(
             "E_BOT_3": ("arm_bot", "E_3"),
         }
 
-        component = netlist_to_component(components, connections, ports_map)
+        component = pp.component_from.netlist(components, connections, ports_map)
         # Need to connect common ground and redefine electrical ports
 
         ports = component.ports
@@ -273,7 +272,7 @@ def mzi2x2(
             "E1": ("CP2", "E1"),
         }
 
-        component = netlist_to_component(components, connections, ports_map)
+        component = pp.component_from.netlist(components, connections, ports_map)
 
     return component
 
