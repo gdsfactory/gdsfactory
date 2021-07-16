@@ -29,6 +29,13 @@ from contracts import contract
 
 ```
 
+## 2.6.6
+
+- add pp.extend to pp
+- fix pp.extend.extend_port, propagates all settings
+- pp.gds.read_ports_from_markers accepts a center (xc and yc) for guessing port orientation
+- import_gds only accessible from pp.gds.import_gds
+
 ## 2.6.5
 
 - add pp.routing.get_route_from_steps as a more convenient version of pp.routing.get_route_from_waypoints

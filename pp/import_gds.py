@@ -23,7 +23,7 @@ def add_ports_from_markers_square(
     layer: Layer = pp.LAYER.PORTE,
     port_layer: Optional[Layer] = None,
     port_type: "str" = "dc",
-    orientation: int = 90,
+    orientation: Optional[int] = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
@@ -32,6 +32,8 @@ def add_ports_from_markers_square(
     """add ports from markers in port_layer
 
     adds ports at the marker center
+
+    squared
 
     Args:
         component: to read polygons from and to write ports to
@@ -76,10 +78,15 @@ def add_ports_from_markers_center(
     pin_extra_width: float = 0.0,
     min_pin_area_um2: Optional[float] = None,
     max_pin_area_um2: float = 150.0 * 150.0,
+    skip_square_ports: bool = True,
+    xcenter: Optional[float] = None,
+    ycenter: Optional[float] = None,
 ) -> None:
     """add ports from polygons in certain layers
 
     markers at port center, so half of the marker goes inside and half ouside the port. Works only for rectangular pins.
+
+    guess orientation of the port by looking at the xcenter and ycenter (which default to the component center)
 
     Args:
         component: to read polygons from and to write ports to
@@ -91,6 +98,9 @@ def add_ports_from_markers_center(
         pin_extra_width: 2*offset from pin to straight
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         max_pin_area_um2: ignore pins for area above certain size
+        skip_square_ports: skips square ports (hard to guess orientation)
+        xcenter: for guessing orientation of rectangular ports
+        ycenter: for guessing orientation of rectangular ports
 
     For the default center case (inside=False)
 
@@ -135,8 +145,8 @@ def add_ports_from_markers_center(
         x < xc: west
 
     """
-    xc = component.x
-    yc = component.y
+    xc = xcenter or component.x
+    yc = ycenter or component.y
     xmax = component.xmax
     xmin = component.xmin
     ymax = component.ymax
@@ -158,7 +168,7 @@ def add_ports_from_markers_center(
             continue
 
         # skip square ports as they have no clear orientation
-        if pp.snap.snap_to_grid(dx) == pp.snap.snap_to_grid(dy):
+        if skip_square_ports and pp.snap.snap_to_grid(dx) == pp.snap.snap_to_grid(dy):
             continue
         pxmax = p.xmax
         pxmin = p.xmin
@@ -185,6 +195,7 @@ def add_ports_from_markers_center(
             width = dx
             if inside:
                 y = p.ymin
+
         # port markers have same width and height
         # check which edge (E, W, N, S) they are closer to
         elif pxmax > xmax - tol:  # east

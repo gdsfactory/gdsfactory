@@ -16,4 +16,4 @@ settings:
       gap: 0.234
       waveguide: strip
       with_elec_connections: true
-  component_top_to_pad_bottom_distance: 100
+  dy: 100

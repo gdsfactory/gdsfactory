@@ -52,14 +52,13 @@ import pp.import_gds as gds
 import pp.snap as snap
 import pp.tech as tech
 import pp.containers as containers
+import pp.components.extension as extend
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
-from pp.components.extension import extend_ports
 from pp.add_termination import add_termination
 from pp.add_padding import add_padding, get_padding_points, add_padding_container
 from pp.add_pins import add_pins, add_pins_to_references
-from pp.import_gds import import_gds
 from pp.fill import fill_rectangle
 from pp.pack import pack
 from pp.grid import grid
@@ -94,12 +93,11 @@ __all__ = [
     "add_pins_to_references",
     "add_termination",
     "fill_rectangle",
-    "import_gds",
     "c",
     "components",
     "clear_cache",
     "call_if_func",
-    "extend_ports",
+    "extend",
     "boolean",
     "types",
     "get_padding_points",

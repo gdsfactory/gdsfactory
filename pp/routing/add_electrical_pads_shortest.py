@@ -14,7 +14,7 @@ def add_electrical_pads_shortest(
     pad_port_spacing: float = 50.0,
     **kwargs,
 ) -> Component:
-    """add a pad to each closest electrical port
+    """Add pad to each closest electrical port.
 
     Args:
         component:

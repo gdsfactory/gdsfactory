@@ -401,6 +401,9 @@ class Library:
             component_settings = {}
         elif isinstance(component, dict):
             component_settings = component.copy()
+            if "component" not in component_settings:
+                raise ValueError(f"{component} is missing `component` key")
+
             component = component_settings.pop("component")
         else:
             raise ValueError(

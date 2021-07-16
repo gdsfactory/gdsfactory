@@ -8,8 +8,8 @@ def get_route_electrical_shortest_path(port1: Port, port2: Port) -> ComponentRef
     with a polygon that takes the shortest path
 
     Args:
-        port1: src
-        port2: dst
+        port1: source port
+        port2: destination port
     """
     points = [port1.midpoint, port2.midpoint]
     name = f"zz_conn_{hash_points(points)}"
@@ -20,19 +20,38 @@ def get_route_electrical_shortest_path(port1: Port, port2: Port) -> ComponentRef
     p1x1 = port1.endpoints[1][0]
     p1y1 = port1.endpoints[1][1]
 
+    x = [p1x0, p1x1]
+    y = [p1y0, p1y1]
+    p1y0 = min(y)
+    p1y1 = max(y)
+    p1x0 = min(x)
+    p1x1 = max(x)
+
     p2x0 = port2.endpoints[0][0]
     p2y0 = port2.endpoints[0][1]
     p2x1 = port2.endpoints[1][0]
     p2y1 = port2.endpoints[1][1]
 
+    x = [p2x0, p2x1]
+    y = [p2y0, p2y1]
+    p2y0 = min(y)
+    p2y1 = max(y)
+    p2x0 = min(x)
+    p2x1 = max(x)
+
     if port1.orientation in [90, 270]:
         c.add_polygon(
-            ([(p1x1, p1y0), (p1x0, p1y1), (p2x1, p2y1), (p2x0, p2y0)]), layer=layer
+            ([(p1x0, p1y0), (p1x1, p1y0), (p2x1, p2y1), (p2x0, p2y0)]), layer=layer
         )
-    else:
+    elif port1.orientation == 180:
         c.add_polygon(
-            ([(p1x0, p1y1), (p1x1, p1y0), (p2x1, p2y1), (p2x0, p2y0)]), layer=layer
+            ([(p1x0, p1y1), (p1x1, p1y0), (p2x1, p2y0), (p2x0, p2y1)]), layer=layer
         )
+    elif port1.orientation == 0:
+        c.add_polygon(
+            ([(p1x0, p1y0), (p1x1, p1y1), (p2x1, p2y0), (p2x0, p2y1)]), layer=layer
+        )
+
     return c.ref()
 
 
