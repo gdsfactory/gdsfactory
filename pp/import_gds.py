@@ -243,7 +243,8 @@ def import_gds(
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
 
     """
-    if not pathlib.Path(gdspath).exists():
+    gdspath = Path(gdspath)
+    if not gdspath.exists():
         raise FileNotFoundError(f"No file {gdspath} found")
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(str(gdspath))
