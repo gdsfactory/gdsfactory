@@ -3,8 +3,8 @@ import shutil
 import pytest
 from _pytest.fixtures import SubRequest
 
+import pp
 from pp.config import CONFIG, diff_path
-from pp.merge_cells import merge_cells
 
 # from pp import clear_cache
 
@@ -27,7 +27,7 @@ def cleandir(request: SubRequest) -> None:
 
 @pytest.fixture(scope="session")
 def show_diffs(request: SubRequest) -> None:
-    c = merge_cells(diff_path.glob("*.gds"))
+    c = pp.component_from.gdspaths(diff_path.glob("*.gds"))
     c.show()
 
 

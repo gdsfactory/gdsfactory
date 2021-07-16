@@ -19,7 +19,6 @@ from pp.mask.merge_json import merge_json
 from pp.mask.merge_markdown import merge_markdown
 from pp.mask.merge_test_metadata import merge_test_metadata
 from pp.mask.write_labels import write_labels
-from pp.merge_cells import merge_cells_from_directory
 from pp.types import PathType
 
 # from pp.write_doe_from_yaml import write_doe_from_yaml
@@ -104,7 +103,7 @@ def merge_gds_from_directory(
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-    c = merge_cells_from_directory(dirpath=dirpath)
+    c = pp.component_from.gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show()
 
