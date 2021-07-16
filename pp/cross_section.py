@@ -23,6 +23,11 @@ def get_cross_section(waveguide: StrOrDict, **kwargs) -> CrossSection:
         settings = dataclasses.asdict(settings)
         if not settings:
             raise ValueError(f"no settings found for {waveguide}")
+    elif isinstance(waveguide, dict) and "component" in waveguide:
+        waveguide_name = waveguide.pop("component")
+        settings = getattr(TECH.waveguide, waveguide_name)
+        settings = dataclasses.asdict(settings)
+        settings.update(**waveguide)
     elif isinstance(waveguide, dict):
         settings = waveguide.copy()
     else:
@@ -54,7 +59,23 @@ def cross_section(
     port_names: Tuple[str, str] = ("W0", "E0"),
     min_length: float = 10e-3,
 ) -> CrossSection:
-    """Returns CrossSection from TECH.waveguide settings."""
+    """Returns CrossSection from TECH.waveguide settings.
+
+    Args:
+        width: main of the waveguide
+        layer: main layer
+        width_wide: taper to widen waveguides for lower loss
+        auto_widen: taper to widen waveguides for lower loss
+        auto_widen_minimum_length: minimum straight length for auto_widen
+        taper_length: taper_length for auto_widen
+        radius: bend radius
+        cladding_offset: offset for layers_cladding
+        layer_cladding:
+        layers_cladding:
+        sections: Sections(width, offset, layer, ports)
+        port_names: for input and output ("W0", "E0"),
+        min_length: 10e-3 for routing
+    """
 
     x = CrossSection()
 

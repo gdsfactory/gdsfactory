@@ -55,8 +55,8 @@ class StripNitrideOband(StripNitrideCband):
 NITRIDE_CBAND = StripNitrideCband()
 NITRIDE_OBAND = StripNitrideOband()
 
-TECH.waveguide.nitride_cband = NITRIDE_CBAND
-TECH.waveguide.nitride_oband = NITRIDE_OBAND
+TECH.waveguide.fabc_nitride_cband = NITRIDE_CBAND
+TECH.waveguide.fabc_nitride_oband = NITRIDE_OBAND
 
 
 def add_pins_custom(
@@ -97,7 +97,7 @@ def mmi1x2_nitride_cband(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     with_cladding_box: bool = True,
-    waveguide: StrOrDict = "nitride_cband",
+    waveguide: StrOrDict = "fabc_nitride_cband",
     **kwargs,
 ) -> Component:
     c = pp.components.mmi1x2(
@@ -141,19 +141,21 @@ def mmi1x2_nitride_oband(
 
 
 @cell
-def bend_euler(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+def bend_euler(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
     return c
 
 
 @cell
-def bend_euler_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+def bend_euler_cband(
+    waveguide: StrOrDict = "fabc_nitride_cband", **kwargs
+) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
     return c
 
 
 @cell
-def straight_cband(waveguide: StrOrDict = "nitride_cband", **kwargs) -> Component:
+def straight_cband(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
     c = pp.c.straight(waveguide=waveguide, **kwargs)
     return c
 
@@ -171,7 +173,7 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     c = pp.c.mzi(
         delta_length=delta_length,
         splitter="mmi1x2_nitride_cband",
-        waveguide="nitride_cband",
+        waveguide="fabc_nitride_cband",
         width=WIDTH_NITRIDE_CBAND,
         bend="bend_euler_cband",
         straight="straight_cband",
@@ -198,20 +200,20 @@ LIBRARY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 
 if __name__ == "__main__":
-    LIBRARY.write_rst(
-        filepath="doc.rst", import_library="from pp.samples.pdk.fab_c import LIBRARY"
+    # LIBRARY.write_rst(
+    #     filepath="doc.rst", import_library="from pp.samples.pdk.fab_c import LIBRARY"
+    # )
+    # print(mzi_nitride_cband.__doc__)
+
+    mzi = mzi_nitride_cband()
+    gc = pp.c.grating_coupler_elliptical_te(
+        wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
     )
-    print(mzi_nitride_cband.__doc__)
-    # mzi = mzi_nitride_cband()
-    # gc = pp.c.grating_coupler_elliptical_te(
-    #     wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
-    # )
-    # mzi_gc = pp.routing.add_fiber_single(
-    #     component=mzi,
-    #     grating_coupler=gc,
-    #     waveguide="nitride_cband",
-    #     straight_factory=straight_cband,
-    #     optical_routing_type=1,
-    #     library=LIBRARY,
-    # )
-    # mzi_gc.show()
+    mzi_gc = pp.routing.add_fiber_single(
+        component=mzi,
+        grating_coupler=gc,
+        waveguide=dict(component="fabc_nitride_cband", width=3),
+        optical_routing_type=1,
+        library=LIBRARY,
+    )
+    mzi_gc.show()
