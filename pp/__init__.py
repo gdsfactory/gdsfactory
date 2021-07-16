@@ -33,7 +33,6 @@ from pp.cell import cell
 from pp.cell import cell_with_validator
 from pp.cell import clear_cache
 from pp.layers import LAYER
-from pp.load_component import load_component
 from pp.cross_section import cross_section
 from pp.show import show
 from pp.write_doe import write_doe
@@ -102,7 +101,6 @@ __all__ = [
     "grid",
     "gds",
     "klive",
-    "load_component",
     "offset",
     "pack",
     "plot",

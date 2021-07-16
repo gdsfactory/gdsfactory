@@ -2,6 +2,7 @@
 import csv
 import json
 from pathlib import Path
+from typing import Union
 
 import pp
 from pp.component import Component
@@ -19,8 +20,8 @@ def remove_gds_labels(component: Component, layer=pp.LAYER.LABEL_SETTINGS) -> No
                 c.labels.remove(label)
 
 
-def load_component(gdspath: Path) -> Component:
-    """Returns Component  with ports (CSV) and metadata (JSON) info (if any)."""
+def gds(gdspath: Union[str, Path]) -> Component:
+    """Returns Component with ports (CSV) and metadata (JSON) info (if any)."""
 
     if not gdspath.exists():
         raise FileNotFoundError(f"No such file '{gdspath}'")

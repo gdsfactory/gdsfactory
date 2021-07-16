@@ -4,7 +4,6 @@ from pp.components.coupler90 import coupler90
 from pp.components.coupler_straight import coupler_straight
 from pp.components.straight import straight
 from pp.components.taper import taper
-from pp.netlist_to_gds import netlist_to_component
 from pp.snap import assert_on_2nm_grid
 
 
@@ -43,7 +42,7 @@ def ring_with_taper(**kwargs):
 
     """
     components, connections, ports_map = ring_with_taper_netlist(**kwargs)
-    component = netlist_to_component(components, connections, ports_map)
+    component = pp.component_from.netlist(components, connections, ports_map)
     return component
 
 

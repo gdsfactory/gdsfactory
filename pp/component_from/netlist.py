@@ -2,6 +2,7 @@
 
 """
 
+import warnings
 from typing import Dict, List, Tuple
 
 import numpy as np
@@ -76,13 +77,13 @@ def gen_sref(
     return ref
 
 
-def netlist_to_component(
+def netlist(
     instances: Dict[str, Tuple[Component, str]],
     connections: List[Tuple[str, str, str, str]],
     ports_map: Dict[str, Tuple[str, str]] = None,
     position: Coordinate = (0.0, 0.0),
 ) -> Component:
-    """Netlist_to_component is deprecated! use pp.componet_from_yaml instead
+    """Deprecated use pp.componet_from_yaml instead
     Returns a component from a netlist (instances, connections and ports map)
 
     Args:
@@ -133,6 +134,10 @@ def netlist_to_component(
 
     mirror, rotation, x, y
     """
+
+    warnings.warn(
+        "pp.componet_from.netlist is deprecated use pp.componet_from_yaml instead"
+    )
 
     if len(connections) == 0:
         raise ValueError("no connections defined")
