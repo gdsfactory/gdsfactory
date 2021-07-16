@@ -6,7 +6,7 @@ from pp.component import Component, ComponentReference, Port
 from pp.config import call_if_func
 
 
-def import_phidl_component(component: Device, **kwargs) -> Component:
+def phidl(component: Device, **kwargs) -> Component:
     """Returns gdsfactory Component from a phidl Device or function"""
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
@@ -54,6 +54,6 @@ if __name__ == "__main__":
     c = pg.rectangle()
     c = pg.snspd()
 
-    c2 = import_phidl_component(component=c)
+    c2 = phidl(component=c)
     print(c2.ports)
     pp.show(c2)

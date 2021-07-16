@@ -1,7 +1,7 @@
 import pytest
+from phidl.path import transition
 
 import pp
-from pp.transition import transition
 
 
 def test_transition():

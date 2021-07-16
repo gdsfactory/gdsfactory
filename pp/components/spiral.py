@@ -5,7 +5,6 @@ import picwriter.components as pc
 import pp
 from pp.component import Component
 from pp.components.waveguide_template import strip
-from pp.picwriter_to_component import picwriter_to_component
 from pp.port import auto_rename_ports
 from pp.types import ComponentFactory, Layer
 
@@ -59,7 +58,7 @@ def spiral(
         direction=direction,
     )
     # print(f'length = {length/1e4:.2f}cm')
-    c = picwriter_to_component(c)
+    c = pp.component_from.picwriter(c)
     c = auto_rename_ports(c)
     return c
 

@@ -51,6 +51,7 @@ import pp.snap as snap
 import pp.tech as tech
 import pp.containers as containers
 import pp.components.extension as extend
+import pp.component_from as component_from
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -117,6 +118,7 @@ __all__ = [
     "write_doe",
     "Port",
     "component_from_yaml",
+    "component_from",
     "tech",
     "TECH",
 ]

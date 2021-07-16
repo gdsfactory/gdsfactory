@@ -205,9 +205,9 @@ def get_bundle_same_axis(
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_offset: offset to add at the end of each straight
-        sort_ports: * True -> sort the ports according to the axis.
-                    * False -> no sort applied
+        sort_ports: sort the ports according to the axis.
         waveguide: cross_section
+        waveguide_settings
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates

@@ -8,7 +8,6 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import strip
 from pp.config import TECH
-from pp.picwriter_to_component import picwriter_to_component
 from pp.port import deco_rename_ports
 from pp.types import ComponentFactory, Coordinate, Coordinates, Layer
 
@@ -101,7 +100,7 @@ def grating_coupler_elliptical2(
         direction=direction,
     )
 
-    c = picwriter_to_component(c)
+    c = pp.component_from.picwriter(c)
     c.polarization = polarization
     c.wavelength = wavelength_nm
 

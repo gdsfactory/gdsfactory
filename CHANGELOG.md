@@ -36,6 +36,7 @@ from contracts import contract
 - pp.gds.read_ports_from_markers accepts a center (xc and yc) for guessing port orientation
 - import_gds only accessible from pp.gds.import_gds
 - merge assert_grating_coupler_properties and version in pp.asserts.
+- rename pp.import_phidl_component and pp.picwriter_to_component pp.component_from.phidl and pp.component_from.picwriter
 
 ## 2.6.5
 

@@ -14,13 +14,13 @@ import numpy as np
 import phidl.path as path
 from phidl.device_layout import CrossSection, Path, _simplify
 from phidl.path import smooth as smooth_phidl
+from phidl.path import transition
 
 from pp.component import Component
 from pp.hash_points import hash_points
 from pp.layers import LAYER
 from pp.port import auto_rename_ports
 from pp.tech import TECH
-from pp.transition import transition
 from pp.types import Coordinates, Number, PathFactory
 
 

@@ -4,14 +4,12 @@ import numpy as np
 import picwriter.components as pc
 
 import pp
-from pp.cell import cell
 from pp.component import Component
 from pp.components.waveguide_template import strip
-from pp.picwriter_to_component import picwriter_to_component
 from pp.types import ComponentFactory
 
 
-@cell
+@pp.cell
 def cdc(
     length: float = 30.0,
     gap: float = 0.5,
@@ -80,7 +78,7 @@ def cdc(
         direction=direction,
     )
 
-    component = picwriter_to_component(c)
+    component = pp.component_from.picwriter(c)
     pp.port.rename_ports_by_orientation(component)
     return component
 
