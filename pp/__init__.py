@@ -46,7 +46,6 @@ import pp.klive as klive
 import pp.port as port
 import pp.types as types
 import pp.path as path
-import pp.import_gds as gds
 import pp.snap as snap
 import pp.tech as tech
 import pp.containers as containers
@@ -101,7 +100,6 @@ __all__ = [
     "cross_section",
     "extend",
     "fill_rectangle",
-    "gds",
     "get_padding_points",
     "grid",
     "import_gds",
