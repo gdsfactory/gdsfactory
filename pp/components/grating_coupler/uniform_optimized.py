@@ -90,7 +90,7 @@ def grating_coupler_uniform_optimized(
     if taper_port_name not in taper_ref.ports:
         raise ValueError(f"{taper_port_name} not in {list(taper_ref.ports.keys())}")
     c.add_port(port=taper_ref.ports[taper_port_name], name="W0")
-    pp.assert_grating_coupler_properties(c)
+    pp.asserts.grating_coupler(c)
     return c
 
 

@@ -1,7 +1,8 @@
 from pp.component import Component
+from pp.config import __version__
 
 
-def assert_grating_coupler_properties(gc: Component) -> None:
+def grating_coupler(gc: Component) -> None:
     assert hasattr(
         gc, "polarization"
     ), f"{gc.name} does not have polarization attribute"
@@ -23,8 +24,21 @@ def assert_grating_coupler_properties(gc: Component) -> None:
         )
 
 
-if __name__ == "__main__":
-    import pp
+def version_equal_or_greater_than(version: str):
+    """Raises error if version  is not high enough"""
 
-    c = pp.components.grating_coupler_elliptical_te()
-    assert_grating_coupler_properties(c)
+    if __version__ < version:
+        raise ValueError(
+            f"gdsfactory minimum required version = {version}\n"
+            f"not compatible your current installed version {__version__}\n"
+            "you can run:\n"
+            "pip install gdsfactory --upgrade\n"
+            "to install a later version",
+        )
+
+
+if __name__ == "__main__":
+    # equal_or_greater_than("3.0.0")
+    # equal_or_greater_than("2.4.9")
+    # equal_or_greater_than("2.4.8")
+    version_equal_or_greater_than("2.5.0")
