@@ -81,7 +81,7 @@ def grating_coupler_uniform(
     G.polarization = polarization
     G.wavelength = wavelength
     G.rotate(180)
-    pp.assert_grating_coupler_properties(G)
+    pp.asserts.grating_coupler(G)
     return G
 
 

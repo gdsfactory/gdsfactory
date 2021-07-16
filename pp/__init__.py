@@ -25,9 +25,8 @@ import phidl.geometry as pg
 from phidl.device_layout import Group, Path, CrossSection
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from pp.assert_grating_coupler_properties import assert_grating_coupler_properties
-from pp.config import CONFIG, call_if_func
 from pp.component import Component, ComponentReference, copy
+from pp.config import CONFIG, call_if_func
 from pp.port import Port
 from pp.port import port_array
 from pp.cell import cell
@@ -36,11 +35,10 @@ from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.load_component import load_component
 from pp.cross_section import cross_section
-
 from pp.show import show
 from pp.write_doe import write_doe
 
-import pp.assert_version as assert_version
+import pp.asserts as asserts
 import pp.components as components
 import pp.routing as routing
 import pp.bias as bias
@@ -72,8 +70,7 @@ set_plot_options()
 c = components
 
 __all__ = [
-    "assert_grating_coupler_properties",
-    "assert_version",
+    "asserts",
     "CONFIG",
     "LAYER",
     "Component",

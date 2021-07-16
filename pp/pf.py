@@ -11,8 +11,7 @@ from click.core import Context, Option
 
 import pp
 import pp.build as pb
-from pp import CONFIG, klive
-from pp.config import print_config
+from pp.config import CONFIG, print_config
 from pp.gdsdiff.gdsdiff import gdsdiff
 from pp.install import install_gdsdiff, install_generic_tech, install_klive
 from pp.layers import LAYER, lyp_to_dataclass
@@ -180,7 +179,7 @@ EXTRA
 @click.argument("filename")
 def show(filename: str) -> None:
     """Show a GDS file using klive"""
-    klive.show(filename)
+    pp.show(filename)
 
 
 @click.command()

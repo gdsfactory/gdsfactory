@@ -36,7 +36,6 @@ mzi.yml
 *.out
 *.png
 mpb-sim/
-notebooks
 
 # Installer logs
 pip-log.txt
