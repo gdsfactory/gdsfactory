@@ -2,12 +2,13 @@ import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.coupler import coupler as coupler_function
+from pp.components.dbr import dbr
 from pp.types import ComponentFactory
 
 
 @cell
 def cavity(
-    component: Component,
+    component: Component = dbr,
     coupler: ComponentFactory = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,

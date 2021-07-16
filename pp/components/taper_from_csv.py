@@ -4,9 +4,10 @@ import pathlib
 from pathlib import Path
 from typing import Tuple
 
+import pandas as pd
+
 import pp
 from pp.component import Component
-from pp.load_csv import load_csv
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
@@ -17,11 +18,9 @@ def taper_from_csv(
     clad_offset: int = 3,
     clad_layer: Tuple[int, int] = pp.LAYER.WGCLAD,
 ) -> Component:
-    taper_data = load_csv(csv_path)
-    # taper_data = pd.read_csv(csv_path)
-    # print(taper_data)
-    xs = taper_data["x"] * 1e6
-    ys = taper_data["width"] * 1e6 / 2.0
+    taper_data = pd.read_csv(csv_path)
+    xs = taper_data["x"].values * 1e6
+    ys = taper_data["width"].values * 1e6 / 2.0
     ys_trench = ys + clad_offset
 
     c = pp.Component()
