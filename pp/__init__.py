@@ -51,6 +51,8 @@ import pp.tech as tech
 import pp.containers as containers
 import pp.components.extension as extend
 import pp.component_from as component_from
+import pp.read as read
+import pp.remove as remove
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -106,6 +108,8 @@ __all__ = [
     "pg",
     "port",
     "port_array",
+    "read",
+    "remove",
     "rotate",
     "routing",
     "show",
