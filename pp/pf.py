@@ -13,6 +13,7 @@ import pp
 import pp.build as pb
 from pp.config import CONFIG, print_config
 from pp.gdsdiff.gdsdiff import gdsdiff
+from pp.import_gds import write_cells as write_cells_to_separate_gds
 from pp.install import install_gdsdiff, install_generic_tech, install_klive
 from pp.layers import LAYER, lyp_to_dataclass
 from pp.mask.merge_json import merge_json
@@ -91,7 +92,7 @@ def layermap_to_dataclass(filepath, force: bool) -> None:
 @click.argument("gdspath")
 def write_cells(gdspath) -> None:
     """Write each all level cells into separate GDS files."""
-    pp.gds.write_cells(gdspath)
+    write_cells_to_separate_gds(gdspath)
 
 
 @click.command(name="merge_gds_from_directory")
