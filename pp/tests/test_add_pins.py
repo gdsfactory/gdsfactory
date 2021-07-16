@@ -21,7 +21,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
     cc = pp.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,
-        waveguide="nitride_cband",
+        waveguide="fabc_nitride_cband",
         straight_factory=straight_cband,
         optical_routing_type=optical_routing_type,
         library=LIBRARY,

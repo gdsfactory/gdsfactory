@@ -8,7 +8,7 @@ settings:
   gap_mmi: 0.25
   length_mmi: 5.5
   length_taper: 10
-  waveguide: nitride_oband
+  waveguide: fabc_nitride_oband
   width: 0.9
   width_mmi: 2.5
   width_taper: 1

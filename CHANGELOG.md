@@ -42,6 +42,7 @@ from contracts import contract
 - rename pp.netlist_to_component to pp.component_from.netlist. added a DeprecationWarning
 - move set_plot_options to pp.klive.set_plot_options, stop overriding phidl's set_plot_options in `pp.__init__`
 - move pp.merge_cells into pp.component_from.gdspaths and pp.component_from.gdsdir
+- waveguide accepts dict(component='fabc_nitride_cband')
 
 ## 2.6.5
 
