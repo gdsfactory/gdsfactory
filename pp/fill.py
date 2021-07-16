@@ -5,7 +5,7 @@ from typing import Iterable, Optional, Tuple, Union
 from phidl.geometry import fill_rectangle as _fill_rectangle
 
 from pp.component import Component
-from pp.import_phidl_component import import_phidl_component
+from pp.component_from import phidl
 from pp.types import Layer
 
 
@@ -53,7 +53,7 @@ def fill_rectangle(
         fill_inverted=fill_inverted,
         bbox=bbox,
     )
-    return import_phidl_component(component_filled)
+    return phidl(component_filled)
 
 
 if __name__ == "__main__":

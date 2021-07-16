@@ -2,8 +2,8 @@ from typing import List, Optional, Union
 
 import phidl.geometry as pg
 
+import pp
 from pp.component import Component
-from pp.import_phidl_component import import_phidl_component
 from pp.types import ComponentOrReference, Layer
 
 
@@ -57,12 +57,10 @@ def boolean(
         max_points=max_points,
         layer=layer,
     )
-    return import_phidl_component(component=c)
+    return pp.component_from.phidl(component=c)
 
 
 if __name__ == "__main__":
-    import pp
-
     e1 = pp.components.ellipse()
     e2 = pp.components.ellipse(radii=(10, 6)).movex(2)
     e3 = pp.components.ellipse(radii=(10, 4)).movex(5)

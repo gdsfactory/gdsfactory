@@ -5,7 +5,6 @@ import picwriter.components as pc
 import pp
 from pp.component import Component
 from pp.components.waveguide_template import strip
-from pp.picwriter_to_component import picwriter_to_component
 from pp.types import ComponentFactory
 
 
@@ -93,7 +92,7 @@ def dbr2(
         direction=direction,
     )
 
-    return picwriter_to_component(c)
+    return pp.component_from.picwriter(c)
 
 
 if __name__ == "__main__":
