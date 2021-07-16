@@ -63,9 +63,7 @@ from pp.grid import grid
 from pp.offset import offset
 from pp.boolean import boolean
 from pp.rotate import rotate
-from pp.set_plot_options import set_plot_options
 
-set_plot_options()
 
 c = components
 
@@ -112,7 +110,6 @@ __all__ = [
     "routing",
     "show",
     "snap",
-    "set_plot_options",
     "write_doe",
     "Port",
     "component_from_yaml",

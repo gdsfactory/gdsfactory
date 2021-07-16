@@ -40,6 +40,7 @@ from contracts import contract
 - rename pp.import_phidl_component and pp.picwriter_to_component pp.component_from.phidl and pp.component_from.picwriter
 - rename pp.load_component to pp.component_from.gds
 - rename pp.netlist_to_component to pp.component_from.netlist. added a DeprecationWarning
+- move set_plot_options to pp.klive.set_plot_options, stop overriding phidl's set_plot_options in `pp.__init__`
 
 ## 2.6.5
 
