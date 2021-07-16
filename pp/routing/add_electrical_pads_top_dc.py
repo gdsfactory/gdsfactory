@@ -1,40 +1,44 @@
 from pp.cell import cell
 from pp.component import Component
-from pp.components.electrical.pad import pad_array
 from pp.routing.get_bundle import get_bundle
-from pp.routing.get_route import get_route_from_waypoints
+from pp.routing.sort_ports import sort_ports_x
+from pp.tech import LIBRARY, Library
+from pp.types import StrOrDict
 
 
 @cell
 def add_electrical_pads_top_dc(
     component: Component,
-    component_top_to_pad_bottom_distance: float = 100.0,
-    route_filter=get_route_from_waypoints,
+    dy: float = 100.0,
+    library: Library = LIBRARY,
+    pad_array: StrOrDict = "pad_array",
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top
 
     Args:
         component:
-        pad: pad element
-        spacing: pad array (x, y) spacing
-        width: pad width
-        height: pad height
-        layer: pad layer
+        dy:
+        library
+
     """
-    c = Component(f"{component.name}_e")
+    c = Component()
     ports = component.get_ports_list(port_type="dc")
     c << component
-    pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
+    pads = c << library.get_component(
+        pad_array,
+        n=len(ports),
+        port_list=["S"],
+    )
     pads.x = component.x
-    pads.ymin = component.ymax + component_top_to_pad_bottom_distance
+    pads.ymin = component.ymax + dy
 
     ports_pads = list(pads.ports.values())
 
-    ports_pads.sort(key=lambda p: p.x)
-    ports.sort(key=lambda p: p.x)
+    ports = sort_ports_x(ports)
+    ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle(ports_pads, ports, route_filter=route_filter)
+    routes = get_bundle(ports, ports_pads, **kwargs)
     for route in routes:
         c.add(route.references)
 
@@ -49,5 +53,5 @@ if __name__ == "__main__":
 
     c = pp.components.mzi2x2(with_elec_connections=True)
     c = pp.components.straight_with_heater()
-    cc = add_electrical_pads_top_dc(component=c)
+    cc = add_electrical_pads_top_dc(component=c, waveguide="metal_routing")
     cc.show()

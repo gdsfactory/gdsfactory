@@ -8,7 +8,7 @@ from pp.cell import cell
 from pp.component import Component
 from pp.components.mmi1x2 import mmi1x2
 from pp.port import Port
-from pp.types import ComponentOrFactory, Coordinate, Number
+from pp.types import ComponentOrFactory, Coordinate, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -50,9 +50,16 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
 
 
 @cell
-def extend_port(port: Port, length: Number) -> Component:
-    """returns a port extended by length"""
-    c = pp.Component()
+def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Component:
+    """Returns a straight extension component out of a port.
+
+    Args:
+        port: port to extend
+        length: extension length
+        layer: for the straight section
+    """
+    c = Component()
+    layer = layer or port.layer
 
     # Generate a port extension
     p_start = port.midpoint
@@ -62,15 +69,12 @@ def extend_port(port: Port, length: Number) -> Component:
 
     _line = line(p_start, p_end, w)
 
-    c.add_polygon(_line, layer=port.layer)
+    c.add_polygon(_line, layer=layer)
     c.add_port(name="original", port=port)
-    c.add_port(
-        name=port.name,
-        midpoint=p_end,
-        width=port.width,
-        orientation=port.orientation,
-        layer=port.layer,
-    )
+
+    port_settings = port.settings.copy()
+    port_settings.update(midpoint=p_end)
+    c.add_port(**port_settings)
 
     return c
 

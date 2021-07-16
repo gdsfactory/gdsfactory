@@ -7,13 +7,12 @@ from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )
-from pp.routing.sort_ports import sort_ports
 
 
 @pp.cell_with_validator
 def add_electrical_pads_top(
     component: Component,
-    component_top_to_pad_bottom_distance: float = 100.0,
+    dy: float = 100.0,
     route_filter: Callable = get_route_from_waypoints,
     **kwargs,
 ) -> Component:
@@ -21,26 +20,27 @@ def add_electrical_pads_top(
 
     Args:
         component:
-        pad: pad element
-        spacing: pad array (x, y) spacing
-        width: pad width
-        height: pad height
-        layer: pad layer
+        dy: vertical spacing
+        kwargs:pad settings
+            pad: pad element
+            pitch: x spacing
+            n: number of pads
+            port_list: list of port orientations (N, S, W, E) per pad
+            pad_settings: settings for pad if pad is callable
+            **port_settings
     """
     c = Component()
     ports = component.get_ports_list(port_type="dc")
     c << component
     pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
     pads.x = component.x
-    pads.ymin = component.ymax + component_top_to_pad_bottom_distance
+    pads.ymin = component.ymax + dy
     ports_pads = list(pads.ports.values())
 
-    # ports_pads.sort(key=lambda p: p.midpoint[0])
-    # ports.sort(key=lambda p: p.midpoint[0])
+    ports_pads = pp.routing.sort_ports.sort_ports_x(ports_pads)
+    ports_component = pp.routing.sort_ports.sort_ports_x(ports)
 
-    ports_pads, ports = sort_ports(ports_pads, ports)
-
-    for p1, p2 in zip(ports_pads, ports):
+    for p1, p2 in zip(ports_component, ports_pads):
         c.add(get_route_electrical_shortest_path(p1, p2))
 
     c.ports = component.ports.copy()
@@ -49,10 +49,33 @@ def add_electrical_pads_top(
     return c
 
 
-if __name__ == "__main__":
+def demo_mzi():
     import pp
 
     c = pp.components.straight_with_heater()
     c = pp.components.mzi2x2(with_elec_connections=True)
+    cc = add_electrical_pads_top(component=c)
+    return cc
+
+
+def demo_straight():
+    import pp
+
+    c = pp.components.straight_with_heater(
+        port_orientation_input=0, port_orientation_output=180
+    )
+    cc = add_electrical_pads_top(component=c)
+    return cc
+
+
+if __name__ == "__main__":
+    # c = demo_mzi()
+    # c = demo_straight()
+    # c.show()
+    import pp
+
+    c = pp.components.straight_with_heater(
+        port_orientation_input=0, port_orientation_output=180
+    )
     cc = add_electrical_pads_top(component=c)
     cc.show()

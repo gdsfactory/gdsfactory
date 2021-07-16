@@ -6,6 +6,7 @@ import json
 import pathlib
 import tempfile
 import uuid
+import warnings
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
@@ -19,7 +20,7 @@ from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
-from pp.config import __version__, logger
+from pp.config import __version__
 from pp.port import Port, select_ports, valid_port_types
 from pp.snap import snap_to_grid
 
@@ -898,9 +899,11 @@ class Component(Device):
             half_width = width / 2
             half_width_correct = snap_to_grid(half_width, nm=1)
             if not np.isclose(half_width, half_width_correct):
-                logger.warning(
-                    f"port width = {width} will create off-grid points",
-                    f"you can fix it by changing width to {half_width_correct}",
+                warnings.warn(
+                    f"port width = {width} will create off-grid points.\n"
+                    f"You can fix it by changing width to {2*half_width_correct}\n"
+                    f"port {name}, {midpoint}  {orientation} deg",
+                    stacklevel=3,
                 )
             p = Port(
                 name=name,

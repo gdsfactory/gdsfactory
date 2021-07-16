@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pp
 from pp.component import Component
+from pp.import_gds import import_gds
 
 
 def remove_gds_labels(component: Component, layer=pp.LAYER.LABEL_SETTINGS) -> None:
@@ -27,7 +28,7 @@ def load_component(gdspath: Path) -> Component:
     ports_filepath = gdspath.with_suffix(".ports")
     metadata_filepath = gdspath.with_suffix(".json")
 
-    c = pp.import_gds(gdspath)
+    c = import_gds(gdspath)
 
     if ports_filepath.exists():
         with open(str(ports_filepath), newline="") as csvfile:
