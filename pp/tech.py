@@ -70,8 +70,6 @@ class LayerLevel:
 
 @pydantic.dataclasses.dataclass
 class LayerStack:
-    name: str
-
     def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""
         return {
@@ -121,7 +119,6 @@ class LayerStack:
 
 @pydantic.dataclasses.dataclass
 class LayerStackGeneric(LayerStack):
-    name: str = "generic"
     WG = LayerLevel(layer=(1, 0), thickness_nm=220.0, zmin_nm=0.0, material="si")
     WGCLAD = LayerLevel(layer=(111, 0), zmin_nm=0.0, material="sio2")
     SLAB150 = LayerLevel(layer=(2, 0), thickness_nm=150.0, zmin_nm=0, material="si")

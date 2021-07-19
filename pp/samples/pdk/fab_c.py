@@ -41,7 +41,6 @@ PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
 
 @pydantic.dataclasses.dataclass
 class LayerStackFabc(LayerStack):
-    name: str = "fab_c"
     WGN = LayerLevel(
         layer=(34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin"
     )
