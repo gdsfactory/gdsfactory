@@ -7,7 +7,7 @@ from phidl.device_layout import Device as Component
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
-IGNORE_PREXIXES = ("_", "get_")
+LAYER_STACK_IGNORE_PREXIXES = ("_", "get_", "name")
 
 
 @pydantic.dataclasses.dataclass
@@ -70,6 +70,58 @@ class LayerLevel:
 
 @pydantic.dataclasses.dataclass
 class LayerStack:
+    name: str
+
+    def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to thickness_nm."""
+        return {
+            getattr(self, key).layer: getattr(self, key).thickness_nm
+            for key in dir(self)
+            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
+            and getattr(self, key).thickness_nm
+        }
+
+    def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to z min position (nm)."""
+        return {
+            getattr(self, key).layer: getattr(self, key).zmin_nm
+            for key in dir(self)
+            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
+            and getattr(self, key).zmin_nm is not None
+        }
+
+    def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to material."""
+        return {
+            getattr(self, key).layer: getattr(self, key).material
+            for key in dir(self)
+            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
+            and getattr(self, key).material
+        }
+
+    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
+        """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
+        tuple_to_name = {
+            getattr(self, name).layer: name
+            for name in dir(self)
+            if not name.startswith(LAYER_STACK_IGNORE_PREXIXES)
+        }
+        if layer_tuple not in tuple_to_name:
+            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
+
+        name = tuple_to_name[layer_tuple]
+        return name
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
+
+
+@pydantic.dataclasses.dataclass
+class LayerStackGeneric(LayerStack):
+    name: str = "generic"
     WG = LayerLevel(layer=(1, 0), thickness_nm=220.0, zmin_nm=0.0, material="si")
     WGCLAD = LayerLevel(layer=(111, 0), zmin_nm=0.0, material="sio2")
     SLAB150 = LayerLevel(layer=(2, 0), thickness_nm=150.0, zmin_nm=0, material="si")
@@ -79,46 +131,8 @@ class LayerStack:
     )
     WGN_CLAD = LayerLevel(layer=(36, 0))
 
-    def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to thickness_nm."""
-        return {
-            getattr(self, key).layer: getattr(self, key).thickness_nm
-            for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).thickness_nm
-        }
 
-    def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to z min position (nm)."""
-        return {
-            getattr(self, key).layer: getattr(self, key).zmin_nm
-            for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES)
-            and getattr(self, key).zmin_nm is not None
-        }
-
-    def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to material."""
-        return {
-            getattr(self, key).layer: getattr(self, key).material
-            for key in dir(self)
-            if not key.startswith(IGNORE_PREXIXES) and getattr(self, key).material
-        }
-
-    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> str:
-        """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
-        tuple_to_name = {
-            getattr(self, name).layer: name
-            for name in dir(self)
-            if not name.startswith(IGNORE_PREXIXES)
-        }
-        if layer_tuple not in tuple_to_name:
-            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
-
-        name = tuple_to_name[layer_tuple]
-        return name
-
-
-LAYER_STACK = LayerStack()
+LAYER_STACK = LayerStackGeneric()
 
 
 # waveguides

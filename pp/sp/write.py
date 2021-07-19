@@ -14,7 +14,7 @@ import yaml
 
 import pp
 from pp.component import Component
-from pp.config import TECH, __version__
+from pp.config import TECH, __version__, logger
 from pp.sp.get_sparameters_path import get_sparameters_path
 from pp.tech import LAYER_STACK
 
@@ -78,19 +78,19 @@ def write(
         run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
-        layer_to_thickness_nm: dict of GDSlayer to thickness (nm) {(1, 0): 220}
-        layer_to_material: dict of {(1, 0): "si"}
-        remove_layers: layers to remove
-        background_material: for the background
-        port_width: port width (m)
-        port_height: port height (m)
-        port_extension_um: port extension (um)
-        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-        zmargin: for the FDTD region 1e-6 (m)
-        ymargin: for the FDTD region 2e-6 (m)
-        wavelength_start: 1.2e-6 (m)
-        wavelength_stop: 1.6e-6 (m)
-        wavelength_points: 500
+        layer_stack: layer_stack
+        **settings
+            remove_layers: layers to remove
+            background_material: for the background
+            port_width: port width (m)
+            port_height: port height (m)
+            port_extension_um: port extension (um)
+            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+            zmargin: for the FDTD region 1e-6 (m)
+            ymargin: for the FDTD region 2e-6 (m)
+            wavelength_start: 1.2e-6 (m)
+            wavelength_stop: 1.6e-6 (m)
+            wavelength_points: 500
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
@@ -98,15 +98,9 @@ def write(
 
     """
     sim_settings = dataclasses.asdict(TECH.simulation_settings)
-    layer_to_thickness_nm = settings.pop(
-        "layer_to_thickness_nm", layer_stack.get_layer_to_thickness_nm()
-    )
-    layer_to_zmin_nm = settings.pop(
-        "layer_to_zmin_nm", layer_stack.get_layer_to_zmin_nm()
-    )
-    layer_to_material = settings.pop(
-        "layer_to_material", layer_stack.get_layer_to_material()
-    )
+    layer_to_thickness_nm = layer_stack.get_layer_to_thickness_nm()
+    layer_to_zmin_nm = layer_stack.get_layer_to_zmin_nm()
+    layer_to_material = layer_stack.get_layer_to_material()
 
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
@@ -231,6 +225,7 @@ def write(
 
     for layer, thickness in layer_to_thickness_nm.items():
         if layer not in layers:
+            logger.info(f"{layer} not in {layers}")
             continue
 
         if layer not in layer_to_material:
@@ -241,7 +236,7 @@ def write(
             raise ValueError(
                 f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
             )
-        material = MATERIAL_NAME_TO_LUMERICAL[material]
+        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material]
 
         if layer not in layer_to_zmin_nm:
             raise ValueError(f"{layer} not in {list(layer_to_zmin_nm.keys())}")
@@ -254,7 +249,8 @@ def write(
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z)
         s.setnamed(layername, "z span", thickness * 1e-9)
-        s.setnamed(layername, "material", material)
+        s.setnamed(layername, "material", material_name_lumerical)
+        logger.info(f"adding {layer}, thickness = {thickness} nm, zmin = {zmin} nm ")
 
     for i, port in enumerate(ports.values()):
         s.addport()
@@ -335,10 +331,10 @@ def write(
         df = pd.DataFrame(results, index=wavelength_nm)
 
         end = time.time()
-        sim_settings.update(compute_time_seconds=end - start)
         df.to_csv(filepath_csv, index=False)
-        filepath_sim_settings.write_text(yaml.dump(sim_settings))
+        sim_settings.update(compute_time_seconds=end - start)
         return df
+    filepath_sim_settings.write_text(yaml.dump(sim_settings))
 
 
 def sample_write_coupler_ring():
