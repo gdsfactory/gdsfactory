@@ -250,7 +250,9 @@ def write(
         s.setnamed(layername, "z", z)
         s.setnamed(layername, "z span", thickness * 1e-9)
         s.setnamed(layername, "material", material_name_lumerical)
-        logger.info(f"adding {layer}, thickness = {thickness} nm, zmin = {zmin} nm ")
+        logger.info(
+            f"adding {layer}, thickness = {thickness} nm, zmin = {zmin*1e9} nm "
+        )
 
     for i, port in enumerate(ports.values()):
         s.addport()
