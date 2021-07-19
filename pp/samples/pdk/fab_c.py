@@ -13,13 +13,14 @@ Lets also that this foundry has an LVS flow where all components have optical pi
 
 from typing import Callable, Dict, Optional, Tuple
 
+import pydantic
 import pydantic.dataclasses as dataclasses
 
 import pp
 from pp.add_pins import add_pin_square_inside
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.tech import TECH, Library, Tech, Waveguide
+from pp.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
 from pp.types import Layer, StrOrDict
 
 
@@ -36,6 +37,15 @@ LAYER = LayerMap()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
 PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
+
+
+@pydantic.dataclasses.dataclass
+class LayerStackFabc(LayerStack):
+    name: str = "fab_c"
+    WGN = LayerLevel(
+        layer=(34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin"
+    )
+    WGN_CLAD = LayerLevel(layer=(36, 0))
 
 
 @dataclasses.dataclass
