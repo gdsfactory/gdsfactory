@@ -18,6 +18,18 @@ def ellipse_arc(
     theta_max: float,
     angle_step: float = 0.5,
 ) -> ndarray:
+    """
+    Returns an elliptical arc.
+
+    b = a *sqrt(1-e**2)
+
+    An ellipse with a = b has zero eccentricity (is a circle)
+
+    Args:
+        a: ellipse semi-major axis
+
+
+    """
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
     xs = a * np.cos(theta) + x0
     ys = b * np.sin(theta)

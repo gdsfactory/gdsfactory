@@ -143,11 +143,13 @@ def write(
     filepath_fsp = filepath.with_suffix(".fsp")
 
     if run and filepath_csv.exists() and not overwrite:
+        logger.info(f"Reading Sparameters from {filepath_csv}")
         return pd.read_csv(filepath_csv)
 
     if not run and session is None:
         print(run_false_warning)
 
+    logger.info(f"Writing Sparameters to {filepath_csv}")
     pe = ss.port_extension_um * 1e-6 / 2
     x_min = c.xmin * 1e-6 + pe
     x_max = c.xmax * 1e-6 - pe
