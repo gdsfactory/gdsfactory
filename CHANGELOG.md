@@ -29,6 +29,10 @@ from contracts import contract
 
 ```
 
+## 2.6.7
+
+- pp.sp.write has a logger
+
 ## 2.6.6
 
 - add pp.extend to pp

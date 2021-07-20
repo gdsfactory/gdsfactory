@@ -137,6 +137,15 @@ LAYER_STACK = LayerStackGeneric()
 
 @pydantic.dataclasses.dataclass
 class Section:
+    """
+    Args:
+        width: of the section
+        offset: center to center
+        layer:
+        ports: optional name of the ports
+        name: optional section name
+    """
+
     width: float
     offset: float = 0
     layer: Layer = (1, 0)
