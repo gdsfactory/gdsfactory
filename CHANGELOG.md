@@ -32,6 +32,7 @@ from contracts import contract
 ## 2.6.7
 
 - pp.sp.write has a logger
+- via has optional pitch_x and pitch_y
 
 ## 2.6.6
 
