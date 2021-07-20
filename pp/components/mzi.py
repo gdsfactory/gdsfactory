@@ -62,10 +62,6 @@ def mzi(
     bend = get(bend, **kwargs)
     splitter = get(splitter)
 
-    L2 = length_x
-    L0 = length_y
-    DL = delta_length
-
     c = Component()
     cp1 = splitter
     cp2 = get(combiner) if combiner else splitter
@@ -75,7 +71,7 @@ def mzi(
     straight_horizontal_bot = straight_horizontal_bot or straight
     straight_delta_length = straight_delta_length or straight
     b90 = bend
-    l0 = get(straight, length=L0, **kwargs)
+    l0 = get(straight, length=length_y, **kwargs)
 
     cp1 = rename_ports_by_orientation(cp1)
     cp2 = rename_ports_by_orientation(cp2)
@@ -89,16 +85,16 @@ def mzi(
     dl = abs(y2l - y1l)  # splitter ports y distance
     dr = abs(y2r - y1r)  # combiner ports y distance
     delta_length_combiner = dl - dr
-    if delta_length_combiner + L0 < 0:
+    if delta_length_combiner + length_y < 0:
         raise ValueError(
             f"splitter and combiner port yoffset + length_y = {delta_length_combiner:.3f} < 0 "
-            f"you can swap combiner and splitter or increase length_y by {-delta_length_combiner-L0:.3f}"
+            f"you can swap combiner and splitter or increase length_y by {-delta_length_combiner-length_y:.3f}"
         )
 
-    l0r = get(straight_vertical, length=L0 + delta_length_combiner / 2, **kwargs)
-    l1 = get(straight_delta_length, length=DL / 2, **kwargs)
-    lxt = get(straight_horizontal_top, length=L2, **kwargs)
-    lxb = get(straight_horizontal_bot, length=L2, **kwargs)
+    l0r = get(straight_vertical, length=length_y + delta_length_combiner / 2, **kwargs)
+    l1 = get(straight_delta_length, length=delta_length / 2, **kwargs)
+    lxt = get(straight_horizontal_top, length=length_x, **kwargs)
+    lxb = get(straight_horizontal_bot, length=length_x, **kwargs)
 
     cin = cp1.ref()
     cout = c << cp2

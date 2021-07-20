@@ -13,6 +13,8 @@ def via(
     width: float = 0.7,
     height: Optional[float] = None,
     pitch: float = 2.0,
+    pitch_x: Optional[float] = None,
+    pitch_y: Optional[float] = None,
     enclosure: float = 1.0,
     layer: Tuple[int, int] = LAYER.VIA1,
 ) -> Component:
@@ -22,12 +24,16 @@ def via(
         width:
         height: Defaults to width
         pitch:
+        pitch_x: Optional x pitch
+        pitch_y: Optional y pitch
         enclosure: inclusion of via
         layer: via layer
     """
     height = height or width
     c = Component()
     c.info["pitch"] = pitch
+    c.info["pitch_x"] = pitch_x or pitch
+    c.info["pitch_y"] = pitch_y or pitch
     c.info["enclosure"] = enclosure
     c.info["width"] = width
     c.info["height"] = height
@@ -92,23 +98,24 @@ def tlm(
         w = via.info["width"]
         h = via.info["height"]
         g = via.info["enclosure"]
-        pitch = via.info["pitch"]
+        pitch_x = via.info["pitch_x"]
+        pitch_y = via.info["pitch_y"]
 
-        nb_vias_x = (width - w - 2 * g) / pitch + 1
-        nb_vias_y = (height - h - 2 * g) / pitch + 1
+        nb_vias_x = (width - w - 2 * g) / pitch_x + 1
+        nb_vias_y = (height - h - 2 * g) / pitch_y + 1
 
         nb_vias_x = int(floor(nb_vias_x)) or 1
         nb_vias_y = int(floor(nb_vias_y)) or 1
 
-        cw = (width - (nb_vias_x - 1) * pitch - w) / 2
-        ch = (height - (nb_vias_y - 1) * pitch - h) / 2
+        cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
+        ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
 
         x0 = -a + cw + w / 2
         y0 = -b + ch + h / 2
 
         for i in range(nb_vias_x):
             for j in range(nb_vias_y):
-                c.add(via.ref(position=(x0 + i * pitch, y0 + j * pitch)))
+                c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
 
     if port_orientation == 0:
         port_name = "E0"
