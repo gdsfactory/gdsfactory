@@ -18,8 +18,8 @@ settings:
       n: 3
       pitch: 150
       radius: 5
-      tlm: tlm
-      tlm_y_offset: -44
+      via_stack: via_stack
+      via_stack_y_offset: -44
       waveguide: metal2
       waveguide_pitch: 10
   h_mirror: false

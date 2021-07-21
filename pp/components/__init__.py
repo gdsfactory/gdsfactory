@@ -102,12 +102,12 @@ from pp.components.electrical.wire import corner
 from pp.components.electrical.pad import pad
 from pp.components.electrical.pad import pad_array
 from pp.components.electrical.pad import pad_array_2d
-from pp.components.electrical.tlm import via
-from pp.components.electrical.tlm import via1
-from pp.components.electrical.tlm import via2
-from pp.components.electrical.tlm import via3
-from pp.components.electrical.tlm import tlm
-from pp.components.electrical.tlm import tlm_with_offset
+from pp.components.via import via
+from pp.components.via import via1
+from pp.components.via import via2
+from pp.components.via import via3
+from pp.components.via_stack import via_stack
+from pp.components.via_stack_with_offset import via_stack_with_offset
 from pp.components.electrical.pads_shorted import pads_shorted
 
 # electrical PCM
@@ -249,8 +249,8 @@ LIBRARY.register(
         resistance_meander,
         via_cutback,
         text,
-        tlm,
-        tlm_with_offset,
+        via_stack,
+        via_stack_with_offset,
         verniers,
         version_stamp,
         via1,

@@ -383,7 +383,6 @@ instances:
       layer:
       - 49
       - 0
-      layer_to_inclusion: null
       width: 100
   br:
     component: pad
@@ -392,7 +391,6 @@ instances:
       layer:
       - 49
       - 0
-      layer_to_inclusion: null
       width: 100
   straight_323af094_85p0_200p0:
     component: straight
@@ -1083,7 +1081,6 @@ instances:
       layer:
       - 49
       - 0
-      layer_to_inclusion: null
       width: 100
   tr:
     component: pad
@@ -1092,7 +1089,6 @@ instances:
       layer:
       - 49
       - 0
-      layer_to_inclusion: null
       width: 100
 name: sample_path_length_matching
 placements:

@@ -4,7 +4,7 @@ module: pp.components.straight_heater
 name: straight_with_heater
 settings:
   length: 10
-  tlm_layers:
+  via_stack_layers:
   - - 40
     - 0
   - - 41

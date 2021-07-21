@@ -1577,21 +1577,6 @@ text
 
 
 
-tlm
-----------------------------------------------------
-
-.. autofunction:: pp.components.tlm
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.tlm()
-  c.plot()
-
-
-
 verniers
 ----------------------------------------------------
 
@@ -1693,6 +1678,36 @@ via_cutback
   import pp
 
   c = pp.components.via_cutback()
+  c.plot()
+
+
+
+via_stack
+----------------------------------------------------
+
+.. autofunction:: pp.components.via_stack
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.via_stack()
+  c.plot()
+
+
+
+via_stack_with_offset
+----------------------------------------------------
+
+.. autofunction:: pp.components.via_stack_with_offset
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.via_stack_with_offset()
   c.plot()
 
 

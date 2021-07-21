@@ -21,8 +21,8 @@ def array_with_via(
     component_port_name: str = "S",
     bend_port_name: str = "N0",
     waveguide="metal2",
-    tlm: StrOrDict = "tlm",
-    tlm_y_offset: float = -44.0,
+    via_stack: StrOrDict = "via_stack",
+    via_stack_y_offset: float = -44.0,
     library: Library = LIBRARY,
     **waveguide_settings,
 ) -> Component:
@@ -39,12 +39,12 @@ def array_with_via(
         waveguide: waveguide definition
         component_port_name:
         bend_port_name:
-        tlm_port_name:
+        via_stack_port_name:
         **waveguide_settings
     """
     c = Component()
     component = library.get_component(component)
-    tlm = library.get_component(tlm)
+    via_stack = library.get_component(via_stack)
 
     for col in range(n):
         ref = component.ref()
@@ -52,14 +52,14 @@ def array_with_via(
         c.add(ref)
         xlength = col * pitch + end_straight
 
-        tlm_ref = c << tlm
-        tlm_ref.x = col * pitch
-        tlm_ref.y = col * waveguide_pitch + tlm_y_offset
+        via_stack_ref = c << via_stack
+        via_stack_ref.x = col * pitch
+        via_stack_ref.y = col * waveguide_pitch + via_stack_y_offset
 
         straightx_ref = c << straight(
             length=xlength, waveguide=waveguide, **waveguide_settings
         )
-        straightx_ref.connect("E0", tlm_ref.ports["W0"])
+        straightx_ref.connect("E0", via_stack_ref.ports["W0"])
         c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
     auto_rename_ports(c)
     return c
@@ -92,7 +92,7 @@ def array_with_via_2d(
             waveguide: waveguide definition
             component_port_name:
             bend_port_name:
-            tlm_port_name:
+            via_stack_port_name:
             **waveguide_settings
     """
     pitch_y = pitch_y or pitch
