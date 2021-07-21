@@ -138,10 +138,104 @@ def tlm(
     return c
 
 
+@pp.cell_with_validator
+def tlm_with_offset(
+    width: float = 11.0,
+    height: Optional[float] = None,
+    layers: Tuple[Layer, ...] = (LAYER.Ppp, LAYER.M1, LAYER.M2, LAYER.M3),
+    vias: Tuple[ComponentOrFactory, ...] = (via1, via2, via3),
+    port_orientation: int = 180,
+) -> Component:
+    """Rectangular transition thru metal layers with offset between layers
+
+    Args:
+        width: width
+        height: defaults to width
+        layers: layers on which to draw rectangles
+        vias: vias to use to fill the rectangles
+        port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
+    """
+    height = height or width
+
+    x0 = -width / 2
+    x1 = +width / 2
+    y0 = -height / 2
+    y1 = +height / 2
+    rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+
+    c = Component()
+    c.height = height
+
+    # Add metal rectangles
+    for i, layer in enumerate(layers):
+        rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+        c.add_polygon(rect_pts, layer=layer)
+        if i < len(layers) - 1:
+            c.add_polygon(rect_pts, layer=layers[i + 1])
+        y0 += height
+        y1 += height
+
+    ymetal = y1 - height / 2 - height
+    x0 = -width / 2
+    y0 = -height / 2
+
+    # Add vias
+    for via in vias:
+        via = via() if callable(via) else via
+
+        w = via.info["width"]
+        h = via.info["height"]
+        g = via.info["enclosure"]
+        pitch_x = via.info["pitch_x"]
+        pitch_y = via.info["pitch_y"]
+
+        nb_vias_x = (width - w - 2 * g) / pitch_x + 1
+        nb_vias_y = (height - h - 2 * g) / pitch_y + 1
+
+        nb_vias_x = int(floor(nb_vias_x)) or 1
+        nb_vias_y = int(floor(nb_vias_y)) or 1
+
+        cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
+        ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
+
+        x00 = x0 + cw + w / 2
+        y00 = y0 + ch + h / 2
+        y0 += height
+
+        for i in range(nb_vias_x):
+            for j in range(nb_vias_y):
+                c.add(via.ref(position=(x00 + i * pitch_x, y00 + j * pitch_y)))
+
+    if port_orientation == 0:
+        port_name = "E0"
+        port_width = height
+    elif port_orientation == 180:
+        port_name = "W0"
+        port_width = height
+    elif port_orientation == 90:
+        port_name = "N0"
+        port_width = width
+    elif port_orientation == 270:
+        port_name = "S0"
+        port_width = width
+    else:
+        raise ValueError(
+            f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
+        )
+    c.add_port(
+        name=port_name,
+        width=port_width,
+        orientation=port_orientation,
+        midpoint=(0, ymetal),
+    )
+
+    return c
+
+
 if __name__ == "__main__":
 
     # c = via()
-    c = tlm()
+    c = tlm_with_offset()
     # c.pprint()
     print(c)
     c.show()

@@ -58,7 +58,6 @@ def mzi(
 
     """
     get = library.get_component
-
     bend = get(bend, **kwargs)
     splitter = get(splitter)
 
@@ -154,6 +153,15 @@ def mzi(
     for i, port in enumerate(cout.ports.values()):
         if port.angle == 0:
             c.add_port(name=f"E{i}", port=port)
+
+    # Add any non-optical ports from bottom and bottom arms
+    for i, port in enumerate(lxbot.get_ports_list()):
+        if port.port_type != "optical":
+            c.add_port(name=f"DC_BOT_{i}", port=port)
+
+    for i, port in enumerate(lxtop.get_ports_list()):
+        if port.port_type != "optical":
+            c.add_port(name=f"DC_TOP_{i}", port=port)
 
     rename_ports_by_orientation(c)
 

@@ -107,6 +107,7 @@ from pp.components.electrical.tlm import via1
 from pp.components.electrical.tlm import via2
 from pp.components.electrical.tlm import via3
 from pp.components.electrical.tlm import tlm
+from pp.components.electrical.tlm import tlm_with_offset
 from pp.components.electrical.pads_shorted import pads_shorted
 
 # electrical PCM
@@ -249,6 +250,7 @@ LIBRARY.register(
         via_cutback,
         text,
         tlm,
+        tlm_with_offset,
         verniers,
         version_stamp,
         via1,
