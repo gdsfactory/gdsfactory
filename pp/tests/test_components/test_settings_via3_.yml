@@ -6,7 +6,7 @@ info:
   pitch_x: 2
   pitch_y: 2
   width: 0.7
-module: pp.components.electrical.tlm
+module: pp.components.via
 name: via3
 settings:
   enclosure: 1

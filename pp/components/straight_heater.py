@@ -5,10 +5,10 @@ import numpy as np
 import pp
 from pp.cell import cell
 from pp.component import Component
-from pp.components.electrical.tlm import tlm
 from pp.components.extension import line
 from pp.components.hline import hline
 from pp.components.straight import straight
+from pp.components.via_stack import via_stack
 from pp.cross_section import StrOrDict, get_cross_section
 from pp.layers import LAYER
 from pp.port import Port, auto_rename_ports
@@ -195,7 +195,7 @@ def straight_heater(
 @cell
 def via_elevator(
     heater_ports: Iterable[Port],
-    tlm_layers: Tuple[Layer, ...] = (
+    via_stack_layers: Tuple[Layer, ...] = (
         LAYER.VIA1,
         LAYER.M1,
         LAYER.VIA2,
@@ -210,7 +210,7 @@ def via_elevator(
 
     Args:
         heater_ports: list of ports
-        tlm_layers: tuple of layers
+        via_stack_layers: tuple of layers
         port_width:
         port_orientation: in degrees
     """
@@ -236,17 +236,19 @@ def via_elevator(
     else:
         ports.sort(key=lambda p: p.x)
 
-    _heater_to_metal = tlm(width=0.5, height=0.5, layers=tlm_layers, vias=[])
+    _heater_to_metal = via_stack(
+        width=0.5, height=0.5, layers=via_stack_layers, vias=[]
+    )
 
-    tlm_positions = []
+    via_stack_positions = []
     for port, dp in zip(ports, angle_to_dps[angle]):
         # Extend heater
         p = port.midpoint
 
         # Add via/metal transitions
-        tlm_pos = p + dp
-        hm = _heater_to_metal.ref(position=tlm_pos)
-        tlm_positions += [tlm_pos]
+        via_stack_pos = p + dp
+        hm = _heater_to_metal.ref(position=via_stack_pos)
+        via_stack_positions += [via_stack_pos]
         component.add(hm)
 
     ss = 1 if angle == 0 else -1
@@ -254,11 +256,11 @@ def via_elevator(
     # Connect both sides with top metal
     edge_metal_piece_width = 7.0
     x = ss * edge_metal_piece_width / 2
-    top_metal_layer = tlm_layers[-1]
+    top_metal_layer = via_stack_layers[-1]
     component.add_polygon(
         line(
-            tlm_positions[0] + (x, -hw / 2),
-            tlm_positions[1] + (x, hw / 2),
+            via_stack_positions[0] + (x, -hw / 2),
+            via_stack_positions[1] + (x, hw / 2),
             edge_metal_piece_width,
         ),
         layer=top_metal_layer,
@@ -267,7 +269,7 @@ def via_elevator(
     # Add metal port
     component.add_port(
         name="0",
-        midpoint=0.5 * sum(tlm_positions) + (ss * edge_metal_piece_width / 2, 0),
+        midpoint=0.5 * sum(via_stack_positions) + (ss * edge_metal_piece_width / 2, 0),
         orientation=port_orientation if port_orientation is not None else angle,
         width=port_width,
         layer=top_metal_layer,
@@ -298,7 +300,7 @@ def straight_with_heater(
         port_orientation_input:
         port_orientation_output:
         connector_settings: for the via and metal connector
-            tlm_layers: tuple of layers
+            via_stack_layers: tuple of layers
             port_width:
             port_orientation: in degrees
         **kwargs: for straight_heater

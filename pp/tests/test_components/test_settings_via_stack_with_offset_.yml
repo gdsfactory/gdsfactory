@@ -1,0 +1,19 @@
+function_name: via_stack_with_offset
+info: {}
+module: pp.components.via_stack_with_offset
+name: via_stack_with_offset
+settings:
+  layer_via_width_height_offset:
+  - - - 25
+      - 0
+    - null
+    - 10
+    - 10
+    - 0
+  - - - 41
+      - 0
+    - via1
+    - 10
+    - 10
+    - 0
+  port_orientation: 180

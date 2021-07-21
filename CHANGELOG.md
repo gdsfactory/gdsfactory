@@ -28,6 +28,11 @@ from contracts import contract
 
 
 ```
+
+## 2.6.9
+
+- rename tlm to via_stack and tlm_with_offset to via_stack_with_offset
+
 ## 2.6.8
 
 - add pp.c.tlm_with_offset

@@ -85,13 +85,12 @@ def add_padding_container(
     """
 
     c = Component()
-    c << component
+    cref = c << component
 
     points = get_padding_points(component, **kwargs)
     for layer in layers:
         c.add_polygon(points, layer=layer)
-    c.ports = component.ports
-    # c.settings["component"] = component.get_settings()
+    c.ports = cref.ports
     return c
 
 
