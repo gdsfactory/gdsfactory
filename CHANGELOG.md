@@ -28,6 +28,11 @@ from contracts import contract
 
 
 ```
+## 2.6.8
+
+- add pp.c.tlm_with_offset
+- mzi adds any non-optical ports from straight_horizontal_bot and straight_horizontal_top
+- ignore layer_to_inclusion: Optional[Dict[Layer, float]] from get_settings
 
 ## 2.6.7
 

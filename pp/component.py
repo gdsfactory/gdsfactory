@@ -571,6 +571,7 @@ class Component(Device):
             "waveguide_settings_outer",
             "library",
             "_initialized",
+            "layer_to_inclusion",
         }
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
@@ -1148,8 +1149,12 @@ class Component(Device):
                     )
 
         # write component.json metadata dict to JSON
-        with open(json_path, "w+") as fw:
-            fw.write(json.dumps(self.get_json(), indent=2))
+        json_path.write_text(json.dumps(self.get_json(), indent=2))
+
+        # with open(json_path, "w+") as fw:
+        #     fw.write(json.dumps(self.get_json(), indent=2))
+        # metadata = omegaconf.OmegaConf.create(self.get_json())
+        # json_path.write_text( OmegaConf.to_container(metadata))
         return gdspath
 
 
@@ -1212,6 +1217,16 @@ def clean_dict(d: Dict[str, Any]) -> None:
             clean_dict(v)
         else:
             d[k] = _clean_value(v)
+
+
+def clean_key(key):
+    print(type(key), key)
+    if isinstance(key, tuple):
+        key = key[0]
+    else:
+        key = str(key)
+
+    return key
 
 
 def _clean_value(value: Any) -> Any:
