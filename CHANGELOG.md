@@ -28,6 +28,9 @@ from contracts import contract
 
 
 ```
+## 2.6.10
+
+- via_stack has port with port_type=dc
 
 ## 2.6.9
 

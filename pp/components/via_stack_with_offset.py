@@ -94,6 +94,7 @@ def via_stack_with_offset(
         width=port_width,
         orientation=port_orientation,
         midpoint=(0, y1),
+        port_type="dc",
     )
 
     return c

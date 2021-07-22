@@ -81,7 +81,9 @@ def via_stack(
         raise ValueError(
             f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
         )
-    c.add_port(name=port_name, width=port_width, orientation=port_orientation)
+    c.add_port(
+        name=port_name, width=port_width, orientation=port_orientation, port_type="dc"
+    )
 
     return c
 
