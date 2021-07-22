@@ -22,6 +22,8 @@ if __name__ == "__main__":
         end_straight_offset=0,
         start_straight=0,
         separation=50,
+        radius=10,
+        # radius=3 # smaller radius works
     )
 
     for route in routes:

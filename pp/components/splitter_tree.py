@@ -114,16 +114,18 @@ def test_splitter_tree_ports():
 
 
 if __name__ == "__main__":
+    # test_splitter_tree_ports()
 
     c = splitter_tree(
         coupler=dict(component="mmi1x2", gap_mmi=2.0, width_mmi=5.0),
         # noutputs=128 * 2,
-        noutputs=2 ** 3,
-        # waveguide="nitride",
+        # noutputs=2 ** 3,
+        noutputs=2 ** 2,
+        waveguide="nitride",
         # bend_s=None,
-        dy=100.0,
+        # dy=100.0,
     )
-    print(len(c.ports))
+    # print(len(c.ports))
     # for port in c.get_ports_list():
     #     print(port)
     c.show()

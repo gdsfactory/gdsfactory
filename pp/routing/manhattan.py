@@ -1,6 +1,8 @@
+import warnings
 from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
+import pytest
 from numpy import bool_, ndarray
 
 import pp
@@ -18,6 +20,10 @@ DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
 
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
+
+
+class RouteWarning(UserWarning):
+    pass
 
 
 def sign(x: float) -> int:
@@ -410,6 +416,8 @@ def _get_bend_reference_parameters(
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
 
+    # raise_error_if_not_routable([p0, p1, p2], radius=bend_cell.radius)
+
     dp1 = p1 - p0
     dp2 = p2 - p1
     is_h_dp1 = np.abs(dp1[1]) < TOLERANCE
@@ -463,9 +471,30 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
+# def raise_error_if_not_routable(waypoints: ndarray, radius: float) -> None:
+#     """Raises RoutingError if no space for two 90degree bends."""
+#     w = np.round(np.array(waypoints), 3)
+#     dx = np.diff(w[:, 0])
+#     dy = np.diff(w[:, 1])
+#     dx = set(np.abs(dx)) - {0}
+#     dy = set(np.abs(dy)) - {0}
+#     dxmin = min(dx)
+#     dymin = min(dy)
+#     if dxmin / 2 < radius:
+#         raise RoutingError(
+#             f"no space to fit a 90 degree bend for dx = {dxmin:.3f}. Min radius {dxmin/2:.3f}"
+#         )
+#     if dymin / 2 < radius:
+#         raise RoutingError(
+#             f"no space to fit a 90 degree bend for dy = {dymin:.3f}. Min radius {dymin/2:.3f}"
+#         )
+# def raise_error_if_not_routable(p1, p2, p3) -> None:
+#     """Raises RoutingError the sign is not the same."""
+
+
 def round_corners(
     points: Coordinates,
-    straight_factory: ComponentFactory,
+    straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     taper: Optional[Callable] = None,
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
@@ -504,6 +533,7 @@ def round_corners(
         if callable(bend_factory)
         else bend_factory
     )
+    # radius = bend90.radius
     taper = taper(**waveguide_settings) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
@@ -518,6 +548,8 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
     points = np.array(points)
+
+    # raise_error_if_not_routable(points, radius=radius)
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]
@@ -552,14 +584,46 @@ def round_corners(
 
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
+
+    previous_port_point = points[0]
+
     # Add bend sections and record straight-section information
     for i in range(1, points.shape[0] - 1):
         bend_origin, rotation, x_reflection = _get_bend_reference_parameters(
             points[i - 1], points[i], points[i + 1], bend90
         )
-
         bend_ref = gen_sref(bend90, rotation, x_reflection, pname_west, bend_origin)
         references.append(bend_ref)
+
+        dx_points = points[i][0] - points[i - 1][0]
+        dy_points = points[i][1] - points[i - 1][1]
+
+        if abs(dx_points) < TOLERANCE:
+            matching_ports = [
+                port for port in bend_ref.ports.values() if port.x == points[i][0]
+            ]
+
+        if abs(dy_points) < TOLERANCE:
+            matching_ports = [
+                port for port in bend_ref.ports.values() if port.y == points[i][1]
+            ]
+
+        next_port = matching_ports[0]
+        other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
+        other_port = bend_ref.ports[list(other_port_name)[0]]
+
+        dx_bend = next_port.x - previous_port_point[0]
+        dy_bend = next_port.y - previous_port_point[1]
+
+        previous_port_point = other_port.midpoint
+
+        if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
+            # print(dx_points, dx_bend, dy_points, dy_bend)
+            radius = getattr(bend_ref, "dy", 0)
+            warnings.warn(
+                f"90deg bend with radius = {radius} does not fit into the route",
+                RouteWarning,
+            )
 
         straight_sections += [
             (p0_straight, a0, get_straight_distance(p0_straight, bend_origin))
@@ -746,21 +810,21 @@ def test_manhattan() -> Component:
     top_cell = pp.Component()
 
     inputs = [
-        # Port("in1", (10, 5), 0.5, 90),
+        Port("in1", (10, 5), 0.5, 90),
         # Port("in2", (-10, 20), 0.5, 0),
         # Port("in3", (10, 30), 0.5, 0),
         # Port("in4", (-10, -5), 0.5, 90),
         # Port("in5", (0, 0), 0.5, 0),
-        Port("in6", (0, 0), 0.5, 0),
+        # Port("in6", (0, 0), 0.5, 0),
     ]
 
     outputs = [
-        # Port("in1", (90, -60), 0.5, 180),
+        Port("in1", (90, -60), 0.5, 180),
         # Port("in2", (-100, 20), 0.5, 0),
         # Port("in3", (100, -25), 0.5, 0),
         # Port("in4", (-150, -65), 0.5, 270),
         # Port("in5", (25, 3), 0.5, 180),
-        Port("in6", (0, 10), 0.5, 0),
+        # Port("in6", (0, 10), 0.5, 0),
     ]
 
     # lengths = [158.562, 121.43600000000002, 160.70800000000003, 231.416, 83.44]
@@ -787,11 +851,44 @@ def test_manhattan() -> Component:
         )
 
         top_cell.add(route.references)
-        print(route.length, length)
+        # print(route.length, length)
         # assert np.isclose(route.length, length)
     return top_cell
 
 
+def test_manhattan_pass() -> Component:
+    waypoints = [
+        [10.0, 0.0],
+        [20.0, 0.0],
+        [20.0, 12.0],
+        [120.0, 12.0],
+        [120.0, 80.0],
+        [110.0, 80.0],
+    ]
+    route = round_corners(waypoints, radius=5)
+    c = Component()
+    c.add(route.references)
+    return c
+
+
+def test_manhattan_fail() -> Component:
+    waypoints = [
+        [10.0, 0.0],
+        [20.0, 0.0],
+        [20.0, 12.0],
+        [120.0, 12.0],
+        [120.0, 80.0],
+        [110.0, 80.0],
+    ]
+    with pytest.warns(RouteWarning):
+        route = round_corners(waypoints, radius=10.0)
+    c = Component()
+    c.add(route.references)
+    return c
+
+
 if __name__ == "__main__":
-    c = test_manhattan()
+    # c = test_manhattan()
+    # c = test_manhattan_fail()
+    c = test_manhattan_pass()
     c.show()

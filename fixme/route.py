@@ -1,6 +1,13 @@
 """
 Manhattan routes fail when there is not enough space
 
+Now we raise a warning
+
+ideally we also enable:
+
+- sbend routing
+- 180 deg routing
+
 """
 
 import pp

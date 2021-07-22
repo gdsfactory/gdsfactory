@@ -23,6 +23,8 @@ if __name__ == "__main__":
         separation=50,
         # modify_segment_i=-3,
         waveguide="nitride",
+        radius=10
+        # radius=5  # smaller radius works
     )
 
     for route in routes:
