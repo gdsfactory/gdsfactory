@@ -1,0 +1,18 @@
+function_name: die
+info: {}
+module: pp.components.die
+name: die
+settings:
+  bbox_layer:
+  - 99
+  - 0
+  die_name: chip99
+  draw_corners: false
+  draw_dicing_lane: false
+  layer:
+  - 99
+  - 0
+  street_length: 1000
+  street_width: 100
+  text_location: SW
+  text_size: 100

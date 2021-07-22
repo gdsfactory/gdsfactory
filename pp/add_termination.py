@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 
@@ -13,12 +13,13 @@ from pp.components.grating_coupler.elliptical_trenches import (
 )
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
+from pp.cross_section import get_waveguide_settings
 from pp.routing.manhattan import round_corners
 from pp.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from pp.types import ComponentFactory
+from pp.types import ComponentFactory, StrOrDict
 
 
 @cell
@@ -51,7 +52,7 @@ def add_gratings_and_loop_back(
     grating_coupler: ComponentFactory = grating_coupler_te,
     excluded_ports: None = None,
     grating_separation: float = 127.0,
-    bend_radius_align_ports: float = 10.0,
+    bend_radius_align_ports: Optional[float] = None,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
@@ -60,8 +61,30 @@ def add_gratings_and_loop_back(
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
     component_name: None = None,
     with_loopback: bool = True,
+    waveguide: StrOrDict = "strip",
+    **kwargs,
 ) -> Component:
-    """Returns a component with grating_couplers and loopback"""
+    """Returns a component with grating_couplers and loopback.
+
+    Args:
+        component:
+        grating_coupler:
+        excluded_ports:
+        grating_separation:
+        bend_radius_align_ports:
+        gc_port_name:
+        gc_rotation:
+        straight_separation:
+        bend_factory:
+        straight_factory:
+        layer_label:
+        component_name:
+        with_loopback:
+        waveguide: waveguide definition from TECH.waveguide
+        **kwargs: waveguide_settings
+    """
+    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    bend_radius_align_ports = bend_radius_align_ports or waveguide_settings["radius"]
     excluded_ports = excluded_ports or []
     gc = pp.call_if_func(grating_coupler)
 
@@ -136,9 +159,15 @@ def add_gratings_and_loop_back(
                 p1,
             ]
         )
-        bend90 = bend_factory(radius=bend_radius_align_ports)
+        bend90 = bend_factory(
+            radius=bend_radius_align_ports, waveguide=waveguide, **kwargs
+        )
         loop_back_route = round_corners(
-            points=points, bend_factory=bend90, straight_factory=straight_factory
+            points=points,
+            bend_factory=bend90,
+            straight_factory=straight_factory,
+            waveguide=waveguide,
+            **kwargs,
         )
         c.add([gca1, gca2])
         c.add(loop_back_route.references)

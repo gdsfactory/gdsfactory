@@ -1,14 +1,15 @@
 """ bends with grating couplers inside the spiral
-maybe: need to add grating coupler loopback as well
 """
 from typing import Optional, Tuple
 
 import numpy as np
 
 import pp
+from pp.add_termination import add_gratings_and_loop_back
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
+from pp.components.grating_coupler.elliptical import grating_coupler_elliptical
 from pp.components.straight import straight
 from pp.cross_section import get_waveguide_settings
 from pp.routing.manhattan import round_corners
@@ -41,7 +42,7 @@ def spiral_inner_io(
     waveguide: str = "strip",
     **kwargs
 ) -> Component:
-    """Spiral with ports inside the spiral circle.
+    """Spiral with ports inside the spiral loop.
 
     Args:
         N: number of loops
@@ -56,7 +57,9 @@ def spiral_inner_io(
         bend180_function
         straight_factory: straight function
         taper: taper function
-        length:
+        length: Optional length (will compute spiral length)
+        waveguide: waveguide definition in TECH.waveguide
+        **kwargs: waveguide settings
 
     """
     waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
@@ -121,9 +124,10 @@ def spiral_inner_io(
         layer=pp.LAYER.WG,
     )
     taper = pp.components.taper(
-        width1=width_grating_coupler,
+        width1=width,
         width2=_bend180.ports["W0"].width,
         length=taper_length + y_straight_inner_top - 15 - 35,
+        waveguide=waveguide,
     )
     taper_ref1 = component.add_ref(taper)
     taper_ref1.connect("2", p1)
@@ -159,7 +163,12 @@ def spiral_inner_io(
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_west = round_corners(
-        pts_w, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
+        pts_w,
+        bend_factory=_bend90,
+        straight_factory=straight_factory,
+        taper=taper,
+        waveguide=waveguide,
+        **waveguide_settings
     )
     component.add(route_west.references)
 
@@ -188,7 +197,12 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_east = round_corners(
-        pts_e, bend_factory=_bend90, straight_factory=straight_factory, taper=taper
+        pts_e,
+        bend_factory=_bend90,
+        straight_factory=straight_factory,
+        taper=taper,
+        waveguide=waveguide,
+        **waveguide_settings
     )
     component.add(route_east.references)
 
@@ -263,28 +277,35 @@ def get_straight_length(
     return (length - p[1]) / p[0]
 
 
-# @cell
-# def spiral_inner_io_with_gratings(
-#     spiral=spiral_inner_io, grating_coupler=pp.components.grating_coupler_elliptical_te, **kwargs
-# ):
-#     spiral = pp.call_if_func(spiral, **kwargs)
-#     grating_coupler = pp.call_if_func(grating_coupler)
+@pp.cell
+def spiral_inner_io_with_gratings(
+    grating_coupler=grating_coupler_elliptical,
+    spiral=spiral_inner_io_euler,
+    waveguide="strip",
+    **kwargs
+):
+    """Returns a spiral"""
+    spiral = pp.call_if_func(spiral, waveguide=waveguide, **kwargs)
+    grating_coupler = pp.call_if_func(grating_coupler)
 
-#     return add_gratings_and_loop_back(spiral, grating_coupler=grating_coupler)
+    return add_gratings_and_loop_back(
+        component=spiral, grating_coupler=grating_coupler, waveguide=waveguide
+    )
 
 
 if __name__ == "__main__":
 
     # c = spiral_inner_io(x_straight_inner_left=800)
-    c = spiral_inner_io_euler(length=20e3)
     # c = spiral_inner_io_euler(length=20e3)
     # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)
     # print(c.settings)
     # c = add_gratings_and_loop_back(c)
-
     # c = spirals_nested()
+    # c = spiral_inner_io_euler(length=20e3)
+
+    c = spiral_inner_io_with_gratings()
     c.show(show_ports=True)
 
     # c = spiral_inner_io_euler(width=1)
