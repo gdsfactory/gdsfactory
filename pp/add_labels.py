@@ -57,8 +57,15 @@ def get_input_label(
     component_name: Optional[str] = None,
 ) -> Label:
     """Returns a label with component info for a given grating coupler.
-    This is the label used by T&M to extract grating coupler coordinates
-    and match it to the component.
+    Test equipment to extract grating coupler coordinates and match it to the component.
+
+    Args:
+        port: port to label
+        gc: grating coupler reference
+        gc_index: grating coupler index
+        gc_port_name: name of grating coupler port
+        layer_label: layer of the label
+        component_name: for the label
     """
     text = get_optical_text(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name

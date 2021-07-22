@@ -25,7 +25,10 @@ def sort_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 
 @pytest.mark.parametrize(
     "component_type",
-    component_names - set(["grating_coupler_tree", "compensation_path"]),
+    component_names
+    - set(
+        ["grating_coupler_tree", "compensation_path", "spiral_inner_io_with_gratings"]
+    ),
 )
 def test_properties_components(component_type: str) -> Component:
     """Write component to GDS with setttings written on a label.

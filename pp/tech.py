@@ -35,7 +35,7 @@ class LayerMap:
     DEEPTRENCH: Layer = (7, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
-    FLOORPLAN: Layer = (64, 0)
+    FLOORPLAN: Layer = (99, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (69, 0)

@@ -28,6 +28,12 @@ from contracts import contract
 
 
 ```
+# 2.7.1
+
+- add pp.components.die
+- fix spiral_external_io
+
+
 # 2.7.0
 
 - round_corners raises RouteWarning if not enough space to fit a bend

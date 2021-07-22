@@ -55,6 +55,7 @@ from pp.components.C import C
 from pp.components.bbox import bbox
 from pp.components.nxn import nxn
 from pp.components.ramp import ramp
+from pp.components.die import die
 
 # optical test structures
 from pp.components.version_stamp import version_stamp
@@ -88,6 +89,7 @@ from pp.components.delay_snake3 import delay_snake3
 from pp.components.spiral import spiral
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.components.spiral_inner_io import spiral_inner_io
+from pp.components.spiral_inner_io import spiral_inner_io_with_gratings
 from pp.components.spiral_external_io import spiral_external_io
 from pp.components.spiral_circular import spiral_circular
 from pp.components.cdc import cdc
@@ -196,6 +198,7 @@ LIBRARY.register(
         delay_snake2,
         delay_snake3,
         disk,
+        die,
         ellipse,
         fiber,
         fiber_array,
@@ -240,6 +243,7 @@ LIBRARY.register(
         spiral_external_io,
         spiral_inner_io,
         spiral_inner_io_euler,
+        spiral_inner_io_with_gratings,
         splitter_chain,
         splitter_tree,
         taper,
