@@ -28,6 +28,11 @@ from contracts import contract
 
 
 ```
+# 2.7.0
+
+- round_corners raises RouteWarning if not enough space to fit a bend
+
+
 ## 2.6.10
 
 - via_stack has port with port_type=dc

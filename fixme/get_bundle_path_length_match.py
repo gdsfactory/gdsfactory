@@ -1,6 +1,13 @@
 """
 Some manhattan routes have disconnected waveguides
 
+Now we raise a warning
+
+ideally we also enable:
+
+- sbend routing
+- 180 deg routing
+
 """
 
 import pp

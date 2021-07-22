@@ -11,6 +11,7 @@ if __name__ == "__main__":
     ncols = 8
     nrows = 16
     N = ncols * nrows
+    with_pads = False
     with_pads = True
     pad_pitch = 150.0
     metal_width = 5.0
@@ -20,8 +21,9 @@ if __name__ == "__main__":
     c = pp.Component()
     ps = pp.c.straight_with_heater()
     ps_array = pp.c.array(component=ps, pitch=20)
+    dy = 100
 
-    splitter = pp.c.splitter_tree(noutputs=N, waveguide="nitride")
+    splitter = pp.c.splitter_tree(noutputs=N, waveguide="nitride", dx=80, dy=dy)
     splitters = c.add_ref(splitter)
     splitters.movey(-30)
     splitters.xmax = 0
@@ -49,7 +51,7 @@ if __name__ == "__main__":
 
         routes_bend180 = pp.routing.get_routes_bend180(
             ports=ps.get_ports_list(port_type="dc", orientation=0),
-            radius=85 / 4,
+            radius=dy / 8,
             waveguide="metal_routing",
             width=metal_width,
         )

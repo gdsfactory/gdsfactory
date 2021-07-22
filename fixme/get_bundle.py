@@ -1,6 +1,8 @@
 """
 Manhattan routes sometimes have unnecessary crossings
 
+How can we detect this crossings?
+
 """
 
 import pp
