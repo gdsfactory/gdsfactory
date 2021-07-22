@@ -121,7 +121,7 @@ __all__ = [
     "types",
     "write_doe",
 ]
-__version__ = "2.6.9"
+__version__ = "2.6.10"
 
 
 if __name__ == "__main__":
