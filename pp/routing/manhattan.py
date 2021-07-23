@@ -608,22 +608,23 @@ def round_corners(
                 port for port in bend_ref.ports.values() if port.y == points[i][1]
             ]
 
-        next_port = matching_ports[0]
-        other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
-        other_port = bend_ref.ports[list(other_port_name)[0]]
+        if matching_ports:
+            next_port = matching_ports[0]
+            other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
+            other_port = bend_ref.ports[list(other_port_name)[0]]
 
-        dx_bend = next_port.x - previous_port_point[0]
-        dy_bend = next_port.y - previous_port_point[1]
+            dx_bend = next_port.x - previous_port_point[0]
+            dy_bend = next_port.y - previous_port_point[1]
 
-        previous_port_point = other_port.midpoint
+            previous_port_point = other_port.midpoint
 
-        if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
-            # print(dx_points, dx_bend, dy_points, dy_bend)
-            radius = getattr(bend_ref, "dy", 0)
-            warnings.warn(
-                f"90deg bend with radius = {radius} does not fit into the route",
-                RouteWarning,
-            )
+            if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
+                # print(dx_points, dx_bend, dy_points, dy_bend)
+                radius = getattr(bend_ref, "dy", 0)
+                warnings.warn(
+                    f"90deg bend with radius = {radius} does not fit into the route",
+                    RouteWarning,
+                )
 
         straight_sections += [
             (p0_straight, a0, get_straight_distance(p0_straight, bend_origin))

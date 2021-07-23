@@ -1,5 +1,6 @@
 from typing import Optional
 
+import pp
 from pp.cell import cell
 from pp.component import Component
 from pp.components.straight import straight
@@ -8,7 +9,7 @@ from pp.port import auto_rename_ports
 
 @cell
 def array(
-    component: Component = straight,
+    component: pp.types.ComponentOrFactory = straight,
     n: int = 2,
     pitch: float = 20.0,
     axis: str = "y",
