@@ -2,7 +2,7 @@ from typing import List
 
 from phidl.device_layout import Label
 
-from pp.add_labels import get_input_label
+from pp.add_labels import get_input_label, get_input_label_text
 from pp.component import ComponentReference
 from pp.port import Port
 from pp.types import Layer
@@ -14,6 +14,7 @@ def get_input_labels(
     component_name: str,
     layer_label: Layer,
     gc_port_name: str,
+    get_input_label_text_function=get_input_label_text,
 ) -> List[Label]:
     """Returns list of labels for a list of grating coupler references.
 
@@ -23,6 +24,7 @@ def get_input_labels(
         component_name:
         layer_label:
         gc_port_name: gc_port_name port name
+        get_input_label_function:
     """
     elements = []
     for i, g in enumerate(io_gratings):
@@ -33,6 +35,7 @@ def get_input_labels(
             component_name=component_name,
             layer_label=layer_label,
             gc_port_name=gc_port_name,
+            get_input_label_text_function=get_input_label_text_function,
         )
         elements += [label]
 
