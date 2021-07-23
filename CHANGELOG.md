@@ -28,6 +28,9 @@ from contracts import contract
 
 
 ```
+# 2.7.2
+
+- fix print_config asdict(TECH)
 
 # 2.7.1
 
