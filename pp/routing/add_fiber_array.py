@@ -33,7 +33,8 @@ def add_fiber_array(
         gc_port_name: grating coupler input port name 'W0'
         component_name: for the label
         taper: taper function name or dict
-        get_input_label_text_loopback_function: function to get input labels for grating couplers
+        get_input_labels_function: function to get input labels for grating couplers
+        get_input_label_text_loopback_function: function to get input label test
         get_input_label_text_function
         straight_factory: straight
         fanout_length: None  # if None, automatic calculation of fanout length

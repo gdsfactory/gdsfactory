@@ -51,6 +51,7 @@ def route_fiber_array(
     optical_port_labels: None = None,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
+    get_input_labels_function=get_input_labels,
     select_ports: Callable = select_optical_ports,
     waveguide: StrOrDict = "strip",
     **waveguide_settings,
@@ -471,7 +472,7 @@ def route_fiber_array(
             pass
         elif 0 < nlabels_loopback <= 2:
             elements.extend(
-                get_input_labels(
+                get_input_labels_function(
                     io_gratings=io_gratings_loopback,
                     ordered_ports=ordered_ports_loopback,
                     component_name=component_name,
@@ -487,7 +488,7 @@ def route_fiber_array(
             )
 
     elements.extend(
-        get_input_labels(
+        get_input_labels_function(
             io_gratings=io_gratings,
             ordered_ports=ordered_ports,
             component_name=component_name,
