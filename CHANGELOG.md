@@ -32,6 +32,7 @@ from contracts import contract
 
 - add pp.components.die
 - fix spiral_external_io
+- add_fiber_array also labels loopbacks
 
 
 # 2.7.0
