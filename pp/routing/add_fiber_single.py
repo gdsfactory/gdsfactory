@@ -1,6 +1,6 @@
 from typing import Callable, Optional, Tuple
 
-from pp.add_labels import get_input_label_text
+from pp.add_labels import get_input_label_text, get_input_label_text_loopback
 from pp.add_tapers import add_tapers
 from pp.cell import cell_without_validator
 from pp.component import Component
@@ -30,9 +30,10 @@ def add_fiber_single(
     with_loopback: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
-    get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
     library: Library = LIBRARY,
+    get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
+    get_input_label_text_function: Callable = get_input_label_text,
     **waveguide_settings,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
@@ -148,6 +149,7 @@ def add_fiber_single(
             component_name=component_name,
             layer_label=layer_label,
             gc_port_name=gc_port_name,
+            get_input_label_text_function=get_input_label_text_function,
         )
 
     else:
@@ -215,8 +217,8 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["E0"])
 
         port = wg.ports["E0"]
-        text = get_input_label_text(
-            port, grating_coupler, 0, component_name=f"loopback_{component_name}"
+        text = get_input_label_text_loopback_function(
+            port=port, gc=grating_coupler, gc_index=0, component_name=component_name
         )
 
         c.add_label(
@@ -227,8 +229,8 @@ def add_fiber_single(
         )
 
         port = wg.ports["W0"]
-        text = get_input_label_text(
-            port, grating_coupler, 1, component_name=f"loopback_{component_name}"
+        text = get_input_label_text_loopback_function(
+            port=port, gc=grating_coupler, gc_index=1, component_name=component_name
         )
         c.add_label(
             text=text,
@@ -267,7 +269,7 @@ if __name__ == "__main__":
     cc = add_fiber_single(
         component=straight_with_pins(width=2),
         auto_widen=False,
-        with_loopback=False,
+        with_loopback=True,
         straight_factory=straight_with_pins,
     )
     cc.show()

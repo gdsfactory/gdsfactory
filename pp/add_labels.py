@@ -17,10 +17,12 @@ def get_input_label_text(
     gc: Union[ComponentReference, Component],
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
+    prefix: str = "",
 ) -> str:
     """Get text string for an optical port."""
     polarization = gc.get_property("polarization")
     wavelength_nm = gc.get_property("wavelength")
+    prefix = prefix or ""
 
     assert polarization in [
         "te",
@@ -30,22 +32,19 @@ def get_input_label_text(
         isinstance(wavelength_nm, (int, float)) and 1000 < wavelength_nm < 2000
     ), f"{wavelength_nm} is Not valid 1000 < wavelength < 2000"
 
-    if component_name:
-        name = component_name
+    component_name = component_name or port.parent.get_property("name")
 
-    elif isinstance(port.parent, pp.Component):
-        name = port.parent.name
-    else:
-        name = port.parent.ref_cell.name
-
+    text = f"opt_{polarization}_{int(wavelength_nm)}_({prefix}{component_name})"
     if isinstance(gc_index, int):
-        text = (
-            f"opt_{polarization}_{int(wavelength_nm)}_({name})_{gc_index}_{port.name}"
-        )
+        text += f"_{gc_index}_{port.name}"
     else:
-        text = f"opt_{polarization}_{int(wavelength_nm)}_({name})_{port.name}"
+        text = f"_{port.name}"
 
     return text
+
+
+def get_input_label_text_loopback(prefix: str = "loopback_", **kwargs):
+    return get_input_label_text(prefix=prefix, **kwargs)
 
 
 def get_input_label(
