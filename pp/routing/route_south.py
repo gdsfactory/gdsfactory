@@ -1,12 +1,12 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import numpy as np
 import phidl.device_layout as pd
 
 from pp.component import Component, ComponentReference
-from pp.components import straight
-from pp.components import taper as taper_function
 from pp.components.bend_euler import bend_euler
+from pp.components.straight import straight
+from pp.components.taper import taper as taper_function
 from pp.routing.get_route import get_route
 from pp.routing.utils import direction_ports_from_list_ports, flip
 from pp.types import ComponentFactory, Number, Routes
@@ -15,7 +15,7 @@ from pp.types import ComponentFactory, Number, Routes
 def route_south(
     component: Component,
     optical_routing_type: int = 1,
-    excluded_ports: List[str] = None,
+    excluded_ports: Optional[Tuple[str, ...]] = None,
     straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
     gc_port_name: str = "W0",

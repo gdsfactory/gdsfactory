@@ -29,6 +29,11 @@ from contracts import contract
 
 ```
 
+# 2.7.4
+
+- get_bundle_corner passing waveguide
+- fix pp.components.wire_corner
+
 # 2.7.3
 
 - pp.grid allows accessing references from Component.aliases
