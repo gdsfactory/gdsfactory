@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 
 import pp
-from pp.add_termination import add_gratings_and_loop_back
+from pp.add_termination import add_gratings_and_loopback
 from pp.autoplacer.yaml_placer import place_from_yaml
 from pp.component import Component
 from pp.components.spiral_inner_io import spiral_inner_io_euler
@@ -49,7 +49,7 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
         lenght: um
     """
     c = spiral_inner_io_euler(width=width, length=length)
-    cc = add_gratings_and_loop_back(
+    cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
         bend_factory=pp.components.bend_circular,
@@ -66,7 +66,7 @@ def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
         lenght: um
     """
     c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
-    cc = add_gratings_and_loop_back(
+    cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
         bend_factory=pp.components.bend_circular,

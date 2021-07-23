@@ -30,8 +30,8 @@ def route_fiber_array(
     taper_factory: ComponentFactory = taper,
     fanout_length: Optional[float] = None,
     max_y0_optical: None = None,
-    with_align_ports: bool = True,
-    nlabels_align_ports: int = 2,
+    with_loopback: bool = True,
+    nlabels_loopback: int = 2,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
     optical_routing_type: Optional[int] = None,
@@ -68,8 +68,8 @@ def route_fiber_array(
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
             Usually fine to leave at None.
-        with_align_ports: If True, add compact loopback alignment ports
-        nlabels_align_ports: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
+        with_loopback: If True, add compact loopback alignment ports
+        nlabels_loopback: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
         straight_separation: min separation between routing straights
         straight_to_grating_spacing: from align ports
         optical_routing_type: There are three options for optical routing
@@ -375,7 +375,7 @@ def route_fiber_array(
         # If we add align ports, we need enough space for the bends
         end_straight_offset = (
             straight_separation + 5
-            if with_align_ports
+            if with_loopback
             else waveguide_settings.get("min_straight_length")
         )
         if len(io_gratings_lines) == 1:
@@ -414,7 +414,7 @@ def route_fiber_array(
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
 
-    if with_align_ports:
+    if with_loopback:
         gca1, gca2 = [
             grating_coupler.ref(
                 position=(
@@ -459,15 +459,15 @@ def route_fiber_array(
         )
         elements.extend(route.references)
         component_name_loopback = f"loopback_{component_name}"
-        if nlabels_align_ports == 1:
+        if nlabels_loopback == 1:
             io_gratings_loopback = [gca1]
             ordered_ports_loopback = [port0]
-        if nlabels_align_ports == 2:
+        if nlabels_loopback == 2:
             io_gratings_loopback = [gca1, gca2]
             ordered_ports_loopback = [port0, port1]
-        if nlabels_align_ports == 0:
+        if nlabels_loopback == 0:
             pass
-        elif 0 < nlabels_align_ports <= 2:
+        elif 0 < nlabels_loopback <= 2:
             elements.extend(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,
@@ -479,7 +479,7 @@ def route_fiber_array(
             )
         else:
             raise ValueError(
-                f"Invalid nlabels_align_ports = {nlabels_align_ports}, "
+                f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
 
@@ -507,7 +507,7 @@ def demo():
     elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
-        with_align_ports=True,
+        with_loopback=True,
         optical_routing_type=2,
         # bend_factory=pp.components.bend_euler,
         bend_factory=pp.components.bend_circular,
@@ -535,7 +535,7 @@ if __name__ == "__main__":
         grating_coupler=gc,
         waveguide="nitride",
         cladding_offset=6,
-        nlabels_align_ports=1,
+        nlabels_loopback=1,
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)

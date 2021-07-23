@@ -1,19 +1,17 @@
-function_name: spiral_inner_io_with_gratings
+function_name: add_gratings_and_loopback
 info: {}
-module: pp.components.spiral_inner_io
-name: spiral_inner_io_with_gratings
+module: pp.add_termination
+name: add_gratings_and_loopba_c9d1da0d
 settings:
   bend_radius_loopback: null
   component:
-    function_name: spiral_inner_io_euler
+    function_name: spiral_inner_io
     info:
-      length: 13794.987
+      length: 13728.4
     module: pp.components.spiral_inner_io
-    name: spiral_inner_io_euler_Wstrip
+    name: spiral_inner_io
     settings:
       N: 6
-      bend180_function: bend_euler180
-      bend90_function: bend_euler
       dx: 3
       dy: 3
       grating_spacing: 127
@@ -30,7 +28,6 @@ settings:
   excluded_ports: null
   gc_port_name: W0
   gc_rotation: -90
-  grating_coupler: grating_coupler_elliptical
   grating_separation: 127
   layer_label:
   - 201

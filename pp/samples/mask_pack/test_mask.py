@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 
 import pp
-from pp.add_termination import add_gratings_and_loop_back
+from pp.add_termination import add_gratings_and_loopback
 from pp.component import Component
 from pp.components.spiral_inner_io import spiral_inner_io_euler
 from pp.config import CONFIG
@@ -55,7 +55,7 @@ def spiral_te(width: float = 0.5, length: int = 2) -> Component:
         lenght: cm
     """
     c = spiral_inner_io_euler(width=width, length=length)
-    cc = add_gratings_and_loop_back(
+    cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_te,
         bend_factory=pp.components.bend_euler,
@@ -72,7 +72,7 @@ def spiral_tm(width=0.5, length=20e3):
         lenght: um
     """
     c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
-    cc = add_gratings_and_loop_back(
+    cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=pp.components.grating_coupler_elliptical_tm,
         bend_factory=pp.components.bend_euler,

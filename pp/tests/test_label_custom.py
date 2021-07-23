@@ -15,7 +15,7 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
     # nlabels = len(c.labels)
 
     cte = pp.routing.add_fiber_array(
-        component=c, with_align_ports=False, component_name=CUSTOM_LABEL
+        component=c, with_loopback=False, component_name=CUSTOM_LABEL
     )
     assert len(cte.labels) == 2
     l0 = cte.labels[0].text
@@ -34,7 +34,7 @@ def test_label_fiber_single_custom(num_regression, check=True):
     assert len(c.labels) == 0
 
     cte = pp.routing.add_fiber_single(
-        component=c, with_align_ports=True, component_name=CUSTOM_LABEL
+        component=c, with_loopback=True, component_name=CUSTOM_LABEL
     )
     assert len(cte.labels) == 4
     labels = {
@@ -63,6 +63,6 @@ if __name__ == "__main__":
     # c = pp.components.straight()
     # assert len(c.labels) == 0
 
-    # c = pp.routing.add_fiber_array(component=c, with_align_ports=True)
+    # c = pp.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
     # c.show()

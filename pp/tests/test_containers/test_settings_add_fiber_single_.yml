@@ -24,4 +24,4 @@ settings:
   optical_routing_type: 2
   taper: taper
   waveguide: strip
-  with_align_ports: true
+  with_loopback: true

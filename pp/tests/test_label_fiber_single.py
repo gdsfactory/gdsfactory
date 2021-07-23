@@ -11,7 +11,7 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
 
     assert len(c.labels) == 0
 
-    cte = pp.routing.add_fiber_single(component=c, with_align_ports=False)
+    cte = pp.routing.add_fiber_single(component=c, with_loopback=False)
     assert len(cte.labels) == 2
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
@@ -24,15 +24,13 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     return c
 
 
-def test_label_fiber_single_align_ports(
-    length=LENGTH, cell_name=CELL_NAME
-) -> Component:
+def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
     c = pp.components.straight(length=length)
 
     assert len(c.labels) == 0
 
-    cte = pp.routing.add_fiber_single(component=c, with_align_ports=True)
+    cte = pp.routing.add_fiber_single(component=c, with_loopback=True)
     print(len(cte.labels))
     assert len(cte.labels) == 4
 
@@ -56,5 +54,5 @@ def test_label_fiber_single_align_ports(
 
 if __name__ == "__main__":
     # c = test_label_fiber_single()
-    c = test_label_fiber_single_align_ports()
+    c = test_label_fiber_single_loopback()
     c.show()

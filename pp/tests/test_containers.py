@@ -6,7 +6,7 @@ from pp.add_grating_couplers import add_grating_couplers
 from pp.add_padding import add_padding_container
 from pp.add_pins import add_pins_container
 from pp.add_tapers import add_tapers
-from pp.add_termination import add_gratings_and_loop_back, add_termination
+from pp.add_termination import add_gratings_and_loopback, add_termination
 from pp.components.cavity import cavity
 from pp.components.extension import extend_ports
 
@@ -69,7 +69,7 @@ def test_ports(container_type: str, num_regression: NumericRegressionFixture) ->
 # Special test cases for exotic components
 
 
-def test_add_gratings_and_loop_back(data_regression: DataRegressionFixture) -> None:
+def test_add_gratings_and_loopback(data_regression: DataRegressionFixture) -> None:
     """This container requires all ports to face the same direction."""
-    c = add_gratings_and_loop_back(component=spiral_inner_io())
+    c = add_gratings_and_loopback(component=spiral_inner_io())
     data_regression.check(c.get_settings())

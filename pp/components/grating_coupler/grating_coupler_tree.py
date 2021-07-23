@@ -14,7 +14,7 @@ def grating_coupler_tree(
     n: int = 4,
     straight_spacing: int = 4,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
-    with_loop_back: bool = False,
+    with_loopback: bool = False,
     bend_factory: ComponentFactory = bend_euler,
     fanout_length: float = 0.0,
     layer_label: Tuple[int, int] = TECH.layer_label,
@@ -46,7 +46,7 @@ def grating_coupler_tree(
 
     cc = pp.routing.add_fiber_array(
         component=c,
-        with_align_ports=with_loop_back,
+        with_loopback=with_loopback,
         optical_routing_type=0,
         grating_coupler=grating_coupler_function,
         fanout_length=fanout_length,
