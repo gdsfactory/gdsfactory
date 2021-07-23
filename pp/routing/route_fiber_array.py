@@ -4,7 +4,7 @@ from numpy import float64
 from phidl.device_layout import Label
 
 import pp
-from pp.add_labels import get_input_label_text
+from pp.add_labels import get_input_label_text, get_input_label_text_loopback
 from pp.component import Component, ComponentReference
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -49,7 +49,7 @@ def route_fiber_array(
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     optical_port_labels: None = None,
-    get_input_label_text_loopback_function: Callable = get_input_label_text,
+    get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     select_ports: Callable = select_optical_ports,
     waveguide: StrOrDict = "strip",
@@ -461,7 +461,6 @@ def route_fiber_array(
             **waveguide_settings,
         )
         elements.extend(route.references)
-        component_name_loopback = f"loopback_{component_name}"
         if nlabels_loopback == 1:
             io_gratings_loopback = [gca1]
             ordered_ports_loopback = [port0]
@@ -475,7 +474,7 @@ def route_fiber_array(
                 get_input_labels(
                     io_gratings=io_gratings_loopback,
                     ordered_ports=ordered_ports_loopback,
-                    component_name=component_name_loopback,
+                    component_name=component_name,
                     layer_label=layer_label_loopback or layer_label,
                     gc_port_name=gc_port_name,
                     get_input_label_text_function=get_input_label_text_loopback_function,
