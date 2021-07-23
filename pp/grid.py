@@ -22,6 +22,8 @@ def grid(
 ) -> Component:
     """Places the devices in the `components` (1D or 2D) on a grid.
 
+    Adapted from phid.geometry
+
     Args:
         components: Iterable to be placed onto a grid.
         spacing: between adjacent elements on the grid, can be a tuple for
@@ -79,7 +81,6 @@ def grid(
             )
     device_array = np.reshape(device_array, shape)
 
-    # Create a blank Component and reference all the Components in it
     D = Component("grid")
     ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
@@ -88,6 +89,7 @@ def grid(
             ref_array[idx] = D << d
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
+        D.aliases[idx] = ref_array[idx]
 
     rows = [Group(ref_array[n, :]) for n in range(ref_array.shape[0])]
     cols = [Group(ref_array[:, n]) for n in range(ref_array.shape[1])]

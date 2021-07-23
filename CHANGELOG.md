@@ -28,6 +28,11 @@ from contracts import contract
 
 
 ```
+
+# 2.7.3
+
+- pp.grid allows accessing references from Component.aliases
+
 # 2.7.2
 
 - fix print_config asdict(TECH)
