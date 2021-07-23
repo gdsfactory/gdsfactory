@@ -6,7 +6,7 @@ from pp.components.compass import compass
 from pp.components.taper import taper
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_uniform(
     num_teeth: int = 20,
     period: float = 0.75,

@@ -79,7 +79,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
     port_list: Optional[List[str]] = None,

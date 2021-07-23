@@ -30,7 +30,7 @@ from pp.config import CONFIG, call_if_func
 from pp.port import Port
 from pp.port import port_array
 from pp.cell import cell
-from pp.cell import cell_with_validator
+from pp.cell import cell_without_validator
 from pp.cell import clear_cache
 from pp.layers import LAYER
 from pp.cross_section import cross_section
@@ -90,7 +90,7 @@ __all__ = [
     "c",
     "call_if_func",
     "cell",
-    "cell_with_validator",
+    "cell_without_validator",
     "clear_cache",
     "component_from",
     "component_from_yaml",

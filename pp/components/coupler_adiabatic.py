@@ -9,7 +9,7 @@ from pp.port import auto_rename_ports
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler_adiabatic(
     length1: float = 20.0,
     length2: float = 50.0,

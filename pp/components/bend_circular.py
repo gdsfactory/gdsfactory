@@ -6,7 +6,7 @@ from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_circular(
     angle: int = 90,
     npoints: int = 720,
@@ -59,7 +59,7 @@ def bend_circular(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_circular180(angle: int = 180, **kwargs) -> Component:
     """Returns a 180 degrees radial arc.
 

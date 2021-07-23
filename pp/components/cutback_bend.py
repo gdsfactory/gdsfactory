@@ -190,7 +190,7 @@ def cutback_bend180(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)

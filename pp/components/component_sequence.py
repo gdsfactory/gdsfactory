@@ -1,7 +1,7 @@
 from itertools import count
 from typing import Dict, Optional, Tuple
 
-from pp.cell import cell
+import pp
 from pp.component import Component
 
 
@@ -61,7 +61,7 @@ def _flip_ref(c_ref, port_name):
     return c_ref
 
 
-@cell
+@pp.cell_without_validator
 def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],

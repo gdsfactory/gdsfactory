@@ -8,7 +8,7 @@ from pp.components.rectangle import rectangle
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
@@ -102,7 +102,7 @@ def add_frame(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def triangle(x: float, y: float, layer: Layer = (1, 0)) -> Component:
     c = pp.Component()
     points = [[x, 0], [0, 0], [0, y]]
@@ -110,7 +110,7 @@ def triangle(x: float, y: float, layer: Layer = (1, 0)) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_cryo_bottom_right(
     x: float = 60.0, y: float = 60.0, layer=(1, 0)
 ) -> Component:
@@ -121,7 +121,7 @@ def align_cryo_bottom_right(
     return cc
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_cryo_top_right(
     x: float = 60, y: float = 60.0, layer: Layer = (1, 0)
 ) -> Component:
@@ -132,7 +132,7 @@ def align_cryo_top_right(
     return cc
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_cryo_bottom_left(
     x: float = 60.0, y: float = 60.0, layer: Layer = (1, 0)
 ) -> Component:
@@ -143,7 +143,7 @@ def align_cryo_bottom_left(
     return cc
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_cryo_top_left(
     x: float = 60.0, y: float = 60.0, s: float = 0.2, layer: Layer = (1, 0)
 ) -> Component:
@@ -154,7 +154,7 @@ def align_cryo_top_left(
     return cc
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_tree_top_left(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(**kwargs)
@@ -165,7 +165,7 @@ def align_tree_top_left(**kwargs) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_tree_top_left_with_cross(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -179,7 +179,7 @@ def align_tree_top_left_with_cross(**kwargs) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_tree_top_right(**kwargs) -> Component:
     c = pp.Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -190,7 +190,7 @@ def align_tree_top_right(**kwargs) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_tree_bottom_left(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -201,7 +201,7 @@ def align_tree_bottom_left(**kwargs) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def align_tree_bottom_right(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)

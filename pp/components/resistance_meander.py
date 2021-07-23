@@ -4,12 +4,12 @@ import numpy as np
 from phidl.geometry import offset
 
 from pp import components as pc
-from pp.cell import cell_with_validator
+from pp.cell import cell
 from pp.component import Component
 from pp.layers import LAYER
 
 
-@cell_with_validator
+@cell
 def resistance_meander(
     pad_size: Tuple[float] = (50.0, 50.0),
     num_squares: int = 1000,

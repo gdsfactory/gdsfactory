@@ -9,7 +9,7 @@ from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def delay_snake(
     wg_width: float = 0.5,
     wg_width_wide: float = 2.0,

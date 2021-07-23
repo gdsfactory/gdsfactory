@@ -8,7 +8,7 @@ WIRE_WIDTH = 10.0
 
 
 @deco_rename_ports
-@pp.cell_with_validator
+@pp.cell
 def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Component:
     """Straight wire.
 
@@ -19,7 +19,7 @@ def wire(length: float = 50.0, waveguide: str = "metal_routing", **kwargs) -> Co
     return straight(length=length, waveguide=waveguide, **kwargs)
 
 
-@pp.cell_with_validator
+@pp.cell
 def corner(
     radius: float = 5,
     angle: int = 90,

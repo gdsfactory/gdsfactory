@@ -9,7 +9,7 @@ from pp.geo_utils import DEG2RAD
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,

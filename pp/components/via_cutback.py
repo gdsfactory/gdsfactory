@@ -12,7 +12,7 @@ from pp.components.rectangle import rectangle
 from pp.types import Number
 
 
-@pp.cell_with_validator
+@pp.cell
 def _via_iterable(
     via_spacing: Number,
     wire_width: Number,
@@ -51,7 +51,7 @@ def _via_iterable(
     return VI
 
 
-@pp.cell_with_validator
+@pp.cell
 def via_cutback(
     num_vias: Number = 100,
     wire_width: Number = 10,

@@ -5,7 +5,7 @@ from pp import components as pc
 from pp.component import Component
 
 
-@pp.cell_with_validator
+@pp.cell
 def litho_calipers(
     notch_size: Tuple[float, float] = (2.0, 5.0),
     notch_spacing: float = 2.0,

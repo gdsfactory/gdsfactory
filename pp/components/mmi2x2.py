@@ -7,7 +7,7 @@ from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def mmi2x2(
     width: float = TECH.component_settings.mmi2x2.width,
     width_taper: float = TECH.component_settings.mmi2x2.width_taper,

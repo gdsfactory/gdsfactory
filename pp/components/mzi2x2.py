@@ -11,7 +11,7 @@ from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def mzi_arm(
     L0: float = 60.0,
     DL: float = 0.0,
@@ -87,7 +87,7 @@ def mzi_arm(
             "E_3": ("H2", "E_0"),
         }
     else:
-        ports_map = {}
+        ports_map = None
 
     component = component_sequence(
         sequence=sequence,
@@ -99,7 +99,7 @@ def mzi_arm(
     return component
 
 
-@pp.cell_with_validator
+@pp.cell
 def mzi2x2(
     CL_1: float = 20.147,
     L0: float = 60.0,
@@ -111,7 +111,7 @@ def mzi2x2(
     straight: ComponentFactory = straight_function,
     coupler_function: ComponentFactory = coupler,
     with_elec_connections: bool = False,
-    waveguide="strip",
+    waveguide: pp.types.StrOrDict = "strip",
     **waveguide_settings
 ) -> Component:
     """Mzi 2x2

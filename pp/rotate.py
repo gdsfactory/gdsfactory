@@ -1,9 +1,9 @@
-from pp.cell import cell_with_validator
+from pp.cell import cell
 from pp.component import Component
 from pp.port import auto_rename_ports
 
 
-@cell_with_validator
+@cell
 def rotate(
     component: Component,
     angle: int = 90,

@@ -4,7 +4,7 @@ from pp.components.mmi1x2 import mmi1x2
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def splitter_chain(
     splitter: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:

@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.components.circle import circle
 
 
-@pp.cell_with_validator
+@pp.cell
 def fiber(
     core_diameter: float = 10,
     cladding_diameter: float = 125,

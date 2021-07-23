@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.layers import LAYER
 
 
-@pp.cell_with_validator
+@pp.cell
 def hline(
     length: float = 10.0,
     width: float = 0.5,

@@ -10,7 +10,7 @@ from pp.tech import Library
 from pp.types import Layer, StrOrDictOrNone
 
 
-@pp.cell_with_validator
+@pp.cell
 def via_stack_with_offset(
     layer_via_width_height_offset: Tuple[
         Tuple[Layer, StrOrDictOrNone, float, float, float], ...

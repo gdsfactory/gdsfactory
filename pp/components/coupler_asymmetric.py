@@ -6,7 +6,7 @@ from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler_asymmetric(
     bend: ComponentFactory = bend_s,
     straight: ComponentFactory = straight_function,

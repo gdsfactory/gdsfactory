@@ -7,7 +7,7 @@ from pp.routing.get_route_electrical_shortest_path import (
 from pp.types import ComponentOrFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def add_electrical_pads_shortest(
     component: Component,
     pad: ComponentOrFactory = pad,

@@ -9,7 +9,7 @@ from pp.port import auto_rename_ports
 from pp.types import ComponentFactory, Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def spiral(
     width: float = 500.0,
     length: float = 10e3,

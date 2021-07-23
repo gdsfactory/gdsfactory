@@ -6,7 +6,7 @@ from pp.cross_section import get_cross_section
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def mmi1x2(
     width: float = 0.5,
     width_taper: float = 1.0,

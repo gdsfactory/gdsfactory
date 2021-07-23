@@ -16,7 +16,7 @@ def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def qrcode(
     data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
 ) -> Component:
@@ -37,7 +37,7 @@ def qrcode(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def version_stamp(
     labels: Tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,

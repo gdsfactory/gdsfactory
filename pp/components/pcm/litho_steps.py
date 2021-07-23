@@ -5,7 +5,7 @@ from pp import components as pc
 from pp.component import Component
 
 
-@pp.cell_with_validator
+@pp.cell
 def litho_steps(
     line_widths: List[float] = (1.0, 2.0, 4.0, 8.0, 16.0),
     line_spacing: float = 10.0,

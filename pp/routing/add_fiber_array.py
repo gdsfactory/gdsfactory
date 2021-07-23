@@ -2,7 +2,6 @@ from typing import Callable, Optional
 
 import pp
 from pp.add_tapers import add_tapers
-from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -13,7 +12,7 @@ from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
-@cell
+@pp.cell_without_validator
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,

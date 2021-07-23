@@ -66,7 +66,7 @@ def text(
     return t
 
 
-@pp.cell_with_validator
+@pp.cell
 def githash(
     text: Iterable[str] = ("",),
     size: Number = 0.4,

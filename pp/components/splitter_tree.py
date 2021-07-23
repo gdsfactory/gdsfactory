@@ -7,7 +7,7 @@ from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict
 
 
-@pp.cell_with_validator
+@pp.cell
 def splitter_tree(
     coupler: StrOrDict = "mmi1x2",
     noutputs: int = 4,

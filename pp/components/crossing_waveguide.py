@@ -23,7 +23,7 @@ def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
-@pp.cell_with_validator
+@pp.cell
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -100,7 +100,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,

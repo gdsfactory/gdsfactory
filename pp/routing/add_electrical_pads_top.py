@@ -9,7 +9,7 @@ from pp.routing.get_route_electrical_shortest_path import (
 )
 
 
-@pp.cell_with_validator
+@pp.cell
 def add_electrical_pads_top(
     component: Component,
     dy: float = 100.0,

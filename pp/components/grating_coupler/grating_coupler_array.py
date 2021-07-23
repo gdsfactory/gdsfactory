@@ -4,7 +4,7 @@ from pp.components.grating_coupler.elliptical2 import grating_coupler_elliptical
 from pp.types import ComponentOrFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_array(
     grating_coupler: ComponentOrFactory = grating_coupler_elliptical2,
     pitch: float = 127.0,

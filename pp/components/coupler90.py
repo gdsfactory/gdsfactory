@@ -7,7 +7,7 @@ from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory, ComponentOrFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,

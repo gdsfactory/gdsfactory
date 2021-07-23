@@ -79,7 +79,7 @@ def taper(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def taper_strip_to_ridge(
     length: Number = 10.0,
     width1: Number = 0.5,
@@ -125,7 +125,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,

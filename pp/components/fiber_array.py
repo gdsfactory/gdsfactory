@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.components.fiber import circle
 
 
-@pp.cell_with_validator
+@pp.cell
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,

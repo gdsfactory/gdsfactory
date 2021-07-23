@@ -7,7 +7,7 @@ from pp.components.taper import taper
 from pp.snap import assert_on_2nm_grid
 
 
-@pp.cell_with_validator
+@pp.cell
 def ring_with_taper(**kwargs):
     """Ring single bus
 

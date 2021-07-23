@@ -9,7 +9,7 @@ from pp.layers import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def via_stack(
     width: float = 11.0,
     height: Optional[float] = None,

@@ -7,6 +7,7 @@ Based on phidl.device_layout.CrossSection
 import dataclasses
 from typing import Dict, Iterable, Optional, Tuple, Union
 
+import pydantic
 from phidl.device_layout import CrossSection
 
 from pp.tech import TECH, Section
@@ -197,13 +198,38 @@ def pin(
     return x
 
 
+@pydantic.validate_arguments
+def heater_with_undercut(
+    waveguide_width: float = 0.5,
+    heater_width: float = 1.0,
+    trench_width: float = 8.0,
+    trench_offset: float = 8.0,
+    layer_waveguide: Layer = LAYER.WG,
+    layer_heater: Layer = LAYER.HEATER,
+    layer_trench: Layer = LAYER.DEEPTRENCH,
+    **kwargs,
+):
+    """Returns heater with undercut."""
+    return cross_section(
+        width=waveguide_width,
+        layer=layer_waveguide,
+        sections=(
+            Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),
+            Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
+            Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
+        ),
+        **kwargs,
+    )
+
+
 if __name__ == "__main__":
     import pp
 
     s = get_waveguide_settings("strip")
     print(s)
 
-    P = pp.path.euler(radius=10, use_eff=True)
+    P = pp.path.straight()
+    # P = pp.path.euler(radius=10, use_eff=True)
     # P = euler()
     # P = pp.Path()
     # P.append(pp.path.straight(length=5))
@@ -221,7 +247,8 @@ if __name__ == "__main__":
     # x = strip(width=0.5)
 
     # X = cross_section(width=3, layer=(2, 0))
-    X = cross_section(**s)
+    # X = cross_section(**s)
+    X = heater_with_undercut()
     c = pp.path.extrude(P, X)
 
     # c = pp.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

@@ -1,7 +1,7 @@
 """Straight waveguide."""
 
 from pp.add_padding import get_padding_points
-from pp.cell import cell_with_validator
+from pp.cell import cell
 from pp.component import Component
 from pp.cross_section import StrOrDict, get_cross_section
 from pp.path import extrude
@@ -9,7 +9,7 @@ from pp.path import straight as straight_path
 from pp.snap import snap_to_grid
 
 
-@cell_with_validator
+@cell
 def straight(
     length: float = 10.0,
     npoints: int = 2,

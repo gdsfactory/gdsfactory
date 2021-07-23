@@ -9,7 +9,7 @@ from pp.components.taper import taper
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,

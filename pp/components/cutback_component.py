@@ -6,7 +6,7 @@ from pp.components.taper_from_csv import taper_0p5_to_3_l36
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def cutback_component(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
@@ -57,7 +57,7 @@ def cutback_component(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cutback_component_flipped(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,

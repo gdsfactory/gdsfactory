@@ -2,7 +2,7 @@ from typing import Callable, Optional, Tuple
 
 from pp.add_labels import get_optical_text
 from pp.add_tapers import add_tapers
-from pp.cell import cell
+from pp.cell import cell_without_validator
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -15,7 +15,7 @@ from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
-@cell
+@cell_without_validator
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
