@@ -35,6 +35,8 @@ settings:
   layer_label:
   - 201
   - 0
+  layer_label_loopback: null
+  nlabels_align_ports: 2
   straight_separation: 5
   waveguide: strip
   with_loopback: true

@@ -1,9 +1,8 @@
-from typing import Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 import numpy as np
 
 import pp
-from pp.add_labels import get_input_label
 from pp.cell import cell
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
@@ -14,6 +13,7 @@ from pp.components.grating_coupler.elliptical_trenches import (
 from pp.components.straight import straight as straight_function
 from pp.components.taper import taper as taper_function
 from pp.cross_section import get_waveguide_settings
+from pp.routing.get_input_labels import get_input_labels
 from pp.routing.manhattan import round_corners
 from pp.routing.utils import (
     check_ports_have_equal_spacing,
@@ -59,9 +59,12 @@ def add_gratings_and_loop_back(
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = pp.LAYER.LABEL,
+    layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: None = None,
     with_loopback: bool = True,
+    nlabels_align_ports: int = 2,
     waveguide: StrOrDict = "strip",
+    get_input_labels_function: Callable = get_input_labels,
     **kwargs,
 ) -> Component:
     """Returns a component with grating_couplers and loopback.
@@ -79,7 +82,8 @@ def add_gratings_and_loop_back(
         straight_factory:
         layer_label:
         component_name:
-        with_loopback:
+        with_loopback: If True, add compact loopback alignment ports
+        nlabels_align_ports: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
         waveguide: waveguide definition from TECH.waveguide
         **kwargs: waveguide_settings
     """
@@ -118,16 +122,14 @@ def add_gratings_and_loop_back(
         gc_ref.connect(gc.ports[gc_port_name].name, port)
         references += [gc_ref]
 
-    # add labels
-    for i, optical_port in enumerate(optical_ports):
-        label = get_input_label(
-            optical_port,
-            references[i],
-            i,
-            component_name=component_name,
-            layer_label=layer_label,
-        )
-        c.add(label)
+    labels = get_input_labels_function(
+        io_gratings=references,
+        ordered_ports=optical_ports,
+        component_name=component_name,
+        layer_label=layer_label,
+        gc_port_name=gc_port_name,
+    )
+    c.add(labels)
 
     if with_loopback:
         y0 = references[0].ports[gc_port_name].y
@@ -141,8 +143,10 @@ def add_gratings_and_loop_back(
         ]
 
         gsi = gc.size_info
-        p0 = gca1.ports[gc_port_name].position
-        p1 = gca2.ports[gc_port_name].position
+        port0 = gca1.ports[gc_port_name]
+        port1 = gca2.ports[gc_port_name]
+        p0 = port0.position
+        p1 = port1.position
         a = bend_radius_align_ports + 0.5
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - straight_separation
@@ -171,6 +175,31 @@ def add_gratings_and_loop_back(
         )
         c.add([gca1, gca2])
         c.add(loop_back_route.references)
+
+        component_name_loopback = f"loopback_{component_name}"
+        if nlabels_align_ports == 1:
+            io_gratings_loopback = [gca1]
+            ordered_ports_loopback = [port0]
+        if nlabels_align_ports == 2:
+            io_gratings_loopback = [gca1, gca2]
+            ordered_ports_loopback = [port0, port1]
+        if nlabels_align_ports == 0:
+            pass
+        elif 0 < nlabels_align_ports <= 2:
+            c.add(
+                get_input_labels_function(
+                    io_gratings=io_gratings_loopback,
+                    ordered_ports=ordered_ports_loopback,
+                    component_name=component_name_loopback,
+                    layer_label=layer_label_loopback or layer_label,
+                    gc_port_name=gc_port_name,
+                )
+            )
+        else:
+            raise ValueError(
+                f"Invalid nlabels_align_ports = {nlabels_align_ports}, "
+                "valid (0: no labels, 1: first port, 2: both ports2)"
+            )
     return c
 
 

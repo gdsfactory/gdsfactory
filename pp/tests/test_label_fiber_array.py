@@ -18,15 +18,25 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    print(l0)
-    print(l1)
     assert l0 == f"opt_te_1530_({cell_name})_0_W0"
     assert l1 == f"opt_te_1530_({cell_name})_1_E0"
+
+    cte1 = pp.routing.add_fiber_array(
+        component=c, with_align_ports=True, nlabels_align_ports=1
+    )
+    assert len(cte1.labels) == 3
+
+    cte2 = pp.routing.add_fiber_array(
+        component=c, with_align_ports=True, nlabels_align_ports=2
+    )
+    assert len(cte2.labels) == 4
 
     return c
 
 
-def test_label_fiber_array_align_ports(length=LENGTH, cell_name=CELL_NAME) -> Component:
+def test_label_fiber_single_align_ports(
+    length=LENGTH, cell_name=CELL_NAME
+) -> Component:
     """Test that adds the correct label for measurements."""
     c = pp.components.straight(length=length)
     assert len(c.labels) == 0
@@ -59,7 +69,7 @@ def test_labels_fiber_array(num_regression):
     assert len(c.labels) == 0
 
     cte = pp.routing.add_fiber_array(component=c, with_align_ports=True)
-    assert len(cte.labels) == 2  # Loopback does not have labels
+    assert len(cte.labels) == 4  # Loopback does not have labels
     labels = {
         label.text: np.array(
             [
@@ -95,8 +105,9 @@ def test_labels_fiber_single(num_regression):
 
 
 if __name__ == "__main__":
+    # c = test_label_fiber_array()
     c = test_label_fiber_array()
-    # c = test_label_fiber_array_align_ports()
+    # c = test_label_fiber_single_align_ports()
     c.show()
 
     # c = pp.components.straight()
