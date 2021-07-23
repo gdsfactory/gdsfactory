@@ -851,7 +851,7 @@ def test_manhattan() -> Component:
         )
 
         top_cell.add(route.references)
-        # print(route.length, length)
+        print(route.length, length)
         # assert np.isclose(route.length, length)
     return top_cell
 
@@ -888,7 +888,7 @@ def test_manhattan_fail() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_manhattan()
+    c = test_manhattan()
     # c = test_manhattan_fail()
-    c = test_manhattan_pass()
+    # c = test_manhattan_pass()
     c.show()
