@@ -27,7 +27,7 @@ def add_fiber_single(
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
-    with_align_ports: bool = True,
+    with_loopback: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable = get_input_labels,
@@ -37,7 +37,7 @@ def add_fiber_single(
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
 
-    Can add align_ports reference structure next to it.
+    Can add loopback reference structure next to it.
 
     Args:
         component: to connect
@@ -49,7 +49,7 @@ def add_fiber_single(
         taper: taper
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
-        with_align_ports: True, adds loopback structures
+        with_loopback: True, adds loopback structures
         straight_separation: 4.0
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
@@ -196,7 +196,7 @@ def add_fiber_single(
         grating_coupler = call_if_func(grating_coupler)
         grating_couplers = [grating_coupler]
 
-    if with_align_ports:
+    if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight_factory(
             length=length, waveguide=waveguide, **waveguide_settings
@@ -267,7 +267,7 @@ if __name__ == "__main__":
     cc = add_fiber_single(
         component=straight_with_pins(width=2),
         auto_widen=False,
-        with_align_ports=False,
+        with_loopback=False,
         straight_factory=straight_with_pins,
     )
     cc.show()
@@ -276,5 +276,5 @@ if __name__ == "__main__":
     #     length=20, **waveguide_settings
     # )
     # gc = pp.components.grating_coupler_elliptical_te(layer=pp.TECH.layer.WGN)
-    # cc = add_fiber_single(component=c, grating_coupler=gc, with_align_ports=True, **waveguide_settings)
+    # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, **waveguide_settings)
     # cc.show()

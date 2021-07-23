@@ -26,5 +26,4 @@ settings:
   taper: taper
   taper_factory: null
   waveguide: strip
-  with_align_ports: false
-  with_loop_back: false
+  with_loopback: false

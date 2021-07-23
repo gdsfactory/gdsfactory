@@ -40,7 +40,7 @@ def add_fiber_array(
         straight_factory: straight
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
-        with_align_ports: True, adds loopback structures
+        with_loopback: True, adds loopback structures
         straight_separation: 4.0
         list_port_labels: None, adds TM labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing

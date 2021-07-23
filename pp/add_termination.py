@@ -38,21 +38,21 @@ def add_termination(
     return c
 
 
-def add_gratings_and_loop_back_te(*args, **kwargs):
-    return add_gratings_and_loop_back(*args, **kwargs)
+def add_gratings_and_loopback_te(*args, **kwargs):
+    return add_gratings_and_loopback(*args, **kwargs)
 
 
-def add_gratings_and_loop_back_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
-    return add_gratings_and_loop_back(*args, grating_coupler=grating_coupler, **kwargs)
+def add_gratings_and_loopback_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
+    return add_gratings_and_loopback(*args, grating_coupler=grating_coupler, **kwargs)
 
 
 @cell
-def add_gratings_and_loop_back(
+def add_gratings_and_loopback(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
     excluded_ports: None = None,
     grating_separation: float = 127.0,
-    bend_radius_align_ports: Optional[float] = None,
+    bend_radius_loopback: Optional[float] = None,
     gc_port_name: str = "W0",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
@@ -62,7 +62,7 @@ def add_gratings_and_loop_back(
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: None = None,
     with_loopback: bool = True,
-    nlabels_align_ports: int = 2,
+    nlabels_loopback: int = 2,
     waveguide: StrOrDict = "strip",
     get_input_labels_function: Callable = get_input_labels,
     **kwargs,
@@ -74,7 +74,7 @@ def add_gratings_and_loop_back(
         grating_coupler:
         excluded_ports:
         grating_separation:
-        bend_radius_align_ports:
+        bend_radius_loopback:
         gc_port_name:
         gc_rotation:
         straight_separation:
@@ -83,12 +83,12 @@ def add_gratings_and_loop_back(
         layer_label:
         component_name:
         with_loopback: If True, add compact loopback alignment ports
-        nlabels_align_ports: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
+        nlabels_loopback: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
         waveguide: waveguide definition from TECH.waveguide
         **kwargs: waveguide_settings
     """
     waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    bend_radius_align_ports = bend_radius_align_ports or waveguide_settings["radius"]
+    bend_radius_loopback = bend_radius_loopback or waveguide_settings["radius"]
     excluded_ports = excluded_ports or []
     gc = pp.call_if_func(grating_coupler)
 
@@ -147,7 +147,7 @@ def add_gratings_and_loop_back(
         port1 = gca2.ports[gc_port_name]
         p0 = port0.position
         p1 = port1.position
-        a = bend_radius_align_ports + 0.5
+        a = bend_radius_loopback + 0.5
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - straight_separation
 
@@ -164,9 +164,9 @@ def add_gratings_and_loop_back(
             ]
         )
         bend90 = bend_factory(
-            radius=bend_radius_align_ports, waveguide=waveguide, **kwargs
+            radius=bend_radius_loopback, waveguide=waveguide, **kwargs
         )
-        loop_back_route = round_corners(
+        loopback_route = round_corners(
             points=points,
             bend_factory=bend90,
             straight_factory=straight_factory,
@@ -174,18 +174,18 @@ def add_gratings_and_loop_back(
             **kwargs,
         )
         c.add([gca1, gca2])
-        c.add(loop_back_route.references)
+        c.add(loopback_route.references)
 
         component_name_loopback = f"loopback_{component_name}"
-        if nlabels_align_ports == 1:
+        if nlabels_loopback == 1:
             io_gratings_loopback = [gca1]
             ordered_ports_loopback = [port0]
-        if nlabels_align_ports == 2:
+        if nlabels_loopback == 2:
             io_gratings_loopback = [gca1, gca2]
             ordered_ports_loopback = [port0, port1]
-        if nlabels_align_ports == 0:
+        if nlabels_loopback == 0:
             pass
-        elif 0 < nlabels_align_ports <= 2:
+        elif 0 < nlabels_loopback <= 2:
             c.add(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,
@@ -197,7 +197,7 @@ def add_gratings_and_loop_back(
             )
         else:
             raise ValueError(
-                f"Invalid nlabels_align_ports = {nlabels_align_ports}, "
+                f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
     return c
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     from pp.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()
-    cc = add_gratings_and_loop_back(component=c, with_loopback=True)
+    cc = add_gratings_and_loopback(component=c, with_loopback=True)
 
     # cc = add_termination(component=c)
     print(cc.get_settings()["settings"]["component"])

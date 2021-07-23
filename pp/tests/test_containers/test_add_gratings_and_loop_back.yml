@@ -1,9 +1,9 @@
-function_name: add_gratings_and_loop_back
+function_name: add_gratings_and_loopback
 info: {}
 module: pp.add_termination
 name: add_gratings_and_loop_b_ee4c3325
 settings:
-  bend_radius_align_ports: null
+  bend_radius_loopback: null
   component:
     function_name: spiral_inner_io
     info:
@@ -33,7 +33,7 @@ settings:
   - 201
   - 0
   layer_label_loopback: null
-  nlabels_align_ports: 2
+  nlabels_loopback: 2
   straight_separation: 5
   waveguide: strip
   with_loopback: true

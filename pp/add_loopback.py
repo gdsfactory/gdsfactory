@@ -15,7 +15,7 @@ def gen_loopback(
     grating_separation: float = 127.0,
     gc_rotation: int = -90,
     gc_port_name: str = "W0",
-    bend_radius_align_ports: float = 10.0,
+    bend_radius_loopback: float = 10.0,
     bend_factory: ComponentFactory = pp.components.bend_euler,
     straight_factory: ComponentFactory = pp.components.straight,
     y_bot_align_route: None = None,
@@ -59,12 +59,12 @@ def gen_loopback(
     gsi = gc.size_info
     p0 = gca1.ports[gc_port_name].position
     p1 = gca2.ports[gc_port_name].position
-    bend90 = bend_factory(radius=bend_radius_align_ports)
+    bend90 = bend_factory(radius=bend_radius_loopback)
 
     if hasattr(bend90, "dx"):
         a = abs(bend90.dy)
     else:
-        a = bend_radius_align_ports + 0.5
+        a = bend_radius_loopback + 0.5
     b = max(2 * a, grating_separation / 2)
     y_bot_align_route = (
         y_bot_align_route if y_bot_align_route is not None else -gsi.width - 5.0

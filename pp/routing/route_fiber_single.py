@@ -105,7 +105,7 @@ def route_fiber_single(
 
     elements_south, gratings_south, _ = route_fiber_array(
         component=component,
-        with_align_ports=False,
+        with_loopback=False,
         fiber_spacing=fiber_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[0],
@@ -125,7 +125,7 @@ def route_fiber_single(
 
     elements_north, gratings_north, _ = route_fiber_array(
         component=component,
-        with_align_ports=False,
+        with_loopback=False,
         fiber_spacing=fiber_spacing,
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],

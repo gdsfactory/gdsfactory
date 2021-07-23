@@ -5,7 +5,7 @@ from typing import Optional, Tuple
 import numpy as np
 
 import pp
-from pp.add_termination import add_gratings_and_loop_back
+from pp.add_termination import add_gratings_and_loopback
 from pp.component import Component
 from pp.components.bend_circular import bend_circular, bend_circular180
 from pp.components.bend_euler import bend_euler, bend_euler180
@@ -288,7 +288,7 @@ def spiral_inner_io_with_gratings(
     spiral = pp.call_if_func(spiral, waveguide=waveguide, **kwargs)
     grating_coupler = pp.call_if_func(grating_coupler)
 
-    return add_gratings_and_loop_back(
+    return add_gratings_and_loopback(
         component=spiral, grating_coupler=grating_coupler, waveguide=waveguide
     )
 
@@ -301,7 +301,7 @@ if __name__ == "__main__":
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)
     # print(c.settings)
-    # c = add_gratings_and_loop_back(c)
+    # c = add_gratings_and_loopback(c)
     # c = spirals_nested()
     # c = spiral_inner_io_euler(length=20e3)
 

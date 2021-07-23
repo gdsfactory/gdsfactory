@@ -12,7 +12,7 @@ from pp.routing.manhattan import round_corners
 from pp.types import ComponentFactory
 
 
-def connect_loop_back(
+def connect_loopback(
     port0: Port,
     port1: Port,
     a: float,
@@ -82,7 +82,7 @@ def loss_deembedding_ch13_24(
     y_bot_align_route = -gsi.width - 5.0
 
     c.add(
-        connect_loop_back(
+        connect_loopback(
             p1, p3, a, b, R, y_bot_align_route, waveguide=waveguide, **kwargs
         )
     )
