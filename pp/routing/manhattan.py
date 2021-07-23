@@ -537,13 +537,14 @@ def round_corners(
     taper = taper(**waveguide_settings) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
-    if taper:
+    if taper and isinstance(taper, Component):
         if "length" not in taper.info:
             _taper_ports = list(taper.ports.values())
             taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
 
-    if straight_factory_fall_back_no_taper is None:
-        straight_factory_fall_back_no_taper = straight_factory
+    straight_factory_fall_back_no_taper = (
+        straight_factory_fall_back_no_taper or straight_factory
+    )
 
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)

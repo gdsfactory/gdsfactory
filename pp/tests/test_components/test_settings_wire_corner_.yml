@@ -1,11 +1,8 @@
 function_name: wire_corner
 info:
-  length: 10
+  length: 2
 module: pp.components.wire
 name: wire_corner
 settings:
-  layer:
-  - 49
-  - 0
   port_type: dc
-  width: 10
+  waveguide: metal_routing

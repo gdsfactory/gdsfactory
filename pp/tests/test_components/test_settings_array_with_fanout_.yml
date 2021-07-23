@@ -3,8 +3,8 @@ info: {}
 module: pp.components.array_with_fanout
 name: array_with_fanout
 settings:
-  bend_port_name: N0
-  bend_port_name_out: W0
+  bend_port_name1: null
+  bend_port_name2: null
   component_port_name: S
   end_straight: 40
   n: 3
