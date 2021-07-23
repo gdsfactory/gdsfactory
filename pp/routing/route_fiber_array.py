@@ -423,9 +423,11 @@ def route_fiber_array(
             )
             for ii in [grating_indices[0] - 1, grating_indices[-1] + 1]
         ]
+        port0 = gca1.ports[gc_port_name]
+        port1 = gca2.ports[gc_port_name]
 
-        p0 = gca1.ports[gc_port_name].position
-        p1 = gca2.ports[gc_port_name].position
+        p0 = port0.position
+        p1 = port1.position
 
         dy = bend90.dy
         dx = max(2 * dy, fiber_spacing / 2)
@@ -453,10 +455,24 @@ def route_fiber_array(
             **waveguide_settings,
         )
         elements.extend(route.references)
+        component_name_loopback = f"loopback_{component_name}"
+        elements.extend(
+            get_input_labels_function(
+                io_gratings=[gca1, gca2],
+                ordered_ports=[port0, port1],
+                component_name=component_name_loopback,
+                layer_label=layer_label,
+                gc_port_name=gc_port_name,
+            )
+        )
 
     elements.extend(
         get_input_labels_function(
-            io_gratings, ordered_ports, component_name, layer_label, gc_port_name
+            io_gratings=io_gratings,
+            ordered_ports=ordered_ports,
+            component_name=component_name,
+            layer_label=layer_label,
+            gc_port_name=gc_port_name,
         )
     )
 
