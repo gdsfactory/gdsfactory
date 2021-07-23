@@ -28,17 +28,17 @@ from contracts import contract
 
 
 ```
+
 # 2.7.1
 
 - add pp.components.die
 - fix spiral_external_io
 - add_fiber_array also labels loopbacks
-
+- rename with_align_ports as loopback
 
 # 2.7.0
 
 - round_corners raises RouteWarning if not enough space to fit a bend
-
 
 ## 2.6.10
 
