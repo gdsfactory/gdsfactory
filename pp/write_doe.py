@@ -25,7 +25,7 @@ def write_doe_metadata(
         cell_names: list of klayout <Cell> or pp <Component>
         list_settings: list of settings for the cell
         doe_settings: test and data_analysis_protocol
-        cell_settings: list of cell settings
+        doe_metadata_path
 
     """
 

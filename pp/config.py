@@ -17,6 +17,7 @@ import os
 import pathlib
 import subprocess
 import tempfile
+from dataclasses import asdict
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -127,7 +128,7 @@ def print_config(key: Optional[str] = None) -> None:
             print(f"`{key}` key not found in {CONFIG.keys()}")
     else:
         pprint(CONFIG)
-        print(OmegaConf.to_yaml(TECH))
+        print(OmegaConf.to_yaml(asdict(TECH)))
 
 
 def complex_encoder(z):
@@ -149,7 +150,7 @@ def write_config(config: Any, json_out_path: Path) -> None:
 def write_tech(json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
-        json.dump(TECH, f, indent=2, sort_keys=True, default=complex_encoder)
+        json.dump(asdict(TECH), f, indent=2, sort_keys=True, default=complex_encoder)
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
