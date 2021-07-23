@@ -2,7 +2,6 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import pp
 from pp.component import Component
-from pp.components.electrical import corner
 
 
 def test_get_bundle_electrical(
@@ -18,7 +17,8 @@ def test_get_bundle_electrical(
     routes = pp.routing.get_bundle(
         [c1.ports["E"]],
         [c2.ports["W"]],
-        bend_factory=corner,
+        bend_factory=pp.c.wire_corner,
+        waveguide="metal_routing",
     )
 
     for i, route in enumerate(routes):
@@ -29,7 +29,8 @@ def test_get_bundle_electrical(
         [c1.ports["S"]],
         [c2.ports["E"]],
         start_straight=20.0,
-        bend_factory=corner,
+        bend_factory=pp.c.wire_corner,
+        waveguide="metal_routing",
     )
     for i, route in enumerate(routes):
         c.add(route.references)

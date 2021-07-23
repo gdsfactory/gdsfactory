@@ -99,8 +99,6 @@ from pp.components.dbr2 import dbr2
 # electrical
 from pp.components.wire import wire_corner
 from pp.components.wire import wire_straight
-from pp.components.electrical.wire import wire
-from pp.components.electrical.wire import corner
 from pp.components.electrical.pad import pad
 from pp.components.electrical.pad import pad_array
 from pp.components.electrical.pad import pad_array_2d
@@ -175,7 +173,6 @@ LIBRARY.register(
         compensation_path,
         component_lattice,
         component_sequence,
-        corner,
         coupler90,
         coupler90bend,
         coupler,
@@ -266,7 +263,6 @@ LIBRARY.register(
         straight_heater,
         straight_pin,
         straight_with_heater,
-        wire,
         wire_straight,
         wire_corner,
     ]
