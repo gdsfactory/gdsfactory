@@ -1,6 +1,6 @@
 from typing import Callable, Optional, Tuple
 
-from pp.add_labels import get_optical_text
+from pp.add_labels import get_input_label_text
 from pp.add_tapers import add_tapers
 from pp.cell import cell_without_validator
 from pp.component import Component
@@ -215,7 +215,7 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["E0"])
 
         port = wg.ports["E0"]
-        text = get_optical_text(
+        text = get_input_label_text(
             port, grating_coupler, 0, component_name=f"loopback_{component_name}"
         )
 
@@ -227,7 +227,7 @@ def add_fiber_single(
         )
 
         port = wg.ports["W0"]
-        text = get_optical_text(
+        text = get_input_label_text(
             port, grating_coupler, 1, component_name=f"loopback_{component_name}"
         )
         c.add_label(

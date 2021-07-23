@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Optional
 
 import pp
 from pp.add_tapers import add_tapers
@@ -6,7 +6,6 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
-from pp.routing.get_input_labels import get_input_labels
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
@@ -21,7 +20,6 @@ def add_fiber_array(
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper: StrOrDict = "taper",
-    get_input_labels_function: Callable = get_input_labels,
     waveguide: StrOrDict = "strip",
     library: Library = LIBRARY,
     **kwargs,
@@ -35,7 +33,8 @@ def add_fiber_array(
         gc_port_name: grating coupler input port name 'W0'
         component_name: for the label
         taper: taper function name or dict
-        get_input_labels_function: function to get input labels for grating couplers
+        get_input_label_text_loopback_function: function to get input labels for grating couplers
+        get_input_label_text_function
         straight_factory: straight
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
@@ -118,7 +117,6 @@ def add_fiber_array(
         straight_factory=straight_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,
-        get_input_labels_function=get_input_labels_function,
         waveguide=waveguide,
         **kwargs,
     )

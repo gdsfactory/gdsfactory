@@ -12,7 +12,7 @@ from pp.port import Port
 from pp.types import Layer
 
 
-def get_optical_text(
+def get_input_label_text(
     port: Port,
     gc: Union[ComponentReference, Component],
     gc_index: Optional[int] = None,
@@ -55,6 +55,7 @@ def get_input_label(
     gc_port_name: str = "W0",
     layer_label: Layer = pp.LAYER.LABEL,
     component_name: Optional[str] = None,
+    get_input_label_text_function=get_input_label_text,
 ) -> Label:
     """Returns a label with component info for a given grating coupler.
     Test equipment to extract grating coupler coordinates and match it to the component.
@@ -67,7 +68,7 @@ def get_input_label(
         layer_label: layer of the label
         component_name: for the label
     """
-    text = get_optical_text(
+    text = get_input_label_text_function(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name
     )
 
