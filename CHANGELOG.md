@@ -31,8 +31,9 @@ from contracts import contract
 
 # 2.7.4
 
-- get_bundle_corner passing waveguide
+- get_bundle_corner passing waveguide (consistent with other routes)
 - fix pp.components.wire_corner
+- delete pp.components.electrical.wire.py
 
 # 2.7.3
 

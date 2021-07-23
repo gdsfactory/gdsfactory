@@ -28,7 +28,10 @@ def test_get_bundle_west_to_north(
     ptports = pl.get_ports_list()
 
     routes = pp.routing.get_bundle(
-        pbports, ptports, bend_factory=pp.components.corner, waveguide="metal_routing"
+        pbports,
+        ptports,
+        bend_factory=pp.components.wire_corner,
+        waveguide="metal_routing",
     )
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -54,7 +57,7 @@ def test_get_bundle_west_to_north2(
     routes = pp.routing.get_bundle(
         pbottom_facing_north,
         ptop_facing_west,
-        bend_factory=pp.components.corner,
+        bend_factory=pp.components.wire_corner,
         waveguide="metal_routing",
     )
 
