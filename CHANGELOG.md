@@ -28,6 +28,12 @@ from contracts import contract
 
 
 ```
+
+# 2.7.3
+
+- pp.grid allows accessing references from Component.aliases
+- pp.routing.add_fiber_single and pp.routing.add_fiber_array accept get_input_label_text_loopback, get_input_label_text params
+
 # 2.7.2
 
 - fix print_config asdict(TECH)
