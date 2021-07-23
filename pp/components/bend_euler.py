@@ -6,7 +6,7 @@ from pp.path import euler, extrude
 from pp.snap import snap_to_grid
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_euler(
     angle: int = 90,
     p: float = 1,
@@ -87,12 +87,12 @@ def bend_euler(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_euler180(angle: int = 180, **kwargs) -> Component:
     return bend_euler(angle=angle, **kwargs)
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_euler_s(**kwargs) -> Component:
     """Sbend made of euler bends."""
     c = Component()

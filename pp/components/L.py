@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.layers import LAYER
 
 
-@pp.cell_with_validator
+@pp.cell
 def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),

@@ -31,6 +31,7 @@ from contracts import contract
 # 2.7.2
 
 - fix print_config asdict(TECH)
+- cell decorator validates arguments by default using pydantic, cell_without_validator does not
 
 # 2.7.1
 

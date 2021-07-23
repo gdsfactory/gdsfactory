@@ -9,7 +9,7 @@ from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory, CrossSectionFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def ring_double(
     gap: float = 0.2,
     radius: float = 10.0,

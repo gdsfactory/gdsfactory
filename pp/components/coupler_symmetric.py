@@ -5,7 +5,7 @@ from pp.cross_section import StrOrDict, get_cross_section
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler_symmetric(
     bend: ComponentFactory = bend_s,
     gap: float = 0.234,

@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,

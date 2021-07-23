@@ -46,7 +46,7 @@ def add_gratings_and_loopback_tm(*args, grating_coupler=grating_coupler_tm, **kw
     return add_gratings_and_loopback(*args, grating_coupler=grating_coupler, **kwargs)
 
 
-@cell
+@pp.cell_without_validator
 def add_gratings_and_loopback(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,

@@ -11,7 +11,7 @@ from pp.tech import TECH
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def straight_pin(
     length: float = 10.0,
     npoints: int = 2,

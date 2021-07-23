@@ -8,7 +8,7 @@ from pp.components.waveguide_template import strip
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def dbr2(
     length: float = 10.0,
     period: float = 0.85,

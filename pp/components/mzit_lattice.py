@@ -6,7 +6,7 @@ from pp.components.mzit import mzit
 from pp.types import ComponentFactory, Number
 
 
-@pp.cell_with_validator
+@pp.cell
 def mzit_lattice(
     coupler_lengths: Tuple[Number, ...] = (10, 20),
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),

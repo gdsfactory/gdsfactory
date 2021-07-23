@@ -7,7 +7,7 @@ from pp.components.text import text
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def die(
     size: Tuple[float, float] = (10000.0, 10000.0),
     street_width: float = 100.0,

@@ -1,13 +1,13 @@
 from typing import Any, Dict, Iterable, Optional
 
-from pp.cell import cell_with_validator
+from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
 from pp.layers import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 
-@cell_with_validator
+@cell
 def pad(
     width: float = 100.0,
     height: Optional[float] = None,
@@ -39,7 +39,7 @@ def pad(
     return c
 
 
-@cell_with_validator
+@cell
 def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
@@ -79,7 +79,7 @@ def pad_array(
     return c
 
 
-@cell_with_validator
+@cell
 def pad_array_2d(
     pad: ComponentOrFactory = pad,
     pitch_x: float = 150.0,

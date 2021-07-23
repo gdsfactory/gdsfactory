@@ -4,7 +4,7 @@ from pp.components.straight import straight as straight_function
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,

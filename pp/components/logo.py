@@ -2,7 +2,7 @@ import pp
 from pp.component import Component
 
 
-@pp.cell_with_validator
+@pp.cell
 def logo(text: str = "GDS_FACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = Component()

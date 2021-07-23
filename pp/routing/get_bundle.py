@@ -653,7 +653,7 @@ def get_bundle_same_axis_no_grouping(
     return elems
 
 
-@pp.cell_with_validator
+@pp.cell
 def test_get_bundle_small() -> Component:
     import pp
 

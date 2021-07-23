@@ -86,7 +86,7 @@ def wg_line(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_straight(
     spacing_h=5.0,
     spacing_v=5.0,
@@ -153,7 +153,7 @@ def cdsem_straight(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_straight_column(
     spacing_v: Number = 5.0,
     gaps: Tuple[Number, ...] = (0.224, 0.234, 0.246),
@@ -218,7 +218,7 @@ def cdsem_straight_column(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_straight_all(
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
@@ -245,7 +245,7 @@ def cdsem_straight_all(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_straight_density(
     wg_width: Number = 0.372,
     trench_width: Number = 0.304,
@@ -290,14 +290,14 @@ def cdsem_straight_density(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_strip(straight_factory=straight, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, straight_factory=straight_factory
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_target(
     bend90_factory: ComponentFactory = bend_circular,
     width_center: Number = 0.5,
@@ -344,7 +344,7 @@ def cdsem_target(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def cdsem_uturn(
     width: Number = 0.5,
     radius: Number = 10.0,
@@ -409,7 +409,7 @@ def cdsem_uturn(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def pcm_optical(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -570,7 +570,7 @@ class LabelIterator:
         return self
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_ISO(length=20.0, width=0.5):
     c = pp.Component()
     _r = c.add_ref(rectangle(width, length, layer=LAYER.SLAB150))
@@ -586,7 +586,7 @@ def TRCH_ISO(length=20.0, width=0.5):
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -594,7 +594,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -602,7 +602,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -610,7 +610,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -618,7 +618,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(

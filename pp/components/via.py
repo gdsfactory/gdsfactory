@@ -5,7 +5,7 @@ from pp.component import Component
 from pp.layers import LAYER
 
 
-@pp.cell_with_validator
+@pp.cell
 def via(
     width: float = 0.7,
     height: Optional[float] = None,
@@ -43,17 +43,17 @@ def via(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def via1(**kwargs) -> Component:
     return via(layer=LAYER.VIA1, **kwargs)
 
 
-@pp.cell_with_validator
+@pp.cell
 def via2(enclosure: float = 2.0, **kwargs) -> Component:
     return via(layer=LAYER.VIA2, enclosure=enclosure, **kwargs)
 
 
-@pp.cell_with_validator
+@pp.cell
 def via3(**kwargs) -> Component:
     return via(layer=LAYER.VIA3, **kwargs)
 

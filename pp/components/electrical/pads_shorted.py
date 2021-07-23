@@ -6,7 +6,7 @@ from pp.components.rectangle import rectangle
 from pp.layers import LAYER
 
 
-@pp.cell_with_validator
+@pp.cell
 def pads_shorted(
     width: int = 100,
     n_pads: int = 8,

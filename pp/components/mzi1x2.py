@@ -11,7 +11,7 @@ from pp.routing.route_ports_to_side import route_ports_to_side
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def mzi1x2(
     L0: float = 0.1,
     DL: float = 9.0,

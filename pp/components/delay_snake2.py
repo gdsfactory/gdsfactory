@@ -8,7 +8,7 @@ from pp.tech import LIBRARY, Library
 from pp.types import StrOrDict, StrOrDictOrNone
 
 
-@pp.cell_with_validator
+@pp.cell
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,

@@ -10,7 +10,7 @@ from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,

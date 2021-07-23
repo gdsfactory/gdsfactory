@@ -4,7 +4,7 @@ import pytest
 import pp
 
 
-@pp.cell_with_validator
+@pp.cell
 def component_with_straight(component: pp.Component) -> pp.Component:
     c = pp.Component()
     c.add_ref(component)

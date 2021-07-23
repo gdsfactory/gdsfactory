@@ -7,7 +7,7 @@ import pp
 from pp.component import Component
 
 
-@pp.cell_with_validator
+@pp.cell
 def ellipse(
     radii: Tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,

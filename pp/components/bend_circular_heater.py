@@ -6,7 +6,7 @@ from pp.path import arc, extrude
 from pp.snap import snap_to_grid
 
 
-@pp.cell_with_validator
+@pp.cell
 def bend_circular_heater(
     radius: float = 10,
     angle: int = 90,

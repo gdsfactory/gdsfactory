@@ -6,7 +6,7 @@ from pp.component import Component
 from pp.cross_section import StrOrDict, get_cross_section
 
 
-@pp.cell_with_validator
+@pp.cell
 def free_propagation_region(
     width1: float = 2.0,
     width2: float = 20.0,
@@ -85,12 +85,12 @@ def free_propagation_region(
     return c
 
 
-@pp.cell_with_validator
+@pp.cell
 def free_propagation_region_input(inputs: int = 1, **kwargs) -> Component:
     return free_propagation_region(inputs=inputs, **kwargs)
 
 
-@pp.cell_with_validator
+@pp.cell
 def free_propagation_region_output(
     inputs: int = 10, width1: float = 10.0, width2: float = 20.0, **kwargs
 ) -> Component:
@@ -99,7 +99,7 @@ def free_propagation_region_output(
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def awg(
     arms: int = 10,
     outputs: int = 3,

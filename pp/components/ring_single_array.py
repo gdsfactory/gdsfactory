@@ -7,7 +7,7 @@ from pp.components.straight import straight
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def ring_single_array(
     ring_function: ComponentFactory = ring_single,
     straight_function: ComponentFactory = straight,

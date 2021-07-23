@@ -7,7 +7,7 @@ from pp.cross_section import cross_section
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,

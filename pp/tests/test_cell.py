@@ -15,7 +15,7 @@ def test_raise_error_args():
         _dummy(3)
 
 
-@pp.cell_with_validator
+@pp.cell
 def _dummy2(length: int = 3, wg_width: float = 0.5) -> pp.Component:
     c = pp.Component()
     return c

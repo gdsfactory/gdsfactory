@@ -563,7 +563,7 @@ from pydantic import validate_arguments
 
 import pp
 
-@pp.cell_with_validator, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
+@pp.cell, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
     return ld
   end
 
@@ -972,7 +972,7 @@ from pydantic import validate_arguments
 
 import pp
 
-@pp.cell_with_validator = cv.cell_index
+@pp.cell = cv.cell_index
 
     # get the start and end points in database units and micron
     p1_dbu = RBA::Point::from_dpoint(p1 * (1.0 / @dbu))

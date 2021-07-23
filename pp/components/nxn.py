@@ -8,7 +8,7 @@ from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@pp.cell_with_validator
+@pp.cell
 def nxn(
     west: int = 1,
     east: int = 4,

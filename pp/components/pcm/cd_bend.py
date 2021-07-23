@@ -7,7 +7,7 @@ from pp.components.straight import straight
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def cd_bend(
     L: float = 2.0,
     radius: float = 2.0,
@@ -66,7 +66,7 @@ def cd_bend(
     return component
 
 
-@pp.cell_with_validator
+@pp.cell
 def cd_bend_strip(**kwargs):
     return cd_bend(**kwargs, bend90_factory=bend_circular, straight_factory=straight)
 

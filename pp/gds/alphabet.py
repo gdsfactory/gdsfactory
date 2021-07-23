@@ -3,7 +3,7 @@ import pp
 characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#()+,-./:;<=>?@[{|}~_"
 
 
-@pp.cell_with_validator
+@pp.cell
 def alphabet(dx=10):
     c = pp.Component()
     x = 0

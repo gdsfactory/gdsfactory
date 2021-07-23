@@ -10,7 +10,7 @@ from pp.port import deco_rename_ports
 
 
 @deco_rename_ports
-@pp.cell_with_validator
+@pp.cell
 def wire_straight(
     length: float = 50.0,
     width: float = 10.0,
@@ -32,7 +32,7 @@ def wire_straight(
 
 
 @deco_rename_ports
-@pp.cell_with_validator
+@pp.cell
 def wire_corner(
     width: float = 10.0,
     layer: Tuple[int, int] = LAYER.M3,

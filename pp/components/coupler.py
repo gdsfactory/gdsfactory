@@ -7,7 +7,7 @@ from pp.snap import assert_on_1nm_grid
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,

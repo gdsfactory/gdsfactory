@@ -5,7 +5,7 @@ from pp.port import auto_rename_ports
 from pp.types import ComponentOrFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,

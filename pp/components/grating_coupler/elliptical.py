@@ -81,7 +81,7 @@ def grating_taper_points(
     return points
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_elliptical_tm(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
@@ -132,7 +132,7 @@ def grating_coupler_elliptical_tm(
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_elliptical_te(
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
@@ -164,7 +164,7 @@ def grating_coupler_elliptical_te(
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,

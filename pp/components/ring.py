@@ -7,7 +7,7 @@ import pp
 from pp.component import Component
 
 
-@pp.cell_with_validator
+@pp.cell
 def ring(
     radius: float = 10.0,
     width: float = 0.5,

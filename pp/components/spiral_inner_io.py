@@ -22,7 +22,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@pp.cell_with_validator
+@pp.cell
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -211,7 +211,7 @@ def spiral_inner_io(
     return component
 
 
-@pp.cell_with_validator
+@pp.cell
 def spiral_inner_io_euler(
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
@@ -224,7 +224,7 @@ def spiral_inner_io_euler(
     )
 
 
-@pp.cell_with_validator
+@pp.cell
 def spirals_nested(bend_radius: Number = 100) -> Component:
     component = pp.Component()
     c = spiral_inner_io(

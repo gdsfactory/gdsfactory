@@ -9,7 +9,7 @@ from pp.port import rename_ports_by_orientation
 from pp.snap import assert_on_2nm_grid
 
 
-@pp.cell_with_validator
+@pp.cell
 def ring_single_dut(
     component,
     wg_width=0.5,

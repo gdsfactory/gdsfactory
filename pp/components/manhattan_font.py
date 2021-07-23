@@ -9,7 +9,7 @@ from pp.layers import LAYER
 from pp.name import clean_name
 
 
-@pp.cell_with_validator
+@pp.cell
 def manhattan_text(
     text: str = "abcd",
     size: float = TECH.component_settings.manhattan_text.size,
@@ -70,7 +70,7 @@ def manhattan_text(
     return t
 
 
-@pp.cell_with_validator
+@pp.cell
 def pixel_array(
     pixels: str = """
      XXX

@@ -9,7 +9,7 @@ from pp.tech import TECH
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: int = 4,

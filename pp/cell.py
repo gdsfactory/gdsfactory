@@ -22,7 +22,7 @@ def print_cache():
         print(k)
 
 
-def cell(func):
+def cell_without_validator(func):
     """Cell Decorator.
 
     Args:
@@ -150,8 +150,8 @@ def cell(func):
     return _cell
 
 
-def cell_with_validator(func, *args, **kwargs):
-    return cell(validate_arguments(func), *args, **kwargs)
+def cell(func, *args, **kwargs):
+    return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
 
 @cell

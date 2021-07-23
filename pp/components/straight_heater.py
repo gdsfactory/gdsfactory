@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
 
@@ -15,7 +15,7 @@ from pp.port import Port, auto_rename_ports
 from pp.types import ComponentFactory, Layer, Number
 
 
-@pp.cell_with_validator
+@pp.cell
 def heater(
     length: float = 10.0,
     width: float = 0.5,
@@ -194,7 +194,7 @@ def straight_heater(
 
 @cell
 def via_elevator(
-    heater_ports: Iterable[Port],
+    heater_ports: Tuple[Port, ...],
     via_stack_layers: Tuple[Layer, ...] = (
         LAYER.VIA1,
         LAYER.M1,
@@ -216,7 +216,7 @@ def via_elevator(
     """
 
     component = Component()
-    assert len(heater_ports) == 2
+    assert len(list(heater_ports)) == 2
     assert (
         heater_ports[0].orientation == heater_ports[1].orientation
     ), "both ports should be facing in the same direction"
@@ -376,9 +376,9 @@ if __name__ == "__main__":
     # c = straight_heater()
     # c = via_elevator(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
-    # c = straight_with_heater(length=200.0, port_orientation_input=0)
+    c = straight_with_heater(length=200.0, port_orientation_input=0)
     # c = via_elevator()
-    c = straight_with_heater_single()
+    # c = straight_with_heater_single()
     c.show(show_ports=True)
     print(c.ports)
 

@@ -6,7 +6,7 @@ from pp.layers import LAYER
 from pp.types import Layer
 
 
-@pp.cell_with_validator
+@pp.cell
 def verniers(
     width_min: float = 0.1,
     width_max: float = 0.5,

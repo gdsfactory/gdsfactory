@@ -37,7 +37,7 @@ def triangle_middle_down(side=0.5, layer=LAYER.WG):
     return component
 
 
-@pp.cell_with_validator
+@pp.cell
 def char_H(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -45,7 +45,7 @@ def char_H(
     return manhattan_text(text="H", size=0.4, layer=layer)
 
 
-@pp.cell_with_validator
+@pp.cell
 def char_L(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,

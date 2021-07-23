@@ -41,7 +41,7 @@ def straight(
     return t, s, e
 
 
-@pp.cell_with_validator
+@pp.cell
 def spiral_circular(
     length: float = 1e3,
     wg_width: float = 0.5,

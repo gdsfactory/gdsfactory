@@ -9,7 +9,7 @@ from pp.components.waveguide_template import strip
 from pp.types import ComponentFactory
 
 
-@pp.cell_with_validator
+@pp.cell
 def disk(
     radius: float = 10.0,
     gap: float = 0.2,
