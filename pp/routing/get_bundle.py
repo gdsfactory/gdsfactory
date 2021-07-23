@@ -153,11 +153,10 @@ def get_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
+        waveguide_settings.update(**params)
+        waveguide_settings.pop("start_straight")
+        waveguide_settings.pop("end_straight_offset")
         return get_bundle_corner(
-            ports1=ports1,
-            ports2=ports2,
-            separation=separation,
-            waveguide=waveguide,
             **waveguide_settings,
         )
 

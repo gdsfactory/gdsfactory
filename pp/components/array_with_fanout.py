@@ -7,7 +7,8 @@ from pp.components.bend_euler import bend_euler
 from pp.components.electrical.pad import pad
 from pp.components.straight import straight
 from pp.port import auto_rename_ports
-from pp.types import ComponentOrFactory
+from pp.routing.sort_ports import sort_ports_x
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -20,9 +21,10 @@ def array_with_fanout(
     end_straight: float = 40.0,
     radius: float = 5.0,
     component_port_name: str = "S",
-    bend_port_name: str = "N0",
-    bend_port_name_out: str = "W0",
+    bend_port_name1: Optional[str] = None,
+    bend_port_name2: Optional[str] = None,
     waveguide="metal_routing",
+    bend_factory: ComponentFactory = bend_euler,
     **waveguide_settings,
 ) -> Component:
     """Returns an array of components in X axis
@@ -38,13 +40,19 @@ def array_with_fanout(
         radius: bend radius
         waveguide: waveguide definition
         component_port_name:
-        bend_port_name:
-        bend_port_name_out:
+        bend_port_name1:
+        bend_port_name2:
         **waveguide_settings
     """
     c = Component()
     component = component() if callable(component) else component
-    bend = bend_euler(radius=radius, waveguide=waveguide, **waveguide_settings)
+    bend = bend_factory(radius=radius, waveguide=waveguide, **waveguide_settings)
+
+    bend_ports = bend.get_ports_list()
+    bend_ports = sort_ports_x(bend_ports)
+    bend_ports.reverse()
+    bend_port_name1 = bend_port_name1 or bend_ports[0].name
+    bend_port_name2 = bend_port_name2 or bend_ports[1].name
 
     for col in range(n):
         ref = component.ref()
@@ -58,11 +66,11 @@ def array_with_fanout(
         straight_ref.connect("E0", ref.ports[component_port_name])
 
         bend_ref = c.add_ref(bend)
-        bend_ref.connect(bend_port_name, straight_ref.ports["W0"])
+        bend_ref.connect(bend_port_name1, straight_ref.ports["W0"])
         straightx_ref = c << straight(
             length=xlength, waveguide=waveguide, **waveguide_settings
         )
-        straightx_ref.connect("E0", bend_ref.ports[bend_port_name_out])
+        straightx_ref.connect("E0", bend_ref.ports[bend_port_name2])
         c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
     auto_rename_ports(c)
     return c
@@ -95,8 +103,8 @@ def array_with_fanout_2d(
             radius: bend radius
             waveguide: waveguide definition
             component_port_name:
-            bend_port_name:
-            bend_port_name_out:
+            bend_port_name1:
+            bend_port_name2:
             **waveguide_settings
     """
     pitch_y = pitch_y or pitch
@@ -106,10 +114,20 @@ def array_with_fanout_2d(
 
 
 if __name__ == "__main__":
+    import pp
 
     # c1 = pp.c.pad()
     # c2 = array(component=c1, pitch=150, n=2)
     # print(c2.ports.keys())
 
-    c2 = array_with_fanout(n=3, width=10, radius=11, waveguide_pitch=20)
+    c2 = array_with_fanout(
+        n=3,
+        width=10,
+        radius=11,
+        waveguide_pitch=20,
+        bend_factory=pp.c.wire_corner,
+        # bend_port_name1="E_0",
+        # bend_port_name2="E_1",
+        waveguide="metal1",
+    )
     c2.show(show_ports=True)

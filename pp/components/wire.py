@@ -1,11 +1,10 @@
 """Deprecated
 """
-from typing import Tuple
 
 import pp
 from pp.component import Component
 from pp.components.hline import hline
-from pp.layers import LAYER
+from pp.cross_section import get_waveguide_settings
 from pp.port import deco_rename_ports
 
 
@@ -13,8 +12,7 @@ from pp.port import deco_rename_ports
 @pp.cell
 def wire_straight(
     length: float = 50.0,
-    width: float = 10.0,
-    layer: Tuple[int, int] = LAYER.M3,
+    waveguide: pp.types.StrOrDict = "metal_routing",
     port_type: str = "dc",
     **kwargs
 ) -> Component:
@@ -26,6 +24,10 @@ def wire_straight(
         layer: layer
         port_type: port_type
     """
+    waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)
+    width = waveguide_settings["width"]
+    layer = waveguide_settings["layer"]
+
     c = hline(length=length, width=width, layer=layer, port_type=port_type)
     c.waveguide_settings = dict(layer=layer, width=width)
     return c
@@ -34,10 +36,7 @@ def wire_straight(
 @deco_rename_ports
 @pp.cell
 def wire_corner(
-    width: float = 10.0,
-    layer: Tuple[int, int] = LAYER.M3,
-    port_type: str = "dc",
-    **kwargs
+    port_type: str = "dc", waveguide: pp.types.StrOrDict = "metal_routing", **kwargs
 ) -> Component:
     """90 degrees electrical corner
 
@@ -48,6 +47,10 @@ def wire_corner(
         kwargs: for bend radius
 
     """
+    waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)
+    width = waveguide_settings["width"]
+    layer = waveguide_settings["layer"]
+
     c = Component()
     a = width / 2
     xpts = [-a, a, a, -a]
