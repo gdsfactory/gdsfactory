@@ -140,13 +140,15 @@ def preview_layerset(
         ls._layers.values(), key=lambda x: (x.gds_layer, x.gds_datatype)
     )
     for n, layer in enumerate(sorted_layers):
-        R = pp.components.rectangle(size=(100 * scale, 100 * scale), layer=layer)
+        gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
+        layer_tuple = (gds_layer, gds_datatype)
+        R = pp.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
         T = pp.components.text(
             text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
             size=20 * scale,
             position=(50 * scale, -20 * scale),
             justify="center",
-            layer=layer,
+            layer=layer_tuple,
         )
 
         xloc = n % matrix_size
@@ -288,13 +290,12 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    pass
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
 
     # lys = test_load_lyp()
-    # c = preview_layerset(ls)
-    # c.show()
+    c = preview_layerset()
+    c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))
