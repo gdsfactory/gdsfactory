@@ -28,32 +28,35 @@ from contracts import contract
 
 
 ```
+## Next release
 
-# 2.7.4
+- fix preview_layerset
+
+## 2.7.4
 
 - get_bundle_corner passing waveguide (consistent with other routes)
 - fix pp.components.wire_corner
 - delete pp.components.electrical.wire.py
 
-# 2.7.3
+## 2.7.3
 
 - pp.grid allows accessing references from Component.aliases
 - pp.routing.add_fiber_single and pp.routing.add_fiber_array accept get_input_label_text_loopback, get_input_label_text params
 
-# 2.7.2
+## 2.7.2
 
 - fix print_config asdict(TECH)
 - cell decorator validates arguments by default using pydantic, cell_without_validator does not
 - add pydantic.vaidate method to Port
 
-# 2.7.1
+## 2.7.1
 
 - add pp.components.die
 - fix spiral_external_io
 - add_fiber_array also labels loopbacks
 - rename with_align_ports as loopback
 
-# 2.7.0
+## 2.7.0
 
 - round_corners raises RouteWarning if not enough space to fit a bend
 
