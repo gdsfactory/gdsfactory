@@ -1,0 +1,47 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: "d34222bfa83369cc719b7118ce085e98fd598004"
+      hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+    - repo: https://github.com/hakancelik96/unimport
+      rev: 996b8ca342e7372e542220ae943764885be3f0cc
+      hooks:
+          - id: unimport
+            args: [--remove, --include-star-import]
+    - repo: https://github.com/pycqa/isort
+      rev: "9042488762e10137fd535601d9f433f1e3920dad"
+      hooks:
+          - id: isort
+            files: "gdsmp/.*"
+            args: ["--profile", "black", "--filter-files"]
+
+    - repo: https://github.com/psf/black
+      rev: "5446a92f0161e398de765bf9532d8c76c5652333"
+      hooks:
+          - id: black
+    - repo: https://gitlab.com/pycqa/flake8
+      rev: "3.9.0"
+      hooks:
+          - id: flake8
+    - repo: https://github.com/kynan/nbstripout
+      rev: 31e94e7981ee4fe06ca26965995f17943aa39017
+      hooks:
+          - id: nbstripout
+            files: ".ipynb"
+
+    # - repo: https://github.com/terrencepreilly/darglint
+    #   rev: master
+    #   hooks:
+    #       - id: darglint
+    #
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: ""
+    #   hooks:
+    #       - id: mypy
+    #         exclude: ^(docs/|example-plugin/|tests/fixtures)
+    # - repo: https://github.com/pycqa/pydocstyle
+    #   rev: ""
+    #   hooks:
+    #       - id: pydocstyle
