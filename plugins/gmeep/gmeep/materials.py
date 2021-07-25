@@ -7,19 +7,19 @@ MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
 def get_index(
     wavelength: float = 1.55,
-    material: str = "Si",
+    name: str = "Si",
 ) -> float:
     """Returns refractive index from Meep's material database.
 
     Args:
-        material: material name
+        name: material name
         wavelength: wavelength (um)
 
     """
-    if material not in MATERIALS:
-        raise ValueError(f"{material} not in {MATERIALS}")
+    if name not in MATERIALS:
+        raise ValueError(f"{name} not in {MATERIALS}")
 
-    medium = getattr(mat, material)
+    medium = getattr(mat, name)
     epsilon_matrix = medium.epsilon(1 / wavelength)
     epsilon11 = epsilon_matrix[0][0]
     return epsilon11 ** 0.5
@@ -27,25 +27,25 @@ def get_index(
 
 def get_material(
     wavelength: float = 1.55,
-    material: str = "Si",
+    name: str = "Si",
 ) -> mp.Medium:
     """Returns Meep Medium from database
 
     Args:
-        material: material name
+        name: material name
         wavelength: wavelength (um)
 
     """
-    if material not in MATERIALS:
-        raise ValueError(f"{material} not in {MATERIALS}")
+    if name not in MATERIALS:
+        raise ValueError(f"{name} not in {MATERIALS}")
 
-    return getattr(mat, material)
+    return getattr(mat, name)
 
 
-si = partial(get_index, material="Si")
+si = partial(get_index, name="Si")
 
-sio2 = partial(get_index, material="SiO2")
+sio2 = partial(get_index, name="SiO2")
 
 
 if __name__ == "__main__":
-    print(get_index(material="Si"))
+    print(get_index(name="Si"))
