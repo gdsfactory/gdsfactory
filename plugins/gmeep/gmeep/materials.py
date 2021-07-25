@@ -39,6 +39,14 @@ def get_material(
     if name not in MATERIALS:
         raise ValueError(f"{name} not in {MATERIALS}")
 
+    # FIXME: need to remove this. If I remove this, then I get no fields.
+    if name == "SiO2":
+        return mp.Medium(epsilon=2.25)
+    elif name == "Si":
+        return mp.Medium(epsilon=12)
+    else:
+        raise ValueError(f"not implemetned material, name = {name}")
+
     return getattr(mat, name)
 
 

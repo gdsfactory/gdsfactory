@@ -204,7 +204,9 @@ def get_simulation(
         cell_size=cell_size,
         freqs=freqs,
         monitors=monitors,
+        sources=sources,
         field_monitor_point=field_monitor_point,
+        port_source_name=port_source_name,
     )
 
 
