@@ -241,6 +241,7 @@ def write_sparameters(
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
+        print(f"Sparameters loaded from {filepath}")
         return pd.read_csv(filepath)
 
     sim_dict = get_simulation_from_component(
@@ -255,6 +256,7 @@ def write_sparameters(
     freqs = sim_dict["freqs"]
     field_monitor_point = sim_dict["field_monitor_point"]
     wavelengths = 1 / freqs
+    sim.init_sim()
     sim.run(
         until_after_sources=mp.stop_when_fields_decayed(
             dt=50, c=mp.Ez, pt=field_monitor_point, decay_by=1e-9
@@ -360,6 +362,6 @@ if __name__ == "__main__":
     c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation_from_component(c, is_3d=False)
-    df = write_sparameters(c)
+    df = write_sparameters(c, overwrite=True)
     plot_sparameters(df)
     plt.show()
