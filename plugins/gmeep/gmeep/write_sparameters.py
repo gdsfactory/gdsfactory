@@ -2,7 +2,7 @@
 """
 
 import pathlib
-from pathlib import Path, PosixPath
+from pathlib import Path
 from typing import Dict, Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -10,6 +10,7 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pp
+from pp.types import PathType
 from pp.component import Component
 from pp.sp.get_sparameters_path import get_sparameters_path
 
@@ -23,7 +24,7 @@ from gmeep.get_simulation import (
 
 def write_sparameters(
     component: Component,
-    dirpath: PosixPath = PATH.sparameters,
+    dirpath: PathType = PATH.sparameters,
     layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
     filepath: Optional[Path] = None,
@@ -31,6 +32,8 @@ def write_sparameters(
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
+
+    FIXME: does not work
 
     Args:
         component: to simulate.
@@ -106,6 +109,7 @@ def write_sparameters(
     #     s11 = np.squeeze(b1 / a1)
     #     s12 = np.squeeze(a2 / a1)
 
+    print(S)
     r = dict(wavelengths=wavelengths)
     keys = [key for key in r.keys() if key.startswith("s")]
     s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys}
@@ -138,15 +142,17 @@ def plot_sparameters(df: pd.DataFrame) -> None:
 
 def write_sparameters_sweep(
     component,
-    dirpath: PosixPath = PATH.sparameters,
+    dirpath: PathType = PATH.sparameters,
     layer_to_thickness_nm: Dict[Tuple[int, int], float] = {(1, 0): 220.0},
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
     **kwargs,
 ):
     """From gdsfactory component writes Sparameters for all the ports
     Returns the full Sparameters matrix
+
+    FIXME: does not work
     """
-    filepath_lumerical = get_sparameters_path(
+    filepath_dat = get_sparameters_path(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material,
@@ -159,7 +165,7 @@ def write_sparameters_sweep(
             layer_to_material=layer_to_material,
             **kwargs,
         )
-        filepath = filepath_lumerical.with_suffix(f"{port_source_name}.csv")
+        filepath = filepath_dat.with_suffix(f"{port_source_name}.csv")
         write_sparameters(sim_dict, filepath=filepath)
 
 
