@@ -28,9 +28,13 @@ from contracts import contract
 
 
 ```
-## Next release
+
+## 2.7.5
 
 - fix preview_layerset
+- extension_factory default extension layer depends on the port
+- add extend_ports_list to pp.extend
+- add simulation_settings to pp.write
 
 ## 2.7.4
 

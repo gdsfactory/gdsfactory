@@ -14,9 +14,9 @@ import yaml
 
 import pp
 from pp.component import Component
-from pp.config import TECH, __version__, logger
+from pp.config import __version__, logger
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import LAYER_STACK
+from pp.tech import LAYER_STACK, SIMULATION_SETTINGS, LayerStack, SimulationSettings
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
@@ -54,7 +54,6 @@ def clean_dict(
         for k, v in d.get("layer_to_material", {}).items()
         if k in layers
     ]
-    output["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
     return output
 
 
@@ -64,7 +63,8 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
-    layer_stack=LAYER_STACK,
+    layer_stack: LayerStack = LAYER_STACK,
+    simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
 ) -> pd.DataFrame:
     """Return and write component Sparameters from Lumerical FDTD.
@@ -79,8 +79,8 @@ def write(
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
         layer_stack: layer_stack
-        **settings
-            remove_layers: layers to remove
+        simulation_settings: dataclass with all simulation_settings
+        **settings: overwrite any simulation setting
             background_material: for the background
             port_width: port width (m)
             port_height: port height (m)
@@ -88,6 +88,8 @@ def write(
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
             zmargin: for the FDTD region 1e-6 (m)
             ymargin: for the FDTD region 2e-6 (m)
+            xmargin: for the FDTD region
+            pml_margin: for all the FDTD region
             wavelength_start: 1.2e-6 (m)
             wavelength_stop: 1.6e-6 (m)
             wavelength_points: 500
@@ -97,7 +99,7 @@ def write(
         suffix `a` for angle and `m` for module
 
     """
-    sim_settings = dataclasses.asdict(TECH.simulation_settings)
+    sim_settings = dataclasses.asdict(simulation_settings)
     layer_to_thickness_nm = layer_stack.get_layer_to_thickness_nm()
     layer_to_zmin_nm = layer_stack.get_layer_to_zmin_nm()
     layer_to_material = layer_stack.get_layer_to_material()
@@ -125,10 +127,14 @@ def write(
 
     ports = component.ports
 
-    component.remove_layers(ss.remove_layers)
+    component = component.copy()
+    component.remove_layers(component.layers - set(layer_to_thickness_nm.keys()))
     component._bb_valid = False
 
     c = pp.extend.extend_ports(component=component, length=ss.port_extension_um)
+    c.flatten()
+    c.name = "top"
+    c.show()
     gdspath = c.write_gds()
 
     filepath = get_sparameters_path(
@@ -150,21 +156,20 @@ def write(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    pe = ss.port_extension_um * 1e-6 / 2
-    x_min = c.xmin * 1e-6 + pe
-    x_max = c.xmax * 1e-6 - pe
+    x_min = component.xmin * 1e-6 - ss.xmargin - ss.pml_margin
+    x_max = component.xmax * 1e-6 + ss.xmargin + ss.pml_margin
 
-    y_min = c.ymin * 1e-6 - ss.ymargin
-    y_max = c.ymax * 1e-6 + ss.ymargin
+    y_min = component.ymin * 1e-6 - ss.ymargin - ss.pml_margin
+    y_max = component.ymax * 1e-6 + ss.ymargin + ss.pml_margin
 
     port_orientations = [p.orientation for p in ports.values()]
-    if 90 in port_orientations and len(ports) > 2:
-        y_max = c.ymax * 1e-6 - pe
-        x_max = c.xmax * 1e-6
 
-    elif 90 in port_orientations:
-        y_max = c.ymax * 1e-6 - pe
-        x_max = c.xmax * 1e-6 + ss.ymargin
+    # bend
+    if 90 in port_orientations:
+        y_max -= ss.ymargin
+
+    if 270 in port_orientations:
+        y_min += ss.ymargin
 
     z = 0
     z_span = 2 * ss.zmargin + max(layer_to_thickness_nm.values()) * 1e-9
@@ -233,12 +238,12 @@ def write(
         if layer not in layer_to_material:
             raise ValueError(f"{layer} not in {layer_to_material.keys()}")
 
-        material = layer_to_material[layer]
-        if material not in MATERIAL_NAME_TO_LUMERICAL:
+        material_name = layer_to_material[layer]
+        if material_name not in MATERIAL_NAME_TO_LUMERICAL:
             raise ValueError(
-                f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+                f"{material_name} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
             )
-        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material]
+        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material_name]
 
         if layer not in layer_to_zmin_nm:
             raise ValueError(f"{layer} not in {list(layer_to_zmin_nm.keys())}")
@@ -247,7 +252,7 @@ def write(
         zmax = zmin + thickness * 1e-9
         z = (zmax + zmin) / 2
 
-        s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
+        s.gdsimport(str(gdspath), "top", f"{layer[0]}:{layer[1]}")
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z)
         s.setnamed(layername, "z span", thickness * 1e-9)
@@ -282,7 +287,7 @@ def write(
             injection_axis = "x-axis"
             dxp = 0
             dyp = ss.port_width
-        elif 180 + 45 < deg < -45:
+        elif 180 + 45 < deg < 180 + 45 + 90:
             direction = "Forward"
             injection_axis = "y-axis"
             dxp = ss.port_width

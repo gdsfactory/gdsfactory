@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Optional, Tuple
 
 from pp.cell import cell
 from pp.component import Component
@@ -44,7 +44,7 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_list: Iterable[str] = ("N",),
+    port_list: Tuple[str, ...] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     axis: str = "x",
     **port_settings,
@@ -86,7 +86,7 @@ def pad_array_2d(
     pitch_y: float = 150.0,
     cols: int = 3,
     rows: int = 3,
-    port_list: Iterable[str] = ("N",),
+    port_list: Tuple[str, ...] = ("N",),
     pad_settings: Optional[Dict[str, Any]] = None,
     **port_settings,
 ) -> Component:
