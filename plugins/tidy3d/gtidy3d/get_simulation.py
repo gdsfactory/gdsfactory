@@ -7,112 +7,99 @@ Questions:
     field_monitor_port = component.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
+- how to define cladding material
+- show index of refraction
+- cache simulations
+- zmin = 1.
+- add sidewall_angle
+- visualize modes
+- visualize fields for simultion
+- simulate dispersive materials
+- review simulation before sending it?
+- gdslayer with gdslayer/gdspurpose
+
 """
 from typing import Dict, Optional, Tuple
 
-
+import pydantic
 import matplotlib.pyplot as plt
 import numpy as np
 import pp
-from numpy import ndarray
 from pp.component import Component
 from pp.components.extension import move_polar_rad_copy
+from pp.routing.sort_ports import sort_ports_x, sort_ports_y
 
 import tidy3d as td
 from tidy3d import web
+from gtidy3d.config import logger
+from gtidy3d.materials import get_material
 
 
 LAYER_TO_THICKNESS_NM = {(1, 0): 220.0}
-LAYER_TO_MATERIAL = {(1, 0): "Si"}
-LAYER_TO_ZMIN = {(1, 0): "Si"}
-LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
+LAYER_TO_MATERIAL = {(1, 0): "aSi"}
+LAYER_TO_ZMIN = {(1, 0): 0.0}
+LAYER_TO_SIDEWALL_ANGLE = {(1, 0): 0}
 
 
-# wavelength / frequency
-lambda0 = 1.550  # all length scales in microns
-freq0 = td.constants.C_0 / lambda0
-fwidth = freq0 / 10
-
-# Permittivity of waveguide and substrate
-wg_n = 3.48
-sub_n = 1.45
-mat_wg = td.Medium(n=wg_n)
-mat_sub = td.Medium(n=sub_n)
-
-# Waveguide dimensions
-
-# Waveguide height
-wg_height = 0.22
-# Waveguide width
-wg_width = 0.45
-# Waveguide separation in the beginning/end
-wg_spacing_in = 8
-# Total device length along propagation direction
-device_length = 100
-# Length of the bend region
-bend_length = 16
-# space between waveguide and PML
-pml_spacing = 1
-# Mesh step in all directions
-mesh_step = 0.040
-
-
+@pydantic.validate_arguments
 def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
     layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin_nm: Dict[Tuple[int, int], float] = {(1, 0): 0.5},
-    layer_to_sidewall_angle: Dict[Tuple[int, int], float] = {(1, 0): 0},
-    res: int = 20,
+    layer_to_zmin_nm: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN,
+    layer_to_sidewall_angle: Dict[Tuple[int, int], float] = LAYER_TO_SIDEWALL_ANGLE,
     t_clad_top: float = 1.0,
     t_clad_bot: float = 1.0,
     tpml: float = 1.0,
     clad_material: str = "SiO2",
-    is_3d: bool = False,
-    wavelengths: ndarray = np.linspace(1.5, 1.6, 50),
-    dfcen: float = 0.2,
     port_source_name: str = "W0",
     port_field_monitor_name: str = "E0",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
+    mesh_step: float = 0.040,
+    wavelength: float = 1.55,
 ) -> Tuple[td.Simulation, int]:
-    """Returns Simulation dict from gdsfactory component
+    """Returns Simulation and taskId from gdsfactory component
 
     based on GDS example
     https://simulation.cloud/docs/html/examples/ParameterScan.html
-
-    https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
 
     Args:
         component: gdsfactory Component
         extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
         layer_to_thickness_nm: Dict of layer number (int, int) to thickness (nm)
-        res: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
         clad_material: material for cladding
-        is_3d: if True runs in 3D
-        wavelengths: iterable of wavelengths to simulate
-        dfcen: delta frequency
         sidewall_angle: in degrees
         port_source_name: input port name
         port_field_monitor_name:
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
+        mesh_step: in all directions
+        wavelength: in (um)
 
     Returns:
         sim: simulation object
+        taskId
 
     Make sure you visualize the simulation region with gdsfactory before you simulate a component
 
     .. code::
 
+        import matplotlib.pyplot as plt
         import pp
         import gtidy as gm
 
         c = pp.components.bend_circular()
+        sim, taskId = gm.get_simulation(c)
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
+        sim.viz_mat_2D(normal="z", position=wg_height / 2, ax=ax1)
+        sim.viz_mat_2D(normal="x", ax=ax2, source_alpha=1)
+        ax2.set_xlim([-3, 3])
+        plt.show()
 
     """
     assert port_source_name in component.ports
@@ -134,17 +121,28 @@ def get_simulation(
     component_extended.flatten()
 
     t_core = max(layer_to_thickness_nm.values()) * 1e-3
-    cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml if is_3d else 0
+    cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
 
     sim_size = [component.xsize + 2 * tpml, component.ysize + 2 * tpml, cell_thickness]
 
-    geometry = td.GdsSlab(
-        material=mat_wg,
-        gds_cell=component_extended,
-        gds_layer=1,
-        z_cent=wg_height / 2,
-        z_size=wg_height,
-    )
+    layer_to_polygons = component_extended.get_polygons(by_spec=True)
+    for layer, polygons in layer_to_polygons.items():
+        if layer in layer_to_thickness_nm and layer in layer_to_material:
+            height = layer_to_thickness_nm[layer] * 1e-3
+            zmin_um = layer_to_zmin_nm[layer] * 1e-3
+            z_cent = (height + zmin_um) / 2
+            material_name = layer_to_material[layer]
+            material = get_material(name=material_name)
+
+            geometry = td.GdsSlab(
+                material=material,
+                gds_cell=component_extended,
+                gds_layer=layer[0],
+                z_cent=z_cent,
+                z_size=height,
+            )
+
+            print(height)
 
     # Add source
     port = component.ports[port_source_name]
@@ -154,9 +152,11 @@ def get_simulation(
     size_y = width * abs(np.cos(angle * np.pi / 180))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
-    size_z = cell_thickness - 2 * tpml if is_3d else 20
+    size_z = cell_thickness - 2 * tpml
     size = [size_x, size_y, size_z]
     center = port.center.tolist() + [0]  # (x, y, z=0)
+    freq0 = td.constants.C_0 / wavelength
+    fwidth = freq0 / 10
 
     msource = td.ModeSource(
         size=size,
@@ -167,8 +167,9 @@ def get_simulation(
 
     # Add port monitors
     monitors = {}
-    for port_name in component.ports.keys():
-        port = component.ports[port_name]
+    ports = sort_ports_x(sort_ports_y(component.get_ports_list()))
+    for port in ports:
+        port_name = port.name
         angle = port.orientation
         width = port.width + 2 * port_margin
         size_x = width * abs(np.sin(angle * np.pi / 180))
@@ -193,7 +194,7 @@ def get_simulation(
         )
 
     domain_monitor = td.FreqMonitor(
-        center=[0, 0, wg_height / 2], size=[sim_size[0], sim_size[1], 0], freqs=[freq0]
+        center=[0, 0, z_cent], size=[sim_size[0], sim_size[1], 0], freqs=[freq0]
     )
 
     sim = td.Simulation(
@@ -212,6 +213,7 @@ def get_simulation(
     # export simulation to run, get taskID to refer to later
     project = web.new_project(sim.export(), task_name=component.name)
     taskId = project["taskId"]
+    logger.info(f"submitting {taskId}")
     return sim, taskId
 
 
@@ -220,15 +222,15 @@ if __name__ == "__main__":
     c = pp.components.mmi1x2()
     c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = pp.components.straight(length=2)
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-
     c = pp.components.bend_circular(radius=2)
     # c = pp.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    sim, task_id = get_simulation(c, is_3d=False)
+    c = pp.components.straight(length=2)
+    # c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+
+    sim, taskId = get_simulation(c)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-    sim.viz_mat_2D(normal="z", position=wg_height / 2, ax=ax1)
+    sim.viz_mat_2D(normal="z", position=0, ax=ax1)
     sim.viz_mat_2D(normal="x", ax=ax2, source_alpha=1)
     ax2.set_xlim([-3, 3])
     plt.show()
