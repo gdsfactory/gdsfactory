@@ -90,6 +90,9 @@ def extend_ports(
 ) -> Component:
     """Returns a new component with extended ports inside a container.
 
+    it can accept an extension_factory or it defaults to the port
+    width and layer of each extended port
+
     Args:
         component: component to extend ports
         port_list: specify an list of ports names, if None it extends all ports
@@ -104,30 +107,22 @@ def extend_ports(
 
     port_list = port_list or list(component.ports.keys())
 
-    if extension_factory is None:
-        dummy_port = component.ports[port_list[0]]
-
-        def _ext_factory(length, width):
-            return pp.components.hline(
-                length=length, width=width, layer=dummy_port.layer
-            )
-
-        extension_factory = _ext_factory
-
-    dummy_ext = extension_factory(length=length, width=0.5)
-    port_labels = list(dummy_ext.ports.keys())
-
-    extension_port_name_input = extension_port_name_input or port_labels[0]
-    extension_port_name_output = extension_port_name_output or port_labels[-1]
-
     for port_name in component.ports.keys():
         if port_name in port_list:
             port = component.ports.get(port_name)
+
+            def extension_factory_default(length, width=port.width):
+                return pp.components.hline(length=length, width=width, layer=port.layer)
+
+            extension_factory_port = extension_factory or extension_factory_default
             extension_component = (
-                extension_factory(length=length, width=port.width)
-                if callable(extension_factory)
-                else extension_factory
+                extension_factory_port(length=length, width=port.width)
+                if callable(extension_factory_port)
+                else extension_factory_port
             )
+            port_labels = list(extension_component.ports.keys())
+            extension_port_name_input = extension_port_name_input or port_labels[0]
+            extension_port_name_output = extension_port_name_output or port_labels[-1]
 
             extension = c << extension_component
             extension.connect(extension_port_name_input, port)
