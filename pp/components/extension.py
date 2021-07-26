@@ -6,6 +6,7 @@ from numpy import ndarray
 import pp
 from pp.cell import cell
 from pp.component import Component
+from pp.components.extend_ports_list import extend_ports_list
 from pp.components.mmi1x2 import mmi1x2
 from pp.port import Port
 from pp.types import ComponentOrFactory, Coordinate, Layer
@@ -150,6 +151,9 @@ def test_extend_ports_selection() -> Component:
     ce = extend_ports(component=c, port_list=["W0", "S0", "N0"])
     assert len(c.ports) == len(ce.ports)
     return ce
+
+
+__all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
