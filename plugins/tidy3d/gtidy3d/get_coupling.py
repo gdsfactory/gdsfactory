@@ -1,12 +1,16 @@
+from typing import Tuple
 import numpy as np
+import tidy3d as td
 from tidy3d import web
 
 
-def get_transmission(sim, taskId, verbose=False):
+def get_coupling(
+    sim: td.Simulation, taskId: int, verbose: bool = True
+) -> Tuple[float, float]:
     """Adapted from tidy3d examples
     https://simulation.cloud/docs/html/examples/ParameterScan.html
 
-    Computes the transmission of a 2x2 coupler
+    Computes the transmission  and efficiency of a 2x2 coupler
     """
     # download results if the job has finished
     web.download_results(taskId, target_folder="out/")
@@ -36,10 +40,6 @@ def get_transmission(sim, taskId, verbose=False):
     split_ratio = S[0, 1] / (S[0, 1] + S[1, 1])
     efficiency = (S[0, 1] + S[1, 1]) / norm
 
-    if verbose:
-        print(f"split ratio of {(split_ratio * 100):.2f}% to top port")
-        print(f"efficiency of {(efficiency * 100):.2f}% to transmission port")
-
     return split_ratio, efficiency
 
 
@@ -49,13 +49,15 @@ if __name__ == "__main__":
     import gtidy3d as gm
 
     wg_height = 0.22
-    c = pp.components.straight(length=2)
-    sim, task_id = gm.get_simulation(c, is_3d=False)
+    c = pp.components.coupler(length=2)
+    sim, taskId = gm.get_simulation(c)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
     sim.viz_mat_2D(normal="z", position=wg_height / 2, ax=ax1)
     sim.viz_mat_2D(normal="x", ax=ax2, source_alpha=1)
     ax2.set_xlim([-3, 3])
     # plt.show()
 
-    web.monitor_project(task_id)
-    split_ratio, efficiency = get_transmission(sim, task_id, verbose=True)
+    web.monitor_project(taskId)
+    split_ratio, efficiency = get_coupling(sim, taskId)
+    print(f"split ratio of {(split_ratio * 100):.2f}% to top port")
+    print(f"efficiency of {(efficiency * 100):.2f}% to transmission port")
