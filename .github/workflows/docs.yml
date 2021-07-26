@@ -1,6 +1,5 @@
 name: build documentation
 on: [push, release]
-
 # Based on https://github.com/dfm/rtds-action/
 
 jobs:
