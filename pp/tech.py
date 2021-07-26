@@ -277,7 +277,6 @@ class Waveguides:
 
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
-    remove_layers: Tuple[Layer, ...] = (LAYER.WGCLAD,)
     background_material: str = "sio2"
     port_width: float = 3e-6
     port_height: float = 1.5e-6
