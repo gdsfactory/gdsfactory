@@ -14,9 +14,9 @@ import yaml
 
 import pp
 from pp.component import Component
-from pp.config import TECH, __version__, logger
+from pp.config import __version__, logger
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import LAYER_STACK
+from pp.tech import LAYER_STACK, SIMULATION_SETTINGS, LayerStack, SimulationSettings
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
@@ -54,7 +54,6 @@ def clean_dict(
         for k, v in d.get("layer_to_material", {}).items()
         if k in layers
     ]
-    output["remove_layers"] = [f"{k[0]}_{k[1]}" for k in d.get("remove_layers", [])]
     return output
 
 
@@ -64,7 +63,8 @@ def write(
     run: bool = True,
     overwrite: bool = False,
     dirpath: Path = pp.CONFIG["sp"],
-    layer_stack=LAYER_STACK,
+    layer_stack: LayerStack = LAYER_STACK,
+    simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
 ) -> pd.DataFrame:
     """Return and write component Sparameters from Lumerical FDTD.
@@ -79,8 +79,8 @@ def write(
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
         layer_stack: layer_stack
-        **settings
-            remove_layers: layers to remove
+        simulation_settings: dataclass with all simulation_settings
+        **settings: overwrite any simulation setting
             background_material: for the background
             port_width: port width (m)
             port_height: port height (m)
@@ -88,6 +88,8 @@ def write(
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
             zmargin: for the FDTD region 1e-6 (m)
             ymargin: for the FDTD region 2e-6 (m)
+            xmargin: for the FDTD region
+            pml_margin: for all the FDTD region
             wavelength_start: 1.2e-6 (m)
             wavelength_stop: 1.6e-6 (m)
             wavelength_points: 500
@@ -97,7 +99,7 @@ def write(
         suffix `a` for angle and `m` for module
 
     """
-    sim_settings = dataclasses.asdict(TECH.simulation_settings)
+    sim_settings = dataclasses.asdict(simulation_settings)
     layer_to_thickness_nm = layer_stack.get_layer_to_thickness_nm()
     layer_to_zmin_nm = layer_stack.get_layer_to_zmin_nm()
     layer_to_material = layer_stack.get_layer_to_material()
