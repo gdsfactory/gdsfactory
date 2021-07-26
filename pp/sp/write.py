@@ -125,10 +125,13 @@ def write(
 
     ports = component.ports
 
+    component = component.copy()
     component.remove_layers(component.layers - set(layer_to_thickness_nm.keys()))
     component._bb_valid = False
 
     c = pp.extend.extend_ports(component=component, length=ss.port_extension_um)
+    c.flatten()
+    c.name = "top"
     c.show()
     gdspath = c.write_gds()
 
@@ -151,21 +154,20 @@ def write(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    pe = ss.port_extension_um * 1e-6 / 2
-    x_min = c.xmin * 1e-6 + pe
-    x_max = c.xmax * 1e-6 - pe
+    x_min = component.xmin * 1e-6 - ss.xmargin - ss.pml_margin
+    x_max = component.xmax * 1e-6 + ss.xmargin + ss.pml_margin
 
-    y_min = c.ymin * 1e-6 - ss.ymargin
-    y_max = c.ymax * 1e-6 + ss.ymargin
+    y_min = component.ymin * 1e-6 - ss.ymargin - ss.pml_margin
+    y_max = component.ymax * 1e-6 + ss.ymargin + ss.pml_margin
 
     port_orientations = [p.orientation for p in ports.values()]
-    if 90 in port_orientations and len(ports) > 2:
-        y_max = c.ymax * 1e-6 - pe
-        x_max = c.xmax * 1e-6
 
-    elif 90 in port_orientations:
-        y_max = c.ymax * 1e-6 - pe
-        x_max = c.xmax * 1e-6 + ss.ymargin
+    # bend
+    if 90 in port_orientations:
+        y_max -= ss.ymargin
+
+    if 270 in port_orientations:
+        y_min += ss.ymargin
 
     z = 0
     z_span = 2 * ss.zmargin + max(layer_to_thickness_nm.values()) * 1e-9
@@ -234,12 +236,12 @@ def write(
         if layer not in layer_to_material:
             raise ValueError(f"{layer} not in {layer_to_material.keys()}")
 
-        material = layer_to_material[layer]
-        if material not in MATERIAL_NAME_TO_LUMERICAL:
+        material_name = layer_to_material[layer]
+        if material_name not in MATERIAL_NAME_TO_LUMERICAL:
             raise ValueError(
-                f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+                f"{material_name} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
             )
-        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material]
+        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material_name]
 
         if layer not in layer_to_zmin_nm:
             raise ValueError(f"{layer} not in {list(layer_to_zmin_nm.keys())}")
@@ -248,7 +250,7 @@ def write(
         zmax = zmin + thickness * 1e-9
         z = (zmax + zmin) / 2
 
-        s.gdsimport(str(gdspath), c.name, f"{layer[0]}:{layer[1]}")
+        s.gdsimport(str(gdspath), "top", f"{layer[0]}:{layer[1]}")
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z)
         s.setnamed(layername, "z span", thickness * 1e-9)
@@ -283,7 +285,7 @@ def write(
             injection_axis = "x-axis"
             dxp = 0
             dyp = ss.port_width
-        elif 180 + 45 < deg < -45:
+        elif 180 + 45 < deg < 180 + 45 + 90:
             direction = "Forward"
             injection_axis = "y-axis"
             dxp = ss.port_width
