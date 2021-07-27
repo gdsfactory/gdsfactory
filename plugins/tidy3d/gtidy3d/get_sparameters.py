@@ -1,25 +1,18 @@
-from typing import Tuple
 import numpy as np
 import tidy3d as td
-from tidy3d import web
+
+from gtidy3d.run_simulation import run_simulation
 
 
-def get_sparameters(
-    sim: td.Simulation, taskId: int, verbose: bool = True
-) -> Tuple[float, float]:
+def get_sparameters(sim: td.Simulation) -> np.ndarray:
     """Adapted from tidy3d examples.
 
-    Returns full Smatrix
+    Returns full Smatrix for a component
 
     https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
     """
-    # download results if the job has finished
-    web.download_results(taskId, target_folder="out/")
-    if verbose:
-        web.monitor_project(taskId)
-        with open("out/tidy3d.log") as f:
-            print(f.read())
-    sim.load_results("out/monitor_data.hdf5")
+
+    sim = run_simulation(sim)
 
     def get_power(monitor):
         f, b = sim.data(monitor)["mode_amps"]
@@ -27,7 +20,6 @@ def get_sparameters(
         return F, B
 
     monitors = sim.monitors
-
     norm, _ = get_power(monitors[1])
     norm = np.squeeze(norm)
 
@@ -51,18 +43,9 @@ def get_sparameters(
 
 if __name__ == "__main__":
     import pp
-    import matplotlib.pyplot as plt
     import gtidy3d as gm
 
-    wg_height = 0.22
     c = pp.components.straight(length=2)
-    sim, taskId = gm.get_simulation(c)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-    sim.viz_mat_2D(normal="z", position=wg_height / 2, ax=ax1)
-    sim.viz_mat_2D(normal="x", ax=ax2, source_alpha=1)
-    ax2.set_xlim([-3, 3])
-    # plt.show()
-
-    web.monitor_project(taskId)
-    s = get_sparameters(sim, taskId)
+    sim = gm.get_simulation(c)
+    s = get_sparameters(sim)
     print(s)

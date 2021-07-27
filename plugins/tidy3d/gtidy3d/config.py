@@ -34,10 +34,11 @@ class Path:
     module = module_path
     repo = repo_path
     sparameters = repo_path / "sparameters"
-    results = repo_path / "results"
+    results = home / ".tidy3d"
 
 
 PATH = Path()
+PATH.results.mkdir(exist_ok=True)
 
 __all__ = ["PATH"]
 if __name__ == "__main__":
