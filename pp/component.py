@@ -594,6 +594,7 @@ class Component(Device):
         - component name number of characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
+        assert isinstance(v, Component)
         assert (
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
