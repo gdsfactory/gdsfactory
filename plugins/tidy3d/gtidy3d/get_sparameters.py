@@ -12,7 +12,7 @@ def get_sparameters(sim: td.Simulation) -> np.ndarray:
     https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
     """
 
-    sim = run_simulation(sim)
+    sim = run_simulation(sim).result()
 
     def get_amplitude(monitor):
         f, b = sim.data(monitor)["mode_amps"]
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # s = get_sparameters(sim)
     # print(s)
 
-    sim = run_simulation(sim)
+    sim = run_simulation(sim).result()
 
     def get_amplitude(monitor):
         f, b = sim.data(monitor)["mode_amps"]

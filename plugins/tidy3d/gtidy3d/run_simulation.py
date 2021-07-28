@@ -1,10 +1,18 @@
-from typing import Optional
+"""
+
+"""
+
+from typing import Optional, Awaitable
+import pathlib
 import hashlib
 import json
 import tidy3d as td
 from tidy3d import web
+import concurrent.futures
 
 from gtidy3d.config import logger, PATH
+
+_executor = concurrent.futures.ThreadPoolExecutor()
 
 
 def _export_simulation(
@@ -38,55 +46,66 @@ def get_sim_hash(sim: td.Simulation) -> str:
     return sim_hash
 
 
-def run_simulation(sim: td.Simulation, wait_to_complete: bool = True) -> td.Simulation:
-    """Runs simulation.
+def load_results(
+    sim: td.Simulation, target: pathlib.Path, task_id: Optional[str] = None
+) -> td.Simulation:
+    """Load results from HDF5 file. Returns a simulation that includes results.
 
-    Only creates and submits simulation if results not found locally or remotely.
+    Args:
+        sim: Simulation
+        target: path
+        task_id: Optional task Id
     """
+
+    if task_id:
+        web.monitor_project(task_id)
+        src = "monitor_data.hdf5"
+        web.download_results_file(task_id=task_id, src=src, target=str(target))
+
+    sim.load_results(target)
+    return sim
+
+
+def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
+    """Returns a simulation with simulation results
+
+    Only submits simulation if results not found locally or remotely.
+
+    First tries to load simulation results from disk.
+    Then it tries to load them from the server storage.
+    Finally, only submits simulation if not found
+
+
+    .. code::
+        import gtidy3d as gm
+
+        component = pp.components.straight(length=3)
+        sim = gm.get_simulation(component=component)
+        sim = run_simulation(sim).result()
+
+    """
+    td.logging_level("error")
     sim_hash = get_sim_hash(sim)
     sim_path = PATH.results / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash}")
 
     hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_last_projects()}
+    target = PATH.results / f"{sim_hash}.hdf5"
 
     # Try from local storage
     if sim_path.exists():
-        logger.info(f"{sim_path} exists, loading it directly")
-        target = PATH.results / f"{sim_hash}.hdf5"
-        sim.load_results(target)
-        # sim = td.Simulation.import_json("out/simulation.json")
+        logger.info(f"{sim_path} found in local storage")
+        sim = _executor.submit(load_results, sim, target)
 
     # Try from server storage
     elif sim_hash in hash_to_id:
         task_id = hash_to_id[sim_hash]
-        logger.info(f"downloading task_id = {task_id} with hash {sim_hash}")
-
-        src = "tidy3d.log"
-        target = PATH.results / f"{sim_hash}.log"
-        web.download_results_file(task_id=task_id, src=src, target=str(target))
-
-        src = "monitor_data.hdf5"
-        target = PATH.results / f"{sim_hash}.hdf5"
-        web.download_results_file(task_id=task_id, src=src, target=str(target))
+        sim = _executor.submit(load_results, sim, target, task_id)
 
     # Only submit if simulation not found
     else:
         task_id = _export_simulation(sim=sim, task_name=sim_hash)
-
-        if wait_to_complete:
-            web.monitor_project(task_id)
-            src = "tidy3d.log"
-            target = PATH.results / f"{sim_hash}.log"
-            web.download_results_file(task_id=task_id, src=src, target=str(target))
-
-            src = "monitor_data.hdf5"
-            target = PATH.results / f"{sim_hash}.hdf5"
-            web.download_results_file(task_id=task_id, src=src, target=str(target))
-            sim.load_results(target)
-        else:
-            logger.info(
-                f"Adding simulation with task_id = {task_id} to the simulation queue"
-            )
+        sim = _executor.submit(load_results, sim, target, task_id)
     return sim
 
 
@@ -94,11 +113,11 @@ if __name__ == "__main__":
     import pp
     import gtidy3d as gm
 
-    for length in [1, 5]:
-        component = pp.components.straight(length=length)
-        sim = gm.get_simulation(component=component)
-        run_simulation(sim, wait_to_complete=False)
+    # for length in range(12, 13):
+    #     component = pp.components.straight(length=length)
+    #     sim = gm.get_simulation(component=component)
+    #     s = run_simulation(sim, wait_to_complete=False)
 
-    # component = pp.components.straight(length=3)
-    # sim = gm.get_simulation(component=component)
-    # sim = run_simulation(sim)
+    component = pp.components.straight(length=3)
+    sim = gm.get_simulation(component=component)
+    sim = run_simulation(sim).result()
