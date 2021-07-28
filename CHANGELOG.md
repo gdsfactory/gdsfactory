@@ -28,6 +28,10 @@ from contracts import contract
 
 
 ```
+## 2.7.6
+
+- add Component.to_dict()
+
 
 ## 2.7.5
 

@@ -1158,6 +1158,22 @@ class Component(Device):
         # json_path.write_text( OmegaConf.to_container(metadata))
         return gdspath
 
+    def to_dict(self) -> Dict[str, Any]:
+        d = {}
+        d["polygons"] = {}
+        d["ports"] = {}
+        layer_to_polygons = self.get_polygons(by_spec=True)
+
+        for layer, polygons in layer_to_polygons.items():
+            for polygon in polygons:
+                d["polygons"][layer] = [tuple(v) for v in polygon]
+
+        for port in self.get_ports_list():
+            d["ports"][port.name] = port.settings
+
+        d["settings"] = self.get_settings()["settings"]
+        return d
+
 
 def test_get_layers() -> None:
     import pp
