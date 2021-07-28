@@ -25,6 +25,7 @@ from typing import Any, Iterable, Optional, Union
 import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
+from phidl.quickplotter import set_quickplot_options
 
 from pp.tech import TECH
 
@@ -172,6 +173,25 @@ def get_git_hash():
             )
     except subprocess.CalledProcessError:
         return "not_a_git_repo"
+
+
+def set_plot_options(
+    show_ports: bool = True,
+    show_subports: bool = False,
+    label_aliases: bool = False,
+    new_window: bool = False,
+    blocking: bool = False,
+    zoom_factor: float = 1.4,
+):
+    """Set plot options for matplotlib"""
+    set_quickplot_options(
+        show_ports=show_ports,
+        show_subports=show_subports,
+        label_aliases=label_aliases,
+        new_window=new_window,
+        blocking=blocking,
+        zoom_factor=zoom_factor,
+    )
 
 
 if __name__ == "__main__":
