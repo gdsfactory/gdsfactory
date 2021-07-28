@@ -1,4 +1,4 @@
-# gdsfactory 2.7.4
+# gdsfactory 2.7.5
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
