@@ -23,33 +23,30 @@ def get_sparameters(sim: td.Simulation) -> np.ndarray:
     n = len(monitors) - 1
     S = np.zeros((n, n), dtype=np.complex128)
 
-    for i, monitor_i in enumerate(monitors):
-        for j, monitor_j in enumerate(monitors):
-            if i > 0 and j > 0:
-                if monitor_i.name.startswith("W"):
-                    ai, bi = get_amplitude(monitor_i)
-                else:
-                    bi, ai = get_amplitude(monitor_i)
-                if monitor_j.name.startswith("W"):
-                    aj, bj = get_amplitude(monitor_j)
-                else:
-                    bj, aj = get_amplitude(monitor_j)
-                S[i - i, j - 1] = bi / aj
+    # for i, monitor_i in enumerate(monitors):
+    #     for j, monitor_j in enumerate(monitors):
+    #         if i > 0 and j > 0:
+    #             if monitor_i.name.startswith("W"):
+    #                 ai, bi = get_amplitude(monitor_i)
+    #             else:
+    #                 bi, ai = get_amplitude(monitor_i)
+    #             if monitor_j.name.startswith("W"):
+    #                 aj, bj = get_amplitude(monitor_j)
+    #             else:
+    #                 bj, aj = get_amplitude(monitor_j)
+    #             S[i - i, j - 1] = bi / aj
 
-    # if len(monitors) == 5:
-    #     _, incident, reflect, top, bot = monitors
-    #     S = np.zeros((2, 2))
-    #     S[0, 0] = get_amplitude(incident)[-1]
-    #     S[1, 0] = get_amplitude(reflect)[-1]
-    #     S[0, 1] = get_amplitude(top)[0]
-    #     S[1, 1] = get_amplitude(bot)[0]
+    if len(monitors) == 5:
+        _, incident, reflect, top, bot = monitors
+        S[0, 0] = get_amplitude(incident)[-1]
+        S[1, 0] = get_amplitude(reflect)[-1]
+        S[0, 1] = get_amplitude(top)[0]
+        S[1, 1] = get_amplitude(bot)[0]
 
-    # elif len(monitors) == 3:
-    #     _, incident, reflect = monitors
-    #     S = np.zeros((2, 2))
-    #     S[0, 0] = S[1, 1] = get_amplitude(incident)[-1]
-    #     S[1, 0] = S[0, 1] = get_amplitude(reflect)[-1]
-    # S = S / norm
+    elif len(monitors) == 3:
+        _, incident, reflect = monitors
+        S[0, 0] = S[1, 1] = get_amplitude(incident)[-1]
+        S[1, 0] = S[0, 1] = get_amplitude(reflect)[-1]
     return S
 
 

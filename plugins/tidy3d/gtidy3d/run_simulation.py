@@ -13,7 +13,7 @@ def _export_simulation(
     folder_name: str = "default",
     draft: bool = False,
 ) -> int:
-    """Exports simulation to web and returns taskId.
+    """Exports simulation to web and returns task_id.
 
     Args:
         sim: simulation object
@@ -26,9 +26,9 @@ def _export_simulation(
     project = web.new_project(
         sim.export(), task_name=task_name, folder_name=folder_name, draft=draft
     )
-    taskId = project["taskId"]
-    logger.info(f"submitting {taskId}")
-    return taskId
+    task_id = project["taskId"]
+    logger.info(f"submitting {task_id}")
+    return task_id
 
 
 def get_sim_hash(sim: td.Simulation) -> str:
@@ -38,34 +38,55 @@ def get_sim_hash(sim: td.Simulation) -> str:
     return sim_hash
 
 
-def run_simulation(sim: td.Simulation) -> td.Simulation:
-    """If simulation exists, runs simulation.
+def run_simulation(sim: td.Simulation, wait_to_complete: bool = True) -> td.Simulation:
+    """Runs simulation.
 
-    Only creates and submitts new project if simulation results are found locally.
+    Only creates and submits simulation if results not found locally or remotely.
     """
     sim_hash = get_sim_hash(sim)
     sim_path = PATH.results / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash}")
 
+    hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_last_projects()}
+
+    # Try from local storage
     if sim_path.exists():
         logger.info(f"{sim_path} exists, loading it directly")
         target = PATH.results / f"{sim_hash}.hdf5"
         sim.load_results(target)
         # sim = td.Simulation.import_json("out/simulation.json")
 
-    else:
-        taskId = _export_simulation(sim=sim, task_name=sim_hash)
-        web.monitor_project(taskId)
+    # Try from server storage
+    elif sim_hash in hash_to_id:
+        task_id = hash_to_id[sim_hash]
+        logger.info(f"downloading task_id = {task_id} with hash {sim_hash}")
 
         src = "tidy3d.log"
         target = PATH.results / f"{sim_hash}.log"
-        web.download_results_file(task_id=taskId, src=src, target=str(target))
+        web.download_results_file(task_id=task_id, src=src, target=str(target))
 
         src = "monitor_data.hdf5"
         target = PATH.results / f"{sim_hash}.hdf5"
-        web.download_results_file(task_id=taskId, src=src, target=str(target))
+        web.download_results_file(task_id=task_id, src=src, target=str(target))
 
-        sim.load_results(target)
+    # Only submit if simulation not found
+    else:
+        task_id = _export_simulation(sim=sim, task_name=sim_hash)
+
+        if wait_to_complete:
+            web.monitor_project(task_id)
+            src = "tidy3d.log"
+            target = PATH.results / f"{sim_hash}.log"
+            web.download_results_file(task_id=task_id, src=src, target=str(target))
+
+            src = "monitor_data.hdf5"
+            target = PATH.results / f"{sim_hash}.hdf5"
+            web.download_results_file(task_id=task_id, src=src, target=str(target))
+            sim.load_results(target)
+        else:
+            logger.info(
+                f"Adding simulation with task_id = {task_id} to the simulation queue"
+            )
     return sim
 
 
@@ -73,6 +94,11 @@ if __name__ == "__main__":
     import pp
     import gtidy3d as gm
 
-    component = pp.components.straight(length=3)
-    sim = gm.get_simulation(component=component)
-    sim = run_simulation(sim)
+    for length in [1, 5]:
+        component = pp.components.straight(length=length)
+        sim = gm.get_simulation(component=component)
+        run_simulation(sim, wait_to_complete=False)
+
+    # component = pp.components.straight(length=3)
+    # sim = gm.get_simulation(component=component)
+    # sim = run_simulation(sim)

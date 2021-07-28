@@ -55,7 +55,6 @@ def get_simulation(
     tpml: float = 1.0,
     clad_material: str = "SiO2",
     port_source_name: str = "W0",
-    port_field_monitor_name: str = "E0",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
     mesh_step: float = 0.040,
@@ -78,7 +77,6 @@ def get_simulation(
         clad_material: material for cladding
         sidewall_angle: in degrees
         port_source_name: input port name
-        port_field_monitor_name:
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
         mesh_step: in all directions
