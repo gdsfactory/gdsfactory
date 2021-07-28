@@ -5,6 +5,7 @@ FIXME, zmin_um does not work
 
 """
 from typing import Any, Dict, Optional, Tuple
+import warnings
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -85,7 +86,14 @@ def get_simulation(
         pp.show(cm)
 
     """
-    assert port_source_name in component.ports
+    if port_source_name not in component.ports:
+        warnings.warn(
+            f"port_source_name={port_source_name} not in {component.ports.keys()}"
+        )
+        port_source = component.get_ports_list()[0]
+        port_source_name = port_source.name
+        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+
     assert isinstance(
         component, Component
     ), f"component needs to be a gdsfactory Component, got Type {type(component)}"
