@@ -1158,6 +1158,23 @@ class Component(Device):
         # json_path.write_text( OmegaConf.to_container(metadata))
         return gdspath
 
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns a dict representation of the compoment."""
+        d = {}
+        d["polygons"] = {}
+        d["ports"] = {}
+        layer_to_polygons = self.get_polygons(by_spec=True)
+
+        for layer, polygons in layer_to_polygons.items():
+            for polygon in polygons:
+                d["polygons"][layer] = [tuple(snap_to_grid(v)) for v in polygon]
+
+        for port in self.get_ports_list():
+            d["ports"][port.name] = port.settings
+
+        d["settings"] = self.get_settings()["settings"]
+        return d
+
 
 def test_get_layers() -> None:
     import pp
@@ -1370,11 +1387,16 @@ if __name__ == "__main__":
         length=10,
         width=0.5,
     )
+    print(c.to_dict())
+    d = OmegaConf.create(c.to_dict())
+    print(d)
+
     # c = Component()
     # c.name = "hi"
-    gdspath = c.write_gds("extra/wg.gds")
-    h = hash_file(gdspath)
-    print(h)
+    # gdspath = c.write_gds("extra/wg.gds")
+    # c.hash_geometry()
+    # h = hash_file(gdspath)
+    # print(h)
 
     # c2 = c.extract(layers=[(1, 0)])
     # c = test_get_layers()

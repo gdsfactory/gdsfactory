@@ -28,6 +28,11 @@ from contracts import contract
 
 
 ```
+## 2.7.6
+
+- add Component.to_dict()
+- add pp.config.set_plot_options for configuring matplotlib
+
 
 ## 2.7.5
 
