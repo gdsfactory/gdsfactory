@@ -1,6 +1,6 @@
 -e .
 click
-gdspy==1.6.6
+gdspy==1.6.7
 omegaconf==2.1.0
 jsondiff
 klayout==0.27.1
@@ -9,11 +9,11 @@ pandas
 phidl==1.5.2
 picwriter==0.5
 Pyqtree==1.0.0
-qrcode==6.1
+qrcode==7.2
 rectpack==0.2.1
 scipy
 Shapely==1.7.1
-networkx==2.5.1
+networkx==2.6.2
 matplotlib
 pytest==6.2.4
 pytest-regressions==2.2.0
