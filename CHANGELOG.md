@@ -31,7 +31,7 @@ from contracts import contract
 - add pp.config.set_plot_options for configuring matplotlib
 - add pp.Component.add_ports(port_list)
 - enable in pp.name the option of passing a partial function
-- create partial notebook (for functional programming) demonstrating hierarchical components with customized subcomponents
+- create partial notebook (for functional programming) demonstrating hierarchical components with customized subcomponent functions
 - revert mzi and mzi_lattice to 2.5.3 (functional programming version)
 - delete mzi_arm, mzi2x2 and mzi1x2
 - add mzi_phase_shifter
