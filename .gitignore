@@ -5,6 +5,7 @@
 *.ports
 *.properties
 *.sqlite3
+*.hdf5
 .pyre_configuration
 
 # Packages
