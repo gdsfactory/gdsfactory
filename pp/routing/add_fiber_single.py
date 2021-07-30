@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Callable, Optional, Tuple
 
 from pp.add_labels import get_input_label_text, get_input_label_text_loopback
@@ -7,11 +8,11 @@ from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
+from pp.components.taper import taper
 from pp.config import TECH, call_if_func
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
 from pp.routing.route_fiber_single import route_fiber_single
-from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
@@ -23,7 +24,8 @@ def add_fiber_single(
     fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
-    taper: StrOrDict = "taper",
+    taper_factory: ComponentFactory = taper,
+    taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -31,7 +33,6 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
     waveguide: StrOrDict = "strip",
-    library: Library = LIBRARY,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     **waveguide_settings,
@@ -113,19 +114,18 @@ def add_fiber_single(
     optical_ports = component.get_ports_list(port_type="optical")
     port_width_component = optical_ports[0].width
 
-    if taper and port_width_component != port_width_gc:
-        taper = (
-            taper
-            if isinstance(taper, dict)
-            else dict(
-                component=taper,
-                width1=port_width_gc,
-                width2=port_width_component,
-                waveguide=waveguide,
-                **waveguide_settings,
-            )
+    if port_width_component != port_width_gc:
+        taper = partial(
+            taper_factory,
+            length=taper_length,
+            width1=port_width_gc,
+            width2=port_width_component,
+            **waveguide_settings,
         )
-        component = add_tapers(component=component, taper=taper, library=library)
+        component = add_tapers(
+            component=component,
+            taper=taper,
+        )
 
     c = Component()
     cr = c << component
@@ -246,14 +246,13 @@ if __name__ == "__main__":
     import pp
 
     waveguide = "nitride"
-    c = pp.components.crossing()
-    c = pp.components.mmi1x2()
-    c = pp.components.rectangle()
-    c = pp.components.mzi(length_x=50)
-    c = pp.components.ring_single()
-    c = pp.components.straight(length=500, waveguide=waveguide)
-    c = pp.components.mzi2x2(with_elec_connections=True)
-    c = pp.components.straight(length=500)
+    # c = pp.components.crossing()
+    # c = pp.components.mmi1x2()
+    # c = pp.components.rectangle()
+    # c = pp.components.ring_single()
+    # c = pp.components.straight(length=500, waveguide=waveguide)
+    # c = pp.components.mzi()
+    # c = pp.components.straight(length=500)
 
     gc = pp.components.grating_coupler_elliptical_te
     # gc = pp.components.grating_coupler_elliptical2

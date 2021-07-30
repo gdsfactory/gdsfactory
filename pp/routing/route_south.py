@@ -245,7 +245,6 @@ def route_south(
 if __name__ == "__main__":
     import pp
 
-    c = pp.components.mzi2x2()
     c = pp.components.mmi2x2()
     c = pp.components.ring_single()
     c = pp.components.ring_double()

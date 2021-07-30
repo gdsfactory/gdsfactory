@@ -23,5 +23,5 @@ settings:
       with_splitter: true
   component_name: null
   gc_port_name: W0
-  taper: taper
+  taper_length: 10
   waveguide: strip

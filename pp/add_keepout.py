@@ -65,7 +65,6 @@ if __name__ == "__main__":
 
     # c = crossing45(alpha=0.5, crossing=crossing_etched)
     # c = straight()
-    # c = pp.components.mzi2x2()
 
     # target_layers = [LAYER.WG]
     # keepout_layers = [LAYER.SLAB150]

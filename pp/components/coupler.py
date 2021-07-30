@@ -52,7 +52,9 @@ def coupler(
 
     waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
 
-    sbend = coupler_symmetric_factory(gap=gap, dy=dy, dx=dx, **waveguide_settings)
+    sbend = coupler_symmetric_factory(
+        gap=gap, dy=dy, dx=dx, waveguide=waveguide, **waveguide_settings
+    )
 
     sr = c << sbend
     sl = c << sbend

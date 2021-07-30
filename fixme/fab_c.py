@@ -68,7 +68,7 @@ TECH.waveguide.fabc_nitride_cband = NITRIDE_CBAND
 TECH.waveguide.fabc_nitride_oband = NITRIDE_OBAND
 
 
-def add_pins(
+def add_pins_custom(
     component: Component,
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
@@ -120,7 +120,6 @@ def mmi1x2_nitride_cband(
         waveguide=waveguide,
         **kwargs,
     )
-    add_pins(c)
     return c
 
 
@@ -147,14 +146,12 @@ def mmi1x2_nitride_oband(
         waveguide=waveguide,
         **kwargs,
     )
-    add_pins(c)
     return c
 
 
 @cell
 def bend_euler(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins(c)
     return c
 
 
@@ -163,19 +160,17 @@ def bend_euler_cband(
     waveguide: StrOrDict = "fabc_nitride_cband", **kwargs
 ) -> Component:
     c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins(c)
     return c
 
 
 @cell
 def straight_cband(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
     c = pp.c.straight(waveguide=waveguide, **kwargs)
-    add_pins(c)
     return c
 
 
 TECH_FABC = Tech(name="fab_c")
-LIBRARY = Library(name="fab_c")
+LIBRARY = Library(name="fab_c", post_init=add_pins_custom)
 LIBRARY.register(
     [mmi1x2_nitride_cband, mmi1x2_nitride_oband, bend_euler_cband, straight_cband]
 )
@@ -208,11 +203,6 @@ LIBRARY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 
 if __name__ == "__main__":
-    # LIBRARY.write_rst(
-    #     filepath="doc.rst", import_library="from pp.samples.pdk.fab_c import LIBRARY"
-    # )
-    # print(mzi_nitride_cband.__doc__)
-
     mzi = mzi_nitride_cband()
     gc = pp.c.grating_coupler_elliptical_te(
         wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
@@ -220,8 +210,8 @@ if __name__ == "__main__":
     mzi_gc = pp.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc,
-        # waveguide=dict(component="fabc_nitride_cband", width=3), # FIXME
-        waveguide="fabc_nitride_cband",
+        waveguide=dict(component="fabc_nitride_cband", width=3),  # FIXME
+        # waveguide="fabc_nitride_cband" , # works
         optical_routing_type=1,
         bend_factory=bend_euler_cband,
     )

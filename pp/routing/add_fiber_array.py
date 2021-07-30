@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Optional
 
 import pp
@@ -6,8 +7,8 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
+from pp.components.taper import taper
 from pp.routing.route_fiber_array import route_fiber_array
-from pp.tech import LIBRARY, Library
 from pp.types import ComponentFactory, StrOrDict
 
 
@@ -19,9 +20,9 @@ def add_fiber_array(
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
-    taper: StrOrDict = "taper",
+    taper_factory: ComponentFactory = taper,
+    taper_length: float = 10.0,
     waveguide: StrOrDict = "strip",
-    library: Library = LIBRARY,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -95,21 +96,17 @@ def add_fiber_array(
         return c
     port_width_component = optical_ports[0].width
 
-    if taper and port_width_component != port_width_gc:
-        taper = (
-            taper
-            if isinstance(taper, dict)
-            else dict(
-                component=taper,
-                width1=port_width_gc,
-                width2=port_width_component,
-                waveguide=waveguide,
-            )
+    if port_width_component != port_width_gc:
+        taper = partial(
+            taper_factory,
+            length=taper_length,
+            width1=port_width_gc,
+            width2=port_width_component,
         )
-        c = add_tapers(component=c, taper=taper, library=library)
-
-    # for pn, p in c.ports.items():
-    #     print(p.name, p.port_type, p.layer)
+        component = add_tapers(
+            component=component,
+            taper=taper,
+        )
 
     elements, io_gratings_lines, _ = route_fiber_array(
         component=c,
@@ -172,20 +169,16 @@ if __name__ == "__main__":
     # cc = demo_tapers()
     # cc = test_type1()
     # pprint(cc.get_json())
-
     # c = pp.components.coupler(gap=0.2, length=5.6)
-
-    c = pp.components.straight()
-    c = pp.components.straight(length=1, width=2)
-    c = pp.components.mmi2x2()
+    # c = pp.components.straight()
+    # c = pp.components.straight(length=1, width=2)
+    # c = pp.components.mmi2x2()
     c = pp.components.ring_single()
-    c = pp.components.mzi2x2()
-    c = pp.components.mzi2x2(with_elec_connections=True)
 
     c.y = 0
     cc = add_fiber_array(
         component=c,
-        # optical_routing_type=0,  # needs fix for mzi2x2
+        # optical_routing_type=0,
         # optical_routing_type=1,
         # optical_routing_type=2,
         # layer_label=layer_label,

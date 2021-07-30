@@ -71,7 +71,6 @@ def fanout2x2(
 
 
 if __name__ == "__main__":
-    # c = pp.components.mzi2x2(with_elec_connections=True)
     # c =pp.components.coupler(gap=1.0)
     c = pp.c.nxn(west=4)
 

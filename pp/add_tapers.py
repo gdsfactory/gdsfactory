@@ -2,24 +2,23 @@ from typing import List, Tuple
 
 import pp
 from pp.component import Component, ComponentReference
+from pp.components.taper import taper as taper_function
 from pp.port import Port, auto_rename_ports
-from pp.tech import LIBRARY, Library
-from pp.types import StrOrDict
+from pp.types import ComponentFactory
 
 
 def add_taper_elements(
     component: Component,
-    taper: StrOrDict = "taper",
+    taper: ComponentFactory = taper_function,
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
     port_type: str = "optical",
-    library: Library = LIBRARY,
 ) -> Tuple[List[Port], List[ComponentReference]]:
-    """Returns ports and taper elements to taper a component"""
+    """Returns ports and taper references."""
     ports = []
     elements = []
 
-    taper_component = library.get_component(taper)
+    taper_component = taper()
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
             f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
@@ -41,17 +40,16 @@ def add_taper_elements(
 @pp.cell
 def add_tapers(
     component: Component,
-    taper: StrOrDict = "taper",
+    taper: ComponentFactory = taper_function,
     port_type: str = "optical",
     waveguide="strip",
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
     with_auto_rename: bool = False,
-    library: Library = LIBRARY,
 ) -> Component:
     """Returns component with tapers."""
 
-    taper_component = library.get_component(taper)
+    taper_component = taper()
     if taper_port_name1 not in taper_component.ports:
         raise ValueError(
             f"{taper_port_name1} not in {list(taper_component.ports.keys())}"
@@ -62,7 +60,7 @@ def add_tapers(
         )
     c = pp.Component()
 
-    for port_name, port in component.ports.copy().items():
+    for port_name, port in component.ports.items():
         if port.port_type == port_type:
             taper_ref = c << taper_component
             taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
@@ -76,8 +74,11 @@ def add_tapers(
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     c0 = pp.components.straight(width=2)
-    t = dict(component="taper", width2=2)
+
+    t = partial(taper_function, width2=2)
     c1 = add_tapers(component=c0, taper=t)
     c1.show()
 

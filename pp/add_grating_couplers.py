@@ -73,7 +73,6 @@ if __name__ == "__main__":
     # print(c.get_property('wavelength'))
 
     c = pp.components.straight(width=2)
-    c = pp.components.mzi2x2(with_elec_connections=True)
     # cc = add_grating_couplers(c)
     cc = add_tm(c)
     print(cc)

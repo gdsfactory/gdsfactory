@@ -507,7 +507,6 @@ def demo():
 
     c = pp.components.straight(length=500)
     c = pp.components.mmi2x2()
-    c = pp.components.mzi2x2()
 
     elements, gc, _ = route_fiber_array(
         component=c,
