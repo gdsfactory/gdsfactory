@@ -491,7 +491,7 @@ def auto_rename_ports(component: Device) -> Device:
     type_to_ports_naming_functions = {
         "optical": _rename_ports_facing_side,
         "heater": lambda _d: _counter_clockwise(_d, "H_"),
-        "dc": lambda _d: _counter_clockwise(_d, "E_"),
+        "dc": lambda _d: _counter_clockwise(_d, "DC_"),
         "superconducting": lambda _d: _counter_clockwise(_d, "SC_"),
         "vertical_te": lambda _d: _counter_clockwise(_d, "vertical_te_"),
         "vertical_tm": lambda _d: _counter_clockwise(_d, "vertical_tm_"),

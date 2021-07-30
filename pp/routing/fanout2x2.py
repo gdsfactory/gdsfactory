@@ -23,7 +23,10 @@ def fanout2x2(
 
     """
 
-    comp = component() if callable(component) else component
+    c = pp.Component()
+
+    component = component() if callable(component) else component
+    comp = c << component
     comp.movey(-comp.y)
 
     if bend_length is None:
@@ -39,8 +42,6 @@ def fanout2x2(
     y0 = p_e1[1]
 
     dy = y - y0
-    c = pp.Component()
-    c << comp
 
     control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)]
 

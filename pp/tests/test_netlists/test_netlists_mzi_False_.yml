@@ -1,7 +1,7 @@
 connections:
   bend_euler_19p375_4p0,N0: straight_L100n_22p75_10p675,W0
-  bend_euler_19p375_4p0,W0: mmi1x2_0cbef3fd_0p0_0p0,E1
-  bend_euler_19p375_m4p0,N0: mmi1x2_0cbef3fd_0p0_0p0,E0
+  bend_euler_19p375_4p0,W0: mmi1x2_0p0_0p0,E1
+  bend_euler_19p375_m4p0,N0: mmi1x2_0p0_0p0,E0
   bend_euler_19p375_m4p0,W0: straight_L100n_22p75_m10p675,W0
   bend_euler_26p125_17p35,N0: straight_L100n_22p75_10p675,E0
   bend_euler_26p125_17p35,W0: straight_L100n_32p8_20p725,W0
@@ -11,10 +11,10 @@ connections:
   bend_euler_39p475_17p35,W0: straight_L100n_42p85_10p675,W0
   bend_euler_39p475_m22p35,N0: straight_L5_42p85_m13p225,W0
   bend_euler_39p475_m22p35,W0: straight_L100n_32p8_m25p725,E0
-  bend_euler_46p225_4p0,N0: mmi1x2_0cbef3fd_65p6_m0p0,E0
+  bend_euler_46p225_4p0,N0: mmi1x2_65p6_m0p0,E0
   bend_euler_46p225_4p0,W0: straight_L100n_42p85_10p675,E0
   bend_euler_46p225_m4p0,N0: straight_L100n_42p85_m10p675,E0
-  bend_euler_46p225_m4p0,W0: mmi1x2_0cbef3fd_65p6_m0p0,E1
+  bend_euler_46p225_m4p0,W0: mmi1x2_65p6_m0p0,E1
   straight_L100n_22p75_m10p675,E0: straight_L5_22p75_m13p225,W0
   straight_L100n_42p85_m10p675,W0: straight_L5_42p85_m13p225,E0
 instances:
@@ -42,28 +42,12 @@ instances:
   bend_euler_46p225_m4p0:
     component: bend_euler
     settings: {}
-  mmi1x2_0cbef3fd_0p0_0p0:
+  mmi1x2_0p0_0p0:
     component: mmi1x2
-    settings:
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      waveguide: strip
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-  mmi1x2_0cbef3fd_65p6_m0p0:
+    settings: {}
+  mmi1x2_65p6_m0p0:
     component: mmi1x2
-    settings:
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      waveguide: strip
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
+    settings: {}
   straight_L100n_22p75_10p675:
     component: straight
     settings:
@@ -138,12 +122,12 @@ placements:
     rotation: 180
     x: 52.85
     y: -0.625
-  mmi1x2_0cbef3fd_0p0_0p0:
+  mmi1x2_0p0_0p0:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_0cbef3fd_65p6_m0p0:
+  mmi1x2_65p6_m0p0:
     mirror: false
     rotation: 180
     x: 65.6
@@ -189,5 +173,5 @@ placements:
     x: 42.85
     y: -15.725
 ports:
-  E0: mmi1x2_0cbef3fd_65p6_m0p0,W0
-  W0: mmi1x2_0cbef3fd_0p0_0p0,W0
+  E0: mmi1x2_65p6_m0p0,W0
+  W0: mmi1x2_0p0_0p0,W0

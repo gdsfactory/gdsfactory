@@ -1,5 +1,6 @@
 """Define names, clean values for names.
 """
+import functools
 import hashlib
 from typing import Any
 
@@ -155,8 +156,10 @@ def clean_value(value: Any) -> str:
         and isinstance(value.name, str)
     ):
         value = clean_name(value.name)
-    elif callable(value):
+    elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
+    elif callable(value) and type(value) == functools.partial:
+        value = value.func.__name__
     elif isinstance(value, str):
         value = value.strip()
     else:

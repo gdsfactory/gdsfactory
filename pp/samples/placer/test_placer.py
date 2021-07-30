@@ -1,9 +1,10 @@
 import pathlib
 
+import pp
 from pp.placer import component_grid_from_yaml
 
 
-def test_placer():
+def test_placer() -> pp.Component:
     cwd = pathlib.Path(__file__).parent
     filepath = cwd / "config.yml"
     dirpath = cwd / "build" / "mask"
@@ -13,9 +14,10 @@ def test_placer():
     top_level = component_grid_from_yaml(filepath)
     top_level.write_gds(gdspath=gdspath)
     assert gdspath.exists()
-    return gdspath
+    return top_level
 
 
 if __name__ == "__main__":
+
     c = test_placer()
     c.show()

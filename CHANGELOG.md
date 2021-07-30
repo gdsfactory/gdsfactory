@@ -2,16 +2,12 @@
 
 ## TODO
 
-- replace ComponentOrFactory, and ComponentFactory with StrOrDict
-- review @cell over @cell
-- add_fiber_array factory signature is too big
-- waypoints define dx or dy for bends
-- enable difftest for test_containers
-- fix FIXMEs
-- replace cell with cell_with_validator
 - enable routing with 180euler bends, enable Sbend routing
 - define Layer as a dataclass instead of Tuple[int, int]
-- figure out why `pp/tests/test_add_pins` test only passes with (length=11.)
+- move add_fiber_array factory settings into a dataclass
+- enable difftest for test_containers
+- fix FIXMEs
+- update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 
 Maybe:
 
@@ -28,11 +24,18 @@ from contracts import contract
 
 
 ```
+
 ## 2.7.6
 
 - add Component.to_dict()
 - add pp.config.set_plot_options for configuring matplotlib
-
+- add pp.Component.add_ports(port_list)
+- enable in pp.name the option of passing a partial function
+- create partial notebook (for functional programming) demonstrating hierarchical components with customized subcomponents
+- revert mzi and mzi_lattice to 2.5.3 (functional programming version)
+- delete mzi_arm, mzi2x2 and mzi1x2
+- add mzi_phase_shifter
+- add wire_sbend
 
 ## 2.7.5
 

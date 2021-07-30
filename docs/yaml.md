@@ -6,48 +6,8 @@ You can define components, circuits and masks in YAML syntax.
 
 
 ```eval_rst
-.. plot::
-    :include-source:
 
-    import pp
-
-    netlist = """
-    instances:
-        CP1:
-          component: mmi1x2
-          settings:
-              width_mmi: 4.5
-              length_mmi: 10
-        CP2:
-            component: mmi1x2
-            settings:
-                width_mmi: 4.5
-                length_mmi: 5
-        arm_top:
-            component: mzi_arm
-        arm_bot:
-            component: mzi_arm
-
-    placements:
-        arm_bot:
-            mirror: True
-        CP2:
-            mirror: True
-    ports:
-        W0: CP1,W0
-        E0: CP2,W0
-
-    connections:
-        arm_bot,W0: CP1,E0
-        arm_top,W0: CP1,E1
-        CP2,E0: arm_bot,E0
-        CP2,E1: arm_top,E0
-
-    """
-
-    c = pp.component_from_yaml(netlist)
-    c.show()
-    c.plot()
+.. autofunction:: pp.component_from_yaml
 ```
 
 

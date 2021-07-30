@@ -3,8 +3,8 @@ connections:
   bend_euler_R10_Wstrip_6p625_17p335,W0: straight_L10n_Wstrip_10p0_10p705,W0
   bend_euler_R10_Wstrip_m10p625_17p335,N0: straight_L10n_Wstrip_m14p0_10p705,W0
   bend_euler_R10_Wstrip_m10p625_17p335,W0: straight_L4_Wstrip_m2p0_20p71,E0
-  coupler_ring_b97536f4_m2p0_3p725,N0: straight_L10n_Wstrip_m14p0_10p705,E0
-  coupler_ring_b97536f4_m2p0_3p725,N1: straight_L10n_Wstrip_10p0_10p705,E0
+  coupler_ring_39c172fd_m2p0_3p725,N0: straight_L10n_Wstrip_m14p0_10p705,E0
+  coupler_ring_39c172fd_m2p0_3p725,N1: straight_L10n_Wstrip_10p0_10p705,E0
 instances:
   bend_euler_R10_Wstrip_6p625_17p335:
     component: bend_euler
@@ -16,14 +16,13 @@ instances:
     settings:
       radius: 10
       waveguide: strip
-  coupler_ring_b97536f4_m2p0_3p725:
+  coupler_ring_39c172fd_m2p0_3p725:
     component: coupler_ring
     settings:
       bend: null
       gap: 0.2
       length_x: 4
       radius: 10
-      straight: straight
       waveguide: strip
   straight_L10n_Wstrip_10p0_10p705:
     component: straight
@@ -52,7 +51,7 @@ placements:
     rotation: 180
     x: -4.0
     y: 20.71
-  coupler_ring_b97536f4_m2p0_3p725:
+  coupler_ring_39c172fd_m2p0_3p725:
     mirror: false
     rotation: 0
     x: 0.0
@@ -73,5 +72,5 @@ placements:
     x: 0.0
     y: 20.71
 ports:
-  E0: coupler_ring_b97536f4_m2p0_3p725,E0
-  W0: coupler_ring_b97536f4_m2p0_3p725,W0
+  E0: coupler_ring_39c172fd_m2p0_3p725,E0
+  W0: coupler_ring_39c172fd_m2p0_3p725,W0

@@ -2,28 +2,30 @@ import pp
 
 
 def test_get_ports() -> None:
-    c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi_phase_shifter()
 
     p = c.get_ports_dict()
-    assert len(p) == 7
+    assert len(p) == 4, f"{len(p)}"
 
     p_dc = c.get_ports_dict(port_type="dc")
     p_dc_layer = c.get_ports_dict(layer=(49, 0))
-    assert len(p_dc) == 3
-    assert len(p_dc_layer) == 3
+    assert len(p_dc) == 2, f"{len(p_dc)}"
+    assert len(p_dc_layer) == 2, f"{len(p_dc_layer)}"
 
     p_optical = c.get_ports_dict(port_type="optical")
-    assert len(p_optical) == 4
+    assert len(p_optical) == 2, f"{len(p_optical)}"
 
     p_optical_west = c.get_ports_dict(prefix="W")
     p_optical_east = c.get_ports_dict(prefix="E")
-    assert len(p_optical_east) == 2
-    assert len(p_optical_west) == 2
+    assert len(p_optical_east) == 1, f"{len(p_optical_east)}"
+    assert len(p_optical_west) == 1, f"{len(p_optical_west)}"
 
 
 if __name__ == "__main__":
     test_get_ports()
-    # c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi_phase_shifter()
+    c.show()
+
     # p_dc_layer = c.get_ports_dict(layer=(49, 0))
     # p_dc = c.get_ports_dict(port_type="dc")
 

@@ -1,20 +1,21 @@
-from typing import Dict, Tuple, Union
+from typing import Tuple
 
 from pp.cell import cell
 from pp.component import Component
-from pp.tech import LIBRARY, Library
-from pp.types import Number
+from pp.components.coupler import coupler as coupler_function
+from pp.components.mzi import mzi as mzi_function
+from pp.components.straight import straight as straight_function
+from pp.types import ComponentFactory
 
 
 @cell
 def mzi_lattice(
-    coupler_lengths: Tuple[Number, ...] = (10.0, 20.0),
-    coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
-    delta_lengths: Tuple[Number, ...] = (10.0,),
-    mzi: Union[str, Dict] = "mzi",
-    splitter: str = "coupler",
-    straight: Union[str, Dict] = "straight",
-    library: Library = LIBRARY,
+    coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
+    coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
+    delta_lengths: Tuple[float, ...] = (10.0,),
+    mzi_factory: ComponentFactory = mzi_function,
+    splitter: ComponentFactory = coupler_function,
+    straight: ComponentFactory = straight_function,
     **kwargs
 ) -> Component:
     r"""Mzi lattice filter.
@@ -37,24 +38,21 @@ def mzi_lattice(
     assert len(coupler_lengths) == len(delta_lengths) + 1
 
     c = Component()
-    get = library.get_component
 
-    splitter_settings = dict(
-        component=splitter, gap=coupler_gaps[0], length=coupler_lengths[0]
-    )
-    combiner_settings = dict(
-        component=splitter, gap=coupler_gaps[1], length=coupler_lengths[1]
-    )
+    splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
 
-    cp1 = get(**splitter_settings)
+    combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
 
-    sprevious = c << get(
-        component=mzi,
+    cp1 = splitter(**splitter_settings)
+
+    sprevious = c << mzi_factory(
+        splitter=splitter,
+        combiner=splitter,
         with_splitter=True,
         delta_length=delta_lengths[0],
         straight=straight,
-        combiner=combiner_settings,
-        splitter=splitter_settings,
+        combiner_settings=combiner_settings,
+        splitter_settings=splitter_settings,
         **kwargs
     )
 
@@ -64,18 +62,17 @@ def mzi_lattice(
         coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
     ):
 
-        splitter_settings = dict(
-            component=splitter, gap=coupler_gaps[1], length=coupler_lengths[1]
-        )
-        combiner_settings = dict(component=splitter, length=length, gap=gap)
+        splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
+        combiner_settings = dict(length=length, gap=gap)
 
-        stage = c << get(
-            component=mzi,
+        stage = c << mzi_factory(
+            splitter=splitter,
+            combiner=splitter,
             with_splitter=False,
             delta_length=delta_length,
             straight=straight,
-            splitter=splitter_settings,
-            combiner=combiner_settings,
+            splitter_settings=splitter_settings,
+            combiner_settings=combiner_settings,
             **kwargs
         )
         splitter_settings = combiner_settings

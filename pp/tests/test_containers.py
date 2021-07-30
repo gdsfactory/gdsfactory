@@ -13,7 +13,8 @@ from pp.components.extension import extend_ports
 # from pp.components.straight import straight
 # from pp.components.straight_heater import straight_heater
 # from pp.difftest import difftest
-from pp.components.mzi2x2 import mzi2x2
+from pp.components.mmi2x2 import mmi2x2
+from pp.components.mzi_phase_shifter import mzi_phase_shifter
 from pp.components.ring_single_dut import ring_single_dut
 from pp.components.spiral_inner_io import spiral_inner_io
 from pp.rotate import rotate
@@ -40,8 +41,8 @@ container_factory = dict(
     ring_single_dut=ring_single_dut,
 )
 
-container_names = container_factory.keys()
-component = mzi2x2(with_elec_connections=True)
+container_names = set(container_factory.keys()) - set()
+component = mzi_phase_shifter(splitter=mmi2x2)
 
 
 @pytest.mark.parametrize("container_type", container_names)

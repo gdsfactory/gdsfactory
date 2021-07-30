@@ -181,12 +181,9 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     """Returns a Cband Nitride MMI."""
     c = pp.c.mzi(
         delta_length=delta_length,
-        splitter="mmi1x2_nitride_cband",
+        splitter=mmi1x2_nitride_cband,
         waveguide="fabc_nitride_cband",
         width=WIDTH_NITRIDE_CBAND,
-        bend="bend_euler_cband",
-        straight="straight_cband",
-        library=LIBRARY,
     )
     return c
 
@@ -195,12 +192,9 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
 def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
     c = pp.c.mzi(
         delta_length=delta_length,
-        splitter="mmi1x2_nitride_cband",
+        splitter=mmi1x2_nitride_oband,
         waveguide="fabc_nitride_oband",
         width=WIDTH_NITRIDE_CBAND,
-        bend="bend_euler_cband",
-        straight="straight_cband",
-        library=LIBRARY,
     )
     return c
 
@@ -223,6 +217,6 @@ if __name__ == "__main__":
         grating_coupler=gc,
         waveguide=dict(component="fabc_nitride_cband", width=3),
         optical_routing_type=1,
-        library=LIBRARY,
+        bend_factory=bend_euler_cband,
     )
     mzi_gc.show()

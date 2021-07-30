@@ -1,4 +1,36 @@
-"""Get Component from YAML file."""
+"""Returns Component from YAML syntax.
+
+instances:
+    mzi:
+        component: mzi_phase_shifter
+
+    pads:
+        component: pad_array
+        settings:
+            n: 2
+            port_list:
+                - S
+
+placements:
+    mzi:
+        x: 0
+    pads:
+        y: 200
+        x:  50
+ports:
+    W0: mzi,W0
+    E0: mzi,E0
+
+
+routes:
+    electrical:
+        links:
+            mzi,N0: pads,S0
+            mzi,N1: pads,S1
+
+        settings:
+            waveguide: metal_routing
+"""
 
 import io
 import pathlib
@@ -17,6 +49,7 @@ from pp.tech import Library
 from pp.types import Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
+
 
 valid_top_level_keys = [
     "name",
@@ -128,12 +161,13 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
+        if not isinstance(placement_settings, omegaconf.DictConfig):
+            raise ValueError(
+                f"Invalid placement {placement_settings} from {valid_placement_keys}"
+            )
         for k in placement_settings.keys():
             if k not in valid_placement_keys:
-                raise ValueError(
-                    f"`{k}` not valid placement {valid_placement_keys} for"
-                    f" {instance_name}"
-                )
+                raise ValueError(f"Invalid placement {k} from {valid_placement_keys}")
 
         x = placement_settings.get("x")
         y = placement_settings.get("y")

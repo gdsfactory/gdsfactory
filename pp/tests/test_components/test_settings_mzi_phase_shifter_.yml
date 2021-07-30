@@ -1,19 +1,16 @@
-function_name: mzi_nitride_oband
+function_name: mzi_phase_shifter
 info: {}
-module: pp.samples.pdk.fab_c
-name: mzi_nitride_oband
+module: pp.components.mzi_phase_shifter
+name: mzi_phase_shifter
 settings:
   combiner: null
   combiner_settings: null
   delta_length: 10
-  length_x: 0.1
+  length_x: 200
   length_y: 0.1
-  splitter: mmi1x2_nitride_oband
   splitter_settings: null
   straight_delta_length: null
   straight_horizontal_bot: null
-  straight_horizontal_top: null
+  straight_horizontal_top: straight_with_heater
   straight_vertical: null
-  waveguide: fabc_nitride_oband
-  width: 1
   with_splitter: true

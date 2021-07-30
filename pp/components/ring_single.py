@@ -54,7 +54,6 @@ def ring_single(
     coupler_ring_component = (
         coupler_ring(
             bend=bend,
-            straight=straight,
             gap=gap,
             radius=radius,
             length_x=length_x,
