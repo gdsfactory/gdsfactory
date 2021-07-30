@@ -621,7 +621,7 @@ def round_corners(
 
             if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
                 # print(dx_points, dx_bend, dy_points, dy_bend)
-                radius = getattr(bend_ref, "dy", 0)
+                radius = bend_ref.get_property("dy")
                 warnings.warn(
                     f"90deg bend with radius = {radius} does not fit into the route",
                     RouteWarning,
