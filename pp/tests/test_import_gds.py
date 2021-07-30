@@ -5,8 +5,7 @@ from pp.import_gds import import_gds
 def test_import_gds_snap_to_grid() -> None:
     gdspath = pp.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
-    print(len(c.get_polygons()))
-    assert len(c.get_polygons()) == 8
+    assert len(c.get_polygons()) == 8, len(c.get_polygons())
 
     for x, y in c.get_polygons()[0]:
         assert pp.snap.is_on_grid(x, 5)
@@ -14,10 +13,10 @@ def test_import_gds_snap_to_grid() -> None:
 
 
 def test_import_gds_hierarchy() -> None:
-    c0 = pp.components.mzi2x2()
+    c0 = pp.components.mzi()
     gdspath = c0.write_gds()
     c = import_gds(gdspath)
-    assert len(c.get_dependencies()) == 3
+    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
 
 
 if __name__ == "__main__":

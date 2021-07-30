@@ -65,7 +65,7 @@ def route_fiber_array(
         component: The component to connect.
         fiber_spacing: the wanted spacing between the optical I/O
         grating_coupler: grating coupler instance, function or list of functions
-        bend_factory: bend_circular
+        bend_factory:  for bends
         straight_factory: straight
         fanout_length: target distance between gratings and the southest component port.
             If None, automatically calculated.

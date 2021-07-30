@@ -1,18 +1,23 @@
 function_name: add_termination
 info: {}
 module: pp.add_termination
-name: add_termination_Cmzi2x2_WECTrue
+name: add_termination_b3a60602
 settings:
   component:
-    function_name: mzi2x2
+    function_name: mzi_phase_shifter
     info: {}
-    module: pp.components.mzi2x2
-    name: mzi2x2_WECTrue
+    module: pp.components.mzi_phase_shifter
+    name: mzi_phase_shifter_Smmi2x2
     settings:
-      CL_1: 20.147
-      DL: 7.38
-      L0: 60
-      L2: 10
-      gap: 0.234
-      waveguide: strip
-      with_elec_connections: true
+      combiner: null
+      combiner_settings: null
+      delta_length: 10
+      length_x: 200
+      length_y: 0.1
+      splitter: mmi2x2
+      splitter_settings: null
+      straight_delta_length: null
+      straight_horizontal_bot: null
+      straight_horizontal_top: straight_with_heater
+      straight_vertical: null
+      with_splitter: true

@@ -3,13 +3,12 @@ info: {}
 module: pp.components.mzi
 name: mzi
 settings:
-  bend: bend_euler
   combiner: null
+  combiner_settings: null
   delta_length: 10
   length_x: 0.1
   length_y: 0.1
-  splitter: mmi1x2
-  straight: straight
+  splitter_settings: null
   straight_delta_length: null
   straight_horizontal_bot: null
   straight_horizontal_top: null

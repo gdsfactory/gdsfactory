@@ -178,10 +178,10 @@ def test_optical_labels() -> Component:
 def test_electrical_labels() -> Component:
     c = pp.components.wire_straight()
     label1 = get_input_label_electrical(
-        port=c.ports["E_1"], layer_label=pp.LAYER.LABEL, gc_index=0
+        port=c.ports["DC_1"], layer_label=pp.LAYER.LABEL, gc_index=0
     )
     label2 = get_input_label_electrical(
-        port=c.ports["E_0"], layer_label=pp.LAYER.LABEL, gc_index=1
+        port=c.ports["DC_0"], layer_label=pp.LAYER.LABEL, gc_index=1
     )
     add_labels(
         component=c, port_type="dc", get_label_function=get_input_label_electrical

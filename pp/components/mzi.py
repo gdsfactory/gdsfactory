@@ -1,10 +1,12 @@
-from typing import Optional
+from typing import Dict, Optional, Union
 
 from pp.cell import cell
 from pp.component import Component
+from pp.components.bend_euler import bend_euler
+from pp.components.mmi1x2 import mmi1x2
+from pp.components.straight import straight as straight_function
 from pp.port import rename_ports_by_orientation
-from pp.tech import LIBRARY, Library
-from pp.types import StrOrDict
+from pp.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -12,16 +14,17 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.1,
     length_x: float = 0.1,
-    bend: StrOrDict = "bend_euler",
-    straight: StrOrDict = "straight",
-    straight_vertical: Optional[StrOrDict] = None,
-    straight_delta_length: Optional[float] = None,
-    straight_horizontal_top: Optional[StrOrDict] = None,
-    straight_horizontal_bot: Optional[StrOrDict] = None,
-    splitter: StrOrDict = "mmi1x2",
-    combiner: Optional[StrOrDict] = None,
+    bend: ComponentOrFactory = bend_euler,
+    straight: ComponentFactory = straight_function,
+    straight_vertical: Optional[ComponentFactory] = None,
+    straight_delta_length: Optional[ComponentFactory] = None,
+    straight_horizontal_top: Optional[ComponentFactory] = None,
+    straight_horizontal_bot: Optional[ComponentFactory] = None,
+    splitter: ComponentOrFactory = mmi1x2,
+    combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
-    library: Library = LIBRARY,
+    splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
+    combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -39,7 +42,6 @@ def mzi(
         combiner: combiner function
         with_splitter: if False removes splitter
         kwargs: cross_section settings
-        library: library with components
 
     .. code::
 
@@ -57,20 +59,20 @@ def mzi(
 
 
     """
-    get = library.get_component
-    bend = get(bend, **kwargs)
-    splitter = get(splitter)
+
+    splitter_settings = splitter_settings or {}
+    combiner_settings = combiner_settings or {}
 
     c = Component()
-    cp1 = splitter
-    cp2 = get(combiner) if combiner else splitter
+    cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
+    cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
 
     straight_vertical = straight_vertical or straight
     straight_horizontal_top = straight_horizontal_top or straight
     straight_horizontal_bot = straight_horizontal_bot or straight
     straight_delta_length = straight_delta_length or straight
-    b90 = bend
-    l0 = get(straight, length=length_y, **kwargs)
+    b90 = bend(**kwargs) if callable(bend) else bend
+    l0 = straight_vertical(length=length_y, **kwargs)
 
     cp1 = rename_ports_by_orientation(cp1)
     cp2 = rename_ports_by_orientation(cp2)
@@ -81,19 +83,18 @@ def mzi(
     y2l = cp1.ports["E1"].y
     y2r = cp2.ports["E1"].y
 
-    dl = abs(y2l - y1l)  # splitter ports y distance
-    dr = abs(y2r - y1r)  # combiner ports y distance
+    dl = abs(y2l - y1l)  # splitter ports distance
+    dr = abs(y2r - y1r)  # cp2 ports distance
     delta_length_combiner = dl - dr
-    if delta_length_combiner + length_y < 0:
-        raise ValueError(
-            f"splitter and combiner port yoffset + length_y = {delta_length_combiner:.3f} < 0 "
-            f"you can swap combiner and splitter or increase length_y by {-delta_length_combiner-length_y:.3f}"
-        )
+    assert delta_length_combiner + length_y > 0, (
+        f"cp1 and cp2 port height offset delta_length ({delta_length_combiner}) +"
+        f" length_y ({length_y}) >0"
+    )
 
-    l0r = get(straight_vertical, length=length_y + delta_length_combiner / 2, **kwargs)
-    l1 = get(straight_delta_length, length=delta_length / 2, **kwargs)
-    lxt = get(straight_horizontal_top, length=length_x, **kwargs)
-    lxb = get(straight_horizontal_bot, length=length_x, **kwargs)
+    l0r = straight_vertical(length=length_y + delta_length_combiner / 2, **kwargs)
+    l1 = straight_delta_length(length=delta_length / 2, **kwargs)
+    lxt = straight_horizontal_top(length=length_x, **kwargs)
+    lxb = straight_horizontal_bot(length=length_x, **kwargs)
 
     cin = cp1.ref()
     cout = c << cp2
@@ -207,8 +208,6 @@ if __name__ == "__main__":
     c = mzi(
         delta_length=20,
         waveguide="nitride",
-        bend=dict(component="bend_euler", radius=50),
-        splitter=dict(component="mmi1x2", waveguide="nitride"),
     )
     c.show()
     c.pprint()

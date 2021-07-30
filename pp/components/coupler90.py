@@ -2,16 +2,15 @@ import pp
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.bend_euler import bend_euler
-from pp.components.straight import straight as straight_function
+from pp.components.straight import straight as straight
 from pp.cross_section import StrOrDict, get_cross_section
-from pp.types import ComponentFactory, ComponentOrFactory
+from pp.types import ComponentFactory
 
 
 @pp.cell
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
-    straight: ComponentOrFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     waveguide: StrOrDict = "strip",
     **kwargs

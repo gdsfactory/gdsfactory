@@ -12,7 +12,7 @@ def ring_with_taper(**kwargs):
     """Ring single bus
 
     Args:
-        bend_radius=5
+        radius=5
         length_x=1
         length_y=1
         gap=0.2
@@ -37,7 +37,7 @@ def ring_with_taper(**kwargs):
 
       import pp
 
-      c = pp.components.ring_single_bus(gap=0.2, length_x=10, length_y=5, bend_radius=5)
+      c = pp.components.ring_single_bus(gap=0.2, length_x=10, length_y=5, radius=5)
       c.plot()
 
     """
@@ -47,7 +47,7 @@ def ring_with_taper(**kwargs):
 
 
 def ring_with_taper_netlist(
-    bend_radius=5,
+    radius=5,
     length_x=1,
     length_y=0,
     gap=0.2,
@@ -74,8 +74,8 @@ def ring_with_taper_netlist(
     assert_on_2nm_grid(gap)
 
     taper = taper_factory(length=taper_length, width1=wg_width, width2=taper_width)
-    bend = bend90_factory(radius=bend_radius, width=wg_width)
-    cpl_bend = coupler90_factory(bend_radius=bend_radius, width=wg_width, gap=gap)
+    bend = bend90_factory(radius=radius, width=wg_width)
+    cpl_bend = coupler90_factory(radius=radius, width=wg_width, gap=gap)
     cpl_straight = cpl_straight_factory(length=length_x, gap=gap, width=wg_width)
     h1 = straight_factory(length=length_x, width=wg_width)
     vl = straight_factory(length=length_y + 2 * taper_length, width=wg_width)
@@ -112,8 +112,8 @@ def ring_with_taper_netlist(
 
 
 if __name__ == "__main__":
-    # c = ring_with_taper(bend_radius=5.0, length_x=2, length_y=4, gap=0.2)
+    # c = ring_with_taper(radius=5.0, length_x=2, length_y=4, gap=0.2)
     c = ring_with_taper(
-        bend_radius=5.0, length_x=2, length_y=4, gap=0.2, taper_width=1, wg_width=0.7
+        radius=5.0, length_x=2, length_y=4, gap=0.2, taper_width=1, wg_width=0.7
     )
     c.show()

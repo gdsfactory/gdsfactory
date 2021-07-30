@@ -5,7 +5,6 @@ from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.coupler90 import coupler90 as coupler90function
 from pp.components.coupler_straight import coupler_straight as coupler_straight_function
-from pp.components.straight import straight as straight_function
 from pp.snap import assert_on_2nm_grid
 from pp.types import ComponentFactory
 
@@ -16,7 +15,6 @@ def coupler_ring(
     radius: float = 5.0,
     length_x: float = 4.0,
     coupler90: ComponentFactory = coupler90function,
-    straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
     coupler_straight: ComponentFactory = coupler_straight_function,
     waveguide: str = "strip",
@@ -53,21 +51,12 @@ def coupler_ring(
 
     # define subcells
     coupler90_component = (
-        coupler90(
-            gap=gap,
-            radius=radius,
-            straight=straight,
-            bend=bend,
-            waveguide=waveguide,
-            **kwargs
-        )
+        coupler90(gap=gap, radius=radius, bend=bend, waveguide=waveguide, **kwargs)
         if callable(coupler90)
         else coupler90
     )
     coupler_straight_component = (
-        coupler_straight(
-            gap=gap, length=length_x, straight=straight, waveguide=waveguide, **kwargs
-        )
+        coupler_straight(gap=gap, length=length_x, waveguide=waveguide, **kwargs)
         if callable(coupler_straight)
         else coupler_straight
     )

@@ -1,4 +1,4 @@
-"""Deprecated
+"""wires for electrical manhattan routes
 """
 
 import pp
@@ -20,9 +20,9 @@ def wire_straight(
 
     Args:
         length: straiht length
-        width: wire width
-        layer: layer
+        waveguide:
         port_type: port_type
+        kwargs: waveguide_settings
     """
     waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)
     width = waveguide_settings["width"]
@@ -41,10 +41,9 @@ def wire_corner(
     """90 degrees electrical corner
 
     Args:
-        width: wire width
-        layer: layer
         port_type: port_type
-        kwargs: for bend radius
+        waveguide:
+        kwargs: waveguide_settings
 
     """
     waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)

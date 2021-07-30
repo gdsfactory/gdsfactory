@@ -99,6 +99,7 @@ from pp.components.dbr2 import dbr2
 # electrical
 from pp.components.wire import wire_corner
 from pp.components.wire import wire_straight
+from pp.components.wire_sbend import wire_sbend
 from pp.components.electrical.pad import pad
 from pp.components.electrical.pad import pad_array
 from pp.components.electrical.pad import pad_array_2d
@@ -126,10 +127,8 @@ from pp.components.ring_single_array import ring_single_array
 from pp.components.ring_double import ring_double
 from pp.components.mmi1x2 import mmi1x2
 from pp.components.mmi2x2 import mmi2x2
-from pp.components.mzi2x2 import mzi_arm
-from pp.components.mzi2x2 import mzi2x2
-from pp.components.mzi1x2 import mzi1x2
 from pp.components.mzi import mzi
+from pp.components.mzi_phase_shifter import mzi_phase_shifter
 from pp.components.mzit import mzit
 from pp.components.mzi_lattice import mzi_lattice
 from pp.components.mzit_lattice import mzit_lattice
@@ -216,10 +215,8 @@ LIBRARY.register(
         manhattan_text,
         mmi1x2,
         mmi2x2,
-        mzi1x2,
-        mzi2x2,
         mzi,
-        mzi_arm,
+        mzi_phase_shifter,
         mzi_lattice,
         mzit,
         mzit_lattice,
@@ -265,6 +262,7 @@ LIBRARY.register(
         straight_with_heater,
         wire_straight,
         wire_corner,
+        wire_sbend,
     ]
 )
 
@@ -305,7 +303,6 @@ component_names_skip_test = [
     "component_lattice",
     "version_stamp",
     "resistance_meander",
-    "mzi_arm",
 ]
 component_names_skip_test_ports = ["coupler"]
 
@@ -328,7 +325,10 @@ __all__ = list(LIBRARY.factory.keys()) + container_names + ["extend_ports_list"]
 component_factory = LIBRARY.factory
 
 if __name__ == "__main__":
-    for c in component_names:
-        ci = LIBRARY.factory[c]()
-    c = library("mmi1x2")
-    c.show()
+    for component_name in component_names:
+        try:
+            ci = LIBRARY.factory[component_name]()
+        except Exception:
+            print(f"error building {component_name}")
+            raise Exception
+    ci.show()

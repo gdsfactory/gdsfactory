@@ -43,45 +43,6 @@ connections:
 #       |__Lx__|
 #
 
-sample_mirror = """
-name: mzi_with_mirrored_arm
-
-instances:
-    CP1:
-      component: mmi1x2
-      settings:
-          width_mmi: 4.5
-          length_mmi: 10
-    CP2:
-        component: mmi1x2
-        settings:
-            width_mmi: 4.5
-            length_mmi: 5
-    arm_top:
-        component: mzi_arm
-        settings:
-            L0: 30
-    arm_bot:
-        component: mzi_arm
-        settings:
-            L0: 15
-
-placements:
-    arm_bot:
-        port: E0
-        mirror: True
-
-ports:
-    W0: CP1,W0
-    E0: CP2,W0
-
-connections:
-    arm_bot,W0: CP1,E0
-    arm_top,W0: CP1,E1
-    CP2,E0: arm_top,E0
-    CP2,E1: arm_bot,E0
-"""
-
 
 sample_mirror_simple = """
 name: sample_mirror_simple
@@ -106,8 +67,6 @@ connections:
 
 def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
     assert len(c.get_dependencies()) == 6
     assert len(c.ports) == 2
     return c
@@ -115,19 +74,8 @@ def test_sample() -> Component:
 
 def test_connections() -> Component:
     c = component_from_yaml(sample_connections)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0
-    return c
-
-
-def test_mirror() -> Component:
-    c = component_from_yaml(sample_mirror)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
-    assert len(c.get_dependencies()) == 4
-    assert len(c.ports) == 2
     return c
 
 
@@ -163,14 +111,11 @@ routes:
 
 def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
-    print(len(c.get_dependencies()))
-    print(len(c.ports))
     assert len(c.get_dependencies()) == 8
     assert len(c.ports) == 0
 
     length = c.routes["mmi_bottom,E1:mmi_top,W1"]
-    print(length)
-    assert np.isclose(length, 166.098)
+    assert np.isclose(length, 166.098), f"{length}"
     return c
 
 
@@ -221,9 +166,9 @@ routes:
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
     lengths = [696.8, 696.8, 1204.013]
-    print(c.routes["tl,E:tr,W"])
-    print(c.routes["bl,E:br,W"])
-    print(c.routes["bl,S:br,E"])
+    # print(c.routes["tl,E:tr,W"])
+    # print(c.routes["bl,E:br,W"])
+    # print(c.routes["bl,S:br,E"])
 
     assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
     assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
@@ -275,8 +220,7 @@ def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
     length = 1720.794
-    print(c.routes["tl,E:tr,W"])
-    assert np.isclose(c.routes["tl,E:tr,W"], length)
+    assert np.isclose(c.routes["tl,E:tr,W"], length), f"{c.routes['tl,E:tr,W']}"
     assert np.isclose(c.routes["bl,E:br,W"], length)
     return c
 
@@ -418,8 +362,7 @@ def test_connections_regex_backwargs() -> Component:
 
     length = 12.0
     for route_name in route_names:
-        print(c.routes[route_name])
-        assert np.isclose(c.routes[route_name], length)
+        assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
 
@@ -428,8 +371,7 @@ def test_connections_waypoints() -> Component:
 
     length = 1937.196
     route_name = "b,N0:t,S0"
-    print(c.routes[route_name])
-    assert np.isclose(c.routes[route_name], length)
+    assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
 
@@ -437,8 +379,7 @@ def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,E0:mmi_bot,W0"
     length = 72.348
-    print(c.routes[route_name])
-    assert np.isclose(c.routes[route_name], length)
+    assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
 
@@ -627,5 +568,5 @@ if __name__ == "__main__":
 
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_mirror_simple)
     c.show()
