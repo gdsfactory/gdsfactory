@@ -6,12 +6,12 @@ FIXME, zmin_um does not work
 """
 from typing import Any, Dict, Optional, Tuple
 import warnings
+import pydantic
 
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pp
-from numpy import ndarray
 from pp.component import Component
 from pp.components.extension import move_polar_rad_copy
 from gmeep.materials import get_material
@@ -25,6 +25,7 @@ LAYER_TO_ZMIN = {(1, 0): "Si"}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
 
 
+@pydantic.validate_arguments
 def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
@@ -38,7 +39,9 @@ def get_simulation(
     tpml: float = 1.0,
     clad_material: str = "SiO2",
     is_3d: bool = False,
-    wavelengths: ndarray = np.linspace(1.5, 1.6, 50),
+    wl_min: float = 1.5,
+    wl_max: float = 1.6,
+    wl_steps: int = 50,
     dfcen: float = 0.2,
     port_source_name: str = "W0",
     port_field_monitor_name: str = "E0",
@@ -86,6 +89,7 @@ def get_simulation(
         pp.show(cm)
 
     """
+    wavelengths = np.linspace(wl_min, wl_max, wl_steps)
     if port_source_name not in component.ports:
         warnings.warn(
             f"port_source_name={port_source_name} not in {component.ports.keys()}"

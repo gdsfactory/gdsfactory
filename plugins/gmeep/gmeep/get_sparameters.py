@@ -2,6 +2,7 @@
 """
 
 import pathlib
+import pydantic
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
@@ -22,6 +23,7 @@ from gmeep.get_simulation import (
 )
 
 
+@pydantic.validate_arguments
 def get_sparameters1x1(
     component: Component,
     dirpath: PathType = PATH.sparameters,
