@@ -48,8 +48,8 @@ def find_modes_dispersion(
     wc = wavelength
     w1 = wavelength + wavelength_step
 
-    ncore = partial(get_index, material=core)
-    nclad = partial(get_index, material=clad)
+    ncore = partial(get_index, name=core)
+    nclad = partial(get_index, name=clad)
 
     disable_print()
     r0 = gm.find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
@@ -74,8 +74,8 @@ def test_ng():
 
 
 if __name__ == "__main__":
-    # print(get_index(material="Si"))
     test_ng()
+    # print(get_index(name="Si"))
     # ngs = []
     # for wavelength_step in [0.001, 0.01]:
     #     neff, ng = find_modes_dispersion(
