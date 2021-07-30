@@ -60,12 +60,14 @@ class LayerLevel:
         thickness_nm: thickness of layer
         z_nm: height position where material starts
         material: material name
+        sidewall_angle: in degrees with respect to normal
     """
 
     layer: Tuple[int, int]
     thickness_nm: Optional[float] = None
     zmin_nm: Optional[float] = None
     material: Optional[str] = None
+    sidewall_angle: float = 0
 
 
 @pydantic.dataclasses.dataclass
