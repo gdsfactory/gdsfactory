@@ -5,7 +5,11 @@ __all__ = ["PATH"]
 import os
 import pathlib
 import sys
+from loguru import logger
+import meep as mp
+import pp
 
+__version__ = "0.0.2"
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
 cwd_config = cwd / "config.yml"
@@ -16,6 +20,13 @@ sparameters.mkdir(exist_ok=True, parents=True)
 
 gmeep_home = home / ".gmeep"
 gmeep_home.mkdir(exist_ok=True)
+
+logpath = cwd / "gmeep.log"
+
+logger.info(f"gdsfactory {pp.__version__}")
+logger.info(f"gmeep {__version__}")
+logger.info(f"meep {mp.__version__}")
+logger.add(sink=logpath)
 
 
 class Path:

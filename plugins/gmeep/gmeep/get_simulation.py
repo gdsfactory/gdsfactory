@@ -98,6 +98,20 @@ def get_simulation(
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
 
+    if port_field_monitor_name not in component.ports:
+        warnings.warn(
+            f"port_field_monitor_name={port_field_monitor_name} not in {component.ports.keys()}"
+        )
+        port_field_monitor = (
+            component.get_ports_list()[0]
+            if len(component.ports) < 2
+            else component.get_ports_list()[1]
+        )
+        port_field_monitor_name = port_field_monitor.name
+        warnings.warn(
+            f"Selecting port_field_monitor_name={port_field_monitor_name} instead."
+        )
+
     assert isinstance(
         component, Component
     ), f"component needs to be a gdsfactory Component, got Type {type(component)}"
@@ -227,10 +241,10 @@ if __name__ == "__main__":
     c = pp.c.bend_circular(radius=2)
     c = pp.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = pp.c.mmi1x2()
+    c = pp.c.straight(length=2)
     c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = pp.c.straight(length=2)
+    c = pp.c.mmi1x2()
     c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
