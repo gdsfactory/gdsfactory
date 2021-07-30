@@ -1,5 +1,6 @@
 import copy as python_copy
 import datetime
+import functools
 import hashlib
 import itertools
 import json
@@ -1264,8 +1265,10 @@ def _clean_value(value: Any) -> Any:
         value = int(value)
     elif isinstance(value, np.float64):
         value = float(value)
-    elif callable(value):
+    elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
+    elif callable(value) and type(value) == functools.partial:
+        value = value.func.__name__
     elif isinstance(value, dict):
         clean_dict(value)
     elif isinstance(value, omegaconf.dictconfig.DictConfig):
