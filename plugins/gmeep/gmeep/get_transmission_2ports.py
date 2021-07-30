@@ -232,7 +232,7 @@ def get_transmission_2ports(
     return r
 
 
-def plot2d(results_dict, z=0):
+def plot2D(results_dict, z=0):
     """Plot a 2D cut of your simulation."""
     sim = results_dict["sim"]
     cell_size = results_dict["cell_size"]
@@ -244,13 +244,13 @@ def plot2d(results_dict, z=0):
     )
 
 
-def plot3d(results_dict):
+def plot3D(results_dict):
     """Plots 3D simulation in Mayavi."""
     sim = results_dict["sim"]
     sim.plot3D()
 
 
-def test_waveguide_2d() -> None:
+def test_waveguide_2D() -> None:
     """Ensure >99% transmission (S21) at 1550nm."""
     c = pp.c.straight(length=2)
     cm = add_monitors(component=c)
@@ -261,7 +261,7 @@ def test_waveguide_2d() -> None:
     assert 0 < np.mean(abs(r["s11"])) < 0.2
 
 
-# def test_waveguide_3d() -> None:
+# def test_waveguide_3D() -> None:
 #     """Ensure >99% transmission (S21) at 1550nm."""
 #     c = pp.c.straight(length=2)
 #     cm = add_monitors(component=c)
@@ -272,7 +272,7 @@ def test_waveguide_2d() -> None:
 #     assert 0 < np.mean(abs(r["s11"])) < 0.2
 
 
-def test_bend_2d():
+def test_bend_2D():
     """Ensure >99% transmission (S21) at 1550nm."""
     c = pp.c.bend_circular(radius=5)
     cm = add_monitors(component=c)
