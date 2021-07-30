@@ -22,7 +22,6 @@ settings:
       straight_vertical: null
       with_splitter: true
   port_type: optical
-  taper: taper
   taper_port_name1: '1'
   taper_port_name2: '2'
   waveguide: strip

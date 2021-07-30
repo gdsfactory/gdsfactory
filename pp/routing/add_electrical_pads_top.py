@@ -53,7 +53,7 @@ def demo_mzi():
     import pp
 
     c = pp.components.straight_with_heater()
-    c = pp.components.mzi2x2(with_elec_connections=True)
+    c = pp.components.mzi_phase_shifter()
     cc = add_electrical_pads_top(component=c)
     return cc
 

@@ -432,10 +432,6 @@ def _demo_optical() -> None:
 
 def _demo_electrical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
-    # c  =  pp.components.mzi2x2(with_elec_connections=True)
-    # for p in c.ports.values():
-    #     print(p)
-    # c.show()
 
     gdspath = pp.CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath)

@@ -494,10 +494,6 @@ if __name__ == "__main__":
     # c = add_pins(c, recursive=False)
     # c.show()
 
-    # c = pp.components.mzi2x2(with_elec_connections=True)
-    # cc = add_pins(c)
-    # cc.show()
-
     # c = mmi1x2(width_mmi=5)
     # cc = add_grating_couplers(c, layer_label=pp.LAYER.LABEL)
 

@@ -158,7 +158,6 @@ if __name__ == "__main__":
     c = pp.components.mmi2x2()
     c = pp.components.crossing()
     c = pp.components.rectangle()
-    c = pp.components.mzi2x2()
     c = pp.components.ring_single()
 
     # elements, gc = route_fiber_single(

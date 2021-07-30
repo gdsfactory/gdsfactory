@@ -444,38 +444,6 @@ class Library:
             component._initialized = True
         return component
 
-    def write_rst(self, filepath: Union[pathlib.Path, str], import_library: str):
-        """Writes library documentation.
-
-        Args:
-            filepath:
-            import_library: import library, `from pp.samples.pdk.fab_c import LIBRARY`
-
-        """
-        if "LIBRARY" not in import_library:
-            raise ValueError(f"LIBRARY not imported in {import_library}")
-
-        rst = ""
-        for name, function in self.factory.items():
-            rst += f"""
-
-{name}
-----------------------------------------------------
-
-{function.__doc__}
-
-.. plot::
-  :include-source:
-
-  {import_library}
-
-  component = LIBRARY.get_component({name})
-  component.plot()
-
-"""
-        filepath = pathlib.Path(filepath)
-        filepath.write_text(rst)
-
 
 @pydantic.dataclasses.dataclass
 class Tech:

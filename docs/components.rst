@@ -377,21 +377,6 @@ component_sequence
 
 
 
-corner
-----------------------------------------------------
-
-.. autofunction:: pp.components.corner
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.corner()
-  c.plot()
-
-
-
 coupler
 ----------------------------------------------------
 
@@ -703,6 +688,21 @@ delay_snake3
   import pp
 
   c = pp.components.delay_snake3()
+  c.plot()
+
+
+
+die
+----------------------------------------------------
+
+.. autofunction:: pp.components.die
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.die()
   c.plot()
 
 
@@ -1052,51 +1052,6 @@ mzi
 
 
 
-mzi1x2
-----------------------------------------------------
-
-.. autofunction:: pp.components.mzi1x2
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.mzi1x2()
-  c.plot()
-
-
-
-mzi2x2
-----------------------------------------------------
-
-.. autofunction:: pp.components.mzi2x2
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.mzi2x2()
-  c.plot()
-
-
-
-mzi_arm
-----------------------------------------------------
-
-.. autofunction:: pp.components.mzi_arm
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.mzi_arm()
-  c.plot()
-
-
-
 mzi_lattice
 ----------------------------------------------------
 
@@ -1108,6 +1063,21 @@ mzi_lattice
   import pp
 
   c = pp.components.mzi_lattice()
+  c.plot()
+
+
+
+mzi_phase_shifter
+----------------------------------------------------
+
+.. autofunction:: pp.components.mzi_phase_shifter
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.mzi_phase_shifter()
   c.plot()
 
 
@@ -1412,6 +1382,21 @@ spiral_inner_io_euler
 
 
 
+spiral_inner_io_with_gratings
+----------------------------------------------------
+
+.. autofunction:: pp.components.spiral_inner_io_with_gratings
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.spiral_inner_io_with_gratings()
+  c.plot()
+
+
+
 splitter_chain
 ----------------------------------------------------
 
@@ -1712,21 +1697,6 @@ via_stack_with_offset
 
 
 
-wire
-----------------------------------------------------
-
-.. autofunction:: pp.components.wire
-
-.. plot::
-  :include-source:
-
-  import pp
-
-  c = pp.components.wire()
-  c.plot()
-
-
-
 wire_corner
 ----------------------------------------------------
 
@@ -1738,6 +1708,21 @@ wire_corner
   import pp
 
   c = pp.components.wire_corner()
+  c.plot()
+
+
+
+wire_sbend
+----------------------------------------------------
+
+.. autofunction:: pp.components.wire_sbend
+
+.. plot::
+  :include-source:
+
+  import pp
+
+  c = pp.components.wire_sbend()
   c.plot()
 
 

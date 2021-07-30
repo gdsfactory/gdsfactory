@@ -2,15 +2,15 @@
 
 ## TODO
 
-- enable routing with 180euler bends, enable Sbend routing
+- enable routing with 180euler and Sbends
 - define Layer as a dataclass instead of Tuple[int, int]
 - move add_fiber_array factory settings into a dataclass
-- enable difftest for test_containers
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 
 Maybe:
 
+- enable difftest for test_containers
 - xdoctest
 - mypy passing
 - enable add pins option in TECH that can add custom pins to components
@@ -36,6 +36,7 @@ from contracts import contract
 - delete mzi_arm, mzi2x2 and mzi1x2
 - add mzi_phase_shifter
 - add wire_sbend
+- pp.add_tapers back to functional programming
 
 ## 2.7.5
 

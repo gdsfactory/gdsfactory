@@ -51,7 +51,6 @@ def add_electrical_pads_top_dc(
 if __name__ == "__main__":
     import pp
 
-    c = pp.components.mzi2x2(with_elec_connections=True)
     c = pp.components.straight_with_heater()
     cc = add_electrical_pads_top_dc(component=c, waveguide="metal_routing")
     cc.show()
