@@ -18,6 +18,7 @@ Tutorials for `gdsfactory <https://github.com/gdsfactory/gdsfactory>`_
    notebooks/03_layers.ipynb
    notebooks/03_waveguides_paths_crossections.ipynb
    notebooks/04_components.ipynb
+   notebooks/05_components_hierarchy.ipynb
    notebooks/04_routing.ipynb
    notebooks/05_container.ipynb
    notebooks/05_group.ipynb
