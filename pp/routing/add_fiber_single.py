@@ -1,14 +1,11 @@
-from functools import partial
 from typing import Callable, Optional, Tuple
 
 from pp.add_labels import get_input_label_text, get_input_label_text_loopback
-from pp.add_tapers import add_tapers
 from pp.cell import cell_without_validator
 from pp.component import Component
 from pp.components.bend_circular import bend_circular
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
-from pp.components.taper import taper
 from pp.config import TECH, call_if_func
 from pp.routing.get_input_labels import get_input_labels
 from pp.routing.get_route import get_route_from_waypoints
@@ -24,8 +21,6 @@ def add_fiber_single(
     fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
-    taper_factory: ComponentFactory = taper,
-    taper_length: float = 10.0,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -110,22 +105,7 @@ def add_fiber_single(
         raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
 
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
-    port_width_gc = grating_coupler.ports[gc_port_name].width
     optical_ports = component.get_ports_list(port_type="optical")
-    port_width_component = optical_ports[0].width
-
-    if port_width_component != port_width_gc:
-        taper = partial(
-            taper_factory,
-            length=taper_length,
-            width1=port_width_gc,
-            width2=port_width_component,
-            **waveguide_settings,
-        )
-        component = add_tapers(
-            component=component,
-            taper=taper,
-        )
 
     c = Component()
     cr = c << component

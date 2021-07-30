@@ -25,6 +25,10 @@ from contracts import contract
 
 ```
 
+## 2.7.7
+
+- remove taper_factory from pp.routing.add_fiber_array and pp.routing.add_fiber_single
+
 ## 2.7.6
 
 - add Component.to_dict()

@@ -27,6 +27,5 @@ settings:
   layer_label: null
   min_input_to_output_spacing: 200
   optical_routing_type: 2
-  taper_length: 10
   waveguide: strip
   with_loopback: true

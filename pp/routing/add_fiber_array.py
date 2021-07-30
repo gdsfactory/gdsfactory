@@ -1,13 +1,10 @@
-from functools import partial
 from typing import Optional
 
 import pp
-from pp.add_tapers import add_tapers
 from pp.component import Component
 from pp.components.bend_euler import bend_euler
 from pp.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from pp.components.straight import straight
-from pp.components.taper import taper
 from pp.routing.route_fiber_array import route_fiber_array
 from pp.types import ComponentFactory, StrOrDict
 
@@ -20,7 +17,6 @@ def add_fiber_array(
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
-    taper_factory: ComponentFactory = taper,
     taper_length: float = 10.0,
     waveguide: StrOrDict = "strip",
     **kwargs,
@@ -89,24 +85,9 @@ def add_fiber_array(
     component_name = component_name or c.name
     cc = Component()
 
-    port_width_gc = gc.ports[gc_port_name].width
-
     optical_ports = c.get_ports_list(port_type="optical")
     if not optical_ports:
         return c
-    port_width_component = optical_ports[0].width
-
-    if port_width_component != port_width_gc:
-        taper = partial(
-            taper_factory,
-            length=taper_length,
-            width1=port_width_gc,
-            width2=port_width_component,
-        )
-        component = add_tapers(
-            component=component,
-            taper=taper,
-        )
 
     elements, io_gratings_lines, _ = route_fiber_array(
         component=c,
