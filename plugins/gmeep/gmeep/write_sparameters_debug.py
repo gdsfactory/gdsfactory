@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 import pp
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 
 import meep as mp
 from gmeep.get_simulation import get_simulation
@@ -35,26 +36,30 @@ if __name__ == "__main__":
 
     # Calculate mode overlaps
     nports = len(monitors)
+    r = dict(wavelengths=wavelengths)
     S = np.zeros((len(freqs), nports, nports))
     a = {}
     b = {}
 
     # Parse out the overlaps
     for port_name, monitor in monitors.items():
-        m_results = sim.get_eigenmode_coefficients(monitor, [1]).alpha
+        m_results = np.abs(sim.get_eigenmode_coefficients(monitor, [1]).alpha)
         a[port_name] = m_results[:, :, 0]  # forward wave
         b[port_name] = m_results[:, :, 1]  # backward wave
 
     source_fields = np.squeeze(a[port_source_name])
     for i, port_name_i in enumerate(monitors.keys()):
-        for j, port_name_j in enumerate(monitors.keys()):
-            if port_name_j == port_name_i:
-                S[:, i, j] = np.squeeze(b[port_name_j]) / source_fields
-            else:
-                S[:, i, j] = np.squeeze(a[port_name_j]) / source_fields
+        monitor = monitors[port_name_i]
+        r[f"s{i+1}"] = sim.get_eigenmode_coefficients(monitor, [1]).alpha[0, :, 0]
 
-            # S[:, i, j] = np.squeeze(a[port_name_j] / b[port_name_i])
-            # S[:, j, i] = np.squeeze(a[port_name_i] / b[port_name_j])
+        # for j, port_name_j in enumerate(monitors.keys()):
+        #     if port_name_j == port_name_i:
+        #         S[:, i, j] = np.squeeze(b[port_name_j]) / source_fields
+        #     else:
+        #         S[:, i, j] = np.squeeze(a[port_name_j]) / source_fields
+
+        # S[:, i, j] = np.squeeze(a[port_name_j] / b[port_name_i])
+        # S[:, j, i] = np.squeeze(a[port_name_i] / b[port_name_j])
 
     # for port_name in monitor.keys():
     #     a1 = m1_results[:, :, 0]  # forward wave
@@ -66,36 +71,36 @@ if __name__ == "__main__":
     #     s11 = np.squeeze(b1 / a1)
     #     s12 = np.squeeze(a2 / a1)
 
-    r = dict(wavelengths=wavelengths)
     keys = [key for key in r.keys() if key.startswith("s")]
     s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys}
     s.update({f"{key}m": list(np.abs(r[key].flatten())) for key in keys})
     s.update(wavelengths=wavelengths)
     s.update(freqs=freqs)
     df = pd.DataFrame(s)
+
     # df = df.set_index(df.wavelength)
-    df.to_csv(filepath, index=False)
-    s11 = S[:, 0, 0]
-    s12 = S[:, 0, 1]
-    s11 = np.abs(s11)
-    s12 = np.abs(s12)
-    s11 = 10 * np.log10(s11)
-    s12 = 10 * np.log10(s12)
-    plt.plot(wavelengths, s11, label="s11")
-    plt.plot(wavelengths, s12, label="s12")
-    plt.legend()
+    # df.to_csv(filepath, index=False)
+    # s11 = S[:, 0, 0]
+    # s12 = S[:, 0, 1]
+    # s11 = np.abs(s11)
+    # s12 = np.abs(s12)
+    # s11 = 10 * np.log10(s11)
+    # s12 = 10 * np.log10(s12)
+    # plt.plot(wavelengths, s11, label="s11")
+    # plt.plot(wavelengths, s12, label="s12")
+    # plt.legend()
 
     monitor_out = monitors["E0"]
     source_power = np.abs(source_fields) ** 2
     transmission = (
-        np.abs(sim.get_eigenmode_coefficients(monitor_out, [1]).alpha[0, 0, 0]) ** 2
+        np.abs(sim.get_eigenmode_coefficients(monitor_out, [1]).alpha[0, :, 0]) ** 2
         / source_power
     )
     print(f"transmission: {transmission}")
 
     monitor_input = monitors["W0"]
     reflection = (
-        np.abs(sim.get_eigenmode_coefficients(monitor_input, [1]).alpha[0, 0, 1]) ** 2
+        np.abs(sim.get_eigenmode_coefficients(monitor_input, [1]).alpha[0, :, 1]) ** 2
         / source_power
     )
     print(f"Reflection: {reflection}")
