@@ -13,7 +13,6 @@
 dist
 doc_pdks/
 deprecated/
-plugins/
 pip-wheel-metadata/
 pdk_docs/
 build
