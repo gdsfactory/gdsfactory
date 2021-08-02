@@ -928,9 +928,9 @@ class Component(Device):
         self.ports[p.name] = p
         return p
 
-    def add_ports(self, ports):
+    def add_ports(self, ports: List[Port], prefix: str = ""):
         for port in ports:
-            self.add_port(name=port, port=port)
+            self.add_port(name=f"{prefix}{port.name}", port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
         for port in self.ports.values():

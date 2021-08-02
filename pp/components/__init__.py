@@ -71,6 +71,8 @@ from pp.components.cutback_component import cutback_component_flipped
 from pp.components.pcm.litho_calipers import litho_calipers
 from pp.components.pcm.litho_steps import litho_steps
 from pp.components.pcm.verniers import verniers
+from pp.components.litho_ruler import litho_ruler
+
 
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_te
 from pp.components.grating_coupler.elliptical import grating_coupler_elliptical_tm
@@ -210,6 +212,7 @@ LIBRARY.register(
         hline,
         litho_calipers,
         litho_steps,
+        litho_ruler,
         logo,
         loop_mirror,
         manhattan_text,

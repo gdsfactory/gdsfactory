@@ -112,7 +112,7 @@ def extend_ports(
         if port_name in port_list:
             port = component.ports.get(port_name)
 
-            def extension_factory_default(length, width=port.width):
+            def extension_factory_default(length=length, width=port.width):
                 return pp.components.hline(length=length, width=width, layer=port.layer)
 
             extension_factory_port = extension_factory or extension_factory_default

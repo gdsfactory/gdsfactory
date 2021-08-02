@@ -7,6 +7,8 @@
 - move add_fiber_array factory settings into a dataclass
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
+- pdk demo using partial
+- convert from StrOrDict to functional programming (via_stack, waveguide, ...)
 
 Maybe:
 
@@ -28,6 +30,8 @@ from contracts import contract
 ## 2.7.7
 
 - remove taper_factory from pp.routing.add_fiber_array and pp.routing.add_fiber_single
+- pp.Component.add_ports(port_list, prefix) to avoid adding duplicated port names
+- add pp.components.litho_ruler
 
 ## 2.7.6
 
