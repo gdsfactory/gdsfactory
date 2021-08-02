@@ -56,6 +56,7 @@ from pp.components.bbox import bbox
 from pp.components.nxn import nxn
 from pp.components.ramp import ramp
 from pp.components.die import die
+from pp.components.die_bbox import die_bbox
 
 # optical test structures
 from pp.components.version_stamp import version_stamp
@@ -197,6 +198,7 @@ LIBRARY.register(
         delay_snake3,
         disk,
         die,
+        die_bbox,
         ellipse,
         fiber,
         fiber_array,
