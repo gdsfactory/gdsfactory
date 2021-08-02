@@ -37,6 +37,7 @@ from contracts import contract
 - update `samples/pdk/fabc.py` with partial
 - Library can register partial functions
 - `via_stack_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
+- add `pp.components.die_box`
 
 ## 2.7.6
 
