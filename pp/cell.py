@@ -69,6 +69,7 @@ def cell_without_validator(func):
         component_type = func.__name__
         name = kwargs.pop("name", None)
         name = name or get_component_name(component_type, **kwargs)
+        post_init = kwargs.pop("post_init", None)
 
         uid = kwargs.pop("uid", False)
         autoname = kwargs.pop("autoname", True)
@@ -109,6 +110,11 @@ def cell_without_validator(func):
                 func
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
             component = func(*args, **kwargs)
+            if post_init:
+                assert callable(
+                    post_init
+                ), f"post_init = {type(post_init)} needs to be callable"
+                post_init(component)
 
             if "component" in kwargs and isinstance(kwargs.get("component"), Component):
                 component_original = kwargs.pop("component")

@@ -7,8 +7,9 @@ from typing import Any
 import numpy as np
 from phidl import Device
 
-from pp.config import MAX_NAME_LENGTH
 from pp.snap import snap_to_grid
+
+MAX_NAME_LENGTH = 32
 
 
 def join_first_letters(name: str) -> str:

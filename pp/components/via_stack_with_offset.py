@@ -1,24 +1,21 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 from numpy import floor
 
 import pp
 from pp.component import Component
-from pp.components import LIBRARY
 from pp.layers import LAYER
-from pp.tech import Library
-from pp.types import Layer, StrOrDictOrNone
+from pp.types import ComponentFactory, Layer
 
 
 @pp.cell
 def via_stack_with_offset(
     layer_via_width_height_offset: Tuple[
-        Tuple[Layer, StrOrDictOrNone, float, float, float], ...
+        Tuple[Layer, Optional[ComponentFactory], float, float, float], ...
     ] = (
         (LAYER.Ppp, None, 10.0, 10.0, 0.0),
         (LAYER.M1, "via1", 10.0, 10.0, 0.0),
     ),
-    library: Library = LIBRARY,
     port_orientation: int = 180,
 ) -> Component:
     """Rectangular transition thru metal layers with offset between layers
@@ -46,7 +43,7 @@ def via_stack_with_offset(
         c.add_polygon(rect_pts, layer=layer)
 
         if via:
-            via = library.get_component(via)
+            via = via()
             w = via.info["width"]
             h = via.info["height"]
             g = via.info["enclosure"]
@@ -102,25 +99,24 @@ def via_stack_with_offset(
 
 if __name__ == "__main__":
 
-    # c = via()
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, "via1", 10, 10, 0),
+            (LAYER.Ppp, pp.c.via1, 10, 10, 0),
             (LAYER.M1, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, "via1", 10, 10, 10),
-            (LAYER.M1, "via2", 10, 10, 0),
+            (LAYER.Ppp, pp.c.via1, 10, 10, 10),
+            (LAYER.M1, pp.c.via2, 10, 10, 0),
             (LAYER.M2, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, "via1", 5, 10, 0),
-            (LAYER.M1, "via2", 5, 10, 10),
-            # (LAYER.M2, "via3", 5, 10, 0),
+            (LAYER.Ppp, pp.c.via1, 5, 10, 0),
+            (LAYER.M1, pp.c.via2, 5, 10, 10),
+            (LAYER.M2, pp.c.via3, 5, 10, 0),
             # (LAYER.M3, None, 5, 10, 0),
         )
     )

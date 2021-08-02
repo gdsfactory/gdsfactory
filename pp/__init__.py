@@ -20,6 +20,7 @@ modules:
 isort:skip_file
 """
 
+from functools import partial
 from phidl import quickplot as plot
 import phidl.geometry as pg
 from phidl.device_layout import Group, Path, CrossSection
@@ -107,6 +108,7 @@ __all__ = [
     "offset",
     "pack",
     "path",
+    "partial",
     "pg",
     "plot",
     "port",

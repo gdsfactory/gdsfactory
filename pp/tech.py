@@ -5,6 +5,8 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 import pydantic
 from phidl.device_layout import Device as Component
 
+from pp.name import clean_value
+
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 LAYER_STACK_IGNORE_PREXIXES = ("_", "get_", "name")
@@ -394,7 +396,7 @@ class Library:
         else:
             for function in function_or_function_list:
                 assert_callable(function)
-                self.factory[function.__name__] = function
+                self.factory[clean_value(function)] = function
 
         for function_name, function in kwargs.items():
             assert_callable(function)
