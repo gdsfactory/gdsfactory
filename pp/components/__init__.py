@@ -306,6 +306,7 @@ component_names_skip_test = [
     "component_lattice",
     "version_stamp",
     "resistance_meander",
+    "via_stack_with_offset",
 ]
 component_names_skip_test_ports = ["coupler"]
 

@@ -4,11 +4,12 @@
 
 - enable routing with 180euler and Sbends
 - define Layer as a dataclass instead of Tuple[int, int]
-- move add_fiber_array factory settings into a dataclass
+- move add_fiber_array settings into a dataclass
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 - pdk demo using partial
 - convert from StrOrDict to functional programming (via_stack, waveguide, ...)
+- add function to detect duplicated cell names
 
 Maybe:
 
@@ -32,6 +33,10 @@ from contracts import contract
 - remove taper_factory from pp.routing.add_fiber_array and pp.routing.add_fiber_single
 - pp.Component.add_ports(port_list, prefix) to avoid adding duplicated port names
 - add pp.components.litho_ruler
+- @cell has `post_init` function. Perfect for adding pins
+- update `samples/pdk/fabc.py` with partial
+- Library can register partial functions
+- `via_stack_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
 
 ## 2.7.6
 

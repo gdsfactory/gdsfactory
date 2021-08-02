@@ -18,10 +18,9 @@ import pydantic.dataclasses as dataclasses
 
 import pp
 from pp.add_pins import add_pin_square_inside
-from pp.cell import cell
 from pp.component import Component, ComponentReference
 from pp.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
-from pp.types import Layer, StrOrDict
+from pp.types import Layer
 
 
 @dataclasses.dataclass
@@ -86,143 +85,95 @@ def add_pins(
     """
     reference = reference or component
     for p in reference.ports.values():
-        layer = port_type_to_layer[p.port_type]
-        function(
-            component=component,
-            port=p,
-            layer=layer,
-            label_layer=layer,
-            pin_length=pin_length,
-            **kwargs,
-        )
+        if p.port_type in port_type_to_layer:
+            layer = port_type_to_layer[p.port_type]
+            function(
+                component=component,
+                port=p,
+                layer=layer,
+                label_layer=layer,
+                pin_length=pin_length,
+                **kwargs,
+            )
 
 
-@cell
-def mmi1x2_nitride_cband(
-    width: float = WIDTH_NITRIDE_CBAND,
-    width_taper: float = 1.0,
-    length_taper: float = 10.0,
-    length_mmi: float = 5.5,
-    width_mmi: float = 2.5,
-    gap_mmi: float = 0.25,
-    with_cladding_box: bool = True,
-    waveguide: StrOrDict = "fabc_nitride_cband",
-    **kwargs,
-) -> Component:
-    c = pp.components.mmi1x2(
-        width=width,
-        width_taper=width_taper,
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=width_mmi,
-        gap_mmi=gap_mmi,
-        with_cladding_box=with_cladding_box,
-        waveguide=waveguide,
-        **kwargs,
-    )
-    add_pins(c)
-    return c
+mmi1x2_nitride_c = pp.partial(
+    pp.c.mmi1x2,
+    width=WIDTH_NITRIDE_CBAND,
+    waveguide="fabc_nitride_cband",
+    post_init=add_pins,
+)
+mmi1x2_nitride_o = pp.partial(
+    pp.c.mmi1x2,
+    width=WIDTH_NITRIDE_OBAND,
+    waveguide="fabc_nitride_oband",
+    post_init=add_pins,
+)
+bend_euler_c = pp.partial(
+    pp.c.bend_euler, waveguide="fabc_nitride_cband", post_init=add_pins
+)
+straight_c = pp.partial(
+    pp.c.straight, waveguide="fabc_nitride_cband", post_init=add_pins
+)
+bend_euler_o = pp.partial(
+    pp.c.bend_euler, waveguide="fabc_nitride_oband", post_init=add_pins
+)
+straight_o = pp.partial(
+    pp.c.straight, waveguide="fabc_nitride_oband", post_init=add_pins
+)
+
+mzi_nitride_c = pp.partial(
+    pp.c.mzi,
+    waveguide="fabc_nitride_cband",
+    splitter=mmi1x2_nitride_c,
+    post_init=add_pins,
+    straight=straight_c,
+    bend=bend_euler_c,
+)
+mzi_nitride_o = pp.partial(
+    pp.c.mzi,
+    waveguide="fabc_nitride_oband",
+    splitter=mmi1x2_nitride_c,
+    post_init=add_pins,
+    straight=straight_o,
+    bend=bend_euler_o,
+)
 
 
-@cell
-def mmi1x2_nitride_oband(
-    width: float = WIDTH_NITRIDE_OBAND,
-    width_taper: float = 1.0,
-    length_taper: float = 10.0,
-    length_mmi: float = 5.5,
-    width_mmi: float = 2.5,
-    gap_mmi: float = 0.25,
-    with_cladding_box: bool = True,
-    waveguide: StrOrDict = "fabc_nitride_oband",
-    **kwargs,
-) -> Component:
-    c = pp.components.mmi1x2(
-        width=width,
-        width_taper=width_taper,
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=width_mmi,
-        gap_mmi=gap_mmi,
-        with_cladding_box=with_cladding_box,
-        waveguide=waveguide,
-        **kwargs,
-    )
-    add_pins(c)
-    return c
-
-
-@cell
-def bend_euler(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
-    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins(c)
-    return c
-
-
-@cell
-def bend_euler_cband(
-    waveguide: StrOrDict = "fabc_nitride_cband", **kwargs
-) -> Component:
-    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
-    add_pins(c)
-    return c
-
-
-@cell
-def straight_cband(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
-    c = pp.c.straight(waveguide=waveguide, **kwargs)
-    add_pins(c)
-    return c
+gc_nitride_c = pp.partial(
+    pp.components.grating_coupler_elliptical_te,
+    grating_line_width=0.6,
+    wg_width=WIDTH_NITRIDE_CBAND,
+    layer=LAYER.WGN,
+    post_init=add_pins,
+)
 
 
 TECH_FABC = Tech(name="fab_c")
 LIBRARY = Library(name="fab_c")
 LIBRARY.register(
-    [mmi1x2_nitride_cband, mmi1x2_nitride_oband, bend_euler_cband, straight_cband]
+    [
+        mmi1x2_nitride_c,
+        mmi1x2_nitride_o,
+        bend_euler_c,
+        straight_c,
+        mzi_nitride_c,
+        mzi_nitride_o,
+    ]
 )
 
 
-@cell
-def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
-    """Returns a Cband Nitride MMI."""
-    c = pp.c.mzi(
-        delta_length=delta_length,
-        splitter=mmi1x2_nitride_cband,
-        waveguide="fabc_nitride_cband",
-        width=WIDTH_NITRIDE_CBAND,
-    )
-    return c
-
-
-@cell
-def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
-    c = pp.c.mzi(
-        delta_length=delta_length,
-        splitter=mmi1x2_nitride_oband,
-        waveguide="fabc_nitride_oband",
-        width=WIDTH_NITRIDE_CBAND,
-    )
-    return c
-
-
-LIBRARY.register([mzi_nitride_cband, mzi_nitride_oband])
-
-
 if __name__ == "__main__":
-    # LIBRARY.write_rst(
-    #     filepath="doc.rst", import_library="from pp.samples.pdk.fab_c import LIBRARY"
-    # )
-    # print(mzi_nitride_cband.__doc__)
+    # c = mmi1x2_nitride_o()
+    # c.show()
 
-    mzi = mzi_nitride_cband()
-    gc = pp.c.grating_coupler_elliptical_te(
-        wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
-    )
+    mzi = mzi_nitride_c()
     mzi_gc = pp.routing.add_fiber_single(
         component=mzi,
-        grating_coupler=gc,
-        # waveguide=dict(component="fabc_nitride_cband", width=3), # FIXME
+        grating_coupler=gc_nitride_c,
         waveguide="fabc_nitride_cband",
         optical_routing_type=1,
-        bend_factory=bend_euler_cband,
+        straight_factory=straight_c,
+        bend_factory=bend_euler_c,
     )
     mzi_gc.show()
