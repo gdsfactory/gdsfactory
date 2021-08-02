@@ -25,7 +25,7 @@ from pp.types import PathType
 # from pp.write_doe_from_yaml import write_doe_from_yaml
 from pp.write_doe_from_yaml import import_custom_doe_factories
 
-VERSION = "2.7.6"
+VERSION = "2.7.7"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
