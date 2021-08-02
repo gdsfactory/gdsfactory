@@ -18,8 +18,8 @@ def via(
     """Rectangular via. Defaults to a square via.
 
     Args:
-        width:
-        height: Defaults to width
+        width: in x direction
+        height: in y direction, defaults to width
         pitch:
         pitch_x: Optional x pitch
         pitch_y: Optional y pitch

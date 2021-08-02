@@ -20,8 +20,8 @@ def via_stack(
     """Rectangular via_stack
 
     Args:
-        width: width
-        height: defaults to width
+        width: in x direction
+        height: in y direction, defaults to width
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0

@@ -13,7 +13,7 @@ def extend_ports_list(
     extension_settings: Optional[Dict[str, Any]] = None,
     extension_port_name: str = "W0",
 ) -> Component:
-    """Returns a component with extension to list of ports."""
+    """Returns a component with the extensions for a list of ports."""
     c = Component()
     extension_settings = extension_settings or {}
     extension = (
