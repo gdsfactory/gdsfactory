@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional, Tuple
 from pp.cell import cell
 from pp.component import Component
 from pp.components.compass import compass
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 

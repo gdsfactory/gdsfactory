@@ -6,7 +6,7 @@ from numpy import float64, ndarray
 import pp
 from pp.component import Component
 from pp.geo_utils import DEG2RAD, extrude_path
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.types import Layer
 
 

@@ -5,7 +5,7 @@ from numpy import floor
 import pp
 from pp.component import Component
 from pp.components.via import via2, via3
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.types import ComponentOrFactory, Layer
 
 

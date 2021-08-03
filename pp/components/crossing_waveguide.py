@@ -14,7 +14,7 @@ from pp.components.bezier import (
 from pp.components.ellipse import ellipse
 from pp.components.taper import taper
 from pp.geo_utils import path_length
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.types import ComponentFactory, ComponentOrFactory
 
 

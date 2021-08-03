@@ -6,7 +6,7 @@ from phidl.geometry import offset
 from pp import components as pc
 from pp.cell import cell
 from pp.component import Component
-from pp.layers import LAYER
+from pp.tech import LAYER
 
 
 @cell

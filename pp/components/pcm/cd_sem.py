@@ -3,8 +3,8 @@
 import pp
 from pp.components.bend_circular import bend_circular
 from pp.components.straight import straight
-from pp.layers import LAYER
 from pp.port import rename_ports_by_orientation
+from pp.tech import LAYER
 
 
 def square_middle(side=0.5, layer=LAYER.WG):

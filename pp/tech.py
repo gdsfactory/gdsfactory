@@ -51,6 +51,15 @@ class LayerMap:
 
 
 LAYER = LayerMap()
+PORT_LAYER_TO_TYPE = {
+    LAYER.PORT: "optical",
+    LAYER.PORTE: "dc",
+    LAYER.PORTH: "heater",
+    LAYER.TE: "vertical_te",
+    LAYER.TM: "vertical_tm",
+}
+
+PORT_TYPE_TO_LAYER = {v: k for k, v in PORT_LAYER_TO_TYPE.items()}
 
 
 @pydantic.dataclasses.dataclass

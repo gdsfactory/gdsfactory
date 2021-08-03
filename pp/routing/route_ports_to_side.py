@@ -5,9 +5,9 @@ import numpy as np
 import pp
 from pp.component import Component, ComponentReference
 from pp.config import TECH
-from pp.layers import LAYER
 from pp.port import Port, flipped
 from pp.routing.get_route import get_route
+from pp.tech import LAYER
 from pp.types import Route
 
 

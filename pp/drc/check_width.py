@@ -59,7 +59,7 @@ def demo():
 
 if __name__ == "__main__":
     import pp
-    from pp.layers import LAYER
+    from pp.tech import LAYER
 
     w = 0.12
     c = pp.components.rectangle(size=(w, w), layer=LAYER.WG)

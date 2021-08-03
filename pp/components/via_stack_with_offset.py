@@ -4,7 +4,7 @@ from numpy import floor
 
 import pp
 from pp.component import Component
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.types import ComponentFactory, Layer
 
 

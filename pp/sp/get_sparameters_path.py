@@ -4,8 +4,8 @@ from typing import Dict, Tuple
 
 from pp.component import Component
 from pp.config import CONFIG
-from pp.layers import LAYER
 from pp.name import dict2name
+from pp.tech import LAYER
 
 
 def get_sparameters_path(

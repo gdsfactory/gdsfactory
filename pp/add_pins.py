@@ -18,8 +18,8 @@ import pp
 from pp.add_padding import get_padding_points
 from pp.cell import cell
 from pp.component import Component, ComponentReference
-from pp.layers import LAYER, PORT_TYPE_TO_LAYER
 from pp.port import Port, read_port_markers
+from pp.tech import LAYER, PORT_TYPE_TO_LAYER
 from pp.types import Layer
 
 

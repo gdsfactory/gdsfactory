@@ -33,7 +33,7 @@ from pp.port import port_array
 from pp.cell import cell
 from pp.cell import cell_without_validator
 from pp.cell import clear_cache
-from pp.layers import LAYER
+from pp.tech import LAYER
 from pp.cross_section import cross_section
 from pp.show import show
 from pp.write_doe import write_doe

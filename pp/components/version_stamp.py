@@ -6,7 +6,7 @@ import pp
 from pp.component import Component
 from pp.components.text import text
 from pp.config import __version__
-from pp.layers import LAYER
+from pp.tech import LAYER
 
 
 def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
