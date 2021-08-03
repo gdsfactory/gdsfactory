@@ -4,10 +4,9 @@ from typing import Tuple
 import pp
 from pp.component import Component
 from pp.cross_section import pin
-from pp.layers import LAYER
 from pp.path import extrude, straight
 from pp.snap import snap_to_grid
-from pp.tech import TECH
+from pp.tech import LAYER, TECH
 from pp.types import Layer
 
 

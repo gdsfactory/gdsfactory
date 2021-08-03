@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 import pp
 from pp.component import Component
 from pp.components.manhattan_font import manhattan_text
-from pp.layers import LAYER
+from pp.tech import LAYER
 
 
 def square_middle(side=0.5, layer=LAYER.WG):

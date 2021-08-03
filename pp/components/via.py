@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 import pp
 from pp.component import Component
-from pp.layers import LAYER
+from pp.tech import LAYER
 
 
 @pp.cell

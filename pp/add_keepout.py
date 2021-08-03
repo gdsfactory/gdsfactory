@@ -5,7 +5,7 @@ from phidl.device_layout import _parse_layer
 from pp.cell import cell
 from pp.component import Component
 from pp.geo_utils import polygon_grow
-from pp.layers import LAYER
+from pp.tech import LAYER
 
 
 @cell

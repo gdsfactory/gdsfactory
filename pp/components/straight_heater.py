@@ -10,8 +10,8 @@ from pp.components.hline import hline
 from pp.components.straight import straight
 from pp.components.via_stack import via_stack
 from pp.cross_section import StrOrDict, get_cross_section
-from pp.layers import LAYER
 from pp.port import Port, auto_rename_ports
+from pp.tech import LAYER
 from pp.types import ComponentFactory, Layer, Number
 
 

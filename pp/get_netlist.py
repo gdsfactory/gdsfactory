@@ -17,9 +17,9 @@
 from typing import Dict, Tuple
 
 from pp.component import Component, ComponentReference
-from pp.layers import LAYER
 from pp.name import clean_name
 from pp.snap import snap_to_grid
+from pp.tech import LAYER
 
 
 def get_instance_name(

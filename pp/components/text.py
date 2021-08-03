@@ -6,8 +6,8 @@ from phidl.geometry import _glyph, _indent, _width
 import pp
 from pp.component import Component
 from pp.components.manhattan_font import manhattan_text
-from pp.layers import LAYER
 from pp.name import clean_name
+from pp.tech import LAYER
 from pp.types import Coordinate, Layer, Number
 
 

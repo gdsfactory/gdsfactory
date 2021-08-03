@@ -101,17 +101,6 @@ LAYER_COLORS.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha
 LAYER_COLORS.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
 
 
-PORT_LAYER_TO_TYPE = {
-    LAYER.PORT: "optical",
-    LAYER.PORTE: "dc",
-    LAYER.PORTH: "heater",
-    LAYER.TE: "vertical_te",
-    LAYER.TM: "vertical_tm",
-}
-
-PORT_TYPE_TO_LAYER = {v: k for k, v in PORT_LAYER_TO_TYPE.items()}
-
-
 def preview_layerset(
     ls: LayerSet = LAYER_COLORS, size: float = 100.0, spacing: float = 100.0
 ) -> Component:

@@ -15,11 +15,12 @@ from pp.config import CONFIG, print_config
 from pp.gdsdiff.gdsdiff import gdsdiff
 from pp.import_gds import write_cells as write_cells_to_separate_gds
 from pp.install import install_gdsdiff, install_generic_tech, install_klive
-from pp.layers import LAYER, lyp_to_dataclass
+from pp.layers import lyp_to_dataclass
 from pp.mask.merge_json import merge_json
 from pp.mask.merge_markdown import merge_markdown
 from pp.mask.merge_test_metadata import merge_test_metadata
 from pp.mask.write_labels import write_labels
+from pp.tech import LAYER
 from pp.types import PathType
 
 # from pp.write_doe_from_yaml import write_doe_from_yaml
