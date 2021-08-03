@@ -38,12 +38,22 @@ WIDTH_NITRIDE_CBAND = 1.0
 PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
 
 
+pp.tech.LAYER_SET.clear()
+
+
 @pydantic.dataclasses.dataclass
 class LayerStackFabc(LayerStack):
     WGN = LayerLevel(
-        layer=(34, 0), thickness_nm=350.0, zmin_nm=220.0 + 100.0, material="sin"
+        name="core",
+        gds_layer=34,
+        gds_datatype=0,
+        thickness_nm=350.0,
+        zmin_nm=220.0 + 100.0,
+        material="sin",
+        color="orange",
+        alpha=1.0,
     )
-    WGN_CLAD = LayerLevel(layer=(36, 0))
+    WGN_CLAD = LayerLevel(name="clad", gds_layer=36, gds_datatype=0)
 
 
 @dataclasses.dataclass
@@ -177,3 +187,4 @@ if __name__ == "__main__":
         bend_factory=bend_euler_c,
     )
     mzi_gc.show()
+    mzi_gc.plot()

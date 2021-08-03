@@ -8,7 +8,7 @@ import pandas as pd
 import pp
 from pp.component import Component
 from pp.sp.get_sparameters_path import get_sparameters_path
-from pp.tech import LAYER_STACK
+from pp.tech import LAYER_STACK, LayerStack
 
 
 def get_ports(line: str) -> Tuple[str, str]:
@@ -114,6 +114,7 @@ def test_read_sparameters_4port_mmi2x2():
 
 def read_sparameters_component(
     component: Component,
+    layer_stack: LayerStack = LAYER_STACK,
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
     layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = pp.CONFIG["sp"],
@@ -140,9 +141,9 @@ def read_sparameters_component(
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material or LAYER_STACK.get_layer_to_material(),
+        layer_to_material=layer_to_material or layer_stack.get_layer_to_material(),
         layer_to_thickness_nm=layer_to_thickness_nm
-        or LAYER_STACK.get_layer_to_thickness_nm(),
+        or layer_stack.get_layer_to_thickness_nm(),
     )
     numports = len(component.ports)
     assert (
@@ -174,7 +175,7 @@ if __name__ == "__main__":
     # test_read_sparameters_2port_straight()
     # test_read_sparameters_2port_bend()
     # test_read_sparameters_3port_mmi1x2()
-    test_read_sparameters_4port_mmi2x2()
-    # s = read_sparameters_component(pp.components.mmi2x2())
+    # test_read_sparameters_4port_mmi2x2()
+    s = read_sparameters_component(pp.components.mmi2x2())
     # print(s[0])
     # print(s)

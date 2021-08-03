@@ -201,4 +201,5 @@ if __name__ == "__main__":
     # print(CONFIG["git_hash"])
     # print(CONFIG["sp"])
     # print(CONFIG)
-    print_config()
+    # print_config()
+    write_tech("tech.json")

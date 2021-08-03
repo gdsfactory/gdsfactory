@@ -591,8 +591,8 @@ class Component(Device):
 
     @classmethod
     def validate(cls, v):
-        """For pydantic assumes Component is valid if:
-        - component name number of characters < MAX_NAME_LENGTH
+        """a valid component:
+        - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
         assert isinstance(v, Component)
