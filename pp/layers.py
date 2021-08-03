@@ -17,11 +17,7 @@ import xmltodict
 from phidl.device_layout import Layer as LayerPhidl
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
-from pp.component import Component
 from pp.name import clean_name
-from pp.tech import TECH
-
-LAYER = TECH.layer
 
 
 class LayerSet(LayerSetPhidl):
@@ -90,29 +86,27 @@ class LayerSet(LayerSetPhidl):
         name = tuple_to_name[layer_tuple]
         return self._layers[name]
 
-
-LAYER_COLORS = LayerSet()  # Layerset makes plotgds look good
-LAYER_COLORS.add_layer("WG", LAYER.WG[0], 0, "wg", color="gray", alpha=1)
-LAYER_COLORS.add_layer("WGCLAD", LAYER.WGCLAD[0], 0, "", color="gray", alpha=0)
-LAYER_COLORS.add_layer("SLAB150", LAYER.SLAB150[0], 0, "", color="lightblue", alpha=0.6)
-LAYER_COLORS.add_layer("SLAB90", LAYER.SLAB90[0], 0, "", color="lightblue", alpha=0.2)
-LAYER_COLORS.add_layer("WGN", LAYER.WGN[0], 0, "", color="orange", alpha=1)
-LAYER_COLORS.add_layer("WGN_CLAD", LAYER.WGN_CLAD[0], 0, "", color="gray", alpha=0)
-LAYER_COLORS.add_layer("DEVREC", LAYER.DEVREC[0], 0, "", color="gray", alpha=0.1)
+    def clear(self):
+        """Deletes all entries in the LayerSet"""
+        self._layers = {}
 
 
 def preview_layerset(
-    ls: LayerSet = LAYER_COLORS, size: float = 100.0, spacing: float = 100.0
-) -> Component:
+    ls: LayerSet, size: float = 100.0, spacing: float = 100.0
+) -> object:
     """Generates a preview Device with representations of all the layers,
     used for previewing LayerSet color schemes in quickplot or saved .gds
     files
+
+    Args:
+        ls: LayerSet
+
     """
     import numpy as np
 
     import pp
 
-    D = Component(name="layerset")
+    D = pp.Component(name="layerset")
     scale = size / 100
     num_layers = len(ls._layers)
     matrix_size = int(np.ceil(np.sqrt(num_layers)))
@@ -230,12 +224,6 @@ def load_lyp(filepath: Path) -> LayerSet:
             for member in group_members:
                 _add_layer(member, lys)
     return lys
-
-
-# For port labelling purpose
-# LAYERS_OPTICAL = [LAYER.WG]
-# LAYERS_ELECTRICAL = [LAYER.M1, LAYER.M2, LAYER.M3]
-# LAYERS_HEATER = [LAYER.HEATER]
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
