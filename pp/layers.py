@@ -11,7 +11,7 @@ preview_layerset adapted from phidl.geometry
 """
 import pathlib
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 import xmltodict
 from phidl.device_layout import Layer as LayerPhidl
@@ -20,7 +20,6 @@ from phidl.device_layout import LayerSet as LayerSetPhidl
 from pp.component import Component
 from pp.name import clean_name
 from pp.tech import TECH
-from pp.types import PathType
 
 LAYER = TECH.layer
 
@@ -65,14 +64,6 @@ class LayerSet(LayerSetPhidl):
             )
         else:
             self._layers[name] = new_layer
-
-    # def __getitem__(self, val: str) -> Tuple[int, int]:
-    #     """Returns gds layer tuple."""
-    #     if val not in self._layers:
-    #         raise ValueError(f"Layer {val} not in {list(self._layers.keys())}")
-    #     else:
-    #         layer = self._layers[val]
-    #         return layer.gds_layer, layer.gds_datatype
 
     def __repr__(self):
         """Prints the number of Layers in the LayerSet object."""
@@ -258,7 +249,7 @@ def load_lyp(filepath: Path) -> LayerSet:
 # LAYERS_HEATER = [LAYER.HEATER]
 
 
-def lyp_to_dataclass(lyp_filepath: PathType, overwrite: bool = True) -> str:
+def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 
