@@ -1,21 +1,19 @@
-from typing import Optional
-
 import numpy as np
 
 import pp
-from pp.tech import LIBRARY, Library
-from pp.types import StrOrDict
+from pp.components.bend_s import bend_s
+from pp.components.mmi1x2 import mmi1x2
+from pp.types import ComponentFactory, StrOrDict
 
 
 @pp.cell
 def splitter_tree(
-    coupler: StrOrDict = "mmi1x2",
+    coupler: ComponentFactory = mmi1x2,
     noutputs: int = 4,
     dy: float = 50.0,
     dx: float = 90.0,
-    bend_s: Optional[StrOrDict] = "bend_s",
+    bend_s: ComponentFactory = bend_s,
     waveguide: StrOrDict = "strip",
-    library: Library = LIBRARY,
     **kwargs,
 ) -> pp.Component:
     """Tree of power splitters.
@@ -41,15 +39,13 @@ def splitter_tree(
     """
     c = pp.Component()
 
-    coupler = library.get_component(coupler, waveguide=waveguide, **kwargs)
+    coupler = coupler(waveguide=waveguide, **kwargs)
     if bend_s:
         dy_coupler_ports = abs(
             coupler.ports["E0"].midpoint[1] - coupler.ports["E1"].midpoint[1]
         )
         height = dy / 4 - dy_coupler_ports / 2
-        bend_s = library.get_component(
-            bend_s, waveguide=waveguide, length=dx, height=height, **kwargs
-        )
+        bend_s = bend_s(waveguide=waveguide, length=dx, height=height, **kwargs)
     cols = int(np.log2(noutputs))
     i = 0
 
@@ -115,9 +111,10 @@ def test_splitter_tree_ports():
 
 if __name__ == "__main__":
     # test_splitter_tree_ports()
+    import pp
 
     c = splitter_tree(
-        coupler=dict(component="mmi1x2", gap_mmi=2.0, width_mmi=5.0),
+        coupler=pp.partial(mmi1x2, gap_mmi=2.0, width_mmi=5.0),
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
         noutputs=2 ** 2,
