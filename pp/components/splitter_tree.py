@@ -1,8 +1,9 @@
 import numpy as np
 
 import pp
-from pp.components.bend_s import bend_s
+from pp.components.bend_s import bend_s as bend_s_function
 from pp.components.mmi1x2 import mmi1x2
+from pp.components.mmi2x2 import mmi2x2
 from pp.types import ComponentFactory, StrOrDict
 
 
@@ -12,7 +13,7 @@ def splitter_tree(
     noutputs: int = 4,
     dy: float = 50.0,
     dx: float = 90.0,
-    bend_s: ComponentFactory = bend_s,
+    bend_s: ComponentFactory = bend_s_function,
     waveguide: StrOrDict = "strip",
     **kwargs,
 ) -> pp.Component:
@@ -102,7 +103,7 @@ def splitter_tree(
 
 def test_splitter_tree_ports():
     c = splitter_tree(
-        coupler="mmi2x2",
+        coupler=mmi2x2,
         noutputs=4,
         waveguide="nitride",
     )
@@ -110,7 +111,7 @@ def test_splitter_tree_ports():
 
 
 if __name__ == "__main__":
-    # test_splitter_tree_ports()
+    test_splitter_tree_ports()
     import pp
 
     c = splitter_tree(

@@ -1,19 +1,9 @@
 """
-# Fab C
-
-Lets assume that fab C has both Silicon and Silicon Nitride components, and you need different waveguide widths for C and O band.
-
-Lets asume that O band nitride waveguide width is 0.9 and Cband Nitride waveguide width is 1um, and for 0.4um for Silicon O band and 0.5um for silicon Cband.
-
-Lets also that this foundry has an LVS flow where all components have optical pins defined in layer (100, 0)
-
 
 """
 
-
 from typing import Callable, Dict, Optional, Tuple
 
-import pydantic
 import pydantic.dataclasses as dataclasses
 
 import pp
@@ -38,22 +28,20 @@ WIDTH_NITRIDE_CBAND = 1.0
 PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
 
 
-pp.tech.LAYER_SET.clear()
-
-
-@pydantic.dataclasses.dataclass
-class LayerStackFabc(LayerStack):
-    WGN = LayerLevel(
-        name="core",
-        gds_layer=34,
-        gds_datatype=0,
-        thickness_nm=350.0,
-        zmin_nm=220.0 + 100.0,
-        material="sin",
-        color="orange",
-        alpha=1.0,
+def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
+    """Returns generic LayerStack"""
+    return LayerStack(
+        layers=[
+            LayerLevel(
+                name="core",
+                gds_layer=34,
+                gds_datatype=0,
+                thickness_nm=350.0,
+                zmin_nm=220.0 + 100.0,
+            ),
+            LayerLevel(name="clad", gds_layer=36, gds_datatype=0),
+        ]
     )
-    WGN_CLAD = LayerLevel(name="clad", gds_layer=36, gds_datatype=0)
 
 
 @dataclasses.dataclass
@@ -107,46 +95,31 @@ def add_pins(
             )
 
 
+# LEAF COMPONENTS have pins
+
 mmi1x2_nitride_c = pp.partial(
     pp.c.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     waveguide="fabc_nitride_cband",
-    post_init=add_pins,
+    decorator=add_pins,
 )
 mmi1x2_nitride_o = pp.partial(
     pp.c.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     waveguide="fabc_nitride_oband",
-    post_init=add_pins,
+    decorator=add_pins,
 )
 bend_euler_c = pp.partial(
-    pp.c.bend_euler, waveguide="fabc_nitride_cband", post_init=add_pins
+    pp.c.bend_euler, waveguide="fabc_nitride_cband", decorator=add_pins
 )
 straight_c = pp.partial(
-    pp.c.straight, waveguide="fabc_nitride_cband", post_init=add_pins
+    pp.c.straight, waveguide="fabc_nitride_cband", decorator=add_pins
 )
 bend_euler_o = pp.partial(
-    pp.c.bend_euler, waveguide="fabc_nitride_oband", post_init=add_pins
+    pp.c.bend_euler, waveguide="fabc_nitride_oband", decorator=add_pins
 )
 straight_o = pp.partial(
-    pp.c.straight, waveguide="fabc_nitride_oband", post_init=add_pins
-)
-
-mzi_nitride_c = pp.partial(
-    pp.c.mzi,
-    waveguide="fabc_nitride_cband",
-    splitter=mmi1x2_nitride_c,
-    post_init=add_pins,
-    straight=straight_c,
-    bend=bend_euler_c,
-)
-mzi_nitride_o = pp.partial(
-    pp.c.mzi,
-    waveguide="fabc_nitride_oband",
-    splitter=mmi1x2_nitride_c,
-    post_init=add_pins,
-    straight=straight_o,
-    bend=bend_euler_o,
+    pp.c.straight, waveguide="fabc_nitride_oband", decorator=add_pins
 )
 
 
@@ -155,7 +128,26 @@ gc_nitride_c = pp.partial(
     grating_line_width=0.6,
     wg_width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
-    post_init=add_pins,
+    decorator=add_pins,
+)
+
+# HIERARCHICAL COMPONENTS made of leaf components
+
+mzi_nitride_c = pp.partial(
+    pp.c.mzi,
+    waveguide="fabc_nitride_cband",
+    splitter=mmi1x2_nitride_c,
+    decorator=add_pins,
+    straight=straight_c,
+    bend=bend_euler_c,
+)
+mzi_nitride_o = pp.partial(
+    pp.c.mzi,
+    waveguide="fabc_nitride_oband",
+    splitter=mmi1x2_nitride_c,
+    decorator=add_pins,
+    straight=straight_o,
+    bend=bend_euler_o,
 )
 
 
@@ -169,6 +161,7 @@ LIBRARY.register(
         straight_c,
         mzi_nitride_c,
         mzi_nitride_o,
+        gc_nitride_c,
     ]
 )
 

@@ -28,6 +28,13 @@ from contracts import contract
 
 ```
 
+## 2.7.8
+
+- rename post_init to decorator
+- add pp.layer.load_lyp_generic
+- load_lyp, alpha=1 if visible = 'false'
+- LayerStack is a list of LayerLevel and has no color information
+
 ## 2.7.7
 
 - remove taper_factory from pp.routing.add_fiber_array and pp.routing.add_fiber_single
