@@ -4,9 +4,9 @@ from gmeep.find_modes import find_modes
 
 
 def test_find_modes():
-    r = find_modes(wg_width=0.45)
-    neff = r["neff"]
-    ng = r["ng"]
+    m = find_modes(wg_width=0.45)
+    neff = m.neff
+    ng = m.ng
     print(neff, ng)
     assert np.isclose(neff, 2.31169419861862)
     assert np.isclose(ng, 4.076561522948648)

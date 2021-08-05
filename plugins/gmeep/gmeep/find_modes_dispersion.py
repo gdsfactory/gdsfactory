@@ -7,6 +7,7 @@ import numpy as np
 import gmeep as gm
 from gmeep.config import disable_print, enable_print
 from gmeep.materials import get_index
+from gmeep.types import Mode
 
 
 def find_modes_dispersion(
@@ -52,25 +53,25 @@ def find_modes_dispersion(
     nclad = partial(get_index, name=clad)
 
     disable_print()
-    r0 = gm.find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    rc = gm.find_modes(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    r1 = gm.find_modes(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
+    m0 = gm.find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
+    mc = gm.find_modes(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
+    m1 = gm.find_modes(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
     enable_print()
 
-    n0 = r0["neff"]
-    nc = rc["neff"]
-    n1 = r1["neff"]
+    n0 = m0.neff
+    nc = mc.neff
+    n1 = m1.neff
 
     # ng = ncenter - wavelength *dn/ step
     ng = nc - wavelength * (n1 - n0) / (2 * wavelength_step)
     neff = (n0 + nc + n1) / 3
-    return dict(ng=ng, neff=neff, r0=r0, rc=rc, r1=r1)
+    return Mode(ng=ng, neff=neff, solver=mc)
 
 
 def test_ng():
-    r = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
+    m = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
     # print(r["ng"])
-    assert np.isclose(r["ng"], 4.243284836138521)
+    assert np.isclose(m.ng, 4.243284836138521)
 
 
 if __name__ == "__main__":

@@ -130,14 +130,16 @@ def _get_bundle_corner_waypoints(
     for p in ports2:
         p.angle = p.angle % 360
 
-    assert len(ports2) == nb_ports
-    assert (
-        len(set([p.angle for p in ports1])) <= 1
-    ), "All start ports should have identical angle"
+    port_angles1 = set([p.angle for p in ports1])
+    port_angles2 = set([p.angle for p in ports2])
 
+    assert len(ports2) == nb_ports, f"ports1 = {len(ports1)} must match {len(ports2)}"
     assert (
-        len(set([p.angle for p in ports2])) <= 1
-    ), "All end ports should have identical angle"
+        len(port_angles1) <= 1
+    ), f"ports1 should have the same angle. Got {port_angles1}"
+    assert (
+        len(port_angles2) <= 1
+    ), f"ports2 should have the same angle. Got {port_angles2}"
 
     a_start = ports1[0].angle
     a_end = ports2[0].angle
