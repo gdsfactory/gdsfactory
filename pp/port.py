@@ -28,6 +28,18 @@ from pp.snap import snap_to_grid
 valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
 
 
+class PortNotOnGridError(ValueError):
+    pass
+
+
+class PortTypeError(ValueError):
+    pass
+
+
+class PortOrientationError(ValueError):
+    pass
+
+
 class Port(PortPhidl):
     """Ports are useful to connect Components with each other.
     Extends phidl port with layer and port_type (optical, dc, rf)
@@ -180,31 +192,33 @@ class Port(PortPhidl):
         self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
 
     def assert_on_grid(self, nm: int = 1) -> None:
+        """Ensures ports edges are on grid to avoid snap_to_grid errors."""
         half_width = self.width / 2
         half_width_correct = snap_to_grid(half_width, nm=nm)
+        component_name = self.parent.get_property("name")
         if not np.isclose(half_width, half_width_correct):
-            raise ValueError(
-                f"{self.name} port in {self.parent.parent.name} width = {self.width} will create off-grid points",
-                f"you can fix it by changing width to {half_width_correct}",
+            raise PortNotOnGridError(
+                f"{component_name}, port = {self.name}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
+                f"you can fix it by changing width to {2*half_width_correct}",
             )
 
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):
-                raise ValueError(
-                    f"{self.name} port in {self.parent.parent.name} has an off-grid point {x}",
+                raise PortNotOnGridError(
+                    f"{self.name} port in {component_name} has an off-grid point {x}",
                     f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
                 )
         elif self.orientation in [90, 270]:
             x = self.x + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):
-                raise ValueError(
-                    f"{self.name} port in {self.parent.name} has an off-grid point {x}",
+                raise PortNotOnGridError(
+                    f"{self.name} port in {component_name} has an off-grid point {x}",
                     f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
                 )
         else:
-            raise ValueError(
-                f"{self.parent.parent.name} port {self.name} has invalid orientation"
+            raise PortOrientationError(
+                f"{component_name} port {self.name} has invalid orientation"
                 f" {self.orientation}"
             )
 
@@ -217,7 +231,16 @@ def port_array(
     n: int = 2,
     **kwargs,
 ) -> List[Port]:
-    """returns list of ports"""
+    """returns a list of ports placed in an array
+
+    Args:
+        midpoint: center point of the port
+        width: port width
+        orientation: angle in degrees
+        pitch: period of the port array
+        n: number of ports in the array
+
+    """
     pitch = np.array(pitch)
     return [
         Port(
@@ -284,7 +307,9 @@ def select_ports(
 
     if port_type:
         if port_type not in valid_port_types:
-            raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
+            raise PortTypeError(
+                f"Invalid port_type={port_type} not in {valid_port_types}"
+            )
         ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
 
     if layer:
@@ -345,7 +370,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     valid_directions = ["E", "N", "W", "S"]
 
     if direction not in valid_directions:
-        raise ValueError(f"{direction} must be in {valid_directions} ")
+        raise PortOrientationError(f"{direction} must be in {valid_directions} ")
 
     if isinstance(ports, dict):
         ports = list(ports.values())
@@ -505,7 +530,7 @@ def auto_rename_ports(component: Device) -> Device:
         if port_type in type_to_ports_naming_functions:
             _func_name_ports = type_to_ports_naming_functions[port_type]
         else:
-            raise ValueError(
+            raise PortTypeError(
                 f"Invalid port_type='{port_type}' in component {component.name}, port {p.name}",
                 f"valid types = {list(type_to_ports_naming_functions.keys())}",
             )
