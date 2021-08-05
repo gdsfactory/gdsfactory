@@ -33,7 +33,7 @@ from contracts import contract
 - rename post_init to decorator
 - add pp.layer.load_lyp_generic
 - load_lyp, alpha=1 if visible = 'false'
-- LayerStack is a list of LayerLevel and has no color information
+- LayerStack is now List[LayerLevel] and has no color information
 
 ## 2.7.7
 
