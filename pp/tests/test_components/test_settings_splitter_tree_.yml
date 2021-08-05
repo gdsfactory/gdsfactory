@@ -3,8 +3,6 @@ info: {}
 module: pp.components.splitter_tree
 name: splitter_tree
 settings:
-  bend_s: bend_s
-  coupler: mmi1x2
   dx: 90
   dy: 50
   noutputs: 4

@@ -10,6 +10,7 @@ load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
 import pathlib
+from functools import partial
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
@@ -18,6 +19,9 @@ from phidl.device_layout import Layer as LayerPhidl
 from phidl.device_layout import LayerSet as LayerSetPhidl
 
 from pp.name import clean_name
+
+module_path = pathlib.Path(__file__).parent.absolute()
+layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
 class LayerSet(LayerSetPhidl):
@@ -186,9 +190,15 @@ def _add_layer(entry, lys: LayerSet) -> LayerSet:
         return
 
     gds_layer, gds_datatype = info.split("/")
-
     gds_layer = gds_layer.split()[-1]
     gds_datatype = gds_datatype.split()[-1]
+
+    if entry["visible"] == "false":
+        alpha = 0
+    elif entry["transparent"] == "false":
+        alpha = 1
+    else:
+        alpha = 0.5
 
     settings = dict()
     settings["gds_layer"] = int(gds_layer)
@@ -197,6 +207,7 @@ def _add_layer(entry, lys: LayerSet) -> LayerSet:
     settings["dither"] = entry["dither-pattern"]
     settings["name"] = _name_to_short_name(name)
     settings["description"] = _name_to_description(name)
+    settings["alpha"] = alpha
     lys.add_layer(**settings)
     return lys
 
@@ -224,6 +235,9 @@ def load_lyp(filepath: Path) -> LayerSet:
             for member in group_members:
                 _add_layer(member, lys)
     return lys
+
+
+load_lyp_generic = partial(load_lyp, filepath=layer_path)
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
@@ -262,7 +276,8 @@ if __name__ == "__main__":
     # print(LAYER_STACK.get_layer_to_material())
 
     # lys = test_load_lyp()
-    c = preview_layerset()
+    lys = load_lyp_generic()
+    c = preview_layerset(ls=lys)
     c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))

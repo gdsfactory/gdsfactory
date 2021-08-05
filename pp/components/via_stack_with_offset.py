@@ -4,6 +4,7 @@ from numpy import floor
 
 import pp
 from pp.component import Component
+from pp.components.via import via1
 from pp.tech import LAYER
 from pp.types import ComponentFactory, Layer
 
@@ -14,7 +15,7 @@ def via_stack_with_offset(
         Tuple[Layer, Optional[ComponentFactory], float, float, float], ...
     ] = (
         (LAYER.Ppp, None, 10.0, 10.0, 0.0),
-        (LAYER.M1, "via1", 10.0, 10.0, 0.0),
+        (LAYER.M1, via1, 10.0, 10.0, 0.0),
     ),
     port_orientation: int = 180,
 ) -> Component:
@@ -121,5 +122,6 @@ if __name__ == "__main__":
         )
     )
     # c.pprint()
+    c = via_stack_with_offset()
     print(c)
     c.show()

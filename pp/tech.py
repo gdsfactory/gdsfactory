@@ -10,7 +10,6 @@ from pp.name import clean_value
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
-LAYER_STACK_IGNORE_PREXIXES = ("_", "get_", "name", "add_")
 
 
 @pydantic.dataclasses.dataclass
@@ -72,11 +71,6 @@ class LayerLevel:
         name: Name of the Layer.
         gds_layer: GDSII Layer number.
         gds_datatype: GDSII datatype.
-        description: Layer description.
-        color: Hex code of color for the Layer.
-        inverted: If true, inverts the Layer.
-        alpha: layer opacity between 0 and 1.
-        dither: KLayout dither style, only used in phidl.utilities.write_lyp().
         thickness_nm: thickness of layer
         zmin_nm: height position where material starts
         material: material name
@@ -86,11 +80,6 @@ class LayerLevel:
     name: str
     gds_layer: int
     gds_datatype: int = 0
-    description: Optional[str] = None
-    color: Optional[str] = None
-    inverted: bool = False
-    alpha: float = 0.0
-    dither: bool = None
     thickness_nm: Optional[float] = None
     zmin_nm: Optional[float] = None
     material: Optional[str] = None
@@ -100,31 +89,6 @@ class LayerLevel:
     def gds(self):
         return (self.gds_layer, self.gds_datatype)
 
-    def __post_init__(self):
-        LAYER_SET.add_layer(
-            name=self.name,
-            gds_layer=self.gds_layer,
-            gds_datatype=self.gds_datatype,
-            description=self.description,
-            color=self.color,
-            alpha=self.alpha,
-        )
-
-    # def __str__(self):
-    #     return "_".join(
-    #         [
-    #             str(getattr(self, k))
-    #             for k in [
-    #                 "gds_layer",
-    #                 "gds_datatype",
-    #                 "zmin_nm",
-    #                 "thickness_nm",
-    #                 "sidewall_angle",
-    #             ]
-    #             if getattr(self, k) is not None
-    #         ]
-    #     )
-
 
 @pydantic.dataclasses.dataclass
 class LayerStack:
@@ -133,107 +97,72 @@ class LayerStack:
 
     """
 
+    layers: List[LayerLevel]
+
     def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""
         return {
-            getattr(self, key).gds: getattr(self, key).thickness_nm
-            for key in dir(self)
-            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
-            and getattr(self, key).thickness_nm
+            layer.gds: layer.thickness_nm for layer in self.layers if layer.thickness_nm
         }
 
     def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (nm)."""
-        return {
-            getattr(self, key).gds: getattr(self, key).zmin_nm
-            for key in dir(self)
-            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
-            and getattr(self, key).zmin_nm is not None
-        }
+        return {layer.gds: layer.zmin_nm for layer in self.layers if layer.thickness_nm}
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to material."""
         return {
-            getattr(self, key).gds: getattr(self, key).material
-            for key in dir(self)
-            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
-            and getattr(self, key).material
+            layer.gds: layer.material for layer in self.layers if layer.thickness_nm
         }
 
-    def get_dict(self):
-        return {
-            key: asdict(getattr(self, key))
-            for key in dir(self)
-            if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
-        }
-
-    # def add(self, layer:LayerLevel)->None
-    # pass
-
-    # def __str__(self):
-    #     return ",".join(
-    #         str(getattr(self, key))
-    #         for key in dir(self)
-    #         if not key.startswith(LAYER_STACK_IGNORE_PREXIXES)
-    #         and getattr(self, key).material
-    #     )
-
-    # def __repr__(self):
-    #     return self.__str__
+    def to_dict(self):
+        return {layer.name: asdict(layer) for layer in self.layers}
 
 
-# def get_layer_stack(layers: Tuple[LayerLevel, ...]) -> LayerStack:
-#     ls = LayerStack()
-
-#     for layer in layers:
-#         setattr()
-
-
-@pydantic.dataclasses.dataclass
-class LayerStackGeneric(LayerStack):
-    WG = LayerLevel(
-        name="core",
-        gds_layer=1,
-        thickness_nm=220.0,
-        zmin_nm=0.0,
-        material="si",
-        color="gray",
-        alpha=1.0,
+def get_layer_stack_generic(thickness_nm: float = 220.0) -> LayerStack:
+    """Returns generic LayerStack"""
+    return LayerStack(
+        layers=[
+            LayerLevel(
+                name="core",
+                gds_layer=1,
+                thickness_nm=thickness_nm,
+                zmin_nm=0.0,
+                material="si",
+            ),
+            LayerLevel(
+                name="clad",
+                gds_layer=111,
+                zmin_nm=0.0,
+                material="sio2",
+            ),
+            LayerLevel(
+                name="slab150",
+                gds_layer=2,
+                thickness_nm=150.0,
+                zmin_nm=0,
+                material="si",
+            ),
+            LayerLevel(
+                name="slab90",
+                gds_layer=3,
+                thickness_nm=150.0,
+                zmin_nm=0.0,
+                material="si",
+            ),
+            LayerLevel(
+                name="nitride",
+                gds_layer=34,
+                thickness_nm=350.0,
+                zmin_nm=220.0 + 100.0,
+                material="sin",
+            ),
+            LayerLevel(name="nitride_clad", gds_layer=36),
+        ]
     )
-    WGCLAD = LayerLevel(
-        name="clad", gds_layer=111, zmin_nm=0.0, material="sio2", alpha=0.0
-    )
-    SLAB150 = LayerLevel(
-        name="slab150",
-        gds_layer=2,
-        thickness_nm=150.0,
-        zmin_nm=0,
-        material="si",
-        color="lightblue",
-        alpha=0.6,
-    )
-    SLAB90 = LayerLevel(
-        name="slab90",
-        gds_layer=3,
-        thickness_nm=150.0,
-        zmin_nm=0.0,
-        material="si",
-        color="lightblue",
-        alpha=0.2,
-    )
-    WGN = LayerLevel(
-        name="nitride",
-        gds_layer=34,
-        thickness_nm=350.0,
-        zmin_nm=220.0 + 100.0,
-        material="sin",
-        color="orange",
-        alpha=1,
-    )
-    WGN_CLAD = LayerLevel(name="nitride_clad", gds_layer=36)
 
 
-LAYER_STACK = LayerStackGeneric()
+LAYER_STACK = get_layer_stack_generic()
 
 
 # waveguides
@@ -595,5 +524,6 @@ if __name__ == "__main__":
     # print(asdict(TECH))
     # c = cf.get_component("mmi1x2_longer", length_mmi=30)
     ls = LAYER_STACK
-    print(ls.WG)
-    print(ls.get_dict())
+    # print(ls.to_dict())
+    print(ls.get_layer_to_material())
+    print(ls.get_layer_to_thickness_nm())

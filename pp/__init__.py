@@ -54,6 +54,8 @@ import pp.components.extension as extend
 import pp.component_from as component_from
 import pp.read as read
 import pp.remove as remove
+import pp.layers as layers
+
 
 from pp.tech import TECH
 from pp.component_from_yaml import component_from_yaml
@@ -69,6 +71,7 @@ from pp.rotate import rotate
 
 
 c = components
+lys = layers.load_lyp_generic()
 
 __all__ = [
     "CONFIG",
@@ -105,6 +108,7 @@ __all__ = [
     "grid",
     "import_gds",
     "klive",
+    "layers",
     "offset",
     "pack",
     "path",

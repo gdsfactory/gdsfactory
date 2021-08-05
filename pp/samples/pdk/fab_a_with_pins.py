@@ -22,15 +22,18 @@ METAL1 = Metal1()
 TECH.waveguide.metal1 = METAL1
 
 
-def post_init(component) -> None:
+def decorator(component) -> None:
     """Fab specific functions over a component."""
     add_pins(component)
     add_outline(component)
 
 
-LIBRARY = Library(name="fab_a", post_init=post_init)
-LIBRARY.register([pp.c.mmi2x2, pp.c.mmi1x2, pp.c.mzi])
-LIBRARY.register(sw=pp.c.straight)
+mmi2x2 = pp.partial(pp.c.mmi2x2, decorator=decorator)
+mmi1x2 = pp.partial(pp.c.mmi1x2, decorator=decorator)
+mzi = pp.partial(pp.c.mzi, splitter=mmi1x2)
+
+LIBRARY = Library(name="fab_a")
+LIBRARY.register([mmi2x2, mmi1x2, mzi])
 
 
 if __name__ == "__main__":
