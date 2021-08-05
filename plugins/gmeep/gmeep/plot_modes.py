@@ -7,6 +7,7 @@ from typing import Optional, Union
 
 import matplotlib.pyplot as plt
 import meep as mp
+from meep import mpb
 import numpy as np
 
 mp.verbosity(0)
@@ -14,7 +15,7 @@ mp.verbosity.mpb = 0
 
 
 def plot_modes(
-    mode_solver,
+    mode_solver: mpb.ModeSolver,
     sx: float = 2.0,
     sy: float = 2.0,
     mode_number: int = 1,
