@@ -15,11 +15,13 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 import pathlib
 import tempfile
 from typing import Dict, Union
+import pydantic
 
 import meep as mp
 from meep import mpb
 
 from gmeep.config import disable_print, enable_print
+from gmeep.types import Mode
 
 mpb.Verbosity(0)
 
@@ -27,10 +29,11 @@ tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "meep"
 tmp.mkdir(exist_ok=True)
 
 
+@pydantic.validate_arguments
 def mode_solver_rib(
     wg_width: float = 0.45,
     wg_thickness: float = 0.22,
-    slab_thickness: int = 0.15,
+    slab_thickness: int = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
     sx: float = 2.0,
@@ -108,6 +111,7 @@ def mode_solver_rib(
     return mode_solver
 
 
+@pydantic.validate_arguments
 def find_modes(
     mode_solver_function=mode_solver_rib,
     wg_width: float = 0.45,
@@ -190,7 +194,7 @@ def find_modes(
     vg = vg[0][0]
     neff = wavelength * k
     ng = 1 / vg
-    return dict(neff=neff, ng=ng, mode_solver=mode_solver)
+    return Mode(neff=neff, ng=ng, solver=mode_solver)
 
 
 if __name__ == "__main__":
