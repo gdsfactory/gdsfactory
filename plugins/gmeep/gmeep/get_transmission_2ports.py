@@ -254,7 +254,7 @@ def test_waveguide_2D() -> None:
     """Ensure >99% transmission (S21) at 1550nm."""
     c = pp.c.straight(length=2)
     cm = add_monitors(component=c)
-    pp.show(cm)
+    # pp.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.99 < np.mean(abs(r["s21"])) < 1.01
@@ -276,7 +276,7 @@ def test_bend_2D():
     """Ensure >99% transmission (S21) at 1550nm."""
     c = pp.c.bend_circular(radius=5)
     cm = add_monitors(component=c)
-    pp.show(cm)
+    # pp.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.97 < np.mean(abs(r["s21"])) < 1.01
@@ -291,5 +291,5 @@ if __name__ == "__main__":
     r = get_transmission_2ports(cm, run=True)
     print(r)
 
-    sim = r["sim"]
-    plt.show()
+    # sim = r["sim"]
+    # plt.show()

@@ -15,6 +15,7 @@ def find_modes_dispersion(
     wavelength_step: float = 0.01,
     core: str = "Si",
     clad: str = "SiO2",
+    mode_number: int = 1,
     **kwargs,
 ) -> Tuple[float, float]:
     """Returns mode effective index and group index.
@@ -53,19 +54,21 @@ def find_modes_dispersion(
     nclad = partial(get_index, name=clad)
 
     disable_print()
-    m0 = gm.find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    mc = gm.find_modes(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    m1 = gm.find_modes(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
+    m0 = gm.find_neff(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
+    mc = gm.find_neff(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
+    m1 = gm.find_neff(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
     enable_print()
 
-    n0 = m0.neff
-    nc = mc.neff
-    n1 = m1.neff
+    n0 = m0[mode_number].neff
+    nc = mc[mode_number].neff
+    n1 = m1[mode_number].neff
 
     # ng = ncenter - wavelength *dn/ step
     ng = nc - wavelength * (n1 - n0) / (2 * wavelength_step)
     neff = (n0 + nc + n1) / 3
-    return Mode(ng=ng, neff=neff, solver=mc)
+    return Mode(
+        mode_number=mode_number, ng=ng, neff=neff, solver=mc, wavelength=wavelength
+    )
 
 
 def test_ng():
