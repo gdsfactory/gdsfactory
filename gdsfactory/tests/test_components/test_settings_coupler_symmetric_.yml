@@ -1,0 +1,11 @@
+function_name: coupler_symmetric
+info:
+  length: 10.315
+  min_bend_radius: 9.447
+module: gdsfactory.components.coupler_symmetric
+name: coupler_symmetric
+settings:
+  dx: 10
+  dy: 5
+  gap: 0.234
+  waveguide: strip

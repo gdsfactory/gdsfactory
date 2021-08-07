@@ -1,8 +1,0 @@
-function_name: component_lattice
-info: {}
-module: pp.components.component_lattice
-name: lattice
-settings:
-  components: null
-  lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-  name: lattice

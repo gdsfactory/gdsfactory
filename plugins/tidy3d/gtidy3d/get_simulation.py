@@ -25,10 +25,10 @@ import warnings
 import pydantic
 import matplotlib.pyplot as plt
 import numpy as np
-import pp
-from pp.component import Component
-from pp.components.extension import move_polar_rad_copy
-from pp.routing.sort_ports import sort_ports_x, sort_ports_y
+import gdsfactory
+from gdsfactory.component import Component
+from gdsfactory.components.extension import move_polar_rad_copy
+from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 
 import tidy3d as td
 from gtidy3d.materials import get_material
@@ -88,10 +88,10 @@ def get_simulation(
     .. code::
 
         import matplotlib.pyplot as plt
-        import pp
+        import gdsfactory
         import gtidy as gm
 
-        c = pp.components.bend_circular()
+        c = gdsfactory.components.bend_circular()
         sim = gm.get_simulation(c)
         gm.plot_simulation(sim)
 
@@ -112,12 +112,12 @@ def get_simulation(
     component.y = 0
 
     component_extended = (
-        pp.extend.extend_ports(component=component, length=extend_ports_length)
+        gdsfactory.extend.extend_ports(component=component, length=extend_ports_length)
         if extend_ports_length
         else component
     )
 
-    pp.show(component_extended)
+    gdsfactory.show(component_extended)
     component_extended.flatten()
 
     structures = [
@@ -269,14 +269,14 @@ def plot_materials(
 
 if __name__ == "__main__":
 
-    c = pp.components.mmi1x2()
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.components.mmi1x2()
+    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = pp.components.bend_circular(radius=2)
-    # c = pp.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gdsfactory.components.bend_circular(radius=2)
+    # c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    # c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = pp.components.straight(length=2)
+    # c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.components.straight(length=2)
 
     sim = get_simulation(c)
     # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))

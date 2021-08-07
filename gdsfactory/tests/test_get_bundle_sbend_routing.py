@@ -1,0 +1,40 @@
+from pytest_regressions.data_regression import DataRegressionFixture
+
+import gdsfactory
+from gdsfactory.component import Component
+
+
+def demo_get_bundle_sbend_routing(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
+    """FIXME"""
+
+    lengths = {}
+
+    c = gdsfactory.Component("test_get_bundle_sort_ports")
+    pitch = 2.0
+    ys_left = [0, 10, 20]
+    N = len(ys_left)
+    ys_right = [(i - N / 2) * pitch for i in range(N)]
+
+    right_ports = [
+        gdsfactory.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180) for i in range(N)
+    ]
+    left_ports = [
+        gdsfactory.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0) for i in range(N)
+    ]
+    left_ports.reverse()
+    routes = gdsfactory.routing.get_bundle(right_ports, left_ports, bend_radius=5)
+
+    for i, route in enumerate(routes):
+        c.add(route.references)
+        lengths[i] = route.length
+
+    if check:
+        data_regression.check(lengths)
+    return c
+
+
+if __name__ == "__main__":
+    c = demo_get_bundle_sbend_routing(None, check=False)
+    c.show()

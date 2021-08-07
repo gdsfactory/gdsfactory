@@ -1,0 +1,11 @@
+function_name: pads_shorted
+info: {}
+module: gdsfactory.components.electrical.pads_shorted
+name: pads_shorted
+settings:
+  layer:
+  - 41
+  - 0
+  n_pads: 8
+  pad_spacing: 150
+  width: 100

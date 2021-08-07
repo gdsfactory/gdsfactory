@@ -1,0 +1,12 @@
+function_name: ellipse
+info: {}
+module: gdsfactory.components.ellipse
+name: ellipse
+settings:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radii:
+  - 10
+  - 5

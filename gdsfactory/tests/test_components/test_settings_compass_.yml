@@ -1,0 +1,8 @@
+function_name: compass
+info: {}
+module: gdsfactory.components.compass
+name: compass
+settings:
+  layer:
+  - 1
+  - 0

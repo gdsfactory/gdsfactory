@@ -1,0 +1,34 @@
+function_name: cutback_component_flipped
+info: {}
+module: gdsfactory.components.cutback_component
+name: cutback_component_flipped
+settings:
+  bend_radius: 10
+  cols: 4
+  input_port_name: in
+  middle_couples: 2
+  n_devices: 92
+  output_port_name: out
+  port1_id: E0
+  port2_id: W0
+  ports_map: null
+  rows: 5
+  sequence: ABABABABCABABABABDABABABABCABABABABDABABABABABABABABABABDABABABABCABABABABDABABABABCABABABAB
+  start_orientation: 0
+  symbol_to_component:
+    A:
+    - taper_0p5_to_3_l36
+    - E0
+    - W0
+    B:
+    - taper_0p5_to_3_l36
+    - W0
+    - E0
+    C:
+    - bend_euler180_R10
+    - W1
+    - W0
+    D:
+    - bend_euler180_R10
+    - W0
+    - W1

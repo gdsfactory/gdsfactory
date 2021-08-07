@@ -1,0 +1,24 @@
+function_name: cdc
+info: {}
+module: gdsfactory.components.cdc
+name: cdc
+settings:
+  angle: 0.5235987755982988
+  contradc_wgt: null
+  dc: 0.5
+  direction: EAST
+  dw_bot: null
+  dw_top: null
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  gap: 0.5
+  input_bot: false
+  length: 30
+  period: 0.22
+  port_midpoint:
+  - 0
+  - 0
+  width_bot: 0.75
+  width_top: 2

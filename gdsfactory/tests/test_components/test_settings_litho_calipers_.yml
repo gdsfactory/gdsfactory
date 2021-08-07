@@ -1,0 +1,18 @@
+function_name: litho_calipers
+info: {}
+module: gdsfactory.components.pcm.litho_calipers
+name: litho_calipers
+settings:
+  layer1:
+  - 1
+  - 0
+  layer2:
+  - 2
+  - 0
+  notch_size:
+  - 2
+  - 5
+  notch_spacing: 2
+  num_notches: 11
+  offset_per_notch: 0.1
+  row_spacing: 0

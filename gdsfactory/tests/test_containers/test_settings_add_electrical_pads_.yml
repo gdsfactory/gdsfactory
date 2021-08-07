@@ -1,0 +1,19 @@
+function_name: add_electrical_pads
+info: {}
+module: gdsfactory.routing.add_electrical_pads
+name: add_electrical_pads_d9333803
+settings:
+  component:
+    function_name: mzi2x2
+    info: {}
+    module: gdsfactory.components.mzi2x2
+    name: mzi2x2_WECTrue
+    settings:
+      CL_1: 20.147
+      DL: 7.38
+      L0: 60
+      L2: 10
+      gap: 0.234
+      waveguide: strip
+      with_elec_connections: true
+  rotation: 180

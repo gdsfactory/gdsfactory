@@ -1,6 +1,0 @@
-function_name: logo
-info: {}
-module: pp.components.logo
-name: logo
-settings:
-  text: GDS_FACTORY

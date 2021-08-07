@@ -1,0 +1,10 @@
+function_name: coupler_ring
+info: {}
+module: gdsfactory.components.coupler_ring
+name: coupler_ring
+settings:
+  bend: null
+  gap: 0.2
+  length_x: 4
+  radius: 5
+  waveguide: strip

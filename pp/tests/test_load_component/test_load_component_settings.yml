@@ -1,6 +1,0 @@
-info: {}
-name: waveguide
-settings:
-  function_name: waveguide
-  module: pp.components.waveguide
-  name: waveguide

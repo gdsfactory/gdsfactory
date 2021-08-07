@@ -1,0 +1,16 @@
+function_name: litho_steps
+info: {}
+module: gdsfactory.components.pcm.litho_steps
+name: litho_steps
+settings:
+  height: 100
+  layer:
+  - 1
+  - 0
+  line_spacing: 10
+  line_widths:
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16

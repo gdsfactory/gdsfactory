@@ -1,11 +1,11 @@
-import pp
+import gdsfactory
 
 if __name__ == "__main__":
     """FIXME: this case needs to be implemented for get_bundle."""
 
     w = h = 10
-    c = pp.Component()
-    pad_south = pp.components.pad_array(
+    c = gdsfactory.Component()
+    pad_south = gdsfactory.components.pad_array(
         port_list=["S"],
         pitch=15,
     )
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     pbports = pb.get_ports_list()
     ptports = pl.get_ports_list()
 
-    routes = pp.routing.get_bundle(pbports, ptports)
+    routes = gdsfactory.routing.get_bundle(pbports, ptports)
     for route in routes:
         c.add(route.references)
     c.show()

@@ -1,0 +1,9 @@
+function_name: L
+info: {}
+module: gdsfactory.components.L
+name: L
+settings:
+  layer:
+  - 49
+  - 0
+  width: 1

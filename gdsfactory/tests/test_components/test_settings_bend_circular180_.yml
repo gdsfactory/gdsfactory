@@ -1,0 +1,12 @@
+function_name: bend_circular180
+info:
+  dy: 0
+  length: 31.416
+  radius_min: 10
+module: gdsfactory.components.bend_circular
+name: bend_circular180
+settings:
+  angle: 180
+  npoints: 720
+  waveguide: strip
+  with_cladding_box: true

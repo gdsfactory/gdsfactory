@@ -1,0 +1,8 @@
+function_name: coupler90
+info: {}
+module: gdsfactory.components.coupler90
+name: coupler90
+settings:
+  gap: 0.2
+  radius: 10
+  waveguide: strip

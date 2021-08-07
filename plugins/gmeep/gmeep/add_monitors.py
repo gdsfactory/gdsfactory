@@ -2,11 +2,11 @@ import pathlib
 from typing import List, Optional, Tuple
 
 import numpy as np
-import pp
-from pp.cell import cell
-from pp.component import Component
-from pp.tech import LAYER
-from pp.port import Port
+import gdsfactory
+from gdsfactory.cell import cell
+from gdsfactory.component import Component
+from gdsfactory.tech import LAYER
+from gdsfactory.port import Port
 
 
 def _add_pin_square(
@@ -106,7 +106,7 @@ def add_monitors_and_extend_ports(
             layer=(layer[0] + i, layer[1]),
         )
 
-    return pp.extend.extend_ports(component=component, length=extension_length)
+    return gdsfactory.extend.extend_ports(component=component, length=extension_length)
 
 
 @cell
@@ -146,7 +146,7 @@ def add_monitors(
     Returns: component with extended ports and monitors
 
     """
-    c = pp.Component(f"{component.name}_monitors")
+    c = gdsfactory.Component(f"{component.name}_monitors")
 
     # add monitors
     component_with_monitors = add_monitors_and_extend_ports(
@@ -168,7 +168,7 @@ def add_monitors(
     component_with_source.y = 0
 
     # add simulation region
-    component_with_padding = pp.add_padding(
+    component_with_padding = gdsfactory.add_padding(
         component=component_with_source,
         default=0,
         layers=[layer_simulation_region],
@@ -184,8 +184,8 @@ def add_monitors(
 
 if __name__ == "__main__":
     gdspath = pathlib.Path.cwd() / "waveguide.gds"
-    c = pp.c.bend_circular(radius=5)
-    # c = pp.c.waveguide(length=2)
+    c = gdsfactory.c.bend_circular(radius=5)
+    # c = gdsfactory.c.waveguide(length=2)
     # cm = extend_ports(component=c)
     cm = add_monitors(component=c)
-    pp.show(cm)
+    gdsfactory.show(cm)

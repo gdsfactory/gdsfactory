@@ -1,0 +1,16 @@
+function_name: array_with_via
+info: {}
+module: gdsfactory.components.array_with_via
+name: array_with_via
+settings:
+  bend_port_name: N0
+  component: pad
+  component_port_name: S
+  end_straight: 60
+  n: 3
+  pitch: 150
+  radius: 5
+  via_stack: via_stack
+  via_stack_y_offset: -44
+  waveguide: metal2
+  waveguide_pitch: 10

@@ -1,0 +1,6 @@
+info: {}
+name: waveguide
+settings:
+  function_name: waveguide
+  module: gdsfactory.components.waveguide
+  name: waveguide

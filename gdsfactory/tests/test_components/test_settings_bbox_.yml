@@ -1,0 +1,8 @@
+function_name: bbox
+info: {}
+module: gdsfactory.components.bbox
+name: bbox
+settings:
+  layer:
+  - 1
+  - 0

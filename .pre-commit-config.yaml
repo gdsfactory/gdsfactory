@@ -14,7 +14,7 @@ repos:
     rev: "cd6b09c07c20a47cfab26a1aa93a37be1c57bb22"
     hooks:
       - id: isort
-        files: "pp/.*"
+        files: "gdsfactory/.*"
         args: ["--profile", "black", "--filter-files"]
 
   # - repo: https://github.com/asottile/reorder_python_imports

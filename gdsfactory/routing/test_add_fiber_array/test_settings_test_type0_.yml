@@ -1,0 +1,23 @@
+function_name: add_fiber_array
+info: {}
+module: gdsfactory.routing.add_fiber_array
+name: add_fiber_array_28af9233
+settings:
+  component:
+    function_name: coupler
+    info:
+      length: 10.313
+      min_bend_radius: 9.465
+    module: gdsfactory.components.coupler
+    name: coupler_G244n_L5p67
+    settings:
+      dx: 10
+      dy: 5
+      gap: 0.244
+      length: 5.67
+      waveguide: strip
+  component_name: null
+  gc_port_name: W0
+  optical_routing_type: 0
+  taper_length: 10
+  waveguide: strip

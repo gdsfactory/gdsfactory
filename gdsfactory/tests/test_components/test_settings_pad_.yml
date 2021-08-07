@@ -1,0 +1,10 @@
+function_name: pad
+info: {}
+module: gdsfactory.components.electrical.pad
+name: pad
+settings:
+  height: null
+  layer:
+  - 49
+  - 0
+  width: 100

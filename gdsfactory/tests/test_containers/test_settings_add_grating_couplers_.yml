@@ -1,0 +1,27 @@
+function_name: add_grating_couplers
+info: {}
+module: gdsfactory.add_grating_couplers
+name: add_grating_couplers_104d7e59
+settings:
+  component:
+    function_name: mzi_phase_shifter
+    info: {}
+    module: gdsfactory.components.mzi_phase_shifter
+    name: mzi_phase_shifter_Smmi2x2
+    settings:
+      combiner: null
+      combiner_settings: null
+      delta_length: 10
+      length_x: 200
+      length_y: 0.1
+      splitter: mmi2x2
+      splitter_settings: null
+      straight_delta_length: null
+      straight_horizontal_bot: null
+      straight_horizontal_top: straight_with_heater
+      straight_vertical: null
+      with_splitter: true
+  gc_port_name: W0
+  layer_label:
+  - 201
+  - 0

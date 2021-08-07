@@ -1,0 +1,15 @@
+function_name: array_with_fanout
+info: {}
+module: gdsfactory.components.array_with_fanout
+name: array_with_fanout
+settings:
+  bend_port_name1: null
+  bend_port_name2: null
+  component_port_name: S
+  end_straight: 40
+  n: 3
+  pitch: 150
+  radius: 5
+  start_straight: 5
+  waveguide: metal_routing
+  waveguide_pitch: 10

@@ -1,0 +1,11 @@
+function_name: ring_single
+info: {}
+module: gdsfactory.components.ring_single
+name: ring_single
+settings:
+  bend: null
+  gap: 0.2
+  length_x: 4
+  length_y: 0.01
+  radius: 10
+  waveguide: strip
