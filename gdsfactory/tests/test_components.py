@@ -33,9 +33,9 @@ def test_assert_ports_on_grid(component: Component):
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.coupler(length=1.0 + 1e-4)
-    # c = gdsfactory.components.coupler()
+    c = gf.components.coupler(length=1.0 + 1e-4)
+    # c = gf.components.coupler()
     # c.assert_ports_on_grid()
     print(c.ports)

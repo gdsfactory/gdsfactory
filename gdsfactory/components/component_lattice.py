@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple
 
 from numpy import float64
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.crossing_waveguide import compensation_path, crossing45
@@ -132,7 +132,7 @@ def get_sequence_cross_str(straights_start, straights_end, iter_max=100):
     return component_sequence_to_str(seq)
 
 
-@gdsfactory.cell
+@gf.cell
 def component_lattice(
     lattice: str = """
         C-X
@@ -161,21 +161,21 @@ def component_lattice(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
       from gdsfactory.components.crossing_waveguide import crossing45
       from gdsfactory.components.crossing_waveguide import compensation_path
 
       components =  {
-            "C": gdsfactory.routing.fanout2x2(component=gdsfactory.components.coupler(), port_spacing=40.0),
+            "C": gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0),
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
-      c = gdsfactory.components.component_lattice(components=components)
+      c = gf.components.component_lattice(components=components)
       c.plot()
 
     """
     components = components or {
-        "C": gdsfactory.routing.fanout2x2(component=coupler(), port_spacing=40.0),
+        "C": gf.routing.fanout2x2(component=coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
@@ -184,7 +184,7 @@ def component_lattice(
 
     y_spacing = None
     for cmp in components.values():
-        # cmp = gdsfactory.call_if_func(cmp)
+        # cmp = gf.call_if_func(cmp)
 
         for direction in ["W", "E"]:
             ports_dir = get_ports_facing(cmp.ports, direction)
@@ -208,7 +208,7 @@ def component_lattice(
     for c in components.keys():
         components_to_nb_input_ports[c] = len(get_ports_facing(components[c], "W"))
 
-    component = gdsfactory.Component(name)
+    component = gf.Component(name)
     x = 0
     for i in keys:
         col = columns[i]
@@ -249,7 +249,7 @@ def component_lattice(
             j += 1
         x += L
 
-    component = gdsfactory.port.rename_ports_by_orientation(component)
+    component = gf.port.rename_ports_by_orientation(component)
     return component
 
 
@@ -279,12 +279,10 @@ def parse_lattice(
 
 if __name__ == "__main__":
     components_dict = {
-        "C": gdsfactory.routing.fanout2x2(
-            component=gdsfactory.components.coupler(), port_spacing=40.0
-        ),
+        "C": gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0),
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
-    c = gdsfactory.components.component_lattice(components=components_dict)
+    c = gf.components.component_lattice(components=components_dict)
     c.pprint()
     c.show()

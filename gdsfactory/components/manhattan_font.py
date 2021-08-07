@@ -2,14 +2,14 @@ from typing import Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
 from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 
 
-@gdsfactory.cell
+@gf.cell
 def manhattan_text(
     text: str = "abcd",
     size: float = TECH.component_settings.manhattan_text.size,
@@ -30,11 +30,11 @@ def manhattan_text(
     pixel_size = size
     xoffset = position[0]
     yoffset = position[1]
-    t = gdsfactory.Component(
+    t = gf.Component(
         name=clean_name(text) + "_{}_{}".format(int(position[0]), int(position[1]))
     )
     for i, line in enumerate(text.split("\n")):
-        component = gdsfactory.Component(name=t.name + "{}".format(i))
+        component = gf.Component(name=t.name + "{}".format(i))
         for c in line:
             try:
                 if c not in CHARAC_MAP:
@@ -70,7 +70,7 @@ def manhattan_text(
     return t
 
 
-@gdsfactory.cell
+@gf.cell
 def pixel_array(
     pixels: str = """
      XXX
@@ -82,7 +82,7 @@ def pixel_array(
     pixel_size: float = 10.0,
     layer: Tuple[int, int] = LAYER.M1,
 ) -> Component:
-    component = gdsfactory.Component()
+    component = gf.Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]
     lines.reverse()
     j = 0

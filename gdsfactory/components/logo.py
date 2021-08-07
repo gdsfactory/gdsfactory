@@ -1,14 +1,14 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def logo(text: str = "GDS_FACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = Component()
     elements = []
     for i, letter in enumerate(text):
-        c << gdsfactory.components.text(letter, layer=(i + 1, 0), size=10)
+        c << gf.components.text(letter, layer=(i + 1, 0), size=10)
         elements.append(c)
 
     c.distribute(

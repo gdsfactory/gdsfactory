@@ -1,6 +1,6 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -8,9 +8,9 @@ def test_get_bundle_u_direct_different_x(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
 
-    c = gdsfactory.Component("test_get_bundle_u_direct_different_x")
-    w = c << gdsfactory.components.straight_array(n=4, spacing=200)
-    d = c << gdsfactory.components.nxn()
+    c = gf.Component("test_get_bundle_u_direct_different_x")
+    w = c << gf.components.straight_array(n=4, spacing=200)
+    d = c << gf.components.nxn()
     d.y = w.y
     d.xmin = w.xmax + 200
 
@@ -26,7 +26,7 @@ def test_get_bundle_u_direct_different_x(
         d.ports["E0"],
     ]
 
-    routes = gdsfactory.routing.get_bundle(ports1, ports2)
+    routes = gf.routing.get_bundle(ports1, ports2)
 
     lengths = {}
     for i, route in enumerate(routes):

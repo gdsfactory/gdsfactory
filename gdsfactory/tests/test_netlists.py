@@ -5,7 +5,7 @@ import pytest
 from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components import circuit_names, component_factory
 
 circuit_names_test = circuit_names - {"component_lattice"}  # set of component names
@@ -33,7 +33,7 @@ def test_netlists(
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    c2 = gdsfactory.component_from_yaml(yaml_str)
+    c2 = gf.component_from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
 
     d = jsondiff.diff(n, n2)
@@ -48,8 +48,8 @@ def demo_netlist(component_type):
     c1 = component_factory[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gdsfactory.component_from_yaml(yaml_str)
-    gdsfactory.show(c2)
+    c2 = gf.component_from_yaml(yaml_str)
+    gf.show(c2)
 
 
 if __name__ == "__main__":
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # c = component_factory["mzi"]()
     # c = component_factory["ring_double"]()
 
-    # gdsfactory.clear_connections()
+    # gf.clear_connections()
     # c = component_factory["ring_double"]()
     # n = c.get_netlist()
     # print(n.connections)
@@ -78,11 +78,11 @@ if __name__ == "__main__":
     # n = c1.get_netlist(full_settings=full_settings)
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    # c2 = gdsfactory.component_from_yaml(yaml_str)
+    # c2 = gf.component_from_yaml(yaml_str)
     # n2 = c2.get_netlist(full_settings=full_settings)
     # d = jsondiff.diff(n, n2)
     # print(d)
-    # gdsfactory.show(c2)
+    # gf.show(c2)
 
     test_netlists(
         component_type="ring_single",

@@ -1,6 +1,6 @@
 from numpy import float64
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
@@ -73,7 +73,7 @@ def cutback_bend90(
         |_| |
 
     """
-    bend90 = gdsfactory.call_if_func(bend90)
+    bend90 = gf.call_if_func(bend90)
 
     wg = straight_factory(length=straight_length, width=bend90.ports["W0"].width)
     if wg_loop_length is None:
@@ -115,7 +115,7 @@ def staircase(
     n_steps=4,
     straight_factory=straight,
 ):
-    bend90 = gdsfactory.call_if_func(bend90)
+    bend90 = gf.call_if_func(bend90)
 
     wgh = straight_factory(length=length_h, width=bend90.ports["W0"].width)
     wgv = straight_factory(length=length_v, width=bend90.ports["W0"].width)
@@ -157,7 +157,7 @@ def cutback_bend180(
         _ this is a step
 
     """
-    bend180 = gdsfactory.call_if_func(bend180)
+    bend180 = gf.call_if_func(bend180)
 
     wg = straight_factory(length=straight_length, width=bend180.ports["W0"].width)
     wg_vertical = straight_factory(
@@ -190,7 +190,7 @@ def cutback_bend180(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
     bend90 = bend_circular(radius=radius)
     c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)

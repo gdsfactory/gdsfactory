@@ -2,12 +2,12 @@ from typing import Optional, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.text import text
 from gdsfactory.types import Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def die(
     size: Tuple[float, float] = (10000.0, 10000.0),
     street_width: float = 100.0,
@@ -15,11 +15,11 @@ def die(
     die_name: Optional[str] = "chip99",
     text_size: float = 100.0,
     text_location: str = "SW",
-    layer: Layer = gdsfactory.LAYER.FLOORPLAN,
-    bbox_layer: Optional[Layer] = gdsfactory.LAYER.FLOORPLAN,
+    layer: Layer = gf.LAYER.FLOORPLAN,
+    bbox_layer: Optional[Layer] = gf.LAYER.FLOORPLAN,
     draw_corners: bool = False,
     draw_dicing_lane: bool = False,
-) -> gdsfactory.Component:
+) -> gf.Component:
     """Creates a basic chip/die template, with 4 right angle corners marking
     the boundary of the chip/die and a label with the name of the die.
 
@@ -38,7 +38,7 @@ def die(
         draw_dicing_lane:
 
     """
-    D = gdsfactory.Component(name="die")
+    D = gf.Component(name="die")
     sx, sy = size[0] / 2, size[1] / 2
 
     if draw_dicing_lane:

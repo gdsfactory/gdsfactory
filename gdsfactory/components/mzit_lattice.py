@@ -1,12 +1,12 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzit import mzit
 from gdsfactory.types import ComponentFactory, Number
 
 
-@gdsfactory.cell
+@gf.cell
 def mzit_lattice(
     coupler_lengths: Tuple[Number, ...] = (10, 20),
     coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),

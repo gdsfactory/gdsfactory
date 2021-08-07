@@ -223,18 +223,18 @@ def heater_with_undercut(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     s = get_waveguide_settings("strip")
     print(s)
 
-    P = gdsfactory.path.straight()
-    # P = gdsfactory.path.euler(radius=10, use_eff=True)
+    P = gf.path.straight()
+    # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()
-    # P = gdsfactory.Path()
-    # P.append(gdsfactory.path.straight(length=5))
-    # P.append(gdsfactory.path.arc(radius=10, angle=90))
-    # P.append(gdsfactory.path.spiral())
+    # P = gf.Path()
+    # P.append(gf.path.straight(length=5))
+    # P.append(gf.path.arc(radius=10, angle=90))
+    # P.append(gf.path.spiral())
 
     # Create a blank CrossSection
     # X = CrossSection()
@@ -249,11 +249,11 @@ if __name__ == "__main__":
     # X = cross_section(width=3, layer=(2, 0))
     # X = cross_section(**s)
     X = heater_with_undercut()
-    c = gdsfactory.path.extrude(P, X)
+    c = gf.path.extrude(P, X)
 
-    # c = gdsfactory.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
+    # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
 
-    # c = gdsfactory.add_pins(c)
-    # c << gdsfactory.components.bend_euler(radius=10)
-    # c << gdsfactory.components.bend_circular(radius=10)
+    # c = gf.add_pins(c)
+    # c << gf.components.bend_euler(radius=10)
+    # c << gf.components.bend_circular(radius=10)
     c.show()

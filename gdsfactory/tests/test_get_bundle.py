@@ -1,7 +1,7 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
@@ -20,7 +20,7 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
         Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
     ]
 
-    c = gdsfactory.Component("test_get_bundle")
+    c = gf.Component("test_get_bundle")
     routes = get_bundle(top_ports, bottom_ports)
     lengths = {}
     for i, route in enumerate(routes):
@@ -151,10 +151,8 @@ def test_get_bundle_udirect(
 
         ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
-    c = gdsfactory.Component(name="test_get_bundle_udirect")
-    routes = get_bundle(
-        ports1, ports2, bend_factory=gdsfactory.components.bend_circular
-    )
+    c = gf.Component(name="test_get_bundle_udirect")
+    routes = get_bundle(ports1, ports2, bend_factory=gf.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -193,11 +191,9 @@ def test_get_bundle_u_indirect(
 
         ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    c = gdsfactory.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
 
-    routes = get_bundle(
-        ports1, ports2, bend_factory=gdsfactory.components.bend_circular
-    )
+    routes = get_bundle(ports1, ports2, bend_factory=gf.components.bend_circular)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -229,7 +225,7 @@ def test_facing_ports(
     ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
     ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    c = gdsfactory.Component("test_facing_ports")
+    c = gf.Component("test_facing_ports")
     routes = get_bundle(ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):

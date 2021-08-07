@@ -5,14 +5,14 @@ adapted from phidl.geometry
 
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Number
 
 
-@gdsfactory.cell
+@gf.cell
 def _via_iterable(
     via_spacing: Number,
     wire_width: Number,
@@ -21,7 +21,7 @@ def _via_iterable(
     via_layer: Tuple[int, int],
     via_width: Number,
 ) -> Component:
-    VI = gdsfactory.Component()
+    VI = gf.Component()
     wire1 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring1_layer))
     wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
     via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
@@ -51,7 +51,7 @@ def _via_iterable(
     return VI
 
 
-@gdsfactory.cell
+@gf.cell
 def via_cutback(
     num_vias: Number = 100,
     wire_width: Number = 10,
@@ -59,10 +59,10 @@ def via_cutback(
     via_spacing: Number = 40,
     pad_size: Tuple[Number, Number] = (300, 300),
     min_pad_spacing: Number = 0,
-    pad_layer: Tuple[int, int] = gdsfactory.LAYER.M3,
-    wiring1_layer: Tuple[int, int] = gdsfactory.LAYER.HEATER,
-    wiring2_layer: Tuple[int, int] = gdsfactory.LAYER.M1,
-    via_layer: Tuple[int, int] = gdsfactory.LAYER.VIA1,
+    pad_layer: Tuple[int, int] = gf.LAYER.M3,
+    wiring1_layer: Tuple[int, int] = gf.LAYER.HEATER,
+    wiring2_layer: Tuple[int, int] = gf.LAYER.M1,
+    via_layer: Tuple[int, int] = gf.LAYER.VIA1,
 ) -> Component:
     """Via cutback to extract via resistance
 
@@ -102,7 +102,7 @@ def via_cutback(
 
     """
 
-    VR = gdsfactory.Component()
+    VR = gf.Component()
     pad1 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))
     pad1_overlay = VR.add_ref(rectangle(size=pad_size, layer=wiring1_layer))
     pad2 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))

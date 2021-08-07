@@ -1,15 +1,15 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def test_route_south(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-    c = gdsfactory.Component("test_route_south")
-    cr = c << gdsfactory.components.mmi2x2()
-    route = gdsfactory.routing.route_south(component=cr)
+    c = gf.Component("test_route_south")
+    cr = c << gf.components.mmi2x2()
+    route = gf.routing.route_south(component=cr)
     references = route.references
 
     lengths = {}

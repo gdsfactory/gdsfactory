@@ -63,23 +63,23 @@ def check_exclusion(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     w = 0.5
     space = 0.1
     min_space = 0.11
     dbu = 1000
     layer = (1, 0)
-    c = gdsfactory.Component()
-    r1 = c << gdsfactory.components.rectangle(size=(w, w), layer=(1, 0))
-    r2 = c << gdsfactory.components.rectangle(size=(w, w), layer=(2, 0))
+    c = gf.Component()
+    r1 = c << gf.components.rectangle(size=(w, w), layer=(1, 0))
+    r2 = c << gf.components.rectangle(size=(w, w), layer=(2, 0))
     r1.xmax = 0
     r2.xmin = space
     gdspath = c
-    gdsfactory.show(gdspath)
+    gf.show(gdspath)
     print(check_exclusion(c))
 
-    # if isinstance(gdspath, gdsfactory.Component):
+    # if isinstance(gdspath, gf.Component):
     #     gdspath.flatten()
     #     gdspath = gdspath.write_gds()
     # layout = pya.Layout()

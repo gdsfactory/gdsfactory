@@ -79,13 +79,13 @@ def add_fiber_single(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        c = gdsfactory.components.crossing()
-        cc = gdsfactory.routing.add_fiber_single(
+        c = gf.components.crossing()
+        cc = gf.routing.add_fiber_single(
             component=c,
             optical_routing_type=0,
-            grating_coupler=gdsfactory.components.grating_coupler_elliptical_te,
+            grating_coupler=gf.components.grating_coupler_elliptical_te,
         )
         cc.plot()
 
@@ -223,26 +223,26 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     waveguide = "nitride"
-    # c = gdsfactory.components.crossing()
-    # c = gdsfactory.components.mmi1x2()
-    # c = gdsfactory.components.rectangle()
-    # c = gdsfactory.components.ring_single()
-    # c = gdsfactory.components.straight(length=500, waveguide=waveguide)
-    # c = gdsfactory.components.mzi()
-    # c = gdsfactory.components.straight(length=500)
+    # c = gf.components.crossing()
+    # c = gf.components.mmi1x2()
+    # c = gf.components.rectangle()
+    # c = gf.components.ring_single()
+    # c = gf.components.straight(length=500, waveguide=waveguide)
+    # c = gf.components.mzi()
+    # c = gf.components.straight(length=500)
 
-    gc = gdsfactory.components.grating_coupler_elliptical_te
-    # gc = gdsfactory.components.grating_coupler_elliptical2
-    # gc = gdsfactory.components.grating_coupler_te
-    # gc = gdsfactory.components.grating_coupler_uniform
+    gc = gf.components.grating_coupler_elliptical_te
+    # gc = gf.components.grating_coupler_elliptical2
+    # gc = gf.components.grating_coupler_te
+    # gc = gf.components.grating_coupler_uniform
 
-    @gdsfactory.cell
+    @gf.cell
     def straight_with_pins(**kwargs):
-        c = gdsfactory.components.straight(**kwargs)
-        gdsfactory.add_pins(c)
+        c = gf.components.straight(**kwargs)
+        gf.add_pins(c)
         return c
 
     cc = add_fiber_single(
@@ -253,9 +253,9 @@ if __name__ == "__main__":
     )
     cc.show()
 
-    # c = gdsfactory.components.straight(
+    # c = gf.components.straight(
     #     length=20, **waveguide_settings
     # )
-    # gc = gdsfactory.components.grating_coupler_elliptical_te(layer=gdsfactory.TECH.layer.WGN)
+    # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
     # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, **waveguide_settings)
     # cc.show()

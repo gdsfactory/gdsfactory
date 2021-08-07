@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -33,9 +33,9 @@ def taper(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.taper(width1=0.5, width2=5, length=3)
+      c = gf.components.taper(width1=0.5, width2=5, length=3)
       c.plot()
 
     """
@@ -44,7 +44,7 @@ def taper(
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
 
-    if isinstance(port, gdsfactory.Port) and width1 is None:
+    if isinstance(port, gf.Port) and width1 is None:
         width1 = port.width
     if width2 is None:
         width2 = width1
@@ -55,7 +55,7 @@ def taper(
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
     c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
@@ -79,7 +79,7 @@ def taper(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_strip_to_ridge(
     length: Number = 10.0,
     width1: Number = 0.5,
@@ -99,21 +99,19 @@ def taper_strip_to_ridge(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.taper_strip_to_ridge()
+      c = gf.components.taper_strip_to_ridge()
       c.plot()
 
     """
 
-    _taper_wg = taper(
-        length=length, width1=width1, width2=width2, layer=gdsfactory.LAYER.WG
-    )
+    _taper_wg = taper(length=length, width1=width1, width2=width2, layer=gf.LAYER.WG)
     _taper_slab = taper(
-        length=length, width1=w_slab1, width2=w_slab2, layer=gdsfactory.LAYER.SLAB90
+        length=length, width1=w_slab1, width2=w_slab2, layer=gf.LAYER.SLAB90
     )
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     for _t in [_taper_wg, _taper_slab]:
         taper_ref = _t.ref()
         c.add(taper_ref)
@@ -127,19 +125,19 @@ def taper_strip_to_ridge(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_strip_to_ridge_trenches(
     length=10.0,
     width=0.5,
     slab_offset=3.0,
     trench_width=2.0,
-    trench_layer=gdsfactory.LAYER.SLAB90,
-    wg_layer=gdsfactory.LAYER.WG,
+    trench_layer=gf.LAYER.SLAB90,
+    wg_layer=gf.LAYER.WG,
     trench_offset_after_wg=0.1,
 ):
 
-    c = gdsfactory.Component()
-    width = gdsfactory.bias.width(width)
+    c = gf.Component()
+    width = gf.bias.width(width)
     y0 = width / 2 + trench_width - trench_offset_after_wg
     yL = width / 2 + trench_width - trench_offset_after_wg + slab_offset
 

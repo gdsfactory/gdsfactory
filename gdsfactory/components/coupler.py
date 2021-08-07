@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
@@ -7,7 +7,7 @@ from gdsfactory.snap import assert_on_1nm_grid
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
@@ -77,7 +77,7 @@ def coupler(
 
 if __name__ == "__main__":
 
-    # c = gdsfactory.Component()
+    # c = gf.Component()
     # cp1 = c << coupler(gap=0.2)
     # cp2 = c << coupler(gap=0.5)
     # cp1.ymin = 0

@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.cross_section import StrOrDict, get_cross_section
@@ -6,7 +6,7 @@ from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
 
 
-@gdsfactory.cell
+@gf.cell
 def bend_euler(
     angle: int = 90,
     p: float = 1,
@@ -40,9 +40,9 @@ def bend_euler(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.bend_euler(
+      c = gf.components.bend_euler(
         angle=0.5,
         p=1,
         with_arc_floorplan=True,
@@ -87,12 +87,12 @@ def bend_euler(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def bend_euler180(angle: int = 180, **kwargs) -> Component:
     return bend_euler(angle=angle, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def bend_euler_s(**kwargs) -> Component:
     """Sbend made of euler bends."""
     c = Component()
@@ -108,16 +108,16 @@ def bend_euler_s(**kwargs) -> Component:
 
 def _compare_bend_euler180():
     """Compare 180 bend euler with 2 90deg euler bends."""
-    import gdsfactory
+    import gdsfactory as gf
 
-    p1 = gdsfactory.Path()
-    p1.append([gdsfactory.path.euler(angle=90), gdsfactory.path.euler(angle=90)])
-    p2 = gdsfactory.path.euler(angle=180)
-    x = gdsfactory.cross_section()
+    p1 = gf.Path()
+    p1.append([gf.path.euler(angle=90), gf.path.euler(angle=90)])
+    p2 = gf.path.euler(angle=180)
+    x = gf.cross_section()
 
-    c1 = gdsfactory.path.extrude(p1, x)
+    c1 = gf.path.extrude(p1, x)
     c1.name = "two_90_euler"
-    c2 = gdsfactory.path.extrude(p2, x)
+    c2 = gf.path.extrude(p2, x)
     c2.name = "one_180_euler"
     c1.add_ref(c2)
     c1.show()
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     c.show()
 
     _compare_bend_euler180()
-    # import gdsfactory
+    # import gdsfactory as gf
     # c = bend_euler(radius=10)
-    # c << gdsfactory.components.bend_circular(radius=10)
+    # c << gf.components.bend_circular(radius=10)
     # c.pprint()

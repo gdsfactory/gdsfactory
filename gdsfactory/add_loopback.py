@@ -1,7 +1,7 @@
 """Add reference for a grating coupler array."""
 from typing import List
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
@@ -16,8 +16,8 @@ def gen_loopback(
     gc_rotation: int = -90,
     gc_port_name: str = "W0",
     bend_radius_loopback: float = 10.0,
-    bend_factory: ComponentFactory = gdsfactory.components.bend_euler,
-    straight_factory: ComponentFactory = gdsfactory.components.straight,
+    bend_factory: ComponentFactory = gf.components.bend_euler,
+    straight_factory: ComponentFactory = gf.components.straight,
     y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
     """
@@ -88,13 +88,13 @@ def gen_loopback(
     return elements
 
 
-@gdsfactory.cell
-def straight_with_loopback() -> gdsfactory.Component:
-    c = gdsfactory.Component("straight_with_loopback")
-    wg = c << gdsfactory.components.straight()
+@gf.cell
+def straight_with_loopback() -> gf.Component:
+    c = gf.Component("straight_with_loopback")
+    wg = c << gf.components.straight()
     c.add(
         gen_loopback(
-            wg.ports["W0"], wg.ports["E0"], gc=gdsfactory.components.grating_coupler_te
+            wg.ports["W0"], wg.ports["E0"], gc=gf.components.grating_coupler_te
         )
     )
     return c

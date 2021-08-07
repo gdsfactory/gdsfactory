@@ -1,4 +1,4 @@
-"""Lets for example customize the default gdsfactory PDK
+"""Lets for example customize the default gf.PDK
 
 Fab B is mostly uses optical layers but the waveguides required many cladding layers to avoid tiling, dopants...
 
@@ -30,14 +30,14 @@ TECH.waveguide.stripb = STRIPB
 
 
 def test_waveguide():
-    import gdsfactory
+    import gdsfactory as gf
 
-    wg = gdsfactory.components.straight(length=20, waveguide="stripb")
-    gc = gdsfactory.components.grating_coupler_elliptical_te(
+    wg = gf.components.straight(length=20, waveguide="stripb")
+    gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
-    wg_gc = gdsfactory.routing.add_fiber_array(
+    wg_gc = gf.routing.add_fiber_array(
         component=wg, grating_coupler=gc, waveguide="stripb"
     )
     wg_gc.show()
@@ -45,14 +45,14 @@ def test_waveguide():
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mmi2x2(layer=STRIPB.layer)
-    gc = gdsfactory.components.grating_coupler_elliptical_te(
+    c = gf.components.mmi2x2(layer=STRIPB.layer)
+    gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
-    c_gc = gdsfactory.routing.add_fiber_array(
+    c_gc = gf.routing.add_fiber_array(
         component=c, grating_coupler=gc, waveguide="stripb"
     )
     c_gc.show()

@@ -1,12 +1,12 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.taper import taper
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform(
     num_teeth: int = 20,
     period: float = 0.75,
@@ -15,8 +15,8 @@ def grating_coupler_uniform(
     length_taper: float = 150.0,
     width: float = 0.5,
     partial_etch: bool = False,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
-    layer_partial_etch: Tuple[int, int] = gdsfactory.LAYER.SLAB150,
+    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer_partial_etch: Tuple[int, int] = gf.LAYER.SLAB150,
     polarization: str = "te",
     wavelength: int = 1500,
 ) -> Component:
@@ -81,7 +81,7 @@ def grating_coupler_uniform(
     G.polarization = polarization
     G.wavelength = wavelength
     G.rotate(180)
-    gdsfactory.asserts.grating_coupler(G)
+    gf.asserts.grating_coupler(G)
     return G
 
 

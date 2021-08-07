@@ -1,7 +1,7 @@
 import inspect
 from typing import Iterable
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
@@ -35,11 +35,11 @@ def connect_loopback(
         p1,
     ]
 
-    bend90 = gdsfactory.components.bend_euler(radius=R, waveguide=waveguide, **kwargs)
+    bend90 = gf.components.bend_euler(radius=R, waveguide=waveguide, **kwargs)
     return round_corners(
         points=points,
         bend_factory=bend90,
-        straight_factory=gdsfactory.components.straight,
+        straight_factory=gf.components.straight,
         waveguide=waveguide,
         **kwargs
     ).references
@@ -56,7 +56,7 @@ def loss_deembedding_ch13_24(
 ) -> Component:
 
     gc = grating_coupler_factory()
-    c = gdsfactory.Component()
+    c = gf.Component()
     dx = pitch
     gcs = [gc.ref(position=(i * dx, 0), port_id="W0", rotation=-90) for i in range(4)]
 
@@ -107,7 +107,7 @@ def loss_deembedding_ch12_34(
 ) -> Component:
     gc = grating_coupler_factory()
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     dx = pitch
     gcs = [gc.ref(position=(i * dx, 0), port_id="W0", rotation=-90) for i in range(4)]
 
@@ -154,7 +154,7 @@ def loss_deembedding_ch14_23(
 ) -> Component:
     gc = grating_coupler_factory()
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     dx = pitch
     gcs = [gc.ref(position=(i * dx, 0), port_id="W0", rotation=-90) for i in range(4)]
 
@@ -206,7 +206,7 @@ def grating_coupler_loss(
         **kwargs: waveguide_settings
 
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     _c1 = loss_deembedding_ch13_24(
         grating_coupler_factory=grating_coupler_factory, waveguide=waveguide, **kwargs
     )

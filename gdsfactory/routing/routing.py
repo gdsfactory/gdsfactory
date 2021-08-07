@@ -1133,33 +1133,33 @@ def route_manhattan(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component("test_route_manhattan_circular")
+    c = gf.Component("test_route_manhattan_circular")
     pitch = 9.0
     ys1 = [0, 10, 20]
     N = len(ys1)
     ys2 = [15 + i * pitch for i in range(N)]
 
-    ports1 = [gdsfactory.Port(f"L_{i}", (0, ys1[i]), 0.5, 0) for i in range(N)]
-    ports2 = [gdsfactory.Port(f"R_{i}", (20, ys2[i]), 0.5, 180) for i in range(N)]
+    ports1 = [gf.Port(f"L_{i}", (0, ys1[i]), 0.5, 0) for i in range(N)]
+    ports2 = [gf.Port(f"R_{i}", (20, ys2[i]), 0.5, 180) for i in range(N)]
 
     ports1 = [
-        # gdsfactory.Port("in1", (10, 5), 0.5, 90),
-        # gdsfactory.Port("in2", (-10, 20), 0.5, 0),
-        # gdsfactory.Port("in3", (10, 30), 0.5, 0),
-        # gdsfactory.Port("in4", (-10, -5), 0.5, 90),
-        gdsfactory.Port("in5", (0, 0), 0.5, 0),
-        # gdsfactory.Port("in6", (0, 0), 0.5, 0),
+        # gf.Port("in1", (10, 5), 0.5, 90),
+        # gf.Port("in2", (-10, 20), 0.5, 0),
+        # gf.Port("in3", (10, 30), 0.5, 0),
+        # gf.Port("in4", (-10, -5), 0.5, 90),
+        gf.Port("in5", (0, 0), 0.5, 0),
+        # gf.Port("in6", (0, 0), 0.5, 0),
     ]
 
     ports2 = [
-        # gdsfactory.Port("in1", (90, -60), 0.5, 180),
-        # gdsfactory.Port("in2", (-100, 20), 0.5, 0),
-        # gdsfactory.Port("in3", (100, -25), 0.5, 0),
-        # gdsfactory.Port("in4", (-150, -65), 0.5, 270),
-        gdsfactory.Port("in5", (15, 6), 0.5, 180),
-        # gdsfactory.Port("in6", (0, 12), 0.5, 180),
+        # gf.Port("in1", (90, -60), 0.5, 180),
+        # gf.Port("in2", (-100, 20), 0.5, 0),
+        # gf.Port("in3", (100, -25), 0.5, 0),
+        # gf.Port("in4", (-150, -65), 0.5, 270),
+        gf.Port("in5", (15, 6), 0.5, 180),
+        # gf.Port("in6", (0, 12), 0.5, 180),
     ]
     N = len(ports1)
 

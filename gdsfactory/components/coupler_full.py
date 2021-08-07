@@ -3,13 +3,13 @@ from typing import Tuple
 import numpy as np
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_full(
     length: float = 40.0,
     gap: float = 0.5,
@@ -50,10 +50,10 @@ def coupler_full(
 
     Other Parameters:
        wg_width: 0.5
-       wg_layer: gdsfactory.LAYER.WG[0]
-       wg_datatype: gdsfactory.LAYER.WG[1]
-       clad_layer: gdsfactory.LAYER.WGCLAD[0]
-       clad_datatype: gdsfactory.LAYER.WGCLAD[1]
+       wg_layer: gf.LAYER.WG[0]
+       wg_datatype: gf.LAYER.WG[1]
+       clad_layer: gf.LAYER.WGCLAD[0]
+       clad_datatype: gf.LAYER.WGCLAD[1]
        bend_radius: 10
        cladding_offset: 3
 
@@ -61,15 +61,15 @@ def coupler_full(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.coupler_full(length=40, gap=0.2, dw=0.1)
+      c = gf.components.coupler_full(length=40, gap=0.2, dw=0.1)
       c.plot()
 
     """
 
     c = pc.FullCoupler(
-        gdsfactory.call_if_func(waveguide_template, **kwargs),
+        gf.call_if_func(waveguide_template, **kwargs),
         length=length,
         gap=gap,
         dw=dw,
@@ -79,7 +79,7 @@ def coupler_full(
         direction=direction,
     )
 
-    return gdsfactory.component_from.picwriter(c)
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":

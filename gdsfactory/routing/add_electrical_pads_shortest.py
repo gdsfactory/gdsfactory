@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.electrical.pad import pad
 from gdsfactory.routing.get_route_electrical_shortest_path import (
@@ -7,7 +7,7 @@ from gdsfactory.routing.get_route_electrical_shortest_path import (
 from gdsfactory.types import ComponentOrFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def add_electrical_pads_shortest(
     component: Component,
     pad: ComponentOrFactory = pad,
@@ -58,12 +58,10 @@ def add_electrical_pads_shortest(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.cross(
-        length=100, layer=gdsfactory.LAYER.M3, port_type="dc"
-    )
-    c = gdsfactory.components.mzi_phase_shifter()
-    c = gdsfactory.components.straight_with_heater()
+    c = gf.components.cross(length=100, layer=gf.LAYER.M3, port_type="dc")
+    c = gf.components.mzi_phase_shifter()
+    c = gf.components.straight_with_heater()
     cc = add_electrical_pads_shortest(component=c)
     cc.show()

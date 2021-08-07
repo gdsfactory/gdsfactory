@@ -1,11 +1,11 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 
 
-@gdsfactory.cell
+@gf.cell
 def cross(
     length: float = 10.0,
     width: float = 3.0,
@@ -21,8 +21,8 @@ def cross(
 
     """
 
-    c = gdsfactory.Component()
-    R = gdsfactory.components.rectangle(size=(width, length), layer=layer)
+    c = gf.Component()
+    R = gf.components.rectangle(size=(width, length), layer=layer)
     r1 = c.add_ref(R).rotate(90)
     r2 = c.add_ref(R)
     r1.center = (0, 0)
@@ -66,6 +66,6 @@ def cross(
 
 if __name__ == "__main__":
     c = cross()
-    cc = gdsfactory.routing.add_fiber_array(component=c)
+    cc = gf.routing.add_fiber_array(component=c)
     # print(c.ports)
     cc.show()

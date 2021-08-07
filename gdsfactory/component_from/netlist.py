@@ -83,7 +83,7 @@ def netlist(
     ports_map: Dict[str, Tuple[str, str]] = None,
     position: Coordinate = (0.0, 0.0),
 ) -> Component:
-    """Deprecated use gdsfactory.componet_from_yaml instead
+    """Deprecated use gf.componet_from_yaml instead
     Returns a component from a netlist (instances, connections and ports map)
 
     Args:
@@ -136,7 +136,7 @@ def netlist(
     """
 
     warnings.warn(
-        "gdsfactory.componet_from.netlist is deprecated use gdsfactory.componet_from_yaml instead"
+        "gf.componet_from.netlist is deprecated use gf.componet_from_yaml instead"
     )
 
     if len(connections) == 0:

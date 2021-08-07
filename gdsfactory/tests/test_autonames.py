@@ -1,22 +1,22 @@
-import gdsfactory
+import gdsfactory as gf
 
 
 def test_name_from_args() -> None:
     name = "my_name"
-    c = gdsfactory.Component(name)
+    c = gf.Component(name)
     print(c)
     assert c.name == name
 
 
 def test_name_in_kwargs() -> None:
     name = "my_name"
-    c = gdsfactory.Component(name=name)
+    c = gf.Component(name=name)
     print(c)
     assert c.name == name
 
 
 def test_cell() -> None:
-    c = gdsfactory.components.straight(length=11)
+    c = gf.components.straight(length=11)
     print(c)
     assert c.name == "straight_L11"
 

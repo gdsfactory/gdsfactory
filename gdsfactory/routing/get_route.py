@@ -81,13 +81,13 @@ def get_route(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        c = gdsfactory.Component('sample_connect')
-        mmi1 = c << gdsfactory.components.mmi1x2()
-        mmi2 = c << gdsfactory.components.mmi1x2()
+        c = gf.Component('sample_connect')
+        mmi1 = c << gf.components.mmi1x2()
+        mmi2 = c << gf.components.mmi1x2()
         mmi2.move((100, 50))
-        route = gdsfactory.routing.get_route(mmi1.ports["E1"], mmi2.ports["W0"])
+        route = gf.routing.get_route(mmi1.ports["E1"], mmi2.ports["W0"])
         c.add(route.references)
         c.show()
 
@@ -145,7 +145,7 @@ def get_route_from_waypoints(
     bends instead of corners and optionally tapers in straight sections.
     Tapering to wider straights reduces the optical loss.
     `get_route_from_waypoints` is a manual version of `get_route`
-    Not that `get_route_from_steps` is a  more concise and convenient version of `get_route_from_waypoints` also available in gdsfactory.routing
+    Not that `get_route_from_steps` is a  more concise and convenient version of `get_route_from_waypoints` also available in gf.routing
 
     Args:
         waypoints: Coordinates that define the route
@@ -159,16 +159,16 @@ def get_route_from_waypoints(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        c = gdsfactory.Component('waypoints_sample')
+        c = gf.Component('waypoints_sample')
 
-        w = gdsfactory.components.straight()
+        w = gf.components.straight()
         left = c << w
         right = c << w
         right.move((100, 80))
 
-        obstacle = gdsfactory.components.rectangle(size=(100, 10))
+        obstacle = gf.components.rectangle(size=(100, 10))
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
         obstacle1.ymin=40
@@ -181,7 +181,7 @@ def get_route_from_waypoints(
         ytop = 20
 
 
-        routes = gdsfactory.routing.get_route_from_waypoints(
+        routes = gf.routing.get_route_from_waypoints(
             [
                 (p0x, p0y),
                 (p0x + o, p0y),
@@ -229,13 +229,13 @@ def get_route_from_waypoints(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    w = gdsfactory.components.mmi1x2()
+    w = gf.components.mmi1x2()
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c << w
-    # route = get_route(w.ports["E0"], w.ports["W0"], **gdsfactory.TECH.waveguide.nitride)
+    # route = get_route(w.ports["E0"], w.ports["W0"], **gf.TECH.waveguide.nitride)
     # route = get_route(w.ports["E0"], w.ports["W0"], waveguide="metal_routing")
     route = get_route(w.ports["E0"], w.ports["W0"], layer=(2, 0))
     cc = c.add(route.references)

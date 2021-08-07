@@ -3,11 +3,11 @@ from pathlib import Path
 import pytest
 from pytest_regressions.num_regression import NumericRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.import_gds import add_ports_from_markers_center, import_gds
 from gdsfactory.port import auto_rename_ports
 
-gdspaths = [gdsfactory.CONFIG["gdsdir"] / name for name in ["mmi1x2.gds", "mzi2x2.gds"]]
+gdspaths = [gf.CONFIG["gdsdir"] / name for name in ["mmi1x2.gds", "mzi2x2.gds"]]
 
 
 @pytest.mark.parametrize("gdspath", gdspaths)

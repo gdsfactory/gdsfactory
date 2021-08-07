@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
@@ -6,7 +6,7 @@ from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def cutback_component(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
@@ -57,7 +57,7 @@ def cutback_component(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cutback_component_flipped(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,

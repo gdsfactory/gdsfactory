@@ -1,6 +1,6 @@
 import pytest
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.samples.pdk.fab_c import LAYER, WIDTH_NITRIDE_CBAND, straight_c
 
 
@@ -12,10 +12,10 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
 
     """
     c = straight_c(length=11.0)
-    gc = gdsfactory.components.grating_coupler_elliptical_te(
+    gc = gf.components.grating_coupler_elliptical_te(
         wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
     )
-    cc = gdsfactory.routing.add_fiber_single(
+    cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,
         waveguide="fabc_nitride_cband",
@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
     # c = mzi_nitride_cband()
     # c = straight_c()
-    # gc = gdsfactory.components.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
-    # cc = gdsfactory.routing.add_fiber_single(
+    # gc = gf.components.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
+    # cc = gf.routing.add_fiber_single(
     #     component=c,
     #     grating_coupler=gc,
     #     waveguide="nitride_cband",

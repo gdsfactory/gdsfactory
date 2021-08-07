@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 from numpy import bool_, ndarray
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
@@ -115,7 +115,7 @@ def gen_sref(
     else:
         port_position = structure.ports[port_name].midpoint
 
-    ref = gdsfactory.ComponentReference(component=structure, origin=(0, 0))
+    ref = gf.ComponentReference(component=structure, origin=(0, 0))
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
@@ -813,7 +813,7 @@ def route_manhattan(
 
 def test_manhattan() -> Component:
 
-    top_cell = gdsfactory.Component()
+    top_cell = gf.Component()
 
     inputs = [
         Port("in1", (10, 5), 0.5, 90),

@@ -2,12 +2,12 @@ from typing import Tuple, Union
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import LAYER, Port
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def big_device(
     w: Union[float, int] = 400.0,
     h: Union[float, int] = 400.0,
@@ -17,7 +17,7 @@ def big_device(
     wg_width: float = 0.5,
 ) -> Component:
     """big component with N ports on each side"""
-    component = gdsfactory.Component()
+    component = gf.Component()
     p0 = np.array((0, 0))
     dx = w / 2
     dy = h / 2

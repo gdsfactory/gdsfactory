@@ -14,7 +14,7 @@ from typing import Callable, Dict, Iterable, Optional, Tuple
 import numpy as np
 from numpy import ndarray
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
@@ -345,8 +345,8 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
-    x = gdsfactory.snap.snap_to_grid(reference.x)
-    y = gdsfactory.snap.snap_to_grid(reference.y)
+    x = gf.snap.snap_to_grid(reference.x)
+    y = gf.snap.snap_to_grid(reference.y)
 
     component.add_label(
         text=instance_name,
@@ -426,7 +426,7 @@ def add_pins_container(
         New component
     """
 
-    component_new = gdsfactory.Component(f"{component.name}_pins")
+    component_new = gf.Component(f"{component.name}_pins")
     component_new.add_ref(component)
 
     for p in component.ports.values():
@@ -438,7 +438,7 @@ def add_pins_container(
 
 
 def test_add_pins() -> None:
-    c1 = gdsfactory.components.straight_with_heater()
+    c1 = gf.components.straight_with_heater()
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
     )
@@ -477,7 +477,7 @@ def test_add_pins() -> None:
 if __name__ == "__main__":
     # test_add_pins()
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # add_pins(c, function=add_pin_square)
     # add_pins(c, function=add_pin_square_inside)
     # add_pins(c, function=add_pin_square_double)
@@ -486,25 +486,25 @@ if __name__ == "__main__":
     # cpl = [10, 20, 30]
     # cpg = [0.2, 0.3, 0.5]
     # dl0 = [10, 20]
-    # c = gdsfactory.components.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
+    # c = gf.components.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
 
-    # c = gdsfactory.components.mzi()
+    # c = gf.components.mzi()
     # add_pins_to_references(c)
     # c = add_pins(c, recursive=True)
     # c = add_pins(c, recursive=False)
     # c.show()
 
     # c = mmi1x2(width_mmi=5)
-    # cc = add_grating_couplers(c, layer_label=gdsfactory.LAYER.LABEL)
+    # cc = add_grating_couplers(c, layer_label=gf.LAYER.LABEL)
 
-    # c = gdsfactory.components.straight()
-    # c = gdsfactory.components.crossing()
+    # c = gf.components.straight()
+    # c = gf.components.crossing()
     # add_pins(c)
 
-    # c = gdsfactory.components.bend_circular()
+    # c = gf.components.bend_circular()
     # print(cc.name)
     # cc.show()
 
-    c = gdsfactory.components.ring_single()
+    c = gf.components.ring_single()
     add_pins_to_references(c)
     c.show()

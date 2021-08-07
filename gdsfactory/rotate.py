@@ -29,9 +29,9 @@ def rotate(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    component = gdsfactory.components.mmi1x2()
+    component = gf.components.mmi1x2()
     component_rotated = rotate(component=component)
     component_rotated.show()
     # print(component_rotated)

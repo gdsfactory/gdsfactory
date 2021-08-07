@@ -1,7 +1,7 @@
 """wires for electrical manhattan routes
 """
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.hline import hline
 from gdsfactory.cross_section import get_waveguide_settings
@@ -9,10 +9,10 @@ from gdsfactory.port import deco_rename_ports
 
 
 @deco_rename_ports
-@gdsfactory.cell
+@gf.cell
 def wire_straight(
     length: float = 50.0,
-    waveguide: gdsfactory.types.StrOrDict = "metal_routing",
+    waveguide: gf.types.StrOrDict = "metal_routing",
     port_type: str = "dc",
     **kwargs
 ) -> Component:
@@ -34,11 +34,9 @@ def wire_straight(
 
 
 @deco_rename_ports
-@gdsfactory.cell
+@gf.cell
 def wire_corner(
-    port_type: str = "dc",
-    waveguide: gdsfactory.types.StrOrDict = "metal_routing",
-    **kwargs
+    port_type: str = "dc", waveguide: gf.types.StrOrDict = "metal_routing", **kwargs
 ) -> Component:
     """90 degrees electrical corner
 

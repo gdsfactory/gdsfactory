@@ -64,9 +64,9 @@ def get_bundle_path_length_match(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.Component("path_length_match_sample")
+      c = gf.Component("path_length_match_sample")
 
       dy = 2000.0
       xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -76,10 +76,10 @@ def get_bundle_path_length_match(
 
       a1 = 90
       a2 = a1 + 180
-      ports1 = [gdsfactory.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-      ports2 = [gdsfactory.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+      ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+      ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-      routes = gdsfactory.routing.get_bundle_path_length_match(
+      routes = gf.routing.get_bundle_path_length_match(
           ports1, ports2, extra_length=44
       )
       for route in routes:
@@ -137,16 +137,16 @@ def get_bundle_path_length_match(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    c1 = c << gdsfactory.components.straight_array(spacing=50)
-    c2 = c << gdsfactory.components.straight_array(spacing=5)
+    c = gf.Component()
+    c1 = c << gf.components.straight_array(spacing=50)
+    c2 = c << gf.components.straight_array(spacing=5)
     c2.movex(200)
     c1.y = 0
     c2.y = 0
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(
+    routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(orientation=0),
         c2.get_ports_list(orientation=180),
         end_straight_offset=0,

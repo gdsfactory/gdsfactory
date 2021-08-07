@@ -1,12 +1,12 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def test_label_move() -> Component:
     """test that when we move a component its label also moves"""
-    c = gdsfactory.Component("ellipse_with_label")
-    c << gdsfactory.components.ellipse()
-    c.add_label(text="demo", position=(10, 0), layer=gdsfactory.LAYER.TEXT)
+    c = gf.Component("ellipse_with_label")
+    c << gf.components.ellipse()
+    c.add_label(text="demo", position=(10, 0), layer=gf.LAYER.TEXT)
     c.movex(10)
     print(c.references)
     print(c.labels)

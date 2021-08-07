@@ -3,7 +3,7 @@ from typing import Iterable, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentFactory, Number
@@ -11,15 +11,15 @@ from gdsfactory.types import ComponentFactory, Number
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_optimized(
     widths: Iterable[Number] = (0.5, 0.2, 0.3),
     width_grating: Number = 11,
     length_taper: Number = 150,
     width: Number = 0.5,
     partial_etch: bool = False,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
-    layer_partial_etch: Tuple[int, int] = gdsfactory.LAYER.SLAB150,
+    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer_partial_etch: Tuple[int, int] = gf.LAYER.SLAB150,
     taper_factory: ComponentFactory = taper_function,
     taper_port_name: str = "1",
     polarization: str = "te",
@@ -37,9 +37,9 @@ def grating_coupler_uniform_optimized(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.grating_coupler_uniform_optimized()
+      c = gf.components.grating_coupler_uniform_optimized()
       c.plot()
 
     """
@@ -53,7 +53,7 @@ def grating_coupler_uniform_optimized(
         # make the etched areas (opposite to teeth)
         for i, wt in enumerate(widths):
             if i % 2 == 1:
-                _compass = gdsfactory.components.compass(
+                _compass = gf.components.compass(
                     size=[wt, width_grating + partetch_overhang * 2],
                     layer=layer_partial_etch,
                 )
@@ -64,14 +64,14 @@ def grating_coupler_uniform_optimized(
         # draw the deep etched square around the grating
         xgrating = np.sum(widths)
         deepbox = c.add_ref(
-            gdsfactory.components.compass(size=[xgrating, width_grating], layer=layer)
+            gf.components.compass(size=[xgrating, width_grating], layer=layer)
         )
         deepbox.movex(xgrating / 2)
     else:
         for i, wt in enumerate(widths):
             if i % 2 == 0:
                 cgrating = c.add_ref(
-                    gdsfactory.components.compass(size=[wt, width_grating], layer=layer)
+                    gf.components.compass(size=[wt, width_grating], layer=layer)
                 )
                 cgrating.x += x + wt / 2
             x += wt
@@ -90,11 +90,11 @@ def grating_coupler_uniform_optimized(
     if taper_port_name not in taper_ref.ports:
         raise ValueError(f"{taper_port_name} not in {list(taper_ref.ports.keys())}")
     c.add_port(port=taper_ref.ports[taper_port_name], name="W0")
-    gdsfactory.asserts.grating_coupler(c)
+    gf.asserts.grating_coupler(c)
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_1etch_h220_e70.csv"
     import pandas as pd
@@ -105,7 +105,7 @@ def grating_coupler_uniform_1etch_h220_e70(**kwargs):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     csv_path = data_path / "grating_coupler_2etch_h220_e70_e220.csv"
     import pandas as pd
@@ -116,7 +116,7 @@ def grating_coupler_uniform_2etch_h220_e70(**kwargs):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     from gdsfactory.components.taper_from_csv import taper_w11_l200
 
@@ -124,7 +124,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w11_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper)
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     from gdsfactory.components.taper_from_csv import taper_w10_l200
 
@@ -132,7 +132,7 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w10_l200(**kwargs):
     return grating_coupler_uniform_1etch_h220_e70(taper=taper, width_grating=10)
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_uniform_1etch_h220_e70_taper_w10_l100(**kwargs):
     from gdsfactory.components.taper_from_csv import taper_w10_l100
 

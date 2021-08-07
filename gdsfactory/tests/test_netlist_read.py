@@ -2,10 +2,10 @@ from gdsfactory.component import Component
 
 
 def test_netlist_read() -> Component:
-    import gdsfactory
+    import gdsfactory as gf
 
-    filepath = gdsfactory.CONFIG["netlists"] / "mzi.yml"
-    c = gdsfactory.component_from_yaml(filepath)
+    filepath = gf.CONFIG["netlists"] / "mzi.yml"
+    c = gf.component_from_yaml(filepath)
 
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
@@ -19,10 +19,10 @@ def test_netlist_read() -> Component:
 
 
 def test_netlist_read_full() -> Component:
-    import gdsfactory
+    import gdsfactory as gf
 
-    filepath = gdsfactory.CONFIG["netlists"] / "mzi_full.yml"
-    c = gdsfactory.component_from_yaml(filepath)
+    filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
+    c = gf.component_from_yaml(filepath)
 
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
@@ -33,13 +33,13 @@ def test_netlist_read_full() -> Component:
 
 
 def regenerate_regression_test():
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mzi()
-    filepath = gdsfactory.CONFIG["netlists"] / "mzi_full.yml"
+    c = gf.components.mzi()
+    filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
     c.write_netlist(filepath, full_settings=True)
 
-    filepath = gdsfactory.CONFIG["netlists"] / "mzi.yml"
+    filepath = gf.CONFIG["netlists"] / "mzi.yml"
     c.write_netlist(filepath, full_settings=False)
 
 

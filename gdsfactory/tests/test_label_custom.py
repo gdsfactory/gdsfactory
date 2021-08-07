@@ -1,6 +1,6 @@
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 LENGTH = 0.5
@@ -9,12 +9,12 @@ CUSTOM_LABEL = "straight_cband"
 
 
 def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Component:
-    c = gdsfactory.components.straight(length=LENGTH)
+    c = gf.components.straight(length=LENGTH)
 
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
 
-    cte = gdsfactory.routing.add_fiber_array(
+    cte = gf.routing.add_fiber_array(
         component=c, with_loopback=False, component_name=CUSTOM_LABEL
     )
     assert len(cte.labels) == 2
@@ -30,10 +30,10 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
 
 
 def test_label_fiber_single_custom(num_regression, check=True):
-    c = gdsfactory.components.straight(length=3)
+    c = gf.components.straight(length=3)
     assert len(c.labels) == 0
 
-    cte = gdsfactory.routing.add_fiber_single(
+    cte = gf.routing.add_fiber_single(
         component=c, with_loopback=True, component_name=CUSTOM_LABEL
     )
     assert len(cte.labels) == 4
@@ -60,9 +60,9 @@ if __name__ == "__main__":
     c = test_label_fiber_single_custom(None, check=False)
     c.show()
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # assert len(c.labels) == 0
 
-    # c = gdsfactory.routing.add_fiber_array(component=c, with_loopback=True)
+    # c = gf.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
     # c.show()

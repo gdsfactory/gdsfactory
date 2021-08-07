@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
@@ -7,13 +7,13 @@ from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.taper import taper_strip_to_ridge
 
 
-@gdsfactory.cell
+@gf.cell
 def test_cutback_phase(
     straight_length: float = 100.0, bend_radius: float = 10.0, n: int = 2
 ) -> Component:
     """Modulator sections connected by bends"""
     # Define sub components
-    bend180 = gdsfactory.components.bend_circular180(radius=bend_radius)
+    bend180 = gf.components.bend_circular180(radius=bend_radius)
     pm_wg = straight_pin(length=straight_length)
     wg_short = straight(length=1.0)
     wg_short2 = straight(length=2.0)

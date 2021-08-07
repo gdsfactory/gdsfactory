@@ -13,7 +13,7 @@ from typing import Callable, List, Optional, Union, cast
 import numpy as np
 from numpy import ndarray
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
@@ -652,13 +652,13 @@ def get_bundle_same_axis_no_grouping(
     return elems
 
 
-@gdsfactory.cell
+@gf.cell
 def test_get_bundle_small() -> Component:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    c1 = c << gdsfactory.components.mmi2x2()
-    c2 = c << gdsfactory.components.mmi2x2()
+    c = gf.Component()
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
         [c1.ports["E0"], c1.ports["E1"]],
@@ -684,9 +684,9 @@ if __name__ == "__main__":
 
     # c.show()
 
-    c = gdsfactory.Component()
-    c1 = c << gdsfactory.components.mmi2x2()
-    c2 = c << gdsfactory.components.mmi2x2()
+    c = gf.Component()
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
         [c1.ports["E0"], c1.ports["E1"]],

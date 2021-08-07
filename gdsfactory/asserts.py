@@ -29,10 +29,10 @@ def version_equal_or_greater_than(version: str):
 
     if __version__ < version:
         raise ValueError(
-            f"gdsfactory minimum required version = {version}\n"
+            f"gf.minimum required version = {version}\n"
             f"not compatible your current installed version {__version__}\n"
             "you can run:\n"
-            "pip install gdsfactory --upgrade\n"
+            "pip install gf.--upgrade\n"
             "to install a later version",
         )
 

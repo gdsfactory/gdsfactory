@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import StrOrDict, get_cross_section
@@ -6,7 +6,7 @@ from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
 
 
-@gdsfactory.cell
+@gf.cell
 def bend_circular_heater(
     radius: float = 10,
     angle: int = 90,
@@ -34,7 +34,7 @@ def bend_circular_heater(
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
 
-    x = gdsfactory.CrossSection()
+    x = gf.CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
 
     for layer_cladding in layers_cladding:

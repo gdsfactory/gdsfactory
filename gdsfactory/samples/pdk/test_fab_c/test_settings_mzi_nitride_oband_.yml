@@ -1,6 +1,6 @@
 function_name: mzi_nitride_oband
 info: {}
-module: gdsfactory.samples.pdk.fab_c
+module: gf.samples.pdk.fab_c
 name: mzi_nitride_oband
 settings:
   combiner: null

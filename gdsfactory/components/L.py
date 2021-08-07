@@ -1,11 +1,11 @@
 from typing import Tuple, Union
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 
 
-@gdsfactory.cell
+@gf.cell
 def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),

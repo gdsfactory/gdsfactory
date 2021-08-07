@@ -1,12 +1,12 @@
 """Sample AWG."""
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import StrOrDict, get_cross_section
 
 
-@gdsfactory.cell
+@gf.cell
 def free_propagation_region(
     width1: float = 2.0,
     width2: float = 20.0,
@@ -40,7 +40,7 @@ def free_propagation_region(
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
 
     if inputs == 1:
@@ -53,7 +53,7 @@ def free_propagation_region(
         )
     else:
         y = np.linspace(-width1 / 2 + wg_width / 2, width1 / 2 - wg_width / 2, inputs)
-        y = gdsfactory.snap.snap_to_grid(y)
+        y = gf.snap.snap_to_grid(y)
         for i, y in enumerate(y):
             c.add_port(
                 f"W{i}",
@@ -64,7 +64,7 @@ def free_propagation_region(
             )
 
     y = np.linspace(-width2 / 2 + wg_width / 2, width2 / 2 - wg_width / 2, outputs)
-    y = gdsfactory.snap.snap_to_grid(y)
+    y = gf.snap.snap_to_grid(y)
     for i, y in enumerate(y):
         c.add_port(
             f"E{i}",
@@ -85,12 +85,12 @@ def free_propagation_region(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def free_propagation_region_input(inputs: int = 1, **kwargs) -> Component:
     return free_propagation_region(inputs=inputs, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def free_propagation_region_output(
     inputs: int = 10, width1: float = 10.0, width2: float = 20.0, **kwargs
 ) -> Component:
@@ -99,7 +99,7 @@ def free_propagation_region_output(
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def awg(
     arms: int = 10,
     outputs: int = 3,
@@ -134,7 +134,7 @@ def awg(
     fpr_out_ref.rotate(90)
 
     fpr_out_ref.x += fpr_spacing
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         fpr_in_ref.get_ports_list(prefix="E"), fpr_out_ref.get_ports_list(prefix="E")
     )
 

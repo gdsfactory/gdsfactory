@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pandas import DataFrame
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.sp.write import write
 
@@ -14,7 +14,7 @@ def plot(
     component_or_df: Union[Component, DataFrame],
     logscale: bool = True,
     keys: Optional[Iterable[str]] = None,
-    dirpath: Path = gdsfactory.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sp"],
     **sim_settings,
 ):
     """Plots Sparameters.
@@ -51,12 +51,12 @@ if __name__ == "__main__":
     remove_layers = []
     layer_to_thickness_nm = {(1, 0): 220}
 
-    # r = write(component=gdsfactory.components.straight(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gdsfactory.components.mmi2x2(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gdsfactory.components.mmi1x2(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gdsfactory.components.coupler(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gdsfactory.components.bend_circular(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.straight(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.mmi2x2(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.mmi1x2(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.coupler(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.bend_circular(), layer_to_thickness_nm=layer_to_thickness_nm)
     # plot(r, logscale=True)
-    # plot(gdsfactory.components.coupler())
-    plot(gdsfactory.components.mmi1x2(), logscale=False)
+    # plot(gf.components.coupler())
+    plot(gf.components.mmi1x2(), logscale=False)
     plt.show()

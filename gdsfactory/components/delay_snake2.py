@@ -2,13 +2,13 @@ import warnings
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.tech import LIBRARY, Library
 from gdsfactory.types import StrOrDict, StrOrDictOrNone
 
 
-@gdsfactory.cell
+@gf.cell
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,
@@ -59,10 +59,10 @@ def delay_snake2(
     ), "Snake is too short: either reduce length0, increase the total length,\
     or decrease n"
 
-    s1 = gdsfactory.components.straight(
+    s1 = gf.components.straight(
         waveguide=waveguide, length=length1, **waveguide_settings
     )
-    sd = gdsfactory.components.straight(
+    sd = gf.components.straight(
         waveguide=waveguide, length=delta_length, **waveguide_settings
     )
 
@@ -75,10 +75,10 @@ def delay_snake2(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
-    c = gdsfactory.components.component_sequence(
+    c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    gdsfactory.port.auto_rename_ports(c)
+    gf.port.auto_rename_ports(c)
     return c
 
 

@@ -3,7 +3,7 @@
 import shutil
 from pathlib import Path
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_termination import add_gratings_and_loopback
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.component import Component
@@ -14,9 +14,9 @@ from gdsfactory.mask.merge_metadata import merge_metadata
 
 
 def add_te(component, **kwargs) -> Component:
-    c = gdsfactory.routing.add_fiber_array(
+    c = gf.routing.add_fiber_array(
         component=component,
-        grating_coupler=gdsfactory.components.grating_coupler_elliptical_te,
+        grating_coupler=gf.components.grating_coupler_elliptical_te,
         **kwargs,
     )
     c.test = "passive_optical_te"
@@ -24,23 +24,23 @@ def add_te(component, **kwargs) -> Component:
 
 
 def add_tm(component, **kwargs):
-    c = gdsfactory.routing.add_fiber_array(
+    c = gf.routing.add_fiber_array(
         component=component,
-        grating_coupler=gdsfactory.components.grating_coupler_elliptical_tm,
+        grating_coupler=gf.components.grating_coupler_elliptical_tm,
         **kwargs,
     )
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_te(gap: float, length: float) -> Component:
     """Directional coupler with TE grating couplers."""
-    c = gdsfactory.components.coupler(gap=gap, length=length)
+    c = gf.components.coupler(gap=gap, length=length)
     cc = add_te(c)
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
     """Waveguide Spiral with TE grating_coupler
 
@@ -51,13 +51,13 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
     c = spiral_inner_io_euler(width=width, length=length)
     cc = add_gratings_and_loopback(
         component=c,
-        grating_coupler=gdsfactory.components.grating_coupler_elliptical_te,
-        bend_factory=gdsfactory.components.bend_circular,
+        grating_coupler=gf.components.grating_coupler_elliptical_te,
+        bend_factory=gf.components.bend_circular,
     )
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
     """Waveguide Spiral with TM grating_coupler.
 
@@ -68,8 +68,8 @@ def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
     c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loopback(
         component=c,
-        grating_coupler=gdsfactory.components.grating_coupler_elliptical_tm,
-        bend_factory=gdsfactory.components.bend_circular,
+        grating_coupler=gf.components.grating_coupler_elliptical_tm,
+        bend_factory=gf.components.bend_circular,
     )
     return cc
 
@@ -122,7 +122,7 @@ def test_mask(precision: float = 2e-9) -> Path:
 
 if __name__ == "__main__":
     # gdspath_mask = test_mask()
-    # gdsfactory.show(gdspath_mask)
+    # gf.show(gdspath_mask)
     # c = coupler_te(gap=0.3, length=2.0)
     # c = spiral_te(length=60e3)
     # c.show()
@@ -132,4 +132,4 @@ if __name__ == "__main__":
     #     c = coupler_te(gap=0.3, length=length)
 
     gdspath = test_mask()
-    gdsfactory.show(gdspath)
+    gf.show(gdspath)

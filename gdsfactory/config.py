@@ -1,8 +1,8 @@
-"""gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
+"""gf.loads a configuration from 3 files, high priority overwrites low priority:
 
 1. A config.yml found in the current working directory (highest priority)
-2. ~/.gdsfactory/config.yml specific for the machine
-3. the yamlpath_default in gdsfactory/tech.yml (lowest priority)
+2. ~/.gf.config.yml specific for the machine
+3. the yamlpath_default in gf.tech.yml (lowest priority)
 
 `CONFIG` has all your computer specific paths that we do not care to store
 `TECH` has all the useful info that we will store to have reproduceable layouts.
@@ -48,7 +48,7 @@ dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
-logger.info(f"gdsfactory {__version__}")
+logger.info(f"gf.{__version__}")
 logger.add(sink=logpath)
 
 

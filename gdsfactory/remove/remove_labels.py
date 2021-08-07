@@ -1,16 +1,14 @@
 """Read component GDS, JSON metadata and CSV ports."""
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-def remove_labels(component: Component, layer=gdsfactory.LAYER.LABEL_SETTINGS) -> None:
+def remove_labels(component: Component, layer=gf.LAYER.LABEL_SETTINGS) -> None:
     """Returns same component without labels."""
     for c in list(component.get_dependencies(recursive=True)) + [component]:
         old_label = [
-            label
-            for label in c.labels
-            if label.layer == gdsfactory.LAYER.LABEL_SETTINGS
+            label for label in c.labels if label.layer == gf.LAYER.LABEL_SETTINGS
         ]
         if len(old_label) > 0:
             for label in old_label:
@@ -18,5 +16,5 @@ def remove_labels(component: Component, layer=gdsfactory.LAYER.LABEL_SETTINGS) -
 
 
 if __name__ == "__main__":
-    c = gdsfactory.components.waveguide()
-    gdsfactory.show()
+    c = gf.components.waveguide()
+    gf.show()

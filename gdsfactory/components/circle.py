@@ -3,15 +3,15 @@ from typing import Tuple
 import numpy as np
 from numpy import cos, pi, sin
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def circle(
     radius: float = 10.0,
     angle_resolution: float = 2.5,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
     """Generate a circle geometry.
 

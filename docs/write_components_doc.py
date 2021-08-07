@@ -42,9 +42,9 @@ Components
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.{name}()
+  c = gf.components.{name}()
   c.plot()
 
 """

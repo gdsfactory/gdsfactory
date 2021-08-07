@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, auto_rename_ports
@@ -37,7 +37,7 @@ def add_taper_elements(
     return ports, elements
 
 
-@gdsfactory.cell
+@gf.cell
 def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
@@ -58,7 +58,7 @@ def add_tapers(
         raise ValueError(
             f"{taper_port_name2} not in {list(taper_component.ports.keys())}"
         )
-    c = gdsfactory.Component()
+    c = gf.Component()
 
     for port_name, port in component.ports.items():
         if port.port_type == port_type:
@@ -76,7 +76,7 @@ def add_tapers(
 if __name__ == "__main__":
     from functools import partial
 
-    c0 = gdsfactory.components.straight(width=2)
+    c0 = gf.components.straight(width=2)
 
     t = partial(taper_function, width2=2)
     c1 = add_tapers(component=c0, taper=t)

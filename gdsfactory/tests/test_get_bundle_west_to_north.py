@@ -1,6 +1,6 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -10,13 +10,13 @@ def test_get_bundle_west_to_north(
 
     lengths = {}
 
-    c = gdsfactory.Component("test_get_bundle_west_to_north")
+    c = gf.Component("test_get_bundle_west_to_north")
     w = h = 10
-    c = gdsfactory.Component()
-    pad_south = gdsfactory.components.pad_array(
+    c = gf.Component()
+    pad_south = gf.components.pad_array(
         port_list=["S"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
-    pad_north = gdsfactory.components.pad_array(
+    pad_north = gf.components.pad_array(
         port_list=["N"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pl = c << pad_south
@@ -27,10 +27,10 @@ def test_get_bundle_west_to_north(
     pbports = pb.get_ports_list()
     ptports = pl.get_ports_list()
 
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         pbports,
         ptports,
-        bend_factory=gdsfactory.components.wire_corner,
+        bend_factory=gf.components.wire_corner,
         waveguide="metal_routing",
     )
     for i, route in enumerate(routes):
@@ -48,18 +48,16 @@ def test_get_bundle_west_to_north2(
 
     lengths = {}
 
-    c = gdsfactory.Component("test_get_bundle_west_to_north2")
-    pbottom_facing_north = gdsfactory.port_array(
-        midpoint=(0, 0), orientation=90, pitch=(30, 0)
-    )
-    ptop_facing_west = gdsfactory.port_array(
+    c = gf.Component("test_get_bundle_west_to_north2")
+    pbottom_facing_north = gf.port_array(midpoint=(0, 0), orientation=90, pitch=(30, 0))
+    ptop_facing_west = gf.port_array(
         midpoint=(100, 100), orientation=180, pitch=(0, -30)
     )
 
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         pbottom_facing_north,
         ptop_facing_west,
-        bend_factory=gdsfactory.components.wire_corner,
+        bend_factory=gf.components.wire_corner,
         waveguide="metal_routing",
     )
 

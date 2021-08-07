@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
@@ -39,9 +39,9 @@ def cavity(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.cavity(component=gdsfactory.components.dbr())
+      c = gf.components.cavity(component=gf.components.dbr())
       c.plot()
     """
     mirror = component() if callable(component) else component
@@ -51,7 +51,7 @@ def cavity(
         else coupler
     )
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     cr = c << coupler
     ml = c << mirror
     mr = c << mirror

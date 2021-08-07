@@ -108,9 +108,9 @@ def preview_layerset(
     """
     import numpy as np
 
-    import gdsfactory
+    import gdsfactory as gf
 
-    D = gdsfactory.Component(name="layerset")
+    D = gf.Component(name="layerset")
     scale = size / 100
     num_layers = len(ls._layers)
     matrix_size = int(np.ceil(np.sqrt(num_layers)))
@@ -120,10 +120,8 @@ def preview_layerset(
     for n, layer in enumerate(sorted_layers):
         gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
         layer_tuple = (gds_layer, gds_datatype)
-        R = gdsfactory.components.rectangle(
-            size=(100 * scale, 100 * scale), layer=layer_tuple
-        )
-        T = gdsfactory.components.text(
+        R = gf.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
+        T = gf.components.text(
             text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
             size=20 * scale,
             position=(50 * scale, -20 * scale),

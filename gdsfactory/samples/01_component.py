@@ -2,16 +2,16 @@
 
 We'll start by assuming we have a function straight() which already exists
 and makes us a simple straight rectangle.  Many functions like this
-exist in the gdsfactory.components library and are ready-for-use.  We write this
+exist in the gf.components library and are ready-for-use.  We write this
 one out fully just so it's explicitly clear what's happening
 
 """
 
-import gdsfactory
+import gdsfactory as gf
 
 
 def straight_sample(length=5, width=1):
-    wg = gdsfactory.Component("straight_sample")
+    wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
     wg.add_port(name="W0", midpoint=[0, width / 2], width=width, orientation=180)
     wg.add_port(name="E0", midpoint=[length, width / 2], width=width, orientation=0)
@@ -26,7 +26,7 @@ def straight_sample(length=5, width=1):
 # make a Component
 
 if __name__ == "__main__":
-    c = gdsfactory.Component("MultiWaveguide")
+    c = gf.Component("MultiWaveguide")
 
     # Now say we want to add a few straights to to our  Component" c.
     # First we create the straights.  As you can see from the straight() function

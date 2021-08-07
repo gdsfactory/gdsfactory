@@ -3,7 +3,7 @@ from typing import Any, Callable, List, Optional, Tuple, Union
 from numpy import float64
 from phidl.device_layout import Label
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
@@ -145,10 +145,10 @@ def route_fiber_array(
     # or a list of components/functions
 
     if isinstance(grating_coupler, list):
-        grating_couplers = [gdsfactory.call_if_func(g) for g in grating_coupler]
+        grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
     else:
-        grating_coupler = gdsfactory.call_if_func(grating_coupler)
+        grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
     assert (
@@ -502,19 +502,19 @@ def route_fiber_array(
 
 
 def demo():
-    gcte = gdsfactory.components.grating_coupler_te
-    gctm = gdsfactory.components.grating_coupler_tm
+    gcte = gf.components.grating_coupler_te
+    gctm = gf.components.grating_coupler_tm
 
-    c = gdsfactory.components.straight(length=500)
-    c = gdsfactory.components.mmi2x2()
+    c = gf.components.straight(length=500)
+    c = gf.components.mmi2x2()
 
     elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,
         optical_routing_type=2,
-        # bend_factory=gdsfactory.components.bend_euler,
-        bend_factory=gdsfactory.components.bend_circular,
+        # bend_factory=gf.components.bend_euler,
+        bend_factory=gf.components.bend_circular,
         radius=20,
         # force_manhattan=True
     )
@@ -529,9 +529,9 @@ def demo():
 
 
 if __name__ == "__main__":
-    c = gdsfactory.components.straight(waveguide="nitride")
-    gc = gdsfactory.components.grating_coupler_elliptical_te(
-        layer=gdsfactory.TECH.waveguide.nitride.layer, taper_length=30
+    c = gf.components.straight(waveguide="nitride")
+    gc = gf.components.grating_coupler_elliptical_te(
+        layer=gf.TECH.waveguide.nitride.layer, taper_length=30
     )
     gc.xmin = -20
     elements, gc, _ = route_fiber_array(

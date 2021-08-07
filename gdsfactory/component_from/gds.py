@@ -2,7 +2,7 @@
 from pathlib import Path
 from typing import Union
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 
@@ -21,7 +21,7 @@ def gds(gdspath: Union[str, Path], **kwargs) -> Component:
         raise FileNotFoundError(f"No such file '{gdspath}'")
     component = import_gds(gdspath)
 
-    gdsfactory.read.read_ports(component=component, gdspath=gdspath)
+    gf.read.read_ports(component=component, gdspath=gdspath)
     return component
 
 

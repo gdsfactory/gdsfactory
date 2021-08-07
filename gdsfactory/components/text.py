@@ -3,7 +3,7 @@ from typing import Iterable, Tuple
 import numpy as np
 from phidl.geometry import _glyph, _indent, _width
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.name import clean_name
@@ -23,20 +23,20 @@ def text(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
+      c = gf.components.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
       c.plot()
 
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
-    t = gdsfactory.Component(
+    t = gf.Component(
         name=clean_name(text) + "_{}_{}".format(int(position[0]), int(position[1]))
     )
     for i, line in enumerate(text.split("\n")):
-        label = gdsfactory.Component(name=t.name + "{}".format(i))
+        label = gf.Component(name=t.name + "{}".format(i))
         for c in line:
             ascii_val = ord(c)
             if c == " ":
@@ -66,7 +66,7 @@ def text(
     return t
 
 
-@gdsfactory.cell
+@gf.cell
 def githash(
     text: Iterable[str] = ("",),
     size: Number = 0.4,
@@ -87,11 +87,11 @@ def githash(
 
     """
     try:
-        git_hash = "pp_{}".format(gdsfactory.CONFIG["repo"][:hash_length])
+        git_hash = "pp_{}".format(gf.CONFIG["repo"][:hash_length])
     except Exception:
-        git_hash = "pp_{}".format(gdsfactory.__version__)
+        git_hash = "pp_{}".format(gf.__version__)
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     t = manhattan_text(text=git_hash, size=size, layer=layer)
     tref = c.add_ref(t)
     c.absorb(tref)

@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler as coupler_function
@@ -9,7 +9,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,
@@ -75,7 +75,7 @@ def mzit(
 
 
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     cp2 = (
         c
         << coupler2(

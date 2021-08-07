@@ -3,13 +3,13 @@ from typing import Tuple
 import numpy as np
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def disk(
     radius: float = 10.0,
     gap: float = 0.2,
@@ -38,17 +38,17 @@ def disk(
 
     Other Parameters:
        wg_width: 0.5
-       wg_layer: gdsfactory.LAYER.WG[0]
-       wg_datatype: gdsfactory.LAYER.WG[1]
-       clad_layer: gdsfactory.LAYER.WGCLAD[0]
-       clad_datatype: gdsfactory.LAYER.WGCLAD[1]
+       wg_layer: gf.LAYER.WG[0]
+       wg_datatype: gf.LAYER.WG[1]
+       clad_layer: gf.LAYER.WGCLAD[0]
+       clad_datatype: gf.LAYER.WGCLAD[1]
        bend_radius: 10
        cladding_offset: 3
 
     """
 
     c = pc.Disk(
-        gdsfactory.call_if_func(strip, **kwargs),
+        gf.call_if_func(strip, **kwargs),
         radius=radius,
         coupling_gap=gap,
         wrap_angle=wrap_angle_deg * np.pi / 180,
@@ -57,7 +57,7 @@ def disk(
         direction=direction,
     )
 
-    return gdsfactory.component_from.picwriter(c)
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":

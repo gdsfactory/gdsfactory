@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.extension import line
@@ -15,14 +15,14 @@ from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer, Number
 
 
-@gdsfactory.cell
+@gf.cell
 def heater(
     length: float = 10.0,
     width: float = 0.5,
     layer_heater: Tuple[int, int] = LAYER.HEATER,
 ) -> Component:
     """Straight heater"""
-    c = gdsfactory.Component()
+    c = gf.Component()
     _ref = c.add_ref(hline(length=length, width=width, layer=layer_heater))
     c.ports = _ref.ports  # Use ports from latest layer as heater ports
     for p in c.ports.values():

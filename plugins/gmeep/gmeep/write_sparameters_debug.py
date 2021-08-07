@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import gdsfactory
+import gdsfactory as gf
 
 # import matplotlib.pyplot as plt
 
@@ -8,7 +8,7 @@ import meep as mp
 from gmeep.get_simulation import get_simulation
 
 if __name__ == "__main__":
-    c = gdsfactory.components.straight(length=2)
+    c = gf.components.straight(length=2)
     sim_dict = get_simulation(component=c)
     sim = sim_dict["sim"]
     monitors = sim_dict["monitors"]

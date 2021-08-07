@@ -2,14 +2,14 @@ from typing import Optional, Tuple
 
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral(
     width: float = 500.0,
     length: float = 10e3,
@@ -18,8 +18,8 @@ def spiral(
     port: Tuple[int, int] = (0, 0),
     direction: str = "NORTH",
     waveguide_template: ComponentFactory = strip,
-    layer: Layer = gdsfactory.LAYER.WG,
-    layer_cladding: Layer = gdsfactory.LAYER.WGCLAD,
+    layer: Layer = gf.LAYER.WG,
+    layer_cladding: Layer = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
     wg_width: float = 0.5,
     radius: float = 10.0,
@@ -42,7 +42,7 @@ def spiral(
 
     """
     c = pc.Spiral(
-        gdsfactory.call_if_func(
+        gf.call_if_func(
             waveguide_template,
             wg_width=wg_width,
             radius=radius,
@@ -58,7 +58,7 @@ def spiral(
         direction=direction,
     )
     # print(f'length = {length/1e4:.2f}cm')
-    c = gdsfactory.component_from.picwriter(c)
+    c = gf.component_from.picwriter(c)
     c = auto_rename_ports(c)
     return c
 

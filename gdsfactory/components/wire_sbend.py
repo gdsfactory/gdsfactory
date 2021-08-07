@@ -1,12 +1,12 @@
 """
 """
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.wire import wire_corner, wire_straight
 
 
-@gdsfactory.cell
+@gf.cell
 def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     """Sbend corner
 
@@ -27,7 +27,7 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     }
 
     sequence = "-B|b-"
-    c = gdsfactory.components.component_sequence(
+    c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
     return c

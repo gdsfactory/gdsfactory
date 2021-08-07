@@ -28,9 +28,9 @@ def bend_s(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.bend_s(height=20)
+      c = gf.components.bend_s(height=20)
       c.plot()
 
     """

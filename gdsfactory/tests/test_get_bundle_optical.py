@@ -1,6 +1,6 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -10,10 +10,10 @@ def test_get_bundle_optical(
 
     lengths = {}
 
-    c = gdsfactory.Component("test_get_bundle_optical")
+    c = gf.Component("test_get_bundle_optical")
 
-    w = c << gdsfactory.components.straight_array(n=4, spacing=200)
-    d = c << gdsfactory.components.nxn(west=4, east=1)
+    w = c << gf.components.straight_array(n=4, spacing=200)
+    d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
     d.xmin = w.xmax + 200
 
@@ -26,7 +26,7 @@ def test_get_bundle_optical(
         d.ports["W0"],
     ]
 
-    routes = gdsfactory.routing.get_bundle(ports1, ports2, sort_ports=True, radius=10)
+    routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True, radius=10)
     for i, route in enumerate(routes):
         c.add(route.references)
         lengths[i] = route.length
@@ -42,16 +42,16 @@ def test_get_bundle_optical2(
 
     lengths = {}
 
-    c = gdsfactory.Component("test_get_bundle_optical2")
-    w = c << gdsfactory.components.straight_array(n=4, spacing=200)
-    d = c << gdsfactory.components.nxn(west=4, east=1)
+    c = gf.Component("test_get_bundle_optical2")
+    w = c << gf.components.straight_array(n=4, spacing=200)
+    d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
     d.xmin = w.xmax + 200
 
     ports1 = w.get_ports_list(prefix="E")
     ports2 = d.get_ports_list(prefix="W")
 
-    routes = gdsfactory.routing.get_bundle(ports1, ports2, sort_ports=True)
+    routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True)
 
     for i, route in enumerate(routes):
         c.add(route.references)

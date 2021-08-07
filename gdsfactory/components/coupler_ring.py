@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler90 import coupler90 as coupler90function
@@ -11,7 +11,7 @@ from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,

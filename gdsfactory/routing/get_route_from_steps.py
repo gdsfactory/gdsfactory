@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
@@ -40,15 +40,15 @@ def get_route_from_steps(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        c = gdsfactory.Component("get_route_from_steps_sample")
-        w = gdsfactory.components.straight()
+        c = gf.Component("get_route_from_steps_sample")
+        w = gf.components.straight()
         left = c << w
         right = c << w
         right.move((100, 80))
 
-        obstacle = gdsfactory.components.rectangle(size=(100, 10))
+        obstacle = gf.components.rectangle(size=(100, 10))
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
         obstacle1.ymin = 40
@@ -56,7 +56,7 @@ def get_route_from_steps(
 
         p1 = left.ports["E0"]
         p2 = right.ports["E0"]
-        route = gdsfactory.routing.get_route_from_steps(
+        route = gf.routing.get_route_from_steps(
             port1=p1,
             port2=p2,
             steps=[
@@ -117,14 +117,14 @@ def get_route_from_steps(
     )
 
 
-def test_route_from_steps() -> gdsfactory.Component:
-    c = gdsfactory.Component("get_route_from_steps_sample")
-    w = gdsfactory.components.straight()
+def test_route_from_steps() -> gf.Component:
+    c = gf.Component("get_route_from_steps_sample")
+    w = gf.components.straight()
     left = c << w
     right = c << w
     right.move((100, 80))
 
-    obstacle = gdsfactory.components.rectangle(size=(100, 10))
+    obstacle = gf.components.rectangle(size=(100, 10))
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
     obstacle1.ymin = 40
@@ -145,7 +145,7 @@ def test_route_from_steps() -> gdsfactory.Component:
     )
 
     assert route.length == 187.196
-    route = gdsfactory.routing.get_route_from_steps(
+    route = gf.routing.get_route_from_steps(
         port1=p1,
         port2=p2,
         steps=[

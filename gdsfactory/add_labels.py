@@ -6,7 +6,7 @@ from typing import Callable, Optional, Union
 import phidl.device_layout as pd
 from phidl.device_layout import Label
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.types import Layer
@@ -52,7 +52,7 @@ def get_input_label(
     gc: ComponentReference,
     gc_index: Optional[int] = None,
     gc_port_name: str = "W0",
-    layer_label: Layer = gdsfactory.LAYER.LABEL,
+    layer_label: Layer = gf.LAYER.LABEL,
     component_name: Optional[str] = None,
     get_input_label_text_function=get_input_label_text,
 ) -> Label:
@@ -88,7 +88,7 @@ def get_input_label_electrical(
     port: Port,
     gc_index: int = 0,
     component_name: Optional[str] = None,
-    layer_label: Layer = gdsfactory.LAYER.LABEL,
+    layer_label: Layer = gf.LAYER.LABEL,
     gc: Optional[ComponentReference] = None,
 ) -> Label:
     """Returns a label to test component info for a given electrical port.
@@ -105,7 +105,7 @@ def get_input_label_electrical(
 
     if component_name:
         name = component_name
-    elif isinstance(port.parent, gdsfactory.Component):
+    elif isinstance(port.parent, gf.Component):
         name = port.parent.name
     else:
         name = port.parent.ref_cell.name
@@ -126,7 +126,7 @@ def add_labels(
     component: Component,
     port_type: str = "dc",
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: Layer = gdsfactory.LAYER.LABEL,
+    layer_label: Layer = gf.LAYER.LABEL,
     gc: Optional[Component] = None,
 ) -> Component:
     """Add labels a particular type of ports
@@ -157,13 +157,13 @@ def add_labels(
 
 
 def test_optical_labels() -> Component:
-    c = gdsfactory.components.straight()
-    gc = gdsfactory.components.grating_coupler_elliptical_te()
+    c = gf.components.straight()
+    gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
-        port=c.ports["W0"], gc=gc, gc_index=0, layer_label=gdsfactory.LAYER.LABEL
+        port=c.ports["W0"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
     )
     label2 = get_input_label(
-        port=c.ports["E0"], gc=gc, gc_index=1, layer_label=gdsfactory.LAYER.LABEL
+        port=c.ports["E0"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
     add_labels(c, port_type="optical", get_label_function=get_input_label, gc=gc)
     labels_text = [c.labels[0].text, c.labels[1].text]
@@ -176,12 +176,12 @@ def test_optical_labels() -> Component:
 
 
 def test_electrical_labels() -> Component:
-    c = gdsfactory.components.wire_straight()
+    c = gf.components.wire_straight()
     label1 = get_input_label_electrical(
-        port=c.ports["DC_1"], layer_label=gdsfactory.LAYER.LABEL, gc_index=0
+        port=c.ports["DC_1"], layer_label=gf.LAYER.LABEL, gc_index=0
     )
     label2 = get_input_label_electrical(
-        port=c.ports["DC_0"], layer_label=gdsfactory.LAYER.LABEL, gc_index=1
+        port=c.ports["DC_0"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
     add_labels(
         component=c, port_type="dc", get_label_function=get_input_label_electrical

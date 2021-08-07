@@ -37,6 +37,6 @@ def test_sp_load(
 
 
 if __name__ == "__main__":
-    # c = gdsfactory.components.straight(layer=(2, 0))
+    # c = gf.components.straight(layer=(2, 0))
     # print(c.get_sparameters_path())
     test_sp_load("straight", None, False)

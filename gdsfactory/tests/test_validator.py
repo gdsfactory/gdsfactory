@@ -1,30 +1,30 @@
 import pydantic
 import pytest
 
-import gdsfactory
+import gdsfactory as gf
 
 
-@gdsfactory.cell
-def component_with_straight(component: gdsfactory.Component) -> gdsfactory.Component:
-    c = gdsfactory.Component()
+@gf.cell
+def component_with_straight(component: gf.Component) -> gf.Component:
+    c = gf.Component()
     c.add_ref(component)
-    c.add_ref(gdsfactory.components.straight())
+    c.add_ref(gf.components.straight())
     return c
 
 
 def test_validator_pass():
-    component = gdsfactory.components.straight(length=10)
+    component = gf.components.straight(length=10)
     component_with_straight(component=component)
 
 
 def test_validator_fail_empty():
-    component = gdsfactory.Component()
+    component = gf.Component()
     with pytest.raises(pydantic.ValidationError):
         component_with_straight(component=component)
 
 
 def test_validator_fail_name_too_long():
-    component = gdsfactory.Component(name="a" * 33)
+    component = gf.Component(name="a" * 33)
 
     # component_with_straight(component=component)
     with pytest.raises(pydantic.ValidationError):

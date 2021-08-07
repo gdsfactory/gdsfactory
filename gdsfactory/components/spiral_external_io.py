@@ -6,7 +6,7 @@ from typing import Optional, Tuple
 import numpy as np
 from numpy import float64
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components import straight
@@ -70,17 +70,13 @@ def spiral_external_io(
     y_straight_inner_top += 5
 
     x_inner_length_cutback += x_inner_offset
-    _bend180 = gdsfactory.call_if_func(
-        bend180_function, radius=bend_radius, width=wg_width
-    )
-    _bend90 = gdsfactory.call_if_func(
-        bend90_function, radius=bend_radius, width=wg_width
-    )
+    _bend180 = gf.call_if_func(bend180_function, radius=bend_radius, width=wg_width)
+    _bend90 = gf.call_if_func(bend90_function, radius=bend_radius, width=wg_width)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
-    component = gdsfactory.Component()
+    component = gf.Component()
 
     inner_loop_spacing = 2 * bend_radius + 5.0
 

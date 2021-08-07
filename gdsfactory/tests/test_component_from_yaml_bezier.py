@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 yaml = """
@@ -19,7 +19,7 @@ connections:
 
 def test_component_from_yaml_without_cell() -> Component:
     """bezier does not have cell"""
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     assert c.name == "test_component_from_yaml_without_cell"
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0

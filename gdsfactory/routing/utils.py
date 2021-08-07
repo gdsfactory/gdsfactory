@@ -65,8 +65,8 @@ def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mmi1x2()
+    c = gf.components.mmi1x2()
     d = direction_ports_from_list_ports(c.get_ports_list())
     c.show()

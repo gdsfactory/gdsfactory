@@ -4,7 +4,7 @@
 
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -104,7 +104,7 @@ def test_ring_single(
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
     if pins:
-        gdsfactory.add_pins_to_references(c)
+        gf.add_pins_to_references(c)
     return c
 
 

@@ -1,11 +1,11 @@
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def test_path_length_matching() -> Component:
-    c = gdsfactory.Component("path_length_match_sample")
+    c = gf.Component("path_length_match_sample")
 
     dy = 2000.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -17,10 +17,10 @@ def test_path_length_matching() -> Component:
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [gdsfactory.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gdsfactory.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(ports1, ports2)
+    routes = gf.routing.get_bundle_path_length_match(ports1, ports2)
     lengths = [2660.794]
     for route, length in zip(routes, lengths):
         print(route.length)
@@ -30,7 +30,7 @@ def test_path_length_matching() -> Component:
 
 
 def test_path_length_matching_extra_length() -> Component:
-    c = gdsfactory.Component("path_length_match_sample")
+    c = gf.Component("path_length_match_sample")
 
     dy = 2000.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -42,12 +42,10 @@ def test_path_length_matching_extra_length() -> Component:
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [gdsfactory.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gdsfactory.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(
-        ports1, ports2, extra_length=40
-    )
+    routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=40)
     lengths = [2700.794]
     for route, length in zip(routes, lengths):
         # print(route.length)
@@ -57,7 +55,7 @@ def test_path_length_matching_extra_length() -> Component:
 
 
 def test_path_length_matching_nb_loops() -> Component:
-    c = gdsfactory.Component("path_length_match_sample")
+    c = gf.Component("path_length_match_sample")
 
     dy = 2000.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -69,10 +67,10 @@ def test_path_length_matching_nb_loops() -> Component:
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [gdsfactory.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gdsfactory.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
+    routes = gf.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
     lengths = [2687.99]
     for route, length in zip(routes, lengths):
         print(route.length)

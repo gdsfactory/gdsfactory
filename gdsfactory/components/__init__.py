@@ -292,14 +292,14 @@ def library(component_type: str, **kwargs):
 
     """
     from gdsfactory.tech import TECH
-    import gdsfactory
+    import gdsfactory as gf
 
     settings = getattr(TECH.component_settings, component_type)
     settings = dataclasses.asdict(settings) if settings else {}
     component_type = settings.pop("component_type", component_type)
     settings.update(**kwargs)
 
-    if isinstance(component_type, gdsfactory.Component):
+    if isinstance(component_type, gf.Component):
         return component_type
     elif callable(component_type):
         return component_type(**settings)

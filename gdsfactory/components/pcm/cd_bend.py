@@ -1,27 +1,27 @@
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.pcm.cd import CENTER_SHAPES_MAP, square_middle
 from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def cd_bend(
     L: float = 2.0,
     radius: float = 2.0,
     width: float = 0.4,
     center_shapes: str = "SU",
-    bend90_factory: ComponentFactory = gdsfactory.components.bend_circular,
-    straight_factory: ComponentFactory = gdsfactory.components.straight,
+    bend90_factory: ComponentFactory = gf.components.bend_circular,
+    straight_factory: ComponentFactory = gf.components.straight,
     markers_with_slabs: bool = False,
 ):
     """bends and straights connected together
     for CDSEM measurement
     """
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     _straight = straight_factory(length=L, width=width)
     _bend = bend90_factory(radius=radius, width=width)
 
@@ -66,7 +66,7 @@ def cd_bend(
     return component
 
 
-@gdsfactory.cell
+@gf.cell
 def cd_bend_strip(**kwargs):
     return cd_bend(**kwargs, bend90_factory=bend_circular, straight_factory=straight)
 

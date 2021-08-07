@@ -2,14 +2,14 @@
 """
 
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import hash_file
 
 
 def test_hash_geometry() -> None:
     """Test geometric hash of the GDS points."""
-    c1 = gdsfactory.components.straight(length=10)
-    c2 = gdsfactory.components.straight(length=11)
+    c1 = gf.components.straight(length=10)
+    c2 = gf.components.straight(length=11)
     h1 = c1.hash_geometry()
     h2 = c2.hash_geometry()
     assert h1 != h2
@@ -17,9 +17,9 @@ def test_hash_geometry() -> None:
 
 def _test_hash_array_file():
     """Test hash of a component with an array of references."""
-    gdsfactory.clear_cache()
-    c = gdsfactory.Component("array")
-    wg = gdsfactory.components.straight(length=3.2)
+    gf.clear_cache()
+    c = gf.Component("array")
+    wg = gf.components.straight(length=3.2)
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
@@ -29,8 +29,8 @@ def _test_hash_array_file():
 
 def _test_hash_file():
     """Test hash of the saved GDS file."""
-    gdsfactory.clear_cache()
-    c = gdsfactory.components.straight()
+    gf.clear_cache()
+    c = gf.components.straight()
     c.add_label("hi")
     gdspath = c.write_gds()
     h = hash_file(gdspath)

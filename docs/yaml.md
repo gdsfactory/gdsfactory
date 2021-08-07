@@ -7,13 +7,13 @@ You can define components, circuits and masks in YAML syntax.
 
 ```eval_rst
 
-.. autofunction:: gdsfactory.component_from_yaml
+.. autofunction:: gf.component_from_yaml
 ```
 
 
 ## Mask
 
-- It assumes that each DOE is provided in a folder together with a text file containing the list of each GDS file. (gdsfactory.placer does that)
+- It assumes that each DOE is provided in a folder together with a text file containing the list of each GDS file. (gf.placer does that)
 - The placing instructions are taken from a YAML file. Typically the same as the one used for specifying the DOEs
 
 The YAML Placer addresses the following requirements:
@@ -27,7 +27,7 @@ The YAML Placer does not check for collisions and does not guarantee a valid pla
 It just puts together a mask allows you to change components placements.
 
 
-While the YAML placer can work as a standalone tool, it is designed to be used with gdsfactory (gdsfactory)
+While the YAML placer can work as a standalone tool, it is designed to be used with gf.(gf.
 You can specify DOEs (Design Of Experiments) and placement in a single YAML file.
 
 In a typical workflow, this file is parsed twice:
@@ -39,7 +39,7 @@ Example:
 ```
 
 import pathlib
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
@@ -71,7 +71,7 @@ def test_mask():
 
 if __name__ == "__main__":
     gdspath = test_mask()
-    gdsfactory.show(gdspath)
+    gf.show(gdspath)
 
 ```
 

@@ -2,14 +2,14 @@ from typing import Optional, Tuple
 
 from numpy import floor
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import via1
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def via_stack_with_offset(
     layer_via_width_height_offset: Tuple[
         Tuple[Layer, Optional[ComponentFactory], float, float, float], ...
@@ -102,22 +102,22 @@ if __name__ == "__main__":
 
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.components.via1, 10, 10, 0),
+            (LAYER.Ppp, gf.components.via1, 10, 10, 0),
             (LAYER.M1, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.components.via1, 10, 10, 10),
-            (LAYER.M1, gdsfactory.components.via2, 10, 10, 0),
+            (LAYER.Ppp, gf.components.via1, 10, 10, 10),
+            (LAYER.M1, gf.components.via2, 10, 10, 0),
             (LAYER.M2, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.components.via1, 5, 10, 0),
-            (LAYER.M1, gdsfactory.components.via2, 5, 10, 10),
-            (LAYER.M2, gdsfactory.components.via3, 5, 10, 0),
+            (LAYER.Ppp, gf.components.via1, 5, 10, 0),
+            (LAYER.M1, gf.components.via2, 5, 10, 10),
+            (LAYER.M2, gf.components.via3, 5, 10, 0),
             # (LAYER.M3, None, 5, 10, 0),
         )
     )

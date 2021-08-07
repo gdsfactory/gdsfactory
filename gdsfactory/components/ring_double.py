@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
@@ -9,7 +9,7 @@ from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def ring_double(
     gap: float = 0.2,
     radius: float = 10.0,

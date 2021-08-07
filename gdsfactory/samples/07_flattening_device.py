@@ -9,21 +9,17 @@ Also, if you specify the `single_layer` argument it will move all of the
 polyons to that single layer.
 
 """
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def test_flatten_device() -> Component:
 
-    c = gdsfactory.Component("test_remap_layers")
+    c = gf.Component("test_remap_layers")
 
-    c.add_ref(gdsfactory.components.rectangle(size=(10, 1), layer=gdsfactory.LAYER.WG))
-    c.add_ref(
-        gdsfactory.components.rectangle(size=(10, 2), layer=gdsfactory.LAYER.SLAB90)
-    )
-    c.add_ref(
-        gdsfactory.components.rectangle(size=(10, 3), layer=gdsfactory.LAYER.SLAB150)
-    )
+    c.add_ref(gf.components.rectangle(size=(10, 1), layer=gf.LAYER.WG))
+    c.add_ref(gf.components.rectangle(size=(10, 2), layer=gf.LAYER.SLAB90))
+    c.add_ref(gf.components.rectangle(size=(10, 3), layer=gf.LAYER.SLAB150))
 
     assert len(c.references) == 3
     c.flatten()

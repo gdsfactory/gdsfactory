@@ -2,14 +2,14 @@ from typing import Optional, Tuple
 
 from numpy import floor
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import via2, via3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def via_stack(
     width: float = 11.0,
     height: Optional[float] = None,

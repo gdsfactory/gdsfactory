@@ -1,6 +1,6 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.types import Layer
@@ -9,7 +9,7 @@ from gdsfactory.types import Layer
 @cell
 def compass(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Layer = gdsfactory.LAYER.WG,
+    layer: Layer = gf.LAYER.WG,
 ) -> Component:
     """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
@@ -20,8 +20,8 @@ def compass(
 
     """
 
-    c = gdsfactory.Component()
-    r = gdsfactory.components.rectangle(size=size, layer=layer)
+    c = gf.Component()
+    r = gf.components.rectangle(size=size, layer=layer)
     dx = size[0]
     dy = size[1]
 
@@ -36,5 +36,5 @@ def compass(
 
 
 if __name__ == "__main__":
-    c = compass(size=(1, 2), layer=gdsfactory.LAYER.WG)
+    c = compass(size=(1, 2), layer=gf.LAYER.WG)
     c.show()

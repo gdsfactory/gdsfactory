@@ -176,7 +176,7 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """Deprecated. Use gdsfactory.path
+    """Deprecated. Use gf.path
     Extrude a path of width `width` along a curve defined by `points`
 
     Args:

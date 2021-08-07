@@ -3,7 +3,7 @@ from typing import Callable, List, Tuple
 
 from phidl.device_layout import Label
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler.elliptical_trenches import (
@@ -18,7 +18,7 @@ from gdsfactory.types import ComponentFactory
 def add_grating_couplers(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    layer_label: Tuple[int, int] = gdsfactory.LAYER.LABEL,
+    layer_label: Tuple[int, int] = gf.LAYER.LABEL,
     gc_port_name: str = "W0",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
 ) -> Component:
@@ -35,7 +35,7 @@ def add_grating_couplers(
 
     cnew = Component()
     cnew.add_ref(component)
-    grating_coupler = gdsfactory.call_if_func(grating_coupler)
+    grating_coupler = gf.call_if_func(grating_coupler)
 
     io_gratings = []
     optical_ports = component.get_ports_list(port_type="optical")
@@ -67,12 +67,12 @@ def add_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
 
 if __name__ == "__main__":
     # from gdsfactory.add_labels import get_optical_text
-    # c = gdsfactory.components.grating_coupler_elliptical_te()
+    # c = gf.components.grating_coupler_elliptical_te()
     # print(c.wavelength)
 
     # print(c.get_property('wavelength'))
 
-    c = gdsfactory.components.straight(width=2)
+    c = gf.components.straight(width=2)
     # cc = add_grating_couplers(c)
     cc = add_tm(c)
     print(cc)

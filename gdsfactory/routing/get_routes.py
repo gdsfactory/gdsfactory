@@ -57,27 +57,27 @@ def get_routes(
 
 if __name__ == "__main__":
 
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component("test_get_bundle_sort_ports")
+    c = gf.Component("test_get_bundle_sort_ports")
     pitch = 5.0
     ys_left = [0, 10, 20]
     N = len(ys_left)
     ys_right = [25 + i * pitch for i in range(N)]
 
-    p1 = [gdsfactory.Port(f"L_{i}", (0, ys_left[i]), 0.5, 0) for i in range(N)]
-    p2 = [gdsfactory.Port(f"R_{i}", (20, ys_right[i]), 0.5, 180) for i in range(N)]
+    p1 = [gf.Port(f"L_{i}", (0, ys_left[i]), 0.5, 0) for i in range(N)]
+    p2 = [gf.Port(f"R_{i}", (20, ys_right[i]), 0.5, 180) for i in range(N)]
 
     p1.reverse()
     routes = get_routes(p1, p2)
     c.add(routes.references)
     c.show()
 
-    # route_references = gdsfactory.routing.get_bundle(right_ports, left_ports, bend_radius=5)
+    # route_references = gf.routing.get_bundle(right_ports, left_ports, bend_radius=5)
     # c.add(route_references)
 
     # for p1, p2 in zip(right_ports, left_ports):
-    #     path = gdsfactory.path.smooth(
+    #     path = gf.path.smooth(
     #         [
     #             p1.midpoint,
     #             p1.get_extended_midpoint(),
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     #             p2.midpoint,
     #         ]
     #     )
-    #     route = gdsfactory.path.extrude(path, cross_section=gdsfactory.cross_section.strip)
+    #     route = gf.path.extrude(path, cross_section=gf.cross_section.strip)
     #     c.add(route.ref())

@@ -2,13 +2,13 @@ from typing import Optional, Tuple
 
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def dbr2(
     length: float = 10.0,
     period: float = 0.85,
@@ -46,10 +46,10 @@ def dbr2(
        waveguide_template:  WaveguideTemplate object
        waveguide_template_dbr: Picwriter WaveguideTemplate object
        wg_width: 0.5
-       wg_layer: gdsfactory.LAYER.WG[0]
-       wg_datatype: gdsfactory.LAYER.WG[1]
-       clad_layer: gdsfactory.LAYER.WGCLAD[0]
-       clad_datatype: gdsfactory.LAYER.WGCLAD[1]
+       wg_layer: gf.LAYER.WG[0]
+       wg_datatype: gf.LAYER.WG[1]
+       clad_layer: gf.LAYER.WGCLAD[0]
+       clad_datatype: gf.LAYER.WGCLAD[1]
        bend_radius: 10
        cladding_offset: 3
 
@@ -69,9 +69,9 @@ def dbr2(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
+      c = gf.components.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
       c.plot()
 
     """
@@ -79,7 +79,7 @@ def dbr2(
     waveguide_template_dbr = waveguide_template_dbr or waveguide_template(wg_width=w2)
 
     c = pc.DBR(
-        wgt=gdsfactory.call_if_func(waveguide_template, wg_width=w2, **kwargs),
+        wgt=gf.call_if_func(waveguide_template, wg_width=w2, **kwargs),
         length=length,
         period=period,
         dc=dc,
@@ -92,7 +92,7 @@ def dbr2(
         direction=direction,
     )
 
-    return gdsfactory.component_from.picwriter(c)
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":

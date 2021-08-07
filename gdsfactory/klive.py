@@ -32,8 +32,8 @@ def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight()
+    c = gf.components.straight()
     gdspath = c.write_gds()
     show(gdspath)

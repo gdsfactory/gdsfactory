@@ -3,7 +3,7 @@ info: {}
 module: gdsfactory.components.version_stamp
 name: qrcode
 settings:
-  data: gdsfactory
+  data: mask01
   layer:
   - 1
   - 0

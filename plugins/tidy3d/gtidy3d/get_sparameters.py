@@ -51,10 +51,10 @@ def get_sparameters(sim: td.Simulation) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
     import gtidy3d as gm
 
-    c = gdsfactory.components.straight(length=2)
+    c = gf.components.straight(length=2)
     sim = gm.get_simulation(c)
     # s = get_sparameters(sim)
     # print(s)

@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.mask.merge_json import merge_json
 from gdsfactory.mask.merge_markdown import merge_markdown
 from gdsfactory.mask.merge_test_metadata import merge_test_metadata
@@ -11,7 +11,7 @@ from gdsfactory.mask.write_labels import write_labels
 def merge_metadata(
     gdspath: Path,
     labels_prefix: str = "opt",
-    label_layer: Tuple[int, int] = gdsfactory.LAYER.LABEL,
+    label_layer: Tuple[int, int] = gf.LAYER.LABEL,
     **kwargs
 ) -> None:
     """Merges all JSON metadata into a big JSON.
@@ -36,6 +36,6 @@ def merge_metadata(
 
 if __name__ == "__main__":
 
-    gdspath = gdsfactory.CONFIG["samples_path"] / "mask" / "build" / "mask" / "mask.gds"
+    gdspath = gf.CONFIG["samples_path"] / "mask" / "build" / "mask" / "mask.gds"
     print(gdspath)
     merge_metadata(gdspath)

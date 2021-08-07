@@ -575,8 +575,8 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    wg = c << gdsfactory.components.straight()
+    c = gf.Component()
+    wg = c << gf.components.straight()
     c.show()

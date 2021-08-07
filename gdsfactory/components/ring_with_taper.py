@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
@@ -7,7 +7,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.snap import assert_on_2nm_grid
 
 
-@gdsfactory.cell
+@gf.cell
 def ring_with_taper(**kwargs):
     """Ring single bus
 
@@ -35,14 +35,14 @@ def ring_with_taper(**kwargs):
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.ring_single_bus(gap=0.2, length_x=10, length_y=5, radius=5)
+      c = gf.components.ring_single_bus(gap=0.2, length_x=10, length_y=5, radius=5)
       c.plot()
 
     """
     components, connections, ports_map = ring_with_taper_netlist(**kwargs)
-    component = gdsfactory.component_from.netlist(components, connections, ports_map)
+    component = gf.component_from.netlist(components, connections, ports_map)
     return component
 
 

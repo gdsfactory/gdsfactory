@@ -1,18 +1,18 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.pcm.cd import CENTER_SHAPES_MAP
 
 
-@gdsfactory.cell
+@gf.cell
 def cd_straight(
     spacing_h=5.0,
     spacing_v=8.0,
     gaps=(0.224, 0.234, 0.246),
     length=10.0,
     width_center=0.5,
-    layer=gdsfactory.LAYER.WG,
+    layer=gf.LAYER.WG,
 ):
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     x = 0
     i = 0
 
@@ -21,9 +21,7 @@ def cd_straight(
     for width, marker_type in zip(widths, ["D", "S", "U"]):
         y = 0
         # iso line
-        _r = gdsfactory.components.rectangle(
-            size=(length, width), layer=layer, centered=True
-        )
+        _r = gf.components.rectangle(size=(length, width), layer=layer, centered=True)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)

@@ -8,15 +8,13 @@ actions include movement, rotation, and reflection.
 """
 
 
-import gdsfactory
+import gdsfactory as gf
 
 if __name__ == "__main__":
-    c = gdsfactory.Component()
+    c = gf.Component()
 
-    wg1 = c << gdsfactory.components.straight(length=10, width=1)
-    wg2 = c << gdsfactory.components.straight(
-        length=10, width=2, layer=gdsfactory.LAYER.SLAB90
-    )
+    wg1 = c << gf.components.straight(length=10, width=1)
+    wg2 = c << gf.components.straight(length=10, width=2, layer=gf.LAYER.SLAB90)
 
     # wg2.move([10, 1])  # Shift the second straight we created over by dx = 10, dy = 4
 

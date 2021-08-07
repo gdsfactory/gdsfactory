@@ -3,13 +3,13 @@ from typing import Optional, Tuple
 import numpy as np
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def cdc(
     length: float = 30.0,
     gap: float = 0.5,
@@ -60,7 +60,7 @@ def cdc(
     """
 
     c = pc.ContraDirectionalCoupler(
-        gdsfactory.call_if_func(strip, **kwargs),
+        gf.call_if_func(strip, **kwargs),
         length=length,
         gap=gap,
         period=period,
@@ -78,8 +78,8 @@ def cdc(
         direction=direction,
     )
 
-    component = gdsfactory.component_from.picwriter(c)
-    gdsfactory.port.rename_ports_by_orientation(component)
+    component = gf.component_from.picwriter(c)
+    gf.port.rename_ports_by_orientation(component)
     return component
 
 

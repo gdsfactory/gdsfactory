@@ -1,11 +1,11 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import components as pc
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def litho_calipers(
     notch_size: Tuple[float, float] = (2.0, 5.0),
     notch_spacing: float = 2.0,
@@ -32,13 +32,13 @@ def litho_calipers(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.litho_calipers()
+      c = gf.components.litho_calipers()
       c.plot()
     """
 
-    D = gdsfactory.Component()
+    D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
     R1 = pc.rectangle(size=(notch_size), layer=layer1)

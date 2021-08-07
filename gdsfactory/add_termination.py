@@ -2,7 +2,7 @@ from typing import Callable, Optional, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -27,8 +27,8 @@ def add_termination(
     component: Component, terminator: ComponentFactory = taper_function
 ) -> Component:
     """returns component containing a comonent with all ports terminated"""
-    terminator = gdsfactory.call_if_func(terminator)
-    c = gdsfactory.Component(name=component.name + "_t")
+    terminator = gf.call_if_func(terminator)
+    c = gf.Component(name=component.name + "_t")
     c.add_ref(component)
 
     for port in component.ports.values():
@@ -46,7 +46,7 @@ def add_gratings_and_loopback_tm(*args, grating_coupler=grating_coupler_tm, **kw
     return add_gratings_and_loopback(*args, grating_coupler=grating_coupler, **kwargs)
 
 
-@gdsfactory.cell_without_validator
+@gf.cell_without_validator
 def add_gratings_and_loopback(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
@@ -58,7 +58,7 @@ def add_gratings_and_loopback(
     straight_separation: float = 5.0,
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight_function,
-    layer_label: Tuple[int, int] = gdsfactory.LAYER.LABEL,
+    layer_label: Tuple[int, int] = gf.LAYER.LABEL,
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: None = None,
     with_loopback: bool = True,
@@ -90,11 +90,11 @@ def add_gratings_and_loopback(
     waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
     bend_radius_loopback = bend_radius_loopback or waveguide_settings["radius"]
     excluded_ports = excluded_ports or []
-    gc = gdsfactory.call_if_func(grating_coupler)
+    gc = gf.call_if_func(grating_coupler)
 
     direction = "S"
     component_name = component_name or component.name
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.add_ref(component)
 
     # Find grating port name if not specified
@@ -204,10 +204,10 @@ def add_gratings_and_loopback(
 
 
 if __name__ == "__main__":
-    # gc = gdsfactory.components.grating_coupler_elliptical_te()
+    # gc = gf.components.grating_coupler_elliptical_te()
     # cc = add_termination(c, gc)
-    # import gdsfactory
-    # c = gdsfactory.components.straight()
+    # import gdsfactory as gf
+    # c = gf.components.straight()
     from gdsfactory.components.spiral_inner_io import spiral_inner_io
 
     c = spiral_inner_io()

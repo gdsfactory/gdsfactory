@@ -561,9 +561,9 @@ class XSectionGenerator
 from pydantic import validate_arguments
 
 
-import gdsfactory
+import gdsfactory as gf
 
-@gdsfactory.cell, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
+@gf.cell, @line_dbu.bbox.enlarge(RBA::Point.new(@extend, @extend)), layer_spec)
     return ld
   end
 
@@ -970,9 +970,9 @@ private
 from pydantic import validate_arguments
 
 
-import gdsfactory
+import gdsfactory as gf
 
-@gdsfactory.cell = cv.cell_index
+@gf.cell = cv.cell_index
 
     # get the start and end points in database units and micron
     p1_dbu = RBA::Point::from_dpoint(p1 * (1.0 / @dbu))

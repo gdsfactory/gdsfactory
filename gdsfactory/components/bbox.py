@@ -2,16 +2,16 @@ from typing import Tuple, Union
 
 from numpy import array
 
-import gdsfactory
+import gdsfactory as gf
 
 Coordinate = Union[Tuple[float, float], array]
 
 
-@gdsfactory.cell_without_validator
+@gf.cell_without_validator
 def bbox(
     bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
     layer: Tuple[int, int] = (1, 0),
-) -> gdsfactory.Component:
+) -> gf.Component:
     """Returns bounding box rectangle from coordinates, to allow
     creation of a rectangle bounding box directly from another shape.
 
@@ -20,7 +20,7 @@ def bbox(
         layer:
 
     """
-    D = gdsfactory.Component()
+    D = gf.Component()
     (a, b), (c, d) = bbox
     points = ((a, b), (c, b), (c, d), (a, d))
     D.add_polygon(points, layer=layer)
@@ -28,9 +28,9 @@ def bbox(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.L()
+    c = gf.components.L()
     c << bbox(bbox=c.bbox)
     # c = bbox()
     c.show()

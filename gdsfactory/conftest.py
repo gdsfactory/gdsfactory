@@ -3,7 +3,7 @@ import shutil
 import pytest
 from _pytest.fixtures import SubRequest
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.config import CONFIG, diff_path
 
 # from gdsfactory import clear_cache
@@ -27,7 +27,7 @@ def cleandir(request: SubRequest) -> None:
 
 @pytest.fixture(scope="session")
 def show_diffs(request: SubRequest) -> None:
-    c = gdsfactory.component_from.gdspaths(diff_path.glob("*.gds"))
+    c = gf.component_from.gdspaths(diff_path.glob("*.gds"))
     c.show()
 
 

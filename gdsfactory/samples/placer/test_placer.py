@@ -1,10 +1,10 @@
 import pathlib
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.placer import component_grid_from_yaml
 
 
-def test_placer() -> gdsfactory.Component:
+def test_placer() -> gf.Component:
     cwd = pathlib.Path(__file__).parent
     filepath = cwd / "config.yml"
     dirpath = cwd / "build" / "mask"

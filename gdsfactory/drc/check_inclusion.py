@@ -62,7 +62,7 @@ def check_inclusion(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     w1 = 0.5
     inclusion = 0.1
@@ -71,18 +71,18 @@ if __name__ == "__main__":
     # min_inclusion = 0.01
     dbu = 1000
     layer = (1, 0)
-    c = gdsfactory.Component()
-    r1 = c << gdsfactory.components.rectangle(size=(w1, w1), layer=(1, 0))
-    r2 = c << gdsfactory.components.rectangle(size=(w2, w2), layer=(2, 0))
+    c = gf.Component()
+    r1 = c << gf.components.rectangle(size=(w1, w1), layer=(1, 0))
+    r2 = c << gf.components.rectangle(size=(w2, w2), layer=(2, 0))
     r1.x = 0
     r1.y = 0
     r2.x = 0
     r2.y = 0
     gdspath = c
-    gdsfactory.show(gdspath)
+    gf.show(gdspath)
     print(check_inclusion(c, min_inclusion=min_inclusion))
 
-    # if isinstance(gdspath, gdsfactory.Component):
+    # if isinstance(gdspath, gf.Component):
     #     gdspath.flatten()
     #     gdspath = gdspath.write_gds()
     # layout = pya.Layout()

@@ -7,7 +7,7 @@ import gdspy
 import numpy as np
 from phidl.device_layout import CellArray, DeviceReference
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import auto_rename_ports, read_port_markers
 from gdsfactory.types import Layer, PathType
@@ -20,7 +20,7 @@ def add_ports_from_markers_inside(*args, **kwargs) -> None:
 
 def add_ports_from_markers_square(
     component: Component,
-    layer: Layer = gdsfactory.LAYER.PORTE,
+    layer: Layer = gf.LAYER.PORTE,
     port_layer: Optional[Layer] = None,
     port_type: "str" = "dc",
     orientation: Optional[int] = 90,
@@ -53,8 +53,8 @@ def add_ports_from_markers_square(
     port_layer = port_layer or layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = gdsfactory.snap.snap_to_grid(p.ymax - p.ymin)
-        dx = gdsfactory.snap.snap_to_grid(p.xmax - p.xmin)
+        dy = gf.snap.snap_to_grid(p.ymax - p.ymin)
+        dx = gf.snap.snap_to_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
@@ -70,7 +70,7 @@ def add_ports_from_markers_square(
 
 def add_ports_from_markers_center(
     component: Component,
-    layer: Layer = gdsfactory.LAYER.PORT,
+    layer: Layer = gf.LAYER.PORT,
     port_layer: Optional[Layer] = None,
     port_type: "str" = "optical",
     inside: bool = False,
@@ -168,9 +168,7 @@ def add_ports_from_markers_center(
             continue
 
         # skip square ports as they have no clear orientation
-        if skip_square_ports and gdsfactory.snap.snap_to_grid(
-            dx
-        ) == gdsfactory.snap.snap_to_grid(dy):
+        if skip_square_ports and gf.snap.snap_to_grid(dx) == gf.snap.snap_to_grid(dy):
             continue
         pxmax = p.xmax
         pxmin = p.xmin
@@ -331,7 +329,7 @@ def import_gds(
             D.polygons = []
             for p in temp_polygons:
                 if snap_to_grid_nm:
-                    points_on_grid = gdsfactory.snap.snap_to_grid(
+                    points_on_grid = gf.snap.snap_to_grid(
                         p.polygons[0], nm=snap_to_grid_nm
                     )
                     p = gdspy.Polygon(
@@ -418,12 +416,12 @@ def add_settings_from_label(component: Component) -> None:
 
 def _demo_optical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
-    # c  =  gdsfactory.components.mmi1x2()
+    # c  =  gf.components.mmi1x2()
     # for p in c.ports.values():
     #     print(p)
     # c.show()
 
-    gdspath = gdsfactory.CONFIG["gdsdir"] / "mmi1x2.gds"
+    gdspath = gf.CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
@@ -435,7 +433,7 @@ def _demo_optical() -> None:
 def _demo_electrical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
 
-    gdspath = gdsfactory.CONFIG["gdsdir"] / "mzi2x2.gds"
+    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
@@ -446,10 +444,10 @@ def _demo_electrical() -> None:
 
 
 def _demo_import_gds_markers() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
     name = "mmi1x2"
-    gdspath = gdsfactory.CONFIG["gdsdir"] / f"{name}.gds"
+    gdspath = gf.CONFIG["gdsdir"] / f"{name}.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     assert len(c.ports) == 3
@@ -459,7 +457,7 @@ def _demo_import_gds_markers() -> None:
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
-    gdspath = gdsfactory.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
+    gdspath = gf.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
     print(c)
     c.show()

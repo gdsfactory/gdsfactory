@@ -3,7 +3,7 @@
 """
 import dataclasses
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_pins import add_outline, add_pins
 from gdsfactory.tech import TECH, Layer, Library, Waveguide
 
@@ -28,9 +28,9 @@ def decorator(component) -> None:
     add_outline(component)
 
 
-mmi2x2 = gdsfactory.partial(gdsfactory.components.mmi2x2, decorator=decorator)
-mmi1x2 = gdsfactory.partial(gdsfactory.components.mmi1x2, decorator=decorator)
-mzi = gdsfactory.partial(gdsfactory.components.mzi, splitter=mmi1x2)
+mmi2x2 = gf.partial(gf.components.mmi2x2, decorator=decorator)
+mmi1x2 = gf.partial(gf.components.mmi1x2, decorator=decorator)
+mzi = gf.partial(gf.components.mzi, splitter=mmi1x2)
 
 LIBRARY = Library(name="fab_a")
 LIBRARY.register([mmi2x2, mmi1x2, mzi])

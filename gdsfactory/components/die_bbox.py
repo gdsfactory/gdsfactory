@@ -2,25 +2,25 @@ from typing import Optional
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
 from gdsfactory.types import Layer
 
-big_square = gdsfactory.partial(rectangle, size=(1300, 2600))
+big_square = gf.partial(rectangle, size=(1300, 2600))
 
 
-@gdsfactory.cell
+@gf.cell
 def die_bbox(
-    component: gdsfactory.types.ComponentOrFactory = big_square,
+    component: gf.types.ComponentOrFactory = big_square,
     street_width: float = 100.0,
     street_length: float = 1000.0,
     die_name: Optional[str] = None,
     text_size: float = 100.0,
     text_location: str = "SW",
-    layer: Layer = gdsfactory.LAYER.FLOORPLAN,
+    layer: Layer = gf.LAYER.FLOORPLAN,
     padding: float = 10.0,
-) -> gdsfactory.Component:
+) -> gf.Component:
     """Creates a basic boundary box. Perfect for defining dicing lanes.
     the boundary of the chip/die
     it can also add a label with the name of the die.
@@ -38,7 +38,7 @@ def die_bbox(
         padding: adds padding
 
     """
-    D = gdsfactory.Component()
+    D = gf.Component()
     component = component() if callable(component) else component
     cref = D.add_ref(component)
     cref.x = 0
@@ -102,7 +102,7 @@ def die_bbox(
 
 
 if __name__ == "__main__":
-    mask = gdsfactory.components.array_2d(rows=10, cols=10)
+    mask = gf.components.array_2d(rows=10, cols=10)
     c = die_bbox(component=mask)
     # c = die_bbox()
     c.show()

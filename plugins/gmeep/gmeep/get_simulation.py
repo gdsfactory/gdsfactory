@@ -11,7 +11,7 @@ import pydantic
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gmeep.materials import get_material
@@ -48,7 +48,7 @@ def get_simulation(
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
 ) -> Dict[str, Any]:
-    """Returns Simulation dict from gdsfactory component
+    """Returns Simulation dict from gdsfactory.component
 
     based on meep directional coupler example
     https://meep.readthedocs.io/en/latest/Python_Tutorials/GDSII_Import/
@@ -56,7 +56,7 @@ def get_simulation(
     https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
 
     Args:
-        component: gdsfactory Component
+        component: gf.Component
         extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
         layer_to_thickness_nm: Dict of layer number (int, int) to thickness (nm)
         res: resolution (pixels/um) For example: (10: 100nm step size)
@@ -76,17 +76,17 @@ def get_simulation(
     Returns:
         sim: simulation object
 
-    Make sure you visualize the simulation region with gdsfactory before you simulate a component
+    Make sure you visualize the simulation region with gf.before you simulate a component
 
     .. code::
 
-        import gdsfactory
+        import gdsfactory as gf
         import gmeep as gm
 
-        c = gdsfactory.components.bend_circular()
+        c = gf.components.bend_circular()
         margin = 2
         cm = gm.add_monitors(c)
-        gdsfactory.show(cm)
+        gf.show(cm)
 
     """
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
@@ -114,19 +114,19 @@ def get_simulation(
 
     assert isinstance(
         component, Component
-    ), f"component needs to be a gdsfactory Component, got Type {type(component)}"
+    ), f"component needs to be a gf.Component, got Type {type(component)}"
 
     component = component.copy()
     component.x = 0
     component.y = 0
 
     component_extended = (
-        gdsfactory.extend.extend_ports(component=component, length=extend_ports_length)
+        gf.extend.extend_ports(component=component, length=extend_ports_length)
         if extend_ports_length
         else component
     )
 
-    gdsfactory.show(component_extended)
+    gf.show(component_extended)
     component_extended.flatten()
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]
@@ -238,14 +238,14 @@ def get_simulation(
 
 if __name__ == "__main__":
 
-    c = gdsfactory.components.bend_circular(radius=2)
-    c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gf.components.bend_circular(radius=2)
+    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = gdsfactory.components.straight(length=2)
-    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.straight(length=2)
+    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gdsfactory.components.mmi1x2()
-    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.mmi1x2()
+    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
     sim = sim_dict["sim"]
