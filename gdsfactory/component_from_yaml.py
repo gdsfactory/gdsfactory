@@ -722,4 +722,4 @@ if __name__ == "__main__":
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()
     # print(c.ports)
-    # c = gdsfactory.routing.add_fiber_array(c)
+    # c = gf.routing.add_fiber_array(c)

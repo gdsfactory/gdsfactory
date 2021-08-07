@@ -124,9 +124,9 @@ def add_padding_to_size(
 
 
 def test_container():
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight(length=128)
+    c = gf.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
     print(len(cc.settings["component"]))
     assert len(cc.settings["component"]) == 5
@@ -146,14 +146,14 @@ def test_container():
 if __name__ == "__main__":
 
     test_container()
-    # c = gdsfactory.components.straight(length=128)
+    # c = gf.components.straight(length=128)
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # cc = add_padding_container(component=c, layers=[(2, 0)])
     # print(cc.settings["component"])
     # cc.show()
     # cc.pprint()
 
-    # c = gdsfactory.components.straight(length=5)
+    # c = gf.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
     # cc.show()
     # print(cc.settings)

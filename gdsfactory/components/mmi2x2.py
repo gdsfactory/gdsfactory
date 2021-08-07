@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_padding import add_padding
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
@@ -7,7 +7,7 @@ from gdsfactory.cross_section import StrOrDict, get_cross_section
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def mmi2x2(
     width: float = TECH.component_settings.mmi2x2.width,
     width_taper: float = TECH.component_settings.mmi2x2.width_taper,
@@ -57,7 +57,7 @@ def mmi2x2(
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     w_mmi = width_mmi
     w_taper = width_taper
 
@@ -66,7 +66,7 @@ def mmi2x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = gdsfactory.components.rectangle(
+    mmi = gf.components.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
         centered=True,

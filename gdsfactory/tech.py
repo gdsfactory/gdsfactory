@@ -503,17 +503,17 @@ TECH = Tech()
 LIBRARY = Library("generic_components")
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     # t = TECH
-    # c = gdsfactory.components.mmi1x2(length_mmi=25.5)
+    # c = gf.components.mmi1x2(length_mmi=25.5)
     # t.register_component(c)
 
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
-        return gdsfactory.components.mmi1x2(length_mmi=length_mmi, **kwargs)
+        return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
 
     def mzi_longer(**kwargs):
-        return gdsfactory.components.mzi(splitter=mmi1x2_longer, **kwargs)
+        return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     # t.register_component_factory(mmi1x2_longer)
     # c = t.component.mmi1x2_longer(length_mmi=30)

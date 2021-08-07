@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple, Union
 import numpy as np
 from numpy import ndarray
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.extend_ports_list import extend_ports_list
@@ -19,11 +19,11 @@ def line(
     p_end: Union[Port, Coordinate],
     width: Optional[float] = None,
 ) -> Tuple[float, float, float, float]:
-    if isinstance(p_start, gdsfactory.Port):
+    if isinstance(p_start, gf.Port):
         width = p_start.width
         p_start = p_start.midpoint
 
-    if isinstance(p_end, gdsfactory.Port):
+    if isinstance(p_end, gf.Port):
         p_end = p_end.midpoint
 
     w = width
@@ -80,7 +80,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
     port_list: Optional[List[str]] = None,
@@ -102,7 +102,7 @@ def extend_ports(
         extension_port_name_input:
         extension_port_name_output:
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     component = component() if callable(component) else component
     c << component
 
@@ -113,9 +113,7 @@ def extend_ports(
             port = component.ports.get(port_name)
 
             def extension_factory_default(length=length, width=port.width):
-                return gdsfactory.components.hline(
-                    length=length, width=width, layer=port.layer
-                )
+                return gf.components.hline(length=length, width=width, layer=port.layer)
 
             extension_factory_port = extension_factory or extension_factory_default
             extension_component = (
@@ -171,4 +169,4 @@ if __name__ == "__main__":
     # ce = extend_ports(c)
     # print(ce)
     # print(len(ce.ports))
-    # gdsfactory.show(ce)
+    # gf.show(ce)

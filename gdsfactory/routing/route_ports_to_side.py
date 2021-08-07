@@ -2,7 +2,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import TECH
 from gdsfactory.port import Port, flipped
@@ -463,7 +463,7 @@ def route_ports_to_y(
     return routes, ports
 
 
-@gdsfactory.cell
+@gf.cell
 def _sample_route_side() -> Component:
     c = Component()
     xs = [0.0, 10.0, 25.0, 50.0]
@@ -491,7 +491,7 @@ def _sample_route_side() -> Component:
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def _sample_route_sides() -> Component:
     c = Component()
     _dummy_t = _sample_route_side()

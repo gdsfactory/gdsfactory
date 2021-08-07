@@ -25,7 +25,7 @@ import warnings
 import pydantic
 import matplotlib.pyplot as plt
 import numpy as np
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
@@ -60,13 +60,13 @@ def get_simulation(
     mesh_step: float = 0.040,
     wavelength: float = 1.55,
 ) -> td.Simulation:
-    """Returns Simulation object from gdsfactory component
+    """Returns Simulation object from gdsfactory.component
 
     based on GDS example
     https://simulation.cloud/docs/html/examples/ParameterScan.html
 
     Args:
-        component: gdsfactory Component
+        component: gf.Component
         mode_index: mode index
         n_modes: number of modes
         extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
@@ -82,23 +82,23 @@ def get_simulation(
         mesh_step: in all directions
         wavelength: in (um)
 
-    Make sure you visualize the simulation region with gdsfactory before you simulate a component
+    Make sure you visualize the simulation region with gf.before you simulate a component
 
 
     .. code::
 
         import matplotlib.pyplot as plt
-        import gdsfactory
+        import gdsfactory as gf
         import gtidy as gm
 
-        c = gdsfactory.components.bend_circular()
+        c = gf.components.bend_circular()
         sim = gm.get_simulation(c)
         gm.plot_simulation(sim)
 
     """
     assert isinstance(
         component, Component
-    ), f"component needs to be a gdsfactory Component, got Type {type(component)}"
+    ), f"component needs to be a gf.Component, got Type {type(component)}"
     if port_source_name not in component.ports:
         warnings.warn(
             f"port_source_name={port_source_name} not in {component.ports.keys()}"
@@ -112,12 +112,12 @@ def get_simulation(
     component.y = 0
 
     component_extended = (
-        gdsfactory.extend.extend_ports(component=component, length=extend_ports_length)
+        gf.extend.extend_ports(component=component, length=extend_ports_length)
         if extend_ports_length
         else component
     )
 
-    gdsfactory.show(component_extended)
+    gf.show(component_extended)
     component_extended.flatten()
 
     structures = [
@@ -269,14 +269,14 @@ def plot_materials(
 
 if __name__ == "__main__":
 
-    c = gdsfactory.components.mmi1x2()
-    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.mmi1x2()
+    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gdsfactory.components.bend_circular(radius=2)
-    # c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gf.components.bend_circular(radius=2)
+    # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    # c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gdsfactory.components.straight(length=2)
+    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.straight(length=2)
 
     sim = get_simulation(c)
     # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))

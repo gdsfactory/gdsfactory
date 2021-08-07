@@ -1,6 +1,6 @@
 from typing import Optional, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler.grating_coupler_tree import (
@@ -10,18 +10,18 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
     cross_length: float = 80.0,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
     layer_cladding: Optional[Tuple[int, int]] = None,
     square_corner: str = "bottom_left",
 ) -> Component:
     """Returns cross inside a frame to align wafer."""
-    c = gdsfactory.Component()
-    cross = gdsfactory.components.cross(length=cross_length, width=width, layer=layer)
+    c = gf.Component()
+    cross = gf.components.cross(length=cross_length, width=width, layer=layer)
     c.add_ref(cross)
 
     b = cross_length / 2 + spacing + width / 2
@@ -68,7 +68,7 @@ def add_frame(
     component: Component,
     width: float = 10.0,
     spacing: float = 10.0,
-    layer: Layer = gdsfactory.LAYER.WG,
+    layer: Layer = gf.LAYER.WG,
 ) -> Component:
     """Returns component with a frame around it.
 
@@ -78,7 +78,7 @@ def add_frame(
         spacing: of component to frame
 
     """
-    c = gdsfactory.Component(f"{component.name}_f")
+    c = gf.Component(f"{component.name}_f")
     cref = c.add_ref(component)
     cref.move(-c.size_info.center)
     y = (
@@ -104,59 +104,59 @@ def add_frame(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def triangle(x: float, y: float, layer: Layer = (1, 0)) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     points = [[x, 0], [0, 0], [0, y]]
     c.add_polygon(points, layer=layer)
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def align_cryo_bottom_right(
     x: float = 60.0, y: float = 60.0, layer=(1, 0)
 ) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=180)
-    cc = gdsfactory.Component()
+    cc = gf.Component()
     cc.add(cr)
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def align_cryo_top_right(
     x: float = 60, y: float = 60.0, layer: Layer = (1, 0)
 ) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=270)
-    cc = gdsfactory.Component()
+    cc = gf.Component()
     cc.add(cr)
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def align_cryo_bottom_left(
     x: float = 60.0, y: float = 60.0, layer: Layer = (1, 0)
 ) -> Component:
     c = align_cryo_top_left()
     cr = c.ref(rotation=90)
-    cc = gdsfactory.Component()
+    cc = gf.Component()
     cc.add(cr)
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def align_cryo_top_left(
     x: float = 60.0, y: float = 60.0, s: float = 0.2, layer: Layer = (1, 0)
 ) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     points = [[0, 0], [s, 0], [x - s, y - s], [x - s, y], [0, y]]
     c.add_polygon(points, layer=layer)
     cc = add_frame(component=c)
     return cc
 
 
-@gdsfactory.cell
+@gf.cell
 def align_tree_top_left(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(**kwargs)
@@ -167,7 +167,7 @@ def align_tree_top_left(**kwargs) -> Component:
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def align_tree_top_left_with_cross(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -181,9 +181,9 @@ def align_tree_top_left_with_cross(**kwargs) -> Component:
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def align_tree_top_right(**kwargs) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
     gc_ref = c.add_ref(gc)
     gc_ref.move(-gc.size_info.center)
@@ -192,7 +192,7 @@ def align_tree_top_right(**kwargs) -> Component:
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def align_tree_bottom_left(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -203,7 +203,7 @@ def align_tree_bottom_left(**kwargs) -> Component:
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def align_tree_bottom_right(**kwargs) -> Component:
     c = Component()
     gc = grating_coupler_tree(component_name=c.name, **kwargs)
@@ -215,7 +215,7 @@ def align_tree_bottom_right(**kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # c = add_frame(component=c)
     # c = align_wafer()
 
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     c = align_tree_top_left()
     # c = triangle(x=60, y=60)
     # c = align_wafer()
-    # c = gdsfactory.components.cross(length=80, width=10)
+    # c = gf.components.cross(length=80, width=10)
     # c = add_frame(component=c)
     # c = align_cryo_top_right()
     # c = align_cryo_top_left()

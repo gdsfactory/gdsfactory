@@ -1044,8 +1044,8 @@ class Component(Device):
 
         .. code ::
 
-            import gdsfactory
-            gdsfactory.components.straight().get_layers() == {(1, 0), (111, 0)}
+            import gdsfactory as gf
+            gf.components.straight().get_layers() == {(1, 0), (111, 0)}
 
         """
         layers = set()
@@ -1115,7 +1115,7 @@ class Component(Device):
         """Write component to GDS and returs gdspath
 
         Args:
-            component: gdsfactory Component.
+            component: gf.Component.
             gdspath: GDS file path to write to.
             unit unit size for objects in library.
             precision: for the dimensions of the objects in the library (m).
@@ -1185,9 +1185,9 @@ class Component(Device):
 
 
 def test_get_layers() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight(
+    c = gf.components.straight(
         length=10,
         width=0.5,
         layer=(2, 0),
@@ -1286,11 +1286,11 @@ def _clean_value(value: Any) -> Any:
 
 
 def test_same_uid() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
     c = Component()
-    c << gdsfactory.components.rectangle()
-    c << gdsfactory.components.rectangle()
+    c << gf.components.rectangle()
+    c << gf.components.rectangle()
 
     r1 = c.references[0].parent
     r2 = c.references[1].parent
@@ -1300,11 +1300,11 @@ def test_same_uid() -> None:
 
 
 def test_netlist_simple() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    c1 = c << gdsfactory.components.straight(length=1, width=1)
-    c2 = c << gdsfactory.components.straight(length=2, width=2)
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
     c2.connect(port="W0", destination=c1.ports["E0"])
     c.add_port("W0", port=c1.ports["W0"])
     c.add_port("E0", port=c2.ports["E0"])
@@ -1314,18 +1314,18 @@ def test_netlist_simple() -> None:
 
 
 def test_netlist_complex() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mzi()
+    c = gf.components.mzi()
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 18
 
 
 def test_netlist_plot() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mzi()
+    c = gf.components.mzi()
     c.plot_netlist()
 
 
@@ -1371,10 +1371,10 @@ def demo_component(port):
 
 
 def test_extract():
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight(length=10, width=0.5)
-    c2 = c.extract(layers=[gdsfactory.LAYER.WGCLAD])
+    c = gf.components.straight(length=10, width=0.5)
+    c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 
     print(len(c.polygons))
     assert len(c.polygons) == 2
@@ -1391,9 +1391,9 @@ if __name__ == "__main__":
     # c = Component("a" * 33)
     # c.validate("name")
     # test_extract()
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight(
+    c = gf.components.straight(
         length=10,
         width=0.5,
     )
@@ -1412,9 +1412,9 @@ if __name__ == "__main__":
     # c = test_get_layers()
     # c.show()
 
-    # import gdsfactory
+    # import gdsfactory as gf
 
-    # c = gdsfactory.components.bend_circular()
+    # c = gf.components.bend_circular()
     # c.write_gds_with_metadata("bend.gds")
     # c.pprint()
 
@@ -1422,23 +1422,23 @@ if __name__ == "__main__":
     # c.curvature = 5
     # c.get_settings()
     # c.pprint(ignore=("length",))
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
 
-    # c0 = gdsfactory.components.straight()
-    # c = gdsfactory.components.straight(length=3.0)
+    # c0 = gf.components.straight()
+    # c = gf.components.straight(length=3.0)
     # c.info["c"] = c0
 
     # import matplotlib.pyplot as plt
 
-    # c = gdsfactory.components.ring_single()
-    # c = gdsfactory.components.mzi()
+    # c = gf.components.ring_single()
+    # c = gf.components.mzi()
     # c.plot_netlist()
 
     # coupler_lengths = [10, 20, 30]
     # coupler_gaps = [0.1, 0.2, 0.3]
     # delta_lengths = [10, 100]
 
-    # c = gdsfactory.components.mzi_lattice(
+    # c = gf.components.mzi_lattice(
     #     coupler_lengths=coupler_lengths,
     #     coupler_gaps=coupler_gaps,
     #     delta_lengths=delta_lengths,
@@ -1454,20 +1454,20 @@ if __name__ == "__main__":
     # test_netlist_simple()
     # test_netlist_complex()
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # print(c.get_settings())
-    # c = gdsfactory.components.dbr(n=1)
+    # c = gf.components.dbr(n=1)
 
     # print(c.get_layers())
 
-    # c = gdsfactory.components.bend_circular180()
-    # c = gdsfactory.components.coupler()
+    # c = gf.components.bend_circular180()
+    # c = gf.components.coupler()
     # c.add_labels()
     # c.show()
     # test_same_uid()
 
-    # c = gdsfactory.components.mmi1x2()
-    # c = gdsfactory.components.mzi1x2()
+    # c = gf.components.mmi1x2()
+    # c = gf.components.mzi1x2()
 
     # print(c.hash_geometry())
     # print(c.get_json())
@@ -1486,7 +1486,7 @@ if __name__ == "__main__":
 
     # from pprint import pprint
 
-    # c = gdsfactory.components.mmi1x2()
+    # c = gf.components.mmi1x2()
     # cc = add_fiber_array(c)
     # cc.get_json()
     # cc.show()
@@ -1503,14 +1503,14 @@ if __name__ == "__main__":
     #     }
     # )
 
-    # w = gdsfactory.components.straight()
+    # w = gf.components.straight()
     # c = demo_component(port=w.ports["E0"])
     # pprint(c.get_json())
     # pprint(c.get_settings())
 
-    # c = gdsfactory.components.straight()
-    # c = gdsfactory.routing.add_fiber_array(c)
-    # c = gdsfactory.routing.add_electrical_pads_top(c)
+    # c = gf.components.straight()
+    # c = gf.routing.add_fiber_array(c)
+    # c = gf.routing.add_electrical_pads_top(c)
     # print(c)
     # print(c.get_settings()["name"])
     # print(c.get_json())

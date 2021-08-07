@@ -5,7 +5,7 @@ from numpy import ndarray
 from scipy.optimize import minimize
 from scipy.special import binom
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
 from gdsfactory.geo_utils import (
@@ -44,11 +44,11 @@ def bezier_points(control_points: Coordinates, width: Number, npoints: int = 101
 
 
 def bezier_biased(width=0.5, **kwargs):
-    width = gdsfactory.bias.width(width)
+    width = gf.bias.width(width)
     return bezier(width=width, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def bezier(
     name: Optional[str] = None,
     width: float = TECH.waveguide.strip.width,
@@ -81,7 +81,7 @@ def bezier(
         points_hash = hash_points(control_points)
         name = f"bezier_w{int(width*1e3)}_{points_hash}_{layer[0]}_{layer[1]}"
 
-    c = gdsfactory.Component(name=name)
+    c = gf.Component(name=name)
     c.ignore.add("control_points")
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
@@ -96,8 +96,8 @@ def bezier(
     )
     angles = angles_deg(path_points)
 
-    c.info["start_angle"] = gdsfactory.snap.snap_to_grid(angles[0])
-    c.info["end_angle"] = gdsfactory.snap.snap_to_grid(angles[-2])
+    c.info["start_angle"] = gf.snap.snap_to_grid(angles[0])
+    c.info["end_angle"] = gf.snap.snap_to_grid(angles[-2])
 
     a0 = angles[0] + 180
     a1 = angles[-2]
@@ -112,8 +112,8 @@ def bezier(
     c.add_port(name="1", midpoint=p1, width=width, orientation=a1, layer=layer)
 
     curv = curvature(path_points, t)
-    length = gdsfactory.snap.snap_to_grid(path_length(path_points))
-    min_bend_radius = gdsfactory.snap.snap_to_grid(1 / max(np.abs(curv)))
+    length = gf.snap.snap_to_grid(path_length(path_points))
+    min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
     # c.info["curvature"] = curv

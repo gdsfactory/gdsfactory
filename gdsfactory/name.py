@@ -193,16 +193,16 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
-    import gdsfactory
+    import gdsfactory as gf
 
-    # print(clean_value(gdsfactory.components.straight))
-    # c = gdsfactory.components.straight(polarization="TMeraer")
+    # print(clean_value(gf.components.straight))
+    # c = gf.components.straight(polarization="TMeraer")
     # print(c.get_settings()["polarization"])
     # print(clean_value(11.001))
-    # layers_cladding = (gdsfactory.LAYER.WGCLAD, gdsfactory.LAYER.NO_TILE_SI)
-    # layers_cladding = (gdsfactory.LAYER.WGCLAD,)
-    c = gdsfactory.components.straight(length=10)
-    c = gdsfactory.components.straight(length=10)
+    # layers_cladding = (gf.LAYER.WGCLAD, gf.LAYER.NO_TILE_SI)
+    # layers_cladding = (gf.LAYER.WGCLAD,)
+    c = gf.components.straight(length=10)
+    c = gf.components.straight(length=10)
 
     # print(c.name)
     # print(c)

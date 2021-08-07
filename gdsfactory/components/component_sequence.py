@@ -1,7 +1,7 @@
 from itertools import count
 from typing import Dict, Optional, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -61,7 +61,7 @@ def _flip_ref(c_ref, port_name):
     return c_ref
 
 
-@gdsfactory.cell_without_validator
+@gf.cell_without_validator
 def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],
@@ -88,11 +88,11 @@ def component_sequence(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        bend180 = gdsfactory.components.bend_circular180()
-        wg_heater = gdsfactory.components.straight_heater()
-        wg = gdsfactory.components.straight()
+        bend180 = gf.components.bend_circular180()
+        wg_heater = gf.components.straight_heater()
+        wg = gf.components.straight()
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
@@ -104,7 +104,7 @@ def component_sequence(
 
         # Each character in the sequence represents a component
         sequence = "AB-H-H-H-H-BA"
-        c = gdsfactory.components.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+        c = gf.components.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
         c.show()
 
     """
@@ -176,11 +176,11 @@ def component_sequence(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    bend180 = gdsfactory.components.bend_circular180()
-    wg_heater = gdsfactory.components.straight_heater()
-    wg = gdsfactory.components.straight()
+    bend180 = gf.components.bend_circular180()
+    wg_heater = gf.components.straight_heater()
+    wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
     # Each character in the sequence represents a component
     sequence = "AB-H-H-H-H-BA"
-    c = gdsfactory.components.component_sequence(
+    c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
     s = c.get_settings(ignore=("symbol_to_component",))

@@ -39,11 +39,11 @@ def cell_without_validator(func):
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      @gdsfactory.cell
-      def rectangle(size=(4,2), layer=0)->gdsfactory.Component:
-          c = gdsfactory.Component()
+      @gf.cell
+      def rectangle(size=(4,2), layer=0)->gf.Component:
+          c = gf.Component()
           w, h = size
           points = [[w, h], [w, 0], [0, 0], [0, h]]
           c.add_polygon(points, layer=layer)
@@ -216,7 +216,7 @@ def test_autoname() -> None:
 if __name__ == "__main__":
     # test_raise_error_args()
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
 
     # test_autoname_true()
     # test_autoname_false()
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # c = wg3()
     # print(c)
     # c.show()

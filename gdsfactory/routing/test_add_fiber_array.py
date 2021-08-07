@@ -2,33 +2,33 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
 def test_type0() -> Component:
-    component = gdsfactory.components.coupler(gap=0.244, length=5.67)
-    cc = gdsfactory.routing.add_fiber_array(component=component, optical_routing_type=0)
+    component = gf.components.coupler(gap=0.244, length=5.67)
+    cc = gf.routing.add_fiber_array(component=component, optical_routing_type=0)
     return cc
 
 
 def test_type1() -> Component:
-    component = gdsfactory.components.coupler(gap=0.2, length=5.0)
-    cc = gdsfactory.routing.add_fiber_array(component=component, optical_routing_type=1)
+    component = gf.components.coupler(gap=0.2, length=5.0)
+    cc = gf.routing.add_fiber_array(component=component, optical_routing_type=1)
     return cc
 
 
 def test_type2() -> Component:
-    c = gdsfactory.components.coupler(gap=0.244, length=5.67)
+    c = gf.components.coupler(gap=0.244, length=5.67)
     c.polarization = "tm"
-    cc = gdsfactory.routing.add_fiber_array(component=c, optical_routing_type=2)
+    cc = gf.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
 
 def test_tapers():
-    c = gdsfactory.components.straight(width=2)
-    cc = gdsfactory.routing.add_fiber_array(component=c, optical_routing_type=2)
+    c = gf.components.straight(width=2)
+    cc = gf.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
 

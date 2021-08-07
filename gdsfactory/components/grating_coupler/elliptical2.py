@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
@@ -25,14 +25,14 @@ def grating_coupler_elliptical2(
     dutycycle: float = 0.7,
     port: Coordinate = (0.0, 0.0),
     layer_ridge: Optional[Layer] = None,
-    layer_core: Layer = gdsfactory.LAYER.WG,
-    layer_cladding: Layer = gdsfactory.LAYER.WGCLAD,
+    layer_core: Layer = gf.LAYER.WG,
+    layer_cladding: Layer = gf.LAYER.WGCLAD,
     teeth_list: Optional[Coordinates] = None,
     direction: str = "EAST",
     polarization: str = "te",
     wavelength_nm: float = 1550.0,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gdsfactory.LAYER.TE,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
     **kwargs,
 ) -> Component:
     r"""Returns Grating coupler from Picwriter
@@ -62,9 +62,9 @@ def grating_coupler_elliptical2(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.grating_coupler_elliptical2()
+      c = gf.components.grating_coupler_elliptical2()
       c.plot()
 
     .. code::
@@ -80,7 +80,7 @@ def grating_coupler_elliptical2(
     ridge = True if layer_ridge else False
 
     c = pc.GratingCoupler(
-        gdsfactory.call_if_func(
+        gf.call_if_func(
             wgt,
             cladding_offset=cladding_offset,
             wg_width=wg_width,
@@ -100,12 +100,12 @@ def grating_coupler_elliptical2(
         direction=direction,
     )
 
-    c = gdsfactory.component_from.picwriter(c)
+    c = gf.component_from.picwriter(c)
     c.polarization = polarization
     c.wavelength = wavelength_nm
 
     x = c.center[0] + taper_length / 2
-    circle = gdsfactory.components.circle(
+    circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=fiber_marker_layer
     )
     circle_ref = c.add_ref(circle)

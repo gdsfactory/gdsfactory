@@ -2,18 +2,18 @@ from typing import Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler.elliptical import grating_tooth_points
 from gdsfactory.geo_utils import DEG2RAD
 from gdsfactory.types import Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gdsfactory.LAYER.TE,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
@@ -22,8 +22,8 @@ def grating_coupler_elliptical_trenches(
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
-    layer_trench: Tuple[int, int] = gdsfactory.LAYER.SLAB150,
+    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer_trench: Tuple[int, int] = gf.LAYER.SLAB150,
     p_start: int = 26,
     n_periods: int = 30,
     straight: float = 0.2,
@@ -48,7 +48,7 @@ def grating_coupler_elliptical_trenches(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
       from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_elliptical_trenches
 
       c = grating_coupler_elliptical_trenches()
@@ -80,7 +80,7 @@ def grating_coupler_elliptical_trenches(
     period = a1 + x1
     trench_line_width = period - grating_line_width
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.polarization = polarization
     c.wavelength = int(lambda_c * 1e3)
 
@@ -126,7 +126,7 @@ def grating_coupler_elliptical_trenches(
     c.move((-x_output, 0))
 
     x = taper_length + period * n_periods / 2
-    circle = gdsfactory.components.circle(
+    circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=fiber_marker_layer
     )
     circle_ref = c.add_ref(circle)
@@ -152,9 +152,9 @@ def grating_coupler_te(taper_angle: int = 35, **kwargs) -> Component:
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.grating_coupler_te()
+      c = gf.components.grating_coupler_te()
       c.plot()
     """
     return grating_coupler_elliptical_trenches(
@@ -170,9 +170,9 @@ def grating_coupler_tm(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.grating_coupler_tm()
+      c = gf.components.grating_coupler_tm()
       c.plot()
     """
     return grating_coupler_elliptical_trenches(

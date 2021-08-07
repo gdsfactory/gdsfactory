@@ -1,6 +1,6 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler.elliptical import (
@@ -11,7 +11,7 @@ from gdsfactory.tech import TECH
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: int = 4,
@@ -33,9 +33,9 @@ def grating_coupler_tree(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.grating_coupler_tree()
+      c = gf.components.grating_coupler_tree()
       c.plot()
 
     """
@@ -46,7 +46,7 @@ def grating_coupler_tree(
         **kwargs,
     )
 
-    cc = gdsfactory.routing.add_fiber_array(
+    cc = gf.routing.add_fiber_array(
         component=c,
         with_loopback=with_loopback,
         optical_routing_type=0,

@@ -10,18 +10,14 @@ negative number, separate the ports).
 """
 
 
-import gdsfactory
+import gdsfactory as gf
 
 if __name__ == "__main__":
-    c = gdsfactory.Component("straights_sample")
+    c = gf.Component("straights_sample")
 
-    wg1 = c << gdsfactory.components.straight(length=10, width=1)
-    wg2 = c << gdsfactory.components.straight(
-        length=10, width=2, layer=gdsfactory.LAYER.SLAB90
-    )
-    wg3 = c << gdsfactory.components.straight(
-        length=10, width=3, layer=gdsfactory.LAYER.SLAB150
-    )
+    wg1 = c << gf.components.straight(length=10, width=1)
+    wg2 = c << gf.components.straight(length=10, width=2, layer=gf.LAYER.SLAB90)
+    wg3 = c << gf.components.straight(length=10, width=3, layer=gf.LAYER.SLAB150)
 
     wg2.connect(port="W0", destination=wg1.ports["E0"])
     wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)

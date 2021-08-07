@@ -1,7 +1,7 @@
 """In programming, a library is a function that returns an Object.
 
 Functions are easy to understand because they have clear inputs and outputs.
-Most gdsfactory functions take some inputs and return a Component object.
+Most gf.functions take some inputs and return a Component object.
 Some of these inputs are other functions.
 
 - Component: Object with.

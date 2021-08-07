@@ -1,11 +1,11 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.cross_section import StrOrDict, get_cross_section
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_symmetric(
     bend: ComponentFactory = bend_s,
     gap: float = 0.234,

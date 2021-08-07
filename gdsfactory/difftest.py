@@ -69,8 +69,8 @@ def difftest(component: Component, prefix: Optional[str] = None) -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight()
+    c = gf.components.straight()
     difftest(c)
     # test_component(c, None, None)

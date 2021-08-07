@@ -7,7 +7,7 @@ https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -28,10 +28,10 @@ def dbr_cell(
     l2: float = period / 2,
     straight: ComponentFactory = straight_function,
 ) -> Component:
-    l1 = gdsfactory.snap.snap_to_grid(l1)
-    l2 = gdsfactory.snap.snap_to_grid(l2)
-    w1 = gdsfactory.snap.snap_to_grid(w1, 2)
-    w2 = gdsfactory.snap.snap_to_grid(w2, 2)
+    l1 = gf.snap.snap_to_grid(l1)
+    l2 = gf.snap.snap_to_grid(l2)
+    w1 = gf.snap.snap_to_grid(w1, 2)
+    w2 = gf.snap.snap_to_grid(w2, 2)
     c = Component()
     c1 = c << straight(length=l1, width=w1)
     c2 = c << straight(length=l2, width=w2)
@@ -73,8 +73,8 @@ def dbr(
 
     """
     c = Component()
-    l1 = gdsfactory.snap.snap_to_grid(l1)
-    l2 = gdsfactory.snap.snap_to_grid(l2)
+    l1 = gf.snap.snap_to_grid(l1)
+    l2 = gf.snap.snap_to_grid(l2)
     cell = dbr_cell(
         w1=w1,
         w2=w2,

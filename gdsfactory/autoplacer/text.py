@@ -8,10 +8,10 @@ from typing import Dict, Tuple
 import klayout.db as pya
 from klayout.dbcore import Cell
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.autoplacer.helpers import import_cell, load_gds
 
-FONT_PATH = gdsfactory.CONFIG.get("font_path")
+FONT_PATH = gf.CONFIG.get("font_path")
 
 
 @functools.lru_cache()

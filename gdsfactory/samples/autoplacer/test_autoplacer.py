@@ -53,7 +53,7 @@ def test_autoplacer():
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     c = test_autoplacer()
-    gdsfactory.show(c)
+    gf.show(c)

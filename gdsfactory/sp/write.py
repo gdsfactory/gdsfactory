@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import __version__, logger
 from gdsfactory.sp.get_sparameters_path import get_sparameters_path
@@ -31,9 +31,9 @@ To debug, you can create a lumerical FDTD session and pass it to the simulator
 import lumapi
 s = lumapi.FDTD()
 
-import gdsfactory
-c = gdsfactory.components.straight() # or whatever you want to simulate
-gdsfactory.sp.write(component=c, run=False, session=s)
+import gdsfactory as gf
+c = gf.components.straight() # or whatever you want to simulate
+gf.sp.write(component=c, run=False, session=s)
 ```
 """
 
@@ -67,7 +67,7 @@ def write(
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
-    dirpath: Path = gdsfactory.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sp"],
     layer_stack: LayerStack = LAYER_STACK,
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
@@ -78,7 +78,7 @@ def write(
     unless overwrite=False
 
     Args:
-        component: gdsfactory Component
+        component: gf.Component
         session: you can pass a session=lumapi.FDTD() for debugging
         run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
@@ -136,7 +136,7 @@ def write(
     component.remove_layers(component.layers - set(layer_to_thickness_nm.keys()))
     component._bb_valid = False
 
-    c = gdsfactory.extend.extend_ports(component=component, length=ss.port_extension_um)
+    c = gf.extend.extend_ports(component=component, length=ss.port_extension_um)
     c.flatten()
     c.name = "top"
     c.show()
@@ -355,7 +355,7 @@ def sample_write_coupler_ring():
     """Write Sparameters when changing a component setting."""
     return [
         write(
-            gdsfactory.components.coupler_ring(
+            gf.components.coupler_ring(
                 width=width, length_x=length_x, radius=radius, gap=gap
             )
         )
@@ -368,23 +368,18 @@ def sample_write_coupler_ring():
 
 def sample_bend_circular():
     """Write Sparameters for a circular bend with different radius."""
-    return [
-        write(gdsfactory.components.bend_circular(radius=radius))
-        for radius in [2, 5, 10]
-    ]
+    return [write(gf.components.bend_circular(radius=radius)) for radius in [2, 5, 10]]
 
 
 def sample_bend_euler():
     """Write Sparameters for a euler bend with different radius."""
-    return [
-        write(gdsfactory.components.bend_euler(radius=radius)) for radius in [2, 5, 10]
-    ]
+    return [write(gf.components.bend_euler(radius=radius)) for radius in [2, 5, 10]]
 
 
 def sample_convergence_mesh():
     return [
         write(
-            component=gdsfactory.components.straight(length=2),
+            component=gf.components.straight(length=2),
             mesh_accuracy=mesh_accuracy,
         )
         for mesh_accuracy in [1, 2, 3]
@@ -394,7 +389,7 @@ def sample_convergence_mesh():
 def sample_convergence_wavelength():
     return [
         write(
-            component=gdsfactory.components.straight(length=2),
+            component=gf.components.straight(length=2),
             wavelength_start=wavelength_start,
         )
         for wavelength_start in [1.222323e-6, 1.4e-6]
@@ -402,10 +397,10 @@ def sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
-    component = gdsfactory.components.straight(length=2)
+    component = gf.components.straight(length=2)
     r = write(component=component, mesh_accuracy=1, run=False)
-    # c = gdsfactory.components.coupler_ring(length_x=3)
-    # c = gdsfactory.components.mmi1x2()
+    # c = gf.components.coupler_ring(length_x=3)
+    # c = gf.components.mmi1x2()
     # r = write(component=component, layer_to_thickness_nm={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())

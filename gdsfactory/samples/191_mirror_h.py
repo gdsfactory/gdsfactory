@@ -1,9 +1,9 @@
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    m1 = c << gdsfactory.components.mmi1x2()
-    m2 = c << gdsfactory.components.mmi1x2()
+    c = gf.Component()
+    m1 = c << gf.components.mmi1x2()
+    m2 = c << gf.components.mmi1x2()
 
     m2.reflect_h(port_name="E1")
     m2.movex(10)

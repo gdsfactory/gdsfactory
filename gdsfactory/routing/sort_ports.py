@@ -73,7 +73,7 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
     from gdsfactory.cell import cell
     from gdsfactory.port import Port
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
         d = 10.0
         sep = 5.0
-        top_cell = gdsfactory.Component(name="connect_corner")
+        top_cell = gf.Component(name="connect_corner")
 
         if config in ["A", "B"]:
             a = 100.0
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
         if config in ["A", "C"]:
             for ports1, ports2 in zip(ports_A, ports_B):
-                routes = gdsfactory.routing.get_bundle(
+                routes = gf.routing.get_bundle(
                     ports1, ports2, waveguide="nitride", radius=8
                 )
                 for route in routes:
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
         elif config in ["B", "D"]:
             for ports1, ports2 in zip(ports_A, ports_B):
-                routes = gdsfactory.routing.get_bundle(
+                routes = gf.routing.get_bundle(
                     ports2, ports1, waveguide="nitride", radius=8
                 )
                 for route in routes:
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
         return top_cell
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c1 = c << demo_connect_corner(config="A")
     c2 = c << demo_connect_corner(config="C")
     c2.xmin = c1.xmax + 5

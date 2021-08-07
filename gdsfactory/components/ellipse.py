@@ -3,15 +3,15 @@ from typing import Tuple
 import numpy as np
 from numpy import cos, pi, sin, sqrt
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def ellipse(
     radii: Tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
     """Generate an ellipse geometry.
 
@@ -27,14 +27,14 @@ def ellipse(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
+      c = gf.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
       c.plot()
 
     """
 
-    D = gdsfactory.Component()
+    D = gf.Component()
     a = radii[0]
     b = radii[1]
     t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * pi / 180

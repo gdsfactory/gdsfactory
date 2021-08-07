@@ -1,12 +1,12 @@
 """
 Generate a coupler DOE
 """
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.coupler import coupler
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler2x2(gap=0.3, length=10.0):
     c = coupler(gap=gap, length=length)
     return add_fiber_array(component=c)

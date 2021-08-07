@@ -208,7 +208,7 @@ def smooth(
 ) -> Path:
     """Returns a smooth Path from a series of waypoints. Corners will be rounded
     using `bend_path_function` and any additional key word arguments (for example,
-    `use_eff = True` when `bend_path_function = gdsfactory..path.euler`)
+    `use_eff = True` when `bend_path_function = gf..path.euler`)
 
     Args:
         points: array-like[N][2] List of waypoints for the path to follow
@@ -242,8 +242,8 @@ if __name__ == "__main__":
     # Combine the Path and the CrossSection
 
     c = extrude(P, X, simplify=5e-3, snap_to_grid_nm=5)
-    # c = gdsfactory.add_pins(c)
-    # c << gdsfactory.components.bend_euler(radius=10)
-    # c << gdsfactory.components.bend_circular(radius=10)
+    # c = gf.add_pins(c)
+    # c << gf.components.bend_euler(radius=10)
+    # c << gf.components.bend_circular(radius=10)
     print(c.ports["W0"].layer)
     c.show()

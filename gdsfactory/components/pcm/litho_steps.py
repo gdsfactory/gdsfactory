@@ -1,16 +1,16 @@
 from typing import List, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import components as pc
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def litho_steps(
     line_widths: List[float] = (1.0, 2.0, 4.0, 8.0, 16.0),
     line_spacing: float = 10.0,
     height: float = 100.0,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
     """Produces a positive + negative tone linewidth test, used for
     lithography resolution test patterning
@@ -25,13 +25,13 @@ def litho_steps(
     .. plot::
       :include-source:
 
-      import gdsfactory
+      import gdsfactory as gf
 
-      c = gdsfactory.components.litho_steps()
+      c = gf.components.litho_steps()
       c.plot()
 
     """
-    D = gdsfactory.Component()
+    D = gf.Component()
 
     height = height / 2
     T1 = pc.text(

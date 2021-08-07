@@ -186,14 +186,10 @@ def test_pack() -> Component:
 
 
 def test_pack_with_settings() -> Component:
-    import gdsfactory
+    import gdsfactory as gf
 
-    component_list = [
-        gdsfactory.components.rectangle(size=(i, i)) for i in range(1, 10)
-    ]
-    component_list += [
-        gdsfactory.components.rectangle(size=(i, i)) for i in range(1, 10)
-    ]
+    component_list = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
+    component_list += [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
 
     components_packed_list = pack(
         component_list,  # Must be a list or tuple of Components

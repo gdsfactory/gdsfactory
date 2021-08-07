@@ -5,9 +5,9 @@ By default the metadata will consists of all the parameters that were passed to 
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight()
+    c = gf.components.straight()
 
     print(c.settings)
     print(c.get_json())

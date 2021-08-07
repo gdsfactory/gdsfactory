@@ -283,16 +283,16 @@ def path_length_matched_points_add_waypoints(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.Component()
-    c1 = c << gdsfactory.components.straight_array(n=4, spacing=50)
-    c2 = c << gdsfactory.components.straight_array(n=4, spacing=20)
+    c = gf.Component()
+    c1 = c << gf.components.straight_array(n=4, spacing=50)
+    c2 = c << gf.components.straight_array(n=4, spacing=20)
     c1.y = 0
     c2.y = 0
     c2.x = 300
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(
+    routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(prefix="E"),
         c2.get_ports_list(prefix="W"),
         waveguide="strip",

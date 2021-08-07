@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.straight import straight
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
@@ -30,8 +30,8 @@ def get_routes_straight(
 
 
 def test_get_routes_straight(check: bool = True):
-    c = gdsfactory.Component("get_routes_straight")
-    pad_array = gdsfactory.components.pad_array(pitch=150, port_list=("S",))
+    c = gf.Component("get_routes_straight")
+    pad_array = gf.components.pad_array(pitch=150, port_list=("S",))
     c1 = c << pad_array
     c2 = c << pad_array
     c2.ymax = -200

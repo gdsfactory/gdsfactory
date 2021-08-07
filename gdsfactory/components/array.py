@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
@@ -9,7 +9,7 @@ from gdsfactory.port import auto_rename_ports
 
 @cell
 def array(
-    component: gdsfactory.types.ComponentOrFactory = straight,
+    component: gf.types.ComponentOrFactory = straight,
     n: int = 2,
     pitch: float = 20.0,
     axis: str = "y",
@@ -84,7 +84,7 @@ def array_2d(
 
 if __name__ == "__main__":
 
-    # c1 = gdsfactory.components.pad()
+    # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, n=2)
     # print(c2.ports.keys())
 

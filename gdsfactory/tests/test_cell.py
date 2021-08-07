@@ -1,12 +1,12 @@
 import pytest
 from pydantic import ValidationError
 
-import gdsfactory
+import gdsfactory as gf
 
 
-@gdsfactory.cell
-def _dummy(length: int = 3, wg_width: float = 0.5) -> gdsfactory.Component:
-    c = gdsfactory.Component()
+@gf.cell
+def _dummy(length: int = 3, wg_width: float = 0.5) -> gf.Component:
+    c = gf.Component()
     return c
 
 
@@ -15,9 +15,9 @@ def test_raise_error_args():
         _dummy(3)
 
 
-@gdsfactory.cell
-def _dummy2(length: int = 3, wg_width: float = 0.5) -> gdsfactory.Component:
-    c = gdsfactory.Component()
+@gf.cell
+def _dummy2(length: int = 3, wg_width: float = 0.5) -> gf.Component:
+    c = gf.Component()
     return c
 
 

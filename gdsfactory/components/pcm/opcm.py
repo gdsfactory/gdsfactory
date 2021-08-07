@@ -5,7 +5,7 @@ from typing import Iterable, List, Optional, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.manhattan_font import manhattan_text
@@ -31,7 +31,7 @@ def _cdsem_generic(
     for CDSEM measurement
     """
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     _straight = straight_factory(length=L, width=width)
     _bend = bend90_factory(radius=radius, width=width)
 
@@ -77,16 +77,16 @@ def _cdsem_generic(
 def wg_line(
     length: Number,
     width: Number,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
 ) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     _wg = c.add_ref(rectangle(length, width, layer=layer))
     c.absorb(_wg)
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight(
     spacing_h=5.0,
     spacing_v=5.0,
@@ -99,7 +99,7 @@ def cdsem_straight(
     layers_cladding=None,
 ):
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     x = 0
     i = 0
 
@@ -153,7 +153,7 @@ def cdsem_straight(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight_column(
     spacing_v: Number = 5.0,
     gaps: Tuple[Number, ...] = (0.224, 0.234, 0.246),
@@ -165,7 +165,7 @@ def cdsem_straight_column(
     layers_cladding: List[Tuple[int, int]] = None,
 ) -> Component:
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     x = 0
 
     widths = [width_center * 0.92, width_center, width_center * 1.08]
@@ -218,7 +218,7 @@ def cdsem_straight_column(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight_all(
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
@@ -226,7 +226,7 @@ def cdsem_straight_all(
 ) -> Component:
     widths = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0)
     labels = ("A", "B", "C", "D", "E", "F")
-    c = gdsfactory.Component()
+    c = gf.Component()
     spacing_v = 10.0
     y = 0
     for width, label in zip(widths, labels):
@@ -245,7 +245,7 @@ def cdsem_straight_all(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight_density(
     wg_width: Number = 0.372,
     trench_width: Number = 0.304,
@@ -266,7 +266,7 @@ def cdsem_straight_density(
         w: wg_width
         s: trench_width
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     period = wg_width + trench_width
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
@@ -290,14 +290,14 @@ def cdsem_straight_density(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_strip(straight_factory=straight, **kwargs):
     return _cdsem_generic(
         **kwargs, bend90_factory=bend_circular, straight_factory=straight_factory
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_target(
     bend90_factory: ComponentFactory = bend_circular,
     width_center: Number = 0.5,
@@ -306,7 +306,7 @@ def cdsem_target(
     layers_cladding: List[Tuple[int, int]] = None,
     radii: Tuple[Number, ...] = (5.0, 10.0),
 ) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     a = 1.0
     w = 3 * a / 4
 
@@ -344,14 +344,14 @@ def cdsem_target(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_uturn(
     width: Number = 0.5,
     radius: Number = 10.0,
     symbol_bot: str = "S",
     symbol_top: str = "U",
     wg_length: Number = LINE_LENGTH,
-    straight_factory: ComponentFactory = gdsfactory.components.straight,
+    straight_factory: ComponentFactory = gf.components.straight,
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -366,7 +366,7 @@ def cdsem_uturn(
 
     """
     print(bend90_factory)
-    c = gdsfactory.Component()
+    c = gf.Component()
     r = radius
     bend90 = bend90_factory(width=width, radius=r)
     if wg_length is None:
@@ -409,7 +409,7 @@ def cdsem_uturn(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def pcm_optical(
     dw: float = 0.02,
     wte: float = 0.372,
@@ -425,7 +425,7 @@ def pcm_optical(
     Args:
         dw
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     spacing_v = 5.0
     _c1 = cdsem_straight_all(
         straight_factory=straight_factory,
@@ -507,7 +507,7 @@ def pcm_optical(
 
 
 def _TRCH_DASH_ISO(length=20.0, width=0.5, n=3, separation=2.0, label=""):
-    c = gdsfactory.Component()
+    c = gf.Component()
     _r = rectangle(width, length, layer=LAYER.WG)
     for i in range(n):
         r_ref = c.add_ref(_r)
@@ -530,7 +530,7 @@ def _TRCH_DASH_DUO(
     _trench = _TRCH_DASH_ISO(length=length, width=width, n=n, separation=separation)
     dx = x_offset
     dy = gap + width
-    c = gdsfactory.Component()
+    c = gf.Component()
     t1 = c.add_ref(_trench)
     t2 = c.add_ref(_trench)
     t2.move((dy, dx))
@@ -570,9 +570,9 @@ class LabelIterator:
         return self
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_ISO(length=20.0, width=0.5):
-    c = gdsfactory.Component()
+    c = gf.Component()
     _r = c.add_ref(rectangle(width, length, layer=LAYER.SLAB150))
     c.absorb(_r)
 
@@ -586,7 +586,7 @@ def TRCH_ISO(length=20.0, width=0.5):
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_ISO_DL0(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TB")
     return _TRCH_DASH_ISO(
@@ -594,7 +594,7 @@ def TRCH_ISO_DL0(width=0.5, separation=2.0):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_ISO_L20(width=0.5, separation=2.0):
     lblit = gen_label_iterator("TC")
     return _TRCH_DASH_ISO(
@@ -602,7 +602,7 @@ def TRCH_ISO_L20(width=0.5, separation=2.0):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TD")
     return _TRCH_DASH_DUO(
@@ -610,7 +610,7 @@ def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     lblit = gen_label_iterator("TE")
     return _TRCH_DASH_DUO(
@@ -618,7 +618,7 @@ def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
     lblit = gen_label_iterator("TF")
     return _TRCH_DASH_DUO(

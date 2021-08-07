@@ -9,7 +9,7 @@ import picwriter.components as pc
 import picwriter.toolkit as pt
 from picwriter.toolkit import Component
 
-import gdsfactory
+import gdsfactory as gf
 
 gdspy.current_library = gdspy.GdsLibrary()
 
@@ -30,7 +30,7 @@ def direction_to_degree(direction: str) -> float:
 def picwriter(picwriter_object: pt.Component) -> Component:
     """Convert a Picwriter into a Gdsfactory Component."""
     po = picwriter_object
-    c = gdsfactory.Component(name=po.name_prefix)
+    c = gf.Component(name=po.name_prefix)
 
     # Extract the relevant cells from the picwriter global cell list
     po_cell = pt.CURRENT_CELLS[po.cell_hash]
@@ -79,4 +79,4 @@ if __name__ == "__main__":
     gc = pc.GratingCoupler(wgt, port=(10, 20), direction=0.0)
     gcc = picwriter(gc)
 
-    gdsfactory.show(gcc)
+    gf.show(gcc)

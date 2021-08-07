@@ -1,6 +1,6 @@
 function_name: add_gratings_and_loopback
 info: {}
-module: gdsfactory.add_termination
+module: gf.add_termination
 name: add_gratings_and_loop_b_ee4c3325
 settings:
   bend_radius_loopback: null
@@ -8,7 +8,7 @@ settings:
     function_name: spiral_inner_io
     info:
       length: 13728.4
-    module: gdsfactory.components.spiral_inner_io
+    module: gf.components.spiral_inner_io
     name: spiral_inner_io
     settings:
       N: 6

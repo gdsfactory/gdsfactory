@@ -3,7 +3,7 @@ import numpy as np
 import scipy.optimize as so
 from numpy import float64
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
@@ -23,7 +23,7 @@ def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
-@gdsfactory.cell
+@gf.cell
 def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -32,12 +32,12 @@ def crossing_arm(
     L: float = 3.4,
 ) -> Component:
     """arm of a crossing"""
-    c = gdsfactory.Component()
+    c = gf.Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
     c.absorb(_ellipse)
 
-    a = gdsfactory.snap.snap_to_grid(L + w / 2)
+    a = gf.snap.snap_to_grid(L + w / 2)
     h = wg_width / 2
 
     taper_pts = [
@@ -66,8 +66,8 @@ def crossing_arm(
 @cell
 def crossing(arm: ComponentFactory = crossing_arm) -> Component:
     """Waveguide crossing"""
-    cx = gdsfactory.Component()
-    arm = gdsfactory.call_if_func(arm)
+    cx = gf.Component()
+    arm = gf.call_if_func(arm)
     arm_h = arm.ref()
     arm_v = arm.ref(rotation=90)
 
@@ -78,7 +78,7 @@ def crossing(arm: ComponentFactory = crossing_arm) -> Component:
         for p in c.ports.values():
             cx.add_port(name="{}".format(port_id), port=p)
             port_id += 1
-    cx = gdsfactory.port.rename_ports_by_orientation(cx)
+    cx = gf.port.rename_ports_by_orientation(cx)
     return cx
 
 
@@ -87,20 +87,20 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     """
     Crossing based on a taper. The default is a dummy taper
     """
-    taper = gdsfactory.call_if_func(taper)
+    taper = gf.call_if_func(taper)
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     for i, a in enumerate([0, 90, 180, 270]):
         _taper = taper.ref(position=(0, 0), port_id="2", rotation=a)
         c.add(_taper)
         c.add_port(name="{}".format(i), port=_taper.ports["1"])
         c.absorb(_taper)
 
-    c = gdsfactory.port.rename_ports_by_orientation(c)
+    c = gf.port.rename_ports_by_orientation(c)
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def crossing_etched(
     wg_width=0.5,
     r1=3.0,
@@ -117,7 +117,7 @@ def crossing_etched(
     """
 
     # Draw the ellipses
-    c = gdsfactory.Component()
+    c = gf.Component()
     _ellipse1 = ellipse(radii=(r1, r2), layer=layer_wg).ref()
     _ellipse2 = ellipse(radii=(r2, r1), layer=layer_wg).ref()
     c.add(_ellipse1)
@@ -166,7 +166,7 @@ def crossing_etched(
         )
         i += 1
 
-    c = gdsfactory.port.rename_ports_by_orientation(c)
+    c = gf.port.rename_ports_by_orientation(c)
     return c
 
 
@@ -205,7 +205,7 @@ def crossing45(
 
     crossing = crossing() if callable(crossing) else crossing
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     _crossing = crossing.ref(rotation=45)
     c.add(_crossing)
 
@@ -305,7 +305,7 @@ def compensation_path(
 
     """
     # Get total path length taken by the bends
-    crossing45 = gdsfactory.call_if_func(crossing45)
+    crossing45 = gf.call_if_func(crossing45)
     X45_cmps = crossing45.info["components"]
     length = 2 * X45_cmps["bezier_bend"].info["length"]
 
@@ -354,7 +354,7 @@ def compensation_path(
 
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     crossing0 = X45_cmps["crossing"].ref()
     component.add(crossing0)
 
@@ -385,7 +385,7 @@ def demo():
     print(c.info["min_bend_radius"])
     print(c2.info["min_bend_radius"])
 
-    component = gdsfactory.Component(name="top_lvl")
+    component = gf.Component(name="top_lvl")
     component.add(c.ref(port_id="W0"))
     component.add(c2.ref(port_id="W0", position=(0, 10)))
 
@@ -398,7 +398,7 @@ def demo():
     plt.plot(bend_info2["t"][1:-1] * L2, abs(bend_info2["curvature"]))
     plt.xlabel("bend length (um)")
     plt.ylabel("curvature (um^-1)")
-    gdsfactory.show(component)
+    gf.show(component)
     plt.show()
 
 

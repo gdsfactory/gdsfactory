@@ -2,7 +2,7 @@ from typing import List, Optional, Union
 
 import phidl.geometry as pg
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.types import ComponentOrReference, Layer
 
@@ -57,13 +57,13 @@ def boolean(
         max_points=max_points,
         layer=layer,
     )
-    return gdsfactory.component_from.phidl(component=c)
+    return gf.component_from.phidl(component=c)
 
 
 if __name__ == "__main__":
-    e1 = gdsfactory.components.ellipse()
-    e2 = gdsfactory.components.ellipse(radii=(10, 6)).movex(2)
-    e3 = gdsfactory.components.ellipse(radii=(10, 4)).movex(5)
-    # gdsfactory.plot([e1, e2, e3])
+    e1 = gf.components.ellipse()
+    e2 = gf.components.ellipse(radii=(10, 6)).movex(2)
+    e3 = gf.components.ellipse(radii=(10, 4)).movex(5)
+    # gf.plot([e1, e2, e3])
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
     c.show()

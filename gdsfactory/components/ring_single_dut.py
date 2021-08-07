@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring
@@ -9,7 +9,7 @@ from gdsfactory.port import rename_ports_by_orientation
 from gdsfactory.snap import assert_on_2nm_grid
 
 
-@gdsfactory.cell
+@gf.cell
 def ring_single_dut(
     component,
     wg_width=0.5,

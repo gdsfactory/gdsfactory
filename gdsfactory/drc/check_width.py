@@ -58,9 +58,9 @@ def demo():
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
     from gdsfactory.tech import LAYER
 
     w = 0.12
-    c = gdsfactory.components.rectangle(size=(w, w), layer=LAYER.WG)
+    c = gf.components.rectangle(size=(w, w), layer=LAYER.WG)
     print(check_width(c))

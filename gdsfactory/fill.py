@@ -57,10 +57,10 @@ def fill_rectangle(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.straight()
-    c = gdsfactory.add_padding(c)
+    c = gf.components.straight()
+    c = gf.add_padding(c)
     c << fill_rectangle(
         c,
         fill_layers=((2, 0),),

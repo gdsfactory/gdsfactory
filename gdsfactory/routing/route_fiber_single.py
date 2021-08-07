@@ -2,7 +2,7 @@ from typing import Callable, List, Optional, Tuple, Union
 
 from phidl.device_layout import Label
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -56,16 +56,16 @@ def route_fiber_single(
     N = len(optical_ports)
 
     if isinstance(grating_coupler, list):
-        grating_couplers = [gdsfactory.call_if_func(g) for g in grating_coupler]
+        grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
     else:
-        grating_coupler = gdsfactory.call_if_func(grating_coupler)
+        grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
     if component.xsize + 2 * gc_port2center < min_input_to_output_spacing:
         fanout_length = (
-            gdsfactory.snap.snap_to_grid(
+            gf.snap.snap_to_grid(
                 min_input_to_output_spacing - component.xsize - 2 * gc_port2center, 10
             )
             / 2
@@ -150,24 +150,24 @@ def route_fiber_single(
 
 
 if __name__ == "__main__":
-    gcte = gdsfactory.components.grating_coupler_te
-    gctm = gdsfactory.components.grating_coupler_tm
+    gcte = gf.components.grating_coupler_te
+    gctm = gf.components.grating_coupler_tm
 
-    c = gdsfactory.components.cross(length=500)
-    c = gdsfactory.components.ring_double()
-    c = gdsfactory.components.mmi2x2()
-    c = gdsfactory.components.crossing()
-    c = gdsfactory.components.rectangle()
-    c = gdsfactory.components.ring_single()
+    c = gf.components.cross(length=500)
+    c = gf.components.ring_double()
+    c = gf.components.mmi2x2()
+    c = gf.components.crossing()
+    c = gf.components.rectangle()
+    c = gf.components.ring_single()
 
     # elements, gc = route_fiber_single(
     #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     # )
 
-    c = gdsfactory.components.mmi2x2(waveguide="nitride")
-    c = gdsfactory.components.straight(width=2, length=500)
-    gc = gdsfactory.components.grating_coupler_elliptical_te(
-        layer=gdsfactory.TECH.waveguide.nitride.layer
+    c = gf.components.mmi2x2(waveguide="nitride")
+    c = gf.components.straight(width=2, length=500)
+    gc = gf.components.grating_coupler_elliptical_te(
+        layer=gf.TECH.waveguide.nitride.layer
     )
     elements, gc = route_fiber_single(
         c,
@@ -178,7 +178,7 @@ if __name__ == "__main__":
         waveguide="nitride",
     )
 
-    cc = gdsfactory.Component("sample_route_fiber_single")
+    cc = gf.Component("sample_route_fiber_single")
     cr = cc << c.rotate(90)
 
     for e in elements:

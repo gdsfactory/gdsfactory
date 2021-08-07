@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Union
 import pytest
 from jsondiff import diff
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_pins import add_settings_label
 from gdsfactory.component import Component
 from gdsfactory.components import component_factory, component_names
@@ -34,7 +34,7 @@ def test_properties_components(component_type: str) -> Component:
     """Write component to GDS with setttings written on a label.
     Then import the GDS and check that the settings imported match the original.
     """
-    cnew = gdsfactory.Component()
+    cnew = gf.Component()
     c1 = component_factory[component_type]()
     c1ref = cnew << c1
 

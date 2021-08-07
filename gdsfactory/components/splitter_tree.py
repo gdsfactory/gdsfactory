@@ -1,13 +1,13 @@
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.types import ComponentFactory, StrOrDict
 
 
-@gdsfactory.cell
+@gf.cell
 def splitter_tree(
     coupler: ComponentFactory = mmi1x2,
     noutputs: int = 4,
@@ -16,7 +16,7 @@ def splitter_tree(
     bend_s: ComponentFactory = bend_s_function,
     waveguide: StrOrDict = "strip",
     **kwargs,
-) -> gdsfactory.Component:
+) -> gf.Component:
     """Tree of power splitters.
 
     Args:
@@ -38,7 +38,7 @@ def splitter_tree(
           dx
 
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
 
     coupler = coupler(waveguide=waveguide, **kwargs)
     if bend_s:
@@ -70,7 +70,7 @@ def splitter_tree(
                 port_name = "E1"
             if col > 0:
                 c.add(
-                    gdsfactory.routing.get_route(
+                    gf.routing.get_route(
                         c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
                         coupler_ref.ports["W0"],
                         waveguide=waveguide,
@@ -112,10 +112,10 @@ def test_splitter_tree_ports():
 
 if __name__ == "__main__":
     test_splitter_tree_ports()
-    import gdsfactory
+    import gdsfactory as gf
 
     c = splitter_tree(
-        coupler=gdsfactory.partial(mmi1x2, gap_mmi=2.0, width_mmi=5.0),
+        coupler=gf.partial(mmi1x2, gap_mmi=2.0, width_mmi=5.0),
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
         noutputs=2 ** 2,

@@ -11,7 +11,7 @@ from phidl.geometry import (
     _parse_layer,
 )
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -38,7 +38,7 @@ def offset(
         elif isinstance(e, (Polygon, gdspy.Polygon)):
             polygons_to_offset.append(e)
     if len(polygons_to_offset) == 0:
-        return gdsfactory.Component("offset")
+        return gf.Component("offset")
     polygons_to_offset = _merge_floating_point_errors(
         polygons_to_offset, tol=precision / 1000
     )
@@ -66,7 +66,7 @@ def offset(
             tolerance=tolerance,
         )
 
-    D = gdsfactory.Component("offset")
+    D = gf.Component("offset")
     polygons = D.add_polygon(p, layer=layer)
     [
         polygon.fracture(max_points=max_points, precision=precision)
@@ -76,7 +76,7 @@ def offset(
 
 
 if __name__ == "__main__":
-    c = gdsfactory.components.rectangle(size=(1, 2))
-    c = gdsfactory.components.ring()
+    c = gf.components.rectangle(size=(1, 2))
+    c = gf.components.ring()
     co = offset(c, distance=0.5)
-    gdsfactory.show(co)
+    gf.show(co)

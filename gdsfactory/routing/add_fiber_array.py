@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
@@ -9,7 +9,7 @@ from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.types import ComponentFactory, StrOrDict
 
 
-@gdsfactory.cell_without_validator
+@gf.cell_without_validator
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
@@ -54,18 +54,18 @@ def add_fiber_array(
     .. plot::
         :include-source:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        c = gdsfactory.components.crossing()
-        cc = gdsfactory.routing.add_fiber_array(
+        c = gf.components.crossing()
+        cc = gf.routing.add_fiber_array(
             component=c,
             optical_routing_type=2,
-            grating_coupler=gdsfactory.components.grating_coupler_elliptical_te,
+            grating_coupler=gf.components.grating_coupler_elliptical_te,
         )
         cc.plot()
 
     """
-    component = gdsfactory.call_if_func(component)
+    component = gf.call_if_func(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
@@ -77,7 +77,7 @@ def add_fiber_array(
         gc = grating_coupler[0]
     else:
         gc = grating_coupler
-    gc = gdsfactory.call_if_func(gc)
+    gc = gf.call_if_func(gc)
 
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
@@ -124,13 +124,13 @@ def add_fiber_array(
 
 
 def demo_te_and_tm():
-    c = gdsfactory.Component()
-    w = gdsfactory.components.straight()
+    c = gf.Component()
+    w = gf.components.straight()
     wte = add_fiber_array(
-        component=w, grating_coupler=gdsfactory.components.grating_coupler_elliptical_te
+        component=w, grating_coupler=gf.components.grating_coupler_elliptical_te
     )
     wtm = add_fiber_array(
-        component=w, grating_coupler=gdsfactory.components.grating_coupler_elliptical_tm
+        component=w, grating_coupler=gf.components.grating_coupler_elliptical_tm
     )
     c.add_ref(wte)
     wtm_ref = c.add_ref(wtm)
@@ -140,21 +140,21 @@ def demo_te_and_tm():
 
 if __name__ == "__main__":
     # test_type0()
-    gcte = gdsfactory.components.grating_coupler_te
-    gctm = gdsfactory.components.grating_coupler_tm
+    gcte = gf.components.grating_coupler_te
+    gctm = gf.components.grating_coupler_tm
 
     # from pprint import pprint
-    layer_label = gdsfactory.LAYER.TEXT
+    layer_label = gf.LAYER.TEXT
     layer_label = (66, 5)
 
     # cc = demo_tapers()
     # cc = test_type1()
     # pprint(cc.get_json())
-    # c = gdsfactory.components.coupler(gap=0.2, length=5.6)
-    # c = gdsfactory.components.straight()
-    # c = gdsfactory.components.straight(length=1, width=2)
-    # c = gdsfactory.components.mmi2x2()
-    c = gdsfactory.components.ring_single()
+    # c = gf.components.coupler(gap=0.2, length=5.6)
+    # c = gf.components.straight()
+    # c = gf.components.straight(length=1, width=2)
+    # c = gf.components.mmi2x2()
+    c = gf.components.ring_single()
 
     c.y = 0
     cc = add_fiber_array(

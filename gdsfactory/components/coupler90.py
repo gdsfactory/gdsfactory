@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
@@ -7,7 +7,7 @@ from gdsfactory.cross_section import StrOrDict, get_cross_section
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,

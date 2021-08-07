@@ -1,24 +1,24 @@
-import gdsfactory
+import gdsfactory as gf
 
 
 def test_snap_to_grid() -> None:
-    assert gdsfactory.snap.snap_to_grid(1.1e-3) == 0.001
+    assert gf.snap.snap_to_grid(1.1e-3) == 0.001
 
 
 def test_snap_to_2nm_grid() -> None:
-    assert gdsfactory.snap.snap_to_2nm_grid(1.1e-3) == 0.002
-    assert gdsfactory.snap.snap_to_2nm_grid(3.1e-3) == 0.004
+    assert gf.snap.snap_to_2nm_grid(1.1e-3) == 0.002
+    assert gf.snap.snap_to_2nm_grid(3.1e-3) == 0.004
 
 
 def test_is_on_1nm_grid() -> None:
-    assert not gdsfactory.snap.is_on_grid(0.1e-3)
-    assert gdsfactory.snap.is_on_grid(1e-3)
+    assert not gf.snap.is_on_grid(0.1e-3)
+    assert gf.snap.is_on_grid(1e-3)
 
 
 def test_is_on_2nm_grid() -> None:
-    assert not gdsfactory.snap.is_on_grid(1.1e-3, 2)
-    assert not gdsfactory.snap.is_on_grid(1e-3, 2)
-    assert gdsfactory.snap.is_on_grid(2e-3, 2)
+    assert not gf.snap.is_on_grid(1.1e-3, 2)
+    assert not gf.snap.is_on_grid(1e-3, 2)
+    assert gf.snap.is_on_grid(2e-3, 2)
 
 
 if __name__ == "__main__":

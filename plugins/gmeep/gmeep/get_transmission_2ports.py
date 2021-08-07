@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import gdsfactory
+import gdsfactory as gf
 from meep.geom import Medium
 from numpy import ndarray
 from gdsfactory.component import Component
@@ -35,7 +35,7 @@ def get_transmission_2ports(
     field_monitor_point: Tuple[int, int, int] = (0, 0, 0),
     dfcen: float = 0.2,
 ) -> Dict[str, Any]:
-    """Returns dict with Sparameters for a 2port gdsfactory component
+    """Returns dict with Sparameters for a 2port gf.component
 
     requires source and  port monitors in the GDS
 
@@ -45,7 +45,7 @@ def get_transmission_2ports(
     https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
 
     Args:
-        component: gdsfactory Component
+        component: gf.Component
         extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
         layer_core: GDS layer for the Component material
         layer_source: for the source monitor
@@ -69,14 +69,14 @@ def get_transmission_2ports(
         Dict:
             sim: simulation object
 
-    Make sure you visualize the simulation region with gdsfactory before you simulate a component
+    Make sure you visualize the simulation region with gf.before you simulate a component
 
     .. code::
 
-        import gdsfactory
+        import gdsfactory as gf
         import gmeep as gm
 
-        component = gdsfactory.components.bend_circular()
+        component = gf.components.bend_circular()
         margin = 2
         cm = gm.add_monitors(component)
         cm.show()
@@ -86,7 +86,7 @@ def get_transmission_2ports(
         component, Component
     ), f"component needs to be a Component, got Type {type(component)}"
     if extend_ports_length:
-        component = gdsfactory.extend.extend_ports(
+        component = gf.extend.extend_ports(
             component=component, length=extend_ports_length
         )
     component.flatten()
@@ -252,9 +252,9 @@ def plot3D(results_dict):
 
 def test_waveguide_2D() -> None:
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = gdsfactory.components.straight(length=2)
+    c = gf.components.straight(length=2)
     cm = add_monitors(component=c)
-    # gdsfactory.show(cm)
+    # gf.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.99 < np.mean(abs(r["s21"])) < 1.01
@@ -263,9 +263,9 @@ def test_waveguide_2D() -> None:
 
 # def test_waveguide_3D() -> None:
 #     """Ensure >99% transmission (S21) at 1550nm."""
-#     c = gdsfactory.components.straight(length=2)
+#     c = gf.components.straight(length=2)
 #     cm = add_monitors(component=c)
-#     gdsfactory.show(cm)
+#     gf.show(cm)
 
 #     r = get_transmission_2ports(cm, is_3d=True, run=True, res=10)
 #     assert 0.99 < np.mean(abs(r["s21"])) < 1.01
@@ -274,9 +274,9 @@ def test_waveguide_2D() -> None:
 
 def test_bend_2D():
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = gdsfactory.components.bend_circular(radius=5)
+    c = gf.components.bend_circular(radius=5)
     cm = add_monitors(component=c)
-    # gdsfactory.show(cm)
+    # gf.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.97 < np.mean(abs(r["s21"])) < 1.01
@@ -284,9 +284,9 @@ def test_bend_2D():
 
 
 if __name__ == "__main__":
-    c = gdsfactory.components.straight(length=2)
+    c = gf.components.straight(length=2)
     cm = add_monitors(component=c)
-    gdsfactory.show(cm)
+    gf.show(cm)
 
     r = get_transmission_2ports(cm, run=True)
     print(r)

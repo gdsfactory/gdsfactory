@@ -1,10 +1,10 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,

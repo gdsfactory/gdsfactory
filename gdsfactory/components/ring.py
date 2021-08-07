@@ -3,16 +3,16 @@ from typing import Tuple
 import numpy as np
 from numpy import cos, pi, sin
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def ring(
     radius: float = 10.0,
     width: float = 0.5,
     angle_resolution: float = 2.5,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
     """Returns a ring.
 
@@ -24,7 +24,7 @@ def ring(
 
     """
 
-    D = gdsfactory.Component()
+    D = gf.Component()
     inner_radius = radius - width / 2
     outer_radius = radius + width / 2
     n = int(np.round(360 / angle_resolution))

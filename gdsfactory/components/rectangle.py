@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.types import Layer
@@ -11,7 +11,7 @@ DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 @cell
 def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Layer = gdsfactory.LAYER.WG,
+    layer: Layer = gf.LAYER.WG,
     centered: bool = False,
     ports: Dict[str, List[Tuple[float, float, float]]] = None,
     **port_settings
@@ -25,7 +25,7 @@ def rectangle(
         ports: {direction: [(x, y, width), ...]} direction: 'W', 'E', 'N' or 'S'
 
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     w, h = size
 
     if centered:
@@ -55,7 +55,7 @@ def rectangle(
                 )
                 i += 1
 
-    gdsfactory.port.auto_rename_ports(c)
+    gf.port.auto_rename_ports(c)
     return c
 
 

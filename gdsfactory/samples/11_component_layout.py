@@ -1,6 +1,6 @@
 """ Lets create a new component.
 
-We create a function which returns a gdsfactory.Component instance.
+We create a function which returns a gf.Component instance.
 
 Lets build straight crossing out of a vertical and horizonal arm
 
@@ -12,12 +12,12 @@ Lets build straight crossing out of a vertical and horizonal arm
 
 from phidl import quickplot as plot
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import LAYER
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def test_crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
@@ -26,8 +26,8 @@ def test_crossing_arm(
     taper_length: float = 3.4,
 ) -> Component:
     """crossing arm"""
-    c = gdsfactory.Component()
-    c << gdsfactory.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c = gf.Component()
+    c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2

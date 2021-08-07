@@ -38,7 +38,7 @@ from typing import Callable, Dict, List, Union
 
 from omegaconf import OmegaConf
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import component_factory
 from gdsfactory.config import CONFIG
@@ -344,7 +344,7 @@ def load_doe_from_cache(doe_name, doe_root_path=None):
         component_names = f.read().split(CONTENT_SEP)
 
     gdspaths = [os.path.join(doe_dir, name + ".gds") for name in component_names]
-    components = [gdsfactory.import_gds(gdspath) for gdspath in gdspaths]
+    components = [gf.import_gds(gdspath) for gdspath in gdspaths]
     return components
 
 
@@ -403,9 +403,9 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
     placed_doe = None
     placed_does = {}
     if mask_settings.get("name"):
-        component_grid = gdsfactory.Component(mask_settings["name"])
+        component_grid = gf.Component(mask_settings["name"])
     else:
-        component_grid = gdsfactory.Component()
+        component_grid = gf.Component()
 
     default_cache_enabled = (
         mask_settings["cache_enabled"] if "cache_enabled" in mask_settings else False
@@ -522,7 +522,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
             )
 
         # Place components within a cell having the DOE name
-        placed_doe = gdsfactory.Component()
+        placed_doe = gf.Component()
         placed_doe.add(placed_components)
         placed_doe.name = doe_name
         placed_does[doe_name] = placed_doe

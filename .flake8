@@ -10,6 +10,7 @@ extend-ignore =
 exclude =
     .git,
     __pycache__,
+    lib/,
     docs/source/conf.py,
     build,
     dist,

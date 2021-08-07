@@ -91,11 +91,11 @@ def get_settings_list(do_permutations: bool = True, **kwargs) -> List[Dict[str, 
 
     Usage:
 
-        import gdsfactory
+        import gdsfactory as gf
 
-        gdsfactory.doe.get_settings_list(length=[30, 40])  # adds different lengths
-        gdsfactory.doe.get_settings_list(length=[30, 40], width=[4, 8])
-        gdsfactory.doe.get_settings_list(length=[30, 40], width=[4, 8])
+        gf.doe.get_settings_list(length=[30, 40])  # adds different lengths
+        gf.doe.get_settings_list(length=[30, 40], width=[4, 8])
+        gf.doe.get_settings_list(length=[30, 40], width=[4, 8])
         # if do_permutations=True, does all combinations (L30W4, L30W8, L40W4, L40W8)
         # if do_permutations=False, zips arguments (L30W4, L40W8)
 

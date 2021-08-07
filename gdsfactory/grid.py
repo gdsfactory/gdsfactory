@@ -112,17 +112,17 @@ def grid(
 
 
 def test_grid():
-    import gdsfactory
+    import gdsfactory as gf
 
-    components = [gdsfactory.components.rectangle(size=(i, i)) for i in range(1, 10)]
+    components = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
     c = grid(components)
     difftest(c)
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    components = [gdsfactory.components.rectangle(size=(i, i)) for i in range(1, 10)]
+    components = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
     c = grid(components)
     c.show()

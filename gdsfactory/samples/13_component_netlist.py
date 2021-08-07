@@ -8,11 +8,11 @@ Sometimes, when a component is mostly composed of sub-components adjacent to eac
 
 """
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def test_netlist_yaml() -> Component:
     """
 
@@ -56,7 +56,7 @@ def test_netlist_yaml() -> Component:
         W0: mmi_long,W0
     """
 
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     return c
 
 

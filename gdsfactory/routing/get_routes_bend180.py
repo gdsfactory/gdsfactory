@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
@@ -30,8 +30,8 @@ def get_routes_bend180(
 
 
 def test_get_routes_bend180():
-    c = gdsfactory.Component("get_routes_bend180")
-    pad_array = gdsfactory.components.pad_array(pitch=150, port_list=("S",))
+    c = gf.Component("get_routes_bend180")
+    pad_array = gf.components.pad_array(pitch=150, port_list=("S",))
     c1 = c << pad_array
     c2 = c << pad_array
     c2.rotate(90)
@@ -43,7 +43,7 @@ def test_get_routes_bend180():
     )
     c.add(routes_bend180.references)
 
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         c1.get_ports_list(), routes_bend180.ports, waveguide="metal_routing"
     )
     for route in routes:
@@ -53,8 +53,8 @@ def test_get_routes_bend180():
 
 
 if __name__ == "__main__":
-    c = gdsfactory.Component("get_routes_bend180")
-    pad_array = gdsfactory.components.pad_array(pitch=150, port_list=("S",))
+    c = gf.Component("get_routes_bend180")
+    pad_array = gf.components.pad_array(pitch=150, port_list=("S",))
     c1 = c << pad_array
     c2 = c << pad_array
     c2.rotate(90)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     )
     c.add(routes_bend180.references)
 
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         c1.get_ports_list(), routes_bend180.ports, waveguide="metal_routing"
     )
     for route in routes:

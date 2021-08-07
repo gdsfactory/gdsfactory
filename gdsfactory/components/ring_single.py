@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
@@ -10,7 +10,7 @@ from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def ring_single(
     gap: float = 0.2,
     radius: float = 10.0,
@@ -98,13 +98,13 @@ def ring_single(
 
 
 if __name__ == "__main__":
-    # c = ring_single(layer=(2, 0), cross_section_factory=gdsfactory.cross_section.pin, width=1)
+    # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
 
     c = ring_single(width=2, gap=1)
     print(c.ports)
     c.show()
 
-    # cc = gdsfactory.add_pins(c)
+    # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.get_settings())
     # cc.show()

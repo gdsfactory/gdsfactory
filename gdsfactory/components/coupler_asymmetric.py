@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
@@ -6,7 +6,7 @@ from gdsfactory.cross_section import StrOrDict, get_cross_section
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_asymmetric(
     bend: ComponentFactory = bend_s,
     straight: ComponentFactory = straight_function,

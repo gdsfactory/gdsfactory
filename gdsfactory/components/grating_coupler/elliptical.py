@@ -3,7 +3,7 @@ from typing import Tuple
 import numpy as np
 from numpy import float64, ndarray
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geo_utils import DEG2RAD, extrude_path
 from gdsfactory.tech import LAYER
@@ -81,7 +81,7 @@ def grating_taper_points(
     return points
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_elliptical_tm(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
@@ -92,7 +92,7 @@ def grating_coupler_elliptical_tm(
     neff: float = 1.8,  # tooth effective index
     layer: Tuple[int, int] = LAYER.WG,
     n_periods: int = 16,
-    fiber_marker_layer: Layer = gdsfactory.LAYER.TM,
+    fiber_marker_layer: Layer = gf.LAYER.TM,
     **kwargs,
 ) -> Component:
     """Return elliptical grating_coupupler
@@ -132,7 +132,7 @@ def grating_coupler_elliptical_tm(
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_elliptical_te(
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
@@ -144,7 +144,7 @@ def grating_coupler_elliptical_te(
     layer: Tuple[int, int] = LAYER.WG,
     p_start: int = 26,
     n_periods: int = 24,
-    fiber_marker_layer: Layer = gdsfactory.LAYER.TE,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
     **kwargs,
 ) -> Component:
     return grating_coupler_elliptical(
@@ -164,7 +164,7 @@ def grating_coupler_elliptical_te(
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,
@@ -180,7 +180,7 @@ def grating_coupler_elliptical(
     big_last_tooth: bool = False,
     layer_slab: Tuple[int, int] = LAYER.SLAB150,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gdsfactory.LAYER.TE,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
     cladding_index: float = 1.443,
 ) -> Component:
     r""" Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -227,7 +227,7 @@ def grating_coupler_elliptical(
 
     period = a1 + x1
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.polarization = polarization
     c.wavelength = int(lambda_c * 1e3)
 
@@ -279,12 +279,12 @@ def grating_coupler_elliptical(
     c.move((-x_output, 0))
 
     if polarization.lower() == "te":
-        polarization_marker_layer = gdsfactory.LAYER.TE
+        polarization_marker_layer = gf.LAYER.TE
     else:
-        polarization_marker_layer = gdsfactory.LAYER.TM
+        polarization_marker_layer = gf.LAYER.TM
 
     x = taper_length + period * n_periods / 2
-    circle = gdsfactory.components.circle(
+    circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=polarization_marker_layer
     )
     circle_ref = c.add_ref(circle)

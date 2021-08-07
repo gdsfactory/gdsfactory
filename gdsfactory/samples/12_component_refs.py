@@ -7,16 +7,16 @@ lets create a crossing component with two references to other components (crossi
 
 """
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory import LAYER
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
     """crossing arm"""
-    c = gdsfactory.Component()
-    c << gdsfactory.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c = gf.Component()
+    c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2
@@ -43,10 +43,10 @@ def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_lengt
     return c
 
 
-@gdsfactory.port.deco_rename_ports  # This decorator will auto-rename the ports
-@gdsfactory.cell  # This decorator will generate a good name for the component
+@gf.port.deco_rename_ports  # This decorator will auto-rename the ports
+@gf.cell  # This decorator will generate a good name for the component
 def test_crossing() -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     arm = test_crossing_arm()
 
     # Create two arm references. One has a 90Deg rotation

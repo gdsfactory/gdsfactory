@@ -19,7 +19,7 @@ def get_sparameters_path(
     Args:
         component:
         dirpath
-        layer_to_material: GDSlayer to material alias (see aliases in gdsfactory.sp.write)
+        layer_to_material: GDSlayer to material alias (see aliases in gf.sp.write)
         layer_to_thickness_nm: GDSlayer to thickness (nm)
     """
     dirpath = pathlib.Path(dirpath)
@@ -39,7 +39,7 @@ def get_sparameters_path(
 
 
 def test_get_sparameters_path() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
     layer_to_thickness_nm_sample = {
         LAYER.WG: 220,
@@ -50,7 +50,7 @@ def test_get_sparameters_path() -> None:
         LAYER.SLAB90: "si",
     }
 
-    c = gdsfactory.components.straight()
+    c = gf.components.straight()
     p = get_sparameters_path(
         component=c,
         layer_to_thickness_nm=layer_to_thickness_nm_sample,
@@ -59,7 +59,7 @@ def test_get_sparameters_path() -> None:
     print(p.stem)
     assert p.stem == "straight_S220"
 
-    c = gdsfactory.components.straight(layer=LAYER.SLAB90)
+    c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path(
         c,
         layer_to_thickness_nm=layer_to_thickness_nm_sample,
@@ -70,8 +70,8 @@ def test_get_sparameters_path() -> None:
 
 
 if __name__ == "__main__":
-    # import gdsfactory
-    # c = gdsfactory.components.straight()
+    # import gdsfactory as gf
+    # c = gf.components.straight()
     # p = get_sparameters_path(c)
     # print(p)
 

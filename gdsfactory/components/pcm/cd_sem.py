@@ -1,6 +1,6 @@
 """CD SEM structures."""
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.port import rename_ports_by_orientation
@@ -8,33 +8,33 @@ from gdsfactory.tech import LAYER
 
 
 def square_middle(side=0.5, layer=LAYER.WG):
-    component = gdsfactory.Component()
+    component = gf.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
     return component
 
 
 def text(t="U"):
-    return gdsfactory.components.text(text=t, layer=gdsfactory.LAYER.WG, size=5)
+    return gf.components.text(text=t, layer=gf.LAYER.WG, size=5)
 
 
 CENTER_SHAPES_MAP = {"S": square_middle, "U": text("U"), "D": text("L")}
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight(w, dw, spacing=5.0, length=20.0):
     """
     w
     dw
     """
 
-    c = gdsfactory.Component()
+    c = gf.Component()
 
     c.move(c.size_info.cc, (0, 0))
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_straight_density(
     wg_width=0.372, trench_width=0.304, x=500, y=50.0, margin=2.0
 ):
@@ -47,16 +47,16 @@ def cdsem_straight_density(
         w: wg_width
         s: trench_width
     """
-    c = gdsfactory.Component()
+    c = gf.Component()
     period = wg_width + trench_width
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    slab = gdsfactory.components.rectangle(size=(x, y), layer=LAYER.WG, centered=True)
+    slab = gf.components.rectangle(size=(x, y), layer=LAYER.WG, centered=True)
     slab_ref = c.add_ref(slab)
     c.absorb(slab_ref)
 
-    tooth = gdsfactory.components.rectangle(
+    tooth = gf.components.rectangle(
         size=(length, trench_width), layer=LAYER.SLAB150, centered=True
     )
 
@@ -69,10 +69,10 @@ def cdsem_straight_density(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_target(width_center=0.5):
     radii = [5.0, 10.0]
-    c = gdsfactory.Component()
+    c = gf.Component()
     a = 1.0
     w = 3 * a / 4
     c.add_ref(square_middle())
@@ -109,11 +109,11 @@ def cdsem_target(width_center=0.5):
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def cdsem_uturn(
     width=0.5, cladding_offset=3.0, radius=10, symbol_bot="S", symbol_top="D"
 ):
-    c = gdsfactory.Component()
+    c = gf.Component()
     r = radius
 
     # bend90 = bend_circular_deep_rib(width=width, radius=r, cladding_offset=cladding_offset)

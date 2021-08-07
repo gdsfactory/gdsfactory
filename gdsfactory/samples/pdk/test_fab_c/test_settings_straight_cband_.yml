@@ -2,7 +2,7 @@ function_name: straight_cband
 info:
   length: 10
   width: 1
-module: gdsfactory.samples.pdk.fab_c
+module: gf.samples.pdk.fab_c
 name: straight_cband
 settings:
   length: 10

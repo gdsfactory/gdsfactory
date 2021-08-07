@@ -40,10 +40,10 @@ def test_mask():
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     c = test_mask()
-    gdsfactory.show(c)
+    gf.show(c)
 
     cwd = pathlib.Path(__file__).absolute().parent
     does_path = cwd / "does.yml"

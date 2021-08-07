@@ -1,13 +1,13 @@
 from typing import Dict, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def ring_single_array(
     ring_function: ComponentFactory = ring_single,
     straight_function: ComponentFactory = straight,

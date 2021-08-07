@@ -2,13 +2,13 @@ from typing import Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import deco_rename_ports
 
 
 @deco_rename_ports
-@gdsfactory.cell
+@gf.cell
 def nxn(
     west: int = 1,
     east: int = 4,
@@ -17,7 +17,7 @@ def nxn(
     xsize: float = 8.0,
     ysize: float = 8.0,
     wg_width: float = 0.5,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
     wg_margin: float = 1.0,
 ) -> Component:
     """returns a nxn component with nxn ports (west, east, north, south)
@@ -43,8 +43,8 @@ def nxn(
             S0   S1
 
     """
-    c = gdsfactory.Component()
-    c << gdsfactory.components.rectangle(size=(xsize, ysize), layer=layer)
+    c = gf.Component()
+    c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
 
     if west > 0:
         x = 0
@@ -55,7 +55,7 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, west
             )
         )
-        y = gdsfactory.snap.snap_to_grid(y)
+        y = gf.snap.snap_to_grid(y)
         orientation = 180
 
         for i, y in enumerate(y):
@@ -76,7 +76,7 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, east
             )
         )
-        y = gdsfactory.snap.snap_to_grid(y)
+        y = gf.snap.snap_to_grid(y)
         orientation = 0
 
         for i, y in enumerate(y):
@@ -97,7 +97,7 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, north
             )
         )
-        x = gdsfactory.snap.snap_to_grid(x)
+        x = gf.snap.snap_to_grid(x)
         orientation = 90
 
         for i, x in enumerate(x):
@@ -117,7 +117,7 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, south
             )
         )
-        x = gdsfactory.snap.snap_to_grid(x)
+        x = gf.snap.snap_to_grid(x)
         orientation = 270
 
         for i, x in enumerate(x):
@@ -134,5 +134,5 @@ def nxn(
 
 if __name__ == "__main__":
     c = nxn(north=1.3, south=3)
-    # c = gdsfactory.extend.extend_ports(component=c)
+    # c = gf.extend.extend_ports(component=c)
     c.show()

@@ -7,7 +7,7 @@ info:
   length: 16.799
   radius: 10
   radius_min: 5.347319506608967
-module: gdsfactory.samples.pdk.fab_c
+module: gf.samples.pdk.fab_c
 name: bend_euler_cband
 settings:
   angle: 90

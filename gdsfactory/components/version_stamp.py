@@ -2,7 +2,7 @@ import datetime
 import platform
 from typing import Optional, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text import text
 from gdsfactory.config import __version__
@@ -10,15 +10,15 @@ from gdsfactory.tech import LAYER
 
 
 def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
-    c = gdsfactory.Component()
+    c = gf.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def qrcode(
-    data: str = "gdsfactory", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
+    data: str = "mask01", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
 ) -> Component:
     """Returns QRCode."""
     import qrcode
@@ -27,7 +27,7 @@ def qrcode(
     q = qrcode.QRCode()
     q.add_data(data)
     matrix = q.get_matrix()
-    c = gdsfactory.Component()
+    c = gf.Component()
     for i, row in enumerate(matrix):
         for j, value in enumerate(row):
             if value:
@@ -37,7 +37,7 @@ def qrcode(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def version_stamp(
     labels: Tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,
@@ -56,7 +56,7 @@ def version_stamp(
     timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)
     short_stamp = "{:%y.%m.%d.%H.%M.%S}".format(now)
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
         q = qrcode(layer=layer, data=data, psize=pixel_size).ref_center()

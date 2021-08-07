@@ -1,11 +1,11 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 
 
-@gdsfactory.cell
+@gf.cell
 def hline(
     length: float = 10.0,
     width: float = 0.5,
@@ -13,7 +13,7 @@ def hline(
     port_type: str = "optical",
 ) -> Component:
     """Horizonal line straight, with ports on east and west sides"""
-    c = gdsfactory.Component()
+    c = gf.Component()
     a = width / 2
     if length > 0 and width > 0:
         c.add_polygon([(0, -a), (length, -a), (length, a), (0, a)], layer=layer)

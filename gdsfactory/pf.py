@@ -9,7 +9,7 @@ from typing import Optional
 import click
 from click.core import Context, Option
 
-import gdsfactory
+import gdsfactory as gf
 import gdsfactory.build as pb
 from gdsfactory.config import CONFIG, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
@@ -105,7 +105,7 @@ def merge_gds_from_directory(
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-    c = gdsfactory.component_from.gdsdir(dirpath=dirpath)
+    c = gf.component_from.gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show()
 
@@ -180,7 +180,7 @@ EXTRA
 @click.argument("filename")
 def show(filename: str) -> None:
     """Show a GDS file using klive"""
-    gdsfactory.show(filename)
+    gf.show(filename)
 
 
 @click.command()
@@ -188,10 +188,10 @@ def show(filename: str) -> None:
 @click.argument("gdspath2")
 def diff(gdspath1: str, gdspath2: str) -> None:
     """Show boolean difference between two GDS files."""
-    import gdsfactory
+    import gdsfactory as gf
 
     diff = gdsdiff(str(gdspath1), str(gdspath2))
-    gdsfactory.show(diff)
+    gf.show(diff)
 
 
 @click.command()

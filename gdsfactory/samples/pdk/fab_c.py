@@ -6,7 +6,7 @@ from typing import Callable, Dict, Optional, Tuple
 
 import pydantic.dataclasses as dataclasses
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_square_inside
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
@@ -97,34 +97,34 @@ def add_pins(
 
 # LEAF COMPONENTS have pins
 
-mmi1x2_nitride_c = gdsfactory.partial(
-    gdsfactory.components.mmi1x2,
+mmi1x2_nitride_c = gf.partial(
+    gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     waveguide="fabc_nitride_cband",
     decorator=add_pins,
 )
-mmi1x2_nitride_o = gdsfactory.partial(
-    gdsfactory.components.mmi1x2,
+mmi1x2_nitride_o = gf.partial(
+    gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     waveguide="fabc_nitride_oband",
     decorator=add_pins,
 )
-bend_euler_c = gdsfactory.partial(
-    gdsfactory.components.bend_euler, waveguide="fabc_nitride_cband", decorator=add_pins
+bend_euler_c = gf.partial(
+    gf.components.bend_euler, waveguide="fabc_nitride_cband", decorator=add_pins
 )
-straight_c = gdsfactory.partial(
-    gdsfactory.components.straight, waveguide="fabc_nitride_cband", decorator=add_pins
+straight_c = gf.partial(
+    gf.components.straight, waveguide="fabc_nitride_cband", decorator=add_pins
 )
-bend_euler_o = gdsfactory.partial(
-    gdsfactory.components.bend_euler, waveguide="fabc_nitride_oband", decorator=add_pins
+bend_euler_o = gf.partial(
+    gf.components.bend_euler, waveguide="fabc_nitride_oband", decorator=add_pins
 )
-straight_o = gdsfactory.partial(
-    gdsfactory.components.straight, waveguide="fabc_nitride_oband", decorator=add_pins
+straight_o = gf.partial(
+    gf.components.straight, waveguide="fabc_nitride_oband", decorator=add_pins
 )
 
 
-gc_nitride_c = gdsfactory.partial(
-    gdsfactory.components.grating_coupler_elliptical_te,
+gc_nitride_c = gf.partial(
+    gf.components.grating_coupler_elliptical_te,
     grating_line_width=0.6,
     wg_width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
@@ -133,16 +133,16 @@ gc_nitride_c = gdsfactory.partial(
 
 # HIERARCHICAL COMPONENTS made of leaf components
 
-mzi_nitride_c = gdsfactory.partial(
-    gdsfactory.components.mzi,
+mzi_nitride_c = gf.partial(
+    gf.components.mzi,
     waveguide="fabc_nitride_cband",
     splitter=mmi1x2_nitride_c,
     decorator=add_pins,
     straight=straight_c,
     bend=bend_euler_c,
 )
-mzi_nitride_o = gdsfactory.partial(
-    gdsfactory.components.mzi,
+mzi_nitride_o = gf.partial(
+    gf.components.mzi,
     waveguide="fabc_nitride_oband",
     splitter=mmi1x2_nitride_c,
     decorator=add_pins,
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # c.show()
 
     mzi = mzi_nitride_c()
-    mzi_gc = gdsfactory.routing.add_fiber_single(
+    mzi_gc = gf.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc_nitride_c,
         waveguide="fabc_nitride_cband",

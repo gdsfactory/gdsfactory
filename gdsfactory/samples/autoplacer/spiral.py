@@ -1,12 +1,12 @@
 """
 Generate a spiral DOE
 """
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral(N=6, x=50.0):
     c = spiral_external_io(N=N, x_inner_length_cutback=x)
     return add_fiber_array(component=c, x_grating_offset=-200, fanout_length=30)

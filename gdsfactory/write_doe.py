@@ -22,7 +22,7 @@ def write_doe_metadata(
 
     Args:
         doe_name
-        cell_names: list of klayout <Cell> or gdsfactory <Component>
+        cell_names: list of klayout <Cell> or gf.<Component>
         list_settings: list of settings for the cell
         doe_settings: test and data_analysis_protocol
         doe_metadata_path
@@ -130,7 +130,7 @@ def write_doe(
     - report.md for DOE
     - doe_name.json with DOE metadata
 
-    gdsfactory.write_component_doe("mmi1x2", width_mmi=[5, 10], length_mmi=9)
+    gf.write_component_doe("mmi1x2", width_mmi=[5, 10], length_mmi=9)
 
     Args:
         component_type: component_name_or_function
@@ -253,10 +253,10 @@ def test_write_doe() -> Path:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     path0 = test_write_doe()
-    gdsfactory.show(path0)
+    gf.show(path0)
 
     # print(get_markdown_table(width_mmi=[5, 6]))
     # paths = write_doe(

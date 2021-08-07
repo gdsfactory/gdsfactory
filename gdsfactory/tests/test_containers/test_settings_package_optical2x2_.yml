@@ -1,14 +1,14 @@
 function_name: package_optical2x2
 info:
   min_bend_radius: 20.753
-module: gdsfactory.routing.repackage
+module: gf.routing.repackage
 name: package_optical2x2_a406d4e4
 settings:
   bend_length: null
   component:
     function_name: mzi2x2
     info: {}
-    module: gdsfactory.components.mzi2x2
+    module: gf.components.mzi2x2
     name: mzi2x2_WECTrue
     settings:
       CL_1: 20.147

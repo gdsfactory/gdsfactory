@@ -7,7 +7,7 @@ from gdsfactory.types import ComponentOrPath, PathType
 
 
 def gdspaths(cells: Iterable[ComponentOrPath]) -> Component:
-    """Combine all GDS files or gdsfactory components into a gdsfactory component.
+    """Combine all GDS files or gf.components into a gf.component.
 
     Args:
         cells: List of gdspaths or Components
@@ -31,7 +31,7 @@ def gdsdir(dirpath: PathType) -> Component:
 if __name__ == "__main__":
     from gdsfactory.config import diff_path
 
-    # c = gdspaths([gdsfactory.components.straight(), gdsfactory.components.bend_circular()])
+    # c = gdspaths([gf.components.straight(), gf.components.bend_circular()])
     # leave these two lines to end up tests showing the diff
     c = gdspaths(diff_path.glob("*.gds"))
     c.show()

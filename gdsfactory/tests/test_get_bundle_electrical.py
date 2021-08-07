@@ -1,6 +1,6 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -10,14 +10,14 @@ def test_get_bundle_electrical(
 
     lengths = {}
 
-    c = gdsfactory.Component("test_get_bundle")
-    c1 = c << gdsfactory.components.pad()
-    c2 = c << gdsfactory.components.pad()
+    c = gf.Component("test_get_bundle")
+    c1 = c << gf.components.pad()
+    c2 = c << gf.components.pad()
     c2.move((200, 100))
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         [c1.ports["E"]],
         [c2.ports["W"]],
-        bend_factory=gdsfactory.components.wire_corner,
+        bend_factory=gf.components.wire_corner,
         waveguide="metal_routing",
     )
 
@@ -25,11 +25,11 @@ def test_get_bundle_electrical(
         c.add(route.references)
         lengths[i] = route.length
 
-    routes = gdsfactory.routing.get_bundle(
+    routes = gf.routing.get_bundle(
         [c1.ports["S"]],
         [c2.ports["E"]],
         start_straight=20.0,
-        bend_factory=gdsfactory.components.wire_corner,
+        bend_factory=gf.components.wire_corner,
         waveguide="metal_routing",
     )
     for i, route in enumerate(routes):

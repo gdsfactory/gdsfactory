@@ -1,17 +1,17 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def test_netlist_with_routes() -> Component:
     """ """
-    c = gdsfactory.Component()
-    w = c << gdsfactory.components.straight(length=3)
-    b = c << gdsfactory.components.bend_circular()
+    c = gf.Component()
+    w = c << gf.components.straight(length=3)
+    b = c << gf.components.bend_circular()
     w.xmax = 0
     b.xmin = 10
 
-    routes = gdsfactory.routing.get_bundle(w.ports["E0"], b.ports["W0"])
+    routes = gf.routing.get_bundle(w.ports["E0"], b.ports["W0"])
     for route in routes:
         c.add(route.references)
     n = c.get_netlist()

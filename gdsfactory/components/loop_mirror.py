@@ -1,6 +1,6 @@
 """Sagnac loop_mirror."""
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
@@ -9,19 +9,19 @@ from gdsfactory.routing.manhattan import route_manhattan
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def loop_mirror(
     component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
 ) -> Component:
     """Returns Sagnac loop_mirror."""
     c = Component()
-    component = gdsfactory.call_if_func(component)
-    bend90 = gdsfactory.call_if_func(bend90)
+    component = gf.call_if_func(component)
+    bend90 = gf.call_if_func(bend90)
     cref = c.add_ref(component)
     routes = route_manhattan(
         cref.ports["E0"],
         cref.ports["E1"],
-        straight_factory=gdsfactory.components.straight,
+        straight_factory=gf.components.straight,
         bend_factory=bend90,
     )
     c.add(routes.references)
@@ -30,10 +30,10 @@ def loop_mirror(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     c = Component()
-    component = gdsfactory.call_if_func(component)
+    component = gf.call_if_func(component)
     mirror = loop_mirror(component=component, bend90=bend90)
     mirror_rotated = mirror.ref(rotation=90)
     c.add(mirror_rotated)
@@ -42,7 +42,7 @@ def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     """
     delay = 13e-12
@@ -52,8 +52,8 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
 
     """
     c = Component()
-    lm = c << gdsfactory.call_if_func(loop_mirror)
-    s = c << gdsfactory.call_if_func(spiral_external_io)
+    lm = c << gf.call_if_func(loop_mirror)
+    s = c << gf.call_if_func(spiral_external_io)
 
     lm.connect("W0", s.ports["input"])
     return c

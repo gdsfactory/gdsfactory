@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_padding import add_padding
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
@@ -6,7 +6,7 @@ from gdsfactory.cross_section import get_cross_section
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def mmi1x2(
     width: float = 0.5,
     width_taper: float = 1.0,
@@ -66,7 +66,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << gdsfactory.components.rectangle(
+    mmi = c << gf.components.rectangle(
         size=(length_mmi, w_mmi),
         layer=layer,
         centered=True,
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
-    # c.write_gds(gdsfactory.CONFIG["gdsdir"] / "mmi1x2.gds")
+    # c.write_gds(gf.CONFIG["gdsdir"] / "mmi1x2.gds")

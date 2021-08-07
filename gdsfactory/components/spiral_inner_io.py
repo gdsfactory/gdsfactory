@@ -4,7 +4,7 @@ from typing import Optional, Tuple
 
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.add_termination import add_gratings_and_loopback
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
@@ -22,7 +22,7 @@ def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_inner_io(
     N: int = 6,
     x_straight_inner_right: float = 150.0,
@@ -97,33 +97,33 @@ def spiral_inner_io(
                 dy=dy,
             )
 
-    _bend180 = gdsfactory.call_if_func(bend180_function, **waveguide_settings)
-    _bend90 = gdsfactory.call_if_func(bend90_function, **waveguide_settings)
+    _bend180 = gf.call_if_func(bend180_function, **waveguide_settings)
+    _bend90 = gf.call_if_func(bend90_function, **waveguide_settings)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     # gc_port_lbl = "W0"
     # gc1 = _gc.ref(port_id=gc_port_lbl, position=(0, 0), rotation=-90)
     # gc2 = _gc.ref(port_id=gc_port_lbl, position=(grating_spacing, 0), rotation=-90)
     # component.add([gc1, gc2])
 
-    p1 = gdsfactory.Port(
+    p1 = gf.Port(
         name="S0",
         midpoint=(0, y_straight_inner_top),
         orientation=270,
         width=width,
-        layer=gdsfactory.LAYER.WG,
+        layer=gf.LAYER.WG,
     )
-    p2 = gdsfactory.Port(
+    p2 = gf.Port(
         name="S1",
         midpoint=(grating_spacing, y_straight_inner_top),
         orientation=270,
         width=width,
-        layer=gdsfactory.LAYER.WG,
+        layer=gf.LAYER.WG,
     )
-    taper = gdsfactory.components.taper(
+    taper = gf.components.taper(
         width1=width,
         width2=_bend180.ports["W0"].width,
         length=taper_length + y_straight_inner_top - 15 - 35,
@@ -211,7 +211,7 @@ def spiral_inner_io(
     return component
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_inner_io_euler(
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
@@ -224,9 +224,9 @@ def spiral_inner_io_euler(
     )
 
 
-@gdsfactory.cell
+@gf.cell
 def spirals_nested(bend_radius: Number = 100) -> Component:
-    component = gdsfactory.Component()
+    component = gf.Component()
     c = spiral_inner_io(
         N=42,
         y_straight_inner_top=10.0,
@@ -277,7 +277,7 @@ def get_straight_length(
     return (length - p[1]) / p[0]
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_inner_io_with_gratings(
     grating_coupler=grating_coupler_elliptical,
     spiral=spiral_inner_io_euler,
@@ -285,8 +285,8 @@ def spiral_inner_io_with_gratings(
     **kwargs
 ):
     """Returns a spiral"""
-    spiral = gdsfactory.call_if_func(spiral, waveguide=waveguide, **kwargs)
-    grating_coupler = gdsfactory.call_if_func(grating_coupler)
+    spiral = gf.call_if_func(spiral, waveguide=waveguide, **kwargs)
+    grating_coupler = gf.call_if_func(grating_coupler)
 
     return add_gratings_and_loopback(
         component=spiral, grating_coupler=grating_coupler, waveguide=waveguide
@@ -311,7 +311,7 @@ if __name__ == "__main__":
     # c = spiral_inner_io_euler(width=1)
     # from gdsfactory.routing import add_fiber_array
     # c = spiral_inner_io_euler(length_spiral=4, width=1)
-    # cc = gdsfactory.routing.add_fiber_array(c)
+    # cc = gf.routing.add_fiber_array(c)
     # print(c.length_spiral)
     # print(get_straight_length(2, spiral_inner_io_euler))
     # print(get_straight_length(4, spiral_inner_io_euler))

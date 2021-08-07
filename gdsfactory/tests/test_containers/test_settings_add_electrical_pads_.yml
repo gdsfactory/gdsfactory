@@ -1,12 +1,12 @@
 function_name: add_electrical_pads
 info: {}
-module: gdsfactory.routing.add_electrical_pads
+module: gf.routing.add_electrical_pads
 name: add_electrical_pads_d9333803
 settings:
   component:
     function_name: mzi2x2
     info: {}
-    module: gdsfactory.components.mzi2x2
+    module: gf.components.mzi2x2
     name: mzi2x2_WECTrue
     settings:
       CL_1: 20.147

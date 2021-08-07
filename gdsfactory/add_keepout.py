@@ -58,7 +58,7 @@ def test_add_keepout() -> None:
 if __name__ == "__main__":
     test_add_keepout()
 
-    # import gdsfactory
+    # import gdsfactory as gf
     # from gdsfactory.components.crossing_waveguide import crossing_etched
     # from gdsfactory.components.crossing_waveguide import crossing45
     # from gdsfactory.components.straight import straight

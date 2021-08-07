@@ -8,7 +8,7 @@ FIXME: tidy3d does not have __version__
 
 import pathlib
 from loguru import logger
-import gdsfactory
+import gdsfactory as gf
 
 
 __version__ = "0.0.1"
@@ -20,12 +20,12 @@ repo_path = module_path.parent
 sparameters = repo_path / "sparameters"
 sparameters.mkdir(exist_ok=True, parents=True)
 
-# home_path = pathlib.Path.home() / ".gdsfactory"
+# home_path = pathlib.Path.home() / ".gf.
 # home_path.mkdir(exist_ok=True, parents=True)
 # logpath = home_path / "gtidy3d.log"
 logpath = cwd / "gtidy3d.log"
 
-logger.info(f"gdsfactory {gdsfactory.__version__}")
+logger.info(f"gf.{gf.__version__}")
 logger.info(f"gtidy3d {__version__}")
 logger.add(sink=logpath)
 

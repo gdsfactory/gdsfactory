@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.types import PathType
 from gdsfactory.component import Component
 from gdsfactory.sp.get_sparameters_path import get_sparameters_path
@@ -139,14 +139,14 @@ def plot_sparameters(df: pd.DataFrame) -> None:
 
 if __name__ == "__main__":
 
-    c = gdsfactory.components.bend_circular(radius=2)
-    c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gf.components.bend_circular(radius=2)
+    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = gdsfactory.components.mmi1x2()
-    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.mmi1x2()
+    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gdsfactory.components.straight(length=2)
-    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.components.straight(length=2)
+    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
     df = get_sparameters1x1(c, overwrite=True)

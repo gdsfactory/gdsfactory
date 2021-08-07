@@ -1,6 +1,6 @@
 from typing import Optional
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
@@ -23,7 +23,7 @@ def fanout2x2(
 
     """
 
-    c = gdsfactory.Component()
+    c = gf.Component()
 
     component = component() if callable(component) else component
     comp = c << component
@@ -71,8 +71,8 @@ def fanout2x2(
 
 
 if __name__ == "__main__":
-    # c =gdsfactory.components.coupler(gap=1.0)
-    c = gdsfactory.components.nxn(west=4)
+    # c =gf.components.coupler(gap=1.0)
+    c = gf.components.nxn(west=4)
 
     cc = fanout2x2(component=c)
     print(cc.ports["E1"].y - cc.ports["E0"].y)

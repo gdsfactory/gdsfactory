@@ -5,7 +5,7 @@ import numpy as np
 from gdspy.polygon import Polygon
 from numpy import float64
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
 
@@ -15,7 +15,7 @@ def taper(
     end_width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: int = gdsfactory.LAYER.WG,
+    layer: int = gf.LAYER.WG,
     datatype: int = 0,
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
     s = start_coord
@@ -34,21 +34,21 @@ def straight(
     width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: int = gdsfactory.LAYER.WG,
+    layer: int = gf.LAYER.WG,
     datatype: int = 0,
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
     t, s, e = taper(width, width, length, start_coord, layer=layer, datatype=datatype)
     return t, s, e
 
 
-@gdsfactory.cell
+@gf.cell
 def spiral_circular(
     length: float = 1e3,
     wg_width: float = 0.5,
     spacing: float = 3.0,
     min_bend_radius: float = 5.0,
     points: int = 1000,
-    layer: Tuple[int, int] = gdsfactory.LAYER.WG,
+    layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
     """Returns a circular spiral.
 
@@ -169,7 +169,7 @@ def spiral_circular(
 
     ps = gds.fast_boolean(ps, None, "or")
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.length = snap_to_grid(length)
     c.add_polygon(ps, layer=layer)
 

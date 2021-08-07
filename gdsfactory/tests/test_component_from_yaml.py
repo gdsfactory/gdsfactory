@@ -532,7 +532,7 @@ def test_netlists(
 
 def _demo_netlist():
     """: there is a zero length path on the route"""
-    import gdsfactory
+    import gdsfactory as gf
 
     # c = component_from_yaml(sample_2x2_connections)
     c = component_from_yaml(sample_waypoints)
@@ -545,7 +545,7 @@ def _demo_netlist():
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
     assert len(d) == 0
-    gdsfactory.show(c2)
+    gf.show(c2)
 
 
 if __name__ == "__main__":

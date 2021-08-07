@@ -1,7 +1,7 @@
 """Straight Doped PIN waveguide."""
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import pin
 from gdsfactory.path import extrude, straight
@@ -10,7 +10,7 @@ from gdsfactory.tech import LAYER, TECH
 from gdsfactory.types import Layer
 
 
-@gdsfactory.cell
+@gf.cell
 def straight_pin(
     length: float = 10.0,
     npoints: int = 2,

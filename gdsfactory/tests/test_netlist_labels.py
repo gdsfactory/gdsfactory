@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 
 yaml = """
 connections:
@@ -57,7 +57,7 @@ ports:
 
 
 def test_netlist_labels() -> None:
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]
     print(placements)
@@ -66,7 +66,7 @@ def test_netlist_labels() -> None:
 
 
 if __name__ == "__main__":
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     n = c.get_netlist()
     print(n["placements"])
     c.show()

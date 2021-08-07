@@ -7,7 +7,7 @@ from gdsfactory.config import call_if_func
 
 
 def phidl(component: Device, **kwargs) -> Component:
-    """Returns gdsfactory Component from a phidl Device or function"""
+    """Returns gf.Component from a phidl Device or function"""
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
     component.info = copy.deepcopy(device.info)
@@ -49,11 +49,11 @@ def phidl(component: Device, **kwargs) -> Component:
 if __name__ == "__main__":
     import phidl.geometry as pg
 
-    import gdsfactory
+    import gdsfactory as gf
 
     c = pg.rectangle()
     c = pg.snspd()
 
     c2 = phidl(component=c)
     print(c2.ports)
-    gdsfactory.show(c2)
+    gf.show(c2)

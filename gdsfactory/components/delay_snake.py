@@ -1,6 +1,6 @@
 from numpy import pi
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
@@ -9,7 +9,7 @@ from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def delay_snake(
     wg_width: float = 0.5,
     wg_width_wide: float = 2.0,
@@ -68,7 +68,7 @@ def delay_snake(
 
     path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
 
-    component = gdsfactory.Component()
+    component = gf.Component()
     if taper:
         _taper = taper(
             width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
@@ -84,7 +84,7 @@ def delay_snake(
     component.add_port("S1", port=route.ports[0])
     component.add_port("S0", port=route.ports[1])
 
-    gdsfactory.port.auto_rename_ports(component)
+    gf.port.auto_rename_ports(component)
     return component
 
 

@@ -1,14 +1,14 @@
-import gdsfactory
+import gdsfactory as gf
 
 characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#()+,-./:;<=>?@[{|}~_"
 
 
-@gdsfactory.cell
+@gf.cell
 def alphabet(dx=10):
-    c = gdsfactory.Component()
+    c = gf.Component()
     x = 0
     for s in characters:
-        ci = gdsfactory.components.text(text=s)
+        ci = gf.components.text(text=s)
         ci.name = s
         char = c << ci.flatten()
         char.x = x

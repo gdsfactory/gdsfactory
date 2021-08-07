@@ -6,7 +6,7 @@ from typing import Tuple
 
 import pandas as pd
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
@@ -16,14 +16,14 @@ def taper_from_csv(
     csv_path: Path,
     wg_layer: int = 1,
     clad_offset: int = 3,
-    clad_layer: Tuple[int, int] = gdsfactory.LAYER.WGCLAD,
+    clad_layer: Tuple[int, int] = gf.LAYER.WGCLAD,
 ) -> Component:
     taper_data = pd.read_csv(csv_path)
     xs = taper_data["x"].values * 1e6
     ys = taper_data["width"].values * 1e6 / 2.0
     ys_trench = ys + clad_offset
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=wg_layer)
     c.add_polygon(
         list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1], layer=clad_layer
@@ -46,37 +46,37 @@ def taper_from_csv(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_0p5_to_3_l36(**kwargs) -> Component:
     csv_path = data_path / "taper_strip_0p5_3_36.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_w10_l100(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_100.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_w10_l150(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_150.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_w10_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_10_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_w11_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_11_200.csv"
     return taper_from_csv(csv_path, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def taper_w12_l200(**kwargs):
     csv_path = data_path / "taper_strip_0p5_12_200.csv"
     return taper_from_csv(csv_path, **kwargs)

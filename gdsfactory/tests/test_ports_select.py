@@ -1,8 +1,8 @@
-import gdsfactory
+import gdsfactory as gf
 
 
 def test_get_ports() -> None:
-    c = gdsfactory.components.mzi_phase_shifter()
+    c = gf.components.mzi_phase_shifter()
 
     p = c.get_ports_dict()
     assert len(p) == 4, f"{len(p)}"
@@ -23,7 +23,7 @@ def test_get_ports() -> None:
 
 if __name__ == "__main__":
     test_get_ports()
-    c = gdsfactory.components.mzi_phase_shifter()
+    c = gf.components.mzi_phase_shifter()
     c.show()
 
     # p_dc_layer = c.get_ports_dict(layer=(49, 0))

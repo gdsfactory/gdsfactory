@@ -1,6 +1,6 @@
 import numpy as np
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 LENGTH = 0.5
@@ -8,12 +8,12 @@ CELL_NAME = "straight_L500n"
 
 
 def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
-    c = gdsfactory.components.straight(length=LENGTH)
+    c = gf.components.straight(length=LENGTH)
 
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
 
-    cte = gdsfactory.routing.add_fiber_array(component=c, with_loopback=False)
+    cte = gf.routing.add_fiber_array(component=c, with_loopback=False)
     assert len(cte.labels) == 2
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
@@ -21,12 +21,12 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
     assert l0 == f"opt_te_1530_({cell_name})_0_W0"
     assert l1 == f"opt_te_1530_({cell_name})_1_E0"
 
-    cte1 = gdsfactory.routing.add_fiber_array(
+    cte1 = gf.routing.add_fiber_array(
         component=c, with_loopback=True, nlabels_loopback=1
     )
     assert len(cte1.labels) == 3
 
-    cte2 = gdsfactory.routing.add_fiber_array(
+    cte2 = gf.routing.add_fiber_array(
         component=c, with_loopback=True, nlabels_loopback=2
     )
     assert len(cte2.labels) == 4
@@ -36,11 +36,11 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
 
 def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that adds the correct label for measurements."""
-    c = gdsfactory.components.straight(length=length)
+    c = gf.components.straight(length=length)
     assert len(c.labels) == 0
     # nlabels = len(c.labels)
 
-    c = gdsfactory.routing.add_fiber_single(component=c, with_loopback=True)
+    c = gf.routing.add_fiber_single(component=c, with_loopback=True)
     print(len(c.labels))
     assert len(c.labels) == 4
 
@@ -63,10 +63,10 @@ def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Comp
 
 
 def test_labels_fiber_array(num_regression):
-    c = gdsfactory.components.straight(length=3)
+    c = gf.components.straight(length=3)
     assert len(c.labels) == 0
 
-    cte = gdsfactory.routing.add_fiber_array(component=c, with_loopback=True)
+    cte = gf.routing.add_fiber_array(component=c, with_loopback=True)
     assert len(cte.labels) == 4  # Loopback does not have labels
     labels = {
         label.text: np.array(
@@ -83,10 +83,10 @@ def test_labels_fiber_array(num_regression):
 
 
 def test_labels_fiber_single(num_regression):
-    c = gdsfactory.components.straight(length=3)
+    c = gf.components.straight(length=3)
     assert len(c.labels) == 0
 
-    cte = gdsfactory.routing.add_fiber_single(component=c, with_loopback=True)
+    cte = gf.routing.add_fiber_single(component=c, with_loopback=True)
     assert len(cte.labels) == 4
     labels = {
         label.text: np.array(
@@ -108,9 +108,9 @@ if __name__ == "__main__":
     # c = test_label_fiber_single_loopback()
     c.show()
 
-    # c = gdsfactory.components.straight()
+    # c = gf.components.straight()
     # assert len(c.labels) == 0
 
-    # c = gdsfactory.routing.add_fiber_array(component=c, with_loopback=True)
+    # c = gf.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
     # c.show()

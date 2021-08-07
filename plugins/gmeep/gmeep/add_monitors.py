@@ -2,7 +2,7 @@ import pathlib
 from typing import List, Optional, Tuple
 
 import numpy as np
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
@@ -106,7 +106,7 @@ def add_monitors_and_extend_ports(
             layer=(layer[0] + i, layer[1]),
         )
 
-    return gdsfactory.extend.extend_ports(component=component, length=extension_length)
+    return gf.extend.extend_ports(component=component, length=extension_length)
 
 
 @cell
@@ -146,7 +146,7 @@ def add_monitors(
     Returns: component with extended ports and monitors
 
     """
-    c = gdsfactory.Component(f"{component.name}_monitors")
+    c = gf.Component(f"{component.name}_monitors")
 
     # add monitors
     component_with_monitors = add_monitors_and_extend_ports(
@@ -168,7 +168,7 @@ def add_monitors(
     component_with_source.y = 0
 
     # add simulation region
-    component_with_padding = gdsfactory.add_padding(
+    component_with_padding = gf.add_padding(
         component=component_with_source,
         default=0,
         layers=[layer_simulation_region],
@@ -184,8 +184,8 @@ def add_monitors(
 
 if __name__ == "__main__":
     gdspath = pathlib.Path.cwd() / "waveguide.gds"
-    c = gdsfactory.components.bend_circular(radius=5)
-    # c = gdsfactory.components.waveguide(length=2)
+    c = gf.components.bend_circular(radius=5)
+    # c = gf.components.waveguide(length=2)
     # cm = extend_ports(component=c)
     cm = add_monitors(component=c)
-    gdsfactory.show(cm)
+    gf.show(cm)

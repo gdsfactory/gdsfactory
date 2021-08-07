@@ -164,20 +164,20 @@ def get_netlist(
 
 
 def demo_ring_single_array() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.ring_single_array()
+    c = gf.components.ring_single_array()
     c.get_netlist()
 
 
 def demo_mzi_lattice() -> None:
-    import gdsfactory
+    import gdsfactory as gf
 
     coupler_lengths = [10, 20, 30, 40]
     coupler_gaps = [0.1, 0.2, 0.4, 0.5]
     delta_lengths = [10, 100, 200]
 
-    c = gdsfactory.components.mzi_lattice(
+    c = gf.components.mzi_lattice(
         coupler_lengths=coupler_lengths,
         coupler_gaps=coupler_gaps,
         delta_lengths=delta_lengths,
@@ -191,15 +191,15 @@ if __name__ == "__main__":
 
     from omegaconf import OmegaConf
 
-    import gdsfactory
+    import gdsfactory as gf
     from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
 
-    c = gdsfactory.component_from_yaml(sample_2x2_connections)
-    c = gdsfactory.components.ring_single()
+    c = gf.component_from_yaml(sample_2x2_connections)
+    c = gf.components.ring_single()
     c.show()
     pprint(c.get_netlist())
 
     n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gdsfactory.component_from_yaml(yaml_str)
-    gdsfactory.show(c2)
+    c2 = gf.component_from_yaml(yaml_str)
+    gf.show(c2)

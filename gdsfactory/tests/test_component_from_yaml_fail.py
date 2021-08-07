@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 
 yaml_fail = """
 instances:
@@ -60,15 +60,15 @@ placements:
 #     FIXME: this shoud raise an error
 #     """
 #     with pytest.raises(ValueError):
-#         gdsfactory.component_from_yaml(yaml_fail)
+#         gf.component_from_yaml(yaml_fail)
 
 
 def test_circular_import_pass() -> None:
-    gdsfactory.component_from_yaml(yaml_pass)
+    gf.component_from_yaml(yaml_pass)
 
 
 if __name__ == "__main__":
     c = test_circular_import_pass()
     # c = test_circular_import_fail()
-    # c = gdsfactory.component_from_yaml(yaml_fail)
+    # c = gf.component_from_yaml(yaml_fail)
     # c.show()

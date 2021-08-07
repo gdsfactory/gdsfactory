@@ -1,7 +1,7 @@
 import numpy as np
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -20,7 +20,7 @@ def test_get_bundle_from_waypointsB(
 
     p0 = ports1[0].position + (0, 22.5)
 
-    c = gdsfactory.Component("B")
+    c = gf.Component("B")
     waypoints = [
         p0,
         p0 + (200, 0),
@@ -51,7 +51,7 @@ def test_get_bundle_from_waypointsC(
     ports1 = [Port(f"A_{i}", (0, ys1[i]), 0.5, 0) for i in range(N)]
     ports2 = [Port(f"B_{i}", (600, ys2[i]), 0.5, 180) for i in range(N)]
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     waypoints = [
         ports1[0].position + (200, 0),
         ports1[0].position + (200, -200),

@@ -10,20 +10,20 @@ ideally we also enable:
 
 """
 
-import gdsfactory
+import gdsfactory as gf
 
 
 if __name__ == "__main__":
-    c = gdsfactory.Component()
-    # c1 = c << gdsfactory.components.straight_array(spacing=200)
-    c1 = c << gdsfactory.components.array(pitch=50)
-    c2 = c << gdsfactory.components.array(pitch=5)
+    c = gf.Component()
+    # c1 = c << gf.components.straight_array(spacing=200)
+    c1 = c << gf.components.array(pitch=50)
+    c2 = c << gf.components.array(pitch=5)
 
     c2.movex(200)
     c1.y = 0
     c2.y = 0
 
-    routes = gdsfactory.routing.get_bundle_path_length_match(
+    routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(orientation=0),
         c2.get_ports_list(orientation=180),
         end_straight_offset=0,

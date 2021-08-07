@@ -1,14 +1,14 @@
-import gdsfactory
+import gdsfactory as gf
 
 
-@gdsfactory.cell
+@gf.cell
 def test_cutback_phase(straight_length=100, bend_radius=10.0, n=2):
-    bend180 = gdsfactory.components.bend_circular180(radius=bend_radius)
-    pm_wg = gdsfactory.components.straight_pin(length=straight_length)
-    wg_short = gdsfactory.components.straight(length=1.0)
-    wg_short2 = gdsfactory.components.straight(length=2.0)
-    wg_heater = gdsfactory.components.straight_heater(length=10.0)
-    taper = gdsfactory.components.taper_strip_to_ridge()
+    bend180 = gf.components.bend_circular180(radius=bend_radius)
+    pm_wg = gf.components.straight_pin(length=straight_length)
+    wg_short = gf.components.straight(length=1.0)
+    wg_short2 = gf.components.straight(length=2.0)
+    wg_heater = gf.components.straight_heater(length=10.0)
+    taper = gf.components.taper_strip_to_ridge()
 
     # Define a map between symbbols (components, input, output)
     symbol_to_component = {
@@ -29,7 +29,7 @@ def test_cutback_phase(straight_length=100, bend_radius=10.0, n=2):
     repeated_sequence = "SIPOSASIPOSB"
     heater_seq = "-H-H-H-H-"
     sequence = repeated_sequence * n + "SIPO" + heater_seq
-    return gdsfactory.components.component_sequence(
+    return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
 

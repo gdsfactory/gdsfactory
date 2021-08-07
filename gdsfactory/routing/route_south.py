@@ -243,17 +243,15 @@ def route_south(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mmi2x2()
-    c = gdsfactory.components.ring_single()
-    c = gdsfactory.components.ring_double()
+    c = gf.components.mmi2x2()
+    c = gf.components.ring_single()
+    c = gf.components.ring_double()
     # r = route_south(c)
 
-    c = gdsfactory.components.ring_double()
-    r = route_south(
-        c, bend_factory=gdsfactory.components.bend_euler, waveguide="nitride"
-    )
+    c = gf.components.ring_double()
+    r = route_south(c, bend_factory=gf.components.bend_euler, waveguide="nitride")
     for e in r.references:
         if isinstance(e, list):
             print(len(e))

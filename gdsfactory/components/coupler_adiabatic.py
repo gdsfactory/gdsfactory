@@ -2,14 +2,14 @@ from typing import Tuple
 
 import picwriter.components as pc
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def coupler_adiabatic(
     length1: float = 20.0,
     length2: float = 50.0,
@@ -54,17 +54,17 @@ def coupler_adiabatic(
 
     Other Parameters:
        wg_width: 0.5
-       wg_layer: gdsfactory.LAYER.WG[0]
-       wg_datatype: gdsfactory.LAYER.WG[1]
-       clad_layer: gdsfactory.LAYER.WGCLAD[0]
-       clad_datatype: gdsfactory.LAYER.WGCLAD[1]
+       wg_layer: gf.LAYER.WG[0]
+       wg_datatype: gf.LAYER.WG[1]
+       clad_layer: gf.LAYER.WGCLAD[0]
+       clad_datatype: gf.LAYER.WGCLAD[1]
        bend_radius: 10
        cladding_offset: 3
 
     """
 
     c = pc.AdiabaticCoupler(
-        gdsfactory.call_if_func(waveguide_template, **kwargs),
+        gf.call_if_func(waveguide_template, **kwargs),
         length1=length1,
         length2=length2,
         length3=length3,
@@ -76,7 +76,7 @@ def coupler_adiabatic(
         direction=direction,
     )
 
-    c = gdsfactory.component_from.picwriter(c)
+    c = gf.component_from.picwriter(c)
     c = auto_rename_ports(c)
     return c
 

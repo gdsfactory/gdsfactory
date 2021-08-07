@@ -1,6 +1,6 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
@@ -8,9 +8,9 @@ def test_get_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
 
-    c = gdsfactory.Component("test_get_bundle_udirect")
+    c = gf.Component("test_get_bundle_udirect")
     w = h = 10
-    pad_south = gdsfactory.components.pad_array(
+    pad_south = gf.components.pad_array(
         port_list=["S"], pitch=15.0, pad_settings=dict(width=w, height=h)
     )
     pt = c << pad_south
@@ -24,7 +24,7 @@ def test_get_bundle_udirect(
 
     pbports.reverse()
 
-    routes = gdsfactory.routing.get_bundle(pbports, ptports, radius=5)
+    routes = gf.routing.get_bundle(pbports, ptports, radius=5)
 
     lengths = {}
     for i, route in enumerate(routes):

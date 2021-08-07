@@ -1,18 +1,18 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def component_with_label_float() -> Component:
-    c = gdsfactory.Component("ellipse_with_label")
-    c << gdsfactory.components.ellipse()
-    c.add_label(text="demo", position=(0.0, 0.0), layer=gdsfactory.LAYER.TEXT)
+    c = gf.Component("ellipse_with_label")
+    c << gf.components.ellipse()
+    c.add_label(text="demo", position=(0.0, 0.0), layer=gf.LAYER.TEXT)
     return c
 
 
 def component_with_label_int() -> Component:
-    c = gdsfactory.Component("ellipse_with_label")
-    c << gdsfactory.components.ellipse()
-    c.add_label(text="demo", position=(0, 0), layer=gdsfactory.LAYER.TEXT)
+    c = gf.Component("ellipse_with_label")
+    c << gf.components.ellipse()
+    c.add_label(text="demo", position=(0, 0), layer=gf.LAYER.TEXT)
     return c
 
 

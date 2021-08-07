@@ -3,7 +3,7 @@ from typing import Tuple
 import numpy as np
 import pytest
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.drc import check_exclusion
 
@@ -14,9 +14,9 @@ def get_device(
     layer1: Tuple[int, int] = (1, 0),
     layer2: Tuple[int, int] = (2, 0),
 ) -> Component:
-    c = gdsfactory.Component()
-    r1 = c << gdsfactory.components.rectangle(size=(width, width), layer=layer1)
-    r2 = c << gdsfactory.components.rectangle(size=(width, width), layer=layer2)
+    c = gf.Component()
+    r1 = c << gf.components.rectangle(size=(width, width), layer=layer1)
+    r2 = c << gf.components.rectangle(size=(width, width), layer=layer2)
     r1.xmax = 0
     r2.xmin = space
     return c

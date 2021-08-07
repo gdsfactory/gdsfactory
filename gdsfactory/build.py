@@ -148,7 +148,7 @@ def build_does(filepath, component_factory=component_factory):
 
     Writes DOE settings from config.yml file and writes GDS into build_directory
 
-    If you want to use cache use gdsfactory.generate_does instead
+    If you want to use cache use gf.generate_does instead
 
     Write For each DOE:
 

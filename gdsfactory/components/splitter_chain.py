@@ -1,10 +1,10 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.types import ComponentFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def splitter_chain(
     splitter: ComponentFactory = mmi1x2, n_devices: int = 3, **kwargs
 ) -> Component:
@@ -20,11 +20,11 @@ def splitter_chain(
 
 
     """
-    c = gdsfactory.Component()
-    splitter_component = gdsfactory.call_if_func(splitter, **kwargs)
+    c = gf.Component()
+    splitter_component = gf.call_if_func(splitter, **kwargs)
     cref = c.add_ref(splitter_component)
 
-    bend = gdsfactory.components.bezier()
+    bend = gf.components.bezier()
     c.add_port(name="W0", port=cref.ports["W0"])
     c.add_port(name="E0", port=cref.ports["E0"])
 
@@ -43,6 +43,6 @@ def splitter_chain(
 
 
 if __name__ == "__main__":
-    component = splitter_chain(splitter=gdsfactory.components.mmi1x2, n_devices=4)
+    component = splitter_chain(splitter=gf.components.mmi1x2, n_devices=4)
     component.show()
     component.pprint()

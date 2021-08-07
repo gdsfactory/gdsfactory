@@ -11,9 +11,9 @@ C
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.C()
+  c = gf.components.C()
   c.plot()
 
 
@@ -26,9 +26,9 @@ L
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.L()
+  c = gf.components.L()
   c.plot()
 
 
@@ -41,9 +41,9 @@ align_wafer
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.align_wafer()
+  c = gf.components.align_wafer()
   c.plot()
 
 
@@ -56,9 +56,9 @@ array
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array()
+  c = gf.components.array()
   c.plot()
 
 
@@ -71,9 +71,9 @@ array_2d
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array_2d()
+  c = gf.components.array_2d()
   c.plot()
 
 
@@ -86,9 +86,9 @@ array_with_fanout
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array_with_fanout()
+  c = gf.components.array_with_fanout()
   c.plot()
 
 
@@ -101,9 +101,9 @@ array_with_fanout_2d
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array_with_fanout_2d()
+  c = gf.components.array_with_fanout_2d()
   c.plot()
 
 
@@ -116,9 +116,9 @@ array_with_via
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array_with_via()
+  c = gf.components.array_with_via()
   c.plot()
 
 
@@ -131,9 +131,9 @@ array_with_via_2d
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.array_with_via_2d()
+  c = gf.components.array_with_via_2d()
   c.plot()
 
 
@@ -146,9 +146,9 @@ awg
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.awg()
+  c = gf.components.awg()
   c.plot()
 
 
@@ -161,9 +161,9 @@ bbox
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bbox()
+  c = gf.components.bbox()
   c.plot()
 
 
@@ -176,9 +176,9 @@ bend_circular
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_circular()
+  c = gf.components.bend_circular()
   c.plot()
 
 
@@ -191,9 +191,9 @@ bend_circular180
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_circular180()
+  c = gf.components.bend_circular180()
   c.plot()
 
 
@@ -206,9 +206,9 @@ bend_circular_heater
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_circular_heater()
+  c = gf.components.bend_circular_heater()
   c.plot()
 
 
@@ -221,9 +221,9 @@ bend_euler
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_euler()
+  c = gf.components.bend_euler()
   c.plot()
 
 
@@ -236,9 +236,9 @@ bend_euler180
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_euler180()
+  c = gf.components.bend_euler180()
   c.plot()
 
 
@@ -251,9 +251,9 @@ bend_euler_s
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_euler_s()
+  c = gf.components.bend_euler_s()
   c.plot()
 
 
@@ -266,9 +266,9 @@ bend_s
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bend_s()
+  c = gf.components.bend_s()
   c.plot()
 
 
@@ -281,9 +281,9 @@ bezier
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.bezier()
+  c = gf.components.bezier()
   c.plot()
 
 
@@ -296,9 +296,9 @@ cavity
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cavity()
+  c = gf.components.cavity()
   c.plot()
 
 
@@ -311,9 +311,9 @@ cdc
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cdc()
+  c = gf.components.cdc()
   c.plot()
 
 
@@ -326,9 +326,9 @@ circle
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.circle()
+  c = gf.components.circle()
   c.plot()
 
 
@@ -341,9 +341,9 @@ compass
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.compass()
+  c = gf.components.compass()
   c.plot()
 
 
@@ -356,9 +356,9 @@ compensation_path
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.compensation_path()
+  c = gf.components.compensation_path()
   c.plot()
 
 
@@ -385,9 +385,9 @@ coupler
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler()
+  c = gf.components.coupler()
   c.plot()
 
 
@@ -400,9 +400,9 @@ coupler90
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler90()
+  c = gf.components.coupler90()
   c.plot()
 
 
@@ -415,9 +415,9 @@ coupler90bend
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler90bend()
+  c = gf.components.coupler90bend()
   c.plot()
 
 
@@ -430,9 +430,9 @@ coupler_adiabatic
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_adiabatic()
+  c = gf.components.coupler_adiabatic()
   c.plot()
 
 
@@ -445,9 +445,9 @@ coupler_asymmetric
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_asymmetric()
+  c = gf.components.coupler_asymmetric()
   c.plot()
 
 
@@ -460,9 +460,9 @@ coupler_full
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_full()
+  c = gf.components.coupler_full()
   c.plot()
 
 
@@ -475,9 +475,9 @@ coupler_ring
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_ring()
+  c = gf.components.coupler_ring()
   c.plot()
 
 
@@ -490,9 +490,9 @@ coupler_straight
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_straight()
+  c = gf.components.coupler_straight()
   c.plot()
 
 
@@ -505,9 +505,9 @@ coupler_symmetric
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.coupler_symmetric()
+  c = gf.components.coupler_symmetric()
   c.plot()
 
 
@@ -520,9 +520,9 @@ cross
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cross()
+  c = gf.components.cross()
   c.plot()
 
 
@@ -535,9 +535,9 @@ crossing
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.crossing()
+  c = gf.components.crossing()
   c.plot()
 
 
@@ -550,9 +550,9 @@ crossing45
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.crossing45()
+  c = gf.components.crossing45()
   c.plot()
 
 
@@ -565,9 +565,9 @@ cutback_bend180
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cutback_bend180()
+  c = gf.components.cutback_bend180()
   c.plot()
 
 
@@ -580,9 +580,9 @@ cutback_bend90
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cutback_bend90()
+  c = gf.components.cutback_bend90()
   c.plot()
 
 
@@ -595,9 +595,9 @@ cutback_component
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cutback_component()
+  c = gf.components.cutback_component()
   c.plot()
 
 
@@ -610,9 +610,9 @@ cutback_component_flipped
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.cutback_component_flipped()
+  c = gf.components.cutback_component_flipped()
   c.plot()
 
 
@@ -625,9 +625,9 @@ dbr
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.dbr()
+  c = gf.components.dbr()
   c.plot()
 
 
@@ -640,9 +640,9 @@ dbr2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.dbr2()
+  c = gf.components.dbr2()
   c.plot()
 
 
@@ -655,9 +655,9 @@ delay_snake
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.delay_snake()
+  c = gf.components.delay_snake()
   c.plot()
 
 
@@ -670,9 +670,9 @@ delay_snake2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.delay_snake2()
+  c = gf.components.delay_snake2()
   c.plot()
 
 
@@ -685,9 +685,9 @@ delay_snake3
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.delay_snake3()
+  c = gf.components.delay_snake3()
   c.plot()
 
 
@@ -700,9 +700,24 @@ die
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.die()
+  c = gf.components.die()
+  c.plot()
+
+
+
+die_bbox
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.die_bbox
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.die_bbox()
   c.plot()
 
 
@@ -715,9 +730,9 @@ disk
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.disk()
+  c = gf.components.disk()
   c.plot()
 
 
@@ -730,9 +745,9 @@ ellipse
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ellipse()
+  c = gf.components.ellipse()
   c.plot()
 
 
@@ -745,9 +760,9 @@ extend_ports
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.extend_ports()
+  c = gf.components.extend_ports()
   c.plot()
 
 
@@ -760,9 +775,9 @@ fiber
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.fiber()
+  c = gf.components.fiber()
   c.plot()
 
 
@@ -775,9 +790,9 @@ fiber_array
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.fiber_array()
+  c = gf.components.fiber_array()
   c.plot()
 
 
@@ -790,9 +805,9 @@ grating_coupler_elliptical2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_elliptical2()
+  c = gf.components.grating_coupler_elliptical2()
   c.plot()
 
 
@@ -805,9 +820,9 @@ grating_coupler_elliptical_te
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_elliptical_te()
+  c = gf.components.grating_coupler_elliptical_te()
   c.plot()
 
 
@@ -820,9 +835,9 @@ grating_coupler_elliptical_tm
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_elliptical_tm()
+  c = gf.components.grating_coupler_elliptical_tm()
   c.plot()
 
 
@@ -835,9 +850,9 @@ grating_coupler_loss
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_loss()
+  c = gf.components.grating_coupler_loss()
   c.plot()
 
 
@@ -850,9 +865,9 @@ grating_coupler_te
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_te()
+  c = gf.components.grating_coupler_te()
   c.plot()
 
 
@@ -865,9 +880,9 @@ grating_coupler_tm
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_tm()
+  c = gf.components.grating_coupler_tm()
   c.plot()
 
 
@@ -880,9 +895,9 @@ grating_coupler_tree
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_tree()
+  c = gf.components.grating_coupler_tree()
   c.plot()
 
 
@@ -895,9 +910,9 @@ grating_coupler_uniform
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_uniform()
+  c = gf.components.grating_coupler_uniform()
   c.plot()
 
 
@@ -910,9 +925,9 @@ grating_coupler_uniform_optimized
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.grating_coupler_uniform_optimized()
+  c = gf.components.grating_coupler_uniform_optimized()
   c.plot()
 
 
@@ -925,9 +940,9 @@ hline
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.hline()
+  c = gf.components.hline()
   c.plot()
 
 
@@ -940,9 +955,24 @@ litho_calipers
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.litho_calipers()
+  c = gf.components.litho_calipers()
+  c.plot()
+
+
+
+litho_ruler
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.litho_ruler
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.litho_ruler()
   c.plot()
 
 
@@ -955,9 +985,9 @@ litho_steps
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.litho_steps()
+  c = gf.components.litho_steps()
   c.plot()
 
 
@@ -970,9 +1000,9 @@ logo
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.logo()
+  c = gf.components.logo()
   c.plot()
 
 
@@ -985,9 +1015,9 @@ loop_mirror
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.loop_mirror()
+  c = gf.components.loop_mirror()
   c.plot()
 
 
@@ -1000,9 +1030,9 @@ manhattan_text
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.manhattan_text()
+  c = gf.components.manhattan_text()
   c.plot()
 
 
@@ -1015,9 +1045,9 @@ mmi1x2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mmi1x2()
+  c = gf.components.mmi1x2()
   c.plot()
 
 
@@ -1030,9 +1060,9 @@ mmi2x2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mmi2x2()
+  c = gf.components.mmi2x2()
   c.plot()
 
 
@@ -1045,9 +1075,9 @@ mzi
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mzi()
+  c = gf.components.mzi()
   c.plot()
 
 
@@ -1060,9 +1090,9 @@ mzi_lattice
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mzi_lattice()
+  c = gf.components.mzi_lattice()
   c.plot()
 
 
@@ -1075,9 +1105,9 @@ mzi_phase_shifter
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mzi_phase_shifter()
+  c = gf.components.mzi_phase_shifter()
   c.plot()
 
 
@@ -1090,9 +1120,9 @@ mzit
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mzit()
+  c = gf.components.mzit()
   c.plot()
 
 
@@ -1105,9 +1135,9 @@ mzit_lattice
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.mzit_lattice()
+  c = gf.components.mzit_lattice()
   c.plot()
 
 
@@ -1120,9 +1150,9 @@ nxn
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.nxn()
+  c = gf.components.nxn()
   c.plot()
 
 
@@ -1135,9 +1165,9 @@ pad
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.pad()
+  c = gf.components.pad()
   c.plot()
 
 
@@ -1150,9 +1180,9 @@ pad_array
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.pad_array()
+  c = gf.components.pad_array()
   c.plot()
 
 
@@ -1165,9 +1195,9 @@ pad_array_2d
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.pad_array_2d()
+  c = gf.components.pad_array_2d()
   c.plot()
 
 
@@ -1180,9 +1210,9 @@ pads_shorted
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.pads_shorted()
+  c = gf.components.pads_shorted()
   c.plot()
 
 
@@ -1195,9 +1225,9 @@ qrcode
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.qrcode()
+  c = gf.components.qrcode()
   c.plot()
 
 
@@ -1210,9 +1240,9 @@ ramp
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ramp()
+  c = gf.components.ramp()
   c.plot()
 
 
@@ -1225,9 +1255,9 @@ rectangle
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.rectangle()
+  c = gf.components.rectangle()
   c.plot()
 
 
@@ -1240,9 +1270,9 @@ resistance_meander
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.resistance_meander()
+  c = gf.components.resistance_meander()
   c.plot()
 
 
@@ -1255,9 +1285,9 @@ ring
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ring()
+  c = gf.components.ring()
   c.plot()
 
 
@@ -1270,9 +1300,9 @@ ring_double
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ring_double()
+  c = gf.components.ring_double()
   c.plot()
 
 
@@ -1285,9 +1315,9 @@ ring_single
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ring_single()
+  c = gf.components.ring_single()
   c.plot()
 
 
@@ -1300,9 +1330,9 @@ ring_single_array
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.ring_single_array()
+  c = gf.components.ring_single_array()
   c.plot()
 
 
@@ -1315,9 +1345,9 @@ spiral
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral()
+  c = gf.components.spiral()
   c.plot()
 
 
@@ -1330,9 +1360,9 @@ spiral_circular
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral_circular()
+  c = gf.components.spiral_circular()
   c.plot()
 
 
@@ -1345,9 +1375,9 @@ spiral_external_io
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral_external_io()
+  c = gf.components.spiral_external_io()
   c.plot()
 
 
@@ -1360,9 +1390,9 @@ spiral_inner_io
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral_inner_io()
+  c = gf.components.spiral_inner_io()
   c.plot()
 
 
@@ -1375,9 +1405,9 @@ spiral_inner_io_euler
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral_inner_io_euler()
+  c = gf.components.spiral_inner_io_euler()
   c.plot()
 
 
@@ -1390,9 +1420,9 @@ spiral_inner_io_with_gratings
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.spiral_inner_io_with_gratings()
+  c = gf.components.spiral_inner_io_with_gratings()
   c.plot()
 
 
@@ -1405,9 +1435,9 @@ splitter_chain
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.splitter_chain()
+  c = gf.components.splitter_chain()
   c.plot()
 
 
@@ -1420,9 +1450,9 @@ splitter_tree
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.splitter_tree()
+  c = gf.components.splitter_tree()
   c.plot()
 
 
@@ -1435,9 +1465,9 @@ straight
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.straight()
+  c = gf.components.straight()
   c.plot()
 
 
@@ -1450,9 +1480,9 @@ straight_array
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.straight_array()
+  c = gf.components.straight_array()
   c.plot()
 
 
@@ -1465,9 +1495,9 @@ straight_heater
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.straight_heater()
+  c = gf.components.straight_heater()
   c.plot()
 
 
@@ -1480,9 +1510,9 @@ straight_pin
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.straight_pin()
+  c = gf.components.straight_pin()
   c.plot()
 
 
@@ -1495,9 +1525,9 @@ straight_with_heater
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.straight_with_heater()
+  c = gf.components.straight_with_heater()
   c.plot()
 
 
@@ -1510,9 +1540,9 @@ taper
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.taper()
+  c = gf.components.taper()
   c.plot()
 
 
@@ -1525,9 +1555,9 @@ taper_0p5_to_3_l36
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.taper_0p5_to_3_l36()
+  c = gf.components.taper_0p5_to_3_l36()
   c.plot()
 
 
@@ -1540,9 +1570,9 @@ taper_strip_to_ridge
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.taper_strip_to_ridge()
+  c = gf.components.taper_strip_to_ridge()
   c.plot()
 
 
@@ -1555,9 +1585,9 @@ text
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.text()
+  c = gf.components.text()
   c.plot()
 
 
@@ -1570,9 +1600,9 @@ verniers
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.verniers()
+  c = gf.components.verniers()
   c.plot()
 
 
@@ -1585,9 +1615,9 @@ version_stamp
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.version_stamp()
+  c = gf.components.version_stamp()
   c.plot()
 
 
@@ -1600,9 +1630,9 @@ via
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via()
+  c = gf.components.via()
   c.plot()
 
 
@@ -1615,9 +1645,9 @@ via1
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via1()
+  c = gf.components.via1()
   c.plot()
 
 
@@ -1630,9 +1660,9 @@ via2
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via2()
+  c = gf.components.via2()
   c.plot()
 
 
@@ -1645,9 +1675,9 @@ via3
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via3()
+  c = gf.components.via3()
   c.plot()
 
 
@@ -1660,9 +1690,9 @@ via_cutback
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via_cutback()
+  c = gf.components.via_cutback()
   c.plot()
 
 
@@ -1675,9 +1705,9 @@ via_stack
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via_stack()
+  c = gf.components.via_stack()
   c.plot()
 
 
@@ -1690,9 +1720,9 @@ via_stack_with_offset
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.via_stack_with_offset()
+  c = gf.components.via_stack_with_offset()
   c.plot()
 
 
@@ -1705,9 +1735,9 @@ wire_corner
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.wire_corner()
+  c = gf.components.wire_corner()
   c.plot()
 
 
@@ -1720,9 +1750,9 @@ wire_sbend
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.wire_sbend()
+  c = gf.components.wire_sbend()
   c.plot()
 
 
@@ -1735,7 +1765,7 @@ wire_straight
 .. plot::
   :include-source:
 
-  import gdsfactory
+  import gdsfactory as gf
 
-  c = gdsfactory.components.wire_straight()
+  c = gf.components.wire_straight()
   c.plot()

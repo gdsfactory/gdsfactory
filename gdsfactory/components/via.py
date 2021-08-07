@@ -1,11 +1,11 @@
 from typing import Optional, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 
 
-@gdsfactory.cell
+@gf.cell
 def via(
     width: float = 0.7,
     height: Optional[float] = None,
@@ -43,17 +43,17 @@ def via(
     return c
 
 
-@gdsfactory.cell
+@gf.cell
 def via1(**kwargs) -> Component:
     return via(layer=LAYER.VIA1, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def via2(enclosure: float = 2.0, **kwargs) -> Component:
     return via(layer=LAYER.VIA2, enclosure=enclosure, **kwargs)
 
 
-@gdsfactory.cell
+@gf.cell
 def via3(**kwargs) -> Component:
     return via(layer=LAYER.VIA3, **kwargs)
 

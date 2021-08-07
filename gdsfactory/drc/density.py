@@ -176,7 +176,7 @@ def compute_area_hierarchical(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
-    c = gdsfactory.components.mzi()
+    c = gf.components.mzi()
     print(bucket_cells_by_rank([c] + list(c.get_dependencies(recursive=True))))

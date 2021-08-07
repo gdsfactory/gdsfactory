@@ -1,7 +1,7 @@
 import pytest
 from pytest_regressions.num_regression import NumericRegressionFixture
 
-import gdsfactory
+import gdsfactory as gf
 
 mirror_port = """
 instances:
@@ -99,11 +99,11 @@ def test_components_ports(
     yaml_index: int, num_regression: NumericRegressionFixture
 ) -> None:
     yaml = yaml_list[yaml_index]
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     if c.ports:
         num_regression.check(c.get_ports_array())
 
 
 if __name__ == "__main__":
-    c = gdsfactory.component_from_yaml(mirror_port)
+    c = gf.component_from_yaml(mirror_port)
     c.show()

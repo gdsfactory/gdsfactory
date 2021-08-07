@@ -15,13 +15,13 @@ Ports define where each port has:
 
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-@gdsfactory.cell
+@gf.cell
 def test_component_with_port(
-    length: int = 5, wg_width: float = 0.5, layer: Tuple[int, int] = gdsfactory.LAYER.WG
+    length: int = 5, wg_width: float = 0.5, layer: Tuple[int, int] = gf.LAYER.WG
 ) -> Component:
     """
     component with one port on the west side
@@ -30,7 +30,7 @@ def test_component_with_port(
     y = wg_width
     x = length
 
-    c = gdsfactory.Component()
+    c = gf.Component()
     c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
     c.add_port(
         name="W0",

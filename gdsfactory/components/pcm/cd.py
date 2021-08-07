@@ -2,21 +2,21 @@
 """
 from typing import List, Optional, Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.tech import LAYER
 
 
 def square_middle(side=0.5, layer=LAYER.WG):
-    component = gdsfactory.Component()
+    component = gf.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (a, a), (-a, a)], layer=layer)
     return component
 
 
 def rectangle(width, height, layer=LAYER.WG):
-    component = gdsfactory.Component()
+    component = gf.Component()
     a = width / 2
     b = height / 2
     component.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
@@ -24,20 +24,20 @@ def rectangle(width, height, layer=LAYER.WG):
 
 
 def triangle_middle_up(side=0.5, layer=LAYER.WG):
-    component = gdsfactory.Component()
+    component = gf.Component()
     a = side / 2
     component.add_polygon([(-a, -a), (a, -a), (0, a)], layer=layer)
     return component
 
 
 def triangle_middle_down(side=0.5, layer=LAYER.WG):
-    component = gdsfactory.Component()
+    component = gf.Component()
     a = side / 2
     component.add_polygon([(-a, a), (a, a), (0, -a)], layer=layer)
     return component
 
 
-@gdsfactory.cell
+@gf.cell
 def char_H(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,
@@ -45,7 +45,7 @@ def char_H(
     return manhattan_text(text="H", size=0.4, layer=layer)
 
 
-@gdsfactory.cell
+@gf.cell
 def char_L(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[List[Tuple[int, int]]] = None,

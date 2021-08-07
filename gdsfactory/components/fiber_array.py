@@ -1,18 +1,18 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.fiber import circle
 
 
-@gdsfactory.cell
+@gf.cell
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,
     core_diameter: float = 10,
     cladding_diameter: float = 125,
-    layer_core: Tuple[int, int] = gdsfactory.LAYER.WG,
-    layer_cladding: Tuple[int, int] = gdsfactory.LAYER.WGCLAD,
+    layer_core: Tuple[int, int] = gf.LAYER.WG,
+    layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
 ) -> Component:
     """Returns a fiber array
 

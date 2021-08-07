@@ -1,11 +1,11 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentOrFactory
 
 
-@gdsfactory.cell
+@gf.cell
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,

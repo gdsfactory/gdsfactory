@@ -10,7 +10,7 @@ The mapping between symbols and components is supplied by a dictionnary.
 The actual chain of components is supplied by a string or a list
 """
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import bend_circular
 from gdsfactory.components.component_sequence import component_sequence
@@ -18,7 +18,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_heater import straight_heater
 
 
-@gdsfactory.cell
+@gf.cell
 def test_cutback_heater() -> Component:
     # Define subcomponents
     bend_radius = 10.0

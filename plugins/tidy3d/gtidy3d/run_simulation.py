@@ -79,7 +79,7 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
     .. code::
         import gtidy3d as gm
 
-        component = gdsfactory.components.straight(length=3)
+        component = gf.components.straight(length=3)
         sim = gm.get_simulation(component=component)
         sim = run_simulation(sim).result()
 
@@ -110,14 +110,14 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
     import gtidy3d as gm
 
     # for length in range(12, 13):
-    #     component = gdsfactory.components.straight(length=length)
+    #     component = gf.components.straight(length=length)
     #     sim = gm.get_simulation(component=component)
     #     s = run_simulation(sim, wait_to_complete=False)
 
-    component = gdsfactory.components.straight(length=3)
+    component = gf.components.straight(length=3)
     sim = gm.get_simulation(component=component)
     sim = run_simulation(sim).result()

@@ -97,12 +97,12 @@ mask(l_np).etch(h_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant
 np = mask(l_np).grow(h_slab, 0.0, :mode => :round)
 
 mask(l_pp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
-gdsfactory = mask(l_pp).grow(h_slab, 0.0, :mode => :round)
+gf.= mask(l_pp).grow(h_slab, 0.0, :mode => :round)
 
-mask(l_npp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gdsfactory, si, bottom_implant])
+mask(l_npp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
 npp = mask(l_npp).grow(h_slab, 0.0, :mode => :round)
 
-mask(l_ppp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gdsfactory, si, bottom_implant])
+mask(l_ppp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
 ppp = mask(l_ppp).grow(h_slab, 0.0, :mode => :round)
 
 output("327/0",bottom_implant)

@@ -73,14 +73,14 @@ def check_space(
 
 
 if __name__ == "__main__":
-    import gdsfactory
+    import gdsfactory as gf
 
     space = 0.12
     min_space = 0.1
     dbu = 1000
-    layer = gdsfactory.LAYER.WG
-    gdspath = gdsfactory.components.straight_array(spacing=space)
-    gdsfactory.show(gdspath)
+    layer = gf.LAYER.WG
+    gdspath = gf.components.straight_array(spacing=space)
+    gf.show(gdspath)
 
     if isinstance(gdspath, Component):
         gdspath.flatten()

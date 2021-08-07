@@ -1,13 +1,13 @@
 from typing import Tuple
 
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.drc import check_width
 
 
 def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 + 10  # component edges are smaller than min_width
-    c = gdsfactory.components.rectangle(size=(w, w), layer=layer)
+    c = gf.components.rectangle(size=(w, w), layer=layer)
     gdspath = c.write_gds("wmin.gds")
 
     # r = check_width(gdspath, min_width=min_width, layer=layer)
@@ -19,7 +19,7 @@ def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
 def test_wmin_passing(layer: Tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 - 10  # component edges are bigger than the min_width
-    c = gdsfactory.components.rectangle(size=(w, w), layer=layer)
+    c = gf.components.rectangle(size=(w, w), layer=layer)
     gdspath = c.write_gds("wmin.gds")
 
     # print(check_width(c, min_width=min_width, layer=layer))

@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 LENGTH = 0.5
@@ -7,11 +7,11 @@ CELL_NAME = "straight_L500n"
 
 def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = gdsfactory.components.straight(length=length)
+    c = gf.components.straight(length=length)
 
     assert len(c.labels) == 0
 
-    cte = gdsfactory.routing.add_fiber_single(component=c, with_loopback=False)
+    cte = gf.routing.add_fiber_single(component=c, with_loopback=False)
     assert len(cte.labels) == 2
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
@@ -26,11 +26,11 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
 
 def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = gdsfactory.components.straight(length=length)
+    c = gf.components.straight(length=length)
 
     assert len(c.labels) == 0
 
-    cte = gdsfactory.routing.add_fiber_single(component=c, with_loopback=True)
+    cte = gf.routing.add_fiber_single(component=c, with_loopback=True)
     print(len(cte.labels))
     assert len(cte.labels) == 4
 

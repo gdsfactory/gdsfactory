@@ -1,4 +1,4 @@
-import gdsfactory
+import gdsfactory as gf
 
 yaml = """
 
@@ -20,5 +20,5 @@ placements:
 
 
 if __name__ == "__main__":
-    c = gdsfactory.component_from_yaml(yaml)
+    c = gf.component_from_yaml(yaml)
     c.show()
