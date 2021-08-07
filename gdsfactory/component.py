@@ -1187,7 +1187,7 @@ class Component(Device):
 def test_get_layers() -> None:
     import gdsfactory
 
-    c = gdsfactory.c.straight(
+    c = gdsfactory.components.straight(
         length=10,
         width=0.5,
         layer=(2, 0),
@@ -1373,7 +1373,7 @@ def demo_component(port):
 def test_extract():
     import gdsfactory
 
-    c = gdsfactory.c.straight(length=10, width=0.5)
+    c = gdsfactory.components.straight(length=10, width=0.5)
     c2 = c.extract(layers=[gdsfactory.LAYER.WGCLAD])
 
     print(len(c.polygons))
@@ -1393,7 +1393,7 @@ if __name__ == "__main__":
     # test_extract()
     import gdsfactory
 
-    c = gdsfactory.c.straight(
+    c = gdsfactory.components.straight(
         length=10,
         width=0.5,
     )

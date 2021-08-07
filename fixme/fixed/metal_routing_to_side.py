@@ -13,7 +13,7 @@ if __name__ == "__main__":
     pad_width = 80
     nheaters = ncols * nrows
     heaters = c << gdsfactory.components.array(
-        component=gdsfactory.c.straight_with_heater(
+        component=gdsfactory.components.straight_with_heater(
             port_orientation_input=180, port_orientation_output=0
         ),
         pitch=80,

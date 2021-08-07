@@ -42,7 +42,7 @@ def grating_coupler_array(
 if __name__ == "__main__":
     import gdsfactory
 
-    c = gdsfactory.c.grating_coupler_elliptical2()
+    c = gdsfactory.components.grating_coupler_elliptical2()
     c = gdsfactory.rotate(component=c, angle=90)
     c = grating_coupler_array(grating_coupler=c, port_name="S0", pitch=25.0)
     c.show(show_ports=True)

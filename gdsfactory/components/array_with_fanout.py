@@ -116,7 +116,7 @@ def array_with_fanout_2d(
 if __name__ == "__main__":
     import gdsfactory
 
-    # c1 = gdsfactory.c.pad()
+    # c1 = gdsfactory.components.pad()
     # c2 = array(component=c1, pitch=150, n=2)
     # print(c2.ports.keys())
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
         width=10,
         radius=11,
         waveguide_pitch=20,
-        bend_factory=gdsfactory.c.wire_corner,
+        bend_factory=gdsfactory.components.wire_corner,
         # bend_port_name1="E_0",
         # bend_port_name2="E_1",
         waveguide="metal1",

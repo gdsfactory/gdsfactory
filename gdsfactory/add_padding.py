@@ -153,7 +153,7 @@ if __name__ == "__main__":
     # cc.show()
     # cc.pprint()
 
-    # c = gdsfactory.c.straight(length=5)
+    # c = gdsfactory.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
     # cc.show()
     # print(cc.settings)

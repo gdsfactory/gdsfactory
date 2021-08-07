@@ -132,5 +132,7 @@ if __name__ == "__main__":
 
     import gdsfactory
 
-    c = gdsdiff(gdsfactory.c.straight(), gdsfactory.c.straight(length=11))
+    c = gdsdiff(
+        gdsfactory.components.straight(), gdsfactory.components.straight(length=11)
+    )
     c.show()

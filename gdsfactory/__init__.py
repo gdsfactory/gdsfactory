@@ -1,21 +1,19 @@
-""" gdsfactory Photonics package
+""" You can import gdsfactory as gf
 
 functions:
-
-    - gdsfactory.show(): writes and shows the GDS in Klayout using klive
-    - gdsfactory.import_gds(): returns a Component from a GDS
+    - import_gds(): returns a Component from a GDS
 
 classes:
 
-    - gdsfactory.Component
-    - gdsfactory.Port
+    - Component
+    - Port
     - CONFIG
+    - TECH
 
 modules:
 
     - c: components
     - routing
-    - layer: GDS layers
 
 isort:skip_file
 """

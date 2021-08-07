@@ -36,7 +36,7 @@ def extend_ports_list(
 if __name__ == "__main__":
     import gdsfactory
 
-    c = gdsfactory.c.mmi1x2()
+    c = gdsfactory.components.mmi1x2()
     from gdsfactory.components.straight_heater import straight_with_heater
 
     cr = extend_ports_list(

@@ -506,14 +506,14 @@ if __name__ == "__main__":
     import gdsfactory
 
     # t = TECH
-    # c = gdsfactory.c.mmi1x2(length_mmi=25.5)
+    # c = gdsfactory.components.mmi1x2(length_mmi=25.5)
     # t.register_component(c)
 
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
-        return gdsfactory.c.mmi1x2(length_mmi=length_mmi, **kwargs)
+        return gdsfactory.components.mmi1x2(length_mmi=length_mmi, **kwargs)
 
     def mzi_longer(**kwargs):
-        return gdsfactory.c.mzi(splitter=mmi1x2_longer, **kwargs)
+        return gdsfactory.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     # t.register_component_factory(mmi1x2_longer)
     # c = t.component.mmi1x2_longer(length_mmi=30)

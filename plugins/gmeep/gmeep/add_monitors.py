@@ -184,8 +184,8 @@ def add_monitors(
 
 if __name__ == "__main__":
     gdspath = pathlib.Path.cwd() / "waveguide.gds"
-    c = gdsfactory.c.bend_circular(radius=5)
-    # c = gdsfactory.c.waveguide(length=2)
+    c = gdsfactory.components.bend_circular(radius=5)
+    # c = gdsfactory.components.waveguide(length=2)
     # cm = extend_ports(component=c)
     cm = add_monitors(component=c)
     gdsfactory.show(cm)

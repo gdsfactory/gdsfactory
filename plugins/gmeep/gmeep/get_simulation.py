@@ -238,13 +238,13 @@ def get_simulation(
 
 if __name__ == "__main__":
 
-    c = gdsfactory.c.bend_circular(radius=2)
+    c = gdsfactory.components.bend_circular(radius=2)
     c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = gdsfactory.c.straight(length=2)
+    c = gdsfactory.components.straight(length=2)
     c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gdsfactory.c.mmi1x2()
+    c = gdsfactory.components.mmi1x2()
     c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
