@@ -19,12 +19,12 @@ To help you with code quality checks `make install` will install some pre-commit
 
 You can run tests with `pytest`. This will run 3 types of tests:
 
-- pytest will test any function in the `pp` package that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
+- pytest will test any function in the `gdsfactory` package that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
 - regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `make test-force` from the repo root directory.
-    - `pp/tests/test_containers.py` stores container settings in YAML and port locations in a CSV file
-    - `pp/tests/components/test_components.py` stores all the component settings in YAML
-    - `pp/tests/components/test_ports.py` stores all port locations in a CSV file
-    - `pp/tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist.
+    - `gdsfactory/tests/test_containers.py` stores container settings in YAML and port locations in a CSV file
+    - `gdsfactory/tests/components/test_components.py` stores all the component settings in YAML
+    - `gdsfactory/tests/components/test_ports.py` stores all port locations in a CSV file
+    - `gdsfactory/tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist.
         - converts the routed PIC into YAML and build back into the same PIC from its YAML definition
     - lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
         * when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
@@ -41,7 +41,7 @@ I recommend that you also write tests for the all those new functions that you w
 
 See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
 
-Pytest-regressions automatically creates the CSV and YAML files for you, as well pp.difftest will store the reference GDS in ref_layouts
+Pytest-regressions automatically creates the CSV and YAML files for you, as well gdsfactory.difftest will store the reference GDS in ref_layouts
 
 
 ## gdsdiff

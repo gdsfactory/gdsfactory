@@ -3,13 +3,13 @@ directory = coverage_html_report
 
 [paths]
 source =
-    pp/
+    gdsfactory/
 
 [run]
 omit =
     *.bak
-    pp/build.py
-    pp/install.py
+    gdsfactory/build.py
+    gdsfactory/install.py
 
 [report]
 exclude_lines =

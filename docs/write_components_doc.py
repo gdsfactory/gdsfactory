@@ -26,7 +26,7 @@ Components
 {name}
 ----------------------------------------------------
 
-.. autofunction:: pp.components.{name}
+.. autofunction:: gdsfactory.components.{name}
 
 """
             )
@@ -37,14 +37,14 @@ Components
 {name}
 ----------------------------------------------------
 
-.. autofunction:: pp.components.{name}
+.. autofunction:: gdsfactory.components.{name}
 
 .. plot::
   :include-source:
 
-  import pp
+  import gdsfactory
 
-  c = pp.components.{name}()
+  c = gdsfactory.components.{name}()
   c.plot()
 
 """

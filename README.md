@@ -6,7 +6,7 @@
 ![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
 ![](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
 [![](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/pp)
+[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
 [![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ![](https://i.imgur.com/v4wpHpg.png)
@@ -31,7 +31,7 @@ It also can output JSON files with components settings (that you can use for mea
 ## Documentation
 
 - [read online Documentation](https://gdsfactory.readthedocs.io/en/latest)
-- run pp/samples
+- run gdsfactory/samples
 - run docs/notebooks
 
 gdsfactory is all written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.

@@ -26,7 +26,7 @@ A Component contains:
 ![gds](images/gds.png)
 
 The first thing to learn about is how to create a new component.
-We do that by creating a function which returns a pp.Component instance.
+We do that by creating a function which returns a gdsfactory.Component instance.
 Here is a step by step example below generating a waveguide crossing
 
 ```eval_rst
@@ -34,15 +34,15 @@ Here is a step by step example below generating a waveguide crossing
 .. plot::
     :include-source:
 
-    import pp
+    import gdsfactory
 
 
-    @pp.cell
+    @gdsfactory.cell
     def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
-        c = pp.Component()
+        c = gdsfactory.Component()
 
         # We need an ellipse, this is an existing primitive
-        c << pp.components.ellipse(radii=(r1, r2), layer=pp.LAYER.SLAB150)
+        c << gdsfactory.components.ellipse(radii=(r1, r2), layer=gdsfactory.LAYER.SLAB150)
 
         a = L + w / 2
         h = wg_width / 2
@@ -60,22 +60,22 @@ Here is a step by step example below generating a waveguide crossing
         ]
 
         # Add the polygon to the component on a specific layer
-        c.add_polygon(taper_pts, layer=pp.LAYER.WG)
+        c.add_polygon(taper_pts, layer=gdsfactory.LAYER.WG)
 
         # Add ports (more on that later)
         c.add_port(
-            name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=pp.LAYER.WG
+            name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=gdsfactory.LAYER.WG
         )
         c.add_port(
-            name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=pp.LAYER.WG
+            name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=gdsfactory.LAYER.WG
         )
         return c
 
 
-    @pp.port.deco_rename_ports  # This decorator will auto-rename the ports
-    @pp.cell  # This decorator will generate a good name for the component
+    @gdsfactory.port.deco_rename_ports  # This decorator will auto-rename the ports
+    @gdsfactory.cell  # This decorator will generate a good name for the component
     def crossing():
-        c = pp.Component()
+        c = gdsfactory.Component()
         arm = crossing_arm()
 
         # Create two arm references. One has a 90Deg rotation
@@ -109,7 +109,7 @@ Where is the gdsfactory name come from?
 
 
 ```eval_rst
-.. automodule:: pp.types
+.. automodule:: gdsfactory.types
 ```
 
 
@@ -117,7 +117,7 @@ Where is the gdsfactory name come from?
 
 Each foundry uses different GDS numbers for each process step.
 
-We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `pp.LAYER`
+We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `gdsfactory.LAYER`
 
 | GDS (layer, purpose) | layer_name | Description                                                 |
 | -------------------- | ---------- | ----------------------------------------------------------- |
@@ -135,7 +135,7 @@ We follow the generic layer numbers from the book "Silicon Photonics Design: Fro
 | 66, 0                | TEXT       | Text markup                                                 |
 | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 
-Layers are available in `pp.LAYER` as `pp.LAYER.WG`, `pp.LAYER.WGCLAD`
+Layers are available in `gdsfactory.LAYER` as `gdsfactory.LAYER.WG`, `gdsfactory.LAYER.WGCLAD`
 
 You can build PDKs for different foundries using gdsfactory, the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo. See [UBC PDK](https://github.com/gdsfactory/ubc) as an example.
 
@@ -151,7 +151,7 @@ Or you can fork the UBC PDK and create new cell functions that use the correct l
 ```
 
 import dataclasses
-import pp
+import gdsfactory
 
 
 @dataclasses.dataclass(frozen=True)
@@ -182,12 +182,12 @@ You can define ports to:
 .. plot::
     :include-source:
 
-    import pp
+    import gdsfactory
 
     y = 0.5
     x = 2
     layer = (1, 0) # a GDS layer is a tuple of 2 integers
-    c = pp.Component()
+    c = gdsfactory.Component()
     c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
     c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=layer)
     c.plot()
@@ -199,10 +199,10 @@ You can define ports to:
 .. plot::
     :include-source:
 
-    import pp
+    import gdsfactory
 
-    coupler = pp.components.coupler()
-    c = pp.Component()
+    coupler = gdsfactory.components.coupler()
+    c = gdsfactory.Component()
 
     # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
     coupler1 = coupler.ref(port_id='W0', position=(0, 0))
@@ -224,7 +224,7 @@ You can define ports to:
 ```
 
 
-`pp.Component.ref` also accepts arguments such as:
+`gdsfactory.Component.ref` also accepts arguments such as:
 
  - `h_mirror` (True / False),
  - `v_mirror` (True / False)
