@@ -47,6 +47,7 @@ Layer = Tuple[int, int]
 Layers = Iterable[Layer]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
+ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 

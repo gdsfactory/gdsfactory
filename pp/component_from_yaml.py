@@ -45,8 +45,7 @@ from pp.add_pins import add_instance_label
 from pp.component import Component, ComponentReference
 from pp.components import LIBRARY
 from pp.routing.factories import routing_strategy as routing_strategy_factories
-from pp.tech import Library
-from pp.types import Route
+from pp.types import ComponentFactoryDict, Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -390,7 +389,7 @@ ports:
 
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    library: Library = LIBRARY,
+    component_factory: ComponentFactoryDict = LIBRARY.factory,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     **kwargs,
@@ -400,7 +399,7 @@ def component_from_yaml(
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
             (instances, placements, routes, ports, connections, names)
-        component_factory: Library {factory_name: factory_function}
+        component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
         kwargs: cache, pins ... to pass to all factories
@@ -468,7 +467,6 @@ def component_from_yaml(
         if isinstance(yaml_str, str) and "\n" in yaml_str
         else yaml_str
     )
-    component_factory = library.factory
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
