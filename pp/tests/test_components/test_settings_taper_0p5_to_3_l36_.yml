@@ -1,5 +1,0 @@
-function_name: taper_0p5_to_3_l36
-info: {}
-module: pp.components.taper_from_csv
-name: taper_0p5_to_3_l36
-settings: {}

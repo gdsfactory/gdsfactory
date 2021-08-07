@@ -1,0 +1,10 @@
+function_name: mzi1x2
+info: {}
+module: gdsfactory.components.mzi1x2
+name: mzi1x2
+settings:
+  DL: 9
+  L0: 0.1
+  L2: 10
+  waveguide: strip
+  with_elec_connections: false

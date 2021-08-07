@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import pp
-from pp.types import PathType
-from pp.component import Component
-from pp.sp.get_sparameters_path import get_sparameters_path
+import gdsfactory
+from gdsfactory.types import PathType
+from gdsfactory.component import Component
+from gdsfactory.sp.get_sparameters_path import get_sparameters_path
 
 from gmeep.config import PATH
 from gmeep.get_simulation import (
@@ -139,14 +139,14 @@ def plot_sparameters(df: pd.DataFrame) -> None:
 
 if __name__ == "__main__":
 
-    c = pp.c.bend_circular(radius=2)
-    c = pp.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gdsfactory.c.bend_circular(radius=2)
+    c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = pp.c.mmi1x2()
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.c.mmi1x2()
+    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = pp.c.straight(length=2)
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.c.straight(length=2)
+    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
     df = get_sparameters1x1(c, overwrite=True)

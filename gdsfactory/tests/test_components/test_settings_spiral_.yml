@@ -1,0 +1,22 @@
+function_name: spiral
+info: {}
+module: gdsfactory.components.spiral
+name: spiral
+settings:
+  cladding_offset: 3
+  direction: NORTH
+  layer:
+  - 1
+  - 0
+  layer_cladding:
+  - 111
+  - 0
+  length: 10000
+  parity: 1
+  port:
+  - 0
+  - 0
+  radius: 10
+  spacing: null
+  wg_width: 0.5
+  width: 500

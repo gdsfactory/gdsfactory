@@ -11,9 +11,9 @@ import pydantic
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
-import pp
-from pp.component import Component
-from pp.components.extension import move_polar_rad_copy
+import gdsfactory
+from gdsfactory.component import Component
+from gdsfactory.components.extension import move_polar_rad_copy
 from gmeep.materials import get_material
 
 mp.verbosity(0)
@@ -80,13 +80,13 @@ def get_simulation(
 
     .. code::
 
-        import pp
+        import gdsfactory
         import gmeep as gm
 
-        c = pp.components.bend_circular()
+        c = gdsfactory.components.bend_circular()
         margin = 2
         cm = gm.add_monitors(c)
-        pp.show(cm)
+        gdsfactory.show(cm)
 
     """
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
@@ -121,12 +121,12 @@ def get_simulation(
     component.y = 0
 
     component_extended = (
-        pp.extend.extend_ports(component=component, length=extend_ports_length)
+        gdsfactory.extend.extend_ports(component=component, length=extend_ports_length)
         if extend_ports_length
         else component
     )
 
-    pp.show(component_extended)
+    gdsfactory.show(component_extended)
     component_extended.flatten()
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]
@@ -238,14 +238,14 @@ def get_simulation(
 
 if __name__ == "__main__":
 
-    c = pp.c.bend_circular(radius=2)
-    c = pp.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    c = gdsfactory.c.bend_circular(radius=2)
+    c = gdsfactory.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    c = pp.c.straight(length=2)
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.c.straight(length=2)
+    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = pp.c.mmi1x2()
-    c = pp.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gdsfactory.c.mmi1x2()
+    c = gdsfactory.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     sim_dict = get_simulation(c, is_3d=False)
     sim = sim_dict["sim"]

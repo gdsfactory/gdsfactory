@@ -1,0 +1,22 @@
+function_name: splitter_chain
+info: {}
+module: gdsfactory.components.splitter_chain
+name: splitter_chain
+settings:
+  component:
+    function_name: mmi1x2
+    info:
+      simulation_settings:
+        port_width: 1.5e-06
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+    settings:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      waveguide: strip
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+  n_devices: 3

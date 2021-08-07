@@ -1,8 +1,0 @@
-function_name: bbox
-info: {}
-module: pp.components.bbox
-name: bbox
-settings:
-  layer:
-  - 1
-  - 0

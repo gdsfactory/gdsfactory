@@ -16,12 +16,12 @@ from typing import Callable, Dict, Optional, Tuple
 import pydantic
 import pydantic.dataclasses as dataclasses
 
-import pp
-from pp.add_pins import add_pin_square_inside
-from pp.cell import cell
-from pp.component import Component, ComponentReference
-from pp.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
-from pp.types import Layer, StrOrDict
+import gdsfactory
+from gdsfactory.add_pins import add_pin_square_inside
+from gdsfactory.cell import cell
+from gdsfactory.component import Component, ComponentReference
+from gdsfactory.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
+from gdsfactory.types import Layer, StrOrDict
 
 
 @dataclasses.dataclass
@@ -109,7 +109,7 @@ def mmi1x2_nitride_cband(
     waveguide: StrOrDict = "fabc_nitride_cband",
     **kwargs,
 ) -> Component:
-    c = pp.components.mmi1x2(
+    c = gdsfactory.components.mmi1x2(
         width=width,
         width_taper=width_taper,
         length_taper=length_taper,
@@ -135,7 +135,7 @@ def mmi1x2_nitride_oband(
     waveguide: StrOrDict = "fabc_nitride_oband",
     **kwargs,
 ) -> Component:
-    c = pp.components.mmi1x2(
+    c = gdsfactory.components.mmi1x2(
         width=width,
         width_taper=width_taper,
         length_taper=length_taper,
@@ -151,7 +151,7 @@ def mmi1x2_nitride_oband(
 
 @cell
 def bend_euler(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
-    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
+    c = gdsfactory.c.bend_euler(waveguide=waveguide, **kwargs)
     return c
 
 
@@ -159,13 +159,13 @@ def bend_euler(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Compone
 def bend_euler_cband(
     waveguide: StrOrDict = "fabc_nitride_cband", **kwargs
 ) -> Component:
-    c = pp.c.bend_euler(waveguide=waveguide, **kwargs)
+    c = gdsfactory.c.bend_euler(waveguide=waveguide, **kwargs)
     return c
 
 
 @cell
 def straight_cband(waveguide: StrOrDict = "fabc_nitride_cband", **kwargs) -> Component:
-    c = pp.c.straight(waveguide=waveguide, **kwargs)
+    c = gdsfactory.c.straight(waveguide=waveguide, **kwargs)
     return c
 
 
@@ -179,7 +179,7 @@ LIBRARY.register(
 @cell
 def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
     """Returns a Cband Nitride MMI."""
-    c = pp.c.mzi(
+    c = gdsfactory.c.mzi(
         delta_length=delta_length,
         splitter=mmi1x2_nitride_cband,
         waveguide="fabc_nitride_cband",
@@ -190,7 +190,7 @@ def mzi_nitride_cband(delta_length: float = 10.0) -> Component:
 
 @cell
 def mzi_nitride_oband(delta_length: float = 10.0) -> Component:
-    c = pp.c.mzi(
+    c = gdsfactory.c.mzi(
         delta_length=delta_length,
         splitter=mmi1x2_nitride_oband,
         waveguide="fabc_nitride_oband",
@@ -204,10 +204,10 @@ LIBRARY.register([mzi_nitride_cband, mzi_nitride_oband])
 
 if __name__ == "__main__":
     mzi = mzi_nitride_cband()
-    gc = pp.c.grating_coupler_elliptical_te(
+    gc = gdsfactory.c.grating_coupler_elliptical_te(
         wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
     )
-    mzi_gc = pp.routing.add_fiber_single(
+    mzi_gc = gdsfactory.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc,
         waveguide=dict(component="fabc_nitride_cband", width=3),  # FIXME

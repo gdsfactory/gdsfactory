@@ -1,0 +1,9 @@
+function_name: C
+info: {}
+module: gdsfactory.components.C
+name: C
+settings:
+  layer:
+  - 49
+  - 0
+  width: 1

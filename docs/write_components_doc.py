@@ -1,5 +1,5 @@
 import pathlib
-from pp.components import component_factory
+from gdsfactory.components import component_factory
 
 
 p = pathlib.Path("components.rst")

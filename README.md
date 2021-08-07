@@ -85,9 +85,9 @@ cd gdsfactory
 git pull
 ```
 
-After installing you should be able to `import pp` from a python script. The name gdsfactory was too long so we chose `pp` instead, which stands for photonics package.
+After installing you should be able to `import gdsfactory as gf` from a python script. The name gdsfactory was too long so we chose `gf` instead, which stands for photonics package.
 
-- pp
+- gf
   - components: define components
   - drc: check geometry
   - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout

@@ -1,0 +1,29 @@
+function_name: grating_coupler_tree
+info: {}
+module: gdsfactory.components.grating_coupler.grating_coupler_tree
+name: grating_coupler_tree
+settings:
+  bend_factory: bend_euler
+  component:
+    function_name: straight_array
+    info: {}
+    module: gdsfactory.components.straight_array
+    name: straight_array_N4_S4_Wstrip
+    settings:
+      n: 4
+      spacing: 4
+      waveguide: strip
+  component_name: straight_array_N4_S4_Wstrip
+  fanout_length: 0
+  gc_port_name: W0
+  grating_coupler: grating_coupler_elliptical_te
+  layer_label:
+  - 201
+  - 0
+  n: 4
+  optical_routing_type: 0
+  straight_spacing: 4
+  taper_factory: null
+  taper_length: 10
+  waveguide: strip
+  with_loopback: false

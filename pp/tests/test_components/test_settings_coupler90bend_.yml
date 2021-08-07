@@ -1,7 +1,0 @@
-function_name: coupler90bend
-info: {}
-module: pp.components.coupler90bend
-name: coupler90bend
-settings:
-  gap: 0.2
-  radius: 10

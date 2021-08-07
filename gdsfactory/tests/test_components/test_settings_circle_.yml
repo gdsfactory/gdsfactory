@@ -1,0 +1,10 @@
+function_name: circle
+info: {}
+module: gdsfactory.components.circle
+name: circle
+settings:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radius: 10

@@ -1,0 +1,12 @@
+function_name: version_stamp
+info: {}
+module: gdsfactory.components.version_stamp
+name: version_stamp
+settings:
+  layer:
+  - 1
+  - 0
+  pixel_size: 1
+  text: []
+  text_size: 10
+  with_qr_code: false

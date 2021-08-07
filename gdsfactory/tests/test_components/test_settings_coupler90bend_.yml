@@ -1,0 +1,7 @@
+function_name: coupler90bend
+info: {}
+module: gdsfactory.components.coupler90bend
+name: coupler90bend
+settings:
+  gap: 0.2
+  radius: 10

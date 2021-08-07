@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import pp
+import gdsfactory
 from meep.geom import Medium
 from numpy import ndarray
-from pp.component import Component
+from gdsfactory.component import Component
 
 from gmeep.add_monitors import add_monitors
 
@@ -73,10 +73,10 @@ def get_transmission_2ports(
 
     .. code::
 
-        import pp
+        import gdsfactory
         import gmeep as gm
 
-        component = pp.c.bend_circular()
+        component = gdsfactory.c.bend_circular()
         margin = 2
         cm = gm.add_monitors(component)
         cm.show()
@@ -86,7 +86,7 @@ def get_transmission_2ports(
         component, Component
     ), f"component needs to be a Component, got Type {type(component)}"
     if extend_ports_length:
-        component = pp.extend.extend_ports(
+        component = gdsfactory.extend.extend_ports(
             component=component, length=extend_ports_length
         )
     component.flatten()
@@ -252,9 +252,9 @@ def plot3D(results_dict):
 
 def test_waveguide_2D() -> None:
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = pp.c.straight(length=2)
+    c = gdsfactory.c.straight(length=2)
     cm = add_monitors(component=c)
-    # pp.show(cm)
+    # gdsfactory.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.99 < np.mean(abs(r["s21"])) < 1.01
@@ -263,9 +263,9 @@ def test_waveguide_2D() -> None:
 
 # def test_waveguide_3D() -> None:
 #     """Ensure >99% transmission (S21) at 1550nm."""
-#     c = pp.c.straight(length=2)
+#     c = gdsfactory.c.straight(length=2)
 #     cm = add_monitors(component=c)
-#     pp.show(cm)
+#     gdsfactory.show(cm)
 
 #     r = get_transmission_2ports(cm, is_3d=True, run=True, res=10)
 #     assert 0.99 < np.mean(abs(r["s21"])) < 1.01
@@ -274,9 +274,9 @@ def test_waveguide_2D() -> None:
 
 def test_bend_2D():
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = pp.c.bend_circular(radius=5)
+    c = gdsfactory.c.bend_circular(radius=5)
     cm = add_monitors(component=c)
-    # pp.show(cm)
+    # gdsfactory.show(cm)
 
     r = get_transmission_2ports(cm, is_3d=False, run=True)
     assert 0.97 < np.mean(abs(r["s21"])) < 1.01
@@ -284,9 +284,9 @@ def test_bend_2D():
 
 
 if __name__ == "__main__":
-    c = pp.c.straight(length=2)
+    c = gdsfactory.c.straight(length=2)
     cm = add_monitors(component=c)
-    pp.show(cm)
+    gdsfactory.show(cm)
 
     r = get_transmission_2ports(cm, run=True)
     print(r)

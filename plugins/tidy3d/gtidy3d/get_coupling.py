@@ -21,10 +21,10 @@ def get_coupling(sim: td.Simulation) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    import pp
+    import gdsfactory
     import gtidy3d as gm
 
-    c = pp.components.coupler(gap=0.1, length=6.0)
+    c = gdsfactory.components.coupler(gap=0.1, length=6.0)
     sim = gm.get_simulation(c)
 
     s = get_coupling(sim)

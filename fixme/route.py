@@ -10,15 +10,15 @@ ideally we also enable:
 
 """
 
-import pp
+import gdsfactory
 
 if __name__ == "__main__":
     waveguide = "nitride"
-    c = pp.components.coupler(waveguide=waveguide)
-    gc = pp.components.grating_coupler_elliptical_te(
+    c = gdsfactory.components.coupler(waveguide=waveguide)
+    gc = gdsfactory.components.grating_coupler_elliptical_te(
         wg_width=1.0,
     )
-    cc = pp.routing.add_fiber_single(
+    cc = gdsfactory.routing.add_fiber_single(
         component=c,
         auto_widen=False,
         waveguide=waveguide,

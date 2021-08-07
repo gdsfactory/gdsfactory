@@ -1,9 +1,0 @@
-function_name: rectangle
-info: {}
-module: pp.components.rectangle
-name: rectangle
-settings:
-  centered: false
-  layer:
-  - 1
-  - 0

@@ -1,0 +1,11 @@
+function_name: ring_single_array
+info: {}
+module: gdsfactory.components.ring_single_array
+name: ring_single_array
+settings:
+  list_of_dicts:
+  - length_x: 10
+    radius: 5
+  - length_x: 20
+    radius: 10
+  spacing: 5

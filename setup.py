@@ -11,7 +11,7 @@ setup(
     url="https://github.com/gdsfactory/gdsfactory",
     version="2.7.8",
     author="gdsfactory community",
-    scripts=["pp/pf.py"],
+    scripts=["gdsfactory/pf.py"],
     description="python libraries to generate GDS layouts",
     packages=find_packages(),
     include_package_data=True,
@@ -20,6 +20,6 @@ setup(
     license="MIT",
     entry_points="""
         [console_scripts]
-        pf=pp.pf:cli
+        pf=gdsfactory.pf:cli
     """,
 )

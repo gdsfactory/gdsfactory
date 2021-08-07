@@ -1,7 +1,0 @@
-function_name: coupler_straight
-info: {}
-module: pp.components.coupler_straight
-name: coupler_straight
-settings:
-  gap: 0.27
-  length: 10

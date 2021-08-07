@@ -1,9 +1,0 @@
-function_name: L
-info: {}
-module: pp.components.L
-name: L
-settings:
-  layer:
-  - 49
-  - 0
-  width: 1

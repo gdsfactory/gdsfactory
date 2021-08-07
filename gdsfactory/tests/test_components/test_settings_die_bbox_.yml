@@ -1,0 +1,14 @@
+function_name: die_bbox
+info: {}
+module: gdsfactory.components.die_bbox
+name: die_bbox
+settings:
+  die_name: null
+  layer:
+  - 99
+  - 0
+  padding: 10
+  street_length: 1000
+  street_width: 100
+  text_location: SW
+  text_size: 100

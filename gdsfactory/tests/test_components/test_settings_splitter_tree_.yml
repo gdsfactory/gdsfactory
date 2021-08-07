@@ -1,0 +1,9 @@
+function_name: splitter_tree
+info: {}
+module: gdsfactory.components.splitter_tree
+name: splitter_tree
+settings:
+  dx: 90
+  dy: 50
+  noutputs: 4
+  waveguide: strip

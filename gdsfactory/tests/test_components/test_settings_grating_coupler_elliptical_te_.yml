@@ -1,0 +1,29 @@
+function_name: grating_coupler_elliptical_te
+info:
+  polarization: te
+  wavelength: 1554
+module: gdsfactory.components.grating_coupler.elliptical
+name: grating_coupler_elliptical_te
+settings:
+  big_last_tooth: false
+  cladding_index: 1.443
+  fiber_angle: 15
+  fiber_marker_layer:
+  - 203
+  - 0
+  fiber_marker_width: 11
+  grating_line_width: 0.343
+  lambda_c: 1.554
+  layer:
+  - 1
+  - 0
+  layer_slab:
+  - 2
+  - 0
+  n_periods: 24
+  neff: 2.638
+  p_start: 26
+  polarization: te
+  taper_angle: 40
+  taper_length: 16.6
+  wg_width: 0.5

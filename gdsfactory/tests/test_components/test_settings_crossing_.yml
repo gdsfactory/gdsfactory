@@ -1,0 +1,5 @@
+function_name: crossing
+info: {}
+module: gdsfactory.components.crossing_waveguide
+name: crossing
+settings: {}

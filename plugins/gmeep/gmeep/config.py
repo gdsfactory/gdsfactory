@@ -7,7 +7,7 @@ import pathlib
 import sys
 from loguru import logger
 import meep as mp
-import pp
+import gdsfactory
 
 __version__ = "0.0.2"
 home = pathlib.Path.home()
@@ -23,7 +23,7 @@ gmeep_home.mkdir(exist_ok=True)
 
 logpath = cwd / "gmeep.log"
 
-logger.info(f"gdsfactory {pp.__version__}")
+logger.info(f"gdsfactory {gdsfactory.__version__}")
 logger.info(f"gmeep {__version__}")
 logger.info(f"meep {mp.__version__}")
 logger.add(sink=logpath)

@@ -5,15 +5,15 @@ Route manhattan sometimes does not fit a route.
 it would be nice to enable Sbend routing for those cases in route_manhattan
 
 """
-import pp
-from pp.routing.manhattan import route_manhattan
+import gdsfactory
+from gdsfactory.routing.manhattan import route_manhattan
 
 
 if __name__ == "__main__":
-    c = pp.Component()
+    c = gdsfactory.Component()
     length = 10
-    c1 = c << pp.components.straight(length=length)
-    c2 = c << pp.components.straight(length=length)
+    c1 = c << gdsfactory.components.straight(length=length)
+    c2 = c << gdsfactory.components.straight(length=length)
 
     dy = 4.0
     c2.y = dy

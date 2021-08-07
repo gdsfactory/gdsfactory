@@ -1,0 +1,5 @@
+function_name: test_path
+info: {}
+module: gdsfactory.tests.test_paths
+name: test_path
+settings: {}

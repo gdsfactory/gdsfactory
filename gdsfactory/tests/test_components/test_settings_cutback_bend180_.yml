@@ -1,0 +1,32 @@
+function_name: cutback_bend180
+info: {}
+module: gdsfactory.components.cutback_bend
+name: cutback_bend180
+settings:
+  cols: 6
+  input_port_name: in
+  n_bends: 82
+  n_steps: 6
+  output_port_name: out
+  ports_map: null
+  sequence: D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-|D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-|D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-
+  spacing: 3
+  start_orientation: 0
+  straight_length: 5
+  symbol_to_component:
+    '-':
+    - straight_L5_W500n
+    - W0
+    - E0
+    C:
+    - bend_euler180
+    - W1
+    - W0
+    D:
+    - bend_euler180
+    - W0
+    - W1
+    '|':
+    - straight_L50p09_W500n
+    - W0
+    - E0

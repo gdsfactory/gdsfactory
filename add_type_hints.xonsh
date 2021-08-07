@@ -5,7 +5,7 @@ from tqdm import tqdm
 # py.test --monkeytype-output=./monkeytype.sqlite3
 
 for i, m in enumerate(tqdm($(monkeytype list-modules).split('\n'))):
-    if m.startswith('pp'):
+    if m.startswith('gdsfactory'):
         print(i, m)
         monkeytype stub @(m)
         monkeytype apply @(m)
