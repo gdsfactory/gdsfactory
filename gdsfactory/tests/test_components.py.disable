@@ -1,15 +1,15 @@
 import os
 import multiprocessing
 from multiprocessing import Pool
-import pp
-from pp.build import run_python
+import gdsfactory
+from gdsfactory.build import run_python
 
 
 def test_components():
     """ Test that the whole tutorial can be run without errors """
     all_files = [
         os.path.join(dp, f)
-        for dp, dn, filenames in os.walk(pp.CONFIG["components_path"])
+        for dp, dn, filenames in os.walk(gdsfactory.CONFIG["components_path"])
         for f in filenames
         if f.endswith(".py")
     ]

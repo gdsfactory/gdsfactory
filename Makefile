@@ -15,7 +15,7 @@ update2:
 	pre-commit autoupdate --bleeding-edge
 
 gds:
-	python pp/components/straight.py
+	python gdsfactory/components/straight.py
 
 gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
@@ -33,13 +33,13 @@ retest:
 	pytest --lf --force-regen
 
 diff:
-	python pp/merge_cells.py
+	python gdsfactory/merge_cells.py
 
 test-notebooks:
 	py.test --nbval notebooks
 
 cov:
-	pytest --cov=pp
+	pytest --cov=gdsfactory
 
 venv:
 	python3 -m venv env
@@ -58,10 +58,10 @@ pyenv3:
 
 conda:
 	conda env create -f environment.yml
-	echo 'conda env installed, run `conda activate pp` to activate it'
+	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
 
 mypy:
-	mypy pp --ignore-missing-imports
+	mypy gdsfactory --ignore-missing-imports
 
 build:
 	python setup.py sdist bdist_wheel
@@ -77,13 +77,13 @@ lint:
 	tox -e flake8
 
 pylint:
-	pylint --rcfile .pylintrc pp/
+	pylint --rcfile .pylintrc gdsfactory/
 
 lintdocs:
 	flake8 --select RST
 
 lintdocs2:
-	pydocstyle pp
+	pydocstyle gdsfactory
 
 doc8:
 	doc8 docs/

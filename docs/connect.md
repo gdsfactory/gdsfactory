@@ -16,28 +16,28 @@ You can connect:
 .. plot::
     :include-source:
 
-    import pp
+    import gdsfactory
 
-    @pp.cell
+    @gdsfactory.cell
     def ring(
-        coupler90=pp.components.coupler90,
-        coupler_straight=pp.components.coupler_straight,
-        straight=pp.components.straight,
-        bend=pp.components.bend_euler,
+        coupler90=gdsfactory.components.coupler90,
+        coupler_straight=gdsfactory.components.coupler_straight,
+        straight=gdsfactory.components.straight,
+        bend=gdsfactory.components.bend_euler,
         length_y=2.0,
         length_x=4.0,
         gap=0.2,
     ):
         """ single bus ring
         """
-        c = pp.Component()
+        c = gdsfactory.Component()
 
         # define subcells
-        coupler90 = pp.call_if_func(coupler90, gap=gap)
-        straight_x = pp.call_if_func(straight, length=length_x)
-        straight_y = pp.call_if_func(straight, length=length_y)
-        bend = pp.call_if_func(bend)
-        coupler_straight = pp.call_if_func(coupler_straight, gap=gap, length=length_x)
+        coupler90 = gdsfactory.call_if_func(coupler90, gap=gap)
+        straight_x = gdsfactory.call_if_func(straight, length=length_x)
+        straight_y = gdsfactory.call_if_func(straight, length=length_y)
+        bend = gdsfactory.call_if_func(bend)
+        coupler_straight = gdsfactory.call_if_func(coupler_straight, gap=gap, length=length_x)
 
         # add references to subcells
         cbl = c << coupler90
@@ -94,7 +94,7 @@ The code below illustrates how a simple MZI can be formed using this method.
 .. plot::
     :include-source:
 
-    import pp
+    import gdsfactory
 
     yaml = """
     instances:
@@ -125,7 +125,7 @@ The code below illustrates how a simple MZI can be formed using this method.
         W0: mmi_long,W0
     """
 
-    c = pp.component_from_yaml(yaml)
+    c = gdsfactory.component_from_yaml(yaml)
     c.show()
     c.plot()
 ```
@@ -140,8 +140,8 @@ Exporting connectivity map from a GDS is the first step towards verification.
 .. plot::
     :include-source:
 
-    import pp
-    c = pp.components.mzi()
+    import gdsfactory
+    c = gdsfactory.components.mzi()
     c.plot()
 ```
 
@@ -149,8 +149,8 @@ Exporting connectivity map from a GDS is the first step towards verification.
 .. plot::
     :include-source:
 
-    import pp
-    c = pp.components.mzi()
+    import gdsfactory
+    c = gdsfactory.components.mzi()
     c.plot_netlist()
 ```
 
@@ -175,13 +175,13 @@ The actual chain of components is supplied by a string or a list
 .. plot::
     :include-source:
 
-    import pp
-    from pp.components import bend_circular
-    from pp.components.straight import straight
-    from pp.components.straight_heater import straight_heater
-    from pp.components.component_sequence import component_sequence
+    import gdsfactory
+    from gdsfactory.components import bend_circular
+    from gdsfactory.components.straight import straight
+    from gdsfactory.components.straight_heater import straight_heater
+    from gdsfactory.components.component_sequence import component_sequence
 
-    @pp.cell
+    @gdsfactory.cell
     def test():
         # Define sub components
         radius=10.0
@@ -218,14 +218,14 @@ The actual chain of components is supplied by a string or a list
 .. plot::
     :include-source:
 
-    import pp
-    from pp.components import bend_circular
-    from pp.components.straight import straight
-    from pp.components.straight_heater import straight_heater
-    from pp.components.taper import taper_strip_to_ridge as _taper
-    from pp.components.straight_pin import straight_pin
-    from pp.layers import LAYER
-    from pp.components.component_sequence import component_sequence
+    import gdsfactory
+    from gdsfactory.components import bend_circular
+    from gdsfactory.components.straight import straight
+    from gdsfactory.components.straight_heater import straight_heater
+    from gdsfactory.components.taper import taper_strip_to_ridge as _taper
+    from gdsfactory.components.straight_pin import straight_pin
+    from gdsfactory.layers import LAYER
+    from gdsfactory.components.component_sequence import component_sequence
 
 
 
