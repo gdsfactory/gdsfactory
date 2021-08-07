@@ -2,13 +2,13 @@
 
 """
 
-from typing import Optional, Awaitable
 import pathlib
 import hashlib
 import json
+import concurrent.futures
+from typing import Optional, Awaitable
 import tidy3d as td
 from tidy3d import web
-import concurrent.futures
 
 from gtidy3d.config import logger, PATH
 
