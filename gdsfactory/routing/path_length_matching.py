@@ -286,8 +286,8 @@ if __name__ == "__main__":
     import gdsfactory
 
     c = gdsfactory.Component()
-    c1 = c << gdsfactory.c.straight_array(n=4, spacing=50)
-    c2 = c << gdsfactory.c.straight_array(n=4, spacing=20)
+    c1 = c << gdsfactory.components.straight_array(n=4, spacing=50)
+    c2 = c << gdsfactory.components.straight_array(n=4, spacing=20)
     c1.y = 0
     c2.y = 0
     c2.x = 300

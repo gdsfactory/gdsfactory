@@ -14,7 +14,7 @@ if __name__ == "__main__":
     width = 5
     nheaters = ncols * nrows
     heaters = c << gdsfactory.components.array(
-        component=gdsfactory.c.straight_with_heater(
+        component=gdsfactory.components.straight_with_heater(
             port_orientation_input=180, port_orientation_output=0
         ),
         pitch=80,
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     port_pads = []
 
     for row in range(nrows):
-        pads = c << gdsfactory.c.array_with_fanout(
+        pads = c << gdsfactory.components.array_with_fanout(
             n=ncols, pitch=pad_pitch, width=width, waveguide_pitch=width * 2
         )
         pads.rotate(180)

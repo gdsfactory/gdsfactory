@@ -18,5 +18,5 @@ def remove_labels(component: Component, layer=gdsfactory.LAYER.LABEL_SETTINGS) -
 
 
 if __name__ == "__main__":
-    c = gdsfactory.c.waveguide()
+    c = gdsfactory.components.waveguide()
     gdsfactory.show()

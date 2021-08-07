@@ -17,7 +17,7 @@ def test_get_bundle_electrical(
     routes = gdsfactory.routing.get_bundle(
         [c1.ports["E"]],
         [c2.ports["W"]],
-        bend_factory=gdsfactory.c.wire_corner,
+        bend_factory=gdsfactory.components.wire_corner,
         waveguide="metal_routing",
     )
 
@@ -29,7 +29,7 @@ def test_get_bundle_electrical(
         [c1.ports["S"]],
         [c2.ports["E"]],
         start_straight=20.0,
-        bend_factory=gdsfactory.c.wire_corner,
+        bend_factory=gdsfactory.components.wire_corner,
         waveguide="metal_routing",
     )
     for i, route in enumerate(routes):

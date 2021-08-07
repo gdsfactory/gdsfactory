@@ -59,10 +59,10 @@ def delay_snake2(
     ), "Snake is too short: either reduce length0, increase the total length,\
     or decrease n"
 
-    s1 = gdsfactory.c.straight(
+    s1 = gdsfactory.components.straight(
         waveguide=waveguide, length=length1, **waveguide_settings
     )
-    sd = gdsfactory.c.straight(
+    sd = gdsfactory.components.straight(
         waveguide=waveguide, length=delta_length, **waveguide_settings
     )
 

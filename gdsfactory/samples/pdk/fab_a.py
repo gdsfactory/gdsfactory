@@ -27,7 +27,7 @@ TECH.waveguide.metal1 = METAL1
 
 
 def test_waveguide():
-    c = gdsfactory.c.straight(waveguide="metal1")
+    c = gdsfactory.components.straight(waveguide="metal1")
     difftest(c)
 
 

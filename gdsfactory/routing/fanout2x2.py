@@ -72,7 +72,7 @@ def fanout2x2(
 
 if __name__ == "__main__":
     # c =gdsfactory.components.coupler(gap=1.0)
-    c = gdsfactory.c.nxn(west=4)
+    c = gdsfactory.components.nxn(west=4)
 
     cc = fanout2x2(component=c)
     print(cc.ports["E1"].y - cc.ports["E0"].y)

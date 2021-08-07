@@ -30,7 +30,7 @@ def litho_ruler(
     D = gdsfactory.Component("litho_ruler")
     for n in range(num_marks):
         h = height * scale[n % len(scale)]
-        D << gdsfactory.c.rectangle(size=(width, h), layer=layer)
+        D << gdsfactory.components.rectangle(size=(width, h), layer=layer)
 
     D.distribute(direction="x", spacing=spacing, separation=False, edge="x")
     D.align(alignment="ymin")

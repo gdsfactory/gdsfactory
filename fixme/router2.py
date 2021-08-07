@@ -19,18 +19,20 @@ if __name__ == "__main__":
     length = 200
 
     c = gdsfactory.Component()
-    ps = gdsfactory.c.straight_with_heater()
-    ps_array = gdsfactory.c.array(component=ps, pitch=20)
+    ps = gdsfactory.components.straight_with_heater()
+    ps_array = gdsfactory.components.array(component=ps, pitch=20)
     dy = 100
 
-    splitter = gdsfactory.c.splitter_tree(noutputs=N, waveguide="nitride", dx=80, dy=dy)
+    splitter = gdsfactory.components.splitter_tree(
+        noutputs=N, waveguide="nitride", dx=80, dy=dy
+    )
     splitters = c.add_ref(splitter)
     splitters.movey(-30)
     splitters.xmax = 0
 
     ps = c << extend_ports_list(
         ports=splitters.get_ports_list(prefix="E"),
-        extension_factory=gdsfactory.c.straight_with_heater,
+        extension_factory=gdsfactory.components.straight_with_heater,
         extension_settings=dict(
             length=length, port_orientation_input=180, port_orientation_output=0
         ),

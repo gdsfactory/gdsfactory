@@ -84,7 +84,7 @@ def array_2d(
 
 if __name__ == "__main__":
 
-    # c1 = gdsfactory.c.pad()
+    # c1 = gdsfactory.components.pad()
     # c2 = array(component=c1, pitch=150, n=2)
     # print(c2.ports.keys())
 

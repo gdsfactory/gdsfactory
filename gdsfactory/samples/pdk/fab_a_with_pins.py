@@ -28,9 +28,9 @@ def decorator(component) -> None:
     add_outline(component)
 
 
-mmi2x2 = gdsfactory.partial(gdsfactory.c.mmi2x2, decorator=decorator)
-mmi1x2 = gdsfactory.partial(gdsfactory.c.mmi1x2, decorator=decorator)
-mzi = gdsfactory.partial(gdsfactory.c.mzi, splitter=mmi1x2)
+mmi2x2 = gdsfactory.partial(gdsfactory.components.mmi2x2, decorator=decorator)
+mmi1x2 = gdsfactory.partial(gdsfactory.components.mmi1x2, decorator=decorator)
+mzi = gdsfactory.partial(gdsfactory.components.mzi, splitter=mmi1x2)
 
 LIBRARY = Library(name="fab_a")
 LIBRARY.register([mmi2x2, mmi1x2, mzi])

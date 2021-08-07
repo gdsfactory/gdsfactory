@@ -140,8 +140,8 @@ if __name__ == "__main__":
     import gdsfactory
 
     c = gdsfactory.Component()
-    c1 = c << gdsfactory.c.straight_array(spacing=50)
-    c2 = c << gdsfactory.c.straight_array(spacing=5)
+    c1 = c << gdsfactory.components.straight_array(spacing=50)
+    c2 = c << gdsfactory.components.straight_array(spacing=5)
     c2.movex(200)
     c1.y = 0
     c2.y = 0

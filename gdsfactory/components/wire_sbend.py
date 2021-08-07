@@ -27,7 +27,7 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     }
 
     sequence = "-B|b-"
-    c = gdsfactory.c.component_sequence(
+    c = gdsfactory.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
     return c

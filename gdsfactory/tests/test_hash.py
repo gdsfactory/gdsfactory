@@ -19,7 +19,7 @@ def _test_hash_array_file():
     """Test hash of a component with an array of references."""
     gdsfactory.clear_cache()
     c = gdsfactory.Component("array")
-    wg = gdsfactory.c.straight(length=3.2)
+    wg = gdsfactory.components.straight(length=3.2)
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
@@ -30,7 +30,7 @@ def _test_hash_array_file():
 def _test_hash_file():
     """Test hash of the saved GDS file."""
     gdsfactory.clear_cache()
-    c = gdsfactory.c.straight()
+    c = gdsfactory.components.straight()
     c.add_label("hi")
     gdspath = c.write_gds()
     h = hash_file(gdspath)

@@ -102,22 +102,22 @@ if __name__ == "__main__":
 
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.c.via1, 10, 10, 0),
+            (LAYER.Ppp, gdsfactory.components.via1, 10, 10, 0),
             (LAYER.M1, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.c.via1, 10, 10, 10),
-            (LAYER.M1, gdsfactory.c.via2, 10, 10, 0),
+            (LAYER.Ppp, gdsfactory.components.via1, 10, 10, 10),
+            (LAYER.M1, gdsfactory.components.via2, 10, 10, 0),
             (LAYER.M2, None, 10, 10, 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gdsfactory.c.via1, 5, 10, 0),
-            (LAYER.M1, gdsfactory.c.via2, 5, 10, 10),
-            (LAYER.M2, gdsfactory.c.via3, 5, 10, 0),
+            (LAYER.Ppp, gdsfactory.components.via1, 5, 10, 0),
+            (LAYER.M1, gdsfactory.components.via2, 5, 10, 10),
+            (LAYER.M2, gdsfactory.components.via3, 5, 10, 0),
             # (LAYER.M3, None, 5, 10, 0),
         )
     )

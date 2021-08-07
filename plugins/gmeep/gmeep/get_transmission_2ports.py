@@ -76,7 +76,7 @@ def get_transmission_2ports(
         import gdsfactory
         import gmeep as gm
 
-        component = gdsfactory.c.bend_circular()
+        component = gdsfactory.components.bend_circular()
         margin = 2
         cm = gm.add_monitors(component)
         cm.show()
@@ -252,7 +252,7 @@ def plot3D(results_dict):
 
 def test_waveguide_2D() -> None:
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = gdsfactory.c.straight(length=2)
+    c = gdsfactory.components.straight(length=2)
     cm = add_monitors(component=c)
     # gdsfactory.show(cm)
 
@@ -263,7 +263,7 @@ def test_waveguide_2D() -> None:
 
 # def test_waveguide_3D() -> None:
 #     """Ensure >99% transmission (S21) at 1550nm."""
-#     c = gdsfactory.c.straight(length=2)
+#     c = gdsfactory.components.straight(length=2)
 #     cm = add_monitors(component=c)
 #     gdsfactory.show(cm)
 
@@ -274,7 +274,7 @@ def test_waveguide_2D() -> None:
 
 def test_bend_2D():
     """Ensure >99% transmission (S21) at 1550nm."""
-    c = gdsfactory.c.bend_circular(radius=5)
+    c = gdsfactory.components.bend_circular(radius=5)
     cm = add_monitors(component=c)
     # gdsfactory.show(cm)
 
@@ -284,7 +284,7 @@ def test_bend_2D():
 
 
 if __name__ == "__main__":
-    c = gdsfactory.c.straight(length=2)
+    c = gdsfactory.components.straight(length=2)
     cm = add_monitors(component=c)
     gdsfactory.show(cm)
 

@@ -8,12 +8,12 @@ import gdsfactory
 def component_with_straight(component: gdsfactory.Component) -> gdsfactory.Component:
     c = gdsfactory.Component()
     c.add_ref(component)
-    c.add_ref(gdsfactory.c.straight())
+    c.add_ref(gdsfactory.components.straight())
     return c
 
 
 def test_validator_pass():
-    component = gdsfactory.c.straight(length=10)
+    component = gdsfactory.components.straight(length=10)
     component_with_straight(component=component)
 
 

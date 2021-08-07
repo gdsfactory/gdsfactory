@@ -12,7 +12,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
 
     """
     c = straight_c(length=11.0)
-    gc = gdsfactory.c.grating_coupler_elliptical_te(
+    gc = gdsfactory.components.grating_coupler_elliptical_te(
         wg_width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN
     )
     cc = gdsfactory.routing.add_fiber_single(
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     # c = mzi_nitride_cband()
     # c = straight_c()
-    # gc = gdsfactory.c.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
+    # gc = gdsfactory.components.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
     # cc = gdsfactory.routing.add_fiber_single(
     #     component=c,
     #     grating_coupler=gc,

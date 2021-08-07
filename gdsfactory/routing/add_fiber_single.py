@@ -241,7 +241,7 @@ if __name__ == "__main__":
 
     @gdsfactory.cell
     def straight_with_pins(**kwargs):
-        c = gdsfactory.c.straight(**kwargs)
+        c = gdsfactory.components.straight(**kwargs)
         gdsfactory.add_pins(c)
         return c
 

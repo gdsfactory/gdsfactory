@@ -88,7 +88,7 @@ def fanout_ports(
 
 
 def test_fanout_ports():
-    c = gdsfactory.c.mmi2x2()
+    c = gdsfactory.components.mmi2x2()
     cc = fanout_component(component=c, ports=c.get_ports_list(orientation=0))
     d = direction_ports_from_list_ports(cc.get_ports_list())
     assert len(d["E"]) == 2
@@ -97,15 +97,15 @@ def test_fanout_ports():
 
 if __name__ == "__main__":
     # c =gdsfactory.components.coupler(gap=1.0)
-    # c = gdsfactory.c.nxn(west=4)
-    # c = gdsfactory.c.nxn(west=4, layer=gdsfactory.LAYER.SLAB90)
-    c = gdsfactory.c.mmi2x2()
+    # c = gdsfactory.components.nxn(west=4)
+    # c = gdsfactory.components.nxn(west=4, layer=gdsfactory.LAYER.SLAB90)
+    c = gdsfactory.components.mmi2x2()
 
     cc = fanout_component(component=c, ports=c.get_ports_list(orientation=0))
     print(len(cc.ports))
     cc.show(show_ports=True)
 
-    # c = gdsfactory.c.nxn(west=4, layer=gdsfactory.LAYER.SLAB90)
+    # c = gdsfactory.components.nxn(west=4, layer=gdsfactory.LAYER.SLAB90)
     # routes = fanout_ports(ports=c.get_ports_list(orientation=180))
 
     # for route in routes:
