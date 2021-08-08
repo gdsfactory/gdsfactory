@@ -48,14 +48,14 @@ If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Mini
 ```
 conda install -c conda-forge gdspy
 pip install gdsfactory
-pf install
+gf tool install
 ```
 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
 pip install gdsfactory
-pf install
+gf tool install
 ```
 
 Or you can install the development version if you plan to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:

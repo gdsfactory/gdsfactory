@@ -9,7 +9,7 @@ from typing import Optional
 import click
 from click.core import Context, Option
 
-import gdsfactory as gf
+import gdsfactory
 import gdsfactory.build as pb
 from gdsfactory.config import CONFIG, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
@@ -52,7 +52,13 @@ def log_delete(logfile: str) -> None:
     subprocess.check_output(["rm", filename])
 
 
-# CONFIG
+# TOOL
+
+
+@click.group()
+def tool() -> None:
+    """Commands working with gdsfactory tool"""
+    pass
 
 
 @click.command(name="config")
@@ -72,7 +78,7 @@ def gds() -> None:
 
 
 @click.command(name="layermap_to_dataclass")
-@click.argument("filepath")
+@click.argument("filepath", type=click.Path(exists=True))
 @click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
 def layermap_to_dataclass(filepath, force: bool) -> None:
     """Converts klayout LYP to a dataclass"""
@@ -101,7 +107,7 @@ def merge_gds_from_directory(
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-    c = gf.component_from.gdsdir(dirpath=dirpath)
+    c = gdsfactory.component_from.gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show()
 
@@ -172,7 +178,7 @@ def write_mask_labels(gdspath: str, label_layer) -> None:
 @click.argument("filename")
 def show(filename: str) -> None:
     """Show a GDS file using klive"""
-    gf.show(filename)
+    gdsfactory.show(filename)
 
 
 @click.command()
@@ -186,7 +192,7 @@ def diff(gdspath1: str, gdspath2: str) -> None:
 
 @click.command()
 def install() -> None:
-    """Install Klive, gdsdiff and generic tech"""
+    """Install Klive and generic tech layermap."""
     install_generic_tech()
     install_klive()
     install_gdsdiff()
@@ -195,7 +201,7 @@ def install() -> None:
 @click.command()
 def test() -> None:
     """Run tests using pytest.
-    Strictly speaking you should just run `pytest` directly."""
+    You can also just run `pytest` directly."""
 
     os.chdir(CONFIG["repo_path"])
     command = shlex.split("pytest")
@@ -211,9 +217,9 @@ def test() -> None:
     is_eager=True,
     help="Show the version number.",
 )
-def cli():
-    """`gf` is the photonics library command line tool.
-    It helps to build, test, and configure masks and components.
+def gf():
+    """`gf` is the command line tool for gdsfactory.
+    It helps you work with GDS files.
     """
     pass
 
@@ -227,15 +233,17 @@ mask.add_command(write_mask_labels)
 gds.add_command(layermap_to_dataclass)
 gds.add_command(write_cells)
 gds.add_command(merge_gds_from_directory)
+gds.add_command(show)
+gds.add_command(diff)
 
-cli.add_command(config_get)
-cli.add_command(mask)
-cli.add_command(show)
-cli.add_command(test)
-cli.add_command(install)
-cli.add_command(diff)
-cli.add_command(gds)
+tool.add_command(config_get)
+tool.add_command(test)
+tool.add_command(install)
+
+gf.add_command(gds)
+gf.add_command(tool)
+gf.add_command(mask)
 
 
 if __name__ == "__main__":
-    cli()
+    gf()
