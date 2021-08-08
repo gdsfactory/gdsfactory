@@ -1,10 +1,10 @@
 from click.testing import CliRunner
 
 from gdsfactory import __version__
-from gdsfactory.pf import cli
+from gdsfactory.gf import cli
 
 
-def test_pf_version() -> None:
+def test_gf_version() -> None:
     """checks that the CLI returns the correct version"""
     runner = CliRunner()
     result = runner.invoke(cli, ["--version"])
@@ -16,4 +16,4 @@ def test_pf_version() -> None:
 
 
 if __name__ == "__main__":
-    test_pf_version()
+    test_gf_version()

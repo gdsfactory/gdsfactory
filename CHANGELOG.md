@@ -27,6 +27,11 @@ from contracts import contract
 
 
 ```
+## 3.0.0
+
+- rename `pp` with `gdsfactory`
+- recommend `import gdsfactory as gf`
+- rename `pf` CLI as `gf`
 
 ## 2.7.8
 
