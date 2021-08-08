@@ -4,6 +4,7 @@ sphinx-rtd-theme
 recommonmark
 sphinx-markdown-tables
 sphinx-autodoc-typehints
+sphinx-click
 pytest-cov
 nbval
 flake8

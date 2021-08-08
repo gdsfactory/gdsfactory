@@ -29,6 +29,7 @@ extensions = [
     "sphinx.ext.doctest",
     "recommonmark",
     "sphinx_autodoc_typehints",
+    "sphinx_click",
 ]
 
 autodoc_member_order = "bysource"

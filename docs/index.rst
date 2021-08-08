@@ -12,5 +12,6 @@ Gdsfactory
    routing
    yaml
    components
+   cli
    contribution
    CHANGELOG
