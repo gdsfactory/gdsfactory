@@ -2,8 +2,6 @@
 Tutorials
 #########
 
-Tutorials for `gf.<https://github.com/gf.gf.`_
-
 
 .. toctree::
    :maxdepth: 2
