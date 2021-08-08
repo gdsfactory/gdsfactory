@@ -21,8 +21,8 @@ def get_mode_solver_rib(
     slab_thickness: int = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
-    sx: float = 2.0,
     sy: float = 2.0,
+    sz: float = 2.0,
     res: int = 32,
     nmodes: int = 4,
 ) -> mpb.ModeSolver:
@@ -34,8 +34,8 @@ def get_mode_solver_rib(
         slab_thickness: thickness for the waveguide slab
         ncore: core material refractive index
         nclad: clad material refractive index
-        sx: simulation region width (um)
-        sy: simulation region height (um)
+        sy: simulation region width (um)
+        sz: simulation region height (um)
         res: resolution (pixels/um)
         nmodes: number of modes
     """
@@ -45,7 +45,7 @@ def get_mode_solver_rib(
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
     # far away from the mode field.
-    geometry_lattice = mp.Lattice(size=mp.Vector3(0, sx, sy))
+    geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
     # define the 2d blocks for the strip and substrate
     geometry = [
@@ -55,8 +55,8 @@ def get_mode_solver_rib(
         ),
         # uncomment this for air cladded waveguides
         # mp.Block(
-        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sy - wg_thickness)),
-        #     center=mp.Vector3(z=0.25 * (sy + wg_thickness)),
+        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sz - wg_thickness)),
+        #     center=mp.Vector3(z=0.25 * (sz + wg_thickness)),
         #     material=material_clad,
         # ),
         mp.Block(
@@ -67,7 +67,7 @@ def get_mode_solver_rib(
         mp.Block(
             size=mp.Vector3(mp.inf, wg_width, wg_thickness),
             material=material_core,
-            center=mp.Vector3(z=-0.5 * wg_thickness),
+            center=mp.Vector3(z=0),
         ),
     ]
 
@@ -95,3 +95,7 @@ def get_mode_solver_rib(
     )
     mode_solver.nmodes = nmodes
     return mode_solver
+
+
+if __name__ == "__main__":
+    m = get_mode_solver_rib()

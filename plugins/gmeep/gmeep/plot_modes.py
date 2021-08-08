@@ -16,8 +16,8 @@ mp.verbosity.mpb = 0
 
 def plot_modes(
     mode_solver: mpb.ModeSolver,
-    sx: float = 2.0,
     sy: float = 2.0,
+    sz: float = 2.0,
     mode_number: int = 1,
     logscale: bool = False,
     plotH: bool = False,
@@ -29,8 +29,8 @@ def plot_modes(
     """Plot mode fields.
 
     Args:
-        sx: Size of the simulation region in the x-direction (um) (default=4.0)
         sy: Size of the simulation region in the y-direction (um) (default=4.0)
+        sz: Size of the simulation region in the z-direction (um) (default=4.0)
         mode_number: Which mode to plot (only plots one mode at a time).  Must be a number equal to or less than num_mode (default=1)
         plotH: plot magnetic field.
         dirpath: to save fields waveguide cross-sections fields (top-down and side-view) if savefig=True
@@ -56,7 +56,7 @@ def plot_modes(
         + np.multiply(H[:, :, 0, 0], H[:, :, 0, 0])
     )
 
-    plt_extent = [-sy / 2.0, +sy / 2.0, -sx / 2.0, +sx / 2.0]
+    plt_extent = [-sy / 2.0, +sy / 2.0, -sz / 2.0, +sz / 2.0]
 
     plt.figure(figsize=(14, 8))
 
@@ -71,8 +71,8 @@ def plot_modes(
         extent=plt_extent,
     )
     plt.title("Waveguide mode $|E_x|$")
-    plt.ylabel("y-axis")
-    plt.xlabel("x-axis")
+    plt.ylabel("z-axis")
+    plt.xlabel("y-axis")
     plt.colorbar()
 
     plt.subplot(2, 3, 2)
@@ -86,8 +86,8 @@ def plot_modes(
         extent=plt_extent,
     )
     plt.title("Waveguide mode $|E_y|$")
-    plt.ylabel("y-axis")
-    plt.xlabel("x-axis")
+    plt.ylabel("z-axis")
+    plt.xlabel("y-axis")
     plt.colorbar()
 
     plt.subplot(2, 3, 3)
@@ -101,8 +101,8 @@ def plot_modes(
         extent=plt_extent,
     )
     plt.title("Waveguide mode $|E_z|$")
-    plt.ylabel("y-axis")
-    plt.xlabel("x-axis")
+    plt.ylabel("z-axis")
+    plt.xlabel("y-axis")
     plt.colorbar()
 
     plt.subplot(2, 3, 4)
@@ -116,8 +116,8 @@ def plot_modes(
         extent=plt_extent,
     )
     plt.title("Waveguide mode $|E|$")
-    plt.ylabel("y-axis")
-    plt.xlabel("x-axis")
+    plt.ylabel("z-axis")
+    plt.xlabel("y-axis")
     plt.colorbar()
 
     plt.subplot(2, 3, 5)
@@ -125,8 +125,8 @@ def plot_modes(
         eps.T ** 0.5, cmap=cmap_geom, origin=origin, aspect="auto", extent=plt_extent
     )
     plt.title("index profile")
-    plt.ylabel("y-axis")
-    plt.xlabel("x-axis")
+    plt.ylabel("z-axis")
+    plt.xlabel("y-axis")
     plt.colorbar()
 
     plt.tight_layout()
@@ -152,8 +152,8 @@ def plot_modes(
             extent=plt_extent,
         )
         plt.title("Waveguide mode $|H_x|$")
-        plt.ylabel("y-axis")
-        plt.xlabel("x-axis")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
         plt.colorbar()
 
         plt.subplot(2, 3, 2)
@@ -167,8 +167,8 @@ def plot_modes(
             extent=plt_extent,
         )
         plt.title("Waveguide mode $|H_y|$")
-        plt.ylabel("y-axis")
-        plt.xlabel("x-axis")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
         plt.colorbar()
 
         plt.subplot(2, 3, 3)
@@ -182,8 +182,8 @@ def plot_modes(
             extent=plt_extent,
         )
         plt.title("Waveguide mode $|H_z|$")
-        plt.ylabel("y-axis")
-        plt.xlabel("x-axis")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
         plt.colorbar()
 
         plt.subplot(2, 3, 4)
@@ -196,8 +196,8 @@ def plot_modes(
             extent=plt_extent,
         )
         plt.title("Waveguide mode $|H|$")
-        plt.ylabel("y-axis")
-        plt.xlabel("x-axis")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
         plt.colorbar()
 
         plt.subplot(2, 3, 5)
@@ -210,7 +210,7 @@ def plot_modes(
         )
         plt.title("index profile")
         plt.ylabel("y-axis")
-        plt.xlabel("x-axis")
+        plt.xlabel("z-axis")
         plt.colorbar()
 
         plt.tight_layout()
