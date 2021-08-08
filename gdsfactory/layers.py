@@ -24,6 +24,51 @@ module_path = pathlib.Path(__file__).parent.absolute()
 layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
+def preview_layerset(
+    ls: LayerSetPhidl, size: float = 100.0, spacing: float = 100.0
+) -> object:
+    """Generates a preview Device with representations of all the layers,
+    used for previewing LayerSet color schemes in quickplot or saved .gds
+    files
+
+    Args:
+        ls: LayerSet
+
+    """
+    import numpy as np
+
+    import gdsfactory as gf
+
+    D = gf.Component(name="layerset")
+    scale = size / 100
+    num_layers = len(ls._layers)
+    matrix_size = int(np.ceil(np.sqrt(num_layers)))
+    sorted_layers = sorted(
+        ls._layers.values(), key=lambda x: (x.gds_layer, x.gds_datatype)
+    )
+    for n, layer in enumerate(sorted_layers):
+        gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
+        layer_tuple = (gds_layer, gds_datatype)
+        R = gf.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
+        T = gf.components.text(
+            text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
+            size=20 * scale,
+            position=(50 * scale, -20 * scale),
+            justify="center",
+            layer=layer_tuple,
+        )
+
+        xloc = n % matrix_size
+        yloc = int(n // matrix_size)
+        D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
+            -(100 + spacing) * yloc * scale
+        )
+        D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
+            -(100 + spacing) * yloc * scale
+        )
+    return D
+
+
 class LayerSet(LayerSetPhidl):
     def add_layer(
         self,
@@ -94,50 +139,8 @@ class LayerSet(LayerSetPhidl):
         """Deletes all entries in the LayerSet"""
         self._layers = {}
 
-
-def preview_layerset(
-    ls: LayerSet, size: float = 100.0, spacing: float = 100.0
-) -> object:
-    """Generates a preview Device with representations of all the layers,
-    used for previewing LayerSet color schemes in quickplot or saved .gds
-    files
-
-    Args:
-        ls: LayerSet
-
-    """
-    import numpy as np
-
-    import gdsfactory as gf
-
-    D = gf.Component(name="layerset")
-    scale = size / 100
-    num_layers = len(ls._layers)
-    matrix_size = int(np.ceil(np.sqrt(num_layers)))
-    sorted_layers = sorted(
-        ls._layers.values(), key=lambda x: (x.gds_layer, x.gds_datatype)
-    )
-    for n, layer in enumerate(sorted_layers):
-        gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
-        layer_tuple = (gds_layer, gds_datatype)
-        R = gf.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
-        T = gf.components.text(
-            text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
-            size=20 * scale,
-            position=(50 * scale, -20 * scale),
-            justify="center",
-            layer=layer_tuple,
-        )
-
-        xloc = n % matrix_size
-        yloc = int(n // matrix_size)
-        D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
-            -(100 + spacing) * yloc * scale
-        )
-        D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
-            -(100 + spacing) * yloc * scale
-        )
-    return D
+    def preview(self):
+        return preview_layerset(self)
 
 
 def _name_to_short_name(name_str: str) -> str:

@@ -17,7 +17,8 @@ def test_components_ports(
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
-    num_regression.check(c.get_ports_array())
+    if num_regression:
+        num_regression.check(c.get_ports_array())
 
 
 if __name__ == "__main__":
