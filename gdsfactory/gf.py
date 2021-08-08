@@ -52,9 +52,7 @@ def log_delete(logfile: str) -> None:
     subprocess.check_output(["rm", filename])
 
 
-"""
-CONFIG
-"""
+# CONFIG
 
 
 @click.command(name="config")
@@ -64,9 +62,7 @@ def config_get(key: str) -> None:
     print_config(key)
 
 
-"""
-GDS
-"""
+# GDS
 
 
 @click.group()
@@ -110,9 +106,7 @@ def merge_gds_from_directory(
     c.show()
 
 
-"""
-MASKS
-"""
+# MASKS
 
 
 @click.group()
@@ -171,9 +165,7 @@ def write_mask_labels(gdspath: str, label_layer) -> None:
     write_labels(gdspath=gdspath, label_layer=label_layer)
 
 
-"""
-EXTRA
-"""
+# EXTRA
 
 
 @click.command()
@@ -188,10 +180,8 @@ def show(filename: str) -> None:
 @click.argument("gdspath2")
 def diff(gdspath1: str, gdspath2: str) -> None:
     """Show boolean difference between two GDS files."""
-    import gdsfactory as gf
-
     diff = gdsdiff(str(gdspath1), str(gdspath2))
-    gf.show(diff)
+    diff.show()
 
 
 @click.command()
@@ -222,7 +212,7 @@ def test() -> None:
     help="Show the version number.",
 )
 def cli():
-    """`pf` is the photonics library command line tool.
+    """`gf` is the photonics library command line tool.
     It helps to build, test, and configure masks and components.
     """
     pass
