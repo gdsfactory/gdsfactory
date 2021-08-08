@@ -1,6 +1,6 @@
 -e .
 click
-gdspy==1.6.7
+gdspy==1.6.8
 omegaconf==2.1.0
 jsondiff
 klayout==0.27.1
