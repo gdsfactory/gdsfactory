@@ -1,7 +1,4 @@
-Command line interface
-=============================
 
-
-.. click:: gdsfactory.gf:cli
-   :prog: cli
+.. click:: gdsfactory.gf:gf
+   :prog: gf
    :nested: full

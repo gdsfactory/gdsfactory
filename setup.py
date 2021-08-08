@@ -20,6 +20,6 @@ setup(
     license="MIT",
     entry_points="""
         [console_scripts]
-        gf=gdsfactory.gf:cli
+        gf=gdsfactory.gf:gf
     """,
 )
