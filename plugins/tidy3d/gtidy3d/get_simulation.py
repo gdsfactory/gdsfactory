@@ -1,22 +1,4 @@
-"""
-Returns simulation from component
-
-Questions:
-
-- How to define a field_monitor_port
-    field_monitor_port = component.ports[port_field_monitor_name]
-    field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
-
-- how to define cladding material
-- show index of refraction
-- cache simulations
-- zmin = 1.
-- add sidewall_angle
-- visualize modes
-- visualize fields for simultion
-- simulate dispersive materials
-- review simulation before sending it?
-- gdslayer with gdslayer/gdspurpose
+""" Returns simulation from gdsfactory Component
 
 """
 from typing import Dict, Optional, Tuple
@@ -36,7 +18,7 @@ from gtidy3d.materials import get_material
 
 LAYER_TO_THICKNESS_NM = {(1, 0): 220.0}
 LAYER_TO_MATERIAL = {(1, 0): "cSi"}
-LAYER_TO_ZMIN = {(1, 0): 0}
+LAYER_TO_ZMIN_NM = {(1, 0): 0.0}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): 0}
 
 
@@ -48,7 +30,7 @@ def get_simulation(
     extend_ports_length: Optional[float] = 4.0,
     layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin_nm: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN,
+    layer_to_zmin_nm: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN_NM,
     layer_to_sidewall_angle: Dict[Tuple[int, int], float] = LAYER_TO_SIDEWALL_ANGLE,
     t_clad_top: float = 1.0,
     t_clad_bot: float = 1.0,
@@ -137,7 +119,7 @@ def get_simulation(
         if layer in layer_to_thickness_nm and layer in layer_to_material:
             height = layer_to_thickness_nm[layer] * 1e-3
             zmin_um = layer_to_zmin_nm[layer] * 1e-3
-            z_cent = (height + zmin_um) / 2
+            z_cent = zmin_um + height / 2
             material_name = layer_to_material[layer]
             material = get_material(name=material_name)
 

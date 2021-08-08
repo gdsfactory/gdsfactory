@@ -31,7 +31,7 @@ def get_simulation(
     extend_ports_length: Optional[float] = 4.0,
     layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin_nm: Dict[Tuple[int, int], float] = {(1, 0): 0.5},
+    layer_to_zmin_nm: Dict[Tuple[int, int], float] = {(1, 0): 0.0},
     layer_to_sidewall_angle: Dict[Tuple[int, int], float] = {(1, 0): 0},
     res: int = 20,
     t_clad_top: float = 1.0,
@@ -247,13 +247,15 @@ if __name__ == "__main__":
     c = gf.components.mmi1x2()
     c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    sim_dict = get_simulation(c, is_3d=False)
+    sim_dict = get_simulation(c, is_3d=True)
     sim = sim_dict["sim"]
-    sim.plot2D()
 
-    # sim_dict = get_simulation(c, is_3d=True)
-    # center = (0, 0, 0)
-    # size = (0, 2, 2)
-    # sim.plot2D(output_plane=mp.Volume(center=center, size=size))
+    # sim.plot2D() # plot top view
+
+    center = (0, 0, 0)
+    size = sim.cell_size
+    sim.plot2D(
+        output_plane=mp.Volume(center=center, size=(0, size[1], size[2]))
+    )  # plot xsection
 
     plt.show()
