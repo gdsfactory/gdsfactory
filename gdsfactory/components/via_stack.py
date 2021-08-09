@@ -14,7 +14,7 @@ def via_stack(
     width: float = 11.0,
     height: Optional[float] = None,
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
-    vias: Tuple[ComponentOrFactory, ...] = (via2, via3),
+    vias: Optional[Tuple[ComponentOrFactory, ...]] = (via2, via3),
     port_orientation: int = 180,
 ) -> Component:
     """Rectangular via_stack
@@ -39,6 +39,7 @@ def via_stack(
     for layer in layers:
         c.add_polygon(rect_pts, layer=layer)
 
+    vias = vias or []
     # Add vias
     for via in vias:
         via = via() if callable(via) else via
