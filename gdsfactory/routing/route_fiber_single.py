@@ -5,8 +5,9 @@ from phidl.device_layout import Label
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.types import StrOrDict
+from gdsfactory.types import CrossSectionFactory
 
 
 def route_fiber_single(
@@ -19,8 +20,8 @@ def route_fiber_single(
     excluded_ports: Optional[List[str]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
@@ -33,13 +34,14 @@ def route_fiber_single(
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
         auto_widen: for long routes
+        cross_section:
+        **kwargs: cross_section settings
 
     Returns:
         elements: list of routes ComponentReference
         grating_couplers: list of grating_couplers ComponentReferences
 
     """
-    # print(waveguide_settings)
     if not component.get_ports_list(port_type="optical"):
         raise ValueError(f"No ports for {component.name}")
 
@@ -112,8 +114,8 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
+        **kwargs,
     )
 
     # route north ports
@@ -132,8 +134,8 @@ def route_fiber_single(
         optical_routing_type=optical_routing_type,
         auto_widen=auto_widen,
         component_name=component_name,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
+        **kwargs,
     )
     for e in elements_north:
         if isinstance(e, list):
@@ -164,18 +166,37 @@ if __name__ == "__main__":
     #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     # )
 
-    c = gf.components.mmi2x2(waveguide="nitride")
+    layer = (2, 0)
+    c = gf.components.mmi2x2()
     c = gf.components.straight(width=2, length=500)
-    gc = gf.components.grating_coupler_elliptical_te(
-        layer=gf.TECH.waveguide.nitride.layer
-    )
+    gc = gf.components.grating_coupler_elliptical_te(layer=layer)
     elements, gc = route_fiber_single(
         c,
         grating_coupler=[gc, gc, gc, gc],
         auto_widen=False,
-        layer=(2, 0),
         radius=10,
-        waveguide="nitride",
+        layer=layer,
+    )
+
+    cc = gf.Component("sample_route_fiber_single")
+    cr = cc << c.rotate(90)
+
+    for e in elements:
+        cc.add(e)
+    for e in gc:
+        cc.add(e)
+    cc.show()
+
+    layer = (31, 0)
+    c = gf.components.mmi2x2()
+    c = gf.components.straight(width=2, length=500)
+    gc = gf.components.grating_coupler_elliptical_te(layer=layer)
+    elements, gc = route_fiber_single(
+        c,
+        grating_coupler=[gc, gc, gc, gc],
+        auto_widen=False,
+        radius=10,
+        layer=layer,
     )
 
     cc = gf.Component("sample_route_fiber_single")

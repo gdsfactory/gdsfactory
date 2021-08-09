@@ -9,7 +9,8 @@ import pydantic.dataclasses as dataclasses
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_square_inside
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.tech import TECH, LayerLevel, LayerStack, Library, Tech, Waveguide
+from gdsfactory.cross_section import strip
+from gdsfactory.tech import LayerLevel, LayerStack, Library, Tech
 from gdsfactory.types import Layer
 
 
@@ -44,27 +45,6 @@ def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
     )
 
 
-@dataclasses.dataclass
-class StripNitrideCband(Waveguide):
-    width: float = WIDTH_NITRIDE_CBAND
-    layer: Layer = LAYER.WGN
-    auto_widen: bool = False
-    radius: float = 10.0
-    layers_cladding: Tuple[Layer, ...] = (LAYER.WGN_CLAD,)
-
-
-@dataclasses.dataclass
-class StripNitrideOband(StripNitrideCband):
-    width: float = WIDTH_NITRIDE_OBAND
-
-
-NITRIDE_CBAND = StripNitrideCband()
-NITRIDE_OBAND = StripNitrideOband()
-
-TECH.waveguide.fabc_nitride_cband = NITRIDE_CBAND
-TECH.waveguide.fabc_nitride_oband = NITRIDE_OBAND
-
-
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
@@ -95,31 +75,41 @@ def add_pins(
             )
 
 
+# cross_sections
+
+fabc_nitride_cband = gf.partial(
+    strip, width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
+)
+fabc_nitride_oband = gf.partial(
+    strip, width=WIDTH_NITRIDE_OBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
+)
+
+
 # LEAF COMPONENTS have pins
 
 mmi1x2_nitride_c = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
-    waveguide="fabc_nitride_cband",
+    cross_section=fabc_nitride_cband,
     decorator=add_pins,
 )
 mmi1x2_nitride_o = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
-    waveguide="fabc_nitride_oband",
+    cross_section=fabc_nitride_oband,
     decorator=add_pins,
 )
 bend_euler_c = gf.partial(
-    gf.components.bend_euler, waveguide="fabc_nitride_cband", decorator=add_pins
+    gf.components.bend_euler, cross_section=fabc_nitride_cband, decorator=add_pins
 )
 straight_c = gf.partial(
-    gf.components.straight, waveguide="fabc_nitride_cband", decorator=add_pins
+    gf.components.straight, cross_section=fabc_nitride_cband, decorator=add_pins
 )
 bend_euler_o = gf.partial(
-    gf.components.bend_euler, waveguide="fabc_nitride_oband", decorator=add_pins
+    gf.components.bend_euler, cross_section=fabc_nitride_oband, decorator=add_pins
 )
 straight_o = gf.partial(
-    gf.components.straight, waveguide="fabc_nitride_oband", decorator=add_pins
+    gf.components.straight, cross_section=fabc_nitride_oband, decorator=add_pins
 )
 
 
@@ -135,7 +125,7 @@ gc_nitride_c = gf.partial(
 
 mzi_nitride_c = gf.partial(
     gf.components.mzi,
-    waveguide="fabc_nitride_cband",
+    cross_section=fabc_nitride_cband,
     splitter=mmi1x2_nitride_c,
     decorator=add_pins,
     straight=straight_c,
@@ -143,7 +133,7 @@ mzi_nitride_c = gf.partial(
 )
 mzi_nitride_o = gf.partial(
     gf.components.mzi,
-    waveguide="fabc_nitride_oband",
+    cross_section=fabc_nitride_oband,
     splitter=mmi1x2_nitride_c,
     decorator=add_pins,
     straight=straight_o,
@@ -152,6 +142,8 @@ mzi_nitride_o = gf.partial(
 
 
 TECH_FABC = Tech(name="fab_c")
+
+# for testing
 LIBRARY = Library(name="fab_c")
 LIBRARY.register(
     [
@@ -174,7 +166,7 @@ if __name__ == "__main__":
     mzi_gc = gf.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc_nitride_c,
-        waveguide="fabc_nitride_cband",
+        cross_section=fabc_nitride_cband,
         optical_routing_type=1,
         straight_factory=straight_c,
         bend_factory=bend_euler_c,
