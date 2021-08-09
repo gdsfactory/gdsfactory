@@ -42,7 +42,6 @@ def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
     port_type: str = "optical",
-    waveguide="strip",
     taper_port_name1: str = "1",
     taper_port_name2: str = "2",
     with_auto_rename: bool = False,

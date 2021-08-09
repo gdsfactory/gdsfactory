@@ -1,8 +1,8 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.cross_section import StrOrDict, get_cross_section
-from gdsfactory.types import ComponentFactory
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -11,7 +11,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
     r"""Two coupled straights with bends.
@@ -21,8 +21,8 @@ def coupler_symmetric(
         gap:
         dy: port to port vertical spacing
         dx: bend length in x direction
-        waveguide: from TECH.waveguide
-        kwargs: waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     .. code::
 
@@ -37,14 +37,15 @@ def coupler_symmetric(
                              E0
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, **kwargs)
+
+    x = cross_section()
     width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width) / 2,
             length=dx,
-            waveguide=waveguide,
-            **kwargs,
+            cross_section=cross_section,
         )
         if callable(bend)
         else bend
@@ -74,10 +75,10 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.9, dx=5, waveguide="nitride")
+    c = coupler_symmetric(gap=0.2, width=0.9, dx=5)
     c.show()
     c.pprint()
 
     for dyi in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, waveguide="nitride")
+        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0)
         print(f"dy={dyi}, min_bend_radius = {c.min_bend_radius}")

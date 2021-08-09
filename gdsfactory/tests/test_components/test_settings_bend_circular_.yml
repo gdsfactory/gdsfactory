@@ -8,5 +8,4 @@ name: bend_circular
 settings:
   angle: 90
   npoints: 720
-  waveguide: strip
   with_cladding_box: true

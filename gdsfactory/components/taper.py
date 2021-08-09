@@ -5,9 +5,9 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import Number
+from gdsfactory.types import CrossSectionFactory, Number
 
 
 @cell
@@ -17,7 +17,7 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -28,7 +28,8 @@ def taper(
         width2:
         port: can taper from a port instead of defining width1
         with_cladding_box: to avoid DRC acute angle errors in cladding
-        kwargs: waveguide_settings
+        cross_section:
+        kwargs: cross_section settings
 
     .. plot::
       :include-source:
@@ -39,7 +40,8 @@ def taper(
       c.plot()
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]

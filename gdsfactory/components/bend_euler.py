@@ -1,9 +1,10 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.types import CrossSectionFactory
 
 
 @gf.cell
@@ -14,7 +15,7 @@ def bend_euler(
     npoints: int = 720,
     direction: str = "ccw",
     with_cladding_box: bool = True,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -33,29 +34,12 @@ def bend_euler(
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
         with_cladding_box: to avoid DRC acute angle errors in cladding
-        waveguide: from tech.waveguide
-        kwargs: waveguide_settings
+        cross_section:
 
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.bend_euler(
-        angle=0.5,
-        p=1,
-        with_arc_floorplan=True,
-        npoints=720,
-        direction="ccw",
-        with_cladding_box=True,
-        radius=10,
-        waveguide='strip'
-      )
-      c.plot()
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
     radius = x.info["radius"]
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
@@ -113,7 +97,7 @@ def _compare_bend_euler180():
     p1 = gf.Path()
     p1.append([gf.path.euler(angle=90), gf.path.euler(angle=90)])
     p2 = gf.path.euler(angle=180)
-    x = gf.cross_section()
+    x = gf.cross_section.strip()
 
     c1 = gf.path.extrude(p1, x)
     c1.name = "two_90_euler"

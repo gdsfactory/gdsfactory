@@ -1,9 +1,10 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.types import CrossSectionFactory
 
 
 @gf.cell
@@ -14,8 +15,7 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater=TECH.layer.HEATER,
-    waveguide: StrOrDict = "strip",
-    **kwargs
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
@@ -25,10 +25,10 @@ def bend_circular_heater(
         npoints: Number of points used per 360 degrees
         heater_to_wg_distance:
         heater_width
-        width: straight width (defaults to tech.wg_width)
-        tech: Technology
+        layer_heater
+        cross_section:
     """
-    x = get_cross_section(waveguide, **kwargs)
+    x = cross_section()
     width = x.info["width"]
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]

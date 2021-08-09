@@ -1,6 +1,6 @@
 function_name: fanout2x2
 info:
-  min_bend_radius: 12.53
+  min_bend_radius: 11.149
 module: gdsfactory.routing.fanout2x2
 name: fanout2x2_e43cdd0e
 settings:

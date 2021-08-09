@@ -5,6 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 import dataclasses
+from functools import partial
 from typing import Dict, Iterable, Optional, Tuple, Union
 
 import pydantic
@@ -17,6 +18,7 @@ Layer = Tuple[int, int]
 StrOrDict = Union[str, Dict]
 
 
+# FIXME, delete
 def get_cross_section(waveguide: StrOrDict, **kwargs) -> CrossSection:
     """Returns CrossSection from a string from TECH.waveguide or from a dict."""
     if isinstance(waveguide, str):
@@ -40,6 +42,7 @@ def get_cross_section(waveguide: StrOrDict, **kwargs) -> CrossSection:
     return cross_section(**settings)
 
 
+# FIXME, delete
 def get_waveguide_settings(waveguide: StrOrDict, **kwargs):
     x = get_cross_section(waveguide, **kwargs)
     return x.info
@@ -115,6 +118,12 @@ def cross_section(
         min_length=min_length,
     )
     return x
+
+
+strip = cross_section
+rib = partial(
+    cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
+)
 
 
 def pin(

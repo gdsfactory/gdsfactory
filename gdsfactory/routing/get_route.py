@@ -32,6 +32,7 @@ To generate a straight route:
 
 """
 
+from functools import partial
 from typing import Callable, Optional
 
 import numpy as np
@@ -39,14 +40,16 @@ import numpy as np
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import (
-    StrOrDict,
-    get_cross_section,
-    get_waveguide_settings,
-)
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
-from gdsfactory.types import ComponentOrFactory, Coordinates, Number, Route
+from gdsfactory.types import (
+    ComponentOrFactory,
+    Coordinates,
+    CrossSectionFactory,
+    Number,
+    Route,
+)
 
 
 def get_route(
@@ -58,8 +61,8 @@ def get_route(
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports
     The references are straights, bends and tapers.
@@ -74,8 +77,8 @@ def get_route(
         start_straight: length of starting straight
         end_straight: Number: length of end straight
         min_straight: Number: min length of straight
-        waveguide: waveguide definition from TECH.waveguide
-        waveguide_settings:
+        cross_section:
+        **kwargs: cross_section settings
 
 
     .. plot::
@@ -92,16 +95,16 @@ def get_route(
         c.show()
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    cross_section = partial(cross_section, **kwargs)
+    x = cross_section()
+    waveguide_settings = x.info
     taper_length = waveguide_settings.get("taper_length")
     width1 = input_port.width
     auto_widen = waveguide_settings.get("auto_widen", False)
     width2 = waveguide_settings.get("width_wide") if auto_widen else width1
 
     bend90 = (
-        bend_factory(
-            **waveguide_settings,
-        )
+        bend_factory(cross_section=cross_section)
         if callable(bend_factory)
         else bend_factory
     )
@@ -111,8 +114,7 @@ def get_route(
             length=taper_length,
             width1=input_port.width,
             width2=width2,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
         )
         if callable(taper_factory)
         else taper_factory
@@ -127,8 +129,7 @@ def get_route(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend90,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
     )
 
 
@@ -137,9 +138,9 @@ def get_route_from_waypoints(
     bend_factory: Callable = bend_euler,
     straight_factory: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
-    waveguide: StrOrDict = "strip",
     route_filter=None,
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with
     bends instead of corners and optionally tapers in straight sections.
@@ -152,9 +153,9 @@ def get_route_from_waypoints(
         bend_factory: function that returns bends
         straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
-        layer: for the route
         route_filter: FIXME, keep it here. Find a way to remove it.
-        waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     .. plot::
         :include-source:
@@ -195,7 +196,8 @@ def get_route_from_waypoints(
         c.show()
     """
 
-    x = get_cross_section(waveguide, **waveguide_settings)
+    cross_section = partial(cross_section, **kwargs)
+    x = cross_section()
     waveguide_settings = x.info
     auto_widen = waveguide_settings.get("auto_widen", False)
     width1 = waveguide_settings.get("width")
@@ -209,8 +211,7 @@ def get_route_from_waypoints(
                 length=taper_length,
                 width1=width1,
                 width2=width2,
-                waveguide=waveguide,
-                **waveguide_settings,
+                cross_section=cross_section,
             )
             if callable(taper_factory)
             else taper_factory
@@ -223,8 +224,7 @@ def get_route_from_waypoints(
         bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper=taper,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
     )
 
 
@@ -235,8 +235,6 @@ if __name__ == "__main__":
 
     c = gf.Component()
     c << w
-    # route = get_route(w.ports["E0"], w.ports["W0"], **gf.TECH.waveguide.nitride)
-    # route = get_route(w.ports["E0"], w.ports["W0"], waveguide="metal_routing")
     route = get_route(w.ports["E0"], w.ports["W0"], layer=(2, 0))
     cc = c.add(route.references)
     cc.show()

@@ -10,7 +10,6 @@ settings:
   grating_spacing: 127
   length: null
   taper: null
-  waveguide: strip
   width: 0.5
   width_grating_coupler: 0.5
   x_straight_inner_left: 150

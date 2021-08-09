@@ -4,8 +4,9 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LIBRARY, Library
-from gdsfactory.types import StrOrDict, StrOrDictOrNone
+from gdsfactory.components.bend_euler import bend_euler180
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -13,10 +14,9 @@ def delay_snake3(
     length: float = 1600.0,
     length0: float = 0.0,
     n: int = 2,
-    bend180: StrOrDictOrNone = None,
-    waveguide: StrOrDict = "strip",
-    library: Library = LIBRARY,
-    **waveguide_settings,
+    bend180: ComponentFactory = bend_euler180,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Component:
     r"""Snake input facing west
     Snake output facing east
@@ -26,9 +26,8 @@ def delay_snake3(
         length0: initial offset
         n: number of loops
         bend180
-        waveguide
-        library
-        waveguide_settings
+        cross_section: factory
+        **kwargs: cross_section settings
 
     .. code::
 
@@ -48,10 +47,7 @@ def delay_snake3(
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
-    bend180 = bend180 or dict(
-        component="bend_euler", angle=180, waveguide=waveguide, **waveguide_settings
-    )
-    bend180 = library.get_component(bend180, waveguide=waveguide, **waveguide_settings)
+    bend180 = bend180(cross_section=cross_section, **kwargs)
 
     delta_length = (length - length0 - n * (bend180.length)) / (n + 1)
     assert (
@@ -59,11 +55,9 @@ def delay_snake3(
     ), "Snake is too short: either reduce length0, increase the total length,\
     or decrease n"
 
-    s0 = gf.components.straight(
-        waveguide=waveguide, length=length0, **waveguide_settings
-    )
+    s0 = gf.components.straight(cross_section=cross_section, length=length0, **kwargs)
     sd = gf.components.straight(
-        waveguide=waveguide, length=delta_length, **waveguide_settings
+        cross_section=cross_section, length=delta_length, **kwargs
     )
 
     symbol_to_component = {
@@ -85,10 +79,8 @@ def delay_snake3(
 def test_delay_snake3_length() -> Component:
     length = 200.0
     c = delay_snake3(
-        waveguide="strip",
         n=2,
         length=length,
-        bend180=dict(component="bend_circular180"),
     )
     length_measured = (
         c.aliases[")1"].parent.length * 2 + c.aliases["-1"].parent.length * 3
@@ -102,5 +94,3 @@ def test_delay_snake3_length() -> Component:
 if __name__ == "__main__":
     c = test_delay_snake3_length()
     c.show()
-    # c = delay_snake3(waveguide="nitride", n=2, length=200)
-    # c.show()

@@ -24,5 +24,4 @@ settings:
   port_type: optical
   taper_port_name1: '1'
   taper_port_name2: '2'
-  waveguide: strip
   with_auto_rename: false

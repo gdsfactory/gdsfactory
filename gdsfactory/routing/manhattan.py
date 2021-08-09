@@ -9,15 +9,17 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import (
-    StrOrDict,
-    get_cross_section,
-    get_waveguide_settings,
-)
+from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, Coordinate, Coordinates, Route
+from gdsfactory.types import (
+    ComponentFactory,
+    Coordinate,
+    Coordinates,
+    CrossSectionFactory,
+    Route,
+)
 
 TOLERANCE = 0.0001
 DEG2RAD = np.pi / 180
@@ -504,8 +506,8 @@ def round_corners(
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Route:
     """Returns Route:
 
@@ -521,24 +523,23 @@ def round_corners(
         straight_factory_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
-        waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
     """
-    x = get_cross_section(waveguide, **waveguide_settings)
-    waveguide_settings = x.info
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
 
-    auto_widen = waveguide_settings.get("auto_widen", False)
-    auto_widen_minimum_length = waveguide_settings.get(
-        "auto_widen_minimum_length", 200.0
-    )
-    taper_length = waveguide_settings.get("taper_length", 10.0)
+    auto_widen = x.info.get("auto_widen", False)
+    auto_widen_minimum_length = x.info.get("auto_widen_minimum_length", 200.0)
+    taper_length = x.info.get("taper_length", 10.0)
     references = []
     bend90 = (
-        bend_factory(waveguide=waveguide, **waveguide_settings)
+        bend_factory(cross_section=cross_section)
         if callable(bend_factory)
         else bend_factory
     )
     # radius = bend90.radius
-    taper = taper(**waveguide_settings) if callable(taper) else taper
+    taper = taper(cross_section=cross_section) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper and isinstance(taper, Component):
@@ -678,15 +679,15 @@ def round_corners(
         # Straight waveguide
         length = snap_to_grid(length)
         if with_taper:
-            waveguide_settings_wide = dict(waveguide_settings.copy())
-            waveguide_settings_wide.update(width=taper_width)
+            cross_section_wide = gf.partial(cross_section, width=taper_width)
             wg = straight_factory(
                 length=length,
-                **waveguide_settings_wide,
+                cross_section=cross_section_wide,
             )
         else:
             wg = straight_factory_fall_back_no_taper(
-                length=length, waveguide=waveguide, **waveguide_settings
+                length=length,
+                cross_section=cross_section,
             )
 
         if straight_ports is None:
@@ -742,17 +743,19 @@ def generate_manhattan_waypoints(
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
     bend90 = (
-        bend_factory(waveguide=waveguide, **waveguide_settings)
+        bend_factory(cross_section=cross_section, **kwargs)
         if callable(bend_factory)
         else bend_factory
     )
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
+    waveguide_settings = x.info
 
     start_straight = start_straight or waveguide_settings.get("min_length")
     end_straight = end_straight or waveguide_settings.get("min_length")
@@ -779,13 +782,15 @@ def route_manhattan(
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
+    waveguide_settings = x.info
 
     start_straight = start_straight or waveguide_settings.get("min_length")
     end_straight = end_straight or waveguide_settings.get("min_length")
@@ -798,16 +803,14 @@ def route_manhattan(
         end_straight=end_straight,
         min_straight=min_straight,
         bend_factory=bend_factory,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
     )
     return round_corners(
         points=points,
         straight_factory=straight_factory,
         taper=taper,
         bend_factory=bend_factory,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
     )
 
 
@@ -846,14 +849,9 @@ def test_manhattan() -> Component:
             input_port=input_port,
             output_port=output_port,
             straight_factory=straight,
-            # start_straight=5.0,
-            # end_straight=5.0,
-            # bend_factory=bend_circular,
-            # waveguide="nitride",
-            # waveguide="strip_heater",
-            # waveguide="metal_routing",
-            waveguide="strip_heater_single",
             radius=5.0,
+            layer=(2, 0),
+            width=0.2,
         )
 
         top_cell.add(route.references)

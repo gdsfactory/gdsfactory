@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Any, Callable, List, Optional, Tuple, Union
 
 from numpy import float64
@@ -11,7 +12,7 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.config import TECH
-from gdsfactory.cross_section import get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
 from gdsfactory.routing.get_input_labels import get_input_labels
@@ -19,7 +20,7 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, StrOrDict
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 def route_fiber_array(
@@ -53,8 +54,8 @@ def route_fiber_array(
     get_input_label_text_function: Callable = get_input_label_text,
     get_input_labels_function=get_input_labels,
     select_ports: Callable = select_optical_ports,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
 ]:
@@ -114,7 +115,8 @@ def route_fiber_array(
         elements, io_grating_lines, y0_optical
     """
 
-    x = get_cross_section(waveguide, **waveguide_settings)
+    cross_section = partial(cross_section, **kwargs)
+    x = cross_section()
     waveguide_settings = x.info
     radius = waveguide_settings["radius"]
     layer_label = layer_label or TECH.layer_label
@@ -164,7 +166,7 @@ def route_fiber_array(
     # Define the route filter to apply to connection methods
 
     bend90 = (
-        bend_factory(waveguide=waveguide, **waveguide_settings)
+        bend_factory(cross_section=cross_section)
         if callable(bend_factory)
         else bend_factory
     )
@@ -315,15 +317,13 @@ def route_fiber_array(
                     output_port=p1,
                     bend_factory=bend90,
                     straight_factory=straight_factory,
-                    waveguide=waveguide,
-                    **waveguide_settings,
+                    cross_section=cross_section,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
                     straight_factory=straight_factory,
-                    waveguide=waveguide,
-                    **waveguide_settings,
+                    cross_section=cross_section,
                 )
                 elements.extend(route.references)
 
@@ -338,8 +338,7 @@ def route_fiber_array(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
         )
         elems = route.references
         to_route = route.ports
@@ -392,8 +391,7 @@ def route_fiber_array(
                 end_straight_offset=end_straight_offset,
                 straight_factory=straight_factory,
                 bend_factory=bend90,
-                waveguide=waveguide,
-                **waveguide_settings,
+                cross_section=cross_section,
             )
             elements.extend([route.references for route in routes])
 
@@ -412,8 +410,7 @@ def route_fiber_array(
                     bend_factory=bend90,
                     straight_factory=straight_factory,
                     radius=radius,
-                    waveguide=waveguide,
-                    **waveguide_settings,
+                    cross_section=cross_section,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -458,8 +455,7 @@ def route_fiber_array(
             points=points,
             straight_factory=straight_factory,
             bend_factory=bend90,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
         )
         elements.extend(route.references)
         if nlabels_loopback == 1:
@@ -529,17 +525,16 @@ def demo():
 
 
 if __name__ == "__main__":
-    c = gf.components.straight(waveguide="nitride")
-    gc = gf.components.grating_coupler_elliptical_te(
-        layer=gf.TECH.waveguide.nitride.layer, taper_length=30
-    )
+    layer = (2, 0)
+    c = gf.components.straight(layer=layer)
+    gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
     gc.xmin = -20
     elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=gc,
-        waveguide="nitride",
         cladding_offset=6,
         nlabels_loopback=1,
+        layer=layer,
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)

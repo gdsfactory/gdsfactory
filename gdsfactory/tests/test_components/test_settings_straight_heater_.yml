@@ -22,5 +22,4 @@ settings:
   - lane: -1
     nb_segments: 2
     x_start_offset: 0
-  waveguide: strip
   width: 0.5

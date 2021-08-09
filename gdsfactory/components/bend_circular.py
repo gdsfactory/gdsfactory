@@ -1,9 +1,10 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.types import CrossSectionFactory
 
 
 @gf.cell
@@ -11,8 +12,7 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    waveguide: StrOrDict = "strip",
-    **kwargs
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """Returns a radial arc.
 
@@ -20,8 +20,7 @@ def bend_circular(
         angle: angle of arc (degrees)
         npoints: number of points
         with_cladding_box: square in layers_cladding to remove DRC
-        waveguide: from tech.waveguide
-        kwargs: waveguide_settings
+        cross_section:
 
     .. plot::
         :include-source:
@@ -32,7 +31,7 @@ def bend_circular(
         c.plot()
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    x = cross_section()
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
@@ -78,7 +77,7 @@ if __name__ == "__main__":
     from pprint import pprint
 
     # c = bend_circular(width=2, layer=gf.LAYER.M1)
-    c = bend_circular(waveguide="metal_routing", widtha=3)
+    c = bend_circular()
     c.show()
     pprint(c.get_settings())
 

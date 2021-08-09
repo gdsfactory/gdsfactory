@@ -6,7 +6,6 @@ instances:
       gap_mmi: 0.25
       length_mmi: 10
       length_taper: 10
-      waveguide: strip
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
@@ -17,7 +16,6 @@ instances:
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10
-      waveguide: strip
       width: 0.5
       width_mmi: 4.5
       width_taper: 1
@@ -28,7 +26,7 @@ placements:
     mirror: false
     rotation: 0
     x: 25.0
-    y: 17.75
+    y: 12.875
   mmi_short:
     mirror: false
     rotation: 0

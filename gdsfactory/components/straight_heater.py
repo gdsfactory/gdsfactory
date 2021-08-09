@@ -9,10 +9,10 @@ from gdsfactory.components.extension import line
 from gdsfactory.components.hline import hline
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, auto_rename_ports
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Layer, Number
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer, Number
 
 
 @gf.cell
@@ -108,8 +108,8 @@ def straight_heater(
     layer_heater: Tuple[int, int] = LAYER.HEATER,
     straight_factory: ComponentFactory = straight,
     layer_trench: Optional[Tuple[int, int]] = LAYER.DEEPTRENCH,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Component:
     """Waveguide with heater on both sides and trenches.
 
@@ -143,7 +143,8 @@ def straight_heater(
     """
     c = Component()
     _heater = heater(length=length, width=heater_width, layer_heater=layer_heater)
-    x = get_cross_section(waveguide, **waveguide_settings)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
     waveguide_settings = x.info
     width = waveguide_settings["width"]
 
@@ -156,8 +157,7 @@ def straight_heater(
 
     wg = c << straight_factory(
         length=length,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
     )
 
     for i in [heater_top, heater_bot, wg]:

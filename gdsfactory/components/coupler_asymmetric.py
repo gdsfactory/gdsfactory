@@ -2,8 +2,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import StrOrDict, get_cross_section
-from gdsfactory.types import ComponentFactory
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -13,7 +13,7 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """bend coupled to straight waveguide
@@ -24,8 +24,8 @@ def coupler_asymmetric(
         gap: um
         dy: port to port vertical spacing
         dx: bend length in x direction
-        waveguide: name from tech.waveguide or settings dict
-        **kwargs: waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     .. code::
 
@@ -38,14 +38,15 @@ def coupler_asymmetric(
                             E0
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
     width = x.info["width"]
     bend_component = (
-        bend(height=(dy - gap - width), length=dx, waveguide=waveguide, **kwargs)
+        bend(height=(dy - gap - width), length=dx, cross_section=cross_section)
         if callable(bend)
         else bend
     )
-    wg = straight(waveguide=waveguide, **kwargs) if callable(straight) else straight
+    wg = straight(cross_section=cross_section) if callable(straight) else straight
 
     w = bend_component.ports["W0"].width
     y = (w + gap) / 2
@@ -71,5 +72,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.4, waveguide="nitride")
+    c = coupler_asymmetric(gap=0.4)
     c.show()

@@ -7,10 +7,11 @@ from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import ComponentFactory, StrOrDict
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @cell_without_validator
@@ -27,10 +28,10 @@ def add_fiber_single(
     with_loopback: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "W0",
-    waveguide: StrOrDict = "strip",
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Component:
     r"""Returns component with grating ports and labels on each port.
 
@@ -60,8 +61,8 @@ def add_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
-        waveguide: waveguide name from TECH.waveguide
-        **waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     .. code::
 
@@ -145,8 +146,7 @@ def add_fiber_single(
             min_input_to_output_spacing=min_input_to_output_spacing,
             gc_port_name=gc_port_name,
             component_name=component_name,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
         )
 
     for e in elements:
@@ -181,7 +181,8 @@ def add_fiber_single(
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight_factory(
-            length=length, waveguide=waveguide, **waveguide_settings
+            length=length,
+            cross_section=cross_section,
         )
         wg.rotate(90)
         wg.xmax = (
@@ -225,12 +226,10 @@ def add_fiber_single(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    waveguide = "nitride"
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
     # c = gf.components.rectangle()
     # c = gf.components.ring_single()
-    # c = gf.components.straight(length=500, waveguide=waveguide)
     # c = gf.components.mzi()
     # c = gf.components.straight(length=500)
 

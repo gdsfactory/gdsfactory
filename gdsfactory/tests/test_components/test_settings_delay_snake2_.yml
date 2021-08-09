@@ -3,7 +3,6 @@ info: {}
 module: gdsfactory.components.delay_snake2
 name: delay_snake2
 settings:
-  bend180: null
   input_port_name: in
   length: 1600
   length0: 0
@@ -14,19 +13,18 @@ settings:
   start_orientation: 0
   symbol_to_component:
     (:
-    - bend_euler_A180_Wstrip
+    - bend_euler180_CScross_section
     - W0
     - W1
     ):
-    - bend_euler_A180_Wstrip
+    - bend_euler180_CScross_section
     - W1
     - W0
     '-':
-    - straight_L502p91_Wstrip
+    - straight_CScross_section_L502p91
     - W0
     - E0
     _:
-    - straight_L502p91_Wstrip
+    - straight_CScross_section_L502p91
     - W0
     - E0
-  waveguide: strip

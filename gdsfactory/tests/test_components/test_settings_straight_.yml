@@ -7,5 +7,4 @@ name: straight
 settings:
   length: 10
   npoints: 2
-  waveguide: strip
   with_cladding_box: true

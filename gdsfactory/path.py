@@ -20,12 +20,12 @@ from gdsfactory.component import Component
 from gdsfactory.hash_points import hash_points
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.tech import LAYER, TECH
-from gdsfactory.types import Coordinates, Number, PathFactory
+from gdsfactory.types import Coordinates, CrossSectionOrFactory, Number, PathFactory
 
 
 def extrude(
     p: Path,
-    cross_section: CrossSection,
+    cross_section: CrossSectionOrFactory,
     simplify: Optional[float] = None,
     snap_to_grid_nm: int = TECH.snap_to_grid_nm,
     rename_ports: bool = TECH.rename_ports,
@@ -47,6 +47,8 @@ def extrude(
     xsection_points = []
 
     c = Component()
+
+    cross_section = cross_section() if callable(cross_section) else cross_section
 
     for section in cross_section.sections:
         width = section["width"]
