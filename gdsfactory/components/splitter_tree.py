@@ -4,7 +4,8 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.types import ComponentFactory, StrOrDict
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -14,7 +15,7 @@ def splitter_tree(
     dy: float = 50.0,
     dx: float = 90.0,
     bend_s: ComponentFactory = bend_s_function,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> gf.Component:
     """Tree of power splitters.
@@ -25,8 +26,8 @@ def splitter_tree(
         dx: x spacing between couplers
         dy: y spacing between couplers
         bend_s: Sbend library name or dict for termination
-        waveguide: waveguide
-        kwargs: waveguide_settings
+        cross_section: cross_section
+        kwargs: cross_section settings
 
     .. code::
 
@@ -40,13 +41,13 @@ def splitter_tree(
     """
     c = gf.Component()
 
-    coupler = coupler(waveguide=waveguide, **kwargs)
+    coupler = coupler(cross_section=cross_section, **kwargs)
     if bend_s:
         dy_coupler_ports = abs(
             coupler.ports["E0"].midpoint[1] - coupler.ports["E1"].midpoint[1]
         )
         height = dy / 4 - dy_coupler_ports / 2
-        bend_s = bend_s(waveguide=waveguide, length=dx, height=height, **kwargs)
+        bend_s = bend_s(cross_section=cross_section, length=dx, height=height, **kwargs)
     cols = int(np.log2(noutputs))
     i = 0
 
@@ -73,7 +74,7 @@ def splitter_tree(
                     gf.routing.get_route(
                         c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
                         coupler_ref.ports["W0"],
-                        waveguide=waveguide,
+                        cross_section=cross_section,
                         **kwargs,
                     ).references
                 )
@@ -105,7 +106,6 @@ def test_splitter_tree_ports():
     c = splitter_tree(
         coupler=mmi2x2,
         noutputs=4,
-        waveguide="nitride",
     )
     assert len(c.ports) == 8
 
@@ -119,9 +119,9 @@ if __name__ == "__main__":
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
         noutputs=2 ** 2,
-        waveguide="nitride",
         # bend_s=None,
         # dy=100.0,
+        layer=(2, 0),
     )
     # print(len(c.ports))
     # for port in c.get_ports_list():

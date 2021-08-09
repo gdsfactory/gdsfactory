@@ -1,4 +1,3 @@
-from functools import partial
 from typing import Any, Callable, List, Optional, Tuple, Union
 
 from numpy import float64
@@ -115,8 +114,7 @@ def route_fiber_array(
         elements, io_grating_lines, y0_optical
     """
 
-    cross_section = partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
     radius = waveguide_settings["radius"]
     layer_label = layer_label or TECH.layer_label
@@ -166,7 +164,7 @@ def route_fiber_array(
     # Define the route filter to apply to connection methods
 
     bend90 = (
-        bend_factory(cross_section=cross_section)
+        bend_factory(cross_section=cross_section, **kwargs)
         if callable(bend_factory)
         else bend_factory
     )
@@ -318,12 +316,14 @@ def route_fiber_array(
                     bend_factory=bend90,
                     straight_factory=straight_factory,
                     cross_section=cross_section,
+                    **kwargs,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend_factory=bend90,
                     straight_factory=straight_factory,
                     cross_section=cross_section,
+                    **kwargs,
                 )
                 elements.extend(route.references)
 
@@ -339,6 +339,7 @@ def route_fiber_array(
             straight_factory=straight_factory,
             taper_factory=taper_factory,
             cross_section=cross_section,
+            **kwargs,
         )
         elems = route.references
         to_route = route.ports
@@ -392,6 +393,7 @@ def route_fiber_array(
                 straight_factory=straight_factory,
                 bend_factory=bend90,
                 cross_section=cross_section,
+                **kwargs,
             )
             elements.extend([route.references for route in routes])
 
@@ -411,6 +413,7 @@ def route_fiber_array(
                     straight_factory=straight_factory,
                     radius=radius,
                     cross_section=cross_section,
+                    **kwargs,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -456,6 +459,7 @@ def route_fiber_array(
             straight_factory=straight_factory,
             bend_factory=bend90,
             cross_section=cross_section,
+            **kwargs,
         )
         elements.extend(route.references)
         if nlabels_loopback == 1:
@@ -526,6 +530,27 @@ def demo():
 
 if __name__ == "__main__":
     layer = (2, 0)
+    c = gf.components.straight(layer=layer)
+    gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
+    gc.xmin = -20
+    elements, gc, _ = route_fiber_array(
+        component=c,
+        grating_coupler=gc,
+        cladding_offset=6,
+        nlabels_loopback=1,
+        layer=layer,
+    )
+    # c = p.ring_single()
+    # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
+    for e in elements:
+        # if isinstance(e, list):
+        # print(len(e))
+        # print(e)
+        c.add(e)
+    for e in gc:
+        c.add(e)
+
+    layer = (41, 0)
     c = gf.components.straight(layer=layer)
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
     gc.xmin = -20

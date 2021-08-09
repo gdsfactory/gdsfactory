@@ -1,11 +1,11 @@
 connections:
-  bend_euler_R10_W450n_31p612_18p012,N0: taper_L5_W450n_W550n_22p5_21p4,1
-  bend_euler_R10_W450n_31p612_18p012,W0: bend_euler_R10_W450n_31p612_4p788,N0
-  bend_euler_R10_W450n_31p612_4p788,W0: taper_L5_W500n_W450n_22p5_1p4,2
-  bend_euler_R10_W550n_34p638_20p038,N0: straight_L3_W550n_26p5_23p4,W0
-  bend_euler_R10_W550n_34p638_20p038,W0: straight_L4_W550n_38p0_11p4,E0
-  bend_euler_R10_W550n_34p638_2p762,N0: straight_L4_W550n_38p0_11p4,W0
-  bend_euler_R10_W550n_34p638_2p762,W0: straight_L3_W550n_26p5_m0p6,E0
+  bend_euler_R10_W450n_30p112_16p512,N0: taper_L5_W450n_W550n_22p5_21p4,1
+  bend_euler_R10_W450n_30p112_16p512,W0: bend_euler_R10_W450n_30p112_6p288,N0
+  bend_euler_R10_W450n_30p112_6p288,W0: taper_L5_W500n_W450n_22p5_1p4,2
+  bend_euler_R10_W550n_33p138_18p538,N0: straight_L3_W550n_26p5_23p4,W0
+  bend_euler_R10_W550n_33p138_18p538,W0: straight_L4_W550n_38p0_11p4,E0
+  bend_euler_R10_W550n_33p138_4p262,N0: straight_L4_W550n_38p0_11p4,W0
+  bend_euler_R10_W550n_33p138_4p262,W0: straight_L3_W550n_26p5_m0p6,E0
   coupler_D2_G200n_L5_1p5_22p4,E0: taper_L5_W550n_W500n_16p5_21p4,2
   coupler_D2_G200n_L5_1p5_22p4,E1: taper_L5_W450n_W500n_16p5_23p4,2
   coupler_D2_G300n_L10_5p0_0p4,E0: taper_L5_W500n_W550n_22p5_m0p6,1
@@ -17,22 +17,22 @@ connections:
   straight_L3_W550n_26p5_23p4,E0: taper_L5_W550n_W450n_22p5_23p4,1
   straight_L3_W550n_26p5_m0p6,W0: taper_L5_W500n_W550n_22p5_m0p6,2
 instances:
-  bend_euler_R10_W450n_31p612_18p012:
+  bend_euler_R10_W450n_30p112_16p512:
     component: bend_euler
     settings:
       radius: 10
       width: 0.45
-  bend_euler_R10_W450n_31p612_4p788:
+  bend_euler_R10_W450n_30p112_6p288:
     component: bend_euler
     settings:
       radius: 10
       width: 0.45
-  bend_euler_R10_W550n_34p638_20p038:
+  bend_euler_R10_W550n_33p138_18p538:
     component: bend_euler
     settings:
       radius: 10
       width: 0.55
-  bend_euler_R10_W550n_34p638_2p762:
+  bend_euler_R10_W550n_33p138_4p262:
     component: bend_euler
     settings:
       radius: 10
@@ -112,22 +112,22 @@ instances:
       width2: 0.5
 name: mzit
 placements:
-  bend_euler_R10_W450n_31p612_18p012:
+  bend_euler_R10_W450n_30p112_16p512:
     mirror: false
     rotation: 90
     x: 35.0
     y: 11.4
-  bend_euler_R10_W450n_31p612_4p788:
+  bend_euler_R10_W450n_30p112_6p288:
     mirror: false
     rotation: 0
     x: 25.0
     y: 1.4
-  bend_euler_R10_W550n_34p638_20p038:
+  bend_euler_R10_W550n_33p138_18p538:
     mirror: false
     rotation: 90
     x: 38.0
     y: 13.4
-  bend_euler_R10_W550n_34p638_2p762:
+  bend_euler_R10_W550n_33p138_4p262:
     mirror: false
     rotation: 0
     x: 28.0

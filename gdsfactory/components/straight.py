@@ -25,8 +25,7 @@ def straight(
     """
     p = gf.path.straight(length=length, npoints=npoints)
 
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
 
     c = gf.path.extrude(p, x)
     c.length = gf.snap.snap_to_grid(length)

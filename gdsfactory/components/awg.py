@@ -3,7 +3,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
+from gdsfactory.types import CrossSectionFactory
 
 
 @gf.cell
@@ -15,7 +16,7 @@ def free_propagation_region(
     inputs: int = 1,
     outputs: int = 10,
     wg_margin: float = 1.0,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
     r"""
@@ -32,9 +33,9 @@ def free_propagation_region(
     """
     y1 = width1 / 2
     y2 = width2 / 2
-    x = get_cross_section(waveguide, **kwargs)
+    x = cross_section(**kwargs)
     o = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"]
+    layers_cladding = x.info["layers_cladding"] or []
     layer = x.info["layer"]
 
     xpts = [0, length, length, 0]

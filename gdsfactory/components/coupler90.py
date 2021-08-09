@@ -22,7 +22,8 @@ def coupler90(
         radius: um
         straight: for straight
         bend: for bend
-        kwargs:  waveguide_settings
+        cross_section:
+        kwargs: cross_section settings
 
     .. code::
 
@@ -38,12 +39,13 @@ def coupler90(
     cross_section = gf.partial(cross_section, radius=radius, **kwargs)
     x = cross_section()
 
-    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     bend_ref = c << bend90
     straight_component = (
         straight(
             cross_section=cross_section,
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
+            **kwargs
         )
         if callable(straight)
         else straight

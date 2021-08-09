@@ -14,6 +14,7 @@ def bend_s(
     nb_points: int = 99,
     with_cladding_box: bool = True,
     cross_section: CrossSectionFactory = strip,
+    **kwargs
 ) -> Component:
     """S bend with bezier curve
 
@@ -35,7 +36,7 @@ def bend_s(
 
     """
     l, h = length, height
-    x = cross_section()
+    x = cross_section(**kwargs)
     width = x.info["width"]
     layer = x.info["layer"]
 

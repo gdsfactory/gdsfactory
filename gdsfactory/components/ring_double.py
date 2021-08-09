@@ -5,6 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
+from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -18,7 +19,7 @@ def ring_double(
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
-    cross_section_factory: Optional[CrossSectionFactory] = None,
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
@@ -48,11 +49,20 @@ def ring_double(
     assert_on_2nm_grid(gap)
 
     coupler_component = (
-        coupler_ring(gap=gap, radius=radius, length_x=length_x, bend=bend, **kwargs)
+        coupler_ring(
+            gap=gap,
+            radius=radius,
+            length_x=length_x,
+            bend=bend,
+            cross_section=cross_section,
+            **kwargs
+        )
         if callable(coupler_ring)
         else coupler_ring
     )
-    straight_component = call_if_func(straight, length=length_y, **kwargs)
+    straight_component = call_if_func(
+        straight, length=length_y, cross_section=cross_section, **kwargs
+    )
 
     c = Component()
     cb = c.add_ref(coupler_component)
@@ -73,5 +83,5 @@ def ring_double(
 
 if __name__ == "__main__":
 
-    c = ring_double(width=1)
+    c = ring_double(width=1, layer=(2, 0))
     c.show()

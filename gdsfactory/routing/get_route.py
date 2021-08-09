@@ -31,8 +31,6 @@ To generate a straight route:
 - length: a float with the length of the route
 
 """
-
-from functools import partial
 from typing import Callable, Optional
 
 import numpy as np
@@ -95,7 +93,6 @@ def get_route(
         c.show()
 
     """
-    cross_section = partial(cross_section, **kwargs)
     x = cross_section()
     waveguide_settings = x.info
     taper_length = waveguide_settings.get("taper_length")
@@ -104,7 +101,7 @@ def get_route(
     width2 = waveguide_settings.get("width_wide") if auto_widen else width1
 
     bend90 = (
-        bend_factory(cross_section=cross_section)
+        bend_factory(cross_section=cross_section, **kwargs)
         if callable(bend_factory)
         else bend_factory
     )
@@ -115,6 +112,7 @@ def get_route(
             width1=input_port.width,
             width2=width2,
             cross_section=cross_section,
+            **kwargs,
         )
         if callable(taper_factory)
         else taper_factory
@@ -130,6 +128,7 @@ def get_route(
         min_straight=min_straight,
         bend_factory=bend90,
         cross_section=cross_section,
+        **kwargs,
     )
 
 
@@ -196,7 +195,6 @@ def get_route_from_waypoints(
         c.show()
     """
 
-    cross_section = partial(cross_section, **kwargs)
     x = cross_section()
     waveguide_settings = x.info
     auto_widen = waveguide_settings.get("auto_widen", False)
@@ -212,6 +210,7 @@ def get_route_from_waypoints(
                 width1=width1,
                 width2=width2,
                 cross_section=cross_section,
+                **kwargs,
             )
             if callable(taper_factory)
             else taper_factory
@@ -225,6 +224,7 @@ def get_route_from_waypoints(
         straight_factory=straight_factory,
         taper=taper,
         cross_section=cross_section,
+        **kwargs,
     )
 
 

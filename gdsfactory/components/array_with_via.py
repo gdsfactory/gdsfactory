@@ -2,17 +2,18 @@ from typing import Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components import LIBRARY
 from gdsfactory.components.array import array
+from gdsfactory.components.electrical.pad import pad
 from gdsfactory.components.straight import straight
+from gdsfactory.components.via_stack import via_stack
+from gdsfactory.cross_section import metal2
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.tech import Library
-from gdsfactory.types import StrOrDict
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @cell
 def array_with_via(
-    component: StrOrDict = "pad",
+    component: ComponentOrFactory = pad,
     n: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
@@ -20,11 +21,10 @@ def array_with_via(
     radius: float = 5.0,
     component_port_name: str = "S",
     bend_port_name: str = "N0",
-    waveguide="metal2",
-    via_stack: StrOrDict = "via_stack",
+    cross_section: CrossSectionFactory = metal2,
+    via_stack: ComponentFactory = via_stack,
     via_stack_y_offset: float = -44.0,
-    library: Library = LIBRARY,
-    **waveguide_settings,
+    **kwargs,
 ) -> Component:
     """Returns an array of components in X axis
     with fanout waveguides facing west
@@ -40,11 +40,11 @@ def array_with_via(
         component_port_name:
         bend_port_name:
         via_stack_port_name:
-        **waveguide_settings
+        **kwargs
     """
     c = Component()
-    component = library.get_component(component)
-    via_stack = library.get_component(via_stack)
+    component = component() if callable(component) else component
+    via_stack = via_stack()
 
     for col in range(n):
         ref = component.ref()
@@ -57,7 +57,7 @@ def array_with_via(
         via_stack_ref.y = col * waveguide_pitch + via_stack_y_offset
 
         straightx_ref = c << straight(
-            length=xlength, waveguide=waveguide, **waveguide_settings
+            length=xlength, cross_section=cross_section, **kwargs
         )
         straightx_ref.connect("E0", via_stack_ref.ports["W0"])
         c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
@@ -89,11 +89,10 @@ def array_with_via_2d(
             waveguide_pitch: for fanout
             end_straight: lenght of the straight at the end
             radius: bend radius
-            waveguide: waveguide definition
             component_port_name:
             bend_port_name:
             via_stack_port_name:
-            **waveguide_settings
+            **kwargs
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
@@ -105,4 +104,4 @@ if __name__ == "__main__":
     # c2 = array_with_via(n=3, width=10, radius=11, waveguide_pitch=20)
     cols = rows = 8
     c2 = array_with_via_2d(cols=cols, rows=rows, waveguide_pitch=12)
-    c2.show(show_ports=True)
+    c2.show()
