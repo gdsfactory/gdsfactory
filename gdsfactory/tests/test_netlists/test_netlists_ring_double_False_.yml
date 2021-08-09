@@ -1,55 +1,55 @@
 connections:
-  coupler_ring_d7d71f27_m0p005_17p685,N0: straight_L10n_10p0_10p705,W0
-  coupler_ring_d7d71f27_m0p005_17p685,N1: straight_L10n_m10p01_10p705,W0
-  coupler_ring_d7d71f27_m0p005_3p725,N0: straight_L10n_m10p01_10p705,E0
-  coupler_ring_d7d71f27_m0p005_3p725,N1: straight_L10n_10p0_10p705,E0
+  coupler_ring_d7d71f27_m0p005_2p725,N0: straight_L10n_m5p01_5p705,E0
+  coupler_ring_d7d71f27_m0p005_2p725,N1: straight_L10n_5p0_5p705,E0
+  coupler_ring_d7d71f27_m0p005_8p685,N0: straight_L10n_5p0_5p705,W0
+  coupler_ring_d7d71f27_m0p005_8p685,N1: straight_L10n_m5p01_5p705,W0
 instances:
-  coupler_ring_d7d71f27_m0p005_17p685:
+  coupler_ring_d7d71f27_m0p005_2p725:
     component: coupler_ring
     settings:
       bend: null
       gap: 0.2
       length_x: 0.01
       radius: 10
-  coupler_ring_d7d71f27_m0p005_3p725:
+  coupler_ring_d7d71f27_m0p005_8p685:
     component: coupler_ring
     settings:
       bend: null
       gap: 0.2
       length_x: 0.01
       radius: 10
-  straight_L10n_10p0_10p705:
+  straight_L10n_5p0_5p705:
     component: straight
     settings:
       length: 0.01
-  straight_L10n_m10p01_10p705:
+  straight_L10n_m5p01_5p705:
     component: straight
     settings:
       length: 0.01
 name: ring_double
 placements:
-  coupler_ring_d7d71f27_m0p005_17p685:
-    mirror: false
-    rotation: 180
-    x: -0.01
-    y: 21.41
-  coupler_ring_d7d71f27_m0p005_3p725:
+  coupler_ring_d7d71f27_m0p005_2p725:
     mirror: false
     rotation: 0
     x: 0.0
-    y: -0.0
-  straight_L10n_10p0_10p705:
+    y: 0.0
+  coupler_ring_d7d71f27_m0p005_8p685:
+    mirror: false
+    rotation: 180
+    x: -0.01
+    y: 11.41
+  straight_L10n_5p0_5p705:
     mirror: false
     rotation: 270
-    x: 10.0
-    y: 10.71
-  straight_L10n_m10p01_10p705:
+    x: 5.0
+    y: 5.71
+  straight_L10n_m5p01_5p705:
     mirror: false
     rotation: 270
-    x: -10.01
-    y: 10.71
+    x: -5.01
+    y: 5.71
 ports:
-  E0: coupler_ring_d7d71f27_m0p005_3p725,E0
-  E1: coupler_ring_d7d71f27_m0p005_17p685,W0
-  W0: coupler_ring_d7d71f27_m0p005_3p725,W0
-  W1: coupler_ring_d7d71f27_m0p005_17p685,E0
+  E0: coupler_ring_d7d71f27_m0p005_2p725,E0
+  E1: coupler_ring_d7d71f27_m0p005_8p685,W0
+  W0: coupler_ring_d7d71f27_m0p005_2p725,W0
+  W1: coupler_ring_d7d71f27_m0p005_8p685,E0

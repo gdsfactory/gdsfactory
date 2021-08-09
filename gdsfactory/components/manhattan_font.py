@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import TECH
 from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 
@@ -12,10 +11,10 @@ from gdsfactory.tech import LAYER
 @gf.cell
 def manhattan_text(
     text: str = "abcd",
-    size: float = TECH.component_settings.manhattan_text.size,
+    size: float = 10.0,
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: Tuple[int, int] = TECH.component_settings.manhattan_text.layer,
+    layer: Tuple[int, int] = (1, 0),
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without accute angles.
 

@@ -328,52 +328,6 @@ WAVEGUIDES = Waveguides()
 SIMULATION_SETTINGS = SimulationSettings()
 
 
-# Component settings
-
-
-@pydantic.dataclasses.dataclass
-class Pad:
-    width: float = 100.0
-    height: float = 100.0
-    layer: Layer = LAYER.M3
-
-
-@pydantic.dataclasses.dataclass
-class Mmi1x2:
-    width: float = 0.5
-    width_taper: float = 1.0
-    length_taper: float = 10.0
-    length_mmi: float = 5.5
-    width_mmi: float = 2.5
-    gap_mmi: float = 0.25
-    with_cladding_box: bool = True
-    waveguide: str = "strip"
-
-
-@pydantic.dataclasses.dataclass
-class Mmi2x2:
-    width: float = 0.5
-    width_taper: float = 1.0
-    length_taper: float = 10.0
-    length_mmi: float = 5.5
-    width_mmi: float = 2.5
-    gap_mmi: float = 0.25
-
-
-@pydantic.dataclasses.dataclass
-class ManhattanText:
-    layer: Layer = LAYER.M3
-    size: float = 10
-
-
-@pydantic.dataclasses.dataclass
-class ComponentSettings:
-    pad: Pad = Pad()
-    mmi1x2: Mmi1x2 = Mmi1x2()
-    mmi2x2: Mmi2x2 = Mmi2x2()
-    manhattan_text: ManhattanText = ManhattanText()
-
-
 def make_empty_dict():
     return {}
 
@@ -398,7 +352,6 @@ class Library:
 
     name: str
     factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
-    settings: ComponentSettings = ComponentSettings()
     post_init: Optional[Callable[[], None]] = None
 
     def __str__(self):
@@ -466,12 +419,7 @@ class Library:
 
         if component not in self.factory:
             raise ValueError(f"{component} not in {list(self.factory.keys())}")
-        component_settings_default = getattr(self.settings, component, {})
-        if component_settings_default:
-            component_settings_default = asdict(component_settings_default)
-        component_settings_default.update(**component_settings)
-        component_settings_default.update(**settings)
-        component = self.factory[component](**component_settings_default)
+        component = self.factory[component](**settings)
         if self.post_init and not hasattr(component, "_initialized"):
             self.post_init(component)
             component._initialized = True
@@ -496,7 +444,6 @@ class Tech:
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
-    component_settings: ComponentSettings = ComponentSettings()
 
 
 TECH = Tech()

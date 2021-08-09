@@ -6,8 +6,9 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
+from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -19,7 +20,7 @@ def ring_single(
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -34,8 +35,8 @@ def ring_single(
         coupler_ring: ring coupler function
         straight: straight function
         bend: 90 degrees bend function
-        waveguide: settings for cross_section
-        kwargs: overwrites waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
 
     .. code::
@@ -57,22 +58,24 @@ def ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            waveguide=waveguide,
+            cross_section=cross_section,
             **kwargs
         )
         if callable(coupler_ring)
         else coupler_ring
     )
     straight_side = call_if_func(
-        straight, length=length_y, waveguide=waveguide, **kwargs
+        straight, length=length_y, cross_section=cross_section, **kwargs
     )
     straight_top = call_if_func(
-        straight, length=length_x, waveguide=waveguide, **kwargs
+        straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
     bend = bend or bend_euler
     bend_ref = (
-        bend(radius=radius, waveguide=waveguide, **kwargs) if callable(bend) else bend
+        bend(radius=radius, cross_section=cross_section, **kwargs)
+        if callable(bend)
+        else bend
     )
 
     c = Component()
@@ -100,7 +103,7 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
 
-    c = ring_single(width=2, gap=1)
+    c = ring_single(width=2, gap=1, layer=(2, 0))
     print(c.ports)
     c.show()
 

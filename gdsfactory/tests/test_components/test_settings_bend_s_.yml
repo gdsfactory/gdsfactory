@@ -19,7 +19,6 @@ settings:
   npoints: 99
   spike_length: 0
   start_angle: null
-  waveguide: strip
   width: 0.5
   with_cladding_box: true
   with_manhattan_facing_angles: true

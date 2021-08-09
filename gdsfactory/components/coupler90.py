@@ -3,8 +3,8 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight
-from gdsfactory.cross_section import StrOrDict, get_cross_section
-from gdsfactory.types import ComponentFactory
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -12,7 +12,7 @@ def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
     bend: ComponentFactory = bend_euler,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     r"""straight coupled to a bend.
@@ -35,16 +35,15 @@ def coupler90(
 
     """
     c = Component()
-    kwargs.update(radius=radius)
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, radius=radius, **kwargs)
+    x = cross_section()
 
-    bend90 = bend(waveguide=waveguide, **kwargs) if callable(bend) else bend
+    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend_ref = c << bend90
     straight_component = (
         straight(
-            waveguide=waveguide,
+            cross_section=cross_section,
             length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
-            **kwargs
         )
         if callable(straight)
         else straight
@@ -76,7 +75,7 @@ def coupler90circular(bend: ComponentFactory = bend_circular, **kwargs):
 if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
-    c = coupler90(radius=3, width=1)
+    c = coupler90(radius=3)
     c.show()
     c.pprint()
     # print(c.ports)

@@ -7,8 +7,9 @@ from gdsfactory.components.coupler90 import coupler90 as coupler90function
 from gdsfactory.components.coupler_straight import (
     coupler_straight as coupler_straight_function,
 )
+from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -19,7 +20,7 @@ def coupler_ring(
     coupler90: ComponentFactory = coupler90function,
     bend: Optional[ComponentFactory] = None,
     coupler_straight: ComponentFactory = coupler_straight_function,
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     r"""Coupler for ring.
@@ -32,8 +33,8 @@ def coupler_ring(
         straight: library for straight waveguides.
         bend: library for bend
         coupler_straight: two parallel coupled straight waveguides.
-        waveguide: settings for cross_section
-        kwargs: overwrites waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     .. code::
 
@@ -53,12 +54,16 @@ def coupler_ring(
 
     # define subcells
     coupler90_component = (
-        coupler90(gap=gap, radius=radius, bend=bend, waveguide=waveguide, **kwargs)
+        coupler90(
+            gap=gap, radius=radius, bend=bend, cross_section=cross_section, **kwargs
+        )
         if callable(coupler90)
         else coupler90
     )
     coupler_straight_component = (
-        coupler_straight(gap=gap, length=length_x, waveguide=waveguide, **kwargs)
+        coupler_straight(
+            gap=gap, length=length_x, cross_section=cross_section, **kwargs
+        )
         if callable(coupler_straight)
         else coupler_straight
     )
@@ -87,9 +92,5 @@ def coupler_ring(
 
 if __name__ == "__main__":
 
-    c = coupler_ring(waveguide="nitride")
-    # c = coupler_ring(radius=5.0, gap=0.3, tech=TECH_METAL1)
-    # c = coupler_ring(length_x=20, radius=5.0, gap=0.3)
-    # print(c.get_settings())
-    print(c.name)
+    c = coupler_ring(width=1, layer=(2, 0))
     c.show()

@@ -11,10 +11,10 @@ from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.grating_coupler.elliptical import grating_coupler_elliptical
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import get_waveguide_settings
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, Number
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -39,7 +39,7 @@ def spiral_inner_io(
     straight_factory: ComponentFactory = straight,
     taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Spiral with ports inside the spiral loop.
@@ -58,13 +58,14 @@ def spiral_inner_io(
         straight_factory: straight function
         taper: taper function
         length: Optional length (will compute spiral length)
-        waveguide: waveguide definition in TECH.waveguide
-        **kwargs: waveguide settings
+        cross_section:
+        **kwargs: cross_section settings
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-    width = waveguide_settings.get("width")
-    taper_length = waveguide_settings.get("taper_length", 10.0)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
+    width = x.info.get("width")
+    taper_length = x.info.get("taper_length", 10.0)
 
     if length:
         if bend180_function == bend_circular180:
@@ -97,8 +98,8 @@ def spiral_inner_io(
                 dy=dy,
             )
 
-    _bend180 = gf.call_if_func(bend180_function, **waveguide_settings)
-    _bend90 = gf.call_if_func(bend90_function, **waveguide_settings)
+    _bend180 = gf.call_if_func(bend180_function, cross_section=cross_section)
+    _bend90 = gf.call_if_func(bend90_function, cross_section=cross_section)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -127,7 +128,7 @@ def spiral_inner_io(
         width1=width,
         width2=_bend180.ports["W0"].width,
         length=taper_length + y_straight_inner_top - 15 - 35,
-        waveguide=waveguide,
+        cross_section=cross_section,
     )
     taper_ref1 = component.add_ref(taper)
     taper_ref1.connect("2", p1)
@@ -167,8 +168,7 @@ def spiral_inner_io(
         bend_factory=_bend90,
         straight_factory=straight_factory,
         taper=taper,
-        waveguide=waveguide,
-        **waveguide_settings
+        cross_section=cross_section,
     )
     component.add(route_west.references)
 
@@ -201,8 +201,7 @@ def spiral_inner_io(
         bend_factory=_bend90,
         straight_factory=straight_factory,
         taper=taper,
-        waveguide=waveguide,
-        **waveguide_settings
+        cross_section=cross_section,
     )
     component.add(route_east.references)
 
@@ -279,17 +278,15 @@ def get_straight_length(
 
 @gf.cell
 def spiral_inner_io_with_gratings(
-    grating_coupler=grating_coupler_elliptical,
-    spiral=spiral_inner_io_euler,
-    waveguide="strip",
-    **kwargs
+    grating_coupler=grating_coupler_elliptical, spiral=spiral_inner_io_euler, **kwargs
 ):
     """Returns a spiral"""
-    spiral = gf.call_if_func(spiral, waveguide=waveguide, **kwargs)
+    spiral = gf.call_if_func(spiral, **kwargs)
     grating_coupler = gf.call_if_func(grating_coupler)
 
     return add_gratings_and_loopback(
-        component=spiral, grating_coupler=grating_coupler, waveguide=waveguide
+        component=spiral,
+        grating_coupler=grating_coupler,
     )
 
 

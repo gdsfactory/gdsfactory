@@ -32,27 +32,27 @@ from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
-from gdsfactory.cross_section import cross_section
 from gdsfactory.show import show
 from gdsfactory.write_doe import write_doe
 from gdsfactory.import_gds import import_gds
 
-import gdsfactory.asserts as asserts
-import gdsfactory.components as components
-import gdsfactory.routing as routing
-import gdsfactory.bias as bias
-import gdsfactory.klive as klive
-import gdsfactory.port as port
-import gdsfactory.types as types
-import gdsfactory.path as path
-import gdsfactory.snap as snap
-import gdsfactory.tech as tech
-import gdsfactory.containers as containers
-import gdsfactory.components.extension as extend
-import gdsfactory.component_from as component_from
-import gdsfactory.read as read
-import gdsfactory.remove as remove
-import gdsfactory.layers as layers
+from gdsfactory import cross_section
+from gdsfactory import asserts
+from gdsfactory import components
+from gdsfactory import routing
+from gdsfactory import bias
+from gdsfactory import klive
+from gdsfactory import port
+from gdsfactory import types
+from gdsfactory import path
+from gdsfactory import snap
+from gdsfactory import tech
+from gdsfactory import containers
+from gdsfactory.components import extension as extend
+from gdsfactory import component_from
+from gdsfactory import read
+from gdsfactory import remove
+from gdsfactory import layers
 
 
 from gdsfactory.tech import TECH

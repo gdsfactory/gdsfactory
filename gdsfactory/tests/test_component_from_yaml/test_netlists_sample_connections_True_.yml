@@ -6,14 +6,12 @@ instances:
     settings:
       length: 0.5
       npoints: 2
-      waveguide: strip
       with_cladding_box: true
   wgw:
     component: straight
     settings:
       length: 1
       npoints: 2
-      waveguide: strip
       with_cladding_box: true
 name: sample_connections
 placements:

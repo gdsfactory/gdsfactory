@@ -2,8 +2,9 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
+from gdsfactory.types import CrossSectionFactory
 
 
 @cell
@@ -12,8 +13,7 @@ def bend_s(
     length: float = 10.0,
     nb_points: int = 99,
     with_cladding_box: bool = True,
-    waveguide: StrOrDict = "strip",
-    **kwargs,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """S bend with bezier curve
 
@@ -35,7 +35,7 @@ def bend_s(
 
     """
     l, h = length, height
-    x = get_cross_section(waveguide, **kwargs)
+    x = cross_section()
     width = x.info["width"]
     layer = x.info["layer"]
 

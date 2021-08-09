@@ -7,9 +7,10 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import ComponentFactory, Number, Routes
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Routes
 
 
 def route_south(
@@ -23,8 +24,8 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> Routes:
     """Returns Routes
 
@@ -57,13 +58,14 @@ def route_south(
         2,
     ], f"optical_routing_type = {optical_routing_type}, not supported "
 
+    cross_section = gf.partial(cross_section, **kwargs)
     optical_ports = component.get_ports_list(port_type="optical")
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     csi = component.size_info
     references = []
     lengths = []
     bend90 = (
-        bend_factory(waveguide=waveguide, **waveguide_settings)
+        bend_factory(cross_section=cross_section)
         if callable(bend_factory)
         else bend_factory
     )
@@ -78,9 +80,8 @@ def route_south(
         straight_factory=straight_factory,
         taper_factory=taper_factory,
         auto_widen=auto_widen,
-        waveguide=waveguide,
+        cross_section=cross_section,
     )
-    conn_params.update(**waveguide_settings)
 
     # Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * dy
@@ -251,7 +252,7 @@ if __name__ == "__main__":
     # r = route_south(c)
 
     c = gf.components.ring_double()
-    r = route_south(c, bend_factory=gf.components.bend_euler, waveguide="nitride")
+    r = route_south(c, bend_factory=gf.components.bend_euler, layer=(2, 0))
     for e in r.references:
         if isinstance(e, list):
             print(len(e))

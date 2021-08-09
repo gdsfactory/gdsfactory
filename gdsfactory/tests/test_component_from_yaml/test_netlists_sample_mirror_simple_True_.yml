@@ -6,14 +6,12 @@ instances:
     settings:
       angle: 90
       npoints: 720
-      waveguide: strip
       with_cladding_box: true
   w:
     component: straight
     settings:
       length: 10
       npoints: 2
-      waveguide: strip
       with_cladding_box: true
 name: sample_mirror_simple
 placements:

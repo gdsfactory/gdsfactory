@@ -2,9 +2,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
-from gdsfactory.cross_section import get_waveguide_settings
+from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_1nm_grid
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -15,7 +15,7 @@ def coupler(
     coupler_straight_factory: ComponentFactory = coupler_straight,
     dy: float = 5.0,
     dx: float = 10.0,
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     r"""Symmetric coupler.
@@ -46,19 +46,20 @@ def coupler(
 
 
     """
+    cross_section = gf.partial(cross_section, **kwargs)
     assert_on_1nm_grid(length)
     assert_on_1nm_grid(gap)
     c = Component()
 
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
-
     sbend = coupler_symmetric_factory(
-        gap=gap, dy=dy, dx=dx, waveguide=waveguide, **waveguide_settings
+        gap=gap, dy=dy, dx=dx, cross_section=cross_section
     )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight_factory(length=length, gap=gap, **waveguide_settings)
+    cs = c << coupler_straight_factory(
+        length=length, gap=gap, cross_section=cross_section
+    )
     sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
 
@@ -83,9 +84,6 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    # c = coupler(gap=0.2, waveguide="nitride")
-    # c = coupler(width=0.9, length=1, dy=2, gap=0.2)
-    # print(c.settings_changed)
-    c = coupler(gap=0.2, waveguide="nitride")
-    # c = coupler(gap=0.2, waveguide="strip_heater")
+    layer = (2, 0)
+    c = coupler(gap=0.2, layer=layer)
     c.show()

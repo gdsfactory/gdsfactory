@@ -2,21 +2,20 @@ import gdsfactory as gf
 from gdsfactory.add_padding import add_padding
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.config import TECH
-from gdsfactory.cross_section import StrOrDict, get_cross_section
-from gdsfactory.types import ComponentFactory
+from gdsfactory.cross_section import strip
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
 def mmi2x2(
-    width: float = TECH.component_settings.mmi2x2.width,
-    width_taper: float = TECH.component_settings.mmi2x2.width_taper,
-    length_taper: float = TECH.component_settings.mmi2x2.length_taper,
-    length_mmi: float = TECH.component_settings.mmi2x2.length_mmi,
-    width_mmi: float = TECH.component_settings.mmi2x2.width_mmi,
-    gap_mmi: float = TECH.component_settings.mmi2x2.gap_mmi,
+    width: float = 0.5,
+    width_taper: float = 1.0,
+    length_taper: float = 10.0,
+    length_mmi: float = 5.5,
+    width_mmi: float = 2.5,
+    gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     r"""Mmi 2x2.
@@ -29,8 +28,8 @@ def mmi2x2(
         width_mmi: in y direction
         gap_mmi: (width_taper + gap between tapered wg)/2
         taper: taper function
-        waveguide_settings: settings for cross_section
-        kwargs: overwrites waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
 
     .. code::
@@ -52,7 +51,8 @@ def mmi2x2(
             length_taper
 
     """
-    x = get_cross_section(waveguide, **kwargs)
+    cross_section = gf.partial(cross_section, **kwargs)
+    x = cross_section()
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -62,7 +62,7 @@ def mmi2x2(
     w_taper = width_taper
 
     taper = taper(
-        length=length_taper, width1=width, width2=w_taper, waveguide=waveguide, **kwargs
+        length=length_taper, width1=width, width2=w_taper, cross_section=cross_section
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -102,8 +102,6 @@ def mmi2x2(
 
 
 if __name__ == "__main__":
-    c = mmi2x2(waveguide="nitride")
+    c = mmi2x2(layer=(2, 0))
     c.show()
-    # print(c.get_optical_ports())
     c.pprint()
-    c.show()
