@@ -5,8 +5,9 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.types import ComponentFactory, StrOrDict
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell_without_validator
@@ -18,7 +19,7 @@ def add_fiber_array(
     gc_port_name: str = "W0",
     component_name: Optional[str] = None,
     taper_length: float = 10.0,
-    waveguide: StrOrDict = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -96,7 +97,7 @@ def add_fiber_array(
         straight_factory=straight_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,
-        waveguide=waveguide,
+        cross_section=cross_section,
         **kwargs,
     )
     if len(elements) == 0:

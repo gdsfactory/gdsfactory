@@ -15,9 +15,7 @@ settings:
       dy: 5
       gap: 0.244
       length: 5.67
-      waveguide: strip
   component_name: null
   gc_port_name: W0
   optical_routing_type: 0
   taper_length: 10
-  waveguide: strip

@@ -8,8 +8,9 @@ The metal layer traces are 2um wide
 import dataclasses
 
 import gdsfactory as gf
+from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
-from gdsfactory.tech import TECH, Layer, Waveguide
+from gdsfactory.tech import Layer, Waveguide
 
 
 @dataclasses.dataclass
@@ -23,22 +24,23 @@ class Metal1(Waveguide):
 
 METAL1 = Metal1()
 
-TECH.waveguide.metal1 = METAL1
+
+fab_b_metal = gf.partial(strip, width=METAL1.width, layer=METAL1.layer)
 
 
 def test_waveguide():
-    c = gf.components.straight(waveguide="metal1")
+    c = gf.components.straight(cross_section="metal1")
     difftest(c)
 
 
 if __name__ == "__main__":
 
-    wg = gf.components.straight(length=20, waveguide="metal1")
+    wg = gf.components.straight(length=20, cross_section=fab_b_metal)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=METAL1.layer, wg_width=METAL1.width
     )
 
     wg_gc = gf.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, waveguide="metal1"
+        component=wg, grating_coupler=gc, cross_section=fab_b_metal
     )
     wg_gc.show()
