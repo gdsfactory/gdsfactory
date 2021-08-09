@@ -252,9 +252,7 @@ if __name__ == "__main__":
     )
     cc.show()
 
-    # c = gf.components.straight(
-    #     length=20, **waveguide_settings
-    # )
+    # c = gf.components.straight(length=20)
     # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
-    # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, **waveguide_settings)
+    # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
     # cc.show()

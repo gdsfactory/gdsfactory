@@ -4,16 +4,17 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.hline import hline
-from gdsfactory.cross_section import get_waveguide_settings
+from gdsfactory.cross_section import strip
 from gdsfactory.port import deco_rename_ports
+from gdsfactory.types import CrossSectionFactory
 
 
 @deco_rename_ports
 @gf.cell
 def wire_straight(
     length: float = 50.0,
-    waveguide: gf.types.StrOrDict = "metal_routing",
     port_type: str = "dc",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Straight straight.
@@ -24,7 +25,8 @@ def wire_straight(
         port_type: port_type
         kwargs: waveguide_settings
     """
-    waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)
+    x = cross_section(**kwargs)
+    waveguide_settings = x.info
     width = waveguide_settings["width"]
     layer = waveguide_settings["layer"]
 
@@ -36,7 +38,7 @@ def wire_straight(
 @deco_rename_ports
 @gf.cell
 def wire_corner(
-    port_type: str = "dc", waveguide: gf.types.StrOrDict = "metal_routing", **kwargs
+    port_type: str = "dc", cross_section: CrossSectionFactory = strip, **kwargs
 ) -> Component:
     """90 degrees electrical corner
 
@@ -46,7 +48,8 @@ def wire_corner(
         kwargs: waveguide_settings
 
     """
-    waveguide_settings = get_waveguide_settings(waveguide=waveguide, **kwargs)
+    x = cross_section(**kwargs)
+    waveguide_settings = x.info
     width = waveguide_settings["width"]
     layer = waveguide_settings["layer"]
 

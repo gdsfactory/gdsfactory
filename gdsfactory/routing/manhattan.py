@@ -477,27 +477,6 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
-# def raise_error_if_not_routable(waypoints: ndarray, radius: float) -> None:
-#     """Raises RoutingError if no space for two 90degree bends."""
-#     w = np.round(np.array(waypoints), 3)
-#     dx = np.diff(w[:, 0])
-#     dy = np.diff(w[:, 1])
-#     dx = set(np.abs(dx)) - {0}
-#     dy = set(np.abs(dy)) - {0}
-#     dxmin = min(dx)
-#     dymin = min(dy)
-#     if dxmin / 2 < radius:
-#         raise RoutingError(
-#             f"no space to fit a 90 degree bend for dx = {dxmin:.3f}. Min radius {dxmin/2:.3f}"
-#         )
-#     if dymin / 2 < radius:
-#         raise RoutingError(
-#             f"no space to fit a 90 degree bend for dy = {dymin:.3f}. Min radius {dymin/2:.3f}"
-#         )
-# def raise_error_if_not_routable(p1, p2, p3) -> None:
-#     """Raises RoutingError the sign is not the same."""
-
-
 def round_corners(
     points: Coordinates,
     straight_factory: ComponentFactory = straight,
@@ -526,7 +505,6 @@ def round_corners(
         cross_section:
         **kwargs: cross_section settings
     """
-    cross_section = gf.partial(cross_section, **kwargs)
     x = cross_section()
 
     auto_widen = x.info.get("auto_widen", False)
@@ -534,12 +512,12 @@ def round_corners(
     taper_length = x.info.get("taper_length", 10.0)
     references = []
     bend90 = (
-        bend_factory(cross_section=cross_section)
+        bend_factory(cross_section=cross_section, **kwargs)
         if callable(bend_factory)
         else bend_factory
     )
     # radius = bend90.radius
-    taper = taper(cross_section=cross_section) if callable(taper) else taper
+    taper = taper(cross_section=cross_section, **kwargs) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
     if taper and isinstance(taper, Component):
@@ -679,15 +657,14 @@ def round_corners(
         # Straight waveguide
         length = snap_to_grid(length)
         if with_taper:
-            cross_section_wide = gf.partial(cross_section, width=taper_width)
+            kwargs_wide = kwargs.copy()
+            kwargs_wide.update(width=taper_width)
             wg = straight_factory(
-                length=length,
-                cross_section=cross_section_wide,
+                length=length, cross_section=cross_section, **kwargs_wide
             )
         else:
             wg = straight_factory_fall_back_no_taper(
-                length=length,
-                cross_section=cross_section,
+                length=length, cross_section=cross_section, **kwargs
             )
 
         if straight_ports is None:
@@ -753,8 +730,7 @@ def generate_manhattan_waypoints(
         if callable(bend_factory)
         else bend_factory
     )
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
 
     start_straight = start_straight or waveguide_settings.get("min_length")
@@ -788,8 +764,7 @@ def route_manhattan(
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
     """
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
 
     start_straight = start_straight or waveguide_settings.get("min_length")
@@ -804,6 +779,7 @@ def route_manhattan(
         min_straight=min_straight,
         bend_factory=bend_factory,
         cross_section=cross_section,
+        **kwargs,
     )
     return round_corners(
         points=points,
@@ -811,6 +787,7 @@ def route_manhattan(
         taper=taper,
         bend_factory=bend_factory,
         cross_section=cross_section,
+        **kwargs,
     )
 
 

@@ -11,5 +11,4 @@ settings:
   pitch: 150
   radius: 5
   start_straight: 5
-  waveguide: metal_routing
   waveguide_pitch: 10

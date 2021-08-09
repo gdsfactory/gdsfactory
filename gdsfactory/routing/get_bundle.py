@@ -18,7 +18,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
@@ -26,7 +26,7 @@ from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, Number, Route
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Route
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
 
@@ -41,8 +41,8 @@ def get_bundle(
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
     start_straight: Optional[float] = None,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
     Chooses the correct u_bundle to use based on port angles
@@ -56,8 +56,8 @@ def get_bundle(
         sort_ports:
         end_straight_offset:
         start_straight:
-        waveguide:
-        waveguide_settings: waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
     """
     # convert single port to list
@@ -86,7 +86,7 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    x = get_cross_section(waveguide, **waveguide_settings)
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
     start_straight = start_straight or waveguide_settings.get("min_length")
 
@@ -107,8 +107,9 @@ def get_bundle(
         "end_straight_offset": end_straight_offset,
         "bend_factory": bend_factory,
         "straight_factory": straight_factory,
-        "waveguide": waveguide,
+        "cross_section": cross_section,
     }
+    params.update(**kwargs)
 
     start_angle = ports1[0].angle
     end_angle = ports2[0].angle
@@ -138,17 +139,15 @@ def get_bundle(
             and y_start > y_end
         ):
             # print('get_bundle_same_axis')
-            return get_bundle_same_axis(**params, **waveguide_settings)
+            return get_bundle_same_axis(**params)
 
         elif start_angle == end_angle:
             # print('get_bundle_udirect')
-            return get_bundle_udirect(**params, **waveguide_settings)
+            return get_bundle_udirect(**params)
 
         elif end_angle == (start_angle + 180) % 360:
             # print('get_bundle_uindirect')
-            return get_bundle_uindirect(
-                extension_length=extension_length, **params, **waveguide_settings
-            )
+            return get_bundle_uindirect(extension_length=extension_length, **params)
         else:
             raise NotImplementedError("This should never happen")
 
@@ -157,7 +156,7 @@ def get_bundle(
         waveguide_settings.pop("start_straight")
         waveguide_settings.pop("end_straight_offset")
         return get_bundle_corner(
-            **waveguide_settings,
+            **kwargs,
         )
 
 
@@ -189,8 +188,8 @@ def get_bundle_same_axis(
     start_straight: float = 0.0,
     bend_factory: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
 
@@ -205,8 +204,8 @@ def get_bundle_same_axis(
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_offset: offset to add at the end of each straight
         sort_ports: sort the ports according to the axis.
-        waveguide: cross_section
-        waveguide_settings
+        cross_section: cross_section
+        **kwargs: cross_section settings
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -256,17 +255,17 @@ def get_bundle_same_axis(
         ports2,
         separation=separation,
         bend_factory=bend_factory,
-        waveguide=waveguide,
+        cross_section=cross_section,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
-        **waveguide_settings,
+        **kwargs,
     )
     return [
         get_route_from_waypoints(
             route,
             bend_factory=bend_factory,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
+            **kwargs,
         )
         for route in routes
     ]
@@ -279,8 +278,8 @@ def _get_bundle_waypoints(
     end_straight_offset: float = 0.0,
     tol: float = 0.00001,
     start_straight: float = 0.0,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[ndarray]:
     """Returns route coordinates List
 
@@ -291,8 +290,8 @@ def _get_bundle_waypoints(
         end_straight_offset: adds a straigth
         tol: tolerance
         start_straight: length of straight
-        waveguide: waveguide cross_section
-        waveguide_settings: waveguide_settings
+        cross_section: cross_section
+        kwargs: cross_section settings
     """
 
     if not ports1 and not ports2:
@@ -318,8 +317,8 @@ def _get_bundle_waypoints(
                 ports2[0],
                 start_straight=start_straight,
                 end_straight=end_straight_offset,
-                waveguide=waveguide,
-                **waveguide_settings,
+                cross_section=cross_section,
+                **kwargs,
             )
         ]
 
@@ -430,8 +429,8 @@ def _get_bundle_waypoints(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    waveguide=waveguide,
-                    **waveguide_settings,
+                    cross_section=cross_section,
+                    **kwargs,
                 )
             ]
 
@@ -442,8 +441,8 @@ def _get_bundle_waypoints(
                     ports2[i],
                     start_straight=start_straight,
                     end_straight=end_straights[i],
-                    waveguide=waveguide,
-                    **waveguide_settings,
+                    cross_section=cross_section,
+                    **kwargs,
                 )
             ]
     return elems
@@ -522,8 +521,8 @@ def get_bundle_same_axis_no_grouping(
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     sort_ports: bool = True,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[Route]:
     r"""Returns a list of route elements.
 
@@ -640,8 +639,8 @@ def get_bundle_same_axis_no_grouping(
                 ports2[i],
                 start_straight=s_straight,
                 end_straight=e_straight,
-                waveguide=waveguide,
-                **waveguide_settings,
+                cross_section=cross_section,
+                **kwargs,
             )
         ]
 

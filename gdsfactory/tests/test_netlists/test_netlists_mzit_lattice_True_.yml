@@ -1,6 +1,6 @@
 connections: {}
 instances:
-  mzit_dfcdab44_20p638_11p4:
+  mzit_dfcdab44_19p138_11p4:
     component: mzit
     settings:
       Ls: 1
@@ -17,13 +17,13 @@ instances:
       w2: 0.55
 name: mzit_lattice
 placements:
-  mzit_dfcdab44_20p638_11p4:
+  mzit_dfcdab44_19p138_11p4:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  W0: mzit_dfcdab44_20p638_11p4,W0
-  W1: mzit_dfcdab44_20p638_11p4,W1
-  W2: mzit_dfcdab44_20p638_11p4,W2
-  W3: mzit_dfcdab44_20p638_11p4,W3
+  W0: mzit_dfcdab44_19p138_11p4,W0
+  W1: mzit_dfcdab44_19p138_11p4,W1
+  W2: mzit_dfcdab44_19p138_11p4,W2
+  W3: mzit_dfcdab44_19p138_11p4,W3

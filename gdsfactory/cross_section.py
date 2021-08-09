@@ -124,6 +124,7 @@ strip = cross_section
 rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
 )
+metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
 
 
 def pin(

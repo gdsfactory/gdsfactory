@@ -1,11 +1,11 @@
 connections:
-  bend_euler_R10_W450n_31p612_18p012,N0: taper_L5_W450n_W550n_22p5_21p4,1
-  bend_euler_R10_W450n_31p612_18p012,W0: bend_euler_R10_W450n_31p612_4p788,N0
-  bend_euler_R10_W450n_31p612_4p788,W0: taper_L5_W500n_W450n_22p5_1p4,2
-  bend_euler_R10_W550n_34p638_20p038,N0: straight_L3_W550n_26p5_23p4,W0
-  bend_euler_R10_W550n_34p638_20p038,W0: straight_L4_W550n_38p0_11p4,E0
-  bend_euler_R10_W550n_34p638_2p762,N0: straight_L4_W550n_38p0_11p4,W0
-  bend_euler_R10_W550n_34p638_2p762,W0: straight_L3_W550n_26p5_m0p6,E0
+  bend_euler_R10_W450n_30p112_16p512,N0: taper_L5_W450n_W550n_22p5_21p4,1
+  bend_euler_R10_W450n_30p112_16p512,W0: bend_euler_R10_W450n_30p112_6p288,N0
+  bend_euler_R10_W450n_30p112_6p288,W0: taper_L5_W500n_W450n_22p5_1p4,2
+  bend_euler_R10_W550n_33p138_18p538,N0: straight_L3_W550n_26p5_23p4,W0
+  bend_euler_R10_W550n_33p138_18p538,W0: straight_L4_W550n_38p0_11p4,E0
+  bend_euler_R10_W550n_33p138_4p262,N0: straight_L4_W550n_38p0_11p4,W0
+  bend_euler_R10_W550n_33p138_4p262,W0: straight_L3_W550n_26p5_m0p6,E0
   coupler_D2_G200n_L5_1p5_22p4,E0: taper_L5_W550n_W500n_16p5_21p4,2
   coupler_D2_G200n_L5_1p5_22p4,E1: taper_L5_W450n_W500n_16p5_23p4,2
   coupler_D2_G300n_L10_5p0_0p4,E0: taper_L5_W500n_W550n_22p5_m0p6,1
@@ -17,7 +17,7 @@ connections:
   straight_L3_W550n_26p5_23p4,E0: taper_L5_W550n_W450n_22p5_23p4,1
   straight_L3_W550n_26p5_m0p6,W0: taper_L5_W500n_W550n_22p5_m0p6,2
 instances:
-  bend_euler_R10_W450n_31p612_18p012:
+  bend_euler_R10_W450n_30p112_16p512:
     component: bend_euler
     settings:
       angle: 90
@@ -25,11 +25,10 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      waveguide: strip
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_R10_W450n_31p612_4p788:
+  bend_euler_R10_W450n_30p112_6p288:
     component: bend_euler
     settings:
       angle: 90
@@ -37,11 +36,10 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      waveguide: strip
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_R10_W550n_34p638_20p038:
+  bend_euler_R10_W550n_33p138_18p538:
     component: bend_euler
     settings:
       angle: 90
@@ -49,11 +47,10 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      waveguide: strip
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_R10_W550n_34p638_2p762:
+  bend_euler_R10_W550n_33p138_4p262:
     component: bend_euler
     settings:
       angle: 90
@@ -61,7 +58,6 @@ instances:
       npoints: 720
       p: 1
       radius: 10
-      waveguide: strip
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
@@ -72,7 +68,6 @@ instances:
       dy: 2
       gap: 0.2
       length: 5
-      waveguide: strip
   coupler_D2_G300n_L10_5p0_0p4:
     component: coupler
     settings:
@@ -80,13 +75,11 @@ instances:
       dy: 2
       gap: 0.3
       length: 10
-      waveguide: strip
   straight_L1_W450n_19p5_23p4:
     component: straight
     settings:
       length: 1
       npoints: 2
-      waveguide: strip
       width: 0.45
       with_cladding_box: true
   straight_L1_W550n_19p5_21p4:
@@ -94,7 +87,6 @@ instances:
     settings:
       length: 1
       npoints: 2
-      waveguide: strip
       width: 0.55
       with_cladding_box: true
   straight_L3_W550n_26p5_23p4:
@@ -102,7 +94,6 @@ instances:
     settings:
       length: 3
       npoints: 2
-      waveguide: strip
       width: 0.55
       with_cladding_box: true
   straight_L3_W550n_26p5_m0p6:
@@ -110,7 +101,6 @@ instances:
     settings:
       length: 3
       npoints: 2
-      waveguide: strip
       width: 0.55
       with_cladding_box: true
   straight_L4_W550n_38p0_11p4:
@@ -118,7 +108,6 @@ instances:
     settings:
       length: 4
       npoints: 2
-      waveguide: strip
       width: 0.55
       with_cladding_box: true
   taper_L5_W450n_W500n_16p5_23p4:
@@ -126,7 +115,6 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.45
       width2: 0.5
       with_cladding_box: true
@@ -135,7 +123,6 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.45
       width2: 0.55
       with_cladding_box: true
@@ -144,7 +131,6 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.5
       width2: 0.45
       with_cladding_box: true
@@ -153,7 +139,6 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.5
       width2: 0.55
       with_cladding_box: true
@@ -162,7 +147,6 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.55
       width2: 0.45
       with_cladding_box: true
@@ -171,28 +155,27 @@ instances:
     settings:
       length: 5
       port: null
-      waveguide: strip
       width1: 0.55
       width2: 0.5
       with_cladding_box: true
 name: mzit
 placements:
-  bend_euler_R10_W450n_31p612_18p012:
+  bend_euler_R10_W450n_30p112_16p512:
     mirror: false
     rotation: 90
     x: 35.0
     y: 11.4
-  bend_euler_R10_W450n_31p612_4p788:
+  bend_euler_R10_W450n_30p112_6p288:
     mirror: false
     rotation: 0
     x: 25.0
     y: 1.4
-  bend_euler_R10_W550n_34p638_20p038:
+  bend_euler_R10_W550n_33p138_18p538:
     mirror: false
     rotation: 90
     x: 38.0
     y: 13.4
-  bend_euler_R10_W550n_34p638_2p762:
+  bend_euler_R10_W550n_33p138_4p262:
     mirror: false
     rotation: 0
     x: 28.0
