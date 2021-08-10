@@ -1,14 +1,20 @@
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.samples.pdk.fab_c import LAYER, WIDTH_NITRIDE_CBAND, straight_c
+from gdsfactory.samples.pdk.fab_c import (
+    LAYER,
+    WIDTH_NITRIDE_CBAND,
+    bend_euler_c,
+    fabc_nitride_cband,
+    straight_c,
+)
 
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
 def test_add_pins_with_routes(optical_routing_type) -> None:
     """
-    Add grating couplers to a waveguide
-    ensure that all the waveguide routes have pins
+    Add grating couplers to a straight
+    ensure that all the routes have pins
 
     """
     c = straight_c(length=11.0)
@@ -18,8 +24,9 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
     cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,
-        waveguide="fabc_nitride_cband",
+        cross_section=fabc_nitride_cband,
         straight_factory=straight_c,
+        bend_factory=bend_euler_c,
         optical_routing_type=optical_routing_type,
     )
     pins_component = cc.extract(layers=(LAYER.PIN,))
@@ -41,13 +48,11 @@ if __name__ == "__main__":
     test_add_pins_with_routes(0)
     test_add_pins_with_routes(1)
 
-    # c = mzi_nitride_cband()
     # c = straight_c()
     # gc = gf.components.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)
     # cc = gf.routing.add_fiber_single(
     #     component=c,
     #     grating_coupler=gc,
-    #     waveguide="nitride_cband",
     #     straight_factory=straight_c,
     #     optical_routing_type=1,
     # )

@@ -1,8 +1,7 @@
 function_name: wire_corner
 info:
-  length: 2
+  length: 10
 module: gdsfactory.components.wire
 name: wire_corner
 settings:
   port_type: dc
-  waveguide: metal_routing

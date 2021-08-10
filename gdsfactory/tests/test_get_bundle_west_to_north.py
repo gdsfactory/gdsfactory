@@ -31,7 +31,6 @@ def test_get_bundle_west_to_north(
         pbports,
         ptports,
         bend_factory=gf.components.wire_corner,
-        waveguide="metal_routing",
     )
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -58,7 +57,6 @@ def test_get_bundle_west_to_north2(
         pbottom_facing_north,
         ptop_facing_west,
         bend_factory=gf.components.wire_corner,
-        waveguide="metal_routing",
     )
 
     for i, route in enumerate(routes):

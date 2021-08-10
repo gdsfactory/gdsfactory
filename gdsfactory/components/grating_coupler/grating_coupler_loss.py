@@ -6,10 +6,11 @@ from gdsfactory.add_labels import get_input_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import grating_coupler_te
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 def connect_loopback(
@@ -19,7 +20,7 @@ def connect_loopback(
     b: float,
     R: float,
     y_bot_align_route: float,
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> ComponentReference:
     p0 = port0.position
@@ -35,12 +36,11 @@ def connect_loopback(
         p1,
     ]
 
-    bend90 = gf.components.bend_euler(radius=R, waveguide=waveguide, **kwargs)
+    bend90 = gf.components.bend_euler(radius=R, cross_section=cross_section, **kwargs)
     return round_corners(
         points=points,
         bend_factory=bend90,
         straight_factory=gf.components.straight,
-        waveguide=waveguide,
         **kwargs
     ).references
 
@@ -51,7 +51,7 @@ def loss_deembedding_ch13_24(
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 1),
-    waveguide: str = "strip",
+    cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
 
@@ -69,7 +69,7 @@ def loss_deembedding_ch13_24(
             gc_ports[2],
             start_straight=40.0,
             taper_factory=None,
-            waveguide=waveguide,
+            cross_section=cross_section,
             **kwargs
         ).references
     )
@@ -83,7 +83,7 @@ def loss_deembedding_ch13_24(
 
     c.add(
         connect_loopback(
-            p1, p3, a, b, R, y_bot_align_route, waveguide=waveguide, **kwargs
+            p1, p3, a, b, R, y_bot_align_route, cross_section=cross_section, **kwargs
         )
     )
     for i, index in enumerate(input_port_indexes):
@@ -102,7 +102,6 @@ def loss_deembedding_ch12_34(
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 2),
-    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     gc = grating_coupler_factory()
@@ -116,22 +115,12 @@ def loss_deembedding_ch12_34(
 
     c.add(
         get_route(
-            gc_ports[0],
-            gc_ports[1],
-            start_straight=40.0,
-            taper_factory=None,
-            waveguide=waveguide,
-            **kwargs
+            gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None, **kwargs
         ).references
     )
     c.add(
         get_route(
-            gc_ports[2],
-            gc_ports[3],
-            start_straight=40.0,
-            taper_factory=None,
-            waveguide=waveguide,
-            **kwargs
+            gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None, **kwargs
         ).references
     )
     for i, index in enumerate(input_port_indexes):
@@ -149,7 +138,6 @@ def loss_deembedding_ch14_23(
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
     input_port_indexes: Iterable[int] = (0, 1),
-    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     gc = grating_coupler_factory()
@@ -163,22 +151,12 @@ def loss_deembedding_ch14_23(
 
     c.add(
         get_route(
-            gc_ports[0],
-            gc_ports[3],
-            start_straight=40.0,
-            taper_factory=None,
-            waveguide=waveguide,
-            **kwargs
+            gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None, **kwargs
         ).references
     )
     c.add(
         get_route(
-            gc_ports[1],
-            gc_ports[2],
-            start_straight=30.0,
-            taper_factory=None,
-            waveguide=waveguide,
-            **kwargs
+            gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None, **kwargs
         ).references
     )
     for i, index in enumerate(input_port_indexes):
@@ -194,7 +172,6 @@ def loss_deembedding_ch14_23(
 def grating_coupler_loss(
     pitch: float = 127.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
-    waveguide: str = "strip",
     **kwargs
 ) -> Component:
     """
@@ -202,19 +179,18 @@ def grating_coupler_loss(
     Args:
         pitch: grating_coupler_pitch
         grating_coupler_factory: function
-        waveguide: from TECH.waveguide
-        **kwargs: waveguide_settings
+        **kwargs: cross_section settings
 
     """
     c = gf.Component()
     _c1 = loss_deembedding_ch13_24(
-        grating_coupler_factory=grating_coupler_factory, waveguide=waveguide, **kwargs
+        grating_coupler_factory=grating_coupler_factory, **kwargs
     )
     _c2 = loss_deembedding_ch14_23(
-        grating_coupler_factory=grating_coupler_factory, waveguide=waveguide, **kwargs
+        grating_coupler_factory=grating_coupler_factory, **kwargs
     )
     _c3 = loss_deembedding_ch12_34(
-        grating_coupler_factory=grating_coupler_factory, waveguide=waveguide, **kwargs
+        grating_coupler_factory=grating_coupler_factory, **kwargs
     )
     c.add_ref(_c1)
     c2 = c.add_ref(_c2)
@@ -229,5 +205,5 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
-    c = grating_coupler_loss(waveguide="nitride")
+    c = grating_coupler_loss(layer=(2, 0))
     c.show()

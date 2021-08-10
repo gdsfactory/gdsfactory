@@ -167,11 +167,7 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
-        auto_widen=False,
+        auto_widen=True,
+        layer=(2, 0),
     )
-    # cc = demo_te_and_tm()
-    # print(cc.ports.keys())
-    # print(cc.ports.keys())
-    print(cc.name)
     cc.show()
-    # cc.pprint()

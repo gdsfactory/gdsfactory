@@ -1188,13 +1188,11 @@ def test_get_layers() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(
-        length=10,
-        width=0.5,
-        layer=(2, 0),
+        length=10, width=0.5, layer=(2, 0), layers_cladding=((111, 0),)
     )
-    assert c.get_layers() == {(2, 0), (111, 0)}
+    assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
     c.remove_layers((111, 0))
-    assert c.get_layers() == {(2, 0)}
+    assert c.get_layers() == {(2, 0)}, c.get_layers()
     return c
 
 
@@ -1373,12 +1371,11 @@ def demo_component(port):
 def test_extract():
     import gdsfactory as gf
 
-    c = gf.components.straight(length=10, width=0.5)
+    c = gf.components.straight(length=10, width=0.5, layers_cladding=[gf.LAYER.WGCLAD])
     c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 
-    print(len(c.polygons))
-    assert len(c.polygons) == 2
-    assert len(c2.polygons) == 1
+    assert len(c.polygons) == 2, len(c.polygons)
+    assert len(c2.polygons) == 1, len(c2.polygons)
 
 
 def hash_file(filepath):
@@ -1388,130 +1385,5 @@ def hash_file(filepath):
 
 
 if __name__ == "__main__":
-    # c = Component("a" * 33)
-    # c.validate("name")
-    # test_extract()
-    import gdsfactory as gf
-
-    c = gf.components.straight(
-        length=10,
-        width=0.5,
-    )
-    print(c.to_dict())
-    d = OmegaConf.create(c.to_dict())
-    print(d)
-
-    # c = Component()
-    # c.name = "hi"
-    # gdspath = c.write_gds("extra/wg.gds")
-    # c.hash_geometry()
-    # h = hash_file(gdspath)
-    # print(h)
-
-    # c2 = c.extract(layers=[(1, 0)])
-    # c = test_get_layers()
-    # c.show()
-
-    # import gdsfactory as gf
-
-    # c = gf.components.bend_circular()
-    # c.write_gds_with_metadata("bend.gds")
-    # c.pprint()
-
-    # c.info["curvature_info"] = 10
-    # c.curvature = 5
-    # c.get_settings()
-    # c.pprint(ignore=("length",))
-    # c = gf.components.straight()
-
-    # c0 = gf.components.straight()
-    # c = gf.components.straight(length=3.0)
-    # c.info["c"] = c0
-
-    # import matplotlib.pyplot as plt
-
-    # c = gf.components.ring_single()
-    # c = gf.components.mzi()
-    # c.plot_netlist()
-
-    # coupler_lengths = [10, 20, 30]
-    # coupler_gaps = [0.1, 0.2, 0.3]
-    # delta_lengths = [10, 100]
-
-    # c = gf.components.mzi_lattice(
-    #     coupler_lengths=coupler_lengths,
-    #     coupler_gaps=coupler_gaps,
-    #     delta_lengths=delta_lengths,
-    # )
-    # n = c.get_netlist()
-    # print(n.placements)
-    # print(n.connections)
-
-    # plt.show()
-
-    # plt.show()
-
-    # test_netlist_simple()
-    # test_netlist_complex()
-
-    # c = gf.components.straight()
-    # print(c.get_settings())
-    # c = gf.components.dbr(n=1)
-
-    # print(c.get_layers())
-
-    # c = gf.components.bend_circular180()
-    # c = gf.components.coupler()
-    # c.add_labels()
-    # c.show()
-    # test_same_uid()
-
-    # c = gf.components.mmi1x2()
-    # c = gf.components.mzi1x2()
-
-    # print(c.hash_geometry())
-    # print(c.get_json())
-    # print(c.get_settings())
-    # print(c.settings)
-
-    # print(c.get_settings())
-    # print(c.get_ports_array())
-
-    # print(json.dumps(c.get_settings()))
-    # print(c.get_json()['cells'].keys())
-    # print(c.get_json())
-
-    # from gdsfactory.routing import add_fiber_array
-    # cc = add_fiber_array(c)
-
-    # from pprint import pprint
-
-    # c = gf.components.mmi1x2()
-    # cc = add_fiber_array(c)
-    # cc.get_json()
-    # cc.show()
-    # c.update_settings(
-    #     analysis={
-    #         "device_type": "loopback",
-    #         "test_method": "spectrum",
-    #         "analysis_keys": "[cell_name, category, 0]",
-    #         "polarization_mix": "None",
-    #         "device_group_type": "deembed, mapping",
-    #         "optical_io_measure": "[[1,4],[2,3]]",
-    #         "polarization_input": "TE",
-    #         "deembed_device_group_id": "None",
-    #     }
-    # )
-
-    # w = gf.components.straight()
-    # c = demo_component(port=w.ports["E0"])
-    # pprint(c.get_json())
-    # pprint(c.get_settings())
-
-    # c = gf.components.straight()
-    # c = gf.routing.add_fiber_array(c)
-    # c = gf.routing.add_electrical_pads_top(c)
-    # print(c)
-    # print(c.get_settings()["name"])
-    # print(c.get_json())
-    # print(c.get_settings(test="hi"))
+    test_extract()
+    test_get_layers()

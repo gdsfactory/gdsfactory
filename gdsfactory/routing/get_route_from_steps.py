@@ -6,10 +6,10 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import StrOrDict, get_cross_section
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentOrFactory, Route
+from gdsfactory.types import ComponentOrFactory, CrossSectionFactory, Route
 
 
 def get_route_from_steps(
@@ -19,8 +19,8 @@ def get_route_from_steps(
     bend_factory: ComponentOrFactory = bend_euler,
     straight_factory: ComponentOrFactory = straight,
     taper_factory: Optional[ComponentOrFactory] = taper_function,
-    waveguide: StrOrDict = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints steps
     bends instead of corners and optionally tapers in straight sections.
@@ -35,7 +35,8 @@ def get_route_from_steps(
         bend_factory: function that returns bends
         straight_factory: function that returns straight waveguides
         taper_factory: function that returns tapers
-        waveguide_settings
+        cross_section
+        **kwargs: cross_section settings
 
     .. plot::
         :include-source:
@@ -84,7 +85,7 @@ def get_route_from_steps(
 
     waypoints += [(x2, y2)]
 
-    x = get_cross_section(waveguide, **waveguide_settings)
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
     auto_widen = waveguide_settings.get("auto_widen", False)
     width1 = waveguide_settings.get("width")
@@ -98,8 +99,8 @@ def get_route_from_steps(
                 length=taper_length,
                 width1=width1,
                 width2=width2,
-                waveguide=waveguide,
-                **waveguide_settings,
+                cross_section=cross_section,
+                **kwargs,
             )
             if callable(taper_factory)
             else taper_factory
@@ -112,8 +113,8 @@ def get_route_from_steps(
         bend_factory=bend_factory,
         straight_factory=straight_factory,
         taper=taper,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
+        **kwargs,
     )
 
 
@@ -154,9 +155,10 @@ def test_route_from_steps() -> gf.Component:
             {"x": 120},
             {"y": 80},
         ],
+        layer=(2, 0),
     )
     c.add(route.references)
-    assert route.length == 187.196
+    assert route.length == 187.196, route.length
     return c
 
 

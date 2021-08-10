@@ -14,13 +14,15 @@ def test_get_bundle_electrical(
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
     c2.move((200, 100))
+
     routes = gf.routing.get_bundle(
         [c1.ports["E"]],
         [c2.ports["W"]],
         bend_factory=gf.components.wire_corner,
-        waveguide="metal_routing",
+        width=10,
+        # auto_widen=False,
+        auto_widen=True,
     )
-
     for i, route in enumerate(routes):
         c.add(route.references)
         lengths[i] = route.length
@@ -30,7 +32,7 @@ def test_get_bundle_electrical(
         [c2.ports["E"]],
         start_straight=20.0,
         bend_factory=gf.components.wire_corner,
-        waveguide="metal_routing",
+        width=10,
     )
     for i, route in enumerate(routes):
         c.add(route.references)

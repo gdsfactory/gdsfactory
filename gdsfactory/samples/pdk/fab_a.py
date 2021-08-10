@@ -23,24 +23,22 @@ class Metal1(Waveguide):
 
 
 METAL1 = Metal1()
-
-
-fab_b_metal = gf.partial(strip, width=METAL1.width, layer=METAL1.layer)
+fab_a_metal = gf.partial(strip, width=METAL1.width, layer=METAL1.layer)
 
 
 def test_waveguide():
-    c = gf.components.straight(cross_section="metal1")
+    c = gf.components.straight(cross_section=fab_a_metal)
     difftest(c)
 
 
 if __name__ == "__main__":
 
-    wg = gf.components.straight(length=20, cross_section=fab_b_metal)
+    wg = gf.components.straight(length=20, cross_section=fab_a_metal)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=METAL1.layer, wg_width=METAL1.width
     )
 
     wg_gc = gf.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, cross_section=fab_b_metal
+        component=wg, grating_coupler=gc, cross_section=fab_a_metal
     )
     wg_gc.show()

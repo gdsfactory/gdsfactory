@@ -7,42 +7,30 @@ from gdsfactory.components.grating_coupler.elliptical import (
     grating_coupler_elliptical_te,
 )
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.tech import TECH
 from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
 def grating_coupler_tree(
     n: int = 4,
-    straight_spacing: int = 4,
+    straight_spacing: float = 4.0,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loopback: bool = False,
     bend_factory: ComponentFactory = bend_euler,
     fanout_length: float = 0.0,
-    layer_label: Tuple[int, int] = TECH.layer_label,
-    waveguide: str = "strip",
+    layer_label: Tuple[int, int] = (66, 0),
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers
     useful to align the 4 corners of the chip
 
     Args:
-        waveguide
-        kwargs: waveguide_settings
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.grating_coupler_tree()
-      c.plot()
+        kwargs: cross_section settings
 
     """
     c = straight_array(
         n=n,
         spacing=straight_spacing,
-        waveguide=waveguide,
         **kwargs,
     )
 
@@ -56,7 +44,6 @@ def grating_coupler_tree(
         bend_factory=bend_factory,
         layer_label=layer_label,
         taper_factory=None,
-        waveguide=waveguide,
         **kwargs,
     )
     cc.ignore.add("route_filter")
@@ -65,6 +52,6 @@ def grating_coupler_tree(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_tree(waveguide="nitride")
+    c = grating_coupler_tree(layer=(2, 0))
     # print(c.get_settings())
     c.show()

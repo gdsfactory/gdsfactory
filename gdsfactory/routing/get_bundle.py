@@ -138,7 +138,7 @@ def get_bundle(
             and end_angle == 90
             and y_start > y_end
         ):
-            # print('get_bundle_same_axis')
+            # print("get_bundle_same_axis")
             return get_bundle_same_axis(**params)
 
         elif start_angle == end_angle:
@@ -152,12 +152,7 @@ def get_bundle(
             raise NotImplementedError("This should never happen")
 
     else:
-        waveguide_settings.update(**params)
-        waveguide_settings.pop("start_straight")
-        waveguide_settings.pop("end_straight_offset")
-        return get_bundle_corner(
-            **kwargs,
-        )
+        return get_bundle_corner(**params)
 
 
 def get_port_width(port: Port) -> Union[float, int]:

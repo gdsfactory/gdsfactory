@@ -12,14 +12,14 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import (
 )
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import get_waveguide_settings
+from gdsfactory.cross_section import strip
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from gdsfactory.types import ComponentFactory, StrOrDict
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @cell
@@ -63,8 +63,8 @@ def add_gratings_and_loopback(
     component_name: None = None,
     with_loopback: bool = True,
     nlabels_loopback: int = 2,
-    waveguide: StrOrDict = "strip",
     get_input_labels_function: Callable = get_input_labels,
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
     """Returns a component with grating_couplers and loopback.
@@ -84,10 +84,11 @@ def add_gratings_and_loopback(
         component_name:
         with_loopback: If True, add compact loopback alignment ports
         nlabels_loopback: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
-        waveguide: waveguide definition from TECH.waveguide
-        **kwargs: waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
     """
-    waveguide_settings = get_waveguide_settings(waveguide, **kwargs)
+    x = cross_section(**kwargs)
+    waveguide_settings = x.info
     bend_radius_loopback = bend_radius_loopback or waveguide_settings["radius"]
     excluded_ports = excluded_ports or []
     gc = gf.call_if_func(grating_coupler)
@@ -164,13 +165,13 @@ def add_gratings_and_loopback(
             ]
         )
         bend90 = bend_factory(
-            radius=bend_radius_loopback, waveguide=waveguide, **kwargs
+            radius=bend_radius_loopback, cross_section=cross_section, **kwargs
         )
         loopback_route = round_corners(
             points=points,
             bend_factory=bend90,
             straight_factory=straight_factory,
-            waveguide=waveguide,
+            cross_section=cross_section,
             **kwargs,
         )
         c.add([gca1, gca2])

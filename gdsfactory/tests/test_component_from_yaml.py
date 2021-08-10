@@ -104,18 +104,18 @@ routes:
             mmi_bottom,E1: mmi_top,W1
 
         settings:
-            waveguide: strip_heater
+            layer: [2, 0]
 
 """
 
 
 def test_connections_2x2() -> Component:
     c = component_from_yaml(sample_2x2_connections)
-    assert len(c.get_dependencies()) == 8
-    assert len(c.ports) == 0
+    assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
+    assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,E1:mmi_top,W1"]
-    assert np.isclose(length, 166.098), f"{length}"
+    assert np.isclose(length, 166.098), length
     return c
 
 
@@ -149,14 +149,13 @@ routes:
     electrical:
         settings:
             separation: 10
-            waveguide: metal_routing
+            layer: [31, 0]
         links:
             tl,E: tr,W
             bl,E: br,W
     optical:
         settings:
             radius: 100
-            waveguide: strip
         links:
             bl,S: br,E
 
@@ -165,14 +164,14 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [696.8, 696.8, 1204.013]
+    lengths = [693.598, 693.598, 1204.013]
     # print(c.routes["tl,E:tr,W"])
     # print(c.routes["bl,E:br,W"])
     # print(c.routes["bl,S:br,E"])
 
-    assert np.isclose(c.routes["tl,E:tr,W"], lengths[0])
-    assert np.isclose(c.routes["bl,E:br,W"], lengths[1])
-    assert np.isclose(c.routes["bl,S:br,E"], lengths[2])
+    assert np.isclose(c.routes["tl,E:tr,W"], lengths[0]), c.routes["tl,E:tr,W"]
+    assert np.isclose(c.routes["bl,E:br,W"], lengths[1]), c.routes["bl,E:br,W"]
+    assert np.isclose(c.routes["bl,S:br,E"], lengths[2]), c.routes["bl,S:br,E"]
 
     return c
 
@@ -531,7 +530,7 @@ def test_netlists(
 
 
 def _demo_netlist():
-    """: there is a zero length path on the route"""
+    """path on the route"""
     import gdsfactory as gf
 
     # c = component_from_yaml(sample_2x2_connections)
@@ -549,24 +548,26 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    c = test_sample()
-    # c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = component_from_yaml(sample_2x2_connections)
+    # c = component_from_yaml(sample_different_factory)
+    # c = test_sample()
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
     # c = test_sample()
     # c = test_connections_2x2()
-    # c = test_connections_different_factory()
+    c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
-    # c = test_connections_waypoints()
+    c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)
     # c = test_netlists("sample_waypoints", True, None, False)
-
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    c = component_from_yaml(sample_mirror_simple)
+    # c = component_from_yaml(sample_mirror_simple)
+
+    # c = test_netlists("sample_different_link_factory", True, None, check=False)
     c.show()

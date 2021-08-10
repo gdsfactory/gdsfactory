@@ -4,4 +4,3 @@ module: gdsfactory.components.grating_coupler.grating_coupler_loss
 name: grating_coupler_loss
 settings:
   pitch: 127
-  waveguide: strip

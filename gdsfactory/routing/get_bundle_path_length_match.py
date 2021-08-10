@@ -5,6 +5,7 @@ from typing import Callable, List, Optional
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle import (
     _get_bundle_waypoints,
@@ -13,7 +14,7 @@ from gdsfactory.routing.get_bundle import (
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, Route
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Route
 
 
 def get_bundle_path_length_match(
@@ -30,8 +31,8 @@ def get_bundle_path_length_match(
     start_straight: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs
 ) -> List[Route]:
     """Returns list of routes that are path length matched.
 
@@ -51,8 +52,8 @@ def get_bundle_path_length_match(
         start_straight:
         route_filter: get_route_from_waypoints
         sort_ports: sorts ports before routing
-        waveguide
-        waveguide_settings: waveguide_settings
+        cross_section: factory
+        **kwargs: cross_section settings
 
     Tips:
 
@@ -110,8 +111,8 @@ def get_bundle_path_length_match(
         separation=separation,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
+        **kwargs,
     )
 
     list_of_waypoints = path_length_matched_points(
@@ -120,8 +121,8 @@ def get_bundle_path_length_match(
         bend_factory=bend_factory,
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
-        waveguide=waveguide,
-        **waveguide_settings,
+        cross_section=cross_section,
+        **kwargs,
     )
     return [
         route_filter(
@@ -129,8 +130,8 @@ def get_bundle_path_length_match(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
+            **kwargs,
         )
         for waypoints in list_of_waypoints
     ]
@@ -152,6 +153,7 @@ if __name__ == "__main__":
         end_straight_offset=0,
         start_straight=0,
         separation=50,
+        layer=(2, 0),
     )
 
     for route in routes:

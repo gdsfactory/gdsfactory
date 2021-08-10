@@ -9,7 +9,7 @@ settings:
     info:
       length: 13794.987
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_euler_Wstrip
+    name: spiral_inner_io_euler
     settings:
       N: 6
       bend180_function: bend_euler180
@@ -19,7 +19,6 @@ settings:
       grating_spacing: 127
       length: null
       taper: null
-      waveguide: strip
       width: 0.5
       width_grating_coupler: 0.5
       x_straight_inner_left: 150
@@ -38,5 +37,4 @@ settings:
   layer_label_loopback: null
   nlabels_loopback: 2
   straight_separation: 5
-  waveguide: strip
   with_loopback: true

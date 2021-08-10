@@ -4,7 +4,7 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.hline import hline
-from gdsfactory.cross_section import strip
+from gdsfactory.cross_section import metal3
 from gdsfactory.port import deco_rename_ports
 from gdsfactory.types import CrossSectionFactory
 
@@ -14,7 +14,7 @@ from gdsfactory.types import CrossSectionFactory
 def wire_straight(
     length: float = 50.0,
     port_type: str = "dc",
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionFactory = metal3,
     **kwargs
 ) -> Component:
     """Straight straight.
@@ -38,7 +38,7 @@ def wire_straight(
 @deco_rename_ports
 @gf.cell
 def wire_corner(
-    port_type: str = "dc", cross_section: CrossSectionFactory = strip, **kwargs
+    port_type: str = "dc", cross_section: CrossSectionFactory = metal3, **kwargs
 ) -> Component:
     """90 degrees electrical corner
 
