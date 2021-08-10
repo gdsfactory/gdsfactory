@@ -27,10 +27,11 @@ from contracts import contract
 
 
 ```
+
 ## 3.0.1
 
 - passing cross_section functions instead of registering waveguides in TECH.waveguide
-
+- snap_to_grid is now a cross_section property
 
 ## 3.0.0
 

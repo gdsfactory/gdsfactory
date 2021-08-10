@@ -27,7 +27,6 @@ def extrude(
     p: Path,
     cross_section: CrossSectionOrFactory,
     simplify: Optional[float] = None,
-    snap_to_grid_nm: int = TECH.snap_to_grid_nm,
     rename_ports: bool = TECH.rename_ports,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
@@ -41,7 +40,6 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm.
             All points that can be removed without changing the resulting
             polygon by more than the value listed here will be removed.
-        snap_to_grid_nm: optionally snap to any design grid (nm)
         rename_ports: rename ports
     """
     xsection_points = []
@@ -49,6 +47,7 @@ def extrude(
     c = Component()
 
     cross_section = cross_section() if callable(cross_section) else cross_section
+    snap_to_grid = cross_section.info.get("snap_to_grid", None)
 
     for section in cross_section.sections:
         width = section["width"]
@@ -112,7 +111,8 @@ def extrude(
             points1 = _simplify(points1, tolerance=simplify)
             points2 = _simplify(points2, tolerance=simplify)
 
-        if snap_to_grid_nm:
+        if snap_to_grid:
+            snap_to_grid_nm = snap_to_grid * 1e3
             points1 = (
                 snap_to_grid_nm
                 * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
@@ -243,7 +243,7 @@ if __name__ == "__main__":
 
     # Combine the Path and the CrossSection
 
-    c = extrude(P, X, simplify=5e-3, snap_to_grid_nm=5)
+    c = extrude(P, X, simplify=5e-3)
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
