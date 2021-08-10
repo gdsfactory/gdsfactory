@@ -27,6 +27,11 @@ from contracts import contract
 
 
 ```
+## 3.0.1
+
+- passing cross_section functions instead of registering waveguides in TECH.waveguide
+
+
 ## 3.0.0
 
 - rename `pp` to `gdsfactory`

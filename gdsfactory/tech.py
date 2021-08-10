@@ -12,7 +12,7 @@ module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 
 
-@pydantic.dataclasses.dataclass
+@pydantic.dataclasses.dataclass(frozen=True)
 class LayerMap:
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
