@@ -4,7 +4,6 @@ To create a component you need to extrude the path with a cross-section.
 
 Based on phidl.device_layout.CrossSection
 """
-import dataclasses
 from functools import partial
 from typing import Dict, Iterable, Optional, Tuple, Union
 
@@ -16,36 +15,6 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 StrOrDict = Union[str, Dict]
-
-
-# FIXME, delete
-def get_cross_section(waveguide: StrOrDict, **kwargs) -> CrossSection:
-    """Returns CrossSection from a string from TECH.waveguide or from a dict."""
-    if isinstance(waveguide, str):
-        settings = getattr(TECH.waveguide, waveguide)
-        settings = dataclasses.asdict(settings)
-        if not settings:
-            raise ValueError(f"no settings found for {waveguide}")
-    elif isinstance(waveguide, dict) and "component" in waveguide:
-        waveguide_name = waveguide.pop("component")
-        settings = getattr(TECH.waveguide, waveguide_name)
-        settings = dataclasses.asdict(settings)
-        settings.update(**waveguide)
-    elif isinstance(waveguide, dict):
-        settings = waveguide.copy()
-    else:
-        raise ValueError(
-            f"{waveguide} needs to be a string or dict, got {type(waveguide)}"
-        )
-
-    settings.update(**kwargs)
-    return cross_section(**settings)
-
-
-# FIXME, delete
-def get_waveguide_settings(waveguide: StrOrDict, **kwargs):
-    x = get_cross_section(waveguide, **kwargs)
-    return x.info
 
 
 def cross_section(
@@ -254,9 +223,6 @@ cross_section_factory = dict(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-
-    s = get_waveguide_settings("strip")
-    print(s)
 
     P = gf.path.straight()
     # P = gf.path.euler(radius=10, use_eff=True)

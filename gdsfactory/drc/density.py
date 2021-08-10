@@ -1,5 +1,5 @@
 """Computes density. FIXME. add tests."""
-import sys
+# import sys
 from typing import Tuple
 
 import gdspy as gp
@@ -10,19 +10,20 @@ from gdsfactory.geo_utils import area
 
 
 def _print(*args, **kwargs) -> None:
-    print(*args, **kwargs)
-    sys.stdout.flush()
+    return
+    # print(*args, **kwargs)
+    # sys.stdout.flush()
 
 
 def compute_area(c: Component, target_layer: Tuple[int, int]) -> float64:
     """Returns Computed area of the component for a given layer."""
-    _print("Computing area ", c.name)
+    # _print("Computing area ", c.name)
     c.flatten()
     # return c.area(by_spec=True)[layer]
     polys_by_spec = c.get_polygons(by_spec=True)
     _area = 0
     for (layer, polys) in polys_by_spec.items():
-        _print(layer)
+        # _print(layer)
         if layer == target_layer:
             joined_polys = gp.boolean(polys, None, operation="or")
             _print(joined_polys)
@@ -50,7 +51,7 @@ def bucket_cells_by_rank(cells):
                 to_rm += [i]
 
         if prev_len_cells == len(cells):
-            print(cells)
+            # print(cells)
             raise ValueError("Error: some cells cannot be linked")
         prev_len_cells = len(cells)
         while to_rm:
