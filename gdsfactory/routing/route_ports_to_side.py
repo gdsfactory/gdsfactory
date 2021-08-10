@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import TECH
 from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.tech import LAYER
@@ -108,7 +107,7 @@ def route_ports_to_x(
     list_ports: List[Port],
     x: Union[float, str] = "east",
     separation: float = 10.0,
-    radius: float = TECH.waveguide.strip.radius,
+    radius: float = 10.0,
     extend_bottom: float = 0.0,
     extend_top: float = 0.0,
     extension_length: float = 0.0,
@@ -296,7 +295,7 @@ def route_ports_to_y(
     list_ports: List[Port],
     y: Union[float, str] = "north",
     separation: float = 10.0,
-    radius: float = TECH.waveguide.strip.radius,
+    radius: float = 10.0,
     x0_left: Optional[float] = None,
     x0_right: Optional[float] = None,
     extension_length: float = 0.0,
@@ -500,7 +499,7 @@ def _sample_route_sides() -> Component:
     for pos, side in zip(positions, sides):
         dummy_ref = _dummy_t.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, waveguide="nitride")
+        routes, ports = route_ports_to_side(dummy_ref, side, layer=(2, 0))
         for route in routes:
             c.add(route.references)
         for i, p in enumerate(ports):
@@ -516,7 +515,7 @@ if __name__ == "__main__":
     for pos, side in zip(positions, sides):
         dummy_ref = _dummy_t.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, waveguide="nitride")
+        routes, ports = route_ports_to_side(dummy_ref, side, layer=(2, 0))
         for route in routes:
             c.add(route.references)
         for i, p in enumerate(ports):

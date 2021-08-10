@@ -31,7 +31,7 @@ def bend_circular_heater(
     x = cross_section()
     width = x.info["width"]
     cladding_offset = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"]
+    layers_cladding = x.info["layers_cladding"] or []
     layer = x.info["layer"]
 
     x = gf.CrossSection()

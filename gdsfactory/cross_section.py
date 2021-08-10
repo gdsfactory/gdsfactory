@@ -62,6 +62,8 @@ def cross_section(
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("W0", "E0"),
     min_length: float = 10e-3,
+    start_straight: float = 10e-3,
+    end_straight_offset: float = 10e-3,
 ) -> CrossSection:
     """Returns CrossSection from TECH.waveguide settings.
 
@@ -124,7 +126,9 @@ strip = cross_section
 rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
 )
+metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
 metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
+metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
 
 
 def pin(
@@ -231,6 +235,16 @@ def heater_with_undercut(
         **kwargs,
     )
 
+
+cross_section_factory = dict(
+    cross_section=cross_section,
+    strip=strip,
+    pin=pin,
+    heater_with_undercut=heater_with_undercut,
+    metal1=metal1,
+    metal2=metal2,
+    metal3=metal3,
+)
 
 if __name__ == "__main__":
     import gdsfactory as gf

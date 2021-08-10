@@ -29,7 +29,7 @@ routes:
             mzi,N1: pads,S1
 
         settings:
-            waveguide: metal_routing
+            layer: [2, 0]
 """
 
 import io
@@ -44,8 +44,9 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import LIBRARY
+from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import ComponentFactoryDict, Route
+from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -391,6 +392,7 @@ def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: ComponentFactoryDict = LIBRARY.factory,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
+    cross_section_factory: Dict[str, CrossSectionFactory] = cross_section_factory,
     label_instance_function: Callable = add_instance_label,
     **kwargs,
 ) -> Component:
@@ -495,6 +497,11 @@ def component_from_yaml(
             if type(component_settings) in [omegaconf.DictConfig, omegaconf.ListConfig]
             else component_settings
         )
+        if "cross_section" in component_settings:
+            cross_section_name = component_settings["cross_section"]
+            component_settings["cross_section"] = cross_section_factory[
+                cross_section_name
+            ]
         ci = component_factory[component_type](**component_settings)
         ref = c << ci
         instances[instance_name] = ref

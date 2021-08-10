@@ -13,6 +13,7 @@ def bend_circular(
     npoints: int = 720,
     with_cladding_box: bool = True,
     cross_section: CrossSectionFactory = strip,
+    **kwargs
 ) -> Component:
     """Returns a radial arc.
 
@@ -21,6 +22,7 @@ def bend_circular(
         npoints: number of points
         with_cladding_box: square in layers_cladding to remove DRC
         cross_section:
+        **kwargs: cross_section settings
 
     .. plot::
         :include-source:
@@ -31,7 +33,7 @@ def bend_circular(
         c.plot()
 
     """
-    x = cross_section()
+    x = cross_section(**kwargs)
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)

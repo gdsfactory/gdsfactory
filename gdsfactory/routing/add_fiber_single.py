@@ -147,6 +147,7 @@ def add_fiber_single(
             gc_port_name=gc_port_name,
             component_name=component_name,
             cross_section=cross_section,
+            **kwargs,
         )
 
     for e in elements:
@@ -180,10 +181,7 @@ def add_fiber_single(
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(
-            length=length,
-            cross_section=cross_section,
-        )
+        wg = c << straight_factory(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -249,6 +247,7 @@ if __name__ == "__main__":
         auto_widen=False,
         with_loopback=True,
         straight_factory=straight_with_pins,
+        layer=(2, 0),
     )
     cc.show()
 

@@ -9,8 +9,10 @@ from typing import Tuple
 
 import pydantic.dataclasses as dataclasses
 
+import gdsfactory as gf
+from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
-from gdsfactory.tech import TECH, Layer, Waveguide
+from gdsfactory.tech import Layer, Waveguide
 
 
 @dataclasses.dataclass
@@ -24,21 +26,26 @@ class StripB(Waveguide):
 
 
 STRIPB = StripB()
-
-# register the new waveguide dynamically
-TECH.waveguide.stripb = STRIPB
+fab_b_metal = gf.partial(
+    strip,
+    width=STRIPB.width,
+    layer=STRIPB.layer,
+    layers_cladding=STRIPB.layers_cladding,
+    auto_widen=False,
+    width_wide=10.0,
+)
 
 
 def test_waveguide():
     import gdsfactory as gf
 
-    wg = gf.components.straight(length=20, waveguide="stripb")
+    wg = gf.components.straight(length=20, cross_section=fab_b_metal)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
     wg_gc = gf.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, waveguide="stripb"
+        component=wg, grating_coupler=gc, cross_section=fab_b_metal
     )
     wg_gc.show()
     difftest(wg_gc)
@@ -47,12 +54,12 @@ def test_waveguide():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi2x2(layer=STRIPB.layer)
+    c = gf.components.mmi2x2(layer=STRIPB.layer, layers_cladding=STRIPB.layers_cladding)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
     )
 
     c_gc = gf.routing.add_fiber_array(
-        component=c, grating_coupler=gc, waveguide="stripb"
+        component=c, grating_coupler=gc, cross_section=fab_b_metal
     )
     c_gc.show()

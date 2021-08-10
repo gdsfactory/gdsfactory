@@ -6,11 +6,11 @@ from numpy import float64, ndarray
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import get_waveguide_settings
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import remove_flat_angles, round_corners
 from gdsfactory.routing.utils import get_list_ports_angle
-from gdsfactory.types import Coordinate, Coordinates, Number, Route
+from gdsfactory.types import Coordinate, Coordinates, CrossSectionFactory, Number, Route
 
 
 def _is_vertical(segment: Coordinate, tol: float = 1e-5) -> bool:
@@ -79,8 +79,8 @@ def get_bundle_from_waypoints(
     taper_factory: Callable = taper_function,
     bend_factory: Callable = bend_euler,
     sort_ports: bool = True,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
     where routes follow a list of waypoints.
@@ -93,8 +93,8 @@ def get_bundle_from_waypoints(
         taper_factory: function that returns tapers
         bend_factory: function that returns bends
         sort_ports: sorts ports
-        waveguide: waveguide
-        **waveguide_settings
+        cross_section: cross_section
+        **kwargs
 
     """
     if len(ports2) != len(ports1):
@@ -149,12 +149,13 @@ def get_bundle_from_waypoints(
         ports2.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        ports1=ports1, ports2=ports2, waypoints=list(waypoints), **waveguide_settings
+        ports1=ports1, ports2=ports2, waypoints=list(waypoints), **kwargs
     )
 
-    waveguide_settings = get_waveguide_settings(waveguide, **waveguide_settings)
+    x = cross_section(**kwargs)
+    waveguide_settings = x.info
 
-    bends90 = [bend_factory(waveguide=waveguide, **waveguide_settings) for p in ports1]
+    bends90 = [bend_factory(cross_section=cross_section, **kwargs) for p in ports1]
 
     if taper_factory and waveguide_settings.get("auto_widen", True):
         if callable(taper_factory):
@@ -175,8 +176,8 @@ def get_bundle_from_waypoints(
             bend_factory=bend90,
             straight_factory=straight_factory,
             taper=taper,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
+            **kwargs,
         )
         for pts, bend90 in zip(routes, bends90)
     ]
@@ -301,8 +302,6 @@ def _generate_manhattan_bundle_waypoints(
 if __name__ == "__main__":
     import gdsfactory.tests.test_get_bundle_from_waypoints as t
 
-    c = t.test_get_bundle_from_waypointsA(None, check=False)
-    # c = test_get_bundle_from_waypointsD(None, check=False)
-    # c = test_get_bundle_from_waypointsC(None, check=False)
-    # c = test_get_bundle_from_waypointsB(None, check=False)
+    # c = t.test_get_bundle_from_waypointsC(None, check=False)
+    c = t.test_get_bundle_from_waypointsB(None, check=False)
     c.show()

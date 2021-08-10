@@ -4,13 +4,14 @@ import numpy as np
 from numpy import ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import path_length
 from gdsfactory.routing.manhattan import (
     _is_horizontal,
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 def path_length_matched_points(
@@ -20,8 +21,8 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend_factory: ComponentFactory = bend_euler,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[ndarray]:
     """
     Several types of paths won't match correctly.
@@ -44,8 +45,8 @@ def path_length_matched_points(
             the segment indexed by `modify_segment_i` is elongated to match
             the longuest route in `list_of_waypoints`
         bend_factory: bend function
-        waveguide: waveguide name
-        **waveguide_settings:
+        cross_section: cross_section factory
+        **kwargs
 
     Returns: another list of waypoints where
         - the path_lenth of each waypoints list are identical
@@ -61,8 +62,8 @@ def path_length_matched_points(
             margin=margin,
             extra_length=extra_length,
             nb_loops=nb_loops,
-            waveguide=waveguide,
-            **waveguide_settings,
+            cross_section=cross_section,
+            **kwargs,
         )
     else:
         return path_length_matched_points_modify_segment(
@@ -148,8 +149,8 @@ def path_length_matched_points_add_waypoints(
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    waveguide: str = "strip",
-    **waveguide_settings,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs,
 ) -> List[ndarray]:
     """
     Args:
@@ -166,8 +167,8 @@ def path_length_matched_points_add_waypoints(
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
-        waveguide: waveguide name from TECH.waveguide
-        **waveguide_settings:
+        cross_section: factory
+        **kwargs: cross_section settings
 
     returns:
         another list of waypoints where:
@@ -213,7 +214,7 @@ def path_length_matched_points_add_waypoints(
         )
 
     # Get the points for the segment we need to modify
-    bend90 = bend_factory(waveguide=waveguide, **waveguide_settings)
+    bend90 = bend_factory(cross_section=cross_section, **kwargs)
 
     a = margin + bend90.dy
     if modify_segment_i < 0:
@@ -295,9 +296,8 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(prefix="E"),
         c2.get_ports_list(prefix="W"),
-        waveguide="strip",
         radius=5,
-        # radius=2.5,
+        layer=(2, 0),
     )
     for route in routes:
         c.add(route.references)

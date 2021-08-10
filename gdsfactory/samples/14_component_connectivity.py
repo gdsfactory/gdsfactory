@@ -1,32 +1,27 @@
-"""Lets define the references from a component and then connect them together.
-"""
-
-
 from typing import Optional
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
+from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
-@cell
-def test_ring_single(
+@gf.cell
+def ring_single(
     gap: float = 0.2,
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.010,
-    coupler_ring: ComponentOrFactory = coupler_ring_function,
-    straight: ComponentOrFactory = straight_function,
-    bend: Optional[ComponentOrFactory] = None,
-    pins: bool = False,
-    waveguide: str = "strip",
-    **waveguide_settings
+    coupler_ring: ComponentFactory = coupler_ring_function,
+    straight: ComponentFactory = straight_function,
+    bend: Optional[ComponentFactory] = None,
+    cross_section: CrossSectionFactory = strip,
+    **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
     connected with two vertical straights (wl: left, wr: right)
@@ -37,12 +32,11 @@ def test_ring_single(
         radius: for the bend and coupler
         length_x: ring coupler length
         length_y: vertical straight length
-        coupler: ring coupler function
+        coupler_ring: ring coupler function
         straight: straight function
         bend: 90 degrees bend function
-        pins: add pins
-        waveguide: for straights
-        **waveguide_settings
+        cross_section:
+        **kwargs: cross_section settings
 
 
     .. code::
@@ -64,22 +58,22 @@ def test_ring_single(
             gap=gap,
             radius=radius,
             length_x=length_x,
-            waveguide=waveguide,
-            **waveguide_settings
+            cross_section=cross_section,
+            **kwargs
         )
         if callable(coupler_ring)
         else coupler_ring
     )
     straight_side = call_if_func(
-        straight, length=length_y, waveguide=waveguide, **waveguide_settings
+        straight, length=length_y, cross_section=cross_section, **kwargs
     )
     straight_top = call_if_func(
-        straight, length=length_x, waveguide=waveguide, **waveguide_settings
+        straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
     bend = bend or bend_euler
     bend_ref = (
-        bend(radius=radius, waveguide=waveguide, **waveguide_settings)
+        bend(radius=radius, cross_section=cross_section, **kwargs)
         if callable(bend)
         else bend
     )
@@ -103,11 +97,10 @@ def test_ring_single(
 
     c.add_port("E0", port=cb.ports["E0"])
     c.add_port("W0", port=cb.ports["W0"])
-    if pins:
-        gf.add_pins_to_references(c)
     return c
 
 
 if __name__ == "__main__":
-    c = test_ring_single(gap=0.15, length_x=0.2, length_y=0.13)
+    c = ring_single(width=2, gap=1, layer=(2, 0))
+    print(c.ports)
     c.show()

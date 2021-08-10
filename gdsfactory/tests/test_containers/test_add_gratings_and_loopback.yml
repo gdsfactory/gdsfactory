@@ -17,7 +17,6 @@ settings:
       grating_spacing: 127
       length: null
       taper: null
-      waveguide: strip
       width: 0.5
       width_grating_coupler: 0.5
       x_straight_inner_left: 150
@@ -35,5 +34,4 @@ settings:
   layer_label_loopback: null
   nlabels_loopback: 2
   straight_separation: 5
-  waveguide: strip
   with_loopback: true
