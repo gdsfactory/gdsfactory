@@ -14,7 +14,7 @@ from gdsfactory.tech import LayerLevel, LayerStack, Library, Tech
 from gdsfactory.types import Layer
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class LayerMap:
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
@@ -83,6 +83,8 @@ fabc_nitride_cband = gf.partial(
 fabc_nitride_oband = gf.partial(
     strip, width=WIDTH_NITRIDE_OBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
 )
+fabc_nitride_cband.__name__ = "fab_nitridec"
+fabc_nitride_oband.__name__ = "fab_nitrideo"
 
 
 # LEAF COMPONENTS have pins
@@ -111,7 +113,6 @@ bend_euler_o = gf.partial(
 straight_o = gf.partial(
     gf.components.straight, cross_section=fabc_nitride_oband, decorator=add_pins
 )
-
 
 gc_nitride_c = gf.partial(
     gf.components.grating_coupler_elliptical_te,
@@ -172,4 +173,3 @@ if __name__ == "__main__":
         bend_factory=bend_euler_c,
     )
     mzi_gc.show()
-    mzi_gc.plot()

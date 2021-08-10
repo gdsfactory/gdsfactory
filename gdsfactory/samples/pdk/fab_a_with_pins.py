@@ -1,25 +1,23 @@
 """Lets add pins to each cell from the fab a PDK.
 
 """
-import dataclasses
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_outline, add_pins
-from gdsfactory.tech import TECH, Layer, Library, Waveguide
+from gdsfactory.cross_section import strip
+from gdsfactory.difftest import difftest
+from gdsfactory.tech import Library
+
+WIDTH = 2
+LAYER = (30, 0)
+
+fab_a_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
+fab_a_metal.__name__ = "fab_a_metal"
 
 
-@dataclasses.dataclass
-class Metal1(Waveguide):
-    width: float = 2.0
-    width_wide: float = 10.0
-    auto_widen: bool = False
-    layer: Layer = (30, 0)
-    radius: float = 10.0
-
-
-METAL1 = Metal1()
-
-TECH.waveguide.metal1 = METAL1
+def test_waveguide():
+    c = gf.components.straight(cross_section=fab_a_metal)
+    difftest(c)
 
 
 def decorator(component) -> None:
@@ -30,14 +28,14 @@ def decorator(component) -> None:
 
 mmi2x2 = gf.partial(gf.components.mmi2x2, decorator=decorator)
 mmi1x2 = gf.partial(gf.components.mmi1x2, decorator=decorator)
-mzi = gf.partial(gf.components.mzi, splitter=mmi1x2)
+bend_euler = gf.partial(gf.components.bend_euler, decorator=decorator)
+straight = gf.partial(gf.components.straight, decorator=decorator)
+mzi = gf.partial(gf.components.mzi, splitter=mmi1x2, bend=bend_euler, straight=straight)
 
 LIBRARY = Library(name="fab_a")
 LIBRARY.register([mmi2x2, mmi1x2, mzi])
 
 
 if __name__ == "__main__":
-    F = LIBRARY
-    F.settings.mmi1x2.width_mmi = 5
-    c = F.get_component("mzi")
+    c = mzi()
     c.show()

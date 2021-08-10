@@ -5,25 +5,31 @@ Fab A is mostly defined using Metal layers in GDS layer (30, 0)
 The metal layer traces are 2um wide
 
 """
-import dataclasses
 
 import gdsfactory as gf
 from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
-from gdsfactory.tech import Layer, Waveguide
+
+WIDTH = 2
+LAYER = (30, 0)
+
+fab_a_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
+fab_a_metal.__name__ = "fab_a_metal"
 
 
-@dataclasses.dataclass
-class Metal1(Waveguide):
-    width: float = 2.0
-    width_wide: float = 10.0
-    auto_widen: bool = False
-    layer: Layer = (30, 0)
-    radius: float = 10.0
-
-
-METAL1 = Metal1()
-fab_a_metal = gf.partial(strip, width=METAL1.width, layer=METAL1.layer)
+straight = gf.partial(gf.components.straight, cross_section=fab_a_metal)
+bend_euler = gf.partial(gf.components.bend_euler, cross_section=fab_a_metal)
+mmi1x2 = gf.partial(
+    gf.components.mmi1x2,
+    cross_section=fab_a_metal,
+    width=WIDTH,
+    width_taper=WIDTH,
+    width_mmi=3 * WIDTH,
+)
+mzi = gf.partial(gf.components.mzi, cross_section=fab_a_metal, splitter=mmi1x2)
+gc = gf.partial(
+    gf.components.grating_coupler_elliptical_te, layer=LAYER, wg_width=WIDTH
+)
 
 
 def test_waveguide():
@@ -33,12 +39,9 @@ def test_waveguide():
 
 if __name__ == "__main__":
 
-    wg = gf.components.straight(length=20, cross_section=fab_a_metal)
-    gc = gf.components.grating_coupler_elliptical_te(
-        layer=METAL1.layer, wg_width=METAL1.width
-    )
-
+    # c = gf.components.straight(length=20, cross_section=fab_a_metal)
+    c = mzi()
     wg_gc = gf.routing.add_fiber_array(
-        component=wg, grating_coupler=gc, cross_section=fab_a_metal
+        component=c, grating_coupler=gc, cross_section=fab_a_metal
     )
     wg_gc.show()

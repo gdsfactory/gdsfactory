@@ -3,9 +3,9 @@ info:
   length: 10
   width: 1
 module: gdsfactory.components.straight
-name: straight_CSstrip_Dadd_pins
+name: straight_ad2b202c
 settings:
-  cross_section: strip
+  cross_section: fab_nitridec
   length: 10
   npoints: 2
   with_cladding_box: true

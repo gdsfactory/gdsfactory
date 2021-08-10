@@ -3,9 +3,9 @@ info:
   simulation_settings:
     port_width: 1.5e-06
 module: gdsfactory.components.mmi1x2
-name: mmi1x2_CSstrip_Dadd_pins_W900n
+name: mmi1x2_3529627f
 settings:
-  cross_section: strip
+  cross_section: fab_nitrideo
   gap_mmi: 0.25
   length_mmi: 5.5
   length_taper: 10
