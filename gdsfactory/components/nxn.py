@@ -19,6 +19,7 @@ def nxn(
     wg_width: float = 0.5,
     layer: Tuple[int, int] = gf.LAYER.WG,
     wg_margin: float = 1.0,
+    **kwargs,
 ) -> Component:
     """returns a nxn component with nxn ports (west, east, north, south)
 
@@ -31,6 +32,8 @@ def nxn(
         ysize: size in Y
         wg_width: width of the straight ports
         wg_margin: margin from straight to component edge
+        **kwargs: port_settings
+
 
     .. code::
 
@@ -65,6 +68,7 @@ def nxn(
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
+                **kwargs,
             )
 
     if east > 0:
@@ -86,6 +90,7 @@ def nxn(
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
+                **kwargs,
             )
 
     if north > 0:
@@ -107,6 +112,7 @@ def nxn(
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
+                **kwargs,
             )
     if south > 0:
         y = 0
@@ -127,6 +133,7 @@ def nxn(
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
+                **kwargs,
             )
 
     return c

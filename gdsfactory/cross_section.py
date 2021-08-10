@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 from functools import partial
-from typing import Dict, Iterable, Optional, Tuple, Union
+from typing import Iterable, Optional, Tuple
 
 import pydantic
 from phidl.device_layout import CrossSection
@@ -14,9 +14,9 @@ from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
-StrOrDict = Union[str, Dict]
 
 
+@pydantic.validate_arguments
 def cross_section(
     width: float = 0.5,
     layer: Optional[Tuple[int, int]] = (1, 0),
@@ -96,22 +96,6 @@ def cross_section(
         snap_to_grid=snap_to_grid,
     )
     return x
-
-
-strip = partial(cross_section)
-rib = partial(
-    cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
-)
-metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
-metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
-metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
-
-
-strip.__name__ = "strip"
-rib.__name__ = "rib"
-metal1.__name__ = "metal1"
-metal2.__name__ = "metal2"
-metal3.__name__ = "metal3"
 
 
 def pin(
@@ -219,13 +203,29 @@ def heater_with_undercut(
     )
 
 
+strip = partial(cross_section)
+rib = partial(
+    cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
+)
+metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
+metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
+metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
+
+strip.__name__ = "strip"
+rib.__name__ = "rib"
+metal1.__name__ = "metal1"
+metal2.__name__ = "metal2"
+metal3.__name__ = "metal3"
+
+
 cross_section_factory = dict(
     strip=strip,
-    pin=pin,
-    heater_with_undercut=heater_with_undercut,
+    rib=rib,
     metal1=metal1,
     metal2=metal2,
     metal3=metal3,
+    pin=pin,
+    heater_with_undercut=heater_with_undercut,
 )
 
 if __name__ == "__main__":
