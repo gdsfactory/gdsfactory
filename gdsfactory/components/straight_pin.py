@@ -30,7 +30,6 @@ def straight_pin(
     layer_np: Tuple[int, int] = LAYER.Np,
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
-    snap_to_grid_nm: int = TECH.snap_to_grid_nm,
 ) -> Component:
     """Returns a Doped PIN waveguide.
 
@@ -78,7 +77,7 @@ def straight_pin(
         layer_ppp=layer_ppp,
         layer_npp=layer_npp,
     )
-    c = extrude(p, cross_section, snap_to_grid_nm=snap_to_grid_nm)
+    c = extrude(p, cross_section)
     c.width = width
     c.length = snap_to_grid(length)
     return c

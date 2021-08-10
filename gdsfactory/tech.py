@@ -437,7 +437,6 @@ class Tech:
     layer_label: Layer = LAYER.LABEL
     metal_spacing: float = 10.0
 
-    snap_to_grid_nm: int = 1
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
     waveguide: Waveguides = WAVEGUIDES

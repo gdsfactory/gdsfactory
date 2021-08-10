@@ -162,18 +162,27 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
         num_regression.check(component.get_ports_array())
 
 
-def test_layers():
+def test_layers1():
     P = gf.path.straight(length=10.001)
     X = gf.CrossSection()
     X.add(width=0.5, offset=0, layer=gf.LAYER.SLAB90, ports=["in", "out"])
-    c = gf.path.extrude(P, X, simplify=5e-3, snap_to_grid_nm=5)
+    c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["W0"].layer == gf.LAYER.SLAB90
-    assert c.ports["E0"].position[0] == 10.0
+    assert c.ports["E0"].position[0] == 10.001, c.ports["E0"].position[0]
+    return c
+
+
+def test_layers2():
+    P = gf.path.straight(length=10.001)
+    X = gf.cross_section.strip(snap_to_grid=5e-3)
+    c = gf.path.extrude(P, X, simplify=5e-3)
+    assert c.ports["W0"].layer == (1, 0)
+    assert c.ports["E0"].position[0] == 10.0, c.ports["E0"].position[0]
     return c
 
 
 if __name__ == "__main__":
-    c = test_layers()
+    c = test_layers2()
     c.show()
     # c = transition()
     # c = double_loop()

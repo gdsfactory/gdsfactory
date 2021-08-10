@@ -33,6 +33,7 @@ def cross_section(
     min_length: float = 10e-3,
     start_straight: float = 10e-3,
     end_straight_offset: float = 10e-3,
+    snap_to_grid: Optional[float] = None,
 ) -> CrossSection:
     """Returns CrossSection from TECH.waveguide settings.
 
@@ -50,6 +51,9 @@ def cross_section(
         sections: Sections(width, offset, layer, ports)
         port_names: for input and output ("W0", "E0"),
         min_length: 10e-3 for routing
+        start_straight: for routing
+        end_straight_offset: for routing
+        snap_to_grid: can snap points to grid when extruding the path
     """
 
     x = CrossSection()
@@ -87,6 +91,9 @@ def cross_section(
         layers_cladding=layers_cladding,
         sections=sections,
         min_length=min_length,
+        start_straight=start_straight,
+        end_straight_offset=end_straight_offset,
+        snap_to_grid=snap_to_grid,
     )
     return x
 
