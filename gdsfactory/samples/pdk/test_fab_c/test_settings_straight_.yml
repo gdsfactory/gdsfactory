@@ -3,9 +3,9 @@ info:
   length: 10
   width: 1
 module: gdsfactory.components.straight
-name: straight_55b6cd42
+name: straight_CSstrip_Dadd_pins
 settings:
-  cross_section: cross_section
+  cross_section: strip
   length: 10
   npoints: 2
   with_cladding_box: true

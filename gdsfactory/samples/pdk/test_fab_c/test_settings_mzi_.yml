@@ -1,12 +1,12 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_38d0fd83
+name: mzi_57b59dc1
 settings:
   bend: bend_euler
   combiner: null
   combiner_settings: null
-  cross_section: cross_section
+  cross_section: strip
   delta_length: 10
   length_x: 0.1
   length_y: 0.1

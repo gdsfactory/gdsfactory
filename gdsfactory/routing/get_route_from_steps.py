@@ -118,6 +118,7 @@ def get_route_from_steps(
     )
 
 
+@gf.cell
 def test_route_from_steps() -> gf.Component:
     c = gf.Component("get_route_from_steps_sample")
     w = gf.components.straight()
