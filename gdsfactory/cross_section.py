@@ -122,13 +122,20 @@ def cross_section(
     return x
 
 
-strip = cross_section
+strip = partial(cross_section)
 rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
 )
 metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
 metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
 metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
+
+
+strip.__name__ = "strip"
+rib.__name__ = "rib"
+metal1.__name__ = "metal1"
+metal2.__name__ = "metal2"
+metal3.__name__ = "metal3"
 
 
 def pin(
@@ -237,7 +244,6 @@ def heater_with_undercut(
 
 
 cross_section_factory = dict(
-    cross_section=cross_section,
     strip=strip,
     pin=pin,
     heater_with_undercut=heater_with_undercut,

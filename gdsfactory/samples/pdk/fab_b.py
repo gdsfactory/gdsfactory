@@ -26,6 +26,7 @@ class StripB(Waveguide):
 
 
 STRIPB = StripB()
+
 fab_b_metal = gf.partial(
     strip,
     width=STRIPB.width,
@@ -34,11 +35,10 @@ fab_b_metal = gf.partial(
     auto_widen=False,
     width_wide=10.0,
 )
+fab_b_metal.__name__ = "fab_b_metal"
 
 
 def test_waveguide():
-    import gdsfactory as gf
-
     wg = gf.components.straight(length=20, cross_section=fab_b_metal)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width
@@ -52,8 +52,6 @@ def test_waveguide():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.components.mmi2x2(layer=STRIPB.layer, layers_cladding=STRIPB.layers_cladding)
     gc = gf.components.grating_coupler_elliptical_te(
         layer=STRIPB.layer, wg_width=STRIPB.width

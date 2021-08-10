@@ -8,10 +8,10 @@ info:
   radius: 10
   radius_min: 5.347319506608967
 module: gdsfactory.components.bend_euler
-name: bend_euler_9a54d717
+name: bend_euler_CSstrip_Dadd_pins
 settings:
   angle: 90
-  cross_section: cross_section
+  cross_section: strip
   direction: ccw
   npoints: 720
   p: 1
