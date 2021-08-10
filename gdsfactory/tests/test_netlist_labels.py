@@ -60,7 +60,7 @@ def test_netlist_labels() -> None:
     c = gf.component_from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]
-    print(placements)
+    # print(placements)
     assert "bend_left" in placements
     assert "bend_right" in placements
 
