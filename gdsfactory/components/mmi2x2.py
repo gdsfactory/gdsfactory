@@ -51,8 +51,7 @@ def mmi2x2(
             length_taper
 
     """
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -62,7 +61,11 @@ def mmi2x2(
     w_taper = width_taper
 
     taper = taper(
-        length=length_taper, width1=width, width2=w_taper, cross_section=cross_section
+        length=length_taper,
+        width1=width,
+        width2=w_taper,
+        cross_section=cross_section,
+        **kwargs
     )
 
     a = gap_mmi / 2 + width_taper / 2

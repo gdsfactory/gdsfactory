@@ -37,15 +37,15 @@ def coupler_symmetric(
                              E0
 
     """
-    cross_section = gf.partial(cross_section, **kwargs)
 
-    x = cross_section()
+    x = cross_section(**kwargs)
     width = x.info["width"]
     bend_component = (
         bend(
             height=(dy - gap - width) / 2,
             length=dx,
             cross_section=cross_section,
+            **kwargs,
         )
         if callable(bend)
         else bend
@@ -75,10 +75,10 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.9, dx=5)
+    c = coupler_symmetric(gap=0.2, width=0.9, dx=5, layer=(2, 0))
     c.show()
     c.pprint()
 
     for dyi in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0)
+        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, layer=(2, 0))
         print(f"dy={dyi}, min_bend_radius = {c.min_bend_radius}")

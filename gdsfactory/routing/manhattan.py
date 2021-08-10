@@ -505,7 +505,7 @@ def round_corners(
         cross_section:
         **kwargs: cross_section settings
     """
-    x = cross_section()
+    x = cross_section(**kwargs)
 
     auto_widen = x.info.get("auto_widen", False)
     auto_widen_minimum_length = x.info.get("auto_widen_minimum_length", 200.0)

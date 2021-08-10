@@ -38,15 +38,20 @@ def coupler_asymmetric(
                             E0
 
     """
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     width = x.info["width"]
     bend_component = (
-        bend(height=(dy - gap - width), length=dx, cross_section=cross_section)
+        bend(
+            height=(dy - gap - width), length=dx, cross_section=cross_section, **kwargs
+        )
         if callable(bend)
         else bend
     )
-    wg = straight(cross_section=cross_section) if callable(straight) else straight
+    wg = (
+        straight(cross_section=cross_section, **kwargs)
+        if callable(straight)
+        else straight
+    )
 
     w = bend_component.ports["W0"].width
     y = (w + gap) / 2
@@ -72,5 +77,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.4)
+    c = coupler_asymmetric(gap=0.4, layer=(2, 0))
     c.show()

@@ -27,8 +27,8 @@ def coupler(
         coupler_straight_factory
         dy: port to port vertical spacing
         dx: length of bend in x direction
-        waveguide: from tech.waveguide
-        kwargs: overwrites waveguide_settings
+        cross_section: factory
+        kwargs: cross_section settings
 
     .. code::
 
@@ -46,19 +46,18 @@ def coupler(
 
 
     """
-    cross_section = gf.partial(cross_section, **kwargs)
     assert_on_1nm_grid(length)
     assert_on_1nm_grid(gap)
     c = Component()
 
     sbend = coupler_symmetric_factory(
-        gap=gap, dy=dy, dx=dx, cross_section=cross_section
+        gap=gap, dy=dy, dx=dx, cross_section=cross_section, **kwargs
     )
 
     sr = c << sbend
     sl = c << sbend
     cs = c << coupler_straight_factory(
-        length=length, gap=gap, cross_section=cross_section
+        length=length, gap=gap, cross_section=cross_section, **kwargs
     )
     sl.connect("W1", destination=cs.ports["W0"])
     sr.connect("W0", destination=cs.ports["E0"])
