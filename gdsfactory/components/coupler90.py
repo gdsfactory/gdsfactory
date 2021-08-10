@@ -36,8 +36,7 @@ def coupler90(
 
     """
     c = Component()
-    cross_section = gf.partial(cross_section, radius=radius, **kwargs)
-    x = cross_section()
+    x = cross_section(radius=radius, **kwargs)
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     bend_ref = c << bend90
@@ -77,7 +76,7 @@ def coupler90circular(bend: ComponentFactory = bend_circular, **kwargs):
 if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
-    c = coupler90(radius=3)
+    c = coupler90(radius=3, layer=(2, 0))
     c.show()
     c.pprint()
     # print(c.ports)

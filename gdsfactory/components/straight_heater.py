@@ -143,8 +143,7 @@ def straight_heater(
     """
     c = Component()
     _heater = heater(length=length, width=heater_width, layer_heater=layer_heater)
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
     width = waveguide_settings["width"]
 
