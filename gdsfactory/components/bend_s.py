@@ -23,8 +23,8 @@ def bend_s(
         length: in x direction
         layer: gds number
         nb_points: number of points
-        waveguide: from TECH.waveguide
-        kwargs: waveguide_settings
+        cross_section: function
+        kwargs: cross_section settings
 
     .. plot::
       :include-source:

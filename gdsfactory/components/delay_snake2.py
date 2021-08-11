@@ -77,10 +77,7 @@ def delay_snake2(
 
 def test_delay_snake2_length() -> Component:
     length = 200.0
-    c = delay_snake2(
-        n=2,
-        length=length,
-    )
+    c = delay_snake2(n=2, length=length, layer=(2, 0))
     length_measured = (
         c.aliases[")1"].parent.length * 2 + c.aliases["-1"].parent.length * 3
     )
@@ -93,5 +90,5 @@ def test_delay_snake2_length() -> Component:
 if __name__ == "__main__":
     c = test_delay_snake2_length()
     c.show()
-    # c = delay_snake2(waveguide="nitride", n=2, length=200)
+    # c = delay_snake2(n=2, length=200, layer=(2,0))
     # c.show()

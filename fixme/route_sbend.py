@@ -22,7 +22,6 @@ if __name__ == "__main__":
     route = route_manhattan(
         input_port=c1.ports["E0"],
         output_port=c2.ports["W0"],
-        waveguide="nitride",
         radius=5.0,
     )
 
