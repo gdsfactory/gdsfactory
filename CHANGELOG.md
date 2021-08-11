@@ -34,6 +34,7 @@ from contracts import contract
 - snap_to_grid is now a cross_section property
 - replace Waveguide with gdsfactory.cross_section functions
 - add pydantic.validate_arguments to cross_section
+- functools.partial have unique names
 
 ## 3.0.0
 

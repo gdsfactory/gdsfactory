@@ -1265,8 +1265,10 @@ def _clean_value(value: Any) -> Any:
         value = float(value)
     elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
-    elif callable(value) and type(value) == functools.partial:
-        value = value.func.__name__
+    elif callable(value) and isinstance(value, functools.partial):
+        v = value.keywords.copy()
+        v.update(function=value.func.__name__)
+        value = _clean_value(v)
     elif isinstance(value, dict):
         clean_dict(value)
     elif isinstance(value, omegaconf.dictconfig.DictConfig):

@@ -6,7 +6,7 @@ import pydantic
 from phidl.device_layout import Device as Component
 
 from gdsfactory.layers import LayerSet
-from gdsfactory.name import clean_value
+from gdsfactory.name import clean_value, get_name_short
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -185,6 +185,22 @@ class Section:
     ports: Tuple[Optional[str], Optional[str]] = (None, None)
     name: str = None
 
+    def __repr__(self):
+        return "_".join(
+            [
+                f"{i}"
+                for i in [
+                    self.name,
+                    int(self.width * 1e3),
+                    self.layer[0],
+                    self.layer[1],
+                    self.ports[0],
+                    self.ports[1],
+                ]
+                if i is not None
+            ]
+        )
+
 
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
@@ -255,7 +271,7 @@ class Library:
         else:
             for function in function_or_function_list:
                 assert_callable(function)
-                self.factory[clean_value(function)] = function
+                self.factory[get_name_short(clean_value(function))] = function
 
         for function_name, function in kwargs.items():
             assert_callable(function)
@@ -327,25 +343,15 @@ LIBRARY = Library("generic_components")
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # t = TECH
-    # c = gf.components.mmi1x2(length_mmi=25.5)
-    # t.register_component(c)
-
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
         return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
 
     def mzi_longer(**kwargs):
         return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
-    # t.register_component_factory(mmi1x2_longer)
-    # c = t.component.mmi1x2_longer(length_mmi=30)
-    # c.show()
+    # ls = LAYER_STACK
+    # print(ls.get_layer_to_material())
+    # print(ls.get_layer_to_thickness_nm())
 
-    # cf = Library("demo")
-    # cf.register(mmi1x2_longer)
-    # print(asdict(TECH))
-    # c = cf.get_component("mmi1x2_longer", length_mmi=30)
-    ls = LAYER_STACK
-    # print(ls.to_dict())
-    print(ls.get_layer_to_material())
-    print(ls.get_layer_to_thickness_nm())
+    s = Section(width=1, layer=(1, 0))
+    print(s)

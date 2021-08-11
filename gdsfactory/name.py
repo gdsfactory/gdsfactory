@@ -56,8 +56,9 @@ def dict2name(prefix: str = "", **kwargs) -> str:
         if key not in ignore_from_name and isinstance(key, str):
             value = kwargs[key]
             key = join_first_letters(key)
-            value = clean_value(value)
-            kv += [f"{key.upper()}{value}"]
+            if value is not None:
+                value = clean_value(value)
+                kv += [f"{key.upper()}{value}"]
     label = prefix + "_".join(kv)
     return clean_name(label)
 
@@ -159,13 +160,18 @@ def clean_value(value: Any) -> str:
         value = clean_name(value.name)
     elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
-    elif callable(value) and type(value) == functools.partial:
-        value = value.func.__name__
+    elif callable(value) and isinstance(value, functools.partial):
+        value = value.func.__name__ + dict2name(**value.keywords)
     elif isinstance(value, str):
         value = value.strip()
-    else:
-        value = clean_name(str(value))
-    return value
+    return str(value)
+
+
+def get_name_short(name: str):
+    if len(name) > MAX_NAME_LENGTH:
+        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
+        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
+    return clean_name(name)
 
 
 def get_name(component_type: str, name: str) -> str:

@@ -160,8 +160,6 @@ LIBRARY.register(
 
 
 if __name__ == "__main__":
-    # c = mmi1x2_nitride_o()
-    # c.show()
 
     mzi = mzi_nitride_c()
     mzi_gc = gf.routing.add_fiber_single(

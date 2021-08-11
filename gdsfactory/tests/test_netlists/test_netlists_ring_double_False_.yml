@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_e9f66a6f_m0p005_16p185,N0: straight_CSstrip_L10n_10p0_10p705,W0
-  coupler_ring_e9f66a6f_m0p005_16p185,N1: straight_CSstrip_L10n_m10p01_10p705,W0
-  coupler_ring_e9f66a6f_m0p005_5p225,N0: straight_CSstrip_L10n_m10p01_10p705,E0
-  coupler_ring_e9f66a6f_m0p005_5p225,N1: straight_CSstrip_L10n_10p0_10p705,E0
+  coupler_ring_d5e4b2d4_m0p005_16p185,N0: straight_CSstrip_L10n_10p0_10p705,W0
+  coupler_ring_d5e4b2d4_m0p005_16p185,N1: straight_CSstrip_L10n_m10p01_10p705,W0
+  coupler_ring_d5e4b2d4_m0p005_5p225,N0: straight_CSstrip_L10n_m10p01_10p705,E0
+  coupler_ring_d5e4b2d4_m0p005_5p225,N1: straight_CSstrip_L10n_10p0_10p705,E0
 instances:
-  coupler_ring_e9f66a6f_m0p005_16p185:
+  coupler_ring_d5e4b2d4_m0p005_16p185:
     component: coupler_ring
     settings:
       bend: null
@@ -12,7 +12,7 @@ instances:
       gap: 0.2
       length_x: 0.01
       radius: 10
-  coupler_ring_e9f66a6f_m0p005_5p225:
+  coupler_ring_d5e4b2d4_m0p005_5p225:
     component: coupler_ring
     settings:
       bend: null
@@ -32,12 +32,12 @@ instances:
       length: 0.01
 name: ring_double
 placements:
-  coupler_ring_e9f66a6f_m0p005_16p185:
+  coupler_ring_d5e4b2d4_m0p005_16p185:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_e9f66a6f_m0p005_5p225:
+  coupler_ring_d5e4b2d4_m0p005_5p225:
     mirror: false
     rotation: 0
     x: 0.0
@@ -53,7 +53,7 @@ placements:
     x: -10.01
     y: 10.71
 ports:
-  E0: coupler_ring_e9f66a6f_m0p005_5p225,E0
-  E1: coupler_ring_e9f66a6f_m0p005_16p185,W0
-  W0: coupler_ring_e9f66a6f_m0p005_5p225,W0
-  W1: coupler_ring_e9f66a6f_m0p005_16p185,E0
+  E0: coupler_ring_d5e4b2d4_m0p005_5p225,E0
+  E1: coupler_ring_d5e4b2d4_m0p005_16p185,W0
+  W0: coupler_ring_d5e4b2d4_m0p005_5p225,W0
+  W1: coupler_ring_d5e4b2d4_m0p005_16p185,E0
