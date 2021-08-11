@@ -6,6 +6,8 @@
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 - add function to detect duplicated cell names
+- pass xor flag from pytest
+- force-regen flag forces
 
 Maybe:
 
@@ -34,7 +36,8 @@ from contracts import contract
 - add pydantic.validate_arguments to cross_section
 - functools.partial have unique names
 - partial functions include settings for JSON and name
-- include xor when doing a gdsdiff
+- include xor when doing a gdsdiff, enable it by default
+- delete StrOrDict, using functools.partial instead to customize functions
 
 ## 3.0.0
 
