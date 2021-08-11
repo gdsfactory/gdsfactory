@@ -490,19 +490,15 @@ def component_from_yaml(
         assert (
             component_type in component_factory
         ), f"{component_type} not in {list(component_factory.keys())}"
-        component_settings = instance_conf.get("settings", {})
-        component_settings.update(**kwargs)
-        component_settings = (
-            OmegaConf.to_container(component_settings, resolve=True)
-            if type(component_settings) in [omegaconf.DictConfig, omegaconf.ListConfig]
-            else component_settings
-        )
-        if "cross_section" in component_settings:
-            cross_section_name = component_settings["cross_section"]
-            component_settings["cross_section"] = cross_section_factory[
-                cross_section_name
-            ]
-        ci = component_factory[component_type](**component_settings)
+
+        settings = instance_conf.get("settings", {})
+        settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
+        settings.update(**kwargs)
+
+        if "cross_section" in settings:
+            cross_section_name = settings["cross_section"]
+            settings["cross_section"] = cross_section_factory[cross_section_name]
+        ci = component_factory[component_type](**settings)
         ref = c << ci
         instances[instance_name] = ref
 
@@ -551,8 +547,13 @@ def component_from_yaml(
                         f"`{route_alias}` has a key=`{key}` not in valid {valid_route_keys}"
                     )
 
-            route_settings = routes_dict.pop("settings", {})
-            route_settings = OmegaConf.to_container(route_settings, resolve=True)
+            settings = routes_dict.pop("settings", {})
+            settings = (
+                OmegaConf.to_container(settings, resolve=True) if settings else {}
+            )
+            if "cross_section" in settings:
+                cross_section_name = settings["cross_section"]
+                settings["cross_section"] = cross_section_factory[cross_section_name]
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             assert (
                 routing_strategy_name in routing_strategy
@@ -666,7 +667,7 @@ def component_from_yaml(
             route_or_route_list = routing_function(
                 ports1=ports1,
                 ports2=ports2,
-                **route_settings,
+                **settings,
             )
 
             # FIXME, be more consistent
