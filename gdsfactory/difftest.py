@@ -41,15 +41,13 @@ def difftest(component: Component, prefix: Optional[str] = None) -> None:
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
-        diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0])
+        diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0], xor=True)
         diff.write_gds(diff_file)
         diff.show()
         print(
             "\n"
             + f"`{filename}` changed from reference {ref_file}\n"
             + "You can check the differences in Klayout GUI\n"
-            # + "If you want to save the current GDS as the new reference, type:\n"
-            # f"rm {ref_file}"
         )
 
         try:

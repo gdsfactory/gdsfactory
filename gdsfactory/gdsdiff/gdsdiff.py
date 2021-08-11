@@ -1,51 +1,60 @@
 import itertools
 import pathlib
 from pathlib import Path
-from typing import Iterable, List, Optional, Set, Tuple, Union
+from typing import Union
 
-import gdspy as gp
-from gdspy.polygon import PolygonSet
-from numpy import int64, ndarray
+import gdspy
 
 from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
-from gdsfactory.types import ComponentOrReference, Layer
 
 COUNTER = itertools.count()
 
 
-def boolean(
-    A: Iterable[ComponentOrReference],
-    B: Iterable[ComponentOrReference],
-    operation: str,
-    precision: float,
-) -> Optional[PolygonSet]:
-    p = gp.boolean(
-        operand1=A,
-        operand2=B,
-        operation=operation,
-        precision=precision,
-        max_points=4000,
-    )
-    return p
+def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
+    """Given two devices A and B, performs a layer-by-layer XOR diff between
+    A and B, and returns polygons representing the differences between A and B.
+    Adapted from lytest/kdb_xor.py
+    """
 
+    # first do a geometry hash to vastly speed up if they are equal
+    if hash_geometry and (A.hash_geometry() == B.hash_geometry()):
+        return Component()
 
-def get_polygons_on_layer(
-    cell: Component, layer: Union[Tuple[int64, int64], Tuple[int, int]]
-) -> Optional[List[ndarray]]:
-    polygons = cell.get_polygons(by_spec=True)
-    # pprint ({k: len(v) for k, v in polygons.items()})
-    if layer in polygons:
-        return polygons[layer]
-    else:
-        return None
+    D = Component()
+    A_polys = A.get_polygons(by_spec=True)
+    B_polys = B.get_polygons(by_spec=True)
+    A_layers = A_polys.keys()
+    B_layers = B_polys.keys()
+    all_layers = set()
+    all_layers.update(A_layers)
+    all_layers.update(B_layers)
+    for layer in all_layers:
+        if (layer in A_layers) and (layer in B_layers):
+            p = gdspy.fast_boolean(
+                A_polys[layer],
+                B_polys[layer],
+                operation="xor",
+                precision=0.001,
+                max_points=4000,
+                layer=layer[0],
+                datatype=layer[1],
+            )
+        elif layer in A_layers:
+            p = A_polys[layer]
+        elif layer in B_layers:
+            p = B_polys[layer]
+        if p is not None:
+            D.add_polygon(p, layer=layer)
+    return D
 
 
 def gdsdiff(
     component1: Union[Path, Component, str],
     component2: Union[Path, Component, str],
     name: str = "TOP",
-    make_boolean: bool = False,
+    xor: bool = True,
+    hash_geometry: bool = True,
 ) -> Component:
     """Compare two Components.
 
@@ -53,7 +62,7 @@ def gdsdiff(
         component1: Component or path to gds file
         component2: Component or path to gds file
         name: name of the top cell
-        make_boolean: makes boolean operation
+        xor: makes boolean operation
 
     Returns:
         Component with both cells (xor, common and diffs)
@@ -67,10 +76,6 @@ def gdsdiff(
     if isinstance(component2, str):
         component2 = import_gds(component2, flatten=True)
 
-    layers: Set[Layer] = set()
-    layers.update(component1.get_layers())
-    layers.update(component2.get_layers())
-
     top = Component(name=f"{name}_diffs")
 
     if component1.name.startswith("Unnamed"):
@@ -81,56 +86,20 @@ def gdsdiff(
     top << component1
     top << component2
 
-    if make_boolean:
-        diff = Component(name=f"{name}_xor")
-        common = Component(name=f"{name}_common")
-        old_only = Component(name=f"{name}_only_in_old")
-        new_only = Component(name=f"{name}_only_in_new")
+    if xor:
+        diff = xor_polygons(component1, component2, hash_geometry=hash_geometry)
+        diff.name = f"{name}_xor"
+        top.add_ref(diff)
 
-        for layer in layers:
-            A = get_polygons_on_layer(component1, layer)
-            B = get_polygons_on_layer(component2, layer)
-
-            # Common bits
-            common_AB = boolean(A, B, operation="and", precision=0.001)
-
-            # Bits in either A or B
-            either_AB = boolean(A, B, operation="xor", precision=0.001)
-
-            # Bits only in A
-            only_in_A = boolean(A, either_AB, operation="and", precision=0.001)
-
-            # Bits only in B
-            only_in_B = boolean(B, either_AB, operation="and", precision=0.001)
-
-            if either_AB is not None:
-                diff.add_polygon(either_AB, layer)
-            if common_AB is not None:
-                common.add_polygon(common_AB, layer)
-            if only_in_A is not None:
-                old_only.add_polygon(only_in_A, layer)
-            if only_in_B is not None:
-                new_only.add_polygon(only_in_B, layer)
-
-        top << diff
-        top << common
-        top << old_only
-        top << new_only
     return top
 
 
 if __name__ == "__main__":
-    # import sys
+    import sys
 
-    # if len(sys.argv) != 3:
-    #     print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
-    #     print("Note that you need to have KLayout opened with klive running")
-    #     sys.exit()
-
-    # c = gdsdiff(sys.argv[1], sys.argv[2])
-    # c.show()
-
-    import gdsfactory as gf
-
-    c = gdsdiff(gf.components.straight(), gf.components.straight(length=11))
+    if len(sys.argv) != 3:
+        print("Usage: gdsdiff <mask_v1.gds> <mask_v2.gds>")
+        print("Note that you need to have KLayout opened with klive running")
+        sys.exit()
+    c = gdsdiff(sys.argv[1], sys.argv[2])
     c.show()

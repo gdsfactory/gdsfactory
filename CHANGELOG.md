@@ -3,16 +3,14 @@
 ## TODO
 
 - enable routing with 180euler and Sbends
-- define Layer as a dataclass instead of Tuple[int, int]
-- move add_fiber_array settings into a dataclass
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
-- pdk demo using partial
-- convert from StrOrDict to functional programming (via_stack, waveguide, ...)
 - add function to detect duplicated cell names
 
 Maybe:
 
+- define Layer as a dataclass instead of Tuple[int, int]
+- move add_fiber_array settings into a dataclass
 - enable difftest for test_containers
 - xdoctest
 - mypy passing
@@ -36,6 +34,7 @@ from contracts import contract
 - add pydantic.validate_arguments to cross_section
 - functools.partial have unique names
 - partial functions include settings for JSON and name
+- include xor when doing a gdsdiff
 
 ## 3.0.0
 
