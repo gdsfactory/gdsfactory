@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import pin
 from gdsfactory.path import extrude, straight
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.tech import LAYER, TECH
+from gdsfactory.tech import LAYER
 from gdsfactory.types import Layer
 
 
@@ -14,8 +14,8 @@ from gdsfactory.types import Layer
 def straight_pin(
     length: float = 10.0,
     npoints: int = 2,
-    width: float = TECH.waveguide.strip.width,
-    layer: Layer = TECH.waveguide.strip.layer,
+    width: float = 0.5,
+    layer: Layer = (1, 0),
     layer_slab: Layer = LAYER.SLAB90,
     width_i: float = 0.0,
     width_p: float = 1.0,

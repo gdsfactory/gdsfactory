@@ -552,6 +552,7 @@ def component_from_yaml(
                     )
 
             route_settings = routes_dict.pop("settings", {})
+            route_settings = OmegaConf.to_container(route_settings, resolve=True)
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             assert (
                 routing_strategy_name in routing_strategy

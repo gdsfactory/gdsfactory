@@ -7,7 +7,6 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.config import TECH
 from gdsfactory.port import deco_rename_ports
 from gdsfactory.types import ComponentFactory, Coordinate, Coordinates, Layer
 
@@ -16,8 +15,8 @@ from gdsfactory.types import ComponentFactory, Coordinate, Coordinates, Layer
 @cell
 def grating_coupler_elliptical2(
     wgt: ComponentFactory = strip,
-    wg_width: float = TECH.waveguide.strip.width,
-    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
+    wg_width: float = 0.5,
+    cladding_offset: float = 2.0,
     theta: float = np.pi / 4.0,
     length: float = 30.0,
     taper_length: float = 10.0,

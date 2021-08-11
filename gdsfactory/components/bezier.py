@@ -7,7 +7,6 @@ from scipy.special import binom
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import TECH
 from gdsfactory.geo_utils import (
     angles_deg,
     curvature,
@@ -51,10 +50,10 @@ def bezier_biased(width=0.5, **kwargs):
 @gf.cell
 def bezier(
     name: Optional[str] = None,
-    width: float = TECH.waveguide.strip.width,
+    width: float = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
-    layer: Tuple[int, int] = TECH.waveguide.strip.layer,
+    layer: Tuple[int, int] = (1, 0),
     with_manhattan_facing_angles: bool = True,
     spike_length: float = 0.0,
     start_angle: Optional[int] = None,
