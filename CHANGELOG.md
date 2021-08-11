@@ -38,6 +38,7 @@ from contracts import contract
 - partial functions include settings for JSON and name
 - include xor when doing a gdsdiff, enable it by default
 - delete StrOrDict, using functools.partial instead to customize functions
+- include --xor flag to `gf gds diff --xor` to run a detailed XOR between 2 GDS files
 
 ## 3.0.0
 

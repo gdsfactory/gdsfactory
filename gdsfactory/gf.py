@@ -184,9 +184,10 @@ def show(filename: str) -> None:
 @click.command()
 @click.argument("gdspath1")
 @click.argument("gdspath2")
-def diff(gdspath1: str, gdspath2: str) -> None:
+@click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
+def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    diff = gdsdiff(str(gdspath1), str(gdspath2))
+    diff = gdsdiff(str(gdspath1), str(gdspath2), xor=xor)
     diff.show()
 
 

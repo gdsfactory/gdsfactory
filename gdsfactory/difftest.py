@@ -11,7 +11,9 @@ from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 cwd = pathlib.Path.cwd()
 
 
-def difftest(component: Component, prefix: Optional[str] = None) -> None:
+def difftest(
+    component: Component, prefix: Optional[str] = None, xor: bool = False
+) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
     Runs an XOR over a component and makes boolean comparison with a GDS reference.
     If it runs for the fist time it just stores the GDS reference.
@@ -42,13 +44,15 @@ def difftest(component: Component, prefix: Optional[str] = None) -> None:
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
-        diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0], xor=True)
+        diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0], xor=xor)
         diff.write_gds(diff_file)
         diff.show()
         print(
             "\n"
             + f"`{filename}` changed from reference {ref_file}\n"
             + "You can check the differences in Klayout GUI\n"
+            + "For a detailed XOR you can run\n"
+            + f"gf gds diff --xor {ref_file} {run_file}\n"
         )
 
         try:
