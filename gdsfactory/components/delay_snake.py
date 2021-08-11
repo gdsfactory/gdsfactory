@@ -89,5 +89,5 @@ def delay_snake(
 
 
 if __name__ == "__main__":
-    c = delay_snake(waveguide="nitride")
+    c = delay_snake(layer=(2, 0))
     c.show(show_ports=True)

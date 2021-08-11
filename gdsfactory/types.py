@@ -19,7 +19,7 @@ Some of these inputs are other functions.
 """
 import dataclasses
 import pathlib
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 from phidl.device_layout import Path
 
@@ -61,8 +61,6 @@ Coordinates = Tuple[Tuple[float, float], ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-StrOrDict = Union[str, Dict[str, Any]]
-StrOrDictOrNone = Optional[StrOrDict]
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:

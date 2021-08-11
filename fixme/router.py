@@ -22,7 +22,7 @@ if __name__ == "__main__":
     ps = gf.components.straight_with_heater()
     ps_array = gf.components.array(component=ps, pitch=20)
 
-    splitter = gf.components.splitter_tree(noutputs=N, waveguide="nitride", dy=dy)
+    splitter = gf.components.splitter_tree(noutputs=N, dy=dy)
     splitters = c.add_ref(splitter)
     splitters.movey(-30)
     splitters.xmax = 0
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         routes_bend180 = gf.routing.get_routes_bend180(
             ports=ps.get_ports_list(port_type="dc", orientation=0),
             radius=dy / 8,
-            waveguide="metal_routing",
+            layer=(31, 0),
             width=metal_width,
         )
         c.add(routes_bend180.references)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             ps.get_ports_list(port_type="dc", orientation=180)
             + list(routes_bend180.ports.values()),
             pads.get_ports_list(),
-            waveguide="metal_routing",
+            layer=(31, 0),
             width=metal_width,
             separation=metal_spacing,
         )

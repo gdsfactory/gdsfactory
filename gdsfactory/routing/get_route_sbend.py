@@ -40,7 +40,7 @@ if __name__ == "__main__":
     right_ports, left_ports = sort_ports(right_ports, left_ports)
 
     for p1, p2 in zip(right_ports, left_ports):
-        route = get_route_sbend(p1, p2, waveguide="nitride")
+        route = get_route_sbend(p1, p2, layer=(2, 0))
         c.add(route.references)
 
     c.show()
