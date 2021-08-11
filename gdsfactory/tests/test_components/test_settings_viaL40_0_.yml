@@ -1,0 +1,20 @@
+function_name: via
+info:
+  enclosure: 1
+  height: 0.7
+  pitch: 2
+  pitch_x: 2
+  pitch_y: 2
+  width: 0.7
+module: gdsfactory.components.via
+name: via_L40_0
+settings:
+  enclosure: 1
+  height: null
+  layer:
+  - 40
+  - 0
+  pitch: 2
+  pitch_x: null
+  pitch_y: null
+  width: 0.7

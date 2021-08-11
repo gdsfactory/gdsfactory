@@ -7,6 +7,13 @@ settings:
   height: null
   port_orientation: 180
   vias:
-  - via2
-  - via3
+  - enclosure: 2
+    function: via
+    layer:
+    - 44
+    - 0
+  - function: via
+    layer:
+    - 43
+    - 0
   width: 11
