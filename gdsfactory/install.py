@@ -31,7 +31,7 @@ def install_gdsdiff():
 
         if key not in config.sections():
             config.add_section(key)
-            config.set(key, "command", "python -m gdsdiff.gds_diff_git")
+            config.set(key, "command", "python -m gdsfactory.gdsdiff.gds_diff_git")
             config.set(key, "binary", "True")
 
             with open(git_config_path, "w+") as f:
