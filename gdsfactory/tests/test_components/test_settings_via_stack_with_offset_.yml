@@ -12,7 +12,10 @@ settings:
     - 0
   - - - 41
       - 0
-    - via1
+    - function: via
+      layer:
+      - 40
+      - 0
     - 10
     - 10
     - 0

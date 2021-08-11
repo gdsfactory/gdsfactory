@@ -44,7 +44,7 @@ def via(
 
 
 via1 = gf.partial(via, layer=LAYER.VIA1)
-via2 = gf.partial(via, layer=LAYER.VIA2)
+via2 = gf.partial(via, layer=LAYER.VIA2, enclosure=2)
 via3 = gf.partial(via, layer=LAYER.VIA3)
 
 
