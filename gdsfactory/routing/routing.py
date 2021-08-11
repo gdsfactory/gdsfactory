@@ -10,7 +10,6 @@ from numpy.linalg import norm
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.config import TECH
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Layer, Port, Route
 
@@ -869,7 +868,7 @@ def route_manhattan(
     port2: Port,
     bendType: str = "gradual",
     layer: Optional[Layer] = None,
-    radius: float = TECH.waveguide.strip.radius,
+    radius: float = 10.0,
 ):
     """Returns Route along cardinal directions between two ports
     placed diagonally from each other

@@ -560,7 +560,7 @@ if __name__ == "__main__":
     c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_regex()
-    c = test_connections_waypoints()
+    # c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)

@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.types import CrossSectionFactory, Number
@@ -12,8 +11,8 @@ from gdsfactory.types import CrossSectionFactory, Number
 
 @cell
 def taper(
-    length: float = TECH.waveguide.strip.taper_length,
-    width1: float = TECH.waveguide.strip.width,
+    length: float = 10.0,
+    width1: float = 0.5,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,

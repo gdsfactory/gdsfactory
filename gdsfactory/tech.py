@@ -187,128 +187,6 @@ class Section:
 
 
 @pydantic.dataclasses.dataclass
-class Waveguide:
-    width: float
-    layer: Layer
-    width_wide: Optional[float] = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200
-    taper_length: float = 10.0
-    radius: float = 10.0
-    cladding_offset: Optional[float] = 3.0
-    layer_cladding: Optional[Layer] = None
-    layers_cladding: Optional[Tuple[Layer, ...]] = None
-    sections: Optional[Tuple[Section, ...]] = None
-    min_length: float = 10e-3
-
-
-@pydantic.dataclasses.dataclass
-class Strip(Waveguide):
-    width: float = 0.5
-    width_wide: float = 2.0
-    auto_widen: bool = True
-    auto_widen_minimum_length: float = 200
-    taper_length: float = 10.0
-    layer: Layer = LAYER.WG
-    radius: float = 10.0
-    cladding_offset: float = 3.0
-    layer_cladding: Optional[Layer] = LAYER.WGCLAD
-    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGCLAD,)
-
-
-@pydantic.dataclasses.dataclass
-class Rib(Waveguide):
-    width: float = 0.5
-    auto_widen: bool = True
-    auto_widen_minimum_length: float = 200
-    taper_length: float = 10.0
-    layer: Layer = LAYER.WG
-    radius: float = 10.0
-    cladding_offset: float = 3.0
-    layer_cladding: Optional[Layer] = LAYER.SLAB90
-    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGCLAD,)
-
-
-@pydantic.dataclasses.dataclass
-class Metal1(Waveguide):
-    width: float = 2.0
-    width_wide: float = 2.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.M1
-    radius: float = 5.0
-
-
-@pydantic.dataclasses.dataclass
-class Metal2(Waveguide):
-    width: float = 2.0
-    width_wide: float = 2.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.M2
-    radius: float = 5.0
-
-
-@pydantic.dataclasses.dataclass
-class MetalRouting(Waveguide):
-    width: float = 2.0
-    width_wide: float = 2.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.M3
-    radius: float = 5.0
-
-
-@pydantic.dataclasses.dataclass
-class Nitride(Waveguide):
-    width: float = 1.0
-    width_wide: float = 1.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.WGN
-    layers_cladding: Optional[Tuple[Layer, ...]] = (LAYER.WGN_CLAD,)
-    radius: float = 20.0
-
-
-@pydantic.dataclasses.dataclass
-class StripHeater(Waveguide):
-    width: float = 1.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.WG
-    radius: float = 10.0
-    sections: Tuple[Section, ...] = (
-        Section(width=8, layer=LAYER.WGCLAD),
-        Section(
-            width=0.5, layer=LAYER.HEATER, offset=+1.2, ports=("top_in", "top_out")
-        ),
-        Section(
-            width=0.5, layer=LAYER.HEATER, offset=-1.2, ports=("bot_in", "bot_out")
-        ),
-    )
-
-
-@pydantic.dataclasses.dataclass
-class StripHeaterSingle(Waveguide):
-    width: float = 1.0
-    auto_widen: bool = False
-    layer: Layer = LAYER.WG
-    port_names: Tuple[str, str] = ("in0", "out0")
-    radius: float = 10.0
-    sections: Tuple[Section, ...] = (
-        Section(width=8, layer=LAYER.WGCLAD),
-        Section(width=4.0, layer=LAYER.HEATER, ports=("H_W", "H_E")),
-    )
-
-
-@pydantic.dataclasses.dataclass
-class Waveguides:
-    strip: Waveguide = Strip()
-    rib: Waveguide = Rib()
-    metal1: Waveguide = Metal1()
-    metal2: Waveguide = Metal2()
-    metal_routing: Waveguide = MetalRouting()
-    nitride: Waveguide = Nitride()
-    strip_heater: Waveguide = StripHeater()
-    strip_heater_single: Waveguide = StripHeaterSingle()
-
-
-@pydantic.dataclasses.dataclass
 class SimulationSettings:
     background_material: str = "sio2"
     port_width: float = 3e-6
@@ -324,7 +202,6 @@ class SimulationSettings:
     wavelength_points: int = 500
 
 
-WAVEGUIDES = Waveguides()
 SIMULATION_SETTINGS = SimulationSettings()
 
 
@@ -439,7 +316,6 @@ class Tech:
 
     rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
-    waveguide: Waveguides = WAVEGUIDES
 
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS

@@ -1,16 +1,15 @@
 import picwriter.components as pc
 from picwriter.components.waveguide import WaveguideTemplate
 
-from gdsfactory.config import TECH
 from gdsfactory.types import Layer
 
 
 def strip(
-    wg_width: float = TECH.waveguide.strip.width,
-    layer: Layer = TECH.waveguide.strip.layer,
+    wg_width: float = 0.5,
+    layer: Layer = (1, 0),
     layer_cladding: Layer = (111, 0),
-    radius: float = TECH.waveguide.strip.radius,
-    cladding_offset: float = TECH.waveguide.strip.cladding_offset,
+    radius: float = 10.0,
+    cladding_offset: float = 3.0,
 ) -> WaveguideTemplate:
 
     return pc.WaveguideTemplate(

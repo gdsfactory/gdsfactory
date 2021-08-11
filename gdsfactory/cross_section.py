@@ -19,7 +19,7 @@ Layer = Tuple[int, int]
 @pydantic.validate_arguments
 def cross_section(
     width: float = 0.5,
-    layer: Optional[Tuple[int, int]] = (1, 0),
+    layer: Tuple[int, int] = (1, 0),
     width_wide: Optional[float] = None,
     auto_widen: bool = True,
     auto_widen_minimum_length: float = 200.0,
@@ -57,9 +57,7 @@ def cross_section(
     """
 
     x = CrossSection()
-
-    if layer:
-        x.add(width=width, offset=0, layer=layer, ports=port_names)
+    x.add(width=width, offset=0, layer=layer, ports=port_names)
 
     sections = sections or []
     for section in sections:
@@ -99,7 +97,7 @@ def cross_section(
 
 
 def pin(
-    width: float,
+    width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
     width_i: float = 0.0,
@@ -203,6 +201,23 @@ def heater_with_undercut(
     )
 
 
+@pydantic.validate_arguments
+def heater(
+    waveguide_width: float = 0.5,
+    heater_width: float = 1.0,
+    layer_waveguide: Layer = LAYER.WG,
+    layer_heater: Layer = LAYER.HEATER,
+    **kwargs,
+):
+    """Returns heater with undercut."""
+    return cross_section(
+        width=waveguide_width,
+        layer=layer_waveguide,
+        sections=(Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),),
+        **kwargs,
+    )
+
+
 strip = partial(cross_section)
 rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
@@ -210,9 +225,11 @@ rib = partial(
 metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
 metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
 metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
+nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 
 strip.__name__ = "strip"
 rib.__name__ = "rib"
+nitride.__name__ = "nitride"
 metal1.__name__ = "metal1"
 metal2.__name__ = "metal2"
 metal3.__name__ = "metal3"
@@ -221,11 +238,13 @@ metal3.__name__ = "metal3"
 cross_section_factory = dict(
     strip=strip,
     rib=rib,
+    nitride=nitride,
     metal1=metal1,
     metal2=metal2,
     metal3=metal3,
     pin=pin,
     heater_with_undercut=heater_with_undercut,
+    heater=heater,
 )
 
 if __name__ == "__main__":

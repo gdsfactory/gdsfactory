@@ -30,8 +30,10 @@ from contracts import contract
 
 ## 3.0.1
 
-- passing cross_section functions instead of registering waveguides in TECH.waveguide
+- pass cross_section functions to component factories instead of registering waveguides in TECH.waveguide
 - snap_to_grid is now a cross_section property
+- replace Waveguide with gdsfactory.cross_section functions
+- add pydantic.validate_arguments to cross_section
 
 ## 3.0.0
 
