@@ -38,6 +38,7 @@ def difftest(component: Component, prefix: Optional[str] = None) -> None:
     if not ref_file.exists():
         print(f"Creating GDS reference for {component.name} in {ref_file}")
         component.write_gds(gdspath=ref_file)
+        return
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:

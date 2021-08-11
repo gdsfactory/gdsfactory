@@ -43,19 +43,9 @@ def via(
     return c
 
 
-@gf.cell
-def via1(**kwargs) -> Component:
-    return via(layer=LAYER.VIA1, **kwargs)
-
-
-@gf.cell
-def via2(enclosure: float = 2.0, **kwargs) -> Component:
-    return via(layer=LAYER.VIA2, enclosure=enclosure, **kwargs)
-
-
-@gf.cell
-def via3(**kwargs) -> Component:
-    return via(layer=LAYER.VIA3, **kwargs)
+via1 = gf.partial(via, layer=LAYER.VIA1)
+via2 = gf.partial(via, layer=LAYER.VIA2)
+via3 = gf.partial(via, layer=LAYER.VIA3)
 
 
 if __name__ == "__main__":
