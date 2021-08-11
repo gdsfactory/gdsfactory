@@ -165,9 +165,6 @@ def get_layer_stack_generic(thickness_nm: float = 220.0) -> LayerStack:
 LAYER_STACK = get_layer_stack_generic()
 
 
-# waveguides
-
-
 @pydantic.dataclasses.dataclass
 class Section:
     """
