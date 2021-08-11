@@ -35,6 +35,7 @@ from contracts import contract
 - replace Waveguide with gdsfactory.cross_section functions
 - add pydantic.validate_arguments to cross_section
 - functools.partial have unique names
+- partial functions include settings for JSON and name
 
 ## 3.0.0
 
