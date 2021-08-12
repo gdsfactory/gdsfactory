@@ -33,6 +33,7 @@ from contracts import contract
 ## 3.0.2
 
 - add straight_rib
+- `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
 
 ## 3.0.1
 

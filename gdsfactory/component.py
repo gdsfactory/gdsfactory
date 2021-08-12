@@ -1386,5 +1386,8 @@ def hash_file(filepath):
 
 
 if __name__ == "__main__":
-    test_extract()
-    test_get_layers()
+    # test_extract()
+    # test_get_layers()
+    demo_port2 = functools.partial(demo_component, a=1)
+    d = _clean_value(demo_port2)
+    print(d)

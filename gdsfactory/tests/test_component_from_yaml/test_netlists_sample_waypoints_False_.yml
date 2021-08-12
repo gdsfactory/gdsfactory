@@ -1,130 +1,148 @@
 connections:
-  b,N0: straight_AWFalse_CSstrip_L240_0p0_170p0,W0
-  b,N1: straight_AWFalse_CSstrip_L90_150p0_95p0,W0
-  bend_euler_AWFalse_CSstrip_154p875_145p125,N0: straight_AWFalse_CSstrip_L380_350p0_150p0,W0
-  bend_euler_AWFalse_CSstrip_154p875_145p125,W0: straight_AWFalse_CSstrip_L90_150p0_95p0,E0
-  bend_euler_AWFalse_CSstrip_395p125_304p875,N0: straight_AWFalse_CSstrip_L80_400p0_350p0,W0
-  bend_euler_AWFalse_CSstrip_395p125_304p875,W0: straight_AWFalse_CSstrip_L380_200p0_300p0,E0
-  bend_euler_AWFalse_CSstrip_395p125_395p125,N0: straight_AWFalse_CSstrip_L630_75p0_400p0,W0
-  bend_euler_AWFalse_CSstrip_395p125_395p125,W0: straight_AWFalse_CSstrip_L80_400p0_350p0,E0
-  bend_euler_AWFalse_CSstrip_4p875_295p125,N0: straight_AWFalse_CSstrip_L380_200p0_300p0,W0
-  bend_euler_AWFalse_CSstrip_4p875_295p125,W0: straight_AWFalse_CSstrip_L240_0p0_170p0,E0
-  bend_euler_AWFalse_CSstrip_545p125_154p875,N0: straight_AWFalse_CSstrip_L380_550p0_350p0,W0
-  bend_euler_AWFalse_CSstrip_545p125_154p875,W0: straight_AWFalse_CSstrip_L380_350p0_150p0,E0
-  bend_euler_AWFalse_CSstrip_545p125_545p125,N0: straight_AWFalse_CSstrip_L630_225p0_550p0,W0
-  bend_euler_AWFalse_CSstrip_545p125_545p125,W0: straight_AWFalse_CSstrip_L380_550p0_350p0,E0
-  bend_euler_AWFalse_CSstrip_m245p125_404p875,N0: straight_AWFalse_CSstrip_L540_m250p0_680p0,W0
-  bend_euler_AWFalse_CSstrip_m245p125_404p875,W0: straight_AWFalse_CSstrip_L630_75p0_400p0,E0
-  bend_euler_AWFalse_CSstrip_m95p125_554p875,N0: straight_AWFalse_CSstrip_L390_m100p0_755p0,W0
-  bend_euler_AWFalse_CSstrip_m95p125_554p875,W0: straight_AWFalse_CSstrip_L630_225p0_550p0,E0
-  straight_AWFalse_CSstrip_L390_m100p0_755p0,E0: t,S1
-  straight_AWFalse_CSstrip_L540_m250p0_680p0,E0: t,S0
+  b,N0: straight_c713d6a6_0p0_170p0,W0
+  b,N1: straight_e337bb52_150p0_95p0,W0
+  bend_euler_1fc94be7_154p875_145p125,N0: straight_17e858d1_350p0_150p0,W0
+  bend_euler_1fc94be7_154p875_145p125,W0: straight_e337bb52_150p0_95p0,E0
+  bend_euler_1fc94be7_395p125_304p875,N0: straight_bd897036_400p0_350p0,W0
+  bend_euler_1fc94be7_395p125_304p875,W0: straight_17e858d1_200p0_300p0,E0
+  bend_euler_1fc94be7_395p125_395p125,N0: straight_1c023494_75p0_400p0,W0
+  bend_euler_1fc94be7_395p125_395p125,W0: straight_bd897036_400p0_350p0,E0
+  bend_euler_1fc94be7_4p875_295p125,N0: straight_17e858d1_200p0_300p0,W0
+  bend_euler_1fc94be7_4p875_295p125,W0: straight_c713d6a6_0p0_170p0,E0
+  bend_euler_1fc94be7_545p125_154p875,N0: straight_17e858d1_550p0_350p0,W0
+  bend_euler_1fc94be7_545p125_154p875,W0: straight_17e858d1_350p0_150p0,E0
+  bend_euler_1fc94be7_545p125_545p125,N0: straight_1c023494_225p0_550p0,W0
+  bend_euler_1fc94be7_545p125_545p125,W0: straight_17e858d1_550p0_350p0,E0
+  bend_euler_1fc94be7_m245p125_404p875,N0: straight_731f4c7c_m250p0_680p0,W0
+  bend_euler_1fc94be7_m245p125_404p875,W0: straight_1c023494_75p0_400p0,E0
+  bend_euler_1fc94be7_m95p125_554p875,N0: straight_ea13adb3_m100p0_755p0,W0
+  bend_euler_1fc94be7_m95p125_554p875,W0: straight_1c023494_225p0_550p0,E0
+  straight_731f4c7c_m250p0_680p0,E0: t,S0
+  straight_ea13adb3_m100p0_755p0,E0: t,S1
 instances:
   b:
     component: pad_array
     settings:
       port_list:
       - N
-  bend_euler_AWFalse_CSstrip_154p875_145p125:
+  bend_euler_1fc94be7_154p875_145p125:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_395p125_304p875:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_395p125_304p875:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_395p125_395p125:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_395p125_395p125:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_4p875_295p125:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_4p875_295p125:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_545p125_154p875:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_545p125_154p875:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_545p125_545p125:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_545p125_545p125:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_m245p125_404p875:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_m245p125_404p875:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  bend_euler_AWFalse_CSstrip_m95p125_554p875:
+      cross_section:
+        function: cross_section
+  bend_euler_1fc94be7_m95p125_554p875:
     component: bend_euler
     settings:
       auto_widen: false
-      cross_section: strip
-  straight_AWFalse_CSstrip_L240_0p0_170p0:
+      cross_section:
+        function: cross_section
+  straight_17e858d1_200p0_300p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
-      length: 240
-  straight_AWFalse_CSstrip_L380_200p0_300p0:
-    component: straight
-    settings:
-      auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 380
-  straight_AWFalse_CSstrip_L380_350p0_150p0:
+  straight_17e858d1_350p0_150p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 380
-  straight_AWFalse_CSstrip_L380_550p0_350p0:
+  straight_17e858d1_550p0_350p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 380
-  straight_AWFalse_CSstrip_L390_m100p0_755p0:
+  straight_1c023494_225p0_550p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
-      length: 390
-  straight_AWFalse_CSstrip_L540_m250p0_680p0:
+      cross_section:
+        function: cross_section
+      length: 630
+  straight_1c023494_75p0_400p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
+      length: 630
+  straight_731f4c7c_m250p0_680p0:
+    component: straight
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
       length: 540
-  straight_AWFalse_CSstrip_L630_225p0_550p0:
+  straight_bd897036_400p0_350p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
-      length: 630
-  straight_AWFalse_CSstrip_L630_75p0_400p0:
-    component: straight
-    settings:
-      auto_widen: false
-      cross_section: strip
-      length: 630
-  straight_AWFalse_CSstrip_L80_400p0_350p0:
-    component: straight
-    settings:
-      auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 80
-  straight_AWFalse_CSstrip_L90_150p0_95p0:
+  straight_c713d6a6_0p0_170p0:
     component: straight
     settings:
       auto_widen: false
-      cross_section: strip
+      cross_section:
+        function: cross_section
+      length: 240
+  straight_e337bb52_150p0_95p0:
+    component: straight
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
       length: 90
+  straight_ea13adb3_m100p0_755p0:
+    component: straight
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 390
   t:
     component: pad_array
     settings:
@@ -137,96 +155,96 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_AWFalse_CSstrip_154p875_145p125:
+  bend_euler_1fc94be7_154p875_145p125:
     mirror: true
     rotation: 90
     x: 150.0
     y: 140.0
-  bend_euler_AWFalse_CSstrip_395p125_304p875:
+  bend_euler_1fc94be7_395p125_304p875:
     mirror: false
     rotation: 0
     x: 390.0
     y: 300.0
-  bend_euler_AWFalse_CSstrip_395p125_395p125:
+  bend_euler_1fc94be7_395p125_395p125:
     mirror: false
     rotation: 90
     x: 400.0
     y: 390.0
-  bend_euler_AWFalse_CSstrip_4p875_295p125:
+  bend_euler_1fc94be7_4p875_295p125:
     mirror: true
     rotation: 90
     x: 0.0
     y: 290.0
-  bend_euler_AWFalse_CSstrip_545p125_154p875:
+  bend_euler_1fc94be7_545p125_154p875:
     mirror: false
     rotation: 0
     x: 540.0
     y: 150.0
-  bend_euler_AWFalse_CSstrip_545p125_545p125:
+  bend_euler_1fc94be7_545p125_545p125:
     mirror: false
     rotation: 90
     x: 550.0
     y: 540.0
-  bend_euler_AWFalse_CSstrip_m245p125_404p875:
+  bend_euler_1fc94be7_m245p125_404p875:
     mirror: true
     rotation: 180
     x: -240.0
     y: 400.0
-  bend_euler_AWFalse_CSstrip_m95p125_554p875:
+  bend_euler_1fc94be7_m95p125_554p875:
     mirror: true
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_AWFalse_CSstrip_L240_0p0_170p0:
-    mirror: false
-    rotation: 90
-    x: 0.0
-    y: 50.0
-  straight_AWFalse_CSstrip_L380_200p0_300p0:
+  straight_17e858d1_200p0_300p0:
     mirror: false
     rotation: 0
     x: 10.0
     y: 300.0
-  straight_AWFalse_CSstrip_L380_350p0_150p0:
+  straight_17e858d1_350p0_150p0:
     mirror: false
     rotation: 0
     x: 160.0
     y: 150.0
-  straight_AWFalse_CSstrip_L380_550p0_350p0:
+  straight_17e858d1_550p0_350p0:
     mirror: false
     rotation: 90
     x: 550.0
     y: 160.0
-  straight_AWFalse_CSstrip_L390_m100p0_755p0:
-    mirror: false
-    rotation: 90
-    x: -100.0
-    y: 560.0
-  straight_AWFalse_CSstrip_L540_m250p0_680p0:
-    mirror: false
-    rotation: 90
-    x: -250.0
-    y: 410.0
-  straight_AWFalse_CSstrip_L630_225p0_550p0:
+  straight_1c023494_225p0_550p0:
     mirror: false
     rotation: 180
     x: 540.0
     y: 550.0
-  straight_AWFalse_CSstrip_L630_75p0_400p0:
+  straight_1c023494_75p0_400p0:
     mirror: false
     rotation: 180
     x: 390.0
     y: 400.0
-  straight_AWFalse_CSstrip_L80_400p0_350p0:
+  straight_731f4c7c_m250p0_680p0:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 410.0
+  straight_bd897036_400p0_350p0:
     mirror: false
     rotation: 90
     x: 400.0
     y: 310.0
-  straight_AWFalse_CSstrip_L90_150p0_95p0:
+  straight_c713d6a6_0p0_170p0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 50.0
+  straight_e337bb52_150p0_95p0:
     mirror: false
     rotation: 90
     x: 150.0
     y: 50.0
+  straight_ea13adb3_m100p0_755p0:
+    mirror: false
+    rotation: 90
+    x: -100.0
+    y: 560.0
   t:
     mirror: false
     rotation: 0

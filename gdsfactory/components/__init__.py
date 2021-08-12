@@ -16,6 +16,7 @@ from gdsfactory.components.array_with_via import array_with_via_2d
 from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_heater import straight_heater
 from gdsfactory.components.straight_heater import straight_with_heater
+from gdsfactory.components.straight_heater import straight_with_heater_single
 from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_rib import straight_rib
@@ -277,6 +278,7 @@ LIBRARY.register(
         straight_heater,
         straight_pin,
         straight_with_heater,
+        straight_with_heater_single,
         straight_rib,
         straight_rib_with_strip_tapers,
         wire_straight,

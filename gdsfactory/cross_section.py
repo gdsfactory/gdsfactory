@@ -178,7 +178,7 @@ def pin(
 
 
 @pydantic.validate_arguments
-def heater_with_undercut(
+def strip_heater_with_undercut(
     waveguide_width: float = 0.5,
     heater_width: float = 1.0,
     trench_width: float = 8.0,
@@ -202,7 +202,7 @@ def heater_with_undercut(
 
 
 @pydantic.validate_arguments
-def heater(
+def strip_heater(
     waveguide_width: float = 0.5,
     heater_width: float = 1.0,
     layer_waveguide: Layer = LAYER.WG,
@@ -227,15 +227,9 @@ metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
 metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 
-strip.__name__ = "strip"
-rib.__name__ = "rib"
-nitride.__name__ = "nitride"
-metal1.__name__ = "metal1"
-metal2.__name__ = "metal2"
-metal3.__name__ = "metal3"
-
 
 cross_section_factory = dict(
+    cross_section=cross_section,
     strip=strip,
     rib=rib,
     nitride=nitride,
@@ -243,8 +237,8 @@ cross_section_factory = dict(
     metal2=metal2,
     metal3=metal3,
     pin=pin,
-    heater_with_undercut=heater_with_undercut,
-    heater=heater,
+    strip_heater_with_undercut=strip_heater_with_undercut,
+    strip_heater=strip_heater,
 )
 
 if __name__ == "__main__":
@@ -270,7 +264,7 @@ if __name__ == "__main__":
 
     # X = cross_section(width=3, layer=(2, 0))
     # X = cross_section(**s)
-    X = heater_with_undercut()
+    X = strip_heater_with_undercut()
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

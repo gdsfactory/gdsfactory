@@ -32,6 +32,7 @@ routes:
             layer: [2, 0]
 """
 
+import functools
 import io
 import pathlib
 import warnings
@@ -496,8 +497,18 @@ def component_from_yaml(
         settings.update(**kwargs)
 
         if "cross_section" in settings:
-            cross_section_name = settings["cross_section"]
-            settings["cross_section"] = cross_section_factory[cross_section_name]
+            name_or_dict = settings["cross_section"]
+            if isinstance(name_or_dict, str):
+                cross_section = cross_section_factory[name_or_dict]
+            elif isinstance(name_or_dict, dict):
+                name = name_or_dict.pop("function")
+                cross_section = functools.partial(
+                    cross_section_factory[name], **name_or_dict
+                )
+            else:
+                raise ValueError(f"invalid type for cross_section={name_or_dict}")
+            settings["cross_section"] = cross_section
+
         ci = component_factory[component_type](**settings)
         ref = c << ci
         instances[instance_name] = ref
@@ -552,8 +563,17 @@ def component_from_yaml(
                 OmegaConf.to_container(settings, resolve=True) if settings else {}
             )
             if "cross_section" in settings:
-                cross_section_name = settings["cross_section"]
-                settings["cross_section"] = cross_section_factory[cross_section_name]
+                name_or_dict = settings["cross_section"]
+                if isinstance(name_or_dict, str):
+                    cross_section = cross_section_factory[name_or_dict]
+                elif isinstance(name_or_dict, dict):
+                    name = name_or_dict.pop("function")
+                    cross_section = functools.partial(
+                        cross_section_factory[name], **name_or_dict
+                    )
+                else:
+                    raise ValueError(f"invalid type for cross_section={name_or_dict}")
+                settings["cross_section"] = cross_section
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             assert (
                 routing_strategy_name in routing_strategy

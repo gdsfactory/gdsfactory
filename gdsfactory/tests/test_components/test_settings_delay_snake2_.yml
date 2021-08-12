@@ -13,18 +13,18 @@ settings:
   start_orientation: 0
   symbol_to_component:
     (:
-    - bend_euler180_CSstrip
+    - bend_euler180_CScross_section
     - W0
     - W1
     ):
-    - bend_euler180_CSstrip
+    - bend_euler180_CScross_section
     - W1
     - W0
     '-':
-    - straight_CSstrip_L502p91
+    - straight_CScross_section_L502p91
     - W0
     - E0
     _:
-    - straight_CSstrip_L502p91
+    - straight_CScross_section_L502p91
     - W0
     - E0
