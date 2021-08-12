@@ -803,10 +803,9 @@ class Component(Device):
 
     def pprint_ports(self, **kwargs) -> None:
         """Prints component netlists."""
-        ports_dict = {
-            port.name: port.settings for port in self.get_ports_list(**kwargs)
-        }
-        pprint(ports_dict)
+        ports_list = self.get_ports_list(**kwargs)
+        for port in ports_list:
+            print(port)
 
     def get_settings(
         self,

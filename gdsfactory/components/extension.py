@@ -86,8 +86,9 @@ def extend_ports(
     port_list: Optional[List[str]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
-    extension_port_name_input: Optional[str] = None,
-    extension_port_name_output: Optional[str] = None,
+    port1: Optional[str] = None,
+    port2: Optional[str] = None,
+    **kwargs
 ) -> Component:
     """Returns a new component with extended ports inside a container.
 
@@ -99,8 +100,9 @@ def extend_ports(
         port_list: specify an list of ports names, if None it extends all ports
         length: extension length
         extension_factory: straight library to extend ports
-        extension_port_name_input:
-        extension_port_name_output:
+        port1: input port name
+        port2: output port name
+        **kwargs: extension_factory parameters
     """
     c = gf.Component()
     component = component() if callable(component) else component
@@ -115,19 +117,20 @@ def extend_ports(
             def extension_factory_default(length=length, width=port.width):
                 return gf.components.hline(length=length, width=width, layer=port.layer)
 
-            extension_factory_port = extension_factory or extension_factory_default
-            extension_component = (
-                extension_factory_port(length=length, width=port.width)
-                if callable(extension_factory_port)
-                else extension_factory_port
-            )
+            if extension_factory:
+                extension_component = extension_factory(**kwargs)
+            else:
+
+                extension_component = extension_factory_default(
+                    length=length, width=port.width
+                )
             port_labels = list(extension_component.ports.keys())
-            extension_port_name_input = extension_port_name_input or port_labels[0]
-            extension_port_name_output = extension_port_name_output or port_labels[-1]
+            port1 = port1 or port_labels[0]
+            port2 = port2 or port_labels[-1]
 
             extension = c << extension_component
-            extension.connect(extension_port_name_input, port)
-            c.add_port(port_name, port=extension.ports[extension_port_name_output])
+            extension.connect(port1, port)
+            c.add_port(port_name, port=extension.ports[port2])
             c.absorb(extension)
         else:
             c.add_port(port_name, port=component.ports[port_name])

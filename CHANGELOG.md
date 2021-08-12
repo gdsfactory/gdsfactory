@@ -11,6 +11,8 @@
 
 Maybe:
 
+- remove port_type, we only need layer
+- remove kwargs from most components
 - define Layer as a dataclass instead of Tuple[int, int]
 - move add_fiber_array settings into a dataclass
 - enable difftest for test_containers
@@ -27,6 +29,10 @@ from contracts import contract
 
 
 ```
+
+## 3.0.2
+
+- add straight_rib
 
 ## 3.0.1
 
