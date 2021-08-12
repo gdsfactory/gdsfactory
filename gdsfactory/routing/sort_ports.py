@@ -160,17 +160,13 @@ if __name__ == "__main__":
 
         if config in ["A", "C"]:
             for ports1, ports2 in zip(ports_A, ports_B):
-                routes = gf.routing.get_bundle(
-                    ports1, ports2, waveguide="nitride", radius=8
-                )
+                routes = gf.routing.get_bundle(ports1, ports2, radius=8)
                 for route in routes:
                     top_cell.add(route.references)
 
         elif config in ["B", "D"]:
             for ports1, ports2 in zip(ports_A, ports_B):
-                routes = gf.routing.get_bundle(
-                    ports2, ports1, waveguide="nitride", radius=8
-                )
+                routes = gf.routing.get_bundle(ports2, ports1, radius=8)
                 for route in routes:
                     top_cell.add(route.references)
 
