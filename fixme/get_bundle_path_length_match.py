@@ -30,7 +30,6 @@ if __name__ == "__main__":
         start_straight=0,
         separation=50,
         # modify_segment_i=-3,
-        # waveguide="nitride",
     )
 
     for route in routes:

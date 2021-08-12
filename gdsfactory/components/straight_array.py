@@ -36,5 +36,5 @@ def straight_array(
 
 
 if __name__ == "__main__":
-    c = straight_array(waveguide="nitride")
+    c = straight_array()
     c.show()

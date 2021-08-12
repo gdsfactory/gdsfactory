@@ -205,10 +205,7 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.ports["E0"].midpoint)
 
-    c = mzi(
-        delta_length=20,
-        waveguide="nitride",
-    )
+    c = mzi(delta_length=20, layer=(2, 0))
     c.show()
     c.pprint()
     # c.plot()
