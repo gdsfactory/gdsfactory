@@ -86,7 +86,7 @@ def get_transmission_2ports(
         component, Component
     ), f"component needs to be a Component, got Type {type(component)}"
     if extend_ports_length:
-        component = gf.extend.extend_ports(
+        component = gf.components.extension.extend_ports(
             component=component, length=extend_ports_length
         )
     component.flatten()

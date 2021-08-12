@@ -94,7 +94,9 @@ def get_simulation(
     component.y = 0
 
     component_extended = (
-        gf.extend.extend_ports(component=component, length=extend_ports_length)
+        gf.components.extension.extend_ports(
+            component=component, length=extend_ports_length
+        )
         if extend_ports_length
         else component
     )
