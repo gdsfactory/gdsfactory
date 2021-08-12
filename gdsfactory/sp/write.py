@@ -136,7 +136,9 @@ def write(
     component.remove_layers(component.layers - set(layer_to_thickness_nm.keys()))
     component._bb_valid = False
 
-    c = gf.extend.extend_ports(component=component, length=ss.port_extension_um)
+    c = gf.components.extension.extend_ports(
+        component=component, length=ss.port_extension_um
+    )
     c.flatten()
     c.name = "top"
     c.show()

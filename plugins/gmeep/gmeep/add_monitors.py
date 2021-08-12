@@ -106,7 +106,9 @@ def add_monitors_and_extend_ports(
             layer=(layer[0] + i, layer[1]),
         )
 
-    return gf.extend.extend_ports(component=component, length=extension_length)
+    return gf.components.extension.extend_ports(
+        component=component, length=extension_length
+    )
 
 
 @cell
