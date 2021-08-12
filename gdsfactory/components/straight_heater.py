@@ -9,7 +9,7 @@ from gdsfactory.components.extension import line
 from gdsfactory.components.hline import hline
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.cross_section import strip
+from gdsfactory.cross_section import strip, strip_heater
 from gdsfactory.port import Port, auto_rename_ports
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer, Number
@@ -347,22 +347,7 @@ def straight_with_heater(
     return component
 
 
-@cell
-def straight_with_heater_single(
-    length: float = 10.0,
-    npoints: int = 2,
-    waveguide: str = "strip_heater_single",
-    with_cladding_box: bool = True,
-    **kwargs,
-) -> Component:
-    """Returns a waveguide with a single heater."""
-    return straight(
-        length=length,
-        npoints=npoints,
-        waveguide=waveguide,
-        with_cladding_box=with_cladding_box,
-        **kwargs,
-    )
+straight_with_heater_single = gf.partial(straight, cross_section=strip_heater)
 
 
 def _demo_straight_heater():
@@ -375,9 +360,9 @@ if __name__ == "__main__":
     # c = straight_heater()
     # c = via_elevator(heater_ports=[c.ports["HBW0"], c.ports["W0"]])
 
-    c = straight_with_heater(length=200.0, port_orientation_input=0)
+    # c = straight_with_heater(length=200.0, port_orientation_input=0)
     # c = via_elevator()
-    # c = straight_with_heater_single()
+    c = straight_with_heater_single()
     c.show(show_ports=True)
     print(c.ports)
 

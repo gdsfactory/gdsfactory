@@ -37,11 +37,11 @@ def test_netlists(
     n2 = c2.get_netlist(full_settings=full_settings)
 
     d = jsondiff.diff(n, n2)
-    # yaml_str2 = OmegaConf.to_yaml(n2, sort_keys=True)
-    # print(d)
     # print(yaml_str)
+    # print(d)
+    # yaml_str2 = OmegaConf.to_yaml(n2, sort_keys=True)
     # print(yaml_str2)
-    assert len(d) == 0
+    assert len(d) == 0, d
 
 
 def demo_netlist(component_type):

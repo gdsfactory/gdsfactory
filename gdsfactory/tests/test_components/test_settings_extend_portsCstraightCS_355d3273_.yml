@@ -1,0 +1,16 @@
+function_name: extend_ports
+info: {}
+module: gdsfactory.components.extension
+name: extend_ports_9b3c2716
+settings:
+  component:
+    cross_section:
+      function: cross_section
+      sections:
+      - slab90
+    function: straight
+  extension_factory: taper_strip_to_ridge
+  length: 5
+  port1: E0
+  port2: W0
+  port_list: null

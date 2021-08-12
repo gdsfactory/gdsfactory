@@ -1,19 +1,21 @@
 connections:
-  bend_euler_CSstrip_70p115_5p5,N0: straight_CSstrip_L80_74p99_50p625,W0
-  bend_euler_CSstrip_70p115_5p5,W0: straight_CSstrip_L52p49_38p745_0p625,E0
-  bend_euler_CSstrip_79p865_95p75,N0: straight_CSstrip_L10n_84p995_100p625,W0
-  bend_euler_CSstrip_79p865_95p75,W0: straight_CSstrip_L80_74p99_50p625,E0
-  mmi_long,E0: straight_CSstrip_L10n_84p995_100p625,E0
-  mmi_short,E1: straight_CSstrip_L52p49_38p745_0p625,W0
+  bend_euler_CScross_section_70p115_5p5,N0: straight_CScross_section_L80_74p99_50p625,W0
+  bend_euler_CScross_section_70p115_5p5,W0: straight_CScross_section_L52p49_38p745_0p625,E0
+  bend_euler_CScross_section_79p865_95p75,N0: straight_CScross_section_L10n_84p995_100p625,W0
+  bend_euler_CScross_section_79p865_95p75,W0: straight_CScross_section_L80_74p99_50p625,E0
+  mmi_long,E0: straight_CScross_section_L10n_84p995_100p625,E0
+  mmi_short,E1: straight_CScross_section_L52p49_38p745_0p625,W0
 instances:
-  bend_euler_CSstrip_70p115_5p5:
+  bend_euler_CScross_section_70p115_5p5:
     component: bend_euler
     settings:
-      cross_section: strip
-  bend_euler_CSstrip_79p865_95p75:
+      cross_section:
+        function: cross_section
+  bend_euler_CScross_section_79p865_95p75:
     component: bend_euler
     settings:
-      cross_section: strip
+      cross_section:
+        function: cross_section
   mmi_long:
     component: mmi1x2
     settings:
@@ -24,29 +26,32 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_CSstrip_L10n_84p995_100p625:
+  straight_CScross_section_L10n_84p995_100p625:
     component: straight
     settings:
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 0.01
-  straight_CSstrip_L52p49_38p745_0p625:
+  straight_CScross_section_L52p49_38p745_0p625:
     component: straight
     settings:
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 52.49
-  straight_CSstrip_L80_74p99_50p625:
+  straight_CScross_section_L80_74p99_50p625:
     component: straight
     settings:
-      cross_section: strip
+      cross_section:
+        function: cross_section
       length: 80
 name: mmis
 placements:
-  bend_euler_CSstrip_70p115_5p5:
+  bend_euler_CScross_section_70p115_5p5:
     mirror: false
     rotation: 0
     x: 64.99
     y: 0.625
-  bend_euler_CSstrip_79p865_95p75:
+  bend_euler_CScross_section_79p865_95p75:
     mirror: true
     rotation: 90
     x: 74.99
@@ -61,17 +66,17 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_CSstrip_L10n_84p995_100p625:
+  straight_CScross_section_L10n_84p995_100p625:
     mirror: false
     rotation: 0
     x: 84.99
     y: 100.625
-  straight_CSstrip_L52p49_38p745_0p625:
+  straight_CScross_section_L52p49_38p745_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_CSstrip_L80_74p99_50p625:
+  straight_CScross_section_L80_74p99_50p625:
     mirror: false
     rotation: 90
     x: 74.99
