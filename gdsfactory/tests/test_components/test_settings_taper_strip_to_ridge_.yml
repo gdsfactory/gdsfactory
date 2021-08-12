@@ -6,6 +6,6 @@ name: taper_strip_to_ridge
 settings:
   length: 10
   w_slab1: 0.15
-  w_slab2: 5
+  w_slab2: 6
   width1: 0.5
   width2: 0.5

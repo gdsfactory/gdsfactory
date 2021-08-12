@@ -48,7 +48,6 @@ from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import tech
 from gdsfactory import containers
-from gdsfactory.components import extension as extend
 from gdsfactory import component_from
 from gdsfactory import read
 from gdsfactory import remove
@@ -104,7 +103,6 @@ __all__ = [
     "containers",
     "copy",
     "cross_section",
-    "extend",
     "fill_rectangle",
     "get_padding_points",
     "grid",

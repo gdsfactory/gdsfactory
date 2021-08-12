@@ -12,8 +12,8 @@ def test_cutback_phase(straight_length=100, bend_radius=10.0, n=2):
 
     # Define a map between symbbols (components, input, output)
     symbol_to_component = {
-        "I": (taper, "1", "wg_2"),
-        "O": (taper, "wg_2", "1"),
+        "I": (taper, "W0", "E0"),
+        "O": (taper, "E0", "W0"),
         "S": (wg_short, "W0", "E0"),
         "P": (pm_wg, "W0", "E0"),
         "A": (bend180, "W0", "W1"),

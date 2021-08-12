@@ -86,7 +86,7 @@ def taper_strip_to_ridge(
     width1: Number = 0.5,
     width2: Number = 0.5,
     w_slab1: Number = 0.15,
-    w_slab2: Number = 5.0,
+    w_slab2: Number = 6.0,
 ) -> Component:
     """taper strip to rib
 
@@ -119,10 +119,8 @@ def taper_strip_to_ridge(
         c.absorb(taper_ref)
 
     c.info["length"] = length
-    c.add_port(name="1", port=_taper_wg.ports["1"])
-    c.add_port(name="wg_2", port=_taper_wg.ports["2"])
-    c.add_port(name="slab_2", port=_taper_slab.ports["2"])
-
+    c.add_port(name="W0", port=_taper_wg.ports["1"])
+    c.add_port(name="E0", port=_taper_wg.ports["2"])
     return c
 
 
@@ -167,8 +165,8 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1)
-    # c = taper_strip_to_ridge()
+    # c = taper(width2=1)
+    c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     c.show()
