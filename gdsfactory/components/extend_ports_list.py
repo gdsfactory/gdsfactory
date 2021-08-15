@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -10,17 +10,22 @@ from gdsfactory.types import ComponentOrFactory
 def extend_ports_list(
     ports: List[Port],
     extension_factory: ComponentOrFactory,
-    extension_settings: Optional[Dict[str, Any]] = None,
-    extension_port_name: str = "W0",
+    extension_port_name: Optional[str] = None,
 ) -> Component:
-    """Returns a component with the extensions for a list of ports."""
+    """Returns a component with the extensions for a list of ports.
+
+    Args:
+        ports: list of ports
+        extension_factory: function for extension
+        extension_port_name: to connect extension
+
+    """
     c = Component()
-    extension_settings = extension_settings or {}
     extension = (
-        extension_factory(**extension_settings)
-        if callable(extension_factory)
-        else extension_factory
+        extension_factory() if callable(extension_factory) else extension_factory
     )
+
+    extension_port_name = extension_port_name or list(extension.ports.keys())[0]
 
     for i, port in enumerate(ports):
         extension_ref = c << extension

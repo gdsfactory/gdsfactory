@@ -1,13 +1,12 @@
 """Functions to create routes between components."""
 
-import gdsfactory.routing.fanout as fanout
-import gdsfactory.routing.sort_ports as sort_ports
-import gdsfactory.routing.utils as utils
+from gdsfactory.routing import fanout, sort_ports, utils
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
 from gdsfactory.routing.add_electrical_pads_top_dc import add_electrical_pads_top_dc
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
+from gdsfactory.routing.bend_port import bend_port
 from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -28,6 +27,7 @@ __all__ = [
     "add_electrical_pads_top_dc",
     "add_fiber_array",
     "add_fiber_single",
+    "bend_port",
     "get_bundle",
     "get_bundle_path_length_match",
     "get_bundle_from_waypoints",
