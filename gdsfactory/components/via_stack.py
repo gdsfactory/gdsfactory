@@ -4,7 +4,7 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.via import via2, via3
+from gdsfactory.components.via import via1, via2, via3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layer
 
@@ -16,6 +16,7 @@ def via_stack(
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[ComponentOrFactory, ...]] = (via2, via3),
     port_orientation: int = 180,
+    layer: Layer = LAYER.M3,
 ) -> Component:
     """Rectangular via_stack
 
@@ -25,6 +26,7 @@ def via_stack(
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
+        layer: port layer
     """
     height = height or width
 
@@ -83,10 +85,24 @@ def via_stack(
             f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
         )
     c.add_port(
-        name=port_name, width=port_width, orientation=port_orientation, port_type="dc"
+        name=port_name,
+        width=port_width,
+        orientation=port_orientation,
+        port_type="dc",
+        layer=layer,
     )
 
     return c
+
+
+via_stack_slab = gf.partial(
+    via_stack,
+    layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
+    vias=(via1, via2, via3),
+)
+via_stack_heater = gf.partial(
+    via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via2, via3)
+)
 
 
 if __name__ == "__main__":

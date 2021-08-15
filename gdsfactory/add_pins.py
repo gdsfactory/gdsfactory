@@ -4,8 +4,8 @@
 - outline
 
 Some functions modify a component without changing its name.
-Make sure these functions are inside a new Component.
-They modify the geometry of a component (add pins, labels, grating couplers ...) without modifying the cell name
+Make sure these functions are inside a new Component or called as a decorator
+They without modifying the cell name
 
 """
 import json
@@ -305,8 +305,7 @@ def add_pins(
         function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
 
 
-def add_pins_triangle(**kwargs) -> None:
-    return add_pins(function=add_pin_triangle, **kwargs)
+add_pins_triangle = gf.partial(add_pins, function=add_pin_triangle)
 
 
 def add_settings_label(
@@ -437,19 +436,16 @@ def add_pins_container(
     return component_new
 
 
-def test_add_pins() -> None:
-    c1 = gf.components.straight_with_heater()
+def test_add_pins() -> gf.Component:
+    c1 = gf.components.straight_heater_metal(length=30)
     c2 = add_pins_container(
         component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
     )
     c2 = add_pins_container(
         component=c2, function=add_pin_square, port_type="dc", layer=LAYER.PORTE
     )
-    c2.show(show_ports=False)
-
     n_optical_expected = 2
     n_dc_expected = 2
-    # polygons = 194
 
     port_layer_optical = PORT_TYPE_TO_LAYER["optical"]
     port_markers_optical = read_port_markers(c2, [port_layer_optical])
@@ -459,23 +455,22 @@ def test_add_pins() -> None:
     port_markers_dc = read_port_markers(c2, [port_layer_dc])
     n_dc = len(port_markers_dc.polygons)
 
-    # print(len(c1.get_polygons()))
-    # print(len(c2.get_polygons()))
-    print(n_optical)
-    print(n_dc)
-
-    # assert len(c1.get_polygons()) == polygons
-    # assert len(c2.get_polygons()) == polygons + 41
     assert (
         n_optical == n_optical_expected
     ), f"{n_optical} optical pins different from {n_optical_expected}"
     assert (
-        n_dc_expected == n_dc_expected
-    ), f"{n_dc_expected} electrical pins different from {n_dc_expected}"
+        n_dc == n_dc_expected
+    ), f"{n_dc} electrical pins different from {n_dc_expected}"
+    return c2
 
 
 if __name__ == "__main__":
-    # test_add_pins()
+    # c = test_add_pins()
+    # c.show()
+
+    c = gf.c.straight()
+    # add_pins(c)
+    c.show()
 
     # c = gf.components.straight()
     # add_pins(c, function=add_pin_square)
@@ -486,7 +481,6 @@ if __name__ == "__main__":
     # cpl = [10, 20, 30]
     # cpg = [0.2, 0.3, 0.5]
     # dl0 = [10, 20]
-    # c = gf.components.mzi_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
 
     # c = gf.components.mzi()
     # add_pins_to_references(c)
@@ -505,6 +499,6 @@ if __name__ == "__main__":
     # print(cc.name)
     # cc.show()
 
-    c = gf.components.ring_single()
-    add_pins_to_references(c)
-    c.show()
+    # c = gf.components.ring_single()
+    # add_pins_to_references(c)
+    # c.show()
