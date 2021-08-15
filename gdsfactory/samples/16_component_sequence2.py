@@ -2,7 +2,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_heater import straight_heater
 from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.taper import taper_strip_to_ridge
 
@@ -17,7 +16,7 @@ def test_cutback_phase(
     pm_wg = straight_pin(length=straight_length)
     wg_short = straight(length=1.0)
     wg_short2 = straight(length=2.0)
-    wg_heater = straight_heater(length=10.0)
+    wg_heater = straight_pin(length=10.0)
     taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)

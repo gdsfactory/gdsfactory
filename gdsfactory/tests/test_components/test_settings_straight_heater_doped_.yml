@@ -1,0 +1,7 @@
+function_name: straight_heater_doped
+info: {}
+module: gdsfactory.components.straight_heater_doped
+name: straight_heater_doped
+settings:
+  length: 320
+  length_section: 100

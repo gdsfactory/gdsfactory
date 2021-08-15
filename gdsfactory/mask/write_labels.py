@@ -64,20 +64,22 @@ def write_labels(
 def test_find_labels():
     import gdsfactory as gf
 
-    c = gf.components.straight()
+    c = gf.components.straight(length=124)
     cc = add_fiber_single(component=c)
     gdspath = cc.write_gds()
     assert len(list(find_labels(gdspath))) == 4
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    test_find_labels()
 
-    c = gf.components.straight()
-    cc = add_fiber_single(component=c)
-    gdspath = cc.write_gds()
-    print(len(list(find_labels(gdspath))))
-    cc.show()
+    # import gdsfactory as gf
+
+    # c = gf.components.straight()
+    # cc = add_fiber_single(component=c)
+    # gdspath = cc.write_gds()
+    # print(len(list(find_labels(gdspath))))
+    # cc.show()
 
     # gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
     # write_labels(gdspath)

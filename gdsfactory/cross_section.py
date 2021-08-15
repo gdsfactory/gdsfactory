@@ -116,7 +116,7 @@ def pin(
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
 ) -> CrossSection:
-    """PIN doped straight.
+    """PIN doped cross_section.
 
     .. code::
 
@@ -178,19 +178,33 @@ def pin(
 
 
 @pydantic.validate_arguments
-def strip_heater_with_undercut(
-    waveguide_width: float = 0.5,
+def strip_heater_metal_undercut(
+    wg_width: float = 0.5,
     heater_width: float = 1.0,
-    trench_width: float = 8.0,
-    trench_offset: float = 8.0,
+    trench_width: float = 6.5,
+    trench_gap: float = 2.0,
     layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.HEATER,
     layer_trench: Layer = LAYER.DEEPTRENCH,
     **kwargs,
 ):
-    """Returns heater with undercut."""
+    """Returns strip cross_section with top metal and undercut trenches on both sides.
+    dimensions from https://doi.org/10.1364/OE.18.020298
+
+    Args:
+        wg_width:
+        heater_width:
+        trench_width:
+        trench_gap: from waveguide edge to trench edge
+        layer_waveguide:
+        layer_heater:
+        layer_trench:
+        **kwargs: for cross_section
+
+    """
+    trench_offset = trench_gap + trench_width / 2 + wg_width / 2
     return cross_section(
-        width=waveguide_width,
+        width=wg_width,
         layer=layer_waveguide,
         sections=(
             Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),
@@ -202,18 +216,55 @@ def strip_heater_with_undercut(
 
 
 @pydantic.validate_arguments
-def strip_heater(
-    waveguide_width: float = 0.5,
+def strip_heater_metal(
+    wg_width: float = 0.5,
     heater_width: float = 1.0,
     layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.HEATER,
     **kwargs,
 ):
-    """Returns heater with undercut."""
+    """Returns strip cross_section with top heater metal.
+    dimensions from https://doi.org/10.1364/OE.18.020298
+    """
     return cross_section(
-        width=waveguide_width,
+        width=wg_width,
         layer=layer_waveguide,
         sections=(Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),),
+        **kwargs,
+    )
+
+
+@pydantic.validate_arguments
+def rib_heater_doped(
+    wg_width: float = 0.5,
+    heater_width: float = 1.0,
+    heater_gap: float = 0.8,
+    layer_waveguide: Layer = LAYER.WG,
+    layer_heater: Layer = LAYER.Npp,
+    layer_slab: Layer = LAYER.SLAB90,
+    **kwargs,
+):
+    """Returns rib cross_section with N++ doped heaters on both sides.
+    dimensions from https://doi.org/10.1364/OE.27.010456
+    """
+    slab_width = wg_width + 2 * heater_gap + 2 * heater_width
+    heater_offset = wg_width / 2 + heater_gap + heater_width / 2
+    return cross_section(
+        width=wg_width,
+        layer=layer_waveguide,
+        sections=(
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=+heater_offset,
+            ),
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=-heater_offset,
+            ),
+            Section(width=slab_width, layer=layer_slab, name="slab"),
+        ),
         **kwargs,
     )
 
@@ -237,8 +288,9 @@ cross_section_factory = dict(
     metal2=metal2,
     metal3=metal3,
     pin=pin,
-    strip_heater_with_undercut=strip_heater_with_undercut,
-    strip_heater=strip_heater,
+    strip_heater_metal_undercut=strip_heater_metal_undercut,
+    strip_heater_metal=strip_heater_metal,
+    rib_heater_doped=rib_heater_doped,
 )
 
 if __name__ == "__main__":
@@ -264,11 +316,13 @@ if __name__ == "__main__":
 
     # X = cross_section(width=3, layer=(2, 0))
     # X = cross_section(**s)
-    X = strip_heater_with_undercut()
+    # X = strip_heater_metal_undercut()
+    # X = rib_heater_doped()
+
+    X = strip_heater_metal_undercut()
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
-
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)

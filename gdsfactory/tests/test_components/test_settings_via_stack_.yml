@@ -5,6 +5,9 @@ module: gdsfactory.components.via_stack
 name: via_stack
 settings:
   height: null
+  layer:
+  - 49
+  - 0
   port_orientation: 180
   vias:
   - enclosure: 2

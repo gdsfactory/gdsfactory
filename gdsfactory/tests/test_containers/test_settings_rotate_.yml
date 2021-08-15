@@ -1,25 +1,27 @@
 function_name: rotate
 info: {}
 module: gdsfactory.rotate
-name: rotate_d06b9290
+name: rotate_Cmzi_4ae2c60c
 settings:
   angle: 90
   component:
-    function_name: mzi_phase_shifter
+    function_name: mzi
     info: {}
-    module: gdsfactory.components.mzi_phase_shifter
-    name: mzi_phase_shifter_Smmi2x2
+    module: gdsfactory.components.mzi
+    name: mzi_4ae2c60c
     settings:
       combiner: null
       combiner_settings: null
       delta_length: 10
-      length_x: 200
+      length_x: 320
       length_y: 0.1
       splitter: mmi2x2
       splitter_settings: null
       straight_delta_length: null
       straight_horizontal_bot: null
-      straight_horizontal_top: straight_with_heater
+      straight_horizontal_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
       straight_vertical: null
       with_splitter: true
   rename_ports: true

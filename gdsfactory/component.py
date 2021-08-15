@@ -927,7 +927,8 @@ class Component(Device):
         self.ports[p.name] = p
         return p
 
-    def add_ports(self, ports: List[Port], prefix: str = ""):
+    def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
+        ports = ports if isinstance(ports, list) else ports.values()
         for port in ports:
             self.add_port(name=f"{prefix}{port.name}", port=port)
 
@@ -1086,11 +1087,11 @@ class Component(Device):
         show_subports: bool = False,
     ) -> None:
         """Show component in klayout"""
-        from gdsfactory.add_pins import add_pins, add_pins_to_references
+        from gdsfactory.add_pins import add_pins_to_references, add_pins_triangle
         from gdsfactory.show import show
 
         if show_ports:
-            add_pins(self)
+            add_pins_triangle(self)
 
         if show_subports:
             add_pins_to_references(self)

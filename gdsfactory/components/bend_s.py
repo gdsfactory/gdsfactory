@@ -18,21 +18,16 @@ def bend_s(
 ) -> Component:
     """S bend with bezier curve
 
+    stores min_bend_radius property in self.info['min_bend_radius']
+    min_bend_radius depends on height and length
+
     Args:
         height: in y direction
         length: in x direction
-        layer: gds number
         nb_points: number of points
+        with_cladding_box: square bounding box to avoid DRC errors
         cross_section: function
         kwargs: cross_section settings
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.bend_s(height=20)
-      c.plot()
 
     """
     l, h = length, height

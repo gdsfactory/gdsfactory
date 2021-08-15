@@ -14,9 +14,9 @@ from gdsfactory.components.array_with_fanout import array_with_fanout_2d
 from gdsfactory.components.array_with_via import array_with_via
 from gdsfactory.components.array_with_via import array_with_via_2d
 from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_heater import straight_heater
-from gdsfactory.components.straight_heater import straight_with_heater
-from gdsfactory.components.straight_heater import straight_with_heater_single
+from gdsfactory.components.straight_heater import straight_heater_metal_undercut
+from gdsfactory.components.straight_heater import straight_heater_metal
+from gdsfactory.components.straight_heater_doped import straight_heater_doped
 from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_rib import straight_rib
@@ -275,10 +275,10 @@ LIBRARY.register(
         via,
         straight,
         straight_array,
-        straight_heater,
         straight_pin,
-        straight_with_heater,
-        straight_with_heater_single,
+        straight_heater_metal_undercut,
+        straight_heater_metal,
+        straight_heater_doped,
         straight_rib,
         straight_rib_with_strip_tapers,
         wire_straight,

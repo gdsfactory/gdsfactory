@@ -15,7 +15,7 @@ from gdsfactory.component import Component
 from gdsfactory.components import bend_circular
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_heater import straight_heater
+from gdsfactory.components.straight_pin import straight_pin
 
 
 @gf.cell
@@ -24,7 +24,7 @@ def test_cutback_heater() -> Component:
     bend_radius = 10.0
     bend180 = bend_circular(radius=bend_radius, angle=180)
     wg = straight(length=5.0)
-    wg_heater = straight_heater(length=20.0)
+    wg_heater = straight_pin(length=20.0)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {

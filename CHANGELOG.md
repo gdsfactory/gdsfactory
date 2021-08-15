@@ -6,12 +6,12 @@
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 - add function to detect duplicated cell names
-- pass xor flag from pytest
-- force-regen flag forces
 
 Maybe:
 
+- replace LIBRARY with `get_factory_dict`
 - remove port_type, we only need layer
+- rename any thickness_nm to thickness or zmin_nm to zmin
 - remove kwargs from most components
 - define Layer as a dataclass instead of Tuple[int, int]
 - move add_fiber_array settings into a dataclass
@@ -21,6 +21,8 @@ Maybe:
 - enable add pins option in TECH that can add custom pins to components
 - how can we have labels with gdslayer, gdspurpose? Phidl issue?
 - write function that generates GDS Klayout library
+- pass force-regen flag from pytest
+- force-regen flag forces
 - add contracts cell decorator
 
 ```
@@ -32,9 +34,10 @@ from contracts import contract
 
 ## 3.0.2
 
-- add straight_rib
+- add straight_rib, straight_heater_metal and straight_heater_doped
 - `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
-- replace gf.extend[.] gf.components.extension.
+- replace gf.extend[.] with gf.components.extension.
+- Component.show() uses `add_pins_triangle` as default to show port orientation
 
 ## 3.0.1
 
