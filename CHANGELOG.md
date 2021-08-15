@@ -3,6 +3,7 @@
 ## TODO
 
 - enable routing with 180euler and Sbends
+- optical ports and DC ports should follow the same naming syntax
 - fix FIXMEs
 - update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 - add function to detect duplicated cell names
@@ -38,6 +39,7 @@ from contracts import contract
 - `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
+- add gf.comtainers.bend_port
 
 ## 3.0.1
 
@@ -47,9 +49,9 @@ from contracts import contract
 - add pydantic.validate_arguments to cross_section
 - functools.partial have unique names
 - partial functions include settings for JSON and name
-- include xor when doing a gdsdiff, enable it by default
-- delete StrOrDict, using functools.partial instead to customize functions
-- include --xor flag to `gf gds diff --xor` to run a detailed XOR between 2 GDS files
+- include xor flag when doing a gdsdiff
+- delete StrOrDict, you can use functools.partial instead to customize functions
+- include --xor flag to `gf gds diff --xor` CLI to run a detailed XOR between 2 GDS files
 
 ## 3.0.0
 
