@@ -23,7 +23,7 @@ def ring_double(
     **kwargs
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
-    connected with two vertical straights (wyl: left, wyr: right)
+    connected with two vertical straights (sl: left, sr: right)
 
     Args:
         gap: gap between for coupler
@@ -39,7 +39,7 @@ def ring_double(
 
          --==ct==--
           |      |
-          wl     wr length_y
+          sl     sr length_y
           |      |
          --==cb==-- gap
 
@@ -67,21 +67,21 @@ def ring_double(
     c = Component()
     cb = c.add_ref(coupler_component)
     ct = c.add_ref(coupler_component)
-    wl = c.add_ref(straight_component)
-    wr = c.add_ref(straight_component)
+    sl = c.add_ref(straight_component)
+    sr = c.add_ref(straight_component)
 
-    wl.connect(port="E0", destination=cb.ports["N0"])
-    ct.connect(port="N1", destination=wl.ports["W0"])
-    wr.connect(port="W0", destination=ct.ports["N0"])
-    cb.connect(port="N1", destination=wr.ports["E0"])
-    c.add_port("E0", port=cb.ports["E0"])
-    c.add_port("W0", port=cb.ports["W0"])
-    c.add_port("E1", port=ct.ports["W0"])
-    c.add_port("W1", port=ct.ports["E0"])
+    sl.connect(port=1, destination=cb.ports[2])
+    ct.connect(port=3, destination=sl.ports[2])
+    sr.connect(port=2, destination=ct.ports[2])
+    c.add_port(1, port=cb.ports[1])
+    c.add_port(2, port=cb.ports[4])
+    c.add_port(3, port=ct.ports[1])
+    c.add_port(4, port=ct.ports[4])
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
 
-    c = ring_double(width=1, layer=(2, 0))
-    c.show()
+    c = ring_double(width=1, layer=(2, 0), length_y=3)
+    c.show(show_subports=False)

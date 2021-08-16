@@ -64,14 +64,14 @@ def ring_single_dut(
     br = c << bend
     wt = c << straight_top
 
-    wl.connect(port="E0", destination=cb.ports["N0"])
-    bl.connect(port="N0", destination=wl.ports["W0"])
+    wl.connect(port=2, destination=cb.ports[2])
+    bl.connect(port=2, destination=wl.ports[1])
 
-    wt.connect(port="W0", destination=bl.ports["W0"])
-    br.connect(port="N0", destination=wt.ports["E0"])
-    d.connect(port="W0", destination=br.ports["W0"])
-    c.add_port("E0", port=cb.ports["E0"])
-    c.add_port("W0", port=cb.ports["W0"])
+    wt.connect(port=1, destination=bl.ports[1])
+    br.connect(port=2, destination=wt.ports[2])
+    d.connect(port=1, destination=br.ports[1])
+    c.add_port(2, port=cb.ports[2])
+    c.add_port(1, port=cb.ports[1])
     return c
 
 

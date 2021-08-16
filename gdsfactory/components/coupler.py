@@ -34,13 +34,13 @@ def coupler(
 
                dx                                 dx
             |------|                           |------|
-         W1 ________                           _______E1
+          2 ________                           _______3
                     \                         /           |
                      \        length         /            |
                       ======================= gap         | dy
                      /                       \            |
             ________/                         \_______    |
-         W0                                           E0
+          1                                           4
 
               coupler_straight_factory  coupler_symmetric_factory
 
@@ -59,19 +59,20 @@ def coupler(
     cs = c << coupler_straight_factory(
         length=length, gap=gap, cross_section=cross_section, **kwargs
     )
-    sl.connect("W1", destination=cs.ports["W0"])
-    sr.connect("W0", destination=cs.ports["E0"])
+    sl.connect(2, destination=cs.ports[1])
+    sr.connect(1, destination=cs.ports[4])
 
-    c.add_port("W1", port=sl.ports["E0"])
-    c.add_port("W0", port=sl.ports["E1"])
-    c.add_port("E0", port=sr.ports["E0"])
-    c.add_port("E1", port=sr.ports["E1"])
+    c.add_port(1, port=sl.ports[3])
+    c.add_port(2, port=sl.ports[4])
+    c.add_port(3, port=sr.ports[3])
+    c.add_port(4, port=sr.ports[4])
 
     c.absorb(sl)
     c.absorb(sr)
     c.absorb(cs)
     c.length = sbend.length
     c.min_bend_radius = sbend.min_bend_radius
+    c.auto_rename_ports()
     return c
 
 
@@ -85,4 +86,4 @@ if __name__ == "__main__":
 
     layer = (2, 0)
     c = coupler(gap=0.2, layer=layer)
-    c.show()
+    c.show(show_subports=True)

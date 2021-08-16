@@ -1,15 +1,30 @@
 """
-For port naming we follow the IPKISS standard
+For port naming we follow start from the bottom left and name the ports
+counter-clock-wise
 
 .. code::
 
-         N0  N1
+         3   4
          |___|_
-    W1 -|      |- E1
+     2 -|      |- 5
         |      |
-    W0 -|______|- E0
+     1 -|______|- 6
          |   |
-        S0   S1
+         8   7
+
+
+You can also rename them W,E,S,N prefix (west, east, south, north)
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
 
 """
 import csv
@@ -24,6 +39,7 @@ from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.tech import PORT_LAYER_TO_TYPE
 
 valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
 
@@ -51,20 +67,7 @@ class Port(PortPhidl):
         orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
-        port_type: optical, dc, rf, detector, superconducting, trench
-
-
-    For port naming we follow the W,E,S,N prefix (west, east, south, north)
-
-    .. code::
-
-             N0  N1
-             |___|_
-        W1 -|      |- E1
-            |      |
-        W0 -|______|- E0
-             |   |
-            S0   S1
+        port_type: optical, dc, rf, detector, trench
 
     """
 
@@ -78,7 +81,7 @@ class Port(PortPhidl):
         orientation: int = 0,
         parent: Optional[object] = None,
         layer: Tuple[int, int] = (1, 0),
-        port_type: str = "optical",
+        port_type: Optional[str] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -295,7 +298,7 @@ def select_ports(
         prefix: a prefix
 
     Returns:
-        Dictionnary containing only the ports with the wanted type(s)
+        Dictionary containing only the ports with the wanted type(s)
         {port name: port}
     """
 
@@ -315,7 +318,11 @@ def select_ports(
     if layer:
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
-        ports = {p_name: p for p_name, p in ports.items() if p_name.startswith(prefix)}
+        ports = {
+            p_name: p
+            for p_name, p in ports.items()
+            if isinstance(p_name, str) and p_name.startswith(prefix)
+        }
     if orientation is not None:
         ports = {
             p_name: p for p_name, p in ports.items() if p.orientation == orientation
@@ -476,7 +483,9 @@ def rename_ports_by_orientation(
     return component
 
 
-def auto_rename_ports(component: Device) -> Device:
+def auto_rename_ports(
+    component: Device, port_layer_to_type=PORT_LAYER_TO_TYPE
+) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::
@@ -492,9 +501,8 @@ def auto_rename_ports(component: Device) -> Device:
     """
 
     def _counter_clockwise(_direction_ports, prefix=""):
-
         east_ports = _direction_ports["E"]
-        east_ports.sort(key=lambda p: p.y)  # sort south to north
+        east_ports.sort(key=lambda p: +p.y)  # sort south to north
 
         north_ports = _direction_ports["N"]
         north_ports.sort(key=lambda p: -p.x)  # sort east to west
@@ -503,25 +511,44 @@ def auto_rename_ports(component: Device) -> Device:
         west_ports.sort(key=lambda p: -p.y)  # sort north to south
 
         south_ports = _direction_ports["S"]
-        south_ports.sort(key=lambda p: p.x)  # sort west to east
+        south_ports.sort(key=lambda p: +p.x)  # sort west to east
 
         ports = east_ports + north_ports + west_ports + south_ports
 
         for i, p in enumerate(ports):
-            p.name = "{}{}".format(prefix, i)
+            p.name = f"{prefix}{i+1}"
+
+    def _clockwise(_direction_ports, prefix: str = ""):
+        east_ports = _direction_ports["E"]
+        east_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+        north_ports = _direction_ports["N"]
+        north_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+        west_ports = _direction_ports["W"]
+        west_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+        south_ports = _direction_ports["S"]
+        south_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+        ports = west_ports + north_ports + east_ports + south_ports
+
+        for i, p in enumerate(ports):
+            p.name = f"{prefix}{i+1}" if prefix else i + 1
 
     type_to_ports_naming_functions = {
-        "optical": _rename_ports_facing_side,
-        "heater": lambda _d: _counter_clockwise(_d, "H_"),
-        "dc": lambda _d: _counter_clockwise(_d, "DC_"),
-        "superconducting": lambda _d: _counter_clockwise(_d, "SC_"),
-        "vertical_te": lambda _d: _counter_clockwise(_d, "vertical_te_"),
-        "vertical_tm": lambda _d: _counter_clockwise(_d, "vertical_tm_"),
+        "optical": lambda _d: _clockwise(_d),
+        "heater": lambda _d: _clockwise(_d, "H_"),
+        "dc": lambda _d: _clockwise(_d, "DC_"),
+        "superconducting": lambda _d: _clockwise(_d, "SC_"),
+        "vertical_te": lambda _d: _clockwise(_d, "vertical_te_"),
+        "vertical_tm": lambda _d: _clockwise(_d, "vertical_tm_"),
     }
 
     type_to_ports = {}
 
     for p in component.ports.values():
+        p.port_type = p.port_type or port_layer_to_type[p.layer]
         if p.port_type not in type_to_ports:
             type_to_ports[p.port_type] = []
         type_to_ports[p.port_type] += [p]

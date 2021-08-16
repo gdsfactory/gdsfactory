@@ -11,7 +11,7 @@ def test_netlist_with_routes() -> Component:
     w.xmax = 0
     b.xmin = 10
 
-    routes = gf.routing.get_bundle(w.ports["E0"], b.ports["W0"])
+    routes = gf.routing.get_bundle(w.ports[2], b.ports[1])
     for route in routes:
         c.add(route.references)
     n = c.get_netlist()

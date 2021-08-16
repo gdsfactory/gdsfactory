@@ -61,7 +61,7 @@ def wire_corner(
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
-        name="W0",
+        name=1,
         midpoint=(-a, 0),
         width=width,
         orientation=180,
@@ -69,7 +69,7 @@ def wire_corner(
         port_type=port_type,
     )
     c.add_port(
-        name="N0",
+        name=2,
         midpoint=(0, a),
         width=width,
         orientation=90,

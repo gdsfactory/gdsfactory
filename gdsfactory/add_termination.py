@@ -53,7 +53,7 @@ def add_gratings_and_loopback(
     excluded_ports: None = None,
     grating_separation: float = 127.0,
     bend_radius_loopback: Optional[float] = None,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend_factory: ComponentFactory = bend_euler,

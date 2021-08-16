@@ -19,7 +19,7 @@ def add_grating_couplers(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = gf.LAYER.LABEL,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
 ) -> Component:
     """Returns new component with grating couplers and labels.

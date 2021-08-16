@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.port import rename_ports_by_orientation
+from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, ComponentOrFactory
 
 
@@ -74,14 +74,13 @@ def mzi(
     b90 = bend(**kwargs) if callable(bend) else bend
     l0 = straight_vertical(length=length_y, **kwargs)
 
-    cp1 = rename_ports_by_orientation(cp1)
-    cp2 = rename_ports_by_orientation(cp2)
+    y1l = cp1.ports[2].y
+    y1r = cp2.ports[2].y
 
-    y1l = cp1.ports["E0"].y
-    y1r = cp2.ports["E0"].y
-
-    y2l = cp1.ports["E1"].y
-    y2r = cp2.ports["E1"].y
+    e1_port_name = len(cp1.ports) - 1
+    e0_port_name = len(cp1.ports)
+    y2l = cp1.ports[e1_port_name].y
+    y2r = cp2.ports[e1_port_name].y
 
     dl = abs(y2l - y1l)  # splitter ports distance
     dr = abs(y2r - y1r)  # cp2 ports distance
@@ -108,14 +107,14 @@ def mzi(
     lxtop = c << lxt
     l0tr = c << l0r
 
-    blt.connect(port="W0", destination=cin.ports["E1"])
-    l0tl.connect(port="W0", destination=blt.ports["N0"])
-    bltl.connect(port="N0", destination=l0tl.ports["E0"])
-    lxtop.connect(port="W0", destination=bltl.ports["W0"])
-    bltr.connect(port="N0", destination=lxtop.ports["E0"])
-    l0tr.connect(port="W0", destination=bltr.ports["W0"])
-    blmr.connect(port="W0", destination=l0tr.ports["E0"])
-    cout.connect(port="E0", destination=blmr.ports["N0"])
+    blt.connect(port=1, destination=cin.ports[e1_port_name])
+    l0tl.connect(port=1, destination=blt.ports[2])
+    bltl.connect(port=2, destination=l0tl.ports[2])
+    lxtop.connect(port=1, destination=bltl.ports[1])
+    bltr.connect(port=2, destination=lxtop.ports[2])
+    l0tr.connect(port=1, destination=bltr.ports[1])
+    blmr.connect(port=1, destination=l0tr.ports[2])
+    cout.connect(port=e0_port_name, destination=blmr.ports[2])
 
     # bot arm
     blb = c << b90
@@ -128,17 +127,17 @@ def mzi(
     l0br = c << l0r
     blbmrb = c << b90  # bend left medium right bottom
 
-    blb.connect(port="N0", destination=cin.ports["E0"])
-    l0bl.connect(port="W0", destination=blb.ports["W0"])
-    l1l.connect(port="W0", destination=l0bl.ports["E0"])
-    blbl.connect(port="W0", destination=l1l.ports["E0"])
-    lxbot.connect(port="W0", destination=blbl.ports["N0"])
-    brbr.connect(port="W0", destination=lxbot.ports["E0"])
+    blb.connect(port=2, destination=cin.ports[e0_port_name])
+    l0bl.connect(port=1, destination=blb.ports[1])
+    l1l.connect(port=1, destination=l0bl.ports[2])
+    blbl.connect(port=1, destination=l1l.ports[2])
+    lxbot.connect(port=1, destination=blbl.ports[2])
+    brbr.connect(port=1, destination=lxbot.ports[2])
 
-    l1r.connect(port="W0", destination=brbr.ports["N0"])
-    l0br.connect(port="W0", destination=l1r.ports["E0"])
-    blbmrb.connect(port="N0", destination=l0br.ports["E0"])
-    blbmrb.connect(port="W0", destination=cout.ports["E1"])  # just for netlist
+    l1r.connect(port=1, destination=brbr.ports[2])
+    l0br.connect(port=1, destination=l1r.ports[2])
+    blbmrb.connect(port=2, destination=l0br.ports[2])
+    blbmrb.connect(port=1, destination=cout.ports[e1_port_name])  # just for netlist
 
     # west ports
     if with_splitter:
@@ -147,8 +146,8 @@ def mzi(
             if port.angle == 180:
                 c.add_port(name=port_name, port=port)
     else:
-        c.add_port(name="W1", port=blt.ports["W0"])
-        c.add_port(name="W0", port=blb.ports["N0"])
+        c.add_port(name=2, port=blt.ports[1])
+        c.add_port(name=1, port=blb.ports[2])
 
     # east ports
     for i, port in enumerate(cout.ports.values()):
@@ -164,7 +163,7 @@ def mzi(
         if port.port_type != "optical":
             c.add_port(name=f"DC_TOP_{i}", port=port)
 
-    rename_ports_by_orientation(c)
+    auto_rename_ports(c)
 
     # aliases
     # top arm
@@ -200,13 +199,14 @@ if __name__ == "__main__":
     # c.pprint_netlist()
 
     # add_markers(c)
-    # print(c.ports["E0"].midpoint[1])
+    # print(c.ports[2].midpoint[1])
     # c.plot_netlist()
     # print(c.ports.keys())
-    # print(c.ports["E0"].midpoint)
+    # print(c.ports[2].midpoint)
 
     c = mzi(delta_length=20, layer=(2, 0))
-    c.show()
+    c.show(show_subports=True)
+    # c.show()
     c.pprint()
     # c.plot()
     # print(c.get_settings())

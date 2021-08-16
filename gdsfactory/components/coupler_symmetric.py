@@ -51,12 +51,12 @@ def coupler_symmetric(
         else bend
     )
 
-    w = bend_component.ports["W0"].width
+    w = bend_component.ports[1].width
     y = (w + gap) / 2
 
     c = Component()
-    top_bend = bend_component.ref(position=(0, y), port_id="W0")
-    bottom_bend = bend_component.ref(position=(0, -y), port_id="W0", v_mirror=True)
+    top_bend = bend_component.ref(position=(0, y), port_id=1)
+    bottom_bend = bend_component.ref(position=(0, -y), port_id=1, v_mirror=True)
 
     c.add(top_bend)
     c.add(bottom_bend)
@@ -64,13 +64,14 @@ def coupler_symmetric(
     c.absorb(top_bend)
     c.absorb(bottom_bend)
 
-    c.add_port("W0", port=bottom_bend.ports["W0"])
-    c.add_port("W1", port=top_bend.ports["W0"])
+    c.add_port(1, port=bottom_bend.ports[1])
+    c.add_port(2, port=top_bend.ports[1])
 
-    c.add_port("E0", port=bottom_bend.ports["E0"])
-    c.add_port("E1", port=top_bend.ports["E0"])
+    c.add_port(3, port=bottom_bend.ports[2])
+    c.add_port(4, port=top_bend.ports[2])
     c.length = bend_component.length
     c.min_bend_radius = bend_component.min_bend_radius
+    c.auto_rename_ports()
     return c
 
 

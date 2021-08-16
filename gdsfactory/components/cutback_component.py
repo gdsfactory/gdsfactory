@@ -12,8 +12,8 @@ def cutback_component(
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,
-    port1_id: str = "W0",
-    port2_id: str = "E0",
+    port1_id: str = 1,
+    port2_id: str = 2,
     middle_couples: int = 2,
 ) -> Component:
     """Flips the component, good for tapers that end in wide straights
@@ -31,8 +31,8 @@ def cutback_component(
     symbol_to_component = {
         "A": (component, port1_id, port2_id),
         "B": (component, port2_id, port1_id),
-        "D": (bend180, "W0", "W1"),
-        "C": (bend180, "W1", "W0"),
+        "D": (bend180, 1, 2),
+        "C": (bend180, 2, 1),
     }
 
     # Generate the sequence of staircases
@@ -63,8 +63,8 @@ def cutback_component_flipped(
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,
-    port1_id: str = "E0",
-    port2_id: str = "W0",
+    port1_id: str = 2,
+    port2_id: str = 1,
     middle_couples: int = 2,
 ) -> Component:
     component = component() if callable(component) else component
@@ -74,8 +74,8 @@ def cutback_component_flipped(
     symbol_to_component = {
         "A": (component, port1_id, port2_id),
         "B": (component, port2_id, port1_id),
-        "D": (bend180, "W0", "W1"),
-        "C": (bend180, "W1", "W0"),
+        "D": (bend180, 1, 2),
+        "C": (bend180, 2, 1),
     }
 
     # Generate the sequence of staircases

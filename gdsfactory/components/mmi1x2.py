@@ -83,8 +83,8 @@ def mmi1x2(
 
     for port_name, port in mmi.ports.items():
         taper_ref = c << taper
-        taper_ref.connect(port="2", destination=port)
-        c.add_port(name=port_name, port=taper_ref.ports["1"])
+        taper_ref.connect(port=2, destination=port)
+        c.add_port(name=port_name, port=taper_ref.ports[1])
         c.absorb(taper_ref)
 
     c.simulation_settings = dict(port_width=1.5e-6)

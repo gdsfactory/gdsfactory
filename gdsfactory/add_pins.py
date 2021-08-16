@@ -19,7 +19,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, read_port_markers
-from gdsfactory.tech import LAYER, PORT_TYPE_TO_LAYER
+from gdsfactory.tech import LAYER, PORT_TYPE_TO_MARKER_LAYER
 from gdsfactory.types import Layer
 
 
@@ -62,8 +62,8 @@ def add_pin_triangle(
 
     if label_layer:
         component.add_label(
-            text=p.name,
-            position=p.midpoint,
+            text=str(p.name),
+            position=ptip,
             layer=label_layer,
         )
 
@@ -287,7 +287,7 @@ def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
-    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_LAYER,
+    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_MARKER_LAYER,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -301,7 +301,7 @@ def add_pins(
     """
     reference = reference or component
     for p in reference.ports.values():
-        layer = port_type_to_layer[p.port_type]
+        layer = port_type_to_layer[p.port_type or "optical"]
         function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
 
 
@@ -389,7 +389,7 @@ def add_pins_and_outline(
 
 def add_pins_to_references(
     component: Component,
-    function: Callable = add_pins,
+    function: Callable = add_pins_triangle,
 ) -> None:
     """Add pins to Component references.
 
@@ -447,11 +447,11 @@ def test_add_pins() -> gf.Component:
     n_optical_expected = 2
     n_dc_expected = 2
 
-    port_layer_optical = PORT_TYPE_TO_LAYER["optical"]
+    port_layer_optical = PORT_TYPE_TO_MARKER_LAYER["optical"]
     port_markers_optical = read_port_markers(c2, [port_layer_optical])
     n_optical = len(port_markers_optical.polygons)
 
-    port_layer_dc = PORT_TYPE_TO_LAYER["dc"]
+    port_layer_dc = PORT_TYPE_TO_MARKER_LAYER["dc"]
     port_markers_dc = read_port_markers(c2, [port_layer_dc])
     n_dc = len(port_markers_dc.polygons)
 

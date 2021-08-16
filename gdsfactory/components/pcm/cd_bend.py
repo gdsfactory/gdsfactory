@@ -25,17 +25,17 @@ def cd_bend(
     _straight = straight_factory(length=L, width=width)
     _bend = bend90_factory(radius=radius, width=width)
 
-    straight1 = _straight.ref(rotation=90, port_id="W0")
+    straight1 = _straight.ref(rotation=90, port_id=1)
     component.add(straight1)
 
     bend1 = component.add_ref(_bend)
-    bend1.connect(port="N0", destination=straight1.ports["E0"])
+    bend1.connect(port=2, destination=straight1.ports[2])
 
     straight2 = component.add_ref(_straight)
-    straight2.connect(port="W0", destination=bend1.ports["W0"])
+    straight2.connect(port=1, destination=bend1.ports[1])
 
     bend2 = component.add_ref(_bend)
-    bend2.connect(port="N0", destination=straight2.ports["E0"])
+    bend2.connect(port=2, destination=straight2.ports[2])
 
     # Add center shapes.
     # Center the first shape in the list

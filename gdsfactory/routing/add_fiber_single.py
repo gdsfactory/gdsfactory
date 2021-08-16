@@ -27,7 +27,7 @@ def add_fiber_single(
     optical_routing_type: int = 2,
     with_loopback: bool = True,
     component_name: Optional[str] = None,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     cross_section: CrossSectionFactory = strip,
@@ -192,10 +192,10 @@ def add_fiber_single(
 
         gci = c << grating_coupler
         gco = c << grating_coupler
-        gci.connect(gc_port_name, wg.ports["W0"])
-        gco.connect(gc_port_name, wg.ports["E0"])
+        gci.connect(gc_port_name, wg.ports[1])
+        gco.connect(gc_port_name, wg.ports[2])
 
-        port = wg.ports["E0"]
+        port = wg.ports[2]
         text = get_input_label_text_loopback_function(
             port=port, gc=grating_coupler, gc_index=0, component_name=component_name
         )
@@ -207,7 +207,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
-        port = wg.ports["W0"]
+        port = wg.ports[1]
         text = get_input_label_text_loopback_function(
             port=port, gc=grating_coupler, gc_index=1, component_name=component_name
         )

@@ -19,7 +19,7 @@ def hline(
         c.add_polygon([(0, -a), (length, -a), (length, a), (0, a)], layer=layer)
 
     c.add_port(
-        name="W0",
+        name=1,
         midpoint=[0, 0],
         width=width,
         orientation=180,
@@ -27,7 +27,7 @@ def hline(
         port_type=port_type,
     )
     c.add_port(
-        name="E0",
+        name=2,
         midpoint=[length, 0],
         width=width,
         orientation=0,

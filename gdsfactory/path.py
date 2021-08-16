@@ -247,5 +247,5 @@ if __name__ == "__main__":
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    print(c.ports["W0"].layer)
+    print(c.ports[1].layer)
     c.show()

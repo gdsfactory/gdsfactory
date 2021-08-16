@@ -51,16 +51,16 @@ You can connect:
 
 
         # connect references
-        wyr.connect(port="E0", destination=cbr.ports["N0"])
-        cs.connect(port="E0", destination=cbr.ports["W0"])
+        wyr.connect(port=2, destination=cbr.ports[2])
+        cs.connect(port=2, destination=cbr.ports[1])
 
         cbl.reflect(p1=(0, coupler90.y), p2=(1, coupler90.y))
-        cbl.connect(port="W0", destination=cs.ports["W0"])
-        wyl.connect(port="E0", destination=cbl.ports["N0"])
+        cbl.connect(port=1, destination=cs.ports[1])
+        wyl.connect(port=2, destination=cbl.ports[2])
 
-        btl.connect(port="N0", destination=wyl.ports["W0"])
-        btr.connect(port="W0", destination=wyr.ports["W0"])
-        wx.connect(port="W0", destination=btl.ports["W0"])
+        btl.connect(port=2, destination=wyl.ports[1])
+        btr.connect(port=1, destination=wyr.ports[1])
+        wx.connect(port=1, destination=btl.ports[1])
         return c
 
 
@@ -191,10 +191,10 @@ The actual chain of components is supplied by a string or a list
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "A": (bend180, "W0", "W1"),
-            "B": (bend180, "W1", "W0"),
-            "H": (wg_heater, "W0", "E0"),
-            "-": (wg, "W0", "E0"),
+            "A": (bend180, 1, 2),
+            "B": (bend180, 2, 1),
+            "H": (wg_heater, 1, 2),
+            "-": (wg, 1, 2),
         }
 
         # Generate a sequence
@@ -243,12 +243,12 @@ The actual chain of components is supplied by a string or a list
         symbol_to_component = {
             "I": (taper, "1", "wg_2"),
             "O": (taper, "wg_2", "1"),
-            "S": (wg_short, "W0", "E0"),
-            "P": (pm_wg, "W0", "E0"),
-            "A": (bend180, "W0", "W1"),
-            "B": (bend180, "W1", "W0"),
-            "H": (wg_heater, "W0", "E0"),
-            "-": (wg_short2, "W0", "E0"),
+            "S": (wg_short, 1, 2),
+            "P": (pm_wg, 1, 2),
+            "A": (bend180, 1, 2),
+            "B": (bend180, 2, 1),
+            "H": (wg_heater, 1, 2),
+            "-": (wg_short2, 1, 2),
         }
 
         # Generate a sequence

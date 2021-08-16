@@ -3,7 +3,7 @@ from typing import Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array import array
-from gdsfactory.components.electrical.pad import pad
+from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import metal2
@@ -20,7 +20,7 @@ def array_with_via(
     end_straight: float = 60.0,
     radius: float = 5.0,
     component_port_name: str = "S",
-    bend_port_name: str = "N0",
+    bend_port_name: str = 2,
     cross_section: CrossSectionFactory = metal2,
     via_stack: ComponentFactory = via_stack,
     via_stack_y_offset: float = -44.0,
@@ -59,8 +59,8 @@ def array_with_via(
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect("E0", via_stack_ref.ports["W0"])
-        c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
+        straightx_ref.connect(2, via_stack_ref.ports[1])
+        c.add_port(f"W_{col}", port=straightx_ref.ports[1])
     auto_rename_ports(c)
     return c
 

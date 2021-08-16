@@ -22,7 +22,7 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from gdsfactory.config import __version__
-from gdsfactory.port import Port, select_ports, valid_port_types
+from gdsfactory.port import Port, auto_rename_ports, select_ports
 from gdsfactory.snap import snap_to_grid
 
 Number = Union[float64, int64, float, int]
@@ -870,7 +870,7 @@ class Component(Device):
 
     def add_port(
         self,
-        name: Optional[Union[str, int]] = None,
+        name: Optional[Union[str, int, object]] = None,
         midpoint: Tuple[float, float] = (
             0.0,
             0.0,
@@ -879,14 +879,14 @@ class Component(Device):
         orientation: int = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
-        port_type: str = "optical",
+        port_type: Optional[str] = None,
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
         Can also be called to copy an existing port
         with a new name add_port(port = existing_port, name = new_name)"""
-        if port_type not in valid_port_types:
-            raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
+        # if port_type not in valid_port_types:
+        #     raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
 
         if port:
             if not isinstance(port, Port):
@@ -895,6 +895,8 @@ class Component(Device):
             if name is not None:
                 p.name = name
             p.parent = self
+            if port_type is not None:
+                p.port_type = port_type
 
         elif isinstance(name, Port):
             p = name._copy(new_uid=True)
@@ -1183,6 +1185,9 @@ class Component(Device):
         d["settings"] = self.get_settings()["settings"]
         return d
 
+    def auto_rename_ports(self) -> None:
+        auto_rename_ports(self)
+
 
 def test_get_layers() -> None:
     import gdsfactory as gf
@@ -1305,9 +1310,9 @@ def test_netlist_simple() -> None:
     c = gf.Component()
     c1 = c << gf.components.straight(length=1, width=1)
     c2 = c << gf.components.straight(length=2, width=2)
-    c2.connect(port="W0", destination=c1.ports["E0"])
-    c.add_port("W0", port=c1.ports["W0"])
-    c.add_port("E0", port=c2.ports["E0"])
+    c2.connect(port=1, destination=c1.ports[2])
+    c.add_port(1, port=c1.ports[1])
+    c.add_port(2, port=c2.ports[2])
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2

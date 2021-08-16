@@ -35,9 +35,9 @@ def dbr_cell(
     c = Component()
     c1 = c << straight(length=l1, width=w1)
     c2 = c << straight(length=l2, width=w2)
-    c2.connect(port="W0", destination=c1.ports["E0"])
-    c.add_port("W0", port=c1.ports["W0"])
-    c.add_port("E0", port=c2.ports["E0"])
+    c2.connect(port=1, destination=c1.ports[2])
+    c.add_port(1, port=c1.ports[1])
+    c.add_port(2, port=c2.ports[2])
     return c
 
 
@@ -83,8 +83,8 @@ def dbr(
         straight=straight,
     )
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
-    c.add_port("W0", port=cell.ports["W0"])
-    p1 = c.add_port("E0", port=cell.ports["E0"])
+    c.add_port(1, port=cell.ports[1])
+    p1 = c.add_port(2, port=cell.ports[2])
     p1.midpoint = [(l1 + l2) * n, 0]
     return c
 

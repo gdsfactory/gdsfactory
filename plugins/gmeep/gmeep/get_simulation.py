@@ -43,8 +43,8 @@ def get_simulation(
     wl_max: float = 1.6,
     wl_steps: int = 50,
     dfcen: float = 0.2,
-    port_source_name: str = "W0",
-    port_field_monitor_name: str = "E0",
+    port_source_name: str = 1,
+    port_field_monitor_name: str = 2,
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
 ) -> Dict[str, Any]:

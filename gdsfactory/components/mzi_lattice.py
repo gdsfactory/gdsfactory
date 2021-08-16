@@ -80,8 +80,8 @@ def mzi_lattice(
         stages.append(stage)
 
     for stage in stages:
-        stage.connect("W0", sprevious.ports["E0"])
-        stage.connect("W1", sprevious.ports["E1"])
+        stage.connect(1, sprevious.ports[2])
+        stage.connect(2, sprevious.ports["E1"])
         sprevious = stage
 
     for port in cp1.get_ports_list(prefix="W"):

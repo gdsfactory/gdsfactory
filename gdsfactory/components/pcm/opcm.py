@@ -35,17 +35,17 @@ def _cdsem_generic(
     _straight = straight_factory(length=L, width=width)
     _bend = bend90_factory(radius=radius, width=width)
 
-    straight1 = _straight.ref(rotation=90, port_id="W0")
+    straight1 = _straight.ref(rotation=90, port_id=1)
     component.add(straight1)
 
     bend1 = component.add_ref(_bend)
-    bend1.connect(port="N0", destination=straight1.ports["E0"])
+    bend1.connect(port=2, destination=straight1.ports[2])
 
     straight2 = component.add_ref(_straight)
-    straight2.connect(port="W0", destination=bend1.ports["W0"])
+    straight2.connect(port=1, destination=bend1.ports[1])
 
     bend2 = component.add_ref(_bend)
-    bend2.connect(port="N0", destination=straight2.ports["E0"])
+    bend2.connect(port=2, destination=straight2.ports[2])
 
     # Add center shapes.
     # Center the first shape in the list
@@ -322,16 +322,16 @@ def cdsem_target(
     for radius in radii:
         b = a + radius
         _b_tr = bend90_factory(radius=radius, width=w0)
-        b_tr = _b_tr.ref(position=(b, a), rotation=90, port_id="W0")
+        b_tr = _b_tr.ref(position=(b, a), rotation=90, port_id=1)
 
         _b_bl = bend90_factory(radius=radius, width=w0)
-        b_bl = _b_bl.ref(position=(-b, -a), rotation=270, port_id="W0")
+        b_bl = _b_bl.ref(position=(-b, -a), rotation=270, port_id=1)
 
         _b_br = bend90_factory(radius=radius, width=w_max)
-        b_br = _b_br.ref(position=(a, -b), rotation=0, port_id="W0")
+        b_br = _b_br.ref(position=(a, -b), rotation=0, port_id=1)
 
         _b_tl = bend90_factory(radius=radius, width=w_min)
-        b_tl = _b_tl.ref(position=(-a, b), rotation=180, port_id="W0")
+        b_tl = _b_tl.ref(position=(-a, b), rotation=180, port_id=1)
 
         c.add([b_tr, b_tl, b_bl, b_br])
 
@@ -383,13 +383,13 @@ def cdsem_uturn(
     b1 = c.add_ref(bend90)
     b2 = c.add_ref(bend90)
 
-    b2.connect("N0", b1.ports["W0"])
+    b2.connect(2, b1.ports[1])
 
     wg1 = c.add_ref(wg)
-    wg1.connect("W0", b1.ports["N0"])
+    wg1.connect(1, b1.ports[2])
 
     wg2 = c.add_ref(wg)
-    wg2.connect("W0", b2.ports["W0"])
+    wg2.connect(1, b2.ports[1])
 
     # Add symbols
 

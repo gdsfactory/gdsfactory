@@ -270,7 +270,7 @@ def parse_lattice(
                 columns[i].append(c)
                 if c in components.keys():
                     cmp = components[c]
-                    columns_to_length[i] = cmp.ports["E0"].x - cmp.ports["W0"].x
+                    columns_to_length[i] = cmp.ports[2].x - cmp.ports[1].x
 
                 i += 1
 

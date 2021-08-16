@@ -1,6 +1,6 @@
 function_name: pad_array
 info: {}
-module: gdsfactory.components.electrical.pad
+module: gdsfactory.components.pad
 name: pad_array
 settings:
   axis: x

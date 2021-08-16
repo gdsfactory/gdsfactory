@@ -36,7 +36,7 @@ def get_simulation(
     t_clad_bot: float = 1.0,
     tpml: float = 1.0,
     clad_material: str = "SiO2",
-    port_source_name: str = "W0",
+    port_source_name: str = 1,
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
     mesh_step: float = 0.040,

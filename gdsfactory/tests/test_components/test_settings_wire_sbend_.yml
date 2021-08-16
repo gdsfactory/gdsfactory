@@ -5,25 +5,25 @@ name: wire_sbend
 settings:
   dx: 20
   dy: 10
-  input_port_name: in
-  output_port_name: out
+  input_port_name: 1
+  output_port_name: 2
   ports_map: null
   sequence: -B|b-
   start_orientation: 0
   symbol_to_component:
     '-':
     - wire_straight_L10
-    - DC_0
+    - DC_2
     - DC_1
     B:
     - wire_corner
     - DC_1
-    - DC_0
+    - DC_2
     b:
     - wire_corner
-    - DC_0
+    - DC_2
     - DC_1
     '|':
     - wire_straight_L10
-    - DC_0
+    - DC_2
     - DC_1

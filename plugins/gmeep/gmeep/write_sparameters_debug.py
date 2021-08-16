@@ -90,7 +90,7 @@ if __name__ == "__main__":
     # plt.plot(wavelengths, s12, label="s12")
     # plt.legend()
 
-    monitor_out = monitors["E0"]
+    monitor_out = monitors[2]
     source_power = np.abs(source_fields) ** 2
     transmission = (
         np.abs(sim.get_eigenmode_coefficients(monitor_out, [1]).alpha[0, :, 0]) ** 2
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     )
     print(f"transmission: {transmission}")
 
-    monitor_input = monitors["W0"]
+    monitor_input = monitors[1]
     reflection = (
         np.abs(sim.get_eigenmode_coefficients(monitor_input, [1]).alpha[0, :, 1]) ** 2
         / source_power

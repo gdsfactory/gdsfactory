@@ -38,12 +38,12 @@ def coupler_ring(
 
     .. code::
 
-           N0            N1
+           2             3
            |             |
             \           /
              \         /
            ---=========---
-        W0    length_x    E0
+         1    length_x    4
 
 
     """
@@ -75,22 +75,23 @@ def coupler_ring(
 
     # connect references
     y = coupler90_component.y
-    cs.connect(port="E0", destination=cbr.ports["W0"])
+    cs.connect(port=4, destination=cbr.ports[1])
     cbl.reflect(p1=(0, y), p2=(1, y))
-    cbl.connect(port="W0", destination=cs.ports["W0"])
+    cbl.connect(port=2, destination=cs.ports[2])
 
     c.absorb(cbl)
     c.absorb(cbr)
     c.absorb(cs)
 
-    c.add_port("W0", port=cbl.ports["E0"])
-    c.add_port("N0", port=cbl.ports["N0"])
-    c.add_port("E0", port=cbr.ports["E0"])
-    c.add_port("N1", port=cbr.ports["N0"])
+    c.add_port(1, port=cbl.ports[3])
+    c.add_port(2, port=cbl.ports[4])
+    c.add_port(3, port=cbr.ports[3])
+    c.add_port(4, port=cbr.ports[4])
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
 
     c = coupler_ring(width=1, layer=(2, 0))
-    c.show()
+    c.show(show_subports=True)

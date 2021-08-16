@@ -105,7 +105,7 @@ def spiral_inner_io(
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
     component = gf.Component()
-    # gc_port_lbl = "W0"
+    # gc_port_lbl = 1
     # gc1 = _gc.ref(port_id=gc_port_lbl, position=(0, 0), rotation=-90)
     # gc2 = _gc.ref(port_id=gc_port_lbl, position=(grating_spacing, 0), rotation=-90)
     # component.add([gc1, gc2])
@@ -126,7 +126,7 @@ def spiral_inner_io(
     )
     taper = gf.components.taper(
         width1=width,
-        width2=_bend180.ports["W0"].width,
+        width2=_bend180.ports[1].width,
         length=taper_length + y_straight_inner_top - 15 - 35,
         cross_section=cross_section,
     )
@@ -173,7 +173,7 @@ def spiral_inner_io(
     component.add(route_west.references)
 
     # Add loop back
-    bend180_ref = _bend180.ref(port_id="W1", position=route_west.ports[1], rotation=90)
+    bend180_ref = _bend180.ref(port_id=2, position=route_west.ports[1], rotation=90)
     component.add(bend180_ref)
     component.absorb(bend180_ref)
 

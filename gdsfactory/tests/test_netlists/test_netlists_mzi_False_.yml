@@ -1,22 +1,22 @@
 connections:
-  bend_euler_17p875_5p5,N0: straight_L100n_22p75_10p675,W0
-  bend_euler_17p875_5p5,W0: mmi1x2_0p0_0p0,E1
-  bend_euler_17p875_m5p5,N0: mmi1x2_0p0_0p0,E0
-  bend_euler_17p875_m5p5,W0: straight_L100n_22p75_m10p675,W0
-  bend_euler_27p625_15p85,N0: straight_L100n_22p75_10p675,E0
-  bend_euler_27p625_15p85,W0: straight_L100n_32p8_20p725,W0
-  bend_euler_27p625_m20p85,N0: straight_L100n_32p8_m25p725,W0
-  bend_euler_27p625_m20p85,W0: straight_L5_22p75_m13p225,E0
-  bend_euler_37p975_15p85,N0: straight_L100n_32p8_20p725,E0
-  bend_euler_37p975_15p85,W0: straight_L100n_42p85_10p675,W0
-  bend_euler_37p975_m20p85,N0: straight_L5_42p85_m13p225,W0
-  bend_euler_37p975_m20p85,W0: straight_L100n_32p8_m25p725,E0
-  bend_euler_47p725_5p5,N0: mmi1x2_65p6_0p0,E0
-  bend_euler_47p725_5p5,W0: straight_L100n_42p85_10p675,E0
-  bend_euler_47p725_m5p5,N0: straight_L100n_42p85_m10p675,E0
-  bend_euler_47p725_m5p5,W0: mmi1x2_65p6_0p0,E1
-  straight_L100n_22p75_m10p675,E0: straight_L5_22p75_m13p225,W0
-  straight_L100n_42p85_m10p675,W0: straight_L5_42p85_m13p225,E0
+  bend_euler_17p875_5p5,1: mmi1x2_0p0_0p0,2
+  bend_euler_17p875_5p5,2: straight_L100n_22p75_10p675,1
+  bend_euler_17p875_m5p5,1: straight_L100n_22p75_m10p675,1
+  bend_euler_17p875_m5p5,2: mmi1x2_0p0_0p0,3
+  bend_euler_27p625_15p85,1: straight_L100n_32p8_20p725,1
+  bend_euler_27p625_15p85,2: straight_L100n_22p75_10p675,2
+  bend_euler_27p625_m20p85,1: straight_L5_22p75_m13p225,2
+  bend_euler_27p625_m20p85,2: straight_L100n_32p8_m25p725,1
+  bend_euler_37p975_15p85,1: straight_L100n_42p85_10p675,1
+  bend_euler_37p975_15p85,2: straight_L100n_32p8_20p725,2
+  bend_euler_37p975_m20p85,1: straight_L100n_32p8_m25p725,2
+  bend_euler_37p975_m20p85,2: straight_L5_42p85_m13p225,1
+  bend_euler_47p725_5p5,1: straight_L100n_42p85_10p675,2
+  bend_euler_47p725_5p5,2: mmi1x2_65p6_0p0,3
+  bend_euler_47p725_m5p5,1: mmi1x2_65p6_0p0,2
+  bend_euler_47p725_m5p5,2: straight_L100n_42p85_m10p675,2
+  straight_L100n_22p75_m10p675,2: straight_L5_22p75_m13p225,1
+  straight_L100n_42p85_m10p675,1: straight_L5_42p85_m13p225,2
 instances:
   bend_euler_17p875_5p5:
     component: bend_euler
@@ -173,5 +173,5 @@ placements:
     x: 42.85
     y: -15.725
 ports:
-  E0: mmi1x2_65p6_0p0,W0
-  W0: mmi1x2_0p0_0p0,W0
+  1: mmi1x2_0p0_0p0,1
+  2: mmi1x2_65p6_0p0,1

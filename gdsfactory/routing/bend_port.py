@@ -31,20 +31,20 @@ def bend_port(
     component = component() if callable(component) else component
     ref = c << component
     b = c << bend(angle=angle, cross_section=cross_section, **kwargs)
-    b.connect("W0", ref.ports[port_name])
+    b.connect(1, ref.ports[port_name])
 
     bend_ports = b.ports.copy()
-    bend_ports.pop("W0")
+    bend_ports.pop(1)
     bend_port_name = list(bend_ports.keys())[0]
 
     s = c << gf.c.straight(length=length, cross_section=cross_section)
-    s.connect("E0", b.ports[bend_port_name])
+    s.connect(2, b.ports[bend_port_name])
 
     ports = ref.ports.copy()
     ports.pop(port_name)
     c.add_ports(ports)
-    c.add_port("W1", port=s.ports["W0"])
-    c.ports["W1"].port_type = port_type
+    c.add_port(2, port=s.ports[1])
+    c.ports[2].port_type = port_type
     gf.port.auto_rename_ports(c)
     return c
 

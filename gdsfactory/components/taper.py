@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionFactory, Number
+from gdsfactory.types import CrossSectionFactory, Layer, Number
 
 
 @cell
@@ -58,8 +58,8 @@ def taper(
 
     c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
-    c.add_port(name="1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
-    c.add_port(name="2", midpoint=[length, 0], width=width2, orientation=0, layer=layer)
+    c.add_port(name=1, midpoint=[0, 0], width=width1, orientation=180, layer=layer)
+    c.add_port(name=2, midpoint=[length, 0], width=width2, orientation=0, layer=layer)
     c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
@@ -87,6 +87,8 @@ def taper_strip_to_ridge(
     width2: Number = 0.5,
     w_slab1: Number = 0.15,
     w_slab2: Number = 6.0,
+    layer_wg: Layer = gf.LAYER.WG,
+    layer_slab: Layer = gf.LAYER.SLAB90,
 ) -> Component:
     """taper strip to rib
 
@@ -107,10 +109,8 @@ def taper_strip_to_ridge(
 
     """
 
-    _taper_wg = taper(length=length, width1=width1, width2=width2, layer=gf.LAYER.WG)
-    _taper_slab = taper(
-        length=length, width1=w_slab1, width2=w_slab2, layer=gf.LAYER.SLAB90
-    )
+    _taper_wg = taper(length=length, width1=width1, width2=width2, layer=layer_wg)
+    _taper_slab = taper(length=length, width1=w_slab1, width2=w_slab2, layer=layer_slab)
 
     c = gf.Component()
     for _t in [_taper_wg, _taper_slab]:
@@ -119,8 +119,8 @@ def taper_strip_to_ridge(
         c.absorb(taper_ref)
 
     c.info["length"] = length
-    c.add_port(name="W0", port=_taper_wg.ports["1"])
-    c.add_port(name="E0", port=_taper_wg.ports["2"])
+    c.add_port(name=1, port=_taper_wg.ports[1])
+    c.add_port(name=2, port=_taper_wg.ports[2])
     return c
 
 
@@ -131,7 +131,7 @@ def taper_strip_to_ridge_trenches(
     slab_offset=3.0,
     trench_width=2.0,
     trench_layer=gf.LAYER.SLAB90,
-    wg_layer=gf.LAYER.WG,
+    layer_wg=gf.LAYER.WG,
     trench_offset_after_wg=0.1,
 ):
 
@@ -143,7 +143,7 @@ def taper_strip_to_ridge_trenches(
     # straight
     x = [0, length, length, 0]
     yw = [y0, yL, -yL, -y0]
-    c.add_polygon((x, yw), layer=wg_layer)
+    c.add_polygon((x, yw), layer=layer_wg)
 
     # top trench
     ymin0 = width / 2
@@ -156,10 +156,8 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon((x, ytt), layer=trench_layer)
     c.add_polygon((x, ytb), layer=trench_layer)
 
-    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=wg_layer)
-    c.add_port(
-        name="E0", midpoint=[length, 0], width=width, orientation=0, layer=wg_layer
-    )
+    c.add_port(name=1, midpoint=[0, 0], width=width, orientation=180, layer=layer_wg)
+    c.add_port(name=2, midpoint=[length, 0], width=width, orientation=0, layer=layer_wg)
 
     return c
 

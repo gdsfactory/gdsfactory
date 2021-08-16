@@ -89,7 +89,7 @@ def grating_coupler_uniform_optimized(
     c.wavelength = wavelength
     if taper_port_name not in taper_ref.ports:
         raise ValueError(f"{taper_port_name} not in {list(taper_ref.ports.keys())}")
-    c.add_port(port=taper_ref.ports[taper_port_name], name="W0")
+    c.add_port(port=taper_ref.ports[taper_port_name], name=1)
     gf.asserts.grating_coupler(c)
     return c
 

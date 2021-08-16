@@ -18,8 +18,8 @@ placements:
         y: 200
         x:  50
 ports:
-    W0: mzi,W0
-    E0: mzi,E0
+    W0: mzi,1
+    E0: mzi,2
 
 
 routes:

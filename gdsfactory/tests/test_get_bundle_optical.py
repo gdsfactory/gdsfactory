@@ -19,11 +19,11 @@ def test_get_bundle_optical(
 
     ports1 = [
         w.ports["E1"],
-        w.ports["E0"],
+        w.ports[2],
     ]
     ports2 = [
-        d.ports["W1"],
-        d.ports["W0"],
+        d.ports[2],
+        d.ports[1],
     ]
 
     routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True, radius=10)

@@ -3,14 +3,14 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzit import mzit
-from gdsfactory.types import ComponentFactory, Number
+from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
 def mzit_lattice(
-    coupler_lengths: Tuple[Number, ...] = (10, 20),
-    coupler_gaps: Tuple[Number, ...] = (0.2, 0.3),
-    delta_lengths: Tuple[Number, ...] = (10,),
+    coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
+    coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
+    delta_lengths: Tuple[float, ...] = (10.0,),
     mzi_factory: ComponentFactory = mzit,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
@@ -68,15 +68,14 @@ def mzit_lattice(
     for i, coupler in enumerate(couplers):
         if i % 2 == 0:
             coupler.mirror()
-        coupler.connect("W2", coupler0.ports["W0"])
-        coupler.connect("W3", coupler0.ports["W1"])
+        coupler.connect(3, coupler0.ports[1])
+        coupler.connect(4, coupler0.ports[2])
         coupler0 = coupler
 
-    c.add_port("W0", port=coupler0.ports["W0"])
-    c.add_port("W1", port=coupler0.ports["W1"])
-    c.add_port("W2", port=cp1.ports["W2"])
-    c.add_port("W3", port=cp1.ports["W3"])
-
+    c.add_port(1, port=coupler0.ports[1])
+    c.add_port(2, port=coupler0.ports[2])
+    c.add_port(3, port=cp1.ports[3])
+    c.add_port(4, port=cp1.ports[4])
     return c
 
 
@@ -85,10 +84,10 @@ if __name__ == "__main__":
     # cpg = [0.2, 0.3, 0.5]
     # dl0 = [10, 20]
 
-    # cpl = [10, 20, 30, 40]
-    # cpg = [0.2, 0.3, 0.5, 0.5]
-    # dl0 = [10, 20, 30]
+    cpl = [10, 20, 30, 40]
+    cpg = [0.2, 0.3, 0.5, 0.5]
+    dl0 = [10, 20, 30]
 
-    # c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
-    c = mzit_lattice()
+    c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
+    # c = mzit_lattice()
     c.show()

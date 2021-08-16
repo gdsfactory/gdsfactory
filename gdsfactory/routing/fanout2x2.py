@@ -35,9 +35,9 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = comp.ports["W0"].midpoint
-    p_e0 = comp.ports["E0"].midpoint
-    p_w1 = comp.ports["W1"].midpoint
+    p_w0 = comp.ports[1].midpoint
+    p_e0 = comp.ports[2].midpoint
+    p_w1 = comp.ports[2].midpoint
     p_e1 = comp.ports["E1"].midpoint
     y0 = p_e1[1]
 
@@ -56,9 +56,9 @@ def fanout2x2(
 
     c.add([b_tr, b_br, b_tl, b_bl])
 
-    c.add_port("W0", port=b_bl.ports["1"])
-    c.add_port("W1", port=b_tl.ports["1"])
-    c.add_port("E0", port=b_br.ports["1"])
+    c.add_port(1, port=b_bl.ports["1"])
+    c.add_port(2, port=b_tl.ports["1"])
+    c.add_port(2, port=b_br.ports["1"])
     c.add_port("E1", port=b_tr.ports["1"])
 
     c.min_bend_radius = bezier_bend_t.info["min_bend_radius"]
@@ -75,6 +75,6 @@ if __name__ == "__main__":
     c = gf.components.nxn(west=4)
 
     cc = fanout2x2(component=c)
-    print(cc.ports["E1"].y - cc.ports["E0"].y)
+    print(cc.ports["E1"].y - cc.ports[2].y)
     # print(cc.ports)
     cc.show()

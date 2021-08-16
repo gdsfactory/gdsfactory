@@ -99,11 +99,8 @@ def route_fiber_single(
     """
     # route west ports to south
     component = component.rotate(90)
-    west_ports = component.get_ports_dict(prefix="W")
-    north_ports = {
-        p.name: p for p in component.ports.values() if not p.name.startswith("W")
-    }
-    component.ports = west_ports
+    south_ports = component.get_ports_dict(orientation=270)
+    component.ports = south_ports
 
     elements_south, gratings_south, _ = route_fiber_array(
         component=component,
@@ -118,12 +115,11 @@ def route_fiber_single(
         **kwargs,
     )
 
-    # route north ports
+    # route the rest of the ports_south
     component = component_copy.rotate(-90)
-    north_ports = {
-        p.name: p for p in component.ports.values() if not p.name.startswith("W")
-    }
-    component.ports = north_ports
+    ports_already_routed = component.get_ports_dict(orientation=90)
+    for port_already_routed in ports_already_routed.keys():
+        component.ports.pop(port_already_routed)
 
     elements_north, gratings_north, _ = route_fiber_array(
         component=component,
@@ -187,23 +183,23 @@ if __name__ == "__main__":
         cc.add(e)
     cc.show()
 
-    layer = (31, 0)
-    c = gf.components.mmi2x2()
-    c = gf.components.straight(width=2, length=500)
-    gc = gf.components.grating_coupler_elliptical_te(layer=layer)
-    elements, gc = route_fiber_single(
-        c,
-        grating_coupler=[gc, gc, gc, gc],
-        auto_widen=False,
-        radius=10,
-        layer=layer,
-    )
+    # layer = (31, 0)
+    # c = gf.components.mmi2x2()
+    # c = gf.components.straight(width=2, length=500)
+    # gc = gf.components.grating_coupler_elliptical_te(layer=layer)
+    # elements, gc = route_fiber_single(
+    #     c,
+    #     grating_coupler=[gc, gc, gc, gc],
+    #     auto_widen=False,
+    #     radius=10,
+    #     layer=layer,
+    # )
 
-    cc = gf.Component("sample_route_fiber_single")
-    cr = cc << c.rotate(90)
+    # cc = gf.Component("sample_route_fiber_single")
+    # cr = cc << c.rotate(90)
 
-    for e in elements:
-        cc.add(e)
-    for e in gc:
-        cc.add(e)
-    cc.show()
+    # for e in elements:
+    #     cc.add(e)
+    # for e in gc:
+    #     cc.add(e)
+    # cc.show()

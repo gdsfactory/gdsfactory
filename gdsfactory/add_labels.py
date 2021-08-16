@@ -51,7 +51,7 @@ def get_input_label(
     port: Port,
     gc: ComponentReference,
     gc_index: Optional[int] = None,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     layer_label: Layer = gf.LAYER.LABEL,
     component_name: Optional[str] = None,
     get_input_label_text_function=get_input_label_text,
@@ -160,10 +160,10 @@ def test_optical_labels() -> Component:
     c = gf.components.straight()
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
-        port=c.ports["W0"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
+        port=c.ports[1], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
     )
     label2 = get_input_label(
-        port=c.ports["E0"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
+        port=c.ports[2], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
     add_labels(c, port_type="optical", get_label_function=get_input_label, gc=gc)
     labels_text = [c.labels[0].text, c.labels[1].text]

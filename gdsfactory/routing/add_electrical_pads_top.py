@@ -2,7 +2,7 @@ from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.electrical.pad import pad_array
+from gdsfactory.components.pad import pad_array
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,

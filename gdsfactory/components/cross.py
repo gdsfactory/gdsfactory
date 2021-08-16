@@ -28,7 +28,7 @@ def cross(
     r1.center = (0, 0)
     r2.center = (0, 0)
     c.add_port(
-        "E0",
+        1,
         width=width,
         layer=layer,
         port_type=port_type,
@@ -36,7 +36,7 @@ def cross(
         midpoint=(+length / 2, 0),
     )
     c.add_port(
-        "W0",
+        2,
         width=width,
         layer=layer,
         port_type=port_type,
@@ -44,7 +44,7 @@ def cross(
         midpoint=(-length / 2, 0),
     )
     c.add_port(
-        "N0",
+        3,
         width=width,
         layer=layer,
         port_type=port_type,
@@ -52,7 +52,7 @@ def cross(
         midpoint=(0, length / 2),
     )
     c.add_port(
-        "S0",
+        4,
         width=width,
         layer=layer,
         port_type=port_type,
@@ -61,11 +61,13 @@ def cross(
     )
     c.absorb(r1)
     c.absorb(r2)
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     c = cross()
+    c.show()
+    c.pprint_ports()
     cc = gf.routing.add_fiber_array(component=c)
-    # print(c.ports)
     cc.show()

@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.electrical.pad import pad
+from gdsfactory.components.pad import pad
 from gdsfactory.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )

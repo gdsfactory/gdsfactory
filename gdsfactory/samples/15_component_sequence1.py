@@ -28,10 +28,10 @@ def test_cutback_heater() -> Component:
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (bend180, "W0", "W1"),
-        "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W0", "E0"),
-        "-": (wg, "W0", "E0"),
+        "A": (bend180, 1, 2),
+        "B": (bend180, 2, 1),
+        "H": (wg_heater, 1, 2),
+        "-": (wg, 1, 2),
     }
 
     # Generate a sequence

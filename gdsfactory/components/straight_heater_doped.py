@@ -38,8 +38,8 @@ def straight_heater_doped(
     contact = via_stack()
     contact_west = c << contact
     contact_east = c << contact
-    contact_west.connect(contact_west.get_ports_list()[0].name, wg.ports["W0"])
-    contact_east.connect(contact_east.get_ports_list()[0].name, wg.ports["E0"])
+    contact_west.connect(contact_west.get_ports_list()[0].name, wg.ports[1])
+    contact_east.connect(contact_east.get_ports_list()[0].name, wg.ports[2])
 
     x0 = wg.get_ports_list()[0].x
     c.add_ports(wg.get_ports_list())
