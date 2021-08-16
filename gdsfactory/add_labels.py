@@ -124,24 +124,24 @@ def get_input_label_electrical(
 
 def add_labels(
     component: Component,
-    port_type: str = "dc",
     get_label_function: Callable = get_input_label_electrical,
     layer_label: Layer = gf.LAYER.LABEL,
     gc: Optional[Component] = None,
+    **kwargs,
 ) -> Component:
     """Add labels a particular type of ports
 
     Args:
         component: to add labels to
-        port_type: type of port ('dc', 'optical', 'electrical')
         get_label_function: function to get label
         layer_label: layer_label
+        **port_settings to select
 
     Returns:
         original component with labels
 
     """
-    ports = component.get_ports_list(port_type=port_type)
+    ports = component.get_ports_list(**kwargs)
 
     for i, port in enumerate(ports):
         label = get_label_function(
@@ -165,7 +165,7 @@ def test_optical_labels() -> Component:
     label2 = get_input_label(
         port=c.ports[2], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
-    add_labels(c, port_type="optical", get_label_function=get_input_label, gc=gc)
+    add_labels(c, get_label_function=get_input_label, gc=gc)
     labels_text = [c.labels[0].text, c.labels[1].text]
     # print(label1)
     # print(label2)
@@ -183,9 +183,7 @@ def test_electrical_labels() -> Component:
     label2 = get_input_label_electrical(
         port=c.ports["DC_0"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
-    add_labels(
-        component=c, port_type="dc", get_label_function=get_input_label_electrical
-    )
+    add_labels(component=c, get_label_function=get_input_label_electrical)
     labels_text = [c.labels[0].text, c.labels[1].text]
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"

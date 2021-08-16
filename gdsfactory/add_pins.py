@@ -9,18 +9,16 @@ They without modifying the cell name
 
 """
 import json
-from typing import Callable, Dict, Iterable, Optional, Tuple
+from typing import Callable, Iterable, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
-from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, read_port_markers
 from gdsfactory.tech import LAYER, PORT_TYPE_TO_MARKER_LAYER
-from gdsfactory.types import Layer
 
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
@@ -285,9 +283,7 @@ def add_outline(
 
 def add_pins(
     component: Component,
-    reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
-    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_MARKER_LAYER,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -295,14 +291,11 @@ def add_pins(
     Args:
         component: to add ports
         function:
-        port_type_to_layer: dict mapping port types to marker layers for ports
         kwargs: add pins function settings
 
     """
-    reference = reference or component
-    for p in reference.ports.values():
-        layer = port_type_to_layer[p.port_type or "optical"]
-        function(component=component, port=p, layer=layer, label_layer=layer, **kwargs)
+    for port in component.get_ports_list(**kwargs):
+        function(component=component, port=port)
 
 
 add_pins_triangle = gf.partial(add_pins, function=add_pin_triangle)
@@ -406,44 +399,11 @@ def add_pins_to_references(
         function(component=component)
 
 
-@cell
-def add_pins_container(
-    component: Component,
-    function: Callable = add_pin_square_double,
-    port_type: str = "optical",
-    layer: Layer = LAYER.PORT,
-) -> Component:
-    """Add pins to a Component and returns a new Component
-
-    Args:
-        component:
-        function: function to add pin
-        port_type: optical, dc
-        layer: layer for port marker
-
-    Returns:
-        New component
-    """
-
-    component_new = gf.Component(f"{component.name}_pins")
-    component_new.add_ref(component)
-
-    for p in component.ports.values():
-        if p.port_type == port_type:
-            function(component=component_new, port=p, layer=layer, label_layer=layer)
-
-    component_new.ports = component.ports.copy()
-    return component_new
-
-
 def test_add_pins() -> gf.Component:
-    c1 = gf.components.straight_heater_metal(length=30)
-    c2 = add_pins_container(
-        component=c1, function=add_pin_square, port_type="optical", layer=LAYER.PORT
-    )
-    c2 = add_pins_container(
-        component=c2, function=add_pin_square, port_type="dc", layer=LAYER.PORTE
-    )
+    c1 = gf.components.straight_heater_metal(length=31.23)
+    c2 = gf.components.straight_heater_metal(length=31.232)
+    add_pins(component=c1, function=add_pin_square, layer=LAYER.PORT)
+    add_pins(component=c2, function=add_pin_square, layer=LAYER.PORTE)
     n_optical_expected = 2
     n_dc_expected = 2
 
@@ -465,40 +425,9 @@ def test_add_pins() -> gf.Component:
 
 
 if __name__ == "__main__":
-    # c = test_add_pins()
-    # c.show()
-
-    c = gf.c.straight()
-    # add_pins(c)
+    c = test_add_pins()
     c.show()
 
-    # c = gf.components.straight()
-    # add_pins(c, function=add_pin_square)
-    # add_pins(c, function=add_pin_square_inside)
-    # add_pins(c, function=add_pin_square_double)
-    # c.show(show_ports=False)
-
-    # cpl = [10, 20, 30]
-    # cpg = [0.2, 0.3, 0.5]
-    # dl0 = [10, 20]
-
-    # c = gf.components.mzi()
-    # add_pins_to_references(c)
-    # c = add_pins(c, recursive=True)
-    # c = add_pins(c, recursive=False)
-    # c.show()
-
-    # c = mmi1x2(width_mmi=5)
-    # cc = add_grating_couplers(c, layer_label=gf.LAYER.LABEL)
-
-    # c = gf.components.straight()
-    # c = gf.components.crossing()
+    # c = gf.c.straight()
     # add_pins(c)
-
-    # c = gf.components.bend_circular()
-    # print(cc.name)
-    # cc.show()
-
-    # c = gf.components.ring_single()
-    # add_pins_to_references(c)
     # c.show()

@@ -1,16 +1,16 @@
 import pathlib
 
 from gdsfactory import klive
-from gdsfactory.cell import clear_cache
+from gdsfactory.cell import clear_cache as clear_cache_function
 from gdsfactory.component import Component
 
 
-def show(component: Component, clears_cache: bool = True, **kwargs) -> None:
+def show(component: Component, clear_cache: bool = True, **kwargs) -> None:
     """Shows Component in klayout
 
     Args:
         component
-        clears_cache: clears_cache
+        clear_cache: clear_cache
         kwargs: settings for write_gds
     """
     if isinstance(component, pathlib.Path):
@@ -30,5 +30,5 @@ def show(component: Component, clears_cache: bool = True, **kwargs) -> None:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
         )
-    if clears_cache:
-        clear_cache()
+    if clear_cache:
+        clear_cache_function()

@@ -66,7 +66,7 @@ def _flip_ref(c_ref, port_name):
 def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],
-    ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
+    ports_map: Optional[Dict[str, Tuple[PortName, PortName]]] = None,
     input_port_name: PortName = 1,
     output_port_name: PortName = 2,
     start_orientation: float = 0.0,
@@ -109,6 +109,7 @@ def component_sequence(
         c.show()
 
     """
+    print(symbol_to_component)
     ports_map = ports_map or {}
 
     # Remove all None devices from the sequence

@@ -4,8 +4,6 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.add_grating_couplers import add_grating_couplers
 from gdsfactory.add_padding import add_padding_container
-from gdsfactory.add_pins import add_pins_container
-from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_termination import add_gratings_and_loopback, add_termination
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.extension import extend_ports
@@ -31,9 +29,7 @@ container_factory = dict(
     add_fiber_single=add_fiber_single,
     add_grating_couplers=add_grating_couplers,
     add_padding_container=add_padding_container,
-    add_tapers=add_tapers,
     add_termination=add_termination,
-    add_pins_container=add_pins_container,
     extend_ports=extend_ports,
     fanout2x2=fanout2x2,
     rotate=rotate,
