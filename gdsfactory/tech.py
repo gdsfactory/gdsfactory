@@ -51,15 +51,25 @@ class LayerMap:
 
 
 LAYER = LayerMap()
-PORT_LAYER_TO_TYPE = {
+PORT_MARKER_LAYER_TO_TYPE = {
     LAYER.PORT: "optical",
     LAYER.PORTE: "dc",
-    LAYER.PORTH: "heater",
     LAYER.TE: "vertical_te",
     LAYER.TM: "vertical_tm",
 }
 
-PORT_TYPE_TO_LAYER = {v: k for k, v in PORT_LAYER_TO_TYPE.items()}
+PORT_LAYER_TO_TYPE = {
+    LAYER.WG: "optical",
+    LAYER.WGN: "optical",
+    LAYER.SLAB150: "optical",
+    LAYER.M1: "dc",
+    LAYER.M2: "dc",
+    LAYER.M3: "dc",
+    LAYER.TE: "vertical_te",
+    LAYER.TM: "vertical_tm",
+}
+
+PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 LAYER_SET = LayerSet()  # Layerset for simulation and matplotlib
 
 

@@ -34,11 +34,11 @@ def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_lengt
     c.add_polygon(taper_points, layer=LAYER.WG)
 
     c.add_port(
-        name="W0", midpoint=(-xmax, 0), orientation=180, width=wg_width, layer=LAYER.WG
+        name=1, midpoint=(-xmax, 0), orientation=180, width=wg_width, layer=LAYER.WG
     )
 
     c.add_port(
-        name="E0", midpoint=(xmax, 0), orientation=0, width=wg_width, layer=LAYER.WG
+        name=2, midpoint=(xmax, 0), orientation=0, width=wg_width, layer=LAYER.WG
     )
     return c
 

@@ -100,8 +100,8 @@ placements:
 routes:
     optical:
         links:
-            mmi_bottom,E0: mmi_top,W0
-            mmi_bottom,E1: mmi_top,W1
+            mmi_bottom,4: mmi_top,1
+            mmi_bottom,3: mmi_top,2
 
         settings:
             layer: [2, 0]
@@ -151,13 +151,13 @@ routes:
             separation: 10
             layer: [31, 0]
         links:
-            tl,E: tr,W
-            bl,E: br,W
+            tl,DC_3: tr,DC_1
+            bl,DC_3: br,DC_1
     optical:
         settings:
             radius: 100
         links:
-            bl,S: br,E
+            bl,DC_4: br,DC_3
 
 """
 

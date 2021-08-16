@@ -34,18 +34,18 @@ def ring_single_array(
     settings0 = list_of_dicts[0]
     ring1 = c << ring_function(**settings0)
 
-    ringp = ring1
+    ring0 = ring1
     wg = straight_function(length=spacing)
 
     for settings in list_of_dicts[1:]:
         ringi = c << ring_function(**settings)
         wgi = c << wg
-        wgi.connect("W0", ringp.ports["E0"])
-        ringi.connect("W0", wgi.ports["E0"])
-        ringp = ringi
+        wgi.connect(1, ring0.ports[2])
+        ringi.connect(1, wgi.ports[2])
+        ring0 = ringi
 
-    c.add_port("W0", port=ring1.ports["W0"])
-    c.add_port("E0", port=ringi.ports["E0"])
+    c.add_port(1, port=ring1.ports[1])
+    c.add_port(2, port=ringi.ports[2])
     return c
 
 

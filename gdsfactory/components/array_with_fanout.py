@@ -4,7 +4,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array import array
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.electrical.pad import pad
+from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
@@ -21,7 +21,7 @@ def array_with_fanout(
     start_straight: float = 5.0,
     end_straight: float = 40.0,
     radius: float = 5.0,
-    component_port_name: str = "S",
+    component_port_name: str = 2,
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
     cross_section: CrossSectionFactory = strip,
@@ -65,15 +65,15 @@ def array_with_fanout(
         straight_ref = c << straight(
             length=ylength, cross_section=cross_section, **kwargs
         )
-        straight_ref.connect("E0", ref.ports[component_port_name])
+        straight_ref.connect(2, ref.ports[component_port_name])
 
         bend_ref = c.add_ref(bend)
-        bend_ref.connect(bend_port_name1, straight_ref.ports["W0"])
+        bend_ref.connect(bend_port_name1, straight_ref.ports[1])
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect("E0", bend_ref.ports[bend_port_name2])
-        c.add_port(f"W_{col}", port=straightx_ref.ports["W0"])
+        straightx_ref.connect(2, bend_ref.ports[bend_port_name2])
+        c.add_port(f"W_{col}", port=straightx_ref.ports[1])
     auto_rename_ports(c)
     return c
 

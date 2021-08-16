@@ -21,14 +21,14 @@ def test_cutback_phase(
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "I": (taper, "W0", "E0"),
-        "O": (taper, "E0", "W0"),
-        "S": (wg_short, "W0", "E0"),
-        "P": (pm_wg, "W0", "E0"),
-        "A": (bend180, "W0", "W1"),
-        "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W0", "E0"),
-        "-": (wg_short2, "W0", "E0"),
+        "I": (taper, 1, 2),
+        "O": (taper, 2, 1),
+        "S": (wg_short, 1, 2),
+        "P": (pm_wg, 1, 2),
+        "A": (bend180, 1, 2),
+        "B": (bend180, 2, 1),
+        "H": (wg_heater, 1, 2),
+        "-": (wg_short2, 1, 2),
     }
 
     # Generate a sequence

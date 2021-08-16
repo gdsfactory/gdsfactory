@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -83,12 +83,11 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 @gf.cell
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
-    port_list: Optional[List[str]] = None,
+    ports: Optional[Tuple[Port, ...]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
     port1: Optional[str] = None,
     port2: Optional[str] = None,
-    **kwargs
 ) -> Component:
     """Returns a new component with extended ports inside a container.
 
@@ -97,30 +96,31 @@ def extend_ports(
 
     Args:
         component: component to extend ports
-        port_list: specify an list of ports names, if None it extends all ports
+        port_names: specify an list of ports names, if None it extends all ports
         length: extension length
         extension_factory: straight library to extend ports
         port1: input port name
         port2: output port name
-        **kwargs: extension_factory parameters
     """
     c = gf.Component()
     component = component() if callable(component) else component
     c << component
 
-    port_list = port_list or list(component.ports.keys())
+    ports_all = component.get_ports_list()
+    ports_to_extend = ports or ports_all
+    ports_to_extend_names = [p.name for p in ports_to_extend]
 
-    for port_name in component.ports.keys():
-        if port_name in port_list:
-            port = component.ports.get(port_name)
+    for port in ports_all:
+        port_name = port.name
+
+        if port_name in ports_to_extend_names:
 
             def extension_factory_default(length=length, width=port.width):
                 return gf.components.hline(length=length, width=width, layer=port.layer)
 
             if extension_factory:
-                extension_component = extension_factory(**kwargs)
+                extension_component = extension_factory()
             else:
-
                 extension_component = extension_factory_default(
                     length=length, width=port.width
                 )
@@ -151,7 +151,7 @@ def test_extend_ports_selection() -> Component:
     import gdsfactory.components as pc
 
     c = pc.cross(width=2)
-    ce = extend_ports(component=c, port_list=["W0", "S0", "N0"])
+    ce = extend_ports(component=c, ports=c.get_ports_list()[0:3])
     assert len(c.ports) == len(ce.ports)
     return ce
 
@@ -160,13 +160,14 @@ __all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
-    c = extend_ports()
-    # c = test_extend_ports_selection()
+    # c = extend_ports()
+    c = test_extend_ports_selection()
+    c = test_extend_ports()
     c.show()
 
     # import gdsfactory.components as pc
     # c = pc.bend_circular()
-    # ce = extend_ports(c, port_list=['W0'])
+    # ce = extend_ports(c, port_names=['W0'])
 
     # c = pc.straight(layer=(3, 0))
     # ce = extend_ports(c)

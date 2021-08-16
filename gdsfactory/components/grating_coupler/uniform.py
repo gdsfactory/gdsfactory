@@ -77,7 +77,7 @@ def grating_coupler_uniform(
         )
     )
     tgrating.xmin = cgrating.xmax
-    G.add_port(port=tgrating.ports["2"], name="W0")
+    G.add_port(port=tgrating.ports["2"], name=1)
     G.polarization = polarization
     G.wavelength = wavelength
     G.rotate(180)

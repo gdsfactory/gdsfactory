@@ -57,7 +57,7 @@ def get_route_electrical_shortest_path(port1: Port, port2: Port) -> ComponentRef
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.components.electrical.pad import pad_array
+    from gdsfactory.components.pad import pad_array
 
     c = Component("mzi_with_pads")
     mzi = gf.components.mzi_phase_shifter()

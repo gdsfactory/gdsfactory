@@ -42,10 +42,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mmi1x2()
-    from gdsfactory.components.straight_heater import straight_with_heater
+    from gdsfactory.components.straight import straight
 
-    cr = extend_ports_list(
-        ports=c.get_ports_list(), extension_factory=straight_with_heater
-    )
+    cr = extend_ports_list(ports=c.get_ports_list(), extension_factory=straight)
     c.add_ref(cr)
     c.show()

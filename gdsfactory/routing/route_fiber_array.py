@@ -42,7 +42,7 @@ def route_fiber_array(
     excluded_ports: List[Any] = None,
     grating_indices: None = None,
     route_filter: Callable = get_route_from_waypoints,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     gc_rotation: int = -90,
     layer_label: Optional[Tuple[int, int]] = None,
     layer_label_loopback: Optional[Tuple[int, int]] = None,

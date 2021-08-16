@@ -116,16 +116,16 @@ from gdsfactory.components.dbr2 import dbr2
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
-from gdsfactory.components.electrical.pad import pad
-from gdsfactory.components.electrical.pad import pad_array
-from gdsfactory.components.electrical.pad import pad_array_2d
+from gdsfactory.components.pad import pad
+from gdsfactory.components.pad import pad_array
+from gdsfactory.components.pad import pad_array_2d
 from gdsfactory.components.via import via
 from gdsfactory.components.via import via1
 from gdsfactory.components.via import via2
 from gdsfactory.components.via import via3
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
-from gdsfactory.components.electrical.pads_shorted import pads_shorted
+from gdsfactory.components.pads_shorted import pads_shorted
 
 # electrical PCM
 from gdsfactory.components.resistance_meander import resistance_meander

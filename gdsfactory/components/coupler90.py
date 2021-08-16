@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight
+from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -27,23 +27,27 @@ def coupler90(
 
     .. code::
 
-             N0
+             3
              |
             /
            /
-       W1_/
-       W0____E0
+        2_/
+        1____4
 
     """
     c = Component()
     x = cross_section(radius=radius, **kwargs)
 
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = (
+        bend(cross_section=cross_section, radius=radius, **kwargs)
+        if callable(bend)
+        else bend
+    )
     bend_ref = c << bend90
     straight_component = (
         straight(
             cross_section=cross_section,
-            length=bend90.ports["N0"].midpoint[0] - bend90.ports["W0"].midpoint[0],
+            length=bend90.ports[2].midpoint[0] - bend90.ports[1].midpoint[0],
             **kwargs
         )
         if callable(straight)
@@ -51,21 +55,19 @@ def coupler90(
     )
 
     wg_ref = c << straight_component
-
     width = x.info["width"]
 
-    pbw = bend_ref.ports["W0"]
+    pbw = bend_ref.ports[1]
     bend_ref.movey(pbw.midpoint[1] + gap + width)
 
-    # This component is a leaf cell => using absorb
     c.absorb(wg_ref)
     c.absorb(bend_ref)
 
-    c.add_port("E0", port=wg_ref.ports["E0"])
-    c.add_port("N0", port=bend_ref.ports["N0"])
-    c.add_port("W0", port=wg_ref.ports["W0"])
-    c.add_port("W1", port=bend_ref.ports["W0"])
-
+    c.add_port(1, port=wg_ref.ports[1])
+    c.add_port(4, port=wg_ref.ports[2])
+    c.add_port(2, port=bend_ref.ports[1])
+    c.add_port(3, port=bend_ref.ports[2])
+    c.auto_rename_ports()
     return c
 
 

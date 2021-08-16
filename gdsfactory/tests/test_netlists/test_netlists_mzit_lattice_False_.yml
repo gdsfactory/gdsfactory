@@ -16,7 +16,7 @@ placements:
     x: 0.0
     y: 0.0
 ports:
-  W0: mzit_dfcdab44_19p138_11p4,W0
-  W1: mzit_dfcdab44_19p138_11p4,W1
-  W2: mzit_dfcdab44_19p138_11p4,W2
-  W3: mzit_dfcdab44_19p138_11p4,W3
+  1: mzit_dfcdab44_19p138_11p4,1
+  2: mzit_dfcdab44_19p138_11p4,2
+  3: mzit_dfcdab44_19p138_11p4,3
+  4: mzit_dfcdab44_19p138_11p4,4

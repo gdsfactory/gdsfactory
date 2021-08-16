@@ -24,8 +24,8 @@ def get_routes_bend180(
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     bend = bend_factory(angle=180, cross_section=cross_section, **kwargs)
     references = [bend.ref() for port in ports]
-    references = [ref.connect("W0", port) for port, ref in zip(ports, references)]
-    ports = {f"{i}": ref.ports["W1"] for i, ref in enumerate(references)}
+    references = [ref.connect(1, port) for port, ref in zip(ports, references)]
+    ports = {f"{i}": ref.ports[2] for i, ref in enumerate(references)}
     lengths = [bend.length] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
 

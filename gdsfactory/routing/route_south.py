@@ -19,7 +19,7 @@ def route_south(
     excluded_ports: Optional[Tuple[str, ...]] = None,
     straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     bend_factory: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,

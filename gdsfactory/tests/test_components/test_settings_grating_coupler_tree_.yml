@@ -14,7 +14,7 @@ settings:
       spacing: 4
   component_name: straight_array_N4_S4
   fanout_length: 0
-  gc_port_name: W0
+  gc_port_name: 1
   grating_coupler: grating_coupler_elliptical_te
   layer_label:
   - 66

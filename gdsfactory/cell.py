@@ -168,8 +168,8 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
     w = width / 2
     layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    c.add_port(name="W0", midpoint=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="E0", midpoint=[length, 0], width=width, orientation=0, layer=layer)
+    c.add_port(name=1, midpoint=[0, 0], width=width, orientation=180, layer=layer)
+    c.add_port(name=2, midpoint=[length, 0], width=width, orientation=0, layer=layer)
     return c
 
 

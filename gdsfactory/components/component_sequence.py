@@ -3,6 +3,7 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import PortName
 
 
 class SequenceGenerator:
@@ -66,8 +67,8 @@ def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],
     ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
-    input_port_name: str = "in",
-    output_port_name: str = "out",
+    input_port_name: PortName = 1,
+    output_port_name: PortName = 2,
     start_orientation: float = 0.0,
 ) -> Component:
     """Returns component from a ASCII sequence and a dictionary to interpret each symbol
@@ -96,10 +97,10 @@ def component_sequence(
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "A": (bend180, "W0", "W1"),
-            "B": (bend180, "W1", "W0"),
-            "H": (wg_heater, "W0", "E0"),
-            "-": (wg, "W0", "E0"),
+            "A": (bend180, 1, 2),
+            "B": (bend180, 2, 1),
+            "H": (wg_heater, 1, 2),
+            "-": (wg, 1, 2),
         }
 
         # Each character in the sequence represents a component
@@ -179,15 +180,15 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     bend180 = gf.components.bend_circular180()
-    wg_heater = gf.components.straight_heater()
+    wg_pin = gf.components.straight_pin()
     wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (bend180, "W0", "W1"),
-        "B": (bend180, "W1", "W0"),
-        "H": (wg_heater, "W0", "E0"),
-        "-": (wg, "W0", "E0"),
+        "A": (bend180, 1, 2),
+        "B": (bend180, 2, 1),
+        "H": (wg_pin, 1, 2),
+        "-": (wg, 1, 2),
     }
 
     # Each character in the sequence represents a component

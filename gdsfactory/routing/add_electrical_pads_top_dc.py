@@ -1,6 +1,6 @@
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.electrical.pad import pad_array as pad_array_function
+from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import ComponentFactory

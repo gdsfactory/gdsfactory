@@ -30,14 +30,14 @@ def taper_from_csv(
     )
 
     c.add_port(
-        name="W0",
+        name=1,
         midpoint=(xs[0], 0),
         width=2 * ys[0],
         orientation=180,
         port_type="optical",
     )
     c.add_port(
-        name="E0",
+        name=2,
         midpoint=(xs[-1], 0),
         width=2 * ys[-1],
         orientation=0,

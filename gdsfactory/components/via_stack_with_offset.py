@@ -72,13 +72,13 @@ def via_stack_with_offset(
         c.add_polygon(rect_pts, layer=layer)
 
     if port_orientation == 0:
-        port_name = "E0"
+        port_name = 2
         port_width = height
     elif port_orientation == 180:
-        port_name = "W0"
+        port_name = 1
         port_width = height
     elif port_orientation == 90:
-        port_name = "N0"
+        port_name = 2
         port_width = width
     elif port_orientation == 270:
         port_name = "S0"

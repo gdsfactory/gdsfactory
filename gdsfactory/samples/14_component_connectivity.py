@@ -87,16 +87,16 @@ def ring_single(
     wt = c << straight_top
     # wt.mirror(p1=(0, 0), p2=(1, 0))
 
-    wl.connect(port="E0", destination=cb.ports["N0"])
-    bl.connect(port="N0", destination=wl.ports["W0"])
+    wl.connect(port=2, destination=cb.ports[2])
+    bl.connect(port=2, destination=wl.ports[1])
 
-    wt.connect(port="E0", destination=bl.ports["W0"])
-    br.connect(port="N0", destination=wt.ports["W0"])
-    wr.connect(port="W0", destination=br.ports["W0"])
-    wr.connect(port="E0", destination=cb.ports["N1"])  # just for netlist
+    wt.connect(port=2, destination=bl.ports[1])
+    br.connect(port=2, destination=wt.ports[1])
+    wr.connect(port=1, destination=br.ports[1])
+    wr.connect(port=2, destination=cb.ports["N1"])  # just for netlist
 
-    c.add_port("E0", port=cb.ports["E0"])
-    c.add_port("W0", port=cb.ports["W0"])
+    c.add_port(2, port=cb.ports[2])
+    c.add_port(1, port=cb.ports[1])
     return c
 
 

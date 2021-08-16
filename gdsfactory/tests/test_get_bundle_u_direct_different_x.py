@@ -18,12 +18,12 @@ def test_get_bundle_u_direct_different_x(
     ports2 = d.get_ports_list(prefix="E")
 
     ports1 = [
-        w.ports["E0"],
+        w.ports[2],
         w.ports["E1"],
     ]
     ports2 = [
         d.ports["E1"],
-        d.ports["E0"],
+        d.ports[2],
     ]
 
     routes = gf.routing.get_bundle(ports1, ports2)

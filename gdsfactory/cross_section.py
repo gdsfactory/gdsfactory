@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 from functools import partial
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, Optional, Tuple, Union
 
 import pydantic
 from phidl.device_layout import CrossSection
@@ -14,6 +14,7 @@ from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
+PortName = Union[str, int]
 
 
 @pydantic.validate_arguments
@@ -29,7 +30,7 @@ def cross_section(
     layer_cladding: Optional[Layer] = None,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
-    port_names: Tuple[str, str] = ("W0", "E0"),
+    port_names: Tuple[PortName, PortName] = (1, 2),
     min_length: float = 10e-3,
     start_straight: float = 10e-3,
     end_straight_offset: float = 10e-3,
@@ -49,7 +50,7 @@ def cross_section(
         layer_cladding:
         layers_cladding:
         sections: Sections(width, offset, layer, ports)
-        port_names: for input and output ("W0", "E0"),
+        port_names: for input and output (1, 2),
         min_length: 10e-3 for routing
         start_straight: for routing
         end_straight_offset: for routing
@@ -207,7 +208,7 @@ def strip_heater_metal_undercut(
         width=wg_width,
         layer=layer_waveguide,
         sections=(
-            Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),
+            Section(layer=layer_heater, width=heater_width),
             Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
             Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
         ),
@@ -229,7 +230,7 @@ def strip_heater_metal(
     return cross_section(
         width=wg_width,
         layer=layer_waveguide,
-        sections=(Section(layer=layer_heater, width=heater_width, ports=("HW", "HE")),),
+        sections=(Section(layer=layer_heater, width=heater_width),),
         **kwargs,
     )
 

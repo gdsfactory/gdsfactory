@@ -16,7 +16,7 @@ def add_fiber_array(
     grating_coupler: Component = grating_coupler_te,
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     component_name: Optional[str] = None,
     taper_length: float = 10.0,
     cross_section: CrossSectionFactory = strip,

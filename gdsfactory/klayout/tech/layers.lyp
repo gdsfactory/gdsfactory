@@ -923,12 +923,12 @@
   <fill-color>#004080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I11</dither-pattern>
+  <dither-pattern>I1</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
   <transparent>false</transparent>
-  <width>2</width>
+  <width>1</width>
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>

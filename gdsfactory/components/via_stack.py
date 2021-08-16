@@ -69,13 +69,13 @@ def via_stack(
                 c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
 
     if port_orientation == 0:
-        port_name = "E0"
+        port_name = 2
         port_width = height
     elif port_orientation == 180:
-        port_name = "W0"
+        port_name = 1
         port_width = height
     elif port_orientation == 90:
-        port_name = "N0"
+        port_name = 2
         port_width = width
     elif port_orientation == 270:
         port_name = "S0"

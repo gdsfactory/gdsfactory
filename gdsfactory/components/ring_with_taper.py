@@ -94,19 +94,19 @@ def ring_with_taper_netlist(
         "VR": (vr, "R90"),
     }
     connections = [
-        ("CL", "W0", "CS", "W0"),
-        ("CS", "E0", "CR", "W0"),
-        ("CR", "N0", "T1", "1"),
-        ("T1", "2", "VR", "W0"),
-        ("VR", "E0", "T2", "2"),
-        ("T2", "1", "BR", "N0"),
-        ("BR", "W0", "H1", "E0"),
-        ("H1", "W0", "BL", "W0"),
-        ("BL", "N0", "VL", "E0"),
-        ("VL", "W0", "CL", "N0"),
+        ("CL", 1, "CS", 1),
+        ("CS", 2, "CR", 1),
+        ("CR", 2, "T1", 1),
+        ("T1", "2", "VR", 1),
+        ("VR", 2, "T2", 2),
+        ("T2", "1", "BR", 2),
+        ("BR", 1, "H1", 2),
+        ("H1", 1, "BL", 1),
+        ("BL", 2, "VL", 2),
+        ("VL", 1, "CL", 2),
     ]
 
-    ports_map = {"W0": ("CL", "E0"), "E0": ("CR", "E0")}
+    ports_map = {1: ("CL", 2), 2: ("CR", 2)}
 
     return components, connections, ports_map
 

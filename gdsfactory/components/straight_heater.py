@@ -53,9 +53,9 @@ def straight_heater_metal_undercut(
         cross_section=cross_section_heater, length=length_undercut_spacing, **kwargs
     )
     symbol_to_component = {
-        "-": (s_si, "W0", "E0"),
-        "U": (s_uc, "W0", "E0"),
-        "H": (s_spacing, "W0", "E0"),
+        "-": (s_si, 1, 2),
+        "U": (s_uc, 1, 2),
+        "H": (s_spacing, 1, 2),
     }
 
     # Each character in the sequence represents a component
@@ -80,7 +80,7 @@ def straight_heater_metal_undercut(
         contact_east.move(contact_east_midpoint)
         c.add_port("MW", port=contact_west.get_ports_list()[0])
         c.add_port("ME", port=contact_east.get_ports_list()[0])
-    gf.port.auto_rename_ports(c)
+    c.auto_rename_ports()
     return c
 
 
@@ -89,12 +89,12 @@ straight_heater_metal = gf.partial(straight_heater_metal_undercut, with_undercut
 
 def test_ports():
     c = straight_heater_metal(length=50.0)
-    assert c.ports["E0"].midpoint[0] == 50.0
+    assert c.ports[2].midpoint[0] == 50.0
 
 
 if __name__ == "__main__":
     c = straight_heater_metal_undercut()
     # c = straight_heater_metal(length=50.0)
-    # print(c.ports["E0"].midpoint[0])
+    # print(c.ports[2].midpoint[0])
     c.pprint_ports()
     c.show()

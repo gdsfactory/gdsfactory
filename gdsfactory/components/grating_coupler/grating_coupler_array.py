@@ -11,7 +11,7 @@ def grating_coupler_array(
     grating_coupler: ComponentOrFactory = grating_coupler_elliptical2,
     pitch: float = 127.0,
     n: int = 6,
-    port_name: str = "W0",
+    port_name: str = 1,
     **grating_coupler_settings,
 ) -> Component:
     """Array of rectangular pads.

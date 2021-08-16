@@ -46,7 +46,7 @@ def straight(
 
 
 if __name__ == "__main__":
-    # c = straight(cross_section=gf.partial(gf.cross_section.strip, width=2))
-    c = straight(width=2)
+    c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2))
+    # c = straight(width=2)
     c.show()
     c.pprint()

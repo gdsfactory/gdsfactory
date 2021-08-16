@@ -26,7 +26,7 @@ class LayerMap:
 LAYER = LayerMap()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
-PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
+PORT_TYPE_TO_MARKER_LAYER = dict(optical=(100, 0))
 
 
 def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
@@ -49,7 +49,7 @@ def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
-    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_LAYER,
+    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_MARKER_LAYER,
     pin_length: float = 0.5,
     **kwargs,
 ) -> None:

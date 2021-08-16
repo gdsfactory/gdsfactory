@@ -16,9 +16,9 @@ def grating_coupler(gc: Component) -> None:
     assert (
         500 < gc.wavelength < 2000
     ), f"{gc.name} wavelength {gc.wavelength} should be in nm"
-    if "W0" not in gc.ports:
+    if 1 not in gc.ports:
         print(f"grating_coupler {gc.name} should have a W0 port. It has {gc.ports}")
-    if "W0" in gc.ports and gc.ports["W0"].orientation != 180:
+    if 1 in gc.ports and gc.ports[1].orientation != 180:
         print(
             f"grating_coupler {gc.name} W0 port should have orientation = 180 degrees. It has {gc.ports['W0'].orientation}"
         )

@@ -14,7 +14,7 @@ def gen_loopback(
     gc: ComponentFactory,
     grating_separation: float = 127.0,
     gc_rotation: int = -90,
-    gc_port_name: str = "W0",
+    gc_port_name: str = 1,
     bend_radius_loopback: float = 10.0,
     bend_factory: ComponentFactory = gf.components.bend_euler,
     straight_factory: ComponentFactory = gf.components.straight,
@@ -92,11 +92,7 @@ def gen_loopback(
 def straight_with_loopback() -> gf.Component:
     c = gf.Component("straight_with_loopback")
     wg = c << gf.components.straight()
-    c.add(
-        gen_loopback(
-            wg.ports["W0"], wg.ports["E0"], gc=gf.components.grating_coupler_te
-        )
-    )
+    c.add(gen_loopback(wg.ports[1], wg.ports[2], gc=gf.components.grating_coupler_te))
     return c
 
 

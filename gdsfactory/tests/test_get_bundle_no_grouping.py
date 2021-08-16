@@ -22,11 +22,11 @@ def test_link_optical_ports_no_grouping(
 
     ports1 = [
         w.ports["E1"],
-        w.ports["E0"],
+        w.ports[2],
     ]
     ports2 = [
-        d.ports["W1"],
-        d.ports["W0"],
+        d.ports[2],
+        d.ports[1],
     ]
 
     routes = get_bundle_same_axis_no_grouping(ports1, ports2, sort_ports=True)

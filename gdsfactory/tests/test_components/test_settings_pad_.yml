@@ -1,6 +1,6 @@
 function_name: pad
 info: {}
-module: gdsfactory.components.electrical.pad
+module: gdsfactory.components.pad
 name: pad
 settings:
   height: null

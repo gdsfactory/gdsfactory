@@ -24,7 +24,7 @@ def ring_single(
     **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
-    connected with two vertical straights (wl: left, wr: right)
+    connected with two vertical straights (sl: left, sr: right)
     two bends (bl, br) and horizontal straight (wg: top)
 
     Args:
@@ -41,9 +41,9 @@ def ring_single(
 
     .. code::
 
-          bl-wt-br
+          bl-st-br
           |      |
-          wl     wr length_y
+          sl     sr length_y
           |      |
          --==cb==-- gap
 
@@ -51,6 +51,7 @@ def ring_single(
 
     """
     assert_on_2nm_grid(gap)
+    bend = bend or bend_euler
 
     coupler_ring_component = (
         coupler_ring(
@@ -71,7 +72,6 @@ def ring_single(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
-    bend = bend or bend_euler
     bend_ref = (
         bend(radius=radius, cross_section=cross_section, **kwargs)
         if callable(bend)
@@ -80,32 +80,32 @@ def ring_single(
 
     c = Component()
     cb = c << coupler_ring_component
-    wl = c << straight_side
-    wr = c << straight_side
+    sl = c << straight_side
+    sr = c << straight_side
     bl = c << bend_ref
     br = c << bend_ref
-    wt = c << straight_top
-    # wt.mirror(p1=(0, 0), p2=(1, 0))
+    st = c << straight_top
+    # st.mirror(p1=(0, 0), p2=(1, 0))
 
-    wl.connect(port="E0", destination=cb.ports["N0"])
-    bl.connect(port="N0", destination=wl.ports["W0"])
+    sl.connect(port=1, destination=cb.ports[2])
+    bl.connect(port=2, destination=sl.ports[2])
 
-    wt.connect(port="E0", destination=bl.ports["W0"])
-    br.connect(port="N0", destination=wt.ports["W0"])
-    wr.connect(port="W0", destination=br.ports["W0"])
-    wr.connect(port="E0", destination=cb.ports["N1"])  # just for netlist
+    st.connect(port=2, destination=bl.ports[1])
+    br.connect(port=2, destination=st.ports[1])
+    sr.connect(port=1, destination=br.ports[1])
+    sr.connect(port=2, destination=cb.ports[4])
 
-    c.add_port("E0", port=cb.ports["E0"])
-    c.add_port("W0", port=cb.ports["W0"])
+    c.add_port(2, port=cb.ports[4])
+    c.add_port(1, port=cb.ports[1])
     return c
 
 
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
 
-    c = ring_single(width=2, gap=1, layer=(2, 0))
+    c = ring_single(width=2, gap=1, layer=(2, 0), radius=7)
     print(c.ports)
-    c.show()
+    c.show(show_subports=False)
 
     # cc = gf.add_pins(c)
     # print(c.settings)

@@ -4,7 +4,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Layer
+from gdsfactory.types import ComponentOrFactory, Layer, PortName
 
 
 @cell
@@ -14,7 +14,7 @@ def pad(
     layer: Layer = LAYER.M3,
     layer_to_inclusion: Optional[Dict[Layer, float]] = None,
 ) -> Component:
-    """rectangular pad with 4 ports (N, S, E, W)
+    """Rectangular pad with 4 ports (1, 2, 3, 4)
 
     Args:
         width: pad width
@@ -26,10 +26,10 @@ def pad(
     height = height or width
     layer_to_inclusion = layer_to_inclusion or {}
     c = Component()
-    c_ref = compass(size=(width, height), layer=layer).ref()
-    c.add(c_ref)
+    rect = compass(size=(width, height), layer=layer)
+    c_ref = c.add_ref(rect)
+    c.add_ports(c_ref.ports)
     c.absorb(c_ref)
-    c.ports = c_ref.ports
 
     for layer, inclusion in layer_to_inclusion.items():
         c.add_ref(
@@ -44,10 +44,9 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_list: Tuple[str, ...] = ("N",),
+    port_names: Tuple[PortName, ...] = (2,),
     pad_settings: Optional[Dict[str, Any]] = None,
     axis: str = "x",
-    **port_settings,
 ) -> Component:
     """Returns 1D array of rectangular pads
 
@@ -55,14 +54,14 @@ def pad_array(
         pad: pad element
         pitch: x spacing
         n: number of pads
-        port_list: list of port orientations (N, S, W, E) per pad
+        port_names: list of port names (1, 2, 3, 4) per pad
         pad_settings: settings for pad if pad is callable
-        **port_settings
+        axis: x or y
     """
     c = Component()
     pad_settings = pad_settings or {}
     pad = pad(**pad_settings) if callable(pad) else pad
-    port_list = list(port_list)
+    port_names = list(port_names)
 
     for i in range(n):
         p = c << pad
@@ -72,9 +71,9 @@ def pad_array(
             p.y = i * pitch
         else:
             raise ValueError(f"Invalid axis {axis} not in (x, y)")
-        for port_name in port_list:
-            port_name_new = f"{port_name}{i}"
-            c.add_port(port=p.ports[port_name], name=port_name_new, **port_settings)
+        for port_name in port_names:
+            port_name_new = f"{port_name}_{i}"
+            c.add_port(name=port_name_new, port=p.ports[port_name], port_type="dc")
 
     return c
 
@@ -86,9 +85,8 @@ def pad_array_2d(
     pitch_y: float = 150.0,
     cols: int = 3,
     rows: int = 3,
-    port_list: Tuple[str, ...] = ("N",),
-    pad_settings: Optional[Dict[str, Any]] = None,
-    **port_settings,
+    port_names: Tuple[PortName, ...] = ("DC_2",),
+    **kwargs,
 ) -> Component:
     """Returns 2D array of rectangular pads
 
@@ -98,34 +96,33 @@ def pad_array_2d(
         pitch_y: vertical y spacing
         cols: number of cols
         rows: number of rows
-        port_list: list of port orientations (N, S, W, E) per pad
-        pad_settings: settings for pad if pad is callable
-        **port_settings
+        port_names: list of port names (N, S, W, E) per pad
+        **kwargs: settings for pad if pad is callable
     """
     c = Component()
-    pad_settings = pad_settings or {}
-    pad = pad(**pad_settings) if callable(pad) else pad
-    port_list = list(port_list)
+    pad = pad(**kwargs) if callable(pad) else pad
+    port_names = list(port_names)
 
     for j in range(rows):
         for i in range(cols):
             p = c << pad
             p.x = i * pitch_x
             p.y = j * pitch_y
-            for port_name in port_list:
+            for port_name in port_names:
                 port_name_new = f"{port_name}_{j}_{i}"
-                c.add_port(port=p.ports[port_name], name=port_name_new, **port_settings)
+                c.add_port(port=p.ports[port_name], name=port_name_new, port_type="dc")
 
     return c
 
 
 if __name__ == "__main__":
+    # c = pad()
 
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    c = pad_array(port_list=["E"])
-    # c = pad_array_2d(cols=2, rows=3, port_list=("E",), pad_settings=dict(width=80))
+    # c = pad_array(port_names=[1])
+    c = pad_array_2d(cols=2, rows=3, port_names=("DC_1",))
     c.show()

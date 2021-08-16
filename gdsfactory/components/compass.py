@@ -32,6 +32,7 @@ def compass(
     c.add_port(name="E", midpoint=[dx / 2, 0], width=dy, orientation=0, layer=layer)
     c.add_port(name="W", midpoint=[-dx / 2, 0], width=dy, orientation=180, layer=layer)
 
+    c.auto_rename_ports()
     return c
 
 

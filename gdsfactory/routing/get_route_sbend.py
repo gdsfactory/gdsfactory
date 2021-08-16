@@ -19,7 +19,7 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     length = port2.midpoint[0] - port1.midpoint[0]
     bend = bend_s(height=height, length=length, **kwargs)
     bend_ref = bend.ref()
-    bend_ref.connect("W0", port1)
+    bend_ref.connect(1, port1)
     return Route(
         references=[bend_ref], length=bend.info["length"], ports=(port1, port2)
     )

@@ -29,8 +29,8 @@ def straight_array(
     for i in range(n):
         wref = c.add_ref(wg)
         wref.y += i * (spacing + wg.width)
-        c.ports["E" + str(i)] = wref.ports["E0"]
-        c.ports["W" + str(i)] = wref.ports["W0"]
+        c.ports["E" + str(i)] = wref.ports[2]
+        c.ports["W" + str(i)] = wref.ports[1]
     auto_rename_ports(c)
     return c
 

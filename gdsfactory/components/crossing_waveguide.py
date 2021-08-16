@@ -1,3 +1,5 @@
+from typing import Optional
+
 import gdspy
 import numpy as np
 import scipy.optimize as so
@@ -53,12 +55,10 @@ def crossing_arm(
 
     c.add_polygon(taper_pts, layer=LAYER.WG)
     c.add_port(
-        name="W0", midpoint=(-a, 0), orientation=180, width=wg_width, layer=LAYER.WG
+        name=1, midpoint=(-a, 0), orientation=180, width=wg_width, layer=LAYER.WG
     )
 
-    c.add_port(
-        name="E0", midpoint=(a, 0), orientation=0, width=wg_width, layer=LAYER.WG
-    )
+    c.add_port(name=2, midpoint=(a, 0), orientation=0, width=wg_width, layer=LAYER.WG)
 
     return c
 
@@ -76,9 +76,9 @@ def crossing(arm: ComponentFactory = crossing_arm) -> Component:
         cx.add(c)
         cx.absorb(c)
         for p in c.ports.values():
-            cx.add_port(name="{}".format(port_id), port=p)
+            cx.add_port(name=port_id, port=p)
             port_id += 1
-    cx = gf.port.rename_ports_by_orientation(cx)
+    cx.auto_rename_ports()
     return cx
 
 
@@ -93,7 +93,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     for i, a in enumerate([0, 90, 180, 270]):
         _taper = taper.ref(position=(0, 0), port_id="2", rotation=a)
         c.add(_taper)
-        c.add_port(name="{}".format(i), port=_taper.ports["1"])
+        c.add_port(name=i, port=_taper.ports["1"])
         c.absorb(_taper)
 
     c = gf.port.rename_ports_by_orientation(c)
@@ -113,7 +113,8 @@ def crossing_etched(
     """
     Waveguide crossing:
     - The full crossing has to be on WG layer (to start with a 220nm slab)
-    - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm. What we write is what we etch on this step
+    - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
+    What we write is what we etch on this step
     """
 
     # Draw the ellipses
@@ -158,7 +159,7 @@ def crossing_etched(
     i = 0
     for p, angle in zip(positions, angles):
         c.add_port(
-            name="tmp{}".format(i),
+            name=i,
             midpoint=p,
             orientation=angle,
             width=wg_width,
@@ -166,7 +167,7 @@ def crossing_etched(
         )
         i += 1
 
-    c = gf.port.rename_ports_by_orientation(c)
+    c.auto_rename_ports()
     return c
 
 
@@ -174,7 +175,7 @@ def crossing_etched(
 def crossing45(
     crossing: ComponentFactory = crossing,
     port_spacing: float = 40.0,
-    dx: None = None,
+    dx: Optional[float] = None,
     alpha: float = 0.08,
     npoints: int = 101,
 ) -> Component:
@@ -210,15 +211,14 @@ def crossing45(
     c.add(_crossing)
 
     # Add bends
-    p_e = _crossing.ports["E0"].midpoint
-    p_w = _crossing.ports["W0"].midpoint
-    p_n = _crossing.ports["N0"].midpoint
-    p_s = _crossing.ports["S0"].midpoint
+    p_e = _crossing.ports[3].midpoint
+    p_w = _crossing.ports[1].midpoint
+    p_n = _crossing.ports[2].midpoint
+    p_s = _crossing.ports[4].midpoint
 
     # Flatten the crossing - not an SRef anymore
     c.absorb(_crossing)
-    if dx is None:
-        dx = port_spacing
+    dx = dx or port_spacing
     dy = port_spacing / 2
 
     start_angle = 45
@@ -243,13 +243,10 @@ def crossing45(
     assert abs(bend.info["start_angle"] - start_angle) < tol, bend.info["start_angle"]
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
-    # print(abs(bend.info["start_angle"] - start_angle))
-    # print(abs(bend.info["end_angle"] - end_angle))
-
-    b_tr = bend.ref(position=p_e, port_id="0")
-    b_tl = bend.ref(position=p_n, port_id="0", h_mirror=True)
-    b_bl = bend.ref(position=p_w, port_id="0", rotation=180)
-    b_br = bend.ref(position=p_s, port_id="0", v_mirror=True)
+    b_tr = bend.ref(position=p_e, port_id=1)
+    b_tl = bend.ref(position=p_n, port_id=1, h_mirror=True)
+    b_bl = bend.ref(position=p_w, port_id=1, rotation=180)
+    b_br = bend.ref(position=p_s, port_id=1, v_mirror=True)
 
     for cmp_ref in [b_tr, b_br, b_tl, b_bl]:
         # cmp_ref = _cmp.ref()
@@ -257,14 +254,14 @@ def crossing45(
         c.absorb(cmp_ref)
 
     c.info["components"] = {"bezier_bend": bend, "crossing": crossing}
-
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
-    # print (b_tr.info["min_bend_radius"])
-    c.add_port("E0", port=b_br.ports["1"])
-    c.add_port("E1", port=b_tr.ports["1"])
-    c.add_port("W0", port=b_bl.ports["1"])
-    c.add_port("W1", port=b_tl.ports["1"])
+
+    c.add_port(1, port=b_br.ports[2])
+    c.add_port(2, port=b_tr.ports[2])
+    c.add_port(3, port=b_bl.ports[2])
+    c.add_port(4, port=b_tl.ports[2])
     c.snap_ports_to_grid()
+    c.auto_rename_ports()
     return c
 
 
@@ -316,7 +313,7 @@ def compensation_path(
     target_bend_length = length / 2
 
     def get_x_span(cmp):
-        return cmp.ports["E0"].x - cmp.ports["W0"].x
+        return cmp.ports[2].x - cmp.ports[1].x
 
     x_span_crossing45 = get_x_span(crossing45)
     x_span_crossing = get_x_span(X45_cmps["crossing"])
@@ -358,18 +355,16 @@ def compensation_path(
     crossing0 = X45_cmps["crossing"].ref()
     component.add(crossing0)
 
-    sbend_left = sbend.ref(
-        position=crossing0.ports["W0"], port_id="1", v_mirror=v_mirror
-    )
+    sbend_left = sbend.ref(position=crossing0.ports[1], port_id=2, v_mirror=v_mirror)
     sbend_right = sbend.ref(
-        position=crossing0.ports["E0"], port_id="1", h_mirror=True, v_mirror=v_mirror
+        position=crossing0.ports[2], port_id=2, h_mirror=True, v_mirror=v_mirror
     )
 
     component.add(sbend_left)
     component.add(sbend_right)
 
-    component.add_port("W0", port=sbend_left.ports["0"])
-    component.add_port("E0", port=sbend_right.ports["0"])
+    component.add_port(1, port=sbend_left.ports[1])
+    component.add_port(2, port=sbend_right.ports[2])
 
     component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     component.info["components"] = {"sbend": sbend}
@@ -386,8 +381,8 @@ def demo():
     print(c2.info["min_bend_radius"])
 
     component = gf.Component(name="top_lvl")
-    component.add(c.ref(port_id="W0"))
-    component.add(c2.ref(port_id="W0", position=(0, 10)))
+    component.add(c.ref(port_id=1))
+    component.add(c2.ref(port_id=1, position=(0, 10)))
 
     bend_info1 = c.info["components"]["bezier_bend"].info
     bend_info2 = c2.info["components"]["sbend"].info
@@ -403,14 +398,14 @@ def demo():
 
 
 if __name__ == "__main__":
-    c = compensation_path()
-    c.pprint()
-    c.show()
-    # c = crossing()
-    # c = crossing45(port_spacing=15)
-    # print(c.ports["E1"].y - c.ports["E0"].y)
+    # c = compensation_path()
+    # c.pprint()
     # c.show()
+    # c = crossing()
+    c = crossing45(port_spacing=15)
+    # print(c.ports["E1"].y - c.ports[2].y)
     # print(c.get_ports_array())
     # demo()
     # c = crossing_etched()
     # c = crossing_from_taper()
+    c.show()

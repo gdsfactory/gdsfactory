@@ -46,7 +46,7 @@ def free_propagation_region(
 
     if inputs == 1:
         c.add_port(
-            "W0",
+            1,
             midpoint=(0, 0),
             width=wg_width,
             orientation=180,
@@ -144,7 +144,7 @@ def awg(
         c.add(route.references)
         c.lengths.append(route.length)
 
-    c.add_port("W0", port=fpr_in_ref.ports["W0"])
+    c.add_port(1, port=fpr_in_ref.ports[1])
 
     for i, port in enumerate(fpr_out_ref.get_ports_list(prefix="W")):
         c.add_port(f"E{i}", port=port)

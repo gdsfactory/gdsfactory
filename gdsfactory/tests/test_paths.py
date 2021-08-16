@@ -128,8 +128,8 @@ def transition():
     wg2_ref = c << wg2
     wgt_ref = c << wg_trans
 
-    wgt_ref.connect("W0", wg1_ref.ports["E0"])
-    wg2_ref.connect("W0", wgt_ref.ports["E0"])
+    wgt_ref.connect(1, wg1_ref.ports[2])
+    wg2_ref.connect(1, wgt_ref.ports[2])
     return c
 
 
@@ -167,8 +167,8 @@ def test_layers1():
     X = gf.CrossSection()
     X.add(width=0.5, offset=0, layer=gf.LAYER.SLAB90, ports=["in", "out"])
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports["W0"].layer == gf.LAYER.SLAB90
-    assert c.ports["E0"].position[0] == 10.001, c.ports["E0"].position[0]
+    assert c.ports[1].layer == gf.LAYER.SLAB90
+    assert c.ports[2].position[0] == 10.001, c.ports[2].position[0]
     return c
 
 
@@ -176,8 +176,8 @@ def test_layers2():
     P = gf.path.straight(length=10.001)
     X = gf.cross_section.strip(snap_to_grid=5e-3)
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports["W0"].layer == (1, 0)
-    assert c.ports["E0"].position[0] == 10.0, c.ports["E0"].position[0]
+    assert c.ports[1].layer == (1, 0)
+    assert c.ports[2].position[0] == 10.0, c.ports[2].position[0]
     return c
 
 

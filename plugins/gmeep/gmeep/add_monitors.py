@@ -114,7 +114,7 @@ def add_monitors_and_extend_ports(
 @cell
 def add_monitors(
     component: Component,
-    source_port_name: str = "W0",
+    source_port_name: str = 1,
     extension_length: float = 1.0,
     source_distance_to_monitors: float = 0.2,
     port_margin: float = 1.0,

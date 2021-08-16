@@ -19,7 +19,7 @@ if __name__ == "__main__":
     wg2 = c << gf.components.straight(length=10, width=2, layer=gf.LAYER.SLAB90)
     wg3 = c << gf.components.straight(length=10, width=3, layer=gf.LAYER.SLAB150)
 
-    wg2.connect(port="W0", destination=wg1.ports["E0"])
-    wg3.connect(port="W0", destination=wg2.ports["E0"], overlap=1)
+    wg2.connect(port=1, destination=wg1.ports[2])
+    wg3.connect(port=1, destination=wg2.ports[2], overlap=1)
 
     c.show()  # show it in klayout
