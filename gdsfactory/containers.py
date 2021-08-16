@@ -1,7 +1,5 @@
 from gdsfactory.add_grating_couplers import add_grating_couplers
 from gdsfactory.add_padding import add_padding_container
-from gdsfactory.add_pins import add_pins_container
-from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_termination import add_gratings_and_loopback, add_termination
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.extension import extend_ports
@@ -25,8 +23,6 @@ COMPONENT_FACTORY.register(
         add_grating_couplers,
         add_gratings_and_loopback,
         add_padding_container,
-        add_pins_container,
-        add_tapers,
         add_termination,
         cavity,
         extend_ports,

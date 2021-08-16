@@ -486,51 +486,24 @@ class ComponentReference(DeviceReference):
 
         return self.ref_cell.get_property(property)
 
-    def get_ports_list(
-        self,
-        port_type: Optional[str] = None,
-        layer: Optional[Tuple[int, int]] = None,
-        prefix: Optional[str] = None,
-        orientation: Optional[int] = None,
-    ) -> List[Port]:
+    def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns a list of ports.
 
         Args:
-            port_type: 'optical', 'vertical_te', 'rf'
             layer: port GDS layer
-            prefix: for example "E" for east, "W" for west ...
+            prefix:
+            orientation:
         """
-        return list(
-            select_ports(
-                self.ports,
-                port_type=port_type,
-                layer=layer,
-                prefix=prefix,
-                orientation=orientation,
-            ).values()
-        )
+        return list(select_ports(self.ports, **kwargs).values())
 
-    def get_ports_dict(
-        self,
-        port_type: Optional[str] = None,
-        layer: Optional[Tuple[int, int]] = None,
-        prefix: Optional[str] = None,
-        orientation: Optional[int] = None,
-    ) -> List[Port]:
+    def get_ports_dict(self, **kwargs) -> List[Port]:
         """Returns a list of ports.
 
         Args:
-            port_type: 'optical', 'vertical_te', 'rf'
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
         """
-        return select_ports(
-            self.ports,
-            port_type=port_type,
-            layer=layer,
-            prefix=prefix,
-            orientation=orientation,
-        )
+        return select_ports(self.ports, **kwargs)
 
     def get_settings(self, **kwargs) -> Dict[str, Any]:
         """Returns settings from the Comonent."""
@@ -670,52 +643,24 @@ class Component(Device):
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
 
-    def get_ports_dict(
-        self,
-        port_type: Optional[str] = None,
-        layer: Optional[Tuple[int, int]] = None,
-        prefix: Optional[str] = None,
-        orientation: Optional[float] = None,
-    ) -> Dict[str, Port]:
+    def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
         """Returns a dict of ports.
 
         Args:
-            port_type: 'optical', 'vertical_te', 'rf'
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
         """
-        return select_ports(
-            self.ports,
-            port_type=port_type,
-            layer=layer,
-            prefix=prefix,
-            orientation=orientation,
-        )
+        return select_ports(self.ports, **kwargs)
 
-    def get_ports_list(
-        self,
-        port_type: Optional[str] = None,
-        layer: Optional[Tuple[int, int]] = None,
-        prefix: Optional[str] = None,
-        orientation: Optional[float] = None,
-    ) -> List[Port]:
+    def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns a list of ports.
 
         Args:
-            port_type: 'optical', 'vertical_te', 'rf'
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
             orientation: angle in degrees for the port
         """
-        return list(
-            select_ports(
-                self.ports,
-                port_type=port_type,
-                layer=layer,
-                prefix=prefix,
-                orientation=orientation,
-            ).values()
-        )
+        return list(select_ports(self.ports, **kwargs).values())
 
     def get_ports_array(self) -> Dict[str, ndarray]:
         """returns ports as a dict of np arrays"""
@@ -879,14 +824,11 @@ class Component(Device):
         orientation: int = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
-        port_type: Optional[str] = None,
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
         Can also be called to copy an existing port
         with a new name add_port(port = existing_port, name = new_name)"""
-        # if port_type not in valid_port_types:
-        #     raise ValueError(f"Invalid port_type={port_type} not in {valid_port_types}")
 
         if port:
             if not isinstance(port, Port):
@@ -895,8 +837,6 @@ class Component(Device):
             if name is not None:
                 p.name = name
             p.parent = self
-            if port_type is not None:
-                p.port_type = port_type
 
         elif isinstance(name, Port):
             p = name._copy(new_uid=True)
@@ -919,7 +859,6 @@ class Component(Device):
                 orientation=orientation,
                 parent=self,
                 layer=layer,
-                port_type=port_type,
             )
         if name is not None:
             p.name = name
@@ -1071,21 +1010,21 @@ class Component(Device):
 
     def plot(
         self,
-        clears_cache: bool = True,
+        clear_cache: bool = True,
     ) -> None:
         """Plot component in matplotlib"""
         from phidl import quickplot as plot
 
-        from gdsfactory.cell import clear_cache
+        from gdsfactory.cell import clear_cache as clear_cache_function
 
         plot(self)
-        if clears_cache:
-            clear_cache()
+        if clear_cache:
+            clear_cache_function()
 
     def show(
         self,
         show_ports: bool = True,
-        clears_cache: bool = True,
+        clear_cache: bool = True,
         show_subports: bool = False,
     ) -> None:
         """Show component in klayout"""
@@ -1098,7 +1037,7 @@ class Component(Device):
         if show_subports:
             add_pins_to_references(self)
 
-        show(self, clears_cache=clears_cache)
+        show(self, clear_cache=clear_cache)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2

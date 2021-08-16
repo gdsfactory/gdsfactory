@@ -39,9 +39,6 @@ from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.tech import PORT_LAYER_TO_TYPE
-
-valid_port_types = ["optical", "rf", "dc", "heater", "vertical_te", "vertical_tm"]
 
 
 class PortNotOnGridError(ValueError):
@@ -58,16 +55,15 @@ class PortOrientationError(ValueError):
 
 class Port(PortPhidl):
     """Ports are useful to connect Components with each other.
-    Extends phidl port with layer and port_type (optical, dc, rf)
+    Extends phidl port with layer
 
     Args:
-        name: we name ports according to orientation (S0, S1, W0, W1, N0 ...)
+        name: we name ports according to orientation starting from bottom, left
         midpoint: (0, 0)
         width: of the port
         orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
-        port_type: optical, dc, rf, detector, trench
 
     """
 
@@ -80,8 +76,7 @@ class Port(PortPhidl):
         width: float = 0.5,
         orientation: int = 0,
         parent: Optional[object] = None,
-        layer: Tuple[int, int] = (1, 0),
-        port_type: Optional[str] = None,
+        layer: Optional[Tuple[int, int]] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -91,24 +86,13 @@ class Port(PortPhidl):
         self.info = {}
         self.uid = Port._next_uid
         self.layer = layer
-        self.port_type = port_type
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
         Port._next_uid += 1
 
     def __repr__(self) -> str:
-        return (
-            "Port (name {}, midpoint {}, width {}, orientation {}, layer {},"
-            " port_type {})".format(
-                self.name,
-                self.midpoint,
-                self.width,
-                self.orientation,
-                self.layer,
-                self.port_type,
-            )
-        )
+        return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer})"
 
     @classmethod
     def __get_validators__(cls):
@@ -132,7 +116,6 @@ class Port(PortPhidl):
             width=self.width,
             orientation=self.orientation,
             layer=self.layer,
-            port_type=self.port_type,
         )
 
     @property
@@ -176,7 +159,6 @@ class Port(PortPhidl):
             orientation=self.orientation,
             parent=self.parent,
             layer=self.layer,
-            port_type=self.port_type,
         )
         new_port.info = deepcopy(self.info)
         if not new_uid:
@@ -279,21 +261,16 @@ def csv2port(csvpath) -> Dict[str, Port]:
     return ports
 
 
-def is_electrical_port(port: Port) -> bool:
-    return port.port_type in ["dc", "rf"]
-
-
 def select_ports(
     ports: Dict[str, Port],
-    port_type: Optional[str] = None,
     layer: Optional[Tuple[int, int]] = None,
     prefix: Optional[str] = None,
     orientation: Optional[int] = None,
+    layers_excluded: Tuple[Tuple[int, int], ...] = None,
 ) -> Dict[str, Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
-        port_type: a port type string
         layer: GDS layer
         prefix: a prefix
 
@@ -308,55 +285,32 @@ def select_ports(
     if isinstance(ports, Component) or isinstance(ports, ComponentReference):
         ports = ports.ports
 
-    if port_type:
-        if port_type not in valid_port_types:
-            raise PortTypeError(
-                f"Invalid port_type={port_type} not in {valid_port_types}"
-            )
-        ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
-
     if layer:
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {
-            p_name: p
-            for p_name, p in ports.items()
-            if isinstance(p_name, str) and p_name.startswith(prefix)
+            p_name: p for p_name, p in ports.items() if str(p_name).startswith(prefix)
         }
     if orientation is not None:
         ports = {
             p_name: p for p_name, p in ports.items() if p.orientation == orientation
         }
 
+    if layers_excluded:
+        ports = {
+            p_name: p for p_name, p in ports.items() if p.layer not in layers_excluded
+        }
+
     return ports
+
+
+select_optical_ports = functools.partial(
+    select_ports, layers_excluded=((41, 0), (45, 0), (49, 0))
+)
 
 
 def select_ports_list(**kwargs) -> List[Port]:
     return list(select_ports(**kwargs).values())
-
-
-def select_optical_ports(
-    ports: Dict[str, Port],
-    port_type: str = "optical",
-    prefix: Optional[str] = None,
-    layer: Optional[Tuple[int, int]] = None,
-    orientation: Optional[int] = None,
-) -> Dict[str, Port]:
-    return select_ports(
-        ports, port_type=port_type, prefix=prefix, layer=layer, orientation=orientation
-    )
-
-
-def select_electrical_ports(
-    ports: Dict[str, Port],
-    port_type: str = "dc",
-    prefix: Optional[str] = None,
-    layer: Optional[Tuple[int, int]] = None,
-    orientation: Optional[int] = None,
-) -> Dict[str, Port]:
-    return select_ports(
-        ports, port_type=port_type, prefix=prefix, layer=layer, orientation=orientation
-    )
 
 
 def flipped(port: Port) -> Port:
@@ -400,17 +354,6 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     return direction_ports[direction]
 
 
-def get_non_optical_ports(ports) -> List[Port]:
-    from gdsfactory.component import Component, ComponentReference
-
-    if isinstance(ports, dict):
-        ports = list(ports.values())
-    elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
-        ports = list(ports.ports.values())
-    res = [p for p in ports if p.port_type not in ["optical"]]
-    return res
-
-
 def deco_rename_ports(component_factory: Callable) -> Callable:
     @functools.wraps(component_factory)
     def auto_named_component_factory(*args, **kwargs):
@@ -441,9 +384,49 @@ def _rename_ports_facing_side(
             p.name = lbl
 
 
+def _rename_ports_counter_clockwise(_direction_ports, prefix=""):
+    east_ports = _direction_ports["E"]
+    east_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+    north_ports = _direction_ports["N"]
+    north_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+    west_ports = _direction_ports["W"]
+    west_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+    south_ports = _direction_ports["S"]
+    south_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+    ports = east_ports + north_ports + west_ports + south_ports
+
+    for i, p in enumerate(ports):
+        p.name = f"{prefix}{i+1}"
+
+
+def _rename_ports_clockwise(_direction_ports, prefix: str = ""):
+    east_ports = _direction_ports["E"]
+    east_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+    north_ports = _direction_ports["N"]
+    north_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+    west_ports = _direction_ports["W"]
+    west_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+    south_ports = _direction_ports["S"]
+    south_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+    ports = west_ports + north_ports + east_ports + south_ports
+
+    for i, p in enumerate(ports):
+        p.name = f"{prefix}{i+1}" if prefix else i + 1
+
+
 def rename_ports_by_orientation(
-    component: Device, layers_excluded: Iterable[Tuple[int, int]] = None
-) -> Device:
+    component: Device,
+    layers_excluded: Tuple[Tuple[int, int], ...] = None,
+    function=_rename_ports_facing_side,
+) -> None:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::
@@ -478,108 +461,13 @@ def rename_ports_by_orientation(
         else:
             direction_ports["S"].append(p)
 
-    _rename_ports_facing_side(direction_ports)
+    function(direction_ports)
     component.ports = {p.name: p for p in component.ports.values()}
-    return component
 
 
-def auto_rename_ports(
-    component: Device, port_layer_to_type=PORT_LAYER_TO_TYPE
-) -> Device:
-    """Returns Component with port names based on port orientation (E, N, W, S)
-
-    .. code::
-
-             N0  N1
-             |___|_
-        W1 -|      |- E1
-            |      |
-        W0 -|______|- E0
-             |   |
-            S0   S1
-
-    """
-
-    def _counter_clockwise(_direction_ports, prefix=""):
-        east_ports = _direction_ports["E"]
-        east_ports.sort(key=lambda p: +p.y)  # sort south to north
-
-        north_ports = _direction_ports["N"]
-        north_ports.sort(key=lambda p: -p.x)  # sort east to west
-
-        west_ports = _direction_ports["W"]
-        west_ports.sort(key=lambda p: -p.y)  # sort north to south
-
-        south_ports = _direction_ports["S"]
-        south_ports.sort(key=lambda p: +p.x)  # sort west to east
-
-        ports = east_ports + north_ports + west_ports + south_ports
-
-        for i, p in enumerate(ports):
-            p.name = f"{prefix}{i+1}"
-
-    def _clockwise(_direction_ports, prefix: str = ""):
-        east_ports = _direction_ports["E"]
-        east_ports.sort(key=lambda p: -p.y)  # sort north to south
-
-        north_ports = _direction_ports["N"]
-        north_ports.sort(key=lambda p: +p.x)  # sort west to east
-
-        west_ports = _direction_ports["W"]
-        west_ports.sort(key=lambda p: +p.y)  # sort south to north
-
-        south_ports = _direction_ports["S"]
-        south_ports.sort(key=lambda p: -p.x)  # sort east to west
-
-        ports = west_ports + north_ports + east_ports + south_ports
-
-        for i, p in enumerate(ports):
-            p.name = f"{prefix}{i+1}" if prefix else i + 1
-
-    type_to_ports_naming_functions = {
-        "optical": lambda _d: _clockwise(_d),
-        "heater": lambda _d: _clockwise(_d, "H_"),
-        "dc": lambda _d: _clockwise(_d, "DC_"),
-        "superconducting": lambda _d: _clockwise(_d, "SC_"),
-        "vertical_te": lambda _d: _clockwise(_d, "vertical_te_"),
-        "vertical_tm": lambda _d: _clockwise(_d, "vertical_tm_"),
-    }
-
-    type_to_ports = {}
-
-    for p in component.ports.values():
-        p.port_type = p.port_type or port_layer_to_type[p.layer]
-        if p.port_type not in type_to_ports:
-            type_to_ports[p.port_type] = []
-        type_to_ports[p.port_type] += [p]
-
-    for port_type, port_group in type_to_ports.items():
-        if port_type in type_to_ports_naming_functions:
-            _func_name_ports = type_to_ports_naming_functions[port_type]
-        else:
-            raise PortTypeError(
-                f"Invalid port_type='{port_type}' in component {component.name}, port {p.name}",
-                f"valid types = {list(type_to_ports_naming_functions.keys())}",
-            )
-
-        direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
-        for p in port_group:
-            p.parent = component
-            angle = p.orientation % 360
-            if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
-            elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
-            elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
-            else:
-                direction_ports["S"].append(p)
-
-        _func_name_ports(direction_ports)
-
-    # Set the port dictionnary with the new names
-    component.ports = {p.name: p for p in component.ports.values()}
-    return component
+auto_rename_ports = functools.partial(
+    rename_ports_by_orientation, function=_rename_ports_counter_clockwise
+)
 
 
 __all__ = [
@@ -587,15 +475,11 @@ __all__ = [
     "port_array",
     "read_port_markers",
     "csv2port",
-    "is_electrical_port",
     "select_ports",
     "select_ports_list",
-    "select_optical_ports",
-    "select_electrical_ports",
     "flipped",
     "move_copy",
     "get_ports_facing",
-    "get_non_optical_ports",
     "deco_rename_ports",
     "rename_ports_by_orientation",
     "auto_rename_ports",

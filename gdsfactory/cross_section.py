@@ -327,4 +327,5 @@ if __name__ == "__main__":
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
+    c.pprint_ports()
     c.show()
