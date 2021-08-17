@@ -11,7 +11,6 @@ def bend_port(
     bend: ComponentFactory = bend_circular,
     angle: int = 180,
     length: float = 1.0,
-    port_type: str = "dc",
     **kwargs
 ):
     """
@@ -23,7 +22,6 @@ def bend_port(
         cross_section: for the bend
         angle: for the bend
         length: for the straight after the bend
-        port_type: for the new port
         **kwargs: cross_section settings
 
     """
@@ -44,7 +42,6 @@ def bend_port(
     ports.pop(port_name)
     c.add_ports(ports)
     c.add_port(2, port=s.ports[1])
-    c.ports[2].port_type = port_type
     gf.port.auto_rename_ports(c)
     return c
 

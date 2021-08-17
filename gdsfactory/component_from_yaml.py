@@ -47,7 +47,12 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import LIBRARY
 from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
+from gdsfactory.types import (
+    ComponentFactoryDict,
+    CrossSectionFactory,
+    Route,
+    parse_port_name,
+)
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -181,10 +186,13 @@ def place(
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
-                raise KeyError(
-                    f"Supplied port is neither a valid port on {ref.parent.name},",
-                    " nor is it a recognized anchor keyword. Valid ports: ",
-                    f"{list(ref.ports.keys())}. Valid keywords: {valid_anchor_point_keywords}",
+                raise ValueError(
+                    f"Port {port} is neither a valid port on {ref.parent.name}"
+                    " nor a recognized anchor keyword.\n"
+                    "Valid ports: \n"
+                    f"{list(ref.ports.keys())}. \n"
+                    "Valid keywords: \n"
+                    f"{valid_anchor_point_keywords}",
                 )
             ref.x -= a[0]
             ref.y -= a[1]
@@ -195,6 +203,7 @@ def place(
                         f"You can define x as `x: instaceName,portName` got `x: {x}`"
                     )
                 instance_name_ref, port_name = x.split(",")
+                port_name = parse_port_name(port_name)
                 if instance_name_ref in all_remaining_insts:
                     place(
                         placements_conf,
@@ -230,6 +239,7 @@ def place(
                         f"You can define y as `y: instaceName,portName` got `y: {y}`"
                     )
                 instance_name_ref, port_name = y.split(",")
+                port_name = parse_port_name(port_name)
                 if instance_name_ref in all_remaining_insts:
                     place(
                         placements_conf,
@@ -241,7 +251,7 @@ def place(
                     )
                 if instance_name_ref not in instances:
                     raise ValueError(
-                        f"instaceName = `{instance_name_ref}` not in {list(instances.keys())}, "
+                        f"{instance_name_ref} not in {list(instances.keys())}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
                 if (
@@ -249,7 +259,7 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"port = {port_name} not in {list(instances[instance_name_ref].ports.keys())} "
                         f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y}`"
                     )
@@ -335,6 +345,11 @@ def make_connection(
     port_src_name = port_src_name.strip()
     port_dst_name = port_dst_name.strip()
 
+    instance_src_name = parse_port_name(instance_src_name)
+    instance_dst_name = parse_port_name(instance_dst_name)
+    port_src_name = parse_port_name(port_src_name)
+    port_dst_name = parse_port_name(port_dst_name)
+
     assert (
         instance_src_name in instances
     ), f"{instance_src_name} not in {list(instances.keys())}"
@@ -381,11 +396,12 @@ placements:
 routes:
     route_name1:
         links:
-            mmi_short,E1: mmi_long,E0
+            mmi_short,2: mmi_long,1
 
 ports:
-    E0: mmi_short,W0
-    W0: mmi_long,W0
+    1: mmi_short,1
+    2: mmi_long,2
+    3: mmi_long,3
 """
 
 
@@ -449,20 +465,20 @@ def component_from_yaml(
 
         placements:
             mmi_top:
-                port: W0
+                port: 1
                 x: 0
                 y: 0
             mmi_bot:
-                port: W0
-                x: mmi_top,E1
-                y: mmi_top,E1
+                port: 1
+                x: mmi_top,2
+                y: mmi_top,2
                 dx: 30
                 dy: -30
         routes:
             optical:
                 library: optical
                 links:
-                    mmi_top,E0: mmi_bot,W0
+                    mmi_top,3: mmi_bot,1
 
     """
     yaml_str = (
@@ -589,40 +605,62 @@ def component_from_yaml(
                 # print(port_src_string)
 
                 if ":" in port_src_string:
-                    src, src0, src1 = [s.strip() for s in port_src_string.split(":")]
-                    dst, dst0, dst1 = [s.strip() for s in port_dst_string.split(":")]
-                    instance_src_name, port_src_name = [
-                        s.strip() for s in src.split(",")
-                    ]
-                    instance_dst_name, port_dst_name = [
-                        s.strip() for s in dst.split(",")
-                    ]
+                    srcs = [s.strip() for s in port_src_string.split(":")]
+                    dsts = [s.strip() for s in port_dst_string.split(":")]
 
-                    src0 = int(src0)
-                    src1 = int(src1)
-                    dst0 = int(dst0)
-                    dst1 = int(dst1)
-
-                    if src1 > src0:
-                        ports1names = [
-                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                    if len(srcs) == 3:
+                        src, src0, src1 = srcs
+                        dst, dst0, dst1 = dsts
+                        instance_src_name, port_src_name = [
+                            s.strip() for s in src.split(",")
                         ]
-                    else:
-                        ports1names = [
-                            f"{port_src_name}{i}" for i in range(src0, src1 - 1, -1)
+                        instance_dst_name, port_dst_name = [
+                            s.strip() for s in dst.split(",")
                         ]
 
-                    if dst1 > dst0:
-                        ports2names = [
-                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
-                        ]
-                    else:
-                        ports2names = [
-                            f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
-                        ]
+                        src0 = int(src0)
+                        src1 = int(src1)
+                        dst0 = int(dst0)
+                        dst1 = int(dst1)
 
-                    # print(ports1names)
-                    # print(ports2names)
+                        if src1 > src0:
+                            ports1names = [
+                                f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                            ]
+                        else:
+                            ports1names = [
+                                f"{port_src_name}{i}" for i in range(src0, src1 - 1, -1)
+                            ]
+
+                        if dst1 > dst0:
+                            ports2names = [
+                                f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                            ]
+                        else:
+                            ports2names = [
+                                f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
+                            ]
+
+                    elif len(srcs) == 2:
+                        src, src1 = srcs
+                        dst, dst1 = dsts
+                        instance_src_name, src0 = [s.strip() for s in src.split(",")]
+                        instance_dst_name, dst0 = [s.strip() for s in dst.split(",")]
+
+                        src0 = int(src0)
+                        src1 = int(src1)
+                        dst0 = int(dst0)
+                        dst1 = int(dst1)
+
+                        if src1 > src0:
+                            ports1names = range(src0, src1 + 1, 1)
+                        else:
+                            ports1names = range(src0, src1 - 1, -1)
+
+                        if dst1 > dst0:
+                            ports2names = range(dst0, dst1 + 1, 1)
+                        else:
+                            ports2names = range(dst0, dst1 - 1, -1)
 
                     assert len(ports1names) == len(ports2names)
                     route_names += [
@@ -659,6 +697,10 @@ def component_from_yaml(
                     instance_dst_name = instance_dst_name.strip()
                     port_src_name = port_src_name.strip()
                     port_dst_name = port_dst_name.strip()
+
+                    port_src_name = parse_port_name(port_src_name)
+                    port_dst_name = parse_port_name(port_dst_name)
+
                     assert (
                         instance_src_name in instances
                     ), f"{instance_src_name} not in {list(instances.keys())}"
@@ -707,6 +749,7 @@ def component_from_yaml(
             instance_name, instance_port_name = instance_comma_port.split(",")
             instance_name = instance_name.strip()
             instance_port_name = instance_port_name.strip()
+            instance_port_name = parse_port_name(instance_port_name)
             assert (
                 instance_name in instances
             ), f"{instance_name} not in {list(instances.keys())}"
@@ -722,8 +765,6 @@ def component_from_yaml(
 
 
 if __name__ == "__main__":
-    # from gdsfactory.tests.test_component_from_yaml import sample_waypoints
-    from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
 
     # c = component_from_yaml(sample_mmis)
     # print(c.get_settings()["info"])
@@ -743,7 +784,8 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_different_link_factory)
     # c = test_mirror()
     # c = component_from_yaml(sample_waypoints)
-    c = component_from_yaml(sample_2x2_connections)
+    # c = component_from_yaml(sample_2x2_connections)
+    c = component_from_yaml(sample_mmis)
     c.show()
 
     # c = component_from_yaml(sample_connections)

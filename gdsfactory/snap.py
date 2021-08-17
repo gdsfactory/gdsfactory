@@ -16,8 +16,8 @@ def assert_on_2nm_grid(x: float) -> None:
 
 
 def snap_to_grid(
-    x: Union[float, Tuple[float, float], np.array], nm: int = 1
-) -> Union[float, np.array, Tuple[float, float]]:
+    x: Union[float, Tuple[float, ...], np.array], nm: int = 1
+) -> Union[float, np.array, Tuple[float, ...]]:
     y = nm * np.round(np.array(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(x, tuple):
         return tuple(y)

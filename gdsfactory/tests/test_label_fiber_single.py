@@ -10,49 +10,41 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     c = gf.components.straight(length=length)
 
     assert len(c.labels) == 0
-
     cte = gf.routing.add_fiber_single(component=c, with_loopback=False)
+
     assert len(cte.labels) == 2
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    print(l0)
-    print(l1)
-    assert l0 == f"opt_te_1530_({cell_name})_0_W0"
-    assert l1 == f"opt_te_1530_({cell_name})_0_E0"
+    assert l0 == f"opt_te_1530_({cell_name})_0_1", l0
+    assert l1 == f"opt_te_1530_({cell_name})_0_2", l1
 
-    return c
+    return cte
 
 
 def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
     c = gf.components.straight(length=length)
 
-    assert len(c.labels) == 0
+    assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_single(component=c, with_loopback=True)
-    print(len(cte.labels))
-    assert len(cte.labels) == 4
+    assert len(cte.labels) == 4, len(cte.labels)
 
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
     l2 = cte.labels[2].text
     l3 = cte.labels[3].text
 
-    print(l0)
-    print(l1)
-    print(l2)
-    print(l3)
+    assert l0 == f"opt_te_1530_({cell_name})_0_1", l0
+    assert l1 == f"opt_te_1530_({cell_name})_0_2", l1
+    assert l2 == f"opt_te_1530_(loopback_{cell_name})_0_2", l2
+    assert l3 == f"opt_te_1530_(loopback_{cell_name})_1_1", l3
 
-    assert l0 == f"opt_te_1530_({cell_name})_0_W0"
-    assert l1 == f"opt_te_1530_({cell_name})_0_E0"
-    assert l2 == f"opt_te_1530_(loopback_{cell_name})_0_E0"
-    assert l3 == f"opt_te_1530_(loopback_{cell_name})_1_W0"
-
-    return c
+    return cte
 
 
 if __name__ == "__main__":
-    # c = test_label_fiber_single()
-    c = test_label_fiber_single_loopback()
+    c = test_label_fiber_single()
+    # c = test_label_fiber_single_loopback()
     c.show()

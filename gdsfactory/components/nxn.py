@@ -4,10 +4,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.port import deco_rename_ports
 
 
-@deco_rename_ports
 @gf.cell
 def nxn(
     west: int = 1,
@@ -37,13 +35,13 @@ def nxn(
 
     .. code::
 
-             N0  N1
-             |___|_
-        W1 -|      |- E1
-            |      |
-        W0 -|______|- E0
-             |   |
-            S0   S1
+            3   4
+            |___|_
+        2 -|      |- 5
+           |      |
+        1 -|______|- 6
+            |   |
+            8   7
 
     """
     c = gf.Component()
@@ -136,6 +134,7 @@ def nxn(
                 **kwargs,
             )
 
+    c.auto_rename_ports()
     return c
 
 

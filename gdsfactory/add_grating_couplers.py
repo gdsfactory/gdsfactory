@@ -6,12 +6,10 @@ from phidl.device_layout import Label
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler.elliptical_trenches import (
-    grating_coupler_te,
-    grating_coupler_tm,
-)
+from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.get_input_labels import get_input_labels
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, PortName
 
 
 @cell
@@ -19,17 +17,19 @@ def add_grating_couplers(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = gf.LAYER.LABEL,
-    gc_port_name: str = 1,
+    gc_port_name: PortName = 1,
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
+    select_ports: Callable = select_optical_ports,
 ) -> Component:
     """Returns new component with grating couplers and labels.
 
     Args:
-        Component: to add grating_couplers
-        grating_couplers: grating_coupler function
+        component: to add grating_couplers
+        grating_coupler: grating_coupler function
         layer_label: for label
         gc_port_name: where to add label
         get_input_labels_function: function to get label
+        select_ports: for selecting optical_ports
 
     """
 
@@ -38,7 +38,8 @@ def add_grating_couplers(
     grating_coupler = gf.call_if_func(grating_coupler)
 
     io_gratings = []
-    optical_ports = component.get_ports_list(port_type="optical")
+    optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
     for port in optical_ports:
         gc_ref = grating_coupler.ref()
         gc_port = gc_ref.ports[gc_port_name]
@@ -57,14 +58,6 @@ def add_grating_couplers(
     return cnew
 
 
-def add_te(*args, **kwargs):
-    return add_grating_couplers(*args, **kwargs)
-
-
-def add_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
-    return add_grating_couplers(*args, grating_coupler=grating_coupler, **kwargs)
-
-
 if __name__ == "__main__":
     # from gdsfactory.add_labels import get_optical_text
     # c = gf.components.grating_coupler_elliptical_te()
@@ -73,7 +66,5 @@ if __name__ == "__main__":
     # print(c.get_property('wavelength'))
 
     c = gf.components.straight(width=2)
-    # cc = add_grating_couplers(c)
-    cc = add_tm(c)
-    print(cc)
+    cc = add_grating_couplers(component=c)
     cc.show()

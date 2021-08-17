@@ -2,12 +2,12 @@ import gdsfactory as gf
 
 yaml = """
 connections:
-  bend_left,N0: straight_left,W0
-  bend_right,N0: straight_top,E0
-  bend_right,W0: straight_right,W0
-  coupler_ring_edf8f53f,N0: straight_left,E0
-  coupler_ring_edf8f53f,N1: straight_right,E0
-  straight_top,W0: bend_left,W0
+  bend_left,2: straight_left,1
+  bend_right,2: straight_top,2
+  bend_right,1: straight_right,1
+  coupler_ring_edf8f53f,2: straight_left,2
+  coupler_ring_edf8f53f,3: straight_right,2
+  straight_top,1: bend_left,1
 instances:
   bend_left:
     component: bend_euler
@@ -51,8 +51,8 @@ placements:
     x: 10.0
     'y': 10.7
 ports:
-  E0: coupler_ring_edf8f53f,E0
-  W0: coupler_ring_edf8f53f,W0
+  4: coupler_ring_edf8f53f,4
+  1: coupler_ring_edf8f53f,1
 """
 
 

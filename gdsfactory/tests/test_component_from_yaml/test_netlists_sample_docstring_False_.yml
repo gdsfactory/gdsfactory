@@ -1,10 +1,10 @@
 connections:
-  bend_euler_CScross_section_67p115_m5p5,N0: straight_CScross_section_L18p75_71p99_m20p0,W0
-  bend_euler_CScross_section_67p115_m5p5,W0: straight_CScross_section_L19p99_51p995_m0p625,E0
-  bend_euler_CScross_section_76p865_m34p5,N0: straight_CScross_section_L10n_81p995_m39p375,W0
-  bend_euler_CScross_section_76p865_m34p5,W0: straight_CScross_section_L18p75_71p99_m20p0,E0
-  mmi_bot,W0: straight_CScross_section_L10n_81p995_m39p375,E0
-  mmi_top,E0: straight_CScross_section_L19p99_51p995_m0p625,W0
+  bend_euler_CScross_section_67p115_m5p5,1: straight_CScross_section_L19p99_51p995_m0p625,2
+  bend_euler_CScross_section_67p115_m5p5,2: straight_CScross_section_L18p75_71p99_m20p0,1
+  bend_euler_CScross_section_76p865_m34p5,1: straight_CScross_section_L18p75_71p99_m20p0,2
+  bend_euler_CScross_section_76p865_m34p5,2: straight_CScross_section_L10n_81p995_m39p375,1
+  mmi_bot,1: straight_CScross_section_L10n_81p995_m39p375,2
+  mmi_top,3: straight_CScross_section_L19p99_51p995_m0p625,1
 instances:
   bend_euler_CScross_section_67p115_m5p5:
     component: bend_euler

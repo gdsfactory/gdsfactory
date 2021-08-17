@@ -69,6 +69,16 @@ def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
     return {func.__name__: func for func in functions}
 
 
+def parse_port_name(name: str) -> PortName:
+    if "_" in name:
+        return name
+    try:
+        name = int(name)
+    except ValueError:
+        pass
+    return name
+
+
 __all__ = [
     "ComponentFactory",
     "ComponentOrFactory",

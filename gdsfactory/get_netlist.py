@@ -131,14 +131,16 @@ def get_netlist(
 
     # build connectivity port_locations = Dict[Tuple(x,y), set of portNames]
     for name, port in name2port.items():
-        xy = snap_to_grid((port.x, port.y))
+        xy = snap_to_grid((port.x, port.y, port.width))
         if xy not in port_locations:
             port_locations[xy] = set()
         port_locations[xy].add(name)
 
     for xy, names_set in port_locations.items():
         if len(names_set) > 2:
-            raise ValueError(f"more than 2 connections at {xy} {list(names_set)}")
+            raise ValueError(
+                f"more than 2 connections at {xy[0], xy[1]} with width {xy[2]} {list(names_set)}"
+            )
         if len(names_set) == 2:
             names_list = list(names_set)
             src = names_list[0]

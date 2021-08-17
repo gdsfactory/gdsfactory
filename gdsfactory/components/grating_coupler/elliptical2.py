@@ -116,7 +116,6 @@ def grating_coupler_elliptical2(
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
-        port_type=f"vertical_{polarization.lower()}",
     )
 
     return c

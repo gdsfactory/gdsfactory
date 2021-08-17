@@ -25,7 +25,7 @@ instances:
         length: 0.5
 
 connections:
-    wgw,E0: wgn,W0
+    wgw,1: wgn,2
 
 """
 
@@ -48,7 +48,7 @@ sample_mirror_simple = """
 name: sample_mirror_simple
 
 instances:
-    w:
+    s:
         component: straight
 
     b:
@@ -57,10 +57,10 @@ instances:
 placements:
     b:
         mirror: True
-        port: W0
+        port: 1
 
 connections:
-    b,W0: w,E0
+    b,1: s,2
 
 """
 
@@ -114,7 +114,7 @@ def test_connections_2x2() -> Component:
     assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)
 
-    length = c.routes["mmi_bottom,E1:mmi_top,W1"]
+    length = c.routes["mmi_bottom,3:mmi_top,2"]
     assert np.isclose(length, 166.098), length
     return c
 
@@ -150,14 +150,15 @@ routes:
         settings:
             separation: 10
             layer: [31, 0]
+            width: 10
         links:
-            tl,DC_3: tr,DC_1
-            bl,DC_3: br,DC_1
+            tl,3: tr,1
+            bl,3: br,1
     optical:
         settings:
             radius: 100
         links:
-            bl,DC_4: br,DC_3
+            bl,4: br,3
 
 """
 
@@ -209,8 +210,8 @@ routes:
             radius: 10
             extra_length: 500
         links:
-            tl,E: tr,W
-            bl,E: br,W
+            tl,3: tr,1
+            bl,3: br,1
 
 """
 
@@ -231,13 +232,13 @@ instances:
     t:
       component: pad_array
       settings:
-          port_list:
-            - S
+          port_names:
+            - 4
     b:
       component: pad_array
       settings:
-          port_list:
-            - N
+          port_names:
+            - 2
 
 placements:
     t:
@@ -254,8 +255,8 @@ routes:
                 - [-250, 400]
             auto_widen: False
         links:
-            b,N0: t,S0
-            b,N1: t,S1
+            b,2_0: t,4_0
+            b,2_1: t,4_1
 """
 
 
@@ -276,19 +277,19 @@ instances:
 
 placements:
     mmi_top:
-        port: W0
+        port: 1
         x: 0
         y: 0
     mmi_bot:
-        port: W0
-        x: mmi_top,E1
-        y: mmi_top,E1
+        port: 1
+        x: mmi_top,2
+        y: mmi_top,2
         dx: 40
         dy: -40
 routes:
     optical:
         links:
-            mmi_top,E0: mmi_bot,W0
+            mmi_top,3: mmi_bot,1
 """
 
 
@@ -315,7 +316,7 @@ placements:
 routes:
     optical:
         links:
-            left,E:0:2: right,W:0:2
+            left,1:3: right,1:3
 """
 
 sample_regex_connections_backwards = """
@@ -341,13 +342,13 @@ placements:
 routes:
     optical:
         links:
-            left,E:2:0: right,W:2:0
+            left,3:1: right,3:1
 """
 
 
 def test_connections_regex() -> Component:
     c = component_from_yaml(sample_regex_connections)
-    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
+    route_names = ["left,1:right,1", "left,2:right,2", "left,3:right,3"]
 
     length = 12.0
     for route_name in route_names:
@@ -357,7 +358,7 @@ def test_connections_regex() -> Component:
 
 def test_connections_regex_backwargs() -> Component:
     c = component_from_yaml(sample_regex_connections_backwards)
-    route_names = ["left,E0:right,W0", "left,E1:right,W1", "left,E2:right,W2"]
+    route_names = ["left,1:right,1", "left,2:right,2", "left,3:right,3"]
 
     length = 12.0
     for route_name in route_names:
@@ -369,14 +370,14 @@ def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
     length = 1937.196
-    route_name = "b,N0:t,S0"
+    route_name = "b,2_0:t,4_0"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
 
 def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
-    route_name = "mmi_top,E0:mmi_bot,W0"
+    route_name = "mmi_top,3:mmi_bot,1"
     length = 72.348
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
@@ -398,19 +399,19 @@ instances:
 
 placements:
     mmi_short:
-        port: W0
-        x: mmi_long,E1
-        y: mmi_long,E1
+        port: 1
+        x: mmi_long,2
+        y: mmi_long,2
     mmi_long:
-        port: W0
-        x: mmi_short,E1
-        y: mmi_short,E1
+        port: 1
+        x: mmi_short,2
+        y: mmi_short,2
         dx : 10
         dy: 20
 """
 #                      ______
 #                     |      |
-#           dx  W0----| short|
+#           dx   1----| short|
 #                |    |______|
 #                | dy
 #   ______ north |
@@ -435,11 +436,11 @@ instances:
 
 placements:
     mmi_short:
-        port: E0
+        port: 3
         x: 0
         y: 0
     mmi_long:
-        port: W0
+        port: 1
         x: mmi_short,east
         y: mmi_short,north
         dx : 10
@@ -551,15 +552,16 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_2x2_connections)
     # c = component_from_yaml(sample_different_factory)
     # c = test_sample()
-    # c = test_netlists("sample_mmis", True, None, check=False)
+    c = test_netlists("sample_mmis", True, None, check=False)
+    # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
+
     # c = test_sample()
     # c = test_connections_2x2()
-    c = test_connections_different_factory()
+    # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
-    # c = test_connections_regex()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
@@ -568,6 +570,13 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
     # c = component_from_yaml(sample_mirror_simple)
-
+    # c = component_from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
+
+    # c = component_from_yaml(sample_different_factory)
+    # c = component_from_yaml(sample_different_link_factory)
+    # c = component_from_yaml(sample_waypoints)
+    # c = component_from_yaml(sample_docstring)
+    # c = component_from_yaml(sample_regex_connections)
+    # c = component_from_yaml(sample_regex_connections_backwards)
     c.show()

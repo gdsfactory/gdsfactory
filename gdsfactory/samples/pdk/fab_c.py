@@ -2,13 +2,13 @@
 
 """
 
-from typing import Callable, Dict, Optional, Tuple
+from typing import Callable
 
 import pydantic.dataclasses as dataclasses
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_square_inside
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.tech import LayerLevel, LayerStack, Library, Tech
 from gdsfactory.types import Layer
@@ -26,7 +26,6 @@ class LayerMap:
 LAYER = LayerMap()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
-PORT_TYPE_TO_MARKER_LAYER = dict(optical=(100, 0))
 
 
 def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
@@ -47,10 +46,9 @@ def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
 
 def add_pins(
     component: Component,
-    reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
-    port_type_to_layer: Dict[str, Tuple[int, int]] = PORT_TYPE_TO_MARKER_LAYER,
     pin_length: float = 0.5,
+    port_layer: Layer = LAYER.PIN,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -58,21 +56,20 @@ def add_pins(
     Args:
         component: to add ports
         function:
-        port_type_to_layer: dict mapping port types to marker layers for ports
+        pin_length:
+        port_layer:
+        function: kwargs
 
     """
-    reference = reference or component
-    for p in reference.ports.values():
-        if p.port_type in port_type_to_layer:
-            layer = port_type_to_layer[p.port_type]
-            function(
-                component=component,
-                port=p,
-                layer=layer,
-                label_layer=layer,
-                pin_length=pin_length,
-                **kwargs,
-            )
+    for p in component.ports.values():
+        function(
+            component=component,
+            port=p,
+            layer=port_layer,
+            label_layer=port_layer,
+            pin_length=pin_length,
+            **kwargs,
+        )
 
 
 # cross_sections

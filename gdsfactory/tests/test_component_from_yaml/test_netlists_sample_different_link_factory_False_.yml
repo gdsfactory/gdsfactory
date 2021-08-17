@@ -19,8 +19,6 @@ connections:
   bend_euler_CScross_section_R10_525p125_364p875,1: taper_0a09f420_515p0_360p0,1
   bend_euler_CScross_section_R10_525p125_364p875,2: bend_euler_CScross_section_R10_525p125_375p125,1
   bend_euler_CScross_section_R10_525p125_375p125,2: taper_0a09f420_515p0_380p0,1
-  bl,E: straight_feb0b726_150p0_0p0,1
-  br,W: taper_0a09f420_845p0_400p0,1
   straight_4fe3c100_495p0_600p0,1: taper_0a09f420_145p0_600p0,2
   straight_4fe3c100_495p0_600p0,2: taper_0a09f420_845p0_600p0,2
   straight_5c98151e_130p0_380p0,1: taper_0a09f420_130p0_215p0,2
@@ -35,10 +33,8 @@ connections:
   straight_68ae3e76_395p0_360p0,2: taper_0a09f420_515p0_360p0,2
   straight_68ae3e76_395p0_380p0,1: taper_0a09f420_515p0_380p0,2
   straight_68ae3e76_395p0_380p0,2: taper_0a09f420_275p0_380p0,2
-  straight_CScross_section_L70_R10_85p0_200p0,1: tl,E
   straight_a1c4af89_560p0_400p0,1: taper_0a09f420_275p0_400p0,2
   straight_a1c4af89_560p0_400p0,2: taper_0a09f420_845p0_400p0,2
-  taper_0a09f420_845p0_600p0,1: tr,W
 instances:
   bend_euler_CScross_section_R10_125p125_204p875:
     component: bend_euler

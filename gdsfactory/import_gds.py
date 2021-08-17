@@ -22,7 +22,6 @@ def add_ports_from_markers_square(
     component: Component,
     layer: Layer = gf.LAYER.PORTE,
     port_layer: Optional[Layer] = None,
-    port_type: "str" = "dc",
     orientation: Optional[int] = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
@@ -39,17 +38,16 @@ def add_ports_from_markers_square(
         component: to read polygons from and to write ports to
         layer: for port markers
         port_layer: for the new created port
-        port_type: electrical, dc, optical
         orientation: orientation in degrees
             90: north, 0: east, 180: west, 270: south
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         max_pin_area_um2: ignore pins for area above certain size
         pin_extra_width: 2*offset from pin to straight
-        port_names: names of the ports (defaults to f"{port_type}_{i}")
+        port_names: names of the ports (defaults to {i})
 
     """
     port_markers = read_port_markers(component, [layer])
-    port_names = None or [f"{port_type}_{i}" for i in range(len(port_markers.polygons))]
+    port_names = list(range(len(port_markers.polygons)))
     port_layer = port_layer or layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
@@ -63,7 +61,6 @@ def add_ports_from_markers_square(
                 midpoint=(x, y),
                 width=dx - pin_extra_width,
                 orientation=orientation,
-                port_type=port_type,
                 layer=port_layer,
             )
 
@@ -72,7 +69,6 @@ def add_ports_from_markers_center(
     component: Component,
     layer: Layer = gf.LAYER.PORT,
     port_layer: Optional[Layer] = None,
-    port_type: "str" = "optical",
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
@@ -81,6 +77,7 @@ def add_ports_from_markers_center(
     skip_square_ports: bool = True,
     xcenter: Optional[float] = None,
     ycenter: Optional[float] = None,
+    port_name_prefix: str = "",
 ) -> None:
     """add ports from polygons in certain layers
 
@@ -92,7 +89,6 @@ def add_ports_from_markers_center(
         component: to read polygons from and to write ports to
         layer: GDS layer for maker [int, int]
         port_layer: for the new created port
-        port_type: optical, dc, rf
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
         pin_extra_width: 2*offset from pin to straight
@@ -156,7 +152,7 @@ def add_ports_from_markers_center(
     port_layer = port_layer or layer
 
     for i, p in enumerate(port_markers.polygons):
-        port_name = f"{port_type}_{i}"
+        port_name = f"{port_name_prefix}_{i}" if port_name_prefix else i
         dy = p.ymax - p.ymin
         dx = p.xmax - p.xmin
         x = p.x
@@ -220,7 +216,6 @@ def add_ports_from_markers_center(
             midpoint=(x, y),
             width=width - pin_extra_width,
             orientation=orientation,
-            port_type=port_type,
             layer=port_layer,
         )
 

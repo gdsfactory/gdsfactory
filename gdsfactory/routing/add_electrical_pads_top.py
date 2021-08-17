@@ -1,9 +1,7 @@
-from typing import Callable
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
-from gdsfactory.routing.get_route import get_route_from_waypoints
+from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )
@@ -13,7 +11,7 @@ from gdsfactory.routing.get_route_electrical_shortest_path import (
 def add_electrical_pads_top(
     component: Component,
     dy: float = 100.0,
-    route_filter: Callable = get_route_from_waypoints,
+    select_ports=select_ports_electrical,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array
@@ -21,18 +19,19 @@ def add_electrical_pads_top(
     Args:
         component:
         dy: vertical spacing
+        select_ports: function to select electrical ports
         kwargs:pad settings
             pad: pad element
             pitch: x spacing
             n: number of pads
-            port_list: list of port orientations (N, S, W, E) per pad
             pad_settings: settings for pad if pad is callable
             **port_settings
     """
     c = Component()
-    ports = component.get_ports_list(port_type="dc")
+    ports = select_ports(component.ports)
+    ports = list(ports.values())
     c << component
-    pads = c << pad_array(n=len(ports), port_list=["S"], **kwargs)
+    pads = c << pad_array(n=len(ports), port_names=(4,), **kwargs)
     pads.x = component.x
     pads.ymin = component.ymax + dy
     ports_pads = list(pads.ports.values())
@@ -48,23 +47,6 @@ def add_electrical_pads_top(
         c.ports.pop(port.name)
     return c
 
-
-def demo_mzi():
-    import gdsfactory as gf
-
-    c = gf.components.straight_with_heater()
-    c = gf.components.mzi_phase_shifter()
-    cc = add_electrical_pads_top(component=c)
-    return cc
-
-
-def demo_straight():
-    import gdsfactory as gf
-
-    c = gf.components.straight_with_heater(
-        port_orientation_input=0, port_orientation_output=180
-    )
-    cc = add_electrical_pads_top(component=c)
     return cc
 
 
@@ -74,8 +56,7 @@ if __name__ == "__main__":
     # c.show()
     import gdsfactory as gf
 
-    c = gf.components.straight_with_heater(
-        port_orientation_input=0, port_orientation_output=180
-    )
+    c = gf.components.straight_heater_metal()
+    c = gf.components.mzi_phase_shifter()
     cc = add_electrical_pads_top(component=c)
     cc.show()

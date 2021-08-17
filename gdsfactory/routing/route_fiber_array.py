@@ -106,7 +106,7 @@ def route_fiber_array(
         component_name: name of component
         x_grating_offset: x offset
         optical_port_labels: port labels that need connection
-        select_ports: function to select ports
+        select_ports: function to select ports for which to add grating couplers
         get_input_label_text_loopback_function: function to get input labels for grating couplers
         get_input_label_text_function
 
@@ -126,16 +126,14 @@ def route_fiber_array(
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
     if optical_port_labels is None:
-        # for pn, p in component.ports.items():
-        #     print(p.name, p.port_type, p.layer)
-        # optical_ports = component.get_ports_list(port_type='optical')
         optical_ports = list(select_ports(component.ports).values())
-        # print(optical_ports)
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
 
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     N = len(optical_ports)
+    # optical_ports_labels = [p.name for p in optical_ports]
+    # print(optical_ports_labels)
     if N == 0:
         return [], [], 0
 
@@ -338,6 +336,7 @@ def route_fiber_array(
             bend_factory=bend_factory,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
+            select_ports=select_ports,
             cross_section=cross_section,
             **kwargs,
         )
@@ -529,29 +528,31 @@ def demo():
 
 
 if __name__ == "__main__":
-    layer = (2, 0)
-    c = gf.components.straight(layer=layer)
-    gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
-    gc.xmin = -20
-    elements, gc, _ = route_fiber_array(
-        component=c,
-        grating_coupler=gc,
-        cladding_offset=6,
-        nlabels_loopback=1,
-        layer=layer,
-    )
-    # c = p.ring_single()
-    # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
-    for e in elements:
-        # if isinstance(e, list):
-        # print(len(e))
-        # print(e)
-        c.add(e)
-    for e in gc:
-        c.add(e)
+    # layer = (2, 0)
+    # c = gf.components.straight(layer=layer)
+    # gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
+    # gc.xmin = -20
+    # elements, gc, _ = route_fiber_array(
+    #     component=c,
+    #     grating_coupler=gc,
+    #     cladding_offset=6,
+    #     nlabels_loopback=1,
+    #     layer=layer,
+    # )
+    # # c = p.ring_single()
+    # # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
+    # for e in elements:
+    #     # if isinstance(e, list):
+    #     # print(len(e))
+    #     # print(e)
+    #     c.add(e)
+    # for e in gc:
+    #     c.add(e)
 
-    layer = (41, 0)
+    layer = (1, 0)
+    c = gf.components.mmi2x2()
     c = gf.components.straight(layer=layer)
+    c = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
     gc.xmin = -20
     elements, gc, _ = route_fiber_array(

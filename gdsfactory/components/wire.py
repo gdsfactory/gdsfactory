@@ -12,17 +12,13 @@ from gdsfactory.types import CrossSectionFactory
 @deco_rename_ports
 @gf.cell
 def wire_straight(
-    length: float = 50.0,
-    port_type: str = "dc",
-    cross_section: CrossSectionFactory = metal3,
-    **kwargs
+    length: float = 50.0, cross_section: CrossSectionFactory = metal3, **kwargs
 ) -> Component:
     """Straight straight.
 
     Args:
         length: straiht length
         waveguide:
-        port_type: port_type
         kwargs: waveguide_settings
     """
     x = cross_section(**kwargs)
@@ -30,20 +26,17 @@ def wire_straight(
     width = waveguide_settings["width"]
     layer = waveguide_settings["layer"]
 
-    c = hline(length=length, width=width, layer=layer, port_type=port_type)
+    c = hline(length=length, width=width, layer=layer)
     c.waveguide_settings = dict(layer=layer, width=width)
     return c
 
 
 @deco_rename_ports
 @gf.cell
-def wire_corner(
-    port_type: str = "dc", cross_section: CrossSectionFactory = metal3, **kwargs
-) -> Component:
+def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Component:
     """90 degrees electrical corner
 
     Args:
-        port_type: port_type
         waveguide:
         kwargs: waveguide_settings
 
@@ -66,7 +59,6 @@ def wire_corner(
         width=width,
         orientation=180,
         layer=layer,
-        port_type=port_type,
     )
     c.add_port(
         name=2,
@@ -74,7 +66,6 @@ def wire_corner(
         width=width,
         orientation=90,
         layer=layer,
-        port_type=port_type,
     )
     c.length = width
     return c

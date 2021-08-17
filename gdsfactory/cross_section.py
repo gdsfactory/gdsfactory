@@ -320,7 +320,8 @@ if __name__ == "__main__":
     # X = strip_heater_metal_undercut()
     # X = rib_heater_doped()
 
-    X = strip_heater_metal_undercut()
+    # X = strip_heater_metal_undercut()
+    X = metal1()
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))

@@ -1,10 +1,10 @@
 info:
   instances:
-    mmi_long: DeviceReference (parent Device "mmi1x2_LM10_WM4p5", ports ['E0', 'E1',
-      'W0'], origin [100. 100.], rotation 180, x_reflection False)
-    mmi_short: DeviceReference (parent Device "mmi1x2_LM5_WM4p5", ports ['E0', 'E1',
-      'W0'], origin (0, 0), rotation 0, x_reflection False)
+    mmi_long: DeviceReference (parent Device "mmi1x2_LM10_WM4p5", ports [3, 2, 1],
+      origin [100. 100.], rotation 180, x_reflection False)
+    mmi_short: DeviceReference (parent Device "mmi1x2_LM5_WM4p5", ports [3, 2, 1],
+      origin (0, 0), rotation 0, x_reflection False)
   routes:
-    mmi_short,E1:mmi_long,E0: 166.098
+    mmi_short,2:mmi_long,1: 215.493
 name: mmis
 settings: {}

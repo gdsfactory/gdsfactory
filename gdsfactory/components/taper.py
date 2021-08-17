@@ -39,8 +39,7 @@ def taper(
       c.plot()
 
     """
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Callable, Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -6,6 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -19,6 +20,7 @@ def add_fiber_array(
     gc_port_name: str = 1,
     component_name: Optional[str] = None,
     taper_length: float = 10.0,
+    select_ports: Callable = select_optical_ports,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
@@ -86,7 +88,8 @@ def add_fiber_array(
     component_name = component_name or c.name
     cc = Component()
 
-    optical_ports = c.get_ports_list(port_type="optical")
+    optical_ports = select_ports(c.ports)
+    optical_ports_names = list(optical_ports.keys())
     if not optical_ports:
         return c
 
@@ -98,6 +101,7 @@ def add_fiber_array(
         gc_port_name=gc_port_name,
         component_name=component_name,
         cross_section=cross_section,
+        select_ports=select_ports,
         **kwargs,
     )
     if len(elements) == 0:
@@ -111,7 +115,7 @@ def add_fiber_array(
     cc.move(origin=io_gratings_lines[0][0].ports[gc_port_name], destination=(0, 0))
 
     for pname, p in c.ports.items():
-        if p.port_type != "optical":
+        if p.name not in optical_ports_names:
             cc.add_port(pname, port=p)
 
     for i, io_row in enumerate(io_gratings_lines):
@@ -153,9 +157,9 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
-    # c = gf.components.straight(length=1, width=2)
     # c = gf.components.mmi2x2()
-    c = gf.components.ring_single()
+    # c = gf.components.ring_single()
+    c = gf.components.straight_heater_metal()
 
     c.y = 0
     cc = add_fiber_array(

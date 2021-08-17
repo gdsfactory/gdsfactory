@@ -13,6 +13,7 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import (
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.routing.utils import (
@@ -65,6 +66,7 @@ def add_gratings_and_loopback(
     nlabels_loopback: int = 2,
     get_input_labels_function: Callable = get_input_labels,
     cross_section: CrossSectionFactory = strip,
+    select_ports: Callable = select_optical_ports,
     **kwargs,
 ) -> Component:
     """Returns a component with grating_couplers and loopback.
@@ -103,7 +105,8 @@ def add_gratings_and_loopback(
         gc_port_name = list(gc.ports.values())[0].name
 
     # List the optical ports to connect
-    optical_ports = component.get_ports_list(port_type="optical")
+    optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     optical_ports = direction_ports_from_list_ports(optical_ports)[direction]
 

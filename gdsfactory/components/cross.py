@@ -10,7 +10,6 @@ def cross(
     length: float = 10.0,
     width: float = 3.0,
     layer: Tuple[int, int] = LAYER.WG,
-    port_type: str = "optical",
 ) -> Component:
     """Generates a right-angle cross from two rectangles of specified length and width.
 
@@ -31,7 +30,6 @@ def cross(
         1,
         width=width,
         layer=layer,
-        port_type=port_type,
         orientation=0,
         midpoint=(+length / 2, 0),
     )
@@ -39,7 +37,6 @@ def cross(
         2,
         width=width,
         layer=layer,
-        port_type=port_type,
         orientation=180,
         midpoint=(-length / 2, 0),
     )
@@ -47,7 +44,6 @@ def cross(
         3,
         width=width,
         layer=layer,
-        port_type=port_type,
         orientation=90,
         midpoint=(0, length / 2),
     )
@@ -55,7 +51,6 @@ def cross(
         4,
         width=width,
         layer=layer,
-        port_type=port_type,
         orientation=270,
         midpoint=(0, -length / 2),
     )

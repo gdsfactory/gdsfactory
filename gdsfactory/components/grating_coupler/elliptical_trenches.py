@@ -137,7 +137,6 @@ def grating_coupler_elliptical_trenches(
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
-        port_type=f"vertical_{polarization.lower()}",
     )
 
     # Add port
