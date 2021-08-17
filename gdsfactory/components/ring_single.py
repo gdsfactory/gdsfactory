@@ -16,7 +16,7 @@ def ring_single(
     gap: float = 0.2,
     radius: float = 10.0,
     length_x: float = 4.0,
-    length_y: float = 0.010,
+    length_y: float = 0.6,
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
@@ -93,7 +93,7 @@ def ring_single(
     st.connect(port=2, destination=bl.ports[1])
     br.connect(port=2, destination=st.ports[1])
     sr.connect(port=1, destination=br.ports[1])
-    sr.connect(port=2, destination=cb.ports[4])
+    sr.connect(port=2, destination=cb.ports[3])
 
     c.add_port(2, port=cb.ports[4])
     c.add_port(1, port=cb.ports[1])
@@ -103,7 +103,7 @@ def ring_single(
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
 
-    c = ring_single(width=2, gap=1, layer=(2, 0), radius=7)
+    c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     print(c.ports)
     c.show(show_subports=False)
 

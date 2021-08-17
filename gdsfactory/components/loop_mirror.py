@@ -20,7 +20,7 @@ def loop_mirror(
     cref = c.add_ref(component)
     routes = route_manhattan(
         cref.ports[2],
-        cref.ports["E1"],
+        cref.ports[1],
         straight_factory=gf.components.straight,
         bend_factory=bend90,
     )

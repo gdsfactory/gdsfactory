@@ -5,7 +5,6 @@ from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.config import call_if_func
-from gdsfactory.port import rename_ports_by_orientation
 from gdsfactory.snap import assert_on_2nm_grid
 
 
@@ -42,7 +41,7 @@ def ring_single_dut(
           length_x
     """
     dut = call_if_func(component)
-    dut = rename_ports_by_orientation(dut)
+    dut.auto_rename_ports()
 
     assert_on_2nm_grid(gap)
 

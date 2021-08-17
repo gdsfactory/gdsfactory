@@ -44,7 +44,7 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_names: Tuple[PortName, ...] = (2,),
+    port_names: Tuple[PortName, ...] = (4,),
     pad_settings: Optional[Dict[str, Any]] = None,
     axis: str = "x",
 ) -> Component:
@@ -73,7 +73,7 @@ def pad_array(
             raise ValueError(f"Invalid axis {axis} not in (x, y)")
         for port_name in port_names:
             port_name_new = f"{port_name}_{i}"
-            c.add_port(name=port_name_new, port=p.ports[port_name], port_type="dc")
+            c.add_port(name=port_name_new, port=p.ports[port_name])
 
     return c
 
@@ -85,7 +85,7 @@ def pad_array_2d(
     pitch_y: float = 150.0,
     cols: int = 3,
     rows: int = 3,
-    port_names: Tuple[PortName, ...] = ("DC_2",),
+    port_names: Tuple[PortName, ...] = (2,),
     **kwargs,
 ) -> Component:
     """Returns 2D array of rectangular pads
@@ -109,8 +109,10 @@ def pad_array_2d(
             p.x = i * pitch_x
             p.y = j * pitch_y
             for port_name in port_names:
+                if port_name not in p.ports:
+                    raise ValueError(f"{port_name} not in {list(p.ports.keys())}")
                 port_name_new = f"{port_name}_{j}_{i}"
-                c.add_port(port=p.ports[port_name], name=port_name_new, port_type="dc")
+                c.add_port(port=p.ports[port_name], name=port_name_new)
 
     return c
 
@@ -123,6 +125,10 @@ if __name__ == "__main__":
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    # c = pad_array(port_names=[1])
-    c = pad_array_2d(cols=2, rows=3, port_names=("DC_1",))
+    # c = pad_array_2d(cols=2, rows=3, port_names=(1,))
+    c = pad_array(
+        port_names=[
+            1,
+        ]
+    )
     c.show()

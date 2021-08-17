@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Coordinate, Layer
+from gdsfactory.types import ComponentOrFactory, Coordinate, Layer, PortName
 
 DEG2RAD = np.pi / 180
 
@@ -83,7 +83,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 @gf.cell
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
-    ports: Optional[Tuple[Port, ...]] = None,
+    port_names: Optional[Tuple[PortName, ...]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
     port1: Optional[str] = None,
@@ -104,16 +104,16 @@ def extend_ports(
     """
     c = gf.Component()
     component = component() if callable(component) else component
-    c << component
+    cref = c << component
 
-    ports_all = component.get_ports_list()
-    ports_to_extend = ports or ports_all
-    ports_to_extend_names = [p.name for p in ports_to_extend]
+    ports_all = cref.get_ports_list()
+    ports_to_extend = port_names or ports_all
 
     for port in ports_all:
         port_name = port.name
+        port = cref.ports[port_name]
 
-        if port_name in ports_to_extend_names:
+        if port_name in ports_to_extend:
 
             def extension_factory_default(length=length, width=port.width):
                 return gf.components.hline(length=length, width=width, layer=port.layer)
@@ -161,16 +161,17 @@ __all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 
 if __name__ == "__main__":
     # c = extend_ports()
-    c = test_extend_ports_selection()
-    c = test_extend_ports()
-    c.show()
+    # c = test_extend_ports_selection()
+    # c = test_extend_ports()
+    # c.show()
 
-    # import gdsfactory.components as pc
-    # c = pc.bend_circular()
-    # ce = extend_ports(c, port_names=['W0'])
+    import gdsfactory.components as pc
+
+    c = pc.bend_circular()
+    ce = extend_ports(component=c, ports=list(c.ports.values()))
 
     # c = pc.straight(layer=(3, 0))
-    # ce = extend_ports(c)
+    # ce = extend_ports(component=c)
     # print(ce)
     # print(len(ce.ports))
     # gf.show(ce)

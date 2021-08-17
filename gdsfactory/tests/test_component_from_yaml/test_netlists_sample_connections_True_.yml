@@ -1,5 +1,5 @@
 connections:
-  wgn,W0: wgw,E0
+  wgn,2: wgw,1
 instances:
   wgn:
     component: straight
@@ -23,6 +23,6 @@ placements:
   wgw:
     mirror: false
     rotation: 0
-    x: -1.0
+    x: 0.5
     y: 0.0
 ports: {}

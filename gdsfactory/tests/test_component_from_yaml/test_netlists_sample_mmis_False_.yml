@@ -1,17 +1,17 @@
 connections:
-  bend_euler_CScross_section_70p115_5p5,N0: straight_CScross_section_L80_74p99_50p625,W0
-  bend_euler_CScross_section_70p115_5p5,W0: straight_CScross_section_L52p49_38p745_0p625,E0
-  bend_euler_CScross_section_79p865_95p75,N0: straight_CScross_section_L10n_84p995_100p625,W0
-  bend_euler_CScross_section_79p865_95p75,W0: straight_CScross_section_L80_74p99_50p625,E0
-  mmi_long,E0: straight_CScross_section_L10n_84p995_100p625,E0
-  mmi_short,E1: straight_CScross_section_L52p49_38p745_0p625,W0
+  bend_euler_CScross_section_120p135_5p5,1: straight_CScross_section_L102p51_63p755_0p625,2
+  bend_euler_CScross_section_120p135_5p5,2: straight_CScross_section_L79p375_125p01_50p313,1
+  bend_euler_CScross_section_120p135_95p125,1: straight_CScross_section_L79p375_125p01_50p313,2
+  bend_euler_CScross_section_120p135_95p125,2: straight_CScross_section_L10n_115p005_100p0,1
+  mmi_long,1: straight_CScross_section_L10n_115p005_100p0,2
+  mmi_short,2: straight_CScross_section_L102p51_63p755_0p625,1
 instances:
-  bend_euler_CScross_section_70p115_5p5:
+  bend_euler_CScross_section_120p135_5p5:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
-  bend_euler_CScross_section_79p865_95p75:
+  bend_euler_CScross_section_120p135_95p125:
     component: bend_euler
     settings:
       cross_section:
@@ -26,36 +26,36 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_CScross_section_L10n_84p995_100p625:
+  straight_CScross_section_L102p51_63p755_0p625:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 102.51
+  straight_CScross_section_L10n_115p005_100p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
       length: 0.01
-  straight_CScross_section_L52p49_38p745_0p625:
+  straight_CScross_section_L79p375_125p01_50p313:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 52.49
-  straight_CScross_section_L80_74p99_50p625:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 80
+      length: 79.375
 name: mmis
 placements:
-  bend_euler_CScross_section_70p115_5p5:
+  bend_euler_CScross_section_120p135_5p5:
     mirror: false
     rotation: 0
-    x: 64.99
+    x: 115.01
     y: 0.625
-  bend_euler_CScross_section_79p865_95p75:
-    mirror: true
+  bend_euler_CScross_section_120p135_95p125:
+    mirror: false
     rotation: 90
-    x: 74.99
-    y: 90.625
+    x: 125.01
+    y: 90.0
   mmi_long:
     mirror: false
     rotation: 180
@@ -66,21 +66,22 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_CScross_section_L10n_84p995_100p625:
-    mirror: false
-    rotation: 0
-    x: 84.99
-    y: 100.625
-  straight_CScross_section_L52p49_38p745_0p625:
+  straight_CScross_section_L102p51_63p755_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_CScross_section_L80_74p99_50p625:
+  straight_CScross_section_L10n_115p005_100p0:
+    mirror: false
+    rotation: 180
+    x: 115.01
+    y: 100.0
+  straight_CScross_section_L79p375_125p01_50p313:
     mirror: false
     rotation: 90
-    x: 74.99
+    x: 125.01
     y: 10.625
 ports:
-  E0: mmi_short,W0
-  W0: mmi_long,W0
+  1: mmi_short,1
+  2: mmi_long,2
+  3: mmi_long,3

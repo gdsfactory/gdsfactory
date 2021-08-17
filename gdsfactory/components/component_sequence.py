@@ -109,7 +109,6 @@ def component_sequence(
         c.show()
 
     """
-    print(symbol_to_component)
     ports_map = ports_map or {}
 
     # Remove all None devices from the sequence
@@ -198,5 +197,5 @@ if __name__ == "__main__":
         sequence=sequence, symbol_to_component=symbol_to_component
     )
     s = c.get_settings(ignore=("symbol_to_component",))
-    print(s["settings"])
+    # print(s["settings"])
     c.show()

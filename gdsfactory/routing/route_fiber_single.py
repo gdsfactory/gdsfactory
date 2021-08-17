@@ -6,8 +6,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.cross_section import strip
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionFactory, PortName
 
 
 def route_fiber_single(
@@ -16,10 +17,11 @@ def route_fiber_single(
     grating_coupler: Callable = grating_coupler_te,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 1,
-    optical_port_labels: Optional[List[str]] = None,
-    excluded_ports: Optional[List[str]] = None,
+    optical_port_labels: Optional[Tuple[PortName, ...]] = None,
+    excluded_ports: Optional[Tuple[PortName, ...]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
+    select_ports: Callable = select_optical_ports,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
@@ -42,19 +44,21 @@ def route_fiber_single(
         grating_couplers: list of grating_couplers ComponentReferences
 
     """
-    if not component.get_ports_list(port_type="optical"):
+    if not select_ports(component.ports):
         raise ValueError(f"No ports for {component.name}")
 
     component = component.copy()
     component_copy = component.copy()
 
     if optical_port_labels is None:
-        optical_ports = component.get_ports_list(port_type="optical")
+        optical_ports = select_ports(component.ports)
     else:
         optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
 
     excluded_ports = excluded_ports or []
-    optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
+    optical_ports = {
+        p.name: p for p in optical_ports.values() if p.name not in excluded_ports
+    }
     N = len(optical_ports)
 
     if isinstance(grating_coupler, list):
@@ -100,6 +104,7 @@ def route_fiber_single(
     # route west ports to south
     component = component.rotate(90)
     south_ports = component.get_ports_dict(orientation=270)
+    south_ports = select_ports(south_ports)
     component.ports = south_ports
 
     elements_south, gratings_south, _ = route_fiber_array(
@@ -112,6 +117,7 @@ def route_fiber_single(
         auto_widen=auto_widen,
         component_name=component_name,
         cross_section=cross_section,
+        select_ports=select_ports,
         **kwargs,
     )
 
@@ -120,6 +126,8 @@ def route_fiber_single(
     ports_already_routed = component.get_ports_dict(orientation=90)
     for port_already_routed in ports_already_routed.keys():
         component.ports.pop(port_already_routed)
+
+    component.ports = select_ports(component.ports)
 
     elements_north, gratings_north, _ = route_fiber_array(
         component=component,
@@ -131,6 +139,7 @@ def route_fiber_single(
         auto_widen=auto_widen,
         component_name=component_name,
         cross_section=cross_section,
+        select_ports=select_ports,
         **kwargs,
     )
     for e in elements_north:

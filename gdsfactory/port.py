@@ -266,7 +266,8 @@ def select_ports(
     layer: Optional[Tuple[int, int]] = None,
     prefix: Optional[str] = None,
     orientation: Optional[int] = None,
-    layers_excluded: Tuple[Tuple[int, int], ...] = None,
+    width: Optional[float] = None,
+    layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
 ) -> Dict[str, Port]:
     """
     Args:
@@ -300,12 +301,17 @@ def select_ports(
         ports = {
             p_name: p for p_name, p in ports.items() if p.layer not in layers_excluded
         }
+    if width:
+        ports = {p_name: p for p_name, p in ports.items() if p.width == width}
 
     return ports
 
 
 select_optical_ports = functools.partial(
     select_ports, layers_excluded=((41, 0), (45, 0), (49, 0))
+)
+select_ports_electrical = functools.partial(
+    select_ports, layers_excluded=((1, 0), (2, 0), (34, 0))
 )
 
 
@@ -400,7 +406,7 @@ def _rename_ports_counter_clockwise(_direction_ports, prefix=""):
     ports = east_ports + north_ports + west_ports + south_ports
 
     for i, p in enumerate(ports):
-        p.name = f"{prefix}{i+1}"
+        p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
 def _rename_ports_clockwise(_direction_ports, prefix: str = ""):
@@ -466,7 +472,7 @@ def rename_ports_by_orientation(
 
 
 auto_rename_ports = functools.partial(
-    rename_ports_by_orientation, function=_rename_ports_counter_clockwise
+    rename_ports_by_orientation, function=_rename_ports_clockwise
 )
 
 

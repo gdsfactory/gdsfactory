@@ -10,7 +10,6 @@ def hline(
     length: float = 10.0,
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
-    port_type: str = "optical",
 ) -> Component:
     """Horizonal line straight, with ports on east and west sides"""
     c = gf.Component()
@@ -24,7 +23,6 @@ def hline(
         width=width,
         orientation=180,
         layer=layer,
-        port_type=port_type,
     )
     c.add_port(
         name=2,
@@ -32,7 +30,6 @@ def hline(
         width=width,
         orientation=0,
         layer=layer,
-        port_type=port_type,
     )
 
     c.width = width

@@ -871,7 +871,8 @@ class Component(Device):
     def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
         ports = ports if isinstance(ports, list) else ports.values()
         for port in ports:
-            self.add_port(name=f"{prefix}{port.name}", port=port)
+            name = f"{prefix}{port.name}" if prefix else port.name
+            self.add_port(name=name, port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
         for port in self.ports.values():
@@ -1004,7 +1005,7 @@ class Component(Device):
         """Print component, show geometry in matplotlib and in klayout
         when using jupyter notebooks
         """
-        self.show()
+        self.show(show_ports=False)
         self.plot()
         return self.__str__()
 

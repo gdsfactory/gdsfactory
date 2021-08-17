@@ -1,11 +1,12 @@
 """Routes bundles of ports (river routing).
 
-get bundle is the generic river routing function that will call different function depending on the port orientation.
+get bundle is the generic river routing function
+get_bundle calls different function depending on the port orientation.
 
- - `get_bundle_same_axis`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
- - `get_bundle_corner`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
- - `get_bundle_udirect`, banks of ports with direct U-turns
- - `get_bundle_uindirect`, banks of ports with indirect U-turns
+ - get_bundle_same_axis: ports facing each other with arbitrary pitch on each side
+ - get_bundle_corner: 90Deg / 270Deg between ports with arbitrary pitch
+ - get_bundle_udirect: ports with direct U-turns
+ - get_bundle_uindirect: ports with indirect U-turns
 
 """
 from typing import Callable, List, Optional, Union, cast
@@ -655,13 +656,12 @@ def test_get_bundle_small() -> Component:
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
-        [c1.ports[2], c1.ports["E1"]],
+        [c1.ports[3], c1.ports[4]],
         [c2.ports[1], c2.ports[2]],
         radius=5,
     )
     for route in routes:
-        # print(route.length)
-        assert np.isclose(route.length, 111.3)
+        assert np.isclose(route.length, 111.3), route.length
         c.add(route.references)
     return c
 
@@ -670,24 +670,23 @@ if __name__ == "__main__":
 
     # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
-    # c = test_get_bundle_small()
+    c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
     # c = test_connect_corner()
 
-    # c.show()
+    c.show()
 
-    c = gf.Component()
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
-    routes = get_bundle(
-        [c1.ports[2], c1.ports["E1"]],
-        [c2.ports[1], c2.ports[2]],
-        radius=5,
-    )
-    for route in routes:
-        # print(route.length)
-        assert np.isclose(route.length, 111.3)
-        c.add(route.references)
+    # c = gf.Component()
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.move((100, 40))
+    # routes = get_bundle(
+    #     [c1.ports[2], c1.ports["E1"]],
+    #     [c2.ports[1], c2.ports[2]],
+    #     radius=5,
+    # )
+    # for route in routes:
+    #     assert np.isclose(route.length, 111.3) ,route.length
+    #     c.add(route.references)

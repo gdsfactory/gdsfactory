@@ -1,6 +1,7 @@
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
+from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import ComponentFactory
@@ -11,6 +12,7 @@ def add_electrical_pads_top_dc(
     component: Component,
     dy: float = 100.0,
     pad_array: ComponentFactory = pad_array_function,
+    select_ports=select_ports_electrical,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top
@@ -22,9 +24,13 @@ def add_electrical_pads_top_dc(
         **kwargs: cross-section settings
     """
     c = Component()
-    ports = component.get_ports_list(port_type="dc")
+    ports = select_ports(component.ports)
+    ports = list(ports.values())
+    for port in ports:
+        port.orientation = 90
+
     c << component
-    pads = c << pad_array(n=len(ports), port_list=("S",))
+    pads = c << pad_array(n=len(ports))
     pads.x = component.x
     pads.ymin = component.ymax + dy
 
@@ -46,6 +52,6 @@ def add_electrical_pads_top_dc(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight_with_heater(length=100.0)
+    c = gf.components.straight_heater_metal(length=100.0)
     cc = add_electrical_pads_top_dc(component=c, layer=(31, 0), width=10)
     cc.show()

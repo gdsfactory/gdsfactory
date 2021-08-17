@@ -17,7 +17,8 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionFactory = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    via_stack: Optional[ComponentFactory] = via_stack_heater,
+    via_stack1: Optional[ComponentFactory] = via_stack_heater,
+    via_stack2: Optional[ComponentFactory] = via_stack_heater,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -68,9 +69,9 @@ def straight_heater_metal_undercut(
     c.add_ref(sequence)
     c.add_ports(sequence.ports)
 
-    if via_stack:
-        contactw = via_stack(port_orientation=180)
-        contacte = via_stack(port_orientation=0)
+    if via_stack1:
+        contactw = via_stack1()
+        contacte = via_stack2()
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
 

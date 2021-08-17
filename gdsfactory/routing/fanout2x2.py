@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Callable, Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
+from gdsfactory.port import select_optical_ports
 
 
 @cell
@@ -12,6 +13,7 @@ def fanout2x2(
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
     npoints: int = 101,
+    select_ports: Callable = select_optical_ports,
 ) -> Component:
     """returns component with port_spacing.
 
@@ -20,6 +22,7 @@ def fanout2x2(
         port_spacing: for the returned component
         bend_length: length of the bend (defaults to port_spacing)
         npoints: for sbend
+        select_ports: function to select  optical_ports ports
 
     """
 
@@ -36,9 +39,9 @@ def fanout2x2(
     y = port_spacing / 2.0
 
     p_w0 = comp.ports[1].midpoint
-    p_e0 = comp.ports[2].midpoint
     p_w1 = comp.ports[2].midpoint
-    p_e1 = comp.ports["E1"].midpoint
+    p_e1 = comp.ports[3].midpoint
+    p_e0 = comp.ports[4].midpoint
     y0 = p_e1[1]
 
     dy = y - y0
@@ -49,32 +52,33 @@ def fanout2x2(
         control_points=control_points, npoints=npoints, start_angle=0, end_angle=0
     )
 
-    b_tr = bezier_bend_t.ref(port_id="0", position=p_e1)
-    b_br = bezier_bend_t.ref(port_id="0", position=p_e0, v_mirror=True)
-    b_tl = bezier_bend_t.ref(port_id="0", position=p_w1, h_mirror=True)
-    b_bl = bezier_bend_t.ref(port_id="0", position=p_w0, rotation=180)
+    b_tr = bezier_bend_t.ref(port_id=1, position=p_e1)
+    b_br = bezier_bend_t.ref(port_id=1, position=p_e0, v_mirror=True)
+    b_tl = bezier_bend_t.ref(port_id=1, position=p_w1, h_mirror=True)
+    b_bl = bezier_bend_t.ref(port_id=1, position=p_w0, rotation=180)
 
     c.add([b_tr, b_br, b_tl, b_bl])
 
-    c.add_port(1, port=b_bl.ports["1"])
-    c.add_port(2, port=b_tl.ports["1"])
-    c.add_port(2, port=b_br.ports["1"])
-    c.add_port("E1", port=b_tr.ports["1"])
+    c.add_port(1, port=b_bl.ports[2])
+    c.add_port(2, port=b_tl.ports[2])
+    c.add_port(3, port=b_tr.ports[2])
+    c.add_port(4, port=b_br.ports[2])
 
     c.min_bend_radius = bezier_bend_t.info["min_bend_radius"]
 
-    for pname, p in c.ports.items():
-        if p.port_type != "optical":
-            c.add_port(pname, port=p)
-
+    optical_ports = select_ports(comp.ports)
+    for port_name in comp.ports.keys():
+        if port_name not in optical_ports:
+            c.add_port(port_name, port=comp.ports[port_name])
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     # c =gf.components.coupler(gap=1.0)
-    c = gf.components.nxn(west=4)
+    c = gf.components.nxn(west=2, east=2)
 
     cc = fanout2x2(component=c)
-    print(cc.ports["E1"].y - cc.ports[2].y)
+    print(cc.ports[3].y - cc.ports[4].y)
     # print(cc.ports)
     cc.show()

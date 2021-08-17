@@ -1,10 +1,10 @@
 info:
   instances:
-    mmi_bot: DeviceReference (parent Device "mmi1x2_LM11_WM5", ports ['E0', 'E1',
-      'W0'], origin [ 97.5   -39.375], rotation 0, x_reflection False)
-    mmi_top: DeviceReference (parent Device "mmi1x2_LM22_WM6", ports ['E0', 'E1',
-      'W0'], origin [21.  0.], rotation 0, x_reflection False)
+    mmi_bot: DeviceReference (parent Device "mmi1x2_LM11_WM5", ports [3, 2, 1], origin
+      [ 97.5   -39.375], rotation 0, x_reflection False)
+    mmi_top: DeviceReference (parent Device "mmi1x2_LM22_WM6", ports [3, 2, 1], origin
+      [21.  0.], rotation 0, x_reflection False)
   routes:
-    mmi_top,E0:mmi_bot,W0: 72.348
+    mmi_top,3:mmi_bot,1: 72.348
 name: sample_docstring
 settings: {}

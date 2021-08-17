@@ -11,22 +11,18 @@ CUSTOM_LABEL = "straight_cband"
 def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Component:
     c = gf.components.straight(length=LENGTH)
 
-    assert len(c.labels) == 0
-    # nlabels = len(c.labels)
+    assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_array(
         component=c, with_loopback=False, component_name=CUSTOM_LABEL
     )
-    assert len(cte.labels) == 2
+    assert len(cte.labels) == 2, len(cte.labels)
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    print(l0)
-    print(l1)
-    assert l0 == f"opt_te_1530_({CUSTOM_LABEL})_0_W0"
-    assert l1 == f"opt_te_1530_({CUSTOM_LABEL})_1_E0"
-
-    return c
+    assert l0 == f"opt_te_1530_({CUSTOM_LABEL})_0_1", l0
+    assert l1 == f"opt_te_1530_({CUSTOM_LABEL})_1_2", l1
+    return cte
 
 
 def test_label_fiber_single_custom(num_regression, check=True):
@@ -56,8 +52,8 @@ def test_label_fiber_single_custom(num_regression, check=True):
 
 
 if __name__ == "__main__":
-    # c = test_label_fiber_array_custom()
-    c = test_label_fiber_single_custom(None, check=False)
+    c = test_label_fiber_array_custom()
+    # c = test_label_fiber_single_custom(None, check=False)
     c.show()
 
     # c = gf.components.straight()

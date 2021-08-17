@@ -131,16 +131,16 @@ def spiral_inner_io(
         cross_section=cross_section,
     )
     taper_ref1 = component.add_ref(taper)
-    taper_ref1.connect("2", p1)
+    taper_ref1.connect(2, p1)
 
     taper_ref2 = component.add_ref(taper)
-    taper_ref2.connect("2", p2)
+    taper_ref2.connect(2, p2)
 
     component.absorb(taper_ref1)
     component.absorb(taper_ref2)
 
-    component.add_port(name="S0", port=taper_ref1.ports["1"])
-    component.add_port(name="S1", port=taper_ref2.ports["1"])
+    component.add_port(name="S0", port=taper_ref1.ports[1])
+    component.add_port(name="S1", port=taper_ref2.ports[1])
 
     # Create manhattan path going from west grating to westest port of bend 180
     _pt = np.array(p1.position)

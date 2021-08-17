@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 import phidl.device_layout as pd
@@ -8,6 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
 from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Routes
@@ -24,6 +25,7 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
+    select_ports: Callable = select_optical_ports,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Routes:
@@ -58,7 +60,7 @@ def route_south(
         2,
     ], f"optical_routing_type = {optical_routing_type}, not supported "
 
-    optical_ports = component.get_ports_list(port_type="optical")
+    optical_ports = list(select_ports(component.ports).values())
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     csi = component.size_info
     references = []

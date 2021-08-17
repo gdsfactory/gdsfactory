@@ -1,5 +1,5 @@
 connections:
-  b,W0: w,E0
+  b,1: s,2
 instances:
   b:
     component: bend_circular
@@ -7,7 +7,7 @@ instances:
       angle: 90
       npoints: 720
       with_cladding_box: true
-  w:
+  s:
     component: straight
     settings:
       length: 10
@@ -20,7 +20,7 @@ placements:
     rotation: 0
     x: 10.0
     y: 0.0
-  w:
+  s:
     mirror: false
     rotation: 0
     x: 0.0

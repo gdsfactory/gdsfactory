@@ -12,7 +12,7 @@ def cavity(
     coupler: ComponentFactory = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,
-    **coupler_settings
+    **kwargs
 ) -> Component:
     r"""Returns  cavity from a coupler and a mirror.
 
@@ -24,7 +24,7 @@ def cavity(
         coupler: coupler library
         length: coupler length
         gap: coupler gap
-        tech: Technology
+        kwargs: coupler_settings
 
     .. code::
 
@@ -46,9 +46,7 @@ def cavity(
     """
     mirror = component() if callable(component) else component
     coupler = (
-        coupler(length=length, gap=gap, **coupler_settings)
-        if callable(coupler)
-        else coupler
+        coupler(length=length, gap=gap, **kwargs) if callable(coupler) else coupler
     )
 
     c = gf.Component()
@@ -57,9 +55,9 @@ def cavity(
     mr = c << mirror
 
     ml.connect(1, destination=cr.ports[2])
-    mr.connect(1, destination=cr.ports["E1"])
+    mr.connect(1, destination=cr.ports[3])
     c.add_port(1, port=cr.ports[1])
-    c.add_port(2, port=cr.ports[2])
+    c.add_port(2, port=cr.ports[4])
     return c
 
 

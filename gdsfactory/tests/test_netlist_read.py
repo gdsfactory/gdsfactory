@@ -1,9 +1,8 @@
+import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 def test_netlist_read() -> Component:
-    import gdsfactory as gf
-
     filepath = gf.CONFIG["netlists"] / "mzi.yml"
     c = gf.component_from_yaml(filepath)
 
@@ -12,29 +11,20 @@ def test_netlist_read() -> Component:
     # print(len(c.get_netlist().connections))
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
-    print(len(c.get_dependencies()))
 
-    assert len(c.get_dependencies()) == 4
+    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
     return c
 
 
 def test_netlist_read_full() -> Component:
-    import gdsfactory as gf
-
     filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
     c = gf.component_from_yaml(filepath)
 
-    # print(c.get_netlist().pretty())
-    # print((c.get_netlist().connections.pretty()))
-    # print(len(c.get_netlist().connections))
-    # print(len(c.get_dependencies()))
-    assert len(c.get_dependencies()) == 4
+    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
     return c
 
 
 def regenerate_regression_test():
-    import gdsfactory as gf
-
     c = gf.components.mzi()
     filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
     c.write_netlist(filepath, full_settings=True)
@@ -44,7 +34,7 @@ def regenerate_regression_test():
 
 
 if __name__ == "__main__":
-    test_netlist_read()
+    c = test_netlist_read()
     # test_netlist_read_full()
     # regenerate_regression_test()
 

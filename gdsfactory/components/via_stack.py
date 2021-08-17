@@ -15,8 +15,8 @@ def via_stack(
     height: Optional[float] = None,
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[ComponentOrFactory, ...]] = (via2, via3),
-    port_orientation: int = 180,
     layer: Layer = LAYER.M3,
+    port_orientation: int = 90,
 ) -> Component:
     """Rectangular via_stack
 
@@ -68,30 +68,14 @@ def via_stack(
             for j in range(nb_vias_y):
                 c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
 
-    if port_orientation == 0:
-        port_name = 2
-        port_width = height
-    elif port_orientation == 180:
-        port_name = 1
-        port_width = height
-    elif port_orientation == 90:
-        port_name = 2
-        port_width = width
-    elif port_orientation == 270:
-        port_name = "S0"
-        port_width = width
-    else:
-        raise ValueError(
-            f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
-        )
     c.add_port(
-        name=port_name,
-        width=port_width,
+        name="DC",
+        width=width if port_orientation in [90, 270] else height,
         orientation=port_orientation,
-        port_type="dc",
         layer=layer,
     )
 
+    c.auto_rename_ports()
     return c
 
 

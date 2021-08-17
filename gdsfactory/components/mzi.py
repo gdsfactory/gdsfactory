@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
 
 
 @cell
@@ -25,6 +25,7 @@ def mzi(
     with_splitter: bool = True,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
+    layer: Layer = (1, 0),
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -111,7 +112,7 @@ def mzi(
     l0tl.connect(port=1, destination=blt.ports[2])
     bltl.connect(port=2, destination=l0tl.ports[2])
     lxtop.connect(port=1, destination=bltl.ports[1])
-    bltr.connect(port=2, destination=lxtop.ports[2])
+    bltr.connect(port=2, destination=lxtop.ports[len(lxtop.ports)])
     l0tr.connect(port=1, destination=bltr.ports[1])
     blmr.connect(port=1, destination=l0tr.ports[2])
     cout.connect(port=e0_port_name, destination=blmr.ports[2])
@@ -132,12 +133,13 @@ def mzi(
     l1l.connect(port=1, destination=l0bl.ports[2])
     blbl.connect(port=1, destination=l1l.ports[2])
     lxbot.connect(port=1, destination=blbl.ports[2])
-    brbr.connect(port=1, destination=lxbot.ports[2])
+    brbr.connect(port=1, destination=lxbot.ports[len(lxbot.ports)])
 
     l1r.connect(port=1, destination=brbr.ports[2])
     l0br.connect(port=1, destination=l1r.ports[2])
     blbmrb.connect(port=2, destination=l0br.ports[2])
     blbmrb.connect(port=1, destination=cout.ports[e1_port_name])  # just for netlist
+    # l0br.connect(2, blbmrb.ports[2])
 
     # west ports
     if with_splitter:
@@ -155,13 +157,9 @@ def mzi(
             c.add_port(name=f"E{i}", port=port)
 
     # Add any non-optical ports from bottom and bottom arms
-    for i, port in enumerate(lxbot.get_ports_list()):
-        if port.port_type != "optical":
-            c.add_port(name=f"DC_BOT_{i}", port=port)
 
-    for i, port in enumerate(lxtop.get_ports_list()):
-        if port.port_type != "optical":
-            c.add_port(name=f"DC_TOP_{i}", port=port)
+    c.add_ports(lxtop.get_ports_list(layers_excluded=(layer,)), prefix="DC_top")
+    c.add_ports(lxbot.get_ports_list(layers_excluded=(layer,)), prefix="DC_bot")
 
     auto_rename_ports(c)
 
@@ -186,27 +184,28 @@ def mzi(
     c.aliases["l0br"] = l0br
     c.aliases["blbmrb"] = blbmrb
 
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    delta_length = 116.8 / 2
+    import gdsfactory as gf
+
+    # delta_length = 116.8 / 2
     # print(delta_length)
-
     # c = mzi(delta_length=delta_length, with_splitter=False)
-    # c = mzi(delta_length=10)
-
     # c.pprint_netlist()
 
-    # add_markers(c)
-    # print(c.ports[2].midpoint[1])
-    # c.plot_netlist()
-    # print(c.ports.keys())
-    # print(c.ports[2].midpoint)
-
-    c = mzi(delta_length=20, layer=(2, 0))
-    c.show(show_subports=True)
+    c = mzi(
+        delta_length=20,
+        straight_horizontal_top=gf.c.straight_heater_metal,
+        straight_horizontal_bot=gf.c.straight_heater_metal,
+        length_x=50,
+    )
+    c = mzi(delta_length=10)
+    c.show(show_subports=False)
     # c.show()
     c.pprint()
+    # n = c.get_netlist()
     # c.plot()
     # print(c.get_settings())

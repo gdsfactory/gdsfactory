@@ -8,6 +8,7 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
+from gdsfactory.port import select_optical_ports
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
@@ -30,6 +31,7 @@ def add_fiber_single(
     gc_port_name: str = 1,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
+    select_ports: Callable = select_optical_ports,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
@@ -92,8 +94,10 @@ def add_fiber_single(
 
     """
     layer_label = layer_label or TECH.layer_label
+    optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
 
-    if not component.get_ports_list(port_type="optical"):
+    if not optical_ports:
         raise ValueError(f"No ports for {component.name}")
 
     component = component() if callable(component) else component
@@ -106,7 +110,6 @@ def add_fiber_single(
         raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
 
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
-    optical_ports = component.get_ports_list(port_type="optical")
 
     c = Component()
     cr = c << component
@@ -147,6 +150,7 @@ def add_fiber_single(
             gc_port_name=gc_port_name,
             component_name=component_name,
             cross_section=cross_section,
+            select_ports=select_ports,
             **kwargs,
         )
 
@@ -154,10 +158,6 @@ def add_fiber_single(
         c.add(e)
     for gc in grating_couplers:
         c.add(gc)
-
-    for pname, p in component.ports.items():
-        if p.port_type != "optical":
-            c.add_port(pname, port=p)
 
     for i, io_row in enumerate(grating_couplers):
         if isinstance(io_row, list):

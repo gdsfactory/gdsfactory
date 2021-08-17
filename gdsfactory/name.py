@@ -150,6 +150,7 @@ def clean_value(value: Any) -> str:
         value = "_".join(clean_value(v) for v in value)
     elif isinstance(value, dict):
         value = dict2name(**value)
+        # value = [f"{k}={v!r}" for k, v in value.items()]
     elif isinstance(value, Device):
         value = clean_name(value.name)
     elif (

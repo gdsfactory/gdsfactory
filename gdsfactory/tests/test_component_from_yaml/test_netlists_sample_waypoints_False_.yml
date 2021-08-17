@@ -1,6 +1,4 @@
 connections:
-  b,N0: straight_c713d6a6_0p0_170p0,1
-  b,N1: straight_e337bb52_150p0_95p0,1
   bend_euler_1fc94be7_154p875_145p125,1: straight_e337bb52_150p0_95p0,2
   bend_euler_1fc94be7_154p875_145p125,2: straight_17e858d1_350p0_150p0,1
   bend_euler_1fc94be7_395p125_304p875,1: straight_17e858d1_200p0_300p0,2
@@ -17,14 +15,12 @@ connections:
   bend_euler_1fc94be7_m245p125_404p875,2: straight_731f4c7c_m250p0_680p0,1
   bend_euler_1fc94be7_m95p125_554p875,1: straight_1c023494_225p0_550p0,2
   bend_euler_1fc94be7_m95p125_554p875,2: straight_ea13adb3_m100p0_755p0,1
-  straight_731f4c7c_m250p0_680p0,2: t,S0
-  straight_ea13adb3_m100p0_755p0,2: t,S1
 instances:
   b:
     component: pad_array
     settings:
-      port_list:
-      - N
+      port_names:
+      - 2
   bend_euler_1fc94be7_154p875_145p125:
     component: bend_euler
     settings:
@@ -146,8 +142,8 @@ instances:
   t:
     component: pad_array
     settings:
-      port_list:
-      - S
+      port_names:
+      - 4
 name: sample_waypoints
 placements:
   b:
