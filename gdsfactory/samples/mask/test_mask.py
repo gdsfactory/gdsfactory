@@ -1,13 +1,14 @@
 import pathlib
 import shutil
 
+import gdsfactory as gf
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
 from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
 
 
-def test_mask():
+def get_mask():
     """Returns gdspath for a Mask
 
     - Write GDS files defined in does.yml (with JSON metadata)
@@ -40,9 +41,8 @@ def test_mask():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
 
-    c = test_mask()
+    c = get_mask()
     gf.show(c)
 
     cwd = pathlib.Path(__file__).absolute().parent
