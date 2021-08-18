@@ -1,7 +1,7 @@
 """
-Fab D
-
-has a port naming convention with optical ports with o_ prefix and electrical ports with e_ prefix
+Fab D port naming convention
+- optical ports with o_ prefix
+- electrical ports with e_ prefix
 
 """
 
@@ -76,7 +76,7 @@ def add_pins(
             pin_length=pin_length,
             **kwargs,
         )
-    component.auto_rename_ports_with_prefix()
+    component.auto_rename_ports_prefix_clockwise()
 
 
 # cross_sections
@@ -128,7 +128,7 @@ gc_nitride_c = gf.partial(
 
 # HIERARCHICAL COMPONENTS made of leaf components
 
-ring_c = gf.partial(gf.c.ring_single)
+ring_c = gf.partial(gf.c.ring_single, decorator=add_pins)
 
 
 TECH_FABC = Tech(name="fab_d")
@@ -138,26 +138,17 @@ LIBRARY = Library(name="fab_d")
 LIBRARY.register(
     [mmi1x2_nitride_c, mmi1x2_nitride_o, bend_euler_c, straight_c, gc_nitride_c, ring_c]
 )
-# LIBRARY.register(
-#     mmi1x2_nitride_c=mmi1x2_nitride_c,
-#     mmi1x2_nitride_o=mmi1x2_nitride_o,
-#     bend_euler_c=bend_euler_c,
-#     straight_c=straight_c,
-#     gc_nitride_c=gc_nitride_c,
-#     ring_c=ring_c
-# )
-
 
 if __name__ == "__main__":
 
     c = ring_c()
-    # cc = gf.routing.add_fiber_single(
-    #     component=c,
-    #     grating_coupler=gc_nitride_c,
-    #     cross_section=fabc_nitride_cband,
-    #     optical_routing_type=1,
-    #     straight_factory=straight_c,
-    #     bend_factory=bend_euler_c,
-    #     select_ports=select_ports_optical,
-    # )
-    # cc.show()
+    cc = gf.routing.add_fiber_single(
+        component=c,
+        grating_coupler=gc_nitride_c,
+        cross_section=fabc_nitride_cband,
+        optical_routing_type=1,
+        straight_factory=straight_c,
+        bend_factory=bend_euler_c,
+        select_ports=select_ports_optical,
+    )
+    cc.show()

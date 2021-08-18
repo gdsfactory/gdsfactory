@@ -30,7 +30,8 @@ You can also rename them W,E,S,N prefix (west, east, south, north)
 import csv
 import functools
 from copy import deepcopy
-from typing import Callable, Dict, Iterable, List, Optional, Tuple
+from functools import partial
+from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import phidl.geometry as pg
@@ -39,6 +40,8 @@ from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.snap import snap_to_grid
+
+PortName = Union[int, str]
 
 
 class PortNotOnGridError(ValueError):
@@ -307,10 +310,10 @@ def select_ports(
     return ports
 
 
-select_ports_optical = functools.partial(
+select_ports_optical = partial(
     select_ports, layers_excluded=((41, 0), (45, 0), (49, 0))
 )
-select_ports_electrical = functools.partial(
+select_ports_electrical = partial(
     select_ports, layers_excluded=((1, 0), (2, 0), (34, 0))
 )
 
@@ -475,13 +478,17 @@ def rename_ports_by_orientation(
     component.ports = {p.name: p for p in component.ports.values()}
 
 
-auto_rename_ports = functools.partial(
+auto_rename_ports = partial(
     rename_ports_by_orientation, function=_rename_ports_clockwise
 )
 
 
-def auto_rename_ports_with_prefix(
-    component: Device, function=_rename_ports_clockwise, **kwargs
+def auto_rename_ports_prefix_clockwise(
+    component: Device,
+    function=_rename_ports_clockwise,
+    select_ports_optical=select_ports_optical,
+    select_ports_electrical=select_ports_electrical,
+    **kwargs,
 ):
     """Adds prefix for optical and electical"""
     rename_ports_by_orientation(
@@ -500,14 +507,95 @@ def auto_rename_ports_with_prefix(
     )
 
 
-def auto_rename_ports_by_orientation(component: Device, **kwargs):
-    """Adds prefix for optical and electical"""
-    rename_ports_by_orientation(
-        component=component, select_ports=select_ports_optical, prefix="o", **kwargs
+auto_rename_ports_prefix_counter_clockwise = partial(
+    auto_rename_ports_prefix_clockwise, function=_rename_ports_counter_clockwise
+)
+auto_rename_ports_prefix_orientation = partial(
+    auto_rename_ports_prefix_clockwise, function=_rename_ports_facing_side
+)
+
+
+def map_ports_orientation(
+    component: Device,
+    layers_excluded: Tuple[Tuple[int, int], ...] = None,
+    select_ports: Optional[Callable] = None,
+    function=_rename_ports_facing_side,
+    prefix: str = "",
+) -> Dict[PortName, PortName]:
+    """Returns component or reference port mapping
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
+
+    layers_excluded = layers_excluded or []
+    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+
+    ports = component.ports
+    ports = select_ports(ports) if select_ports else ports
+
+    ports_on_process = [
+        p._copy() for p in ports.values() if p.layer not in layers_excluded
+    ]
+
+    for p in ports_on_process:
+        p.name_original = p.name
+        angle = p.orientation % 360
+        if angle <= 45 or angle >= 315:
+            direction_ports["E"].append(p)
+        elif angle <= 135 and angle >= 45:
+            direction_ports["N"].append(p)
+        elif angle <= 225 and angle >= 135:
+            direction_ports["W"].append(p)
+        else:
+            direction_ports["S"].append(p)
+
+    function(direction_ports, prefix=prefix)
+    return {p.name: p.name_original for p in ports_on_process}
+
+
+def map_ports_prefix_clockwise(
+    component: Device,
+    function=_rename_ports_clockwise,
+    select_ports_optical=select_ports_optical,
+    select_ports_electrical=select_ports_electrical,
+    **kwargs,
+) -> Dict[PortName, PortName]:
+
+    d1 = map_ports_orientation(
+        component=component,
+        select_ports=select_ports_optical,
+        prefix="o",
+        function=function,
+        **kwargs,
     )
-    rename_ports_by_orientation(
-        component=component, select_ports=select_ports_electrical, prefix="e", **kwargs
+    d2 = map_ports_orientation(
+        component=component,
+        select_ports=select_ports_electrical,
+        prefix="e",
+        function=function,
+        **kwargs,
     )
+    for k, v in d2.items():
+        d1[k] = v
+    return d1
+
+
+map_ports_prefix_counter_clockwise = partial(
+    map_ports_prefix_clockwise, function=_rename_ports_counter_clockwise
+)
+
+map_ports_prefix_orientation = partial(
+    map_ports_prefix_clockwise, function=_rename_ports_facing_side
+)
 
 
 __all__ = [
@@ -523,6 +611,9 @@ __all__ = [
     "deco_rename_ports",
     "rename_ports_by_orientation",
     "auto_rename_ports",
+    "auto_rename_ports_prefix_clockwise",
+    "auto_rename_ports_prefix_counter_clockwise",
+    "auto_rename_ports_prefix_orientation",
 ]
 
 if __name__ == "__main__":
@@ -530,4 +621,5 @@ if __name__ == "__main__":
 
     c = gf.Component()
     wg = c << gf.components.straight()
+    m = map_ports_orientation(wg)
     c.show()

@@ -24,8 +24,14 @@ from phidl.device_layout import Device, DeviceReference, _parse_layer
 from gdsfactory.config import __version__
 from gdsfactory.port import (
     Port,
+    PortName,
     auto_rename_ports,
-    auto_rename_ports_with_prefix,
+    auto_rename_ports_prefix_clockwise,
+    auto_rename_ports_prefix_counter_clockwise,
+    auto_rename_ports_prefix_orientation,
+    map_ports_prefix_clockwise,
+    map_ports_prefix_counter_clockwise,
+    map_ports_prefix_orientation,
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid
@@ -513,6 +519,18 @@ class ComponentReference(DeviceReference):
     def get_settings(self, **kwargs) -> Dict[str, Any]:
         """Returns settings from the Comonent."""
         return self.parent.get_settings(**kwargs)
+
+    @property
+    def ports_cw(self) -> Dict[PortName, PortName]:
+        return map_ports_prefix_clockwise(self)
+
+    @property
+    def ports_ccw(self) -> Dict[PortName, PortName]:
+        return map_ports_prefix_counter_clockwise(self)
+
+    @property
+    def ports_orientation(self) -> Dict[PortName, PortName]:
+        return map_ports_prefix_orientation(self)
 
 
 class Component(Device):
@@ -1133,8 +1151,14 @@ class Component(Device):
     def auto_rename_ports(self) -> None:
         auto_rename_ports(self)
 
-    def auto_rename_ports_with_prefix(self) -> None:
-        auto_rename_ports_with_prefix(self)
+    def auto_rename_ports_prefix_orientation(self) -> None:
+        auto_rename_ports_prefix_orientation(self)
+
+    def auto_rename_ports_prefix_clockwise(self) -> None:
+        auto_rename_ports_prefix_clockwise(self)
+
+    def auto_rename_ports_prefix_counter_clockwise(self) -> None:
+        auto_rename_ports_prefix_counter_clockwise(self)
 
 
 def test_get_layers() -> None:
