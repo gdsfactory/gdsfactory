@@ -18,7 +18,7 @@ def straight_heater_metal_undercut(
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
     via_stack1: Optional[ComponentFactory] = via_stack_heater,
-    via_stack2: Optional[ComponentFactory] = via_stack_heater,
+    via_stack2: Optional[ComponentFactory] = None,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -31,9 +31,12 @@ def straight_heater_metal_undercut(
         cross_section_heater: for heated sections
         cross_section_heater_undercut: for heated sections with undercut
         with_undercut:
-        via_stack:
+        via_stack1: left via stack
+        via_stack2: right via stack
         kwargs: cross_section common settings
     """
+    via_stack2 = via_stack2 or via_stack1
+
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
 
