@@ -22,7 +22,12 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 
 from gdsfactory.config import __version__
-from gdsfactory.port import Port, auto_rename_ports, select_ports
+from gdsfactory.port import (
+    Port,
+    auto_rename_ports,
+    auto_rename_ports_with_prefix,
+    select_ports,
+)
 from gdsfactory.snap import snap_to_grid
 
 Number = Union[float64, int64, float, int]
@@ -1127,6 +1132,9 @@ class Component(Device):
 
     def auto_rename_ports(self) -> None:
         auto_rename_ports(self)
+
+    def auto_rename_ports_with_prefix(self) -> None:
+        auto_rename_ports_with_prefix(self)
 
 
 def test_get_layers() -> None:

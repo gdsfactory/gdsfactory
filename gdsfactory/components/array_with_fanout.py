@@ -9,7 +9,12 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactory,
+    CrossSectionFactory,
+    PortName,
+)
 
 
 @cell
@@ -21,11 +26,11 @@ def array_with_fanout(
     start_straight: float = 5.0,
     end_straight: float = 40.0,
     radius: float = 5.0,
-    component_port_name: str = 2,
-    bend_port_name1: Optional[str] = None,
-    bend_port_name2: Optional[str] = None,
-    cross_section: CrossSectionFactory = strip,
+    component_port_name: PortName = 4,
     bend: ComponentFactory = bend_euler,
+    bend_port_name1: Optional[PortName] = None,
+    bend_port_name2: Optional[PortName] = None,
+    cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis
@@ -39,11 +44,11 @@ def array_with_fanout(
         start_straight: length of the start of the straight
         end_straight: lenght of the straight at the end
         radius: bend radius
-        cross_section: cross_section definition
         component_port_name:
+        bend:
         bend_port_name1:
         bend_port_name2:
-        cross_section:
+        cross_section: cross_section definition
         **kwargs: cross_section settings
     """
     c = Component()
@@ -53,8 +58,8 @@ def array_with_fanout(
     bend_ports = bend.get_ports_list()
     bend_ports = sort_ports_x(bend_ports)
     bend_ports.reverse()
-    bend_port_name1 = bend_port_name1 or bend_ports[1].name
-    bend_port_name2 = bend_port_name2 or bend_ports[0].name
+    bend_port_name1 = bend_port_name1 or bend_ports[0].name
+    bend_port_name2 = bend_port_name2 or bend_ports[1].name
 
     for col in range(n):
         ref = component.ref()
@@ -116,7 +121,6 @@ def array_with_fanout_2d(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
 
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, n=2)
@@ -124,12 +128,10 @@ if __name__ == "__main__":
 
     c2 = array_with_fanout(
         n=3,
-        width=10,
-        radius=11,
         waveguide_pitch=20,
-        bend=gf.components.wire_corner,
-        # bend_port_name1="E_0",
-        # bend_port_name2="E_1",
-        layer=(2, 0),
+        # bend=gf.components.wire_corner,
+        # layer=(2, 0),
+        # width=10,
+        # radius=11,
     )
     c2.show(show_ports=True)

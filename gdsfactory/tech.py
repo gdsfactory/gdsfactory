@@ -261,6 +261,9 @@ class Library:
     def __repr__(self):
         return self.name
 
+    def get_component_names(self):
+        return list(self.factory.keys())
+
     def register(
         self,
         function_or_function_list: Optional[

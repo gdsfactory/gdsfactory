@@ -16,7 +16,7 @@ def mzi_lattice(
     mzi_factory: ComponentFactory = mzi_function,
     splitter: ComponentFactory = coupler_function,
     straight: ComponentFactory = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.
 
@@ -53,7 +53,7 @@ def mzi_lattice(
         straight=straight,
         combiner_settings=combiner_settings,
         splitter_settings=splitter_settings,
-        **kwargs
+        **kwargs,
     )
 
     stages = []
@@ -73,23 +73,24 @@ def mzi_lattice(
             straight=straight,
             splitter_settings=splitter_settings,
             combiner_settings=combiner_settings,
-            **kwargs
+            **kwargs,
         )
         splitter_settings = combiner_settings
 
         stages.append(stage)
 
     for stage in stages:
-        stage.connect(1, sprevious.ports[2])
-        stage.connect(2, sprevious.ports["E1"])
+        stage.connect(1, sprevious.ports[4])
+        # stage.connect(2, sprevious.ports[1])
         sprevious = stage
 
-    for port in cp1.get_ports_list(prefix="W"):
+    for port in cp1.get_ports_list(orientation=180):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(prefix="E"):
-        c.add_port(port.name, port=port)
+    for port in sprevious.get_ports_list(orientation=0):
+        c.add_port(f"o_{port.name}", port=port)
 
+    c.auto_rename_ports()
     return c
 
 

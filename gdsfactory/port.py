@@ -431,7 +431,9 @@ def _rename_ports_clockwise(_direction_ports, prefix: str = ""):
 def rename_ports_by_orientation(
     component: Device,
     layers_excluded: Tuple[Tuple[int, int], ...] = None,
+    select_ports: Optional[Callable] = None,
     function=_rename_ports_facing_side,
+    prefix: str = "",
 ) -> None:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
@@ -449,9 +451,11 @@ def rename_ports_by_orientation(
 
     layers_excluded = layers_excluded or []
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
-    ports_on_process = [
-        p for p in component.ports.values() if p.layer not in layers_excluded
-    ]
+
+    ports = component.ports
+    ports = select_ports(ports) if select_ports else ports
+
+    ports_on_process = [p for p in ports.values() if p.layer not in layers_excluded]
 
     for p in ports_on_process:
         # Make sure we can backtrack the parent component from the port
@@ -467,13 +471,43 @@ def rename_ports_by_orientation(
         else:
             direction_ports["S"].append(p)
 
-    function(direction_ports)
+    function(direction_ports, prefix=prefix)
     component.ports = {p.name: p for p in component.ports.values()}
 
 
 auto_rename_ports = functools.partial(
     rename_ports_by_orientation, function=_rename_ports_clockwise
 )
+
+
+def auto_rename_ports_with_prefix(
+    component: Device, function=_rename_ports_clockwise, **kwargs
+):
+    """Adds prefix for optical and electical"""
+    rename_ports_by_orientation(
+        component=component,
+        select_ports=select_ports_optical,
+        prefix="o",
+        function=function,
+        **kwargs,
+    )
+    rename_ports_by_orientation(
+        component=component,
+        select_ports=select_ports_electrical,
+        prefix="e",
+        function=function,
+        **kwargs,
+    )
+
+
+def auto_rename_ports_by_orientation(component: Device, **kwargs):
+    """Adds prefix for optical and electical"""
+    rename_ports_by_orientation(
+        component=component, select_ports=select_ports_optical, prefix="o", **kwargs
+    )
+    rename_ports_by_orientation(
+        component=component, select_ports=select_ports_electrical, prefix="e", **kwargs
+    )
 
 
 __all__ = [

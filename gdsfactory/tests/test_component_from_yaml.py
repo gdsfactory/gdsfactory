@@ -67,8 +67,8 @@ connections:
 
 def test_sample() -> Component:
     c = component_from_yaml(sample_mmis)
-    assert len(c.get_dependencies()) == 6
-    assert len(c.ports) == 2
+    assert len(c.get_dependencies()) == 6, len(c.get_dependencies())
+    assert len(c.ports) == 3, len(c.ports)
     return c
 
 
@@ -548,8 +548,8 @@ def _demo_netlist():
 if __name__ == "__main__":
     # c = component_from_yaml(sample_2x2_connections)
     # c = component_from_yaml(sample_different_factory)
-    # c = test_sample()
-    c = test_netlists("sample_mmis", True, None, check=False)
+    c = test_sample()
+    # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
     # c = test_mirror()

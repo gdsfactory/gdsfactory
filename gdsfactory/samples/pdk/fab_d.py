@@ -1,4 +1,7 @@
 """
+Fab D
+
+has a port naming convention with optical ports with o_ prefix and electrical ports with e_ prefix
 
 """
 
@@ -31,7 +34,7 @@ WIDTH_NITRIDE_CBAND = 1.0
 select_ports_optical = gf.partial(select_ports, layers_excluded=((100, 0),))
 
 
-def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
+def get_layer_stack_fab_d(thickness_nm: float = 350.0) -> LayerStack:
     """Returns generic LayerStack"""
     return LayerStack(
         layers=[
@@ -73,6 +76,7 @@ def add_pins(
             pin_length=pin_length,
             **kwargs,
         )
+    component.auto_rename_ports_with_prefix()
 
 
 # cross_sections
@@ -124,53 +128,36 @@ gc_nitride_c = gf.partial(
 
 # HIERARCHICAL COMPONENTS made of leaf components
 
-mzi_nitride_c = gf.partial(
-    gf.components.mzi,
-    cross_section=fabc_nitride_cband,
-    splitter=mmi1x2_nitride_c,
-    decorator=add_pins,
-    straight=straight_c,
-    bend=bend_euler_c,
-    layer=LAYER.WGN,
-)
-mzi_nitride_o = gf.partial(
-    gf.components.mzi,
-    cross_section=fabc_nitride_oband,
-    splitter=mmi1x2_nitride_c,
-    decorator=add_pins,
-    straight=straight_o,
-    bend=bend_euler_o,
-    layer=LAYER.WGN,
-)
+ring_c = gf.partial(gf.c.ring_single)
 
 
-TECH_FABC = Tech(name="fab_c")
+TECH_FABC = Tech(name="fab_d")
 
 # for testing
-LIBRARY = Library(name="fab_c")
+LIBRARY = Library(name="fab_d")
 LIBRARY.register(
-    [
-        mmi1x2_nitride_c,
-        mmi1x2_nitride_o,
-        bend_euler_c,
-        straight_c,
-        mzi_nitride_c,
-        mzi_nitride_o,
-        gc_nitride_c,
-    ]
+    [mmi1x2_nitride_c, mmi1x2_nitride_o, bend_euler_c, straight_c, gc_nitride_c, ring_c]
 )
+# LIBRARY.register(
+#     mmi1x2_nitride_c=mmi1x2_nitride_c,
+#     mmi1x2_nitride_o=mmi1x2_nitride_o,
+#     bend_euler_c=bend_euler_c,
+#     straight_c=straight_c,
+#     gc_nitride_c=gc_nitride_c,
+#     ring_c=ring_c
+# )
 
 
 if __name__ == "__main__":
 
-    mzi = mzi_nitride_c()
-    mzi_gc = gf.routing.add_fiber_single(
-        component=mzi,
-        grating_coupler=gc_nitride_c,
-        cross_section=fabc_nitride_cband,
-        optical_routing_type=1,
-        straight_factory=straight_c,
-        bend_factory=bend_euler_c,
-        select_ports=select_ports_optical,
-    )
-    mzi_gc.show()
+    c = ring_c()
+    # cc = gf.routing.add_fiber_single(
+    #     component=c,
+    #     grating_coupler=gc_nitride_c,
+    #     cross_section=fabc_nitride_cband,
+    #     optical_routing_type=1,
+    #     straight_factory=straight_c,
+    #     bend_factory=bend_euler_c,
+    #     select_ports=select_ports_optical,
+    # )
+    # cc.show()

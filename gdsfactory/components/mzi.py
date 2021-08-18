@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, Optional, Union
 
 from gdsfactory.cell import cell
@@ -60,6 +61,11 @@ def mzi(
 
 
     """
+    combiner = combiner or splitter
+    bend = partial(bend, decorator=auto_rename_ports)
+    straight = partial(straight, decorator=auto_rename_ports)
+    splitter = partial(splitter, decorator=auto_rename_ports)
+    combiner = partial(combiner, decorator=auto_rename_ports)
 
     splitter_settings = splitter_settings or {}
     combiner_settings = combiner_settings or {}
