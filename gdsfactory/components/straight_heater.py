@@ -88,14 +88,16 @@ def straight_heater_metal_undercut(
 straight_heater_metal = gf.partial(straight_heater_metal_undercut, with_undercut=False)
 
 
-def test_ports():
+def test_ports() -> Component:
     c = straight_heater_metal(length=50.0)
-    assert c.ports[2].midpoint[0] == 50.0
+    assert c.ports[3].midpoint[0] == 50.0, c.ports[3].midpoint[0]
+    return c
 
 
 if __name__ == "__main__":
-    c = straight_heater_metal_undercut()
+    c = test_ports()
+    # c = straight_heater_metal_undercut()
     # c = straight_heater_metal(length=50.0)
     # print(c.ports[2].midpoint[0])
-    c.pprint_ports()
+    # c.pprint_ports()
     c.show()

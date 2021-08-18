@@ -14,10 +14,10 @@ def test_get_bundle_west_to_north(
     w = h = 10
     c = gf.Component()
     pad_south = gf.components.pad_array(
-        port_list=["S"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
+        port_names=[4], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pad_north = gf.components.pad_array(
-        port_list=["N"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
+        port_names=[2], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pl = c << pad_south
     pb = c << pad_north
@@ -26,6 +26,9 @@ def test_get_bundle_west_to_north(
 
     pbports = pb.get_ports_list()
     ptports = pl.get_ports_list()
+
+    c.add_ports(pbports, prefix="N")
+    c.add_ports(ptports, prefix="S")
 
     routes = gf.routing.get_bundle(
         pbports,
@@ -46,7 +49,6 @@ def test_get_bundle_west_to_north2(
 ) -> Component:
 
     lengths = {}
-
     c = gf.Component("test_get_bundle_west_to_north2")
     pbottom_facing_north = gf.port_array(midpoint=(0, 0), orientation=90, pitch=(30, 0))
     ptop_facing_west = gf.port_array(
@@ -69,5 +71,6 @@ def test_get_bundle_west_to_north2(
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_west_to_north(None, check=False)
+    # c = test_get_bundle_west_to_north(None, check=False)
+    c = test_get_bundle_west_to_north2(None, check=False)
     c.show()

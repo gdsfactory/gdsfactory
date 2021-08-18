@@ -4,6 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.taper import taper
+from gdsfactory.snap import snap_to_grid
 
 
 @gf.cell
@@ -45,27 +46,31 @@ def grating_coupler_uniform(
 
     if partial_etch:
         partetch_overhang = 5
+        teeth = gf.snap.snap_to_grid(period * (1 - fill_factor))
         _compass = compass(
-            size=[period * (1 - fill_factor), width_grating + partetch_overhang * 2],
+            size=[teeth, width_grating + partetch_overhang * 2],
             layer=layer_partial_etch,
         )
 
         # make the etched areas (opposite to teeth)
         for i in range(num_teeth):
             cgrating = G.add_ref(_compass)
-            cgrating.x += i * period
+            dx = gf.snap.snap_to_grid(i * period)
+            cgrating.x += dx
+            cgrating.y = 0
 
         # draw the deep etched square around the grating
-        deepbox = G.add_ref(
-            compass(size=[num_teeth * period, width_grating], layer=layer)
-        )
-        deepbox.movex(num_teeth * period / 2)
+
+        xsize = gf.snap.snap_to_grid(num_teeth * period, 2)
+        deepbox = G.add_ref(compass(size=[xsize, width_grating], layer=layer))
+        deepbox.movex(xsize / 2)
     else:
         for i in range(num_teeth):
-            cgrating = G.add_ref(
-                compass(size=[period * fill_factor, width_grating], layer=layer)
-            )
-            cgrating.x += i * period
+            xsize = gf.snap.snap_to_grid(period * fill_factor)
+            dx = gf.snap.snap_to_grid(i * period)
+            cgrating = G.add_ref(compass(size=[xsize, width_grating], layer=layer))
+            cgrating.x += dx
+            cgrating.y = 0
     # make the taper
     tgrating = G.add_ref(
         taper(
@@ -76,8 +81,8 @@ def grating_coupler_uniform(
             layer=layer,
         )
     )
-    tgrating.xmin = cgrating.xmax
-    G.add_port(port=tgrating.ports["2"], name=1)
+    tgrating.xmin = snap_to_grid(cgrating.xmax)
+    G.add_port(port=tgrating.ports[2], name=1)
     G.polarization = polarization
     G.wavelength = wavelength
     G.rotate(180)

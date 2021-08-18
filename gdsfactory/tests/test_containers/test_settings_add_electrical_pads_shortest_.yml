@@ -12,6 +12,9 @@ settings:
       combiner: null
       combiner_settings: null
       delta_length: 10
+      layer:
+      - 1
+      - 0
       length_x: 320
       length_y: 0.1
       splitter: mmi2x2
@@ -24,3 +27,4 @@ settings:
       straight_vertical: null
       with_splitter: true
   pad_port_spacing: 50
+  port_orientation: 90

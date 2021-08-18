@@ -151,7 +151,7 @@ def test_extend_ports_selection() -> Component:
     import gdsfactory.components as pc
 
     c = pc.cross(width=2)
-    ce = extend_ports(component=c, ports=c.get_ports_list()[0:3])
+    ce = extend_ports(component=c, port_names=list(range(1, 4)))
     assert len(c.ports) == len(ce.ports)
     return ce
 
@@ -161,14 +161,15 @@ __all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 
 if __name__ == "__main__":
     # c = extend_ports()
-    # c = test_extend_ports_selection()
+    c = test_extend_ports_selection()
     # c = test_extend_ports()
-    # c.show()
+    c.show()
 
-    import gdsfactory.components as pc
+    # import gdsfactory.components as pc
 
-    c = pc.bend_circular()
-    ce = extend_ports(component=c, ports=list(c.ports.values()))
+    # c = pc.bend_circular()
+    # ce = extend_ports(component=c, port_names=list(c.ports.keys()))
+    # ce.show()
 
     # c = pc.straight(layer=(3, 0))
     # ce = extend_ports(component=c)

@@ -19,8 +19,8 @@ def loop_mirror(
     bend90 = gf.call_if_func(bend90)
     cref = c.add_ref(component)
     routes = route_manhattan(
+        cref.ports[3],
         cref.ports[2],
-        cref.ports[1],
         straight_factory=gf.components.straight,
         bend_factory=bend90,
     )

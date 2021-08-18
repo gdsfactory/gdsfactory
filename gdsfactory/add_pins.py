@@ -17,7 +17,12 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.port import Port, read_port_markers
+from gdsfactory.port import (
+    Port,
+    read_port_markers,
+    select_ports_electrical,
+    select_ports_optical,
+)
 from gdsfactory.tech import LAYER, PORT_TYPE_TO_MARKER_LAYER
 
 
@@ -284,6 +289,7 @@ def add_outline(
 def add_pins(
     component: Component,
     function: Callable = add_pin_square_inside,
+    select_ports: Optional[Callable] = None,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
@@ -291,11 +297,21 @@ def add_pins(
     Args:
         component: to add ports
         function:
+        select_ports: function to select_ports
         kwargs: add pins function settings
 
     """
-    for port in component.get_ports_list(**kwargs):
-        function(component=component, port=port)
+    ports = (
+        select_ports(component.ports).values()
+        if select_ports
+        else component.get_ports_list()
+    )
+    for port in ports:
+        function(component=component, port=port, **kwargs)
+
+
+add_pins_optical = gf.partial(add_pins, select_ports=select_ports_optical)
+add_pins_electrical = gf.partial(add_pins, select_ports=select_ports_electrical)
 
 
 add_pins_triangle = gf.partial(add_pins, function=add_pin_triangle)
@@ -402,13 +418,14 @@ def add_pins_to_references(
 def test_add_pins() -> gf.Component:
     c1 = gf.components.straight_heater_metal(length=31.23)
     c2 = gf.components.straight_heater_metal(length=31.232)
-    add_pins(component=c1, function=add_pin_square, layer=LAYER.PORT)
-    add_pins(component=c2, function=add_pin_square, layer=LAYER.PORTE)
+
+    add_pins_optical(component=c1, function=add_pin_square, layer=LAYER.PORT)
+    add_pins_electrical(component=c2, function=add_pin_square, layer=LAYER.PORTE)
     n_optical_expected = 2
     n_dc_expected = 2
 
     port_layer_optical = PORT_TYPE_TO_MARKER_LAYER["optical"]
-    port_markers_optical = read_port_markers(c2, [port_layer_optical])
+    port_markers_optical = read_port_markers(c1, [port_layer_optical])
     n_optical = len(port_markers_optical.polygons)
 
     port_layer_dc = PORT_TYPE_TO_MARKER_LAYER["dc"]

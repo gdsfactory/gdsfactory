@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Any, Dict, Optional, Tuple
 
 from gdsfactory.cell import cell
@@ -78,6 +79,12 @@ def pad_array(
     return c
 
 
+pad_array180 = partial(pad_array, port_names=(1,))
+pad_array90 = partial(pad_array, port_names=(2,))
+pad_array0 = partial(pad_array, port_names=(3,))
+pad_array270 = partial(pad_array, port_names=(4,))
+
+
 @cell
 def pad_array_2d(
     pad: ComponentOrFactory = pad,
@@ -126,9 +133,5 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.settings['spacing'])
     # c = pad_array_2d(cols=2, rows=3, port_names=(1,))
-    c = pad_array(
-        port_names=[
-            1,
-        ]
-    )
+    c = pad_array270()
     c.show()

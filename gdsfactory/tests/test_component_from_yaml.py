@@ -166,13 +166,10 @@ routes:
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
     lengths = [693.598, 693.598, 1204.013]
-    # print(c.routes["tl,E:tr,W"])
-    # print(c.routes["bl,E:br,W"])
-    # print(c.routes["bl,S:br,E"])
 
-    assert np.isclose(c.routes["tl,E:tr,W"], lengths[0]), c.routes["tl,E:tr,W"]
-    assert np.isclose(c.routes["bl,E:br,W"], lengths[1]), c.routes["bl,E:br,W"]
-    assert np.isclose(c.routes["bl,S:br,E"], lengths[2]), c.routes["bl,S:br,E"]
+    assert np.isclose(c.routes["tl,3:tr,1"], lengths[0]), c.routes["tl,3:tr,1"]
+    assert np.isclose(c.routes["bl,3:br,1"], lengths[1]), c.routes["bl,3:br,1"]
+    assert np.isclose(c.routes["bl,4:br,3"], lengths[2]), c.routes["bl,4:br,3"]
 
     return c
 
@@ -220,8 +217,8 @@ def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
     length = 1720.794
-    assert np.isclose(c.routes["tl,E:tr,W"], length), f"{c.routes['tl,E:tr,W']}"
-    assert np.isclose(c.routes["bl,E:br,W"], length)
+    assert np.isclose(c.routes["tl,3:tr,1"], length), f"{c.routes['tl,3:tr,1']}"
+    assert np.isclose(c.routes["bl,3:br,1"], length)
     return c
 
 

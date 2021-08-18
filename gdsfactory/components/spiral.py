@@ -5,7 +5,6 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, Layer
 
 
@@ -27,18 +26,19 @@ def spiral(
     """Picwriter Spiral
 
     Args:
-       width: width of the spiral (i.e. distance between input/output ports)
-       length: desired length of the straight (um)
-       spacing: distance between parallel straights
-       parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
-       port: Cartesian coordinate of the input port
-       direction: Direction that the component will point *towards*, can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
-       layer: core layer
-       layer_cladding: cladding layer
-       cladding_offset: distance from core to cladding
-       wg_width: 0.5
-       radius: 10
+        width: width of the spiral (i.e. distance between input/output ports)
+        length: desired length of the straight (um)
+        spacing: distance between parallel straights
+        parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
+        port: Cartesian coordinate of the input port
+        direction: for component to point *towards*,
+            can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians)
+        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
+        layer: core layer
+        layer_cladding: cladding layer
+        cladding_offset: distance from core to cladding
+        wg_width: 0.5
+        radius: 10
 
     """
     c = pc.Spiral(
@@ -59,7 +59,7 @@ def spiral(
     )
     # print(f'length = {length/1e4:.2f}cm')
     c = gf.component_from.picwriter(c)
-    c = auto_rename_ports(c)
+    c.auto_rename_ports()
     return c
 
 

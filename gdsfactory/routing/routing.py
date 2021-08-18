@@ -40,7 +40,8 @@ def route_basic(
         width2 = port2.width
     if round(abs(mod(port1.orientation - port2.orientation, 360)), 3) != 180:
         raise RoutingError(
-            "Route() error: Ports do not face each other (orientations must be 180 apart)"
+            "Route error: Ports must face each other (orientations must be 180 apart)\n"
+            f"got port1 = {port1.orientation} and port2 = {port2.orientation}"
         )
     orientation = port1.orientation
 

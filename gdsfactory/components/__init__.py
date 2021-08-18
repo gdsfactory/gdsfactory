@@ -118,12 +118,20 @@ from gdsfactory.components.wire import wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.components.pad import pad
 from gdsfactory.components.pad import pad_array
+from gdsfactory.components.pad import pad_array180
+from gdsfactory.components.pad import pad_array90
+from gdsfactory.components.pad import pad_array0
+from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.pad import pad_array_2d
 from gdsfactory.components.via import via
 from gdsfactory.components.via import via1
 from gdsfactory.components.via import via2
 from gdsfactory.components.via import via3
 from gdsfactory.components.via_stack import via_stack
+from gdsfactory.components.via_stack import via_stack0
+from gdsfactory.components.via_stack import via_stack90
+from gdsfactory.components.via_stack import via_stack180
+from gdsfactory.components.via_stack import via_stack270
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.pads_shorted import pads_shorted
 
@@ -241,6 +249,10 @@ LIBRARY.register(
         nxn,
         pad,
         pad_array,
+        pad_array180,
+        pad_array90,
+        pad_array0,
+        pad_array270,
         pad_array_2d,
         pads_shorted,
         qrcode,
@@ -267,6 +279,10 @@ LIBRARY.register(
         text,
         via_stack,
         via_stack_with_offset,
+        via_stack0,
+        via_stack90,
+        via_stack180,
+        via_stack270,
         verniers,
         version_stamp,
         via1,

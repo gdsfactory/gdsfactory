@@ -53,8 +53,8 @@ def array_with_fanout(
     bend_ports = bend.get_ports_list()
     bend_ports = sort_ports_x(bend_ports)
     bend_ports.reverse()
-    bend_port_name1 = bend_port_name1 or bend_ports[0].name
-    bend_port_name2 = bend_port_name2 or bend_ports[1].name
+    bend_port_name1 = bend_port_name1 or bend_ports[1].name
+    bend_port_name2 = bend_port_name2 or bend_ports[0].name
 
     for col in range(n):
         ref = component.ref()

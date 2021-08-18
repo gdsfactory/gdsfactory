@@ -4,6 +4,12 @@ info:
 module: gdsfactory.components.taper
 name: taper_strip_to_ridge
 settings:
+  layer_slab:
+  - 3
+  - 0
+  layer_wg:
+  - 1
+  - 0
   length: 10
   w_slab1: 0.15
   w_slab2: 6

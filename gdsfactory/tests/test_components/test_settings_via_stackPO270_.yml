@@ -1,0 +1,22 @@
+function_name: via_stack
+info:
+  height: 11
+module: gdsfactory.components.via_stack
+name: via_stack_PO270
+settings:
+  height: null
+  layer:
+  - 49
+  - 0
+  port_orientation: 270
+  vias:
+  - enclosure: 2
+    function: via
+    layer:
+    - 44
+    - 0
+  - function: via
+    layer:
+    - 43
+    - 0
+  width: 11

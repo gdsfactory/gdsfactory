@@ -1,29 +1,29 @@
 import pathlib
-from typing import Iterable, Tuple
+from typing import Tuple
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentFactory, Number
+from gdsfactory.types import ComponentFactory, PortName
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
 
 @gf.cell
 def grating_coupler_uniform_optimized(
-    widths: Iterable[Number] = (0.5, 0.2, 0.3),
-    width_grating: Number = 11,
-    length_taper: Number = 150,
-    width: Number = 0.5,
+    widths: Tuple[float, ...] = (0.5, 0.2, 0.3),
+    width_grating: float = 11.0,
+    length_taper: float = 150.0,
+    width: float = 0.5,
     partial_etch: bool = False,
     layer: Tuple[int, int] = gf.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = gf.LAYER.SLAB150,
     taper_factory: ComponentFactory = taper_function,
-    taper_port_name: str = "1",
+    taper_port_name: PortName = 1,
     polarization: str = "te",
-    wavelength: Number = 1500,
+    wavelength: float = 1500.0,
 ) -> Component:
     """Grating coupler uniform (not focusing)
 
@@ -34,13 +34,6 @@ def grating_coupler_uniform_optimized(
         width: 0.5
         partial_etch: False
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.grating_coupler_uniform_optimized()
-      c.plot()
 
     """
     # returns a fiber grating
@@ -101,7 +94,7 @@ def grating_coupler_uniform_1etch_h220_e70(**kwargs):
 
     d = pd.read_csv(csv_path)
     return grating_coupler_uniform_optimized(
-        widths=d["widths"], partial_etch=True, **kwargs
+        widths=tuple(d["widths"]), partial_etch=True, **kwargs
     )
 
 
@@ -112,7 +105,7 @@ def grating_coupler_uniform_2etch_h220_e70(**kwargs):
 
     d = pd.read_csv(csv_path)
     return grating_coupler_uniform_optimized(
-        widths=d["widths"], partial_etch=True, **kwargs
+        widths=tuple(d["widths"]), partial_etch=True, **kwargs
     )
 
 
@@ -141,14 +134,19 @@ def grating_coupler_uniform_1etch_h220_e70_taper_w10_l100(**kwargs):
 
 
 if __name__ == "__main__":
+    # csv_path = data_path / "grating_coupler_2etch_h220_e70_e220.csv"
+    # import pandas as pd
+
+    # d = pd.read_csv(csv_path)
+
     # widths = [0.3, 0.5, 0.3]
     # c = grating_coupler_uniform_optimized(widths=widths, partial_etch=False)
     # c = grating_coupler_uniform_optimized(widths=widths, partial_etch=True)
 
-    # c = grating_coupler_uniform_1etch_h220_e70()
-    c = grating_coupler_uniform_2etch_h220_e70()
+    c = grating_coupler_uniform_1etch_h220_e70()
+    # c = grating_coupler_uniform_2etch_h220_e70()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w11_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l200()
     # c = grating_coupler_uniform_1etch_h220_e70_taper_w10_l100()
-    print(c.ports)
+    # print(c.ports)
     c.show()

@@ -11,6 +11,9 @@ settings:
   combiner_settings: null
   cross_section: fab_nitridec
   delta_length: 10
+  layer:
+  - 1
+  - 0
   length_x: 0.1
   length_y: 0.1
   splitter:

@@ -40,6 +40,8 @@ from contracts import contract
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
 - add gf.comtainers.bend_port
+- get_netlist considers x,y,width to extract port connectivity
+- changed port naming convention from NSEW
 
 ## 3.0.1
 

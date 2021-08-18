@@ -12,7 +12,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_optical_ports
+from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -36,7 +36,7 @@ def route_fiber_array(
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
     optical_routing_type: Optional[int] = None,
-    connected_port_list_ids: None = None,
+    connected_port_names: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
     excluded_ports: List[Any] = None,
@@ -52,7 +52,7 @@ def route_fiber_array(
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     get_input_labels_function=get_input_labels,
-    select_ports: Callable = select_optical_ports,
+    select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Tuple[
@@ -77,7 +77,7 @@ def route_fiber_array(
         straight_to_grating_spacing: from align ports
         optical_routing_type: There are three options for optical routing
            * ``0`` is very basic but can be more compact.
-            Can also be used in combination with ``connected_port_list_ids``
+            Can also be used in combination with ``connected_port_names``
             or to route some components which otherwise fail with type ``1``.
            * ``1`` is the standard routing.
            * ``2`` uses the optical ports as a guideline for the component's physical size
@@ -85,7 +85,7 @@ def route_fiber_array(
             Useful where the component is large due to metal tracks
            * ``None: leads to an automatic decision based on size and number
            of I/O of the component.
-        connected_port_list_ids: only for type 0 optical routing.
+        connected_port_names: only for type 0 optical routing.
             Can specify which ports goes to which grating assuming the gratings are ordered from left to right.
             e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
         nb_optical_ports_lines: number of lines with I/O grating couplers. One line by default.
@@ -298,11 +298,11 @@ def route_fiber_array(
         No heuristic to avoid collisions between connectors.
 
         If specified ports to connect in a specific order
-        (i.e if connected_port_list_ids is not None and not empty)
+        (i.e if connected_port_names is not None and not empty)
         then grab these ports
         """
-        if connected_port_list_ids:
-            ordered_ports = [component.ports[i] for i in connected_port_list_ids]
+        if connected_port_names:
+            ordered_ports = [component.ports[i] for i in connected_port_names]
 
         for io_gratings in io_gratings_lines:
             for i in range(N):

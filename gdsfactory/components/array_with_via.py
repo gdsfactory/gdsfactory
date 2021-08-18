@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.array import array
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
-from gdsfactory.components.via_stack import via_stack
+from gdsfactory.components.via_stack import via_stack180
 from gdsfactory.cross_section import metal2
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
@@ -22,7 +22,7 @@ def array_with_via(
     component_port_name: str = "S",
     bend_port_name: str = 2,
     cross_section: CrossSectionFactory = metal2,
-    via_stack: ComponentFactory = via_stack,
+    via_stack: ComponentFactory = via_stack180,
     via_stack_y_offset: float = -44.0,
     **kwargs,
 ) -> Component:
@@ -101,7 +101,7 @@ def array_with_via_2d(
 
 
 if __name__ == "__main__":
-    # c2 = array_with_via(n=3, width=10, radius=11, waveguide_pitch=20)
-    cols = rows = 8
-    c2 = array_with_via_2d(cols=cols, rows=rows, waveguide_pitch=12)
+    c2 = array_with_via(n=3, width=10, radius=11, waveguide_pitch=20)
+    # cols = rows = 8
+    # c2 = array_with_via_2d(cols=cols, rows=rows, waveguide_pitch=12)
     c2.show()

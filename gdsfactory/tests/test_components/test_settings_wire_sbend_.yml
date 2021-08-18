@@ -13,17 +13,17 @@ settings:
   symbol_to_component:
     '-':
     - wire_straight_L10
-    - DC_2
-    - DC_1
+    - 1
+    - 2
     B:
     - wire_corner
-    - DC_1
-    - DC_2
+    - 1
+    - 2
     b:
     - wire_corner
-    - DC_2
-    - DC_1
+    - 2
+    - 1
     '|':
     - wire_straight_L10
-    - DC_2
-    - DC_1
+    - 1
+    - 2
