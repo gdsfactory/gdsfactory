@@ -94,10 +94,15 @@ def test_ports() -> Component:
     return c
 
 
+def test_ports_autorename_with_prefix():
+    pass
+
+
 if __name__ == "__main__":
     c = test_ports()
     # c = straight_heater_metal_undercut()
     # c = straight_heater_metal(length=50.0)
     # print(c.ports[2].midpoint[0])
     # c.pprint_ports()
+    c.auto_rename_ports_with_prefix()
     c.show()

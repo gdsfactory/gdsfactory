@@ -44,9 +44,9 @@ def test_add_pins() -> None:
 
 
 if __name__ == "__main__":
-    test_add_pins()
+    # test_add_pins()
     test_add_pins_with_routes(0)
-    test_add_pins_with_routes(1)
+    # test_add_pins_with_routes(1)
 
     # c = straight_c()
     # gc = gf.components.grating_coupler_elliptical_te(wg_width=WIDTH_NITRIDE_CBAND)

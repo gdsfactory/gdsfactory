@@ -13,7 +13,7 @@ settings:
     settings:
       bend_port_name1: null
       bend_port_name2: null
-      component_port_name: 2
+      component_port_name: 4
       end_straight: 40
       n: 3
       pitch: 150

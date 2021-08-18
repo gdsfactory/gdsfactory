@@ -33,6 +33,10 @@ from contracts import contract
 
 ```
 
+## 3.1.0
+
+- changed port naming convention from NSEW to 1234
+
 ## 3.0.2
 
 - add straight_rib, straight_heater_metal and straight_heater_doped
@@ -41,7 +45,6 @@ from contracts import contract
 - Component.show() uses `add_pins_triangle` as default to show port orientation
 - add gf.comtainers.bend_port
 - get_netlist considers x,y,width to extract port connectivity
-- changed port naming convention from NSEW
 
 ## 3.0.1
 
