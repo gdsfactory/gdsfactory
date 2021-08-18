@@ -8,7 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_optical_ports
+from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
 from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Routes
@@ -25,7 +25,7 @@ def route_south(
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
-    select_ports: Callable = select_optical_ports,
+    select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Routes:

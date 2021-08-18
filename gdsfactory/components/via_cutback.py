@@ -26,23 +26,23 @@ def _via_iterable(
     wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
     via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     via2 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
-    wire1.connect(port="E", destination=wire2.ports["W"], overlap=wire_width)
+    wire1.connect(port=3, destination=wire2.ports[1], overlap=wire_width)
     via1.connect(
-        port="W", destination=wire1.ports["E"], overlap=(wire_width + via_width) / 2
+        port=1, destination=wire1.ports[3], overlap=(wire_width + via_width) / 2
     )
     via2.connect(
-        port="W", destination=wire2.ports["E"], overlap=(wire_width + via_width) / 2
+        port=1, destination=wire2.ports[3], overlap=(wire_width + via_width) / 2
     )
-    VI.add_port(name="W", port=wire1.ports["W"])
-    VI.add_port(name="E", port=wire2.ports["E"])
+    VI.add_port(name=1, port=wire1.ports[1])
+    VI.add_port(name=3, port=wire2.ports[3])
     VI.add_port(
-        name="S",
+        name=4,
         midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
         width=wire_width,
         orientation=-90,
     )
     VI.add_port(
-        name="N",
+        name=2,
         midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
         width=wire_width,
         orientation=90,
@@ -69,36 +69,16 @@ def via_cutback(
     adapted from phidl.geometry
 
     Args:
-        num_vias: number of vias
+        num_vias: total requested vias needs to be even
         wire_width: width of wire
         via_width: width of via
         via_spacing: via_spacing
-        pad_size
+        pad_size: (width, height)
         min_pad_spacing
         pad_layer
-        wiring1_layer
-        wiring2_layer
+        wiring1_layer: top wiring
+        wiring2_layer: bottom wiring
         via_layer
-
-    Usage:
-        Call via_route_test_structure() by indicating the number of vias you want drawn. You can also change the other parameters however
-        if you do not specifiy a value for a parameter it will just use the default value
-        Ex::
-
-            via_route_test_structure(num_vias=54)
-
-        - or -::
-
-            via_route_test_structure(num_vias=12, pad_size=(100,100),wire_width=8)
-
-        total requested vias (num_vias) -> this needs to be even
-        pad size (pad_size) -> given in a pair (width, height)
-        wire_width -> how wide each wire should be
-        pad_layer -> GDS layer number of the pads
-        wiring1_layer -> GDS layer number of the top wiring
-        wiring2_layer -> GDS layer number of the bottom wiring
-        via_layer -> GDS layer number of the vias
-        ex: via_route(54, min_pad_spacing=300)
 
     """
 
@@ -119,12 +99,12 @@ def via_cutback(
     nub.xmin = pad1.xmax
     nub_overlay.ymax = pad1.ymax - 5
     nub_overlay.xmin = pad1.xmax
-    head.connect(port="W", destination=nub.ports["E"])
-    head_overlay.connect(port="W", destination=nub_overlay.ports["E"])
+    head.connect(port=1, destination=nub.ports[3])
+    head_overlay.connect(port=1, destination=nub_overlay.ports[3])
     pad1_overlay.xmin = pad1.xmin
     pad1_overlay.ymin = pad1.ymin
 
-    old_port = head.ports["S"]
+    old_port = head.ports[4]
     count = 0
     width_via_iter = 2 * via_spacing - 2 * wire_width
 
@@ -145,20 +125,20 @@ def via_cutback(
     )
     while (count + 2) <= num_vias:
         obj = VR.add_ref(via_iterable)
-        obj.connect(port="W", destination=old_port, overlap=wire_width)
-        old_port = obj.ports["E"]
+        obj.connect(port=1, destination=old_port, overlap=wire_width)
+        old_port = obj.ports[3]
         edge = False
         if obj.ymax > pad1.ymax:
-            obj.connect(port="W", destination=obj_old.ports["S"], overlap=wire_width)
-            old_port = obj.ports["S"]
+            obj.connect(port=1, destination=obj_old.ports[4], overlap=wire_width)
+            old_port = obj.ports[4]
             current_width += width_via_iter
             down = True
             up = False
             edge = True
 
         elif obj.ymin < pad1.ymin:
-            obj.connect(port="W", destination=obj_old.ports["N"], overlap=wire_width)
-            old_port = obj.ports["N"]
+            obj.connect(port=1, destination=obj_old.ports[2], overlap=wire_width)
+            old_port = obj.ports[2]
             current_width += width_via_iter
             up = True
             down = False
@@ -191,19 +171,18 @@ def via_cutback(
         )
 
     if up and not edge:
-        tail.connect(port="W", destination=obj.ports["S"], overlap=wire_width)
-        tail_overlay.connect(port="W", destination=obj.ports["S"], overlap=wire_width)
+        tail.connect(port=1, destination=obj.ports[4], overlap=wire_width)
+        tail_overlay.connect(port=1, destination=obj.ports[4], overlap=wire_width)
     elif down and not edge:
-        tail.connect(port="W", destination=obj.ports["N"], overlap=wire_width)
-        tail_overlay.connect(port="W", destination=obj.ports["N"], overlap=wire_width)
+        tail.connect(port=1, destination=obj.ports[2], overlap=wire_width)
+        tail_overlay.connect(port=1, destination=obj.ports[2], overlap=wire_width)
     else:
-        tail.connect(port="W", destination=obj.ports["E"], overlap=wire_width)
-        tail_overlay.connect(port="W", destination=obj.ports["E"], overlap=wire_width)
+        tail.connect(port=1, destination=obj.ports[3], overlap=wire_width)
+        tail_overlay.connect(port=1, destination=obj.ports[3], overlap=wire_width)
 
     pad2.xmin = tail.xmax
     pad2_overlay.xmin = pad2.xmin
     pad2_overlay.ymin = pad2.ymin
-
     return VR
 
 

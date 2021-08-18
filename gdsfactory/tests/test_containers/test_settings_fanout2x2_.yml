@@ -1,6 +1,6 @@
 function_name: fanout2x2
 info:
-  min_bend_radius: 10.764
+  min_bend_radius: 10.059
 module: gdsfactory.routing.fanout2x2
 name: fanout2x2_Cmzi_4ae2c60c
 settings:
@@ -14,6 +14,9 @@ settings:
       combiner: null
       combiner_settings: null
       delta_length: 10
+      layer:
+      - 1
+      - 0
       length_x: 320
       length_y: 0.1
       splitter: mmi2x2

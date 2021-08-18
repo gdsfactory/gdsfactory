@@ -307,7 +307,7 @@ def select_ports(
     return ports
 
 
-select_optical_ports = functools.partial(
+select_ports_optical = functools.partial(
     select_ports, layers_excluded=((41, 0), (45, 0), (49, 0))
 )
 select_ports_electrical = functools.partial(

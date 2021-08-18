@@ -15,13 +15,13 @@ instances:
 
 placements:
     mmi_short:
-        port: W0
-        x: mmi_long,E1
-        y: mmi_long,E1
+        port: 1
+        x: mmi_long,2
+        y: mmi_long,2
     mmi_long:
-        port: W0
-        x: mmi_short,E1
-        y: mmi_short,E1
+        port: 1
+        x: mmi_short,2
+        y: mmi_short,2
         dx : 10
         dy: 20
 """
@@ -41,13 +41,13 @@ instances:
 
 placements:
     mmi_short:
-        port: W0
+        port: 1
         x: 0
         y: 0
     mmi_long:
-        port: W0
-        x: mmi_short,E1
-        y: mmi_short,E1
+        port: 1
+        x: mmi_short,2
+        y: mmi_short,2
         dx : 10
         dy: 20
 """
@@ -68,7 +68,7 @@ def test_circular_import_pass() -> None:
 
 
 if __name__ == "__main__":
-    c = test_circular_import_pass()
+    # c = test_circular_import_pass()
     # c = test_circular_import_fail()
-    # c = gf.component_from_yaml(yaml_fail)
+    c = gf.component_from_yaml(yaml_fail)
     # c.show()

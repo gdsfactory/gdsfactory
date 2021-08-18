@@ -12,7 +12,7 @@ instances:
       component: bezier
 
 connections:
-    bend,0: mmi,E1
+    bend,1: mmi,2
 
 """
 
@@ -20,9 +20,9 @@ connections:
 def test_component_from_yaml_without_cell() -> Component:
     """bezier does not have cell"""
     c = gf.component_from_yaml(yaml)
-    assert c.name == "test_component_from_yaml_without_cell"
-    assert len(c.get_dependencies()) == 2
-    assert len(c.ports) == 0
+    assert c.name == "test_component_from_yaml_without_cell", c.name
+    assert len(c.get_dependencies()) == 2, len(c.get_dependencies())
+    assert len(c.ports) == 0, len(c.ports)
     return c
 
 

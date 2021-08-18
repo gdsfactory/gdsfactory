@@ -8,8 +8,8 @@ instances:
         component: pad_array
         settings:
             n: 2
-            port_list:
-                - S
+            port_names:
+                - 4
 
 placements:
     mzi:

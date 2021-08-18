@@ -79,6 +79,11 @@ def via_stack(
     return c
 
 
+via_stack0 = gf.partial(via_stack, port_orientation=0)  # west facing
+via_stack90 = gf.partial(via_stack, port_orientation=90)  # north facing
+via_stack180 = gf.partial(via_stack, port_orientation=180)  # east
+via_stack270 = gf.partial(via_stack, port_orientation=270)  # south
+
 via_stack_slab = gf.partial(
     via_stack,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),

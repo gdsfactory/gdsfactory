@@ -5,7 +5,6 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory
 
 
@@ -30,9 +29,9 @@ def coupler_adiabatic(
     - https://doi.org/10.1364/CLEO_SI.2017.SF1I.5
     - https://doi.org/10.1364/CLEO_SI.2018.STh4B.4
 
-    Uses Bezier curves for the input, with poles set to half of the x-length of the S-bend.
+    Has input Bezier curves, with poles set to half of the x-length of the S-bend.
 
-    I is the first half of input S-bend where input straights widths taper by +dw and -dw
+    I is the first half of input S-bend where input widths taper by +dw and -dw
     II is the second half of the S-bend straight with constant, unbalanced widths
     III is the region where the two asymmetric straights gradually come together
     IV  straights taper back to the original width at a fixed distance from one another
@@ -41,15 +40,15 @@ def coupler_adiabatic(
     Args:
         length1: region that gradually brings the two assymetric straights together.
             In this region the straight widths gradually change to be different by `dw`.
-        length2: coupling region, where the asymmetric straights gradually become the same width.
+        length2: coupling region, where asymmetric straights gradually become the same width.
         length3: output region where the two straights separate.
-        wg_sep: Distance between the two straights, center-to-center, in the coupling region (Region 2).
+        wg_sep: Distance between center-to-center in the coupling region (Region 2).
         input_wg_sep: Separation of the two straights at the input, center-to-center.
         output_wg_sep: Separation of the two straights at the output, center-to-center.
         dw: Change in straight width.
-            In Region 1, top arm tapers to the straight width+dw/2.0, bottom taper to width-dw/2.0.
+            In Region 1, top arm tapers to width+dw/2.0, bottom taper to width-dw/2.0.
         port: coordinate of the input port (top left).
-        direction: for component `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
+        direction: for component NORTH, WEST, SOUTH, EAST,or angle in radians
         waveguide_template: object or function
 
     Other Parameters:
@@ -77,7 +76,7 @@ def coupler_adiabatic(
     )
 
     c = gf.component_from.picwriter(c)
-    c = auto_rename_ports(c)
+    c.auto_rename_ports()
     return c
 
 

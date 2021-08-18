@@ -1,13 +1,3 @@
-"""
-Sometimes, when a component is mostly composed of sub-components adjacent to each other, it can be easier to define the component by:
-
-- instances
-- placements
-- routes
-- ports: exposed ports in the new components
-
-"""
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 
@@ -49,11 +39,11 @@ def test_netlist_yaml() -> Component:
     routes:
         optical:
             links:
-                mmi_short,E1: mmi_long,E0
+                mmi_short,2: mmi_long,3
 
     ports:
-        E0: mmi_short,W0
-        W0: mmi_long,W0
+        2: mmi_short,1
+        1: mmi_long,1
     """
 
     c = gf.component_from_yaml(yaml)

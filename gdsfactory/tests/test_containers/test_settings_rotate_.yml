@@ -13,6 +13,9 @@ settings:
       combiner: null
       combiner_settings: null
       delta_length: 10
+      layer:
+      - 1
+      - 0
       length_x: 320
       length_y: 0.1
       splitter: mmi2x2

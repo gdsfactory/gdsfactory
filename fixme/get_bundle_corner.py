@@ -6,7 +6,7 @@ if __name__ == "__main__":
     w = h = 10
     c = gf.Component()
     pad_south = gf.components.pad_array(
-        port_list=["S"],
+        port_names=[4],
         pitch=15,
     )
     pl = c << pad_south

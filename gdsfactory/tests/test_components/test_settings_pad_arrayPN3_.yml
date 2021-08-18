@@ -1,0 +1,11 @@
+function_name: pad_array
+info: {}
+module: gdsfactory.components.pad
+name: pad_array_PN3
+settings:
+  axis: x
+  n: 6
+  pad_settings: null
+  pitch: 150
+  port_names:
+  - 3

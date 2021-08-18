@@ -8,7 +8,7 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_optical_ports
+from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
@@ -31,7 +31,7 @@ def add_fiber_single(
     gc_port_name: str = 1,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
-    select_ports: Callable = select_optical_ports,
+    select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:

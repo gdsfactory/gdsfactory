@@ -4,12 +4,8 @@ Ports define where each port has:
 - name
 - midpoint: (x, y)
 - width:
-- orientation: (deg) 0, 90, 180, 270. where 0 faces east, 90 (north), 180 (west), 270 (south)
-- Type:
-    - optical
-    - electrical (DC)
-    - rf (high frequency)
-    - detector (Superconducting)
+- orientation: (deg) 0, 90, 180, 270.
+    where 0 faces east, 90 (north), 180 (west), 270 (south)
 """
 
 
@@ -38,7 +34,6 @@ def test_component_with_port(
         width=y,
         orientation=180,
         layer=layer,
-        port_type="optical",
     )
     assert len(c.ports) == 1
     return c

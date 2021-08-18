@@ -3,5 +3,4 @@ info:
   length: 10
 module: gdsfactory.components.wire
 name: wire_corner
-settings:
-  port_type: dc
+settings: {}

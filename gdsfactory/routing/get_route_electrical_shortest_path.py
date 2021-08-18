@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
     c = Component("mzi_with_pads")
     mzi = gf.components.mzi_phase_shifter()
-    pads = pad_array(n=3, port_list=["S"])
+    pads = pad_array(n=3, port_names=[4])
     p = c << pads
     c << mzi
     p.move((-150, 200))

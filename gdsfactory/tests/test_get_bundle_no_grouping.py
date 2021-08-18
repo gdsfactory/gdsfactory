@@ -11,18 +11,13 @@ def test_link_optical_ports_no_grouping(
 
     c = gf.Component("test_link_optical_ports_no_grouping")
     w = c << gf.components.straight_array(n=4, spacing=200)
-    d = c << gf.components.nxn()
-    d.y = w.y
-    d.xmin = w.xmax + 200
-
-    w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
     d.xmin = w.xmax + 200
 
     ports1 = [
-        w.ports["E1"],
-        w.ports[2],
+        w.ports[7],
+        w.ports[8],
     ]
     ports2 = [
         d.ports[2],

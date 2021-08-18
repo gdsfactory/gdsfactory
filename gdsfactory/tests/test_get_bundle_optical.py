@@ -13,13 +13,13 @@ def test_get_bundle_optical(
     c = gf.Component("test_get_bundle_optical")
 
     w = c << gf.components.straight_array(n=4, spacing=200)
-    d = c << gf.components.nxn(west=4, east=1)
+    d = c << gf.components.nxn(west=4, east=0)
     d.y = w.y
     d.xmin = w.xmax + 200
 
     ports1 = [
-        w.ports["E1"],
-        w.ports[2],
+        w.ports[7],
+        w.ports[8],
     ]
     ports2 = [
         d.ports[2],
@@ -48,8 +48,8 @@ def test_get_bundle_optical2(
     d.y = w.y
     d.xmin = w.xmax + 200
 
-    ports1 = w.get_ports_list(prefix="E")
-    ports2 = d.get_ports_list(prefix="W")
+    ports1 = w.get_ports_list(orientation=0)
+    ports2 = d.get_ports_list(orientation=180)
 
     routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True)
 
@@ -63,6 +63,6 @@ def test_get_bundle_optical2(
 
 
 if __name__ == "__main__":
-    # c = test_get_bundle_optical(None, check=False)
-    c = test_get_bundle_optical2(None, check=False)
+    c = test_get_bundle_optical(None, check=False)
+    # c = test_get_bundle_optical2(None, check=False)
     c.show()

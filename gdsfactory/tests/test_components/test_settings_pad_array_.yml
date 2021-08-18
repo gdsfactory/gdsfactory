@@ -7,5 +7,5 @@ settings:
   n: 6
   pad_settings: null
   pitch: 150
-  port_list:
-  - N
+  port_names:
+  - 4

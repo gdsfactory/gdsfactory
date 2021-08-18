@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.port import select_optical_ports
+from gdsfactory.port import select_ports_optical
 
 
 @cell
@@ -13,7 +13,7 @@ def fanout2x2(
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
     npoints: int = 101,
-    select_ports: Callable = select_optical_ports,
+    select_ports: Callable = select_ports_optical,
 ) -> Component:
     """returns component with port_spacing.
 
@@ -69,7 +69,7 @@ def fanout2x2(
     optical_ports = select_ports(comp.ports)
     for port_name in comp.ports.keys():
         if port_name not in optical_ports:
-            c.add_port(port_name, port=comp.ports[port_name])
+            c.add_port(f"DC_{port_name}", port=comp.ports[port_name])
     c.auto_rename_ports()
     return c
 

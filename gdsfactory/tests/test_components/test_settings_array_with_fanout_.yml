@@ -5,7 +5,7 @@ name: array_with_fanout
 settings:
   bend_port_name1: null
   bend_port_name2: null
-  component_port_name: S
+  component_port_name: 2
   end_straight: 40
   n: 3
   pitch: 150

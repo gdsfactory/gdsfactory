@@ -1,11 +1,11 @@
 info:
   instances:
-    b: DeviceReference (parent Device "pad_array_PLN", ports ['N0', 'N1', 'N2', 'N3',
-      'N4', 'N5'], origin (0, 0), rotation 0, x_reflection False)
-    t: DeviceReference (parent Device "pad_array_PLS", ports ['S0', 'S1', 'S2', 'S3',
-      'S4', 'S5'], origin [-250. 1000.], rotation 0, x_reflection False)
+    b: DeviceReference (parent Device "pad_array_PN2", ports ['2_0', '2_1', '2_2',
+      '2_3', '2_4', '2_5'], origin (0, 0), rotation 0, x_reflection False)
+    t: DeviceReference (parent Device "pad_array_PN4", ports ['4_0', '4_1', '4_2',
+      '4_3', '4_4', '4_5'], origin [-250. 1000.], rotation 0, x_reflection False)
   routes:
-    b,N0:t,S0: 1937.196
-    b,N1:t,S1: 1937.196
+    b,2_0:t,4_0: 1937.196
+    b,2_1:t,4_1: 1937.196
 name: sample_waypoints
 settings: {}
