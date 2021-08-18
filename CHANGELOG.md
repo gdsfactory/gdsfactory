@@ -36,6 +36,8 @@ from contracts import contract
 ## 3.1.0
 
 - changed port naming convention from NSEW to 1234
+- add Component.auto_rename_ports
+- add `ports_cw`, `ports_ccw` and `ports_orientation` property to ComponentReference
 
 ## 3.0.2
 
