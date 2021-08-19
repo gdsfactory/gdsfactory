@@ -51,7 +51,7 @@ def get_simulation(
         component: gf.Component
         mode_index: mode index
         n_modes: number of modes
-        extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
+        extend_ports_function: extend ports beyond the PML
         layer_to_thickness_nm: Dict of layer number (int, int) to thickness (nm)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
@@ -64,7 +64,7 @@ def get_simulation(
         mesh_step: in all directions
         wavelength: in (um)
 
-    Make sure you visualize the simulation region with gf.before you simulate a component
+    You can visualize the simulation region with gf.before you simulate a component
 
 
     .. code::

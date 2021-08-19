@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 import gdsfactory as gf
@@ -14,7 +16,7 @@ def splitter_tree(
     noutputs: int = 4,
     dy: float = 50.0,
     dx: float = 90.0,
-    bend_s: ComponentFactory = bend_s_function,
+    bend_s: Optional[ComponentFactory] = bend_s_function,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> gf.Component:
@@ -46,7 +48,8 @@ def splitter_tree(
     e1_port_name = len(coupler.ports) - 1
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[2].midpoint[1] - coupler.ports[e1_port_name].midpoint[1]
+            coupler.ports[e0_port_name].midpoint[1]
+            - coupler.ports[e1_port_name].midpoint[1]
         )
         height = dy / 4 - dy_coupler_ports / 2
         bend_s = bend_s(cross_section=cross_section, length=dx, height=height, **kwargs)
@@ -122,7 +125,7 @@ if __name__ == "__main__":
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
         noutputs=2 ** 2,
-        # bend_s=None,
+        bend_s=None,
         # dy=100.0,
         layer=(2, 0),
     )

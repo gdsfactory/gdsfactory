@@ -562,6 +562,48 @@ def map_ports_orientation(
     return {p.name: p.name_original for p in ports_on_process}
 
 
+def map_ports_layer(
+    component: Device,
+    function=_rename_ports_facing_side,
+) -> Dict[PortName, PortName]:
+    """Returns component or reference port mapping
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
+    d = {}
+    ports = component.ports
+    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    layers = {port.layer: [] for port in ports.values()}
+
+    for layer in layers.keys():
+        ports_on_process = [p._copy() for p in ports.values() if p.layer == layer]
+
+        for p in ports_on_process:
+            p.name_original = p.name
+            angle = p.orientation % 360
+            if angle <= 45 or angle >= 315:
+                direction_ports["E"].append(p)
+            elif angle <= 135 and angle >= 45:
+                direction_ports["N"].append(p)
+            elif angle <= 225 and angle >= 135:
+                direction_ports["W"].append(p)
+            else:
+                direction_ports["S"].append(p)
+
+        function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
+        d.update({p.name: p.name_original for p in ports_on_process})
+    return d
+
+
 def map_ports_prefix_clockwise(
     component: Device,
     function=_rename_ports_clockwise,
@@ -614,12 +656,16 @@ __all__ = [
     "auto_rename_ports_prefix_clockwise",
     "auto_rename_ports_prefix_counter_clockwise",
     "auto_rename_ports_prefix_orientation",
+    "map_ports_prefix_clockwise",
+    "map_ports_prefix_counter_clockwise",
+    "map_ports_prefix_orientation",
+    "map_ports_layer",
 ]
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    wg = c << gf.components.straight()
-    m = map_ports_orientation(wg)
+    wg = c << gf.components.straight_heater_metal()
+    m = map_ports_layer(wg)
     c.show()

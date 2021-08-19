@@ -107,7 +107,7 @@ def extend_ports(
     cref = c << component
 
     ports_all = cref.get_ports_list()
-    ports_to_extend = port_names or ports_all
+    ports_to_extend = port_names or [p.name for p in ports_all]
 
     for port in ports_all:
         port_name = port.name
@@ -140,10 +140,11 @@ def extend_ports(
 def test_extend_ports() -> Component:
     import gdsfactory.components as pc
 
-    c = pc.straight(width=2)
     c = pc.cross(width=2)
     ce = extend_ports(component=c)
     assert len(c.ports) == len(ce.ports)
+    p = len(ce.polygons)
+    assert p == 4, p
     return ce
 
 
@@ -161,18 +162,17 @@ __all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 
 if __name__ == "__main__":
     # c = extend_ports()
-    c = test_extend_ports_selection()
-    # c = test_extend_ports()
+    # c = test_extend_ports_selection()
+    c = test_extend_ports()
     c.show()
-
-    # import gdsfactory.components as pc
 
     # c = pc.bend_circular()
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()))
     # ce.show()
 
     # c = pc.straight(layer=(3, 0))
-    # ce = extend_ports(component=c)
     # print(ce)
     # print(len(ce.ports))
-    # gf.show(ce)
+    # c = pc.straight()
+    # ce = extend_ports(component=c)
+    # ce.show()
