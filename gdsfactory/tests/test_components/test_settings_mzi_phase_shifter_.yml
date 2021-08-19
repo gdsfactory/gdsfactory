@@ -10,7 +10,7 @@ settings:
   - 1
   - 0
   length_x: 320
-  length_y: 0.1
+  length_y: 0.8
   splitter_settings: null
   straight_delta_length: null
   straight_horizontal_bot: null

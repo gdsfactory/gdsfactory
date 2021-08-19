@@ -17,7 +17,7 @@ settings:
       - 1
       - 0
       length_x: 320
-      length_y: 0.1
+      length_y: 0.8
       splitter: mmi2x2
       splitter_settings: null
       straight_delta_length: null
