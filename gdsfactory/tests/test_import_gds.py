@@ -16,7 +16,7 @@ def test_import_gds_hierarchy() -> None:
     c0 = gf.components.mzi()
     gdspath = c0.write_gds()
     c = import_gds(gdspath)
-    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
+    assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
 
 
 if __name__ == "__main__":

@@ -86,8 +86,8 @@ def extend_ports(
     port_names: Optional[Tuple[PortName, ...]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
-    port1: Optional[str] = None,
-    port2: Optional[str] = None,
+    port1: Optional[PortName] = None,
+    port2: Optional[PortName] = None,
 ) -> Component:
     """Returns a new component with extended ports inside a container.
 
