@@ -19,6 +19,7 @@ def get_index(
         raise ValueError(f"{name} not in {MATERIALS}")
 
     medium = getattr(mat, name)
+    medium.name = name
     frequency = 3e8 / wavelength
     return medium().epsilon(frequency)
 
@@ -45,8 +46,11 @@ def get_material(
     else:
         raise ValueError(f"not implemetned material, name = {name}")
 
-    return getattr(mat, name)
+    medium = getattr(mat, name)
+    medium.name = name
+    return medium
 
 
 if __name__ == "__main__":
     print(get_index(name="aSi"))
+    SiO2 = get_material(name="SiO2")

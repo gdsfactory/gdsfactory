@@ -29,6 +29,7 @@ from gdsfactory.port import (
     auto_rename_ports_prefix_clockwise,
     auto_rename_ports_prefix_counter_clockwise,
     auto_rename_ports_prefix_orientation,
+    map_ports_layer,
     map_ports_prefix_clockwise,
     map_ports_prefix_counter_clockwise,
     map_ports_prefix_orientation,
@@ -531,6 +532,10 @@ class ComponentReference(DeviceReference):
     @property
     def ports_orientation(self) -> Dict[PortName, PortName]:
         return map_ports_prefix_orientation(self)
+
+    @property
+    def ports_layer(self) -> Dict[str, PortName]:
+        return map_ports_layer(self)
 
 
 class Component(Device):
