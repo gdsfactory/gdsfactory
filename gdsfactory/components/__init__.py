@@ -176,6 +176,8 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.splitter_tree import splitter_tree
 from gdsfactory.components.splitter_chain import splitter_chain
 
+# Partial functions
+
 
 LIBRARY.register(
     [

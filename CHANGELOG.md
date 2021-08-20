@@ -33,7 +33,7 @@ from contracts import contract
 
 ```
 
-## 3.1.0
+## 3.0.3
 
 - changed port naming convention from NSEW to 1234
 - add Component.auto_rename_ports()
