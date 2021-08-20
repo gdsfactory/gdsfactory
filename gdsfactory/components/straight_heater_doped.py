@@ -1,19 +1,25 @@
+from typing import Optional, Tuple
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_slab
 from gdsfactory.cross_section import rib_heater_doped
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
-
-via_stack_silicon_tall = gf.partial(via_stack_slab, height=20, width=5)
 
 
 @cell
 def straight_heater_doped(
     length: float = 320.0,
-    length_section: float = 100.0,
+    nsections: int = 3,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    via_stack: ComponentFactory = via_stack_silicon_tall,
+    via_stack: ComponentFactory = via_stack_slab,
+    contact_size: Tuple[float, float] = [10.0, 10.0],
+    contact_spacing: float = 5,
+    port_orientation_top: int = 0,
+    port_orientation_bot: int = 180,
+    taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
     """Returns a doped thermal phase shifter.
@@ -21,12 +27,16 @@ def straight_heater_doped(
 
     Args:
         length: of the waveguide
-        length_section: between contacts
+        nsections: between contacts
         cross_section_heater: for heated sections
-        via_stack:
-        kwargs: cross_section common settings
+        via_stack: for the contacts
+        contact_size:
+        contact_spacing: spacing between contacts
+        port_orientation_bot: for bottom contact
+        port_orientation_top: for top contact
+        taper: optional taper
+        kwargs: cross_section settings
     """
-    n = int(length / length_section)
     c = Component()
 
     wg = c << gf.c.straight(
@@ -35,25 +45,52 @@ def straight_heater_doped(
         **kwargs,
     )
 
-    contact = via_stack()
-    contact_west = c << contact
-    contact_east = c << contact
-    contact_west.connect(contact_west.get_ports_list()[0].name, wg.ports[1])
-    contact_east.connect(contact_east.get_ports_list()[0].name, wg.ports[2])
-
     x0 = wg.get_ports_list()[0].x
-    c.add_ports(wg.get_ports_list())
 
-    if n > 1:
-        for i in range(1, n):
-            xi = x0 + length_section * i
-            contact_i = c << contact
-            contact_i.x = xi
-            c.add_port(f"M{i}", port=contact_i.get_ports_list()[0])
+    if taper:
+        taper = taper() if callable(taper) else taper
+        t1 = c << taper
+        t2 = c << taper
+        t1.connect(2, wg.ports[1])
+        t2.connect(2, wg.ports[2])
+        c.add_port(1, port=t1.ports[1])
+        c.add_port(2, port=t2.ports[1])
 
-    c.add_port("MW", port=contact_west.get_ports_list()[0])
-    c.add_port("ME", port=contact_east.get_ports_list()[0])
-    gf.port.auto_rename_ports(c)
+    else:
+        c.add_ports(wg.get_ports_list())
+
+    length_section = length / nsections
+
+    contact = via_stack(size=contact_size)
+    contacts = []
+    for i in range(0, nsections + 1):
+        xi = x0 + length_section * i
+        contact_i_center = c.add_ref(contact)
+        contact_i_center.x = xi
+
+        contact_i = c << contact
+        contact_i.x = xi
+        contact_i.y = +contact_spacing if i % 2 == 0 else -contact_spacing
+        contacts.append(contact_i)
+
+    length_contact = length + contact_size[0]
+    contact_top = c << via_stack(
+        size=(length_contact, contact_size[0]),
+        port_orientation=port_orientation_top,
+    )
+    contact_bot = c << via_stack(
+        size=(length_contact, contact_size[0]),
+        port_orientation=port_orientation_bot,
+    )
+
+    contact_bot.xmin = contacts[0].xmin
+    contact_top.xmin = contacts[0].xmin
+
+    contact_top.ymin = contacts[0].ymax
+    contact_bot.ymax = contacts[1].ymin
+
+    c.add_port("eW", port=contact_top.get_ports_list()[0])
+    c.add_port("eE", port=contact_bot.get_ports_list()[0])
     return c
 
 

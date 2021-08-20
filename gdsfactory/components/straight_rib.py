@@ -9,7 +9,7 @@ from gdsfactory.cross_section import rib
 straight_rib = gf.partial(straight, cross_section=rib)
 
 
-straight_rib_with_strip_tapers = gf.partial(
+straight_rib_tapered = gf.partial(
     extend_ports,
     component=straight_rib,
     extension_factory=taper_strip_to_ridge,
@@ -20,5 +20,5 @@ straight_rib_with_strip_tapers = gf.partial(
 
 if __name__ == "__main__":
     c = straight_rib()
-    c = straight_rib_with_strip_tapers()
+    c = straight_rib_tapered()
     c.show()

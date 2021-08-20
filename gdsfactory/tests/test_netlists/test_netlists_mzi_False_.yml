@@ -1,177 +1,177 @@
 connections:
-  bend_euler_daed48b2_17p875_5p5,1: mmi1x2_1fa94f5a_0p0_0p0,2
-  bend_euler_daed48b2_17p875_5p5,2: straight_6dbf7acb_22p75_11p025,1
-  bend_euler_daed48b2_17p875_m5p5,1: straight_6dbf7acb_22p75_m11p025,1
-  bend_euler_daed48b2_17p875_m5p5,2: mmi1x2_1fa94f5a_0p0_0p0,3
-  bend_euler_daed48b2_27p625_16p55,1: straight_747d35a2_32p8_21p425,1
-  bend_euler_daed48b2_27p625_16p55,2: straight_6dbf7acb_22p75_11p025,2
-  bend_euler_daed48b2_27p625_m21p55,1: straight_b2a8fe1b_22p75_m13p925,2
-  bend_euler_daed48b2_27p625_m21p55,2: straight_747d35a2_32p8_m26p425,1
-  bend_euler_daed48b2_37p975_16p55,1: straight_6dbf7acb_42p85_11p025,1
-  bend_euler_daed48b2_37p975_16p55,2: straight_747d35a2_32p8_21p425,2
-  bend_euler_daed48b2_37p975_m21p55,1: straight_747d35a2_32p8_m26p425,2
-  bend_euler_daed48b2_37p975_m21p55,2: straight_b2a8fe1b_42p85_m13p925,1
-  bend_euler_daed48b2_47p725_5p5,1: straight_6dbf7acb_42p85_11p025,2
-  bend_euler_daed48b2_47p725_5p5,2: mmi1x2_1fa94f5a_65p6_m0p0,3
-  bend_euler_daed48b2_47p725_m5p5,1: mmi1x2_1fa94f5a_65p6_m0p0,2
-  bend_euler_daed48b2_47p725_m5p5,2: straight_6dbf7acb_42p85_m11p025,2
-  straight_6dbf7acb_22p75_m11p025,2: straight_b2a8fe1b_22p75_m13p925,1
-  straight_6dbf7acb_42p85_m11p025,1: straight_b2a8fe1b_42p85_m13p925,2
+  bend_euler_17p875_5p5,1: mmi1x2_0p0_0p0,2
+  bend_euler_17p875_5p5,2: straight_L800n_22p75_11p025,1
+  bend_euler_17p875_m5p5,1: straight_L800n_22p75_m11p025,1
+  bend_euler_17p875_m5p5,2: mmi1x2_0p0_0p0,3
+  bend_euler_27p625_16p55,1: straight_L100n_32p8_21p425,1
+  bend_euler_27p625_16p55,2: straight_L800n_22p75_11p025,2
+  bend_euler_27p625_m21p55,1: straight_L5_22p75_m13p925,2
+  bend_euler_27p625_m21p55,2: straight_L100n_32p8_m26p425,1
+  bend_euler_37p975_16p55,1: straight_L800n_42p85_11p025,1
+  bend_euler_37p975_16p55,2: straight_L100n_32p8_21p425,2
+  bend_euler_37p975_m21p55,1: straight_L100n_32p8_m26p425,2
+  bend_euler_37p975_m21p55,2: straight_L5_42p85_m13p925,1
+  bend_euler_47p725_5p5,1: straight_L800n_42p85_11p025,2
+  bend_euler_47p725_5p5,2: mmi1x2_65p6_m0p0,3
+  bend_euler_47p725_m5p5,1: mmi1x2_65p6_m0p0,2
+  bend_euler_47p725_m5p5,2: straight_L800n_42p85_m11p025,2
+  straight_L5_22p75_m13p925,1: straight_L800n_22p75_m11p025,2
+  straight_L5_42p85_m13p925,2: straight_L800n_42p85_m11p025,1
 instances:
-  bend_euler_daed48b2_17p875_5p5:
+  bend_euler_17p875_5p5:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_17p875_m5p5:
+  bend_euler_17p875_m5p5:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_27p625_16p55:
+  bend_euler_27p625_16p55:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_27p625_m21p55:
+  bend_euler_27p625_m21p55:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_37p975_16p55:
+  bend_euler_37p975_16p55:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_37p975_m21p55:
+  bend_euler_37p975_m21p55:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_47p725_5p5:
+  bend_euler_47p725_5p5:
     component: bend_euler
     settings: {}
-  bend_euler_daed48b2_47p725_m5p5:
+  bend_euler_47p725_m5p5:
     component: bend_euler
     settings: {}
-  mmi1x2_1fa94f5a_0p0_0p0:
+  mmi1x2_0p0_0p0:
     component: mmi1x2
     settings: {}
-  mmi1x2_1fa94f5a_65p6_m0p0:
+  mmi1x2_65p6_m0p0:
     component: mmi1x2
     settings: {}
-  straight_6dbf7acb_22p75_11p025:
-    component: straight
-    settings:
-      length: 0.8
-  straight_6dbf7acb_22p75_m11p025:
-    component: straight
-    settings:
-      length: 0.8
-  straight_6dbf7acb_42p85_11p025:
-    component: straight
-    settings:
-      length: 0.8
-  straight_6dbf7acb_42p85_m11p025:
-    component: straight
-    settings:
-      length: 0.8
-  straight_747d35a2_32p8_21p425:
+  straight_L100n_32p8_21p425:
     component: straight
     settings:
       length: 0.1
-  straight_747d35a2_32p8_m26p425:
+  straight_L100n_32p8_m26p425:
     component: straight
     settings:
       length: 0.1
-  straight_b2a8fe1b_22p75_m13p925:
+  straight_L5_22p75_m13p925:
     component: straight
     settings:
       length: 5
-  straight_b2a8fe1b_42p85_m13p925:
+  straight_L5_42p85_m13p925:
     component: straight
     settings:
       length: 5
+  straight_L800n_22p75_11p025:
+    component: straight
+    settings:
+      length: 0.8
+  straight_L800n_22p75_m11p025:
+    component: straight
+    settings:
+      length: 0.8
+  straight_L800n_42p85_11p025:
+    component: straight
+    settings:
+      length: 0.8
+  straight_L800n_42p85_m11p025:
+    component: straight
+    settings:
+      length: 0.8
 name: mzi
 placements:
-  bend_euler_daed48b2_17p875_5p5:
+  bend_euler_17p875_5p5:
     mirror: false
     rotation: 0
     x: 12.75
     y: 0.625
-  bend_euler_daed48b2_17p875_m5p5:
+  bend_euler_17p875_m5p5:
     mirror: false
     rotation: 90
     x: 22.75
     y: -10.625
-  bend_euler_daed48b2_27p625_16p55:
+  bend_euler_27p625_16p55:
     mirror: false
     rotation: 180
     x: 32.75
     y: 21.425
-  bend_euler_daed48b2_27p625_m21p55:
+  bend_euler_27p625_m21p55:
     mirror: false
     rotation: 270
     x: 22.75
     y: -16.425
-  bend_euler_daed48b2_37p975_16p55:
+  bend_euler_37p975_16p55:
     mirror: false
     rotation: 90
     x: 42.85
     y: 11.425
-  bend_euler_daed48b2_37p975_m21p55:
+  bend_euler_37p975_m21p55:
     mirror: false
     rotation: 0
     x: 32.85
     y: -26.425
-  bend_euler_daed48b2_47p725_5p5:
+  bend_euler_47p725_5p5:
     mirror: false
     rotation: 270
     x: 42.85
     y: 10.625
-  bend_euler_daed48b2_47p725_m5p5:
+  bend_euler_47p725_m5p5:
     mirror: false
     rotation: 180
     x: 52.85
     y: -0.625
-  mmi1x2_1fa94f5a_0p0_0p0:
+  mmi1x2_0p0_0p0:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_1fa94f5a_65p6_m0p0:
+  mmi1x2_65p6_m0p0:
     mirror: false
     rotation: 180
     x: 65.6
     y: -0.0
-  straight_6dbf7acb_22p75_11p025:
-    mirror: false
-    rotation: 90
-    x: 22.75
-    y: 10.625
-  straight_6dbf7acb_22p75_m11p025:
-    mirror: false
-    rotation: 270
-    x: 22.75
-    y: -10.625
-  straight_6dbf7acb_42p85_11p025:
-    mirror: false
-    rotation: 270
-    x: 42.85
-    y: 11.425
-  straight_6dbf7acb_42p85_m11p025:
-    mirror: false
-    rotation: 90
-    x: 42.85
-    y: -11.425
-  straight_747d35a2_32p8_21p425:
+  straight_L100n_32p8_21p425:
     mirror: false
     rotation: 0
     x: 32.75
     y: 21.425
-  straight_747d35a2_32p8_m26p425:
+  straight_L100n_32p8_m26p425:
     mirror: false
     rotation: 0
     x: 32.75
     y: -26.425
-  straight_b2a8fe1b_22p75_m13p925:
+  straight_L5_22p75_m13p925:
     mirror: false
     rotation: 270
     x: 22.75
     y: -11.425
-  straight_b2a8fe1b_42p85_m13p925:
+  straight_L5_42p85_m13p925:
     mirror: false
     rotation: 90
     x: 42.85
     y: -16.425
+  straight_L800n_22p75_11p025:
+    mirror: false
+    rotation: 90
+    x: 22.75
+    y: 10.625
+  straight_L800n_22p75_m11p025:
+    mirror: false
+    rotation: 270
+    x: 22.75
+    y: -10.625
+  straight_L800n_42p85_11p025:
+    mirror: false
+    rotation: 270
+    x: 42.85
+    y: 11.425
+  straight_L800n_42p85_m11p025:
+    mirror: false
+    rotation: 90
+    x: 42.85
+    y: -11.425
 ports:
-  1: mmi1x2_1fa94f5a_0p0_0p0,1
-  2: mmi1x2_1fa94f5a_65p6_m0p0,1
+  1: mmi1x2_0p0_0p0,1
+  2: mmi1x2_65p6_m0p0,1

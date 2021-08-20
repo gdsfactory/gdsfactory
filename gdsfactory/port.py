@@ -389,8 +389,7 @@ def _rename_ports_facing_side(
             list_ports.sort(key=lambda p: p.x)
 
         for i, p in enumerate(list_ports):
-            lbl = prefix + direction + str(i)
-            p.name = lbl
+            p.name = prefix + direction + str(i)
 
 
 def _rename_ports_counter_clockwise(_direction_ports, prefix=""):
@@ -458,9 +457,9 @@ def rename_ports_by_orientation(
     ports = component.ports
     ports = select_ports(ports) if select_ports else ports
 
-    ports_on_process = [p for p in ports.values() if p.layer not in layers_excluded]
+    ports_on_layer = [p for p in ports.values() if p.layer not in layers_excluded]
 
-    for p in ports_on_process:
+    for p in ports_on_layer:
         # Make sure we can backtrack the parent component from the port
         p.parent = component
 
@@ -515,14 +514,52 @@ auto_rename_ports_prefix_orientation = partial(
 )
 
 
-def map_ports_orientation(
+def map_ports_layer_to_orientation(
+    ports: Dict[PortName, Port]
+) -> Dict[PortName, PortName]:
+    """Returns component or reference port mapping
+
+    .. code::
+
+             N0  N1
+             |___|_
+        W1 -|      |- E1
+            |      |
+        W0 -|______|- E0
+             |   |
+            S0   S1
+
+    """
+
+    m = {}
+    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    layers = {port.layer for port in ports.values()}
+
+    for layer in layers:
+        ports_on_layer = [p._copy() for p in ports.values() if p.layer == layer]
+
+        for p in ports_on_layer:
+            p.name_original = p.name
+            angle = p.orientation % 360
+            if angle <= 45 or angle >= 315:
+                direction_ports["E"].append(p)
+            elif angle <= 135 and angle >= 45:
+                direction_ports["N"].append(p)
+            elif angle <= 225 and angle >= 135:
+                direction_ports["W"].append(p)
+            else:
+                direction_ports["S"].append(p)
+        _rename_ports_facing_side(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
+        m.update({p.name: p.name_original for p in ports_on_layer})
+    return m
+
+
+def auto_rename_ports_layer_orientation(
     component: Device,
-    layers_excluded: Tuple[Tuple[int, int], ...] = None,
-    select_ports: Optional[Callable] = None,
     function=_rename_ports_facing_side,
     prefix: str = "",
-) -> Dict[PortName, PortName]:
-    """Returns component or reference port mapping
+) -> None:
+    """Updates component port names with layer prefix and port orientation (E, N, W, S) suffix
 
     .. code::
 
@@ -535,59 +572,15 @@ def map_ports_orientation(
             S0   S1
 
     """
-
-    layers_excluded = layers_excluded or []
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
-
-    ports = component.ports
-    ports = select_ports(ports) if select_ports else ports
-
-    ports_on_process = [
-        p._copy() for p in ports.values() if p.layer not in layers_excluded
-    ]
-
-    for p in ports_on_process:
-        p.name_original = p.name
-        angle = p.orientation % 360
-        if angle <= 45 or angle >= 315:
-            direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
-            direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
-            direction_ports["W"].append(p)
-        else:
-            direction_ports["S"].append(p)
-
-    function(direction_ports, prefix=prefix)
-    return {p.name: p.name_original for p in ports_on_process}
-
-
-def map_ports_layer(
-    component: Device,
-    function=_rename_ports_facing_side,
-) -> Dict[PortName, PortName]:
-    """Returns component or reference port mapping
-
-    .. code::
-
-             N0  N1
-             |___|_
-        W1 -|      |- E1
-            |      |
-        W0 -|______|- E0
-             |   |
-            S0   S1
-
-    """
-    d = {}
+    new_ports = {}
     ports = component.ports
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
-    layers = {port.layer: [] for port in ports.values()}
+    layers = {port.layer for port in ports.values()}
 
-    for layer in layers.keys():
-        ports_on_process = [p._copy() for p in ports.values() if p.layer == layer]
+    for layer in layers:
+        ports_on_layer = [p for p in ports.values() if p.layer == layer]
 
-        for p in ports_on_process:
+        for p in ports_on_layer:
             p.name_original = p.name
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
@@ -600,44 +593,9 @@ def map_ports_layer(
                 direction_ports["S"].append(p)
 
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        d.update({p.name: p.name_original for p in ports_on_process})
-    return d
+        new_ports.update({p.name: p for p in ports_on_layer})
 
-
-def map_ports_prefix_clockwise(
-    component: Device,
-    function=_rename_ports_clockwise,
-    select_ports_optical=select_ports_optical,
-    select_ports_electrical=select_ports_electrical,
-    **kwargs,
-) -> Dict[PortName, PortName]:
-
-    d1 = map_ports_orientation(
-        component=component,
-        select_ports=select_ports_optical,
-        prefix="o",
-        function=function,
-        **kwargs,
-    )
-    d2 = map_ports_orientation(
-        component=component,
-        select_ports=select_ports_electrical,
-        prefix="e",
-        function=function,
-        **kwargs,
-    )
-    for k, v in d2.items():
-        d1[k] = v
-    return d1
-
-
-map_ports_prefix_counter_clockwise = partial(
-    map_ports_prefix_clockwise, function=_rename_ports_counter_clockwise
-)
-
-map_ports_prefix_orientation = partial(
-    map_ports_prefix_clockwise, function=_rename_ports_facing_side
-)
+    component.ports = new_ports
 
 
 __all__ = [
@@ -656,16 +614,19 @@ __all__ = [
     "auto_rename_ports_prefix_clockwise",
     "auto_rename_ports_prefix_counter_clockwise",
     "auto_rename_ports_prefix_orientation",
-    "map_ports_prefix_clockwise",
-    "map_ports_prefix_counter_clockwise",
-    "map_ports_prefix_orientation",
-    "map_ports_layer",
+    "map_ports_layer_to_orientation",
 ]
 
 if __name__ == "__main__":
+    from pprint import pprint
+
     import gdsfactory as gf
 
-    c = gf.Component()
-    wg = c << gf.components.straight_heater_metal()
-    m = map_ports_layer(wg)
+    # c = gf.Component()
+
+    c = gf.components.straight_heater_metal()
+    c.auto_rename_ports()
+    # auto_rename_ports_layer_orientation(c)
+    m = map_ports_layer_to_orientation(c.ports)
+    pprint(m)
     c.show()

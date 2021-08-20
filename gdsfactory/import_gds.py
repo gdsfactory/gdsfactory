@@ -150,6 +150,7 @@ def add_ports_from_markers_center(
 
     port_markers = read_port_markers(component, layers=(layer,))
     port_layer = port_layer or layer
+    port_locations = []
 
     for i, p in enumerate(port_markers.polygons):
         port_name = f"{port_name_prefix}_{i}" if port_name_prefix else i
@@ -211,13 +212,18 @@ def add_ports_from_markers_center(
             width = dx
             y = p.ymin
 
-        component.add_port(
-            name=port_name,
-            midpoint=(x, y),
-            width=width - pin_extra_width,
-            orientation=orientation,
-            layer=port_layer,
-        )
+        x = gf.snap.snap_to_grid(x)
+        y = gf.snap.snap_to_grid(y)
+
+        if (x, y) not in port_locations:
+            component.add_port(
+                name=port_name,
+                midpoint=(x, y),
+                width=width - pin_extra_width,
+                orientation=orientation,
+                layer=port_layer,
+            )
+            port_locations.append((x, y))
 
 
 # pytype: disable=bad-return-type

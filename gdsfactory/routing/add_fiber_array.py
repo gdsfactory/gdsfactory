@@ -19,7 +19,6 @@ def add_fiber_array(
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = 1,
     component_name: Optional[str] = None,
-    taper_length: float = 10.0,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,

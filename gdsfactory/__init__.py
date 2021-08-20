@@ -57,6 +57,7 @@ from gdsfactory import layers
 from gdsfactory.tech import TECH
 from gdsfactory.component_from_yaml import component_from_yaml
 from gdsfactory.add_termination import add_termination
+from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
     get_padding_points,
@@ -89,6 +90,7 @@ __all__ = [
     "add_pins",
     "add_pins_to_references",
     "add_termination",
+    "add_tapers",
     "asserts",
     "bias",
     "boolean",

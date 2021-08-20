@@ -4,7 +4,6 @@ info:
 module: gdsfactory.components.via_stack
 name: via_stack_PO0
 settings:
-  height: null
   layer:
   - 49
   - 0
@@ -19,4 +18,3 @@ settings:
     layer:
     - 43
     - 0
-  width: 11

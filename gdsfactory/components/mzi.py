@@ -1,4 +1,3 @@
-from functools import partial
 from typing import Dict, Optional, Union
 
 from gdsfactory.cell import cell
@@ -6,7 +5,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
 
 
@@ -62,10 +60,6 @@ def mzi(
 
     """
     combiner = combiner or splitter
-    bend = partial(bend, decorator=auto_rename_ports)
-    straight = partial(straight, decorator=auto_rename_ports)
-    splitter = partial(splitter, decorator=auto_rename_ports)
-    combiner = partial(combiner, decorator=auto_rename_ports)
 
     splitter_settings = splitter_settings or {}
     combiner_settings = combiner_settings or {}
@@ -145,9 +139,9 @@ def mzi(
     blbmrb = c << b90  # bend left medium right bottom
     lxbot = c << lxb
 
-    lxbot_map = lxbot.ports_layer
-    lxbot_E0 = lxbot_map[f"{layer[0]}_{layer[1]}_E0"]
-    lxbot_W0 = lxbot_map[f"{layer[0]}_{layer[1]}_W0"]
+    lxtop_map = lxtop.ports_layer
+    lxbot_E0 = lxtop_map[f"{layer[0]}_{layer[1]}_E0"]
+    lxbot_W0 = lxtop_map[f"{layer[0]}_{layer[1]}_W0"]
 
     blb.connect(port=2, destination=cin.ports[cp1_e0_port_name])
     l0bl.connect(port=1, destination=blb.ports[1])

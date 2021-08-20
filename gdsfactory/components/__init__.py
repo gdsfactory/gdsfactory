@@ -20,7 +20,7 @@ from gdsfactory.components.straight_heater_doped import straight_heater_doped
 from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_rib import straight_rib
-from gdsfactory.components.straight_rib import straight_rib_with_strip_tapers
+from gdsfactory.components.straight_rib import straight_rib_tapered
 
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_circular import bend_circular180
@@ -296,7 +296,7 @@ LIBRARY.register(
         straight_heater_metal,
         straight_heater_doped,
         straight_rib,
-        straight_rib_with_strip_tapers,
+        straight_rib_tapered,
         wire_straight,
         wire_corner,
         wire_sbend,

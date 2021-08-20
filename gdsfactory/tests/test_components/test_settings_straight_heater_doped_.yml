@@ -3,5 +3,11 @@ info: {}
 module: gdsfactory.components.straight_heater_doped
 name: straight_heater_doped
 settings:
+  contact_size:
+  - 10
+  - 10
+  contact_spacing: 5
   length: 320
-  length_section: 100
+  nsections: 3
+  port_orientation_bot: 180
+  port_orientation_top: 0

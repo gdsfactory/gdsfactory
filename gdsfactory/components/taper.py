@@ -23,8 +23,8 @@ def taper(
 
     Args:
         length:
-        width1:
-        width2:
+        width1: width of the west port
+        width2: width of the east port
         port: can taper from a port instead of defining width1
         with_cladding_box: to avoid DRC acute angle errors in cladding
         cross_section:
@@ -89,7 +89,7 @@ def taper_strip_to_ridge(
     layer_wg: Layer = gf.LAYER.WG,
     layer_slab: Layer = gf.LAYER.SLAB90,
 ) -> Component:
-    """taper strip to rib
+    r"""taper strip to rib
 
     Args:
         length:
@@ -97,6 +97,16 @@ def taper_strip_to_ridge(
         width2:
         w_slab1
         w_slab2
+
+    .. code::
+
+                 _________
+                /
+        _______/_________
+              /
+        ______\__________
+               \
+                \_________
 
     .. plot::
       :include-source:
