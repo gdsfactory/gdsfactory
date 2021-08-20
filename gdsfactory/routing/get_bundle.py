@@ -656,8 +656,8 @@ def test_get_bundle_small() -> Component:
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
-        [c1.ports[3], c1.ports[4]],
-        [c2.ports[1], c2.ports[2]],
+        [c1.ports["o3"], c1.ports["o4"]],
+        [c2.ports["o1"], c2.ports["o2"]],
         radius=5,
     )
     for route in routes:
@@ -683,8 +683,8 @@ if __name__ == "__main__":
     # c2 = c << gf.components.mmi2x2()
     # c2.move((100, 40))
     # routes = get_bundle(
-    #     [c1.ports[2], c1.ports["E1"]],
-    #     [c2.ports[1], c2.ports[2]],
+    #     [c1.ports['o2'], c1.ports["E1"]],
+    #     [c2.ports['o1'], c2.ports['o2']],
     #     radius=5,
     # )
     # for route in routes:

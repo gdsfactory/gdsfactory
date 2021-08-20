@@ -29,7 +29,7 @@ def test_component_with_port(
     c = gf.Component()
     c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
     c.add_port(
-        name=1,
+        name="o1",
         midpoint=(0, y / 2),
         width=y,
         orientation=180,

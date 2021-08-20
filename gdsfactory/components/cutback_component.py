@@ -12,8 +12,8 @@ def cutback_component(
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,
-    port1_id: str = 1,
-    port2_id: str = 2,
+    port1: str = "o1",
+    port2: str = "o2",
     middle_couples: int = 2,
 ) -> Component:
     """Flips the component, good for tapers that end in wide straights
@@ -22,6 +22,7 @@ def cutback_component(
         component
         cols
         rows
+        bend_radius: for bend
 
     """
     component = component() if callable(component) else component
@@ -29,10 +30,10 @@ def cutback_component(
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (component, port1_id, port2_id),
-        "B": (component, port2_id, port1_id),
-        "D": (bend180, 1, 2),
-        "C": (bend180, 2, 1),
+        "A": (component, port1, port2),
+        "B": (component, port2, port1),
+        "D": (bend180, "o1", "o2"),
+        "C": (bend180, "o2", "o1"),
     }
 
     # Generate the sequence of staircases
@@ -63,8 +64,8 @@ def cutback_component_flipped(
     cols: int = 4,
     rows: int = 5,
     bend_radius: int = 10,
-    port1_id: str = 2,
-    port2_id: str = 1,
+    port1: str = "o2",
+    port2: str = "o1",
     middle_couples: int = 2,
 ) -> Component:
     component = component() if callable(component) else component
@@ -72,10 +73,10 @@ def cutback_component_flipped(
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (component, port1_id, port2_id),
-        "B": (component, port2_id, port1_id),
-        "D": (bend180, 1, 2),
-        "C": (bend180, 2, 1),
+        "A": (component, port1, port2),
+        "B": (component, port2, port1),
+        "D": (bend180, "o1", "o2"),
+        "C": (bend180, "o2", "o1"),
     }
 
     # Generate the sequence of staircases
@@ -102,4 +103,5 @@ def cutback_component_flipped(
 
 if __name__ == "__main__":
     c = cutback_component()
+    c = cutback_component_flipped()
     c.show()

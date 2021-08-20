@@ -55,8 +55,8 @@ def get_route_from_steps(
         obstacle1.ymin = 40
         obstacle2.xmin = 25
 
-        p1 = left.ports[2]
-        p2 = right.ports[2]
+        p1 = left.ports['o2']
+        p2 = right.ports['o2']
         route = gf.routing.get_route_from_steps(
             port1=p1,
             port2=p2,
@@ -132,8 +132,8 @@ def test_route_from_steps() -> gf.Component:
     obstacle1.ymin = 40
     obstacle2.xmin = 25
 
-    p1 = left.ports[2]
-    p2 = right.ports[2]
+    p1 = left.ports["o2"]
+    p2 = right.ports["o2"]
 
     route = get_route_from_steps(
         port1=p1,

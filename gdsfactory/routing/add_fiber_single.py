@@ -12,7 +12,7 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, PortName
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @cell_without_validator
@@ -28,7 +28,7 @@ def add_fiber_single(
     optical_routing_type: int = 2,
     with_loopback: bool = True,
     component_name: Optional[str] = None,
-    gc_port_name: PortName = 1,
+    gc_port_name: str = "o1",
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     select_ports: Callable = select_ports_optical,
@@ -192,10 +192,10 @@ def add_fiber_single(
 
         gci = c << grating_coupler
         gco = c << grating_coupler
-        gci.connect(gc_port_name, wg.ports[1])
-        gco.connect(gc_port_name, wg.ports[2])
+        gci.connect(gc_port_name, wg.ports["o1"])
+        gco.connect(gc_port_name, wg.ports["o2"])
 
-        port = wg.ports[2]
+        port = wg.ports["o2"]
         text = get_input_label_text_loopback_function(
             port=port, gc=grating_coupler, gc_index=0, component_name=component_name
         )
@@ -207,7 +207,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
-        port = wg.ports[1]
+        port = wg.ports["o1"]
         text = get_input_label_text_loopback_function(
             port=port, gc=grating_coupler, gc_index=1, component_name=component_name
         )

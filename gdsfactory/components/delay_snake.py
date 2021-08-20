@@ -82,7 +82,7 @@ def delay_snake(
     )
     component.add(route.references)
     component.add_port("S1", port=route.ports[0])
-    component.add_port("S0", port=route.ports[1])
+    component.add_port("S0", port=route.ports["o1"])
 
     gf.port.auto_rename_ports(component)
     return component

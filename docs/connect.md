@@ -51,16 +51,16 @@ You can connect:
 
 
         # connect references
-        wyr.connect(port=2, destination=cbr.ports[2])
-        cs.connect(port=2, destination=cbr.ports[1])
+        wyr.connect(port='o2', destination=cbr.ports['o2'])
+        cs.connect(port='o2', destination=cbr.ports['o1'])
 
         cbl.reflect(p1=(0, coupler90.y), p2=(1, coupler90.y))
-        cbl.connect(port=1, destination=cs.ports[1])
-        wyl.connect(port=2, destination=cbl.ports[2])
+        cbl.connect(port='o1', destination=cs.ports['o1'])
+        wyl.connect(port='o2', destination=cbl.ports['o2'])
 
-        btl.connect(port=2, destination=wyl.ports[1])
-        btr.connect(port=1, destination=wyr.ports[1])
-        wx.connect(port=1, destination=btl.ports[1])
+        btl.connect(port='o2', destination=wyl.ports['o1'])
+        btr.connect(port='o1', destination=wyr.ports['o1'])
+        wx.connect(port='o1', destination=btl.ports['o1'])
         return c
 
 

@@ -57,8 +57,10 @@ def taper(
 
     c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
-    c.add_port(name=1, midpoint=[0, 0], width=width1, orientation=180, layer=layer)
-    c.add_port(name=2, midpoint=[length, 0], width=width2, orientation=0, layer=layer)
+    c.add_port(name="o1", midpoint=[0, 0], width=width1, orientation=180, layer=layer)
+    c.add_port(
+        name="o2", midpoint=[length, 0], width=width2, orientation=0, layer=layer
+    )
     c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
@@ -128,8 +130,8 @@ def taper_strip_to_ridge(
         c.absorb(taper_ref)
 
     c.info["length"] = length
-    c.add_port(name=1, port=_taper_wg.ports[1])
-    c.add_port(name=2, port=_taper_wg.ports[2])
+    c.add_port(name="o1", port=_taper_wg.ports["o1"])
+    c.add_port(name="o2", port=_taper_wg.ports["o2"])
     return c
 
 
@@ -165,8 +167,10 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon((x, ytt), layer=trench_layer)
     c.add_polygon((x, ytb), layer=trench_layer)
 
-    c.add_port(name=1, midpoint=[0, 0], width=width, orientation=180, layer=layer_wg)
-    c.add_port(name=2, midpoint=[length, 0], width=width, orientation=0, layer=layer_wg)
+    c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer_wg)
+    c.add_port(
+        name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer_wg
+    )
 
     return c
 

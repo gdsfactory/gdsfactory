@@ -23,7 +23,7 @@ placements:
     x: 0.0
     y: 0.0
 ports:
-  1: mzit_dfcdab44_19p138_11p4,1
-  2: mzit_dfcdab44_19p138_11p4,2
-  3: mzit_dfcdab44_19p138_11p4,3
-  4: mzit_dfcdab44_19p138_11p4,4
+  o1: mzit_dfcdab44_19p138_11p4,o1
+  o2: mzit_dfcdab44_19p138_11p4,o2
+  o3: mzit_dfcdab44_19p138_11p4,o3
+  o4: mzit_dfcdab44_19p138_11p4,o4

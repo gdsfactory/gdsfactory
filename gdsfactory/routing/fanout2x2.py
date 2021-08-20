@@ -38,10 +38,10 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = comp.ports[1].midpoint
-    p_w1 = comp.ports[2].midpoint
-    p_e1 = comp.ports[3].midpoint
-    p_e0 = comp.ports[4].midpoint
+    p_w0 = comp.ports["o1"].midpoint
+    p_w1 = comp.ports["o2"].midpoint
+    p_e1 = comp.ports["o3"].midpoint
+    p_e0 = comp.ports["o4"].midpoint
     y0 = p_e1[1]
 
     dy = y - y0
@@ -52,17 +52,17 @@ def fanout2x2(
         control_points=control_points, npoints=npoints, start_angle=0, end_angle=0
     )
 
-    b_tr = bezier_bend_t.ref(port_id=1, position=p_e1)
-    b_br = bezier_bend_t.ref(port_id=1, position=p_e0, v_mirror=True)
-    b_tl = bezier_bend_t.ref(port_id=1, position=p_w1, h_mirror=True)
-    b_bl = bezier_bend_t.ref(port_id=1, position=p_w0, rotation=180)
+    b_tr = bezier_bend_t.ref(port_id="o1", position=p_e1)
+    b_br = bezier_bend_t.ref(port_id="o1", position=p_e0, v_mirror=True)
+    b_tl = bezier_bend_t.ref(port_id="o1", position=p_w1, h_mirror=True)
+    b_bl = bezier_bend_t.ref(port_id="o1", position=p_w0, rotation=180)
 
     c.add([b_tr, b_br, b_tl, b_bl])
 
-    c.add_port(1, port=b_bl.ports[2])
-    c.add_port(2, port=b_tl.ports[2])
-    c.add_port(3, port=b_tr.ports[2])
-    c.add_port(4, port=b_br.ports[2])
+    c.add_port("o1", port=b_bl.ports["o2"])
+    c.add_port("o2", port=b_tl.ports["o2"])
+    c.add_port("o3", port=b_tr.ports["o2"])
+    c.add_port("o4", port=b_br.ports["o2"])
 
     c.min_bend_radius = bezier_bend_t.info["min_bend_radius"]
 
@@ -79,6 +79,6 @@ if __name__ == "__main__":
     c = gf.components.nxn(west=2, east=2)
 
     cc = fanout2x2(component=c)
-    print(cc.ports[3].y - cc.ports[4].y)
+    print(cc.ports["o3"].y - cc.ports["o4"].y)
     # print(cc.ports)
     cc.show()

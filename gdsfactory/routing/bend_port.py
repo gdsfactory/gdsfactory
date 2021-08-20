@@ -1,17 +1,12 @@
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionFactory,
-    PortName,
-)
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @gf.cell
 def bend_port(
     component: ComponentOrFactory,
-    port_name: PortName = 1,
+    port_name: str = "o2",
     cross_section: CrossSectionFactory = gf.cross_section.metal3,
     bend: ComponentFactory = bend_circular,
     angle: int = 180,
@@ -34,18 +29,18 @@ def bend_port(
     component = component() if callable(component) else component
     ref = c << component
     b = c << bend(angle=angle, cross_section=cross_section, **kwargs)
-    b.connect(1, ref.ports[port_name])
+    b.connect("o1", ref.ports[port_name])
 
     s = c << gf.c.straight(length=length, cross_section=cross_section)
-    s.connect(2, b.ports[2])
+    s.connect("o2", b.ports["o2"])
 
     c.add_ports(ref.get_ports_list())
     c.ports.pop(port_name)
-    c.add_port(port_name, port=s.ports[1])
+    c.add_port(port_name, port=s.ports["o1"])
     return c
 
 
 if __name__ == "__main__":
-    component = gf.c.straight_heater_metal()
-    c = bend_port(component=component, length=component.settings["length"], port_name=1)
+    c = gf.c.straight_heater_metal()
+    c = bend_port(component=c, length=c.settings["length"], port_name="o1")
     c.show()

@@ -10,6 +10,7 @@ from gdsfactory.types import Layer
 def compass(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Layer = gf.LAYER.WG,
+    prefix: str = "e",
 ) -> Component:
     """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
@@ -27,12 +28,26 @@ def compass(
 
     rr = r.ref(position=(-dx / 2, -dy / 2))
     c.add(rr)
-    c.add_port(name="N", midpoint=[0, dy / 2], width=dx, orientation=90, layer=layer)
-    c.add_port(name="S", midpoint=[0, -dy / 2], width=dx, orientation=-90, layer=layer)
-    c.add_port(name="E", midpoint=[dx / 2, 0], width=dy, orientation=0, layer=layer)
-    c.add_port(name="W", midpoint=[-dx / 2, 0], width=dy, orientation=180, layer=layer)
-
-    c.auto_rename_ports()
+    c.add_port(
+        name=f"{prefix}1",
+        midpoint=[-dx / 2, 0],
+        width=dy,
+        orientation=180,
+        layer=layer,
+    )
+    c.add_port(
+        name=f"{prefix}2", midpoint=[0, dy / 2], width=dx, orientation=90, layer=layer
+    )
+    c.add_port(
+        name=f"{prefix}3", midpoint=[dx / 2, 0], width=dy, orientation=0, layer=layer
+    )
+    c.add_port(
+        name=f"{prefix}4",
+        midpoint=[0, -dy / 2],
+        width=dx,
+        orientation=-90,
+        layer=layer,
+    )
     return c
 
 

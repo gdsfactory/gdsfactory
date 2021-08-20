@@ -28,6 +28,8 @@ from gdsfactory.port import (
     auto_rename_ports,
     auto_rename_ports_layer_orientation,
     map_ports_layer_to_orientation,
+    map_ports_to_orientation_ccw,
+    map_ports_to_orientation_cw,
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid
@@ -521,6 +523,22 @@ class ComponentReference(DeviceReference):
         """Returns a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 
+    def port_by_orientation_cw(self, key: str, **kwargs):
+        """Returns port by indexing them clockwise"""
+        m = map_ports_to_orientation_cw(self.ports, **kwargs)
+        if key not in m:
+            raise KeyError(f"{key} not in {list(m.keys())}")
+        key2 = m[key]
+        return self.ports[key2]
+
+    def port_by_orientation_ccw(self, key: str, **kwargs):
+        """Returns port by indexing them clockwise"""
+        m = map_ports_to_orientation_ccw(self.ports, **kwargs)
+        if key not in m:
+            raise KeyError(f"{key} not in {list(m.keys())}")
+        key2 = m[key]
+        return self.ports[key2]
+
 
 class Component(Device):
     """adds some functions to phidl.Device:
@@ -591,6 +609,22 @@ class Component(Device):
     def ports_layer(self) -> Dict[PortName, PortName]:
         """Returns a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
+
+    def port_by_orientation_cw(self, key: str, **kwargs):
+        """Returns port by indexing them clockwise"""
+        m = map_ports_to_orientation_cw(self.ports, **kwargs)
+        if key not in m:
+            raise KeyError(f"{key} not in {list(m.keys())}")
+        key2 = m[key]
+        return self.ports[key2]
+
+    def port_by_orientation_ccw(self, key: str, **kwargs):
+        """Returns port by indexing them clockwise"""
+        m = map_ports_to_orientation_ccw(self.ports, **kwargs)
+        if key not in m:
+            raise KeyError(f"{key} not in {list(m.keys())}")
+        key2 = m[key]
+        return self.ports[key2]
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"
@@ -1270,9 +1304,9 @@ def test_netlist_simple() -> None:
     c = gf.Component()
     c1 = c << gf.components.straight(length=1, width=1)
     c2 = c << gf.components.straight(length=2, width=2)
-    c2.connect(port=1, destination=c1.ports[2])
-    c.add_port(1, port=c1.ports[1])
-    c.add_port(2, port=c2.ports[2])
+    c2.connect(port="o1", destination=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2

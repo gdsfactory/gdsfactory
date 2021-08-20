@@ -20,8 +20,8 @@ if __name__ == "__main__":
     c2.movex(length + dy)
 
     route = route_manhattan(
-        input_port=c1.ports[2],
-        output_port=c2.ports[1],
+        input_port=c1.ports["o2"],
+        output_port=c2.ports["o1"],
         radius=5.0,
     )
 

@@ -78,7 +78,7 @@ def splitter_tree(
                 c.add(
                     gf.routing.get_route(
                         c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
-                        coupler_ref.ports[1],
+                        coupler_ref.ports["o1"],
                         cross_section=cross_section,
                         **kwargs,
                     ).references
@@ -97,11 +97,11 @@ def splitter_tree(
                 btop = c << bend_s
                 bbot = c << bend_s
                 bbot.mirror()
-                btop.connect(1, coupler_ref.ports[e1_port_name])
-                bbot.connect(1, coupler_ref.ports[e0_port_name])
-                c.add_port(name=f"E_{i}", port=btop.ports[2])
+                btop.connect("o1", coupler_ref.ports[e1_port_name])
+                bbot.connect("o1", coupler_ref.ports[e0_port_name])
+                c.add_port(name=f"E_{i}", port=btop.ports["o2"])
                 i += 1
-                c.add_port(name=f"E_{i}", port=bbot.ports[2])
+                c.add_port(name=f"E_{i}", port=bbot.ports["o2"])
                 i += 1
 
     c.auto_rename_ports()

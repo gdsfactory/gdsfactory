@@ -1,6 +1,6 @@
 connections:
-  ring_single_LX10_R5_m5p0_5p65,2: straight_L5_7p5_0p0,1
-  ring_single_LX20_R10_30p0_10p65,1: straight_L5_7p5_0p0,2
+  ring_single_LX10_R5_m5p0_5p65,o2: straight_L5_7p5_0p0,o1
+  ring_single_LX20_R10_30p0_10p65,o1: straight_L5_7p5_0p0,o2
 instances:
   ring_single_LX10_R5_m5p0_5p65:
     component: ring_single
@@ -42,5 +42,5 @@ placements:
     x: 5.0
     y: 0.0
 ports:
-  1: ring_single_LX10_R5_m5p0_5p65,1
-  2: ring_single_LX20_R10_30p0_10p65,2
+  o1: ring_single_LX10_R5_m5p0_5p65,o1
+  o2: ring_single_LX20_R10_30p0_10p65,o2

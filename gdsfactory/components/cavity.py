@@ -54,10 +54,10 @@ def cavity(
     ml = c << mirror
     mr = c << mirror
 
-    ml.connect(1, destination=cr.ports[2])
-    mr.connect(1, destination=cr.ports[3])
-    c.add_port(1, port=cr.ports[1])
-    c.add_port(2, port=cr.ports[4])
+    ml.connect("o1", destination=cr.ports["o2"])
+    mr.connect("o1", destination=cr.ports["o3"])
+    c.add_port("o1", port=cr.ports["o1"])
+    c.add_port("o2", port=cr.ports["o4"])
     return c
 
 

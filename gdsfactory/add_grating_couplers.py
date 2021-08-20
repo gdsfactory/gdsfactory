@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
-from gdsfactory.types import ComponentFactory, PortName
+from gdsfactory.types import ComponentFactory
 
 
 @cell
@@ -17,7 +17,7 @@ def add_grating_couplers(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = gf.LAYER.LABEL,
-    gc_port_name: PortName = 1,
+    gc_port_name: str = "o1",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
     select_ports: Callable = select_ports_optical,
 ) -> Component:

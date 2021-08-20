@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 from functools import partial
-from typing import Iterable, Optional, Tuple, Union
+from typing import Iterable, Optional, Tuple
 
 import pydantic
 from phidl.device_layout import CrossSection
@@ -14,7 +14,6 @@ from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
-PortName = Union[str, int]
 
 
 @pydantic.validate_arguments
@@ -30,7 +29,7 @@ def cross_section(
     layer_cladding: Optional[Layer] = None,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
-    port_names: Tuple[PortName, PortName] = (1, 2),
+    port_names: Tuple[str, str] = ("o1", "o2"),
     min_length: float = 10e-3,
     start_straight: float = 10e-3,
     end_straight_offset: float = 10e-3,
@@ -167,7 +166,8 @@ def pn(
     layer_npp: Tuple[int, int] = LAYER.Npp,
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
-    port_names: Tuple[PortName, PortName] = (1, 2),
+    port_names: Tuple[str, str] = ("o1", "o2"),
+    **kwargs,
 ) -> CrossSection:
     """PIN doped cross_section.
 
@@ -227,6 +227,7 @@ def pn(
         layers_cladding=layers_cladding,
     )
     x.info = s
+    x.info.update(**kwargs)
     return x
 
 
@@ -326,10 +327,10 @@ strip = partial(cross_section)
 rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
 )
-metal1 = partial(cross_section, layer=LAYER.M1, width=10.0)
-metal2 = partial(cross_section, layer=LAYER.M2, width=10.0)
-metal3 = partial(cross_section, layer=LAYER.M3, width=10.0)
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
+metal1 = partial(cross_section, layer=LAYER.M1, width=10.0, port_names=("e1", "e2"))
+metal2 = partial(metal1, layer=LAYER.M2, width=10.0)
+metal3 = partial(metal1, layer=LAYER.M3, width=10.0)
 
 
 cross_section_factory = dict(

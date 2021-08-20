@@ -33,10 +33,10 @@ def coupler_straight(
 
     top.movey(straight_component.width + gap)
 
-    component.add_port(1, port=bot.ports[1])
-    component.add_port(2, port=top.ports[1])
-    component.add_port(3, port=bot.ports[2])
-    component.add_port(4, port=top.ports[2])
+    component.add_port("o1", port=bot.ports["o1"])
+    component.add_port("o2", port=top.ports["o1"])
+    component.add_port("o3", port=bot.ports["o2"])
+    component.add_port("o4", port=top.ports["o2"])
     component.auto_rename_ports()
     return component
 

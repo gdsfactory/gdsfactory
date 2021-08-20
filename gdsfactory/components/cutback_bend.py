@@ -3,12 +3,11 @@ from numpy import float64
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
-from gdsfactory.routing.add_fiber_array import add_fiber_array
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory
 
 
 def _get_bend_size(bend90: Component) -> float64:
@@ -19,7 +18,12 @@ def _get_bend_size(bend90: Component) -> float64:
 
 
 @cell
-def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
+def cutback_bend(
+    bend90: ComponentOrFactory,
+    straight_length: float = 5.0,
+    n_steps: int = 6,
+    n_stairs: int = 5,
+):
     """Deprecated! use cutback_bend90 instead!
     this is a stair
 
@@ -32,13 +36,14 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
     """
 
-    wg = straight(length=straight_length, width=bend90.ports[1].width)
+    bend90 = gf.call_if_func(bend90)
+    wg = straight(length=straight_length, width=bend90.ports["o1"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (bend90, 1, 2),
-        "B": (bend90, 2, 1),
-        "S": (wg, 1, 2),
+        "A": (bend90, "o1", "o2"),
+        "B": (bend90, "o2", "o1"),
+        "S": (wg, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
@@ -57,7 +62,7 @@ def cutback_bend(bend90, straight_length=5.0, n_steps=6, n_stairs=5):
 
 @cell
 def cutback_bend90(
-    bend90: ComponentFactory = bend_euler,
+    bend90: ComponentOrFactory = bend_euler,
     straight_length: float = 5.0,
     n_steps: int = 6,
     cols: int = 6,
@@ -75,20 +80,20 @@ def cutback_bend90(
     """
     bend90 = gf.call_if_func(bend90)
 
-    wg = straight_factory(length=straight_length, width=bend90.ports[1].width)
+    wg = straight_factory(length=straight_length, width=bend90.ports["o1"].width)
     if wg_loop_length is None:
         wg_loop_length = 2 * _get_bend_size(bend90) + spacing + straight_length
 
     wg_loop = straight_factory(
         length=wg_loop_length,
-        width=bend90.ports[1].width,
+        width=bend90.ports["o1"].width,
     )
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (bend90, 1, 2),
-        "B": (bend90, 2, 1),
-        "-": (wg, 1, 2),
-        "|": (wg_loop, 1, 2),
+        "A": (bend90, "o1", "o2"),
+        "B": (bend90, "o2", "o1"),
+        "-": (wg, "o1", "o2"),
+        "|": (wg_loop, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
@@ -108,24 +113,25 @@ def cutback_bend90(
     return c
 
 
+@cell
 def staircase(
-    bend90=bend_euler,
-    length_v=5.0,
-    length_h=5.0,
-    n_steps=4,
-    straight_factory=straight,
-):
+    bend90: ComponentOrFactory = bend_euler,
+    length_v: float = 5.0,
+    length_h: float = 5.0,
+    n_steps: int = 4,
+    straight_factory: ComponentFactory = straight,
+) -> Component:
     bend90 = gf.call_if_func(bend90)
 
-    wgh = straight_factory(length=length_h, width=bend90.ports[1].width)
-    wgv = straight_factory(length=length_v, width=bend90.ports[1].width)
+    wgh = straight_factory(length=length_h, width=bend90.ports["o1"].width)
+    wgv = straight_factory(length=length_v, width=bend90.ports["o1"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "A": (bend90, 1, 2),
-        "B": (bend90, 2, 1),
-        "-": (wgh, 1, 2),
-        "|": (wgv, 1, 2),
+        "A": (bend90, "o1", "o2"),
+        "B": (bend90, "o2", "o1"),
+        "-": (wgh, "o1", "o2"),
+        "|": (wgv, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
@@ -140,7 +146,7 @@ def staircase(
 
 @cell
 def cutback_bend180(
-    bend180: ComponentFactory = bend_euler180,
+    bend180: ComponentOrFactory = bend_euler180,
     straight_length: float = 5.0,
     n_steps: int = 6,
     cols: int = 6,
@@ -159,18 +165,18 @@ def cutback_bend180(
     """
     bend180 = gf.call_if_func(bend180)
 
-    wg = straight_factory(length=straight_length, width=bend180.ports[1].width)
+    wg = straight_factory(length=straight_length, width=bend180.ports["o1"].width)
     wg_vertical = straight_factory(
         length=2 * bend180.size_info.width + straight_length + spacing,
-        width=bend180.ports[1].width,
+        width=bend180.ports["o1"].width,
     )
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "D": (bend180, 1, 2),
-        "C": (bend180, 2, 1),
-        "-": (wg, 1, 2),
-        "|": (wg_vertical, 1, 2),
+        "D": (bend180, "o1", "o2"),
+        "C": (bend180, "o2", "o1"),
+        "-": (wg, "o1", "o2"),
+        "|": (wg_vertical, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
@@ -190,18 +196,12 @@ def cutback_bend180(
     return c
 
 
-@gf.cell
-def cutback_bend_circular(radius=10.0, n_steps=3, n_stairs=4):
-    bend90 = bend_circular(radius=radius)
-    c = cutback_bend(bend90=bend90, n_steps=n_steps, n_stairs=n_stairs)
-    cc = add_fiber_array(component=c, optical_routing_type=1)
-    return cc
-
+cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
+cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
     # c = cutback_bend_circular(n_steps=7, n_stairs=4, radius=5) #62
     # c = cutback_bend_circular(n_steps=14, n_stairs=4) #118
-    c = cutback_bend_circular(n_steps=3, n_stairs=4)  # 30
-    # c = cutback_bend180()
     # c = cutback_bend90()
+    c = cutback_bend180()
     c.show()

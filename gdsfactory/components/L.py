@@ -24,8 +24,8 @@ def L(
     s1, s2 = size
     points = [(-w, -w), (s1, -w), (s1, w), (w, w), (w, s2), (-w, s2), (-w, -w)]
     D.add_polygon(points, layer=layer)
-    D.add_port(name=1, midpoint=(0, s2), width=width, orientation=90)
-    D.add_port(name=2, midpoint=(s1, 0), width=width, orientation=0)
+    D.add_port(name="o1", midpoint=(0, s2), width=width, orientation=90)
+    D.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0)
     return D
 
 

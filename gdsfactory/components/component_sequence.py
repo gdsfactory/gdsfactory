@@ -66,9 +66,9 @@ def _flip_ref(c_ref, port_name):
 def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],
-    ports_map: Optional[Dict[str, Tuple[PortName, PortName]]] = None,
-    input_port_name: PortName = 1,
-    output_port_name: PortName = 2,
+    ports_map: Optional[Dict[str, Tuple[str, PortName]]] = None,
+    port_name1: str = "o1",
+    port_name2: str = "o2",
     start_orientation: float = 0.0,
 ) -> Component:
     """Returns component from a ASCII sequence and a dictionary to interpret each symbol
@@ -78,8 +78,8 @@ def component_sequence(
         symbol_to_component: maps symbols to (component, input, output)
         ports_map: (optional) extra port mapping using the convention
             {port_name: (alias_name, port_name)}
-        input_port_name:
-        output_port_name:
+        port_name1: input port_name
+        port_name2: output port_name
         start_orientation:
 
     Returns:
@@ -142,7 +142,13 @@ def component_sequence(
 
     prev_device.rotate(angle=start_orientation)
 
-    component.add_port(name=input_port_name, port=prev_device.ports[input_port])
+    try:
+        component.add_port(name=port_name1, port=prev_device.ports[input_port])
+    except KeyError:
+        raise KeyError(
+            f"{prev_device.parent.name} input_port {input_port} "
+            f"not in {list(prev_device.ports.keys())}"
+        )
 
     # Generate and connect all elements from the sequence
     for s in sequence[1:]:
@@ -154,7 +160,14 @@ def component_sequence(
         if do_flip:
             ref = _flip_ref(ref, input_port)
 
-        ref.connect(input_port, prev_device.ports[prev_port])
+        try:
+            ref.connect(input_port, prev_device.ports[prev_port])
+        except KeyError:
+            raise KeyError(
+                f"{prev_device.parent.name} port {prev_port} "
+                f"not in {list(prev_device.ports.keys())}"
+            )
+
         prev_device = ref
         prev_port = next_port
 
@@ -164,7 +177,7 @@ def component_sequence(
         next_port = prev_port
 
     try:
-        component.add_port(name=output_port_name, port=ref.ports[next_port])
+        component.add_port(name=port_name2, port=ref.ports[next_port])
     except BaseException:
         print(sequence)
         raise
@@ -180,21 +193,21 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     bend180 = gf.components.bend_circular180()
-    wg_pin = gf.components.straight_pin()
+    wg_pin = gf.components.straight_pin_passive_tapered(length=10)
     wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "A": (bend180, 1, 2),
-        "B": (bend180, 2, 1),
-        "H": (wg_pin, 1, 2),
-        "-": (wg, 1, 2),
+    symbol_to_component_map = {
+        "A": (bend180, "o1", "o2"),
+        "B": (bend180, "o2", "o1"),
+        "H": (wg_pin, "o1", "o2"),
+        "-": (wg, "o1", "o2"),
     }
 
     # Each character in the sequence represents a component
     sequence = "AB-H-H-H-H-BA"
     c = gf.components.component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
+        sequence=sequence, symbol_to_component=symbol_to_component_map
     )
     s = c.get_settings(ignore=("symbol_to_component",))
     # print(s["settings"])

@@ -87,16 +87,16 @@ def ring_single(
     st = c << straight_top
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
-    sl.connect(port=1, destination=cb.ports[2])
-    bl.connect(port=2, destination=sl.ports[2])
+    sl.connect(port="o1", destination=cb.ports["o2"])
+    bl.connect(port="o2", destination=sl.ports["o2"])
 
-    st.connect(port=2, destination=bl.ports[1])
-    br.connect(port=2, destination=st.ports[1])
-    sr.connect(port=1, destination=br.ports[1])
-    sr.connect(port=2, destination=cb.ports[3])
+    st.connect(port="o2", destination=bl.ports["o1"])
+    br.connect(port="o2", destination=st.ports["o1"])
+    sr.connect(port="o1", destination=br.ports["o1"])
+    sr.connect(port="o2", destination=cb.ports["o3"])
 
-    c.add_port(2, port=cb.ports[4])
-    c.add_port(1, port=cb.ports[1])
+    c.add_port("o2", port=cb.ports["o4"])
+    c.add_port("o1", port=cb.ports["o1"])
     return c
 
 

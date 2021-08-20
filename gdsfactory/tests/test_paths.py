@@ -64,7 +64,7 @@ def no_rename():
     X.add(width=3, offset=-2, layer=2)
 
     # Combine the Path and the CrossSection
-    straight = gf.path.extrude(p, cross_section=X, rename_ports=False)
+    straight = gf.path.extrude(p, cross_section=X)
     return straight
 
 
@@ -128,8 +128,8 @@ def transition():
     wg2_ref = c << wg2
     wgt_ref = c << wg_trans
 
-    wgt_ref.connect(1, wg1_ref.ports[2])
-    wg2_ref.connect(1, wgt_ref.ports[2])
+    wgt_ref.connect("o1", wg1_ref.ports["o2"])
+    wg2_ref.connect("o1", wgt_ref.ports["o2"])
     return c
 
 
@@ -167,8 +167,8 @@ def test_layers1():
     X = gf.CrossSection()
     X.add(width=0.5, offset=0, layer=gf.LAYER.SLAB90, ports=["in", "out"])
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports[1].layer == gf.LAYER.SLAB90
-    assert c.ports[2].position[0] == 10.001, c.ports[2].position[0]
+    assert c.ports["in"].layer == gf.LAYER.SLAB90
+    assert c.ports["out"].position[0] == 10.001, c.ports["out"].position[0]
     return c
 
 
@@ -176,8 +176,8 @@ def test_layers2():
     P = gf.path.straight(length=10.001)
     X = gf.cross_section.strip(snap_to_grid=5e-3)
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports[1].layer == (1, 0)
-    assert c.ports[2].position[0] == 10.0, c.ports[2].position[0]
+    assert c.ports["o1"].layer == (1, 0)
+    assert c.ports["o2"].position[0] == 10.0, c.ports["o2"].position[0]
     return c
 
 

@@ -126,21 +126,21 @@ def spiral_inner_io(
     )
     taper = gf.components.taper(
         width1=width,
-        width2=_bend180.ports[1].width,
+        width2=_bend180.ports["o1"].width,
         length=taper_length + y_straight_inner_top - 15 - 35,
         cross_section=cross_section,
     )
     taper_ref1 = component.add_ref(taper)
-    taper_ref1.connect(2, p1)
+    taper_ref1.connect("o2", p1)
 
     taper_ref2 = component.add_ref(taper)
-    taper_ref2.connect(2, p2)
+    taper_ref2.connect("o2", p2)
 
     component.absorb(taper_ref1)
     component.absorb(taper_ref2)
 
-    component.add_port(name="S0", port=taper_ref1.ports[1])
-    component.add_port(name="S1", port=taper_ref2.ports[1])
+    component.add_port(name="S0", port=taper_ref1.ports["o1"])
+    component.add_port(name="S1", port=taper_ref2.ports["o1"])
 
     # Create manhattan path going from west grating to westest port of bend 180
     _pt = np.array(p1.position)
@@ -173,7 +173,9 @@ def spiral_inner_io(
     component.add(route_west.references)
 
     # Add loop back
-    bend180_ref = _bend180.ref(port_id=2, position=route_west.ports[1], rotation=90)
+    bend180_ref = _bend180.ref(
+        port_id="o2", position=route_west.ports["o1"], rotation=90
+    )
     component.add(bend180_ref)
     component.absorb(bend180_ref)
 
@@ -293,7 +295,8 @@ def spiral_inner_io_with_gratings(
 if __name__ == "__main__":
 
     # c = spiral_inner_io(x_straight_inner_left=800)
-    # c = spiral_inner_io_euler(length=20e3)
+    c = spiral_inner_io_euler(length=20e3)
+    c.show()
     # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)
@@ -302,8 +305,8 @@ if __name__ == "__main__":
     # c = spirals_nested()
     # c = spiral_inner_io_euler(length=20e3)
 
-    c = spiral_inner_io_with_gratings()
-    c.show(show_ports=True)
+    # c = spiral_inner_io_with_gratings()
+    # c.show(show_ports=True)
 
     # c = spiral_inner_io_euler(width=1)
     # from gdsfactory.routing import add_fiber_array

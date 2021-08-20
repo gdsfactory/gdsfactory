@@ -121,9 +121,9 @@ def route_basic(
     # into the proper location
     D = Component()
     D.add_polygon(route_path_polygons, layer=layer)
-    p1 = D.add_port(name=1, midpoint=(0, 0), width=width1, orientation=180)
+    p1 = D.add_port(name="o1", midpoint=(0, 0), width=width1, orientation=180)
     D.add_port(
-        name=2,
+        name="o2",
         midpoint=[forward_distance, lateral_distance],
         width=width2,
         orientation=0,
@@ -155,13 +155,13 @@ def _arc(
     D = Component()
     D.add_polygon(points=(xpts, ypts), layer=layer)
     D.add_port(
-        name=1,
+        name="o1",
         midpoint=(radius * cos(angle1), radius * sin(angle1)),
         width=width,
         orientation=start_angle - 90 + 180 * (theta < 0),
     )
     D.add_port(
-        name=2,
+        name="o2",
         midpoint=(radius * cos(angle2), radius * sin(angle2)),
         width=width,
         orientation=start_angle + theta + 90 - 180 * (theta < 0),
@@ -215,10 +215,10 @@ def _gradual_bend(
 
         arcs.append(a)
         if x > 0:
-            a.connect(port=1, destination=prevPort)
-        prevPort = a.ports[2]
+            a.connect(port="o1", destination=prevPort)
+        prevPort = a.ports["o2"]
         D.absorb(a)
-    D.add_port(name=1, port=arcs[0].ports[1])
+    D.add_port(name="o1", port=arcs[0].ports["o1"])
 
     # now connect a regular bend for the normal curved portion
     B = _arc(
@@ -230,9 +230,9 @@ def _gradual_bend(
         layer=layer,
     )
     b = D.add_ref(B)
-    b.connect(port=1, destination=prevPort)
-    prevPort = b.ports[2]
-    D.add_port(name=2, port=prevPort)
+    b.connect(port="o1", destination=prevPort)
+    prevPort = b.ports["o2"]
+    D.add_port(name="o2", port=prevPort)
 
     # now create the overall structure
     Total = Component()
@@ -241,7 +241,7 @@ def _gradual_bend(
     D1 = Total.add_ref(D)
     D2 = Total.add_ref(D)
     D2.mirror(p1=[0, 0], p2=[1, 1])
-    D2.connect(port=2, destination=D1.ports[2])
+    D2.connect(port="o2", destination=D1.ports["o2"])
     Total.xmin = 0
     Total.ymin = 0
 
@@ -254,8 +254,8 @@ def _gradual_bend(
         Total.mirror(p1=[0, 0], p2=[1, 0])
     Total.rotate(angle=start_angle, center=Total.center)
     Total.center = [0, 0]
-    Total.add_port(name=1, port=D1.ports[1])
-    Total.add_port(name=2, port=D2.ports[1])
+    Total.add_port(name="o1", port=D1.ports["o1"])
+    Total.add_port(name="o2", port=D2.ports["o1"])
 
     Total.info["length"] = (abs(angular_coverage) * pi / 180) * radius
     Total.absorb(D1)
@@ -334,16 +334,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
             b1.move([p2[0] - p1[0], 0])
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] - radiusEff * 2])
-            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
+            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R2 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b2.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b2.ports["o2"])
         # second quadrant target
         if (p2[1] > p1[1]) & (p2[0] < p1[0]):
             if bendType == "circular":
@@ -382,16 +382,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
                 radiusEff = B1.xsize - width / 2
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
 
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] - radiusEff * 2])
-            R1 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R1 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b2.ports[2], port2=Total.ports["t2"], layer=layer)
+            R2 = route_basic(port1=b2.ports["o2"], port2=Total.ports["t2"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=b1.ports[1])
-            Total.add_port(name=2, port=r2.ports[2])
+            Total.add_port(name="o1", port=b1.ports["o1"])
+            Total.add_port(name="o2", port=r2.ports["o2"])
         # third quadrant target
         if (p2[1] < p1[1]) & (p2[0] < p1[0]):
             if bendType == "circular":
@@ -430,16 +430,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
                 radiusEff = B1.xsize - width / 2
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
 
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] + radiusEff * 2])
-            R1 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R1 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b2.ports[2], port2=Total.ports["t2"], layer=layer)
+            R2 = route_basic(port1=b2.ports["o2"], port2=Total.ports["t2"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=b1.ports[1])
-            Total.add_port(name=2, port=r2.ports[2])
+            Total.add_port(name="o1", port=b1.ports["o1"])
+            Total.add_port(name="o2", port=r2.ports["o2"])
         # fourth quadrant target
         if (p2[1] < p1[1]) & (p2[0] > p1[0]):
             if bendType == "circular":
@@ -479,16 +479,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
             b1.move([p2[0] - p1[0], 0])
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] + radiusEff * 2])
-            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
+            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R2 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b2.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b2.ports["o2"])
 
     # other port orientations are not supported:
     elif np.round(np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3) != 180:
@@ -536,16 +536,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
             b1.move([p2[0] - p1[0] - radiusEff * 2, 0])
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] - radiusEff * 2])
-            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
+            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R2 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b2.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b2.ports["o2"])
         # second quadrant target
         if (p2[1] > p1[1]) & (p2[0] < p1[0]):
             if bendType == "circular":
@@ -617,21 +617,21 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b3 = Total.add_ref(B3)
             b4 = Total.add_ref(B4)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
 
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] - radiusEff * 4])
-            R1 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R1 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            b3.connect(port=b3.ports[1], destination=b2.ports[2])
+            b3.connect(port=b3.ports["o1"], destination=b2.ports["o2"])
             b3.move([p2[0] - p1[0], 0])
-            R2 = route_basic(port1=b2.ports[2], port2=b3.ports[1], layer=layer)
+            R2 = route_basic(port1=b2.ports["o2"], port2=b3.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
 
-            b4.connect(port=b4.ports[1], destination=b3.ports[2])
+            b4.connect(port=b4.ports["o1"], destination=b3.ports["o2"])
 
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b4.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b4.ports["o2"])
         # third quadrant target
         if (p2[1] < p1[1]) & (p2[0] < p1[0]):
             if bendType == "circular":
@@ -703,21 +703,21 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b3 = Total.add_ref(B3)
             b4 = Total.add_ref(B4)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
 
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] + radiusEff * 4])
-            R1 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R1 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            b3.connect(port=b3.ports[1], destination=b2.ports[2])
+            b3.connect(port=b3.ports["o1"], destination=b2.ports["o2"])
             b3.move([p2[0] - p1[0], 0])
-            R2 = route_basic(port1=b2.ports[2], port2=b3.ports[1], layer=layer)
+            R2 = route_basic(port1=b2.ports["o2"], port2=b3.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
 
-            b4.connect(port=b4.ports[1], destination=b3.ports[2])
+            b4.connect(port=b4.ports["o1"], destination=b3.ports["o2"])
 
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b4.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b4.ports["o2"])
         # fourth quadrant target
         if (p2[1] < p1[1]) & (p2[0] > p1[0]):
             if bendType == "circular":
@@ -757,16 +757,16 @@ def _route_manhattan180(port1, port2, bendType="circular", layer=0, radius=20):
             b1 = Total.add_ref(B1)
             b2 = Total.add_ref(B2)
 
-            b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+            b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
             b1.move([p2[0] - p1[0] - radiusEff * 2, 0])
-            b2.connect(port=b2.ports[1], destination=b1.ports[2])
+            b2.connect(port=b2.ports["o1"], destination=b1.ports["o2"])
             b2.move([0, p2[1] - p1[1] + radiusEff * 2])
-            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
+            R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
             r1 = Total.add_ref(R1)
-            R2 = route_basic(port1=b1.ports[2], port2=b2.ports[1], layer=layer)
+            R2 = route_basic(port1=b1.ports["o2"], port2=b2.ports["o1"], layer=layer)
             r2 = Total.add_ref(R2)
-            Total.add_port(name=1, port=r1.ports[1])
-            Total.add_port(name=2, port=b2.ports[2])
+            Total.add_port(name="o1", port=r1.ports["o1"])
+            Total.add_port(name="o2", port=b2.ports["o2"])
 
     Total.rotate(angle=port1.orientation, center=p1)
     Total.move(origin=Total.ports["t1"], destination=port1)
@@ -819,15 +819,15 @@ def _route_manhattan90(port1, port2, bendType="circular", layer=0, radius=20):
             )
             radiusEff = B1.xsize - width / 2
         b1 = Total.add_ref(B1)
-        b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+        b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
         b1.move([p2[0] - p1[0] - radiusEff, 0])
 
-        R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
-        R2 = route_basic(port1=b1.ports[2], port2=Total.ports["t2"], layer=layer)
+        R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
+        R2 = route_basic(port1=b1.ports["o2"], port2=Total.ports["t2"], layer=layer)
         r1 = Total.add_ref(R1)
         r2 = Total.add_ref(R2)
-        Total.add_port(name=1, port=r1.ports[1])
-        Total.add_port(name=2, port=r2.ports[2])
+        Total.add_port(name="o1", port=r1.ports["o1"])
+        Total.add_port(name="o2", port=r2.ports["o2"])
 
     # fourth quadrant target, route downward
     if (p2[1] < p1[1]) & (p2[0] > p1[0]):
@@ -850,14 +850,14 @@ def _route_manhattan90(port1, port2, bendType="circular", layer=0, radius=20):
             )
             radiusEff = B1.xsize - width / 2
         b1 = Total.add_ref(B1)
-        b1.connect(port=b1.ports[1], destination=Total.ports["t1"])
+        b1.connect(port=b1.ports["o1"], destination=Total.ports["t1"])
         b1.move([p2[0] - p1[0] - radiusEff, 0])
-        R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports[1], layer=layer)
-        R2 = route_basic(port1=b1.ports[2], port2=Total.ports["t2"], layer=layer)
+        R1 = route_basic(port1=Total.ports["t1"], port2=b1.ports["o1"], layer=layer)
+        R2 = route_basic(port1=b1.ports["o2"], port2=Total.ports["t2"], layer=layer)
         r1 = Total.add_ref(R1)
         r2 = Total.add_ref(R2)
-        Total.add_port(name=1, port=r1.ports[1])
-        Total.add_port(name=2, port=r2.ports[2])
+        Total.add_port(name="o1", port=r1.ports["o1"])
+        Total.add_port(name="o2", port=r2.ports["o2"])
     Total.rotate(angle=port1.orientation, center=p1)
     Total.move(origin=Total.ports["t1"], destination=port1)
 
@@ -927,10 +927,10 @@ def route_manhattan(
         p2 = [-port2.midpoint[1], port2.midpoint[0]]
         p1 = [-port1.midpoint[1], port1.midpoint[0]]
 
-    Total.add_port(name=1, port=port1)
-    Total.add_port(name=2, port=port2)
+    Total.add_port(name="o1", port=port1)
+    Total.add_port(name="o2", port=port2)
 
-    ports = {1: Total.ports[1], 2: Total.ports[2]}
+    ports = {1: Total.ports["o1"], 2: Total.ports["o2"]}
 
     if p2[1] == p1[1] or p2[0] == p1[0]:
         raise RoutingError("Error - ports must be at different x AND y values.")
@@ -985,10 +985,10 @@ def route_manhattan(
                     )
                 b1 = Total.add_ref(B1)
                 references.append(b1)
-                b1.connect(port=1, destination=port1)
+                b1.connect(port="o1", destination=port1)
 
                 R1 = _route_manhattan180(
-                    port1=b1.ports[2],
+                    port1=b1.ports["o2"],
                     port2=port2,
                     bendType=bendType,
                     layer=layer,
@@ -1020,10 +1020,10 @@ def route_manhattan(
                         direction="ccw",
                     )
                 b1 = Total.add_ref(B1)
-                b1.connect(port=1, destination=port1)
+                b1.connect(port="o1", destination=port1)
                 references.append(b1)
                 R1 = _route_manhattan180(
-                    port1=b1.ports[2],
+                    port1=b1.ports["o2"],
                     port2=port2,
                     bendType=bendType,
                     layer=layer,
@@ -1057,10 +1057,10 @@ def route_manhattan(
                     )
                     # radiusEff = B1.xsize - width / 2
                 b1 = Total.add_ref(B1)
-                b1.connect(port=1, destination=port1)
+                b1.connect(port="o1", destination=port1)
                 references.append(b1)
                 R1 = _route_manhattan180(
-                    port1=b1.ports[2],
+                    port1=b1.ports["o2"],
                     port2=port2,
                     bendType=bendType,
                     layer=layer,
@@ -1108,10 +1108,10 @@ def route_manhattan(
                     )
                     # radiusEff = B1.xsize - width / 2
                 b1 = Total.add_ref(B1)
-                b1.connect(port=1, destination=port1)
+                b1.connect(port="o1", destination=port1)
                 references.append(b1)
                 R1 = _route_manhattan180(
-                    port1=b1.ports[2],
+                    port1=b1.ports["o2"],
                     port2=port2,
                     bendType=bendType,
                     layer=layer,
@@ -1127,7 +1127,7 @@ def route_manhattan(
             references.append(ref2)
             length += ref2.info["length"]
 
-    ports = (Total.ports[1], Total.ports[2])
+    ports = (Total.ports["o1"], Total.ports["o2"])
     length = snap_to_grid(length)
     return Route(references=references, ports=ports, length=length)
 

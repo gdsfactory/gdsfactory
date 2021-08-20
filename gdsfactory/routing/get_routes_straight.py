@@ -22,8 +22,8 @@ def get_routes_straight(
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     straight = straight_factory(**kwargs)
     references = [straight.ref() for port in ports]
-    references = [ref.connect(1, port) for port, ref in zip(ports, references)]
-    ports = {f"{i}": ref.ports[2] for i, ref in enumerate(references)}
+    references = [ref.connect("o1", port) for port, ref in zip(ports, references)]
+    ports = {f"{i}": ref.ports["o2"] for i, ref in enumerate(references)}
     lengths = [straight.length] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
 

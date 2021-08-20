@@ -54,10 +54,10 @@ def straight_pin(
         taper = taper() if callable(taper) else taper
         t1 = c << taper
         t2 = c << taper
-        t1.connect(2, wg.ports[1])
-        t2.connect(2, wg.ports[2])
-        c.add_port(1, port=t1.ports[1])
-        c.add_port(2, port=t2.ports[1])
+        t1.connect("o2", wg.ports["o1"])
+        t2.connect("o2", wg.ports["o2"])
+        c.add_port("o1", port=t1.ports["o1"])
+        c.add_port("o2", port=t2.ports["o1"])
 
     else:
         c.add_ports(wg.get_ports_list())
@@ -78,8 +78,8 @@ def straight_pin(
     contact_top.ymin = +via_stack_spacing / 2
     contact_bot.ymax = -via_stack_spacing / 2
 
-    c.add_port("eW", port=contact_top.get_ports_list()[0])
-    c.add_port("eE", port=contact_bot.get_ports_list()[0])
+    c.add_port("e1", port=contact_top.get_ports_list()[0])
+    c.add_port("e2", port=contact_bot.get_ports_list()[0])
     return c
 
 
@@ -89,8 +89,8 @@ straight_pin_passive_tapered = gf.partial(
     extend_ports,
     component=straight_pin_passive,
     extension_factory=taper_strip_to_ridge,
-    port1=2,
-    port2=1,
+    port1="o2",
+    port2="o1",
 )
 
 straight_pn_passive = gf.partial(straight, cross_section=pn)
@@ -98,8 +98,8 @@ straight_pn_passive_tapered = gf.partial(
     extend_ports,
     component=straight_pn_passive,
     extension_factory=taper_strip_to_ridge,
-    port1=2,
-    port2=1,
+    port1="o2",
+    port2="o1",
 )
 
 
@@ -107,6 +107,6 @@ straight_pn = gf.partial(straight_pin, cross_section=pn)
 
 if __name__ == "__main__":
 
-    c = straight_pn_passive_tapered()
+    c = straight_pn()
     print(c.ports.keys())
     c.show()

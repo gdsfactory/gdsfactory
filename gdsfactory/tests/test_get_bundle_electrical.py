@@ -16,8 +16,8 @@ def test_get_bundle_electrical(
     c2.move((200, 100))
 
     routes = gf.routing.get_bundle(
-        [c1.ports[3]],
-        [c2.ports[1]],
+        [c1.ports["o3"]],
+        [c2.ports["o1"]],
         bend_factory=gf.components.wire_corner,
         width=10,
         # auto_widen=False,
@@ -28,8 +28,8 @@ def test_get_bundle_electrical(
         lengths[i] = route.length
 
     routes = gf.routing.get_bundle(
-        [c1.ports[4]],
-        [c2.ports[3]],
+        [c1.ports["o4"]],
+        [c2.ports["o3"]],
         start_straight=20.0,
         bend_factory=gf.components.wire_corner,
         width=10,

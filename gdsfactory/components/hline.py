@@ -18,14 +18,14 @@ def hline(
         c.add_polygon([(0, -a), (length, -a), (length, a), (0, a)], layer=layer)
 
     c.add_port(
-        name=1,
+        name="o1",
         midpoint=[0, 0],
         width=width,
         orientation=180,
         layer=layer,
     )
     c.add_port(
-        name=2,
+        name="o2",
         midpoint=[length, 0],
         width=width,
         orientation=0,

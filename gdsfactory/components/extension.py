@@ -83,7 +83,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 @gf.cell
 def extend_ports(
     component: ComponentOrFactory = mmi1x2,
-    port_names: Optional[Tuple[PortName, ...]] = None,
+    port_names: Optional[Tuple[str, ...]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
     port1: Optional[PortName] = None,

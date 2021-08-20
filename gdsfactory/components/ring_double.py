@@ -70,14 +70,13 @@ def ring_double(
     sl = c.add_ref(straight_component)
     sr = c.add_ref(straight_component)
 
-    sl.connect(port=1, destination=cb.ports[2])
-    ct.connect(port=3, destination=sl.ports[2])
-    sr.connect(port=2, destination=ct.ports[2])
-    c.add_port(1, port=cb.ports[1])
-    c.add_port(2, port=cb.ports[4])
-    c.add_port(3, port=ct.ports[1])
-    c.add_port(4, port=ct.ports[4])
-    c.auto_rename_ports()
+    sl.connect(port="o1", destination=cb.ports["o2"])
+    ct.connect(port="o3", destination=sl.ports["o2"])
+    sr.connect(port="o2", destination=ct.ports["o2"])
+    c.add_port("o1", port=cb.ports["o1"])
+    c.add_port("o2", port=cb.ports["o4"])
+    c.add_port("o3", port=ct.ports["o4"])
+    c.add_port("o4", port=ct.ports["o1"])
     return c
 
 

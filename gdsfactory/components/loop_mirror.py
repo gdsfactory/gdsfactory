@@ -19,13 +19,13 @@ def loop_mirror(
     bend90 = gf.call_if_func(bend90)
     cref = c.add_ref(component)
     routes = route_manhattan(
-        cref.ports[3],
-        cref.ports[2],
+        cref.ports["o3"],
+        cref.ports["o2"],
         straight_factory=gf.components.straight,
         bend_factory=bend90,
     )
     c.add(routes.references)
-    c.add_port(name=1, port=cref.ports[1])
+    c.add_port(name="o1", port=cref.ports["o1"])
     c.absorb(cref)
     return c
 
@@ -38,7 +38,7 @@ def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
     mirror_rotated = mirror.ref(rotation=90)
     c.add(mirror_rotated)
     c.absorb(mirror_rotated)
-    c.add_port(name="S0", port=mirror_rotated.ports[1])
+    c.add_port(name="S0", port=mirror_rotated.ports["o1"])
     return c
 
 
@@ -55,7 +55,7 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     lm = c << gf.call_if_func(loop_mirror)
     s = c << gf.call_if_func(spiral_external_io)
 
-    lm.connect(1, s.ports["input"])
+    lm.connect("o1", s.ports["input"])
     return c
 
 

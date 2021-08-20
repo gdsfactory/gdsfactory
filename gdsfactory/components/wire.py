@@ -54,14 +54,14 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
-        name=1,
+        name="o1",
         midpoint=(-a, 0),
         width=width,
         orientation=180,
         layer=layer,
     )
     c.add_port(
-        name=2,
+        name="o2",
         midpoint=(0, a),
         width=width,
         orientation=90,

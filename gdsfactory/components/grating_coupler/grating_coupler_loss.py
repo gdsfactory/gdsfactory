@@ -58,9 +58,9 @@ def loss_deembedding_ch13_24(
     gc = grating_coupler_factory()
     c = gf.Component()
     dx = pitch
-    gcs = [gc.ref(position=(i * dx, 0), port_id=1, rotation=-90) for i in range(4)]
+    gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(4)]
 
-    gc_ports = [g.ports[1] for g in gcs]
+    gc_ports = [g.ports["o1"] for g in gcs]
     c.add(gcs)
 
     c.add(
@@ -108,9 +108,9 @@ def loss_deembedding_ch12_34(
 
     c = gf.Component()
     dx = pitch
-    gcs = [gc.ref(position=(i * dx, 0), port_id=1, rotation=-90) for i in range(4)]
+    gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(4)]
 
-    gc_ports = [g.ports[1] for g in gcs]
+    gc_ports = [g.ports["o1"] for g in gcs]
     c.add(gcs)
 
     c.add(
@@ -144,9 +144,9 @@ def loss_deembedding_ch14_23(
 
     c = gf.Component()
     dx = pitch
-    gcs = [gc.ref(position=(i * dx, 0), port_id=1, rotation=-90) for i in range(4)]
+    gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(4)]
 
-    gc_ports = [g.ports[1] for g in gcs]
+    gc_ports = [g.ports["o1"] for g in gcs]
     c.add(gcs)
 
     c.add(

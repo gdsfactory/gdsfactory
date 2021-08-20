@@ -75,18 +75,18 @@ def coupler_ring(
 
     # connect references
     y = coupler90_component.y
-    cs.connect(port=4, destination=cbr.ports[1])
+    cs.connect(port="o4", destination=cbr.ports["o1"])
     cbl.reflect(p1=(0, y), p2=(1, y))
-    cbl.connect(port=2, destination=cs.ports[2])
+    cbl.connect(port="o2", destination=cs.ports["o2"])
 
     c.absorb(cbl)
     c.absorb(cbr)
     c.absorb(cs)
 
-    c.add_port(1, port=cbl.ports[3])
-    c.add_port(2, port=cbl.ports[4])
-    c.add_port(3, port=cbr.ports[3])
-    c.add_port(4, port=cbr.ports[4])
+    c.add_port("o1", port=cbl.ports["o3"])
+    c.add_port("o2", port=cbl.ports["o4"])
+    c.add_port("o3", port=cbr.ports["o3"])
+    c.add_port("o4", port=cbr.ports["o4"])
     c.auto_rename_ports()
     return c
 

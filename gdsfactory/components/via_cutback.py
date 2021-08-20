@@ -26,23 +26,23 @@ def _via_iterable(
     wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
     via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     via2 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
-    wire1.connect(port=3, destination=wire2.ports[1], overlap=wire_width)
+    wire1.connect(port="o3", destination=wire2.ports["o1"], overlap=wire_width)
     via1.connect(
-        port=1, destination=wire1.ports[3], overlap=(wire_width + via_width) / 2
+        port=1, destination=wire1.ports["o3"], overlap=(wire_width + via_width) / 2
     )
     via2.connect(
-        port=1, destination=wire2.ports[3], overlap=(wire_width + via_width) / 2
+        port=1, destination=wire2.ports["o3"], overlap=(wire_width + via_width) / 2
     )
-    VI.add_port(name=1, port=wire1.ports[1])
-    VI.add_port(name=3, port=wire2.ports[3])
+    VI.add_port(name="o1", port=wire1.ports["o1"])
+    VI.add_port(name="o3", port=wire2.ports["o3"])
     VI.add_port(
-        name=4,
+        name="o4",
         midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
         width=wire_width,
         orientation=-90,
     )
     VI.add_port(
-        name=2,
+        name="o2",
         midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
         width=wire_width,
         orientation=90,
@@ -99,12 +99,12 @@ def via_cutback(
     nub.xmin = pad1.xmax
     nub_overlay.ymax = pad1.ymax - 5
     nub_overlay.xmin = pad1.xmax
-    head.connect(port=1, destination=nub.ports[3])
-    head_overlay.connect(port=1, destination=nub_overlay.ports[3])
+    head.connect(port="o1", destination=nub.ports["o3"])
+    head_overlay.connect(port="o1", destination=nub_overlay.ports["o3"])
     pad1_overlay.xmin = pad1.xmin
     pad1_overlay.ymin = pad1.ymin
 
-    old_port = head.ports[4]
+    old_port = head.ports["o4"]
     count = 0
     width_via_iter = 2 * via_spacing - 2 * wire_width
 
@@ -125,20 +125,20 @@ def via_cutback(
     )
     while (count + 2) <= num_vias:
         obj = VR.add_ref(via_iterable)
-        obj.connect(port=1, destination=old_port, overlap=wire_width)
-        old_port = obj.ports[3]
+        obj.connect(port="o1", destination=old_port, overlap=wire_width)
+        old_port = obj.ports["o3"]
         edge = False
         if obj.ymax > pad1.ymax:
-            obj.connect(port=1, destination=obj_old.ports[4], overlap=wire_width)
-            old_port = obj.ports[4]
+            obj.connect(port="o1", destination=obj_old.ports["o4"], overlap=wire_width)
+            old_port = obj.ports["o4"]
             current_width += width_via_iter
             down = True
             up = False
             edge = True
 
         elif obj.ymin < pad1.ymin:
-            obj.connect(port=1, destination=obj_old.ports[2], overlap=wire_width)
-            old_port = obj.ports[2]
+            obj.connect(port="o1", destination=obj_old.ports["o2"], overlap=wire_width)
+            old_port = obj.ports["o2"]
             current_width += width_via_iter
             up = True
             down = False
@@ -171,14 +171,14 @@ def via_cutback(
         )
 
     if up and not edge:
-        tail.connect(port=1, destination=obj.ports[4], overlap=wire_width)
-        tail_overlay.connect(port=1, destination=obj.ports[4], overlap=wire_width)
+        tail.connect(port="o1", destination=obj.ports["o4"], overlap=wire_width)
+        tail_overlay.connect(port="o1", destination=obj.ports["o4"], overlap=wire_width)
     elif down and not edge:
-        tail.connect(port=1, destination=obj.ports[2], overlap=wire_width)
-        tail_overlay.connect(port=1, destination=obj.ports[2], overlap=wire_width)
+        tail.connect(port="o1", destination=obj.ports["o2"], overlap=wire_width)
+        tail_overlay.connect(port="o1", destination=obj.ports["o2"], overlap=wire_width)
     else:
-        tail.connect(port=1, destination=obj.ports[3], overlap=wire_width)
-        tail_overlay.connect(port=1, destination=obj.ports[3], overlap=wire_width)
+        tail.connect(port="o1", destination=obj.ports["o3"], overlap=wire_width)
+        tail_overlay.connect(port="o1", destination=obj.ports["o3"], overlap=wire_width)
 
     pad2.xmin = tail.xmax
     pad2_overlay.xmin = pad2.xmin
