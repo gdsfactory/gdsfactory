@@ -26,13 +26,8 @@ from gdsfactory.port import (
     Port,
     PortName,
     auto_rename_ports,
-    auto_rename_ports_prefix_clockwise,
-    auto_rename_ports_prefix_counter_clockwise,
-    auto_rename_ports_prefix_orientation,
-    map_ports_layer,
-    map_ports_prefix_clockwise,
-    map_ports_prefix_counter_clockwise,
-    map_ports_prefix_orientation,
+    auto_rename_ports_layer_orientation,
+    map_ports_layer_to_orientation,
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid
@@ -522,20 +517,9 @@ class ComponentReference(DeviceReference):
         return self.parent.get_settings(**kwargs)
 
     @property
-    def ports_cw(self) -> Dict[PortName, PortName]:
-        return map_ports_prefix_clockwise(self)
-
-    @property
-    def ports_ccw(self) -> Dict[PortName, PortName]:
-        return map_ports_prefix_counter_clockwise(self)
-
-    @property
-    def ports_orientation(self) -> Dict[PortName, PortName]:
-        return map_ports_prefix_orientation(self)
-
-    @property
-    def ports_layer(self) -> Dict[str, PortName]:
-        return map_ports_layer(self)
+    def ports_layer(self) -> Dict[PortName, PortName]:
+        """Returns a mapping from layer0_layer1_E0: portName"""
+        return map_ports_layer_to_orientation(self.ports)
 
 
 class Component(Device):
@@ -602,6 +586,11 @@ class Component(Device):
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
+
+    @property
+    def ports_layer(self) -> Dict[PortName, PortName]:
+        """Returns a mapping from layer0_layer1_E0: portName"""
+        return map_ports_layer_to_orientation(self.ports)
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"
@@ -1000,14 +989,14 @@ class Component(Device):
         Device."""
         if not isinstance(D, Component) and not isinstance(D, Device):
             raise TypeError(
-                f"[PP] add_ref({D}) type = {type(D)} needs to be a Component object."
+                f"Component.add_ref() type = {type(D)} needs to be a Component."
             )
-        d = ComponentReference(D)  # Create a ComponentReference (CellReference)
-        self.add(d)  # Add ComponentReference (CellReference) to Device (Cell)
+        ref = ComponentReference(D)  # Create a ComponentReference (CellReference)
+        self.add(ref)  # Add ComponentReference (CellReference) to Device (Cell)
 
         if alias is not None:
-            self.aliases[alias] = d
-        return d
+            self.aliases[alias] = ref
+        return ref
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """returns a set of (layer, datatype)
@@ -1153,17 +1142,11 @@ class Component(Device):
         d["settings"] = self.get_settings()["settings"]
         return d
 
-    def auto_rename_ports(self) -> None:
-        auto_rename_ports(self)
+    def auto_rename_ports(self, **kwargs) -> None:
+        auto_rename_ports(self, **kwargs)
 
-    def auto_rename_ports_prefix_orientation(self) -> None:
-        auto_rename_ports_prefix_orientation(self)
-
-    def auto_rename_ports_prefix_clockwise(self) -> None:
-        auto_rename_ports_prefix_clockwise(self)
-
-    def auto_rename_ports_prefix_counter_clockwise(self) -> None:
-        auto_rename_ports_prefix_counter_clockwise(self)
+    def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
+        auto_rename_ports_layer_orientation(self, **kwargs)
 
 
 def test_get_layers() -> None:

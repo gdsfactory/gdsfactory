@@ -11,8 +11,7 @@ from gdsfactory.types import ComponentOrFactory, Layer
 
 @gf.cell
 def via_stack(
-    width: float = 11.0,
-    height: Optional[float] = None,
+    size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[ComponentOrFactory, ...]] = (via2, via3),
     layer: Layer = LAYER.M3,
@@ -21,15 +20,14 @@ def via_stack(
     """Rectangular via_stack
 
     Args:
-        width: in x direction
-        height: in y direction, defaults to width
+        size: (tuple) Width and height of rectangle.
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
         layer: port layer
     """
-    height = height or width
 
+    width, height = size
     a = width / 2
     b = height / 2
     rect_pts = [(-a, -b), (a, -b), (a, b), (-a, b)]

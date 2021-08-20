@@ -23,5 +23,4 @@ settings:
   optical_routing_type: 0
   straight_spacing: 4
   taper_factory: null
-  taper_length: 10
   with_loopback: false

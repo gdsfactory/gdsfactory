@@ -27,9 +27,10 @@ def test_type2() -> Component:
 
 
 def test_tapers():
-    c = gf.components.straight(width=2)
-    cc = gf.routing.add_fiber_array(component=c, optical_routing_type=2)
-    return cc
+    c = gf.components.straight(width=2, length=20)
+    cc = gf.add_tapers(component=c)
+    ccc = gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
+    return ccc
 
 
 components = [test_type0, test_type1, test_type2, test_tapers]
@@ -58,6 +59,6 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
 
 if __name__ == "__main__":
     # c = test_type1()
-    c = test_type2()
-    # c = test_tapers()
+    # c = test_type2()
+    c = test_tapers()
     c.show()

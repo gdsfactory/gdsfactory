@@ -1,21 +1,27 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_d55261fe
+name: add_fiber_array_91b9357c
 settings:
   component:
-    function_name: straight
-    info:
-      length: 10
-      width: 2
-    module: gdsfactory.components.straight
-    name: straight_W2
+    function_name: add_tapers
+    info: {}
+    module: gdsfactory.add_tapers
+    name: add_tapers_Cstraight_L20_W2
     settings:
-      length: 10
-      npoints: 2
-      width: 2
-      with_cladding_box: true
+      component:
+        function_name: straight
+        info:
+          length: 20
+          width: 2
+        module: gdsfactory.components.straight
+        name: straight_L20_W2
+        settings:
+          length: 20
+          npoints: 2
+          width: 2
+          with_cladding_box: true
+      select_ports: null
   component_name: null
   gc_port_name: 1
-  optical_routing_type: 2
-  taper_length: 10
+  optical_routing_type: 0

@@ -82,9 +82,8 @@ def straight_heater_metal_undercut(
         contact_east = c << contacte
         contact_west.move(contact_west_midpoint)
         contact_east.move(contact_east_midpoint)
-        c.add_port("MW", port=contact_west.get_ports_list()[0])
-        c.add_port("ME", port=contact_east.get_ports_list()[0])
-    c.auto_rename_ports()
+        c.add_port("eW", port=contact_west.get_ports_list()[0])
+        c.add_port("eE", port=contact_east.get_ports_list()[0])
     return c
 
 
@@ -93,12 +92,8 @@ straight_heater_metal = gf.partial(straight_heater_metal_undercut, with_undercut
 
 def test_ports() -> Component:
     c = straight_heater_metal(length=50.0)
-    assert c.ports[3].midpoint[0] == 50.0, c.ports[3].midpoint[0]
+    assert c.ports[2].midpoint[0] == 50.0, c.ports[3].midpoint[0]
     return c
-
-
-def test_ports_autorename_with_prefix():
-    pass
 
 
 if __name__ == "__main__":
@@ -107,5 +102,5 @@ if __name__ == "__main__":
     # c = straight_heater_metal(length=50.0)
     # print(c.ports[2].midpoint[0])
     # c.pprint_ports()
-    c.auto_rename_ports_with_prefix()
+    # c.auto_rename_ports_with_prefix()
     c.show()

@@ -94,6 +94,7 @@ def via_stack_with_offset(
         midpoint=(0, y1),
     )
 
+    c.auto_rename_ports()
     return c
 
 

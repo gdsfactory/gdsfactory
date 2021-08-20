@@ -46,8 +46,8 @@ def add_fiber_single(
         fiber_spacing: between outputs
         bend_factory: bend_circular
         straight_factory: straight
-        taper: taper
         fanout_length: None  # if None, automatic calculation of fanout length
+        route_filter:
         max_y0_optical: None
         with_loopback: True, adds loopback structures
         straight_separation: 4.0
