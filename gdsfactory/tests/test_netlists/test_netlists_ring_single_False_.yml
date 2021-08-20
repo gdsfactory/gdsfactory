@@ -1,10 +1,10 @@
 connections:
-  bend_euler_CScross_section_R10_5p125_16p425,1: straight_CScross_section_L600n_10p0_11p0,1
-  bend_euler_CScross_section_R10_5p125_16p425,2: straight_CScross_section_L4_m2p0_21p3,1
-  bend_euler_CScross_section_R10_m9p125_16p425,1: straight_CScross_section_L4_m2p0_21p3,2
-  bend_euler_CScross_section_R10_m9p125_16p425,2: straight_CScross_section_L600n_m14p0_11p0,2
-  coupler_ring_89817a41_m2p0_5p225,2: straight_CScross_section_L600n_m14p0_11p0,1
-  coupler_ring_89817a41_m2p0_5p225,3: straight_CScross_section_L600n_10p0_11p0,2
+  bend_euler_CScross_section_R10_5p125_16p425,o1: straight_CScross_section_L600n_10p0_11p0,o1
+  bend_euler_CScross_section_R10_5p125_16p425,o2: straight_CScross_section_L4_m2p0_21p3,o1
+  bend_euler_CScross_section_R10_m9p125_16p425,o1: straight_CScross_section_L4_m2p0_21p3,o2
+  bend_euler_CScross_section_R10_m9p125_16p425,o2: straight_CScross_section_L600n_m14p0_11p0,o2
+  coupler_ring_89817a41_m2p0_5p225,o2: straight_CScross_section_L600n_m14p0_11p0,o1
+  coupler_ring_89817a41_m2p0_5p225,o3: straight_CScross_section_L600n_10p0_11p0,o2
 instances:
   bend_euler_CScross_section_R10_5p125_16p425:
     component: bend_euler
@@ -78,5 +78,5 @@ placements:
     x: -14.0
     y: 10.7
 ports:
-  1: coupler_ring_89817a41_m2p0_5p225,1
-  2: coupler_ring_89817a41_m2p0_5p225,4
+  o1: coupler_ring_89817a41_m2p0_5p225,o1
+  o2: coupler_ring_89817a41_m2p0_5p225,o4

@@ -144,7 +144,7 @@ def awg(
         c.add(route.references)
         c.lengths.append(route.length)
 
-    c.add_port(1, port=fpr_in_ref.ports[1])
+    c.add_port("o1", port=fpr_in_ref.ports["o1"])
 
     for i, port in enumerate(fpr_out_ref.get_ports_list(prefix="W")):
         c.add_port(f"E{i}", port=port)

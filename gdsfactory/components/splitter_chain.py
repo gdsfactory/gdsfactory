@@ -31,16 +31,16 @@ def splitter_chain(
     e0_port_name = len(splitter_component.ports)
 
     bend = gf.components.bezier()
-    c.add_port(name=1, port=cref.ports[1])
-    c.add_port(name=2, port=cref.ports[e0_port_name])
+    c.add_port(name="o1", port=cref.ports["o1"])
+    c.add_port(name="o2", port=cref.ports[e0_port_name])
 
     for i in range(1, n_devices):
         bref = c.add_ref(bend)
-        bref.connect(port=1, destination=cref.ports[e1_port_name])
+        bref.connect(port="o1", destination=cref.ports[e1_port_name])
 
         cref = c.add_ref(splitter_component)
 
-        cref.connect(port=1, destination=bref.ports[2])
+        cref.connect(port="o1", destination=bref.ports["o2"])
         c.add_port(name=i + 2, port=cref.ports[e0_port_name])
 
     c.add_port(name=i + 3, port=cref.ports[e1_port_name])

@@ -41,19 +41,19 @@ def add_electrical_pads_shortest(
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add(get_route_electrical_shortest_path(port, p.ports[1]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["o1"]))
         elif port_orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add(get_route_electrical_shortest_path(port, p.ports[3]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["o3"]))
         elif port_orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add(get_route_electrical_shortest_path(port, p.ports[4]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["o4"]))
         elif port_orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add(get_route_electrical_shortest_path(port, p.ports[2]))
+            c.add(get_route_electrical_shortest_path(port, p.ports["o2"]))
 
     c.ports = component.ports.copy()
     for port in ports:

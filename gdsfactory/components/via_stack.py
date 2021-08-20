@@ -67,13 +67,11 @@ def via_stack(
                 c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
 
     c.add_port(
-        name="DC",
+        name="e1",
         width=width if port_orientation in [90, 270] else height,
         orientation=port_orientation,
         layer=layer,
     )
-
-    c.auto_rename_ports()
     return c
 
 

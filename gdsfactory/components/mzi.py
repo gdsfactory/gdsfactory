@@ -75,8 +75,8 @@ def mzi(
     b90 = bend(**kwargs) if callable(bend) else bend
     l0 = straight_vertical(length=length_y, **kwargs)
 
-    y1l = cp1.ports[2].y
-    y1r = cp2.ports[2].y
+    y1l = cp1.ports["o2"].y
+    y1r = cp2.ports["o2"].y
 
     cin = cp1.ref()
     cout = c << cp2
@@ -119,14 +119,14 @@ def mzi(
     lxtop_E0 = lxtop_map[f"{layer[0]}_{layer[1]}_E0"]
     lxtop_W0 = lxtop_map[f"{layer[0]}_{layer[1]}_W0"]
 
-    blt.connect(port=1, destination=cin.ports[cp1_e1_port_name])
-    l0tl.connect(port=1, destination=blt.ports[2])
-    bltl.connect(port=2, destination=l0tl.ports[2])
-    lxtop.connect(port=lxtop_W0, destination=bltl.ports[1])
-    bltr.connect(port=2, destination=lxtop.ports[lxtop_E0])
-    l0tr.connect(port=1, destination=bltr.ports[1])
-    blmr.connect(port=1, destination=l0tr.ports[2])
-    cout.connect(port=cp2_E0_port_name, destination=blmr.ports[2])
+    blt.connect(port="o1", destination=cin.ports[cp1_e1_port_name])
+    l0tl.connect(port="o1", destination=blt.ports["o2"])
+    bltl.connect(port="o2", destination=l0tl.ports["o2"])
+    lxtop.connect(port=lxtop_W0, destination=bltl.ports["o1"])
+    bltr.connect(port="o2", destination=lxtop.ports[lxtop_E0])
+    l0tr.connect(port="o1", destination=bltr.ports["o1"])
+    blmr.connect(port="o1", destination=l0tr.ports["o2"])
+    cout.connect(port=cp2_E0_port_name, destination=blmr.ports["o2"])
 
     # bot arm
     blb = c << b90
@@ -143,18 +143,20 @@ def mzi(
     lxbot_E0 = lxtop_map[f"{layer[0]}_{layer[1]}_E0"]
     lxbot_W0 = lxtop_map[f"{layer[0]}_{layer[1]}_W0"]
 
-    blb.connect(port=2, destination=cin.ports[cp1_e0_port_name])
-    l0bl.connect(port=1, destination=blb.ports[1])
-    l1l.connect(port=1, destination=l0bl.ports[2])
-    blbl.connect(port=1, destination=l1l.ports[2])
-    lxbot.connect(port=lxbot_W0, destination=blbl.ports[2])
-    brbr.connect(port=1, destination=lxbot.ports[lxbot_E0])
+    blb.connect(port="o2", destination=cin.ports[cp1_e0_port_name])
+    l0bl.connect(port="o1", destination=blb.ports["o1"])
+    l1l.connect(port="o1", destination=l0bl.ports["o2"])
+    blbl.connect(port="o1", destination=l1l.ports["o2"])
+    lxbot.connect(port=lxbot_W0, destination=blbl.ports["o2"])
+    brbr.connect(port="o1", destination=lxbot.ports[lxbot_E0])
 
-    l1r.connect(port=1, destination=brbr.ports[2])
-    l0br.connect(port=1, destination=l1r.ports[2])
-    blbmrb.connect(port=2, destination=l0br.ports[2])
-    blbmrb.connect(port=1, destination=cout.ports[cp2_E1_port_name])  # just for netlist
-    # l0br.connect(2, blbmrb.ports[2])
+    l1r.connect(port="o1", destination=brbr.ports["o2"])
+    l0br.connect(port="o1", destination=l1r.ports["o2"])
+    blbmrb.connect(port="o2", destination=l0br.ports["o2"])
+    blbmrb.connect(
+        port="o1", destination=cout.ports[cp2_E1_port_name]
+    )  # just for netlist
+    # l0br.connect('o2', blbmrb.ports['o2'])
 
     # west ports
     if with_splitter:
@@ -163,18 +165,19 @@ def mzi(
             if port.angle == 180:
                 c.add_port(name=port_name, port=port)
     else:
-        c.add_port(name=2, port=blt.ports[1])
-        c.add_port(name=1, port=blb.ports[2])
+        c.add_port(name="o2", port=blt.ports["o1"])
+        c.add_port(name="o1", port=blb.ports["o2"])
 
     # east ports
+    i0 = len(cp1.get_ports_list(orientation=180))
     for i, port in enumerate(cout.ports.values()):
         if port.angle == 0:
-            c.add_port(name=f"E{i}", port=port)
+            c.add_port(name=f"o{i+i0}", port=port)
 
     # Add any non-optical ports from bottom and bottom arms
 
-    c.add_ports(lxtop.get_ports_list(layers_excluded=(layer,)), prefix="DC_top")
-    c.add_ports(lxbot.get_ports_list(layers_excluded=(layer,)), prefix="DC_bot")
+    c.add_ports(lxtop.get_ports_list(layers_excluded=(layer,)), prefix="etop_")
+    c.add_ports(lxbot.get_ports_list(layers_excluded=(layer,)), prefix="ebot_")
 
     # aliases
     # top arm
@@ -197,7 +200,6 @@ def mzi(
     c.aliases["l0br"] = l0br
     c.aliases["blbmrb"] = blbmrb
 
-    c.auto_rename_ports()
     return c
 
 

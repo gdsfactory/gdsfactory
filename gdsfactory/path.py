@@ -18,8 +18,7 @@ from phidl.path import transition
 
 from gdsfactory.component import Component
 from gdsfactory.hash_points import hash_points
-from gdsfactory.port import auto_rename_ports
-from gdsfactory.tech import LAYER, TECH
+from gdsfactory.tech import LAYER
 from gdsfactory.types import Coordinates, CrossSectionOrFactory, Number, PathFactory
 
 
@@ -27,7 +26,6 @@ def extrude(
     p: Path,
     cross_section: CrossSectionOrFactory,
     simplify: Optional[float] = None,
-    rename_ports: bool = TECH.rename_ports,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -40,7 +38,6 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm.
             All points that can be removed without changing the resulting
             polygon by more than the value listed here will be removed.
-        rename_ports: rename ports
     """
     xsection_points = []
 
@@ -146,8 +143,6 @@ def extrude(
     c.name = f"path_{hash_points(points)}"
     # c.path = path
     # c.cross_section = cross_section
-    if rename_ports:
-        auto_rename_ports(c)
     return c
 
 
@@ -247,5 +242,5 @@ if __name__ == "__main__":
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    print(c.ports[1].layer)
+    print(c.ports["in"].layer)
     c.show()

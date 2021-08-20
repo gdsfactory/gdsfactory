@@ -6,7 +6,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentFactory, PortName
+from gdsfactory.types import ComponentFactory
 
 data_path = pathlib.Path(__file__).parent / "csv_data"
 
@@ -21,7 +21,7 @@ def grating_coupler_uniform_optimized(
     layer: Tuple[int, int] = gf.LAYER.WG,
     layer_partial_etch: Tuple[int, int] = gf.LAYER.SLAB150,
     taper_factory: ComponentFactory = taper_function,
-    taper_port_name: PortName = 1,
+    taper_port_name: str = "o1",
     polarization: str = "te",
     wavelength: float = 1500.0,
 ) -> Component:
@@ -82,7 +82,7 @@ def grating_coupler_uniform_optimized(
     c.wavelength = wavelength
     if taper_port_name not in taper_ref.ports:
         raise ValueError(f"{taper_port_name} not in {list(taper_ref.ports.keys())}")
-    c.add_port(port=taper_ref.ports[taper_port_name], name=1)
+    c.add_port(port=taper_ref.ports[taper_port_name], name="o1")
     gf.asserts.grating_coupler(c)
     return c
 

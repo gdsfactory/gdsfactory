@@ -26,7 +26,7 @@ def array_with_fanout(
     start_straight: float = 5.0,
     end_straight: float = 40.0,
     radius: float = 5.0,
-    component_port_name: PortName = 4,
+    component_port_name: str = "e4",
     bend: ComponentFactory = bend_euler,
     bend_port_name1: Optional[PortName] = None,
     bend_port_name2: Optional[PortName] = None,
@@ -70,15 +70,15 @@ def array_with_fanout(
         straight_ref = c << straight(
             length=ylength, cross_section=cross_section, **kwargs
         )
-        straight_ref.connect(2, ref.ports[component_port_name])
+        straight_ref.connect("o2", ref.ports[component_port_name])
 
         bend_ref = c.add_ref(bend)
-        bend_ref.connect(bend_port_name1, straight_ref.ports[1])
+        bend_ref.connect(bend_port_name1, straight_ref.ports["o1"])
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect(2, bend_ref.ports[bend_port_name2])
-        c.add_port(f"W_{col}", port=straightx_ref.ports[1])
+        straightx_ref.connect("o2", bend_ref.ports[bend_port_name2])
+        c.add_port(f"W_{col}", port=straightx_ref.ports["o1"])
     auto_rename_ports(c)
     return c
 
@@ -121,6 +121,7 @@ def array_with_fanout_2d(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
 
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, n=2)
@@ -129,9 +130,10 @@ if __name__ == "__main__":
     c2 = array_with_fanout(
         n=3,
         waveguide_pitch=20,
-        # bend=gf.components.wire_corner,
-        # layer=(2, 0),
-        # width=10,
-        # radius=11,
+        bend=gf.components.wire_corner,
+        cross_section=gf.cross_section.metal3,
+        layer=(2, 0),
+        width=10,
+        radius=11,
     )
     c2.show(show_ports=True)

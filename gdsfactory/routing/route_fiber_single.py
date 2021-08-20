@@ -8,7 +8,7 @@ from gdsfactory.components.grating_coupler.elliptical_trenches import grating_co
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.types import CrossSectionFactory, PortName
+from gdsfactory.types import CrossSectionFactory
 
 
 def route_fiber_single(
@@ -17,8 +17,8 @@ def route_fiber_single(
     grating_coupler: Callable = grating_coupler_te,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 1,
-    optical_port_labels: Optional[Tuple[PortName, ...]] = None,
-    excluded_ports: Optional[Tuple[PortName, ...]] = None,
+    optical_port_labels: Optional[Tuple[str, ...]] = None,
+    excluded_ports: Optional[Tuple[str, ...]] = None,
     auto_widen: bool = False,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,

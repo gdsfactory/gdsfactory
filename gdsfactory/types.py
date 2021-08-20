@@ -61,7 +61,7 @@ Coordinates = Tuple[Tuple[float, float], ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortName = Union[int, str]
+PortName = str
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:

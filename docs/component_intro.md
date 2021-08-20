@@ -64,10 +64,10 @@ Here is a step by step example below generating a waveguide crossing
 
         # Add ports (more on that later)
         c.add_port(
-            name=1, midpoint=(-a, 0), orientation=180, width=wg_width, layer=gf.LAYER.WG
+            name='o1', midpoint=(-a, 0), orientation=180, width=wg_width, layer=gf.LAYER.WG
         )
         c.add_port(
-            name=2, midpoint=(a, 0), orientation=0, width=wg_width, layer=gf.LAYER.WG
+            name='o2', midpoint=(a, 0), orientation=0, width=wg_width, layer=gf.LAYER.WG
         )
         return c
 

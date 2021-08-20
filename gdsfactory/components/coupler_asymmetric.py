@@ -53,12 +53,12 @@ def coupler_asymmetric(
         else straight
     )
 
-    w = bend_component.ports[1].width
+    w = bend_component.ports["o1"].width
     y = (w + gap) / 2
 
     c = Component()
-    wg = wg.ref(position=(0, y), port_id=1)
-    bottom_bend = bend_component.ref(position=(0, -y), port_id=1, v_mirror=True)
+    wg = wg.ref(position=(0, y), port_id="o1")
+    bottom_bend = bend_component.ref(position=(0, -y), port_id="o1", v_mirror=True)
 
     c.add(wg)
     c.add(bottom_bend)
@@ -69,9 +69,9 @@ def coupler_asymmetric(
     c.absorb(bottom_bend)
 
     port_width = 2 * w + gap
-    c.add_port(name=1, midpoint=[0, 0], width=port_width, orientation=180)
-    c.add_port(port=bottom_bend.ports[2], name=2)
-    c.add_port(port=wg.ports[2], name="E1")
+    c.add_port(name="o1", midpoint=[0, 0], width=port_width, orientation=180)
+    c.add_port(port=bottom_bend.ports["o2"], name="o2")
+    c.add_port(port=wg.ports["o2"], name="E1")
 
     return c
 

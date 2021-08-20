@@ -35,7 +35,7 @@ def get_bundle_sbend(
         length = p2.midpoint[0] - p1.midpoint[0]
         bend = bend_s(height=height, length=length, **kwargs)
         sbend = bend.ref()
-        sbend.connect(1, p1)
+        sbend.connect("o1", p1)
         references.append(sbend)
         lengths.append(bend.info["length"])
         bend_radius.append(bend.info["min_bend_radius"])

@@ -203,7 +203,7 @@ class Section:
                     self.layer[0],
                     self.layer[1],
                     self.ports[0],
-                    self.ports[1],
+                    self.ports["o1"],
                 ]
                 if i is not None
             ]

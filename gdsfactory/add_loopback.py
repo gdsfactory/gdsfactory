@@ -92,7 +92,11 @@ def gen_loopback(
 def straight_with_loopback() -> gf.Component:
     c = gf.Component("straight_with_loopback")
     wg = c << gf.components.straight()
-    c.add(gen_loopback(wg.ports[1], wg.ports[2], gc=gf.components.grating_coupler_te))
+    c.add(
+        gen_loopback(
+            wg.ports["o1"], wg.ports["o2"], gc=gf.components.grating_coupler_te
+        )
+    )
     return c
 
 

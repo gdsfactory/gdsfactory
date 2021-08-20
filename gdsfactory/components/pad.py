@@ -5,7 +5,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Layer, PortName
+from gdsfactory.types import ComponentOrFactory, Layer
 
 
 @cell
@@ -45,7 +45,7 @@ def pad_array(
     pad: ComponentOrFactory = pad,
     pitch: float = 150.0,
     n: int = 6,
-    port_names: Tuple[PortName, ...] = (4,),
+    port_names: Tuple[str, ...] = ("e4",),
     pad_settings: Optional[Dict[str, Any]] = None,
     axis: str = "x",
 ) -> Component:
@@ -55,7 +55,7 @@ def pad_array(
         pad: pad element
         pitch: x spacing
         n: number of pads
-        port_names: list of port names (1, 2, 3, 4) per pad
+        port_names: list of port names (e1: west, e2: north, e3: east, e4: south) per pad
         pad_settings: settings for pad if pad is callable
         axis: x or y
     """
@@ -79,10 +79,10 @@ def pad_array(
     return c
 
 
-pad_array180 = partial(pad_array, port_names=(1,))
-pad_array90 = partial(pad_array, port_names=(2,))
-pad_array0 = partial(pad_array, port_names=(3,))
-pad_array270 = partial(pad_array, port_names=(4,))
+pad_array180 = partial(pad_array, port_names=("e1",))
+pad_array90 = partial(pad_array, port_names=("e2",))
+pad_array0 = partial(pad_array, port_names=("e3",))
+pad_array270 = partial(pad_array, port_names=("e4",))
 
 
 @cell
@@ -92,7 +92,7 @@ def pad_array_2d(
     pitch_y: float = 150.0,
     cols: int = 3,
     rows: int = 3,
-    port_names: Tuple[PortName, ...] = (2,),
+    port_names: Tuple[str, ...] = ("e2",),
     **kwargs,
 ) -> Component:
     """Returns 2D array of rectangular pads

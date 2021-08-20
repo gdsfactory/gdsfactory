@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.port import auto_rename_ports
 
 
 @cell
@@ -44,7 +43,6 @@ def array(
         c.add(ref)
         for port in ref.get_ports_list():
             c.add_port(f"{port.name}_{i}", port=port)
-    auto_rename_ports(c)
     return c
 
 

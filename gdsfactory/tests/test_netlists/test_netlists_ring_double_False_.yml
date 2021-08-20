@@ -1,8 +1,8 @@
 connections:
-  coupler_ring_78c7498c_m0p005_16p185,2: straight_CScross_section_L10n_10p0_10p705,2
-  coupler_ring_78c7498c_m0p005_16p185,3: straight_CScross_section_L10n_m10p01_10p705,2
-  coupler_ring_78c7498c_m0p005_5p225,2: straight_CScross_section_L10n_m10p01_10p705,1
-  coupler_ring_78c7498c_m0p005_5p225,3: straight_CScross_section_L10n_10p0_10p705,1
+  coupler_ring_78c7498c_m0p005_16p185,o2: straight_CScross_section_L10n_10p0_10p705,o2
+  coupler_ring_78c7498c_m0p005_16p185,o3: straight_CScross_section_L10n_m10p01_10p705,o2
+  coupler_ring_78c7498c_m0p005_5p225,o2: straight_CScross_section_L10n_m10p01_10p705,o1
+  coupler_ring_78c7498c_m0p005_5p225,o3: straight_CScross_section_L10n_10p0_10p705,o1
 instances:
   coupler_ring_78c7498c_m0p005_16p185:
     component: coupler_ring
@@ -57,7 +57,7 @@ placements:
     x: -10.01
     y: 10.7
 ports:
-  1: coupler_ring_78c7498c_m0p005_5p225,1
-  2: coupler_ring_78c7498c_m0p005_16p185,4
-  3: coupler_ring_78c7498c_m0p005_16p185,1
-  4: coupler_ring_78c7498c_m0p005_5p225,4
+  o1: coupler_ring_78c7498c_m0p005_5p225,o1
+  o2: coupler_ring_78c7498c_m0p005_5p225,o4
+  o3: coupler_ring_78c7498c_m0p005_16p185,o4
+  o4: coupler_ring_78c7498c_m0p005_16p185,o1

@@ -23,9 +23,9 @@ def get_ports_and_tapers(
     for port in component.ports.copy().values():
         if port.name in ports.key():
             taper_ref = taper.ref()
-            taper_ref.connect(taper_ref.ports[2].name, port)
+            taper_ref.connect(taper_ref.ports["o2"].name, port)
             elements.append(taper_ref)
-            ports.append(taper_ref.ports[1])
+            ports.append(taper_ref.ports["o1"])
     return ports, elements
 
 
@@ -44,8 +44,8 @@ def add_tapers(
     for port_name, port in ports.copy().items():
         if port.name in ports.keys():
             taper_ref = c << taper(width2=port.width)
-            taper_ref.connect(taper_ref.ports[2].name, port)
-            c.add_port(name=port_name, port=taper_ref.ports[1])
+            taper_ref.connect(taper_ref.ports["o2"].name, port)
+            c.add_port(name=port_name, port=taper_ref.ports["o1"])
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)

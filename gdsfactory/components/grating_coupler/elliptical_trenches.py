@@ -140,7 +140,7 @@ def grating_coupler_elliptical_trenches(
     )
 
     # Add port
-    c.add_port(name=1, midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
+    c.add_port(name="o1", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
     c.settings["period"] = period
     return c
 

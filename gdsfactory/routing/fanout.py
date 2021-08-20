@@ -6,16 +6,14 @@ from gdsfactory.component import Component
 from gdsfactory.port import port_array
 from gdsfactory.routing.routing import route_basic
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import PortName
 
 
 @cell
 def fanout_component(
     component: Component,
-    port_names: Tuple[PortName, ...],
+    port_names: Tuple[str, ...],
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
-    rename_ports: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.
@@ -25,7 +23,6 @@ def fanout_component(
         ports: list of ports
         pitch: target port spacing for new component
         dx: how far the fanout in x direction
-        rename_ports: renames ports
         kwargs: for route_basic
     """
 
@@ -55,8 +52,6 @@ def fanout_component(
         if port.name not in port_names:
             c.add_port(port.name, port=port)
 
-    if rename_ports:
-        c.auto_rename_ports()
     return c
 
 
@@ -91,7 +86,7 @@ def fanout_ports(
     return routes
 
 
-def test_fanout_ports():
+def test_fanout_ports() -> Component:
     c = gf.components.mmi2x2()
     ports = c.get_ports_dict(orientation=0)
     port_names = list(ports.keys())
@@ -99,10 +94,13 @@ def test_fanout_ports():
     d = direction_ports_from_list_ports(c2.get_ports_list())
     assert len(d["E"]) == 2, len(d["E"]) == 2
     assert len(d["W"]) == 2, len(d["W"]) == 2
+    return c2
 
 
 if __name__ == "__main__":
-    test_fanout_ports()
+    c2 = test_fanout_ports()
+    c2.auto_rename_ports()
+    c2.show()
 
     # c =gf.components.coupler(gap=1.0)
     # c = gf.components.nxn(west=4)

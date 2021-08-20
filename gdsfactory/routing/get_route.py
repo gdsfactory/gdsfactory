@@ -88,7 +88,7 @@ def get_route(
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.move((100, 50))
-        route = gf.routing.get_route(mmi1.ports["E1"], mmi2.ports[1])
+        route = gf.routing.get_route(mmi1.ports["E1"], mmi2.ports['o1'])
         c.add(route.references)
         c.show()
 
@@ -235,6 +235,6 @@ if __name__ == "__main__":
 
     c = gf.Component()
     c << w
-    route = get_route(w.ports[2], w.ports[1], layer=(2, 0))
+    route = get_route(w.ports["o2"], w.ports["o1"], layer=(2, 0))
     cc = c.add(route.references)
     cc.show()

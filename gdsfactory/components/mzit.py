@@ -95,7 +95,7 @@ def mzit(
         length=taper_length,
         **kwargs,
     )
-    t1.connect(1, cp2.ports[3])
+    t1.connect("o1", cp2.ports["o3"])
     b1t = c << bend90(
         width=w1,
         radius=bend_radius,
@@ -107,8 +107,8 @@ def mzit(
         **kwargs,
     )
 
-    b1b.connect(1, t1.ports[2])
-    b1t.connect(1, b1b.ports[2])
+    b1b.connect("o1", t1.ports["o2"])
+    b1t.connect("o1", b1b.ports["o2"])
 
     t3b = c << taper_factory(
         width1=w1,
@@ -116,16 +116,16 @@ def mzit(
         length=taper_length,
         **kwargs,
     )
-    t3b.connect(1, b1t.ports[2])
+    t3b.connect("o1", b1t.ports["o2"])
     wgs2 = c << straight_factory(width=w2, length=Ls, **kwargs)
-    wgs2.connect(1, t3b.ports[2])
+    wgs2.connect("o1", t3b.ports["o2"])
     t20i = c << taper_factory(
         width1=w2,
         width2=w0,
         length=taper_length,
         **kwargs,
     )
-    t20i.connect(1, wgs2.ports[2])
+    t20i.connect("o1", wgs2.ports["o2"])
 
     # outer_arm (w2)
     t2 = c << taper_factory(
@@ -134,7 +134,7 @@ def mzit(
         length=taper_length,
         **kwargs,
     )
-    t2.connect(1, cp2.ports[4])
+    t2.connect("o1", cp2.ports["o4"])
 
     dx = (delta_length - 2 * dy) / 2
     assert (
@@ -142,7 +142,7 @@ def mzit(
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
     wg2b = c << straight_factory(width=w2, length=dx, **kwargs)
-    wg2b.connect(1, t2.ports[2])
+    wg2b.connect("o1", t2.ports["o2"])
 
     b2t = c << bend90(
         width=w2,
@@ -155,30 +155,30 @@ def mzit(
         **kwargs,
     )
 
-    b2b.connect(1, wg2b.ports[2])
+    b2b.connect("o1", wg2b.ports["o2"])
     # vertical straight
     wg2y = c << straight_factory(width=w2, length=2 * dy, **kwargs)
-    wg2y.connect(1, b2b.ports[2])
-    b2t.connect(1, wg2y.ports[2])
+    wg2y.connect("o1", b2b.ports["o2"])
+    b2t.connect("o1", wg2y.ports["o2"])
 
     wg2t = c << straight_factory(width=w2, length=dx, **kwargs)
-    wg2t.connect(1, b2t.ports[2])
+    wg2t.connect("o1", b2t.ports["o2"])
 
     t3t = c << taper_factory(
         width1=w2,
         width2=w1,
         length=taper_length,
     )
-    t3t.connect(1, wg2t.ports[2])
+    t3t.connect("o1", wg2t.ports["o2"])
     wgs1 = c << straight_factory(width=w1, length=Ls, **kwargs)
-    wgs1.connect(1, t3t.ports[2])
+    wgs1.connect("o1", t3t.ports["o2"])
     t20o = c << taper_factory(
         width1=w1,
         width2=w0,
         length=taper_length,
         **kwargs,
     )
-    t20o.connect(1, wgs1.ports[2])
+    t20o.connect("o1", wgs1.ports["o2"])
 
     if coupler1 is not None:
         cp1 = (
@@ -192,16 +192,16 @@ def mzit(
             if callable(coupler1)
             else coupler1
         )
-        cp1.connect(3, t20o.ports[2])
-        cp1.connect(4, t20i.ports[2])
-        c.add_port("W3", port=cp1.ports[2])
-        c.add_port("W2", port=cp1.ports[1])
+        cp1.connect("o3", t20o.ports["o2"])
+        cp1.connect("o4", t20i.ports["o2"])
+        c.add_port("W3", port=cp1.ports["o2"])
+        c.add_port("W2", port=cp1.ports["o1"])
     else:
-        c.add_port("W3", port=t20o.ports[2])
-        c.add_port("W2", port=t20i.ports[2])
+        c.add_port("W3", port=t20o.ports["o2"])
+        c.add_port("W2", port=t20i.ports["o2"])
 
-    c.add_port(2, port=cp2.ports[2])
-    c.add_port(1, port=cp2.ports[1])
+    c.add_port("o2", port=cp2.ports["o2"])
+    c.add_port("o1", port=cp2.ports["o1"])
     c.auto_rename_ports()
     return c
 

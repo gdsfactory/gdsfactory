@@ -50,10 +50,10 @@ def straight_heater_doped(
         taper = taper() if callable(taper) else taper
         t1 = c << taper
         t2 = c << taper
-        t1.connect(2, wg.ports[1])
-        t2.connect(2, wg.ports[2])
-        c.add_port(1, port=t1.ports[1])
-        c.add_port(2, port=t2.ports[1])
+        t1.connect("o2", wg.ports["o1"])
+        t2.connect("o2", wg.ports["o2"])
+        c.add_port("o1", port=t1.ports["o1"])
+        c.add_port("o2", port=t2.ports["o1"])
 
     else:
         c.add_ports(wg.get_ports_list())
@@ -88,8 +88,8 @@ def straight_heater_doped(
     contact_top.ymin = contacts[0].ymax
     contact_bot.ymax = contacts[1].ymin
 
-    c.add_port("eW", port=contact_top.get_ports_list()[0])
-    c.add_port("eE", port=contact_bot.get_ports_list()[0])
+    c.add_port("e1", port=contact_top.get_ports_list()[0])
+    c.add_port("e2", port=contact_bot.get_ports_list()[0])
     return c
 
 

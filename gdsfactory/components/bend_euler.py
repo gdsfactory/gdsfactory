@@ -83,9 +83,9 @@ def bend_euler_s(**kwargs) -> Component:
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
     b2.mirror()
-    b2.connect(1, b1.ports[2])
-    c.add_port(1, port=b1.ports[1])
-    c.add_port(2, port=b2.ports[2])
+    b2.connect("o1", b1.ports["o2"])
+    c.add_port("o1", port=b1.ports["o1"])
+    c.add_port("o2", port=b2.ports["o2"])
     return c
 
 

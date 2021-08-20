@@ -1,21 +1,21 @@
 connections:
-  bend_euler_R10_W450n_30p112_16p512,1: bend_euler_R10_W450n_30p112_6p288,2
-  bend_euler_R10_W450n_30p112_16p512,2: taper_L5_W450n_W550n_22p5_21p4,1
-  bend_euler_R10_W450n_30p112_6p288,1: taper_L5_W500n_W450n_22p5_1p4,2
-  bend_euler_R10_W550n_33p138_18p538,1: straight_L4_W550n_38p0_11p4,2
-  bend_euler_R10_W550n_33p138_18p538,2: straight_L3_W550n_26p5_23p4,1
-  bend_euler_R10_W550n_33p138_4p262,1: straight_L3_W550n_26p5_m0p6,2
-  bend_euler_R10_W550n_33p138_4p262,2: straight_L4_W550n_38p0_11p4,1
-  coupler_D2_G200n_L5_1p5_22p4,3: taper_L5_W450n_W500n_16p5_23p4,2
-  coupler_D2_G200n_L5_1p5_22p4,4: taper_L5_W550n_W500n_16p5_21p4,2
-  coupler_D2_G300n_L10_5p0_0p4,3: taper_L5_W500n_W450n_22p5_1p4,1
-  coupler_D2_G300n_L10_5p0_0p4,4: taper_L5_W500n_W550n_22p5_m0p6,1
-  straight_L1_W450n_19p5_23p4,1: taper_L5_W550n_W450n_22p5_23p4,2
-  straight_L1_W450n_19p5_23p4,2: taper_L5_W450n_W500n_16p5_23p4,1
-  straight_L1_W550n_19p5_21p4,1: taper_L5_W450n_W550n_22p5_21p4,2
-  straight_L1_W550n_19p5_21p4,2: taper_L5_W550n_W500n_16p5_21p4,1
-  straight_L3_W550n_26p5_23p4,2: taper_L5_W550n_W450n_22p5_23p4,1
-  straight_L3_W550n_26p5_m0p6,1: taper_L5_W500n_W550n_22p5_m0p6,2
+  bend_euler_R10_W450n_30p112_16p512,o1: bend_euler_R10_W450n_30p112_6p288,o2
+  bend_euler_R10_W450n_30p112_16p512,o2: taper_L5_W450n_W550n_22p5_21p4,o1
+  bend_euler_R10_W450n_30p112_6p288,o1: taper_L5_W500n_W450n_22p5_1p4,o2
+  bend_euler_R10_W550n_33p138_18p538,o1: straight_L4_W550n_38p0_11p4,o2
+  bend_euler_R10_W550n_33p138_18p538,o2: straight_L3_W550n_26p5_23p4,o1
+  bend_euler_R10_W550n_33p138_4p262,o1: straight_L3_W550n_26p5_m0p6,o2
+  bend_euler_R10_W550n_33p138_4p262,o2: straight_L4_W550n_38p0_11p4,o1
+  coupler_D2_G200n_L5_1p5_22p4,o3: taper_L5_W450n_W500n_16p5_23p4,o2
+  coupler_D2_G200n_L5_1p5_22p4,o4: taper_L5_W550n_W500n_16p5_21p4,o2
+  coupler_D2_G300n_L10_5p0_0p4,o3: taper_L5_W500n_W450n_22p5_1p4,o1
+  coupler_D2_G300n_L10_5p0_0p4,o4: taper_L5_W500n_W550n_22p5_m0p6,o1
+  straight_L1_W450n_19p5_23p4,o1: taper_L5_W550n_W450n_22p5_23p4,o2
+  straight_L1_W450n_19p5_23p4,o2: taper_L5_W450n_W500n_16p5_23p4,o1
+  straight_L1_W550n_19p5_21p4,o1: taper_L5_W450n_W550n_22p5_21p4,o2
+  straight_L1_W550n_19p5_21p4,o2: taper_L5_W550n_W500n_16p5_21p4,o1
+  straight_L3_W550n_26p5_23p4,o2: taper_L5_W550n_W450n_22p5_23p4,o1
+  straight_L3_W550n_26p5_m0p6,o1: taper_L5_W500n_W550n_22p5_m0p6,o2
 instances:
   bend_euler_R10_W450n_30p112_16p512:
     component: bend_euler
@@ -198,7 +198,7 @@ placements:
     x: 19.0
     y: 21.4
 ports:
-  1: coupler_D2_G300n_L10_5p0_0p4,1
-  2: coupler_D2_G300n_L10_5p0_0p4,2
-  3: coupler_D2_G200n_L5_1p5_22p4,1
-  4: coupler_D2_G200n_L5_1p5_22p4,2
+  o1: coupler_D2_G300n_L10_5p0_0p4,o1
+  o2: coupler_D2_G300n_L10_5p0_0p4,o2
+  o3: coupler_D2_G200n_L5_1p5_22p4,o1
+  o4: coupler_D2_G200n_L5_1p5_22p4,o2

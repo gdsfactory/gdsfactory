@@ -7,5 +7,5 @@ settings:
   pitch_x: 150
   pitch_y: 150
   port_names:
-  - 2
+  - e2
   rows: 3

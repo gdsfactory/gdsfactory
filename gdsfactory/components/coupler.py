@@ -59,13 +59,13 @@ def coupler(
     cs = c << coupler_straight_factory(
         length=length, gap=gap, cross_section=cross_section, **kwargs
     )
-    sl.connect(2, destination=cs.ports[1])
-    sr.connect(1, destination=cs.ports[4])
+    sl.connect("o2", destination=cs.ports["o1"])
+    sr.connect("o1", destination=cs.ports["o4"])
 
-    c.add_port(1, port=sl.ports[3])
-    c.add_port(2, port=sl.ports[4])
-    c.add_port(3, port=sr.ports[3])
-    c.add_port(4, port=sr.ports[4])
+    c.add_port("o1", port=sl.ports["o3"])
+    c.add_port("o2", port=sl.ports["o4"])
+    c.add_port("o3", port=sr.ports["o3"])
+    c.add_port("o4", port=sr.ports["o4"])
 
     c.absorb(sl)
     c.absorb(sr)

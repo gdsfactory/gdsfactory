@@ -7,7 +7,6 @@ from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack180
 from gdsfactory.cross_section import metal2
-from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
@@ -18,9 +17,7 @@ def array_with_via(
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
     end_straight: float = 60.0,
-    radius: float = 5.0,
-    component_port_name: str = "S",
-    bend_port_name: str = 2,
+    component_port_name: str = "e4",
     cross_section: CrossSectionFactory = metal2,
     via_stack: ComponentFactory = via_stack180,
     via_stack_y_offset: float = -44.0,
@@ -35,10 +32,8 @@ def array_with_via(
         pitch: float
         waveguide_pitch: for fanout
         end_straight: lenght of the straight at the end
-        radius: bend radius
         waveguide: waveguide definition
         component_port_name:
-        bend_port_name:
         via_stack_port_name:
         **kwargs
     """
@@ -59,9 +54,8 @@ def array_with_via(
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect(2, via_stack_ref.ports[1])
-        c.add_port(f"W_{col}", port=straightx_ref.ports[1])
-    auto_rename_ports(c)
+        straightx_ref.connect("e2", via_stack_ref.ports["e1"])
+        c.add_port(f"e{col}", port=straightx_ref.ports["e1"])
     return c
 
 
@@ -88,9 +82,7 @@ def array_with_via_2d(
             pitch: float
             waveguide_pitch: for fanout
             end_straight: lenght of the straight at the end
-            radius: bend radius
             component_port_name:
-            bend_port_name:
             via_stack_port_name:
             **kwargs
     """
@@ -101,7 +93,6 @@ def array_with_via_2d(
 
 
 if __name__ == "__main__":
-    c2 = array_with_via(n=3, width=10, radius=11, waveguide_pitch=20)
-    # cols = rows = 8
-    # c2 = array_with_via_2d(cols=cols, rows=rows, waveguide_pitch=12)
+    c2 = array_with_via(n=3, width=10, waveguide_pitch=20)
+    c2 = array_with_via_2d(cols=8, rows=8, waveguide_pitch=12)
     c2.show()

@@ -47,12 +47,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import LIBRARY
 from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import (
-    ComponentFactoryDict,
-    CrossSectionFactory,
-    Route,
-    parse_port_name,
-)
+from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
 valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
 
@@ -203,7 +198,6 @@ def place(
                         f"You can define x as `x: instaceName,portName` got `x: {x}`"
                     )
                 instance_name_ref, port_name = x.split(",")
-                port_name = parse_port_name(port_name)
                 if instance_name_ref in all_remaining_insts:
                     place(
                         placements_conf,
@@ -239,7 +233,6 @@ def place(
                         f"You can define y as `y: instaceName,portName` got `y: {y}`"
                     )
                 instance_name_ref, port_name = y.split(",")
-                port_name = parse_port_name(port_name)
                 if instance_name_ref in all_remaining_insts:
                     place(
                         placements_conf,
@@ -344,11 +337,6 @@ def make_connection(
     instance_dst_name = instance_dst_name.strip()
     port_src_name = port_src_name.strip()
     port_dst_name = port_dst_name.strip()
-
-    instance_src_name = parse_port_name(instance_src_name)
-    instance_dst_name = parse_port_name(instance_dst_name)
-    port_src_name = parse_port_name(port_src_name)
-    port_dst_name = parse_port_name(port_dst_name)
 
     assert (
         instance_src_name in instances
@@ -641,6 +629,7 @@ def component_from_yaml(
                                 f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
                             ]
 
+                    # case for which component ports are just numbers (not recommended)
                     elif len(srcs) == 2:
                         src, src1 = srcs
                         dst, dst1 = dsts
@@ -698,9 +687,6 @@ def component_from_yaml(
                     port_src_name = port_src_name.strip()
                     port_dst_name = port_dst_name.strip()
 
-                    port_src_name = parse_port_name(port_src_name)
-                    port_dst_name = parse_port_name(port_dst_name)
-
                     assert (
                         instance_src_name in instances
                     ), f"{instance_src_name} not in {list(instances.keys())}"
@@ -749,7 +735,6 @@ def component_from_yaml(
             instance_name, instance_port_name = instance_comma_port.split(",")
             instance_name = instance_name.strip()
             instance_port_name = instance_port_name.strip()
-            instance_port_name = parse_port_name(instance_port_name)
             assert (
                 instance_name in instances
             ), f"{instance_name} not in {list(instances.keys())}"
