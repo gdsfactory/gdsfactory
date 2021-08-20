@@ -37,7 +37,7 @@ from contracts import contract
 
 - changed port naming convention from NSEW to 1234
 - add Component.auto_rename_ports()
-- add `ports_layer` property to ComponentReference to get a map
+- add `ports_layer` property to Component and ComponentReference to get a map
 
 ## 3.0.2
 

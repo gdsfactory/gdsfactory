@@ -136,7 +136,7 @@ mzi_nitride_c = gf.partial(
 mzi_nitride_o = gf.partial(
     gf.components.mzi,
     cross_section=fabc_nitride_oband,
-    splitter=mmi1x2_nitride_c,
+    splitter=mmi1x2_nitride_o,
     decorator=add_pins,
     straight=straight_o,
     bend=bend_euler_o,

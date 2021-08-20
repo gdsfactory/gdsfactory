@@ -21,4 +21,7 @@ see: html open
 clean:
 	rm -rf build
 
+docs:
+	python write_components_doc.py
+
 .PHONY: help Makefile upload

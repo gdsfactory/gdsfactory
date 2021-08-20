@@ -1,15 +1,30 @@
 import pathlib
-from gdsfactory.components import component_factory
+import gdsfactory as gf
 
 
-p = pathlib.Path("components.rst")
+filepath = pathlib.Path("components.rst")
+
+skip = {
+    "LIBRARY",
+    "circuit_names",
+    "component_factory",
+    "component_names",
+    "container_names",
+    "component_names_test_ports",
+    "component_names_skip_test",
+    "component_names_skip_test_ports",
+    "dataclasses",
+    "library",
+    "waveguide_template",
+}
 
 skip_plot = [
     "component_lattice",
     "component_sequence",
 ]
 
-with open(p, "w+") as f:
+
+with open(filepath, "w+") as f:
     f.write(
         """
 Components
@@ -17,7 +32,9 @@ Components
 """
     )
 
-    for name in sorted(list(component_factory.keys())):
+    for name in sorted(dir(gf.c)):
+        if name in skip or name.startswith("_"):
+            continue
         print(name)
         if name in skip_plot:
             f.write(
