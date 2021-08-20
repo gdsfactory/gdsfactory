@@ -33,6 +33,21 @@ L
 
 
 
+align
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.align
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.align()
+  c.plot()
+
+
+
 align_wafer
 ----------------------------------------------------
 
@@ -557,6 +572,36 @@ crossing45
 
 
 
+crossing_waveguide
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.crossing_waveguide
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.crossing_waveguide()
+  c.plot()
+
+
+
+cutback_bend
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cutback_bend
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cutback_bend()
+  c.plot()
+
+
+
 cutback_bend180
 ----------------------------------------------------
 
@@ -767,6 +812,36 @@ extend_ports
 
 
 
+extend_ports_list
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.extend_ports_list
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.extend_ports_list()
+  c.plot()
+
+
+
+extension
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.extension
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.extension()
+  c.plot()
+
+
+
 fiber
 ----------------------------------------------------
 
@@ -793,6 +868,21 @@ fiber_array
   import gdsfactory as gf
 
   c = gf.components.fiber_array()
+  c.plot()
+
+
+
+grating_coupler
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler()
   c.plot()
 
 
@@ -1022,6 +1112,21 @@ loop_mirror
 
 
 
+manhattan_font
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.manhattan_font
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.manhattan_font()
+  c.plot()
+
+
+
 manhattan_text
 ----------------------------------------------------
 
@@ -1187,6 +1292,66 @@ pad_array
 
 
 
+pad_array0
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array0
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array0()
+  c.plot()
+
+
+
+pad_array180
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array180
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array180()
+  c.plot()
+
+
+
+pad_array270
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array270
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array270()
+  c.plot()
+
+
+
+pad_array90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array90()
+  c.plot()
+
+
+
 pad_array_2d
 ----------------------------------------------------
 
@@ -1213,6 +1378,21 @@ pads_shorted
   import gdsfactory as gf
 
   c = gf.components.pads_shorted()
+  c.plot()
+
+
+
+pcm
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pcm
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pcm()
   c.plot()
 
 
@@ -1333,6 +1513,21 @@ ring_single_array
   import gdsfactory as gf
 
   c = gf.components.ring_single_array()
+  c.plot()
+
+
+
+ring_single_dut
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_single_dut
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_single_dut()
   c.plot()
 
 
@@ -1502,6 +1697,51 @@ straight_heater
 
 
 
+straight_heater_doped
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_doped
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_doped()
+  c.plot()
+
+
+
+straight_heater_metal
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_metal
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_metal()
+  c.plot()
+
+
+
+straight_heater_metal_undercut
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_metal_undercut
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_metal_undercut()
+  c.plot()
+
+
+
 straight_pin
 ----------------------------------------------------
 
@@ -1517,17 +1757,107 @@ straight_pin
 
 
 
-straight_with_heater
+straight_pin_passive
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.straight_with_heater
+.. autofunction:: gdsfactory.components.straight_pin_passive
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.straight_with_heater()
+  c = gf.components.straight_pin_passive()
+  c.plot()
+
+
+
+straight_pin_passive_tapered
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_pin_passive_tapered
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_pin_passive_tapered()
+  c.plot()
+
+
+
+straight_pn
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_pn
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_pn()
+  c.plot()
+
+
+
+straight_pn_passive
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_pn_passive
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_pn_passive()
+  c.plot()
+
+
+
+straight_pn_passive_tapered
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_pn_passive_tapered
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_pn_passive_tapered()
+  c.plot()
+
+
+
+straight_rib
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_rib
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_rib()
+  c.plot()
+
+
+
+straight_rib_tapered
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_rib_tapered
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_rib_tapered()
   c.plot()
 
 
@@ -1558,6 +1888,21 @@ taper_0p5_to_3_l36
   import gdsfactory as gf
 
   c = gf.components.taper_0p5_to_3_l36()
+  c.plot()
+
+
+
+taper_from_csv
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_from_csv
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_from_csv()
   c.plot()
 
 
@@ -1712,6 +2057,66 @@ via_stack
 
 
 
+via_stack0
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack0
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack0()
+  c.plot()
+
+
+
+via_stack180
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack180
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack180()
+  c.plot()
+
+
+
+via_stack270
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack270
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack270()
+  c.plot()
+
+
+
+via_stack90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack90()
+  c.plot()
+
+
+
 via_stack_with_offset
 ----------------------------------------------------
 
@@ -1723,6 +2128,21 @@ via_stack_with_offset
   import gdsfactory as gf
 
   c = gf.components.via_stack_with_offset()
+  c.plot()
+
+
+
+wire
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.wire
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.wire()
   c.plot()
 
 

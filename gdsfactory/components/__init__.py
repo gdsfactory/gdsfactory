@@ -17,7 +17,16 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_heater import straight_heater_metal_undercut
 from gdsfactory.components.straight_heater import straight_heater_metal
 from gdsfactory.components.straight_heater_doped import straight_heater_doped
-from gdsfactory.components.straight_pin import straight_pin
+from gdsfactory.components.straight_pin import (
+    straight_pin,
+    straight_pin_passive,
+    straight_pin_passive_tapered,
+)
+from gdsfactory.components.straight_pin import (
+    straight_pn,
+    straight_pn_passive,
+    straight_pn_passive_tapered,
+)
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_rib import straight_rib
 from gdsfactory.components.straight_rib import straight_rib_tapered
@@ -292,6 +301,11 @@ LIBRARY.register(
         straight,
         straight_array,
         straight_pin,
+        straight_pin_passive,
+        straight_pin_passive_tapered,
+        straight_pn,
+        straight_pn_passive,
+        straight_pn_passive_tapered,
         straight_heater_metal_undercut,
         straight_heater_metal,
         straight_heater_doped,

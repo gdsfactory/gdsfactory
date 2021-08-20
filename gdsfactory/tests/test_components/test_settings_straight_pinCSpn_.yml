@@ -1,8 +1,9 @@
 function_name: straight_pin
 info: {}
 module: gdsfactory.components.straight_pin
-name: straight_pin
+name: straight_pin_CSpn
 settings:
+  cross_section: pn
   length: 500
   port_orientation_bot: 180
   port_orientation_top: 0

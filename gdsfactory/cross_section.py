@@ -101,6 +101,57 @@ def pin(
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
+    layer_ppp: Tuple[int, int] = LAYER.Ppp,
+    layer_npp: Tuple[int, int] = LAYER.Npp,
+    contact_width: float = 9.0,
+    contact_gap: float = 0.55,
+    **kwargs,
+) -> CrossSection:
+    """PIN doped cross_section.
+
+    https://doi.org/10.1364/OE.26.029983
+
+    .. code::
+
+                                   layer
+                           |<------width------>|
+                            ____________________ contact_gap
+                           |                   |<----------->|
+        ___________________|                   |__________________________|
+                                                             |            |
+            P++                                              |     N++    |
+        _____________________________________________________|____________|
+                                                                          |
+                                                              width_contact
+
+    """
+    slab_width = width + 2 * contact_gap + 2 * contact_width
+    contact_offset = width / 2 + contact_gap + contact_width / 2
+
+    return cross_section(
+        width=width,
+        layer=layer,
+        sections=(
+            Section(
+                layer=layer_ppp,
+                width=contact_width,
+                offset=+contact_offset,
+            ),
+            Section(
+                layer=layer_npp,
+                width=contact_width,
+                offset=-contact_offset,
+            ),
+            Section(width=slab_width, layer=layer_slab, name="slab"),
+        ),
+        **kwargs,
+    )
+
+
+def pn(
+    width: float = 0.5,
+    layer: Tuple[int, int] = LAYER.WG,
+    layer_slab: Tuple[int, int] = LAYER.SLAB90,
     width_i: float = 0.0,
     width_p: float = 1.0,
     width_n: float = 1.0,
@@ -116,6 +167,7 @@ def pin(
     layer_npp: Tuple[int, int] = LAYER.Npp,
     cladding_offset: float = 0,
     layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
+    port_names: Tuple[PortName, PortName] = (1, 2),
 ) -> CrossSection:
     """PIN doped cross_section.
 
@@ -135,7 +187,7 @@ def pin(
 
     """
     x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
+    x.add(width=width, offset=0, layer=layer, ports=port_names)
 
     oi = width_i / 2
     on = oi + width_n
@@ -180,7 +232,7 @@ def pin(
 
 @pydantic.validate_arguments
 def strip_heater_metal_undercut(
-    wg_width: float = 0.5,
+    width: float = 0.5,
     heater_width: float = 1.0,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
@@ -193,7 +245,7 @@ def strip_heater_metal_undercut(
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
-        wg_width:
+        width:
         heater_width:
         trench_width:
         trench_gap: from waveguide edge to trench edge
@@ -203,9 +255,9 @@ def strip_heater_metal_undercut(
         **kwargs: for cross_section
 
     """
-    trench_offset = trench_gap + trench_width / 2 + wg_width / 2
+    trench_offset = trench_gap + trench_width / 2 + width / 2
     return cross_section(
-        width=wg_width,
+        width=width,
         layer=layer_waveguide,
         sections=(
             Section(layer=layer_heater, width=heater_width),
@@ -218,7 +270,7 @@ def strip_heater_metal_undercut(
 
 @pydantic.validate_arguments
 def strip_heater_metal(
-    wg_width: float = 0.5,
+    width: float = 0.5,
     heater_width: float = 1.0,
     layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.HEATER,
@@ -228,7 +280,7 @@ def strip_heater_metal(
     dimensions from https://doi.org/10.1364/OE.18.020298
     """
     return cross_section(
-        width=wg_width,
+        width=width,
         layer=layer_waveguide,
         sections=(Section(layer=layer_heater, width=heater_width),),
         **kwargs,
@@ -237,7 +289,7 @@ def strip_heater_metal(
 
 @pydantic.validate_arguments
 def rib_heater_doped(
-    wg_width: float = 0.5,
+    width: float = 0.5,
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
     layer_waveguide: Layer = LAYER.WG,
@@ -248,10 +300,10 @@ def rib_heater_doped(
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
     """
-    slab_width = wg_width + 2 * heater_gap + 2 * heater_width
-    heater_offset = wg_width / 2 + heater_gap + heater_width / 2
+    slab_width = width + 2 * heater_gap + 2 * heater_width
+    heater_offset = width / 2 + heater_gap + heater_width / 2
     return cross_section(
-        width=wg_width,
+        width=width,
         layer=layer_waveguide,
         sections=(
             Section(
@@ -321,7 +373,8 @@ if __name__ == "__main__":
     # X = rib_heater_doped()
 
     # X = strip_heater_metal_undercut()
-    X = metal1()
+    # X = metal1()
+    X = pin()
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
