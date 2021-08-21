@@ -3,20 +3,22 @@
 instances:
     mzi:
         component: mzi_phase_shifter
+        settings:
+            length_x: 50
 
     pads:
         component: pad_array
         settings:
             n: 2
             port_names:
-                - 4
+                - e4
 
 placements:
     mzi:
         x: 0
     pads:
         y: 200
-        x:  50
+        x: mzi,cc
 ports:
     o1: mzi,o1
     o2: mzi,o2
@@ -25,11 +27,14 @@ ports:
 routes:
     electrical:
         links:
-            mzi,N0: pads,S0
-            mzi,N1: pads,S1
+            mzi,etop_e1: pads,e4_0
+            mzi,etop_e2: pads,e4_1
 
         settings:
-            layer: [2, 0]
+            layer: [31, 0]
+            width: 10
+            radius: 10
+
 """
 
 import functools
@@ -141,8 +146,8 @@ def place(
         instances: Dict of references
         encountered_insts: list of encountered_instances
         instance_name: instance_name to place
-        all_remaining_insts: list of all the remaining instances which must be placed by this method.
-            Items will be popped from this list as they are placed.
+        all_remaining_insts: list of all the remaining instances to place
+            instances pop from this instrance as they are placed
     """
     if not all_remaining_insts:
         return
@@ -155,7 +160,7 @@ def place(
         encountered_insts.append(instance_name)
         loop_str = " -> ".join(encountered_insts)
         raise ValueError(
-            f"circular reference in placement definition for {instance_name}! Loop: {loop_str}"
+            f"circular reference in placement for {instance_name}! Loop: {loop_str}"
         )
     encountered_insts.append(instance_name)
     ref = instances[instance_name]
@@ -217,8 +222,8 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"portName = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())} "
-                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
+                        f"port = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())}"
+                        f" or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x}`"
                     )
 
@@ -281,7 +286,8 @@ def place(
                 ref.reflect_h(x0=mirror)
             else:
                 raise ValueError(
-                    f"{mirror} can only be a port name {ref.ports.keys()}, a x value or True/False"
+                    f"{mirror} can only be a port name {ref.ports.keys()}"
+                    ", a x value or True/False"
                 )
 
         if rotation:
@@ -559,7 +565,7 @@ def component_from_yaml(
             for key in routes_dict.keys():
                 if key not in valid_route_keys:
                     raise ValueError(
-                        f"`{route_alias}` has a key=`{key}` not in valid {valid_route_keys}"
+                        f"`{route_alias}` key=`{key}` not in {valid_route_keys}"
                     )
 
             settings = routes_dict.pop("settings", {})
@@ -579,9 +585,10 @@ def component_from_yaml(
                     raise ValueError(f"invalid type for cross_section={name_or_dict}")
                 settings["cross_section"] = cross_section
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
-            assert (
-                routing_strategy_name in routing_strategy
-            ), f"function `{routing_strategy_name}` not in routing_strategy {list(routing_strategy.keys())}"
+            if routing_strategy_name not in routing_strategy:
+                raise ValueError(
+                    f"function `{routing_strategy_name}` not in routing_strategy {list(routing_strategy.keys())}"
+                )
 
             if "links" not in routes_dict:
                 raise ValueError(
