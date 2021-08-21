@@ -1,10 +1,8 @@
 from typing import Dict
-from gdsfactory.types import Port, PortName
+from gdsfactory.types import Port
 
 
-def map_ports_layer_to_orientation(
-    ports: Dict[PortName, Port]
-) -> Dict[PortName, PortName]:
+def map_ports_layer_to_orientation(ports: Dict[str, Port]) -> Dict[str, str]:
     """Returns ports mapping
 
     {'1_0_W0': 1, '1_0_E0':2}

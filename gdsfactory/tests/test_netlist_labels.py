@@ -2,12 +2,12 @@ import gdsfactory as gf
 
 yaml = """
 connections:
-  bend_left,2: straight_left,1
-  bend_right,2: straight_top,2
-  bend_right,1: straight_right,1
-  coupler_ring_edf8f53f,2: straight_left,2
-  coupler_ring_edf8f53f,3: straight_right,2
-  straight_top,1: bend_left,1
+  bend_left,o2: straight_left,o1
+  bend_right,o2: straight_top,o2
+  bend_right,o1: straight_right,o1
+  coupler_ring_edf8f53f,o2: straight_left,o2
+  coupler_ring_edf8f53f,o3: straight_right,o2
+  straight_top,o1: bend_left,o1
 instances:
   bend_left:
     component: bend_euler
@@ -51,8 +51,8 @@ placements:
     x: 10.0
     'y': 10.7
 ports:
-  4: coupler_ring_edf8f53f,4
-  1: coupler_ring_edf8f53f,1
+  o4: coupler_ring_edf8f53f,o4
+  o1: coupler_ring_edf8f53f,o1
 """
 
 
@@ -60,8 +60,7 @@ def test_netlist_labels() -> None:
     c = gf.component_from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]
-    # print(placements)
-    assert "bend_left" in placements
+    assert "bend_left" in placements, print(placements)
     assert "bend_right" in placements
 
 

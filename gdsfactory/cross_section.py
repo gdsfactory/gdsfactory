@@ -329,8 +329,8 @@ rib = partial(
 )
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 metal1 = partial(cross_section, layer=LAYER.M1, width=10.0, port_names=("e1", "e2"))
-metal2 = partial(metal1, layer=LAYER.M2, width=10.0)
-metal3 = partial(metal1, layer=LAYER.M3, width=10.0)
+metal2 = partial(metal1, layer=LAYER.M2, width=10.0, port_names=("e1", "e2"))
+metal3 = partial(metal1, layer=LAYER.M3, width=10.0, port_names=("e1", "e2"))
 
 
 cross_section_factory = dict(

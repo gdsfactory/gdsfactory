@@ -158,21 +158,25 @@ def mzi(
     )  # just for netlist
     # l0br.connect('o2', blbmrb.ports['o2'])
 
+    i = 1
+
     # west ports
     if with_splitter:
         c.add(cin)
         for port_name, port in cin.ports.items():
             if port.angle == 180:
                 c.add_port(name=port_name, port=port)
+                i += 1
     else:
         c.add_port(name="o2", port=blt.ports["o1"])
         c.add_port(name="o1", port=blb.ports["o2"])
+        i = 3
 
     # east ports
-    i0 = len(cp1.get_ports_list(orientation=180))
-    for i, port in enumerate(cout.ports.values()):
+    for port in cout.ports.values():
         if port.angle == 0:
-            c.add_port(name=f"o{i+i0}", port=port)
+            c.add_port(name=f"o{i}", port=port)
+            i += 1
 
     # Add any non-optical ports from bottom and bottom arms
 

@@ -13,8 +13,8 @@ straight_rib_tapered = gf.partial(
     extend_ports,
     component=straight_rib,
     extension_factory=taper_strip_to_ridge,
-    port1=2,
-    port2=1,
+    port1="o2",
+    port2="o1",
 )
 
 

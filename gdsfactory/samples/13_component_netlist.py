@@ -39,11 +39,11 @@ def test_netlist_yaml() -> Component:
     routes:
         optical:
             links:
-                mmi_short,2: mmi_long,3
+                mmi_short,o2: mmi_long,o3
 
     ports:
-        2: mmi_short,1
-        1: mmi_long,1
+        o2: mmi_short,o1
+        o1: mmi_long,o1
     """
 
     c = gf.component_from_yaml(yaml)

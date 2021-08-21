@@ -173,9 +173,7 @@ def spiral_inner_io(
     component.add(route_west.references)
 
     # Add loop back
-    bend180_ref = _bend180.ref(
-        port_id="o2", position=route_west.ports["o1"], rotation=90
-    )
+    bend180_ref = _bend180.ref(port_id="o2", position=route_west.ports[1], rotation=90)
     component.add(bend180_ref)
     component.absorb(bend180_ref)
 
@@ -295,8 +293,8 @@ def spiral_inner_io_with_gratings(
 if __name__ == "__main__":
 
     # c = spiral_inner_io(x_straight_inner_left=800)
-    c = spiral_inner_io_euler(length=20e3)
-    c.show()
+    # c = spiral_inner_io_euler(length=20e3)
+    # c.show()
     # c = spiral_inner_io_euler(length_spiral=20e3, width=0.4)
     # c = spiral_inner_io_euler(length_spiral=60e3, width=0.4)
     # print(c.name)
@@ -305,8 +303,8 @@ if __name__ == "__main__":
     # c = spirals_nested()
     # c = spiral_inner_io_euler(length=20e3)
 
-    # c = spiral_inner_io_with_gratings()
-    # c.show(show_ports=True)
+    c = spiral_inner_io_with_gratings()
+    c.show()
 
     # c = spiral_inner_io_euler(width=1)
     # from gdsfactory.routing import add_fiber_array

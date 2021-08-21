@@ -35,7 +35,7 @@ from contracts import contract
 
 ## 3.0.3
 
-- changed port naming convention from WNES to o1, o2, o3 for optical, and e1, e2, e3, e4 for electrical
+- change port naming convention from WNES to o1, o2, o3 for optical, and e1, e2, e3, e4 for electrical
 - add Component.auto_rename_ports()
 - add `ports_layer` property to Component and ComponentReference to get a map
 

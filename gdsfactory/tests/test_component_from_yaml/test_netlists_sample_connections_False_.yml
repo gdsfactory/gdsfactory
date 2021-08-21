@@ -1,5 +1,5 @@
 connections:
-  wgn,2: wgw,1
+  wgn,o2: wgw,o1
 instances:
   wgn:
     component: straight

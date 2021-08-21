@@ -16,8 +16,8 @@ def test_link_optical_ports_no_grouping(
     d.xmin = w.xmax + 200
 
     ports1 = [
-        w.ports[7],
-        w.ports[8],
+        w.ports["o7"],
+        w.ports["o8"],
     ]
     ports2 = [
         d.ports["o2"],

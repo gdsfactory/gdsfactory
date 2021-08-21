@@ -384,12 +384,12 @@ placements:
 routes:
     route_name1:
         links:
-            mmi_short,2: mmi_long,1
+            mmi_short,o2: mmi_long,o1
 
 ports:
-    1: mmi_short,1
-    2: mmi_long,2
-    3: mmi_long,3
+    o1: mmi_short,o1
+    o2: mmi_long,o2
+    o3: mmi_long,o3
 """
 
 

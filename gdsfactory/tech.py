@@ -10,7 +10,6 @@ from gdsfactory.name import clean_value, get_name_short
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
-PortName = Union[int, str]
 
 
 @pydantic.dataclasses.dataclass(frozen=True)
@@ -190,7 +189,7 @@ class Section:
     width: float
     offset: float = 0
     layer: Layer = (1, 0)
-    ports: Tuple[Optional[PortName], Optional[PortName]] = (None, None)
+    ports: Tuple[Optional[str], Optional[str]] = (None, None)
     name: Optional[str] = None
 
     def __repr__(self):
@@ -203,7 +202,7 @@ class Section:
                     self.layer[0],
                     self.layer[1],
                     self.ports[0],
-                    self.ports["o1"],
+                    self.ports[1],
                 ]
                 if i is not None
             ]

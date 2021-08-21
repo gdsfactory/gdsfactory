@@ -17,10 +17,10 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     bc = wire_corner(**kwargs)
 
     symbol_to_component = {
-        "-": (sx, 1, 2),
-        "|": (sy, 1, 2),
-        "b": (bc, 2, 1),
-        "B": (bc, 1, 2),
+        "-": (sx, "e1", "e2"),
+        "|": (sy, "e1", "e2"),
+        "b": (bc, "e2", "e1"),
+        "B": (bc, "e1", "e2"),
     }
 
     sequence = "-B|b-"

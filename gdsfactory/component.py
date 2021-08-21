@@ -24,7 +24,6 @@ from phidl.device_layout import Device, DeviceReference, _parse_layer
 from gdsfactory.config import __version__
 from gdsfactory.port import (
     Port,
-    PortName,
     auto_rename_ports,
     auto_rename_ports_layer_orientation,
     map_ports_layer_to_orientation,
@@ -519,7 +518,7 @@ class ComponentReference(DeviceReference):
         return self.parent.get_settings(**kwargs)
 
     @property
-    def ports_layer(self) -> Dict[PortName, PortName]:
+    def ports_layer(self) -> Dict[str, str]:
         """Returns a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 
@@ -606,7 +605,7 @@ class Component(Device):
         return v
 
     @property
-    def ports_layer(self) -> Dict[PortName, PortName]:
+    def ports_layer(self) -> Dict[str, str]:
         """Returns a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 

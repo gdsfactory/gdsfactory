@@ -10,7 +10,7 @@ from phidl.device_layout import CellArray, DeviceReference
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import auto_rename_ports, read_port_markers
-from gdsfactory.types import Layer, PathType, PortName
+from gdsfactory.types import Layer, PathType
 
 
 def add_ports_from_markers_inside(*args, **kwargs) -> None:
@@ -26,7 +26,7 @@ def add_ports_from_markers_square(
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
-    port_names: Optional[Iterable[PortName]] = None,
+    port_names: Optional[Iterable[str]] = None,
 ) -> None:
     """add ports from markers in port_layer
 

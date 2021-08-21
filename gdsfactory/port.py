@@ -41,7 +41,6 @@ from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.snap import snap_to_grid
 
-PortName = str
 Layer = Tuple[int, int]
 
 

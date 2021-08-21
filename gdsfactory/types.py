@@ -61,7 +61,6 @@ Coordinates = Tuple[Tuple[float, float], ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortName = str
 
 
 def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
@@ -69,7 +68,7 @@ def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
     return {func.__name__: func for func in functions}
 
 
-def parse_port_name(name: str) -> PortName:
+def parse_port_name(name: str) -> str:
     if "_" in name:
         return name
     try:

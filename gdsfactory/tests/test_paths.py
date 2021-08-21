@@ -128,8 +128,9 @@ def transition():
     wg2_ref = c << wg2
     wgt_ref = c << wg_trans
 
-    wgt_ref.connect("o1", wg1_ref.ports["o2"])
-    wg2_ref.connect("o1", wgt_ref.ports["o2"])
+    print(wgt_ref.ports)
+    wgt_ref.connect("in2", wg1_ref.ports["out1"])
+    wg2_ref.connect("in2", wgt_ref.ports["out1"])
     return c
 
 
@@ -182,10 +183,9 @@ def test_layers2():
 
 
 if __name__ == "__main__":
-    c = test_layers2()
-    c.show()
-    # c = transition()
+    # c = test_layers2()
+    c = transition()
     # c = double_loop()
     # c = rename()
     # c.pprint()
-    # c.show()
+    c.show()

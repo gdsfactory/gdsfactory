@@ -2,7 +2,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_pin import straight_pin
 from gdsfactory.components.taper import taper_strip_to_ridge
 
 
@@ -13,22 +12,22 @@ def test_cutback_phase(
     """Modulator sections connected by bends"""
     # Define sub components
     bend180 = gf.components.bend_circular180(radius=bend_radius)
-    pm_wg = straight_pin(length=straight_length)
+    pm_wg = gf.c.straight_pin_passive(length=straight_length)
     wg_short = straight(length=1.0)
     wg_short2 = straight(length=2.0)
-    wg_heater = straight_pin(length=10.0)
+    wg_heater = gf.c.straight_pin_passive(length=10.0)
     taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
-        "I": (taper, 1, 2),
-        "O": (taper, 2, 1),
-        "S": (wg_short, 1, 2),
-        "P": (pm_wg, 1, 2),
-        "A": (bend180, 1, 2),
-        "B": (bend180, 2, 1),
-        "H": (wg_heater, 1, 2),
-        "-": (wg_short2, 1, 2),
+        "I": (taper, "o1", "o2"),
+        "O": (taper, "o2", "o1"),
+        "S": (wg_short, "o1", "o2"),
+        "P": (pm_wg, "o1", "o2"),
+        "A": (bend180, "o1", "o2"),
+        "B": (bend180, "o2", "o1"),
+        "H": (wg_heater, "o1", "o2"),
+        "-": (wg_short2, "o1", "o2"),
     }
 
     # Generate a sequence

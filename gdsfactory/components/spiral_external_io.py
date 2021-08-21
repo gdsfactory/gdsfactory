@@ -143,8 +143,8 @@ def spiral_external_io(
     )
 
     component.add(route.references)
-    component.add_port("S1", port=route.ports[0])
-    component.add_port("S0", port=route.ports["o1"])
+    component.add_port("o2", port=route.ports[0])
+    component.add_port("o1", port=route.ports[1])
 
     length = route.length
     component.length = length

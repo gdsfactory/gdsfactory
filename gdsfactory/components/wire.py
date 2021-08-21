@@ -3,35 +3,13 @@
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.hline import hline
+from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import metal3
-from gdsfactory.port import deco_rename_ports
 from gdsfactory.types import CrossSectionFactory
 
-
-@deco_rename_ports
-@gf.cell
-def wire_straight(
-    length: float = 50.0, cross_section: CrossSectionFactory = metal3, **kwargs
-) -> Component:
-    """Straight straight.
-
-    Args:
-        length: straiht length
-        waveguide:
-        kwargs: waveguide_settings
-    """
-    x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    width = waveguide_settings["width"]
-    layer = waveguide_settings["layer"]
-
-    c = hline(length=length, width=width, layer=layer)
-    c.waveguide_settings = dict(layer=layer, width=width)
-    return c
+wire_straight = gf.partial(straight, with_cladding_box=False, cross_section=metal3)
 
 
-@deco_rename_ports
 @gf.cell
 def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Component:
     """90 degrees electrical corner
@@ -54,14 +32,14 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
-        name="o1",
+        name="e1",
         midpoint=(-a, 0),
         width=width,
         orientation=180,
         layer=layer,
     )
     c.add_port(
-        name="o2",
+        name="e2",
         midpoint=(0, a),
         width=width,
         orientation=90,
@@ -74,5 +52,5 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
 if __name__ == "__main__":
 
     c = wire_straight()
-    c = wire_corner()
+    # c = wire_corner()
     c.show(show_ports=True)

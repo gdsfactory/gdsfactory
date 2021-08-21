@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Coordinate, Layer, PortName
+from gdsfactory.types import ComponentOrFactory, Coordinate, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -86,8 +86,8 @@ def extend_ports(
     port_names: Optional[Tuple[str, ...]] = None,
     length: float = 5.0,
     extension_factory: Optional[ComponentOrFactory] = None,
-    port1: Optional[PortName] = None,
-    port2: Optional[PortName] = None,
+    port1: Optional[str] = None,
+    port2: Optional[str] = None,
 ) -> Component:
     """Returns a new component with extended ports inside a container.
 

@@ -46,7 +46,7 @@ def free_propagation_region(
 
     if inputs == 1:
         c.add_port(
-            1,
+            "o1",
             midpoint=(0, 0),
             width=wg_width,
             orientation=180,
