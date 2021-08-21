@@ -14,7 +14,7 @@ def straight_heater_doped(
     nsections: int = 3,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
     via_stack: ComponentFactory = via_stack_slab,
-    via_stack_size: Tuple[float, float] = [10.0, 10.0],
+    via_stack_size: Tuple[float, float] = (10.0, 10.0),
     via_stack_spacing: float = 5,
     port_orientation_top: int = 0,
     port_orientation_bot: int = 180,
