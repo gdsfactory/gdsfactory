@@ -7,10 +7,12 @@ from gdsfactory.components.taper import taper
 from gdsfactory.config import call_if_func
 from gdsfactory.snap import assert_on_2nm_grid
 
+taper2 = gf.partial(taper, width2=3)
+
 
 @gf.cell
 def ring_single_dut(
-    component=gf.partial(taper, width2=3),
+    component=taper2,
     wg_width=0.5,
     gap=0.2,
     length_x=4,
