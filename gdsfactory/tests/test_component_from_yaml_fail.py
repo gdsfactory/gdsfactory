@@ -15,13 +15,13 @@ instances:
 
 placements:
     mmi_short:
-        port: 1
-        x: mmi_long,2
-        y: mmi_long,2
+        port: o1
+        x: mmi_long,o2
+        y: mmi_long,o2
     mmi_long:
-        port: 1
-        x: mmi_short,2
-        y: mmi_short,2
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
         dx : 10
         dy: 20
 """
@@ -41,13 +41,13 @@ instances:
 
 placements:
     mmi_short:
-        port: 1
+        port: o1
         x: 0
         y: 0
     mmi_long:
-        port: 1
-        x: mmi_short,2
-        y: mmi_short,2
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
         dx : 10
         dy: 20
 """

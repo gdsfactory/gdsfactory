@@ -14,7 +14,7 @@ def gen_loopback(
     gc: ComponentFactory,
     grating_separation: float = 127.0,
     gc_rotation: int = -90,
-    gc_port_name: str = 1,
+    gc_port_name: str = "o1",
     bend_radius_loopback: float = 10.0,
     bend_factory: ComponentFactory = gf.components.bend_euler,
     straight_factory: ComponentFactory = gf.components.straight,

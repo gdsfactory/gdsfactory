@@ -1,13 +1,12 @@
 from typing import Callable, Optional
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.port import select_ports_optical
 
 
-@cell
+@gf.cell
 def fanout2x2(
     component: Component,
     port_spacing: float = 20.0,
@@ -29,8 +28,8 @@ def fanout2x2(
     c = gf.Component()
 
     component = component() if callable(component) else component
-    comp = c << component
-    comp.movey(-comp.y)
+    ref = c << component
+    ref.movey(-ref.y)
 
     if bend_length is None:
         bend_length = port_spacing
@@ -38,10 +37,10 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = comp.ports["o1"].midpoint
-    p_w1 = comp.ports["o2"].midpoint
-    p_e1 = comp.ports["o3"].midpoint
-    p_e0 = comp.ports["o4"].midpoint
+    p_w0 = ref.ports["o1"].midpoint
+    p_w1 = ref.ports["o2"].midpoint
+    p_e1 = ref.ports["o3"].midpoint
+    p_e0 = ref.ports["o4"].midpoint
     y0 = p_e1[1]
 
     dy = y - y0
@@ -66,11 +65,10 @@ def fanout2x2(
 
     c.min_bend_radius = bezier_bend_t.info["min_bend_radius"]
 
-    optical_ports = select_ports(comp.ports)
-    for port_name in comp.ports.keys():
+    optical_ports = select_ports(ref.ports)
+    for port_name in ref.ports.keys():
         if port_name not in optical_ports:
-            c.add_port(f"DC_{port_name}", port=comp.ports[port_name])
-    c.auto_rename_ports()
+            c.add_port(port_name, port=ref.ports[port_name])
     return c
 
 

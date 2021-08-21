@@ -29,9 +29,9 @@ def add_electrical_pads_shortest(
 
     """
     c = Component()
-    ports = select_ports(component.ports)
+    ref = c << component
+    ports = select_ports(ref.ports)
     ports = list(ports.values())
-    c << component
 
     pad = pad(**kwargs) if callable(pad) else pad
     pad_port_spacing += pad.settings["width"] / 2
@@ -55,7 +55,7 @@ def add_electrical_pads_shortest(
             p.x = port.x
             c.add(get_route_electrical_shortest_path(port, p.ports["e2"]))
 
-    c.ports = component.ports.copy()
+    c.add_ports(ref.ports)
     for port in ports:
         c.ports.pop(port.name)
     return c

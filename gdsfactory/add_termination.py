@@ -25,16 +25,25 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 @cell
 def add_termination(
-    component: Component, terminator: ComponentFactory = taper_function
+    component: Component,
+    terminator: ComponentFactory = taper_function,
+    port_name: Optional[str] = None,
 ) -> Component:
-    """returns component containing a comonent with all ports terminated"""
+    """returns component containing a comonent with all ports terminated
+
+    Args:
+        component:
+        terminator:
+        port_name: for the terminator to connect
+    """
     terminator = gf.call_if_func(terminator)
-    c = gf.Component(name=component.name + "_t")
+    c = gf.Component()
     c.add_ref(component)
 
     for port in component.ports.values():
         t_ref = c.add_ref(terminator)
-        t_ref.connect(list(t_ref.ports.values())[0].name, port)
+        port_name = port_name or t_ref.get_ports_list()[0].name
+        t_ref.connect(port_name, port)
 
     return c
 

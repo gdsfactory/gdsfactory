@@ -30,8 +30,8 @@ def test_get_bundle_u_direct_different_x(
     ports2 = d.get_ports_list(orientation=0)
 
     ports1 = [
-        w.ports[7],
-        w.ports[8],
+        w.ports["o7"],
+        w.ports["o8"],
     ]
     ports2 = [
         d.ports["o2"],

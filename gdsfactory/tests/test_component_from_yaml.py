@@ -313,7 +313,7 @@ placements:
 routes:
     optical:
         links:
-            left,o1:3: right,o1:3
+            left,o:1:3: right,o:1:3
 """
 
 sample_regex_connections_backwards = """
@@ -339,7 +339,7 @@ placements:
 routes:
     optical:
         links:
-            left,o3:1: right,o3:1
+            left,o:3:1: right,o:3:1
 """
 
 
@@ -550,7 +550,7 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_different_factory)
     # c = test_sample()
     # c = test_netlists("sample_mmis", True, None, check=False)
-    # c = test_connections_regex()
+    c = test_connections_regex()
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     # c = test_netlists("sample_waypoints", True, None, False)
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    c = component_from_yaml(sample_mirror_simple)
+    # c = component_from_yaml(sample_mirror_simple)
     # c = component_from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
 

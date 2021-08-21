@@ -18,8 +18,8 @@ def test_get_bundle_optical(
     d.xmin = w.xmax + 200
 
     ports1 = [
-        w.ports[7],
-        w.ports[8],
+        w.ports["o7"],
+        w.ports["o8"],
     ]
     ports2 = [
         d.ports["o2"],

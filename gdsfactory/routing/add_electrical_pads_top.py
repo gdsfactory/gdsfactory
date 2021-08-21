@@ -28,12 +28,12 @@ def add_electrical_pads_top(
             **port_settings
     """
     c = Component()
-    ports = select_ports(component.ports)
+    ref = c << component
+    ports = select_ports(ref.ports)
     ports = list(ports.values())
-    c << component
     pads = c << pad_array(n=len(ports), port_names=("e4",), **kwargs)
-    pads.x = component.x
-    pads.ymin = component.ymax + dy
+    pads.x = ref.x
+    pads.ymin = ref.ymax + dy
     ports_pads = list(pads.ports.values())
 
     ports_pads = gf.routing.sort_ports.sort_ports_x(ports_pads)
@@ -42,12 +42,10 @@ def add_electrical_pads_top(
     for p1, p2 in zip(ports_component, ports_pads):
         c.add(get_route_electrical_shortest_path(p1, p2))
 
-    c.ports = component.ports.copy()
+    c.add_ports(ref.ports)
     for port in ports:
         c.ports.pop(port.name)
     return c
-
-    return cc
 
 
 if __name__ == "__main__":

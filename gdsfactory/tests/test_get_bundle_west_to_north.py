@@ -14,10 +14,10 @@ def test_get_bundle_west_to_north(
     w = h = 10
     c = gf.Component()
     pad_south = gf.components.pad_array(
-        port_names=[4], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
+        port_names=["e4"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pad_north = gf.components.pad_array(
-        port_names=[2], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
+        port_names=["e2"], pitch=15.0, pad_settings=dict(width=w, height=h), n=3
     )
     pl = c << pad_south
     pb = c << pad_north
@@ -71,6 +71,6 @@ def test_get_bundle_west_to_north2(
 
 
 if __name__ == "__main__":
-    # c = test_get_bundle_west_to_north(None, check=False)
+    c = test_get_bundle_west_to_north(None, check=False)
     c = test_get_bundle_west_to_north2(None, check=False)
     c.show()

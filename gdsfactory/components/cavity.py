@@ -30,11 +30,11 @@ def cavity(
 
       ml (mirror left)              mr (mirror right)
        |                               |
-       |W0 - W1__             __E1 - W0|
+       |o1 - o2__             __o3 - o1|
        |         \           /         |
                   \         /
                 ---=========---
-             W0    length      E0
+         o1  o1    length      o4    o2
 
     .. plot::
       :include-source:

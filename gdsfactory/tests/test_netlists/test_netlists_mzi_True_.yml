@@ -252,4 +252,4 @@ placements:
     y: -11.425
 ports:
   o1: mmi1x2_0p0_0p0,o1
-  o3: mmi1x2_65p6_m0p0,o1
+  o2: mmi1x2_65p6_m0p0,o1
