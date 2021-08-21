@@ -17,13 +17,8 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.port import (
-    Port,
-    read_port_markers,
-    select_ports_electrical,
-    select_ports_optical,
-)
-from gdsfactory.tech import LAYER, PORT_TYPE_TO_MARKER_LAYER
+from gdsfactory.port import Port
+from gdsfactory.tech import LAYER
 
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
@@ -288,33 +283,46 @@ def add_outline(
 
 def add_pins(
     component: Component,
+    reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_square_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
 ) -> None:
     """Add Pin port markers.
 
+    Be careful with this function as it modifies the component
+
     Args:
-        component: to add ports
-        function:
+        component: to add ports to
+        reference:
+        function: to add each pin
         select_ports: function to select_ports
         kwargs: add pins function settings
 
     """
+    reference = reference or component
     ports = (
-        select_ports(component.ports).values()
+        select_ports(reference.ports).values()
         if select_ports
-        else component.get_ports_list()
+        else reference.get_ports_list()
     )
     for port in ports:
         function(component=component, port=port, **kwargs)
 
 
-add_pins_optical = gf.partial(add_pins, select_ports=select_ports_optical)
-add_pins_electrical = gf.partial(add_pins, select_ports=select_ports_electrical)
-
-
 add_pins_triangle = gf.partial(add_pins, function=add_pin_triangle)
+
+
+@gf.cell
+def add_pins_container(
+    component: Component,
+    add_pins_function=add_pins_triangle,
+) -> Component:
+    c = Component()
+    ref = c << component
+    add_pins_function(component=c, reference=ref)
+    c.ref = ref
+    return c
 
 
 def add_settings_label(
@@ -396,55 +404,59 @@ def add_pins_and_outline(
         add_instance_label_function(component=component, reference=reference)
 
 
+@gf.cell
 def add_pins_to_references(
     component: Component,
     function: Callable = add_pins_triangle,
-) -> None:
+) -> Component:
     """Add pins to Component references.
 
     Args:
-        component: component
+        component: component to add pins to
+        references:
         function: function to add pins
     """
+    c = Component()
+    c.add_ref(component)
+
     references = component.references
 
-    if references:
-        for reference in references:
-            add_pins_to_references(component=reference.parent, function=function)
-    else:
-        function(component=component)
+    for reference in references:
+        function(component=c, reference=reference)
+
+    return c
 
 
-def test_add_pins() -> gf.Component:
-    c1 = gf.components.straight_heater_metal(length=31.23)
-    c2 = gf.components.straight_heater_metal(length=31.232)
+def test_add_pins() -> None:
+    c1 = gf.c.straight(length=2)
+    c2 = add_pins_container(component=c1)
 
-    add_pins_optical(component=c1, function=add_pin_square, layer=LAYER.PORT)
-    add_pins_electrical(component=c2, function=add_pin_square, layer=LAYER.PORTE)
-    n_optical_expected = 2
-    n_dc_expected = 2
+    p1 = len(c1.get_polygons())
+    p2 = len(c2.get_polygons())
 
-    port_layer_optical = PORT_TYPE_TO_MARKER_LAYER["optical"]
-    port_markers_optical = read_port_markers(c1, [port_layer_optical])
-    n_optical = len(port_markers_optical.polygons)
-
-    port_layer_dc = PORT_TYPE_TO_MARKER_LAYER["dc"]
-    port_markers_dc = read_port_markers(c2, [port_layer_dc])
-    n_dc = len(port_markers_dc.polygons)
-
-    assert (
-        n_optical == n_optical_expected
-    ), f"{n_optical} optical pins different from {n_optical_expected}"
-    assert (
-        n_dc == n_dc_expected
-    ), f"{n_dc} electrical pins different from {n_dc_expected}"
-    return c2
+    assert p2 == p1 + 2
+    assert len(c2.polygons) == 2
 
 
 if __name__ == "__main__":
-    c = test_add_pins()
-    c.show()
-
-    # c = gf.c.straight()
-    # add_pins(c)
+    # c = test_add_pins()
     # c.show()
+
+    # c = gf.c.straight(length=2)
+    # c = add_pins_container(component=c)
+
+    # c.show(show_ports_suborts=True)
+
+    # c2 = add_pins_container(component=c1)
+
+    # p1 = len(c1.get_polygons())
+    # p2 = len(c2.get_polygons())
+    # assert p2 == p1 + 2
+
+    # c1 = gf.c.straight_heater_metal(length=2)
+    # c2 = add_pins_to_references(c1)
+    c = gf.c.ring_single()
+    # cc = add_pins_to_references(component=c)
+    # cc.show(show_ports=False)
+    c.show(show_subports=True)
+    c.show(show_ports=True)

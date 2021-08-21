@@ -170,6 +170,6 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
         auto_widen=True,
-        layer=(2, 0),
+        # layer=(2, 0),
     )
     cc.show()
