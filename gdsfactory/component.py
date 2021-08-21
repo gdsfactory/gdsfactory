@@ -19,7 +19,7 @@ import omegaconf
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Device, DeviceReference, _parse_layer
+from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
 
 from gdsfactory.config import __version__
 from gdsfactory.port import (
@@ -45,18 +45,32 @@ MAX_NAME_LENGTH = 32
 
 
 def copy(D: Device) -> Device:
-    """returns a deep copy of a Component."""
+    """returns a deep copy of a Component.
+    based on phidl.geometry with CellArray support
+    """
     D_copy = Component(name=D.name)
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
-        new_ref = ComponentReference(
-            ref.parent,
-            origin=ref.origin,
-            rotation=ref.rotation,
-            magnification=ref.magnification,
-            x_reflection=ref.x_reflection,
-        )
-        new_ref.owner = D_copy
+        if isinstance(ref, DeviceReference):
+            new_ref = ComponentReference(
+                ref.parent,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.owner = D_copy
+        elif isinstance(ref, gdspy.CellArray):
+            new_ref = CellArray(
+                device=ref.parent,
+                columns=ref.columns,
+                rows=ref.rows,
+                spacing=ref.spacing,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
         D_copy.add(new_ref)
         for alias_name, alias_ref in D.aliases.items():
             if alias_ref == ref:
@@ -1074,21 +1088,36 @@ class Component(Device):
 
     def show(
         self,
-        show_ports: bool = True,
-        clear_cache: bool = True,
+        show_ports: bool = False,
         show_subports: bool = False,
+        clear_cache: bool = True,
     ) -> None:
-        """Show component in klayout"""
-        from gdsfactory.add_pins import add_pins_to_references, add_pins_triangle
+        """Show component in klayout
+
+        if show_subports = True
+        We add pins in a new component
+        that contains a reference to the old component
+        so we don't modify the original component
+
+        Args:
+            show_ports: shows component with port markers and labels
+            show_subports: add ports markers and labels to component references
+            clear_cache: after showing component clears cache (useful for jupyter)
+        """
+        from gdsfactory.add_pins import add_pins_container, add_pins_to_references
         from gdsfactory.show import show
 
-        if show_ports:
-            add_pins_triangle(self)
-
         if show_subports:
-            add_pins_to_references(self)
+            component = add_pins_to_references(component=self)
+            component.name = self.name + "_show_subports"
 
-        show(self, clear_cache=clear_cache)
+        elif show_ports:
+            component = add_pins_container(component=self)
+            component.name = self.name + "_show_ports"
+        else:
+            component = self
+
+        show(component, clear_cache=clear_cache)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2

@@ -3,17 +3,16 @@
 ## TODO
 
 - enable routing with 180euler and Sbends
-- optical ports and DC ports should follow the same naming syntax
 - fix FIXMEs
-- update pp.ring_with_taper to the new netlist and delete pp.component_from.netlist
 - add function to detect duplicated cell names
+- example on how to customize visualization of a component
+- remove kwargs from most components
+    - will enable most intuitive errors
 
 Maybe:
 
 - replace LIBRARY with `get_factory_dict`
-- remove port_type, we only need layer
 - rename any thickness_nm to thickness or zmin_nm to zmin
-- remove kwargs from most components
 - define Layer as a dataclass instead of Tuple[int, int]
 - move add_fiber_array settings into a dataclass
 - enable difftest for test_containers
@@ -38,6 +37,7 @@ from contracts import contract
 - change port naming convention from WNES to o1, o2, o3 for optical, and e1, e2, e3, e4 for electrical
 - add Component.auto_rename_ports()
 - add `ports_layer` property to Component and ComponentReference to get a map
+- `Component.show()` `show_ports` and `show_subports` show a container (do not modify original component)
 
 ## 3.0.2
 
