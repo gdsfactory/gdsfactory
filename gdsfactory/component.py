@@ -1167,7 +1167,8 @@ class Component(Device):
 
         for layer, polygons in layer_to_polygons.items():
             for polygon in polygons:
-                d["polygons"][layer] = [tuple(snap_to_grid(v)) for v in polygon]
+                layer_name = f"{layer[0]}_{layer[1]}"
+                d["polygons"][layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
 
         for port in self.get_ports_list():
             d["ports"][port.name] = port.settings

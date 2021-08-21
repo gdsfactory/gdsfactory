@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
@@ -12,6 +12,8 @@ def get_routes_bend180(
     ports: Union[List[Port], Dict[str, Port]],
     bend_factory: ComponentOrFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
+    bend_port1: Optional[str] = None,
+    bend_port2: Optional[str] = None,
     **kwargs,
 ) -> Routes:
     """Returns routes made by 180 degree bends.
@@ -19,13 +21,19 @@ def get_routes_bend180(
     Args:
         ports: List or dict of ports
         bend_factory: function for bend
+        cross_section:
         **kwargs: bend settings
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     bend = bend_factory(angle=180, cross_section=cross_section, **kwargs)
+
+    bend_ports = bend.get_ports_list()
+    bend_port1 = bend_port1 or bend_ports[0].name
+    bend_port2 = bend_port2 or bend_ports[1].name
+
     references = [bend.ref() for port in ports]
-    references = [ref.connect("o1", port) for port, ref in zip(ports, references)]
-    ports = {f"{i}": ref.ports["o2"] for i, ref in enumerate(references)}
+    references = [ref.connect(bend_port1, port) for port, ref in zip(ports, references)]
+    ports = {f"{i}": ref.ports[bend_port2] for i, ref in enumerate(references)}
     lengths = [bend.length] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
 

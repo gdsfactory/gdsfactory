@@ -92,7 +92,7 @@ def cell_without_validator(func):
         if (
             "args" not in sig.parameters
             and "kwargs" not in sig.parameters
-            and "waveguide_settings" not in sig.parameters
+            and "settings" not in sig.parameters
         ):
             for key in kwargs.keys():
                 if key not in sig.parameters.keys():
