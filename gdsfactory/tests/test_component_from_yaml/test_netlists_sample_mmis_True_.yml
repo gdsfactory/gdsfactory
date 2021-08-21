@@ -1,10 +1,10 @@
 connections:
-  bend_euler_CScross_section_120p135_5p5,1: straight_CScross_section_L102p51_63p755_0p625,2
-  bend_euler_CScross_section_120p135_5p5,2: straight_CScross_section_L79p375_125p01_50p313,1
-  bend_euler_CScross_section_120p135_95p125,1: straight_CScross_section_L79p375_125p01_50p313,2
-  bend_euler_CScross_section_120p135_95p125,2: straight_CScross_section_L10n_115p005_100p0,1
-  mmi_long,1: straight_CScross_section_L10n_115p005_100p0,2
-  mmi_short,2: straight_CScross_section_L102p51_63p755_0p625,1
+  bend_euler_CScross_section_120p135_5p5,o1: straight_CScross_section_L102p51_63p755_0p625,o2
+  bend_euler_CScross_section_120p135_5p5,o2: straight_CScross_section_L79p375_125p01_50p313,o1
+  bend_euler_CScross_section_120p135_95p125,o1: straight_CScross_section_L79p375_125p01_50p313,o2
+  bend_euler_CScross_section_120p135_95p125,o2: straight_CScross_section_L10n_115p005_100p0,o1
+  mmi_long,o1: straight_CScross_section_L10n_115p005_100p0,o2
+  mmi_short,o2: straight_CScross_section_L102p51_63p755_0p625,o1
 instances:
   bend_euler_CScross_section_120p135_5p5:
     component: bend_euler
@@ -110,6 +110,6 @@ placements:
     x: 125.01
     y: 10.625
 ports:
-  1: mmi_short,1
-  2: mmi_long,2
-  3: mmi_long,3
+  o1: mmi_short,o1
+  o2: mmi_long,o2
+  o3: mmi_long,o3

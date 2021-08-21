@@ -12,23 +12,23 @@ def splitter_chain(
 
     .. code::
 
-                __
+                __5
              __|
-          __|  |__
-        _|  |__
-         |__
+          __|  |__4
+      1 _|  |__3
+         |__2
 
 
           __E1
-        _|
+      1 _|
          |__E0
 
     """
     c = gf.Component()
     splitter_component = gf.call_if_func(splitter, **kwargs)
     cref = c.add_ref(splitter_component)
-    e1_port_name = len(splitter_component.ports) - 1
-    e0_port_name = len(splitter_component.ports)
+    e1_port_name = cref.port_by_orientation_cw("E1").name
+    e0_port_name = cref.port_by_orientation_cw("E0").name
 
     bend = gf.components.bezier()
     c.add_port(name="o1", port=cref.ports["o1"])
@@ -41,9 +41,9 @@ def splitter_chain(
         cref = c.add_ref(splitter_component)
 
         cref.connect(port="o1", destination=bref.ports["o2"])
-        c.add_port(name=i + 2, port=cref.ports[e0_port_name])
+        c.add_port(name=f"o{i+2}", port=cref.ports[e0_port_name])
 
-    c.add_port(name=i + 3, port=cref.ports[e1_port_name])
+    c.add_port(name=f"o{i+3}", port=cref.ports[e1_port_name])
     c.settings["component"] = splitter_component.get_settings()
     return c
 

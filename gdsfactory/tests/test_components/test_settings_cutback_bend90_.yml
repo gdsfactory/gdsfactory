@@ -4,10 +4,10 @@ module: gdsfactory.components.cutback_bend
 name: cutback_bend90
 settings:
   cols: 6
-  input_port_name: 1
   n_bends: 144
   n_steps: 6
-  output_port_name: 2
+  port_name1: o1
+  port_name2: o2
   ports_map: null
   sequence: A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-
   spacing: 5
@@ -16,18 +16,18 @@ settings:
   symbol_to_component:
     '-':
     - straight_L5_W500n
-    - 1
-    - 2
+    - o1
+    - o2
     A:
     - bend_euler
-    - 1
-    - 2
+    - o1
+    - o2
     B:
     - bend_euler
-    - 2
-    - 1
+    - o2
+    - o1
     '|':
     - straight_L30_W500n
-    - 1
-    - 2
+    - o1
+    - o2
   wg_loop_length: null

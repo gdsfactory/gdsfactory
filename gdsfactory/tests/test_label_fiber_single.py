@@ -16,8 +16,8 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    assert l0 == f"opt_te_1530_({cell_name})_0_1", l0
-    assert l1 == f"opt_te_1530_({cell_name})_0_2", l1
+    assert l0 == f"opt_te_1530_({cell_name})_0_o1", l0
+    assert l1 == f"opt_te_1530_({cell_name})_0_o2", l1
 
     return cte
 
@@ -36,10 +36,10 @@ def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Comp
     l2 = cte.labels[2].text
     l3 = cte.labels[3].text
 
-    assert l0 == f"opt_te_1530_({cell_name})_0_1", l0
-    assert l1 == f"opt_te_1530_({cell_name})_0_2", l1
-    assert l2 == f"opt_te_1530_(loopback_{cell_name})_0_2", l2
-    assert l3 == f"opt_te_1530_(loopback_{cell_name})_1_1", l3
+    assert l0 == f"opt_te_1530_({cell_name})_0_o1", l0
+    assert l1 == f"opt_te_1530_({cell_name})_0_o2", l1
+    assert l2 == f"opt_te_1530_(loopback_{cell_name})_0_o2", l2
+    assert l3 == f"opt_te_1530_(loopback_{cell_name})_1_o1", l3
 
     return cte
 

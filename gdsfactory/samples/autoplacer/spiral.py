@@ -2,14 +2,14 @@
 Generate a spiral DOE
 """
 import gdsfactory as gf
-from gdsfactory.components.spiral_external_io import spiral_external_io
-from gdsfactory.routing.add_fiber_array import add_fiber_array
 
 
 @gf.cell
-def spiral(N=6, x=50.0):
-    c = spiral_external_io(N=N, x_inner_length_cutback=x)
-    return add_fiber_array(component=c, x_grating_offset=-200, fanout_length=30)
+def spiral(N=6, x=50.0) -> gf.Component:
+    c = gf.c.spiral_external_io(N=N, x_inner_length_cutback=x)
+    return gf.routing.add_fiber_array(
+        component=c, x_grating_offset=-200, fanout_length=30
+    )
 
 
 if __name__ == "__main__":

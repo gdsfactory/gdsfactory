@@ -12,7 +12,7 @@ def test_netlist_read() -> Component:
     # print(len(c.get_dependencies()))
     # assert len(c.get_netlist().connections) == 18
 
-    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
+    assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
     return c
 
 
@@ -20,7 +20,7 @@ def test_netlist_read_full() -> Component:
     filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
     c = gf.component_from_yaml(filepath)
 
-    assert len(c.get_dependencies()) == 4, len(c.get_dependencies())
+    assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
     return c
 
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # regenerate_regression_test()
 
     # c = test_netlist_read_full()
-    # c.show()
+    c.show()
 
     # n = c.get_netlist()
     # i = n["instances"]

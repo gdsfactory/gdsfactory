@@ -1,5 +1,5 @@
 connections:
-  b,1: s,2
+  b,o1: s,o2
 instances:
   b:
     component: bend_circular

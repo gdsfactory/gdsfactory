@@ -3,14 +3,14 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, PortName
+from gdsfactory.types import ComponentOrFactory
 
 
 @cell
 def extend_ports_list(
     ports: List[Port],
     extension_factory: ComponentOrFactory,
-    extension_port_name: Optional[PortName] = None,
+    extension_port_name: Optional[str] = None,
 ) -> Component:
     """Returns a component with the extensions for a list of ports.
 

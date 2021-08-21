@@ -30,7 +30,7 @@ def get_routes_straight(
 
 def test_get_routes_straight(check: bool = True):
     c = gf.Component("get_routes_straight")
-    pad_array = gf.components.pad_array(pitch=150, port_names=(4,))
+    pad_array = gf.components.pad_array(pitch=150, port_names=("e4",))
     c1 = c << pad_array
     c2 = c << pad_array
     c2.ymax = -200

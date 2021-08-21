@@ -54,7 +54,7 @@ def add_gratings_and_loopback(
     excluded_ports: None = None,
     grating_separation: float = 127.0,
     bend_radius_loopback: Optional[float] = None,
-    gc_port_name: str = 1,
+    gc_port_name: str = "o1",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend_factory: ComponentFactory = bend_euler,
@@ -85,7 +85,7 @@ def add_gratings_and_loopback(
         layer_label:
         component_name:
         with_loopback: If True, add compact loopback alignment ports
-        nlabels_loopback: number of labels of align ports (0: no labels, 1: first port, 2: both ports2)
+        nlabels_loopback: number of ports to label (0: no labels, 1: first port, 2: both ports)
         cross_section:
         **kwargs: cross_section settings
     """

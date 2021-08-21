@@ -3,11 +3,9 @@ info: {}
 module: gdsfactory.components.array_with_via
 name: array_with_via
 settings:
-  bend_port_name: 2
-  component_port_name: S
+  component_port_name: e4
   end_straight: 60
   n: 3
   pitch: 150
-  radius: 5
   via_stack_y_offset: -44
   waveguide_pitch: 10

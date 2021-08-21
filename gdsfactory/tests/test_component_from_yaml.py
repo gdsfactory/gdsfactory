@@ -25,7 +25,7 @@ instances:
         length: 0.5
 
 connections:
-    wgw,1: wgn,2
+    wgw,o1: wgn,o2
 
 """
 
@@ -57,10 +57,10 @@ instances:
 placements:
     b:
         mirror: True
-        port: 1
+        port: o1
 
 connections:
-    b,1: s,2
+    b,o1: s,o2
 
 """
 
@@ -100,8 +100,8 @@ placements:
 routes:
     optical:
         links:
-            mmi_bottom,4: mmi_top,1
-            mmi_bottom,3: mmi_top,2
+            mmi_bottom,o4: mmi_top,o1
+            mmi_bottom,o3: mmi_top,o2
 
         settings:
             layer: [2, 0]
@@ -114,7 +114,7 @@ def test_connections_2x2() -> Component:
     assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)
 
-    length = c.routes["mmi_bottom,3:mmi_top,2"]
+    length = c.routes["mmi_bottom,o3:mmi_top,o2"]
     assert np.isclose(length, 166.098), length
     return c
 
@@ -152,13 +152,13 @@ routes:
             layer: [31, 0]
             width: 10
         links:
-            tl,3: tr,1
-            bl,3: br,1
+            tl,e3: tr,e1
+            bl,e3: br,e1
     optical:
         settings:
             radius: 100
         links:
-            bl,4: br,3
+            bl,e4: br,e3
 
 """
 
@@ -167,9 +167,9 @@ def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
     lengths = [693.598, 693.598, 1204.013]
 
-    assert np.isclose(c.routes["tl,3:tr,1"], lengths[0]), c.routes["tl,3:tr,1"]
-    assert np.isclose(c.routes["bl,3:br,1"], lengths[1]), c.routes["bl,3:br,1"]
-    assert np.isclose(c.routes["bl,4:br,3"], lengths[2]), c.routes["bl,4:br,3"]
+    assert np.isclose(c.routes["tl,e3:tr,e1"], lengths[0]), c.routes["tl,e3:tr,e1"]
+    assert np.isclose(c.routes["bl,e3:br,e1"], lengths[1]), c.routes["bl,e3:br,e1"]
+    assert np.isclose(c.routes["bl,e4:br,e3"], lengths[2]), c.routes["bl,e4:br,e3"]
 
     return c
 
@@ -207,8 +207,8 @@ routes:
             radius: 10
             extra_length: 500
         links:
-            tl,3: tr,1
-            bl,3: br,1
+            tl,e3: tr,e1
+            bl,e3: br,e1
 
 """
 
@@ -217,8 +217,8 @@ def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
     length = 1720.794
-    assert np.isclose(c.routes["tl,3:tr,1"], length), f"{c.routes['tl,3:tr,1']}"
-    assert np.isclose(c.routes["bl,3:br,1"], length)
+    assert np.isclose(c.routes["tl,e3:tr,e1"], length), c.routes["tl,e3:tr,e1"]
+    assert np.isclose(c.routes["bl,e3:br,e1"], length), c.routes["bl,e3:br,e1"]
     return c
 
 
@@ -230,12 +230,12 @@ instances:
       component: pad_array
       settings:
           port_names:
-            - 4
+            - e4
     b:
       component: pad_array
       settings:
           port_names:
-            - 2
+            - e2
 
 placements:
     t:
@@ -252,8 +252,8 @@ routes:
                 - [-250, 400]
             auto_widen: False
         links:
-            b,2_0: t,4_0
-            b,2_1: t,4_1
+            b,e2_0: t,e4_0
+            b,e2_1: t,e4_1
 """
 
 
@@ -274,19 +274,19 @@ instances:
 
 placements:
     mmi_top:
-        port: 1
+        port: o1
         x: 0
         y: 0
     mmi_bot:
-        port: 1
-        x: mmi_top,2
-        y: mmi_top,2
+        port: o1
+        x: mmi_top,o2
+        y: mmi_top,o2
         dx: 40
         dy: -40
 routes:
     optical:
         links:
-            mmi_top,3: mmi_bot,1
+            mmi_top,o3: mmi_bot,o1
 """
 
 
@@ -313,7 +313,7 @@ placements:
 routes:
     optical:
         links:
-            left,1:3: right,1:3
+            left,o1:3: right,o1:3
 """
 
 sample_regex_connections_backwards = """
@@ -339,13 +339,13 @@ placements:
 routes:
     optical:
         links:
-            left,3:1: right,3:1
+            left,o3:1: right,o3:1
 """
 
 
 def test_connections_regex() -> Component:
     c = component_from_yaml(sample_regex_connections)
-    route_names = ["left,1:right,1", "left,2:right,2", "left,3:right,3"]
+    route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
     for route_name in route_names:
@@ -355,7 +355,7 @@ def test_connections_regex() -> Component:
 
 def test_connections_regex_backwargs() -> Component:
     c = component_from_yaml(sample_regex_connections_backwards)
-    route_names = ["left,1:right,1", "left,2:right,2", "left,3:right,3"]
+    route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
     for route_name in route_names:
@@ -367,14 +367,14 @@ def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
     length = 1937.196
-    route_name = "b,2_0:t,4_0"
+    route_name = "b,e2_0:t,e4_0"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
 
 def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
-    route_name = "mmi_top,3:mmi_bot,1"
+    route_name = "mmi_top,o3:mmi_bot,o1"
     length = 72.348
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
@@ -396,13 +396,13 @@ instances:
 
 placements:
     mmi_short:
-        port: 1
-        x: mmi_long,2
-        y: mmi_long,2
+        port: o1
+        x: mmi_long,o2
+        y: mmi_long,o2
     mmi_long:
-        port: 1
-        x: mmi_short,2
-        y: mmi_short,2
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
         dx : 10
         dy: 20
 """
@@ -433,11 +433,11 @@ instances:
 
 placements:
     mmi_short:
-        port: 3
+        port: o3
         x: 0
         y: 0
     mmi_long:
-        port: 1
+        port: o1
         x: mmi_short,east
         y: mmi_short,north
         dx : 10
@@ -548,7 +548,7 @@ def _demo_netlist():
 if __name__ == "__main__":
     # c = component_from_yaml(sample_2x2_connections)
     # c = component_from_yaml(sample_different_factory)
-    c = test_sample()
+    # c = test_sample()
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
@@ -566,7 +566,7 @@ if __name__ == "__main__":
     # c = test_netlists("sample_waypoints", True, None, False)
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
-    # c = component_from_yaml(sample_mirror_simple)
+    c = component_from_yaml(sample_mirror_simple)
     # c = component_from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
 

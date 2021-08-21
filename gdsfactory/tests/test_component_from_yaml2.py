@@ -12,15 +12,15 @@ instances:
         length_mmi: 5
 placements:
     mmi_long:
-        port: 1
+        port: o1
         x: 20
         y: 10
         mirror: True
 
 ports:
-    1: mmi_long,3
-    2: mmi_long,2
-    3: mmi_long,1
+    o1: mmi_long,o3
+    o2: mmi_long,o2
+    o3: mmi_long,o1
 """
 
 
@@ -37,9 +37,9 @@ placements:
         y: 0
         mirror: 25
 ports:
-    1: mmi_long,3
-    2: mmi_long,2
-    3: mmi_long,1
+    o1: mmi_long,o3
+    o2: mmi_long,o2
+    o3: mmi_long,o1
 """
 
 
@@ -52,14 +52,14 @@ instances:
         length_mmi: 5
 placements:
     mmi_long:
-        port: 1
+        port: o1
         x: 10
         y: 20
         rotation: 90
 ports:
-    1: mmi_long,3
-    2: mmi_long,2
-    3: mmi_long,1
+    o1: mmi_long,o3
+    o2: mmi_long,o2
+    o3: mmi_long,o1
 """
 
 dxdy = """
@@ -77,17 +77,17 @@ instances:
 
 placements:
     mmi_short:
-        port: 1
+        port: o1
         x: 0
         y: 0
     mmi_long:
-        port: 1
-        x: mmi_short,2
-        y: mmi_short,2
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
         dx: 10
         dy: -10
 ports:
-    1: mmi_long,3
+    o1: mmi_long,o3
 """
 
 

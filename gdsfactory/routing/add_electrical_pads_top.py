@@ -31,7 +31,7 @@ def add_electrical_pads_top(
     ports = select_ports(component.ports)
     ports = list(ports.values())
     c << component
-    pads = c << pad_array(n=len(ports), port_names=(4,), **kwargs)
+    pads = c << pad_array(n=len(ports), port_names=("e4",), **kwargs)
     pads.x = component.x
     pads.ymin = component.ymax + dy
     ports_pads = list(pads.ports.values())

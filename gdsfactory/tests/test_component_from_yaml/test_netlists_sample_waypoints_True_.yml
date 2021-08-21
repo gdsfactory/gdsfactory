@@ -1,20 +1,20 @@
 connections:
-  bend_euler_1fc94be7_154p875_145p125,1: straight_e337bb52_150p0_95p0,2
-  bend_euler_1fc94be7_154p875_145p125,2: straight_17e858d1_350p0_150p0,1
-  bend_euler_1fc94be7_395p125_304p875,1: straight_17e858d1_200p0_300p0,2
-  bend_euler_1fc94be7_395p125_304p875,2: straight_bd897036_400p0_350p0,1
-  bend_euler_1fc94be7_395p125_395p125,1: straight_bd897036_400p0_350p0,2
-  bend_euler_1fc94be7_395p125_395p125,2: straight_1c023494_75p0_400p0,1
-  bend_euler_1fc94be7_4p875_295p125,1: straight_c713d6a6_0p0_170p0,2
-  bend_euler_1fc94be7_4p875_295p125,2: straight_17e858d1_200p0_300p0,1
-  bend_euler_1fc94be7_545p125_154p875,1: straight_17e858d1_350p0_150p0,2
-  bend_euler_1fc94be7_545p125_154p875,2: straight_17e858d1_550p0_350p0,1
-  bend_euler_1fc94be7_545p125_545p125,1: straight_17e858d1_550p0_350p0,2
-  bend_euler_1fc94be7_545p125_545p125,2: straight_1c023494_225p0_550p0,1
-  bend_euler_1fc94be7_m245p125_404p875,1: straight_1c023494_75p0_400p0,2
-  bend_euler_1fc94be7_m245p125_404p875,2: straight_731f4c7c_m250p0_680p0,1
-  bend_euler_1fc94be7_m95p125_554p875,1: straight_1c023494_225p0_550p0,2
-  bend_euler_1fc94be7_m95p125_554p875,2: straight_ea13adb3_m100p0_755p0,1
+  bend_euler_1fc94be7_154p875_145p125,o1: straight_e337bb52_150p0_95p0,o2
+  bend_euler_1fc94be7_154p875_145p125,o2: straight_17e858d1_350p0_150p0,o1
+  bend_euler_1fc94be7_395p125_304p875,o1: straight_17e858d1_200p0_300p0,o2
+  bend_euler_1fc94be7_395p125_304p875,o2: straight_bd897036_400p0_350p0,o1
+  bend_euler_1fc94be7_395p125_395p125,o1: straight_bd897036_400p0_350p0,o2
+  bend_euler_1fc94be7_395p125_395p125,o2: straight_1c023494_75p0_400p0,o1
+  bend_euler_1fc94be7_4p875_295p125,o1: straight_c713d6a6_0p0_170p0,o2
+  bend_euler_1fc94be7_4p875_295p125,o2: straight_17e858d1_200p0_300p0,o1
+  bend_euler_1fc94be7_545p125_154p875,o1: straight_17e858d1_350p0_150p0,o2
+  bend_euler_1fc94be7_545p125_154p875,o2: straight_17e858d1_550p0_350p0,o1
+  bend_euler_1fc94be7_545p125_545p125,o1: straight_17e858d1_550p0_350p0,o2
+  bend_euler_1fc94be7_545p125_545p125,o2: straight_1c023494_225p0_550p0,o1
+  bend_euler_1fc94be7_m245p125_404p875,o1: straight_1c023494_75p0_400p0,o2
+  bend_euler_1fc94be7_m245p125_404p875,o2: straight_731f4c7c_m250p0_680p0,o1
+  bend_euler_1fc94be7_m95p125_554p875,o1: straight_1c023494_225p0_550p0,o2
+  bend_euler_1fc94be7_m95p125_554p875,o2: straight_ea13adb3_m100p0_755p0,o1
 instances:
   b:
     component: pad_array
@@ -24,7 +24,7 @@ instances:
       pad_settings: null
       pitch: 150
       port_names:
-      - 2
+      - e2
   bend_euler_1fc94be7_154p875_145p125:
     component: bend_euler
     settings:
@@ -219,7 +219,7 @@ instances:
       pad_settings: null
       pitch: 150
       port_names:
-      - 4
+      - e4
 name: sample_waypoints
 placements:
   b:

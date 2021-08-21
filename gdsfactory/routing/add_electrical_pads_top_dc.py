@@ -24,27 +24,27 @@ def add_electrical_pads_top_dc(
         **kwargs: cross-section settings
     """
     c = Component()
-    ports = select_ports(component.ports)
-    ports = list(ports.values())
-    for port in ports:
+
+    cref = c << component
+    ports = select_ports(cref.ports)
+    ports_component = list(ports.values())
+    for port in ports_component:
         port.orientation = 90
 
-    c << component
     pads = c << pad_array(n=len(ports))
-    pads.x = component.x
-    pads.ymin = component.ymax + dy
+    pads.x = cref.x
+    pads.ymin = cref.ymax + dy
 
     ports_pads = list(pads.ports.values())
-
-    ports = sort_ports_x(ports)
+    ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
     routes = get_bundle(ports, ports_pads, **kwargs)
     for route in routes:
         c.add(route.references)
 
-    c.ports = component.ports.copy()
-    for port in ports:
+    c.add_ports(cref.ports)
+    for port in ports_component:
         c.ports.pop(port.name)
     return c
 

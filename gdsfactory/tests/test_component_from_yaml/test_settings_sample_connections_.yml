@@ -1,9 +1,9 @@
 info:
   instances:
-    wgn: DeviceReference (parent Device "straight_L500n", ports [1, 2], origin (0,
-      0), rotation 0, x_reflection False)
-    wgw: DeviceReference (parent Device "straight_L1", ports [1, 2], origin [0.5 0.
-      ], rotation 0, x_reflection False)
+    wgn: DeviceReference (parent Device "straight_L500n", ports ['o1', 'o2'], origin
+      (0, 0), rotation 0, x_reflection False)
+    wgw: DeviceReference (parent Device "straight_L1", ports ['o1', 'o2'], origin
+      [0.5 0. ], rotation 0, x_reflection False)
   routes: {}
 name: sample_connections
 settings: {}

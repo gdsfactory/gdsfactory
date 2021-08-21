@@ -1,15 +1,15 @@
 info:
   instances:
-    bl: DeviceReference (parent Device "pad", ports [2, 4, 3, 1], origin (0, 0), rotation
-      0, x_reflection False)
-    br: DeviceReference (parent Device "pad", ports [2, 4, 3, 1], origin [900. 400.],
-      rotation 0, x_reflection False)
-    tl: DeviceReference (parent Device "pad", ports [2, 4, 3, 1], origin [  0. 200.],
-      rotation 0, x_reflection False)
-    tr: DeviceReference (parent Device "pad", ports [2, 4, 3, 1], origin [900. 600.],
-      rotation 0, x_reflection False)
+    bl: DeviceReference (parent Device "pad", ports ['e1', 'e2', 'e3', 'e4'], origin
+      (0, 0), rotation 0, x_reflection False)
+    br: DeviceReference (parent Device "pad", ports ['e1', 'e2', 'e3', 'e4'], origin
+      [900. 400.], rotation 0, x_reflection False)
+    tl: DeviceReference (parent Device "pad", ports ['e1', 'e2', 'e3', 'e4'], origin
+      [  0. 200.], rotation 0, x_reflection False)
+    tr: DeviceReference (parent Device "pad", ports ['e1', 'e2', 'e3', 'e4'], origin
+      [900. 600.], rotation 0, x_reflection False)
   routes:
-    bl,3:br,1: 1720.794
-    tl,3:tr,1: 1720.794
+    bl,e3:br,e1: 1720.794
+    tl,e3:tr,e1: 1720.794
 name: sample_path_length_matching
 settings: {}
