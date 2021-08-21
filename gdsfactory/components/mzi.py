@@ -24,7 +24,7 @@ def mzi(
     with_splitter: bool = True,
     splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
     combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
-    layer: Layer = (1, 0),
+    layer: Optional[Layer] = None,
     **kwargs,
 ) -> Component:
     """Mzi.
@@ -83,6 +83,11 @@ def mzi(
 
     c1map = cin.ports_layer
     c2map = cout.ports_layer
+
+    layer = layer or cin.get_ports_list()[0].layer
+
+    if layer not in cp1.layers:
+        raise ValueError(f"{layer} not in {cp1.layers}")
 
     cp1_e1_port_name = c1map[f"{layer[0]}_{layer[1]}_E1"]
     cp1_e0_port_name = c1map[f"{layer[0]}_{layer[1]}_E0"]

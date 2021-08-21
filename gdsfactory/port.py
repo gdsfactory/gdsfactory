@@ -264,6 +264,92 @@ def csv2port(csvpath) -> Dict[str, Port]:
     return ports
 
 
+def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
+    """
+
+    .. code::
+
+             3   4
+             |___|_
+         2 -|      |- 5
+            |      |
+         1 -|______|- 6
+             |   |
+             8   7
+    """
+    port_list = list(ports.values())
+    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+
+    for p in port_list:
+        angle = p.orientation % 360
+        if angle <= 45 or angle >= 315:
+            direction_ports["E"].append(p)
+        elif angle <= 135 and angle >= 45:
+            direction_ports["N"].append(p)
+        elif angle <= 225 and angle >= 135:
+            direction_ports["W"].append(p)
+        else:
+            direction_ports["S"].append(p)
+
+    east_ports = direction_ports["E"]
+    east_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+    north_ports = direction_ports["N"]
+    north_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+    west_ports = direction_ports["W"]
+    west_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+    south_ports = direction_ports["S"]
+    south_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+    ports = west_ports + north_ports + east_ports + south_ports
+    return {port.name: port for port in ports}
+
+
+def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
+    """
+
+    .. code::
+
+             4   3
+             |___|_
+         5 -|      |- 2
+            |      |
+         6 -|______|- 1
+             |   |
+             7   8
+    """
+    port_list = list(ports.values())
+    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+
+    for p in port_list:
+        angle = p.orientation % 360
+        if angle <= 45 or angle >= 315:
+            direction_ports["E"].append(p)
+        elif angle <= 135 and angle >= 45:
+            direction_ports["N"].append(p)
+        elif angle <= 225 and angle >= 135:
+            direction_ports["W"].append(p)
+        else:
+            direction_ports["S"].append(p)
+
+    east_ports = direction_ports["E"]
+    east_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+    north_ports = direction_ports["N"]
+    north_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+    west_ports = direction_ports["W"]
+    west_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+    south_ports = direction_ports["S"]
+    south_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+    ports = east_ports + north_ports + west_ports + south_ports
+    return {port.name: port for port in ports}
+
+
 def select_ports(
     ports: Dict[str, Port],
     layer: Optional[Tuple[int, int]] = None,
@@ -271,12 +357,17 @@ def select_ports(
     orientation: Optional[int] = None,
     width: Optional[float] = None,
     layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
+    clockwise: bool = True,
 ) -> Dict[str, Port]:
     """
     Args:
         ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
         layer: GDS layer
-        prefix: a prefix
+        prefix: with in port name
+        orientation:
+        width:
+        layers_excluded: List of layers to exclude
+        clockwise: if True, sort ports clockwise, False: counter-clockwise
 
     Returns:
         Dictionary containing only the ports with the wanted type(s)
@@ -307,6 +398,10 @@ def select_ports(
     if width:
         ports = {p_name: p for p_name, p in ports.items() if p.width == width}
 
+    if clockwise:
+        ports = sort_ports_clockwise(ports)
+    else:
+        ports = sort_ports_counter_clockwise(ports)
     return ports
 
 
@@ -413,17 +508,17 @@ def _rename_ports_facing_side_ccw(
             p.name = prefix + direction + str(i)
 
 
-def _rename_ports_counter_clockwise(_direction_ports, prefix=""):
-    east_ports = _direction_ports["E"]
+def _rename_ports_counter_clockwise(direction_ports, prefix=""):
+    east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: +p.y)  # sort south to north
 
-    north_ports = _direction_ports["N"]
+    north_ports = direction_ports["N"]
     north_ports.sort(key=lambda p: -p.x)  # sort east to west
 
-    west_ports = _direction_ports["W"]
+    west_ports = direction_ports["W"]
     west_ports.sort(key=lambda p: -p.y)  # sort north to south
 
-    south_ports = _direction_ports["S"]
+    south_ports = direction_ports["S"]
     south_ports.sort(key=lambda p: +p.x)  # sort west to east
 
     ports = east_ports + north_ports + west_ports + south_ports
@@ -432,17 +527,17 @@ def _rename_ports_counter_clockwise(_direction_ports, prefix=""):
         p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise(_direction_ports, prefix: str = ""):
-    east_ports = _direction_ports["E"]
+def _rename_ports_clockwise(direction_ports, prefix: str = ""):
+    east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
-    north_ports = _direction_ports["N"]
+    north_ports = direction_ports["N"]
     north_ports.sort(key=lambda p: +p.x)  # sort west to east
 
-    west_ports = _direction_ports["W"]
+    west_ports = direction_ports["W"]
     west_ports.sort(key=lambda p: +p.y)  # sort south to north
 
-    south_ports = _direction_ports["S"]
+    south_ports = direction_ports["S"]
     south_ports.sort(key=lambda p: -p.x)  # sort east to west
 
     ports = west_ports + north_ports + east_ports + south_ports
