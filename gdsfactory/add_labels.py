@@ -178,10 +178,10 @@ def test_optical_labels() -> Component:
 def test_electrical_labels() -> Component:
     c = gf.components.wire_straight()
     label1 = get_input_label_electrical(
-        port=c.ports["o1"], layer_label=gf.LAYER.LABEL, gc_index=0
+        port=c.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
     )
     label2 = get_input_label_electrical(
-        port=c.ports["o2"], layer_label=gf.LAYER.LABEL, gc_index=1
+        port=c.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
     add_labels(component=c, get_label_function=get_input_label_electrical)
     labels_text = [c.labels[0].text, c.labels[1].text]

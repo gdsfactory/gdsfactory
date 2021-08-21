@@ -11,7 +11,7 @@ def test_get_bundle_udirect(
     c = gf.Component("test_get_bundle_udirect")
     w = h = 10
     pad_south = gf.components.pad_array(
-        port_names=[4], pitch=15.0, pad_settings=dict(width=w, height=h)
+        port_names=["e4"], pitch=15.0, pad_settings=dict(width=w, height=h)
     )
     pt = c << pad_south
     pb = c << pad_south

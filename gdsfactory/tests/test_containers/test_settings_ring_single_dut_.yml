@@ -31,4 +31,4 @@ settings:
   length_y: 0
   radius: 5
   wg_width: 0.5
-  with_dut: true
+  with_component: true

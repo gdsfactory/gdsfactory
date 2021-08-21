@@ -12,7 +12,7 @@ instances:
       component: bezier
 
 connections:
-    bend,1: mmi,2
+    bend,o1: mmi,o2
 
 """
 

@@ -27,4 +27,3 @@ settings:
         with_undercut: false
       straight_vertical: null
       with_splitter: true
-  rename_ports: true

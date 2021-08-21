@@ -85,6 +85,7 @@ from gdsfactory.components.pcm.litho_calipers import litho_calipers
 from gdsfactory.components.pcm.litho_steps import litho_steps
 from gdsfactory.components.pcm.verniers import verniers
 from gdsfactory.components.litho_ruler import litho_ruler
+from gdsfactory.components.ring_single_dut import ring_single_dut
 
 
 from gdsfactory.components.grating_coupler.elliptical import (
@@ -273,6 +274,7 @@ LIBRARY.register(
         ring_double,
         ring_single,
         ring_single_array,
+        ring_single_dut,
         spiral,
         spiral_circular,
         spiral_external_io,

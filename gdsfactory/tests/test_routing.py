@@ -17,8 +17,7 @@ def test_route_manhattan_circular():
         route = route_manhattan(ports1[i], ports2[i], radius=5, bendType="circular")
         # references = route_basic(port1=ports1[i], port2=ports2[i])
         c.add(route.references)
-    print(route.length)
-    assert route.length == 28.708
+    assert route.length == 30.708, route.length
     difftest(c)
     return c
 

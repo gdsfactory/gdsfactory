@@ -60,7 +60,7 @@ def add_fiber_array(
 
         c = gf.components.crossing()
         cc = gf.routing.add_fiber_array(
-            component=c,
+            component=component,
             optical_routing_type=2,
             grating_coupler=gf.components.grating_coupler_elliptical_te,
         )
@@ -71,9 +71,8 @@ def add_fiber_array(
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
-    c = component
-    if not c.ports:
-        return c
+    if not component.ports:
+        return component
 
     if isinstance(grating_coupler, list):
         gc = grating_coupler[0]
@@ -84,16 +83,16 @@ def add_fiber_array(
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
 
-    component_name = component_name or c.name
-    cc = Component()
+    component_name = component_name or component.name
+    component_new = Component()
 
-    optical_ports = select_ports(c.ports)
+    optical_ports = select_ports(component.ports)
     optical_ports_names = list(optical_ports.keys())
     if not optical_ports:
-        return c
+        return component
 
     elements, io_gratings_lines, _ = route_fiber_array(
-        component=c,
+        component=component,
         grating_coupler=grating_coupler,
         bend_factory=bend_factory,
         straight_factory=straight_factory,
@@ -104,27 +103,27 @@ def add_fiber_array(
         **kwargs,
     )
     if len(elements) == 0:
-        return c
+        return component
 
     for e in elements:
-        cc.add(e)
+        component_new.add(e)
     for io_gratings in io_gratings_lines:
-        cc.add(io_gratings)
-    cc.add(c.ref())
-    cc.move(origin=io_gratings_lines[0][0].ports[gc_port_name], destination=(0, 0))
+        component_new.add(io_gratings)
 
-    for pname, p in c.ports.items():
+    component_new.add_ref(component)
+
+    for pname, p in component.ports.items():
         if p.name not in optical_ports_names:
-            cc.add_port(pname, port=p)
+            component_new.add_port(pname, port=p)
 
     for i, io_row in enumerate(io_gratings_lines):
         for j, io in enumerate(io_row):
             ports = io.get_ports_list(prefix="vertical")
             if ports:
                 port = ports[0]
-                cc.add_port(f"{port.name}_{i}{j}", port=port)
+                component_new.add_port(f"{port.name}_{i}{j}", port=port)
 
-    return cc
+    return component_new
 
 
 def demo_te_and_tm():

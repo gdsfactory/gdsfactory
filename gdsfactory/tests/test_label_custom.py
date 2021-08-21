@@ -20,8 +20,8 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    assert l0 == f"opt_te_1530_({CUSTOM_LABEL})_0_1", l0
-    assert l1 == f"opt_te_1530_({CUSTOM_LABEL})_1_2", l1
+    assert l0 == f"opt_te_1530_({CUSTOM_LABEL})_0_o1", l0
+    assert l1 == f"opt_te_1530_({CUSTOM_LABEL})_1_o2", l1
     return cte
 
 

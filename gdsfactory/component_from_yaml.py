@@ -590,66 +590,39 @@ def component_from_yaml(
             links_dict = routes_dict["links"]
 
             for port_src_string, port_dst_string in links_dict.items():
-                # print(port_src_string)
 
                 if ":" in port_src_string:
-                    srcs = [s.strip() for s in port_src_string.split(":")]
-                    dsts = [s.strip() for s in port_dst_string.split(":")]
+                    src, src0, src1 = [s.strip() for s in port_src_string.split(":")]
+                    dst, dst0, dst1 = [s.strip() for s in port_dst_string.split(":")]
+                    instance_src_name, port_src_name = [
+                        s.strip() for s in src.split(",")
+                    ]
+                    instance_dst_name, port_dst_name = [
+                        s.strip() for s in dst.split(",")
+                    ]
 
-                    if len(srcs) == 3:
-                        src, src0, src1 = srcs
-                        dst, dst0, dst1 = dsts
-                        instance_src_name, port_src_name = [
-                            s.strip() for s in src.split(",")
+                    src0 = int(src0)
+                    src1 = int(src1)
+                    dst0 = int(dst0)
+                    dst1 = int(dst1)
+
+                    if src1 > src0:
+                        ports1names = [
+                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
                         ]
-                        instance_dst_name, port_dst_name = [
-                            s.strip() for s in dst.split(",")
+                    else:
+                        ports1names = [
+                            f"{port_src_name}{i}" for i in range(src0, src1 - 1, -1)
                         ]
 
-                        src0 = int(src0)
-                        src1 = int(src1)
-                        dst0 = int(dst0)
-                        dst1 = int(dst1)
-
-                        if src1 > src0:
-                            ports1names = [
-                                f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
-                            ]
-                        else:
-                            ports1names = [
-                                f"{port_src_name}{i}" for i in range(src0, src1 - 1, -1)
-                            ]
-
-                        if dst1 > dst0:
-                            ports2names = [
-                                f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
-                            ]
-                        else:
-                            ports2names = [
-                                f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
-                            ]
-
-                    # case for which component ports are just numbers (not recommended)
-                    elif len(srcs) == 2:
-                        src, src1 = srcs
-                        dst, dst1 = dsts
-                        instance_src_name, src0 = [s.strip() for s in src.split(",")]
-                        instance_dst_name, dst0 = [s.strip() for s in dst.split(",")]
-
-                        src0 = int(src0)
-                        src1 = int(src1)
-                        dst0 = int(dst0)
-                        dst1 = int(dst1)
-
-                        if src1 > src0:
-                            ports1names = range(src0, src1 + 1, 1)
-                        else:
-                            ports1names = range(src0, src1 - 1, -1)
-
-                        if dst1 > dst0:
-                            ports2names = range(dst0, dst1 + 1, 1)
-                        else:
-                            ports2names = range(dst0, dst1 - 1, -1)
+                    if dst1 > dst0:
+                        ports2names = [
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                        ]
+                    else:
+                        ports2names = [
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
+                        ]
 
                     assert len(ports1names) == len(ports2names)
                     route_names += [
