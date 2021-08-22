@@ -115,14 +115,18 @@ def extend_ports(
 
         if port_name in ports_to_extend:
 
-            def extension_factory_default(length=length, width=port.width):
-                return gf.components.hline(length=length, width=width, layer=port.layer)
+            def extension_factory_default(
+                length=length, width=port.width, port_type=port.port_type
+            ):
+                return gf.components.hline(
+                    length=length, width=width, layer=port.layer, port_type=port_type
+                )
 
             if extension_factory:
                 extension_component = extension_factory()
             else:
                 extension_component = extension_factory_default(
-                    length=length, width=port.width
+                    length=length, width=port.width, port_type=port.port_type
                 )
             port_labels = list(extension_component.ports.keys())
             port1 = port1 or port_labels[0]

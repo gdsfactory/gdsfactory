@@ -78,6 +78,7 @@ def add_ports_from_markers_center(
     xcenter: Optional[float] = None,
     ycenter: Optional[float] = None,
     port_name_prefix: str = "",
+    port_type: str = "optical",
 ) -> None:
     """add ports from polygons in certain layers
 
@@ -227,6 +228,7 @@ def add_ports_from_markers_center(
                 width=width,
                 orientation=orientation,
                 layer=layer,
+                port_type=port_type,
             )
 
     ports = sort_ports_clockwise(ports)
