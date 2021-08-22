@@ -12,14 +12,95 @@ from typing import Optional
 
 import numpy as np
 import phidl.path as path
-from phidl.device_layout import CrossSection, Path, _simplify
+from phidl.device_layout import Path, _simplify
 from phidl.path import smooth as smooth_phidl
-from phidl.path import transition
 
 from gdsfactory.component import Component
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Coordinates, CrossSectionOrFactory, Number, PathFactory
+
+
+def _sinusoidal_transition(y1, y2):
+    dx = y2 - y1
+    return lambda t: y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+
+
+def _linear_transition(y1, y2):
+    dx = y2 - y1
+    return lambda t: y1 + t * dx
+
+
+def transition(
+    cross_section1: CrossSection, cross_section2: CrossSection, width_type: str = "sine"
+) -> CrossSection:
+    """Creates a CrossSection that smoothly transitions between two input
+    CrossSections. Only cross-sectional elements that have the `name` (as in
+    X.add(..., name = 'wg') ) parameter specified in both input CrosSections
+    will be created. Port names will be cloned from the input CrossSections in
+    reverse.
+    adapted from phidl.path
+
+    Args:
+    cross_section1: First input CrossSection
+    cross_section2: Second input CrossSection
+    width_type: {'sine', 'linear'}
+        Sets the type of width transition used if any widths are different
+        between the two input CrossSections.
+
+    Returns A smoothly-transitioning CrossSection
+    """
+
+    X1 = cross_section1
+    X2 = cross_section2
+    Xtrans = CrossSection()
+
+    if not X1.aliases or not X2.aliases:
+        raise ValueError(
+            """transition() found no named sections in one
+        or both inputs (cross_section1/cross_section2)."""
+        )
+
+    for alias in X1.aliases.keys():
+        if alias in X2.aliases:
+
+            offset1 = X1[alias]["offset"]
+            offset2 = X2[alias]["offset"]
+            width1 = X1[alias]["width"]
+            width2 = X2[alias]["width"]
+
+            if callable(offset1):
+                offset1 = offset1(1)
+            if callable(offset2):
+                offset2 = offset2(0)
+            if callable(width1):
+                width1 = width1(1)
+            if callable(width2):
+                width2 = width2(0)
+
+            offset_fun = _sinusoidal_transition(offset1, offset2)
+
+            if width_type == "sine":
+                width_fun = _sinusoidal_transition(width1, width2)
+            elif width_type == "linear":
+                width_fun = _linear_transition(width1, width2)
+            else:
+                raise ValueError(
+                    "transition() width_type "
+                    + "argument must be one of {'sine','linear'}"
+                )
+
+            Xtrans.add(
+                width=width_fun,
+                offset=offset_fun,
+                layer=X1[alias]["layer"],
+                ports=(X2[alias]["ports"][0], X1[alias]["ports"][1]),
+                port_types=(X2[alias]["port_types"][0], X1[alias]["port_types"][1]),
+                name=alias,
+            )
+
+    return Xtrans
 
 
 def extrude(
@@ -32,6 +113,8 @@ def extrude(
     A path can be extruded using any CrossSection returning a Component
 
     The CrossSection defines the layer numbers, widths and offsetts
+
+    adapted from phidl.path
 
     Args:
         p: a path is a list of points (arc, straight, euler)
@@ -51,6 +134,7 @@ def extrude(
         offset = section["offset"]
         layer = section["layer"]
         ports = section["ports"]
+        port_types = section["port_types"]
 
         if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
@@ -133,14 +217,14 @@ def extrude(
 
         # Add ports if they were specified
         if ports[0] is not None:
-            new_port = c.add_port(name=ports[0], layer=layer)
+            new_port = c.add_port(name=ports[0], layer=layer, port_type=port_types[0])
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
-            new_port = c.add_port(name=ports[1], layer=layer)
+            new_port = c.add_port(name=ports[1], layer=layer, port_type=port_types[1])
             new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))
-    c.name = f"path_{hash_points(points)}"
+    c.name = f"path_{hash_points(points)[:26]}"
     # c.path = path
     # c.cross_section = cross_section
     return c

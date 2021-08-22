@@ -8,12 +8,76 @@ from functools import partial
 from typing import Iterable, Optional, Tuple
 
 import pydantic
-from phidl.device_layout import CrossSection
+from phidl.device_layout import CrossSection as CrossSectionPhidl
 
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
+
+
+class CrossSection(CrossSectionPhidl):
+    def add(
+        self,
+        width=1,
+        offset=0,
+        layer=0,
+        ports=(None, None),
+        name=None,
+        port_types: Tuple[str, str] = ("optical", "optical"),
+    ):
+        """Adds a cross-sectional element to the CrossSection.  If ports are
+        specified, when creating a Device with the extrude() command there be
+        have Ports at the ends.
+
+        Args:
+            width: Width of the segment
+        offset: Offset of the segment (positive values = right hand side)
+        layer: The polygon layer to put the segment on
+        ports: If not None, specifies the names for the ports at the ends of the
+            cross-sectional element
+        name: Name of the cross-sectional element for later access
+        port_types: port of the cross types
+        """
+        if isinstance(width, (float, int)) and (width <= 0):
+            raise ValueError("CrossSection.add(): widths must be >0")
+        if len(ports) != 2:
+            raise ValueError("CrossSection.add(): must receive 2 port names")
+        for p in ports:
+            if p in self.ports:
+                raise ValueError(
+                    f"CrossSection.add(): a port named {p} already "
+                    "exists in this CrossSection, please rename port"
+                )
+        if name in self.aliases:
+            raise ValueError(
+                'CrossSection.add(): an element named "%s" already '
+                "exists in this CrossSection, please change the name" % name
+            )
+
+        new_segment = dict(
+            width=width, offset=offset, layer=layer, ports=ports, port_types=port_types
+        )
+
+        if name is not None:
+            self.aliases[name] = new_segment
+        self.sections.append(new_segment)
+        [self.ports.add(p) for p in ports if p is not None]
+
+        return self
+
+    def copy(self):
+        """Creates a copy of the CrosSection.
+        Returns A copy of the CrossSection
+
+        """
+        X = CrossSection()
+        X.info = self.info.copy()
+        X.sections = list(self.sections)
+        X.ports = set(self.ports)
+        X.aliases = dict(self.aliases)
+        X.port_types = tuple(self.ports_types)
+        return X
 
 
 @pydantic.validate_arguments
@@ -30,6 +94,7 @@ def cross_section(
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
+    port_types: Tuple[str, str] = ("optical", "optical"),
     min_length: float = 10e-3,
     start_straight: float = 10e-3,
     end_straight_offset: float = 10e-3,
@@ -57,7 +122,7 @@ def cross_section(
     """
 
     x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=port_names)
+    x.add(width=width, offset=0, layer=layer, ports=port_names, port_types=port_types)
 
     sections = sections or []
     for section in sections:
@@ -67,6 +132,7 @@ def cross_section(
                 offset=section["offset"],
                 layer=section["layer"],
                 ports=section["ports"],
+                port_types=section["port_types"],
             )
         else:
             x.add(
@@ -74,6 +140,7 @@ def cross_section(
                 offset=section.offset,
                 layer=section.layer,
                 ports=section.ports,
+                port_types=section.port_types,
             )
 
     x.info = dict(
@@ -92,6 +159,7 @@ def cross_section(
         start_straight=start_straight,
         end_straight_offset=end_straight_offset,
         snap_to_grid=snap_to_grid,
+        port_types=port_types,
     )
     return x
 
@@ -328,9 +396,30 @@ rib = partial(
     cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
 )
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
-metal1 = partial(cross_section, layer=LAYER.M1, width=10.0, port_names=("e1", "e2"))
-metal2 = partial(metal1, layer=LAYER.M2, width=10.0, port_names=("e1", "e2"))
-metal3 = partial(metal1, layer=LAYER.M3, width=10.0, port_names=("e1", "e2"))
+
+port_types_electrical = ("electrical", "electrical")
+port_names_electrical = ("e1", "e2")
+metal1 = partial(
+    cross_section,
+    layer=LAYER.M1,
+    width=10.0,
+    port_names=port_types_electrical,
+    port_types=port_types_electrical,
+)
+metal2 = partial(
+    metal1,
+    layer=LAYER.M2,
+    width=10.0,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+)
+metal3 = partial(
+    metal1,
+    layer=LAYER.M3,
+    width=10.0,
+    port_names=port_names_electrical,
+    port_types=port_types_electrical,
+)
 
 
 cross_section_factory = dict(

@@ -27,6 +27,7 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
+    c.auto_rename_ports()
     return c
 
 
@@ -34,3 +35,4 @@ if __name__ == "__main__":
 
     c = wire_sbend(width=5)
     c.show(show_ports=True)
+    c.pprint_ports()

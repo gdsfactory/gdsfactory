@@ -1,51 +1,36 @@
 function_name: mzi_arm
 info: {}
-module: gdsfactory.components.mzi2x2
+module: gdsfactory.components.mzi_arm
 name: mzi_arm
 settings:
-  DL: 0
-  L0: 60
-  L_top: 10
-  bend: bend_euler
-  input_port_name: W0
-  output_port_name: E0
-  ports_map:
-    E_0:
-    - H2
-    - E_1
-    E_1:
-    - H1
-    - E_0
-    E_2:
-    - H1
-    - E_1
-    E_3:
-    - H2
-    - E_0
-  sequence: AvHBhBHvA
+  length_x: 0.1
+  length_y_left: 0.8
+  length_y_right: 0.8
+  port_name1: o1
+  port_name2: o2
+  ports_map: null
+  sequence: bLB-BRb
   start_orientation: 0
-  straight: straight
-  straight_heater: straight_with_heater
+  straight_x: null
+  straight_y: null
   symbol_to_component:
-    A:
-    - bend_euler_Wstrip
-    - W0
-    - N0
+    '-':
+    - straight_L100n
+    - o1
+    - o2
     B:
-    - bend_euler_Wstrip
-    - N0
-    - W0
-    H:
-    - straight_with_heater_L60_Wstrip
-    - W0
-    - E0
-    h:
-    - straight_L10_Wstrip
-    - W0
-    - E0
-    v:
-    - null
-    - W0
-    - E0
-  waveguide: strip
-  with_elec_connections: true
+    - bend_euler
+    - o2
+    - o1
+    L:
+    - straight_L800n
+    - o1
+    - o2
+    R:
+    - straight_L800n
+    - o1
+    - o2
+    b:
+    - bend_euler
+    - o1
+    - o2

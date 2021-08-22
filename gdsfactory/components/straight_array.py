@@ -1,7 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import ComponentOrFactory
 
 
@@ -29,12 +28,13 @@ def straight_array(
     for i in range(n):
         wref = c.add_ref(wg)
         wref.y += i * (spacing + wg.width)
-        c.ports["E" + str(i)] = wref.ports["o2"]
-        c.ports["W" + str(i)] = wref.ports["o1"]
-    auto_rename_ports(c)
+        c.add_ports(wref.ports, prefix=str(i))
+
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     c = straight_array()
-    c.show()
+    c.pprint_ports()
+    c.show(show_ports=True)

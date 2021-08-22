@@ -6,4 +6,4 @@ settings:
   layer:
   - 1
   - 0
-  prefix: e
+  port_type: electrical

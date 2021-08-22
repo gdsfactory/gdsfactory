@@ -1,95 +1,9 @@
 connections:
-  bend_euler_17p875_5p5,o1: mmi1x2_0p0_0p0,o2
-  bend_euler_17p875_5p5,o2: straight_L800n_22p75_11p025,o1
-  bend_euler_17p875_m5p5,o1: straight_L800n_22p75_m11p025,o1
-  bend_euler_17p875_m5p5,o2: mmi1x2_0p0_0p0,o3
-  bend_euler_27p625_16p55,o1: straight_L100n_32p8_21p425,o1
-  bend_euler_27p625_16p55,o2: straight_L800n_22p75_11p025,o2
-  bend_euler_27p625_m21p55,o1: straight_L5_22p75_m13p925,o2
-  bend_euler_27p625_m21p55,o2: straight_L100n_32p8_m26p425,o1
-  bend_euler_37p975_16p55,o1: straight_L800n_42p85_11p025,o1
-  bend_euler_37p975_16p55,o2: straight_L100n_32p8_21p425,o2
-  bend_euler_37p975_m21p55,o1: straight_L100n_32p8_m26p425,o2
-  bend_euler_37p975_m21p55,o2: straight_L5_42p85_m13p925,o1
-  bend_euler_47p725_5p5,o1: straight_L800n_42p85_11p025,o2
-  bend_euler_47p725_5p5,o2: mmi1x2_65p6_m0p0,o3
-  bend_euler_47p725_m5p5,o1: mmi1x2_65p6_m0p0,o2
-  bend_euler_47p725_m5p5,o2: straight_L800n_42p85_m11p025,o2
-  straight_L5_22p75_m13p925,o1: straight_L800n_22p75_m11p025,o2
-  straight_L5_42p85_m13p925,o2: straight_L800n_42p85_m11p025,o1
+  mmi1x2_0p0_0p0,o2: mzi_arm_LX100n_LYL800n_LYR800n_32p8_11p025,o1
+  mmi1x2_0p0_0p0,o3: mzi_arm_LX100n_LYL5p8_LYR5p8_32p8_m13p525,o1
+  mmi1x2_65p6_0p0,o2: mzi_arm_LX100n_LYL5p8_LYR5p8_32p8_m13p525,o2
+  mmi1x2_65p6_0p0,o3: mzi_arm_LX100n_LYL800n_LYR800n_32p8_11p025,o2
 instances:
-  bend_euler_17p875_5p5:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_17p875_m5p5:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_27p625_16p55:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_27p625_m21p55:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_37p975_16p55:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_37p975_m21p55:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_47p725_5p5:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
-  bend_euler_47p725_m5p5:
-    component: bend_euler
-    settings:
-      angle: 90
-      direction: ccw
-      npoints: 720
-      p: 1
-      with_arc_floorplan: true
-      with_cladding_box: true
   mmi1x2_0p0_0p0:
     component: mmi1x2
     settings:
@@ -100,7 +14,7 @@ instances:
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
-  mmi1x2_65p6_m0p0:
+  mmi1x2_65p6_0p0:
     component: mmi1x2
     settings:
       gap_mmi: 0.25
@@ -110,146 +24,96 @@ instances:
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
-  straight_L100n_32p8_21p425:
-    component: straight
+  mzi_arm_LX100n_LYL5p8_LYR5p8_32p8_m13p525:
+    component: mzi_arm
     settings:
-      length: 0.1
-      npoints: 2
-      with_cladding_box: true
-  straight_L100n_32p8_m26p425:
-    component: straight
+      length_x: 0.1
+      length_y_left: 5.8
+      length_y_right: 5.8
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      sequence: bLB-BRb
+      start_orientation: 0
+      straight_x: null
+      straight_y: null
+      symbol_to_component:
+        '-':
+        - straight_L100n
+        - o1
+        - o2
+        B:
+        - bend_euler
+        - o2
+        - o1
+        L:
+        - straight_L5p8
+        - o1
+        - o2
+        R:
+        - straight_L5p8
+        - o1
+        - o2
+        b:
+        - bend_euler
+        - o1
+        - o2
+  mzi_arm_LX100n_LYL800n_LYR800n_32p8_11p025:
+    component: mzi_arm
     settings:
-      length: 0.1
-      npoints: 2
-      with_cladding_box: true
-  straight_L5_22p75_m13p925:
-    component: straight
-    settings:
-      length: 5
-      npoints: 2
-      with_cladding_box: true
-  straight_L5_42p85_m13p925:
-    component: straight
-    settings:
-      length: 5
-      npoints: 2
-      with_cladding_box: true
-  straight_L800n_22p75_11p025:
-    component: straight
-    settings:
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-  straight_L800n_22p75_m11p025:
-    component: straight
-    settings:
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-  straight_L800n_42p85_11p025:
-    component: straight
-    settings:
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-  straight_L800n_42p85_m11p025:
-    component: straight
-    settings:
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      sequence: bLB-BRb
+      start_orientation: 0
+      straight_x: null
+      straight_y: null
+      symbol_to_component:
+        '-':
+        - straight_L100n
+        - o1
+        - o2
+        B:
+        - bend_euler
+        - o2
+        - o1
+        L:
+        - straight_L800n
+        - o1
+        - o2
+        R:
+        - straight_L800n
+        - o1
+        - o2
+        b:
+        - bend_euler
+        - o1
+        - o2
 name: mzi
 placements:
-  bend_euler_17p875_5p5:
-    mirror: false
-    rotation: 0
-    x: 12.75
-    y: 0.625
-  bend_euler_17p875_m5p5:
-    mirror: false
-    rotation: 90
-    x: 22.75
-    y: -10.625
-  bend_euler_27p625_16p55:
-    mirror: false
-    rotation: 180
-    x: 32.75
-    y: 21.425
-  bend_euler_27p625_m21p55:
-    mirror: false
-    rotation: 270
-    x: 22.75
-    y: -16.425
-  bend_euler_37p975_16p55:
-    mirror: false
-    rotation: 90
-    x: 42.85
-    y: 11.425
-  bend_euler_37p975_m21p55:
-    mirror: false
-    rotation: 0
-    x: 32.85
-    y: -26.425
-  bend_euler_47p725_5p5:
-    mirror: false
-    rotation: 270
-    x: 42.85
-    y: 10.625
-  bend_euler_47p725_m5p5:
-    mirror: false
-    rotation: 180
-    x: 52.85
-    y: -0.625
   mmi1x2_0p0_0p0:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  mmi1x2_65p6_m0p0:
+  mmi1x2_65p6_0p0:
     mirror: false
     rotation: 180
     x: 65.6
-    y: -0.0
-  straight_L100n_32p8_21p425:
+    y: 0.0
+  mzi_arm_LX100n_LYL5p8_LYR5p8_32p8_m13p525:
+    mirror: true
+    rotation: 0
+    x: 12.75
+    y: -0.625
+  mzi_arm_LX100n_LYL800n_LYR800n_32p8_11p025:
     mirror: false
     rotation: 0
-    x: 32.75
-    y: 21.425
-  straight_L100n_32p8_m26p425:
-    mirror: false
-    rotation: 0
-    x: 32.75
-    y: -26.425
-  straight_L5_22p75_m13p925:
-    mirror: false
-    rotation: 270
-    x: 22.75
-    y: -11.425
-  straight_L5_42p85_m13p925:
-    mirror: false
-    rotation: 90
-    x: 42.85
-    y: -16.425
-  straight_L800n_22p75_11p025:
-    mirror: false
-    rotation: 90
-    x: 22.75
-    y: 10.625
-  straight_L800n_22p75_m11p025:
-    mirror: false
-    rotation: 270
-    x: 22.75
-    y: -10.625
-  straight_L800n_42p85_11p025:
-    mirror: false
-    rotation: 270
-    x: 42.85
-    y: 11.425
-  straight_L800n_42p85_m11p025:
-    mirror: false
-    rotation: 90
-    x: 42.85
-    y: -11.425
+    x: 12.75
+    y: 0.625
 ports:
   o1: mmi1x2_0p0_0p0,o1
-  o2: mmi1x2_65p6_m0p0,o1
+  o2: mmi1x2_65p6_0p0,o1

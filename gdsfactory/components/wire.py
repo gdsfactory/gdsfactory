@@ -37,6 +37,7 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
         width=width,
         orientation=180,
         layer=layer,
+        port_type="electrical",
     )
     c.add_port(
         name="e2",
@@ -44,6 +45,7 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
         width=width,
         orientation=90,
         layer=layer,
+        port_type="electrical",
     )
     c.length = width
     return c
@@ -54,3 +56,4 @@ if __name__ == "__main__":
     c = wire_straight()
     # c = wire_corner()
     c.show(show_ports=True)
+    c.pprint_ports()

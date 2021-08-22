@@ -12,10 +12,10 @@ from gdsfactory.types import ComponentFactory, Layer
 @gf.cell
 def via_stack_with_offset(
     layer_via_width_height_offset: Tuple[
-        Tuple[Layer, Optional[ComponentFactory], float, float, float], ...
+        Tuple[Layer, Optional[ComponentFactory], Tuple[float, float], float], ...
     ] = (
-        (LAYER.Ppp, None, 10.0, 10.0, 0.0),
-        (LAYER.M1, via1, 10.0, 10.0, 0.0),
+        (LAYER.Ppp, None, (10, 10), 0),
+        (LAYER.M1, via1, (10, 10), 0),
     ),
     port_orientation: int = 180,
 ) -> Component:
@@ -25,8 +25,7 @@ def via_stack_with_offset(
         layer_via_width_height_offset:
             layer:
             via: factory
-            width: width
-            height: height
+            size:
             offset: for next layer
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
     """
@@ -34,9 +33,8 @@ def via_stack_with_offset(
     x0 = x1 = y0 = y1 = 0
 
     i = 0
-    for i, (layer, via, width, height, offset) in enumerate(
-        layer_via_width_height_offset
-    ):
+    for i, (layer, via, size, offset) in enumerate(layer_via_width_height_offset):
+        width, height = size
         x0 = -width / 2
         x1 = +width / 2
         y1 = y0 + height
@@ -82,6 +80,7 @@ def via_stack_with_offset(
         width=port_width,
         orientation=port_orientation,
         midpoint=(0, y1),
+        port_type="electrical",
     )
     return c
 
@@ -90,22 +89,22 @@ if __name__ == "__main__":
 
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gf.components.via1, 10, 10, 0),
-            (LAYER.M1, None, 10, 10, 10),
+            (LAYER.Ppp, gf.components.via1, (10, 10), 0),
+            (LAYER.M1, None, (10, 10), 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gf.components.via1, 10, 10, 10),
-            (LAYER.M1, gf.components.via2, 10, 10, 0),
-            (LAYER.M2, None, 10, 10, 10),
+            (LAYER.Ppp, gf.components.via1, (10, 10), 10),
+            (LAYER.M1, gf.components.via2, (10, 10), 0),
+            (LAYER.M2, None, (10, 10), 10),
         )
     )
     c = via_stack_with_offset(
         layer_via_width_height_offset=(
-            (LAYER.Ppp, gf.components.via1, 5, 10, 0),
-            (LAYER.M1, gf.components.via2, 5, 10, 10),
-            (LAYER.M2, gf.components.via3, 5, 10, 0),
+            (LAYER.Ppp, gf.components.via1, (5, 10), 0),
+            (LAYER.M1, gf.components.via2, (5, 10), 10),
+            (LAYER.M2, gf.components.via3, (5, 10), 0),
             # (LAYER.M3, None, 5, 10, 0),
         )
     )

@@ -71,6 +71,7 @@ def via_stack(
         width=width if port_orientation in [90, 270] else height,
         orientation=port_orientation,
         layer=layer,
+        port_type="electrical",
     )
     return c
 

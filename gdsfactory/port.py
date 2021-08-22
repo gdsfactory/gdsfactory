@@ -67,6 +67,7 @@ class Port(PortPhidl):
         orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
+        port_type: str
 
     """
 
@@ -80,6 +81,7 @@ class Port(PortPhidl):
         orientation: int = 0,
         parent: Optional[object] = None,
         layer: Optional[Tuple[int, int]] = None,
+        port_type: str = "optical",
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -89,13 +91,14 @@ class Port(PortPhidl):
         self.info = {}
         self.uid = Port._next_uid
         self.layer = layer
+        self.port_type = port_type
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
         Port._next_uid += 1
 
     def __repr__(self) -> str:
-        return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer})"
+        return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
 
     @classmethod
     def __get_validators__(cls):
@@ -119,6 +122,7 @@ class Port(PortPhidl):
             width=self.width,
             orientation=self.orientation,
             layer=self.layer,
+            port_type=self.port_type,
         )
 
     @property
@@ -162,6 +166,7 @@ class Port(PortPhidl):
             orientation=self.orientation,
             parent=self.parent,
             layer=self.layer,
+            port_type=self.port_type,
         )
         new_port.info = deepcopy(self.info)
         if not new_uid:
@@ -357,6 +362,7 @@ def select_ports(
     orientation: Optional[int] = None,
     width: Optional[float] = None,
     layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
+    port_type: Optional[str] = None,
     clockwise: bool = True,
 ) -> Dict[str, Port]:
     """
@@ -397,6 +403,8 @@ def select_ports(
         }
     if width:
         ports = {p_name: p for p_name, p in ports.items() if p.width == width}
+    if port_type:
+        ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
 
     if clockwise:
         ports = sort_ports_clockwise(ports)
@@ -405,12 +413,8 @@ def select_ports(
     return ports
 
 
-select_ports_optical = partial(
-    select_ports, layers_excluded=((41, 0), (45, 0), (49, 0))
-)
-select_ports_electrical = partial(
-    select_ports, layers_excluded=((1, 0), (2, 0), (34, 0))
-)
+select_ports_optical = partial(select_ports, port_type="optical")
+select_ports_electrical = partial(select_ports, port_type="electrical")
 
 
 def select_ports_list(**kwargs) -> List[Port]:
@@ -593,12 +597,7 @@ def rename_ports_by_orientation(
     component.ports = {p.name: p for p in component.ports.values()}
 
 
-auto_rename_ports = partial(
-    rename_ports_by_orientation, function=_rename_ports_clockwise
-)
-
-
-def auto_rename_ports_prefix_clockwise(
+def auto_rename_ports(
     component: Device,
     function=_rename_ports_clockwise,
     select_ports_optical=select_ports_optical,
@@ -622,11 +621,11 @@ def auto_rename_ports_prefix_clockwise(
     )
 
 
-auto_rename_ports_prefix_counter_clockwise = partial(
-    auto_rename_ports_prefix_clockwise, function=_rename_ports_counter_clockwise
+auto_rename_ports_counter_clockwise = partial(
+    auto_rename_ports, function=_rename_ports_counter_clockwise
 )
-auto_rename_ports_prefix_orientation = partial(
-    auto_rename_ports_prefix_clockwise, function=_rename_ports_facing_side
+auto_rename_ports_orientation = partial(
+    auto_rename_ports, function=_rename_ports_facing_side
 )
 
 
@@ -773,9 +772,8 @@ __all__ = [
     "deco_rename_ports",
     "rename_ports_by_orientation",
     "auto_rename_ports",
-    "auto_rename_ports_prefix_clockwise",
-    "auto_rename_ports_prefix_counter_clockwise",
-    "auto_rename_ports_prefix_orientation",
+    "auto_rename_ports_counter_clockwise",
+    "auto_rename_ports_orientation",
     "map_ports_layer_to_orientation",
 ]
 
@@ -791,5 +789,7 @@ if __name__ == "__main__":
     # m = map_ports_layer_to_orientation(c.ports)
     # pprint(m)
     # c.show()
-    p0 = c.port_by_orientation_cw("E0", width=0.5)
+    # p0 = c.port_by_orientation_cw("E0", width=0.5)
+    # print(p0)
+    p0 = c.get_ports_list(orientation=90, clockwise=False)[0]
     print(p0)

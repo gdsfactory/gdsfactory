@@ -8,7 +8,10 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory.components import circuit_names, component_factory
 
-circuit_names_test = circuit_names - {"component_lattice"}  # set of component names
+circuit_names_test = circuit_names - {
+    "component_lattice",
+    "mzi",
+}  # set of component names
 
 
 @pytest.mark.parametrize(
@@ -85,7 +88,7 @@ if __name__ == "__main__":
     # gf.show(c2)
 
     test_netlists(
-        component_type="ring_single",
+        component_type="mzi",
         full_settings=True,
         data_regression=None,
         check=False,

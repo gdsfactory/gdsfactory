@@ -7,8 +7,8 @@ settings:
   - - - 25
       - 0
     - null
-    - 10
-    - 10
+    - - 10
+      - 10
     - 0
   - - - 41
       - 0
@@ -16,7 +16,7 @@ settings:
       layer:
       - 40
       - 0
-    - 10
-    - 10
+    - - 10
+      - 10
     - 0
   port_orientation: 180

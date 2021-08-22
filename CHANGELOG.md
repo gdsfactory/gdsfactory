@@ -38,6 +38,7 @@ from contracts import contract
 - add Component.auto_rename_ports()
 - add `ports_layer` property to Component and ComponentReference to get a map
 - `Component.show()` `show_ports` and `show_subports` show a container (do not modify original component)
+- add port_types to cross_section
 
 ## 3.0.2
 
