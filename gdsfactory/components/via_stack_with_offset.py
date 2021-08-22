@@ -24,9 +24,9 @@ def via_stack_with_offset(
     Args:
         layer_via_width_height_offset:
             layer:
-            via:
-            width: via_stack width
-            height: height:
+            via: factory
+            width: width
+            height: height
             offset: for next layer
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
     """
@@ -71,30 +71,18 @@ def via_stack_with_offset(
         rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
         c.add_polygon(rect_pts, layer=layer)
 
-    if port_orientation == 0:
-        port_name = 2
-        port_width = height
-    elif port_orientation == 180:
-        port_name = 1
-        port_width = height
-    elif port_orientation == 90:
-        port_name = 2
-        port_width = width
-    elif port_orientation == 270:
-        port_name = "S0"
-        port_width = width
-    else:
+    port_width = height if port_orientation in [0, 180] else width
+
+    if port_orientation not in [0, 90, 270, 180]:
         raise ValueError(
             f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
         )
     c.add_port(
-        name=port_name,
+        name="e1",
         width=port_width,
         orientation=port_orientation,
         midpoint=(0, y1),
     )
-
-    c.auto_rename_ports()
     return c
 
 
@@ -122,6 +110,6 @@ if __name__ == "__main__":
         )
     )
     # c.pprint()
-    c = via_stack_with_offset()
-    print(c)
+    # c = via_stack_with_offset()
+    # print(c)
     c.show()
