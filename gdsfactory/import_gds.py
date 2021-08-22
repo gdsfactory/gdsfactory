@@ -9,13 +9,13 @@ from phidl.device_layout import CellArray, DeviceReference
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.port import auto_rename_ports, read_port_markers
+from gdsfactory.port import (
+    Port,
+    auto_rename_ports,
+    read_port_markers,
+    sort_ports_clockwise,
+)
 from gdsfactory.types import Layer, PathType
-
-
-def add_ports_from_markers_inside(*args, **kwargs) -> None:
-    """markers inside the device"""
-    return add_ports_from_markers_center(inside=True, *args, **kwargs)
 
 
 def add_ports_from_markers_square(
@@ -97,6 +97,7 @@ def add_ports_from_markers_center(
         skip_square_ports: skips square ports (hard to guess orientation)
         xcenter: for guessing orientation of rectangular ports
         ycenter: for guessing orientation of rectangular ports
+        port_name_prefix: for optical ports (o1, o2, o3)
 
     For the default center case (inside=False)
 
@@ -152,8 +153,10 @@ def add_ports_from_markers_center(
     port_layer = port_layer or layer
     port_locations = []
 
+    ports = {}
+
     for i, p in enumerate(port_markers.polygons):
-        port_name = f"{port_name_prefix}_{i}" if port_name_prefix else i
+        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
         dy = p.ymax - p.ymin
         dx = p.xmax - p.xmin
         x = p.x
@@ -214,16 +217,25 @@ def add_ports_from_markers_center(
 
         x = gf.snap.snap_to_grid(x)
         y = gf.snap.snap_to_grid(y)
+        width = np.round(width - pin_extra_width, 3)
 
         if (x, y) not in port_locations:
-            component.add_port(
+            port_locations.append((x, y))
+            ports[port_name] = Port(
                 name=port_name,
                 midpoint=(x, y),
-                width=width - pin_extra_width,
+                width=width,
                 orientation=orientation,
-                layer=port_layer,
+                layer=layer,
             )
-            port_locations.append((x, y))
+
+    ports = sort_ports_clockwise(ports)
+
+    for port_name, port in ports.items():
+        component.add_port(name=port_name, port=port)
+
+
+add_ports_from_markers_inside = gf.partial(add_ports_from_markers_center, inside=True)
 
 
 # pytype: disable=bad-return-type

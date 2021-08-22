@@ -22,11 +22,15 @@ def test_port_by_orientation_ref() -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = test_port_by_orientation_ref()
+    # c = test_port_by_orientation_ref()
     # c = gf.Component()
-    # nxn = gf.c.nxn(west=1, north=2, east=3, south=4)
     # ref = c << nxn
     # ref.rotate(+90)
     # c.add_ports(ref.ports)
     # p = ref.port_by_orientation_cw(key="W0")
     # c.show()
+
+    c = gf.c.nxn(west=1, north=2, east=3, south=4)
+    p = c.port_by_orientation_cw(key="W0")
+    c.pprint_ports()
+    c.show()

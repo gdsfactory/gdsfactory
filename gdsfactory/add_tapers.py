@@ -34,6 +34,8 @@ def add_tapers(
     component: Component,
     taper: ComponentFactory = taper_function,
     select_ports: Optional[Callable] = None,
+    taper_port_name1: str = "o1",
+    taper_port_name2: str = "o2",
 ) -> Component:
     """returns component optical tapers for component"""
 
@@ -44,12 +46,11 @@ def add_tapers(
     for port_name, port in ports.copy().items():
         if port.name in ports.keys():
             taper_ref = c << taper(width2=port.width)
-            taper_ref.connect(taper_ref.ports["o2"].name, port)
-            c.add_port(name=port_name, port=taper_ref.ports["o1"])
+            taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
+            c.add_port(name=port_name, port=taper_ref.ports[taper_port_name1])
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
-    c.auto_rename_ports()
     return c
 
 
@@ -57,7 +58,7 @@ if __name__ == "__main__":
     c0 = gf.components.straight(width=2)
     # t = gf.components.taper(width2=2)
     c1 = add_tapers(component=c0)
-    c1.show()
+    c1.show(show_ports=True)
 
     # print(cc.ports.keys())
     # print(cc.settings.keys())

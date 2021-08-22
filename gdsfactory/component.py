@@ -888,6 +888,7 @@ class Component(Device):
         orientation: int = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
+        port_type: str = "optical",
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
@@ -923,6 +924,7 @@ class Component(Device):
                 orientation=orientation,
                 parent=self,
                 layer=layer,
+                port_type=port_type,
             )
         if name is not None:
             p.name = name
@@ -1088,7 +1090,7 @@ class Component(Device):
 
     def show(
         self,
-        show_ports: bool = False,
+        show_ports: bool = True,
         show_subports: bool = False,
         clear_cache: bool = True,
     ) -> None:
@@ -1347,7 +1349,7 @@ def test_netlist_complex() -> None:
     c = gf.components.mzi()
     netlist = c.get_netlist()
     # print(netlist.pretty())
-    assert len(netlist["instances"]) == 18
+    assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
 def test_netlist_plot() -> None:
@@ -1415,8 +1417,9 @@ def hash_file(filepath):
 
 
 if __name__ == "__main__":
+    test_netlist_complex()
     # test_extract()
     # test_get_layers()
-    demo_port2 = functools.partial(demo_component, a=1)
-    d = _clean_value(demo_port2)
-    print(d)
+    # demo_port2 = functools.partial(demo_component, a=1)
+    # d = _clean_value(demo_port2)
+    # print(d)

@@ -163,6 +163,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi import mzi
 from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
+from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzi_lattice import mzi_lattice
 from gdsfactory.components.mzit_lattice import mzit_lattice
@@ -254,6 +255,7 @@ LIBRARY.register(
         mmi1x2,
         mmi2x2,
         mzi,
+        mzi_arm,
         mzi_phase_shifter,
         mzi_lattice,
         mzit,

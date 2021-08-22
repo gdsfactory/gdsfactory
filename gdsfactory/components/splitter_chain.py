@@ -27,8 +27,10 @@ def splitter_chain(
     c = gf.Component()
     splitter_component = gf.call_if_func(splitter, **kwargs)
     cref = c.add_ref(splitter_component)
-    e1_port_name = cref.port_by_orientation_cw("E1").name
-    e0_port_name = cref.port_by_orientation_cw("E0").name
+
+    splitter_ports_east = cref.get_ports_list(port_type="optical", orientation=0)
+    e1_port_name = splitter_ports_east[0].name
+    e0_port_name = splitter_ports_east[1].name
 
     bend = gf.components.bezier()
     c.add_port(name="o1", port=cref.ports["o1"])

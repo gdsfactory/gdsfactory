@@ -134,4 +134,5 @@ if __name__ == "__main__":
     # print(c.settings['spacing'])
     # c = pad_array_2d(cols=2, rows=3, port_names=(1,))
     c = pad_array270()
+    c.pprint_ports()
     c.show()

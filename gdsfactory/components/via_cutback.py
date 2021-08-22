@@ -33,19 +33,21 @@ def _via_iterable(
     via2.connect(
         port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
-    VI.add_port(name="e1", port=wire1.ports["e1"])
-    VI.add_port(name="e3", port=wire2.ports["e3"])
+    VI.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")
+    VI.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical")
     VI.add_port(
         name="e4",
         midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
         width=wire_width,
         orientation=-90,
+        port_type="electrical",
     )
     VI.add_port(
         name="e2",
         midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
         width=wire_width,
         orientation=90,
+        port_type="electrical",
     )
 
     return VI

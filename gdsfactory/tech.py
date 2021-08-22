@@ -191,6 +191,7 @@ class Section:
     layer: Layer = (1, 0)
     ports: Tuple[Optional[str], Optional[str]] = (None, None)
     name: Optional[str] = None
+    port_types: Tuple[str, str] = ("optical", "optical")
 
     def __repr__(self):
         return "_".join(
@@ -203,6 +204,8 @@ class Section:
                     self.layer[1],
                     self.ports[0],
                     self.ports[1],
+                    self.port_types[0],
+                    self.port_types[1],
                 ]
                 if i is not None
             ]

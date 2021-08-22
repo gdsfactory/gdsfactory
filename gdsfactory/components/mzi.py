@@ -4,6 +4,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
 
@@ -57,7 +58,15 @@ def mzi(
                   |      |
                   |__Lx__|
 
-
+            ____________           __________
+            |          |          |
+            |          |       ___|
+        ____|          |____
+            |            d1     d2
+        ____|           ____
+            |          |       ____
+            |          |          |
+            |__________|          |__________
     """
     combiner = combiner or splitter
 
@@ -68,147 +77,61 @@ def mzi(
     cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
     cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
 
-    straight_vertical = straight_vertical or straight
-    straight_horizontal_top = straight_horizontal_top or straight
-    straight_horizontal_bot = straight_horizontal_bot or straight
-    straight_delta_length = straight_delta_length or straight
-    b90 = bend(**kwargs) if callable(bend) else bend
-    l0 = straight_vertical(length=length_y, **kwargs)
-
-    y1l = cp1.ports["o2"].y
-    y1r = cp2.ports["o2"].y
-
-    cin = cp1.ref()
+    cin = c << cp1
     cout = c << cp2
 
-    c1map = cin.ports_layer
-    c2map = cout.ports_layer
+    ports_cp1 = cp1.get_ports_list(clockwise=False)
+    ports_cp2 = cp2.get_ports_list(clockwise=False)
+    layer = layer or ports_cp1[0].layer
 
-    layer = layer or cin.get_ports_list()[0].layer
+    port_e1_cp1 = ports_cp1[1]
+    port_e0_cp1 = ports_cp1[0]
 
-    if layer not in cp1.layers:
-        raise ValueError(f"{layer} not in {cp1.layers}")
+    port_e1_cp2 = ports_cp2[1]
+    port_e0_cp2 = ports_cp2[0]
 
-    cp1_e1_port_name = c1map[f"{layer[0]}_{layer[1]}_E1"]
-    cp1_e0_port_name = c1map[f"{layer[0]}_{layer[1]}_E0"]
+    y1t = port_e1_cp1.y
+    y1b = port_e0_cp1.y
 
-    cp2_E1_port_name = c2map[f"{layer[0]}_{layer[1]}_E1"]
-    cp2_E0_port_name = c2map[f"{layer[0]}_{layer[1]}_E0"]
+    y2t = port_e1_cp2.y
+    y2b = port_e0_cp2.y
 
-    y2l = cp1.ports[cp1_e1_port_name].y
-    y2r = cp2.ports[cp2_E1_port_name].y
+    d1 = abs(y1t - y1b)  # splitter ports distance
+    d2 = abs(y2t - y2b)  # combiner ports distance
 
-    dl = abs(y2l - y1l)  # splitter ports distance
-    dr = abs(y2r - y1r)  # cp2 ports distance
-    delta_length_combiner = dl - dr
-    assert delta_length_combiner + length_y > 0, (
-        f"cp1 and cp2 port height offset delta_length ({delta_length_combiner}) +"
-        f" length_y ({length_y}) >0"
+    if d2 > d1:
+        length_y_left = length_y + (d2 - d1) / 2
+        length_y_right = length_y
+    else:
+        length_y_right = length_y + (d1 - d2) / 2
+        length_y_left = length_y
+
+    top_arm = c << mzi_arm(
+        straight_x=straight_horizontal_top,
+        length_x=length_x,
+        length_y_left=length_y_left,
+        length_y_right=length_y_right,
+        **kwargs,
+    )
+    bot_arm = c << mzi_arm(
+        straight_x=straight_horizontal_bot,
+        length_x=length_x,
+        length_y_left=length_y_left + delta_length / 2,
+        length_y_right=length_y_right + delta_length / 2,
+        **kwargs,
     )
 
-    l0r = straight_vertical(length=length_y + delta_length_combiner / 2, **kwargs)
-    l1 = straight_delta_length(length=delta_length / 2, **kwargs)
-    lxt = straight_horizontal_top(length=length_x, **kwargs)
-    lxb = straight_horizontal_bot(length=length_x, **kwargs)
+    bot_arm.mirror()
+    top_arm.connect("o1", port_e1_cp1)
+    bot_arm.connect("o1", port_e0_cp1)
+    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
+    c.add_ports(cin.get_ports_list(orientation=180), prefix="in")
+    c.add_ports(cout.get_ports_list(orientation=0), prefix="out")
 
-    # top arm
-    blt = c << b90
-    bltl = c << b90
-    bltr = c << b90
-    blmr = c << b90  # bend left medium right
-    l0tl = c << l0
-    lxtop = c << lxt
-    l0tr = c << l0r
+    c.add_ports(top_arm.get_ports_list(port_type="electrical"), prefix="top")
+    c.add_ports(bot_arm.get_ports_list(port_type="electrical"), prefix="bottom")
 
-    lxtop_map = lxtop.ports_layer
-    lxtop_E0 = lxtop_map[f"{layer[0]}_{layer[1]}_E0"]
-    lxtop_W0 = lxtop_map[f"{layer[0]}_{layer[1]}_W0"]
-
-    blt.connect(port="o1", destination=cin.ports[cp1_e1_port_name])
-    l0tl.connect(port="o1", destination=blt.ports["o2"])
-    bltl.connect(port="o2", destination=l0tl.ports["o2"])
-    lxtop.connect(port=lxtop_W0, destination=bltl.ports["o1"])
-    bltr.connect(port="o2", destination=lxtop.ports[lxtop_E0])
-    l0tr.connect(port="o1", destination=bltr.ports["o1"])
-    blmr.connect(port="o1", destination=l0tr.ports["o2"])
-    cout.connect(port=cp2_E0_port_name, destination=blmr.ports["o2"])
-
-    # bot arm
-    blb = c << b90
-    l0bl = c << l0
-    l1l = c << l1
-    blbl = c << b90
-    brbr = c << b90
-    l1r = c << l1
-    l0br = c << l0r
-    blbmrb = c << b90  # bend left medium right bottom
-    lxbot = c << lxb
-
-    lxtop_map = lxtop.ports_layer
-    lxbot_E0 = lxtop_map[f"{layer[0]}_{layer[1]}_E0"]
-    lxbot_W0 = lxtop_map[f"{layer[0]}_{layer[1]}_W0"]
-
-    blb.connect(port="o2", destination=cin.ports[cp1_e0_port_name])
-    l0bl.connect(port="o1", destination=blb.ports["o1"])
-    l1l.connect(port="o1", destination=l0bl.ports["o2"])
-    blbl.connect(port="o1", destination=l1l.ports["o2"])
-    lxbot.connect(port=lxbot_W0, destination=blbl.ports["o2"])
-    brbr.connect(port="o1", destination=lxbot.ports[lxbot_E0])
-
-    l1r.connect(port="o1", destination=brbr.ports["o2"])
-    l0br.connect(port="o1", destination=l1r.ports["o2"])
-    blbmrb.connect(port="o2", destination=l0br.ports["o2"])
-    blbmrb.connect(
-        port="o1", destination=cout.ports[cp2_E1_port_name]
-    )  # just for netlist
-    # l0br.connect('o2', blbmrb.ports['o2'])
-
-    i = 1
-
-    # west ports
-    if with_splitter:
-        c.add(cin)
-        for port_name, port in cin.ports.items():
-            if port.angle == 180:
-                c.add_port(name=port_name, port=port)
-                i += 1
-    else:
-        c.add_port(name="o2", port=blt.ports["o1"])
-        c.add_port(name="o1", port=blb.ports["o2"])
-        i = 3
-
-    # east ports
-    for port in cout.ports.values():
-        if port.angle == 0:
-            c.add_port(name=f"o{i}", port=port)
-            i += 1
-
-    # Add any non-optical ports from bottom and bottom arms
-
-    c.add_ports(lxtop.get_ports_list(layers_excluded=(layer,)), prefix="etop_")
-    c.add_ports(lxbot.get_ports_list(layers_excluded=(layer,)), prefix="ebot_")
-
-    # aliases
-    # top arm
-    c.aliases["blt"] = blt
-    c.aliases["bltl"] = bltl
-    c.aliases["bltr"] = bltr
-    c.aliases["blmr"] = blmr
-    c.aliases["l0tl"] = l0tl
-    c.aliases["lxtop"] = lxtop
-    c.aliases["l0tr"] = l0tr
-
-    # bot arm
-    c.aliases["blb"] = blb
-    c.aliases["l0bl"] = l0bl
-    c.aliases["l1l"] = l1l
-    c.aliases["blbl"] = blbl
-    c.aliases["lxbot"] = lxbot
-    c.aliases["brbr"] = brbr
-    c.aliases["l1r"] = l1r
-    c.aliases["l0br"] = l0br
-    c.aliases["blbmrb"] = blbmrb
-
+    c.auto_rename_ports()
     return c
 
 
@@ -219,16 +142,17 @@ if __name__ == "__main__":
     # print(delta_length)
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
+    # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
+    # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
 
-    c = mzi(delta_length=10, combiner=gf.c.mmi2x2)
     c = mzi(
-        delta_length=20,
+        delta_length=100,
         straight_horizontal_top=gf.c.straight_heater_metal,
         straight_horizontal_bot=gf.c.straight_heater_metal,
         length_x=50,
         length_y=1.8,
     )
-    c.show(show_subports=False)
+    c.show(show_ports=True)
     # c.pprint()
     # n = c.get_netlist()
     # c.plot()

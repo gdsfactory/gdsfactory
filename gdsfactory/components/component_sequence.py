@@ -96,10 +96,10 @@ def component_sequence(
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "A": (bend180, 1, 2),
-            "B": (bend180, 2, 1),
-            "H": (wg_heater, 1, 2),
-            "-": (wg, 1, 2),
+            "A": (bend180, 'o1', 'o2'),
+            "B": (bend180, 'o2', 'o1'),
+            "H": (wg_heater, 'o1', 'o2'),
+            "-": (wg, 'o1', 'o2'),
         }
 
         # Each character in the sequence represents a component

@@ -44,9 +44,13 @@ def splitter_tree(
     c = gf.Component()
 
     coupler = coupler(cross_section=cross_section, **kwargs)
-    e1_port_name = coupler.port_by_orientation_cw("E1").name
-    e0_port_name = coupler.port_by_orientation_cw("E0").name
-    w0_port_name = coupler.port_by_orientation_cw("W0").name
+
+    coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
+    coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
+
+    e1_port_name = coupler_ports_east[0].name
+    e0_port_name = coupler_ports_east[1].name
+    w0_port_name = coupler_ports_west[0].name
 
     if bend_s:
         dy_coupler_ports = abs(

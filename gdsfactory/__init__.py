@@ -21,7 +21,7 @@ isort:skip_file
 from functools import partial
 from phidl import quickplot as plot
 import phidl.geometry as pg
-from phidl.device_layout import Group, Path, CrossSection
+from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference, copy
@@ -35,6 +35,7 @@ from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.write_doe import write_doe
 from gdsfactory.import_gds import import_gds
+from gdsfactory.cross_section import CrossSection
 
 from gdsfactory import cross_section
 from gdsfactory import asserts
