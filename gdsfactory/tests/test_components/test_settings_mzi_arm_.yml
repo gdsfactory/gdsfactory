@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.mzi_arm
 name: mzi_arm
 settings:
+  bend: bend_euler
   length_x: 0.1
   length_y_left: 0.8
   length_y_right: 0.8

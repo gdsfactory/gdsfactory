@@ -16,8 +16,7 @@ def mzi(
     length_x: float = 0.1,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
-    straight_vertical: Optional[ComponentFactory] = None,
-    straight_delta_length: Optional[ComponentFactory] = None,
+    straight_y: Optional[ComponentFactory] = None,
     straight_horizontal_top: Optional[ComponentFactory] = None,
     straight_horizontal_bot: Optional[ComponentFactory] = None,
     splitter: ComponentOrFactory = mmi1x2,
@@ -36,12 +35,14 @@ def mzi(
         length_x: horizontal length
         bend: 90 degrees bend library
         straight: straight function
+        straight_y: straight for length_y and delta_length
         straight_horizontal_top: straight for length_x
         straight_horizontal_bot: straight for length_x
-        straight_vertical: straight for length_y and delta_length
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
+        splitter_settings:
+        combiner_settings:
         kwargs: cross_section settings
 
     .. code::
@@ -108,19 +109,19 @@ def mzi(
 
     top_arm = c << mzi_arm(
         straight_x=straight_horizontal_top,
+        straight_y=straight_y,
         length_x=length_x,
         length_y_left=length_y_left,
         length_y_right=length_y_right,
-        straight=straight,
         bend=bend,
         **kwargs,
     )
     bot_arm = c << mzi_arm(
         straight_x=straight_horizontal_bot,
+        straight_y=straight_y,
         length_x=length_x,
         length_y_left=length_y_left + delta_length / 2,
         length_y_right=length_y_right + delta_length / 2,
-        straight=straight,
         bend=bend,
         **kwargs,
     )
@@ -133,7 +134,7 @@ def mzi(
     c.add_ports(cout.get_ports_list(orientation=0), prefix="out")
 
     c.add_ports(top_arm.get_ports_list(port_type="electrical"), prefix="top")
-    c.add_ports(bot_arm.get_ports_list(port_type="electrical"), prefix="bottom")
+    c.add_ports(bot_arm.get_ports_list(port_type="electrical"), prefix="bot")
 
     c.auto_rename_ports()
     return c
