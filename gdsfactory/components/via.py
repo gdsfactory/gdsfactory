@@ -14,6 +14,8 @@ def via(
     pitch_y: Optional[float] = None,
     enclosure: float = 1.0,
     layer: Tuple[int, int] = LAYER.VIA1,
+    layers_cladding: Optional[Tuple[Tuple[int, int], ...]] = None,
+    cladding_offset: float = 0,
 ) -> Component:
     """Rectangular via. Defaults to a square via.
 
@@ -39,6 +41,12 @@ def via(
     b = height / 2
 
     c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+
+    layers_cladding = layers_cladding or []
+    a = (width + cladding_offset) / 2
+    b = (height + cladding_offset) / 2
+    for layer in layers_cladding:
+        c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     return c
 
