@@ -20,7 +20,7 @@ from gdsfactory.types import Layer, PathType
 
 def add_ports_from_markers_square(
     component: Component,
-    layer: Layer = gf.LAYER.PORTE,
+    pin_layer: Layer = gf.LAYER.PORTE,
     port_layer: Optional[Layer] = None,
     orientation: Optional[int] = 90,
     min_pin_area_um2: float = 0,
@@ -36,7 +36,7 @@ def add_ports_from_markers_square(
 
     Args:
         component: to read polygons from and to write ports to
-        layer: for port markers
+        pin_layer: for port markers
         port_layer: for the new created port
         orientation: orientation in degrees
             90: north, 0: east, 180: west, 270: south
@@ -46,9 +46,9 @@ def add_ports_from_markers_square(
         port_names: names of the ports (defaults to {i})
 
     """
-    port_markers = read_port_markers(component, [layer])
+    port_markers = read_port_markers(component, [pin_layer])
     port_names = list(range(len(port_markers.polygons)))
-    port_layer = port_layer or layer
+    layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
         dy = gf.snap.snap_to_grid(p.ymax - p.ymin)
@@ -61,13 +61,13 @@ def add_ports_from_markers_square(
                 midpoint=(x, y),
                 width=dx - pin_extra_width,
                 orientation=orientation,
-                layer=port_layer,
+                layer=layer,
             )
 
 
 def add_ports_from_markers_center(
     component: Component,
-    layer: Layer = gf.LAYER.PORT,
+    pin_layer: Layer = gf.LAYER.PORT,
     port_layer: Optional[Layer] = None,
     inside: bool = False,
     tol: float = 0.1,
@@ -88,7 +88,7 @@ def add_ports_from_markers_center(
 
     Args:
         component: to read polygons from and to write ports to
-        layer: GDS layer for maker [int, int]
+        pin_layer: GDS layer for maker [int, int]
         port_layer: for the new created port
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
@@ -150,8 +150,8 @@ def add_ports_from_markers_center(
     ymax = component.ymax
     ymin = component.ymin
 
-    port_markers = read_port_markers(component, layers=(layer,))
-    port_layer = port_layer or layer
+    port_markers = read_port_markers(component, layers=(pin_layer,))
+    layer = port_layer or pin_layer
     port_locations = []
 
     ports = {}

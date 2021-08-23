@@ -89,6 +89,10 @@ via_stack_slab = gf.partial(
 via_stack_heater = gf.partial(
     via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via2, via3)
 )
+via_stack_heater0 = gf.partial(via_stack_heater, port_orientation=0)
+via_stack_heater90 = gf.partial(via_stack_heater, port_orientation=90)
+via_stack_heater180 = gf.partial(via_stack_heater, port_orientation=180)
+via_stack_heater270 = gf.partial(via_stack_heater, port_orientation=270)
 
 
 if __name__ == "__main__":
