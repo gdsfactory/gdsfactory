@@ -109,6 +109,7 @@ def extend_ports(
     ports_all = cref.get_ports_list()
     port_all_names = [p.name for p in ports_all]
     ports_to_extend = port_names or [p.name for p in ports_all]
+    port_names = port_names or []
 
     for port_name in port_names:
         if port_name not in port_all_names:
@@ -175,9 +176,12 @@ if __name__ == "__main__":
     # c = test_extend_ports()
     # c.show()
 
-    c = gf.c.bend_circular()
-    ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
-    ce.show()
+    # c = gf.c.bend_circular()
+    # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
+    # ce.show()
+
+    wg_pin = gf.components.straight_pin_passive_tapered(length=10)
+    wg_pin.show()
 
     # c = pc.straight(layer=(3, 0))
     # print(ce)
