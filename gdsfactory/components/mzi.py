@@ -111,6 +111,8 @@ def mzi(
         length_x=length_x,
         length_y_left=length_y_left,
         length_y_right=length_y_right,
+        straight=straight,
+        bend=bend,
         **kwargs,
     )
     bot_arm = c << mzi_arm(
@@ -118,6 +120,8 @@ def mzi(
         length_x=length_x,
         length_y_left=length_y_left + delta_length / 2,
         length_y_right=length_y_right + delta_length / 2,
+        straight=straight,
+        bend=bend,
         **kwargs,
     )
 

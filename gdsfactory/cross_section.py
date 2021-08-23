@@ -17,6 +17,13 @@ Layer = Tuple[int, int]
 
 
 class CrossSection(CrossSectionPhidl):
+    def __init__(self):
+        self.sections = []
+        self.ports = set()
+        self.aliases = {}
+        self.info = {}
+        self.port_types = set()
+
     def add(
         self,
         width=1,
@@ -63,6 +70,7 @@ class CrossSection(CrossSectionPhidl):
             self.aliases[name] = new_segment
         self.sections.append(new_segment)
         [self.ports.add(p) for p in ports if p is not None]
+        self.port_types = port_types
 
         return self
 
@@ -76,7 +84,7 @@ class CrossSection(CrossSectionPhidl):
         X.sections = list(self.sections)
         X.ports = set(self.ports)
         X.aliases = dict(self.aliases)
-        X.port_types = tuple(self.ports_types)
+        X.port_types = tuple(self.port_types)
         return X
 
 

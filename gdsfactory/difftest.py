@@ -46,7 +46,7 @@ def difftest(
     except GeometryDifference:
         diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0], xor=xor)
         diff.write_gds(diff_file)
-        diff.show()
+        diff.show(show_ports=False)
         print(
             "\n"
             + f"`{filename}` changed from reference {ref_file}\n"
