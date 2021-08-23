@@ -39,6 +39,7 @@ from contracts import contract
 - add `ports_layer` property to Component and ComponentReference to get a map
 - `Component.show()` `show_ports` and `show_subports` show a container (do not modify original component)
 - add port_types to cross_section
+- rename straight_horizontal_top to straight_x_top
 
 ## 3.0.2
 
@@ -144,7 +145,7 @@ from contracts import contract
 ## 2.6.8
 
 - add pp.c.tlm_with_offset
-- mzi adds any non-optical ports from straight_horizontal_bot and straight_horizontal_top
+- mzi adds any non-optical ports from straight_x_bot and straight_x_top
 - ignore layer_to_inclusion: Optional[Dict[Layer, float]] from get_settings
 
 ## 2.6.7
@@ -175,7 +176,7 @@ from contracts import contract
 
 ## 2.6.4
 
-- pp.components.mzi accepts straight_horizontal_bot and straight_horizontal_bot parameters
+- pp.components.mzi accepts straight_x_bot and straight_x_bot parameters
 - pad array has axis='x' argument
 - expose utils, sort_ports and fanout in pp.routing
 

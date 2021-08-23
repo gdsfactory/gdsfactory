@@ -1,13 +1,13 @@
 function_name: ring_single_dut
 info: {}
 module: gdsfactory.components.ring_single_dut
-name: ring_single_dut_Cmzi_4ae2c60c
+name: ring_single_dut_Cmzi_425707b2
 settings:
   component:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_4ae2c60c
+    name: mzi_425707b2
     settings:
       combiner: null
       combiner_settings: null
@@ -17,8 +17,8 @@ settings:
       length_y: 0.8
       splitter: mmi2x2
       splitter_settings: null
-      straight_horizontal_bot: null
-      straight_horizontal_top:
+      straight_x_bot: null
+      straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
       straight_y: null

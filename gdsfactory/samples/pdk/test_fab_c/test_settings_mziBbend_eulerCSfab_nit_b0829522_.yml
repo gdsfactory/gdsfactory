@@ -27,7 +27,7 @@ settings:
     decorator: add_pins
     function: straight
   straight_delta_length: null
-  straight_horizontal_bot: null
-  straight_horizontal_top: null
+  straight_x_bot: null
+  straight_x_top: null
   straight_vertical: null
   with_splitter: true
