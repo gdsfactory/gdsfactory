@@ -17,8 +17,8 @@ settings:
       splitter: mmi2x2
       splitter_settings: null
       straight_delta_length: null
-      straight_horizontal_bot: null
-      straight_horizontal_top:
+      straight_x_bot: null
+      straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
       straight_vertical: null

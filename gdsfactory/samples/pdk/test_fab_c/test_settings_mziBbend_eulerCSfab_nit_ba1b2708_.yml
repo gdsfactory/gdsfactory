@@ -26,7 +26,7 @@ settings:
     cross_section: fab_nitrideo
     decorator: add_pins
     function: straight
-  straight_horizontal_bot: null
-  straight_horizontal_top: null
+  straight_x_bot: null
+  straight_x_top: null
   straight_y: null
   with_splitter: true

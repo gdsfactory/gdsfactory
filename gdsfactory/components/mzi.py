@@ -17,8 +17,8 @@ def mzi(
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
     straight_y: Optional[ComponentFactory] = None,
-    straight_horizontal_top: Optional[ComponentFactory] = None,
-    straight_horizontal_bot: Optional[ComponentFactory] = None,
+    straight_x_top: Optional[ComponentFactory] = None,
+    straight_x_bot: Optional[ComponentFactory] = None,
     splitter: ComponentOrFactory = mmi1x2,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
@@ -36,8 +36,8 @@ def mzi(
         bend: 90 degrees bend library
         straight: straight function
         straight_y: straight for length_y and delta_length
-        straight_horizontal_top: straight for length_x
-        straight_horizontal_bot: straight for length_x
+        straight_x_top: top straight for length_x
+        straight_x_bot: bottom straight for length_x
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
@@ -74,6 +74,10 @@ def mzi(
     splitter_settings = splitter_settings or {}
     combiner_settings = combiner_settings or {}
 
+    straight_x_top = straight_x_top or straight
+    straight_x_bot = straight_x_bot or straight
+    straight_y = straight_y or straight
+
     c = Component()
     cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
     cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
@@ -108,7 +112,7 @@ def mzi(
         length_y_left = length_y
 
     top_arm = c << mzi_arm(
-        straight_x=straight_horizontal_top,
+        straight_x=straight_x_top,
         straight_y=straight_y,
         length_x=length_x,
         length_y_left=length_y_left,
@@ -117,7 +121,7 @@ def mzi(
         **kwargs,
     )
     bot_arm = c << mzi_arm(
-        straight_x=straight_horizontal_bot,
+        straight_x=straight_x_bot,
         straight_y=straight_y,
         length_x=length_x,
         length_y_left=length_y_left + delta_length / 2,
@@ -152,8 +156,8 @@ if __name__ == "__main__":
 
     c = mzi(
         delta_length=100,
-        straight_horizontal_top=gf.c.straight_heater_metal,
-        straight_horizontal_bot=gf.c.straight_heater_metal,
+        straight_x_top=gf.c.straight_heater_metal,
+        straight_x_bot=gf.c.straight_heater_metal,
         length_x=50,
         length_y=1.8,
     )

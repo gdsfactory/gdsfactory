@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_43b07a14
+name: mzi_d63a6209
 settings:
   combiner: null
   combiner_settings: null
@@ -10,8 +10,8 @@ settings:
   length_x: 320
   length_y: 0.8
   splitter_settings: null
-  straight_horizontal_bot: null
-  straight_horizontal_top:
+  straight_x_bot: null
+  straight_x_top:
     function: straight_heater_metal_undercut
     with_undercut: false
   straight_y: null
