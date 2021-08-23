@@ -26,11 +26,11 @@ class CrossSection(CrossSectionPhidl):
 
     def add(
         self,
-        width=1,
-        offset=0,
-        layer=0,
-        ports=(None, None),
-        name=None,
+        width: float = 1,
+        offset: float = 0,
+        layer: Tuple[int, int] = (1, 0),
+        ports: Tuple[Optional[str], Optional[str]] = (None, None),
+        name: Optional[str] = None,
         port_types: Tuple[str, str] = ("optical", "optical"),
     ):
         """Adds a cross-sectional element to the CrossSection.  If ports are
@@ -70,7 +70,6 @@ class CrossSection(CrossSectionPhidl):
             self.aliases[name] = new_segment
         self.sections.append(new_segment)
         [self.ports.add(p) for p in ports if p is not None]
-        self.port_types = port_types
 
         return self
 
@@ -84,7 +83,6 @@ class CrossSection(CrossSectionPhidl):
         X.sections = list(self.sections)
         X.ports = set(self.ports)
         X.aliases = dict(self.aliases)
-        X.port_types = tuple(self.port_types)
         return X
 
 
@@ -405,13 +403,13 @@ rib = partial(
 )
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 
-port_types_electrical = ("electrical", "electrical")
 port_names_electrical = ("e1", "e2")
+port_types_electrical = ("electrical", "electrical")
 metal1 = partial(
     cross_section,
     layer=LAYER.M1,
     width=10.0,
-    port_names=port_types_electrical,
+    port_names=port_names_electrical,
     port_types=port_types_electrical,
 )
 metal2 = partial(

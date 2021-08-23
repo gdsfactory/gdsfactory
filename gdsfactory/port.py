@@ -108,7 +108,6 @@ class Port(PortPhidl):
     def validate(cls, v):
         """For pydantic assumes Port is valid if:
         - has a name
-        - has po
         """
         assert v.name, f"Port has no name, got `{v.name}`"
         # assert v.assert_on_grid(), f"port.midpoint = {v.midpoint} has off-grid points"
