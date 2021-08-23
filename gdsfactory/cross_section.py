@@ -320,8 +320,8 @@ def strip_heater_metal_undercut(
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
-        width:
-        heater_width:
+        width: of waveguide
+        heater_width: of metal heater
         trench_width:
         trench_gap: from waveguide edge to trench edge
         layer_waveguide:
