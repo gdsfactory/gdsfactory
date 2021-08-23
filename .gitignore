@@ -6,6 +6,7 @@
 *.properties
 *.sqlite3
 *.hdf5
+*.yml
 .pyre_configuration
 
 # Packages

@@ -1,3 +1,4 @@
+import warnings
 from typing import Optional, Tuple, Union
 
 import numpy as np
@@ -89,8 +90,7 @@ def extend_ports(
     port1: Optional[str] = None,
     port2: Optional[str] = None,
 ) -> Component:
-    """Returns a new component with extended ports inside a container.
-
+    """Returns a new component with some ports extended
     it can accept an extension_factory or it defaults to the port
     width and layer of each extended port
 
@@ -98,7 +98,7 @@ def extend_ports(
         component: component to extend ports
         port_names: specify an list of ports names, if None it extends all ports
         length: extension length
-        extension_factory: straight library to extend ports
+        extension_factory: function to extend ports (defaults to a straight)
         port1: input port name
         port2: output port name
     """
@@ -107,7 +107,12 @@ def extend_ports(
     cref = c << component
 
     ports_all = cref.get_ports_list()
+    port_all_names = [p.name for p in ports_all]
     ports_to_extend = port_names or [p.name for p in ports_all]
+
+    for port_name in port_names:
+        if port_name not in port_all_names:
+            warnings.warn(f"Port Name {port_name} not in {port_all_names}")
 
     for port in ports_all:
         port_name = port.name
@@ -167,12 +172,12 @@ __all__ = ["extend_ports_list", "extend_ports", "extend_port"]
 if __name__ == "__main__":
     # c = extend_ports()
     # c = test_extend_ports_selection()
-    c = test_extend_ports()
-    c.show()
+    # c = test_extend_ports()
+    # c.show()
 
-    # c = pc.bend_circular()
-    # ce = extend_ports(component=c, port_names=list(c.ports.keys()))
-    # ce.show()
+    c = gf.c.bend_circular()
+    ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
+    ce.show()
 
     # c = pc.straight(layer=(3, 0))
     # print(ce)

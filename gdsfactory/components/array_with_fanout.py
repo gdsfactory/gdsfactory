@@ -65,15 +65,17 @@ def array_with_fanout(
         straight_ref = c << straight(
             length=ylength, cross_section=cross_section, **kwargs
         )
-        straight_ref.connect("o2", ref.ports[component_port_name])
+        port_s1, port_s2 = straight_ref.get_ports_list()
+
+        straight_ref.connect(port_s2.name, ref.ports[component_port_name])
 
         bend_ref = c.add_ref(bend)
-        bend_ref.connect(bend_port_name1, straight_ref.ports["o1"])
+        bend_ref.connect(bend_port_name1, straight_ref.ports[port_s1.name])
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect("o2", bend_ref.ports[bend_port_name2])
-        c.add_port(f"W_{col}", port=straightx_ref.ports["o1"])
+        straightx_ref.connect(port_s2.name, bend_ref.ports[bend_port_name2])
+        c.add_port(f"W_{col}", port=straightx_ref.ports[port_s1.name])
     auto_rename_ports(c)
     return c
 

@@ -1,3 +1,9 @@
+"""
+when we auto_rename_ports_layer_orientation we get the wrong mapping
+
+
+"""
+
 from typing import Dict
 from gdsfactory.types import Port
 
@@ -61,7 +67,7 @@ if __name__ == "__main__":
 
     c = gf.components.straight_heater_metal()
 
-    # FIXME, this line
+    # FIXME, this line has an issue
     c.auto_rename_ports_layer_orientation()
     m = map_ports_layer_to_orientation(c.ports)
     pprint(m)

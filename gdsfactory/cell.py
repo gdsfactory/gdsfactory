@@ -49,7 +49,7 @@ def cell_without_validator(func):
           c.add_polygon(points, layer=layer)
           return c
 
-      c = rectangle(layer=1)
+      c = rectangle(layer=(1,0))
       c.plot()
 
     """
