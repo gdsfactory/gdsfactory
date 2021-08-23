@@ -182,10 +182,18 @@ def test_layers2():
     return c
 
 
+def test_copy():
+    X = gf.CrossSection()
+    X.add(width=0.5, offset=0, layer=gf.LAYER.SLAB90, ports=["in", "out"])
+    x2 = X.copy()
+    assert x2
+
+
 if __name__ == "__main__":
+    test_copy()
     # c = test_layers2()
-    c = transition()
+    # c = transition()
     # c = double_loop()
     # c = rename()
     # c.pprint()
-    c.show()
+    # c.show()
