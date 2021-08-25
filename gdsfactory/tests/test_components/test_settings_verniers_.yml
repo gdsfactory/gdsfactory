@@ -1,6 +1,6 @@
 function_name: verniers
 info: {}
-module: gdsfactory.components.pcm.verniers
+module: gdsfactory.components.verniers
 name: verniers
 settings:
   gap: 0.1

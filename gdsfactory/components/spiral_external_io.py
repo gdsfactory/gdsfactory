@@ -9,10 +9,9 @@ from numpy import float64
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components import straight
-from gdsfactory.components.bend_circular import bend_circular, bend_circular180
+from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -28,15 +27,10 @@ def spiral_external_io(
     y_straight_inner_top: float = 0.0,
     dx: float = 3.0,
     dy: float = 3.0,
-    bend90_function: Optional[ComponentOrFactory] = None,
-    bend180_function: ComponentFactory = bend_circular180,
-    bend_radius: float = 50.0,
-    wg_width: float = 0.5,
-    straight_factory: Optional[ComponentOrFactory] = None,
-    straight_factory_fall_back_no_taper: None = None,
-    taper: Optional[ComponentFactory] = None,
+    bend: ComponentFactory = bend_euler,
     cutback_length: Optional[float] = None,
-    **kwargs_round_corner
+    cross_section: CrossSectionFactory = gf.cross_section.strip,
+    **kwargs
 ) -> Component:
     """
 
@@ -53,16 +47,8 @@ def spiral_external_io(
         bend180_function
         bend_radius
         wg_width
-        straight_factory
-        taper
 
     """
-
-    straight_factory = straight_factory or straight
-    bend90_function = bend90_function or bend_circular
-
-    if straight_factory_fall_back_no_taper is None:
-        straight_factory_fall_back_no_taper = straight_factory
 
     if cutback_length:
         x_inner_length_cutback = cutback_length / (4 * (N - 1))
@@ -70,8 +56,10 @@ def spiral_external_io(
     y_straight_inner_top += 5
 
     x_inner_length_cutback += x_inner_offset
-    _bend180 = gf.call_if_func(bend180_function, radius=bend_radius, width=wg_width)
-    _bend90 = gf.call_if_func(bend90_function, radius=bend_radius, width=wg_width)
+    _bend180 = bend(angle=180, cross_section=cross_section, **kwargs)
+    _bend90 = bend(angle=90, cross_section=cross_section, **kwargs)
+
+    bend_radius = _bend90.radius
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -135,11 +123,9 @@ def spiral_external_io(
     # Join the two bits of paths and extrude the spiral geometry
     route = round_corners(
         pts_w[::-1] + pts_e,
-        bend_factory=_bend90,
-        straight_factory=straight_factory,
-        straight_factory_fall_back_no_taper=straight_factory_fall_back_no_taper,
-        taper=taper,
-        **kwargs_round_corner,
+        bend_factory=bend,
+        cross_section=cross_section,
+        **kwargs,
     )
 
     component.add(route.references)
@@ -152,7 +138,8 @@ def spiral_external_io(
 
 
 if __name__ == "__main__":
-    c = spiral_external_io(bend_radius=10, cutback_length=10000)
+    # c = spiral_external_io(bend_radius=10, cutback_length=10000)
+    c = spiral_external_io(layer=(2, 0))
     print(c.length)
     print(c.length / 1e4, "cm")
     c.show(show_ports=True)

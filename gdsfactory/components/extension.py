@@ -7,7 +7,6 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentOrFactory, Coordinate, Layer
@@ -167,7 +166,7 @@ def test_extend_ports_selection() -> Component:
     return ce
 
 
-__all__ = ["extend_ports_list", "extend_ports", "extend_port"]
+__all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":

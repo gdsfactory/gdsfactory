@@ -1,6 +1,6 @@
 function_name: litho_calipers
 info: {}
-module: gdsfactory.components.pcm.litho_calipers
+module: gdsfactory.components.litho_calipers
 name: litho_calipers
 settings:
   layer1:

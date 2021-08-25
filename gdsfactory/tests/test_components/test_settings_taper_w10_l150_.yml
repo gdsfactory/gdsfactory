@@ -1,0 +1,13 @@
+function_name: taper_w10_l150
+info: {}
+module: gdsfactory.components.taper_from_csv
+name: taper_w10_l150
+settings:
+  cladding_offset: 3
+  filepath: taper_strip_0p5_10_150.csv
+  layer:
+  - 1
+  - 0
+  layer_cladding:
+  - 111
+  - 0

@@ -1,4 +1,4 @@
-function_name: via2
+function_name: via
 info:
   enclosure: 2
   height: 0.7
@@ -7,13 +7,15 @@ info:
   pitch_y: 2
   width: 0.7
 module: gdsfactory.components.via
-name: via2
+name: via_E2_L44_0
 settings:
+  cladding_offset: 0
   enclosure: 2
   height: null
   layer:
   - 44
   - 0
+  layers_cladding: null
   pitch: 2
   pitch_x: null
   pitch_y: null

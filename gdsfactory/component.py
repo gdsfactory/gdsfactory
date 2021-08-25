@@ -26,6 +26,7 @@ from gdsfactory.port import (
     Port,
     auto_rename_ports,
     auto_rename_ports_layer_orientation,
+    auto_rename_ports_orientation,
     map_ports_layer_to_orientation,
     map_ports_to_orientation_ccw,
     map_ports_to_orientation_cw,
@@ -1212,6 +1213,9 @@ class Component(Device):
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
         auto_rename_ports_layer_orientation(self, **kwargs)
+
+    def auto_rename_ports_orientation(self, **kwargs) -> None:
+        auto_rename_ports_orientation(self, **kwargs)
 
 
 def test_get_layers() -> None:

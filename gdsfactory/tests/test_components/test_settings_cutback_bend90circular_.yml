@@ -1,0 +1,34 @@
+function_name: cutback_bend90
+info: {}
+module: gdsfactory.components.cutback_bend
+name: cutback_bend90_Bbend_circular
+settings:
+  bend90: bend_circular
+  cols: 6
+  n_bends: 144
+  n_steps: 6
+  port_name1: o1
+  port_name2: o2
+  ports_map: null
+  sequence: A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-
+  spacing: 5
+  start_orientation: 0
+  straight_length: 5
+  symbol_to_component:
+    '-':
+    - straight_L5_W500n
+    - o1
+    - o2
+    A:
+    - bend_circular
+    - o1
+    - o2
+    B:
+    - bend_circular
+    - o2
+    - o1
+    '|':
+    - straight_L30_W500n
+    - o1
+    - o2
+  wg_loop_length: null

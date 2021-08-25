@@ -1,0 +1,30 @@
+function_name: grating_coupler_elliptical_trenches
+info:
+  polarization: te
+  wavelength: 1530
+module: gdsfactory.components.grating_coupler_elliptical_trenches
+name: grating_coupler_ellipti_7935cab4
+settings:
+  fiber_angle: 15
+  fiber_marker_layer:
+  - 203
+  - 0
+  fiber_marker_width: 11
+  grating_line_width: 0.343
+  lambda_c: 1.53
+  layer:
+  - 1
+  - 0
+  layer_trench:
+  - 2
+  - 0
+  n_periods: 30
+  neff: 2.638
+  p_start: 26
+  period: 0.6759999999999999
+  polarization: te
+  straight: 0.2
+  taper_angle: 30
+  taper_length: 16.6
+  trenches_extra_angle: 9
+  wg_width: 0.5

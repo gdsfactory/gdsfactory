@@ -3,7 +3,7 @@ from typing import Callable, Optional
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical

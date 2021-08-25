@@ -1,0 +1,8 @@
+function_name: TRCH_DUO_DL0
+info: {}
+module: gdsfactory.components.opcm
+name: TRCH_DUO_DL0
+settings:
+  gap: 3
+  separation: 2
+  width: 0.5

@@ -1,0 +1,10 @@
+function_name: loss_deembedding_ch12_34
+info: {}
+module: gdsfactory.components.grating_coupler_loss
+name: loss_deembedding_ch12_34
+settings:
+  R: 10
+  input_port_indexes:
+  - 0
+  - 2
+  pitch: 127

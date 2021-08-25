@@ -4,7 +4,7 @@ from phidl.device_layout import Label
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array

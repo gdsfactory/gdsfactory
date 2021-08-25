@@ -1,6 +1,6 @@
 function_name: litho_steps
 info: {}
-module: gdsfactory.components.pcm.litho_steps
+module: gdsfactory.components.litho_steps
 name: litho_steps
 settings:
   height: 100

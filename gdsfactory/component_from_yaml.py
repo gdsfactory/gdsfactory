@@ -49,7 +49,7 @@ from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import LIBRARY
+from gdsfactory.components import factory
 from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
@@ -401,7 +401,7 @@ ports:
 
 def component_from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    component_factory: ComponentFactoryDict = LIBRARY.factory,
+    component_factory: ComponentFactoryDict = factory,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     cross_section_factory: Dict[str, CrossSectionFactory] = cross_section_factory,
     label_instance_function: Callable = add_instance_label,
@@ -730,11 +730,16 @@ def component_from_yaml(
 
 
 if __name__ == "__main__":
-
+    for k in factory.keys():
+        print(k)
     # c = component_from_yaml(sample_mmis)
     # print(c.get_settings()["info"])
-    # from gdsfactory.test_component_from_yaml import yaml_anchor
+
+    # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
+
     # c = component_from_yaml(yaml_anchor)
+    # c.show()
+
     # c = test_connections_regex()
     # c = component_from_yaml(sample_regex_connections)
     # c = component_from_yaml(sample_regex_connections_backwards)
@@ -750,8 +755,7 @@ if __name__ == "__main__":
     # c = test_mirror()
     # c = component_from_yaml(sample_waypoints)
     # c = component_from_yaml(sample_2x2_connections)
-    c = component_from_yaml(sample_mmis)
-    c.show()
+    # c = component_from_yaml(sample_mmis)
 
     # c = component_from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3

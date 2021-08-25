@@ -1,0 +1,10 @@
+function_name: add_frame
+info: {}
+module: gdsfactory.components.align
+name: add_frame
+settings:
+  layer:
+  - 1
+  - 0
+  spacing: 10
+  width: 10

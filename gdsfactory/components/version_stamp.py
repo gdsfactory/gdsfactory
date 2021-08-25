@@ -9,6 +9,7 @@ from gdsfactory.config import __version__
 from gdsfactory.tech import LAYER
 
 
+@gf.cell
 def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
     c = gf.Component()
     a = size / 2

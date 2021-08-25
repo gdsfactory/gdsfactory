@@ -2,12 +2,18 @@ import json
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Union
 
+from gdsfactory import components
 from gdsfactory.cell import get_component_name
 from gdsfactory.component import Component
-from gdsfactory.components import LIBRARY
 from gdsfactory.config import CONFIG
 from gdsfactory.doe import get_settings_list
-from gdsfactory.tech import Library
+from gdsfactory.types import ComponentFactoryDict
+
+factory = {
+    i: getattr(components, i)
+    for i in dir(components)
+    if not i.startswith("_") and callable(getattr(components, i))
+}
 
 
 def write_doe_metadata(
@@ -118,7 +124,7 @@ def write_doe(
     path: Path = CONFIG["build_directory"],
     doe_metadata_path: Path = CONFIG["doe_directory"],
     functions: Optional[List[Callable[..., Component]]] = None,
-    library: Library = LIBRARY,
+    component_factory: ComponentFactoryDict = factory,
     **kwargs,
 ) -> List[Path]:
     """writes each component GDS, together with metadata for each component:
@@ -139,10 +145,11 @@ def write_doe(
         list_settings: you can pass a list of settings or the variations in the kwargs
         doe_settings: shared settings for a DOE
         path: to store build artifacts
+        doe_metadata_path:
         functions: list of function names to apply to DOE
+        component_factory
         **kwargs: Doe default settings or variations
     """
-    component_factory = library.factory
 
     component_type = (
         component_type.__name__ if callable(component_type) else component_type

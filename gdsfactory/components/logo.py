@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 
 
 @gf.cell
-def logo(text: str = "GDS_FACTORY") -> Component:
+def logo(text: str = "GDSFACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = Component()
     elements = []

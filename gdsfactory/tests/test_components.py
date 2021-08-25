@@ -3,13 +3,17 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.component import Component
-from gdsfactory.components import component_factory, component_names
+from gdsfactory.components import factory
 from gdsfactory.difftest import difftest
 
+skip_test = {"version_stamp", "extend_ports_list", "extend_port", "component_sequence"}
 
-@pytest.fixture(params=component_names, scope="function")
+components_to_test = set(factory.keys()) - skip_test
+
+
+@pytest.fixture(params=components_to_test, scope="function")
 def component(request) -> Component:
-    return component_factory[request.param](cache=False)
+    return factory[request.param]()
 
 
 def test_gds(component: Component) -> None:
@@ -29,6 +33,7 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
 
 
 def test_assert_ports_on_grid(component: Component):
+    """Ensure ports are on grid."""
     component.assert_ports_on_grid()
 
 

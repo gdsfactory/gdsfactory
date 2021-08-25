@@ -2,7 +2,7 @@ function_name: grating_coupler_elliptical_te
 info:
   polarization: te
   wavelength: 1554
-module: gdsfactory.components.grating_coupler.elliptical
+module: gdsfactory.components.grating_coupler_elliptical
 name: grating_coupler_ellipti_7ecb579e
 settings:
   big_last_tooth: false

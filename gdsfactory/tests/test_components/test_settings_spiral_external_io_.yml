@@ -1,19 +1,13 @@
 function_name: spiral_external_io
 info:
-  length: 13610.84
+  length: 9010.754
 module: gdsfactory.components.spiral_external_io
 name: spiral_external_io
 settings:
   N: 6
-  bend90_function: null
-  bend_radius: 50
   cutback_length: null
   dx: 3
   dy: 3
-  straight_factory: null
-  straight_factory_fall_back_no_taper: null
-  taper: null
-  wg_width: 0.5
   x_inner_length_cutback: 300
   x_inner_offset: 0
   y_straight_inner_top: 0

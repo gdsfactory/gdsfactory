@@ -2,7 +2,7 @@ function_name: grating_coupler_uniform
 info:
   polarization: te
   wavelength: 1500
-module: gdsfactory.components.grating_coupler.uniform
+module: gdsfactory.components.grating_coupler_uniform
 name: grating_coupler_uniform
 settings:
   fill_factor: 0.5

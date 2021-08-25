@@ -6,8 +6,22 @@ from jsondiff import diff
 import gdsfactory as gf
 from gdsfactory.add_pins import add_settings_label
 from gdsfactory.component import Component
-from gdsfactory.components import component_factory, component_names
+from gdsfactory.components import factory
 from gdsfactory.import_gds import add_settings_from_label, import_gds
+
+skip_test = {
+    "version_stamp",
+    "extend_ports_list",
+    "extend_port",
+    "grating_coupler_tree",
+    "compensation_path",
+    "spiral_inner_io_with_gratings",
+    "component_sequence",
+    "straight_heater_metal_90_90",
+    "straight_heater_metal_undercut_90_90",
+}
+
+components_to_test = set(factory.keys()) - skip_test
 
 
 def tuplify(iterable: Union[List, Dict]) -> Any:
@@ -23,23 +37,13 @@ def sort_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     return {k: d[k] for k in sorted(d)}
 
 
-@pytest.mark.parametrize(
-    "component_type",
-    component_names
-    - set(
-        [
-            "grating_coupler_tree",
-            "compensation_path",
-            "spiral_inner_io_with_gratings",
-        ]
-    ),
-)
+@pytest.mark.parametrize("component_type", components_to_test)
 def test_properties_components(component_type: str) -> Component:
     """Write component to GDS with setttings written on a label.
     Then import the GDS and check that the settings imported match the original.
     """
     cnew = gf.Component()
-    c1 = component_factory[component_type]()
+    c1 = factory[component_type]()
     c1ref = cnew << c1
 
     ignore = ("sequence", "symbol_to_component", "ports_map")

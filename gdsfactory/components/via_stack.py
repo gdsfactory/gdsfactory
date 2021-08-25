@@ -4,7 +4,6 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.component_from_yaml import valid_anchor_keywords
 from gdsfactory.components.via import via1, via2, via3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layer
@@ -15,6 +14,19 @@ orientation_to_anchor = {
     180: "cw",
     270: "sc",
 }
+
+valid_anchors = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
 
 
 @gf.cell
@@ -38,10 +50,8 @@ def via_stack(
     """
     port_location = port_location or orientation_to_anchor[port_orientation]
 
-    if port_location not in valid_anchor_keywords:
-        raise ValueError(
-            f"port_location = {port_location} not in {valid_anchor_keywords}"
-        )
+    if port_location not in valid_anchors:
+        raise ValueError(f"port_location = {port_location} not in {valid_anchors}")
 
     width, height = size
     a = width / 2

@@ -52,6 +52,8 @@ def spiral_circular(
 ) -> Component:
     """Returns a circular spiral.
 
+    FIXME, has some issues
+
     Args:
         length: length in um
         wg_width:

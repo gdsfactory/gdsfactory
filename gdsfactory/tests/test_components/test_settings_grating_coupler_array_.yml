@@ -1,0 +1,8 @@
+function_name: grating_coupler_array
+info: {}
+module: gdsfactory.components.grating_coupler_array
+name: grating_coupler_array
+settings:
+  n: 6
+  pitch: 127
+  port_name: o1

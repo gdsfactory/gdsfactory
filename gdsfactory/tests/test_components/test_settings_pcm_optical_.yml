@@ -1,0 +1,14 @@
+function_name: pcm_optical
+info: {}
+module: gdsfactory.components.opcm
+name: pcm_optical
+settings:
+  dw: 0.02
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
+  tte: 0.304
+  ttm: 0.506
+  wte: 0.372
+  wtm: 0.604

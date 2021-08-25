@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components import bend_euler180
+from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.types import ComponentFactory

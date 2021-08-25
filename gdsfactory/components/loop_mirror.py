@@ -31,18 +31,6 @@ def loop_mirror(
 
 
 @gf.cell
-def loop_mirror_rotated(component=mmi1x2, bend90=bend_euler):
-    c = Component()
-    component = gf.call_if_func(component)
-    mirror = loop_mirror(component=component, bend90=bend90)
-    mirror_rotated = mirror.ref(rotation=90)
-    c.add(mirror_rotated)
-    c.absorb(mirror_rotated)
-    c.add_port(name="S0", port=mirror_rotated.ports["o1"])
-    return c
-
-
-@gf.cell
 def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     """
     delay = 13e-12
@@ -53,14 +41,14 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
     """
     c = Component()
     lm = c << gf.call_if_func(loop_mirror)
-    s = c << gf.call_if_func(spiral_external_io)
+    s = c << spiral_external_io()
 
-    lm.connect("o1", s.ports["input"])
+    lm.connect("o1", s.ports["o1"])
     return c
 
 
 if __name__ == "__main__":
-    c = loop_mirror()
+    # c = loop_mirror()
     # c = loop_mirror_rotated()
-    # c = loop_mirror_with_delay()
+    c = loop_mirror_with_delay()
     c.show()

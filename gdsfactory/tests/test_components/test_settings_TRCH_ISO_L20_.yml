@@ -1,0 +1,7 @@
+function_name: TRCH_ISO_L20
+info: {}
+module: gdsfactory.components.opcm
+name: TRCH_ISO_L20
+settings:
+  separation: 2
+  width: 0.5
