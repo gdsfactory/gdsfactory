@@ -3,7 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.components.via_stack import via_stack_heater0, via_stack_heater180
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -17,8 +17,8 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionFactory = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    via_stack1: Optional[ComponentFactory] = via_stack_heater,
-    via_stack2: Optional[ComponentFactory] = None,
+    via_stack1: Optional[ComponentFactory] = via_stack_heater180,
+    via_stack2: Optional[ComponentFactory] = via_stack_heater0,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.

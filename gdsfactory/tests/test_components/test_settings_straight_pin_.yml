@@ -4,6 +4,8 @@ module: gdsfactory.components.straight_pin
 name: straight_pin
 settings:
   length: 500
+  port_location_bot: cw
+  port_location_top: ce
   port_orientation_bot: 180
   port_orientation_top: 0
   via_stack_spacing: 2
