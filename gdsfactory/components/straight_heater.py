@@ -3,7 +3,11 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater0, via_stack_heater180
+from gdsfactory.components.via_stack import (
+    via_stack_heater0,
+    via_stack_heater90,
+    via_stack_heater180,
+)
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -87,7 +91,24 @@ def straight_heater_metal_undercut(
     return c
 
 
-straight_heater_metal = gf.partial(straight_heater_metal_undercut, with_undercut=False)
+straight_heater_metal_undercut_90_90 = gf.partial(
+    straight_heater_metal_undercut,
+    with_undercut=False,
+    via_stack1=via_stack_heater90,
+    via_stack2=via_stack_heater90,
+)
+
+
+straight_heater_metal = gf.partial(
+    straight_heater_metal_undercut,
+    with_undercut=False,
+)
+straight_heater_metal_90_90 = gf.partial(
+    straight_heater_metal_undercut,
+    with_undercut=False,
+    via_stack1=via_stack_heater90,
+    via_stack2=via_stack_heater90,
+)
 
 
 def test_ports() -> Component:
