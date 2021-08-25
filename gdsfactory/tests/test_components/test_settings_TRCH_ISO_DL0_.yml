@@ -1,7 +1,0 @@
-function_name: TRCH_ISO_DL0
-info: {}
-module: gdsfactory.components.opcm
-name: TRCH_ISO_DL0
-settings:
-  separation: 2
-  width: 0.5

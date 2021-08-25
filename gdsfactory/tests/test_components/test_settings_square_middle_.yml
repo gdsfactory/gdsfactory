@@ -1,6 +1,6 @@
 function_name: square_middle
 info: {}
-module: gdsfactory.components.cd_sem
+module: gdsfactory.components.cd
 name: square_middle
 settings:
   layer:
