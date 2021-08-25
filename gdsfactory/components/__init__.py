@@ -378,7 +378,12 @@ circuit_names = {
     "component_lattice",
 }
 
-__all__ = list(LIBRARY.factory.keys()) + container_names + ["extend_ports_list"]
+__all__ = (
+    list(LIBRARY.factory.keys())
+    + container_names
+    + ["extend_ports_list"]
+    + ["straight_heater_metal_undercut_90_90", "straight_heater_metal_90_90"]
+)
 component_factory = LIBRARY.factory
 
 if __name__ == "__main__":
