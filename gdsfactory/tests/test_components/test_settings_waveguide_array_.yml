@@ -1,7 +1,0 @@
-function_name: straight_array
-info: {}
-module: gdsfactory.components.straight_array
-name: straight_array
-settings:
-  n: 4
-  spacing: 4

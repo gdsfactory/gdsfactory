@@ -1,5 +1,0 @@
-function_name: ring_double_bus
-info: {}
-module: gdsfactory.components.ring_double_bus
-name: ring_double_bus
-settings: {}

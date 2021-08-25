@@ -1,9 +1,0 @@
-function_name: rectangle
-info: {}
-module: gdsfactory.components.rectangle
-name: rectangle_S1300_2600
-settings:
-  centered: false
-  layer:
-  - 1
-  - 0
