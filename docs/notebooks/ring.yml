@@ -1,0 +1,100 @@
+connections:
+  bend_euler_CScross_section_R10_5p125_16p425,o1: straight_CScross_section_L600n_10p0_11p0,o1
+  bend_euler_CScross_section_R10_5p125_16p425,o2: straight_CScross_section_L4_m2p0_21p3,o1
+  bend_euler_CScross_section_R10_m9p125_16p425,o1: straight_CScross_section_L4_m2p0_21p3,o2
+  bend_euler_CScross_section_R10_m9p125_16p425,o2: straight_CScross_section_L600n_m14p0_11p0,o2
+  coupler_ring_89817a41_m2p0_5p225,o2: straight_CScross_section_L600n_m14p0_11p0,o1
+  coupler_ring_89817a41_m2p0_5p225,o3: straight_CScross_section_L600n_10p0_11p0,o2
+instances:
+  bend_euler_CScross_section_R10_5p125_16p425:
+    component: bend_euler
+    settings:
+      angle: 90
+      p: 1
+      with_arc_floorplan: true
+      npoints: 720
+      direction: ccw
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+      radius: 10
+  bend_euler_CScross_section_R10_m9p125_16p425:
+    component: bend_euler
+    settings:
+      angle: 90
+      p: 1
+      with_arc_floorplan: true
+      npoints: 720
+      direction: ccw
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+      radius: 10
+  coupler_ring_89817a41_m2p0_5p225:
+    component: coupler_ring
+    settings:
+      gap: 0.2
+      radius: 10
+      length_x: 4
+      bend: bend_euler
+      cross_section:
+        function: cross_section
+  straight_CScross_section_L4_m2p0_21p3:
+    component: straight
+    settings:
+      length: 4
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+  straight_CScross_section_L600n_10p0_11p0:
+    component: straight
+    settings:
+      length: 0.6
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+  straight_CScross_section_L600n_m14p0_11p0:
+    component: straight
+    settings:
+      length: 0.6
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+placements:
+  bend_euler_CScross_section_R10_5p125_16p425:
+    x: 10.0
+    'y': 11.3
+    rotation: 90
+    mirror: false
+  bend_euler_CScross_section_R10_m9p125_16p425:
+    x: -4.0
+    'y': 21.3
+    rotation: 180
+    mirror: false
+  coupler_ring_89817a41_m2p0_5p225:
+    x: 0.0
+    'y': 0.0
+    rotation: 0
+    mirror: false
+  straight_CScross_section_L4_m2p0_21p3:
+    x: 0.0
+    'y': 21.3
+    rotation: 180
+    mirror: false
+  straight_CScross_section_L600n_10p0_11p0:
+    x: 10.0
+    'y': 11.3
+    rotation: 270
+    mirror: false
+  straight_CScross_section_L600n_m14p0_11p0:
+    x: -14.0
+    'y': 10.7
+    rotation: 90
+    mirror: false
+ports:
+  o2: coupler_ring_89817a41_m2p0_5p225,o4
+  o1: coupler_ring_89817a41_m2p0_5p225,o1
+name: ring_single
