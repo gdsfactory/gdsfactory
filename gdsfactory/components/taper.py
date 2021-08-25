@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionFactory, Layer, Number
+from gdsfactory.types import CrossSectionFactory, Layer
 
 
 @cell
@@ -83,15 +83,18 @@ def taper(
 
 @gf.cell
 def taper_strip_to_ridge(
-    length: Number = 10.0,
-    width1: Number = 0.5,
-    width2: Number = 0.5,
-    w_slab1: Number = 0.15,
-    w_slab2: Number = 6.0,
+    length: float = 10.0,
+    width1: float = 0.5,
+    width2: float = 0.5,
+    w_slab1: float = 0.15,
+    w_slab2: float = 6.0,
     layer_wg: Layer = gf.LAYER.WG,
     layer_slab: Layer = gf.LAYER.SLAB90,
+    with_slab_port: bool = False,
+    layers_cladding: Optional[Tuple[Layer, ...]] = None,
+    cladding_offset: float = 3.0,
 ) -> Component:
-    r"""taper strip to rib
+    r"""Linear taper from strip to rib
 
     Args:
         length:
@@ -99,39 +102,51 @@ def taper_strip_to_ridge(
         width2:
         w_slab1
         w_slab2
+        layer_wg:
+        layer_slab:
+        with_slab_port: adds a wide slab port
+        layers_cladding
+        cladding_offset:
 
     .. code::
 
-                 _________
-                /
-        _______/_________
-              /
-        ______\__________
-               \
-                \_________
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.taper_strip_to_ridge()
-      c.plot()
+                      __________________________
+                     /           |
+             _______/____________|______________
+                   /             |
+       width1     |w_slab1       | w_slab2  width2
+             ______\_____________|______________
+                    \            |
+                     \__________________________
 
     """
 
-    _taper_wg = taper(length=length, width1=width1, width2=width2, layer=layer_wg)
-    _taper_slab = taper(length=length, width1=w_slab1, width2=w_slab2, layer=layer_slab)
+    taper_wg = taper(length=length, width1=width1, width2=width2, layer=layer_wg)
+    taper_slab = taper(length=length, width1=w_slab1, width2=w_slab2, layer=layer_slab)
 
     c = gf.Component()
-    for _t in [_taper_wg, _taper_slab]:
+    for _t in [taper_wg, taper_slab]:
         taper_ref = _t.ref()
         c.add(taper_ref)
         c.absorb(taper_ref)
 
     c.info["length"] = length
-    c.add_port(name="o1", port=_taper_wg.ports["o1"])
-    c.add_port(name="o2", port=_taper_wg.ports["o2"])
+    c.add_port(name="o1", port=taper_wg.ports["o1"])
+    if with_slab_port:
+        c.add_port(name="o2", port=taper_slab.ports["o2"])
+    else:
+        c.add_port(name="o2", port=taper_wg.ports["o2"])
+
+    if layers_cladding:
+        points = get_padding_points(
+            component=c,
+            default=0,
+            bottom=cladding_offset,
+            top=cladding_offset,
+        )
+        for layer in layers_cladding:
+            c.add_polygon(points, layer=layer)
+
     return c
 
 
@@ -177,7 +192,7 @@ def taper_strip_to_ridge_trenches(
 
 if __name__ == "__main__":
     # c = taper(width2=1)
-    c = taper_strip_to_ridge()
+    c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     c.show()

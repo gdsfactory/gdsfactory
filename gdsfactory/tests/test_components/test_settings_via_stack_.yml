@@ -7,6 +7,7 @@ settings:
   layer:
   - 49
   - 0
+  port_location: null
   port_orientation: 90
   vias:
   - enclosure: 2
