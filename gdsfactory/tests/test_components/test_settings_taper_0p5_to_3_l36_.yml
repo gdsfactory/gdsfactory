@@ -2,4 +2,12 @@ function_name: taper_0p5_to_3_l36
 info: {}
 module: gdsfactory.components.taper_from_csv
 name: taper_0p5_to_3_l36
-settings: {}
+settings:
+  cladding_offset: 3
+  filepath: taper_strip_0p5_3_36.csv
+  layer:
+  - 1
+  - 0
+  layer_cladding:
+  - 111
+  - 0

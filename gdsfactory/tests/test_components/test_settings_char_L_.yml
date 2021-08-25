@@ -1,0 +1,14 @@
+function_name: char_L
+info: {}
+module: gdsfactory.components.cd
+name: char_L
+settings:
+  justify: left
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
+  position:
+  - 0
+  - 0
+  text: L

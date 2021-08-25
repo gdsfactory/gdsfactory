@@ -1,0 +1,8 @@
+function_name: coupler90
+info: {}
+module: gdsfactory.components.coupler90
+name: coupler90_Bbend_circular
+settings:
+  bend: bend_circular
+  gap: 0.2
+  radius: 10

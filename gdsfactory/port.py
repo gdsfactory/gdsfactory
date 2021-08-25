@@ -601,20 +601,22 @@ def auto_rename_ports(
     function=_rename_ports_clockwise,
     select_ports_optical=select_ports_optical,
     select_ports_electrical=select_ports_electrical,
+    prefix_optical: str = "o",
+    prefix_electrical: str = "e",
     **kwargs,
 ):
     """Adds prefix for optical and electical"""
     rename_ports_by_orientation(
         component=component,
         select_ports=select_ports_optical,
-        prefix="o",
+        prefix=prefix_optical,
         function=function,
         **kwargs,
     )
     rename_ports_by_orientation(
         component=component,
         select_ports=select_ports_electrical,
-        prefix="e",
+        prefix=prefix_electrical,
         function=function,
         **kwargs,
     )

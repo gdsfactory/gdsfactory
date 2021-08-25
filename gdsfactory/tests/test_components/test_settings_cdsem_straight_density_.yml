@@ -1,0 +1,12 @@
+function_name: cdsem_straight_density
+info: {}
+module: gdsfactory.components.opcm
+name: cdsem_straight_density
+settings:
+  layer:
+  - 1
+  - 0
+  layers_cladding: null
+  margin: 2
+  trench_width: 0.304
+  wg_width: 0.372

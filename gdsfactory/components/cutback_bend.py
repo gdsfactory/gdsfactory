@@ -19,7 +19,7 @@ def _get_bend_size(bend90: Component) -> float64:
 
 @cell
 def cutback_bend(
-    bend90: ComponentOrFactory,
+    bend90: ComponentOrFactory = bend_euler,
     straight_length: float = 5.0,
     n_steps: int = 6,
     n_stairs: int = 5,

@@ -7,7 +7,7 @@
 - add function to detect duplicated cell names
 - example on how to customize visualization of a component
 - remove kwargs from most components
-    - will enable most intuitive errors
+  - will enable most intuitive errors
 
 Maybe:
 
@@ -31,6 +31,11 @@ from contracts import contract
 
 
 ```
+
+## 3.0.4
+
+- move components python files to the same folder
+- add components.write_factory function to generate dict
 
 ## 3.0.3
 

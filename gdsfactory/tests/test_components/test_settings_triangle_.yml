@@ -1,0 +1,8 @@
+function_name: triangle
+info: {}
+module: gdsfactory.components.align
+name: triangle
+settings:
+  layer:
+  - 1
+  - 0

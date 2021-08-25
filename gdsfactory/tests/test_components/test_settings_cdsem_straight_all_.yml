@@ -1,0 +1,9 @@
+function_name: cdsem_straight_all
+info: {}
+module: gdsfactory.components.opcm
+name: cdsem_straight_all
+settings:
+  layer:
+  - 1
+  - 0
+  layers_cladding: null

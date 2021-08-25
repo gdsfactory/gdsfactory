@@ -1,0 +1,16 @@
+function_name: taper_strip_to_ridge_trenches
+info: {}
+module: gdsfactory.components.taper
+name: taper_strip_to_ridge_trenches
+settings:
+  layer_wg:
+  - 1
+  - 0
+  length: 10
+  slab_offset: 3
+  trench_layer:
+  - 3
+  - 0
+  trench_offset_after_wg: 0.1
+  trench_width: 2
+  width: 0.5

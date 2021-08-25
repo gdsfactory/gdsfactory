@@ -6,7 +6,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 
-from gdsfactory.components import component_factory
+from gdsfactory import components
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.doe import get_settings_list
 from gdsfactory.placer import (
@@ -17,6 +17,12 @@ from gdsfactory.placer import (
 )
 from gdsfactory.types import PathType
 from gdsfactory.write_doe import write_doe_metadata
+
+factory = {
+    i: getattr(components, i)
+    for i in dir(components)
+    if not i.startswith("_") and callable(getattr(components, i))
+}
 
 
 def separate_does_from_templates(dicts: Dict[str, Any]) -> Any:
@@ -67,7 +73,7 @@ def save_doe_use_template(doe, doe_root_path=None) -> None:
 
 def write_doe(
     doe,
-    component_factory=component_factory,
+    component_factory=factory,
     doe_root_path: Optional[PathType] = None,
     doe_metadata_path: Optional[PathType] = None,
     overwrite: bool = False,
@@ -116,7 +122,7 @@ def load_does(
 
 def generate_does(
     filepath: PathType,
-    component_factory: Dict[str, Callable] = component_factory,
+    component_factory: Dict[str, Callable] = factory,
     doe_root_path: PathType = CONFIG["cache_doe_directory"],
     doe_metadata_path: PathType = CONFIG["doe_directory"],
     n_cores: int = 8,

@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.config import TECH

@@ -1,0 +1,8 @@
+function_name: pixel
+info: {}
+module: gdsfactory.components.version_stamp
+name: pixel
+settings:
+  layer:
+  - 1
+  - 0

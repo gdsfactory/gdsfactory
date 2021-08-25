@@ -1,0 +1,13 @@
+function_name: taper
+info:
+  length: 10
+  width1: 0.5
+  width2: 3
+module: gdsfactory.components.taper
+name: taper_W3
+settings:
+  length: 10
+  port: null
+  width1: 0.5
+  width2: 3
+  with_cladding_box: true

@@ -9,7 +9,7 @@ from gdsfactory.add_termination import add_gratings_and_loopback
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
-from gdsfactory.components.grating_coupler.elliptical import grating_coupler_elliptical
+from gdsfactory.components.grating_coupler_elliptical import grating_coupler_elliptical
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners

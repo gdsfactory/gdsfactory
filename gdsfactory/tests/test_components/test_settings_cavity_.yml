@@ -1,0 +1,7 @@
+function_name: cavity
+info: {}
+module: gdsfactory.components.cavity
+name: cavity
+settings:
+  gap: 0.2
+  length: 0.1

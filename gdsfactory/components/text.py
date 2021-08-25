@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
-from gdsfactory.types import Coordinate, Layer, Number
+from gdsfactory.types import Coordinate, Layer
 
 
 def text(
@@ -69,7 +69,7 @@ def text(
 @gf.cell
 def githash(
     text: Iterable[str] = ("",),
-    size: Number = 0.4,
+    size: float = 0.4,
     hash_length: int = 6,
     layer: Layer = LAYER.WG,
 ) -> Component:

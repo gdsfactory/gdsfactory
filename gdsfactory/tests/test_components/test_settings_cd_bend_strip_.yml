@@ -1,0 +1,12 @@
+function_name: cd_bend_strip
+info: {}
+module: gdsfactory.components.cd_bend
+name: cd_bend_strip
+settings:
+  L: 2
+  bend90_factory: bend_circular
+  center_shapes: SU
+  markers_with_slabs: false
+  radius: 2
+  straight_factory: straight
+  width: 0.4

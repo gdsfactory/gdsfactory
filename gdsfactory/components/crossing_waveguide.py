@@ -1,11 +1,9 @@
 from typing import Optional
 
-import gdspy
 import numpy as np
 import scipy.optimize as so
 from numpy import float64
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
@@ -17,7 +15,7 @@ from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
 from gdsfactory.geo_utils import path_length
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -25,22 +23,22 @@ def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
-@gf.cell
+@cell
 def crossing_arm(
-    wg_width: float = 0.5,
+    width: float = 0.5,
     r1: float = 3.0,
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
 ) -> Component:
     """arm of a crossing"""
-    c = gf.Component()
+    c = Component()
     _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
     c.add(_ellipse)
     c.absorb(_ellipse)
 
-    a = gf.snap.snap_to_grid(L + w / 2)
-    h = wg_width / 2
+    a = np.round(L + w / 2, 3)
+    h = width / 2
 
     taper_pts = [
         (-a, h),
@@ -55,12 +53,10 @@ def crossing_arm(
 
     c.add_polygon(taper_pts, layer=LAYER.WG)
     c.add_port(
-        name="o1", midpoint=(-a, 0), orientation=180, width=wg_width, layer=LAYER.WG
+        name="o1", midpoint=(-a, 0), orientation=180, width=width, layer=LAYER.WG
     )
 
-    c.add_port(
-        name="o2", midpoint=(a, 0), orientation=0, width=wg_width, layer=LAYER.WG
-    )
+    c.add_port(name="o2", midpoint=(a, 0), orientation=0, width=width, layer=LAYER.WG)
 
     return c
 
@@ -68,8 +64,8 @@ def crossing_arm(
 @cell
 def crossing(arm: ComponentFactory = crossing_arm) -> Component:
     """Waveguide crossing"""
-    cx = gf.Component()
-    arm = gf.call_if_func(arm)
+    cx = Component()
+    arm = arm() if callable(arm) else arm
     arm_h = arm.ref()
     arm_v = arm.ref(rotation=90)
 
@@ -89,28 +85,28 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
     """
     Crossing based on a taper. The default is a dummy taper
     """
-    taper = gf.call_if_func(taper)
+    taper = taper() if callable(taper) else taper
 
-    c = gf.Component()
+    c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
-        _taper = taper.ref(position=(0, 0), port_id="2", rotation=a)
+        _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
         c.add(_taper)
-        c.add_port(name=i, port=_taper.ports["1"])
+        c.add_port(name=i, port=_taper.ports["o1"])
         c.absorb(_taper)
 
-    c = gf.port.rename_ports_by_orientation(c)
+    c.auto_rename_ports()
     return c
 
 
-@gf.cell
+@cell
 def crossing_etched(
-    wg_width=0.5,
-    r1=3.0,
-    r2=1.1,
-    w=1.2,
-    L=3.4,
-    layer_wg=LAYER.WG,
-    layer_slab=LAYER.SLAB150,
+    width: float = 0.5,
+    r1: float = 3.0,
+    r2: float = 1.1,
+    w: float = 1.2,
+    L: float = 3.4,
+    layer_wg: Layer = LAYER.WG,
+    layer_slab: Layer = LAYER.SLAB150,
 ):
     """
     Waveguide crossing:
@@ -120,17 +116,14 @@ def crossing_etched(
     """
 
     # Draw the ellipses
-    c = gf.Component()
-    _ellipse1 = ellipse(radii=(r1, r2), layer=layer_wg).ref()
-    _ellipse2 = ellipse(radii=(r2, r1), layer=layer_wg).ref()
-    c.add(_ellipse1)
-    c.add(_ellipse2)
+    c = Component()
+    _ellipse1 = c << ellipse(radii=(r1, r2), layer=layer_wg)
+    _ellipse2 = c << ellipse(radii=(r2, r1), layer=layer_wg)
     c.absorb(_ellipse1)
     c.absorb(_ellipse2)
 
-    #
     a = L + w / 2
-    h = wg_width / 2
+    h = width / 2
 
     taper_cross_pts = [
         (-a, h),
@@ -147,13 +140,13 @@ def crossing_etched(
         (-a, -h),
     ]
 
-    tapers_poly = c.add_polygon(taper_cross_pts, layer=layer_wg)
+    c.add_polygon(taper_cross_pts, layer=layer_wg)
 
-    b = a - 0.1  # To make sure we get 4 distinct polygons when doing bool ops
-    tmp_polygon = [(-b, b), (b, b), (b, -b), (-b, -b)]
-
-    polys_etch = gdspy.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
-    c.add(polys_etch)
+    # tapers_poly = c.add_polygon(taper_cross_pts, layer=layer_wg)
+    # b = a - 0.1  # To make sure we get 4 distinct polygons when doing bool ops
+    # tmp_polygon = [(-b, b), (b, b), (b, -b), (-b, -b)]
+    # polys_etch = gdspy.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
+    # c.add(polys_etch)
 
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
     angles = [0, 90, 180, 270]
@@ -161,10 +154,10 @@ def crossing_etched(
     i = 0
     for p, angle in zip(positions, angles):
         c.add_port(
-            name=i,
+            name=str(i),
             midpoint=p,
             orientation=angle,
-            width=wg_width,
+            width=width,
             layer=layer_wg,
         )
         i += 1
@@ -208,7 +201,7 @@ def crossing45(
 
     crossing = crossing() if callable(crossing) else crossing
 
-    c = gf.Component()
+    c = Component()
     _crossing = crossing.ref(rotation=45)
     c.add(_crossing)
 
@@ -304,7 +297,7 @@ def compensation_path(
 
     """
     # Get total path length taken by the bends
-    crossing45 = gf.call_if_func(crossing45)
+    crossing45 = crossing45() if callable(crossing45) else crossing45
     X45_cmps = crossing45.info["components"]
     length = 2 * X45_cmps["bezier_bend"].info["length"]
 
@@ -315,7 +308,7 @@ def compensation_path(
     target_bend_length = length / 2
 
     def get_x_span(cmp):
-        return cmp.ports["o2"].x - cmp.ports["o1"].x
+        return cmp.ports["o3"].x - cmp.ports["o1"].x
 
     x_span_crossing45 = get_x_span(crossing45)
     x_span_crossing = get_x_span(X45_cmps["crossing"])
@@ -353,7 +346,7 @@ def compensation_path(
 
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
-    component = gf.Component()
+    component = Component()
     crossing0 = X45_cmps["crossing"].ref()
     component.add(crossing0)
 
@@ -361,21 +354,21 @@ def compensation_path(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror
     )
     sbend_right = sbend.ref(
-        position=crossing0.ports["o2"], port_id="o2", h_mirror=True, v_mirror=v_mirror
+        position=crossing0.ports["o3"], port_id="o2", h_mirror=True, v_mirror=v_mirror
     )
 
     component.add(sbend_left)
     component.add(sbend_right)
 
     component.add_port("o1", port=sbend_left.ports["o1"])
-    component.add_port("o2", port=sbend_right.ports["o2"])
+    component.add_port("o2", port=sbend_right.ports["o1"])
 
     component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     component.info["components"] = {"sbend": sbend}
     return component
 
 
-def demo():
+def _demo():
     """plot curvature of bends"""
     from matplotlib import pyplot as plt
 
@@ -384,7 +377,7 @@ def demo():
     print(c.info["min_bend_radius"])
     print(c2.info["min_bend_radius"])
 
-    component = gf.Component(name="top_lvl")
+    component = Component(name="top_lvl")
     component.add(c.ref(port_id="o1"))
     component.add(c2.ref(port_id="o1", position=(0, 10)))
 
@@ -397,19 +390,18 @@ def demo():
     plt.plot(bend_info2["t"][1:-1] * L2, abs(bend_info2["curvature"]))
     plt.xlabel("bend length (um)")
     plt.ylabel("curvature (um^-1)")
-    gf.show(component)
+    component.show()
     plt.show()
 
 
 if __name__ == "__main__":
-    # c = compensation_path()
-    # c.pprint()
-    # c.show()
+    c = compensation_path()
     # c = crossing()
-    c = crossing45(port_spacing=15)
+    # c = crossing45(port_spacing=40)
     # print(c.ports["E1"].y - c.ports['o2'].y)
     # print(c.get_ports_array())
-    # demo()
-    # c = crossing_etched()
+    # _demo()
     # c = crossing_from_taper()
+    # c.pprint()
+    c = crossing_etched()
     c.show()

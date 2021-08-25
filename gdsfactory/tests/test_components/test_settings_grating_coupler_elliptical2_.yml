@@ -2,7 +2,7 @@ function_name: grating_coupler_elliptical2
 info:
   polarization: te
   wavelength: 1550
-module: gdsfactory.components.grating_coupler.elliptical2
+module: gdsfactory.components.grating_coupler_elliptical2
 name: grating_coupler_elliptical2
 settings:
   cladding_offset: 2

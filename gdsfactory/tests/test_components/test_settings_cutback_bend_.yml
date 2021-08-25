@@ -1,0 +1,27 @@
+function_name: cutback_bend
+info: {}
+module: gdsfactory.components.cutback_bend
+name: cutback_bend
+settings:
+  n_bends: 68
+  n_stairs: 5
+  n_steps: 6
+  port_name1: o1
+  port_name2: o2
+  ports_map: null
+  sequence: ASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBS
+  start_orientation: 90
+  straight_length: 5
+  symbol_to_component:
+    A:
+    - bend_euler
+    - o1
+    - o2
+    B:
+    - bend_euler
+    - o2
+    - o1
+    S:
+    - straight_L5_W500n
+    - o1
+    - o2

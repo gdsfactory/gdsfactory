@@ -1,0 +1,11 @@
+function_name: githash
+info: {}
+module: gdsfactory.components.text
+name: githash
+settings:
+  hash_length: 6
+  layer:
+  - 1
+  - 0
+  text:
+  - ''

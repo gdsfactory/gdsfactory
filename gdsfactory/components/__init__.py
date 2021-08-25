@@ -1,396 +1,721 @@
-""" NOTE: import order matters.
-Only change the order if you know what you are doing
-
-isort:skip_file
-"""
-import dataclasses
-from gdsfactory.tech import LIBRARY
-
-# level 0 components
-from gdsfactory.components.array import array
-from gdsfactory.components.array import array_2d
-from gdsfactory.components.array_with_fanout import array_with_fanout
-from gdsfactory.components.array_with_fanout import array_with_fanout_2d
-from gdsfactory.components.array_with_via import array_with_via
-from gdsfactory.components.array_with_via import array_with_via_2d
+from gdsfactory.components.align import add_frame, align_wafer, triangle
+from gdsfactory.components.array import array, array_2d
+from gdsfactory.components.array_with_fanout import (
+    array_with_fanout,
+    array_with_fanout_2d,
+)
+from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
+from gdsfactory.components.awg import (
+    awg,
+    free_propagation_region,
+    free_propagation_region_input,
+    free_propagation_region_output,
+)
+from gdsfactory.components.bbox import Coordinate, bbox
+from gdsfactory.components.bend_circular import bend_circular, bend_circular180
+from gdsfactory.components.bend_circular_heater import bend_circular_heater
+from gdsfactory.components.bend_euler import bend_euler, bend_euler180, bend_euler_s
+from gdsfactory.components.bend_s import bend_s
+from gdsfactory.components.C import C
+from gdsfactory.components.cavity import cavity
+from gdsfactory.components.cd import (
+    CENTER_SHAPES_MAP,
+    char_H,
+    char_L,
+    square_middle,
+    triangle_middle_down,
+    triangle_middle_up,
+)
+from gdsfactory.components.cd_bend import cd_bend, cd_bend_strip
+from gdsfactory.components.cd_straight import cd_straight
+from gdsfactory.components.cdc import cdc
+from gdsfactory.components.circle import circle
+from gdsfactory.components.compass import compass
+from gdsfactory.components.component_lattice import (
+    COUNTER,
+    component_lattice,
+    component_sequence_to_str,
+    dist,
+    gen_tmp_port_name,
+    get_sequence_cross,
+    get_sequence_cross_str,
+    parse_lattice,
+    swap,
+)
+from gdsfactory.components.component_sequence import component_sequence
+from gdsfactory.components.coupler import coupler
+from gdsfactory.components.coupler90 import coupler90, coupler90circular
+from gdsfactory.components.coupler90bend import coupler90bend
+from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
+from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
+from gdsfactory.components.coupler_full import coupler_full
+from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.coupler_symmetric import coupler_symmetric
+from gdsfactory.components.cross import cross
+from gdsfactory.components.crossing_waveguide import (
+    compensation_path,
+    crossing,
+    crossing45,
+    crossing_arm,
+    crossing_etched,
+    crossing_from_taper,
+    snap_to_grid,
+)
+from gdsfactory.components.cutback_bend import (
+    cutback_bend,
+    cutback_bend90,
+    cutback_bend90circular,
+    cutback_bend180,
+    cutback_bend180circular,
+    staircase,
+)
+from gdsfactory.components.cutback_component import (
+    cutback_component,
+    cutback_component_flipped,
+)
+from gdsfactory.components.dbr import dbr, dbr_cell, dw, period, w0, w1, w2
+from gdsfactory.components.dbr2 import dbr2
+from gdsfactory.components.delay_snake import delay_snake
+from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_length
+from gdsfactory.components.delay_snake3 import delay_snake3, test_delay_snake3_length
+from gdsfactory.components.die import die
+from gdsfactory.components.die_bbox import big_square, die_bbox
+from gdsfactory.components.disk import disk
+from gdsfactory.components.ellipse import ellipse
+from gdsfactory.components.extend_ports_list import extend_ports_list
+from gdsfactory.components.extension import extend_port, extend_ports
+from gdsfactory.components.fiber import fiber
+from gdsfactory.components.fiber_array import fiber_array
+from gdsfactory.components.grating_coupler_array import grating_coupler_array
+from gdsfactory.components.grating_coupler_elliptical import (
+    ellipse_arc,
+    grating_coupler_elliptical,
+    grating_coupler_elliptical_te,
+    grating_coupler_elliptical_tm,
+    grating_taper_points,
+    grating_tooth_points,
+)
+from gdsfactory.components.grating_coupler_elliptical2 import (
+    grating_coupler_elliptical2,
+)
+from gdsfactory.components.grating_coupler_elliptical_trenches import (
+    grating_coupler_elliptical_trenches,
+    grating_coupler_te,
+    grating_coupler_tm,
+)
+from gdsfactory.components.grating_coupler_functions import (
+    get_grating_period,
+    get_grating_period_curved,
+    neff_ridge,
+    neff_shallow,
+)
+from gdsfactory.components.grating_coupler_loss import (
+    connect_loopback,
+    grating_coupler_loss,
+    loss_deembedding_ch12_34,
+    loss_deembedding_ch13_24,
+    loss_deembedding_ch14_23,
+)
+from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
+from gdsfactory.components.grating_coupler_uniform import grating_coupler_uniform
+from gdsfactory.components.grating_coupler_uniform_optimized import (
+    grating_coupler_uniform_1etch_h220_e70,
+    grating_coupler_uniform_1etch_h220_e70_taper_w10_l100,
+    grating_coupler_uniform_1etch_h220_e70_taper_w10_l200,
+    grating_coupler_uniform_1etch_h220_e70_taper_w11_l200,
+    grating_coupler_uniform_2etch_h220_e70,
+    grating_coupler_uniform_optimized,
+)
+from gdsfactory.components.hline import hline
+from gdsfactory.components.L import L
+from gdsfactory.components.litho_calipers import litho_calipers
+from gdsfactory.components.litho_ruler import litho_ruler
+from gdsfactory.components.litho_steps import litho_steps
+from gdsfactory.components.logo import logo
+from gdsfactory.components.loop_mirror import loop_mirror
+from gdsfactory.components.manhattan_font import (
+    CHARAC_MAP,
+    FONT,
+    load_font,
+    manhattan_text,
+    pixel_array,
+)
+from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mzi import mzi
+from gdsfactory.components.mzi_arm import mzi_arm
+from gdsfactory.components.mzi_lattice import mzi_lattice
+from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
+from gdsfactory.components.mzit import mzit
+from gdsfactory.components.mzit_lattice import mzit_lattice
+from gdsfactory.components.nxn import nxn
+from gdsfactory.components.opcm import (
+    LABEL_ITERATORS,
+    LINE_LENGTH,
+    TRCH_DUO_DL0,
+    TRCH_DUO_L20,
+    TRCH_ISO,
+    TRCH_ISO_DL0,
+    TRCH_ISO_L20,
+    TRCH_STG,
+    LabelIterator,
+    cdsem_straight,
+    cdsem_straight_all,
+    cdsem_straight_column,
+    cdsem_straight_density,
+    cdsem_strip,
+    cdsem_target,
+    cdsem_uturn,
+    gen_label_iterator,
+    pcm_optical,
+    wg_line,
+)
+from gdsfactory.components.pad import (
+    pad,
+    pad_array,
+    pad_array0,
+    pad_array90,
+    pad_array180,
+    pad_array270,
+    pad_array_2d,
+)
+from gdsfactory.components.pads_shorted import pads_shorted
+from gdsfactory.components.ramp import ramp
+from gdsfactory.components.rectangle import DIRECTION_TO_ANGLE, rectangle
+from gdsfactory.components.resistance_meander import resistance_meander
+from gdsfactory.components.ring import ring
+from gdsfactory.components.ring_double import ring_double
+from gdsfactory.components.ring_single import ring_single
+from gdsfactory.components.ring_single_array import ring_single_array
+from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
+from gdsfactory.components.spiral import spiral
+from gdsfactory.components.spiral_circular import spiral_circular
+from gdsfactory.components.spiral_external_io import spiral_external_io
+from gdsfactory.components.spiral_inner_io import (
+    get_bend_port_distances,
+    get_straight_length,
+    spiral_inner_io,
+    spiral_inner_io_euler,
+    spiral_inner_io_with_gratings,
+)
+from gdsfactory.components.splitter_chain import splitter_chain
+from gdsfactory.components.splitter_tree import (
+    splitter_tree,
+    test_splitter_tree_ports,
+    test_splitter_tree_ports_no_sbend,
+)
 from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_heater import straight_heater_metal_undercut
-from gdsfactory.components.straight_heater import straight_heater_metal
+from gdsfactory.components.straight_array import straight_array
+from gdsfactory.components.straight_heater import (
+    straight_heater_metal,
+    straight_heater_metal_90_90,
+    straight_heater_metal_undercut,
+    straight_heater_metal_undercut_90_90,
+    test_ports,
+)
 from gdsfactory.components.straight_heater_doped import straight_heater_doped
 from gdsfactory.components.straight_pin import (
     straight_pin,
     straight_pin_passive,
     straight_pin_passive_tapered,
-)
-from gdsfactory.components.straight_pin import (
     straight_pn,
     straight_pn_passive,
     straight_pn_passive_tapered,
 )
-from gdsfactory.components.straight_array import straight_array
-from gdsfactory.components.straight_rib import straight_rib
-from gdsfactory.components.straight_rib import straight_rib_tapered
-
-from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.bend_circular import bend_circular180
-from gdsfactory.components.bend_circular_heater import bend_circular_heater
-from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.bezier import bezier
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.bend_euler import bend_euler180
-from gdsfactory.components.bend_euler import bend_euler_s
-
-from gdsfactory.components.coupler90 import coupler90
-from gdsfactory.components.coupler90bend import coupler90bend
-from gdsfactory.components.coupler_straight import coupler_straight
-from gdsfactory.components.coupler_symmetric import coupler_symmetric
-from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
-from gdsfactory.components.hline import hline
-
-# basic shapes
-from gdsfactory.components.circle import circle
-from gdsfactory.components.compass import compass
-from gdsfactory.components.cross import cross
-from gdsfactory.components.crossing_waveguide import crossing
-from gdsfactory.components.crossing_waveguide import crossing45
-from gdsfactory.components.crossing_waveguide import compensation_path
-from gdsfactory.components.ellipse import ellipse
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.ring import ring
-from gdsfactory.components.extension import extend_ports
-from gdsfactory.components.taper import taper
-from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.components.text import text
-from gdsfactory.components.L import L
-from gdsfactory.components.C import C
-from gdsfactory.components.bbox import bbox
-from gdsfactory.components.nxn import nxn
-from gdsfactory.components.ramp import ramp
-from gdsfactory.components.die import die
-from gdsfactory.components.die_bbox import die_bbox
-
-# optical test structures
-from gdsfactory.components.version_stamp import version_stamp
-from gdsfactory.components.version_stamp import qrcode
-from gdsfactory.components.manhattan_font import manhattan_text
-from gdsfactory.components.logo import logo
-from gdsfactory.components.align import align_wafer
-from gdsfactory.components.cutback_bend import cutback_bend90
-from gdsfactory.components.cutback_bend import cutback_bend180
-from gdsfactory.components.cutback_component import cutback_component
-from gdsfactory.components.cutback_component import cutback_component_flipped
-
-from gdsfactory.components.pcm.litho_calipers import litho_calipers
-from gdsfactory.components.pcm.litho_steps import litho_steps
-from gdsfactory.components.pcm.verniers import verniers
-from gdsfactory.components.litho_ruler import litho_ruler
-from gdsfactory.components.ring_single_dut import ring_single_dut
-
-
-from gdsfactory.components.grating_coupler.elliptical import (
-    grating_coupler_elliptical_te,
+from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
+from gdsfactory.components.taper import (
+    taper,
+    taper_strip_to_ridge,
+    taper_strip_to_ridge_trenches,
 )
-from gdsfactory.components.grating_coupler.elliptical import (
-    grating_coupler_elliptical_tm,
+from gdsfactory.components.taper_from_csv import (
+    taper_0p5_to_3_l36,
+    taper_from_csv,
+    taper_w10_l100,
+    taper_w10_l150,
+    taper_w10_l200,
+    taper_w11_l200,
+    taper_w12_l200,
 )
-from gdsfactory.components.grating_coupler.elliptical2 import (
-    grating_coupler_elliptical2,
-)
-from gdsfactory.components.grating_coupler.uniform import grating_coupler_uniform
-from gdsfactory.components.grating_coupler.uniform_optimized import (
-    grating_coupler_uniform_optimized,
-)
-from gdsfactory.components.grating_coupler.grating_coupler_tree import (
-    grating_coupler_tree,
-)
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_tm
-from gdsfactory.components.grating_coupler.grating_coupler_loss import (
-    grating_coupler_loss,
-)
-from gdsfactory.components.delay_snake import delay_snake
-from gdsfactory.components.delay_snake2 import delay_snake2
-from gdsfactory.components.delay_snake3 import delay_snake3
-from gdsfactory.components.spiral import spiral
-from gdsfactory.components.spiral_inner_io import spiral_inner_io_euler
-from gdsfactory.components.spiral_inner_io import spiral_inner_io
-from gdsfactory.components.spiral_inner_io import spiral_inner_io_with_gratings
-from gdsfactory.components.spiral_external_io import spiral_external_io
-from gdsfactory.components.spiral_circular import spiral_circular
-from gdsfactory.components.cdc import cdc
-from gdsfactory.components.dbr import dbr
-from gdsfactory.components.dbr2 import dbr2
-
-# electrical
-from gdsfactory.components.wire import wire_corner
-from gdsfactory.components.wire import wire_straight
-from gdsfactory.components.wire_sbend import wire_sbend
-from gdsfactory.components.pad import pad
-from gdsfactory.components.pad import pad_array
-from gdsfactory.components.pad import pad_array180
-from gdsfactory.components.pad import pad_array90
-from gdsfactory.components.pad import pad_array0
-from gdsfactory.components.pad import pad_array270
-from gdsfactory.components.pad import pad_array_2d
-from gdsfactory.components.via import via
-from gdsfactory.components.via import via1
-from gdsfactory.components.via import via2
-from gdsfactory.components.via import via3
-from gdsfactory.components.via_stack import via_stack
-from gdsfactory.components.via_stack import via_stack0
-from gdsfactory.components.via_stack import via_stack90
-from gdsfactory.components.via_stack import via_stack180
-from gdsfactory.components.via_stack import via_stack270
-from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
-from gdsfactory.components.pads_shorted import pads_shorted
-
-# electrical PCM
-from gdsfactory.components.resistance_meander import resistance_meander
+from gdsfactory.components.text import githash, text
+from gdsfactory.components.verniers import verniers
+from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
+from gdsfactory.components.via import via, via1, via2, via3
 from gdsfactory.components.via_cutback import via_cutback
-
-# level 1 components
-from gdsfactory.components.cavity import cavity
-from gdsfactory.components.coupler import coupler
-from gdsfactory.components.coupler_ring import coupler_ring
-from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
-from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.components.disk import disk
-from gdsfactory.components.ring_single import ring_single
-from gdsfactory.components.ring_single_array import ring_single_array
-from gdsfactory.components.ring_double import ring_double
-from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.components.mzi import mzi
-from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
-from gdsfactory.components.mzi_arm import mzi_arm
-from gdsfactory.components.mzit import mzit
-from gdsfactory.components.mzi_lattice import mzi_lattice
-from gdsfactory.components.mzit_lattice import mzit_lattice
-from gdsfactory.components.loop_mirror import loop_mirror
-from gdsfactory.components.fiber import fiber
-from gdsfactory.components.fiber_array import fiber_array
-
-# level 2 components
-from gdsfactory.components.awg import awg
-from gdsfactory.components.component_lattice import component_lattice
-from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.splitter_tree import splitter_tree
-from gdsfactory.components.splitter_chain import splitter_chain
-
-# Partial functions
-
-
-LIBRARY.register(
-    [
-        array,
-        array_2d,
-        array_with_fanout,
-        array_with_fanout_2d,
-        array_with_via,
-        array_with_via_2d,
-        C,
-        L,
-        align_wafer,
-        awg,
-        bbox,
-        bend_circular180,
-        bend_circular,
-        bend_circular_heater,
-        bend_euler180,
-        bend_euler,
-        bend_euler_s,
-        bend_s,
-        bezier,
-        cavity,
-        cdc,
-        circle,
-        compass,
-        compensation_path,
-        component_lattice,
-        component_sequence,
-        coupler90,
-        coupler90bend,
-        coupler,
-        coupler_adiabatic,
-        coupler_asymmetric,
-        coupler_full,
-        coupler_ring,
-        coupler_straight,
-        coupler_symmetric,
-        cross,
-        crossing45,
-        crossing,
-        cutback_bend180,
-        cutback_bend90,
-        cutback_component,
-        cutback_component_flipped,
-        dbr2,
-        dbr,
-        delay_snake,
-        delay_snake2,
-        delay_snake3,
-        disk,
-        die,
-        die_bbox,
-        ellipse,
-        fiber,
-        fiber_array,
-        grating_coupler_elliptical2,
-        grating_coupler_elliptical_te,
-        grating_coupler_elliptical_tm,
-        grating_coupler_loss,
-        grating_coupler_te,
-        grating_coupler_tm,
-        grating_coupler_tree,
-        grating_coupler_uniform,
-        grating_coupler_uniform_optimized,
-        hline,
-        litho_calipers,
-        litho_steps,
-        litho_ruler,
-        logo,
-        loop_mirror,
-        manhattan_text,
-        mmi1x2,
-        mmi2x2,
-        mzi,
-        mzi_arm,
-        mzi_phase_shifter,
-        mzi_lattice,
-        mzit,
-        mzit_lattice,
-        nxn,
-        pad,
-        pad_array,
-        pad_array180,
-        pad_array90,
-        pad_array0,
-        pad_array270,
-        pad_array_2d,
-        pads_shorted,
-        qrcode,
-        ramp,
-        rectangle,
-        ring,
-        ring_double,
-        ring_single,
-        ring_single_array,
-        ring_single_dut,
-        spiral,
-        spiral_circular,
-        spiral_external_io,
-        spiral_inner_io,
-        spiral_inner_io_euler,
-        spiral_inner_io_with_gratings,
-        splitter_chain,
-        splitter_tree,
-        taper,
-        taper_0p5_to_3_l36,
-        taper_strip_to_ridge,
-        extend_ports,
-        resistance_meander,
-        via_cutback,
-        text,
-        via_stack,
-        via_stack_with_offset,
-        via_stack0,
-        via_stack90,
-        via_stack180,
-        via_stack270,
-        verniers,
-        version_stamp,
-        via1,
-        via2,
-        via3,
-        via,
-        straight,
-        straight_array,
-        straight_pin,
-        straight_pin_passive,
-        straight_pin_passive_tapered,
-        straight_pn,
-        straight_pn_passive,
-        straight_pn_passive_tapered,
-        straight_heater_metal_undercut,
-        straight_heater_metal,
-        straight_heater_doped,
-        straight_rib,
-        straight_rib_tapered,
-        wire_straight,
-        wire_corner,
-        wire_sbend,
-    ]
+from gdsfactory.components.via_stack import (
+    orientation_to_anchor,
+    via_stack,
+    via_stack0,
+    via_stack90,
+    via_stack180,
+    via_stack270,
+    via_stack_heater,
+    via_stack_heater0,
+    via_stack_heater90,
+    via_stack_heater180,
+    via_stack_heater270,
+    via_stack_slab,
 )
+from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
+from gdsfactory.components.waveguide_template import strip
+from gdsfactory.components.wire import wire_corner, wire_straight
+from gdsfactory.components.wire_sbend import wire_sbend
 
-
-def library(component_type: str, **kwargs):
-    """Returns a component with settings.
-    from TECH.component_settings.component_type
-
-    Args:
-        component_type: library
-        **kwargs: component_settings
-
-    """
-    from gdsfactory.tech import TECH
-    import gdsfactory as gf
-
-    settings = getattr(TECH.component_settings, component_type)
-    settings = dataclasses.asdict(settings) if settings else {}
-    component_type = settings.pop("component_type", component_type)
-    settings.update(**kwargs)
-
-    if isinstance(component_type, gf.Component):
-        return component_type
-    elif callable(component_type):
-        return component_type(**settings)
-    elif component_type not in LIBRARY.library.keys():
-        raise ValueError(
-            f"component_type = {component_type} not in: \n"
-            + "\n".join(LIBRARY.library.keys())
-        )
-    return LIBRARY.library[component_type](**settings)
-
-
-component_names_skip_test = [
-    "text",
-    "component_sequence",
+__all__ = [
+    "C",
+    "CENTER_SHAPES_MAP",
+    "CHARAC_MAP",
+    "COUNTER",
+    "Coordinate",
+    "DIRECTION_TO_ANGLE",
+    "FONT",
+    "L",
+    "LABEL_ITERATORS",
+    "LINE_LENGTH",
+    "LabelIterator",
+    "TRCH_DUO_DL0",
+    "TRCH_DUO_L20",
+    "TRCH_ISO",
+    "TRCH_ISO_DL0",
+    "TRCH_ISO_L20",
+    "TRCH_STG",
+    "add_frame",
+    "align",
+    "align_cryo_bottom_left",
+    "align_cryo_bottom_right",
+    "align_cryo_top_left",
+    "align_cryo_top_right",
+    "align_tree_bottom_left",
+    "align_tree_bottom_right",
+    "align_tree_top_left",
+    "align_tree_top_left_with_cross",
+    "align_tree_top_right",
+    "align_wafer",
+    "array",
+    "array_2d",
+    "array_with_fanout",
+    "array_with_fanout_2d",
+    "array_with_via",
+    "array_with_via_2d",
+    "awg",
+    "bbox",
+    "bend_circular",
+    "bend_circular180",
+    "bend_circular_heater",
+    "bend_euler",
+    "bend_euler180",
+    "bend_euler_s",
+    "bend_s",
+    "big_square",
+    "cavity",
+    "cd",
+    "cd_bend",
+    "cd_bend_strip",
+    "cd_sem",
+    "cd_straight",
+    "cdc",
+    "cdsem_straight",
+    "cdsem_straight_all",
+    "cdsem_straight_column",
+    "cdsem_straight_density",
+    "cdsem_strip",
+    "cdsem_target",
+    "cdsem_uturn",
+    "char_H",
+    "char_L",
+    "circle",
+    "compass",
     "compensation_path",
     "component_lattice",
-    "version_stamp",
-    "resistance_meander",
-]
-component_names_skip_test_ports = ["coupler"]
-
-container_names = ["cavity", "ring_single_dut"]
-component_names = (
-    set(LIBRARY.factory.keys()) - set(component_names_skip_test) - set(container_names)
-)
-component_names_test_ports = component_names - set(component_names_skip_test_ports)
-circuit_names = {
+    "component_sequence",
+    "component_sequence_to_str",
+    "connect_loopback",
+    "coupler",
+    "coupler90",
+    "coupler90bend",
+    "coupler90circular",
+    "coupler_adiabatic",
+    "coupler_asymmetric",
+    "coupler_full",
+    "coupler_ring",
+    "coupler_straight",
+    "coupler_symmetric",
+    "cross",
+    "crossing",
+    "crossing45",
+    "crossing_arm",
+    "crossing_etched",
+    "crossing_from_taper",
+    "crossing_waveguide",
+    "cutback_bend",
+    "cutback_bend180",
+    "cutback_bend180circular",
+    "cutback_bend90",
+    "cutback_bend90circular",
+    "cutback_component",
+    "cutback_component_flipped",
+    "dbr",
+    "dbr2",
+    "dbr_cell",
+    "delay_snake",
+    "delay_snake2",
+    "delay_snake3",
+    "die",
+    "die_bbox",
+    "disk",
+    "dist",
+    "dw",
+    "ellipse",
+    "ellipse_arc",
+    "extend_port",
+    "extend_ports",
+    "extend_ports_list",
+    "extension",
+    "fiber",
+    "fiber_array",
+    "free_propagation_region",
+    "free_propagation_region_input",
+    "free_propagation_region_output",
+    "gen_label_iterator",
+    "gen_tmp_port_name",
+    "get_bend_port_distances",
+    "get_grating_period",
+    "get_grating_period_curved",
+    "get_sequence_cross",
+    "get_sequence_cross_str",
+    "get_straight_length",
+    "githash",
+    "grating_coupler_array",
+    "grating_coupler_elliptical",
+    "grating_coupler_elliptical2",
+    "grating_coupler_elliptical_te",
+    "grating_coupler_elliptical_tm",
+    "grating_coupler_elliptical_trenches",
+    "grating_coupler_functions",
+    "grating_coupler_loss",
+    "grating_coupler_te",
+    "grating_coupler_tm",
+    "grating_coupler_tree",
+    "grating_coupler_uniform",
+    "grating_coupler_uniform_1etch_h220_e70",
+    "grating_coupler_uniform_1etch_h220_e70_taper_w10_l100",
+    "grating_coupler_uniform_1etch_h220_e70_taper_w10_l200",
+    "grating_coupler_uniform_1etch_h220_e70_taper_w11_l200",
+    "grating_coupler_uniform_2etch_h220_e70",
+    "grating_coupler_uniform_optimized",
+    "grating_taper_points",
+    "grating_tooth_points",
+    "hline",
+    "litho_calipers",
+    "litho_ruler",
+    "litho_steps",
+    "load_font",
+    "logo",
+    "loop_mirror",
+    "loss_deembedding_ch12_34",
+    "loss_deembedding_ch13_24",
+    "loss_deembedding_ch14_23",
+    "manhattan_font",
+    "manhattan_text",
+    "mmi1x2",
+    "mmi2x2",
     "mzi",
+    "mzi_arm",
+    "mzi_lattice",
+    "mzi_phase_shifter",
+    "mzit",
+    "mzit_lattice",
+    "neff_ridge",
+    "neff_shallow",
+    "nxn",
+    "opcm",
+    "orientation_to_anchor",
+    "pad",
+    "pad_array",
+    "pad_array0",
+    "pad_array180",
+    "pad_array270",
+    "pad_array90",
+    "pad_array_2d",
+    "pads_shorted",
+    "parse_lattice",
+    "pcm_optical",
+    "period",
+    "pixel",
+    "pixel_array",
+    "qrcode",
+    "ramp",
+    "rectangle",
+    "resistance_meander",
+    "ring",
+    "ring_double",
     "ring_single",
     "ring_single_array",
-    "ring_double",
-    "mzit_lattice",
-    "mzit",
-    "component_lattice",
-}
+    "ring_single_dut",
+    "snap_to_grid",
+    "spiral",
+    "spiral_circular",
+    "spiral_external_io",
+    "spiral_inner_io",
+    "spiral_inner_io_euler",
+    "spiral_inner_io_with_gratings",
+    "splitter_chain",
+    "splitter_tree",
+    "square_middle",
+    "staircase",
+    "straight",
+    "straight_array",
+    "straight_heater",
+    "straight_heater_doped",
+    "straight_heater_metal",
+    "straight_heater_metal_90_90",
+    "straight_heater_metal_undercut",
+    "straight_heater_metal_undercut_90_90",
+    "straight_pin",
+    "straight_pin_passive",
+    "straight_pin_passive_tapered",
+    "straight_pn",
+    "straight_pn_passive",
+    "straight_pn_passive_tapered",
+    "straight_rib",
+    "straight_rib_tapered",
+    "strip",
+    "swap",
+    "taper",
+    "taper2",
+    "taper_0p5_to_3_l36",
+    "taper_from_csv",
+    "taper_strip_to_ridge",
+    "taper_strip_to_ridge_trenches",
+    "taper_w10_l100",
+    "taper_w10_l150",
+    "taper_w10_l200",
+    "taper_w11_l200",
+    "taper_w12_l200",
+    "test_delay_snake2_length",
+    "test_delay_snake3_length",
+    "test_ports",
+    "test_splitter_tree_ports",
+    "test_splitter_tree_ports_no_sbend",
+    "text",
+    "triangle",
+    "triangle_middle_down",
+    "triangle_middle_up",
+    "verniers",
+    "version_stamp",
+    "via",
+    "via1",
+    "via2",
+    "via3",
+    "via_cutback",
+    "via_stack",
+    "via_stack0",
+    "via_stack180",
+    "via_stack270",
+    "via_stack90",
+    "via_stack_heater",
+    "via_stack_heater0",
+    "via_stack_heater180",
+    "via_stack_heater270",
+    "via_stack_heater90",
+    "via_stack_slab",
+    "via_stack_with_offset",
+    "w0",
+    "w1",
+    "w2",
+    "waveguide_template",
+    "wg_line",
+    "wire",
+    "wire_corner",
+    "wire_sbend",
+    "wire_straight",
+]
 
-__all__ = (
-    list(LIBRARY.factory.keys())
-    + container_names
-    + ["extend_ports_list"]
-    + ["straight_heater_metal_undercut_90_90", "straight_heater_metal_90_90"]
+factory = dict(
+    C=C,
+    L=L,
+    add_frame=add_frame,
+    align_wafer=align_wafer,
+    array=array,
+    array_2d=array_2d,
+    array_with_fanout=array_with_fanout,
+    array_with_fanout_2d=array_with_fanout_2d,
+    array_with_via=array_with_via,
+    array_with_via_2d=array_with_via_2d,
+    awg=awg,
+    bbox=bbox,
+    bend_circular=bend_circular,
+    bend_circular180=bend_circular180,
+    bend_circular_heater=bend_circular_heater,
+    bend_euler=bend_euler,
+    bend_euler180=bend_euler180,
+    bend_euler_s=bend_euler_s,
+    bend_s=bend_s,
+    cavity=cavity,
+    cd_bend=cd_bend,
+    cd_bend_strip=cd_bend_strip,
+    cd_straight=cd_straight,
+    cdc=cdc,
+    cdsem_straight=cdsem_straight,
+    cdsem_straight_all=cdsem_straight_all,
+    cdsem_straight_column=cdsem_straight_column,
+    cdsem_straight_density=cdsem_straight_density,
+    cdsem_strip=cdsem_strip,
+    cdsem_target=cdsem_target,
+    cdsem_uturn=cdsem_uturn,
+    circle=circle,
+    compass=compass,
+    compensation_path=compensation_path,
+    component_lattice=component_lattice,
+    component_sequence=component_sequence,
+    coupler=coupler,
+    coupler90=coupler90,
+    coupler90bend=coupler90bend,
+    coupler90circular=coupler90circular,
+    coupler_adiabatic=coupler_adiabatic,
+    coupler_asymmetric=coupler_asymmetric,
+    coupler_full=coupler_full,
+    coupler_ring=coupler_ring,
+    coupler_straight=coupler_straight,
+    coupler_symmetric=coupler_symmetric,
+    cross=cross,
+    crossing=crossing,
+    crossing45=crossing45,
+    crossing_arm=crossing_arm,
+    crossing_etched=crossing_etched,
+    crossing_from_taper=crossing_from_taper,
+    cutback_bend=cutback_bend,
+    cutback_bend180=cutback_bend180,
+    cutback_bend180circular=cutback_bend180circular,
+    cutback_bend90=cutback_bend90,
+    cutback_bend90circular=cutback_bend90circular,
+    cutback_component=cutback_component,
+    cutback_component_flipped=cutback_component_flipped,
+    dbr=dbr,
+    dbr2=dbr2,
+    dbr_cell=dbr_cell,
+    delay_snake=delay_snake,
+    delay_snake2=delay_snake2,
+    delay_snake3=delay_snake3,
+    die=die,
+    die_bbox=die_bbox,
+    disk=disk,
+    ellipse=ellipse,
+    extend_port=extend_port,
+    extend_ports=extend_ports,
+    extend_ports_list=extend_ports_list,
+    fiber=fiber,
+    fiber_array=fiber_array,
+    githash=githash,
+    grating_coupler_array=grating_coupler_array,
+    grating_coupler_elliptical=grating_coupler_elliptical,
+    grating_coupler_elliptical2=grating_coupler_elliptical2,
+    grating_coupler_elliptical_te=grating_coupler_elliptical_te,
+    grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
+    grating_coupler_elliptical_trenches=grating_coupler_elliptical_trenches,
+    grating_coupler_loss=grating_coupler_loss,
+    grating_coupler_te=grating_coupler_te,
+    grating_coupler_tm=grating_coupler_tm,
+    grating_coupler_tree=grating_coupler_tree,
+    grating_coupler_uniform=grating_coupler_uniform,
+    grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
+    hline=hline,
+    litho_calipers=litho_calipers,
+    litho_steps=litho_steps,
+    logo=logo,
+    loop_mirror=loop_mirror,
+    loss_deembedding_ch12_34=loss_deembedding_ch12_34,
+    loss_deembedding_ch13_24=loss_deembedding_ch13_24,
+    loss_deembedding_ch14_23=loss_deembedding_ch14_23,
+    manhattan_text=manhattan_text,
+    mmi1x2=mmi1x2,
+    mmi2x2=mmi2x2,
+    mzi=mzi,
+    mzi_arm=mzi_arm,
+    mzi_lattice=mzi_lattice,
+    mzi_phase_shifter=mzi_phase_shifter,
+    mzit=mzit,
+    mzit_lattice=mzit_lattice,
+    nxn=nxn,
+    pad=pad,
+    pad_array=pad_array,
+    pad_array0=pad_array0,
+    pad_array180=pad_array180,
+    pad_array270=pad_array270,
+    pad_array90=pad_array90,
+    pad_array_2d=pad_array_2d,
+    pads_shorted=pads_shorted,
+    pcm_optical=pcm_optical,
+    pixel=pixel,
+    pixel_array=pixel_array,
+    qrcode=qrcode,
+    ramp=ramp,
+    rectangle=rectangle,
+    resistance_meander=resistance_meander,
+    ring=ring,
+    ring_double=ring_double,
+    ring_single=ring_single,
+    ring_single_array=ring_single_array,
+    ring_single_dut=ring_single_dut,
+    spiral=spiral,
+    spiral_circular=spiral_circular,
+    spiral_external_io=spiral_external_io,
+    spiral_inner_io=spiral_inner_io,
+    spiral_inner_io_euler=spiral_inner_io_euler,
+    spiral_inner_io_with_gratings=spiral_inner_io_with_gratings,
+    splitter_chain=splitter_chain,
+    splitter_tree=splitter_tree,
+    square_middle=square_middle,
+    staircase=staircase,
+    straight=straight,
+    straight_array=straight_array,
+    straight_heater_doped=straight_heater_doped,
+    straight_heater_metal=straight_heater_metal,
+    straight_heater_metal_90_90=straight_heater_metal_90_90,
+    straight_heater_metal_undercut=straight_heater_metal_undercut,
+    straight_heater_metal_undercut_90_90=straight_heater_metal_undercut_90_90,
+    straight_pin=straight_pin,
+    straight_pin_passive=straight_pin_passive,
+    straight_pin_passive_tapered=straight_pin_passive_tapered,
+    straight_pn=straight_pn,
+    straight_pn_passive=straight_pn_passive,
+    straight_pn_passive_tapered=straight_pn_passive_tapered,
+    straight_rib=straight_rib,
+    straight_rib_tapered=straight_rib_tapered,
+    taper=taper,
+    taper2=taper2,
+    taper_0p5_to_3_l36=taper_0p5_to_3_l36,
+    taper_from_csv=taper_from_csv,
+    taper_strip_to_ridge=taper_strip_to_ridge,
+    taper_strip_to_ridge_trenches=taper_strip_to_ridge_trenches,
+    taper_w10_l100=taper_w10_l100,
+    taper_w10_l150=taper_w10_l150,
+    taper_w10_l200=taper_w10_l200,
+    taper_w11_l200=taper_w11_l200,
+    taper_w12_l200=taper_w12_l200,
+    text=text,
+    triangle=triangle,
+    verniers=verniers,
+    version_stamp=version_stamp,
+    via=via,
+    via1=via1,
+    via2=via2,
+    via3=via3,
+    via_cutback=via_cutback,
+    via_stack=via_stack,
+    via_stack0=via_stack0,
+    via_stack180=via_stack180,
+    via_stack270=via_stack270,
+    via_stack90=via_stack90,
+    via_stack_heater=via_stack_heater,
+    via_stack_heater0=via_stack_heater0,
+    via_stack_heater180=via_stack_heater180,
+    via_stack_heater270=via_stack_heater270,
+    via_stack_heater90=via_stack_heater90,
+    via_stack_slab=via_stack_slab,
+    via_stack_with_offset=via_stack_with_offset,
+    wire_corner=wire_corner,
+    wire_sbend=wire_sbend,
+    wire_straight=wire_straight,
 )
-component_factory = LIBRARY.factory
-
-if __name__ == "__main__":
-    for component_name in component_names:
-        try:
-            ci = LIBRARY.factory[component_name]()
-        except Exception:
-            print(f"error building {component_name}")
-            raise Exception
-    ci.show()

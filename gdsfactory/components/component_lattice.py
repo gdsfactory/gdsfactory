@@ -183,11 +183,12 @@ def component_lattice(
     # Find y spacing and check that all components have same y spacing
 
     y_spacing = None
-    for cmp in components.values():
-        # cmp = gf.call_if_func(cmp)
+    for component in components.values():
+        component = gf.call_if_func(component)
+        component.auto_rename_ports_orientation()
 
         for direction in ["W", "E"]:
-            ports_dir = get_ports_facing(cmp.ports, direction)
+            ports_dir = get_ports_facing(component.ports, direction)
             ports_dir.sort(key=lambda p: p.y)
             nb_ports = len(ports_dir)
             if nb_ports > 1:
@@ -197,7 +198,7 @@ def component_lattice(
                 else:
                     assert abs(y_spacing - _y_spacing) < 0.1 / grid_per_unit, (
                         "All component must have the same y port spacing. Got"
-                        f" {y_spacing}, {_y_spacing} for {cmp.name}"
+                        f" {y_spacing}, {_y_spacing} for {component.name}"
                     )
 
     a = y_spacing
@@ -228,7 +229,7 @@ def component_lattice(
 
                 nb_inputs = components_to_nb_input_ports[c]
                 skip = nb_inputs - 1
-                _cmp = components[c].ref((x, y), port_id="W{}".format(skip))
+                _cmp = components[c].ref((x, y), port_id="oW{}".format(skip))
                 component.add(_cmp)
 
                 if i == 0:
@@ -249,7 +250,6 @@ def component_lattice(
             j += 1
         x += L
 
-    component = gf.port.rename_ports_by_orientation(component)
     return component
 
 
@@ -270,7 +270,8 @@ def parse_lattice(
                 columns[i].append(c)
                 if c in components.keys():
                     cmp = components[c]
-                    columns_to_length[i] = cmp.ports["o2"].x - cmp.ports["o1"].x
+                    # columns_to_length[i] = cmp.ports["o2"].x - cmp.ports["o1"].x
+                    columns_to_length[i] = cmp.ports["oE0"].x - cmp.ports["oW0"].x
 
                 i += 1
 
@@ -284,5 +285,8 @@ if __name__ == "__main__":
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
     c = gf.components.component_lattice(components=components_dict)
+    # c= gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0)
+    # c= crossing45(port_spacing=40.0)
+    # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
     c.pprint()
     c.show()

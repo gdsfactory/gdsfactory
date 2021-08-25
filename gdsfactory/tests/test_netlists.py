@@ -6,7 +6,24 @@ from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.components import circuit_names, component_factory
+from gdsfactory import components
+
+factory = {
+    i: getattr(components, i)
+    for i in dir(components)
+    if not i.startswith("_") and callable(getattr(components, i))
+}
+
+circuit_names = {
+    "mzi",
+    "ring_single",
+    "ring_single_array",
+    "ring_double",
+    "mzit_lattice",
+    "mzit",
+    "component_lattice",
+}
+
 
 circuit_names_test = circuit_names - {
     "component_lattice",
@@ -22,6 +39,7 @@ def test_netlists(
     full_settings: bool,
     data_regression: DataRegressionFixture,
     check: bool = True,
+    component_factory=factory,
 ) -> None:
     """Write netlists for hierarchical circuits.
     Checks that both netlists are the same
@@ -36,7 +54,7 @@ def test_netlists(
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    c2 = gf.component_from_yaml(yaml_str)
+    c2 = gf.component_from_yaml(yaml_str, component_factory=component_factory)
     n2 = c2.get_netlist(full_settings=full_settings)
 
     d = jsondiff.diff(n, n2)
@@ -48,7 +66,7 @@ def test_netlists(
 
 
 def demo_netlist(component_type):
-    c1 = component_factory[component_type]()
+    c1 = factory[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = gf.component_from_yaml(yaml_str)

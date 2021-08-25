@@ -2,7 +2,14 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory.sp as sparameters
-from gdsfactory.components import component_factory
+from gdsfactory import components
+
+factory = {
+    i: getattr(components, i)
+    for i in dir(components)
+    if not i.startswith("_") and callable(getattr(components, i))
+}
+
 
 component_types = [
     "straight",
@@ -18,7 +25,7 @@ component_types = [
 def test_sp_load(
     component_type: str, data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = component_factory[component_type]()
+    c = factory[component_type]()
     sp = sparameters.read_sparameters_component(c)
 
     port_names = sp[0]

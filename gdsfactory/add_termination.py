@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.grating_coupler.elliptical_trenches import (
+from gdsfactory.components.grating_coupler_elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
 )

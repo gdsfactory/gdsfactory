@@ -6,7 +6,7 @@ from phidl.device_layout import Label
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.types import ComponentFactory

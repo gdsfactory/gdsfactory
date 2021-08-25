@@ -4,7 +4,7 @@ from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loo
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_te
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip

@@ -1,8 +1,9 @@
 function_name: component_lattice
 info: {}
 module: gdsfactory.components.component_lattice
-name: lattice
+name: component_lattice
 settings:
   components: null
+  grid_per_unit: 1000
   lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
   name: lattice

@@ -1,0 +1,25 @@
+function_name: via_stack
+info:
+  height: 11
+module: gdsfactory.components.via_stack
+name: via_stack_670cc21a
+settings:
+  layer:
+  - 49
+  - 0
+  port_location: null
+  port_orientation: 90
+  vias:
+  - function: via
+    layer:
+    - 40
+    - 0
+  - enclosure: 2
+    function: via
+    layer:
+    - 44
+    - 0
+  - function: via
+    layer:
+    - 43
+    - 0

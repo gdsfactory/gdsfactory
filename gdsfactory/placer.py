@@ -40,9 +40,10 @@ from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import component_factory
+from gdsfactory.components import factory
 from gdsfactory.config import CONFIG
 from gdsfactory.doe import get_settings_list, load_does
+from gdsfactory.types import ComponentFactoryDict
 
 
 def _print(*args, **kwargs):
@@ -51,7 +52,7 @@ def _print(*args, **kwargs):
 
 
 def placer_grid_cell_refs(
-    component_factory: List[Component],
+    component_factory: ComponentFactoryDict = factory,
     cols: int = 1,
     rows: int = 1,
     dx: float = 10.0,
@@ -546,7 +547,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
 def build_components(
     component_type: str,
     list_settings: List[Dict[str, Union[float, int]]],
-    component_factory: Dict[str, Callable] = component_factory,
+    component_factory: Dict[str, Callable] = factory,
 ) -> List[Component]:
     components = []
 

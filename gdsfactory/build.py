@@ -9,7 +9,7 @@ from glob import glob
 from multiprocessing import Pool
 from subprocess import PIPE, Popen, check_call
 
-from gdsfactory.components import component_factory
+from gdsfactory.component_from_yaml import factory as component_factory
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.doe import load_does
 
