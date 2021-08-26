@@ -1,7 +1,7 @@
 function_name: mzi_arm
 info: {}
 module: gdsfactory.components.mzi_arm
-name: mzi_arm
+name: mzi_arm_13da4a55
 settings:
   bend: bend_euler
   length_x: 0.1
@@ -12,8 +12,8 @@ settings:
   ports_map: null
   sequence: bLB-BRb
   start_orientation: 0
-  straight_x: null
-  straight_y: null
+  straight_x: straight
+  straight_y: straight
   symbol_to_component:
     '-':
     - straight_L100n
