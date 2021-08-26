@@ -1,0 +1,11 @@
+function_name: bend_port
+info: {}
+module: gdsfactory.components.bend_port
+name: bend_port
+settings:
+  angle: 180
+  extension_length: null
+  port_name: e1
+  port_name1_bend: null
+  port_name2: e2
+  port_name2_bend: null

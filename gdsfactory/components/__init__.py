@@ -15,6 +15,7 @@ from gdsfactory.components.bbox import Coordinate, bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180, bend_euler_s
+from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
@@ -74,7 +75,7 @@ from gdsfactory.components.cutback_component import (
     cutback_component,
     cutback_component_flipped,
 )
-from gdsfactory.components.dbr import dbr, dbr_cell, dw, period, w0, w1, w2
+from gdsfactory.components.dbr import dbr
 from gdsfactory.components.dbr2 import dbr2
 from gdsfactory.components.delay_snake import delay_snake
 from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_length
@@ -285,15 +286,6 @@ __all__ = [
     "TRCH_STG",
     "add_frame",
     "align",
-    "align_cryo_bottom_left",
-    "align_cryo_bottom_right",
-    "align_cryo_top_left",
-    "align_cryo_top_right",
-    "align_tree_bottom_left",
-    "align_tree_bottom_right",
-    "align_tree_top_left",
-    "align_tree_top_left_with_cross",
-    "align_tree_top_right",
     "align_wafer",
     "array",
     "array_2d",
@@ -309,13 +301,13 @@ __all__ = [
     "bend_euler",
     "bend_euler180",
     "bend_euler_s",
+    "bend_port",
     "bend_s",
     "big_square",
     "cavity",
     "cd",
     "cd_bend",
     "cd_bend_strip",
-    "cd_sem",
     "cd_straight",
     "cdc",
     "cdsem_straight",
@@ -360,7 +352,6 @@ __all__ = [
     "cutback_component_flipped",
     "dbr",
     "dbr2",
-    "dbr_cell",
     "delay_snake",
     "delay_snake2",
     "delay_snake3",
@@ -368,7 +359,6 @@ __all__ = [
     "die_bbox",
     "disk",
     "dist",
-    "dw",
     "ellipse",
     "ellipse_arc",
     "extend_port",
@@ -445,7 +435,6 @@ __all__ = [
     "pads_shorted",
     "parse_lattice",
     "pcm_optical",
-    "period",
     "pixel",
     "pixel_array",
     "qrcode",
@@ -525,9 +514,6 @@ __all__ = [
     "via_stack_heater90",
     "via_stack_slab",
     "via_stack_with_offset",
-    "w0",
-    "w1",
-    "w2",
     "waveguide_template",
     "wg_line",
     "wire",
@@ -555,6 +541,7 @@ factory = dict(
     bend_euler=bend_euler,
     bend_euler180=bend_euler180,
     bend_euler_s=bend_euler_s,
+    bend_port=bend_port,
     bend_s=bend_s,
     cavity=cavity,
     cd_bend=cd_bend,
@@ -598,7 +585,6 @@ factory = dict(
     cutback_component_flipped=cutback_component_flipped,
     dbr=dbr,
     dbr2=dbr2,
-    dbr_cell=dbr_cell,
     delay_snake=delay_snake,
     delay_snake2=delay_snake2,
     delay_snake3=delay_snake3,
