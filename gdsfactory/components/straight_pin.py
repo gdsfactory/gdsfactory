@@ -40,6 +40,8 @@ def straight_pin(
         via_stack_spacing: spacing between contacts
         port_orientation_top: for top contact
         port_orientation_bot: for bottom contact
+        port_location_top:
+        port_location_bot:
         taper: optional taper
         kwargs: cross_section settings
 

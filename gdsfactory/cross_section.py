@@ -74,10 +74,7 @@ class CrossSection(CrossSectionPhidl):
         return self
 
     def copy(self):
-        """Creates a copy of the CrosSection.
-        Returns A copy of the CrossSection
-
-        """
+        """Returns a copy of the CrossSection"""
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)
@@ -180,7 +177,7 @@ def pin(
     contact_gap: float = 0.55,
     **kwargs,
 ) -> CrossSection:
-    """PIN doped cross_section.
+    """rib PIN doped cross_section.
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -191,9 +188,9 @@ def pin(
                             ____________________ contact_gap
                            |                   |<----------->|
         ___________________|                   |__________________________|
-                                                             |            |
-            P++                                              |     N++    |
-        _____________________________________________________|____________|
+               |                 undoped Si                  |            |
+            P++|                 intrinsic region            |     N++    |
+        _______|_____________________________________________|____________|
                                                                           |
                                                               width_contact
 
@@ -243,7 +240,7 @@ def pn(
     port_names: Tuple[str, str] = ("o1", "o2"),
     **kwargs,
 ) -> CrossSection:
-    """PIN doped cross_section.
+    """rib PN doped cross_section.
 
     .. code::
 
@@ -254,7 +251,7 @@ def pn(
         ___________________|     |       |     |__________________________|
                                  |       |                                |
             P++     P+     P     |   I   |     N        N+         N++    |
-        __________________________________________________________________|
+        _________________________|_______|________________________________|
                                                                           |
                                  |width_i| width_n | width_np | width_npp |
                                     0    oi        on        onp         onpp
@@ -308,10 +305,10 @@ def pn(
 @pydantic.validate_arguments
 def strip_heater_metal_undercut(
     width: float = 0.5,
+    layer: Layer = LAYER.WG,
     heater_width: float = 1.0,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
-    layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.HEATER,
     layer_trench: Layer = LAYER.DEEPTRENCH,
     **kwargs,
@@ -321,10 +318,10 @@ def strip_heater_metal_undercut(
 
     Args:
         width: of waveguide
+        layer:
         heater_width: of metal heater
         trench_width:
         trench_gap: from waveguide edge to trench edge
-        layer_waveguide:
         layer_heater:
         layer_trench:
         **kwargs: for cross_section
@@ -333,7 +330,7 @@ def strip_heater_metal_undercut(
     trench_offset = trench_gap + trench_width / 2 + width / 2
     return cross_section(
         width=width,
-        layer=layer_waveguide,
+        layer=layer,
         sections=(
             Section(layer=layer_heater, width=heater_width),
             Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
@@ -346,8 +343,8 @@ def strip_heater_metal_undercut(
 @pydantic.validate_arguments
 def strip_heater_metal(
     width: float = 0.5,
+    layer: Layer = LAYER.WG,
     heater_width: float = 1.0,
-    layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.HEATER,
     **kwargs,
 ):
@@ -356,7 +353,7 @@ def strip_heater_metal(
     """
     return cross_section(
         width=width,
-        layer=layer_waveguide,
+        layer=layer,
         sections=(Section(layer=layer_heater, width=heater_width),),
         **kwargs,
     )
@@ -365,9 +362,9 @@ def strip_heater_metal(
 @pydantic.validate_arguments
 def rib_heater_doped(
     width: float = 0.5,
+    layer: Layer = LAYER.WG,
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
-    layer_waveguide: Layer = LAYER.WG,
     layer_heater: Layer = LAYER.Npp,
     layer_slab: Layer = LAYER.SLAB90,
     **kwargs,
@@ -379,7 +376,7 @@ def rib_heater_doped(
     heater_offset = width / 2 + heater_gap + heater_width / 2
     return cross_section(
         width=width,
-        layer=layer_waveguide,
+        layer=layer,
         sections=(
             Section(
                 layer=layer_heater,
@@ -469,8 +466,8 @@ if __name__ == "__main__":
     # X = rib_heater_doped()
 
     # X = strip_heater_metal_undercut()
-    # X = metal1()
-    X = pin()
+    X = metal1()
+    # X = pin()
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
