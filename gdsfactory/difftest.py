@@ -1,5 +1,6 @@
 """GDS regression test. Adapted from lytest.
 """
+import filecmp
 import pathlib
 from typing import Optional
 
@@ -18,6 +19,11 @@ def difftest(
     Runs an XOR over a component and makes boolean comparison with a GDS reference.
     If it runs for the fist time it just stores the GDS reference.
     raises GeometryDifference if there are differences and show differences in klayout.
+
+    Args:
+        component:
+        prefix: for the component name
+        xor: runs xor if there is difference
     """
     prefix = prefix or ""
 
@@ -40,6 +46,9 @@ def difftest(
     if not ref_file.exists():
         print(f"Creating GDS reference for {component.name} in {ref_file}")
         component.write_gds(gdspath=ref_file)
+        return
+
+    if filecmp.cmp(ref_file, run_file, shallow=False):
         return
 
     # component_reference = gf.import_gds(ref_file)
