@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_slab
+from gdsfactory.components.via_stack import via_stack, via_stack_slab
 from gdsfactory.cross_section import rib_heater_doped
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -13,7 +13,8 @@ def straight_heater_doped(
     length: float = 320.0,
     nsections: int = 3,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    via_stack: ComponentFactory = via_stack_slab,
+    via_stack_slab: ComponentFactory = via_stack_slab,
+    via_stack_metal: ComponentFactory = via_stack,
     via_stack_size: Tuple[float, float] = (10.0, 10.0),
     via_stack_spacing: float = 5,
     port_orientation_top: int = 0,
@@ -60,7 +61,7 @@ def straight_heater_doped(
 
     length_section = length / nsections
 
-    contact_section = via_stack(size=via_stack_size)
+    contact_section = via_stack_slab(size=via_stack_size)
     contacts = []
     for i in range(0, nsections + 1):
         xi = x0 + length_section * i
@@ -73,11 +74,11 @@ def straight_heater_doped(
         contacts.append(contact_i)
 
     via_stack_length = length + via_stack_size[0]
-    contact_top = c << via_stack(
+    contact_top = c << via_stack_metal(
         size=(via_stack_length, via_stack_size[0]),
         port_orientation=port_orientation_top,
     )
-    contact_bot = c << via_stack(
+    contact_bot = c << via_stack_metal(
         size=(via_stack_length, via_stack_size[0]),
         port_orientation=port_orientation_bot,
     )
