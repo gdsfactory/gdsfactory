@@ -343,9 +343,7 @@ class Tech:
     layer_label: Layer = LAYER.LABEL
     metal_spacing: float = 10.0
 
-    rename_ports: bool = True
     layer_stack: LayerStack = LAYER_STACK
-
     sparameters_path: str = str(module_path / "gdslib" / "sparameters")
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS
 

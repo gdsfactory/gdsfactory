@@ -1,17 +1,17 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "371a07eb4c7458db469e9a96382309c19312de6b"
+    rev: "8c2e6113ec9f1b3013544e26c0943456befb07bf"
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/hakancelik96/unimport
-    rev: fdf31b7940133f0a5307a767b6485d344ac2007b
+    rev: 2875c033c00877b6797f3a05761c7c7fe9aae46c
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
-    rev: "cd6b09c07c20a47cfab26a1aa93a37be1c57bb22"
+    rev: "bf9398ea0fed45ad1cd2899b8fd1d1c15190f025"
     hooks:
       - id: isort
         files: "gdsfactory/.*"
@@ -23,15 +23,15 @@ repos:
   #     - id: reorder-python-imports
 
   - repo: https://github.com/psf/black
-    rev: "519f807f879350704449e424c5c5b7e049e582b3"
+    rev: "8a59528c2d8ae1ef5f366039c728614aaf1a470b"
     hooks:
       - id: black
   - repo: https://gitlab.com/pycqa/flake8
-    rev: "3bcadce2a9d91f4bb6afa97b5d2d1a82d7a1e937"
+    rev: "26f7dca77a937964eb85d25e6b331cb1e7b40701"
     hooks:
       - id: flake8
   - repo: https://github.com/kynan/nbstripout
-    rev: b6da9bfa630e7570fe909fd51091a75d4d01236a
+    rev: 0.5.0
     hooks:
       - id: nbstripout
         files: ".ipynb"
