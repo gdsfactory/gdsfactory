@@ -6,6 +6,7 @@ from gdsfactory.component import Component
 
 
 def write_factory(module=components, filepath="write_factory.pyc"):
+    """Write a file with all the component factories into a dict."""
     factory = [
         i
         for i in dir(module)
@@ -16,8 +17,9 @@ def write_factory(module=components, filepath="write_factory.pyc"):
     ]
 
     lines = [f"{i}={i}" for i in factory]
-    script = "factory = dict = (" + ",".join(lines) + ")"
+    script = "factory = dict(" + ",".join(lines) + ")"
     filepath = pathlib.Path(filepath)
+    print(script)
     filepath.write_text(script)
 
 

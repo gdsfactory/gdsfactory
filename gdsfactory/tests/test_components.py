@@ -6,7 +6,13 @@ from gdsfactory.component import Component
 from gdsfactory.components import factory
 from gdsfactory.difftest import difftest
 
-skip_test = {"version_stamp", "extend_ports_list", "extend_port", "component_sequence"}
+skip_test = {
+    "version_stamp",
+    "extend_ports_list",
+    "extend_port",
+    "component_sequence",
+    "mzi_arm",
+}
 
 components_to_test = set(factory.keys()) - skip_test
 
