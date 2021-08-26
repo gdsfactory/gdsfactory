@@ -2,12 +2,13 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.straight_heater import straight_heater_metal
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @gf.cell
 def bend_port(
-    component: ComponentOrFactory,
+    component: ComponentOrFactory = straight_heater_metal,
     port_name: str = "e1",
     port_name2: str = "e2",
     port_name1_bend: Optional[str] = None,
