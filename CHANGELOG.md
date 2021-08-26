@@ -24,6 +24,7 @@ Maybe:
 - pass force-regen flag from pytest
 - force-regen flag forces
 - add contracts cell decorator
+- add githash check to speed up tests (does not really work)
 
 ```
 from contracts import contract

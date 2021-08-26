@@ -41,6 +41,12 @@ def difftest(
         print(f"Creating GDS reference for {component.name} in {ref_file}")
         component.write_gds(gdspath=ref_file)
         return
+
+    # component_reference = gf.import_gds(ref_file)
+    # if component.hash_geometry() == component_reference.hash_geometry():
+    #     print("same hash")
+    #     return
+
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference:
