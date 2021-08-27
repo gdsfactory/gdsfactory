@@ -1,4 +1,4 @@
-from typing import Iterable, Tuple
+from typing import Tuple
 
 import numpy as np
 from phidl.geometry import _glyph, _indent, _width
@@ -68,28 +68,18 @@ def text(
 
 @gf.cell
 def githash(
-    text: Iterable[str] = ("",),
+    text: Tuple[str, ...] = ("",),
     size: float = 0.4,
     hash_length: int = 6,
     layer: Layer = LAYER.WG,
 ) -> Component:
-    """returns the photonics_pdk git hash
-    allows a list of text, that will print on separate lines ::
-
-    text = [
-        "sw_{}".format(Repo(CONFIG["repo"]).head.object.hexsha[:length]),
-        "ap_{}".format(Repo(ap.CONFIG["repo"]).head.object.hexsha[:length]),
-        "mm_{}".format(Repo(mm.CONFIG["repo"]).head.object.hexsha[:length]),
-    ]
-    c = githash(text=text)
-    c.write_gds()
-    c.show()
-
+    """Returns the repo git hash
+    allows a list of text, that will print on separate lines
     """
     try:
-        git_hash = "pp_{}".format(gf.CONFIG["repo"][:hash_length])
+        git_hash = "gf_{}".format(gf.CONFIG["repo"][:hash_length])
     except Exception:
-        git_hash = "pp_{}".format(gf.__version__)
+        git_hash = "gf_{}".format(gf.__version__)
 
     c = gf.Component()
     t = manhattan_text(text=git_hash, size=size, layer=layer)

@@ -1,10 +1,11 @@
-from typing import Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.tech import TECH
 
 LAYER = TECH.layer
+Layer = Tuple[int, int]
 
 
 def get_padding_points(
@@ -40,7 +41,7 @@ def get_padding_points(
 
 def add_padding(
     component: Component,
-    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
+    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component.
@@ -67,7 +68,7 @@ def add_padding(
 @cell
 def add_padding_container(
     component: Component,
-    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
+    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component inside a container.
@@ -96,7 +97,7 @@ def add_padding_container(
 
 def add_padding_to_size(
     component: Component,
-    layers: Iterable[Tuple[int, int]] = (LAYER.PADDING,),
+    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
     left: float = 0,

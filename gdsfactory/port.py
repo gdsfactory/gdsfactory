@@ -31,7 +31,7 @@ import csv
 import functools
 from copy import deepcopy
 from functools import partial
-from typing import Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 import phidl.geometry as pg
@@ -246,7 +246,7 @@ def port_array(
 
 
 def read_port_markers(
-    component: object, layers: Iterable[Tuple[int, int]] = ((1, 10),)
+    component: object, layers: Tuple[Tuple[int, int], ...] = ((1, 10),)
 ) -> Device:
     """loads a GDS and returns the extracted ports from layer markers
 

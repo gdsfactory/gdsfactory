@@ -1,7 +1,7 @@
 """From phidl
 
 """
-from typing import Iterable, Tuple
+from typing import Tuple
 
 import numpy as np
 from phidl.device_layout import Group
@@ -11,7 +11,7 @@ from gdsfactory.difftest import difftest
 
 
 def grid(
-    components: Iterable[Component],
+    components: Tuple[Component, ...],
     spacing: Tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: Tuple[int, int] = None,

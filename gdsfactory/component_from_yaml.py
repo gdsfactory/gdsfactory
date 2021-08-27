@@ -459,20 +459,20 @@ def component_from_yaml(
 
         placements:
             mmi_top:
-                port: 1
+                port: o1
                 x: 0
                 y: 0
             mmi_bot:
-                port: 1
-                x: mmi_top,2
-                y: mmi_top,2
+                port: o1
+                x: mmi_top,o2
+                y: mmi_top,o2
                 dx: 30
                 dy: -30
         routes:
             optical:
                 library: optical
                 links:
-                    mmi_top,3: mmi_bot,1
+                    mmi_top,o3: mmi_bot,o1
 
     """
     yaml_str = (
