@@ -20,8 +20,6 @@ def straight_pin(
     via_stack_spacing: float = 2,
     port_orientation_top: int = 0,
     port_orientation_bot: int = 180,
-    port_location_top: str = "ce",
-    port_location_bot: str = "cw",
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
@@ -40,8 +38,6 @@ def straight_pin(
         via_stack_spacing: spacing between contacts
         port_orientation_top: for top contact
         port_orientation_bot: for bottom contact
-        port_location_top:
-        port_location_bot:
         taper: optional taper
         kwargs: cross_section settings
 
@@ -70,12 +66,10 @@ def straight_pin(
     contact_top = c << via_stack(
         size=(via_stack_length, via_stack_width),
         port_orientation=port_orientation_top,
-        port_location=port_location_top,
     )
     contact_bot = c << via_stack(
         size=(via_stack_length, via_stack_width),
         port_orientation=port_orientation_bot,
-        port_location=port_location_bot,
     )
 
     contact_bot.xmin = wg.xmin

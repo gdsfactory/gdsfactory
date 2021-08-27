@@ -7,4 +7,6 @@ settings:
   length_straight_input: 15
   length_undercut: 30
   length_undercut_spacing: 6
+  port_orientation1: 180
+  port_orientation2: 0
   with_undercut: false

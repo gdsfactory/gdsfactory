@@ -3,11 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import (
-    via_stack_heater0,
-    via_stack_heater90,
-    via_stack_heater180,
-)
+from gdsfactory.components.via_stack import via_stack_heater
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -21,8 +17,9 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionFactory = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    via_stack1: Optional[ComponentFactory] = via_stack_heater180,
-    via_stack2: Optional[ComponentFactory] = via_stack_heater0,
+    via_stack: Optional[ComponentFactory] = via_stack_heater,
+    port_orientation1: int = 180,
+    port_orientation2: int = 0,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -34,13 +31,12 @@ def straight_heater_metal_undercut(
         length_straight_input: from input port to where trenches start
         cross_section_heater: for heated sections
         cross_section_heater_undercut: for heated sections with undercut
-        with_undercut:
-        via_stack1: left via stack
-        via_stack2: right via stack
+        with_undercut: isolation trenches for higher efficiency
+        via_stack: via stack
+        port_orientation1: left via stack port orientation
+        port_orientation2: right via stack port orientation
         kwargs: cross_section common settings
     """
-    via_stack2 = via_stack2 or via_stack1
-
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
 
@@ -76,9 +72,9 @@ def straight_heater_metal_undercut(
     c.add_ref(sequence)
     c.add_ports(sequence.ports)
 
-    if via_stack1:
-        contactw = via_stack1()
-        contacte = via_stack2()
+    if via_stack:
+        contactw = via_stack(port_orientation=port_orientation1)
+        contacte = via_stack(port_orientation=port_orientation2)
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
 
@@ -91,14 +87,6 @@ def straight_heater_metal_undercut(
     return c
 
 
-straight_heater_metal_undercut_90_90 = gf.partial(
-    straight_heater_metal_undercut,
-    with_undercut=False,
-    via_stack1=via_stack_heater90,
-    via_stack2=via_stack_heater90,
-)
-
-
 straight_heater_metal = gf.partial(
     straight_heater_metal_undercut,
     with_undercut=False,
@@ -106,8 +94,14 @@ straight_heater_metal = gf.partial(
 straight_heater_metal_90_90 = gf.partial(
     straight_heater_metal_undercut,
     with_undercut=False,
-    via_stack1=via_stack_heater90,
-    via_stack2=via_stack_heater90,
+    port_orientation1=90,
+    port_orientation2=90,
+)
+straight_heater_metal_undercut_90_90 = gf.partial(
+    straight_heater_metal_undercut,
+    with_undercut=False,
+    port_orientation1=90,
+    port_orientation2=90,
 )
 
 
