@@ -79,9 +79,9 @@ class Port(PortPhidl):
         midpoint: Tuple[float, float] = (0.0, 0.0),
         width: float = 0.5,
         orientation: int = 0,
-        parent: Optional[object] = None,
-        layer: Optional[Tuple[int, int]] = None,
+        layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
+        parent: Optional[object] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")

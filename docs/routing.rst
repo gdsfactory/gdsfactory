@@ -116,7 +116,6 @@ get_bundle_from_waypoints
             ports1[0].position + (400, -350),
             (ports1[0].x + 400, ports2[0].y),
         ]
-        print(waypoints)
 
         routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints)
         for route in routes:
