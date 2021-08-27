@@ -118,11 +118,11 @@ The code below illustrates how a simple MZI can be formed using this method.
     routes:
         route_name1:
             links:
-                mmi_short,E1: mmi_long,E0
+                mmi_short,o3: mmi_long,o4
 
     ports:
-        E0: mmi_short,W0
-        W0: mmi_long,W0
+        o4: mmi_short,o1
+        o1: mmi_long,o1
     """
 
     c = gf.component_from_yaml(yaml)
@@ -191,10 +191,10 @@ The actual chain of components is supplied by a string or a list
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "A": (bend180, 1, 2),
-            "B": (bend180, 2, 1),
-            "H": (wg_heater, 1, 2),
-            "-": (wg, 1, 2),
+            "A": (bend180, 'o1', 'o2'),
+            "B": (bend180, 'o2', 'o1'),
+            "H": (wg_heater, 'o1', 'o2'),
+            "-": (wg, 'o1', 'o2'),
         }
 
         # Generate a sequence
@@ -221,10 +221,8 @@ The actual chain of components is supplied by a string or a list
     import gdsfactory as gf
     from gdsfactory.components import bend_circular
     from gdsfactory.components.straight import straight
-    from gdsfactory.components.straight_heater import straight_heater
     from gdsfactory.components.taper import taper_strip_to_ridge as _taper
-    from gdsfactory.components.straight_pin import straight_pin
-    from gdsfactory.layers import LAYER
+    from gdsfactory.tech import LAYER
     from gdsfactory.components.component_sequence import component_sequence
 
 
@@ -233,31 +231,29 @@ The actual chain of components is supplied by a string or a list
 
         # Define sub components
         bend180 = bend_circular(radius=radius, angle=180)
-        pm_wg = straight_pin(length=straight_length)
+        pm_wg = gf.c.straight_pin_passive_tapered(length=straight_length)
         wg_short = straight(length=1.0)
         wg_short2 = straight(length=2.0)
-        wg_heater = straight_heater(length=10.0)
+        wg_heater = gf.c.straight_heater_metal(length=10.0)
         taper=_taper()
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "I": (taper, "1", "wg_2"),
-            "O": (taper, "wg_2", "1"),
-            "S": (wg_short, 1, 2),
-            "P": (pm_wg, 1, 2),
-            "A": (bend180, 1, 2),
-            "B": (bend180, 2, 1),
-            "H": (wg_heater, 1, 2),
-            "-": (wg_short2, 1, 2),
+            "S": (wg_short, 'o1', 'o2'),
+            "P": (pm_wg, 'o1', 'o2'),
+            "A": (bend180, 'o1', 'o2'),
+            "B": (bend180, 'o2', 'o1'),
+            "H": (wg_heater, 'o1', 'o2'),
+            "-": (wg_short2, 'o1', 'o2'),
         }
 
         # Generate a sequence
         # This is simply a chain of characters. Each of them represents a component
         # with a given input and and a given output
 
-        repeated_sequence="SIPOSASIPOSB"
+        repeated_sequence="SPSASPSB"
         heater_seq = "-H-H-H-H-"
-        sequence = repeated_sequence * n + "SIPO" + heater_seq
+        sequence = repeated_sequence * n + "SP" + heater_seq
         component = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
         return component
