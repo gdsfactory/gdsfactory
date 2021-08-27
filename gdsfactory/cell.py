@@ -56,19 +56,19 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        args_repr = [repr(a) for a in args]
-        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
-        arguments = ", ".join(args_repr + kwargs_repr)
+        # if args:
+        #     raise ValueError(
+        #         f"cell supports only Keyword args for `{func.__name__}({arguments})`"
+        #     )
 
-        if args:
-            raise ValueError(
-                f"cell supports only Keyword args for `{func.__name__}({arguments})`"
-            )
+        # args_repr = [repr(a) for a in args]
+        # kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
+        # arguments = "_".join(args_repr + kwargs_repr)
 
         cache = kwargs.pop("cache", True)
         component_type = func.__name__
         name = kwargs.pop("name", None)
-        name = name or get_component_name(component_type, **kwargs)
+        name = name or get_component_name(component_type, *args, **kwargs)
         decorator = kwargs.pop("decorator", None)
 
         uid = kwargs.pop("uid", False)
@@ -174,19 +174,17 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 
 
 def test_autoname_true() -> None:
-    assert wg(length=3).name == "wg_L3"
+    assert wg(length=3).name == "wg_length3"
 
 
 def test_autoname_false() -> None:
     c = wg(length=3, autoname=False)
-    print(c.name)
-    assert c.name == "straight"
+    assert c.name == "straight", c.name
 
 
 def test_set_name() -> None:
     c = wg(length=3, name="hi_there")
-    print(c.name)
-    assert c.name == "hi_there"
+    assert c.name == "hi_there", c.name
 
 
 @cell
@@ -197,20 +195,20 @@ def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
 
 def test_autoname() -> None:
     name_base = _dummy().name
-    assert name_base == "_dummy"
+    assert name_base == "_dummy", name_base
 
     name_int = _dummy(length=3).name
-    assert name_int == "_dummy_L3"
+    assert name_int == "_dummy_length3", name_int
 
     name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_WW500n"
+    assert name_float == "_dummy_wg_width500n", name_float
 
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
-    assert name_length_first == name_width_first
+    assert name_length_first == name_width_first, name_length_first
 
-    name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_WW500n"
+    name_args = _dummy(3).name
+    assert name_args == "_dummy3", name_args
 
 
 if __name__ == "__main__":
@@ -218,10 +216,8 @@ if __name__ == "__main__":
 
     # c = gf.components.straight()
 
-    # test_autoname_true()
-    # test_autoname_false()
-    # test_autoname()
-    test_set_name()
+    test_autoname()
+    # test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)

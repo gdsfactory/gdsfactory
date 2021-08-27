@@ -15,7 +15,7 @@ settings:
   straight_length: 5
   symbol_to_component:
     '-':
-    - straight_L5_W500n
+    - straight_length5_width500n
     - o1
     - o2
     C:
@@ -27,6 +27,6 @@ settings:
     - o1
     - o2
     '|':
-    - straight_L44p091_W500n
+    - straight_length44p091_width500n
     - o1
     - o2

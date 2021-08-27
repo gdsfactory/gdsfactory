@@ -3,7 +3,7 @@ info:
   polarization: te
   wavelength: 1530
 module: gdsfactory.components.grating_coupler_elliptical_trenches
-name: grating_coupler_ellipti_e050cf58
+name: grating_coupler_ellipti_697c416e
 settings:
   fiber_angle: 15
   fiber_marker_layer:

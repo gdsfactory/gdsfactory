@@ -12,7 +12,7 @@ settings:
   start_orientation: 0
   symbol_to_component:
     '-':
-    - straight_1705b7ca
+    - straight_28f725b2
     - e1
     - e2
     B:
@@ -24,6 +24,6 @@ settings:
     - e2
     - e1
     '|':
-    - straight_1705b7ca
+    - straight_28f725b2
     - e1
     - e2

@@ -10,35 +10,36 @@ from gdsfactory.types import ComponentFactory, Layer
 
 @gf.cell
 def spiral(
-    width: float = 500.0,
+    port_spacing: float = 500.0,
     length: float = 10e3,
     spacing: Optional[float] = None,
     parity: int = 1,
     port: Tuple[int, int] = (0, 0),
-    direction: str = "NORTH",
+    direction: str = "WEST",
     waveguide_template: ComponentFactory = strip,
     layer: Layer = gf.LAYER.WG,
     layer_cladding: Layer = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
     wg_width: float = 0.5,
     radius: float = 10.0,
+    **kwargs
 ) -> Component:
     """Picwriter Spiral
 
     Args:
-        width: width of the spiral (i.e. distance between input/output ports)
+        port_spacing: distance between input/output ports
         length: desired length of the straight (um)
         spacing: distance between parallel straights
         parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
         port: Cartesian coordinate of the input port
-        direction: for component to point *towards*,
-            can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians)
+        direction: NORTH, WEST, SOUTH, EAST  or angle in radians
         waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
         layer: core layer
         layer_cladding: cladding layer
         cladding_offset: distance from core to cladding
         wg_width: 0.5
         radius: 10
+        kwargs: cross_section settings
 
     """
     c = pc.Spiral(
@@ -49,8 +50,9 @@ def spiral(
             layer=layer,
             layer_cladding=layer_cladding,
             cladding_offset=cladding_offset,
+            **kwargs
         ),
-        width=width,
+        width=port_spacing,
         length=length,
         spacing=spacing,
         parity=parity,
@@ -64,5 +66,5 @@ def spiral(
 
 
 if __name__ == "__main__":
-    c = spiral(length=10e3, width=500, radius=20)
+    c = spiral(length=10e3, port_spacing=500, radius=20)
     c.show()

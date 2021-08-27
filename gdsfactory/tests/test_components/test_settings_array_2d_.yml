@@ -9,7 +9,7 @@ settings:
     function_name: array
     info: {}
     module: gdsfactory.components.array
-    name: array_Ax_N3_P150
+    name: array_axisx_n3_pitch150
     settings:
       axis: x
       h_mirror: false

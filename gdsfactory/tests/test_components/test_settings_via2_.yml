@@ -7,7 +7,7 @@ info:
   pitch_y: 2
   width: 0.7
 module: gdsfactory.components.via
-name: via_E2_L44_0
+name: via_enclosure2_layer44_0
 settings:
   cladding_offset: 0
   enclosure: 2

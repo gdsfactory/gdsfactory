@@ -48,7 +48,7 @@ dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
 dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
-logger.info(f"gf.{__version__}")
+logger.info(__version__)
 logger.add(sink=logpath)
 
 

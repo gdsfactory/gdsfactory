@@ -2,7 +2,7 @@ function_name: via_stack
 info:
   height: 11
 module: gdsfactory.components.via_stack
-name: via_stack_PLsc_PO270
+name: via_stack_61a5890e
 settings:
   layer:
   - 49

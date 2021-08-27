@@ -27,7 +27,7 @@ def test_autoname() -> None:
     assert c.name == "straight_cell"
 
     c = straight_cell(width=0.5)
-    assert c.name == "straight_cell_W500n"
+    assert c.name == "straight_cell_width500n"
 
 
 if __name__ == "__main__":

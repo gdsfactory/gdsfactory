@@ -1,12 +1,12 @@
 connections:
-  bend_euler_CScross_section_120p135_5p5,o1: straight_CScross_section_L102p51_63p755_0p625,o2
-  bend_euler_CScross_section_120p135_5p5,o2: straight_CScross_section_L79p375_125p01_50p313,o1
-  bend_euler_CScross_section_120p135_95p125,o1: straight_CScross_section_L79p375_125p01_50p313,o2
-  bend_euler_CScross_section_120p135_95p125,o2: straight_CScross_section_L10n_115p005_100p0,o1
-  mmi_long,o1: straight_CScross_section_L10n_115p005_100p0,o2
-  mmi_short,o2: straight_CScross_section_L102p51_63p755_0p625,o1
+  bend_euler_a3a0edf9_120p135_5p5,o1: straight_8432fe36_63p755_0p625,o2
+  bend_euler_a3a0edf9_120p135_5p5,o2: straight_a23002f5_125p01_50p313,o1
+  bend_euler_a3a0edf9_120p135_95p125,o1: straight_a23002f5_125p01_50p313,o2
+  bend_euler_a3a0edf9_120p135_95p125,o2: straight_aca44847_115p005_100p0,o1
+  mmi_long,o1: straight_aca44847_115p005_100p0,o2
+  mmi_short,o2: straight_8432fe36_63p755_0p625,o1
 instances:
-  bend_euler_CScross_section_120p135_5p5:
+  bend_euler_a3a0edf9_120p135_5p5:
     component: bend_euler
     settings:
       angle: 90
@@ -17,7 +17,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_CScross_section_120p135_95p125:
+  bend_euler_a3a0edf9_120p135_95p125:
     component: bend_euler
     settings:
       angle: 90
@@ -48,7 +48,7 @@ instances:
       width_mmi: 4.5
       width_taper: 1
       with_cladding_box: true
-  straight_CScross_section_L102p51_63p755_0p625:
+  straight_8432fe36_63p755_0p625:
     component: straight
     settings:
       cross_section:
@@ -56,15 +56,7 @@ instances:
       length: 102.51
       npoints: 2
       with_cladding_box: true
-  straight_CScross_section_L10n_115p005_100p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-  straight_CScross_section_L79p375_125p01_50p313:
+  straight_a23002f5_125p01_50p313:
     component: straight
     settings:
       cross_section:
@@ -72,14 +64,22 @@ instances:
       length: 79.375
       npoints: 2
       with_cladding_box: true
+  straight_aca44847_115p005_100p0:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
 name: mmis
 placements:
-  bend_euler_CScross_section_120p135_5p5:
+  bend_euler_a3a0edf9_120p135_5p5:
     mirror: false
     rotation: 0
     x: 115.01
     y: 0.625
-  bend_euler_CScross_section_120p135_95p125:
+  bend_euler_a3a0edf9_120p135_95p125:
     mirror: false
     rotation: 90
     x: 125.01
@@ -94,21 +94,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_CScross_section_L102p51_63p755_0p625:
+  straight_8432fe36_63p755_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
-  straight_CScross_section_L10n_115p005_100p0:
-    mirror: false
-    rotation: 180
-    x: 115.01
-    y: 100.0
-  straight_CScross_section_L79p375_125p01_50p313:
+  straight_a23002f5_125p01_50p313:
     mirror: false
     rotation: 90
     x: 125.01
     y: 10.625
+  straight_aca44847_115p005_100p0:
+    mirror: false
+    rotation: 180
+    x: 115.01
+    y: 100.0
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2

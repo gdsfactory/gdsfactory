@@ -4,7 +4,7 @@ info:
   width1: 0.5
   width2: 3
 module: gdsfactory.components.taper
-name: taper_W3
+name: taper_width23
 settings:
   length: 10
   port: null

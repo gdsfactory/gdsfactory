@@ -1,0 +1,32 @@
+function_name: mzi
+info: {}
+module: gdsfactory.components.mzi
+name: mzi_1e358f65
+settings:
+  bend:
+    cross_section: fab_nitrideo
+    decorator: add_pins
+    function: bend_euler
+  combiner: null
+  combiner_settings: null
+  cross_section: fab_nitrideo
+  delta_length: 10
+  layer:
+  - 34
+  - 0
+  length_x: 0.1
+  length_y: 0.8
+  splitter:
+    cross_section: fab_nitrideo
+    decorator: add_pins
+    function: mmi1x2
+    width: 0.9
+  splitter_settings: null
+  straight:
+    cross_section: fab_nitrideo
+    decorator: add_pins
+    function: straight
+  straight_x_bot: null
+  straight_x_top: null
+  straight_y: null
+  with_splitter: true

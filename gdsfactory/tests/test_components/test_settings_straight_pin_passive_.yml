@@ -3,7 +3,7 @@ info:
   length: 10
   width: 0.5
 module: gdsfactory.components.straight
-name: straight_CSpin
+name: straight_cross_sectionpin
 settings:
   cross_section: pin
   length: 10

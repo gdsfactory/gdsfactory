@@ -39,6 +39,10 @@ def straight_heater_doped(
     """
     c = Component()
 
+    if taper:
+        taper = taper() if callable(taper) else taper
+        length -= 2 * taper.get_ports_east_west_distance()
+
     wg = c << gf.c.straight(
         cross_section=cross_section_heater,
         length=length,
@@ -48,7 +52,6 @@ def straight_heater_doped(
     x0 = wg.get_ports_list()[0].x
 
     if taper:
-        taper = taper() if callable(taper) else taper
         t1 = c << taper
         t2 = c << taper
         t1.connect("o2", wg.ports["o1"])
@@ -94,6 +97,17 @@ def straight_heater_doped(
     return c
 
 
+def test_straight_heater_doped_ports() -> Component:
+    c = straight_heater_doped(length=50.0)
+    assert (
+        c.get_ports_east_west_distance(port_type="optical") == 50.0
+    ), c.get_ports_east_west_distance(port_type="optical")
+    return c
+
+
 if __name__ == "__main__":
-    c = straight_heater_doped()
+    c = straight_heater_doped(length=50)
+    assert (
+        c.get_ports_east_west_distance(port_type="optical") == 50.0
+    ), c.get_ports_east_west_distance(port_type="optical")
     c.show()

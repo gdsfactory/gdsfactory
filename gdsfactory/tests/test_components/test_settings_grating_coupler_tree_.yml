@@ -8,11 +8,11 @@ settings:
     function_name: straight_array
     info: {}
     module: gdsfactory.components.straight_array
-    name: straight_array_N4_S4
+    name: straight_array_n4_spacing4
     settings:
       n: 4
       spacing: 4
-  component_name: straight_array_N4_S4
+  component_name: straight_array_n4_spacing4
   fanout_length: 0
   gc_port_name: o1
   grating_coupler: grating_coupler_elliptical_te

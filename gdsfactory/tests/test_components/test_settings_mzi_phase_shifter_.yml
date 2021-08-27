@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_d63a6209
+name: mzi_144ba040
 settings:
   combiner: null
   combiner_settings: null

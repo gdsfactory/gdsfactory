@@ -1,7 +1,7 @@
 function_name: add_gratings_and_loopback
 info: {}
 module: gdsfactory.add_termination
-name: add_gratings_and_loopba_c9d1da0d
+name: add_gratings_and_loopba_94c1d886
 settings:
   bend_radius_loopback: null
   component:

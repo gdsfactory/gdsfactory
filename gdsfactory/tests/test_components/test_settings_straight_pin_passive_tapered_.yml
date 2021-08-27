@@ -1,7 +1,7 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: extend_ports_bc55d973
+name: extend_ports_54600ebe
 settings:
   component:
     cross_section: pin

@@ -14,11 +14,12 @@ factory = {
 component_types = [
     "straight",
     "bend_circular",
-    # "bend_euler",
+    "bend_euler",
     "coupler",
     "mmi1x2",
     "mmi2x2",
 ]
+component_types = []
 
 
 @pytest.mark.parametrize("component_type", component_types)

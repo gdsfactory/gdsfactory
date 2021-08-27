@@ -1,7 +1,7 @@
 function_name: crossing45
 info:
   components:
-    bezier_bend: bezier_97075a59
+    bezier_bend: bezier_4c7b0089
     crossing: crossing
   min_bend_radius: 44.312
 module: gdsfactory.components.crossing_waveguide

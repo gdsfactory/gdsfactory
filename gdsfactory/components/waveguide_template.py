@@ -10,7 +10,13 @@ def strip(
     layer_cladding: Layer = (111, 0),
     radius: float = 10.0,
     cladding_offset: float = 3.0,
+    euler_bend: bool = True,
+    wg_type: str = "strip",
 ) -> WaveguideTemplate:
+    """
+    wg_type: strip, slot, and swg (subwavelength)
+    resist: Specifies the type of photoresist used (+ or -)
+    """
 
     return pc.WaveguideTemplate(
         bend_radius=radius,
@@ -20,7 +26,8 @@ def strip(
         clad_layer=layer_cladding[0],
         clad_datatype=layer_cladding[1],
         clad_width=cladding_offset,
-        wg_type="strip",
+        wg_type=wg_type,
+        euler_bend=euler_bend,
     )
 
 

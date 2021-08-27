@@ -43,6 +43,9 @@ def straight_pin(
 
     """
     c = Component()
+    if taper:
+        taper = taper() if callable(taper) else taper
+        length -= 2 * taper.get_ports_east_west_distance()
 
     wg = c << gf.c.straight(
         cross_section=cross_section,
@@ -51,7 +54,6 @@ def straight_pin(
     )
 
     if taper:
-        taper = taper() if callable(taper) else taper
         t1 = c << taper
         t2 = c << taper
         t1.connect("o2", wg.ports["o1"])
