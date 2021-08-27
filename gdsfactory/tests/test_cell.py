@@ -10,11 +10,6 @@ def _dummy(length: int = 3, wg_width: float = 0.5) -> gf.Component:
     return c
 
 
-def test_raise_error_args():
-    with pytest.raises(ValueError):
-        _dummy(3)
-
-
 @gf.cell
 def _dummy2(length: int = 3, wg_width: float = 0.5) -> gf.Component:
     c = gf.Component()

@@ -4,7 +4,7 @@ module: gdsfactory.components.spiral
 name: spiral
 settings:
   cladding_offset: 3
-  direction: NORTH
+  direction: WEST
   layer:
   - 1
   - 0
@@ -16,7 +16,7 @@ settings:
   port:
   - 0
   - 0
+  port_spacing: 500
   radius: 10
   spacing: null
   wg_width: 0.5
-  width: 500

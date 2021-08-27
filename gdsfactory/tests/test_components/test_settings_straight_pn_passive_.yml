@@ -3,7 +3,7 @@ info:
   length: 10
   width: 0.5
 module: gdsfactory.components.straight
-name: straight_CSpn
+name: straight_cross_sectionpn
 settings:
   cross_section: pn
   length: 10

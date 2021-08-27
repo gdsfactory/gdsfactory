@@ -1,13 +1,13 @@
 function_name: cavity
 info: {}
 module: gdsfactory.components.cavity
-name: cavity_Cmzi_425707b2
+name: cavity_componentmzi_79951d94
 settings:
   component:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_425707b2
+    name: mzi_79951d94
     settings:
       combiner: null
       combiner_settings: null

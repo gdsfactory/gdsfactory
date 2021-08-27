@@ -3,7 +3,7 @@ info:
   length: 10
   width: 0.5
 module: gdsfactory.components.straight
-name: straight_CScross_sectionSslab90
+name: straight_63f0cf7b
 settings:
   cross_section:
     function: cross_section

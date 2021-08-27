@@ -23,3 +23,4 @@ pydantic==1.8.2
 scikit-image
 loguru
 ipympl
+toolz

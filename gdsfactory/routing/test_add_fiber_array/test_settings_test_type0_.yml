@@ -1,7 +1,7 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_28af9233
+name: add_fiber_array_f3837a8f
 settings:
   component:
     function_name: coupler
@@ -9,7 +9,7 @@ settings:
       length: 10.313
       min_bend_radius: 9.465
     module: gdsfactory.components.coupler
-    name: coupler_G244n_L5p67
+    name: coupler_gap244n_length5p67
     settings:
       dx: 10
       dy: 5

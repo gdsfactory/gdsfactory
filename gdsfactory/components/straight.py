@@ -17,7 +17,7 @@ def straight(
     """Returns a Straight waveguide.
 
     Args:
-        length: of straight
+        length: straight length
         npoints: number of points
         with_cladding_box: square in layers_cladding to remove DRC
         cross_section:
@@ -45,7 +45,10 @@ def straight(
 
 
 if __name__ == "__main__":
-    c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2))
-    # c = straight(width=2)
+    # c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2))
+
+    # c = straight(cross_section=gf.partial(gf.cross_section.strip, width=2))
+    c = straight(cladding_offset=2.5)
+    # c = straight(width=2.5)
     c.show()
     c.pprint()

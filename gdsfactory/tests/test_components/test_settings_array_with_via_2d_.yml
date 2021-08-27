@@ -9,7 +9,7 @@ settings:
     function_name: array_with_via
     info: {}
     module: gdsfactory.components.array_with_via
-    name: array_with_via_N3_P150
+    name: array_with_via_n3_pitch150
     settings:
       component_port_name: e4
       end_straight: 60

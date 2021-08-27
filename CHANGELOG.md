@@ -33,11 +33,20 @@ from contracts import contract
 
 ```
 
+## 3.1.1
+
+- cells accept `*args`
+- `@cell` autonaming includes the complete keyword arguments keys (not only the first letter of each argument)
+- fix straight_pin and straight_heater_doped length when they have tapers
+- waveguide template defaults to euler=True for picwriter components (spiral)
+- add `Component.get_ports_east_west_distance()`
+- add `toolz` library to requirements
+
 ## 3.1.0
 
 - move components python files to the same folder
 - add components.write_factory function to generate dict
-- added filecmp for testing components
+- added filecmp for testing components widht difftest, only does XOR if files are different. This speeds the check for larger files.
 
 ## 3.0.3
 

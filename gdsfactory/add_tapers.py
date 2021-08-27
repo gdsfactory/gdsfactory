@@ -55,10 +55,10 @@ def add_tapers(
 
 
 if __name__ == "__main__":
-    # c0 = gf.components.straight(width=2)
-    c0 = gf.components.straight_heater_metal(width=2)
+    c0 = gf.components.straight(width=1)
+    # c0 = gf.components.straight_heater_metal(width=2)
     # t = gf.components.taper(width2=2)
-    c1 = add_tapers(component=c0)
+    c1 = add_tapers(c0)
     c1.show(show_ports=True)
 
     # print(cc.ports.keys())

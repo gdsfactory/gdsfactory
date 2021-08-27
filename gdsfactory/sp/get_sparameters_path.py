@@ -56,8 +56,7 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness_nm=layer_to_thickness_nm_sample,
         layer_to_material=layer_to_material_sample,
     )
-    print(p.stem)
-    assert p.stem == "straight_S220"
+    assert p.stem == "straight_si220", p.stem
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path(
@@ -65,8 +64,7 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness_nm=layer_to_thickness_nm_sample,
         layer_to_material=layer_to_material_sample,
     )
-    print(p.stem)
-    assert p.stem == "straight_L3_0_S90"
+    assert p.stem == "straight_layer3_0_si90", p.stem
 
 
 if __name__ == "__main__":

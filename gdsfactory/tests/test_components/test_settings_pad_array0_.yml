@@ -1,7 +1,7 @@
 function_name: pad_array
 info: {}
 module: gdsfactory.components.pad
-name: pad_array_PNe3
+name: pad_array_port_namese3
 settings:
   axis: x
   n: 6

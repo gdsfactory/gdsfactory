@@ -24,9 +24,10 @@ def join_first_letters(name: str) -> str:
 component_type_to_name = dict(phidl="phidl")
 
 
-def get_component_name(component_type: str, **kwargs) -> str:
+def get_component_name(component_type: str, *args, **kwargs) -> str:
     """Returns concatenated kwargs Key_Value."""
     name = component_type
+    name += "_".join([clean_value(repr(a)) for a in args])
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
     if kwargs:
@@ -46,7 +47,7 @@ def dict2hash(**kwargs) -> str:
 
 
 def dict2name(prefix: str = "", **kwargs) -> str:
-    """Return name from a dict."""
+    """Returns name from a dict."""
     ignore_from_name = kwargs.pop("ignore_from_name", [])
     kv = []
     kwargs = kwargs.copy()
@@ -55,10 +56,9 @@ def dict2name(prefix: str = "", **kwargs) -> str:
     for key in sorted(kwargs):
         if key not in ignore_from_name and isinstance(key, str):
             value = kwargs[key]
-            key = join_first_letters(key)
+            # key = join_first_letters(key).upper()
             if value is not None:
-                value = clean_value(value)
-                kv += [f"{key.upper()}{value}"]
+                kv += [f"{key}{clean_value(value)}"]
     label = prefix + "_".join(kv)
     return clean_name(label)
 

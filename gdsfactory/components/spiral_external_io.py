@@ -15,6 +15,7 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
+    """Returns distance between bend ports"""
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
@@ -35,18 +36,16 @@ def spiral_external_io(
     """
 
     Args:
-        cutback_length: length in um, it is the approximates total length
         N: number of loops
-        x_straight_inner_right:
-        x_straight_inner_left:
+        x_inner_length_cutback:
+        x_inner_offset:
         y_straight_inner_top:
         dx: center to center x-spacing
         dy: center to center y-spacing
-        grating_coupler
-        bend90_function
-        bend180_function
-        bend_radius
-        wg_width
+        bend: function
+        cutback_length: length in um, it is the approximates total length
+        cross_section:
+        kwargs: cross_section settings
 
     """
 
@@ -138,7 +137,6 @@ def spiral_external_io(
 
 
 if __name__ == "__main__":
-    # c = spiral_external_io(bend_radius=10, cutback_length=10000)
     c = spiral_external_io(layer=(2, 0))
     print(c.length)
     print(c.length / 1e4, "cm")

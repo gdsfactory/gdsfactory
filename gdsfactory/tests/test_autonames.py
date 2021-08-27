@@ -15,7 +15,7 @@ def test_name_in_kwargs() -> None:
 
 def test_cell() -> None:
     c = gf.components.straight(length=11)
-    assert c.name == "straight_L11", c.name
+    assert c.name == "straight_length11", c.name
 
 
 if __name__ == "__main__":

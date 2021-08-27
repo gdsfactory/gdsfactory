@@ -1,13 +1,13 @@
 function_name: add_fiber_single
 info: {}
 module: gdsfactory.routing.add_fiber_single
-name: add_fiber_single_Cmzi_425707b2
+name: add_fiber_single_4cd4d479
 settings:
   component:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_425707b2
+    name: mzi_79951d94
     settings:
       combiner: null
       combiner_settings: null
