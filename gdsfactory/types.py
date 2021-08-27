@@ -19,7 +19,7 @@ Some of these inputs are other functions.
 """
 import dataclasses
 import pathlib
-from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 from phidl.device_layout import Path
 
@@ -44,7 +44,6 @@ class Routes:
 
 
 Layer = Tuple[int, int]
-Layers = Iterable[Layer]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
@@ -86,7 +85,6 @@ __all__ = [
     "Coordinate",
     "Coordinates",
     "Layer",
-    "Layers",
     "NameToFunctionDict",
     "Number",
     "PathType",

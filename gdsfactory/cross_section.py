@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 Based on phidl.device_layout.CrossSection
 """
 from functools import partial
-from typing import Iterable, Optional, Tuple
+from typing import Optional, Tuple
 
 import pydantic
 from phidl.device_layout import CrossSection as CrossSectionPhidl
@@ -236,7 +236,7 @@ def pn(
     layer_ppp: Tuple[int, int] = LAYER.Ppp,
     layer_npp: Tuple[int, int] = LAYER.Npp,
     cladding_offset: float = 0,
-    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
+    layers_cladding: Optional[Tuple[Layer, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     **kwargs,
 ) -> CrossSection:

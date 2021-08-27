@@ -1,5 +1,5 @@
 import inspect
-from typing import Iterable
+from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label
@@ -50,7 +50,7 @@ def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
-    input_port_indexes: Iterable[int] = (0, 1),
+    input_port_indexes: Tuple[int, ...] = (0, 1),
     cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
@@ -101,7 +101,7 @@ def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
-    input_port_indexes: Iterable[int] = (0, 2),
+    input_port_indexes: Tuple[int, ...] = (0, 2),
     **kwargs
 ) -> Component:
     gc = grating_coupler_factory()
@@ -137,7 +137,7 @@ def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     R: float = 10.0,
     grating_coupler_factory: ComponentFactory = grating_coupler_te,
-    input_port_indexes: Iterable[int] = (0, 1),
+    input_port_indexes: Tuple[int, ...] = (0, 1),
     **kwargs
 ) -> Component:
     gc = grating_coupler_factory()
