@@ -189,7 +189,7 @@ You can define ports to:
     layer = (1, 0) # a GDS layer is a tuple of 2 integers
     c = gf.Component()
     c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
-    c.add_port(name='W0', midpoint=(0, y/2), width=y, orientation=180, layer=layer)
+    c.add_port(name='o1', midpoint=(0, y/2), width=y, orientation=180, layer=layer)
     c.plot()
 
 ```
@@ -204,21 +204,21 @@ You can define ports to:
     coupler = gf.components.coupler()
     c = gf.Component()
 
-    # Instantiate a reference to `_cpl`, positioning 'W0' port at coords (0, 0)
-    coupler1 = coupler.ref(port_id='W0', position=(0, 0))
+    # Instantiate a reference to `_cpl`, positioning 'o1' port at coords (0, 0)
+    coupler1 = coupler.ref(port_id='o1', position=(0, 0))
 
-    # Instantiate another reference to `_cpl`, positioning 'W0' port at
+    # Instantiate another reference to `_cpl`, positioning 'o1' port at
     # the position of the 'E0' port from cpl1
-    coupler2 = coupler.ref(port_id='W0', position=coupler1.ports['E0'].position)
+    coupler2 = coupler.ref(port_id='o1', position=coupler1.ports['o4'].position)
 
     c.add(coupler1)
     c.add(coupler2)
 
     # add the ports of the child cells into the parent cell
-    c.add_port(port=coupler1.ports['W0'])
-    c.add_port(port=coupler1.ports['W1'])
-    c.add_port(port=coupler2.ports['E0'])
-    c.add_port(port=coupler2.ports['E1'])
+    c.add_port(port=coupler1.ports['o1'])
+    c.add_port(port=coupler1.ports['o2'])
+    c.add_port(port=coupler2.ports['o4'])
+    c.add_port(port=coupler2.ports['o3'])
     c.plot()
 
 ```

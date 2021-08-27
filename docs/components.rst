@@ -33,17 +33,17 @@ L
 
 
 
-align
+add_frame
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.align
+.. autofunction:: gdsfactory.components.add_frame
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.align()
+  c = gf.components.add_frame()
   c.plot()
 
 
@@ -273,6 +273,21 @@ bend_euler_s
 
 
 
+bend_port
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.bend_port
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.bend_port()
+  c.plot()
+
+
+
 bend_s
 ----------------------------------------------------
 
@@ -284,21 +299,6 @@ bend_s
   import gdsfactory as gf
 
   c = gf.components.bend_s()
-  c.plot()
-
-
-
-bezier
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.bezier
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.bezier()
   c.plot()
 
 
@@ -318,6 +318,51 @@ cavity
 
 
 
+cd_bend
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cd_bend
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cd_bend()
+  c.plot()
+
+
+
+cd_bend_strip
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cd_bend_strip
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cd_bend_strip()
+  c.plot()
+
+
+
+cd_straight
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cd_straight
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cd_straight()
+  c.plot()
+
+
+
 cdc
 ----------------------------------------------------
 
@@ -329,6 +374,111 @@ cdc
   import gdsfactory as gf
 
   c = gf.components.cdc()
+  c.plot()
+
+
+
+cdsem_straight
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight()
+  c.plot()
+
+
+
+cdsem_straight_all
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight_all
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight_all()
+  c.plot()
+
+
+
+cdsem_straight_column
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight_column
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight_column()
+  c.plot()
+
+
+
+cdsem_straight_density
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight_density
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight_density()
+  c.plot()
+
+
+
+cdsem_strip
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_strip
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_strip()
+  c.plot()
+
+
+
+cdsem_target
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_target
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_target()
+  c.plot()
+
+
+
+cdsem_uturn
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_uturn
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_uturn()
   c.plot()
 
 
@@ -433,6 +583,21 @@ coupler90bend
   import gdsfactory as gf
 
   c = gf.components.coupler90bend()
+  c.plot()
+
+
+
+coupler90circular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler90circular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler90circular()
   c.plot()
 
 
@@ -572,17 +737,47 @@ crossing45
 
 
 
-crossing_waveguide
+crossing_arm
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.crossing_waveguide
+.. autofunction:: gdsfactory.components.crossing_arm
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.crossing_waveguide()
+  c = gf.components.crossing_arm()
+  c.plot()
+
+
+
+crossing_etched
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.crossing_etched
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.crossing_etched()
+  c.plot()
+
+
+
+crossing_from_taper
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.crossing_from_taper
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.crossing_from_taper()
   c.plot()
 
 
@@ -617,6 +812,21 @@ cutback_bend180
 
 
 
+cutback_bend180circular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cutback_bend180circular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cutback_bend180circular()
+  c.plot()
+
+
+
 cutback_bend90
 ----------------------------------------------------
 
@@ -628,6 +838,21 @@ cutback_bend90
   import gdsfactory as gf
 
   c = gf.components.cutback_bend90()
+  c.plot()
+
+
+
+cutback_bend90circular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cutback_bend90circular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cutback_bend90circular()
   c.plot()
 
 
@@ -797,6 +1022,21 @@ ellipse
 
 
 
+extend_port
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.extend_port
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.extend_port()
+  c.plot()
+
+
+
 extend_ports
 ----------------------------------------------------
 
@@ -823,21 +1063,6 @@ extend_ports_list
   import gdsfactory as gf
 
   c = gf.components.extend_ports_list()
-  c.plot()
-
-
-
-extension
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.extension
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.extension()
   c.plot()
 
 
@@ -872,17 +1097,47 @@ fiber_array
 
 
 
-grating_coupler
+githash
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.grating_coupler
+.. autofunction:: gdsfactory.components.githash
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler()
+  c = gf.components.githash()
+  c.plot()
+
+
+
+grating_coupler_array
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_array
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_array()
+  c.plot()
+
+
+
+grating_coupler_elliptical
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_elliptical()
   c.plot()
 
 
@@ -928,6 +1183,21 @@ grating_coupler_elliptical_tm
   import gdsfactory as gf
 
   c = gf.components.grating_coupler_elliptical_tm()
+  c.plot()
+
+
+
+grating_coupler_elliptical_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_elliptical_trenches()
   c.plot()
 
 
@@ -1052,21 +1322,6 @@ litho_calipers
 
 
 
-litho_ruler
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.litho_ruler
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.litho_ruler()
-  c.plot()
-
-
-
 litho_steps
 ----------------------------------------------------
 
@@ -1112,17 +1367,47 @@ loop_mirror
 
 
 
-manhattan_font
+loss_deembedding_ch12_34
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.manhattan_font
+.. autofunction:: gdsfactory.components.loss_deembedding_ch12_34
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.manhattan_font()
+  c = gf.components.loss_deembedding_ch12_34()
+  c.plot()
+
+
+
+loss_deembedding_ch13_24
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.loss_deembedding_ch13_24
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.loss_deembedding_ch13_24()
+  c.plot()
+
+
+
+loss_deembedding_ch14_23
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.loss_deembedding_ch14_23
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.loss_deembedding_ch14_23()
   c.plot()
 
 
@@ -1187,6 +1472,21 @@ mzi
 
 
 
+mzi_arm
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi_arm
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi_arm()
+  c.plot()
+
+
+
 mzi_lattice
 ----------------------------------------------------
 
@@ -1213,6 +1513,21 @@ mzi_phase_shifter
   import gdsfactory as gf
 
   c = gf.components.mzi_phase_shifter()
+  c.plot()
+
+
+
+mzi_phase_shifter_90_90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi_phase_shifter_90_90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi_phase_shifter_90_90()
   c.plot()
 
 
@@ -1382,17 +1697,47 @@ pads_shorted
 
 
 
-pcm
+pcm_optical
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.pcm
+.. autofunction:: gdsfactory.components.pcm_optical
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.pcm()
+  c = gf.components.pcm_optical()
+  c.plot()
+
+
+
+pixel
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pixel
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pixel()
+  c.plot()
+
+
+
+pixel_array
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pixel_array
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pixel_array()
   c.plot()
 
 
@@ -1652,6 +1997,36 @@ splitter_tree
 
 
 
+square_middle
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.square_middle
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.square_middle()
+  c.plot()
+
+
+
+staircase
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.staircase
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.staircase()
+  c.plot()
+
+
+
 straight
 ----------------------------------------------------
 
@@ -1678,21 +2053,6 @@ straight_array
   import gdsfactory as gf
 
   c = gf.components.straight_array()
-  c.plot()
-
-
-
-straight_heater
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.straight_heater
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.straight_heater()
   c.plot()
 
 
@@ -1727,6 +2087,21 @@ straight_heater_metal
 
 
 
+straight_heater_metal_90_90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_metal_90_90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_metal_90_90()
+  c.plot()
+
+
+
 straight_heater_metal_undercut
 ----------------------------------------------------
 
@@ -1738,6 +2113,21 @@ straight_heater_metal_undercut
   import gdsfactory as gf
 
   c = gf.components.straight_heater_metal_undercut()
+  c.plot()
+
+
+
+straight_heater_metal_undercut_90_90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_metal_undercut_90_90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_metal_undercut_90_90()
   c.plot()
 
 
@@ -1877,6 +2267,21 @@ taper
 
 
 
+taper2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper2()
+  c.plot()
+
+
+
 taper_0p5_to_3_l36
 ----------------------------------------------------
 
@@ -1922,6 +2327,96 @@ taper_strip_to_ridge
 
 
 
+taper_strip_to_ridge_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_strip_to_ridge_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_strip_to_ridge_trenches()
+  c.plot()
+
+
+
+taper_w10_l100
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_w10_l100
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_w10_l100()
+  c.plot()
+
+
+
+taper_w10_l150
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_w10_l150
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_w10_l150()
+  c.plot()
+
+
+
+taper_w10_l200
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_w10_l200
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_w10_l200()
+  c.plot()
+
+
+
+taper_w11_l200
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_w11_l200
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_w11_l200()
+  c.plot()
+
+
+
+taper_w12_l200
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_w12_l200
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_w12_l200()
+  c.plot()
+
+
+
 text
 ----------------------------------------------------
 
@@ -1933,6 +2428,21 @@ text
   import gdsfactory as gf
 
   c = gf.components.text()
+  c.plot()
+
+
+
+triangle
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.triangle
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.triangle()
   c.plot()
 
 
@@ -2117,6 +2627,96 @@ via_stack90
 
 
 
+via_stack_heater
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater()
+  c.plot()
+
+
+
+via_stack_heater0
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater0
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater0()
+  c.plot()
+
+
+
+via_stack_heater180
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater180
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater180()
+  c.plot()
+
+
+
+via_stack_heater270
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater270
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater270()
+  c.plot()
+
+
+
+via_stack_heater90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater90()
+  c.plot()
+
+
+
+via_stack_slab
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slab
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slab()
+  c.plot()
+
+
+
 via_stack_with_offset
 ----------------------------------------------------
 
@@ -2128,21 +2728,6 @@ via_stack_with_offset
   import gdsfactory as gf
 
   c = gf.components.via_stack_with_offset()
-  c.plot()
-
-
-
-wire
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.wire
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.wire()
   c.plot()
 
 
