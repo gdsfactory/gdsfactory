@@ -32,7 +32,7 @@ Components
 """
     )
 
-    for name in sorted(dir(gf.c)):
+    for name in sorted(gf.c.factory.keys()):
         if name in skip or name.startswith("_"):
             continue
         print(name)
