@@ -1,7 +1,7 @@
 """ CD SEM structures
 """
 import itertools as it
-from typing import Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 
@@ -265,7 +265,7 @@ def cdsem_straight_density(
     label: str = "",
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: Optional[Iterable[Tuple[int, int]]] = None,
+    layers_cladding: Optional[Tuple[Layer, ...]] = None,
 ) -> Component:
     """horizontal grating etch lines
 
