@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Iterable, Optional, Union
+from typing import Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,7 +13,7 @@ from gdsfactory.sp.write import write
 def plot(
     component_or_df: Union[Component, DataFrame],
     logscale: bool = True,
-    keys: Optional[Iterable[str]] = None,
+    keys: Optional[Tuple[str, ...]] = None,
     dirpath: Path = gf.CONFIG["sp"],
     **sim_settings,
 ):

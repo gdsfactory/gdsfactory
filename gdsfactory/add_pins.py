@@ -9,7 +9,7 @@ They without modifying the cell name
 
 """
 import json
-from typing import Callable, Iterable, Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -329,7 +329,7 @@ def add_settings_label(
     component: Component,
     reference: ComponentReference,
     label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
-    ignore: Optional[Iterable[str]] = None,
+    ignore: Optional[Tuple[str, ...]] = None,
 ) -> None:
     """Add settings in label, ignores component.ignore keys.
 
@@ -337,7 +337,7 @@ def add_settings_label(
         componnent
         reference
         label_layer:
-        ignore: fields to ignoreg
+        ignore: fields to ignore
 
     """
     settings = reference.get_settings(ignore=ignore)

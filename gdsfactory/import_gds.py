@@ -1,7 +1,7 @@
 import json
 import pathlib
 from pathlib import Path
-from typing import Iterable, Optional, Union, cast
+from typing import Optional, Tuple, Union, cast
 
 import gdspy
 import numpy as np
@@ -26,7 +26,7 @@ def add_ports_from_markers_square(
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
-    port_names: Optional[Iterable[str]] = None,
+    port_names: Optional[Tuple[str, ...]] = None,
 ) -> None:
     """add ports from markers in port_layer
 
