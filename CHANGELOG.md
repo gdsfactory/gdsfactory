@@ -33,10 +33,11 @@ from contracts import contract
 
 ```
 
-## 3.0.4
+## 3.1.0
 
 - move components python files to the same folder
 - add components.write_factory function to generate dict
+- added filecmp for testing components
 
 ## 3.0.3
 
