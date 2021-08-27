@@ -43,7 +43,7 @@ def splitter_tree(
     """
     c = gf.Component()
 
-    coupler = coupler(cross_section=cross_section, **kwargs)
+    coupler = coupler(**kwargs)
 
     coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
     coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
