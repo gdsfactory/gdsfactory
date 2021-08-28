@@ -31,6 +31,7 @@ To generate a straight route:
 - length: a float with the length of the route
 
 """
+from functools import partial
 from typing import Callable, Optional
 
 import numpy as np
@@ -38,10 +39,12 @@ import numpy as np
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import strip
+from gdsfactory.components.wire import wire_corner
+from gdsfactory.cross_section import metal3, strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
 from gdsfactory.types import (
+    ComponentFactory,
     ComponentOrFactory,
     Coordinates,
     CrossSectionFactory,
@@ -55,7 +58,7 @@ def get_route(
     output_port: Port,
     bend_factory: ComponentOrFactory = bend_euler,
     straight_factory: ComponentOrFactory = straight,
-    taper_factory: Optional[ComponentOrFactory] = taper_function,
+    taper_factory: Optional[ComponentFactory] = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
     min_straight: Number = 0.01,
@@ -106,23 +109,21 @@ def get_route(
         else bend_factory
     )
 
-    taper = (
-        taper_factory(
+    if taper_factory:
+        taper_factory = partial(
+            taper_factory,
             length=taper_length,
             width1=input_port.width,
             width2=width2,
             cross_section=cross_section,
             **kwargs,
         )
-        if callable(taper_factory)
-        else taper_factory
-    )
 
     return route_manhattan(
         input_port=input_port,
         output_port=output_port,
         straight_factory=straight_factory,
-        taper=taper,
+        taper=taper_factory,
         start_straight=start_straight,
         end_straight=end_straight,
         min_straight=min_straight,
@@ -130,6 +131,16 @@ def get_route(
         cross_section=cross_section,
         **kwargs,
     )
+
+
+get_route_electrical = partial(
+    get_route,
+    bend_factory=wire_corner,
+    start_straight=10,
+    end_straight=10,
+    cross_section=metal3,
+    taper_factory=None,
+)
 
 
 def get_route_from_waypoints(
@@ -231,10 +242,22 @@ def get_route_from_waypoints(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    w = gf.components.mmi1x2()
+    # w = gf.components.mmi1x2()
+    # c = gf.Component()
+    # c << w
+    # route = get_route(w.ports["o2"], w.ports["o1"], layer=(2, 0), width=2)
+    # cc = c.add(route.references)
+    # cc.show()
 
     c = gf.Component()
-    c << w
-    route = get_route(w.ports["o2"], w.ports["o1"], layer=(2, 0))
-    cc = c.add(route.references)
-    cc.show()
+    p1 = c << gf.c.pad_array270(n=3)
+    p2 = c << gf.c.pad_array90(n=3)
+
+    p1.movex(300)
+    p1.movey(300)
+    route = get_route_electrical(
+        p1.ports["e3"], p2.ports["e1"], cross_section=gf.cross_section.metal3, width=10
+    )
+    c.add(route.references)
+
+    c.show()

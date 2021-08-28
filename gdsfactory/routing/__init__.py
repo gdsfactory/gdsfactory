@@ -11,7 +11,11 @@ from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_bundle_path_length_match import get_bundle_path_length_match
 from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
-from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
+from gdsfactory.routing.get_route import (
+    get_route,
+    get_route_electrical,
+    get_route_from_waypoints,
+)
 from gdsfactory.routing.get_route_from_steps import get_route_from_steps
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.get_routes import get_routes
@@ -30,6 +34,7 @@ __all__ = [
     "get_bundle_path_length_match",
     "get_bundle_from_waypoints",
     "get_route",
+    "get_route_electrical",
     "get_routes",
     "get_routes_bend180",
     "get_routes_straight",

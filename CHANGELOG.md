@@ -33,6 +33,13 @@ from contracts import contract
 
 ```
 
+## 3.1.2
+
+- add `make doc` to update components documentation
+- add `routing.get_route_electrical` with sensitive defaults for routing electrical routes `bend=wire_corner`
+- `components.pad_array_2d` names `e{row}_{col}`
+- `components.pad_array` names `e{col}`
+
 ## 3.1.1
 
 - cells accept `*args`

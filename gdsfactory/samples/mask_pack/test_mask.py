@@ -10,7 +10,6 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.add_termination import add_gratings_and_loopback
 from gdsfactory.component import Component
-from gdsfactory.components.spiral_inner_io import spiral_inner_io_euler
 from gdsfactory.config import CONFIG
 from gdsfactory.mask.merge_metadata import merge_metadata
 
@@ -54,7 +53,7 @@ def spiral_te(width: float = 0.5, length: int = 2) -> Component:
         width: waveguide width um
         lenght: cm
     """
-    c = spiral_inner_io_euler(width=width, length=length)
+    c = gf.c.spiral_inner_io(width=width, length=length)
     cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
@@ -71,7 +70,7 @@ def spiral_tm(width=0.5, length=20e3):
         width: waveguide width um
         lenght: um
     """
-    c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
+    c = gf.c.spiral_inner_io(width=width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
