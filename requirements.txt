@@ -1,7 +1,7 @@
 -e .
 click
 gdspy==1.6.8
-omegaconf==2.1.0
+omegaconf==2.1.1
 jsondiff
 klayout==0.27.1
 numpy
@@ -9,7 +9,7 @@ pandas
 phidl==1.5.2
 picwriter==0.5
 Pyqtree==1.0.0
-qrcode==7.2
+qrcode==7.3
 rectpack==0.2.1
 scipy
 Shapely==1.7.1
