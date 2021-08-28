@@ -252,8 +252,8 @@ routes:
                 - [-250, 400]
             auto_widen: False
         links:
-            b,e2_0: t,e4_0
-            b,e2_1: t,e4_1
+            b,e1: t,e1
+            b,e2: t,e2
 """
 
 
@@ -367,7 +367,7 @@ def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
     length = 1937.196
-    route_name = "b,e2_0:t,e4_0"
+    route_name = "b,e1:t,e1"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
@@ -550,7 +550,7 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_different_factory)
     # c = test_sample()
     # c = test_netlists("sample_mmis", True, None, check=False)
-    c = test_connections_regex()
+    # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
@@ -567,7 +567,7 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
     # c = component_from_yaml(sample_mirror_simple)
-    # c = component_from_yaml(sample_waypoints)
+    c = component_from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
 
     # c = component_from_yaml(sample_different_factory)

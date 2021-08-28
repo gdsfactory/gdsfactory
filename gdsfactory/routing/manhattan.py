@@ -15,6 +15,7 @@ from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import (
     ComponentFactory,
+    ComponentOrFactory,
     Coordinate,
     Coordinates,
     CrossSectionFactory,
@@ -481,7 +482,7 @@ def round_corners(
     points: Coordinates,
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
-    taper: Optional[Callable] = None,
+    taper: Optional[ComponentFactory] = None,
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
@@ -753,7 +754,7 @@ def route_manhattan(
     input_port: Port,
     output_port: Port,
     straight_factory: ComponentFactory = straight,
-    taper: None = None,
+    taper: Optional[ComponentOrFactory] = None,
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,

@@ -1,6 +1,6 @@
 function_name: spiral_inner_io
 info:
-  length: 13728.4
+  length: 11594.987
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io
 settings:
@@ -10,9 +10,7 @@ settings:
   grating_spacing: 127
   length: null
   taper: null
-  width: 0.5
-  width_grating_coupler: 0.5
-  x_straight_inner_left: 150
+  x_straight_inner_left: 50
   x_straight_inner_right: 150
   y_straight_inner_bottom: 10
   y_straight_inner_top: 50

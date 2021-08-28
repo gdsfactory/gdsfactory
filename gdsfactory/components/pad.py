@@ -55,7 +55,7 @@ def pad_array(
         pad: pad element
         pitch: x spacing
         n: number of pads
-        port_names: list of port names (e1: west, e2: north, e3: east, e4: south) per pad
+        port_names: per pad (e1: west, e2: north, e3: east, e4: south)
         pad_settings: settings for pad if pad is callable
         axis: x or y
     """
@@ -73,9 +73,8 @@ def pad_array(
         else:
             raise ValueError(f"Invalid axis {axis} not in (x, y)")
         for port_name in port_names:
-            port_name_new = f"{port_name}_{i}"
+            port_name_new = f"e{i+1}"
             c.add_port(name=port_name_new, port=p.ports[port_name])
-
     return c
 
 
@@ -96,6 +95,8 @@ def pad_array_2d(
     **kwargs,
 ) -> Component:
     """Returns 2D array of rectangular pads
+
+    the ports names are e{row}_{col}
 
     Args:
         pad: pad element
@@ -118,7 +119,7 @@ def pad_array_2d(
             for port_name in port_names:
                 if port_name not in p.ports:
                     raise ValueError(f"{port_name} not in {list(p.ports.keys())}")
-                port_name_new = f"{port_name}_{j}_{i}"
+                port_name_new = f"e{j+1}_{i+1}"
                 c.add_port(port=p.ports[port_name], name=port_name_new)
 
     return c
@@ -132,7 +133,8 @@ if __name__ == "__main__":
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # print(c.settings['spacing'])
-    # c = pad_array_2d(cols=2, rows=3, port_names=(1,))
-    c = pad_array270()
-    c.pprint_ports()
+    # c = pad_array90()
+    # c = pad_array270()
+    # c.pprint_ports()
+    c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
     c.show()

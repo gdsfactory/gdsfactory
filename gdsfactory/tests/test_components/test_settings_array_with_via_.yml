@@ -5,6 +5,7 @@ name: array_with_via
 settings:
   component_port_name: e4
   end_straight: 60
+  facing_west: true
   n: 3
   pitch: 150
   via_stack_y_offset: -44

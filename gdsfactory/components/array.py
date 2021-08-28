@@ -42,7 +42,7 @@ def array(
             ref.y = i * pitch
         c.add(ref)
         for port in ref.get_ports_list():
-            c.add_port(f"{port.name}_{i}", port=port)
+            c.add_port(f"{port.name}_{i+1}", port=port)
     return c
 
 
@@ -87,5 +87,5 @@ if __name__ == "__main__":
     # print(c2.ports.keys())
 
     c2 = array()
-    c2 = array_2d()
+    # c2 = array_2d()
     c2.show(show_ports=True)

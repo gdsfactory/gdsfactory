@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.add_termination import add_gratings_and_loopback
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.component import Component
-from gdsfactory.components.spiral_inner_io import spiral_inner_io_euler
+from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
@@ -48,7 +48,7 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
         width: um
         lenght: um
     """
-    c = spiral_inner_io_euler(width=width, length=length)
+    c = spiral_inner_io(width=width, length=length)
     cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
@@ -65,7 +65,7 @@ def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
         width: um
         lenght: um
     """
-    c = spiral_inner_io_euler(width=width, length=length, dx=10, dy=10, N=5)
+    c = spiral_inner_io(width=width, length=length, dx=10, dy=10, N=5)
     cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
