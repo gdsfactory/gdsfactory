@@ -2,7 +2,7 @@ import pathlib
 import gdsfactory as gf
 
 
-filepath = pathlib.Path("components.rst")
+filepath = pathlib.Path(__file__).parent.absolute() / "components.rst"
 
 skip = {
     "LIBRARY",

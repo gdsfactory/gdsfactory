@@ -94,4 +94,7 @@ autopep8:
 codestyle:
 	pycodestyle --max-line-length=88
 
+doc:
+	python docs/write_components_doc.py
+
 .PHONY: gdsdiff build conda
