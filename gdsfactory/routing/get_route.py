@@ -93,7 +93,7 @@ def get_route(
         c.show()
 
     """
-    x = cross_section()
+    x = cross_section(**kwargs)
     waveguide_settings = x.info
     taper_length = waveguide_settings.get("taper_length")
     width1 = input_port.width

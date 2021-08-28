@@ -5,7 +5,7 @@ This router could save more routing space leveraging routing with different meta
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
-from gdsfactory.components.via_stack import via_stack_heater0, via_stack_heater180
+from gdsfactory.components.via_stack import via_stack_heater
 
 
 if __name__ == "__main__":
@@ -32,8 +32,9 @@ if __name__ == "__main__":
     extension_factory = gf.partial(
         gf.components.straight_heater_metal,
         length=length,
-        via_stack1=via_stack_heater180,
-        via_stack2=via_stack_heater0,
+        port_orientation1=180,
+        port_orientation2=0,
+        via_stack=via_stack_heater,
     )
 
     ps = c << extend_ports_list(

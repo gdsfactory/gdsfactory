@@ -104,11 +104,6 @@ def via_stack(
     return c
 
 
-via_stack0 = gf.partial(via_stack, port_orientation=0, port_location="ce")
-via_stack90 = gf.partial(via_stack, port_orientation=90, port_location="nc")
-via_stack180 = gf.partial(via_stack, port_orientation=180, port_location="cw")
-via_stack270 = gf.partial(via_stack, port_orientation=270, port_location="sc")
-
 via_stack_slab = gf.partial(
     via_stack,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
@@ -116,16 +111,6 @@ via_stack_slab = gf.partial(
 )
 via_stack_heater = gf.partial(
     via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via2, via3)
-)
-via_stack_heater0 = gf.partial(via_stack_heater, port_orientation=0, port_location="ce")
-via_stack_heater90 = gf.partial(
-    via_stack_heater, port_orientation=90, port_location="nc"
-)
-via_stack_heater180 = gf.partial(
-    via_stack_heater, port_orientation=180, port_location="cw"
-)
-via_stack_heater270 = gf.partial(
-    via_stack_heater, port_orientation=270, port_location="sc"
 )
 
 

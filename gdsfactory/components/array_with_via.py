@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.array import array
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
-from gdsfactory.components.via_stack import via_stack180
+from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import metal2
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
@@ -19,8 +19,9 @@ def array_with_via(
     end_straight: float = 60.0,
     component_port_name: str = "e4",
     cross_section: CrossSectionFactory = metal2,
-    via_stack: ComponentFactory = via_stack180,
+    via_stack: ComponentFactory = via_stack,
     via_stack_y_offset: float = -44.0,
+    facing_west: bool = True,
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis
@@ -37,15 +38,21 @@ def array_with_via(
         via_stack_port_name:
         **kwargs
     """
+    port_orientation = 180 if facing_west else 0
+
     c = Component()
     component = component() if callable(component) else component
-    via_stack = via_stack()
+    via_stack = via_stack(port_orientation=port_orientation)
 
     for col in range(n):
         ref = component.ref()
         ref.x = col * pitch
         c.add(ref)
-        xlength = col * pitch + end_straight
+
+        if port_orientation == 180:
+            xlength = col * pitch + end_straight
+        else:
+            xlength = n * pitch - (col * pitch) + end_straight
 
         via_stack_ref = c << via_stack
         via_stack_ref.x = col * pitch
@@ -94,5 +101,5 @@ def array_with_via_2d(
 
 if __name__ == "__main__":
     c2 = array_with_via(n=3, width=10, waveguide_pitch=20)
-    c2 = array_with_via_2d(cols=8, rows=8, waveguide_pitch=12)
+    c2 = array_with_via_2d(cols=8, rows=8, waveguide_pitch=12, facing_west=False)
     c2.show()

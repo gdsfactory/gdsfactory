@@ -196,13 +196,7 @@ from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_circular import spiral_circular
 from gdsfactory.components.spiral_external_io import spiral_external_io
-from gdsfactory.components.spiral_inner_io import (
-    get_bend_port_distances,
-    get_straight_length,
-    spiral_inner_io,
-    spiral_inner_io_euler,
-    spiral_inner_io_with_gratings,
-)
+from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import (
     splitter_tree,
@@ -250,15 +244,7 @@ from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     orientation_to_anchor,
     via_stack,
-    via_stack0,
-    via_stack90,
-    via_stack180,
-    via_stack270,
     via_stack_heater,
-    via_stack_heater0,
-    via_stack_heater90,
-    via_stack_heater180,
-    via_stack_heater270,
     via_stack_slab,
 )
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -372,12 +358,10 @@ __all__ = [
     "free_propagation_region_output",
     "gen_label_iterator",
     "gen_tmp_port_name",
-    "get_bend_port_distances",
     "get_grating_period",
     "get_grating_period_curved",
     "get_sequence_cross",
     "get_sequence_cross_str",
-    "get_straight_length",
     "githash",
     "grating_coupler_array",
     "grating_coupler_elliptical",
@@ -451,8 +435,6 @@ __all__ = [
     "spiral_circular",
     "spiral_external_io",
     "spiral_inner_io",
-    "spiral_inner_io_euler",
-    "spiral_inner_io_with_gratings",
     "splitter_chain",
     "splitter_tree",
     "square_middle",
@@ -503,15 +485,7 @@ __all__ = [
     "via3",
     "via_cutback",
     "via_stack",
-    "via_stack0",
-    "via_stack180",
-    "via_stack270",
-    "via_stack90",
     "via_stack_heater",
-    "via_stack_heater0",
-    "via_stack_heater180",
-    "via_stack_heater270",
-    "via_stack_heater90",
     "via_stack_slab",
     "via_stack_with_offset",
     "waveguide_template",
@@ -653,8 +627,6 @@ factory = dict(
     spiral_circular=spiral_circular,
     spiral_external_io=spiral_external_io,
     spiral_inner_io=spiral_inner_io,
-    spiral_inner_io_euler=spiral_inner_io_euler,
-    spiral_inner_io_with_gratings=spiral_inner_io_with_gratings,
     splitter_chain=splitter_chain,
     splitter_tree=splitter_tree,
     square_middle=square_middle,
@@ -695,15 +667,7 @@ factory = dict(
     via3=via3,
     via_cutback=via_cutback,
     via_stack=via_stack,
-    via_stack0=via_stack0,
-    via_stack180=via_stack180,
-    via_stack270=via_stack270,
-    via_stack90=via_stack90,
     via_stack_heater=via_stack_heater,
-    via_stack_heater0=via_stack_heater0,
-    via_stack_heater180=via_stack_heater180,
-    via_stack_heater270=via_stack_heater270,
-    via_stack_heater90=via_stack_heater90,
     via_stack_slab=via_stack_slab,
     via_stack_with_offset=via_stack_with_offset,
     wire_corner=wire_corner,

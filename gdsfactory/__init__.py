@@ -53,11 +53,11 @@ from gdsfactory import component_from
 from gdsfactory import read
 from gdsfactory import remove
 from gdsfactory import layers
+from gdsfactory import add_termination
 
 
 from gdsfactory.tech import TECH
 from gdsfactory.component_from_yaml import component_from_yaml
-from gdsfactory.add_termination import add_termination
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,

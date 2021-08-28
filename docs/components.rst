@@ -1937,36 +1937,6 @@ spiral_inner_io
 
 
 
-spiral_inner_io_euler
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.spiral_inner_io_euler
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.spiral_inner_io_euler()
-  c.plot()
-
-
-
-spiral_inner_io_with_gratings
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.spiral_inner_io_with_gratings
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.spiral_inner_io_with_gratings()
-  c.plot()
-
-
-
 splitter_chain
 ----------------------------------------------------
 
@@ -2567,66 +2537,6 @@ via_stack
 
 
 
-via_stack0
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack0
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack0()
-  c.plot()
-
-
-
-via_stack180
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack180
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack180()
-  c.plot()
-
-
-
-via_stack270
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack270
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack270()
-  c.plot()
-
-
-
-via_stack90
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack90
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack90()
-  c.plot()
-
-
-
 via_stack_heater
 ----------------------------------------------------
 
@@ -2638,66 +2548,6 @@ via_stack_heater
   import gdsfactory as gf
 
   c = gf.components.via_stack_heater()
-  c.plot()
-
-
-
-via_stack_heater0
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater0
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater0()
-  c.plot()
-
-
-
-via_stack_heater180
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater180
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater180()
-  c.plot()
-
-
-
-via_stack_heater270
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater270
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater270()
-  c.plot()
-
-
-
-via_stack_heater90
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater90
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater90()
   c.plot()
 
 
