@@ -14,7 +14,7 @@ rectpack==0.2.1
 scipy
 Shapely==1.7.1
 networkx==2.6.2
-matplotlib
+matplotlib==3.4.2
 pytest==6.2.4
 pytest-regressions==2.2.0
 lytest==0.0.20
