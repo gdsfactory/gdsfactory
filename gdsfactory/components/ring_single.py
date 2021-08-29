@@ -1,14 +1,7 @@
-from typing import Optional
-
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import call_if_func
-from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
+from gdsfactory.components.straight import straight as _straight
 
 
 @gf.cell
@@ -17,12 +10,12 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentFactory = coupler_ring_function,
-    straight: ComponentFactory = straight_function,
-    bend: Optional[ComponentFactory] = None,
-    cross_section: CrossSectionFactory = strip,
+    coupler_ring: gf.types.ComponentFactory = _coupler_ring,
+    straight: gf.types.ComponentFactory = _straight,
+    bend: gf.types.ComponentFactory = bend_euler,
+    cross_section: gf.types.CrossSectionFactory = gf.cross_section.strip,
     **kwargs
-) -> Component:
+) -> gf.Component:
     """Single bus ring made of a ring coupler (cb: bottom)
     connected with two vertical straights (sl: left, sr: right)
     two bends (bl, br) and horizontal straight (wg: top)
@@ -50,41 +43,34 @@ def ring_single(
           length_x
 
     """
-    assert_on_2nm_grid(gap)
-    bend = bend or bend_euler
+    gf.snap.assert_on_2nm_grid(gap)
 
-    coupler_ring_component = (
-        coupler_ring(
-            bend=bend,
-            gap=gap,
-            radius=radius,
-            length_x=length_x,
-            cross_section=cross_section,
-            **kwargs
-        )
-        if callable(coupler_ring)
-        else coupler_ring
+    coupler_ring = gf.partial(
+        coupler_ring,
+        bend=bend,
+        gap=gap,
+        radius=radius,
+        length_x=length_x,
+        cross_section=cross_section,
+        **kwargs
     )
-    straight_side = call_if_func(
+
+    straight_side = gf.partial(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
-    straight_top = call_if_func(
+    straight_top = gf.partial(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
-    bend_ref = (
-        bend(radius=radius, cross_section=cross_section, **kwargs)
-        if callable(bend)
-        else bend
-    )
+    bend = gf.partial(bend, radius=radius, cross_section=cross_section, **kwargs)
 
-    c = Component()
-    cb = c << coupler_ring_component
-    sl = c << straight_side
-    sr = c << straight_side
-    bl = c << bend_ref
-    br = c << bend_ref
-    st = c << straight_top
+    c = gf.Component()
+    cb = c << coupler_ring()
+    sl = c << straight_side()
+    sr = c << straight_side()
+    bl = c << bend()
+    br = c << bend()
+    st = c << straight_top()
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", destination=cb.ports["o2"])

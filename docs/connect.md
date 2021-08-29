@@ -18,54 +18,90 @@ You can connect:
 
     import gdsfactory as gf
 
+
     @gf.cell
-    def ring(
-        coupler90=gf.components.coupler90,
-        coupler_straight=gf.components.coupler_straight,
-        straight=gf.components.straight,
-        bend=gf.components.bend_euler,
-        length_y=2.0,
-        length_x=4.0,
-        gap=0.2,
-    ):
-        """ single bus ring
+    def ring_single(
+        gap: float = 0.2,
+        radius: float = 10.0,
+        length_x: float = 4.0,
+        length_y: float = 0.6,
+        coupler_ring: gf.types.ComponentFactory = gf.c.coupler_ring,
+        straight: gf.types.ComponentFactory = gf.c.straight,
+        bend: gf.types.ComponentFactory = gf.c.bend_euler,
+        cross_section: gf.types.CrossSectionFactory = gf.cross_section.strip,
+        **kwargs
+    ) -> gf.Component:
+        """Single bus ring made of a ring coupler (cb: bottom)
+        connected with two vertical straights (sl: left, sr: right)
+        two bends (bl, br) and horizontal straight (wg: top)
+
+        Args:
+            gap: gap between for coupler
+            radius: for the bend and coupler
+            length_x: ring coupler length
+            length_y: vertical straight length
+            coupler_ring: ring coupler function
+            straight: straight function
+            bend: 90 degrees bend function
+            cross_section:
+            **kwargs: cross_section settings
+
+
+        .. code::
+
+              bl-st-br
+              |      |
+              sl     sr length_y
+              |      |
+             --==cb==-- gap
+
+              length_x
+
         """
+        gf.snap.assert_on_2nm_grid(gap)
+
+        coupler_ring = gf.partial(
+            coupler_ring,
+                bend=bend,
+                gap=gap,
+                radius=radius,
+                length_x=length_x,
+                cross_section=cross_section,
+                **kwargs
+        )
+
+        straight_side = gf.partial(
+            straight, length=length_y, cross_section=cross_section, **kwargs
+        )
+        straight_top = gf.partial(
+            straight, length=length_x, cross_section=cross_section, **kwargs
+        )
+
+        bend = gf.partial(bend, radius=radius, cross_section=cross_section, **kwargs)
+
         c = gf.Component()
+        cb = c << coupler_ring()
+        sl = c << straight_side()
+        sr = c << straight_side()
+        bl = c << bend()
+        br = c << bend()
+        st = c << straight_top()
+        # st.mirror(p1=(0, 0), p2=(1, 0))
 
-        # define subcells
-        coupler90 = gf.call_if_func(coupler90, gap=gap)
-        straight_x = gf.call_if_func(straight, length=length_x)
-        straight_y = gf.call_if_func(straight, length=length_y)
-        bend = gf.call_if_func(bend)
-        coupler_straight = gf.call_if_func(coupler_straight, gap=gap, length=length_x)
+        sl.connect(port="o1", destination=cb.ports["o2"])
+        bl.connect(port="o2", destination=sl.ports["o2"])
 
-        # add references to subcells
-        cbl = c << coupler90
-        cbr = c << coupler90
-        cs = c << coupler_straight
-        wyl = c << straight_y
-        wyr = c << straight_y
-        wx = c << straight_x
-        btl = c << bend
-        btr = c << bend
+        st.connect(port="o2", destination=bl.ports["o1"])
+        br.connect(port="o2", destination=st.ports["o1"])
+        sr.connect(port="o1", destination=br.ports["o1"])
+        sr.connect(port="o2", destination=cb.ports["o3"])
 
-
-        # connect references
-        wyr.connect(port='o2', destination=cbr.ports['o2'])
-        cs.connect(port='o2', destination=cbr.ports['o1'])
-
-        cbl.reflect(p1=(0, coupler90.y), p2=(1, coupler90.y))
-        cbl.connect(port='o1', destination=cs.ports['o1'])
-        wyl.connect(port='o2', destination=cbl.ports['o2'])
-
-        btl.connect(port='o2', destination=wyl.ports['o1'])
-        btr.connect(port='o1', destination=wyr.ports['o1'])
-        wx.connect(port='o1', destination=btl.ports['o1'])
+        c.add_port("o2", port=cb.ports["o4"])
+        c.add_port("o1", port=cb.ports["o1"])
         return c
 
 
-    c = ring()
-    c.show()
+    c = ring_single()
     c.plot()
 ```
 
@@ -168,48 +204,6 @@ The actual chain of components is supplied by a string or a list
 
 
 
-- **Cutback heater**
-
-```eval_rst
-
-.. plot::
-    :include-source:
-
-    import gdsfactory as gf
-    from gdsfactory.components import bend_circular
-    from gdsfactory.components.straight import straight
-    from gdsfactory.components.straight_heater import straight_heater
-    from gdsfactory.components.component_sequence import component_sequence
-
-    @gf.cell
-    def test():
-        # Define sub components
-        radius=10.0
-        bend180 = bend_circular(radius=radius, angle=180)
-        wg = straight(length=5.0)
-        wg_heater = straight_heater(length=20.0)
-
-        # Define a map between symbols and (component, input port, output port)
-        symbol_to_component = {
-            "A": (bend180, 'o1', 'o2'),
-            "B": (bend180, 'o2', 'o1'),
-            "H": (wg_heater, 'o1', 'o2'),
-            "-": (wg, 'o1', 'o2'),
-        }
-
-        # Generate a sequence
-        # This is simply a chain of characters. Each of them represents a component
-        # with a given input and and a given output
-
-        sequence = "AB-H-H-H-H-BA"
-        component = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
-
-        return component
-
-    c = test()
-    c.plot()
-
-```
 
 - **Cutback phase**
 
