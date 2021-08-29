@@ -5,7 +5,6 @@ instances:
   ring_single_length_x10_radius5_m5p0_5p65:
     component: ring_single
     settings:
-      bend: null
       gap: 0.2
       length_x: 10
       length_y: 0.6
@@ -13,7 +12,6 @@ instances:
   ring_single_length_x20_radius10_30p0_10p65:
     component: ring_single
     settings:
-      bend: null
       gap: 0.2
       length_x: 20
       length_y: 0.6

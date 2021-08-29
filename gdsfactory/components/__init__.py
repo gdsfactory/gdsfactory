@@ -571,7 +571,6 @@ factory = dict(
     extend_ports_list=extend_ports_list,
     fiber=fiber,
     fiber_array=fiber_array,
-    githash=githash,
     grating_coupler_array=grating_coupler_array,
     grating_coupler_elliptical=grating_coupler_elliptical,
     grating_coupler_elliptical2=grating_coupler_elliptical2,

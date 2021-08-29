@@ -4,10 +4,10 @@ Routing
 get_route
 ----------------------------------------------
 
-.. automodule:: gf.routing.get_route
+.. automodule:: gdsfactory.routing.get_route
    :members:
 
-.. automodule:: gf.routing.get_route_from_steps
+.. automodule:: gdsfactory.routing.get_route_from_steps
    :members:
 
 
@@ -18,7 +18,7 @@ Often, several ports have to be linked together without them crossing each other
 One way to tackle simple cases is to use bundle routing.
 Several functions are available depending on the use case:
 
-.. autofunction:: gf.routing.get_bundle.get_bundle
+.. autofunction:: gdsfactory.routing.get_bundle.get_bundle
 
 Example with two arrays of ports connected using `get_bundle`
 
@@ -67,10 +67,10 @@ of the banks of ports, it decides which sub-routine to call:
 
  Or you can also call each functions individually
 
-.. autofunction:: gf.routing.get_bundle.get_bundle_same_axis
-.. autofunction:: gf.routing.get_bundle_corner.get_bundle_corner
-.. autofunction:: gf.routing.get_bundle_u.get_bundle_udirect
-.. autofunction:: gf.routing.get_bundle_u.get_bundle_uindirect
+.. autofunction:: gdsfactory.routing.get_bundle.get_bundle_same_axis
+.. autofunction:: gdsfactory.routing.get_bundle_corner.get_bundle_corner
+.. autofunction:: gdsfactory.routing.get_bundle_u.get_bundle_udirect
+.. autofunction:: gdsfactory.routing.get_bundle_u.get_bundle_uindirect
 
 
 route_ports_to_side
@@ -80,14 +80,14 @@ For now `get_bundle` is not smart enough to decide whether it should call `route
 So you either need to connect your ports to face in one direction first, or to
 use `route_ports_to_side` before calling `get_bundle`
 
-.. autofunction:: gf.routing.route_ports_to_side.route_ports_to_side
+.. autofunction:: gdsfactory.routing.route_ports_to_side.route_ports_to_side
 
 
 
 get_bundle_from_waypoints
 -----------------------------------------------------
 
-.. autofunction:: gf.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
+.. autofunction:: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
 
 .. plot::
     :include-source:
@@ -132,7 +132,7 @@ get_bundle_path_length_match
 ---------------------------------
 
 
-.. autofunction:: gf.routing.get_bundle_path_length_match.get_bundle_path_length_match
+.. autofunction:: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
 
 
 add_fiber_array / add_fiber_single
@@ -142,9 +142,9 @@ In cases where individual components have to be tested, you can generate the arr
 
 You can connect the waveguides to a 127um pitch fiber array.
 
-.. autofunction:: gf.routing.add_fiber_array.add_fiber_array
+.. autofunction:: gdsfactory.routing.add_fiber_array.add_fiber_array
 
 
 Or can also connect to individual fibers for input and output.
 
-.. autofunction:: gf.routing.add_fiber_single.add_fiber_single
+.. autofunction:: gdsfactory.routing.add_fiber_single.add_fiber_single

@@ -109,7 +109,7 @@ Where is the gf.name come from?
 
 
 ```eval_rst
-.. automodule:: gf.types
+.. automodule:: gdsfactory.types
 ```
 
 
