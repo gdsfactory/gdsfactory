@@ -68,6 +68,7 @@ def get_route_from_steps(
             ],
         )
         c.add(route.references)
+        c.plot()
         c.show()
 
     """
