@@ -24,7 +24,6 @@ def add_electrical_pads_top(
             pad: pad element
             pitch: x spacing
             n: number of pads
-            pad_settings: settings for pad if pad is callable
             **port_settings
     """
     c = Component()
