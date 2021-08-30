@@ -34,6 +34,7 @@ def add_grating_couplers(
     """
 
     cnew = Component()
+    cnew.component = component
     cnew.add_ref(component)
     grating_coupler = gf.call_if_func(grating_coupler)
 

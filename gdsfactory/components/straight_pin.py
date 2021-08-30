@@ -109,6 +109,6 @@ straight_pn = gf.partial(straight_pin, cross_section=pn)
 
 if __name__ == "__main__":
 
-    c = straight_pn()
+    c = straight_pn_passive_tapered()
     print(c.ports.keys())
     c.show()

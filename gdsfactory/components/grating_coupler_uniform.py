@@ -2,9 +2,8 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.compass import compass
+from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper
-from gdsfactory.snap import snap_to_grid
 
 
 @gf.cell
@@ -15,9 +14,7 @@ def grating_coupler_uniform(
     width_grating: float = 11.0,
     length_taper: float = 150.0,
     width: float = 0.5,
-    partial_etch: bool = False,
     layer: Tuple[int, int] = gf.LAYER.WG,
-    layer_partial_etch: Tuple[int, int] = gf.LAYER.SLAB150,
     polarization: str = "te",
     wavelength: int = 1500,
 ) -> Component:
@@ -42,56 +39,36 @@ def grating_coupler_uniform(
                |_______________  W0
 
     """
-    G = Component()
-
-    if partial_etch:
-        partetch_overhang = 5
-        teeth = gf.snap.snap_to_grid(period * (1 - fill_factor))
-        _compass = compass(
-            size=[teeth, width_grating + partetch_overhang * 2],
-            layer=layer_partial_etch,
-        )
-
-        # make the etched areas (opposite to teeth)
-        for i in range(num_teeth):
-            cgrating = G.add_ref(_compass)
-            dx = gf.snap.snap_to_grid(i * period)
-            cgrating.x += dx
-            cgrating.y = 0
-
-        # draw the deep etched square around the grating
-
-        xsize = gf.snap.snap_to_grid(num_teeth * period, 2)
-        deepbox = G.add_ref(compass(size=[xsize, width_grating], layer=layer))
-        deepbox.movex(xsize / 2)
-    else:
-        for i in range(num_teeth):
-            xsize = gf.snap.snap_to_grid(period * fill_factor)
-            dx = gf.snap.snap_to_grid(i * period)
-            cgrating = G.add_ref(compass(size=[xsize, width_grating], layer=layer))
-            cgrating.x += dx
-            cgrating.y = 0
-    # make the taper
-    tgrating = G.add_ref(
-        taper(
-            length=length_taper,
-            width1=width_grating,
-            width2=width,
-            port=None,
-            layer=layer,
-        )
+    c = Component()
+    taper_ref = c << taper(
+        length=length_taper,
+        width2=width_grating,
+        width1=width,
+        layer=layer,
     )
-    tgrating.xmin = snap_to_grid(cgrating.xmax)
-    G.add_port(port=tgrating.ports["o2"], name="o1")
-    G.polarization = polarization
-    G.wavelength = wavelength
-    G.rotate(180)
-    gf.asserts.grating_coupler(G)
-    return G
+
+    c.add_port(port=taper_ref.ports["o1"], name="o1")
+    x0 = taper_ref.xmax
+
+    for i in range(num_teeth):
+        xsize = gf.snap.snap_to_grid(period * fill_factor)
+        cgrating = c.add_ref(rectangle(size=[xsize, width_grating], layer=layer))
+        cgrating.x = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.y = 0
+
+    xport = (x0 + cgrating.x) / 2
+
+    port_type = f"vertical_{polarization}"
+    c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=8)
+
+    c.polarization = polarization
+    c.wavelength = wavelength
+    gf.asserts.grating_coupler(c)
+    return c
 
 
 if __name__ == "__main__":
     # c = grating_coupler_uniform(name='gcu', partial_etch=True)
-    c = grating_coupler_uniform(partial_etch=False)
+    c = grating_coupler_uniform()
     print(c.ports)
     c.show()

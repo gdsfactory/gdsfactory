@@ -17,6 +17,7 @@ def rotate(
         angle: in degrees
     """
     component_new = Component()
+    component_new.component = component
     ref = component_new.add_ref(component)
     ref.rotate(angle)
     component_new.add_ports(ref.ports)

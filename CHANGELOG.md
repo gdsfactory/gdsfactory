@@ -33,6 +33,13 @@ from contracts import contract
 
 ```
 
+## 3.1.3
+
+- because in 3.1.1 cells can accept `*args` containers now are detected when they have `Component.component`
+- rename `component.settings['component']` to `component.settings['parent']`
+- grating couplers have port with `vertical_te` or `vertical_tm` prefix
+- pads have a port with `pad` name on the center of the pad
+
 ## 3.1.2
 
 - add `make doc` to update components documentation

@@ -5,18 +5,6 @@ name: array_2d
 settings:
   axis: y
   cols: 3
-  component:
-    function_name: array
-    info: {}
-    module: gdsfactory.components.array
-    name: array_axisx_n3_pitch150
-    settings:
-      axis: x
-      h_mirror: false
-      n: 3
-      pitch: 150
-      rotation: 0
-      v_mirror: false
   h_mirror: false
   n: 2
   pitch: 150

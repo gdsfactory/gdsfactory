@@ -88,6 +88,7 @@ def add_fiber_array(
 
     component_name = component_name or component.name
     component_new = Component()
+    component_new.component = component
 
     optical_ports = select_ports(component.ports)
     optical_ports_names = list(optical_ports.keys())

@@ -3,7 +3,9 @@ info: {}
 module: gdsfactory.components.extension
 name: extend_ports_3b7d9670
 settings:
-  component:
+  extension_factory: null
+  length: 5
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,8 +25,6 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  extension_factory: null
-  length: 5
   port1: null
   port2: null
   port_names: null

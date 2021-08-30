@@ -50,6 +50,7 @@ def cavity(
     )
 
     c = gf.Component()
+    c.component = mirror
     cr = c << coupler
     ml = c << mirror
     mr = c << mirror

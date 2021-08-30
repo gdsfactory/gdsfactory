@@ -5,19 +5,6 @@ name: array_with_via_2d
 settings:
   axis: y
   cols: 3
-  component:
-    function_name: array_with_via
-    info: {}
-    module: gdsfactory.components.array_with_via
-    name: array_with_via_n3_pitch150
-    settings:
-      component_port_name: e4
-      end_straight: 60
-      facing_west: true
-      n: 3
-      pitch: 150
-      via_stack_y_offset: -44
-      waveguide_pitch: 10
   h_mirror: false
   n: 2
   pitch: 150

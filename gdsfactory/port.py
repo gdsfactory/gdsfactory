@@ -194,6 +194,9 @@ class Port(PortPhidl):
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
+        if self.port_type.startswith("vertical"):
+            return
+
         if self.orientation in [0, 180]:
             x = self.y + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):

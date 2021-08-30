@@ -3,7 +3,10 @@ info: {}
 module: gdsfactory.components.ring_single_dut
 name: ring_single_dut_bc8a396e
 settings:
-  component:
+  gap: 0.2
+  length_x: 4
+  length_y: 0
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,9 +26,6 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  gap: 0.2
-  length_x: 4
-  length_y: 0
   radius: 5
   wg_width: 0.5
   with_component: true

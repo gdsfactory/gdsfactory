@@ -22,7 +22,7 @@ def delay_snake2(
     Snake output facing east
 
     Args:
-        length:
+        length: total length
         length0: initial offset
         n: number of loops
         bend180

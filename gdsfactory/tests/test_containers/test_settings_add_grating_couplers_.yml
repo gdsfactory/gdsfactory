@@ -3,7 +3,11 @@ info: {}
 module: gdsfactory.add_grating_couplers
 name: add_grating_couplers_ff50d5a9
 settings:
-  component:
+  gc_port_name: o1
+  layer_label:
+  - 201
+  - 0
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,7 +27,3 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  gc_port_name: o1
-  layer_label:
-  - 201
-  - 0

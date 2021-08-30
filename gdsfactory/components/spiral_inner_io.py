@@ -27,8 +27,7 @@ def spiral_inner_io(
     y_straight_inner_top: float = 50.0,
     y_straight_inner_bottom: float = 10.0,
     grating_spacing: float = 127.0,
-    dx: float = 3.0,
-    dy: float = 3.0,
+    waveguide_spacing: float = 3,
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
     straight_factory: ComponentFactory = straight,
@@ -46,8 +45,7 @@ def spiral_inner_io(
         y_straight_inner_top:
         y_straight_inner_bottom:
         grating_spacing:
-        dx: center to center x-spacing
-        dy: center to center y-spacing
+        waveguide_spacing: center to center spacing
         bend90_function
         bend180_function
         straight_factory: straight function
@@ -57,6 +55,7 @@ def spiral_inner_io(
         **kwargs: cross_section settings
 
     """
+    dx = dy = waveguide_spacing
     cross_section = gf.partial(cross_section, **kwargs)
     x = cross_section()
     width = x.info.get("width")
@@ -72,8 +71,7 @@ def spiral_inner_io(
             y_straight_inner_top=y_straight_inner_top,
             y_straight_inner_bottom=y_straight_inner_bottom,
             grating_spacing=grating_spacing,
-            dx=dx,
-            dy=dy,
+            waveguide_spacing=waveguide_spacing,
         )
 
     _bend180 = gf.call_if_func(bend180_function, cross_section=cross_section)

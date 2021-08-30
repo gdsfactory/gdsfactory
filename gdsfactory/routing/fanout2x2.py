@@ -28,6 +28,7 @@ def fanout2x2(
     c = gf.Component()
 
     component = component() if callable(component) else component
+    component.component = component
     ref = c << component
     ref.movey(-ref.y)
 

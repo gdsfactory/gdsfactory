@@ -37,6 +37,7 @@ def bend_port(
     """
     c = gf.Component()
     component = component() if callable(component) else component
+    c.component = component
 
     if port_name not in component.ports:
         raise ValueError(f"port_name {port_name} not in {list(component.ports.keys())}")

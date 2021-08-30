@@ -3,7 +3,10 @@ info: {}
 module: gdsfactory.routing.add_fiber_array
 name: add_fiber_array_3d895cbd
 settings:
-  component:
+  component_name: null
+  gc_port_name: o1
+  optical_routing_type: 2
+  parent:
     function_name: coupler
     info:
       length: 10.313
@@ -16,6 +19,3 @@ settings:
       dy: 5
       gap: 0.244
       length: 5.67
-  component_name: null
-  gc_port_name: o1
-  optical_routing_type: 2
