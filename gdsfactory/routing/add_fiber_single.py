@@ -112,6 +112,7 @@ def add_fiber_single(
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
 
     c = Component()
+    c.component = component
     cr = c << component
     cr.rotate(90)
 

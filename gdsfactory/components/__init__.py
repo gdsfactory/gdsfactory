@@ -120,14 +120,6 @@ from gdsfactory.components.grating_coupler_loss import (
 )
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.grating_coupler_uniform import grating_coupler_uniform
-from gdsfactory.components.grating_coupler_uniform_optimized import (
-    grating_coupler_uniform_1etch_h220_e70,
-    grating_coupler_uniform_1etch_h220_e70_taper_w10_l100,
-    grating_coupler_uniform_1etch_h220_e70_taper_w10_l200,
-    grating_coupler_uniform_1etch_h220_e70_taper_w11_l200,
-    grating_coupler_uniform_2etch_h220_e70,
-    grating_coupler_uniform_optimized,
-)
 from gdsfactory.components.hline import hline
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
@@ -375,11 +367,6 @@ __all__ = [
     "grating_coupler_tm",
     "grating_coupler_tree",
     "grating_coupler_uniform",
-    "grating_coupler_uniform_1etch_h220_e70",
-    "grating_coupler_uniform_1etch_h220_e70_taper_w10_l100",
-    "grating_coupler_uniform_1etch_h220_e70_taper_w10_l200",
-    "grating_coupler_uniform_1etch_h220_e70_taper_w11_l200",
-    "grating_coupler_uniform_2etch_h220_e70",
     "grating_coupler_uniform_optimized",
     "grating_taper_points",
     "grating_tooth_points",
@@ -582,7 +569,6 @@ factory = dict(
     grating_coupler_tm=grating_coupler_tm,
     grating_coupler_tree=grating_coupler_tree,
     grating_coupler_uniform=grating_coupler_uniform,
-    grating_coupler_uniform_optimized=grating_coupler_uniform_optimized,
     hline=hline,
     litho_calipers=litho_calipers,
     litho_steps=litho_steps,

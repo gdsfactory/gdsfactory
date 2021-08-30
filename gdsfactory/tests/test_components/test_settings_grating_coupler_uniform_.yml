@@ -9,12 +9,8 @@ settings:
   layer:
   - 1
   - 0
-  layer_partial_etch:
-  - 2
-  - 0
   length_taper: 150
   num_teeth: 20
-  partial_etch: false
   period: 0.75
   polarization: te
   wavelength: 1500

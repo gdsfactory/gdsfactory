@@ -4,23 +4,6 @@ module: gdsfactory.add_termination
 name: add_gratings_and_loopba_94c1d886
 settings:
   bend_radius_loopback: null
-  component:
-    function_name: spiral_inner_io
-    info:
-      length: 11594.987
-    module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io
-    settings:
-      N: 6
-      dx: 3
-      dy: 3
-      grating_spacing: 127
-      length: null
-      taper: null
-      x_straight_inner_left: 50
-      x_straight_inner_right: 150
-      y_straight_inner_bottom: 10
-      y_straight_inner_top: 50
   component_name: null
   excluded_ports: null
   gc_port_name: o1
@@ -31,5 +14,21 @@ settings:
   - 0
   layer_label_loopback: null
   nlabels_loopback: 2
+  parent:
+    function_name: spiral_inner_io
+    info:
+      length: 11594.987
+    module: gdsfactory.components.spiral_inner_io
+    name: spiral_inner_io
+    settings:
+      N: 6
+      grating_spacing: 127
+      length: null
+      taper: null
+      waveguide_spacing: 3
+      x_straight_inner_left: 50
+      x_straight_inner_right: 150
+      y_straight_inner_bottom: 10
+      y_straight_inner_top: 50
   straight_separation: 5
   with_loopback: true

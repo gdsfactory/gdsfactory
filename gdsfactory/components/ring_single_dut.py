@@ -53,6 +53,7 @@ def ring_single_dut(
     bend = call_if_func(bend, width=wg_width, radius=radius, **kwargs)
 
     c = Component()
+    c.component = component
     cb = c << coupler
     wl = c << straight_side
     if with_component:

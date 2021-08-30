@@ -3,14 +3,23 @@ info: {}
 module: gdsfactory.components.extension
 name: extend_ports_7d781386
 settings:
-  component:
-    cross_section:
-      function: cross_section
-      sections:
-      - slab90
-    function: straight
   extension_factory: taper_strip_to_ridge
   length: 5
+  parent:
+    function_name: straight
+    info:
+      length: 10
+      width: 0.5
+    module: gdsfactory.components.straight
+    name: straight_63f0cf7b
+    settings:
+      cross_section:
+        function: cross_section
+        sections:
+        - slab90
+      length: 10
+      npoints: 2
+      with_cladding_box: true
   port1: o2
   port2: o1
   port_names: null

@@ -3,7 +3,9 @@ info: {}
 module: gdsfactory.components.cavity
 name: cavity_componentmzi_79951d94
 settings:
-  component:
+  gap: 0.2
+  length: 0.1
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,5 +25,3 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  gap: 0.2
-  length: 0.1

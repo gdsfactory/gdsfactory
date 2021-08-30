@@ -28,6 +28,7 @@ def add_electrical_pads_top(
             **port_settings
     """
     c = Component()
+    c.component = component
     ref = c << component
     ports = select_ports(ref.ports)
     ports = list(ports.values())

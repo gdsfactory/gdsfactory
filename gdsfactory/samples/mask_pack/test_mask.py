@@ -70,7 +70,7 @@ def spiral_tm(width=0.5, length=20e3):
         width: waveguide width um
         lenght: um
     """
-    c = gf.c.spiral_inner_io(width=width, length=length, dx=10, dy=10, N=5)
+    c = gf.c.spiral_inner_io(width=width, length=length, waveguide_spacing=10, N=5)
     cc = add_gratings_and_loopback(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,

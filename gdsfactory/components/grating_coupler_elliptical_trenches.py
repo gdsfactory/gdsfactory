@@ -131,12 +131,14 @@ def grating_coupler_elliptical_trenches(
     )
     circle_ref = c.add_ref(circle)
     circle_ref.movex(x)
+    name = f"vertical_{polarization.lower()}"
     c.add_port(
-        name=f"vertical_{polarization.lower()}",
+        name=name,
         midpoint=[x, 0],
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
+        port_type=name,
     )
 
     # Add port
@@ -145,38 +147,16 @@ def grating_coupler_elliptical_trenches(
     return c
 
 
-def grating_coupler_te(taper_angle: int = 35, **kwargs) -> Component:
-    """
+grating_coupler_te = gf.partial(
+    grating_coupler_elliptical_trenches, polarization="te", taper_angle=35
+)
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.grating_coupler_te()
-      c.plot()
-    """
-    return grating_coupler_elliptical_trenches(
-        polarization="te", taper_angle=taper_angle, **kwargs
-    )
-
-
-def grating_coupler_tm(
-    neff: float = 1.8, grating_line_width: float = 0.6, **kwargs
-) -> Component:
-    """
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.grating_coupler_tm()
-      c.plot()
-    """
-    return grating_coupler_elliptical_trenches(
-        polarization="tm", neff=neff, grating_line_width=grating_line_width, **kwargs
-    )
+grating_coupler_tm = gf.partial(
+    grating_coupler_elliptical_trenches,
+    polarization="tm",
+    neff=1.8,
+    grating_line_width=0.6,
+)
 
 
 if __name__ == "__main__":

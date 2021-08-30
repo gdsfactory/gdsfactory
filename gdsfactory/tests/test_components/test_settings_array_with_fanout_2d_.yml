@@ -5,21 +5,6 @@ name: array_with_fanout_2d
 settings:
   axis: y
   cols: 3
-  component:
-    function_name: array_with_fanout
-    info: {}
-    module: gdsfactory.components.array_with_fanout
-    name: array_with_fanout_n3_pitch150
-    settings:
-      bend_port_name1: null
-      bend_port_name2: null
-      component_port_name: e4
-      end_straight: 40
-      n: 3
-      pitch: 150
-      radius: 5
-      start_straight: 5
-      waveguide_pitch: 10
   h_mirror: false
   n: 2
   pitch: 150

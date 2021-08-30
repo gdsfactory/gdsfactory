@@ -590,6 +590,7 @@ class Component(Device):
             "library",
             "_initialized",
             "layer_to_inclusion",
+            "component",
         }
         self.include = {"name", "function_name", "module"}
         self.test_protocol = {}
@@ -749,14 +750,6 @@ class Component(Device):
             for port_name, port in self.ports.items()
         }
         return ports_array
-
-    def get_properties(self):
-        """returns name, uid, ports, aliases and numer of references"""
-        return (
-            f"name: {self.name}, uid: {self.uid},  ports:"
-            f" {self.ports.keys()}, aliases {self.aliases.keys()}, number of"
-            f" references: {len(self.references)}"
-        )
 
     def ref(
         self,

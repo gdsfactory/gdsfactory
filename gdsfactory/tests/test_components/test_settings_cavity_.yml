@@ -5,3 +5,14 @@ name: cavity
 settings:
   gap: 0.2
   length: 0.1
+  parent:
+    function_name: dbr
+    info: {}
+    module: gdsfactory.components.dbr
+    name: dbr
+    settings:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525

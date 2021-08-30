@@ -39,6 +39,7 @@ def add_termination(
     terminator = gf.call_if_func(terminator)
     c = gf.Component()
     c.add_ref(component)
+    c.component = component
 
     for port in component.ports.values():
         t_ref = c.add_ref(terminator)
@@ -107,6 +108,8 @@ def add_gratings_and_loopback(
     direction = "S"
     component_name = component_name or component.name
     c = gf.Component()
+    c.component = component
+
     c.add_ref(component)
 
     # Find grating port name if not specified

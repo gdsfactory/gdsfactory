@@ -290,12 +290,14 @@ def grating_coupler_elliptical(
     circle_ref = c.add_ref(circle)
     circle_ref.movex(x)
 
+    name = f"vertical_{polarization.lower()}"
     c.add_port(
-        name=f"vertical_{polarization.lower()}",
+        name=name,
         midpoint=[x, 0],
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
+        port_type=name,
     )
 
     # Add port

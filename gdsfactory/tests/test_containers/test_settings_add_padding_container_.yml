@@ -3,7 +3,7 @@ info: {}
 module: gdsfactory.add_padding
 name: add_padding_container_fa62184e
 settings:
-  component:
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi

@@ -3,7 +3,8 @@ info: {}
 module: gdsfactory.routing.add_electrical_pads_top
 name: add_electrical_pads_top_60b7d2bd
 settings:
-  component:
+  dy: 100
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,4 +24,3 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  dy: 100

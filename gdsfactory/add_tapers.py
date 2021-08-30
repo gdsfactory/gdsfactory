@@ -40,7 +40,6 @@ def add_tapers(
     """returns component optical tapers for component"""
 
     c = gf.Component()
-
     ports = select_ports(component.ports) if select_ports else component.ports
 
     for port_name, port in ports.copy().items():
@@ -51,6 +50,7 @@ def add_tapers(
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
+    c.component = component
     return c
 
 

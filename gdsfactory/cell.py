@@ -66,7 +66,7 @@ def cell_without_validator(func):
         # arguments = "_".join(args_repr + kwargs_repr)
 
         cache = kwargs.pop("cache", True)
-        component_type = func.__name__
+        component_type = kwargs.pop("prefix", func.__name__)
         name = kwargs.pop("name", None)
         name = name or get_component_name(component_type, *args, **kwargs)
         decorator = kwargs.pop("decorator", None)
@@ -116,14 +116,9 @@ def cell_without_validator(func):
                 ), f"decorator = {type(decorator)} needs to be callable"
                 decorator(component)
 
-            if "component" in kwargs and isinstance(kwargs.get("component"), Component):
-                component_original = kwargs.pop("component")
-                component_original = (
-                    component_original()
-                    if callable(component_original)
-                    else component_original
-                )
-                component.settings["component"] = component_original.get_settings()
+            if hasattr(component, "component"):
+                component_original = component.component
+                component.settings["parent"] = component_original.get_settings()
 
             if not isinstance(component, Component):
                 raise ValueError(
@@ -209,6 +204,9 @@ def test_autoname() -> None:
 
     name_args = _dummy(3).name
     assert name_args == "_dummy3", name_args
+
+    name_with_prefix = _dummy(prefix="hi").name
+    assert name_with_prefix == "hi", name_with_prefix
 
 
 if __name__ == "__main__":

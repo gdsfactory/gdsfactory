@@ -3,7 +3,8 @@ info: {}
 module: gdsfactory.routing.add_electrical_pads_shortest
 name: add_electrical_pads_sho_8b3e2be7
 settings:
-  component:
+  pad_port_spacing: 50
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -23,5 +24,4 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  pad_port_spacing: 50
   port_orientation: 90

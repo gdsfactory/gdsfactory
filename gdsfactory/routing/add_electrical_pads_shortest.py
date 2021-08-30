@@ -29,6 +29,7 @@ def add_electrical_pads_shortest(
 
     """
     c = Component()
+    c.component = component
     ref = c << component
     ports = select_ports(ref.ports)
     ports = list(ports.values())

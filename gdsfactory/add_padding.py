@@ -86,6 +86,7 @@ def add_padding_container(
     """
 
     c = Component()
+    c.component = component
     cref = c << component
 
     points = get_padding_points(component, **kwargs)
@@ -129,14 +130,13 @@ def test_container():
 
     c = gf.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
-    print(len(cc.settings["component"]))
-    assert len(cc.settings["component"]) == 5
+    assert len(cc.settings["parent"]) == 5
 
     cc = add_padding_container(component=c, layers=[(2, 0)])
-    assert len(cc.settings["component"]) == 5
+    assert len(cc.settings["parent"]) == 5
 
     cc = add_padding_container(component=c, layers=[(3, 0)])
-    assert len(cc.settings["component"]) == 5
+    assert len(cc.settings["parent"]) == 5
 
     # cc = add_padding_container(component=c, layers=[(4, 0)])
     # assert isinstance(cc.settings["component"], Component)
@@ -145,14 +145,15 @@ def test_container():
 
 
 if __name__ == "__main__":
-
     test_container()
-    # c = gf.components.straight(length=128)
-    # cc = add_padding_container(component=c, layers=[(2, 0)])
-    # cc = add_padding_container(component=c, layers=[(2, 0)])
-    # print(cc.settings["component"])
-    # cc.show()
-    # cc.pprint()
+
+    import gdsfactory as gf
+
+    c = gf.components.straight(length=128)
+    cc = add_padding_container(component=c, layers=[(2, 0)])
+    print(cc.settings["component"])
+    cc.show()
+    cc.pprint()
 
     # c = gf.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])

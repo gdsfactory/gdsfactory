@@ -104,6 +104,7 @@ def extend_ports(
     c = gf.Component()
     component = component() if callable(component) else component
     cref = c << component
+    c.component = component
 
     ports_all = cref.get_ports_list()
     port_all_names = [p.name for p in ports_all]

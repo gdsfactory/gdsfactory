@@ -6,6 +6,20 @@ settings:
   gap: 0.2
   length_x: 4
   length_y: 0
+  parent:
+    function_name: taper
+    info:
+      length: 10
+      width1: 0.5
+      width2: 3
+    module: gdsfactory.components.taper
+    name: taper_width23
+    settings:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 3
+      with_cladding_box: true
   radius: 5
   wg_width: 0.5
   with_component: true
