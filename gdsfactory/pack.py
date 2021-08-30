@@ -210,7 +210,7 @@ if __name__ == "__main__":
     c = test_pack_with_settings()
     # c = test_pack()
     c.show()
-    c.pprint()
+    c.pprint
     c.write_gds_with_metadata("mask.gds")
 
     # import phidl.geometry as pg

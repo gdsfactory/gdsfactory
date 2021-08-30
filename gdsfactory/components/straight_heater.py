@@ -116,6 +116,6 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut()
     # c = straight_heater_metal(length=50.0)
     # print(c.ports['o2'].midpoint[0])
-    # c.pprint_ports()
+    # c.pprint_ports
     # c.auto_rename_ports_with_prefix()
     c.show()

@@ -108,7 +108,7 @@ if __name__ == "__main__":
     #         # (LAYER.M3, None, 5, 10, 0),
     #     )
     # )
-    # c.pprint()
+    # c.pprint
     c = via_stack_with_offset()
     # print(c)
     c.show()
