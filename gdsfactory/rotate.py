@@ -32,6 +32,6 @@ if __name__ == "__main__":
     cr.show()
     # print(component_rotated)
 
-    # component_rotated.pprint()
+    # component_rotated.pprint
     # component_netlist = component.get_netlist()
     # component.pprint_netlist()

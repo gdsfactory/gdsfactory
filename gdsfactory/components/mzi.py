@@ -162,7 +162,7 @@ if __name__ == "__main__":
         length_y=1.8,
     )
     c.show(show_ports=True)
-    # c.pprint()
+    # c.pprint
     # n = c.get_netlist()
     # c.plot()
     # print(c.get_settings())

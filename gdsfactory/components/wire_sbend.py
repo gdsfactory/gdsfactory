@@ -35,4 +35,4 @@ if __name__ == "__main__":
 
     c = wire_sbend(width=5)
     c.show(show_ports=True)
-    c.pprint_ports()
+    c.pprint_ports

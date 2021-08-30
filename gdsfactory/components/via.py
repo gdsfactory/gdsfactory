@@ -59,6 +59,6 @@ via3 = gf.partial(via, layer=LAYER.VIA3)
 if __name__ == "__main__":
 
     c = via()
-    # c.pprint()
+    # c.pprint
     print(c)
     c.show()

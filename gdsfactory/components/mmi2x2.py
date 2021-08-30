@@ -108,4 +108,4 @@ def mmi2x2(
 if __name__ == "__main__":
     c = mmi2x2(layer=(2, 0))
     c.show()
-    c.pprint()
+    c.pprint
