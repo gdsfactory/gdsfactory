@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Union
 
 from gdsfactory import components
-from gdsfactory.cell import get_component_name
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.doe import get_settings_list
+from gdsfactory.name import get_component_name
 from gdsfactory.types import ComponentFactoryDict
 
 factory = {

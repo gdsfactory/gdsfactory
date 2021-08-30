@@ -88,6 +88,8 @@ def extend_ports(
     extension_factory: Optional[ComponentOrFactory] = None,
     port1: Optional[str] = None,
     port2: Optional[str] = None,
+    port_type: str = "optical",
+    **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
     it can accept an extension_factory or it defaults to the port
@@ -100,6 +102,8 @@ def extend_ports(
         extension_factory: function to extend ports (defaults to a straight)
         port1: input port name
         port2: output port name
+        port_type: type of the ports to extend
+        **kwargs
     """
     c = gf.Component()
     component = component() if callable(component) else component
@@ -108,8 +112,10 @@ def extend_ports(
 
     ports_all = cref.get_ports_list()
     port_all_names = [p.name for p in ports_all]
-    ports_to_extend = port_names or [p.name for p in ports_all]
-    port_names = port_names or []
+
+    ports_to_extend = cref.get_ports_list(port_type=port_type, **kwargs)
+    ports_to_extend_names = [p.name for p in ports_to_extend]
+    port_names = port_names or ports_to_extend_names or port_all_names
 
     for port_name in port_names:
         if port_name not in port_all_names:
@@ -119,7 +125,7 @@ def extend_ports(
         port_name = port.name
         port = cref.ports[port_name]
 
-        if port_name in ports_to_extend:
+        if port_name in port_names:
 
             def extension_factory_default(
                 length=length, width=port.width, port_type=port.port_type

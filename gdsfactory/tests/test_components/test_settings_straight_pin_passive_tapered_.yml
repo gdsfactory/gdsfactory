@@ -20,3 +20,4 @@ settings:
   port1: o2
   port2: o1
   port_names: null
+  port_type: optical

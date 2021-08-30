@@ -367,7 +367,6 @@ __all__ = [
     "grating_coupler_tm",
     "grating_coupler_tree",
     "grating_coupler_uniform",
-    "grating_coupler_uniform_optimized",
     "grating_taper_points",
     "grating_tooth_points",
     "hline",
