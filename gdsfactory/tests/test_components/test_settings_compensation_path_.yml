@@ -1,7 +1,7 @@
 function_name: compensation_path
 info:
   components:
-    sbend: bezier_37266b3e
+    sbend: bezier_control_points0__37266b3e
   min_bend_radius: 18.226
 module: gdsfactory.components.crossing_waveguide
 name: compensation_path

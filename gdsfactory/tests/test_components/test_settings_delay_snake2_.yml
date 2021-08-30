@@ -13,18 +13,18 @@ settings:
   start_orientation: 0
   symbol_to_component:
     (:
-    - bend_euler180_43e519e7
+    - bend_euler180_cross_sec_43e519e7
     - o1
     - o2
     ):
-    - bend_euler180_43e519e7
+    - bend_euler180_cross_sec_43e519e7
     - o2
     - o1
     '-':
-    - straight_dbbd0973
+    - straight_cross_sectionc_dbbd0973
     - o1
     - o2
     _:
-    - straight_dbbd0973
+    - straight_cross_sectionc_dbbd0973
     - o1
     - o2

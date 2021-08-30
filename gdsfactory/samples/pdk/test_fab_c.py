@@ -18,7 +18,7 @@ component_names = component_factory.keys()
 
 @pytest.fixture(params=component_names, scope="function")
 def component(request) -> Component:
-    return component_factory[request.param](cache=False)
+    return component_factory[request.param]()
 
 
 def test_gds(component: Component) -> None:

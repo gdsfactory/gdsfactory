@@ -11,6 +11,7 @@
 
 Maybe:
 
+- pads have a port with `pad` name on the center of the pad
 - replace LIBRARY with `get_factory_dict`
 - rename any thickness_nm to thickness or zmin_nm to zmin
 - define Layer as a dataclass instead of Tuple[int, int]
@@ -36,9 +37,12 @@ from contracts import contract
 ## 3.1.3
 
 - because in 3.1.1 cells can accept `*args` containers now are detected when they have `Component.component`
-- rename `component.settings['component']` to `component.settings['parent']`
+- rename `component.settings['component']` to `component.settings['contains']`
 - grating couplers have port with `vertical_te` or `vertical_tm` prefix
-- pads have a port with `pad` name on the center of the pad
+- container names
+- add fiber single
+- `add_fiber_array` allows passing `gc_port_labels`
+- `add_fiber_array` and `add_fiber_single` propagate any non-optical ports to the container
 
 ## 3.1.2
 

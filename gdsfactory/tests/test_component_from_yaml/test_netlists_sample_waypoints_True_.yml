@@ -1,31 +1,30 @@
 connections:
-  bend_euler_eb36009f_154p875_145p125,o1: straight_677e7ce2_150p0_95p0,o2
-  bend_euler_eb36009f_154p875_145p125,o2: straight_cfd130a1_350p0_150p0,o1
-  bend_euler_eb36009f_395p125_304p875,o1: straight_cfd130a1_200p0_300p0,o2
-  bend_euler_eb36009f_395p125_304p875,o2: straight_d2a1c830_400p0_350p0,o1
-  bend_euler_eb36009f_395p125_395p125,o1: straight_d2a1c830_400p0_350p0,o2
-  bend_euler_eb36009f_395p125_395p125,o2: straight_72d2fb54_75p0_400p0,o1
-  bend_euler_eb36009f_4p875_295p125,o1: straight_f5ac8b0f_0p0_170p0,o2
-  bend_euler_eb36009f_4p875_295p125,o2: straight_cfd130a1_200p0_300p0,o1
-  bend_euler_eb36009f_545p125_154p875,o1: straight_cfd130a1_350p0_150p0,o2
-  bend_euler_eb36009f_545p125_154p875,o2: straight_cfd130a1_550p0_350p0,o1
-  bend_euler_eb36009f_545p125_545p125,o1: straight_cfd130a1_550p0_350p0,o2
-  bend_euler_eb36009f_545p125_545p125,o2: straight_72d2fb54_225p0_550p0,o1
-  bend_euler_eb36009f_m245p125_404p875,o1: straight_72d2fb54_75p0_400p0,o2
-  bend_euler_eb36009f_m245p125_404p875,o2: straight_031b3a2b_m250p0_680p0,o1
-  bend_euler_eb36009f_m95p125_554p875,o1: straight_72d2fb54_225p0_550p0,o2
-  bend_euler_eb36009f_m95p125_554p875,o2: straight_21bc8672_m100p0_755p0,o1
+  bend_euler_auto_widenFa_eb36009f_154p875_145p125,o1: straight_auto_widenFals_677e7ce2_150p0_95p0,o2
+  bend_euler_auto_widenFa_eb36009f_154p875_145p125,o2: straight_auto_widenFals_cfd130a1_350p0_150p0,o1
+  bend_euler_auto_widenFa_eb36009f_395p125_304p875,o1: straight_auto_widenFals_cfd130a1_200p0_300p0,o2
+  bend_euler_auto_widenFa_eb36009f_395p125_304p875,o2: straight_auto_widenFals_d2a1c830_400p0_350p0,o1
+  bend_euler_auto_widenFa_eb36009f_395p125_395p125,o1: straight_auto_widenFals_d2a1c830_400p0_350p0,o2
+  bend_euler_auto_widenFa_eb36009f_395p125_395p125,o2: straight_auto_widenFals_72d2fb54_75p0_400p0,o1
+  bend_euler_auto_widenFa_eb36009f_4p875_295p125,o1: straight_auto_widenFals_f5ac8b0f_0p0_170p0,o2
+  bend_euler_auto_widenFa_eb36009f_4p875_295p125,o2: straight_auto_widenFals_cfd130a1_200p0_300p0,o1
+  bend_euler_auto_widenFa_eb36009f_545p125_154p875,o1: straight_auto_widenFals_cfd130a1_350p0_150p0,o2
+  bend_euler_auto_widenFa_eb36009f_545p125_154p875,o2: straight_auto_widenFals_cfd130a1_550p0_350p0,o1
+  bend_euler_auto_widenFa_eb36009f_545p125_545p125,o1: straight_auto_widenFals_cfd130a1_550p0_350p0,o2
+  bend_euler_auto_widenFa_eb36009f_545p125_545p125,o2: straight_auto_widenFals_72d2fb54_225p0_550p0,o1
+  bend_euler_auto_widenFa_eb36009f_m245p125_404p875,o1: straight_auto_widenFals_72d2fb54_75p0_400p0,o2
+  bend_euler_auto_widenFa_eb36009f_m245p125_404p875,o2: straight_auto_widenFals_031b3a2b_m250p0_680p0,o1
+  bend_euler_auto_widenFa_eb36009f_m95p125_554p875,o1: straight_auto_widenFals_72d2fb54_225p0_550p0,o2
+  bend_euler_auto_widenFa_eb36009f_m95p125_554p875,o2: straight_auto_widenFals_21bc8672_m100p0_755p0,o1
 instances:
   b:
     component: pad_array
     settings:
       axis: x
       n: 6
-      pad_settings: null
       pitch: 150
       port_names:
       - e2
-  bend_euler_eb36009f_154p875_145p125:
+  bend_euler_auto_widenFa_eb36009f_154p875_145p125:
     component: bend_euler
     settings:
       angle: 90
@@ -37,7 +36,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_395p125_304p875:
+  bend_euler_auto_widenFa_eb36009f_395p125_304p875:
     component: bend_euler
     settings:
       angle: 90
@@ -49,7 +48,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_395p125_395p125:
+  bend_euler_auto_widenFa_eb36009f_395p125_395p125:
     component: bend_euler
     settings:
       angle: 90
@@ -61,7 +60,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_4p875_295p125:
+  bend_euler_auto_widenFa_eb36009f_4p875_295p125:
     component: bend_euler
     settings:
       angle: 90
@@ -73,7 +72,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_545p125_154p875:
+  bend_euler_auto_widenFa_eb36009f_545p125_154p875:
     component: bend_euler
     settings:
       angle: 90
@@ -85,7 +84,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_545p125_545p125:
+  bend_euler_auto_widenFa_eb36009f_545p125_545p125:
     component: bend_euler
     settings:
       angle: 90
@@ -97,7 +96,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_m245p125_404p875:
+  bend_euler_auto_widenFa_eb36009f_m245p125_404p875:
     component: bend_euler
     settings:
       angle: 90
@@ -109,7 +108,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_eb36009f_m95p125_554p875:
+  bend_euler_auto_widenFa_eb36009f_m95p125_554p875:
     component: bend_euler
     settings:
       angle: 90
@@ -121,7 +120,7 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  straight_031b3a2b_m250p0_680p0:
+  straight_auto_widenFals_031b3a2b_m250p0_680p0:
     component: straight
     settings:
       auto_widen: false
@@ -130,7 +129,7 @@ instances:
       length: 540
       npoints: 2
       with_cladding_box: true
-  straight_21bc8672_m100p0_755p0:
+  straight_auto_widenFals_21bc8672_m100p0_755p0:
     component: straight
     settings:
       auto_widen: false
@@ -139,7 +138,7 @@ instances:
       length: 390
       npoints: 2
       with_cladding_box: true
-  straight_677e7ce2_150p0_95p0:
+  straight_auto_widenFals_677e7ce2_150p0_95p0:
     component: straight
     settings:
       auto_widen: false
@@ -148,7 +147,7 @@ instances:
       length: 90
       npoints: 2
       with_cladding_box: true
-  straight_72d2fb54_225p0_550p0:
+  straight_auto_widenFals_72d2fb54_225p0_550p0:
     component: straight
     settings:
       auto_widen: false
@@ -157,7 +156,7 @@ instances:
       length: 630
       npoints: 2
       with_cladding_box: true
-  straight_72d2fb54_75p0_400p0:
+  straight_auto_widenFals_72d2fb54_75p0_400p0:
     component: straight
     settings:
       auto_widen: false
@@ -166,7 +165,7 @@ instances:
       length: 630
       npoints: 2
       with_cladding_box: true
-  straight_cfd130a1_200p0_300p0:
+  straight_auto_widenFals_cfd130a1_200p0_300p0:
     component: straight
     settings:
       auto_widen: false
@@ -175,7 +174,7 @@ instances:
       length: 380
       npoints: 2
       with_cladding_box: true
-  straight_cfd130a1_350p0_150p0:
+  straight_auto_widenFals_cfd130a1_350p0_150p0:
     component: straight
     settings:
       auto_widen: false
@@ -184,7 +183,7 @@ instances:
       length: 380
       npoints: 2
       with_cladding_box: true
-  straight_cfd130a1_550p0_350p0:
+  straight_auto_widenFals_cfd130a1_550p0_350p0:
     component: straight
     settings:
       auto_widen: false
@@ -193,7 +192,7 @@ instances:
       length: 380
       npoints: 2
       with_cladding_box: true
-  straight_d2a1c830_400p0_350p0:
+  straight_auto_widenFals_d2a1c830_400p0_350p0:
     component: straight
     settings:
       auto_widen: false
@@ -202,7 +201,7 @@ instances:
       length: 80
       npoints: 2
       with_cladding_box: true
-  straight_f5ac8b0f_0p0_170p0:
+  straight_auto_widenFals_f5ac8b0f_0p0_170p0:
     component: straight
     settings:
       auto_widen: false
@@ -216,7 +215,6 @@ instances:
     settings:
       axis: x
       n: 6
-      pad_settings: null
       pitch: 150
       port_names:
       - e4
@@ -227,92 +225,92 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_eb36009f_154p875_145p125:
+  bend_euler_auto_widenFa_eb36009f_154p875_145p125:
     mirror: true
     rotation: 90
     x: 150.0
     y: 140.0
-  bend_euler_eb36009f_395p125_304p875:
+  bend_euler_auto_widenFa_eb36009f_395p125_304p875:
     mirror: false
     rotation: 0
     x: 390.0
     y: 300.0
-  bend_euler_eb36009f_395p125_395p125:
+  bend_euler_auto_widenFa_eb36009f_395p125_395p125:
     mirror: false
     rotation: 90
     x: 400.0
     y: 390.0
-  bend_euler_eb36009f_4p875_295p125:
+  bend_euler_auto_widenFa_eb36009f_4p875_295p125:
     mirror: true
     rotation: 90
     x: 0.0
     y: 290.0
-  bend_euler_eb36009f_545p125_154p875:
+  bend_euler_auto_widenFa_eb36009f_545p125_154p875:
     mirror: false
     rotation: 0
     x: 540.0
     y: 150.0
-  bend_euler_eb36009f_545p125_545p125:
+  bend_euler_auto_widenFa_eb36009f_545p125_545p125:
     mirror: false
     rotation: 90
     x: 550.0
     y: 540.0
-  bend_euler_eb36009f_m245p125_404p875:
+  bend_euler_auto_widenFa_eb36009f_m245p125_404p875:
     mirror: true
     rotation: 180
     x: -240.0
     y: 400.0
-  bend_euler_eb36009f_m95p125_554p875:
+  bend_euler_auto_widenFa_eb36009f_m95p125_554p875:
     mirror: true
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_031b3a2b_m250p0_680p0:
+  straight_auto_widenFals_031b3a2b_m250p0_680p0:
     mirror: false
     rotation: 90
     x: -250.0
     y: 410.0
-  straight_21bc8672_m100p0_755p0:
+  straight_auto_widenFals_21bc8672_m100p0_755p0:
     mirror: false
     rotation: 90
     x: -100.0
     y: 560.0
-  straight_677e7ce2_150p0_95p0:
+  straight_auto_widenFals_677e7ce2_150p0_95p0:
     mirror: false
     rotation: 90
     x: 150.0
     y: 50.0
-  straight_72d2fb54_225p0_550p0:
+  straight_auto_widenFals_72d2fb54_225p0_550p0:
     mirror: false
     rotation: 180
     x: 540.0
     y: 550.0
-  straight_72d2fb54_75p0_400p0:
+  straight_auto_widenFals_72d2fb54_75p0_400p0:
     mirror: false
     rotation: 180
     x: 390.0
     y: 400.0
-  straight_cfd130a1_200p0_300p0:
+  straight_auto_widenFals_cfd130a1_200p0_300p0:
     mirror: false
     rotation: 0
     x: 10.0
     y: 300.0
-  straight_cfd130a1_350p0_150p0:
+  straight_auto_widenFals_cfd130a1_350p0_150p0:
     mirror: false
     rotation: 0
     x: 160.0
     y: 150.0
-  straight_cfd130a1_550p0_350p0:
+  straight_auto_widenFals_cfd130a1_550p0_350p0:
     mirror: false
     rotation: 90
     x: 550.0
     y: 160.0
-  straight_d2a1c830_400p0_350p0:
+  straight_auto_widenFals_d2a1c830_400p0_350p0:
     mirror: false
     rotation: 90
     x: 400.0
     y: 310.0
-  straight_f5ac8b0f_0p0_170p0:
+  straight_auto_widenFals_f5ac8b0f_0p0_170p0:
     mirror: false
     rotation: 90
     x: 0.0

@@ -9,10 +9,9 @@ def test_get_bundle_udirect(
 ) -> Component:
 
     c = gf.Component("test_get_bundle_udirect")
-    w = h = 10
-    pad_south = gf.components.pad_array(
-        port_names=["e4"], pitch=15.0, pad_settings=dict(width=w, height=h)
-    )
+
+    pad = gf.partial(gf.c.pad, width=10, height=10)
+    pad_south = gf.components.pad_array(port_names=["e4"], pitch=15.0, pad=pad)
     pt = c << pad_south
     pb = c << pad_south
     pb.rotate(90)

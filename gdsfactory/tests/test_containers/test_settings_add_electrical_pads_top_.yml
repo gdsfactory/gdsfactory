@@ -1,14 +1,13 @@
 function_name: add_electrical_pads_top
 info: {}
 module: gdsfactory.routing.add_electrical_pads_top
-name: add_electrical_pads_top_60b7d2bd
+name: mzi_length_x320_splitte_3ef398eb
 settings:
-  dy: 100
-  parent:
+  contains:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_79951d94
+    name: mzi_length_x320_splitte_79951d94
     settings:
       combiner: null
       combiner_settings: null
@@ -24,3 +23,4 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  dy: 100

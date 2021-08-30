@@ -3,7 +3,7 @@ info:
   length: 10
   width: 10
 module: gdsfactory.components.straight
-name: straight_d754b39b
+name: straight_cross_sectionc_d754b39b
 settings:
   cross_section:
     function: cross_section

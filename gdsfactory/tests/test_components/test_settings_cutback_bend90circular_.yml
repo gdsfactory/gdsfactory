@@ -1,7 +1,7 @@
 function_name: cutback_bend90
 info: {}
 module: gdsfactory.components.cutback_bend
-name: cutback_bend90_53f576d1
+name: cutback_bend90_bend90be_53f576d1
 settings:
   bend90: bend_circular
   cols: 6

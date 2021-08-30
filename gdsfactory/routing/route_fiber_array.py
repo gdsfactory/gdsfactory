@@ -1,6 +1,5 @@
 from typing import Any, Callable, List, Optional, Tuple, Union
 
-from numpy import float64
 from phidl.device_layout import Label
 
 import gdsfactory as gf
@@ -12,7 +11,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_ports_optical
+from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -42,21 +41,21 @@ def route_fiber_array(
     excluded_ports: List[Any] = None,
     grating_indices: None = None,
     route_filter: Callable = get_route_from_waypoints,
-    gc_port_name: str = 1,
+    gc_port_name: str = "o1",
     gc_rotation: int = -90,
-    layer_label: Optional[Tuple[int, int]] = None,
+    layer_label: Optional[Tuple[int, int]] = (66, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
-    optical_port_labels: None = None,
+    optical_port_labels: Optional[Tuple[str, ...]] = None,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
-    get_input_labels_function=get_input_labels,
+    get_input_labels_function: Optional[Callable] = get_input_labels,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Tuple[
-    List[Union[ComponentReference, Label]], List[List[ComponentReference]], float64
+    List[Union[ComponentReference, Label]], List[List[ComponentReference]], List[Port]
 ]:
     """Returns component I/O elements for adding grating couplers with a fiber array
     Many components are fine with the defaults.
@@ -105,19 +104,18 @@ def route_fiber_array(
         layer_label: for TM labels
         component_name: name of component
         x_grating_offset: x offset
-        optical_port_labels: port labels that need connection
+        optical_port_labels: port labels to route_to_fiber_array
         select_ports: function to select ports for which to add grating couplers
         get_input_label_text_loopback_function: function to get input labels for grating couplers
         get_input_label_text_function
 
     Returns:
-        elements, io_grating_lines, y0_optical
+        elements, io_grating_lines, list of ports
     """
 
     x = cross_section(**kwargs)
     waveguide_settings = x.info
     radius = waveguide_settings["radius"]
-    layer_label = layer_label or TECH.layer_label
 
     assert isinstance(
         radius, (int, float)
@@ -252,6 +250,7 @@ def route_fiber_array(
      - then second half of the north ports (right to left)
 
     """
+    ports = []
     north_ports = direction_ports["N"]
     north_start = north_ports[0 : len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
@@ -291,6 +290,7 @@ def route_fiber_array(
         ]
 
         io_gratings_lines += [io_gratings[:]]
+        ports += [grating.ports[gc_port_name] for grating in io_gratings]
 
     if optical_routing_type == 0:
         """
@@ -431,6 +431,8 @@ def route_fiber_array(
         ]
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
+        ports.append(port0)
+        ports.append(port1)
 
         p0 = port0.position
         p1 = port1.position
@@ -467,9 +469,12 @@ def route_fiber_array(
         if nlabels_loopback == 2:
             io_gratings_loopback = [gca1, gca2]
             ordered_ports_loopback = [port0, port1]
-        if nlabels_loopback == 0:
-            pass
-        elif 0 < nlabels_loopback <= 2:
+        elif nlabels_loopback > 2:
+            raise ValueError(
+                f"Invalid nlabels_loopback = {nlabels_loopback}, "
+                "valid (0: no labels, 1: first port, 2: both ports2)"
+            )
+        if nlabels_loopback > 0 and get_input_labels_function:
             elements.extend(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,
@@ -480,24 +485,20 @@ def route_fiber_array(
                     get_input_label_text_function=get_input_label_text_loopback_function,
                 )
             )
-        else:
-            raise ValueError(
-                f"Invalid nlabels_loopback = {nlabels_loopback}, "
-                "valid (0: no labels, 1: first port, 2: both ports2)"
+
+    if get_input_labels_function:
+        elements.extend(
+            get_input_labels_function(
+                io_gratings=io_gratings,
+                ordered_ports=ordered_ports,
+                component_name=component_name,
+                layer_label=layer_label,
+                gc_port_name=gc_port_name,
+                get_input_label_text_function=get_input_label_text_function,
             )
-
-    elements.extend(
-        get_input_labels_function(
-            io_gratings=io_gratings,
-            ordered_ports=ordered_ports,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-            get_input_label_text_function=get_input_label_text_function,
         )
-    )
 
-    return elements, io_gratings_lines, y0_optical
+    return elements, io_gratings_lines, ports
 
 
 def demo():
@@ -507,7 +508,7 @@ def demo():
     c = gf.components.straight(length=500)
     c = gf.components.mmi2x2()
 
-    elements, gc, _ = route_fiber_array(
+    elements, gc, = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,
@@ -555,12 +556,15 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
     gc.xmin = -20
-    elements, gc, _ = route_fiber_array(
+    elements, gc, ports = route_fiber_array(
         component=c,
         grating_coupler=gc,
         cladding_offset=6,
         nlabels_loopback=1,
         layer=layer,
+        optical_routing_type=2,
+        fanout_length=20,
+        get_input_label_text_function=None,
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)

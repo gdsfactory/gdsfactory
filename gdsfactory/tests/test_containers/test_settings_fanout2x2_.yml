@@ -2,7 +2,7 @@ function_name: fanout2x2
 info:
   min_bend_radius: 10.764
 module: gdsfactory.routing.fanout2x2
-name: fanout2x2_componentmzi_79951d94
+name: fanout2x2_componentmzi__9dfa66e9
 settings:
   bend_length: null
   npoints: 101

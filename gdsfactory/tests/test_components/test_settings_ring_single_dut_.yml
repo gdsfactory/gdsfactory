@@ -1,12 +1,9 @@
 function_name: ring_single_dut
 info: {}
 module: gdsfactory.components.ring_single_dut
-name: ring_single_dut
+name: taper_width23_ring_single_dut
 settings:
-  gap: 0.2
-  length_x: 4
-  length_y: 0
-  parent:
+  contains:
     function_name: taper
     info:
       length: 10
@@ -20,6 +17,9 @@ settings:
       width1: 0.5
       width2: 3
       with_cladding_box: true
+  gap: 0.2
+  length_x: 4
+  length_y: 0
   radius: 5
   wg_width: 0.5
   with_component: true

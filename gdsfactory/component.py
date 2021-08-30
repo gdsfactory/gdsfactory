@@ -806,13 +806,15 @@ class Component(Device):
         if hasattr(self, property):
             return getattr(self, property)
 
-    def pprint(self, **kwargs) -> None:
+    @property
+    def pprint(self) -> None:
         """Prints component settings."""
-        pprint(self.get_settings(**kwargs))
+        pprint(self.get_settings())
 
-    def pprint_ports(self, **kwargs) -> None:
+    @property
+    def pprint_ports(self) -> None:
         """Prints component netlists."""
-        ports_list = self.get_ports_list(**kwargs)
+        ports_list = self.get_ports_list()
         for port in ports_list:
             print(port)
 

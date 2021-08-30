@@ -1,11 +1,9 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: extend_ports
+name: mmi1x2_extend_ports
 settings:
-  extension_factory: null
-  length: 5
-  parent:
+  contains:
     function_name: mmi1x2
     info:
       simulation_settings:
@@ -20,6 +18,8 @@ settings:
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
+  extension_factory: null
+  length: 5
   port1: null
   port2: null
   port_names: null

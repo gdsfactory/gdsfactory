@@ -1,19 +1,14 @@
 function_name: add_fiber_single
 info: {}
 module: gdsfactory.routing.add_fiber_single
-name: add_fiber_single_4cd4d479
+name: mzi_length_x320_splitte_bce41b3c
 settings:
   component_name: null
-  fiber_spacing: 50
-  gc_port_name: o1
-  layer_label: null
-  min_input_to_output_spacing: 200
-  optical_routing_type: 2
-  parent:
+  contains:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_79951d94
+    name: mzi_length_x320_splitte_79951d94
     settings:
       combiner: null
       combiner_settings: null
@@ -29,4 +24,9 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  fiber_spacing: 50
+  gc_port_name: o1
+  layer_label: null
+  min_input_to_output_spacing: 200
+  optical_routing_type: 2
   with_loopback: true

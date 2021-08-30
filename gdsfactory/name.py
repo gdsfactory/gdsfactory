@@ -27,7 +27,7 @@ component_type_to_name = dict(phidl="phidl")
 def get_component_name(component_type: str, *args, **kwargs) -> str:
     """Returns concatenated kwargs Key_Value."""
     name = component_type
-    name += "_".join([clean_value(repr(a)) for a in args])
+    name += "_".join([clean_value(a) for a in args])
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
     if kwargs:
@@ -175,15 +175,13 @@ def get_name_short(name: str):
     return clean_name(name)
 
 
-def get_name(component_type: str, name: str) -> str:
+def get_name(name: str) -> str:
     """Returns name with correct number of characters"""
     if not isinstance(name, str):
         raise ValueError(f"{name} needs to be a string")
-    if not isinstance(component_type, str):
-        raise ValueError(f"{component_type} needs to be a string")
     if len(name) > MAX_NAME_LENGTH:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{component_type[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
+        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
     return clean_name(name)
 
 

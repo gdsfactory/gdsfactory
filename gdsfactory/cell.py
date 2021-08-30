@@ -1,4 +1,5 @@
 import functools
+import hashlib
 import inspect
 import uuid
 from typing import Dict
@@ -6,7 +7,7 @@ from typing import Dict
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import get_component_name, get_name
+from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name
 
 CACHE: Dict[str, Component] = {}
 
@@ -56,38 +57,29 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        # if args:
-        #     raise ValueError(
-        #         f"cell supports only Keyword args for `{func.__name__}({arguments})`"
-        #     )
-
-        # args_repr = [repr(a) for a in args]
-        # kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
-        # arguments = "_".join(args_repr + kwargs_repr)
-
-        cache = kwargs.pop("cache", True)
-        component_type = kwargs.pop("prefix", func.__name__)
-        name = kwargs.pop("name", None)
-        name = name or get_component_name(component_type, *args, **kwargs)
-        decorator = kwargs.pop("decorator", None)
-
-        uid = kwargs.pop("uid", False)
+        prefix = kwargs.pop("prefix", func.__name__)
         autoname = kwargs.pop("autoname", True)
+        cache = kwargs.pop("cache", True)
+        uid = kwargs.pop("uid", False)
+
+        args_repr = [clean_value(a) for a in args]
+        kwargs_repr = [
+            f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())
+        ]
+        arguments = "_".join(args_repr + kwargs_repr)
+        name = f"{prefix}_{arguments}" if arguments else prefix
+
+        name = kwargs.pop("name", clean_name(name))
+        decorator = kwargs.pop("decorator", None)
 
         if uid:
             name += f"_{str(uuid.uuid4())[:8]}"
 
         name_long = name
-        name = get_name(component_type=component_type, name=name)
+        if len(name) > MAX_NAME_LENGTH:
+            name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
+            name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
         sig = inspect.signature(func)
-
-        # first_letters = [join_first_letters(k) for k in kwargs.keys() if k != "layer"]
-        # keys = set(kwargs.keys()) - set(["layer"])
-        # if not len(set(first_letters)) == len(first_letters):
-        #     print(
-        #         f"Warning! Possible Duplicated name in {component_type}. "
-        #         f"Args {keys} have repeated first letters {first_letters}"
-        #     )
 
         if (
             "args" not in sig.parameters
@@ -97,7 +89,7 @@ def cell_without_validator(func):
             for key in kwargs.keys():
                 if key not in sig.parameters.keys():
                     raise TypeError(
-                        f"{component_type}() got invalid argument `{key}`\n"
+                        f"{func.__name__}() got invalid argument `{key}`\n"
                         f"valid arguments are {list(sig.parameters.keys())}"
                     )
 
@@ -117,12 +109,12 @@ def cell_without_validator(func):
                 decorator(component)
 
             if hasattr(component, "component"):
-                component_original = component.component
-                component.settings["parent"] = component_original.get_settings()
+                component.settings["contains"] = component.component.get_settings()
+                name = get_name(f"{component.component.name}_{name}")
 
             if not isinstance(component, Component):
                 raise ValueError(
-                    f"`{func.__name__}` returned `{component}` and not a Component"
+                    f"`{func.__name__}` returned `{type(component)}` and not a Component"
                 )
             component.module = func.__module__
             component.function_name = func.__name__
@@ -200,10 +192,12 @@ def test_autoname() -> None:
 
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
-    assert name_length_first == name_width_first, name_length_first
+    assert (
+        name_length_first == name_width_first
+    ), f"{name_length_first} != {name_width_first}"
 
     name_args = _dummy(3).name
-    assert name_args == "_dummy3", name_args
+    assert name_args == "_dummy_3", name_args
 
     name_with_prefix = _dummy(prefix="hi").name
     assert name_with_prefix == "hi", name_with_prefix
@@ -214,7 +208,8 @@ if __name__ == "__main__":
 
     # c = gf.components.straight()
 
-    test_autoname()
+    test_autoname_false()
+    # test_autoname()
     # test_set_name()
 
     # c = wg(length=3)

@@ -1,15 +1,14 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_5af4343c
+name: mzi_length_x320_splitte_988d2384
 settings:
   component_name: null
-  gc_port_name: o1
-  parent:
+  contains:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_79951d94
+    name: mzi_length_x320_splitte_79951d94
     settings:
       combiner: null
       combiner_settings: null
@@ -25,3 +24,8 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  gc_port_labels: null
+  gc_port_name: o1
+  layer_label:
+  - 66
+  - 0

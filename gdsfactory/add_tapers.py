@@ -40,10 +40,11 @@ def add_tapers(
     """returns component optical tapers for component"""
 
     c = gf.Component()
-    ports = select_ports(component.ports) if select_ports else component.ports
+    ports_to_taper = select_ports(component.ports) if select_ports else component.ports
+    ports_to_taper_names = [p.name for p in ports_to_taper.values()]
 
-    for port_name, port in ports.copy().items():
-        if port.name in ports.keys():
+    for port_name, port in component.ports.items():
+        if port.name in ports_to_taper_names:
             taper_ref = c << taper(width2=port.width)
             taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name1])
@@ -55,11 +56,14 @@ def add_tapers(
 
 
 if __name__ == "__main__":
-    c0 = gf.components.straight(width=1)
-    # c0 = gf.components.straight_heater_metal(width=2)
     # t = gf.components.taper(width2=2)
+    c0 = gf.components.straight(width=1)
+    c0 = gf.components.straight_heater_metal(width=2)
     c1 = add_tapers(c0)
-    c1.show(show_ports=True)
+    c1.show()
+
+    c2 = gf.routing.add_fiber_single(c1, with_loopback=False)
+    c2.show()
 
     # print(cc.ports.keys())
     # print(cc.settings.keys())

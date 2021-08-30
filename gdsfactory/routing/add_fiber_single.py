@@ -96,6 +96,7 @@ def add_fiber_single(
     layer_label = layer_label or TECH.layer_label
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
+    optical_port_names = [p.name for p in optical_ports]
 
     if not optical_ports:
         raise ValueError(f"No ports for {component.name}")
@@ -112,9 +113,14 @@ def add_fiber_single(
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
 
     c = Component()
+
     c.component = component
     cr = c << component
     cr.rotate(90)
+
+    for port in cr.ports.values():
+        if port.name not in optical_port_names:
+            c.add_port(name=port.name, port=port)
 
     if (
         len(optical_ports) == 2
@@ -124,9 +130,10 @@ def add_fiber_single(
         grating_coupler = call_if_func(grating_coupler)
         grating_couplers = []
         for port in cr.ports.values():
-            gc_ref = grating_coupler.ref()
-            gc_ref.connect(gc_port_name, port)
-            grating_couplers.append(gc_ref)
+            if port.name in optical_port_names:
+                gc_ref = grating_coupler.ref()
+                gc_ref.connect(gc_port_name, port)
+                grating_couplers.append(gc_ref)
 
         elements = get_input_labels(
             io_gratings=grating_couplers,
@@ -244,7 +251,7 @@ if __name__ == "__main__":
         return c
 
     cc = add_fiber_single(
-        component=straight_with_pins(width=2),
+        component=gf.c.straight_heater_metal(width=2),
         auto_widen=False,
         with_loopback=True,
         straight_factory=straight_with_pins,

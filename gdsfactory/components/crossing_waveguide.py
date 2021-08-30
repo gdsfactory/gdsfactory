@@ -403,5 +403,5 @@ if __name__ == "__main__":
     # _demo()
     # c = crossing_from_taper()
     # c.pprint()
-    c = crossing_etched()
+    # c = crossing_etched()
     c.show()

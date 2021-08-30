@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -7,7 +7,9 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
+from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
+from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
@@ -18,9 +20,12 @@ def add_fiber_array(
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     gc_port_name: str = "o1",
+    gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
+    get_input_labels_function: Optional[Callable] = get_input_labels,
+    layer_label: Optional[Tuple[int, int]] = (66, 0),
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -70,6 +75,7 @@ def add_fiber_array(
         cc.plot()
 
     """
+    get_input_labels_function = None if gc_port_labels else get_input_labels_function
     component = gf.call_if_func(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -95,7 +101,7 @@ def add_fiber_array(
     if not optical_ports:
         return component
 
-    elements, io_gratings_lines, _ = route_fiber_array(
+    elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
         bend_factory=bend_factory,
@@ -104,6 +110,8 @@ def add_fiber_array(
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
+        get_input_labels_function=get_input_labels_function,
+        layer_label=layer_label,
         **kwargs,
     )
     if len(elements) == 0:
@@ -119,6 +127,14 @@ def add_fiber_array(
     for pname, p in component.ports.items():
         if p.name not in optical_ports_names:
             component_new.add_port(pname, port=p)
+
+    ports = sort_ports_x(ports)
+
+    if gc_port_labels:
+        for gc_port_label, port in zip(gc_port_labels, ports):
+            component_new.add_label(
+                text=gc_port_label, layer=layer_label, position=port.midpoint
+            )
 
     for i, io_row in enumerate(io_gratings_lines):
         for j, io in enumerate(io_row):
@@ -175,5 +191,6 @@ if __name__ == "__main__":
         grating_coupler=[gcte, gctm, gcte, gctm],
         auto_widen=True,
         # layer=(2, 0),
+        gc_port_labels=["loop_in", "in", "out", "loop_out"],
     )
     cc.show()

@@ -1,21 +1,21 @@
 connections:
   bend_euler_radius10_width450n_30p112_16p512,o1: bend_euler_radius10_width450n_30p112_6p288,o2
-  bend_euler_radius10_width450n_30p112_16p512,o2: taper_272160ef_22p5_21p4,o1
-  bend_euler_radius10_width450n_30p112_6p288,o1: taper_6197302c_22p5_1p4,o2
+  bend_euler_radius10_width450n_30p112_16p512,o2: taper_length5_width1450_272160ef_22p5_21p4,o1
+  bend_euler_radius10_width450n_30p112_6p288,o1: taper_length5_width1500_6197302c_22p5_1p4,o2
   bend_euler_radius10_width550n_33p138_18p538,o1: straight_length4_width550n_38p0_11p4,o2
   bend_euler_radius10_width550n_33p138_18p538,o2: straight_length3_width550n_26p5_23p4,o1
   bend_euler_radius10_width550n_33p138_4p262,o1: straight_length3_width550n_26p5_m0p6,o2
   bend_euler_radius10_width550n_33p138_4p262,o2: straight_length4_width550n_38p0_11p4,o1
-  coupler_dy2_gap200n_length5_1p5_22p4,o3: taper_d1c96003_16p5_23p4,o2
-  coupler_dy2_gap200n_length5_1p5_22p4,o4: taper_41f84c30_16p5_21p4,o2
-  coupler_dy2_gap300n_length10_5p0_0p4,o3: taper_6197302c_22p5_1p4,o1
-  coupler_dy2_gap300n_length10_5p0_0p4,o4: taper_eb6c0ed2_22p5_m0p6,o1
-  straight_length1_width450n_19p5_23p4,o1: taper_ab60e40e_22p5_23p4,o2
-  straight_length1_width450n_19p5_23p4,o2: taper_d1c96003_16p5_23p4,o1
-  straight_length1_width550n_19p5_21p4,o1: taper_272160ef_22p5_21p4,o2
-  straight_length1_width550n_19p5_21p4,o2: taper_41f84c30_16p5_21p4,o1
-  straight_length3_width550n_26p5_23p4,o2: taper_ab60e40e_22p5_23p4,o1
-  straight_length3_width550n_26p5_m0p6,o1: taper_eb6c0ed2_22p5_m0p6,o2
+  coupler_dy2_gap200n_length5_1p5_22p4,o3: taper_length5_width1450_d1c96003_16p5_23p4,o2
+  coupler_dy2_gap200n_length5_1p5_22p4,o4: taper_length5_width1550_41f84c30_16p5_21p4,o2
+  coupler_dy2_gap300n_length10_5p0_0p4,o3: taper_length5_width1500_6197302c_22p5_1p4,o1
+  coupler_dy2_gap300n_length10_5p0_0p4,o4: taper_length5_width1500_eb6c0ed2_22p5_m0p6,o1
+  straight_length1_width450n_19p5_23p4,o1: taper_length5_width1550_ab60e40e_22p5_23p4,o2
+  straight_length1_width450n_19p5_23p4,o2: taper_length5_width1450_d1c96003_16p5_23p4,o1
+  straight_length1_width550n_19p5_21p4,o1: taper_length5_width1450_272160ef_22p5_21p4,o2
+  straight_length1_width550n_19p5_21p4,o2: taper_length5_width1550_41f84c30_16p5_21p4,o1
+  straight_length3_width550n_26p5_23p4,o2: taper_length5_width1550_ab60e40e_22p5_23p4,o1
+  straight_length3_width550n_26p5_m0p6,o1: taper_length5_width1500_eb6c0ed2_22p5_m0p6,o2
 instances:
   bend_euler_radius10_width450n_30p112_16p512:
     component: bend_euler
@@ -74,42 +74,42 @@ instances:
     settings:
       length: 4
       width: 0.55
-  taper_272160ef_22p5_21p4:
+  taper_length5_width1450_272160ef_22p5_21p4:
     component: taper
     settings:
       length: 5
       width1: 0.45
       width2: 0.55
-  taper_41f84c30_16p5_21p4:
-    component: taper
-    settings:
-      length: 5
-      width1: 0.55
-      width2: 0.5
-  taper_6197302c_22p5_1p4:
-    component: taper
-    settings:
-      length: 5
-      width1: 0.5
-      width2: 0.45
-  taper_ab60e40e_22p5_23p4:
-    component: taper
-    settings:
-      length: 5
-      width1: 0.55
-      width2: 0.45
-  taper_d1c96003_16p5_23p4:
+  taper_length5_width1450_d1c96003_16p5_23p4:
     component: taper
     settings:
       length: 5
       width1: 0.45
       width2: 0.5
-  taper_eb6c0ed2_22p5_m0p6:
+  taper_length5_width1500_6197302c_22p5_1p4:
+    component: taper
+    settings:
+      length: 5
+      width1: 0.5
+      width2: 0.45
+  taper_length5_width1500_eb6c0ed2_22p5_m0p6:
     component: taper
     settings:
       length: 5
       width1: 0.5
       width2: 0.55
+  taper_length5_width1550_41f84c30_16p5_21p4:
+    component: taper
+    settings:
+      length: 5
+      width1: 0.55
+      width2: 0.5
+  taper_length5_width1550_ab60e40e_22p5_23p4:
+    component: taper
+    settings:
+      length: 5
+      width1: 0.55
+      width2: 0.45
 name: mzit
 placements:
   bend_euler_radius10_width450n_30p112_16p512:
@@ -167,36 +167,36 @@ placements:
     rotation: 90
     x: 38.0
     y: 9.4
-  taper_272160ef_22p5_21p4:
+  taper_length5_width1450_272160ef_22p5_21p4:
     mirror: false
     rotation: 180
     x: 25.0
     y: 21.4
-  taper_41f84c30_16p5_21p4:
+  taper_length5_width1450_d1c96003_16p5_23p4:
     mirror: false
     rotation: 180
     x: 19.0
-    y: 21.4
-  taper_6197302c_22p5_1p4:
+    y: 23.4
+  taper_length5_width1500_6197302c_22p5_1p4:
     mirror: false
     rotation: 0
     x: 20.0
     y: 1.4
-  taper_ab60e40e_22p5_23p4:
-    mirror: false
-    rotation: 180
-    x: 25.0
-    y: 23.4
-  taper_d1c96003_16p5_23p4:
-    mirror: false
-    rotation: 180
-    x: 19.0
-    y: 23.4
-  taper_eb6c0ed2_22p5_m0p6:
+  taper_length5_width1500_eb6c0ed2_22p5_m0p6:
     mirror: false
     rotation: 0
     x: 20.0
     y: -0.6
+  taper_length5_width1550_41f84c30_16p5_21p4:
+    mirror: false
+    rotation: 180
+    x: 19.0
+    y: 21.4
+  taper_length5_width1550_ab60e40e_22p5_23p4:
+    mirror: false
+    rotation: 180
+    x: 25.0
+    y: 23.4
 ports:
   o1: coupler_dy2_gap300n_length10_5p0_0p4,o1
   o2: coupler_dy2_gap300n_length10_5p0_0p4,o2

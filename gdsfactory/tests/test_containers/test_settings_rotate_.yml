@@ -1,14 +1,14 @@
 function_name: rotate
 info: {}
 module: gdsfactory.rotate
-name: rotate_componentmzi_79951d94
+name: mzi_length_x320_splitte_8cc7cb29
 settings:
   angle: 90
-  parent:
+  contains:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_79951d94
+    name: mzi_length_x320_splitte_79951d94
     settings:
       combiner: null
       combiner_settings: null

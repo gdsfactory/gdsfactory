@@ -1,18 +1,16 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_b47d1e1b
+name: straight_length20_width_04f914dd
 settings:
   component_name: null
-  gc_port_name: o1
-  optical_routing_type: 0
-  parent:
+  contains:
     function_name: add_tapers
     info: {}
     module: gdsfactory.add_tapers
-    name: add_tapers_dd24138a
+    name: straight_length20_width_8dddd7a8
     settings:
-      parent:
+      contains:
         function_name: straight
         info:
           length: 20
@@ -26,3 +24,9 @@ settings:
           with_cladding_box: true
       taper_port_name1: o1
       taper_port_name2: o2
+  gc_port_labels: null
+  gc_port_name: o1
+  layer_label:
+  - 66
+  - 0
+  optical_routing_type: 0
