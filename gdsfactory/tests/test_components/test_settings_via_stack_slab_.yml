@@ -2,7 +2,7 @@ function_name: via_stack
 info:
   height: 11
 module: gdsfactory.components.via_stack
-name: via_stack_0f3dd3a5
+name: via_stack_layers3_0_41__0f3dd3a5
 settings:
   layer:
   - 49

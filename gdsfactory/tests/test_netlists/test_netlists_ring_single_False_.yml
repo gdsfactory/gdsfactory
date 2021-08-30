@@ -1,24 +1,24 @@
 connections:
-  bend_euler_2b3226cd_5p125_16p425,o1: straight_14dffc3c_10p0_11p0,o1
-  bend_euler_2b3226cd_5p125_16p425,o2: straight_2d7fbccb_m2p0_21p3,o1
-  bend_euler_2b3226cd_m9p125_16p425,o1: straight_2d7fbccb_m2p0_21p3,o2
-  bend_euler_2b3226cd_m9p125_16p425,o2: straight_14dffc3c_m14p0_11p0,o2
-  coupler_ring_560275ce_m2p0_5p225,o2: straight_14dffc3c_m14p0_11p0,o1
-  coupler_ring_560275ce_m2p0_5p225,o3: straight_14dffc3c_10p0_11p0,o2
+  bend_euler_cross_sectio_2b3226cd_5p125_16p425,o1: straight_cross_sectionc_14dffc3c_10p0_11p0,o1
+  bend_euler_cross_sectio_2b3226cd_5p125_16p425,o2: straight_cross_sectionc_2d7fbccb_m2p0_21p3,o1
+  bend_euler_cross_sectio_2b3226cd_m9p125_16p425,o1: straight_cross_sectionc_2d7fbccb_m2p0_21p3,o2
+  bend_euler_cross_sectio_2b3226cd_m9p125_16p425,o2: straight_cross_sectionc_14dffc3c_m14p0_11p0,o2
+  coupler_ring_bendbend_e_560275ce_m2p0_5p225,o2: straight_cross_sectionc_14dffc3c_m14p0_11p0,o1
+  coupler_ring_bendbend_e_560275ce_m2p0_5p225,o3: straight_cross_sectionc_14dffc3c_10p0_11p0,o2
 instances:
-  bend_euler_2b3226cd_5p125_16p425:
+  bend_euler_cross_sectio_2b3226cd_5p125_16p425:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
       radius: 10
-  bend_euler_2b3226cd_m9p125_16p425:
+  bend_euler_cross_sectio_2b3226cd_m9p125_16p425:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
       radius: 10
-  coupler_ring_560275ce_m2p0_5p225:
+  coupler_ring_bendbend_e_560275ce_m2p0_5p225:
     component: coupler_ring
     settings:
       bend: bend_euler
@@ -27,19 +27,19 @@ instances:
       gap: 0.2
       length_x: 4
       radius: 10
-  straight_14dffc3c_10p0_11p0:
+  straight_cross_sectionc_14dffc3c_10p0_11p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
       length: 0.6
-  straight_14dffc3c_m14p0_11p0:
+  straight_cross_sectionc_14dffc3c_m14p0_11p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
       length: 0.6
-  straight_2d7fbccb_m2p0_21p3:
+  straight_cross_sectionc_2d7fbccb_m2p0_21p3:
     component: straight
     settings:
       cross_section:
@@ -47,36 +47,36 @@ instances:
       length: 4
 name: ring_single
 placements:
-  bend_euler_2b3226cd_5p125_16p425:
+  bend_euler_cross_sectio_2b3226cd_5p125_16p425:
     mirror: false
     rotation: 90
     x: 10.0
     y: 11.3
-  bend_euler_2b3226cd_m9p125_16p425:
+  bend_euler_cross_sectio_2b3226cd_m9p125_16p425:
     mirror: false
     rotation: 180
     x: -4.0
     y: 21.3
-  coupler_ring_560275ce_m2p0_5p225:
+  coupler_ring_bendbend_e_560275ce_m2p0_5p225:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_14dffc3c_10p0_11p0:
+  straight_cross_sectionc_14dffc3c_10p0_11p0:
     mirror: false
     rotation: 270
     x: 10.0
     y: 11.3
-  straight_14dffc3c_m14p0_11p0:
+  straight_cross_sectionc_14dffc3c_m14p0_11p0:
     mirror: false
     rotation: 90
     x: -14.0
     y: 10.7
-  straight_2d7fbccb_m2p0_21p3:
+  straight_cross_sectionc_2d7fbccb_m2p0_21p3:
     mirror: false
     rotation: 180
     x: 0.0
     y: 21.3
 ports:
-  o1: coupler_ring_560275ce_m2p0_5p225,o1
-  o2: coupler_ring_560275ce_m2p0_5p225,o4
+  o1: coupler_ring_bendbend_e_560275ce_m2p0_5p225,o1
+  o2: coupler_ring_bendbend_e_560275ce_m2p0_5p225,o4

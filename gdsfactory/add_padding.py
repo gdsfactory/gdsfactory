@@ -130,13 +130,13 @@ def test_container():
 
     c = gf.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
-    assert len(cc.settings["parent"]) == 5
+    assert len(cc.settings["contains"]) == 5
 
     cc = add_padding_container(component=c, layers=[(2, 0)])
-    assert len(cc.settings["parent"]) == 5
+    assert len(cc.settings["contains"]) == 5
 
     cc = add_padding_container(component=c, layers=[(3, 0)])
-    assert len(cc.settings["parent"]) == 5
+    assert len(cc.settings["contains"]) == 5
 
     # cc = add_padding_container(component=c, layers=[(4, 0)])
     # assert isinstance(cc.settings["component"], Component)
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     cc = add_padding_container(component=c, layers=[(2, 0)])
     print(cc.settings["component"])
     cc.show()
-    cc.pprint()
+    cc.pprint
 
     # c = gf.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])

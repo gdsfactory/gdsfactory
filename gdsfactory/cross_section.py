@@ -136,6 +136,7 @@ def cross_section(
                 layer=section["layer"],
                 ports=section["ports"],
                 port_types=section["port_types"],
+                name=section["name"],
             )
         else:
             x.add(
@@ -144,6 +145,7 @@ def cross_section(
                 layer=section.layer,
                 ports=section.ports,
                 port_types=section.port_types,
+                name=section.name,
             )
 
     x.info = dict(

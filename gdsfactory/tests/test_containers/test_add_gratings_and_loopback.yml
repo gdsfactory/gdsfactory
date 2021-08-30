@@ -1,20 +1,11 @@
 function_name: add_gratings_and_loopback
 info: {}
 module: gdsfactory.add_termination
-name: add_gratings_and_loopba_94c1d886
+name: spiral_inner_io_add_gra_b33912ba
 settings:
   bend_radius_loopback: null
   component_name: null
-  excluded_ports: null
-  gc_port_name: o1
-  gc_rotation: -90
-  grating_separation: 127
-  layer_label:
-  - 201
-  - 0
-  layer_label_loopback: null
-  nlabels_loopback: 2
-  parent:
+  contains:
     function_name: spiral_inner_io
     info:
       length: 11594.987
@@ -30,5 +21,14 @@ settings:
       x_straight_inner_right: 150
       y_straight_inner_bottom: 10
       y_straight_inner_top: 50
+  excluded_ports: null
+  gc_port_name: o1
+  gc_rotation: -90
+  grating_separation: 127
+  layer_label:
+  - 201
+  - 0
+  layer_label_loopback: null
+  nlabels_loopback: 2
   straight_separation: 5
   with_loopback: true

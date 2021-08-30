@@ -3,7 +3,7 @@ info:
   length: 10
   width: 1
 module: gdsfactory.components.straight
-name: straight_d836be0e
+name: straight_cross_sectionf_d836be0e
 settings:
   cross_section: fab_nitridec
   length: 10

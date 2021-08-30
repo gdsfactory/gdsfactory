@@ -3,7 +3,7 @@ info:
   simulation_settings:
     port_width: 1.5e-06
 module: gdsfactory.components.mmi1x2
-name: mmi1x2_a090cf93
+name: mmi1x2_cross_sectionfab_a090cf93
 settings:
   cross_section: fab_nitridec
   gap_mmi: 0.25

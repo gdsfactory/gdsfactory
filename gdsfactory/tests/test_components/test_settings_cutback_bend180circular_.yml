@@ -1,7 +1,7 @@
 function_name: cutback_bend180
 info: {}
 module: gdsfactory.components.cutback_bend
-name: cutback_bend180_5302412c
+name: cutback_bend180_bend180_5302412c
 settings:
   bend180: bend_circular180
   cols: 6

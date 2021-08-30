@@ -1,12 +1,10 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_c61f11e7
+name: coupler_gap200n_length5_ae1acf03
 settings:
   component_name: null
-  gc_port_name: o1
-  optical_routing_type: 1
-  parent:
+  contains:
     function_name: coupler
     info:
       length: 10.319
@@ -18,3 +16,9 @@ settings:
       dy: 5
       gap: 0.2
       length: 5
+  gc_port_labels: null
+  gc_port_name: o1
+  layer_label:
+  - 66
+  - 0
+  optical_routing_type: 1

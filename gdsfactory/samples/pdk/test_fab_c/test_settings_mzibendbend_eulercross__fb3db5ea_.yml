@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_4b73d582
+name: mzi_bendbend_eulercross_4b73d582
 settings:
   bend:
     cross_section: fab_nitridec

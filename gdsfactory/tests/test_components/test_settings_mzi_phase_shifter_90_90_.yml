@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_e2f914fd
+name: mzi_length_x320_straigh_e2f914fd
 settings:
   combiner: null
   combiner_settings: null

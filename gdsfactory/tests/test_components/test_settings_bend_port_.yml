@@ -1,11 +1,10 @@
 function_name: bend_port
 info: {}
 module: gdsfactory.components.bend_port
-name: bend_port
+name: straight_heater_metal_u_b8c91210
 settings:
   angle: 180
-  extension_length: null
-  parent:
+  contains:
     function_name: straight_heater_metal_undercut
     info: {}
     module: gdsfactory.components.straight_heater
@@ -18,6 +17,7 @@ settings:
       port_orientation1: 180
       port_orientation2: 0
       with_undercut: false
+  extension_length: null
   port_name: e1
   port_name1_bend: null
   port_name2: e2

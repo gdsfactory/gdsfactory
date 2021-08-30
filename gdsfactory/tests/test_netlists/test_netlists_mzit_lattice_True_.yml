@@ -1,6 +1,6 @@
 connections: {}
 instances:
-  mzit_173c191d_19p138_11p4:
+  mzit_coupler_gap1200n_c_173c191d_19p138_11p4:
     component: mzit
     settings:
       Ls: 1
@@ -17,13 +17,13 @@ instances:
       w2: 0.55
 name: mzit_lattice
 placements:
-  mzit_173c191d_19p138_11p4:
+  mzit_coupler_gap1200n_c_173c191d_19p138_11p4:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  o1: mzit_173c191d_19p138_11p4,o1
-  o2: mzit_173c191d_19p138_11p4,o2
-  o3: mzit_173c191d_19p138_11p4,o3
-  o4: mzit_173c191d_19p138_11p4,o4
+  o1: mzit_coupler_gap1200n_c_173c191d_19p138_11p4,o1
+  o2: mzit_coupler_gap1200n_c_173c191d_19p138_11p4,o2
+  o3: mzit_coupler_gap1200n_c_173c191d_19p138_11p4,o3
+  o4: mzit_coupler_gap1200n_c_173c191d_19p138_11p4,o4

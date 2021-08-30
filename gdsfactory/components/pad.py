@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Any, Dict, Optional, Tuple
+from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -13,7 +13,8 @@ def pad(
     width: float = 100.0,
     height: Optional[float] = None,
     layer: Layer = LAYER.M3,
-    layer_to_inclusion: Optional[Dict[Layer, float]] = None,
+    layers_cladding: Optional[Tuple[Layer]] = None,
+    cladding_offsets: Optional[Tuple[float]] = None,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
 
@@ -21,21 +22,24 @@ def pad(
         width: pad width
         height: pad height
         layer: pad layer
-        layer_to_inclusion: for example {(3,0): +3, (4, 0): -4} adds
-            layer (3,0) 3um inside and layer (4,0) 4 um outside
+        layers_cladding:
+        cladding_offsets:
     """
     height = height or width
-    layer_to_inclusion = layer_to_inclusion or {}
     c = Component()
     rect = compass(size=(width, height), layer=layer)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
     c.absorb(c_ref)
 
-    for layer, inclusion in layer_to_inclusion.items():
-        c.add_ref(
-            compass(size=(width - 2 * inclusion, height - 2 * inclusion), layer=layer)
-        )
+    if layers_cladding and cladding_offsets:
+        for layer, cladding_offset in zip(layers_cladding, cladding_offsets):
+            c.add_ref(
+                compass(
+                    size=(width + 2 * cladding_offset, height + 2 * cladding_offset),
+                    layer=layer,
+                )
+            )
 
     return c
 
@@ -46,7 +50,6 @@ def pad_array(
     pitch: float = 150.0,
     n: int = 6,
     port_names: Tuple[str, ...] = ("e4",),
-    pad_settings: Optional[Dict[str, Any]] = None,
     axis: str = "x",
 ) -> Component:
     """Returns 1D array of rectangular pads
@@ -60,8 +63,7 @@ def pad_array(
         axis: x or y
     """
     c = Component()
-    pad_settings = pad_settings or {}
-    pad = pad(**pad_settings) if callable(pad) else pad
+    pad = pad() if callable(pad) else pad
     port_names = list(port_names)
 
     for i in range(n):

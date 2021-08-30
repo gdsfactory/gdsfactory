@@ -1,15 +1,13 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: extend_ports_3b7d9670
+name: mzi_length_x320_splitte_74c231e0
 settings:
-  extension_factory: null
-  length: 5
-  parent:
+  contains:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
-    name: mzi_79951d94
+    name: mzi_length_x320_splitte_79951d94
     settings:
       combiner: null
       combiner_settings: null
@@ -25,6 +23,8 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  extension_factory: null
+  length: 5
   port1: null
   port2: null
   port_names: null

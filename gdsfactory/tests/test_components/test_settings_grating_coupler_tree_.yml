@@ -1,19 +1,11 @@
 function_name: grating_coupler_tree
 info: {}
 module: gdsfactory.components.grating_coupler_tree
-name: grating_coupler_tree
+name: straight_array_n4_spaci_8cb0016e
 settings:
   bend_factory: bend_euler
   component_name: straight_array_n4_spacing4
-  fanout_length: 0
-  gc_port_name: o1
-  grating_coupler: grating_coupler_elliptical_te
-  layer_label:
-  - 66
-  - 0
-  n: 4
-  optical_routing_type: 0
-  parent:
+  contains:
     function_name: straight_array
     info: {}
     module: gdsfactory.components.straight_array
@@ -21,6 +13,15 @@ settings:
     settings:
       n: 4
       spacing: 4
+  fanout_length: 0
+  gc_port_labels: null
+  gc_port_name: o1
+  grating_coupler: grating_coupler_elliptical_te
+  layer_label:
+  - 66
+  - 0
+  n: 4
+  optical_routing_type: 0
   straight_spacing: 4
   taper_factory: null
   with_loopback: false

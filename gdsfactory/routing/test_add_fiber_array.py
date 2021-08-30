@@ -21,7 +21,6 @@ def test_type1() -> Component:
 
 def test_type2() -> Component:
     c = gf.components.coupler(gap=0.244, length=5.67)
-    c.polarization = "tm"
     cc = gf.routing.add_fiber_array(component=c, optical_routing_type=2)
     return cc
 
@@ -59,6 +58,6 @@ def test_ports(component: Component, num_regression: NumericRegressionFixture) -
 
 if __name__ == "__main__":
     # c = test_type1()
-    # c = test_type2()
-    c = test_tapers()
+    c = test_type2()
+    # c = test_tapers()
     c.show()
