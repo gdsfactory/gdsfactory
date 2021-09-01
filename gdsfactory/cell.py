@@ -165,7 +165,7 @@ def test_autoname_true() -> None:
 
 
 def test_autoname_false() -> None:
-    c = wg(length=3, autoname=False)
+    c = wg(length=3.32, autoname=False)
     assert c.name == "straight", c.name
 
 
@@ -205,7 +205,6 @@ def test_autoname() -> None:
 
 if __name__ == "__main__":
     # test_raise_error_args()
-
     # c = gf.components.straight()
 
     test_autoname_false()
