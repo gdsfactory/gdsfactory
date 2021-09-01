@@ -1,6 +1,7 @@
 """ CD SEM structures
 """
 import itertools as it
+from functools import partial
 from typing import List, Optional, Tuple
 
 import numpy as np
@@ -12,8 +13,9 @@ from gdsfactory.components.cd import CENTER_SHAPES_MAP, square_middle
 from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.straight import straight
+from gdsfactory.cross_section import strip
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Layer
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
 
 LINE_LENGTH = 420.0
 
@@ -169,6 +171,7 @@ def cdsem_straight_column(
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
 
     c = Component()
@@ -178,8 +181,8 @@ def cdsem_straight_column(
 
     y = 0
     for j, width in enumerate(widths):
-        # iso line
-        _r = straight_factory(length=length, width=width)
+        cross_section = partial(cross_section, width=width, layer=layer)
+        _r = straight_factory(length=length, cross_section=cross_section)
         _r_ref = c.add_ref(_r)
         _r_ref.move((x, y))
         c.absorb(_r_ref)
@@ -231,21 +234,24 @@ def cdsem_straight_column(
 @cell
 def cdsem_straight_all(
     straight_factory: ComponentFactory = straight,
+    cross_section: CrossSectionFactory = strip,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
+    widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
+    labels: Tuple[str, ...] = ("A", "B", "C", "D", "E", "F"),
 ) -> Component:
-    widths = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0)
-    labels = ("A", "B", "C", "D", "E", "F")
     c = Component()
     spacing_v = 10.0
     y = 0
     for width, label in zip(widths, labels):
+        cross_section = partial(cross_section, width=width, layer=layer)
         _c = cdsem_straight_column(
             width_center=width,
             label=label,
             straight_factory=straight_factory,
             layer=layer,
             layers_cladding=layers_cladding,
+            cross_section=cross_section,
         )
         y -= _c.size_info.south
         cr = c.add_ref(_c)
@@ -257,7 +263,7 @@ def cdsem_straight_all(
 
 @cell
 def cdsem_straight_density(
-    wg_width: float = 0.372,
+    width: float = 0.372,
     trench_width: float = 0.304,
     x: float = LINE_LENGTH,
     y: float = 50.0,
@@ -266,6 +272,7 @@ def cdsem_straight_density(
     straight_factory: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """horizontal grating etch lines
 
@@ -273,15 +280,16 @@ def cdsem_straight_density(
     TM: 1110nm pitch, 506nm gap, 604nm line
 
     Args:
-        w: wg_width
-        s: trench_width
+        width: width
+        trench_width: trench_width
     """
     c = Component()
-    period = wg_width + trench_width
+    period = width + trench_width
     n_o_lines = int((y - 2 * margin) / period)
     length = x - 2 * margin
 
-    tooth = straight_factory(length=length, width=wg_width)
+    cross_section = partial(cross_section, width=width, layer=layer)
+    tooth = straight_factory(length=length, cross_section=cross_section)
 
     for i in range(n_o_lines):
         tooth_ref = c.add_ref(tooth)
@@ -315,6 +323,7 @@ def cdsem_target(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     radii: Tuple[float, ...] = (5.0, 10.0),
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     c = Component()
     a = 1.0
@@ -331,16 +340,19 @@ def cdsem_target(
 
     for radius in radii:
         b = a + radius
-        _b_tr = bend90_factory(radius=radius, width=w0)
+        cross_section = partial(cross_section, width=w0, layer=layer)
+        _b_tr = bend90_factory(radius=radius, cross_section=cross_section)
         b_tr = _b_tr.ref(position=(b, a), rotation=90, port_id="o1")
 
-        _b_bl = bend90_factory(radius=radius, width=w0)
+        _b_bl = bend90_factory(radius=radius, cross_section=cross_section)
         b_bl = _b_bl.ref(position=(-b, -a), rotation=270, port_id="o1")
 
-        _b_br = bend90_factory(radius=radius, width=w_max)
+        cross_section = partial(cross_section, width=w_max, layer=layer)
+        _b_br = bend90_factory(radius=radius, cross_section=cross_section)
         b_br = _b_br.ref(position=(a, -b), rotation=0, port_id="o1")
 
-        _b_tl = bend90_factory(radius=radius, width=w_min)
+        cross_section = partial(cross_section, width=w_min, layer=layer)
+        _b_tl = bend90_factory(radius=radius, cross_section=cross_section)
         b_tl = _b_tl.ref(position=(-a, b), rotation=180, port_id="o1")
 
         c.add([b_tr, b_tl, b_bl, b_br])
@@ -365,6 +377,7 @@ def cdsem_uturn(
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """
 
@@ -377,11 +390,14 @@ def cdsem_uturn(
     """
     c = Component()
     r = radius
-    bend90 = bend90_factory(width=width, radius=r)
+
+    cross_section = partial(cross_section, width=width, layer=layer)
     if wg_length is None:
         wg_length = 2 * r
+
+    bend90 = bend90_factory(cross_section=cross_section, radius=r)
     wg = straight_factory(
-        width=width,
+        cross_section=cross_section,
         length=wg_length,
     )
 
@@ -397,39 +413,45 @@ def cdsem_uturn(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    # Add symbols
+    label = c << manhattan_text(text=str(int(width * 1e3)), size=0.4, layer=LAYER.WG)
+    label.rotate(-90)
+    label.movey(r)
 
-    sym1 = c.add_ref(CENTER_SHAPES_MAP[symbol_bot](layer=layer))
-    sym1.rotate(-90)
-    sym1.movey(r)
-    sym2 = c.add_ref(CENTER_SHAPES_MAP[symbol_top](layer=layer))
-    sym2.rotate(-90)
-    sym2.movey(2 * r)
-    c.absorb(sym1)
-    c.absorb(sym2)
+    # sym1 = c.add_ref(CENTER_SHAPES_MAP[symbol_bot](layer=layer))
+    # sym1.rotate(-90)
+    # sym1.movey(r)
+    # sym2 = c.add_ref(CENTER_SHAPES_MAP[symbol_top](layer=layer))
+    # sym2.rotate(-90)
+    # sym2.movey(2 * r)
+    # c.absorb(sym1)
+    # c.absorb(sym2)
 
     c.rotate(angle=90)
-    # print(c._bb_valid)
-    # print(c.size_info)
     c.move(c.size_info.cc, (0, 0))
     return c
 
 
 @cell
 def pcm_optical(
-    dw: float = 0.02,
-    wte: float = 0.372,
-    tte: float = 0.304,
-    wtm: float = 0.604,
-    ttm: float = 0.506,
+    widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
+    labels: Tuple[str, ...] = ("A", "B", "C", "D", "E", "F"),
+    widths_bend: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.7, 0.8, 0.9),
+    labels_bend: Tuple[str, ...] = ("A", "B", "C", "D", "E", "F"),
+    dense_lines_width: float = 0.372,
+    dense_lines_width_difference: float = 20e-3,
+    dense_lines_gap: float = 0.304,
+    dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
     straight_factory: ComponentFactory = straight,
     bend90_factory: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """column with all optical PCMs
+
     Args:
-        dw
+        widths:  for straight
+
     """
     c = Component()
     spacing_v = 5.0
@@ -437,6 +459,9 @@ def pcm_optical(
         straight_factory=straight_factory,
         layer=layer,
         layers_cladding=layers_cladding,
+        cross_section=cross_section,
+        widths=widths,
+        labels=labels,
     )
 
     all_devices = [_c1]
@@ -449,29 +474,34 @@ def pcm_optical(
             bend90_factory=bend90_factory,
             layer=layer,
             layers_cladding=layers_cladding,
+            cross_section=cross_section,
         )
-        for w, s in zip([0.46, 0.5, 0.54], ["L", "S", "H"])
+        for w, s in zip(widths_bend, labels_bend)
     ]
 
     density_params = [
-        (wte - dw, tte - dw, "AL"),
-        (wte, tte, "AM"),
-        (wte + dw, tte + dw, "AH"),
-    ]
-    density_params += [
-        (wtm - dw, ttm - dw, "BL"),
-        (wtm, ttm, "BM"),
-        (wtm + dw, ttm + dw, "BH"),
+        (
+            dense_lines_width - dense_lines_width_difference,
+            dense_lines_gap - dense_lines_width_difference,
+            dense_lines_labels[0],
+        ),
+        (dense_lines_width, dense_lines_gap, dense_lines_labels[1]),
+        (
+            dense_lines_width + dense_lines_width_difference,
+            dense_lines_gap + dense_lines_width_difference,
+            dense_lines_labels[2],
+        ),
     ]
 
     all_devices += [
         cdsem_straight_density(
-            wg_width=w,
+            width=w,
             trench_width=t,
             label=lbl,
             straight_factory=straight_factory,
             layer=layer,
             layers_cladding=layers_cladding,
+            cross_section=cross_section,
         )
         for w, t, lbl in density_params
     ]
@@ -485,8 +515,6 @@ def pcm_optical(
         d.movex(x)
         y = d.ymax + spacing_v
 
-    widths = [0.4, 0.45, 0.5, 0.6, 0.8, 1.0]
-    labels = ["A", "B", "C", "D", "E", "F"]
     targets = [
         cdsem_target(
             bend90_factory=bend90_factory,
@@ -494,6 +522,7 @@ def pcm_optical(
             label=lbl,
             layer=layer,
             layers_cladding=layers_cladding,
+            cross_section=cross_section,
         )
         for w, lbl in zip(widths, labels)
     ]
@@ -643,7 +672,7 @@ def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
 if __name__ == "__main__":
     # c = cdsem_straight()
     # c = cdsem_straight_all()
-    # c = cdsem_uturn()
+    # c = cdsem_uturn(width=2)
     # c = cdsem_straight_density()
     c = pcm_optical()
     c.show()
