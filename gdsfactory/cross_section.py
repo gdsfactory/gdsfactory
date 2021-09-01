@@ -39,12 +39,12 @@ class CrossSection(CrossSectionPhidl):
 
         Args:
             width: Width of the segment
-        offset: Offset of the segment (positive values = right hand side)
-        layer: The polygon layer to put the segment on
-        ports: If not None, specifies the names for the ports at the ends of the
-            cross-sectional element
-        name: Name of the cross-sectional element for later access
-        port_types: port of the cross types
+            offset: Offset of the segment (positive values = right hand side)
+            layer: The polygon layer to put the segment on
+            ports: If not None, specifies the names for the ports at the ends of the
+                cross-sectional element
+            name: Name of the cross-sectional element for later access
+            port_types: port of the cross types
         """
         if isinstance(width, (float, int)) and (width <= 0):
             raise ValueError("CrossSection.add(): widths must be >0")
