@@ -99,7 +99,24 @@ def transition(
                 port_types=(X2[alias]["port_types"][0], X1[alias]["port_types"][1]),
                 name=alias,
             )
+    ports = [None, None]
+    port_types = [None, None]
+    for section in X1.sections:
+        if section["ports"] != (None, None):
+            ports[0] = section["ports"][0]
+            port_types[0] = section["port_types"][0]
+            trans_in = section.copy()
+            trans_in["ports"] = (trans_in["ports"][0], None)
+            Xtrans.add(**trans_in)
+    for section in X2.sections:
+        if section["ports"] != (None, None):
+            ports[1] = section["ports"][1]
+            port_types[1] = section["port_types"][1]
+            trans_out = section.copy()
+            trans_out["ports"] = (None, trans_out["ports"][1])
+            Xtrans.add(**trans_out)
 
+    # Xtrans.add(ports=tuple(ports), port_types=tuple(port_types))
     return Xtrans
 
 
@@ -214,13 +231,26 @@ def extrude(
         # print(points)
 
         c.add_polygon(points, layer=layer)
-
         # Add ports if they were specified
         if ports[0] is not None:
-            new_port = c.add_port(name=ports[0], layer=layer, port_type=port_types[0])
+            orientation = (p.start_angle + 180) % 360
+            new_port = c.add_port(
+                name=ports[0],
+                layer=layer,
+                port_type=port_types[0],
+                width=width,
+                orientation=orientation,
+            )
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
-            new_port = c.add_port(name=ports[1], layer=layer, port_type=port_types[1])
+            orientation = (p.end_angle + 180) % 360
+            new_port = c.add_port(
+                name=ports[1],
+                layer=layer,
+                port_type=port_types[1],
+                width=width,
+                orientation=orientation,
+            )
             new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))

@@ -69,7 +69,10 @@ class CrossSection(CrossSectionPhidl):
         if name is not None:
             self.aliases[name] = new_segment
         self.sections.append(new_segment)
-        [self.ports.add(p) for p in ports if p is not None]
+        for p in ports:
+            if p is not None:
+                self.ports.add(p)
+        # [self.ports.add(p) for p in ports if p is not None]
 
         return self
 
@@ -136,6 +139,7 @@ def cross_section(
                 layer=section["layer"],
                 ports=section["ports"],
                 port_types=section["port_types"],
+                name=section["name"],
             )
         else:
             x.add(
@@ -144,6 +148,7 @@ def cross_section(
                 layer=section.layer,
                 ports=section.ports,
                 port_types=section.port_types,
+                name=section.name,
             )
 
     x.info = dict(

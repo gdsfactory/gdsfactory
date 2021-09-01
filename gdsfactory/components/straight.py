@@ -24,7 +24,7 @@ def straight(
         **kwargs: cross_section settings
     """
     p = gf.path.straight(length=length, npoints=npoints)
-    x = cross_section(**kwargs)
+    x = cross_section()
 
     c = gf.path.extrude(p, x)
     c.length = gf.snap.snap_to_grid(length)

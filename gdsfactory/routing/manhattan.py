@@ -366,7 +366,7 @@ def _generate_route_manhattan_points(
 
 
 def _get_bend_reference_parameters(
-    p0: ndarray, p1: ndarray, p2: ndarray, bend_cell: Component
+    p0: ndarray, p1: ndarray, p2: ndarray, bend_cell: Component, port_layer
 ) -> Tuple[ndarray, int, bool]:
     """Returns bend reference settings.
 
@@ -413,12 +413,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = [
-        p.midpoint
-        for p in _get_bend_ports(
-            bend=bend_cell, layer=bend_cell.waveguide_settings["layer"]
-        )
-    ]
+    b1, b2 = [p.midpoint for p in _get_bend_ports(bend=bend_cell, layer=port_layer)]
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -506,7 +501,7 @@ def round_corners(
         cross_section:
         **kwargs: cross_section settings
     """
-    x = cross_section(**kwargs)
+    x = cross_section()
 
     auto_widen = x.info.get("auto_widen", False)
     auto_widen_minimum_length = x.info.get("auto_widen_minimum_length", 200.0)
@@ -562,11 +557,14 @@ def round_corners(
             a0 = 180
 
     assert a0 is not None, f"Points should be manhattan, got {p0_straight} {p1}"
-    pname_west, pname_north = [
-        p.name
-        for p in _get_bend_ports(bend=bend90, layer=bend90.waveguide_settings["layer"])
-    ]
-
+    try:
+        pname_west, pname_north = [
+            p.name for p in _get_bend_ports(bend=bend90, layer=x.info["layer"])
+        ]
+    except ValueError:
+        raise ValueError(
+            f'Did not find 2 ports on layer {x.info["layer"]}. Got {list(bend90.ports.values())}'
+        )
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
 
@@ -575,7 +573,7 @@ def round_corners(
     # Add bend sections and record straight-section information
     for i in range(1, points.shape[0] - 1):
         bend_origin, rotation, x_reflection = _get_bend_reference_parameters(
-            points[i - 1], points[i], points[i + 1], bend90
+            points[i - 1], points[i], points[i + 1], bend90, x.info["layer"]
         )
         bend_ref = gen_sref(bend90, rotation, x_reflection, pname_west, bend_origin)
         references.append(bend_ref)
@@ -638,10 +636,7 @@ def round_corners(
             taper_origin = straight_origin
 
             pname_west, pname_east = [
-                p.name
-                for p in _get_straight_ports(
-                    taper, layer=taper.waveguide_settings["layer"]
-                )
+                p.name for p in _get_straight_ports(taper, layer=x.info["layer"])
             ]
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_west, rotation=angle
@@ -670,8 +665,7 @@ def round_corners(
 
         if straight_ports is None:
             straight_ports = [
-                p.name
-                for p in _get_straight_ports(wg, layer=wg.waveguide_settings["layer"])
+                p.name for p in _get_straight_ports(wg, layer=x.info["layer"])
             ]
         pname_west, pname_east = straight_ports
 
@@ -694,10 +688,7 @@ def round_corners(
 
             taper_origin = wg_ref.ports[pname_east]
             pname_west, pname_east = [
-                p.name
-                for p in _get_straight_ports(
-                    taper, layer=taper.waveguide_settings["layer"]
-                )
+                p.name for p in _get_straight_ports(taper, layer=x.info["layer"])
             ]
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_east, rotation=angle + 180
@@ -738,16 +729,23 @@ def generate_manhattan_waypoints(
     end_straight = end_straight or waveguide_settings.get("min_length")
     min_straight = min_straight or waveguide_settings.get("min_length")
 
-    pname_west, pname_north = [
-        p.name
-        for p in _get_bend_ports(bend=bend90, layer=bend90.waveguide_settings["layer"])
-    ]
+    # pname_west, pname_north = [
+    #     p.name
+    #     for p in _get_bend_ports(bend=bend90, layer=x.info["layer"])
+    # ]
 
-    bsx = bsy = getattr(bend90, "dy", 0)
+    bsx = bsy = _get_bend_size(bend90)
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
     )
     return points
+
+
+def _get_bend_size(bend90: Component):
+    p1, p2 = list(bend90.ports.values())[:2]
+    bsx = abs(p2.x - p1.x)
+    bsy = abs(p2.y - p1.y)
+    return max(bsx, bsy)
 
 
 def route_manhattan(
