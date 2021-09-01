@@ -39,8 +39,7 @@ from contracts import contract
 - because in 3.1.1 cells can accept `*args` containers now are detected when they have `Component.component`
 - rename `component.settings['component']` to `component.settings['contains']`
 - grating couplers have port with `vertical_te` or `vertical_tm` prefix
-- container names
-- add fiber single
+- container keep the same syntax
 - `add_fiber_array` allows passing `gc_port_labels`
 - `add_fiber_array` and `add_fiber_single` propagate any non-optical ports to the container
 

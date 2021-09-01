@@ -24,10 +24,8 @@ def test_path():
     P.length()
     assert np.isclose(P.length(), 107.69901058617913)
 
-    # Create a blank CrossSection
     X = gf.CrossSection()
 
-    # Add a single "section" to the cross-section
     X.add(width=1, offset=0, layer=0)
 
     c = gf.path.extrude(P, X)
