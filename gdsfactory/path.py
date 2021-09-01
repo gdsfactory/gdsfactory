@@ -91,32 +91,22 @@ def transition(
                     + "argument must be one of {'sine','linear'}"
                 )
 
+            if X1[alias]["layer"] != X2[alias]["layer"]:
+                hidden = True
+                layer = (X1[alias]["layer"], X2[alias]["layer"])
+            else:
+                hidden = False
+                layer = X1[alias]["layer"]
             Xtrans.add(
                 width=width_fun,
                 offset=offset_fun,
-                layer=X1[alias]["layer"],
+                layer=layer,
                 ports=(X2[alias]["ports"][0], X1[alias]["ports"][1]),
                 port_types=(X2[alias]["port_types"][0], X1[alias]["port_types"][1]),
                 name=alias,
+                hidden=hidden,
             )
-    ports = [None, None]
-    port_types = [None, None]
-    for section in X1.sections:
-        if section["ports"] != (None, None):
-            ports[0] = section["ports"][0]
-            port_types[0] = section["port_types"][0]
-            trans_in = section.copy()
-            trans_in["ports"] = (trans_in["ports"][0], None)
-            Xtrans.add(**trans_in)
-    for section in X2.sections:
-        if section["ports"] != (None, None):
-            ports[1] = section["ports"][1]
-            port_types[1] = section["port_types"][1]
-            trans_out = section.copy()
-            trans_out["ports"] = (None, trans_out["ports"][1])
-            Xtrans.add(**trans_out)
 
-    # Xtrans.add(ports=tuple(ports), port_types=tuple(port_types))
     return Xtrans
 
 
@@ -152,6 +142,7 @@ def extrude(
         layer = section["layer"]
         ports = section["ports"]
         port_types = section["port_types"]
+        hidden = section["hidden"]
 
         if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
@@ -229,26 +220,29 @@ def extrude(
         # if join_after == True: # Use clipper to perform a union operation
         #     points = np.array(clipper.offset([points], 0, 'miter', 2, int(1/simplify), 0)[0])
         # print(points)
-
-        c.add_polygon(points, layer=layer)
+        layers = layer if hidden else [layer, layer]
+        if not hidden:
+            c.add_polygon(points, layer=layer)
         # Add ports if they were specified
         if ports[0] is not None:
             orientation = (p.start_angle + 180) % 360
+            _width = width if np.isscalar(width) else width[0]
             new_port = c.add_port(
                 name=ports[0],
-                layer=layer,
+                layer=layers[0],
                 port_type=port_types[0],
-                width=width,
+                width=_width,
                 orientation=orientation,
             )
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
             orientation = (p.end_angle + 180) % 360
+            _width = width if np.isscalar(width) else width[-1]
             new_port = c.add_port(
                 name=ports[1],
-                layer=layer,
+                layer=layers[1],
                 port_type=port_types[1],
-                width=width,
+                width=_width,
                 orientation=orientation,
             )
             new_port.endpoints = (points2[-1], points1[-1])
