@@ -7,3 +7,10 @@ settings:
   - 1
   - 0
   layers_cladding: null
+  widths:
+  - 0.4
+  - 0.45
+  - 0.5
+  - 0.6
+  - 0.8
+  - 1

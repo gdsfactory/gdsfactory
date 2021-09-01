@@ -32,6 +32,7 @@ class CrossSection(CrossSectionPhidl):
         ports: Tuple[Optional[str], Optional[str]] = (None, None),
         name: Optional[str] = None,
         port_types: Tuple[str, str] = ("optical", "optical"),
+        hidden: bool = False,
     ):
         """Adds a cross-sectional element to the CrossSection.  If ports are
         specified, when creating a Device with the extrude() command there be
@@ -63,13 +64,21 @@ class CrossSection(CrossSectionPhidl):
             )
 
         new_segment = dict(
-            width=width, offset=offset, layer=layer, ports=ports, port_types=port_types
+            width=width,
+            offset=offset,
+            layer=layer,
+            ports=ports,
+            port_types=port_types,
+            hidden=hidden,
         )
 
         if name is not None:
             self.aliases[name] = new_segment
         self.sections.append(new_segment)
-        [self.ports.add(p) for p in ports if p is not None]
+        for p in ports:
+            if p is not None:
+                self.ports.add(p)
+        # [self.ports.add(p) for p in ports if p is not None]
 
         return self
 
@@ -125,7 +134,14 @@ def cross_section(
     """
 
     x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=port_names, port_types=port_types)
+    x.add(
+        width=width,
+        offset=0,
+        layer=layer,
+        ports=port_names,
+        port_types=port_types,
+        name="_default",
+    )
 
     sections = sections or []
     for section in sections:

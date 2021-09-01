@@ -3,12 +3,35 @@ info: {}
 module: gdsfactory.components.opcm
 name: pcm_optical
 settings:
-  dw: 0.02
+  dense_lines_gap: 0.304
+  dense_lines_labels:
+  - DL
+  - DM
+  - DH
+  dense_lines_width: 0.372
+  dense_lines_width_difference: 0.02
+  labels_bend:
+  - A
+  - B
+  - C
+  - D
+  - E
+  - F
   layer:
   - 1
   - 0
   layers_cladding: null
-  tte: 0.304
-  ttm: 0.506
-  wte: 0.372
-  wtm: 0.604
+  widths:
+  - 0.4
+  - 0.45
+  - 0.5
+  - 0.6
+  - 0.8
+  - 1
+  widths_bend:
+  - 0.4
+  - 0.45
+  - 0.5
+  - 0.7
+  - 0.8
+  - 0.9

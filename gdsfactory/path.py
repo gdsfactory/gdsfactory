@@ -91,13 +91,20 @@ def transition(
                     + "argument must be one of {'sine','linear'}"
                 )
 
+            if X1[alias]["layer"] != X2[alias]["layer"]:
+                hidden = True
+                layer = (X1[alias]["layer"], X2[alias]["layer"])
+            else:
+                hidden = False
+                layer = X1[alias]["layer"]
             Xtrans.add(
                 width=width_fun,
                 offset=offset_fun,
-                layer=X1[alias]["layer"],
+                layer=layer,
                 ports=(X2[alias]["ports"][0], X1[alias]["ports"][1]),
                 port_types=(X2[alias]["port_types"][0], X1[alias]["port_types"][1]),
                 name=alias,
+                hidden=hidden,
             )
 
     return Xtrans
@@ -135,6 +142,7 @@ def extrude(
         layer = section["layer"]
         ports = section["ports"]
         port_types = section["port_types"]
+        hidden = section["hidden"]
 
         if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
@@ -212,15 +220,31 @@ def extrude(
         # if join_after == True: # Use clipper to perform a union operation
         #     points = np.array(clipper.offset([points], 0, 'miter', 2, int(1/simplify), 0)[0])
         # print(points)
-
-        c.add_polygon(points, layer=layer)
-
+        layers = layer if hidden else [layer, layer]
+        if not hidden:
+            c.add_polygon(points, layer=layer)
         # Add ports if they were specified
         if ports[0] is not None:
-            new_port = c.add_port(name=ports[0], layer=layer, port_type=port_types[0])
+            orientation = (p.start_angle + 180) % 360
+            _width = width if np.isscalar(width) else width[0]
+            new_port = c.add_port(
+                name=ports[0],
+                layer=layers[0],
+                port_type=port_types[0],
+                width=_width,
+                orientation=orientation,
+            )
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
-            new_port = c.add_port(name=ports[1], layer=layer, port_type=port_types[1])
+            orientation = (p.end_angle + 180) % 360
+            _width = width if np.isscalar(width) else width[-1]
+            new_port = c.add_port(
+                name=ports[1],
+                layer=layers[1],
+                port_type=port_types[1],
+                width=_width,
+                orientation=orientation,
+            )
             new_port.endpoints = (points2[-1], points1[-1])
 
     points = np.concatenate((p.points, np.array(xsection_points)))
