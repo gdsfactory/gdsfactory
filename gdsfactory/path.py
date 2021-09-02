@@ -43,11 +43,11 @@ def transition(
     adapted from phidl.path
 
     Args:
-    cross_section1: First input CrossSection
-    cross_section2: Second input CrossSection
-    width_type: {'sine', 'linear'}
-        Sets the type of width transition used if any widths are different
-        between the two input CrossSections.
+        cross_section1: First input CrossSection
+        cross_section2: Second input CrossSection
+        width_type: {'sine', 'linear'}
+            Sets the type of width transition used if any widths are different
+            between the two input CrossSections.
 
     Returns A smoothly-transitioning CrossSection
     """

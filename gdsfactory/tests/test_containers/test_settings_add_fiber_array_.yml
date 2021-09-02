@@ -1,7 +1,7 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: mzi_length_x320_splitte_988d2384
+name: add_fiber_array_compone_6720071f
 settings:
   component_name: null
   contains:

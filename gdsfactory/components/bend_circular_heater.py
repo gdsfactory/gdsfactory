@@ -45,13 +45,11 @@ def bend_circular_heater(
         width=width,
         offset=+offset,
         layer=layer_heater,
-        ports=["top_in", "top_out"],
     )
     x.add(
         width=width,
         offset=-offset,
         layer=layer_heater,
-        ports=["bot_in", "bot_out"],
     )
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = extrude(p, x)

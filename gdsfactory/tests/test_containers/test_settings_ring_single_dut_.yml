@@ -1,7 +1,7 @@
 function_name: ring_single_dut
 info: {}
 module: gdsfactory.components.ring_single_dut
-name: mzi_length_x320_splitte_8f2b6562
+name: ring_single_dut_compone_a6814614
 settings:
   contains:
     function_name: mzi

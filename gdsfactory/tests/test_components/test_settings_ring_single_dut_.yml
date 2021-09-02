@@ -1,7 +1,7 @@
 function_name: ring_single_dut
 info: {}
 module: gdsfactory.components.ring_single_dut
-name: taper_width23_ring_single_dut
+name: ring_single_dut
 settings:
   contains:
     function_name: taper

@@ -1,7 +1,7 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: mmi1x2_extend_ports
+name: extend_ports
 settings:
   contains:
     function_name: mmi1x2

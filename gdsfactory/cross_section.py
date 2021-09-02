@@ -19,10 +19,10 @@ Layer = Tuple[int, int]
 class CrossSection(CrossSectionPhidl):
     def __init__(self):
         self.sections = []
-        self.ports = set()
+        self.ports = (None, None)
+        self.port_types = (None, None)
         self.aliases = {}
         self.info = {}
-        self.port_types = set()
 
     def add(
         self,
@@ -46,17 +46,30 @@ class CrossSection(CrossSectionPhidl):
                 cross-sectional element
             name: Name of the cross-sectional element for later access
             port_types: port of the cross types
+            hidden: if True does not draw polygons for CrossSection
         """
         if isinstance(width, (float, int)) and (width <= 0):
             raise ValueError("CrossSection.add(): widths must be >0")
         if len(ports) != 2:
             raise ValueError("CrossSection.add(): must receive 2 port names")
-        for p in ports:
-            if p in self.ports:
+        for i, p in enumerate(ports):
+            if p is not None and p in self.ports:
                 raise ValueError(
                     f"CrossSection.add(): a port named {p} already "
                     "exists in this CrossSection, please rename port"
                 )
+            if p is not None:
+                if self.ports[i] is None:
+                    new_ports = list(self.ports)
+                    new_ports[i] = p
+                    self.ports = tuple(new_ports)
+
+                    new_ports_types = list(self.port_types)
+                    new_ports_types[i] = port_types[i]
+                    self.port_types = tuple(new_ports_types)
+                else:
+                    raise ValueError(f"Multiple ports defined in index {i}")
+
         if name in self.aliases:
             raise ValueError(
                 'CrossSection.add(): an element named "%s" already '
@@ -70,16 +83,12 @@ class CrossSection(CrossSectionPhidl):
             ports=ports,
             port_types=port_types,
             hidden=hidden,
+            name=name,
         )
 
         if name is not None:
             self.aliases[name] = new_segment
         self.sections.append(new_segment)
-        for p in ports:
-            if p is not None:
-                self.ports.add(p)
-        # [self.ports.add(p) for p in ports if p is not None]
-
         return self
 
     def copy(self):
@@ -87,8 +96,9 @@ class CrossSection(CrossSectionPhidl):
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)
-        X.ports = set(self.ports)
+        X.ports = tuple(self.ports)
         X.aliases = dict(self.aliases)
+        X.port_types = tuple(self.port_types)
         return X
 
 
@@ -112,7 +122,7 @@ def cross_section(
     end_straight_offset: float = 10e-3,
     snap_to_grid: Optional[float] = None,
 ) -> CrossSection:
-    """Returns CrossSection from TECH.waveguide settings.
+    """Returns CrossSection.
 
     Args:
         width: main of the waveguide
