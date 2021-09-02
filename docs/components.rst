@@ -1097,21 +1097,6 @@ fiber_array
 
 
 
-githash
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.githash
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.githash()
-  c.plot()
-
-
-
 grating_coupler_array
 ----------------------------------------------------
 
@@ -1273,21 +1258,6 @@ grating_coupler_uniform
   import gdsfactory as gf
 
   c = gf.components.grating_coupler_uniform()
-  c.plot()
-
-
-
-grating_coupler_uniform_optimized
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_uniform_optimized
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_uniform_optimized()
   c.plot()
 
 
