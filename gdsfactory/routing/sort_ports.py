@@ -24,7 +24,7 @@ def sort_ports_y(ports: List[Port]) -> List[Port]:
 
 
 def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List[Port]]:
-    """Returns sorted ports.
+    """Returns two lists of sorted ports.
 
     Args:
         ports1:
