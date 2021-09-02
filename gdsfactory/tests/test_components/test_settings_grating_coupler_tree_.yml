@@ -1,7 +1,7 @@
 function_name: grating_coupler_tree
 info: {}
 module: gdsfactory.components.grating_coupler_tree
-name: straight_array_n4_spaci_8cb0016e
+name: grating_coupler_tree
 settings:
   bend_factory: bend_euler
   component_name: straight_array_n4_spacing4

@@ -12,6 +12,7 @@ from click.core import Context, Option
 import gdsfactory
 import gdsfactory.build as pb
 from gdsfactory.config import CONFIG, print_config
+from gdsfactory.drc.check_duplicate_cells import check_duplicate_cells
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 from gdsfactory.import_gds import write_cells as write_cells_to_separate_gds
 from gdsfactory.install import install_gdsdiff, install_generic_tech, install_klive
@@ -66,6 +67,22 @@ def tool() -> None:
 def config_get(key: str) -> None:
     """Shows key values from CONFIG"""
     print_config(key)
+
+
+# DRC
+
+
+@click.group()
+def drc() -> None:
+    """Commands for running DRC over GDS files"""
+    pass
+
+
+@click.command(name="check_duplicate_cells")
+@click.argument("filepath", type=click.Path(exists=True))
+def drc_check_duplicate_cells(filepath: str) -> None:
+    """Checks for duplicate cells."""
+    check_duplicate_cells(filepath)
 
 
 # GDS
@@ -241,9 +258,12 @@ tool.add_command(config_get)
 tool.add_command(test)
 tool.add_command(install)
 
+drc.add_command(drc_check_duplicate_cells)
+
 gf.add_command(gds)
 gf.add_command(tool)
 gf.add_command(mask)
+gf.add_command(drc)
 
 
 if __name__ == "__main__":

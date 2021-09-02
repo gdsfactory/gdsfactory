@@ -1,7 +1,7 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: straight_cross_sectionp_63f77e76
+name: extend_ports_components_54600ebe
 settings:
   contains:
     function_name: straight

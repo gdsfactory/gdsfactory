@@ -1,14 +1,14 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: straight_length20_width_04f914dd
+name: add_fiber_array_compone_fb6271d3
 settings:
   component_name: null
   contains:
     function_name: add_tapers
     info: {}
     module: gdsfactory.add_tapers
-    name: straight_length20_width_8dddd7a8
+    name: add_tapers_componentstr_dd24138a
     settings:
       contains:
         function_name: straight

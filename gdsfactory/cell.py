@@ -1,13 +1,12 @@
 import functools
 import hashlib
 import inspect
-import uuid
 from typing import Dict
 
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name
+from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 
 CACHE: Dict[str, Component] = {}
 
@@ -60,26 +59,23 @@ def cell_without_validator(func):
         prefix = kwargs.pop("prefix", func.__name__)
         autoname = kwargs.pop("autoname", True)
         cache = kwargs.pop("cache", True)
-        uid = kwargs.pop("uid", False)
 
-        args_repr = [clean_value(a) for a in args]
-        kwargs_repr = [
-            f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())
+        sig = inspect.signature(func)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+        args_as_kwargs.update(**kwargs)
+        args_as_kwargs_clean = [
+            f"{key}={clean_value(args_as_kwargs[key])}"
+            for key in sorted(args_as_kwargs.keys())
         ]
-        arguments = "_".join(args_repr + kwargs_repr)
-        name = f"{prefix}_{arguments}" if arguments else prefix
-
-        name = kwargs.pop("name", clean_name(name))
+        arguments = "_".join(args_as_kwargs_clean)
+        name_long = name = clean_name(f"{prefix}_{arguments}") if arguments else prefix
         decorator = kwargs.pop("decorator", None)
 
-        if uid:
-            name += f"_{str(uuid.uuid4())[:8]}"
-
-        name_long = name
         if len(name) > MAX_NAME_LENGTH:
             name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
             name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
-        sig = inspect.signature(func)
+
+        name_component = kwargs.pop("name", name)
 
         if (
             "args" not in sig.parameters
@@ -97,7 +93,8 @@ def cell_without_validator(func):
             # print(f"CACHE {func.__name__}({kwargs_repr})")
             return CACHE[name]
         else:
-            # print(f"BUILD {func.__name__}({kwargs_repr})")
+            # print(f"BUILD {name} {func.__name__}({arguments})")
+            # print(f"BUILD {name}, {name_long}")
             assert callable(
                 func
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
@@ -110,7 +107,6 @@ def cell_without_validator(func):
 
             if hasattr(component, "component"):
                 component.settings["contains"] = component.component.get_settings()
-                name = get_name(f"{component.component.name}_{name}")
 
             if not isinstance(component, Component):
                 raise ValueError(
@@ -120,7 +116,7 @@ def cell_without_validator(func):
             component.function_name = func.__name__
 
             if autoname:
-                component.name = name
+                component.name = name_component
 
             component.name_long = name_long
 
@@ -177,6 +173,15 @@ def test_set_name() -> None:
 @cell
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     c = Component()
+    w = length
+    h = wg_width
+    points = [
+        [-w / 2.0, -h / 2.0],
+        [-w / 2.0, h / 2],
+        [w / 2, h / 2],
+        [w / 2, -h / 2.0],
+    ]
+    c.add_polygon(points)
     return c
 
 
@@ -197,24 +202,31 @@ def test_autoname() -> None:
     ), f"{name_length_first} != {name_width_first}"
 
     name_args = _dummy(3).name
-    assert name_args == "_dummy_3", name_args
+    assert name_args == "_dummy_length3", name_args
 
     name_with_prefix = _dummy(prefix="hi").name
     assert name_with_prefix == "hi", name_with_prefix
+
+    name_args = _dummy(3).name
+    name_kwargs = _dummy(length=3).name
+    assert name_args == name_kwargs, name_with_prefix
 
 
 if __name__ == "__main__":
     # test_raise_error_args()
     # c = gf.components.straight()
 
-    test_autoname_false()
-    # test_autoname()
+    # test_autoname_false()
+    test_autoname()
     # test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # c = gf.components.straight()
-    # c = wg3()
-    # print(c)
+    # import gdsfactory as gf
+
+    # c = gf.components.spiral_inner_io(length=1e3)
+    # c = gf.components.straight(length=3)
+    # c = gf.components.straight(length=3)
+    # print(c.name)
     # c.show()

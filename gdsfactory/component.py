@@ -1159,6 +1159,19 @@ class Component(Device):
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
+        cells = self.get_dependencies()
+        cell_names = [cell.name for cell in list(cells)]
+        cell_names_unique = set(cell_names)
+
+        if len(cell_names) != len(set(cell_names)):
+            for cell_name in cell_names_unique:
+                cell_names.remove(cell_name)
+
+            cell_names_duplicated = "\n".join(set(cell_names))
+            raise ValueError(
+                f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
+            )
+
         referenced_cells = list(self.get_dependencies(recursive=True))
         all_cells = [self] + referenced_cells
 

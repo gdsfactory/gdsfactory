@@ -1,7 +1,7 @@
 function_name: add_termination
 info: {}
 module: gdsfactory.add_termination
-name: mzi_length_x320_splitte_9d1ffa03
+name: add_termination_compone_196d88ba
 settings:
   contains:
     function_name: mzi

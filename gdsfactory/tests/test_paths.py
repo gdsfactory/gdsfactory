@@ -88,8 +88,8 @@ def double_loop():
 
     # Create the crosssection
     X = gf.CrossSection()
-    X.add(width=0.5, offset=2, layer=0, ports=[None, None])
-    X.add(width=0.5, offset=4, layer=1, ports=[None, "out2"])
+    X.add(width=0.5, offset=2, layer=0)
+    X.add(width=0.5, offset=4, layer=1)
     X.add(width=1.5, offset=0, layer=2, ports=["in", "out"])
     X.add(width=1, offset=0, layer=3)
 
@@ -188,10 +188,10 @@ def test_copy():
 
 
 if __name__ == "__main__":
-    test_copy()
+    # test_copy()
     # c = test_layers2()
     # c = transition()
-    # c = double_loop()
+    c = double_loop()
     # c = rename()
     # c.pprint
     # c.show()

@@ -1,7 +1,7 @@
 function_name: add_fiber_array
 info: {}
 module: gdsfactory.routing.add_fiber_array
-name: coupler_gap244n_length5_8079fca2
+name: add_fiber_array_compone_f3837a8f
 settings:
   component_name: null
   contains:

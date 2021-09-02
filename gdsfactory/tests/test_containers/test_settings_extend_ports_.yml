@@ -1,7 +1,7 @@
 function_name: extend_ports
 info: {}
 module: gdsfactory.components.extension
-name: mzi_length_x320_splitte_74c231e0
+name: extend_ports_componentm_ae9550e0
 settings:
   contains:
     function_name: mzi

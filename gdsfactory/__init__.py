@@ -54,6 +54,7 @@ from gdsfactory import read
 from gdsfactory import remove
 from gdsfactory import layers
 from gdsfactory import add_termination
+from gdsfactory import drc
 
 
 from gdsfactory.tech import TECH
@@ -106,6 +107,7 @@ __all__ = [
     "containers",
     "copy",
     "cross_section",
+    "drc",
     "fill_rectangle",
     "get_padding_points",
     "grid",
