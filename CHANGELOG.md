@@ -42,6 +42,7 @@ from contracts import contract
 - container keep the same syntax
 - `add_fiber_array` allows passing `gc_port_labels`
 - `add_fiber_array` and `add_fiber_single` propagate any non-optical ports to the container
+- fix ports transitions and raise error when saving gdsfile with duplicated cell names
 
 ## 3.1.2
 
