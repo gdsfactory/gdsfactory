@@ -43,14 +43,8 @@ def get_ports_x_or_y_distances(
     y0 = ref_point[1]
     if angle in [0, 180]:
         xys = [p.y - y0 for p in list_ports]
-        xs = [round(p.x, 5) for p in list_ports]
-        if len(set(xs)) > 1:
-            raise ValueError("List ports with angle 0/180 should all have the same x")
     else:
         xys = [p.x - x0 for p in list_ports]
-        ys = [round(p.y, 5) for p in list_ports]
-        if len(set(ys)) > 1:
-            raise ValueError("List ports with angle 90/270 should all have the same y")
     return xys
 
 
@@ -296,6 +290,8 @@ def _generate_manhattan_bundle_waypoints(
 
         routes += [route]
 
+    for route, start_point in zip(routes, ports1):
+        route[0] = start_point.midpoint
     return routes
 
 
