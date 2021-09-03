@@ -26,7 +26,9 @@ settings:
       with_splitter: true
   fiber_spacing: 50
   gc_port_name: o1
-  layer_label: null
+  layer_label:
+  - 201
+  - 0
   min_input_to_output_spacing: 200
   optical_routing_type: 2
   with_loopback: true
