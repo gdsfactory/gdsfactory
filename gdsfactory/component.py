@@ -893,6 +893,7 @@ class Component(Device):
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
+        cross_section: Optional[CrossSection] = None,
     ) -> Port:
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
@@ -929,6 +930,7 @@ class Component(Device):
                 parent=self,
                 layer=layer,
                 port_type=port_type,
+                cross_section=cross_section,
             )
         if name is not None:
             p.name = name

@@ -23,7 +23,7 @@ def fanout_component(
         ports: list of ports
         pitch: target port spacing for new component
         dx: how far the fanout in x direction
-        kwargs: for route_basic
+        kwargs: for get_route_sbend
     """
 
     c = Component()

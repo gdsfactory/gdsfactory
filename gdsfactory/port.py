@@ -82,6 +82,7 @@ class Port(PortPhidl):
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
         parent: Optional[object] = None,
+        cross_section: Optional[object] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -92,6 +93,7 @@ class Port(PortPhidl):
         self.uid = Port._next_uid
         self.layer = layer
         self.port_type = port_type
+        self.cross_section = cross_section
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
@@ -166,6 +168,7 @@ class Port(PortPhidl):
             parent=self.parent,
             layer=self.layer,
             port_type=self.port_type,
+            cross_section=self.cross_section,
         )
         new_port.info = deepcopy(self.info)
         if not new_uid:
