@@ -157,7 +157,6 @@ def cdsem_straight(
 
         x += length + spacing_h
 
-    c.move(c.size_info.cc, (0, 0))
     return c
 
 
@@ -224,10 +223,8 @@ def cdsem_straight_column(
 
             y += 2 * width + gap + spacing_v
         # i += 1
-
         y += spacing_v + 2 * width
 
-    c.move(c.size_info.cc, (0, 0))
     return c
 
 
@@ -304,7 +301,6 @@ def cdsem_straight_density(
     _marker_label = c.add_ref(marker_label)
     _marker_label.move((length + 3, 10.0))
     c.absorb(_marker_label)
-
     return c
 
 
@@ -417,17 +413,7 @@ def cdsem_uturn(
     label.rotate(-90)
     label.movey(r)
 
-    # sym1 = c.add_ref(CENTER_SHAPES_MAP[symbol_bot](layer=layer))
-    # sym1.rotate(-90)
-    # sym1.movey(r)
-    # sym2 = c.add_ref(CENTER_SHAPES_MAP[symbol_top](layer=layer))
-    # sym2.rotate(-90)
-    # sym2.movey(2 * r)
-    # c.absorb(sym1)
-    # c.absorb(sym2)
-
     c.rotate(angle=90)
-    c.move(c.size_info.cc, (0, 0))
     return c
 
 
@@ -454,7 +440,6 @@ def pcm_optical(
 
     """
     c = Component()
-    spacing_v = 5.0
     _c1 = cdsem_straight_all(
         straight_factory=straight_factory,
         layer=layer,
@@ -506,16 +491,7 @@ def pcm_optical(
         for w, t, lbl in density_params
     ]
 
-    y = 0
-    for d in all_devices:
-        c.add_ref(d)
-        y = y - d.ymin
-        x = -d.xmin
-        d.movey(y)
-        d.movex(x)
-        y = d.ymax + spacing_v
-
-    targets = [
+    all_devices += [
         cdsem_target(
             bend90_factory=bend90_factory,
             width_center=w,
@@ -526,18 +502,9 @@ def pcm_optical(
         )
         for w, lbl in zip(widths, labels)
     ]
-    y = -targets[0].size_info.height / 2 - spacing_v
-    dx = targets[0].size_info.width + spacing_v
-    x = dx / 2
 
-    for d in targets:
-        c.add_ref(d)
-        d.movex(x)
-        d.movey(y)
-        x += dx
-
-    c.rotate(90)
-    c.move(c.size_info.sw, (0, 0))
+    [c.add_ref(d) for d in all_devices]
+    c.align(elements="all", alignment="xmin")
     return c
 
 

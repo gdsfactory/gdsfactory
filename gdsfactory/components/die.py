@@ -72,7 +72,7 @@ def die(
 
     if bbox_layer:
         D.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
-    D.center = (0, 0)
+
     if die_name:
         t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
 

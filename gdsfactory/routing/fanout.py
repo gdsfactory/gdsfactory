@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import port_array
-from gdsfactory.routing.routing import route_basic
+from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
 
 
@@ -43,9 +43,8 @@ def fanout_component(
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
     for i, (p1, p2) in enumerate(zip(ports1, ports2)):
-        path = route_basic(port1=p1, port2=p2, **kwargs)
-        path_ref = path.ref()
-        c.add(path_ref)
+        route = get_route_sbend(port1=p1, port2=p2, **kwargs)
+        c.add(route.references)
         c.add_port(f"new_{i}", port=flip(p2))
 
     for port in ref.ports.values():

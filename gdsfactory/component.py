@@ -1233,6 +1233,11 @@ class Component(Device):
     def auto_rename_ports_orientation(self, **kwargs) -> None:
         auto_rename_ports_orientation(self, **kwargs)
 
+    def move(self, *args, **kwargs):
+        raise ValueError(
+            "Don't move Components. Create a reference and move the reference instead."
+        )
+
 
 def test_get_layers() -> None:
     import gdsfactory as gf
@@ -1439,9 +1444,14 @@ def hash_file(filepath):
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.c.straight()
+    c.move(2)
+
     # test_netlist_complex()
     # test_extract()
-    test_get_layers()
+    # test_get_layers()
     # demo_port2 = functools.partial(demo_component, a=1)
     # d = _clean_value(demo_port2)
     # print(d)

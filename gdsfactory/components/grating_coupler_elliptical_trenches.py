@@ -123,7 +123,7 @@ def grating_coupler_elliptical_trenches(
     # c.add_polygon(pts, layer)
 
     # Move straight I/O to (0, 0)
-    c.move((-x_output, 0))
+    # c.move((-x_output, 0))
 
     x = taper_length + period * n_periods / 2
     circle = gf.components.circle(
@@ -141,8 +141,9 @@ def grating_coupler_elliptical_trenches(
         port_type=name,
     )
 
-    # Add port
-    c.add_port(name="o1", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
+    c.add_port(
+        name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
+    )
     c.settings["period"] = period
     return c
 

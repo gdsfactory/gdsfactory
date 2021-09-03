@@ -276,7 +276,7 @@ def grating_coupler_elliptical(
         c.add_polygon(pts, layer)
 
     # Move waveguide I/O to (0, 0)
-    c.move((-x_output, 0))
+    # c.move((-x_output, 0))
 
     if polarization.lower() == "te":
         polarization_marker_layer = gf.LAYER.TE
@@ -301,7 +301,9 @@ def grating_coupler_elliptical(
     )
 
     # Add port
-    c.add_port(name="o1", midpoint=[0, 0], width=wg_width, orientation=180, layer=layer)
+    c.add_port(
+        name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
+    )
 
     # Add shallow etch
     _rl = L + grating_line_width + 2.0
