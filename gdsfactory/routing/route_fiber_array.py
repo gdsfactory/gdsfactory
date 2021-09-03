@@ -114,8 +114,7 @@ def route_fiber_array(
     """
 
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    radius = waveguide_settings["radius"]
+    radius = x.info["radius"]
 
     assert isinstance(
         radius, (int, float)
@@ -379,7 +378,7 @@ def route_fiber_array(
         end_straight_offset = (
             straight_separation + 5
             if with_loopback
-            else waveguide_settings.get("min_straight_length")
+            else x.info.get("min_straight_length")
         )
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]

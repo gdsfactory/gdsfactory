@@ -147,16 +147,14 @@ def get_bundle_from_waypoints(
     )
 
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-
     bends90 = [bend_factory(cross_section=cross_section, **kwargs) for p in ports1]
 
-    if taper_factory and waveguide_settings.get("auto_widen", True):
+    if taper_factory and x.info.get("auto_widen", True):
         if callable(taper_factory):
             taper = taper_factory(
-                length=waveguide_settings.get("taper_length", 0.0),
+                length=x.info.get("taper_length", 0.0),
                 width1=ports1[0].width,
-                width2=waveguide_settings.get("width_wide"),
+                width2=x.info.get("width_wide"),
                 layer=ports1[0].layer,
             )
         else:

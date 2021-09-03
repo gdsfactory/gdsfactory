@@ -22,6 +22,7 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
 
 from gdsfactory.config import __version__
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -584,12 +585,8 @@ class Component(Device):
             "path",
             "netlist",
             "properties",
-            "waveguide_settings",
-            "waveguide_settings_inner",
-            "waveguide_settings_outer",
             "library",
             "_initialized",
-            "layer_to_inclusion",
             "component",
         }
         self.include = {"name", "function_name", "module"}
@@ -825,7 +822,12 @@ class Component(Device):
         full_settings: bool = True,
     ) -> Dict[str, Any]:
         """Returns settings dictionary.
+
         Ignores items from self.ignore set.
+
+        Returns *args, **kwargs from the signature, as well as any attributes
+
+        attributes (such as Component.length) are exported into info: Dict[str, Any]
 
         Args:
             ignore: settings to ignore
@@ -1303,6 +1305,8 @@ def clean_key(key):
 
 def _clean_value(value: Any) -> Any:
     """Returns a clean value that is JSON serializable"""
+    if isinstance(value, CrossSection):
+        value = value.info
     if isinstance(value, float) and float(int(value)) == value:
         value = int(value)
     if type(value) in [int, float, str, bool]:
@@ -1435,9 +1439,9 @@ def hash_file(filepath):
 
 
 if __name__ == "__main__":
-    test_netlist_complex()
+    # test_netlist_complex()
     # test_extract()
-    # test_get_layers()
+    test_get_layers()
     # demo_port2 = functools.partial(demo_component, a=1)
     # d = _clean_value(demo_port2)
     # print(d)

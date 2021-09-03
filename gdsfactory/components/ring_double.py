@@ -33,7 +33,7 @@ def ring_double(
         coupler: ring coupler function
         straight: straight function
         bend: bend function
-        **waveguide_settings
+        **kwargs: cross_section settings
 
     .. code::
 

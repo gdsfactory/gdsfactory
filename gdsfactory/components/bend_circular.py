@@ -42,7 +42,6 @@ def bend_circular(
     c.length = snap_to_grid(p.length())
     c.dy = abs(p.points[0][0] - p.points[-1][0])
     c.radius_min = radius
-    c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
@@ -69,7 +68,7 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
         npoints: number of points
         with_cladding_box: square in layers_cladding to remove DRC
         waveguide: from tech.waveguide
-        kwargs: waveguide_settings
+        kwargs: cross_section_factory settings
 
     """
     return bend_circular(angle=angle, **kwargs)

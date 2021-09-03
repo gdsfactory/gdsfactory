@@ -88,8 +88,7 @@ def get_bundle(
     ports2 = cast(List[Port], ports2)
 
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    start_straight = start_straight or waveguide_settings.get("min_length")
+    start_straight = start_straight or x.info.get("min_length")
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)

@@ -97,11 +97,10 @@ def get_route(
 
     """
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    taper_length = waveguide_settings.get("taper_length")
+    taper_length = x.info.get("taper_length")
     width1 = input_port.width
-    auto_widen = waveguide_settings.get("auto_widen", False)
-    width2 = waveguide_settings.get("width_wide") if auto_widen else width1
+    auto_widen = x.info.get("auto_widen", False)
+    width2 = x.info.get("width_wide") if auto_widen else width1
 
     bend90 = (
         bend_factory(cross_section=cross_section, **kwargs)
@@ -207,11 +206,10 @@ def get_route_from_waypoints(
     """
 
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    auto_widen = waveguide_settings.get("auto_widen", False)
-    width1 = waveguide_settings.get("width")
-    width2 = waveguide_settings.get("width_wide") if auto_widen else width1
-    taper_length = waveguide_settings.get("taper_length")
+    auto_widen = x.info.get("auto_widen", False)
+    width1 = x.info.get("width")
+    width2 = x.info.get("width_wide") if auto_widen else width1
+    taper_length = x.info.get("taper_length")
     waypoints = np.array(waypoints)
 
     if auto_widen:

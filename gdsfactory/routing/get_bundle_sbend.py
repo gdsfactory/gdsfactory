@@ -12,7 +12,7 @@ def get_bundle_sbend(
     Args:
         ports1: start ports
         ports2: end ports
-        **kwargs: waveguide_settings
+        **kwargs: cross_section settings
 
     Returns:
         references: List of route references
