@@ -18,7 +18,6 @@ from gdsfactory.routing.get_route import (
 )
 from gdsfactory.routing.get_route_from_steps import get_route_from_steps
 from gdsfactory.routing.get_route_sbend import get_route_sbend
-from gdsfactory.routing.get_routes import get_routes
 from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
 from gdsfactory.routing.get_routes_straight import get_routes_straight
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
@@ -35,7 +34,6 @@ __all__ = [
     "get_bundle_from_waypoints",
     "get_route",
     "get_route_electrical",
-    "get_routes",
     "get_routes_bend180",
     "get_routes_straight",
     "get_route_sbend",

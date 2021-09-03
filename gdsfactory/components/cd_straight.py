@@ -53,7 +53,6 @@ def cd_straight(
 
         x += length + spacing_h
 
-    c.move(c.size_info.cc, (0, 0))
     return c
 
 

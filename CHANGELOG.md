@@ -33,6 +33,9 @@ from contracts import contract
 
 
 ```
+## 3.1.5
+
+- raise ValueError when moving component
 
 ## 3.1.4
 

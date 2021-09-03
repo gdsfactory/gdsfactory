@@ -2,16 +2,21 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
+@gf.cell
+def component_with_label() -> Component:
+    c = gf.Component("component_with_label")
+    c << gf.components.rectangle()
+    c.add_label(text="demo", position=(0.0, 0.0), layer=gf.LAYER.TEXT)
+    return c
+
+
 def test_label_move() -> Component:
-    """test that when we move a component its label also moves"""
-    c = gf.Component("ellipse_with_label")
-    c << gf.components.ellipse()
-    c.add_label(text="demo", position=(10, 0), layer=gf.LAYER.TEXT)
-    c.movex(10)
-    print(c.references)
-    print(c.labels)
-    # assert c.references[0].origin[0] == 10
-    # assert c.labels[0].position[0] == 20
+    """test that when we move references their label also move"""
+    c = gf.Component("component_with_label_move")
+    ref = c << gf.components.rectangle()
+    ref.movex(10)
+    assert ref.origin[0] == 10
+    # assert ref.labels[0].position[0] == 10
     return c
 
 
