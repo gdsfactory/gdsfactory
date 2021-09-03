@@ -34,6 +34,10 @@ from contracts import contract
 
 ```
 
+## 3.1.4
+
+- remove limitation from get_bundle_from_waypoints is that it requires to have all the ports lined up.
+
 ## 3.1.3
 
 - because in 3.1.1 cells can accept `*args` containers now are detected when they have `Component.component`
