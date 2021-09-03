@@ -19,7 +19,7 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def add_fiber_single(
     component: Component,
     grating_coupler: ComponentFactory = grating_coupler_te,
-    layer_label: Optional[Tuple[int, int]] = None,
+    layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
     bend_factory: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
@@ -93,7 +93,6 @@ def add_fiber_single(
         cc.plot()
 
     """
-    layer_label = layer_label or TECH.layer_label
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
@@ -245,16 +244,18 @@ if __name__ == "__main__":
     # gc = gf.components.grating_coupler_uniform
 
     @gf.cell
-    def straight_with_pins(**kwargs):
-        c = gf.components.straight(**kwargs)
-        gf.add_pins(c)
+    def component_with_offset(**kwargs):
+        c = gf.Component()
+        ref = c << gf.components.mmi1x2(**kwargs)
+        ref.movey(1)
+        c.add_ports(ref.ports)
         return c
 
     cc = add_fiber_single(
-        component=gf.c.straight_heater_metal(width=2),
+        # component=gf.c.straight_heater_metal(width=2),
+        component=component_with_offset(),
         auto_widen=False,
         with_loopback=True,
-        straight_factory=straight_with_pins,
         layer=(2, 0),
     )
     cc.show()

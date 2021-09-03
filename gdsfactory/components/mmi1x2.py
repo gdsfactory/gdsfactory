@@ -113,3 +113,4 @@ if __name__ == "__main__":
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
     # c.write_gds(gf.CONFIG["gdsdir"] / "mmi1x2.gds")
+    print(c.ports["o1"].cross_section.info)
