@@ -100,8 +100,7 @@ def add_gratings_and_loopback(
         **kwargs: cross_section settings
     """
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    bend_radius_loopback = bend_radius_loopback or waveguide_settings["radius"]
+    bend_radius_loopback = bend_radius_loopback or x.info["radius"]
     excluded_ports = excluded_ports or []
     gc = gf.call_if_func(grating_coupler)
 

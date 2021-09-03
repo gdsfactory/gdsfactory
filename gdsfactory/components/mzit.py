@@ -50,7 +50,7 @@ def mzit(
         straight_factory: library
         coupler1: coupler1 or library, can be None
         coupler2: coupler2 or library
-        kwargs: overwrites waveguide_settings
+        kwargs: cross_section settings
 
     .. code::
 

@@ -16,19 +16,17 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
 
     Args:
         waveguide:
-        kwargs: waveguide_settings
+        kwargs: cross_section settings
 
     """
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    width = waveguide_settings["width"]
-    layer = waveguide_settings["layer"]
+    layer = x.info["layer"]
+    width = x.info["width"]
 
     c = Component()
     a = width / 2
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
-    c.waveguide_settings = dict(layer=layer, width=width)
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
@@ -53,7 +51,7 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
 
 if __name__ == "__main__":
 
-    c = wire_straight()
-    # c = wire_corner()
+    # c = wire_straight()
+    c = wire_corner()
     c.show(show_ports=True)
     c.pprint_ports

@@ -41,7 +41,7 @@ def sort_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 @pytest.mark.parametrize("component_type", components_to_test)
 def test_properties_components(component_type: str) -> Component:
     """Write component to GDS with setttings written on a label.
-    Then import the GDS and check that the settings imported match the original.
+    Then import the GDS and check that the settings imported match the original settings.
     """
     cnew = gf.Component()
     c1 = factory[component_type]()
@@ -72,11 +72,11 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="ring_single")
     # c = test_properties_components(component_type="mzit")
     # c = test_properties_components(component_type="bezier")
-    # c = test_properties_components(component_type="bend_s")
+    c = test_properties_components(component_type="wire_straight")
     # c = test_properties_components(component_type="straight")
     # c = test_properties_components(component_type="grating_coupler_tree")
     # c = test_properties_components(component_type="wire")
     # c = test_properties_components(component_type="bend_circular")
     # c = test_properties_components(component_type="mzi_arm")
-    c = test_properties_components(component_type="straight_pin_passive_tapered")
+    # c = test_properties_components(component_type="straight_pin_passive_tapered")
     c.show()

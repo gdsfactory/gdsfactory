@@ -29,7 +29,6 @@ def straight(
     c = gf.path.extrude(p, x)
     c.length = gf.snap.snap_to_grid(length)
     c.width = x.info["width"]
-    c.waveguide_settings = x.info
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
         cladding_offset = x.info["cladding_offset"]

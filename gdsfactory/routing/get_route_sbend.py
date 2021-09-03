@@ -10,10 +10,9 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     Args:
         port1: start port
         port2: end port
-        **kwargs
+        **kwargs: cross_section_factory settings
             nb_points: number of points
             cross_section_factory
-            **waveguide_settings
     """
     height = port2.midpoint[1] - port1.midpoint[1]
     length = port2.midpoint[0] - port1.midpoint[0]

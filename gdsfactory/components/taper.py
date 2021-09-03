@@ -61,7 +61,6 @@ def taper(
     c.add_port(
         name="o2", midpoint=[length, 0], width=width2, orientation=0, layer=layer
     )
-    c.waveguide_settings = x.info
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

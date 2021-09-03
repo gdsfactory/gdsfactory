@@ -87,11 +87,10 @@ def get_route_from_steps(
     waypoints += [(x2, y2)]
 
     x = cross_section(**kwargs)
-    waveguide_settings = x.info
-    auto_widen = waveguide_settings.get("auto_widen", False)
-    width1 = waveguide_settings.get("width")
-    width2 = waveguide_settings.get("width_wide") if auto_widen else width1
-    taper_length = waveguide_settings.get("taper_length")
+    auto_widen = x.info.get("auto_widen", False)
+    width1 = x.info.get("width")
+    width2 = x.info.get("width_wide") if auto_widen else width1
+    taper_length = x.info.get("taper_length")
     waypoints = np.array(waypoints)
 
     if auto_widen:
