@@ -30,22 +30,20 @@ def manhattan_text(
     yoffset = position[1]
     component = gf.Component()
 
-    for i, line in enumerate(text.split("\n")):
-        for c in line:
-            if c.upper() not in CHARAC_MAP:
-                print(
-                    f"character {c} could not be written (probably not part of dictionnary)"
-                )
-                continue
+    for line in text.split("\n"):
+        for character in line:
+            if character == " ":
+                xoffset += pixel_size * 6
+            elif character.upper() not in CHARAC_MAP:
+                print(f"skipping character {character} not part of dictionary")
             else:
-                pixels = CHARAC_MAP[c.upper()]
-
-            ref = component.add_ref(
-                pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
-            )
-            ref.move((xoffset, yoffset))
-            component.absorb(ref)
-            xoffset += pixel_size * 6
+                pixels = CHARAC_MAP[character.upper()]
+                ref = component.add_ref(
+                    pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+                )
+                ref.move((xoffset, yoffset))
+                component.absorb(ref)
+                xoffset += pixel_size * 6
 
         yoffset -= pixel_size * 6
         xoffset = position[0]
