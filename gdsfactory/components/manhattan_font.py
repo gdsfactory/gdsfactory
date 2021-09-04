@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 
 
@@ -29,36 +28,29 @@ def manhattan_text(
     pixel_size = size
     xoffset = position[0]
     yoffset = position[1]
-    t = gf.Component(
-        name=clean_name(text) + "_{}_{}".format(int(position[0]), int(position[1]))
-    )
+    component = gf.Component()
+
     for i, line in enumerate(text.split("\n")):
-        component = gf.Component(name=t.name + "{}".format(i))
         for c in line:
-            try:
-                if c not in CHARAC_MAP:
-                    c = c.upper()
-                pixels = CHARAC_MAP[c]
-            except BaseException:
+            if c.upper() not in CHARAC_MAP:
                 print(
-                    "character {} could not be written (probably not part of dictionnary)".format(
-                        c
-                    )
+                    f"character {c} could not be written (probably not part of dictionnary)"
                 )
                 continue
+            else:
+                pixels = CHARAC_MAP[c.upper()]
 
-            _c = component.add_ref(
+            ref = component.add_ref(
                 pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
             )
-            _c.move((xoffset, yoffset))
-            component.absorb(_c)
+            ref.move((xoffset, yoffset))
+            component.absorb(ref)
             xoffset += pixel_size * 6
 
-        t.add_ref(component)
         yoffset -= pixel_size * 6
         xoffset = position[0]
     justify = justify.lower()
-    for ref in t.references:
+    for ref in component.references:
         if justify == "left":
             pass
         if justify == "right":
@@ -66,7 +58,7 @@ def manhattan_text(
         if justify == "center":
             ref.move(origin=ref.center, destination=position, axis="x")
 
-    return t
+    return component
 
 
 @gf.cell
@@ -375,6 +367,6 @@ load_font()
 
 if __name__ == "__main__":
     c = manhattan_text(
-        text="The mask is nearly done. only 12345 drc errors remaining",
+        text="The mask is nearly done. only 12345 drc errors remaining?",
     )
     c.show()

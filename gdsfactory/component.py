@@ -35,6 +35,11 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
+
+class MutabilityError(ValueError):
+    pass
+
+
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
@@ -1236,9 +1241,14 @@ class Component(Device):
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(self, *args, **kwargs):
-        raise ValueError(
+        raise MutabilityError(
             "Don't move Components. Create a reference and move the reference instead."
         )
+
+    # def rotate(self, *args, **kwargs):
+    #     raise MutabilityError(
+    #         "Don't rotate Components. Create a reference and move the reference instead."
+    #     )
 
 
 def test_get_layers() -> None:

@@ -33,11 +33,14 @@ from contracts import contract
 
 
 ```
+
 ## 3.1.5
 
 - raise ValueError when moving component
 - ports have a cross_section
 - `gdsfactory/routing/fanout.py` passes cross_section settings from port into bend_s
+- fix manhattan text, avoid creating duplicated cells
+- fix pcm_optical
 
 ## 3.1.4
 

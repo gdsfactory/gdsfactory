@@ -1,6 +1,5 @@
 """ CD SEM structures
 """
-import itertools as it
 from functools import partial
 from typing import List, Optional, Tuple
 
@@ -409,7 +408,7 @@ def cdsem_uturn(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    label = c << manhattan_text(text=str(int(width * 1e3)), size=0.4, layer=LAYER.WG)
+    label = c << manhattan_text(text=str(int(width * 1e3)), size=0.4, layer=layer)
     label.rotate(-90)
     label.movey(r)
 
@@ -444,9 +443,9 @@ def pcm_optical(
         straight_factory=straight_factory,
         layer=layer,
         layers_cladding=layers_cladding,
-        cross_section=cross_section,
         widths=widths,
         labels=labels,
+        cross_section=cross_section,
     )
 
     all_devices = [_c1]
@@ -505,135 +504,8 @@ def pcm_optical(
 
     [c.add_ref(d) for d in all_devices]
     c.align(elements="all", alignment="xmin")
+    c.distribute(elements="all", direction="y", spacing=5, separation=True)
     return c
-
-
-@cell
-def _TRCH_DASH_ISO(length=20.0, width=0.5, n=3, separation=2.0, label=""):
-    c = Component()
-    _r = rectangle(width, length, layer=LAYER.WG)
-    for i in range(n):
-        r_ref = c.add_ref(_r)
-        r_ref.movey(i * (length + separation))
-        c.absorb(r_ref)
-
-    if label:
-        marker_label = manhattan_text(text=label, size=0.4, layer=LAYER.WG)
-        _marker_label = c.add_ref(marker_label)
-        _marker_label.movey((n - 1) * (length + separation + 4.0) + length / 2)
-        c.absorb(_marker_label)
-
-    return c
-
-
-@cell
-def _TRCH_DASH_DUO(
-    length=20.0, gap=2.0, width=0.5, separation=4.0, n=3, x_offset=0.0, label=""
-):
-
-    _trench = _TRCH_DASH_ISO(length=length, width=width, n=n, separation=separation)
-    dx = x_offset
-    dy = gap + width
-    c = Component()
-    t1 = c.add_ref(_trench)
-    t2 = c.add_ref(_trench)
-    t2.move((dy, dx))
-    c.absorb(t1)
-    c.absorb(t2)
-
-    if label:
-        marker_label = manhattan_text(text=label, size=0.4, layer=LAYER.WG)
-        _marker_label = c.add_ref(marker_label)
-        _marker_label.movey((n - 1) * (length + separation + 4.0) + length / 2)
-        c.absorb(_marker_label)
-
-    return c
-
-
-LABEL_ITERATORS = {}
-
-
-def gen_label_iterator(prefix=""):
-    if not prefix:
-        return ""
-
-    if prefix and prefix not in LABEL_ITERATORS:
-        LABEL_ITERATORS[prefix] = LabelIterator(prefix)
-    return LABEL_ITERATORS[prefix]
-
-
-class LabelIterator:
-    def __init__(self, prefix):
-        self.prefix = prefix
-        self.counter = it.count(start=1)
-
-    def __next__(self):
-        return "{}{}".format(self.prefix, next(self.counter))
-
-    def __iter__(self):
-        return self
-
-
-@cell
-def TRCH_ISO(length=20.0, width=0.5):
-    c = Component()
-    _r = c.add_ref(rectangle(width, length, layer=LAYER.SLAB150))
-    c.absorb(_r)
-
-    lblit = gen_label_iterator("TA")
-    label = next(lblit)
-    marker_label = manhattan_text(text=label, size=0.4, layer=LAYER.WG)
-    _marker_label = c.add_ref(marker_label)
-    _marker_label.movey(length / 2 + 4.0)
-    c.absorb(_marker_label)
-
-    return c
-
-
-@cell
-def TRCH_ISO_DL0(width=0.5, separation=2.0):
-    lblit = gen_label_iterator("TB")
-    return _TRCH_DASH_ISO(
-        width=width, separation=separation, length=10.0, n=5, label=next(lblit)
-    )
-
-
-@cell
-def TRCH_ISO_L20(width=0.5, separation=2.0):
-    lblit = gen_label_iterator("TC")
-    return _TRCH_DASH_ISO(
-        width=width, separation=separation, length=20.0, n=3, label=next(lblit)
-    )
-
-
-@cell
-def TRCH_DUO_DL0(width=0.5, separation=2.0, gap=3.0):
-    lblit = gen_label_iterator("TD")
-    return _TRCH_DASH_DUO(
-        width=width, separation=separation, gap=gap, length=10.0, n=5, label=next(lblit)
-    )
-
-
-@cell
-def TRCH_DUO_L20(width=0.5, separation=2.0, gap=3.0):
-    lblit = gen_label_iterator("TE")
-    return _TRCH_DASH_DUO(
-        width=width, separation=separation, gap=gap, length=20.0, n=3, label=next(lblit)
-    )
-
-
-@cell
-def TRCH_STG(width=0.5, separation=2.0, gap=3.0, n=6, length=20.0):
-    lblit = gen_label_iterator("TF")
-    return _TRCH_DASH_DUO(
-        width=width,
-        separation=separation,
-        gap=gap,
-        length=length,
-        n=n,
-        x_offset=length / 2 + separation / 2,
-        label=next(lblit),
-    )
 
 
 if __name__ == "__main__":
@@ -641,5 +513,5 @@ if __name__ == "__main__":
     # c = cdsem_straight_all()
     # c = cdsem_uturn(width=2)
     # c = cdsem_straight_density()
-    c = pcm_optical()
+    c = pcm_optical(layer=(2, 0))
     c.show()
