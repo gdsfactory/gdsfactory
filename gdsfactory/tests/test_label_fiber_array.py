@@ -97,8 +97,8 @@ def test_labels_fiber_single(num_regression):
 
 if __name__ == "__main__":
     # c = test_label_fiber_array()
-    c = test_label_fiber_array()
-    # c = test_label_fiber_single_loopback()
+    # c = test_label_fiber_array()
+    c = test_label_fiber_single_loopback()
     c.show()
 
     # c = gf.components.straight()

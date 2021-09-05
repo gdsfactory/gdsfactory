@@ -102,8 +102,9 @@ def route_fiber_single(
 
     """
     # route west ports to south
-    component = component.rotate(90)
-    south_ports = component.get_ports_dict(orientation=270)
+    component_ref = component.ref()
+    component_ref.rotate(90)
+    south_ports = component_ref.get_ports_dict(orientation=270)
     south_ports = select_ports(south_ports)
     component.ports = south_ports
 
@@ -122,10 +123,12 @@ def route_fiber_single(
     )
 
     # route the rest of the ports_south
-    component = component_copy.rotate(-90)
-    ports_already_routed = component.get_ports_dict(orientation=90)
-    for port_already_routed in ports_already_routed.keys():
-        component.ports.pop(port_already_routed)
+    component = gf.Component()
+    component_ref = component << component_copy
+    component_ref.rotate(-90)
+    component.add_ports(component_ref.ports)
+    for port_already_routed in south_ports.values():
+        component.ports.pop(port_already_routed.name)
 
     component.ports = select_ports(component.ports)
 
@@ -162,7 +165,6 @@ if __name__ == "__main__":
 
     c = gf.components.cross(length=500)
     c = gf.components.ring_double()
-    c = gf.components.mmi2x2()
     c = gf.components.crossing()
     c = gf.components.rectangle()
     c = gf.components.ring_single()
@@ -174,6 +176,8 @@ if __name__ == "__main__":
     layer = (2, 0)
     c = gf.components.mmi2x2()
     c = gf.components.straight(width=2, length=500)
+    c = gf.components.mmi1x2()
+
     gc = gf.components.grating_coupler_elliptical_te(layer=layer)
     elements, gc = route_fiber_single(
         c,
@@ -184,7 +188,8 @@ if __name__ == "__main__":
     )
 
     cc = gf.Component("sample_route_fiber_single")
-    cr = cc << c.rotate(90)
+    cr = cc << c
+    cr.rotate(90)
 
     for e in elements:
         cc.add(e)
