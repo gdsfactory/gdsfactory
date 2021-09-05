@@ -32,8 +32,8 @@ def die(
         die_name: Label text.
         text_size: Label text size.
         text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass location.
-        layer: Specific layer(s) to put polygon geometry on.
-        bbox_layer: Layer on which bbox is placed if ``draw_bbox`` is true.
+        layer: Specific layer to put polygon geometry on.
+        bbox_layer: optional bbox layer
         draw_corners:
         draw_dicing_lane:
 
