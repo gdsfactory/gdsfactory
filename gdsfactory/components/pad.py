@@ -13,8 +13,8 @@ def pad(
     width: float = 100.0,
     height: Optional[float] = None,
     layer: Layer = LAYER.M3,
-    layers_cladding: Optional[Tuple[Layer]] = None,
-    cladding_offsets: Optional[Tuple[float]] = None,
+    layers_cladding: Optional[Tuple[Layer, ...]] = None,
+    cladding_offsets: Optional[Tuple[float, ...]] = None,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
 

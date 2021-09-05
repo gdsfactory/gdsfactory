@@ -395,12 +395,12 @@ def rib_heater_doped(
     heater_gap: float = 0.8,
     layer_heater: Layer = LAYER.Npp,
     layer_slab: Layer = LAYER.SLAB90,
+    slab_width: float = 5.0,
     **kwargs,
 ):
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
     """
-    slab_width = width + 2 * heater_gap + 2 * heater_width
     heater_offset = width / 2 + heater_gap + heater_width / 2
     return cross_section(
         width=width,
@@ -414,6 +414,53 @@ def rib_heater_doped(
             Section(
                 layer=layer_heater,
                 width=heater_width,
+                offset=-heater_offset,
+            ),
+            Section(width=slab_width, layer=layer_slab, name="slab"),
+        ),
+        **kwargs,
+    )
+
+
+@pydantic.validate_arguments
+def rib_heater_doped_contact(
+    width: float = 0.5,
+    layer: Layer = LAYER.WG,
+    heater_width: float = 1.0,
+    heater_gap: float = 0.8,
+    layer_heater: Layer = LAYER.Npp,
+    layer_slab: Layer = LAYER.SLAB90,
+    layer_via: Layer = LAYER.VIA1,
+    via_inclusion: float = 0.2,
+    slab_width: float = 5.0,
+    **kwargs,
+):
+    """Returns rib cross_section with N++ doped heaters on both sides.
+    dimensions from https://doi.org/10.1364/OE.27.010456
+    """
+    heater_offset = width / 2 + heater_gap + heater_width / 2
+    return cross_section(
+        width=width,
+        layer=layer,
+        sections=(
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=+heater_offset,
+            ),
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=-heater_offset,
+            ),
+            Section(
+                layer=layer_via,
+                width=heater_width - 2 * via_inclusion,
+                offset=+heater_offset,
+            ),
+            Section(
+                layer=layer_via,
+                width=heater_width - 2 * via_inclusion,
                 offset=-heater_offset,
             ),
             Section(width=slab_width, layer=layer_slab, name="slab"),
