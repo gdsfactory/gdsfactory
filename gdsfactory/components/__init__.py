@@ -5,12 +5,7 @@ from gdsfactory.components.array_with_fanout import (
     array_with_fanout_2d,
 )
 from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
-from gdsfactory.components.awg import (
-    awg,
-    free_propagation_region,
-    free_propagation_region_input,
-    free_propagation_region_output,
-)
+from gdsfactory.components.awg import awg
 from gdsfactory.components.bbox import Coordinate, bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
@@ -19,22 +14,10 @@ from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
-from gdsfactory.components.cd_bend import cd_bend, cd_bend_strip
-from gdsfactory.components.cd_straight import cd_straight
 from gdsfactory.components.cdc import cdc
 from gdsfactory.components.circle import circle
 from gdsfactory.components.compass import compass
-from gdsfactory.components.component_lattice import (
-    COUNTER,
-    component_lattice,
-    component_sequence_to_str,
-    dist,
-    gen_tmp_port_name,
-    get_sequence_cross,
-    get_sequence_cross_str,
-    parse_lattice,
-    swap,
-)
+from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
@@ -53,7 +36,6 @@ from gdsfactory.components.crossing_waveguide import (
     crossing_arm,
     crossing_etched,
     crossing_from_taper,
-    snap_to_grid,
 )
 from gdsfactory.components.cutback_bend import (
     cutback_bend,
@@ -97,12 +79,6 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import (
     grating_coupler_te,
     grating_coupler_tm,
 )
-from gdsfactory.components.grating_coupler_functions import (
-    get_grating_period,
-    get_grating_period_curved,
-    neff_ridge,
-    neff_shallow,
-)
 from gdsfactory.components.grating_coupler_loss import (
     connect_loopback,
     grating_coupler_loss,
@@ -119,13 +95,7 @@ from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
-from gdsfactory.components.manhattan_font import (
-    CHARAC_MAP,
-    FONT,
-    load_font,
-    manhattan_text,
-    pixel_array,
-)
+from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi import mzi
@@ -138,7 +108,6 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
-from gdsfactory.components.opcm import pcm_optical
 from gdsfactory.components.pad import (
     pad,
     pad_array,
@@ -149,6 +118,7 @@ from gdsfactory.components.pad import (
     pad_array_2d,
 )
 from gdsfactory.components.pads_shorted import pads_shorted
+from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import DIRECTION_TO_ANGLE, rectangle
 from gdsfactory.components.resistance_meander import resistance_meander
@@ -205,12 +175,7 @@ from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, via3
 from gdsfactory.components.via_cutback import via_cutback
-from gdsfactory.components.via_stack import (
-    orientation_to_anchor,
-    via_stack,
-    via_stack_heater,
-    via_stack_slab,
-)
+from gdsfactory.components.via_stack import via_stack, via_stack_heater, via_stack_slab
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
@@ -218,11 +183,8 @@ from gdsfactory.components.wire_sbend import wire_sbend
 
 __all__ = [
     "C",
-    "CHARAC_MAP",
-    "COUNTER",
     "Coordinate",
     "DIRECTION_TO_ANGLE",
-    "FONT",
     "L",
     "add_frame",
     "align",
@@ -245,13 +207,11 @@ __all__ = [
     "bend_s",
     "big_square",
     "cavity",
-    "cd",
     "circle",
     "compass",
     "compensation_path",
     "component_lattice",
     "component_sequence",
-    "component_sequence_to_str",
     "connect_loopback",
     "coupler",
     "coupler90",
@@ -285,7 +245,6 @@ __all__ = [
     "die",
     "die_bbox",
     "disk",
-    "dist",
     "ellipse",
     "ellipse_arc",
     "extend_port",
@@ -294,14 +253,6 @@ __all__ = [
     "extension",
     "fiber",
     "fiber_array",
-    "free_propagation_region",
-    "free_propagation_region_input",
-    "free_propagation_region_output",
-    "gen_tmp_port_name",
-    "get_grating_period",
-    "get_grating_period_curved",
-    "get_sequence_cross",
-    "get_sequence_cross_str",
     "githash",
     "grating_coupler_array",
     "grating_coupler_elliptical",
@@ -321,7 +272,6 @@ __all__ = [
     "litho_calipers",
     "litho_ruler",
     "litho_steps",
-    "load_font",
     "logo",
     "loop_mirror",
     "loss_deembedding_ch12_34",
@@ -338,11 +288,8 @@ __all__ = [
     "mzi_phase_shifter_90_90",
     "mzit",
     "mzit_lattice",
-    "neff_ridge",
-    "neff_shallow",
     "nxn",
-    "opcm",
-    "orientation_to_anchor",
+    "pcm_optical",
     "pad",
     "pad_array",
     "pad_array0",
@@ -351,10 +298,7 @@ __all__ = [
     "pad_array90",
     "pad_array_2d",
     "pads_shorted",
-    "parse_lattice",
-    "pcm_optical",
     "pixel",
-    "pixel_array",
     "qrcode",
     "ramp",
     "rectangle",
@@ -364,7 +308,6 @@ __all__ = [
     "ring_single",
     "ring_single_array",
     "ring_single_dut",
-    "snap_to_grid",
     "spiral",
     "spiral_circular",
     "spiral_external_io",
@@ -389,7 +332,6 @@ __all__ = [
     "straight_rib",
     "straight_rib_tapered",
     "strip",
-    "swap",
     "taper",
     "taper2",
     "taper_0p5_to_3_l36",
@@ -448,9 +390,6 @@ factory = dict(
     bend_port=bend_port,
     bend_s=bend_s,
     cavity=cavity,
-    cd_bend=cd_bend,
-    cd_bend_strip=cd_bend_strip,
-    cd_straight=cd_straight,
     cdc=cdc,
     circle=circle,
     compass=compass,
@@ -534,7 +473,6 @@ factory = dict(
     pads_shorted=pads_shorted,
     pcm_optical=pcm_optical,
     pixel=pixel,
-    pixel_array=pixel_array,
     qrcode=qrcode,
     ramp=ramp,
     rectangle=rectangle,

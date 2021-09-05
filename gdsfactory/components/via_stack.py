@@ -104,9 +104,20 @@ def via_stack(
     return c
 
 
+via_stack_metal = gf.partial(
+    via_stack,
+    layers=(LAYER.M1, LAYER.M2, LAYER.M3),
+    vias=(via2, via3),
+)
+
 via_stack_slab = gf.partial(
     via_stack,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
+    vias=(via1, via2, via3),
+)
+via_stack_slab_npp = gf.partial(
+    via_stack,
+    layers=(LAYER.SLAB90, LAYER.Npp, LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(via1, via2, via3),
 )
 via_stack_heater = gf.partial(
