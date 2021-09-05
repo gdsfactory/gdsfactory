@@ -24,7 +24,7 @@ def straight_pin(
     **kwargs,
 ) -> Component:
     """Returns PIN with contacts
-    PIN
+
     https://doi.org/10.1364/OE.26.029983
 
     500um length from
@@ -108,7 +108,7 @@ straight_pn_passive_tapered = gf.partial(
 straight_pn = gf.partial(straight_pin, cross_section=pn)
 
 if __name__ == "__main__":
-
-    c = straight_pn_passive_tapered()
-    print(c.ports.keys())
+    c = straight_pin()
+    # c = straight_pn_passive_tapered()
+    # print(c.ports.keys())
     c.show()
