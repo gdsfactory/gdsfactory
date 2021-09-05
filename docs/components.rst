@@ -318,51 +318,6 @@ cavity
 
 
 
-cd_bend
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cd_bend
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cd_bend()
-  c.plot()
-
-
-
-cd_bend_strip
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cd_bend_strip
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cd_bend_strip()
-  c.plot()
-
-
-
-cd_straight
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cd_straight
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cd_straight()
-  c.plot()
-
-
-
 cdc
 ----------------------------------------------------
 
@@ -374,111 +329,6 @@ cdc
   import gdsfactory as gf
 
   c = gf.components.cdc()
-  c.plot()
-
-
-
-cdsem_straight
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_straight
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_straight()
-  c.plot()
-
-
-
-cdsem_straight_all
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_straight_all
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_straight_all()
-  c.plot()
-
-
-
-cdsem_straight_column
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_straight_column
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_straight_column()
-  c.plot()
-
-
-
-cdsem_straight_density
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_straight_density
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_straight_density()
-  c.plot()
-
-
-
-cdsem_strip
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_strip
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_strip()
-  c.plot()
-
-
-
-cdsem_target
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_target
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_target()
-  c.plot()
-
-
-
-cdsem_uturn
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.cdsem_uturn
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.cdsem_uturn()
   c.plot()
 
 
@@ -1697,21 +1547,6 @@ pixel
 
 
 
-pixel_array
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.pixel_array
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.pixel_array()
-  c.plot()
-
-
-
 qrcode
 ----------------------------------------------------
 
@@ -1933,21 +1768,6 @@ splitter_tree
   import gdsfactory as gf
 
   c = gf.components.splitter_tree()
-  c.plot()
-
-
-
-square_middle
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.square_middle
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.square_middle()
   c.plot()
 
 

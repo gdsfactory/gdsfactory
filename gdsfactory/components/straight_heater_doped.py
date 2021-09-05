@@ -29,7 +29,7 @@ def straight_heater_doped(
         length: of the waveguide
         nsections: between contacts
         cross_section_heater: for heated sections
-        via_stack_metal:
+        via_stack: for connecting the metal
         via_stack_size:
         port_orientation_top: for top contact
         port_orientation_bot: for bottom contact
@@ -78,7 +78,7 @@ def straight_heater_doped(
     wg1.connect("o1", wg0.ports["o2"])
     x0 = wg0.get_ports_list()[0].x + via_stack_size[0] / 2
 
-    for i in range(nsections):
+    for _ in range(nsections):
         wg2 = c << gf.c.straight(
             cross_section=cross_section_heater,
             length=length_heater,
@@ -113,11 +113,11 @@ def straight_heater_doped(
     c.add_port("o2", port=t2.ports["o1"])
 
     via_stack_length = length + via_stack_size[0]
-    contact_top = c << via_stack_metal(
+    contact_top = c << via_stack(
         size=(via_stack_length, via_stack_size[0]),
         port_orientation=port_orientation_top,
     )
-    contact_bot = c << via_stack_metal(
+    contact_bot = c << via_stack(
         size=(via_stack_length, via_stack_size[0]),
         port_orientation=port_orientation_bot,
     )
