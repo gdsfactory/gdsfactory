@@ -1245,10 +1245,10 @@ class Component(Device):
             "Don't move Components. Create a reference and move the reference instead."
         )
 
-    # def rotate(self, *args, **kwargs):
-    #     raise MutabilityError(
-    #         "Don't rotate Components. Create a reference and move the reference instead."
-    #     )
+    def rotate(self, *args, **kwargs):
+        raise MutabilityError(
+            "Don't rotate Components. Create a reference and move the reference instead."
+        )
 
 
 def test_get_layers() -> None:
