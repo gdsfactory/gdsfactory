@@ -203,27 +203,39 @@ def pin(
     layer_npp: Tuple[int, int] = LAYER.Npp,
     contact_width: float = 9.0,
     contact_gap: float = 0.55,
+    slab_gap: float = -0.2,
     **kwargs,
 ) -> CrossSection:
     """rib PIN doped cross_section.
+
+    Args:
+        width: ridge width
+        layer: ridge layer
+        layer_slab: slab layer
+        layer_ppp: P++ layer
+        layer_npp: N++ layer
+        contact_width:
+        contact_gap: offset from contact to ridge edge
+        slab_gap: extra slab gap (negative: contact goes beyond slab)
 
     https://doi.org/10.1364/OE.26.029983
 
     .. code::
 
-                                   layer
-                           |<------width------>|
-                            ____________________ contact_gap
-                           |                   |<----------->|
-        ___________________|                   |__________________________|
-               |                 undoped Si                  |            |
-            P++|                 intrinsic region            |     N++    |
-        _______|_____________________________________________|____________|
-                                                                          |
-                                                              width_contact
+                                         layer
+                                 |<------width------>|
+                                  ____________________ contact_gap              slab_gap
+                                 |                   |<----------->|             <-->
+        ___ _____________________|                   |__________________________|___
+       |   |         |                 undoped Si                  |            |   |
+       |   |    P++  |                 intrinsic region            |     N++    |   |
+       |___|_________|_____________________________________________|____________|___|
 
+                                                                    contact_width
+       <---------------------------------------------------------------------------->
+                                      slab_width
     """
-    slab_width = width + 2 * contact_gap + 2 * contact_width
+    slab_width = width + 2 * contact_gap + 2 * contact_width - 2 * slab_gap
     contact_offset = width / 2 + contact_gap + contact_width / 2
 
     return cross_section(
@@ -437,6 +449,8 @@ def rib_heater_doped_contact(
 ):
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
+
+
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
     return cross_section(
