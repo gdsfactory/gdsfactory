@@ -112,7 +112,6 @@ def cross_section(
     taper_length: float = 10.0,
     radius: float = 10.0,
     cladding_offset: float = 3.0,
-    layer_cladding: Optional[Layer] = None,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
@@ -133,7 +132,6 @@ def cross_section(
         taper_length: taper_length for auto_widen
         radius: bend radius
         cladding_offset: offset for layers_cladding
-        layer_cladding:
         layers_cladding:
         sections: Sections(width, offset, layer, ports)
         port_names: for input and output (1, 2),
@@ -183,7 +181,6 @@ def cross_section(
         taper_length=taper_length,
         radius=radius,
         cladding_offset=cladding_offset,
-        layer_cladding=layer_cladding,
         layers_cladding=layers_cladding,
         sections=sections,
         min_length=min_length,
@@ -365,6 +362,25 @@ def strip_heater_metal_undercut(
         layer_heater:
         layer_trench:
         **kwargs: for cross_section
+
+
+    .. code::
+
+              |<-------heater_width--------->|
+               ______________________________
+              |                              |
+              |         layer_heater         |
+              |______________________________|
+
+                   |<------width------>|
+                    ____________________ trench_gap
+                   |                   |<----------->|
+                   |                   |             |
+                   |       width       |             |              |
+                   |                   |             |<------------>|
+                   |___________________|             | trench_width |
+                                                     |              |
+                                                     |              |
 
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
