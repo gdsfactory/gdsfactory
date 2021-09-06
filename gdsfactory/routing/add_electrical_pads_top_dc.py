@@ -1,3 +1,5 @@
+from typing import Callable
+
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
@@ -12,14 +14,14 @@ def add_electrical_pads_top_dc(
     component: Component,
     dy: float = 100.0,
     pad_array: ComponentFactory = pad_array_function,
-    select_ports=select_ports_electrical,
+    select_ports: Callable = select_ports_electrical,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top
 
     Args:
         component:
-        dy:
+        dy: pad ymin to component ymax
         pad_array:
         **kwargs: cross-section settings
     """

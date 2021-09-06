@@ -78,9 +78,7 @@ def cdc(
         direction=direction,
     )
 
-    component = gf.component_from.picwriter(c)
-    gf.port.rename_ports_by_orientation(component)
-    return component
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":

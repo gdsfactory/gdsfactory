@@ -75,9 +75,7 @@ def coupler_adiabatic(
         direction=direction,
     )
 
-    c = gf.component_from.picwriter(c)
-    c.auto_rename_ports()
-    return c
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":
