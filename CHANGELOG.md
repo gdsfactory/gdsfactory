@@ -36,7 +36,7 @@ from contracts import contract
 
 ## 3.1.5
 
-- raise ValueError when moving component
+- raise ValueError when moving or rotating component. This avoids modifying the state (position, rotation) of any Component after created and stored in the cell cache.
 - add cross_section property to ports
 - `gdsfactory/routing/fanout.py` passes cross_section settings from port into bend_s
 - fix manhattan text, avoid creating duplicated cells
