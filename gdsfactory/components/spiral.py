@@ -59,12 +59,10 @@ def spiral(
         port=port,
         direction=direction,
     )
-    # print(f'length = {length/1e4:.2f}cm')
-    c = gf.component_from.picwriter(c)
-    c.auto_rename_ports()
-    return c
+    return gf.component_from.picwriter(c)
 
 
 if __name__ == "__main__":
-    c = spiral(length=10e3, port_spacing=500, radius=20)
+    c = spiral(length=10e3, port_spacing=500, radius=20, direction="NORTH")
+    c = spiral(length=10e3, port_spacing=500, radius=20, direction="EAST")
     c.show()

@@ -44,23 +44,28 @@ def picwriter(picwriter_object: pt.Component) -> Component:
         for polygon, layer, datatype in zip(polygons, layers, datatypes):
             c.add_polygon(polygon, layer=(layer, datatype))
 
-    # translate_by = po.port
-    # rotate_by = direction_to_degree(po.direction)
-    # c.rotate(rotate_by)  # First rotate about (0,0)
-    # c.move(translate_by)  # Next translate
+    c2 = gf.Component()
+    ref = c2.add_ref(c)
+
+    translate_by = po.port
+    rotate_by = direction_to_degree(po.direction)
+    ref.rotate(rotate_by)  # First rotate about (0,0)
+    ref.move(translate_by)  # Next translate
 
     for port in po.portlist.keys():
         port_loc = po.portlist[port]["port"]
         direction = direction_to_degree(po.portlist[port]["direction"])
 
-        c.add_port(
+        c2.add_port(
             name=port,
             midpoint=[port_loc[0], port_loc[1]],
             width=po.wgt.wg_width,
             orientation=direction,
         )
 
-    return c
+    c2.absorb(ref)
+    c2.auto_rename_ports()
+    return c2
 
 
 if __name__ == "__main__":
