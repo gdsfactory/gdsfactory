@@ -4,10 +4,9 @@
 
 - enable routing with 180euler and Sbends
 - fix FIXMEs
-- add function to detect duplicated cell names
 - example on how to customize visualization of a component
 - remove kwargs from most components
-  - will enable most intuitive errors
+  - get intuitive errors
 
 Maybe:
 
@@ -33,6 +32,10 @@ from contracts import contract
 
 
 ```
+
+## 3.1.6
+
+- add `Component.write_netlist_dot` to write netlist graph in dot format
 
 ## 3.1.5
 

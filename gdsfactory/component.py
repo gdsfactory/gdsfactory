@@ -651,7 +651,7 @@ class Component(Device):
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"
-    ) -> None:
+    ) -> nx.Graph:
         """plots a netlist graph with networkx
         https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
@@ -681,25 +681,36 @@ class Component(Device):
             labels=labels,
             pos=pos,
         )
+        return G
 
     def get_netlist_yaml(self) -> str:
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
     def write_netlist(self, filepath: str, full_settings: bool = False) -> None:
+        """Write netlist in YAML"""
         netlist = self.get_netlist(full_settings=full_settings)
         OmegaConf.save(netlist, filepath)
+
+    def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
+        """Write netlist graph in DOT format."""
+        from networkx.drawing.nx_agraph import write_dot
+
+        filepath = filepath or f"{self.name}.dot"
+
+        G = self.plot_netlist()
+        write_dot(G, filepath)
 
     def get_netlist(self, full_settings: bool = False) -> Any:
         """Returns netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
-        connections = {instance_name_src_x_y,portName,portId: instance_name_dst_x_y,portName,portId}
+        connections = {instance_name_src_x_y,portName: instance_name_dst_x_y,portName}
         ports: {portName: instace_name,portName}
 
         Args:
-            full_settings: exports all the settings, when false only exports settings_changed
+            full_settings: exports all settings, when false only settings_changed
         """
         from gdsfactory.get_netlist import get_netlist
 
