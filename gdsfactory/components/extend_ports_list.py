@@ -32,6 +32,7 @@ def extend_ports_list(
         extension_ref.connect(extension_port_name, port)
 
         for port_name, port in extension_ref.ports.items():
+            # if port_name not in extension_port_name:
             c.add_port(f"{i}_{port_name}", port=port)
 
     c.auto_rename_ports()
@@ -44,6 +45,8 @@ if __name__ == "__main__":
     c = gf.components.mmi1x2()
     from gdsfactory.components.straight import straight
 
-    cr = extend_ports_list(ports=c.get_ports_list(), extension_factory=straight)
+    cr = extend_ports_list(
+        ports=c.get_ports_list(), extension_factory=straight, extension_port_name="o2"
+    )
     c.add_ref(cr)
     c.show()
