@@ -205,6 +205,12 @@ def _generate_manhattan_bundle_waypoints(
     waypoints = remove_flat_angles(waypoints)
     way_segments = [(p0, p1) for p0, p1 in zip(waypoints, waypoints[1:])]
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
+
+    start_angle = ports1[0].orientation
+    if start_angle in [90, 270]:
+        offsets_start = [-_d for _d in offsets_start]
+    end_angle = ports2[0].orientation
+
     if separation:
         if offsets_start[0] == 0:
             offsets_mid = [
@@ -221,12 +227,6 @@ def _generate_manhattan_bundle_waypoints(
             raise ValueError("Expected offset = 0 at either start or end of route.")
     else:
         offsets_mid = offsets_start
-
-    start_angle = ports1[0].orientation
-    if start_angle in [90, 270]:
-        offsets_start = [-_d for _d in offsets_start]
-        offsets_mid = [-_d for _d in offsets_mid]
-    end_angle = ports2[0].orientation
 
     def _displace_segment_copy(s, a, sh=1, sv=1):
         sign_seg = _segment_sign(s)
@@ -272,23 +272,19 @@ def _generate_manhattan_bundle_waypoints(
             )
         return (sv[0][0], sh[0][1])
 
-    N = len(ports1)
     routes = []
     _make_segment = _displace_segment_copy_group1
-    for i in range(N):
-        prev_seg_sep = offsets_start[i]
+    for i, start_port in enumerate(ports1):
         route = []
+        prev_seg_sep = None
 
         for j, seg in enumerate(way_segments):
             if j == 0:
-                seg_sep = prev_seg_sep
+                start_point = start_port.midpoint
+                seg_sep = offsets_start[i]
             else:
                 seg_sep = offsets_mid[i]
-            d_seg = _make_segment(seg, seg_sep)
-
-            if j == 0:
-                start_point = d_seg[0]
-            else:
+                d_seg = _make_segment(seg, seg_sep)
                 prev_seg = way_segments[j - 1]
                 tmp_seg = _make_segment(prev_seg, prev_seg_sep)
                 start_point = _intersection(d_seg, tmp_seg)
@@ -307,8 +303,6 @@ def _generate_manhattan_bundle_waypoints(
             prev_seg_sep = seg_sep
         routes += [route]
 
-    for route, start_point in zip(routes, ports1):
-        route[0] = start_point.midpoint
     return routes
 
 
