@@ -211,21 +211,25 @@ def _generate_manhattan_bundle_waypoints(
         offsets_start = [-_d for _d in offsets_start]
     end_angle = ports2[0].orientation
 
+    # if separation is defined, the offsets should increment from the reference port in the same direction
+    # as the original offsets
     if separation:
+        # the default case when we start with the reference port
+        offsets_mid = [
+            np.sign(offsets_start[1]) * separation * i
+            for i, o in enumerate(offsets_start)
+        ]
         if offsets_start[0] == 0:
-            offsets_mid = [
-                np.sign(offsets_start[1]) * separation * i
-                for i, o in enumerate(offsets_start)
-            ]
+            # the default case, no action necessary
+            pass
         elif offsets_start[-1] == 0:
-            offsets_mid = [
-                np.sign(offsets_start[-2]) * separation * i
-                for i, o in enumerate(offsets_start)
-            ]
+            # if the reference port is last, reverse the whole list
             offsets_mid.reverse()
         else:
             raise ValueError("Expected offset = 0 at either start or end of route.")
     else:
+        # if separation is not defined, we will use the separation between start ports as the separation between
+        # routes throughout the full bundle
         offsets_mid = offsets_start
 
     def _displace_segment_copy(s, a, sh=1, sv=1):
