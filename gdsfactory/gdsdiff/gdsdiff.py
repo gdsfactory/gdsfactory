@@ -54,7 +54,6 @@ def gdsdiff(
     component2: Union[Path, Component, str],
     name: str = "TOP",
     xor: bool = True,
-    hash_geometry: bool = True,
 ) -> Component:
     """Compare two Components.
 
@@ -83,11 +82,16 @@ def gdsdiff(
     if component2.name.startswith("Unnamed"):
         component2.name = f"{name}_new"
 
-    top << component1
-    top << component2
+    ref1 = top << component1
+    ref2 = top << component2
+
+    ref1.xmin = 0
+    ref1.ymin = 0
+    ref2.xmin = 0
+    ref2.ymin = 0
 
     if xor:
-        diff = xor_polygons(component1, component2, hash_geometry=hash_geometry)
+        diff = xor_polygons(ref1, ref2, hash_geometry=False)
         diff.name = f"{name}_xor"
         top.add_ref(diff)
 
