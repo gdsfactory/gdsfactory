@@ -36,6 +36,7 @@ from contracts import contract
 ## 3.1.6
 
 - add `Component.write_netlist_dot` to write netlist graph in dot format
+- add handling of separation keyword argument to get_bundle_from_waypoints (thanks to Troy @tvt173)
 
 ## 3.1.5
 
