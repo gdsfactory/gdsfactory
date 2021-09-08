@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64, ndarray
@@ -192,6 +192,7 @@ def _generate_manhattan_bundle_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     waypoints: Coordinates,
+    separation: Optional[float] = None,
     **kwargs,
 ) -> Coordinates:
     """
@@ -201,16 +202,35 @@ def _generate_manhattan_bundle_waypoints(
         waypoints: from one point within the ports1 bank
             to another point within the ports2 bank
     """
-
     waypoints = remove_flat_angles(waypoints)
-    way_segments = [(p0, p1) for p0, p1 in zip(waypoints[:-1], waypoints[1:])]
+    way_segments = [(p0, p1) for p0, p1 in zip(waypoints, waypoints[1:])]
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
     start_angle = ports1[0].orientation
     if start_angle in [90, 270]:
         offsets_start = [-_d for _d in offsets_start]
-
     end_angle = ports2[0].orientation
+
+    # if separation is defined, the offsets should increment from the reference port in the same direction
+    # as the original offsets
+    if separation:
+        # the default case when we start with the reference port
+        offsets_mid = [
+            np.sign(offsets_start[1]) * separation * i
+            for i, o in enumerate(offsets_start)
+        ]
+        if offsets_start[0] == 0:
+            # the default case, no action necessary
+            pass
+        elif offsets_start[-1] == 0:
+            # if the reference port is last, reverse the whole list
+            offsets_mid.reverse()
+        else:
+            raise ValueError("Expected offset = 0 at either start or end of route.")
+    else:
+        # if separation is not defined, we will use the separation between start ports as the separation between
+        # routes throughout the full bundle
+        offsets_mid = offsets_start
 
     def _displace_segment_copy(s, a, sh=1, sv=1):
         sign_seg = _segment_sign(s)
@@ -256,20 +276,19 @@ def _generate_manhattan_bundle_waypoints(
             )
         return (sv[0][0], sh[0][1])
 
-    N = len(ports1)
     routes = []
     _make_segment = _displace_segment_copy_group1
-    for i in range(N):
-        prev_seg_sep = offsets_start[i]
+    for i, start_port in enumerate(ports1):
         route = []
+        prev_seg_sep = None
 
         for j, seg in enumerate(way_segments):
-            seg_sep = prev_seg_sep
-            d_seg = _make_segment(seg, seg_sep)
-
             if j == 0:
-                start_point = d_seg[0]
+                start_point = start_port.midpoint
+                seg_sep = offsets_start[i]
             else:
+                seg_sep = offsets_mid[i]
+                d_seg = _make_segment(seg, seg_sep)
                 prev_seg = way_segments[j - 1]
                 tmp_seg = _make_segment(prev_seg, prev_seg_sep)
                 start_point = _intersection(d_seg, tmp_seg)
@@ -285,11 +304,9 @@ def _generate_manhattan_bundle_waypoints(
                     route = snap_route_to_end_point_y(route, end_point[1])
                 else:
                     route = snap_route_to_end_point_x(route, end_point[0])
-
+            prev_seg_sep = seg_sep
         routes += [route]
 
-    for route, start_point in zip(routes, ports1):
-        route[0] = start_point.midpoint
     return routes
 
 
