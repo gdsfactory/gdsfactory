@@ -49,23 +49,6 @@ def rename():
     return straight
 
 
-@cell
-def no_rename():
-    p = gf.path.arc()
-
-    # Create a blank CrossSection
-    X = gf.CrossSection()
-
-    # Add a a few "sections" to the cross-section
-    X.add(width=1, offset=0, layer=0, ports=("in", "out"))
-    X.add(width=3, offset=2, layer=2)
-    X.add(width=3, offset=-2, layer=2)
-
-    # Combine the Path and the CrossSection
-    straight = gf.path.extrude(p, cross_section=X)
-    return straight
-
-
 def looploop(num_pts=1000):
     """Simple limacon looping curve"""
     t = np.linspace(-np.pi, 0, num_pts)
@@ -132,8 +115,11 @@ def transition():
     return c
 
 
-component_factory = gf.types.get_name_to_function_dict(
-    test_path, rename, no_rename, double_loop, transition
+component_factory = dict(
+    test_path=test_path,
+    rename=rename,
+    double_loop=double_loop,
+    transition=transition,
 )
 
 
@@ -194,4 +180,4 @@ if __name__ == "__main__":
     c = double_loop()
     # c = rename()
     # c.pprint
-    # c.show()
+    c.show()
