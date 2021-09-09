@@ -50,8 +50,24 @@ ps_pin = gf.partial(
 )
 
 
+component_factory = dict(
+    taper_strip_to_ridge=taper_strip_to_ridge,
+    ps_heater_metal=ps_heater_metal,
+    ps_heater_doped=ps_heater_doped,
+)
+
+
+def write_library(component_factory, dirpath):
+    for function in component_factory.values():
+        component = function()
+        component.write_gds_with_metadata(gdsdir=dirpath)
+
+
 if __name__ == "__main__":
+    import pathlib
+
     # c = ps_heater_metal()
-    c = ps_heater_doped()
+    # c = ps_heater_doped()
     # c = ps_pin()
-    c.show()
+    # c.show()
+    write_library(component_factory=component_factory, dirpath=pathlib.Path.cwd())

@@ -22,10 +22,9 @@ def test_path():
     P.append(gf.path.straight(length=10))
     P.length()
     P.length()
-    assert np.isclose(P.length(), 107.69901058617913)
+    assert np.isclose(P.length(), 107.69901058617913), P.length()
 
     X = gf.CrossSection()
-
     X.add(width=1, offset=0, layer=0)
 
     c = gf.path.extrude(P, X)
@@ -118,7 +117,6 @@ def transition():
 component_factory = dict(
     test_path=test_path,
     rename=rename,
-    double_loop=double_loop,
     transition=transition,
 )
 

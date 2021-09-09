@@ -11,7 +11,7 @@ def test_get_bundle_west_to_north(
     lengths = {}
 
     c = gf.Component("test_get_bundle_west_to_north")
-    pad = gf.partial(gf.c.pad, width=10, height=10)
+    pad = gf.partial(gf.c.pad, size=(10, 10))
     c = gf.Component()
     pad_south = gf.components.pad_array(port_names=["e4"], pitch=15.0, n=3, pad=pad)
     pad_north = gf.components.pad_array(port_names=["e2"], pitch=15.0, n=3, pad=pad)

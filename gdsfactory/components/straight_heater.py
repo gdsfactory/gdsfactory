@@ -73,8 +73,8 @@ def straight_heater_metal_undercut(
     c.add_ports(sequence.ports)
 
     if via_stack:
-        contactw = via_stack(port_orientation=port_orientation1)
-        contacte = via_stack(port_orientation=port_orientation2)
+        contactw = via_stack()
+        contacte = via_stack()
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
 
@@ -82,8 +82,12 @@ def straight_heater_metal_undercut(
         contact_east = c << contacte
         contact_west.move(contact_west_midpoint)
         contact_east.move(contact_east_midpoint)
-        c.add_port("e1", port=contact_west.get_ports_list()[0])
-        c.add_port("e2", port=contact_east.get_ports_list()[0])
+        c.add_port(
+            "e1", port=contact_west.get_ports_list(orientation=port_orientation1)[0]
+        )
+        c.add_port(
+            "e2", port=contact_east.get_ports_list(orientation=port_orientation2)[0]
+        )
     return c
 
 

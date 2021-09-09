@@ -107,6 +107,7 @@ def transition(
                 hidden=hidden,
             )
 
+    Xtrans.cross_sections = (X1, X2)
     return Xtrans
 
 
@@ -233,7 +234,9 @@ def extrude(
                 port_type=port_types[0],
                 width=_width,
                 orientation=orientation,
-                cross_section=cross_section,
+                cross_section=cross_section.cross_sections[0]
+                if hasattr(cross_section, "cross_sections")
+                else cross_section,
             )
             new_port.endpoints = (points1[0], points2[0])
         if ports[1] is not None:
@@ -245,7 +248,9 @@ def extrude(
                 port_type=port_types[1],
                 width=_width,
                 orientation=orientation,
-                cross_section=cross_section,
+                cross_section=cross_section.cross_sections[1]
+                if hasattr(cross_section, "cross_sections")
+                else cross_section,
             )
             new_port.endpoints = (points2[-1], points1[-1])
 

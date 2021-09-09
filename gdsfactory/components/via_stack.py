@@ -4,29 +4,10 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, via3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layer
-
-orientation_to_anchor = {
-    0: "ce",
-    90: "nc",
-    180: "cw",
-    270: "sc",
-}
-
-valid_anchors = [
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-]
 
 
 @gf.cell
@@ -34,9 +15,7 @@ def via_stack(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via2, via3),
-    layer: Layer = LAYER.M3,
-    port_orientation: int = 90,
-    port_location: Optional[str] = None,
+    layer: Optional[Layer] = None,
 ) -> Component:
     """Rectangular via_stack
 
@@ -45,28 +24,23 @@ def via_stack(
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
         layer: port layer
-        port_orientation: 180: West, 0: East, 90: N0, 270: S0
-        port_location: cc: center
     """
-    port_location = port_location or orientation_to_anchor[port_orientation]
-
-    if port_location not in valid_anchors:
-        raise ValueError(f"port_location = {port_location} not in {valid_anchors}")
 
     width, height = size
     a = width / 2
     b = height / 2
-    rect_pts = [(-a, -b), (a, -b), (a, b), (-a, b)]
+    layer_port = layer or layers[-1]
 
     c = Component()
     c.height = height
 
-    # Add metal rectangles
     for layer in layers:
-        c.add_polygon(rect_pts, layer=layer)
+        ref = c << compass(size=(width, height), layer=layer)
+
+        if layer == layer_port:
+            c.add_ports(ref.ports)
 
     vias = vias or []
-    # Add vias
     for via in vias:
         if via is not None:
             via = via() if callable(via) else via
@@ -93,14 +67,6 @@ def via_stack(
                 for j in range(nb_vias_y):
                     c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
 
-    c.add_port(
-        name="e1",
-        width=width if port_orientation in [90, 270] else height,
-        orientation=port_orientation,
-        layer=layer,
-        port_type="electrical",
-        midpoint=getattr(c.size_info, port_location),
-    )
     return c
 
 
@@ -126,6 +92,5 @@ via_stack_heater = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack(port_location="sc")
-    print(c)
+    c = via_stack()
     c.show()

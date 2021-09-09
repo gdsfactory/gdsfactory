@@ -1,11 +1,11 @@
 connections:
-  bend_euler_cross_sectio_2b3226cd_125p125_204p875,o1: straight_cross_sectionc_1135e106_85p0_200p0,o2
-  bend_euler_cross_sectio_2b3226cd_125p125_204p875,o2: taper_cross_sectioncros_bbc0e5e9_130p0_215p0,o1
-  bend_euler_cross_sectio_2b3226cd_134p875_555p125,o1: taper_cross_sectioncros_bbc0e5e9_130p0_545p0,o1
-  bend_euler_cross_sectio_2b3226cd_134p875_555p125,o2: taper_cross_sectioncros_bbc0e5e9_145p0_560p0,o1
-  bend_euler_cross_sectio_2b3226cd_134p875_584p875,o1: taper_cross_sectioncros_bbc0e5e9_145p0_580p0,o1
-  bend_euler_cross_sectio_2b3226cd_134p875_584p875,o2: bend_euler_cross_sectio_2b3226cd_134p875_595p125,o1
-  bend_euler_cross_sectio_2b3226cd_134p875_595p125,o2: taper_cross_sectioncros_bbc0e5e9_145p0_600p0,o1
+  bend_euler_cross_sectio_2b3226cd_225p125_204p875,o1: straight_cross_sectionc_d5380bd3_135p0_200p0,o2
+  bend_euler_cross_sectio_2b3226cd_225p125_204p875,o2: taper_cross_sectioncros_bbc0e5e9_230p0_215p0,o1
+  bend_euler_cross_sectio_2b3226cd_234p875_555p125,o1: taper_cross_sectioncros_bbc0e5e9_230p0_545p0,o1
+  bend_euler_cross_sectio_2b3226cd_234p875_555p125,o2: taper_cross_sectioncros_bbc0e5e9_245p0_560p0,o1
+  bend_euler_cross_sectio_2b3226cd_234p875_584p875,o1: taper_cross_sectioncros_bbc0e5e9_245p0_580p0,o1
+  bend_euler_cross_sectio_2b3226cd_234p875_584p875,o2: bend_euler_cross_sectio_2b3226cd_234p875_595p125,o1
+  bend_euler_cross_sectio_2b3226cd_234p875_595p125,o2: taper_cross_sectioncros_bbc0e5e9_245p0_600p0,o1
   bend_euler_cross_sectio_2b3226cd_255p125_4p875,o1: straight_cross_sectionc_661cb5c9_150p0_0p0,o2
   bend_euler_cross_sectio_2b3226cd_255p125_4p875,o2: taper_cross_sectioncros_bbc0e5e9_260p0_15p0,o1
   bend_euler_cross_sectio_2b3226cd_264p875_355p125,o1: taper_cross_sectioncros_bbc0e5e9_260p0_345p0,o1
@@ -13,30 +13,30 @@ connections:
   bend_euler_cross_sectio_2b3226cd_264p875_384p875,o1: taper_cross_sectioncros_bbc0e5e9_275p0_380p0,o1
   bend_euler_cross_sectio_2b3226cd_264p875_384p875,o2: bend_euler_cross_sectio_2b3226cd_264p875_395p125,o1
   bend_euler_cross_sectio_2b3226cd_264p875_395p125,o2: taper_cross_sectioncros_bbc0e5e9_275p0_400p0,o1
-  bend_euler_cross_sectio_2b3226cd_395p125_564p875,o1: taper_cross_sectioncros_bbc0e5e9_385p0_560p0,o1
-  bend_euler_cross_sectio_2b3226cd_395p125_564p875,o2: bend_euler_cross_sectio_2b3226cd_395p125_575p125,o1
-  bend_euler_cross_sectio_2b3226cd_395p125_575p125,o2: taper_cross_sectioncros_bbc0e5e9_385p0_580p0,o1
+  bend_euler_cross_sectio_2b3226cd_495p125_564p875,o1: taper_cross_sectioncros_bbc0e5e9_485p0_560p0,o1
+  bend_euler_cross_sectio_2b3226cd_495p125_564p875,o2: bend_euler_cross_sectio_2b3226cd_495p125_575p125,o1
+  bend_euler_cross_sectio_2b3226cd_495p125_575p125,o2: taper_cross_sectioncros_bbc0e5e9_485p0_580p0,o1
   bend_euler_cross_sectio_2b3226cd_525p125_364p875,o1: taper_cross_sectioncros_bbc0e5e9_515p0_360p0,o1
   bend_euler_cross_sectio_2b3226cd_525p125_364p875,o2: bend_euler_cross_sectio_2b3226cd_525p125_375p125,o1
   bend_euler_cross_sectio_2b3226cd_525p125_375p125,o2: taper_cross_sectioncros_bbc0e5e9_515p0_380p0,o1
-  straight_cross_sectionc_2c00e817_495p0_600p0,o1: taper_cross_sectioncros_bbc0e5e9_145p0_600p0,o2
-  straight_cross_sectionc_2c00e817_495p0_600p0,o2: taper_cross_sectioncros_bbc0e5e9_845p0_600p0,o2
+  straight_cross_sectionc_35afdaac_545p0_600p0,o1: taper_cross_sectioncros_bbc0e5e9_245p0_600p0,o2
+  straight_cross_sectionc_35afdaac_545p0_600p0,o2: taper_cross_sectioncros_bbc0e5e9_845p0_600p0,o2
   straight_cross_sectionc_5c1d1d0b_560p0_400p0,o1: taper_cross_sectioncros_bbc0e5e9_275p0_400p0,o2
   straight_cross_sectionc_5c1d1d0b_560p0_400p0,o2: taper_cross_sectioncros_bbc0e5e9_845p0_400p0,o2
-  straight_cross_sectionc_9714d502_130p0_380p0,o1: taper_cross_sectioncros_bbc0e5e9_130p0_215p0,o2
-  straight_cross_sectionc_9714d502_130p0_380p0,o2: taper_cross_sectioncros_bbc0e5e9_130p0_545p0,o2
+  straight_cross_sectionc_9714d502_230p0_380p0,o1: taper_cross_sectioncros_bbc0e5e9_230p0_215p0,o2
+  straight_cross_sectionc_9714d502_230p0_380p0,o2: taper_cross_sectioncros_bbc0e5e9_230p0_545p0,o2
   straight_cross_sectionc_9714d502_260p0_180p0,o1: taper_cross_sectioncros_bbc0e5e9_260p0_15p0,o2
   straight_cross_sectionc_9714d502_260p0_180p0,o2: taper_cross_sectioncros_bbc0e5e9_260p0_345p0,o2
-  straight_cross_sectionc_b9e3b146_265p0_560p0,o1: taper_cross_sectioncros_bbc0e5e9_145p0_560p0,o2
-  straight_cross_sectionc_b9e3b146_265p0_560p0,o2: taper_cross_sectioncros_bbc0e5e9_385p0_560p0,o2
-  straight_cross_sectionc_b9e3b146_265p0_580p0,o1: taper_cross_sectioncros_bbc0e5e9_385p0_580p0,o2
-  straight_cross_sectionc_b9e3b146_265p0_580p0,o2: taper_cross_sectioncros_bbc0e5e9_145p0_580p0,o2
+  straight_cross_sectionc_b9e3b146_365p0_560p0,o1: taper_cross_sectioncros_bbc0e5e9_245p0_560p0,o2
+  straight_cross_sectionc_b9e3b146_365p0_560p0,o2: taper_cross_sectioncros_bbc0e5e9_485p0_560p0,o2
+  straight_cross_sectionc_b9e3b146_365p0_580p0,o1: taper_cross_sectioncros_bbc0e5e9_485p0_580p0,o2
+  straight_cross_sectionc_b9e3b146_365p0_580p0,o2: taper_cross_sectioncros_bbc0e5e9_245p0_580p0,o2
   straight_cross_sectionc_b9e3b146_395p0_360p0,o1: taper_cross_sectioncros_bbc0e5e9_275p0_360p0,o2
   straight_cross_sectionc_b9e3b146_395p0_360p0,o2: taper_cross_sectioncros_bbc0e5e9_515p0_360p0,o2
   straight_cross_sectionc_b9e3b146_395p0_380p0,o1: taper_cross_sectioncros_bbc0e5e9_515p0_380p0,o2
   straight_cross_sectionc_b9e3b146_395p0_380p0,o2: taper_cross_sectioncros_bbc0e5e9_275p0_380p0,o2
 instances:
-  bend_euler_cross_sectio_2b3226cd_125p125_204p875:
+  bend_euler_cross_sectio_2b3226cd_225p125_204p875:
     component: bend_euler
     settings:
       angle: 90
@@ -48,7 +48,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_cross_sectio_2b3226cd_134p875_555p125:
+  bend_euler_cross_sectio_2b3226cd_234p875_555p125:
     component: bend_euler
     settings:
       angle: 90
@@ -60,7 +60,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_cross_sectio_2b3226cd_134p875_584p875:
+  bend_euler_cross_sectio_2b3226cd_234p875_584p875:
     component: bend_euler
     settings:
       angle: 90
@@ -72,7 +72,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_cross_sectio_2b3226cd_134p875_595p125:
+  bend_euler_cross_sectio_2b3226cd_234p875_595p125:
     component: bend_euler
     settings:
       angle: 90
@@ -132,7 +132,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_cross_sectio_2b3226cd_395p125_564p875:
+  bend_euler_cross_sectio_2b3226cd_495p125_564p875:
     component: bend_euler
     settings:
       angle: 90
@@ -144,7 +144,7 @@ instances:
       radius: 10
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_cross_sectio_2b3226cd_395p125_575p125:
+  bend_euler_cross_sectio_2b3226cd_495p125_575p125:
     component: bend_euler
     settings:
       angle: 90
@@ -184,37 +184,24 @@ instances:
     component: pad
     settings:
       cladding_offsets: null
-      height: null
       layer:
       - 49
       - 0
       layers_cladding: null
-      width: 100
   br:
     component: pad
     settings:
       cladding_offsets: null
-      height: null
       layer:
       - 49
       - 0
       layers_cladding: null
-      width: 100
-  straight_cross_sectionc_1135e106_85p0_200p0:
+  straight_cross_sectionc_35afdaac_545p0_600p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 70
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-  straight_cross_sectionc_2c00e817_495p0_600p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 690
+      length: 590
       npoints: 2
       radius: 10
       width: 0.5
@@ -238,7 +225,7 @@ instances:
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_cross_sectionc_9714d502_130p0_380p0:
+  straight_cross_sectionc_9714d502_230p0_380p0:
     component: straight
     settings:
       cross_section:
@@ -258,7 +245,7 @@ instances:
       radius: 10
       width: 0.5
       with_cladding_box: true
-  straight_cross_sectionc_b9e3b146_265p0_560p0:
+  straight_cross_sectionc_b9e3b146_365p0_560p0:
     component: straight
     settings:
       cross_section:
@@ -268,7 +255,7 @@ instances:
       radius: 10
       width: 0.5
       with_cladding_box: true
-  straight_cross_sectionc_b9e3b146_265p0_580p0:
+  straight_cross_sectionc_b9e3b146_365p0_580p0:
     component: straight
     settings:
       cross_section:
@@ -298,7 +285,16 @@ instances:
       radius: 10
       width: 0.5
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_130p0_215p0:
+  straight_cross_sectionc_d5380bd3_135p0_200p0:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 170
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+  taper_cross_sectioncros_bbc0e5e9_230p0_215p0:
     component: taper
     settings:
       cross_section:
@@ -309,7 +305,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_130p0_545p0:
+  taper_cross_sectioncros_bbc0e5e9_230p0_545p0:
     component: taper
     settings:
       cross_section:
@@ -320,7 +316,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_145p0_560p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_560p0:
     component: taper
     settings:
       cross_section:
@@ -331,7 +327,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_145p0_580p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_580p0:
     component: taper
     settings:
       cross_section:
@@ -342,7 +338,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_145p0_600p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_600p0:
     component: taper
     settings:
       cross_section:
@@ -408,7 +404,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_385p0_560p0:
+  taper_cross_sectioncros_bbc0e5e9_485p0_560p0:
     component: taper
     settings:
       cross_section:
@@ -419,7 +415,7 @@ instances:
       width1: 0.5
       width2: null
       with_cladding_box: true
-  taper_cross_sectioncros_bbc0e5e9_385p0_580p0:
+  taper_cross_sectioncros_bbc0e5e9_485p0_580p0:
     component: taper
     settings:
       cross_section:
@@ -478,43 +474,39 @@ instances:
     component: pad
     settings:
       cladding_offsets: null
-      height: null
       layer:
       - 49
       - 0
       layers_cladding: null
-      width: 100
   tr:
     component: pad
     settings:
       cladding_offsets: null
-      height: null
       layer:
       - 49
       - 0
       layers_cladding: null
-      width: 100
 name: sample_path_length_matching
 placements:
-  bend_euler_cross_sectio_2b3226cd_125p125_204p875:
+  bend_euler_cross_sectio_2b3226cd_225p125_204p875:
     mirror: false
     rotation: 0
-    x: 120.0
+    x: 220.0
     y: 200.0
-  bend_euler_cross_sectio_2b3226cd_134p875_555p125:
+  bend_euler_cross_sectio_2b3226cd_234p875_555p125:
     mirror: true
     rotation: 90
-    x: 130.0
+    x: 230.0
     y: 550.0
-  bend_euler_cross_sectio_2b3226cd_134p875_584p875:
+  bend_euler_cross_sectio_2b3226cd_234p875_584p875:
     mirror: true
     rotation: 180
-    x: 140.0
+    x: 240.0
     y: 580.0
-  bend_euler_cross_sectio_2b3226cd_134p875_595p125:
+  bend_euler_cross_sectio_2b3226cd_234p875_595p125:
     mirror: true
     rotation: 90
-    x: 130.0
+    x: 230.0
     y: 590.0
   bend_euler_cross_sectio_2b3226cd_255p125_4p875:
     mirror: false
@@ -536,15 +528,15 @@ placements:
     rotation: 90
     x: 260.0
     y: 390.0
-  bend_euler_cross_sectio_2b3226cd_395p125_564p875:
+  bend_euler_cross_sectio_2b3226cd_495p125_564p875:
     mirror: false
     rotation: 0
-    x: 390.0
+    x: 490.0
     y: 560.0
-  bend_euler_cross_sectio_2b3226cd_395p125_575p125:
+  bend_euler_cross_sectio_2b3226cd_495p125_575p125:
     mirror: false
     rotation: 90
-    x: 400.0
+    x: 500.0
     y: 570.0
   bend_euler_cross_sectio_2b3226cd_525p125_364p875:
     mirror: false
@@ -566,15 +558,10 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
-  straight_cross_sectionc_1135e106_85p0_200p0:
+  straight_cross_sectionc_35afdaac_545p0_600p0:
     mirror: false
     rotation: 0
-    x: 50.0
-    y: 200.0
-  straight_cross_sectionc_2c00e817_495p0_600p0:
-    mirror: false
-    rotation: 0
-    x: 150.0
+    x: 250.0
     y: 600.0
   straight_cross_sectionc_5c1d1d0b_560p0_400p0:
     mirror: false
@@ -586,25 +573,25 @@ placements:
     rotation: 0
     x: 50.0
     y: 0.0
-  straight_cross_sectionc_9714d502_130p0_380p0:
+  straight_cross_sectionc_9714d502_230p0_380p0:
     mirror: false
     rotation: 90
-    x: 130.0
+    x: 230.0
     y: 220.0
   straight_cross_sectionc_9714d502_260p0_180p0:
     mirror: false
     rotation: 90
     x: 260.0
     y: 20.0
-  straight_cross_sectionc_b9e3b146_265p0_560p0:
+  straight_cross_sectionc_b9e3b146_365p0_560p0:
     mirror: false
     rotation: 0
-    x: 150.0
+    x: 250.0
     y: 560.0
-  straight_cross_sectionc_b9e3b146_265p0_580p0:
+  straight_cross_sectionc_b9e3b146_365p0_580p0:
     mirror: false
     rotation: 180
-    x: 380.0
+    x: 480.0
     y: 580.0
   straight_cross_sectionc_b9e3b146_395p0_360p0:
     mirror: false
@@ -616,30 +603,35 @@ placements:
     rotation: 180
     x: 510.0
     y: 380.0
-  taper_cross_sectioncros_bbc0e5e9_130p0_215p0:
+  straight_cross_sectionc_d5380bd3_135p0_200p0:
+    mirror: false
+    rotation: 0
+    x: 50.0
+    y: 200.0
+  taper_cross_sectioncros_bbc0e5e9_230p0_215p0:
     mirror: false
     rotation: 90
-    x: 130.0
+    x: 230.0
     y: 210.0
-  taper_cross_sectioncros_bbc0e5e9_130p0_545p0:
+  taper_cross_sectioncros_bbc0e5e9_230p0_545p0:
     mirror: false
     rotation: 270
-    x: 130.0
+    x: 230.0
     y: 550.0
-  taper_cross_sectioncros_bbc0e5e9_145p0_560p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_560p0:
     mirror: false
     rotation: 0
-    x: 140.0
+    x: 240.0
     y: 560.0
-  taper_cross_sectioncros_bbc0e5e9_145p0_580p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_580p0:
     mirror: false
     rotation: 0
-    x: 140.0
+    x: 240.0
     y: 580.0
-  taper_cross_sectioncros_bbc0e5e9_145p0_600p0:
+  taper_cross_sectioncros_bbc0e5e9_245p0_600p0:
     mirror: false
     rotation: 0
-    x: 140.0
+    x: 240.0
     y: 600.0
   taper_cross_sectioncros_bbc0e5e9_260p0_15p0:
     mirror: false
@@ -666,15 +658,15 @@ placements:
     rotation: 0
     x: 270.0
     y: 400.0
-  taper_cross_sectioncros_bbc0e5e9_385p0_560p0:
+  taper_cross_sectioncros_bbc0e5e9_485p0_560p0:
     mirror: false
     rotation: 180
-    x: 390.0
+    x: 490.0
     y: 560.0
-  taper_cross_sectioncros_bbc0e5e9_385p0_580p0:
+  taper_cross_sectioncros_bbc0e5e9_485p0_580p0:
     mirror: false
     rotation: 180
-    x: 390.0
+    x: 490.0
     y: 580.0
   taper_cross_sectioncros_bbc0e5e9_515p0_360p0:
     mirror: false

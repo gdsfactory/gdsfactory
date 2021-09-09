@@ -67,11 +67,9 @@ def straight_pin(
     via_stack_length = length
     contact_top = c << via_stack(
         size=(via_stack_length, via_stack_width),
-        port_orientation=port_orientation_top,
     )
     contact_bot = c << via_stack(
         size=(via_stack_length, via_stack_width),
-        port_orientation=port_orientation_bot,
     )
 
     contact_bot.xmin = wg.xmin
@@ -80,8 +78,12 @@ def straight_pin(
     contact_top.ymin = +via_stack_spacing / 2
     contact_bot.ymax = -via_stack_spacing / 2
 
-    c.add_port("e1", port=contact_top.get_ports_list()[0])
-    c.add_port("e2", port=contact_bot.get_ports_list()[0])
+    c.add_port(
+        "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
+    )
+    c.add_port(
+        "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
+    )
     return c
 
 

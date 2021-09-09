@@ -4,11 +4,7 @@ info:
 module: gdsfactory.components.via_stack
 name: via_stack_layers47_0_45_0a75706f
 settings:
-  layer:
-  - 49
-  - 0
-  port_location: null
-  port_orientation: 90
+  layer: null
   vias:
   - enclosure: 2
     function: via

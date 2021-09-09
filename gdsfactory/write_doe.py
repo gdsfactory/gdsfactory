@@ -2,18 +2,12 @@ import json
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Union
 
-from gdsfactory import components
 from gdsfactory.component import Component
+from gdsfactory.components import factory
 from gdsfactory.config import CONFIG
 from gdsfactory.doe import get_settings_list
 from gdsfactory.name import get_component_name
 from gdsfactory.types import ComponentFactoryDict
-
-factory = {
-    i: getattr(components, i)
-    for i in dir(components)
-    if not i.startswith("_") and callable(getattr(components, i))
-}
 
 
 def write_doe_metadata(
