@@ -10,8 +10,7 @@ from gdsfactory.types import ComponentOrFactory, Layer
 
 @cell
 def pad(
-    width: float = 100.0,
-    height: Optional[float] = None,
+    size: Tuple[float, float] = (100.0, 100.0),
     layer: Layer = LAYER.M3,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cladding_offsets: Optional[Tuple[float, ...]] = None,
@@ -25,9 +24,8 @@ def pad(
         layers_cladding:
         cladding_offsets:
     """
-    height = height or width
     c = Component()
-    rect = compass(size=(width, height), layer=layer)
+    rect = compass(size=size, layer=layer)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
     c.absorb(c_ref)
@@ -36,7 +34,7 @@ def pad(
         for layer, cladding_offset in zip(layers_cladding, cladding_offsets):
             c.add_ref(
                 compass(
-                    size=(width + 2 * cladding_offset, height + 2 * cladding_offset),
+                    size=(size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset),
                     layer=layer,
                 )
             )

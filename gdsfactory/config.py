@@ -101,6 +101,7 @@ CONFIG["gdslib_test"] = dirpath_test
 
 CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
+CONFIG["cache_directory"] = CONF.get("cache", build_directory / "cache")
 CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
 CONFIG["doe_directory"] = build_directory / "doe"
 CONFIG["mask_directory"] = build_directory / "mask"
@@ -200,6 +201,6 @@ if __name__ == "__main__":
     # print_config("gdslib")
     # print(CONFIG["git_hash"])
     # print(CONFIG["sp"])
-    # print(CONFIG)
+    print(CONFIG)
     # print_config()
-    write_tech("tech.json")
+    # write_tech("tech.json")

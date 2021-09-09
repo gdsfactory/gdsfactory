@@ -24,6 +24,7 @@ import phidl.geometry as pg
 from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
+from gdsfactory.filecache import filecache
 from gdsfactory.component import Component, ComponentReference, copy
 from gdsfactory.config import CONFIG, call_if_func
 from gdsfactory.port import Port
@@ -107,6 +108,7 @@ __all__ = [
     "copy",
     "cross_section",
     "fill_rectangle",
+    "filecache",
     "get_padding_points",
     "grid",
     "import_gds",

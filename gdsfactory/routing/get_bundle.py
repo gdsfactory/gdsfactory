@@ -51,7 +51,7 @@ def get_bundle(
     Args:
         ports1: should all be facing in the same direction
         ports2: should all be facing in the same direction
-        separation: straight separation
+        separation: bundle separation (center to center)
         extension_length: adds straight extension
         bend_factory:
         sort_ports:
@@ -347,8 +347,6 @@ def _get_bundle_waypoints(
     Le = end_straight_offset
 
     # First pass - loop on all the ports to find the tentative end_straights
-    _w = get_port_width
-
     for i in range(len(ports1)):
         if axis in ["X", "x"]:
             x1 = get_port_y(ports1[i])
@@ -361,22 +359,7 @@ def _get_bundle_waypoints(
 
         dx = abs(x2 - x1)
 
-        # Compute the metal separation to use. This depends on the adjacent metal
-        # track widths
-        if i != len(ports1) - 1 and i != 0:
-            # Deal with any track which is not on the edge
-            max_width = max(_w(ports1[i + 1]), _w(ports1[i - 1]))
-            curr_sep = 0.5 * (_w(ports1[i]) + max_width) + separation
-
-        elif i == 0:
-            # Deal with start edge case
-            curr_sep = separation + 0.5 * (_w(ports1[0]) + _w(ports1[1]))
-
-        elif i == len(ports1) - 1:
-            # Deal with end edge case
-            curr_sep = separation + 0.5 * (_w(ports1[-2]) + _w(ports1[-1]))
-
-        if are_decoupled(x2, x2_prev, x1, x1_prev, sep=curr_sep):
+        if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
             # If this metal track does not impact the previous one, then start a new
             # group.
             L = min(end_straights_in_group)
@@ -389,9 +372,9 @@ def _get_bundle_waypoints(
 
         else:
             if x2 >= x1:
-                curr_end_straight += curr_sep
+                curr_end_straight += separation
             else:
-                curr_end_straight -= curr_sep
+                curr_end_straight -= separation
 
         end_straights_in_group.append(curr_end_straight + (y - y0) * s)
         number_o_connectors_in_group += 1
@@ -658,6 +641,7 @@ def test_get_bundle_small() -> Component:
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o1"], c2.ports["o2"]],
         radius=5,
+        separation=5.0,
     )
     for route in routes:
         assert np.isclose(route.length, 111.3), route.length

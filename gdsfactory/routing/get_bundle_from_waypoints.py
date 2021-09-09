@@ -74,6 +74,7 @@ def get_bundle_from_waypoints(
     bend_factory: Callable = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
+    separation: Optional[float] = None,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
@@ -88,7 +89,8 @@ def get_bundle_from_waypoints(
         bend_factory: function that returns bends
         sort_ports: sorts ports
         cross_section: cross_section
-        **kwargs
+        separation: waveguide separation (center to center)
+        **kwargs: cross_section settings
 
     """
     if len(ports2) != len(ports1):
@@ -143,7 +145,11 @@ def get_bundle_from_waypoints(
         ports2.sort(key=end_port_sort)
 
     routes = _generate_manhattan_bundle_waypoints(
-        ports1=ports1, ports2=ports2, waypoints=list(waypoints), **kwargs
+        ports1=ports1,
+        ports2=ports2,
+        waypoints=list(waypoints),
+        separation=separation,
+        **kwargs,
     )
 
     x = cross_section(**kwargs)
@@ -201,6 +207,7 @@ def _generate_manhattan_bundle_waypoints(
         ports2: list of ports must face the same direction
         waypoints: from one point within the ports1 bank
             to another point within the ports2 bank
+        separation: waveguide separation (center to center)
     """
     waypoints = remove_flat_angles(waypoints)
     way_segments = [(p0, p1) for p0, p1 in zip(waypoints, waypoints[1:])]

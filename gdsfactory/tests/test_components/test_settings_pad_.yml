@@ -4,9 +4,7 @@ module: gdsfactory.components.pad
 name: pad
 settings:
   cladding_offsets: null
-  height: null
   layer:
   - 49
   - 0
   layers_cladding: null
-  width: 100

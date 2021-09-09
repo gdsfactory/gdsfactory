@@ -42,7 +42,7 @@ def array_with_via(
 
     c = Component()
     component = component() if callable(component) else component
-    via_stack = via_stack(port_orientation=port_orientation)
+    via_stack = via_stack()
 
     for col in range(n):
         ref = component.ref()
@@ -61,7 +61,9 @@ def array_with_via(
         straightx_ref = c << straight(
             length=xlength, cross_section=cross_section, **kwargs
         )
-        straightx_ref.connect("e2", via_stack_ref.ports["e1"])
+        straightx_ref.connect(
+            "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
+        )
         c.add_port(f"e{col}", port=straightx_ref.ports["e1"])
     return c
 
@@ -101,5 +103,5 @@ def array_with_via_2d(
 
 if __name__ == "__main__":
     c2 = array_with_via(n=3, width=10, waveguide_pitch=20)
-    c2 = array_with_via_2d(cols=8, rows=8, waveguide_pitch=12, facing_west=False)
+    c2 = array_with_via_2d(cols=8, rows=8, waveguide_pitch=12, facing_west=True)
     c2.show()

@@ -50,7 +50,7 @@ def straight_heater_doped(
           \ | size   |____________________|        |
            \|________|____________________|________|
 
-        taper
+        taper         cross_section_heater cross_section_contact
     """
     c = Component()
 
@@ -115,11 +115,9 @@ def straight_heater_doped(
     via_stack_length = length + via_stack_size[0]
     contact_top = c << via_stack(
         size=(via_stack_length, via_stack_size[0]),
-        port_orientation=port_orientation_top,
     )
     contact_bot = c << via_stack(
         size=(via_stack_length, via_stack_size[0]),
-        port_orientation=port_orientation_bot,
     )
 
     contact_bot.xmin = contacts[0].xmin
@@ -128,8 +126,12 @@ def straight_heater_doped(
     contact_top.ymin = contacts[0].ymax
     contact_bot.ymax = contacts[1].ymin
 
-    c.add_port("e1", port=contact_top.get_ports_list()[0])
-    c.add_port("e2", port=contact_bot.get_ports_list()[0])
+    c.add_port(
+        "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
+    )
+    c.add_port(
+        "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
+    )
     return c
 
 

@@ -32,6 +32,14 @@ from contracts import contract
 
 
 ```
+## 3.1.7
+
+- transition ports have different cross_sections
+- get_bundle separation is now defined from center to center waveguide
+- via_stack has 4 ports, consistent with pads
+- pad takes size argument instead of (width, height), which is consistent with other rectangular structures
+- add filecache to store in files
+
 
 ## 3.1.6
 

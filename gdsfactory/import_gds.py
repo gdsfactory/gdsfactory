@@ -1,5 +1,6 @@
 import json
 import pathlib
+from functools import partial
 from pathlib import Path
 from typing import Optional, Tuple, Union, cast
 
@@ -7,20 +8,21 @@ import gdspy
 import numpy as np
 from phidl.device_layout import CellArray, DeviceReference
 
-import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import CONFIG
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
     read_port_markers,
     sort_ports_clockwise,
 )
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Layer, PathType
 
 
 def add_ports_from_markers_square(
     component: Component,
-    pin_layer: Layer = gf.LAYER.PORTE,
+    pin_layer: Layer = (69, 0),
     port_layer: Optional[Layer] = None,
     orientation: Optional[int] = 90,
     min_pin_area_um2: float = 0,
@@ -51,8 +53,8 @@ def add_ports_from_markers_square(
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = gf.snap.snap_to_grid(p.ymax - p.ymin)
-        dx = gf.snap.snap_to_grid(p.xmax - p.xmin)
+        dy = snap_to_grid(p.ymax - p.ymin)
+        dx = snap_to_grid(p.xmax - p.xmin)
         x = p.x
         y = p.y
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
@@ -67,7 +69,7 @@ def add_ports_from_markers_square(
 
 def add_ports_from_markers_center(
     component: Component,
-    pin_layer: Layer = gf.LAYER.PORT,
+    pin_layer: Layer = (1, 10),
     port_layer: Optional[Layer] = None,
     inside: bool = False,
     tol: float = 0.1,
@@ -169,7 +171,7 @@ def add_ports_from_markers_center(
             continue
 
         # skip square ports as they have no clear orientation
-        if skip_square_ports and gf.snap.snap_to_grid(dx) == gf.snap.snap_to_grid(dy):
+        if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
             continue
         pxmax = p.xmax
         pxmin = p.xmin
@@ -216,8 +218,8 @@ def add_ports_from_markers_center(
             width = dx
             y = p.ymin
 
-        x = gf.snap.snap_to_grid(x)
-        y = gf.snap.snap_to_grid(y)
+        x = snap_to_grid(x)
+        y = snap_to_grid(y)
         width = np.round(width - pin_extra_width, 3)
 
         if (x, y) not in port_locations:
@@ -237,7 +239,7 @@ def add_ports_from_markers_center(
         component.add_port(name=port_name, port=port)
 
 
-add_ports_from_markers_inside = gf.partial(add_ports_from_markers_center, inside=True)
+add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=True)
 
 
 # pytype: disable=bad-return-type
@@ -344,9 +346,7 @@ def import_gds(
             D.polygons = []
             for p in temp_polygons:
                 if snap_to_grid_nm:
-                    points_on_grid = gf.snap.snap_to_grid(
-                        p.polygons[0], nm=snap_to_grid_nm
-                    )
+                    points_on_grid = snap_to_grid(p.polygons[0], nm=snap_to_grid_nm)
                     p = gdspy.Polygon(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
@@ -436,7 +436,7 @@ def _demo_optical() -> None:
     #     print(p)
     # c.show()
 
-    gdspath = gf.CONFIG["gdsdir"] / "mmi1x2.gds"
+    gdspath = CONFIG["gdsdir"] / "mmi1x2.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
@@ -448,7 +448,7 @@ def _demo_optical() -> None:
 def _demo_electrical() -> None:
     """Demo. See equivalent test in tests/import_gds_markers.py"""
 
-    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
@@ -459,10 +459,10 @@ def _demo_electrical() -> None:
 
 
 def _demo_import_gds_markers() -> None:
-    import gdsfactory as gf
 
     name = "mmi1x2"
-    gdspath = gf.CONFIG["gdsdir"] / f"{name}.gds"
+    # name = "mzi2x2"
+    gdspath = CONFIG["gdsdir"] / f"{name}.gds"
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     assert len(c.ports) == 3
@@ -472,7 +472,7 @@ def _demo_import_gds_markers() -> None:
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
-    gdspath = gf.CONFIG["gdslib"] / "gds" / "mzi2x2.gds"
+    gdspath = CONFIG["gds"] / "mzi2x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
     print(c)
     c.show()
