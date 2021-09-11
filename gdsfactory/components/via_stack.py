@@ -56,16 +56,15 @@ def via_stack(
 
             nb_vias_x = int(floor(nb_vias_x)) or 1
             nb_vias_y = int(floor(nb_vias_y)) or 1
+            ref = c.add_array(
+                via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+            )
 
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
-
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
-
-            for i in range(nb_vias_x):
-                for j in range(nb_vias_y):
-                    c.add(via.ref(position=(x0 + i * pitch_x, y0 + j * pitch_y)))
+            ref.move((x0, y0))
 
     return c
 

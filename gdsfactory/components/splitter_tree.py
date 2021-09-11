@@ -23,8 +23,8 @@ def splitter_tree(
     """Tree of power splitters.
 
     Args:
-        coupler: coupler library name or dict
-        noutputs:
+        coupler: coupler factory
+        noutputs: number of outputs
         dx: x spacing between couplers
         dy: y spacing between couplers
         bend_s: Sbend library name or dict for termination
