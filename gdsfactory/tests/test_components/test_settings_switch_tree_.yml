@@ -1,0 +1,15 @@
+function_name: splitter_tree
+info: {}
+module: gdsfactory.components.splitter_tree
+name: splitter_tree_couplermz_8f343927
+settings:
+  coupler:
+    combiner: mmi2x2
+    function: mzi
+    length_x: 320
+    straight_x_top:
+      function: straight_heater_metal_undercut
+      with_undercut: false
+  dx: 500
+  dy: 100
+  noutputs: 4

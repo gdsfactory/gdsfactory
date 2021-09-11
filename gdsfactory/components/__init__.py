@@ -156,6 +156,7 @@ from gdsfactory.components.straight_pin import (
     straight_pn_passive_tapered,
 )
 from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
+from gdsfactory.components.switch_tree import switch_tree
 from gdsfactory.components.taper import (
     taper,
     taper_strip_to_ridge,
@@ -504,6 +505,7 @@ factory = dict(
     straight_pn_passive_tapered=straight_pn_passive_tapered,
     straight_rib=straight_rib,
     straight_rib_tapered=straight_rib_tapered,
+    switch_tree=switch_tree,
     taper=taper,
     taper2=taper2,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,

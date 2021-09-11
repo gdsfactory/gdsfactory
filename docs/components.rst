@@ -2012,6 +2012,21 @@ straight_rib_tapered
 
 
 
+switch_tree
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.switch_tree
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.switch_tree()
+  c.plot()
+
+
+
 taper
 ----------------------------------------------------
 
