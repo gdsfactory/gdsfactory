@@ -108,15 +108,7 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
-from gdsfactory.components.pad import (
-    pad,
-    pad_array,
-    pad_array0,
-    pad_array90,
-    pad_array180,
-    pad_array270,
-    pad_array_2d,
-)
+from gdsfactory.components.pad import pad, pad_array, pad_array90, pad_array270
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
@@ -293,11 +285,8 @@ __all__ = [
     "pcm_optical",
     "pad",
     "pad_array",
-    "pad_array0",
-    "pad_array180",
-    "pad_array270",
     "pad_array90",
-    "pad_array_2d",
+    "pad_array270",
     "pads_shorted",
     "pixel",
     "qrcode",
@@ -466,11 +455,6 @@ factory = dict(
     nxn=nxn,
     pad=pad,
     pad_array=pad_array,
-    pad_array0=pad_array0,
-    pad_array180=pad_array180,
-    pad_array270=pad_array270,
-    pad_array90=pad_array90,
-    pad_array_2d=pad_array_2d,
     pads_shorted=pads_shorted,
     pcm_optical=pcm_optical,
     pixel=pixel,

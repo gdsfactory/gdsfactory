@@ -1,29 +1,30 @@
 connections:
-  bend_euler_auto_widenFa_eb36009f_154p875_145p125,o1: straight_auto_widenFals_677e7ce2_150p0_95p0,o2
+  bend_euler_auto_widenFa_eb36009f_154p875_145p125,o1: straight_auto_widenFals_7e7f7d06_150p0_70p0,o2
   bend_euler_auto_widenFa_eb36009f_154p875_145p125,o2: straight_auto_widenFals_cfd130a1_350p0_150p0,o1
   bend_euler_auto_widenFa_eb36009f_395p125_304p875,o1: straight_auto_widenFals_cfd130a1_200p0_300p0,o2
   bend_euler_auto_widenFa_eb36009f_395p125_304p875,o2: straight_auto_widenFals_d2a1c830_400p0_350p0,o1
   bend_euler_auto_widenFa_eb36009f_395p125_395p125,o1: straight_auto_widenFals_d2a1c830_400p0_350p0,o2
   bend_euler_auto_widenFa_eb36009f_395p125_395p125,o2: straight_auto_widenFals_72d2fb54_75p0_400p0,o1
-  bend_euler_auto_widenFa_eb36009f_4p875_295p125,o1: straight_auto_widenFals_f5ac8b0f_0p0_170p0,o2
+  bend_euler_auto_widenFa_eb36009f_4p875_295p125,o1: straight_auto_widenFals_ce231360_0p0_145p0,o2
   bend_euler_auto_widenFa_eb36009f_4p875_295p125,o2: straight_auto_widenFals_cfd130a1_200p0_300p0,o1
   bend_euler_auto_widenFa_eb36009f_545p125_154p875,o1: straight_auto_widenFals_cfd130a1_350p0_150p0,o2
   bend_euler_auto_widenFa_eb36009f_545p125_154p875,o2: straight_auto_widenFals_cfd130a1_550p0_350p0,o1
   bend_euler_auto_widenFa_eb36009f_545p125_545p125,o1: straight_auto_widenFals_cfd130a1_550p0_350p0,o2
   bend_euler_auto_widenFa_eb36009f_545p125_545p125,o2: straight_auto_widenFals_72d2fb54_225p0_550p0,o1
   bend_euler_auto_widenFa_eb36009f_m245p125_404p875,o1: straight_auto_widenFals_72d2fb54_75p0_400p0,o2
-  bend_euler_auto_widenFa_eb36009f_m245p125_404p875,o2: straight_auto_widenFals_031b3a2b_m250p0_680p0,o1
+  bend_euler_auto_widenFa_eb36009f_m245p125_404p875,o2: straight_auto_widenFals_d3717e58_m250p0_705p0,o1
   bend_euler_auto_widenFa_eb36009f_m95p125_554p875,o1: straight_auto_widenFals_72d2fb54_225p0_550p0,o2
-  bend_euler_auto_widenFa_eb36009f_m95p125_554p875,o2: straight_auto_widenFals_21bc8672_m100p0_755p0,o1
+  bend_euler_auto_widenFa_eb36009f_m95p125_554p875,o2: straight_auto_widenFals_0a1d337d_m100p0_780p0,o1
 instances:
   b:
     component: pad_array
     settings:
-      axis: x
-      n: 6
-      pitch: 150
-      port_names:
-      - e2
+      columns: 6
+      orientation: 90
+      rows: 1
+      spacing:
+      - 150
+      - 150
   bend_euler_auto_widenFa_eb36009f_154p875_145p125:
     component: bend_euler
     settings:
@@ -120,31 +121,13 @@ instances:
       p: 1
       with_arc_floorplan: true
       with_cladding_box: true
-  straight_auto_widenFals_031b3a2b_m250p0_680p0:
+  straight_auto_widenFals_0a1d337d_m100p0_780p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 540
-      npoints: 2
-      with_cladding_box: true
-  straight_auto_widenFals_21bc8672_m100p0_755p0:
-    component: straight
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 390
-      npoints: 2
-      with_cladding_box: true
-  straight_auto_widenFals_677e7ce2_150p0_95p0:
-    component: straight
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 90
+      length: 440
       npoints: 2
       with_cladding_box: true
   straight_auto_widenFals_72d2fb54_225p0_550p0:
@@ -163,6 +146,24 @@ instances:
       cross_section:
         function: cross_section
       length: 630
+      npoints: 2
+      with_cladding_box: true
+  straight_auto_widenFals_7e7f7d06_150p0_70p0:
+    component: straight
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 140
+      npoints: 2
+      with_cladding_box: true
+  straight_auto_widenFals_ce231360_0p0_145p0:
+    component: straight
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 290
       npoints: 2
       with_cladding_box: true
   straight_auto_widenFals_cfd130a1_200p0_300p0:
@@ -201,23 +202,24 @@ instances:
       length: 80
       npoints: 2
       with_cladding_box: true
-  straight_auto_widenFals_f5ac8b0f_0p0_170p0:
+  straight_auto_widenFals_d3717e58_m250p0_705p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 240
+      length: 590
       npoints: 2
       with_cladding_box: true
   t:
     component: pad_array
     settings:
-      axis: x
-      n: 6
-      pitch: 150
-      port_names:
-      - e4
+      columns: 6
+      orientation: 270
+      rows: 1
+      spacing:
+      - 150
+      - 150
 name: sample_waypoints
 placements:
   b:
@@ -265,21 +267,11 @@ placements:
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_auto_widenFals_031b3a2b_m250p0_680p0:
-    mirror: false
-    rotation: 90
-    x: -250.0
-    y: 410.0
-  straight_auto_widenFals_21bc8672_m100p0_755p0:
+  straight_auto_widenFals_0a1d337d_m100p0_780p0:
     mirror: false
     rotation: 90
     x: -100.0
     y: 560.0
-  straight_auto_widenFals_677e7ce2_150p0_95p0:
-    mirror: false
-    rotation: 90
-    x: 150.0
-    y: 50.0
   straight_auto_widenFals_72d2fb54_225p0_550p0:
     mirror: false
     rotation: 180
@@ -290,6 +282,16 @@ placements:
     rotation: 180
     x: 390.0
     y: 400.0
+  straight_auto_widenFals_7e7f7d06_150p0_70p0:
+    mirror: false
+    rotation: 90
+    x: 150.0
+    y: 0.0
+  straight_auto_widenFals_ce231360_0p0_145p0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 0.0
   straight_auto_widenFals_cfd130a1_200p0_300p0:
     mirror: false
     rotation: 0
@@ -310,11 +312,11 @@ placements:
     rotation: 90
     x: 400.0
     y: 310.0
-  straight_auto_widenFals_f5ac8b0f_0p0_170p0:
+  straight_auto_widenFals_d3717e58_m250p0_705p0:
     mirror: false
     rotation: 90
-    x: 0.0
-    y: 50.0
+    x: -250.0
+    y: 410.0
   t:
     mirror: false
     rotation: 0

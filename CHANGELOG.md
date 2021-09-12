@@ -32,6 +32,10 @@ from contracts import contract
 
 
 ```
+## 3.1.9
+
+- pad_array uses array of references
+
 ## 3.1.8
 
 - via_stack uses array of references

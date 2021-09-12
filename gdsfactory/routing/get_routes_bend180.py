@@ -40,7 +40,7 @@ def get_routes_bend180(
 
 def test_get_routes_bend180():
     c = gf.Component("get_routes_bend180")
-    pad_array = gf.components.pad_array(pitch=150, port_names=("e4",))
+    pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
     c2 = c << pad_array
     c2.rotate(90)
@@ -65,7 +65,7 @@ def test_get_routes_bend180():
 
 if __name__ == "__main__":
     c = gf.Component("get_routes_bend180")
-    pad_array = gf.components.pad_array(pitch=150, port_names=("e4",))
+    pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
     c2 = c << pad_array
     c2.rotate(90)

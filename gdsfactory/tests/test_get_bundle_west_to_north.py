@@ -13,8 +13,8 @@ def test_get_bundle_west_to_north(
     c = gf.Component("test_get_bundle_west_to_north")
     pad = gf.partial(gf.c.pad, size=(10, 10))
     c = gf.Component()
-    pad_south = gf.components.pad_array(port_names=["e4"], pitch=15.0, n=3, pad=pad)
-    pad_north = gf.components.pad_array(port_names=["e2"], pitch=15.0, n=3, pad=pad)
+    pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0.0), pad=pad)
+    pad_north = gf.components.pad_array(orientation=90, spacing=(15.0, 0.0), pad=pad)
     pl = c << pad_south
     pb = c << pad_north
     pl.rotate(90)
@@ -68,5 +68,5 @@ def test_get_bundle_west_to_north2(
 
 if __name__ == "__main__":
     c = test_get_bundle_west_to_north(None, check=False)
-    c = test_get_bundle_west_to_north2(None, check=False)
+    # c = test_get_bundle_west_to_north2(None, check=False)
     c.show()
