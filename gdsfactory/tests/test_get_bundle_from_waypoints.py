@@ -105,7 +105,7 @@ def test_get_bundle_from_waypoints_staggered(
 ):
 
     c = gf.Component()
-    r = c << gf.c.array(component=gf.c.straight)
+    r = c << gf.c.array(component=gf.c.straight, rows=2, columns=1, spacing=(0, 20))
     r.movex(60)
     r.movey(40)
 

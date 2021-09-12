@@ -85,7 +85,7 @@ def array_with_fanout_2d(
     pitch: float = 150.0,
     pitch_x: Optional[float] = None,
     pitch_y: Optional[float] = None,
-    cols: int = 3,
+    columns: int = 3,
     rows: int = 2,
     **kwargs,
 ) -> Component:
@@ -95,7 +95,7 @@ def array_with_fanout_2d(
         pitch: 2D pitch
         pitch_x: defaults to pitch
         pitch_y: defaults to pitch
-        cols:
+        columns:
         rows:
         kwargs:
             component: to replicate
@@ -113,8 +113,8 @@ def array_with_fanout_2d(
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
-    row = array_with_fanout(n=cols, pitch=pitch_x, **kwargs)
-    return array(component=row, n=rows, pitch=pitch_y, axis="y")
+    row = array_with_fanout(n=columns, pitch=pitch_x, **kwargs)
+    return array(component=row, rows=rows, spacing=(0, pitch_y))
 
 
 if __name__ == "__main__":
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     # c2 = array(component=c1, pitch=150, n=2)
     # print(c2.ports.keys())
 
-    c2 = array_with_fanout(
+    c = array_with_fanout(
         n=3,
         waveguide_pitch=20,
         bend=gf.components.wire_corner,
@@ -133,4 +133,5 @@ if __name__ == "__main__":
         width=10,
         radius=11,
     )
-    c2.show(show_ports=True)
+    c = array_with_fanout_2d()
+    c.show(show_ports=True)

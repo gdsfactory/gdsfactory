@@ -34,7 +34,7 @@ from contracts import contract
 ```
 ## 3.1.9
 
-- pad_array uses array of references
+- pad_array and array use array of references, accept columns and rows as args
 
 ## 3.1.8
 
