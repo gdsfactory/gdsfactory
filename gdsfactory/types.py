@@ -44,6 +44,7 @@ class Routes:
 
 
 Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
