@@ -98,7 +98,7 @@ def array_with_via_2d(
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
     row = array_with_via(n=cols, pitch=pitch_x, **kwargs)
-    return array(component=row, n=rows, pitch=pitch_y, axis="y")
+    return array(component=row, rows=rows, spacing=(0, pitch_y))
 
 
 if __name__ == "__main__":

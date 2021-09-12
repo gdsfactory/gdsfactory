@@ -3,13 +3,12 @@ info: {}
 module: gdsfactory.components.array_with_via
 name: array_with_via_2d
 settings:
-  axis: y
   cols: 3
-  h_mirror: false
-  n: 2
+  columns: 6
   pitch: 150
   pitch_x: null
   pitch_y: null
-  rotation: 0
   rows: 2
-  v_mirror: false
+  spacing:
+  - 0
+  - 150
