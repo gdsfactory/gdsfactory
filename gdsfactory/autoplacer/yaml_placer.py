@@ -30,7 +30,7 @@ from klayout.dbcore import Cell, CellInstArray, Layout
 from numpy import float64
 from omegaconf import OmegaConf
 
-import gdsfactory.autoplacer.text as text
+from gdsfactory.autoplacer import text
 from gdsfactory.autoplacer.helpers import CELLS, import_cell, load_gds
 from gdsfactory.config import CONFIG
 

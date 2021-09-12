@@ -5,8 +5,7 @@
 - enable routing with 180euler and Sbends
 - fix FIXMEs
 - example on how to customize visualization of a component
-- remove kwargs from most components
-  - get intuitive errors
+- remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
 
 Maybe:
 
@@ -22,9 +21,7 @@ Maybe:
 - how can we have labels with gdslayer, gdspurpose? Phidl issue?
 - write function that generates GDS Klayout library
 - pass force-regen flag from pytest
-- force-regen flag forces
 - add contracts cell decorator
-- add githash check to speed up tests (does not really work)
 
 ```
 from contracts import contract
@@ -32,6 +29,7 @@ from contracts import contract
 
 
 ```
+
 ## 3.1.9
 
 - pad_array and array use array of references, accept columns and rows as args
@@ -40,7 +38,6 @@ from contracts import contract
 
 - via_stack uses array of references
 
-
 ## 3.1.7
 
 - transition ports have different cross_sections
@@ -48,7 +45,6 @@ from contracts import contract
 - via_stack has 4 ports, consistent with pads
 - pad takes size argument instead of (width, height), which is consistent with other rectangular structures
 - add filecache to store in files
-
 
 ## 3.1.6
 
