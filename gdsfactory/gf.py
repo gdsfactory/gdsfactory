@@ -27,7 +27,7 @@ from gdsfactory.types import PathType
 # from gdsfactory.write_doe_from_yaml import write_doe_from_yaml
 from gdsfactory.write_doe_from_yaml import import_custom_doe_factories
 
-VERSION = "3.1.8"
+VERSION = "3.1.9"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
