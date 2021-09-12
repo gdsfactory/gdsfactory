@@ -1,5 +1,5 @@
 from gdsfactory.components.align import add_frame, align_wafer, triangle
-from gdsfactory.components.array import array, array_2d
+from gdsfactory.components.array import array
 from gdsfactory.components.array_with_fanout import (
     array_with_fanout,
     array_with_fanout_2d,
@@ -364,7 +364,6 @@ factory = dict(
     add_frame=add_frame,
     align_wafer=align_wafer,
     array=array,
-    array_2d=array_2d,
     array_with_fanout=array_with_fanout,
     array_with_fanout_2d=array_with_fanout_2d,
     array_with_via=array_with_via,
