@@ -220,7 +220,8 @@ def _generate_manhattan_bundle_waypoints(
 
     # if separation is defined, the offsets should increment from the reference port in the same direction
     # as the original offsets
-    if separation:
+    # also, if there is only one route, we should skip this step as it is irrelevant
+    if separation and len(ports1) > 1:
         # the default case when we start with the reference port
         offsets_mid = [
             np.sign(offsets_start[1]) * separation * i
