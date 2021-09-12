@@ -3,8 +3,9 @@ info: {}
 module: gdsfactory.components.pad
 name: pad_array
 settings:
-  axis: x
-  n: 6
-  pitch: 150
-  port_names:
-  - e4
+  columns: 6
+  orientation: 270
+  rows: 1
+  spacing:
+  - 150
+  - 150

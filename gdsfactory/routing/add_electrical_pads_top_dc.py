@@ -3,6 +3,7 @@ from typing import Callable
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.sort_ports import sort_ports_x
@@ -33,7 +34,7 @@ def add_electrical_pads_top_dc(
     for port in ports_component:
         port.orientation = 90
 
-    pads = c << pad_array(n=len(ports))
+    pads = c << pad_array(columns=len(ports))
     pads.x = cref.x
     pads.ymin = cref.ymax + dy
 
@@ -41,7 +42,7 @@ def add_electrical_pads_top_dc(
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle(ports, ports_pads, **kwargs)
+    routes = get_bundle(ports, ports_pads, bend_factory=wire_corner, **kwargs)
     for route in routes:
         c.add(route.references)
 

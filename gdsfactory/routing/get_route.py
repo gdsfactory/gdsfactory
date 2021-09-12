@@ -248,13 +248,16 @@ if __name__ == "__main__":
     # cc.show()
 
     c = gf.Component()
-    p1 = c << gf.c.pad_array270(n=3)
-    p2 = c << gf.c.pad_array90(n=3)
+    p1 = c << gf.c.pad_array270()
+    p2 = c << gf.c.pad_array90()
 
     p1.movex(300)
     p1.movey(300)
     route = get_route_electrical(
-        p1.ports["e3"], p2.ports["e1"], cross_section=gf.cross_section.metal3, width=10
+        p1.ports["e13"],
+        p2.ports["e11"],
+        cross_section=gf.cross_section.metal3,
+        width=10.0,
     )
     c.add(route.references)
 

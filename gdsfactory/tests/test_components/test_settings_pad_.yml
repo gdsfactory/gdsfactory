@@ -1,5 +1,8 @@
 function_name: pad
-info: {}
+info:
+  layer:
+  - 49
+  - 0
 module: gdsfactory.components.pad
 name: pad
 settings:

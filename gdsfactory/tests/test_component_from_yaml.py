@@ -148,7 +148,7 @@ placements:
 routes:
     electrical:
         settings:
-            separation: 10
+            separation: 20
             layer: [31, 0]
             width: 10
         links:
@@ -229,13 +229,11 @@ instances:
     t:
       component: pad_array
       settings:
-          port_names:
-            - e4
+          orientation: 270
     b:
       component: pad_array
       settings:
-          port_names:
-            - e2
+          orientation: 90
 
 placements:
     t:
@@ -252,8 +250,8 @@ routes:
                 - [-250, 400]
             auto_widen: False
         links:
-            b,e1: t,e1
-            b,e2: t,e2
+            b,e11: t,e11
+            b,e12: t,e12
 """
 
 
@@ -366,8 +364,8 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 1937.196
-    route_name = "b,e1:t,e1"
+    length = 2037.196
+    route_name = "b,e11:t,e11"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
@@ -557,7 +555,7 @@ if __name__ == "__main__":
 
     # c = test_sample()
     # c = test_connections_2x2()
-    # c = test_connections_different_factory()
+    c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
@@ -567,7 +565,7 @@ if __name__ == "__main__":
     # c = component_from_yaml(sample_docstring)
     # c = component_from_yaml(sample_different_link_factory)
     # c = component_from_yaml(sample_mirror_simple)
-    c = component_from_yaml(sample_waypoints)
+    # c = component_from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
 
     # c = component_from_yaml(sample_different_factory)
