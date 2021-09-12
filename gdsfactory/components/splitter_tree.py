@@ -91,8 +91,13 @@ def splitter_tree(
                 )
             if cols > col > 0:
                 for port in coupler_ref.get_ports_list():
-                    if port.name not in [1, e0_port_name, e1_port_name, w0_port_name]:
-                        c.add_port(name=f"o_{col}_{i}", port=port)
+                    if port.name not in [
+                        "o1",
+                        e0_port_name,
+                        e1_port_name,
+                        w0_port_name,
+                    ]:
+                        c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s is None:
                 for port in coupler_ref.get_ports_list():
@@ -105,9 +110,11 @@ def splitter_tree(
                 bbot.mirror()
                 btop.connect("o1", coupler_ref.ports[e1_port_name])
                 bbot.connect("o1", coupler_ref.ports[e0_port_name])
-                c.add_port(name=f"{port.name}_{col}_{i}", port=btop.ports["o2"])
+                port = btop.ports["o2"]
+                c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                 i += 1
-                c.add_port(name=f"{port.name}_{col}_{i}", port=bbot.ports["o2"])
+                port = bbot.ports["o2"]
+                c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                 i += 1
 
     return c
