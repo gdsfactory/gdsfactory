@@ -78,21 +78,6 @@ array
 
 
 
-array_2d
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.array_2d
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.array_2d()
-  c.plot()
-
-
-
 array_with_fanout
 ----------------------------------------------------
 
