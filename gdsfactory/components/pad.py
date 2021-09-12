@@ -28,7 +28,7 @@ def pad(
     rect = compass(size=size, layer=layer)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.absorb(c_ref)
+    # c.info["size"] = size
 
     if layers_cladding and cladding_offsets:
         for layer, cladding_offset in zip(layers_cladding, cladding_offsets):
@@ -63,6 +63,7 @@ def pad_array(
     c = Component()
     pad = pad() if callable(pad) else pad
     port_names = list(port_names)
+    c.info["size"] = pad.size
 
     for i in range(n):
         p = c << pad
@@ -126,7 +127,7 @@ def pad_array_2d(
 
 
 if __name__ == "__main__":
-    # c = pad()
+    c = pad()
 
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
@@ -136,5 +137,5 @@ if __name__ == "__main__":
     # c = pad_array90()
     # c = pad_array270()
     # c.pprint_ports
-    c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
+    # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
     c.show()
