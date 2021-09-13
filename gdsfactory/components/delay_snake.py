@@ -78,6 +78,7 @@ def delay_snake(
         bend_factory=bend90,
         straight_factory=straight_factory,
         taper=_taper,
+        width_wide=wg_width_wide,
         **kwargs
     )
     component.add(route.references)
@@ -87,5 +88,5 @@ def delay_snake(
 
 
 if __name__ == "__main__":
-    c = delay_snake(layer=(2, 0))
+    c = delay_snake(layer=(2, 0), auto_widen=False)
     c.show(show_ports=True)

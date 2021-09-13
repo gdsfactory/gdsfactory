@@ -9,6 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
+from gdsfactory.components.taper import taper as taper_factory
 from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import angles_deg
 from gdsfactory.port import Port, select_ports_list
@@ -507,13 +508,17 @@ def round_corners(
     auto_widen = x.info.get("auto_widen", False)
     auto_widen_minimum_length = x.info.get("auto_widen_minimum_length", 200.0)
     taper_length = x.info.get("taper_length", 10.0)
+    width = x.info.get("width", 2.0)
+    width_wide = x.info.get("width_wide", None)
     references = []
     bend90 = (
         bend_factory(cross_section=cross_section, **kwargs)
         if callable(bend_factory)
         else bend_factory
     )
-    # radius = bend90.radius
+    taper = taper or taper_factory(
+        cross_section=cross_section, width1=width, width2=width_wide
+    )
     taper = taper(cross_section=cross_section, **kwargs) if callable(taper) else taper
 
     # If there is a taper, make sure its length is known
@@ -625,14 +630,13 @@ def round_corners(
     for straight_origin, angle, length in straight_sections:
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
+        length = snap_to_grid(length)
 
         total_length += length
 
-        if auto_widen and taper is not None and length > auto_widen_minimum_length:
-            length = length - 2 * taper_length
+        if auto_widen and length > auto_widen_minimum_length and width_wide:
             with_taper = True
-
-        if with_taper:
+            length = length - 2 * taper_length
             # Taper starts where straight would have started
             taper_origin = straight_origin
 
@@ -643,22 +647,17 @@ def round_corners(
                 position=taper_origin, port_id=pname_west, rotation=angle
             )
 
-            taper_width = taper.ports[pname_east].width
-
             references.append(taper_ref)
             wg_refs += [taper_ref]
 
             # Update start straight position
             straight_origin = taper_ref.ports[pname_east].midpoint
 
-        # Straight waveguide
-        length = snap_to_grid(length)
-        if with_taper:
+            # Straight waveguide
             kwargs_wide = kwargs.copy()
-            kwargs_wide.update(width=taper_width)
-            wg = straight_factory(
-                length=length, cross_section=cross_section, **kwargs_wide
-            )
+            kwargs_wide.update(width=width_wide)
+            cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+            wg = straight_factory(length=length, cross_section=cross_section_wide)
         else:
             wg = straight_factory_fall_back_no_taper(
                 length=length, cross_section=cross_section, **kwargs
@@ -728,11 +727,6 @@ def generate_manhattan_waypoints(
     end_straight = end_straight or x.info.get("min_length")
     min_straight = min_straight or x.info.get("min_length")
 
-    # pname_west, pname_north = [
-    #     p.name
-    #     for p in _get_bend_ports(bend=bend90, layer=x.info["layer"])
-    # ]
-
     bsx = bsy = _get_bend_size(bend90)
     points = _generate_route_manhattan_points(
         input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
@@ -789,8 +783,7 @@ def route_manhattan(
 
 
 def test_manhattan() -> Component:
-
-    top_cell = gf.Component()
+    top_cell = Component()
 
     inputs = [
         Port("in1", (10, 5), 0.5, 90),
@@ -802,7 +795,7 @@ def test_manhattan() -> Component:
     ]
 
     outputs = [
-        Port("in1", (90, -60), 0.5, 180),
+        Port("in1", (290, -60), 0.5, 180),
         # Port("in2", (-100, 20), 0.5, 0),
         # Port("in3", (100, -25), 0.5, 0),
         # Port("in4", (-150, -65), 0.5, 270),
@@ -810,7 +803,7 @@ def test_manhattan() -> Component:
         # Port("in6", (0, 10), 0.5, 0),
     ]
 
-    lengths = [150.22]
+    lengths = [350.22]
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
 
@@ -823,8 +816,10 @@ def test_manhattan() -> Component:
             output_port=output_port,
             straight_factory=straight,
             radius=5.0,
-            layer=(2, 0),
-            width=0.2,
+            auto_widen=True,
+            width_wide=2,
+            # layer=(2, 0),
+            # width=0.2,
         )
 
         top_cell.add(route.references)
