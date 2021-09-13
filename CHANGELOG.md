@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.1.10
+
+- fix add fiber single for some cases
+
 ## 3.1.9
 
 - pad_array and array use array of references, accept columns and rows as args

@@ -12,12 +12,12 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @cell_without_validator
 def add_fiber_single(
-    component: Component,
+    component: ComponentOrFactory,
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
@@ -93,6 +93,7 @@ def add_fiber_single(
         cc.plot()
 
     """
+    component = component() if callable(component) else component
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
@@ -234,11 +235,9 @@ if __name__ == "__main__":
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
     # c = gf.components.rectangle()
-    # c = gf.components.ring_single()
     # c = gf.components.mzi()
     # c = gf.components.straight(length=500)
-
-    gc = gf.components.grating_coupler_elliptical_te
+    # gc = gf.components.grating_coupler_elliptical_te
     # gc = gf.components.grating_coupler_elliptical2
     # gc = gf.components.grating_coupler_te
     # gc = gf.components.grating_coupler_uniform
@@ -251,9 +250,10 @@ if __name__ == "__main__":
         c.add_ports(ref.ports)
         return c
 
+    c = gf.components.ring_single(length_x=167)
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
-        component=component_with_offset(),
+        component=c,
         auto_widen=False,
         with_loopback=True,
         layer=(2, 0),

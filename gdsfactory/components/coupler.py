@@ -34,13 +34,13 @@ def coupler(
 
                dx                                 dx
             |------|                           |------|
-          2 ________                           _______3
+         o2 ________                           ______o3
                     \                         /           |
                      \        length         /            |
                       ======================= gap         | dy
                      /                       \            |
             ________/                         \_______    |
-          1                                           4
+         o1                                          o4
 
               coupler_straight_factory  coupler_symmetric_factory
 
