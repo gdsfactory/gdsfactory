@@ -36,12 +36,38 @@ def route_fiber_single(
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
         auto_widen: for long routes
+        component_name:
+        select_ports:
         cross_section:
         **kwargs: cross_section settings
 
     Returns:
-        elements: list of routes ComponentReference
-        grating_couplers: list of grating_couplers ComponentReferences
+        elements: list of ComponentReferences for routes and labels
+        grating_couplers: list of grating_couplers references
+
+
+    .. code::
+              _________
+             |         |_E1
+          W0_|         |
+             |         |_E0
+             |_________|
+
+         rotates +90 deg and routes West ports to South
+
+               E1  E0
+              _|___|_
+             |       |
+             |       |
+             |       |
+             |       |
+             |       |
+             |       |
+             |_______|
+                 |
+                 W0
+
+        then rotates 180 and routes the rest of the ports North
 
     """
     if not select_ports(component.ports):
@@ -79,37 +105,15 @@ def route_fiber_single(
     else:
         fanout_length = None
 
-    """
-         _________
-        |         |_E1
-     W0_|         |
-        |         |_E0
-        |_________|
-
-    rotate +90 deg and route West ports to South
-
-          E1  E0
-         _|___|_
-        |       |
-        |       |
-        |       |
-        |       |
-        |       |
-        |       |
-        |_______|
-            |
-            W0
-
-    """
     # route west ports to south
-    component_ref = component.ref()
-    component_ref.rotate(90)
-    south_ports = component_ref.get_ports_dict(orientation=270)
-    south_ports = select_ports(south_ports)
-    component.ports = south_ports
+    component_west_ports = Component()
+    ref = component_west_ports << component
+    ref.rotate(90)
+    south_ports = ref.get_ports_dict(orientation=270)
+    component_west_ports.ports = south_ports
 
     elements_south, gratings_south, _ = route_fiber_array(
-        component=component,
+        component=component_west_ports,
         with_loopback=False,
         fiber_spacing=fiber_spacing,
         fanout_length=fanout_length,
@@ -122,7 +126,7 @@ def route_fiber_single(
         **kwargs,
     )
 
-    # route the rest of the ports_south
+    # route the rest of the ports north
     component = gf.Component()
     component_ref = component << component_copy
     component_ref.rotate(-90)
@@ -167,16 +171,16 @@ if __name__ == "__main__":
     c = gf.components.ring_double()
     c = gf.components.crossing()
     c = gf.components.rectangle()
-    c = gf.components.ring_single()
 
     # elements, gc = route_fiber_single(
     #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
     # )
 
     layer = (2, 0)
-    c = gf.components.mmi2x2()
     c = gf.components.straight(width=2, length=500)
-    c = gf.components.mmi1x2()
+    c = gf.components.mmi1x2(length_mmi=167)
+    c = gf.components.ring_single(length_x=167)
+    c = gf.components.mmi2x2()
 
     gc = gf.components.grating_coupler_elliptical_te(layer=layer)
     elements, gc = route_fiber_single(

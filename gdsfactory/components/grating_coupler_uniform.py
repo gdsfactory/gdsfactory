@@ -59,8 +59,7 @@ def grating_coupler_uniform(
     xport = (x0 + cgrating.x) / 2
 
     port_type = f"vertical_{polarization}"
-    c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=8)
-
+    c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
     c.polarization = polarization
     c.wavelength = wavelength
     gf.asserts.grating_coupler(c)

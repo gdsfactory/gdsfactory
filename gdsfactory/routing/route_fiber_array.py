@@ -376,9 +376,7 @@ def route_fiber_array(
 
         # If we add align ports, we need enough space for the bends
         end_straight_offset = (
-            straight_separation + 5
-            if with_loopback
-            else x.info.get("min_straight_length")
+            straight_separation + 5 if with_loopback else x.info.get("min_length", 0.1)
         )
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
