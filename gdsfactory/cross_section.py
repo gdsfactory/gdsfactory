@@ -107,7 +107,7 @@ def cross_section(
     width: float = 0.5,
     layer: Tuple[int, int] = (1, 0),
     width_wide: Optional[float] = None,
-    auto_widen: bool = True,
+    auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
     radius: float = 10.0,
@@ -500,9 +500,8 @@ def rib_heater_doped_contact(
 
 
 strip = partial(cross_section)
-rib = partial(
-    cross_section, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),)
-)
+strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
+rib = partial(strip, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),))
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 
 port_names_electrical = ("e1", "e2")
@@ -533,6 +532,7 @@ metal3 = partial(
 cross_section_factory = dict(
     cross_section=cross_section,
     strip=strip,
+    strip_auto_widen=strip_auto_widen,
     rib=rib,
     nitride=nitride,
     metal1=metal1,

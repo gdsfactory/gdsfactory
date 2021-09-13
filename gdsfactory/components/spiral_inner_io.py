@@ -27,7 +27,7 @@ def spiral_inner_io(
     y_straight_inner_top: float = 50.0,
     y_straight_inner_bottom: float = 10.0,
     grating_spacing: float = 127.0,
-    waveguide_spacing: float = 3,
+    waveguide_spacing: float = 3.0,
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
     straight_factory: ComponentFactory = straight,
@@ -56,10 +56,9 @@ def spiral_inner_io(
 
     """
     dx = dy = waveguide_spacing
-    cross_section = gf.partial(cross_section, **kwargs)
-    x = cross_section()
+    x = cross_section(**kwargs)
     width = x.info.get("width")
-    taper_length = x.info.get("taper_length", 10.0)
+    layer = x.info.get("layer")
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -81,39 +80,24 @@ def spiral_inner_io(
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
     component = gf.Component()
-    # gc_port_lbl = 1
-    # gc1 = _gc.ref(port_id=gc_port_lbl, position=(0, 0), rotation=-90)
-    # gc2 = _gc.ref(port_id=gc_port_lbl, position=(grating_spacing, 0), rotation=-90)
-    # component.add([gc1, gc2])
 
     p1 = gf.Port(
         name="o1",
         midpoint=(0, y_straight_inner_top),
         orientation=270,
         width=width,
-        layer=gf.LAYER.WG,
+        layer=layer,
     )
     p2 = gf.Port(
         name="o2",
         midpoint=(grating_spacing, y_straight_inner_top),
         orientation=270,
         width=width,
-        layer=gf.LAYER.WG,
+        layer=layer,
     )
-    taper = gf.components.taper(
-        width1=width,
-        width2=_bend180.ports["o1"].width,
-        length=taper_length + y_straight_inner_top - 15 - 35,
-        cross_section=cross_section,
-    )
-    taper_ref1 = component.add_ref(taper)
-    taper_ref1.connect("o2", p1)
 
-    taper_ref2 = component.add_ref(taper)
-    taper_ref2.connect("o2", p2)
-
-    component.add_port(name="o1", port=taper_ref1.ports["o1"])
-    component.add_port(name="o2", port=taper_ref2.ports["o1"])
+    component.add_port(name="o1", port=p1)
+    component.add_port(name="o2", port=p2)
 
     # Create manhattan path going from west grating to westest port of bend 180
     _pt = np.array(p1.position)
@@ -142,6 +126,7 @@ def spiral_inner_io(
         straight_factory=straight_factory,
         taper=taper,
         cross_section=cross_section,
+        auto_widen=False,
     )
     component.add(route_west.references)
 
@@ -174,6 +159,7 @@ def spiral_inner_io(
         straight_factory=straight_factory,
         taper=taper,
         cross_section=cross_section,
+        auto_widen=False,
     )
     component.add(route_east.references)
 
@@ -200,5 +186,12 @@ def get_straight_length(
 
 if __name__ == "__main__":
     # c = spiral_inner_io(radius=20, width=0.2)
-    c = spiral_inner_io(radius=40, width=2.0, length=15e3)
+    cross_section_wide = gf.partial(gf.cross_section.strip, width=2)
+
+    c = spiral_inner_io(
+        width=2,
+        length=15e3,
+        taper=gf.partial(gf.c.taper, width1=0.5, width2=2),
+        cross_section=cross_section_wide,
+    )
     c.show()

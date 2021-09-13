@@ -33,6 +33,7 @@ from contracts import contract
 ## 3.1.10
 
 - fix add fiber single for some cases
+- create `strip_auto_widen` cross_section with automatic widening of the waveguide
 
 ## 3.1.9
 

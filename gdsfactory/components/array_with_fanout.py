@@ -15,7 +15,7 @@ from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionF
 @cell
 def array_with_fanout(
     component: ComponentOrFactory = pad,
-    n: int = 3,
+    columns: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
     start_straight: float = 5.0,
@@ -33,7 +33,7 @@ def array_with_fanout(
 
     Args:
         component: to replicate
-        n: number of components
+        columns: number of components
         pitch: float
         waveguide_pitch: for fanout
         start_straight: length of the start of the straight
@@ -56,7 +56,7 @@ def array_with_fanout(
     bend_port_name1 = bend_port_name1 or bend_ports[0].name
     bend_port_name2 = bend_port_name2 or bend_ports[1].name
 
-    for col in range(n):
+    for col in range(columns):
         ref = component.ref()
         ref.x = col * pitch
         c.add(ref)
@@ -99,7 +99,6 @@ def array_with_fanout_2d(
         rows:
         kwargs:
             component: to replicate
-            n: number of components
             pitch: float
             waveguide_pitch: for fanout
             start_straight: length of the start of the straight
@@ -113,7 +112,7 @@ def array_with_fanout_2d(
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
-    row = array_with_fanout(n=columns, pitch=pitch_x, **kwargs)
+    row = array_with_fanout(columns=columns, pitch=pitch_x, **kwargs)
     return array(component=row, rows=rows, spacing=(0, pitch_y))
 
 
@@ -121,11 +120,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c1 = gf.components.pad()
-    # c2 = array(component=c1, pitch=150, n=2)
+    # c2 = array(component=c1, pitch=150, columns=2)
     # print(c2.ports.keys())
 
     c = array_with_fanout(
-        n=3,
+        columns=3,
         waveguide_pitch=20,
         bend=gf.components.wire_corner,
         cross_section=gf.cross_section.metal3,
