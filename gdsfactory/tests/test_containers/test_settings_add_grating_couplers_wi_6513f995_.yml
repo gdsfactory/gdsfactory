@@ -27,7 +27,7 @@ settings:
   fiber_spacing: 50
   gc_port_name: o1
   layer_label:
-  - 201
+  - 200
   - 0
   loopback_xspacing: 5
   rotation: 90

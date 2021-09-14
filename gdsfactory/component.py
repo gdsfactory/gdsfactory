@@ -229,11 +229,11 @@ class ComponentReference(DeviceReference):
         a copy of the reference which is correctly rotated and translated"""
         try:
             alias_device = self.parent[val]
-        except Exception:
+        except Exception as exc:
             raise ValueError(
                 '[PHIDL] Tried to access alias "%s" from parent '
                 'Device "%s", which does not exist' % (val, self.parent.name)
-            )
+            ) from exc
         new_reference = ComponentReference(
             alias_device.parent,
             origin=alias_device.origin,

@@ -77,13 +77,13 @@ def difftest(
             if val.upper().startswith("Y"):
                 print(f"rm {ref_file}")
                 ref_file.unlink()
-        except OSError:
+        except OSError as exc:
             raise GeometryDifference(
                 "\n"
                 + f"`{filename}` changed from reference {ref_file}\n"
                 + "To step over each error you can run `pytest -s`\n"
                 + "So you can check the differences in Klayout GUI\n"
-            )
+            ) from exc
 
 
 if __name__ == "__main__":

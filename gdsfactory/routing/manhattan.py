@@ -566,14 +566,16 @@ def round_corners(
             a0 = 180
 
     assert a0 is not None, f"Points should be manhattan, got {p0_straight} {p1}"
+
+    layer = x.info["layer"]
     try:
         pname_west, pname_north = [
-            p.name for p in _get_bend_ports(bend=bend90, layer=x.info["layer"])
+            p.name for p in _get_bend_ports(bend=bend90, layer=layer)
         ]
-    except ValueError:
+    except ValueError as exc:
         raise ValueError(
-            f'Did not find 2 ports on layer {x.info["layer"]}. Got {list(bend90.ports.values())}'
-        )
+            f"Did not find 2 ports on layer {layer}. Got {list(bend90.ports.values())}"
+        ) from exc
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
 
