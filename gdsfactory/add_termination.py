@@ -6,10 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.grating_coupler_elliptical_trenches import (
-    grating_coupler_te,
-    grating_coupler_tm,
-)
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
@@ -47,14 +44,6 @@ def add_termination(
         t_ref.connect(port_name, port)
 
     return c
-
-
-def add_gratings_and_loopback_te(*args, **kwargs):
-    return add_gratings_and_loopback(*args, **kwargs)
-
-
-def add_gratings_and_loopback_tm(*args, grating_coupler=grating_coupler_tm, **kwargs):
-    return add_gratings_and_loopback(*args, grating_coupler=grating_coupler, **kwargs)
 
 
 @gf.cell
@@ -229,5 +218,4 @@ if __name__ == "__main__":
     cc = add_gratings_and_loopback(component=c, with_loopback=True)
 
     # cc = add_termination(component=c)
-    print(cc.get_settings()["settings"]["component"])
     cc.show()
