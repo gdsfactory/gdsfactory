@@ -3,19 +3,8 @@ info: {}
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
 settings:
-  contains:
-    function_name: spiral_inner_io_0_270
-    info: {}
-    module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_0_270
-    settings:
-      grating_spacing: 200
-      x_straight_inner_left: 0
-      x_straight_inner_right: 40
-      y_straight_inner_bottom: 0
-      y_straight_inner_top: 10
-  gc_port_name: o1
-  layer_label:
-  - 201
-  - 0
-  with_loopback: true
+  grating_spacing: 200
+  x_straight_inner_left: 75
+  x_straight_inner_right: 40
+  y_straight_inner_bottom: 0
+  y_straight_inner_top: 10

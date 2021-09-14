@@ -1,0 +1,31 @@
+function_name: bend_port
+info: {}
+module: gdsfactory.components.bend_port
+name: bend_port_componentmzi__0e3ae715
+settings:
+  angle: 180
+  contains:
+    function_name: mzi
+    info: {}
+    module: gdsfactory.components.mzi
+    name: mzi_length_x320_splitte_79951d94
+    settings:
+      combiner: null
+      combiner_settings: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      splitter_settings: null
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+  extension_length: null
+  port_name: e1
+  port_name1_bend: null
+  port_name2: e2
+  port_name2_bend: null

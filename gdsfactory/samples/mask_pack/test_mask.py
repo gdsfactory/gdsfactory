@@ -8,7 +8,9 @@ from pathlib import Path
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.add_termination import add_gratings_and_loopback
+from gdsfactory.add_grating_couplers import (
+    add_grating_couplers_with_loopback_fiber_array,
+)
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.mask.merge_metadata import merge_metadata
@@ -54,7 +56,8 @@ def spiral_te(width: float = 0.5, length: int = 2) -> Component:
         lenght: cm
     """
     c = gf.c.spiral_inner_io(width=width, length=length)
-    cc = add_gratings_and_loopback(
+    c = gf.c.extend_ports(c)
+    cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
         bend_factory=gf.components.bend_euler,
@@ -71,7 +74,8 @@ def spiral_tm(width=0.5, length=20e3):
         lenght: um
     """
     c = gf.c.spiral_inner_io(width=width, length=length, waveguide_spacing=10, N=5)
-    cc = add_gratings_and_loopback(
+    c = gf.c.extend_ports(c)
+    cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
         bend_factory=gf.components.bend_euler,
