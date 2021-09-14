@@ -5,10 +5,8 @@ from typing import Optional, Tuple
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.add_grating_couplers import add_grating_couplers
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
-from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
@@ -167,10 +165,10 @@ def spiral_inner_io(
 
 
 @gf.cell
-def spiral_inner_io_0_270(
+def spiral_inner_io_fiber_single(
     cross_section: CrossSectionFactory = strip,
     x_straight_inner_right: float = 40.0,
-    x_straight_inner_left: float = 0.0,
+    x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,
     y_straight_inner_bottom: float = 0.0,
     grating_spacing: float = 200.0,
@@ -199,18 +197,6 @@ def spiral_inner_io_0_270(
     return c
 
 
-@gf.cell
-def spiral_inner_io_fiber_single(
-    grating_coupler: ComponentFactory = grating_coupler_te,
-    with_loopback: bool = True,
-    **kwargs
-):
-    """Spiral with grating_couplers."""
-    c = spiral_inner_io_0_270(**kwargs)
-    c = add_grating_couplers(component=c)
-    return c
-
-
 def get_straight_length(
     length: float, spiral_function: ComponentFactory, **kwargs
 ) -> float:
@@ -233,8 +219,10 @@ if __name__ == "__main__":
 
     c = spiral_inner_io_fiber_single(
         # width=2,
-        length=10e3,
+        # length=10e3,
         cross_section=cross_section_wide,
     )
-    # c = gf.routing.add_fiber_single(c)
+    c = gf.add_grating_couplers.add_grating_couplers_and_loopback_fiber_single(
+        c, loopback_xspacing=100
+    )
     c.show()
