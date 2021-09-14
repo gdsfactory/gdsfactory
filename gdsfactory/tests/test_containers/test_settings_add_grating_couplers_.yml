@@ -25,5 +25,5 @@ settings:
       with_splitter: true
   gc_port_name: o1
   layer_label:
-  - 201
+  - 200
   - 0
