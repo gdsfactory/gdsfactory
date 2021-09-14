@@ -5,8 +5,10 @@ from typing import Optional, Tuple
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.add_grating_couplers import add_grating_couplers
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
+from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
@@ -31,7 +33,6 @@ def spiral_inner_io(
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
     straight_factory: ComponentFactory = straight,
-    taper: Optional[ComponentFactory] = None,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
     **kwargs
@@ -49,7 +50,6 @@ def spiral_inner_io(
         bend90_function
         bend180_function
         straight_factory: straight function
-        taper: taper function
         length: computes spiral length from simple interpolation
         cross_section:
         **kwargs: cross_section settings
@@ -79,7 +79,7 @@ def spiral_inner_io(
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
-    component = gf.Component()
+    component = Component()
 
     p1 = gf.Port(
         name="o1",
@@ -124,9 +124,8 @@ def spiral_inner_io(
         pts_w,
         bend_factory=_bend90,
         straight_factory=straight_factory,
-        taper=taper,
         cross_section=cross_section,
-        auto_widen=False,
+        **kwargs
     )
     component.add(route_west.references)
 
@@ -157,15 +156,59 @@ def spiral_inner_io(
         pts_e,
         bend_factory=_bend90,
         straight_factory=straight_factory,
-        taper=taper,
         cross_section=cross_section,
-        auto_widen=False,
+        **kwargs
     )
     component.add(route_east.references)
 
     length = route_east.length + route_west.length + _bend180.length
     component.length = snap_to_grid(length + 2 * y_straight_inner_top)
     return component
+
+
+@gf.cell
+def spiral_inner_io_0_270(
+    cross_section: CrossSectionFactory = strip,
+    x_straight_inner_right: float = 40.0,
+    x_straight_inner_left: float = 0.0,
+    y_straight_inner_top: float = 10.0,
+    y_straight_inner_bottom: float = 0.0,
+    grating_spacing: float = 200.0,
+    **kwargs
+):
+    """Spiral with 0 and 270 degree ports."""
+    c = Component()
+    ref = c << spiral_inner_io(
+        cross_section=cross_section,
+        x_straight_inner_right=x_straight_inner_right,
+        x_straight_inner_left=x_straight_inner_left,
+        y_straight_inner_top=y_straight_inner_top,
+        y_straight_inner_bottom=y_straight_inner_bottom,
+        grating_spacing=grating_spacing,
+        **kwargs
+    )
+    ref.rotate(90)
+    bend = bend_euler(cross_section=cross_section)
+    btop = c << bend
+    bbot = c << bend
+
+    bbot.connect("o2", ref.ports["o1"])
+    btop.connect("o1", ref.ports["o2"])
+    c.add_port("o2", port=btop.ports["o2"])
+    c.add_port("o1", port=bbot.ports["o1"])
+    return c
+
+
+@gf.cell
+def spiral_inner_io_fiber_single(
+    grating_coupler: ComponentFactory = grating_coupler_te,
+    with_loopback: bool = True,
+    **kwargs
+):
+    """Spiral with grating_couplers."""
+    c = spiral_inner_io_0_270(**kwargs)
+    c = add_grating_couplers(component=c)
+    return c
 
 
 def get_straight_length(
@@ -186,12 +229,12 @@ def get_straight_length(
 
 if __name__ == "__main__":
     # c = spiral_inner_io(radius=20, width=0.2)
-    cross_section_wide = gf.partial(gf.cross_section.strip, width=2)
+    cross_section_wide = gf.partial(gf.cross_section.strip_auto_widen)
 
-    c = spiral_inner_io(
-        width=2,
-        length=15e3,
-        taper=gf.partial(gf.c.taper, width1=0.5, width2=2),
+    c = spiral_inner_io_fiber_single(
+        # width=2,
+        length=10e3,
         cross_section=cross_section_wide,
     )
+    # c = gf.routing.add_fiber_single(c)
     c.show()

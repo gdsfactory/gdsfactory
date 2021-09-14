@@ -517,7 +517,10 @@ def round_corners(
         else bend_factory
     )
     taper = taper or taper_factory(
-        cross_section=cross_section, width1=width, width2=width_wide
+        cross_section=cross_section,
+        width1=width,
+        width2=width_wide,
+        length=taper_length,
     )
     taper = taper(cross_section=cross_section, **kwargs) if callable(taper) else taper
 

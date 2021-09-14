@@ -15,7 +15,6 @@ settings:
       N: 6
       grating_spacing: 127
       length: null
-      taper: null
       waveguide_spacing: 3
       x_straight_inner_left: 50
       x_straight_inner_right: 150

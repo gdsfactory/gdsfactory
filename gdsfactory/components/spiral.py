@@ -28,7 +28,7 @@ def spiral(
 
     Args:
         port_spacing: distance between input/output ports
-        length: desired length of the straight (um)
+        length: spiral length (um)
         spacing: distance between parallel straights
         parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
         port: Cartesian coordinate of the input port
@@ -59,7 +59,7 @@ def spiral(
         port=port,
         direction=direction,
     )
-    return gf.component_from.picwriter(c)
+    return gf.component_from.picwriter(c, port_layer=layer)
 
 
 if __name__ == "__main__":

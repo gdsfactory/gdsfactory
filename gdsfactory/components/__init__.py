@@ -122,7 +122,10 @@ from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_circular import spiral_circular
 from gdsfactory.components.spiral_external_io import spiral_external_io
-from gdsfactory.components.spiral_inner_io import spiral_inner_io
+from gdsfactory.components.spiral_inner_io import (
+    spiral_inner_io,
+    spiral_inner_io_fiber_single,
+)
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import (
     splitter_tree,
@@ -183,7 +186,6 @@ __all__ = [
     "align",
     "align_wafer",
     "array",
-    "array_2d",
     "array_with_fanout",
     "array_with_fanout_2d",
     "array_with_via",
@@ -470,6 +472,7 @@ factory = dict(
     spiral_circular=spiral_circular,
     spiral_external_io=spiral_external_io,
     spiral_inner_io=spiral_inner_io,
+    spiral_inner_io_fiber_single=spiral_inner_io_fiber_single,
     splitter_chain=splitter_chain,
     splitter_tree=splitter_tree,
     staircase=staircase,
