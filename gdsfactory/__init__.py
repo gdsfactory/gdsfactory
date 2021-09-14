@@ -55,6 +55,7 @@ from gdsfactory import read
 from gdsfactory import remove
 from gdsfactory import layers
 from gdsfactory import add_termination
+from gdsfactory import add_grating_couplers
 
 
 from gdsfactory.tech import TECH
@@ -87,12 +88,13 @@ __all__ = [
     "Path",
     "Port",
     "TECH",
+    "add_grating_couplers",
     "add_padding",
     "add_padding_container",
     "add_pins",
     "add_pins_to_references",
-    "add_termination",
     "add_tapers",
+    "add_termination",
     "asserts",
     "bias",
     "boolean",

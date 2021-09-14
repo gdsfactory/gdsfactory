@@ -34,6 +34,7 @@ from contracts import contract
 
 - fix add fiber single for some cases
 - create `strip_auto_widen` cross_section with automatic widening of the waveguide
+- add `add_grating_couplers_with_loopback_fiber_single`
 
 ## 3.1.9
 

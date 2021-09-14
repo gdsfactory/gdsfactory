@@ -4,7 +4,9 @@ import shutil
 from pathlib import Path
 
 import gdsfactory as gf
-from gdsfactory.add_termination import add_gratings_and_loopback
+from gdsfactory.add_grating_couplers import (
+    add_grating_couplers_with_loopback_fiber_array,
+)
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.component import Component
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
@@ -49,7 +51,8 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
         lenght: um
     """
     c = spiral_inner_io(width=width, length=length)
-    cc = add_gratings_and_loopback(
+    c = gf.c.extend_ports(c)
+    cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
         bend_factory=gf.components.bend_circular,
@@ -66,7 +69,8 @@ def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
         lenght: um
     """
     c = spiral_inner_io(width=width, length=length, dx=10, dy=10, N=5)
-    cc = add_gratings_and_loopback(
+    c = gf.c.extend_ports(c)
+    cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
         bend_factory=gf.components.bend_circular,

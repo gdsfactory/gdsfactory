@@ -1,0 +1,34 @@
+function_name: add_grating_couplers_with_loopback_fiber_single
+info: {}
+module: gdsfactory.add_grating_couplers
+name: add_grating_couplers_wi_6734a45c
+settings:
+  component_name: null
+  contains:
+    function_name: mzi
+    info: {}
+    module: gdsfactory.components.mzi
+    name: mzi_length_x320_splitte_79951d94
+    settings:
+      combiner: null
+      combiner_settings: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      splitter_settings: null
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+  fiber_spacing: 50
+  gc_port_name: o1
+  layer_label:
+  - 201
+  - 0
+  loopback_xspacing: 5
+  rotation: 90
+  with_loopback: true
