@@ -7,13 +7,39 @@ import gdspy
 import numpy as np
 import picwriter.components as pc
 import picwriter.toolkit as pt
+from picwriter.components.waveguide import WaveguideTemplate
 from picwriter.toolkit import Component
 
 import gdsfactory as gf
+from gdsfactory.types import CrossSectionFactory, Layer
 
 gdspy.current_library = gdspy.GdsLibrary()
 
 direction_to_orientation = dict(EAST=0.0, NORTH=90.0, WEST=180.0, SOUTH=270.0)
+
+
+def cross_section_to_waveguide_template(
+    cross_section: CrossSectionFactory,
+    euler_bend: bool = True,
+    wg_type: str = "strip",
+    **kwargs
+) -> WaveguideTemplate:
+    x = cross_section(**kwargs)
+
+    layer = x.info["layer"]
+    layer_cladding = x.info["layers_cladding"][0]
+
+    return pc.WaveguideTemplate(
+        bend_radius=x.info["radius"],
+        wg_width=x.info["width"],
+        wg_layer=layer[0],
+        wg_datatype=layer[1],
+        clad_layer=layer_cladding[0],
+        clad_datatype=layer_cladding[1],
+        clad_width=x.info["cladding_offset"],
+        wg_type=wg_type,
+        euler_bend=euler_bend,
+    )
 
 
 def direction_to_degree(direction: str) -> float:
@@ -27,7 +53,7 @@ def direction_to_degree(direction: str) -> float:
     return direction_to_orientation[direction]
 
 
-def picwriter(picwriter_object: pt.Component) -> Component:
+def picwriter(picwriter_object: pt.Component, port_layer: Layer = (1, 0)) -> Component:
     """Convert a Picwriter into a Gdsfactory Component."""
     po = picwriter_object
     c = gf.Component(name=po.name_prefix)
@@ -61,6 +87,7 @@ def picwriter(picwriter_object: pt.Component) -> Component:
             midpoint=[port_loc[0], port_loc[1]],
             width=po.wgt.wg_width,
             orientation=direction,
+            layer=port_layer,
         )
 
     c2.absorb(ref)

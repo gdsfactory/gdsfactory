@@ -177,9 +177,8 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
-    c = gf.components.straight_heater_metal()
-
-    c.y = 0
+    # c = gf.components.straight_heater_metal()
+    c = gf.components.spiral(direction="NORTH")
     cc = add_fiber_array(
         component=c,
         # optical_routing_type=0,

@@ -181,6 +181,7 @@ if __name__ == "__main__":
     c = gf.components.mmi1x2(length_mmi=167)
     c = gf.components.ring_single(length_x=167)
     c = gf.components.mmi2x2()
+    c = gf.components.spiral(direction="NORTH")
 
     gc = gf.components.grating_coupler_elliptical_te(layer=layer)
     elements, gc = route_fiber_single(

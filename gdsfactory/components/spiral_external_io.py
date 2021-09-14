@@ -29,7 +29,7 @@ def spiral_external_io(
     dx: float = 3.0,
     dy: float = 3.0,
     bend: ComponentFactory = bend_euler,
-    cutback_length: Optional[float] = None,
+    length: Optional[float] = None,
     cross_section: CrossSectionFactory = gf.cross_section.strip,
     **kwargs
 ) -> Component:
@@ -43,14 +43,14 @@ def spiral_external_io(
         dx: center to center x-spacing
         dy: center to center y-spacing
         bend: function
-        cutback_length: length in um, it is the approximates total length
+        length: length in um, it is the approximates total length
         cross_section:
         kwargs: cross_section settings
 
     """
 
-    if cutback_length:
-        x_inner_length_cutback = cutback_length / (4 * (N - 1))
+    if length:
+        x_inner_length_cutback = length / (4 * (N - 1))
 
     y_straight_inner_top += 5
 
@@ -63,10 +63,9 @@ def spiral_external_io(
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
-    component = gf.Component()
+    component = Component()
 
     inner_loop_spacing = 2 * bend_radius + 5.0
-
     # Create manhattan path going from west grating to westest port of bend 180
 
     x_inner_length = x_inner_length_cutback + 5.0 + dx
@@ -137,7 +136,7 @@ def spiral_external_io(
 
 
 if __name__ == "__main__":
-    c = spiral_external_io(layer=(2, 0))
-    print(c.length)
-    print(c.length / 1e4, "cm")
+    c = spiral_external_io(auto_widen=True, width_wide=2.0, length=10e3, N=15)
+    # print(c.length)
+    # print(c.length / 1e4, "cm")
     c.show(show_ports=True)

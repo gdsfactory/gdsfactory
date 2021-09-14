@@ -46,7 +46,6 @@ def add_fiber_single(
         fiber_spacing: between outputs
         bend_factory: bend_circular
         straight_factory: straight
-        fanout_length: None  # if None, automatic calculation of fanout length
         route_filter:
         max_y0_optical: None
         with_loopback: True, adds loopback structures
@@ -251,6 +250,7 @@ if __name__ == "__main__":
         return c
 
     c = gf.components.ring_single(length_x=167)
+    c = gf.components.spiral(direction="NORTH")
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
         component=c,
