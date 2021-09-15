@@ -1,7 +1,7 @@
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.routing.manhattan import RouteError
+from gdsfactory.routing.manhattan import RouteWarning
 
 
 def test_route_error():
@@ -15,7 +15,7 @@ def test_route_error():
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
 
-    with pytest.raises(RouteError):
+    with pytest.warns(RouteWarning):
         gf.routing.get_route_from_steps(
             port1=p2,
             port2=p1,
