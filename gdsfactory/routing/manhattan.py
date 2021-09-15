@@ -1,6 +1,8 @@
+import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple
 
+import gdspy
 import numpy as np
 import pytest
 from numpy import bool_, ndarray
@@ -14,6 +16,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
@@ -32,6 +35,10 @@ O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
 
 class RouteWarning(UserWarning):
+    pass
+
+
+class RouteError(ValueError):
     pass
 
 
@@ -248,14 +255,14 @@ def _generate_route_manhattan_points(
 
     angle = output_port.orientation
 
-    a0 = -angle + 180
-    transform_params = (-p_output, a0, False)
+    bend_orientation = -angle + 180
+    transform_params = (-p_output, bend_orientation, False)
 
     _pts_io = transform(pts_io, *transform_params)
     p = _pts_io[0, :]
     _p_output = _pts_io[1, :]
 
-    a = int(input_port.orientation + a0) % 360
+    a = int(input_port.orientation + bend_orientation) % 360
     s = start_straight
     count = 0
     points = [p]
@@ -475,6 +482,29 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
+def raise_route_error(points, cross_section):
+    lib = gdspy.GdsLibrary()
+    c = lib.new_cell(f"Error_{uuid.uuid4}"[:16])
+    x = cross_section
+    p0_straight = points[0]
+    p1 = points[1]
+
+    path = gdspy.FlexPath(
+        points,
+        width=x.info["width"],
+        bend_radius=x.info["radius"],
+        corners="circular bend",
+        gdsii_path=True,
+        layer=LAYER.ERROR_MARKER[0],
+        datatype=LAYER.ERROR_MARKER[1],
+    )
+    c.add(path)
+    lib.write_gds("error.gds")
+    gf.klive.show("error.gds")
+
+    raise RouteError(f"Points should be manhattan, got {p0_straight} {p1} in {points}")
+
+
 def round_corners(
     points: Coordinates,
     straight_factory: ComponentFactory = straight,
@@ -484,6 +514,7 @@ def round_corners(
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     cross_section: CrossSectionFactory = strip,
+    route_error: Callable = raise_route_error,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -553,19 +584,20 @@ def round_corners(
     bend_length = bend90.length
 
     dp = p1 - p0_straight
-    a0 = None
+    bend_orientation = None
     if _is_vertical(p0_straight, p1):
         if dp[1] > 0:
-            a0 = 90
+            bend_orientation = 90
         elif dp[1] < 0:
-            a0 = 270
+            bend_orientation = 270
     elif _is_horizontal(p0_straight, p1):
         if dp[0] > 0:
-            a0 = 0
+            bend_orientation = 0
         elif dp[0] < 0:
-            a0 = 180
+            bend_orientation = 180
 
-    assert a0 is not None, f"Points should be manhattan, got {p0_straight} {p1}"
+    if bend_orientation is None:
+        route_error(points=points, cross_section=x)
 
     layer = x.info["layer"]
     try:
@@ -621,14 +653,18 @@ def round_corners(
                 )
 
         straight_sections += [
-            (p0_straight, a0, get_straight_distance(p0_straight, bend_origin))
+            (
+                p0_straight,
+                bend_orientation,
+                get_straight_distance(p0_straight, bend_origin),
+            )
         ]
 
         p0_straight = bend_ref.ports[pname_north].midpoint
-        a0 = bend_ref.ports[pname_north].orientation
+        bend_orientation = bend_ref.ports[pname_north].orientation
 
     straight_sections += [
-        (p0_straight, a0, get_straight_distance(p0_straight, points[-1]))
+        (p0_straight, bend_orientation, get_straight_distance(p0_straight, points[-1]))
     ]
 
     wg_refs = []
