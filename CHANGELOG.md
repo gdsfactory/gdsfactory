@@ -29,9 +29,9 @@ from contracts import contract
 
 
 ```
-## 3.1.11
+## 3.2.0
 
-- Ensures that an impossible route raises value Error
+- Ensures that an impossible route raises RouteWarning and draws error route with markers and labels on each port
 
 
 ## 3.1.10
