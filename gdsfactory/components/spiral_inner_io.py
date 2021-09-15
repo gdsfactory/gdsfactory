@@ -222,7 +222,7 @@ if __name__ == "__main__":
         # length=10e3,
         cross_section=cross_section_wide,
     )
-    c = gf.add_grating_couplers.add_grating_couplers_and_loopback_fiber_single(
+    c = gf.add_grating_couplers.add_grating_couplers_with_loopback_fiber_single(
         c, loopback_xspacing=100
     )
     c.show()
