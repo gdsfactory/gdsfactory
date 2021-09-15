@@ -53,7 +53,14 @@ def route_fiber_single(
              |         |_E0
              |_________|
 
+
          rotates +90 deg and routes West ports to South
+
+         the rest of the original ports (East, North, South) will route south
+
+         it calls route_fiber_array twice
+
+         route_fiber_array is designed to route ports south
 
                E1  E0
               _|___|_
@@ -65,7 +72,7 @@ def route_fiber_single(
              |       |
              |_______|
                  |
-                 W0
+                 W0     1st part routes West ports south
 
         then rotates 180 and routes the rest of the ports North
 
@@ -105,7 +112,7 @@ def route_fiber_single(
     else:
         fanout_length = None
 
-    # route west ports to south
+    # route WEST ports to south
     component_west_ports = Component()
     ref = component_west_ports << component
     ref.rotate(90)
@@ -126,7 +133,7 @@ def route_fiber_single(
         **kwargs,
     )
 
-    # route the rest of the ports north
+    # route non WEST ports north
     component = gf.Component()
     component_ref = component << component_copy
     component_ref.rotate(-90)
@@ -213,10 +220,8 @@ if __name__ == "__main__":
     #     radius=10,
     #     layer=layer,
     # )
-
     # cc = gf.Component("sample_route_fiber_single")
     # cr = cc << c.rotate(90)
-
     # for e in elements:
     #     cc.add(e)
     # for e in gc:

@@ -471,13 +471,13 @@ def get_min_spacing(
             ports1.sort(key=get_port_x)
             ports2.sort(key=get_port_x)
 
-    for i, _ in enumerate(ports1):
+    for port1, port2 in zip(ports1, ports2):
         if axis in ["X", "x"]:
-            x1 = get_port_y(ports1[i])
-            x2 = get_port_y(ports2[i])
+            x1 = get_port_y(ports1)
+            x2 = get_port_y(port2)
         else:
-            x1 = get_port_x(ports1[i])
-            x2 = get_port_x(ports2[i])
+            x1 = get_port_x(port1)
+            x2 = get_port_x(port2)
         if x2 >= x1:
             j += 1
         else:
