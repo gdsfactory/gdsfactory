@@ -29,6 +29,10 @@ from contracts import contract
 
 
 ```
+## 3.1.11
+
+- Ensures that an impossible route raises value Error
+
 
 ## 3.1.10
 
