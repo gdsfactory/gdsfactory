@@ -483,7 +483,13 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
-def get_route_error(points, cross_section: CrossSection) -> Route:
+def get_route_error(
+    points,
+    cross_section: CrossSection,
+    layer_path: Layer = LAYER.ERROR_PATH,
+    layer_label: Layer = LAYER.TEXT,
+    layer_marker: Layer = LAYER.ERROR_MARKER,
+) -> Route:
     x = cross_section
     width = x.info["width"]
     warnings.warn(
@@ -491,22 +497,30 @@ def get_route_error(points, cross_section: CrossSection) -> Route:
         RouteWarning,
     )
 
-    c = gdspy.Cell(f"Error_{uuid.uuid4}"[:16])
+    c = gdspy.Cell(f"Error_{uuid.uuid4()}"[:16])
     path = gdspy.FlexPath(
         points,
         width=x.info["width"],
-        bend_radius=x.info["radius"],
-        corners="circular bend",
         gdsii_path=True,
-        layer=LAYER.ERROR_MARKER[0],
-        datatype=LAYER.ERROR_MARKER[1],
+        layer=layer_path[0],
+        datatype=layer_path[1],
     )
     c.add(path)
     ref = gdspy.CellReference(c)
     port1 = gf.Port(name="p1", midpoint=points[0], width=width)
     port2 = gf.Port(name="p2", midpoint=points[1], width=width)
 
-    return Route(references=[ref], ports=[port1, port2], length=-1)
+    point_marker = gf.c.rectangle(
+        size=(width * 2, width * 2), centered=True, layer=layer_marker
+    )
+    point_markers = [point_marker.ref(position=point) for point in points] + [ref]
+    point_markers += [
+        gdspy.Label(
+            text=str(i), position=point, layer=layer_label[0], texttype=layer_label[1]
+        )
+        for i, point in enumerate(points)
+    ]
+    return Route(references=point_markers, ports=[port1, port2], length=-1)
 
 
 def round_corners(

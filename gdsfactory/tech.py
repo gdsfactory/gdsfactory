@@ -49,6 +49,7 @@ class LayerMap:
     DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)
     ERROR_MARKER: Layer = (207, 0)
+    ERROR_PATH: Layer = (208, 0)
 
 
 LAYER = LayerMap()
