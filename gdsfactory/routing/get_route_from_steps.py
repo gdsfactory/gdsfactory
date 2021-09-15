@@ -184,4 +184,5 @@ if __name__ == "__main__":
             {"x": 120, "y": 80},
         ],
     )
+    c.add(route.references)
     c.show()
