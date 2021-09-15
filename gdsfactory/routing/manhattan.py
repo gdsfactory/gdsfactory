@@ -22,6 +22,7 @@ from gdsfactory.types import (
     ComponentOrFactory,
     Coordinate,
     Coordinates,
+    CrossSection,
     CrossSectionFactory,
     Layer,
     Route,
@@ -482,13 +483,11 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
-def raise_route_error(points, cross_section):
-    lib = gdspy.GdsLibrary()
-    c = lib.new_cell(f"Error_{uuid.uuid4}"[:16])
+def get_route_error(points, cross_section: CrossSection) -> Route:
     x = cross_section
-    p0_straight = points[0]
-    p1 = points[1]
+    width = x.info["width"]
 
+    c = gdspy.Cell(f"Error_{uuid.uuid4}"[:16])
     path = gdspy.FlexPath(
         points,
         width=x.info["width"],
@@ -499,10 +498,11 @@ def raise_route_error(points, cross_section):
         datatype=LAYER.ERROR_MARKER[1],
     )
     c.add(path)
-    lib.write_gds("error.gds")
-    gf.klive.show("error.gds")
+    ref = gdspy.CellReference(c)
+    port1 = gf.Port(name="p1", midpoint=points[0], width=width)
+    port2 = gf.Port(name="p2", midpoint=points[1], width=width)
 
-    raise RouteError(f"Points should be manhattan, got {p0_straight} {p1} in {points}")
+    return Route(references=[ref], ports=[port1, port2], length=-1)
 
 
 def round_corners(
@@ -514,7 +514,7 @@ def round_corners(
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     cross_section: CrossSectionFactory = strip,
-    route_error: Callable = raise_route_error,
+    on_route_error: Callable = get_route_error,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -597,7 +597,7 @@ def round_corners(
             bend_orientation = 180
 
     if bend_orientation is None:
-        route_error(points=points, cross_section=x)
+        return on_route_error(points=points, cross_section=x)
 
     layer = x.info["layer"]
     try:

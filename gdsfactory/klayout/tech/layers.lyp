@@ -1378,6 +1378,23 @@
   <source>205/0@1</source>
  </properties>
  <properties>
+  <frame-color>#ff0000</frame-color>
+  <fill-color>#ff0000</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I0</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
+  <transparent>true</transparent>
+  <width>3</width>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name>ERROR_MARKER 207/0</name>
+  <source>207/0@1</source>
+ </properties>
+ <properties>
   <frame-color>#404040</frame-color>
   <fill-color>#404040</fill-color>
   <frame-brightness>0</frame-brightness>
