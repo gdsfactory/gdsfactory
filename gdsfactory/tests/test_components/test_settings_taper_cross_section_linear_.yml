@@ -1,0 +1,8 @@
+function_name: taper_cross_section
+info: {}
+module: gdsfactory.components.taper_cross_section
+name: taper_cross_section_lin_fb44ec23
+settings:
+  length: 10
+  linear: true
+  npoints: 2

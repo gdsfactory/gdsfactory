@@ -16,12 +16,10 @@ def compass(
     (north, south, east, and west)
 
     Args:
-        size: tuple (4, 2)
+        size: rectangle size
         layer: tuple (int, int)
-
+        port_type:
     """
-    prefix = "e"
-
     c = gf.Component()
     r = gf.components.rectangle(size=size, layer=layer)
     dx = size[0]
@@ -30,7 +28,7 @@ def compass(
     rr = r.ref(position=(-dx / 2, -dy / 2))
     c.add(rr)
     c.add_port(
-        name=f"{prefix}1",
+        name="e1",
         midpoint=[-dx / 2, 0],
         width=dy,
         orientation=180,
@@ -38,7 +36,7 @@ def compass(
         port_type=port_type,
     )
     c.add_port(
-        name=f"{prefix}2",
+        name="e2",
         midpoint=[0, dy / 2],
         width=dx,
         orientation=90,
@@ -46,7 +44,7 @@ def compass(
         port_type=port_type,
     )
     c.add_port(
-        name=f"{prefix}3",
+        name="e3",
         midpoint=[dx / 2, 0],
         width=dy,
         orientation=0,
@@ -54,7 +52,7 @@ def compass(
         port_type=port_type,
     )
     c.add_port(
-        name=f"{prefix}4",
+        name="e4",
         midpoint=[0, -dy / 2],
         width=dx,
         orientation=-90,

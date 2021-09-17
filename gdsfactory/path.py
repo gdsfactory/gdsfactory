@@ -45,7 +45,7 @@ def transition(
     Args:
         cross_section1: First input CrossSection
         cross_section2: Second input CrossSection
-        width_type: {'sine', 'linear'}
+        width_type: sine or linear
             Sets the type of width transition used if any widths are different
             between the two input CrossSections.
 
