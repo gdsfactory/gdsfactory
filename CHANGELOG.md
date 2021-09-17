@@ -33,6 +33,7 @@ from contracts import contract
 
 - simplify via_stack_with_offset
 - via_stack_with_offset use array of references
+- add `gf.components.taper_cross_section` to taper two cross_sections
 
 
 ## 3.2.0
