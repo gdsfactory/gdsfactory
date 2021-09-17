@@ -1652,6 +1652,21 @@ spiral_inner_io
 
 
 
+spiral_inner_io_fiber_single
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.spiral_inner_io_fiber_single
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.spiral_inner_io_fiber_single()
+  c.plot()
+
+
+
 splitter_chain
 ----------------------------------------------------
 
@@ -1727,17 +1742,32 @@ straight_array
 
 
 
-straight_heater_doped
+straight_heater_doped_rib
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.straight_heater_doped
+.. autofunction:: gdsfactory.components.straight_heater_doped_rib
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped()
+  c = gf.components.straight_heater_doped_rib()
+  c.plot()
+
+
+
+straight_heater_doped_strip
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_doped_strip
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_doped_strip()
   c.plot()
 
 
@@ -1817,32 +1847,17 @@ straight_pin
 
 
 
-straight_pin_passive
+straight_pin_slot
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.straight_pin_passive
+.. autofunction:: gdsfactory.components.straight_pin_slot
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pin_passive()
-  c.plot()
-
-
-
-straight_pin_passive_tapered
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.straight_pin_passive_tapered
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.straight_pin_passive_tapered()
+  c = gf.components.straight_pin_slot()
   c.plot()
 
 
@@ -1858,36 +1873,6 @@ straight_pn
   import gdsfactory as gf
 
   c = gf.components.straight_pn()
-  c.plot()
-
-
-
-straight_pn_passive
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.straight_pn_passive
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.straight_pn_passive()
-  c.plot()
-
-
-
-straight_pn_passive_tapered
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.straight_pn_passive_tapered
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.straight_pn_passive_tapered()
   c.plot()
 
 
@@ -1978,6 +1963,36 @@ taper_0p5_to_3_l36
   import gdsfactory as gf
 
   c = gf.components.taper_0p5_to_3_l36()
+  c.plot()
+
+
+
+taper_cross_section_linear
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_cross_section_linear
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_cross_section_linear()
+  c.plot()
+
+
+
+taper_cross_section_sine
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_cross_section_sine
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_cross_section_sine()
   c.plot()
 
 
@@ -2278,6 +2293,21 @@ via_stack_slab
   import gdsfactory as gf
 
   c = gf.components.via_stack_slab()
+  c.plot()
+
+
+
+via_stack_slot
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slot
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slot()
   c.plot()
 
 

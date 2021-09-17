@@ -1,11 +1,13 @@
 function_name: via_stack
 info:
   height: 11
-  layer: null
+  layer_port:
+  - 49
+  - 0
 module: gdsfactory.components.via_stack
 name: via_stack
 settings:
-  layer: null
+  layer_port: null
   vias:
   - enclosure: 2
     function: via

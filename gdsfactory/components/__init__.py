@@ -141,21 +141,22 @@ from gdsfactory.components.straight_heater import (
     straight_heater_metal_undercut_90_90,
     test_ports,
 )
-from gdsfactory.components.straight_heater_doped import straight_heater_doped
-from gdsfactory.components.straight_pin import (
-    straight_pin,
-    straight_pin_passive,
-    straight_pin_passive_tapered,
-    straight_pn,
-    straight_pn_passive,
-    straight_pn_passive_tapered,
+from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
+from gdsfactory.components.straight_heater_doped_strip import (
+    straight_heater_doped_strip,
 )
+from gdsfactory.components.straight_pin import straight_pin, straight_pn
+from gdsfactory.components.straight_pin_slot import straight_pin_slot
 from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
 from gdsfactory.components.switch_tree import switch_tree
 from gdsfactory.components.taper import (
     taper,
     taper_strip_to_ridge,
     taper_strip_to_ridge_trenches,
+)
+from gdsfactory.components.taper_cross_section import (
+    taper_cross_section_linear,
+    taper_cross_section_sine,
 )
 from gdsfactory.components.taper_from_csv import (
     taper_0p5_to_3_l36,
@@ -172,6 +173,7 @@ from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, via3
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import via_stack, via_stack_heater, via_stack_slab
+from gdsfactory.components.via_stack_slot import via_stack_slot
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
@@ -309,20 +311,15 @@ __all__ = [
     "staircase",
     "straight",
     "straight_array",
-    "straight_heater",
-    "straight_heater_doped",
+    "straight_heater_doped_rib",
+    "straight_heater_doped_strip",
     "straight_heater_metal",
     "straight_heater_metal_90_90",
     "straight_heater_metal_undercut",
     "straight_heater_metal_undercut_90_90",
     "straight_pin",
-    "straight_pin_passive",
-    "straight_pin_passive_tapered",
     "straight_pn",
-    "straight_pn_passive",
-    "straight_pn_passive_tapered",
     "straight_rib",
-    "straight_rib_tapered",
     "strip",
     "taper",
     "taper2",
@@ -478,20 +475,20 @@ factory = dict(
     staircase=staircase,
     straight=straight,
     straight_array=straight_array,
-    straight_heater_doped=straight_heater_doped,
+    straight_heater_doped_rib=straight_heater_doped_rib,
+    straight_heater_doped_strip=straight_heater_doped_strip,
     straight_heater_metal=straight_heater_metal,
     straight_heater_metal_90_90=straight_heater_metal_90_90,
     straight_heater_metal_undercut=straight_heater_metal_undercut,
     straight_heater_metal_undercut_90_90=straight_heater_metal_undercut_90_90,
     straight_pin=straight_pin,
-    straight_pin_passive=straight_pin_passive,
-    straight_pin_passive_tapered=straight_pin_passive_tapered,
     straight_pn=straight_pn,
-    straight_pn_passive=straight_pn_passive,
-    straight_pn_passive_tapered=straight_pn_passive_tapered,
+    straight_pin_slot=straight_pin_slot,
     straight_rib=straight_rib,
     straight_rib_tapered=straight_rib_tapered,
     switch_tree=switch_tree,
+    taper_cross_section_linear=taper_cross_section_linear,
+    taper_cross_section_sine=taper_cross_section_sine,
     taper=taper,
     taper2=taper2,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,
@@ -513,6 +510,7 @@ factory = dict(
     via3=via3,
     via_cutback=via_cutback,
     via_stack=via_stack,
+    via_stack_slot=via_stack_slot,
     via_stack_heater=via_stack_heater,
     via_stack_slab=via_stack_slab,
     via_stack_with_offset=via_stack_with_offset,

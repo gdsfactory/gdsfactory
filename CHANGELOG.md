@@ -29,6 +29,12 @@ from contracts import contract
 
 
 ```
+## 3.2.1
+
+- simplify via_stack_with_offset
+- via_stack_with_offset use array of references
+
+
 ## 3.2.0
 
 - Ensures that an impossible route raises RouteWarning and draws error route with markers and labels on each port

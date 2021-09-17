@@ -3,17 +3,21 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.extension import extend_ports
+from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_slab
+from gdsfactory.components.via_stack import via_stack_metal
+from gdsfactory.components.via_stack_slot import via_stack_slot_slab
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
-def straight_pin(
+def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
-    via_stack: ComponentFactory = via_stack_slab,
+    via_stack: ComponentFactory = via_stack_metal,
+    via_stack_slot: ComponentFactory = via_stack_slot_slab,
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 2,
     port_orientation_top: int = 0,
@@ -21,7 +25,7 @@ def straight_pin(
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
-    """Returns PIN with contacts
+    """Returns PIN with contacts with slotted via
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -76,6 +80,18 @@ def straight_pin(
     contact_top.ymin = +via_stack_spacing / 2
     contact_bot.ymax = -via_stack_spacing / 2
 
+    slot_top = c << via_stack_slot(
+        size=(via_stack_length, via_stack_width),
+    )
+    slot_bot = c << via_stack_slot(
+        size=(via_stack_length, via_stack_width),
+    )
+
+    slot_bot.xmin = wg.xmin
+    slot_top.xmin = wg.xmin
+    slot_top.ymin = +via_stack_spacing / 2
+    slot_bot.ymax = -via_stack_spacing / 2
+
     c.add_port(
         "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
     )
@@ -85,10 +101,31 @@ def straight_pin(
     return c
 
 
-straight_pn = gf.partial(straight_pin, cross_section=pn)
+straight_pin_slot_passive = gf.partial(straight, cross_section=pin)
+
+straight_pin_passive_tapered = gf.partial(
+    extend_ports,
+    component=straight_pin_slot_passive,
+    extension_factory=taper_strip_to_ridge,
+    port1="o2",
+    port2="o1",
+)
+
+straight_pn_slot_passive = gf.partial(straight, cross_section=pn)
+straight_pn_slot_passive_tapered = gf.partial(
+    extend_ports,
+    component=straight_pn_slot_passive,
+    extension_factory=taper_strip_to_ridge,
+    port1="o2",
+    port2="o1",
+)
+
+
+straight_pn_slot = gf.partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
-    c = straight_pin()
+    c = straight_pin_slot()
+    # c = straight_pin_slot_passive()
     # c = straight_pn_passive_tapered()
     # print(c.ports.keys())
     c.show()

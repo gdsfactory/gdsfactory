@@ -1,0 +1,11 @@
+function_name: via_stack_slot
+info: {}
+module: gdsfactory.components.via_stack_slot
+name: via_stack_slot
+settings:
+  enclosure: 1
+  layer_offsets:
+  - 0
+  - 1
+  layer_port: null
+  yspacing: 2

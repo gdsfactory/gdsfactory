@@ -1,3 +1,8 @@
+"""
+Raises strange error for a transition
+
+"""
+
 import pydantic
 
 import gdsfactory as gf
@@ -22,13 +27,6 @@ xs_strip_heater_metal = gf.partial(
 xs_rib_heater_doped = gf.partial(
     gf.cross_section.rib_heater_doped, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
 )
-xs_strip_heater_doped = gf.partial(
-    gf.cross_section.strip_heater_doped,
-    layer=LAYER.WG,
-    width=1,
-    layers_heater=(LAYER.WG, LAYER.HEATER),
-    cladding_offsets_heater=(0, 0.1),
-)
 xs_rib_pin = gf.partial(
     gf.cross_section.pin, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
 )
@@ -39,8 +37,8 @@ ps_heater_metal = gf.partial(
     cross_section_heater=xs_strip_heater_metal,
 )
 ps_heater_doped = gf.partial(
-    gf.c.straight_heater_doped_strip,
-    cross_section_heater=xs_strip_heater_doped,
+    gf.c.straight_heater_doped_rib,
+    cross_section_heater=xs_rib_heater_doped,
 )
 ps_pin = gf.partial(
     gf.c.straight_pin,
@@ -64,7 +62,7 @@ if __name__ == "__main__":
     # import pathlib
     # write_library(component_factory=component_factory, dirpath=pathlib.Path.cwd())
 
-    c = ps_heater_doped()
     # c = ps_heater_metal()
     # c = ps_pin()
+    c = ps_heater_doped()
     c.show()

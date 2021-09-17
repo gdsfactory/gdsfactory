@@ -15,26 +15,26 @@ def via_stack(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via2, via3),
-    layer: Optional[Layer] = None,
+    layer_port: Optional[Layer] = None,
 ) -> Component:
     """Rectangular via_stack
 
     Args:
-        size: (tuple) Width and height of rectangle.
+        size: of the layers
         layers: layers on which to draw rectangles
         vias: vias to use to fill the rectangles
-        layer: port layer
+        layer_port: if None asumes port is on the last layer
     """
 
     width, height = size
     a = width / 2
     b = height / 2
-    layer_port = layer or layers[-1]
+    layer_port = layer_port or layers[-1]
 
     c = Component()
     c.height = height
     c.info["size"] = size
-    c.info["layer"] = layer
+    c.info["layer_port"] = layer_port
 
     for layer in layers:
         ref = c << compass(size=(width, height), layer=layer)
@@ -47,11 +47,9 @@ def via_stack(
         if via is not None:
             via = via() if callable(via) else via
 
-            w = via.info["width"]
-            h = via.info["height"]
+            w, h = via.info["size"]
             g = via.info["enclosure"]
-            pitch_x = via.info["pitch_x"]
-            pitch_y = via.info["pitch_y"]
+            pitch_x, pitch_y = via.info["spacing"]
 
             nb_vias_x = (width - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height - h - 2 * g) / pitch_y + 1
@@ -82,10 +80,15 @@ via_stack_slab = gf.partial(
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(via1, via2, via3),
 )
+via_stack_npp = gf.partial(
+    via_stack,
+    layers=(LAYER.WG, LAYER.Npp, LAYER.M1),
+    vias=(None, None, via1),
+)
 via_stack_slab_npp = gf.partial(
     via_stack,
-    layers=(LAYER.SLAB90, LAYER.Npp, LAYER.M1, LAYER.M2, LAYER.M3),
-    vias=(via1, via2, via3),
+    layers=(LAYER.SLAB90, LAYER.Npp, LAYER.M1),
+    vias=(None, None, via1),
 )
 via_stack_heater = gf.partial(
     via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via2, via3)

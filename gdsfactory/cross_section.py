@@ -14,6 +14,7 @@ from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 
 
 class CrossSection(CrossSectionPhidl):
@@ -196,11 +197,16 @@ def pin(
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
-    layer_ppp: Tuple[int, int] = LAYER.Ppp,
-    layer_npp: Tuple[int, int] = LAYER.Npp,
+    layers_contact1: Layers = (LAYER.Ppp,),
+    layers_contact2: Layers = (LAYER.Npp,),
+    cladding_offsets_contact1: Tuple[float, ...] = (0, -0.2),
+    cladding_offsets_contact2: Tuple[float, ...] = (0, -0.2),
     contact_width: float = 9.0,
     contact_gap: float = 0.55,
     slab_gap: float = -0.2,
+    layer_via: Optional[Layer] = None,
+    via_width: float = 1,
+    via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
 ) -> CrossSection:
     """rib PIN doped cross_section.
@@ -209,11 +215,16 @@ def pin(
         width: ridge width
         layer: ridge layer
         layer_slab: slab layer
-        layer_ppp: P++ layer
-        layer_npp: N++ layer
+        layers_contact1: P++ layer
+        layers_contact2: N++ layer
+        cladding_offsets_contact1:
+        cladding_offsets_contact2:
         contact_width:
         contact_gap: offset from contact to ridge edge
         slab_gap: extra slab gap (negative: contact goes beyond slab)
+        layer_via:
+        via_width:
+        via_offsets:
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -227,7 +238,7 @@ def pin(
        |   |         |                 undoped Si                  |            |   |
        |   |    P++  |                 intrinsic region            |     N++    |   |
        |___|_________|_____________________________________________|____________|___|
-
+                                                                    <----------->
                                                                     contact_width
        <---------------------------------------------------------------------------->
                                       slab_width
@@ -235,22 +246,38 @@ def pin(
     slab_width = width + 2 * contact_gap + 2 * contact_width - 2 * slab_gap
     contact_offset = width / 2 + contact_gap + contact_width / 2
 
+    sections = [Section(width=slab_width, layer=layer_slab, name="slab")]
+    sections += [
+        Section(
+            layer=layer,
+            width=contact_width + 2 * cladding_offset,
+            offset=+contact_offset,
+        )
+        for layer, cladding_offset in zip(layers_contact1, cladding_offsets_contact1)
+    ]
+    sections += [
+        Section(
+            layer=layer,
+            width=contact_width + 2 * cladding_offset,
+            offset=-contact_offset,
+        )
+        for layer, cladding_offset in zip(layers_contact2, cladding_offsets_contact2)
+    ]
+
+    if layer_via and via_width and via_offsets:
+        sections += [
+            Section(
+                layer=layer_via,
+                width=via_width,
+                offset=offset,
+            )
+            for offset in via_offsets
+        ]
+
     return cross_section(
         width=width,
         layer=layer,
-        sections=(
-            Section(
-                layer=layer_ppp,
-                width=contact_width,
-                offset=+contact_offset,
-            ),
-            Section(
-                layer=layer_npp,
-                width=contact_width,
-                offset=-contact_offset,
-            ),
-            Section(width=slab_width, layer=layer_slab, name="slab"),
-        ),
+        sections=sections,
         **kwargs,
     )
 
@@ -374,8 +401,8 @@ def strip_heater_metal_undercut(
 
                    |<------width------>|
                     ____________________ trench_gap
-                   |                   |<----------->|
-                   |                   |             |
+                   |                   |<----------->|              |
+                   |                   |             |   undercut   |
                    |       width       |             |              |
                    |                   |             |<------------>|
                    |___________________|             | trench_width |
@@ -406,6 +433,13 @@ def strip_heater_metal(
 ):
     """Returns strip cross_section with top heater metal.
     dimensions from https://doi.org/10.1364/OE.18.020298
+
+    Args:
+        width: of waveguide
+        layer:
+        heater_width: of metal heater
+        layer_heater: for the metal
+
     """
     return cross_section(
         width=width,
@@ -416,6 +450,63 @@ def strip_heater_metal(
 
 
 @pydantic.validate_arguments
+def strip_heater_doped(
+    width: float = 0.5,
+    layer: Layer = LAYER.WG,
+    heater_width: float = 1.0,
+    heater_gap: float = 0.8,
+    layers_heater: Layers = (LAYER.WG, LAYER.Npp),
+    cladding_offsets_heater: Tuple[float, ...] = (0, 0.1),
+    **kwargs,
+):
+    """Returns strip cross_section with N++ doped heaters on both sides.
+
+    .. code::
+
+                                  |<------width------>|
+          ____________             ___________________               ______________
+         |            |           |     undoped Si    |             |              |
+         |layer_heater|           |  intrinsic region |<----------->| layer_heater |
+         |____________|           |___________________|             |______________|
+                                                                     <------------>
+                                                        heater_gap     heater_width
+    """
+    heater_offset = width / 2 + heater_gap + heater_width / 2
+
+    sections = [
+        Section(
+            layer=layer,
+            width=heater_width + 2 * cladding_offset,
+            offset=+heater_offset,
+        )
+        for layer, cladding_offset in zip(layers_heater, cladding_offsets_heater)
+    ]
+
+    sections += [
+        Section(
+            layer=layer,
+            width=heater_width + 2 * cladding_offset,
+            offset=-heater_offset,
+        )
+        for layer, cladding_offset in zip(layers_heater, cladding_offsets_heater)
+    ]
+
+    return cross_section(
+        width=width,
+        layer=layer,
+        sections=sections,
+        **kwargs,
+    )
+
+
+strip_heater_doped_contact = partial(
+    strip_heater_doped,
+    layers_heater=(LAYER.WG, LAYER.Npp, LAYER.VIA1),
+    cladding_offsets_heater=(0, 0.1, -0.2),
+)
+
+
+@pydantic.validate_arguments
 def rib_heater_doped(
     width: float = 0.5,
     layer: Layer = LAYER.WG,
@@ -423,13 +514,29 @@ def rib_heater_doped(
     heater_gap: float = 0.8,
     layer_heater: Layer = LAYER.Npp,
     layer_slab: Layer = LAYER.SLAB90,
-    slab_width: float = 5.0,
+    slab_gap: float = 0.2,
     **kwargs,
 ):
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
+
+    .. code::
+
+
+                                     |<------width------>|
+                                      ____________________  heater_gap                slab_gap
+                                     |                   |<----------->|               <-->
+         ___ ________________________|                   |____________________________|___
+        |   |            |                 undoped Si                  |              |   |
+        |   |layer_heater|                 intrinsic region            |layer_heater  |   |
+        |___|____________|_____________________________________________|______________|___|
+                                                                        <------------>
+                                                                         heater_width
+        <--------------------------------------------------------------------------------->
+                                         slab_width
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
+    slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
     return cross_section(
         width=width,
         layer=layer,
@@ -456,53 +563,86 @@ def rib_heater_doped_contact(
     layer: Layer = LAYER.WG,
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
-    layer_heater: Layer = LAYER.Npp,
     layer_slab: Layer = LAYER.SLAB90,
-    layer_via: Layer = LAYER.VIA1,
-    via_inclusion: float = 0.2,
-    slab_width: float = 5.0,
+    layer_heater: Layer = LAYER.Npp,
+    contact_width: float = 2.0,
+    contact_gap: float = 0.8,
+    layers_contact: Layers = (LAYER.Npp, LAYER.VIA1),
+    cladding_offsets_contact: Tuple[float, ...] = (0, -0.2),
+    slab_gap: float = 0.2,
     **kwargs,
 ):
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
 
+    .. code::
+
+                                    |<------width------>|
+       slab_gap                      ____________________  contact_gap     contact width
+       <-->                         |                   |<------------->|<----------------->
+                                    |                   |  heater_gap |
+                                    |                   |<----------->|
+        ___ ________________________|                   |____________________________ ______
+       |   |            |                 undoped Si                  |              |      |
+       |   |layer_heater|                 intrinsic region            |layer_heater  |      |
+       |___|____________|_____________________________________________|______________|______|
+                                                                       <------------>
+                                                                        heater_width
+       <--------------------------------------------------------------------------------->
+                                         slab_width
+
 
     """
+    slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
     heater_offset = width / 2 + heater_gap + heater_width / 2
+    contact_offset = width / 2 + contact_gap + contact_width / 2
+    sections = [
+        Section(
+            layer=layer_heater,
+            width=heater_width,
+            offset=+heater_offset,
+        ),
+        Section(
+            layer=layer_heater,
+            width=heater_width,
+            offset=-heater_offset,
+        ),
+        Section(width=slab_width, layer=layer_slab, name="slab"),
+    ]
+
+    sections += [
+        Section(
+            layer=layer,
+            width=heater_width + 2 * cladding_offset,
+            offset=+contact_offset,
+        )
+        for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
+    ]
+
+    sections += [
+        Section(
+            layer=layer,
+            width=heater_width + 2 * cladding_offset,
+            offset=-contact_offset,
+        )
+        for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
+    ]
+
     return cross_section(
+        sections=sections,
         width=width,
         layer=layer,
-        sections=(
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=+heater_offset,
-            ),
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=-heater_offset,
-            ),
-            Section(
-                layer=layer_via,
-                width=heater_width - 2 * via_inclusion,
-                offset=+heater_offset,
-            ),
-            Section(
-                layer=layer_via,
-                width=heater_width - 2 * via_inclusion,
-                offset=-heater_offset,
-            ),
-            Section(width=slab_width, layer=layer_slab, name="slab"),
-        ),
         **kwargs,
     )
 
 
 strip = partial(cross_section)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
-rib = partial(strip, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab90"),))
+rib = partial(strip, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),))
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
+strip_rib_tip = partial(
+    strip, sections=(Section(width=0.2, layer=LAYER.SLAB90, name="slab"),)
+)
 
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
@@ -541,6 +681,7 @@ cross_section_factory = dict(
     pin=pin,
     strip_heater_metal_undercut=strip_heater_metal_undercut,
     strip_heater_metal=strip_heater_metal,
+    strip_heater_doped=strip_heater_doped,
     rib_heater_doped=rib_heater_doped,
 )
 
@@ -561,7 +702,6 @@ if __name__ == "__main__":
     # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
-    # Combine the Path and the CrossSection into a Component
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
 
@@ -571,13 +711,21 @@ if __name__ == "__main__":
     # X = rib_heater_doped()
 
     # X = strip_heater_metal_undercut()
-    X = metal1()
+    # X = metal1()
+    # X = pin(layer_via=LAYER.VIA1, via_offsets=(-2, 2))
     # X = pin()
+    # X = strip_heater_doped()
+
+    x1 = strip_rib_tip()
+    x2 = rib_heater_doped_contact()
+    X = gf.path.transition(x1, x2)
+    P = gf.path.straight(npoints=100, length=10)
+
     c = gf.path.extrude(P, X)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    c.pprint_ports
+    # c.pprint_ports
     c.show()

@@ -1,0 +1,34 @@
+function_name: straight_heater_doped_rib
+info: {}
+module: gdsfactory.components.straight_heater_doped_rib
+name: straight_heater_doped_r_378c5c80
+settings:
+  cross_section_heater: strip_heater_doped
+  length: 320
+  nsections: 3
+  port_orientation_bot: 180
+  port_orientation_top: 0
+  taper_length: 10
+  via_stack_contact:
+    function: via_stack
+    layers:
+    - - 1
+      - 0
+    - - 24
+      - 0
+    - - 41
+      - 0
+    vias:
+    - null
+    - null
+    - function: via
+      layer:
+      - 40
+      - 0
+  via_stack_contact_size:
+  - 10
+  - 10
+  via_stack_contact_yspacing: 2
+  via_stack_metal_size:
+  - 10
+  - 10

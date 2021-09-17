@@ -16,7 +16,7 @@ def test_route_error():
     p2 = right.ports["o2"]
 
     with pytest.warns(RouteWarning):
-        gf.routing.get_route_from_steps(
+        route = gf.routing.get_route_from_steps(
             port1=p2,
             port2=p1,
             steps=[
@@ -26,7 +26,10 @@ def test_route_error():
                 {"x": 120, "y": 80},
             ],
         )
+        c.add(route.references)
+    return c
 
 
 if __name__ == "__main__":
-    test_route_error()
+    c = test_route_error()
+    c.show()
