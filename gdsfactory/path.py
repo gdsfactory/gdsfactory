@@ -309,6 +309,8 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
         length: of straight
         npoints: number of points
     """
+    if length < 0:
+        raise ValueError(f"length = {length} needs to be > 0")
     return path.straight(length=length, num_pts=npoints)
 
 
