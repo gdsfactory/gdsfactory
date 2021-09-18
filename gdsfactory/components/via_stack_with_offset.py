@@ -31,8 +31,7 @@ def via_stack_with_offset(
 
     offsets = offsets or [0] * len(layers)
 
-    i = 0
-    for i, (layer, via, size, offset) in enumerate(zip(layers, vias, sizes, offsets)):
+    for layer, via, size, offset in zip(layers, vias, sizes, offsets):
         width, height = size
         x0 = -width / 2
         x1 = +width / 2
