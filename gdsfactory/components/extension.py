@@ -186,7 +186,7 @@ if __name__ == "__main__":
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
     # ce.show()
 
-    wg_pin = gf.components.straight_pin_passive_tapered(length=10)
+    wg_pin = gf.components.straight_pin(length=40)
     wg_pin.show()
 
     # c = pc.straight(layer=(3, 0))
