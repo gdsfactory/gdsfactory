@@ -135,13 +135,13 @@ def add_grating_couplers_with_loopback_fiber_single(
     if with_loopback:
 
         if rotation in [0, 180]:
-            length = p2.x - p1.x
+            length = abs(p2.x - p1.x)
             wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.xmin = p2.x
             wg.ymin = c.ymax + grating_coupler.ysize / 2 + loopback_xspacing
         else:
-            length = p2.y - p1.y
+            length = abs(p2.y - p1.y)
             wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.ymin = p1.y
