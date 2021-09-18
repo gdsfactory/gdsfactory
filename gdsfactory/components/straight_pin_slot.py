@@ -3,8 +3,6 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.extension import extend_ports
-from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_metal
 from gdsfactory.components.via_stack_slot import via_stack_slot_slab
@@ -25,7 +23,7 @@ def straight_pin_slot(
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
-    """Returns PIN with contacts with slotted via
+    """Returns PIN doped waveguide with contacts with slotted via
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -101,31 +99,8 @@ def straight_pin_slot(
     return c
 
 
-straight_pin_slot_passive = gf.partial(straight, cross_section=pin)
-
-straight_pin_passive_tapered = gf.partial(
-    extend_ports,
-    component=straight_pin_slot_passive,
-    extension_factory=taper_strip_to_ridge,
-    port1="o2",
-    port2="o1",
-)
-
-straight_pn_slot_passive = gf.partial(straight, cross_section=pn)
-straight_pn_slot_passive_tapered = gf.partial(
-    extend_ports,
-    component=straight_pn_slot_passive,
-    extension_factory=taper_strip_to_ridge,
-    port1="o2",
-    port2="o1",
-)
-
-
 straight_pn_slot = gf.partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
     c = straight_pin_slot()
-    # c = straight_pin_slot_passive()
-    # c = straight_pn_passive_tapered()
-    # print(c.ports.keys())
     c.show()

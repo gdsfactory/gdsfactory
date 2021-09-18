@@ -91,7 +91,7 @@ def component_sequence(
         import gdsfactory as gf
 
         bend180 = gf.components.bend_circular180()
-        wg_pin = gf.components.straight_pin_passive_tapered()
+        wg_pin = gf.components.straight_pin(length=40)
         wg = gf.components.straight()
 
         # Define a map between symbols and (component, input port, output port)
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     bend180 = gf.components.bend_circular180()
-    wg_pin = gf.components.straight_pin_passive_tapered(length=10)
+    wg_pin = gf.components.straight_pin(length=40)
     wg = gf.components.straight()
 
     # Define a map between symbols and (component, input port, output port)

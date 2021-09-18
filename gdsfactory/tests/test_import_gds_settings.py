@@ -78,5 +78,5 @@ if __name__ == "__main__":
     # c = test_properties_components(component_type="wire")
     # c = test_properties_components(component_type="bend_circular")
     # c = test_properties_components(component_type="mzi_arm")
-    # c = test_properties_components(component_type="straight_pin_passive_tapered")
+    # c = test_properties_components(component_type="straight_pin")
     c.show()

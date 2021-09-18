@@ -225,7 +225,7 @@ The actual chain of components is supplied by a string or a list
 
         # Define sub components
         bend180 = bend_circular(radius=radius, angle=180)
-        pm_wg = gf.c.straight_pin_passive_tapered(length=straight_length)
+        pm_wg = gf.c.straight_pin(length=straight_length)
         wg_short = straight(length=1.0)
         wg_short2 = straight(length=2.0)
         wg_heater = gf.c.straight_heater_metal(length=10.0)
