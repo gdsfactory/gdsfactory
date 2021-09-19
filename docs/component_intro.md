@@ -1,4 +1,4 @@
-Now that you have installed gf.lets create your first component.
+Now that you have installed gdsfactory lets create your first component.
 
 You'll need to keep 3 windows open:
 
@@ -103,15 +103,11 @@ Here is a step by step example below generating a waveguide crossing
 
 ## Types
 
-
-What types of data do you have in gf.
-Where is the gf.name come from?
-
+What are the common data types?
 
 ```eval_rst
 .. automodule:: gdsfactory.types
 ```
-
 
 ## Layers
 
@@ -137,7 +133,7 @@ We follow the generic layer numbers from the book "Silicon Photonics Design: Fro
 
 Layers are available in `gf.LAYER` as `gf.LAYER.WG`, `gf.LAYER.WGCLAD`
 
-You can build PDKs for different foundries using gf. the PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo. See [UBC PDK](https://github.com/gf.ubc) as an example.
+You can build PDKs for different foundries. The PDKs contain some foundry IP such as layer numbers, minimum CD, layer stack, so you need to keep them in a separate private repo. See [UBC PDK](https://github.com/gdsfactory/ubc) as an example.
 
 I recommend that you create the PDK repo using a cookiecutter template. For example, you can use this one.
 
@@ -165,18 +161,13 @@ LAYER = Layer()
 
 ```
 
-
 ## Port
-
-
 
 You can define ports to:
 
- - facilitate positioning of components with respect to one another
- - connect components between each other using routing sub-routines
- - find ports by a particular layer or port name prefix
-
-
+- facilitate positioning of components with respect to one another
+- connect components between each other using routing sub-routines
+- find ports by a particular layer or port name prefix
 
 ```eval_rst
 .. plot::
@@ -193,7 +184,6 @@ You can define ports to:
     c.plot()
 
 ```
-
 
 ```eval_rst
 .. plot::
@@ -223,20 +213,18 @@ You can define ports to:
 
 ```
 
-
 `gf.Component.ref` also accepts arguments such as:
 
- - `h_mirror` (True / False),
- - `v_mirror` (True / False)
- - `rotation` (0 / 90 / 180 / 270)
+- `h_mirror` (True / False),
+- `v_mirror` (True / False)
+- `rotation` (0 / 90 / 180 / 270)
 
- They implement the transformation w.r.t the port position given by port_id If no port_id is given, transformation is done w.r.t (0,0)
-
+They implement the transformation w.r.t the port position given by port_id If no port_id is given, transformation is done w.r.t (0,0)
 
 Ports can have flexible labelling and by default, the user chooses how to label the ports
 in the component with the constraint of giving name unique names within this component.
 
 A function `auto_rename_ports` is provided to automatically label ports according to the following convention:
 
- - photonics ports are labelled with strings that refer to the orientation
- - other ports are labelled from a prefix and numbered counter-clockwise starting from the east port
+- photonics ports are labelled with strings that refer to the orientation
+- other ports are labelled from a prefix and numbered counter-clockwise starting from the east port
