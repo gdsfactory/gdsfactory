@@ -29,6 +29,10 @@ from contracts import contract
 
 
 ```
+## Next release
+
+- add `gf.to_trimesh` to render components in 3D
+
 ## 3.2.1
 
 - simplify via_stack_with_offset
