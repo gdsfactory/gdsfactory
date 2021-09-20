@@ -23,4 +23,6 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
-  dy: 100
+  spacing:
+  - 0
+  - 100

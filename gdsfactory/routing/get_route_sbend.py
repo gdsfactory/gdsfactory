@@ -14,12 +14,13 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
             nb_points: number of points
             cross_section_factory
     """
-    height = port2.midpoint[1] - port1.midpoint[1]
-    length = port2.midpoint[0] - port1.midpoint[0]
+    ysize = port2.midpoint[1] - port1.midpoint[1]
+    xsize = port2.midpoint[0] - port1.midpoint[0]
+    size = (xsize, ysize)
 
     if port1.cross_section:
         kwargs.update(**port1.cross_section.info)
-    bend = bend_s(height=height, length=length, **kwargs)
+    bend = bend_s(size=size, **kwargs)
     bend_ref = bend.ref()
     bend_ref.connect("o1", port1)
     return Route(

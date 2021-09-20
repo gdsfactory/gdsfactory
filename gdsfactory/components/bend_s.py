@@ -4,13 +4,12 @@ from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionFactory, Float2
 
 
 @cell
 def bend_s(
-    height: float = 2.0,
-    length: float = 10.0,
+    size: Float2 = [10.0, 2.0],
     nb_points: int = 99,
     with_cladding_box: bool = True,
     cross_section: CrossSectionFactory = strip,
@@ -22,22 +21,21 @@ def bend_s(
     min_bend_radius depends on height and length
 
     Args:
-        height: in y direction
-        length: in x direction
+        size: in x and y direction
         nb_points: number of points
         with_cladding_box: square bounding box to avoid DRC errors
         cross_section: function
         kwargs: cross_section settings
 
     """
-    l, h = length, height
+    dx, dy = size
     x = cross_section(**kwargs)
     width = x.info["width"]
     layer = x.info["layer"]
 
     c = bezier(
         width=width,
-        control_points=[(0, 0), (l / 2, 0), (l / 2, h), (l, h)],
+        control_points=[(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)],
         npoints=nb_points,
         layer=layer,
     )

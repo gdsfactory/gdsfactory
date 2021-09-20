@@ -7,13 +7,13 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, Float2
 
 
 @cell
 def add_electrical_pads_top_dc(
     component: Component,
-    dy: float = 100.0,
+    spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentFactory = pad_array_function,
     select_ports: Callable = select_ports_electrical,
     **kwargs,
@@ -22,9 +22,10 @@ def add_electrical_pads_top_dc(
 
     Args:
         component:
-        dy: pad ymin to component ymax
+        spacing: component to pad spacing
         pad_array:
-        **kwargs: cross-section settings
+        select_ports: function to select_ports
+        **kwargs: route settings
     """
     c = Component()
 
@@ -35,8 +36,8 @@ def add_electrical_pads_top_dc(
         port.orientation = 90
 
     pads = c << pad_array(columns=len(ports))
-    pads.x = cref.x
-    pads.ymin = cref.ymax + dy
+    pads.x = cref.x + spacing[0]
+    pads.ymin = cref.ymax + spacing[1]
 
     ports_pads = list(pads.ports.values())
     ports_component = sort_ports_x(ports_component)

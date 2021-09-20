@@ -5,7 +5,7 @@ from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_route_electrical_shortest_path import (
     get_route_electrical_shortest_path,
 )
-from gdsfactory.types import ComponentFactory, Float2
+from gdsfactory.types import Float2, ComponentFactory
 
 
 @gf.cell
