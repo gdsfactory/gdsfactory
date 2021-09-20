@@ -136,7 +136,7 @@ __all__ = [
     "to_trimesh",
     "write_doe",
 ]
-__version__ = "3.2.1"
+__version__ = "3.2.2"
 
 
 if __name__ == "__main__":
