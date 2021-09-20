@@ -32,6 +32,8 @@ from contracts import contract
 ## Next release
 
 - add `gf.to_trimesh` to render components in 3D
+- replace dx, dy by size in bend_s, and spacing by dx, dy in splitter_tree
+
 
 ## 3.2.1
 
