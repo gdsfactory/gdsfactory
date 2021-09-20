@@ -9,7 +9,7 @@ from gdsfactory.types import CrossSectionFactory, Float2
 
 @cell
 def bend_s(
-    size: Float2 = [10.0, 2.0],
+    size: Float2 = (10.0, 2.0),
     nb_points: int = 99,
     with_cladding_box: bool = True,
     cross_section: CrossSectionFactory = strip,
