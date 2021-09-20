@@ -26,15 +26,15 @@ def coupler_symmetric(
 
     .. code::
 
-                         dx
-                      |-----|
-                       _____ E1
-                      /         |
-                _____/          |
-           gap  _____           |  dy
-                     \          |
-                      \_____    |
-                             E0
+                       dx
+                    |-----|
+                       ___ E1
+                      /       |
+                _____/        |
+           gap  _____         |  dy
+                     \        |
+                      \___    |
+                           E0
 
     """
 
@@ -42,8 +42,7 @@ def coupler_symmetric(
     width = x.info["width"]
     bend_component = (
         bend(
-            height=(dy - gap - width) / 2,
-            length=dx,
+            size=(dx, (dy - gap - width) / 2),
             cross_section=cross_section,
             **kwargs,
         )
@@ -75,7 +74,7 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.9, dx=5, layer=(2, 0))
+    c = coupler_symmetric(gap=0.2, width=0.9)
     c.show()
     c.pprint
 

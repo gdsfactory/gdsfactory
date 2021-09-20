@@ -3,6 +3,8 @@ info: {}
 module: gdsfactory.components.splitter_tree
 name: splitter_tree
 settings:
-  dx: 90
-  dy: 50
+  bend_s_xsize: null
   noutputs: 4
+  spacing:
+  - 90
+  - 50

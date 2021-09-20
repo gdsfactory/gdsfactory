@@ -1,6 +1,5 @@
 from typing import Dict, List, Tuple
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.types import Layer
@@ -11,7 +10,7 @@ DIRECTION_TO_ANGLE = {"W": 180, "E": 0, "N": 90, "S": 270}
 @cell
 def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Layer = gf.LAYER.WG,
+    layer: Layer = (1, 0),
     centered: bool = False,
     ports: Dict[str, List[Tuple[float, float, float]]] = None,
     **port_settings
@@ -20,12 +19,12 @@ def rectangle(
 
     Args:
         size: (tuple) Width and height of rectangle.
-        layer: (int, array-like[2], or set) Specific layer(s) to put polygon geometry on.
-        centered: True sets center to (0, 0)
+        layer: Specific layer to put polygon geometry on.
+        centered: True sets center to (0, 0), False sets south-west to (0, 0)
         ports: {direction: [(x, y, width), ...]} direction: 'W', 'E', 'N' or 'S'
 
     """
-    c = gf.Component()
+    c = Component()
     w, h = size
 
     if centered:
@@ -55,12 +54,12 @@ def rectangle(
                 )
                 i += 1
 
-    gf.port.auto_rename_ports(c)
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    c = rectangle(size=("hi", 2), ports={"N": [(0, 1, 4)]}, centered=True, layer=(2, 3))
+    c = rectangle(size=(3, 2), ports={"N": [(0, 1, 4)]}, centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)
     c.show()

@@ -7,16 +7,16 @@ from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Float2
 
 
 @gf.cell
 def splitter_tree(
     coupler: ComponentFactory = mmi1x2,
     noutputs: int = 4,
-    dy: float = 50.0,
-    dx: float = 90.0,
+    spacing: Float2 = (90.0, 50.0),
     bend_s: Optional[ComponentFactory] = bend_s_function,
+    bend_s_xsize: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> gf.Component:
@@ -25,10 +25,11 @@ def splitter_tree(
     Args:
         coupler: coupler factory
         noutputs: number of outputs
-        dx: x spacing between couplers
-        dy: y spacing between couplers
+        spacing: x, y spacing between couplers
         bend_s: Sbend library name or dict for termination
+        bend_s_xsize:
         cross_section: cross_section
+        bend_length: dx for the sbend
         kwargs: cross_section settings
 
     .. code::
@@ -43,8 +44,9 @@ def splitter_tree(
     """
     c = gf.Component()
 
-    coupler = coupler(**kwargs)
+    dx, dy = spacing
 
+    coupler = coupler(**kwargs)
     coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
     coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
 
@@ -57,8 +59,13 @@ def splitter_tree(
             coupler.ports[e0_port_name].midpoint[1]
             - coupler.ports[e1_port_name].midpoint[1]
         )
-        height = dy / 4 - dy_coupler_ports / 2
-        bend_s = bend_s(cross_section=cross_section, length=dx, height=height, **kwargs)
+        bend_s_ysize = dy / 4 - dy_coupler_ports / 2
+        bend_s_xsize = bend_s_xsize or dx
+        bend_s = bend_s(
+            cross_section=cross_section,
+            size=(bend_s_xsize, bend_s_ysize),
+            **kwargs,
+        )
     cols = int(np.log2(noutputs))
     i = 0
 
@@ -148,14 +155,15 @@ if __name__ == "__main__":
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
         noutputs=2 ** 2,
-        bend_s=None,
+        # bend_s=None,
         # dy=100.0,
         # layer=(2, 0),
     )
     c = splitter_tree(
         coupler=mmi2x2,
         noutputs=4,
-        bend_s=None,
+        bend_length=30,
+        # bend_s=None,
     )
     c.show()
     # print(len(c.ports))

@@ -7,17 +7,17 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Layer
 
 
-@gf.cell
+@cell
 def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
     cross_length: float = 80.0,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: Tuple[int, int] = (1, 0),
     layer_cladding: Optional[Tuple[int, int]] = None,
     square_corner: str = "bottom_left",
 ) -> Component:
     """Returns cross inside a frame to align wafer."""
-    c = gf.Component()
+    c = Component()
     cross = gf.components.cross(length=cross_length, width=width, layer=layer)
     c.add_ref(cross)
 
@@ -65,7 +65,7 @@ def add_frame(
     component: Component = rectangle,
     width: float = 10.0,
     spacing: float = 10.0,
-    layer: Layer = gf.LAYER.WG,
+    layer: Layer = (1, 0),
 ) -> Component:
     """Returns component with a frame around it.
 
@@ -75,7 +75,7 @@ def add_frame(
         spacing: of component to frame
 
     """
-    c = gf.Component()
+    c = Component()
     component = component() if callable(component) else component
     cref = c.add_ref(component)
     cref.move(-c.size_info.center)
@@ -102,7 +102,7 @@ def add_frame(
     return c
 
 
-@gf.cell
+@cell
 def triangle(x: float = 10, y: float = 20, layer: Layer = (1, 0)) -> Component:
     """
     Args:
@@ -110,7 +110,7 @@ def triangle(x: float = 10, y: float = 20, layer: Layer = (1, 0)) -> Component:
         y: height
         layer:
     """
-    c = gf.Component()
+    c = Component()
     points = [[x, 0], [0, 0], [0, y]]
     c.add_polygon(points, layer=layer)
     return c

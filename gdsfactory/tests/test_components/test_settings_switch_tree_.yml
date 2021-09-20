@@ -1,8 +1,9 @@
 function_name: splitter_tree
 info: {}
 module: gdsfactory.components.splitter_tree
-name: splitter_tree_couplermz_c9ecd3bd
+name: splitter_tree_couplermz_686a6b67
 settings:
+  bend_s_xsize: null
   coupler:
     combiner: mmi2x2
     delta_length: 0
@@ -11,6 +12,7 @@ settings:
     straight_x_top:
       function: straight_heater_metal_undercut
       with_undercut: false
-  dx: 500
-  dy: 100
   noutputs: 4
+  spacing:
+  - 500
+  - 100

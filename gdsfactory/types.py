@@ -43,6 +43,10 @@ class Routes:
     bend_radius: Optional[float] = None
 
 
+Float2 = Tuple[float, float]
+Float3 = Tuple[float, float, float]
+Floats = Tuple[float, ...]
+
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 RouteFactory = Callable[..., Route]
