@@ -36,7 +36,7 @@ def load_does(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
             ...
         }
 
-    .. code:: python
+    .. code:: yaml
 
         mmi1x2_gap:
             component: mmi1x2
