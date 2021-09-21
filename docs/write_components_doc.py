@@ -42,7 +42,7 @@ Components
             [
                 f"{p}={repr(sig.parameters[p].default)}"
                 for p in sig.parameters
-                if isinstance(sig.parameters[p].default, (int, float, str))
+                if isinstance(sig.parameters[p].default, (int, float, str, tuple))
             ]
         )
         if name in skip_plot:
