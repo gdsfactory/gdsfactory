@@ -29,11 +29,17 @@ from contracts import contract
 
 
 ```
-## Next release
+
+## 3.2.3
+
+- fix gf.to_trimesh
+- add `Floats`, `Float2` and `Float3` to types
+- add kwargs for component example documentation from signature
+
+## 3.2.2
 
 - add `gf.to_trimesh` to render components in 3D
 - replace dx, dy by size in bend_s, and spacing by dx, dy in splitter_tree
-
 
 ## 3.2.1
 
@@ -41,11 +47,9 @@ from contracts import contract
 - via_stack_with_offset use array of references
 - add `gf.components.taper_cross_section` to taper two cross_sections
 
-
 ## 3.2.0
 
 - Ensures that an impossible route raises RouteWarning and draws error route with markers and labels on each port
-
 
 ## 3.1.10
 
