@@ -1,8 +1,8 @@
 Routing
-=============================
+===================================================================================================
 
 get_route
-----------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 .. automodule:: gdsfactory.routing.get_route
    :members:
@@ -12,11 +12,10 @@ get_route
 
 
 get_bundle
----------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 
-Often, several ports have to be linked together without them crossing each other.
-One way to tackle simple cases is to use bundle routing.
-Several functions are available depending on the use case:
+Often, several ports have to be linked together without them crossing each other. One way to tackle
+simple cases is to use bundle routing. Several functions are available depending on the use case:
 
 .. autofunction:: gdsfactory.routing.get_bundle.get_bundle
 
@@ -56,12 +55,14 @@ Example with two arrays of ports connected using `get_bundle`
     c.plot()
 
 
-`get bundle` is the generic river routing function that will call different function depending on the port orientation.
-Get bundle acts as a high level entry point. Based on the angle configurations
-of the banks of ports, it decides which sub-routine to call:
+`get bundle` is the generic river routing function that will call different function depending on
+the port orientation. Get bundle acts as a high level entry point. Based on the angle
+configurations of the banks of ports, it decides which sub-routine to call:
 
- - `get_bundle_same_axis`, banks or ports facing each other (but with arbitrary and varying pitch on each side)
- - `get_bundle_corner`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on both sides)
+ - `get_bundle_same_axis`, banks or ports facing each other (but with arbitrary and varying pitch
+   on each side)
+ - `get_bundle_corner`, banks of ports with 90Deg / 270Deg between them (again pitch is flexible on
+   both sides)
  - `get_bundle_udirect`, banks of ports with direct U-turns
  - `get_bundle_uindirect`, banks of ports with indirect U-turns
 
@@ -74,7 +75,7 @@ of the banks of ports, it decides which sub-routine to call:
 
 
 route_ports_to_side
------------------------
+---------------------------------------------------------------------------------------------------
 
 For now `get_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
@@ -85,7 +86,7 @@ use `route_ports_to_side` before calling `get_bundle`
 
 
 get_bundle_from_waypoints
------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 .. autofunction:: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
 
@@ -129,16 +130,17 @@ get_bundle_from_waypoints
 
 
 get_bundle_path_length_match
----------------------------------
+---------------------------------------------------------------------------------------------------
 
 
 .. autofunction:: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
 
 
 add_fiber_array / add_fiber_single
---------------------------------------
+---------------------------------------------------------------------------------------------------
 
-In cases where individual components have to be tested, you can generate the array of optical I/O and connect them to the component.
+In cases where individual components have to be tested, you can generate the array of optical I/O
+and connect them to the component.
 
 You can connect the waveguides to a 127um pitch fiber array.
 
