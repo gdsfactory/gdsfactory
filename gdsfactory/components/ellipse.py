@@ -24,16 +24,7 @@ def ellipse(
     if the first element is larger, the ellipse will be horizontal and if the second
     element is larger, the ellipse will be vertical.
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
-      c.plot()
-
     """
-
     D = gf.Component()
     a = radii[0]
     b = radii[1]

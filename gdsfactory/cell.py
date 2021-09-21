@@ -11,6 +11,10 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 CACHE: Dict[str, Component] = {}
 
 
+class CellReturnTypeError(ValueError):
+    pass
+
+
 def clear_cache() -> None:
     """Clears the cache of components."""
     global CACHE
@@ -109,8 +113,9 @@ def cell_without_validator(func):
                 component.settings["contains"] = component.component.get_settings()
 
             if not isinstance(component, Component):
-                raise ValueError(
-                    f"`{func.__name__}` returned `{type(component)}` and not a Component"
+                raise CellReturnTypeError(
+                    f"function `{func.__name__}` should return a Component and it returned `{type(component)}`",
+                    "make sure that functions with the @cell decorator return a Component",
                 )
             component.module = func.__module__
             component.function_name = func.__name__
@@ -182,6 +187,7 @@ def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
         [w / 2, -h / 2.0],
     ]
     c.add_polygon(points)
+    return 2
     return c
 
 
@@ -213,11 +219,12 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
+    c = _dummy()
     # test_raise_error_args()
     # c = gf.components.straight()
 
     # test_autoname_false()
-    test_autoname()
+    # test_autoname()
     # test_set_name()
 
     # c = wg(length=3)
