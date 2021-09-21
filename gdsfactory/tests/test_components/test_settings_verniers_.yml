@@ -7,6 +7,9 @@ settings:
   layer_label:
   - 201
   - 0
-  size_max: 11
-  width_max: 0.5
-  width_min: 0.1
+  widths:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
