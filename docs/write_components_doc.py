@@ -1,4 +1,5 @@
 import pathlib
+import inspect
 import gdsfactory as gf
 
 
@@ -36,6 +37,14 @@ Components
         if name in skip or name.startswith("_"):
             continue
         print(name)
+        sig = inspect.signature(gf.c.factory[name])
+        kwargs = ", ".join(
+            [
+                f"{p}={repr(sig.parameters[p].default)}"
+                for p in sig.parameters
+                if isinstance(sig.parameters[p].default, (int, float, str))
+            ]
+        )
         if name in skip_plot:
             f.write(
                 f"""
@@ -61,7 +70,7 @@ Components
 
   import gdsfactory as gf
 
-  c = gf.components.{name}()
+  c = gf.components.{name}({kwargs})
   c.plot()
 
 """

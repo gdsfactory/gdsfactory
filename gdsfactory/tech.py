@@ -90,86 +90,84 @@ class LayerLevel:
     """
 
     name: str
-    gds_layer: int
-    gds_datatype: int = 0
+    layer: Tuple[int, int]
     thickness_nm: Optional[float] = None
     zmin_nm: Optional[float] = None
     material: Optional[str] = None
     sidewall_angle: float = 0
 
-    @property
-    def gds(self):
-        return (self.gds_layer, self.gds_datatype)
-
 
 @pydantic.dataclasses.dataclass
 class LayerStack:
     """
-    For simulation and matplotlib
+    For simulation and trimesh 3D rendering
 
     """
 
-    layers: List[LayerLevel]
+    levels: List[LayerLevel]
 
     def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness_nm."""
         return {
-            layer.gds: layer.thickness_nm for layer in self.layers if layer.thickness_nm
+            level.layer: level.thickness_nm
+            for level in self.levels
+            if level.thickness_nm
         }
 
     def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (nm)."""
-        return {layer.gds: layer.zmin_nm for layer in self.layers if layer.thickness_nm}
+        return {
+            level.layer: level.zmin_nm for level in self.levels if level.thickness_nm
+        }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to material."""
         return {
-            layer.gds: layer.material for layer in self.layers if layer.thickness_nm
+            level.layer: level.material for level in self.levels if level.thickness_nm
         }
 
     def to_dict(self):
-        return {layer.name: asdict(layer) for layer in self.layers}
+        return {level.name: asdict(level) for level in self.levels}
 
 
 def get_layer_stack_generic(thickness_nm: float = 220.0) -> LayerStack:
     """Returns generic LayerStack"""
     return LayerStack(
-        layers=[
+        levels=[
             LayerLevel(
                 name="core",
-                gds_layer=1,
+                layer=LAYER.WG,
                 thickness_nm=thickness_nm,
                 zmin_nm=0.0,
                 material="si",
             ),
             LayerLevel(
                 name="clad",
-                gds_layer=111,
+                layer=LAYER.WGCLAD,
                 zmin_nm=0.0,
                 material="sio2",
             ),
             LayerLevel(
                 name="slab150",
-                gds_layer=2,
+                layer=LAYER.SLAB150,
                 thickness_nm=150.0,
                 zmin_nm=0,
                 material="si",
             ),
             LayerLevel(
                 name="slab90",
-                gds_layer=3,
+                layer=LAYER.SLAB90,
                 thickness_nm=150.0,
                 zmin_nm=0.0,
                 material="si",
             ),
             LayerLevel(
                 name="nitride",
-                gds_layer=34,
+                layer=LAYER.WGN,
                 thickness_nm=350.0,
                 zmin_nm=220.0 + 100.0,
                 material="sin",
             ),
-            LayerLevel(name="nitride_clad", gds_layer=36),
         ]
     )
 

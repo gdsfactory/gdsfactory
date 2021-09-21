@@ -2,6 +2,7 @@
 adapted from phidl.geometry.
 """
 
+import warnings
 from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
@@ -99,6 +100,7 @@ def pack(
     precision: float = 1e-2,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
+
     Adapted from phidl.geometry
 
     Args:
@@ -162,14 +164,21 @@ def pack(
             d.center = (xcenter * precision, ycenter * precision)
         components_packed_list.append(packed)
 
+    if len(components_packed_list) > 1:
+        warnings.warn(f"created {len(components_packed_list)-1} groups of components")
+
     return components_packed_list
 
 
 def test_pack() -> Component:
-    import phidl.geometry as pg
+    import gdsfactory as gf
 
-    component_list = [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(2)]
-    component_list += [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(2)]
+    component_list = [
+        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+    ]
+    component_list += [
+        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+    ]
 
     components_packed_list = pack(
         component_list,  # Must be a list or tuple of Components
@@ -180,7 +189,6 @@ def test_pack() -> Component:
         sort_by_area=True,  # Pre-sorts the shapes by area
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
-    # print(len(c.get_dependencies()))
     assert len(c.get_dependencies()) == 4
     return c
 
@@ -195,35 +203,33 @@ def test_pack_with_settings() -> Component:
         component_list,  # Must be a list or tuple of Components
         spacing=1.25,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        # max_size=(None, None),  # Limits the size into which the shapes will be packed
+        max_size=(20, 20),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
         precision=1e-3,
     )
-    c = components_packed_list[0]  # Only one bin was created, so we plot that
+    c = components_packed_list[0]
     # print(len(c.get_dependencies()))
     return c
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
 
-    c = test_pack_with_settings()
+    # c = test_pack_with_settings()
     # c = test_pack()
-    c.show()
-    c.pprint
-    c.write_gds_with_metadata("mask.gds")
+    # c.show()
+    # c.pprint
+    # c.write_gds_with_metadata("mask.gds")
 
-    # import phidl.geometry as pg
-    # spacing = 1
-    # ellipses = pack(
-    #     [pg.ellipse(radii=np.random.rand(2) * n + 2) for n in range(50)],
-    #     spacing=spacing,
-    # )[0]
-    # ellipses.name = "ellipses"
-    # rectangles = pack(
-    #     [pg.rectangle(size=np.random.rand(2) * n + 2) for n in range(50)],
-    #     spacing=spacing,
-    # )[0]
-    # rectangles.name = "rectangles"
-    # p = pack([ellipses, rectangles])
-    # p.show()
+    p = pack(
+        [
+            gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2))
+            for n in range(5)
+        ],
+        spacing=1.0,
+        max_size=(9, 9),
+    )
+    c = p[0]
+    c.show()

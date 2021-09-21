@@ -31,12 +31,16 @@ def to_trimesh(
     layer_to_zmin = layer_stack.get_layer_to_zmin_nm()
     exclude_layers = exclude_layers or []
 
-    for layer, polygons in c.get_polygons(by_spec=True).items():
-        height = layer_to_z[layer] * 1e-3
-        zmin = layer_to_zmin[layer] * 1e-3
-        color_hex = layer_set.get_from_tuple(layer).color
-        color_rgb = matplotlib.colors.to_rgb(color_hex)
-        if layer not in exclude_layers:
+    for layer, polygons in component.get_polygons(by_spec=True).items():
+        if (
+            layer not in exclude_layers
+            and layer in layer_to_z
+            and layer in layer_to_zmin
+        ):
+            height = layer_to_z[layer] * 1e-3
+            zmin = layer_to_zmin[layer] * 1e-3
+            color_hex = layer_set.get_from_tuple(layer).color
+            color_rgb = matplotlib.colors.to_rgb(color_hex)
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
