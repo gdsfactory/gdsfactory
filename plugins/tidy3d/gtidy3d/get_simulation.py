@@ -89,13 +89,9 @@ def get_simulation(
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
 
-    component = component.copy()
-    component.x = 0
-    component.y = 0
-
     component_extended = (
         gf.components.extension.extend_ports(
-            component=component, length=extend_ports_length
+            component=component, length=extend_ports_length, centered=True
         )
         if extend_ports_length
         else component
@@ -103,6 +99,11 @@ def get_simulation(
 
     gf.show(component_extended)
     component_extended.flatten()
+    component_extended_ref = component_extended.ref()
+
+    component_ref = component.ref()
+    component_ref.x = 0
+    component_ref.y = 0
 
     structures = [
         td.Box(
@@ -114,9 +115,13 @@ def get_simulation(
 
     t_core = max(layer_to_thickness.values())
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
-    sim_size = [component.xsize + 2 * tpml, component.ysize + 2 * tpml, cell_thickness]
+    sim_size = [
+        component_ref.xsize + 2 * tpml,
+        component_ref.ysize + 2 * tpml,
+        cell_thickness,
+    ]
 
-    layer_to_polygons = component_extended.get_polygons(by_spec=True)
+    layer_to_polygons = component_extended_ref.get_polygons(by_spec=True)
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
             height = layer_to_thickness[layer]
@@ -127,7 +132,7 @@ def get_simulation(
 
             geometry = td.GdsSlab(
                 material=material,
-                gds_cell=component_extended,
+                gds_cell=component_extended_ref,
                 gds_layer=layer[0],
                 gds_dtype=layer[1],
                 z_cent=z_cent,
@@ -136,7 +141,7 @@ def get_simulation(
             structures.append(geometry)
 
     # Add source
-    port = component.ports[port_source_name]
+    port = component_ref.ports[port_source_name]
     angle = port.orientation
     width = port.width + 2 * port_margin
     size_x = width * abs(np.sin(angle * np.pi / 180))
@@ -158,7 +163,7 @@ def get_simulation(
 
     # Add port monitors
     monitors = {}
-    ports = sort_ports_x(sort_ports_y(component.get_ports_list()))
+    ports = sort_ports_x(sort_ports_y(component_ref.get_ports_list()))
     for port in ports:
         port_name = port.name
         angle = port.orientation
@@ -256,11 +261,12 @@ if __name__ == "__main__":
     c = gf.components.mmi1x2()
     c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gf.components.bend_circular(radius=2)
     # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
     # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.straight(length=2)
+    # c = gf.components.straight(length=2)
+
+    c = gf.components.bend_circular(radius=2)
 
     sim = get_simulation(c)
     # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))

@@ -114,7 +114,7 @@ def add_monitors_and_extend_ports(
 @cell
 def add_monitors(
     component: Component,
-    source_port_name: str = 1,
+    source_port_name: str = "o1",
     extension_length: float = 1.0,
     source_distance_to_monitors: float = 0.2,
     port_margin: float = 1.0,
@@ -165,9 +165,6 @@ def add_monitors(
         port_labels=[source_port_name],
         layer=layer_source,
     )
-
-    component_with_source.x = 0
-    component_with_source.y = 0
 
     # add simulation region
     component_with_padding = gf.add_padding(

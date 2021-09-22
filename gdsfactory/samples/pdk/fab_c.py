@@ -37,12 +37,10 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
         layers=[
             LayerLevel(
                 name="core",
-                gds_layer=34,
-                gds_datatype=0,
-                thickness=0.350,
+                layer=(34, 0),
                 zmin=0.220 + 0.100,
             ),
-            LayerLevel(name="clad", gds_layer=36, gds_datatype=0),
+            LayerLevel(name="clad", layer=(36, 0)),
         ]
     )
 

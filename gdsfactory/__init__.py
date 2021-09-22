@@ -73,7 +73,7 @@ from gdsfactory.grid import grid
 from gdsfactory.offset import offset
 from gdsfactory.boolean import boolean
 from gdsfactory.rotate import rotate
-from gdsfactory.to_trimesh import to_trimesh
+from gdsfactory.to_3d import to_3d
 
 
 c = components
@@ -133,7 +133,7 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "to_trimesh",
+    "to_3d",
     "write_doe",
 ]
 __version__ = "3.2.3"
