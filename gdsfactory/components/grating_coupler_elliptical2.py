@@ -29,7 +29,7 @@ def grating_coupler_elliptical2(
     teeth_list: Optional[Coordinates] = None,
     direction: str = "EAST",
     polarization: str = "te",
-    wavelength_nm: float = 1550.0,
+    wavelength: float = 1.55,
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Layer = gf.LAYER.TE,
     **kwargs,
@@ -56,7 +56,7 @@ def grating_coupler_elliptical2(
             can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
             OR an angle (float, in radians)
         polarization: te or tm
-        wavelength_nm: wavelength in nm
+        wavelength: wavelength um
 
     .. plot::
       :include-source:
@@ -101,7 +101,7 @@ def grating_coupler_elliptical2(
 
     c = gf.component_from.picwriter(c)
     c.polarization = polarization
-    c.wavelength = wavelength_nm
+    c.wavelength = wavelength
 
     x = c.center[0] + taper_length / 2
     circle = gf.components.circle(

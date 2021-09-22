@@ -85,7 +85,7 @@ def grating_taper_points(
 def grating_coupler_elliptical_tm(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
-    lambda_c: float = 1.554,
+    wavelength: float = 1.554,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.707,
     wg_width: float = 0.5,
@@ -100,7 +100,7 @@ def grating_coupler_elliptical_tm(
     Args:
         taper_length: taper length from input
         taper_angle: grating flare angle
-        lambda_c: grating transmission central wavelength (um)
+        wavelength: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees
         grating_line_width
         wg_width: waveguide width
@@ -119,7 +119,7 @@ def grating_coupler_elliptical_tm(
         polarization="tm",
         taper_length=taper_length,
         taper_angle=taper_angle,
-        lambda_c=lambda_c,
+        wavelength=wavelength,
         fiber_angle=fiber_angle,
         grating_line_width=grating_line_width,
         wg_width=wg_width,
@@ -136,7 +136,7 @@ def grating_coupler_elliptical_tm(
 def grating_coupler_elliptical_te(
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
-    lambda_c: float = 1.554,
+    wavelength: float = 1.554,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
@@ -151,7 +151,7 @@ def grating_coupler_elliptical_te(
         polarization="te",
         taper_length=taper_length,
         taper_angle=taper_angle,
-        lambda_c=lambda_c,
+        wavelength=wavelength,
         fiber_angle=fiber_angle,
         grating_line_width=grating_line_width,
         wg_width=wg_width,
@@ -169,7 +169,7 @@ def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
-    lambda_c: float = 1.554,
+    wavelength: float = 1.554,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
@@ -189,7 +189,7 @@ def grating_coupler_elliptical(
         polarization: te or tm
         taper_length: taper length from input
         taper_angle: grating flare angle
-        lambda_c: grating transmission central wavelength (um)
+        wavelength: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees
         grating_line_width
         wg_width: waveguide width
@@ -217,9 +217,9 @@ def grating_coupler_elliptical(
     nc = cladding_index
     sthc = np.sin(fiber_angle * DEG2RAD)
     d = neff ** 2 - nc ** 2 * sthc ** 2
-    a1 = lambda_c * neff / d
-    b1 = lambda_c / np.sqrt(d)
-    x1 = lambda_c * nc * sthc / d
+    a1 = wavelength * neff / d
+    b1 = wavelength / np.sqrt(d)
+    x1 = wavelength * nc * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
@@ -229,7 +229,7 @@ def grating_coupler_elliptical(
 
     c = gf.Component()
     c.polarization = polarization
-    c.wavelength = int(lambda_c * 1e3)
+    c.wavelength = int(wavelength * 1e3)
 
     # Make each grating line
     for p in range(p_start, p_start + n_periods + 1):

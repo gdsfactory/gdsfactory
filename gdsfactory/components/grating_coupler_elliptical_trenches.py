@@ -17,7 +17,7 @@ def grating_coupler_elliptical_trenches(
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
-    lambda_c: float = 1.53,
+    wavelength: float = 1.53,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
@@ -34,7 +34,7 @@ def grating_coupler_elliptical_trenches(
         polarization: 'te' or 'tm'
         taper_length: taper length from straight I/O
         taper_angle: grating flare angle
-        lambda_c: grating transmission central wavelength
+        wavelength: grating transmission central wavelength
         fiber_angle: fibre polish angle in degrees
         grating_line_width: of the 220 ridge
         wg_width: straight width
@@ -69,9 +69,9 @@ def grating_coupler_elliptical_trenches(
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
     d = neff ** 2 - nc ** 2 * sthc ** 2
-    a1 = lambda_c * neff / d
-    b1 = lambda_c / np.sqrt(d)
-    x1 = lambda_c * nc * sthc / d
+    a1 = wavelength * neff / d
+    b1 = wavelength / np.sqrt(d)
+    x1 = wavelength * nc * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
@@ -82,7 +82,7 @@ def grating_coupler_elliptical_trenches(
 
     c = gf.Component()
     c.polarization = polarization
-    c.wavelength = int(lambda_c * 1e3)
+    c.wavelength = int(wavelength * 1e3)
 
     # Make each grating line
     for p in range(p_start, p_start + n_periods + 1):

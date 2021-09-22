@@ -16,7 +16,7 @@ def grating_coupler_uniform(
     width: float = 0.5,
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
-    wavelength: int = 1500,
+    wavelength: float = 1.55,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
