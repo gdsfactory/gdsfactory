@@ -1,6 +1,6 @@
 import pathlib
 from dataclasses import asdict, field
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from phidl.device_layout import Device as Component
@@ -129,11 +129,11 @@ class LayerStack:
         """Returns layer tuple to z min position (um)."""
         return {level.layer: level.zmin for level in self.levels if level.thickness}
 
-    def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to material."""
+    def get_layer_to_material(self) -> Dict[Tuple[int, int], str]:
+        """Returns layer tuple to material name."""
         return {level.layer: level.material for level in self.levels if level.thickness}
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level.name: asdict(level) for level in self.levels}
 
 
