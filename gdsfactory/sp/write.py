@@ -118,7 +118,7 @@ def write(
             )
 
     sim_settings.update(**settings)
-    ss = SimulationSettings(sim_settings)
+    ss = SimulationSettings(**sim_settings)
 
     # assert ss.port_width < 5e-6
     # assert ss.port_height < 5e-6
