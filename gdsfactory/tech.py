@@ -206,7 +206,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
                 material="TiN",
             ),
             LayerLevel(
-                name="via1",
+                name="viac",
                 layer=LAYER.VIA1,
                 thickness=1500e-3,
                 zmin=220e-3 + 1100e-3 + 750e-3,

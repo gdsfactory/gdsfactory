@@ -10,11 +10,11 @@ ppp = layer(25)
 ge = layer(30)
 wgn = layer(34)
 
-via1 = layer(40)
+viac = layer(40)
 metal1 = layer(41)
-via2 = layer(44)
+via1 = layer(44)
 metal2 = layer(45)
-via3 = layer(43)
+via2 = layer(43)
 metal3 = layer(49)
 heater = layer(47)
 
@@ -47,10 +47,10 @@ metal3.material= Material('m3', color = (0, 0.8, 0))
 layerstack = [
     (220, [p, n, si]),
     (400, [wgn, ge]),
-    (1200, via1),
+    (1200, viac),
     (600, metal1),
-    (800, via2),
+    (800, via1),
     (600, metal2),
-    (1900, via3),
+    (1900, via2),
     (2800, metal3),
 ]

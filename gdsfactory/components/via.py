@@ -17,13 +17,12 @@ def via(
     """Rectangular via. Defaults to a square via.
 
     Args:
-        width: in x direction
-        height: in y direction, defaults to width
-        pitch:
-        pitch_x: Optional x pitch
-        pitch_y: Optional y pitch
+        size: in x, y direction
+        spacing: pitch_x, pitch_y
         enclosure: inclusion of via
         layer: via layer
+        layers_cladding:
+        cladding_offset
 
     .. code::
 
@@ -60,9 +59,9 @@ def via(
     return c
 
 
-via1 = gf.partial(via, layer=LAYER.VIAC)
-via2 = gf.partial(via, layer=LAYER.VIA1, enclosure=2)
-via3 = gf.partial(via, layer=LAYER.VIA2)
+viac = gf.partial(via, layer=LAYER.VIAC)
+via1 = gf.partial(via, layer=LAYER.VIA1, enclosure=2)
+via2 = gf.partial(via, layer=LAYER.VIA2)
 
 
 if __name__ == "__main__":

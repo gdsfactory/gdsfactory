@@ -61,12 +61,12 @@ l_GeNPP  = layer("24/0")
 l_top_implant = l_GePPp.or(l_GeNPP)
 
 ################ back-end
-l_via1  = layer("40/0")
+l_viac  = layer("40/0")
 l_m1    = layer("41/0")
 l_mh    = layer("47/0")
-l_via2  = layer("44/0")
+l_via1  = layer("44/0")
 l_m2    = layer("45/0")
-l_via3  = layer("43/0")
+l_via2  = layer("43/0")
 l_m3    = layer("49/0")
 l_open  = layer("46/0")
 
@@ -126,10 +126,10 @@ output("305/0", nitride)
 ################# VIAC, M1 and MH
 ox_si = deposit(hoxidesi + hge + hnitride, hoxidesi + hge + hnitride, :mode => :round)
 planarize(:less=> hge + hnitride, :into=>[ox_si])
-mask(l_via1).etch(hoxidesi + hge + hnitride + hoxidenitride, :taper => 4, :into => [ox_si, ox_nitride])
+mask(l_viac).etch(hoxidesi + hge + hnitride + hoxidenitride, :taper => 4, :into => [ox_si, ox_nitride])
 
-via1 = deposit(2*hoxidesi, 2* hoxidesi)
-planarize(:less=> 2*hoxidesi, :into=>[via1])
+viac = deposit(2*hoxidesi, 2* hoxidesi)
+planarize(:less=> 2*hoxidesi, :into=>[viac])
 
 mh = deposit(hheater, hheater)
 mask(l_mh.inverted()).etch(hheater + hheater, :into => [mh])
@@ -139,17 +139,17 @@ output("306/0", mh)
 output("399/0", m1)
 
 output("302/0", ox_si)
-output("303/0", via1)
+output("303/0", viac)
 
 ################# VIA1 and M2
 ox_m1 = deposit(2*hoxidem1, 2*hoxidem1, :mode => :round)
 planarize(:less=>hoxidem1, :into=>[ox_m1])
 
-mask(l_via2).etch(hoxidem1 + hm1m2, :taper => 4, :into => [ox_m1])
-via2 = deposit(hm2, hm2)
+mask(l_via1).etch(hoxidem1 + hm1m2, :taper => 4, :into => [ox_m1])
+via1 = deposit(hm2, hm2)
 
-mask(l_m2.inverted()).etch(hm2, :taper => 4, :into => [via2])
-output("308/0",via2)
+mask(l_m2.inverted()).etch(hm2, :taper => 4, :into => [via1])
+output("308/0",via1)
 
 ox_m2 = deposit(2*hoxidem2, 2*hoxidem2, :mode =>:round)
 planarize(:less=>hoxidem2, :into=>[ox_m2])
@@ -157,10 +157,10 @@ output("309/0", ox_m2)
 output("307/0", ox_m1)
 
 ################# VIA2 and M3
-mask(l_via3).etch(hoxidem2 + hm2m3 , :taper => 4, :into => [ox_m2, ox_m2])
-via3 = deposit(hm3, hm3)
-mask(l_m3.inverted()).etch(hm3, :taper => 4, :into => [via3])
-output("310/0",via3)
+mask(l_via2).etch(hoxidem2 + hm2m3 , :taper => 4, :into => [ox_m2, ox_m2])
+via2 = deposit(hm3, hm3)
+mask(l_m3.inverted()).etch(hm3, :taper => 4, :into => [via2])
+output("310/0",via2)
 
 ################# passivation and ML Open
 ox_m3 = deposit(hoxidem3, hoxidem3, :mode => :round)

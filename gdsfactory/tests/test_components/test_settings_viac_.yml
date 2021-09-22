@@ -1,16 +1,16 @@
 function_name: via
 info:
-  enclosure: 2
+  enclosure: 1
   spacing:
   - 2
   - 2
 module: gdsfactory.components.via
-name: via_enclosure2_layer44_0
+name: via_layer40_0
 settings:
   cladding_offset: 0
-  enclosure: 2
+  enclosure: 1
   layer:
-  - 44
+  - 40
   - 0
   layers_cladding: null
   spacing:

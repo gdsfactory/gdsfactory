@@ -4,7 +4,7 @@ from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.via import via1
+from gdsfactory.components.via import viac
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layers
 
@@ -13,7 +13,7 @@ from gdsfactory.types import ComponentOrFactory, Layers
 def via_stack_with_offset(
     layers: Layers = (LAYER.PPP, LAYER.M1),
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
-    vias: Tuple[Optional[ComponentOrFactory], ...] = (None, via1),
+    vias: Tuple[Optional[ComponentOrFactory], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
     port_orientation: int = 180,
 ) -> Component:
@@ -87,6 +87,6 @@ if __name__ == "__main__":
     c = via_stack_with_offset(
         layers=(LAYER.SLAB90, LAYER.M1),
         sizes=((20, 10), (20, 10)),
-        vias=(via1(size=(18, 2), spacing=(5, 5)), None),
+        vias=(viac(size=(18, 2), spacing=(5, 5)), None),
     )
     c.show()
