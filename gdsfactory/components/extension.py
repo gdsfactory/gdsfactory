@@ -89,6 +89,7 @@ def extend_ports(
     port1: Optional[str] = None,
     port2: Optional[str] = None,
     port_type: str = "optical",
+    centered: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
@@ -109,6 +110,10 @@ def extend_ports(
     component = component() if callable(component) else component
     cref = c << component
     c.component = component
+
+    if centered:
+        cref.x = 0
+        cref.y = 0
 
     ports_all = cref.get_ports_list()
     port_all_names = [p.name for p in ports_all]

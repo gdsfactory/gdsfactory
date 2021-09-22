@@ -116,20 +116,23 @@ def get_simulation(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
 
-    component = component.copy()
-    component.x = 0
-    component.y = 0
-
     component_extended = (
         gf.components.extension.extend_ports(
-            component=component, length=extend_ports_length
+            component=component, length=extend_ports_length, centered=True
         )
         if extend_ports_length
         else component
     )
 
+    component = component.ref()
+    component.x = 0
+    component.y = 0
+
     gf.show(component_extended)
+
     component_extended.flatten()
+    component_extended = component_extended.ref()
+
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]
     # print(geometry_center)
@@ -239,25 +242,24 @@ def get_simulation(
 
 
 if __name__ == "__main__":
-
-    c = gf.components.bend_circular(radius=2)
-    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
-
     c = gf.components.straight(length=2)
     c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
     c = gf.components.mmi1x2()
     c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    sim_dict = get_simulation(c, is_3d=True)
+    c = gf.components.bend_circular(radius=2)
+    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+
+    sim_dict = get_simulation(c, is_3d=False)
     sim = sim_dict["sim"]
 
-    # sim.plot2D() # plot top view
+    sim.plot2D()  # plot top view
 
-    center = (0, 0, 0)
-    size = sim.cell_size
-    sim.plot2D(
-        output_plane=mp.Volume(center=center, size=(0, size[1], size[2]))
-    )  # plot xsection
+    # center = (0, 0, 0)
+    # size = sim.cell_size
+    # sim.plot2D(
+    #     output_plane=mp.Volume(center=center, size=(0, size[1], size[2]))
+    # )  # plot xsection
 
     plt.show()
