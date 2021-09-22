@@ -4,7 +4,6 @@ Notice that this is the only file where units are in SI units (meters instead of
 """
 import dataclasses
 import time
-from collections import namedtuple
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -78,26 +77,26 @@ def write(
     unless overwrite=False
 
     Args:
-        component: gf.Component
+        component: Component to simulate
         session: you can pass a session=lumapi.FDTD() for debugging
         run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
         dirpath: where to store the simulations
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        **settings: overwrite any simulation setting
-            background_material: for the background
-            port_width: port width (m)
-            port_height: port height (m)
-            port_extension_um: port extension (um)
-            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-            zmargin: for the FDTD region 1e-6 (m)
-            ymargin: for the FDTD region 2e-6 (m)
-            xmargin: for the FDTD region
-            pml_margin: for all the FDTD region
-            wavelength_start: 1.2e-6 (m)
-            wavelength_stop: 1.6e-6 (m)
-            wavelength_points: 500
+        settings: overwrite any simulation setting
+          background_material: for the background
+          port_width: port width (um)
+          port_height: port height (um)
+          port_extension: port extension (um)
+          mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+          zmargin: for the FDTD region 1 (um)
+          ymargin: for the FDTD region 2 (um)
+          xmargin: for the FDTD region
+          pml_margin: for all the FDTD region
+          wavelength_start: 1.2 (um)
+          wavelength_stop: 1.6 (um)
+          wavelength_points: 500
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
@@ -105,30 +104,26 @@ def write(
 
     """
     sim_settings = dataclasses.asdict(simulation_settings)
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
 
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
-    for setting in sim_settings.keys():
-        assert (
-            setting in sim_settings
-        ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
     for setting in settings.keys():
-        assert (
-            setting in sim_settings
-        ), f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+        if setting not in sim_settings:
+            raise ValueError(
+                f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+            )
 
     sim_settings.update(**settings)
+    ss = SimulationSettings(sim_settings)
 
-    # easier to access dict in a namedtuple `ss.port_width`
-    ss = namedtuple("sim_settings", sim_settings.keys())(*sim_settings.values())
-
-    assert ss.port_width < 5e-6
-    assert ss.port_height < 5e-6
-    assert ss.zmargin < 5e-6
-    assert ss.ymargin < 5e-6
+    # assert ss.port_width < 5e-6
+    # assert ss.port_height < 5e-6
+    # assert ss.zmargin < 5e-6
+    # assert ss.ymargin < 5e-6
 
     ports = component.ports
 
@@ -137,7 +132,7 @@ def write(
     component._bb_valid = False
 
     c = gf.components.extension.extend_ports(
-        component=component, length=ss.port_extension_um
+        component=component, length=ss.port_extension
     )
     c.flatten()
     c.name = "top"
@@ -163,11 +158,11 @@ def write(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    x_min = component.xmin * 1e-6 - ss.xmargin - ss.pml_margin
-    x_max = component.xmax * 1e-6 + ss.xmargin + ss.pml_margin
+    x_min = component.xmin - ss.xmargin - ss.pml_margin
+    x_max = component.xmax + ss.xmargin + ss.pml_margin
 
-    y_min = component.ymin * 1e-6 - ss.ymargin - ss.pml_margin
-    y_max = component.ymax * 1e-6 + ss.ymargin + ss.pml_margin
+    y_min = component.ymin - ss.ymargin - ss.pml_margin
+    y_max = component.ymax + ss.ymargin + ss.pml_margin
 
     port_orientations = [p.orientation for p in ports.values()]
 
@@ -179,7 +174,9 @@ def write(
         y_min += ss.ymargin
 
     z = 0
-    z_span = 2 * ss.zmargin + max(layer_to_thickness.values()) * 1e-9
+    z_span = (2 * ss.zmargin + max(layer_to_thickness.values())) * 1e-6
+    x_min = x_min * 1e-6
+    y_min = y_min * 1e-6
 
     layers = component.get_layers()
     sim_settings = dict(
@@ -271,7 +268,7 @@ def write(
         p = f"FDTD::ports::port {i+1}"
         s.setnamed(p, "x", port.x * 1e-6)
         s.setnamed(p, "y", port.y * 1e-6)
-        s.setnamed(p, "z span", ss.port_height)
+        s.setnamed(p, "z span", ss.port_height * 1e-6)
 
         deg = int(port.orientation)
         # if port.orientation not in [0, 90, 180, 270]:
@@ -306,13 +303,13 @@ def write(
 
         s.setnamed(p, "direction", direction)
         s.setnamed(p, "injection axis", injection_axis)
-        s.setnamed(p, "y span", dyp)
-        s.setnamed(p, "x span", dxp)
+        s.setnamed(p, "y span", dyp * 1e-6)
+        s.setnamed(p, "x span", dxp * 1e-6)
         # s.setnamed(p, "theta", deg)
         s.setnamed(p, "name", port.name)
 
-    s.setglobalsource("wavelength start", ss.wavelength_start)
-    s.setglobalsource("wavelength stop", ss.wavelength_stop)
+    s.setglobalsource("wavelength start", ss.wavelength_start * 1e-6)
+    s.setglobalsource("wavelength stop", ss.wavelength_stop * 1e-6)
     s.setnamed("FDTD::ports", "monitor frequency points", ss.wavelength_points)
 
     if run:
@@ -392,7 +389,7 @@ def sample_convergence_wavelength():
             component=gf.components.straight(length=2),
             wavelength_start=wavelength_start,
         )
-        for wavelength_start in [1.222323e-6, 1.4e-6]
+        for wavelength_start in [1.2, 1.4]
     ]
 
 
