@@ -21,7 +21,7 @@ def get_input_label_text(
 ) -> str:
     """Get text string for an optical port."""
     polarization = gc.get_property("polarization")
-    wavelength_nm = gc.get_property("wavelength")
+    wavelength = gc.get_property("wavelength")
     prefix = prefix or ""
 
     assert polarization in [
@@ -29,12 +29,12 @@ def get_input_label_text(
         "tm",
     ], f"Not valid polarization {polarization} in [te, tm]"
     assert (
-        isinstance(wavelength_nm, (int, float)) and 1000 < wavelength_nm < 2000
-    ), f"{wavelength_nm} is Not valid 1000 < wavelength < 2000"
+        isinstance(wavelength, (int, float)) and 0.5 < wavelength < 5.0
+    ), f"{wavelength} is Not valid. Make sure it's in um"
 
     component_name = component_name or port.parent.get_property("name")
 
-    text = f"opt_{polarization}_{int(wavelength_nm)}_({prefix}{component_name})"
+    text = f"opt_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
     if isinstance(gc_index, int):
         text += f"_{gc_index}_{port.name}"
     else:

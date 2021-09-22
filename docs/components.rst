@@ -118,7 +118,7 @@ array_with_via
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via(n=3, pitch=150.0, waveguide_pitch=10.0, end_straight=60.0, component_port_name='e4', via_stack_y_offset=-44.0, facing_west=True)
+  c = gf.components.array_with_via(columns=3, pitch=150.0, waveguide_pitch=10.0, end_straight=60.0, component_port_name='e4', via_stack_y_offset=-44.0, facing_west=True)
   c.plot()
 
 
@@ -133,7 +133,7 @@ array_with_via_2d
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via_2d(pitch=150.0, cols=3, rows=2)
+  c = gf.components.array_with_via_2d(pitch=150.0, columns=3, rows=2)
   c.plot()
 
 
@@ -238,7 +238,7 @@ bend_euler180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler180(angle=180)
+  c = gf.components.bend_euler180(angle=180, p=1, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
   c.plot()
 
 
@@ -957,7 +957,7 @@ grating_coupler_elliptical
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=30.0, lambda_c=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(203, 0), cladding_index=1.443)
+  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=30.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(203, 0), cladding_index=1.443)
   c.plot()
 
 
@@ -972,7 +972,7 @@ grating_coupler_elliptical2
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical2(wg_width=0.5, cladding_offset=2.0, theta=0.7853981633974483, length=30.0, taper_length=10.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength_nm=1550.0, fiber_marker_width=11.0, fiber_marker_layer=(203, 0))
+  c = gf.components.grating_coupler_elliptical2(wg_width=0.5, cladding_offset=2.0, theta=0.7853981633974483, length=30.0, taper_length=10.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0))
   c.plot()
 
 
@@ -987,7 +987,7 @@ grating_coupler_elliptical_te
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_te(taper_length=16.6, taper_angle=40.0, lambda_c=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=24, fiber_marker_layer=(203, 0))
+  c = gf.components.grating_coupler_elliptical_te(taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=24, fiber_marker_layer=(203, 0))
   c.plot()
 
 
@@ -1002,7 +1002,7 @@ grating_coupler_elliptical_tm
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_tm(taper_length=16.6, taper_angle=30.0, lambda_c=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, layer=(1, 0), n_periods=16, fiber_marker_layer=(204, 0))
+  c = gf.components.grating_coupler_elliptical_tm(taper_length=16.6, taper_angle=30.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, layer=(1, 0), n_periods=16, fiber_marker_layer=(204, 0))
   c.plot()
 
 
@@ -1017,7 +1017,7 @@ grating_coupler_elliptical_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_trenches(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, lambda_c=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_elliptical_trenches(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
   c.plot()
 
 
@@ -1047,7 +1047,7 @@ grating_coupler_te
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_te(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=35, trenches_extra_angle=9.0, lambda_c=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_te(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=35, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
   c.plot()
 
 
@@ -1062,7 +1062,7 @@ grating_coupler_tm
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_tm(polarization='tm', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, lambda_c=1.53, fiber_angle=15.0, grating_line_width=0.6, wg_width=0.5, neff=1.8, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_tm(polarization='tm', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.6, wg_width=0.5, neff=1.8, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
   c.plot()
 
 
@@ -2172,7 +2172,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.2.2', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.2.3', text_size=10)
   c.plot()
 
 
@@ -2262,7 +2262,7 @@ via_stack
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f23486cc9d0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f23486cc9d0>, layer=(43, 0))))
+  c = gf.components.via_stack(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f3bafa65310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f3bafa65310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2277,7 +2277,7 @@ via_stack_heater
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f23486cc9d0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f23486cc9d0>, layer=(43, 0))))
+  c = gf.components.via_stack_heater(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f3bafa65310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f3bafa65310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2292,7 +2292,7 @@ via_stack_slab
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f23486cc9d0>, layer=(40, 0)), functools.partial(<function via at 0x7f23486cc9d0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f23486cc9d0>, layer=(43, 0))))
+  c = gf.components.via_stack_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f3bafa65310>, layer=(40, 0)), functools.partial(<function via at 0x7f3bafa65310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f3bafa65310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2322,7 +2322,7 @@ via_stack_with_offset
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), vias=(None, functools.partial(<function via at 0x7f23486cc9d0>, layer=(40, 0))), port_orientation=180)
+  c = gf.components.via_stack_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), vias=(None, functools.partial(<function via at 0x7f3bafa65310>, layer=(40, 0))), port_orientation=180)
   c.plot()
 
 

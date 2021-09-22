@@ -13,7 +13,6 @@ settings:
   - 0
   fiber_marker_width: 11
   grating_line_width: 0.343
-  lambda_c: 1.554
   layer:
   - 1
   - 0
@@ -26,4 +25,5 @@ settings:
   polarization: te
   taper_angle: 30
   taper_length: 16.6
+  wavelength: 1.554
   wg_width: 0.5

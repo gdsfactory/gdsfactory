@@ -33,7 +33,9 @@ from contracts import contract
 ## 3.2.4
 
 - transition raises ValueError if has no common layers
+- grating coupler wavelength parameter in um to be consistent with all units in gdsfactory
 - rename thickness_nm to thickness and zmin_nm to zmin in layer_stack to be consistent with gdsfactory units in um
+- rename Ppp to PPP, Npp to NPP to be consistent with nomenclature
 
 ## 3.2.3
 
