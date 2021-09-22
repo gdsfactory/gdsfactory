@@ -12,14 +12,14 @@ def get_sparameters_path(
     component: Component,
     layer_to_material: Dict[Tuple[int, int], str],
     layer_to_thickness: Dict[Tuple[int, int], int],
-    dirpath: Path = CONFIG["sp"],
+    dirpath: Path = CONFIG["sparameters"],
 ) -> Path:
     """Returns Sparameters filepath.
 
     Args:
         component:
         dirpath
-        layer_to_material: GDSlayer to material alias (see aliases in gf.sp.write)
+        layer_to_material: GDSlayer to material alias
         layer_to_thickness: GDSlayer to thickness (nm)
     """
     dirpath = pathlib.Path(dirpath)

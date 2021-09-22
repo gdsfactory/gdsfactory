@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Callable, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,14 +7,17 @@ from pandas import DataFrame
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.sp.write import write
+from gdsfactory.simulation.write_sparameters_lumerical import (
+    write_sparameters_lumerical,
+)
 
 
-def plot(
+def plot_sparameters(
     component_or_df: Union[Component, DataFrame],
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-    dirpath: Path = gf.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sparameters"],
+    write_sparameters_function: Callable = write_sparameters_lumerical,
     **sim_settings,
 ):
     """Plots Sparameters.
@@ -30,7 +33,7 @@ def plot(
 
     r = component_or_df
     if isinstance(r, Component):
-        r = write(component=r, dirpath=dirpath, **sim_settings)
+        r = write_sparameters_function(component=r, dirpath=dirpath, **sim_settings)
     w = r["wavelength_nm"]
 
     if keys:
@@ -49,14 +52,14 @@ def plot(
 if __name__ == "__main__":
 
     remove_layers = []
-    layer_to_thickness = {(1, 0): 220}
+    layer_to_thickness = {(1, 0): 220e-3}
 
     # r = write(component=gf.components.straight(), layer_to_thickness=layer_to_thickness)
     # r = write(component=gf.components.mmi2x2(), layer_to_thickness=layer_to_thickness)
     # r = write(component=gf.components.mmi1x2(), layer_to_thickness=layer_to_thickness)
     # r = write(component=gf.components.coupler(), layer_to_thickness=layer_to_thickness)
     # r = write(component=gf.components.bend_circular(), layer_to_thickness=layer_to_thickness)
-    # plot(r, logscale=True)
-    # plot(gf.components.coupler())
-    plot(gf.components.mmi1x2(), logscale=False)
+    # plot_sparameters(r, logscale=True)
+    # plot_sparameters(gf.components.coupler())
+    plot_sparameters(gf.components.mmi1x2(), logscale=False)
     plt.show()

@@ -1,7 +1,7 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory.sp as sparameters
+import gdsfactory.simulation as sim
 from gdsfactory import components
 
 factory = {
@@ -23,11 +23,11 @@ component_types = []
 
 
 @pytest.mark.parametrize("component_type", component_types)
-def test_sp_load(
+def test_read_sparameters(
     component_type: str, data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     c = factory[component_type]()
-    sp = sparameters.read_sparameters_component(c)
+    sp = sim.read_sparameters_component(c)
 
     port_names = sp[0]
     f = list(sp[1])
@@ -47,4 +47,4 @@ def test_sp_load(
 if __name__ == "__main__":
     # c = gf.components.straight(layer=(2, 0))
     # print(c.get_sparameters_path())
-    test_sp_load("straight", None, False)
+    test_read_sparameters("straight", None, False)

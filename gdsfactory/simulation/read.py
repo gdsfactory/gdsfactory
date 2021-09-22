@@ -7,7 +7,7 @@ import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.sp.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
@@ -82,14 +82,14 @@ def read_sparameters_lumerical(
 
 
 def test_read_sparameters_2port_bend():
-    filepath = gf.CONFIG["sp"] / "bend_circular" / "bend_circular_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "bend_circular" / "bend_circular_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
     print(port_names)
     assert port_names == ("N0", "W0")
 
 
 def test_read_sparameters_2port_straight():
-    filepath = gf.CONFIG["sp"] / "straight" / "straight_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "straight" / "straight_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
     print(port_names)
     assert len(f) == 500
@@ -97,7 +97,7 @@ def test_read_sparameters_2port_straight():
 
 
 def test_read_sparameters_3port_mmi1x2():
-    filepath = gf.CONFIG["sp"] / "mmi1x2" / "mmi1x2_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=3)
     print(port_names)
     assert len(f) == 500
@@ -105,7 +105,7 @@ def test_read_sparameters_3port_mmi1x2():
 
 
 def test_read_sparameters_4port_mmi2x2():
-    filepath = gf.CONFIG["sp"] / "mmi2x2" / "mmi2x2_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=4)
     print(port_names)
     assert len(f) == 500
@@ -117,7 +117,7 @@ def read_sparameters_component(
     layer_stack: LayerStack = LAYER_STACK,
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
     layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
-    dirpath: Path = gf.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sparameters"],
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
 
@@ -156,7 +156,7 @@ def read_sparameters_pandas(
     component: Component,
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
     layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
-    dirpath: Path = gf.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sparameters"],
 ) -> pd.DataFrame:
     filepath = get_sparameters_path(
         component=component,
