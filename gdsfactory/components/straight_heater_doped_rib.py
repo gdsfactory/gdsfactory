@@ -50,14 +50,15 @@ def straight_heater_doped_rib(
                        length_section
              <--------------------------->
            length_contact
-             <------->
+             <------->                             taper
              ______________________________________
-           /|        |____________________|        |
-          / |viastack|                    |        |
-          \ | size   |____________________|        |
-           \|________|____________________|________|
+           /|        |____________________|        |\
+        __/ |viastack|                    |        | \___
+        __  |        |                    |        |  ___cross_section
+          \ | size   |____________________|        | /
+           \|________|____________________|________|/
 
-        taper         cross_section_heater cross_section_contact
+        taper         cross_section_heater
 
 
 

@@ -22,9 +22,9 @@ if __name__ == "__main__":
 
     c = gf.Component()
     ps = gf.components.straight_heater_metal()
-    ps_array = gf.components.array(component=ps, pitch=20)
+    ps_array = gf.components.array(component=ps, spacing=(0, 20), columns=1, rows=2)
 
-    splitter = gf.components.splitter_tree(noutputs=N, dy=dy)
+    splitter = gf.components.splitter_tree(noutputs=N, spacing=(90, dy))
     splitters = c.add_ref(splitter)
     splitters.movey(-30)
     splitters.xmax = 0
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     if with_pads:
         pads = c << gf.components.array_with_fanout_2d(
-            cols=ncols * 2,
+            columns=ncols * 2,
             rows=nrows,
             pitch=pad_pitch,
             width=metal_width,

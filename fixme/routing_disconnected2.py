@@ -8,8 +8,8 @@ import gdsfactory as gf
 
 if __name__ == "__main__":
     c = gf.Component()
-    c1 = c << gf.components.array(pitch=100)
-    c2 = c << gf.components.array(pitch=5)
+    c1 = c << gf.components.array(rows=2, columns=1, spacing=(0, 100))
+    c2 = c << gf.components.array(rows=2, columns=1, spacing=(0, 5))
 
     c2.movex(200)
     c1.y = 0

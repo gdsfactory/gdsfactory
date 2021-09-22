@@ -31,7 +31,7 @@ def array(
     for col in range(columns):
         for row in range(rows):
             for port in component.ports.values():
-                name = f"{port.name}{row+1}{col+1}"
+                name = f"{port.name}_{row+1}_{col+1}"
                 c.add_port(name, port=port)
                 c.ports[name].move((col * spacing[0], row * spacing[1]))
     return c

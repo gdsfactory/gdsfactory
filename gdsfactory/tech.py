@@ -84,15 +84,15 @@ class LayerLevel:
         gds_layer: GDSII Layer number.
         gds_datatype: GDSII datatype.
         thickness_nm: thickness of layer
-        zmin_nm: height position where material starts
+        zmin: height position where material starts
         material: material name
         sidewall_angle: in degrees with respect to normal
     """
 
     name: str
     layer: Tuple[int, int]
-    thickness_nm: Optional[float] = None
-    zmin_nm: Optional[float] = None
+    thickness: Optional[float] = None
+    zmin: Optional[float] = None
     material: Optional[str] = None
     sidewall_angle: float = 0
 
@@ -130,42 +130,42 @@ class LayerStack:
         return {level.name: asdict(level) for level in self.levels}
 
 
-def get_layer_stack_generic(thickness_nm: float = 220.0) -> LayerStack:
+def get_layer_stack_generic(thickness: float = 0.220) -> LayerStack:
     """Returns generic LayerStack"""
     return LayerStack(
         levels=[
             LayerLevel(
                 name="core",
                 layer=LAYER.WG,
-                thickness_nm=thickness_nm,
-                zmin_nm=0.0,
+                thickness=thickness,
+                zmin=0.0,
                 material="si",
             ),
             LayerLevel(
                 name="clad",
                 layer=LAYER.WGCLAD,
-                zmin_nm=0.0,
+                zmin=0.0,
                 material="sio2",
             ),
             LayerLevel(
                 name="slab150",
                 layer=LAYER.SLAB150,
-                thickness_nm=150.0,
-                zmin_nm=0,
+                thickness=0.150,
+                zmin=0,
                 material="si",
             ),
             LayerLevel(
                 name="slab90",
                 layer=LAYER.SLAB90,
-                thickness_nm=150.0,
-                zmin_nm=0.0,
+                thickness=0.150,
+                zmin=0.0,
                 material="si",
             ),
             LayerLevel(
                 name="nitride",
                 layer=LAYER.WGN,
-                thickness_nm=350.0,
-                zmin_nm=220.0 + 100.0,
+                thickness=0.350,
+                zmin=0.220 + 0.100,
                 material="sin",
             ),
         ]

@@ -34,7 +34,7 @@ def via_stack(
     c = Component()
     c.height = height
     c.info["size"] = size
-    c.info["layer_port"] = layer_port
+    c.info["layer"] = layer_port
 
     for layer in layers:
         ref = c << compass(size=(width, height), layer=layer)
