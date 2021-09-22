@@ -14,18 +14,31 @@ Layer = Tuple[int, int]
 
 @pydantic.dataclasses.dataclass(frozen=True)
 class LayerMap:
+    """Generic layermap based on Textbook:
+    Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
+    Cambridge University Press 2015, page 353
+
+    You will need to create a new LayerMap with your specific foundry layers.
+    """
+
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
     SLAB150: Layer = (2, 0)
     SLAB90: Layer = (3, 0)
+    DEEPTRENCH: Layer = (4, 0)
+    GE: Layer = (5, 0)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
+
     N: Layer = (20, 0)
-    Np: Layer = (22, 0)
-    Npp: Layer = (24, 0)
+    NP: Layer = (22, 0)
+    NPP: Layer = (24, 0)
     P: Layer = (21, 0)
-    Pp: Layer = (23, 0)
-    Ppp: Layer = (25, 0)
+    PP: Layer = (23, 0)
+    PPP: Layer = (25, 0)
+    GEN: Layer = (26, 0)
+    GEP: Layer = (27, 0)
+
     HEATER: Layer = (47, 0)
     M1: Layer = (41, 0)
     M2: Layer = (45, 0)
@@ -33,8 +46,9 @@ class LayerMap:
     VIA1: Layer = (40, 0)
     VIA2: Layer = (44, 0)
     VIA3: Layer = (43, 0)
+    METALOPEN: Layer = (46, 0)
+
     NO_TILE_SI: Layer = (71, 0)
-    DEEPTRENCH: Layer = (7, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
     FLOORPLAN: Layer = (99, 0)
@@ -81,9 +95,8 @@ class LayerLevel:
 
     Args:
         name: Name of the Layer.
-        gds_layer: GDSII Layer number.
-        gds_datatype: GDSII datatype.
-        thickness: thickness of layer
+        layer: (GDSII Layer number, GDSII datatype)
+        thickness: layer thickness
         zmin: height position where material starts
         material: material name
         sidewall_angle: in degrees with respect to normal
@@ -107,13 +120,13 @@ class LayerStack:
     levels: List[LayerLevel]
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to thickness."""
+        """Returns layer tuple to thickness (um)."""
         return {
             level.layer: level.thickness for level in self.levels if level.thickness
         }
 
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to z min position (nm)."""
+        """Returns layer tuple to z min position (um)."""
         return {level.layer: level.zmin for level in self.levels if level.thickness}
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
@@ -124,14 +137,16 @@ class LayerStack:
         return {level.name: asdict(level) for level in self.levels}
 
 
-def get_layer_stack_generic(thickness: float = 0.220) -> LayerStack:
-    """Returns generic LayerStack"""
+def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
+    """Returns generic LayerStack.
+    based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+    """
     return LayerStack(
         levels=[
             LayerLevel(
                 name="core",
                 layer=LAYER.WG,
-                thickness=thickness,
+                thickness=thickness_silicon_core,
                 zmin=0.0,
                 material="si",
             ),
@@ -144,23 +159,37 @@ def get_layer_stack_generic(thickness: float = 0.220) -> LayerStack:
             LayerLevel(
                 name="slab150",
                 layer=LAYER.SLAB150,
-                thickness=0.150,
+                thickness=150e-3,
                 zmin=0,
                 material="si",
             ),
             LayerLevel(
                 name="slab90",
                 layer=LAYER.SLAB90,
-                thickness=0.150,
+                thickness=150e-3,
                 zmin=0.0,
                 material="si",
             ),
             LayerLevel(
                 name="nitride",
                 layer=LAYER.WGN,
-                thickness=0.350,
-                zmin=0.220 + 0.100,
+                thickness=350e-3,
+                zmin=220e-3 + 100e-3,
                 material="sin",
+            ),
+            LayerLevel(
+                name="ge",
+                layer=LAYER.GE,
+                thickness=500e-3,
+                zmin=220e-3 + 500e-3,
+                material="ge",
+            ),
+            LayerLevel(
+                name="via_contact",
+                layer=LAYER.VIA1,
+                thickness=500e-3,
+                zmin=220e-3 + 500e-3,
+                material="Aluminum",
             ),
         ]
     )
@@ -178,6 +207,7 @@ class Section:
         layer:
         ports: optional name of the ports
         name: optional section name
+        port_types:
     """
 
     width: float
@@ -225,24 +255,24 @@ class SimulationSettings:
 SIMULATION_SETTINGS = SimulationSettings()
 
 
-def make_empty_dict():
+def make_empty_dict() -> Dict[str, Callable]:
     return {}
 
 
 def assert_callable(function):
     if not callable(function):
         raise ValueError(
-            f"Error: expected callable: got function = {function} with type {type(function)}"
+            f"Error: function = {function} with type {type(function)} is not callable"
         )
 
 
 @pydantic.dataclasses.dataclass
 class Library:
-    """Stores component factories for defining a factory of Components.
+    """Stores component factories for testing purposes.
 
     Args:
-        factory: component name to function
-        settings: Optional component settings with defaults
+        name: of the factory
+        factory: component name to function dict
         post_init: Optional function to run over component
 
     """

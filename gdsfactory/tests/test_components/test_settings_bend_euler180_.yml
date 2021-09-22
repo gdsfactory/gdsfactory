@@ -1,11 +1,11 @@
-function_name: bend_euler180
+function_name: bend_euler
 info:
   dy: 0
   length: 45.635
   radius: 10
   radius_min: 7.263051737295492
 module: gdsfactory.components.bend_euler
-name: bend_euler180
+name: bend_euler_angle180
 settings:
   angle: 180
   direction: ccw

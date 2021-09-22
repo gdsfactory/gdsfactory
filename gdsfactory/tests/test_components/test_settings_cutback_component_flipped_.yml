@@ -25,10 +25,10 @@ settings:
     - o1
     - o2
     C:
-    - bend_euler180_radius10
+    - bend_euler_angle180_radius10
     - o2
     - o1
     D:
-    - bend_euler180_radius10
+    - bend_euler_angle180_radius10
     - o1
     - o2

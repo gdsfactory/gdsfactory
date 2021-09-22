@@ -428,8 +428,6 @@ def _get_bend_reference_parameters(
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
 
-    # raise_error_if_not_routable([p0, p1, p2], radius=bend_cell.radius)
-
     dp1 = p1 - p0
     dp2 = p2 - p1
     is_h_dp1 = np.abs(dp1[1]) < TOLERANCE
@@ -497,7 +495,7 @@ def get_route_error(
         RouteWarning,
     )
 
-    c = gdspy.Cell(f"Error_{uuid.uuid4()}"[:16])
+    c = gdspy.Cell(f"route_{uuid.uuid4()}"[:16])
     path = gdspy.FlexPath(
         points,
         width=x.info["width"],
@@ -533,6 +531,7 @@ def round_corners(
     straight_ports: Optional[List[str]] = None,
     cross_section: CrossSectionFactory = strip,
     on_route_error: Callable = get_route_error,
+    with_point_markers: bool = False,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -587,14 +586,15 @@ def round_corners(
     points = remove_flat_angles(points)
     points = np.array(points)
 
-    # raise_error_if_not_routable(points, radius=radius)
+    if with_point_markers:
+        route = get_route_error(points, cross_section=cross_section)
+        references += route.references
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]
     p1 = points[1]
 
     total_length = 0  # Keep track of the total path length
-    # bend_length = getattr(bend90, "length", 0)
 
     if not hasattr(bend90, "length"):
         raise ValueError(f"bend {bend90} needs to have bend.length defined")
@@ -810,6 +810,7 @@ def route_manhattan(
     min_straight: Optional[float] = None,
     bend_factory: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
+    with_point_markers: bool = False,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
@@ -837,6 +838,7 @@ def route_manhattan(
         taper=taper,
         bend_factory=bend_factory,
         cross_section=cross_section,
+        with_point_markers=with_point_markers,
         **kwargs,
     )
 

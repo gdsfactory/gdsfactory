@@ -82,12 +82,12 @@ via_stack_slab = gf.partial(
 )
 via_stack_npp = gf.partial(
     via_stack,
-    layers=(LAYER.WG, LAYER.Npp, LAYER.M1),
+    layers=(LAYER.WG, LAYER.NPP, LAYER.M1),
     vias=(None, None, via1),
 )
 via_stack_slab_npp = gf.partial(
     via_stack,
-    layers=(LAYER.SLAB90, LAYER.Npp, LAYER.M1),
+    layers=(LAYER.SLAB90, LAYER.NPP, LAYER.M1),
     vias=(None, None, via1),
 )
 via_stack_heater = gf.partial(

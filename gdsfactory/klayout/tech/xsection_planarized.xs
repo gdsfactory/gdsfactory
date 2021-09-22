@@ -51,14 +51,14 @@ l_npp = layer("24/0")
 l_p   = layer("21/0")
 l_pp  = layer("23/0")
 l_ppp = layer("25/0")
-l_PDPp  = layer("27/0")
-l_bottom_implant = l_PDPp
+l_PDPP  = layer("27/0")
+l_bottom_implant = l_PDPP
 
 l_nitride  = layer("34/0")
 l_Ge    = layer("30/0")
-l_GePpp  = layer("42/0")
-l_GeNpp  = layer("24/0")
-l_top_implant = l_GePpp.or(l_GeNpp)
+l_GePPp  = layer("42/0")
+l_GeNPP  = layer("24/0")
+l_top_implant = l_GePPp.or(l_GeNPP)
 
 ################ back-end
 l_via1  = layer("40/0")

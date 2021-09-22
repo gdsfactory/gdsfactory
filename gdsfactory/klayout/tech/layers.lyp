@@ -35,23 +35,6 @@
   <source>111/0@1</source>
  </properties>
  <properties>
-  <frame-color>#404040</frame-color>
-  <fill-color>#404040</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>WGWIDE 4/0</name>
-  <source>4/0@1</source>
- </properties>
- <properties>
   <frame-color>#00ffff</frame-color>
   <fill-color>#00ffff</fill-color>
   <frame-brightness>0</frame-brightness>
@@ -150,8 +133,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>SLAB90CLAD 3/9</name>
-  <source>3/9@1</source>
+  <name>SLAB90CLAD 3/1</name>
+  <source>3/1@1</source>
  </properties>
  <properties>
   <frame-color/>
@@ -200,7 +183,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>Np 22/0</name>
+   <name>NP 22/0</name>
    <source>22/0@1</source>
   </group-members>
   <group-members>
@@ -217,7 +200,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>Npp 24/0</name>
+   <name>NPP 24/0</name>
    <source>24/0@1</source>
   </group-members>
   <group-members>
@@ -251,7 +234,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>Pp 23/0</name>
+   <name>PP 23/0</name>
    <source>23/0@1</source>
   </group-members>
   <group-members>
@@ -268,7 +251,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>Ppp 25/0</name>
+   <name>PPP 25/0</name>
    <source>25/0@1</source>
   </group-members>
   <group-members>
@@ -371,8 +354,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>GE 30/0</name>
-  <source>30/0@1</source>
+  <name>GE 5/0</name>
+  <source>5/0@1</source>
  </properties>
  <properties>
   <frame-color>#cc4c00</frame-color>
@@ -541,7 +524,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>BONDPADOPEN 46/0</name>
+  <name>METALOPEN 46/0</name>
   <source>46/0@1</source>
  </properties>
  <properties>
@@ -558,8 +541,8 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>DEEPTRENCH 7/0</name>
-  <source>7/0@1</source>
+  <name>DEEPTRENCH 4/0</name>
+  <source>4/0@1</source>
  </properties>
  <properties>
   <frame-color>#000000</frame-color>
@@ -1067,7 +1050,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS_PDPp 327/0</name>
+   <name>XS_PDPP 327/0</name>
    <source>327/0@1</source>
   </group-members>
   <group-members>

@@ -69,9 +69,7 @@ def bend_euler(
     return c
 
 
-@gf.cell
-def bend_euler180(angle: int = 180, **kwargs) -> Component:
-    return bend_euler(angle=angle, **kwargs)
+bend_euler180 = gf.partial(bend_euler, angle=180)
 
 
 @gf.cell
