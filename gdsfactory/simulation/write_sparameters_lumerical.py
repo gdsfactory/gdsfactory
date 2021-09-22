@@ -1,7 +1,4 @@
-"""Write component Sparameters with FDTD Lumerical simulations.
-
-Notice that this is the only file where units are in SI units (meters instead of um).
-"""
+"""Write Sparameters with Lumerical FDTD."""
 import dataclasses
 import time
 from pathlib import Path
@@ -14,7 +11,7 @@ import yaml
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import __version__, logger
-from gdsfactory.sp.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.tech import (
     LAYER_STACK,
     SIMULATION_SETTINGS,
@@ -31,8 +28,10 @@ import lumapi
 s = lumapi.FDTD()
 
 import gdsfactory as gf
+import gdsfactory.simulation as sim
+
 c = gf.components.straight() # or whatever you want to simulate
-gf.sp.write(component=c, run=False, session=s)
+sim.write_sparameters_lumerical(component=c, run=False, session=s)
 ```
 """
 
@@ -61,20 +60,22 @@ def clean_dict(
     return output
 
 
-def write(
+def write_sparameters_lumerical(
     component: Component,
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
-    dirpath: Path = gf.CONFIG["sp"],
+    dirpath: Path = gf.CONFIG["sparameters"],
     layer_stack: LayerStack = LAYER_STACK,
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
 ) -> pd.DataFrame:
-    """Return and write component Sparameters from Lumerical FDTD.
+    """Returns and writes component Sparameters using Lumerical FDTD.
 
-    if simulation exists and returns the Sparameters directly
-    unless overwrite=False
+    if simulation exists it returns the Sparameters directly unless overwrite=True
+    which forces a re-run of the simulation
+
+    Lumerical units are in meters while gdsfactory units are in um
 
     Args:
         component: Component to simulate
@@ -345,10 +346,10 @@ def write(
     filepath_sim_settings.write_text(yaml.dump(sim_settings))
 
 
-def sample_write_coupler_ring():
+def _sample_write_coupler_ring():
     """Write Sparameters when changing a component setting."""
     return [
-        write(
+        write_sparameters_lumerical(
             gf.components.coupler_ring(
                 width=width, length_x=length_x, radius=radius, gap=gap
             )
@@ -360,19 +361,25 @@ def sample_write_coupler_ring():
     ]
 
 
-def sample_bend_circular():
+def _sample_bend_circular():
     """Write Sparameters for a circular bend with different radius."""
-    return [write(gf.components.bend_circular(radius=radius)) for radius in [2, 5, 10]]
-
-
-def sample_bend_euler():
-    """Write Sparameters for a euler bend with different radius."""
-    return [write(gf.components.bend_euler(radius=radius)) for radius in [2, 5, 10]]
-
-
-def sample_convergence_mesh():
     return [
-        write(
+        write_sparameters_lumerical(gf.components.bend_circular(radius=radius))
+        for radius in [2, 5, 10]
+    ]
+
+
+def _sample_bend_euler():
+    """Write Sparameters for a euler bend with different radius."""
+    return [
+        write_sparameters_lumerical(gf.components.bend_euler(radius=radius))
+        for radius in [2, 5, 10]
+    ]
+
+
+def _sample_convergence_mesh():
+    return [
+        write_sparameters_lumerical(
             component=gf.components.straight(length=2),
             mesh_accuracy=mesh_accuracy,
         )
@@ -380,9 +387,9 @@ def sample_convergence_mesh():
     ]
 
 
-def sample_convergence_wavelength():
+def _sample_convergence_wavelength():
     return [
-        write(
+        write_sparameters_lumerical(
             component=gf.components.straight(length=2),
             wavelength_start=wavelength_start,
         )
@@ -392,12 +399,10 @@ def sample_convergence_wavelength():
 
 if __name__ == "__main__":
     component = gf.components.straight(length=2)
-    r = write(component=component, mesh_accuracy=1, run=False)
+    r = write_sparameters_lumerical(component=component, mesh_accuracy=1, run=False)
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
-    # r = write(component=component, layer_to_thickness={(1, 0): 200}, run=False)
+    # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())
-    # sample_convergence_mesh()
-    # sample_convergence_wavelength()
