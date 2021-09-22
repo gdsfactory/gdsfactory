@@ -13,9 +13,9 @@ qrcode==7.3
 rectpack==0.2.1
 scipy
 Shapely==1.7.1
-networkx==2.6.2
-matplotlib==3.4.2
-pytest==6.2.4
+networkx==2.6.3
+matplotlib==3.4.3
+pytest==6.2.5
 pytest-regressions==2.2.0
 lytest==0.0.20
 xmltodict==0.12.0
@@ -24,5 +24,5 @@ scikit-image
 loguru
 ipympl
 toolz
-trimesh==3.9.30
+trimesh==3.9.31
 triangle==20200424
