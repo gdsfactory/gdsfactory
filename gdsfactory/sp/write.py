@@ -49,9 +49,9 @@ def clean_dict(
 ) -> Dict[str, Union[str, float, int]]:
     """Returns same dict after converting tuple keys into list of strings."""
     output = d.copy()
-    output["layer_to_thickness_nm"] = [
+    output["layer_to_thickness"] = [
         f"{k[0]}_{k[1]}_{v}"
-        for k, v in d.get("layer_to_thickness_nm", {}).items()
+        for k, v in d.get("layer_to_thickness", {}).items()
         if k in layers
     ]
     output["layer_to_material"] = [
@@ -105,8 +105,8 @@ def write(
 
     """
     sim_settings = dataclasses.asdict(simulation_settings)
-    layer_to_thickness_nm = layer_stack.get_layer_to_thickness_nm()
-    layer_to_zmin_nm = layer_stack.get_layer_to_zmin_nm()
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
 
     if hasattr(component, "simulation_settings"):
@@ -133,7 +133,7 @@ def write(
     ports = component.ports
 
     component = component.copy()
-    component.remove_layers(component.layers - set(layer_to_thickness_nm.keys()))
+    component.remove_layers(component.layers - set(layer_to_thickness.keys()))
     component._bb_valid = False
 
     c = gf.components.extension.extend_ports(
@@ -148,7 +148,7 @@ def write(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material,
-        layer_to_thickness_nm=layer_to_thickness_nm,
+        layer_to_thickness=layer_to_thickness,
         **settings,
     )
     filepath_csv = filepath.with_suffix(".csv")
@@ -179,7 +179,7 @@ def write(
         y_min += ss.ymargin
 
     z = 0
-    z_span = 2 * ss.zmargin + max(layer_to_thickness_nm.values()) * 1e-9
+    z_span = 2 * ss.zmargin + max(layer_to_thickness.values()) * 1e-9
 
     layers = component.get_layers()
     sim_settings = dict(
@@ -237,7 +237,7 @@ def write(
         use_early_shutoff=True,
     )
 
-    for layer, thickness in layer_to_thickness_nm.items():
+    for layer, thickness in layer_to_thickness.items():
         if layer not in layers:
             logger.info(f"{layer} not in {layers}")
             continue
@@ -252,21 +252,19 @@ def write(
             )
         material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material_name]
 
-        if layer not in layer_to_zmin_nm:
-            raise ValueError(f"{layer} not in {list(layer_to_zmin_nm.keys())}")
+        if layer not in layer_to_zmin:
+            raise ValueError(f"{layer} not in {list(layer_to_zmin.keys())}")
 
-        zmin = layer_to_zmin_nm[layer] * 1e-9
-        zmax = zmin + thickness * 1e-9
+        zmin = layer_to_zmin[layer] * 1e-6
+        zmax = zmin + thickness * 1e-6
         z = (zmax + zmin) / 2
 
         s.gdsimport(str(gdspath), "top", f"{layer[0]}:{layer[1]}")
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z)
-        s.setnamed(layername, "z span", thickness * 1e-9)
+        s.setnamed(layername, "z span", thickness * 1e-6)
         s.setnamed(layername, "material", material_name_lumerical)
-        logger.info(
-            f"adding {layer}, thickness = {thickness} nm, zmin = {zmin*1e9} nm "
-        )
+        logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports.values()):
         s.addport()
@@ -403,7 +401,7 @@ if __name__ == "__main__":
     r = write(component=component, mesh_accuracy=1, run=False)
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
-    # r = write(component=component, layer_to_thickness_nm={(1, 0): 200}, run=False)
+    # r = write(component=component, layer_to_thickness={(1, 0): 200}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())

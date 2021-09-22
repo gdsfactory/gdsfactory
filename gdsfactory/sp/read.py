@@ -116,7 +116,7 @@ def read_sparameters_component(
     component: Component,
     layer_stack: LayerStack = LAYER_STACK,
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
-    layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
+    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = gf.CONFIG["sp"],
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
@@ -125,7 +125,7 @@ def read_sparameters_component(
         component: Component
         dirpath: path where to look for the Sparameters
         layer_to_material: layer to material dict
-        layer_to_thickness_nm: layer to thickness (nm)
+        layer_to_thickness: layer to thickness (nm)
 
     Returns:
         port_names: list of port labels
@@ -142,8 +142,7 @@ def read_sparameters_component(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material or layer_stack.get_layer_to_material(),
-        layer_to_thickness_nm=layer_to_thickness_nm
-        or layer_stack.get_layer_to_thickness_nm(),
+        layer_to_thickness=layer_to_thickness or layer_stack.get_layer_to_thickness(),
     )
     numports = len(component.ports)
     assert (
@@ -156,15 +155,14 @@ def read_sparameters_component(
 def read_sparameters_pandas(
     component: Component,
     layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
-    layer_to_thickness_nm: Optional[Dict[Tuple[int, int], int]] = None,
+    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
     dirpath: Path = gf.CONFIG["sp"],
 ) -> pd.DataFrame:
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material or LAYER_STACK.get_layer_to_material(),
-        layer_to_thickness_nm=layer_to_thickness_nm
-        or LAYER_STACK.get_layer_to_thickness_nm(),
+        layer_to_thickness=layer_to_thickness or LAYER_STACK.get_layer_to_thickness(),
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]

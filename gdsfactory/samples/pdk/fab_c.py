@@ -31,7 +31,7 @@ WIDTH_NITRIDE_CBAND = 1.0
 select_ports_optical = gf.partial(select_ports, layers_excluded=((100, 0),))
 
 
-def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
+def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     """Returns generic LayerStack"""
     return LayerStack(
         layers=[
@@ -39,8 +39,8 @@ def get_layer_stack_fab_c(thickness_nm: float = 350.0) -> LayerStack:
                 name="core",
                 gds_layer=34,
                 gds_datatype=0,
-                thickness_nm=350.0,
-                zmin_nm=220.0 + 100.0,
+                thickness=0.350,
+                zmin=0.220 + 0.100,
             ),
             LayerLevel(name="clad", gds_layer=36, gds_datatype=0),
         ]

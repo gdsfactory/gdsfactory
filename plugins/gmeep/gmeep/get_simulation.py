@@ -19,7 +19,7 @@ from gmeep.materials import get_material
 mp.verbosity(0)
 
 
-LAYER_TO_THICKNESS_NM = {(1, 0): 220.0}
+LAYER_TO_THICKNESS = {(1, 0): 220.0}
 LAYER_TO_MATERIAL = {(1, 0): "Si"}
 LAYER_TO_ZMIN = {(1, 0): "Si"}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
@@ -29,9 +29,9 @@ LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
 def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
-    layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
+    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin_nm: Dict[Tuple[int, int], float] = {(1, 0): 0.0},
+    layer_to_zmin: Dict[Tuple[int, int], float] = {(1, 0): 0.0},
     layer_to_sidewall_angle: Dict[Tuple[int, int], float] = {(1, 0): 0},
     res: int = 20,
     t_clad_top: float = 1.0,
@@ -58,7 +58,7 @@ def get_simulation(
     Args:
         component: gf.Component
         extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
-        layer_to_thickness_nm: Dict of layer number (int, int) to thickness (nm)
+        layer_to_thickness: Dict of layer number (int, int) to thickness (nm)
         res: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
@@ -134,7 +134,7 @@ def get_simulation(
     # geometry_center = [0, 0]
     # print(geometry_center)
 
-    t_core = max(layer_to_thickness_nm.values()) * 1e-3
+    t_core = max(layer_to_thickness.values()) * 1e-3
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml if is_3d else 0
 
     cell_size = mp.Vector3(
@@ -146,9 +146,9 @@ def get_simulation(
     geometry = []
     layer_to_polygons = component_extended.get_polygons(by_spec=True)
     for layer, polygons in layer_to_polygons.items():
-        if layer in layer_to_thickness_nm and layer in layer_to_material:
-            height = layer_to_thickness_nm[layer] * 1e-3 if is_3d else mp.inf
-            zmin_um = layer_to_zmin_nm[layer] * 1e-3 if is_3d else 0
+        if layer in layer_to_thickness and layer in layer_to_material:
+            height = layer_to_thickness[layer] * 1e-3 if is_3d else mp.inf
+            zmin_um = layer_to_zmin[layer] * 1e-3 if is_3d else 0
             # center = mp.Vector3(0, 0, (zmin_um + height) / 2)
 
             for polygon in polygons:

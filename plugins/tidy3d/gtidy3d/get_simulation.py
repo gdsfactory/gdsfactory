@@ -16,9 +16,9 @@ import tidy3d as td
 from gtidy3d.materials import get_material
 
 
-LAYER_TO_THICKNESS_NM = {(1, 0): 220.0}
+LAYER_TO_THICKNESS = {(1, 0): 220.0}
 LAYER_TO_MATERIAL = {(1, 0): "cSi"}
-LAYER_TO_ZMIN_NM = {(1, 0): 0.0}
+LAYER_TO_ZMIN = {(1, 0): 0.0}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): 0}
 
 
@@ -28,9 +28,9 @@ def get_simulation(
     mode_index: int = 0,
     n_modes: int = 2,
     extend_ports_length: Optional[float] = 4.0,
-    layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
+    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin_nm: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN_NM,
+    layer_to_zmin: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN,
     layer_to_sidewall_angle: Dict[Tuple[int, int], float] = LAYER_TO_SIDEWALL_ANGLE,
     t_clad_top: float = 1.0,
     t_clad_bot: float = 1.0,
@@ -52,7 +52,7 @@ def get_simulation(
         mode_index: mode index
         n_modes: number of modes
         extend_ports_function: extend ports beyond the PML
-        layer_to_thickness_nm: Dict of layer number (int, int) to thickness (nm)
+        layer_to_thickness: Dict of layer number (int, int) to thickness (nm)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
@@ -112,15 +112,15 @@ def get_simulation(
         )
     ]
 
-    t_core = max(layer_to_thickness_nm.values()) * 1e-3
+    t_core = max(layer_to_thickness.values()) * 1e-3
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
     sim_size = [component.xsize + 2 * tpml, component.ysize + 2 * tpml, cell_thickness]
 
     layer_to_polygons = component_extended.get_polygons(by_spec=True)
     for layer, polygons in layer_to_polygons.items():
-        if layer in layer_to_thickness_nm and layer in layer_to_material:
-            height = layer_to_thickness_nm[layer] * 1e-3
-            zmin_um = layer_to_zmin_nm[layer] * 1e-3
+        if layer in layer_to_thickness and layer in layer_to_material:
+            height = layer_to_thickness[layer] * 1e-3
+            zmin_um = layer_to_zmin[layer] * 1e-3
             z_cent = zmin_um + height / 2
             material_name = layer_to_material[layer]
             material = get_material(name=material_name)

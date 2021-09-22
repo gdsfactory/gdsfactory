@@ -83,7 +83,7 @@ class LayerLevel:
         name: Name of the Layer.
         gds_layer: GDSII Layer number.
         gds_datatype: GDSII datatype.
-        thickness_nm: thickness of layer
+        thickness: thickness of layer
         zmin: height position where material starts
         material: material name
         sidewall_angle: in degrees with respect to normal
@@ -106,25 +106,19 @@ class LayerStack:
 
     levels: List[LayerLevel]
 
-    def get_layer_to_thickness_nm(self) -> Dict[Tuple[int, int], float]:
-        """Returns layer tuple to thickness_nm."""
+    def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
+        """Returns layer tuple to thickness."""
         return {
-            level.layer: level.thickness_nm
-            for level in self.levels
-            if level.thickness_nm
+            level.layer: level.thickness for level in self.levels if level.thickness
         }
 
-    def get_layer_to_zmin_nm(self) -> Dict[Tuple[int, int], float]:
+    def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (nm)."""
-        return {
-            level.layer: level.zmin_nm for level in self.levels if level.thickness_nm
-        }
+        return {level.layer: level.zmin for level in self.levels if level.thickness}
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to material."""
-        return {
-            level.layer: level.material for level in self.levels if level.thickness_nm
-        }
+        return {level.layer: level.material for level in self.levels if level.thickness}
 
     def to_dict(self):
         return {level.name: asdict(level) for level in self.levels}
@@ -362,7 +356,7 @@ if __name__ == "__main__":
 
     # ls = LAYER_STACK
     # print(ls.get_layer_to_material())
-    # print(ls.get_layer_to_thickness_nm())
+    # print(ls.get_layer_to_thickness())
 
     s = Section(width=1, layer=(1, 0))
     print(s)
