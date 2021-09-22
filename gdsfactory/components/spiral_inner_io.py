@@ -33,6 +33,7 @@ def spiral_inner_io(
     straight_factory: ComponentFactory = straight,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
+    cross_section_bend: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
     """Spiral with ports inside the spiral loop.
@@ -71,8 +72,8 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.call_if_func(bend180_function, cross_section=cross_section)
-    _bend90 = gf.call_if_func(bend90_function, cross_section=cross_section)
+    _bend180 = gf.call_if_func(bend180_function, cross_section=cross_section_bend)
+    _bend90 = gf.call_if_func(bend90_function, cross_section=cross_section_bend)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -220,9 +221,12 @@ if __name__ == "__main__":
     c = spiral_inner_io_fiber_single(
         # width=2,
         # length=10e3,
-        cross_section=cross_section_wide,
+        # cross_section=cross_section_wide,
+        cross_section=gf.cross_section.pin,
+        waveguide_spacing=30,
     )
     c = gf.add_grating_couplers.add_grating_couplers_with_loopback_fiber_single(
-        c, loopback_xspacing=100
+        c,
+        loopback_xspacing=100,
     )
     c.show()

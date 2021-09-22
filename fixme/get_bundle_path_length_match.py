@@ -16,12 +16,11 @@ import gdsfactory as gf
 if __name__ == "__main__":
     c = gf.Component()
     # c1 = c << gf.components.straight_array(spacing=200)
-    c1 = c << gf.components.array(pitch=50)
-    c2 = c << gf.components.array(pitch=5)
+    c1 = c << gf.components.array(spacing=(0, 100), rows=2, columns=1)
+    c2 = c << gf.components.array(spacing=(0, 5), rows=2, columns=1)
 
     c2.movex(200)
     c1.y = 0
-    c2.y = 0
 
     routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(orientation=0),
@@ -29,7 +28,6 @@ if __name__ == "__main__":
         end_straight_offset=0,
         start_straight=0,
         separation=50,
-        # modify_segment_i=-3,
     )
 
     for route in routes:

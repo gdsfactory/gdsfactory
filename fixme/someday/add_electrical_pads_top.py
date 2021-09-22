@@ -58,6 +58,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight_heater_metal()
-    c = gf.components.mzi_phase_shifter()
+    c = gf.components.mzi_phase_shifter_90_90()
     cc = add_electrical_pads_top(component=c, spacing=(-150, 30))
     cc.show()

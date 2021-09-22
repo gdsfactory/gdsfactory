@@ -62,6 +62,15 @@ def transition(
         or both inputs (cross_section1/cross_section2)."""
         )
 
+    layers1 = {section["layer"] for section in X1.sections}
+    layers2 = {section["layer"] for section in X2.sections}
+
+    has_common_layers = True if layers1.intersection(layers2) else False
+    if not has_common_layers:
+        raise ValueError(
+            f"transition() found no common layers X1 {layers1} and X2 {layers2}"
+        )
+
     for alias in X1.aliases.keys():
         if alias in X2.aliases:
 
