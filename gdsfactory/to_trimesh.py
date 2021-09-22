@@ -37,8 +37,8 @@ def to_trimesh(
             and layer in layer_to_z
             and layer in layer_to_zmin
         ):
-            height = layer_to_z[layer] * 1e-3
-            zmin = layer_to_zmin[layer] * 1e-3
+            height = layer_to_z[layer]
+            zmin = layer_to_zmin[layer]
             color_hex = layer_set.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
             for polygon in polygons:
