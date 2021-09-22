@@ -267,16 +267,16 @@ class Section:
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
     background_material: str = "sio2"
-    port_width: float = 3e-6
-    port_height: float = 1.5e-6
-    port_extension_um: float = 2.0
+    port_width: float = 3.0
+    port_height: float = 1.5
+    port_extension: float = 2.0
     mesh_accuracy: int = 2
-    zmargin: float = 1e-6
-    ymargin: float = 2e-6
-    xmargin: float = 0.5e-6
-    pml_margin: float = 0.5e-6
-    wavelength_start: float = 1.2e-6
-    wavelength_stop: float = 1.6e-6
+    zmargin: float = 1.0
+    ymargin: float = 2.0
+    xmargin: float = 0.5
+    pml_margin: float = 0.5
+    wavelength_start: float = 1.2
+    wavelength_stop: float = 1.6
     wavelength_points: int = 500
 
 
