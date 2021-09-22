@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.extension
 name: extend_ports_components_75331722
 settings:
+  centered: false
   contains:
     function_name: straight
     info:
