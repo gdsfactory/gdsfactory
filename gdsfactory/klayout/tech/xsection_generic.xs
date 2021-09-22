@@ -53,10 +53,10 @@ l_top_implant = l_GeP.or(l_GeN)
 
 
 ################ back-end
-l_via1  = layer("40/0")
+l_viac  = layer("40/0")
 l_m1    = layer("41/0")
 l_mh    = layer("47/0")
-l_via2  = layer("44/0")
+l_via1  = layer("44/0")
 l_m2    = layer("45/0")
 l_open  = layer("46/0")
 
@@ -106,16 +106,16 @@ output("315/0", Ge)
 ################# VIAC and M1
 ox_si = deposit(h_oxide_si, h_oxide_si, :mode => :round)
 
-mask(l_via1).etch(h_oxide_si, :taper => 4, :into => [ox_si])
-via1 = deposit(h_metal1, h_metal1)
-mask(l_m1.inverted()).etch(h_metal1 + h_metal1, :taper => 4, :into => [via1])
+mask(l_viac).etch(h_oxide_si, :taper => 4, :into => [ox_si])
+viac = deposit(h_metal1, h_metal1)
+mask(l_m1.inverted()).etch(h_metal1 + h_metal1, :taper => 4, :into => [viac])
 
 ox_m1 = deposit(h_oxide_m1, h_oxide_m1, :mode => :round)
 planarize(:less=>0.9, :into=>[ox_m1])
 
 
 output("302/0", ox_si)
-output("303/0", via1)
+output("303/0", viac)
 output("307/0", ox_m1)
 
 ################# MH
@@ -127,10 +127,10 @@ ox_mh = deposit(h_oxide_mh, h_oxide_mh, :mode => :round)
 output("317/0",ox_mh)
 
 ################# VIA1 and M2
-mask(l_via2).etch(h_oxide_mh + h_oxide_m1, :taper => 4, :into => [ox_mh,ox_m1])
-via2 = deposit(h_metal2, 1.5*h_metal2)
-mask(l_m2.inverted()).etch(h_metal2, :taper => 4, :into => [via2])
-output("308/0",via2)
+mask(l_via1).etch(h_oxide_mh + h_oxide_m1, :taper => 4, :into => [ox_mh,ox_m1])
+via1 = deposit(h_metal2, 1.5*h_metal2)
+mask(l_m2.inverted()).etch(h_metal2, :taper => 4, :into => [via1])
+output("308/0",via1)
 
 ################# passivation and ML Open
 ox_m2 = deposit(h_ox_m2, h_ox_m2, :mode => :round)

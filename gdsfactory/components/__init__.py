@@ -170,7 +170,7 @@ from gdsfactory.components.taper_from_csv import (
 from gdsfactory.components.text import githash, text
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
-from gdsfactory.components.via import via, via1, via2, via3
+from gdsfactory.components.via import via, via1, via2, viac
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import via_stack, via_stack_heater, via_stack_slab
 from gdsfactory.components.via_stack_slot import via_stack_slot
@@ -342,9 +342,9 @@ __all__ = [
     "verniers",
     "version_stamp",
     "via",
+    "viac",
     "via1",
     "via2",
-    "via3",
     "via_cutback",
     "via_stack",
     "via_stack_heater",
@@ -505,9 +505,9 @@ factory = dict(
     verniers=verniers,
     version_stamp=version_stamp,
     via=via,
+    viac=viac,
     via1=via1,
     via2=via2,
-    via3=via3,
     via_cutback=via_cutback,
     via_stack=via_stack,
     via_stack_slot=via_stack_slot,

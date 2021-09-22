@@ -24,13 +24,13 @@ def _via_iterable(
     VI = gf.Component()
     wire1 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring1_layer))
     wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
+    viac = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
-    via2 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     wire1.connect(port="e3", destination=wire2.ports["e1"], overlap=wire_width)
-    via1.connect(
+    viac.connect(
         port="e1", destination=wire1.ports["e3"], overlap=(wire_width + via_width) / 2
     )
-    via2.connect(
+    via1.connect(
         port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
     VI.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")

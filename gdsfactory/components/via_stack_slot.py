@@ -5,7 +5,7 @@ from numpy import floor
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.via import via1, via2
+from gdsfactory.components.via import via1, viac
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentOrFactory, Layer
 
@@ -16,7 +16,7 @@ def via_stack_slot(
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2),
     layer_offsets: Tuple[float, ...] = (0, 1.0),
     layer_port: Optional[Layer] = None,
-    via: ComponentOrFactory = via2,
+    via: ComponentOrFactory = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,
     yspacing: float = 2.0,
@@ -78,7 +78,7 @@ def via_stack_slot(
     return c
 
 
-via_stack_slot_slab = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=via1)
+via_stack_slot_slab = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
