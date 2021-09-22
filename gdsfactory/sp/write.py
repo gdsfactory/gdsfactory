@@ -158,25 +158,22 @@ def write(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    x_min = component.xmin - ss.xmargin - ss.pml_margin
-    x_max = component.xmax + ss.xmargin + ss.pml_margin
-
-    y_min = component.ymin - ss.ymargin - ss.pml_margin
-    y_max = component.ymax + ss.ymargin + ss.pml_margin
+    x_min = (component.xmin - ss.xmargin - ss.pml_margin) * 1e-6
+    x_max = (component.xmax + ss.xmargin + ss.pml_margin) * 1e-6
+    y_min = (component.ymin - ss.ymargin - ss.pml_margin) * 1e-6
+    y_max = (component.ymax + ss.ymargin + ss.pml_margin) * 1e-6
 
     port_orientations = [p.orientation for p in ports.values()]
 
     # bend
     if 90 in port_orientations:
-        y_max -= ss.ymargin
+        y_max -= ss.ymargin * 1e-6
 
     if 270 in port_orientations:
-        y_min += ss.ymargin
+        y_min += ss.ymargin * 1e-6
 
     z = 0
     z_span = (2 * ss.zmargin + max(layer_to_thickness.values())) * 1e-6
-    x_min = x_min * 1e-6
-    y_min = y_min * 1e-6
 
     layers = component.get_layers()
     sim_settings = dict(
