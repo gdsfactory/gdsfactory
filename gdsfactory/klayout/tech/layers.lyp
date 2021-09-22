@@ -456,7 +456,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>VIA1 40/0</name>
+  <name>VIAC 40/0</name>
   <source>40/0@1</source>
  </properties>
  <properties>
@@ -473,7 +473,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>VIA2 44/0</name>
+  <name>VIA1 44/0</name>
   <source>44/0@1</source>
  </properties>
  <properties>
@@ -490,7 +490,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>VIA3 43/0</name>
+  <name>VIA2 43/0</name>
   <source>43/0@1</source>
  </properties>
  <properties>
@@ -1152,7 +1152,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS_VIA1 303/0</name>
+   <name>XS_VIAC 303/0</name>
    <source>303/0@1</source>
   </group-members>
   <group-members>
@@ -1271,7 +1271,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS_VIA2 308/0</name>
+   <name>XS_VIA1 308/0</name>
    <source>308/0@1</source>
   </group-members>
   <group-members>
@@ -1322,7 +1322,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>XS_VIA3 310/0</name>
+   <name>XS_VIA2 310/0</name>
    <source>310/0@1</source>
   </group-members>
   <group-members>

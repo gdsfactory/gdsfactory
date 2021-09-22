@@ -501,7 +501,7 @@ def strip_heater_doped(
 
 strip_heater_doped_contact = partial(
     strip_heater_doped,
-    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIA1),
+    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
     cladding_offsets_heater=(0, 0.1, -0.2),
 )
 
@@ -567,7 +567,7 @@ def rib_heater_doped_contact(
     layer_heater: Layer = LAYER.NPP,
     contact_width: float = 2.0,
     contact_gap: float = 0.8,
-    layers_contact: Layers = (LAYER.NPP, LAYER.VIA1),
+    layers_contact: Layers = (LAYER.NPP, LAYER.VIAC),
     cladding_offsets_contact: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     **kwargs,
@@ -712,7 +712,7 @@ if __name__ == "__main__":
 
     # X = strip_heater_metal_undercut()
     # X = metal1()
-    # X = pin(layer_via=LAYER.VIA1, via_offsets=(-2, 2))
+    # X = pin(layer_via=LAYER.VIAC, via_offsets=(-2, 2))
     # X = pin()
     # X = strip_heater_doped()
 

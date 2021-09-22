@@ -43,10 +43,10 @@ class LayerMap:
     M1: Layer = (41, 0)
     M2: Layer = (45, 0)
     M3: Layer = (49, 0)
-    VIA1: Layer = (40, 0)
-    VIA2: Layer = (44, 0)
-    VIA3: Layer = (43, 0)
-    METALOPEN: Layer = (46, 0)
+    VIAC: Layer = (40, 0)
+    VIA1: Layer = (44, 0)
+    VIA2: Layer = (43, 0)
+    PADOPEN: Layer = (46, 0)
 
     NO_TILE_SI: Layer = (71, 0)
     PADDING: Layer = (67, 0)
@@ -186,7 +186,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             ),
             LayerLevel(
                 name="via_contact",
-                layer=LAYER.VIA1,
+                layer=LAYER.VIAC,
                 thickness=500e-3,
                 zmin=220e-3 + 500e-3,
                 material="Aluminum",
