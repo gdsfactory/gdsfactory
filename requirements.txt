@@ -25,3 +25,4 @@ loguru
 ipympl
 toolz
 trimesh==3.9.30
+triangle==20200424
