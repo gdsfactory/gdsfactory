@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.extension
 name: extend_ports_componentm_ae9550e0
 settings:
+  centered: false
   contains:
     function_name: mzi
     info: {}
