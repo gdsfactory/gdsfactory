@@ -103,7 +103,7 @@ Ge = mask(l_Ge).grow(h_ge, 0, :bias => 0.0 , :taper => 10) #:mode => :round
 output("315/0", Ge)
 
 ################# back-end
-################# VIA1 and M1
+################# VIAC and M1
 ox_si = deposit(h_oxide_si, h_oxide_si, :mode => :round)
 
 mask(l_via1).etch(h_oxide_si, :taper => 4, :into => [ox_si])
@@ -126,7 +126,7 @@ output("306/0",mh)
 ox_mh = deposit(h_oxide_mh, h_oxide_mh, :mode => :round)
 output("317/0",ox_mh)
 
-################# VIA2 and M2
+################# VIA1 and M2
 mask(l_via2).etch(h_oxide_mh + h_oxide_m1, :taper => 4, :into => [ox_mh,ox_m1])
 via2 = deposit(h_metal2, 1.5*h_metal2)
 mask(l_m2.inverted()).etch(h_metal2, :taper => 4, :into => [via2])

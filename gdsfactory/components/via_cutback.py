@@ -64,7 +64,7 @@ def via_cutback(
     pad_layer: Tuple[int, int] = gf.LAYER.M3,
     wiring1_layer: Tuple[int, int] = gf.LAYER.HEATER,
     wiring2_layer: Tuple[int, int] = gf.LAYER.M1,
-    via_layer: Tuple[int, int] = gf.LAYER.VIA1,
+    via_layer: Tuple[int, int] = gf.LAYER.VIAC,
 ) -> Component:
     """Via cutback to extract via resistance
 

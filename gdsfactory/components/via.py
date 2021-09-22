@@ -10,7 +10,7 @@ def via(
     size: Tuple[float, float] = (0.7, 0.7),
     spacing: Tuple[float, float] = (2.0, 2.0),
     enclosure: float = 1.0,
-    layer: Tuple[int, int] = LAYER.VIA1,
+    layer: Tuple[int, int] = LAYER.VIAC,
     layers_cladding: Optional[Tuple[Tuple[int, int], ...]] = None,
     cladding_offset: float = 0,
 ) -> Component:
@@ -60,9 +60,9 @@ def via(
     return c
 
 
-via1 = gf.partial(via, layer=LAYER.VIA1)
-via2 = gf.partial(via, layer=LAYER.VIA2, enclosure=2)
-via3 = gf.partial(via, layer=LAYER.VIA3)
+via1 = gf.partial(via, layer=LAYER.VIAC)
+via2 = gf.partial(via, layer=LAYER.VIA1, enclosure=2)
+via3 = gf.partial(via, layer=LAYER.VIA2)
 
 
 if __name__ == "__main__":

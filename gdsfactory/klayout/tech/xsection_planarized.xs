@@ -123,7 +123,7 @@ nitride = mask(l_nitride).grow(hnitride, 0, :bias => 0.0 , :taper => 10)
 output("305/0", nitride)
 
 ################# back-end
-################# VIA1, M1 and MH
+################# VIAC, M1 and MH
 ox_si = deposit(hoxidesi + hge + hnitride, hoxidesi + hge + hnitride, :mode => :round)
 planarize(:less=> hge + hnitride, :into=>[ox_si])
 mask(l_via1).etch(hoxidesi + hge + hnitride + hoxidenitride, :taper => 4, :into => [ox_si, ox_nitride])
@@ -141,7 +141,7 @@ output("399/0", m1)
 output("302/0", ox_si)
 output("303/0", via1)
 
-################# VIA2 and M2
+################# VIA1 and M2
 ox_m1 = deposit(2*hoxidem1, 2*hoxidem1, :mode => :round)
 planarize(:less=>hoxidem1, :into=>[ox_m1])
 
@@ -156,7 +156,7 @@ planarize(:less=>hoxidem2, :into=>[ox_m2])
 output("309/0", ox_m2)
 output("307/0", ox_m1)
 
-################# VIA3 and M3
+################# VIA2 and M3
 mask(l_via3).etch(hoxidem2 + hm2m3 , :taper => 4, :into => [ox_m2, ox_m2])
 via3 = deposit(hm3, hm3)
 mask(l_m3.inverted()).etch(hm3, :taper => 4, :into => [via3])

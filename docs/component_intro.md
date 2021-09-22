@@ -26,7 +26,7 @@ A Component contains:
 ![gds](images/gds.png)
 
 The first thing to learn about is how to create a new component.
-We do that by creating a function which returns a gf.Component instance.
+We do that by creating a function which returns a Component instance.
 Here is a step by step example below generating a waveguide crossing
 
 ```eval_rst
@@ -72,8 +72,7 @@ Here is a step by step example below generating a waveguide crossing
         return c
 
 
-    @gf.port.deco_rename_ports  # This decorator will auto-rename the ports
-    @gf.cell  # This decorator will generate a good name for the component
+    @gf.cell  # This decorator will generate a unique name for the component
     def crossing():
         c = gf.Component()
         arm = crossing_arm()
@@ -89,10 +88,11 @@ Here is a step by step example below generating a waveguide crossing
             c.add(ref)
             for p in c.ports.values():
                 # Here we don't care too much about the name we give to the ports
-                # since they will be renamed. We just want the names to be unique
+                # since they can be renamed. We just want the names to be unique
                 c.add_port(name="{}".format(port_id), port=p)
                 port_id += 1
 
+        c.auto_rename_ports()
         return c
 
 
@@ -113,21 +113,21 @@ What are the common data types?
 
 Each foundry uses different GDS numbers for each process step.
 
-We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg". See `gf.LAYER`
+We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
 
 | GDS (layer, purpose) | layer_name | Description                                                 |
 | -------------------- | ---------- | ----------------------------------------------------------- |
 | 1 , 0                | WG         | 220 nm Silicon core                                         |
 | 2 , 0                | SLAB150    | 150nm Silicon slab (70nm shallow Etch for grating couplers) |
 | 3 , 0                | SLAB90     | 90nm Silicon slab (for modulators)                          |
+| 4, 0                 | DEEPTRENCH | Deep trench                                                 |
 | 47, 0                | MH         | heater                                                      |
 | 41, 0                | M1         | metal 1                                                     |
 | 45, 0                | M2         | metal 2                                                     |
-| 40, 0                | VIA1       | VIA1                                                        |
-| 44, 0                | VIA2       | VIA2                                                        |
+| 40, 0                | VIAC       | VIAC to contact Ge, NPP or PPP                              |
+| 44, 0                | VIA1       | VIA1                                                        |
 | 46, 0                | PADOPEN    | Bond pad opening                                            |
 | 51, 0                | UNDERCUT   | Undercut                                                    |
-| 52, 0                | DEEPTRENCH | Deep trench                                                 |
 | 66, 0                | TEXT       | Text markup                                                 |
 | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 
@@ -213,18 +213,19 @@ You can define ports to:
 
 ```
 
-`gf.Component.ref` also accepts arguments such as:
+`Component.ref()` also accepts:
 
 - `h_mirror` (True / False),
 - `v_mirror` (True / False)
 - `rotation` (0 / 90 / 180 / 270)
 
-They implement the transformation w.r.t the port position given by port_id If no port_id is given, transformation is done w.r.t (0,0)
+They implement the transformation with respect to the port position given by port_id.
+If no port_id is given, transformation is done with respect to (0,0)
 
 Ports can have flexible labelling and by default, the user chooses how to label the ports
 in the component with the constraint of giving name unique names within this component.
 
-A function `auto_rename_ports` is provided to automatically label ports according to the following convention:
+A function `auto_rename_ports` is provided to automatically label ports clockwise (starting from bottom, left corner):
 
-- photonics ports are labelled with strings that refer to the orientation
-- other ports are labelled from a prefix and numbered counter-clockwise starting from the east port
+- optical ports start from bottom left corner and have a `o` prefix ('o1', 'o2' ...)
+- electrical ports start from bottom left corner and have a `e` prefix ('e1', 'e2' ...)
