@@ -16,7 +16,7 @@ import tidy3d as td
 from gtidy3d.materials import get_material
 
 
-LAYER_TO_THICKNESS = {(1, 0): 220.0}
+LAYER_TO_THICKNESS = {(1, 0): 220e-3}
 LAYER_TO_MATERIAL = {(1, 0): "cSi"}
 LAYER_TO_ZMIN = {(1, 0): 0.0}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): 0}
@@ -112,15 +112,15 @@ def get_simulation(
         )
     ]
 
-    t_core = max(layer_to_thickness.values()) * 1e-3
+    t_core = max(layer_to_thickness.values())
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
     sim_size = [component.xsize + 2 * tpml, component.ysize + 2 * tpml, cell_thickness]
 
     layer_to_polygons = component_extended.get_polygons(by_spec=True)
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
-            height = layer_to_thickness[layer] * 1e-3
-            zmin_um = layer_to_zmin[layer] * 1e-3
+            height = layer_to_thickness[layer]
+            zmin_um = layer_to_zmin[layer]
             z_cent = zmin_um + height / 2
             material_name = layer_to_material[layer]
             material = get_material(name=material_name)

@@ -116,10 +116,11 @@ def test_ports() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_ports()
+    # c = test_ports()
     # c = straight_heater_metal_undercut()
-    # c = straight_heater_metal(length=50.0)
     # print(c.ports['o2'].midpoint[0])
     # c.pprint_ports
-    # c.auto_rename_ports_with_prefix()
+    c = straight_heater_metal(length=50.0)
     c.show()
+    scene = gf.to_trimesh(c, layer_set=gf.lys)
+    scene.show()
