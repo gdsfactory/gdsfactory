@@ -33,7 +33,7 @@ from contracts import contract
 ## 3.2.4
 
 - transition raises ValueError if has no common layers
-- rename thickness_nm to thickness and zmin_nm to zmin in layer_stack
+- rename thickness_nm to thickness and zmin_nm to zmin in layer_stack to be consistent with gdsfactory units in um
 
 ## 3.2.3
 

@@ -13,11 +13,11 @@ settings:
   start_orientation: 0
   symbol_to_component:
     (:
-    - bend_euler180_cross_sec_43e519e7
+    - bend_euler_angle180_cro_4371c3d9
     - o1
     - o2
     ):
-    - bend_euler180_cross_sec_43e519e7
+    - bend_euler_angle180_cro_4371c3d9
     - o2
     - o1
     '-':

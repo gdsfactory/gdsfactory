@@ -1,6 +1,4 @@
 """
-FIXME: make sure routes do not intersect themselves
-
 FIXME: enable Sbend routing when we have no space for a manhattan route
 
 Route manhattan sometimes does not fit a route.
@@ -17,15 +15,13 @@ if __name__ == "__main__":
     c1 = c << gf.components.straight(length=length)
     c2 = c << gf.components.straight(length=length)
 
-    dy = 4.0
-    c2.y = dy
-    c2.movex(length + dy)
+    c1.y = 0
+    c2.y = 5
 
     route = route_manhattan(
-        input_port=c1.ports["o2"],
+        input_port=c1.ports["o1"],
         output_port=c2.ports["o1"],
         radius=5.0,
-        with_point_markers=True,
     )
 
     c.add(route.references)

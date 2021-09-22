@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     dy = 4.0
     c2.y = dy
-    c2.movex(length + dy)
+    c2.movex(length + 20)
 
     route = route_manhattan(
         input_port=c1.ports["o2"],

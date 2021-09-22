@@ -11,7 +11,7 @@ from gdsfactory.types import ComponentOrFactory, Layers
 
 @gf.cell
 def via_stack_with_offset(
-    layers: Layers = (LAYER.Ppp, LAYER.M1),
+    layers: Layers = (LAYER.PPP, LAYER.M1),
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
     vias: Tuple[Optional[ComponentOrFactory], ...] = (None, via1),
     offsets: Optional[Tuple[float, ...]] = None,

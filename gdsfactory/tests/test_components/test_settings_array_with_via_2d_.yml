@@ -3,8 +3,7 @@ info: {}
 module: gdsfactory.components.array_with_via
 name: array_with_via_2d
 settings:
-  cols: 3
-  columns: 6
+  columns: 3
   pitch: 150
   pitch_x: null
   pitch_y: null
