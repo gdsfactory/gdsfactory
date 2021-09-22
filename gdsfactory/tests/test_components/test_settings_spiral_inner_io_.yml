@@ -5,6 +5,7 @@ module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io
 settings:
   N: 6
+  cross_section_bend: null
   grating_spacing: 127
   length: null
   waveguide_spacing: 3

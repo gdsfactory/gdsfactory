@@ -33,7 +33,7 @@ def spiral_inner_io(
     straight_factory: ComponentFactory = straight,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
-    cross_section_bend: CrossSectionFactory = strip,
+    cross_section_bend: Optional[CrossSectionFactory] = None,
     **kwargs
 ) -> Component:
     """Spiral with ports inside the spiral loop.
@@ -58,6 +58,7 @@ def spiral_inner_io(
     x = cross_section(**kwargs)
     width = x.info.get("width")
     layer = x.info.get("layer")
+    cross_section_bend = cross_section_bend or cross_section
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -72,8 +73,12 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.call_if_func(bend180_function, cross_section=cross_section_bend)
-    _bend90 = gf.call_if_func(bend90_function, cross_section=cross_section_bend)
+    _bend180 = gf.call_if_func(
+        bend180_function, cross_section=cross_section_bend, **kwargs
+    )
+    _bend90 = gf.call_if_func(
+        bend90_function, cross_section=cross_section_bend, **kwargs
+    )
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
