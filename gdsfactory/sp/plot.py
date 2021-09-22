@@ -49,13 +49,13 @@ def plot(
 if __name__ == "__main__":
 
     remove_layers = []
-    layer_to_thickness_nm = {(1, 0): 220}
+    layer_to_thickness = {(1, 0): 220}
 
-    # r = write(component=gf.components.straight(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gf.components.mmi2x2(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gf.components.mmi1x2(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gf.components.coupler(), layer_to_thickness_nm=layer_to_thickness_nm)
-    # r = write(component=gf.components.bend_circular(), layer_to_thickness_nm=layer_to_thickness_nm)
+    # r = write(component=gf.components.straight(), layer_to_thickness=layer_to_thickness)
+    # r = write(component=gf.components.mmi2x2(), layer_to_thickness=layer_to_thickness)
+    # r = write(component=gf.components.mmi1x2(), layer_to_thickness=layer_to_thickness)
+    # r = write(component=gf.components.coupler(), layer_to_thickness=layer_to_thickness)
+    # r = write(component=gf.components.bend_circular(), layer_to_thickness=layer_to_thickness)
     # plot(r, logscale=True)
     # plot(gf.components.coupler())
     plot(gf.components.mmi1x2(), logscale=False)

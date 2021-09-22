@@ -18,7 +18,7 @@ from gdsfactory.sp.get_sparameters_path import get_sparameters_path
 from gmeep.config import PATH
 from gmeep.get_simulation import (
     get_simulation,
-    LAYER_TO_THICKNESS_NM,
+    LAYER_TO_THICKNESS,
     LAYER_TO_MATERIAL,
 )
 
@@ -27,7 +27,7 @@ from gmeep.get_simulation import (
 def get_sparameters1x1(
     component: Component,
     dirpath: PathType = PATH.sparameters,
-    layer_to_thickness_nm: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS_NM,
+    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
     filepath: Optional[Path] = None,
     overwrite: bool = False,
@@ -38,7 +38,7 @@ def get_sparameters1x1(
     Args:
         component: to simulate.
         dirpath: directory to store Sparameters
-        layer_to_thickness_nm: GDS layer (int, int) to thickness
+        layer_to_thickness: GDS layer (int, int) to thickness
         layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
         filepath: to store pandas Dataframe with Sparameters in CSV format
         overwrite: overwrites
@@ -52,7 +52,7 @@ def get_sparameters1x1(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material,
-        layer_to_thickness_nm=layer_to_thickness_nm,
+        layer_to_thickness=layer_to_thickness,
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
@@ -61,7 +61,7 @@ def get_sparameters1x1(
 
     sim_dict = get_simulation(
         component=component,
-        layer_to_thickness_nm=layer_to_thickness_nm,
+        layer_to_thickness=layer_to_thickness,
         layer_to_material=layer_to_material,
         **settings,
     )

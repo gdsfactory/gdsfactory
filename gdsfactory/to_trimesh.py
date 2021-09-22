@@ -27,8 +27,8 @@ def to_trimesh(
 
     """
     scene = Scene()
-    layer_to_z = layer_stack.get_layer_to_thickness_nm()
-    layer_to_zmin = layer_stack.get_layer_to_zmin_nm()
+    layer_to_z = layer_stack.get_layer_to_thickness()
+    layer_to_zmin = layer_stack.get_layer_to_zmin()
     exclude_layers = exclude_layers or []
 
     for layer, polygons in component.get_polygons(by_spec=True).items():
