@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
+import omegaconf
 import pandas as pd
-import yaml
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -107,13 +107,11 @@ def write_sparameters_lumerical(
     ss = SimulationSettings(**sim_settings)
 
     ports = component.ports
-    component = component.copy()
-    component.remove_layers(component.layers - set(layer_to_thickness.keys()))
-    component._bb_valid = False
-
     c = gf.components.extension.extend_ports(
         component=component, length=ss.port_extension
     )
+    c.remove_layers(component.layers - set(layer_to_thickness.keys()))
+    c._bb_valid = False
     c.flatten()
     c.name = "top"
     c.show()
@@ -155,7 +153,7 @@ def write_sparameters_lumerical(
     z = 0
     z_span = (2 * ss.zmargin + max(layer_to_thickness.values())) * 1e-6
 
-    layers = component.get_layers()
+    layers = c.get_layers()
     sim_settings.update(dict(layer_stack=layer_stack.to_dict()))
 
     sim_settings = dict(
@@ -165,7 +163,8 @@ def write_sparameters_lumerical(
     )
 
     # from pprint import pprint
-    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
+
+    # filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
     # print(filepath_sim_settings)
     # pprint(sim_settings)
     # return
@@ -326,7 +325,7 @@ def write_sparameters_lumerical(
         df.to_csv(filepath_csv, index=False)
         sim_settings.update(compute_time_seconds=end - start)
         return df
-    filepath_sim_settings.write_text(yaml.dump(sim_settings))
+    filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
 
 
 def _sample_write_coupler_ring():
@@ -382,10 +381,12 @@ def _sample_convergence_wavelength():
 
 if __name__ == "__main__":
     component = gf.components.straight(length=2)
-    r = write_sparameters_lumerical(component=component, mesh_accuracy=1, run=True)
+    r = write_sparameters_lumerical(
+        component=component, mesh_accuracy=1, wavelength_points=200, run=True
+    )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
-    # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 200}, run=False)
+    # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 0.2}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())

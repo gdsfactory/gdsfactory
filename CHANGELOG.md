@@ -33,6 +33,9 @@ from contracts import contract
 ## 3.2.7
 
 - write sparameters exports the layer_stack
+- write simulation_settings with omegaconf instead of YAML
+- layer_stack inherits from dict
+- simulation files use get_name_short to keep the name of the suffix within 32 characters + 32 characters for the name (filepath less than 64 characters)
 
 ## 3.2.6
 
