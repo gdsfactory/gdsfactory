@@ -242,6 +242,39 @@ def add_ports_from_markers_center(
 add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=True)
 
 
+def add_ports_from_labels(
+    component: Component,
+    port_width: float,
+    xcenter: Optional[float] = None,
+    port_name_prefix: str = "o",
+    port_type: str = "optical",
+):
+    """Add ports from labels.
+    Assumes that all ports have a label at the port center.
+    """
+    xc = xcenter or component.x
+    yc = component.y
+    for i, label in enumerate(component.labels):
+        x, y = label.position
+        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
+        if x > xc:  # east
+            orientation = 0
+        elif x < xc:  # west
+            orientation = 180
+        elif y > yc:  # north
+            orientation = 90
+        elif y < yc:  # south
+            orientation = 270
+
+        component.add_port(
+            name=port_name,
+            midpoint=(x, y),
+            width=port_width,
+            port_type=port_type,
+            orientation=orientation,
+        )
+
+
 # pytype: disable=bad-return-type
 def import_gds(
     gdspath: Union[str, Path],

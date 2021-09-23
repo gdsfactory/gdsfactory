@@ -110,6 +110,9 @@ def write_sparameters_lumerical(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
 
+    if not component.ports:
+        raise ValueError(f"`{component.name}` does not have any ports")
+
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
     for setting in settings.keys():
