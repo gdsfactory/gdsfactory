@@ -29,10 +29,9 @@ def add_ports_from_markers_square(
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
     port_names: Optional[Tuple[str, ...]] = None,
+    port_name_prefix: str = "o",
 ) -> None:
-    """add ports from markers in port_layer
-
-    adds ports at the marker center
+    """add ports from markers center in port_layer
 
     squared
 
@@ -40,8 +39,7 @@ def add_ports_from_markers_square(
         component: to read polygons from and to write ports to
         pin_layer: for port markers
         port_layer: for the new created port
-        orientation: orientation in degrees
-            90: north, 0: east, 180: west, 270: south
+        orientation: in degrees 90: north, 0: east, 180: west, 270: south
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         max_pin_area_um2: ignore pins for area above certain size
         pin_extra_width: 2*offset from pin to straight
@@ -49,7 +47,9 @@ def add_ports_from_markers_square(
 
     """
     port_markers = read_port_markers(component, [pin_layer])
-    port_names = list(range(len(port_markers.polygons)))
+    port_names = port_names or [
+        f"{port_name_prefix}{i+1}" for i in range(len(port_markers.polygons))
+    ]
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
@@ -82,11 +82,11 @@ def add_ports_from_markers_center(
     port_name_prefix: str = "",
     port_type: str = "optical",
 ) -> None:
-    """add ports from polygons in certain layers
+    """Add ports from rectangular pin markers.
 
-    markers at port center, so half of the marker goes inside and half ouside the port. Works only for rectangular pins.
+    markers at port center, so half of the marker goes inside and half ouside the port.
 
-    guess orientation of the port by looking at the xcenter and ycenter (which default to the component center)
+    guess port orientation from the component center
 
     Args:
         component: to read polygons from and to write ports to
@@ -100,7 +100,7 @@ def add_ports_from_markers_center(
         skip_square_ports: skips square ports (hard to guess orientation)
         xcenter: for guessing orientation of rectangular ports
         ycenter: for guessing orientation of rectangular ports
-        port_name_prefix: for optical ports (o1, o2, o3)
+        port_name_prefix: o for optical ports (o1, o2, o3)
 
     For the default center case (inside=False)
 
@@ -245,6 +245,7 @@ add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=Tr
 def add_ports_from_labels(
     component: Component,
     port_width: float,
+    port_layer: Layer,
     xcenter: Optional[float] = None,
     port_name_prefix: str = "o",
     port_type: str = "optical",
@@ -270,8 +271,9 @@ def add_ports_from_labels(
             name=port_name,
             midpoint=(x, y),
             width=port_width,
-            port_type=port_type,
             orientation=orientation,
+            port_type=port_type,
+            layer=port_layer,
         )
 
 
