@@ -32,10 +32,10 @@ from contracts import contract
 
 ## 3.2.7
 
-- write sparameters exports the layer_stack
-- write simulation_settings with omegaconf instead of YAML
+- write_sparameters exports the layer_stack together with the simulation_settings
+- write simulation_settings with omegaconf instead of YAML. Layer tuples were not exporting correctly.
 - layer_stack inherits from dict
-- simulation files use get_name_short to keep the name of the suffix within 32 characters + 32 characters for the name (filepath less than 64 characters)
+- simulation files use get_name_short to keep the name of the suffix within 32 characters + 32 characters for the name. This keeps filepath with less than 64 characters
 
 ## 3.2.6
 
