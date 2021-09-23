@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.2.5
+
+- add add_ports_from_labels function
+
 ## 3.2.4
 
 - transition raises ValueError if has no common layers between both cross_sections
