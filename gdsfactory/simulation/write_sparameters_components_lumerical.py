@@ -7,7 +7,7 @@ from gdsfactory.types import ComponentFactoryDict
 
 
 def write_sparameters_components_lumerical(
-    factory: ComponentFactoryDict, run: bool = False
+    factory: ComponentFactoryDict, run: bool = False, **kwargs
 ) -> None:
     """writes component Sparameters using Lumerical FDTD.
 
@@ -22,7 +22,7 @@ def write_sparameters_components_lumerical(
 
     for component_name in factory.keys():
         component = factory[component_name]()
-        write_sparameters_lumerical(component, run=run, session=session)
+        write_sparameters_lumerical(component, run=run, session=session, **kwargs)
         if not run:
             response = input(
                 f"does the simulation for {component_name} look good? (y/n)"
@@ -34,4 +34,4 @@ def write_sparameters_components_lumerical(
 if __name__ == "__main__":
     from gdsfactory.components import _factory_passives
 
-    write_sparameters_lumerical(factory=_factory_passives)
+    write_sparameters_components_lumerical(factory=_factory_passives)
