@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.2.7
+
+- write sparameters exports the layer_stack
+
 ## 3.2.6
 
 - add_ports_from_labels accepts layer parameter for the port
@@ -65,7 +69,7 @@ from contracts import contract
 
 ## 3.2.0
 
-- Ensures that an impossible route raises RouteWarning and draws error route with markers and labels on each port
+- Ensures that an impossible route raises RouteWarning and draws error route with markers and labels on each waypoint
 
 ## 3.1.10
 

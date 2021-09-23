@@ -2,7 +2,7 @@
 import dataclasses
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -40,24 +40,6 @@ MATERIAL_NAME_TO_LUMERICAL = {
     "sio2": "SiO2 (Glass) - Palik",
     "sin": "Si3N4 (Silicon Nitride) - Phillip",
 }
-
-
-def clean_dict(
-    d: Dict[str, Any], layers: List[Tuple[int, int]]
-) -> Dict[str, Union[str, float, int]]:
-    """Returns same dict after converting tuple keys into list of strings."""
-    output = d.copy()
-    output["layer_to_thickness"] = [
-        f"{k[0]}_{k[1]}_{v}"
-        for k, v in d.get("layer_to_thickness", {}).items()
-        if k in layers
-    ]
-    output["layer_to_material"] = [
-        f"{k[0]}_{k[1]}_{v}"
-        for k, v in d.get("layer_to_material", {}).items()
-        if k in layers
-    ]
-    return output
 
 
 def write_sparameters_lumerical(
@@ -124,13 +106,7 @@ def write_sparameters_lumerical(
     sim_settings.update(**settings)
     ss = SimulationSettings(**sim_settings)
 
-    # assert ss.port_width < 5e-6
-    # assert ss.port_height < 5e-6
-    # assert ss.zmargin < 5e-6
-    # assert ss.ymargin < 5e-6
-
     ports = component.ports
-
     component = component.copy()
     component.remove_layers(component.layers - set(layer_to_thickness.keys()))
     component._bb_valid = False
@@ -180,14 +156,18 @@ def write_sparameters_lumerical(
     z_span = (2 * ss.zmargin + max(layer_to_thickness.values())) * 1e-6
 
     layers = component.get_layers()
+    sim_settings.update(dict(layer_stack=layer_stack.to_dict()))
+
     sim_settings = dict(
-        simulation_settings=clean_dict(sim_settings, layers),
+        simulation_settings=sim_settings,
         component=component.get_settings(),
         version=__version__,
     )
 
+    # from pprint import pprint
     # filepath_sim_settings.write_text(yaml.dump(sim_settings))
     # print(filepath_sim_settings)
+    # pprint(sim_settings)
     # return
 
     try:
@@ -402,7 +382,7 @@ def _sample_convergence_wavelength():
 
 if __name__ == "__main__":
     component = gf.components.straight(length=2)
-    r = write_sparameters_lumerical(component=component, mesh_accuracy=1, run=False)
+    r = write_sparameters_lumerical(component=component, mesh_accuracy=1, run=True)
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
     # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 200}, run=False)
