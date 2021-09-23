@@ -1,13 +1,13 @@
-"""gf.loads a configuration from 3 files, high priority overwrites low priority:
+"""gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
 
 1. A config.yml found in the current working directory (highest priority)
-2. ~/.gf.config.yml specific for the machine
-3. the yamlpath_default in gf.tech.yml (lowest priority)
+2. ~/.gdsfactory/config.yml specific for the machine
+3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
 
 `CONFIG` has all your computer specific paths that we do not care to store
-`TECH` has all the useful info that we will store to have reproduceable layouts.
+`TECH` has all the useful info that we will store to have reproducible layouts.
 
-You can access all the config dictionary with `print_config` as well as a particular key
+You can access the config dictionary with `print_config`
 
 """
 
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     # print(TECH)
     # print_config("gdslib")
     # print(CONFIG["git_hash"])
-    # print(CONFIG["sp"])
+    # print(CONFIG["sparameters"])
     print(CONFIG)
     # print_config()
     # write_tech("tech.json")
