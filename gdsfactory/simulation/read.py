@@ -97,7 +97,7 @@ def test_read_sparameters_2port_straight():
 
 
 def test_read_sparameters_3port_mmi1x2():
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=3)
     print(port_names)
     assert len(f) == 500
@@ -105,7 +105,7 @@ def test_read_sparameters_3port_mmi1x2():
 
 
 def test_read_sparameters_4port_mmi2x2():
-    filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_S220.dat"
+    filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_si220n.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=4)
     print(port_names)
     assert len(f) == 500

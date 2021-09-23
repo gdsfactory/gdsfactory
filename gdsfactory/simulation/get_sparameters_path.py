@@ -4,7 +4,7 @@ from typing import Dict, Tuple
 
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
-from gdsfactory.name import dict2name
+from gdsfactory.name import dict2name, get_name_short
 from gdsfactory.tech import LAYER
 
 
@@ -16,6 +16,8 @@ def get_sparameters_path(
     **kwargs,
 ) -> Path:
     """Returns Sparameters filepath.
+
+    it only includes the layers that are present in the component
 
     Args:
         component:
@@ -36,16 +38,16 @@ def get_sparameters_path(
         if tuple(layer) in component.get_layers()
     }
     material_to_thickness.update(**kwargs)
-    suffix = dict2name(**material_to_thickness)
-    return dirpath / f"{component.get_name_long()}_{suffix}.dat"
+    suffix = get_name_short(dict2name(**material_to_thickness))
+    return dirpath / f"{component.name}_{suffix}.dat"
 
 
 def test_get_sparameters_path() -> None:
     import gdsfactory as gf
 
     layer_to_thickness_sample = {
-        LAYER.WG: 220,
-        LAYER.SLAB90: 90,
+        LAYER.WG: 220e-3,
+        LAYER.SLAB90: 90e-3,
     }
     layer_to_material_sample = {
         LAYER.WG: "si",
@@ -58,7 +60,7 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == "straight_si220", p.stem
+    assert p.stem == "straight_si220n", p.stem
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path(
@@ -66,7 +68,7 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == "straight_layer3_0_si90", p.stem
+    assert p.stem == "straight_layer3_0_si90n", p.stem
 
 
 if __name__ == "__main__":
