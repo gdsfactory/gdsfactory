@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.2.6
+
+- add_ports_from_labels accepts layer parameter for the port
+
 ## 3.2.5
 
 - add add_ports_from_labels function
