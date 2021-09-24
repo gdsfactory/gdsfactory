@@ -5,7 +5,7 @@ from typing import Iterable, Optional, Tuple, Union
 from phidl.geometry import fill_rectangle as _fill_rectangle
 
 from gdsfactory.component import Component
-from gdsfactory.component_from import phidl
+from gdsfactory.read import phidl
 from gdsfactory.types import Layer
 
 

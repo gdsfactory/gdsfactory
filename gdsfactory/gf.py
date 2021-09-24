@@ -124,7 +124,7 @@ def merge_gds_from_directory(
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-    c = gdsfactory.component_from.gdsdir(dirpath=dirpath)
+    c = gdsfactory.read.gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show()
 

@@ -59,7 +59,7 @@ def spiral(
         port=port,
         direction=direction,
     )
-    return gf.component_from.picwriter(c, port_layer=layer)
+    return gf.read.picwriter(c, port_layer=layer)
 
 
 if __name__ == "__main__":

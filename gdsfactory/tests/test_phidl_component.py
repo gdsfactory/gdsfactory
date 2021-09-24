@@ -8,7 +8,7 @@ def component_phidl(function_name: str, **kwargs) -> gf.Component:
         raise ValueError(f"{function_name} not in {dir(pg)}")
     component_function = getattr(pg, function_name)
     device = component_function(**kwargs)
-    return gf.component_from.phidl(device)
+    return gf.read.phidl(device)
 
 
 def test_import_component_phidl():

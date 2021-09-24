@@ -278,6 +278,8 @@ def test_load_lyp():
     return lys
 
 
+lys = load_lyp_generic()
+
 if __name__ == "__main__":
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
