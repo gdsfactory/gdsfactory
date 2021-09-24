@@ -42,11 +42,6 @@ def bezier_points(control_points: Coordinates, width: Number, npoints: int = 101
     return extrude_path(points, width)
 
 
-def bezier_biased(width=0.5, **kwargs):
-    width = gf.bias.width(width)
-    return bezier(width=width, **kwargs)
-
-
 @gf.cell
 def bezier(
     name: Optional[str] = None,
