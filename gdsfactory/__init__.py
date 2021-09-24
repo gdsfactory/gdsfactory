@@ -27,7 +27,6 @@ from phidl.device_layout import Group, Path
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONFIG, call_if_func
 from gdsfactory.port import Port
-from gdsfactory.port import port_array
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
@@ -41,7 +40,6 @@ from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import routing
-from gdsfactory import bias
 from gdsfactory import klive
 from gdsfactory import port
 from gdsfactory import types
@@ -94,7 +92,6 @@ __all__ = [
     "add_tapers",
     "add_termination",
     "asserts",
-    "bias",
     "boolean",
     "c",
     "call_if_func",
@@ -118,7 +115,6 @@ __all__ = [
     "pg",
     "plot",
     "port",
-    "port_array",
     "read",
     "remove",
     "rotate",

@@ -173,7 +173,6 @@ def taper_strip_to_ridge_trenches(
 ):
 
     c = gf.Component()
-    width = gf.bias.width(width)
     y0 = width / 2 + trench_width - trench_offset_after_wg
     yL = width / 2 + trench_width - trench_offset_after_wg + slab_offset
 

@@ -29,6 +29,10 @@ from contracts import contract
 
 
 ```
+## 3.2.9
+
+- rename `component_from` to `read`
+- remove `gf.bias`
 
 ## 3.2.8
 
