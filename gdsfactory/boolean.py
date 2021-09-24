@@ -57,7 +57,7 @@ def boolean(
         max_points=max_points,
         layer=layer,
     )
-    return gf.component_from.phidl(component=c)
+    return gf.read.phidl(component=c)
 
 
 if __name__ == "__main__":

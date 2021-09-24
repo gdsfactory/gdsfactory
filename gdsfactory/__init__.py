@@ -24,8 +24,7 @@ import phidl.geometry as pg
 from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from gdsfactory.filecache import filecache
-from gdsfactory.component import Component, ComponentReference, copy
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONFIG, call_if_func
 from gdsfactory.port import Port
 from gdsfactory.port import port_array
@@ -50,7 +49,6 @@ from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import tech
 from gdsfactory import containers
-from gdsfactory import component_from
 from gdsfactory import read
 from gdsfactory import remove
 from gdsfactory import layers
@@ -77,7 +75,6 @@ from gdsfactory.to_3d import to_3d
 
 
 c = components
-lys = layers.load_lyp_generic()
 
 __all__ = [
     "CONFIG",
@@ -104,14 +101,11 @@ __all__ = [
     "cell",
     "cell_without_validator",
     "clear_cache",
-    "component_from",
     "component_from_yaml",
     "components",
     "containers",
-    "copy",
     "cross_section",
     "fill_rectangle",
-    "filecache",
     "get_padding_points",
     "grid",
     "import_gds",

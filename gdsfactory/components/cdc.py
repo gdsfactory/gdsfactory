@@ -78,7 +78,7 @@ def cdc(
         direction=direction,
     )
 
-    return gf.component_from.picwriter(c)
+    return gf.read.picwriter(c)
 
 
 if __name__ == "__main__":

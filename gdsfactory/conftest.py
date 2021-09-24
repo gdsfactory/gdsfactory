@@ -27,7 +27,7 @@ def cleandir(request: SubRequest) -> None:
 
 @pytest.fixture(scope="session")
 def show_diffs(request: SubRequest) -> None:
-    c = gf.component_from.gdspaths(diff_path.glob("*.gds"))
+    c = gf.read.gdspaths(diff_path.glob("*.gds"))
     c.show()
 
 
