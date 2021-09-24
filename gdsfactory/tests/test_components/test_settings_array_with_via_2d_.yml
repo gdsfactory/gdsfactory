@@ -4,10 +4,7 @@ module: gdsfactory.components.array_with_via
 name: array_with_via_2d
 settings:
   columns: 3
-  pitch: 150
-  pitch_x: null
-  pitch_y: null
   rows: 2
   spacing:
-  - 0
+  - 150
   - 150

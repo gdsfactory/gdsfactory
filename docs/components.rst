@@ -118,7 +118,7 @@ array_with_via
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via(columns=3, pitch=150.0, waveguide_pitch=10.0, end_straight=60.0, component_port_name='e4', via_stack_y_offset=-44.0, facing_west=True)
+  c = gf.components.array_with_via(columns=3, spacing=150.0, via_spacing=10.0, straight_length=60.0, component_port_name='e4', via_stack_dy=0, port_orientation=180)
   c.plot()
 
 
@@ -133,7 +133,7 @@ array_with_via_2d
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via_2d(pitch=150.0, columns=3, rows=2)
+  c = gf.components.array_with_via_2d(spacing=(150.0, 150.0), columns=3, rows=2)
   c.plot()
 
 
@@ -882,7 +882,7 @@ extend_ports
 
   import gdsfactory as gf
 
-  c = gf.components.extend_ports(length=5.0, port_type='optical')
+  c = gf.components.extend_ports(length=5.0, port_type='optical', centered=False)
   c.plot()
 
 
@@ -1902,7 +1902,7 @@ straight_rib_tapered
 
   import gdsfactory as gf
 
-  c = gf.components.straight_rib_tapered(length=5.0, port1='o2', port2='o1', port_type='optical')
+  c = gf.components.straight_rib_tapered(length=5.0, port1='o2', port2='o1', port_type='optical', centered=False)
   c.plot()
 
 
@@ -2172,7 +2172,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.2.3', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.2.7', text_size=10)
   c.plot()
 
 
@@ -2247,7 +2247,7 @@ via_stack
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f2a9a6783a0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f2a9a6783a0>, layer=(43, 0))))
+  c = gf.components.via_stack(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7ff2263d0310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7ff2263d0310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2262,7 +2262,7 @@ via_stack_heater
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f2a9a6783a0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f2a9a6783a0>, layer=(43, 0))))
+  c = gf.components.via_stack_heater(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7ff2263d0310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7ff2263d0310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2277,7 +2277,7 @@ via_stack_slab
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7f2a9a6783a0>, layer=(40, 0)), functools.partial(<function via at 0x7f2a9a6783a0>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7f2a9a6783a0>, layer=(43, 0))))
+  c = gf.components.via_stack_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)), vias=(functools.partial(<function via at 0x7ff2263d0310>, layer=(40, 0)), functools.partial(<function via at 0x7ff2263d0310>, layer=(44, 0), enclosure=2), functools.partial(<function via at 0x7ff2263d0310>, layer=(43, 0))))
   c.plot()
 
 
@@ -2307,7 +2307,7 @@ via_stack_with_offset
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), vias=(None, functools.partial(<function via at 0x7f2a9a6783a0>, layer=(40, 0))), port_orientation=180)
+  c = gf.components.via_stack_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), vias=(None, functools.partial(<function via at 0x7ff2263d0310>, layer=(40, 0))), port_orientation=180)
   c.plot()
 
 

@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.2.8
+
+- array with via has consistent names
+
 ## 3.2.7
 
 - write_sparameters exports the layer_stack together with the simulation_settings
