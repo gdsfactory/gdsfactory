@@ -7,21 +7,26 @@ from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack as via_stack_factory
 from gdsfactory.cross_section import metal2
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactory,
+    CrossSectionFactory,
+    Float2,
+)
 
 
 @cell
 def array_with_via(
     component: ComponentOrFactory = pad,
     columns: int = 3,
-    pitch: float = 150.0,
-    waveguide_pitch: float = 10.0,
-    end_straight: float = 60.0,
+    spacing: float = 150.0,
+    via_spacing: float = 10.0,
+    straight_length: float = 60.0,
     component_port_name: str = "e4",
-    cross_section: CrossSectionFactory = metal2,
+    cross_section: Optional[CrossSectionFactory] = metal2,
     via_stack: ComponentFactory = via_stack_factory,
-    via_stack_y_offset: float = -44.0,
-    facing_west: bool = True,
+    via_stack_dy: float = 0,
+    port_orientation: int = 180,
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis
@@ -30,15 +35,17 @@ def array_with_via(
     Args:
         component: to replicate
         columns: number of components
-        pitch: float
-        waveguide_pitch: for fanout
-        end_straight: lenght of the straight at the end
+        spacing: float
+        via_spacing: for fanout
+        straight_length: lenght of the straight at the end
         waveguide: waveguide definition
         component_port_name:
-        via_stack_port_name:
+        cross_section:
+        via_stack:
+        via_stack_ymin:
+        port_orientation: 180: facing west
         **kwargs
     """
-    port_orientation = 180 if facing_west else 0
 
     c = Component()
     component = component() if callable(component) else component
@@ -46,33 +53,43 @@ def array_with_via(
 
     for col in range(columns):
         ref = component.ref()
-        ref.x = col * pitch
+        ref.x = col * spacing
         c.add(ref)
 
         if port_orientation == 180:
-            xlength = col * pitch + end_straight
+            xlength = col * spacing + straight_length
+        elif port_orientation == 0:
+            xlength = columns * spacing - (col * spacing) + straight_length
+        elif port_orientation == 270:
+            xlength = col * via_spacing + straight_length
+
+        elif port_orientation == 90:
+            xlength = columns * via_spacing - (col * via_spacing) + straight_length
+
         else:
-            xlength = columns * pitch - (col * pitch) + end_straight
+            raise ValueError(
+                f"Invalid port_orientation = {port_orientation}",
+                "180: west, 0: east, 90: north, 270: south",
+            )
 
         via_stack_ref = c << via_stack
-        via_stack_ref.x = col * pitch
-        via_stack_ref.y = col * waveguide_pitch + via_stack_y_offset
+        via_stack_ref.x = col * spacing
+        via_stack_ref.y = col * via_spacing + via_stack_dy
 
-        straightx_ref = c << straight(
-            length=xlength, cross_section=cross_section, **kwargs
-        )
-        straightx_ref.connect(
-            "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
-        )
-        c.add_port(f"e{col}", port=straightx_ref.ports["e1"])
+        if cross_section:
+            straightx_ref = c << straight(
+                length=xlength, cross_section=cross_section, **kwargs
+            )
+            straightx_ref.connect(
+                "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
+            )
+            c.add_port(f"e{col}", port=straightx_ref.ports["e1"])
     return c
 
 
 @cell
 def array_with_via_2d(
-    pitch: float = 150.0,
-    pitch_x: Optional[float] = None,
-    pitch_y: Optional[float] = None,
+    spacing: Float2 = (150.0, 150.0),
     columns: int = 3,
     rows: int = 2,
     **kwargs,
@@ -80,28 +97,37 @@ def array_with_via_2d(
     """Returns 2D array with fanout waveguides facing west.
 
     Args:
-        pitch: 2D pitch
-        pitch_x: defaults to pitch
-        pitch_y: defaults to pitch
+        spacing: 2D spacing
         columns:
         rows:
         kwargs:
             component: to replicate
             columns: number of components
-            pitch: float
-            waveguide_pitch: for fanout
-            end_straight: lenght of the straight at the end
+            spacing: float
+            via_spacing: for fanout
+            straight_length: lenght of the straight at the end
             component_port_name:
             via_stack_port_name:
             **kwargs
     """
-    pitch_y = pitch_y or pitch
-    pitch_x = pitch_x or pitch
-    row = array_with_via(columns=columns, pitch=pitch_x, **kwargs)
-    return array(component=row, rows=rows, spacing=(0, pitch_y))
+    row = array_with_via(columns=columns, spacing=spacing[0], **kwargs)
+    return array(component=row, rows=rows, spacing=(0, spacing[1]))
 
 
 if __name__ == "__main__":
-    c2 = array_with_via(columns=3, width=10, waveguide_pitch=20)
-    # c2 = array_with_via_2d(columns=8, rows=8, waveguide_pitch=12, facing_west=True)
-    c2.show()
+    import gdsfactory as gf
+
+    via_stack_big = gf.partial(via_stack_factory, size=(30, 20))
+    # c = array_with_via(columns=3, width=10, via_spacing=20, port_orientation=90)
+    # c = array_with_via(columns=3, width=10, via_spacing=20, port_orientation=270, spacing=())
+    c = array_with_via_2d(
+        columns=8,
+        rows=16,
+        via_spacing=27.3,
+        spacing=(150, 218),
+        port_orientation=270,
+        straight_length=0,
+        via_stack=via_stack_big,
+        via_stack_dy=-50 + 10,
+    )
+    c.show()
