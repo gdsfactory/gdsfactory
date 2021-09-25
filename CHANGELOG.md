@@ -33,6 +33,7 @@ from contracts import contract
 
 - rename `component_from` to `read`
 - remove `gf.bias`
+- add `get_layer_to_sidewall_angle` in layer_stack
 
 ## 3.2.8
 
