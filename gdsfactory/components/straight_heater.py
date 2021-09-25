@@ -122,5 +122,5 @@ if __name__ == "__main__":
     # c.pprint_ports
     c = straight_heater_metal(length=50.0)
     c.show()
-    scene = gf.to_trimesh(c, layer_set=gf.lys)
+    scene = gf.to_trimesh(c, layer_set=gf.layers.LAYER_SET)
     scene.show()

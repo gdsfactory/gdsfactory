@@ -33,7 +33,9 @@ from contracts import contract
 
 - rename `component_from` to `read`
 - remove `gf.bias`
+- remove `gf.filecache`
 - add `get_layer_to_sidewall_angle` in layer_stack
+- rename `gf.lys` to `gf.layers.LAYER_SET` to be consistent
 
 ## 3.2.8
 

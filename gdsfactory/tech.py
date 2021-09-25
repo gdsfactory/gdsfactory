@@ -5,7 +5,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import pydantic
 from phidl.device_layout import Device as Component
 
-from gdsfactory.layers import LayerSet
 from gdsfactory.name import clean_value, get_name_short
 
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -90,7 +89,6 @@ PORT_LAYER_TO_TYPE = {
 }
 
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
-LAYER_SET = LayerSet()  # Layerset for simulation and matplotlib
 
 
 @pydantic.dataclasses.dataclass
