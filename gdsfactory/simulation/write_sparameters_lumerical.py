@@ -150,8 +150,15 @@ def write_sparameters_lumerical(
     if 270 in port_orientations:
         y_min += ss.ymargin * 1e-6
 
+    layers_thickness = [
+        layer_to_thickness[layer]
+        for layer in component.get_layers()
+        if layer in layer_to_thickness
+    ]
+    component_thickness = max(layers_thickness)
+
     z = 0
-    z_span = (2 * ss.zmargin + max(layer_to_thickness.values())) * 1e-6
+    z_span = (2 * ss.zmargin + component_thickness) * 1e-6
 
     layers = c.get_layers()
     sim_settings.update(dict(layer_stack=layer_stack.to_dict()))
