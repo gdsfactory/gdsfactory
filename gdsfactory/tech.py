@@ -131,6 +131,14 @@ class LayerStack(dict):
             level.layer: level.material for level in self.values() if level.thickness
         }
 
+    def get_layer_to_sidewall_angle(self) -> Dict[Tuple[int, int], str]:
+        """Returns layer tuple to material name."""
+        return {
+            level.layer: level.sidewall_angle
+            for level in self.values()
+            if level.thickness
+        }
+
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: asdict(level) for level_name, level in self.items()}
 

@@ -41,8 +41,10 @@ def get_material(
     # FIXME: need to remove this.
     if name == "SiO2":
         return td.Medium(epsilon=1.45)
-    elif name in "cSi":
+    elif name in ["cSi", "si"]:
         return td.Medium(n=3.48)
+    elif name in ["SiN", "Si3N4"]:
+        return td.Medium(n=2.0)
     else:
         raise ValueError(f"not implemetned material, name = {name}")
 

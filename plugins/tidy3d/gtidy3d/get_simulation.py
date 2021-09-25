@@ -1,8 +1,6 @@
-""" Returns simulation from gdsfactory Component
-
-"""
-from typing import Dict, Optional, Tuple
+"""Returns simulation from gdsfactory Component."""
 import warnings
+from typing import Optional
 
 import pydantic
 import matplotlib.pyplot as plt
@@ -11,15 +9,17 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
+from gdsfactory.tech import LayerStack, LAYER_STACK
 
 import tidy3d as td
 from gtidy3d.materials import get_material
 
 
-LAYER_TO_THICKNESS = {(1, 0): 220e-3}
-LAYER_TO_MATERIAL = {(1, 0): "cSi"}
-LAYER_TO_ZMIN = {(1, 0): 0.0}
-LAYER_TO_SIDEWALL_ANGLE = {(1, 0): 0}
+MATERIAL_NAME_TO_TIDY3D = {
+    "si": "cSi",
+    "sio2": "SiO2",
+    "sin": "Si3N4",
+}
 
 
 @pydantic.validate_arguments
@@ -28,18 +28,15 @@ def get_simulation(
     mode_index: int = 0,
     n_modes: int = 2,
     extend_ports_length: Optional[float] = 4.0,
-    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-    layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin: Dict[Tuple[int, int], float] = LAYER_TO_ZMIN,
-    layer_to_sidewall_angle: Dict[Tuple[int, int], float] = LAYER_TO_SIDEWALL_ANGLE,
+    layer_stack: LayerStack = LAYER_STACK,
     t_clad_top: float = 1.0,
     t_clad_bot: float = 1.0,
     tpml: float = 1.0,
     clad_material: str = "SiO2",
-    port_source_name: str = 1,
+    port_source_name: str = "o1",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
-    mesh_step: float = 0.040,
+    mesh_step: float = 40e-3,
     wavelength: float = 1.55,
 ) -> td.Simulation:
     """Returns Simulation object from gdsfactory.component
@@ -52,7 +49,7 @@ def get_simulation(
         mode_index: mode index
         n_modes: number of modes
         extend_ports_function: extend ports beyond the PML
-        layer_to_thickness: Dict of layer number (int, int) to thickness (nm)
+        layer_to_thickness: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
@@ -78,6 +75,11 @@ def get_simulation(
         gm.plot_simulation(sim)
 
     """
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_material = layer_stack.get_layer_to_material()
+    layer_to_zmin = layer_stack.get_layer_to_zmin()
+    # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+
     assert isinstance(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
@@ -112,8 +114,13 @@ def get_simulation(
             center=(0, 0, 0),
         )
     ]
+    layers_thickness = [
+        layer_to_thickness[layer]
+        for layer in component.get_layers()
+        if layer in layer_to_thickness
+    ]
 
-    t_core = max(layer_to_thickness.values())
+    t_core = max(layers_thickness)
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
     sim_size = [
         component_ref.xsize + 2 * tpml,
@@ -125,9 +132,9 @@ def get_simulation(
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
             height = layer_to_thickness[layer]
-            zmin_um = layer_to_zmin[layer]
-            z_cent = zmin_um + height / 2
-            material_name = layer_to_material[layer]
+            zmin = layer_to_zmin[layer]
+            z_cent = zmin + height / 2
+            material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
             material = get_material(name=material_name)
 
             geometry = td.GdsSlab(
@@ -257,7 +264,6 @@ def plot_materials(
 
 
 if __name__ == "__main__":
-
     c = gf.components.mmi1x2()
     c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
