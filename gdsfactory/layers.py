@@ -278,15 +278,14 @@ def test_load_lyp():
     return lys
 
 
-lys = load_lyp_generic()
+LAYER_SET = load_lyp_generic()
 
 if __name__ == "__main__":
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
 
     # lys = test_load_lyp()
-    lys = load_lyp_generic()
-    c = preview_layerset(ls=lys)
+    c = preview_layerset(LAYER_SET)
     c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))

@@ -54,5 +54,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
-    scene = to_3d(c, layer_set=gf.lys)
+    scene = to_3d(c, layer_set=gf.layers.LAYER_SET)
     scene.show()
