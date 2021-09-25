@@ -169,6 +169,10 @@ def write_sparameters_lumerical(
         version=__version__,
     )
 
+    logger.info(
+        f"Simulation size = {(x_max-x_min)*1e6:.3f}, {(y_max-y_min)*1e6:.3f}, {z_span*1e6:.3f} um"
+    )
+
     # from pprint import pprint
 
     # filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
