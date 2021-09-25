@@ -4,16 +4,19 @@ Returns simulation from component
 FIXME, zmin_um does not work
 
 """
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 import warnings
 import pydantic
-
 import matplotlib.pyplot as plt
-import meep as mp
 import numpy as np
+
+import meep as mp
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
+from gdsfactory.tech import LayerStack, LAYER_STACK
+
 from gmeep.materials import get_material
 
 mp.verbosity(0)
@@ -25,14 +28,18 @@ LAYER_TO_ZMIN = {(1, 0): "Si"}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
 
 
+MATERIAL_NAME_TO_MEEP = {
+    "si": "Si",
+    "sio2": "SiO2",
+    "sin": "Si3N4",
+}
+
+
 @pydantic.validate_arguments
 def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
-    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-    layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    layer_to_zmin: Dict[Tuple[int, int], float] = {(1, 0): 0.0},
-    layer_to_sidewall_angle: Dict[Tuple[int, int], float] = {(1, 0): 0},
+    layer_stack: LayerStack = LAYER_STACK,
     res: int = 20,
     t_clad_top: float = 1.0,
     t_clad_bot: float = 1.0,
@@ -89,6 +96,11 @@ def get_simulation(
         gf.show(cm)
 
     """
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_material = layer_stack.get_layer_to_material()
+    layer_to_zmin = layer_stack.get_layer_to_zmin()
+    layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
     if port_source_name not in component.ports:
         warnings.warn(
@@ -137,7 +149,13 @@ def get_simulation(
     # geometry_center = [0, 0]
     # print(geometry_center)
 
-    t_core = max(layer_to_thickness.values())
+    layers_thickness = [
+        layer_to_thickness[layer]
+        for layer in component.get_layers()
+        if layer in layer_to_thickness
+    ]
+
+    t_core = max(layers_thickness)
     cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml if is_3d else 0
 
     cell_size = mp.Vector3(
