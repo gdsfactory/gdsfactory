@@ -67,7 +67,7 @@ class Port(PortPhidl):
         orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
-        port_type: str
+        port_type: str (optical, electrical, vertical_te, vertical_tm)
 
     """
 
@@ -109,6 +109,7 @@ class Port(PortPhidl):
     @classmethod
     def validate(cls, v):
         """For pydantic assumes Port is valid if:
+
         - has a name
         """
         assert v.name, f"Port has no name, got `{v.name}`"
@@ -229,7 +230,7 @@ def port_array(
     n: int = 2,
     **kwargs,
 ) -> List[Port]:
-    """returns a list of ports placed in an array
+    """Returns a list of ports placed in an array
 
     Args:
         midpoint: center point of the port
@@ -254,7 +255,7 @@ def port_array(
 def read_port_markers(
     component: object, layers: Tuple[Tuple[int, int], ...] = ((1, 10),)
 ) -> Device:
-    """loads a GDS and returns the extracted ports from layer markers
+    """Loads a GDS and returns the extracted ports from layer markers
 
     Args:
         component: or Component
@@ -370,9 +371,10 @@ def select_ports(
     port_type: Optional[str] = None,
     clockwise: bool = True,
 ) -> Dict[str, Port]:
-    """
+    """Returns a dict of ports from a dict of ports
+
     Args:
-        ports: Dict[str, Port] a port dictionnary {port name: port} (as returned by Component.ports)
+        ports: Dict[str, Port] a port dict {port name: port}
         layer: GDS layer
         prefix: with in port name
         orientation:
@@ -796,7 +798,6 @@ if __name__ == "__main__":
     # m = map_ports_layer_to_orientation(c.ports)
     # pprint(m)
     # c.show()
-    # p0 = c.port_by_orientation_cw("E0", width=0.5)
     # print(p0)
     p0 = c.get_ports_list(orientation=90, clockwise=False)[0]
     print(p0)

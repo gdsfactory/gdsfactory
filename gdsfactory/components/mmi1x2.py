@@ -87,7 +87,6 @@ def mmi1x2(
         c.add_port(name=port_name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    c.simulation_settings = dict(port_width=1.5e-6)
     c.absorb(mmi)
 
     layers_cladding = layers_cladding or []
@@ -107,10 +106,17 @@ def mmi1x2(
 if __name__ == "__main__":
 
     c = mmi1x2(layer=(2, 0))
-    c.show()
+    ports = c.get_ports_list(port_type="optical")
+    c2 = gf.c.extend_ports(c)
+    port_orientations = [p.orientation for p in ports]
+
+    for i, port in enumerate(ports):
+        print(i, port)
+
+    c2.show()
 
     # print(c.ports)
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
     # c.write_gds(gf.CONFIG["gdsdir"] / "mmi1x2.gds")
-    print(c.ports["o1"].cross_section.info)
+    # print(c.ports["o1"].cross_section.info)

@@ -29,6 +29,11 @@ from contracts import contract
 
 
 ```
+
+## 3.2.10
+
+- write_sparameters in lumerical writes simulation_settings in YAML
+
 ## 3.2.9
 
 - rename `component_from` to `read`

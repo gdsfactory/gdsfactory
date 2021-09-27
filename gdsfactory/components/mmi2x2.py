@@ -87,7 +87,6 @@ def mmi2x2(
         component.add_port(name=port_name, port=taper_ref.ports["o1"])
         component.absorb(taper_ref)
 
-    component.simulation_settings = dict(port_width=1.5e-6)
     component.absorb(mmi_section)
 
     layers_cladding = layers_cladding or []

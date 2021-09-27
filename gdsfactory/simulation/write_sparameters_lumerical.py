@@ -92,11 +92,15 @@ def write_sparameters_lumerical(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
 
-    if not component.ports:
-        raise ValueError(f"`{component.name}` does not have any ports")
+    ports = component.get_ports_list(port_type="optical")
+    if not ports:
+        raise ValueError(f"`{component.name}` does not have any optical ports")
 
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
+        logger.info(
+            "Updating {component.name} simulation_settings with {component.simulation_settings}"
+        )
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
@@ -106,7 +110,6 @@ def write_sparameters_lumerical(
     sim_settings.update(**settings)
     ss = SimulationSettings(**sim_settings)
 
-    ports = component.ports
     c = gf.components.extension.extend_ports(
         component=component, length=ss.port_extension
     )
@@ -141,7 +144,7 @@ def write_sparameters_lumerical(
     y_min = (component.ymin - ss.ymargin - ss.pml_margin) * 1e-6
     y_max = (component.ymax + ss.ymargin + ss.pml_margin) * 1e-6
 
-    port_orientations = [p.orientation for p in ports.values()]
+    port_orientations = [p.orientation for p in ports]
 
     # bend
     if 90 in port_orientations:
@@ -160,6 +163,9 @@ def write_sparameters_lumerical(
     z = 0
     z_span = (2 * ss.zmargin + component_thickness) * 1e-6
 
+    x_span = x_max - x_min
+    y_span = y_max - y_min
+
     layers = c.get_layers()
     sim_settings.update(dict(layer_stack=layer_stack.to_dict()))
 
@@ -170,11 +176,10 @@ def write_sparameters_lumerical(
     )
 
     logger.info(
-        f"Simulation size = {(x_max-x_min)*1e6:.3f}, {(y_max-y_min)*1e6:.3f}, {z_span*1e6:.3f} um"
+        f"Simulation size = {(x_span)*1e6:.3f}, {(y_span)*1e6:.3f}, {z_span*1e6:.3f} um"
     )
 
     # from pprint import pprint
-
     # filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
     # print(filepath_sim_settings)
     # pprint(sim_settings)
@@ -227,7 +232,6 @@ def write_sparameters_lumerical(
 
     for layer, thickness in layer_to_thickness.items():
         if layer not in layers:
-            logger.info(f"{layer} not in {layers}")
             continue
 
         if layer not in layer_to_material:
@@ -243,18 +247,18 @@ def write_sparameters_lumerical(
         if layer not in layer_to_zmin:
             raise ValueError(f"{layer} not in {list(layer_to_zmin.keys())}")
 
-        zmin = layer_to_zmin[layer] * 1e-6
-        zmax = zmin + thickness * 1e-6
+        zmin = layer_to_zmin[layer]
+        zmax = zmin + thickness
         z = (zmax + zmin) / 2
 
         s.gdsimport(str(gdspath), "top", f"{layer[0]}:{layer[1]}")
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
-        s.setnamed(layername, "z", z)
+        s.setnamed(layername, "z", z * 1e-6)
         s.setnamed(layername, "z span", thickness * 1e-6)
         s.setnamed(layername, "material", material_name_lumerical)
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
-    for i, port in enumerate(ports.values()):
+    for i, port in enumerate(ports):
         s.addport()
         p = f"FDTD::ports::port {i+1}"
         s.setnamed(p, "x", port.x * 1e-6)
@@ -288,8 +292,7 @@ def write_sparameters_lumerical(
 
         else:
             raise ValueError(
-                f"port {port.name} with orientation {port.orientation} is not a valid"
-                " number "
+                f"port {port.name} orientation {port.orientation} is not valid"
             )
 
         s.setnamed(p, "direction", direction)
@@ -298,6 +301,12 @@ def write_sparameters_lumerical(
         s.setnamed(p, "x span", dxp * 1e-6)
         # s.setnamed(p, "theta", deg)
         s.setnamed(p, "name", port.name)
+        # s.setnamed(p, "name", f"o{i+1}")
+
+        logger.info(
+            f"port {p} {port.name}: at ({port.x}, {port.y}, 0)"
+            f"size = ({dxp}, {dyp}, {ss.port_height})"
+        )
 
     s.setglobalsource("wavelength start", ss.wavelength_start * 1e-6)
     s.setglobalsource("wavelength stop", ss.wavelength_stop * 1e-6)
@@ -311,20 +320,13 @@ def write_sparameters_lumerical(
         s.setsweep("s-parameter sweep", "Excite all ports", 0)
         s.setsweep("S sweep", "auto symmetry", True)
         s.runsweep("s-parameter sweep")
-
-        # collect results
-        # S_matrix = s.getsweepresult("s-parameter sweep", "S matrix")
         sp = s.getsweepresult("s-parameter sweep", "S parameters")
-
-        # export S-parameter data to file named s_params.dat to be loaded in
-        # INTERCONNECT
         s.exportsweep("s-parameter sweep", str(filepath))
-        print(f"wrote sparameters to {filepath}")
+        logger.info(f"wrote sparameters to {filepath}")
 
         keys = [key for key in sp.keys() if key.startswith("S")]
         ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
         rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
-
         wavelength_nm = sp["lambda"].flatten() * 1e9
 
         results = {"wavelength_nm": wavelength_nm}
@@ -335,6 +337,7 @@ def write_sparameters_lumerical(
         end = time.time()
         df.to_csv(filepath_csv, index=False)
         sim_settings.update(compute_time_seconds=end - start)
+        filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         return df
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
 
@@ -391,7 +394,7 @@ def _sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
-    component = gf.components.straight(length=2)
+    component = gf.components.straight(length=2.5)
     r = write_sparameters_lumerical(
         component=component, mesh_accuracy=1, wavelength_points=200, run=True
     )
