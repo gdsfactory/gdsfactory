@@ -30,7 +30,7 @@ def add_ports_from_markers_square(
     pin_extra_width: float = 0.0,
     port_names: Optional[Tuple[str, ...]] = None,
     port_name_prefix: str = "o",
-) -> None:
+) -> Component:
     """add ports from markers center in port_layer
 
     squared
@@ -65,6 +65,7 @@ def add_ports_from_markers_square(
                 orientation=orientation,
                 layer=layer,
             )
+    return component
 
 
 def add_ports_from_markers_center(
@@ -81,7 +82,7 @@ def add_ports_from_markers_center(
     ycenter: Optional[float] = None,
     port_name_prefix: str = "",
     port_type: str = "optical",
-) -> None:
+) -> Component:
     """Add ports from rectangular pin markers.
 
     markers at port center, so half of the marker goes inside and half ouside the port.
@@ -237,6 +238,7 @@ def add_ports_from_markers_center(
 
     for port_name, port in ports.items():
         component.add_port(name=port_name, port=port)
+    return component
 
 
 add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=True)
@@ -249,7 +251,7 @@ def add_ports_from_labels(
     xcenter: Optional[float] = None,
     port_name_prefix: str = "o",
     port_type: str = "optical",
-):
+) -> Component:
     """Add ports from labels.
     Assumes that all ports have a label at the port center.
     """
@@ -275,6 +277,7 @@ def add_ports_from_labels(
             port_type=port_type,
             layer=port_layer,
         )
+    return component
 
 
 # pytype: disable=bad-return-type
