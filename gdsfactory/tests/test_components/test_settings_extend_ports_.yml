@@ -6,9 +6,7 @@ settings:
   centered: false
   contains:
     function_name: mmi1x2
-    info:
-      simulation_settings:
-        port_width: 1.5e-06
+    info: {}
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
     settings:
