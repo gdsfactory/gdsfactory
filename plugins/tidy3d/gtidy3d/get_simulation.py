@@ -27,11 +27,10 @@ def get_simulation(
     component: Component,
     mode_index: int = 0,
     n_modes: int = 2,
-    extend_ports_length: Optional[float] = 4.0,
+    port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
-    t_clad_top: float = 1.0,
-    t_clad_bot: float = 1.0,
-    tpml: float = 1.0,
+    zmargin: float = 1.0,
+    thickness_pml: float = 1.0,
     clad_material: str = "SiO2",
     port_source_name: str = "o1",
     port_margin: float = 0.5,
@@ -48,15 +47,14 @@ def get_simulation(
         component: gf.Component
         mode_index: mode index
         n_modes: number of modes
-        extend_ports_length: extend ports beyond the PML
+        port_extension: extend ports beyond the PML
         layer_stack: contains layer numbers (int, int) to thickness, zmin
-        t_clad_top: thickness for cladding above core
-        t_clad_bot: thickness for cladding below core
-        tpml: PML thickness (um)
+        zmargin: thickness for cladding above and below core
+        thickness_pml: PML thickness (um)
         clad_material: material for cladding
         port_source_name: input port name
         port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before
+        distance_source_to_monitors: in (um) source goes before monitors
         mesh_step: in all directions
         wavelength: in (um)
 
@@ -92,9 +90,9 @@ def get_simulation(
 
     component_extended = (
         gf.components.extension.extend_ports(
-            component=component, length=extend_ports_length, centered=True
+            component=component, length=port_extension, centered=True
         )
-        if extend_ports_length
+        if port_extension
         else component
     )
 
@@ -120,10 +118,10 @@ def get_simulation(
     ]
 
     t_core = max(layers_thickness)
-    cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml
+    cell_thickness = thickness_pml + t_core + thickness_pml + 2 * zmargin
     sim_size = [
-        component_ref.xsize + 2 * tpml,
-        component_ref.ysize + 2 * tpml,
+        component_ref.xsize + 2 * thickness_pml,
+        component_ref.ysize + 2 * thickness_pml,
         cell_thickness,
     ]
 
@@ -154,7 +152,7 @@ def get_simulation(
     size_y = width * abs(np.cos(angle * np.pi / 180))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
-    size_z = cell_thickness - 2 * tpml
+    size_z = cell_thickness - 2 * thickness_pml
     size = [size_x, size_y, size_z]
     center = port.center.tolist() + [0]  # (x, y, z=0)
     freq0 = td.constants.C_0 / wavelength

@@ -69,7 +69,7 @@ def write_sparameters_lumerical(
         simulation_settings: dataclass with all simulation_settings
         settings: overwrite any simulation setting
           background_material: for the background
-          port_width: port width (um)
+          port_margin: on both sides of the port width (um)
           port_height: port height (um)
           port_extension: port extension (um)
           mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
@@ -273,21 +273,21 @@ def write_sparameters_lumerical(
             direction = "Backward"
             injection_axis = "x-axis"
             dxp = 0
-            dyp = ss.port_width
+            dyp = 2 * ss.port_margin + port.width
         elif 45 < deg < 90 + 45:
             direction = "Backward"
             injection_axis = "y-axis"
-            dxp = ss.port_width
+            dxp = 2 * ss.port_margin + port.width
             dyp = 0
         elif 90 + 45 < deg < 180 + 45:
             direction = "Forward"
             injection_axis = "x-axis"
             dxp = 0
-            dyp = ss.port_width
+            dyp = 2 * ss.port_margin + port.width
         elif 180 + 45 < deg < 180 + 45 + 90:
             direction = "Forward"
             injection_axis = "y-axis"
-            dxp = ss.port_width
+            dxp = 2 * ss.port_margin + port.width
             dyp = 0
 
         else:
