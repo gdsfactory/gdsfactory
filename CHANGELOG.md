@@ -33,6 +33,7 @@ from contracts import contract
 ## 3.2.10
 
 - write_sparameters in lumerical writes simulation_settings in YAML
+- replace port_width with port_margin
 
 ## 3.2.9
 
