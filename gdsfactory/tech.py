@@ -259,7 +259,7 @@ class Section:
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
     background_material: str = "sio2"
-    port_width: float = 3.0
+    port_margin: float = 0.5
     port_height: float = 1.5
     port_extension: float = 2.0
     mesh_accuracy: int = 2
@@ -270,6 +270,14 @@ class SimulationSettings:
     wavelength_start: float = 1.2
     wavelength_stop: float = 1.6
     wavelength_points: int = 500
+
+    mode_index: int = 0
+    n_modes: int = 2
+    thickness_pml: float = 1.0
+    port_source_name: str = "o1"
+    distance_source_to_monitors: float = 0.2
+    mesh_step: float = 40e-3
+    wavelength: float = 1.55
 
 
 SIMULATION_SETTINGS = SimulationSettings()
