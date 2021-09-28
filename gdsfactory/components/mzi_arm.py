@@ -50,7 +50,15 @@ def mzi_arm(
         "b": (bend, "o1", "o2"),
         "B": (bend, "o2", "o1"),
         "L": (straight_y(length=length_y_left, **kwargs), "o1", "o2"),
-        "R": (straight_y(length=length_y_right, **kwargs), "o1", "o2"),
+        "R": (
+            straight_y(
+                length=length_y_right
+                + abs(straight_x.get_ports_ysize(port_type="optical")),
+                **kwargs,
+            ),
+            "o1",
+            "o2",
+        ),
         "-": (straight_x, "o1", "o2"),
     }
 
@@ -65,7 +73,7 @@ def mzi_arm(
 
     c.auto_rename_ports()
     c.info["length_x"] = length_x
-    c.info["length_xsize"] = straight_x.get_ports_east_west_distance()
+    c.info["length_xsize"] = straight_x.get_ports_xsize()
     return c
 
 

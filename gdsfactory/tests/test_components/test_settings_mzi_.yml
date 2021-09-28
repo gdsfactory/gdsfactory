@@ -8,6 +8,7 @@ settings:
   delta_length: 10
   layer: null
   length_x: 0.1
+  length_x_bot: null
   length_y: 0.8
   splitter_settings: null
   straight_x_bot: null

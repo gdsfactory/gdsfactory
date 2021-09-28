@@ -1,0 +1,15 @@
+function_name: straight_heater_meander
+info: {}
+module: gdsfactory.components.straight_heater_meander
+name: straight_heater_meander
+settings:
+  extension_length: 15
+  heater_width: 2.5
+  layer_heater:
+  - 47
+  - 0
+  length: 300
+  port_orientation1: 180
+  port_orientation2: 0
+  radius: 5
+  spacing: 2

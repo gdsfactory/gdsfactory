@@ -3,23 +3,21 @@ info: {}
 module: gdsfactory.components.via_cutback
 name: via_cutback
 settings:
+  layer1:
+  - 47
+  - 0
+  layer2:
+  - 41
+  - 0
   min_pad_spacing: 0
   num_vias: 100
-  pad_layer:
-  - 49
-  - 0
   pad_size:
-  - 300
-  - 300
+  - 150
+  - 150
   via_layer:
   - 40
   - 0
   via_spacing: 40
-  via_width: 15
+  via_width: 5
+  wire_pad_inclusion: 12
   wire_width: 10
-  wiring1_layer:
-  - 47
-  - 0
-  wiring2_layer:
-  - 41
-  - 0

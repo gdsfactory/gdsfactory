@@ -138,6 +138,7 @@ from gdsfactory.components.straight_heater_doped_rib import straight_heater_dope
 from gdsfactory.components.straight_heater_doped_strip import (
     straight_heater_doped_strip,
 )
+from gdsfactory.components.straight_heater_meander import straight_heater_meander
 from gdsfactory.components.straight_heater_metal import (
     straight_heater_metal,
     straight_heater_metal_90_90,
@@ -481,6 +482,7 @@ factory = dict(
     straight_heater_metal_90_90=straight_heater_metal_90_90,
     straight_heater_metal_undercut=straight_heater_metal_undercut,
     straight_heater_metal_undercut_90_90=straight_heater_metal_undercut_90_90,
+    straight_heater_meander=straight_heater_meander,
     straight_pin=straight_pin,
     straight_pn=straight_pn,
     straight_pin_slot=straight_pin_slot,
