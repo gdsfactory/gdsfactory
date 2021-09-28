@@ -7,12 +7,14 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentFactory
 
+terminator_function = partial(taper_function, width2=0.1)
+
 
 @cell
 def add_termination(
     component: Component,
     ports: Optional[List[Port]] = None,
-    terminator: ComponentFactory = partial(taper_function, width2=0.1),
+    terminator: ComponentFactory = terminator_function,
     port_name: Optional[str] = None,
     port_type: str = "optical",
     **kwargs
