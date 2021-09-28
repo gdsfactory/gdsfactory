@@ -11,7 +11,7 @@ from gdsfactory.add_pins import add_pin_square_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
-from gdsfactory.tech import LayerLevel, LayerStack, Library, Tech
+from gdsfactory.tech import LayerLevel, LayerStack
 from gdsfactory.types import Layer
 
 
@@ -90,6 +90,7 @@ fabc_nitride_oband.__name__ = "fab_nitrideo"
 mmi1x2_nitride_c = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
+    width_mmi=3,
     cross_section=fabc_nitride_cband,
     decorator=add_pins,
 )
@@ -142,20 +143,15 @@ mzi_nitride_o = gf.partial(
 )
 
 
-TECH_FABC = Tech(name="fab_c")
-
 # for testing
-LIBRARY = Library(name="fab_c")
-LIBRARY.register(
-    [
-        mmi1x2_nitride_c,
-        mmi1x2_nitride_o,
-        bend_euler_c,
-        straight_c,
-        mzi_nitride_c,
-        mzi_nitride_o,
-        gc_nitride_c,
-    ]
+factory = dict(
+    mmi1x2_nitride_c=mmi1x2_nitride_c,
+    mmi1x2_nitride_o=mmi1x2_nitride_o,
+    bend_euler_c=bend_euler_c,
+    straight_c=straight_c,
+    mzi_nitride_c=mzi_nitride_c,
+    mzi_nitride_o=mzi_nitride_o,
+    gc_nitride_c=gc_nitride_c,
 )
 
 
