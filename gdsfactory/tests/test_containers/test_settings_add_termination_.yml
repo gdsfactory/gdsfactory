@@ -24,3 +24,4 @@ settings:
       straight_y: null
       with_splitter: true
   port_name: null
+  port_type: optical

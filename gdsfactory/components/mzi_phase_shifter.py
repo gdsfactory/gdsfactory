@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.components.mzi import mzi
-from gdsfactory.components.straight_heater import (
+from gdsfactory.components.straight_heater_metal import (
     straight_heater_metal,
     straight_heater_metal_90_90,
 )

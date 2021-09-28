@@ -370,7 +370,7 @@ def pn(
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: Layer = LAYER.WG,
-    heater_width: float = 1.0,
+    heater_width: float = 2.5,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
     layer_heater: Layer = LAYER.HEATER,
@@ -427,7 +427,7 @@ def strip_heater_metal_undercut(
 def strip_heater_metal(
     width: float = 0.5,
     layer: Layer = LAYER.WG,
-    heater_width: float = 1.0,
+    heater_width: float = 2.5,
     layer_heater: Layer = LAYER.HEATER,
     **kwargs,
 ):
@@ -450,10 +450,31 @@ def strip_heater_metal(
 
 
 @pydantic.validate_arguments
+def heater_metal(
+    width: float = 2.5,
+    layer: Layer = LAYER.HEATER,
+    **kwargs,
+):
+    """Returns metal heater cross_section.
+    dimensions from https://doi.org/10.1364/OE.18.020298
+
+    Args:
+        width: of the metal
+        layer: of the heater
+
+    """
+    return cross_section(
+        width=width,
+        layer=layer,
+        **kwargs,
+    )
+
+
+@pydantic.validate_arguments
 def strip_heater_doped(
     width: float = 0.5,
     layer: Layer = LAYER.WG,
-    heater_width: float = 1.0,
+    heater_width: float = 2.0,
     heater_gap: float = 0.8,
     layers_heater: Layers = (LAYER.WG, LAYER.NPP),
     cladding_offsets_heater: Tuple[float, ...] = (0, 0.1),
@@ -510,7 +531,7 @@ strip_heater_doped_contact = partial(
 def rib_heater_doped(
     width: float = 0.5,
     layer: Layer = LAYER.WG,
-    heater_width: float = 1.0,
+    heater_width: float = 2.0,
     heater_gap: float = 0.8,
     layer_heater: Layer = LAYER.NPP,
     layer_slab: Layer = LAYER.SLAB90,

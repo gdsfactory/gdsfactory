@@ -2,7 +2,7 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.straight_heater import straight_heater_metal
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 

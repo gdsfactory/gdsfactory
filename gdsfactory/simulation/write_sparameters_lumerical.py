@@ -116,8 +116,6 @@ def write_sparameters_lumerical(
     c.remove_layers(component.layers - set(layer_to_thickness.keys()))
     c._bb_valid = False
     c.flatten()
-    c.name = "top"
-    c.show()
     gdspath = c.write_gds()
 
     filepath = get_sparameters_path(
@@ -158,6 +156,11 @@ def write_sparameters_lumerical(
         for layer in component.get_layers()
         if layer in layer_to_thickness
     ]
+    if not layers_thickness:
+        raise ValueError(
+            f"no layers for component {component.get_layers()}"
+            f"in layer stack {layers_thickness.keys()}"
+        )
     component_thickness = max(layers_thickness)
 
     z = 0
