@@ -44,13 +44,14 @@ def mzi_arm(
     bend = bend(**kwargs)
     straight_y = straight_y or straight
     straight_x = straight_x or straight
+    straight_x = straight_x(length=length_x, **kwargs)
 
     symbol_to_component = {
         "b": (bend, "o1", "o2"),
         "B": (bend, "o2", "o1"),
         "L": (straight_y(length=length_y_left, **kwargs), "o1", "o2"),
         "R": (straight_y(length=length_y_right, **kwargs), "o1", "o2"),
-        "-": (straight_x(length=length_x, **kwargs), "o1", "o2"),
+        "-": (straight_x, "o1", "o2"),
     }
 
     # Each character in the sequence represents a component
@@ -63,6 +64,8 @@ def mzi_arm(
         c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
 
     c.auto_rename_ports()
+    c.info["length_x"] = length_x
+    c.info["length_xsize"] = straight_x.get_ports_east_west_distance()
     return c
 
 
