@@ -151,9 +151,9 @@ def straight_heater_doped_rib(
 
 def test_straight_heater_doped_rib_ports() -> Component:
     c = straight_heater_doped_rib(length=100.0)
-    assert (
-        c.get_ports_east_west_distance(port_type="optical") == 100.0
-    ), c.get_ports_east_west_distance(port_type="optical")
+    assert c.get_ports_xsize(port_type="optical") == 100.0, c.get_ports_xsize(
+        port_type="optical"
+    )
     return c
 
 

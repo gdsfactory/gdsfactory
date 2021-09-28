@@ -34,6 +34,9 @@ from contracts import contract
 
 - write_sparameters in lumerical writes simulation_settings in YAML
 - replace port_width with port_margin in simulation_settings
+- rename `Component.get_porst_east_west_spacing` as `Component.get_ports_ysize()`
+- add `Component.get_ports_ysize()`
+- fix `mzi` `with_splitter`
 
 ## 3.2.9
 
@@ -153,7 +156,7 @@ from contracts import contract
 - `@cell` autonaming includes the complete keyword arguments keys (not only the first letter of each argument)
 - fix straight_pin and straight_heater_doped length when they have tapers
 - waveguide template defaults to euler=True for picwriter components (spiral)
-- add `Component.get_ports_east_west_distance()`
+- add `Component.get_ports_xsize()`
 - add `toolz` library to requirements
 
 ## 3.1.0

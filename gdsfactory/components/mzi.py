@@ -14,6 +14,7 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 0.8,
     length_x: float = 0.1,
+    length_x_bot: Optional[float] = None,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
     straight_y: Optional[ComponentFactory] = None,
@@ -127,7 +128,7 @@ def mzi(
     bot_arm = c << mzi_arm(
         straight_x=straight_x_bot,
         straight_y=straight_y,
-        length_x=_top_arm.info["length_xsize"],
+        length_x=length_x_bot or _top_arm.info["length_xsize"],
         length_y_left=length_y_left + delta_length / 2,
         length_y_right=length_y_right + delta_length / 2,
         bend=bend,
@@ -163,10 +164,13 @@ if __name__ == "__main__":
 
     c = mzi(
         delta_length=100,
-        straight_x_top=gf.c.straight_heater_metal,
+        straight_x_top=gf.c.straight_heater_meander,
+        straight_x_bot=gf.c.straight_heater_meander,
+        # straight_x_top=gf.c.straight_heater_metal,
         # straight_x_bot=gf.c.straight_heater_metal,
-        length_x=50,
-        length_y=1.8,
+        length_x=300,
+        length_x_bot=300,
+        # length_y=1.8,
         # with_splitter=False,
     )
     c.show(show_ports=True)

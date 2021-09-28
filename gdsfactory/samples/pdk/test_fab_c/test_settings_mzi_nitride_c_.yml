@@ -15,6 +15,7 @@ settings:
   - 34
   - 0
   length_x: 0.1
+  length_x_bot: null
   length_y: 0.8
   splitter:
     cross_section: fab_nitridec

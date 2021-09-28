@@ -643,11 +643,21 @@ class Component(Device):
         key2 = m[key]
         return self.ports[key2]
 
-    def get_ports_east_west_distance(self, **kwargs) -> float:
-        """Returns a the distance from east to west ports"""
+    def get_ports_xsize(self, **kwargs) -> float:
+        """Returns a the xdistance from east to west ports
+
+        Args:
+            kwargs: orientation, port_type, layer
+        """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return ports_ccw[0].x - ports_cw[0].x
+        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+
+    def get_ports_ysize(self, **kwargs) -> float:
+        """Returns a the ydistance from east to west ports"""
+        ports_cw = self.get_ports_list(clockwise=True, **kwargs)
+        ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
+        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal"
