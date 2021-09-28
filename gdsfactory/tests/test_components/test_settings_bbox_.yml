@@ -3,6 +3,10 @@ info: {}
 module: gdsfactory.components.bbox
 name: bbox
 settings:
+  bottom: 0
   layer:
   - 1
   - 0
+  left: 0
+  right: 0
+  top: 0

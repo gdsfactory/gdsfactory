@@ -134,16 +134,16 @@ from gdsfactory.components.splitter_tree import (
 )
 from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.components.straight_heater import (
+from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
+from gdsfactory.components.straight_heater_doped_strip import (
+    straight_heater_doped_strip,
+)
+from gdsfactory.components.straight_heater_metal import (
     straight_heater_metal,
     straight_heater_metal_90_90,
     straight_heater_metal_undercut,
     straight_heater_metal_undercut_90_90,
     test_ports,
-)
-from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
-from gdsfactory.components.straight_heater_doped_strip import (
-    straight_heater_doped_strip,
 )
 from gdsfactory.components.straight_pin import straight_pin, straight_pn
 from gdsfactory.components.straight_pin_slot import straight_pin_slot

@@ -43,10 +43,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mmi1x2()
-    from gdsfactory.components.straight import straight
+    t = gf.partial(gf.c.taper, width2=0.1)
 
     cr = extend_ports_list(
-        ports=c.get_ports_list(), extension_factory=straight, extension_port_name="o2"
+        ports=c.get_ports_list(), extension_factory=t, extension_port_name="o1"
     )
     c.add_ref(cr)
     c.show()

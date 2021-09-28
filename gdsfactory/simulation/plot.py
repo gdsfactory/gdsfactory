@@ -6,14 +6,14 @@ import numpy as np
 from pandas import DataFrame
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.simulation.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
+from gdsfactory.types import Component, ComponentOrFactory
 
 
 def plot_sparameters(
-    component_or_df: Union[Component, DataFrame],
+    component_or_df: Union[ComponentOrFactory, DataFrame],
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
     dirpath: Path = gf.CONFIG["sparameters"],
@@ -31,18 +31,18 @@ def plot_sparameters(
 
     """
 
-    r = component_or_df
-    if isinstance(r, Component):
-        r = write_sparameters_function(component=r, dirpath=dirpath, **sim_settings)
-    w = r["wavelength_nm"]
+    df = component_or_df() if callable(component_or_df) else component_or_df
+    if isinstance(df, Component):
+        df = write_sparameters_function(component=df, dirpath=dirpath, **sim_settings)
+    w = df["wavelength_nm"]
 
     if keys:
-        keys = [key for key in keys if key in r.keys()]
+        keys = [key for key in keys if key in df.keys()]
     else:
-        keys = [key for key in r.keys() if key.startswith("S") and key.endswith("m")]
+        keys = [key for key in df.keys() if key.startswith("S") and key.endswith("m")]
 
     for key in keys:
-        y = 20 * np.log10(r[key]) if logscale else r[key]
+        y = 20 * np.log10(df[key]) if logscale else df[key]
         plt.plot(w, y, label=key[:-1])
     plt.legend()
     plt.xlabel("wavelength (nm)")
@@ -54,12 +54,12 @@ if __name__ == "__main__":
     remove_layers = []
     layer_to_thickness = {(1, 0): 220e-3}
 
-    # r = write(component=gf.components.straight(), layer_to_thickness=layer_to_thickness)
-    # r = write(component=gf.components.mmi2x2(), layer_to_thickness=layer_to_thickness)
-    # r = write(component=gf.components.mmi1x2(), layer_to_thickness=layer_to_thickness)
-    # r = write(component=gf.components.coupler(), layer_to_thickness=layer_to_thickness)
-    # r = write(component=gf.components.bend_circular(), layer_to_thickness=layer_to_thickness)
-    # plot_sparameters(r, logscale=True)
+    # df = write(component=gf.components.straight(), layer_to_thickness=layer_to_thickness)
+    # df = write(component=gf.components.mmi2x2(), layer_to_thickness=layer_to_thickness)
+    # df = write(component=gf.components.mmi1x2(), layer_to_thickness=layer_to_thickness)
+    # df = write(component=gf.components.coupler(), layer_to_thickness=layer_to_thickness)
+    # df = write(component=gf.components.bend_circular(), layer_to_thickness=layer_to_thickness)
+    # plot_sparameters(df, logscale=True)
     # plot_sparameters(gf.components.coupler())
     plot_sparameters(gf.components.mmi1x2(), logscale=False)
     plt.show()
