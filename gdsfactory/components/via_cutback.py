@@ -1,31 +1,29 @@
-"""
-adapted from phidl.geometry
-
-"""
+"""Via cutback."""
 
 from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import Number
+from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.types import ComponentFactory, Float2
 
 
 @gf.cell
 def _via_iterable(
-    via_spacing: Number,
-    wire_width: Number,
-    wiring1_layer: Tuple[int, int],
-    wiring2_layer: Tuple[int, int],
+    via_spacing: float,
+    wire_width: float,
+    layer1: Tuple[int, int],
+    layer2: Tuple[int, int],
     via_layer: Tuple[int, int],
-    via_width: Number,
+    via_width: float,
 ) -> Component:
-    VI = gf.Component()
-    wire1 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring1_layer))
-    wire2 = VI.add_ref(compass(size=(via_spacing, wire_width), layer=wiring2_layer))
-    viac = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
-    via1 = VI.add_ref(compass(size=(via_width, via_width), layer=via_layer))
+    """Via"""
+    c = gf.Component()
+    wire1 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer1))
+    wire2 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer2))
+    viac = c.add_ref(compass(size=(via_width, via_width), layer=via_layer))
+    via1 = c.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     wire1.connect(port="e3", destination=wire2.ports["e1"], overlap=wire_width)
     viac.connect(
         port="e1", destination=wire1.ports["e3"], overlap=(wire_width + via_width) / 2
@@ -33,16 +31,16 @@ def _via_iterable(
     via1.connect(
         port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
-    VI.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")
-    VI.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical")
-    VI.add_port(
+    c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")
+    c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical")
+    c.add_port(
         name="e4",
         midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
         width=wire_width,
         orientation=-90,
         port_type="electrical",
     )
-    VI.add_port(
+    c.add_port(
         name="e2",
         midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
         width=wire_width,
@@ -50,21 +48,22 @@ def _via_iterable(
         port_type="electrical",
     )
 
-    return VI
+    return c
 
 
 @gf.cell
 def via_cutback(
-    num_vias: Number = 100,
-    wire_width: Number = 10,
-    via_width: Number = 15,
-    via_spacing: Number = 40,
-    pad_size: Tuple[Number, Number] = (300, 300),
-    min_pad_spacing: Number = 0,
-    pad_layer: Tuple[int, int] = gf.LAYER.M3,
-    wiring1_layer: Tuple[int, int] = gf.LAYER.HEATER,
-    wiring2_layer: Tuple[int, int] = gf.LAYER.M1,
+    num_vias: float = 100.0,
+    wire_width: float = 10.0,
+    via_width: float = 5.0,
+    via_spacing: float = 40.0,
+    min_pad_spacing: float = 0.0,
+    pad: ComponentFactory = via_stack_heater,
+    pad_size: Float2 = (150, 150),
+    layer1: Tuple[int, int] = gf.LAYER.HEATER,
+    layer2: Tuple[int, int] = gf.LAYER.M1,
     via_layer: Tuple[int, int] = gf.LAYER.VIAC,
+    wire_pad_inclusion: float = 12.0,
 ) -> Component:
     """Via cutback to extract via resistance
 
@@ -78,33 +77,24 @@ def via_cutback(
         pad_size: (width, height)
         min_pad_spacing
         pad_layer
-        wiring1_layer: top wiring
-        wiring2_layer: bottom wiring
+        layer1: top wiring
+        layer2: bottom wiring
         via_layer
+        wire_pad_inclusion:
 
     """
 
-    VR = gf.Component()
-    pad1 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))
-    pad1_overlay = VR.add_ref(rectangle(size=pad_size, layer=wiring1_layer))
-    pad2 = VR.add_ref(rectangle(size=pad_size, layer=pad_layer))
-    pad2_overlay = VR.add_ref(rectangle(size=pad_size, layer=wiring1_layer))
-    nub = VR.add_ref(compass(size=(3 * wire_width, wire_width), layer=pad_layer))
-    nub_overlay = VR.add_ref(
-        compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
-    )
-    head = VR.add_ref(compass(size=(wire_width, wire_width), layer=pad_layer))
-    head_overlay = VR.add_ref(
-        compass(size=(wire_width, wire_width), layer=wiring1_layer)
-    )
+    c = gf.Component()
+
+    pad_component = pad(size=pad_size)
+    pad1 = c.add_ref(pad_component)
+    pad2 = c.add_ref(pad_component)
+
+    nub = c.add_ref(pad(size=(3 * wire_width, wire_width)))
+    head = c.add_ref(pad(size=(wire_width, wire_width)))
     nub.ymax = pad1.ymax - 5
-    nub.xmin = pad1.xmax
-    nub_overlay.ymax = pad1.ymax - 5
-    nub_overlay.xmin = pad1.xmax
+    nub.xmin = pad1.xmax - wire_pad_inclusion
     head.connect(port="e1", destination=nub.ports["e3"])
-    head_overlay.connect(port="e1", destination=nub_overlay.ports["e3"])
-    pad1_overlay.xmin = pad1.xmin
-    pad1_overlay.ymin = pad1.ymin
 
     old_port = head.ports["e4"]
     count = 0
@@ -120,13 +110,13 @@ def via_cutback(
     via_iterable = _via_iterable(
         via_spacing=via_spacing,
         wire_width=wire_width,
-        wiring1_layer=wiring1_layer,
-        wiring2_layer=wiring2_layer,
+        layer1=layer1,
+        layer2=layer2,
         via_layer=via_layer,
         via_width=via_width,
     )
     while (count + 2) <= num_vias:
-        obj = VR.add_ref(via_iterable)
+        obj = c.add_ref(via_iterable)
         obj.connect(port="e1", destination=old_port, overlap=wire_width)
         old_port = obj.ports["e3"]
         edge = False
@@ -152,40 +142,23 @@ def via_cutback(
         current_width < min_pad_spacing
         and (min_pad_spacing - current_width) > 3 * wire_width
     ):
-        tail = VR.add_ref(
-            compass(
+        tail = c.add_ref(
+            pad(
                 size=(min_pad_spacing - current_width + wire_width, wire_width),
-                layer=wiring1_layer,
-            )
-        )
-        tail_overlay = VR.add_ref(
-            compass(
-                size=(min_pad_spacing - current_width + wire_width, wire_width),
-                layer=pad_layer,
             )
         )
     else:
-        tail = VR.add_ref(
-            compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
-        )
-        tail_overlay = VR.add_ref(
-            compass(size=(3 * wire_width, wire_width), layer=wiring1_layer)
-        )
+        tail = c.add_ref(pad(size=(3 * wire_width, wire_width)))
 
     if up and not edge:
         tail.connect(port="e1", destination=obj.ports["e4"], overlap=wire_width)
-        tail_overlay.connect(port="e1", destination=obj.ports["e4"], overlap=wire_width)
     elif down and not edge:
         tail.connect(port="e1", destination=obj.ports["e2"], overlap=wire_width)
-        tail_overlay.connect(port="e1", destination=obj.ports["e2"], overlap=wire_width)
     else:
         tail.connect(port="e1", destination=obj.ports["e3"], overlap=wire_width)
-        tail_overlay.connect(port="e1", destination=obj.ports["e3"], overlap=wire_width)
 
-    pad2.xmin = tail.xmax
-    pad2_overlay.xmin = pad2.xmin
-    pad2_overlay.ymin = pad2.ymin
-    return VR
+    pad2.xmin = tail.xmax - wire_pad_inclusion
+    return c
 
 
 if __name__ == "__main__":
