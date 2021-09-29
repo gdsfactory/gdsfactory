@@ -79,7 +79,9 @@ def difftest(
 
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
-    except GeometryDifference:
+    except GeometryDifference as error:
+        print()
+        print(error)
         diff = gdsdiff(ref_file, run_file, name=filename.split(".")[0], xor=xor)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
