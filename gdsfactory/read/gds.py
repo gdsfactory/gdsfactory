@@ -1,4 +1,5 @@
 """Read component GDS, JSON metadata and CSV ports."""
+from functools import cache
 from pathlib import Path
 from typing import Union
 
@@ -7,6 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 
 
+@cache
 def gds(gdspath: Union[str, Path], **kwargs) -> Component:
     """Returns Component with ports (CSV) and metadata (JSON) info (if any).
     Args:
