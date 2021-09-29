@@ -39,6 +39,7 @@ from contracts import contract
 - fix `mzi` `with_splitter`
 - enable `vars` variables in component_from_yaml
 - gdsdiff accepts test_name, and uses the path of the test_file for storing GDS files
+- add functools cache decorator for gdsfactory.import_gds and gdsfactory.read.gds
 
 ## 3.2.9
 

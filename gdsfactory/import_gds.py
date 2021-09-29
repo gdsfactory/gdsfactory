@@ -1,6 +1,6 @@
 import json
 import pathlib
-from functools import partial
+from functools import cache, partial
 from pathlib import Path
 from typing import Optional, Tuple, Union, cast
 
@@ -281,6 +281,7 @@ def add_ports_from_labels(
 
 
 # pytype: disable=bad-return-type
+@cache
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
