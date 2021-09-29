@@ -8,7 +8,6 @@ settings:
     decorator: add_pins
     function: bend_euler
   combiner: null
-  combiner_settings: null
   cross_section: fab_nitrideo
   delta_length: 10
   layer:
@@ -21,7 +20,6 @@ settings:
     decorator: add_pins
     function: mmi1x2
     width: 0.9
-  splitter_settings: null
   straight:
     cross_section: fab_nitrideo
     decorator: add_pins

@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Tuple
 
 from gdsfactory.cell import cell
@@ -40,19 +41,19 @@ def mzi_lattice(
     c = Component()
 
     splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
-
     combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
 
-    cp1 = splitter(**splitter_settings)
+    splitter1 = partial(splitter, **splitter_settings)
+    combiner1 = partial(splitter, **combiner_settings)
+
+    cp1 = splitter1()
 
     sprevious = c << mzi_factory(
-        splitter=splitter,
-        combiner=splitter,
+        splitter=splitter1,
+        combiner=combiner1,
         with_splitter=True,
         delta_length=delta_lengths[0],
         straight=straight,
-        combiner_settings=combiner_settings,
-        splitter_settings=splitter_settings,
         **kwargs,
     )
 
@@ -64,15 +65,15 @@ def mzi_lattice(
 
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
+        splitter1 = partial(splitter, **splitter_settings)
+        combiner1 = partial(splitter, **combiner_settings)
 
         stage = c << mzi_factory(
-            splitter=splitter,
-            combiner=splitter,
+            splitter=splitter1,
+            combiner=combiner1,
             with_splitter=False,
             delta_length=delta_length,
             straight=straight,
-            splitter_settings=splitter_settings,
-            combiner_settings=combiner_settings,
             **kwargs,
         )
         splitter_settings = combiner_settings

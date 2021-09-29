@@ -287,6 +287,7 @@ def import_gds(
     cellname: Optional[str] = None,
     flatten: bool = False,
     snap_to_grid_nm: Optional[int] = None,
+    **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
 
@@ -297,7 +298,7 @@ def import_gds(
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
-
+        **kwargs
     """
     gdspath = Path(gdspath)
     if not gdspath.exists():
@@ -320,8 +321,14 @@ def import_gds(
             f"import_gds() There are multiple top-level cells in {gdspath}, "
             f"you must specify `cellname` to select of one of them among {cellnames}"
         )
+    if flatten:
+        component = Component()
+        polygons = topcell.get_polygons(by_spec=True)
 
-    if not flatten:
+        for layer_in_gds, polys in polygons.items():
+            component.add_polygon(polys, layer=layer_in_gds)
+
+    else:
         D_list = []
         c2dmap = {}
         for cell in gdsii_lib.cells.values():
@@ -392,14 +399,9 @@ def import_gds(
                 D.add_polygon(p)
         component = c2dmap[topcell]
         cast(Component, component)
-        return component
-    if flatten:
-        component = Component()
-        polygons = topcell.get_polygons(by_spec=True)
-
-        for layer_in_gds, polys in polygons.items():
-            component.add_polygon(polys, layer=layer_in_gds)
-        return component
+    for key, value in kwargs.items():
+        setattr(component, key, value)
+    return component
 
 
 def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:

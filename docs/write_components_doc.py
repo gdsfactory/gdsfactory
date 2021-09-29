@@ -24,6 +24,8 @@ skip_plot = [
     "component_sequence",
 ]
 
+skip_settings = {"vias"}
+
 
 with open(filepath, "w+") as f:
     f.write(
@@ -43,6 +45,7 @@ Components
                 f"{p}={repr(sig.parameters[p].default)}"
                 for p in sig.parameters
                 if isinstance(sig.parameters[p].default, (int, float, str, tuple))
+                and p not in skip_settings
             ]
         )
         if name in skip_plot:
