@@ -1,6 +1,8 @@
 """Test all the components in fab_c."""
 
 
+import pathlib
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
@@ -9,6 +11,7 @@ from gdsfactory.difftest import difftest
 from gdsfactory.samples.pdk.fab_c import factory
 
 component_names = list(factory.keys())
+dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
 
 
 @pytest.fixture(params=component_names, scope="function")
@@ -16,11 +19,11 @@ def component_name(request) -> str:
     return request.param
 
 
-def test_gds(component_name: str, original_datadir) -> None:
+def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     component = factory[component_name]()
     test_name = f"fabc_{component_name}"
-    difftest(component, test_name=test_name, dirpath=original_datadir)
+    difftest(component, test_name=test_name, dirpath=dirpath)
 
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
