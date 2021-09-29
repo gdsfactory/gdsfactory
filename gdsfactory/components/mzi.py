@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union
+from typing import Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -22,8 +22,6 @@ def mzi(
     splitter: ComponentOrFactory = mmi1x2,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
-    splitter_settings: Optional[Dict[str, Union[int, float]]] = None,
-    combiner_settings: Optional[Dict[str, Union[int, float]]] = None,
     layer: Optional[Layer] = None,
     **kwargs,
 ) -> Component:
@@ -41,8 +39,6 @@ def mzi(
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
-        splitter_settings:
-        combiner_settings:
         kwargs: cross_section settings
 
     .. code::
@@ -71,16 +67,13 @@ def mzi(
     """
     combiner = combiner or splitter
 
-    splitter_settings = splitter_settings or {}
-    combiner_settings = combiner_settings or {}
-
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
 
     c = Component()
-    cp1 = splitter(**splitter_settings, **kwargs) if callable(splitter) else splitter
-    cp2 = combiner(**combiner_settings, **kwargs) if combiner else cp1
+    cp1 = splitter() if callable(splitter) else splitter
+    cp2 = combiner() if combiner else cp1
 
     if with_splitter:
         cin = c << cp1

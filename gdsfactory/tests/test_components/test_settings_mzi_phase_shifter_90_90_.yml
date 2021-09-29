@@ -4,12 +4,10 @@ module: gdsfactory.components.mzi
 name: mzi_length_x320_straigh_e2f914fd
 settings:
   combiner: null
-  combiner_settings: null
   delta_length: 10
   layer: null
   length_x: 320
   length_y: 0.8
-  splitter_settings: null
   straight_x_bot: null
   straight_x_top:
     function: straight_heater_metal_undercut

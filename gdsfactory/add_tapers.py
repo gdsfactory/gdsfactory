@@ -37,7 +37,7 @@ def add_tapers(
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
 ) -> Component:
-    """returns component optical tapers for component"""
+    """returns new component with taper in all optical ports."""
 
     c = gf.Component()
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
