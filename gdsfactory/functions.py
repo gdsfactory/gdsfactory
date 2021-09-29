@@ -1,5 +1,8 @@
 """ """
 
-from functools import lru_cache, partial
+from functools import lru_cache
 
-cache = partial(lru_cache, maxsize=None)
+
+def cache(user_function, /):
+    'Simple lightweight unbounded cache.  Sometimes called "memoize".'
+    return lru_cache(maxsize=None)(user_function)
