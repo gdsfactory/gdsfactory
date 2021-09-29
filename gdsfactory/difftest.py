@@ -1,4 +1,22 @@
 """GDS regression test. Adapted from lytest.
+
+TODO: adapt it into pytest_regressions
+
+from pytest_regressions.file_regression import FileRegressionFixture
+
+class GdsRegressionFixture(FileRegressionFixture):
+    def check(self,
+        contents,
+        extension=".gds",
+        basename=None,
+        fullpath=None,
+        binary=False,
+        obtained_filename=None,
+        check_fn=None,
+            ):
+        try:
+            difftest(c)
+
 """
 import filecmp
 import pathlib
@@ -13,33 +31,36 @@ cwd = pathlib.Path.cwd()
 
 
 def difftest(
-    component: Component, prefix: Optional[str] = None, xor: bool = False
+    component: Component,
+    test_name: Optional[str] = None,
+    xor: bool = False,
+    dirpath: pathlib.Path = cwd,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
     Runs an XOR over a component and makes boolean comparison with a GDS reference.
     If it runs for the fist time it just stores the GDS reference.
     raises GeometryDifference if there are differences and show differences in klayout.
 
+
     Args:
         component:
-        prefix: for the component name
+        test_name: used to store the GDS file
         xor: runs xor if there is difference
+        dirpath: defaults to cwd refers to where the test is being invoked
     """
-    prefix = prefix or ""
 
     # containers function_name is different from component.name
     # we store the container with a different name from original component
-    filename = (
-        f"{component.function_name}_{component.name}.gds"
+    test_name = test_name or (
+        f"{component.function_name}_{component.name}"
         if hasattr(component, "function_name")
         and component.name != component.function_name
-        else f"{component.name}.gds"
+        else f"{component.name}"
     )
-    if prefix:
-        filename = f"{prefix}_{filename}"
-    ref_file = cwd / "gds_ref" / filename
-    run_file = cwd / "gds_run" / filename
-    diff_file = cwd / "gds_diff" / filename
+    filename = f"{test_name}.gds"
+    ref_file = dirpath / "gds_ref" / filename
+    run_file = dirpath / "gds_run" / filename
+    diff_file = dirpath / "gds_diff" / filename
 
     component.write_gds(gdspath=run_file)
 
