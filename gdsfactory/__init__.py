@@ -52,6 +52,7 @@ from gdsfactory import remove
 from gdsfactory import layers
 from gdsfactory import add_termination
 from gdsfactory import add_grating_couplers
+from gdsfactory import functions
 
 
 from gdsfactory.tech import TECH
@@ -103,6 +104,7 @@ __all__ = [
     "containers",
     "cross_section",
     "fill_rectangle",
+    "functions",
     "get_padding_points",
     "grid",
     "import_gds",
