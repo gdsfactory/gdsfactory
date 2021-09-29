@@ -1,9 +1,14 @@
 """Returns Component from YAML syntax.
 
+vars:
+    length: 3
+
+
 instances:
     mzi:
         component: mzi_phase_shifter
         settings:
+            delta_length: ${defaults.length}
             length_x: 50
 
     pads:
@@ -64,6 +69,7 @@ valid_top_level_keys = [
     "connections",
     "ports",
     "routes",
+    "vars",
 ]
 
 valid_anchor_point_keywords = [

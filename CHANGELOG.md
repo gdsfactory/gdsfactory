@@ -37,6 +37,8 @@ from contracts import contract
 - rename `Component.get_porst_east_west_spacing` as `Component.get_ports_ysize()`
 - add `Component.get_ports_ysize()`
 - fix `mzi` `with_splitter`
+- enable `vars` variables in component_from_yaml
+- gdsdiff accepts test_name, and uses the path of the test_file for storing GDS files
 
 ## 3.2.9
 
