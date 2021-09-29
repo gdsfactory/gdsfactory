@@ -56,7 +56,6 @@ nosetests.xml
 .project
 .pydevproject
 gdsfactory/gds/.gds/
-.gds/
 
 # General
 .DS_Store

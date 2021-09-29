@@ -2,7 +2,7 @@ import json
 import pathlib
 from functools import lru_cache, partial
 from pathlib import Path
-from typing import Optional, Tuple, Union, cast
+from typing import Callable, Optional, Tuple, Union, cast
 
 import gdspy
 import numpy as np
@@ -287,6 +287,7 @@ def import_gds(
     cellname: Optional[str] = None,
     flatten: bool = False,
     snap_to_grid_nm: Optional[int] = None,
+    decorator: Optional[Callable] = None,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -401,6 +402,8 @@ def import_gds(
         cast(Component, component)
     for key, value in kwargs.items():
         setattr(component, key, value)
+    if decorator:
+        decorator(component)
     return component
 
 
