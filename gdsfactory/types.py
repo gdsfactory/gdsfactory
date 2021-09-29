@@ -67,21 +67,6 @@ CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 
-def get_name_to_function_dict(*functions) -> Dict[str, Callable]:
-    """Returns a dict with function name as key and function as value."""
-    return {func.__name__: func for func in functions}
-
-
-def parse_port_name(name: str) -> str:
-    if "_" in name:
-        return name
-    try:
-        name = int(name)
-    except ValueError:
-        pass
-    return name
-
-
 __all__ = [
     "ComponentFactory",
     "ComponentOrFactory",
@@ -96,5 +81,4 @@ __all__ = [
     "Route",
     "Routes",
     "RouteFactory",
-    "get_name_to_function_dict",
 ]

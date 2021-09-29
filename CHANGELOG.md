@@ -40,6 +40,7 @@ from contracts import contract
 - enable `vars` variables in component_from_yaml
 - gdsdiff accepts test_name, and uses the path of the test_file for storing GDS files
 - add functools cache decorator for gdsfactory.import_gds and gdsfactory.read.gds
+- rename cache with lru_cache(maxsize=None) to keep compatibility with python3.7 and 3.8
 
 ## 3.2.9
 
