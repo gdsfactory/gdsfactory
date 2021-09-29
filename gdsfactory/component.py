@@ -471,7 +471,8 @@ class ComponentReference(DeviceReference):
     def connect(
         self, port: Union[str, Port], destination: Port, overlap: Number = 0.0
     ) -> "ComponentReference":
-        """Returns a reference of the Component where a origin port_name connects to a destination
+        """Returns Component reference
+        origin port_name connects to a destination
 
         Args:
             port: origin port name
@@ -505,8 +506,6 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
-        # if hasattr(destination, "parent"):
-        #     add_to_global_netlist(p, destination)
         return self
 
     def get_property(self, property: str) -> Union[str, int]:
@@ -1419,47 +1418,6 @@ def test_netlist_plot() -> None:
     c.plot_netlist()
 
 
-def test_path() -> None:
-    from gdsfactory import CrossSection
-    from gdsfactory import path as pa
-
-    X1 = CrossSection()
-    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))
-    X1.add(width=2.2, offset=0, layer=3, name="etch")
-    X1.add(width=1.1, offset=3, layer=1, name="wg2")
-
-    # Create the second CrossSection that we want to transition to
-    X2 = CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
-    X2.add(width=3.5, offset=0, layer=3, name="etch")
-    X2.add(width=3, offset=5, layer=1, name="wg2")
-
-    Xtrans = pa.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
-    P1 = pa.straight(length=5)
-    P2 = pa.straight(length=5)
-    WG1 = P1.extrude(cross_section=X1)
-    WG2 = P2.extrude(cross_section=X2)
-
-    P4 = pa.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    WG_trans = P4.extrude(Xtrans)
-
-    c = Component()
-    wg1 = c << WG1
-    wg2 = c << WG2
-    wgt = c << WG_trans
-
-    wgt.connect("in2", wg1.ports["out1"])
-    wg2.connect("in2", wgt.ports["out1"])
-    assert len(c.references) == 3
-
-
-def demo_component(port):
-    c = Component()
-    c.add_port(name="p1", port=port)
-    return c
-
-
 def test_extract():
     import gdsfactory as gf
 
@@ -1479,12 +1437,5 @@ def hash_file(filepath):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight()
-    c.move(2)
-
-    # test_netlist_complex()
-    # test_extract()
-    # test_get_layers()
-    # demo_port2 = functools.partial(demo_component, a=1)
-    # d = _clean_value(demo_port2)
-    # print(d)
+    c = gf.components.straight()
+    print(c)

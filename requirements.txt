@@ -1,12 +1,12 @@
 -e .
 click
-gdspy==1.6.8
+gdspy==1.6.9
 omegaconf==2.1.1
 jsondiff
 klayout==0.27.1
 numpy
 pandas
-phidl==1.5.2
+phidl==1.6.0
 picwriter==0.5
 Pyqtree==1.0.0
 qrcode==7.3
@@ -24,5 +24,5 @@ scikit-image
 loguru
 ipympl
 toolz
-trimesh==3.9.31
+trimesh==3.9.32
 triangle==20200424
