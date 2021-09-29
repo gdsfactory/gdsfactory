@@ -99,7 +99,7 @@ def write_sparameters_lumerical(
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
         logger.info(
-            "Updating {component.name} simulation_settings with {component.simulation_settings}"
+            "Updating {component.name} sim settings {component.simulation_settings}"
         )
     for setting in settings.keys():
         if setting not in sim_settings:

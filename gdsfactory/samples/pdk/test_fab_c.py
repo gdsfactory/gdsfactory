@@ -1,43 +1,47 @@
-"""
-Test class for all the methods.
-"""
+"""Test all the components in fab_c."""
 
 
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
-from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.samples.pdk.fab_c import factory as component_factory
+from gdsfactory.samples.pdk.fab_c import factory
 
-component_names = component_factory.keys()
+component_names = list(factory.keys())
 
 
 @pytest.fixture(params=component_names, scope="function")
-def component(request) -> Component:
-    return component_factory[request.param]()
+def component_name(request) -> str:
+    return request.param
 
 
-def test_gds(component: Component) -> None:
+def test_gds(component_name: str, original_datadir) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
-    difftest(component, prefix="fab_c")
+    component = factory[component_name]()
+    test_name = f"fabc_{component_name}"
+    difftest(component, test_name=test_name, dirpath=original_datadir)
 
 
-def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
+def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
+    component = factory[component_name]()
     data_regression.check(component.get_settings())
 
 
-def test_ports(component: Component, num_regression: NumericRegressionFixture) -> None:
+def test_ports(component_name: str, num_regression: NumericRegressionFixture) -> None:
     """Avoid regressions in port names and locations."""
+    component = factory[component_name]()
     if component.ports:
         num_regression.check(component.get_ports_array())
 
 
-def test_assert_ports_on_grid(component: Component):
+def test_assert_ports_on_grid(component_name: str):
+    component = factory[component_name]()
     component.assert_ports_on_grid()
 
 
 if __name__ == "__main__":
     print(component_names)
+    c = factory[component_names[0]]()
+    difftest(c, test_name=f"fabc_{component_names[0]}")

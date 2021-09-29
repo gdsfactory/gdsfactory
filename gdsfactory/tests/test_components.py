@@ -2,7 +2,6 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
-from gdsfactory.component import Component
 from gdsfactory.components import factory
 from gdsfactory.difftest import difftest
 
@@ -18,28 +17,32 @@ components_to_test = set(factory.keys()) - skip_test
 
 
 @pytest.fixture(params=components_to_test, scope="function")
-def component(request) -> Component:
-    return factory[request.param]()
+def component_name(request) -> str:
+    return request.param
 
 
-def test_gds(component: Component) -> None:
+def test_gds(component_name: str, original_datadir) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
-    difftest(component)
+    component = factory[component_name]()
+    difftest(component, test_name=component_name, dirpath=original_datadir)
 
 
-def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
+def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
+    component = factory[component_name]()
     data_regression.check(component.get_settings())
 
 
-def test_ports(component: Component, num_regression: NumericRegressionFixture) -> None:
+def test_ports(component_name: str, num_regression: NumericRegressionFixture) -> None:
     """Avoid regressions in port names and locations."""
+    component = factory[component_name]()
     if component.ports:
         num_regression.check(component.get_ports_array())
 
 
-def test_assert_ports_on_grid(component: Component):
+def test_assert_ports_on_grid(component_name: str):
     """Ensure ports are on grid."""
+    component = factory[component_name]()
     component.assert_ports_on_grid()
 
 
