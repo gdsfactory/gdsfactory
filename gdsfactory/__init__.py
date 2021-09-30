@@ -128,7 +128,7 @@ __all__ = [
     "to_3d",
     "write_doe",
 ]
-__version__ = "3.2.9"
+__version__ = "3.3.0"
 
 
 if __name__ == "__main__":
