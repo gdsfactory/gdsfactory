@@ -23,6 +23,6 @@ pydantic==1.8.2
 scikit-image
 loguru
 ipympl
-toolz
+toolz==0.11.1
 trimesh==3.9.32
 triangle==20200424
