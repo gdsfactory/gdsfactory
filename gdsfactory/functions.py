@@ -1,3 +1,3 @@
-from toolz import memoize
+from functools import lru_cache
 
-cache = memoize
+cache = lru_cache

@@ -116,6 +116,7 @@ def write_sparameters_lumerical(
     c.remove_layers(component.layers - set(layer_to_thickness.keys()))
     c._bb_valid = False
     c.flatten()
+    c.name = "top"
     gdspath = c.write_gds()
 
     filepath = get_sparameters_path(
