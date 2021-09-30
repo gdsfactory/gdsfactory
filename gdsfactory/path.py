@@ -351,20 +351,20 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
 def smooth(
     points: Coordinates,
     radius: float = 4.0,
-    corner_fun: PathFactory = euler,
+    bend: PathFactory = euler,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints. Corners will be rounded
-    using `bend_path_function` and any additional key word arguments (for example,
-    `use_eff = True` when `bend_path_function = gf..path.euler`)
+    using `bend` and any additional key word arguments (for example,
+    `use_eff = True` for `bend = gf.path.euler`)
 
     Args:
         points: array-like[N][2] List of waypoints for the path to follow
-        radius: radius of curvature, passed to `bend_path_function`
-        bend_path_function: function that controls how the corners are rounded.
-        **kwargs: Extra keyword arguments that will be passed to `bend_path_function`
+        radius: radius of curvature, passed to `bend`
+        bend: bend function to round corners
+        **kwargs: Extra keyword arguments that will be passed to `bend`
     """
-    return smooth_phidl(points=points, radius=radius, corner_fun=corner_fun, **kwargs)
+    return smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
 
 
 __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
