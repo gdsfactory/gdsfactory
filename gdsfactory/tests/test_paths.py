@@ -108,7 +108,6 @@ def transition():
     wg2_ref = c << wg2
     wgt_ref = c << wg_trans
 
-    print(wgt_ref.ports)
     wgt_ref.connect("in2", wg1_ref.ports["out1"])
     wg2_ref.connect("in2", wgt_ref.ports["out1"])
     return c

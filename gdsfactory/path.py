@@ -19,7 +19,14 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
 from gdsfactory.tech import LAYER
-from gdsfactory.types import Coordinates, CrossSectionOrFactory, Number, PathFactory
+from gdsfactory.types import (
+    Coordinates,
+    CrossSectionOrFactory,
+    Float2,
+    Layer,
+    Number,
+    PathFactory,
+)
 
 
 def _sinusoidal_transition(y1, y2):
@@ -46,8 +53,8 @@ def transition(
         cross_section1: First input CrossSection
         cross_section2: Second input CrossSection
         width_type: sine or linear
-            Sets the type of width transition used if any widths are different
-            between the two input CrossSections.
+          Sets the type of width transition used if any widths are different
+          between the two input CrossSections.
 
     Returns A smoothly-transitioning CrossSection
     """
@@ -122,7 +129,10 @@ def transition(
 
 def extrude(
     p: Path,
-    cross_section: CrossSectionOrFactory,
+    cross_section: Optional[CrossSectionOrFactory] = None,
+    layer: Optional[Layer] = None,
+    width: Optional[float] = None,
+    widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
@@ -135,12 +145,31 @@ def extrude(
 
     Args:
         p: a path is a list of points (arc, straight, euler)
+        cross_section: to extrude
+        layer:
+        width:
+        widths: tuple of starting and end width
         simplify: Tolerance value for the simplification algorithm.
-            All points that can be removed without changing the resulting
-            polygon by more than the value listed here will be removed.
+          All points that can be removed without changing the resulting
+          polygon by more than the value listed here will be removed.
     """
-    xsection_points = []
+    if cross_section is None and layer is None:
+        raise ValueError("CrossSection or layer needed")
 
+    if cross_section is not None and layer is not None:
+        raise ValueError("Define only CrossSection or layer")
+
+    if layer is not None and width is None and widths is None:
+        raise ValueError("Need to define layer width or widths")
+    elif width:
+        cross_section = CrossSection()
+        cross_section.add(width=width, layer=layer)
+
+    elif widths:
+        cross_section = CrossSection()
+        cross_section.add(width=_linear_transition(widths[0], widths[1]), layer=layer)
+
+    xsection_points = []
     c = Component()
 
     cross_section = cross_section() if callable(cross_section) else cross_section
@@ -188,13 +217,13 @@ def extrude(
         else:
             pass
 
-        points1 = p._parametric_offset_curve(
+        points1 = p._centerpoint_offset_curve(
             points,
             offset_distance=offset + width / 2,
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        points2 = p._parametric_offset_curve(
+        points2 = p._centerpoint_offset_curve(
             points,
             offset_distance=offset - width / 2,
             start_angle=start_angle,
@@ -226,10 +255,6 @@ def extrude(
         # Join points together
         points = np.concatenate([points1, points2[::-1, :]])
 
-        # Combine the offset-lines into a polygon and union if join_after == True
-        # if join_after == True: # Use clipper to perform a union operation
-        #     points = np.array(clipper.offset([points], 0, 'miter', 2, int(1/simplify), 0)[0])
-        # print(points)
         layers = layer if hidden else [layer, layer]
         if not hidden:
             c.add_polygon(points, layer=layer)
@@ -326,7 +351,7 @@ def straight(length: Number = 10, npoints: int = 2) -> Path:
 def smooth(
     points: Coordinates,
     radius: float = 4.0,
-    bend_path_function: PathFactory = euler,
+    corner_fun: PathFactory = euler,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints. Corners will be rounded
@@ -339,9 +364,7 @@ def smooth(
         bend_path_function: function that controls how the corners are rounded.
         **kwargs: Extra keyword arguments that will be passed to `bend_path_function`
     """
-    return smooth_phidl(
-        points=points, radius=radius, corner_fun=bend_path_function, **kwargs
-    )
+    return smooth_phidl(points=points, radius=radius, corner_fun=corner_fun, **kwargs)
 
 
 __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
