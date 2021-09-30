@@ -27,6 +27,7 @@ def plot_sparameters(
         logscale: plots 20*log10(results)
         keys: list of keys to plot
         dirpath: where to store the simulations
+        write_sparameters_function: custom function to write sparameters
         **sim_settings: simulation settings
 
     """
@@ -53,15 +54,6 @@ def plot_sparameters(
 
 
 if __name__ == "__main__":
-
-    remove_layers = []
-    layer_to_thickness = {(1, 0): 220e-3}
-
-    # df = write(component=gf.components.straight(), layer_to_thickness=layer_to_thickness)
-    # df = write(component=gf.components.mmi2x2(), layer_to_thickness=layer_to_thickness)
-    # df = write(component=gf.components.mmi1x2(), layer_to_thickness=layer_to_thickness)
-    # df = write(component=gf.components.coupler(), layer_to_thickness=layer_to_thickness)
-    # df = write(component=gf.components.bend_circular(), layer_to_thickness=layer_to_thickness)
     # plot_sparameters(df, logscale=True)
     # plot_sparameters(gf.components.coupler())
     plot_sparameters(gf.components.mmi1x2(), logscale=False)

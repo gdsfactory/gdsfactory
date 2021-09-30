@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -21,7 +21,7 @@ def get_ports(line: str) -> Tuple[str, str]:
     return port1, port2
 
 
-def read_sparameters_lumerical(
+def _read_sparameters_file(
     filepath, numports: int
 ) -> Tuple[Tuple[str, ...], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
@@ -81,51 +81,21 @@ def read_sparameters_lumerical(
     return (tuple(port_names), np.array(F), S)
 
 
-def test_read_sparameters_2port_bend():
-    filepath = gf.CONFIG["sparameters"] / "bend_circular" / "bend_circular_S220.dat"
-    port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
-    print(port_names)
-    assert port_names == ("N0", "W0")
-
-
-def test_read_sparameters_2port_straight():
-    filepath = gf.CONFIG["sparameters"] / "straight" / "straight_S220.dat"
-    port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
-    print(port_names)
-    assert len(f) == 500
-    assert port_names == ("E0", "W0")
-
-
-def test_read_sparameters_3port_mmi1x2():
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
-    port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=3)
-    print(port_names)
-    assert len(f) == 500
-    assert port_names == ("E0", "E1", "W0")
-
-
-def test_read_sparameters_4port_mmi2x2():
-    filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_si220n.dat"
-    port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=4)
-    print(port_names)
-    assert len(f) == 500
-    assert port_names == ("E0", "E1", "W0", "W1")
-
-
-def read_sparameters_component(
-    component: Component,
+def read_sparameters_tuple(
+    component: Optional[Component] = None,
     layer_stack: LayerStack = LAYER_STACK,
-    layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
-    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
+    filepath: Optional[str] = None,
+    numports: Optional[int] = None,
     dirpath: Path = gf.CONFIG["sparameters"],
 ) -> Tuple[List[str], np.array, np.ndarray]:
-    r"""Returns Sparameters from Lumerical interconnect export file.
+    r"""Returns Sparameters from Lumerical interconnect .DAT file.
 
     Args:
         component: Component
+        layer_stack:
+        filepath:
+        numports: number of ports
         dirpath: path where to look for the Sparameters
-        layer_to_material: layer to material dict
-        layer_to_thickness: layer to thickness (nm)
 
     Returns:
         port_names: list of port labels
@@ -137,32 +107,36 @@ def read_sparameters_component(
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
 
-    assert isinstance(component, gf.Component)
-    filepath = get_sparameters_path(
+    if component is None and filepath is None:
+        raise ValueError("You need to define the filepath or the component")
+
+    if filepath and numports is None:
+        raise ValueError("You need to define numports")
+
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material or layer_stack.get_layer_to_material(),
-        layer_to_thickness=layer_to_thickness or layer_stack.get_layer_to_thickness(),
+        layer_to_material=layer_stack.get_layer_to_material(),
+        layer_to_thickness=layer_stack.get_layer_to_thickness(),
     )
-    numports = len(component.ports)
+    numports = numports or len(component.ports)
     assert (
         filepath.exists()
     ), f"Sparameters for {component.name} not found in {filepath}"
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
-    return read_sparameters_lumerical(filepath=filepath, numports=numports)
+    return _read_sparameters_file(filepath=filepath, numports=numports)
 
 
 def read_sparameters_pandas(
     component: Component,
-    layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
-    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
+    layer_stack: LayerStack = LAYER_STACK,
     dirpath: Path = gf.CONFIG["sparameters"],
 ) -> pd.DataFrame:
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material or LAYER_STACK.get_layer_to_material(),
-        layer_to_thickness=layer_to_thickness or LAYER_STACK.get_layer_to_thickness(),
+        layer_to_material=layer_stack.get_layer_to_material(),
+        layer_to_thickness=layer_stack.get_layer_to_thickness(),
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]
@@ -170,10 +144,4 @@ def read_sparameters_pandas(
 
 
 if __name__ == "__main__":
-    # test_read_sparameters_2port_straight()
-    # test_read_sparameters_2port_bend()
-    # test_read_sparameters_3port_mmi1x2()
-    # test_read_sparameters_4port_mmi2x2()
-    s = read_sparameters_component(gf.components.mmi2x2())
-    # print(s[0])
-    # print(s)
+    s = read_sparameters_pandas(gf.components.mmi2x2())
