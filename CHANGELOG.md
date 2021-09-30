@@ -30,6 +30,11 @@ from contracts import contract
 
 ```
 
+## 3.3.1
+
+- adjust z position for lumerical simulation region as well as port locations
+- `Component.show()` and `Component.plot()` do not clear_cache by default (`clear_cache=False`)
+
 ## 3.3.0
 
 - write_sparameters in lumerical writes simulation_settings in YAML

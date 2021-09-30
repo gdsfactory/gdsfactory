@@ -1108,7 +1108,7 @@ class Component(Device):
 
     def plot(
         self,
-        clear_cache: bool = True,
+        clear_cache: bool = False,
     ) -> None:
         """Plot component in matplotlib"""
         from phidl import quickplot as plot
@@ -1123,7 +1123,7 @@ class Component(Device):
         self,
         show_ports: bool = True,
         show_subports: bool = False,
-        clear_cache: bool = True,
+        clear_cache: bool = False,
     ) -> None:
         """Show component in klayout
 

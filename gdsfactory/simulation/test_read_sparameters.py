@@ -1,8 +1,10 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 import gdsfactory.simulation as sim
 from gdsfactory import components
+from gdsfactory.read import read_sparameters_tuple
 
 factory = {
     i: getattr(components, i)
@@ -42,6 +44,33 @@ def test_read_sparameters(
     if check:
         data_regression.check(dict(port_names=port_names))
     assert lenf == len(f)
+
+
+def test_read_sparameters_2port_bend():
+    filepath = gf.CONFIG["sparameters"] / "bend_circular" / "bend_circular_S220.dat"
+    port_names, f, s = read_sparameters_tuple(filepath=filepath, numports=2)
+    assert port_names == ("N0", "W0"), port_names
+
+
+def test_read_sparameters_2port_straight():
+    filepath = gf.CONFIG["sparameters"] / "straight" / "straight_S220.dat"
+    port_names, f, s = read_sparameters_tuple(filepath=filepath, numports=2)
+    assert len(f) == 500
+    assert port_names == ("E0", "W0"), port_names
+
+
+def test_read_sparameters_3port_mmi1x2():
+    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
+    port_names, f, s = read_sparameters_tuple(filepath=filepath, numports=3)
+    assert len(f) == 500
+    assert port_names == ("E0", "E1", "W0"), port_names
+
+
+def test_read_sparameters_4port_mmi2x2():
+    filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_si220n.dat"
+    port_names, f, s = read_sparameters_tuple(filepath=filepath, numports=4)
+    assert len(f) == 500
+    assert port_names == ("E0", "E1", "W0", "W1"), port_names
 
 
 if __name__ == "__main__":
