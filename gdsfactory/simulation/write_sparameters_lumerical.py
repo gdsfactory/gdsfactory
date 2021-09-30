@@ -92,10 +92,6 @@ def write_sparameters_lumerical(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
 
-    ports = component.get_ports_list(port_type="optical")
-    if not ports:
-        raise ValueError(f"`{component.name}` does not have any optical ports")
-
     if hasattr(component, "simulation_settings"):
         sim_settings.update(component.simulation_settings)
         logger.info(
@@ -109,6 +105,14 @@ def write_sparameters_lumerical(
 
     sim_settings.update(**settings)
     ss = SimulationSettings(**sim_settings)
+
+    component_extended = gf.c.extend_ports(
+        component, length=ss.distance_source_to_monitors
+    )
+
+    ports = component_extended.get_ports_list(port_type="optical")
+    if not ports:
+        raise ValueError(f"`{component.name}` does not have any optical ports")
 
     c = gf.components.extension.extend_ports(
         component=component, length=ss.port_extension
@@ -162,9 +166,15 @@ def write_sparameters_lumerical(
             f"no layers for component {component.get_layers()}"
             f"in layer stack {layers_thickness.keys()}"
         )
+    layers_zmin = [
+        layer_to_zmin[layer]
+        for layer in component.get_layers()
+        if layer in layer_to_zmin
+    ]
     component_thickness = max(layers_thickness)
+    component_zmin = min(layers_zmin)
 
-    z = 0
+    z = (component_zmin + component_thickness) / 2 * 1e-6
     z_span = (2 * ss.zmargin + component_thickness) * 1e-6
 
     x_span = x_max - x_min
@@ -263,11 +273,17 @@ def write_sparameters_lumerical(
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports):
+        zmin = layer_to_zmin[port.layer]
+        thickness = layer_to_thickness[port.layer]
+        z = (zmin + thickness) / 2
+        zspan = 2 * ss.port_margin + thickness
+
         s.addport()
         p = f"FDTD::ports::port {i+1}"
         s.setnamed(p, "x", port.x * 1e-6)
         s.setnamed(p, "y", port.y * 1e-6)
-        s.setnamed(p, "z span", ss.port_height * 1e-6)
+        s.setnamed(p, "z", z * 1e-6)
+        s.setnamed(p, "z span", zspan * 1e-6)
 
         deg = int(port.orientation)
         # if port.orientation not in [0, 90, 180, 270]:
@@ -309,7 +325,7 @@ def write_sparameters_lumerical(
 
         logger.info(
             f"port {p} {port.name}: at ({port.x}, {port.y}, 0)"
-            f"size = ({dxp}, {dyp}, {ss.port_height})"
+            f"size = ({dxp}, {dyp}, {zspan})"
         )
 
     s.setglobalsource("wavelength start", ss.wavelength_start * 1e-6)
