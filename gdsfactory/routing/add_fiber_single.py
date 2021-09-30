@@ -250,7 +250,7 @@ if __name__ == "__main__":
         return c
 
     c = gf.components.ring_single(length_x=167)
-    c = gf.components.spiral(direction="NORTH")
+    # c = gf.components.spiral(direction="NORTH")
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
         component=c,
