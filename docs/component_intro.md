@@ -6,6 +6,9 @@ You'll need to keep 3 windows open:
 - A python / Ipython terminal / jupyter notebook (interactive python to run).
 - Klayout to Visualize the GDS files.
 
+`Component.show()` will stream the GDS to klayout so klayout needs to be open.
+Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
+
 ![windows](https://i.imgur.com/DyVL6IE.png)
 
 # Component
