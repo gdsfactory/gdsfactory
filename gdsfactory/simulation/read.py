@@ -81,7 +81,7 @@ def _read_sparameters_file(
     return (tuple(port_names), np.array(F), S)
 
 
-def read_sparameters_tuple(
+def read_sparameters_lumerical(
     component: Optional[Component] = None,
     layer_stack: LayerStack = LAYER_STACK,
     filepath: Optional[str] = None,
