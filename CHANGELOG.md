@@ -30,7 +30,7 @@ from contracts import contract
 
 ```
 
-## 3.2.10
+## 3.3.0
 
 - write_sparameters in lumerical writes simulation_settings in YAML
 - replace port_width with port_margin in simulation_settings
@@ -41,6 +41,8 @@ from contracts import contract
 - gdsdiff accepts test_name, and uses the path of the test_file for storing GDS files
 - add functools cache decorator for gdsfactory.import_gds and gdsfactory.read.gds
 - rename cache with lru_cache(maxsize=None) to keep compatibility with python3.7 and 3.8
+- update to phidl==1.6.0 and gdspy==1.6.9 in requirements.txt
+- new gf.path.extrude adapted from phidl
 
 ## 3.2.9
 

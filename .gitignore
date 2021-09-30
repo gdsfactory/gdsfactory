@@ -7,7 +7,6 @@
 *.sqlite3
 *.hdf5
 *.stl
-*.ipynb
 .pyre_configuration
 
 # Packages
