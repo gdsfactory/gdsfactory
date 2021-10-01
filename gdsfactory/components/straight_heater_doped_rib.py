@@ -42,6 +42,7 @@ def straight_heater_doped_rib(
         port_orientation_bot: for bottom contact
         kwargs: cross_section settings
         taper: optional taper
+        taper_length:
 
     .. code::
 
