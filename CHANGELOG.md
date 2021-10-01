@@ -30,6 +30,10 @@ from contracts import contract
 
 ```
 
+## 3.3.2
+
+- add `gdsfactory.to_3d.to_stl`
+
 ## 3.3.1
 
 - adjust z position for lumerical simulation region as well as port locations

@@ -13,3 +13,4 @@ settings:
   port_orientation2: 0
   radius: 5
   spacing: 2
+  taper_length: 10
