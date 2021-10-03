@@ -50,5 +50,5 @@ straight_heater_doped_strip = gf.partial(
 if __name__ == "__main__":
     # c = straight_heater_doped_strip(length=100)
     # c = test_straight_heater_doped_strip_ports()
-    c = straight_heater_doped_strip()
+    c = straight_heater_doped_strip(via_stack_contact=None)
     c.show()

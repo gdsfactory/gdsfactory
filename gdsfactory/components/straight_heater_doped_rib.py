@@ -16,8 +16,8 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionFactory = strip_rib_tip,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    via_stack_contact: ComponentFactory = via_stack_slab_npp,
-    via_stack_metal: ComponentFactory = via_stack_metal_function,
+    via_stack_contact: Optional[ComponentFactory] = via_stack_slab_npp,
+    via_stack_metal: Optional[ComponentFactory] = via_stack_metal_function,
     via_stack_metal_size: Tuple[float, float] = (10.0, 10.0),
     via_stack_contact_size: Tuple[float, float] = (10.0, 10.0),
     via_stack_contact_yspacing: float = 2.0,
@@ -63,17 +63,17 @@ def straight_heater_doped_rib(
 
 
 
-                                     |<------width------>|
-                                      ____________________  heater_gap                slab_gap
-                                     |                   |<----------->|               <-->
-         ___ ________________________|                   |____________________________|___
-        |   |            |                 undoped Si                  |              |   |
-        |   |layer_heater|                 intrinsic region            |layer_heater  |   |
-        |___|____________|_____________________________________________|______________|___|
-                                                                        <------------>
-                                                                         heater_width
-        <--------------------------------------------------------------------------------->
-                                         slab_width
+                                   |<------width------>|
+                                    ____________________ heater_gap             slab_gap
+                                   |                   |<---------->|               <-->
+         ___ ______________________|                   |___________________________|___
+        |   |            |               undoped Si                 |              |   |
+        |   |layer_heater|               intrinsic region           |layer_heater  |   |
+        |___|____________|__________________________________________|______________|___|
+                                                                     <------------>
+                                                                      heater_width
+        <------------------------------------------------------------------------------>
+                                       slab_width
 
     """
     c = Component()
@@ -105,48 +105,54 @@ def straight_heater_doped_rib(
         c.add_port("o1", port=wg.ports["o1"])
         c.add_port("o2", port=wg.ports["o2"])
 
-    contact_section = via_stack_metal(size=via_stack_metal_size)
+    if via_stack_metal:
+        contact_section = via_stack_metal(size=via_stack_metal_size)
     contacts = []
     length_contact = snap_to_grid(via_stack_contact_size[1])
     length_section = snap_to_grid((length - length_contact) / nsections)
     x0 = via_stack_contact_size[0] / 2
     for i in range(0, nsections + 1):
         xi = x0 + length_section * i
-        contact_center = c.add_ref(contact_section)
-        contact_center.x = xi
 
-        contact = c << contact_section
-        contact.x = xi
-        contact.y = +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
-        contacts.append(contact)
+        if via_stack_metal and via_stack_contact:
+            contact_center = c.add_ref(contact_section)
+            contact_center.x = xi
+            contact = c << contact_section
+            contact.x = xi
+            contact.y = (
+                +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
+            )
+            contacts.append(contact)
 
-        contact_bot = c << via_stack_contact(size=via_stack_contact_size)
-        contact_top = c << via_stack_contact(size=via_stack_contact_size)
-        contact_top.x = xi
-        contact_bot.x = xi
-        contact_top.ymin = +via_stack_contact_yspacing
-        contact_bot.ymax = -via_stack_contact_yspacing
+        if via_stack_contact:
+            contact_bot = c << via_stack_contact(size=via_stack_contact_size)
+            contact_top = c << via_stack_contact(size=via_stack_contact_size)
+            contact_top.x = xi
+            contact_bot.x = xi
+            contact_top.ymin = +via_stack_contact_yspacing
+            contact_bot.ymax = -via_stack_contact_yspacing
 
-    via_stack_length = length + via_stack_metal_size[0]
-    contact_top = c << via_stack_metal(
-        size=(via_stack_length, via_stack_metal_size[0]),
-    )
-    contact_bot = c << via_stack_metal(
-        size=(via_stack_length, via_stack_metal_size[0]),
-    )
+    if via_stack_metal and via_stack_contact:
+        via_stack_length = length + via_stack_metal_size[0]
+        contact_top = c << via_stack_metal(
+            size=(via_stack_length, via_stack_metal_size[0]),
+        )
+        contact_bot = c << via_stack_metal(
+            size=(via_stack_length, via_stack_metal_size[0]),
+        )
 
-    contact_bot.xmin = contacts[0].xmin
-    contact_top.xmin = contacts[0].xmin
+        contact_bot.xmin = contacts[0].xmin
+        contact_top.xmin = contacts[0].xmin
 
-    contact_top.ymin = contacts[0].ymax
-    contact_bot.ymax = contacts[1].ymin
+        contact_top.ymin = contacts[0].ymax
+        contact_bot.ymax = contacts[1].ymin
 
-    c.add_port(
-        "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
-    )
-    c.add_port(
-        "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
-    )
+        c.add_port(
+            "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
+        )
+        c.add_port(
+            "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
+        )
     return c
 
 
@@ -159,6 +165,8 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 
 if __name__ == "__main__":
-    # c = straight_heater_doped(length=80)
-    c = test_straight_heater_doped_rib_ports()
+    c = straight_heater_doped_rib(
+        length=80, via_stack_metal=None, via_stack_contact=None
+    )
+    # c = test_straight_heater_doped_rib_ports()
     c.show()
