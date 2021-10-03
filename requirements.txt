@@ -9,7 +9,7 @@ pandas
 phidl==1.6.0
 picwriter==0.5
 Pyqtree==1.0.0
-qrcode==7.3
+qrcode==7.3.1
 rectpack==0.2.1
 scipy
 Shapely==1.7.1
