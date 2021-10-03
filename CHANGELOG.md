@@ -29,6 +29,9 @@ from contracts import contract
 
 
 ```
+## 3.3.3
+
+- fix cutback_component bend
 
 ## 3.3.2
 

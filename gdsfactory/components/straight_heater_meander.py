@@ -82,17 +82,17 @@ def straight_heater_meander(
         )
 
         heater = c << gf.c.straight(
-            length=straight_length + 2 * extension_length,
+            length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.movex(-extension_length)
         heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
         contactw = via_stack()
         contacte = via_stack()
-        contact_west_midpoint = heater.size_info.cw - (contactw.xsize / 2, 0)
-        contact_east_midpoint = heater.size_info.ce + (contacte.xsize / 2, 0)
+        dx = contactw.get_ports_xsize() / 2 + taper_length or 0
+        contact_west_midpoint = heater.size_info.cw - (dx, 0)
+        contact_east_midpoint = heater.size_info.ce + (dx, 0)
 
         contact_west = c << contactw
         contact_east = c << contacte
@@ -108,7 +108,7 @@ def straight_heater_meander(
         if taper_length:
             taper = gf.c.taper(
                 cross_section=heater_cross_section,
-                width1=contactw.ysize,
+                width1=contactw.ports["e1"].width,
                 width2=heater_width,
                 length=taper_length,
             )
@@ -145,5 +145,5 @@ if __name__ == "__main__":
     # c.add_port("o1", port=straight_array.ports["o1_1_1"])
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
-    c = straight_heater_meander()
+    c = straight_heater_meander(taper_length=10, length=600)
     c.show()
