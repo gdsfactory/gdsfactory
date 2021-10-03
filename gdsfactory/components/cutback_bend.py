@@ -21,42 +21,44 @@ def _get_bend_size(bend90: Component) -> float64:
 def cutback_bend(
     bend90: ComponentOrFactory = bend_euler,
     straight_length: float = 5.0,
-    n_steps: int = 6,
-    n_stairs: int = 5,
+    rows: int = 6,
+    columns: int = 5,
 ):
     """Deprecated! use cutback_bend90 instead!
-    this is a stair
+
 
     .. code::
+
+        this is a column
             _
           _|
         _|
 
-        _ this is a step
+        _ this is a row
 
     """
 
     bend90 = gf.call_if_func(bend90)
-    wg = straight(length=straight_length, width=bend90.ports["o1"].width)
+    straightx = straight(length=straight_length, width=bend90.ports["o1"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (bend90, "o1", "o2"),
         "B": (bend90, "o2", "o1"),
-        "S": (wg, "o1", "o2"),
+        "S": (straightx, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
     s = ""
-    for i in range(n_stairs):
-        s += "ASBS" * n_steps
+    for i in range(columns):
+        s += "ASBS" * rows
         s += "ASAS" if i % 2 == 0 else "BSBS"
     s = s[:-4]
 
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
-    c.update_settings(n_bends=n_steps * n_stairs * 2 + n_stairs * 2 - 2)
+    c.n_bends = rows * columns * 2 + columns * 2 - 2
     return c
 
 
@@ -64,10 +66,9 @@ def cutback_bend(
 def cutback_bend90(
     bend90: ComponentOrFactory = bend_euler,
     straight_length: float = 5.0,
-    n_steps: int = 6,
-    cols: int = 6,
+    rows: int = 6,
+    columns: int = 6,
     spacing: int = 5,
-    wg_loop_length: None = None,
     straight_factory: ComponentFactory = straight,
 ) -> Component:
     """
@@ -79,37 +80,35 @@ def cutback_bend90(
 
     """
     bend90 = gf.call_if_func(bend90)
+    straightx = straight_factory(length=straight_length, width=bend90.ports["o1"].width)
 
-    wg = straight_factory(length=straight_length, width=bend90.ports["o1"].width)
-    if wg_loop_length is None:
-        wg_loop_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-
-    wg_loop = straight_factory(
-        length=wg_loop_length,
+    straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
+    straighty = straight_factory(
+        length=straight_length,
         width=bend90.ports["o1"].width,
     )
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (bend90, "o1", "o2"),
         "B": (bend90, "o2", "o1"),
-        "-": (wg, "o1", "o2"),
-        "|": (wg_loop, "o1", "o2"),
+        "-": (straightx, "o1", "o2"),
+        "|": (straighty, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
     s = ""
-    for i in range(cols):
+    for i in range(columns):
         if i % 2 == 0:  # even row
-            s += "A-A-B-B-" * n_steps + "|"
+            s += "A-A-B-B-" * rows + "|"
         else:
-            s += "B-B-A-A-" * n_steps + "|"
+            s += "B-B-A-A-" * rows + "|"
     s = s[:-1]
 
     # Create the component from the sequence
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.update_settings(n_bends=n_steps * cols * 4)
+    c.n_bends = rows * columns * 4
     return c
 
 
@@ -118,7 +117,7 @@ def staircase(
     bend90: ComponentOrFactory = bend_euler,
     length_v: float = 5.0,
     length_h: float = 5.0,
-    n_steps: int = 4,
+    rows: int = 4,
     straight_factory: ComponentFactory = straight,
 ) -> Component:
     bend90 = gf.call_if_func(bend90)
@@ -135,12 +134,12 @@ def staircase(
     }
 
     # Generate the sequence of staircases
-    s = "-A|B" * n_steps + "-"
+    s = "-A|B" * rows + "-"
 
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.update_settings(n_bends=2 * n_steps)
+    c.n_bends = 2 * rows
     return c
 
 
@@ -148,8 +147,8 @@ def staircase(
 def cutback_bend180(
     bend180: ComponentOrFactory = bend_euler180,
     straight_length: float = 5.0,
-    n_steps: int = 6,
-    cols: int = 6,
+    rows: int = 6,
+    columns: int = 6,
     spacing: int = 3,
     straight_factory: ComponentFactory = straight,
 ) -> Component:
@@ -158,14 +157,16 @@ def cutback_bend180(
     .. code::
 
           _
-        _| |_| this is a stair
+        _| |_  this is a row
 
-        _ this is a step
+        _ this is a column
 
     """
     bend180 = gf.call_if_func(bend180)
 
-    wg = straight_factory(length=straight_length, width=bend180.ports["o1"].width)
+    straightx = straight_factory(
+        length=straight_length, width=bend180.ports["o1"].width
+    )
     wg_vertical = straight_factory(
         length=2 * bend180.size_info.width + straight_length + spacing,
         width=bend180.ports["o1"].width,
@@ -175,24 +176,24 @@ def cutback_bend180(
     symbol_to_component = {
         "D": (bend180, "o1", "o2"),
         "C": (bend180, "o2", "o1"),
-        "-": (wg, "o1", "o2"),
+        "-": (straightx, "o1", "o2"),
         "|": (wg_vertical, "o1", "o2"),
     }
 
     # Generate the sequence of staircases
     s = ""
-    for i in range(cols):
+    for i in range(columns):
         if i % 2 == 0:  # even row
-            s += "D-C-" * n_steps + "|"
+            s += "D-C-" * rows + "|"
         else:
-            s += "C-D-" * n_steps + "|"
+            s += "C-D-" * rows + "|"
     s = s[:-1]
 
     # Create the component from the sequence
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.update_settings(n_bends=n_steps * cols * 2 + cols * 2 - 2)
+    c.n_bends = rows * columns * 2 + columns * 2 - 2
     return c
 
 
@@ -200,8 +201,12 @@ cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
 cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
-    # c = cutback_bend_circular(n_steps=7, n_stairs=4, radius=5) #62
-    # c = cutback_bend_circular(n_steps=14, n_stairs=4) #118
+    # c = cutback_bend_circular(rows=7, columns=4, radius=5) #62
+    # c = cutback_bend_circular(rows=14, columns=4) #118
     # c = cutback_bend90()
-    c = cutback_bend180()
+    # c = cutback_bend180(rows=3, columns=1)
+    # c = cutback_bend(rows=3, columns=2)
+    # c = cutback_bend90(rows=3, columns=2)
+    c = cutback_bend180(rows=2, columns=2)
+    # c = cutback_bend(rows=3, columns=2)
     c.show()

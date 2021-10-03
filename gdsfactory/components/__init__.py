@@ -47,7 +47,7 @@ from gdsfactory.components.cutback_bend import (
 )
 from gdsfactory.components.cutback_component import (
     cutback_component,
-    cutback_component_flipped,
+    cutback_component_mirror,
 )
 from gdsfactory.components.dbr import dbr
 from gdsfactory.components.dbr2 import dbr2
@@ -234,7 +234,7 @@ __all__ = [
     "cutback_bend90",
     "cutback_bend90circular",
     "cutback_component",
-    "cutback_component_flipped",
+    "cutback_component_mirror",
     "dbr",
     "dbr2",
     "delay_snake",
@@ -407,7 +407,7 @@ factory = dict(
     cutback_bend90=cutback_bend90,
     cutback_bend90circular=cutback_bend90circular,
     cutback_component=cutback_component,
-    cutback_component_flipped=cutback_component_flipped,
+    cutback_component_mirror=cutback_component_mirror,
     dbr=dbr,
     dbr2=dbr2,
     delay_snake=delay_snake,
