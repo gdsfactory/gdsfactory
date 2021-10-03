@@ -1,14 +1,14 @@
 function_name: cutback_bend
-info: {}
+info:
+  n_bends: 68
 module: gdsfactory.components.cutback_bend
 name: cutback_bend
 settings:
-  n_bends: 68
-  n_stairs: 5
-  n_steps: 6
+  columns: 5
   port_name1: o1
   port_name2: o2
   ports_map: null
+  rows: 6
   sequence: ASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBS
   start_orientation: 90
   straight_length: 5

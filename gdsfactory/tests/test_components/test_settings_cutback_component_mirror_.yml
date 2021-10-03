@@ -1,27 +1,30 @@
 function_name: cutback_component_mirror
-info: {}
+info:
+  n_components: 88
 module: gdsfactory.components.cutback_component
 name: cutback_component_mirror
 settings:
-  bend_radius: 10
   cols: 4
-  middle_couples: 2
-  n_devices: 92
   port1: o2
   port2: o1
   port_name1: o1
   port_name2: o2
   ports_map: null
+  radius: 10
   rows: 5
-  sequence: ABABABABCABABABABDABABABABCABABABABDABABABABABABABABABABDABABABABCABABABABDABABABABCABABABAB
+  sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABDABABABABCABABABABDABABABABCABABABAB
   start_orientation: 0
   symbol_to_component:
+    '-':
+    - straight_length20
+    - o1
+    - o2
     A:
-    - taper_0p5_to_3_l36
+    - taper_width13_width2500n
     - o2
     - o1
     B:
-    - taper_0p5_to_3_l36
+    - taper_width13_width2500n
     - o1
     - o2
     C:
@@ -32,3 +35,7 @@ settings:
     - bend_euler_angle180_radius10
     - o1
     - o2
+    _:
+    - straight_length20
+    - o2
+    - o1

@@ -627,7 +627,7 @@ cutback_bend
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend(straight_length=5.0, n_steps=6, n_stairs=5)
+  c = gf.components.cutback_bend(straight_length=5.0, rows=6, columns=5)
   c.plot()
 
 
@@ -642,7 +642,7 @@ cutback_bend180
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180(straight_length=5.0, n_steps=6, cols=6, spacing=3)
+  c = gf.components.cutback_bend180(straight_length=5.0, rows=6, columns=6, spacing=3)
   c.plot()
 
 
@@ -657,7 +657,7 @@ cutback_bend180circular
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180circular(straight_length=5.0, n_steps=6, cols=6, spacing=3)
+  c = gf.components.cutback_bend180circular(straight_length=5.0, rows=6, columns=6, spacing=3)
   c.plot()
 
 
@@ -672,7 +672,7 @@ cutback_bend90
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend90(straight_length=5.0, n_steps=6, cols=6, spacing=5)
+  c = gf.components.cutback_bend90(straight_length=5.0, rows=6, columns=6, spacing=5)
   c.plot()
 
 
@@ -687,7 +687,7 @@ cutback_bend90circular
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend90circular(straight_length=5.0, n_steps=6, cols=6, spacing=5)
+  c = gf.components.cutback_bend90circular(straight_length=5.0, rows=6, columns=6, spacing=5)
   c.plot()
 
 
@@ -702,22 +702,22 @@ cutback_component
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component(cols=4, rows=5, bend_radius=10, port1='o1', port2='o2', middle_couples=2)
+  c = gf.components.cutback_component(cols=4, rows=5, radius=5.0, port1='o1', port2='o2')
   c.plot()
 
 
 
-cutback_component_flipped
+cutback_component_mirror
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.cutback_component_flipped
+.. autofunction:: gdsfactory.components.cutback_component_mirror
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component_flipped(cols=4, rows=5, bend_radius=10, port1='o2', port2='o1', middle_couples=2)
+  c = gf.components.cutback_component_mirror(cols=4, rows=5, radius=10, port1='o2', port2='o1')
   c.plot()
 
 
@@ -1707,7 +1707,7 @@ staircase
 
   import gdsfactory as gf
 
-  c = gf.components.staircase(length_v=5.0, length_h=5.0, n_steps=4)
+  c = gf.components.staircase(length_v=5.0, length_h=5.0, rows=4)
   c.plot()
 
 
@@ -1782,7 +1782,7 @@ straight_heater_meander
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, heater_width=2.5, extension_length=15.0, layer_heater=(47, 0), radius=5.0, port_orientation1=180, port_orientation2=0)
+  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, heater_width=2.5, extension_length=15.0, layer_heater=(47, 0), radius=5.0, port_orientation1=180, port_orientation2=0, taper_length=10.0)
   c.plot()
 
 
@@ -2187,7 +2187,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.2.9', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.3.2', text_size=10)
   c.plot()
 
 

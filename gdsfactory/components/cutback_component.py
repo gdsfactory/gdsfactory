@@ -13,7 +13,7 @@ def cutback_component(
     component: ComponentFactory = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
-    radius: float = 10.0,
+    radius: float = 5.0,
     port1: str = "o1",
     port2: str = "o2",
     bend180: ComponentFactory = bend_euler180,
@@ -64,7 +64,7 @@ def cutback_component(
 
     # Create the component from the sequence
     c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-    c.n_devices = len(s) - 2
+    c.n_components = len(s) - 2
     return c
 
 
@@ -75,7 +75,7 @@ straight_long = gf.partial(straight, length=20)
 
 
 @gf.cell
-def cutback_component_flipped(
+def cutback_component_mirror(
     component: ComponentFactory = component_flipped,
     cols: int = 4,
     rows: int = 5,
@@ -129,16 +129,16 @@ def cutback_component_flipped(
     s = s[:-1]
 
     c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-    c.n_devices = len(s) - 2
+    c.n_components = len(s) - 2
     return c
 
 
-# cutback_component_flipped = gf.partial(
+# cutback_component_mirror = gf.partial(
 #     cutback_component, port2="o1", port1="o2", component=component_flipped, straight=straight_long
 # )
 
 
 if __name__ == "__main__":
     # c = cutback_component()
-    c = cutback_component_flipped()
+    c = cutback_component_mirror()
     c.show()
