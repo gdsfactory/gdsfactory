@@ -29,9 +29,11 @@ from contracts import contract
 
 
 ```
+
 ## 3.3.3
 
 - fix cutback_component bend
+- add `gf.routing.route_quad`
 
 ## 3.3.2
 
