@@ -5,7 +5,7 @@ import hashlib
 from typing import Any
 
 import numpy as np
-from phidl import Device
+from phidl import Device, Port
 
 from gdsfactory.snap import snap_to_grid
 
@@ -153,6 +153,8 @@ def clean_value(value: Any) -> str:
         # value = [f"{k}={v!r}" for k, v in value.items()]
     elif isinstance(value, Device):
         value = clean_name(value.name)
+    elif isinstance(value, Port):
+        value = f"{value.name}_{value.width}_{value.x}_{value.y}"
     elif (
         isinstance(value, object)
         and hasattr(value, "name")
