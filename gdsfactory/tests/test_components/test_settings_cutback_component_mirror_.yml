@@ -1,6 +1,21 @@
 function_name: cutback_component_mirror
 info:
-  n_components: 88
+  components: 88
+  parent:
+    function_name: taper
+    info:
+      length: 10
+      width1: 3
+      width2: 0.5
+    module: gdsfactory.components.taper
+    name: taper_width13_width2500n
+    settings:
+      length: 10
+      port: null
+      width1: 3
+      width2: 0.5
+      with_cladding_box: true
+  parent_name: loopback_taper_width13_width2500n_88
 module: gdsfactory.components.cutback_component
 name: cutback_component_mirror
 settings:

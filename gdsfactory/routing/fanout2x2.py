@@ -3,6 +3,7 @@ from typing import Callable, Optional
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
+from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 
 
@@ -70,6 +71,7 @@ def fanout2x2(
     for port_name in ref.ports.keys():
         if port_name not in optical_ports:
             c.add_port(port_name, port=ref.ports[port_name])
+    copy_settings(component, c)
     return c
 
 

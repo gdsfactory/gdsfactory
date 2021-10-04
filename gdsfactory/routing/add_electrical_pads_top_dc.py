@@ -32,6 +32,8 @@ def add_electrical_pads_top_dc(
     cref = c << component
     ports = select_ports(cref.ports)
     ports_component = list(ports.values())
+    ports_component = [port.copy() for port in ports_component]
+
     for port in ports_component:
         port.orientation = 90
 
@@ -43,13 +45,15 @@ def add_electrical_pads_top_dc(
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle(ports, ports_pads, bend_factory=wire_corner, **kwargs)
+    routes = get_bundle(ports_component, ports_pads, bend_factory=wire_corner, **kwargs)
     for route in routes:
         c.add(route.references)
 
     c.add_ports(cref.ports)
     for port in ports_component:
         c.ports.pop(port.name)
+
+    c.info["name"] = component.get_name()
     return c
 
 

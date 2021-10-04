@@ -8,6 +8,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.functions import copy_settings
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentOrFactory, Coordinate, Layer
 
@@ -155,6 +156,8 @@ def extend_ports(
             c.absorb(extension)
         else:
             c.add_port(port_name, port=component.ports[port_name])
+
+    copy_settings(component, c)
     return c
 
 
