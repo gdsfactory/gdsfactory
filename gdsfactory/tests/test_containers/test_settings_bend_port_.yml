@@ -1,10 +1,6 @@
 function_name: bend_port
-info: {}
-module: gdsfactory.components.bend_port
-name: bend_port_componentmzi__0e3ae715
-settings:
-  angle: 180
-  contains:
+info:
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -22,6 +18,11 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  parent_name: mzi_length_x320_splitte_79951d94
+module: gdsfactory.components.bend_port
+name: bend_port_componentmzi__0e3ae715
+settings:
+  angle: 180
   extension_length: null
   port_name: e1
   port_name1_bend: null

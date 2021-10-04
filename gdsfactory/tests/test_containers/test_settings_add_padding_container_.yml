@@ -1,9 +1,6 @@
 function_name: add_padding_container
-info: {}
-module: gdsfactory.add_padding
-name: add_padding_container_c_59c4e50d
-settings:
-  contains:
+info:
+  parent:
     function_name: mzi
     info: {}
     module: gdsfactory.components.mzi
@@ -21,3 +18,7 @@ settings:
         with_undercut: false
       straight_y: null
       with_splitter: true
+  parent_name: mzi_length_x320_splitte_79951d94
+module: gdsfactory.add_padding
+name: add_padding_container_c_59c4e50d
+settings: {}

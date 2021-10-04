@@ -148,7 +148,7 @@ class Port(PortPhidl):
         self.midpoint = self.midpoint + np.array(vector)
 
     def move_polar_copy(self, d, angle) -> PortPhidl:
-        port = self._copy()
+        port = self.copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
         self.move(dp)
@@ -156,11 +156,11 @@ class Port(PortPhidl):
 
     def flip(self):
         """flips port"""
-        port = self._copy()
+        port = self.copy()
         port.angle = (port.angle + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> PortPhidl:
+    def copy(self, new_uid: bool = True) -> PortPhidl:
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -429,13 +429,13 @@ def select_ports_list(**kwargs) -> List[Port]:
 
 
 def flipped(port: Port) -> Port:
-    _port = port._copy()
+    _port = port.copy()
     _port.orientation = (_port.orientation + 180) % 360
     return _port
 
 
 def move_copy(port, x=0, y=0):
-    _port = port._copy()
+    _port = port.copy()
     _port.midpoint += (x, y)
     return _port
 
@@ -660,7 +660,7 @@ def map_ports_layer_to_orientation(
     layers = {port.layer for port in ports.values()}
 
     for layer in layers:
-        ports_on_layer = [p._copy() for p in ports.values() if p.layer == layer]
+        ports_on_layer = [p.copy() for p in ports.values() if p.layer == layer]
 
         for p in ports_on_layer:
             p.name_original = p.name
@@ -700,7 +700,7 @@ def map_ports_to_orientation_cw(
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
-    ports_on_layer = [p._copy() for p in ports.values()]
+    ports_on_layer = [p.copy() for p in ports.values()]
 
     for p in ports_on_layer:
         p.name_original = p.name
