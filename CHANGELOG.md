@@ -29,6 +29,11 @@ from contracts import contract
 
 
 ```
+## 3.3.4
+
+- containers use `gf.functions.copy_settings`
+- Port._copy() is now Port.copy()
+
 
 ## 3.3.3
 

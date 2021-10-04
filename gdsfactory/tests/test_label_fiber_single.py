@@ -44,7 +44,27 @@ def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Comp
     return cte
 
 
+def test_label_fiber_single_container() -> Component:
+    """Test that add_fiber single adds the correct label for measurements."""
+    c1 = gf.components.straight(width=2)
+    c2 = gf.add_tapers(c1)
+    cte = gf.routing.add_fiber_single(component=c2, with_loopback=False)
+    l0 = cte.labels[0].text
+    l1 = cte.labels[1].text
+    cell_name = "straight_width2"
+    assert l0 == f"opt_te_1530_({cell_name})_0_o1", l0
+    assert l1 == f"opt_te_1530_({cell_name})_0_o2", l1
+    return cte
+
+
 if __name__ == "__main__":
-    c = test_label_fiber_single()
+    c = test_label_fiber_single_container()
+    # c = test_label_fiber_single()
     # c = test_label_fiber_single_loopback()
-    c.show()
+    # c.show()
+
+    # c1 = gf.components.straight(width=2)
+    # c2 = gf.add_tapers(c1)
+    # cte = gf.routing.add_fiber_single(component=c2, with_loopback=False)
+    # l0 = cte.labels[0].text
+    # l1 = cte.labels[1].text
