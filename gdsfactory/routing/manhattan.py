@@ -864,7 +864,7 @@ def test_manhattan() -> Component:
         # Port("in6", (0, 10), 0.5, 0),
     ]
 
-    lengths = [350.22]
+    lengths = [349.974]
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
 

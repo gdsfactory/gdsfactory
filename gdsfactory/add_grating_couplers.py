@@ -11,6 +11,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
+from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
@@ -29,6 +30,7 @@ def add_grating_couplers(
     gc_port_name: str = "o1",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
     select_ports: Callable = select_ports_optical,
+    component_name: Optional[str] = None,
 ) -> Component:
     """Returns new component with grating couplers and labels.
 
@@ -44,6 +46,7 @@ def add_grating_couplers(
 
     c = Component()
     c.component = component
+    component_name = component_name or component.get_parent_name()
     c.add_ref(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -62,11 +65,12 @@ def add_grating_couplers(
     labels = get_input_labels_function(
         io_gratings,
         list(component.ports.values()),
-        component_name=component.name,
+        component_name=component_name,
         layer_label=layer_label,
         gc_port_name=gc_port_name,
     )
     c.add(labels)
+    copy_settings(component, c)
     return c
 
 
@@ -108,7 +112,7 @@ def add_grating_couplers_with_loopback_fiber_single(
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
 
-    component_name = component_name or component.name
+    component_name = component_name or component.get_parent_name()
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
@@ -175,6 +179,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             layer=layer_label,
         )
 
+    copy_settings(component, c)
     return c
 
 
@@ -226,7 +231,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc = grating_coupler() if callable(grating_coupler) else grating_coupler
 
     direction = "S"
-    component_name = component_name or component.name
+    component_name = component_name or component.get_parent_name()
     c = Component()
     c.component = component
 
@@ -336,6 +341,7 @@ def add_grating_couplers_with_loopback_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
+    copy_settings(component, c)
     return c
 
 

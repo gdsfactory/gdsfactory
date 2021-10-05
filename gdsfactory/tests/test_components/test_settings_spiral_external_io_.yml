@@ -1,6 +1,6 @@
 function_name: spiral_external_io
 info:
-  length: 9010.754
+  length: 9003.302
 module: gdsfactory.components.spiral_external_io
 name: spiral_external_io
 settings:

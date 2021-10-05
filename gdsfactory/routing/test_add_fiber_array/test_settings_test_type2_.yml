@@ -1,10 +1,6 @@
 function_name: add_fiber_array
-info: {}
-module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_compone_3d895cbd
-settings:
-  component_name: null
-  contains:
+info:
+  parent:
     function_name: coupler
     info:
       length: 10.313
@@ -16,6 +12,11 @@ settings:
       dy: 5
       gap: 0.244
       length: 5.67
+  parent_name: coupler_gap244n_length5p67
+module: gdsfactory.routing.add_fiber_array
+name: add_fiber_array_compone_3d895cbd
+settings:
+  component_name: null
   gc_port_labels: null
   gc_port_name: o1
   layer_label:

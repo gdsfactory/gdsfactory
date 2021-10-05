@@ -203,7 +203,7 @@ class ComponentReference(DeviceReference):
         # since two DeviceReferences of the same parent Device can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port._copy(new_uid=True) for name, port in component.ports.items()
+            name: port.copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
@@ -265,7 +265,7 @@ class ComponentReference(DeviceReference):
                 self.x_reflection,
             )
             if name not in self._local_ports:
-                self._local_ports[name] = port._copy(new_uid=True)
+                self._local_ports[name] = port.copy(new_uid=True)
             self._local_ports[name].midpoint = new_midpoint
             self._local_ports[name].orientation = mod(new_orientation, 360)
             self._local_ports[name].parent = self
@@ -732,6 +732,10 @@ class Component(Device):
         else:
             return self.name
 
+    def get_parent_name(self) -> str:
+        """Returns parent name if it has parent, else returns its own name"""
+        return self.info.get("parent_name", self.name)
+
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
@@ -928,13 +932,13 @@ class Component(Device):
         if port:
             if not isinstance(port, Port):
                 raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port._copy(new_uid=True)
+            p = port.copy(new_uid=True)
             if name is not None:
                 p.name = name
             p.parent = self
 
         elif isinstance(name, Port):
-            p = name._copy(new_uid=True)
+            p = name.copy(new_uid=True)
             p.parent = self
             name = p.name
         else:

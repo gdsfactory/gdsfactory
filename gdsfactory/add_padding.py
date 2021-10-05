@@ -2,6 +2,7 @@ from typing import List, Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.functions import copy_settings
 from gdsfactory.tech import TECH
 
 LAYER = TECH.layer
@@ -93,6 +94,7 @@ def add_padding_container(
     for layer in layers:
         c.add_polygon(points, layer=layer)
     c.ports = cref.ports
+    copy_settings(component, c)
     return c
 
 
@@ -130,13 +132,13 @@ def test_container():
 
     c = gf.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(1, 0)])
-    assert len(cc.settings["contains"]) == 5
+    assert len(cc.info["parent"]) == 5
 
     cc = add_padding_container(component=c, layers=[(2, 0)])
-    assert len(cc.settings["contains"]) == 5
+    assert len(cc.info["parent"]) == 5
 
     cc = add_padding_container(component=c, layers=[(3, 0)])
-    assert len(cc.settings["contains"]) == 5
+    assert len(cc.info["parent"]) == 5
 
     # cc = add_padding_container(component=c, layers=[(4, 0)])
     # assert isinstance(cc.settings["component"], Component)
@@ -151,9 +153,9 @@ if __name__ == "__main__":
 
     c = gf.components.straight(length=128)
     cc = add_padding_container(component=c, layers=[(2, 0)])
-    print(cc.settings["component"])
-    cc.show()
-    cc.pprint
+    print(cc.info["parent"])
+    # cc.show()
+    # cc.pprint
 
     # c = gf.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])

@@ -34,7 +34,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_395p125_304p875:
@@ -46,7 +46,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_395p125_395p125:
@@ -58,7 +58,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_4p875_295p125:
@@ -70,7 +70,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_545p125_154p875:
@@ -82,7 +82,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_545p125_545p125:
@@ -94,7 +94,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_m245p125_404p875:
@@ -106,7 +106,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   bend_euler_auto_widenFa_eb36009f_m95p125_554p875:
@@ -118,7 +118,7 @@ instances:
         function: cross_section
       direction: ccw
       npoints: 720
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
   straight_auto_widenFals_0a1d337d_m100p0_780p0:

@@ -3,6 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.functions import copy_settings
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
@@ -66,6 +67,7 @@ def bend_port(
     c.add_ports(ref.get_ports_list())
     c.ports.pop(port_name)
     c.add_port(port_name, port=s.ports[o1])
+    copy_settings(component, c)
     return c
 
 

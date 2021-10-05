@@ -59,6 +59,7 @@ def add_electrical_pads_shortest(
     c.add_ports(ref.ports)
     for port in ports:
         c.ports.pop(port.name)
+    gf.functions.copy_settings(component, c)
     return c
 
 

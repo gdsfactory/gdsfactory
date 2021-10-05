@@ -631,8 +631,6 @@ def get_bundle_same_axis_no_grouping(
 
 @gf.cell
 def test_get_bundle_small() -> Component:
-    import gdsfactory as gf
-
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
@@ -644,7 +642,7 @@ def test_get_bundle_small() -> Component:
         separation=5.0,
     )
     for route in routes:
-        assert np.isclose(route.length, 111.3), route.length
+        assert np.isclose(route.length, 111.136), route.length
         c.add(route.references)
     return c
 
