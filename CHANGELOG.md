@@ -35,7 +35,8 @@ from contracts import contract
 - Port._copy() is now Port.copy()
 - bend_euler `p=0.5` as default based on this [paper](https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937)
 - rectangle has 4 ports by default (similar to compass), it just includes the `centered` parameter
-- gf.grid can accept component factories as well as components
+- gf.grid accept component factories as well as components and is a cell
+
 
 
 ## 3.3.3
