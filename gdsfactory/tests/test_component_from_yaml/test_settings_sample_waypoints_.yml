@@ -6,7 +6,7 @@ info:
       'e13', 'e14', 'e15', 'e16'], origin [-250. 1000.], rotation 0, x_reflection
       False)
   routes:
-    b,e11:t,e11: 2037.196
-    b,e12:t,e12: 2037.196
+    b,e11:t,e11: 2036.548
+    b,e12:t,e12: 2036.548
 name: sample_waypoints
 settings: {}

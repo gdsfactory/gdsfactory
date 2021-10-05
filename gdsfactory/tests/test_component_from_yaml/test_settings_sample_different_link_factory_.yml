@@ -9,7 +9,7 @@ info:
     tr: DeviceReference (parent Device "pad", ports ['e1', 'e2', 'e3', 'e4'], origin
       [900. 600.], rotation 0, x_reflection False)
   routes:
-    bl,e3:br,e1: 1720.794
-    tl,e3:tr,e1: 1720.794
+    bl,e3:br,e1: 1719.822
+    tl,e3:tr,e1: 1719.822
 name: sample_path_length_matching
 settings: {}

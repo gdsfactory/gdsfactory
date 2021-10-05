@@ -10,7 +10,7 @@ from gdsfactory.types import CrossSectionFactory
 @gf.cell
 def bend_euler(
     angle: int = 90,
-    p: float = 1,
+    p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
@@ -20,17 +20,20 @@ def bend_euler(
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
-    However, if `use_eff` is set to True, `radius` corresponds to the effective
+    However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
     radius of curvature (making the curve a drop-in replacement for an arc). If
     p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
     al. https://dx.doi.org/10.1364/oe.27.031394
 
+    default p = 0.5 based on this paper
+    https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937
+
     Args:
         angle: total angle of the curve
         p: Proportion of the curve that is an Euler curve
-        with_arc_floorplan: If False: `radius` is the minimum radius of curvature of the bend
-            If True: The curve will be scaled such that the endpoints match a bend_circular
-            with parameters `radius` and `angle`
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
+          If True: The curve scales such that the endpoints match a bend_circular
+          with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
         with_cladding_box: to avoid DRC acute angle errors in cladding

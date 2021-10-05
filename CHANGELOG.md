@@ -31,8 +31,9 @@ from contracts import contract
 ```
 ## 3.3.4
 
-- containers use `gf.functions.copy_settings`
+- containers use `gf.functions.copy_settings` instead of trying to detect `component=` from kwargs
 - Port._copy() is now Port.copy()
+- bend_euler `p=0.5` as default based on this [paper](https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937)
 
 
 ## 3.3.3

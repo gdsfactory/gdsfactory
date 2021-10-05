@@ -5,6 +5,6 @@ info:
     mmi_top: DeviceReference (parent Device "mmi1x2_length_mmi22_width_mmi6", ports
       ['o3', 'o2', 'o1'], origin [21.  0.], rotation 0, x_reflection False)
   routes:
-    mmi_top,o3:mmi_bot,o1: 72.348
+    mmi_top,o3:mmi_bot,o1: 72.024
 name: sample_docstring
 settings: {}

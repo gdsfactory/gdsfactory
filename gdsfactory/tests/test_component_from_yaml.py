@@ -115,7 +115,7 @@ def test_connections_2x2() -> Component:
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
-    assert np.isclose(length, 166.098), length
+    assert np.isclose(length, 165.774), length
     return c
 
 
@@ -165,7 +165,7 @@ routes:
 
 def test_connections_different_factory() -> Component:
     c = component_from_yaml(sample_different_factory)
-    lengths = [693.598, 693.598, 1204.013]
+    lengths = [693.274, 693.274, 1199.144]
 
     assert np.isclose(c.routes["tl,e3:tr,e1"], lengths[0]), c.routes["tl,e3:tr,e1"]
     assert np.isclose(c.routes["bl,e3:br,e1"], lengths[1]), c.routes["bl,e3:br,e1"]
@@ -216,7 +216,7 @@ routes:
 def test_connections_different_link_factory() -> Component:
     c = component_from_yaml(sample_different_link_factory)
 
-    length = 1720.794
+    length = 1719.822
     assert np.isclose(c.routes["tl,e3:tr,e1"], length), c.routes["tl,e3:tr,e1"]
     assert np.isclose(c.routes["bl,e3:br,e1"], length), c.routes["bl,e3:br,e1"]
     return c
@@ -364,7 +364,7 @@ def test_connections_regex_backwargs() -> Component:
 def test_connections_waypoints() -> Component:
     c = component_from_yaml(sample_waypoints)
 
-    length = 2037.196
+    length = 2036.548
     route_name = "b,e11:t,e11"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
@@ -373,7 +373,7 @@ def test_connections_waypoints() -> Component:
 def test_docstring_sample() -> Component:
     c = component_from_yaml(sample_docstring)
     route_name = "mmi_top,o3:mmi_bot,o1"
-    length = 72.348
+    length = 72.024
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
     return c
 
@@ -552,11 +552,12 @@ if __name__ == "__main__":
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
     # c = test_connections()
+    # c = test_connections_different_factory()
 
     # c = test_sample()
     # c = test_connections_2x2()
-    c = test_connections_different_factory()
-    # c = test_connections_different_link_factory()
+    # c = test_connections_different_factory()
+    c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
