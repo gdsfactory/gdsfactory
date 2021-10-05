@@ -21,7 +21,7 @@ def test_path_length_matching() -> Component:
     ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2)
-    lengths = [2660.794]
+    lengths = [2659.822]
     for route, length in zip(routes, lengths):
         c.add(route.references)
         assert np.isclose(route.length, length), route.length
@@ -45,7 +45,7 @@ def test_path_length_matching_extra_length() -> Component:
     ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=40)
-    lengths = [2700.794]
+    lengths = [2699.822]
     for route, length in zip(routes, lengths):
         c.add(route.references)
         assert np.isclose(route.length, length), route.length
@@ -69,7 +69,7 @@ def test_path_length_matching_nb_loops() -> Component:
     ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
-    lengths = [2687.99]
+    lengths = [2686.37]
     for route, length in zip(routes, lengths):
         c.add(route.references)
         assert np.isclose(route.length, length), route.length
@@ -77,7 +77,7 @@ def test_path_length_matching_nb_loops() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_path_length_matching()
+    c = test_path_length_matching()
     # c = test_path_length_matching_extra_length()
-    c = test_path_length_matching_nb_loops()
+    # c = test_path_length_matching_nb_loops()
     c.show()

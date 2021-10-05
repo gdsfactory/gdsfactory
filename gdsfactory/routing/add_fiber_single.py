@@ -8,6 +8,7 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
+from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -101,7 +102,7 @@ def add_fiber_single(
         raise ValueError(f"No ports for {component.name}")
 
     component = component() if callable(component) else component
-    component_name = component_name or component.name
+    component_name = component_name or component.get_parent_name()
 
     gc = grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -225,6 +226,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
+    copy_settings(component, c)
     return c
 
 

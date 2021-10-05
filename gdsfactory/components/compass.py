@@ -21,12 +21,16 @@ def compass(
         port_type:
     """
     c = gf.Component()
-    r = gf.components.rectangle(size=size, layer=layer)
-    dx = size[0]
-    dy = size[1]
+    dx, dy = size
 
-    rr = r.ref(position=(-dx / 2, -dy / 2))
-    c.add(rr)
+    points = [
+        [-dx / 2.0, -dy / 2.0],
+        [-dx / 2.0, dy / 2],
+        [dx / 2, dy / 2],
+        [dx / 2, -dy / 2.0],
+    ]
+
+    c.add_polygon(points, layer=layer)
     c.add_port(
         name="e1",
         midpoint=[-dx / 2, 0],

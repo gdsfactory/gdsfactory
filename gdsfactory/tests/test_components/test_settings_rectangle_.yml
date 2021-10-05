@@ -7,3 +7,4 @@ settings:
   layer:
   - 1
   - 0
+  port_type: electrical

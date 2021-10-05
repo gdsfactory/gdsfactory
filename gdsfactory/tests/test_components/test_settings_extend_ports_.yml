@@ -1,10 +1,6 @@
 function_name: extend_ports
-info: {}
-module: gdsfactory.components.extension
-name: extend_ports
-settings:
-  centered: false
-  contains:
+info:
+  parent:
     function_name: mmi1x2
     info: {}
     module: gdsfactory.components.mmi1x2
@@ -17,6 +13,11 @@ settings:
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
+  parent_name: mmi1x2
+module: gdsfactory.components.extension
+name: extend_ports
+settings:
+  centered: false
   extension_factory: null
   length: 5
   port1: null

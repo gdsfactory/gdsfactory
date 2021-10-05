@@ -3,10 +3,12 @@ info: {}
 module: gdsfactory.components.straight_heater_metal
 name: straight_heater_metal_undercut
 settings:
+  heater_width: 2.5
   length: 320
   length_straight_input: 15
   length_undercut: 30
   length_undercut_spacing: 6
   port_orientation1: 180
   port_orientation2: 0
+  taper_length: 5
   with_undercut: true

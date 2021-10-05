@@ -146,7 +146,9 @@ def test_route_from_steps() -> gf.Component:
         ],
     )
 
-    assert route.length == 187.196
+    length = 186.548
+
+    assert route.length == length, route.length
     route = gf.routing.get_route_from_steps(
         port1=p1,
         port2=p2,
@@ -159,7 +161,7 @@ def test_route_from_steps() -> gf.Component:
         layer=(2, 0),
     )
     c.add(route.references)
-    assert route.length == 187.196, route.length
+    assert route.length == length, route.length
     return c
 
 

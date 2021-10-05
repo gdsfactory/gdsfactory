@@ -112,8 +112,9 @@ from gdsfactory.components.pad import pad, pad_array, pad_array90, pad_array270
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import DIRECTION_TO_ANGLE, rectangle
+from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.resistance_meander import resistance_meander
+from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_single import ring_single
@@ -183,7 +184,6 @@ from gdsfactory.components.wire_sbend import wire_sbend
 __all__ = [
     "C",
     "Coordinate",
-    "DIRECTION_TO_ANGLE",
     "L",
     "add_frame",
     "align",
@@ -461,6 +461,7 @@ factory = dict(
     ramp=ramp,
     rectangle=rectangle,
     resistance_meander=resistance_meander,
+    resistance_sheet=resistance_sheet,
     ring=ring,
     ring_double=ring_double,
     ring_single=ring_single,

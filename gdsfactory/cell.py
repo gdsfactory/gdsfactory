@@ -109,13 +109,10 @@ def cell_without_validator(func):
                 ), f"decorator = {type(decorator)} needs to be callable"
                 decorator(component)
 
-            if hasattr(component, "component"):
-                component.settings["contains"] = component.component.get_settings()
-
             if not isinstance(component, Component):
                 raise CellReturnTypeError(
-                    f"function `{func.__name__}` should return a Component and it returned `{type(component)}`",
-                    "make sure that functions with the @cell decorator return a Component",
+                    f"function `{func.__name__}` return type = `{type(component)}`",
+                    "make sure that functions with @cell decorator return a Component",
                 )
             component.module = func.__module__
             component.function_name = func.__name__
