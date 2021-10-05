@@ -110,10 +110,10 @@ if __name__ == "__main__":
     c = bend_euler_s()
     c = bend_euler180()
     c = bend_euler(direction="cw")
-    c = bend_euler()
+    c = bend_euler(angle=270)
     c.show()
 
-    _compare_bend_euler180()
+    # _compare_bend_euler180()
     # import gdsfactory as gf
     # c = bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)

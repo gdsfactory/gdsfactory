@@ -411,7 +411,7 @@ def strip_heater_metal_undercut(
 
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
-    return cross_section(
+    x = cross_section(
         width=width,
         layer=layer,
         sections=(
@@ -421,6 +421,12 @@ def strip_heater_metal_undercut(
         ),
         **kwargs,
     )
+    x.info["heater_width"] = heater_width
+    x.info["layer_heater"] = layer_heater
+    x.info["trench_width"] = trench_width
+    x.info["layer_heater"] = layer_heater
+    x.info["trench_gap"] = trench_gap
+    return x
 
 
 @pydantic.validate_arguments
@@ -441,12 +447,15 @@ def strip_heater_metal(
         layer_heater: for the metal
 
     """
-    return cross_section(
+    x = cross_section(
         width=width,
         layer=layer,
         sections=(Section(layer=layer_heater, width=heater_width),),
         **kwargs,
     )
+    x.info["heater_width"] = heater_width
+    x.info["layer_heater"] = layer_heater
+    return x
 
 
 @pydantic.validate_arguments
