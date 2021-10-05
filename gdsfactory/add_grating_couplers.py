@@ -30,6 +30,7 @@ def add_grating_couplers(
     gc_port_name: str = "o1",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
     select_ports: Callable = select_ports_optical,
+    component_name: Optional[str] = None,
 ) -> Component:
     """Returns new component with grating couplers and labels.
 
@@ -45,6 +46,7 @@ def add_grating_couplers(
 
     c = Component()
     c.component = component
+    component_name = component_name or component.get_parent_name()
     c.add_ref(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -63,7 +65,7 @@ def add_grating_couplers(
     labels = get_input_labels_function(
         io_gratings,
         list(component.ports.values()),
-        component_name=component.name,
+        component_name=component_name,
         layer_label=layer_label,
         gc_port_name=gc_port_name,
     )
@@ -110,7 +112,7 @@ def add_grating_couplers_with_loopback_fiber_single(
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
 
-    component_name = component_name or component.name
+    component_name = component_name or component.get_parent_name()
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
@@ -229,7 +231,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc = grating_coupler() if callable(grating_coupler) else grating_coupler
 
     direction = "S"
-    component_name = component_name or component.name
+    component_name = component_name or component.get_parent_name()
     c = Component()
     c.component = component
 

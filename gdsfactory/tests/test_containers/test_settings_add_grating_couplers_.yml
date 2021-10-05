@@ -22,6 +22,7 @@ info:
 module: gdsfactory.add_grating_couplers
 name: add_grating_couplers_co_ede74928
 settings:
+  component_name: null
   gc_port_name: o1
   layer_label:
   - 200
