@@ -6,12 +6,15 @@ from typing import Tuple
 import numpy as np
 from phidl.device_layout import Group
 
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
+from gdsfactory.types import ComponentOrFactory
 
 
+@cell
 def grid(
-    components: Tuple[Component, ...],
+    components: Tuple[ComponentOrFactory, ...],
     spacing: Tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: Tuple[int, int] = None,
@@ -20,28 +23,26 @@ def grid(
     edge_x: str = "x",
     edge_y: str = "ymax",
 ) -> Component:
-    """Places the devices in the `components` (1D or 2D) on a grid.
+    """Returns a component with a 1D or 2D grid of components
 
     Adapted from phid.geometry
 
     Args:
-        components: Iterable to be placed onto a grid.
+        components: Iterable to be placed onto a grid. (can be 1D or 2D)
         spacing: between adjacent elements on the grid, can be a tuple for
-            different distances in height and width.
-        separation: If True, guarantees elements are speparated with a fixed spacing between;
-            if False, elements are spaced evenly along a grid.
+          different distances in height and width.
+        separation: If True, guarantees elements are speparated with fixed spacing
+          if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
-            If no shape is given and the list is 1D, the output is as if np.reshape were run with (1, -1).
+          If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'}
-            Which edge to perform the x (column) alignment along
+          edge to perform the x (column) alignment along
         align_y: {'y', 'ymin', 'ymax'}
-            Which edge to perform the y (row) alignment along
+          edge to perform the y (row) alignment along
         edge_x: {'x', 'xmin', 'xmax'}
-            Which edge to perform the x (column) distribution along (unused if
-            separation == True)
+          Which edge to perform the x (column) distribution (ignored if separation = True)
         edge_y: {'y', 'ymin', 'ymax'}
-            Which edge to perform the y (row) distribution along (unused if
-            separation == True)
+          edge to perform the y (row) distribution along (ignored if separation = True)
 
     Returns:
         Component containing all the components in a grid.
@@ -86,6 +87,7 @@ def grid(
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
+            d = d() if callable(d) else d
             ref_array[idx] = D << d
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
