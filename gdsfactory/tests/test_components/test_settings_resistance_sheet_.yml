@@ -1,0 +1,10 @@
+function_name: resistance_sheet
+info: {}
+module: gdsfactory.components.resistance_sheet
+name: resistance_sheet
+settings:
+  length: 5
+  offsets:
+  - 0
+  - 0.2
+  width: 10
