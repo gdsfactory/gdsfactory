@@ -75,16 +75,18 @@ def mmi1x2(
         size=(length_mmi, w_mmi),
         layer=layer,
         centered=True,
-        ports={
-            "E": [(+length_mmi / 2, -a, w_taper), (+length_mmi / 2, +a, w_taper)],
-            "W": [(-length_mmi / 2, 0, w_taper)],
-        },
     )
 
-    for port_name, port in mmi.ports.items():
+    ports = [
+        gf.Port("o1", orientation=180, midpoint=(-length_mmi / 2, 0), width=w_taper),
+        gf.Port("o2", orientation=0, midpoint=(+length_mmi / 2, +a), width=w_taper),
+        gf.Port("o3", orientation=0, midpoint=(+length_mmi / 2, -a), width=w_taper),
+    ]
+
+    for port in ports:
         taper_ref = c << taper
         taper_ref.connect(port="o2", destination=port)
-        c.add_port(name=port_name, port=taper_ref.ports["o1"])
+        c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
     c.absorb(mmi)

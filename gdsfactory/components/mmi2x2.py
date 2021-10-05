@@ -73,18 +73,21 @@ def mmi2x2(
         size=(length_mmi, w_mmi),
         layer=layer,
         centered=True,
-        ports={
-            "E": [(+length_mmi / 2, -a, w_taper), (+length_mmi / 2, +a, w_taper)],
-            "W": [(-length_mmi / 2, -a, w_taper), (-length_mmi / 2, +a, w_taper)],
-        },
     )
+
+    ports = [
+        gf.Port("o1", orientation=180, midpoint=(-length_mmi / 2, -a), width=w_taper),
+        gf.Port("o2", orientation=180, midpoint=(-length_mmi / 2, +a), width=w_taper),
+        gf.Port("o3", orientation=0, midpoint=(+length_mmi / 2, +a), width=w_taper),
+        gf.Port("o4", orientation=0, midpoint=(+length_mmi / 2, -a), width=w_taper),
+    ]
 
     mmi_section = component.add_ref(mmi)
 
-    for port_name, port in mmi_section.ports.items():
+    for port in ports:
         taper_ref = component << taper
         taper_ref.connect(port="o2", destination=port)
-        component.add_port(name=port_name, port=taper_ref.ports["o1"])
+        component.add_port(name=port.name, port=taper_ref.ports["o1"])
         component.absorb(taper_ref)
 
     component.absorb(mmi_section)
