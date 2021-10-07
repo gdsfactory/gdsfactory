@@ -22,5 +22,8 @@ info:
 module: gdsfactory.routing.add_electrical_pads_shortest
 name: add_electrical_pads_sho_689a9bea
 settings:
+  layer:
+  - 31
+  - 0
   pad_port_spacing: 50
   port_orientation: 90

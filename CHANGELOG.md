@@ -35,6 +35,7 @@ from contracts import contract
 - replace `bend_factory` by `bend` in routing functions to be more consitent with components
 - replace `bend90_factory` by `bend90` in routing functions to be more consitent with components
 - replace `straight_factory` by `straight` in routing functions to be more consitent with components
+- replace `get_route_electrical_shortest_path` by `route_quad`
 
 ## 3.3.4
 
