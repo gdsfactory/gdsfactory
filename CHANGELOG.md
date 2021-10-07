@@ -29,6 +29,9 @@ from contracts import contract
 
 
 ```
+## 3.3.5
+
+- add `check_route` to `route_manhattan` to ensure correct route connectivity
 
 ## 3.3.4
 

@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
 settings:
+  cross_section_bend: null
   grating_spacing: 200
   x_straight_inner_left: 75
   x_straight_inner_right: 40

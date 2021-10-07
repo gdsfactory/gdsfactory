@@ -495,7 +495,7 @@ def get_route_error(
         RouteWarning,
     )
 
-    c = gdspy.Cell(f"route_{uuid.uuid4()}"[:16])
+    c = Component(f"route_{uuid.uuid4()}"[:16])
     path = gdspy.FlexPath(
         points,
         width=x.info["width"],
@@ -504,7 +504,7 @@ def get_route_error(
         datatype=layer_path[1],
     )
     c.add(path)
-    ref = gdspy.CellReference(c)
+    ref = ComponentReference(c)
     port1 = gf.Port(name="p1", midpoint=points[0], width=width)
     port2 = gf.Port(name="p2", midpoint=points[1], width=width)
 
@@ -513,7 +513,7 @@ def get_route_error(
     )
     point_markers = [point_marker.ref(position=point) for point in points] + [ref]
     point_markers += [
-        gdspy.Label(
+        gf.Label(
             text=str(i), position=point, layer=layer_label[0], texttype=layer_label[1]
         )
         for i, point in enumerate(points)
@@ -536,6 +536,7 @@ def round_corners(
     cross_section: CrossSectionFactory = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
+    check_route: bool = True,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -696,10 +697,10 @@ def round_corners(
     #     sy = np.sign(points[i + 1][1] - point[1])
     #     bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
     #     bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
-    #     # print("correct", sx, sy, bsx, bsy)
-    #     if bsx != sx or bsy != sy:
-    #         print("error", i, point, sx, sy, bsx, bsy)
-    #         return on_route_error(points=points, cross_section=x, references=references)
+    # print("correct", sx, sy, bsx, bsy)
+    # if bsx * sx < 1 and bsy * sy < 1:
+    #     print("error", i, point, sx, sy, bsx, bsy)
+    # return on_route_error(points=points, cross_section=x, references=references)
 
     # print()
     # for i, point in enumerate(points):
@@ -707,6 +708,13 @@ def round_corners(
     # print()
     # for i, point in enumerate(bend_points):
     #     print(i, point)
+
+    # for i, point in enumerate(bend_points[:-1]):
+    #     bsx = bend_points[i + 1][0] - point[0]
+    #     bsy = bend_points[i + 1][1] - point[1]
+    #     if abs(bsx) > 0.001 and abs(bsy) > 0.001:
+    #         print(i, point, bsx, bsy)
+    #         # return on_route_error(points=points, cross_section=x, references=references)
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
@@ -779,11 +787,12 @@ def round_corners(
             wg_refs += [taper_ref]
             port_index_out = 0
 
-    # _component = Component()
-    # _component.add(references)
-    # netlist = _component.get_netlist()
-    # if len(netlist["connections"]) != len(references) - 1:
-    #     return on_route_error(points=points, cross_section=x, references=references)
+    if check_route:
+        route = Component()
+        route.add(references)
+        netlist = route.get_netlist()
+        if len(netlist["connections"]) != len(references) - 1:
+            return on_route_error(points=points, cross_section=x, references=references)
 
     if with_point_markers:
         route = get_route_error(points, cross_section=x)
@@ -843,6 +852,7 @@ def route_manhattan(
     bend_factory: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     with_point_markers: bool = False,
+    check_route: bool = True,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
@@ -871,6 +881,7 @@ def route_manhattan(
         bend_factory=bend_factory,
         cross_section=cross_section,
         with_point_markers=with_point_markers,
+        check_route=check_route,
         **kwargs,
     )
 
@@ -970,7 +981,7 @@ if __name__ == "__main__":
     # c = test_manhattan()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
-    # c = _demo_manhattan_fail()
-    c = gf.c.straight()
-    c = gf.routing.add_fiber_array(c)
+    c = _demo_manhattan_fail()
+    # c = gf.c.straight()
+    # c = gf.routing.add_fiber_array(c)
     c.show()

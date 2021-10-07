@@ -21,7 +21,7 @@ isort:skip_file
 from functools import partial
 from phidl import quickplot as plot
 import phidl.geometry as pg
-from phidl.device_layout import Group, Path
+from phidl.device_layout import Group, Path, Label
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
@@ -127,6 +127,7 @@ __all__ = [
     "types",
     "to_3d",
     "write_doe",
+    "Label",
 ]
 __version__ = "3.3.4"
 
