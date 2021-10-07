@@ -129,7 +129,7 @@ __all__ = [
     "write_doe",
     "Label",
 ]
-__version__ = "3.3.4"
+__version__ = "3.3.5"
 
 
 if __name__ == "__main__":
