@@ -21,6 +21,9 @@ def array(
         columns: in x
         rows: in y
 
+    Raises:
+        ValueError: If columns > 1 and spacing[0] = 0
+        ValueError: If rows > 1 and spacing[1] = 0
 
     .. code::
 

@@ -733,7 +733,10 @@ class Component(Device):
             return self.name
 
     def get_parent_name(self) -> str:
-        """Returns parent name if it has parent, else returns its own name"""
+        """Returns parent name if it has parent, else returns its own name.
+        Returns the original parent name for hierarchical components
+        and for non-hierarchical it just returns the component name
+        """
         return self.info.get("parent_name", self.name)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
