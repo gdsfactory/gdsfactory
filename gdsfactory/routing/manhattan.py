@@ -10,10 +10,12 @@ from numpy import bool_, ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_factory
 from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import angles_deg
+from gdsfactory.get_netlist import get_netlist
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
@@ -135,9 +137,7 @@ def gen_sref(
         ref.reflect(p1=(0, y0), p2=(1, y0))
 
     ref.rotate(rotation_angle, center=port_position)
-
     ref.move(port_position, position)
-
     return ref
 
 
@@ -487,6 +487,7 @@ def get_route_error(
     layer_path: Layer = LAYER.ERROR_PATH,
     layer_label: Layer = LAYER.TEXT,
     layer_marker: Layer = LAYER.ERROR_MARKER,
+    references: Optional[List[ComponentReference]] = None,
 ) -> Route:
     x = cross_section
     width = x.info["width"]
@@ -518,13 +519,17 @@ def get_route_error(
         )
         for i, point in enumerate(points)
     ]
-    return Route(references=point_markers, ports=[port1, port2], length=-1)
+
+    references = references or []
+    references += point_markers
+    return Route(references=references, ports=[port1, port2], length=-1)
 
 
 def round_corners(
     points: Coordinates,
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
+    bend_s_factory: Optional[ComponentFactory] = bend_s,
     taper: Optional[ComponentFactory] = None,
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
@@ -549,6 +554,8 @@ def round_corners(
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
         cross_section:
+        on_route_error: function to run when route fails
+        with_point_markers: add route points markers (easy for debugging)
         **kwargs: cross_section settings
     """
     x = cross_section(**kwargs)
@@ -585,10 +592,6 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
     points = np.array(points)
-
-    if with_point_markers:
-        route = get_route_error(points, cross_section=x)
-        references += route.references
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]
@@ -659,8 +662,9 @@ def round_corners(
 
             dx_bend = next_port.x - previous_port_point[0]
             dy_bend = next_port.y - previous_port_point[1]
-
             previous_port_point = other_port.midpoint
+
+            # print(dx_bend, dy_bend)
 
             if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
                 # print(dx_points, dx_bend, dy_points, dy_bend)
@@ -690,7 +694,6 @@ def round_corners(
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
         length = snap_to_grid(length)
-
         total_length += length
 
         if auto_widen and length > auto_widen_minimum_length and width_wide:
@@ -756,6 +759,17 @@ def round_corners(
             references.append(taper_ref)
             wg_refs += [taper_ref]
             port_index_out = 0
+
+    _component = Component()
+    _component.add(references)
+    netlist = get_netlist(_component)
+
+    if len(netlist["connections"]) != len(references) - 1:
+        return on_route_error(points=points, cross_section=x, references=references)
+
+    if with_point_markers:
+        route = get_route_error(points, cross_section=x)
+        references += route.references
 
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
@@ -913,14 +927,30 @@ def test_manhattan_fail() -> Component:
         [110.0, 80.0],
     ]
     with pytest.warns(RouteWarning):
-        route = round_corners(waypoints, radius=10.0)
+        route = round_corners(waypoints, radius=10.0, with_point_markers=False)
+    c = Component()
+    c.add(route.references)
+    return c
+
+
+def _demo_manhattan_fail() -> Component:
+    waypoints = [
+        [10.0, 0.0],
+        [20.0, 0.0],
+        [20.0, 12.0],
+        [120.0, 12.0],
+        [120.0, 80.0],
+        [110.0, 80.0],
+    ]
+    route = round_corners(waypoints, radius=10.0, with_point_markers=False)
     c = Component()
     c.add(route.references)
     return c
 
 
 if __name__ == "__main__":
-    c = test_manhattan()
+    # c = test_manhattan()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
+    c = _demo_manhattan_fail()
     c.show()
