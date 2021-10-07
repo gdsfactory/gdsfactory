@@ -87,7 +87,6 @@ pad_array270 = partial(pad_array, orientation=270)
 
 if __name__ == "__main__":
     # c = pad()
-
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
@@ -97,5 +96,6 @@ if __name__ == "__main__":
     # c = pad_array270()
     # c.pprint_ports
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
-    c = pad_array()
+    c = pad_array(columns=2, rows=2, orientation=270)
+    c.auto_rename_ports()
     c.show()
