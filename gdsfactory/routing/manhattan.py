@@ -587,7 +587,7 @@ def round_corners(
     points = np.array(points)
 
     if with_point_markers:
-        route = get_route_error(points, cross_section=cross_section)
+        route = get_route_error(points, cross_section=x)
         references += route.references
 
     straight_sections = []  # (p0, angle, length)
