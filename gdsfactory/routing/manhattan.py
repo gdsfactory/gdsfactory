@@ -15,7 +15,6 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_factory
 from gdsfactory.cross_section import strip
 from gdsfactory.geo_utils import angles_deg
-from gdsfactory.get_netlist import get_netlist
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
@@ -571,6 +570,7 @@ def round_corners(
         if callable(bend_factory)
         else bend_factory
     )
+    # bsx = bsy = _get_bend_size(bend90)
     taper = taper or taper_factory(
         cross_section=cross_section,
         width1=width,
@@ -633,6 +633,7 @@ def round_corners(
     total_length += n_o_bends * bend_length
 
     previous_port_point = points[0]
+    bend_points = [previous_port_point]
 
     # Add bend sections and record straight-section information
     for i in range(1, points.shape[0] - 1):
@@ -659,20 +660,20 @@ def round_corners(
             next_port = matching_ports[0]
             other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
-
-            dx_bend = next_port.x - previous_port_point[0]
-            dy_bend = next_port.y - previous_port_point[1]
+            bend_points.append(next_port.midpoint)
+            bend_points.append(other_port.midpoint)
             previous_port_point = other_port.midpoint
 
-            # print(dx_bend, dy_bend)
-
-            if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
-                # print(dx_points, dx_bend, dy_points, dy_bend)
-                radius = bend_ref.get_property("dy")
-                warnings.warn(
-                    f"90deg bend with radius = {radius} does not fit into the route",
-                    RouteWarning,
-                )
+            # dx_bend = next_port.x - previous_port_point[0]
+            # dy_bend = next_port.y - previous_port_point[1]
+            # print(dx_bend, dx_points, bsx)
+            # print(dy_bend, dy_points, bsy)
+            # if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
+            #     radius = bend_ref.get_property("dy")
+            #     warnings.warn(
+            #         f"90deg bend with radius = {radius} does not fit into the route",
+            #         RouteWarning,
+            #     )
 
         straight_sections += [
             (
@@ -685,9 +686,27 @@ def round_corners(
         p0_straight = bend_ref.ports[pname_north].midpoint
         bend_orientation = bend_ref.ports[pname_north].orientation
 
+    bend_points.append(points[-1])
     straight_sections += [
         (p0_straight, bend_orientation, get_straight_distance(p0_straight, points[-1]))
     ]
+
+    # for i, point in enumerate(points[:-1]):
+    #     sx = np.sign(points[i + 1][0] - point[0])
+    #     sy = np.sign(points[i + 1][1] - point[1])
+    #     bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
+    #     bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
+    #     # print("correct", sx, sy, bsx, bsy)
+    #     if bsx != sx or bsy != sy:
+    #         print("error", i, point, sx, sy, bsx, bsy)
+    #         return on_route_error(points=points, cross_section=x, references=references)
+
+    # print()
+    # for i, point in enumerate(points):
+    #     print(i, point)
+    # print()
+    # for i, point in enumerate(bend_points):
+    #     print(i, point)
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
@@ -760,12 +779,11 @@ def round_corners(
             wg_refs += [taper_ref]
             port_index_out = 0
 
-    _component = Component()
-    _component.add(references)
-    netlist = get_netlist(_component)
-
-    if len(netlist["connections"]) != len(references) - 1:
-        return on_route_error(points=points, cross_section=x, references=references)
+    # _component = Component()
+    # _component.add(references)
+    # netlist = _component.get_netlist()
+    # if len(netlist["connections"]) != len(references) - 1:
+    #     return on_route_error(points=points, cross_section=x, references=references)
 
     if with_point_markers:
         route = get_route_error(points, cross_section=x)
@@ -952,5 +970,7 @@ if __name__ == "__main__":
     # c = test_manhattan()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
-    c = _demo_manhattan_fail()
+    # c = _demo_manhattan_fail()
+    c = gf.c.straight()
+    c = gf.routing.add_fiber_array(c)
     c.show()
