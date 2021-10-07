@@ -173,6 +173,7 @@ def spiral_inner_io(
 @gf.cell
 def spiral_inner_io_fiber_single(
     cross_section: CrossSectionFactory = strip,
+    cross_section_bend: Optional[CrossSectionFactory] = None,
     x_straight_inner_right: float = 40.0,
     x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,
@@ -184,6 +185,7 @@ def spiral_inner_io_fiber_single(
     c = Component()
     ref = c << spiral_inner_io(
         cross_section=cross_section,
+        cross_section_bend=cross_section_bend,
         x_straight_inner_right=x_straight_inner_right,
         x_straight_inner_left=x_straight_inner_left,
         y_straight_inner_top=y_straight_inner_top,
@@ -192,7 +194,7 @@ def spiral_inner_io_fiber_single(
         **kwargs
     )
     ref.rotate(90)
-    bend = bend_euler(cross_section=cross_section)
+    bend = bend_euler(cross_section=cross_section_bend or cross_section)
     btop = c << bend
     bbot = c << bend
 

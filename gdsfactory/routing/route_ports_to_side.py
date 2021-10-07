@@ -37,19 +37,19 @@ def route_ports_to_side(
     """Routes ports to a given side
 
     Args:
-        ports: the list or dict of ports to be connected to the side
-            can also be a Component or a ComponentReference
+        ports: list or dict of ports to be route to a side
+          can also be a Component or a ComponentReference
         side should be 'north', 'south', 'east' or 'west'
-        x: only for east/west side routing: the x position where the ports should be sent
-            If None, will use the eastest/westest value
-        y: only for south/north side routing: the y position where the ports should be send
-            If None, will use the southest/northest value
+        x: only for east/west side routing: the x position where to route ports
+          If None, will use the most east/west value
+        y: only for south/north side routing: the y position where to route ports
+          If None, will use the most south/northest value
         routing_func: the routing function. By default uses `get_route`
         kwargs:
-            radius
-            separation
-            extend_bottom/extend_top for east/west routing
-            extend_left, extend_right for south/north routing
+          radius
+          separation
+          extend_bottom/extend_top for east/west routing
+          extend_left, extend_right for south/north routing
 
     Returns:
         List of routes:
@@ -144,14 +144,13 @@ def route_ports_to_x(
             all ports with an index larger or equal are routed top
 
     Returns:
-        - a list of connectors which can be added to an element list
-        - a list of the new optical ports
+        routes: list of routes
+        ports: list of the new optical ports
 
-    First route the bottom-half of the back ports
-        (back ports are the one facing opposite side of x)
-    Then route the south ports
-    then the front ports
-    then the north ports
+    1. routes the bottom-half of the ports facing opposite side of x
+    2. routes the south ports
+    3. front ports
+    4. north ports
 
     """
 

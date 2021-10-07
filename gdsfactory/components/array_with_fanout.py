@@ -113,24 +113,32 @@ def array_with_fanout_2d(
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
     row = array_with_fanout(columns=columns, pitch=pitch_x, **kwargs)
-    return array(component=row, rows=rows, spacing=(0, pitch_y))
+    return array(component=row, rows=rows, columns=1, spacing=(0, pitch_y))
+
+
+def test_array_with_fanout():
+    c1 = array_with_fanout_2d(columns=2, rows=2)
+    assert len(c1.ports) == 4
+
+
+def test_array():
+    c1 = array_with_fanout_2d(columns=2, rows=2)
+    assert len(c1.ports) == 4
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
+    # import gdsfactory as gf
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, columns=2)
     # print(c2.ports.keys())
-
-    c = array_with_fanout(
-        columns=3,
-        waveguide_pitch=20,
-        bend=gf.components.wire_corner,
-        cross_section=gf.cross_section.metal3,
-        layer=(2, 0),
-        width=10,
-        radius=11,
-    )
+    # c = array_with_fanout(
+    #     columns=3,
+    #     waveguide_pitch=20,
+    #     bend=gf.components.wire_corner,
+    #     cross_section=gf.cross_section.metal3,
+    #     layer=(2, 0),
+    #     width=10,
+    #     radius=11,
+    # )
     c = array_with_fanout_2d()
     c.show(show_ports=True)

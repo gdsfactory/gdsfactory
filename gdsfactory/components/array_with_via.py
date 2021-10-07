@@ -101,17 +101,17 @@ def array_with_via_2d(
         columns:
         rows:
         kwargs:
-            component: to replicate
-            columns: number of components
-            spacing: float
-            via_spacing: for fanout
-            straight_length: lenght of the straight at the end
-            component_port_name:
-            via_stack_port_name:
-            **kwargs
+         component: to replicate
+         columns: number of components
+         spacing: float
+         via_spacing: for fanout
+         straight_length: lenght of the straight at the end
+         component_port_name:
+         via_stack_port_name:
+         **kwargs
     """
     row = array_with_via(columns=columns, spacing=spacing[0], **kwargs)
-    return array(component=row, rows=rows, spacing=(0, spacing[1]))
+    return array(component=row, rows=rows, columns=1, spacing=(0, spacing[1]))
 
 
 if __name__ == "__main__":
