@@ -69,7 +69,7 @@ def get_bundle_from_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     waypoints: Coordinates,
-    straight_factory: Callable = straight,
+    straight: Callable = straight,
     taper_factory: Callable = taper_function,
     bend: Callable = bend_euler,
     sort_ports: bool = True,
@@ -84,7 +84,7 @@ def get_bundle_from_waypoints(
         ports1: list of ports
         ports2: list of ports
         waypoints: list of points defining a route
-        straight_factory: function that returns straights
+        straight: function that returns straights
         taper_factory: function that returns tapers
         bend: function that returns bends
         sort_ports: sorts ports
@@ -172,7 +172,7 @@ def get_bundle_from_waypoints(
         round_corners(
             points=pts,
             bend=bend90,
-            straight_factory=straight_factory,
+            straight=straight,
             taper=taper,
             cross_section=cross_section,
             **kwargs,

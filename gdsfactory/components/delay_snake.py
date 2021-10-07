@@ -19,7 +19,7 @@ def delay_snake(
     n: int = 2,
     taper: ComponentFactory = taper_function,
     bend: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight_function,
+    straight: ComponentFactory = straight_function,
     **kwargs
 ) -> Component:
     """Snake input facing west
@@ -32,7 +32,7 @@ def delay_snake(
         n: number of loops
         taper: taper library
         bend
-        straight_factory
+        straight
 
     .. code::
 
@@ -76,7 +76,7 @@ def delay_snake(
     route = round_corners(
         points=path,
         bend=bend90,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=_taper,
         width_wide=wg_width_wide,
         **kwargs

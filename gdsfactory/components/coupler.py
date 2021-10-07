@@ -12,7 +12,7 @@ def coupler(
     gap: float = 0.236,
     length: float = 20.0,
     coupler_symmetric_factory: ComponentFactory = coupler_symmetric,
-    coupler_straight_factory: ComponentFactory = coupler_straight,
+    coupler_straight: ComponentFactory = coupler_straight,
     dy: float = 5.0,
     dx: float = 10.0,
     cross_section: CrossSectionFactory = strip,
@@ -24,7 +24,7 @@ def coupler(
         gap: between straights
         length: of coupling region
         coupler_symmetric_factory
-        coupler_straight_factory
+        coupler_straight
         dy: port to port vertical spacing
         dx: length of bend in x direction
         cross_section: factory
@@ -42,7 +42,7 @@ def coupler(
             ________/                         \_______    |
          o1                                          o4
 
-              coupler_straight_factory  coupler_symmetric_factory
+              coupler_straight  coupler_symmetric_factory
 
 
     """
@@ -56,7 +56,7 @@ def coupler(
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight_factory(
+    cs = c << coupler_straight(
         length=length, gap=gap, cross_section=cross_section, **kwargs
     )
     sl.connect("o2", destination=cs.ports["o1"])

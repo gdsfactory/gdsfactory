@@ -26,7 +26,7 @@ def get_bundle_path_length_match(
     nb_loops: int = 1,
     modify_segment_i: int = -2,
     bend: ComponentFactory = bend_euler,
-    straight_factory: Callable = straight,
+    straight: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     start_straight: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
@@ -47,7 +47,7 @@ def get_bundle_path_length_match(
         modify_segment_i: index of the segment that accomodates the new turns
             default is next to last segment
         bend: for bends
-        straight_factory: for straights
+        straight: for straights
         taper_factory:
         start_straight:
         route_filter: get_route_from_waypoints
@@ -128,7 +128,7 @@ def get_bundle_path_length_match(
         route_filter(
             waypoints,
             bend=bend,
-            straight_factory=straight_factory,
+            straight=straight,
             taper_factory=taper_factory,
             cross_section=cross_section,
             **kwargs,

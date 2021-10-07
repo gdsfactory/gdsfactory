@@ -23,7 +23,7 @@ def add_fiber_single(
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
     bend: ComponentFactory = bend_circular,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -46,7 +46,7 @@ def add_fiber_single(
         layer_label: for test and measurement label
         fiber_spacing: between outputs
         bend: bend_circular
-        straight_factory: straight
+        straight: straight
         route_filter:
         max_y0_optical: None
         with_loopback: True, adds loopback structures
@@ -149,7 +149,7 @@ def add_fiber_single(
             component,
             fiber_spacing=fiber_spacing,
             bend=bend,
-            straight_factory=straight_factory,
+            straight=straight,
             route_filter=route_filter,
             grating_coupler=grating_coupler,
             layer_label=layer_label,
@@ -189,7 +189,7 @@ def add_fiber_single(
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(length=length, cross_section=cross_section, **kwargs)
+        wg = c << straight(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing

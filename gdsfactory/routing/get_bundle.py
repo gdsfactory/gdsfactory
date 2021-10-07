@@ -37,7 +37,7 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
@@ -106,7 +106,7 @@ def get_bundle(
         "start_straight": start_straight,
         "end_straight_offset": end_straight_offset,
         "bend": bend,
-        "straight_factory": straight_factory,
+        "straight": straight,
         "cross_section": cross_section,
     }
     params.update(**kwargs)

@@ -25,7 +25,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
         component=c,
         grating_coupler=gc,
         cross_section=fabc_nitride_cband,
-        straight_factory=straight_c,
+        straight=straight_c,
         bend=bend_euler_c,
         optical_routing_type=optical_routing_type,
     )
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # cc = gf.routing.add_fiber_single(
     #     component=c,
     #     grating_coupler=gc,
-    #     straight_factory=straight_c,
+    #     straight=straight_c,
     #     optical_routing_type=1,
     # )
     # cc.show()

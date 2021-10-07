@@ -69,7 +69,7 @@ def cutback_bend90(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 5,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
 ) -> Component:
     """
 
@@ -80,10 +80,10 @@ def cutback_bend90(
 
     """
     bend90 = gf.call_if_func(bend90)
-    straightx = straight_factory(length=straight_length, width=bend90.ports["o1"].width)
+    straightx = straight(length=straight_length, width=bend90.ports["o1"].width)
 
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = straight_factory(
+    straighty = straight(
         length=straight_length,
         width=bend90.ports["o1"].width,
     )
@@ -118,12 +118,12 @@ def staircase(
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
 ) -> Component:
     bend90 = gf.call_if_func(bend90)
 
-    wgh = straight_factory(length=length_h, width=bend90.ports["o1"].width)
-    wgv = straight_factory(length=length_v, width=bend90.ports["o1"].width)
+    wgh = straight(length=length_h, width=bend90.ports["o1"].width)
+    wgv = straight(length=length_v, width=bend90.ports["o1"].width)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -150,7 +150,7 @@ def cutback_bend180(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 3,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
 ) -> Component:
     """
 
@@ -164,10 +164,8 @@ def cutback_bend180(
     """
     bend180 = gf.call_if_func(bend180)
 
-    straightx = straight_factory(
-        length=straight_length, width=bend180.ports["o1"].width
-    )
-    wg_vertical = straight_factory(
+    straightx = straight(length=straight_length, width=bend180.ports["o1"].width)
+    wg_vertical = straight(
         length=2 * bend180.size_info.width + straight_length + spacing,
         width=bend180.ports["o1"].width,
     )

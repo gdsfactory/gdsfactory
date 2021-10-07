@@ -17,7 +17,7 @@ def get_route_from_steps(
     port2: Port,
     steps: List[Dict[str, float]],
     bend: ComponentOrFactory = bend_euler,
-    straight_factory: ComponentOrFactory = straight,
+    straight: ComponentOrFactory = straight,
     taper_factory: Optional[ComponentOrFactory] = taper_function,
     cross_section: CrossSectionFactory = strip,
     **kwargs
@@ -33,7 +33,7 @@ def get_route_from_steps(
         port2: end port
         steps: changes that define the route [{'dx': 5}, {'dy': 10}]
         bend: function that returns bends
-        straight_factory: function that returns straight waveguides
+        straight: function that returns straight waveguides
         taper_factory: function that returns tapers
         cross_section
         **kwargs: cross_section settings
@@ -111,7 +111,7 @@ def get_route_from_steps(
     return round_corners(
         points=waypoints,
         bend=bend,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=taper,
         cross_section=cross_section,
         **kwargs,

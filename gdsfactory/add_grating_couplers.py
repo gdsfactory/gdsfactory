@@ -194,7 +194,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight_function,
+    straight: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: None = None,
@@ -217,7 +217,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_rotation:
         straight_separation:
         bend:
-        straight_factory:
+        straight:
         layer_label:
         component_name:
         with_loopback: If True, add compact loopback alignment ports
@@ -310,7 +310,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         loopback_route = round_corners(
             points=points,
             bend=bend90,
-            straight_factory=straight_factory,
+            straight=straight,
             cross_section=cross_section,
             **kwargs,
         )

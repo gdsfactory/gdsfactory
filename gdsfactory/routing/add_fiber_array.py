@@ -18,7 +18,7 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
@@ -41,7 +41,7 @@ def add_fiber_array(
         get_input_labels_function: function to get input labels for grating couplers
         get_input_label_text_loopback_function: function to get input label test
         get_input_label_text_function
-        straight_factory: straight
+        straight: straight
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_loopback: True, adds loopback structures
@@ -106,7 +106,7 @@ def add_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
         bend=bend,
-        straight_factory=straight_factory,
+        straight=straight,
         gc_port_name=gc_port_name,
         component_name=component_name,
         cross_section=cross_section,

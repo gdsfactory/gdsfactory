@@ -26,7 +26,7 @@ def route_fiber_array(
     fiber_spacing: float = TECH.fiber_array_spacing,
     grating_coupler: ComponentOrFactory = grating_coupler_te,
     bend: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
     fanout_length: Optional[float] = None,
     max_y0_optical: None = None,
@@ -65,7 +65,7 @@ def route_fiber_array(
         fiber_spacing: the wanted spacing between the optical I/O
         grating_coupler: grating coupler instance, function or list of functions
         bend:  for bends
-        straight_factory: straight
+        straight: straight
         fanout_length: target distance between gratings and the southest component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
@@ -307,14 +307,14 @@ def route_fiber_array(
                     input_port=p0,
                     output_port=p1,
                     bend=bend90,
-                    straight_factory=straight_factory,
+                    straight=straight,
                     cross_section=cross_section,
                     **kwargs,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend=bend90,
-                    straight_factory=straight_factory,
+                    straight=straight,
                     cross_section=cross_section,
                     **kwargs,
                 )
@@ -329,7 +329,7 @@ def route_fiber_array(
             io_gratings_lines=io_gratings_lines,
             gc_port_name=gc_port_name,
             bend=bend,
-            straight_factory=straight_factory,
+            straight=straight,
             taper_factory=taper_factory,
             select_ports=select_ports,
             cross_section=cross_section,
@@ -382,7 +382,7 @@ def route_fiber_array(
                 ports2=gc_ports,
                 separation=sep,
                 end_straight_offset=end_straight_offset,
-                straight_factory=straight_factory,
+                straight=straight,
                 bend=bend90,
                 cross_section=cross_section,
                 **kwargs,
@@ -402,7 +402,7 @@ def route_fiber_array(
                     separation=sep,
                     end_straight_offset=end_straight_offset,
                     bend=bend90,
-                    straight_factory=straight_factory,
+                    straight=straight,
                     radius=radius,
                     cross_section=cross_section,
                     **kwargs,
@@ -450,7 +450,7 @@ def route_fiber_array(
 
         route = round_corners(
             points=points,
-            straight_factory=straight_factory,
+            straight=straight,
             bend=bend90,
             cross_section=cross_section,
             **kwargs,

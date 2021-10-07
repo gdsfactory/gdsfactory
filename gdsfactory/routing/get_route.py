@@ -7,7 +7,7 @@ To make a route, you need to supply:
  - input port
  - output port
  - bend
- - straight_factory
+ - straight
  - taper_factory to taper to wider straights and reduce straight loss (Optional)
 
 
@@ -57,7 +57,7 @@ def get_route(
     input_port: Port,
     output_port: Port,
     bend: ComponentOrFactory = bend_euler,
-    straight_factory: ComponentOrFactory = straight,
+    straight: ComponentOrFactory = straight,
     taper_factory: Optional[ComponentFactory] = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
@@ -73,7 +73,7 @@ def get_route(
         input_port: start port
         output_port: end port
         bend: function that return bends
-        straight_factory: function that returns straights
+        straight: function that returns straights
         taper_factory:
         start_straight: length of starting straight
         end_straight: Number: length of end straight
@@ -117,7 +117,7 @@ def get_route(
     return route_manhattan(
         input_port=input_port,
         output_port=output_port,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=taper_factory,
         start_straight=start_straight,
         end_straight=end_straight,
@@ -141,7 +141,7 @@ get_route_electrical = partial(
 def get_route_from_waypoints(
     waypoints: Coordinates,
     bend: Callable = bend_euler,
-    straight_factory: Callable = straight,
+    straight: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     route_filter=None,
     cross_section: CrossSectionFactory = strip,
@@ -156,7 +156,7 @@ def get_route_from_waypoints(
     Args:
         waypoints: Coordinates that define the route
         bend: function that returns bends
-        straight_factory: function that returns straight waveguides
+        straight: function that returns straight waveguides
         taper_factory: function that returns tapers
         route_filter: FIXME, keep it here. Find a way to remove it.
         cross_section:
@@ -226,7 +226,7 @@ def get_route_from_waypoints(
     return round_corners(
         points=waypoints,
         bend=bend,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=taper,
         cross_section=cross_section,
         **kwargs,
