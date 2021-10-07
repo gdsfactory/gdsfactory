@@ -1,5 +1,4 @@
-"""Add labels to component ports for lab measurements
-"""
+"""Add labels to component ports."""
 
 from typing import Callable, Optional, Union
 
@@ -19,7 +18,7 @@ def get_input_label_text(
     component_name: Optional[str] = None,
     prefix: str = "",
 ) -> str:
-    """Get text string for an optical port."""
+    """Get text string for an optical port based on grating coupler."""
     polarization = gc.get_property("polarization")
     wavelength = gc.get_property("wavelength")
     prefix = prefix or ""
@@ -129,12 +128,13 @@ def add_labels(
     gc: Optional[Component] = None,
     **kwargs,
 ) -> Component:
-    """Add labels a particular type of ports
+    """Returns component with labels a particular type of ports
 
     Args:
         component: to add labels to
         get_label_function: function to get label
         layer_label: layer_label
+        gc: Optional grating coupler
         **port_settings to select
 
     Returns:
@@ -156,42 +156,11 @@ def add_labels(
     return component
 
 
-def test_optical_labels() -> Component:
-    c = gf.components.straight()
-    gc = gf.components.grating_coupler_elliptical_te()
-    label1 = get_input_label(
-        port=c.ports["o1"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
-    )
-    label2 = get_input_label(
-        port=c.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
-    )
-    add_labels(c, get_label_function=get_input_label, gc=gc)
-    labels_text = [c.labels[0].text, c.labels[1].text]
-    # print(label1)
-    # print(label2)
-
-    assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
-    assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
-    return c
-
-
-def test_electrical_labels() -> Component:
-    c = gf.components.wire_straight()
-    label1 = get_input_label_electrical(
-        port=c.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
-    )
-    label2 = get_input_label_electrical(
-        port=c.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
-    )
-    add_labels(component=c, get_label_function=get_input_label_electrical)
-    labels_text = [c.labels[0].text, c.labels[1].text]
-
-    assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
-    assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
-    return c
-
-
 if __name__ == "__main__":
-    # c = test_optical_labels()
-    c = test_electrical_labels()
+    c = gf.c.mzi_phase_shifter()
+    # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
+    # from gdsfactory.tests.test_get_labels import test_add_labels_electrical
+
+    # c = test_add_labels_optical()
+    # c = test_add_labels_electrical()
     c.show()

@@ -610,7 +610,7 @@ class Component(Device):
 
     @classmethod
     def validate(cls, v):
-        """a valid component:
+        """pydantic assumes component is valid if:
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
