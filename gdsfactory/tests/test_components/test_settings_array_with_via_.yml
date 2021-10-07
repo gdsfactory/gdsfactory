@@ -4,7 +4,7 @@ module: gdsfactory.components.array_with_via
 name: array_with_via
 settings:
   columns: 3
-  component_port_name: e4
+  port_offset: null
   port_orientation: 180
   spacing: 150
   straight_length: 60
