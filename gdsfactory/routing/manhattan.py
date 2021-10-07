@@ -250,9 +250,7 @@ def _generate_route_manhattan_points(
     # transform I/O to the case where output is at (0, 0) pointing east (180)
     p_input = input_port.midpoint
     p_output = output_port.midpoint
-
     pts_io = np.stack([p_input, p_output], axis=0)
-
     angle = output_port.orientation
 
     bend_orientation = -angle + 180
@@ -536,7 +534,6 @@ def round_corners(
     cross_section: CrossSectionFactory = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
-    check_route: bool = True,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -649,12 +646,16 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports.values() if port.x == points[i][0]
+                port
+                for port in bend_ref.ports.values()
+                if np.isclose(port.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports.values() if port.y == points[i][1]
+                port
+                for port in bend_ref.ports.values()
+                if np.isclose(port.y, points[i][1])
             ]
 
         if matching_ports:
@@ -665,16 +666,17 @@ def round_corners(
             bend_points.append(other_port.midpoint)
             previous_port_point = other_port.midpoint
 
-            # dx_bend = next_port.x - previous_port_point[0]
-            # dy_bend = next_port.y - previous_port_point[1]
-            # print(dx_bend, dx_points, bsx)
-            # print(dy_bend, dy_points, bsy)
-            # if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
-            #     radius = bend_ref.get_property("dy")
-            #     warnings.warn(
-            #         f"90deg bend with radius = {radius} does not fit into the route",
-            #         RouteWarning,
-            #     )
+        # else:
+        #     print('no match', dx_points, dy_points, matching_ports)
+        # dx_bend = next_port.x - previous_port_point[0]
+        # dy_bend = next_port.y - previous_port_point[1]
+        # if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
+        #     radius = bend_ref.get_property("dy")
+        #     warnings.warn(
+        #         f"90deg bend with radius = {radius} does not fit into the route",
+        #         RouteWarning,
+        #     )
+        #     references+=[gf.c.rectangle(size=(2,2)).ref(position=points[i])]
 
         straight_sections += [
             (
@@ -692,22 +694,24 @@ def round_corners(
         (p0_straight, bend_orientation, get_straight_distance(p0_straight, points[-1]))
     ]
 
-    # for i, point in enumerate(points[:-1]):
-    #     sx = np.sign(points[i + 1][0] - point[0])
-    #     sy = np.sign(points[i + 1][1] - point[1])
-    #     bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
-    #     bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
-    # print("correct", sx, sy, bsx, bsy)
-    # if bsx * sx < 1 and bsy * sy < 1:
-    #     print("error", i, point, sx, sy, bsx, bsy)
-    # return on_route_error(points=points, cross_section=x, references=references)
-
+    # with_point_markers=True
     # print()
     # for i, point in enumerate(points):
     #     print(i, point)
     # print()
     # for i, point in enumerate(bend_points):
     #     print(i, point)
+
+    # ensure bend connectivity
+    for i, point in enumerate(points[:-1]):
+        sx = np.sign(points[i + 1][0] - point[0])
+        sy = np.sign(points[i + 1][1] - point[1])
+        bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
+        bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
+        if bsx * sx == -1 or bsy * sy == -1:
+            # print("error", bsx * sx, bsy * sy)
+            # references += [gf.c.rectangle(size=(2, 2)).ref(position=point)]
+            return on_route_error(points=points, cross_section=x, references=references)
 
     # for i, point in enumerate(bend_points[:-1]):
     #     bsx = bend_points[i + 1][0] - point[0]
@@ -724,9 +728,9 @@ def round_corners(
         total_length += length
 
         if auto_widen and length > auto_widen_minimum_length and width_wide:
+            # Taper starts where straight would have started
             with_taper = True
             length = length - 2 * taper_length
-            # Taper starts where straight would have started
             taper_origin = straight_origin
 
             pname_west, pname_east = [
@@ -787,12 +791,11 @@ def round_corners(
             wg_refs += [taper_ref]
             port_index_out = 0
 
-    if check_route:
-        route = Component()
-        route.add(references)
-        netlist = route.get_netlist()
-        if len(netlist["connections"]) != len(references) - 1:
-            return on_route_error(points=points, cross_section=x, references=references)
+    # route = Component()
+    # route.add(references)
+    # netlist = route.get_netlist()
+    # if len(netlist["connections"]) != len(references) - 1:
+    #     return on_route_error(points=points, cross_section=x, references=references)
 
     if with_point_markers:
         route = get_route_error(points, cross_section=x)
@@ -852,7 +855,6 @@ def route_manhattan(
     bend_factory: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     with_point_markers: bool = False,
-    check_route: bool = True,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
@@ -881,7 +883,6 @@ def route_manhattan(
         bend_factory=bend_factory,
         cross_section=cross_section,
         with_point_markers=with_point_markers,
-        check_route=check_route,
         **kwargs,
     )
 
@@ -981,7 +982,8 @@ if __name__ == "__main__":
     # c = test_manhattan()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
-    c = _demo_manhattan_fail()
+    # c = _demo_manhattan_fail()
     # c = gf.c.straight()
     # c = gf.routing.add_fiber_array(c)
+    c = gf.c.delay_snake()
     c.show()
