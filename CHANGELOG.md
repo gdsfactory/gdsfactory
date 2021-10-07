@@ -33,6 +33,7 @@ from contracts import contract
 
 - `route_manhattan` ensures correct route connectivity
 - replace `bend_factory` by `bend` in routing functions to be more consitent with components
+- replace `bend90_factory` by `bend90` in routing functions to be more consitent with components
 - replace `straight_factory` by `straight` in routing functions to be more consitent with components
 
 ## 3.3.4
