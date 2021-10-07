@@ -36,7 +36,7 @@ def get_bundle_udirect(
     end_straight: float = 0.01,
     start_straight_offset: float = 0.0,
     end_straight_offset: float = 0.0,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     **routing_params
 ) -> List[Route]:
     r"""
@@ -98,14 +98,11 @@ def get_bundle_udirect(
         start_straight_offset=start_straight_offset,
         end_straight_offset=end_straight_offset,
         routing_func=generate_manhattan_waypoints,
-        bend_factory=bend_factory,
+        bend=bend,
         **routing_params
     )
 
-    return [
-        route_filter(route, bend_factory=bend_factory, **routing_params)
-        for route in routes
-    ]
+    return [route_filter(route, bend=bend, **routing_params) for route in routes]
 
 
 def _get_bundle_udirect_waypoints(
@@ -117,7 +114,7 @@ def _get_bundle_udirect_waypoints(
     end_straight: float = 0.01,
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     **routing_func_params
 ) -> List[ndarray]:
 
@@ -209,7 +206,7 @@ def _get_bundle_udirect_waypoints(
             p_end,
             start_straight=straight_len_start,
             end_straight=straight_len_end,
-            bend_factory=bend_factory,
+            bend=bend,
             **routing_func_params
         )
         connections += [_c]
@@ -224,7 +221,7 @@ def _get_bundle_udirect_waypoints(
             p_end,
             start_straight=straight_len_start,
             end_straight=straight_len_end,
-            bend_factory=bend_factory,
+            bend=bend,
             **routing_func_params
         )
         connections += [_c]

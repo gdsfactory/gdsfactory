@@ -6,7 +6,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -18,8 +17,8 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
-    straight_factory: ComponentFactory = straight,
-    bend_factory: ComponentFactory = bend_euler,
+    straight: ComponentFactory = straight,
+    bend: ComponentFactory = bend_euler,
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -34,14 +33,14 @@ def add_fiber_array(
     Args:
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
-        bend_factory: bend_circular
+        bend: bend_circular
         gc_port_name: grating coupler input port name 'W0'
         component_name: for the label
         taper: taper function name or dict
         get_input_labels_function: function to get input labels for grating couplers
         get_input_label_text_loopback_function: function to get input label test
         get_input_label_text_function
-        straight_factory: straight
+        straight: straight
         fanout_length: None  # if None, automatic calculation of fanout length
         max_y0_optical: None
         with_loopback: True, adds loopback structures
@@ -105,8 +104,8 @@ def add_fiber_array(
     elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
-        bend_factory=bend_factory,
-        straight_factory=straight_factory,
+        bend=bend,
+        straight=straight,
         gc_port_name=gc_port_name,
         component_name=component_name,
         cross_section=cross_section,
@@ -144,7 +143,7 @@ def add_fiber_array(
                 port = ports[0]
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)
 
-    copy_settings(component, component_new)
+    component_new.copy_settings_from(component)
     return component_new
 
 

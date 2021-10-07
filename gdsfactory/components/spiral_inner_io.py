@@ -30,7 +30,7 @@ def spiral_inner_io(
     waveguide_spacing: float = 3.0,
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
     cross_section_bend: Optional[CrossSectionFactory] = None,
@@ -48,7 +48,7 @@ def spiral_inner_io(
         waveguide_spacing: center to center spacing
         bend90_function
         bend180_function
-        straight_factory: straight function
+        straight: straight function
         length: computes spiral length from simple interpolation
         cross_section:
         **kwargs: cross_section settings
@@ -125,11 +125,7 @@ def spiral_inner_io(
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_west = round_corners(
-        pts_w,
-        bend_factory=_bend90,
-        straight_factory=straight_factory,
-        cross_section=cross_section,
-        **kwargs
+        pts_w, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
     )
     component.add(route_west.references)
 
@@ -157,11 +153,7 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     route_east = round_corners(
-        pts_e,
-        bend_factory=_bend90,
-        straight_factory=straight_factory,
-        cross_section=cross_section,
-        **kwargs
+        pts_e, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
     )
     component.add(route_east.references)
 
@@ -173,6 +165,7 @@ def spiral_inner_io(
 @gf.cell
 def spiral_inner_io_fiber_single(
     cross_section: CrossSectionFactory = strip,
+    cross_section_bend: Optional[CrossSectionFactory] = None,
     x_straight_inner_right: float = 40.0,
     x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,
@@ -184,6 +177,7 @@ def spiral_inner_io_fiber_single(
     c = Component()
     ref = c << spiral_inner_io(
         cross_section=cross_section,
+        cross_section_bend=cross_section_bend,
         x_straight_inner_right=x_straight_inner_right,
         x_straight_inner_left=x_straight_inner_left,
         y_straight_inner_top=y_straight_inner_top,
@@ -192,7 +186,7 @@ def spiral_inner_io_fiber_single(
         **kwargs
     )
     ref.rotate(90)
-    bend = bend_euler(cross_section=cross_section)
+    bend = bend_euler(cross_section=cross_section_bend or cross_section)
     btop = c << bend
     bbot = c << bend
 

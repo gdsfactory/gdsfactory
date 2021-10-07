@@ -17,13 +17,34 @@ def array(
 
     Args:
         component: to replicate
-        n: number of components
-        pitch: float
-        axis: x or y
-        rotation: in degrees
-        h_mirror: horizontal mirror
-        v_mirror: vertical mirror
+        spacing: x, y spacing
+        columns: in x
+        rows: in y
+
+    Raises:
+        ValueError: If columns > 1 and spacing[0] = 0
+        ValueError: If rows > 1 and spacing[1] = 0
+
+    .. code::
+
+        2 rows x 4 columns
+         ___        ___       ___          ___
+        |   |      |   |     |   |        |   |
+        |___|      |___|     |___|        |___|
+
+
+         ___        ___       ___          ___
+        |   |      |   |     |   |        |   |
+        |___|      |___|     |___|        |___|
+
+
     """
+    if rows > 1 and spacing[1] == 0:
+        raise ValueError(f"rows = {rows} > 1 require spacing[1] > 0")
+
+    if columns > 1 and spacing[0] == 0:
+        raise ValueError(f"columns = {columns} > 1 require spacing[0] > 0")
+
     c = Component()
     component = component() if callable(component) else component
     c.add_array(component, columns=columns, rows=rows, spacing=spacing)
@@ -39,5 +60,5 @@ def array(
 
 if __name__ == "__main__":
 
-    c2 = array()
+    c2 = array(rows=2, columns=2, spacing=(100, 100))
     c2.show(show_ports=True)

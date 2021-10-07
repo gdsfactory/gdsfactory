@@ -55,7 +55,7 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
     cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
-        bend_factory=gf.components.bend_circular,
+        bend=gf.components.bend_circular,
     )
     return cc
 
@@ -73,7 +73,7 @@ def spiral_tm(width: float = 0.5, length: float = 20e3) -> Component:
     cc = add_grating_couplers_with_loopback_fiber_array(
         component=c,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
-        bend_factory=gf.components.bend_circular,
+        bend=gf.components.bend_circular,
     )
     return cc
 

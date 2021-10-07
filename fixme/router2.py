@@ -6,6 +6,7 @@ This router could save more routing space leveraging routing with different meta
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.routing.sort_ports import sort_ports
 
 
 if __name__ == "__main__":
@@ -18,8 +19,11 @@ if __name__ == "__main__":
     metal_width = 5.0
     metal_spacing = 10.0
     length = 200
+    metal_layer = gf.LAYER.M2
+    name = "problem3.gds"
+    name = "solution3.gds"
 
-    c = gf.Component()
+    c = gf.Component(name=name)
     ps = gf.components.straight_heater_metal()
     ps_array = gf.components.array(component=ps, spacing=(0, 20), columns=1, rows=2)
     dy = 100
@@ -49,6 +53,7 @@ if __name__ == "__main__":
             pitch=pad_pitch,
             width=metal_width,
             waveguide_pitch=metal_spacing,
+            cross_section=gf.cross_section.metal2,
         )
         pads.rotate(180)
         pads.y = 15
@@ -59,19 +64,30 @@ if __name__ == "__main__":
             ports=ps.get_ports_list(port_type="electrical", orientation=0),
             radius=dy / 8,
             width=metal_width,
-            layer=(31, 0),
+            layer=metal_layer,
         )
         c.add(routes_bend180.references)
 
+        ports1 = ps.get_ports_list(port_type="electrical", orientation=180) + list(
+            routes_bend180.ports.values()
+        )
+        ports2 = pads.get_ports_list()
+        ports1, ports2 = sort_ports(ports1, ports2)
+        for i, p in enumerate(ports1):
+            p.name = f"e{i+1}"
+        for port1, port2 in zip(ports1, ports2):
+            c.add_label(position=port1.midpoint, text=port1.name)
+            c.add_label(position=port2.midpoint, text=port1.name)
         metal_routes = gf.routing.get_bundle(
-            ps.get_ports_list(port_type="electrical", orientation=180)
-            + list(routes_bend180.ports.values()),
-            pads.get_ports_list(),
+            ports1,
+            ports2,
             width=metal_width,
             separation=metal_spacing,
-            layer=(31, 0),
+            layer=metal_layer,
         )
-        for metal_route in metal_routes:
-            c.add(metal_route.references)
+        if name.startswith("solution"):
+            for metal_route in metal_routes:
+                c.add(metal_route.references)
 
+    c.write_gds(name)
     c.show()

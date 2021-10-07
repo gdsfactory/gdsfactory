@@ -610,7 +610,7 @@ class Component(Device):
 
     @classmethod
     def validate(cls, v):
-        """a valid component:
+        """pydantic assumes component is valid if:
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
@@ -733,7 +733,10 @@ class Component(Device):
             return self.name
 
     def get_parent_name(self) -> str:
-        """Returns parent name if it has parent, else returns its own name"""
+        """Returns parent name if it has parent, else returns its own name.
+        Returns the original parent name for hierarchical components
+        and for non-hierarchical it just returns the component name
+        """
         return self.info.get("parent_name", self.name)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
@@ -1060,6 +1063,13 @@ class Component(Device):
 
     def copy(self) -> Device:
         return copy(self)
+
+    def copy_settings_from(self, component) -> None:
+        """Copy settings from another component.
+        great for hiearchical components that need to propagate parent_name and settings.
+        """
+        self.info["parent_name"] = component.get_parent_name()
+        self.info["parent"] = component.get_settings()
 
     @property
     def size_info(self) -> SizeInfo:

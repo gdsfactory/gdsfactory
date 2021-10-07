@@ -8,7 +8,6 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -22,8 +21,8 @@ def add_fiber_single(
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
-    bend_factory: ComponentFactory = bend_circular,
-    straight_factory: ComponentFactory = straight,
+    bend: ComponentFactory = bend_circular,
+    straight: ComponentFactory = straight,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -45,8 +44,8 @@ def add_fiber_single(
         grating_coupler: grating coupler instance, function or list of functions
         layer_label: for test and measurement label
         fiber_spacing: between outputs
-        bend_factory: bend_circular
-        straight_factory: straight
+        bend: bend_circular
+        straight: straight
         route_filter:
         max_y0_optical: None
         with_loopback: True, adds loopback structures
@@ -148,8 +147,8 @@ def add_fiber_single(
         elements, grating_couplers = route_fiber_single(
             component,
             fiber_spacing=fiber_spacing,
-            bend_factory=bend_factory,
-            straight_factory=straight_factory,
+            bend=bend,
+            straight=straight,
             route_filter=route_filter,
             grating_coupler=grating_coupler,
             layer_label=layer_label,
@@ -189,7 +188,7 @@ def add_fiber_single(
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
-        wg = c << straight_factory(length=length, cross_section=cross_section, **kwargs)
+        wg = c << straight(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
         wg.xmax = (
             c.xmin - fiber_spacing
@@ -226,7 +225,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

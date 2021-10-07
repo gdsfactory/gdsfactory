@@ -5,7 +5,6 @@ from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.config import call_if_func
-from gdsfactory.functions import copy_settings
 from gdsfactory.snap import assert_on_2nm_grid
 
 taper2 = gf.partial(taper, width2=3)
@@ -74,7 +73,7 @@ def ring_single_dut(
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

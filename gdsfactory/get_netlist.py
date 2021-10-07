@@ -50,8 +50,8 @@ def get_instance_name(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.x)
-        yl = snap_to_grid(label.y)
+        xl = snap_to_grid(label.position[0])
+        yl = snap_to_grid(label.position[1])
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -96,7 +96,8 @@ def get_netlist(
 
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
-            component=c.function_name,
+            # component=c.function_name,
+            component=getattr(c, "function_name", c.name),
             settings=settings["settings"],
         )
         placements[reference_name] = dict(

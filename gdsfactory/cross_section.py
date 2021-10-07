@@ -189,6 +189,7 @@ def cross_section(
         end_straight_offset=end_straight_offset,
         snap_to_grid=snap_to_grid,
         port_types=port_types,
+        port_names=port_names,
     )
     return x
 

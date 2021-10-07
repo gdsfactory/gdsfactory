@@ -6,8 +6,8 @@ To make a route, you need to supply:
 
  - input port
  - output port
- - bend_factory
- - straight_factory
+ - bend
+ - straight
  - taper_factory to taper to wider straights and reduce straight loss (Optional)
 
 
@@ -56,8 +56,8 @@ from gdsfactory.types import (
 def get_route(
     input_port: Port,
     output_port: Port,
-    bend_factory: ComponentOrFactory = bend_euler,
-    straight_factory: ComponentOrFactory = straight,
+    bend: ComponentOrFactory = bend_euler,
+    straight: ComponentOrFactory = straight,
     taper_factory: Optional[ComponentFactory] = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
@@ -72,8 +72,8 @@ def get_route(
     Args:
         input_port: start port
         output_port: end port
-        bend_factory: function that return bends
-        straight_factory: function that returns straights
+        bend: function that return bends
+        straight: function that returns straights
         taper_factory:
         start_straight: length of starting straight
         end_straight: Number: length of end straight
@@ -102,11 +102,7 @@ def get_route(
     auto_widen = x.info.get("auto_widen", False)
     width2 = x.info.get("width_wide") if auto_widen else width1
 
-    bend90 = (
-        bend_factory(cross_section=cross_section, **kwargs)
-        if callable(bend_factory)
-        else bend_factory
-    )
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
     if taper_factory:
         taper_factory = partial(
@@ -121,12 +117,12 @@ def get_route(
     return route_manhattan(
         input_port=input_port,
         output_port=output_port,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=taper_factory,
         start_straight=start_straight,
         end_straight=end_straight,
         min_straight=min_straight,
-        bend_factory=bend90,
+        bend=bend90,
         cross_section=cross_section,
         **kwargs,
     )
@@ -134,7 +130,7 @@ def get_route(
 
 get_route_electrical = partial(
     get_route,
-    bend_factory=wire_corner,
+    bend=wire_corner,
     start_straight=10,
     end_straight=10,
     cross_section=metal3,
@@ -144,8 +140,8 @@ get_route_electrical = partial(
 
 def get_route_from_waypoints(
     waypoints: Coordinates,
-    bend_factory: Callable = bend_euler,
-    straight_factory: Callable = straight,
+    bend: Callable = bend_euler,
+    straight: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
     route_filter=None,
     cross_section: CrossSectionFactory = strip,
@@ -159,8 +155,8 @@ def get_route_from_waypoints(
 
     Args:
         waypoints: Coordinates that define the route
-        bend_factory: function that returns bends
-        straight_factory: function that returns straight waveguides
+        bend: function that returns bends
+        straight: function that returns straight waveguides
         taper_factory: function that returns tapers
         route_filter: FIXME, keep it here. Find a way to remove it.
         cross_section:
@@ -229,8 +225,8 @@ def get_route_from_waypoints(
 
     return round_corners(
         points=waypoints,
-        bend_factory=bend_factory,
-        straight_factory=straight_factory,
+        bend=bend,
+        straight=straight,
         taper=taper,
         cross_section=cross_section,
         **kwargs,

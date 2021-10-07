@@ -25,7 +25,7 @@ def mzit(
     taper_factory: ComponentFactory = taper,
     taper_length: float = 5.0,
     bend90: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight_function,
+    straight: ComponentFactory = straight_function,
     coupler1: Optional[ComponentFactory] = coupler_function,
     coupler2: ComponentFactory = coupler_function,
     **kwargs,
@@ -47,7 +47,7 @@ def mzit(
         taper_factory: taper library
         taper_length:
         bend90: bend_circular or library
-        straight_factory: library
+        straight: library
         coupler1: coupler1 or library, can be None
         coupler2: coupler2 or library
         kwargs: cross_section settings
@@ -117,7 +117,7 @@ def mzit(
         **kwargs,
     )
     t3b.connect("o1", b1t.ports["o2"])
-    wgs2 = c << straight_factory(width=w2, length=Ls, **kwargs)
+    wgs2 = c << straight(width=w2, length=Ls, **kwargs)
     wgs2.connect("o1", t3b.ports["o2"])
     t20i = c << taper_factory(
         width1=w2,
@@ -141,7 +141,7 @@ def mzit(
         delta_length >= 4 * dy
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
-    wg2b = c << straight_factory(width=w2, length=dx, **kwargs)
+    wg2b = c << straight(width=w2, length=dx, **kwargs)
     wg2b.connect("o1", t2.ports["o2"])
 
     b2t = c << bend90(
@@ -157,11 +157,11 @@ def mzit(
 
     b2b.connect("o1", wg2b.ports["o2"])
     # vertical straight
-    wg2y = c << straight_factory(width=w2, length=2 * dy, **kwargs)
+    wg2y = c << straight(width=w2, length=2 * dy, **kwargs)
     wg2y.connect("o1", b2b.ports["o2"])
     b2t.connect("o1", wg2y.ports["o2"])
 
-    wg2t = c << straight_factory(width=w2, length=dx, **kwargs)
+    wg2t = c << straight(width=w2, length=dx, **kwargs)
     wg2t.connect("o1", b2t.ports["o2"])
 
     t3t = c << taper_factory(
@@ -170,7 +170,7 @@ def mzit(
         length=taper_length,
     )
     t3t.connect("o1", wg2t.ports["o2"])
-    wgs1 = c << straight_factory(width=w1, length=Ls, **kwargs)
+    wgs1 = c << straight(width=w1, length=Ls, **kwargs)
     wgs1.connect("o1", t3t.ports["o2"])
     t20o = c << taper_factory(
         width1=w1,
