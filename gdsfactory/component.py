@@ -1061,6 +1061,14 @@ class Component(Device):
     def copy(self) -> Device:
         return copy(self)
 
+    def copy_settings_from(self, component) -> None:
+        """Propagate_settings from one old component to new component.
+        used for containers and other components that need to propagate names and settings.
+        Works great for hiearchical components
+        """
+        self.info["parent_name"] = component.get_parent_name()
+        self.info["parent"] = component.get_settings()
+
     @property
     def size_info(self) -> SizeInfo:
         """size info of the component"""
