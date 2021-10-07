@@ -121,7 +121,7 @@ def spiral_external_io(
     # Join the two bits of paths and extrude the spiral geometry
     route = round_corners(
         pts_w[::-1] + pts_e,
-        bend_factory=bend,
+        bend=bend,
         cross_section=cross_section,
         **kwargs,
     )

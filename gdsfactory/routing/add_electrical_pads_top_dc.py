@@ -46,7 +46,7 @@ def add_electrical_pads_top_dc(
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle(ports_component, ports_pads, bend_factory=wire_corner, **kwargs)
+    routes = get_bundle(ports_component, ports_pads, bend=wire_corner, **kwargs)
     for route in routes:
         c.add(route.references)
 

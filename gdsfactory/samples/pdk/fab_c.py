@@ -164,7 +164,7 @@ if __name__ == "__main__":
         cross_section=fabc_nitride_cband,
         optical_routing_type=1,
         straight_factory=straight_c,
-        bend_factory=bend_euler_c,
+        bend=bend_euler_c,
         select_ports=select_ports_optical,
     )
     mzi_gc.show()

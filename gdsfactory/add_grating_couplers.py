@@ -193,7 +193,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
@@ -216,7 +216,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_port_name:
         gc_rotation:
         straight_separation:
-        bend_factory:
+        bend:
         straight_factory:
         layer_label:
         component_name:
@@ -304,12 +304,12 @@ def add_grating_couplers_with_loopback_fiber_array(
                 p1,
             ]
         )
-        bend90 = bend_factory(
+        bend90 = bend(
             radius=bend_radius_loopback, cross_section=cross_section, **kwargs
         )
         loopback_route = round_corners(
             points=points,
-            bend_factory=bend90,
+            bend=bend90,
             straight_factory=straight_factory,
             cross_section=cross_section,
             **kwargs,

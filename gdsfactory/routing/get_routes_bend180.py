@@ -10,7 +10,7 @@ from gdsfactory.types import ComponentOrFactory, CrossSectionFactory, Routes
 
 def get_routes_bend180(
     ports: Union[List[Port], Dict[str, Port]],
-    bend_factory: ComponentOrFactory = bend_euler,
+    bend: ComponentOrFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     bend_port1: Optional[str] = None,
     bend_port2: Optional[str] = None,
@@ -20,12 +20,12 @@ def get_routes_bend180(
 
     Args:
         ports: List or dict of ports
-        bend_factory: function for bend
+        bend: function for bend
         cross_section:
         **kwargs: bend settings
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
-    bend = bend_factory(angle=180, cross_section=cross_section, **kwargs)
+    bend = bend(angle=180, cross_section=cross_section, **kwargs)
 
     bend_ports = bend.get_ports_list()
     bend_port1 = bend_port1 or bend_ports[0].name

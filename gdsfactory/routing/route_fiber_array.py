@@ -25,7 +25,7 @@ def route_fiber_array(
     component: Component,
     fiber_spacing: float = TECH.fiber_array_spacing,
     grating_coupler: ComponentOrFactory = grating_coupler_te,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
     taper_factory: ComponentFactory = taper,
     fanout_length: Optional[float] = None,
@@ -64,7 +64,7 @@ def route_fiber_array(
         component: The component to connect.
         fiber_spacing: the wanted spacing between the optical I/O
         grating_coupler: grating coupler instance, function or list of functions
-        bend_factory:  for bends
+        bend:  for bends
         straight_factory: straight
         fanout_length: target distance between gratings and the southest component port.
             If None, automatically calculated.
@@ -158,11 +158,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = (
-        bend_factory(cross_section=cross_section, **kwargs)
-        if callable(bend_factory)
-        else bend_factory
-    )
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
     dy = abs(bend90.dy)
 
@@ -310,14 +306,14 @@ def route_fiber_array(
                 waypoints = generate_manhattan_waypoints(
                     input_port=p0,
                     output_port=p1,
-                    bend_factory=bend90,
+                    bend=bend90,
                     straight_factory=straight_factory,
                     cross_section=cross_section,
                     **kwargs,
                 )
                 route = route_filter(
                     waypoints=waypoints,
-                    bend_factory=bend90,
+                    bend=bend90,
                     straight_factory=straight_factory,
                     cross_section=cross_section,
                     **kwargs,
@@ -332,7 +328,7 @@ def route_fiber_array(
             straight_separation=straight_separation,
             io_gratings_lines=io_gratings_lines,
             gc_port_name=gc_port_name,
-            bend_factory=bend_factory,
+            bend=bend,
             straight_factory=straight_factory,
             taper_factory=taper_factory,
             select_ports=select_ports,
@@ -387,7 +383,7 @@ def route_fiber_array(
                 separation=sep,
                 end_straight_offset=end_straight_offset,
                 straight_factory=straight_factory,
-                bend_factory=bend90,
+                bend=bend90,
                 cross_section=cross_section,
                 **kwargs,
             )
@@ -405,7 +401,7 @@ def route_fiber_array(
                     ports2=gc_ports,
                     separation=sep,
                     end_straight_offset=end_straight_offset,
-                    bend_factory=bend90,
+                    bend=bend90,
                     straight_factory=straight_factory,
                     radius=radius,
                     cross_section=cross_section,
@@ -455,7 +451,7 @@ def route_fiber_array(
         route = round_corners(
             points=points,
             straight_factory=straight_factory,
-            bend_factory=bend90,
+            bend=bend90,
             cross_section=cross_section,
             **kwargs,
         )
@@ -510,8 +506,8 @@ def demo():
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,
         optical_routing_type=2,
-        # bend_factory=gf.components.bend_euler,
-        bend_factory=gf.components.bend_circular,
+        # bend=gf.components.bend_euler,
+        bend=gf.components.bend_circular,
         radius=20,
         # force_manhattan=True
     )

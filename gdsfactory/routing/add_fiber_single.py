@@ -22,7 +22,7 @@ def add_fiber_single(
     grating_coupler: ComponentFactory = grating_coupler_te,
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
-    bend_factory: ComponentFactory = bend_circular,
+    bend: ComponentFactory = bend_circular,
     straight_factory: ComponentFactory = straight,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
@@ -45,7 +45,7 @@ def add_fiber_single(
         grating_coupler: grating coupler instance, function or list of functions
         layer_label: for test and measurement label
         fiber_spacing: between outputs
-        bend_factory: bend_circular
+        bend: bend_circular
         straight_factory: straight
         route_filter:
         max_y0_optical: None
@@ -148,7 +148,7 @@ def add_fiber_single(
         elements, grating_couplers = route_fiber_single(
             component,
             fiber_spacing=fiber_spacing,
-            bend_factory=bend_factory,
+            bend=bend,
             straight_factory=straight_factory,
             route_filter=route_filter,
             grating_coupler=grating_coupler,

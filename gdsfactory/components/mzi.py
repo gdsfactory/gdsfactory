@@ -161,7 +161,7 @@ if __name__ == "__main__":
         # straight_x_top=gf.c.straight_heater_metal,
         # straight_x_bot=gf.c.straight_heater_metal,
         length_x=300,
-        length_x_bot=300,
+        # length_x_bot=300,
         # length_y=1.8,
         # with_splitter=False,
     )

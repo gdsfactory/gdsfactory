@@ -38,10 +38,7 @@ def connect_loopback(
 
     bend90 = gf.components.bend_euler(radius=R, cross_section=cross_section, **kwargs)
     return round_corners(
-        points=points,
-        bend_factory=bend90,
-        straight_factory=gf.components.straight,
-        **kwargs
+        points=points, bend=bend90, straight_factory=gf.components.straight, **kwargs
     ).references
 
 

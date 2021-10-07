@@ -21,7 +21,7 @@ def route_south(
     straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
     gc_port_name: str = 1,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     straight_factory: ComponentFactory = straight,
     taper_factory: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
@@ -65,11 +65,7 @@ def route_south(
     csi = component.size_info
     references = []
     lengths = []
-    bend90 = (
-        bend_factory(cross_section=cross_section, **kwargs)
-        if callable(bend_factory)
-        else bend_factory
-    )
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     dy = abs(bend90.dy)
 
     # Handle empty list gracefully
@@ -77,7 +73,7 @@ def route_south(
         return [], []
 
     conn_params = dict(
-        bend_factory=bend_factory,
+        bend=bend,
         straight_factory=straight_factory,
         taper_factory=taper_factory,
         auto_widen=auto_widen,
@@ -254,7 +250,7 @@ if __name__ == "__main__":
 
     layer = (2, 0)
     c = gf.components.ring_double(layer=layer)
-    r = route_south(c, bend_factory=gf.components.bend_euler, layer=layer)
+    r = route_south(c, bend=gf.components.bend_euler, layer=layer)
     for e in r.references:
         if isinstance(e, list):
             print(len(e))

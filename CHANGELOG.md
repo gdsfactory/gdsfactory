@@ -32,6 +32,7 @@ from contracts import contract
 ## 3.3.5
 
 - `route_manhattan` ensures correct route connectivity
+- replace `bend_factory` by `bend` in routing functions to be more consitent with components
 
 ## 3.3.4
 

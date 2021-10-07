@@ -26,7 +26,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
         grating_coupler=gc,
         cross_section=fabc_nitride_cband,
         straight_factory=straight_c,
-        bend_factory=bend_euler_c,
+        bend=bend_euler_c,
         optical_routing_type=optical_routing_type,
     )
     pins_component = cc.extract(layers=(LAYER.PIN,))

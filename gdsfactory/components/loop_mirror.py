@@ -22,7 +22,7 @@ def loop_mirror(
         cref.ports["o3"],
         cref.ports["o2"],
         straight_factory=gf.components.straight,
-        bend_factory=bend90,
+        bend=bend90,
     )
     c.add(routes.references)
     c.add_port(name="o1", port=cref.ports["o1"])
