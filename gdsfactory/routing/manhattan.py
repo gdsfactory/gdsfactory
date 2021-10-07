@@ -524,11 +524,11 @@ def get_route_error(
 
 def round_corners(
     points: Coordinates,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     bend_s_factory: Optional[ComponentFactory] = bend_s,
     taper: Optional[ComponentFactory] = None,
-    straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
+    straight_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -545,9 +545,9 @@ def round_corners(
     Args:
         points: manhattan route defined by waypoints
         bend90: the bend to use for 90Deg turns
-        straight_factory: the straight library to use to generate straight portions
+        straight: the straight library to use to generate straight portions
         taper: taper for straight portions. If None, no tapering
-        straight_factory_fall_back_no_taper: in case there is no space for two tapers
+        straight_fall_back_no_taper: in case there is no space for two tapers
         mirror_straight: mirror_straight waveguide
         straight_ports: port names for straights. If None finds them automatically.
         cross_section:
@@ -579,9 +579,7 @@ def round_corners(
             _taper_ports = list(taper.ports.values())
             taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
 
-    straight_factory_fall_back_no_taper = (
-        straight_factory_fall_back_no_taper or straight_factory
-    )
+    straight_fall_back_no_taper = straight_fall_back_no_taper or straight
 
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
@@ -746,9 +744,9 @@ def round_corners(
             kwargs_wide = kwargs.copy()
             kwargs_wide.update(width=width_wide)
             cross_section_wide = gf.partial(cross_section, **kwargs_wide)
-            wg = straight_factory(length=length, cross_section=cross_section_wide)
+            wg = straight(length=length, cross_section=cross_section_wide)
         else:
-            wg = straight_factory_fall_back_no_taper(
+            wg = straight_fall_back_no_taper(
                 length=length, cross_section=cross_section, **kwargs
             )
 
@@ -806,7 +804,7 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,
@@ -839,7 +837,7 @@ def _get_bend_size(bend90: Component):
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     taper: Optional[ComponentOrFactory] = None,
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
@@ -870,7 +868,7 @@ def route_manhattan(
     )
     return round_corners(
         points=points,
-        straight_factory=straight_factory,
+        straight=straight,
         taper=taper,
         bend=bend,
         cross_section=cross_section,
@@ -911,7 +909,7 @@ def test_manhattan() -> Component:
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
-            straight_factory=straight,
+            straight=straight,
             radius=5.0,
             auto_widen=True,
             width_wide=2,
