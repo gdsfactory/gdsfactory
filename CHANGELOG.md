@@ -32,10 +32,15 @@ from contracts import contract
 ## 3.3.5
 
 - `route_manhattan` ensures correct route connectivity
-- replace `bend_factory` by `bend` in routing functions to be more consitent with components
-- replace `bend90_factory` by `bend90` in routing functions to be more consitent with components
-- replace `straight_factory` by `straight` in routing functions to be more consitent with components
+- replace `bend_factory` by `bend` to be more consistent with components
+- replace `bend90_factory` by `bend90` to be more consistent with components
+- replace `straight_factory` by `straight` to be more consistent with components
 - replace `get_route_electrical_shortest_path` by `route_quad`
+- gf.components.array raises error if columns > 1 and xspacing = 0
+- gf.components.array raises error if rows > 1 and yspacing = 0
+- simplify `gf.components.rectangle` defintion, by default it gets 4 ports
+- containers use Component.copy_settings_from(old_Component), and they keep their parent settings in `parent`, as well as `parent_name`
+- `Component.get_parent_name()` returns the original parent name for hierarchical components and for non-hierarchical it just returns the component name
 
 ## 3.3.4
 
@@ -515,7 +520,7 @@ from pydantic import validate_arguments
 
 ## 2.4.3
 
-- consitent port naming path.component extrusion
+- consistent port naming path.component extrusion
 
 ## 2.4.2
 
