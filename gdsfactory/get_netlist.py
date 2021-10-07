@@ -97,7 +97,7 @@ def get_netlist(
         settings = c.get_settings(full_settings=full_settings)
         instances[reference_name] = dict(
             # component=c.function_name,
-            component=getattr(c, "function_name", None) or getattr(c, "name"),
+            component=getattr(c, "function_name", c.name),
             settings=settings["settings"],
         )
         placements[reference_name] = dict(
