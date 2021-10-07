@@ -85,7 +85,7 @@ def cdsem_uturn(
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
     straight: ComponentFactory = straight,
-    bend90_factory: ComponentFactory = bend_circular,
+    bend90: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -107,7 +107,7 @@ def cdsem_uturn(
     if wg_length is None:
         wg_length = 2 * r
 
-    bend90 = bend90_factory(cross_section=cross_section, radius=r)
+    bend90 = bend90(cross_section=cross_section, radius=r)
     wg = straight(
         cross_section=cross_section,
         length=wg_length,
@@ -145,7 +145,7 @@ def pcm_optical(
     dense_lines_gap: float = 0.3,
     dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
     straight: ComponentFactory = straight,
-    bend90_factory: ComponentFactory = bend_circular,
+    bend90: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -173,7 +173,7 @@ def pcm_optical(
         cdsem_uturn(
             width=width,
             straight=straight,
-            bend90_factory=bend90_factory,
+            bend90=bend90,
             layer=layer,
             layers_cladding=layers_cladding,
             cross_section=cross_section,
