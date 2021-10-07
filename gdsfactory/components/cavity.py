@@ -3,7 +3,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.dbr import dbr
-from gdsfactory.functions import copy_settings
 from gdsfactory.types import ComponentFactory
 
 
@@ -60,7 +59,7 @@ def cavity(
     mr.connect("o1", destination=cr.ports["o3"])
     c.add_port("o1", port=cr.ports["o1"])
     c.add_port("o2", port=cr.ports["o4"])
-    copy_settings(mirror, c)
+    c.copy_settings_from(mirror)
     return c
 
 

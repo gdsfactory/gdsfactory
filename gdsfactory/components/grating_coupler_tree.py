@@ -16,7 +16,7 @@ def grating_coupler_tree(
     straight_spacing: float = 4.0,
     grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
     with_loopback: bool = False,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     fanout_length: float = 0.0,
     layer_label: Tuple[int, int] = (66, 0),
     **kwargs
@@ -41,7 +41,7 @@ def grating_coupler_tree(
         grating_coupler=grating_coupler_function,
         fanout_length=fanout_length,
         component_name=c.name,
-        bend_factory=bend_factory,
+        bend=bend,
         layer_label=layer_label,
         taper_factory=None,
         **kwargs,

@@ -60,7 +60,7 @@ def add_tapers(
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
-    gf.functions.copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

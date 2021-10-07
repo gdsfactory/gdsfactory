@@ -9,18 +9,18 @@ from gdsfactory.types import ComponentOrFactory, Routes
 
 def get_routes_straight(
     ports: Union[List[Port], Dict[str, Port]],
-    straight_factory: ComponentOrFactory = straight,
+    straight: ComponentOrFactory = straight,
     **kwargs,
 ) -> Routes:
     """Returns routes made by 180 degree straights.
 
     Args:
         ports: List or dict of ports
-        straight_factory: function for straight
+        straight: function for straight
         **kwargs: waveguide settings
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
-    straight = straight_factory(**kwargs)
+    straight = straight(**kwargs)
     references = [straight.ref() for port in ports]
     references = [ref.connect("o1", port) for port, ref in zip(ports, references)]
     ports = {f"{i}": ref.ports["o2"] for i, ref in enumerate(references)}

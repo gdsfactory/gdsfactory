@@ -163,8 +163,8 @@ if __name__ == "__main__":
         grating_coupler=gc_nitride_c,
         cross_section=fabc_nitride_cband,
         optical_routing_type=1,
-        straight_factory=straight_c,
-        bend_factory=bend_euler_c,
+        straight=straight_c,
+        bend=bend_euler_c,
         select_ports=select_ports_optical,
     )
     mzi_gc.show()

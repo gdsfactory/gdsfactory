@@ -2,7 +2,6 @@ from typing import List, Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.functions import copy_settings
 from gdsfactory.tech import TECH
 
 LAYER = TECH.layer
@@ -94,7 +93,7 @@ def add_padding_container(
     for layer in layers:
         c.add_polygon(points, layer=layer)
     c.ports = cref.ports
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

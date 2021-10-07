@@ -16,8 +16,8 @@ def gen_loopback(
     gc_rotation: int = -90,
     gc_port_name: str = "o1",
     bend_radius_loopback: float = 10.0,
-    bend_factory: ComponentFactory = gf.components.bend_euler,
-    straight_factory: ComponentFactory = gf.components.straight,
+    bend: ComponentFactory = gf.components.bend_euler,
+    straight: ComponentFactory = gf.components.straight,
     y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
     """
@@ -59,7 +59,7 @@ def gen_loopback(
     gsi = gc.size_info
     p0 = gca1.ports[gc_port_name].position
     p1 = gca2.ports[gc_port_name].position
-    bend90 = bend_factory(radius=bend_radius_loopback)
+    bend90 = bend(radius=bend_radius_loopback)
 
     if hasattr(bend90, "dx"):
         a = abs(bend90.dy)
@@ -80,9 +80,7 @@ def gen_loopback(
         p1 + (0, a),
         p1,
     ]
-    route = round_corners(
-        points=points, bend_factory=bend90, straight_factory=straight_factory
-    )
+    route = round_corners(points=points, bend=bend90, straight=straight)
     elements = [gca1, gca2]
     elements.extend(route.references)
     return elements

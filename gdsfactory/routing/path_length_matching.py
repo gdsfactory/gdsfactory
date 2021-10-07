@@ -20,7 +20,7 @@ def path_length_matched_points(
     modify_segment_i: int = -2,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> List[ndarray]:
@@ -44,7 +44,7 @@ def path_length_matched_points(
             if nb_loops==0, no extra loop is added, instead, in each route,
             the segment indexed by `modify_segment_i` is elongated to match
             the longuest route in `list_of_waypoints`
-        bend_factory: bend function
+        bend: bend function
         cross_section: cross_section factory
         **kwargs
 
@@ -58,7 +58,7 @@ def path_length_matched_points(
         return path_length_matched_points_add_waypoints(
             list_of_waypoints=list_of_waypoints,
             modify_segment_i=modify_segment_i,
-            bend_factory=bend_factory,
+            bend=bend,
             margin=margin,
             extra_length=extra_length,
             nb_loops=nb_loops,
@@ -145,7 +145,7 @@ def path_length_matched_points_modify_segment(
 def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
@@ -161,7 +161,7 @@ def path_length_matched_points_add_waypoints(
                 some flat angles)
         modify_segment_i: index of the segment which accomodates the new turns
             default is next to last segment
-        bend_factory: for bends
+        bend: for bends
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
         extra_length: distance added to all path length compensation.
@@ -214,7 +214,7 @@ def path_length_matched_points_add_waypoints(
         )
 
     # Get the points for the segment we need to modify
-    bend90 = bend_factory(cross_section=cross_section, **kwargs)
+    bend90 = bend(cross_section=cross_section, **kwargs)
 
     a = margin + bend90.dy
     if modify_segment_i < 0:

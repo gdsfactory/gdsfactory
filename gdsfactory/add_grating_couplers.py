@@ -11,7 +11,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
@@ -70,7 +69,7 @@ def add_grating_couplers(
         gc_port_name=gc_port_name,
     )
     c.add(labels)
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
@@ -179,7 +178,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             layer=layer_label,
         )
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
@@ -193,8 +192,8 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
-    bend_factory: ComponentFactory = bend_euler,
-    straight_factory: ComponentFactory = straight_function,
+    bend: ComponentFactory = bend_euler,
+    straight: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: None = None,
@@ -216,8 +215,8 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_port_name:
         gc_rotation:
         straight_separation:
-        bend_factory:
-        straight_factory:
+        bend:
+        straight:
         layer_label:
         component_name:
         with_loopback: If True, add compact loopback alignment ports
@@ -304,13 +303,13 @@ def add_grating_couplers_with_loopback_fiber_array(
                 p1,
             ]
         )
-        bend90 = bend_factory(
+        bend90 = bend(
             radius=bend_radius_loopback, cross_section=cross_section, **kwargs
         )
         loopback_route = round_corners(
             points=points,
-            bend_factory=bend90,
-            straight_factory=straight_factory,
+            bend=bend90,
+            straight=straight,
             cross_section=cross_section,
             **kwargs,
         )
@@ -341,7 +340,7 @@ def add_grating_couplers_with_loopback_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

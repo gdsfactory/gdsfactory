@@ -29,15 +29,26 @@ from contracts import contract
 
 
 ```
+## 3.3.5
+
+- `route_manhattan` ensures correct route connectivity
+- replace `bend_factory` by `bend` to be more consistent with components
+- replace `bend90_factory` by `bend90` to be more consistent with components
+- replace `straight_factory` by `straight` to be more consistent with components
+- replace `get_route_electrical_shortest_path` by `route_quad`
+- gf.components.array raises error if columns > 1 and xspacing = 0
+- gf.components.array raises error if rows > 1 and yspacing = 0
+- simplify `gf.components.rectangle` defintion, by default it gets 4 ports
+- containers use Component.copy_settings_from(old_Component), and they keep their parent settings in `parent`, as well as `parent_name`
+- `Component.get_parent_name()` returns the original parent name for hierarchical components and for non-hierarchical it just returns the component name
+
 ## 3.3.4
 
 - containers use `gf.functions.copy_settings` instead of trying to detect `component=` from kwargs
-- Port._copy() is now Port.copy()
+- `Port._copy()` is now `Port.copy()`
 - bend_euler `p=0.5` as default based on this [paper](https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937)
 - rectangle has 4 ports by default (similar to compass), it just includes the `centered` parameter
 - gf.grid accept component factories as well as components and is a cell
-
-
 
 ## 3.3.3
 
@@ -509,7 +520,7 @@ from pydantic import validate_arguments
 
 ## 2.4.3
 
-- consitent port naming path.component extrusion
+- consistent port naming path.component extrusion
 
 ## 2.4.2
 

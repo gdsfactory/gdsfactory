@@ -1,20 +1,19 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad
+from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.port import select_ports_electrical
-from gdsfactory.routing.get_route_electrical_shortest_path import (
-    get_route_electrical_shortest_path,
-)
+from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.types import ComponentOrFactory
 
 
 @gf.cell
 def add_electrical_pads_shortest(
     component: Component,
-    pad: ComponentOrFactory = pad,
+    pad: ComponentOrFactory = pad_function,
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
     port_orientation: int = 90,
+    layer: gf.types.Layer = (31, 0),
     **kwargs,
 ) -> Component:
     """Add pad to each closest electrical port.
@@ -42,24 +41,24 @@ def add_electrical_pads_shortest(
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add(get_route_electrical_shortest_path(port, p.ports["e1"]))
+            c.add(route_quad(port, p.ports["e1"], layer=layer))
         elif port_orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add(get_route_electrical_shortest_path(port, p.ports["e3"]))
+            c.add(route_quad(port, p.ports["e3"], layer=layer))
         elif port_orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add(get_route_electrical_shortest_path(port, p.ports["e4"]))
+            c.add(route_quad(port, p.ports["e4"], layer=layer))
         elif port_orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add(get_route_electrical_shortest_path(port, p.ports["e2"]))
+            c.add(route_quad(port, p.ports["e2"], layer=layer))
 
     c.add_ports(ref.ports)
     for port in ports:
         c.ports.pop(port.name)
-    gf.functions.copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

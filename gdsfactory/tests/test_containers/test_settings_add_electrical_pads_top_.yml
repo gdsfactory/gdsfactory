@@ -22,6 +22,9 @@ info:
 module: gdsfactory.routing.add_electrical_pads_top
 name: add_electrical_pads_top_460ad69a
 settings:
+  layer:
+  - 31
+  - 0
   spacing:
   - 0
   - 100

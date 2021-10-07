@@ -5,11 +5,11 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  # - repo: https://github.com/hakancelik96/unimport
-  #   rev: 2875c033c00877b6797f3a05761c7c7fe9aae46c
-  #   hooks:
-  #     - id: unimport
-  #       args: [--remove, --include-star-import]
+  - repo: https://github.com/hakancelik96/unimport
+    rev: 2875c033c00877b6797f3a05761c7c7fe9aae46c
+    hooks:
+      - id: unimport
+        args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
     rev: "995e016b9d888fea02bedeb5be8ea7f01b694b58"
     hooks:

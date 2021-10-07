@@ -6,9 +6,13 @@ This router could save more routing space with a more direct algorithm
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.routing.sort_ports import sort_ports
 
 
 if __name__ == "__main__":
+    name = "problem2.gds"
+    name = "solution2.gds"
+    c = gf.Component(name)
     ncols = 8
     nrows = 16
     N = ncols * nrows
@@ -20,7 +24,6 @@ if __name__ == "__main__":
     length = 200
     dy = 100
 
-    c = gf.Component()
     ps = gf.components.straight_heater_metal()
     ps_array = gf.components.array(component=ps, spacing=(0, 20), columns=1, rows=2)
 
@@ -65,15 +68,32 @@ if __name__ == "__main__":
         )
         c.add(routes_bend180.references)
 
+        ports1 = ps.get_ports_list(port_type="electrical", orientation=180) + list(
+            routes_bend180.ports.values()
+        )
+
+        ports2 = pads.get_ports_list()
+        ports1, ports2 = sort_ports(ports1, ports2)
+        for i, p in enumerate(ports1):
+            p.name = f"e{i+1}"
+
+        for port1, port2 in zip(ports1, ports2):
+            c.add_label(position=port1.midpoint, text=port1.name)
+            c.add_label(position=port2.midpoint, text=port1.name)
+
         metal_routes = gf.routing.get_bundle(
-            ps.get_ports_list(port_type="electrical", orientation=180)
-            + list(routes_bend180.ports.values()),
-            pads.get_ports_list(),
+            ports1,
+            ports2,
             width=metal_width,
             separation=metal_spacing,
             cross_section=cross_section,
+            bend=gf.c.wire_corner,
+            radius=0.1,
         )
-        for metal_route in metal_routes:
-            c.add(metal_route.references)
 
+        if name.startswith("solution"):
+            for metal_route in metal_routes:
+                c.add(metal_route.references)
+
+    c.write_gds(name)
     c.show()

@@ -17,7 +17,7 @@ LINE_LENGTH = 420.0
 
 @cell
 def cdsem_straight_all(
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     cross_section: CrossSectionFactory = strip,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -29,7 +29,7 @@ def cdsem_straight_all(
     c = Component()
     for width in widths:
         cross_section = partial(cross_section, width=width, layer=layer)
-        c.add_ref(straight_factory(length=length, cross_section=cross_section))
+        c.add_ref(straight(length=length, cross_section=cross_section))
 
     c.distribute(direction="y", spacing=spacing)
     return c
@@ -43,7 +43,7 @@ def cdsem_straight_density(
     y: float = 50.0,
     margin: float = 2.0,
     label: str = "",
-    straight_factory: ComponentFactory = straight,
+    straight: ComponentFactory = straight,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -61,7 +61,7 @@ def cdsem_straight_density(
     length = x - 2 * margin
 
     cross_section = partial(cross_section, width=width, layer=layer)
-    tooth = straight_factory(length=length, cross_section=cross_section)
+    tooth = straight(length=length, cross_section=cross_section)
 
     for i in range(n_o_lines):
         tooth_ref = c.add_ref(tooth)
@@ -84,8 +84,8 @@ def cdsem_uturn(
     width: float = 0.5,
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
-    straight_factory: ComponentFactory = straight,
-    bend90_factory: ComponentFactory = bend_circular,
+    straight: ComponentFactory = straight,
+    bend90: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -107,8 +107,8 @@ def cdsem_uturn(
     if wg_length is None:
         wg_length = 2 * r
 
-    bend90 = bend90_factory(cross_section=cross_section, radius=r)
-    wg = straight_factory(
+    bend90 = bend90(cross_section=cross_section, radius=r)
+    wg = straight(
         cross_section=cross_section,
         length=wg_length,
     )
@@ -144,8 +144,8 @@ def pcm_optical(
     dense_lines_width_difference: float = 20e-3,
     dense_lines_gap: float = 0.3,
     dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
-    straight_factory: ComponentFactory = straight,
-    bend90_factory: ComponentFactory = bend_circular,
+    straight: ComponentFactory = straight,
+    bend90: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -159,7 +159,7 @@ def pcm_optical(
     """
     c = Component()
     _c1 = cdsem_straight_all(
-        straight_factory=straight_factory,
+        straight=straight,
         layer=layer,
         layers_cladding=layers_cladding,
         widths=widths,
@@ -172,8 +172,8 @@ def pcm_optical(
     all_devices += [
         cdsem_uturn(
             width=width,
-            straight_factory=straight_factory,
-            bend90_factory=bend90_factory,
+            straight=straight,
+            bend90=bend90,
             layer=layer,
             layers_cladding=layers_cladding,
             cross_section=cross_section,
@@ -201,7 +201,7 @@ def pcm_optical(
             width=w,
             trench_width=t,
             label=lbl,
-            straight_factory=straight_factory,
+            straight=straight,
             layer=layer,
             layers_cladding=layers_cladding,
             cross_section=cross_section,
