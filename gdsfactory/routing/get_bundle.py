@@ -38,7 +38,7 @@ def get_bundle(
     separation: float = 5.0,
     extension_length: float = 0.0,
     straight_factory: ComponentFactory = straight,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
     start_straight: Optional[float] = None,
@@ -53,7 +53,7 @@ def get_bundle(
         ports2: should all be facing in the same direction
         separation: bundle separation (center to center)
         extension_length: adds straight extension
-        bend_factory:
+        bend:
         sort_ports:
         end_straight_offset:
         start_straight:
@@ -105,7 +105,7 @@ def get_bundle(
         "separation": separation,
         "start_straight": start_straight,
         "end_straight_offset": end_straight_offset,
-        "bend_factory": bend_factory,
+        "bend": bend,
         "straight_factory": straight_factory,
         "cross_section": cross_section,
     }
@@ -181,7 +181,7 @@ def get_bundle_same_axis(
     separation: float = 5.0,
     end_straight_offset: float = 0.0,
     start_straight: float = 0.0,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
@@ -249,7 +249,7 @@ def get_bundle_same_axis(
         ports1,
         ports2,
         separation=separation,
-        bend_factory=bend_factory,
+        bend=bend,
         cross_section=cross_section,
         end_straight_offset=end_straight_offset,
         start_straight=start_straight,
@@ -258,7 +258,7 @@ def get_bundle_same_axis(
     return [
         get_route_from_waypoints(
             route,
-            bend_factory=bend_factory,
+            bend=bend,
             cross_section=cross_section,
             **kwargs,
         )

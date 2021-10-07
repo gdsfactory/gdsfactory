@@ -71,7 +71,7 @@ def get_bundle_from_waypoints(
     waypoints: Coordinates,
     straight_factory: Callable = straight,
     taper_factory: Callable = taper_function,
-    bend_factory: Callable = bend_euler,
+    bend: Callable = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
     separation: Optional[float] = None,
@@ -86,7 +86,7 @@ def get_bundle_from_waypoints(
         waypoints: list of points defining a route
         straight_factory: function that returns straights
         taper_factory: function that returns tapers
-        bend_factory: function that returns bends
+        bend: function that returns bends
         sort_ports: sorts ports
         cross_section: cross_section
         separation: waveguide separation (center to center)
@@ -153,7 +153,7 @@ def get_bundle_from_waypoints(
     )
 
     x = cross_section(**kwargs)
-    bends90 = [bend_factory(cross_section=cross_section, **kwargs) for p in ports1]
+    bends90 = [bend(cross_section=cross_section, **kwargs) for p in ports1]
 
     if taper_factory and x.info.get("auto_widen", True):
         if callable(taper_factory):
@@ -171,7 +171,7 @@ def get_bundle_from_waypoints(
     connections = [
         round_corners(
             points=pts,
-            bend_factory=bend90,
+            bend=bend90,
             straight_factory=straight_factory,
             taper=taper,
             cross_section=cross_section,

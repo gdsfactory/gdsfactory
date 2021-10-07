@@ -19,7 +19,7 @@ def add_fiber_array(
     component: Component,
     grating_coupler: Component = grating_coupler_te,
     straight_factory: ComponentFactory = straight,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -34,7 +34,7 @@ def add_fiber_array(
     Args:
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
-        bend_factory: bend_circular
+        bend: bend_circular
         gc_port_name: grating coupler input port name 'W0'
         component_name: for the label
         taper: taper function name or dict
@@ -105,7 +105,7 @@ def add_fiber_array(
     elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
-        bend_factory=bend_factory,
+        bend=bend,
         straight_factory=straight_factory,
         gc_port_name=gc_port_name,
         component_name=component_name,

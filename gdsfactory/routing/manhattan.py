@@ -525,7 +525,7 @@ def get_route_error(
 def round_corners(
     points: Coordinates,
     straight_factory: ComponentFactory = straight,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     bend_s_factory: Optional[ComponentFactory] = bend_s,
     taper: Optional[ComponentFactory] = None,
     straight_factory_fall_back_no_taper: Optional[ComponentFactory] = None,
@@ -563,11 +563,7 @@ def round_corners(
     width = x.info.get("width", 2.0)
     width_wide = x.info.get("width_wide", None)
     references = []
-    bend90 = (
-        bend_factory(cross_section=cross_section, **kwargs)
-        if callable(bend_factory)
-        else bend_factory
-    )
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     # bsx = bsy = _get_bend_size(bend90)
     taper = taper or taper_factory(
         cross_section=cross_section,
@@ -814,17 +810,13 @@ def generate_manhattan_waypoints(
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
-    bend90 = (
-        bend_factory(cross_section=cross_section, **kwargs)
-        if callable(bend_factory)
-        else bend_factory
-    )
+    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     x = cross_section(**kwargs)
     start_straight = start_straight or x.info.get("min_length")
     end_straight = end_straight or x.info.get("min_length")
@@ -852,7 +844,7 @@ def route_manhattan(
     start_straight: Optional[float] = None,
     end_straight: Optional[float] = None,
     min_straight: Optional[float] = None,
-    bend_factory: ComponentFactory = bend_euler,
+    bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     with_point_markers: bool = False,
     **kwargs,
@@ -872,7 +864,7 @@ def route_manhattan(
         start_straight=start_straight,
         end_straight=end_straight,
         min_straight=min_straight,
-        bend_factory=bend_factory,
+        bend=bend,
         cross_section=cross_section,
         **kwargs,
     )
@@ -880,7 +872,7 @@ def route_manhattan(
         points=points,
         straight_factory=straight_factory,
         taper=taper,
-        bend_factory=bend_factory,
+        bend=bend,
         cross_section=cross_section,
         with_point_markers=with_point_markers,
         **kwargs,

@@ -126,7 +126,7 @@ def spiral_inner_io(
 
     route_west = round_corners(
         pts_w,
-        bend_factory=_bend90,
+        bend=_bend90,
         straight_factory=straight_factory,
         cross_section=cross_section,
         **kwargs
@@ -158,7 +158,7 @@ def spiral_inner_io(
 
     route_east = round_corners(
         pts_e,
-        bend_factory=_bend90,
+        bend=_bend90,
         straight_factory=straight_factory,
         cross_section=cross_section,
         **kwargs
