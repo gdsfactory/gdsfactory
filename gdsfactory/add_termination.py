@@ -4,7 +4,6 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentFactory
 
@@ -46,7 +45,7 @@ def add_termination(
         else:
             c.add_port(port.name, port=port)
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

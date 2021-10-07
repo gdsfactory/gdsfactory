@@ -4,7 +4,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.routing.sort_ports import sort_ports_x
@@ -54,7 +53,7 @@ def add_electrical_pads_top_dc(
     for port in ports_component:
         c.ports.pop(port.name)
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
