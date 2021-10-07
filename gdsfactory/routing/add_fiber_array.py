@@ -6,7 +6,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -144,7 +143,7 @@ def add_fiber_array(
                 port = ports[0]
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)
 
-    copy_settings(component, component_new)
+    component_new.copy_settings_from(component)
     return component_new
 
 

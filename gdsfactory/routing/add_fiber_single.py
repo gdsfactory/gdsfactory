@@ -8,7 +8,6 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -226,7 +225,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 

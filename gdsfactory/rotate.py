@@ -1,6 +1,5 @@
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.functions import copy_settings
 
 
 @cell
@@ -22,7 +21,7 @@ def rotate(
     ref = component_new.add_ref(component)
     ref.rotate(angle)
     component_new.add_ports(ref.ports)
-    copy_settings(component, component_new)
+    component_new.copy_settings_from(component)
     return component_new
 
 

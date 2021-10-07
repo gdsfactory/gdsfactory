@@ -65,7 +65,7 @@ def cutback_component(
     # Create the component from the sequence
     c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = len(s) - 2
-    gf.functions.copy_settings(component, c)
+    c.copy_settings_from(component)
     c.info["components"] = n
     c.info["parent_name"] = f"loopback_{component.get_parent_name()}_{n}"
     return c
@@ -133,7 +133,7 @@ def cutback_component_mirror(
 
     c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = len(s) - 2
-    gf.functions.copy_settings(component, c)
+    c.copy_settings_from(component)
     c.info["components"] = n
     c.info["parent_name"] = f"loopback_{component.get_parent_name()}_{n}"
     return c

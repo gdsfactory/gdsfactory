@@ -11,7 +11,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.functions import copy_settings
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
@@ -70,7 +69,7 @@ def add_grating_couplers(
         gc_port_name=gc_port_name,
     )
     c.add(labels)
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
@@ -179,7 +178,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             layer=layer_label,
         )
 
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
@@ -341,7 +340,7 @@ def add_grating_couplers_with_loopback_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
-    copy_settings(component, c)
+    c.copy_settings_from(component)
     return c
 
 
