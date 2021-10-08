@@ -29,6 +29,10 @@ from contracts import contract
 
 
 ```
+## 3.3.6
+
+- add `auto_widen` example in docs
+
 ## 3.3.5
 
 - `route_manhattan` ensures correct route connectivity

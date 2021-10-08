@@ -550,6 +550,7 @@ def _rename_ports_clockwise(direction_ports, prefix: str = ""):
 
     south_ports = direction_ports["S"]
     south_ports.sort(key=lambda p: -p.x)  # sort east to west
+    # south_ports.sort(key=lambda p: p.y)  #  south first
 
     ports = west_ports + north_ports + east_ports + south_ports
 
