@@ -21,12 +21,15 @@ gdsfactory provides you with:
 
 - functions easily adaptable to define components
 - functions to route electrical ports to pads and optical ports grating couplers
-- functions to define components, circuit netlists or masks in YAML files
+- functions to define components, circuits or masks in python and YAML files
 
-As inputs, gdsfactory needs you to write python functions, python dataclasses or YAML files to describe your layouts.
+As input, gdsfactory needs you to write python or YAML code to describe your layouts.
 
-As output it creates GDSII files ([GDSII](https://en.wikipedia.org/wiki/GDSII) is the standard format to describe masks sets in the CMOS industry).
+As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by the CMOS industry.
 It also can output JSON files with components settings (that you can use for measurement and data analysis) and JSON or CSV files for testing the devices after fabrication. You can also easily adapt this metadata output files to your needs.
+
+
+![](https://i.imgur.com/HHBafzf.png)
 
 ## Documentation
 

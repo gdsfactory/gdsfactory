@@ -26,6 +26,7 @@ from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
+    auto_rename_ports_counter_clockwise,
     auto_rename_ports_layer_orientation,
     auto_rename_ports_orientation,
     map_ports_layer_to_orientation,
@@ -1267,6 +1268,9 @@ class Component(Device):
 
     def auto_rename_ports(self, **kwargs) -> None:
         auto_rename_ports(self, **kwargs)
+
+    def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
+        auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
         auto_rename_ports_layer_orientation(self, **kwargs)
