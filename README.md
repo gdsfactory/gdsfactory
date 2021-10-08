@@ -29,7 +29,8 @@ As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which i
 It also can output JSON files with components settings (that you can use for measurement and data analysis) and JSON or CSV files for testing the devices after fabrication. You can also easily adapt this metadata output files to your needs.
 
 
-![](https://i.imgur.com/HHBafzf.png)
+
+![](https://i.imgur.com/yzpcvHx.png)
 
 ## Documentation
 
