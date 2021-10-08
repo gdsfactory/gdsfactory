@@ -29,7 +29,7 @@ from contracts import contract
 
 
 ```
-## 3.3.6
+## 3.3.7
 
 - add `auto_widen` example in docs
 
