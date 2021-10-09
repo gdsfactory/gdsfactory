@@ -1283,10 +1283,18 @@ class Component(Device):
             "Don't move Components. Create a reference and move the reference instead."
         )
 
-    def rotate(self, *args, **kwargs):
-        raise MutabilityError(
-            "Don't rotate Components. Create a reference and move the reference instead."
-        )
+    def rotate(self, angle: int = 90):
+        """Returns a new component with a rotated reference to the original component
+
+        Args:
+            angle: in degrees
+        """
+        component_new = Component(f"{self.name}_r{angle}")
+        ref = component_new.add_ref(self)
+        ref.rotate(angle)
+        component_new.add_ports(ref.ports)
+        component_new.copy_settings_from(self)
+        return component_new
 
 
 def test_get_layers() -> None:
@@ -1456,4 +1464,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
+    c2 = c.rotate()
+    c2.show()
     print(c)
