@@ -10,7 +10,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
@@ -22,7 +22,7 @@ instances:
     component: bend_euler
     settings:
       angle: 90
-      p: 1
+      p: 0.5
       with_arc_floorplan: true
       npoints: 720
       direction: ccw

@@ -9,7 +9,6 @@ import omegaconf
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.config import __version__, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.tech import (
@@ -18,6 +17,7 @@ from gdsfactory.tech import (
     LayerStack,
     SimulationSettings,
 )
+from gdsfactory.types import ComponentOrFactory
 
 run_false_warning = """
 you need to pass `run=True` flag to run the simulation
@@ -43,7 +43,7 @@ MATERIAL_NAME_TO_LUMERICAL = {
 
 
 def write_sparameters_lumerical(
-    component: Component,
+    component: ComponentOrFactory,
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
@@ -54,38 +54,55 @@ def write_sparameters_lumerical(
 ) -> pd.DataFrame:
     """Returns and writes component Sparameters using Lumerical FDTD.
 
-    if simulation exists it returns the Sparameters directly unless overwrite=True
+    If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
 
     Lumerical units are in meters while gdsfactory units are in um
 
+    Writes Sparameters both in .CSV and .DAT (interconnect format) as well as
+    simulation settings in YAML
+
+    In the CSV format you can see `S12m` where `m` stands for magnitude
+    and `S12a` where `a` stands for angle in radians
+
+    Your components need to have ports, that will extend over the PML.
+
+    .. image:: https://i.imgur.com/dHAzZRw.png
+
+    For your Fab technology you can overwrite
+
+    - Simulation Settings
+    - dirpath
+    - layerStack
+
     Args:
         component: Component to simulate
-        session: you can pass a session=lumapi.FDTD() for debugging
+        session: you can pass a session=lumapi.FDTD() or it will create one
         run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
-        dirpath: where to store the simulations
+        dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        settings: overwrite any simulation setting
-          background_material: for the background
-          port_margin: on both sides of the port width (um)
-          port_height: port height (um)
-          port_extension: port extension (um)
-          mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-          zmargin: for the FDTD region 1 (um)
-          ymargin: for the FDTD region 2 (um)
-          xmargin: for the FDTD region
-          pml_margin: for all the FDTD region
-          wavelength_start: 1.2 (um)
-          wavelength_stop: 1.6 (um)
-          wavelength_points: 500
+        **settings: overwrite any simulation settings
+            background_material: for the background
+            port_margin: on both sides of the port width (um)
+            port_height: port height (um)
+            port_extension: port extension (um)
+            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+            zmargin: for the FDTD region 1 (um)
+            ymargin: for the FDTD region 2 (um)
+            xmargin: for the FDTD region
+            pml_margin: for all the FDTD region
+            wavelength_start: 1.2 (um)
+            wavelength_stop: 1.6 (um)
+            wavelength_points: 500
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
-        suffix `a` for angle and `m` for module
+        suffix `a` for angle in radians and `m` for module
 
     """
+    component = component() if callable(component) else component
     sim_settings = dataclasses.asdict(simulation_settings)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -420,7 +437,6 @@ if __name__ == "__main__":
     )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
-    # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 0.2}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())
