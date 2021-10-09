@@ -29,9 +29,11 @@ from contracts import contract
 
 
 ```
-## 3.3.7
+## 3.3.8
 
-- add `auto_widen` example in docs
+- add `auto_widen` example in tutorials/routing
+- add `plugins` examples in tutorials/plugins
+- Component.rotate() returns a new Component with a rotated reference of itself
 
 ## 3.3.5
 
