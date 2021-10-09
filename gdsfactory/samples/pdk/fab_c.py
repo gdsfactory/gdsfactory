@@ -1,12 +1,12 @@
-"""
+"""FabC example """
 
-"""
-
+import pathlib
 from typing import Callable
 
 import pydantic.dataclasses as dataclasses
 
 import gdsfactory as gf
+import gdsfactory.simulation as sim
 from gdsfactory.add_pins import add_pin_square_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
@@ -36,11 +36,15 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     return LayerStack(
         layers=[
             LayerLevel(
-                name="core",
-                layer=(34, 0),
-                zmin=0.220 + 0.100,
+                layer=LAYER.WG,
+                zmin=0.0,
+                thickness=0.22,
             ),
-            LayerLevel(name="clad", layer=(36, 0)),
+            LayerLevel(
+                layer=LAYER.WGN,
+                zmin=0.22 + 0.1,
+                thickness=0.4,
+            ),
         ]
     )
 
@@ -152,6 +156,28 @@ factory = dict(
     mzi_nitride_c=mzi_nitride_c,
     mzi_nitride_o=mzi_nitride_o,
     gc_nitride_c=gc_nitride_c,
+)
+
+
+LAYER_STACK = get_layer_stack_fab_c()
+SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
+
+write_sparameters_lumerical = gf.partial(
+    sim.write_sparameters_lumerical,
+    layer_stack=LAYER_STACK,
+    dirpath=SPARAMETERS_PATH,
+)
+
+plot_sparameters = gf.partial(
+    sim.plot.plot_sparameters,
+    dirpath=SPARAMETERS_PATH,
+    write_sparameters_function=write_sparameters_lumerical,
+)
+
+read_sparameters_pandas = gf.partial(
+    sim.read_sparameters_pandas,
+    layer_stack=LAYER_STACK,
+    dirpath=SPARAMETERS_PATH,
 )
 
 
