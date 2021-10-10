@@ -34,6 +34,8 @@ from contracts import contract
 - add `auto_widen` example in tutorials/routing
 - add `plugins` examples in tutorials/plugins
 - Component.rotate() returns a new Component with a rotated reference of itself
+- increase simulation_time in lumerical `simulation_settings` from 1ps to 10ps, so max simulation region increased 10x
+- write_sparameters_lumerical returns session if run=False
 
 ## 3.3.5
 
