@@ -1,4 +1,10 @@
-"""Write Sparameters with Lumerical FDTD."""
+"""Write Sparameters with Lumerical FDTD.
+
+Disclaimer: This function automates the Sparameters but is hard to make a
+function that will fit all your possible simulation settings.
+You can use this function as an inspiration to create your own.
+"""
+
 import dataclasses
 import time
 from pathlib import Path
@@ -20,19 +26,11 @@ from gdsfactory.tech import (
 from gdsfactory.types import ComponentOrFactory
 
 run_false_warning = """
-you need to pass `run=True` flag to run the simulation
-To debug, you can create a lumerical FDTD session and pass it to the simulator
+You have passed run=False to debug the simulation
 
-```
-import lumapi
-s = lumapi.FDTD()
+run=False returns the simulation session for you to debug and make sure it's correct
 
-import gdsfactory as gf
-import gdsfactory.simulation as sim
-
-c = gf.components.straight() # or whatever you want to simulate
-sim.write_sparameters_lumerical(component=c, run=False, session=s)
-```
+To compute the Sparameters you need to pass run=True
 """
 
 MATERIAL_NAME_TO_LUMERICAL = {
@@ -96,6 +94,8 @@ def write_sparameters_lumerical(
             wavelength_start: 1.2 (um)
             wavelength_stop: 1.6 (um)
             wavelength_points: 500
+            simulation_time: determines the max structure size (3e8/2.4*10e-12*1e6) = 1.25mm
+            simulation_temperature: in kelvin 300
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
@@ -117,7 +117,7 @@ def write_sparameters_lumerical(
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
-                f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+                f"`{setting}` is not a valid setting ({list(sim_settings.keys()) + simulation_settings})"
             )
 
     sim_settings.update(**settings)
@@ -259,6 +259,8 @@ def write_sparameters_lumerical(
         z_span=z_span,
         mesh_accuracy=ss.mesh_accuracy,
         use_early_shutoff=True,
+        simulation_time=ss.simulation_time,
+        simulation_temperature=ss.simulation_temperature,
     )
 
     for layer, thickness in layer_to_thickness.items():
@@ -377,6 +379,7 @@ def write_sparameters_lumerical(
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         return df
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    return s
 
 
 def _sample_write_coupler_ring():
@@ -433,7 +436,7 @@ def _sample_convergence_wavelength():
 if __name__ == "__main__":
     component = gf.components.straight(length=2.5)
     r = write_sparameters_lumerical(
-        component=component, mesh_accuracy=1, wavelength_points=200, run=True
+        component=component, mesh_accuracy=1, wavelength_points=200, run=False
     )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
