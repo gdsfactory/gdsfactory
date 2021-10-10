@@ -12,6 +12,8 @@ def rotate(
     Most times you just need to place a reference and rotate it.
     This rotate function just encapsulates the rotated reference into a new component.
 
+    FIXME: delete, use Component.rotate instead
+
     Args:
         component:
         angle: in degrees
