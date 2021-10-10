@@ -20,7 +20,6 @@ isort:skip_file
 
 from functools import partial
 from phidl import quickplot as plot
-import phidl.geometry as pg
 from phidl.device_layout import Group, Path, Label
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -46,7 +45,6 @@ from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import tech
-from gdsfactory import containers
 from gdsfactory import read
 from gdsfactory import remove
 from gdsfactory import layers
@@ -101,7 +99,6 @@ __all__ = [
     "clear_cache",
     "component_from_yaml",
     "components",
-    "containers",
     "cross_section",
     "fill_rectangle",
     "functions",
@@ -114,7 +111,6 @@ __all__ = [
     "pack",
     "path",
     "partial",
-    "pg",
     "plot",
     "port",
     "read",
