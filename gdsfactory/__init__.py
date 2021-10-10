@@ -68,7 +68,6 @@ from gdsfactory.pack import pack
 from gdsfactory.grid import grid
 from gdsfactory.offset import offset
 from gdsfactory.boolean import boolean
-from gdsfactory.rotate import rotate
 
 
 c = components
@@ -116,7 +115,6 @@ __all__ = [
     "port",
     "read",
     "remove",
-    "rotate",
     "routing",
     "show",
     "snap",

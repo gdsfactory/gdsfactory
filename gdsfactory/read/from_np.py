@@ -52,7 +52,6 @@ def from_np(
             d.add_polygon(points, layer=layer)
 
     c = boolean(c, d, operation="not", layer=layer)
-    c.rotate(-90)
     return c
 
 
