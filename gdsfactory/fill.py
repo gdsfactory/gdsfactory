@@ -1,5 +1,4 @@
-"""Dummy filing to keep density constant.
-"""
+"""Dummy fill to keep density constant."""
 from typing import Iterable, Optional, Tuple, Union
 
 from phidl.geometry import fill_rectangle as _fill_rectangle
@@ -21,22 +20,23 @@ def fill_rectangle(
     bbox: Optional[Tuple[float, float]] = None,
 ) -> Component:
     """Creates a rectangular fill pattern and fills all empty areas
-    in the input component
+    in the input component and returns a component that contains just the fill
+    Dummy fill keeps density constant during fabrication
 
     Args:
-        Component: Component to be filled
+        Component: Component to fill
         fill_size: Rectangular size of the fill element
-        avoid_layers : 'all' or list of layers
+        avoid_layers: 'all' or list of layers
             Layers to be avoided (not filled) in D
-        include_layers :
+        include_layers:
             Layers to be included (filled) in D, supercedes avoid_layers
         margin :
             Margin spacing around avoided areas -- fill will not come within
             `margin` of the geometry in D
-        fill_layers : list of layers. fill pattern layers
-        fill_densities : float between 0 and 1
+        fill_layers: list of layers. fill pattern layers
+        fill_densities: float between 0 and 1
             Defines the fill pattern density (1.0 == fully filled)
-        fill_inverted : Inverts the fill pattern
+        fill_inverted: Inverts the fill pattern
         bbox: array-like[2][2]
             Limit the fill pattern to the area defined by this bounding box
 
