@@ -51,6 +51,7 @@ from gdsfactory import layers
 from gdsfactory import add_termination
 from gdsfactory import add_grating_couplers
 from gdsfactory import functions
+from gdsfactory import export
 
 
 from gdsfactory.tech import TECH
@@ -68,7 +69,6 @@ from gdsfactory.grid import grid
 from gdsfactory.offset import offset
 from gdsfactory.boolean import boolean
 from gdsfactory.rotate import rotate
-from gdsfactory.to_3d import to_3d
 
 
 c = components
@@ -100,6 +100,7 @@ __all__ = [
     "component_from_yaml",
     "components",
     "cross_section",
+    "export",
     "fill_rectangle",
     "functions",
     "get_padding_points",
@@ -121,7 +122,6 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "to_3d",
     "write_doe",
     "Label",
 ]
