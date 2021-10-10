@@ -12,7 +12,7 @@ from phidl.geometry import (
 )
 
 import gdsfactory as gf
-from gdsfactory.types import Component
+from gdsfactory.types import Component, Layer
 
 
 @gf.cell
@@ -25,7 +25,7 @@ def offset(
     join: str = "miter",
     tolerance: int = 2,
     max_points: int = 4000,
-    layer: int = 0,
+    layer: Layer = (1, 0),
 ) -> Component:
     """Returns an element containing all polygons with an offset
 
@@ -39,8 +39,8 @@ def offset(
         num_divisions: The number of divisions with which the geometry is divided into
           multiple rectangular regions. This allows for each region to be
           processed sequentially, which is more computationally efficient.
-        join: {'miter', 'bevel', 'round'} Type of join used to create the offset polygon.
-        tolerance: For miter joints, this number must be at least 2 and it represents the
+        join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
+        tolerance: For miter joints, this number must be at least 2 represents the
           maximal distance in multiples of offset between new vertices and their
           original position before beveling to avoid spikes at acute joints. For
           round joints, it indicates the curvature resolution in number of
