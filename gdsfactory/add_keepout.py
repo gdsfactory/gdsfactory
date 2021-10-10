@@ -1,18 +1,17 @@
-from typing import List, Tuple
-
 from phidl.device_layout import _parse_layer
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.geo_utils import polygon_grow
 from gdsfactory.tech import LAYER
+from gdsfactory.types import Layers
 
 
 @cell
 def add_keepout(
     component: Component,
-    target_layers: List[Tuple[int, int]],
-    keepout_layers: List[Tuple[int, int]],
+    target_layers: Layers,
+    keepout_layers: Layers,
     margin: float = 2.0,
 ) -> Component:
     """Adds keepout after Looking up all polygons in a cell.
@@ -56,17 +55,16 @@ def test_add_keepout() -> None:
 
 
 if __name__ == "__main__":
-    test_add_keepout()
+    # test_add_keepout()
 
     # import gdsfactory as gf
     # from gdsfactory.components.crossing_waveguide import crossing_etched
     # from gdsfactory.components.crossing_waveguide import crossing45
-    # from gdsfactory.components.straight import straight
 
-    # c = crossing45(alpha=0.5, crossing=crossing_etched)
-    # c = straight()
+    from gdsfactory.components.straight import straight
 
-    # target_layers = [LAYER.WG]
-    # keepout_layers = [LAYER.SLAB150]
-    # c = add_keepout(c, target_layers, keepout_layers)
-    # c.show()
+    c = straight()
+    target_layers = [LAYER.WG]
+    keepout_layers = [LAYER.SLAB150]
+    c = add_keepout(c, target_layers, keepout_layers)
+    c.show()

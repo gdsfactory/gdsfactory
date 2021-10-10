@@ -12,9 +12,10 @@ from phidl.geometry import (
 )
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.types import Component
 
 
+@gf.cell
 def offset(
     elements: Component,
     distance: float = 0.1,
@@ -26,8 +27,30 @@ def offset(
     max_points: int = 4000,
     layer: int = 0,
 ) -> Component:
-    """returns an element containing all polygons with an offset
-    from phidl geometry
+    """Returns an element containing all polygons with an offset
+
+    adapted from phidl.geometry
+
+    Args:
+        elements: Component(/Reference), list of Component(/Reference), or Polygon
+          Polygons to offset or Component containing polygons to offset.
+        distance: Distance to offset polygons. Positive values expand, negative shrink.
+        precision: Desired precision for rounding vertex coordinates.
+        num_divisions: The number of divisions with which the geometry is divided into
+          multiple rectangular regions. This allows for each region to be
+          processed sequentially, which is more computationally efficient.
+        join: {'miter', 'bevel', 'round'} Type of join used to create the offset polygon.
+        tolerance: For miter joints, this number must be at least 2 and it represents the
+          maximal distance in multiples of offset between new vertices and their
+          original position before beveling to avoid spikes at acute joints. For
+          round joints, it indicates the curvature resolution in number of
+          points per full circle.
+        max_points: The maximum number of vertices within the resulting polygon.
+        layer: Specific layer to put polygon geometry on.
+
+    Returns
+        Component containing a polygon(s) with the specified offset applied.
+
     """
     if not isinstance(elements, list):
         elements = [elements]
