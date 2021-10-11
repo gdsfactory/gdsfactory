@@ -19,7 +19,7 @@ connections:
 
 def test_component_from_yaml_without_cell() -> Component:
     """bezier does not have cell"""
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     assert c.name == "test_component_yaml_without_cell", c.name
     assert len(c.get_dependencies()) == 2, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)

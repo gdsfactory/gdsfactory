@@ -8,8 +8,8 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.component import Component
-from gdsfactory.component_from_yaml import component_from_yaml, sample_mmis
 from gdsfactory.difftest import difftest
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -66,14 +66,14 @@ connections:
 
 
 def test_sample() -> Component:
-    c = component_from_yaml(sample_mmis)
+    c = from_yaml(sample_mmis)
     assert len(c.get_dependencies()) == 6, len(c.get_dependencies())
     assert len(c.ports) == 3, len(c.ports)
     return c
 
 
 def test_connections() -> Component:
-    c = component_from_yaml(sample_connections)
+    c = from_yaml(sample_connections)
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0
     return c
@@ -110,7 +110,7 @@ routes:
 
 
 def test_connections_2x2() -> Component:
-    c = component_from_yaml(sample_2x2_connections)
+    c = from_yaml(sample_2x2_connections)
     assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)
 
@@ -164,7 +164,7 @@ routes:
 
 
 def test_connections_different_factory() -> Component:
-    c = component_from_yaml(sample_different_factory)
+    c = from_yaml(sample_different_factory)
     lengths = [693.274, 693.274, 1199.144]
 
     assert np.isclose(c.routes["tl,e3:tr,e1"], lengths[0]), c.routes["tl,e3:tr,e1"]
@@ -214,7 +214,7 @@ routes:
 
 
 def test_connections_different_link_factory() -> Component:
-    c = component_from_yaml(sample_different_link_factory)
+    c = from_yaml(sample_different_link_factory)
 
     length = 1719.822
     assert np.isclose(c.routes["tl,e3:tr,e1"], length), c.routes["tl,e3:tr,e1"]
@@ -342,7 +342,7 @@ routes:
 
 
 def test_connections_regex() -> Component:
-    c = component_from_yaml(sample_regex_connections)
+    c = from_yaml(sample_regex_connections)
     route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
@@ -352,7 +352,7 @@ def test_connections_regex() -> Component:
 
 
 def test_connections_regex_backwargs() -> Component:
-    c = component_from_yaml(sample_regex_connections_backwards)
+    c = from_yaml(sample_regex_connections_backwards)
     route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
@@ -362,7 +362,7 @@ def test_connections_regex_backwargs() -> Component:
 
 
 def test_connections_waypoints() -> Component:
-    c = component_from_yaml(sample_waypoints)
+    c = from_yaml(sample_waypoints)
 
     length = 2036.548
     route_name = "b,e11:t,e11"
@@ -371,7 +371,7 @@ def test_connections_waypoints() -> Component:
 
 
 def test_docstring_sample() -> Component:
-    c = component_from_yaml(sample_docstring)
+    c = from_yaml(sample_docstring)
     route_name = "mmi_top,o3:mmi_bot,o1"
     length = 72.024
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
@@ -466,7 +466,7 @@ yaml_strings = dict(
 def test_gds(yaml_key: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     yaml_string = yaml_strings[yaml_key]
-    c = component_from_yaml(yaml_string)
+    c = from_yaml(yaml_string)
     difftest(c)
 
 
@@ -476,7 +476,7 @@ def test_settings(
 ) -> Component:
     """Avoid regressions when exporting settings."""
     yaml_string = yaml_strings[yaml_key]
-    c = component_from_yaml(yaml_string)
+    c = from_yaml(yaml_string)
 
     settings = c.get_settings()
     # routes = settings.get("info", {}).get("routes", {})
@@ -490,7 +490,7 @@ def test_settings(
 def test_ports(yaml_key: str, num_regression: NumericRegressionFixture) -> None:
     """Avoid regressions in port names and locations."""
     yaml_string = yaml_strings[yaml_key]
-    c = component_from_yaml(yaml_string)
+    c = from_yaml(yaml_string)
     if c.ports:
         num_regression.check(c.get_ports_array())
 
@@ -511,14 +511,14 @@ def test_netlists(
     Component -> netlist -> Component -> netlist
     """
     yaml_string = yaml_strings[yaml_key]
-    c = component_from_yaml(yaml_string)
+    c = from_yaml(yaml_string)
     n = c.get_netlist(full_settings=full_settings)
     if check:
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    c2 = component_from_yaml(yaml_str)
+    c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
     assert len(d) == 0, print(d)
@@ -529,14 +529,14 @@ def _demo_netlist():
     """path on the route"""
     import gdsfactory as gf
 
-    # c = component_from_yaml(sample_2x2_connections)
-    c = component_from_yaml(sample_waypoints)
-    c = component_from_yaml(sample_different_factory)
+    # c = from_yaml(sample_2x2_connections)
+    c = from_yaml(sample_waypoints)
+    c = from_yaml(sample_different_factory)
     c.show()
     full_settings = True
     n = c.get_netlist(full_settings=full_settings)
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = component_from_yaml(yaml_str)
+    c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist(full_settings=full_settings)
     d = jsondiff.diff(n, n2)
     assert len(d) == 0
@@ -544,8 +544,8 @@ def _demo_netlist():
 
 
 if __name__ == "__main__":
-    # c = component_from_yaml(sample_2x2_connections)
-    # c = component_from_yaml(sample_different_factory)
+    # c = from_yaml(sample_2x2_connections)
+    # c = from_yaml(sample_different_factory)
     # c = test_sample()
     # c = test_netlists("sample_mmis", True, None, check=False)
     # c = test_connections_regex()
@@ -563,16 +563,16 @@ if __name__ == "__main__":
     # c = test_settings("yaml_anchor", None, False)
     # c = test_netlists("yaml_anchor", True, None, False)
     # c = test_netlists("sample_waypoints", True, None, False)
-    # c = component_from_yaml(sample_docstring)
-    # c = component_from_yaml(sample_different_link_factory)
-    # c = component_from_yaml(sample_mirror_simple)
-    # c = component_from_yaml(sample_waypoints)
+    # c = from_yaml(sample_docstring)
+    # c = from_yaml(sample_different_link_factory)
+    # c = from_yaml(sample_mirror_simple)
+    # c = from_yaml(sample_waypoints)
     # c = test_netlists("sample_different_link_factory", True, None, check=False)
 
-    # c = component_from_yaml(sample_different_factory)
-    # c = component_from_yaml(sample_different_link_factory)
-    # c = component_from_yaml(sample_waypoints)
-    # c = component_from_yaml(sample_docstring)
-    # c = component_from_yaml(sample_regex_connections)
-    # c = component_from_yaml(sample_regex_connections_backwards)
+    # c = from_yaml(sample_different_factory)
+    # c = from_yaml(sample_different_link_factory)
+    # c = from_yaml(sample_waypoints)
+    # c = from_yaml(sample_docstring)
+    # c = from_yaml(sample_regex_connections)
+    # c = from_yaml(sample_regex_connections_backwards)
     c.show()

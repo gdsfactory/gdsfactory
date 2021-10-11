@@ -20,5 +20,5 @@ placements:
 
 
 if __name__ == "__main__":
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     c.show()

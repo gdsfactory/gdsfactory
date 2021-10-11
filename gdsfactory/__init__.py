@@ -55,7 +55,6 @@ from gdsfactory import export
 
 
 from gdsfactory.tech import TECH
-from gdsfactory.component_from_yaml import component_from_yaml
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
@@ -96,7 +95,6 @@ __all__ = [
     "cell",
     "cell_without_validator",
     "clear_cache",
-    "component_from_yaml",
     "components",
     "cross_section",
     "export",
@@ -123,7 +121,7 @@ __all__ = [
     "write_doe",
     "Label",
 ]
-__version__ = "3.3.8"
+__version__ = "3.3.9"
 
 
 if __name__ == "__main__":

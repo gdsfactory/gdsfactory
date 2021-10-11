@@ -1,9 +1,9 @@
-function_name: grating_coupler_elliptical2
+function_name: grating_coupler_elliptical_gap_teeth
 info:
   polarization: te
   wavelength: 1.55
 module: gdsfactory.components.grating_coupler_elliptical2
-name: grating_coupler_elliptical2
+name: grating_coupler_ellipti_aa0fb93b
 settings:
   cladding_offset: 2
   direction: EAST
@@ -27,6 +27,26 @@ settings:
   - 0
   taper_angle: 30
   taper_length: 10
-  teeth_list: null
+  teeth_list:
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
   wavelength: 1.55
   wg_width: 0.5
