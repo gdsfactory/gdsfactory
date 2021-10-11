@@ -405,7 +405,7 @@ ports:
 """
 
 
-def component_from_yaml(
+def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: ComponentFactoryDict = factory,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
@@ -450,6 +450,8 @@ def component_from_yaml(
 
 
     .. code::
+        vars:
+            lenght: 3
 
         instances:
             mmi_bot:
@@ -738,32 +740,32 @@ def component_from_yaml(
 if __name__ == "__main__":
     for k in factory.keys():
         print(k)
-    # c = component_from_yaml(sample_mmis)
+    # c = from_yaml(sample_mmis)
     # print(c.get_settings()["info"])
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
 
-    # c = component_from_yaml(yaml_anchor)
+    # c = from_yaml(yaml_anchor)
     # c.show()
 
     # c = test_connections_regex()
-    # c = component_from_yaml(sample_regex_connections)
-    # c = component_from_yaml(sample_regex_connections_backwards)
+    # c = from_yaml(sample_regex_connections)
+    # c = from_yaml(sample_regex_connections_backwards)
     # c = test_docstring_sample()
     # c = test_connections()
-    # c = component_from_yaml(sample_mirror_simple)
+    # c = from_yaml(sample_mirror_simple)
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
     # test_connections_different_link_factory()
     # test_connections_waypoints()
     # test_mirror()
-    # c = component_from_yaml(sample_different_link_factory)
+    # c = from_yaml(sample_different_link_factory)
     # c = test_mirror()
-    # c = component_from_yaml(sample_waypoints)
-    # c = component_from_yaml(sample_2x2_connections)
-    # c = component_from_yaml(sample_mmis)
+    # c = from_yaml(sample_waypoints)
+    # c = from_yaml(sample_2x2_connections)
+    # c = from_yaml(sample_mmis)
 
-    # c = component_from_yaml(sample_connections)
+    # c = from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()
     # test_component_from_yaml_with_routing()

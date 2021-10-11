@@ -57,7 +57,7 @@ ports:
 
 
 def test_netlist_labels() -> None:
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]
     assert "bend_left" in placements, print(placements)
@@ -65,7 +65,7 @@ def test_netlist_labels() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     n = c.get_netlist()
     print(n["placements"])
     c.show()

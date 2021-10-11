@@ -99,11 +99,11 @@ def test_components_ports(
     yaml_index: int, num_regression: NumericRegressionFixture
 ) -> None:
     yaml = yaml_list[yaml_index]
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     if c.ports:
         num_regression.check(c.get_ports_array())
 
 
 if __name__ == "__main__":
-    c = gf.component_from_yaml(mirror_port)
+    c = gf.read.from_yaml(mirror_port)
     c.show()
