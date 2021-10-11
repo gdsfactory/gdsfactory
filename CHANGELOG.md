@@ -32,7 +32,8 @@ from contracts import contract
 ## 3.3.9
 
 - move `gf.component_from_yaml` to `gf.read.from_yaml`
-- unpin triangle requirement
+- unpin triangle version in requirements.txt
+- `cell` components accept info
 
 ## 3.3.8
 

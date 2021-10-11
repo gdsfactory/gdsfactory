@@ -17,7 +17,7 @@ def grating_coupler_elliptical2(
     wgt: ComponentFactory = strip,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
-    theta: float = np.pi / 4.0,
+    taper_angle: float = 30.0,
     length: float = 30.0,
     taper_length: float = 10.0,
     period: float = 1.0,
@@ -38,7 +38,7 @@ def grating_coupler_elliptical2(
 
     Args:
         wgt: waveguide_template object or function
-        theta: Angle of the straight in rad.
+        taper_angle: taper flare angle in degrees
         length: total grating coupler region.
         taper_length: Length of the taper before the grating coupler.
         period: Grating period.
@@ -58,13 +58,6 @@ def grating_coupler_elliptical2(
         polarization: te or tm
         wavelength: wavelength um
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.grating_coupler_elliptical2()
-      c.plot()
 
     .. code::
 
@@ -73,7 +66,7 @@ def grating_coupler_elliptical2(
                    /  /  /  /
                   /  /  /  /
                 _|-|_|-|_|-|___
-        WG->W0  ______________|
+        WG  o1  ______________|
 
     """
     ridge = True if layer_ridge else False
@@ -87,7 +80,7 @@ def grating_coupler_elliptical2(
             layer_cladding=layer_cladding,
             **kwargs,
         ),
-        theta=theta,
+        theta=np.deg2rad(taper_angle),
         length=length,
         taper_length=taper_length,
         period=period,

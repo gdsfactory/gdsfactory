@@ -27,7 +27,7 @@ def ellipse_arc(
 
     Args:
         a: ellipse semi-major axis
-
+        b: semi-minor axis
 
     """
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
@@ -95,11 +95,11 @@ def grating_coupler_elliptical_tm(
     fiber_marker_layer: Layer = gf.LAYER.TM,
     **kwargs,
 ) -> Component:
-    """Return elliptical grating_coupupler
+    """Return elliptical grating coupler
 
     Args:
         taper_length: taper length from input
-        taper_angle: grating flare angle
+        taper_angle: taper flare angle in degrees
         wavelength: grating transmission central wavelength (um)
         fiber_angle: fibre polish angle in degrees
         grating_line_width
@@ -183,7 +183,7 @@ def grating_coupler_elliptical(
     fiber_marker_layer: Layer = gf.LAYER.TE,
     cladding_index: float = 1.443,
 ) -> Component:
-    r""" Grating coupler with parametrization based on Lumerical FDTD simulation.
+    r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     Args:
         polarization: te or tm
@@ -206,11 +206,12 @@ def grating_coupler_elliptical(
 
     .. code::
 
-                 \  \  \  \
-                  \  \  \  \
-                _|-|_|-|_|-|___
-               |_______________  W0
+                      fiber
 
+                   /  /  /  /
+                  /  /  /  /
+                _|-|_|-|_|-|___
+        WG  o1  ______________|
     """
 
     # Compute some ellipse parameters
