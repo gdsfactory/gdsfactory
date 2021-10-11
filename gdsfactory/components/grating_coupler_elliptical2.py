@@ -99,7 +99,7 @@ def grating_coupler_elliptical2(
         direction=direction,
     )
 
-    c = gf.read.picwriter(c)
+    c = gf.read.from_picwriter(c)
     c.polarization = polarization
     c.wavelength = wavelength
 

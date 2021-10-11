@@ -1,4 +1,10 @@
-"""Write Sparameters with Lumerical FDTD."""
+"""Write Sparameters with Lumerical FDTD.
+
+Disclaimer: This function automates the Sparameters but is hard to make a
+function that will fit all your possible simulation settings.
+You can use this function as an inspiration to create your own.
+"""
+
 import dataclasses
 import time
 from pathlib import Path
@@ -9,7 +15,6 @@ import omegaconf
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.config import __version__, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.tech import (
@@ -18,21 +23,14 @@ from gdsfactory.tech import (
     LayerStack,
     SimulationSettings,
 )
+from gdsfactory.types import ComponentOrFactory
 
 run_false_warning = """
-you need to pass `run=True` flag to run the simulation
-To debug, you can create a lumerical FDTD session and pass it to the simulator
+You have passed run=False to debug the simulation
 
-```
-import lumapi
-s = lumapi.FDTD()
+run=False returns the simulation session for you to debug and make sure it's correct
 
-import gdsfactory as gf
-import gdsfactory.simulation as sim
-
-c = gf.components.straight() # or whatever you want to simulate
-sim.write_sparameters_lumerical(component=c, run=False, session=s)
-```
+To compute the Sparameters you need to pass run=True
 """
 
 MATERIAL_NAME_TO_LUMERICAL = {
@@ -43,7 +41,7 @@ MATERIAL_NAME_TO_LUMERICAL = {
 
 
 def write_sparameters_lumerical(
-    component: Component,
+    component: ComponentOrFactory,
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
@@ -54,38 +52,57 @@ def write_sparameters_lumerical(
 ) -> pd.DataFrame:
     """Returns and writes component Sparameters using Lumerical FDTD.
 
-    if simulation exists it returns the Sparameters directly unless overwrite=True
+    If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
 
     Lumerical units are in meters while gdsfactory units are in um
 
+    Writes Sparameters both in .CSV and .DAT (interconnect format) as well as
+    simulation settings in YAML
+
+    In the CSV format you can see `S12m` where `m` stands for magnitude
+    and `S12a` where `a` stands for angle in radians
+
+    Your components need to have ports, that will extend over the PML.
+
+    .. image:: https://i.imgur.com/dHAzZRw.png
+
+    For your Fab technology you can overwrite
+
+    - Simulation Settings
+    - dirpath
+    - layerStack
+
     Args:
         component: Component to simulate
-        session: you can pass a session=lumapi.FDTD() for debugging
+        session: you can pass a session=lumapi.FDTD() or it will create one
         run: True runs Lumerical, False only draws simulation
         overwrite: run even if simulation results already exists
-        dirpath: where to store the simulations
+        dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        settings: overwrite any simulation setting
-          background_material: for the background
-          port_margin: on both sides of the port width (um)
-          port_height: port height (um)
-          port_extension: port extension (um)
-          mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-          zmargin: for the FDTD region 1 (um)
-          ymargin: for the FDTD region 2 (um)
-          xmargin: for the FDTD region
-          pml_margin: for all the FDTD region
-          wavelength_start: 1.2 (um)
-          wavelength_stop: 1.6 (um)
-          wavelength_points: 500
+        **settings: overwrite any simulation settings
+            background_material: for the background
+            port_margin: on both sides of the port width (um)
+            port_height: port height (um)
+            port_extension: port extension (um)
+            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+            zmargin: for the FDTD region 1 (um)
+            ymargin: for the FDTD region 2 (um)
+            xmargin: for the FDTD region
+            pml_margin: for all the FDTD region
+            wavelength_start: 1.2 (um)
+            wavelength_stop: 1.6 (um)
+            wavelength_points: 500
+            simulation_time: determines the max structure size (3e8/2.4*10e-12*1e6) = 1.25mm
+            simulation_temperature: in kelvin 300
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
-        suffix `a` for angle and `m` for module
+        suffix `a` for angle in radians and `m` for module
 
     """
+    component = component() if callable(component) else component
     sim_settings = dataclasses.asdict(simulation_settings)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -100,7 +117,7 @@ def write_sparameters_lumerical(
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
-                f"`{setting}` is not a valid setting ({list(sim_settings.keys())})"
+                f"`{setting}` is not a valid setting ({list(sim_settings.keys()) + simulation_settings})"
             )
 
     sim_settings.update(**settings)
@@ -242,6 +259,8 @@ def write_sparameters_lumerical(
         z_span=z_span,
         mesh_accuracy=ss.mesh_accuracy,
         use_early_shutoff=True,
+        simulation_time=ss.simulation_time,
+        simulation_temperature=ss.simulation_temperature,
     )
 
     for layer, thickness in layer_to_thickness.items():
@@ -360,6 +379,7 @@ def write_sparameters_lumerical(
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         return df
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    return s
 
 
 def _sample_write_coupler_ring():
@@ -416,11 +436,10 @@ def _sample_convergence_wavelength():
 if __name__ == "__main__":
     component = gf.components.straight(length=2.5)
     r = write_sparameters_lumerical(
-        component=component, mesh_accuracy=1, wavelength_points=200, run=True
+        component=component, mesh_accuracy=1, wavelength_points=200, run=False
     )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
-    # r = write_sparameters_lumerical(component=component, layer_to_thickness={(1, 0): 0.2}, run=False)
     # print(r)
     # print(r.keys())
     # print(component.ports.keys())

@@ -269,6 +269,8 @@ class SimulationSettings:
     wavelength_start: float = 1.2
     wavelength_stop: float = 1.6
     wavelength_points: int = 500
+    simulation_time: float = 10e-12
+    simulation_temperature: float = 300
 
     mode_index: int = 0
     n_modes: int = 2
