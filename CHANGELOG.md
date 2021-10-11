@@ -33,7 +33,7 @@ from contracts import contract
 
 - move `gf.component_from_yaml` to `gf.read.from_yaml`
 - unpin triangle version in requirements.txt
-- `cell` components accept info
+- `cell` components accept info settings dict, for the components
 
 ## 3.3.8
 
