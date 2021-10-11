@@ -14,4 +14,4 @@ if __name__ == "__main__":
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     print(yaml_str)
 
-    c2 = gf.component_from_yaml(yaml_str)
+    c2 = gf.read.from_yaml(yaml_str)

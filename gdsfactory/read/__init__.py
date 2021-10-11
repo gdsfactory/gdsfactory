@@ -3,7 +3,7 @@ from gdsfactory.read.from_gdspaths import from_gdspaths, gdsdir
 from gdsfactory.read.from_np import from_np
 from gdsfactory.read.from_phidl import from_phidl
 from gdsfactory.read.from_picwriter import from_picwriter
-from gdsfactory.read.read_ports import read_ports
+from gdsfactory.read.from_yaml import from_yaml
 
 __all__ = [
     "from_phidl",
@@ -11,6 +11,6 @@ __all__ = [
     "from_gds",
     "from_gdspaths",
     "gdsdir",
-    "read_ports",
     "from_np",
+    "from_yaml",
 ]
