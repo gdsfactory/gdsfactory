@@ -9,7 +9,7 @@ from gdsfactory.import_gds import import_gds
 
 
 @lru_cache(maxsize=None)
-def gds(gdspath: Union[str, Path], **kwargs) -> Component:
+def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
     """Returns Component with ports (CSV) and metadata (JSON) info (if any).
     Args:
         gdspath: path of GDS file

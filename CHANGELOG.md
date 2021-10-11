@@ -36,7 +36,7 @@ from contracts import contract
 - Component.rotate() returns a new Component with a rotated reference of itself
 - increase simulation_time in lumerical `simulation_settings` from 1ps to 10ps, so max simulation region increased 10x
 - write_sparameters_lumerical returns session if run=False
-- rename `gf.read.from_phidl`
+- make consitent names in gf.read: `gf.read.from_phidl` `gf.read.from_picwriter` `gf.read.from_gds`
 
 ## 3.3.5
 
