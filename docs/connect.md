@@ -161,7 +161,7 @@ The code below illustrates how a simple MZI can be formed using this method.
         o1: mmi_long,o1
     """
 
-    c = gf.component_from_yaml(yaml)
+    c = gf.read.from_yaml(yaml)
     c.show()
     c.plot()
 ```

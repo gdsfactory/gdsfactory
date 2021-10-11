@@ -4,10 +4,11 @@ from pytest_regressions.num_regression import NumericRegressionFixture
 import gdsfactory as gf
 
 
-def test_load_component_gds() -> None:
+def test_load_component_gds() -> gf.Component:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
     assert c.hash_geometry() == "4b8f6646dcf60b78b905ac0c1665a35f119be32a"
+    return c
 
 
 def test_load_component_ports(num_regression: NumericRegressionFixture) -> None:

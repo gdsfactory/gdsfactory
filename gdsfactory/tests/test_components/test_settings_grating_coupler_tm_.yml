@@ -5,6 +5,7 @@ info:
 module: gdsfactory.components.grating_coupler_elliptical_trenches
 name: grating_coupler_ellipti_2527533f
 settings:
+  end_straight_length: 0.2
   fiber_angle: 15
   fiber_marker_layer:
   - 203
@@ -18,11 +19,11 @@ settings:
   - 2
   - 0
   n_periods: 30
+  ncladding: 1.443
   neff: 1.8
   p_start: 26
   period: 1.072
   polarization: tm
-  straight: 0.2
   taper_angle: 30
   taper_length: 16.6
   trenches_extra_angle: 9

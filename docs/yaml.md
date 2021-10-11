@@ -7,7 +7,7 @@ You can define components, circuits and masks in YAML syntax.
 
 ```eval_rst
 
-.. autofunction:: gdsfactory.component_from_yaml
+.. autofunction:: gdsfactory.read.from_yaml
 ```
 
 

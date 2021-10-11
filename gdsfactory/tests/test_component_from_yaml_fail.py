@@ -60,15 +60,15 @@ placements:
 #     FIXME: this shoud raise an error
 #     """
 #     with pytest.raises(ValueError):
-#         gf.component_from_yaml(yaml_fail)
+#         gf.read.from_yaml(yaml_fail)
 
 
 def test_circular_import_pass() -> None:
-    gf.component_from_yaml(yaml_pass)
+    gf.read.from_yaml(yaml_pass)
 
 
 if __name__ == "__main__":
     # c = test_circular_import_pass()
     # c = test_circular_import_fail()
-    c = gf.component_from_yaml(yaml_fail)
+    c = gf.read.from_yaml(yaml_fail)
     # c.show()

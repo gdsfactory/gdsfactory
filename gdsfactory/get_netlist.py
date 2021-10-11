@@ -197,12 +197,12 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
 
-    c = gf.component_from_yaml(sample_2x2_connections)
+    c = gf.read.from_yaml(sample_2x2_connections)
     c = gf.components.ring_single()
     c.show()
     pprint(c.get_netlist())
 
     n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gf.component_from_yaml(yaml_str)
+    c2 = gf.read.from_yaml(yaml_str)
     gf.show(c2)

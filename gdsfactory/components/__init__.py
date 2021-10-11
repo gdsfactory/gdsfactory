@@ -73,6 +73,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.grating_coupler_elliptical2 import (
     grating_coupler_elliptical2,
+    grating_coupler_elliptical_gap_teeth,
 )
 from gdsfactory.components.grating_coupler_elliptical_trenches import (
     grating_coupler_elliptical_trenches,
@@ -425,6 +426,7 @@ factory = dict(
     grating_coupler_array=grating_coupler_array,
     grating_coupler_elliptical=grating_coupler_elliptical,
     grating_coupler_elliptical2=grating_coupler_elliptical2,
+    grating_coupler_elliptical_gap_teeth=grating_coupler_elliptical_gap_teeth,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
     grating_coupler_elliptical_trenches=grating_coupler_elliptical_trenches,

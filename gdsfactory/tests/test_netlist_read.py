@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 
 def test_netlist_read() -> Component:
     filepath = gf.CONFIG["netlists"] / "mzi.yml"
-    c = gf.component_from_yaml(filepath)
+    c = gf.read.from_yaml(filepath)
 
     # print(c.get_netlist().pretty())
     # print((c.get_netlist().connections.pretty()))
@@ -18,7 +18,7 @@ def test_netlist_read() -> Component:
 
 def test_netlist_read_full() -> Component:
     filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
-    c = gf.component_from_yaml(filepath)
+    c = gf.read.from_yaml(filepath)
 
     assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
     return c
